@@ -331,6 +331,8 @@
     <Content Include="Content\styles\layout.css" />
     <Content Include="Content\styles\responsive.css" />
     <Content Include="Content\styles\site.css" />
+    <Content Include="Content\styles\vendor\bootstrap-theme.min.css" />
+    <Content Include="Content\styles\vendor\bootstrap.min.css" />
     <Content Include="Content\styles\vendor\jquery-ui.css" />
     <Content Include="Content\Js\vendor\jquery.nouislider.js" />
     <Content Include="Content\Js\vendor\jquery.nouislider.all.min.js" />
@@ -429,9 +431,12 @@
     <Content Include="robots.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Scripts\custom.js" />
+    <Content Include="Scripts\disclaimer.js" />
     <Content Include="Scripts\icheck.js" />
     <Content Include="Scripts\jquery.blockUI.js" />
+    <Content Include="Scripts\jquery.cookie.js" />
     <Content Include="Scripts\jquery1.11.2-ui.min.js" />
     <Content Include="Scripts\jquery2.1.1.min.js" />
     <Content Include="Scripts\mobileScroller.js" />
