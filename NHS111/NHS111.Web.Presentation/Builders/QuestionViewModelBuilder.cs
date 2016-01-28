@@ -33,12 +33,11 @@ namespace NHS111.Web.Presentation.Builders
             _mappingEngine = mappingEngine;
         }
 
-        public JourneyViewModel BuildGender(JourneyViewModel model)
+        public async Task<JourneyViewModel> BuildGender(JourneyViewModel model)
         {
-            //if (HttpContext.Current.Session != null)
-            //    SessionWrapper.NHSUserGuid = Guid.NewGuid().ToString();
-
-            return model;
+            // do we have a symptom group that is in the white list
+            var symptomGroup = await _restfulHelper.GetAsync(string.Format(_configuration.BusinessApiPathwaySymptomGroupUrl, model.PathwayNo));
+            return symptomGroup == string.Empty ? null : model;
         }
 
         public async Task<JourneyViewModel> BuildSlider(JourneyViewModel model)
@@ -149,7 +148,7 @@ namespace NHS111.Web.Presentation.Builders
 
     public interface IQuestionViewModelBuilder
     {
-        JourneyViewModel BuildGender(JourneyViewModel model);
+        Task<JourneyViewModel> BuildGender(JourneyViewModel model);
         Task<JourneyViewModel> BuildSlider(JourneyViewModel model);
         Task<Tuple<string, JourneyViewModel>> BuildQuestion(JourneyViewModel model);
         Task<JourneyViewModel> BuildPreviousQuestion(JourneyViewModel model);
