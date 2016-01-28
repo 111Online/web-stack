@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.Eventing.Reader;
 using System.Linq;
 using System.Threading.Tasks;
 using Neo4jClient.Cypher;
@@ -71,10 +72,11 @@ namespace NHS111.Domain.Repository
                 .Return(p => new SymptomGroup { PathwayNo = Return.As<string>("p.pathwayNo"), Code = Return.As<string>("collect(distinct(p.symptomGroup))[0]")})
                 .ResultsAsync;
 
-            return symptomGroups
-                .OrderBy(symptomGroup => pathwayNos.IndexOf(symptomGroup.PathwayNo))
-                .Last(symptomGroup => !string.IsNullOrEmpty(symptomGroup.Code))
-                .Code;
+            var symptomGroup = symptomGroups
+                .OrderBy(group => pathwayNos.IndexOf(group.PathwayNo))
+                .LastOrDefault(group => !string.IsNullOrEmpty(group.Code));
+
+            return symptomGroup == null ? string.Empty : symptomGroup.Code;
         }
     }
 
