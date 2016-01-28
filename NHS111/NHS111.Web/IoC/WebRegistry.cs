@@ -4,6 +4,7 @@ using NHS111.Utils.IoC;
 using NHS111.Utils.Notifier;
 using NHS111.Web.Presentation.Configuration;
 using NHS111.Web.Presentation.IoC;
+using StructureMap;
 using StructureMap.Configuration.DSL;
 using StructureMap.Graph;
 

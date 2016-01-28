@@ -13,7 +13,12 @@ namespace NHS111.Business.Feedback.Api.IoC
     {
         public FeedbackDomainApiRegistry()
         {
-            
+            IncludeRegistry<UtilsRegistry>();
+            Scan(scan =>
+            {
+                scan.TheCallingAssembly();
+                scan.WithDefaultConventions();
+            });
         }
     }
 }

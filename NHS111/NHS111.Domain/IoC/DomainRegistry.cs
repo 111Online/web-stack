@@ -1,5 +1,6 @@
 ﻿using NHS111.Domain.Repository;
 using NHS111.Utils.IoC;
+using StructureMap;
 using StructureMap.Configuration.DSL;
 using StructureMap.Graph;
 

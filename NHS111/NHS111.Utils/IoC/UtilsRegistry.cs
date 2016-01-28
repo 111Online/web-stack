@@ -4,6 +4,7 @@ using KafkaNet;
 using KafkaNet.Model;
 using NHS111.Utils.Cache;
 using NHS111.Utils.Configuration;
+using StructureMap;
 using StructureMap.Configuration.DSL;
 using StructureMap.Graph;
 
