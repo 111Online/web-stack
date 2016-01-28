@@ -101,6 +101,7 @@
     <Compile Include="Models\Configuration\PathwaysSection.cs" />
     <Compile Include="Models\Domain\Answer.cs" />
     <Compile Include="Models\Domain\CareAdvice.cs" />
+    <Compile Include="Models\Domain\Feedback.cs" />
     <Compile Include="Models\Domain\GroupedPathways.cs" />
     <Compile Include="Models\Domain\SymptomGroup.cs" />
     <Compile Include="Models\Domain\Question.cs" />
