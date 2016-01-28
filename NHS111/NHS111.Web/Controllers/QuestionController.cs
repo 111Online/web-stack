@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using System.Web.Mvc;
+using System.Web.Routing;
 using NHS111.Models.Models.Web;
 using NHS111.Utils.Attributes;
 using NHS111.Web.Presentation.Builders;
@@ -34,9 +35,14 @@ namespace NHS111.Web.Controllers
         }
 
 
-        public ActionResult Gender(JourneyViewModel model)
+        public async Task<ActionResult> Gender(JourneyViewModel model)
         {
-            return View(_questionViewModelBuilder.BuildGender(model));
+            var journey = await _questionViewModelBuilder.BuildGender(model);
+
+            
+            if (journey == null) Response.RedirectToRoute("Default", new RouteValueDictionary() { {"controller", "Question"}, {"action", "Home"} });
+            
+            return View(journey);
         }
 
         [HttpPost]
