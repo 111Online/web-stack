@@ -15,10 +15,11 @@ namespace NHS111.Utils.Configuration
         private string _dbFileLocation;
         private string _connectionString;
 
-        public SqliteConnectionManager(string dbFileLocation)
+        private ISqliteConfiguration _sqliteConfiguration;
+
+        public SqliteConnectionManager(ISqliteConfiguration configuration)
         {
-            _dbFileLocation = dbFileLocation;
-            _connectionString = "data source=" + _dbFileLocation + "; Version=3; Pooling=True; Max Pool Size=100;";
+            _connectionString = configuration.GetSqliteConnectionString();
             _diskDbConnection = new SQLiteConnection(_connectionString);
         }
 
