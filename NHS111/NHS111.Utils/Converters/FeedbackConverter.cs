@@ -22,8 +22,9 @@ namespace NHS111.Utils.Converters
 
 
 
-        public Feedback Convert(IDataReader dataReader)
+        public Feedback Convert(IManagedDataReader managedDataReader)
         {
+            var dataReader = managedDataReader.DataReader;
             var feedback = new Feedback();
             if (dataReader[FEEDBACKTEXT_FIELDNAME] != null 
                     && dataReader[FEEDBACKTEXT_FIELDNAME] != DBNull.Value)
@@ -78,7 +79,7 @@ namespace NHS111.Utils.Converters
 
     public interface IDataConverter<T>
     {
-        T Convert(IDataReader dataReader);
+        T Convert(IManagedDataReader dataReader);
         StatementParamaters Convert(T objectToConvert);
     }
 }

@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace NHS111.Utils.Configuration
 {
-    public class SqliteConnectionManager
+    public class SqliteConnectionManager : IConnectionManager
     {
 
         private SQLiteConnection _diskDbConnection;
@@ -45,6 +45,6 @@ namespace NHS111.Utils.Configuration
 
         }
     }
-    public class StatementParamaters : Dictionary<string, object>
-    { }
+
+
 }

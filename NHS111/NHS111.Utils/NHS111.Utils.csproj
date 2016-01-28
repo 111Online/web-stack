@@ -143,6 +143,7 @@
     <Compile Include="Configuration\ManagedDataReader.cs" />
     <Compile Include="Configuration\PathwaysConfigurationManager.cs" />
     <Compile Include="Configuration\SqliteConnectionManager.cs" />
+    <Compile Include="Configuration\StatementParamters.cs" />
     <Compile Include="Converters\FeedbackConverter.cs" />
     <Compile Include="Extensions\CypherFluentQueryExtension.cs" />
     <Compile Include="Itk\ItkMessageBuilder.cs" />

@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Moq;
 using NHS111.Models.Models.Domain;
+using NHS111.Utils.Configuration;
 using NHS111.Utils.Converters;
 using NUnit.Framework;
 namespace NHS111.Utils.Converters.Tests
@@ -23,33 +24,33 @@ namespace NHS111.Utils.Converters.Tests
         private const string TEST_RATING_VALUE = "8";
         private const string TEST_JSON_VALUE = "{\"feedback\": { \"field1\":\"field1 value\",\"field2\":\"field2 value\"  }}";
 
-        private IDataReader MockIDataReader()
+        private IManagedDataReader MockIDataReader()
         {
-            var moq = new Mock<IDataReader>();
+            var moq = new Mock<IManagedDataReader>();
             bool readToggle = true;
-            moq.Setup(x => x.Read())  
+            moq.Setup(x => x.DataReader.Read())  
                 .Returns(() => readToggle)
                 .Callback(() => readToggle = false);
 
-            moq.Setup(x => x["email"])
+            moq.Setup(x => x.DataReader["email"])
                 .Returns("test@test.com");
 
-            moq.Setup(x => x[FeedbackConverter.FEEDBACK_DATETIME_FIELDNAME])
+            moq.Setup(x => x.DataReader[FeedbackConverter.FEEDBACK_DATETIME_FIELDNAME])
                 .Returns(TEST_DATE_VALUE);
 
-            moq.Setup(x => x[FeedbackConverter.FEEDBACKTEXT_FIELDNAME])
+            moq.Setup(x => x.DataReader[FeedbackConverter.FEEDBACKTEXT_FIELDNAME])
                 .Returns(TEST_FEEDBACK_VALUE);
 
-            moq.Setup(x => x[FeedbackConverter.USERID_FIELDNAME])
+            moq.Setup(x => x.DataReader[FeedbackConverter.USERID_FIELDNAME])
                 .Returns(TEST_USERID_VALUE);
 
-            moq.Setup(x => x[FeedbackConverter.PAGE_ID_FIELDNAME])
+            moq.Setup(x => x.DataReader[FeedbackConverter.PAGE_ID_FIELDNAME])
                 .Returns(TEST_PAGEID_VALUE);
 
-            moq.Setup(x => x[FeedbackConverter.RATING_FIELDNAME])
+            moq.Setup(x => x.DataReader[FeedbackConverter.RATING_FIELDNAME])
                 .Returns(TEST_RATING_VALUE);
 
-            moq.Setup(x => x[FeedbackConverter.FEEDBACK_DATA_FIELDNAME])
+            moq.Setup(x => x.DataReader[FeedbackConverter.FEEDBACK_DATA_FIELDNAME])
                 .Returns(TEST_JSON_VALUE);
             return moq.Object;
         }
@@ -57,9 +58,9 @@ namespace NHS111.Utils.Converters.Tests
         [Test()]
         public void ConvertToFeedback_empty_reader_Test()
         {
-            var moq = new Mock<IDataReader>();
+            var moq = new Mock<IManagedDataReader>();
             bool readToggle = true;
-            moq.Setup(x => x.Read())
+            moq.Setup(x => x.DataReader.Read())
                 .Returns(() => readToggle)
                 .Callback(() => readToggle = false);
             
@@ -119,9 +120,9 @@ namespace NHS111.Utils.Converters.Tests
             Assert.IsNotEmpty(result);
 
             Assert.AreEqual(result[FeedbackConverter.USERID_FIELDNAME],TEST_USERID_VALUE);
-            Assert.AreEqual(result[FeedbackConverter.FEEDBACKTEXT_FIELDNAME],TEST_FEEDBACK_VALUE);
-            Assert.AreEqual(result[FeedbackConverter.PAGE_ID_FIELDNAME],TEST_PAGEID_VALUE);
-            Assert.AreEqual(result[FeedbackConverter.FEEDBACK_DATETIME_FIELDNAME],TEST_DATE_VALUE);
+            Assert.AreEqual(result[FeedbackConverter.FEEDBACKTEXT_FIELDNAME], TEST_FEEDBACK_VALUE);
+            Assert.AreEqual(result[FeedbackConverter.PAGE_ID_FIELDNAME], TEST_PAGEID_VALUE);
+            Assert.AreEqual(result[FeedbackConverter.FEEDBACK_DATETIME_FIELDNAME], TEST_DATE_VALUE);
             Assert.AreEqual(result[FeedbackConverter.RATING_FIELDNAME], TEST_RATING_VALUE);
 
             Assert.AreEqual(result[FeedbackConverter.FEEDBACK_DATA_FIELDNAME], TEST_JSON_VALUE);
