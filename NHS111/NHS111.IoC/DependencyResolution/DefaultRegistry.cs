@@ -15,6 +15,8 @@
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
 
+using StructureMap;
+
 namespace NHS111.IoC.DependencyResolution {
     using StructureMap.Configuration.DSL;
     using StructureMap.Graph;

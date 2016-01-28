@@ -1,18 +1,19 @@
-﻿using NHS111.Domain.Repository;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
 using NHS111.Utils.IoC;
 using StructureMap;
 using StructureMap.Configuration.DSL;
 using StructureMap.Graph;
 
-namespace NHS111.Domain.IoC
+namespace NHS111.Business.Feedback.Api.IoC
 {
-    public class DomainRegistry : Registry
+    public class FeedbackDomainApiRegistry : Registry
     {
-        public DomainRegistry()
+        public FeedbackDomainApiRegistry()
         {
             IncludeRegistry<UtilsRegistry>();
-
-            For<IGraphRepository>().Use<GraphRepository>().Singleton();
             Scan(scan =>
             {
                 scan.TheCallingAssembly();

@@ -1,5 +1,6 @@
 ﻿using NHS111.Utils.Helpers;
 using NHS111.Utils.IoC;
+using StructureMap;
 using StructureMap.Configuration.DSL;
 using StructureMap.Graph;
 
