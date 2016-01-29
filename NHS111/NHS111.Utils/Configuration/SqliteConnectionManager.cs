@@ -34,16 +34,24 @@ namespace NHS111.Utils.Configuration
             return new ManagedDataReader(command);
         }
 
-        public void ExecteNonQuery(string statement, StatementParamaters statementParamaters)
+        public int ExecteNonQuery(string statement, StatementParamaters statementParamaters)
         {
             SQLiteCommand insertCommand = new SQLiteCommand(statement, _diskDbConnection);
             foreach (var parameter in statementParamaters)
             {
                 insertCommand.Parameters.AddWithValue(parameter.Key, parameter.Value);
-
-                insertCommand.ExecuteNonQuery();
             }
+            return insertCommand.ExecuteNonQuery();
+        }
 
+        public async Task<int> ExecteNonQueryAsync(string statement, StatementParamaters statementParamaters)
+        {
+            SQLiteCommand insertCommand = new SQLiteCommand(statement, _diskDbConnection);
+            foreach (var parameter in statementParamaters)
+            {
+                insertCommand.Parameters.AddWithValue(parameter.Key, parameter.Value);
+            }
+            return await insertCommand.ExecuteNonQueryAsync();
         }
     }
 

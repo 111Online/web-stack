@@ -10,6 +10,6 @@ namespace NHS111.Domain.Feedback.Repository
     public interface IFeedbackRepository
     {
         void Add(Models.Models.Domain.Feedback feedback);
-         Task<IEnumerable<Models.Models.Domain.Feedback>> List();
+        Task<IEnumerable<Models.Models.Domain.Feedback>> List();
     }
 }
