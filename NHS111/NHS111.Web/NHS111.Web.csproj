@@ -151,6 +151,7 @@
     <Folder Include="Content\styles\mobile\" />
     <Folder Include="Content\styles\print\" />
     <Folder Include="Models\" />
+    <Folder Include="Views\Feedback\" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\BundleConfig.cs" />
@@ -159,6 +160,7 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Authentication\BasicAuthenticationModule.cs" />
     <Compile Include="Controllers\DOSController.cs" />
+    <Compile Include="Controllers\FeedbackController.cs" />
     <Compile Include="Controllers\OutcomeController.cs" />
     <Compile Include="Controllers\QuestionController.cs" />
     <Compile Include="Controllers\JustToBeSafeController.cs" />
@@ -637,6 +639,8 @@
     <Content Include="Views\Shared\_CommonHiddenFieldsJourneyViewModel.cshtml" />
     <Content Include="Views\Shared\_CommonHiddenFieldsOutcomeViewModel.cshtml" />
     <Content Include="Views\Shared\_PersonalPostCodeSearch.cshtml" />
+    <Content Include="Views\Shared\_FeedbackDetails.cshtml" />
+    <Content Include="Views\Shared\FeedbackConfirmation.cshtml" />
     <None Include="Web.Development.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
