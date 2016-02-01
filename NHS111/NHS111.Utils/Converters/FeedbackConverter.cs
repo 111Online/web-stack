@@ -18,10 +18,6 @@ namespace NHS111.Utils.Converters
         public const string FEEDBACK_DATA_FIELDNAME = "feedbackData";
         public const string USERID_FIELDNAME = "sessionId";
 
-        private const string DATE_FORMAT = "dd/MM/yyyy HH:mm:ss";
-
-
-
         public Feedback Convert(IManagedDataReader managedDataReader)
         {
             var dataReader = managedDataReader.DataReader;
@@ -48,8 +44,7 @@ namespace NHS111.Utils.Converters
 
             if (dataReader[FEEDBACK_DATETIME_FIELDNAME] != null
                     && dataReader[FEEDBACK_DATETIME_FIELDNAME] != DBNull.Value)
-                feedback.DateAdded = DateTime.ParseExact(dataReader[FEEDBACK_DATETIME_FIELDNAME].ToString(),
-                    DATE_FORMAT, null);
+                feedback.DateAdded = DateTime.Parse(dataReader[FEEDBACK_DATETIME_FIELDNAME].ToString());
             return feedback;
         }
 
