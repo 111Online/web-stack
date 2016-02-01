@@ -14,7 +14,7 @@
     <TargetFrameworkProfile />
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
     <RestorePackages>true</RestorePackages>
-    <NuGetPackageImportStamp>07bc4c29</NuGetPackageImportStamp>
+    <NuGetPackageImportStamp>2871c6eb</NuGetPackageImportStamp>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -42,6 +42,14 @@
       <HintPath>..\packages\EntityFramework.6.0.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="StructureMap, Version=4.0.1.318, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\structuremap.4.0.1.318\lib\net40\StructureMap.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="StructureMap.Net4, Version=4.0.1.318, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\structuremap.4.0.1.318\lib\net40\StructureMap.Net4.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.configuration" />
@@ -65,11 +73,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="IoC\FeedbackDomainRegistry.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repository\FeedbackRepository.cs" />
     <Compile Include="Repository\IFeedbackRepository.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\NHS111.IoC\NHS111.IoC.csproj">
+      <Project>{1a4c1efc-d70e-47c1-b7c3-b5d2ae7ab54e}</Project>
+      <Name>NHS111.IoC</Name>
+    </ProjectReference>
     <ProjectReference Include="..\NHS111.Models\NHS111.Models.csproj">
       <Project>{4ccf3abd-92c4-4999-8520-c4aa7b36f48c}</Project>
       <Name>NHS111.Models</Name>

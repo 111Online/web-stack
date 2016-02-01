@@ -1,23 +1,22 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Web;
-using NHS111.Business.Feedback.Api.Controllers;
-using NHS111.Domain.Feedback.IoC;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using NHS111.Domain.Feedback.Repository;
 using NHS111.Utils.IoC;
 using StructureMap;
-using StructureMap.Configuration.DSL;
 using StructureMap.Graph;
 
-namespace NHS111.Business.Feedback.Api.IoC
+namespace NHS111.Domain.Feedback.IoC
 {
-    public class FeedbackDomainApiRegistry : Registry
+    public class FeedbackDomainRegistry : Registry
     {
-        public FeedbackDomainApiRegistry()
-        {
 
-            IncludeRegistry<FeedbackDomainRegistry>();
+        public FeedbackDomainRegistry()
+        {
             IncludeRegistry<UtilsRegistry>();
+            For<IFeedbackRepository>().Use<FeedbackRepository>().Singleton();
             Scan(scan =>
             {
                 scan.TheCallingAssembly();

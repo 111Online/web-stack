@@ -17,7 +17,8 @@ namespace NHS111.Utils.Converters.Tests
     [TestFixture()]
     public class FeedbackConverterTests
     {
-        private const string TEST_DATE_VALUE = "2016-08-19 13:51:06";
+
+        private const string TEST_DATE_VALUE = "19/08/2016 13:51:06";
         private const string TEST_FEEDBACK_VALUE = "Here is some feedback.";
         private const string TEST_USERID_VALUE = "Test_Id_01";
         private const string TEST_PAGEID_VALUE = "/question/next";
@@ -122,7 +123,7 @@ namespace NHS111.Utils.Converters.Tests
             Assert.AreEqual(result[FeedbackConverter.USERID_FIELDNAME],TEST_USERID_VALUE);
             Assert.AreEqual(result[FeedbackConverter.FEEDBACKTEXT_FIELDNAME], TEST_FEEDBACK_VALUE);
             Assert.AreEqual(result[FeedbackConverter.PAGE_ID_FIELDNAME], TEST_PAGEID_VALUE);
-            Assert.AreEqual(result[FeedbackConverter.FEEDBACK_DATETIME_FIELDNAME], TEST_DATE_VALUE);
+            Assert.AreEqual(result[FeedbackConverter.FEEDBACK_DATETIME_FIELDNAME], testFeedback.DateAdded);
             Assert.AreEqual(result[FeedbackConverter.RATING_FIELDNAME], TEST_RATING_VALUE);
 
             Assert.AreEqual(result[FeedbackConverter.FEEDBACK_DATA_FIELDNAME], TEST_JSON_VALUE);
