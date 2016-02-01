@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SQLite;
+using System.Diagnostics.Eventing.Reader;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -22,10 +23,14 @@ namespace NHS111.Utils.Configuration
             _connectionString = configuration.GetSqliteConnectionString();
             _diskDbConnection = new SQLiteConnection(_connectionString);
         }
+        private SQLiteConnection GetConnection()
+        {
+            return new SQLiteConnection(_diskDbConnection.ConnectionString);
+        }
 
         public IManagedDataReader GetReader(string statement, StatementParamaters statementParamaters)
         {
-            SQLiteCommand command = new SQLiteCommand(statement, _diskDbConnection);
+            SQLiteCommand command = new SQLiteCommand(statement, GetConnection());
 
             foreach (var parameter in statementParamaters)
             {
@@ -36,22 +41,34 @@ namespace NHS111.Utils.Configuration
 
         public int ExecteNonQuery(string statement, StatementParamaters statementParamaters)
         {
-            SQLiteCommand insertCommand = new SQLiteCommand(statement, _diskDbConnection);
-            foreach (var parameter in statementParamaters)
+            using (var conn = GetConnection())
             {
-                insertCommand.Parameters.AddWithValue(parameter.Key, parameter.Value);
+                SQLiteCommand insertCommand = new SQLiteCommand(statement, conn);
+                foreach (var parameter in statementParamaters)
+                {
+                    insertCommand.Parameters.AddWithValue(parameter.Key, parameter.Value);
+                }
+                conn.Open();
+                var returnVal= insertCommand.ExecuteNonQuery();
+                conn.Close();
+                return returnVal;
             }
-            return insertCommand.ExecuteNonQuery();
         }
 
         public async Task<int> ExecteNonQueryAsync(string statement, StatementParamaters statementParamaters)
         {
-            SQLiteCommand insertCommand = new SQLiteCommand(statement, _diskDbConnection);
-            foreach (var parameter in statementParamaters)
+            using (var conn = GetConnection())
             {
-                insertCommand.Parameters.AddWithValue(parameter.Key, parameter.Value);
+                SQLiteCommand insertCommand = new SQLiteCommand(statement, conn);
+                foreach (var parameter in statementParamaters)
+                {
+                    insertCommand.Parameters.AddWithValue(parameter.Key, parameter.Value);
+                }
+                conn.Open();
+                var returnVal = await insertCommand.ExecuteNonQueryAsync();
+                conn.Close();
+                return returnVal;
             }
-            return await insertCommand.ExecuteNonQueryAsync();
         }
     }
 

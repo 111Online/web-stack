@@ -21,11 +21,11 @@ namespace NHS111.Domain.Feedback.Repository
             _feedbackConverter = feedbackConverter;
         }
 
-        public async void Add(Models.Models.Domain.Feedback feedback)
+        public async Task<int> Add(Models.Models.Domain.Feedback feedback)
         {
             var statemmentParameters = _feedbackConverter.Convert(feedback);
             var insertQuery = statemmentParameters.GenerateInsertStatement("feedback");
-            await _sqliteConnectionManager.ExecteNonQueryAsync(insertQuery, statemmentParameters);
+            return await _sqliteConnectionManager.ExecteNonQueryAsync(insertQuery, statemmentParameters);
         }
 
 

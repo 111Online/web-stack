@@ -18,7 +18,7 @@ namespace NHS111.Utils.Converters
         public const string FEEDBACK_DATA_FIELDNAME = "feedbackData";
         public const string USERID_FIELDNAME = "sessionId";
 
-        private const string DATE_FORMAT = "yyyy-MM-dd HH:mm:ss";
+        private const string DATE_FORMAT = "dd/MM/yyyy HH:mm:ss";
 
 
 
@@ -69,7 +69,7 @@ namespace NHS111.Utils.Converters
                 parameters.Add(FEEDBACK_DATA_FIELDNAME, feedback.JSonData);
 
             if (feedback.DateAdded !=DateTime.MinValue)
-                parameters.Add(FEEDBACK_DATETIME_FIELDNAME, feedback.DateAdded.ToString(DATE_FORMAT));
+                parameters.Add(FEEDBACK_DATETIME_FIELDNAME, feedback.DateAdded);
 
             if(feedback.Rating.HasValue)
                 parameters.Add(RATING_FIELDNAME, feedback.Rating.Value.ToString());
