@@ -119,7 +119,6 @@
     <Compile Include="Models\Web\DosRequests\DosUserInfo.cs" />
     <Compile Include="Models\Web\DosViewModel.cs" />
     <Compile Include="Models\Web\Enums\Urgency.cs" />
-    <Compile Include="Models\Web\Feedback.cs" />
     <Compile Include="Models\Web\FeedbackConfirmation.cs" />
     <Compile Include="Models\Web\FromExternalServices\PAF.cs" />
     <Compile Include="Models\Web\FromExternalServices\ServiceDetailsByIdResult.cs" />
