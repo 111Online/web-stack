@@ -151,7 +151,6 @@
     <Folder Include="Content\styles\mobile\" />
     <Folder Include="Content\styles\print\" />
     <Folder Include="Models\" />
-    <Folder Include="Views\Feedback\" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\BundleConfig.cs" />

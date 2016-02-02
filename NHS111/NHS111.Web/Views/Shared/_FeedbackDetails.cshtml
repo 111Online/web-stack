@@ -1,31 +1,54 @@
 ﻿@model NHS111.Models.Models.Domain.Feedback
 
 
-    @using (Html.BeginForm("SubmitFeedback", "Feedback", FormMethod.Post))
-    {
-        <div id="FeedbackDetails">
-            <div class="row small">
-                <label>
-                    <span>Email address</span>
-                    @Html.TextBoxFor(m => m.EmailAddress, new { @placeholder = "Email Address", @Value = "" })
-                </label>
-            </div>
-            <div class="row small">
-                <span>Rating</span>
-                @Html.RadioButtonFor(m => m.Rating, 1, new { id = "Rating_one" })
-                @Html.RadioButtonFor(m => m.Rating, 2, new { id = "Rating_two" })
-                @Html.RadioButtonFor(m => m.Rating, 3, new { id = "Rating_three" })
-                @Html.RadioButtonFor(m => m.Rating, 4, new { id = "Rating_four" })
-                @Html.RadioButtonFor(m => m.Rating, 5, new { id = "Rating_five" })
-            </div>
-            <div class="row small">
-                <label>
-                    <span>Feedback</span>
-                    @Html.TextBoxFor(m => m.Text, new { @placeholder = "Feedback", @Value = "" })
-                </label>
-            </div>
-            <div class="row small">
-                <input type="submit" id="btnFeedback" class="button submitButton" name="btnFeedback" value="Submit Feedback" />
-            </div>
+<form id="FeedbackForm" action="@Url.Action("SubmitFeedback", "Feedback")">
+    <div id="FeedbackDetails">
+        <div class="row small">
+            <label>
+                <span>Email address</span>
+                @Html.TextBoxFor(m => m.EmailAddress, new { @placeholder = "Email Address", @Value = "" })
+            </label>
         </div>
+        <div class="row small">
+            <span>Rating</span>
+            @Html.RadioButtonFor(m => m.Rating, 1, new { id = "Rating_one" })
+            @Html.RadioButtonFor(m => m.Rating, 2, new { id = "Rating_two" })
+            @Html.RadioButtonFor(m => m.Rating, 3, new { id = "Rating_three" })
+            @Html.RadioButtonFor(m => m.Rating, 4, new { id = "Rating_four" })
+            @Html.RadioButtonFor(m => m.Rating, 5, new { id = "Rating_five" })
+        </div>
+        <div class="row small">
+            <label>
+                <span>Feedback</span>
+                @Html.TextBoxFor(m => m.Text, new { @placeholder = "Feedback", @Value = "" })
+            </label>
+        </div>
+        <div class="row small">
+            <input id="btnFeedback" class="button submitButton" name="btnFeedback" value="Submit Feedback" onclick="SubmitFeedback(this);" />
+        </div>
+    </div>
+</form>
+
+<script>
+    function SubmitFeedback(btnClicked) {
+        var $form = $(btnClicked).parents('form');
+        var $detailsDiv = $('#FeedbackDetails');
+
+        $.ajax({
+            type: "POST",
+            url: $form.attr('action'),
+            data: $form.serialize(),
+            error: function (xhr, status, error) {
+                //do something about the error
+            },
+            success: function (response) {
+                //do something with response
+                $detailsDiv.replaceWith(response);
+            }
+        });
+
+        return false;// if it's a link to prevent post
+
     }
+
+</script>

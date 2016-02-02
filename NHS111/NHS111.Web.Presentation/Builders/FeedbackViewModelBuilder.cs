@@ -1,14 +1,10 @@
 ﻿using System.Net;
-using System.Net.Configuration;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
-using System.Web;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 using NHS111.Models.Models.Domain;
 using NHS111.Models.Models.Web;
-using NHS111.Models.Models.Web.FromExternalServices;
 using NHS111.Utils.Helpers;
 using IConfiguration = NHS111.Web.Presentation.Configuration.IConfiguration;
 
