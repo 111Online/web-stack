@@ -1,4 +1,5 @@
 ﻿@using Newtonsoft.Json
+@using NHS111.Models.Models.Domain
 @model NHS111.Models.Models.Web.JourneyViewModel
 @{
     Layout = null;
@@ -139,7 +140,7 @@
                             @foreach (var answer in Model.OrderedAnswers())
                             {
                                 <input name="SelectedAnswer" type="radio" id="@answer.Title.Replace(" ", string.Empty)" value="@JsonConvert.SerializeObject(answer)" class=" nhs-radiobtn__input" />
-                                <label for="@answer.Title.Replace(" ",string.Empty)" class="nhs-radiobtn__label">@answer.Title</label>
+                                <label for="@answer.Title.Replace(" ", string.Empty)" class="nhs-radiobtn__label">@answer.Title</label>
                             }
 
                         </div>
@@ -158,6 +159,7 @@
                     </div>
 
                 </div>
+
             </main>
         </div>
         <!-- <div class="footer">FOOTER TEST</div> -->
@@ -168,6 +170,12 @@
         <script src="~/content/_assets/js/vendor/jquery.cookie.js"></script>
 
     }
+    <div class="nhs-page-navigation nhs-show-nav" style="border-top: 2px solid #da4d4e; border-bottom: none; text-align:initial">
+        <div class="nhs-pagenav-container" style="font-size: 16px;">
+
+            @Html.Partial("_FeedbackDetails", new Feedback())
+        </div>
+    </div>
 
     <script>
         $(document).ready(function () {

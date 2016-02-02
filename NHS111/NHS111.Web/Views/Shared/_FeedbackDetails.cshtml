@@ -1,30 +1,39 @@
-﻿@model NHS111.Models.Models.Domain.Feedback
+﻿@using System
+@model NHS111.Models.Models.Domain.Feedback
 @{ Model.DateAdded = DateTime.Now; }
+
+<style>
+    .feedback-submit {
+        background: none repeat scroll 0 0 #8c3433;
+        border-radius: 5px;
+        box-shadow: 0 2px 0 #7c2a26;
+        font-size: 20px;
+        padding: 14px 0 10px;
+        text-decoration: none;
+        text-transform: uppercase;
+        width: 235px;
+    }
+    .feedback-input {
+        border: 0 none;
+        border-radius: 3px;
+        padding: 15px 10px;
+        width: 94%;
+        font-size: 18px !important;
+    }
+</style>
 
 <form id="FeedbackForm" action="@Url.Action("SubmitFeedback", "Feedback")">
     <div id="FeedbackDetails">
-        <div class="row small">
+        <h2 class="font-large" style="color:white">Help us improve 111 online</h2>
+        <p>Don’t include personal information, for example your name or NHS number.</p>
+        <div class="row large" style="margin-top: 20px;">
             <label>
-                <span>Email address</span>
-                @Html.TextBoxFor(m => m.EmailAddress, new {@placeholder = "Email Address", @Value = ""})
+                <span>Feedback</span><br />
+                @Html.TextBoxFor(m => m.Text, new { @placeholder = "Feedback", @Value = "", @class = "feedback-input", style = "width:400px;" })
             </label>
         </div>
         <div class="row small">
-            <span>Rating</span>
-            @Html.RadioButtonFor(m => m.Rating, 1, new {id = "Rating_one"})
-            @Html.RadioButtonFor(m => m.Rating, 2, new {id = "Rating_two"})
-            @Html.RadioButtonFor(m => m.Rating, 3, new {id = "Rating_three"})
-            @Html.RadioButtonFor(m => m.Rating, 4, new {id = "Rating_four"})
-            @Html.RadioButtonFor(m => m.Rating, 5, new {id = "Rating_five"})
-        </div>
-        <div class="row small">
-            <label>
-                <span>Feedback</span>
-                @Html.TextBoxFor(m => m.Text, new {@placeholder = "Feedback", @Value = ""})
-            </label>
-        </div>
-        <div class="row small">
-            <input id="btnFeedback" class="button submitButton" name="btnFeedback" value="Submit Feedback" onclick=" SubmitFeedback(this); "/>
+            <input class="button feedback-submit" id="btnFeedback" type="submit" name="btnFeedback" value="Submit Feedback" onclick=" SubmitFeedback(this); " />
         </div>
     </div>
     @Html.HiddenFor(m=>m.DateAdded)
