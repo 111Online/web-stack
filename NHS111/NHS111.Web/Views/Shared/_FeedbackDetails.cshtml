@@ -1,5 +1,4 @@
 ﻿@model NHS111.Models.Models.Domain.Feedback
-@{ Model.DateAdded = DateTime.Now; }
 
 <form id="FeedbackForm" action="@Url.Action("SubmitFeedback", "Feedback")">
     <div id="FeedbackDetails">
@@ -27,10 +26,16 @@
             <input id="btnFeedback" class="button submitButton" name="btnFeedback" value="Submit Feedback" onclick=" SubmitFeedback(this); "/>
         </div>
     </div>
-    @Html.HiddenFor(m=>m.DateAdded)
+    @Html.HiddenFor(m => m.UserId)
 </form>
 
 <script>
+
+    $(document).ready(function () {
+        var $userId = $("#UserId");
+        $userId.val($.cookie("userId"));
+    });
+
     function SubmitFeedback(btnClicked) {
         var $form = $(btnClicked).parents('form');
         var $detailsDiv = $('#FeedbackDetails');
