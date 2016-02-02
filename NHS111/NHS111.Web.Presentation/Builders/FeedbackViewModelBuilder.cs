@@ -26,9 +26,10 @@ namespace NHS111.Web.Presentation.Builders
             var model = new FeedbackConfirmation();
 
             var request = new HttpRequestMessage { Content = new StringContent(JsonConvert.SerializeObject(feedback), Encoding.UTF8, "application/json") };
+            request.Headers.Add("Authorization", _configuration.FeedbackAuthorization);
             var response = await _restfulHelper.PostAsync(_configuration.FeedbackAddFeedbackUrl, request);
 
-            if (response.StatusCode == HttpStatusCode.OK)
+            if (response.StatusCode == HttpStatusCode.OK || response.StatusCode == HttpStatusCode.Created)
             {
                 model.Message = "Feedback Submitted";
                 model.Success = true;
