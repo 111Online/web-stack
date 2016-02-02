@@ -1,4 +1,5 @@
 ﻿@using Newtonsoft.Json
+@using NHS111.Models.Models.Domain
 @model NHS111.Models.Models.Web.JourneyViewModel
 @{
     Layout = null;
@@ -168,7 +169,7 @@
         <script src="~/content/_assets/js/vendor/jquery.cookie.js"></script>
 
     }
-
+    @Html.Partial("_FeedbackDetails", new Feedback() { PageId = Model.PathwayId});
     <script>
         $(document).ready(function () {
 

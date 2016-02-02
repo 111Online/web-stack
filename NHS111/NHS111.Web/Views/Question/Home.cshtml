@@ -1,4 +1,5 @@
-﻿@{
+﻿@using NHS111.Models.Models.Domain
+@{
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -33,7 +34,7 @@
                         <input type="submit" class="button" id="getHelpBtn" value="Start here">
                     </div><!--/threeColumnBlock-->
                 </form>
-
+                @Html.Partial("_FeedbackDetails", new Feedback() { PageId = "Home" });
             </div>
             <!--content end-->
         </div>
