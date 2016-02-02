@@ -29,7 +29,8 @@ namespace NHS111.Utils.Helpers
                 Version = HttpVersion.Version10 //forcing 1.0 to prevent Expect 100 Continue header
         };
             foreach (var header in request.Headers) {
-                Console.WriteLine(header.Key + ": " + string.Join(", ", header.Key));
+                Console.WriteLine(header.Key + ": " + string.Join(", ", header.Value));
+                httpRequestMessage.Headers.Add(header.Key, header.Value);
             }
             return await new HttpClient().SendAsync(httpRequestMessage);
         }
