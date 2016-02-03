@@ -1,8 +1,13 @@
-﻿namespace NHS111.Models.Models.Web
+﻿using Newtonsoft.Json;
+
+namespace NHS111.Models.Models.Web
 {
   public class FeedbackConfirmation
   {
-    public string Message { get; set; }
-    public bool Success { get; set; }
+        [JsonProperty(PropertyName = "message")]
+        public string Message { get; set; }
+
+        [JsonProperty(PropertyName = "success")]
+        public bool Success { get; set; }
   }
 }
