@@ -31,7 +31,7 @@ namespace NHS111.Web.Presentation.Builders
 
             if (response.StatusCode == HttpStatusCode.OK || response.StatusCode == HttpStatusCode.Created)
             {
-                model.Message = "Thankyou for your feedback";
+                model.Message = "Thank you for your time in helping to improve our service.";
                 model.Success = true;
             }
             else
