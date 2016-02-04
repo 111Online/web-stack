@@ -1,5 +1,4 @@
-﻿@using System
-@model NHS111.Models.Models.Domain.Feedback
+﻿@model NHS111.Models.Models.Domain.Feedback
 @{ Model.DateAdded = DateTime.Now; }
 
 <style>
@@ -24,12 +23,12 @@
 
 <form id="FeedbackForm" action="@Url.Action("SubmitFeedback", "Feedback")">
     <div id="FeedbackDetails">
-        <h2 class="font-large" style="color:white">Help us improve 111 online</h2>
-        <p>Don’t include personal information, for example your name or NHS number.</p>
+        <h3 class="font-large" style="color:white">Help us improve 111 online</h3>
+        <p>Please don’t include personal information.</p>
         <div class="row large" style="margin-top: 20px;">
             <label>
                 <span>Feedback</span><br />
-                @Html.TextBoxFor(m => m.Text, new { @placeholder = "Feedback", @Value = "", @class = "feedback-input", style = "width:400px;" })
+                @Html.TextAreaFor(m => m.Text, new { @placeholder = "Feedback", @Value = "", @class = "feedback-input", style = "width:400px;" })
             </label>
         </div>
         <div class="row small">

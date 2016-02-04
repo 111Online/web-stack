@@ -1,4 +1,5 @@
-﻿@{
+﻿@using NHS111.Models.Models.Domain
+@{
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -148,6 +149,7 @@
         </footer>
     </div>
     <!--wrapper ends-->
+    @Html.Partial("_FeedbackDetails", new Feedback() { PageId = "Search" });
 
     <script>
     // -- search box autocomplete mock script

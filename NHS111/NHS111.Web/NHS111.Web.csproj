@@ -577,7 +577,7 @@
     <Content Include="Views\_Old\GPSearch.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Views\Outcome\Emergency.cshtml" />
+    <Content Include="Views\Question\Outcome\Emergency.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\_Old\DosService.cshtml" />
@@ -586,10 +586,10 @@
     <Content Include="Views\DOS\Confirmation.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Views\Outcome\Disposition.cshtml" />
+    <Content Include="Views\Question\Outcome\Disposition.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Views\Outcome\DispositionNo.cshtml" />
+    <Content Include="Views\Question\Outcome\DispositionNo.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Shared\_SurgeryDetails.cshtml" />
@@ -604,7 +604,7 @@
     <Content Include="Views\Shared\_AreYouAtHome.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Views\Outcome\PersonalDetails.cshtml" />
+    <Content Include="Views\Question\Outcome\PersonalDetails.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Shared\_AddressDetails.cshtml" />
@@ -628,7 +628,7 @@
     <Content Include="Views\Shared\_GoogleMap.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Views\Outcome\Disposition2.cshtml" />
+    <Content Include="Views\Question\Outcome\Disposition2.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Question\Home.cshtml" />
