@@ -19,12 +19,16 @@
         width: 94%;
         font-size: 18px !important;
     }
+    .feedback-form {
+        text-align: center;
+    }
 </style>
 
-<form id="FeedbackForm" action="@Url.Action("SubmitFeedback", "Feedback")">
+<form id="FeedbackForm" class="feedback-form" action="@Url.Action("SubmitFeedback", "Feedback")">
+
+    <h2 class="font-med" style="color:white">Help us improve 111 online</h2>
+    <p>Please don’t include personal information.</p>
     <div id="FeedbackDetails">
-        <h3 class="font-large" style="color:white">Help us improve 111 online</h3>
-        <p>Please don’t include personal information.</p>
         <div class="row large" style="margin-top: 20px;">
             <label>
                 <span>Feedback</span><br />
@@ -32,7 +36,7 @@
             </label>
         </div>
         <div class="row small">
-            <input class="button feedback-submit" id="btnFeedback" type="submit" name="btnFeedback" value="Submit Feedback" onclick=" SubmitFeedback(this); " />
+            <input class="button feedback-submit" id="btnFeedback" type="button" name="btnFeedback" value="Submit Feedback" onclick=" SubmitFeedback(this); " />
         </div>
     </div>
     @Html.HiddenFor(m => m.UserId)
@@ -48,17 +52,20 @@
 
     function SubmitFeedback(btnClicked) {
         var $form = $(btnClicked).parents('form');
-        var $detailsDiv = $('#FeedbackDetails');
-
+        var detailsDiv = $('#FeedbackDetails');
+        $(detailsDiv).slideToggle(600);
         $.ajax({
             type: "POST",
             url: $form.attr('action'),
             data: $form.serialize(),
             error: function (xhr, status, error) {
+                alert(error);
+                $(detailsDiv).slideToggle(600);
                 //do something about the error
             },
             success: function (response) {
-                $detailsDiv.replaceWith(response);
+                $(detailsDiv).html(response.Message);
+                $(detailsDiv).slideToggle(600);
             }
         });
 
