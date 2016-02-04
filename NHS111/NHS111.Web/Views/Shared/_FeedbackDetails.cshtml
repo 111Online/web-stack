@@ -1,28 +1,6 @@
 ﻿@model NHS111.Models.Models.Domain.Feedback
 @{ Model.DateAdded = DateTime.Now; }
 
-<style>
-    .feedback-submit {
-        background: none repeat scroll 0 0 #8c3433;
-        border-radius: 5px;
-        box-shadow: 0 2px 0 #7c2a26;
-        font-size: 20px;
-        padding: 14px 0 10px;
-        text-decoration: none;
-        text-transform: uppercase;
-        width: 235px;
-    }
-    .feedback-input {
-        border: 0 none;
-        border-radius: 3px;
-        padding: 15px 10px;
-        width: 94%;
-        font-size: 18px !important;
-    }
-    .feedback-form {
-        text-align: center;
-    }
-</style>
 
 <form id="FeedbackForm" class="feedback-form" action="@Url.Action("SubmitFeedback", "Feedback")">
 
@@ -36,7 +14,7 @@
             </label>
         </div>
         <div class="row small">
-            <input class="button feedback-submit" id="btnFeedback" type="button" name="btnFeedback" value="Submit Feedback" onclick=" SubmitFeedback(this); " />
+            <input class="button feedback-submit" style="font-size: 16px; margin: 5px;" id="btnFeedback" type="button" name="btnFeedback" value="Submit Feedback" onclick=" SubmitFeedback(this); " />
         </div>
     </div>
     @Html.HiddenFor(m => m.UserId)

@@ -94,62 +94,75 @@
 
     </header>
 
-    <div id="wrapper">
-        <header role="banner" class="global-header">
-            <div class="global-header__wrapper">
-                <div class="global-header__logo"> <a href="/" title="Go to Homepage" class="logo"> <img src="~/content/img/med-logo.png" alt="MED"> </a> </div>
+<div id="wrapper">
+    <header role="banner" class="global-header">
+        <div class="global-header__wrapper">
+            <div class="global-header__logo"> <a href="/" title="Go to Homepage" class="logo"> <img src="~/content/img/med-logo.png" alt="MED"> </a>
             </div>
-        </header>
-        <div class="content-container">
-            <div id="content">
-                <!--<div id="linkBodySearch"> <a href="#" title="Try our body search instead"><span title="Try our body search" class="left">Try our body</span> <span class="bgIcon"></span> <span class="left">search instead </span></a>
-                </div>-->
-                @using (Html.BeginForm("Gender", "Question", FormMethod.Post))
-                {
-                    <input type="hidden" id="pathwayNo" name="pathwayNo" value="" />
-
-                    <h2>I need help with</h2>
-                    <div class="searchWrap">
-                      
-                        <label for="searchTags">
-                           <input type="text" class="search left rounded" id="searchTags" autocomplete="off" name="searchTags" placeholder="Search for conditions and symptoms" />
-     </label>
-    @* @Html.ActionLink("GO","Gender","Question", new {@class = "go"})*@
-                        <input type="submit" class="go button" value="GO" id="submitSearch">
-
-                       
-
-
-
-                    </div>
-                    <h3>Common symptoms</h3>
-                    <ul id="commonConditions">
-                        <li><a href="#">Abdominal pain</a></li>
-                        <li><a href="#">Fever for under 5 year olds</a></li>
-                        <li><a href="#">Diarrhoea and vomiting</a></li>
-                        <li><a href="#">Colds and flu</a></li>
-                        <li><a href="#">Dental – toothache and dental trauma</a></li>
-
-                    </ul>
-                    
-                    <div id="SearchResults">
-                        @*Search Results appended here as list tags*@
-                    </div>
-                    
-                }
-
-
-            </div>
-            <!--content end-->
         </div>
-        <footer>
-            <div class="footerWrapper">
-                <div class="footerMeta"> </div>
-            </div>
-        </footer>
+    </header>
+    <div class="content-container">
+        <div id="content">
+            <!--<div id="linkBodySearch"> <a href="#" title="Try our body search instead"><span title="Try our body search" class="left">Try our body</span> <span class="bgIcon"></span> <span class="left">search instead </span></a>
+            </div>-->
+            @using (Html.BeginForm("Gender", "Question", FormMethod.Post))
+            {
+                <input type="hidden" id="pathwayNo" name="pathwayNo" value=""/>
+
+                <h2 class="search-header">I need help with</h2>
+                <div class="searchWrap">
+
+                    <label for="searchTags">
+                        <input type="text" class="search left rounded" id="searchTags" autocomplete="off" name="searchTags" placeholder="Search for conditions and symptoms"/>
+                    </label>
+                    @* @Html.ActionLink("GO","Gender","Question", new {@class = "go"})*@
+                    <input type="submit" class="go button" value="GO" id="submitSearch">
+
+
+
+
+
+                </div>
+                <h3>Common symptoms</h3>
+                <ul id="commonConditions">
+                    <li><a href="#">Abdominal pain</a></li>
+                    <li><a href="#">Fever for under 5 year olds</a></li>
+                    <li><a href="#">Diarrhoea and vomiting</a></li>
+                    <li><a href="#">Colds and flu</a></li>
+                    <li><a href="#">Dental – toothache and dental trauma</a></li>
+
+                </ul>
+
+                <div id="SearchResults">
+                    @*Search Results appended here as list tags*@
+                </div>
+
+            }
+
+
+        </div>
+        <!--content end-->
+
     </div>
-    <!--wrapper ends-->
-    @Html.Partial("_FeedbackDetails", new Feedback() { PageId = "Search" });
+
+    <footer>
+        <div class="footerWrapper">
+            <div class="footerMeta"> </div>
+        </div>
+    </footer>
+
+
+
+</div>
+
+    <div class="feedback-wrapper nhs-show-nav" style="margin-top: 99px;  border-top: 2px solid #0075A7; border-bottom: none; text-align:initial">
+        <div class="nhs-pagenav-container">
+
+            @Html.Partial("_FeedbackDetails", new Feedback())
+        </div>
+    </div>
+<!--wrapper ends-->
+    
 
     <script>
     // -- search box autocomplete mock script
