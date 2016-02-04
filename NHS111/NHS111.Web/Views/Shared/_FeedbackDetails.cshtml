@@ -1,5 +1,4 @@
-﻿@using System
-@model NHS111.Models.Models.Domain.Feedback
+﻿@model NHS111.Models.Models.Domain.Feedback
 @{ Model.DateAdded = DateTime.Now; }
 
 <style>
@@ -33,7 +32,7 @@
         <div class="row large" style="margin-top: 20px;">
             <label>
                 <span>Feedback</span><br />
-                @Html.TextBoxFor(m => m.Text, new { @placeholder = "Feedback", @Value = "", @class = "feedback-input", style = "width:400px;" })
+                @Html.TextBoxFor(m => m.Text, new { @placeholder = "Feedback", @Value = "", @class = "feedback-input", style = "width:400px;", @maxlength="8000" })
             </label>
         </div>
         <div class="row small">
@@ -72,5 +71,4 @@
 
         return false;
     }
-
 </script>
