@@ -639,7 +639,6 @@
     <Content Include="Views\Shared\_CommonHiddenFieldsOutcomeViewModel.cshtml" />
     <Content Include="Views\Shared\_PersonalPostCodeSearch.cshtml" />
     <Content Include="Views\Shared\_FeedbackDetails.cshtml" />
-    <Content Include="Views\Shared\FeedbackConfirmation.cshtml" />
     <None Include="Web.Development.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
