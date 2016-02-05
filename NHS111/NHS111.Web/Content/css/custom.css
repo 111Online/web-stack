@@ -536,7 +536,7 @@ a.help:hover {
     float:right;
 }
 
-#search h2 {
+h2.search-header  {
 clear: both;
     color: #fff;
     float: left;
@@ -2020,3 +2020,67 @@ input[disabled], button[disabled]{
     margin: 2% 5%;
     padding-top:0;
 }
+
+    .feedback-submit {
+        background: none repeat scroll 0 0 #8c3433;
+        border-radius: 5px;
+        box-shadow: 0 2px 0 #7c2a26;
+        margin: 5px;
+     
+        text-decoration: none;
+        text-transform: uppercase;
+        width: 235px;
+    }
+    .feedback-input {
+        border: 0 none;
+        border-radius: 3px;
+        padding: 10px 10px;
+        width: 94%;
+        font-size: 18px !important;
+    }
+    .feedback-form {
+        text-align: center;
+        padding-top: 0.8em;
+    }
+
+     #timedQuestion .feedback-submit, #gender  .feedback-submit {
+        background: none repeat scroll 0 0 #8c3433 !important;
+        border-radius: 5px;
+        box-shadow: 0 2px 0 #7c2a26 !important;
+        margin: 5px;
+        border: 1px solid #7c2a26;
+        font-size: 16px;
+        text-decoration: none;
+        text-transform: uppercase;
+        width: 235px;
+    }
+
+    #search  .feedback-submit {
+        background: none repeat scroll 0 0 #003366 !important;
+        border-radius: 5px;
+        box-shadow: 0 2px 0 #003366 !important;
+        margin: 5px;
+        border: 1px solid #003366;
+        font-size: 16px;
+        text-decoration: none;
+        text-transform: uppercase;
+        width: 235px;
+    }
+
+    #timedQuestion .feedback-form, #gender .feedback-form{
+        padding-bottom:0.8em;
+        border-bottom: 2px solid #da4d4e;
+      
+    }
+     #timedQuestion .feedback-wrapper, #gender .feedback-form {
+         background:#ea5455;
+    }
+
+    #search .feedback-form{
+        padding-bottom:0.8em;
+        border-bottom: 2px solid #003366;
+      
+    }
+    #search .feedback-wrapper {
+         background:#0075A7;
+    }
