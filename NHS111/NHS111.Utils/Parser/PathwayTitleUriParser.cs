@@ -12,7 +12,9 @@ namespace NHS111.Utils.Parser
 {
     public class PathwayTitleUriParser
     {
-        public static char DashChar { get; } = Convert.ToChar("-");
+        //public static char DashChar { get; } = Convert.ToChar("-");
+
+        private const char DashChar = '-';
 
         public static string Parse(string title)
         {
