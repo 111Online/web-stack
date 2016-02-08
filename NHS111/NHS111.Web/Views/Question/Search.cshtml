@@ -1,7 +1,10 @@
 ﻿@using NHS111.Models.Models.Domain
 @{
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    Layout = "~/Views/Shared/_LayoutNhsUK.cshtml";
 }
+
+@section Title
+{NHS 111 Digital}
 
 @section Scripts {
 
@@ -102,21 +105,21 @@
         </div>
     </header>
     <div class="content-container">
-        <div id="content">
+        <div>
             <!--<div id="linkBodySearch"> <a href="#" title="Try our body search instead"><span title="Try our body search" class="left">Try our body</span> <span class="bgIcon"></span> <span class="left">search instead </span></a>
             </div>-->
             @using (Html.BeginForm("Gender", "Question", FormMethod.Post))
             {
                 <input type="hidden" id="pathwayNo" name="pathwayNo" value=""/>
 
-                <h2 class="search-header">I need help with</h2>
+                <h2>I need help with</h2>
                 <div class="searchWrap">
 
                     <label for="searchTags">
                         <input type="text" class="search left rounded" id="searchTags" autocomplete="off" name="searchTags" placeholder="Search for conditions and symptoms"/>
                     </label>
                     @* @Html.ActionLink("GO","Gender","Question", new {@class = "go"})*@
-                    <input type="submit" class="go button" value="GO" id="submitSearch">
+                    <input type="submit" class="button button-get-started" value="Go" id="submitSearch">
 
 
 
@@ -144,12 +147,6 @@
         <!--content end-->
 
     </div>
-
-    <footer>
-        <div class="footerWrapper">
-            <div class="footerMeta"> </div>
-        </div>
-    </footer>
 
 
 
