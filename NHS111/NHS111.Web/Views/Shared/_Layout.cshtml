@@ -36,14 +36,21 @@
 
     <script src="~/scripts/vendor/modernizr-custom.js"></script>
     <script src="~/scripts/jquery2.1.1.min.js"></script>
-    <script src="~/scripts/mobileScroller.js"></script>
-
+    <script src="~/scripts/jquery.cookie.js"></script>
+    
+    <script>
+        $(function () {
+            var userId = $.cookie("userId");
+            if (!userId) $.cookie("userId", '@Guid.NewGuid()', { path: '/' });
+        });
+    </script>
     @RenderSection("Scripts", false)
     @*@Styles.Render("~/Content/css")
         @Scripts.Render("~/bundles/modernizr")*@
 </head>
 
     @RenderBody()
+
     @*<body>
 
 

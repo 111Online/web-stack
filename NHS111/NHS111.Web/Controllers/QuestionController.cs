@@ -96,6 +96,7 @@ namespace NHS111.Web.Controllers
         {
             //ModelState.Clear();
             var next = await _questionViewModelBuilder.BuildQuestion(model);
+            
             return View(next.Item1, next.Item2);
         }
 

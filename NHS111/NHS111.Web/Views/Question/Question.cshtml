@@ -1,4 +1,5 @@
 ﻿@using Newtonsoft.Json
+@using NHS111.Models.Models.Domain
 @model NHS111.Models.Models.Web.JourneyViewModel
 @{
     Layout = null;
@@ -82,7 +83,7 @@
             </div>
             <div class="progress-container">
                 <div class="progressbg-left"></div>
-                <div class="progress-indicator">
+                <div class="progress-indicator" style="display:none">
                     <span class="indicator first"><span class="ind-number">01</span> What's wrong</span>
                     <span class="indicator second"><span class="ind-number">02</span> Tell us more</span>
                     <span class="indicator third active" />
@@ -99,17 +100,16 @@
         @*if (!string.IsNullOrEmpty(Model.PreviousTitle))
             {*@
         <div class="nhs-page-navigation nhs-show-nav">
-            <div class="nhs-pagenav-container">
+            <div class="nhs-pagenav-container" style="display:none">
                 <div id="progressWrapper">
                     <div class="meter nhsBlue">
                         <span class="p25"></span>
                     </div>
                     <span class="guideText">25% complete</span>
                 </div>
-
                 @* <h3 class="nhs-page-navigation__title">Previous question</h3>
 
-                    <input class="nhs-page-navigation__link" type="submit" name="PreviousQuestion" value="@Model.PreviousTitle">*@
+            <input class="nhs-page-navigation__link" type="submit" name="PreviousQuestion" value="@Model.PreviousTitle">*@
             </div>
         </div>
         @*}*@
@@ -120,7 +120,7 @@
                 <div class="nhs-body-container nhs-first-page nhs-animate-inout">
                     <!--<span class="nhs-navtriangle"></span>-->
 
-                    <div class="nhs-countdown-container">
+                    <div class="nhs-countdown-container" style="display:none">
                         <div class="nhs-countdown font-medium">
                             <span class="nhs-the-count">3:00</span>
                         </div>
@@ -139,7 +139,7 @@
                             @foreach (var answer in Model.OrderedAnswers())
                             {
                                 <input name="SelectedAnswer" type="radio" id="@answer.Title.Replace(" ", string.Empty)" value="@JsonConvert.SerializeObject(answer)" class=" nhs-radiobtn__input" />
-                                <label for="@answer.Title.Replace(" ",string.Empty)" class="nhs-radiobtn__label">@answer.Title</label>
+                                <label for="@answer.Title.Replace(" ", string.Empty)" class="nhs-radiobtn__label">@answer.Title</label>
                             }
 
                         </div>
@@ -158,6 +158,7 @@
                     </div>
 
                 </div>
+
             </main>
         </div>
         <!-- <div class="footer">FOOTER TEST</div> -->
@@ -168,6 +169,12 @@
         <script src="~/content/_assets/js/vendor/jquery.cookie.js"></script>
 
     }
+    <div class="feedback-wrapper nhs-show-nav" style="border-top: 2px solid #da4d4e; border-bottom: none; text-align:initial">
+        <div class="nhs-pagenav-container" style="font-size: 16px;">
+
+            @Html.Partial("_FeedbackDetails", new Feedback() { PageId = Model.Id })
+        </div>
+    </div>
 
     <script>
         $(document).ready(function () {
