@@ -33,16 +33,25 @@ namespace NHS111.Web.Presentation.Builders
             _mappingEngine = mappingEngine;
         }
 
-        public async Task<JourneyViewModel> BuildGender(JourneyViewModel model)
+        public JourneyViewModel BuildGender(JourneyViewModel model)
         {
-            // do we have a symptom group that is in the white list
-            var symptomGroup = await _restfulHelper.GetAsync(string.Format(_configuration.BusinessApiPathwaySymptomGroupUrl, model.PathwayNo));
-            return symptomGroup == string.Empty ? null : model;
+            return model;
+        }
+
+        public async Task<JourneyViewModel> BuildGender(string pathwayTitle)
+        {
+            // do we have a symptom that is in the white list
+            // return a list of pathways numbers
+            var pathwayNo = await _restfulHelper.GetAsync(string.Format(_configuration.BusinessApiPathwayNumbersUrl, pathwayTitle));
+            return new JourneyViewModel() { PathwayNo = pathwayNo };
         }
 
         public async Task<JourneyViewModel> BuildSlider(JourneyViewModel model)
         {
             var pathway = JsonConvert.DeserializeObject<Pathway>(await _restfulHelper.GetAsync(string.Format(_configuration.BusinessApiPathwayIdUrl, model.PathwayNo, model.UserInfo.Gender, model.UserInfo.Age)));
+
+            if (pathway == null) return null;
+
             model.PathwayId = pathway.Id;
             model.PathwayTitle = pathway.Title;
             model.PathwayNo = pathway.PathwayNo;
@@ -52,6 +61,27 @@ namespace NHS111.Web.Presentation.Builders
             model.StateJson = JsonConvert.SerializeObject(model.State);
             return model;
         }
+
+        public async Task<JourneyViewModel> BuildSlider(string pathwayTitle, string gender, int age)
+        {
+            var pathway = JsonConvert.DeserializeObject<Pathway>(await _restfulHelper.GetAsync(string.Format(_configuration.BusinessApiPathwayIdFromTitleUrl, pathwayTitle, gender, age)));
+
+            if (pathway == null) return null;
+
+            var model = new JourneyViewModel()
+            {
+                PathwayId = pathway.Id,
+                PathwayTitle = pathway.Title,
+                PathwayNo = pathway.PathwayNo,
+                UserInfo = new UserInfo() { Age = age, Gender = gender },
+                State = BuildState(gender, age),
+                StateJson = BuildStateJson(gender, age)
+            };
+            
+            return model;
+        }
+
+        //TO DO COPY ABOVE AND CREATE CONFIG
 
         public async Task<Tuple<string, JourneyViewModel>> BuildQuestion(JourneyViewModel model)
         {
@@ -125,18 +155,22 @@ namespace NHS111.Web.Presentation.Builders
 
                 case NodeType.Pathway:
                     {
-                        var pathway = JsonConvert.DeserializeObject<Pathway>(await _restfulHelper.GetAsync(string.Format(_configuration.BusinessApiPathwayUrl, model.Id)));
+                        var pathway = JsonConvert.DeserializeObject<Pathway>(await _restfulHelper.GetAsync(string.Format(_configuration.BusinessApiPathwayUrl, model.PathwayId)));
+                        if (pathway == null) return null;
+
+                        var derivedAge = model.UserInfo.Age == -1 ? pathway.MinimumAgeInclusive : model.UserInfo.Age;
                         var newModel = new JustToBeSafeViewModel
                         {
                             PathwayId = pathway.Id,
                             PathwayNo = pathway.PathwayNo,
                             PathwayTitle = pathway.Title,
-                            UserInfo = model.UserInfo,
+                            UserInfo = new UserInfo() { Age = derivedAge, Gender = pathway.Gender },
                             JourneyJson = model.JourneyJson,
                             SymptomDiscriminator = model.SymptomDiscriminator,
+                            State = BuildState(pathway.Gender, derivedAge),
+                            StateJson = BuildStateJson(pathway.Gender, derivedAge)
                         };
                         return await _justToBeSafeFirstViewModelBuilder.JustToBeSafeFirstBuilder(newModel);
-                        //TODO delete return new Tuple<string, JourneyViewModel>("../JustToBeSafe/JustToBeSafe", await _justToBeSafeFirstViewModelBuilder.JustToBeSafeFirstBuilder(newModel));
                     }
                 case NodeType.Question:
                 default:
@@ -144,14 +178,32 @@ namespace NHS111.Web.Presentation.Builders
 
             }
         }
+
+        private static IDictionary<string, string> BuildState(string gender, int age)
+        {
+            return new Dictionary<string, string>()
+            {
+                {"PATIENT_AGE", age.ToString()},
+                {"PATIENT_GENDER", string.Format("\"{0}\"", gender.ToUpper())},
+                {"PATIENT_PARTY", "1"}
+            };
+        }
+
+        private static string BuildStateJson(string gender, int age)
+        {
+            return JsonConvert.SerializeObject(BuildState(gender, age));
+        }
     }
 
     public interface IQuestionViewModelBuilder
     {
-        Task<JourneyViewModel> BuildGender(JourneyViewModel model);
+        JourneyViewModel BuildGender(JourneyViewModel model);
+        Task<JourneyViewModel> BuildGender(string pathwayTitle);
         Task<JourneyViewModel> BuildSlider(JourneyViewModel model);
+        Task<JourneyViewModel> BuildSlider(string pathwayTitle, string gender, int age);
         Task<Tuple<string, JourneyViewModel>> BuildQuestion(JourneyViewModel model);
         Task<JourneyViewModel> BuildPreviousQuestion(JourneyViewModel model);
         Task<string> BuildSearch(string input);
+        Task<Tuple<string, JourneyViewModel>> ActionSelection(JourneyViewModel model);
     }
 }

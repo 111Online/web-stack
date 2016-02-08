@@ -25,6 +25,8 @@ namespace NHS111.Web.Presentation.Configuration
         public string RedisConnectionString { get { return ConfigurationManager.AppSettings["RedisConnectionString"]; } }
         public string DosUsername { get { return ConfigurationManager.AppSettings["dos_credential_user"]; } }
         public string DosPassword { get { return ConfigurationManager.AppSettings["dos_credential_password"]; } }
+        public string BusinessApiPathwayNumbersUrl { get { return ConfigurationManager.AppSettings["BusinessApiPathwayNumbersUrl"]; } }
+        public string BusinessApiPathwayIdFromTitleUrl { get { return ConfigurationManager.AppSettings["BusinessApiPathwayIdFromTitleUrl"]; } }
 
     }
 
@@ -51,5 +53,7 @@ namespace NHS111.Web.Presentation.Configuration
         string RedisConnectionString { get; }
         string DosUsername { get; }
         string DosPassword { get; }
+        string BusinessApiPathwayNumbersUrl { get; }
+        string BusinessApiPathwayIdFromTitleUrl { get; }
     }
 }

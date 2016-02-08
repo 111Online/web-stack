@@ -14,10 +14,28 @@ namespace NHS111.Web
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
             routes.MapRoute(
+                name: "Gender",
+                url: "Gender/{pathwayTitle}",
+                defaults: new { controller = "Question", action = "GenderDirect" }
+                );
+
+            routes.MapRoute(
+                name: "Slider",
+                url: "Slider/{pathwayTitle}/{gender}/{age}",
+                defaults: new { controller = "Question", action = "SliderDirect" }
+                );
+
+            routes.MapRoute(
+                name: "Question",
+                url: "Question/JustToBeSafe/{pathwayId}/{age}/{pathwayTitle}",
+                defaults: new { controller = "Question", action = "QuestionDirect", age = UrlParameter.Optional, pathwayTitle = UrlParameter.Optional }
+                );
+
+            routes.MapRoute(
                 name: "Default",
                 url: "{controller}/{action}/{id}",
                 defaults: new { controller = "Question", action = "Home", id = UrlParameter.Optional }
-            );
+                );
         }
     }
 }

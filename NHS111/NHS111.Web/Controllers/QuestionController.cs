@@ -3,7 +3,9 @@ using System.Threading.Tasks;
 using System.Web.Mvc;
 using System.Web.Routing;
 using NHS111.Models.Models.Web;
+using NHS111.Models.Models.Web.Enums;
 using NHS111.Utils.Attributes;
+using NHS111.Utils.Parser;
 using NHS111.Web.Presentation.Builders;
 
 namespace NHS111.Web.Controllers
@@ -34,25 +36,34 @@ namespace NHS111.Web.Controllers
             return Json(await _questionViewModelBuilder.BuildSearch(input));
         }
 
-
-        public async Task<ActionResult> Gender(JourneyViewModel model)
+        [HttpPost]
+        public ActionResult Gender(JourneyViewModel model)
         {
-            var journey = await _questionViewModelBuilder.BuildGender(model);
-
-            
-            if (journey == null) Response.RedirectToRoute("Default", new RouteValueDictionary() { {"controller", "Question"}, {"action", "Home"} });
-            
-            return View(journey);
+            return View(_questionViewModelBuilder.BuildGender(model));
         }
 
-        [HttpPost]
+        [HttpGet]
+        public async Task<ActionResult> GenderDirect(string pathwayTitle)
+        {
+            var model = await _questionViewModelBuilder.BuildGender(PathwayTitleUriParser.Parse(pathwayTitle));
+            if (model.PathwayNo == string.Empty) return Redirect(Url.RouteUrl(new { controller = "Question", action = "Home" }));
+            return View("Gender", model);
+        }
+
         [ActionName("SliderAction")]
         [MultiSubmit(ButtonName = "Slider")]
         public async Task<ActionResult> Slider(JourneyViewModel model)
         {
             ModelState.Clear();
-            var sliderModel = await _questionViewModelBuilder.BuildSlider(model);
-            return View("Slider", sliderModel);
+            return View("Slider", await _questionViewModelBuilder.BuildSlider(model));
+        }
+
+        [HttpGet]
+        public async Task<ActionResult> SliderDirect(string pathwayTitle, string gender, int age)
+        {
+            var model = await _questionViewModelBuilder.BuildSlider(PathwayTitleUriParser.Parse(pathwayTitle), gender, age);
+            if (model == null) return Redirect(Url.RouteUrl(new { controller = "Question", action = "Home" }));
+            return View("Slider", model);
         }
 
         [HttpPost]
@@ -83,9 +94,24 @@ namespace NHS111.Web.Controllers
         [MultiSubmit(ButtonName = "Question")]
         public async Task<ActionResult> Question(JourneyViewModel model)
         {
-            ModelState.Clear();
+            //ModelState.Clear();
             var next = await _questionViewModelBuilder.BuildQuestion(model);
             return View(next.Item1, next.Item2);
+        }
+
+        [HttpGet]
+        public async Task<ActionResult> QuestionDirect(string pathwayId, int? age, string pathwayTitle)
+        {
+            var journeyViewModel = new JourneyViewModel()
+            {
+                NodeType = NodeType.Pathway,
+                PathwayId = pathwayId,
+                PathwayTitle = pathwayTitle,
+                UserInfo = new UserInfo() { Age = age ?? -1 }
+            };
+            var model = await _questionViewModelBuilder.ActionSelection(journeyViewModel);
+            if (model == null) return Redirect(Url.RouteUrl(new { controller = "Question", action = "Home" }));
+            return View(model.Item1, model.Item2);
         }
 
         [HttpPost]
