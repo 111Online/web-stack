@@ -214,6 +214,7 @@
     <Content Include="Content\css\skins\flat\yellow.css" />
     <Content Include="Content\css\skins\flat\yellow.png" />
     <Content Include="Content\css\skins\flat\_all.css" />
+    <Content Include="Content\css_NhsUK\application.css" />
     <Content Include="Content\images\999-Body-Image.png" />
     <Content Include="Content\images\bg\999Banner.png" />
     <Content Include="Content\images\bg\activeSurgery.png" />
@@ -236,10 +237,12 @@
     <Content Include="Content\images\icons\blueArrow.png" />
     <Content Include="Content\images\icons\breadcrumbOne.png" />
     <Content Include="Content\images\icons\breadcrumbTwo.png" />
+    <Content Include="Content\images\icons\icon-button-next.svg" />
     <Content Include="Content\images\icons\outcomeHeader.png" />
     <Content Include="Content\images\icons\redArrow.png" />
     <Content Include="Content\images\icons\redDownArrow.png" />
     <Content Include="Content\images\nhs-logo.png" />
+    <Content Include="Content\images\nhs-rev-logotype.svg" />
     <Content Include="Content\img\ambulance-in-map.png" />
     <Content Include="Content\img\arrowActive_left.png" />
     <Content Include="Content\img\arrowActive_right.png" />
@@ -639,6 +642,7 @@
     <Content Include="Views\Shared\_CommonHiddenFieldsOutcomeViewModel.cshtml" />
     <Content Include="Views\Shared\_PersonalPostCodeSearch.cshtml" />
     <Content Include="Views\Shared\_FeedbackDetails.cshtml" />
+    <Content Include="Views\Shared\_LayoutNhsUK.cshtml" />
     <None Include="Web.Development.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

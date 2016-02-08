@@ -1,0 +1,78 @@
+﻿
+<!DOCTYPE html>
+<html lang="">
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+
+    <title>@RenderSection("Title")</title>
+
+    <link href="http://nhsalpha.herokuapp.com/public/stylesheets/govuk-template.css?0.12.0" media="screen" rel="stylesheet" type="text/css" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+    <link href="~/Content/css_NhsUK/application.css" media="screen" rel="stylesheet" type="text/css" />
+
+    <!-- Javascript -->
+    <script src="~/scripts/vendor/modernizr-custom.js"></script>
+    <script src="~/scripts/jquery2.1.1.min.js"></script>
+    <script src="~/scripts/jquery.cookie.js"></script>
+
+    @RenderSection("Scripts", false)
+
+</head>
+
+<body class="">
+    <script type="text/javascript">document.body.className = ((document.body.className) ? document.body.className + ' js-enabled' : 'js-enabled');</script>
+
+
+
+    <div id="skiplink-container">
+        <div>
+            <a href="#content" class="skiplink">Skip to main content</a>
+        </div>
+    </div>
+
+    <header role="banner" id="global-header">
+        <div class="header-container">
+
+            <a href="/" class="header-logo" title="Go to the NHS.UK homepage">
+                <img src="/content/images/nhs-rev-logotype.svg" alt="">
+            </a>
+
+
+
+        </div>
+    </header>
+    <!--end header-->
+
+
+
+
+
+
+    <main id="content" role="main">
+        @RenderBody()
+    </main>
+
+
+
+    <footer id="footer" role="contentinfo">
+        <div class="footer-wrapper">
+            <div class="text">
+                <p>
+                    <small>
+                        &copy; Crown copyright<br>
+                        Content available under <a href="https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/">Open Government Licence v3.0</a>, except where otherwise stated.
+                    </small>
+                </p>
+
+            </div>
+        </div>
+    </footer>
+
+
+    <div id="global-app-error" class="app-error hidden"></div>
+
+</body>
+</html>
