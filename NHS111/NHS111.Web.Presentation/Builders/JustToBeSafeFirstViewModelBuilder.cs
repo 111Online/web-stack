@@ -38,8 +38,9 @@ namespace NHS111.Web.Presentation.Builders
                     PathwayNo = model.PathwayNo,
                     PathwayTitle = model.PathwayTitle,
                     UserInfo = model.UserInfo,
-                    JourneyJson =model.JourneyJson,
-                    State = JsonConvert.DeserializeObject<Dictionary<string, string>>(model.StateJson)
+                    JourneyJson = model.JourneyJson,
+                    State = JsonConvert.DeserializeObject<Dictionary<string, string>>(model.StateJson),
+                    StateJson = model.StateJson
                 };
                 var question = JsonConvert.DeserializeObject<QuestionWithAnswers>(await _restfulHelper.GetAsync(string.Format(_configuration.BusinessApiFirstQuestionUrl, model.PathwayId, model.StateJson)));
                 _mappingEngine.Map(question, journeyViewModel);
