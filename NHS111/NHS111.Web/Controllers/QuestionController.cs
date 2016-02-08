@@ -94,7 +94,7 @@ namespace NHS111.Web.Controllers
         [MultiSubmit(ButtonName = "Question")]
         public async Task<ActionResult> Question(JourneyViewModel model)
         {
-            //ModelState.Clear();
+            ModelState.Clear();
             var next = await _questionViewModelBuilder.BuildQuestion(model);
             
             return View(next.Item1, next.Item2);
