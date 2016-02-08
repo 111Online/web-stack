@@ -237,6 +237,7 @@
     <Content Include="Content\images\icons\blueArrow.png" />
     <Content Include="Content\images\icons\breadcrumbOne.png" />
     <Content Include="Content\images\icons\breadcrumbTwo.png" />
+    <Content Include="Content\images\icons\icon-button-next.svg" />
     <Content Include="Content\images\icons\outcomeHeader.png" />
     <Content Include="Content\images\icons\redArrow.png" />
     <Content Include="Content\images\icons\redDownArrow.png" />
