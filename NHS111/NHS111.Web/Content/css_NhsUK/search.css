@@ -1,0 +1,18 @@
+﻿.input-symptoms {
+    float: left;
+    margin-right: 10px;
+}
+
+.go {
+    width: 5em;
+}
+
+ul {
+    margin-left: 1em;
+    list-style-type: disc;
+}
+
+ul, ol {
+    line-height: 3rem;
+    font-size: 1.2em;
+}
