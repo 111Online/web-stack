@@ -49,5 +49,23 @@ namespace NHS111.Business.Api.Controllers
         {
             return await _searchCorrectionService.GetCorrection(name).AsHttpResponse();
         }
+
+        [Route("pathway_direct/{pathwayTitle}")]
+        public async Task<HttpResponseMessage> GetPathwayNumbers(string pathwayTitle)
+        {
+            return await _pathwayService.GetPathwayNumbers(pathwayTitle).AsHttpResponse();
+        }
+
+        [Route("pathway_direct/identify/{pathwayTitle}/{gender}/{age}")]
+        public async Task<HttpResponseMessage> GetPathwayDetails(string pathwayTitle, string gender, int age)
+        {
+            return await _pathwayService.GetIdentifiedPathwayFromTitle(pathwayTitle, gender, age).AsHttpResponse();
+        }
+
+        [Route("pathway_question/{name}/{gender}/{age}")]
+        public async Task<HttpResponseMessage> GetPathwayQuestion(string name)
+        {
+            return await _searchCorrectionService.GetCorrection(name).AsHttpResponse();
+        }
     }
 }

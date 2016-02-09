@@ -35,6 +35,16 @@ namespace NHS111.Business.Services
         {
             return await _restfulHelper.GetAsync(_configuration.GetDomainApiIdentifiedPathwayUrl(pathwayNumbers, gender, age));
         }
+
+        public async Task<string> GetIdentifiedPathwayFromTitle(string pathwayTitle, string gender, int age)
+        {
+            return await _restfulHelper.GetAsync(_configuration.GetDomainApiIdentifiedPathwayFromTitleUrl(pathwayTitle, gender, age));
+        }
+
+        public async Task<string> GetPathwayNumbers(string pathwayTitle)
+        {
+            return await _restfulHelper.GetAsync(_configuration.GetDomainApiPathwayNumbersUrl(pathwayTitle));
+        }
     }
 
     public interface IPathwayService
@@ -43,5 +53,7 @@ namespace NHS111.Business.Services
         Task<string> GetPathway(string pathwayId);
         Task<string> GetSymptomGroup(string pathwayNumbers);
         Task<string> GetIdentifiedPathway(string pathwayNumbers, string gender, int age);
+        Task<string> GetIdentifiedPathwayFromTitle(string pathwayTitle, string gender, int age);
+        Task<string> GetPathwayNumbers(string pathwayTitle);
     }
 }
