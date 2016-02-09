@@ -3,14 +3,12 @@
 <html lang="">
 <head>
     <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <title>@RenderSection("Title")</title>
 
+    <!-- css -->
     <link href="http://nhsalpha.herokuapp.com/public/stylesheets/govuk-template.css?0.12.0" media="screen" rel="stylesheet" type="text/css" />
-
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-
-
     <link href="~/Content/css_NhsUK/application.css" media="screen" rel="stylesheet" type="text/css" />
 
     <!-- Javascript -->
@@ -46,17 +44,10 @@
     </header>
     <!--end header-->
 
-
-
-
-
-
-    <main id="content" role="main">
+<main id="content" role="main">
         @RenderBody()
     </main>
-
-
-
+    
     <footer id="footer" role="contentinfo">
         <div class="footer-wrapper">
             <div class="text">
@@ -70,8 +61,7 @@
             </div>
         </div>
     </footer>
-
-
+    
     <div id="global-app-error" class="app-error hidden"></div>
 
 </body>
