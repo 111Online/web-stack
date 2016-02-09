@@ -1,38 +1,30 @@
 ﻿@using NHS111.Models.Models.Domain
 @model NHS111.Models.Models.Web.JourneyViewModel
 @{
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    Layout = "~/Views/Shared/_LayoutNhsUK.cshtml";
 }
+@section Title
+{NHS 111 Digital}
 
 @section Scripts {
-
     <!--<script src="~/scripts/jquery2.1.1.min.js"></script> included on layout page -->
     <script src="~/scripts/jquery1.11.2-ui.min.js"></script>
     <script src="~/scripts/jquery.blockUI.js"></script>
-
-
     <script src="~/scripts/custom.js"></script>
-
 }
 
 <body id="gender">
     <div id="wrapper">
-        <header role="banner" class="global-header">
-            <div class="global-header__wrapper">
-                <div class="global-header__logo"> <a href="/" title="Go to Homepage" class="logo"> <img src="~/content/img/med-logo.png" alt="MED"> </a> </div>
-                <!--<div id="logStatus"> <span title="Logged in as Kevin">Welcome back <strong>Kevin</strong></span> </div>-->
-            </div>
-        </header>
         <div class="content-container">
 
-            <div id="content">
+            <div>
                 @using (Html.BeginForm("SliderAction", "Question", FormMethod.Post, new { @id = "outerContent" }))
                 {
                     @Html.HiddenFor(x => Model.PathwayNo)
                     <div id="genderContent">
                         <p class="breadcrumb"></p>
                         <h2>We need a few more details</h2>
-
+                        <h4>Choose your gender</h4>
                         <div id="threeColumnBlock">
 
                          
