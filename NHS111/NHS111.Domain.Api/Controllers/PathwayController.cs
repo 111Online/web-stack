@@ -47,5 +47,19 @@ namespace NHS111.Domain.Api.Controllers
         {
             return await _pathwayRepository.GetSymptomGroup(pathwayNumbers.Split(new []{","}, StringSplitOptions.RemoveEmptyEntries)).AsHttpResponse();
         }
+
+        [HttpGet]
+        [Route("pathways_direct/{pathwayTitle}")]
+        public async Task<HttpResponseMessage> GetPathwaysNumbers(string pathwayTitle)
+        {
+            return await _pathwayRepository.GetPathwaysNumbers(pathwayTitle).AsHttpResponse();
+        }
+
+        [HttpGet]
+        [Route("pathways_direct/identify/{pathwayTitle}")]
+        public async Task<HttpResponseMessage> GetIdentifiedPathwayFromTitle(string pathwayTitle, [FromUri]string gender, [FromUri]int age)
+        {
+            return await _pathwayRepository.GetIdentifiedPathway(pathwayTitle, gender, age).AsJson().AsHttpResponse();
+        }
     }
 }

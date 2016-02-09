@@ -71,10 +71,23 @@ namespace NHS111.Business.Configuration
                 Replace("{age}", age.ToString());
         }
 
+        public string GetDomainApiIdentifiedPathwayFromTitleUrl(string pathwayTitle, string gender, int age)
+        {
+            return GetDomainApiUrl("DomainApiIdentifiedPathwayFromTitleUrl").
+                Replace("{pathwayTitle}", pathwayTitle).
+                Replace("{gender}", gender).
+                Replace("{age}", age.ToString());
+        }
+
         public string GetDomainApiPathwaySymptomGroup(string pathwayNumbers)
         {
             return GetDomainApiUrl("DomainApiPathwaySymptomGroup").
                 Replace("{pathwayNumbers}", pathwayNumbers);
+        }
+
+        public string GetDomainApiPathwayNumbersUrl(string pathwayTitle)
+        {
+            return GetDomainApiUrl("DomainApiPathwayNumbersUrl").Replace("{pathwayTitle}", pathwayTitle);
         }
 
         public string GetDomainApiCareAdviceUrl(int age, string gender, IEnumerable<string> markers)
@@ -94,7 +107,6 @@ namespace NHS111.Business.Configuration
         {
             return ConfigurationManager.AppSettings["RedisUrl"];
         }
-
     }
 
     public interface IConfiguration
@@ -113,7 +125,9 @@ namespace NHS111.Business.Configuration
         string GetDomainApiPathwaysUrl(bool grouped);
         string GetDomainApiPathwayUrl(string pathwayId);
         string GetDomainApiIdentifiedPathwayUrl(string pathwayNumbers, string gender, int age);
+        string GetDomainApiIdentifiedPathwayFromTitleUrl(string pathwayTitle, string gender, int age);
         string GetDomainApiPathwaySymptomGroup(string pathwayNumbers);
+        string GetDomainApiPathwayNumbersUrl(string pathwayTitle);
 
         /* Care Advice */
         string GetDomainApiCareAdviceUrl(int age, string gender, IEnumerable<string> markers);
