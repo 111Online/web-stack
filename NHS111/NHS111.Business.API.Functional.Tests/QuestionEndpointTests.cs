@@ -15,10 +15,7 @@ namespace NHS111.Business.API.Functional.Tests
             "https://microsoft-apiapp40f6723d48db47ed8f4d3ff1-integration.azurewebsites.net/";
 
         private string _testQuestionId = "PW1346.1000";
-        private string _testPathwayId = "P275";
-        private string _testPathwayId2 = "P908";
-        private string _testPathwayId3 = "P1786";
-        private string _testPathwayId4 = "PW752";
+        private string _testPathwayNo2 = "PW752";
         private string _testPathwayNo = "PW1401";
         private string _expectedNodeId = "PW752.200";
 
@@ -26,87 +23,6 @@ namespace NHS111.Business.API.Functional.Tests
         private RestfulHelper _restfulHelper = new RestfulHelper();
 
         /// <summary>
-
-        // Question Controller tests
-        [Test]
-        public async void TestGetQuestion_returns_valid_nodeId_response()
-        {
-            var getQuestionEndpoint = "node/{0}/next_node/{1}/answer/yes?state=%7B%22PATIENT_AGE%22%3A%2222%22%7D";
-            var result = await _restfulHelper.GetAsync(String.Format(_BusinessdomainApiDomain + getQuestionEndpoint, _testPathwayId2, _expectedNodeId));
-
-
-            Assert.IsNotNull(result);
-
-            //these check the right fields are returned
-            AssertValidResponseSchema(result, ResponseSchemaType.Question);
-
-            Assert.IsTrue(result.Contains("\"id\":\"PW758.0"));
-
-        }
-
-        [Test]
-        public async void TestGetQuestion_returns_valid_node_fields()
-        {
-            var getQuestionEndpoint = "node/{0}/answers/{1}";
-            var result = await _restfulHelper.GetAsync(String.Format(_BusinessdomainApiDomain + getQuestionEndpoint, _testPathwayId, _testQuestionId));
-
-            //this checks a responce is returned
-            Assert.IsNotNull(result);
-
-            //these check the right fields are returned
-            AssertValidResponseSchema(result, ResponseSchemaType.Answers);
-
-            //this next one checks the right question has returned
-            Assert.IsTrue(result.Contains("\"title\":\"Yes\",\"symptomDiscriminator\":\"4028\",\"order\":1"));
-        }
-
-
-        [Test]
-        public async void TestGetQuestion_returns_valid_node_question()
-        {
-            var getQuestionEndpoint = "node/{0}/question/{1}";
-            var result = await _restfulHelper.GetAsync(String.Format(_BusinessdomainApiDomain + getQuestionEndpoint, _testPathwayId, _testQuestionId));
-
-            //this checks a responce is returned
-            Assert.IsNotNull(result);
-
-            //these check the right fields are returned
-            AssertValidResponseSchema(result, ResponseSchemaType.Question);
-
-            //this next one checks the right answers have returned
-            Assert.IsTrue(result.Contains("\"title\":\"Yes"));
-            Assert.IsTrue(result.Contains("\"title\":\"Not sure"));
-            Assert.IsTrue(result.Contains("\"title\":\"No"));
-        }
-
-
-        [Test]
-        public async void TestGetQuestion_returns_valid_node_first_question()
-        {
-            var getQuestionEndpoint = "node/{0}/questions/first/?state=%7B%22PATIENT_AGE%22%3A%2222%22%7D";
-            var result = await _restfulHelper.GetAsync(String.Format(_BusinessdomainApiDomain + getQuestionEndpoint, _testPathwayId2));
-
-            //this checks a responce is returned
-            Assert.IsNotNull(result);
-
-            //these check the right fields are returned
-            AssertValidResponseSchema(result, ResponseSchemaType.Question);
-
-            //this next one checks the right question has returned
-            Assert.IsTrue(result.Contains("\"questionNo\":\"Tx1715"));
-        }
-        [Test]
-        public async void TestGetQuestion_returns_valid_node_first_jtbs()
-        {
-            var getQuestionEndpoint = "node/{0}/jtbs_first";
-            var result = await _restfulHelper.GetAsync(String.Format(_BusinessdomainApiDomain + getQuestionEndpoint, _testPathwayId3));
-
-            //this checks an empty responce is returned as JTBS questions not implemented yet
-            Assert.IsNotNull(result);
-            Assert.IsTrue(result.Contains("[]"));
-
-        }
-
         // Care Advice Controller tests
         [Test]
         public async void TestGetQuestion_returns_valid_care_advice_AdultAge()
@@ -155,34 +71,11 @@ namespace NHS111.Business.API.Functional.Tests
             Assert.IsTrue(result.Contains("\"title\":\"Needlestick injury"));
         }
 
-
-
-        // Pathways Controller tests
-
-        [Test]
-        public async void TestGetQuestion_returns_valid_Pathway_ID()
-        {
-            var getQuestionEndpoint = "pathway/{0}";
-            var result = await _restfulHelper.GetAsync(String.Format(_BusinessdomainApiDomain + getQuestionEndpoint, _testPathwayId));
-
-            //this checks a responce is returned
-            Assert.IsNotNull(result);
-
-            //these check the right fields are returned
-            AssertValidResponseSchema(result, ResponseSchemaType.Pathway);
-
-            //this next one checks the right question has returned
-            Assert.IsTrue(result.Contains("\"title\":\"Headache"));
-            Assert.IsTrue(result.Contains("\"id\":\"P275"));
-            Assert.IsTrue(result.Contains("\"gender\":\"Female"));
-            Assert.IsFalse(result.Contains("\"title\":\"Head, Facial or Neck Injury, Blunt"));
-            Assert.IsFalse(result.Contains("\"title\":\"Abdominal Pain"));
-        }
         [Test]
         public async void TestGetQuestion_returns_valid_Pathway_Numbers()
         {
             var getQuestionEndpoint = "pathway/{0}/Female/16";
-            var result = await _restfulHelper.GetAsync(String.Format(_BusinessdomainApiDomain + getQuestionEndpoint, _testPathwayId4));
+            var result = await _restfulHelper.GetAsync(String.Format(_BusinessdomainApiDomain + getQuestionEndpoint, _testPathwayNo2));
 
             //this checks a responce is returned
             Assert.IsNotNull(result);
@@ -201,7 +94,7 @@ namespace NHS111.Business.API.Functional.Tests
         public async void TestGetQuestion_returns_valid_Pathway_Numbers_InvalidAge1()
         {
             var getQuestionEndpoint = "pathway/{0}/Female/1";
-            var result = await _restfulHelper.GetAsync(String.Format(_BusinessdomainApiDomain + getQuestionEndpoint, _testPathwayId4));
+            var result = await _restfulHelper.GetAsync(String.Format(_BusinessdomainApiDomain + getQuestionEndpoint, _testPathwayNo2));
 
             //this checks a responce is returned
             Assert.IsTrue(result.Contains("null"));
@@ -212,7 +105,7 @@ namespace NHS111.Business.API.Functional.Tests
         public async void TestGetQuestion_returns_valid_Pathway_Numbers_InvalidAge200()
         {
             var getQuestionEndpoint = "pathway/{0}/Female/200";
-            var result = await _restfulHelper.GetAsync(String.Format(_BusinessdomainApiDomain + getQuestionEndpoint, _testPathwayId4));
+            var result = await _restfulHelper.GetAsync(String.Format(_BusinessdomainApiDomain + getQuestionEndpoint, _testPathwayNo2));
 
             //this checks a responce is returned
             Assert.IsTrue(result.Contains("null"));
@@ -223,7 +116,7 @@ namespace NHS111.Business.API.Functional.Tests
         public async void TestGetQuestion_returns_valid_Pathway_Numbers_InvalidAge15()
         {
             var getQuestionEndpoint = "pathway/{0}/Female/15";
-            var result = await _restfulHelper.GetAsync(String.Format(_BusinessdomainApiDomain + getQuestionEndpoint, _testPathwayId4));
+            var result = await _restfulHelper.GetAsync(String.Format(_BusinessdomainApiDomain + getQuestionEndpoint, _testPathwayNo2));
 
             //this checks a responce is returned
             Assert.IsTrue(result.Contains("null"));
@@ -234,7 +127,7 @@ namespace NHS111.Business.API.Functional.Tests
         public async void TestGetQuestion_returns_valid_Pathway_Numbers_InvalidGender()
         {
             var getQuestionEndpoint = "pathway/{0}/Male/16";
-            var result = await _restfulHelper.GetAsync(String.Format(_BusinessdomainApiDomain + getQuestionEndpoint, _testPathwayId4));
+            var result = await _restfulHelper.GetAsync(String.Format(_BusinessdomainApiDomain + getQuestionEndpoint, _testPathwayNo2));
 
             //this checks a responce is returned
             Assert.IsTrue(result.Contains("null"));
