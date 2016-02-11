@@ -11,8 +11,8 @@ namespace NHS111.Domain.Functional.Tests
     [TestFixture]
     public class QuestionEndpointTests
     {
-        private string _domainApiDomain =
-            "http://microsoft-apiapp801c0be2851f4a5a813f3848-integration.azurewebsites.net/";
+        private string _domainProductionApiDomain =
+            "https://microsoft-apiapp801c0be2851f4a5a813f3848b7e64ab4.azurewebsites.net/";
 
         private string _testQuestionId = "PW756.0";
         private string _testPathwayId = "P130";
@@ -29,7 +29,7 @@ namespace NHS111.Domain.Functional.Tests
         public async void TestGetQuestion_returns_valid_response()
         {
             var getQuestionEndpoint = "questions/{0}";
-            var result = await _restfulHelper.GetAsync(String.Format(_domainApiDomain + getQuestionEndpoint, _testQuestionId));
+            var result = await _restfulHelper.GetAsync(String.Format(_domainProductionApiDomain + getQuestionEndpoint, _testQuestionId));
 
 
             Assert.IsNotNull(result);
@@ -40,7 +40,7 @@ namespace NHS111.Domain.Functional.Tests
         public async void TestGetQuestion_returns_valid_fields()
         {
             var getQuestionEndpoint = "questions/{0}";
-            var result = await _restfulHelper.GetAsync(String.Format(_domainApiDomain + getQuestionEndpoint, _testQuestionId));
+            var result = await _restfulHelper.GetAsync(String.Format(_domainProductionApiDomain + getQuestionEndpoint, _testQuestionId));
 
             //this checks a responce is returned.
             Assert.IsNotNull(result);
@@ -58,7 +58,7 @@ namespace NHS111.Domain.Functional.Tests
         public async void TestGetQuestion_returns_valid_answers()
         {
             var getQuestionEndpoint = "questions/{0}/answers";
-            var result = await _restfulHelper.GetAsync(String.Format(_domainApiDomain + getQuestionEndpoint, _testQuestionId));
+            var result = await _restfulHelper.GetAsync(String.Format(_domainProductionApiDomain + getQuestionEndpoint, _testQuestionId));
 
             //this checks a responce is returned.
             Assert.IsNotNull(result);
@@ -72,9 +72,9 @@ namespace NHS111.Domain.Functional.Tests
             AssertValidResponseSchema(result, ResponseSchemaType.Answer);
 
             //this next one checks the right answers have returned.
-            Assert.IsTrue(result.Contains("\"title\":\"yes"));
-            Assert.IsTrue(result.Contains("\"title\":\"not sure"));
-            Assert.IsTrue(result.Contains("\"title\":\"no"));
+            Assert.IsTrue(result.Contains("\"title\":\"Yes"));
+            Assert.IsTrue(result.Contains("\"title\":\"I'm not sure"));
+            Assert.IsTrue(result.Contains("\"title\":\"No"));
         }
 
 
@@ -82,7 +82,7 @@ namespace NHS111.Domain.Functional.Tests
         public async void TestGetQuestion_returns_valid_first_question()
         {
             var getQuestionEndpoint = "pathways/{0}/questions/first";
-            var result = await _restfulHelper.GetAsync(String.Format(_domainApiDomain + getQuestionEndpoint, _testPathwayId));
+            var result = await _restfulHelper.GetAsync(String.Format(_domainProductionApiDomain + getQuestionEndpoint, _testPathwayId));
 
             //this checks a responce is returned
             Assert.IsNotNull(result);
@@ -98,7 +98,7 @@ namespace NHS111.Domain.Functional.Tests
         public async void TestGetQuestion_returns_valid_care_advice_AdultAge()
         {
             var getQuestionEndpoint = "pathways/care-advice/43/Female?markers=Cx220179";
-            var result = await _restfulHelper.GetAsync(String.Format(_domainApiDomain + getQuestionEndpoint));
+            var result = await _restfulHelper.GetAsync(String.Format(_domainProductionApiDomain + getQuestionEndpoint));
 
             //this checks a responce is returned
             Assert.IsNotNull(result);
@@ -120,7 +120,7 @@ namespace NHS111.Domain.Functional.Tests
         public async void TestGetQuestion_returns_valid_care_advice_ToddlerAge()
         {
             var getQuestionEndpoint = "pathways/care-advice/1/Female?markers=Cx220179";
-            var result = await _restfulHelper.GetAsync(String.Format(_domainApiDomain + getQuestionEndpoint));
+            var result = await _restfulHelper.GetAsync(String.Format(_domainProductionApiDomain + getQuestionEndpoint));
 
             //this checks a responce is returned
             Assert.IsNotNull(result);
@@ -147,7 +147,7 @@ namespace NHS111.Domain.Functional.Tests
         public async void TestGetQuestion_returns_valid_Pathway_Fields()
         {
             var getQuestionEndpoint = "pathways";
-            var result = await _restfulHelper.GetAsync(String.Format(_domainApiDomain + getQuestionEndpoint));
+            var result = await _restfulHelper.GetAsync(String.Format(_domainProductionApiDomain + getQuestionEndpoint));
 
             //this checks a responce is returned
             Assert.IsNotNull(result);
@@ -167,7 +167,7 @@ namespace NHS111.Domain.Functional.Tests
         public async void TestGetQuestion_returns_valid_Pathway_ID()
         {
             var getQuestionEndpoint = "pathways/{0}";
-            var result = await _restfulHelper.GetAsync(String.Format(_domainApiDomain + getQuestionEndpoint, _testPathwayId));
+            var result = await _restfulHelper.GetAsync(String.Format(_domainProductionApiDomain + getQuestionEndpoint, _testPathwayId));
 
             //this checks a responce is returned
             Assert.IsNotNull(result);
@@ -186,7 +186,7 @@ namespace NHS111.Domain.Functional.Tests
         public async void TestGetQuestion_returns_valid_Pathway_Numbers()
         {
             var getQuestionEndpoint = "pathways/identify/{0}?age=0&gender=Male";
-            var result = await _restfulHelper.GetAsync(String.Format(_domainApiDomain + getQuestionEndpoint, _testPathwayNo));
+            var result = await _restfulHelper.GetAsync(String.Format(_domainProductionApiDomain + getQuestionEndpoint, _testPathwayNo));
 
             //this checks a responce is returned
             Assert.IsNotNull(result);
@@ -205,7 +205,7 @@ namespace NHS111.Domain.Functional.Tests
         public async void TestGetQuestion_returns_valid_Pathway_Numbers_InvalidAge()
         {
             var getQuestionEndpoint = "pathways/identify/{0}?age=55&gender=Male";
-            var result = await _restfulHelper.GetAsync(String.Format(_domainApiDomain + getQuestionEndpoint, _testPathwayNo));
+            var result = await _restfulHelper.GetAsync(String.Format(_domainProductionApiDomain + getQuestionEndpoint, _testPathwayNo));
 
             //this checks a responce is returned
             Assert.IsTrue(result.Contains("null"));
@@ -216,7 +216,7 @@ namespace NHS111.Domain.Functional.Tests
         public async void TestGetQuestion_returns_valid_Pathway_Numbers_GenderChange()
         {
             var getQuestionEndpoint = "pathways/identify/{0}?age=0&gender=Female";
-            var result = await _restfulHelper.GetAsync(String.Format(_domainApiDomain + getQuestionEndpoint, _testPathwayNo));
+            var result = await _restfulHelper.GetAsync(String.Format(_domainProductionApiDomain + getQuestionEndpoint, _testPathwayNo));
 
             //this checks a responce is returned
             Assert.IsNotNull(result);
@@ -235,7 +235,7 @@ namespace NHS111.Domain.Functional.Tests
         public async void TestGetQuestion_returns_valid_Pathway_Symptom_Group()
         {
             var getQuestionEndpoint = "pathways/symptomGroup/{0}";
-            var result = await _restfulHelper.GetAsync(String.Format(_domainApiDomain + getQuestionEndpoint, _testPathwayNo));
+            var result = await _restfulHelper.GetAsync(String.Format(_domainProductionApiDomain + getQuestionEndpoint, _testPathwayNo));
 
             //this checks a responce is returned
             Assert.IsNotNull(result);
@@ -255,7 +255,7 @@ namespace NHS111.Domain.Functional.Tests
         {
             var getNextQuestionEndpoint = "questions/{0}/answersNext";
             var expectedNextId = "PW756.300";
-            var address = String.Format(_domainApiDomain + getNextQuestionEndpoint, _testQuestionId);
+            var address = String.Format(_domainProductionApiDomain + getNextQuestionEndpoint, _testQuestionId);
             
             System.Net.ServicePointManager.Expect100Continue = false;
             var result =
@@ -280,7 +280,7 @@ namespace NHS111.Domain.Functional.Tests
         public async void TestGetQuestion_returns_expected_Next_Question()
         {
             var getQuestionEndpoint = "questions/{0}";
-            var result = await _restfulHelper.GetAsync(String.Format(_domainApiDomain + getQuestionEndpoint, _expectedNextId));
+            var result = await _restfulHelper.GetAsync(String.Format(_domainProductionApiDomain + getQuestionEndpoint, _expectedNextId));
 
             //this checks a responce is returned
             Assert.IsNotNull(result);
