@@ -119,11 +119,11 @@ namespace NHS111.Domain.Functional.Tests
 
         private static void AssertValidCheckServiceDetailsByIdResponseSchema(string result)
         {
-            Assert.IsTrue(result.Contains("\"tagField"));
-            Assert.IsTrue(result.Contains("\"nameField"));
-            Assert.IsTrue(result.Contains("\"valueField"));
-            Assert.IsTrue(result.Contains("\"orderField"));
-            Assert.IsTrue(result.Contains("\"PropertyChanged"));
+            Assert.IsTrue(result.Contains("\"tagField"), "No tagfield");
+            Assert.IsTrue(result.Contains("\"nameField"), "No namefield");
+            Assert.IsTrue(result.Contains("\"valueField"), "No valuefield");
+            Assert.IsTrue(result.Contains("\"orderField"), "No order field");
+            Assert.IsTrue(result.Contains("\"PropertyChanged"), "No property changed");
         }
     }
 }

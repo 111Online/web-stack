@@ -15,7 +15,7 @@ namespace NHS111.Business.DOS.API.Functional.Tests
         private string _domainApiDomain =
             "https://microsoft-apiapp9783ffa9d6244e6590fec540-integration.azurewebsites.net/";
 
-   
+
         private RestfulHelper _restfulHelper = new RestfulHelper();
 
         /// <summary>
