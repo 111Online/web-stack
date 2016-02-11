@@ -85,7 +85,6 @@ namespace NHS111.Business.API.Functional.Tests
 
             //this next one checks the right question has returned
             Assert.IsTrue(result.Contains("\"title\":\"Headache"));
-            Assert.IsTrue(result.Contains("\"id\":\"P908"));
             Assert.IsTrue(result.Contains("\"gender\":\"Female"));
             Assert.IsTrue(result.Contains("\"pathwayNo\":\"PW752"));
 
@@ -166,8 +165,6 @@ namespace NHS111.Business.API.Functional.Tests
             //this next one checks the right question has returned
             Assert.IsTrue(result.Contains("\"title\":\"Headache"));
             Assert.IsTrue(result.Contains("\"title\":\"Head, Facial or Neck Injury, Blunt"));
-            Assert.IsTrue(result.Contains("\"id\":\"P130"));
-            Assert.IsTrue(result.Contains("\"id\":\"P275"));
             Assert.IsTrue(result.Contains("\"gender\":\"Female"));
             Assert.IsTrue(result.Contains("\"gender\":\"Male"));
             Assert.IsTrue(result.Contains("\"pathwayNo\":\"PW684"));
