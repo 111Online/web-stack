@@ -317,6 +317,8 @@ table th, table td {
 table th.numeric {
   text-align: right; }
 
+ 
+
 .button {
   display: -moz-inline-stack;
   display: inline-block;
@@ -401,6 +403,8 @@ table th.numeric {
   .button-secondary-cta:link, .button-secondary-cta:hover, .button-secondary-cta:focus, .button-secondary-cta:visited {
     color: #fff;
     background-color: #0072C6; }
+
+
 
 details {
   display: block; }
@@ -1861,3 +1865,10 @@ label, .form-label, .form-label-bold {
     margin-top: 5rem;
     padding: 2rem 0 1rem;
     border-top: 2px solid #bfdbf0; }
+ 
+  .outer-section {
+    margin-top: 5px;
+    clear: left;
+    width: 100%;
+    overflow: hidden;
+}

@@ -1,0 +1,37 @@
+﻿.emergency {
+    /*clear:left;
+	float:left;
+	width:100%;
+	overflow:hidden;*/
+    width:100%;
+    float:left;
+    background-color: #C02734;
+    color: white;
+    padding: 70px 0;
+}
+.emergency-img-container {
+    float:left;
+	width:100%;
+	position:relative;
+	right:50%;
+	background:#C02734;
+}
+.emergency-img {
+    float:left;
+	width:26%;
+	position:relative;
+	left:50%;
+	overflow:hidden;
+}
+.emergency-text {
+    float:left;
+	width:66%;
+	position:relative;
+    left: 50%;
+	overflow:hidden;
+}
+.ambulance-image {
+    float: right;
+    margin-right: 25px;
+}
+
