@@ -44,18 +44,21 @@
 
         </div>
     </header>
+    @RenderSection("HeaderContent", false)
     <!--end header-->
 
+    <div id="outerContent">
 
 
 
+        @RenderSection("OuterMain", false)
 
 
-    <main id="content" role="main">
-        @RenderBody()
-    </main>
+        <main id="content" role="main">
+            @RenderBody()
+        </main>
 
-
+    </div>
 
     <footer id="footer" role="contentinfo">
         <div class="footer-wrapper">

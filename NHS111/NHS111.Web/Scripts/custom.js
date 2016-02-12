@@ -72,7 +72,7 @@ $(".helpUnwellAlways").click(function() {
 // Search Page - Disclaimer slide scripts
 
 $(function () {
-    $('#search').addClass('jsEnabledExpand');
+    $('#outerContent').addClass('jsEnabledExpand');
 
     
 });
@@ -82,11 +82,11 @@ $('.jsEnabledExpand #disclaimer').css({"display": "block"});
 
 $('.jsEnabledExpand #disclaimer').slideDown(500);
 
-$('#search div#wrapper').block({ message: null });
+$('#outerContent').block({ message: null });
    
 $('.closeDisclaimer').click(function () {
-   $('.jsEnabledExpand #disclaimer').slideUp(500);
-  $('div#wrapper').unblock();
+   $('#disclaimer').slideUp(500);
+   $('#outerContent').unblock();
 });
 
 $("input.go").attr("disabled", "disabled");
