@@ -151,7 +151,7 @@ $("#seizure").click(function () {
 $("#jtbs button[type=submit]").attr('disabled', 'disabled');
 $("#jtbs #nextScreen[type=submit]").attr('disabled', 'disabled');
 $("#pathwayQuestions #nextScreen[type=submit]").attr('disabled', 'disabled');
-$("#genderContent #nextScreen[type=submit]").attr('disabled', 'disabled');
+$("#submitGender[type=submit]").attr('disabled', 'disabled');
 $("#timedQuestion #nextScreen[type=submit]").attr('disabled', 'disabled');
 
 
@@ -178,7 +178,7 @@ $("#jtbs .iCheck-helper").click(function () {
 });
 
 // check if value is entered before enabling button    
-$('#gender .largeInputBox').bind('input', function() {
+$('.input-age').bind('input', function () {
 
     $("button[type=submit]").removeAttr('disabled');
     $("input[type=submit]").removeAttr('disabled');
@@ -197,7 +197,7 @@ $("#timedQuestion label").click(function () {
 // Gender page scripts
 
 // focus on age input box
-$(".largeInputBox").focus();
+$(".input-age").focus();
 
 // check for numerics in input field & alert error
 $("#age").keypress(function (e) {
@@ -211,25 +211,30 @@ $("#age").keypress(function (e) {
 
 
 // Hide age input on page load
-$("#gender #columnOne").addClass("hideInput");
+$(".age-content").addClass("hide-age");
 
-$("img.maleIcon").click(function () {
-    $("img.femaleIcon").removeClass("selected");
-    $(this).addClass("selected");
+$("img.maleImage").click(function () {
+    $("img.femaleImage").attr("src", "/content/img/female.png");
+    $(this).attr("src", "/content/img/male_sel.png");
+    $("#Male").prop("checked", true);
+    $("#Female").prop("checked", false);
+    
 
     // age input transition
-    $("#columnOne").removeClass("hideInput");
-    $(".largeInputBox").focus();
+    $(".age-content").removeClass("hide-age");
+    $(".input-age").focus();
 
 });
 
-$("img.femaleIcon").click(function () {
-    $("img.maleIcon").removeClass("selected");
-    $(this).addClass("selected");
-
+$("img.femaleImage").click(function () {
+    $("img.maleImage").attr("src", "/content/img/male.png");
+    $(this).attr("src", "/content/img/female_sel.png");
+    $("#Female").prop("checked", true);
+    $("#Male").prop("checked", false);
+    
     // age input transition
-    $("#genderContent #columnOne").removeClass("hideInput");
-    $(".largeInputBox").focus();
+    $(".age-content").removeClass("hide-age");
+    $(".input-age").focus();
 });
 
 
