@@ -7,6 +7,7 @@
 
 }
 
+<<<<<<< 132283981cc9bcdd4d32e7984270ca6238664396
 @section OuterMain {
     <div class="sub-header">
         <div>
@@ -16,6 +17,98 @@
         </div>
     </div>
 }
+=======
+<style type="text/css">
+    .sub-header {
+        background-color: #4c9c39;
+        height: 231px;
+        color: white;
+        font-size: 120%;
+        margin-bottom: 40px;
+    }
+
+    .sub-header div {
+        margin: 0 auto;
+        width: 75%;
+    }
+
+    .sub-header .tick {
+        background-color: white;
+        color: #4c9c39;
+        width: 60px;
+        height: 60px;
+        border-radius: 80px;
+        padding: 20px;
+        font-size: 78px;
+        line-height: 62px;
+        font-weight: bolder;
+        margin: 65px 30px 65px 65px;
+        float: left;
+    }
+
+    .sub-header h2 {
+        padding-top: 70px;
+    }
+
+    .sub-header p {
+        font-size: 120%;
+    }
+
+    .field {
+        margin: 20px 0;
+        float: left;
+    }
+
+    form div label {
+        display: block;
+        font-weight: bold;
+        margin-bottom: 10px;
+    }
+
+    form div label span {
+        font-weight: normal;
+    }
+
+    .form-control {
+        width: 385px;
+    }
+
+    .info {
+        background-color: #e4f1f9;
+        position: relative;
+        padding: 10px 20px;
+        border-left: 4px solid #0073c6;
+        margin-left: 60px;
+        width: 430px;
+    }
+
+    .info h3 {
+        font-size: 100%;
+        line-height: 32px;
+    }
+
+    .info p {
+        margin-bottom: 0;
+    }
+
+    .info:after {
+	    right: 100%;
+	    top: 50%;
+	    border: solid transparent;
+	    content: " ";
+	    height: 0;
+	    width: 0;
+	    position: absolute;
+	    pointer-events: none;
+	    border-color: rgba(0, 115, 198, 0);
+	    border-right-color: #0073c6;
+	    border-width: 15px;
+	    margin-top: -15px;
+    }
+
+</style>
+
+>>>>>>> further styles
 
 <style src="~/content/css_NhsUk/disposition.css"></style>
 
@@ -25,6 +118,7 @@
 <form>
 
     <div>
+<<<<<<< 132283981cc9bcdd4d32e7984270ca6238664396
         <div>
             <label>Postcode of current location</label>
             <input type="text" class="form-control"/>
@@ -49,6 +143,32 @@
         </aside>
     </div>
 
+=======
+        <div class="field">
+            <label>Postcode of current location</label>
+            <input type="text" class="form-control" />
+        </div>
+
+        <div class="info">
+            <h3>Why we need this</h3>
+            <p>
+                So we can offer details of healthcare providers<br />available near to where you are right now.
+            </p>
+        </div>
+    </div>
+    
+    <span>
+        <div>
+            <label>Name of your GP practice <span>(optional)</span></label>
+            <input type="text" class="form-control" />
+        </div>
+
+        <div class="info">
+            <h3>Why we need this</h3>
+            <p>So we can offer healthcare providers which may be<br />available through your own GP practice.</p>
+        </div>
+    </span>
+>>>>>>> further styles
     <input type="submit" value="Find available healthcare providers" class="button button-get-started" />
 
 </form>
