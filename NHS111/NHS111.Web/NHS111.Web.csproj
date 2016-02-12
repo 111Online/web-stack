@@ -215,6 +215,7 @@
     <Content Include="Content\css\skins\flat\yellow.png" />
     <Content Include="Content\css\skins\flat\_all.css" />
     <Content Include="Content\css_NhsUK\application.css" />
+    <Content Include="Content\css_NhsUK\gender.css" />
     <Content Include="Content\css_NhsUK\search.css" />
     <Content Include="Content\images\999-Body-Image.png" />
     <Content Include="Content\images\bg\999Banner.png" />

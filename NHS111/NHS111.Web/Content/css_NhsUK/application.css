@@ -323,7 +323,7 @@ table th.numeric {
   width: 100%;
   height: 4rem;
   line-height: 4rem;
-  padding: 0 1rem;
+  padding: 0 3rem;
   border: 0;
   color: #fff;
   background-color: #4c9c39;
@@ -359,6 +359,13 @@ table th.numeric {
   background-image: url("/content/images/icons/icon-button-next.svg");
   background-repeat: no-repeat;
   background-position: 95% 55%; }
+
+.button-next {
+  font-weight: normal;
+  padding-right: 5rem;
+  background-image: url("/content/images/icons/icon-button-next.svg");
+  background-repeat: no-repeat;
+  background-position: 70% 60%; }
 
 .button-cancel {
   padding-right: 3rem;
@@ -1401,7 +1408,7 @@ body {
 
 #global-header {
   background-color: #0072C6;
-  border-bottom: 6px solid #e5f0f9; }
+   }
   #global-header .header-container {
     max-width: 75%;
     margin: 0 15px;
