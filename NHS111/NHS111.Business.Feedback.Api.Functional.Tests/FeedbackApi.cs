@@ -73,7 +73,6 @@ namespace NHS111.Business.Feedback.Api.Functional.Tests {
             Assert.IsNotNull(feedback, "Feedback added via add endpoint not found in subsequent list retrieval.");
 
             AssertJSONDateEqual(testFeedback, feedback);
-            Assert.AreEqual(testFeedback.EmailAddress, feedback.EmailAddress);
             Assert.AreEqual(testFeedback.JSonData, feedback.JSonData);
             Assert.AreEqual(testFeedback.PageId, feedback.PageId);
             Assert.AreEqual(testFeedback.Rating, feedback.Rating);

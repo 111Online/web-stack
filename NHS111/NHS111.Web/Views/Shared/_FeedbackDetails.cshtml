@@ -40,6 +40,7 @@
     function SubmitFeedback(btnClicked) {
         if ($("#Text").val() !== "") {
             var $form = $(btnClicked).parents("form");
+            $form[0][0].value = $('<div/>').text($form[0][0].value).html();
             var detailsDiv = $("#FeedbackDetails");
             $(detailsDiv).slideToggle(600);
             $.ajax({
