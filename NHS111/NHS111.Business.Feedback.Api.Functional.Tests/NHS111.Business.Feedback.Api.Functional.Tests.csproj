@@ -59,7 +59,7 @@
   <ItemGroup>
     <Compile Include="IRestfulHelper.cs" />
     <Compile Include="RestfulHelper.cs" />
-    <Compile Include="UnitTest1.cs" />
+    <Compile Include="FeedbackApi.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
