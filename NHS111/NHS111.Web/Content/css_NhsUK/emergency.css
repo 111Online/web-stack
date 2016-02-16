@@ -34,4 +34,10 @@
     float: right;
     margin-right: 25px;
 }
-
+.button-link {
+    background: none !important;
+    border: none;
+    padding: 0 !important;
+    cursor: pointer;
+    color: #79AFDD;
+}

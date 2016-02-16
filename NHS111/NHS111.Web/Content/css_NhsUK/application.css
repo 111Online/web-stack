@@ -1867,7 +1867,7 @@ label, .form-label, .form-label-bold {
     border-top: 2px solid #bfdbf0; }
  
   .outer-section {
-    margin-top: 5px;
+      margin: 5px 0;
     clear: left;
     width: 100%;
     overflow: hidden;
