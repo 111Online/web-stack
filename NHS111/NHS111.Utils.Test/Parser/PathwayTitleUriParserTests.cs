@@ -43,8 +43,8 @@ namespace NHS111.Utils.Test.Parser
         [Test]
         public void escaped_symbols_are_replaced_with_double_backslash()
         {
-            const string urlEncodedTitle = @"a title with--escaped symbols ?!%^&*()/\\";
-            var result = PathwayTitleUriParser.Parse(Uri.EscapeUriString(urlEncodedTitle));
+            const string urlEncodedTitle = @"a title with-escaped symbols ?!%^&*()/\\";
+            var result = PathwayTitleUriParser.EscapeSymbols(urlEncodedTitle);
 
             Assert.AreEqual(@"a title with-escaped symbols \\?\\!\\%\\^\\&\\*\\(\\)\\/\\\\\\", result);
         }
