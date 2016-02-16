@@ -18,7 +18,6 @@
 </head>
 <body class="">
     <script type="text/javascript">document.body.className = ((document.body.className) ? document.body.className + ' js-enabled' : 'js-enabled');</script>
-
     <div id="skiplink-container">
         <div>
             <a href="#content" class="skiplink">Skip to main content</a>
@@ -32,14 +31,15 @@
 
         </div>
     </header>
+    @RenderSection("HeaderContent", false)
     <!--end header-->
 
     <section class="outer-section">@RenderSection("OuterSection", false)</section>
 
-<main id="content" role="main">
+    <main id="content" role="main">
         @RenderBody()
     </main>
-    
+
     <footer id="footer" role="contentinfo">
         <div class="footer-wrapper">
             <div class="text">
@@ -52,7 +52,7 @@
             </div>
         </div>
     </footer>
-    
+
     <div id="global-app-error" class="app-error hidden"></div>
 </body>
 </html>
