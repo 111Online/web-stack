@@ -42,12 +42,22 @@
 
         </div>
     </header>
+    @RenderSection("HeaderContent", false)
     <!--end header-->
 
-<main id="content" role="main">
+    <div id="outerContent">
+
+
+
+        @RenderSection("OuterMain", false)
+
+
+    <main id="content" role="main">
         @RenderBody()
     </main>
-    
+
+    </div>
+
     <footer id="footer" role="contentinfo">
         <div class="footer-wrapper">
             <div class="text">
@@ -61,7 +71,7 @@
             </div>
         </div>
     </footer>
-    
+
     <div id="global-app-error" class="app-error hidden"></div>
 
 </body>
