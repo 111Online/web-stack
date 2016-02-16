@@ -8,6 +8,7 @@ using Newtonsoft.Json;
 using NHS111.Models.Models.Domain;
 using NHS111.Utils.Configuration;
 using NHS111.Utils.Extensions;
+using NHS111.Utils.Parser;
 
 namespace NHS111.Domain.Repository
 {
@@ -102,7 +103,7 @@ namespace NHS111.Domain.Repository
         {
             var pathwayNumberList = await _graphRepository.Client.Cypher
                 .Match("(p:Pathway)")
-                .Where(string.Format("p.title =~ \"(?i){0}\"", pathwayTitle), _pathwaysConfigurationManager.UseLivePathways)  //case-insensitive query
+                .Where(string.Format("p.title =~ \"(?i){0}\"", PathwayTitleUriParser.EscapeSymbols(pathwayTitle)), _pathwaysConfigurationManager.UseLivePathways)  //case-insensitive query
                 .Return(p => Return.As<string>("p.pathwayNo"))
                 .ResultsAsync;
 
