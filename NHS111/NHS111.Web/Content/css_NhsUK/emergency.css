@@ -35,9 +35,15 @@
     margin-right: 25px;
 }
 .button-link {
-    background: none !important;
     border: none;
     padding: 0 !important;
     cursor: pointer;
+    color: #79AFDD;
+    background-color: white !important;
+    background-image: url("/content/images/icons/icon-button-next.svg");
+    background-repeat: no-repeat;
+    background-position: 95% 55%;
+}
+.button-link:link, .button-link:hover, .button-link:focus, .button-link:visited {
     color: #79AFDD;
 }
