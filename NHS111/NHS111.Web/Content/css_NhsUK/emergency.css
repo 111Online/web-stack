@@ -1,8 +1,4 @@
 ﻿.emergency {
-    /*clear:left;
-	float:left;
-	width:100%;
-	overflow:hidden;*/
     width:100%;
     float:left;
     background-color: #C02734;
@@ -37,13 +33,18 @@
 .button-link {
     border: none;
     padding: 0 !important;
+    padding-right: 20px !important;
     cursor: pointer;
     color: #79AFDD;
     background-color: white !important;
-    background-image: url("/content/images/icons/icon-button-next.svg");
+    background-image: url("/content/images/icons/icon-link-go.png");
     background-repeat: no-repeat;
-    background-position: 95% 55%;
+    background-position: 100% 50%;
 }
 .button-link:link, .button-link:hover, .button-link:focus, .button-link:visited {
     color: #79AFDD;
+    outline: none; 
+}
+.button-link:hover, .button-link:focus {
+    text-decoration: underline !important;
 }
