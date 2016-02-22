@@ -22,33 +22,43 @@
 <h2>Let us contact a healthcare provider near you</h2>
 <p>Please enter your details below to find a healthcare provider and they will contact you.</p>
 
-<form>
+@using (Html.BeginForm("ServiceDetails", "Outcome", FormMethod.Post)) {
 
-    <div>
-        <div>
-            <label>Postcode of current location</label>
-            <input type="text" class="form-control"/>
-        </div>
+    @Html.HiddenFor(x => Model.Id)
+    @Html.HiddenFor(x => Model.JourneyJson)
+    @Html.HiddenFor(x => Model.PathwayId)
+    @Html.HiddenFor(x => Model.PathwayNo)
+    @Html.HiddenFor(x => Model.SymptomGroup)
+    @Html.HiddenFor(x => Model.UserInfo.Age)
+    @Html.HiddenFor(x => Model.UserInfo.Gender)
+    @Html.HiddenFor(x => Model.SymptomDiscriminator)
+    @Html.HiddenFor(x => Model.Title)
+    @Html.HiddenFor(x => Model.UserId)
 
-        <aside>
-            <h3>Why we need this</h3>
-            <p>
-                So we can offer details of healthcare providers<br/>available near to where you are right now.
-            </p>
-        </aside>
+    <label>
+        Postcode of current location
+        <input type="text" class="form-control" name="AddressSearchViewModel_PostCode" />
+    </label>
+    <aside>
+        <h3>Why we need this</h3>
+        <p>
+            So we can offer details of healthcare providers<br />available near to where you are right now.
+        </p>
+    </aside>
 
-        <div>
-            <label>Name of your GP practice <span>(optional)</span></label>
-            <input type="text" class="form-control"/>
-        </div>
 
-        <aside>
-            <h3>Why we need this</h3>
-            <p>So we can offer healthcare providers which may be<br/>available through your own GP practice.
-            </p>
-        </aside>
-    </div>
+    <label>
+        Name of your GP practice <span>(optional)</span>
+        <input type="text" class="form-control" name="FindGPId" />
+    </label>
+    <aside>
+        <h3>Why we need this</h3>
+        <p>
+            So we can offer healthcare providers which may be<br />available through your own GP practice.
+        </p>
+    </aside>
 
-    <input type="submit" value="Find available healthcare providers" class="button button-get-started" />
 
-</form>
+    <input type="submit" value="Find available healthcare providers" name="DosResults" />
+
+}
