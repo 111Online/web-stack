@@ -8,6 +8,7 @@
     display: inline;
     float: left;
     margin: 30px 15px;
+    cursor: pointer;
 }
 .maleIcon {
     
