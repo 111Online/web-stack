@@ -218,6 +218,7 @@
     <Content Include="Content\css_NhsUK\emergency.css" />
     <Content Include="Content\css_NhsUK\gender.css" />
     <Content Include="Content\css_NhsUK\disposition.css" />
+    <Content Include="Content\css_NhsUK\question.css" />
     <Content Include="Content\css_NhsUK\search.css" />
     <Content Include="Content\images\999-Body-Image.png" />
     <Content Include="Content\images\bg\999Banner.png" />
