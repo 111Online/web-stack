@@ -216,6 +216,7 @@
     <Content Include="Content\css\skins\flat\_all.css" />
     <Content Include="Content\css_NhsUK\application.css" />
     <Content Include="Content\css_NhsUK\emergency.css" />
+    <Content Include="Content\css_NhsUK\common.css" />
     <Content Include="Content\css_NhsUK\gender.css" />
     <Content Include="Content\css_NhsUK\disposition.css" />
     <Content Include="Content\css_NhsUK\question.css" />
@@ -243,6 +244,7 @@
     <Content Include="Content\images\icons\breadcrumbOne.png" />
     <Content Include="Content\images\icons\breadcrumbTwo.png" />
     <Content Include="Content\images\icons\icon-button-next.svg" />
+    <Content Include="Content\images\icons\icon-button-prev.svg" />
     <Content Include="Content\images\icons\outcomeHeader.png" />
     <Content Include="Content\images\icons\redArrow.png" />
     <Content Include="Content\images\icons\redDownArrow.png" />

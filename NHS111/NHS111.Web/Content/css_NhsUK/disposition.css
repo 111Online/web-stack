@@ -36,6 +36,15 @@
 
     form label input[type=text] {
         margin-top: 13px;
+
+        width: 365px;
+        display: block;
+        height: 4rem;
+        line-height: 4rem;
+        padding: 0 1rem;
+        background-color: #fff;
+        border: 2px solid #b9d2dc;
+        border-radius: 0;
     }
 
     form label {
@@ -89,18 +98,8 @@
 	    margin-top: -15px;
     }
 
-    input[type=submit] {
+    button[type=submit] {
         float: left;
         clear: left;
 
-        font-weight: bold;
-        background-image: url("/content/images/icons/icon-button-next.svg");
-        background-repeat: no-repeat;
-        background-position: right 6px top 16px;
-
-        color: #fff;
-        background-color: #4c9c39;
-        cursor: pointer;
-        border: none;
-        padding: 12px 40px 10px 10px;
     }
