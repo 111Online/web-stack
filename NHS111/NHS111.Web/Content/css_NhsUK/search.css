@@ -10,9 +10,7 @@
     margin-right: 10px;
 }
 
-.go {
-    width: 5em;
-}
+
 
 ul.list-conditions {
     margin-left: 1em;
@@ -25,22 +23,27 @@ ul.list-conditions, ol.list-conditions {
 }
 
 .progress-panel ol li {
-  background: url(/content/img/user-icon.png) no-repeat left top;
-  background-position: 19px 18px;
+  background-position: 19px 9px;
   /* reset styles (optional): */
-  list-style: none;
+  /*list-style-image: url('/content/img/banner/arrow.png');
+  list-style-position: inside;*/
   margin: 0;
+}
+ol li:last-child {
+    list-style-image: none;
 }
 
 .progress-panel ol li span { 
     float: left;
-    width: 126px;
-    margin-left: 29%;
+    width: 35%;
+    margin-left: 77px;
+    margin-right: 10%;
     font-size: 1.2rem;
     line-height: 17px;
     font-weight: 600;
     margin-top: 13px;
 }
+
 
 .progress-panel {
     background-color: #003b65;
@@ -60,14 +63,15 @@ ul.list-conditions, ol.list-conditions {
 .progress-panel ol li {
   
     float: left;
-    width: 22%;
-    margin: 12px;
+    width: 25%;
     height: 64px;
     line-height: 64px;
     text-align: left;
     font-size: 1rem;
     font-weight: 600;
-    color: #AEC7DA;
+    color: #ffffff;
+    position: relative;
+
 }
 
 .progress-panel h2 {
@@ -76,9 +80,19 @@ ul.list-conditions, ol.list-conditions {
     max-width: 75%;
     font-size: 1.5em;
     line-height: 3rem;
+    text-align: left;
+}
+.progress-panel hr {
+    max-width: 75%;
+    margin: 0 auto;
+    background-image: -webkit-gradient(linear, left top, left bottom, from(transparent), to(#FFFFFF));
+    background-image: -webkit-linear-gradient(top, transparent 50%, #FFFFFF 50%);
+    background-image: linear-gradient(to bottom, transparent 50%, #FFFFFF 50%);
+    padding-bottom: 1rem;
+    padding-top: 1rem;
 }
 
-
+/* Border with arrow
 .arrow_box {
 	position: relative;
 	border: 2px solid #AEC7DA;
@@ -96,7 +110,7 @@ ul.list-conditions, ol.list-conditions {
 	position: absolute;
 	pointer-events: none;
 }
-
+*/
 .arrow_box:after {
 
 	border-left-color: #003b65;
@@ -110,42 +124,54 @@ ul.list-conditions, ol.list-conditions {
 	margin-top: -34px;
 }
 
-ol li:last-child.arrow_box:before, ol li:last-child.arrow_box:after  {
+ol li:last-child.arrow_box:before, ol li:last-child.arrow_box:after, .progress-panel ol li:last-child span:after  {
 
     display: none;
 }
 
-ol li:last-child {
-    border-right:2px solid #AEC7DA;
+.progress-panel ol li span:after {
+    background: url('/content/img/banner/arrow.png') no-repeat right top;
+    content: "";
+    width: 50px;
+    height: 50px;
+    display: inline-block;
+    position: absolute;
+    top: 9px;
+    left: 67%;
 }
 
-@media only screen and (min-width : 1224px) {
-    .progress-panel ol li {
-        width: 22%;
-    }
-}
 
 @media only screen  and (max-width : 1224px){
     .progress-panel ol li {
-        width: 20%;
-        background-position: 13px 18px
+        height: 94px;
+    }
+    .progress-panel ol li span:after {
+        background-position: 13px 18px;
+        background: url('/content/img/banner/arrow.png') no-repeat right top;
+      
     }
 
     .progress-panel ol li span { 
         width: 77px;
-        margin-left: 40%;
         font-size: 0.9rem;
         line-height: 15px;
+        margin-top: 72px;
+        margin-left: 10px;
     }
+
+ 
 
     .progress-panel h2 {
         font-size: 1.3em;
         line-height: 2.5rem;
     }
+    ol li:last-child {
+    list-style-image: none;
+}
 }
 
 @media only screen and (max-width : 767px){
-    .progress-panel ol  {
+    .progress-panel ol,  .progress-panel hr  {
         display: none;
     }
 }
@@ -174,6 +200,19 @@ ol li:last-child {
 .module-zero .list-conditions li a span {
     text-decoration: underline;
     color: #0077CC; ;
+}
+
+.feeling-unwell {
+     background: url(/content/img/banner/unwell-white.png) no-repeat left top;
+}
+.about-yourself {
+     background: url(/content/img/banner/about-yourself-white.png) no-repeat left top;
+}
+.ask-questions {
+     background: url(/content/img/banner/questions-white.png) no-repeat left top;
+}
+.get-help {
+     background: url(/content/img/banner/get-help-white.png) no-repeat left top;
 }
 
 
