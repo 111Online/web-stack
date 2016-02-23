@@ -215,6 +215,7 @@
     <Content Include="Content\css\skins\flat\yellow.png" />
     <Content Include="Content\css\skins\flat\_all.css" />
     <Content Include="Content\css_NhsUK\application.css" />
+    <Content Include="Content\css_NhsUK\emergency.css" />
     <Content Include="Content\css_NhsUK\common.css" />
     <Content Include="Content\css_NhsUK\gender.css" />
     <Content Include="Content\css_NhsUK\disposition.css" />
