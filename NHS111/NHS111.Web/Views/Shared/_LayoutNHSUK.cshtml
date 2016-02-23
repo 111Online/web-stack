@@ -10,6 +10,8 @@
     <!-- css -->
     <link href="http://nhsalpha.herokuapp.com/public/stylesheets/govuk-template.css?0.12.0" media="screen" rel="stylesheet" type="text/css" />
     <link href="~/Content/css_NhsUK/application.css" media="screen" rel="stylesheet" type="text/css" />
+    <link href="~/content/css_NhsUk/common.css" media="screen" rel="stylesheet" type="text/css" />
+
     <!-- Javascript -->
     <script src="~/scripts/vendor/modernizr-custom.js"></script>
     <script src="~/scripts/jquery2.1.1.min.js"></script>
@@ -36,10 +38,10 @@
 
     <section class="outer-section">@RenderSection("OuterSection", false)</section>
 
-    <main id="content" role="main">
+<main id="content" role="main">
         @RenderBody()
     </main>
-
+    
     <footer id="footer" role="contentinfo">
         <div class="footer-wrapper">
             <div class="text">
@@ -52,7 +54,7 @@
             </div>
         </div>
     </footer>
-
+    
     <div id="global-app-error" class="app-error hidden"></div>
 </body>
 </html>
