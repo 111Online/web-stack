@@ -18,3 +18,8 @@ button[type=submit].previous-question {
     background-position: left 12px top 16px;
     padding: 12px 18px 10px 35px;
 }
+
+button[disabled=disabled] {
+    background: #A4B192;
+    color: #006647;
+} 
