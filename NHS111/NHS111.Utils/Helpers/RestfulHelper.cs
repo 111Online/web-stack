@@ -42,7 +42,6 @@ namespace NHS111.Utils.Helpers
             var httpRequestMessage = await BuildRequestMessage(url, request);
             foreach (var header in headers)
             {
-                Console.WriteLine(header.Key + ": " + string.Join(", ", header.Value));
                 httpRequestMessage.Headers.Add(header.Key, header.Value);
             }
             return await _httpClient.SendAsync(httpRequestMessage);
