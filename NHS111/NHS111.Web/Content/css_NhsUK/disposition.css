@@ -103,3 +103,7 @@
         clear: left;
 
     }
+
+    button[type='submit'].button-next {
+    background-position: 100% 60%;
+}

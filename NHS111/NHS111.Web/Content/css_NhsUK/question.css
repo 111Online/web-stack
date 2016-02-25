@@ -4,6 +4,10 @@
         height: 30px;
     }
 
+button[type='submit'].button-next {
+    background-position: 100% 60%;
+}
+
     button[type='submit'] {
         margin-bottom: 10px;
     }

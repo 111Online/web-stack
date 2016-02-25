@@ -1,4 +1,4 @@
-﻿button[type=submit], input[type=submit] {
+﻿/*button[type=submit], input[type=submit] {
     font-weight: bold;
     background-image: url("/content/images/icons/icon-button-next.svg");
     background-repeat: no-repeat;
@@ -10,13 +10,13 @@
     padding: 12px 35px 10px 18px;
     height: 4rem;
     font-size: 1.5rem;
-}
+}*/
 
 button[type=submit].previous-question, input[type=submit].previous-question {
     background-image: url("/content/images/icons/icon-button-prev.svg");
     background-repeat: no-repeat;
     background-position: left 12px top 16px;
-    padding: 12px 18px 10px 35px;
+    padding: 0 18px 10px 35px;
 }
 
 button[disabled=disabled] {
