@@ -217,7 +217,6 @@
     <Content Include="Content\css_NhsUK\a-and-e.css" />
     <Content Include="Content\css_NhsUK\application.css" />
     <Content Include="Content\css_NhsUK\emergency.css" />
-    <Content Include="Content\css_NhsUK\common.css" />
     <Content Include="Content\css_NhsUK\gender.css" />
     <Content Include="Content\css_NhsUK\disposition.css" />
     <Content Include="Content\css_NhsUK\question.css" />

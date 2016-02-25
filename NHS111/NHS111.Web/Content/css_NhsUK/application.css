@@ -1875,3 +1875,15 @@ label, .form-label, .form-label-bold {
     width: 100%;
     overflow: hidden;
 }
+
+button[type=submit].previous-question, input[type=submit].previous-question {
+    background-image: url("/content/images/icons/icon-button-prev.svg");
+    background-repeat: no-repeat;
+    background-position: left 12px top 16px;
+    padding: 0 18px 10px 35px;
+}
+
+button[disabled=disabled] {
+    background: #A4B192;
+    color: #006647;
+}
