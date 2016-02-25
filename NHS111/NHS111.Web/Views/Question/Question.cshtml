@@ -2,6 +2,7 @@
 @{ Layout = "~/Views/Shared/_LayoutNhsUk.cshtml"; }
 
 <link href="~/content/css_NhsUk/question.css" media="screen" rel="stylesheet" type="text/css" />
+<link href="~/content/css_NhsUk/common.css" media="screen" rel="stylesheet" type="text/css" />
 
 @section Title {}
 
@@ -38,8 +39,32 @@
     </ul>
 
     if (!string.IsNullOrEmpty(Model.PreviousTitle)) {
-        <button class="previous-question" id="previousScreen" type="submit" name="PreviousQuestion">Previous question</button>
+        <input class="button previous-question" id="previousScreen" type="submit" name="PreviousQuestion" value="Previous question" />
     }
-    <button id="nextScreen" type="submit" name="Question" value="Question">Next question</button>
+    <button class="button button-next" id="nextScreen" type="submit" name="Question" value="Question">Next question</button>
 
 }
+
+<script type="text/javascript">
+    
+
+    $(document).ready(function () {
+
+        //enable disable submit button
+        $("#nextScreen[type=submit]").attr('disabled', 'disabled');
+
+        $("form label").click(function () {
+            $("button[type=submit]").removeAttr('disabled');
+        });
+
+        $("form input[type=radio]").click(function () {
+            $("button[type=submit]").removeAttr('disabled');
+        });
+
+
+
+
+    });
+
+
+</script>
