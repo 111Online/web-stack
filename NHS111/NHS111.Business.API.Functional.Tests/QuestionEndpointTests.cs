@@ -16,7 +16,7 @@ namespace NHS111.Business.API.Functional.Tests
 
         private string _testQuestionId = "PW1346.1000";
         private string _testPathwayNo2 = "PW752";
-        private string _testPathwayNo = "PW1708";
+        private string _testPathwayNo = "PW1401";
         private string _expectedNodeId = "PW752.200";
 
 
@@ -144,10 +144,10 @@ namespace NHS111.Business.API.Functional.Tests
             Assert.IsNotNull(result);
 
             //these check the right fields are returned
-            Assert.IsTrue(result.Contains("1055"));
+            Assert.IsTrue(result.Contains("1110"));
 
             //this checks only the SD code returns
-            Assert.AreEqual("", result.Replace("1055", ""));
+            Assert.AreEqual("", result.Replace("1110", ""));
 
         }
         [Test]
@@ -164,14 +164,11 @@ namespace NHS111.Business.API.Functional.Tests
 
             //this next one checks the right question has returned
             Assert.IsTrue(result.Contains("\"title\":\"Headache"));
-             Assert.IsTrue(result.Contains("\"gender\":\"Female"));
+            Assert.IsTrue(result.Contains("\"title\":\"Head, Facial or Neck Injury, Blunt"));
+            Assert.IsTrue(result.Contains("\"gender\":\"Female"));
             Assert.IsTrue(result.Contains("\"gender\":\"Male"));
-            Assert.IsTrue(result.Contains("\"pathwayNo\":\"PW753"));
-            Assert.IsTrue(result.Contains("\"pathwayNo\":\"PW756"));
-            Assert.IsTrue(result.Contains("\"pathwayNo\":\"PW752"));
-            Assert.IsTrue(result.Contains("\"pathwayNo\":\"PW755"));
-            Assert.IsTrue(result.Contains("\"pathwayNo\":\"PW754"));
-
+            Assert.IsTrue(result.Contains("\"pathwayNo\":\"PW684"));
+            Assert.IsTrue(result.Contains("\"pathwayNo\":\"PW1401"));
 
         }
 
@@ -179,16 +176,14 @@ namespace NHS111.Business.API.Functional.Tests
         //pathway_suggest/{name}
         public async void TestGetQuestion_returns_expected_Pathways_beginning_with()
         {
-            var getQuestionEndpoint = "pathway_suggest/ch";
+            var getQuestionEndpoint = "pathway_suggest/Head";
             var result = await _restfulHelper.GetAsync(String.Format(_BusinessdomainApiDomain + getQuestionEndpoint));
 
             //this checks a responce is returned
             Assert.IsNotNull(result);
 
             //this next one checks the right question has returned
-            Assert.IsTrue(result.Contains("\"pathwayNumbers\":[\"PW755\",\"PW754\",\"PW753\",\"PW754\",\"PW752\",\"PW756\"],\"group\":\"Headache"));
-            Assert.IsTrue(result.Contains("\"pathwayNumbers\":[\"PW598\",\"PW598\",\"PW1393\",\"PW596\",\"PW596\",\"PW1393\",\"PW596\",\"PW596\"],\"group\":\"Chest or Upper Back Injury, Penetrating"));
-            Assert.IsTrue(result.Contains("\"pathwayNumbers\":[\"PW590\",\"PW590\",\"PW588\",\"PW588\",\"PW588\",\"PW1391\",\"PW588\",\"PW1391\"],\"group\":\"Chest or Upper Back Injury, Blunt"));
+            Assert.IsTrue(result.Contains("\"pathwayNumbers\":[\"PW753\",\"PW756\",\"PW752\",\"PW755\",\"PW754\",\"PW754\"],\"group\":\"Headache\"},{\"pathwayNumbers\":[\"PW1401\",\"PW1401\",\"PW686\",\"PW686\",\"PW684\",\"PW684\",\"PW684\",\"PW684\"],\"group\":\"Head, Facial or Neck Injury, Blunt"));
         }
 
 

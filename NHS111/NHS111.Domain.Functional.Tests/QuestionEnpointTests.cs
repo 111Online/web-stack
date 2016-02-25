@@ -15,8 +15,8 @@ namespace NHS111.Domain.Functional.Tests
             "http://microsoft-apiapp801c0be2851f4a5a813f3848-integration.azurewebsites.net/";
 
         private string _testQuestionId = "PW756.0";
-        private string _testPathwayId = "PW756MaleChild";
-        private string _testPathwayNo = "PW1708";
+        private string _testPathwayId = "P130";
+        private string _testPathwayNo = "PW1401";
         private string _expectedNextId = "PW756.300";
 
         private RestfulHelper _restfulHelper = new RestfulHelper();
@@ -73,7 +73,7 @@ namespace NHS111.Domain.Functional.Tests
 
             //this next one checks the right answers have returned.
             Assert.IsTrue(result.Contains("\"title\":\"yes"));
-            Assert.IsTrue(result.Contains("\"title\":\"I'm not sure"));
+            Assert.IsTrue(result.Contains("\"title\":\"not sure"));
             Assert.IsTrue(result.Contains("\"title\":\"no"));
         }
 
@@ -91,7 +91,7 @@ namespace NHS111.Domain.Functional.Tests
             AssertValidResponseSchema(result, ResponseSchemaType.Question);
 
             //this next one checks the right question has returned
-            Assert.IsTrue(result.Contains("\"questionNo\":\"Tx1506"));
+            Assert.IsTrue(result.Contains("\"questionNo\":\"Tx100077"));
         }
         // Care Advice Controller tests
         [Test]
@@ -156,9 +156,9 @@ namespace NHS111.Domain.Functional.Tests
             AssertValidResponseSchema(result, ResponseSchemaType.Pathway);
 
             //this next one checks the right question has returned
-            Assert.IsTrue(result.Contains("\"title\":\"Chest or Upper Back Injury, Blunt"));
+            Assert.IsTrue(result.Contains("\"title\":\"Head, Facial or Neck Injury, Blunt"));
             Assert.IsTrue(result.Contains("\"title\":\"Headache"));
-            Assert.IsFalse(result.Contains("\"title\":\"Blood in urine"));
+            Assert.IsFalse(result.Contains("\"title\":\"Abdominal Pain"));
         }
 
     
@@ -176,9 +176,10 @@ namespace NHS111.Domain.Functional.Tests
             AssertValidResponseSchema(result, ResponseSchemaType.Pathway);
 
             //this next one checks the right question has returned
-            Assert.IsTrue(result.Contains("\"title\":\"Headache"));
-            Assert.IsTrue(result.Contains("\"pathwayNo\":\"PW756"));
+            Assert.IsTrue(result.Contains("\"title\":\"Head, Facial or Neck Injury, Blunt"));
+            Assert.IsTrue(result.Contains("\"id\":\"P130"));
             Assert.IsTrue(result.Contains("\"gender\":\"Male"));
+            Assert.IsFalse(result.Contains("\"title\":\"Headache"));
             Assert.IsFalse(result.Contains("\"title\":\"Abdominal Pain"));
         }
         [Test]
@@ -194,10 +195,10 @@ namespace NHS111.Domain.Functional.Tests
             AssertValidResponseSchema(result, ResponseSchemaType.Pathway);
 
             //this next one checks the right question has returned
-            Assert.IsTrue(result.Contains("\"title\":\"Diarrhoea and Vomiting"));
-            Assert.IsTrue(result.Contains("\"id\":\"PW1708MaleInfant"));
+            Assert.IsTrue(result.Contains("\"title\":\"Head, Facial or Neck Injury, Blunt"));
+            Assert.IsTrue(result.Contains("\"id\":\"P130"));
             Assert.IsTrue(result.Contains("\"gender\":\"Male"));
-            Assert.IsTrue(result.Contains("\"pathwayNo\":\"PW1708"));
+            Assert.IsTrue(result.Contains("\"pathwayNo\":\"PW1401"));
 
         }
         [Test]
@@ -224,10 +225,10 @@ namespace NHS111.Domain.Functional.Tests
             AssertValidResponseSchema(result, ResponseSchemaType.Pathway);
 
             //this next one checks the right question has returned
-            Assert.IsTrue(result.Contains("\"title\":\"Diarrhoea and Vomiting"));
-            Assert.IsTrue(result.Contains("\"id\":\"PW1708FemaleInfant"));
+            Assert.IsTrue(result.Contains("\"title\":\"Head, Facial or Neck Injury, Blunt"));
+            Assert.IsTrue(result.Contains("\"id\":\"P131"));
             Assert.IsTrue(result.Contains("\"gender\":\"Female"));
-            Assert.IsTrue(result.Contains("\"pathwayNo\":\"PW1708"));
+            Assert.IsTrue(result.Contains("\"pathwayNo\":\"PW1401"));
 
         }
         [Test]
@@ -240,10 +241,10 @@ namespace NHS111.Domain.Functional.Tests
             Assert.IsNotNull(result);
 
             //these check the right fields are returned
-            Assert.IsTrue(result.Contains("1055"));
+            Assert.IsTrue(result.Contains("1110"));
 
             //this checks only the SD code returns
-            Assert.AreEqual("", result.Replace("1055", ""));
+            Assert.AreEqual("", result.Replace("1110", ""));
 
         }
         /// <summary>
@@ -345,15 +346,15 @@ namespace NHS111.Domain.Functional.Tests
 
         private static void AssertValidPathwayResponseSchema(string result)
         {
-            Assert.IsTrue(result.Contains("\"id"), "No ID");
-            Assert.IsTrue(result.Contains("\"title"),"No title");
-            Assert.IsTrue(result.Contains("\"pathwayNo"), "No PathwayNo");
-            Assert.IsTrue(result.Contains("\"gender"), "No Gender");
-            Assert.IsTrue(result.Contains("\"minimumAgeInclusive"), "No Min age");
-            Assert.IsTrue(result.Contains("\"maximumAgeExclusive"), "No max age");
-            Assert.IsTrue(result.Contains("\"module"), "No module");
-            Assert.IsTrue(result.Contains("\"symptomGroup"), "No SG");
-            Assert.IsTrue(result.Contains("\"group"), "No group");
+            Assert.IsTrue(result.Contains("\"id"));
+            Assert.IsTrue(result.Contains("\"title"));
+            Assert.IsTrue(result.Contains("\"pathwayNo"));
+            Assert.IsTrue(result.Contains("\"gender"));
+            Assert.IsTrue(result.Contains("\"minimumAgeInclusive"));
+            Assert.IsTrue(result.Contains("\"maximumAgeExclusive"));
+            Assert.IsTrue(result.Contains("\"module"));
+            Assert.IsTrue(result.Contains("\"symptomGroup"));
+            Assert.IsTrue(result.Contains("\"group"));
         }
 
         private static void AssertValidQuestionResponseSchema(string result)
