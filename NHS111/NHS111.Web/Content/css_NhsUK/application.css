@@ -350,10 +350,10 @@ table th.numeric {
 
 
 .button[disabled="disabled"] {
-    background: #A4B192;
-    color: #006647;
+    background: #A6CE9C;
+    opacity: 0.9;
+    filter: alpha(opacity=90); /* For IE8 and earlier */
 }
-
 
 .button[disabled="disabled"]:focus {
   outline: none; }
