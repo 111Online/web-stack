@@ -1,81 +1,64 @@
 ﻿@model NHS111.Models.Models.Web.OutcomeViewModel
 @{
-    Layout = "~/Views/Shared/_LayoutOutcome.cshtml";
+    Layout = "~/Views/Shared/_LayoutNhsUk.cshtml";
 }
-<div class="site" id="OutcomeOne">
-    <div id="ProgressBar">
-        <ul>
-            <li class="firstChild"><span class="left">01 What's wrong </span> <img src="~/content/images/icons/breadcrumbOne.png" alt="" class="right"></li>
-            <li class="secondChild"><span class="left">02 Tell us more </span><img src="~/content/images/icons/breadcrumbTwo.png" alt="" class="right"></li>
-            <li class="lastChild"><span class="left">03 YOU ARE HERE . Next steps </span></li>
-        </ul>
-    </div>
 
+@section Title {
 
-    <div id="ContentWrapper">
-        <div id="ProgressEnds" style="display:none">
-            <div id="progressWrapper">
-                <div class="meter nhsBlue">
-                    <span class="p100"></span>
+}
+
+@section OuterSection {
+    <div class="sub-header">
+        <div>
+            <div class="tick">&#10003;</div>
+            <h2>You've finished your online assessment</h2>
+            <p>We recommend that you speak to a clinician within 2 hours</p>
                 </div>
-                <span class="guideText">100% complete!</span>
-            </div>
         </div>
-        <div id="SubHeadWrapper">
-            <section>
-                <div class="headImage thirty">
-                    <!--<img src="~/content/images/icons/outcomeHeader.png" alt="" class="left">-->
-                    &nbsp;
-                </div>
-                <div class="headText seventy">
-                    <h2>Thank you!</h2>
-
-                    <h3>From your answers, we recommend you speak to a clinician about your @Html.Raw(Model.PathwayTitle.ToLower()).</h3>
-                    <p class="outcomeMsg">A clinician can @Html.Raw(Model.Title.ToLower()).</p>
-
-                </div>
-            </section>
-        </div>
-
-        <div id="OutcomeQuestion">
-            <img src="~/content/images/icons/blueArrow.png" class="arrowDown" alt="">
-            <section>
-                <h3>Would you like us to put you in touch with a suitable clinician?</h3>
-                @using (Html.BeginForm("DispositionSelection", "Outcome", FormMethod.Post))
-                {
-                   @Html.Partial("_CommonHiddenFieldsOutcomeViewModel", Model)
-
-                    <div class="row">
-                        <input type="submit" class="button buttonLeft" name="PersonalDetails" id="Agree" value="Yes, please ">
-                        <input type="submit" class="textLink" name="DispositionNo" id="DispositionNo" value="No, thank you.">
-                    </div>
-
-
-
                 }
 
+<link href="~/content/css_NhsUk/disposition.css" media="screen" rel="stylesheet" type="text/css" />
 
-                @using (Html.BeginForm("Navigation", "Question", FormMethod.Post)) //TODO I don't like this double form. Centalise hidden fields in a partial?
-                {
-                    @Html.Partial("_CommonHiddenFieldsOutcomeViewModel", Model)
+<h2>Let us contact a healthcare provider near you</h2>
+<p>Please enter your details below to find a healthcare provider and they will contact you.</p>
 
-                    <div class="row">
-                        <input class="textLink" type="submit" name="PreviousQuestion" value="Change my answers." />
-                    </div>
+@using (Html.BeginForm("ServiceDetails", "Outcome", FormMethod.Post)) {
 
-                }
-            </section>
-        </div>
+    @Html.HiddenFor(x => Model.Id)
+    @Html.HiddenFor(x => Model.JourneyJson)
+    @Html.HiddenFor(x => Model.PathwayId)
+    @Html.HiddenFor(x => Model.PathwayNo)
+    @Html.HiddenFor(x => Model.SymptomGroup)
+    @Html.HiddenFor(x => Model.UserInfo.Age)
+    @Html.HiddenFor(x => Model.UserInfo.Gender)
+    @Html.HiddenFor(x => Model.SymptomDiscriminator)
+    @Html.HiddenFor(x => Model.Title)
+    @Html.HiddenFor(x => Model.UserId)
+
+    <label>
+        Postcode of current location
+        <input type="text" name="AddressSearchViewModel_PostCode" />
+    </label>
+    <aside>
+        <h3>Why we need this</h3>
+        <p>
+            So we can offer details of healthcare providers<br />available near to where you are right now.
+        </p>
+    </aside>
 
 
-    </div> <!--/ContentWrapper-->
+    <label>
+        Name of your GP practice <span>(optional)</span>
+        <input type="text" name="FindGPId" />
+    </label>
+    <aside>
+        <h3>Why we need this</h3>
+        <p>
+            So we can offer healthcare providers which may be<br />available through your own GP practice.
+        </p>
+    </aside>
 
 
-    <div id="FooterWrapper">
-        <footer>
-            <!-- Copyright information -->
+    <button class="button button-next" type="submit" name="DosResults">Find available healthcare providers</button>
 
-        </footer>
-    </div>
-
-</div> <!-- /site -->
+}

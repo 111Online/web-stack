@@ -1,0 +1,109 @@
+﻿    .sub-header {
+        background-color: #4c9c39;
+        /*height: 231px;*/
+        color: white;
+        font-size: 120%;
+        margin-bottom: 40px;
+    }
+
+    .sub-header div {
+        margin: 0 auto;
+        width: 75%;
+    }
+
+    .sub-header .tick {
+        background-color: white;
+        color: #4c9c39;
+        width: 60px;
+        height: 60px;
+        border-radius: 80px;
+        padding: 20px;
+        font-size: 78px;
+        line-height: 62px;
+        font-weight: bolder;
+        margin: 65px 30px 65px 65px;
+        float: left;
+    }
+
+    .sub-header h2 {
+        padding-top: 70px;
+    }
+
+    .sub-header p {
+        font-size: 120%;
+        padding-bottom: 70px;
+    }
+
+    form label input[type=text] {
+        margin-top: 13px;
+
+        width: 365px;
+        display: block;
+        height: 4rem;
+        line-height: 4rem;
+        padding: 0 1rem;
+        background-color: #fff;
+        border: 2px solid #b9d2dc;
+        border-radius: 0;
+    }
+
+    form label {
+        margin: 20px 60px 20px 0;
+        font-weight: bold;
+        margin-bottom: 10px;
+        float: left;
+        clear: left;
+    }
+
+    form label span {
+        font-weight: normal;
+    }
+
+    .form-control {
+        width: 385px;
+    }
+
+    aside {
+        background-color: #e4f1f9;
+        position: relative;
+        padding: 10px 20px;
+        border-left: 4px solid #0073c6;
+        width: 400px;
+        margin: 20px 0 20px 0;
+        float: left;
+
+    }
+
+    aside h3 {
+        font-size: 100%;
+        line-height: 32px;
+    }
+
+    aside p {
+        margin-bottom: 0;
+    }
+
+    aside:after {
+	    right: 100%;
+	    top: 50%;
+	    border: solid transparent;
+	    content: " ";
+	    height: 0;
+	    width: 0;
+	    position: absolute;
+	    pointer-events: none;
+	    border-color: rgba(0, 115, 198, 0);
+	    border-right-color: #0073c6;
+	    border-width: 15px;
+	    margin-top: -15px;
+    }
+
+    button[type=submit] {
+        float: left;
+        clear: left;
+
+    }
+
+    button[type='submit'].button-next {
+    background-position: 100% 60%;
+}

@@ -1,201 +1,70 @@
-﻿@using Newtonsoft.Json
-@using NHS111.Models.Models.Domain
-@model NHS111.Models.Models.Web.JourneyViewModel
-@{
-    Layout = null;
-}
-<!DOCTYPE html>
-<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
-<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
-<!--[if IE 8]>         <html class="no-js lt-ie9 nhs-animatehtml  "> <![endif]-->
-<!--[if gt IE 8]><!-->
-<html lang="en-GB" class="no-js not-ie8 nhs-animatehtml  ">
-<!--<![endif]-->
-<head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>NHS 111</title>
-    <meta name="description" content="">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="format-detection" content="telephone=no">
-    <!--[if gt IE 8]><!-->
-    <link href="~/content/_assets/css/main.css" media="all" rel="stylesheet" type="text/css"><!--<![endif]-->
-    <!--[if lte IE 8]><link href="~/content/_assets/css/main-ie8.css" media="all" rel="stylesheet" type="text/css"><![endif]-->
-    <!--[if lte IE 8]>
-      <link href="~/content/_assets/css/fonts-ie8.css" media="all" rel="stylesheet" type="text/css" />
-      <![endif]-->
-    <!--[if gte IE 9]><!-->
-    <link href="~/content/_assets/css/fonts.css" media="all" rel="stylesheet" type="text/css" />
-    <!--<![endif]-->
-    <link rel="shortcut icon" href="_assets/img/favicon.ico" type="image/x-icon">
-    <link href="~/content/_assets/css/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
-    <link href="~/content/css/custom.css" media="all" rel="stylesheet" type="text/css">
-    <script>
-        var html = document.documentElement;
-        html.className += " js-enabled";
+﻿@model NHS111.Models.Models.Web.JourneyViewModel
+@{ Layout = "~/Views/Shared/_LayoutNhsUk.cshtml"; }
 
-        if (!('open' in document.createElement('details'))) {
-            document.documentElement.className += ' no-details';
-        }
-    </script>
-    <script src="~/content/_assets/js/vendor/modernizr-custom.js"></script>
-    <script src="~/content/_assets/js/vendor/jquery-1.11.1.min.js"></script>
+<link href="~/content/css_NhsUk/question.css" media="screen" rel="stylesheet" type="text/css" />
+<link href="~/content/css_NhsUk/common.css" media="screen" rel="stylesheet" type="text/css" />
 
-</head>
-<body id="timedQuestion" class="firstQuestion">
-    @using (Html.BeginForm("Navigation", "Question", FormMethod.Post))
-    {
-        @Html.HiddenFor(x => Model.Id)
-        @Html.HiddenFor(x => Model.JourneyJson)
-        @Html.HiddenFor(x => Model.PathwayId)
-        @Html.HiddenFor(x => Model.PathwayNo)
-        @Html.HiddenFor(x => Model.PathwayTitle)
-        @Html.HiddenFor(x => Model.UserInfo.Age)
-        @Html.HiddenFor(x => Model.UserInfo.Gender)
-        @Html.HiddenFor(x => Model.Title)
-        @Html.HiddenFor(x => Model.SymptomDiscriminator)
-        @Html.HiddenFor(x => Model.QuestionNo)
-        @Html.HiddenFor(x => Model.StateJson)
+@section Title {}
 
-        @Html.HiddenFor(x => Model.PreviousStateJson)
+@section OuterSection {}
+
+@using (Html.BeginForm("Navigation", "Question", FormMethod.Post)) {
+    @Html.HiddenFor(x => Model.Id)
+    @Html.HiddenFor(x => Model.JourneyJson)
+    @Html.HiddenFor(x => Model.PathwayId)
+    @Html.HiddenFor(x => Model.PathwayNo)
+    @Html.HiddenFor(x => Model.PathwayTitle)
+    @Html.HiddenFor(x => Model.UserInfo.Age)
+    @Html.HiddenFor(x => Model.UserInfo.Gender)
+    @Html.HiddenFor(x => Model.Title)
+    @Html.HiddenFor(x => Model.SymptomDiscriminator)
+    @Html.HiddenFor(x => Model.QuestionNo)
+    @Html.HiddenFor(x => Model.StateJson)
+
+    @Html.HiddenFor(x => Model.PreviousStateJson)
 
 
-        <!-- <svg xmlns="http://www.w3.org/2000/svg" class="hidden svg-pie">
-           <symbol viewbox="0" id="svg10pc">
-             <path d="M65,65 L65,0 A65,65 0 0,1 56.682,0.534 z"></path>
-           </symbol>
-
-           <symbol viewbox="0" id="svg20pc">
-             <path d="M65,65 L65,0 A65,65 0 0,1 2.129,81.499 z"></path>
-           </symbol>
-         </svg> -->
-
-        <div class="skiplink-container">
-            <div>
-                <a href="#main" class="skiplink">Skip to main content</a>
-            </div>
-        </div>
-        <header role="banner" class="global-header">
-            <div class="global-header__wrapper">
-                <a href="/" title="Go to the homepage" class="logo">
-                    <img src="~/content/img/med-logo.png" alt="MED">
-                </a>
-            </div>
-            <div class="progress-container">
-                <div class="progressbg-left"></div>
-                <div class="progress-indicator" style="display:none">
-                    <span class="indicator first"><span class="ind-number">01</span> What's wrong</span>
-                    <span class="indicator second"><span class="ind-number">02</span> Tell us more</span>
-                    <span class="indicator third active" />
-                    <span class="caps">
-                        <span class="ind-number">03</span>
-                        Next steps
-                    </span>
-                </div>
-            </div>
-
-        </header>
-
-
-        @*if (!string.IsNullOrEmpty(Model.PreviousTitle))
-            {*@
-        <div class="nhs-page-navigation nhs-show-nav">
-            <div class="nhs-pagenav-container" style="display:none">
-                <div id="progressWrapper">
-                    <div class="meter nhsBlue">
-                        <span class="p25"></span>
-                    </div>
-                    <span class="guideText">25% complete</span>
-                </div>
-                @* <h3 class="nhs-page-navigation__title">Previous question</h3>
-
-            <input class="nhs-page-navigation__link" type="submit" name="PreviousQuestion" value="@Model.PreviousTitle">*@
-            </div>
-        </div>
-        @*}*@
-        <div class="content-container">
-            <main role="main" id="main">
-
-
-                <div class="nhs-body-container nhs-first-page nhs-animate-inout">
-                    <!--<span class="nhs-navtriangle"></span>-->
-
-                    <div class="nhs-countdown-container" style="display:none">
-                        <div class="nhs-countdown font-medium">
-                            <span class="nhs-the-count">3:00</span>
-                        </div>
-                    </div>
-
-                    <div class="nhs-question-container">
-                        <h2 class="font-large nhs-the-question">@Model.TitleWithoutBullets</h2>
-                        @foreach (var bullet in Model.Bullets)
-                        {
-                            <span class="red">@bullet</span>
-                        }
-                    </div>
-
-                    <div class="nhs-answer-container">
-                        <div class="nhs-the-answer nhs-radiobtn inline">
-                            @foreach (var answer in Model.OrderedAnswers())
-                            {
-                                <input name="SelectedAnswer" type="radio" id="@answer.Title.Replace(" ", string.Empty)" value="@JsonConvert.SerializeObject(answer)" class=" nhs-radiobtn__input" />
-                                <label for="@answer.Title.Replace(" ", string.Empty)" class="nhs-radiobtn__label">@answer.Title</label>
-                            }
-
-                        </div>
-                    </div>
-
-                    <div class="nhs-button-container">
-                        @*<button class="button nhs-nav-btn" id="nextScreen" type="submit">Next</button>*@
-                        @*<input type="submit" name="Question" value="Question">*@
-
-                        @if (!string.IsNullOrEmpty(Model.PreviousTitle))
-                        {
-                            <input class="button" id="previousScreen" type="submit" name="PreviousQuestion" value="Prev. question" />
-                        }
-                        <button id="nextScreen" class="button" type="submit" name="Question" value="Question">Next question</button>
-
-                    </div>
-
-                </div>
-
-            </main>
-        </div>
-        <!-- <div class="footer">FOOTER TEST</div> -->
-        <script src="~/content/_assets/js/vendor/fastclick.js"></script>
-        <script src="~/content/_assets/js/scripts.js"></script>
-        <script src="~/content/_assets/js/vendor/jstorage.js"></script>
-    <!-- Prototype specific scripts -->
-        <script src="~/content/_assets/js/vendor/jquery.cookie.js"></script>
-
+    <h2>@Model.TitleWithoutBullets</h2>
+    foreach (var bullet in Model.Bullets) {
+        <span class="red">@bullet</span>
     }
-    <div class="feedback-wrapper nhs-show-nav" style="border-top: 2px solid #da4d4e; border-bottom: none; text-align:initial">
-        <div class="nhs-pagenav-container" style="font-size: 16px;">
 
-            @Html.Partial("_FeedbackDetails", new Feedback() { PageId = Model.Id })
-        </div>
-    </div>
+    <ul>
+        @foreach (var answer in Model.OrderedAnswers()) {
+        <li>
+            <input name="SelectedAnswer" type="radio" id="@answer.TitleWithoutSpaces" value="@Newtonsoft.Json.JsonConvert.SerializeObject(answer)" />
+            <label for="@answer.TitleWithoutSpaces">@answer.Title</label>
+        </li>
+        }
+    </ul>
 
-    <script>
-        $(document).ready(function () {
+    if (!string.IsNullOrEmpty(Model.PreviousTitle)) {
+        <input class="button previous-question" id="previousScreen" type="submit" name="PreviousQuestion" value="Previous question" />
+    }
+    <button class="button button-next" id="nextScreen" type="submit" name="Question" value="Question">Next question</button>
 
-            //enable disable submit button
-            $("#timedQuestion #nextScreen[type=submit]").attr('disabled', 'disabled');
+}
 
-            $("#timedQuestion label").click(function () {
-                $("button[type=submit]").removeAttr('disabled');
-                $("input[type=submit]").removeAttr('disabled');
-            });
+<script type="text/javascript">
+    
 
-            $("#timedQuestion input[type=radio]").click(function () {
-                $("button[type=submit]").removeAttr('disabled');
-                $("input[type=submit]").removeAttr('disabled');
-            });
+    $(document).ready(function () {
 
+        //enable disable submit button
+        $("#nextScreen[type=submit]").attr('disabled', 'disabled');
 
-
-
+        $("form label").click(function () {
+            $("button[type=submit]").removeAttr('disabled');
         });
-    </script>
-</body>
-</html>
+
+        $("form input[type=radio]").click(function () {
+            $("button[type=submit]").removeAttr('disabled');
+        });
+
+
+
+
+    });
+
+
+</script>

@@ -7,57 +7,53 @@
     <h2 class="font-med" style="color:white">Help us improve 111 online</h2>
 
     <div id="FeedbackDetails">
-        <p>If you’d like to give your views, please use the box below.</p>
-        <div class="row large" style="margin-top: 20px;">
-            <label>
-                @Html.TextBoxFor(m => m.Text, new { @placeholder = "Feedback", @Value = "", @class = "feedback-input", style = "width:400px;", @maxlength = "8000" })
-            </label>
-        </div>
-        <div class="row small">
-            <input class="button feedback-submit" style="font-size: 16px; margin: 5px;" id="btnFeedback" type="button" name="btnFeedback" value="Submit Feedback" onclick=" SubmitFeedback(this); " />
+        <p>If you’d like to give your views on helping us improve 111 online, please use the form below.</p>
+        <div>
+            @Html.TextAreaFor(m => m.Text, new {@placeholder = "Feedback", @Value = "", @class = "feedback-input", @maxlength = "8000"})
+            <input class="button feedback-submit"  id="btnFeedback" type="button" name="btnFeedback" value="Submit Feedback" onclick=" SubmitFeedback(this); "/>
         </div>
     </div>
+    
     @Html.HiddenFor(m => m.UserId)
     @Html.HiddenFor(m => m.PageId)
 </form>
-
+<button type="button" class="feedback-dismiss" aria-hidden="true"></button>
 <script>
+
+    $('.feedback-dismiss').click(function() {
+        $('.feedback-wrapper').slideToggle();
+    });
+
+    $('.feedback-input').focus(function() {
+        $(this).animate({
+            width: "70%",
+            height: "70%"
+        });
+    });
 
     $(document).ready(function () {
         var $userId = $("#UserId");
         $userId.val($.cookie("userId"));
     });
 
-    $("#Text").keypress(function (event) {
-        var keycode = (event.keyCode ? event.keyCode : event.which);
-        var RETURNKEY = 13;
-        if (keycode === RETURNKEY) {
-            $("#btnFeedback").click();
-            return false;
-        }
-    });
-
     function SubmitFeedback(btnClicked) {
-        if ($("#Text").val() !== "") {
-            var $form = $(btnClicked).parents("form");
-            $form[0][0].value = $('<div/>').text($form[0][0].value).html();
-            var detailsDiv = $("#FeedbackDetails");
-            $(detailsDiv).slideToggle(600);
-            $.ajax({
-                type: "POST",
+        var $form = $(btnClicked).parents('form');
+        var detailsDiv = $('#FeedbackDetails');
+        $(detailsDiv).slideToggle(600);
+        $.ajax({
+            type: "POST",
                 url: $form.attr("action"),
-                data: $form.serialize(),
-                error: function (xhr, status, error) {
-                    alert(error);
-                    $(detailsDiv).slideToggle(600);
-                    //do something about the error
-                },
-                success: function (response) {
-                    $(detailsDiv).html(response.Message);
-                    $(detailsDiv).slideToggle(600);
-                }
-            });
-        }
+            data: $form.serialize(),
+            error: function (xhr, status, error) {
+                alert(error);
+                $(detailsDiv).slideToggle(600);
+                //do something about the error
+            },
+            success: function (response) {
+                $(detailsDiv).html('<p>' + response.Message + '</p>');
+                $(detailsDiv).slideToggle(600);
+            }
+        });
         return false;
     }
 </script>

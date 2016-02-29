@@ -1,7 +1,10 @@
 ﻿@using NHS111.Models.Models.Domain
 @{
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    Layout = "~/Views/Shared/_LayoutNhsUK.cshtml";
 }
+
+@section Title
+{NHS 111 Digital}
 
 @section Scripts {
 
@@ -9,30 +12,30 @@
     <script src="~/scripts/jquery1.11.2-ui.min.js"></script>
     <script src="~/scripts/jquery.blockUI.js"></script>
     <script src="~/scripts/custom.js"></script>
+<script src="~/scripts/disclaimer.js"></script>
 
 }
 
-<body id="search">
+<link href="~/Content/css_NhsUK/search.css" media="screen" rel="stylesheet" type="text/css" />
 
-
-    <header id="disclaimer">
+@section HeaderContent {
+<div id="disclaimer">
 
 
         <div class="header">
             <img src="~/content/img/close.jpg" class="closeDisclaimer close">
             <!--<a href="#" title="Close Disclaimer" class="closeDisclaimer accessibility">[ X ]</a>-->
-            <div class="discHead">Do i need to call 999?</div>
+        <h2 class="discHead">Do i need to call 999?</h2>
         </div>
         <div id="yellowWrapper">
             <div id="disclaimerContentWrapper">
-                <div class="contentWrap">
+            <div class="contentWrap module-zero">
 
 
-                    <div class="subHeader">Call 999 immediately if you have any of the following</div>
+                <h3 class="heading-med">Call 999 immediately if you have any of the following</h3>
 
-                    <ul id="disclaimerHelp">
-                        <li id="left">
-                            <ul>
+                <ul class="list-conditions" id="disclaimerHelp">
+
                                 <li class="firstChild" id="chestPain">
                                     <a href="#">Central crushing <span class="green">chest pain</span></a>
                                     <p class="helper">
@@ -53,11 +56,7 @@
                                         This means you are unable to finish a sentence without stopping several times to take a breath. You may be gasping, wheezing or putting a lot of effort into breathing.
                                     </p>
                                 </li>
-                            </ul>
-                        </li>
 
-                        <li id="right">
-                            <ul>
                                 <li id="bleeding">
                                     <a href="#"><span class="green">Bleeding</span> very heavily </a>
                                     <p class="helper">
@@ -80,51 +79,61 @@
                                         Seizure - Uncontrolled electrical activity in the brain, which can lead to loss of consciousness and/or loss of bladder and bowel control. Seizures are often known as fits.
                                     </p>
                                 </li>
-                            </ul>
-                        </li>
+                
                     </ul>
 
                     <div class="center">
-                        <a id="close" class="closeDisclaimer button">None of the above apply</a>
+                    <a id="close" class="closeDisclaimer button button-get-started go">None of the above apply</a>
                     </div>
                 </div>
             </div> <!-- /disclaimerContentWrapper-->
         </div> <!-- /yellowWrapper-->
 
 
-    </header>
+</div>
+
+}
+
+@section OuterSection {
+
+<div id="progress-panel" class="progress-panel">
+    <h2>We'll ask you some questions to assess your symptoms and immediately direct you to the best medical care</h2>
+    <hr/>
+    <ol>
+        <li class="arrow_box feeling-unwell"><span>Feeling Unwell</span></li>
+        <li class="arrow_box about-yourself"><span>Tell us what's wrong</span></li>
+        <li class="arrow_box ask-questions"><span>We'll ask the right questions</span></li>
+        <li class="arrow_box get-help"><span>Get the right help</span></li>
+    </ol>
+</div>
+}
+
+<div id="search">
+
+
+    
 
 <div id="wrapper">
-    <header role="banner" class="global-header">
-        <div class="global-header__wrapper">
-            <div class="global-header__logo"> <a href="/" title="Go to Homepage" class="logo"> <img src="~/content/img/med-logo.png" alt="MED"> </a>
-            </div>
-        </div>
-    </header>
+
     <div class="content-container">
-        <div id="content">
+        <div>
             <!--<div id="linkBodySearch"> <a href="#" title="Try our body search instead"><span title="Try our body search" class="left">Try our body</span> <span class="bgIcon"></span> <span class="left">search instead </span></a>
             </div>-->
             @using (Html.BeginForm("Gender", "Question", FormMethod.Post))
             {
                 <input type="hidden" id="pathwayNo" name="pathwayNo" value=""/>
 
-                <h2 class="search-header">I need help with</h2>
-                <div class="searchWrap">
-
+                <h2>I need help with</h2>
+                <div>
                     <label for="searchTags">
-                        <input type="text" class="search left rounded" id="searchTags" autocomplete="off" name="searchTags" placeholder="Search for conditions and symptoms"/>
+                        <input type="text" class="input-symptoms" id="searchTags" autocomplete="off" name="searchTags" placeholder="Search for conditions and symptoms"/>
                     </label>
                     @* @Html.ActionLink("GO","Gender","Question", new {@class = "go"})*@
-                    <input type="submit" class="go button" value="GO" id="submitSearch">
-
-
-
-
-
+                    <input type="submit" class="button button-get-started go" value="Go" id="submitSearch">
                 </div>
-                <h3>Common symptoms</h3>
-                <ul id="commonConditions">
+                <hr/>
+                <h3 class="heading-medium">Common symptoms</h3>
+                <ul class="list-conditions" id="commonConditions">
                     <li><a href="#">Abdominal pain</a></li>
                     <li><a href="#">Fever for under 5 year olds</a></li>
                     <li><a href="#">Diarrhoea and vomiting</a></li>
@@ -143,13 +152,7 @@
         </div>
         <!--content end-->
 
-    </div>
-
-    <footer>
-        <div class="footerWrapper">
-            <div class="footerMeta"> </div>
         </div>
-    </footer>
 
 
 
@@ -204,4 +207,4 @@
 
     </script>
 
-</body>
+</div>

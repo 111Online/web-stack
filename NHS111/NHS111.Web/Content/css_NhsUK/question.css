@@ -1,0 +1,29 @@
+﻿    input[type='radio'] {
+        display: inline;
+        width: 30px;
+        height: 30px;
+    }
+
+button[type='submit'].button-next {
+    background-position: 100% 60%;
+}
+
+    button[type='submit'] {
+        margin-bottom: 10px;
+    }
+
+    h2 {
+        margin: 30px 0;
+    }
+
+    label {
+        vertical-align: super;
+    }
+
+    ul {
+        margin-bottom: 40px;
+    }
+
+        ul li {
+            margin-bottom: 15px;
+        }

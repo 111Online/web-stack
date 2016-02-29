@@ -1,0 +1,36 @@
+﻿.gender-content
+{
+    text-align: center;
+    overflow: hidden;
+}
+.gender
+{
+    display: inline;
+    float: left;
+    margin: 30px 15px;
+    cursor: pointer;
+}
+.maleIcon {
+    
+}
+.female {
+    margin-left: 30px;
+}
+.age-content {
+    
+}
+.age {
+    margin: 30px 0;
+}
+.input-age {
+    width: 50px;
+}
+.hide-age {
+    display: none;
+}
+.femaleIcon {
+    margin-left: 30px;
+}
+.maleIcon {
+    margin-left: 30px;
+}

@@ -69,89 +69,14 @@ $(".helpUnwellAlways").click(function() {
 	});
 
 
-// Search Page - Disclaimer slide scripts
 
-$(function () {
-    $('#search').addClass('jsEnabledExpand');
-
-    
-});
-
-//on page load show disclaimer and block rest of the page
-$('.jsEnabledExpand #disclaimer').css({"display": "block"});
-
-$('.jsEnabledExpand #disclaimer').slideDown(500);
-
-$('#search div#wrapper').block({ message: null });
-   
-$('.closeDisclaimer').click(function () {
-   $('.jsEnabledExpand #disclaimer').slideUp(500);
-  $('div#wrapper').unblock();
-});
-
-$("input.go").attr("disabled", "disabled");
-
-//Disclaimer help scripts
-
-    // prevent links from jumping to top of page
-$('#disclaimerHelp a').click(function (e) {
-    // Cancel the default action
-    e.preventDefault();
-});
-
-// hide disclaimer help by default
-$("#disclaimerHelp .helper").hide();
-
-// Disclaimer help show & hide
-$("#chestPain").click(function () {
-   
-    $("#chestPain .helper").toggleClass("active");
-   $("#chestPain .helper").slideToggle();
-
-});
-
-$("#stroke").click(function () {
-
-   $("#stroke .helper").toggleClass("active");
-    $("#stroke .helper").slideToggle('500');
-
-});
-
-$("#chocking").click(function () {
-
-    $("#chocking .helper").toggleClass("active");
-    $("#chocking .helper").slideToggle('500');
-
-});
-
-$("#bleeding").click(function () {
-
-    $("#bleeding .helper").toggleClass("active");
-    $("#bleeding .helper").slideToggle('500');
-
-});
-
-$("#injury").click(function () {
-
-    $("#injury .helper").toggleClass("active");
-    $("#injury .helper").slideToggle('500');
-
-});
-
-
-$("#seizure").click(function () {
-
-    $("#seizure .helper").toggleClass("active");
-   $("#seizure .helper").slideToggle('500');
-
-});
 
 // Pathways & JTBS page
 // Submit buttons disabled by default
 $("#jtbs button[type=submit]").attr('disabled', 'disabled');
 $("#jtbs #nextScreen[type=submit]").attr('disabled', 'disabled');
 $("#pathwayQuestions #nextScreen[type=submit]").attr('disabled', 'disabled');
-$("#genderContent #nextScreen[type=submit]").attr('disabled', 'disabled');
+$("#submitGender[type=submit]").attr('disabled', 'disabled');
 $("#timedQuestion #nextScreen[type=submit]").attr('disabled', 'disabled');
 
 
@@ -178,7 +103,7 @@ $("#jtbs .iCheck-helper").click(function () {
 });
 
 // check if value is entered before enabling button    
-$('#gender .largeInputBox').bind('input', function() {
+$('.input-age').bind('input', function () {
 
     $("button[type=submit]").removeAttr('disabled');
     $("input[type=submit]").removeAttr('disabled');
@@ -197,7 +122,7 @@ $("#timedQuestion label").click(function () {
 // Gender page scripts
 
 // focus on age input box
-$(".largeInputBox").focus();
+$(".input-age").focus();
 
 // check for numerics in input field & alert error
 $("#age").keypress(function (e) {
@@ -211,25 +136,30 @@ $("#age").keypress(function (e) {
 
 
 // Hide age input on page load
-$("#gender #columnOne").addClass("hideInput");
+$(".age-content").addClass("hide-age");
 
-$("img.maleIcon").click(function () {
-    $("img.femaleIcon").removeClass("selected");
-    $(this).addClass("selected");
+$("img.maleImage").click(function () {
+    $("img.femaleImage").attr("src", "/content/img/female.png");
+    $(this).attr("src", "/content/img/male_sel.png");
+    $("#Male").prop("checked", true);
+    $("#Female").prop("checked", false);
+    
 
     // age input transition
-    $("#columnOne").removeClass("hideInput");
-    $(".largeInputBox").focus();
+    $(".age-content").removeClass("hide-age");
+    $(".input-age").focus();
 
 });
 
-$("img.femaleIcon").click(function () {
-    $("img.maleIcon").removeClass("selected");
-    $(this).addClass("selected");
-
+$("img.femaleImage").click(function () {
+    $("img.maleImage").attr("src", "/content/img/male.png");
+    $(this).attr("src", "/content/img/female_sel.png");
+    $("#Female").prop("checked", true);
+    $("#Male").prop("checked", false);
+    
     // age input transition
-    $("#genderContent #columnOne").removeClass("hideInput");
-    $(".largeInputBox").focus();
+    $(".age-content").removeClass("hide-age");
+    $(".input-age").focus();
 });
 
 

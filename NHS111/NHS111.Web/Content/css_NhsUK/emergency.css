@@ -1,0 +1,50 @@
+﻿.emergency {
+    width:100%;
+    float:left;
+    background-color: #C02734;
+    color: white;
+    padding: 70px 0;
+}
+.emergency-img-container {
+    float:left;
+	width:100%;
+	position:relative;
+	right:50%;
+	background:#C02734;
+}
+.emergency-img {
+    float:left;
+	width:26%;
+	position:relative;
+	left:50%;
+	overflow:hidden;
+}
+.emergency-text {
+    float:left;
+	width:66%;
+	position:relative;
+    left: 50%;
+	overflow:hidden;
+}
+.ambulance-image {
+    float: right;
+    margin-right: 25px;
+}
+.button-link {
+    border: none;
+    padding: 0 !important;
+    padding-right: 20px !important;
+    cursor: pointer;
+    color: #79AFDD;
+    background-color: white !important;
+    background-image: url("/content/images/icons/icon-link-go.png");
+    background-repeat: no-repeat;
+    background-position: 100% 50%;
+}
+.button-link:link, .button-link:hover, .button-link:focus, .button-link:visited {
+    color: #79AFDD;
+    outline: none; 
+}
+.button-link:hover, .button-link:focus {
+    text-decoration: underline !important;
+}

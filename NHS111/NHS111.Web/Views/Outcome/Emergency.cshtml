@@ -1,54 +1,37 @@
-﻿@model NHS111.Models.Models.Web.OutcomeViewModel
+﻿@using NHS111.Models.Models.Domain
+@model NHS111.Models.Models.Web.OutcomeViewModel
 @{
-    Layout = "~/Views/Shared/_LayoutOutcome.cshtml";
+    Layout = "~/Views/Shared/_LayoutNhsUK.cshtml";
 }
-<div class="site emergencyOutcome" id="OutcomeOne">
-    <div id="ProgressBar" style="display:none">
-        <ul>
-            <li class="firstChild"><span class="left">01 What's wrong </span> <img src="../../content/images/icons/breadcrumbOne.png" alt="" class="right"></li>
-            <li class="secondChild"><span class="left">02 Tell us more </span><img src="../../content/images/icons/breadcrumbTwo.png" alt="" class="right"></li>
-            <li class="lastChild"><span class="left">03 YOU ARE HERE . Next steps </span></li>
-        </ul>
-    </div>
+@section Title
+{NHS 111 Digital}
+@section Scripts {
+    <!--<script src="~/scripts/jquery2.1.1.min.js"></script> included on layout page -->
+    <script src="~/scripts/jquery1.11.2-ui.min.js"></script>
+    <script src="~/scripts/jquery.blockUI.js"></script>
+    <script src="~/scripts/custom.js"></script>
+}
 
+@section OuterSection{
+    <link href="~/Content/css_NhsUK/emergency.css" media="screen" rel="stylesheet" type="text/css" />
 
-    <div id="ContentWrapper">
-
-        <div id="SubHeadWrapper">
-            <section>
-                <div class="thirty nineNineNine">
-
+    <div class="emergency">
+        <div class="emergency-img-container">
+            <div class="emergency-img">
+                <img src="~/content/img/ambulance.png" alt="Ambulance" class="ambulance-image" />
                 </div>
-                <div class="headText seventy">
-                    <h2 class="largeText">Dial 999 </h2>
-                    <h3>
-                        Your answers suggest you need <br>to dial 999 immediately and ask <br>for an ambulance.
-                    </h3>
+            <div class="emergency-text">
+                <h2 class="heading-large">Dial 999 </h2>
+                <div>
+                    Your answers suggest you need to dial 999 immediately and ask for an ambulance.
                 </div>
-            </section>
         </div>
-
-        <div id="OutcomeQuestion">
-            <img src="../../content/images/icons/redDownArrow.png" class="arrowDown" alt="">
-            <div id="emergencyImage">
-                <img src="../../content/images/999-body-image.png" alt="">
             </div>
-    @*<section>
-                <h3 class="headerGap">What to do in the meantime...</h3>
-
-                <ul class="firstChild">
-                    <li>If the patient is cold, cover them with a blanket.</li>
-                    <li>Don't give an injured person anything to eat or drink.</li>
-                    <li>Have someone watch for the ambulance and show the crew how to get to the patient.</li>
-                </ul>
-                <ul class="lastChild">
-
-                    <li>Stay calm and try to keep the patient calm.</li>
-                    <li>Don't move a patient who was injured in an automobile accident or fall, or who was found unconscious.</li>
-                </ul>
-            </section>*@
         </div>
+}
 
+<div id="wrapper">
+    <div>
 
     </div> <!--/ContentWrapper-->
     @using (Html.BeginForm("Navigation", "Question", FormMethod.Post))
@@ -56,16 +39,16 @@
         
         @Html.Partial("_CommonHiddenFieldsOutcomeViewModel", Model)
         <div class="row">
-            <input class="textLink" type="submit" name="PreviousQuestion" value="Change my answers" />
+            <input class="button button-next button-link" type="submit" name="PreviousQuestion" value="Change my answers" />
         </div>
 
     }
 
-    <div id="FooterWrapper">
-        <footer>
-            <!-- Copyright information -->
+    <div class="feedback-wrapper nhs-show-nav" style="border-top: 2px solid #da4d4e; border-bottom: none; text-align: initial; margin-top: 50px;">
+        <div class="nhs-pagenav-container" style="font-size: 16px;">
 
-        </footer>
+            @Html.Partial("_FeedbackDetails", new Feedback() { PageId = Model.Id })
+        </div>
     </div>
 
 </div> <!-- /site -->
