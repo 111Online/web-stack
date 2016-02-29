@@ -297,6 +297,7 @@
     <Content Include="Content\img\home2.png" />
     <Content Include="Content\img\home3.png" />
     <Content Include="Content\img\homeLogo.png" />
+    <Content Include="Content\img\icon-button-cancel.svg" />
     <Content Include="Content\img\icon-caret-down.png" />
     <Content Include="Content\img\icon-caret-left.png" />
     <Content Include="Content\img\icon-caret-right.png" />

@@ -1905,5 +1905,73 @@ button[type=submit].previous-question, input[type=submit].previous-question {
 
 button[disabled=disabled] {
     background: #A4B192;
-    color: #006647;
+}
+
+
+.feedback-wrapper {
+
+    position: fixed;
+    width: 100%;
+    z-index: 999;
+    bottom: 0;
+    left: 0;
+    margin-left: 0;
+    margin-right: 0;
+    background-color: rgba(53,53,53,0.9);
+}
+.feedback-wrapper .feedback-form {
+    margin: 0 auto;
+    max-width: 75%;
+}
+
+.feedback-wrapper .feedback-form h2 {
+    font-size: 1.4em;
+    color: #ffffff;
+}
+
+.feedback-wrapper .feedback-form p {
+    color: #ffffff;
+}
+
+.feedback-input {
+    float: left;
+    display: inline;
+    resize: none; 
+    width: 400px;
+    box-sizing: border-box;
+    height: 4rem;
+    padding: 0 1rem;
+    background-color: #fff;
+    border: 2px solid #b9d2dc;
+    -webkit-appearance: none;
+    border-radius: 0;
+    margin-right: 10px;
+    margin-bottom: 10px;
+}
+
+.feedback-submit{
+     margin-bottom: 10px;
+}
+
+.feedback-dismiss {
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    border: 0;
+    margin: 0;
+    padding: 0;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    font-size: 1rem;
+    background-color: transparent;
+    cursor: pointer;
+}
+
+.feedback-dismiss {
+    color: #ffffff;
+    background-image: url("/content/img/icon-button-cancel.svg");
+    background-repeat: no-repeat;
+    width: 20px;
+    height: 20px;
 }

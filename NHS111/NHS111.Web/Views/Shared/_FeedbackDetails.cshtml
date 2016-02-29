@@ -8,20 +8,28 @@
 
     <div id="FeedbackDetails">
         <p>If you’d like to give your views on helping us improve 111 online, please use the form below.</p>
-        <div class="row large" style="margin-top: 20px;">
-            <label>
-                @Html.TextBoxFor(m => m.Text, new {@placeholder = "Feedback", @Value = "", @class = "feedback-input", style = "width:400px;", @maxlength = "8000"})
-            </label>
-        </div>
-        <div class="row small">
-            <input class="button feedback-submit" style="font-size: 16px; margin: 5px;" id="btnFeedback" type="button" name="btnFeedback" value="Submit Feedback" onclick=" SubmitFeedback(this); "/>
+        <div>
+            @Html.TextAreaFor(m => m.Text, new {@placeholder = "Feedback", @Value = "", @class = "feedback-input", @maxlength = "8000"})
+            <input class="button feedback-submit"  id="btnFeedback" type="button" name="btnFeedback" value="Submit Feedback" onclick=" SubmitFeedback(this); "/>
         </div>
     </div>
+    
     @Html.HiddenFor(m => m.UserId)
     @Html.HiddenFor(m => m.PageId)
 </form>
-
+<button type="button" class="feedback-dismiss" aria-hidden="true"></button>
 <script>
+
+    $('.feedback-dismiss').click(function() {
+        $('.feedback-wrapper').slideToggle();
+    });
+
+    $('.feedback-input').focus(function() {
+        $(this).animate({
+            width: "70%",
+            height: "70%"
+        });
+    });
 
     $(document).ready(function () {
         var $userId = $("#UserId");
@@ -42,7 +50,7 @@
                 //do something about the error
             },
             success: function (response) {
-                $(detailsDiv).html(response.Message);
+                $(detailsDiv).html('<p>' + response.Message + '</p>');
                 $(detailsDiv).slideToggle(600);
             }
         });
