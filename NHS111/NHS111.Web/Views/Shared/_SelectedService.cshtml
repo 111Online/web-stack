@@ -1,6 +1,8 @@
 ﻿@model NHS111.Models.Models.Web.FromExternalServices.CheckCapacitySummaryResult
-    
-<div style="font-weight: bold; font-size: 1.25rem; padding: 1.5rem 0 0 0.75rem;">@Model.NameField</div>
-<div style="font-size: 1.0rem; font-weight: lighter; line-height: 1.5rem; padding: 0 0 0 0.75rem;">
+
+<link href="~/content/css_NhsUk/service.css" media="screen" rel="stylesheet" type="text/css" />
+
+<div class="service-name">@Model.NameField</div>
+<div class="service-address">
     @Model.AddressField
 </div>

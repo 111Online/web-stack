@@ -16,15 +16,3 @@
 .button-link:hover, .button-link:focus {
     text-decoration: underline !important;
 }
-.selected-service {
-    border: 1px solid #ddd;
-    border-radius: 3px;
-    padding: 1px;
-    margin-bottom: 20px;
-}
-.service-header {
-    text-align: center; 
-    background-color: #0072C6; 
-    padding: 1.25rem 2rem; 
-    color: white; 
-}
