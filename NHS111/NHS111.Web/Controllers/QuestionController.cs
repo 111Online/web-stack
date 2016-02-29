@@ -86,7 +86,7 @@ namespace NHS111.Web.Controllers
         [HttpGet]
         public ActionResult Home()
         {
-            return View();
+            return View("Search");
         }
 
         [HttpPost]
