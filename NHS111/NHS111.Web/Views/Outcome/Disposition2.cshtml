@@ -11,7 +11,7 @@
     $(document).ready(function() {
         $('.postcode').bind('input', function() {
             $(".searchPostcode").removeAttr('disabled');
-
+        
         });
 
         $('input.postcode').blur(function() {
@@ -44,46 +44,46 @@
 @section OuterSection{
     <div class="banner">
         <div>
-            <h2>Thank you!</h2>
+                    <h2>Thank you!</h2>
             @if (Grouping.One.Contains(Model.Id)) {
-                <h3>From your answers, it appears you can @Html.Raw(Model.Title.ToLower()).</h3>
-            }
+                        <h3>From your answers, it appears you can @Html.Raw(Model.Title.ToLower()).</h3>
+                    }
             @if (Grouping.Two.Contains(Model.Id) || Grouping.Three.Contains(Model.Id)) {
-                <h3>From your answers, we recommend you @Html.Raw(Model.Title.ToLower()).</h3>
-            }
+                        <h3>From your answers, we recommend you @Html.Raw(Model.Title.ToLower()).</h3>
+                    }
             @if (Grouping.Three.Contains(Model.Id)) {
-                <h2>Please contact your Midwife in the next hour</h2>
-            }
+                        <h2>Please contact your Midwife in the next hour</h2>
+                    }
+                </div>
         </div>
-    </div>
 }
 
 @if (Model.CareAdvices.Any()) {
     <h3>Self care advice for your symptoms</h3>
-    {
-        var excludeTitles = Model.CareAdvices.Select(careAdvice => careAdvice.ExcludeTitle).Where(title => !string.IsNullOrEmpty(title)).ToList();
-        var includeCareAdvice = Model.CareAdvices.Where(careAdvice => !excludeTitles.Contains(careAdvice.Title));
+                {
+                            var excludeTitles = Model.CareAdvices.Select(careAdvice => careAdvice.ExcludeTitle).Where(title => !string.IsNullOrEmpty(title)).ToList();
+                            var includeCareAdvice = Model.CareAdvices.Where(careAdvice => !excludeTitles.Contains(careAdvice.Title));
 
         foreach (var careAdvice in includeCareAdvice) {
             <p>@Html.Raw(careAdvice.Title)</p>
-            <ul>
+                            <ul>
                 @foreach (var item in careAdvice.Items) {
-                    <li>@Html.Raw(item)</li>
-                }
-            </ul>
-        }
+                                    <li>@Html.Raw(item)</li>
+                                }
+                            </ul>
+                        }
     }
 }
 
 @if (Grouping.Two.Contains(Model.Id)) {
     using (Html.BeginForm("ServiceDetails", "Outcome", FormMethod.Post)) {
-        @Html.Partial("_CommonHiddenFieldsOutcomeViewModel", Model)
+                        @Html.Partial("_CommonHiddenFieldsOutcomeViewModel", Model)
         <h3>Would you like us to find your nearest emergency treatment centre?</h3>
-        @Html.Partial("_PostCodeSearch", Model.AddressSearchViewModel)
-    }
-}
+                        @Html.Partial("_PostCodeSearch", Model.AddressSearchViewModel)
+                    }
+                }
 
 @using (Html.BeginForm("Navigation", "Question", FormMethod.Post)) {
-    @Html.Partial("_CommonHiddenFieldsOutcomeViewModel", Model)
+                    @Html.Partial("_CommonHiddenFieldsOutcomeViewModel", Model)
     <input class="textLink" type="submit" name="PreviousQuestion" value="&lt; Change my answers"/>
-} 
+                }

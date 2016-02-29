@@ -5,6 +5,7 @@ using System.Diagnostics.Eventing.Reader;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Web;
 
@@ -15,6 +16,8 @@ namespace NHS111.Utils.Parser
         //public static char DashChar { get; } = Convert.ToChar("-");
 
         private const char DashChar = '-';
+        private static readonly Regex Pattern = new Regex(@"[!%^&*()/\\?]");
+
 
         public static string Parse(string title)
         {
@@ -22,6 +25,11 @@ namespace NHS111.Utils.Parser
             return urlDecodedTitle != null ? ReplaceDashes(urlDecodedTitle) : string.Empty;
 
             //return urlDecodedTitle?replaceDashes(urlDecodedTitle) ?? string.Empty;
+        }
+
+        public static string EscapeSymbols(string title)
+        {
+            return Pattern.Replace(title, @"\\${0}");
         }
 
         private static string ReplaceDashes(string title)

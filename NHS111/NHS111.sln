@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.24720.0
+VisualStudioVersion = 14.0.23107.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Domain", "Domain", "{CB1CB907-B0EC-4A05-8EB5-A857FFDB0892}"
 EndProject
@@ -85,6 +85,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NHS111.Domain.ProductionApi.Functional.Tests", "NHS111.DomainProduction.Functional.Tests\NHS111.Domain.ProductionApi.Functional.Tests.csproj", "{04C5BD30-E574-4A0D-B96B-54866F4F0F96}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NHS111.Integration.DOS.ProductionApi.Functional.Tests", "NHS111.Integration.DOS.ProductionApi.Functional.Tests\NHS111.Integration.DOS.ProductionApi.Functional.Tests.csproj", "{4C0A57CE-5750-4666-A465-6183ECA613B7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NHS111.Business.Feedback.Api.Functional.Tests", "NHS111.Business.Feedback.Api.Functional.Tests\NHS111.Business.Feedback.Api.Functional.Tests.csproj", "{5E58685A-6AFA-47DD-8C0B-C91B7D8E4022}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -395,6 +397,16 @@ Global
 		{4C0A57CE-5750-4666-A465-6183ECA613B7}.Test|Any CPU.Build.0 = Release|Any CPU
 		{4C0A57CE-5750-4666-A465-6183ECA613B7}.UAT|Any CPU.ActiveCfg = Release|Any CPU
 		{4C0A57CE-5750-4666-A465-6183ECA613B7}.UAT|Any CPU.Build.0 = Release|Any CPU
+		{5E58685A-6AFA-47DD-8C0B-C91B7D8E4022}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5E58685A-6AFA-47DD-8C0B-C91B7D8E4022}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5E58685A-6AFA-47DD-8C0B-C91B7D8E4022}.Development|Any CPU.ActiveCfg = Debug|Any CPU
+		{5E58685A-6AFA-47DD-8C0B-C91B7D8E4022}.Development|Any CPU.Build.0 = Debug|Any CPU
+		{5E58685A-6AFA-47DD-8C0B-C91B7D8E4022}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5E58685A-6AFA-47DD-8C0B-C91B7D8E4022}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5E58685A-6AFA-47DD-8C0B-C91B7D8E4022}.Test|Any CPU.ActiveCfg = Release|Any CPU
+		{5E58685A-6AFA-47DD-8C0B-C91B7D8E4022}.Test|Any CPU.Build.0 = Release|Any CPU
+		{5E58685A-6AFA-47DD-8C0B-C91B7D8E4022}.UAT|Any CPU.ActiveCfg = Release|Any CPU
+		{5E58685A-6AFA-47DD-8C0B-C91B7D8E4022}.UAT|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -430,5 +442,6 @@ Global
 		{66A77EA3-F6E0-410C-9850-4BEB8280EEBD} = {51DEE70D-F860-42E8-B4CD-EC979261E286}
 		{04C5BD30-E574-4A0D-B96B-54866F4F0F96} = {51DEE70D-F860-42E8-B4CD-EC979261E286}
 		{4C0A57CE-5750-4666-A465-6183ECA613B7} = {51DEE70D-F860-42E8-B4CD-EC979261E286}
+		{5E58685A-6AFA-47DD-8C0B-C91B7D8E4022} = {51DEE70D-F860-42E8-B4CD-EC979261E286}
 	EndGlobalSection
 EndGlobal

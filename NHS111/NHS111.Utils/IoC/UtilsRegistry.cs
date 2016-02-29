@@ -8,6 +8,7 @@ using NHS111.Models.Models.Domain;
 using NHS111.Utils.Cache;
 using NHS111.Utils.Configuration;
 using NHS111.Utils.Converters;
+using NHS111.Utils.Helpers;
 using StructureMap;
 using StructureMap.Configuration.DSL;
 using StructureMap.Graph;
@@ -21,6 +22,7 @@ namespace NHS111.Utils.IoC
             //For<Producer>().Use(new Producer(new BrokerRouter(new KafkaOptions(new Uri("net.tcp://kafka.dev.medplus.steinhauer.technology:9092")))));
             For<ISqliteConfiguration>().Use<SqliteConfiguration>().Singleton();
             For<IConnectionManager>().Use<SqliteConnectionManager>().Singleton();
+            For<IRestfulHelper>().Use<RestfulHelper>().SelectConstructor(() => new RestfulHelper());
             For(typeof(IDataConverter<Feedback>)).Use(typeof(FeedbackConverter));
             Scan(scan =>
             {

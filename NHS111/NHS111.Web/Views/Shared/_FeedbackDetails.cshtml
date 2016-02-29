@@ -42,7 +42,7 @@
         $(detailsDiv).slideToggle(600);
         $.ajax({
             type: "POST",
-            url: $form.attr('action'),
+                url: $form.attr("action"),
             data: $form.serialize(),
             error: function (xhr, status, error) {
                 alert(error);
@@ -54,7 +54,6 @@
                 $(detailsDiv).slideToggle(600);
             }
         });
-
         return false;
     }
 </script>

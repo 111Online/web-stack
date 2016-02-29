@@ -63,8 +63,10 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="IRestfulHelper.cs" />
     <Compile Include="QuestionEndpointTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RestfulHelper.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
