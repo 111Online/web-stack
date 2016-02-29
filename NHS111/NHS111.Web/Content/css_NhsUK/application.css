@@ -1636,12 +1636,12 @@ p {
   -o-font-feature-settings: 'kern' 1, 'onum' 1, 'liga' 1;
   font-feature-settings: 'kern' 1, 'onum' 1, 'liga' 1;
   line-height: 2rem;
-  font-size: 1.5rem;
+  font-size: 1.4rem;
   margin-bottom: 1.37499rem;
   padding-top: 0.62501rem; }
   @media screen and (min-width: 40em) {
     p {
-      font-size: 1.5rem;
+      font-size: 1.4rem;
       margin-bottom: 1.37499rem;
       padding-top: 0.62501rem; } }
 
