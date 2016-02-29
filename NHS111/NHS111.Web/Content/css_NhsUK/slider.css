@@ -1,11 +1,13 @@
 ﻿
-
+.radio-slider {
+    width:100%
+}
 .radio-slider label {
     display:inline-block;
     border: solid black 1px;
     border-right: none;
     height: 40px;
-    width: 90px;
+    width: 9%;
     margin-right: -5px;
 }
 
