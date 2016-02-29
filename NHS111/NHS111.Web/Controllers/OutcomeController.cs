@@ -39,16 +39,6 @@ namespace NHS111.Web.Controllers
 
         [HttpPost]
         [ActionName("ServiceDetails")]
-        [MultiSubmit(ButtonName = "TempDosResults")]
-        public async Task<ActionResult> TempDosResults(OutcomeViewModel model)  //TODO remove as soon as postcode autosuggest is in place
-        {
-            model.UserInfo.CurrentAddress.PostCode = model.AddressSearchViewModel.PostCode;
-            var viewModel = await _dosBuilder.DosResultsBuilder(model);
-            return View("../DOS/DosResults", viewModel);
-        }
-
-        [HttpPost]
-        [ActionName("ServiceDetails")]
         [MultiSubmit(ButtonName = "DispositionNo2")]
         public async Task<ActionResult> DispositionNo2(OutcomeViewModel model) //TODO this is realyl ugly, bad code duplication, rethink it
         {
@@ -60,32 +50,6 @@ namespace NHS111.Web.Controllers
         public async Task<ActionResult> Emergency()
         {
             return View();
-        }
-
-        [HttpGet]
-        [ActionName("DispositionSelection")]
-        public ActionResult PersonalDetails()
-        {
-            var model = new OutcomeViewModel();
-            var config = new Configuration();
-            model.AddressSearchViewModel.PostcodeApiAddress = config.PostcodeSearchByIdApiUrl;
-            model.AddressSearchViewModel.PostcodeApiSubscriptionKey = config.PostcodeSubscriptionKey;
-
-            model.Id = "Dx38";
-            model.UserInfo = new UserInfo() { Age = 38, Gender = "Female" };
-            model.SymptomGroup = "1203";
-            model.SymptomDiscriminator = "4003";
-            
-            return View("PersonalDetails", model);
-        }
-
-        [HttpPost]
-        [ActionName("DispositionSelection")]
-        [MultiSubmit(ButtonName = "PersonalDetails")]
-        public async Task<ActionResult> PersonalDetails(OutcomeViewModel model)
-        {
-            model = await _outcomeViewModelBuilder.PersonalDetailsBuilder(model);
-            return View("PersonalDetails", model);
         }
 
         [HttpPost]

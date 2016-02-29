@@ -6,7 +6,7 @@ namespace NHS111.Models.Models.Web
 {
     public class OutcomeViewModel : JourneyViewModel
     {
-        public string SelectedService { get; set; }
+        public string SelectedServiceId { get; set; }
         public CheckCapacitySummaryResult[] CheckCapacitySummaryResultList { get; set; }
         public SurgeryViewModel SurgeryViewModel { get; set; }
         public IEnumerable<CareAdvice> CareAdvices { get; set; }

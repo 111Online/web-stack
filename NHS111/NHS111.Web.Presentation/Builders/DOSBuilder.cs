@@ -88,7 +88,7 @@ namespace NHS111.Web.Presentation.Builders
         {
             var jObj = (JObject)JsonConvert.DeserializeObject(model.CheckCapacitySummaryResultListJson);
             model.CheckCapacitySummaryResultList = jObj["CheckCapacitySummaryResult"].ToObject<CheckCapacitySummaryResult[]>();
-            var selectedService = model.CheckCapacitySummaryResultList.FirstOrDefault(x => x.IdField == Convert.ToInt32(model.SelectedService));
+            var selectedService = model.SelectedService;
 
             var itkMessage = await _cacheManager.Read(model.UserId.ToString());
             var document = XDocument.Parse(itkMessage);

@@ -219,6 +219,7 @@
     <Content Include="Content\css_NhsUK\emergency.css" />
     <Content Include="Content\css_NhsUK\gender.css" />
     <Content Include="Content\css_NhsUK\disposition.css" />
+    <Content Include="Content\css_NhsUK\personaldetails.css" />
     <Content Include="Content\css_NhsUK\question.css" />
     <Content Include="Content\css_NhsUK\search.css" />
     <Content Include="Content\images\999-Body-Image.png" />
@@ -614,9 +615,6 @@
     <Content Include="Views\Shared\_AreYouAtHome.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Views\Outcome\PersonalDetails.cshtml" />
-  </ItemGroup>
-  <ItemGroup>
     <Content Include="Views\Shared\_AddressDetails.cshtml" />
   </ItemGroup>
   <ItemGroup>
@@ -650,6 +648,9 @@
     <Content Include="Views\Shared\_PersonalPostCodeSearch.cshtml" />
     <Content Include="Views\Shared\_FeedbackDetails.cshtml" />
     <Content Include="Views\Shared\_LayoutNhsUK.cshtml" />
+    <Content Include="Views\DOS\DosPersonalDetails.cshtml" />
+    <Content Include="Views\Shared\_SelectedService.cshtml" />
+    <Content Include="Views\Shared\_CommonHiddenFieldsDosViewModel.cshtml" />
     <None Include="Web.Development.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
