@@ -252,6 +252,7 @@
     <Content Include="Content\images\nhs-logo.png" />
     <Content Include="Content\images\nhs-rev-logotype.svg" />
     <Content Include="Content\img\ambulance-in-map.png" />
+    <Content Include="Content\img\ambulance.png" />
     <Content Include="Content\img\arrowActive_left.png" />
     <Content Include="Content\img\arrowActive_right.png" />
     <Content Include="Content\img\arrowInactive_left.png" />
@@ -301,6 +302,7 @@
     <Content Include="Content\img\favicon.ico" />
     <Content Include="Content\img\bg\gender-bg.gif" />
     <Content Include="Content\img\female.png" />
+    <Content Include="Content\img\female_sel.png" />
     <Content Include="Content\img\gov-uk.gif" />
     <Content Include="Content\img\gov.uk_logotype_crown.png" />
     <Content Include="Content\img\greyArrow.png" />
@@ -321,6 +323,7 @@
     <Content Include="Content\img\80percent.png" />
     <Content Include="Content\img\jtbsMainImage.png" />
     <Content Include="Content\img\male.png" />
+    <Content Include="Content\img\male_sel.png" />
     <Content Include="Content\img\map.jpg" />
     <Content Include="Content\img\med-logo.png" />
     <Content Include="Content\img\medicines.png" />
