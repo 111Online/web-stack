@@ -10,38 +10,74 @@
 <link href="~/content/css_NhsUk/personaldetails.css" media="screen" rel="stylesheet" type="text/css" />
 
 <section>
-    <div class="selected-service">
-        <div class="service-header">
+    <div class="section-item">
+        <div class="section-header">
             Your selected service
         </div>
+        <div class="service-content">
+            @Html.Partial("_SelectedService", Model.SelectedService)
+            <div class="form-item-wrapper">
+                <fieldset>
+                    <div class="form-group">
+                        @using (Html.BeginForm("ServiceDetails", "Outcome", FormMethod.Post))
+                        {
 
-        <div class="item-body item-body-collapsed" style="height: auto;" id="search-form">
-
-            <div class="item-body-content">
-                @Html.Partial("_SelectedService", Model.SelectedService)
-                <div class="form-item-wrapper">
-                    <fieldset>
-                        <div class="form-group">
-                            @using (Html.BeginForm("ServiceDetails", "Outcome", FormMethod.Post))
-                            {
-
-                                @Html.Partial("_CommonHiddenFieldsDosViewModel", Model)
-                                <div class="row">
-                                    <input class="button button-next button-link" type="submit" name="PreviousQuestion" value="Change my answers" />
-                                </div>
-                            }
-                        </div>
-                    </fieldset>
-                </div>
+                            @Html.Partial("_CommonHiddenFieldsDosViewModel", Model)
+                            <div class="row">
+                                <input class="button button-next button-link" type="submit" name="PreviousQuestion" value="Change my answers" />
+                            </div>
+                        }
+                    </div>
+                </fieldset>
             </div>
         </div>
     </div>
-    @*  *@
 </section>
 
 @using (Html.BeginForm("ServiceDetails", "Outcome", FormMethod.Post))
 {
     @Html.Partial("_CommonHiddenFieldsDosViewModel", Model)
+    <section>
+        <div class="section-item">
+            <div class="section-header">
+                Your contact information
+            </div>
+            <div class="personal-details-content">
+                <label>
+                    Full name
+                </label>
+                <div class="inline-details">
+                    <input type="text" id="first-name" class="form-control form-control-4-chars" placeholder="First name">
+                    <input type="text" id="last-name" class="form-control form-control-4-chars" placeholder="Last name">
+                </div>
+
+                <label>
+                    Date of birth
+                </label>
+                <div class="inline-details">
+                    <input type="text" id="day" class="form-control form-control-2-chars" placeholder="DD">
+                    <input type="text" id="month" class="form-control form-control-2-chars" placeholder="MM">
+                    <input type="text" id="year" class="form-control form-control-4-chars" placeholder="YYYY">
+                </div>
+                <label>
+                    Contact number
+                </label>
+                <div class="inline-details">
+                    <input type="text" id="contact-number" class="form-control" placeholder="Landline or mobile number">
+                </div>
+                <label>
+                    Postcode of home address
+                </label>
+                <div class="inline-details">
+                    <input type="text" id="postcode" class="form-control form-control-8-chars" placeholder="eg. SE1">
+                    <a class="button find-address">Find my address</a>
+                </div>
+                <div class="inline-details">
+                    <a class="button button-submit-details">Submit my details</a>
+                </div>
+            </div>
+        </div>
+    </section>
     @*<div class="site" id="PersonalDetails">
             <div id="ProgressBar" style="display:none">
                 <ul>

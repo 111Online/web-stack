@@ -16,3 +16,40 @@
 .button-link:hover, .button-link:focus {
     text-decoration: underline !important;
 }
+.personal-details-content {
+    padding: 1rem 1rem 0 1rem;
+    max-width: 50rem;
+}
+.inline-details{
+    overflow: auto;
+    display: block;
+    padding: 0.5rem 0 2rem 0;
+}
+.inline-details input {
+    float: left;
+    margin-right: 2rem;
+}
+@media screen and (min-width: 40em) {
+    .personal-details-content {
+        max-width: 45.8333333333rem;
+    }
+}
+.personal-details-content label {
+    font-weight: bold;
+}
+.button.find-address {
+    background-color: #707070;
+    padding-right: 5rem;
+    background-image: url("/content/images/icons/icon-button-next.svg");
+    background-repeat: no-repeat;
+    background-position: 85% 60%;
+}
+.button.find-address:link, .button.find-address:hover, .button.find-address:focus, .button.find-address:visited {
+    background-color: #333333;
+}
+.button.button-submit-details {
+    padding-right: 5rem;
+    background-image: url("/content/images/icons/icon-button-next.svg");
+    background-repeat: no-repeat;
+    background-position: 85% 60%;
+}

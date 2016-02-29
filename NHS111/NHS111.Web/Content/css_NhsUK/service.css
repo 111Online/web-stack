@@ -1,19 +1,15 @@
-﻿.selected-service {
-    border: 1px solid #ddd;
-    border-radius: 3px;
-    padding: 1px;
-    margin-bottom: 20px;
+﻿.service-content {
+    padding: 1rem 1rem 0 1rem;
+    max-width: 50rem;
 }
-.service-header {
-    font-weight: bold; 
-    text-align: center; 
-    background-color: #0072C6; 
-    padding: 1.25rem 2rem; 
-    color: white; 
+@media screen and (min-width: 40em) {
+    .service-content {
+        max-width: 45.8333333333rem;
+    }
 }
 .service-name {
-    font-weight: bold; 
+    font-weight: bold;
 }
 .service-address {
-    line-height: 1.5rem;
+    
 }
