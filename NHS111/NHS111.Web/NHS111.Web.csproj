@@ -256,6 +256,17 @@
     <Content Include="Content\img\arrowActive_right.png" />
     <Content Include="Content\img\arrowInactive_left.png" />
     <Content Include="Content\img\arrowInactive_right.png" />
+    <Content Include="Content\img\banner\about-yourself-off.png" />
+    <Content Include="Content\img\banner\about-yourself-white.png" />
+    <Content Include="Content\img\banner\arrow-small.png" />
+    <Content Include="Content\img\banner\arrow.png" />
+    <Content Include="Content\img\banner\get-help-off.png" />
+    <Content Include="Content\img\banner\get-help-white.png" />
+    <Content Include="Content\img\banner\Icons_LargeArrow.png" />
+    <Content Include="Content\img\banner\questions-off.png" />
+    <Content Include="Content\img\banner\questions-white.png" />
+    <Content Include="Content\img\banner\unwell-off.png" />
+    <Content Include="Content\img\banner\unwell-white.png" />
     <Content Include="Content\img\bar1.png" />
     <Content Include="Content\img\bar2.png" />
     <Content Include="Content\img\barNew.png" />
