@@ -652,6 +652,8 @@
     <Content Include="Views\Outcome\PersonalDetails.cshtml" />
     <Content Include="Views\Shared\_SelectedService.cshtml" />
     <Content Include="Views\Shared\_CommonHiddenFieldsDosViewModel.cshtml" />
+    <Content Include="Views\Shared\_CommonHiddenFieldsHomeAddressInfo.cshtml" />
+    <Content Include="Views\Outcome\Confirmation.cshtml" />
     <None Include="Web.Development.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

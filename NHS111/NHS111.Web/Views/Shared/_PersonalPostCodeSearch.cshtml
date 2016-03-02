@@ -2,7 +2,7 @@
 <script src="~/content/Js/vendor/spin.min.js"></script>
 <link rel="stylesheet" href="~/content/styles/vendor/jquery-ui.css">
 
-<div id="loadingPostcode">
+<div id="loadingPostcode" style="display: none;">
     <div id="loadingcontent">
         <p id="loadingspinner">
             Searching for addresses matching <span id="postcodeSpan"></span>...
@@ -15,7 +15,7 @@
 </label>
 <div class="inline-details">
     @Html.TextBoxFor(m => m.PostCode, new { @class = "form-control form-control-8-chars", placeholder = "eg. SE1" })
-    <button class="button find-address" id="findMyAddress">Find my address</button>
+    <input type="button" class="button find-address" id="findMyAddress" value ="Find my address" />
 </div>
 
 <div id="AddressList">
@@ -27,17 +27,17 @@
         </select>
     </label>
 </div>
-<div class="row enterManually">
-    <a href="#" class="links manualEntry">I don't know my current postcode</a>
+<div class="row">
+    <input class="button button-next button-link" type="submit" name="postcodeunknown" value="I don't know my current postcode" />
 </div>
 
 <!--Spinner script-->
 <script type="text/javascript">
-    @*$(function () {
+    $(function () {
         $("#AddressList").hide();
         $("#AddressDetails").hide();
         var addresses = [];
-        $("#btnSearchPostcode").click(function () {
+        $("#findMyAddress").click(function () {
             $("#loadingPostcode").fadeIn();
             var opts = {
                 lines: 12, // The number of lines to draw
@@ -50,8 +50,8 @@
                 shadow: false, // Whether to render a shadow
                 hwaccel: false // Whether to use hardware acceleration
             };
-            var postcode = $("#AddressSearchViewModel_PostCode").val();
-            $("#postcodeSpan").text(postcode.toUpperCase());
+            var postcode = $("#PostCode").val();
+            //$("#postcodeSpan").text(postcode.toUpperCase());
             var target = document.getElementById('loadingPostcode');
             var spinner = new Spinner(opts).spin(target);
             $.ajax({
@@ -82,18 +82,12 @@
                             console.error("Address selected with id " + selectedAddress + " which isn't in list of addresses.");
                             return;
                         }
-                        $("#UserInfo_HomeAddress_HouseNumber").val(result[0].HouseNumber);
-                        $("#UserInfo_HomeAddress_AddressLine1").val(result[0].StreetDescription);
-                        $("#UserInfo_HomeAddress_AddressLine2").val(result[0].TownName);
-                        $("#UserInfo_HomeAddress_City").val(result[0].PostTown);
-                        $("#UserInfo_HomeAddress_County").val(result[0].AdministrativeArea);
-                        $("#UserInfo_HomeAddress_PostCode").val(result[0].Postcode);
-                        $("#UserInfo_CurrentAddress_HouseNumber").val(result[0].HouseNumber);
-                        $("#UserInfo_CurrentAddress_AddressLine1").val(result[0].StreetDescription);
-                        $("#UserInfo_CurrentAddress_AddressLine2").val(result[0].TownName);
-                        $("#UserInfo_CurrentAddress_City").val(result[0].PostTown);
-                        $("#UserInfo_CurrentAddress_County").val(result[0].AdministrativeArea);
-                        $("#UserInfo_CurrentAddress_PostCode").val(result[0].Postcode);
+                        $("#HomeAddress_HouseNumber").val(result[0].HouseNumber);
+                        $("#HomeAddress_AddressLine1").val(result[0].StreetDescription);
+                        $("#HomeAddress_AddressLine2").val(result[0].TownName);
+                        $("#HomeAddress_City").val(result[0].PostTown);
+                        $("#HomeAddress_County").val(result[0].AdministrativeArea);
+                        $("#HomeAddress_PostCode").val(result[0].Postcode);
                         $("#AddressDetails").show();
                     });
                     $("#AddressList").show();
@@ -107,5 +101,5 @@
                 }
             });
         });
-    });*@
+    });
 </script>

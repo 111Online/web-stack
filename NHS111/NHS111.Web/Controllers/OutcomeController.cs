@@ -28,25 +28,7 @@ namespace NHS111.Web.Controllers
         }
 
         [HttpPost]
-        [ActionName("ServiceDetails")]
-        [MultiSubmit(ButtonName = "DosResults")]
-        public async Task<ActionResult> DosResults(OutcomeViewModel model)
-        {
-            var viewModel = await _dosBuilder.DosResultsBuilder(model);
-            return View("../DOS/DosResults", viewModel);
-        }
-
-        [HttpPost]
-        [ActionName("ServiceDetails")]
-        [MultiSubmit(ButtonName = "DispositionNo2")]
-        public async Task<ActionResult> DispositionNo2(OutcomeViewModel model) //TODO this is realyl ugly, bad code duplication, rethink it
-        {
-            return await DispositionNo(model);
-        }
-
-
-        [HttpPost]
-        public async Task<ActionResult> Emergency()
+        public ActionResult Emergency()
         {
             return View();
         }
@@ -61,12 +43,10 @@ namespace NHS111.Web.Controllers
         }
 
         [HttpPost]
-        [ActionName("ServiceDetails")]
-        [MultiSubmit(ButtonName = "PostCodeSearch")]
-        public async Task<ActionResult> PostCodeSearch(OutcomeViewModel model)
+        public ActionResult ServiceDetails(OutcomeViewModel model)
         {
-            model = await _outcomeViewModelBuilder.PostCodeSearchBuilder(model);
-            return View("PersonalDetails", model);
+            //model = await _outcomeViewModelBuilder.PostCodeSearchBuilder(model);
+            return View("Confirmation", model);
         }
 
 

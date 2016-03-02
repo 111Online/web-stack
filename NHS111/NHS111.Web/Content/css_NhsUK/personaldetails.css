@@ -72,8 +72,8 @@
     padding: 0 1rem;
     background-color: #fff;
     border: 2px solid #b9d2dc;
-    -webkit-appearance: none;
-    width: 100px;
+    -webkit-appearance:none;
+    width: 255px;
 }
 
 @media screen and (-webkit-min-device-pixel-ratio:0) {
