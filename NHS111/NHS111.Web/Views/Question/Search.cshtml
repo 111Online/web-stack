@@ -24,7 +24,7 @@
 
     <div class="header">
         <!--<a href="#" title="Close Disclaimer" class="closeDisclaimer accessibility">[ X ]</a>-->
-        <h2 class="discHead">Do i need to call 999?</h2>
+        <h2 class="discHead">Do I need to call 999?</h2>
     </div>
     <div id="yellowWrapper">
         <div id="disclaimerContentWrapper">
@@ -157,12 +157,10 @@
 
 </div>
 
-    <div class="feedback-wrapper nhs-show-nav" style="margin-top: 99px;  border-top: 2px solid #0075A7; border-bottom: none; text-align:initial">
-        <div class="nhs-pagenav-container">
 
-            @Html.Partial("_FeedbackDetails", new Feedback() { PageId = Request.Url.GetComponents(UriComponents.PathAndQuery, UriFormat.SafeUnescaped) })
-        </div>
-    </div>
+
+  @Html.Partial("_FeedbackDetails", new Feedback() { PageId = Request.Url.GetComponents(UriComponents.PathAndQuery, UriFormat.SafeUnescaped) })
+
 <!--wrapper ends-->
     
 

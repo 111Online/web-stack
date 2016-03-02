@@ -1,4 +1,5 @@
-﻿@model NHS111.Models.Models.Web.JourneyViewModel
+﻿@using NHS111.Models.Models.Domain
+@model NHS111.Models.Models.Web.JourneyViewModel
 @{ Layout = "~/Views/Shared/_LayoutNhsUk.cshtml"; }
 
 <link href="~/content/css_NhsUk/question.css" media="screen" rel="stylesheet" type="text/css" />
@@ -24,7 +25,7 @@
     @Html.HiddenFor(x => Model.PreviousStateJson)
 
 
-    <h2>@Model.TitleWithoutBullets</h2>
+    <h2 class="question-header">@Model.TitleWithoutBullets</h2>
     foreach (var bullet in Model.Bullets) {
         <span class="red">@bullet</span>
     }
@@ -44,7 +45,7 @@
     <button class="button button-next" id="nextScreen" type="submit" name="Question" value="Question">Next question</button>
 
 }
-
+@Html.Partial("_FeedbackDetails", new Feedback() { PageId = Request.Url.GetComponents(UriComponents.PathAndQuery, UriFormat.SafeUnescaped) + Model.PathwayId })
 <script type="text/javascript">
     
 
