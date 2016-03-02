@@ -22,72 +22,72 @@
 <div id="disclaimer">
 
 
-    <div class="header">
-        <img src="~/content/img/close.jpg" class="closeDisclaimer close">
-        <!--<a href="#" title="Close Disclaimer" class="closeDisclaimer accessibility">[ X ]</a>-->
+        <div class="header">
+            <img src="~/content/img/close.jpg" class="closeDisclaimer close">
+            <!--<a href="#" title="Close Disclaimer" class="closeDisclaimer accessibility">[ X ]</a>-->
         <h2 class="discHead">Do i need to call 999?</h2>
-    </div>
-    <div id="yellowWrapper">
-        <div id="disclaimerContentWrapper">
+        </div>
+        <div id="yellowWrapper">
+            <div id="disclaimerContentWrapper">
             <div class="contentWrap module-zero">
 
 
                 <h3 class="heading-med">Call 999 immediately if you have any of the following</h3>
 
                 <ul class="list-conditions" id="disclaimerHelp">
-                   
-                            <li class="firstChild" id="chestPain">
-                                <a href="#">Central crushing <span class="green">chest pain</span></a>
-                                <p class="helper">
-                                    A feeling of crushing pressure like a heavy weight pushing down on your chest.
-                                </p>
-                            </li>
 
-                            <li id="stroke">
-                                <a href="#">You think you are <span class="green">having a stroke</span> </a>
-                                <p class="helper">
-                                    Signs of a stroke include being unable to raise both arms and keep them there, difficulty speaking or a lopsided face.
-                                </p>
-                            </li>
+                                <li class="firstChild" id="chestPain">
+                                    <a href="#">Central crushing <span class="green">chest pain</span></a>
+                                    <p class="helper">
+                                        A feeling of crushing pressure like a heavy weight pushing down on your chest.
+                                    </p>
+                                </li>
 
-                            <li id="chocking">
-                                <a href="#">Severe <span class="green">difficulty breathing</span>, choking or turning blue </a>
-                                <p class="helper">
-                                    This means you are unable to finish a sentence without stopping several times to take a breath. You may be gasping, wheezing or putting a lot of effort into breathing.
-                                </p>
-                            </li>
-                  
-                            <li id="bleeding">
-                                <a href="#"><span class="green">Bleeding</span> very heavily </a>
-                                <p class="helper">
-                                    This means heavy bleeding that is continuing despite attempts to stop it.
-                                </p>
-                            </li>
+                                <li id="stroke">
+                                    <a href="#">You think you are <span class="green">having a stroke</span> </a>
+                                    <p class="helper">
+                                        Signs of a stroke include being unable to raise both arms and keep them there, difficulty speaking or a lopsided face.
+                                    </p>
+                                </li>
 
-                            <li id="injury">
-                                <a href="#">A <span class="green">severe injury</span> </a>
-                                <p class="helper">
-                                    This includes deep wounds, or injuries caused by falls, assault or road traffic accidents and will require an immediate medical assessment.
-                                </p>
-                            </li>
+                                <li id="chocking">
+                                    <a href="#">Severe <span class="green">difficulty breathing</span>, choking or turning blue </a>
+                                    <p class="helper">
+                                        This means you are unable to finish a sentence without stopping several times to take a breath. You may be gasping, wheezing or putting a lot of effort into breathing.
+                                    </p>
+                                </li>
 
-                            <li class="lastChild" id="seizure">
-                                <a href="#">The person you are enquiring about is <span class="green">unconscious </span> having a <span class="green">seizure (fit)</span></a>
-                                <p class="helper">
-                                    Unconscious - Not awake and totally unaware of what is going on around you. As if you are asleep, but with no response if someone tries to wake you.<br><br>
+                                <li id="bleeding">
+                                    <a href="#"><span class="green">Bleeding</span> very heavily </a>
+                                    <p class="helper">
+                                        This means heavy bleeding that is continuing despite attempts to stop it.
+                                    </p>
+                                </li>
 
-                                    Seizure - Uncontrolled electrical activity in the brain, which can lead to loss of consciousness and/or loss of bladder and bowel control. Seizures are often known as fits.
-                                </p>
-                            </li>
+                                <li id="injury">
+                                    <a href="#">A <span class="green">severe injury</span> </a>
+                                    <p class="helper">
+                                        This includes deep wounds, or injuries caused by falls, assault or road traffic accidents and will require an immediate medical assessment.
+                                    </p>
+                                </li>
+
+                                <li class="lastChild" id="seizure">
+                                    <a href="#">The person you are enquiring about is <span class="green">unconscious </span> having a <span class="green">seizure (fit)</span></a>
+                                    <p class="helper">
+                                        Unconscious - Not awake and totally unaware of what is going on around you. As if you are asleep, but with no response if someone tries to wake you.<br><br>
+
+                                        Seizure - Uncontrolled electrical activity in the brain, which can lead to loss of consciousness and/or loss of bladder and bowel control. Seizures are often known as fits.
+                                    </p>
+                                </li>
                 
-                </ul>
+                    </ul>
 
-                <div class="center">
+                    <div class="center">
                     <a id="close" class="closeDisclaimer button button-get-started go">None of the above apply</a>
+                    </div>
                 </div>
-            </div>
-        </div> <!-- /disclaimerContentWrapper-->
-    </div> <!-- /yellowWrapper-->
+            </div> <!-- /disclaimerContentWrapper-->
+        </div> <!-- /yellowWrapper-->
 
 
 </div>
@@ -152,7 +152,7 @@
         </div>
         <!--content end-->
 
-    </div>
+        </div>
 
 
 
@@ -161,7 +161,7 @@
     <div class="feedback-wrapper nhs-show-nav" style="margin-top: 99px;  border-top: 2px solid #0075A7; border-bottom: none; text-align:initial">
         <div class="nhs-pagenav-container">
 
-            @Html.Partial("_FeedbackDetails", new Feedback())
+            @Html.Partial("_FeedbackDetails", new Feedback() { PageId = Request.Url.GetComponents(UriComponents.PathAndQuery, UriFormat.SafeUnescaped) })
         </div>
     </div>
 <!--wrapper ends-->

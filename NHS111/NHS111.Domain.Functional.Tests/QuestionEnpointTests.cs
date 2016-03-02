@@ -72,9 +72,9 @@ namespace NHS111.Domain.Functional.Tests
             AssertValidResponseSchema(result, ResponseSchemaType.Answer);
 
             //this next one checks the right answers have returned.
-            Assert.IsTrue(result.Contains("\"title\":\"Yes"));
-            Assert.IsTrue(result.Contains("\"title\":\"I'm not sure"));
-            Assert.IsTrue(result.Contains("\"title\":\"No"));
+            Assert.IsTrue(result.Contains("\"title\":\"yes"));
+            Assert.IsTrue(result.Contains("\"title\":\"not sure"));
+            Assert.IsTrue(result.Contains("\"title\":\"no"));
         }
 
 
