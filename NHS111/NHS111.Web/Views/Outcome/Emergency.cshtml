@@ -19,15 +19,15 @@
         <div class="emergency-img-container">
             <div class="emergency-img">
                 <img src="~/content/img/ambulance.png" alt="Ambulance" class="ambulance-image" />
-                </div>
+            </div>
             <div class="emergency-text">
                 <h2 class="heading-large">Dial 999 </h2>
                 <div>
                     Your answers suggest you need to dial 999 immediately and ask for an ambulance.
                 </div>
-        </div>
             </div>
         </div>
+    </div>
 }
 
 <div id="wrapper">
@@ -36,7 +36,7 @@
     </div> <!--/ContentWrapper-->
     @using (Html.BeginForm("Navigation", "Question", FormMethod.Post))
     {
-        
+
         @Html.Partial("_CommonHiddenFieldsOutcomeViewModel", Model)
         <div class="row">
             <input class="button button-next button-link" type="submit" name="PreviousQuestion" value="Change my answers" />

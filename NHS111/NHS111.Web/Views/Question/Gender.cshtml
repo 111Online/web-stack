@@ -15,56 +15,56 @@
 
 <link href="~/Content/css_NhsUK/gender.css" media="screen" rel="stylesheet" type="text/css" />
 
-    <div id="wrapper">
-        <div class="content-container">
+<div id="wrapper">
+    <div class="content-container">
 
         <div>
-                @using (Html.BeginForm("SliderAction", "Question", FormMethod.Post, new { @id = "outerContent" }))
-                {
-                    @Html.HiddenFor(x => Model.PathwayNo)
+            @using (Html.BeginForm("SliderAction", "Question", FormMethod.Post, new { @id = "outerContent" }))
+            {
+                @Html.HiddenFor(x => Model.PathwayNo)
                 <div>
                     <h2 class="heading-large">We need a few more details</h2>
                     <h2 class="heading-small">Choose your gender</h2>
                     <div class="gender-content">
                         <div class="gender male" title="Male">
-                                    <input name="UserInfo.Gender" value="Male" type="radio" id="Male">
+                            <input name="UserInfo.Gender" value="Male" type="radio" id="Male">
                             <img src="~/content/img/male.png" alt="Male" class="maleImage">
                             <h2 class="heading-small">Male</h2>
-                            </div>
+                        </div>
                         <div class="gender female" title="Female">
-                                    <input name="UserInfo.Gender" value="Female" type="radio" id="Female">
+                            <input name="UserInfo.Gender" value="Female" type="radio" id="Female">
                             <img src="~/content/img/female.png" alt="Female" class="femaleImage">
                             <h2 class="heading-small">Female</h2>
                         </div>
-                            </div>
+                    </div>
 
                     <div class="age-content">
                         <div class="age">
                             <h2 class="heading-small">Type your age</h2>
-                                    <span id="errmsg"></span>
+                            <span id="errmsg"></span>
                             <input type="text" class="form-control input-age" name="UserInfo.Age" id="Age" size=2 maxlength=2 onkeypress="return numbersonly(this, event);">
-                            </div>
                         </div>
+                    </div>
 
                     <input class="button button-next" id="submitGender" type="submit" name="Slider" value="Next" />
 
-                        </div>
-                }
+                </div>
+            }
 
-            </div>
-            <!--content end-->
         </div>
+        <!--content end-->
     </div>
-    <!--wrapper ends-->
+</div>
+<!--wrapper ends-->
 
 <div class="feedback-wrapper nhs-show-nav" style="border-top: 2px solid #da4d4e; border-bottom: none; text-align: initial; margin-top: 50px;">
-        <div class="nhs-pagenav-container" style="font-size: 16px;">
+    <div class="nhs-pagenav-container" style="font-size: 16px;">
 
             @Html.Partial("_FeedbackDetails", new Feedback() { PageId = Request.Url.GetComponents(UriComponents.PathAndQuery, UriFormat.SafeUnescaped) })
-        </div>
     </div>
+</div>
 
-    <script type="text/javascript">
+<script type="text/javascript">
 <!--
 // copyright 1999 Idocs, Inc. http://www.idocs.com
 // Distribute this script freely but keep this notice in place
@@ -101,6 +101,6 @@ else
 }
 
 //-->
-    </script>
+</script>
 
 

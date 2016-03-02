@@ -82,6 +82,7 @@
     <Compile Include="Extensions\ListExtension_Test.cs" />
     <Compile Include="Extensions\StringExtensionTest.cs" />
     <Compile Include="Extensions\TaskExtension_Test.cs" />
+    <Compile Include="Helpers\RestfulHelperTests.cs" />
     <Compile Include="Parser\PathwayTitleUriParserTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Session\SessionWrapper_Test.cs" />
