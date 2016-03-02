@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.23107.0
+VisualStudioVersion = 14.0.24720.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Domain", "Domain", "{CB1CB907-B0EC-4A05-8EB5-A857FFDB0892}"
 EndProject
@@ -77,8 +77,6 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NHS111.Web.Presentation.Test", "NHS111.Web.Test\NHS111.Web.Presentation.Test.csproj", "{3D52E05E-21F7-47BB-8361-594941F49534}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NHS111.Domain.ProductionApi.Functional.Tests", "NHS111.DomainProduction.Functional.Tests\NHS111.Domain.ProductionApi.Functional.Tests.csproj", "{04C5BD30-E574-4A0D-B96B-54866F4F0F96}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NHS111.Business.Feedback.Api.Functional.Tests", "NHS111.Business.Feedback.Api.Functional.Tests\NHS111.Business.Feedback.Api.Functional.Tests.csproj", "{5E58685A-6AFA-47DD-8C0B-C91B7D8E4022}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NHS111.Business.Feedback.Api.Functional.Tests", "NHS111.Business.Feedback.Api.Functional.Tests\NHS111.Business.Feedback.Api.Functional.Tests.csproj", "{5E58685A-6AFA-47DD-8C0B-C91B7D8E4022}"
 EndProject
