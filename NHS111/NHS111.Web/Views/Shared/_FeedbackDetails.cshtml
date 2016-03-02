@@ -1,30 +1,33 @@
 ﻿@model NHS111.Models.Models.Domain.Feedback
 @{ Model.DateAdded = DateTime.Now; }
 
+<div class="feedback-wrapper nhs-show-nav" style="margin-top: 99px;  border-top: 2px solid #0075A7; border-bottom: none; text-align:initial">
+    <div class="nhs-pagenav-container">
+        <form id="FeedbackForm" class="feedback-form" action="@Url.Action("SubmitFeedback", "Feedback")">
 
-<form id="FeedbackForm" class="feedback-form" action="@Url.Action("SubmitFeedback", "Feedback")">
+            <h2 class="font-med" style="color:white">Help us improve 111 online</h2>
 
-    <h2 class="font-med" style="color:white">Help us improve 111 online</h2>
+            <div id="FeedbackDetails">
+                <p>If you’d like to give your views on helping us improve 111 online, please use the form below.</p>
+                <div>
+                    @Html.TextAreaFor(m => m.Text, new { @placeholder = "Feedback", @Value = "", @class = "feedback-input", @maxlength = "8000" })
+                    <input class="button feedback-submit" id="btnFeedback" type="button" name="btnFeedback" value="Submit Feedback" onclick=" SubmitFeedback(this); " />
+                </div>
+            </div>
 
-    <div id="FeedbackDetails">
-        <p>If you’d like to give your views on helping us improve 111 online, please use the form below.</p>
-        <div>
-            @Html.TextAreaFor(m => m.Text, new {@placeholder = "Feedback", @Value = "", @class = "feedback-input", @maxlength = "8000"})
-            <input class="button feedback-submit"  id="btnFeedback" type="button" name="btnFeedback" value="Submit Feedback" onclick=" SubmitFeedback(this); "/>
-        </div>
-        </div>
-    
-    @Html.HiddenFor(m => m.UserId)
-    @Html.HiddenFor(m => m.PageId)
-</form>
-<button type="button" class="feedback-dismiss" aria-hidden="true"></button>
+            @Html.HiddenFor(m => m.UserId)
+            @Html.HiddenFor(m => m.PageId)
+        </form>
+        <button type="button" class="feedback-dismiss" aria-hidden="true"></button>
+    </div>
+</div>
 <script>
 
-    $('.feedback-dismiss').click(function() {
+    $('.feedback-dismiss').click(function () {
         $('.feedback-wrapper').slideToggle();
     });
 
-    $('.feedback-input').focus(function() {
+    $('.feedback-input').focus(function () {
         $(this).animate({
             width: "70%",
             height: "70%"
@@ -50,21 +53,22 @@
             var $form = $(btnClicked).parents("form");
             $form[0][0].value = $('<div/>').text($form[0][0].value).html();
             var detailsDiv = $("#FeedbackDetails");
-        $(detailsDiv).slideToggle(600);
-        $.ajax({
-            type: "POST",
+            $(detailsDiv).slideToggle(600);
+            $.ajax({
+                type: "POST",
                 url: $form.attr("action"),
-            data: $form.serialize(),
-            error: function (xhr, status, error) {
-                alert(error);
-                $(detailsDiv).slideToggle(600);
-                //do something about the error
-            },
-            success: function (response) {
-                $(detailsDiv).html('<p>' + response.Message + '</p>');
-                $(detailsDiv).slideToggle(600);
-            }
-        });
-        return false;
+                data: $form.serialize(),
+                error: function (xhr, status, error) {
+                    alert(error);
+                    $(detailsDiv).slideToggle(600);
+                    //do something about the error
+                },
+                success: function (response) {
+                    $(detailsDiv).html('<p>' + response.Message + '</p>');
+                    $(detailsDiv).slideToggle(600);
+                }
+            });
+            return false;
+        }
     }
 </script>
