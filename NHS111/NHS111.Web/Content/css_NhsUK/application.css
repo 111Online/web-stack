@@ -1976,15 +1976,13 @@ button[disabled=disabled] {
     height: 20px;
 }
 .section-item {
-    border: 1px solid #ddd;
-    border-radius: 3px;
-    padding: 1px;
+    border-bottom: 2px solid #0072C6;
     margin-bottom: 20px;
 }
 .section-header {
     font-weight: bold; 
-    text-align: center; 
-    background-color: #0072C6; 
-    padding: 1.25rem 2rem; 
-    color: white; 
+    text-align: left; 
+    background-color: #fff; 
+    padding: 1rem 1rem 0 1rem;
+    color: black; 
 }
