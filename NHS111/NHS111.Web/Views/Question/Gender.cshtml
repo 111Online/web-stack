@@ -57,12 +57,9 @@
 </div>
 <!--wrapper ends-->
 
-<div class="feedback-wrapper nhs-show-nav" style="border-top: 2px solid #da4d4e; border-bottom: none; text-align: initial; margin-top: 50px;">
-    <div class="nhs-pagenav-container" style="font-size: 16px;">
 
-            @Html.Partial("_FeedbackDetails", new Feedback() { PageId = Request.Url.GetComponents(UriComponents.PathAndQuery, UriFormat.SafeUnescaped) })
-    </div>
-</div>
+ @Html.Partial("_FeedbackDetails", new Feedback() { PageId = Request.Url.GetComponents(UriComponents.PathAndQuery, UriFormat.SafeUnescaped) })
+
 
 <script type="text/javascript">
 <!--
