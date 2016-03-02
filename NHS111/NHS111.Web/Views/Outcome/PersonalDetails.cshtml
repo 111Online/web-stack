@@ -1,128 +1,75 @@
 ﻿@model NHS111.Models.Models.Web.OutcomeViewModel
 @{
-    Layout = "~/Views/Shared/_LayoutOutcome.cshtml";
+    Layout = "~/Views/Shared/_LayoutNhsUk.cshtml";
 }
-<script src="~/content/Js/vendor/spin.min.js"></script>
-<link rel="stylesheet" href="~/content/styles/vendor/jquery-ui.css">
-<div id="loading">
-    <div id="loadingcontent">
-        <p id="loadingspinner">
-            Searching for available healthcare providers...
-        </p>
+
+@section Title {
+    Enter Personal Details
+}
+
+<link href="~/content/css_NhsUk/personaldetails.css" media="screen" rel="stylesheet" type="text/css" />
+
+                <section>
+    <div class="section-item">
+        <div class="section-header">
+            Your selected service
+            </div>
+        <div class="service-content">
+            @Html.Partial("_SelectedService", Model.SelectedService)
+            <div class="form-item-wrapper">
+                <fieldset>
+                    <div class="form-group">
+                        @using (Html.BeginForm("Navigation", "Question", FormMethod.Post))
+                        {
+                            @Html.Partial("_CommonHiddenFieldsOutcomeViewModel", Model)
+                        <div class="row">
+                                <input class="button button-next button-link" type="submit" name="PreviousQuestion" value="Change my answers" />
+                        </div>
+                        }
+                    </div>
+                </fieldset>
+            </div>
+        </div>
     </div>
-</div>
+</section>
 
 @using (Html.BeginForm("ServiceDetails", "Outcome", FormMethod.Post))
 {
+    @Html.Partial("_CommonHiddenFieldsOutcomeViewModel", Model)
+    @Html.Partial("_CommonHiddenFieldsHomeAddressInfo", Model.UserInfo.HomeAddress, new ViewDataDictionary{ TemplateInfo = new TemplateInfo { HtmlFieldPrefix = "HomeAddress" }})
+    <section>
+        <div class="section-item">
+            <div class="section-header">
+                Your contact information
+                        </div>
+            <div class="personal-details-content">
+                            <label>
+                    Full name
+                            </label>
+                <div class="inline-details">
+                    @Html.TextBoxFor(m => m.UserInfo.FirstName, new { @class = "form-control form-control-4-chars", placeholder = "First name" })
+                    @Html.TextBoxFor(m => m.UserInfo.LastName, new { @class = "form-control form-control-4-chars", placeholder = "Last name" })
+                        </div>
 
-    @Html.HiddenFor(x => Model.Id)
-    @Html.HiddenFor(x => Model.JourneyJson)
-    @Html.HiddenFor(x => Model.PathwayId)
-    @Html.HiddenFor(x => Model.PathwayNo)
-    @Html.HiddenFor(x => Model.SymptomGroup)
-    @Html.HiddenFor(x => Model.UserInfo.Age)
-    @Html.HiddenFor(x => Model.UserInfo.Gender)
-    @Html.HiddenFor(x => Model.SymptomDiscriminator)
-    @Html.HiddenFor(x => Model.Title)
-    @Html.HiddenFor(x => Model.UserId)
-
-    <div class="site" id="PersonalDetails">
-        <div id="ProgressBar" style="display:none">
-            <ul>
-                <li class="firstChild"><span class="left">01 What's wrong </span> <img src="../../content/images/icons/breadcrumbOne.png" alt="" class="right"></li>
-                <li class="secondChild"><span class="left">02 Tell us more </span><img src="../../content/images/icons/breadcrumbTwo.png" alt="" class="right"></li>
-                <li class="lastChild"><span class="left">03 YOU ARE HERE . Next steps </span></li>
-            </ul>
-        </div>
-        <div id="ContentWrapper">
-            <div id="SubHeadWrapper">
-                <section>
-                    <h2><!--<span class="roundNumbers">1</span>--> Find a healthcare provider</h2>
-                    <p>Please provide these details so we can find you an available healthcare provider</p>
+                            <label>
+                    Date of birth
+                            </label>
+                <div class="inline-details">
+                    @Html.TextBoxFor(m => m.UserInfo.Day, new { @class = "form-control form-control-2-chars", placeholder = "DD" })
+                    @Html.TextBoxFor(m => m.UserInfo.Month, new { @class = "form-control form-control-2-chars", placeholder = "MM" })
+                    @Html.TextBoxFor(m => m.UserInfo.Year, new { @class = "form-control form-control-4-chars", placeholder = "YYYY" })
+                        </div>
+                            <label>
+                    Contact number
+                            </label>
+                <div class="inline-details">
+                    @Html.TextBoxFor(m => m.UserInfo.TelephoneNumber, new {@class = "form-control", placeholder = "Landline or mobile number"})
+                        </div>
+                @Html.Partial("_PersonalPostCodeSearch", Model.AddressSearchViewModel)
+                <div class="inline-details">
+                    <input type="submit" class="button button-submit-details" value="Submit my details"/>
+                        </div>
+                        </div>
+                        </div>
                 </section>
-            </div>
-            <div id="AboutYou">
-                <img src="../../content/images/icons/blueArrow.png" class="arrowDown" alt="">
-                <section>
-                    <div id="FormWrapper">
-
-                        <div class="row">
-                            <h3>About you</h3>
-                        </div>
-                        <div class="row large">
-                            <label>
-                                <span>First name</span>
-                                @Html.TextBoxFor(x => x.UserInfo.FirstName, new { @placeholder = "First name", @class = "example", @Value = "John" })
-                            </label>
-                        </div>
-                        <div class="row large">
-                            <label>
-                                <span>Last name</span>
-                                @Html.TextBoxFor(x => x.UserInfo.LastName, new { @placeholder = "Last name", @Value = "Blue" })
-                            </label>
-                        </div>
-                        <div class="row" id="DOB">
-                            <label>
-                                <span>Date of birth</span>
-                                @Html.TextBoxFor(x => x.UserInfo.Day, new { @placeholder = "dd", @class = "dd", @Value = "05" })
-                                @Html.TextBoxFor(x => x.UserInfo.Month, new { @placeholder = "mm", @class = "mm", @Value = "08" })
-                                @Html.TextBoxFor(x => x.UserInfo.Year, new { @placeholder = "yyyy", @class = "yy", @Value = "1970" })
-                            </label>
-                        </div>
-                        <div class="row">
-                            <h3>Your contact information</h3>
-                        </div>
-                        <div class="row medium">
-                            <label>
-                                <span>Contact number</span>
-                                @Html.TextBoxFor(x => x.UserInfo.TelephoneNumber, new { @placeholder = "Contact number", @Value = "020334455677" })
-                            </label>
-                        </div>
-                        <div class="row medium">
-                            <label>
-                                <span>Email address</span>
-                                @Html.TextBoxFor(x => x.UserInfo.Email, new { @placeholder = "Email address", @Value = "john.blue@gmail.com" })
-                            </label>
-                        </div>
-                        <div class="row sectionHead">
-                            <p class="title">Home address</p>
-                        </div>
-
-                        @Html.Partial("_PersonalPostCodeSearch", Model.AddressSearchViewModel)
-                        @Html.Partial("_AddressDetails", Model)
-
-                        @Html.Partial("_GpSearch", Model)
-                        <div class="row" id="enableDisable">
-                            <input type="submit" class="button nextPage" name="DosResults" id="Next" value="Find available healthcare providers">
-                        </div>
-                    </div> <!--/FormWrapper-->
-                </section>
-            </div> <!--/AboutYou-->
-        </div> <!--/ContentWrapper-->
-        <div id="FooterWrapper">
-            <footer>
-                <!-- Copyright information -->
-            </footer>
-        </div>
-    </div> <!-- /site -->
-    <script type="text/javascript">
-    $(function () {
-        $("#Next").click(function () {
-            $("#loading").fadeIn();
-            var opts = {
-                lines: 12, // The number of lines to draw
-                length: 7, // The length of each line
-                width: 4, // The line thickness
-                radius: 10, // The radius of the inner circle
-                color: '#000', // #rgb or #rrggbb
-                speed: 1, // Rounds per second
-                trail: 60, // Afterglow percentage
-                shadow: false, // Whether to render a shadow
-                hwaccel: false // Whether to use hardware acceleration
-            };
-            var target = document.getElementById('loading');
-            var spinner = new Spinner(opts).spin(target);
-        });
-    });
-    </script>
 }

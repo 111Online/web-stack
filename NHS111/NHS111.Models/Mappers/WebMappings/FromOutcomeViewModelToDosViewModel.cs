@@ -21,7 +21,7 @@ namespace NHS111.Models.Mappers.WebMappings
                 .ForMember(dest => dest.PostCode, opt => opt.MapFrom(src => !string.IsNullOrEmpty(src.UserInfo.CurrentAddress.PostCode)
                         ? src.UserInfo.CurrentAddress.PostCode
                         : src.UserInfo.HomeAddress.PostCode))
-                .ForMember(dest => dest.SelectedService, opt => opt.MapFrom(src => src.SelectedService))
+                .ForMember(dest => dest.SelectedServiceId, opt => opt.MapFrom(src => src.SelectedServiceId))
                 .ForMember(dest => dest.SelectedSurgery, opt => opt.MapFrom(src => src.SurgeryViewModel.SelectedSurgery))
                 .ForMember(dest => dest.SymptomDiscriminator, opt => opt.MapFrom(src => src.SymptomDiscriminator))
                 .ForMember(dest => dest.SymptomGroup, opt => opt.MapFrom(src => src.SymptomGroup))

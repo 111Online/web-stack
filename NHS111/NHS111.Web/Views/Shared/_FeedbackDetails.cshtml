@@ -12,7 +12,7 @@
             @Html.TextAreaFor(m => m.Text, new {@placeholder = "Feedback", @Value = "", @class = "feedback-input", @maxlength = "8000"})
             <input class="button feedback-submit"  id="btnFeedback" type="button" name="btnFeedback" value="Submit Feedback" onclick=" SubmitFeedback(this); "/>
         </div>
-    </div>
+        </div>
     
     @Html.HiddenFor(m => m.UserId)
     @Html.HiddenFor(m => m.PageId)
@@ -36,9 +36,20 @@
         $userId.val($.cookie("userId"));
     });
 
+    $("#Text").keypress(function (event) {
+        var keycode = (event.keyCode ? event.keyCode : event.which);
+        var RETURNKEY = 13;
+        if (keycode === RETURNKEY) {
+            $("#btnFeedback").click();
+            return false;
+        }
+    });
+
     function SubmitFeedback(btnClicked) {
-        var $form = $(btnClicked).parents('form');
-        var detailsDiv = $('#FeedbackDetails');
+        if ($("#Text").val() !== "") {
+            var $form = $(btnClicked).parents("form");
+            $form[0][0].value = $('<div/>').text($form[0][0].value).html();
+            var detailsDiv = $("#FeedbackDetails");
         $(detailsDiv).slideToggle(600);
         $.ajax({
             type: "POST",

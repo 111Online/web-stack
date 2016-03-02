@@ -164,7 +164,7 @@ namespace NHS111.Business.API.Functional.Tests
 
             //this next one checks the right question has returned
             Assert.IsTrue(result.Contains("\"title\":\"Headache"));
-             Assert.IsTrue(result.Contains("\"gender\":\"Female"));
+            Assert.IsTrue(result.Contains("\"gender\":\"Female"));
             Assert.IsTrue(result.Contains("\"gender\":\"Male"));
             Assert.IsTrue(result.Contains("\"pathwayNo\":\"PW753"));
             Assert.IsTrue(result.Contains("\"pathwayNo\":\"PW756"));
