@@ -10,14 +10,14 @@
     background-position: 100% 50%;
 }
 
-    .button-link:link, .button-link:hover, .button-link:focus, .button-link:visited {
-        color: #79AFDD;
-        outline: none;
-    }
+.button-link:link, .button-link:hover, .button-link:focus, .button-link:visited {
+    color: #79AFDD;
+    outline: none;
+}
 
-    .button-link:hover, .button-link:focus {
-        text-decoration: underline !important;
-    }
+.button-link:hover, .button-link:focus {
+    text-decoration: underline !important;
+}
 
 .personal-details-content {
     padding: 1rem 1rem 0 1rem;
@@ -30,10 +30,10 @@
     padding: 0.5rem 0 2rem 0;
 }
 
-    .inline-details input {
-        float: left;
-        margin-right: 2rem;
-    }
+.inline-details input {
+    float: left;
+    margin-right: 2rem;
+}
 
 @media screen and (min-width: 40em) {
     .personal-details-content {

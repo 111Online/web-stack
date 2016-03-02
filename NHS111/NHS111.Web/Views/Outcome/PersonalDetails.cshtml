@@ -11,9 +11,9 @@
 
                 <section>
     <div class="section-item">
-        <div class="section-header">
+        <h3 class="section-header">
             Your selected service
-            </div>
+            </h3>
         <div class="service-content">
             @Html.Partial("_SelectedService", Model.SelectedService)
             <div class="form-item-wrapper">
@@ -39,9 +39,9 @@
     @Html.Partial("_CommonHiddenFieldsHomeAddressInfo", Model.UserInfo.HomeAddress, new ViewDataDictionary{ TemplateInfo = new TemplateInfo { HtmlFieldPrefix = "HomeAddress" }})
     <section>
         <div class="section-item">
-            <div class="section-header">
+            <h3 class="section-header">
                 Your contact information
-                        </div>
+                        </h3>
             <div class="personal-details-content">
                             <label>
                     Full name
