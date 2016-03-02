@@ -1,6 +1,7 @@
 ﻿using System.Threading.Tasks;
 using System.Web.Mvc;
 using NHS111.Models.Models.Web;
+using NHS111.Models.Models.Web.FromExternalServices;
 using NHS111.Utils.Attributes;
 using NHS111.Web.Presentation.Builders;
 using NHS111.Web.Presentation.Configuration;
@@ -25,8 +26,6 @@ namespace NHS111.Web.Controllers
             return Json((await _outcomeViewModelBuilder.SearchSurgeryBuilder(input))
                 .SurgeryViewModel.Surgeries);
         }
-
-
 
         [HttpPost]
         [ActionName("ServiceDetails")]
@@ -61,24 +60,6 @@ namespace NHS111.Web.Controllers
             return View("DispositionNo", model);
         }
 
-        //[HttpPost]
-        //[ActionName("UserInfo")]
-        //[MultiSubmit(ButtonName = "AddressInfoHome")]
-        //public ActionResult AddressInfoHome(OutcomeViewModel model)
-        //{
-        //    ViewBag.AddressType = "AddressInfoHome";
-        //    return View("AddressInfo", model);
-        //}
-
-        //[HttpPost]
-        //[ActionName("UserInfo")]
-        //[MultiSubmit(ButtonName = "AddressInfoCurrent")]
-        //public ActionResult AddressInfoCurrent(OutcomeViewModel model)
-        //{
-        //    ViewBag.AddressType = "AddressInfoCurrent";
-        //    return View("AddressInfo", model);
-        //}
-
         [HttpPost]
         [ActionName("ServiceDetails")]
         [MultiSubmit(ButtonName = "PostCodeSearch")]
@@ -88,6 +69,50 @@ namespace NHS111.Web.Controllers
             return View("PersonalDetails", model);
         }
 
-       
+
+        [HttpGet]
+        public ActionResult PersonalDetails()
+        {
+            var config = new Configuration();
+            var model = new OutcomeViewModel()
+            {
+                Id = "Dx38",
+                UserInfo = new UserInfo()
+                {
+                    Age = 38,
+                    Gender = "Male"
+                },
+                CheckCapacitySummaryResultList = new[]
+                {
+                    new CheckCapacitySummaryResult()
+                    {
+                        AddressField = "70 blah street, blah blah",
+                        IdField = 17,
+                        NameField = "Test service",
+                        OpenAllHoursField = true,
+
+                    }
+                },
+                SelectedServiceId = "17",
+                SymptomGroup = "1203",
+                SymptomDiscriminator = "4003",
+                AddressSearchViewModel = new AddressSearchViewModel()
+                {
+                    PostcodeApiAddress = config.PostcodeSearchByIdApiUrl,
+                    PostcodeApiSubscriptionKey = config.PostcodeSubscriptionKey
+                }
+            };
+
+            return View("PersonalDetails", model);
+        }
+
+        //[HttpPost]
+        //public async Task<ActionResult> PersonalDetails(OutcomeViewModel model)
+        //{
+        //    model = await _outcomeViewModelBuilder.PersonalDetailsBuilder(model);
+        //    return View("PersonalDetails", model);
+        //}
+
+
     }
 }

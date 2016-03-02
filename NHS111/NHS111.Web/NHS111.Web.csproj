@@ -649,7 +649,7 @@
     <Content Include="Views\Shared\_PersonalPostCodeSearch.cshtml" />
     <Content Include="Views\Shared\_FeedbackDetails.cshtml" />
     <Content Include="Views\Shared\_LayoutNhsUK.cshtml" />
-    <Content Include="Views\DOS\DosPersonalDetails.cshtml" />
+    <Content Include="Views\Outcome\PersonalDetails.cshtml" />
     <Content Include="Views\Shared\_SelectedService.cshtml" />
     <Content Include="Views\Shared\_CommonHiddenFieldsDosViewModel.cshtml" />
     <None Include="Web.Development.config">
