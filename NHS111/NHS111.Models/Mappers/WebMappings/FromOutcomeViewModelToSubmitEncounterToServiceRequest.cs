@@ -56,7 +56,7 @@ namespace NHS111.Models.Mappers.WebMappings
             {
                 StreetAddressLine1 =
                     !string.IsNullOrEmpty(outcome.UserInfo.CurrentAddress.HouseNumber)
-                        ? $"{outcome.UserInfo.CurrentAddress.HouseNumber} {outcome.UserInfo.CurrentAddress.AddressLine1}"
+                        ? string.Format("{0} {1}", outcome.UserInfo.CurrentAddress.HouseNumber, outcome.UserInfo.CurrentAddress.AddressLine1)
                         : outcome.UserInfo.CurrentAddress.AddressLine1,
                 StreetAddressLine2 = outcome.UserInfo.CurrentAddress.AddressLine2,
                 StreetAddressLine3 = outcome.UserInfo.CurrentAddress.City,
@@ -67,7 +67,7 @@ namespace NHS111.Models.Mappers.WebMappings
             {
                 StreetAddressLine1 =
                     !string.IsNullOrEmpty(outcome.UserInfo.HomeAddress.HouseNumber)
-                        ? $"{outcome.UserInfo.HomeAddress.HouseNumber} {outcome.UserInfo.HomeAddress.AddressLine1}"
+                        ? string.Format("{0} {1}", outcome.UserInfo.HomeAddress.HouseNumber, outcome.UserInfo.HomeAddress.AddressLine1)
                         : outcome.UserInfo.HomeAddress.AddressLine1,
                 StreetAddressLine2 = outcome.UserInfo.HomeAddress.AddressLine2,
                 StreetAddressLine3 = outcome.UserInfo.HomeAddress.City,
