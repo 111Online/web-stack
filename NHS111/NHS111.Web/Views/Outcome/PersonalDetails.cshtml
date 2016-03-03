@@ -9,11 +9,11 @@
 
 <link href="~/content/css_NhsUk/personaldetails.css" media="screen" rel="stylesheet" type="text/css" />
 
-                <section>
+<section>
     <div class="section-item">
         <h3 class="section-header">
             Your selected service
-            </h3>
+        </h3>
         <div class="service-content">
             @Html.Partial("_SelectedService", Model.SelectedService)
             <div class="form-item-wrapper">
@@ -22,9 +22,9 @@
                         @using (Html.BeginForm("Navigation", "Question", FormMethod.Post))
                         {
                             @Html.Partial("_CommonHiddenFieldsOutcomeViewModel", Model)
-                        <div class="row">
+                            <div class="row">
                                 <input class="button button-next button-link" type="submit" name="PreviousQuestion" value="Choose a different service" />
-                        </div>
+                            </div>
                         }
                     </div>
                 </fieldset>
@@ -36,40 +36,43 @@
 @using (Html.BeginForm("ServiceDetails", "Outcome", FormMethod.Post))
 {
     @Html.Partial("_CommonHiddenFieldsOutcomeViewModel", Model)
-    @Html.Partial("_CommonHiddenFieldsHomeAddressInfo", Model.UserInfo.HomeAddress, new ViewDataDictionary{ TemplateInfo = new TemplateInfo { HtmlFieldPrefix = "HomeAddress" }})
+    @Html.Partial("_CommonHiddenFieldsHomeAddressInfo", Model.UserInfo.HomeAddress, new ViewDataDictionary { TemplateInfo = new TemplateInfo { HtmlFieldPrefix = "HomeAddress" } })
     <section>
         <div class="section-item">
             <h3 class="section-header">
                 Your contact information
-                        </h3>
+            </h3>
             <div class="personal-details-content">
-                            <label>
+                <label>
                     Full name
-                            </label>
+                </label>
                 <div class="inline-details">
                     @Html.TextBoxFor(m => m.UserInfo.FirstName, new { @class = "form-control form-control-4-chars", placeholder = "First name" })
                     @Html.TextBoxFor(m => m.UserInfo.LastName, new { @class = "form-control form-control-4-chars", placeholder = "Last name" })
-                        </div>
+                </div>
 
-                            <label>
+                <label>
                     Date of birth
-                            </label>
+                </label>
+                <label class="form-hint">
+                    For example 18 4 1973
+                </label>
                 <div class="inline-details">
                     @Html.TextBoxFor(m => m.UserInfo.Day, new { @class = "form-control form-control-2-chars", placeholder = "DD" })
                     @Html.TextBoxFor(m => m.UserInfo.Month, new { @class = "form-control form-control-2-chars", placeholder = "MM" })
                     @Html.TextBoxFor(m => m.UserInfo.Year, new { @class = "form-control form-control-4-chars", placeholder = "YYYY" })
-                        </div>
-                            <label>
+                </div>
+                <label>
                     Contact number
-                            </label>
+                </label>
                 <div class="inline-details">
-                    @Html.TextBoxFor(m => m.UserInfo.TelephoneNumber, new {@class = "form-control", placeholder = "Landline or mobile number"})
-                        </div>
+                    @Html.TextBoxFor(m => m.UserInfo.TelephoneNumber, new { @class = "form-control", placeholder = "Landline or mobile number" })
+                </div>
                 @Html.Partial("_PersonalPostCodeSearch", Model.AddressSearchViewModel)
                 <div class="inline-details">
-                    <input type="submit" class="button button-submit-details" value="Submit my details"/>
-                        </div>
-                        </div>
-                        </div>
-                </section>
+                    <input type="submit" class="button button-submit-details" value="Submit my details" />
+                </div>
+            </div>
+        </div>
+    </section>
 }

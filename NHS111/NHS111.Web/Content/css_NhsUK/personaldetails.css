@@ -45,6 +45,10 @@
     font-weight: bold;
 }
 
+.form-hint {
+    font-weight: normal !important;
+}
+
 .button.find-address {
     background-color: #707070;
     padding-right: 5rem;
