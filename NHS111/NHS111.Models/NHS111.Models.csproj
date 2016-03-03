@@ -137,6 +137,7 @@
     <Compile Include="Models\Web\ITK\ServiceDetails.cs" />
     <Compile Include="Models\Web\ITK\Submission.cs" />
     <Compile Include="Models\Web\ITK\SubmitEncounterToServiceRequest.cs" />
+    <Compile Include="Models\Web\ITK\SubmitHASCToService.cs" />
     <Compile Include="Models\Web\ITK\SummaryItem.cs" />
     <Compile Include="Models\Web\ITK\Value.cs" />
     <Compile Include="Models\Web\JustToBeSafeViewModel.cs" />

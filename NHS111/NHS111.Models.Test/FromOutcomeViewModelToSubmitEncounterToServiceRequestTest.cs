@@ -7,6 +7,7 @@ using AutoMapper;
 using NHS111.Models.Mappers.WebMappings;
 using NHS111.Models.Models.Web;
 using NHS111.Models.Models.Web.FromExternalServices;
+using NHS111.Models.Models.Web.ITK;
 using NHS111.Web.Presentation.Models;
 using NUnit.Framework;
 
@@ -63,7 +64,7 @@ namespace NHS111.Models.Test
                     TelephoneNumber = "02070 033002"
                 },
                 Id = "Dx02",
-                
+                Title = "Dia and Vom",
                 SymptomGroup = "1056",
                 SymptomDiscriminator = "2222",
                 SelectedServiceId = "1345754835",
@@ -73,7 +74,7 @@ namespace NHS111.Models.Test
                     {
                         IdField = 1345754835,
                         NameField = "Test Service",
-                        OdsCodeField = "1345754835",
+                        OdsCodeField = "13454835",
                         AddressField = "150 The Road",
                         PostcodeField = "IG7 3GJ"
                     }
@@ -81,13 +82,23 @@ namespace NHS111.Models.Test
                 
             };
 
-            var result = Mapper.Map<OutcomeViewModel, DosCase>(viewModel);
+            var result = Mapper.Map<OutcomeViewModel, SubmitEncounterToServiceRequest>(viewModel);
 
-            Assert.AreEqual("22", result.Age);
-            Assert.AreEqual(1056, result.SymptomGroup);
-            Assert.AreEqual(1002, result.Disposition);
-            Assert.AreEqual(GenderType.F, result.Gender);
-            Assert.IsTrue(result.SymptomDiscriminatorList.Contains(2222));
+            Assert.AreEqual("Dx02", result.CaseDetails.DispositionCode);
+            Assert.AreEqual("Dia and Vom", result.CaseDetails.DispositionName);
+
+            Assert.AreEqual("Billy Bob", result.PatientDetails.Forename);
+            Assert.AreEqual("Thornton", result.PatientDetails.Surname);
+            var dateOfBirth = new DateTime(1972, 5, 30).Date;
+            Assert.AreEqual(dateOfBirth, result.PatientDetails.DateOfBirth.DateOfBirthItem);
+            Assert.AreEqual("Male", result.PatientDetails.Gender);
+            Assert.AreEqual("NotSpecified", result.PatientDetails.InformationType);
+
+            Assert.AreEqual("1345754835", result.ServiceDetails.Id);
+            Assert.AreEqual("Test Service", result.ServiceDetails.Name);
+            Assert.AreEqual("13454835", result.ServiceDetails.OdsCode);
+            Assert.AreEqual("150 The Road", result.ServiceDetails.Address);
+            Assert.AreEqual("IG7 3GJ", result.ServiceDetails.PostCode);
         }
     }
 }

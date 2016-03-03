@@ -1,7 +1,12 @@
-﻿namespace NHS111.Models.Models.Web.ITK
+﻿using System.Collections.Generic;
+using System.Xml;
+using System.Xml.Serialization;
+
+namespace NHS111.Models.Models.Web.ITK
 {
     public class CaseSummary
     {
-        public SummaryItem SummaryItem { get; set; }
+        [XmlElement("SummaryItem")]
+        public List<SummaryItem> SummaryItem { get; set; }
     }
 }
