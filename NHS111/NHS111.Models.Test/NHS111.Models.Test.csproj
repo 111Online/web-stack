@@ -61,6 +61,7 @@
   <ItemGroup>
     <Compile Include="DispositionResolverTests.cs" />
     <Compile Include="FromOutcomeViewModelToDosCaseTests.cs" />
+    <Compile Include="FromOutcomeViewModelToSubmitEncounterToServiceRequestTest.cs" />
     <Compile Include="GenderResolverTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SymptomDiscriminatorListResolverTests.cs" />

@@ -96,6 +96,7 @@
     <Compile Include="Mappers\WebMappings\AutoMapperWebConfiguration.cs" />
     <Compile Include="Mappers\WebMappings\FromOutcomeViewModelToDosCheckCapacitySummaryRequest.cs" />
     <Compile Include="Mappers\WebMappings\FromOutcomeViewModelToDosViewModel.cs" />
+    <Compile Include="Mappers\WebMappings\FromOutcomeViewModelToSubmitEncounterToServiceRequest.cs" />
     <Compile Include="Mappers\WebMappings\FromPafToAddressInfo.cs" />
     <Compile Include="Models\Business\Suggestion.cs" />
     <Compile Include="Models\Configuration\LivePathwaysCollection.cs" />
