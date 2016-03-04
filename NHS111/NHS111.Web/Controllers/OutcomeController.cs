@@ -43,13 +43,20 @@ namespace NHS111.Web.Controllers
         }
 
         [HttpPost]
-        public ActionResult ServiceDetails(OutcomeViewModel model)
+        public async Task<ActionResult> ServiceDetails(OutcomeViewModel model)
         {
-            //model = await _outcomeViewModelBuilder.PostCodeSearchBuilder(model);
-            return View("Confirmation", model);
+            var dosViewModel = await _dosBuilder.DosResultsBuilder(model);
+            model.CheckCapacitySummaryResultList = dosViewModel.CheckCapacitySummaryResultList;
+            return View("ServiceDetails", model);
         }
 
-
+        [HttpPost]
+        public ActionResult Confirmation(OutcomeViewModel model)
+        {
+            //submit to ITK;
+            return View();
+        }
+        
         [HttpGet]
         public ActionResult PersonalDetails()
         {

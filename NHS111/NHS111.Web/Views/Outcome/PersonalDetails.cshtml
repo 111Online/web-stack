@@ -7,7 +7,8 @@
     Enter Personal Details
 }
 
-<link href="~/content/css_NhsUk/personaldetails.css" media="screen" rel="stylesheet" type="text/css" />
+<link href="~/content/css_NhsUk/personaldetails.css" media="screen" rel="stylesheet" type="text/css"/>
+<link href="~/content/css_NhsUk/service.css" media="screen" rel="stylesheet" type="text/css" />
 
 <section>
     <div class="section-item">
@@ -23,7 +24,7 @@
                         {
                             @Html.Partial("_CommonHiddenFieldsOutcomeViewModel", Model)
                             <div class="row">
-                                <input class="button button-next button-link" type="submit" name="PreviousQuestion" value="Choose a different service" />
+                                <input class="button button-next button-link" type="submit" name="DifferentService" value="Choose a different service" />
                             </div>
                         }
                     </div>
@@ -33,7 +34,7 @@
     </div>
 </section>
 
-@using (Html.BeginForm("ServiceDetails", "Outcome", FormMethod.Post))
+@using (Html.BeginForm("Confirmation", "Outcome", FormMethod.Post))
 {
     @Html.Partial("_CommonHiddenFieldsOutcomeViewModel", Model)
     @Html.Partial("_CommonHiddenFieldsHomeAddressInfo", Model.UserInfo.HomeAddress, new ViewDataDictionary { TemplateInfo = new TemplateInfo { HtmlFieldPrefix = "HomeAddress" } })

@@ -38,7 +38,7 @@
 
     <label>
         Postcode of current location
-        <input type="text" name="AddressSearchViewModel_PostCode" />
+        @Html.TextBoxFor(m => m.UserInfo.CurrentAddress.PostCode)
     </label>
         <aside>
             <h3>Why we need this</h3>

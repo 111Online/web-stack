@@ -1,8 +1,7 @@
 ﻿@model NHS111.Models.Models.Web.FromExternalServices.CheckCapacitySummaryResult
 
-<link href="~/content/css_NhsUk/service.css" media="screen" rel="stylesheet" type="text/css" />
-
 <div class="service-name">@Model.NameField</div>
 <div class="service-address">
     @Model.AddressField
 </div>
+@Html.HiddenFor(m => m.IdField)

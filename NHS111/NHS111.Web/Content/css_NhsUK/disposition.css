@@ -36,7 +36,6 @@
 
     form label input[type=text] {
         margin-top: 13px;
-
         width: 365px;
         display: block;
         height: 4rem;
@@ -45,6 +44,8 @@
         background-color: #fff;
         border: 2px solid #b9d2dc;
         border-radius: 0;
+        box-sizing:inherit;
+        -webkit-appearance: none;
     }
 
     form label {

@@ -204,7 +204,7 @@ fieldset {
 .form-label, .form-label-bold {
   display: block; }
 
-.form-label-bold + input, .form-label-bold + textarea {
+.form-label-bold + input, .form-label-bold + textarea, .form-label-bold ~ .ui-autocomplete-input {
   margin-top: 1rem; }
 
 .form-label-bold + .inline-form-groups {
@@ -215,7 +215,7 @@ fieldset {
   font-weight: normal;
   color: #667078; }
 
-.form-control {
+.form-control, .ui-autocomplete-input {
   display: block;
   width: 100%;
   -webkit-box-sizing: border-box;
@@ -230,7 +230,7 @@ fieldset {
   -webkit-appearance: none;
   border-radius: 0; }
   @media (min-width: 641px) {
-    .form-control {
+    .form-control, .ui-autocomplete-input {
       width: 50%; } }
 
 textarea.form-control {
@@ -1983,6 +1983,6 @@ button[disabled=disabled] {
     font-weight: bold; 
     text-align: left; 
     background-color: #fff; 
-    padding: 1rem 1rem 0 1rem;
+    padding: 1rem 1rem 0 0.8rem;
     color: black; 
 }
