@@ -86,12 +86,12 @@ namespace NHS111.Web.Controllers
             return View("PersonalDetails", model);
         }
 
-        //[HttpPost]
-        //public async Task<ActionResult> PersonalDetails(OutcomeViewModel model)
-        //{
-        //    model = await _outcomeViewModelBuilder.PersonalDetailsBuilder(model);
-        //    return View("PersonalDetails", model);
-        //}
+        [HttpPost]
+        public async Task<ActionResult> PersonalDetails(OutcomeViewModel model)
+        {
+            model = await _outcomeViewModelBuilder.PersonalDetailsBuilder(model);
+            return View("PersonalDetails", model);
+        }
 
 
     }

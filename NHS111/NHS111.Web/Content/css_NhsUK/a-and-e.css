@@ -1,11 +1,11 @@
-﻿.banner {
+﻿/*.banner {
     color: white;
     background-color: #fa8633;
 }
 
 .banner div {
-    margin: 0 auto;
-    padding: 60px 200px;
+    /*margin: 0 auto;*/
+    /*padding: 60px 0 60px 0;
     width: 847px;
     background-image: url("/content/images/icons/hospital.png");
     background-size: 100px 100px;
@@ -17,7 +17,43 @@
     font-size: 20px;
     font-weight: normal;
     line-height: 30px;
-}
+}*/
+
+.sub-header {
+        background-color: #fa8633;
+        /*height: 231px;*/
+        color: white;
+        font-size: 120%;
+        margin-bottom: 40px;
+    }
+
+    .sub-header div {
+        margin: 0 auto;
+        width: 75%;
+    }
+
+    .sub-header .aande {
+        background-color: white;
+        color: #fa8633;
+        width: 60px;
+        height: 60px;
+        border-radius: 80px;
+        padding: 20px;
+        font-size: 108px;
+        line-height: 62px;
+        font-weight: bolder;
+        margin: 65px 30px 65px 0;
+        float: left;
+    }
+
+    .sub-header h2 {
+        padding-top: 70px;
+    }
+
+    .sub-header p {
+        font-size: 120%;
+        padding-bottom: 70px;
+    }
 
 form {
     padding-top: 20px;
@@ -36,9 +72,9 @@ form label input[type=text] {
 }
 
 
-#ThankYou {
+/*#ThankYou {
     margin-top: 20px;
-}
+}*/
 
 input[type=submit] {
     font-weight: bold;

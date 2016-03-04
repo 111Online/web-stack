@@ -21,7 +21,7 @@
         font-size: 78px;
         line-height: 62px;
         font-weight: bolder;
-        margin: 65px 30px 65px 65px;
+        margin: 65px 30px 65px 0;
         float: left;
     }
 
@@ -98,12 +98,12 @@
 	    margin-top: -15px;
     }
 
-    button[type=submit] {
+    input[type=submit] {
         float: left;
         clear: left;
 
     }
 
-    button[type='submit'].button-next {
-    background-position: 100% 60%;
+    input[type='submit'].button-next {
+    background-position: 90% 60%;
 }

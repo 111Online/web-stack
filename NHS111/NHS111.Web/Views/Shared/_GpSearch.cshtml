@@ -1,22 +1,16 @@
 ﻿@model NHS111.Models.Models.Web.OutcomeViewModel
 
-<div class="row">
-    <h3>Your registered GP practice</h3>
-</div>
-<div class="row">
-    <div class="searchBox">
-        <label for="FindGP">
-
-
-            <span>Find your GP practice</span>
-
-
-            <input type="hidden" id="FindGPId" name="SurgeryViewModel.SelectedSurgery" />
-            <input type="text" id="FindGP" placeholder="Type your GP practice name" class="searchInput">
-
-        </label>
-    </div>
-</div>
+<label>
+    Name of your GP practice <span>(optional)</span>
+    <input type="text" id="FindGP">
+    <input type="hidden" id="FindGPId" name="SurgeryViewModel.SelectedSurgery" />
+</label>
+<aside>
+    <h3>Why we need this</h3>
+    <p>
+        So we can offer healthcare providers which may be<br />available through your own GP practice.
+    </p>
+</aside>
 
 <script>
     $(function () {
@@ -46,7 +40,6 @@
             select: function (event, ui) {
                 $("#FindGP").val(ui.item.Name);
                 $("#FindGPId").val(ui.item.SurgeryId);
-                $("#Next[type=submit]").removeAttr('disabled');
                 return false;
             }
         })
