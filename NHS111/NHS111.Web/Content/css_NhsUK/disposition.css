@@ -21,7 +21,7 @@
         font-size: 78px;
         line-height: 62px;
         font-weight: bolder;
-        margin: 65px 30px 65px 65px;
+        margin: 65px 30px 65px 0;
         float: left;
     }
 
@@ -36,7 +36,6 @@
 
     form label input[type=text] {
         margin-top: 13px;
-
         width: 365px;
         display: block;
         height: 4rem;
@@ -45,6 +44,8 @@
         background-color: #fff;
         border: 2px solid #b9d2dc;
         border-radius: 0;
+        box-sizing:inherit;
+        -webkit-appearance: none;
     }
 
     form label {
@@ -98,12 +99,12 @@
 	    margin-top: -15px;
     }
 
-    button[type=submit] {
+    input[type=submit] {
         float: left;
         clear: left;
 
     }
 
-    button[type='submit'].button-next {
-    background-position: 100% 60%;
+    input[type='submit'].button-next {
+    background-position: 90% 60%;
 }
