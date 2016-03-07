@@ -96,6 +96,7 @@
     <Compile Include="Mappers\WebMappings\AutoMapperWebConfiguration.cs" />
     <Compile Include="Mappers\WebMappings\FromOutcomeViewModelToDosCheckCapacitySummaryRequest.cs" />
     <Compile Include="Mappers\WebMappings\FromOutcomeViewModelToDosViewModel.cs" />
+    <Compile Include="Mappers\WebMappings\FromOutcomeViewModelToSubmitEncounterToServiceRequest.cs" />
     <Compile Include="Mappers\WebMappings\FromPafToAddressInfo.cs" />
     <Compile Include="Models\Business\Suggestion.cs" />
     <Compile Include="Models\Configuration\LivePathwaysCollection.cs" />
@@ -125,6 +126,20 @@
     <Compile Include="Models\Web\FromExternalServices\CheckCapacitySummaryResult.cs" />
     <Compile Include="Models\Web\FromExternalServices\Journey.cs" />
     <Compile Include="Models\Web\FromExternalServices\JourneyStep.cs" />
+    <Compile Include="Models\Web\ITK\Address.cs" />
+    <Compile Include="Models\Web\ITK\Authentication.cs" />
+    <Compile Include="Models\Web\ITK\CaseDetails.cs" />
+    <Compile Include="Models\Web\ITK\CaseSummary.cs" />
+    <Compile Include="Models\Web\ITK\ContactDetails.cs" />
+    <Compile Include="Models\Web\ITK\DateOfBirth.cs" />
+    <Compile Include="Models\Web\ITK\GpPractice.cs" />
+    <Compile Include="Models\Web\ITK\PatientDetails.cs" />
+    <Compile Include="Models\Web\ITK\ServiceDetails.cs" />
+    <Compile Include="Models\Web\ITK\Submission.cs" />
+    <Compile Include="Models\Web\ITK\SubmitEncounterToServiceRequest.cs" />
+    <Compile Include="Models\Web\ITK\SubmitHASCToService.cs" />
+    <Compile Include="Models\Web\ITK\SummaryItem.cs" />
+    <Compile Include="Models\Web\ITK\Value.cs" />
     <Compile Include="Models\Web\JustToBeSafeViewModel.cs" />
     <Compile Include="Models\Web\Enums\NodeType.cs" />
     <Compile Include="Models\Web\OutcomeViewModel.cs" />
@@ -135,10 +150,13 @@
     <Compile Include="Models\Web\Users.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Content Include="Models\Web\XMLFile1.xml" />
+  </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
