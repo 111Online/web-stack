@@ -12,7 +12,7 @@
         <div>
             <div class="tick">&#10003;</div>
             <h2>You've finished your online assessment</h2>
-            <p>We recommend that you speak to a clinician within 2 hours</p>
+            <p>@Model.Title</p>
         </div>
     </div>
 }
@@ -22,7 +22,8 @@
 <h2>Let us contact a healthcare provider near you</h2>
 <p>Please enter your details below to find a healthcare provider and they will contact you.</p>
 
-@using (Html.BeginForm("ServiceDetails", "Outcome", FormMethod.Post)) {
+@using (Html.BeginForm("ServiceDetails", "Outcome", FormMethod.Post))
+{
 
     @Html.HiddenFor(x => Model.Id)
     @Html.HiddenFor(x => Model.JourneyJson)
@@ -37,27 +38,18 @@
 
     <label>
         Postcode of current location
-        <input type="text" name="AddressSearchViewModel_PostCode" />
+        @Html.TextBoxFor(m => m.UserInfo.CurrentAddress.PostCode)
     </label>
-    <aside>
-        <h3>Why we need this</h3>
-        <p>
-            So we can offer details of healthcare providers<br />available near to where you are right now.
-        </p>
-    </aside>
+        <aside>
+            <h3>Why we need this</h3>
+            <p>
+                So we can offer details of healthcare providers<br />available near to where you are right now.
+            </p>
+        </aside>
 
 
-    <label>
-        Name of your GP practice <span>(optional)</span>
-        <input type="text" name="FindGPId" />
-    </label>
-    <aside>
-        <h3>Why we need this</h3>
-        <p>
-            So we can offer healthcare providers which may be<br />available through your own GP practice.
-        </p>
-    </aside>
+        @Html.Partial("_GpSearch", Model)
 
-    <input class="button button-next" type="submit" name="DosResults" value="Find available healthcare providers"/>
+        <input class="button button-next" type="submit" name="DosResults" value="Find available healthcare providers" />
 
 }

@@ -222,6 +222,7 @@
     <Content Include="Content\css_NhsUK\personaldetails.css" />
     <Content Include="Content\css_NhsUK\question.css" />
     <Content Include="Content\css_NhsUK\search.css" />
+    <Content Include="Content\css_NhsUK\servicedetails.css" />
     <Content Include="Content\css_NhsUK\slider.css" />
     <Content Include="Content\css_NhsUK\service.css" />
     <Content Include="Content\images\999-Body-Image.png" />
@@ -672,6 +673,7 @@
     <Content Include="Views\Shared\_CommonHiddenFieldsDosViewModel.cshtml" />
     <Content Include="Views\Shared\_CommonHiddenFieldsHomeAddressInfo.cshtml" />
     <Content Include="Views\Outcome\Confirmation.cshtml" />
+    <Content Include="Views\Outcome\ServiceDetails.cshtml" />
     <None Include="Web.Development.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
