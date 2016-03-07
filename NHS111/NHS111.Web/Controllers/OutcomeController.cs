@@ -49,9 +49,15 @@ namespace NHS111.Web.Controllers
             return View("Confirmation", model);
         }
 
+        [HttpPost]
+        public async Task<ActionResult> PersonalDetails(OutcomeViewModel model)
+        {
+            model = await _outcomeViewModelBuilder.PersonalDetailsBuilder(model);
+            return View("PersonalDetails", model);
+        }
 
         [HttpGet]
-        public ActionResult PersonalDetails()
+        public ActionResult Disposition()
         {
             var config = new Configuration();
             var model = new OutcomeViewModel()
@@ -83,16 +89,7 @@ namespace NHS111.Web.Controllers
                 }
             };
 
-            return View("PersonalDetails", model);
+            return View(model);
         }
-
-        //[HttpPost]
-        //public async Task<ActionResult> PersonalDetails(OutcomeViewModel model)
-        //{
-        //    model = await _outcomeViewModelBuilder.PersonalDetailsBuilder(model);
-        //    return View("PersonalDetails", model);
-        //}
-
-
     }
 }

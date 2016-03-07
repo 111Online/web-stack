@@ -7,4 +7,18 @@
     Confirmation
 }
 
-CONFIRMED
+<link href="~/content/css_NhsUk/confirmation.css" media="screen" rel="stylesheet" type="text/css" />
+
+<section>
+    <div class="section-item">
+        <h3 class="section-header">
+            Service booking confirmed
+        </h3>
+        <div class="appointment-telephone-alert" style="background: url('icon-telephone.svg') no-repeat 2rem center #fffabf; background-size: auto 16px; font-size: 1.2rem">
+            You will be contacted by the healthcare provider within <b>2 hours</b>
+        </div>
+        <div class="service-content">
+            @Html.Partial("_SelectedService", Model.SelectedService)
+        </div>
+    </div>
+</section>
