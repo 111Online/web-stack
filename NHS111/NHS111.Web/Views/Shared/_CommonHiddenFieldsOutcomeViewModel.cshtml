@@ -14,6 +14,7 @@
 @Html.HiddenFor(x => Model.UserInfo.LastName)
 @Html.HiddenFor(x => Model.UserInfo.DoB)
 @Html.HiddenFor(x => Model.UserInfo.TelephoneNumber)
+@Html.HiddenFor(x => Model.UserInfo.CurrentAddress.PostCode)
 @Html.HiddenFor(x => Model.UserId)
 @Html.HiddenFor(x => Model.StateJson)
 @Html.HiddenFor(x => Model.PreviousStateJson)
@@ -25,5 +26,4 @@
     @Html.HiddenFor(m => m.CheckCapacitySummaryResultList[i].OdsCodeField)
     @Html.HiddenFor(m => m.CheckCapacitySummaryResultList[i].PostcodeField)
 }
-
-
+@Html.HiddenFor(m => m.SurgeryViewModel.SelectedSurgery)
