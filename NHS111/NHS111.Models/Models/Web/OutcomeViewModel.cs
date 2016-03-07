@@ -27,6 +27,7 @@ namespace NHS111.Models.Models.Web
             CareAdvices = new List<CareAdvice>();
             CareAdviceMarkers = new List<string>();
             AddressSearchViewModel = new AddressSearchViewModel();
+            CheckCapacitySummaryResultList = new List<CheckCapacitySummaryResult>().ToArray();
         }
     }
 }
