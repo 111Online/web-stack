@@ -1,2 +1,30 @@
-﻿body {
+﻿.confirmation-telephone-alert {
+    padding: 0.5rem 2rem 0.5rem 3rem;
+    background: url('/Content/images/bg/icon-telephone.svg') no-repeat 1rem center #fffabf;
+    background-size: auto 16px;
+}
+
+.self-care-alert {
+    padding: 0.5rem 2rem 0.5rem 3rem;
+    background: url('/Content/images/bg/icon-telephone.svg') no-repeat 1rem center #fffabf;
+    background-size: auto 16px;
+}
+
+.self-care-content {
+    padding: 1rem 1rem 0 1rem;
+    max-width: 50rem;
+}
+
+@media screen and (min-width: 40em) {
+    .self-care-content {
+        max-width: 45.8333333333rem;
+    }
+}
+
+.self-care-title {
+    font-weight: bold;
+}
+
+.self-care {
+    
 }

@@ -232,6 +232,7 @@
     <Content Include="Content\images\bg\blueBG.png" />
     <Content Include="Content\images\bg\footerBG.png" />
     <Content Include="Content\images\bg\homeAddressBG.png" />
+    <Content Include="Content\images\bg\icon-telephone.svg" />
     <Content Include="Content\images\bg\inactiveSurgery.png" />
     <Content Include="Content\images\bg\lineShadowBG.png" />
     <Content Include="Content\images\bg\minus.png" />
