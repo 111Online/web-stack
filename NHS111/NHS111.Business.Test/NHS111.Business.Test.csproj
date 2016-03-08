@@ -43,6 +43,10 @@
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="AutoMapper, Version=4.2.1.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
+      <HintPath>..\packages\AutoMapper.4.2.1\lib\net45\AutoMapper.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Moq">
       <HintPath>..\packages\Moq.4.2.1502.0911\lib\net40\Moq.dll</HintPath>
     </Reference>
@@ -80,8 +84,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\CareAdviceService_Test.cs" />
     <Compile Include="Services\FeedbackApiIoCTests.cs" />
+    <Compile Include="Services\ItkDispatcherMapperTest.cs" />
     <Compile Include="Services\PathwayService_Test.cs" />
     <Compile Include="Services\QuestionService_Test.cs" />
+    <Compile Include="Services\SubmitEncounterToServiceRequestConverterTest.cs" />
     <Compile Include="Transformers\QuestionTransformer_Test.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -89,6 +95,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\NHS111.Business.ITKDispatcher.Api\NHS111.Business.ITKDispatcher.Api.csproj">
+      <Project>{396b6fa5-9842-455b-8856-887ba33adbca}</Project>
+      <Name>NHS111.Business.ITKDispatcher.Api</Name>
+    </ProjectReference>
     <ProjectReference Include="..\NHS111.Business\NHS111.Business.csproj">
       <Project>{91b42d29-1161-4e4a-84a1-a2293c8c4560}</Project>
       <Name>NHS111.Business</Name>
