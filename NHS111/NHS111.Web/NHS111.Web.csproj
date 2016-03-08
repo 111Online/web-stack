@@ -224,6 +224,7 @@
     <Content Include="Content\css_NhsUK\question.css" />
     <Content Include="Content\css_NhsUK\search.css" />
     <Content Include="Content\css_NhsUK\servicedetails.css" />
+    <Content Include="Content\css_NhsUK\servicelist.css" />
     <Content Include="Content\css_NhsUK\slider.css" />
     <Content Include="Content\css_NhsUK\service.css" />
     <Content Include="Content\images\999-Body-Image.png" />
@@ -622,9 +623,6 @@
     <Content Include="Views\Outcome\Disposition.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Views\Outcome\DispositionNo.cshtml" />
-  </ItemGroup>
-  <ItemGroup>
     <Content Include="Views\Shared\_SurgeryDetails.cshtml" />
   </ItemGroup>
   <ItemGroup>
@@ -676,6 +674,7 @@
     <Content Include="Views\Shared\_CommonHiddenFieldsHomeAddressInfo.cshtml" />
     <Content Include="Views\Outcome\Confirmation.cshtml" />
     <Content Include="Views\Outcome\ServiceDetails.cshtml" />
+    <Content Include="Views\Outcome\ServiceList.cshtml" />
     <None Include="Web.Development.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

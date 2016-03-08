@@ -18,7 +18,3 @@
 .button-link:hover, .button-link:focus {
     text-decoration: underline !important;
 }
-.surgery-item {
-    border-bottom: 2px solid #0072C6;
-    margin-bottom: 20px;
-}

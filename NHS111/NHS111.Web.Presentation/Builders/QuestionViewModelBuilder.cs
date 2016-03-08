@@ -131,6 +131,16 @@ namespace NHS111.Web.Presentation.Builders
             return JsonConvert.SerializeObject(pathways.Select(pathway => new { label = pathway.Group, value = pathway.PathwayNumbers }));
         }
 
+        public OutcomeViewModel AddressSearchViewBuilder(OutcomeViewModel model)
+        {
+            model.AddressSearchViewModel = new AddressSearchViewModel()
+            {
+                PostcodeApiAddress = _configuration.PostcodeSearchByIdApiUrl,
+                PostcodeApiSubscriptionKey = _configuration.PostcodeSubscriptionKey
+            };
+            return model;
+        }
+
         public async Task<Tuple<string, JourneyViewModel>> ActionSelection(JourneyViewModel model)
         {
             var nonOutcome = new[] { "Dx011", "Dx012", "Dx013", "Dx016", };
@@ -146,6 +156,7 @@ namespace NHS111.Web.Presentation.Builders
                 case NodeType.Outcome:
                     {
                         var newModel = _mappingEngine.Map<OutcomeViewModel>(model);
+                        newModel = AddressSearchViewBuilder(newModel);
                         newModel.CareAdviceMarkers = model.State.Keys.Where(key => key.StartsWith("Cx"));
                         var disposition2 = new[] { "Dx02", "Dx25", "Dx75", "Dx30", "Dx03", "Dx16", "Dx94", "Dx09" };
                         return disposition2.Contains(model.Id)

@@ -7,40 +7,6 @@
 
 <link href="~/Content/css_NhsUK/a-and-e.css" media="screen" rel="stylesheet" type="text/css" />
 
-<script type="text/javascript">
-    $(document).ready(function () {
-        $('.postcode').bind('input', function () {
-            $(".searchPostcode").removeAttr('disabled');
-
-        });
-
-        $('input.postcode').blur(function () {
-            if ($(this).val().length === 0) {
-                $(".searchPostcode[type=submit]").attr('disabled', 'disabled');
-            }
-        });
-
-
-        $('input.postcode').bind('keyup', function (e) {
-
-            if (e.which == 8) { //backspace detected to disable the button
-
-                $(".searchPostcode[type=submit]").attr('disabled', 'disabled');
-
-            }
-        });
-
-        $(".manualEntry").click(function () {
-            $("#AddressList").hide();
-            $("#AddressDetails").show();
-            $(".enterManually").hide();
-            $("#PC").hide();
-
-
-        });
-    });
-</script>
-
 @section OuterSection{
     <div class="sub-header">
         <div>
@@ -62,38 +28,39 @@
     </div>
 }
 
-@if (Model.CareAdvices.Any())
-{
-    <h3>Self care advice for your symptoms</h3>
-    {
-        var excludeTitles = Model.CareAdvices.Select(careAdvice => careAdvice.ExcludeTitle).Where(title => !string.IsNullOrEmpty(title)).ToList();
-        var includeCareAdvice = Model.CareAdvices.Where(careAdvice => !excludeTitles.Contains(careAdvice.Title));
-
-        foreach (var careAdvice in includeCareAdvice)
-        {
-            <p>@Html.Raw(careAdvice.Title)</p>
-            <ul>
-                @foreach (var item in careAdvice.Items)
-                {
-                    <li>@Html.Raw(item)</li>
-                }
-            </ul>
-        }
-    }
-}
-
 @if (Grouping.Two.Contains(Model.Id))
 {
     using (Html.BeginForm("ServiceDetails", "Outcome", FormMethod.Post))
     {
-        @Html.Partial("_CommonHiddenFieldsOutcomeViewModel", Model)
-        <h3>Would you like us to find your nearest emergency treatment centre?</h3>
-        @Html.Partial("_PostCodeSearch", Model.AddressSearchViewModel)
+        @Html.HiddenFor(x => Model.Id)
+        @Html.HiddenFor(x => Model.JourneyJson)
+        @Html.HiddenFor(x => Model.PathwayId)
+        @Html.HiddenFor(x => Model.PathwayNo)
+        @Html.HiddenFor(x => Model.SymptomGroup)
+        @Html.HiddenFor(x => Model.UserInfo.Age)
+        @Html.HiddenFor(x => Model.UserInfo.Gender)
+        @Html.HiddenFor(x => Model.SymptomDiscriminator)
+        @Html.HiddenFor(x => Model.Title)
+        @Html.HiddenFor(x => Model.UserId)
+
+        <h2>Would you like us to find your nearest emergency treatment centre?</h2>
+        <label>
+            Postcode of current address
+        </label>
+        <div class="inline-details">
+            @Html.TextBoxFor(m => m.UserInfo.CurrentAddress.PostCode, new { @class = "form-control form-control-8-chars", placeholder = "eg. SE1" })
+            <input type="submit" class="button button-next" value="Find" />
+        </div>
     }
+    <div class="row">
+        <a class="button button-next button-link" href="#">I don't know my postcode</a>
+    </div>
 }
 
 @using (Html.BeginForm("Navigation", "Question", FormMethod.Post))
 {
     @Html.Partial("_CommonHiddenFieldsOutcomeViewModel", Model)
-    <input class="textLink" type="submit" name="PreviousQuestion" value="&lt; Change my answers" />
+    <div class="row">
+        <input class="button button-next button-link" type="submit" name="PreviousQuestion" value="Change my answers" />
+    </div>
 } 
