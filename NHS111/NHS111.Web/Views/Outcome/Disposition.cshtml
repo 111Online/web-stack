@@ -22,9 +22,8 @@
 <h2>Let us contact a healthcare provider near you</h2>
 <p>Please enter your details below to find a healthcare provider and they will contact you.</p>
 
-@using (Html.BeginForm("ServiceDetails", "Outcome", FormMethod.Post))
+@using (Html.BeginForm("ServiceList", "Outcome", FormMethod.Post))
 {
-
     @Html.HiddenFor(x => Model.Id)
     @Html.HiddenFor(x => Model.JourneyJson)
     @Html.HiddenFor(x => Model.PathwayId)
