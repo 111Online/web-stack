@@ -85,6 +85,7 @@
     <Compile Include="Services\CareAdviceService_Test.cs" />
     <Compile Include="Services\FeedbackApiIoCTests.cs" />
     <Compile Include="Services\ItkDispatcherMapperTest.cs" />
+    <Compile Include="Services\ItkDispatchResponseBuilderTests.cs" />
     <Compile Include="Services\PathwayService_Test.cs" />
     <Compile Include="Services\QuestionService_Test.cs" />
     <Compile Include="Services\SubmitEncounterToServiceRequestConverterTest.cs" />
