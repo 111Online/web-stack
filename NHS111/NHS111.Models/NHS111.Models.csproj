@@ -131,13 +131,11 @@
     <Compile Include="Models\Web\ITK\CaseDetails.cs" />
     <Compile Include="Models\Web\ITK\CaseSummary.cs" />
     <Compile Include="Models\Web\ITK\ContactDetails.cs" />
-    <Compile Include="Models\Web\ITK\DateOfBirth.cs" />
     <Compile Include="Models\Web\ITK\GpPractice.cs" />
+    <Compile Include="Models\Web\ITK\ITKDispatchRequest.cs" />
     <Compile Include="Models\Web\ITK\PatientDetails.cs" />
     <Compile Include="Models\Web\ITK\ServiceDetails.cs" />
     <Compile Include="Models\Web\ITK\Submission.cs" />
-    <Compile Include="Models\Web\ITK\SubmitEncounterToServiceRequest.cs" />
-    <Compile Include="Models\Web\ITK\SubmitHASCToService.cs" />
     <Compile Include="Models\Web\ITK\SummaryItem.cs" />
     <Compile Include="Models\Web\ITK\Value.cs" />
     <Compile Include="Models\Web\JustToBeSafeViewModel.cs" />

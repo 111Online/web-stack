@@ -22,10 +22,6 @@ namespace NHS111.Models.Mappers.WebMappings
             Mapper.CreateMap<OutcomeViewModel, ServiceDetails>()
                 .ConvertUsing<FromOutcomeViewModelToServiceDetailsConverter>();
 
-            Mapper.CreateMap<OutcomeViewModel, SubmitEncounterToServiceRequest>()
-                .ForMember(dest => dest.CaseDetails, opt => opt.MapFrom(src => src))
-                .ForMember(dest => dest.PatientDetails, opt => opt.MapFrom(src => src))
-                .ForMember(dest => dest.ServiceDetails, opt => opt.MapFrom(src => src));
         }
     }
 
@@ -52,17 +48,8 @@ namespace NHS111.Models.Mappers.WebMappings
 
             patientDetails.Forename = outcome.UserInfo.FirstName;
             patientDetails.Surname = outcome.UserInfo.LastName;
-            patientDetails.CurrentAddress = new Address()
-            {
-                StreetAddressLine1 =
-                    !string.IsNullOrEmpty(outcome.UserInfo.CurrentAddress.HouseNumber)
-                        ? string.Format("{0} {1}", outcome.UserInfo.CurrentAddress.HouseNumber, outcome.UserInfo.CurrentAddress.AddressLine1)
-                        : outcome.UserInfo.CurrentAddress.AddressLine1,
-                StreetAddressLine2 = outcome.UserInfo.CurrentAddress.AddressLine2,
-                StreetAddressLine3 = outcome.UserInfo.CurrentAddress.City,
-                StreetAddressLine4 = outcome.UserInfo.CurrentAddress.County,
-                StreetAddressLine5 = outcome.UserInfo.CurrentAddress.PostCode
-            };
+            patientDetails.ServiceAddressPostcode = outcome.UserInfo.CurrentAddress.PostCode;
+         
             patientDetails.HomeAddress = new Address()
             {
                 StreetAddressLine1 =
@@ -75,13 +62,11 @@ namespace NHS111.Models.Mappers.WebMappings
                 StreetAddressLine5 = outcome.UserInfo.HomeAddress.PostCode
             };
             if (outcome.UserInfo.Year != null && outcome.UserInfo.Month != null && outcome.UserInfo.Day != null)
-                patientDetails.DateOfBirth = new DateOfBirth()
-                {
-                    DateOfBirthItem = new DateTime(outcome.UserInfo.Year.Value, outcome.UserInfo.Month.Value, outcome.UserInfo.Day.Value)
-                };
+                patientDetails.DateOfBirth =
+                    new DateTime(outcome.UserInfo.Year.Value, outcome.UserInfo.Month.Value, outcome.UserInfo.Day.Value);
+                
             patientDetails.Gender = outcome.UserInfo.Gender;
-            patientDetails.InformationType = "NotSpecified";
-
+     
             return patientDetails;
         }
     }
@@ -95,8 +80,7 @@ namespace NHS111.Models.Mappers.WebMappings
 
             serviceDetails.Id = outcome.SelectedService.IdField.ToString();
             serviceDetails.Name = outcome.SelectedService.NameField;
-            serviceDetails.OdsCode = outcome.SelectedService.OdsCodeField;
-            serviceDetails.Address = outcome.SelectedService.AddressField;
+         
             serviceDetails.PostCode = outcome.SelectedService.PostcodeField;
 
             return serviceDetails;

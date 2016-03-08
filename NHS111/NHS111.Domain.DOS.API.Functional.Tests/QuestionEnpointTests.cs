@@ -11,7 +11,7 @@ namespace NHS111.Domain.DOS.API.Functional.Tests
     public class QuestionEnpointTests
     {
         private string _domainApiDomain =
-            "http://microsoft-apiapp089e023e4ca84f6bac0493c7-integration.azurewebsites.net/";
+            "https://microsoft-apiapp089e023e4ca84f6bac0493c7-integration.azurewebsites.net/";
 
         
         private RestfulHelper _restfulHelper = new RestfulHelper();
