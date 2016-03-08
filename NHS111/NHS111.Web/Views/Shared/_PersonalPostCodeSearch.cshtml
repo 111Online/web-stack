@@ -22,13 +22,11 @@
     <label>Pick an address</label>
     <label class="select-label">
         <select class="select-address" id="AddressSelect">
-            <option>option 1</option>
-            <option>option 2</option>
         </select>
     </label>
 </div>
 <div class="row">
-    <input class="button button-next button-link" type="submit" name="postcodeunknown" value="I don't know my home postcode" />
+    <a class="button button-next button-link" href="#">I don't know my postcode</a>
 </div>
 
 <!--Spinner script-->
@@ -94,6 +92,7 @@
                     spinner.stop();
                     $("#loadingPostcode").fadeOut();
                 },
+                timeout: 3000,
                 error: function (XMLHttpRequest, textStatus, errorThrown) {
                     console.error("Status: " + textStatus); alert("Error: " + errorThrown);
                     $("#AddressList").hide();

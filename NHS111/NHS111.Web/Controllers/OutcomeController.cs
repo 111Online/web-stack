@@ -27,38 +27,8 @@ namespace NHS111.Web.Controllers
                 .SurgeryViewModel.Surgeries);
         }
 
-        [HttpPost]
-        public ActionResult Emergency()
-        {
-            return View();
-        }
-
-        [HttpPost]
-        [ActionName("DispositionSelection")]
-        [MultiSubmit(ButtonName = "DispositionNo")]
-        public async Task<ActionResult> DispositionNo(OutcomeViewModel model)
-        {
-            model = await _outcomeViewModelBuilder.PersonalDetailsBuilder(model);
-            return View("DispositionNo", model);
-        }
-
-        [HttpPost]
-        public async Task<ActionResult> ServiceDetails(OutcomeViewModel model)
-        {
-            var dosViewModel = await _dosBuilder.DosResultsBuilder(model);
-            model.CheckCapacitySummaryResultList = dosViewModel.CheckCapacitySummaryResultList;
-            return View("ServiceDetails", model);
-        }
-
-        [HttpPost]
-        public ActionResult Confirmation(OutcomeViewModel model)
-        {
-            //submit to ITK;
-            return View();
-        }
-        
         [HttpGet]
-        public ActionResult PersonalDetails()
+        public ActionResult Disposition()
         {
             var config = new Configuration();
             var model = new OutcomeViewModel()
@@ -90,7 +60,23 @@ namespace NHS111.Web.Controllers
                 }
             };
 
-            return View("PersonalDetails", model);
+            return View(model);
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> ServiceList(OutcomeViewModel model)
+        {
+            var dosViewModel = await _dosBuilder.DosResultsBuilder(model);
+            model.CheckCapacitySummaryResultList = dosViewModel.CheckCapacitySummaryResultList;
+            return View("ServiceList", model);
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> ServiceDetails(OutcomeViewModel model)
+        {
+            var dosViewModel = await _dosBuilder.DosResultsBuilder(model);
+            model.CheckCapacitySummaryResultList = dosViewModel.CheckCapacitySummaryResultList;
+            return View("ServiceDetails", model);
         }
 
         [HttpPost]
@@ -100,6 +86,26 @@ namespace NHS111.Web.Controllers
             return View("PersonalDetails", model);
         }
 
+        [HttpPost]
+        public ActionResult Confirmation(OutcomeViewModel model)
+        {
+            //submit to ITK;
+            return View(model);
+        }
 
+        [HttpPost]
+        public ActionResult Emergency()
+        {
+            return View();
+        }
+
+        //[HttpPost]
+        //[ActionName("DispositionSelection")]
+        //[MultiSubmit(ButtonName = "DispositionNo")]
+        //public async Task<ActionResult> DispositionNo(OutcomeViewModel model)
+        //{
+        //    model = await _outcomeViewModelBuilder.PersonalDetailsBuilder(model);
+        //    return View("DispositionNo", model);
+        //}
     }
 }

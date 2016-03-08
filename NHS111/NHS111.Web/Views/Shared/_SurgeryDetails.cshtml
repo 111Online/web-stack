@@ -1,28 +1,24 @@
-﻿@model NHS111.Models.Models.Web.DosViewModel
+﻿@model NHS111.Models.Models.Web.FromExternalServices.CheckCapacitySummaryResult[]
 
 @if (Model != null)
 {
-    <ul id="HospitalsList">
-        @foreach (var checkCapacitySummaryResult in Model.CheckCapacitySummaryResultList)
+    <ul>
+        @foreach (var checkCapacitySummaryResult in Model.ToList())
         {
-            <li>
+            <li class="surgery-item">
                 <h3>@Html.Raw(checkCapacitySummaryResult.NameField)</h3>
                 <div>
                     <p>@Html.Raw(checkCapacitySummaryResult.AddressField)</p>
                     @if (checkCapacitySummaryResult.ContactDetailsField != null && !checkCapacitySummaryResult.ContactDetailsField.IsEmpty())
                     {
-                        <p class="telIcon">@Html.Raw(checkCapacitySummaryResult.ContactDetailsField)</p>
+                        <p>@Html.Raw(checkCapacitySummaryResult.ContactDetailsField)</p>
                     }
                     @if (checkCapacitySummaryResult.UrlField != null && !checkCapacitySummaryResult.UrlField.IsEmpty())
                     {
-                        <p class="webIcon">
+                        <p>
                             <a href="http://@Html.Raw(checkCapacitySummaryResult.UrlField)" target="_blank">@Html.Raw(checkCapacitySummaryResult.UrlField)</a>
                         </p>
                     }
-                    @*@if (!Grouping.Two.Contains(Model.Id))
-                    {*@
-                        <button class="button selectHospital" value="@checkCapacitySummaryResult.IdField" id="@checkCapacitySummaryResult.IdField" name="SelectedService" type="submit">Select this service provider</button>
-                    @*}*@
                 </div>
             </li>
         }

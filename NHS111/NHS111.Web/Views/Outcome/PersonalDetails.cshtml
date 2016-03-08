@@ -38,6 +38,7 @@
 {
     @Html.Partial("_CommonHiddenFieldsOutcomeViewModel", Model)
     @Html.Partial("_CommonHiddenFieldsHomeAddressInfo", Model.UserInfo.HomeAddress, new ViewDataDictionary { TemplateInfo = new TemplateInfo { HtmlFieldPrefix = "HomeAddress" } })
+    @Html.HiddenFor(m => m.SelectedServiceId)
     <section>
         <div class="section-item">
             <h3 class="section-header">
