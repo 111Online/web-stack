@@ -133,6 +133,7 @@
     <Compile Include="Models\Web\ITK\ContactDetails.cs" />
     <Compile Include="Models\Web\ITK\GpPractice.cs" />
     <Compile Include="Models\Web\ITK\ITKDispatchRequest.cs" />
+    <Compile Include="Models\Web\ITK\ITKDispatchResponse.cs" />
     <Compile Include="Models\Web\ITK\PatientDetails.cs" />
     <Compile Include="Models\Web\ITK\ServiceDetails.cs" />
     <Compile Include="Models\Web\ITK\Submission.cs" />
