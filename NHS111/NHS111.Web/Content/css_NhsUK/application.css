@@ -1957,8 +1957,8 @@ button[disabled=disabled] {
     background-color: #f1d600;
     transition: background 200ms ease-in-out,color 200ms ease-in-out,box-shadow 200ms ease-in-out;
     -webkit-transition: background 200ms ease-in-out,color 200ms ease-in-out,box-shadow 200ms ease-in-out;
-    border-radius: 5px;
-    -webkit-border-radius: 5px;
+    /*border-radius: 5px;
+    -webkit-border-radius: 5px;*/
 }
 .feedback-container a, .feedback-container a:visited {
     text-decoration: none;
@@ -2030,7 +2030,7 @@ button[disabled=disabled] {
 @media screen and (min-width: 768px) {
     .feedback-form {
         font-size: 1em;
-        line-height: 4rem;
+        line-height: 2em;
     }
 }
 @media screen and (min-width: 992px){
@@ -2042,9 +2042,8 @@ button[disabled=disabled] {
     float: left;
     display: inline;
     resize: none; 
-    width: 45%;
-    box-sizing: border-box;
-    height: 3em;
+    width: 100%;
+    height: 2em;
     padding: 0 1em;
     background-color: #fff;
     border: 2px solid #b9d2dc;
@@ -2053,10 +2052,42 @@ button[disabled=disabled] {
     margin-right: 10px;
     margin-bottom: 10px;
 }
-.feedback-submit{
-     margin-bottom: 10px;
+@media screen and (min-width: 500px) {
+    .feedback-input {
+        width: 80%;
+    }
 }
-/*
+.feedback-btn.feedback-submit {
+    float: left;
+    max-width: none;
+    height: 1rem;
+    line-height: 1rem;
+    color: #fff;
+    background-color: #4c9c39;
+    margin-left: 0;
+}
+.feedback-btn.feedback-submit:link, .feedback-btn.feedback-submit:hover, .feedback-btn.feedback-submit:focus, .feedback-btn.feedback-submit:visited {
+    color: #fff;
+    background-color: #006647;
+}
+@media screen and (min-width: 500px) {
+    .feedback-btn.feedback-submit {
+        margin-left: 0;
+        font-size: 0.8em;
+    }
+}
+@media screen and (min-width: 768px) {
+    .feedback-btn.feedback-submit {
+        font-size: 1em;
+        height: 2rem;
+        line-height: 2rem;
+    }
+}
+@media screen and (min-width: 992px){
+    .feedback-btn.feedback-submit {
+        font-size: 1em;
+    }
+}
 .feedback-dismiss {
     position: absolute;
     right: 10px;
@@ -2071,14 +2102,13 @@ button[disabled=disabled] {
     background-color: transparent;
     cursor: pointer;
 }
-
 .feedback-dismiss {
     color: #ffffff;
     background-image: url("/content/img/icon-button-cancel.svg");
     background-repeat: no-repeat;
     width: 20px;
     height: 20px;
-}*/
+}
 .section-item {
     border-bottom: 2px solid #0072C6;
     margin-bottom: 20px;
