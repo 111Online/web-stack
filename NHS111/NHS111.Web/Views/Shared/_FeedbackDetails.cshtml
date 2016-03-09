@@ -1,24 +1,34 @@
 ﻿@model NHS111.Models.Models.Domain.Feedback
 @{ Model.DateAdded = DateTime.Now; }
 
-<div class="feedback-wrapper nhs-show-nav" style="margin-top: 99px;  border-top: 2px solid #0075A7; border-bottom: none; text-align:initial">
-    <div class="nhs-pagenav-container">
-        <form id="FeedbackForm" class="feedback-form" action="@Url.Action("SubmitFeedback", "Feedback")">
-
-            <h2 class="font-med" style="color:white">Help us improve 111 online</h2>
-
-            <div id="FeedbackDetails">
-                <p>If you’d like to give your views on helping us improve 111 online, please use the form below.</p>
-                <div>
+<div class="feedback-wrapper">
+    <div class="feedback-container feedback-container--open">
+        <div class="feedback-banner">
+            <a href="#" class="feedback-btn">No Thanks!</a>
+            <form id="FeedbackForm" action="@Url.Action("SubmitFeedback", "Feedback")">
+                @*<h2 class="font-med" style="color:white">Help us improve 111 online</h2>*@
+                <p class="feedback-message">
+                    Help us improve 111 online @*<a ng-show="options.link" class="feedback-more_info" href="#null">More info</a>*@
+                </p>
+                <p class="feedback-message">
+                    If you’d like to give your views on helping us improve 111 online, please use the form below. @*<a ng-show="options.link" class="feedback-more_info" href="#null">More info</a>*@
+                </p>
+                <div class="feedback-form">
                     @Html.TextAreaFor(m => m.Text, new { @placeholder = "Feedback", @Value = "", @class = "feedback-input", @maxlength = "8000" })
-                    <input class="button feedback-submit" id="btnFeedback" type="button" name="btnFeedback" value="Submit Feedback" onclick=" SubmitFeedback(this); " />
+                    <a class="feedback-btn feedback-submit" id="btnFeedback" onclick="SubmitFeedback(this);">Submit Feedback</a>
                 </div>
-            </div>
+                @*<div id="FeedbackDetails">
+                    <p>If you’d like to give your views on helping us improve 111 online, please use the form below.</p>
+                    <div>
+                        @Html.TextAreaFor(m => m.Text, new { @placeholder = "Feedback", @Value = "", @class = "feedback-input", @maxlength = "8000" })
+                        <input class="button feedback-submit" id="btnFeedback" type="button" name="btnFeedback" value="Submit Feedback" onclick=" SubmitFeedback(this); " />
+                    </div>
+                </div>*@
 
-            @Html.HiddenFor(m => m.UserId)
-            @Html.HiddenFor(m => m.PageId)
-        </form>
-        <button type="button" class="feedback-dismiss" aria-hidden="true"></button>
+                @Html.HiddenFor(m => m.UserId)
+                @Html.HiddenFor(m => m.PageId)
+            </form>
+        </div>
     </div>
 </div>
 <script>
