@@ -31,9 +31,8 @@ namespace NHS111.Business.Test.Services
         public const string TEST_GP_TELEPHONE = "02380555555";
         public const string TEST_GP_ODS_CODE ="RA286";
 
-
         public const int DOS_SERVICE_ID = 1234;
-   
+        public const string TEST_SERVICE_ODS_CODE = "Y028240002";
    
 
         [SetUp]
@@ -61,7 +60,7 @@ namespace NHS111.Business.Test.Services
                 },
                 PatientDetails = new PatientDetails()
                 {
-                    DateOfBirth = new DateTime(1980, 1, 1),
+                    DateOfBirth = new DateTime(1980, 11, 30),
                     Forename = TEST_PATIENT_FORENAME,
                     Surname = TEST_PATIENT_SURNAME,
                     Gender = "Female",
@@ -88,7 +87,8 @@ namespace NHS111.Business.Test.Services
                 {
                     Id = DOS_SERVICE_ID.ToString(),
                     Name = "TestSurgery",
-                    PostCode = "TT22 5TT"
+                    PostCode = "TT22 5TT",
+                    OdsCode = TEST_SERVICE_ODS_CODE
                 }
             };
 
@@ -102,6 +102,7 @@ namespace NHS111.Business.Test.Services
             Assert.AreEqual(result.PatientDetails.Forename, TEST_PATIENT_FORENAME);
             Assert.AreEqual(result.PatientDetails.Surname, TEST_PATIENT_SURNAME);
             Assert.AreEqual(result.PatientDetails.Gender, gender.Female);
+            Assert.AreEqual(result.PatientDetails.DateOfBirth.Item, "1980-11-30");
 
             Assert.AreEqual(result.PatientDetails.HomeAddress.PostalCode, TEST_PATIENT_HOME_POSTCODE );
             Assert.AreEqual(result.PatientDetails.HomeAddress.StreetAddressLine1, TEST_PATIENT_HOME_STREETADDRESS);
@@ -113,6 +114,7 @@ namespace NHS111.Business.Test.Services
             Assert.AreEqual(result.PatientDetails.GpPractice.ODS, TEST_GP_ODS_CODE);
 
             Assert.AreEqual(result.ServiceDetails.id, DOS_SERVICE_ID);
+            Assert.AreEqual(result.ServiceDetails.odsCode, TEST_SERVICE_ODS_CODE);
         }
 
 

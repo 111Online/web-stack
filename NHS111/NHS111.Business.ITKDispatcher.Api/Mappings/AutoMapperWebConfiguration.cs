@@ -13,6 +13,7 @@ namespace NHS111.Business.ITKDispatcher.Api.Mappings
             Mapper.Initialize(cfg =>
             {
                 cfg.AddProfile(new FromITKDispatchRequestToSubmitHaSCToService());
+                cfg.AddProfile(new FromItkDispatchRequestToSubmitEncounterToServiceRequest());
             });
         }
     }
