@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Net.Security;
+using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks;
 using System.Web.Http;
 using AutoMapper;
@@ -17,10 +19,11 @@ namespace NHS111.Business.ITKDispatcher.Api.Controllers
     public class ItkDispatcherController : ApiController
     {
         private MessageEngine _itkDispatcher;
-        private IMapper _mappingEngine;
+        private IMappingEngine _mappingEngine;
         private IItkDispatchResponseBuilder _itkDispatchResponseBuilder;
 
-        public ItkDispatcherController(MessageEngine itkDispatcher, IMapper mappingEngine, IItkDispatchResponseBuilder itkDispatchResponseBuilder)
+
+        public ItkDispatcherController(MessageEngine itkDispatcher, IMappingEngine mappingEngine, IItkDispatchResponseBuilder itkDispatchResponseBuilder)
         {
             _itkDispatcher = itkDispatcher;
             _mappingEngine = mappingEngine;
@@ -31,9 +34,27 @@ namespace NHS111.Business.ITKDispatcher.Api.Controllers
         [Route("SendItkMessage")]
         public async Task<ITKDispatchResponse> SendItkMessage(ITKDispatchRequest request)
         {
-            var submitHaSCToService = _mappingEngine.Map<ITKDispatchRequest, SubmitHaSCToService>(request);
+            BypassCertificateError();
+            var submitHaSCToService = _mappingEngine.Mapper.Map<ITKDispatchRequest, SubmitHaSCToService>(request);
             var response = await _itkDispatcher.SubmitHaSCToServiceAsync(submitHaSCToService);
             return _itkDispatchResponseBuilder.Build(response);
+        }
+
+        /// <summary>
+        /// Temorary sssl cert validation bypass until ESB hosting has domain name
+        /// </summary>
+        private void BypassCertificateError()
+        {
+            ServicePointManager.ServerCertificateValidationCallback +=
+
+                delegate(
+                    Object sender1,
+                    X509Certificate certificate,
+                    X509Chain chain,
+                    SslPolicyErrors sslPolicyErrors)
+                {
+                    return true;
+                };
         }
     }
 }
