@@ -1907,40 +1907,144 @@ button[disabled=disabled] {
     background: #A4B192;
 }
 
-
 .feedback-wrapper {
-
-    position: fixed;
-    width: 100%;
-    z-index: 999;
-    bottom: 0;
-    left: 0;
-    margin-left: 0;
-    margin-right: 0;
-    background-color: rgba(53,53,53,0.9);
+    z-index: 9001;
+    position: relative;
 }
-.feedback-wrapper .feedback-form {
-    margin: 0 auto;
+.feedback-banner {
     max-width: 75%;
+    margin: 0 30px;
 }
-
-.feedback-wrapper .feedback-form h2 {
-    font-size: 1.4em;
-    color: #ffffff;
+@media (min-width: 641px) {
+    .feedback-banner {
+        margin: 0 30px;
+    }
 }
-
-.feedback-wrapper .feedback-form p {
-    color: #ffffff;
+@media (min-width: 1020px) {
+    .feedback-banner {
+        margin: 0 auto;
+    }
 }
-
+.feedback-container {
+    color: #fff;
+    background-color: rgba(53,53,53,0.9);
+    box-sizing: border-box;
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    font-size: 1.5rem;
+    border-top: 2px solid #0075A7; 
+    border-bottom: none;
+    text-align: initial;
+    padding: 10px;
+}
+@media screen and (min-width: 768px) {
+    .feedback-container {
+        padding: 15px 0;
+    }
+}
+.feedback-container, .feedback-message, .feedback-btn {
+    animation-duration: 0.8s;
+    -webkit-animation-duration: 0.8s;
+    -moz-animation-duration: 0.8s;
+    -o-animation-duration: 0.8s;
+    /*-webkit-animation-name: slideUp;
+    animation-name: slideUp;*/
+}
+.feedback-container .feedback-btn, .feedback-container .feedback-btn:visited {
+    color: #000;
+    background-color: #f1d600;
+    transition: background 200ms ease-in-out,color 200ms ease-in-out,box-shadow 200ms ease-in-out;
+    -webkit-transition: background 200ms ease-in-out,color 200ms ease-in-out,box-shadow 200ms ease-in-out;
+    /*border-radius: 5px;
+    -webkit-border-radius: 5px;*/
+}
+.feedback-container a, .feedback-container a:visited {
+    text-decoration: none;
+    color: #31a8f0;
+    transition: 200ms color;
+}
+.feedback-container .feedback-btn {
+    padding: 8px 10px;
+    background-color: #f1d600;
+    cursor: pointer;
+    transition: font-size 200ms;
+    text-align: center;
+    font-size: 0.6em;
+    display: block;
+    margin-left: 10px;
+    float: right;
+    max-width: 120px;
+    line-height: 1em;
+}
+@media screen and (min-width: 500px) {
+    .feedback-container .feedback-btn {
+        font-size: 0.8em;
+    }
+}
+@media screen and (min-width: 768px) {
+    .feedback-container .feedback-btn {
+        font-size: 1em;
+        padding: 8px 15px;
+    }
+}
+.feedback-container .feedback-message {
+    transition: font-size 200ms;
+    font-size: 0.6em;
+    display: block;
+    margin: 0;
+    padding: 0;
+    line-height: 1.5em;
+}
+@media screen and (min-width: 500px) {
+    .feedback-container .feedback-message {
+        margin-top: 0.5em;
+        font-size: 0.8em;
+    }
+}
+@media screen and (min-width: 768px) {
+    .feedback-container .feedback-message {
+        font-size: 1em;
+        line-height: 1em;
+    }
+}
+@media screen and (min-width: 992px){
+    .feedback-container .feedback-message {
+        font-size: 1em;
+    }
+}
+.feedback-form {
+    font-size: 0.6em;
+    margin: 0;
+    padding: 0;
+    margin-top: 0.5em;
+    font-size: 0.8em;
+}
+@media screen and (min-width: 500px) {
+    .feedback-form {
+        margin-top: 0.5em;
+        font-size: 0.8em;
+    }
+}
+@media screen and (min-width: 768px) {
+    .feedback-form {
+        font-size: 1em;
+        line-height: 2em;
+    }
+}
+@media screen and (min-width: 992px){
+    .feedback-form {
+        font-size: 1em;
+    }
+}
 .feedback-input {
     float: left;
     display: inline;
     resize: none; 
-    width: 400px;
-    box-sizing: border-box;
-    height: 4rem;
-    padding: 0 1rem;
+    width: 100%;
+    height: 2em;
+    padding: 0 1em;
     background-color: #fff;
     border: 2px solid #b9d2dc;
     -webkit-appearance: none;
@@ -1948,11 +2052,42 @@ button[disabled=disabled] {
     margin-right: 10px;
     margin-bottom: 10px;
 }
-
-.feedback-submit{
-     margin-bottom: 10px;
+@media screen and (min-width: 500px) {
+    .feedback-input {
+        width: 80%;
+    }
 }
-
+.feedback-btn.feedback-submit {
+    float: left;
+    max-width: none;
+    height: 1rem;
+    line-height: 1rem;
+    color: #fff;
+    background-color: #4c9c39;
+    margin-left: 0;
+}
+.feedback-btn.feedback-submit:link, .feedback-btn.feedback-submit:hover, .feedback-btn.feedback-submit:focus, .feedback-btn.feedback-submit:visited {
+    color: #fff;
+    background-color: #006647;
+}
+@media screen and (min-width: 500px) {
+    .feedback-btn.feedback-submit {
+        margin-left: 0;
+        font-size: 0.8em;
+    }
+}
+@media screen and (min-width: 768px) {
+    .feedback-btn.feedback-submit {
+        font-size: 1em;
+        height: 2rem;
+        line-height: 2rem;
+    }
+}
+@media screen and (min-width: 992px){
+    .feedback-btn.feedback-submit {
+        font-size: 1em;
+    }
+}
 .feedback-dismiss {
     position: absolute;
     right: 10px;
@@ -1967,7 +2102,6 @@ button[disabled=disabled] {
     background-color: transparent;
     cursor: pointer;
 }
-
 .feedback-dismiss {
     color: #ffffff;
     background-image: url("/content/img/icon-button-cancel.svg");
