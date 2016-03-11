@@ -250,6 +250,7 @@ namespace NHS111.Domain.Functional.Tests
         /// Example test method for a HTTP POST
         /// </summary>
         [Test]
+        [Ignore]
         public async void TestGetNextQuestion()
         {
             var getNextQuestionEndpoint = "questions/{0}/answersNext";
