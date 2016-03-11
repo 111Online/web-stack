@@ -16,6 +16,11 @@
     <script src="~/scripts/custom.js"></script>
 
 }
+
+@section FeedbackSection {
+    @Html.Partial("_FeedbackDetails", new Feedback() { PageId = Request.Url.GetComponents(UriComponents.PathAndQuery, UriFormat.SafeUnescaped) })
+}
+
 <link href="~/Content/css_NhsUK/slider.css" media="screen" rel="stylesheet" type="text/css"/>
 
     <div id="wrapper">
@@ -136,10 +141,6 @@
         <div style="display:none;" class="nav_up" id="nav_up"></div>
         <div style="display:none;" class="nav_down" id="nav_down"></div>
     </div>
-
-
-  @Html.Partial("_FeedbackDetails", new Feedback() { PageId = Request.Url.GetComponents(UriComponents.PathAndQuery, UriFormat.SafeUnescaped) })
-
 
     <script>
 
