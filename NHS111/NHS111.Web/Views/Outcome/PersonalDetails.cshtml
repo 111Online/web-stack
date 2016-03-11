@@ -70,7 +70,7 @@
                 <div class="inline-details">
                     @Html.TextBoxFor(m => m.UserInfo.TelephoneNumber, new { @class = "form-control", placeholder = "Landline or mobile number" })
                 </div>
-                @Html.Partial("_PersonalPostCodeSearch", Model.AddressSearchViewModel)
+                @Html.Partial("_PersonalPostCodeSearch", Model.AddressSearchViewModel, new ViewDataDictionary { TemplateInfo = new TemplateInfo { HtmlFieldPrefix = "AddressSearchViewModel" } })
                 <div class="inline-details">
                     <input type="submit" class="button button-submit-details" value="Submit my details" />
                 </div>
