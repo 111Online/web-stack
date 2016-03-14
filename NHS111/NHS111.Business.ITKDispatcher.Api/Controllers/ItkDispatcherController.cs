@@ -36,7 +36,13 @@ namespace NHS111.Business.ITKDispatcher.Api.Controllers
         {
             BypassCertificateError();
             var submitHaSCToService = _mappingEngine.Mapper.Map<ITKDispatchRequest, SubmitHaSCToService>(request);
-            var response = await _itkDispatcher.SubmitHaSCToServiceAsync(submitHaSCToService);
+            SubmitHaSCToServiceResponse response = null;
+            try {
+                response = await _itkDispatcher.SubmitHaSCToServiceAsync(submitHaSCToService);
+            }
+            catch (Exception ex) {
+                return _itkDispatchResponseBuilder.Build(ex);
+            }
             return _itkDispatchResponseBuilder.Build(response);
         }
 
