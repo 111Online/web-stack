@@ -90,8 +90,9 @@ namespace NHS111.Web.Controllers
         public async Task<ActionResult> Confirmation(OutcomeViewModel model)
         {
             model = await _outcomeViewModelBuilder.ItkResponseBuilder(model);
-            //submit to ITK;
-            return View(model);
+            if (model.ItkSendSuccess.HasValue && model.ItkSendSuccess.Value)
+                 return View(model);
+            return View("ServiceBookingFailure", model);
         }
 
         [HttpPost]

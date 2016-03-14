@@ -91,11 +91,13 @@ namespace NHS111.Web.Presentation.Builders
             var response = await SendItkMessage(itkRequestData);
             if (response.IsSuccessStatusCode)
             {
+                model.ItkSendSuccess = true;
                 var journey = JsonConvert.DeserializeObject<Journey>(model.JourneyJson);
                 model = await AddCareAdvice(model, journey);
             }
             else
             {
+                model.ItkSendSuccess = false;
                 Log4Net.Error("Error sending ITK message : Status Code -" + response.StatusCode.ToString() +
                               " Content -" + response.Content.ReadAsStringAsync());
             }
