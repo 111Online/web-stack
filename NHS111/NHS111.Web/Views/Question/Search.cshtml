@@ -107,6 +107,10 @@
 </div>
 }
 
+@section FeedbackSection {
+    @Html.Partial("_FeedbackDetails", new Feedback() { PageId = Request.Url.GetComponents(UriComponents.PathAndQuery, UriFormat.SafeUnescaped) })
+}
+
 <div id="search">
 
 
@@ -156,10 +160,6 @@
 
 
 </div>
-
-
-
-  @Html.Partial("_FeedbackDetails", new Feedback() { PageId = Request.Url.GetComponents(UriComponents.PathAndQuery, UriFormat.SafeUnescaped) })
 
 <!--wrapper ends-->
     

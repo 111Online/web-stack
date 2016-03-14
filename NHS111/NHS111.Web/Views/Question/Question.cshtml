@@ -8,6 +8,10 @@
 
 @section OuterSection {}
 
+@section FeedbackSection {
+    @Html.Partial("_FeedbackDetails", new Feedback() { PageId = Request.Url.GetComponents(UriComponents.PathAndQuery, UriFormat.SafeUnescaped) + Model.PathwayId })
+}
+
 @using (Html.BeginForm("Navigation", "Question", FormMethod.Post)) {
     @Html.HiddenFor(x => Model.Id)
     @Html.HiddenFor(x => Model.JourneyJson)
@@ -44,7 +48,6 @@
     <button class="button button-next" id="nextScreen" type="submit" name="Question" value="Question">Next question</button>
 
 }
-@Html.Partial("_FeedbackDetails", new Feedback() { PageId = Request.Url.GetComponents(UriComponents.PathAndQuery, UriFormat.SafeUnescaped) + Model.PathwayId })
 <script type="text/javascript">
     
 

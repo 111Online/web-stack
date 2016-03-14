@@ -1908,12 +1908,12 @@ button[disabled=disabled] {
 }
 
 .feedback-wrapper {
-    z-index: 9001;
+    /*z-index: 9001;*/
     position: relative;
 }
 .feedback-banner {
     max-width: 75%;
-    margin: 0 30px;
+    display: inline-block;
 }
 @media (min-width: 641px) {
     .feedback-banner {
@@ -1923,16 +1923,17 @@ button[disabled=disabled] {
 @media (min-width: 1020px) {
     .feedback-banner {
         margin: 0 auto;
+        display: block;
     }
 }
 .feedback-container {
     color: #fff;
     background-color: rgba(53,53,53,0.9);
     box-sizing: border-box;
-    position: fixed;
+    /*position: fixed;
     left: 0;
     right: 0;
-    bottom: 0;
+    bottom: 0;*/
     font-size: 1.5rem;
     border-top: 2px solid #0075A7; 
     border-bottom: none;
@@ -2014,10 +2015,17 @@ button[disabled=disabled] {
         font-size: 1em;
     }
 }
+.feedback-message.feedback-title {
+    font-weight: 800;
+}
+@media screen and (min-width: 500px) {
+    .feedback-message.feedback-title {
+        font-weight: 600;
+    }
+}
 .feedback-form {
     font-size: 0.6em;
-    margin: 0;
-    padding: 0;
+    margin: 3em 0;
     margin-top: 0.5em;
     font-size: 0.8em;
 }
@@ -2040,7 +2048,6 @@ button[disabled=disabled] {
 }
 .feedback-input {
     float: left;
-    display: inline;
     resize: none; 
     width: 100%;
     height: 2em;
