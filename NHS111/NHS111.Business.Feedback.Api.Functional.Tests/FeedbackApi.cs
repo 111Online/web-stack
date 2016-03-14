@@ -1,4 +1,6 @@
 ﻿
+using System.Configuration;
+
 namespace NHS111.Business.Feedback.Api.Functional.Tests {
 
     using System;
@@ -14,8 +16,8 @@ namespace NHS111.Business.Feedback.Api.Functional.Tests {
     [TestFixture]
     public class FeedbackApi {
 
-        private string _feedbackApiDomain = "http://nhs111businessfeedbackapi.azurewebsites.net/";
-
+        //private string _feedbackApiDomain = "http://nhs111businessfeedbackapi.azurewebsites.net/";
+        
         private RestfulHelper _restfulHelper = new RestfulHelper();
 
         //expected fields: https://trello.com/c/0TxfGnbn/16-feedback-mechanism-on-individual-questions
@@ -39,23 +41,27 @@ namespace NHS111.Business.Feedback.Api.Functional.Tests {
             AssertExpectedFieldsPresent(list, _testFeedback);
         }
 
-        private static HttpRequestMessage CreateHTTPRequest(string requestContent) {
-            return new HttpRequestMessage {
-                Content = new StringContent(requestContent, Encoding.UTF8, "application/json"),
+        private static HttpRequestMessage CreateHttpRequest(string requestContent)
+        {
+            var message = new HttpRequestMessage
+            {
+                Content = new StringContent(requestContent, Encoding.UTF8, "application/json")
             };
+            message.Headers.Add( "Authorization", ConfigurationManager.AppSettings["FeedbackAuthorization"]);
+            return message;
         }
 
         private async void AddFeedback(Feedback feedback) {
             var addEndpoint = "add";
-            var endpoint = _feedbackApiDomain + addEndpoint;
+            var endpoint = ConfigurationManager.AppSettings["FeedbackUrl"] + addEndpoint;
 
-            var request = CreateHTTPRequest(_javaScriptSerializer.Serialize(feedback));
+            var request = CreateHttpRequest(_javaScriptSerializer.Serialize(feedback));
             await _restfulHelper.PostAsync(endpoint, request);
         }
 
         private List<Feedback> ListFeedback() {
             var listEndpoint = "list";
-            var endpoint = _feedbackApiDomain + listEndpoint;
+            var endpoint = ConfigurationManager.AppSettings["FeedbackUrl"] + listEndpoint;
 
             var result = _restfulHelper.GetAsync(endpoint);
 

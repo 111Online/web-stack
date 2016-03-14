@@ -675,6 +675,7 @@
     <Content Include="Views\Outcome\Confirmation.cshtml" />
     <Content Include="Views\Outcome\ServiceDetails.cshtml" />
     <Content Include="Views\Outcome\ServiceList.cshtml" />
+    <Content Include="Views\Outcome\ServiceBookingFailure.cshtml" />
     <None Include="Web.Development.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

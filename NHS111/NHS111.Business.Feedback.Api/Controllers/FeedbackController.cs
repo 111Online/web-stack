@@ -32,7 +32,6 @@ namespace NHS111.Business.Feedback.Api.Controllers
         [Route("list")]
         public async Task<IEnumerable<Models.Models.Domain.Feedback>> ListFeedback()
         {
-
             var result = await _feedbackRepository.List();
             return result;
         }

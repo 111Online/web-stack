@@ -10,12 +10,18 @@
     <!-- css -->
     <link href="http://nhsalpha.herokuapp.com/public/stylesheets/govuk-template.css?0.12.0" media="screen" rel="stylesheet" type="text/css" />
     <link href="~/Content/css_NhsUK/application.css" media="screen" rel="stylesheet" type="text/css" />
-    
+
     <!-- Javascript -->
     <script src="~/scripts/vendor/modernizr-custom.js"></script>
     <script src="~/scripts/jquery2.1.1.min.js"></script>
     <script src="~/Scripts/jquery1.11.2-ui.min.js"></script>
     <script src="~/scripts/jquery.cookie.js"></script>
+    <script>
+        $(function () {
+            var userId = $.cookie("userId");
+            if (!userId) $.cookie("userId", '@Guid.NewGuid()', { path: '/' });
+        });
+    </script>
     @RenderSection("Scripts", false)
 </head>
 <body class="">
@@ -30,7 +36,6 @@
             <a href="/" class="header-logo" title="Go to the NHS.UK homepage">
                 <img src="/content/images/nhs-rev-logotype.svg" alt="">
             </a>
-
         </div>
     </header>
     @RenderSection("HeaderContent", false)
@@ -38,10 +43,10 @@
 
     <section class="outer-section">@RenderSection("OuterSection", false)</section>
 
-<main id="content" role="main">
+    <main id="content" role="main">
         @RenderBody()
     </main>
-    
+    <section class="feedback-section">@RenderSection("FeedbackSection", false)</section>
     <footer id="footer" role="contentinfo">
         <div class="footer-wrapper">
             <div class="text">
@@ -54,7 +59,7 @@
             </div>
         </div>
     </footer>
-    
+
     <div id="global-app-error" class="app-error hidden"></div>
 </body>
 </html>

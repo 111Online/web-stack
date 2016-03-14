@@ -49,9 +49,10 @@ namespace NHS111.Models.Mappers.WebMappings
             patientDetails.Forename = outcome.UserInfo.FirstName;
             patientDetails.Surname = outcome.UserInfo.LastName;
             patientDetails.ServiceAddressPostcode = outcome.UserInfo.CurrentAddress.PostCode;
-         
+            patientDetails.TelephoneNumber = outcome.UserInfo.TelephoneNumber;
             patientDetails.HomeAddress = new Address()
             {
+                PostalCode =  string.IsNullOrEmpty(outcome.AddressSearchViewModel.PostCode) ? null: outcome.AddressSearchViewModel.PostCode,
                 StreetAddressLine1 =
                     !string.IsNullOrEmpty(outcome.UserInfo.HomeAddress.HouseNumber)
                         ? string.Format("{0} {1}", outcome.UserInfo.HomeAddress.HouseNumber, outcome.UserInfo.HomeAddress.AddressLine1)
@@ -80,7 +81,7 @@ namespace NHS111.Models.Mappers.WebMappings
 
             serviceDetails.Id = outcome.SelectedService.IdField.ToString();
             serviceDetails.Name = outcome.SelectedService.NameField;
-         
+            serviceDetails.OdsCode = outcome.SelectedService.OdsCodeField;
             serviceDetails.PostCode = outcome.SelectedService.PostcodeField;
 
             return serviceDetails;

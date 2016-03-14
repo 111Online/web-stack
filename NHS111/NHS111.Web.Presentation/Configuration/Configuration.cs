@@ -4,6 +4,7 @@ namespace NHS111.Web.Presentation.Configuration
 {
     public class Configuration : IConfiguration
     {
+        public string ItkDispatchApiUrl { get { return ConfigurationManager.AppSettings["ItkDispatchApiUrl"]; } }
         public string GPSearchUrl { get { return ConfigurationManager.AppSettings["GPSearchUrl"]; } }
         public string GPSearchApiUrl { get { return ConfigurationManager.AppSettings["GPSearchApiUrl"]; } }
         public string GPSearchByIdUrl { get { return ConfigurationManager.AppSettings["GPSearchByIdUrl"]; } }
@@ -34,6 +35,7 @@ namespace NHS111.Web.Presentation.Configuration
 
     public interface IConfiguration
     {
+        string ItkDispatchApiUrl { get; }
         string GPSearchUrl { get; }
         string GPSearchApiUrl { get; }
         string GPSearchByIdUrl { get; }

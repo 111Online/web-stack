@@ -16,6 +16,8 @@ namespace NHS111.Models.Models.Web
         public Enums.Urgency Urgency { get; set; }
         public string SymptomGroup { get; set; }
         public AddressSearchViewModel AddressSearchViewModel { get; set; }
+        public bool? ItkSendSuccess { get; set; }
+    
         public CheckCapacitySummaryResult SelectedService
         {
             get { return CheckCapacitySummaryResultList.FirstOrDefault(s => s.IdField == Convert.ToInt32(SelectedServiceId)); }

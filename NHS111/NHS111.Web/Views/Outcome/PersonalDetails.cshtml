@@ -1,10 +1,15 @@
-﻿@model NHS111.Models.Models.Web.OutcomeViewModel
+﻿@using NHS111.Models.Models.Domain
+@model NHS111.Models.Models.Web.OutcomeViewModel
 @{
     Layout = "~/Views/Shared/_LayoutNhsUk.cshtml";
 }
 
 @section Title {
     Enter Personal Details
+}
+
+@section FeedbackSection {
+    @Html.Partial("_FeedbackDetails", new Feedback() { PageId = Model.Id })
 }
 
 <link href="~/content/css_NhsUk/personaldetails.css" media="screen" rel="stylesheet" type="text/css"/>
@@ -70,7 +75,7 @@
                 <div class="inline-details">
                     @Html.TextBoxFor(m => m.UserInfo.TelephoneNumber, new { @class = "form-control", placeholder = "Landline or mobile number" })
                 </div>
-                @Html.Partial("_PersonalPostCodeSearch", Model.AddressSearchViewModel)
+                @Html.Partial("_PersonalPostCodeSearch", Model.AddressSearchViewModel, new ViewDataDictionary { TemplateInfo = new TemplateInfo { HtmlFieldPrefix = "AddressSearchViewModel" } })
                 <div class="inline-details">
                     <input type="submit" class="button button-submit-details" value="Submit my details" />
                 </div>
