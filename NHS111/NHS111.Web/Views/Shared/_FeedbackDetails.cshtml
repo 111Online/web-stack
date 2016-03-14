@@ -4,12 +4,12 @@
 <div class="feedback-wrapper">
     <div class="feedback-container feedback-container--open">
         <div class="feedback-banner">
-            <a href="#" class="feedback-dismiss"></a>
+            <a href="#FeedbackForm" class="feedback-dismiss"></a>
             <form id="FeedbackForm" action="@Url.Action("SubmitFeedback", "Feedback")">
                 <div id="FeedbackDetails">
-                    <p class="feedback-message">
+                    <h3 class="feedback-message feedback-title">
                         Help us improve 111 online
-                    </p>
+                    </h3>
                     <p class="feedback-message">
                         If you’d like to give your views on helping us improve 111 online, please use the form below.
                     </p>
@@ -33,7 +33,7 @@
     $('.feedback-input').focus(function () {
         $(this).animate({
             //width: "70%",
-            height: "70%"
+            //height: "70%"
         });
     });
 

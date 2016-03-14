@@ -1,15 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
+using System.Text;
 using System.Threading.Tasks;
 using System.Web;
 using AutoMapper;
 using Newtonsoft.Json;
 using NHS111.Models.Models.Web;
 using NHS111.Models.Models.Web.FromExternalServices;
+using NHS111.Models.Models.Web.ITK;
 using NHS111.Utils.Cache;
 using NHS111.Utils.Helpers;
 using NHS111.Utils.Itk;
+using NHS111.Utils.Logging;
 using IConfiguration = NHS111.Web.Presentation.Configuration.IConfiguration;
 
 namespace NHS111.Web.Presentation.Builders
@@ -66,11 +70,54 @@ namespace NHS111.Web.Presentation.Builders
             //    .SetSendToRepeatCaller(false)
             //    .Build(model.UserId.ToString());
 
-            model.CareAdvices = await _careAdviceBuilder.FillCareAdviceBuilder(model.UserInfo.Age, model.UserInfo.Gender, model.CareAdviceMarkers.ToList());
+            return await AddCareAdvice(model, journey);
+        }
+
+        private async Task<OutcomeViewModel> AddCareAdvice(OutcomeViewModel model, Journey journey)
+        {
+            model.CareAdvices =
+                await
+                    _careAdviceBuilder.FillCareAdviceBuilder(model.UserInfo.Age, model.UserInfo.Gender,
+                        model.CareAdviceMarkers.ToList());
             model.SymptomGroup = await _restfulHelper.GetAsync(string.Format(_configuration.BusinessApiPathwaySymptomGroupUrl,
                 string.Join(",", journey.Steps.Select(s => s.QuestionId.Split('.').First()).Distinct())));
 
             return model;
+        }
+
+        public async Task<OutcomeViewModel> ItkResponseBuilder(OutcomeViewModel model)
+        {
+            var itkRequestData = CreateItkDispatchRequest(model);
+            var response = await SendItkMessage(itkRequestData);
+            if (response.IsSuccessStatusCode)
+            {
+                var journey = JsonConvert.DeserializeObject<Journey>(model.JourneyJson);
+                model = await AddCareAdvice(model, journey);
+            }
+            else
+            {
+                Log4Net.Error("Error sending ITK message : Status Code -" + response.StatusCode.ToString() +
+                              " Content -" + response.Content.ReadAsStringAsync());
+            }
+            return model;
+        }
+
+        private async Task<HttpResponseMessage> SendItkMessage(ITKDispatchRequest itkRequestData)
+        {
+            var request = new HttpRequestMessage
+            {
+                Content = new StringContent(JsonConvert.SerializeObject(itkRequestData), Encoding.UTF8, "application/json")
+            };
+            var response = await _restfulHelper.PostAsync(_configuration.ItkDispatchApiUrl, request);
+            return response;
+        }
+
+        private ITKDispatchRequest CreateItkDispatchRequest(OutcomeViewModel model)
+        {
+            var auth = new Authentication() {UserName = "admn", Password = "admnUat"};
+            var itkRequestData = _mappingEngine.Map<OutcomeViewModel, ITKDispatchRequest>(model);
+            itkRequestData.Authentication = auth;
+            return itkRequestData;
         }
 
         public async Task<OutcomeViewModel> PostCodeSearchBuilder(OutcomeViewModel model)
@@ -105,5 +152,6 @@ namespace NHS111.Web.Presentation.Builders
         Task<OutcomeViewModel> DispositionBuilder(OutcomeViewModel model);
         Task<OutcomeViewModel> PostCodeSearchBuilder(OutcomeViewModel model);
         Task<OutcomeViewModel> PersonalDetailsBuilder(OutcomeViewModel model);
+        Task<OutcomeViewModel> ItkResponseBuilder(OutcomeViewModel model);
     }
 }

@@ -1,4 +1,5 @@
-﻿@model NHS111.Models.Models.Web.OutcomeViewModel
+﻿@using NHS111.Models.Models.Domain
+@model NHS111.Models.Models.Web.OutcomeViewModel
 
 @{
     Layout = "~/Views/Shared/_LayoutNhsUk.cshtml";
@@ -10,6 +11,10 @@
 
 @section OuterSection {
 
+}
+
+@section FeedbackSection {
+    @Html.Partial("_FeedbackDetails", new Feedback() { PageId = Model.Id })
 }
 
 <link href="~/content/css_NhsUk/servicelist.css" media="screen" rel="stylesheet" type="text/css" />
