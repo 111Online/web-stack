@@ -192,6 +192,7 @@
   <ItemGroup>
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\ItkDispatcherController.cs" />
+    <Compile Include="Controllers\MonitoringController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -204,6 +205,7 @@
     <Compile Include="Mappings\FromItkDispatchRequestToSubmitEncounterToServiceRequest.cs" />
     <Compile Include="Mappings\FromITKDispatchRequestToSubmitHaSCToService.cs" />
     <Compile Include="Mappings\ItkDispatchResponseBuilder.cs" />
+    <Compile Include="Monitoring\Monitor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Service References\ITKDispatcherSOAPService\Reference.cs">
       <AutoGen>True</AutoGen>
@@ -239,6 +241,10 @@
     <ProjectReference Include="..\NHS111.Models\NHS111.Models.csproj">
       <Project>{4ccf3abd-92c4-4999-8520-c4aa7b36f48c}</Project>
       <Name>NHS111.Models</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\NHS111.Utils\NHS111.Utils.csproj">
+      <Project>{EFC4426E-3564-4C5E-AC95-4DE7A2C55876}</Project>
+      <Name>NHS111.Utils</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
