@@ -107,14 +107,9 @@ namespace NHS111.Business.Feedback.Api.Authentication
             // Extract the basic authentication credentials from the request
             string userName = null;
             string password = null;
-            if (!this.ExtractBasicCredentials(authorizationHeader, ref userName, ref password))
+            if (!this.ExtractBasicCredentials(authorizationHeader, ref userName, ref password) || !this.ValidateCredentials(userName, password))
             {
-                return;
-            }
-
-            // Validate the user credentials
-            if (!this.ValidateCredentials(userName, password))
-            {
+                IssueAuthenticationChallenge(source, e);
                 return;
             }
 
