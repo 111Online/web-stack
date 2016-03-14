@@ -16,6 +16,12 @@
     <script src="~/scripts/jquery2.1.1.min.js"></script>
     <script src="~/Scripts/jquery1.11.2-ui.min.js"></script>
     <script src="~/scripts/jquery.cookie.js"></script>
+    <script>
+        $(function () {
+            var userId = $.cookie("userId");
+            if (!userId) $.cookie("userId", '@Guid.NewGuid()', { path: '/' });
+        });
+    </script>
     @RenderSection("Scripts", false)
 </head>
 <body class="">
