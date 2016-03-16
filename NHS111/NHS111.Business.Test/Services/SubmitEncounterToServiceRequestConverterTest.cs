@@ -33,6 +33,10 @@ namespace NHS111.Business.Test.Services
 
         public const int DOS_SERVICE_ID = 1234;
         public const string TEST_SERVICE_ODS_CODE = "Y028240002";
+
+        public const string TEST_EXTERNAL_REF = "REF_123456";
+        public const string TEST_DX_CODE = "DX0123";
+        public const string TEST_DX_NAME = "Rashes";
    
 
         [SetUp]
@@ -89,6 +93,12 @@ namespace NHS111.Business.Test.Services
                     Name = "TestSurgery",
                     PostCode = "TT22 5TT",
                     OdsCode = TEST_SERVICE_ODS_CODE
+                },
+                CaseDetails = new CaseDetails()
+                {
+                    ExternalReference = TEST_EXTERNAL_REF,
+                    DispositionCode = TEST_DX_CODE,
+                    DispositionName = TEST_DX_NAME
                 }
             };
 
@@ -115,6 +125,10 @@ namespace NHS111.Business.Test.Services
 
             Assert.AreEqual(result.ServiceDetails.id, DOS_SERVICE_ID);
             Assert.AreEqual(result.ServiceDetails.odsCode, TEST_SERVICE_ODS_CODE);
+
+            Assert.AreEqual(result.CaseDetails.ExternalReference, TEST_EXTERNAL_REF);
+            Assert.AreEqual(result.CaseDetails.DispositionCode, TEST_DX_CODE);
+            Assert.AreEqual(result.CaseDetails.DispositionName, TEST_DX_NAME);
         }
 
 

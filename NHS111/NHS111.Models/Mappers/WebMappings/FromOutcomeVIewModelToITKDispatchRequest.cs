@@ -17,7 +17,8 @@ namespace NHS111.Models.Mappers.WebMappings
             Mapper.CreateMap<OutcomeViewModel, ITKDispatchRequest>()
               .ForMember(dest => dest.Authentication, opt => opt.Ignore())
               .ForMember(dest => dest.PatientDetails, opt => opt.MapFrom(src => src)) 
-              .ForMember(dest => dest.ServiceDetails, opt => opt.MapFrom(src => src));
+              .ForMember(dest => dest.ServiceDetails, opt => opt.MapFrom(src => src))
+              .ForMember(dest => dest.CaseDetails, opt => opt.MapFrom(src => src)); ;
 
             Mapper.CreateMap<OutcomeViewModel, CaseDetails>()
               .ConvertUsing<FromOutcomeViewModelToCaseDetailsConverter>();
