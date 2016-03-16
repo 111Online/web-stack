@@ -6,7 +6,6 @@
         public string Source { get; set; }
         public string DispositionCode { get; set; }
         public string DispositionName { get; set; }
-        public CaseSummary CaseSummary { get; set; }
-        public string Provider { get; set; }
+
     }
 }

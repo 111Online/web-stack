@@ -21,8 +21,8 @@ namespace NHS111.Business.ITKDispatcher.Api.Mappings
             Mapper.CreateMap<Models.Models.Web.ITK.GpPractice, ITKDispatcherSOAPService.GPPractice>();
             Mapper.CreateMap<Models.Models.Web.ITK.ServiceDetails, ITKDispatcherSOAPService.SubmitToServiceDetails>();
 
-            Mapper.CreateMap<ITKDispatchRequest, SubmitEncounterToServiceRequest>()
-                 .ForMember(dest => dest.CaseDetails, opt => opt.MapFrom(src => new SubmitToCallQueueDetails() { DispositionCode = "46", DispositionName = "Dia and Vom", CaseSummary = null }));
+            Mapper.CreateMap<ITKDispatchRequest, SubmitEncounterToServiceRequest>();
+            Mapper.CreateMap<CaseDetails, SubmitToCallQueueDetails>();
             Mapper.CreateMap<NHS111.Models.Models.Web.ITK.PatientDetails, SubmitPatientService>()
                 .ForMember(dest => dest.DateOfBirth,
                     opt => opt.MapFrom(src => new DateOfBirth() {Item = src.DateOfBirth.ToString("yyyy-MM-dd")}));
