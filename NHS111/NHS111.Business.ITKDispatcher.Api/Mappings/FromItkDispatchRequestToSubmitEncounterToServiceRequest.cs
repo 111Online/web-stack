@@ -25,7 +25,9 @@ namespace NHS111.Business.ITKDispatcher.Api.Mappings
             Mapper.CreateMap<CaseDetails, SubmitToCallQueueDetails>();
             Mapper.CreateMap<NHS111.Models.Models.Web.ITK.PatientDetails, SubmitPatientService>()
                 .ForMember(dest => dest.DateOfBirth,
-                    opt => opt.MapFrom(src => new DateOfBirth() {Item = src.DateOfBirth.ToString("yyyy-MM-dd")}));
+                    opt => opt.MapFrom(src => new DateOfBirth() {Item = src.DateOfBirth.ToString("yyyy-MM-dd")}))
+                .ForMember(src => src.InformantType, opt => opt.UseValue(informantType.Self))
+                .ForMember(src => src.CurrentAddress, opt => opt.MapFrom(src => new ITKDispatcherSOAPService.Address(){PostalCode  = src.CurrentLocationPostcode}));
 
 
 
