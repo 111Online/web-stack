@@ -4,6 +4,7 @@
     {
         Question,
         Pathway,
-        Outcome
+        Outcome,
+        DeadEndJump
     }
 }

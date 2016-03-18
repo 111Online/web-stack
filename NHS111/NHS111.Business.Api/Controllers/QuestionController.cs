@@ -62,6 +62,13 @@ namespace NHS111.Business.Api.Controllers
                 return result.AsHttpResponse();
             }
 
+            if (nextLabel == "DeadEndJump")
+            {
+                next.State = stateDictionary;
+                var result = _questionTransformer.AsQuestionWithDeadEnd(JsonConvert.SerializeObject(next));
+                return result.AsHttpResponse();
+            }
+
             if (nextLabel == "Set")
             {
                 stateDictionary.Add(next.Question.Title, next.Answers.First().Title);

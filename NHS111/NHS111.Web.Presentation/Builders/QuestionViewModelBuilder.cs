@@ -183,6 +183,8 @@ namespace NHS111.Web.Presentation.Builders
                         };
                         return await _justToBeSafeFirstViewModelBuilder.JustToBeSafeFirstBuilder(newModel);
                     }
+                case NodeType.DeadEndJump:
+                    return new Tuple<string, JourneyViewModel>("../Question/DeadEndJump", model);
                 case NodeType.Question:
                 default:
                     return new Tuple<string, JourneyViewModel>("../Question/Question", model);
