@@ -107,6 +107,7 @@
     <Compile Include="Models\Domain\CareAdvice.cs" />
     <Compile Include="Models\Domain\Feedback.cs" />
     <Compile Include="Models\Domain\GroupedPathways.cs" />
+    <Compile Include="Models\Domain\QuestionWithDeadEnd.cs" />
     <Compile Include="Models\Domain\SymptomGroup.cs" />
     <Compile Include="Models\Domain\Question.cs" />
     <Compile Include="Models\Domain\Outcome.cs" />

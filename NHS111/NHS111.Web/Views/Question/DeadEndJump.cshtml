@@ -1,0 +1,75 @@
+﻿@using NHS111.Models.Models.Domain
+@model NHS111.Models.Models.Web.JourneyViewModel
+@{ Layout = "~/Views/Shared/_LayoutNhsUk.cshtml"; }
+
+<link href="~/content/css_NhsUk/question.css" media="screen" rel="stylesheet" type="text/css" />
+
+@section Title {}
+
+@section OuterSection {}
+
+@section FeedbackSection {
+    @Html.Partial("_FeedbackDetails", new Feedback() { PageId = Request.Url.GetComponents(UriComponents.PathAndQuery, UriFormat.SafeUnescaped) + Model.PathwayId })
+}
+
+@using (Html.BeginForm("Navigation", "Question", FormMethod.Post))
+{
+    @Html.HiddenFor(x => Model.Id)
+    @Html.HiddenFor(x => Model.JourneyJson)
+    @Html.HiddenFor(x => Model.PathwayId)
+    @Html.HiddenFor(x => Model.PathwayNo)
+    @Html.HiddenFor(x => Model.PathwayTitle)
+    @Html.HiddenFor(x => Model.UserInfo.Age)
+    @Html.HiddenFor(x => Model.UserInfo.Gender)
+    @Html.HiddenFor(x => Model.Title)
+    @Html.HiddenFor(x => Model.SymptomDiscriminator)
+    @Html.HiddenFor(x => Model.QuestionNo)
+    @Html.HiddenFor(x => Model.StateJson)
+
+    @Html.HiddenFor(x => Model.PreviousStateJson)
+
+
+    <h2 class="question-header">@Model.TitleWithoutBullets</h2>
+    foreach (var bullet in Model.Bullets)
+    {
+        <span class="red">@bullet</span>
+    }
+
+    <ul>
+        @foreach (var answer in Model.OrderedAnswers())
+        {
+            <li>
+                <input name="SelectedAnswer" type="radio" id="@answer.TitleWithoutSpaces" value="@Newtonsoft.Json.JsonConvert.SerializeObject(answer)" />
+                <label for="@answer.TitleWithoutSpaces">@answer.Title</label>
+            </li>
+        }
+    </ul>
+
+    if (!string.IsNullOrEmpty(Model.PreviousTitle))
+    {
+        <input class="button previous-question" id="previousScreen" type="submit" name="PreviousQuestion" value="Previous question" />
+    }
+}
+<script type="text/javascript">
+
+
+    $(document).ready(function () {
+
+        //enable disable submit button
+        $("#nextScreen[type=submit]").attr('disabled', 'disabled');
+
+        $("form label").click(function () {
+            $("button[type=submit]").removeAttr('disabled');
+        });
+
+        $("form input[type=radio]").click(function () {
+            $("button[type=submit]").removeAttr('disabled');
+        });
+
+
+
+
+    });
+
+
+</script>

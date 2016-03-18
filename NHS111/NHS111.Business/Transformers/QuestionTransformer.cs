@@ -26,6 +26,12 @@ namespace NHS111.Business.Transformers
             return JsonConvert.SerializeObject(questionWithAnswers);
         }
 
+        public string AsQuestionWithDeadEnd(string s)
+        {
+            var questionWithDeadEnd = JsonConvert.DeserializeObject<QuestionWithDeadEnd>(s);
+            return JsonConvert.SerializeObject(questionWithDeadEnd);
+        }
+
         public string AsAnswers(string s)
         {
             var answers = JsonConvert.DeserializeObject<List<Answer>>(s);
@@ -49,5 +55,6 @@ namespace NHS111.Business.Transformers
         string AsQuestionWithAnswersList(string s);
         string AsQuestionWithAnswers(string s);
         string AsAnswers(string s);
+        string AsQuestionWithDeadEnd(string s);
     }
 }
