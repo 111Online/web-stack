@@ -191,6 +191,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Configuration\Configuration.cs" />
+    <Compile Include="Configuration\IConfiguration.cs" />
     <Compile Include="Controllers\ItkDispatcherController.cs" />
     <Compile Include="Controllers\MonitoringController.cs" />
     <Compile Include="Global.asax.cs">
