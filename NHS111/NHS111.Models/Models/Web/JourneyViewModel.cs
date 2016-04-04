@@ -26,6 +26,8 @@ namespace NHS111.Models.Models.Web
         public string TitleWithoutBullets { get; set; }
         public List<string> Bullets { get; set; }
 
+        public string Rationale { get; set; }
+
         public List<Answer> Answers { get; set; }
         public string SelectedAnswer { get; set; }
         public NodeType NodeType { get; set; }
