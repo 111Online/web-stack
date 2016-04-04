@@ -32,6 +32,9 @@ namespace NHS111.Models.Models.Domain
         [JsonProperty(PropertyName = "jtbsText")]
         public string JtbsText { get; set; }
 
+        [JsonProperty(PropertyName = "rationale")]
+        public string Rationale { get; set; }
+
         public bool IsJustToBeSafe()
         {
             return !(string.IsNullOrEmpty(Jtbs) || Jtbs.EndsWith("-"));
