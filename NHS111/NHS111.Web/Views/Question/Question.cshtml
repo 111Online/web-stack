@@ -32,12 +32,13 @@
     foreach (var bullet in Model.Bullets) {
         <span class="red">@bullet</span>
     }
-
-    <aside class="question-rationale">
-        <h3>Why are we asking this?</h3>
-        <p>@Model.Rationale</p>
-    </aside>
-
+    if(!String.IsNullOrWhiteSpace(Model.Rationale))
+     {
+         <aside class="question-rationale">
+             <h3>Why are we asking this?</h3>
+             <p>@Model.Rationale</p>
+         </aside>
+     }
     <ul>
         @foreach (var answer in Model.OrderedAnswers()) {
         <li>
