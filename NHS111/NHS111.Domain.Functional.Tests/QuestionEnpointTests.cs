@@ -259,7 +259,7 @@ namespace NHS111.Domain.Functional.Tests
             
             System.Net.ServicePointManager.Expect100Continue = false;
             var result =
-                await _restfulHelper.PostAsync(address, CreateHTTPRequest("yes"));
+                await _restfulHelper.PostAsync(address, CreateHTTPRequest("\"Yes\""));
 
             var resultContent = await result.Content.ReadAsStringAsync();
             

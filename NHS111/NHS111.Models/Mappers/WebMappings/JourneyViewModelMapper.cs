@@ -69,6 +69,7 @@ namespace NHS111.Models.Mappers.WebMappings
                 journeyViewModel.Answers = questionWithAnswers.Answers ?? Enumerable.Empty<Answer>().ToList();
                 journeyViewModel.NodeType = (NodeType)Enum.Parse(typeof(NodeType), questionWithAnswers.Labels.FirstOrDefault());
                 journeyViewModel.QuestionNo = questionWithAnswers.Question.QuestionNo;
+                journeyViewModel.Rationale = questionWithAnswers.Question.Rationale;
 
                 if (questionWithAnswers.State != null)
                 {

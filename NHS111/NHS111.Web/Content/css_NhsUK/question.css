@@ -22,8 +22,29 @@ button[type='submit'].button-next {
 
     ul {
         margin-bottom: 40px;
+        clear: both;
     }
 
-        ul li {
-            margin-bottom: 15px;
-        }
+    ul li {
+        margin-bottom: 15px;
+    }
+
+    aside.question-rationale {
+    background-color: #e4f1f9;
+    position: relative;
+    padding: 10px 20px;
+    border-left: 4px solid #0073c6;
+    margin: 0 0 20px 0;
+    float: left;
+
+    }
+
+    aside.question-rationale h3 {
+        font-size: 100%;
+        line-height: 32px;
+    }
+
+    aside.question-rationale p {
+        margin-bottom: 0;
+        padding-top: 0;
+    }
