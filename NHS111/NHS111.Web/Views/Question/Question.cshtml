@@ -1,8 +1,9 @@
-﻿@using NHS111.Models.Models.Domain
+﻿@using System.Reflection
+@using NHS111.Models.Models.Domain
 @model NHS111.Models.Models.Web.JourneyViewModel
 @{ Layout = "~/Views/Shared/_LayoutNhsUk.cshtml"; }
 
-<link href="~/content/css_NhsUk/question.css" media="screen" rel="stylesheet" type="text/css" />
+<link href="~/content/css_NhsUk/question.css?@Assembly.GetCallingAssembly().GetName().Version.ToString()" media="screen" rel="stylesheet" type="text/css" />
 
 @section Title {}
 
@@ -41,10 +42,18 @@
      }
     <ul>
         @foreach (var answer in Model.OrderedAnswers()) {
-        <li>
-            <input name="SelectedAnswer" type="radio" id="@answer.TitleWithoutSpaces" value="@Newtonsoft.Json.JsonConvert.SerializeObject(answer)" />
-            <label for="@answer.TitleWithoutSpaces">@answer.Title</label>
-        </li>
+            <li>
+                <input name="SelectedAnswer" type="radio" id="@answer.TitleWithoutSpaces" value="@Newtonsoft.Json.JsonConvert.SerializeObject(answer)"/>
+                <label for="@answer.TitleWithoutSpaces">@answer.Title @if (!String.IsNullOrWhiteSpace(answer.SupportingInformation))
+                                                                      {
+                                                                          <a class="help-text-link" href="#">What does this mean?</a>
+                                                                      }</label>
+                @if (!String.IsNullOrWhiteSpace(answer.SupportingInformation))
+                {
+                    <div class="help-text-link-message">@answer.SupportingInformation</div>
+                }
+            </li>
+            
         }
     </ul>
 
@@ -69,6 +78,12 @@
         $("form input[type=radio]").click(function () {
             $("button[type=submit]").removeAttr('disabled');
         });
+
+        $('.help-text-link').click(function () {
+            var $this = $(this);
+            var $helpTextLinkMessage = $this.parent().next('.help-text-link-message');
+            $helpTextLinkMessage.slideToggle("fast");
+        });
 
 
 

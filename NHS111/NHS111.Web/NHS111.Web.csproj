@@ -254,6 +254,7 @@
     <Content Include="Content\images\icons\icon-button-next.svg" />
     <Content Include="Content\images\icons\icon-button-prev.svg" />
     <Content Include="Content\images\icons\icon-link-go.png" />
+    <Content Include="Content\images\icons\icon_info.png" />
     <Content Include="Content\images\icons\outcomeHeader.png" />
     <Content Include="Content\images\icons\redArrow.png" />
     <Content Include="Content\images\icons\redDownArrow.png" />
