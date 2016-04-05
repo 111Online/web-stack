@@ -16,6 +16,9 @@ namespace NHS111.Models.Models.Domain
         [JsonProperty(PropertyName = "symptomDiscriminator")]
         public string SymptomDiscriminator { get; set; }
 
+        [JsonProperty(PropertyName = "supportingInfo")]
+        public string SupportingInformation { get; set; }
+
         [JsonProperty(PropertyName = "order")]
         public int Order { get; set; }
         
