@@ -1,8 +1,9 @@
-﻿@using NHS111.Models.Models.Domain
+﻿@using System.Reflection
+@using NHS111.Models.Models.Domain
 @model NHS111.Models.Models.Web.JourneyViewModel
 @{ Layout = "~/Views/Shared/_LayoutNhsUk.cshtml"; }
 
-<link href="~/content/css_NhsUk/question.css" media="screen" rel="stylesheet" type="text/css" />
+<link href="~/content/css_NhsUk/question.css?@Assembly.GetCallingAssembly().GetName().Version.ToString()" media="screen" rel="stylesheet" type="text/css" />
 
 @section Title {}
 
