@@ -48,3 +48,26 @@ button[type='submit'].button-next {
         margin-bottom: 0;
         padding-top: 0;
     }
+
+    .help-text-link-message {
+        display: none;
+        color: #0072C6;
+        font-size: 1.5rem;
+        padding-left: 43px;
+        position: relative;
+        margin-top: 10px;
+    }
+    .help-text-link-message:before {
+        background: url("/Content/images/icons/icon_info.png") no-repeat;
+        position: absolute;
+        left: 6px;
+        content: "\00a0";
+        display: block;
+        width: 32px;
+        height: 32px;
+    }
+
+    .help-text-link {
+        font-size: 1.5rem;
+
+    }
