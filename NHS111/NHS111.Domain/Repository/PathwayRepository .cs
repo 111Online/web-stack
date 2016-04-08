@@ -76,10 +76,8 @@ namespace NHS111.Domain.Repository
 
         public async Task<IEnumerable<GroupedPathways>> GetGroupedPathways()
         {
-            //match (p:Pathway) return DISTINCT(p.group), collect (p.pathwayNo)
             return await _graphRepository.Client.Cypher
-                .Match("(p:Pathway)")
-                .Where("p.module = \"1\"", _pathwaysConfigurationManager.UseLivePathways)
+                .Match(_pathwaysConfigurationManager.UseLivePathways, "(p:Pathway)")
                 .Return(p => new GroupedPathways { Group = Return.As<string>("distinct(p.title)"), PathwayNumbers = Return.As<IEnumerable<string>>("collect(p.pathwayNo)") })
                 .ResultsAsync;
         }
