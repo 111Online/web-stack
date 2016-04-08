@@ -77,7 +77,7 @@ namespace NHS111.Domain.Repository
         public async Task<IEnumerable<GroupedPathways>> GetGroupedPathways()
         {
             return await _graphRepository.Client.Cypher
-                .Match("(p:Pathway)")
+                .Match(_pathwaysConfigurationManager.UseLivePathways, "(p:Pathway)")
                 .Return(p => new GroupedPathways { Group = Return.As<string>("distinct(p.title)"), PathwayNumbers = Return.As<IEnumerable<string>>("collect(p.pathwayNo)") })
                 .ResultsAsync;
         }
