@@ -6,7 +6,7 @@ namespace NHS111.Models.Models.Configuration
     {
         public const string SectionName = "PathwaysSection";
         private const string LivePathwaysCollectionName = "livePathways";
-        private const string JumpToPathwaysCollectionName = "jumptoPathways";
+        private const string JumpToPathwaysCollectionName = "jumpToPathways";
 
         [ConfigurationProperty("useLivePathways", DefaultValue = "false", IsRequired = false)]
         public bool UseLivePathways

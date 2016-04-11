@@ -40,7 +40,7 @@ namespace NHS111.Domain.Repository
             var pathwayNumberIn = new Func<IEnumerable<string>, string>(p => string.Format("p.pathwayNo in {0}", JsonConvert.SerializeObject(p)));
 
             var jumptToPathways = PathwaysConfigurationManager.GetJumpToPathwaysElements().Select(e => e.Id);
-            var pathwayIdIn = new Func<IEnumerable<string>, string>(p => string.Format("p.id not in {0}", JsonConvert.SerializeObject(p)));
+            var pathwayIdIn = new Func<IEnumerable<string>, string>(p => string.Format("not p.id in {0}", JsonConvert.SerializeObject(p)));
 
             var pathway = await _graphRepository.Client.Cypher
                 .Match("(p:Pathway)")
@@ -60,7 +60,7 @@ namespace NHS111.Domain.Repository
             var pathwayTitleEquals = string.Format("p.title = {0}", JsonConvert.SerializeObject(pathwayTitle));
 
             var jumptToPathways = PathwaysConfigurationManager.GetJumpToPathwaysElements().Select(e => e.Id);
-            var pathwayIdIn = new Func<IEnumerable<string>, string>(p => string.Format("p.id not in {0}", JsonConvert.SerializeObject(p)));
+            var pathwayIdIn = new Func<IEnumerable<string>, string>(p => string.Format("not p.id in {0}", JsonConvert.SerializeObject(p)));
 
             var pathway = await _graphRepository.Client.Cypher
                 .Match("(p:Pathway)")
