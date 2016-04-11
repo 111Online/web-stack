@@ -5,8 +5,8 @@ namespace NHS111.Models.Models.Configuration
     public class PathwaysSection : ConfigurationSection
     {
         public const string SectionName = "PathwaysSection";
-
         private const string LivePathwaysCollectionName = "livePathways";
+        private const string JumpToPathwaysCollectionName = "jumptoPathways";
 
         [ConfigurationProperty("useLivePathways", DefaultValue = "false", IsRequired = false)]
         public bool UseLivePathways
@@ -24,5 +24,9 @@ namespace NHS111.Models.Models.Configuration
         [ConfigurationProperty(LivePathwaysCollectionName)]
         [ConfigurationCollection(typeof(LivePathwaysCollection), AddItemName = "add")]
         public LivePathwaysCollection LivePathways { get { return (LivePathwaysCollection)base[LivePathwaysCollectionName]; } }
+
+        [ConfigurationProperty(JumpToPathwaysCollectionName)]
+        [ConfigurationCollection(typeof(JumpToPathwaysCollection), AddItemName = "add")]
+        public JumpToPathwaysCollection JumpToPathways { get { return (JumpToPathwaysCollection)base[JumpToPathwaysCollectionName]; } }
     }
 }
