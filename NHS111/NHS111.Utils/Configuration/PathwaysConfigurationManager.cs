@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
 using NHS111.Models.Models.Configuration;
@@ -17,9 +18,14 @@ namespace NHS111.Utils.Configuration
             return from LivePathwaysElement p in GetPathwaysSection().LivePathways select p;
         }
 
+        public static IEnumerable<JumpToPathwaysElement> GetJumpToPathwaysElements()
+        {
+            return from JumpToPathwaysElement p in GetPathwaysSection().JumpToPathways select p;
+        }
+
         public bool UseLivePathways
         {
-            get { return GetPathwaysSection().UseLivePathways;; }
+            get { return GetPathwaysSection().UseLivePathways; }
         }
     }
 

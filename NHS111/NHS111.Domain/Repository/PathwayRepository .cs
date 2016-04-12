@@ -39,9 +39,12 @@ namespace NHS111.Domain.Repository
             var ageIsBelowMaximum = new Func<int, string>(a => string.Format("(p.maximumAgeExclusive is null or p.maximumAgeExclusive = \"\" or {0} < p.maximumAgeExclusive)", a));
             var pathwayNumberIn = new Func<IEnumerable<string>, string>(p => string.Format("p.pathwayNo in {0}", JsonConvert.SerializeObject(p)));
 
+            var jumptToPathways = PathwaysConfigurationManager.GetJumpToPathwaysElements().Select(e => e.Id);
+            var pathwayIdIn = new Func<IEnumerable<string>, string>(p => string.Format("not p.id in {0}", JsonConvert.SerializeObject(p)));
+
             var pathway = await _graphRepository.Client.Cypher
                 .Match("(p:Pathway)")
-                .Where(string.Join(" and ", new List<string> { genderIs(gender), ageIsAboveMinimum(age), ageIsBelowMaximum(age), pathwayNumberIn(pathwayNumbers) }), _pathwaysConfigurationManager.UseLivePathways)
+                .Where(string.Join(" and ", new List<string> { genderIs(gender), ageIsAboveMinimum(age), ageIsBelowMaximum(age), pathwayNumberIn(pathwayNumbers), pathwayIdIn(jumptToPathways) }), _pathwaysConfigurationManager.UseLivePathways)
                 .Return(p => Return.As<Pathway>("p"))
                 .ResultsAsync
                 .FirstOrDefault();
@@ -56,9 +59,12 @@ namespace NHS111.Domain.Repository
             var ageIsBelowMaximum = new Func<int, string>(a => string.Format("(p.maximumAgeExclusive is null or p.maximumAgeExclusive = \"\" or {0} < p.maximumAgeExclusive)", a));
             var pathwayTitleEquals = string.Format("p.title = {0}", JsonConvert.SerializeObject(pathwayTitle));
 
+            var jumptToPathways = PathwaysConfigurationManager.GetJumpToPathwaysElements().Select(e => e.Id);
+            var pathwayIdIn = new Func<IEnumerable<string>, string>(p => string.Format("not p.id in {0}", JsonConvert.SerializeObject(p)));
+
             var pathway = await _graphRepository.Client.Cypher
                 .Match("(p:Pathway)")
-                .Where(string.Join(" and ", new List<string> { genderIs(gender), ageIsAboveMinimum(age), ageIsBelowMaximum(age), pathwayTitleEquals }), _pathwaysConfigurationManager.UseLivePathways)
+                .Where(string.Join(" and ", new List<string> { genderIs(gender), ageIsAboveMinimum(age), ageIsBelowMaximum(age), pathwayIdIn(jumptToPathways), pathwayTitleEquals }), _pathwaysConfigurationManager.UseLivePathways)
                 .Return(p => Return.As<Pathway>("p"))
                 .ResultsAsync
                 .FirstOrDefault();
