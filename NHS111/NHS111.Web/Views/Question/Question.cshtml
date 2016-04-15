@@ -37,7 +37,7 @@
      {
          <aside class="question-rationale">
              <h3>Why are we asking this?</h3>
-             <p>@Model.Rationale</p>
+             <p>@Html.Raw(@Model.RationaleHtml)</p>
          </aside>
      }
     <ul>
@@ -48,9 +48,9 @@
                                                                       {
                                                                           <a class="help-text-link" href="#">What does this mean?</a>
                                                                       }</label>
-                @if (!String.IsNullOrWhiteSpace(answer.SupportingInformation))
+                @if (!String.IsNullOrWhiteSpace(answer.SupportingInformationHtml))
                 {
-                    <div class="help-text-link-message">@answer.SupportingInformation</div>
+                    <div class="help-text-link-message">@Html.Raw(answer.SupportingInformationHtml)</div>
                 }
             </li>
             

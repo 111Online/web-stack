@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using Newtonsoft.Json;
+using NHS111.Models.Mappers;
 using NHS111.Models.Models.Domain;
 using NHS111.Models.Models.Web.Enums;
 using NHS111.Models.Models.Web.FromExternalServices;
@@ -27,6 +28,9 @@ namespace NHS111.Models.Models.Web
         public List<string> Bullets { get; set; }
 
         public string Rationale { get; set; }
+        public string RationaleHtml {
+            get { return StaticTextToHtml.Convert(Rationale); }
+        }
 
         public List<Answer> Answers { get; set; }
         public string SelectedAnswer { get; set; }
