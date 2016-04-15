@@ -93,6 +93,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Mappers\StaticTextToHtml.cs" />
     <Compile Include="Mappers\WebMappings\AutoMapperWebConfiguration.cs" />
     <Compile Include="Mappers\WebMappings\FromOutcomeViewModelToDosCheckCapacitySummaryRequest.cs" />
     <Compile Include="Mappers\WebMappings\FromOutcomeViewModelToDosViewModel.cs" />

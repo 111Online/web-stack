@@ -1,5 +1,5 @@
-﻿using System.Collections.Generic;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
+using NHS111.Models.Mappers;
 
 namespace NHS111.Models.Models.Domain
 {
@@ -18,6 +18,11 @@ namespace NHS111.Models.Models.Domain
 
         [JsonProperty(PropertyName = "supportingInfo")]
         public string SupportingInformation { get; set; }
+
+        [JsonIgnore]
+        public string SupportingInformationHtml {
+            get { return StaticTextToHtml.Convert(SupportingInformation); }
+        }
 
         [JsonProperty(PropertyName = "order")]
         public int Order { get; set; }
