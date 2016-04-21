@@ -539,9 +539,6 @@
     <Content Include="Views\Question\Gender.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Views\Question\Slider.cshtml" />
-  </ItemGroup>
-  <ItemGroup>
     <Content Include="Views\_Old\Home.cshtml" />
   </ItemGroup>
   <ItemGroup>
