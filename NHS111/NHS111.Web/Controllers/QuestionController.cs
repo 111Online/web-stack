@@ -49,40 +49,7 @@ namespace NHS111.Web.Controllers
             if (model.PathwayNo == string.Empty) return Redirect(Url.RouteUrl(new { controller = "Question", action = "Home" }));
             return View("Gender", model);
         }
-
-        [ActionName("SliderAction")]
-        [MultiSubmit(ButtonName = "Slider")]
-        public async Task<ActionResult> Slider(JourneyViewModel model)
-        {
-            ModelState.Clear();
-            return View("Slider", await _questionViewModelBuilder.BuildSlider(model));
-        }
-
-        [HttpGet]
-        public async Task<ActionResult> SliderDirect(string pathwayTitle, string gender, int age)
-        {
-            var model = await _questionViewModelBuilder.BuildSlider(PathwayTitleUriParser.Parse(pathwayTitle), gender, age);
-            if (model == null) return Redirect(Url.RouteUrl(new { controller = "Question", action = "Home" }));
-            return View("Slider", model);
-        }
-
-        [HttpPost]
-        [ActionName("SliderAction")]
-        [MultiSubmit(ButtonName = "JustToBeSafe")]
-        public async Task<ActionResult> JustToBeSafe(JourneyViewModel model)
-        {
-            var sliderModel = await _questionViewModelBuilder.BuildSlider(model);
-            var justToBeSafeViewModel = new JustToBeSafeViewModel
-            {
-                PathwayId = sliderModel.PathwayId,
-                PathwayNo = sliderModel.PathwayNo,
-                PathwayTitle = sliderModel.PathwayTitle,
-                UserInfo = sliderModel.UserInfo
-            };
-            var next = await _justToBeSafeFirstViewModelBuilder.JustToBeSafeFirstBuilder(justToBeSafeViewModel);
-            return View(next.Item1, next.Item2);
-        }
-
+        
         [HttpGet]
         public ActionResult Home()
         {

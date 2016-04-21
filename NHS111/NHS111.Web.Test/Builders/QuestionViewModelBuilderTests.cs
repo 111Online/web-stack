@@ -60,41 +60,5 @@ namespace NHS111.Web.Presentation.Test.Builders
             Assert.AreEqual(typeof (JourneyViewModel), result.GetType());
             Assert.AreEqual(result.PathwayNo, string.Empty);
         }
-
-        [Test]
-        public async void BuildSlider_valid_title_returns_journey()
-        {
-            var pathway = new Pathway()
-            {
-                Id = "P1",
-                Title = "Headache",
-                PathwayNo = "PW111, PW112"
-            };
-
-            var pathwayJson = JsonConvert.SerializeObject(pathway);
-
-            _configuration.SetupGet(x => x.BusinessApiPathwayIdFromTitleUrl).Returns("{0}");
-            _restfulHelper.Setup(x => x.GetAsync(It.IsAny<string>())).Returns(Task.FromResult(pathwayJson));
-            var result = await _sut.BuildSlider(It.IsAny<string>(), "Male", 25);
-
-            //Assert
-            Assert.AreEqual(typeof(JourneyViewModel), result.GetType());
-            Assert.AreEqual(result.PathwayId, "P1");
-            Assert.AreEqual(result.PathwayTitle, "Headache");
-            Assert.AreEqual(result.PathwayNo, "PW111, PW112");
-            Assert.AreEqual(result.UserInfo.Gender, "Male");
-            Assert.AreEqual(result.UserInfo.Age, 25);
-        }
-
-        [Test]
-        public async void BuildSlider_invalid_title_returns_null()
-        {
-            _configuration.SetupGet(x => x.BusinessApiPathwayIdFromTitleUrl).Returns("{0}");
-            _restfulHelper.Setup(x => x.GetAsync(It.IsAny<string>())).Returns(Task.FromResult(string.Empty));
-            var result = await _sut.BuildSlider(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<int>());
-
-            //Assert
-            Assert.IsNull(result);
-        }
     }
 }

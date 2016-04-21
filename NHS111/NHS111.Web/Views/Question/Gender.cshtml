@@ -23,7 +23,7 @@
     <div class="content-container">
 
         <div>
-            @using (Html.BeginForm("SliderAction", "Question", FormMethod.Post, new { @id = "outerContent" }))
+            @using (Html.BeginForm("JustToBeSafeFirst", "JustToBeSafe", FormMethod.Post, new { @id = "outerContent" }))
             {
                 @Html.HiddenFor(x => Model.PathwayNo)
                 <div>

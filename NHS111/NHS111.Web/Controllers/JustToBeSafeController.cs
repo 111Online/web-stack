@@ -19,17 +19,6 @@ namespace NHS111.Web.Controllers
             _justToBeSafeViewModelBuilder = justToBeSafeViewModelBuilder;
         }
 
-        [HttpGet]
-        public async Task<ActionResult> JustToBeSafeFirst(JourneyViewModel model)
-        {
-            var newModel = new JustToBeSafeViewModel
-            {
-                PathwayId = model.PathwayId,
-                UserInfo = model.UserInfo
-            };
-            return await JustToBeSafeFirst(newModel);
-        }
-
         [HttpPost]
         public async Task<ActionResult> JustToBeSafeFirst(JustToBeSafeViewModel model)
         {
