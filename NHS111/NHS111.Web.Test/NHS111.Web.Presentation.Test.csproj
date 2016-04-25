@@ -87,6 +87,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Builders\QuestionViewModelBuilderTests.cs" />
+    <Compile Include="Builders\SymptomDicriminatorCollectorTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

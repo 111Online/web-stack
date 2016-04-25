@@ -22,6 +22,7 @@ namespace NHS111.Web.Presentation.Test.Builders
         Mock<IRestfulHelper> _restfulHelper;
         Mock<IConfiguration> _configuration;
         Mock<IMappingEngine> _mappingEngine;
+        Mock<ISymptomDicriminatorCollector> _symptomDicriminatorCollector;
         private QuestionViewModelBuilder _sut;
 
         [SetUp]
@@ -32,9 +33,10 @@ namespace NHS111.Web.Presentation.Test.Builders
             _restfulHelper = new Mock<IRestfulHelper>();
             _configuration = new Mock<IConfiguration>();
             _mappingEngine = new Mock<IMappingEngine>();
+            _symptomDicriminatorCollector = new Mock<ISymptomDicriminatorCollector>();
             _sut = new QuestionViewModelBuilder(_outcomeViewModelBuilder.Object,
                 _justToBeSafeFirstViewModelBuilder.Object, _restfulHelper.Object, _configuration.Object,
-                _mappingEngine.Object);
+                _mappingEngine.Object, _symptomDicriminatorCollector.Object);
         }
 
         [Test]
