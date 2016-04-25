@@ -155,17 +155,20 @@ namespace NHS111.Web.Presentation.Builders
             }
         }
 
-        private static IDictionary<string, string> BuildState(string gender, int age)
+        private IDictionary<string, string> BuildState(string gender, int age)
         {
+            AgeCategory ageCategory = _mappingEngine.Map<AgeCategory>(age);
+
             return new Dictionary<string, string>()
             {
                 {"PATIENT_AGE", age.ToString()},
                 {"PATIENT_GENDER", string.Format("\"{0}\"", gender.ToUpper())},
-                {"PATIENT_PARTY", "1"}
+                {"PATIENT_PARTY", "1"},
+                {"PATIENT_AGEGROUP", ageCategory.ToString()}
             };
         }
 
-        private static string BuildStateJson(string gender, int age)
+        private string BuildStateJson(string gender, int age)
         {
             return JsonConvert.SerializeObject(BuildState(gender, age));
         }
