@@ -32,7 +32,7 @@ namespace NHS111.Business.Api.Controllers
             _cacheManager = cacheManager;
         }
 
-        [Route("node/{pathwayId}/next_node/{nodeId}/answer/{answer}")] // TODO Changed
+        [Route("node/{pathwayId}/next_node/{nodeId}/answer/{answer}")] 
         public async Task<HttpResponseMessage> GetNextNode(string pathwayId, string nodeId, string answer, [FromUri]string state, string cacheKey = null)
         {
             #if !DEBUG
@@ -44,10 +44,10 @@ namespace NHS111.Business.Api.Controllers
                     return cacheValue.AsHttpResponse();
                 }
             #endif
-
+     
             var next = JsonConvert.DeserializeObject<QuestionWithAnswers>(await (await _questionService.GetNextQuestion(nodeId, answer)).Content.ReadAsStringAsync());
-
             var stateDictionary = JsonConvert.DeserializeObject<IDictionary<string, string>>(HttpUtility.UrlDecode(state));
+   
             var nextLabel = next.Labels.FirstOrDefault();
 
             if (nextLabel == "Question" || nextLabel == "Outcome")
@@ -78,6 +78,7 @@ namespace NHS111.Business.Api.Controllers
 
             if (nextLabel == "Read")
             {
+
                 var value = stateDictionary.ContainsKey(next.Question.Title) ? stateDictionary[next.Question.Title] : null;
                 var selected = _answersForNodeBuilder.SelectAnswer(next.Answers, value);
 
