@@ -1,9 +1,10 @@
 ﻿.service-list-content {
     padding: 1rem 1rem 0 1rem;
+    max-width: 45.8333333333rem;
 }
 @media screen and (min-width: 40em) {
-    .service-content {
-        max-width: 45.8333333333rem;
+    .service-list-content {
+        max-width: none;
     }
 }
 

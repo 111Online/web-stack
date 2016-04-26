@@ -21,8 +21,27 @@
 
 .personal-details-content {
     padding: 1rem 1rem 0 1rem;
-    max-width: 50rem;
+    max-width: 45.8333333333rem;
 }
+@media screen and (min-width: 40em) {
+    .personal-details-content {
+        max-width: none;
+    }
+}
+
+.personal-details-content label {
+    font-weight: bold;
+}
+
+.personal-details-content .form-control {
+    border: 2px solid #E6E6E6;
+}
+
+ @media (min-width: 641px) {
+    #UserInfo_TelephoneNumber {
+      width: 25%; 
+    } 
+ }
 
 .inline-details {
     overflow: auto;
@@ -35,15 +54,6 @@
     margin-right: 2rem;
 }
 
-@media screen and (min-width: 40em) {
-    .personal-details-content {
-        max-width: 45.8333333333rem;
-    }
-}
-
-.personal-details-content label {
-    font-weight: bold;
-}
 
 .form-hint {
     font-weight: normal !important;
@@ -63,6 +73,7 @@
 
 .button.button-submit-details {
     padding-right: 5rem;
+    margin-top: 1rem;
     background-image: url("/content/images/icons/icon-button-next.svg");
     background-repeat: no-repeat;
     background-position: 85% 60%;

@@ -2120,6 +2120,10 @@ button[disabled=disabled] {
     border-bottom: 1px solid #E6E6E6;
     margin-bottom: 20px;
 }
+
+.section-item.last {
+    border-bottom: none;
+}
 .section-header {
     font-weight: bold; 
     text-align: left; 
