@@ -20,21 +20,18 @@
         <h3 class="section-header">
             Service booking confirmed
         </h3>
-        <div class="confirmation-telephone-alert">
-            @Model.Title
-        </div>
-        <div class="service-content">
-            @Html.Partial("_SelectedService", Model.SelectedService)
+        <div class="service-booking-message">
+            <div>We have successfully contacted <b>@Model.SelectedService.NameField</b> and notified them of your outcome <b>@Model.Title</b></div>
         </div>
     </div>
 </section>
 
 <section>
-    <div class="section-item">
+    <div class="section-item last">
         <h3 class="section-header">
             Worsening and self care advice
         </h3>
-        <div class="self-care-alert">
+        <div class="service-booking-message alert">
             If there are any new symptoms, or if the condition gets worse, changes or you have any other concerns, call 111.
         </div>
         <div class="self-care-content">

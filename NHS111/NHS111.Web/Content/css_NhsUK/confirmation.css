@@ -15,9 +15,9 @@
 }
 
 .service-booking-message {
-    background-color: yellow;
+    background-color: #fffabf;
     padding: 10px 20px;
-    border-left: 4px solid yellowgreen;
+    border-left: 4px solid #FFCF47;
     margin: 2rem 0 4rem 0.8rem;
     line-height: 3rem;
 }
