@@ -98,6 +98,7 @@
     <Compile Include="Builders\CareAdviceBuilder.cs" />
     <Compile Include="Builders\DOSBuilder.cs" />
     <Compile Include="Builders\FeedbackViewModelBuilder.cs" />
+    <Compile Include="Builders\JourneyViewModelStateBuilder.cs" />
     <Compile Include="Builders\JustToBeSafeFirstViewModelBuilder.cs" />
     <Compile Include="Builders\JustToBeSafeViewModelBuilder.cs" />
     <Compile Include="Builders\OutcomeViewModelBuilder.cs" />
