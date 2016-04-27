@@ -103,7 +103,7 @@ namespace NHS111.Business.Configuration
                 Replace("{dxCode}", dxCode).
                 Replace("{ageCategory}", ageCategory).
                 Replace("{gender}", gender).
-                Replace("{keywords}", string.Join(",", keywords));
+                Replace("{keywords}", string.Join("|", keywords));
         }
 
         private static string GetDomainApiUrl(string key)

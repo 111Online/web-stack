@@ -32,7 +32,7 @@ namespace NHS111.Domain.Api.Controllers
         public async Task<HttpResponseMessage> GetCareAdvice(string dxCode, string ageCategory, string gender, [FromUri]string keywords)
         {
             keywords = keywords ?? string.Empty;
-            return await _careAdviceRepository.GetCareAdvice(ageCategory, gender, keywords.Split(','), dxCode).AsJson().AsHttpResponse();
+            return await _careAdviceRepository.GetCareAdvice(ageCategory, gender, keywords.Split('|'), dxCode).AsJson().AsHttpResponse();
         }
     }
 }
