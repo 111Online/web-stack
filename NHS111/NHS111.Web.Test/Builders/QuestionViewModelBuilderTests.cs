@@ -34,6 +34,7 @@ namespace NHS111.Web.Presentation.Test.Builders
             _restfulHelper = new Mock<IRestfulHelper>();
             _configuration = new Mock<IConfiguration>();
             _mappingEngine = new Mock<IMappingEngine>();
+            _keywordCollector = new Mock<IKeywordCollector>();
             _symptomDicriminatorCollector = new Mock<ISymptomDicriminatorCollector>();
             _sut = new QuestionViewModelBuilder(_outcomeViewModelBuilder.Object,
                 _justToBeSafeFirstViewModelBuilder.Object, _restfulHelper.Object, _configuration.Object,
