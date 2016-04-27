@@ -79,7 +79,7 @@ namespace NHS111.Web.Presentation.Builders
                 await
                     _careAdviceBuilder.FillCareAdviceBuilder(model.UserInfo.Age, model.UserInfo.Gender,
                         model.CareAdviceMarkers.ToList());
-            model.SymptomGroup = await _restfulHelper.GetAsync(string.Format(_configuration.BusinessApiPathwaySymptomGroupUrl,
+            model.SymptomGroup = await _restfulHelper.GetAsync(_configuration.GetBusinessApiPathwaySymptomGroupUrl(
                 string.Join(",", journey.Steps.Select(s => s.QuestionId.Split('.').First()).Distinct())));
 
             return model;

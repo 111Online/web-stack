@@ -22,7 +22,7 @@ namespace NHS111.Web.Presentation.Builders
         public async Task<IEnumerable<CareAdvice>> FillCareAdviceBuilder(int age, string gender, IList<string> careAdviceMarkers)
         {
             var careAdvices = careAdviceMarkers.Any()
-                 ? JsonConvert.DeserializeObject<List<CareAdvice>>(await _restfulHelper.GetAsync(string.Format(_configuration.BusinessApiCareAdviceUrl, age, gender, string.Join(",", careAdviceMarkers))))
+                 ? JsonConvert.DeserializeObject<List<CareAdvice>>(await _restfulHelper.GetAsync(_configuration.GetBusinessApiCareAdviceUrl(age, gender, string.Join(",", careAdviceMarkers))))
                  : Enumerable.Empty<CareAdvice>();
 
             return careAdvices;
