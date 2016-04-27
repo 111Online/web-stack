@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using System.Collections.Generic;
+using Newtonsoft.Json;
 using NHS111.Models.Mappers;
 
 namespace NHS111.Models.Models.Domain
@@ -18,6 +19,9 @@ namespace NHS111.Models.Models.Domain
 
         [JsonProperty(PropertyName = "supportingInfo")]
         public string SupportingInformation { get; set; }
+
+        [JsonProperty(PropertyName = "keywords")]
+        public string Keywords { get; set; }
 
         [JsonIgnore]
         public string SupportingInformationHtml {

@@ -20,7 +20,7 @@
         <h3 class="section-header">
             Your selected service
         </h3>
-        <div class="service-content">
+        <div class="personal-details-content">
             @Html.Partial("_SelectedService", Model.SelectedService)
             <div class="form-item-wrapper">
                 <fieldset>
@@ -45,7 +45,7 @@
     @Html.Partial("_CommonHiddenFieldsHomeAddressInfo", Model.UserInfo.HomeAddress, new ViewDataDictionary { TemplateInfo = new TemplateInfo { HtmlFieldPrefix = "HomeAddress" } })
     @Html.HiddenFor(m => m.SelectedServiceId)
     <section>
-        <div class="section-item">
+        <div class="section-item last">
             <h3 class="section-header">
                 Your contact information
             </h3>

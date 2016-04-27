@@ -41,11 +41,18 @@ namespace NHS111.Domain.Repository
 
         public async Task<QuestionWithAnswers> GetNextQuestion(string id, string answer)
         {
-            var res = await _graphRepository.Client.Cypher.
+            var query = _graphRepository.Client.Cypher.
                 Match(string.Format("({{ id: \"{0}\" }})-[a]->(next)", id)).
                 Where(string.Format("lower(a.title) = '{0}'", answer.Replace("'", "\\'").ToLower())).
                 OptionalMatch("next-[nextAnswer]->()").
-                Return(next => new QuestionWithAnswers { Question = Return.As<Question>("next"), Answers = Return.As<List<Answer>>(string.Format("collect(nextAnswer)")), Labels = next.Labels() }).
+                Return(next => new QuestionWithAnswers
+                {
+                    Question = Return.As<Question>("next"),
+                    Answers = Return.As<List<Answer>>(string.Format("collect(nextAnswer)")),
+                    Labels = next.Labels(),
+                    Answered = Return.As<Answer>("a")
+                });
+            var res = await query.
                 ResultsAsync.
                 FirstOrDefault();
             return res;
@@ -56,7 +63,11 @@ namespace NHS111.Domain.Repository
             return await _graphRepository.Client.Cypher.
                Match(string.Format("(:Pathway {{ id: \"{0}\" }})-[:BeginsWith]->(q)", pathwayId)).
                OptionalMatch("q-[a:Answer]->()").
-               Return(q => new QuestionWithAnswers { Question = Return.As<Question>("q"), Answers = Return.As<List<Answer>>(string.Format("collect(a)")), Labels = q.Labels() }).
+               Return(q => new QuestionWithAnswers
+               {
+                   Question = Return.As<Question>("q"), 
+                   Answers = Return.As<List<Answer>>(string.Format("collect(a)")), Labels = q.Labels()
+               }).
                ResultsAsync.
                FirstOrDefault();
         }

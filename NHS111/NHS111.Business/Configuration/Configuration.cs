@@ -98,6 +98,14 @@ namespace NHS111.Business.Configuration
                 Replace("{markers}", string.Join(",", markers));
         }
 
+        public string GetDomainApiCareAdviceUrl(string dxCode, string ageCategory, string gender, string[] keywords) {
+            return GetDomainApiUrl("DomainApiInterimCareAdviceUrl").
+                Replace("{dxCode}", dxCode).
+                Replace("{ageCategory}", ageCategory).
+                Replace("{gender}", gender).
+                Replace("{keywords}", string.Join("|", keywords));
+        }
+
         private static string GetDomainApiUrl(string key)
         {
             return string.Format("{0}{1}", ConfigurationManager.AppSettings["DomainApiBaseUrl"], ConfigurationManager.AppSettings[key]).Replace("&amp;", "&");
@@ -131,6 +139,7 @@ namespace NHS111.Business.Configuration
 
         /* Care Advice */
         string GetDomainApiCareAdviceUrl(int age, string gender, IEnumerable<string> markers);
+        string GetDomainApiCareAdviceUrl(string dxCode, string ageCategory, string gender, string[] keywords);
         string GetRedisUrl();
     }
 }

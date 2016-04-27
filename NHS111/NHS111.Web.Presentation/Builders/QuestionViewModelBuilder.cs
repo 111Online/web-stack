@@ -21,15 +21,19 @@ namespace NHS111.Web.Presentation.Builders
         private readonly IRestfulHelper _restfulHelper;
         private readonly IConfiguration _configuration;
         private readonly IMappingEngine _mappingEngine;
+        private readonly ISymptomDicriminatorCollector _symptomDicriminatorCollector;
+        private readonly IKeywordCollector _keywordCollector;
 
         public QuestionViewModelBuilder(IOutcomeViewModelBuilder outcomeViewModelBuilder, IJustToBeSafeFirstViewModelBuilder justToBeSafeFirstViewModelBuilder, IRestfulHelper restfulHelper,
-            IConfiguration configuration, IMappingEngine mappingEngine)
+            IConfiguration configuration, IMappingEngine mappingEngine, ISymptomDicriminatorCollector symptomDicriminatorCollector, IKeywordCollector keywordCollector)
         {
             _outcomeViewModelBuilder = outcomeViewModelBuilder;
             _justToBeSafeFirstViewModelBuilder = justToBeSafeFirstViewModelBuilder;
             _restfulHelper = restfulHelper;
             _configuration = configuration;
             _mappingEngine = mappingEngine;
+            _symptomDicriminatorCollector = symptomDicriminatorCollector;
+            _keywordCollector = keywordCollector;
         }
 
         public JourneyViewModel BuildGender(JourneyViewModel model)
@@ -44,7 +48,44 @@ namespace NHS111.Web.Presentation.Builders
             var pathwayNo = await _restfulHelper.GetAsync(string.Format(_configuration.BusinessApiPathwayNumbersUrl, pathwayTitle));
             return new JourneyViewModel() { PathwayNo = pathwayNo };
         }
-        
+
+        public async Task<JourneyViewModel> BuildSlider(JourneyViewModel model)
+        {
+            var pathway = JsonConvert.DeserializeObject<Pathway>(await _restfulHelper.GetAsync(string.Format(_configuration.BusinessApiPathwayIdUrl, model.PathwayNo, model.UserInfo.Gender, model.UserInfo.Age)));
+
+            if (pathway == null) return null;
+
+            model.PathwayId = pathway.Id;
+            model.PathwayTitle = pathway.Title;
+            model.PathwayNo = pathway.PathwayNo;
+            model.State.Add("PATIENT_AGE", model.UserInfo.Age.ToString());
+            model.State.Add("PATIENT_GENDER", string.Format("\"{0}\"", model.UserInfo.Gender.First().ToString().ToUpper()));
+            model.State.Add("PATIENT_PARTY", "1");
+            model.StateJson = JsonConvert.SerializeObject(model.State);
+            return model;
+        }
+
+        public async Task<JourneyViewModel> BuildSlider(string pathwayTitle, string gender, int age)
+        {
+            var pathway = JsonConvert.DeserializeObject<Pathway>(await _restfulHelper.GetAsync(string.Format(_configuration.BusinessApiPathwayIdFromTitleUrl, pathwayTitle, gender, age)));
+
+            if (pathway == null) return null;
+
+            var model = new JourneyViewModel()
+            {
+                PathwayId = pathway.Id,
+                PathwayTitle = pathway.Title,
+                PathwayNo = pathway.PathwayNo,
+                UserInfo = new UserInfo() { Age = age, Gender = gender },
+                State = BuildState(gender, age),
+                StateJson = BuildStateJson(gender, age)
+            };
+            
+            return model;
+        }
+
+        //TO DO COPY ABOVE AND CREATE CONFIG
+
         public async Task<Tuple<string, JourneyViewModel>> BuildQuestion(JourneyViewModel model)
         {
             model.PreviousTitle = model.Title;
@@ -54,15 +95,15 @@ namespace NHS111.Web.Presentation.Builders
             journey.Steps.Add(new JourneyStep { QuestionNo = model.QuestionNo, QuestionTitle = model.Title, Answer = answer, QuestionId = model.Id });
             model.JourneyJson = JsonConvert.SerializeObject(journey);
             model.State = JsonConvert.DeserializeObject<Dictionary<string, string>>(model.StateJson);
-
             var response = await _restfulHelper.GetAsync(string.Format(_configuration.BusinessApiNextNodeUrl, model.PathwayId,
                 model.Id, answer.Title, HttpUtility.UrlEncode(JsonConvert.SerializeObject(model.State))));
 
+            model = _symptomDicriminatorCollector.Collect(JsonConvert.DeserializeObject<QuestionWithAnswers>(response),model);
+            model = _keywordCollector.Collect(answer, model);
             model = _mappingEngine.Map(response, model);
-            model = _mappingEngine.Map(answer, model);
+            //model = _mappingEngine.Map(answer, model);
 
             return await ActionSelection(model);
-
         }
 
         public async Task<JourneyViewModel> BuildPreviousQuestion(JourneyViewModel model)
@@ -79,7 +120,8 @@ namespace NHS111.Web.Presentation.Builders
                 journey.Steps.RemoveAt(journey.Steps.Count - 1);
                 model.PreviousTitle = journey.Steps.Last().IsJustToBeSafe == false ? journey.Steps.Last().QuestionTitle : string.Empty;
             }
-    
+
+            model.CollectedKeywords = _keywordCollector.CollectFromJourneySteps(journey.Steps).ToList();
             model.StateJson = model.PreviousStateJson;
             model.JourneyJson = JsonConvert.SerializeObject(journey);
             model.State = JsonConvert.DeserializeObject<Dictionary<string, string>>(model.StateJson);
@@ -160,6 +202,8 @@ namespace NHS111.Web.Presentation.Builders
     {
         JourneyViewModel BuildGender(JourneyViewModel model);
         Task<JourneyViewModel> BuildGender(string pathwayTitle);
+        Task<JourneyViewModel> BuildSlider(JourneyViewModel model);
+        Task<JourneyViewModel> BuildSlider(string pathwayTitle, string gender, int age);
         Task<Tuple<string, JourneyViewModel>> BuildQuestion(JourneyViewModel model);
         Task<JourneyViewModel> BuildPreviousQuestion(JourneyViewModel model);
         Task<string> BuildSearch(string input);

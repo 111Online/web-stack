@@ -15,7 +15,8 @@
 </label>
 <div class="inline-details">
     @Html.TextBoxFor(m => m.PostCode, new { @class = "form-control form-control-8-chars", placeholder = "eg. SE1" })
-    <input type="button" class="button find-address" id="findMyAddress" value ="Find my address" />
+    <input type="button" class="button find-address" id="findMyAddress" value="Find my address"/>
+    <a class="button button-next button-link" href="#">I don't know my postcode</a>
 </div>
 
 <div id="AddressList">
@@ -25,9 +26,9 @@
         </select>
     </label>
 </div>
-<div class="row">
+@*<div class="row">
     <a class="button button-next button-link" href="#">I don't know my postcode</a>
-</div>
+</div>*@
 
 <!--Spinner script-->
 <script type="text/javascript">
