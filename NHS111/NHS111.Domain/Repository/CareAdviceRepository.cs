@@ -26,11 +26,50 @@ namespace NHS111.Domain.Repository
                 Where(string.Format("c.id in [{0}]", string.Join(",", markers.Select(marker => string.Format("\"{0}-{1}-{2}\"", marker, ageGroup, gender))))).
                 Return(c => c.As<CareAdvice>()).
                 ResultsAsync;
+            
+        }
+
+        public async Task<IEnumerable<CareAdvice>> GetCareAdvice(string ageCategory, string gender, IEnumerable<string> keywords, string dxCode) {
+            /*
+
+            MATCH 
+            (i:InterimCareAdvice)-[:presentsFor]->(o:Outcome) 
+            WHERE 
+            i.keyword IN ["Burns and scalds", "Swelling, wounds", "Abdominal pain"] 
+            AND 
+            o.id = "Dx012" 
+            AND 
+            i.id =~ ".*-Child-Female" RETURN i, o
+
+            */
+            var interimCaNodeName = "InterimCareAdvice";
+            var presentsForRelationshipName = "presentsFor";
+            var outcomeNodeName = "Outcome";
+
+            return await _graphRepository.Client.Cypher.
+                Match(string.Format("(i:{0})-[:{1}]->(o:{2})", interimCaNodeName, presentsForRelationshipName, outcomeNodeName)).
+                Where(string.Format("i.keyword in [{0}]", JoinAndEncloseKeywords(keywords))).
+                AndWhere(string.Format("o.id = \"{0}\"", dxCode)).
+                AndWhere(string.Format("i.id =~ \".*-{0}-{1}\"", ageCategory, gender)).
+                Return(i => i.As<CareAdvice>()).
+                ResultsAsync;
+        }
+
+        private string JoinAndEncloseKeywords(IEnumerable<string> keywords) {
+            return string.Join(",", keywords.Select(k => k.DoubleQuoted()));
         }
     }
 
-    public interface ICareAdviceRepository
-    {
+    public static class StringExtensions {
+        public static string DoubleQuoted(this string s) {
+            return "\"" + s + "\"";
+        }
+    }
+
+    public interface ICareAdviceRepository {
         Task<IEnumerable<CareAdvice>> GetCareAdvice(int age, string gender, IEnumerable<string> markers);
+
+        Task<IEnumerable<CareAdvice>> GetCareAdvice(string ageCategory, string gender, IEnumerable<string> keywords,
+            string dxCode);
     }
 }

@@ -88,6 +88,7 @@
     <Compile Include="API_Project\Controller\PathwayController_Test.cs" />
     <Compile Include="API_Project\Controller\MonitoringController_Test.cs" />
     <Compile Include="API_Project\Controller\CareAdviceController_Test.cs" />
+    <Compile Include="Repository\CareAdviceRepositoryTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
