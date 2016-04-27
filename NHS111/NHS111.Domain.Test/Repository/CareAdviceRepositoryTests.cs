@@ -24,8 +24,6 @@ namespace NHS111.Domain.Test.Repository {
         [Test]
         public async void GetCareAdvice_WithArgs_BuildsCorrectQuery() {
 
-            Setup();
-
             _mockGraph.Setup(g => g.Client).Returns(_mockClient.Object);
             _mockClient.Setup(c => c.Cypher).Returns(_mockQuery.Object);
             _mockQuery.Setup(q => q.Match(It.IsAny<string>())).Returns(_mockQuery.Object);
