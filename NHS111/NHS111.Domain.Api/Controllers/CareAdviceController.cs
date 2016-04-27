@@ -7,6 +7,8 @@ using NHS111.Utils.Extensions;
 
 namespace NHS111.Domain.Api.Controllers
 {
+    using System.Collections.Generic;
+
     [LogHandleErrorForApi]
     public class CareAdviceController : ApiController
     {
@@ -23,6 +25,14 @@ namespace NHS111.Domain.Api.Controllers
         {
             markers = markers ?? string.Empty;
             return await _careAdviceRepository.GetCareAdvice(age, gender, markers.Split(',')).AsJson().AsHttpResponse();
+        }
+
+        [HttpGet]
+        [Route("pathways/care-advice/{dxCode}/{ageCategory}/{gender}")]
+        public async Task<HttpResponseMessage> GetCareAdvice(string dxCode, string ageCategory, string gender, [FromUri]string keywords)
+        {
+            keywords = keywords ?? string.Empty;
+            return await _careAdviceRepository.GetCareAdvice(ageCategory, gender, keywords.Split('|'), dxCode).AsJson().AsHttpResponse();
         }
     }
 }
