@@ -21,7 +21,7 @@ namespace NHS111.Models.Models.Domain
         public string SupportingInformation { get; set; }
 
         [JsonProperty(PropertyName = "keywords")]
-        public List<string> Keywords { get; set; }
+        public string Keywords { get; set; }
 
         [JsonIgnore]
         public string SupportingInformationHtml {

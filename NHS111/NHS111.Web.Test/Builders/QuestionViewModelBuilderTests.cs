@@ -23,6 +23,7 @@ namespace NHS111.Web.Presentation.Test.Builders
         Mock<IConfiguration> _configuration;
         Mock<IMappingEngine> _mappingEngine;
         Mock<ISymptomDicriminatorCollector> _symptomDicriminatorCollector;
+        Mock<IKeywordCollector> _keywordCollector;
         private QuestionViewModelBuilder _sut;
 
         [SetUp]
@@ -36,7 +37,7 @@ namespace NHS111.Web.Presentation.Test.Builders
             _symptomDicriminatorCollector = new Mock<ISymptomDicriminatorCollector>();
             _sut = new QuestionViewModelBuilder(_outcomeViewModelBuilder.Object,
                 _justToBeSafeFirstViewModelBuilder.Object, _restfulHelper.Object, _configuration.Object,
-                _mappingEngine.Object, _symptomDicriminatorCollector.Object);
+                _mappingEngine.Object, _symptomDicriminatorCollector.Object, _keywordCollector.Object);
         }
 
         [Test]

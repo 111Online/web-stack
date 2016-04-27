@@ -23,9 +23,10 @@ namespace NHS111.Web.Presentation.Builders
         private readonly IConfiguration _configuration;
         private readonly IMappingEngine _mappingEngine;
         private readonly ISymptomDicriminatorCollector _symptomDicriminatorCollector;
+        private readonly IKeywordCollector _keywordCollector;
 
         public QuestionViewModelBuilder(IOutcomeViewModelBuilder outcomeViewModelBuilder, IJustToBeSafeFirstViewModelBuilder justToBeSafeFirstViewModelBuilder, IRestfulHelper restfulHelper,
-            IConfiguration configuration, IMappingEngine mappingEngine, ISymptomDicriminatorCollector symptomDicriminatorCollector)
+            IConfiguration configuration, IMappingEngine mappingEngine, ISymptomDicriminatorCollector symptomDicriminatorCollector, IKeywordCollector keywordCollector)
         {
             _outcomeViewModelBuilder = outcomeViewModelBuilder;
             _justToBeSafeFirstViewModelBuilder = justToBeSafeFirstViewModelBuilder;
@@ -33,6 +34,7 @@ namespace NHS111.Web.Presentation.Builders
             _configuration = configuration;
             _mappingEngine = mappingEngine;
             _symptomDicriminatorCollector = symptomDicriminatorCollector;
+            _keywordCollector = keywordCollector;
         }
 
         public JourneyViewModel BuildGender(JourneyViewModel model)
@@ -98,6 +100,7 @@ namespace NHS111.Web.Presentation.Builders
                 model.Id, answer.Title, HttpUtility.UrlEncode(JsonConvert.SerializeObject(model.State))));
 
             model = _symptomDicriminatorCollector.Collect(JsonConvert.DeserializeObject<QuestionWithAnswers>(response),model);
+            model = _keywordCollector.Collect(answer, model);
             model = _mappingEngine.Map(response, model);
             //model = _mappingEngine.Map(answer, model);
 
@@ -118,7 +121,8 @@ namespace NHS111.Web.Presentation.Builders
                 journey.Steps.RemoveAt(journey.Steps.Count - 1);
                 model.PreviousTitle = journey.Steps.Last().IsJustToBeSafe == false ? journey.Steps.Last().QuestionTitle : string.Empty;
             }
-    
+
+            model.CollectedKeywords = _keywordCollector.CollectFromJourneySteps(journey.Steps).ToList();
             model.StateJson = model.PreviousStateJson;
             model.JourneyJson = JsonConvert.SerializeObject(journey);
             model.State = JsonConvert.DeserializeObject<Dictionary<string, string>>(model.StateJson);
