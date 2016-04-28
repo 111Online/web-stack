@@ -50,7 +50,7 @@ namespace NHS111.Web.Presentation.Builders
             return new JourneyViewModel() { PathwayNo = pathwayNo };
         }
 
-        public async Task<JourneyViewModel> BuildSlider(JourneyViewModel model)
+        /*public async Task<JourneyViewModel> BuildSlider(JourneyViewModel model)
         {
             var pathway = JsonConvert.DeserializeObject<Pathway>(await _restfulHelper.GetAsync(string.Format(_configuration.BusinessApiPathwayIdUrl, model.PathwayNo, model.UserInfo.Gender, model.UserInfo.Age)));
 
@@ -83,7 +83,7 @@ namespace NHS111.Web.Presentation.Builders
             };
             
             return model;
-        }
+        }*/
 
         //TO DO COPY ABOVE AND CREATE CONFIG
 
@@ -183,9 +183,11 @@ namespace NHS111.Web.Presentation.Builders
                             UserInfo = new UserInfo() { Age = derivedAge, Gender = pathway.Gender },
                             JourneyJson = model.JourneyJson,
                             SymptomDiscriminator = model.SymptomDiscriminator,
-                            State = BuildState(pathway.Gender, derivedAge),
-                            StateJson = BuildStateJson(pathway.Gender, derivedAge)
+                            State = JourneyViewModelStateBuilder.BuildState(pathway.Gender, derivedAge, _mappingEngine),
                         };
+
+                        newModel.StateJson = JourneyViewModelStateBuilder.BuildStateJson(newModel.State);
+
                         return await _justToBeSafeFirstViewModelBuilder.JustToBeSafeFirstBuilder(newModel);
                     }
                 case NodeType.DeadEndJump:
@@ -196,29 +198,14 @@ namespace NHS111.Web.Presentation.Builders
 
             }
         }
-
-        private static IDictionary<string, string> BuildState(string gender, int age)
-        {
-            return new Dictionary<string, string>()
-            {
-                {"PATIENT_AGE", age.ToString()},
-                {"PATIENT_GENDER", string.Format("\"{0}\"", gender.ToUpper())},
-                {"PATIENT_PARTY", "1"}
-            };
-        }
-
-        private static string BuildStateJson(string gender, int age)
-        {
-            return JsonConvert.SerializeObject(BuildState(gender, age));
-        }
     }
 
     public interface IQuestionViewModelBuilder
     {
         JourneyViewModel BuildGender(JourneyViewModel model);
         Task<JourneyViewModel> BuildGender(string pathwayTitle);
-        Task<JourneyViewModel> BuildSlider(JourneyViewModel model);
-        Task<JourneyViewModel> BuildSlider(string pathwayTitle, string gender, int age);
+        //Task<JourneyViewModel> BuildSlider(JourneyViewModel model);
+        //Task<JourneyViewModel> BuildSlider(string pathwayTitle, string gender, int age);
         Task<Tuple<string, JourneyViewModel>> BuildQuestion(JourneyViewModel model);
         Task<JourneyViewModel> BuildPreviousQuestion(JourneyViewModel model);
         Task<string> BuildSearch(string input);

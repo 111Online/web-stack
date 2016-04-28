@@ -64,10 +64,8 @@ namespace NHS111.Web.Presentation.Builders
             model.PathwayId = pathway.Id;
             model.PathwayTitle = pathway.Title;
             model.PathwayNo = pathway.PathwayNo;
-            model.State.Add("PATIENT_AGE", model.UserInfo.Age.ToString());
-            model.State.Add("PATIENT_GENDER", string.Format("\"{0}\"", model.UserInfo.Gender.First().ToString().ToUpper()));
-            model.State.Add("PATIENT_PARTY", "1");
-            model.StateJson = JsonConvert.SerializeObject(model.State);
+            model.State = JourneyViewModelStateBuilder.BuildState(model.UserInfo.Gender,model.UserInfo.Age, _mappingEngine, model.State);
+            model.StateJson = JourneyViewModelStateBuilder.BuildStateJson(model.State);
             return model;
         }
     }
