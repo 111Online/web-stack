@@ -126,8 +126,8 @@ namespace NHS111.Web.Presentation.Configuration
         string GetBusinessApiPathwayNumbersUrl(string pathwayTitle);
         string GetBusinessApiPathwayIdFromTitleUrl(string pathwayTitle, string gender, int age);
         string GetBusinessApiJustToBeSafePartOneUrl(string pathwayId);
-
         string GetBusinessApiJustToBeSafePartTwoUrl(string pathwayId, string questionId, string jtbsQuestionIds,bool hasAnswwers);
+        string GetBusinessApiInterimCareAdviceUrl(string dxCode, string ageGroup, string gender, string keywordsList);
 
         string BusinessDosCheckCapacitySummaryUrl { get; }
         string BusinessDosServiceDetailsByIdUrl { get; }

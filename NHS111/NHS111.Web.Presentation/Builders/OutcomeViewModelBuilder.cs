@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Configuration;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
@@ -58,7 +59,7 @@ namespace NHS111.Web.Presentation.Builders
         public async Task<OutcomeViewModel> DispositionBuilder(OutcomeViewModel model)
         {
             model.UserId = Guid.NewGuid();
-            var journey = JsonConvert.DeserializeObject<Journey>(model.JourneyJson);
+         //   var journey = JsonConvert.DeserializeObject<Journey>(model.JourneyJson);
             //var itkMessage = new ItkMessageBuilder(_cacheManager).WithExample().SetSummaryItems(
             //    journey.Steps.Select(a => new ItkMessageBuilder.SummaryItem(a.QuestionNo, a.QuestionTitle, a.Answer.Title))
             //    )
@@ -69,8 +70,10 @@ namespace NHS111.Web.Presentation.Builders
             //    .SetInformantType("NotSpecified")
             //    .SetSendToRepeatCaller(false)
             //    .Build(model.UserId.ToString());
-
-            return await AddCareAdvice(model, journey);
+            model.CareAdvices = await
+                    _careAdviceBuilder.FillCareAdviceBuilder(model.Id, "Adult", model.UserInfo.Gender,
+                        model.CollectedKeywords);
+            return model;
         }
 
         private async Task<OutcomeViewModel> AddCareAdvice(OutcomeViewModel model, Journey journey)
@@ -93,7 +96,6 @@ namespace NHS111.Web.Presentation.Builders
             {
                 model.ItkSendSuccess = true;
                 var journey = JsonConvert.DeserializeObject<Journey>(model.JourneyJson);
-                model = await AddCareAdvice(model, journey);
             }
             else
             {
@@ -101,6 +103,10 @@ namespace NHS111.Web.Presentation.Builders
                 Log4Net.Error("Error sending ITK message : Status Code -" + response.StatusCode.ToString() +
                               " Content -" + response.Content.ReadAsStringAsync());
             }
+            model.CareAdvices =
+                await
+                    _careAdviceBuilder.FillCareAdviceBuilder(model.Id, "Adult", model.UserInfo.Gender,
+                        model.CollectedKeywords);
             return model;
         }
 

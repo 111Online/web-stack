@@ -27,11 +27,28 @@ namespace NHS111.Web.Presentation.Builders
 
             return careAdvices;
         }
+
+        public async Task<IEnumerable<CareAdvice>> FillCareAdviceBuilder(string dxCode, string ageGroup, string gender, IList<string> careAdviceKeywords)
+        {
+            var careAdvices = careAdviceKeywords.Any()
+                 ? JsonConvert.DeserializeObject<List<CareAdvice>>(await _restfulHelper.GetAsync(_configuration.GetBusinessApiInterimCareAdviceUrl(dxCode, ageGroup, gender, GenerateKeywordsList(careAdviceKeywords))))
+                 : Enumerable.Empty<CareAdvice>();
+
+            return careAdvices;
+        }
+
+        private string GenerateKeywordsList(IList<string> careAdviceKeywords)
+        {
+            return careAdviceKeywords.Aggregate((i, j) => i + '|' + j);
+        }
     }
 
     public interface ICareAdviceBuilder
     {
         Task<IEnumerable<CareAdvice>> FillCareAdviceBuilder(int age, string gender, IList<string> careAdviceMarkers);
+
+        Task<IEnumerable<CareAdvice>> FillCareAdviceBuilder(string dxCode, string ageGroup, string gender,
+            IList<string> careAdviceKeywords);
 
     }
 }
