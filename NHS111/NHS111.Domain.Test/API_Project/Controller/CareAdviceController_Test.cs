@@ -9,18 +9,32 @@
 
 ////TODO reviewed
 
-//namespace NHS111.Domain.Test.API_Project.Controller
-//{
-//    [TestFixture]
-//    public class CareAdviceController_Test
-//    {
-//        private Mock<ICareAdviceRepository> _careAdviceRepository;
+namespace NHS111.Domain.Test.API_Project.Controller
+{
+    using System.Collections.Generic;
+    using Api.Controllers;
+    using Domain.Repository;
+    using Models.Models.Domain;
+    using Moq;
+    using NUnit.Framework;
 
-//        [SetUp]
-//        public void SetUp()
-//        {
-//             _careAdviceRepository = new Mock<ICareAdviceRepository>();
-//        }
+    [TestFixture]
+    public class CareAdviceControllerTests
+    {
+        private Mock<ICareAdviceRepository> _careAdviceRepository;
+
+        [SetUp]
+        public void SetUp() {
+            _careAdviceRepository = new Mock<ICareAdviceRepository>();
+        }
+
+        [Test]
+        public async void GetCareAdvice_WithLowerCaseArgs_PassesStronglyTypedArgsToRepo() {
+            var sut = new CareAdviceController(_careAdviceRepository.Object);
+            await sut.GetCareAdvice("dx666", "adult", "female", "keyword1|keyword2");
+
+            _careAdviceRepository.Verify(r => r.GetCareAdvice(It.Is<AgeCategory>(a => a.Value == "Adult"), It.Is<Gender>(g => g.Value == "Female"), It.IsAny<IEnumerable<string>>(), It.Is<DispositionCode>(d => d.Value == "Dx666")));
+        }
 
 //        [Test]
 //        public async void should_return_a_care_advice_suggestion()
@@ -43,5 +57,5 @@
 //            Assert.That(result.StatusCode, Is.EqualTo(HttpStatusCode.OK));
 
 //        }
-//    }
-//}
+    }
+}
