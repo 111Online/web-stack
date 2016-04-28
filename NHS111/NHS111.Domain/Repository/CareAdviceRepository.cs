@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Diagnostics.Eventing.Reader;
 using System.Linq;
 using System.Threading.Tasks;
 using NHS111.Models.Models.Domain;
@@ -29,7 +28,7 @@ namespace NHS111.Domain.Repository
             
         }
 
-        public async Task<IEnumerable<CareAdvice>> GetCareAdvice(string ageCategory, string gender, IEnumerable<string> keywords, string dxCode) {
+        public async Task<IEnumerable<CareAdvice>> GetCareAdvice(AgeCategory ageCategory, Gender gender, IEnumerable<string> keywords, DispositionCode dxCode) {
             /*
 
             MATCH 
@@ -49,8 +48,8 @@ namespace NHS111.Domain.Repository
             return await _graphRepository.Client.Cypher.
                 Match(string.Format("(i:{0})-[:{1}]->(o:{2})", interimCaNodeName, presentsForRelationshipName, outcomeNodeName)).
                 Where(string.Format("i.keyword in [{0}]", JoinAndEncloseKeywords(keywords))).
-                AndWhere(string.Format("o.id = \"{0}\"", dxCode)).
-                AndWhere(string.Format("i.id =~ \".*-{0}-{1}\"", ageCategory, gender)).
+                AndWhere(string.Format("o.id = \"{0}\"", dxCode.Value)).
+                AndWhere(string.Format("i.id =~ \".*-{0}-{1}\"", ageCategory.Value, gender.Value)).
                 Return(i => i.As<CareAdvice>()).
                 ResultsAsync;
         }
@@ -69,7 +68,7 @@ namespace NHS111.Domain.Repository
     public interface ICareAdviceRepository {
         Task<IEnumerable<CareAdvice>> GetCareAdvice(int age, string gender, IEnumerable<string> markers);
 
-        Task<IEnumerable<CareAdvice>> GetCareAdvice(string ageCategory, string gender, IEnumerable<string> keywords,
-            string dxCode);
+        Task<IEnumerable<CareAdvice>> GetCareAdvice(AgeCategory ageCategory, Gender gender, IEnumerable<string> keywords,
+            DispositionCode dxCode);
     }
 }

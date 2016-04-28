@@ -106,9 +106,12 @@
     <Compile Include="Models\Configuration\PathwaysSection.cs" />
     <Compile Include="Models\Configuration\JumpToPathwaysCollection.cs" />
     <Compile Include="Models\Configuration\JumpToPathwaysElement.cs" />
+    <Compile Include="Models\Domain\AgeCategory.cs" />
     <Compile Include="Models\Domain\Answer.cs" />
     <Compile Include="Models\Domain\CareAdvice.cs" />
+    <Compile Include="Models\Domain\DispositionCode.cs" />
     <Compile Include="Models\Domain\Feedback.cs" />
+    <Compile Include="Models\Domain\Gender.cs" />
     <Compile Include="Models\Domain\GroupedPathways.cs" />
     <Compile Include="Models\Domain\QuestionWithDeadEnd.cs" />
     <Compile Include="Models\Domain\SymptomGroup.cs" />
