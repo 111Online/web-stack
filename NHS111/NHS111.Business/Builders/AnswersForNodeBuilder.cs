@@ -55,7 +55,7 @@ namespace NHS111.Business.Builders
 
         internal static string PrepareTextForComparison(this string input)
         {
-            return input.ToLower();
+            return input.RemoveEscapedQuotes().ToLower();
         }
 
         private static string RemoveEscapedQuotes(this string input)

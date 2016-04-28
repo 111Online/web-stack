@@ -41,5 +41,18 @@ namespace NHS111.Business.Test.Builders
             var result = sut.SelectAnswer(answerList, "notananswer");
             Assert.AreEqual("default", result);
         }
+
+        [Test]
+        public void SelectPresent()
+        {
+            AnswersForNodeBuilder sut = new AnswersForNodeBuilder();
+            Answer a1 = new Answer { Title = "==\"present\"", Order = 1 };
+            Answer a2 = new Answer { Title = "default", Order = 2 };
+
+            List<Answer> answerList = new List<Answer> { a1, a2};
+
+            var result = sut.SelectAnswer(answerList, "\"present\"");
+            Assert.AreEqual("==\"present\"", result);
+        }
     }
 }
