@@ -1,0 +1,79 @@
+namespace NHS111.Models.Models.Domain {
+    using System;
+    using System.CodeDom;
+
+    public enum AgeCategoryEnum {
+        Unknown,
+        Adult,
+        Child,
+        Toddler,
+        Infant
+    }
+
+    public class AgeCategory {
+
+        public static AgeCategory Adult = new AgeCategory(AgeCategoryEnum.Adult);
+        public static AgeCategory Child = new AgeCategory(AgeCategoryEnum.Child);
+        public static AgeCategory Toddler = new AgeCategory(AgeCategoryEnum.Toddler);
+        public static AgeCategory Infant = new AgeCategory(AgeCategoryEnum.Infant);
+
+        public string Value { get; private set; }
+
+        public AgeCategory(AgeCategoryEnum ageCategory) {
+            Initialise(ageCategory);
+        }
+
+        public AgeCategory(int age) {
+            Initialise(age);
+        }
+
+        public AgeCategory(string ageCategory) {
+            var lower = ageCategory.ToLower();
+
+            if (lower == "adult" || lower == "a") {
+                Initialise(AgeCategoryEnum.Adult);
+            }
+            else if (lower == "child" || lower == "c") {
+                Initialise(AgeCategoryEnum.Child);
+            }
+            else if (lower == "toddler" || lower == "t") {
+                Initialise(AgeCategoryEnum.Toddler);
+            }
+            else if (lower == "infant" || lower == "i") {
+                Initialise(AgeCategoryEnum.Infant);
+            }
+            else {
+                int age;
+                if (!int.TryParse(ageCategory, out age))
+                    throw new ArgumentException(string.Format("Unable to parse age category of ({0}), expected one of \"Adult\", \"A\", \"Child\", \"C\", \"Toddler\", \"T\", \"Infant\", \"I\" (case insensitive) or a string representation of an integer.", ageCategory));
+
+                Initialise(age);
+            }
+        }
+
+        private void Initialise(int age) {
+            if (age >= 16) Value = Adult.Value;
+            else if (5 <= age && age <= 15) Value = Child.Value;
+            else if (1 <= age && age <= 4) Value = Toddler.Value;
+            else Value = Infant.Value;
+        }
+
+        private void Initialise(AgeCategoryEnum ageCategory) {
+            switch (ageCategory) {
+                case AgeCategoryEnum.Adult:
+                    Value = "Adult";
+                    break;
+                case AgeCategoryEnum.Child:
+                    Value = "Child";
+                    break;
+                case AgeCategoryEnum.Toddler:
+                    Value = "Toddler";
+                    break;
+                case AgeCategoryEnum.Infant:
+                    Value = "Infant";
+                    break;
+            }
+        }
+
+    }
+}

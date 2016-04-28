@@ -12,9 +12,9 @@ namespace NHS111.Domain.Test.Repository {
     [TestFixture]
     internal class CareAdviceRepositoryTests {
         private readonly string[] _keywords = { "Keyword1", "Keyword2" };
-        private readonly string _dxCode = "Dx042";
-        private readonly string _ageCategory = "child";
-        private readonly string _gender = "female";
+        private readonly DispositionCode _dxCode = new DispositionCode("Dx042");
+        private readonly AgeCategory _ageCategory = new AgeCategory("child");
+        private readonly Gender _gender = new Gender("female");
 
         private Mock<IGraphRepository> _mockGraph;
         private Mock<IGraphClient> _mockClient;
@@ -35,8 +35,8 @@ namespace NHS111.Domain.Test.Repository {
             await sut.GetCareAdvice(_ageCategory, _gender, _keywords, _dxCode);
 
             _mockQuery.Verify(q => q.Where(It.Is<string>(s => s.Contains(_keywords[0]) && s.Contains(_keywords[1]))), Times.Once);
-            _mockQuery.Verify(q => q.AndWhere(It.Is<string>(s => s.Contains(_dxCode))), Times.Once);
-            _mockQuery.Verify(q => q.AndWhere(It.Is<string>(s => s.Contains(_ageCategory) && s.Contains(_gender))), Times.Once);
+            _mockQuery.Verify(q => q.AndWhere(It.Is<string>(s => s.Contains(_dxCode.Value))), Times.Once);
+            _mockQuery.Verify(q => q.AndWhere(It.Is<string>(s => s.Contains(_ageCategory.Value) && s.Contains(_gender.Value))), Times.Once);
 
         }
 

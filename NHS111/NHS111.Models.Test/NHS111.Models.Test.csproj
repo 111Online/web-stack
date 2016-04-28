@@ -63,6 +63,9 @@
     <Compile Include="DispositionResolverTests.cs" />
     <Compile Include="FromOutcomeViewModelToDosCaseTests.cs" />
     <Compile Include="GenderResolverTests.cs" />
+    <Compile Include="Models\Domain\AgeCategoryTests.cs" />
+    <Compile Include="Models\Domain\DispositionCodeTests.cs" />
+    <Compile Include="Models\Domain\GenderTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="JourneyViewModelTests.cs" />
     <Compile Include="SymptomDiscriminatorListResolverTests.cs" />
