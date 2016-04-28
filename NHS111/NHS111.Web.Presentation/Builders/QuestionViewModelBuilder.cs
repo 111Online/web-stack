@@ -46,13 +46,13 @@ namespace NHS111.Web.Presentation.Builders
         {
             // do we have a symptom that is in the white list
             // return a list of pathways numbers
-            var pathwayNo = await _restfulHelper.GetAsync(string.Format(_configuration.BusinessApiPathwayNumbersUrl, pathwayTitle));
+            var pathwayNo = await _restfulHelper.GetAsync(_configuration.GetBusinessApiPathwayNumbersUrl(pathwayTitle));
             return new JourneyViewModel() { PathwayNo = pathwayNo };
         }
 
         /*public async Task<JourneyViewModel> BuildSlider(JourneyViewModel model)
         {
-            var pathway = JsonConvert.DeserializeObject<Pathway>(await _restfulHelper.GetAsync(string.Format(_configuration.BusinessApiPathwayIdUrl, model.PathwayNo, model.UserInfo.Gender, model.UserInfo.Age)));
+            var pathway = JsonConvert.DeserializeObject<Pathway>(await _restfulHelper.GetAsync(_configuration.GetBusinessApiPathwayIdUrl(model.PathwayNo, model.UserInfo.Gender, model.UserInfo.Age)));
 
             if (pathway == null) return null;
 
@@ -68,7 +68,7 @@ namespace NHS111.Web.Presentation.Builders
 
         public async Task<JourneyViewModel> BuildSlider(string pathwayTitle, string gender, int age)
         {
-            var pathway = JsonConvert.DeserializeObject<Pathway>(await _restfulHelper.GetAsync(string.Format(_configuration.BusinessApiPathwayIdFromTitleUrl, pathwayTitle, gender, age)));
+            var pathway = JsonConvert.DeserializeObject<Pathway>(await _restfulHelper.GetAsync(_configuration.GetBusinessApiPathwayIdFromTitleUrl(pathwayTitle, gender, age)));
 
             if (pathway == null) return null;
 
@@ -96,7 +96,7 @@ namespace NHS111.Web.Presentation.Builders
             journey.Steps.Add(new JourneyStep { QuestionNo = model.QuestionNo, QuestionTitle = model.Title, Answer = answer, QuestionId = model.Id });
             model.JourneyJson = JsonConvert.SerializeObject(journey);
             model.State = JsonConvert.DeserializeObject<Dictionary<string, string>>(model.StateJson);
-            var response = await _restfulHelper.GetAsync(string.Format(_configuration.BusinessApiNextNodeUrl, model.PathwayId,
+            var response = await _restfulHelper.GetAsync(_configuration.GetBusinessApiNextNodeUrl(model.PathwayId,
                 model.Id, answer.Title, HttpUtility.UrlEncode(JsonConvert.SerializeObject(model.State))));
 
             model = _symptomDicriminatorCollector.Collect(JsonConvert.DeserializeObject<QuestionWithAnswers>(response),model);
@@ -110,7 +110,7 @@ namespace NHS111.Web.Presentation.Builders
         public async Task<JourneyViewModel> BuildPreviousQuestion(JourneyViewModel model)
         {
             var journey = JsonConvert.DeserializeObject<Journey>(model.JourneyJson);
-            var response = await _restfulHelper.GetAsync(string.Format(_configuration.BusinessApiQuestionByIdUrl, model.PathwayId, journey.Steps.Last().QuestionId));
+            var response = await _restfulHelper.GetAsync(_configuration.GetBusinessApiQuestionByIdUrl(model.PathwayId, journey.Steps.Last().QuestionId));
             if (journey.Steps.Count == 1)
             {
                 model.PreviousTitle = string.Empty;
@@ -131,7 +131,7 @@ namespace NHS111.Web.Presentation.Builders
 
         public async Task<string> BuildSearch(string input)
         {
-            var response = await _restfulHelper.GetAsync(string.Format(_configuration.BusinessApiGroupedPathwaysUrl, input));
+            var response = await _restfulHelper.GetAsync(_configuration.GetBusinessApiGroupedPathwaysUrl(input));
             var pathways = JsonConvert.DeserializeObject<List<GroupedPathways>>(response);
             return JsonConvert.SerializeObject(pathways.Select(pathway => new { label = pathway.Group, value = pathway.PathwayNumbers }));
         }
@@ -171,7 +171,7 @@ namespace NHS111.Web.Presentation.Builders
 
                 case NodeType.Pathway:
                     {
-                        var pathway = JsonConvert.DeserializeObject<Pathway>(await _restfulHelper.GetAsync(string.Format(_configuration.BusinessApiPathwayUrl, model.PathwayId)));
+                        var pathway = JsonConvert.DeserializeObject<Pathway>(await _restfulHelper.GetAsync(_configuration.GetBusinessApiPathwayUrl(model.PathwayId)));
                         if (pathway == null) return null;
 
                         var derivedAge = model.UserInfo.Age == -1 ? pathway.MinimumAgeInclusive : model.UserInfo.Age;

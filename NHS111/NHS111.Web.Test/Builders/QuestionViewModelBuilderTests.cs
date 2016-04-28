@@ -44,7 +44,7 @@ namespace NHS111.Web.Presentation.Test.Builders
         [Test]
         public async void BuildGender_valid_title_returns_pathway_numbers()
         {
-            _configuration.SetupGet(x => x.BusinessApiPathwayNumbersUrl).Returns("{0}");
+            _configuration.Setup(x => x.GetBusinessApiPathwayNumbersUrl(It.IsAny<string>())).Returns("{0}");
             _restfulHelper.Setup(x => x.GetAsync(It.IsAny<string>())).Returns(Task.FromResult("PW111, PW112"));
             var result = await _sut.BuildGender(It.IsAny<string>());
 
@@ -56,7 +56,7 @@ namespace NHS111.Web.Presentation.Test.Builders
         [Test]
         public async void BuildGender_invalid_title_returns_null()
         {
-            _configuration.SetupGet(x => x.BusinessApiPathwayNumbersUrl).Returns("{0}");
+            _configuration.Setup(x => x.GetBusinessApiPathwayNumbersUrl(It.IsAny<string>())).Returns("{0}");
             _restfulHelper.Setup(x => x.GetAsync(It.IsAny<string>())).Returns(Task.FromResult(string.Empty));
             var result = await _sut.BuildGender(It.IsAny<string>());
 

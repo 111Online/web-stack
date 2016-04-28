@@ -35,24 +35,21 @@
             If there are any new symptoms, or if the condition gets worse, changes or you have any other concerns, call 111.
         </div>
         <div class="self-care-content">
-            <div class="self-care-title">Self care</div>
-            <div class="self-care">
-                <p>
-                    Lorem ipsum dolor sit amet, sed malis rationibus liberavisse ut, et sale dissentiet eam. Cu affert conclusionemque mel. Eos ex odio volumus denique, vis ex choro labitur nusquam. Mel everti fastidii definiebas ut, ne ferri constituto vel. Te per singulis expetenda, est eu hinc utamur imperdiet. Quo an dicam everti officiis, mea no tale blandit, et debet assueverit pro.
-                </p>
+            @if (Model.CareAdvices.Any())
+            {
+                <div class="self-care-title">Self care</div>
+                <div class="self-care">
 
-                <p>
-                    Vel diam wisi principes ex. An est saperet offendit voluptaria, per ex altera singulis contentiones, an sea elit dissentias. Vidit congue suavitate et vis, suavitate repudiare sententiae id eum. Per minim vulputate ex, mei an modo idque. Ne mel dicat oporteat.
-                </p>
-
-                <p>
-                    Ut purto mentitum gloriatur qui. Vix ne deserunt voluptaria, eum no legere alienum, autem complectitur ex vis. Vel sale neglegentur at. Oratio possim verterem has ex, est in modo audiam definitiones. Ne veniam regione mediocritatem duo, mucius pericula imperdiet ad mel.
-                </p>
-
-                <p>
-                    Accusata signiferumque ex nam, usu latine appareat argumentum an. Has an unum munere, mel aeterno convenire id. Nibh qualisque erroribus usu ne. Delenit graecis abhorreant ex sit. Integre graecis eos in, velit singulis sed ex. Ut quis esse docendi eos, sed ex constituam delicatissimi mediocritatem.
-                </p>
-            </div>
+                    @foreach (var careAdvcie in Model.CareAdvices)
+                    {
+                        <h4 class="self-care-title">@careAdvcie.Title</h4>
+                        foreach (var item in careAdvcie.Items)
+                        {
+                            <p>@item</p>
+                        }
+                    }
+                </div>
+            }
         </div>
     </div>
 </section>
