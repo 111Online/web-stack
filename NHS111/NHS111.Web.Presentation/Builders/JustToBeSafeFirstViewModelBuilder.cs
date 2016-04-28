@@ -6,7 +6,6 @@ using AutoMapper;
 using Newtonsoft.Json;
 using NHS111.Models.Models.Domain;
 using NHS111.Models.Models.Web;
-using NHS111.Models.Models.Web.Enums;
 using NHS111.Models.Models.Web.FromExternalServices;
 using NHS111.Utils.Helpers;
 using StructureMap.Query;
@@ -65,8 +64,10 @@ namespace NHS111.Web.Presentation.Builders
             model.PathwayId = pathway.Id;
             model.PathwayTitle = pathway.Title;
             model.PathwayNo = pathway.PathwayNo;
-            model.State = JourneyViewModelStateBuilder.BuildState(model.UserInfo.Gender, model.UserInfo.Age, _mappingEngine, model.State);
-            model.StateJson = JourneyViewModelStateBuilder.BuildStateJson(model.State);
+            model.State.Add("PATIENT_AGE", model.UserInfo.Age.ToString());
+            model.State.Add("PATIENT_GENDER", string.Format("\"{0}\"", model.UserInfo.Gender.First().ToString().ToUpper()));
+            model.State.Add("PATIENT_PARTY", "1");
+            model.StateJson = JsonConvert.SerializeObject(model.State);
             return model;
         }
     }

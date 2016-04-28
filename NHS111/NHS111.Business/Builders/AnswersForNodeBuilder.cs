@@ -11,14 +11,14 @@ namespace NHS111.Business.Builders
         {
             var selected = answers.Select(a => a.Title).OrderBy(a => a == "default").First(option =>
             {
-                if (option.PrepareTextForComparison() == "default")
+                if (option == "default")
                     return true;
                 if (value == null)
                     return false;
 
                 if (option.StartsWith("=="))
                 {
-                    return (option.NormaliseAnswerText()).Equals(value.PrepareTextForComparison());
+                    return option.Substring(2) == value;
                 }
 
                 if (option.StartsWith(">="))
@@ -43,29 +43,6 @@ namespace NHS111.Business.Builders
             });
 
             return selected;
-        }
-    }
-
-    internal static class AnswerStringExtensions
-    {
-        internal static string NormaliseAnswerText(this string answerText)
-        {
-            return answerText.RemoveEscapedQuotes().RemoveNumericalOperators().PrepareTextForComparison();
-        }
-
-        internal static string PrepareTextForComparison(this string input)
-        {
-            return input.ToLower();
-        }
-
-        private static string RemoveEscapedQuotes(this string input)
-        {
-            return input.Replace("\\", "").Replace("\"", "");
-        }
-
-        private static string RemoveNumericalOperators(this string input)
-        {
-            return input.Substring(2);
         }
     }
 

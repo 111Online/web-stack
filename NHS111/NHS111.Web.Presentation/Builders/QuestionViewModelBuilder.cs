@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Policy;
 using System.Threading.Tasks;
 using System.Web;
 using AutoMapper;
@@ -182,10 +183,9 @@ namespace NHS111.Web.Presentation.Builders
                             UserInfo = new UserInfo() { Age = derivedAge, Gender = pathway.Gender },
                             JourneyJson = model.JourneyJson,
                             SymptomDiscriminator = model.SymptomDiscriminator,
-                            State = JourneyViewModelStateBuilder.BuildState(pathway.Gender, derivedAge, _mappingEngine),
+                            State = BuildState(pathway.Gender, derivedAge),
+                            StateJson = BuildStateJson(pathway.Gender, derivedAge)
                         };
-
-                        newModel.StateJson = JourneyViewModelStateBuilder.BuildStateJson(newModel.State);
                         return await _justToBeSafeFirstViewModelBuilder.JustToBeSafeFirstBuilder(newModel);
                     }
                 case NodeType.DeadEndJump:
@@ -195,6 +195,21 @@ namespace NHS111.Web.Presentation.Builders
                     return new Tuple<string, JourneyViewModel>("../Question/Question", model);
 
             }
+        }
+
+        private static IDictionary<string, string> BuildState(string gender, int age)
+        {
+            return new Dictionary<string, string>()
+            {
+                {"PATIENT_AGE", age.ToString()},
+                {"PATIENT_GENDER", string.Format("\"{0}\"", gender.ToUpper())},
+                {"PATIENT_PARTY", "1"}
+            };
+        }
+
+        private static string BuildStateJson(string gender, int age)
+        {
+            return JsonConvert.SerializeObject(BuildState(gender, age));
         }
     }
 
