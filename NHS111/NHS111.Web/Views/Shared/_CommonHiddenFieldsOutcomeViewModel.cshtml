@@ -19,8 +19,10 @@
     for (var i = 0; i < Model.CheckCapacitySummaryResultList.Count(); ++i)
     {
         @Html.HiddenFor(m => m.CheckCapacitySummaryResultList[i].IdField)
-        @Html.HiddenFor(m => m.CheckCapacitySummaryResultList[i].AddressField)
-        @Html.HiddenFor(m => m.CheckCapacitySummaryResultList[i].NameField)
+        @*@Html.HiddenFor(m => m.CheckCapacitySummaryResultList[i].AddressField)
+        @Html.HiddenFor(m => m.CheckCapacitySummaryResultList[i].NameField)*@
+        @Html.Hidden(string.Format("CheckCapacitySummaryResultList[{0}].NameField", i), @WebUtility.HtmlDecode(Model.CheckCapacitySummaryResultList[i].NameField))
+        @Html.Hidden(string.Format("CheckCapacitySummaryResultList[{0}].AddressField", i), @WebUtility.HtmlDecode(Model.CheckCapacitySummaryResultList[i].AddressField))
         @Html.HiddenFor(m => m.CheckCapacitySummaryResultList[i].OdsCodeField)
         @Html.HiddenFor(m => m.CheckCapacitySummaryResultList[i].PostcodeField)
     }
