@@ -16,7 +16,7 @@
             Service booking Failed
         </h3>
         <div class="service-booking-message alert">
-            <div><b>We were unable to contact @Model.SelectedService.NameField</b></div>
+            <div><b>We were unable to contact >@WebUtility.HtmlDecode(Model.SelectedService.NameField)</b></div>
             <div>Call 111 to book an appointment</div>
         </div>
     </div>

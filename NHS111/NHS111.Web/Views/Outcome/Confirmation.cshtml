@@ -21,7 +21,7 @@
             Service booking confirmed
         </h3>
         <div class="service-booking-message">
-            <div>We have successfully contacted <b>@Model.SelectedService.NameField</b> and notified them of your outcome <b>@Model.Title</b></div>
+            <div>We have successfully contacted <b>@WebUtility.HtmlDecode(Model.SelectedService.NameField)</b> and notified them of your outcome <b>@Model.Title</b></div>
         </div>
     </div>
 </section>
