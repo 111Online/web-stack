@@ -54,7 +54,7 @@ namespace NHS111.Web.Presentation.Builders
                         }).ToList()
                 });
 
-            var questionsJson = await _restfulHelper.GetAsync(string.Format(_configuration.BusinessApiJustToBeSafePartTwoUrl, model.PathwayId,
+            var questionsJson = await _restfulHelper.GetAsync(_configuration.GetBusinessApiJustToBeSafePartTwoUrl(model.PathwayId,
                 model.SelectedQuestionId ?? "", String.Join(",", questionsWithAnswers.Select(question => question.Question.Id)), selectedQuestion != null && selectedQuestion.Answers.Count > 3));
 
             var questions = JsonConvert.DeserializeObject<List<QuestionWithAnswers>>(questionsJson);

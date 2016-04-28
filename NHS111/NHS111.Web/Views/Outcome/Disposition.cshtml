@@ -39,6 +39,10 @@
     @Html.HiddenFor(x => Model.SymptomDiscriminator)
     @Html.HiddenFor(x => Model.Title)
     @Html.HiddenFor(x => Model.UserId)
+    for (int i = 0; i < Model.CollectedKeywords.Count; i++)
+    {
+        @Html.HiddenFor(model => Model.CollectedKeywords[i])
+    }
 
     <label>
         Postcode of current location

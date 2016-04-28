@@ -29,7 +29,7 @@ namespace NHS111.Web.Presentation.Builders
         public async Task<Tuple<string, JourneyViewModel>> JustToBeSafeFirstBuilder(JustToBeSafeViewModel model)
         {
             var identifiedModel = await BuildIdentifiedModel(model);
-            var questionsJson = await _restfulHelper.GetAsync(string.Format(_configuration.BusinessApiJustToBeSafePartOneUrl, identifiedModel.PathwayId));
+            var questionsJson = await _restfulHelper.GetAsync(_configuration.GetBusinessApiJustToBeSafePartOneUrl(identifiedModel.PathwayId));
             var questionsWithAnswers = JsonConvert.DeserializeObject<List<QuestionWithAnswers>>(questionsJson);
             if (!questionsWithAnswers.Any())
             {
@@ -43,7 +43,7 @@ namespace NHS111.Web.Presentation.Builders
                     State = JsonConvert.DeserializeObject<Dictionary<string, string>>(identifiedModel.StateJson),
                     StateJson = identifiedModel.StateJson
                 };
-                var question = JsonConvert.DeserializeObject<QuestionWithAnswers>(await _restfulHelper.GetAsync(string.Format(_configuration.BusinessApiFirstQuestionUrl, identifiedModel.PathwayId, identifiedModel.StateJson)));
+                var question = JsonConvert.DeserializeObject<QuestionWithAnswers>(await _restfulHelper.GetAsync(_configuration.GetBusinessApiFirstQuestionUrl(identifiedModel.PathwayId, identifiedModel.StateJson)));
                 _mappingEngine.Map(question, journeyViewModel);
                 return new Tuple<string, JourneyViewModel>("../Question/Question", journeyViewModel);
             }
@@ -57,7 +57,7 @@ namespace NHS111.Web.Presentation.Builders
 
         private async Task<JustToBeSafeViewModel> BuildIdentifiedModel(JustToBeSafeViewModel model)
         {
-            var pathway = JsonConvert.DeserializeObject<Pathway>(await _restfulHelper.GetAsync(string.Format(_configuration.BusinessApiPathwayIdUrl, model.PathwayNo, model.UserInfo.Gender, model.UserInfo.Age)));
+            var pathway = JsonConvert.DeserializeObject<Pathway>(await _restfulHelper.GetAsync(_configuration.GetBusinessApiPathwayIdUrl(model.PathwayNo, model.UserInfo.Gender, model.UserInfo.Age)));
 
             if (pathway == null) return null;
 
