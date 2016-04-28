@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using System.Web;
 using AutoMapper;
 using Newtonsoft.Json;
+using NHS111.Models.Models.Domain;
 using NHS111.Models.Models.Web;
 using NHS111.Models.Models.Web.FromExternalServices;
 using NHS111.Models.Models.Web.ITK;
@@ -71,7 +72,7 @@ namespace NHS111.Web.Presentation.Builders
             //    .SetSendToRepeatCaller(false)
             //    .Build(model.UserId.ToString());
             model.CareAdvices = await
-                    _careAdviceBuilder.FillCareAdviceBuilder(model.Id, "Adult", model.UserInfo.Gender,
+                    _careAdviceBuilder.FillCareAdviceBuilder(model.Id, new AgeCategory(model.UserInfo.Age).Value, model.UserInfo.Gender,
                         model.CollectedKeywords);
             return model;
         }
@@ -105,7 +106,7 @@ namespace NHS111.Web.Presentation.Builders
             }
             model.CareAdvices =
                 await
-                    _careAdviceBuilder.FillCareAdviceBuilder(model.Id, "Adult", model.UserInfo.Gender,
+                    _careAdviceBuilder.FillCareAdviceBuilder(model.Id, new AgeCategory(model.UserInfo.Age).Value, model.UserInfo.Gender,
                         model.CollectedKeywords);
             return model;
         }
