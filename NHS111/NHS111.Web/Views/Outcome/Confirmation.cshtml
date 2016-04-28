@@ -35,18 +35,21 @@
             If there are any new symptoms, or if the condition gets worse, changes or you have any other concerns, call 111.
         </div>
         <div class="self-care-content">
-            <div class="self-care-title">Self care</div>
-            <div class="self-care">
+            @if (Model.CareAdvices.Any())
+            {
+                <div class="self-care-title">Self care</div>
+                <div class="self-care">
 
-                @foreach (var careAdvcie in Model.CareAdvices)
-                {
-                    <h4 class="self-care-title">@careAdvcie.Title</h4>
-                    foreach (var item in careAdvcie.Items)
+                    @foreach (var careAdvcie in Model.CareAdvices)
                     {
-                        <p>@item</p>
+                        <h4 class="self-care-title">@careAdvcie.Title</h4>
+                        foreach (var item in careAdvcie.Items)
+                        {
+                            <p>@item</p>
+                        }
                     }
-                }
-            </div>
+                </div>
+            }
         </div>
     </div>
 </section>
