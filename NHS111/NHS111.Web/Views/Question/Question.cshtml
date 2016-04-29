@@ -75,11 +75,7 @@
         //enable disable submit button
         $("#nextScreen[type=submit]").attr('disabled', 'disabled');
 
-        $("form label").click(function () {
-            $("button[type=submit]").removeAttr('disabled');
-        });
-
-        $("form input[type=radio]").click(function () {
+        $("form input[type=radio]").change(function () {
             $("button[type=submit]").removeAttr('disabled');
         });
 
