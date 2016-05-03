@@ -29,8 +29,10 @@ namespace NHS111.Web.Presentation.Builders
             return journeyViewModel;
         }
 
-        public IEnumerable<string> ParseKeywords(string keywordsString)
-        {
+        public IEnumerable<string> ParseKeywords(string keywordsString) {
+            if (string.IsNullOrEmpty(keywordsString))
+                return new List<string>();
+
             var keywordsList = keywordsString.Split('|')
                 .Select(k => k.Trim()).Where(k => !String.IsNullOrEmpty(k))
                 .ToList();
