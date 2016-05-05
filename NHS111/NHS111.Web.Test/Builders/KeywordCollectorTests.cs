@@ -142,5 +142,18 @@ namespace NHS111.Web.Presentation.Builders.Tests
             Assert.AreEqual("Test keyword", result.ToArray()[0]);
             Assert.AreEqual("AnotherTest keyword", result.ToArray()[1]);
         }
+
+        [Test]
+        public void ParseKeywords_WithNullOrEmpty_ReturnsEmptyCollection() {
+            var sut = new KeywordCollector();
+
+            var result = sut.ParseKeywords(null);
+
+            Assert.IsEmpty(result);
+
+            result = sut.ParseKeywords("");
+
+            Assert.IsEmpty(result);
+        }
     }
 }
