@@ -63,6 +63,7 @@
     <Compile Include="DispositionResolverTests.cs" />
     <Compile Include="FromOutcomeViewModelToDosCaseTests.cs" />
     <Compile Include="GenderResolverTests.cs" />
+    <Compile Include="Mappers\WebMappings\JourneyViewModelMapperTests.cs" />
     <Compile Include="Models\Domain\AgeCategoryTests.cs" />
     <Compile Include="Models\Domain\DispositionCodeTests.cs" />
     <Compile Include="Models\Domain\GenderTests.cs" />
@@ -79,6 +80,7 @@
       <Name>NHS111.Models</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
       <ItemGroup>
