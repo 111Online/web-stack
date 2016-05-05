@@ -21,7 +21,16 @@ namespace NHS111.Models.Mappers.WebMappings
             Mapper.CreateMap<QuestionWithAnswers, JourneyViewModel>()
                .ConvertUsing<FromQuestionWithAnswersToJourneyViewModelConverter>();
 
-            Mapper.CreateMap<JourneyViewModel, OutcomeViewModel>();
+            Mapper.CreateMap<JourneyViewModel, OutcomeViewModel>()
+                .ForMember(s => s.SelectedServiceId, o => o.Ignore())
+                .ForMember(s => s.CheckCapacitySummaryResultList, o => o.Ignore())
+                .ForMember(s => s.SurgeryViewModel, o => o.Ignore())
+                .ForMember(s => s.CareAdviceMarkers, o => o.Ignore())
+                .ForMember(s => s.CareAdvices, o => o.Ignore())
+                .ForMember(s => s.Urgency, o => o.Ignore())
+                .ForMember(s => s.SymptomGroup, o => o.Ignore())
+                .ForMember(s => s.AddressSearchViewModel, o => o.Ignore())
+                .ForMember(s => s.ItkSendSuccess, o => o.Ignore());
         }
 
         public class FromAnswerToJourneyViewModelConverter : ITypeConverter<Answer, JourneyViewModel>
@@ -45,37 +54,9 @@ namespace NHS111.Models.Mappers.WebMappings
                 var source = context.SourceValue.ToString();
                 var journeyViewModel = (JourneyViewModel)context.DestinationValue;
 
-                if (string.IsNullOrEmpty(source))
-                    return new JourneyViewModel();
-
                 var questionWithAnswers = JsonConvert.DeserializeObject<QuestionWithAnswers>(source);
 
-                if (journeyViewModel == null)
-                    return new JourneyViewModel
-                    {
-                        Id = questionWithAnswers.Question.Id,
-                        Title = questionWithAnswers.Question.Title,
-                        Answers = questionWithAnswers.Answers ?? Enumerable.Empty<Answer>().ToList(),
-                        NodeType = (NodeType)Enum.Parse(typeof(NodeType), questionWithAnswers.Labels.FirstOrDefault())
-                    };
-
-                journeyViewModel.Id = questionWithAnswers.Question.Id;
-                journeyViewModel.Title = questionWithAnswers.Question.Title;
-
-                var questionAndBullets = questionWithAnswers.Question.TitleWithBullets();
-                journeyViewModel.TitleWithoutBullets = questionAndBullets.Item1;
-                journeyViewModel.Bullets = questionAndBullets.Item2;
-
-                journeyViewModel.Answers = questionWithAnswers.Answers ?? Enumerable.Empty<Answer>().ToList();
-                journeyViewModel.NodeType = (NodeType)Enum.Parse(typeof(NodeType), questionWithAnswers.Labels.FirstOrDefault());
-                journeyViewModel.QuestionNo = questionWithAnswers.Question.QuestionNo;
-                journeyViewModel.Rationale = questionWithAnswers.Question.Rationale;
-
-                if (questionWithAnswers.State != null)
-                {
-                    journeyViewModel.State = questionWithAnswers.State;
-                    journeyViewModel.StateJson = JsonConvert.SerializeObject(questionWithAnswers.State);
-                }
+                journeyViewModel = BuildJourneyViewModel(journeyViewModel, questionWithAnswers);
 
                 return journeyViewModel;
             }
@@ -88,29 +69,34 @@ namespace NHS111.Models.Mappers.WebMappings
                 var questionWithAnswers = (QuestionWithAnswers)context.SourceValue;
                 var journeyViewModel = (JourneyViewModel)context.DestinationValue;
 
-                var question = questionWithAnswers.Question;
-                var answers = questionWithAnswers.Answers;
-
-                if (journeyViewModel == null)
-                    return new JourneyViewModel
-                    {
-                        Id = question.Id,
-                        Title = question.Title,
-                        Answers = answers ?? Enumerable.Empty<Answer>().ToList(),
-                    };
-
-                journeyViewModel.Id = question.Id;
-                journeyViewModel.Title = question.Title;
-
-                var questionAndBullets = question.TitleWithBullets();
-                journeyViewModel.TitleWithoutBullets = questionAndBullets.Item1;
-                journeyViewModel.Bullets = questionAndBullets.Item2;
-
-                journeyViewModel.Answers = answers ?? Enumerable.Empty<Answer>().ToList();
-                journeyViewModel.QuestionNo = question.QuestionNo;
-                journeyViewModel.State = questionWithAnswers.State;
+                journeyViewModel = BuildJourneyViewModel(journeyViewModel, questionWithAnswers);
                 return journeyViewModel;
             }
+        }
+
+        private static JourneyViewModel BuildJourneyViewModel(JourneyViewModel modelToPopulate, QuestionWithAnswers questionWithAnswers)
+        {
+            var journeyViewModel = modelToPopulate;
+            if (journeyViewModel == null)
+                journeyViewModel = new JourneyViewModel();
+            journeyViewModel.Id = questionWithAnswers.Question.Id;
+            journeyViewModel.Title = questionWithAnswers.Question.Title;
+
+            var questionAndBullets = questionWithAnswers.Question.TitleWithBullets();
+            journeyViewModel.TitleWithoutBullets = questionAndBullets.Item1;
+            journeyViewModel.Bullets = questionAndBullets.Item2;
+
+            journeyViewModel.Answers = questionWithAnswers.Answers ?? Enumerable.Empty<Answer>().ToList();
+            journeyViewModel.NodeType = (NodeType)Enum.Parse(typeof(NodeType), questionWithAnswers.Labels.FirstOrDefault());
+            journeyViewModel.QuestionNo = questionWithAnswers.Question.QuestionNo;
+            journeyViewModel.Rationale = questionWithAnswers.Question.Rationale;
+
+            if (questionWithAnswers.State != null)
+            {
+                journeyViewModel.State = questionWithAnswers.State;
+                journeyViewModel.StateJson = JsonConvert.SerializeObject(questionWithAnswers.State);
+            }
+            return journeyViewModel;
         }
     }
 
