@@ -44,7 +44,7 @@ namespace NHS111.Web.Presentation.Configuration
 
         public string GetBusinessApiNextNodeUrl(string pathwayId, string journeyId, string answerTitle, string state)
         {
-            return string.Format(GetBusinessApiUrlWithDomain("BusinessApiNextNodeUrl"), pathwayId, journeyId,answerTitle, state);
+            return string.Format(GetBusinessApiUrlWithDomain("BusinessApiNextNodeUrl"), pathwayId, journeyId, Uri.EscapeDataString(answerTitle), state);
         }
 
         public string GetBusinessApiQuestionByIdUrl(string pathwayId, string questionId)
