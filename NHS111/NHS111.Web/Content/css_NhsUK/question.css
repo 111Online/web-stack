@@ -1,73 +1,117 @@
-﻿    input[type='radio'] {
-        display: inline;
-        width: 30px;
-        height: 30px;
-    }
+﻿p.answer {
+    border-top:1px dotted #ddd;
+    margin: 0;
+    padding: 0;
+    position: relative;
+    font-size: 1.5rem;
+}
+
+p.answer:first-of-type {
+    border: none;
+}
+
+p.answer:last-of-type {
+    border-top:1px dotted #ddd;
+    padding-bottom: 5px;
+    margin-bottom: 15px;
+}
+
+a.help-text-link {
+    top: 40px;
+    position: absolute;
+}
+
+a {
+    top: 30px;
+}
+
+label {
+    display: block;
+    padding: 10px 0;
+}
+
+span.answer-text {
+    vertical-align: super;
+    padding-left: 5px;
+}
+
+label.withPadding {
+    padding-bottom: 30px;
+}
+
+p.answer:hover {
+    background: #ddd;
+}
+
+
+input[type='radio'] {
+    display: inline;
+    width: 30px;
+    height: 30px;
+}
 
 button[type='submit'].button-next {
     background-position: 100% 60%;
 }
 
-    button[type='submit'] {
-        margin-bottom: 10px;
-    }
+button[type='submit'] {
+    margin-bottom: 10px;
+}
 
-    h2.question-header {
-        margin: 30px 0;
-    }
+h2.question-header {
+    margin: 30px 0;
+}
 
-    label {
-        vertical-align: super;
-    }
+ul {
+    margin-bottom: 40px;
+    clear: both;
+}
 
-    ul {
-        margin-bottom: 40px;
-        clear: both;
-    }
+ul li {
+    margin-bottom: 15px;
+}
 
-    ul li {
-        margin-bottom: 15px;
-    }
-
-    aside.question-rationale {
+div.question-rationale {
     background-color: #e4f1f9;
     position: relative;
     padding: 10px 20px;
     border-left: 4px solid #0073c6;
     margin: 0 0 20px 0;
-    float: left;
+}
 
-    }
-
-    aside.question-rationale h3 {
+    div.question-rationale h3 {
         font-size: 100%;
         line-height: 32px;
     }
 
-    aside.question-rationale p {
+    div.question-rationale p {
         margin-bottom: 0;
         padding-top: 0;
     }
 
-    .help-text-link-message {
-        display: none;
-        color: #0072C6;
-        font-size: 1.5rem;
-        padding-left: 43px;
-        position: relative;
-        margin-top: 10px;
-    }
-    .help-text-link-message:before {
-        background: url("/Content/images/icons/icon_info.png") no-repeat;
-        position: absolute;
-        left: 6px;
-        content: "\00a0";
-        display: block;
-        width: 32px;
-        height: 32px;
-    }
+.help-text-link-message {
+    display: none;
+    color: #0072C6;
+    font-size: 1.5rem;
+    padding-left: 43px;
+    position: relative;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
 
-    .help-text-link {
-        font-size: 1.5rem;
+.help-text-link-message:before {
+    background: url("/Content/images/icons/icon_info.png") no-repeat;
+    position: absolute;
+    left: 6px;
+    content: "\00a0";
+    display: block;
+    width: 32px;
+    height: 32px;
+}
 
-    }
+.help-text-link {
+    font-size: 1.5rem;
+    padding-left: 38px;
+    margin-left: 5px;
+    margin-right: 3px;
+}
