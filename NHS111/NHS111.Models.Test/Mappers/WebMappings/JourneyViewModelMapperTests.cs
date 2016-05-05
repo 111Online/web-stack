@@ -20,10 +20,15 @@ namespace NHS111.Models.Test.Mappers.WebMappings.JourneyViewModelMapper
         private string TEST_QUESTION_NO = "Tx1540";
         private string TEST_QUESTION_RATIONALE = "Some test rationale";
 
+        [TestFixtureSetUp()]
+        public void InitializeJourneyViewModelMapper()
+        {
+            Mapper.Initialize(m => m.AddProfile<NHS111.Models.Mappers.WebMappings.JourneyViewModelMapper>());
+        }
+
         [Test()]
         public void FromQuestionToJourneyViewModelConverter_Configuration_IsValid_Test()
         {
-            InitializeJourneyViewModelMapper();
             Mapper.AssertConfigurationIsValid();
         }
 
@@ -31,8 +36,7 @@ namespace NHS111.Models.Test.Mappers.WebMappings.JourneyViewModelMapper
         [Test()]
         public void FromQuestionToJourneyViewModelConverter_FromQuestionToJourneyViewModelConverter_nullJourney_Test()
         {
-            InitializeJourneyViewModelMapper();
-            
+
             var questionJson =
                 BuildQuestionJson();
 
@@ -44,7 +48,6 @@ namespace NHS111.Models.Test.Mappers.WebMappings.JourneyViewModelMapper
         [Test()]
         public void FromQuestionToJourneyViewModelConverter_FromQuestionToJourneyViewModelConverter_Not_nullJourney_Test()
         {
-            InitializeJourneyViewModelMapper();
 
             var existingJourney = new JourneyViewModel() {Id = TEST_QUESTION_ID, Title = TEST_QUESTION_TITLE};
             var questionJson = BuildQuestionJson();
@@ -56,8 +59,6 @@ namespace NHS111.Models.Test.Mappers.WebMappings.JourneyViewModelMapper
         [Test()]
         public void FromQuestionToJourneyViewModelConverter_FromQuestionWithAnswersToJourneyViewModelConverter_Test()
         {
-            InitializeJourneyViewModelMapper();
-
             var questionsWithAnswers = new QuestionWithAnswers()
             {
                 Answered = new Answer() { Title = "No", Order = 3},
@@ -74,10 +75,7 @@ namespace NHS111.Models.Test.Mappers.WebMappings.JourneyViewModelMapper
             AssertValidModel(result);
         }
 
-        private void InitializeJourneyViewModelMapper()
-        {
-            Mapper.Initialize(m => m.AddProfile<NHS111.Models.Mappers.WebMappings.JourneyViewModelMapper>());
-        }
+     
 
         private void AssertValidModel(JourneyViewModel result)
         {
