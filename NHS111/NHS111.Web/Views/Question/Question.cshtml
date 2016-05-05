@@ -13,7 +13,8 @@
     @Html.Partial("_FeedbackDetails", new Feedback() { PageId = Request.Url.GetComponents(UriComponents.PathAndQuery, UriFormat.SafeUnescaped) + Model.PathwayId })
 }
 
-@using (Html.BeginForm("Navigation", "Question", FormMethod.Post)) {
+@using (Html.BeginForm("Navigation", "Question", FormMethod.Post))
+{
     @Html.HiddenFor(x => Model.Id)
     @Html.HiddenFor(x => Model.JourneyJson)
     @Html.HiddenFor(x => Model.PathwayId)
@@ -34,41 +35,42 @@
 
 
     <h2 class="question-header">@Model.TitleWithoutBullets</h2>
-    foreach (var bullet in Model.Bullets) {
+    foreach (var bullet in Model.Bullets)
+    {
         <span class="red">@bullet</span>
     }
-    if(!String.IsNullOrWhiteSpace(Model.Rationale))
-     {
-         <aside class="question-rationale">
-             <h3>Why are we asking this?</h3>
-             <p>@Html.Raw(@Model.RationaleHtml)</p>
-         </aside>
-     }
-    <ul>
-        @foreach (var answer in Model.OrderedAnswers()) {
-            <li>
-                <input name="SelectedAnswer" type="radio" id="@answer.TitleWithoutSpaces" value="@Newtonsoft.Json.JsonConvert.SerializeObject(answer)"/>
-                <label for="@answer.TitleWithoutSpaces">@answer.Title @if (!String.IsNullOrWhiteSpace(answer.SupportingInformation))
-                                                                      {
-                                                                          <a class="help-text-link" href="#">What does this mean?</a>
-                                                                      }</label>
-                @if (!String.IsNullOrWhiteSpace(answer.SupportingInformationHtml))
-                {
-                    <div class="help-text-link-message">@Html.Raw(answer.SupportingInformationHtml)</div>
-                }
-            </li>
-            
-        }
-    </ul>
+    if (!String.IsNullOrWhiteSpace(Model.Rationale))
+    {
+        <div class="question-rationale">
+            <h3>Why are we asking this?</h3>
+            <p>@Html.Raw(@Model.RationaleHtml)</p>
+        </div>
+    }
+    <div id="answers">
+        @foreach (var answer in Model.OrderedAnswers())
+        {
+        <p class="answer">
+            <label for="@answer.TitleWithoutSpaces" class="@(!String.IsNullOrWhiteSpace(answer.SupportingInformation) ? "withPadding" : "")"><input name="SelectedAnswer" type="radio" id="@answer.TitleWithoutSpaces" value="@Newtonsoft.Json.JsonConvert.SerializeObject(answer)" /><span class="answer-text">@answer.Title</span></label>
 
-    if (!string.IsNullOrEmpty(Model.PreviousTitle)) {
+            @if (!String.IsNullOrWhiteSpace(answer.SupportingInformation))
+            {
+                <a class="help-text-link" href="#">What does this mean?</a>
+            }
+        </p>
+        if (!String.IsNullOrWhiteSpace(answer.SupportingInformationHtml))
+        {
+        <div class="help-text-link-message">@Html.Raw(answer.SupportingInformationHtml)</div>
+        }
+        }
+    </div>
+    if (!string.IsNullOrEmpty(Model.PreviousTitle))
+    {
         <input class="button previous-question" id="previousScreen" type="submit" name="PreviousQuestion" value="Previous question" />
     }
     <button class="button button-next" id="nextScreen" type="submit" name="Question" value="Question">Next question</button>
-
 }
 <script type="text/javascript">
-    
+
 
     $(document).ready(function () {
 
@@ -81,13 +83,11 @@
 
         $('.help-text-link').click(function () {
             var $this = $(this);
+            //$this.preventDefault();
+
             var $helpTextLinkMessage = $this.parent().next('.help-text-link-message');
             $helpTextLinkMessage.slideToggle("fast");
-        });
-
-
-
-
+        });
     });
 
 
