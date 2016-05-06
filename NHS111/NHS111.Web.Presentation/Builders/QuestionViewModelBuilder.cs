@@ -102,9 +102,6 @@ namespace NHS111.Web.Presentation.Builders
             var request = new HttpRequestMessage { Content = new StringContent(JsonConvert.SerializeObject(answer.Title), Encoding.UTF8, "application/json") };
             var response = await(await _restfulHelper.PostAsync(_configuration.GetBusinessApiNextNodeUrl(model.PathwayId, model.Id, HttpUtility.UrlEncode(JsonConvert.SerializeObject(model.State))), request)).Content.ReadAsStringAsync();
             
-            //var response2 = await _restfulHelper.GetAsync(_configuration.GetBusinessApiNextNodeUrl(model.PathwayId,
-            //    model.Id, answer.Title, HttpUtility.UrlEncode(JsonConvert.SerializeObject(model.State))));
-
             model = _symptomDicriminatorCollector.Collect(JsonConvert.DeserializeObject<QuestionWithAnswers>(response),model);
             model = _keywordCollector.Collect(answer, model);
             model = _mappingEngine.Map(response, model);
