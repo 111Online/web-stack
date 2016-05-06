@@ -42,9 +42,9 @@ namespace NHS111.Web.Presentation.Configuration
             return string.Format(GetBusinessApiUrlWithDomain("BusinessApiPathwaySymptomGroupUrl"), symptonGroups);
         }
 
-        public string GetBusinessApiNextNodeUrl(string pathwayId, string journeyId, string answerTitle, string state)
+        public string GetBusinessApiNextNodeUrl(string pathwayId, string journeyId, string state)
         {
-            return string.Format(GetBusinessApiUrlWithDomain("BusinessApiNextNodeUrl"), pathwayId, journeyId, Uri.EscapeDataString(answerTitle), state);
+            return string.Format(GetBusinessApiUrlWithDomain("BusinessApiNextNodeUrl"), pathwayId, journeyId, state);
         }
 
         public string GetBusinessApiQuestionByIdUrl(string pathwayId, string questionId)
@@ -119,7 +119,7 @@ namespace NHS111.Web.Presentation.Configuration
         string GetBusinessApiGroupedPathwaysUrl(string searchString);
         string GetBusinessApiPathwayIdUrl(string pathwayNumber, string gender, int age);
         string GetBusinessApiPathwaySymptomGroupUrl(string symptonGroups);
-        string GetBusinessApiNextNodeUrl(string pathwayId, string journeyId, string answerTitle, string state);
+        string GetBusinessApiNextNodeUrl(string pathwayId, string journeyId, string state);
         string GetBusinessApiQuestionByIdUrl(string pathwayId, string questionId);
         string GetBusinessApiCareAdviceUrl(int age, string gender, string careAdviceMarkers);
         string GetBusinessApiFirstQuestionUrl(string pathwayId, string state);

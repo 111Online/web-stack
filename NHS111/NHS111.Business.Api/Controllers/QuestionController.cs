@@ -32,8 +32,9 @@ namespace NHS111.Business.Api.Controllers
             _cacheManager = cacheManager;
         }
 
-        [Route("node/{pathwayId}/next_node/{nodeId}/answer/{answer}")] 
-        public async Task<HttpResponseMessage> GetNextNode(string pathwayId, string nodeId, string answer, [FromUri]string state, string cacheKey = null)
+        [HttpPost]
+        [Route("node/{pathwayId}/next_node/{nodeId}")] 
+        public async Task<HttpResponseMessage> GetNextNode(string pathwayId, string nodeId, string state, [FromBody]string answer, string cacheKey = null)
         {
             #if !DEBUG
                 cacheKey = cacheKey ?? string.Format("{0}-{1}-{2}-{3}", pathwayId, nodeId, answer, state);
@@ -73,7 +74,7 @@ namespace NHS111.Business.Api.Controllers
             {
                 stateDictionary.Add(next.Question.Title, next.Answers.First().Title);
                 var updatedState = JsonConvert.SerializeObject(stateDictionary);
-                return await GetNextNode(pathwayId, next.Question.Id, next.Answers.First().Title, updatedState, cacheKey);
+                return await GetNextNode(pathwayId, next.Question.Id, updatedState, next.Answers.First().Title, cacheKey);
             }
 
             if (nextLabel == "Read")
@@ -82,19 +83,19 @@ namespace NHS111.Business.Api.Controllers
                 var value = stateDictionary.ContainsKey(next.Question.Title) ? stateDictionary[next.Question.Title] : null;
                 var selected = _answersForNodeBuilder.SelectAnswer(next.Answers, value);
 
-                return await GetNextNode(pathwayId, next.Question.Id, selected, JsonConvert.SerializeObject(stateDictionary), cacheKey);
+                return await GetNextNode(pathwayId, next.Question.Id, JsonConvert.SerializeObject(stateDictionary), selected, cacheKey);
             }
 
             if (nextLabel == "CareAdvice")
             {
                 stateDictionary.Add(next.Question.QuestionNo, "");
                 var updatedState = JsonConvert.SerializeObject(stateDictionary);
-                return await GetNextNode(pathwayId, next.Question.Id, next.Answers.First().Title, updatedState, cacheKey);
+                return await GetNextNode(pathwayId, next.Question.Id, updatedState, next.Answers.First().Title, cacheKey);
             }
 
             if (nextLabel == "InlineDisposition")
             {
-                return await GetNextNode(pathwayId, next.Question.Id, next.Answers.First().Title, state, cacheKey);
+                return await GetNextNode(pathwayId, next.Question.Id, state, next.Answers.First().Title, cacheKey);
             }
 
             throw new Exception(string.Format("Unrecognized node of type '{0}'.", nextLabel));
@@ -126,7 +127,7 @@ namespace NHS111.Business.Api.Controllers
                 var answers = JsonConvert.DeserializeObject<IEnumerable<Answer>>(await _questionService.GetAnswersForQuestion(firstNode.Question.Id));
                 var value = stateDictionary.ContainsKey(firstNode.Question.Title) ? stateDictionary[firstNode.Question.Title] : null;
                 var selected = _answersForNodeBuilder.SelectAnswer(answers, value);
-                return await GetNextNode(pathwayId, firstNode.Question.Id, selected, JsonConvert.SerializeObject(stateDictionary));
+                return await GetNextNode(pathwayId, firstNode.Question.Id, JsonConvert.SerializeObject(stateDictionary), selected);
             }
             return firstNodeJson.AsHttpResponse();
         }
