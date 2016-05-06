@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using System.Security.Policy;
+using System.Text;
 using System.Threading.Tasks;
 using System.Web;
 using AutoMapper;
@@ -96,9 +98,10 @@ namespace NHS111.Web.Presentation.Builders
             journey.Steps.Add(new JourneyStep { QuestionNo = model.QuestionNo, QuestionTitle = model.Title, Answer = answer, QuestionId = model.Id });
             model.JourneyJson = JsonConvert.SerializeObject(journey);
             model.State = JsonConvert.DeserializeObject<Dictionary<string, string>>(model.StateJson);
-            var response = await _restfulHelper.GetAsync(_configuration.GetBusinessApiNextNodeUrl(model.PathwayId,
-                model.Id, answer.Title, HttpUtility.UrlEncode(JsonConvert.SerializeObject(model.State))));
 
+            var request = new HttpRequestMessage { Content = new StringContent(JsonConvert.SerializeObject(answer.Title), Encoding.UTF8, "application/json") };
+            var response = await(await _restfulHelper.PostAsync(_configuration.GetBusinessApiNextNodeUrl(model.PathwayId, model.Id, HttpUtility.UrlEncode(JsonConvert.SerializeObject(model.State))), request)).Content.ReadAsStringAsync();
+            
             model = _symptomDicriminatorCollector.Collect(JsonConvert.DeserializeObject<QuestionWithAnswers>(response),model);
             model = _keywordCollector.Collect(answer, model);
             model = _mappingEngine.Map(response, model);
