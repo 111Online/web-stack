@@ -12,12 +12,12 @@ p.answer:first-of-type {
 
 p.answer:last-of-type {
     border-top:1px dotted #ddd;
-    padding-bottom: 5px;
+    
     margin-bottom: 15px;
 }
 
 a.help-text-link {
-    top: 40px;
+    top: 45px;
     position: absolute;
 }
 
@@ -33,6 +33,7 @@ label {
 span.answer-text {
     vertical-align: super;
     padding-left: 5px;
+    font-weight: bold;
 }
 
 label.withPadding {
@@ -91,22 +92,12 @@ div.question-rationale {
 
 .help-text-link-message {
     display: none;
-    color: #0072C6;
-    font-size: 1.5rem;
+    color: black;
+    font-size: 1.4rem;
     padding-left: 43px;
     position: relative;
-    margin-top: 10px;
+    margin-top: 0px;
     margin-bottom: 10px;
-}
-
-.help-text-link-message:before {
-    background: url("/Content/images/icons/icon_info.png") no-repeat;
-    position: absolute;
-    left: 6px;
-    content: "\00a0";
-    display: block;
-    width: 32px;
-    height: 32px;
 }
 
 .help-text-link {
