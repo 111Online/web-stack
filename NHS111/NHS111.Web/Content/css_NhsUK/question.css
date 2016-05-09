@@ -3,7 +3,7 @@
     margin: 0;
     padding: 0;
     position: relative;
-    font-size: 1.5rem;
+    font-size: 20px;
 }
 
 p.answer:first-of-type {
@@ -17,7 +17,7 @@ p.answer:last-of-type {
 }
 
 a.help-text-link {
-    top: 45px;
+    top: 50px;
     position: absolute;
 }
 
@@ -33,11 +33,10 @@ label {
 span.answer-text {
     vertical-align: super;
     padding-left: 5px;
-    font-weight: bold;
 }
 
 label.withPadding {
-    padding-bottom: 30px;
+    padding-bottom: 35px;
 }
 
 p.answer:hover {
@@ -92,16 +91,16 @@ div.question-rationale {
 
 .help-text-link-message {
     display: none;
-    color: black;
-    font-size: 1.4rem;
+    color: #404040;
+    font-size: 18px;
     padding-left: 43px;
     position: relative;
     margin-top: 0px;
-    margin-bottom: 10px;
+    margin-bottom: 5px;
 }
 
 .help-text-link {
-    font-size: 1.5rem;
+    font-size: 18px;
     padding-left: 38px;
     margin-left: 5px;
     margin-right: 3px;
