@@ -16,7 +16,7 @@ namespace NHS111.Business.Feedback.Api.Functional.Tests {
 
         public async Task<string> GetAsync(string url)
         {
-            _webClient.Credentials = new NetworkCredential("111digital", "oD4rqw4Ntr");
+            _webClient.Credentials = new NetworkCredential("nhsUser", "oD4rqw4Ntr");
             return await _webClient.DownloadStringTaskAsync(new Uri(url));
         }
 

@@ -9,6 +9,8 @@ namespace NHS111.Business.Feedback.Api.Functional.Tests {
     using System.Net.Http;
     using System.Net.Http.Headers;
     using System.Text;
+    using System.Threading;
+    using System.Threading.Tasks;
     using System.Web.Script.Serialization;
     using Models.Models.Domain;
     using NUnit.Framework;
@@ -22,7 +24,7 @@ namespace NHS111.Business.Feedback.Api.Functional.Tests {
 
         //expected fields: https://trello.com/c/0TxfGnbn/16-feedback-mechanism-on-individual-questions
         private Feedback _testFeedback = new Feedback {
-            DateAdded = DateTime.Now, //Consumers shouldn't be expected to provide this!
+            DateAdded = DateTime.UtcNow, //Consumers shouldn't be expected to provide this!
             EmailAddress = "example@test.com",
             JSonData = "{ id: \"" + Guid.NewGuid() + "\" }",
             PageId = "SomePage",
@@ -36,6 +38,7 @@ namespace NHS111.Business.Feedback.Api.Functional.Tests {
         [Test]
         public void AddAndThenList_Always_ReturnsAddedData() {
             AddFeedback(_testFeedback);
+            Thread.Sleep(10000);
             var list = ListFeedback();
 
             AssertExpectedFieldsPresent(list, _testFeedback);
@@ -47,7 +50,8 @@ namespace NHS111.Business.Feedback.Api.Functional.Tests {
             {
                 Content = new StringContent(requestContent, Encoding.UTF8, "application/json")
             };
-            message.Headers.Add( "Authorization", ConfigurationManager.AppSettings["FeedbackAuthorization"]);
+
+            message.Headers.Add( "Authorization", "Basic " + Convert.ToBase64String(Encoding.ASCII.GetBytes("nhsUser:oD4rqw4Ntr")));
             return message;
         }
 
