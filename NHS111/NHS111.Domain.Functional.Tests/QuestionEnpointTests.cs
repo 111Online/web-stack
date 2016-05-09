@@ -20,6 +20,7 @@ namespace NHS111.Domain.Functional.Tests
         private string _expectedNextId = "PW756.300";
 
         private RestfulHelper _restfulHelper = new RestfulHelper();
+        private string DxCode = "Dx12";
 
         /// <summary>
         /// Example test method for a HTTP GET.
@@ -72,9 +73,9 @@ namespace NHS111.Domain.Functional.Tests
             AssertValidResponseSchema(result, ResponseSchemaType.Answer);
 
             //this next one checks the right answers have returned.
-            Assert.IsTrue(result.Contains("\"title\":\"yes"));
+            Assert.IsTrue(result.Contains("\"title\":\"Yes"));
             Assert.IsTrue(result.Contains("\"title\":\"I'm not sure"));
-            Assert.IsTrue(result.Contains("\"title\":\"no"));
+            Assert.IsTrue(result.Contains("\"title\":\"No"));
         }
 
 
@@ -97,8 +98,8 @@ namespace NHS111.Domain.Functional.Tests
         [Test]
         public async void TestGetQuestion_returns_valid_care_advice_AdultAge()
         {
-            var getQuestionEndpoint = "pathways/care-advice/43/Female?markers=Cx220179";
-            var result = await _restfulHelper.GetAsync(String.Format(_domainApiDomain + getQuestionEndpoint));
+            var getQuestionEndpoint = "pathways/care-advice/{0}/Adult/Female?keywords=Burns and scalds|Swelling, wounds|Abdominal pain";
+            var result = await _restfulHelper.GetAsync(String.Format(_domainApiDomain + getQuestionEndpoint, DxCode));
 
             //this checks a responce is returned
             Assert.IsNotNull(result);
@@ -113,14 +114,14 @@ namespace NHS111.Domain.Functional.Tests
             AssertValidResponseSchema(result, ResponseSchemaType.Answer);
 
             //this next one checks the right question has returned
-            Assert.IsTrue(result.Contains("\"id\":\"Cx220179-Adult-Female"));
-            Assert.IsTrue(result.Contains("\"title\":\"Needlestick injury"));
+            Assert.IsTrue(result.Contains("\"id\":\"Cx220959-Adult-Female"));
+
         }
         [Test]
         public async void TestGetQuestion_returns_valid_care_advice_ToddlerAge()
         {
-            var getQuestionEndpoint = "pathways/care-advice/1/Female?markers=Cx220179";
-            var result = await _restfulHelper.GetAsync(String.Format(_domainApiDomain + getQuestionEndpoint));
+            var getQuestionEndpoint = "pathways/care-advice/{0}/Toddler/Female?keywords=Burns and scalds|Swelling, wounds|Abdominal pain";
+            var result = await _restfulHelper.GetAsync(String.Format(_domainApiDomain + getQuestionEndpoint, DxCode));
 
             //this checks a responce is returned
             Assert.IsNotNull(result);
@@ -136,8 +137,8 @@ namespace NHS111.Domain.Functional.Tests
 
             //this next one checks the right question has returned
             Assert.IsFalse(result.Contains("\"id\":\"Cx220179-Adult-Female"));
-            Assert.IsTrue(result.Contains("\"id\":\"Cx220179-Toddler-Female"));
-            Assert.IsTrue(result.Contains("\"title\":\"Needlestick injury"));
+            Assert.IsTrue(result.Contains("\"id\":\"Cx221046-Toddler-Female"));
+
         }
 
      
