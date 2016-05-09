@@ -9,6 +9,8 @@ namespace NHS111.Business.Feedback.Api.Functional.Tests {
     using System.Net.Http;
     using System.Net.Http.Headers;
     using System.Text;
+    using System.Threading;
+    using System.Threading.Tasks;
     using System.Web.Script.Serialization;
     using Models.Models.Domain;
     using NUnit.Framework;
@@ -36,6 +38,7 @@ namespace NHS111.Business.Feedback.Api.Functional.Tests {
         [Test]
         public void AddAndThenList_Always_ReturnsAddedData() {
             AddFeedback(_testFeedback);
+            Thread.Sleep(10000);
             var list = ListFeedback();
 
             AssertExpectedFieldsPresent(list, _testFeedback);
