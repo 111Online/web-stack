@@ -65,12 +65,22 @@ namespace NHS111.Web.Presentation.Builders
         public async Task<DosCheckCapacitySummaryRequest> BuildCheckCapacitySummaryRequest(
             OutcomeViewModel outcomeViewModel, Surgery surgery)
         {
-            var model = _mappingEngine.Map<DosViewModel>(outcomeViewModel);
+            outcomeViewModel = await BuildSymptomGroup(outcomeViewModel);
 
             var dosCase = _mappingEngine.Map<OutcomeViewModel, DosCase>(outcomeViewModel);
             dosCase.Surgery = surgery.SurgeryId;
             return new DosCheckCapacitySummaryRequest(_configuration.DosUsername, _configuration.DosPassword, dosCase);
         }
+
+        private async Task<OutcomeViewModel> BuildSymptomGroup(OutcomeViewModel model)
+        {
+            var journey = JsonConvert.DeserializeObject<Journey>(model.JourneyJson);
+            model.SymptomGroup = await _restfulHelper.GetAsync(_configuration.GetBusinessApiPathwaySymptomGroupUrl(
+                string.Join(",", journey.Steps.Select(s => s.QuestionId.Split('.').First()).Distinct())));
+
+            return model;
+        }
+
 
         private async Task<Surgery> GetSelectedSurgery(DosViewModel model)
         {
