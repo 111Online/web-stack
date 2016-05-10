@@ -66,7 +66,6 @@ namespace NHS111.Web.Presentation.Builders
             OutcomeViewModel outcomeViewModel, Surgery surgery)
         {
             outcomeViewModel = await BuildSymptomGroup(outcomeViewModel);
-            var model = _mappingEngine.Map<DosViewModel>(outcomeViewModel);
 
             var dosCase = _mappingEngine.Map<OutcomeViewModel, DosCase>(outcomeViewModel);
             dosCase.Surgery = surgery.SurgeryId;
