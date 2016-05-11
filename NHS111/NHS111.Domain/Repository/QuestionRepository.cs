@@ -60,7 +60,7 @@ namespace NHS111.Domain.Repository
 
         public async Task<QuestionWithAnswers> GetFirstQuestion(string pathwayId)
         {
-            var test =  await _graphRepository.Client.Cypher.
+            return await _graphRepository.Client.Cypher.
                Match(string.Format("(:Pathway {{ id: \"{0}\" }})-[:BeginsWith]->(q)", pathwayId)).
                OptionalMatch("q-[a:Answer]->()").
                Return(q => new QuestionWithAnswers
@@ -70,7 +70,6 @@ namespace NHS111.Domain.Repository
                }).
                ResultsAsync.
                FirstOrDefault();
-            return test;
         }
 
         public async Task<IEnumerable<QuestionWithAnswers>> GetJustToBeSafeQuestions(string pathwayId, string justToBeSafePart)
