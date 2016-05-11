@@ -30,6 +30,9 @@ namespace NHS111.Models.Models.Domain
 
         [JsonProperty(PropertyName = "group")]
         public string Group { get; set; }
+
+        [JsonProperty(PropertyName = "keywords")]
+        public string Keywords { get; set; }
     }
 
 }
