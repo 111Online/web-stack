@@ -18,12 +18,14 @@ namespace NHS111.Web.Presentation.Builders
         private readonly IConfiguration _configuration;
         private readonly IMappingEngine _mappingEngine;
         private readonly IRestfulHelper _restfulHelper;
+        private readonly IKeywordCollector _keywordCollector;
 
-        public JustToBeSafeFirstViewModelBuilder(IRestfulHelper restfulHelper, IConfiguration configuration, IMappingEngine mappingEngine)
+        public JustToBeSafeFirstViewModelBuilder(IRestfulHelper restfulHelper, IConfiguration configuration, IMappingEngine mappingEngine, IKeywordCollector keywordCollector)
         {
             _restfulHelper = restfulHelper;
             _configuration = configuration;
             _mappingEngine = mappingEngine;
+            _keywordCollector = keywordCollector;
         }
 
         public async Task<Tuple<string, JourneyViewModel>> JustToBeSafeFirstBuilder(JustToBeSafeViewModel model)
@@ -41,7 +43,9 @@ namespace NHS111.Web.Presentation.Builders
                     UserInfo = identifiedModel.UserInfo,
                     JourneyJson = identifiedModel.JourneyJson,
                     State = JsonConvert.DeserializeObject<Dictionary<string, string>>(identifiedModel.StateJson),
-                    StateJson = identifiedModel.StateJson
+                    StateJson = identifiedModel.StateJson,
+                    CollectedKeywords = identifiedModel.CollectedKeywords
+               
                 };
                 var question = JsonConvert.DeserializeObject<QuestionWithAnswers>(await _restfulHelper.GetAsync(_configuration.GetBusinessApiFirstQuestionUrl(identifiedModel.PathwayId, identifiedModel.StateJson)));
                 _mappingEngine.Map(question, journeyViewModel);
@@ -66,6 +70,7 @@ namespace NHS111.Web.Presentation.Builders
             model.PathwayNo = pathway.PathwayNo;
             model.State = JourneyViewModelStateBuilder.BuildState(model.UserInfo.Gender,model.UserInfo.Age, _mappingEngine, model.State);
             model.StateJson = JourneyViewModelStateBuilder.BuildStateJson(model.State);
+            model.CollectedKeywords = _keywordCollector.ParseKeywords(pathway.Keywords).ToList();
             return model;
         }
     }
