@@ -40,11 +40,11 @@
                 <div class="self-care-title">Self care</div>
                 <div class="self-care">
 
-                    @foreach (var careAdvcie in Model.CareAdvices)
+                    @foreach (var careAdvice in Model.CareAdvices)
                     {
-                        <h4 class="self-care-title">@careAdvcie.Title</h4>
-                        @Html.Hidden(careAdvcie.Id)
-                        foreach (var item in careAdvcie.Items)
+                        <h4 class="self-care-title">@careAdvice.Title</h4>
+                        @Html.Hidden(careAdvice.Id)
+                        foreach (var item in careAdvice.Items)
                         {
                             <p>@item</p>
                         }
