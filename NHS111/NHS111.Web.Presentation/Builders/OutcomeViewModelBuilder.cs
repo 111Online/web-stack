@@ -60,17 +60,6 @@ namespace NHS111.Web.Presentation.Builders
         public async Task<OutcomeViewModel> DispositionBuilder(OutcomeViewModel model)
         {
             model.UserId = Guid.NewGuid();
-         //   var journey = JsonConvert.DeserializeObject<Journey>(model.JourneyJson);
-            //var itkMessage = new ItkMessageBuilder(_cacheManager).WithExample().SetSummaryItems(
-            //    journey.Steps.Select(a => new ItkMessageBuilder.SummaryItem(a.QuestionNo, a.QuestionTitle, a.Answer.Title))
-            //    )
-            //    .SetGender(model.UserInfo.Gender)
-            //    .SetDateOfBirth(DateTime.Now.AddYears(-model.UserInfo.Age).ToShortDateString())
-            //    .SetDispositionCode(model.Id.Replace("Dx", string.Empty))
-            //    .SetProvider("111Digital")
-            //    .SetInformantType("NotSpecified")
-            //    .SetSendToRepeatCaller(false)
-            //    .Build(model.UserId.ToString());
             model.CareAdvices = await
                     _careAdviceBuilder.FillCareAdviceBuilder(model.Id, new AgeCategory(model.UserInfo.Age).Value, model.UserInfo.Gender,
                         model.CollectedKeywords);

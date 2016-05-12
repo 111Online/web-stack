@@ -677,6 +677,7 @@
     <Content Include="Views\Question\DeadEndJump.cshtml" />
     <None Include="Properties\PublishProfiles\nhs111-web-beta - FTP.pubxml" />
     <None Include="Properties\PublishProfiles\nhs111-web-beta - Web Deploy.pubxml" />
+    <Content Include="Views\Shared\_CareAdvice.cshtml" />
     <None Include="Web.Development.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

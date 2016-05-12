@@ -1,0 +1,19 @@
+﻿@model  IEnumerable<NHS111.Models.Models.Domain.CareAdvice>
+<div class="self-care-content">
+    @if (Model.Any())
+    {
+        <div class="self-care-title">Self care</div>
+        <div class="self-care">
+
+            @foreach (var careAdvice in Model)
+            {
+                <h4 class="self-care-title">@careAdvice.Title</h4>
+                @Html.Hidden(careAdvice.Id)
+                foreach (var item in careAdvice.Items)
+                {
+                    <p>@item</p>
+                }
+            }
+        </div>
+    }
+</div>
