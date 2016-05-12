@@ -64,6 +64,7 @@
     <Compile Include="FromOutcomeViewModelToDosCaseTests.cs" />
     <Compile Include="GenderResolverTests.cs" />
     <Compile Include="Mappers\WebMappings\JourneyViewModelMapperTests.cs" />
+    <Compile Include="Mappers\WebMappings\StaticTextToHtmlTests.cs" />
     <Compile Include="Models\Domain\AgeCategoryTests.cs" />
     <Compile Include="Models\Domain\DispositionCodeTests.cs" />
     <Compile Include="Models\Domain\GenderTests.cs" />
