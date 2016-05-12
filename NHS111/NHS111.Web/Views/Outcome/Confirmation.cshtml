@@ -43,6 +43,7 @@
                     @foreach (var careAdvcie in Model.CareAdvices)
                     {
                         <h4 class="self-care-title">@careAdvcie.Title</h4>
+                        @Html.Hidden(careAdvcie.Id)
                         foreach (var item in careAdvcie.Items)
                         {
                             <p>@item</p>
