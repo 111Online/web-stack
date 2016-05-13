@@ -186,7 +186,7 @@ namespace NHS111.Web.Presentation.Builders
                             UserInfo = new UserInfo() { Age = derivedAge, Gender = pathway.Gender },
                             JourneyJson = model.JourneyJson,
                             SymptomDiscriminator = model.SymptomDiscriminator,
-                            State = JourneyViewModelStateBuilder.BuildState(pathway.Gender, derivedAge, _mappingEngine),
+                            State = JourneyViewModelStateBuilder.BuildState(pathway.Gender, derivedAge),
                         };
 
                         newModel.StateJson = JourneyViewModelStateBuilder.BuildStateJson(newModel.State);
