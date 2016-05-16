@@ -1,6 +1,9 @@
 ﻿using System.Collections.Generic;
+using System.Diagnostics.Eventing.Reader;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
+using Neo4jClient.Cypher;
 using NHS111.Models.Models.Domain;
 
 namespace NHS111.Domain.Repository
@@ -50,14 +53,32 @@ namespace NHS111.Domain.Repository
                 Where(string.Format("i.keyword in [{0}]", JoinAndEncloseKeywords(keywords))).
                 AndWhere(string.Format("o.id = \"{0}\"", dxCode.Value)).
                 AndWhere(string.Format("i.id =~ \".*-{0}-{1}\"", ageCategory.Value, gender.Value)).
+                AndWhere(BuildExcludeKeywordsWhereStatement(keywords)).
                 Return(i => i.As<CareAdvice>()).
                 ResultsAsync;
         }
 
+
         private string JoinAndEncloseKeywords(IEnumerable<string> keywords) {
             return string.Join(",", keywords.Select(k => k.DoubleQuoted()));
         }
+
+        private string BuildExcludeKeywordsWhereStatement(IEnumerable<string> keywords)
+        {
+            var whereStatement = "";
+            var distinctKeywords = keywords.Distinct();
+            foreach (var keyword in distinctKeywords)
+            {
+                if (distinctKeywords.First() == keyword) whereStatement += "NOT (";
+                whereStatement += string.Format("ANY(ex in i.excludeKeywords WHERE ex = {0})", keyword.DoubleQuoted());
+                if (distinctKeywords.Last() != keyword) whereStatement += " OR ";
+                else whereStatement += ")";
+            }
+            return whereStatement;
+        }
+
     }
+
 
     public static class StringExtensions {
         public static string DoubleQuoted(this string s) {

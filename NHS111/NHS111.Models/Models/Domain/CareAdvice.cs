@@ -12,8 +12,8 @@ namespace NHS111.Models.Models.Domain
         [JsonProperty(PropertyName = "title")]
         public string Title { get; set; }
 
-        [JsonProperty(PropertyName = "excludeTitle")]
-        public string ExcludeTitle { get; set; }
+        [JsonProperty(PropertyName = "excludeKeywords")]
+        public IEnumerable<string> ExcludeKeywords { get; set; }
 
         [JsonProperty(PropertyName = "items")]
         public IEnumerable<string> Items { get; set; }
