@@ -92,6 +92,7 @@
     <Compile Include="Builders\QuestionViewModelBuilderTests.cs" />
     <Compile Include="Builders\SymptomDicriminatorCollectorTests.cs" />
     <Compile Include="Configuration\ConfigurationTests.cs" />
+    <Compile Include="Controllers\QuestionControllerTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -32,7 +32,8 @@ namespace NHS111.Web.Controllers
         }
 
         [HttpGet]
-        public ActionResult Disposition(int? age, string gender = null, string dxCode = null, string symptomGroup = null, string symptomDiscriminator = null) {
+        [Route("outcome/disposition/{age?}/{gender?}/{dxCode?}/{symptomGroup?}/{symptomDiscriminator?}")]
+        public ActionResult Disposition(int? age, string gender, string dxCode, string symptomGroup, string symptomDiscriminator) {
             var DxCode = new DispositionCode(dxCode ?? "Dx38");
             var Gender = new Gender(gender ?? "Male");
 
