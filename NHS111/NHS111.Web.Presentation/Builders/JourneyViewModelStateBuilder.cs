@@ -17,25 +17,12 @@ namespace NHS111.Web.Presentation.Builders
         {
             AgeCategory ageCategory = mappingEngine.Map<AgeCategory>(age);
 
-            Normalise(state);
-
             state.Add("PATIENT_AGE", age.ToString());
             state.Add("PATIENT_GENDER", string.Format("\"{0}\"", gender.First().ToString().ToUpper()));
             state.Add("PATIENT_PARTY", "1");
             state.Add("PATIENT_AGEGROUP", ageCategory.ToString());
 
             return state;
-        }
-
-        private static void Normalise(IDictionary<string, string> state) {
-            if (state.ContainsKey("PATIENT_AGE"))
-                state.Remove("PATIENT_AGE");
-            if (state.ContainsKey("PATIENT_GENDER"))
-                state.Remove("PATIENT_GENDER");
-            if (state.ContainsKey("PATIENT_PARTY"))
-                state.Remove("PATIENT_PARTY");
-            if (state.ContainsKey("PATIENT_AGEGROUP"))
-                state.Remove("PATIENT_AGEGROUP");
         }
 
         public static string BuildStateJson(IDictionary<string, string> state)
