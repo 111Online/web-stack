@@ -46,7 +46,7 @@ namespace NHS111.Models.Models.Web
         public string SymptomDiscriminator { get; set; }
         public IDictionary<string, string> State { get; set; }
         public string StateJson { get; set; }
-        public List<string> CollectedKeywords { get; set; }
+        public KeywordBag CollectedKeywords { get; set; }
 
         public string StepLink {
             get {
@@ -61,7 +61,6 @@ namespace NHS111.Models.Models.Web
             return journey.Steps.Select(step => step.Answer.Order - 1);
         }
 
-
         public JourneyViewModel()
         {
             Answers = new List<Answer>();
@@ -69,7 +68,8 @@ namespace NHS111.Models.Models.Web
             Bullets = new List<string>();
             State = new Dictionary<string, string>();
             SymptomDiscriminator = String.Empty;
-            CollectedKeywords = new List<string>();
+            CollectedKeywords = new KeywordBag();
+
         }
 
         public List<Answer> OrderedAnswers()

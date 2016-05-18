@@ -125,7 +125,7 @@ namespace NHS111.Web.Presentation.Builders
                 model.PreviousTitle = journey.Steps.Last().IsJustToBeSafe == false ? journey.Steps.Last().QuestionTitle : string.Empty;
             }
 
-            model.CollectedKeywords = _keywordCollector.CollectFromJourneySteps(journey.Steps).ToList();
+            model.CollectedKeywords = _keywordCollector.CollectFromJourneySteps(journey.Steps);
             model.StateJson = model.PreviousStateJson;
             model.JourneyJson = JsonConvert.SerializeObject(journey);
             model.State = JsonConvert.DeserializeObject<Dictionary<string, string>>(model.StateJson);

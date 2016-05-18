@@ -28,10 +28,18 @@
     @Html.HiddenFor(x => Model.StateJson)
     <!--DIRECT LINK: @Model.StepLink-->
 
-    for (int i = 0; i < Model.CollectedKeywords.Count; i++)
+   for (int i = 0; i < Model.CollectedKeywords.Keywords.Count; i++)
+   {
+    @Html.HiddenFor(model => Model.CollectedKeywords.Keywords[i])
+   }
+
+    for (int i = 0; i < Model.CollectedKeywords.ExcludeKeywords.Count; i++)
     {
-        @Html.HiddenFor(model => Model.CollectedKeywords[i])
+        @Html.HiddenFor(model => Model.CollectedKeywords.ExcludeKeywords[i])
     }
+
+
+
     @Html.HiddenFor(x => Model.PreviousStateJson)
 
 

@@ -28,14 +28,16 @@ namespace NHS111.Web.Presentation.Builders
         private readonly IConfiguration _configuration;
         private readonly IMappingEngine _mappingEngine;
         private readonly ICacheManager<string, string> _cacheManager;
+        private readonly IKeywordCollector _keywordCollector;
 
-        public OutcomeViewModelBuilder(ICareAdviceBuilder careAdviceBuilder, IRestfulHelper restfulHelper, IConfiguration configuration, IMappingEngine mappingEngine, ICacheManager<string, string> cacheManager)
+        public OutcomeViewModelBuilder(ICareAdviceBuilder careAdviceBuilder, IRestfulHelper restfulHelper, IConfiguration configuration, IMappingEngine mappingEngine, ICacheManager<string, string> cacheManager, IKeywordCollector keywordCollector)
         {
             _careAdviceBuilder = careAdviceBuilder;
             _restfulHelper = restfulHelper;
             _configuration = configuration;
             _mappingEngine = mappingEngine;
             _cacheManager = cacheManager;
+            _keywordCollector = keywordCollector;
         }
 
         public async Task<OutcomeViewModel> SearchSurgeryBuilder(string input)
@@ -62,7 +64,7 @@ namespace NHS111.Web.Presentation.Builders
             model.UserId = Guid.NewGuid();
             model.CareAdvices = await
                     _careAdviceBuilder.FillCareAdviceBuilder(model.Id, new AgeCategory(model.UserInfo.Age).Value, model.UserInfo.Gender,
-                        model.CollectedKeywords);
+                        _keywordCollector.ConsolidateKeywords(model.CollectedKeywords).ToList());
             return model;
         }
 
@@ -96,7 +98,7 @@ namespace NHS111.Web.Presentation.Builders
             model.CareAdvices =
                 await
                     _careAdviceBuilder.FillCareAdviceBuilder(model.Id, new AgeCategory(model.UserInfo.Age).Value, model.UserInfo.Gender,
-                        model.CollectedKeywords);
+                        _keywordCollector.ConsolidateKeywords(model.CollectedKeywords).ToList());
             return model;
         }
 

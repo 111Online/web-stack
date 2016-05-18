@@ -23,6 +23,9 @@ namespace NHS111.Models.Models.Domain
         [JsonProperty(PropertyName = "keywords")]
         public string Keywords { get; set; }
 
+        [JsonProperty(PropertyName = "excludeKeywords")]
+        public string ExcludeKeywords { get; set; }
+
         [JsonIgnore]
         public string SupportingInformationHtml {
             get { return StaticTextToHtml.Convert(SupportingInformation); }
