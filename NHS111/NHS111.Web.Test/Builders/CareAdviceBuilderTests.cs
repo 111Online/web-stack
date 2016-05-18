@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using Moq;
+using Newtonsoft.Json;
 using NHS111.Utils.Helpers;
 using NHS111.Web.Presentation.Builders;
 using NHS111.Web.Presentation.Configuration;
@@ -22,6 +24,13 @@ namespace NHS111.Web.Presentation.Builders.Tests
         private const string TEST_CAREADVICE_ITEM_FIRST = "Care advice test first";
         private const string TEST_CAREADVICE_ITEM_SECOND = "Care advice test second";
 
+        private const string TEST_CONTENT =
+            "[{'id':'" + TEST_CAREADVICE_ID + "','title':null,'excludeTitle':null,'items':" +
+            "['" + TEST_CAREADVICE_ITEM_FIRST + "','" + TEST_CAREADVICE_ITEM_SECOND + "']}," +
+            "{'id':'Cx220986-Adult-Male','title':null,'excludeTitle':null,'items':['Single care advice item']}]";
+
+        private HttpResponseMessage MOCK_response = new HttpResponseMessage() { Content = new StringContent(TEST_CONTENT, Encoding.UTF8, "application/json") };
+
         [SetUp()]
         public void SetUp()
         {
@@ -31,12 +40,12 @@ namespace NHS111.Web.Presentation.Builders.Tests
             _configuration.Setup(c => c.GetBusinessApiCareAdviceUrl(It.IsAny<int>(), It.IsAny<string>(), It.IsAny<string>()))
                 .Returns(MOCK_GetBusinessApiCareAdviceUrl);
 
-            _configuration.Setup(c => c.GetBusinessApiInterimCareAdviceUrl(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>()))
+            _configuration.Setup(c => c.GetBusinessApiInterimCareAdviceUrl(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>()))
                 .Returns(MOCK_GetBusinessApiInterimCareAdviceUrl);
 
-            _restfulHelper.Setup(r => r.GetAsync(MOCK_GetBusinessApiInterimCareAdviceUrl)).ReturnsAsync("[{'id':'" + TEST_CAREADVICE_ID + "','title':null,'excludeTitle':null,'items':" +
-                                                                                                 "['" + TEST_CAREADVICE_ITEM_FIRST + "','" + TEST_CAREADVICE_ITEM_SECOND + "']}," +
-                                                                                                 "{'id':'Cx220986-Adult-Male','title':null,'excludeTitle':null,'items':['Single care advice item']}]");
+            _restfulHelper.Setup(r => r.GetAsync(MOCK_GetBusinessApiInterimCareAdviceUrl)).ReturnsAsync(TEST_CONTENT);
+            
+            _restfulHelper.Setup(r => r.PostAsync(MOCK_GetBusinessApiInterimCareAdviceUrl, It.IsAny<HttpRequestMessage>())).ReturnsAsync(MOCK_response);
         }
 
         [Test()]
@@ -52,8 +61,7 @@ namespace NHS111.Web.Presentation.Builders.Tests
             _configuration.Verify(c => c.GetBusinessApiInterimCareAdviceUrl(
                 It.Is<string>(s => s == "Dx11"),
                 It.Is<string>(s => s == "Adult"),
-                It.Is<string>(s => s == "Male"),
-                It.Is<string>(s => s == expectedKeywordsString)));
+                It.Is<string>(s => s == "Male")));
         }
 
         [Test()]

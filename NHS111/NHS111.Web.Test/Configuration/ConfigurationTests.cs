@@ -140,10 +140,10 @@ namespace NHS111.Web.Presentation.Configuration.Tests
         [Test()]
         public void GetBusinessApiInterimCareAdviceUrl_with_relative_url_configured_Test()
         {
-            ConfigurationManager.AppSettings["BusinessApiInterimCareAdviceUrl"] = "pathways/care-adviceEndpointTest/{0}/{1}/{2}/?keywords={3}";
-            var result = _testConfiguration.GetBusinessApiInterimCareAdviceUrl("Dx9999", "Toddler", "Male","Ingrowing%20toenail|Headache");
+            ConfigurationManager.AppSettings["BusinessApiInterimCareAdviceUrl"] = "pathways/care-adviceEndpointTest/{0}/{1}/{2}";
+            var result = _testConfiguration.GetBusinessApiInterimCareAdviceUrl("Dx9999", "Toddler", "Male");
 
-            Assert.AreEqual("http://testbusinessdomain.com/pathways/care-adviceEndpointTest/Dx9999/Toddler/Male/?keywords=Ingrowing%20toenail|Headache", result);
+            Assert.AreEqual("http://testbusinessdomain.com/pathways/care-adviceEndpointTest/Dx9999/Toddler/Male", result);
        
         }
       

@@ -31,7 +31,7 @@ namespace NHS111.Domain.Api.Controllers
 
         [HttpGet]
         [Route("pathways/care-advice/{dxCode}/{ageCategory}/{gender}")]
-        public async Task<HttpResponseMessage> GetCareAdvice(string dxCode, string ageCategory, string gender, [FromUri]string keywords)
+        public async Task<HttpResponseMessage> GetCareAdvice(string dxCode, string ageCategory, string gender, [FromBody]string keywords)
         {
             keywords = keywords ?? string.Empty;
             return await _careAdviceRepository.GetCareAdvice(new AgeCategory(ageCategory), new Gender(gender), keywords.Split('|'), new DispositionCode(dxCode)).AsJson().AsHttpResponse();
