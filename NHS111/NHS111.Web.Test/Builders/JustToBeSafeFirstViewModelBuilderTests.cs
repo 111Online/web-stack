@@ -103,7 +103,7 @@ namespace NHS111.Web.Presentation.Builders.Tests
             Assert.IsNotNull(result);
 
 
-            Assert.AreEqual(testKeywordsCollection, result.Item2.CollectedKeywords);
+            Assert.AreEqual(testKeywordsCollection, result.Item2.CollectedKeywords.Keywords);
         }
     }
 }
