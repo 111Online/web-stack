@@ -13,7 +13,8 @@ namespace NHS111.Web.Presentation.Builders
     {
         JourneyViewModel Collect(Answer answer, JourneyViewModel exitingJourneyModel);
         IEnumerable<string> ParseKeywords(string keywordsString);
-        IEnumerable<string> CollectFromJourneySteps(List<JourneyStep> journeySteps);
+        KeywordBag CollectFromJourneySteps(List<JourneyStep> journeySteps);
+        IEnumerable<string> ConsolidateKeywords(KeywordBag keywordBag);
     }
 
     public class KeywordCollector : IKeywordCollector
@@ -21,10 +22,20 @@ namespace NHS111.Web.Presentation.Builders
         public JourneyViewModel Collect(Answer answer, JourneyViewModel exitingJourneyModel)
         {
             var journeyViewModel = exitingJourneyModel;
-            if (answer != null && !String.IsNullOrEmpty(answer.Keywords))
+            if (answer != null)
             {
-                var keywordsToAdd = ParseKeywords(answer.Keywords).ToList();
-                journeyViewModel.CollectedKeywords = journeyViewModel.CollectedKeywords.Union(keywordsToAdd).ToList();
+                if (!String.IsNullOrEmpty(answer.Keywords))
+                {
+                    var keywordsToAdd = ParseKeywords(answer.Keywords).ToList();
+                    journeyViewModel.CollectedKeywords.Keywords = journeyViewModel.CollectedKeywords.Keywords.Union(keywordsToAdd).ToList();
+                }
+                if (!String.IsNullOrEmpty(answer.ExcludeKeywords))
+                {
+                    var excludeKeywordsToAdd = ParseKeywords(answer.ExcludeKeywords).ToList();
+                    journeyViewModel.CollectedKeywords.ExcludeKeywords =
+                        journeyViewModel.CollectedKeywords.ExcludeKeywords.Union(excludeKeywordsToAdd).ToList();
+                }
+                
             }
             return journeyViewModel;
         }
@@ -41,11 +52,23 @@ namespace NHS111.Web.Presentation.Builders
         }
 
 
-        public IEnumerable<string> CollectFromJourneySteps(List<JourneyStep> journeySteps)
+        public KeywordBag CollectFromJourneySteps(List<JourneyStep> journeySteps)
         {
-           return journeySteps
+           var keywords = journeySteps
                .Select(s => s.Answer)
                .SelectMany(a => ParseKeywords(a.Keywords)).Distinct().ToList();
+
+           var excludekeywords = journeySteps
+             .Select(s => s.Answer)
+             .SelectMany(a => ParseKeywords(a.ExcludeKeywords)).Distinct().ToList();
+
+            return new KeywordBag(keywords, excludekeywords);
+        }
+
+
+        public IEnumerable<string> ConsolidateKeywords(KeywordBag keywordBag)
+        {
+            return keywordBag.Keywords.Except(keywordBag.ExcludeKeywords);
         }
     }
 }

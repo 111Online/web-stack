@@ -70,7 +70,7 @@ namespace NHS111.Web.Presentation.Builders
             model.PathwayNo = pathway.PathwayNo;
             model.State = JourneyViewModelStateBuilder.BuildState(model.UserInfo.Gender,model.UserInfo.Age, model.State);
             model.StateJson = JourneyViewModelStateBuilder.BuildStateJson(model.State);
-            model.CollectedKeywords = _keywordCollector.ParseKeywords(pathway.Keywords).ToList();
+            model.CollectedKeywords = new KeywordBag(_keywordCollector.ParseKeywords(pathway.Keywords).ToList(), new List<string>());
             return model;
         }
     }

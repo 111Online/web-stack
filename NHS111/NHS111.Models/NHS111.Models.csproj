@@ -149,6 +149,7 @@
     <Compile Include="Models\Web\ITK\Value.cs" />
     <Compile Include="Models\Web\JustToBeSafeViewModel.cs" />
     <Compile Include="Models\Web\Enums\NodeType.cs" />
+    <Compile Include="Models\Web\KeywordBag.cs" />
     <Compile Include="Models\Web\OutcomeViewModel.cs" />
     <Compile Include="Models\Web\JourneyViewModel.cs" />
     <Compile Include="Models\Web\FromExternalServices\Surgery.cs" />
