@@ -13,6 +13,8 @@ namespace NHS111.Web
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
+            routes.MapMvcAttributeRoutes();
+
             routes.MapRoute(
                 name: "Gender",
                 url: "Gender/{pathwayTitle}",

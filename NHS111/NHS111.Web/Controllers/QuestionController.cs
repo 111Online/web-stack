@@ -10,6 +10,11 @@ using NHS111.Web.Presentation.Builders;
 
 namespace NHS111.Web.Controllers
 {
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Runtime.CompilerServices;
+    using System.Security.Cryptography.X509Certificates;
+    using Models.Models.Domain;
 
     [LogHandleErrorForMVC]
     public class QuestionController : Controller
@@ -68,18 +73,50 @@ namespace NHS111.Web.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult> QuestionDirect(string pathwayId, int? age, string pathwayTitle)
-        {
-            var journeyViewModel = new JourneyViewModel()
-            {
+        [Route("question/direct/{pathwayId}/{age?}/{pathwayTitle}/{answers?}")]
+        public async Task<ActionResult> Direct(string pathwayId, int? age, string pathwayTitle, [ModelBinder(typeof(IntArrayModelBinder))] int[] answers) {
+
+            var journeyViewModel = BuildJourneyViewModel(pathwayId, age, pathwayTitle);
+
+            var action = await _questionViewModelBuilder.ActionSelection(journeyViewModel);
+            if (action == null) return Redirect(Url.RouteUrl(new { controller = "Question", action = "Home" }));
+
+            var viewName = action.Item1;
+            var model = action.Item2;
+
+            await AnswerQuestions(model, answers);
+
+            return View(viewName, model);
+        }
+
+        private async Task AnswerQuestions(JourneyViewModel model, int[] answers) {
+            if (answers == null)
+                return;
+
+            var queue = new Queue<int>(answers);
+            while (queue.Any()) {
+                var answer = queue.Dequeue();
+                model = await AnswerQuestion(model, answer);
+            }
+        }
+
+        private async Task<JourneyViewModel> AnswerQuestion(JourneyViewModel model, int answer) {
+            if (answer < 0 || answer >= model.Answers.Count)
+                throw new ArgumentOutOfRangeException(string.Format("The answer index '{0}' was not found within the range of answers: {1}", answer, string.Join(", ", model.Answers.Select(a => a.Title))));
+
+            model.SelectedAnswer = Newtonsoft.Json.JsonConvert.SerializeObject(model.Answers[answer]);
+            var result = (ViewResult) await Question(model);
+
+            return (JourneyViewModel)result.Model;
+        }
+
+        private static JourneyViewModel BuildJourneyViewModel(string pathwayId, int? age, string pathwayTitle) {
+            return new JourneyViewModel {
                 NodeType = NodeType.Pathway,
                 PathwayId = pathwayId,
                 PathwayTitle = pathwayTitle,
-                UserInfo = new UserInfo() { Age = age ?? -1 }
+                UserInfo = new UserInfo {Age = age ?? -1}
             };
-            var model = await _questionViewModelBuilder.ActionSelection(journeyViewModel);
-            if (model == null) return Redirect(Url.RouteUrl(new { controller = "Question", action = "Home" }));
-            return View(model.Item1, model.Item2);
         }
 
         [HttpPost]
@@ -89,6 +126,23 @@ namespace NHS111.Web.Controllers
         {
             ModelState.Clear();
             return View("Question", await _questionViewModelBuilder.BuildPreviousQuestion(model));
+        }
+    }
+
+    public class IntArrayModelBinder
+        : DefaultModelBinder {
+
+        public override object BindModel(ControllerContext controllerContext, ModelBindingContext bindingContext) {
+            var value = bindingContext.ValueProvider.GetValue(bindingContext.ModelName);
+            if (value == null || string.IsNullOrEmpty(value.AttemptedValue)) {
+                return null;
+            }
+
+            return value
+                .AttemptedValue
+                .Split(',')
+                .Select(int.Parse)
+                .ToArray();
         }
     }
 }

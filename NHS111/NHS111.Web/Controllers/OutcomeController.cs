@@ -8,16 +8,20 @@ using NHS111.Web.Presentation.Configuration;
 
 namespace NHS111.Web.Controllers
 {
+    using Models.Models.Domain;
+
     [LogHandleErrorForMVC]
     public class OutcomeController : Controller
     {
         private readonly IOutcomeViewModelBuilder _outcomeViewModelBuilder;
         private readonly IDOSBuilder _dosBuilder;
+        private readonly IConfiguration _config;
 
-        public OutcomeController(IOutcomeViewModelBuilder outcomeViewModelBuilder, IDOSBuilder dosBuilder)
+        public OutcomeController(IOutcomeViewModelBuilder outcomeViewModelBuilder, IDOSBuilder dosBuilder, IConfiguration config)
         {
             _outcomeViewModelBuilder = outcomeViewModelBuilder;
             _dosBuilder = dosBuilder;
+            _config = config;
         }
 
         [HttpPost]
@@ -28,35 +32,22 @@ namespace NHS111.Web.Controllers
         }
 
         [HttpGet]
-        public ActionResult Disposition()
-        {
-            var config = new Configuration();
-            var model = new OutcomeViewModel()
-            {
-                Id = "Dx38",
-                UserInfo = new UserInfo()
-                {
-                    Age = 38,
-                    Gender = "Male"
-                },
-                CheckCapacitySummaryResultList = new[]
-                {
-                    new CheckCapacitySummaryResult()
-                    {
-                        AddressField = "70 blah street, blah blah",
-                        IdField = 17,
-                        NameField = "Test service",
-                        OpenAllHoursField = true,
+        [Route("outcome/disposition/{age?}/{gender?}/{dxCode?}/{symptomGroup?}/{symptomDiscriminator?}")]
+        public ActionResult Disposition(int? age, string gender, string dxCode, string symptomGroup, string symptomDiscriminator) {
+            var DxCode = new DispositionCode(dxCode ?? "Dx38");
+            var Gender = new Gender(gender ?? "Male");
 
-                    }
+            var model = new OutcomeViewModel {
+                Id = DxCode.Value,
+                UserInfo = new UserInfo {
+                    Age = age ?? 38,
+                    Gender = Gender.Value
                 },
-                SelectedServiceId = "17",
-                SymptomGroup = "1203",
-                SymptomDiscriminator = "4003",
-                AddressSearchViewModel = new AddressSearchViewModel()
-                {
-                    PostcodeApiAddress = config.PostcodeSearchByIdApiUrl,
-                    PostcodeApiSubscriptionKey = config.PostcodeSubscriptionKey
+                SymptomGroup = symptomGroup ?? "1203",
+                SymptomDiscriminator = symptomDiscriminator ?? "4003",
+                AddressSearchViewModel = new AddressSearchViewModel {
+                    PostcodeApiAddress = _config.PostcodeSearchByIdApiUrl,
+                    PostcodeApiSubscriptionKey = _config.PostcodeSubscriptionKey
                 }
             };
 
