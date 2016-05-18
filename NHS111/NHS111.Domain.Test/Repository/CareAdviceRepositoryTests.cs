@@ -21,15 +21,12 @@ namespace NHS111.Domain.Test.Repository {
         private Mock<ICypherFluentQuery> _mockQuery;
         private Mock<ICypherFluentQuery<CareAdvice>> _mockTypedQuery;
 
+        private Mock<IRawGraphClient> _mockRawGraphClient;
+
         [Test]
         public async void GetCareAdvice_WithArgs_BuildsCorrectQuery() {
 
-            _mockGraph.Setup(g => g.Client).Returns(_mockClient.Object);
-            _mockClient.Setup(c => c.Cypher).Returns(_mockQuery.Object);
-            _mockQuery.Setup(q => q.Match(It.IsAny<string>())).Returns(_mockQuery.Object);
-            _mockQuery.Setup(q => q.Where(It.IsAny<string>())).Returns(_mockQuery.Object);
-            _mockQuery.Setup(q => q.AndWhere(It.IsAny<string>())).Returns(_mockQuery.Object);
-            _mockQuery.Setup(q => q.Return(It.IsAny<Expression<Func<ICypherResultItem, CareAdvice>>>())).Returns(_mockTypedQuery.Object);
+            SetupMockImplimentations();
 
             var sut = new CareAdviceRepository(_mockGraph.Object);
             await sut.GetCareAdvice(_ageCategory, _gender, _keywords, _dxCode);
@@ -40,12 +37,83 @@ namespace NHS111.Domain.Test.Repository {
 
         }
 
+        private void SetupMockImplimentations()
+        {
+            _mockGraph.Setup(g => g.Client).Returns(_mockClient.Object);
+            _mockClient.Setup(c => c.Cypher).Returns(_mockQuery.Object);
+            _mockQuery.Setup(q => q.Match(It.IsAny<string>())).Returns(_mockQuery.Object);
+            _mockQuery.Setup(q => q.Where(It.IsAny<string>())).Returns(_mockQuery.Object);
+            _mockQuery.Setup(q => q.AndWhere(It.IsAny<string>())).Returns(_mockQuery.Object);
+            _mockQuery.Setup(q => q.Return(It.IsAny<Expression<Func<ICypherResultItem, CareAdvice>>>()))
+                .Returns(_mockTypedQuery.Object);
+        }
+
+        [Test]
+        public async void GetCareAdvice_WithArgs_Builds_Keywords_Where_Statement()
+        {
+            SetupMockImplimentations();
+
+            var expectedKeywordsWhereClause = "i.keyword in [\"Keyword1\",\"Keyword2\"]";
+            var sut = new CareAdviceRepository(_mockGraph.Object);
+            await sut.GetCareAdvice(_ageCategory, _gender, _keywords, _dxCode);
+
+            _mockQuery.Verify(q => q.Where(It.Is<string>(s => s == expectedKeywordsWhereClause)), Times.Once);
+        }
+
+        [Test]
+        public async void GetCareAdvice_WithArgs_Builds_Match_Statement()
+        {
+            SetupMockImplimentations();
+
+            var expectedMatchClause = "(i:InterimCareAdvice)-[:presentsFor]->(o:Outcome)";
+            var sut = new CareAdviceRepository(_mockGraph.Object);
+            await sut.GetCareAdvice(_ageCategory, _gender, _keywords, _dxCode);
+
+            _mockQuery.Verify(q => q.Match(It.Is<string>(s => s == expectedMatchClause)), Times.Once);
+        }
+
+        [Test]
+        public async void GetCareAdvice_WithArgs_Builds_DxCode_Where_Statement()
+        {
+            SetupMockImplimentations();
+
+            var expectedAndWhereClause = "o.id = \""+_dxCode.Value +"\"";
+            var sut = new CareAdviceRepository(_mockGraph.Object);
+            await sut.GetCareAdvice(_ageCategory, _gender, _keywords, _dxCode);
+
+            _mockQuery.Verify(q => q.AndWhere(It.Is<string>(s => s == expectedAndWhereClause)), Times.Once);
+        }
+
+        [Test]
+        public async void GetCareAdvice_WithArgs_Builds_GenderAndAge_Where_Statement()
+        {
+            SetupMockImplimentations();
+            var expectedAndWhereClause = "i.id =~ \".*-" + _ageCategory.Value + "-" +_gender.Value+ "\"";
+            var sut = new CareAdviceRepository(_mockGraph.Object);
+            await sut.GetCareAdvice(_ageCategory, _gender, _keywords, _dxCode);
+            _mockQuery.Verify(q => q.AndWhere(It.Is<string>(s => s == expectedAndWhereClause)), Times.Once);
+        }
+
+        [Test]
+        public async void GetCareAdvice_WithArgs_Builds_ExcludesKeywords_Where_Statement()
+        {
+            SetupMockImplimentations();
+            var expectedAndWhereClause = "NOT (ANY(ex in i.excludeKeywords WHERE ex = \"Keyword1\") OR ANY(ex in i.excludeKeywords WHERE ex = \"Keyword2\"))";
+            var sut = new CareAdviceRepository(_mockGraph.Object);
+            await sut.GetCareAdvice(_ageCategory, _gender, _keywords, _dxCode);
+            _mockQuery.Verify(q => q.AndWhere(It.Is<string>(s => s == expectedAndWhereClause)), Times.Once);
+
+        }
+
+        
+
         [SetUp]
         public void Setup() {
             _mockGraph = new Mock<IGraphRepository>();
             _mockClient = new Mock<IGraphClient>();
             _mockQuery = new Mock<ICypherFluentQuery>();
             _mockTypedQuery = new Mock<ICypherFluentQuery<CareAdvice>>();
+            _mockRawGraphClient = new Mock<IRawGraphClient>();
         }
     }
 }
