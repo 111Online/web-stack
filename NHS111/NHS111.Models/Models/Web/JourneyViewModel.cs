@@ -46,8 +46,20 @@ namespace NHS111.Models.Models.Web
         public string SymptomDiscriminator { get; set; }
         public IDictionary<string, string> State { get; set; }
         public string StateJson { get; set; }
-        public List<string> CollectedKeywords { get; set; } 
+        public List<string> CollectedKeywords { get; set; }
 
+        public string StepLink {
+            get {
+                var age = UserInfo != null ? UserInfo.Age : 0;
+                return string.Format("/question/direct/{0}/{1}/{2}/?answers={3}", PathwayId, age, PathwayTitle,
+                    string.Join(",", GetPreviousAnswers()));
+            }
+        }
+
+        private IEnumerable<int> GetPreviousAnswers() {
+            var journey = JsonConvert.DeserializeObject<Journey>(JourneyJson);
+            return journey.Steps.Select(step => step.Answer.Order - 1);
+        }
 
 
         public JourneyViewModel()
