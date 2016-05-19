@@ -13,15 +13,5 @@ namespace NHS111.Web
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
         }
-
-        protected void Application_EndRequest()
-        {
-            if (Context.Response.StatusCode == 404)
-            {
-                Response.Clear();
-                //redirect to root of application
-                Response.Redirect("~/");
-            }
-        }
     }
 }
