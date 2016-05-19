@@ -25,12 +25,12 @@ namespace NHS111.Business.Api.Controllers
             return await _careAdviceService.GetCareAdvice(age, gender, markers.Split(',')).AsHttpResponse();
         }
 
-        [HttpGet]
+        [HttpPost]
         [Route("pathways/care-advice/{dxCode}/{ageCategory}/{gender}")]
         public async Task<HttpResponseMessage> GetCareAdvice(string dxCode, string ageCategory, string gender, [FromBody]string keywords)
         {
             keywords = keywords ?? string.Empty;
-            return await _careAdviceService.GetCareAdvice(ageCategory, gender, keywords.Split('|'), dxCode).AsHttpResponse();
+            return await _careAdviceService.GetCareAdvice(ageCategory, gender, keywords, dxCode).AsHttpResponse();
         }
     }
 }

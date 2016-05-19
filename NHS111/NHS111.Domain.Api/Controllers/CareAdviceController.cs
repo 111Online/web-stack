@@ -29,7 +29,7 @@ namespace NHS111.Domain.Api.Controllers
             return await _careAdviceRepository.GetCareAdvice(age, gender, markers.Split(',')).AsJson().AsHttpResponse();
         }
 
-        [HttpGet]
+        [HttpPost]
         [Route("pathways/care-advice/{dxCode}/{ageCategory}/{gender}")]
         public async Task<HttpResponseMessage> GetCareAdvice(string dxCode, string ageCategory, string gender, [FromBody]string keywords)
         {

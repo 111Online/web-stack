@@ -35,7 +35,7 @@ namespace NHS111.Web.Presentation.Builders
         {
             if(!careAdviceKeywords.Any()) return Enumerable.Empty<CareAdvice>();
 
-            var request = new HttpRequestMessage { Content = new StringContent(JsonConvert.SerializeObject(careAdviceKeywords), Encoding.UTF8, "application/json") };
+            var request = new HttpRequestMessage { Content = new StringContent(JsonConvert.SerializeObject(GenerateKeywordsList(careAdviceKeywords)), Encoding.UTF8, "application/json") };
             var response = await (await _restfulHelper.PostAsync(_configuration.GetBusinessApiInterimCareAdviceUrl(dxCode, ageGroup, gender), request)).Content.ReadAsStringAsync();
             
             return JsonConvert.DeserializeObject<List<CareAdvice>>(response);
