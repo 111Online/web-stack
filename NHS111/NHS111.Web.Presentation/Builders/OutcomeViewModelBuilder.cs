@@ -87,6 +87,9 @@ namespace NHS111.Web.Presentation.Builders
                 await
                     _careAdviceBuilder.FillCareAdviceBuilder(model.Id, new AgeCategory(model.UserInfo.Age).Value, model.UserInfo.Gender,
                         _keywordCollector.ConsolidateKeywords(model.CollectedKeywords).ToList());
+
+            model.WorseningCareAdvice =
+                await _careAdviceBuilder.FillWorseningCareAdvice(model.UserInfo.Age, model.UserInfo.Gender);
             return model;
         }
 

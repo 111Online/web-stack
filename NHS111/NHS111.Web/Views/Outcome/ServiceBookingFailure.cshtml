@@ -24,12 +24,19 @@
 
 <section>
     <div class="section-item last">
-        <h3 class="section-header">
-            Worsening and self care advice
-        </h3>
-        <div class="service-booking-message alert">
-            If there are any new symptoms, or if the condition gets worse, changes or you have any other concerns, call 111.
-        </div>
+        @if (Model.DisplayWorseningCareAdvice)
+        {
+            <h3 class="section-header">
+                Worsening and self care advice
+            </h3>
+
+            <div class="service-booking-message alert">
+                @foreach (var item in Model.WorseningCareAdvice.Items)
+                {
+                    <p>@item</p>
+                }
+            </div>
+        }
         @Html.Partial("_CareAdvice", Model.CareAdvices)
     </div>
 </section>

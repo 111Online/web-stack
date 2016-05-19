@@ -17,10 +17,20 @@ namespace NHS111.Models.Models.Web
         public string SymptomGroup { get; set; }
         public AddressSearchViewModel AddressSearchViewModel { get; set; }
         public bool? ItkSendSuccess { get; set; }
+        public CareAdvice WorseningCareAdvice { get; set; }
     
         public CheckCapacitySummaryResult SelectedService
         {
             get { return CheckCapacitySummaryResultList.FirstOrDefault(s => s.IdField == Convert.ToInt32(SelectedServiceId)); }
+        }
+
+        public bool DisplayWorseningCareAdvice
+        {
+            get
+            {
+                return WorseningCareAdvice != null &&
+                       this.CollectedKeywords.ExcludeKeywords.All(k => k != WorseningCareAdvice.Keyword);
+            }
         }
 
         public OutcomeViewModel()
