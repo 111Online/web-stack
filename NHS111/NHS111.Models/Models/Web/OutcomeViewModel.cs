@@ -24,12 +24,12 @@ namespace NHS111.Models.Models.Web
             get { return CheckCapacitySummaryResultList.FirstOrDefault(s => s.IdField == Convert.ToInt32(SelectedServiceId)); }
         }
 
-        public bool DisplayWorseningCareAdvcie
+        public bool DisplayWorseningCareAdvice
         {
             get
             {
                 return WorseningCareAdvice != null &&
-                       !this.CollectedKeywords.ExcludeKeywords.Any(k => WorseningCareAdvice.ExcludeKeywords.Contains(k));
+                       this.CollectedKeywords.ExcludeKeywords.All(k => k != WorseningCareAdvice.Keyword);
             }
         }
 
