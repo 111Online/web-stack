@@ -1,6 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
+using System.Text;
 using System.Threading.Tasks;
+using System.Web;
 using Newtonsoft.Json;
 using NHS111.Models.Models.Domain;
 using NHS111.Utils.Helpers;
@@ -30,11 +33,12 @@ namespace NHS111.Web.Presentation.Builders
 
         public async Task<IEnumerable<CareAdvice>> FillCareAdviceBuilder(string dxCode, string ageGroup, string gender, IList<string> careAdviceKeywords)
         {
-            var careAdvices = careAdviceKeywords.Any()
-                 ? JsonConvert.DeserializeObject<List<CareAdvice>>(await _restfulHelper.GetAsync(_configuration.GetBusinessApiInterimCareAdviceUrl(dxCode, ageGroup, gender, GenerateKeywordsList(careAdviceKeywords))))
-                 : Enumerable.Empty<CareAdvice>();
+            if(!careAdviceKeywords.Any()) return Enumerable.Empty<CareAdvice>();
 
-            return careAdvices;
+            var request = new HttpRequestMessage { Content = new StringContent(JsonConvert.SerializeObject(GenerateKeywordsList(careAdviceKeywords)), Encoding.UTF8, "application/json") };
+            var response = await (await _restfulHelper.PostAsync(_configuration.GetBusinessApiInterimCareAdviceUrl(dxCode, ageGroup, gender), request)).Content.ReadAsStringAsync();
+            
+            return JsonConvert.DeserializeObject<List<CareAdvice>>(response);
         }
 
         private string GenerateKeywordsList(IList<string> careAdviceKeywords)

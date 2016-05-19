@@ -82,9 +82,9 @@ namespace NHS111.Web.Presentation.Configuration
             return string.Format(GetBusinessApiUrlWithDomain("BusinessApiJustToBeSafePartTwoUrl"), pathwayId, questionId, jtbsQuestionIds,hasAnswwers);
         }
 
-        public string GetBusinessApiInterimCareAdviceUrl(string dxCode, string ageGroup, string gender, string keywordsList)
+        public string GetBusinessApiInterimCareAdviceUrl(string dxCode, string ageGroup, string gender)
         {
-            return string.Format(GetBusinessApiUrlWithDomain("BusinessApiInterimCareAdviceUrl"), dxCode, ageGroup, gender, keywordsList);
+            return string.Format(GetBusinessApiUrlWithDomain("BusinessApiInterimCareAdviceUrl"), dxCode, ageGroup, gender);
         }
 
         private string GetBusinessApiUrlWithDomain(string endpointUrlkey)
@@ -127,7 +127,7 @@ namespace NHS111.Web.Presentation.Configuration
         string GetBusinessApiPathwayIdFromTitleUrl(string pathwayTitle, string gender, int age);
         string GetBusinessApiJustToBeSafePartOneUrl(string pathwayId);
         string GetBusinessApiJustToBeSafePartTwoUrl(string pathwayId, string questionId, string jtbsQuestionIds,bool hasAnswwers);
-        string GetBusinessApiInterimCareAdviceUrl(string dxCode, string ageGroup, string gender, string keywordsList);
+        string GetBusinessApiInterimCareAdviceUrl(string dxCode, string ageGroup, string gender);
 
         string BusinessDosCheckCapacitySummaryUrl { get; }
         string BusinessDosServiceDetailsByIdUrl { get; }
