@@ -30,7 +30,8 @@ namespace NHS111.Models.Mappers.WebMappings
                 .ForMember(s => s.Urgency, o => o.Ignore())
                 .ForMember(s => s.SymptomGroup, o => o.Ignore())
                 .ForMember(s => s.AddressSearchViewModel, o => o.Ignore())
-                .ForMember(s => s.ItkSendSuccess, o => o.Ignore());
+                .ForMember(s => s.ItkSendSuccess, o => o.Ignore())
+                .ForMember(s => s.WorseningCareAdvice, o => o.Ignore());
         }
 
         public class FromAnswerToJourneyViewModelConverter : ITypeConverter<Answer, JourneyViewModel>
