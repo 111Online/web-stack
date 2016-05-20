@@ -8,6 +8,9 @@ using System.Threading.Tasks;
 
 namespace NHS111.Utils.Helpers
 {
+    using System.IO;
+    using System.Web;
+
     public class RestfulHelper : IRestfulHelper
     {
         private readonly WebClient _webClient;
@@ -27,7 +30,15 @@ namespace NHS111.Utils.Helpers
 
         public async Task<string> GetAsync(string url)
         {
-            return await _webClient.DownloadStringTaskAsync(new Uri(url));
+            try {
+                return await _webClient.DownloadStringTaskAsync(new Uri(url));
+            }
+            catch (WebException e) {
+                using (var stream = new StreamReader(e.Response.GetResponseStream())) {
+                    throw new WebException(
+                        string.Format("There was a problem requesting '{0}'; {1}", url, stream.ReadToEnd()), e);
+                }
+            }
         }
 
         public async Task<HttpResponseMessage> PostAsync(string url, HttpRequestMessage request)
