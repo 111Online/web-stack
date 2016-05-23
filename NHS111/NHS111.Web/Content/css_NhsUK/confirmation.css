@@ -1,17 +1,40 @@
 ﻿
-.self-care-content {
-    padding: 1rem 1rem 0 1rem;
-    max-width: 50rem;
+.care-advice {
+   background-color: #EAEAEA;
+    padding: 10px;
 }
 
-@media screen and (min-width: 40em) {
-    .self-care-content {
-        max-width: 45.8333333333rem;
+.care-advice .care-advice-keywords ol {
+    padding: 20px; 
+    list-style-type:decimal;
+}
+.care-advice  ul  {
+    padding: 20px; 
+    list-style-type:disc;
+}
+
+ @media (min-width: 641px) {
+    .care-advice .care-advice-keywords ol li {
+    float:left;
+    margin: 0 100px;
     }
+    .care-advice .care-advice-keywords ol li:last-child {
+        clear: right;
+    }
+
+ }
+
+
+.care-advice .care-advice-keywords ol li:first-child {
+    margin-left: 0;
+}
+.care-advice h3, .care-advice-section-header {
+    font-size: 1.8em;
 }
 
-.self-care-title {
-    font-weight: bold;
+
+.care-advice h4 {
+    font-size: 1.5em;
 }
 
 .service-booking-message {
@@ -23,6 +46,8 @@
 }
 
 .service-booking-message.alert {
-     background-color: #F5E5E6;
-     border-left: 4px solid #982426;
+    background-color: #F5E5E6;
+    border: 1px solid #982426;
+    border-left: 4px solid #982426;
+    margin-left: 0;
 }
