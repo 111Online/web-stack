@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.23107.0
+# Visual Studio 2013
+VisualStudioVersion = 12.0.31101.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Domain", "Domain", "{CB1CB907-B0EC-4A05-8EB5-A857FFDB0892}"
 EndProject
@@ -83,6 +83,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NHS111.Business.ITKDispatcher.Api", "NHS111.Business.ITKDispatcher.Api\NHS111.Business.ITKDispatcher.Api.csproj", "{396B6FA5-9842-455B-8856-887BA33ADBCA}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NHS111.Domain.ITKDispatcher.API.Functional.Tests", "NHS111.Domain.ITKDispatcher.API.Functional.Tests\NHS111.Domain.ITKDispatcher.API.Functional.Tests.csproj", "{6EAFE40C-7BD8-45C6-B7BD-08BB160650B6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NHS111.Integration.MobileDOS.Api", "NHS111.Integration.MobileDOS.Api\NHS111.Integration.MobileDOS.Api.csproj", "{4F644390-42EF-42FB-B95F-CFFF00075F63}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -383,6 +385,16 @@ Global
 		{6EAFE40C-7BD8-45C6-B7BD-08BB160650B6}.Test|Any CPU.Build.0 = Release|Any CPU
 		{6EAFE40C-7BD8-45C6-B7BD-08BB160650B6}.UAT|Any CPU.ActiveCfg = Release|Any CPU
 		{6EAFE40C-7BD8-45C6-B7BD-08BB160650B6}.UAT|Any CPU.Build.0 = Release|Any CPU
+		{4F644390-42EF-42FB-B95F-CFFF00075F63}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4F644390-42EF-42FB-B95F-CFFF00075F63}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4F644390-42EF-42FB-B95F-CFFF00075F63}.Development|Any CPU.ActiveCfg = Debug|Any CPU
+		{4F644390-42EF-42FB-B95F-CFFF00075F63}.Development|Any CPU.Build.0 = Debug|Any CPU
+		{4F644390-42EF-42FB-B95F-CFFF00075F63}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4F644390-42EF-42FB-B95F-CFFF00075F63}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4F644390-42EF-42FB-B95F-CFFF00075F63}.Test|Any CPU.ActiveCfg = Release|Any CPU
+		{4F644390-42EF-42FB-B95F-CFFF00075F63}.Test|Any CPU.Build.0 = Release|Any CPU
+		{4F644390-42EF-42FB-B95F-CFFF00075F63}.UAT|Any CPU.ActiveCfg = Release|Any CPU
+		{4F644390-42EF-42FB-B95F-CFFF00075F63}.UAT|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -417,5 +429,6 @@ Global
 		{5E58685A-6AFA-47DD-8C0B-C91B7D8E4022} = {51DEE70D-F860-42E8-B4CD-EC979261E286}
 		{396B6FA5-9842-455B-8856-887BA33ADBCA} = {E4AD073D-A815-49B7-9E02-A33F5D78FD5C}
 		{6EAFE40C-7BD8-45C6-B7BD-08BB160650B6} = {51DEE70D-F860-42E8-B4CD-EC979261E286}
+		{4F644390-42EF-42FB-B95F-CFFF00075F63} = {B059C380-0BFA-40CB-8337-09AFF3FAE9C5}
 	EndGlobalSection
 EndGlobal
