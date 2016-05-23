@@ -95,6 +95,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Builders\BaseBuilder.cs" />
     <Compile Include="Builders\CareAdviceBuilder.cs" />
     <Compile Include="Builders\DOSBuilder.cs" />
     <Compile Include="Builders\FeedbackViewModelBuilder.cs" />
