@@ -1,0 +1,45 @@
+﻿@model NHS111.Models.Models.Web.DosViewModel
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section Title {
+    DoS comparision tool
+}
+
+@using (Html.BeginForm("FillServiceDetails", "DOS", FormMethod.Post))
+{
+    @Html.Partial("_CommonHiddenFieldsDosViewModel", Model)
+    <section>
+        <div class="section-item last">
+            <h3 class="section-header">
+                Your contact information
+            </h3>
+            <div class="personal-details-content">
+                <label>
+                    Case Id
+                </label>
+                <div class="inline-details">
+                    @Html.TextBoxFor(m => m.Id, new { @class = "form-control form-control-4-chars", placeholder = "Case Id" })
+                </div>
+
+                <label>
+                    Age
+                </label>
+                <div class="inline-details">
+                    @Html.TextBoxFor(m => m.Age, new { @class = "form-control form-control-4-chars", placeholder = "Age" })
+                </div>
+                <label>
+                    Gender
+                </label>
+                <div class="inline-details">
+                    @Html.TextBoxFor(m => m.Gender, new { @class = "form-control", placeholder = "Gender" })
+                </div>
+                <div class="inline-details">
+                    <input type="submit" class="button button-submit-details" value="Search" />
+                </div>
+            </div>
+        </div>
+    </section>
+}
+
