@@ -1,7 +1,9 @@
 ﻿
 namespace NHS111.Business.Services {
+    using System;
     using System.Web.Http;
     using System.Collections.Generic;
+    using System.Net;
     using System.Net.Http;
     using System.Threading.Tasks;
     using NHS111.Business.Configuration;
@@ -31,7 +33,7 @@ namespace NHS111.Business.Services {
             var response = await _restfulHelper.PostAsync(domainApiCareAdviceUrl, request);
 
             if (!response.IsSuccessStatusCode)
-                throw new HttpResponseException(response);
+                throw new Exception(string.Format("A problem occured requesting {0}. {1}", domainApiCareAdviceUrl, await response.Content.ReadAsStringAsync()));
 
             return await response.Content.ReadAsStringAsync();
         }
