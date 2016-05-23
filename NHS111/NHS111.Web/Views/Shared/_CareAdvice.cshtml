@@ -1,19 +1,32 @@
 ﻿@model  IEnumerable<NHS111.Models.Models.Domain.CareAdvice>
-<div class="self-care-content">
-    @if (Model.Any())
-    {
-        <div class="self-care-title">Self care</div>
-        <div class="self-care">
+@if (Model.Any())
+{
+<div class="care-advice">
+  
+        <h3 class="self-care-title">What can I do in the mean time</h3>
+        <div class="care-advice-keywords">
+            <ol>
+                @foreach (var careAdvice in Model)
+                {
+                    <li><a href=#Advice_@careAdvice.Id>@careAdvice.Keyword</a></li>
+                }
+            </ol>
+        </div>
+        <div>
 
             @foreach (var careAdvice in Model)
             {
-                <h4 class="self-care-title">@careAdvice.Title</h4>
+                
+            <h4 id="Advice_@careAdvice.Id" class="self-care-title">@careAdvice.Keyword</h4>
                 @Html.Hidden(careAdvice.Id)
-                foreach (var item in careAdvice.Items)
+            <ul>
+                @foreach (var item in careAdvice.Items)
                 {
-                    <p>@item</p>
+                <li>@item</li>
                 }
+            </ul>
             }
         </div>
-    }
-</div>
+ 
+</div>  
+}

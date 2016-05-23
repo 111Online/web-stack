@@ -14,24 +14,24 @@
 
 <link href="~/content/css_NhsUk/confirmation.css" media="screen" rel="stylesheet" type="text/css"/>
 <link href="~/content/css_NhsUk/service.css" media="screen" rel="stylesheet" type="text/css" />
-
-<section>
-    <div class="section-item">
-        <h3 class="section-header">
-            Service booking confirmed
-        </h3>
-        <div class="service-booking-message">
-            <div>We have successfully contacted <b>@WebUtility.HtmlDecode(Model.SelectedService.NameField)</b> and notified them of your outcome <b>@Model.Title</b></div>
+@section OuterSection {
+        <div class="info-panel">
+            <h2>Your callback has been confirmed</h2>
+            <div class="info-panel-innertext">
+                You'll recieve a call from <strong>@WebUtility.HtmlDecode(Model.SelectedService.NameField)</strong> <br/>
+                and notified them of your outcome <strong>@Model.Title</strong>
+                where an appointment will be arranged if necessary
+            </div>
         </div>
-    </div>
-</section>
+}
+
 
 <section>
     <div class="section-item last">
         @if (Model.DisplayWorseningCareAdvice)
         {
-        <h3 class="section-header">
-            Worsening and self care advice
+        <h3 class="care-advice-section-header">
+            What if I feel worse
         </h3>
 
         <div class="service-booking-message alert">
