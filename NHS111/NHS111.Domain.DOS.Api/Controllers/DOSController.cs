@@ -37,11 +37,13 @@ namespace NHS111.Domain.DOS.Api.Controllers
 
         [HttpPost]
         [Route("DOSapi/ServicesByClinicalTerm")]
-        public async Task<HttpResponseMessage> ServicesByClinicalTerm(DosServicesByClinicalTermRequest request)
+        public async Task<string> ServicesByClinicalTerm(DosServicesByClinicalTermRequest request)
         {
-            //TODO: convert request data into route attributes, and send to API
+            var data = string.Format("{0}/{1}/{2}/{3}/{4}/{5}/{6}/{7}/{8}", request.CaseId, request.Postcode, request.SearchDistance, request.GpPracticeId, request.Age, request.Gender, request.Disposition, request.SymptomGroupDiscriminatorCombos, request.NumberPerType);
 
-            return await _restfulHelper.PostAsync(_configuration.DOSMobileIntegrationServicesByClinicalTermUrl, new HttpRequestMessage());
+            var url = string.Format("{0}{1}", _configuration.DOSMobileIntegrationServicesByClinicalTermUrl, data);
+
+            return await _restfulHelper.GetAsync(url);
         }
     }
 }
