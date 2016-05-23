@@ -5,6 +5,7 @@ namespace NHS111.Domain.DOS.Api.Configuration
     public class Configuration : IConfiguration
     {
         public string DOSIntegrationBaseUrl { get { return ConfigurationManager.AppSettings["DOSIntegrationBaseUrl"]; } }
+        public string DOSMobileIntegrationBaseUrl { get { return ConfigurationManager.AppSettings["DOSMobileIntegrationBaseUrl"]; } }
 
         public string DOSIntegrationCheckCapacitySummaryUrl {
             get
@@ -32,6 +33,15 @@ namespace NHS111.Domain.DOS.Api.Configuration
                 return string.Format("{0}{1}", ConfigurationManager.AppSettings["DOSIntegrationBaseUrl"],
                   ConfigurationManager.AppSettings["DOSIntegrationMonitorHealthUrl"]);
 
+            }
+        }
+
+        public string DOSMobileIntegrationServicesByClinicalTermUrl
+        {
+            get
+            {
+                return string.Format("{0}{1}", ConfigurationManager.AppSettings["DOSMobileIntegrationBaseUrl"],
+                  ConfigurationManager.AppSettings["DOSMobileIntegrationServicesByClinicalTermUrl"]);
             }
         }
     }
