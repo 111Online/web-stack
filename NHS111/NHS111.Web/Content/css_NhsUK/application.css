@@ -34,13 +34,14 @@
   clear: both; }
 
 #content {
-  max-width: 75%;
   margin: 0 15px; }
   @media (min-width: 641px) {
     #content {
+          
       margin: 0 30px; } }
   @media (min-width: 1020px) {
     #content {
+      max-width: 75%;
       margin: 0 auto; } }
 
 .grid-row {
@@ -2131,3 +2132,34 @@ button[disabled=disabled] {
     padding: 1rem 1rem 0 0.8rem;
     color: black; 
 }
+
+.info-panel {
+    background-color: #003b65;
+    display: inline-block;
+    color: white;
+    width: 100%;
+    text-align: center;
+    padding: 50px 0 50px 0;
+    margin-bottom: 20px;
+}
+
+.info-panel > * {
+    margin: 0 auto;
+    max-width: 75%;
+    text-align: left;
+}
+
+.info-panel h2 {
+    font-size: 2em;
+    line-height: 3rem;
+}
+
+.info-panel .info-panel-innertext {
+    margin-top: 20px;
+    margin-bottom: 20px;
+    font-size: 1.1em;
+    line-height: 1.3em;
+}
+
+
+
