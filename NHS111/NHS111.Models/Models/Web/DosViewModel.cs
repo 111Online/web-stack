@@ -16,9 +16,10 @@ namespace NHS111.Models.Models.Web
         public IEnumerable<string> CareAdviceMarkers { get; set; }
         public string Title { get; set; }
         public string PostCode { get; set; }
-        public string Age { get; set; }
-        public string AgeCategory { get; set; }
-        public string Gender { get; set; }
+        public int SearchDistance { get; set; }
+        public List<int> SearchDistances { get; set; }
+        public int Age { get; set; }
+        public GenderEnum Gender { get; set; }
         public string Id { get; set; }
         public string SymptomGroup { get; set; }
         public string SymptomDiscriminator { get; set; }
@@ -35,6 +36,7 @@ namespace NHS111.Models.Models.Web
         {
             CareAdvices = new List<CareAdvice>();
             CareAdviceMarkers = new List<string>();
+            SearchDistances = new List<int>() { 0, 10, 25, 50, 100 };
         }
     }
 }

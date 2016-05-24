@@ -115,7 +115,7 @@ namespace NHS111.Web.Presentation.Builders
             _notifier.Notify(_configuration.IntegrationApiItkDispatcher, model.UserId.ToString());
 
             model.CheckCapacitySummaryResultList = new CheckCapacitySummaryResult[] { selectedService };
-            model.CareAdvices = await _careAdviceBuilder.FillCareAdviceBuilder(Int32.Parse(model.Age), model.Gender, model.CareAdviceMarkers.ToList());
+            model.CareAdvices = await _careAdviceBuilder.FillCareAdviceBuilder(model.Age, model.Gender.ToString(), model.CareAdviceMarkers.ToList());
 
             return model;
         }

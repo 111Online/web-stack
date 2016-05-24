@@ -10,6 +10,7 @@ namespace NHS111.Web.Tools.Controllers
     public class DoSController : Controller
     {
         private readonly IDOSBuilder _dosBuilder;
+        private readonly ISurgeryBuilder _surgeryBuilder;
 
         public DoSController(IDOSBuilder dosBuilder)
         {
@@ -19,13 +20,20 @@ namespace NHS111.Web.Tools.Controllers
         [HttpGet]
         public ActionResult Search()
         {
-            return View();
+            var model = new DosViewModel();
+            return View(model);
         }
 
         [HttpPost]
         public async Task<ActionResult> FillServiceDetails(DosViewModel model)
         {
             return View(await _dosBuilder.FillServiceDetailsBuilder(model));
+        }
+
+        [HttpPost]
+        public async Task<JsonResult> SearchSurgery(string input)
+        {
+            return Json((await _surgeryBuilder.SearchSurgeryBuilder(input)));
         }
     }
 }

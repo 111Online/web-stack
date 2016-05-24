@@ -10,48 +10,82 @@
 
 @using (Html.BeginForm("FillServiceDetails", "DOS", FormMethod.Post))
 {
-    @*@Html.Partial("_CommonHiddenFieldsDosViewModel", Model)*@
-    <section>
-        <div>
-            <div>
-                <label>
-                    Age
-                </label>
-                <div class="inline-details">
-                    @foreach (var ageCategory in Enum.GetValues(typeof(AgeCategoryEnum)))
-                    {
-                        <div class="radio">
-                            <label>
-                                @Html.RadioButtonFor(m => m.AgeCategory, ageCategory)
-                                @ageCategory.ToString()
-                            </label>
-                        </div>
-                    }
-                </div>
-                @*<label>
-                    Case Id
-                </label>
-                <div class="inline-details">
-                    @Html.TextBoxFor(m => m.Id, new { @class = "form-control form-control-4-chars", placeholder = "Case Id" })
-                </div>
-
-                <label>
-                    Age
-                </label>
-                <div class="inline-details">
-                    @Html.TextBoxFor(m => m.Age, new { @class = "form-control form-control-4-chars", placeholder = "Age" })
-                </div>
-                <label>
-                    Gender
-                </label>
-                <div class="inline-details">
-                    @Html.TextBoxFor(m => m.Gender, new { @class = "form-control", placeholder = "Gender" })
-                </div>*@
-                <div>
-                    <input type="submit" class="" value="Search" />
-                </div>
-            </div>
+    <div class="row">
+        <div class="form-group col-xs-1 col-lg-1">
+            <label for="Id">Case Id</label>
+            @Html.TextBoxFor(m => m.Id, new { @class = "form-control", placeholder = "00000" })
         </div>
-    </section>
+    </div>
+    <div class="row">
+        <div class="form-group col-xs-1 col-lg-1p">
+            <label for="Age">Age</label>
+            @Html.TextBoxFor(m => m.Age, new { @class = "form-control" })
+        </div>
+        <div class="form-group col-lg-2">
+            <label class="control-label" for="Gender">Gender</label>
+            @Html.DropDownListFor(m => m.Gender, new SelectList(Enum.GetValues(typeof(GenderEnum))), new { @class = "form-control" })
+        </div>
+    </div>
+    <div class="row">
+        <div class="form-group col-xs-2 col-lg-2">
+            <label for="PostCode">Postcode</label>
+            @Html.TextBoxFor(m => m.PostCode, new { @class = "form-control" })
+        </div>
+        <div class="form-group col-lg-2">
+            <label class="control-label" for="SearchDistances">Search Distance (miles)</label>
+            @Html.DropDownListFor(m => m.SearchDistance, new SelectList(Model.SearchDistances), new { @class = "form-control" })
+        </div>
+    </div>
+    <div class="row">
+        <div class="form-group col-xs-2 col-lg-2">
+            <label for="PostCode">GP practice</label>
+            <input type="text" id="FindGP" class = "form-control" >
+            @Html.HiddenFor(m => m.SelectedSurgery)
+        </div>
+    </div>
+    <div>
+        <input type="submit" class="" value="Search" />
+    </div>
 }
+
+<script>
+    $(function () {
+        $("#FindGP").click(function () {
+            $("#FindGP").val("");
+            $("#SelectedSurgery").val("");
+        }
+        );
+        $("#FindGP").autocomplete({
+            source: function (request, response) {
+                $.ajax({
+                    url: '@Url.Action("SearchSurgery", "DoS")',
+                    type: "post",
+                    data: { input: $("#FindGP").val() },
+                    success: function (data) {
+                        response(data);
+                    },
+                    error: function (textStatus, errorThrown) {
+                        return null;
+                    }
+                });
+            },
+            focus: function (event, ui) {
+                $("#FindGP").val(ui.item.Name);
+                return false;
+            },
+            select: function (event, ui) {
+                $("#FindGP").val(ui.item.Name);
+                $("#SelectedSurgery").val(ui.item.SurgeryId);
+                return false;
+            }
+        })
+            .autocomplete("instance")._renderItem = function (ul, item) {
+                return $("<li>")
+                    .append("<a>" + item.Name + "</a>")
+                    .appendTo(ul);
+            };
+
+    });
+
+</script>
 

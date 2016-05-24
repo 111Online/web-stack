@@ -104,6 +104,7 @@
     <Compile Include="Builders\KeywordCollector.cs" />
     <Compile Include="Builders\OutcomeViewModelBuilder.cs" />
     <Compile Include="Builders\QuestionViewModelBuilder.cs" />
+    <Compile Include="Builders\SurgeryBuilder.cs" />
     <Compile Include="Builders\SymptomDicriminatorCollector.cs" />
     <Compile Include="Configuration\Configuration.cs" />
     <Compile Include="Converters\DosCheckCapacitySummaryRequestTypeConverter.cs" />

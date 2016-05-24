@@ -40,18 +40,6 @@ namespace NHS111.Web.Presentation.Builders
             _keywordCollector = keywordCollector;
         }
 
-        public async Task<OutcomeViewModel> SearchSurgeryBuilder(string input)
-        {
-            var model = new OutcomeViewModel();
-            if (!string.IsNullOrEmpty(input))
-            {
-                var surgeriers = JsonConvert.DeserializeObject<List<Surgery>>(await _restfulHelper.GetAsync(string.Format(_configuration.GPSearchByIdUrl, input)));
-                model.SurgeryViewModel.Surgeries = surgeriers;
-            }
-
-            return model;
-        }
-
         public async Task<List<AddressInfo>> SearchPostcodeBuilder(string input)
         {
             input = HttpUtility.UrlDecode(input);
@@ -138,7 +126,6 @@ namespace NHS111.Web.Presentation.Builders
 
     public interface IOutcomeViewModelBuilder
     {
-        Task<OutcomeViewModel> SearchSurgeryBuilder(string input);
         Task<List<AddressInfo>> SearchPostcodeBuilder(string input);
         Task<OutcomeViewModel> DispositionBuilder(OutcomeViewModel model);
         Task<OutcomeViewModel> PostCodeSearchBuilder(OutcomeViewModel model);
