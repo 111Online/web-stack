@@ -10,24 +10,23 @@
 <link href="~/content/css_NhsUk/confirmation.css" media="screen" rel="stylesheet" type="text/css" />
 <link href="~/content/css_NhsUk/service.css" media="screen" rel="stylesheet" type="text/css" />
 
-<section>
-    <div class="section-item">
-        <h3 class="section-header">
-            Service booking Failed
-        </h3>
-        <div class="service-booking-message alert">
-            <div><b>We were unable to contact >@WebUtility.HtmlDecode(Model.SelectedService.NameField)</b></div>
-            <div>Call 111 to book an appointment</div>
+
+@section OuterSection {
+    <div class="info-panel">
+        <h2>Unfortunately your callback request failed.</h2>
+        <div class="info-panel-innertext">
+            We were unable to contact <strong>@WebUtility.HtmlDecode(Model.SelectedService.NameField)</strong> <br />
+            <strong>Call 111 to book an appointment</strong>
         </div>
     </div>
-</section>
+}
 
 <section>
     <div class="section-item last">
         @if (Model.DisplayWorseningCareAdvice)
         {
-            <h3 class="section-header">
-                Worsening and self care advice
+            <h3 class="care-advice-section-header">
+                What if I feel worse
             </h3>
 
             <div class="service-booking-message alert">
