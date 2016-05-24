@@ -22,56 +22,6 @@ namespace NHS111.Business.API.Functional.Tests
 
         private RestfulHelper _restfulHelper = new RestfulHelper();
 
-
-        /// <summary>
-        // Care Advice Controller tests
-        [Test]
-        public async void TestGetQuestion_returns_valid_care_advice_AdultAge()
-        {
-            var getQuestionEndpoint = "pathways/care-advice/{0}/Adult/Female?keywords=Burns and scalds|Swelling, wounds|Abdominal pain";
-            var result = await _restfulHelper.GetAsync(String.Format(_BusinessdomainApiDomain + getQuestionEndpoint, DxCode1));
-
-            //this checks a responce is returned
-            Assert.IsNotNull(result);
-
-            //these check the right fields are returned
-            Assert.IsTrue(result.Contains("\"id"));
-            Assert.IsTrue(result.Contains("\"title"));
-            Assert.IsTrue(result.Contains("\"excludeTitle"));
-            Assert.IsTrue(result.Contains("\"items"));
-
-            //these check the wrong fields are not returned
-            AssertValidResponseSchema(result, ResponseSchemaType.Answer);
-
-            //this next one checks the right question has returned
-            Assert.IsTrue(result.Contains("\"id\":\"Cx220959-Adult-Female"));
-
-        }
-
-        [Test]
-        public async void TestGetQuestion_returns_valid_care_advice_ToddlerAge()
-        {
-            var getQuestionEndpoint = "pathways/care-advice/{0}/Toddler/Female?keywords=Burns and scalds|Swelling, wounds|Abdominal pain";
-            var result = await _restfulHelper.GetAsync(String.Format(_BusinessdomainApiDomain + getQuestionEndpoint, DxCode1));
-
-            //this checks a responce is returned
-            Assert.IsNotNull(result);
-
-            //these check the right fields are returned
-            Assert.IsTrue(result.Contains("\"id"));
-            Assert.IsTrue(result.Contains("\"title"));
-            Assert.IsTrue(result.Contains("\"excludeTitle"));
-            Assert.IsTrue(result.Contains("\"items"));
-
-            //these check the wrong fields are not returned
-            AssertValidResponseSchema(result, ResponseSchemaType.Answer);
-
-            //this next one checks the right question has returned
-            Assert.IsFalse(result.Contains("\"id\":\"Cx220959-Adult-Female"));
-            Assert.IsTrue(result.Contains("\"id\":\"Cx221046-Toddler-Female"));
-
-        }
-
         [Test]
         public async void TestGetQuestion_returns_valid_Pathway_Numbers()
         {
@@ -175,24 +125,6 @@ namespace NHS111.Business.API.Functional.Tests
 
 
         }
-
-        [Test]
-        //pathway_suggest/{name}
-        public async void TestGetQuestion_returns_expected_Pathways_beginning_with()
-        {
-            var getQuestionEndpoint = "pathway_suggest/ch";
-            var result = await _restfulHelper.GetAsync(String.Format(_BusinessdomainApiDomain + getQuestionEndpoint));
-
-            //this checks a responce is returned
-            Assert.IsNotNull(result);
-
-            //this next one checks the right question has returned
-            Assert.IsTrue(result.Contains("\"pathwayNumbers\":[\"PW755\",\"PW754\",\"PW753\",\"PW754\",\"PW752\",\"PW756\"],\"group\":\"Headache"));
-            Assert.IsTrue(result.Contains("\"pathwayNumbers\":[\"PW1393\",\"PW596\",\"PW596\",\"PW596\",\"PW598\",\"PW596\",\"PW1393\",\"PW598\"],\"group\":\"Chest or Upper Back Injury, Penetrating"));
-            Assert.IsTrue(result.Contains("\"pathwayNumbers\":[\"PW590\",\"PW588\",\"PW588\",\"PW588\",\"PW590\",\"PW1391\",\"PW1391\",\"PW588\"],\"group\":\"Chest or Upper Back Injury, Blunt"));
-            Assert.IsTrue(result.Contains("\"pathwayNumbers\":[\"PA21\",\"PA212\",\"PA213\",\"PA21\",\"PA21\",\"PA213\",\"PA212\",\"PA21\"],\"group\":\"Chest and Upper Back Pain"));
-        }
-
 
         public static HttpRequestMessage CreateHTTPRequest(string requestContent)
         {
