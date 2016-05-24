@@ -64,8 +64,7 @@ namespace NHS111.Web.Controllers
         [HttpPost]
         [ActionName("Navigation")]
         [MultiSubmit(ButtonName = "Question")]
-        public async Task<ActionResult> Question(JourneyViewModel model)
-        {
+        public async Task<ActionResult> Question(JourneyViewModel model) {
             ModelState.Clear();
             var next = await _questionViewModelBuilder.BuildQuestion(model);
             
@@ -104,7 +103,7 @@ namespace NHS111.Web.Controllers
             if (answer < 0 || answer >= model.Answers.Count)
                 throw new ArgumentOutOfRangeException(string.Format("The answer index '{0}' was not found within the range of answers: {1}", answer, string.Join(", ", model.Answers.Select(a => a.Title))));
 
-            model.SelectedAnswer = Newtonsoft.Json.JsonConvert.SerializeObject(model.Answers[answer]);
+            model.SelectedAnswer = Newtonsoft.Json.JsonConvert.SerializeObject(model.Answers.First(a => a.Order == answer + 1));
             var result = (ViewResult) await Question(model);
 
             return (JourneyViewModel)result.Model;
