@@ -29,50 +29,6 @@ namespace NHS111.Domain.ITKDispatcherTests.API.Functional.Tests
         
         private RestfulHelper _restfulHelper = new RestfulHelper();
 
-                
-        /// <summary>
-        /// Example test method for a HTTP POST
-        /// Test to show success when minimal details are sent
-        /// </summary>
-        [Test]
-        public async void TestITKConnectivityMinDetails()
-        {
-            var endpoint = "SendItkMessage";
-            var itkDisptatchRequest = ("{\"Authentication\":{\"UserName\":\"admn\",\"Password\":\"admnUat\"},\"PatientDetails\":{},\"ServiceDetails\":{\"Id\":\"158960\",\"Name\":\"\",\"OdsCode\":\"13524169111352416911\"}}");
-            var address = String.Format(_domainITKApi + endpoint);
-            
-            System.Net.ServicePointManager.Expect100Continue = false;
-            var result =
-                await _restfulHelper.PostAsync(address, CreateHTTPRequest(itkDisptatchRequest));
-
-            var resultContent = await result.Content.ReadAsStringAsync();
-            
-            Assert.IsNotNull(result);
-            Assert.IsTrue(result.IsSuccessStatusCode);
-            Assert.AreEqual(result.StatusCode, HttpStatusCode.OK);
- 
-        }
-        /// Test to show success when maximuml details are sent
-        /// </summary>
-        [Test]
-        public async void TestITKConnectivityMaxDetails()
-        {
-            var endpoint = "SendItkMessage";
-            var itkDisptatchRequest = ("{\"Authentication\":{\"UserName\":\"admn\",\"Password\":\"admnUat\"},\"PatientDetails\":{\"Forename\":\"TestForename\",\"Surname\":\"TestSurname\",\"Gender\":\"Male\",\"DateOfBirth\":\"11/11/1980\",\"ServiceAddressPostcode\":\"TS196TH\",\"TelephoneNumber\":\"02070 033002\",\"HomeAddress\":{\"PostalCode\":\"TS176TH\",\"StreetAddressLine1\":\"1 Test Lane\"},\"GpPractice\":{\"Name\":\"Test GP\",\"Telephone\":\"02380 666454\",\"ODS\":\"RHYAA\",\"Address\":{\"PostalCode\":\"GP3 6FF\",\"StreetAddressLine1\":\"1 GP Street\"} }},\"ServiceDetails\":{\"Id\":\"158960\",\"Name\":\"Test Surgery\",\"OdsCode\":\"13524169111352416911\"}}");
-            var address = String.Format(_domainITKApi + endpoint);
-
-            System.Net.ServicePointManager.Expect100Continue = false;
-            var result =
-                await _restfulHelper.PostAsync(address, CreateHTTPRequest(itkDisptatchRequest));
-
-            var resultContent = await result.Content.ReadAsStringAsync();
-
-            Assert.IsNotNull(result);
-            Assert.IsTrue(result.IsSuccessStatusCode);
-            Assert.AreEqual(result.StatusCode, HttpStatusCode.OK);
-
-
-        }
         //Test to show failure when Name field in service details not sent
         [Test]
         public async void TestInvalidITKMessage_Fails()
