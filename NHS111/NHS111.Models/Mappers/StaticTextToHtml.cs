@@ -7,8 +7,10 @@ namespace NHS111.Models.Mappers
         /// <summary>
         /// Convert new lines to html tags
         /// </summary>       
-        public static string Convert(string toConvert)
-        {
+        public static string Convert(string toConvert) {
+            if (toConvert == null)
+                return null;
+
             string html = toConvert.Replace(Environment.NewLine, "<br/>");
             
             //Hedge Endie fix for escaped \n from json.
