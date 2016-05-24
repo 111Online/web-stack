@@ -1,4 +1,5 @@
 ﻿using System.Configuration;
+using System.Net;
 
 namespace NHS111.Domain.DOS.Api.Configuration
 {
@@ -6,6 +7,15 @@ namespace NHS111.Domain.DOS.Api.Configuration
     {
         public string DOSIntegrationBaseUrl { get { return ConfigurationManager.AppSettings["DOSIntegrationBaseUrl"]; } }
         public string DOSMobileIntegrationBaseUrl { get { return ConfigurationManager.AppSettings["DOSMobileIntegrationBaseUrl"]; } }
+        public NetworkCredential DOSMobileIntegrationCredentials { get
+        {
+            return new NetworkCredential
+            {
+                Domain = ConfigurationManager.AppSettings["DOSMobileIntegrationBaseUrl"],
+                UserName = ConfigurationManager.AppSettings["DOSMobileIntegrationUser"],
+                Password = ConfigurationManager.AppSettings["DOSMobileIntegrationPassword"],
+            };
+        } }
 
         public string DOSIntegrationCheckCapacitySummaryUrl {
             get

@@ -1,5 +1,4 @@
-﻿using System;
-using System.Net.Http;
+﻿using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
 using NHS111.Domain.DOS.Api.Configuration;
@@ -39,11 +38,9 @@ namespace NHS111.Domain.DOS.Api.Controllers
         [Route("DOSapi/ServicesByClinicalTerm")]
         public async Task<string> ServicesByClinicalTerm(DosServicesByClinicalTermRequest request)
         {
-            var data = string.Format("{0}/{1}/{2}/{3}/{4}/{5}/{6}/{7}/{8}", request.CaseId, request.Postcode, request.SearchDistance, request.GpPracticeId, request.Age, request.Gender, request.Disposition, request.SymptomGroupDiscriminatorCombos, request.NumberPerType);
+            var urlWithRequest = string.Format(_configuration.DOSMobileIntegrationServicesByClinicalTermUrl, request.CaseId, request.Postcode, request.SearchDistance, request.GpPracticeId, request.Age, request.Gender, request.Disposition, request.SymptomGroupDiscriminatorCombos, request.NumberPerType);
 
-            var url = string.Format("{0}{1}", _configuration.DOSMobileIntegrationServicesByClinicalTermUrl, data);
-
-            return await _restfulHelper.GetAsync(url);
+            return await _restfulHelper.GetAsync(urlWithRequest, _configuration.DOSMobileIntegrationCredentials);
         }
     }
 }

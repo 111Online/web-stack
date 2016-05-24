@@ -30,7 +30,8 @@ namespace NHS111.Utils.Helpers
 
         public async Task<string> GetAsync(string url)
         {
-            try {
+            try
+            {
                 return await _webClient.DownloadStringTaskAsync(new Uri(url));
             }
             catch (WebException e) {
@@ -40,6 +41,24 @@ namespace NHS111.Utils.Helpers
                 }
             }
         }
+
+        public async Task<string> GetAsync(string url, ICredentials credentials)
+        {
+            try
+            {
+                _webClient.Credentials = credentials;
+                return await _webClient.DownloadStringTaskAsync(new Uri(url));
+            }
+            catch (WebException e)
+            {
+                using (var stream = new StreamReader(e.Response.GetResponseStream()))
+                {
+                    throw new WebException(
+                        string.Format("There was a problem requesting '{0}'; {1}", url, stream.ReadToEnd()), e);
+                }
+            }
+        }
+
 
         public async Task<HttpResponseMessage> PostAsync(string url, HttpRequestMessage request)
         {
@@ -75,6 +94,7 @@ namespace NHS111.Utils.Helpers
     public interface IRestfulHelper
     {
         Task<string> GetAsync(string url);
+        Task<string> GetAsync(string url, ICredentials credentials);
         Task<HttpResponseMessage> PostAsync(string url, HttpRequestMessage request);
         Task<HttpResponseMessage> PostAsync(string url, HttpRequestMessage request, Dictionary<string, string> headers);
     }
