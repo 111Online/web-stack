@@ -6,7 +6,8 @@ namespace NHS111.Domain.DOS.Api.Configuration
     {
         string DOSIntegrationBaseUrl { get; }
         string DOSMobileIntegrationBaseUrl { get; }
-        NetworkCredential DOSMobileIntegrationCredentials { get; }
+        string DOSMobileIntegrationUsername { get; }
+        string DOSMobileIntegrationPassword { get; }
         string DOSIntegrationCheckCapacitySummaryUrl { get; }
         string DOSIntegrationServiceDetailsByIdUrl { get; }
         string DOSIntegrationMonitorHealthUrl { get; }

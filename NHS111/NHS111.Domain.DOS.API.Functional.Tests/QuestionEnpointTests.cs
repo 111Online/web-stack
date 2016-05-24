@@ -10,9 +10,9 @@ namespace NHS111.Domain.DOS.API.Functional.Tests
     [TestFixture]
     public class QuestionEnpointTests
     {
-        private string _domainApiDomain =
+        private string _dosApiDomain =
             "https://microsoft-apiapp089e023e4ca84f6bac0493c7-integration.azurewebsites.net/";
-
+            
 
         private RestfulHelper _restfulHelper = new RestfulHelper();
 
@@ -23,7 +23,7 @@ namespace NHS111.Domain.DOS.API.Functional.Tests
         public async void TestCheckCapacitySumary()
         {
             var getNextQuestionEndpoint = "DOSapi/CheckCapacitySummary";
-            var result = await _restfulHelper.PostAsync(_domainApiDomain + getNextQuestionEndpoint, CreateHTTPRequest("{\"ServiceVersion\":\"1.3\",\"UserInfo\":{\"Username\":\"digital111_ws\",\"Password\":\"Valtech111\"},\"c\":{\"Postcode\":\"HP21 8AL\"}}"));
+            var result = await _restfulHelper.PostAsync(_dosApiDomain + getNextQuestionEndpoint, CreateHTTPRequest("{\"ServiceVersion\":\"1.3\",\"UserInfo\":{\"Username\":\"digital111_ws\",\"Password\":\"Valtech111\"},\"c\":{\"Postcode\":\"HP21 8AL\"}}"));
 
             var resultContent = await result.Content.ReadAsStringAsync();
             dynamic jsonResult = Newtonsoft.Json.Linq.JObject.Parse(resultContent);
@@ -85,7 +85,7 @@ namespace NHS111.Domain.DOS.API.Functional.Tests
         public async void TestCheckServiceDetailsById()
         {
             var getNextQuestionEndpoint = "DOSapi/ServiceDetailsById";
-            var result = await _restfulHelper.PostAsync(_domainApiDomain + getNextQuestionEndpoint, CreateHTTPRequest("{\"ServiceVersion\":\"1.3\",\"UserInfo\":{\"Username\":\"digital111_ws\",\"Password\":\"Valtech111\"},\"serviceId\":1315835856}"));
+            var result = await _restfulHelper.PostAsync(_dosApiDomain + getNextQuestionEndpoint, CreateHTTPRequest("{\"ServiceVersion\":\"1.3\",\"UserInfo\":{\"Username\":\"digital111_ws\",\"Password\":\"Valtech111\"},\"serviceId\":1315835856}"));
 
             var resultContent = await result.Content.ReadAsStringAsync();
 
@@ -127,12 +127,12 @@ namespace NHS111.Domain.DOS.API.Functional.Tests
         [Test]
         public async void TestServicesByClinicalTerm()
         {
-            var result = await _restfulHelper.PostAsync(_domainApiDomain + "DOSapi/ServicesByClinicalTerm", CreateHTTPRequest("{\"ServiceVersion\":\"1.3\",\"UserInfo\":{\"Username\":\"digital111_ws\",\"Password\":\"Valtech111\"},\"serviceId\":1315835856}"));
+            var result = await _restfulHelper.PostAsync(_dosApiDomain + "DOSapi/ServicesByClinicalTerm", CreateHTTPRequest("{\"caseId\":\"0\",\"postcode\":\"so302un\",\"searchDistance\":\"36\",\"gpPracticeId\":\"0\",\"age\":\"1\",\"gender\":\"F\",\"disposition\":\"Dx06\",\"symptomGroupDiscriminatorCombos\":\"1003=4003\",\"numberPerType\":\"1\" }"));
 
             var resultContent = await result.Content.ReadAsStringAsync();
 
             Assert.IsTrue(result.IsSuccessStatusCode);
-            AssertValidResponseSchema(resultContent, ResponseSchemaType.CheckServiceDetailsById);
+            Assert.IsTrue(resultContent.Contains("Hedge"));
         }
     }
 }

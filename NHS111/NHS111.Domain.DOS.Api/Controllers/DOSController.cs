@@ -1,6 +1,11 @@
-﻿using System.Net.Http;
+﻿using System;
+using System.Configuration;
+using System.Net;
+using System.Net.Http;
+using System.Text;
 using System.Threading.Tasks;
 using System.Web.Http;
+using Newtonsoft.Json;
 using NHS111.Domain.DOS.Api.Configuration;
 using NHS111.Models.Models.Web.DosRequests;
 using NHS111.Utils.Attributes;
@@ -36,11 +41,16 @@ namespace NHS111.Domain.DOS.Api.Controllers
 
         [HttpPost]
         [Route("DOSapi/ServicesByClinicalTerm")]
-        public async Task<string> ServicesByClinicalTerm(DosServicesByClinicalTermRequest request)
+        public async Task<string> ServicesByClinicalTerm(HttpRequestMessage request)
         {
-            var urlWithRequest = string.Format(_configuration.DOSMobileIntegrationServicesByClinicalTermUrl, request.CaseId, request.Postcode, request.SearchDistance, request.GpPracticeId, request.Age, request.Gender, request.Disposition, request.SymptomGroupDiscriminatorCombos, request.NumberPerType);
+            var requestObj = JsonConvert.DeserializeObject<DosServicesByClinicalTermRequest>(request.Content.ReadAsStringAsync().Result);
 
-            return await _restfulHelper.GetAsync(urlWithRequest, _configuration.DOSMobileIntegrationCredentials);
+            var urlWithRequest = string.Format(_configuration.DOSMobileIntegrationServicesByClinicalTermUrl, requestObj.CaseId, requestObj.Postcode, requestObj.SearchDistance, requestObj.GpPracticeId, requestObj.Age, requestObj.Gender, requestObj.Disposition, requestObj.SymptomGroupDiscriminatorCombos, requestObj.NumberPerType);
+
+            var usernamePassword = Convert.ToBase64String(Encoding.ASCII.GetBytes(_configuration.DOSMobileIntegrationUsername + ":" + _configuration.DOSMobileIntegrationPassword));
+            var credentials = string.Format("Basic {0}", usernamePassword);
+
+            return await _restfulHelper.GetAsync(urlWithRequest, credentials);
         }
     }
 }
