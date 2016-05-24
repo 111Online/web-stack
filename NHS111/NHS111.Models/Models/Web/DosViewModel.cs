@@ -17,6 +17,7 @@ namespace NHS111.Models.Models.Web
         public string Title { get; set; }
         public string PostCode { get; set; }
         public string Age { get; set; }
+        public string AgeCategory { get; set; }
         public string Gender { get; set; }
         public string Id { get; set; }
         public string SymptomGroup { get; set; }
