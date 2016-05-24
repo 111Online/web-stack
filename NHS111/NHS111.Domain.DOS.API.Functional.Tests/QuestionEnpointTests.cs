@@ -13,7 +13,7 @@ namespace NHS111.Domain.DOS.API.Functional.Tests
         private string _domainApiDomain =
             "https://microsoft-apiapp089e023e4ca84f6bac0493c7-integration.azurewebsites.net/";
 
-        
+
         private RestfulHelper _restfulHelper = new RestfulHelper();
 
         /// <summary>
@@ -35,8 +35,8 @@ namespace NHS111.Domain.DOS.API.Functional.Tests
             //Assert.IsNotNull(serviceTypeField.idField);
             //Assert.AreEqual("40", (string)serviceTypeField.idField);
             Assert.IsTrue(result.IsSuccessStatusCode);
-                  
-          }
+
+        }
 
         private void AssertResponse(dynamic response)
         {
@@ -69,7 +69,7 @@ namespace NHS111.Domain.DOS.API.Functional.Tests
             Assert.IsNotNull(response.serviceTypeField);
             Assert.IsNotNull(response.odsCodeField);
             Assert.IsNotNull(response.rootParentField);
-            Assert.IsNotNull(response.PropertyChanged); 
+            Assert.IsNotNull(response.PropertyChanged);
 
         }
 
@@ -81,7 +81,7 @@ namespace NHS111.Domain.DOS.API.Functional.Tests
             };
         }
 
-          [Test]
+        [Test]
         public async void TestCheckServiceDetailsById()
         {
             var getNextQuestionEndpoint = "DOSapi/ServiceDetailsById";
@@ -91,19 +91,19 @@ namespace NHS111.Domain.DOS.API.Functional.Tests
 
             Assert.IsTrue(result.IsSuccessStatusCode);
             AssertValidResponseSchema(resultContent, ResponseSchemaType.CheckServiceDetailsById);
-          }
+        }
 
 
         public enum ResponseSchemaType
         {
-                       CheckServiceDetailsById
-          }
+            CheckServiceDetailsById
+        }
 
         private static void AssertValidResponseSchema(string result, ResponseSchemaType schemaType)
         {
             switch (schemaType)
             {
-                
+
                 case ResponseSchemaType.CheckServiceDetailsById:
                     AssertValidCheckServiceDetailsByIdResponseSchema(result);
                     break;
@@ -111,7 +111,7 @@ namespace NHS111.Domain.DOS.API.Functional.Tests
                     throw new InvalidEnumArgumentException("ResponseSchemaType of " + schemaType.ToString() +
                                                        "is unsupported");
             }
-                    }
+        }
 
 
 
@@ -122,6 +122,17 @@ namespace NHS111.Domain.DOS.API.Functional.Tests
             Assert.IsTrue(result.Contains("\"valueField"));
             Assert.IsTrue(result.Contains("\"orderField"));
             Assert.IsTrue(result.Contains("\"PropertyChanged"));
+        }
+
+        [Test]
+        public async void TestServicesByClinicalTerm()
+        {
+            var result = await _restfulHelper.PostAsync(_domainApiDomain + "DOSapi/ServicesByClinicalTerm", CreateHTTPRequest("{\"ServiceVersion\":\"1.3\",\"UserInfo\":{\"Username\":\"digital111_ws\",\"Password\":\"Valtech111\"},\"serviceId\":1315835856}"));
+
+            var resultContent = await result.Content.ReadAsStringAsync();
+
+            Assert.IsTrue(result.IsSuccessStatusCode);
+            AssertValidResponseSchema(resultContent, ResponseSchemaType.CheckServiceDetailsById);
         }
     }
 }
