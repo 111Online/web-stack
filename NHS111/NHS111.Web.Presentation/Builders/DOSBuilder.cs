@@ -85,10 +85,10 @@ namespace NHS111.Web.Presentation.Builders
         private async Task<Surgery> GetSelectedSurgery(DosViewModel model)
         {
             var surgery = new Surgery();
-            if (!string.IsNullOrEmpty(model.SelectedSurgery))
+            if (!string.IsNullOrEmpty(model.Surgery))
                 surgery =
                     JsonConvert.DeserializeObject<Surgery>(
-                        await _restfulHelper.GetAsync(string.Format(_configuration.GPSearchApiUrl, model.SelectedSurgery)));
+                        await _restfulHelper.GetAsync(string.Format(_configuration.GPSearchApiUrl, model.Surgery)));
             else
                 surgery.SurgeryId = "UKN";
             return surgery;
@@ -115,7 +115,7 @@ namespace NHS111.Web.Presentation.Builders
             _notifier.Notify(_configuration.IntegrationApiItkDispatcher, model.UserId.ToString());
 
             model.CheckCapacitySummaryResultList = new CheckCapacitySummaryResult[] { selectedService };
-            model.CareAdvices = await _careAdviceBuilder.FillCareAdviceBuilder(model.Age, model.Gender.ToString(), model.CareAdviceMarkers.ToList());
+            model.CareAdvices = await _careAdviceBuilder.FillCareAdviceBuilder(Convert.ToInt32(model.Age), model.Gender.ToString(), model.CareAdviceMarkers.ToList());
 
             return model;
         }

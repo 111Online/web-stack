@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using NHS111.Models.Models.Web;
 using NHS111.Web.Presentation.Models;
+using NHS111.Models.Models.Domain;
 
 namespace NHS111.Models.Mappers.WebMappings
 {
@@ -15,7 +16,7 @@ namespace NHS111.Models.Mappers.WebMappings
         protected override void Configure()
         {
             Mapper.CreateMap<OutcomeViewModel, DosCase>()
-                .ForMember(dest => dest.Postcode,
+                .ForMember(dest => dest.PostCode,
                     opt => opt.ResolveUsing<PostcodeResolver>().FromMember(src => src.UserInfo))
                 .ForMember(dest => dest.Disposition,
                     opt => opt.ResolveUsing<DispositionResolver>().FromMember(src => src.Id))
@@ -61,18 +62,13 @@ namespace NHS111.Models.Mappers.WebMappings
             }
         }
 
-        public class GenderResolver : ValueResolver<string, GenderType>
+        public class GenderResolver : ValueResolver<string, Gender>
         {
-            protected override GenderType ResolveCore(string source)
+            protected override Gender ResolveCore(string source)
             {
                 var genderChar = source.FirstOrDefault();
-                GenderType gender = GenderType.I;
-                if (!string.IsNullOrEmpty(genderChar.ToString()))
-                {
-                    if (!GenderType.TryParse(genderChar.ToString(), out gender))
-                        return GenderType.I;
-                }
-
+                Gender gender = new Gender(source);
+                
                 return gender;
             }
         }

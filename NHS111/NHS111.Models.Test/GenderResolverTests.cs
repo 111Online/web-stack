@@ -3,6 +3,9 @@ using AutoMapper;
 using NHS111.Models.Mappers.WebMappings;
 using NHS111.Web.Presentation.Models;
 using NUnit.Framework;
+using NHS111.Models.Models.Domain;
+using System;
+
 namespace NHS111.Models.Test
 {
     [TestFixture]
@@ -22,23 +25,22 @@ namespace NHS111.Models.Test
             var genderString = "Female";
             var result = _genderResolver.TestResolveCore(genderString);
 
-            Assert.AreEqual(GenderType.F, result);
+            Assert.AreEqual(GenderEnum.Female, result.Value);
         }
 
         [Test]
+        [ExpectedException(typeof(ArgumentException))]
         public void InvalidGenderString_Converted_correctly()
         {
             var genderString = "NotaGender";
             var result = _genderResolver.TestResolveCore(genderString);
-
-            Assert.AreEqual(GenderType.I, result);
         }
 
     }
 
     public class TestGenderResolver : FromOutcomeViewModelToDosCase.GenderResolver
     {
-        public GenderType TestResolveCore(string source)
+        public Gender TestResolveCore(string source)
         {
             return this.ResolveCore(source);
         }
