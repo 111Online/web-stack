@@ -29,8 +29,12 @@ namespace NHS111.Web.Tools.Controllers
         [HttpPost]
         public async Task<ActionResult> FillServiceDetails(DosViewModel model)
         {
-            throw new NotImplementedException();
-            //return View(await _dosBuilder.FillServiceDetailsBuilder(model));
+            var dosView = new DosViewModel
+            {
+                CheckCapacitySummaryResultList = (await _dosBuilder.FillCheckCapacitySummaryResult(model)),
+                DosServicesByClinicalTermResultList = (await _dosBuilder.FillDosServicesByClinicalTermResult(model))
+            };
+            return PartialView("_DoSComparisionResultsView", dosView);
         }
 
         [HttpPost]

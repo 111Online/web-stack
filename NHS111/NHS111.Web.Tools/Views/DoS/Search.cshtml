@@ -11,7 +11,7 @@
 <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
 <h1>DoS results comparision tool</h1>
 
-@using (Html.BeginForm("FillServiceDetails", "DOS", FormMethod.Post))
+@using (Ajax.BeginForm("FillServiceDetails", new AjaxOptions() { HttpMethod = "POST", InsertionMode = InsertionMode.Replace, UpdateTargetId = "DosResults", OnBegin = "activateSpinner", OnComplete = "activateSpinner" }))
 {
     <div class="row">
         <div class="form-group col-lg-1">
@@ -67,12 +67,22 @@
         </div>
     </div>
     <div>
-        <input type="submit" class="btn btn-primary" value="Search" />
+        @*<input type="submit" class="btn btn-primary" value="Search" id="SearchDoS"/>*@
+        <button class="btn btn-primary has-spinner" type="submit" id="SearchDoS" >
+            <span class="spinner"><i class="icon-spin icon-refresh"></i></span>
+            Search
+        </button>
     </div>
 }
 
+@Html.Partial("_DoSComparisionResultsView")
+
 @section Scripts {
     <script>
+        var activateSpinner = function () {
+            $("#SearchDoS").toggleClass('active');
+        }
+
         $(function () {
             $("#FindGP").click(function () {
                 $("#FindGP").val("");

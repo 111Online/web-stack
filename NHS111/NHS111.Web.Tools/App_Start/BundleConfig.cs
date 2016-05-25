@@ -10,7 +10,8 @@ namespace NHS111.Web.Tools
         {
             bundles.Add(new ScriptBundle("~/bundles/jquery").Include(
                         "~/Scripts/jquery-2.1.1.min.js",
-                        "~/Scripts/jquery-1.11.2-ui.min.js"));
+                        "~/Scripts/jquery-1.11.2-ui.min.js",
+                        "~/Scripts/jquery.unobtrusive-ajax.min.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/jqueryval").Include(
                         "~/Scripts/jquery.validate*"));

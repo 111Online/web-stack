@@ -11,6 +11,7 @@ namespace NHS111.Models.Models.Web
     {
         public Guid UserId { get; set; }
         public CheckCapacitySummaryResult[] CheckCapacitySummaryResultList { get; set; }
+        public DosServicesByClinicalTermResult[] DosServicesByClinicalTermResultList { get; set; }
         public string CheckCapacitySummaryResultListJson { get; set; }
         public IEnumerable<CareAdvice> CareAdvices { get; set; }
         public IEnumerable<string> CareAdviceMarkers { get; set; }
