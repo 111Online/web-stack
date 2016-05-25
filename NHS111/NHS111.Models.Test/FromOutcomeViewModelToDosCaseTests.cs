@@ -53,5 +53,29 @@ namespace NHS111.Models.Test
             Assert.AreEqual(GenderEnum.Female, result.Gender);
             Assert.IsTrue(result.SymptomDiscriminatorList.Contains(2222));
         }
+
+        [Test]
+        [ExpectedException(typeof(FormatException))]
+        public void Map_OucomeViewModel_To_DosCase_Invalid_DxCode()
+        {
+            var viewModel = new OutcomeViewModel()
+            {
+                UserInfo = new UserInfo()
+                {
+                    Age = 22,
+                    HomeAddress = new AddressInfo()
+                    {
+                        AddressLine1 = "1 Test lane",
+                        City = "TestTown"
+                    },
+                    Gender = "Female"
+                },
+                Id = "1332",
+                SymptomGroup = "1056",
+                SymptomDiscriminator = "2222"
+            };
+
+            var result = Mapper.Map<OutcomeViewModel, DosCase>(viewModel);
+        }
     }
 }

@@ -20,7 +20,7 @@ namespace NHS111.Web.Presentation.Models
         public string Surgery  { get; set; }
         public string Age { get; set; }
         public AgeFormatType AgeFormat { get; set; }
-        public string Disposition { get; set; }
+        public int Disposition { get; set; }
         public int SymptomGroup { get; set; }
         public int[] SymptomDiscriminatorList { get; set; }
         public int SymptomDiscriminator { get; set; }

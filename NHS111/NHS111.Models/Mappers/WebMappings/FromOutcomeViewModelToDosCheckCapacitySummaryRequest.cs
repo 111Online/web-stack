@@ -70,7 +70,7 @@ namespace NHS111.Models.Mappers.WebMappings
                 GenderEnum gender = GenderEnum.Undisclosed;
                 if (!string.IsNullOrEmpty(genderStr.ToString()))
                 {
-                    if (!GenderEnum.TryParse(genderStr.ToString(), out gender))
+                    if (!Enum.TryParse(genderStr.ToString(), out gender))
                         return GenderEnum.Undisclosed;
                 }
 

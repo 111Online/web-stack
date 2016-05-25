@@ -29,11 +29,12 @@ namespace NHS111.Models.Test
         }
 
         [Test]
-        [ExpectedException(typeof(ArgumentException))]
         public void InvalidGenderString_Converted_correctly()
         {
             var genderString = "NotaGender";
             var result = _genderResolver.TestResolveCore(genderString);
+
+            Assert.AreEqual(GenderEnum.Undisclosed, result);
         }
 
     }
