@@ -23,6 +23,7 @@ namespace NHS111.Web.Presentation.Builders.Tests
         Mock<IConfiguration> _configuration;
         Mock<IMappingEngine> _mappingEngine;
         Mock<IKeywordCollector> _keywordCollector;
+        Mock<IMapper> _mapper;
 
         private const string MOCK_BusinessApiPathwayIdUrl = "http://testpathwaybyid.com";
         private const string MOCK_GetBusinessApiJustToBeSafePartOneUrl = "http://testGetBusinessApiJustToBeSafePartOneUrl.com";
@@ -48,6 +49,7 @@ namespace NHS111.Web.Presentation.Builders.Tests
             _configuration = new Mock<IConfiguration>();
             _mappingEngine = new Mock<IMappingEngine>();
             _keywordCollector = new Mock<IKeywordCollector>();
+            _mapper = new Mock<IMapper>();
 
             _configuration.Setup(c => c.GetBusinessApiPathwayIdUrl(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<int>())).Returns(MOCK_BusinessApiPathwayIdUrl);
             _configuration.Setup(c => c.GetBusinessApiJustToBeSafePartOneUrl(It.IsAny<string>())).Returns(MOCK_GetBusinessApiJustToBeSafePartOneUrl);
@@ -73,6 +75,7 @@ namespace NHS111.Web.Presentation.Builders.Tests
                                                                                                         "{'title':'No','titleWithoutSpaces':'No','symptomDiscriminator':'','supportingInfo':'','keywords':'','order':2}" +
                                                                                                     "],'Answered':null,'Labels':['Question'],'State':null}");
 
+            _mappingEngine.Setup(m => m.Mapper).Returns(_mapper.Object);
 
             testKeywordsCollection = testKeywords.Split('|').ToList();
             _keywordCollector.Setup(k => k.ParseKeywords(testKeywords))

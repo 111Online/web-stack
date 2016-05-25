@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using NHS111.Models.Models.Web;
 using NHS111.Web.Presentation.Models;
+using NHS111.Models.Models.Domain;
 
 namespace NHS111.Models.Mappers.WebMappings
 {
@@ -15,15 +16,15 @@ namespace NHS111.Models.Mappers.WebMappings
         protected override void Configure()
         {
             Mapper.CreateMap<OutcomeViewModel, DosCase>()
-                .ForMember(dest => dest.Postcode,
+                .ForMember(dest => dest.PostCode,
                     opt => opt.ResolveUsing<PostcodeResolver>().FromMember(src => src.UserInfo))
                 .ForMember(dest => dest.Disposition,
                     opt => opt.ResolveUsing<DispositionResolver>().FromMember(src => src.Id))
-                .ForMember(dest => dest.Age,
-                    opt => opt.MapFrom(dest => dest.UserInfo.Age))
                 .ForMember(dest => dest.SymptomDiscriminatorList,
                     opt => opt.ResolveUsing<SymptomDiscriminatorListResolver>().FromMember(dest => dest.SymptomDiscriminator))
-                .ForMember(dest => dest.Gender, opt => opt.ResolveUsing<GenderResolver>().FromMember(dest => dest.UserInfo.Gender));  
+                .ForMember(dest => dest.Gender, 
+                    opt => opt.ResolveUsing<GenderResolver>().FromMember(src => src.UserInfo.Gender))
+                .ForMember(dest => dest.Age, opt => opt.MapFrom(src => src.UserInfo.Age));  
 
         }
 
@@ -61,16 +62,16 @@ namespace NHS111.Models.Mappers.WebMappings
             }
         }
 
-        public class GenderResolver : ValueResolver<string, GenderType>
+        public class GenderResolver : ValueResolver<string, GenderEnum>
         {
-            protected override GenderType ResolveCore(string source)
+            protected override GenderEnum ResolveCore(string source)
             {
-                var genderChar = source.FirstOrDefault();
-                GenderType gender = GenderType.I;
-                if (!string.IsNullOrEmpty(genderChar.ToString()))
+                var genderStr = source;
+                GenderEnum gender = GenderEnum.Undisclosed;
+                if (!string.IsNullOrEmpty(genderStr.ToString()))
                 {
-                    if (!GenderType.TryParse(genderChar.ToString(), out gender))
-                        return GenderType.I;
+                    if (!Enum.TryParse(genderStr.ToString(), out gender))
+                        return GenderEnum.Undisclosed;
                 }
 
                 return gender;

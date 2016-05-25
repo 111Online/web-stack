@@ -40,7 +40,7 @@ namespace NHS111.Web.Presentation.Builders
 
         public async Task<DosViewModel> DosResultsBuilder(OutcomeViewModel outcomeViewModel)
         {
-            var model = _mappingEngine.Map<DosViewModel>(outcomeViewModel);
+            var model = _mappingEngine.Mapper.Map<DosViewModel>(outcomeViewModel);
             var surgery = await GetSelectedSurgery(model);
 
             var capacitySummaryRequest = await BuildCheckCapacitySummaryRequest(outcomeViewModel, surgery);
@@ -67,7 +67,7 @@ namespace NHS111.Web.Presentation.Builders
         {
             outcomeViewModel = await BuildSymptomGroup(outcomeViewModel);
 
-            var dosCase = _mappingEngine.Map<OutcomeViewModel, DosCase>(outcomeViewModel);
+            var dosCase = _mappingEngine.Mapper.Map<OutcomeViewModel, DosCase>(outcomeViewModel);
             dosCase.Surgery = surgery.SurgeryId;
             return new DosCheckCapacitySummaryRequest(_configuration.DosUsername, _configuration.DosPassword, dosCase);
         }
@@ -85,10 +85,10 @@ namespace NHS111.Web.Presentation.Builders
         private async Task<Surgery> GetSelectedSurgery(DosViewModel model)
         {
             var surgery = new Surgery();
-            if (!string.IsNullOrEmpty(model.SelectedSurgery))
+            if (!string.IsNullOrEmpty(model.Surgery))
                 surgery =
                     JsonConvert.DeserializeObject<Surgery>(
-                        await _restfulHelper.GetAsync(string.Format(_configuration.GPSearchApiUrl, model.SelectedSurgery)));
+                        await _restfulHelper.GetAsync(string.Format(_configuration.GPSearchApiUrl, model.Surgery)));
             else
                 surgery.SurgeryId = "UKN";
             return surgery;
@@ -115,7 +115,7 @@ namespace NHS111.Web.Presentation.Builders
             _notifier.Notify(_configuration.IntegrationApiItkDispatcher, model.UserId.ToString());
 
             model.CheckCapacitySummaryResultList = new CheckCapacitySummaryResult[] { selectedService };
-            model.CareAdvices = await _careAdviceBuilder.FillCareAdviceBuilder(Int32.Parse(model.Age), model.Gender, model.CareAdviceMarkers.ToList());
+            model.CareAdvices = await _careAdviceBuilder.FillCareAdviceBuilder(Convert.ToInt32(model.Age), model.Gender.ToString(), model.CareAdviceMarkers.ToList());
 
             return model;
         }

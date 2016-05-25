@@ -16,19 +16,20 @@ namespace NHS111.Web.Controllers
         private readonly IOutcomeViewModelBuilder _outcomeViewModelBuilder;
         private readonly IDOSBuilder _dosBuilder;
         private readonly IConfiguration _config;
+        private readonly ISurgeryBuilder _surgeryBuilder;
 
-        public OutcomeController(IOutcomeViewModelBuilder outcomeViewModelBuilder, IDOSBuilder dosBuilder, IConfiguration config)
+        public OutcomeController(IOutcomeViewModelBuilder outcomeViewModelBuilder, IDOSBuilder dosBuilder, IConfiguration config, ISurgeryBuilder surgeryBuilder)
         {
             _outcomeViewModelBuilder = outcomeViewModelBuilder;
             _dosBuilder = dosBuilder;
             _config = config;
+            _surgeryBuilder = surgeryBuilder;
         }
 
         [HttpPost]
         public async Task<JsonResult> SearchSurgery(string input)
         {
-            return Json((await _outcomeViewModelBuilder.SearchSurgeryBuilder(input))
-                .SurgeryViewModel.Surgeries);
+            return Json((await _surgeryBuilder.SearchSurgeryBuilder(input)));
         }
 
         [HttpGet]

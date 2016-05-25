@@ -81,8 +81,8 @@ namespace NHS111.Web.Presentation.Builders
                     SelectedAnswer = JsonConvert.SerializeObject(selectedAnswer),
                 };
 
-                _mappingEngine.Map(selectedQuestion, journeyViewModel);
-                journeyViewModel = _mappingEngine.Map(selectedAnswer, journeyViewModel);
+                _mappingEngine.Mapper.Map(selectedQuestion, journeyViewModel);
+                journeyViewModel = _mappingEngine.Mapper.Map(selectedAnswer, journeyViewModel);
                 
                 return await _questionViewModelBuilder.BuildQuestion(journeyViewModel);
             }
@@ -98,8 +98,8 @@ namespace NHS111.Web.Presentation.Builders
                     JourneyJson = JsonConvert.SerializeObject(journey),
                 };
 
-                _mappingEngine.Map(questions.First(), journeyViewModel);
-                journeyViewModel = _mappingEngine.Map(selectedAnswer, journeyViewModel);
+                _mappingEngine.Mapper.Map(questions.First(), journeyViewModel);
+                journeyViewModel = _mappingEngine.Mapper.Map(selectedAnswer, journeyViewModel);
 
                 return new Tuple<string, JourneyViewModel>("../Question/Question", journeyViewModel);
             }

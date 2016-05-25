@@ -5,6 +5,7 @@ using NHS111.Models.Mappers.WebMappings;
 using NHS111.Models.Models.Web;
 using NHS111.Web.Presentation.Models;
 using NUnit.Framework;
+using NHS111.Models.Models.Domain;
 
 namespace NHS111.Models.Test
 {
@@ -49,7 +50,7 @@ namespace NHS111.Models.Test
             Assert.AreEqual("22", result.Age);
             Assert.AreEqual(1056, result.SymptomGroup);
             Assert.AreEqual(1002, result.Disposition);
-            Assert.AreEqual(GenderType.F, result.Gender);
+            Assert.AreEqual(GenderEnum.Female, result.Gender);
             Assert.IsTrue(result.SymptomDiscriminatorList.Contains(2222));
         }
     }

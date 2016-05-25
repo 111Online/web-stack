@@ -96,7 +96,7 @@ namespace NHS111.Web.Presentation.Builders.Tests
 
             OutcomeViewModel outcomeViewModelPasedToMapper = new OutcomeViewModel();
 
-            _mappingEngine.Setup(m => m.Map<OutcomeViewModel, DosCase>(It.IsAny<OutcomeViewModel>()))
+            _mappingEngine.Setup(m => m.Mapper.Map<OutcomeViewModel, DosCase>(It.IsAny<OutcomeViewModel>()))
                 .Callback<OutcomeViewModel>((obj) => outcomeViewModelPasedToMapper = obj)
                 .Returns(new DosCase());
 

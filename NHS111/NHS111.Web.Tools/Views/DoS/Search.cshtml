@@ -1,0 +1,116 @@
+﻿@using NHS111.Models.Models.Domain
+@model NHS111.Models.Models.Web.DosViewModel
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section Title {
+    DoS comparision tool
+}
+
+<link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+<h1>DoS results comparision tool</h1>
+
+@using (Html.BeginForm("FillServiceDetails", "DOS", FormMethod.Post))
+{
+    <div class="row">
+        <div class="form-group col-lg-1">
+            <label for="Id">Case Ref.</label>
+            @Html.TextBoxFor(m => m.CaseRef, new { @class = "form-control", placeholder = "00000" })
+        </div>
+    </div>
+    <div class="row">
+        <div class="form-group col-lg-1">
+            <label for="Age">Age</label>
+            @Html.TextBoxFor(m => m.Age, new { @class = "form-control" })
+        </div>
+        <div class="form-group col-lg-2">
+            <label class="control-label" for="Gender">Gender</label>
+            @Html.DropDownListFor(m => m.Gender, new SelectList(Enum.GetValues(typeof(GenderEnum))), new { @class = "form-control" })
+        </div>
+    </div>
+    <div class="row">
+        <div class="form-group col-lg-2">
+            <label for="PostCode">Postcode</label>
+            @Html.TextBoxFor(m => m.PostCode, new { @class = "form-control" })
+        </div>
+        <div class="form-group col-lg-2">
+            <label class="control-label" for="SearchDistances">Search Distance (miles)</label>
+            @Html.DropDownListFor(m => m.SearchDistance, new SelectList(Model.SearchDistances), new { @class = "form-control" })
+        </div>
+    </div>
+    <div class="row">
+        <div class="form-group col-lg-10">
+            <label for="FindGP">GP Practice</label>
+            <input type="text" id="FindGP" class="form-control">
+            @Html.HiddenFor(m => m.Surgery)
+        </div>
+    </div>
+    <div class="row">
+        <div class="form-group col-lg-2">
+            <label for="SymptomDiscriminator">Symptom Discriminator</label>
+            @Html.TextBoxFor(m => m.SymptomDiscriminator, new { @class = "form-control" })
+        </div>
+        <div class="form-group col-lg-2">
+            <label for="SymptomGroup">Symptom Group</label>
+            @Html.TextBoxFor(m => m.SymptomGroup, new { @class = "form-control" })
+        </div>
+    </div>
+    <div class="row">
+        <div class="form-group col-lg-1">
+            <label for="Disposition">Disposition</label>
+            @Html.TextBoxFor(m => m.Disposition, new { @class = "form-control" })
+        </div>
+        <div class="form-group col-lg-2">
+            <label for="NumberPerType">Number per Type</label>
+            @Html.TextBoxFor(m => m.NumberPerType, new { @class = "form-control" })
+        </div>
+    </div>
+    <div>
+        <input type="submit" class="btn btn-primary" value="Search" />
+    </div>
+}
+
+@section Scripts {
+    <script>
+        $(function () {
+            $("#FindGP").click(function () {
+                $("#FindGP").val("");
+                $("#SelectedSurgery").val("");
+            }
+            );
+            $("#FindGP").autocomplete({
+                source: function (request, response) {
+                    $.ajax({
+                        url: '@Url.Action("SearchSurgery", "DoS")',
+                        type: "post",
+                        data: { input: $("#FindGP").val() },
+                        success: function (data) {
+                            response($.map(data, function (item) {
+                                return {
+                                    id: item.SurgeryId,
+                                    label: item.Name,
+                                    value: item.Name
+                                }
+                            }));
+                        },
+                        error: function (textStatus, errorThrown) {
+                            return null;
+                        }
+                    });
+                },
+                focus: function (event, ui) {
+                    $("#FindGP").val(ui.item.label);
+                    return false;
+                },
+                select: function (event, ui) {
+                    $("#FindGP").val(ui.item.label);
+                    $("#SelectedSurgery").val(ui.item.id);
+                    return false;
+                }
+            });
+        });
+
+    </script>
+}
+
