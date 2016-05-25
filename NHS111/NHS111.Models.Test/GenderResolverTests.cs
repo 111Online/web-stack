@@ -25,7 +25,7 @@ namespace NHS111.Models.Test
             var genderString = "Female";
             var result = _genderResolver.TestResolveCore(genderString);
 
-            Assert.AreEqual(GenderEnum.Female, result.Value);
+            Assert.AreEqual(GenderEnum.Female, result);
         }
 
         [Test]
@@ -40,7 +40,7 @@ namespace NHS111.Models.Test
 
     public class TestGenderResolver : FromOutcomeViewModelToDosCase.GenderResolver
     {
-        public Gender TestResolveCore(string source)
+        public GenderEnum TestResolveCore(string source)
         {
             return this.ResolveCore(source);
         }

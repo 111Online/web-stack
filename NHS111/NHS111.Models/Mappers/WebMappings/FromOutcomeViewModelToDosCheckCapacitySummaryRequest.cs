@@ -20,11 +20,11 @@ namespace NHS111.Models.Mappers.WebMappings
                     opt => opt.ResolveUsing<PostcodeResolver>().FromMember(src => src.UserInfo))
                 .ForMember(dest => dest.Disposition,
                     opt => opt.ResolveUsing<DispositionResolver>().FromMember(src => src.Id))
-                .ForMember(dest => dest.Age,
-                    opt => opt.MapFrom(dest => dest.UserInfo.Age))
                 .ForMember(dest => dest.SymptomDiscriminatorList,
                     opt => opt.ResolveUsing<SymptomDiscriminatorListResolver>().FromMember(dest => dest.SymptomDiscriminator))
-                .ForMember(dest => dest.Gender, opt => opt.ResolveUsing<GenderResolver>().FromMember(dest => dest.UserInfo.Gender));  
+                .ForMember(dest => dest.Gender, 
+                    opt => opt.ResolveUsing<GenderResolver>().FromMember(src => src.UserInfo.Gender))
+                .ForMember(dest => dest.Age, opt => opt.MapFrom(src => src.UserInfo.Age));  
 
         }
 
@@ -62,13 +62,18 @@ namespace NHS111.Models.Mappers.WebMappings
             }
         }
 
-        public class GenderResolver : ValueResolver<string, Gender>
+        public class GenderResolver : ValueResolver<string, GenderEnum>
         {
-            protected override Gender ResolveCore(string source)
+            protected override GenderEnum ResolveCore(string source)
             {
-                var genderChar = source.FirstOrDefault();
-                Gender gender = new Gender(source);
-                
+                var genderStr = source.FirstOrDefault();
+                GenderEnum gender = GenderEnum.Undisclosed;
+                if (!string.IsNullOrEmpty(genderStr.ToString()))
+                {
+                    if (!GenderEnum.TryParse(genderStr.ToString(), out gender))
+                        return GenderEnum.Undisclosed;
+                }
+
                 return gender;
             }
         }
