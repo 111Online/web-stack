@@ -94,54 +94,6 @@ namespace NHS111.Domain.Functional.Tests
             //this next one checks the right question has returned
             Assert.IsTrue(result.Contains("\"questionNo\":\"Tx1506"));
         }
-        // Care Advice Controller tests
-        [Test]
-        public async void TestGetQuestion_returns_valid_care_advice_AdultAge()
-        {
-            var getQuestionEndpoint = "pathways/care-advice/{0}/Adult/Female?keywords=Burns and scalds|Swelling, wounds|Abdominal pain";
-            var result = await _restfulHelper.GetAsync(String.Format(_domainApiDomain + getQuestionEndpoint, DxCode));
-
-            //this checks a responce is returned
-            Assert.IsNotNull(result);
-
-            //these check the right fields are returned
-            Assert.IsTrue(result.Contains("\"id"));
-            Assert.IsTrue(result.Contains("\"title"));
-            Assert.IsTrue(result.Contains("\"excludeTitle"));
-            Assert.IsTrue(result.Contains("\"items"));
-
-            //these check the wrong fields are not returned
-            AssertValidResponseSchema(result, ResponseSchemaType.Answer);
-
-            //this next one checks the right question has returned
-            Assert.IsTrue(result.Contains("\"id\":\"Cx220959-Adult-Female"));
-
-        }
-        [Test]
-        public async void TestGetQuestion_returns_valid_care_advice_ToddlerAge()
-        {
-            var getQuestionEndpoint = "pathways/care-advice/{0}/Toddler/Female?keywords=Burns and scalds|Swelling, wounds|Abdominal pain";
-            var result = await _restfulHelper.GetAsync(String.Format(_domainApiDomain + getQuestionEndpoint, DxCode));
-
-            //this checks a responce is returned
-            Assert.IsNotNull(result);
-
-            //these check the right fields are returned
-            Assert.IsTrue(result.Contains("\"id"));
-            Assert.IsTrue(result.Contains("\"title"));
-            Assert.IsTrue(result.Contains("\"excludeTitle"));
-            Assert.IsTrue(result.Contains("\"items"));
-
-            //these check the wrong fields are not returned
-            AssertValidResponseSchema(result, ResponseSchemaType.Answer);
-
-            //this next one checks the right question has returned
-            Assert.IsFalse(result.Contains("\"id\":\"Cx220179-Adult-Female"));
-            Assert.IsTrue(result.Contains("\"id\":\"Cx221046-Toddler-Female"));
-
-        }
-
-     
 
         // Care Advice Controller tests
         [Test]
