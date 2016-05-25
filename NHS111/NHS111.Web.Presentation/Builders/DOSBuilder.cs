@@ -40,7 +40,7 @@ namespace NHS111.Web.Presentation.Builders
 
         public async Task<DosViewModel> DosResultsBuilder(OutcomeViewModel outcomeViewModel)
         {
-            var model = _mappingEngine.Map<DosViewModel>(outcomeViewModel);
+            var model = _mappingEngine.Mapper.Map<DosViewModel>(outcomeViewModel);
             var surgery = await GetSelectedSurgery(model);
 
             var capacitySummaryRequest = await BuildCheckCapacitySummaryRequest(outcomeViewModel, surgery);
@@ -67,7 +67,7 @@ namespace NHS111.Web.Presentation.Builders
         {
             outcomeViewModel = await BuildSymptomGroup(outcomeViewModel);
 
-            var dosCase = _mappingEngine.Map<OutcomeViewModel, DosCase>(outcomeViewModel);
+            var dosCase = _mappingEngine.Mapper.Map<OutcomeViewModel, DosCase>(outcomeViewModel);
             dosCase.Surgery = surgery.SurgeryId;
             return new DosCheckCapacitySummaryRequest(_configuration.DosUsername, _configuration.DosPassword, dosCase);
         }

@@ -104,7 +104,7 @@ namespace NHS111.Web.Presentation.Builders
             
             model = _symptomDicriminatorCollector.Collect(JsonConvert.DeserializeObject<QuestionWithAnswers>(response),model);
             model = _keywordCollector.Collect(answer, model);
-            model = _mappingEngine.Map(response, model);
+            model = _mappingEngine.Mapper.Map(response, model);
             //model = _mappingEngine.Map(answer, model);
 
             return await ActionSelection(model);
@@ -129,7 +129,7 @@ namespace NHS111.Web.Presentation.Builders
             model.StateJson = model.PreviousStateJson;
             model.JourneyJson = JsonConvert.SerializeObject(journey);
             model.State = JsonConvert.DeserializeObject<Dictionary<string, string>>(model.StateJson);
-            return _mappingEngine.Map(response, model);
+            return _mappingEngine.Mapper.Map(response, model);
         }
 
         public async Task<string> BuildSearch(string input)
@@ -155,7 +155,7 @@ namespace NHS111.Web.Presentation.Builders
 
             if (nonOutcome.Contains(model.Id))
             {
-                var newModel = _mappingEngine.Map<OutcomeViewModel>(model);
+                var newModel = _mappingEngine.Mapper.Map<OutcomeViewModel>(model);
                 return new Tuple<string, JourneyViewModel>("../Outcome/Emergency", await _outcomeViewModelBuilder.DispositionBuilder(newModel));
             }
 
@@ -163,7 +163,7 @@ namespace NHS111.Web.Presentation.Builders
             {
                 case NodeType.Outcome:
                     {
-                        var newModel = _mappingEngine.Map<OutcomeViewModel>(model);
+                        var newModel = _mappingEngine.Mapper.Map<OutcomeViewModel>(model);
                         newModel = AddressSearchViewBuilder(newModel);
                         newModel.CareAdviceMarkers = model.State.Keys.Where(key => key.StartsWith("Cx"));
                         var disposition2 = new[] { "Dx02", "Dx25", "Dx75", "Dx30", "Dx03", "Dx16", "Dx94", "Dx09" };

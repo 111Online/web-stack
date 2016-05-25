@@ -48,7 +48,7 @@ namespace NHS111.Web.Presentation.Builders
                
                 };
                 var question = JsonConvert.DeserializeObject<QuestionWithAnswers>(await _restfulHelper.GetAsync(_configuration.GetBusinessApiFirstQuestionUrl(identifiedModel.PathwayId, identifiedModel.StateJson)));
-                _mappingEngine.Map(question, journeyViewModel);
+                _mappingEngine.Mapper.Map(question, journeyViewModel);
                 return new Tuple<string, JourneyViewModel>("../Question/Question", journeyViewModel);
             }
             identifiedModel.Part = 1;

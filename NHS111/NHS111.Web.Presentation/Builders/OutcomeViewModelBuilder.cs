@@ -44,7 +44,7 @@ namespace NHS111.Web.Presentation.Builders
         {
             input = HttpUtility.UrlDecode(input);
             var listPaf = JsonConvert.DeserializeObject<List<PAF>>(await _restfulHelper.GetAsync(string.Format(_configuration.PostcodeSearchByIdApiUrl, input)));
-            return _mappingEngine.Map<List<AddressInfo>>(listPaf);
+            return _mappingEngine.Mapper.Map<List<AddressInfo>>(listPaf);
         }
 
         public async Task<OutcomeViewModel> DispositionBuilder(OutcomeViewModel model)
@@ -94,7 +94,7 @@ namespace NHS111.Web.Presentation.Builders
         private ITKDispatchRequest CreateItkDispatchRequest(OutcomeViewModel model)
         {
             var auth = new Authentication() {UserName = "admn", Password = "admnUat"};
-            var itkRequestData = _mappingEngine.Map<OutcomeViewModel, ITKDispatchRequest>(model);
+            var itkRequestData = _mappingEngine.Mapper.Map<OutcomeViewModel, ITKDispatchRequest>(model);
             itkRequestData.Authentication = auth;
             return itkRequestData;
         }

@@ -66,7 +66,7 @@ namespace NHS111.Models.Mappers.WebMappings
         {
             protected override GenderEnum ResolveCore(string source)
             {
-                var genderStr = source.FirstOrDefault();
+                var genderStr = source;
                 GenderEnum gender = GenderEnum.Undisclosed;
                 if (!string.IsNullOrEmpty(genderStr.ToString()))
                 {
