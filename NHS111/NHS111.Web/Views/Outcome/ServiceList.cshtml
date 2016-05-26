@@ -1,5 +1,5 @@
 ﻿@using NHS111.Models.Models.Domain
-@model NHS111.Models.Models.Web.OutcomeViewModel
+@model NHS111.Models.Models.Web.FromExternalServices.CheckCapacitySummaryResult[]
 
 @{
     Layout = "~/Views/Shared/_LayoutNhsUk.cshtml";
@@ -14,7 +14,7 @@
 }
 
 @section FeedbackSection {
-    @Html.Partial("_FeedbackDetails", new Feedback() { PageId = Model.Id })
+    @Html.Partial("_FeedbackDetails", new Feedback() { PageId = "SelectAService" })
 }
 
 <link href="~/content/css_NhsUk/servicelist.css" media="screen" rel="stylesheet" type="text/css" />
@@ -25,17 +25,17 @@
         <h3 class="section-header">
             Recommended service
         </h3>
-        @if (Model.CheckCapacitySummaryResultList.FirstOrDefault() != null)
+        @if (Model.FirstOrDefault() != null)
         {
             <div class="service-list-content">
-                @Html.Partial("_SelectedService", Model.CheckCapacitySummaryResultList.First())
+                @Html.Partial("_SelectedService", Model.First())
                 <div class="form-item-wrapper">
                     <fieldset>
                         <div class="form-group">
                             @using (Html.BeginForm("PersonalDetails", "Outcome", FormMethod.Post))
                             {
                                 @Html.Partial("_CommonHiddenFieldsOutcomeViewModel", Model)
-                                @Html.Hidden("SelectedServiceId", @Model.CheckCapacitySummaryResultList.First().IdField)
+                                @Html.Hidden("SelectedServiceId", @Model.First().IdField)
                                 <div class="row">
                                     <input class="button button-next" type="submit" name="PersonalDetails" value="Request a call back" />
                                 </div>
@@ -53,7 +53,7 @@
         <h3 class="section-header">
             Other services near you
         </h3>
-        @foreach (var checkCapacitySummaryResult in Model.CheckCapacitySummaryResultList.Skip(1))
+        @foreach (var checkCapacitySummaryResult in Model.Skip(1))
         {
             <div class="service-list-content">
                 @Html.Partial("_SelectedService", checkCapacitySummaryResult)

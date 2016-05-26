@@ -24,8 +24,8 @@ namespace NHS111.Models.Mappers.WebMappings
                     opt => opt.ResolveUsing<SymptomDiscriminatorListResolver>().FromMember(dest => dest.SymptomDiscriminator))
                 .ForMember(dest => dest.Gender, 
                     opt => opt.ResolveUsing<GenderResolver>().FromMember(src => src.UserInfo.Gender))
-                .ForMember(dest => dest.Age, opt => opt.MapFrom(src => src.UserInfo.Age));  
-
+                .ForMember(dest => dest.Age, opt => opt.MapFrom(src => src.UserInfo.Age))
+                .ForMember(dest => dest.Surgery, opt => opt.MapFrom(src => src.SurgeryViewModel.SelectedSurgery));  
         }
 
         public class DispositionResolver : ValueResolver<string, int>
