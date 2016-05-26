@@ -60,14 +60,17 @@ namespace NHS111.Web.Controllers
         public async Task<ActionResult> ServiceList(OutcomeViewModel model)
         {
             var dosCase = AutoMapper.Mapper.Map<DosViewModel>(model);
-            return View("ServiceList", await _dosBuilder.FillCheckCapacitySummaryResult(dosCase));
+            model.CheckCapacitySummaryResultList = await _dosBuilder.FillCheckCapacitySummaryResult(dosCase);
+            //var newmodel = await _dosBuilder.DosResultsBuilder(model);
+            return View("ServiceList", model);
         }
 
         [HttpPost]
         public async Task<ActionResult> ServiceDetails(OutcomeViewModel model)
         {
             var dosCase = AutoMapper.Mapper.Map<DosViewModel>(model);
-            return View("ServiceDetails", await _dosBuilder.FillCheckCapacitySummaryResult(dosCase));
+            model.CheckCapacitySummaryResultList = await _dosBuilder.FillCheckCapacitySummaryResult(dosCase);
+            return View("ServiceDetails", model);
         }
 
         [HttpPost]

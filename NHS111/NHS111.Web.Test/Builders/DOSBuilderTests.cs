@@ -83,7 +83,7 @@ namespace NHS111.Web.Presentation.Builders.Tests
 
             var symptomGroup = await _dosBuilder.BuildSymptomGroup(journeyJson);
 
-             Assert.AreEqual(expectedSymptomGroup, symptomGroup);
+             Assert.AreEqual(int.Parse(expectedSymptomGroup), symptomGroup);
 
 
         }

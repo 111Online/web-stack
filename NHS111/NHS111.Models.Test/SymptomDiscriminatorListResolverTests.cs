@@ -43,7 +43,7 @@ namespace NHS111.Models.Test
         }
     }
 
-    public class TestSymptomDiscriminatorListResolver : FromOutcomeViewModelToDosCase.SymptomDiscriminatorListResolver
+    public class TestSymptomDiscriminatorListResolver : FromOutcomeViewModelToDosViewModel.SymptomDiscriminatorListResolver
     {
         public int[] ResolveCore(string source)
         {

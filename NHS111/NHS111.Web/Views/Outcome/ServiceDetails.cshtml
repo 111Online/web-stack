@@ -1,5 +1,5 @@
 ﻿@using NHS111.Models.Models.Domain
-@model NHS111.Models.Models.Web.FromExternalServices.CheckCapacitySummaryResult[]
+@model NHS111.Models.Models.Web.OutcomeViewModel
 
 @{
     Layout = "~/Views/Shared/_LayoutNhsUk.cshtml";
@@ -14,12 +14,12 @@
 }
 
 @section FeedbackSection {
-    @Html.Partial("_FeedbackDetails", new Feedback() { PageId = "ServiceDetails" })
+    @Html.Partial("_FeedbackDetails", new Feedback() { PageId = Model.Id })
 }
 
 <link href="~/content/css_NhsUk/servicedetails.css" media="screen" rel="stylesheet" type="text/css"/>
 <link href="~/content/css_NhsUk/service.css" media="screen" rel="stylesheet" type="text/css" />
 
 <section>
-    @Html.Partial("_SurgeryDetails", Model)
+    @Html.Partial("_SurgeryDetails", Model.CheckCapacitySummaryResultList)
 </section>

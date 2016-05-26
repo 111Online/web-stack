@@ -39,7 +39,7 @@ namespace NHS111.Models.Test
 
     }
 
-    public class TestGenderResolver : FromOutcomeViewModelToDosCase.GenderResolver
+    public class TestGenderResolver : FromOutcomeViewModelToDosViewModel.GenderResolver
     {
         public GenderEnum TestResolveCore(string source)
         {
