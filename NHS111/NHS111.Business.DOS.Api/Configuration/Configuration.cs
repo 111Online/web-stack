@@ -32,5 +32,14 @@ namespace NHS111.Business.DOS.Api.Configuration
 
             }
         }
+
+        public string DomainDOSApiServicesByClinicalTermUrl
+        {
+            get
+            {
+                return string.Format("{0}{1}", ConfigurationManager.AppSettings["DomainDOSApiBaseUrl"],
+                    ConfigurationManager.AppSettings["DomainDOSApiServicesByClinicalTermUrl"]);
+            }
+        }
     }
 }
