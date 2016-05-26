@@ -6,6 +6,7 @@
         string DomainDOSApiCheckCapacitySummaryUrl { get; }
         string DomainDOSApiServiceDetailsByIdUrl { get; }
         string DomainDOSApiMonitorHealthUrl { get; }
+        string DomainDOSApiServicesByClinicalTermUrl { get; }
         
     }
 }

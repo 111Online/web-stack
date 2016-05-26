@@ -5,16 +5,16 @@ namespace NHS111.Domain.DOS.Api.Configuration
     public class Configuration : IConfiguration
     {
         public string DOSIntegrationBaseUrl { get { return ConfigurationManager.AppSettings["DOSIntegrationBaseUrl"]; } }
-        public string DOSMobileIntegrationBaseUrl { get { return ConfigurationManager.AppSettings["DOSMobileIntegrationBaseUrl"]; } }
+        public string DOSMobileBaseUrl { get { return ConfigurationManager.AppSettings["DOSMobileIntegrationBaseUrl"]; } }
 
-        public string DOSMobileIntegrationUsername
+        public string DOSMobileUsername
         {
-            get { return ConfigurationManager.AppSettings["DOSMobileIntegrationUsername"]; }
+            get { return ConfigurationManager.AppSettings["DOSMobileUsername"]; }
         }
 
-        public string DOSMobileIntegrationPassword
+        public string DOSMobilePassword
         {
-            get { return ConfigurationManager.AppSettings["DOSMobileIntegrationPassword"]; }
+            get { return ConfigurationManager.AppSettings["DOSMobilePassword"]; }
         }
 
         public string DOSIntegrationCheckCapacitySummaryUrl
@@ -46,12 +46,12 @@ namespace NHS111.Domain.DOS.Api.Configuration
             }
         }
 
-        public string DOSMobileIntegrationServicesByClinicalTermUrl
+        public string DOSMobileServicesByClinicalTermUrl
         {
             get
             {
-                return string.Format("{0}{1}", ConfigurationManager.AppSettings["DOSMobileIntegrationBaseUrl"],
-                  ConfigurationManager.AppSettings["DOSMobileIntegrationServicesByClinicalTermUrl"]);
+                return string.Format("{0}{1}", ConfigurationManager.AppSettings["DOSMobileBaseUrl"],
+                  ConfigurationManager.AppSettings["DOSMobileServicesByClinicalTermUrl"]);
             }
         }
     }
