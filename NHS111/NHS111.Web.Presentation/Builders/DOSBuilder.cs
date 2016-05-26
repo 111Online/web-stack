@@ -57,7 +57,7 @@ namespace NHS111.Web.Presentation.Builders
         {
             dosViewModel.SymptomGroup = await BuildSymptomGroup(dosViewModel.JourneyJson);
             var request = BuildRequestMessage(dosViewModel);
-            var response = await _restfulHelper.PostAsync("http://domain.api/blah", request);
+            var response = await _restfulHelper.PostAsync(_configuration.BusinessDosServicesByClinicalTermUrl, request);
 
             if (response.StatusCode != HttpStatusCode.OK) return new DosServicesByClinicalTermResult[0];
 

@@ -32,7 +32,7 @@ namespace NHS111.Web.Tools.Controllers
             var dosView = new DosViewModel
             {
                 CheckCapacitySummaryResultList = (await _dosBuilder.FillCheckCapacitySummaryResult(model)),
-                DosServicesByClinicalTermResultList = (await _dosBuilder.FillDosServicesByClinicalTermResult(model))
+                // DosServicesByClinicalTermResultList = (await _dosBuilder.FillDosServicesByClinicalTermResult(model))
             };
             return PartialView("_DoSComparisionResultsView", dosView);
         }
