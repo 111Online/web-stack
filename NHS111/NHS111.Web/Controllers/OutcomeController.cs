@@ -1,11 +1,10 @@
 ﻿using System.Threading.Tasks;
 using System.Web.Mvc;
-using NHS111.Models.Mappers.WebMappings;
+using AutoMapper;
 using NHS111.Models.Models.Web;
-using NHS111.Models.Models.Web.FromExternalServices;
 using NHS111.Utils.Attributes;
 using NHS111.Web.Presentation.Builders;
-using NHS111.Web.Presentation.Configuration;
+using IConfiguration = NHS111.Web.Presentation.Configuration.IConfiguration;
 
 namespace NHS111.Web.Controllers
 {
@@ -59,7 +58,7 @@ namespace NHS111.Web.Controllers
         [HttpPost]
         public async Task<ActionResult> ServiceList(OutcomeViewModel model)
         {
-            var dosCase = AutoMapper.Mapper.Map<DosViewModel>(model);
+            var dosCase = Mapper.Map<DosViewModel>(model);
             model.CheckCapacitySummaryResultList = await _dosBuilder.FillCheckCapacitySummaryResult(dosCase);
             return View("ServiceList", model);
         }
