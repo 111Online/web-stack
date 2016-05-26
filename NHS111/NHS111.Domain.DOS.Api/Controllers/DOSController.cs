@@ -45,9 +45,9 @@ namespace NHS111.Domain.DOS.Api.Controllers
         {
             var requestObj = JsonConvert.DeserializeObject<DosServicesByClinicalTermRequest>(request.Content.ReadAsStringAsync().Result);
 
-            var urlWithRequest = string.Format(_configuration.DOSMobileIntegrationServicesByClinicalTermUrl, requestObj.CaseId, requestObj.Postcode, requestObj.SearchDistance, requestObj.GpPracticeId, requestObj.Age, requestObj.Gender, requestObj.Disposition, requestObj.SymptomGroupDiscriminatorCombos, requestObj.NumberPerType);
+            var urlWithRequest = string.Format(_configuration.DOSMobileServicesByClinicalTermUrl, requestObj.CaseId, requestObj.Postcode, requestObj.SearchDistance, requestObj.GpPracticeId, requestObj.Age, requestObj.Gender, requestObj.Disposition, requestObj.SymptomGroupDiscriminatorCombos, requestObj.NumberPerType);
 
-            var usernamePassword = Convert.ToBase64String(Encoding.ASCII.GetBytes(_configuration.DOSMobileIntegrationUsername + ":" + _configuration.DOSMobileIntegrationPassword));
+            var usernamePassword = Convert.ToBase64String(Encoding.ASCII.GetBytes(_configuration.DOSMobileUsername + ":" + _configuration.DOSMobilePassword));
             var credentials = string.Format("Basic {0}", usernamePassword);
 
             return await _restfulHelper.GetAsync(urlWithRequest, credentials);

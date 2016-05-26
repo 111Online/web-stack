@@ -32,5 +32,12 @@ namespace NHS111.Business.DOS.Api.Controllers
         {
             return await _restfulHelper.PostAsync(_configuration.DomainDOSApiServiceDetailsByIdUrl, request);
         }
+
+        [HttpPost]
+        [Route("DOSapi/ServicesByClinicalTerm")]
+        public async Task<HttpResponseMessage> ServicesByClinicalTerm(HttpRequestMessage request)
+        {
+            return await _restfulHelper.PostAsync(_configuration.DomainDOSApiServicesByClinicalTermUrl, request);
+        }
     }
 }
