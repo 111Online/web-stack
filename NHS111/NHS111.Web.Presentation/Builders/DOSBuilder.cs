@@ -39,87 +39,6 @@ namespace NHS111.Web.Presentation.Builders
             _notifier = notifier;
         }
 
-        //public async Task<DosViewModel> DosResultsBuilder(OutcomeViewModel outcomeViewModel)
-        //{
-        //    //var model = _mappingEngine.Mapper.Map<DosViewModel>(outcomeViewModel);
-        //    //var surgery = await _surgeryBuilder.SurgeryByIdBuilder(outcomeViewModel.SurgeryViewModel.SelectedSurgery);
-        //    var group = await BuildSymptomGroup(outcomeViewModel.JourneyJson);
-        //    outcomeViewModel.SymptomGroup = group.ToString();
-        //    var dosViewModel = _mappingEngine.Mapper.Map<OutcomeViewModel, DosViewModel>(outcomeViewModel);
-        //    //dosCase.Surgery = surgery.SurgeryId;
-
-        //    var request = BuildRequestMessage(dosViewModel);
-        //    var response = await _restfulHelper.PostAsync(_configuration.BusinessDosCheckCapacitySummaryUrl, request);
-
-        //    if (response.StatusCode == HttpStatusCode.OK)
-        //    {
-        //        var val = await response.Content.ReadAsStringAsync();
-        //        dosViewModel.CheckCapacitySummaryResultListJson = HttpUtility.HtmlDecode(val);
-        //        var jObj = (JObject)JsonConvert.DeserializeObject(val);
-        //        var result = jObj["CheckCapacitySummaryResult"];
-        //        dosViewModel.CheckCapacitySummaryResultList = result.ToObject<CheckCapacitySummaryResult[]>();
-        //    }
-        //    else
-        //    {
-        //        dosViewModel.CheckCapacitySummaryResultList = new CheckCapacitySummaryResult[0];
-        //    }
-
-        //    return dosViewModel;
-        //}
-
-        public async Task<DosViewModel> DosResultsBuilder(OutcomeViewModel outcomeViewModel)
-        {
-            var model = _mappingEngine.Mapper.Map<DosViewModel>(outcomeViewModel);
-            var surgery = await GetSelectedSurgery(model);
-
-            var capacitySummaryRequest = await BuildCheckCapacitySummaryRequest(outcomeViewModel, surgery);
-            var request = new HttpRequestMessage { Content = new StringContent(JsonConvert.SerializeObject(capacitySummaryRequest), Encoding.UTF8, "application/json") };
-            var response = await _restfulHelper.PostAsync(_configuration.BusinessDosCheckCapacitySummaryUrl, request);
-            if (response.StatusCode == HttpStatusCode.OK)
-            {
-                var val = await response.Content.ReadAsStringAsync();
-                model.CheckCapacitySummaryResultListJson = HttpUtility.HtmlDecode(val);
-                var jObj = (JObject)JsonConvert.DeserializeObject(val);
-                var result = jObj["CheckCapacitySummaryResult"];
-                model.CheckCapacitySummaryResultList = result.ToObject<CheckCapacitySummaryResult[]>();
-            }
-            else
-            {
-                model.CheckCapacitySummaryResultList = new CheckCapacitySummaryResult[0];
-            }
-
-            return model;
-        }
-        private async Task<Surgery> GetSelectedSurgery(DosViewModel model)
-        {
-            var surgery = new Surgery();
-            if (!string.IsNullOrEmpty(model.Surgery))
-                surgery =
-                    JsonConvert.DeserializeObject<Surgery>(
-                        await _restfulHelper.GetAsync(string.Format(_configuration.GPSearchApiUrl, model.Surgery)));
-            else
-                surgery.SurgeryId = "UKN";
-            return surgery;
-        }
-
-        public async Task<DosCheckCapacitySummaryRequest> BuildCheckCapacitySummaryRequest(OutcomeViewModel outcomeViewModel, Surgery surgery)
-        {
-            outcomeViewModel = await BuildSymptomGroup(outcomeViewModel);
-
-            var dosCase = _mappingEngine.Mapper.Map<OutcomeViewModel, DosCase>(outcomeViewModel);
-            dosCase.Surgery = surgery.SurgeryId;
-            return new DosCheckCapacitySummaryRequest(_configuration.DosUsername, _configuration.DosPassword, dosCase);
-        }
-
-        private async Task<OutcomeViewModel> BuildSymptomGroup(OutcomeViewModel model)
-        {
-            var journey = JsonConvert.DeserializeObject<Journey>(model.JourneyJson);
-            model.SymptomGroup = await _restfulHelper.GetAsync(_configuration.GetBusinessApiPathwaySymptomGroupUrl(
-                string.Join(",", journey.Steps.Select(s => s.QuestionId.Split('.').First()).Distinct())));
-
-            return model;
-        }
-
         public async Task<CheckCapacitySummaryResult[]> FillCheckCapacitySummaryResult(DosViewModel dosViewModel)
         {
             dosViewModel.SymptomGroup = await BuildSymptomGroup(dosViewModel.JourneyJson);
@@ -194,7 +113,6 @@ namespace NHS111.Web.Presentation.Builders
 
     public interface IDOSBuilder
     {
-        Task<DosViewModel> DosResultsBuilder(OutcomeViewModel outcomeViewModel);
         Task<CheckCapacitySummaryResult[]> FillCheckCapacitySummaryResult(DosViewModel dosViewModel);
         Task<DosServicesByClinicalTermResult[]> FillDosServicesByClinicalTermResult(DosViewModel dosViewModel);
         Task<DosViewModel> FillServiceDetailsBuilder(DosViewModel model);

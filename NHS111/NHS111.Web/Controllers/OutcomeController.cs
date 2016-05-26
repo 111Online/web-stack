@@ -61,7 +61,6 @@ namespace NHS111.Web.Controllers
         {
             var dosCase = AutoMapper.Mapper.Map<DosViewModel>(model);
             model.CheckCapacitySummaryResultList = await _dosBuilder.FillCheckCapacitySummaryResult(dosCase);
-            //var newmodel = await _dosBuilder.DosResultsBuilder(model);
             return View("ServiceList", model);
         }
 
