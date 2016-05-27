@@ -22,13 +22,13 @@ namespace NHS111.Web.Presentation.Builders
         {
             if (string.IsNullOrEmpty(input)) return new List<Surgery>();
 
-            var surgeriers = JsonConvert.DeserializeObject<List<Surgery>>(await _restfulHelper.GetAsync(string.Format(_configuration.GPSearchByIdUrl, input)));
+            var surgeriers = JsonConvert.DeserializeObject<List<Surgery>>(await _restfulHelper.GetAsync(string.Format(_configuration.GPSearchApiUrl, input)));
             return surgeriers;
         }
 
         public async Task<Surgery> SurgeryByIdBuilder(string surgeryId)
         {
-            return string.IsNullOrEmpty(surgeryId) ? new Surgery() { SurgeryId = "UKN" } : JsonConvert.DeserializeObject<Surgery>(await _restfulHelper.GetAsync(string.Format(_configuration.GPSearchApiUrl, surgeryId)));
+            return string.IsNullOrEmpty(surgeryId) ? new Surgery() { SurgeryId = "UKN" } : JsonConvert.DeserializeObject<Surgery>(await _restfulHelper.GetAsync(string.Format(_configuration.GPSearchByIdUrl, surgeryId)));
         }
     }
 
