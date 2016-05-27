@@ -13,6 +13,8 @@ using NHS111.Utils.Helpers;
 
 namespace NHS111.Domain.DOS.Api.Controllers
 {
+    using Utils.Extensions;
+
     [LogHandleErrorForApi]
     public class DOSController : ApiController
     {
@@ -41,7 +43,7 @@ namespace NHS111.Domain.DOS.Api.Controllers
 
         [HttpPost]
         [Route("DOSapi/ServicesByClinicalTerm")]
-        public async Task<string> ServicesByClinicalTerm(HttpRequestMessage request)
+        public async Task<HttpResponseMessage> ServicesByClinicalTerm(HttpRequestMessage request)
         {
             var requestObj = JsonConvert.DeserializeObject<DosServicesByClinicalTermRequest>(request.Content.ReadAsStringAsync().Result);
 
@@ -50,7 +52,9 @@ namespace NHS111.Domain.DOS.Api.Controllers
             var usernamePassword = Convert.ToBase64String(Encoding.ASCII.GetBytes(_configuration.DOSMobileUsername + ":" + _configuration.DOSMobilePassword));
             var credentials = string.Format("Basic {0}", usernamePassword);
 
-            return await _restfulHelper.GetAsync(urlWithRequest, credentials);
+            var result = await _restfulHelper.GetAsync(urlWithRequest, credentials);
+
+            return result.AsHttpResponse();
         }
     }
 }
