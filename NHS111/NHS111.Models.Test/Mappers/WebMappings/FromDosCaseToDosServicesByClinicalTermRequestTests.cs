@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -19,12 +20,14 @@ namespace NHS111.Models.Test.Mappers.WebMappings
     {
         private TestGenderResolver _genderResolver;
         private TestAgeResolver _ageResolver;
+        private TestDispositionResolver _dispositionResolver;
 
         [SetUp]
         public void InitializeFromDosCaseToDosServicesByClinicalTermRequestTests()
         {
             _genderResolver = new TestGenderResolver();
             _ageResolver = new TestAgeResolver();
+            _dispositionResolver = new TestDispositionResolver();
             Mapper.Initialize(m => m.AddProfile<NHS111.Models.Mappers.WebMappings.FromDosCaseToDosServicesByClinicalTermRequest>());
         }
 
@@ -45,7 +48,7 @@ namespace NHS111.Models.Test.Mappers.WebMappings
                 Surgery = "BXU123",
                 Age = "5",
                 Gender = GenderEnum.Female,
-                Disposition = 10,
+                Disposition = 10013,
                 SymptomGroup = 1003,
                 SymptomDiscriminator = 2010,
                 NumberPerType = 10
@@ -63,7 +66,7 @@ namespace NHS111.Models.Test.Mappers.WebMappings
             Assert.AreEqual("BXU123", result.GpPracticeId);
             Assert.AreEqual("2", result.Age);
             Assert.AreEqual("F", result.Gender);
-            Assert.AreEqual("10", result.Disposition);
+            Assert.AreEqual("Dx013", result.Disposition);
             Assert.AreEqual("1003=2010", result.SymptomGroupDiscriminatorCombos);
             Assert.AreEqual("10", result.NumberPerType);
         }
@@ -104,6 +107,28 @@ namespace NHS111.Models.Test.Mappers.WebMappings
             Assert.AreEqual(1, resolvedInvalidAge);
         }
 
+        [Test]
+        public void TestDisposition_Converted_correctly()
+        {
+            var resolvedDisposition = _dispositionResolver.TestResolveCore(1013);
+
+            Assert.AreEqual("Dx13", resolvedDisposition);
+        }
+
+        [Test]
+        [ExpectedException(typeof(FormatException))]
+        public void TestDisposition_Not_Starting_With_Ten_Throws_Correct_Error()
+        {
+            var resolvedDisposition = _dispositionResolver.TestResolveCore(1245);
+        }
+
+        [Test]
+        [ExpectedException(typeof(FormatException))]
+        public void TestDisposition_Less_Than_Ten_Throws_Correct_Error()
+        {
+            var resolvedDisposition = _dispositionResolver.TestResolveCore(5);
+        }
+
         public class TestGenderResolver : FromDosCaseToDosServicesByClinicalTermRequest.GenderResolver
         {
             public string TestResolveCore(GenderEnum source)
@@ -123,6 +148,14 @@ namespace NHS111.Models.Test.Mappers.WebMappings
                 4= Neonate and Infant (0)
                 8= Older people (65+)
                 */
+                return this.ResolveCore(source);
+            }
+        }
+
+        public class TestDispositionResolver : FromDosCaseToDosServicesByClinicalTermRequest.DispositionResolver
+        {
+            public string TestResolveCore(int source)
+            {
                 return this.ResolveCore(source);
             }
         }

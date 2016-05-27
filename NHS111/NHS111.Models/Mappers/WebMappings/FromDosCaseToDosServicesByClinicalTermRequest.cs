@@ -24,7 +24,8 @@ namespace NHS111.Models.Mappers.WebMappings
                     opt => opt.ResolveUsing<AgeResolver>().FromMember(src => src.Age))
                 .ForMember(dest => dest.Gender,
                     opt => opt.ResolveUsing<GenderResolver>().FromMember(src => src.Gender))
-                .ForMember(dest => dest.Disposition, opt => opt.MapFrom(src => src.Disposition))
+                .ForMember(dest => dest.Disposition, 
+                    opt => opt.ResolveUsing<DispositionResolver>().FromMember(src => src.Disposition))
                 .ForMember(dest => dest.SymptomGroupDiscriminatorCombos, opt => opt.MapFrom(src => string.Format("{0}={1}", src.SymptomGroup, src.SymptomDiscriminator)))
                 .ForMember(dest => dest.NumberPerType, opt => opt.MapFrom(src => src.NumberPerType));
         }
@@ -50,6 +51,16 @@ namespace NHS111.Models.Mappers.WebMappings
             protected override string ResolveCore(GenderEnum source)
             {
                 return source.ToString().ToCharArray().First().ToString();
+            }
+        }
+
+        public class DispositionResolver : ValueResolver<int, string>
+        {
+            protected override string ResolveCore(int source)
+            {
+                if(source.ToString().Length < 2) throw new FormatException("Number must be greater than 100");
+                if(!source.ToString().StartsWith("10")) throw new FormatException("Number must begin with 10");
+                return string.Format("Dx{0}", source.ToString().Substring(2));
             }
         }
     }
