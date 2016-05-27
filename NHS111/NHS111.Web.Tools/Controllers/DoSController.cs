@@ -31,11 +31,11 @@ namespace NHS111.Web.Tools.Controllers
         public async Task<ActionResult> FillServiceDetails(DosViewModel model)
         {
             model.CheckCapacitySummaryResultList = new CheckCapacitySummaryResult[0];
+            model.SymptomDiscriminatorList = new[] { model.SymptomDiscriminator };
             var dosView = new DosViewModel
             {
                 CheckCapacitySummaryResultList = (await _dosBuilder.FillCheckCapacitySummaryResult(model)),
-                // DosServicesByClinicalTermResultList = (await _dosBuilder.FillDosServicesByClinicalTermResult(model))
-                DosServicesByClinicalTermResultList = new DosServicesByClinicalTermResult[0]
+                DosServicesByClinicalTermResult = (await _dosBuilder.FillDosServicesByClinicalTermResult(model))
             };
             return PartialView("_DoSComparisionResultsView", dosView);
         }

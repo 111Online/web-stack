@@ -8,7 +8,6 @@
     DoS comparision tool
 }
 
-<link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
 <h1>DoS results comparision tool</h1>
 
 @using (Ajax.BeginForm("FillServiceDetails", new AjaxOptions() { HttpMethod = "POST", InsertionMode = InsertionMode.Replace, UpdateTargetId = "DosResults", OnBegin = "activateSpinner", OnComplete = "activateSpinner" }))
@@ -66,8 +65,8 @@
             @Html.TextBoxFor(m => m.NumberPerType, new { @class = "form-control" })
         </div>
     </div>
-    <button class="btn btn-primary has-spinner" type="submit" id="SearchDoS" >
-        <span class="spinner"><i class="icon-spin icon-refresh"></i></span>
+    <button class="btn btn-primary has-spinner" type="submit" id="SearchDoS">
+        <span class="spinner"><i class="fa fa-cog fa-spin"></i></span>
         Search
     </button>
 }

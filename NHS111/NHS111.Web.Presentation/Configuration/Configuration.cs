@@ -21,7 +21,11 @@ namespace NHS111.Web.Presentation.Configuration
         public string RedisConnectionString { get { return ConfigurationManager.AppSettings["RedisConnectionString"]; } }
         public string DosUsername { get { return ConfigurationManager.AppSettings["dos_credential_user"]; } }
         public string DosPassword { get { return ConfigurationManager.AppSettings["dos_credential_password"]; } }
-     
+       
+        public string DOSMobileBaseUrl { get { return ConfigurationManager.AppSettings["DOSMobileBaseUrl"]; } }
+        public string DOSMobileUsername { get { return ConfigurationManager.AppSettings["dos_mobile_credential_user"]; } }
+        public string DOSMobilePassword { get { return ConfigurationManager.AppSettings["dos_mobile_credential_password"]; } }
+
 
         public string GetBusinessApiGroupedPathwaysUrl(string searchString)
         {
@@ -141,6 +145,9 @@ namespace NHS111.Web.Presentation.Configuration
         string RedisConnectionString { get; }
         string DosUsername { get; }
         string DosPassword { get; }
+        string DOSMobileBaseUrl { get; }
+        string DOSMobileUsername { get; }
+        string DOSMobilePassword { get; }
 
     }
 }

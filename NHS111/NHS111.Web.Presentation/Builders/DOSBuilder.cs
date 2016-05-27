@@ -11,6 +11,7 @@ using AutoMapper;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using NHS111.Models.Models.Web;
+using NHS111.Models.Models.Web.DosRequests;
 using NHS111.Models.Models.Web.FromExternalServices;
 using NHS111.Utils.Cache;
 using NHS111.Utils.Helpers;
@@ -54,9 +55,11 @@ namespace NHS111.Web.Presentation.Builders
             return result.ToObject<CheckCapacitySummaryResult[]>();
         }
 
-        public async Task<DosServicesByClinicalTermResult[]> FillDosServicesByClinicalTermResult(DosViewModel dosViewModel)
+        public async Task<DosServicesByClinicalTermResult> FillDosServicesByClinicalTermResult(DosViewModel dosViewModel)
         {
+            /*
             dosViewModel.SymptomGroup = await BuildSymptomGroup(dosViewModel.JourneyJson);
+            
             var request = BuildRequestMessage(dosViewModel);
             var response = await _restfulHelper.PostAsync(_configuration.BusinessDosServicesByClinicalTermUrl, request);
 
@@ -66,6 +69,26 @@ namespace NHS111.Web.Presentation.Builders
             var jObj = (JObject)JsonConvert.DeserializeObject(val);
             var result = jObj["DosServicesByClinicalTermResult"];
             return result.ToObject<DosServicesByClinicalTermResult[]>();
+            */
+
+            //USE UNTIL BUSINESS API IS AVAILABLE
+            //#########################START###################
+
+            //map doscase to dosservicesbyclinicaltermrequest
+            var requestObj = Mapper.Map<DosServicesByClinicalTermRequest>(dosViewModel);
+            //var requestObj = JsonConvert.DeserializeObject<DosServicesByClinicalTermRequest>("{\"caseId\":\"0\",\"postcode\":\"so302un\",\"searchDistance\":\"36\",\"gpPracticeId\":\"0\",\"age\":\"1\",\"gender\":\"F\",\"disposition\":\"Dx06\",\"symptomGroupDiscriminatorCombos\":\"1003=4003\",\"numberPerType\":\"1\" }");
+
+            var urlWithRequest = string.Format(_configuration.DOSMobileBaseUrl + "services/byClinicalTerm/{0}/{1}/{2}/{3}/{4}/{5}/{6}/{7}/{8}", requestObj.CaseId, requestObj.Postcode, requestObj.SearchDistance, requestObj.GpPracticeId, requestObj.Age, requestObj.Gender, requestObj.Disposition, requestObj.SymptomGroupDiscriminatorCombos, requestObj.NumberPerType);
+
+            var usernamePassword = Convert.ToBase64String(Encoding.ASCII.GetBytes(string.Format("{0}:{1}", _configuration.DOSMobileUsername, _configuration.DOSMobilePassword)));
+            var credentials = string.Format("Basic {0}", usernamePassword);
+
+            var response = await _restfulHelper.GetAsync(urlWithRequest, credentials);
+
+            var val = response;
+            var jObj = JsonConvert.DeserializeObject<DosServicesByClinicalTermResult>(val);
+            return jObj;
+            //################################END################
         }
 
         public async Task<DosViewModel> FillServiceDetailsBuilder(DosViewModel model)
@@ -115,7 +138,7 @@ namespace NHS111.Web.Presentation.Builders
     public interface IDOSBuilder
     {
         Task<CheckCapacitySummaryResult[]> FillCheckCapacitySummaryResult(DosViewModel dosViewModel);
-        Task<DosServicesByClinicalTermResult[]> FillDosServicesByClinicalTermResult(DosViewModel dosViewModel);
+        Task<DosServicesByClinicalTermResult> FillDosServicesByClinicalTermResult(DosViewModel dosViewModel);
         Task<DosViewModel> FillServiceDetailsBuilder(DosViewModel model);
         Task<int> BuildSymptomGroup(string journeyJson);
         HttpRequestMessage BuildRequestMessage(DosCase dosCase);

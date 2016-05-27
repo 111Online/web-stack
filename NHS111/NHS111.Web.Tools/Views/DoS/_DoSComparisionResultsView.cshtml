@@ -1,12 +1,11 @@
 ﻿@model NHS111.Models.Models.Web.DosViewModel
 
 <div class="row" id="DosResults">
-    @if (Model.CheckCapacitySummaryResultList != null && Model.DosServicesByClinicalTermResultList != null)
+    @if (Model.CheckCapacitySummaryResultList != null && Model.DosServicesByClinicalTermResult != null)
     {
 
         <div class="col-xs-6">
             <div class="panel panel-success">
-                <!-- Default panel contents -->
                 <div class="panel-heading">DoS Results</div>
                 <ul class="list-group">
                     @foreach (var checkCapacitySummaryResult in Model.CheckCapacitySummaryResultList)
@@ -18,19 +17,12 @@
         </div>
             <div class="col-xs-6">
                 <div class="panel panel-info">
-                    <!-- Default panel contents -->
                     <div class="panel-heading">Mobile DoS Results</div>
-                    <div class="panel-body">
-                        <p>...</p>
-                    </div>
-
-                    <!-- List group -->
                     <ul class="list-group">
-                        <li class="list-group-item">Cras justo odio</li>
-                        <li class="list-group-item">Dapibus ac facilisis in</li>
-                        <li class="list-group-item">Morbi leo risus</li>
-                        <li class="list-group-item">Porta ac consectetur ac</li>
-                        <li class="list-group-item">Vestibulum at eros</li>
+                        @foreach (var service in Model.DosServicesByClinicalTermResult.Success.Services)
+                        {
+                            <li class="list-group-item">@service.Name</li>
+                        }
                     </ul>
                 </div>
             </div>
