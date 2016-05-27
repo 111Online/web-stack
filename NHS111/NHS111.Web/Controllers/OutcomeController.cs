@@ -1,10 +1,10 @@
 ﻿using System.Threading.Tasks;
 using System.Web.Mvc;
+using AutoMapper;
 using NHS111.Models.Models.Web;
-using NHS111.Models.Models.Web.FromExternalServices;
 using NHS111.Utils.Attributes;
 using NHS111.Web.Presentation.Builders;
-using NHS111.Web.Presentation.Configuration;
+using IConfiguration = NHS111.Web.Presentation.Configuration.IConfiguration;
 
 namespace NHS111.Web.Controllers
 {
@@ -58,16 +58,16 @@ namespace NHS111.Web.Controllers
         [HttpPost]
         public async Task<ActionResult> ServiceList(OutcomeViewModel model)
         {
-            var dosViewModel = await _dosBuilder.DosResultsBuilder(model);
-            model.CheckCapacitySummaryResultList = dosViewModel.CheckCapacitySummaryResultList;
+            var dosViewModel = Mapper.Map<DosViewModel>(model);
+            model.CheckCapacitySummaryResultList = await _dosBuilder.FillCheckCapacitySummaryResult(dosViewModel);
             return View("ServiceList", model);
         }
 
         [HttpPost]
         public async Task<ActionResult> ServiceDetails(OutcomeViewModel model)
         {
-            var dosViewModel = await _dosBuilder.DosResultsBuilder(model);
-            model.CheckCapacitySummaryResultList = dosViewModel.CheckCapacitySummaryResultList;
+            var dosCase = Mapper.Map<DosViewModel>(model);
+            model.CheckCapacitySummaryResultList = await _dosBuilder.FillCheckCapacitySummaryResult(dosCase);
             return View("ServiceDetails", model);
         }
 
@@ -92,14 +92,5 @@ namespace NHS111.Web.Controllers
         {
             return View();
         }
-
-        //[HttpPost]
-        //[ActionName("DispositionSelection")]
-        //[MultiSubmit(ButtonName = "DispositionNo")]
-        //public async Task<ActionResult> DispositionNo(OutcomeViewModel model)
-        //{
-        //    model = await _outcomeViewModelBuilder.PersonalDetailsBuilder(model);
-        //    return View("DispositionNo", model);
-        //}
     }
 }

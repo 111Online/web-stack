@@ -38,7 +38,7 @@ namespace NHS111.Models.Test
         }
 }
 
-    public class TestDispositionResolver : FromOutcomeViewModelToDosCase.DispositionResolver
+    public class TestDispositionResolver : FromOutcomeViewModelToDosViewModel.DispositionResolver
     {
        public int TestResolveCore(string source)
        {

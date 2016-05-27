@@ -4,6 +4,7 @@ using NHS111.Web.Presentation.Builders;
 using System;
 using System.Threading.Tasks;
 using System.Web.Mvc;
+using NHS111.Models.Models.Web.FromExternalServices;
 
 namespace NHS111.Web.Tools.Controllers
 {
@@ -29,8 +30,14 @@ namespace NHS111.Web.Tools.Controllers
         [HttpPost]
         public async Task<ActionResult> FillServiceDetails(DosViewModel model)
         {
-            throw new NotImplementedException();
-            //return View(await _dosBuilder.FillServiceDetailsBuilder(model));
+            model.CheckCapacitySummaryResultList = new CheckCapacitySummaryResult[0];
+            var dosView = new DosViewModel
+            {
+                CheckCapacitySummaryResultList = (await _dosBuilder.FillCheckCapacitySummaryResult(model)),
+                // DosServicesByClinicalTermResultList = (await _dosBuilder.FillDosServicesByClinicalTermResult(model))
+                DosServicesByClinicalTermResultList = new DosServicesByClinicalTermResult[0]
+            };
+            return PartialView("_DoSComparisionResultsView", dosView);
         }
 
         [HttpPost]

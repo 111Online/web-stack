@@ -1,18 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using AutoMapper;
 using Moq;
 using NHS111.Models.Models.Domain;
-using NHS111.Models.Models.Web;
-using NHS111.Models.Models.Web.FromExternalServices;
 using NHS111.Utils.Cache;
 using NHS111.Utils.Helpers;
 using NHS111.Utils.Notifier;
-using NHS111.Web.Presentation.Builders;
-using NHS111.Web.Presentation.Models;
 using NUnit.Framework;
 namespace NHS111.Web.Presentation.Builders.Tests
 {
@@ -27,6 +19,7 @@ namespace NHS111.Web.Presentation.Builders.Tests
         private Mock<ICacheManager<string, string>> _mockCacheManager;
         private Mock<INotifier<string>> _mockNotifier;
         private DOSBuilder _dosBuilder;
+        private Mock<ISurgeryBuilder> _mockSurgeryBuilder;
 
         private string _mockPathwayURL = "PW755";
 
@@ -41,8 +34,6 @@ namespace NHS111.Web.Presentation.Builders.Tests
             _mockConfiguration = new Mock<Configuration.IConfiguration>();
             _mockCacheManager = new Mock<ICacheManager<string, string>>();
             _mockNotifier = new Mock<INotifier<string>>();
-
-         
 
             SetupMockFillCareAdviceBuilder();
 
@@ -83,35 +74,23 @@ namespace NHS111.Web.Presentation.Builders.Tests
         public async void BuildCheckCapacitySummaryRequest_Creates_SymptomGroup_Test()
         {
             var expectedSymptomGroup = "12345";
-            var outcomeViewModel = new OutcomeViewModel()
-            {
-                Title = "Test Pathway",
-                JourneyJson = "{'steps':[" +
+            var journeyJson = "{'steps':[" +
                               "{'answer':{'title':'No','titleWithoutSpaces':'No','symptomDiscriminator':'','supportingInfo':'','keywords':'','order':3},'questionTitle':'Test q 1?','questionNo':'Tx1506','questionId':'" + _mockPathwayURL + ".0','jtbs':false}," +
                               "{'answer':{'title':'No','titleWithoutSpaces':'No','symptomDiscriminator':'','supportingInfo':'','keywords':'','order':3},'questionTitle':'Test q 2?','questionNo':'Tx220054','questionId':'" + _mockPathwayURL + ".100','jtbs':false}" +
-                              "]}"
-            };
+                              "]}";
 
             MockRestfulHelperWithExpectedUrl(expectedSymptomGroup);
 
-            OutcomeViewModel outcomeViewModelPasedToMapper = new OutcomeViewModel();
+            var symptomGroup = await _dosBuilder.BuildSymptomGroup(journeyJson);
 
-            _mappingEngine.Setup(m => m.Mapper.Map<OutcomeViewModel, DosCase>(It.IsAny<OutcomeViewModel>()))
-                .Callback<OutcomeViewModel>((obj) => outcomeViewModelPasedToMapper = obj)
-                .Returns(new DosCase());
-
-
-             await _dosBuilder.BuildCheckCapacitySummaryRequest(outcomeViewModel, new Surgery());
-
-             Assert.AreEqual(expectedSymptomGroup, outcomeViewModelPasedToMapper.SymptomGroup);
+             Assert.AreEqual(int.Parse(expectedSymptomGroup), symptomGroup);
 
 
         }
 
         private void MockRestfulHelperWithExpectedUrl(string expectedSymptomGroup)
         {
-            _mockRestfulHelper.Setup(r => r.GetAsync(_expectedBusinessApiPathwaySymptomGroupUrl))
-                .ReturnsAsync(expectedSymptomGroup);
+            _mockRestfulHelper.Setup(r => r.GetAsync(_expectedBusinessApiPathwaySymptomGroupUrl)).ReturnsAsync(expectedSymptomGroup);
         }
 
     }

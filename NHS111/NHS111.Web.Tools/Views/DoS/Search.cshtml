@@ -11,8 +11,9 @@
 <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
 <h1>DoS results comparision tool</h1>
 
-@using (Html.BeginForm("FillServiceDetails", "DOS", FormMethod.Post))
+@using (Ajax.BeginForm("FillServiceDetails", new AjaxOptions() { HttpMethod = "POST", InsertionMode = InsertionMode.Replace, UpdateTargetId = "DosResults", OnBegin = "activateSpinner", OnComplete = "activateSpinner" }))
 {
+    @Html.HiddenFor(m => m.Surgery)
     <div class="row">
         <div class="form-group col-lg-1">
             <label for="Id">Case Ref.</label>
@@ -43,7 +44,6 @@
         <div class="form-group col-lg-10">
             <label for="FindGP">GP Practice</label>
             <input type="text" id="FindGP" class="form-control">
-            @Html.HiddenFor(m => m.Surgery)
         </div>
     </div>
     <div class="row">
@@ -66,17 +66,25 @@
             @Html.TextBoxFor(m => m.NumberPerType, new { @class = "form-control" })
         </div>
     </div>
-    <div>
-        <input type="submit" class="btn btn-primary" value="Search" />
-    </div>
+    <button class="btn btn-primary has-spinner" type="submit" id="SearchDoS" >
+        <span class="spinner"><i class="icon-spin icon-refresh"></i></span>
+        Search
+    </button>
 }
+
+<br/>
+@Html.Partial("_DoSComparisionResultsView")
 
 @section Scripts {
     <script>
+        var activateSpinner = function () {
+            $("#SearchDoS").toggleClass('active');
+        }
+
         $(function () {
             $("#FindGP").click(function () {
                 $("#FindGP").val("");
-                $("#SelectedSurgery").val("");
+                $("#Surgery").val("UKN");
             }
             );
             $("#FindGP").autocomplete({
@@ -95,7 +103,7 @@
                             }));
                         },
                         error: function (textStatus, errorThrown) {
-                            return null;
+                            $("#Surgery").val("UKN");
                         }
                     });
                 },
@@ -105,7 +113,7 @@
                 },
                 select: function (event, ui) {
                     $("#FindGP").val(ui.item.label);
-                    $("#SelectedSurgery").val(ui.item.id);
+                    $("#Surgery").val(ui.item.id);
                     return false;
                 }
             });

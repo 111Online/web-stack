@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -27,7 +28,7 @@ namespace NHS111.Web.Presentation.Builders
         private readonly IMappingEngine _mappingEngine;
         private readonly ICacheManager<string, string> _cacheManager;
         private readonly INotifier<string> _notifier;
-
+        
         public DOSBuilder(ICareAdviceBuilder careAdviceBuilder, IRestfulHelper restfulHelper, IConfiguration configuration, IMappingEngine mappingEngine, ICacheManager<string, string> cacheManager, INotifier<string> notifier)
         {
             _careAdviceBuilder = careAdviceBuilder;
@@ -38,60 +39,33 @@ namespace NHS111.Web.Presentation.Builders
             _notifier = notifier;
         }
 
-        public async Task<DosViewModel> DosResultsBuilder(OutcomeViewModel outcomeViewModel)
+        public async Task<CheckCapacitySummaryResult[]> FillCheckCapacitySummaryResult(DosViewModel dosViewModel)
         {
-            var model = _mappingEngine.Mapper.Map<DosViewModel>(outcomeViewModel);
-            var surgery = await GetSelectedSurgery(model);
+            if(!string.IsNullOrEmpty(dosViewModel.JourneyJson)) dosViewModel.SymptomGroup = await BuildSymptomGroup(dosViewModel.JourneyJson);
 
-            var capacitySummaryRequest = await BuildCheckCapacitySummaryRequest(outcomeViewModel, surgery);
-            var request = new HttpRequestMessage { Content = new StringContent(JsonConvert.SerializeObject(capacitySummaryRequest), Encoding.UTF8, "application/json") };
+            var request = BuildRequestMessage(dosViewModel);
             var response = await _restfulHelper.PostAsync(_configuration.BusinessDosCheckCapacitySummaryUrl, request);
-            if (response.StatusCode == HttpStatusCode.OK)
-            {
-                var val = await response.Content.ReadAsStringAsync();
-                model.CheckCapacitySummaryResultListJson = HttpUtility.HtmlDecode(val);
-                var jObj = (JObject)JsonConvert.DeserializeObject(val);
-                var result = jObj["CheckCapacitySummaryResult"];
-                model.CheckCapacitySummaryResultList = result.ToObject<CheckCapacitySummaryResult[]>();
-            }
-            else
-            {
-                model.CheckCapacitySummaryResultList = new CheckCapacitySummaryResult[0];
-            }
 
-            return model;
+            if (response.StatusCode != HttpStatusCode.OK) return new CheckCapacitySummaryResult[0];
+
+            var val = await response.Content.ReadAsStringAsync();
+            var jObj = (JObject)JsonConvert.DeserializeObject(val);
+            var result = jObj["CheckCapacitySummaryResult"];
+            return result.ToObject<CheckCapacitySummaryResult[]>();
         }
 
-        public async Task<DosCheckCapacitySummaryRequest> BuildCheckCapacitySummaryRequest(
-            OutcomeViewModel outcomeViewModel, Surgery surgery)
+        public async Task<DosServicesByClinicalTermResult[]> FillDosServicesByClinicalTermResult(DosViewModel dosViewModel)
         {
-            outcomeViewModel = await BuildSymptomGroup(outcomeViewModel);
+            dosViewModel.SymptomGroup = await BuildSymptomGroup(dosViewModel.JourneyJson);
+            var request = BuildRequestMessage(dosViewModel);
+            var response = await _restfulHelper.PostAsync(_configuration.BusinessDosServicesByClinicalTermUrl, request);
 
-            var dosCase = _mappingEngine.Mapper.Map<OutcomeViewModel, DosCase>(outcomeViewModel);
-            dosCase.Surgery = surgery.SurgeryId;
-            return new DosCheckCapacitySummaryRequest(_configuration.DosUsername, _configuration.DosPassword, dosCase);
-        }
+            if (response.StatusCode != HttpStatusCode.OK) return new DosServicesByClinicalTermResult[0];
 
-        private async Task<OutcomeViewModel> BuildSymptomGroup(OutcomeViewModel model)
-        {
-            var journey = JsonConvert.DeserializeObject<Journey>(model.JourneyJson);
-            model.SymptomGroup = await _restfulHelper.GetAsync(_configuration.GetBusinessApiPathwaySymptomGroupUrl(
-                string.Join(",", journey.Steps.Select(s => s.QuestionId.Split('.').First()).Distinct())));
-
-            return model;
-        }
-
-
-        private async Task<Surgery> GetSelectedSurgery(DosViewModel model)
-        {
-            var surgery = new Surgery();
-            if (!string.IsNullOrEmpty(model.Surgery))
-                surgery =
-                    JsonConvert.DeserializeObject<Surgery>(
-                        await _restfulHelper.GetAsync(string.Format(_configuration.GPSearchApiUrl, model.Surgery)));
-            else
-                surgery.SurgeryId = "UKN";
-            return surgery;
+            var val = await response.Content.ReadAsStringAsync();
+            var jObj = (JObject)JsonConvert.DeserializeObject(val);
+            var result = jObj["DosServicesByClinicalTermResult"];
+            return result.ToObject<DosServicesByClinicalTermResult[]>();
         }
 
         public async Task<DosViewModel> FillServiceDetailsBuilder(DosViewModel model)
@@ -119,11 +93,31 @@ namespace NHS111.Web.Presentation.Builders
 
             return model;
         }
+
+        public async Task<int> BuildSymptomGroup(string journeyJson)
+        {
+            var journey = JsonConvert.DeserializeObject<Journey>(journeyJson);
+            var symptomGroup =
+                await
+                    _restfulHelper.GetAsync(
+                        _configuration.GetBusinessApiPathwaySymptomGroupUrl(string.Join(",",
+                            journey.Steps.Select(s => s.QuestionId.Split('.').First()).Distinct())));
+            return int.Parse(symptomGroup);
+        }
+
+        public HttpRequestMessage BuildRequestMessage(DosCase dosCase)
+        {
+            var dosCheckCapacitySummaryRequest = new DosCheckCapacitySummaryRequest(_configuration.DosUsername, _configuration.DosPassword, dosCase);
+            return new HttpRequestMessage { Content = new StringContent(JsonConvert.SerializeObject(dosCheckCapacitySummaryRequest), Encoding.UTF8, "application/json") };
+        }
     }
 
     public interface IDOSBuilder
     {
-        Task<DosViewModel> DosResultsBuilder(OutcomeViewModel outcomeViewModel);
+        Task<CheckCapacitySummaryResult[]> FillCheckCapacitySummaryResult(DosViewModel dosViewModel);
+        Task<DosServicesByClinicalTermResult[]> FillDosServicesByClinicalTermResult(DosViewModel dosViewModel);
         Task<DosViewModel> FillServiceDetailsBuilder(DosViewModel model);
+        Task<int> BuildSymptomGroup(string journeyJson);
+        HttpRequestMessage BuildRequestMessage(DosCase dosCase);
     }
 }

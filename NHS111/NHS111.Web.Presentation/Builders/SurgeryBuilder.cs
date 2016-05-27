@@ -25,10 +25,17 @@ namespace NHS111.Web.Presentation.Builders
             var surgeriers = JsonConvert.DeserializeObject<List<Surgery>>(await _restfulHelper.GetAsync(string.Format(_configuration.GPSearchByIdUrl, input)));
             return surgeriers;
         }
+
+        public async Task<Surgery> SurgeryByIdBuilder(string surgeryId)
+        {
+            return string.IsNullOrEmpty(surgeryId) ? new Surgery() { SurgeryId = "UKN" } : JsonConvert.DeserializeObject<Surgery>(await _restfulHelper.GetAsync(string.Format(_configuration.GPSearchApiUrl, surgeryId)));
+        }
     }
 
     public interface ISurgeryBuilder
     {
         Task<List<Surgery>> SearchSurgeryBuilder(string input);
+
+        Task<Surgery> SurgeryByIdBuilder(string surgeryId);
     }
 }
