@@ -1,0 +1,130 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using AutoMapper;
+using NHS111.Models.Mappers.WebMappings;
+using NHS111.Models.Models.Domain;
+using NHS111.Models.Models.Web;
+using NHS111.Models.Models.Web.DosRequests;
+using NHS111.Models.Models.Web.Enums;
+using NHS111.Web.Presentation.Models;
+using NUnit.Framework;
+
+namespace NHS111.Models.Test.Mappers.WebMappings
+{
+    [TestFixture]
+    public class FromDosCaseToDosServicesByClinicalTermRequestTests
+    {
+        private TestGenderResolver _genderResolver;
+        private TestAgeResolver _ageResolver;
+
+        [SetUp]
+        public void InitializeFromDosCaseToDosServicesByClinicalTermRequestTests()
+        {
+            _genderResolver = new TestGenderResolver();
+            _ageResolver = new TestAgeResolver();
+            Mapper.Initialize(m => m.AddProfile<NHS111.Models.Mappers.WebMappings.FromDosCaseToDosServicesByClinicalTermRequest>());
+        }
+
+        [Test]
+        public void FromDosCaseToDosServicesByClinicalTermRequest_Configuration_IsValid_Test()
+        {
+            Mapper.AssertConfigurationIsValid();
+        }
+
+        [Test]
+        public void FromDosCaseToDosServicesByClinicalTermRequest_Test()
+        {
+            var dosCase = new DosCase()
+            {
+                CaseId = "xyz",
+                PostCode = "xy1 z23",
+                SearchDistance = 10,
+                Surgery = "BXU123",
+                Age = "5",
+                Gender = GenderEnum.Female,
+                Disposition = 10,
+                SymptomGroup = 1003,
+                SymptomDiscriminator = 2010,
+                NumberPerType = 10
+            };
+
+            var result = Mapper.Map<DosServicesByClinicalTermRequest>(dosCase);
+            AssertValidModel(result);
+        }
+
+        private void AssertValidModel(DosServicesByClinicalTermRequest result)
+        {
+            Assert.AreEqual("xyz", result.CaseId);
+            Assert.AreEqual("xy1 z23", result.Postcode);
+            Assert.AreEqual("10", result.SearchDistance);
+            Assert.AreEqual("BXU123", result.GpPracticeId);
+            Assert.AreEqual("2", result.Age);
+            Assert.AreEqual("F", result.Gender);
+            Assert.AreEqual("10", result.Disposition);
+            Assert.AreEqual("1003=2010", result.SymptomGroupDiscriminatorCombos);
+            Assert.AreEqual("10", result.NumberPerType);
+        }
+
+        [Test]
+        public void TextGenderEnum_Converted_correctly()
+        {
+            var resolvedFemale = _genderResolver.TestResolveCore(GenderEnum.Female);
+            var resolvedMale = _genderResolver.TestResolveCore(GenderEnum.Male);
+            var resolvedIndeterminate = _genderResolver.TestResolveCore(GenderEnum.Indeterminate);
+
+            Assert.AreEqual("F", resolvedFemale);
+            Assert.AreEqual("M", resolvedMale);
+            Assert.AreEqual("I", resolvedIndeterminate);
+        }
+
+        [Test]
+        public void TestAge_Converted_correctly()
+        {
+            var resolvedAdult = _ageResolver.TestResolveCore("16");
+            var resolvedChild = _ageResolver.TestResolveCore("5");
+            var resolvedToddler = _ageResolver.TestResolveCore("2");
+            var resolvedOlder = _ageResolver.TestResolveCore("68");
+            var resolvedNeonate = _ageResolver.TestResolveCore("-5");
+
+            Assert.AreEqual(1, resolvedAdult);
+            Assert.AreEqual(2, resolvedChild);
+            Assert.AreEqual(3, resolvedToddler);
+            Assert.AreEqual(4, resolvedNeonate);
+            Assert.AreEqual(8, resolvedOlder);
+        }
+
+        [Test]
+        public void TestInvalidAge_Converted_correctly()
+        {
+            var resolvedInvalidAge = _ageResolver.TestResolveCore("xyz");
+            
+            Assert.AreEqual(1, resolvedInvalidAge);
+        }
+
+        public class TestGenderResolver : FromDosCaseToDosServicesByClinicalTermRequest.GenderResolver
+        {
+            public string TestResolveCore(GenderEnum source)
+            {
+                return this.ResolveCore(source);
+            }
+        }
+
+        public class TestAgeResolver : FromDosCaseToDosServicesByClinicalTermRequest.AgeResolver
+        {
+            public int TestResolveCore(string source)
+            {
+                /*
+                1= Adult (16+)
+                2= Child (5-15)
+                3= Toddler (1-4)
+                4= Neonate and Infant (0)
+                8= Older people (65+)
+                */
+                return this.ResolveCore(source);
+            }
+        }
+    }
+}

@@ -6,7 +6,7 @@ namespace NHS111.Models.Models.Domain {
     /// </summary>
     public enum GenderEnum {
         //Unknown,
-        Undisclosed,
+        Indeterminate,
         Male,
         Female,
         //Other
