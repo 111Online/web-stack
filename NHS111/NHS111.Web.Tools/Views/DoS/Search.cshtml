@@ -7,6 +7,11 @@
 @section Title {
     DoS comparision tool
 }
+<style>
+    .field-validation-error {
+        color: red;
+    }
+</style>
 
 <h1>DoS results comparision tool</h1>
 
@@ -16,14 +21,20 @@
     <div class="row">
         <div class="form-group col-lg-1">
             <label for="Id">Case Ref.</label>
-            @Html.TextBoxFor(m => m.CaseRef, new { @class = "form-control", placeholder = "00000" })
+            @Html.TextBoxFor(m => m.CaseRef, new {@class = "form-control", placeholder = "00000", @data_val = "true", @data_val_required = "A caseRef must be specified"})
+           
+        </div>
+        <div class="form-group col-lg-4">
+            @Html.ValidationMessageFor(m => m.CaseRef)
         </div>
     </div>
     <div class="row">
         <div class="form-group col-lg-1">
             <label for="Age">Age</label>
-            @Html.TextBoxFor(m => m.Age, new { @class = "form-control" })
+            @Html.TextBoxFor(m => m.Age, new {@class = "form-control", @data_val = "true", @data_val_required = "An Age must be specified", @data_val_number = "The age must be a number."})
+            @Html.ValidationMessageFor(m => m.Age)
         </div>
+
         <div class="form-group col-lg-2">
             <label class="control-label" for="Gender">Gender</label>
             @Html.DropDownListFor(m => m.Gender, new SelectList(Enum.GetValues(typeof(GenderEnum))), new { @class = "form-control" })
@@ -48,21 +59,26 @@
     <div class="row">
         <div class="form-group col-lg-2">
             <label for="SymptomDiscriminator">Symptom Discriminator</label>
-            @Html.TextBoxFor(m => m.SymptomDiscriminator, new { @class = "form-control" })
+            @Html.TextBoxFor(m => m.SymptomDiscriminator, new { @class = "form-control", @data_val = "true", @data_val_required = "A Symptom Discriminator must be specified", @data_val_range = "The Symptom Discriminator must be a number greater than 0.", @data_val_range_min = "1" })
+            @Html.ValidationMessageFor(m => m.SymptomDiscriminator)
         </div>
         <div class="form-group col-lg-2">
             <label for="SymptomGroup">Symptom Group</label>
-            @Html.TextBoxFor(m => m.SymptomGroup, new { @class = "form-control" })
+            @Html.TextBoxFor(m => m.SymptomGroup, new { @class = "form-control", @data_val = "true", @data_val_required = "A Symptom Group must be specified", @data_val_range = "The Symptom Group must be a number greater than 0.", @data_val_range_min = "1" })
+            @Html.ValidationMessageFor(m => m.SymptomGroup)
         </div>
     </div>
     <div class="row">
         <div class="form-group col-lg-1">
             <label for="Disposition">Disposition</label>
-            @Html.TextBoxFor(m => m.Disposition, new { @class = "form-control" })
+            @Html.TextBoxFor(m => m.Disposition, new {@class = "form-control", @data_val = "true", @data_val_required = "A disposition must be specified", @data_val_range = "The disposition must be greater than 0.", @data_val_range_min = "1"})
+            @Html.ValidationMessageFor(m => m.Disposition)
+        </div>
+        <div class="form-group col-lg-4">
         </div>
         <div class="form-group col-lg-2">
             <label for="NumberPerType">Number per Type</label>
-            @Html.TextBoxFor(m => m.NumberPerType, new { @class = "form-control" })
+            @Html.TextBoxFor(m => m.NumberPerType, new {@class = "form-control"})
         </div>
     </div>
     <button class="btn btn-primary has-spinner" type="submit" id="SearchDoS">
