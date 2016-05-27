@@ -34,7 +34,7 @@ namespace NHS111.Models.Test
             var genderString = "NotaGender";
             var result = _genderResolver.TestResolveCore(genderString);
 
-            Assert.AreEqual(GenderEnum.Undisclosed, result);
+            Assert.AreEqual(GenderEnum.Indeterminate, result);
         }
 
     }

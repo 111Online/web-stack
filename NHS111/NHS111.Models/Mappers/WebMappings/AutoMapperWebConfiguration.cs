@@ -13,6 +13,7 @@ namespace NHS111.Models.Mappers.WebMappings
                 cfg.AddProfile(new FromPafToAddressInfo());
                 cfg.AddProfile(new FromOutcomeViewModelToSubmitEncounterToServiceRequest());
                 cfg.AddProfile(new FromOutcomeVIewModelToITKDispatchRequest());
+                cfg.AddProfile(new FromDosCaseToDosServicesByClinicalTermRequest());
             });
         }
     }

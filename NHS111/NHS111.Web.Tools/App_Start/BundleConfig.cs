@@ -29,6 +29,7 @@ namespace NHS111.Web.Tools
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",
+                      "~/Content/font-awesome.css",
                       "~/Content/site.css",
                       "~/Content/jquery-ui.css"));
         }
