@@ -76,18 +76,16 @@ namespace NHS111.Web.Presentation.Builders
 
             //map doscase to dosservicesbyclinicaltermrequest
             var requestObj = Mapper.Map<DosServicesByClinicalTermRequest>(dosViewModel);
-            //var requestObj = JsonConvert.DeserializeObject<DosServicesByClinicalTermRequest>("{\"caseId\":\"0\",\"postcode\":\"so302un\",\"searchDistance\":\"36\",\"gpPracticeId\":\"0\",\"age\":\"1\",\"gender\":\"F\",\"disposition\":\"Dx06\",\"symptomGroupDiscriminatorCombos\":\"1003=4003\",\"numberPerType\":\"1\" }");
+            requestObj.GpPracticeId = await GetPracticeIdFromSurgeryId(dosViewModel.Surgery);
 
-            var urlWithRequest = string.Format(_configuration.DOSMobileBaseUrl + "services/byClinicalTerm/{0}/{1}/{2}/{3}/{4}/{5}/{6}/{7}/{8}", requestObj.CaseId, requestObj.Postcode, requestObj.SearchDistance, requestObj.GpPracticeId, requestObj.Age, requestObj.Gender, requestObj.Disposition, requestObj.SymptomGroupDiscriminatorCombos, requestObj.NumberPerType);
+            return
+                await
+                    GetMobileDoSResponse<DosServicesByClinicalTermResult>(
+                        "services/byClinicalTerm/{0}/{1}/{2}/{3}/{4}/{5}/{6}/{7}/{8}",
+                        requestObj.CaseId, requestObj.Postcode, requestObj.SearchDistance, requestObj.GpPracticeId,
+                        requestObj.Age, requestObj.Gender, requestObj.Disposition,
+                        requestObj.SymptomGroupDiscriminatorCombos, requestObj.NumberPerType);
 
-            var usernamePassword = Convert.ToBase64String(Encoding.ASCII.GetBytes(string.Format("{0}:{1}", _configuration.DOSMobileUsername, _configuration.DOSMobilePassword)));
-            var credentials = string.Format("Basic {0}", usernamePassword);
-
-            var response = await _restfulHelper.GetAsync(urlWithRequest, credentials);
-
-            var val = response;
-            var jObj = JsonConvert.DeserializeObject<DosServicesByClinicalTermResult>(val);
-            return jObj;
             //################################END################
         }
 
@@ -132,6 +130,28 @@ namespace NHS111.Web.Presentation.Builders
         {
             var dosCheckCapacitySummaryRequest = new DosCheckCapacitySummaryRequest(_configuration.DosUsername, _configuration.DosPassword, dosCase);
             return new HttpRequestMessage { Content = new StringContent(JsonConvert.SerializeObject(dosCheckCapacitySummaryRequest), Encoding.UTF8, "application/json") };
+        }
+
+        private async Task<string> GetPracticeIdFromSurgeryId(string surgeryId)
+        {
+            var services = await GetMobileDoSResponse<DosServicesByClinicalTermResult>("services/byOdsCode/{0}", surgeryId);
+            if (services.Success.Code != (int)HttpStatusCode.OK || services.Success.Services.FirstOrDefault() == null) return "0";
+
+            return services.Success.Services.FirstOrDefault().Id;
+        }
+
+        private async Task<T> GetMobileDoSResponse<T>(string endPoint, params object[] args)
+        {
+            var urlWithRequest = CreateMobileDoSUrl(endPoint, args);
+            var usernamePassword = Convert.ToBase64String(Encoding.ASCII.GetBytes(string.Format("{0}:{1}", _configuration.DOSMobileUsername, _configuration.DOSMobilePassword)));
+            var credentials = string.Format("Basic {0}", usernamePassword);
+
+            return JsonConvert.DeserializeObject<T>(await _restfulHelper.GetAsync(urlWithRequest, credentials));
+        }
+
+        private static string CreateMobileDoSUrl(string endPoint, params object[] args)
+        {
+            return string.Format(endPoint, args);
         }
     }
 
