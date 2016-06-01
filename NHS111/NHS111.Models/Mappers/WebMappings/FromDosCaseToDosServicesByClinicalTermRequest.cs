@@ -19,7 +19,6 @@ namespace NHS111.Models.Mappers.WebMappings
                 .ForMember(dest => dest.CaseId, opt => opt.MapFrom(src => src.CaseId))
                 .ForMember(dest => dest.Postcode, opt => opt.MapFrom(src => src.PostCode))
                 .ForMember(dest => dest.SearchDistance, opt => opt.MapFrom(src => src.SearchDistance))
-                .ForMember(dest => dest.GpPracticeId, opt => opt.MapFrom(src => src.Surgery))
                 .ForMember(dest => dest.Age,
                     opt => opt.ResolveUsing<AgeResolver>().FromMember(src => src.Age))
                 .ForMember(dest => dest.Gender,
@@ -27,7 +26,8 @@ namespace NHS111.Models.Mappers.WebMappings
                 .ForMember(dest => dest.Disposition, 
                     opt => opt.ResolveUsing<DispositionResolver>().FromMember(src => src.Disposition))
                 .ForMember(dest => dest.SymptomGroupDiscriminatorCombos, opt => opt.MapFrom(src => string.Format("{0}={1}", src.SymptomGroup, src.SymptomDiscriminator)))
-                .ForMember(dest => dest.NumberPerType, opt => opt.MapFrom(src => src.NumberPerType));
+                .ForMember(dest => dest.NumberPerType, opt => opt.MapFrom(src => src.NumberPerType))
+                .ForMember(dest => dest.GpPracticeId, opt => opt.Ignore());
         }
 
         public class AgeResolver : ValueResolver<string, int>
