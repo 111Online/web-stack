@@ -14,12 +14,14 @@
 }
 
  @media (min-width: 641px) {
-    .care-advice .care-advice-keywords ol li {
-    float:left;
-    margin: 0 100px;
+    .care-advice .care-advice-keywords ol {
+        position: relative;
     }
-    .care-advice .care-advice-keywords ol li:last-child {
-        clear: right;
+    .care-advice .care-advice-keywords ol li {
+          text-align: left;
+    width: 48%;
+    float: left;
+    margin-bottom: -1px;
     }
 
  }
