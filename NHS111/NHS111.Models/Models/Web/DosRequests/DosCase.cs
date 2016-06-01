@@ -12,6 +12,9 @@ namespace NHS111.Web.Presentation.Models
         public DosCase()
         {
             AgeFormat = AgeFormatType.Years;
+            Surgery = "UKN";
+            NumberPerType = 2;
+            SearchDistance = 60;
         }
 
         public string CaseRef { get; set; }

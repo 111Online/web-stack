@@ -149,9 +149,9 @@ namespace NHS111.Web.Presentation.Builders
             return JsonConvert.DeserializeObject<T>(await _restfulHelper.GetAsync(urlWithRequest, credentials));
         }
 
-        private static string CreateMobileDoSUrl(string endPoint, params object[] args)
+        private string CreateMobileDoSUrl(string endPoint, params object[] args)
         {
-            return string.Format(endPoint, args);
+            return string.Format(_configuration.DOSMobileBaseUrl + endPoint, args);
         }
     }
 
