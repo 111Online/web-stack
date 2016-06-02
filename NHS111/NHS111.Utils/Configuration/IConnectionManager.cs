@@ -9,8 +9,8 @@ namespace NHS111.Utils.Configuration
 {
     public interface IConnectionManager
     {
-        IManagedDataReader GetReader(string statement, StatementParamaters paramsCollection);
-        int ExecteNonQuery(string statement, StatementParamaters statementParamaters);
-        Task<int> ExecteNonQueryAsync(string statement, StatementParamaters statementParamaters);
+        IManagedDataReader GetReader(string statement, StatementParameters paramsCollection);
+        int ExecteNonQuery(string statement, StatementParameters statementParamaters);
+        Task<int> ExecteNonQueryAsync(string statement, StatementParameters statementParamaters);
     }
 }

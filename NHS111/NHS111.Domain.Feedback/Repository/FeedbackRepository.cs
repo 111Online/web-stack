@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using NHS111.Utils.Configuration;
 using NHS111.Utils.Converters;
@@ -11,7 +7,6 @@ namespace NHS111.Domain.Feedback.Repository
 {
     public class FeedbackRepository : IFeedbackRepository
     {
-
         private IConnectionManager _sqliteConnectionManager;
         private IDataConverter<Models.Models.Domain.Feedback> _feedbackConverter;
 
@@ -23,23 +18,25 @@ namespace NHS111.Domain.Feedback.Repository
 
         public async Task<int> Add(Models.Models.Domain.Feedback feedback)
         {
-            var statemmentParameters = _feedbackConverter.Convert(feedback);
-            var insertQuery = statemmentParameters.GenerateInsertStatement("feedback");
-            return await _sqliteConnectionManager.ExecteNonQueryAsync(insertQuery, statemmentParameters);
+            var statementParameters = _feedbackConverter.Convert(feedback);
+            var insertQuery = statementParameters.GenerateInsertStatement("feedback");
+            return await _sqliteConnectionManager.ExecteNonQueryAsync(insertQuery, statementParameters);
         }
-
 
         public async Task<IEnumerable<Models.Models.Domain.Feedback>> List()
         {
-            var selectStatement = "SELECT feedbackDate,feedbackText,sessionId,pageId,rating,email,feedbackData " +
-                                  "FROM feedback ORDER BY feedbackDate DESC";
+            string selectStatement = string.Format("{0}{1}{2}{3}", 
+                "SELECT ",
+                string.Join(",", _feedbackConverter.Fields()),
+                " FROM feedback",
+                " ORDER BY feedbackDate DESC");
 
             Task<List<Models.Models.Domain.Feedback>> task = new Task<List<Models.Models.Domain.Feedback>>
                 (
                 () =>
                 {
                     var feedbackList = new List<Models.Models.Domain.Feedback>();
-                    using ( IManagedDataReader reader = _sqliteConnectionManager.GetReader(selectStatement, new StatementParamaters()))
+                    using ( IManagedDataReader reader = _sqliteConnectionManager.GetReader(selectStatement, new StatementParameters()))
                     {
                         while (reader.Read())
                         {
@@ -50,8 +47,8 @@ namespace NHS111.Domain.Feedback.Repository
                     return feedbackList;
                 });
             task.Start();
-            return await task;
 
+            return await task;
         }
     }
 }
