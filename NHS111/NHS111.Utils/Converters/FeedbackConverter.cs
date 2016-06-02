@@ -14,11 +14,25 @@ namespace NHS111.Utils.Converters
         public const string USERID_FIELDNAME = "sessionId";
         public const string EMAIL_ADDRESS_FIELDNAME = "email";
 
+        public string[] Fields()
+        {
+            return new[]
+                {
+                    FEEDBACKTEXT_FIELDNAME, 
+                    PAGE_ID_FIELDNAME, 
+                    RATING_FIELDNAME, 
+                    FEEDBACK_DATETIME_FIELDNAME,
+                    FEEDBACK_DATA_FIELDNAME, 
+                    USERID_FIELDNAME, 
+                    EMAIL_ADDRESS_FIELDNAME
+                };
+        }
+
         public Feedback Convert(IManagedDataReader managedDataReader)
         {
             var dataReader = managedDataReader.DataReader;
             var feedback = new Feedback();
-            if (dataReader[FEEDBACKTEXT_FIELDNAME] != null 
+            if (dataReader[FEEDBACKTEXT_FIELDNAME] != null
                     && dataReader[FEEDBACKTEXT_FIELDNAME] != DBNull.Value)
                 feedback.Text = dataReader[FEEDBACKTEXT_FIELDNAME].ToString();
 
@@ -49,9 +63,9 @@ namespace NHS111.Utils.Converters
             return feedback;
         }
 
-        public StatementParamaters Convert(Feedback feedback)
+        public StatementParameters Convert(Feedback feedback)
         {
-            var parameters = new StatementParamaters();
+            var parameters = new StatementParameters();
             if (!String.IsNullOrEmpty(feedback.UserId))
                 parameters.Add(USERID_FIELDNAME, feedback.UserId);
 
@@ -64,14 +78,14 @@ namespace NHS111.Utils.Converters
             if (!String.IsNullOrEmpty(feedback.JSonData))
                 parameters.Add(FEEDBACK_DATA_FIELDNAME, feedback.JSonData);
 
-            if (feedback.DateAdded !=DateTime.MinValue)
+            if (feedback.DateAdded != DateTime.MinValue)
                 parameters.Add(FEEDBACK_DATETIME_FIELDNAME, feedback.DateAdded);
 
-            if(feedback.Rating.HasValue)
+            if (feedback.Rating.HasValue)
                 parameters.Add(RATING_FIELDNAME, feedback.Rating.Value.ToString());
 
-            if(!String.IsNullOrEmpty(feedback.EmailAddress))
-                parameters.Add(EMAIL_ADDRESS_FIELDNAME,feedback.EmailAddress);
+            if (!String.IsNullOrEmpty(feedback.EmailAddress))
+                parameters.Add(EMAIL_ADDRESS_FIELDNAME, feedback.EmailAddress);
 
             return parameters;
         }
@@ -80,6 +94,7 @@ namespace NHS111.Utils.Converters
     public interface IDataConverter<T>
     {
         T Convert(IManagedDataReader dataReader);
-        StatementParamaters Convert(T objectToConvert);
+        StatementParameters Convert(T objectToConvert);
+        string[] Fields();
     }
 }

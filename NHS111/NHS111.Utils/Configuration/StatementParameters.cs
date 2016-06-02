@@ -3,7 +3,7 @@ using System.Text;
 
 namespace NHS111.Utils.Configuration
 {
-    public class StatementParamaters : Dictionary<string, object>
+    public class StatementParameters : Dictionary<string, object>
     {
         public string GenerateInsertStatement(string tableName)
         {
@@ -24,12 +24,7 @@ namespace NHS111.Utils.Configuration
             AddParameterList(builder, false);
         }
 
-        private void AddParameterList(StringBuilder builder)
-        {
-            AddParameterList(builder, true);
-        }
-
-        private void AddParameterList(StringBuilder builder, bool asParamter)
+        private void AddParameterList(StringBuilder builder, bool asParamter = true)
         {
             int i = 0;
             foreach (var key in this.Keys)

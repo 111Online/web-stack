@@ -1,19 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using NHS111.Utils.Configuration;
+﻿using NHS111.Utils.Configuration;
 using NUnit.Framework;
-namespace NHS111.Utils.Configuration.Tests
+
+namespace NHS111.Utils.Test.Configuration
 {
     [TestFixture()]
-    public class StatementParamatersTests
+    public class StatementParametersTests
     {
         [Test()]
         public void GenerateInsertStatementTest()
         {
-            StatementParamaters testParamaters = new StatementParamaters();
+            StatementParameters testParamaters = new StatementParameters();
 
             testParamaters.Add("testkey1", "test val 1");
             testParamaters.Add("testkey2", 33);

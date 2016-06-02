@@ -28,7 +28,7 @@ namespace NHS111.Utils.Configuration
             return new SQLiteConnection(_diskDbConnection.ConnectionString);
         }
 
-        public IManagedDataReader GetReader(string statement, StatementParamaters statementParamaters)
+        public IManagedDataReader GetReader(string statement, StatementParameters statementParamaters)
         {
             SQLiteCommand command = new SQLiteCommand(statement, GetConnection());
 
@@ -39,7 +39,7 @@ namespace NHS111.Utils.Configuration
             return new ManagedDataReader(command);
         }
 
-        public int ExecteNonQuery(string statement, StatementParamaters statementParamaters)
+        public int ExecteNonQuery(string statement, StatementParameters statementParamaters)
         {
             using (var conn = GetConnection())
             {
@@ -55,7 +55,7 @@ namespace NHS111.Utils.Configuration
             }
         }
 
-        public async Task<int> ExecteNonQueryAsync(string statement, StatementParamaters statementParamaters)
+        public async Task<int> ExecteNonQueryAsync(string statement, StatementParameters statementParamaters)
         {
             using (var conn = GetConnection())
             {
