@@ -4,10 +4,21 @@
     padding: 10px;
 }
 
-.care-advice .care-advice-keywords ol {
-    padding: 20px; 
-    list-style-type:decimal;
+.care-advice-keywords {
+    height: 100%;
+    width: 100%;
+    display: block;
+    float: left;
+    clear: both;
+    width: 100%;
+    margin-bottom: 10px;
 }
+
+.care-advice .care-advice-keywords ol {
+    padding: 20px;
+    list-style-type: decimal;
+}
+
 .care-advice  ul  {
     padding: 20px; 
     list-style-type:disc;
