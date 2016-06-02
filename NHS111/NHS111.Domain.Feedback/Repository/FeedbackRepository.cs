@@ -31,7 +31,7 @@ namespace NHS111.Domain.Feedback.Repository
 
         public async Task<IEnumerable<Models.Models.Domain.Feedback>> List()
         {
-            var selectStatement = "SELECT feedbackDate,feedbackText,sessionId,pageId,rating,feedbackData " +
+            var selectStatement = "SELECT feedbackDate,feedbackText,sessionId,pageId,rating,email,feedbackData " +
                                   "FROM feedback ORDER BY feedbackDate DESC";
 
             Task<List<Models.Models.Domain.Feedback>> task = new Task<List<Models.Models.Domain.Feedback>>
