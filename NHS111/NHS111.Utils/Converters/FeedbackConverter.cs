@@ -1,9 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using NHS111.Models.Models.Domain;
 using NHS111.Utils.Configuration;
 
@@ -17,6 +12,7 @@ namespace NHS111.Utils.Converters
         public const string FEEDBACK_DATETIME_FIELDNAME = "feedbackDate";
         public const string FEEDBACK_DATA_FIELDNAME = "feedbackData";
         public const string USERID_FIELDNAME = "sessionId";
+        public const string EMAIL_ADDRESS_FIELDNAME = "email";
 
         public Feedback Convert(IManagedDataReader managedDataReader)
         {
@@ -45,6 +41,11 @@ namespace NHS111.Utils.Converters
             if (dataReader[FEEDBACK_DATETIME_FIELDNAME] != null
                     && dataReader[FEEDBACK_DATETIME_FIELDNAME] != DBNull.Value)
                 feedback.DateAdded = DateTime.Parse(dataReader[FEEDBACK_DATETIME_FIELDNAME].ToString());
+
+            if (dataReader[EMAIL_ADDRESS_FIELDNAME] != null
+                    && dataReader[EMAIL_ADDRESS_FIELDNAME] != DBNull.Value)
+                feedback.EmailAddress = dataReader[EMAIL_ADDRESS_FIELDNAME].ToString();
+
             return feedback;
         }
 
@@ -68,6 +69,10 @@ namespace NHS111.Utils.Converters
 
             if(feedback.Rating.HasValue)
                 parameters.Add(RATING_FIELDNAME, feedback.Rating.Value.ToString());
+
+            if(!String.IsNullOrEmpty(feedback.EmailAddress))
+                parameters.Add(EMAIL_ADDRESS_FIELDNAME,feedback.EmailAddress);
+
             return parameters;
         }
     }
