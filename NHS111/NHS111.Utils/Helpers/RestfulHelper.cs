@@ -16,7 +16,6 @@ namespace NHS111.Utils.Helpers {
 
         public RestfulHelper(HttpClient httpClient, IHttpClientFactory httpClientFactory) {
             _httpClient = httpClient;
-            _httpClient = httpClient;
             _httpClientFactory = httpClientFactory;
         }
 
