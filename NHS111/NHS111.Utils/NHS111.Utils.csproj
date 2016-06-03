@@ -149,6 +149,7 @@
     <Compile Include="Configuration\StatementParameters.cs" />
     <Compile Include="Converters\FeedbackConverter.cs" />
     <Compile Include="Extensions\CypherFluentQueryExtension.cs" />
+    <Compile Include="Helpers\HttpClientFactory.cs" />
     <Compile Include="Itk\ItkMessageBuilder.cs" />
     <Compile Include="Cache\CacheManager.cs" />
     <Compile Include="Cache\ICacheManager.cs" />
