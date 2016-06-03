@@ -26,6 +26,9 @@ namespace NHS111.Web.Presentation.Configuration
         public string DOSMobileUsername { get { return ConfigurationManager.AppSettings["dos_mobile_credential_user"]; } }
         public string DOSMobilePassword { get { return ConfigurationManager.AppSettings["dos_mobile_credential_password"]; } }
 
+        public string BusinessApiListOutcomesUrl { get { return ConfigurationManager.AppSettings["BusinessApiListOutcomesUrl"]; } }
+
+
 
         public string GetBusinessApiGroupedPathwaysUrl(string searchString)
         {
@@ -149,5 +152,6 @@ namespace NHS111.Web.Presentation.Configuration
         string DOSMobileUsername { get; }
         string DOSMobilePassword { get; }
 
+        string BusinessApiListOutcomesUrl { get; }
     }
 }

@@ -105,6 +105,10 @@ namespace NHS111.Business.Configuration
                 Replace("{gender}", gender);
         }
 
+        public string GetDomainApiListOutcomesUrl() {
+            return GetDomainApiUrl("DomainApiListOutcomesUrl");
+        }
+
         private static string GetDomainApiUrl(string key)
         {
             return string.Format("{0}{1}", ConfigurationManager.AppSettings["DomainApiBaseUrl"], ConfigurationManager.AppSettings[key]).Replace("&amp;", "&");
@@ -139,6 +143,10 @@ namespace NHS111.Business.Configuration
         /* Care Advice */
         string GetDomainApiCareAdviceUrl(int age, string gender, IEnumerable<string> markers);
         string GetDomainApiCareAdviceUrl(string dxCode, string ageCategory, string gender);
+
+        /* Outcomes */
+        string GetDomainApiListOutcomesUrl();
+
         string GetRedisUrl();
     }
 }

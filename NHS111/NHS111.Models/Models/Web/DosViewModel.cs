@@ -7,6 +7,8 @@ using NHS111.Web.Presentation.Models;
 
 namespace NHS111.Models.Models.Web
 {
+    using System.Threading.Tasks;
+
     public class DosViewModel : DosCase
     {
         public Guid UserId { get; set; }
@@ -24,6 +26,8 @@ namespace NHS111.Models.Models.Web
         {
             get { return CheckCapacitySummaryResultList.FirstOrDefault(s => s.IdField == Convert.ToInt32(SelectedServiceId)); }
         }
+
+        public IEnumerable<OutcomeViewModel> Dispositions { get; set; }
 
         public DosViewModel()
         {

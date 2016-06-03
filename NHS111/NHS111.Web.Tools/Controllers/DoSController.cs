@@ -8,23 +8,41 @@ using NHS111.Models.Models.Web.FromExternalServices;
 
 namespace NHS111.Web.Tools.Controllers
 {
+    using System.Collections.Generic;
+    using System.Net;
+    using System.Net.Http;
+    using Newtonsoft.Json;
+    using Presentation.Configuration;
+
     [LogHandleErrorForMVC]
     public class DoSController : Controller
     {
         private readonly IDOSBuilder _dosBuilder;
         private readonly ISurgeryBuilder _surgeryBuilder;
+        private readonly IConfiguration _configuration;
 
-        public DoSController(IDOSBuilder dosBuilder, ISurgeryBuilder surgeryBuilder)
+        public DoSController(IDOSBuilder dosBuilder, ISurgeryBuilder surgeryBuilder, IConfiguration configuration)
         {
             _dosBuilder = dosBuilder;
             _surgeryBuilder = surgeryBuilder;
+            _configuration = configuration;
         }
 
         [HttpGet]
-        public ActionResult Search()
+        public async Task<ActionResult> Search()
         {
             var model = new DosViewModel();
+            model.Dispositions = await ListDispositions();
             return View(model);
+        }
+
+        private async Task<IEnumerable<OutcomeViewModel>> ListDispositions() {
+            var url = _configuration.BusinessApiListOutcomesUrl;
+            var http = new HttpClient();
+            var response = await http.GetAsync(url);
+
+            return JsonConvert.DeserializeObject<IEnumerable<OutcomeViewModel>>(await response.Content.ReadAsStringAsync());
+
         }
 
         [HttpPost]
