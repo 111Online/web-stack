@@ -90,6 +90,7 @@
   <ItemGroup>
     <Compile Include="Builders\AnswersForNodeBuilder.cs" />
     <Compile Include="Monitoring\Monitor.cs" />
+    <Compile Include="Services\OutcomeService.cs" />
     <Compile Include="Services\CareAdviceService.cs" />
     <Compile Include="Services\PathwayService.cs" />
     <Compile Include="Configuration\Configuration.cs" />

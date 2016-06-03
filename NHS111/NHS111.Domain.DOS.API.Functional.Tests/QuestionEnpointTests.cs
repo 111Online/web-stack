@@ -127,7 +127,18 @@ namespace NHS111.Domain.DOS.API.Functional.Tests
         [Test]
         public async void TestServicesByClinicalTerm()
         {
-            var result = await _restfulHelper.PostAsync(_dosApiDomain + "DOSapi/ServicesByClinicalTerm", CreateHTTPRequest("{\"caseId\":\"0\",\"postcode\":\"so302un\",\"searchDistance\":\"36\",\"gpPracticeId\":\"0\",\"age\":\"1\",\"gender\":\"F\",\"disposition\":\"Dx06\",\"symptomGroupDiscriminatorCombos\":\"1003=4003\",\"numberPerType\":\"1\" }"));
+            var caseId = "0";
+            var postCode = "so302un";
+            var searchDistance = "36";
+            var gpPracticeId = "0";
+            var age = "1";
+            var gender = "F";
+            var dispo = "Dx06";
+            var sg = "1003";
+            var sd = "4003";
+            var numberPerType = "1";
+
+            var result = await _restfulHelper.PostAsync(_dosApiDomain + "DOSapi/ServicesByClinicalTerm", CreateHTTPRequest(string.Format("{{\"caseId\":\"{0}\",\"postcode\":\"{1}\",\"searchDistance\":\"{2}\",\"gpPracticeId\":\"{3}\",\"age\":\"{4}\",\"gender\":\"{5}\",\"disposition\":\"{6}\",\"symptomGroupDiscriminatorCombos\":\"{7}={8}\",\"numberPerType\":\"{9}\" }}", caseId, postCode, searchDistance, gpPracticeId, age, gender, dispo, sg, sd, numberPerType)));
 
             var resultContent = await result.Content.ReadAsStringAsync();
 

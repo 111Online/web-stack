@@ -52,7 +52,8 @@ namespace NHS111.Web.Presentation.Builders
             var val = await response.Content.ReadAsStringAsync();
             var jObj = (JObject)JsonConvert.DeserializeObject(val);
             var result = jObj["CheckCapacitySummaryResult"];
-            return result.ToObject<CheckCapacitySummaryResult[]>();
+            var checkCapacitySummaryResults = result.ToObject<CheckCapacitySummaryResult[]>();
+            return checkCapacitySummaryResults;
         }
 
         public async Task<DosServicesByClinicalTermResult> FillDosServicesByClinicalTermResult(DosViewModel dosViewModel)
@@ -143,10 +144,11 @@ namespace NHS111.Web.Presentation.Builders
         private async Task<T> GetMobileDoSResponse<T>(string endPoint, params object[] args)
         {
             var urlWithRequest = CreateMobileDoSUrl(endPoint, args);
-            var usernamePassword = Convert.ToBase64String(Encoding.ASCII.GetBytes(string.Format("{0}:{1}", _configuration.DOSMobileUsername, _configuration.DOSMobilePassword)));
-            var credentials = string.Format("Basic {0}", usernamePassword);
 
-            return JsonConvert.DeserializeObject<T>(await _restfulHelper.GetAsync(urlWithRequest, credentials));
+            var http = new HttpClient(new HttpClientHandler {Credentials = new NetworkCredential(_configuration.DOSMobileUsername, _configuration.DOSMobilePassword) });
+            var response = await http.GetAsync(urlWithRequest);
+
+            return JsonConvert.DeserializeObject<T>(await response.Content.ReadAsStringAsync());
         }
 
         private string CreateMobileDoSUrl(string endPoint, params object[] args)
