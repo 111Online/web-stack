@@ -37,7 +37,7 @@
 
         <div class="form-group col-lg-2">
             <label class="control-label" for="Gender">Gender</label>
-            @Html.DropDownListFor(m => m.Gender, new SelectList(Enum.GetValues(typeof(GenderEnum))), new { @class = "form-control" })
+            @Html.DropDownListFor(m => m.Gender, ((GenderEnum[])Enum.GetValues(typeof(GenderEnum))).AsEnumerable().Select(g => new SelectListItem { Text = g.ToString(), Value = g.ToString().ToCharArray().First().ToString()}), new { @class = "form-control" })
         </div>
     </div>
     <div class="row">
