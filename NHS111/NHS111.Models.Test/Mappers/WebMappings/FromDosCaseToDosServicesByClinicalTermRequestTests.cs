@@ -47,7 +47,7 @@ namespace NHS111.Models.Test.Mappers.WebMappings
                 SearchDistance = 10,
                 Surgery = "BXU123",
                 Age = "5",
-                Gender = GenderEnum.Female,
+                Gender = "F",
                 Disposition = 10013,
                 SymptomGroup = 1003,
                 SymptomDiscriminator = 2010,
