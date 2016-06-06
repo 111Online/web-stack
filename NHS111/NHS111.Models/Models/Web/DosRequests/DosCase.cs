@@ -29,7 +29,7 @@ namespace NHS111.Web.Presentation.Models
         public int SymptomDiscriminator { get; set; }
         public int SearchDistance { get; set; }
         public bool SearchDistanceSpecified { get { return SearchDistance > 0; } }
-        public GenderEnum Gender { get; set; }
+        public string Gender { get; set; }
         public int NumberPerType { get; set; }
     }
 
