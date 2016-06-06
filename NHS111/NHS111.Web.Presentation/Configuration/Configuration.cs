@@ -95,6 +95,11 @@ namespace NHS111.Web.Presentation.Configuration
             return string.Format(GetBusinessApiUrlWithDomain("BusinessApiInterimCareAdviceUrl"), dxCode, ageGroup, gender);
         }
 
+        public string GetBusinessApiListOutcomesUrl()
+        {
+            return GetBusinessApiUrlWithDomain("BusinessApiListOutcomesUrl");
+        }
+
         private string GetBusinessApiUrlWithDomain(string endpointUrlkey)
         {
             var businessApiDomain = ConfigurationManager.AppSettings["BusinessApiProtocolandDomain"];
@@ -136,6 +141,7 @@ namespace NHS111.Web.Presentation.Configuration
         string GetBusinessApiJustToBeSafePartOneUrl(string pathwayId);
         string GetBusinessApiJustToBeSafePartTwoUrl(string pathwayId, string questionId, string jtbsQuestionIds,bool hasAnswwers);
         string GetBusinessApiInterimCareAdviceUrl(string dxCode, string ageGroup, string gender);
+        string GetBusinessApiListOutcomesUrl();
 
         string BusinessDosCheckCapacitySummaryUrl { get; }
         string BusinessDosServicesByClinicalTermUrl { get; }

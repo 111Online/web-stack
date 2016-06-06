@@ -8,6 +8,9 @@ namespace NHS111.Models.Models.Web.FromExternalServices
         [JsonProperty(PropertyName = "success")]
         public SuccessObject Success { get; set; }
 
+        [JsonProperty(PropertyName = "error")]
+        public SuccessObject Error { get; set; }
+
         public class SuccessObject
         {
             [JsonProperty(PropertyName = "code")]
@@ -20,6 +23,14 @@ namespace NHS111.Models.Models.Web.FromExternalServices
             public int ServiceCount { get; set; }
             [JsonProperty(PropertyName = "services")]
             public List<Service> Services { get; set; }
+        }
+
+        public class ErrorObject
+        {
+            [JsonProperty(PropertyName = "code")]
+            public int Code { get; set; }
+            [JsonProperty(PropertyName = "message")]
+            public string Message { get; set; }
         }
 
         public class Type
