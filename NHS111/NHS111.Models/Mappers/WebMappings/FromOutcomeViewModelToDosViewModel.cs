@@ -5,6 +5,8 @@ using NHS111.Models.Models.Web;
 
 namespace NHS111.Models.Mappers.WebMappings
 {
+    using System.Linq;
+
     public class FromOutcomeViewModelToDosViewModel : Profile
     {
         protected override void Configure()
@@ -68,19 +70,17 @@ namespace NHS111.Models.Mappers.WebMappings
             }
         }
 
-        public class GenderResolver : ValueResolver<string, GenderEnum>
+        public class GenderResolver : ValueResolver<string, string>
         {
-            protected override GenderEnum ResolveCore(string source)
-            {
-                var genderStr = source;
-                GenderEnum gender = GenderEnum.Indeterminate;
-                if (!string.IsNullOrEmpty(genderStr.ToString()))
-                {
-                    if (!Enum.TryParse(genderStr.ToString(), out gender))
-                        return GenderEnum.Indeterminate;
+            protected override string ResolveCore(string source) {
+                switch (source.ToLower()) {
+                    case "female":
+                        return "F";
+                    case "male":
+                        return "M";
+                    default:
+                        return "I";
                 }
-
-                return gender;
             }
         }
     }
