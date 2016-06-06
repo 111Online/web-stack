@@ -148,7 +148,8 @@ namespace NHS111.Web.Presentation.Builders
             var http = new HttpClient(new HttpClientHandler {Credentials = new NetworkCredential(_configuration.DOSMobileUsername, _configuration.DOSMobilePassword) });
             var response = await http.GetAsync(urlWithRequest);
 
-            return JsonConvert.DeserializeObject<T>(await response.Content.ReadAsStringAsync());
+            var dosResult = await response.Content.ReadAsStringAsync();
+            return JsonConvert.DeserializeObject<T>(dosResult);
         }
 
         private string CreateMobileDoSUrl(string endPoint, params object[] args)

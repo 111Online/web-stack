@@ -37,7 +37,7 @@ namespace NHS111.Web.Tools.Controllers
         }
 
         private async Task<IEnumerable<OutcomeViewModel>> ListDispositions() {
-            var url = _configuration.BusinessApiListOutcomesUrl;
+            var url = _configuration.GetBusinessApiListOutcomesUrl();
             var http = new HttpClient();
             var response = await http.GetAsync(url);
 
