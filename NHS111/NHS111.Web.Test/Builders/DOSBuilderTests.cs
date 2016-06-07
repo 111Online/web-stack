@@ -112,11 +112,11 @@ namespace NHS111.Web.Presentation.Builders.Tests
             };
             await _dosBuilder.FillCheckCapacitySummaryResult(model);
 
-            _mockRestfulHelper.Verify(r => r.PostAsync(It.IsAny<string>(), It.Is<HttpRequestMessage>(h => AssertIsMetric(h, model.SearchDistance).Result)));
+            _mockRestfulHelper.Verify(r => r.PostAsync(It.IsAny<string>(), It.Is<HttpRequestMessage>(h => AssertIsMetric(h, model.SearchDistance))));
         }
 
-        private async Task<bool> AssertIsMetric(HttpRequestMessage request, int original) {
-            var content = await request.Content.ReadAsStringAsync();
+        private bool AssertIsMetric(HttpRequestMessage request, int original) {
+            var content = request.Content.ReadAsStringAsync().Result;
             var payload = JsonConvert.DeserializeObject<DosCheckCapacitySummaryRequest>(content);
 
             const float MILES_PER_KM = 1.609344f;
