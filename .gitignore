@@ -196,3 +196,6 @@ FakesAssemblies/
 
 #web configs
 /NHS111/NHS111.Domain.Api/Web.config
+
+#logfiles
+log.error.*.txt

@@ -38,9 +38,14 @@ namespace NHS111.Web.Tools.Controllers
 
         private async Task<IEnumerable<OutcomeViewModel>> ListDispositions() {
             var url = _configuration.GetBusinessApiListOutcomesUrl();
-            var http = new HttpClient();
-            var response = await http.GetAsync(url);
-
+            HttpResponseMessage response;
+            using (var http = new HttpClient()) {
+                try {
+                    response = await http.GetAsync(url);
+                } catch (Exception e) {
+                    throw new Exception(string.Format("An error occured requesting {0}. See inner exception for details.", url), e);
+                }
+            }
             return JsonConvert.DeserializeObject<IEnumerable<OutcomeViewModel>>(await response.Content.ReadAsStringAsync());
 
         }
@@ -54,6 +59,7 @@ namespace NHS111.Web.Tools.Controllers
                 DosCheckCapacitySummaryResult = (await _dosBuilder.FillCheckCapacitySummaryResult(model)),
                 DosServicesByClinicalTermResult = (await _dosBuilder.FillDosServicesByClinicalTermResult(model))
             };
+
             return PartialView("_DoSComparisionResultsView", dosView);
         }
 
