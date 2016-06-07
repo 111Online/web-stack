@@ -94,13 +94,16 @@
         }
 
         $(function () {
-            $("#FindGP").click(function () {
+            $("#FindGP").click(function() {
                 $("#FindGP").val("");
                 $("#Surgery").val("UKN");
-            }
-            );
+            });
+            $("#FindGP").keypress(function () {
+                $("#Surgery").val("UKN");
+            });
             $("#FindGP").autocomplete({
                 source: function (request, response) {
+                    $("#Surgery").val("UKN");
                     $.ajax({
                         url: '@Url.Action("SearchSurgery", "DoS")',
                         type: "post",
