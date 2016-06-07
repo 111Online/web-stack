@@ -31,7 +31,7 @@
     <div class="row">
         <div class="form-group col-lg-1">
             <label for="Age">Age</label>
-            @Html.TextBoxFor(m => m.Age, new {@class = "form-control", @data_val = "true", @data_val_required = "An Age must be specified", @data_val_number = "The age must be a number."})
+            @Html.TextBoxFor(m => m.Age, new {@class = "form-control", @data_val = "true", @data_val_required = "An Age must be specified", @data_val_number = "The age must be a number.", maxlength = 2})
             @Html.ValidationMessageFor(m => m.Age)
         </div>
 
