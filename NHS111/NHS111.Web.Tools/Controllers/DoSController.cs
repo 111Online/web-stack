@@ -43,7 +43,7 @@ namespace NHS111.Web.Tools.Controllers
                 try {
                     response = await http.GetAsync(url);
                 } catch (Exception e) {
-                    throw new Exception(string.Format("An error occured requesting {0}. See inner exception for details.", url));
+                    throw new Exception(string.Format("An error occured requesting {0}. See inner exception for details.", url), e);
                 }
             }
             return JsonConvert.DeserializeObject<IEnumerable<OutcomeViewModel>>(await response.Content.ReadAsStringAsync());
@@ -55,11 +55,16 @@ namespace NHS111.Web.Tools.Controllers
         {
             model.CheckCapacitySummaryResultList = new CheckCapacitySummaryResult[0];
             model.SymptomDiscriminatorList = new[] { model.SymptomDiscriminator };
+
+            var checkCapacitySummaryResultList = await _dosBuilder.FillCheckCapacitySummaryResult(model);
+            var dosServicesByClinicalTermResult = await _dosBuilder.FillDosServicesByClinicalTermResult(model);
+
             var dosView = new DosViewModel
             {
-                CheckCapacitySummaryResultList = (await _dosBuilder.FillCheckCapacitySummaryResult(model)),
-                DosServicesByClinicalTermResult = (await _dosBuilder.FillDosServicesByClinicalTermResult(model))
+                CheckCapacitySummaryResultList = checkCapacitySummaryResultList,
+                DosServicesByClinicalTermResult = dosServicesByClinicalTermResult
             };
+
             return PartialView("_DoSComparisionResultsView", dosView);
         }
 
