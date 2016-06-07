@@ -1,4 +1,4 @@
-﻿@model NHS111.Models.Models.Web.FromExternalServices.CheckCapacitySummaryResult[]
+﻿@model NHS111.Models.Models.Web.FromExternalServices.DosService[]
 
 @if (Model != null)
 {
@@ -6,17 +6,17 @@
         @foreach (var checkCapacitySummaryResult in Model.ToList())
         {
             <li class="surgery-item">
-                <h3>@Html.Raw(checkCapacitySummaryResult.NameField)</h3>
+                <h3>@Html.Raw(checkCapacitySummaryResult.Name)</h3>
                 <div>
-                    <p>@Html.Raw(checkCapacitySummaryResult.AddressField)</p>
-                    @if (checkCapacitySummaryResult.ContactDetailsField != null && !checkCapacitySummaryResult.ContactDetailsField.IsEmpty())
+                    <p>@Html.Raw(checkCapacitySummaryResult.Address)</p>
+                    @if (checkCapacitySummaryResult.ContactDetails != null && !checkCapacitySummaryResult.ContactDetails.IsEmpty())
                     {
-                        <p>@Html.Raw(checkCapacitySummaryResult.ContactDetailsField)</p>
+                        <p>@Html.Raw(checkCapacitySummaryResult.ContactDetails)</p>
                     }
-                    @if (checkCapacitySummaryResult.UrlField != null && !checkCapacitySummaryResult.UrlField.IsEmpty())
+                    @if (checkCapacitySummaryResult.Url != null && !checkCapacitySummaryResult.Url.IsEmpty())
                     {
                         <p>
-                            <a href="http://@Html.Raw(checkCapacitySummaryResult.UrlField)" target="_blank">@Html.Raw(checkCapacitySummaryResult.UrlField)</a>
+                            <a href="http://@Html.Raw(checkCapacitySummaryResult.Url)" target="_blank">@Html.Raw(checkCapacitySummaryResult.Url)</a>
                         </p>
                     }
                 </div>

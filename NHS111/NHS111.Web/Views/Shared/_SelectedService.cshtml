@@ -1,7 +1,7 @@
-﻿@model NHS111.Models.Models.Web.FromExternalServices.CheckCapacitySummaryResult
+﻿@model NHS111.Models.Models.Web.FromExternalServices.DosService
 
-<div class="service-name">@WebUtility.HtmlDecode(Model.NameField)</div>
+<div class="service-name">@WebUtility.HtmlDecode(Model.Name)</div>
 <div class="service-address">
-    @WebUtility.HtmlDecode(Model.AddressField)
+    @WebUtility.HtmlDecode(Model.Address)
 </div>
-@Html.HiddenFor(m => m.IdField)
+@Html.HiddenFor(m => m.Id)
