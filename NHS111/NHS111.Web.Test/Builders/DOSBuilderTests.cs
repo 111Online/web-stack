@@ -8,6 +8,15 @@ using NHS111.Utils.Notifier;
 using NUnit.Framework;
 namespace NHS111.Web.Presentation.Builders.Tests
 {
+    using System;
+    using System.Net;
+    using System.Net.Http;
+    using System.Threading.Tasks;
+    using Models;
+    using Newtonsoft.Json;
+    using NHS111.Models.Models.Web;
+    using NHS111.Models.Models.Web.FromExternalServices;
+
     [TestFixture()]
     public class DOSBuilderTests
     {
@@ -86,6 +95,32 @@ namespace NHS111.Web.Presentation.Builders.Tests
              Assert.AreEqual(int.Parse(expectedSymptomGroup), symptomGroup);
 
 
+        }
+
+        [Test]
+        public async void FillCheckCapacitySummaryResult_WithDistanceInMetric_ConvertsToMiles() {
+            var fakeResponse = new HttpResponseMessage(HttpStatusCode.OK) {
+                Content = new StringContent("{ CheckCapacitySummaryResult: [{}] }")
+            };
+            _mockRestfulHelper.Setup(r => r.PostAsync(It.IsAny<string>(), It.IsAny<HttpRequestMessage>()))
+                .Returns(Task<HttpResponseMessage>.Factory.StartNew(() => fakeResponse));
+            _mockRestfulHelper.Setup(r => r.GetAsync(It.IsAny<string>())).Returns(Task<string>.Factory.StartNew(() => "0"));
+
+            var model = new DosViewModel {
+                SearchDistance = 1,
+                CheckCapacitySummaryResultList = new CheckCapacitySummaryResult[0]
+            };
+            await _dosBuilder.FillCheckCapacitySummaryResult(model);
+
+            _mockRestfulHelper.Verify(r => r.PostAsync(It.IsAny<string>(), It.Is<HttpRequestMessage>(h => AssertIsMetric(h, model.SearchDistance).Result)));
+        }
+
+        private async Task<bool> AssertIsMetric(HttpRequestMessage request, int original) {
+            var content = await request.Content.ReadAsStringAsync();
+            var payload = JsonConvert.DeserializeObject<DosCheckCapacitySummaryRequest>(content);
+
+            const float MILES_PER_KM = 1.609344f;
+            return payload.Case.SearchDistance == (int)Math.Ceiling(original / MILES_PER_KM);
         }
 
         private void MockRestfulHelperWithExpectedUrl(string expectedSymptomGroup)

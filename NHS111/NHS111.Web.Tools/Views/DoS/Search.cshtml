@@ -48,6 +48,7 @@
         <div class="form-group col-lg-2">
             <label class="control-label" for="SearchDistances">Search Distance (km)</label>
             @Html.DropDownListFor(m => m.SearchDistance, new SelectList(Model.SearchDistances), new { @class = "form-control" })
+            Zero defaults to 67km (non-circular, possibly <a href="https://en.wikipedia.org/wiki/Taxicab_geometry">Taxicab?</a>)
         </div>
     </div>
     <div class="row">
