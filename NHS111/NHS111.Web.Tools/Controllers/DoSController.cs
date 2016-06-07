@@ -48,11 +48,10 @@ namespace NHS111.Web.Tools.Controllers
         [HttpPost]
         public async Task<ActionResult> FillServiceDetails(DosViewModel model)
         {
-            model.CheckCapacitySummaryResultList = new CheckCapacitySummaryResult[0];
             model.SymptomDiscriminatorList = new[] { model.SymptomDiscriminator };
             var dosView = new DosViewModel
             {
-                CheckCapacitySummaryResultList = (await _dosBuilder.FillCheckCapacitySummaryResult(model)),
+                DosCheckCapacitySummaryResult = (await _dosBuilder.FillCheckCapacitySummaryResult(model)),
                 DosServicesByClinicalTermResult = (await _dosBuilder.FillDosServicesByClinicalTermResult(model))
             };
             return PartialView("_DoSComparisionResultsView", dosView);

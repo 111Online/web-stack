@@ -59,7 +59,7 @@ namespace NHS111.Web.Controllers
         public async Task<ActionResult> ServiceList(OutcomeViewModel model)
         {
             var dosViewModel = Mapper.Map<DosViewModel>(model);
-            model.CheckCapacitySummaryResultList = await _dosBuilder.FillCheckCapacitySummaryResult(dosViewModel);
+            model.DosCheckCapacitySummaryResult = await _dosBuilder.FillCheckCapacitySummaryResult(dosViewModel);
             return View("ServiceList", model);
         }
 
@@ -67,7 +67,7 @@ namespace NHS111.Web.Controllers
         public async Task<ActionResult> ServiceDetails(OutcomeViewModel model)
         {
             var dosCase = Mapper.Map<DosViewModel>(model);
-            model.CheckCapacitySummaryResultList = await _dosBuilder.FillCheckCapacitySummaryResult(dosCase);
+            model.DosCheckCapacitySummaryResult = await _dosBuilder.FillCheckCapacitySummaryResult(dosCase);
             return View("ServiceDetails", model);
         }
 

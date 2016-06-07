@@ -1,21 +1,33 @@
 ﻿@model NHS111.Models.Models.Web.DosViewModel
 
 <div class="row" id="DosResults">
-    @if (Model.CheckCapacitySummaryResultList != null && Model.DosServicesByClinicalTermResult != null)
+    @if (Model.DosCheckCapacitySummaryResult != null && Model.DosServicesByClinicalTermResult != null)
     {
-
         <div class="col-xs-6">
-            <div class="panel panel-success">
-                <div class="panel-heading">DoS Results</div>
-                <ul class="list-group">
-                    @foreach (var checkCapacitySummaryResult in Model.CheckCapacitySummaryResultList)
-                    {
-                        <li class="list-group-item">@checkCapacitySummaryResult.NameField</li>
-                    }
-                </ul>
-            </div>
+            @if (Model.DosCheckCapacitySummaryResult.Error != null)
+            {
+                <div class="alert alert-danger" role="alert">@Model.DosCheckCapacitySummaryResult.Error.Message</div>
+            }
+            else
+            {
+                <div class="panel panel-success">
+                    <div class="panel-heading">DoS Results</div>
+                    <ul class="list-group">
+                        @foreach (var service in Model.DosCheckCapacitySummaryResult.Success.Services)
+                        {
+                            <li class="list-group-item">@service.Name</li>
+                        }
+                    </ul>
+                </div>
+            }
         </div>
-            <div class="col-xs-6">
+        <div class="col-xs-6">
+            @if (Model.DosServicesByClinicalTermResult.Error != null)
+            {
+                <div class="alert alert-danger" role="alert">@Model.DosServicesByClinicalTermResult.Error.Message</div>
+            }
+            else
+            {
                 <div class="panel panel-info">
                     <div class="panel-heading">Proof of Concept API Results</div>
                     <ul class="list-group">
@@ -25,6 +37,7 @@
                         }
                     </ul>
                 </div>
-            </div>
+            }
+        </div>
     }
 </div>

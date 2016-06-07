@@ -13,7 +13,7 @@ namespace NHS111.Models.Mappers.WebMappings
         {
             Mapper.CreateMap<OutcomeViewModel, DosViewModel>()
                 .ForMember(dest => dest.CareAdvices, opt => opt.MapFrom(src => src.CareAdvices))
-                .ForMember(dest => dest.CheckCapacitySummaryResultList, opt => opt.MapFrom(src => src.CheckCapacitySummaryResultList))
+                .ForMember(dest => dest.DosCheckCapacitySummaryResult, opt => opt.MapFrom(src => src.DosCheckCapacitySummaryResult))
                 .ForMember(dest => dest.Title, opt => opt.MapFrom(src => src.Title))
                 .ForMember(dest => dest.CareAdviceMarkers, opt => opt.MapFrom(src => src.CareAdviceMarkers))
                 .ForMember(dest => dest.CareAdvices, opt => opt.MapFrom(src => src.CareAdvices))
