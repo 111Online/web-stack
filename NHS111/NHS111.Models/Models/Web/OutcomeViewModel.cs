@@ -20,7 +20,10 @@ namespace NHS111.Models.Models.Web
         public CareAdvice WorseningCareAdvice { get; set; }
         public DosService SelectedService
         {
-            get { return DosCheckCapacitySummaryResult.Success?.Services.FirstOrDefault(s => s.Id == Convert.ToInt32(SelectedServiceId)); }
+            get
+            {
+                return DosCheckCapacitySummaryResult.Success != null ? DosCheckCapacitySummaryResult.Success.Services.FirstOrDefault(s => s.Id == Convert.ToInt32(SelectedServiceId)) : null;
+            }
         }
 
         public bool DisplayWorseningCareAdvice

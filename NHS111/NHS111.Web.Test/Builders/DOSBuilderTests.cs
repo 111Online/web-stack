@@ -108,7 +108,13 @@ namespace NHS111.Web.Presentation.Builders.Tests
 
             var model = new DosViewModel {
                 SearchDistance = 1,
-                CheckCapacitySummaryResultList = new CheckCapacitySummaryResult[0]
+                DosCheckCapacitySummaryResult = new DosCheckCapacitySummaryResult()
+                {
+                    Success = new SuccessObject<DosService>()
+                    {
+                        Services = new List<DosService>()
+                    }
+                } 
             };
             await _dosBuilder.FillCheckCapacitySummaryResult(model);
 
