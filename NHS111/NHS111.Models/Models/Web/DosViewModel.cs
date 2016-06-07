@@ -26,9 +26,7 @@ namespace NHS111.Models.Models.Web
         {
             get
             {
-                if (DosCheckCapacitySummaryResult == null) return null;
-                if (DosCheckCapacitySummaryResult.Success == null) return null;
-                return DosCheckCapacitySummaryResult?.Success?.Services.FirstOrDefault(s => s.Id == Convert.ToInt32(SelectedServiceId));
+                return DosCheckCapacitySummaryResult.Success == null ? null : DosCheckCapacitySummaryResult?.Success?.Services.FirstOrDefault(s => s.Id == Convert.ToInt32(SelectedServiceId));
             }
         }
 
@@ -39,6 +37,7 @@ namespace NHS111.Models.Models.Web
             CareAdvices = new List<CareAdvice>();
             CareAdviceMarkers = new List<string>();
             SearchDistances = new List<int>() { 0, 10, 30, 60, 100 };
+            DosCheckCapacitySummaryResult = new DosCheckCapacitySummaryResult();
         }
     }
 }
