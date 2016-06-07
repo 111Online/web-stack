@@ -43,10 +43,10 @@ namespace NHS111.Web.Presentation.Builders
         public async Task<CheckCapacitySummaryResult[]> FillCheckCapacitySummaryResult(DosViewModel dosViewModel)
         {
             if (!string.IsNullOrEmpty(dosViewModel.JourneyJson)) dosViewModel.SymptomGroup = await BuildSymptomGroup(dosViewModel.JourneyJson);
-
+            dosViewModel.SearchDistance = ConvertMetricToMiles(dosViewModel.SearchDistance);
             var request = BuildRequestMessage(dosViewModel);
             var response = await _restfulHelper.PostAsync(_configuration.BusinessDosCheckCapacitySummaryUrl, request);
-
+            
             if (response.StatusCode != HttpStatusCode.OK) return new CheckCapacitySummaryResult[0];
 
             var val = await response.Content.ReadAsStringAsync();
@@ -54,6 +54,12 @@ namespace NHS111.Web.Presentation.Builders
             var result = jObj["CheckCapacitySummaryResult"];
             var checkCapacitySummaryResults = result.ToObject<CheckCapacitySummaryResult[]>();
             return checkCapacitySummaryResults;
+        }
+
+        private int ConvertMetricToMiles(int metricSearchDistance) {
+            const float MILES_PER_KM = 1.609344f;
+            float miles = metricSearchDistance / MILES_PER_KM;
+            return (int)Math.Ceiling(miles);
         }
 
         public async Task<DosServicesByClinicalTermResult> FillDosServicesByClinicalTermResult(DosViewModel dosViewModel)
