@@ -9,7 +9,7 @@ namespace NHS111.Models.Models.Web
     public class OutcomeViewModel : JourneyViewModel
     {
         public string SelectedServiceId { get; set; }
-        public CheckCapacitySummaryResult[] CheckCapacitySummaryResultList { get; set; }
+        public DosCheckCapacitySummaryResult DosCheckCapacitySummaryResult { get; set; }
         public SurgeryViewModel SurgeryViewModel { get; set; }
         public IEnumerable<CareAdvice> CareAdvices { get; set; }
         public IEnumerable<string> CareAdviceMarkers { get; set; }
@@ -18,10 +18,12 @@ namespace NHS111.Models.Models.Web
         public AddressSearchViewModel AddressSearchViewModel { get; set; }
         public bool? ItkSendSuccess { get; set; }
         public CareAdvice WorseningCareAdvice { get; set; }
-    
-        public CheckCapacitySummaryResult SelectedService
+        public DosService SelectedService
         {
-            get { return CheckCapacitySummaryResultList.FirstOrDefault(s => s.IdField == Convert.ToInt32(SelectedServiceId)); }
+            get
+            {
+                return DosCheckCapacitySummaryResult.Success != null ? DosCheckCapacitySummaryResult.Success.Services.FirstOrDefault(s => s.Id == Convert.ToInt32(SelectedServiceId)) : null;
+            }
         }
 
         public bool DisplayWorseningCareAdvice
@@ -39,6 +41,7 @@ namespace NHS111.Models.Models.Web
             CareAdvices = new List<CareAdvice>();
             CareAdviceMarkers = new List<string>();
             AddressSearchViewModel = new AddressSearchViewModel();
+            DosCheckCapacitySummaryResult = new DosCheckCapacitySummaryResult();
         }
     }
 }

@@ -6,6 +6,7 @@ using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web;
+using System.Web.Caching;
 using System.Xml.Linq;
 using AutoMapper;
 using Newtonsoft.Json;
@@ -40,22 +41,30 @@ namespace NHS111.Web.Presentation.Builders
             _notifier = notifier;
         }
 
-        public async Task<CheckCapacitySummaryResult[]> FillCheckCapacitySummaryResult(DosViewModel dosViewModel)
+        public async Task<DosCheckCapacitySummaryResult> FillCheckCapacitySummaryResult(DosViewModel dosViewModel)
         {
             if (!string.IsNullOrEmpty(dosViewModel.JourneyJson)) dosViewModel.SymptomGroup = await BuildSymptomGroup(dosViewModel.JourneyJson);
             dosViewModel.SearchDistance = ConvertKilometersToMiles(dosViewModel.SearchDistance);
             var request = BuildRequestMessage(dosViewModel);
             var response = await _restfulHelper.PostAsync(_configuration.BusinessDosCheckCapacitySummaryUrl, request);
-            
-            if (response.StatusCode != HttpStatusCode.OK) return new CheckCapacitySummaryResult[0];
+
+            if (response.StatusCode != HttpStatusCode.OK) return new DosCheckCapacitySummaryResult { Error = new ErrorObject() { Code = (int) response.StatusCode, Message = response.ReasonPhrase } };
 
             var val = await response.Content.ReadAsStringAsync();
             var jObj = (JObject)JsonConvert.DeserializeObject(val);
             var result = jObj["CheckCapacitySummaryResult"];
-            var checkCapacitySummaryResults = result.ToObject<CheckCapacitySummaryResult[]>();
-            return checkCapacitySummaryResults;
+            var checkCapacitySummaryResult = new DosCheckCapacitySummaryResult()
+            {
+                Success = new SuccessObject<DosService>()
+                {
+                    Code = (int)response.StatusCode,
+                    Services = result.ToObject<List<DosService>>()
+                }
+            };
+            
+            return checkCapacitySummaryResult;
         }
-
+        
         private int ConvertKilometersToMiles(int metricSearchDistance) {
             const float MILES_PER_KM = 1.609344f;
             float miles = metricSearchDistance / MILES_PER_KM;
@@ -99,24 +108,24 @@ namespace NHS111.Web.Presentation.Builders
         public async Task<DosViewModel> FillServiceDetailsBuilder(DosViewModel model)
         {
             var jObj = (JObject)JsonConvert.DeserializeObject(model.CheckCapacitySummaryResultListJson);
-            model.CheckCapacitySummaryResultList = jObj["CheckCapacitySummaryResult"].ToObject<CheckCapacitySummaryResult[]>();
+            model.DosCheckCapacitySummaryResult = jObj["DosCheckCapacitySummaryResult"].ToObject<DosCheckCapacitySummaryResult>();
             var selectedService = model.SelectedService;
 
             var itkMessage = await _cacheManager.Read(model.UserId.ToString());
             var document = XDocument.Parse(itkMessage);
 
             var serviceDetials = document.Root.Descendants("ServiceDetails").FirstOrDefault();
-            serviceDetials.Element("id").SetValue(selectedService.IdField.ToString());
-            serviceDetials.Element("name").SetValue(selectedService.NameField.ToString());
-            serviceDetials.Element("odsCode").SetValue(selectedService.OdsCodeField.ToString());
-            serviceDetials.Element("contactDetails").SetValue(selectedService.ContactDetailsField ?? "");
-            serviceDetials.Element("address").SetValue(selectedService.AddressField.ToString());
-            serviceDetials.Element("postcode").SetValue(selectedService.PostcodeField.ToString());
+            serviceDetials.Element("id").SetValue(selectedService.Id.ToString());
+            serviceDetials.Element("name").SetValue(selectedService.Name);
+            serviceDetials.Element("odsCode").SetValue(selectedService.OdsCode);
+            serviceDetials.Element("contactDetails").SetValue(selectedService.ContactDetails ?? "");
+            serviceDetials.Element("address").SetValue(selectedService.Address);
+            serviceDetials.Element("postcode").SetValue(selectedService.PostCode);
 
             _cacheManager.Set(model.UserId.ToString(), document.ToString());
             _notifier.Notify(_configuration.IntegrationApiItkDispatcher, model.UserId.ToString());
 
-            model.CheckCapacitySummaryResultList = new CheckCapacitySummaryResult[] { selectedService };
+            model.DosCheckCapacitySummaryResult = new DosCheckCapacitySummaryResult { Success = new SuccessObject<DosService>() { Services = new List<DosService>() { selectedService } } };
             model.CareAdvices = await _careAdviceBuilder.FillCareAdviceBuilder(Convert.ToInt32(model.Age), model.Gender.ToString(), model.CareAdviceMarkers.ToList());
 
             return model;
@@ -144,7 +153,7 @@ namespace NHS111.Web.Presentation.Builders
             var services = await GetMobileDoSResponse<DosServicesByClinicalTermResult>("services/byOdsCode/{0}", surgeryId);
             if (services.Success.Code != (int)HttpStatusCode.OK || services.Success.Services.FirstOrDefault() == null) return "0";
 
-            return services.Success.Services.FirstOrDefault().Id;
+            return services.Success.Services.FirstOrDefault().Id.ToString();
         }
 
         private async Task<T> GetMobileDoSResponse<T>(string endPoint, params object[] args)
@@ -166,7 +175,7 @@ namespace NHS111.Web.Presentation.Builders
 
     public interface IDOSBuilder
     {
-        Task<CheckCapacitySummaryResult[]> FillCheckCapacitySummaryResult(DosViewModel dosViewModel);
+        Task<DosCheckCapacitySummaryResult> FillCheckCapacitySummaryResult(DosViewModel dosViewModel);
         Task<DosServicesByClinicalTermResult> FillDosServicesByClinicalTermResult(DosViewModel dosViewModel);
         Task<DosViewModel> FillServiceDetailsBuilder(DosViewModel model);
         Task<int> BuildSymptomGroup(string journeyJson);

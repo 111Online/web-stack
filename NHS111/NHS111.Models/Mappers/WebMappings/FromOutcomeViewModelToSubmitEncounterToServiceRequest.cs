@@ -80,10 +80,10 @@ namespace NHS111.Models.Mappers.WebMappings
             var outcome = (OutcomeViewModel)context.SourceValue;
             var serviceDetails = (ServiceDetails)context.DestinationValue ?? new ServiceDetails();
 
-            serviceDetails.Id = outcome.SelectedService.IdField.ToString();
-            serviceDetails.Name = outcome.SelectedService.NameField;
-            serviceDetails.OdsCode = outcome.SelectedService.OdsCodeField;
-            serviceDetails.PostCode = outcome.SelectedService.PostcodeField;
+            serviceDetails.Id = outcome.SelectedService.Id.ToString();
+            serviceDetails.Name = outcome.SelectedService.Name;
+            serviceDetails.OdsCode = outcome.SelectedService.OdsCode;
+            serviceDetails.PostCode = outcome.SelectedService.PostCode;
 
             return serviceDetails;
         }

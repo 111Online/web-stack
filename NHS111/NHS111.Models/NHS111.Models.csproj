@@ -111,6 +111,8 @@
     <Compile Include="Models\Domain\CareAdvice.cs" />
     <Compile Include="Models\Domain\DispositionCode.cs" />
     <Compile Include="Models\Web\DosRequests\DosServicesByClinicalTermRequest.cs" />
+    <Compile Include="Models\Web\FromExternalServices\DosCheckCapacitySummaryResult.cs" />
+    <Compile Include="Models\Web\FromExternalServices\DosService.cs" />
     <Compile Include="Models\Web\FromExternalServices\DosServicesByClinicalTermResult.cs" />
     <Compile Include="Models\Domain\Feedback.cs" />
     <Compile Include="Models\Domain\Gender.cs" />
@@ -131,11 +133,15 @@
     <Compile Include="Models\Web\DosViewModel.cs" />
     <Compile Include="Models\Web\Enums\Urgency.cs" />
     <Compile Include="Models\Web\FeedbackConfirmation.cs" />
+    <Compile Include="Models\Web\FromExternalServices\ErrorObject.cs" />
+    <Compile Include="Models\Web\FromExternalServices\MobileDosService.cs" />
     <Compile Include="Models\Web\FromExternalServices\PAF.cs" />
+    <Compile Include="Models\Web\FromExternalServices\ServiceDetails.cs" />
     <Compile Include="Models\Web\FromExternalServices\ServiceDetailsByIdResult.cs" />
     <Compile Include="Models\Web\FromExternalServices\CheckCapacitySummaryResult.cs" />
     <Compile Include="Models\Web\FromExternalServices\Journey.cs" />
     <Compile Include="Models\Web\FromExternalServices\JourneyStep.cs" />
+    <Compile Include="Models\Web\FromExternalServices\SuccessObject.cs" />
     <Compile Include="Models\Web\ITK\Address.cs" />
     <Compile Include="Models\Web\ITK\Authentication.cs" />
     <Compile Include="Models\Web\ITK\CaseDetails.cs" />

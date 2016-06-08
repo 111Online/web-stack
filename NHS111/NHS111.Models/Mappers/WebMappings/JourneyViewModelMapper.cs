@@ -23,7 +23,7 @@ namespace NHS111.Models.Mappers.WebMappings
 
             Mapper.CreateMap<JourneyViewModel, OutcomeViewModel>()
                 .ForMember(s => s.SelectedServiceId, o => o.Ignore())
-                .ForMember(s => s.CheckCapacitySummaryResultList, o => o.Ignore())
+                .ForMember(s => s.DosCheckCapacitySummaryResult, o => o.Ignore())
                 .ForMember(s => s.SurgeryViewModel, o => o.Ignore())
                 .ForMember(s => s.CareAdviceMarkers, o => o.Ignore())
                 .ForMember(s => s.CareAdvices, o => o.Ignore())

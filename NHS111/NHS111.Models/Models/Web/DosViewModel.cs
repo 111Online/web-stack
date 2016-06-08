@@ -12,7 +12,7 @@ namespace NHS111.Models.Models.Web
     public class DosViewModel : DosCase
     {
         public Guid UserId { get; set; }
-        public CheckCapacitySummaryResult[] CheckCapacitySummaryResultList { get; set; }
+        public DosCheckCapacitySummaryResult DosCheckCapacitySummaryResult { get; set; }
         public DosServicesByClinicalTermResult DosServicesByClinicalTermResult { get; set; }
         public string CheckCapacitySummaryResultListJson { get; set; }
         public IEnumerable<CareAdvice> CareAdvices { get; set; }
@@ -22,9 +22,12 @@ namespace NHS111.Models.Models.Web
         public string SelectedServiceId { get; set; }
         public string JourneyJson { get; set; }
         public string PathwayNo { get; set; }
-        public CheckCapacitySummaryResult SelectedService
+        public DosService SelectedService
         {
-            get { return CheckCapacitySummaryResultList.FirstOrDefault(s => s.IdField == Convert.ToInt32(SelectedServiceId)); }
+            get
+            {
+                return DosCheckCapacitySummaryResult.Success == null ? null : DosCheckCapacitySummaryResult.Success.Services.FirstOrDefault(s => s.Id == Convert.ToInt32(SelectedServiceId));
+            }
         }
 
         public IEnumerable<OutcomeViewModel> Dispositions { get; set; }
@@ -34,6 +37,7 @@ namespace NHS111.Models.Models.Web
             CareAdvices = new List<CareAdvice>();
             CareAdviceMarkers = new List<string>();
             SearchDistances = new List<int>() { 0, 10, 30, 60, 100 };
+            DosCheckCapacitySummaryResult = new DosCheckCapacitySummaryResult();
         }
     }
 }

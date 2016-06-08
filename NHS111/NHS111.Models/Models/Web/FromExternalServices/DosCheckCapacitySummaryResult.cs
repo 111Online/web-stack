@@ -1,12 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using System;
 using Newtonsoft.Json;
 
 namespace NHS111.Models.Models.Web.FromExternalServices
 {
-    public class DosServicesByClinicalTermResult
+    public class DosCheckCapacitySummaryResult
     {
         [JsonProperty(PropertyName = "success")]
-        public SuccessObject<MobileDosService> Success { get; set; }
+        public SuccessObject<DosService> Success { get; set; }
 
         [JsonProperty(PropertyName = "error")]
         public ErrorObject Error { get; set; }
