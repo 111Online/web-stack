@@ -102,6 +102,9 @@
             $("#FindGP").keypress(function () {
                 $("#Surgery").val("UKN");
             });
+            $("#FindGP").keydown(function () {
+                $("#Surgery").val("UKN");
+            });
             $("#FindGP").autocomplete({
                 source: function (request, response) {
                     $("#Surgery").val("UKN");
