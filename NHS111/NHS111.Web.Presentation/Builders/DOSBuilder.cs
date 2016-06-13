@@ -22,6 +22,9 @@ using IConfiguration = NHS111.Web.Presentation.Configuration.IConfiguration;
 
 namespace NHS111.Web.Presentation.Builders
 {
+    using log4net;
+    using log4net.Config;
+
     public class DOSBuilder : IDOSBuilder
     {
         private readonly ICareAdviceBuilder _careAdviceBuilder;
@@ -30,7 +33,8 @@ namespace NHS111.Web.Presentation.Builders
         private readonly IMappingEngine _mappingEngine;
         private readonly ICacheManager<string, string> _cacheManager;
         private readonly INotifier<string> _notifier;
-        
+        private static readonly ILog _logger = LogManager.GetLogger(typeof (DOSBuilder));
+
         public DOSBuilder(ICareAdviceBuilder careAdviceBuilder, IRestfulHelper restfulHelper, IConfiguration configuration, IMappingEngine mappingEngine, ICacheManager<string, string> cacheManager, INotifier<string> notifier)
         {
             _careAdviceBuilder = careAdviceBuilder;
@@ -39,6 +43,9 @@ namespace NHS111.Web.Presentation.Builders
             _mappingEngine = mappingEngine;
             _cacheManager = cacheManager;
             _notifier = notifier;
+
+            XmlConfigurator.Configure();
+
         }
 
         public async Task<DosCheckCapacitySummaryResult> FillCheckCapacitySummaryResult(DosViewModel dosViewModel)
@@ -46,6 +53,8 @@ namespace NHS111.Web.Presentation.Builders
             if (!string.IsNullOrEmpty(dosViewModel.JourneyJson)) dosViewModel.SymptomGroup = await BuildSymptomGroup(dosViewModel.JourneyJson);
             dosViewModel.SearchDistance = ConvertKilometersToMiles(dosViewModel.SearchDistance);
             var request = BuildRequestMessage(dosViewModel);
+            var body = await request.Content.ReadAsStringAsync();
+            _logger.Debug(string.Format("DOSBuilder.FillCheckCapacitySummaryResult(): URL: {0} BODY: {1}", _configuration.BusinessDosCheckCapacitySummaryUrl, body));
             var response = await _restfulHelper.PostAsync(_configuration.BusinessDosCheckCapacitySummaryUrl, request);
 
             if (response.StatusCode != HttpStatusCode.OK) return new DosCheckCapacitySummaryResult { Error = new ErrorObject() { Code = (int) response.StatusCode, Message = response.ReasonPhrase } };
@@ -64,7 +73,7 @@ namespace NHS111.Web.Presentation.Builders
             
             return checkCapacitySummaryResult;
         }
-        
+
         private int ConvertKilometersToMiles(int metricSearchDistance) {
             const float MILES_PER_KM = 1.609344f;
             float miles = metricSearchDistance / MILES_PER_KM;
@@ -159,6 +168,7 @@ namespace NHS111.Web.Presentation.Builders
         private async Task<T> GetMobileDoSResponse<T>(string endPoint, params object[] args)
         {
             var urlWithRequest = CreateMobileDoSUrl(endPoint, args);
+            _logger.Debug("DOSBuilder.FillDosServicesByClinicalTermResult(): URL: " + urlWithRequest);
 
             var http = new HttpClient(new HttpClientHandler {Credentials = new NetworkCredential(_configuration.DOSMobileUsername, _configuration.DOSMobilePassword) });
             var response = await http.GetAsync(urlWithRequest);
