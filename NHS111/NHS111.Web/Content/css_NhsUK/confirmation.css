@@ -24,6 +24,13 @@
     list-style-type:disc;
 }
 
+
+.care-advice  ul li ul  {
+    padding-top: 0.75rem;
+    padding-bottom: 0;
+    list-style-type:circle;
+}
+
  @media (min-width: 641px) {
     .care-advice .care-advice-keywords ol {
         position: relative;

@@ -18,14 +18,17 @@
                 @Html.Hidden(careAdvice.Id)
                 <ul>
                     @foreach (var parent in careAdvice.Items) {
-                        <li>@parent.Text</li>
-                        if (parent.Items.Any()) {
+                        <li>@parent.Text
+                            @if (parent.Items.Any()) {
                             <ul>
-                                @foreach (var child in parent.Items) {
+                                @foreach (var child in parent.Items)
+                                {
                                     <li>@child.Text</li>
                                 }
                             </ul>
-                        }
+                            }
+                    </li>
+                       
                     }
                 </ul>
             }
