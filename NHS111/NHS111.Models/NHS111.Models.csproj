@@ -109,6 +109,7 @@
     <Compile Include="Models\Domain\AgeCategory.cs" />
     <Compile Include="Models\Domain\Answer.cs" />
     <Compile Include="Models\Domain\CareAdvice.cs" />
+    <Compile Include="Models\Domain\CareAdviceText.cs" />
     <Compile Include="Models\Domain\DispositionCode.cs" />
     <Compile Include="Models\Web\DosRequests\DosServicesByClinicalTermRequest.cs" />
     <Compile Include="Models\Web\FromExternalServices\DosCheckCapacitySummaryResult.cs" />

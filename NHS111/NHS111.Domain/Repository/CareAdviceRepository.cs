@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Neo4jClient.Cypher;
+using Newtonsoft.Json;
 using NHS111.Models.Models.Domain;
 
 namespace NHS111.Domain.Repository
@@ -23,39 +24,66 @@ namespace NHS111.Domain.Repository
             if (age >= 16) ageGroup = "Adult"; else if (5 <= age && age <= 15) ageGroup = "Child"; else if (1 <= age && age <= 4) ageGroup = "Toddler"; else ageGroup = "Infant";
             // TODO How to deal with infant vs. neonate?
 
-            return await _graphRepository.Client.Cypher.
-                Match("(c:InterimCareAdvice)").
+            var adviceWithAllItems = await _graphRepository.Client.Cypher.
+                Match("(t:CareAdviceText)-[:hasText*]-(c:InterimCareAdvice)").
                 Where(string.Format("c.id in [{0}]", string.Join(",", markers.Select(marker => string.Format("\"{0}-{1}-{2}\"", marker, ageGroup, gender))))).
-                Return(c => c.As<CareAdvice>()).
-                ResultsAsync;
-            
+                Return((c, t) => new { Items = t.CollectAs<CareaAdviceTextWithParent>(), Advice = c.As<CareAdvice>() }).ResultsAsync;
+
+            return adviceWithAllItems.ToList().Select(advice => new CareAdvice()
+            {
+                Id = advice.Advice.Id,
+                Title = advice.Advice.Title,
+                Keyword = advice.Advice.Keyword
+                ,
+                Items =
+                    advice.Items.Where(adviceItems => adviceItems.ParentId == advice.Advice.Id)
+                        .Select(
+                            i =>
+                                new CareAdviceText()
+                                {
+                                    Id = i.Id,
+                                    OrderNo = i.OrderNo,
+                                    Text = i.Text,
+                                    Items = advice.Items.Where(adviceItems => adviceItems.ParentId == i.Id).Select(childItem => (CareAdviceText)childItem).OrderBy(ci =>ci.OrderNo).ToList()
+                                }).OrderBy(i => i.OrderNo)
+                        .ToList()
+            }).ToList();
         }
 
         public async Task<IEnumerable<CareAdvice>> GetCareAdvice(AgeCategory ageCategory, Gender gender, IEnumerable<string> keywords, DispositionCode dxCode) {
-            /*
 
-            MATCH 
-            (i:InterimCareAdvice)-[:presentsFor]->(o:Outcome) 
-            WHERE 
-            i.keyword IN ["Burns and scalds", "Swelling, wounds", "Abdominal pain"] 
-            AND 
-            o.id = "Dx012" 
-            AND 
-            i.id =~ ".*-Child-Female" RETURN i, o
-
-            */
             var interimCaNodeName = "InterimCareAdvice";
             var presentsForRelationshipName = "presentsFor";
             var outcomeNodeName = "Outcome";
 
-            return await _graphRepository.Client.Cypher.
-                Match(string.Format("(i:{0})-[:{1}]->(o:{2})", interimCaNodeName, presentsForRelationshipName, outcomeNodeName)).
+            var adviceWithAllItems = await  _graphRepository.Client.Cypher.
+                Match(string.Format("(t:CareAdviceText)-[:hasText*]-(i:{0})-[:{1}]->(o:{2})", interimCaNodeName, presentsForRelationshipName,
+                    outcomeNodeName)).
                 Where(string.Format("i.keyword in [{0}]", JoinAndEncloseKeywords(keywords))).
                 AndWhere(string.Format("o.id = \"{0}\"", dxCode.Value)).
                 AndWhere(string.Format("i.id =~ \".*-{0}-{1}\"", ageCategory.Value, gender.Value)).
                 AndWhere(BuildExcludeKeywordsWhereStatement(keywords)).
-                Return(i => i.As<CareAdvice>()).
-                ResultsAsync;
+                Return((i, t) => new { Items = t.CollectAs<CareaAdviceTextWithParent>(), Advice = i.As<CareAdvice>() }).ResultsAsync;
+
+            return adviceWithAllItems.ToList().Select(advice => new CareAdvice()
+            {
+                Id = advice.Advice.Id,
+                Title = advice.Advice.Title,
+                Keyword = advice.Advice.Keyword
+                ,
+                Items =
+                    advice.Items.Where(adviceItems => adviceItems.ParentId == advice.Advice.Id)
+                        .Select(
+                            i =>
+                                new CareAdviceText()
+                                {
+                                    Id = i.Id,
+                                    OrderNo = i.OrderNo,
+                                    Text = i.Text,
+                                    Items = advice.Items.Where(adviceItems => adviceItems.ParentId == i.Id).Select(childItem => (CareAdviceText)childItem).OrderBy(ci=>ci.OrderNo).ToList()
+                                })
+                        .OrderBy(i => i.OrderNo).ToList()
+            }).ToList();
         }
 
 
@@ -93,3 +121,4 @@ namespace NHS111.Domain.Repository
             DispositionCode dxCode);
     }
 }
+
