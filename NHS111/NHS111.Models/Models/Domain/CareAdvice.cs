@@ -16,6 +16,6 @@ namespace NHS111.Models.Models.Domain
         public string Keyword { get; set; }
 
         [JsonProperty(PropertyName = "items")]
-        public IEnumerable<string> Items { get; set; }
+        public List<CareAdviceText> Items { get; set; }
     }
 }
