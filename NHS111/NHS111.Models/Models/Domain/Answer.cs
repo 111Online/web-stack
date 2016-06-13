@@ -12,7 +12,7 @@ namespace NHS111.Models.Models.Domain
         public string Title { get; set; }
 
         [JsonProperty(PropertyName = "titleWithoutSpaces")]
-        public string TitleWithoutSpaces { get { return Title.Replace(" ", String.Empty); } }
+        public string TitleWithoutSpaces { get { return Title != null ? Title.Replace(" ", string.Empty) : string.Empty; } }
 
         [JsonProperty(PropertyName = "symptomDiscriminator")]
         public string SymptomDiscriminator { get; set; }

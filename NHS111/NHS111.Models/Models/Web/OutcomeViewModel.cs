@@ -31,7 +31,7 @@ namespace NHS111.Models.Models.Web
             get
             {
                 return WorseningCareAdvice != null &&
-                       this.CollectedKeywords.ExcludeKeywords.All(k => k != WorseningCareAdvice.Keyword);
+                       this.CollectedKeywords.ExcludeKeywords.All(k => k.Value != WorseningCareAdvice.Keyword);
             }
         }
 

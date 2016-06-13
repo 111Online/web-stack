@@ -29,13 +29,15 @@
 
 @for (int i = 0; i < Model.CollectedKeywords.Keywords.Count; i++)
 {
-    @Html.HiddenFor(model => Model.CollectedKeywords.Keywords[i])
+    @Html.HiddenFor(model => Model.CollectedKeywords.Keywords[i].Value)
+    @Html.HiddenFor(model => Model.CollectedKeywords.Keywords[i].IsFromAnswer)
 }
 
-@for (int i = 0; i < Model.CollectedKeywords.ExcludeKeywords.Count; i++)
-{
-    @Html.HiddenFor(model => Model.CollectedKeywords.ExcludeKeywords[i])
-}
+    @for (int i = 0; i < Model.CollectedKeywords.ExcludeKeywords.Count; i++)
+    {
+        @Html.HiddenFor(model => Model.CollectedKeywords.ExcludeKeywords[i].Value)
+        @Html.HiddenFor(model => Model.CollectedKeywords.ExcludeKeywords[i].IsFromAnswer)
+    }
 
 
 

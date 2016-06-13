@@ -38,7 +38,7 @@ namespace NHS111.Web.Presentation.Builders.Tests
         private string testQuestionTitle = "test Question?";
         private string testQuestionNo = "Tx1506";
         private string testQuestionId = "PW755.0";
-        private List<string> testKeywordsCollection;
+        private List<Keyword> testKeywordsCollection = new List<Keyword>() { new Keyword() { Value = "testKeyword" } };
         private JustToBeSafeFirstViewModelBuilder _testJustToBeSafeFirstViewModelBuilder;
 
         [SetUp]
@@ -77,8 +77,8 @@ namespace NHS111.Web.Presentation.Builders.Tests
 
             _mappingEngine.Setup(m => m.Mapper).Returns(_mapper.Object);
 
-            testKeywordsCollection = testKeywords.Split('|').ToList();
-            _keywordCollector.Setup(k => k.ParseKeywords(testKeywords))
+            testKeywordsCollection = testKeywords.Split('|').Select(k => new Keyword() { Value = k, IsFromAnswer = false }).ToList();
+            _keywordCollector.Setup(k => k.ParseKeywords(testKeywords, false))
                 .Returns(testKeywordsCollection);
 
             _testJustToBeSafeFirstViewModelBuilder = new JustToBeSafeFirstViewModelBuilder(_restfulHelper.Object,_configuration.Object, _mappingEngine.Object, _keywordCollector.Object);

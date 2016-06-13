@@ -140,6 +140,7 @@
     <Compile Include="Attributes\LogHandleErrorForApiAttribute.cs" />
     <Compile Include="Attributes\LogHandleErrorForMVCAttribute.cs" />
     <Compile Include="Attributes\MultiSubmitAttribute.cs" />
+    <Compile Include="Comparer\KeywordComparer.cs" />
     <Compile Include="Configuration\Configuration.cs" />
     <Compile Include="Configuration\IConnectionManager.cs" />
     <Compile Include="Configuration\IManagedDataReader.cs" />
