@@ -9,6 +9,11 @@ namespace NHS111.Models.Models.Domain
 {
     public class CareAdviceText
     {
+        public CareAdviceText() { }
+        public CareAdviceText(IEnumerable<CareAdviceText> items)
+        {
+            this.Items = items.ToList();
+        }
         [JsonProperty(PropertyName = "id")]
         public string Id { get; set; }
 
@@ -18,7 +23,12 @@ namespace NHS111.Models.Models.Domain
         [JsonProperty(PropertyName = "text")]
         public string Text { get; set; }
 
-        [JsonProperty(PropertyName = "text")]
         public List<CareAdviceText> Items { get; set; }
+    }
+
+    public class CareaAdviceTextWithParent : CareAdviceText
+    {
+        [JsonProperty(PropertyName = "parentId")]
+        public string ParentId { get; set; }
     }
 }
