@@ -26,8 +26,8 @@ namespace NHS111.Web.Presentation.Builders.Tests
 
         private const string TEST_CONTENT =
             "[{'id':'" + TEST_CAREADVICE_ID + "','title':null,'excludeTitle':null,'items':" +
-            "['" + TEST_CAREADVICE_ITEM_FIRST + "','" + TEST_CAREADVICE_ITEM_SECOND + "']}," +
-            "{'id':'Cx220986-Adult-Male','title':null,'excludeTitle':null,'items':['Single care advice item']}]";
+            "[{'text':'" + TEST_CAREADVICE_ITEM_FIRST + "'},{'text':'" + TEST_CAREADVICE_ITEM_SECOND + "'}]}," +
+            "{'id':'Cx220986-Adult-Male','title':null,'excludeTitle':null,'items':[{'text':'Single care advice item'}]}]";
 
         private HttpResponseMessage MOCK_response = new HttpResponseMessage() { Content = new StringContent(TEST_CONTENT, Encoding.UTF8, "application/json") };
 
@@ -77,8 +77,8 @@ namespace NHS111.Web.Presentation.Builders.Tests
             Assert.AreEqual(TEST_CAREADVICE_ID, result.First().Id);
 
             Assert.AreEqual(2, result.First().Items.Count());
-            Assert.AreEqual(TEST_CAREADVICE_ITEM_FIRST, result.First().Items.First());
-            Assert.AreEqual(TEST_CAREADVICE_ITEM_SECOND, result.First().Items.Last());
+            Assert.AreEqual(TEST_CAREADVICE_ITEM_FIRST, result.First().Items.First().Text);
+            Assert.AreEqual(TEST_CAREADVICE_ITEM_SECOND, result.First().Items.Last().Text);
 
 
         }

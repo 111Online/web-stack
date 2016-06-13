@@ -67,7 +67,7 @@ namespace NHS111.Web.Presentation.Builders.Tests
         {
             var mockCareAdvices = new List<CareAdvice>()
             {
-                new CareAdvice() {Title = "TestAdvice", Id = "CA123", Items = new List<string>() {"Test advice text"}}
+                new CareAdvice() {Title = "TestAdvice", Id = "CA123", Items = new List<CareAdviceText>() {new CareAdviceText(){Text = "Test advice text"}}}
             };
 
 
