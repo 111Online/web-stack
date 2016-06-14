@@ -6,69 +6,94 @@ using System.Threading.Tasks;
 using NHS111.Models.Models.Domain;
 using NHS111.Models.Models.Web;
 using NHS111.Models.Models.Web.FromExternalServices;
+using NHS111.Utils.Comparer;
 
 namespace NHS111.Web.Presentation.Builders
 {
     public interface IKeywordCollector
     {
         JourneyViewModel Collect(Answer answer, JourneyViewModel exitingJourneyModel);
-        IEnumerable<string> ParseKeywords(string keywordsString);
-        KeywordBag CollectFromJourneySteps(List<JourneyStep> journeySteps);
+        IEnumerable<Keyword> ParseKeywords(string keywordsString);
+        IEnumerable<Keyword> ParseKeywords(string keywordsString, bool isFromAnswer);
+        KeywordBag CollectKeywordsFromPreviousQuestion(KeywordBag keywordBag, List<JourneyStep> journeySteps);
         IEnumerable<string> ConsolidateKeywords(KeywordBag keywordBag);
     }
 
     public class KeywordCollector : IKeywordCollector
     {
-        public JourneyViewModel Collect(Answer answer, JourneyViewModel exitingJourneyModel)
+        public JourneyViewModel Collect(Answer answer, JourneyViewModel existingJourneyModel)
         {
-            var journeyViewModel = exitingJourneyModel;
+            var journeyViewModel = existingJourneyModel;
             if (answer != null)
             {
-                if (!String.IsNullOrEmpty(answer.Keywords))
+                if (!string.IsNullOrEmpty(answer.Keywords))
                 {
                     var keywordsToAdd = ParseKeywords(answer.Keywords).ToList();
-                    journeyViewModel.CollectedKeywords.Keywords = journeyViewModel.CollectedKeywords.Keywords.Union(keywordsToAdd).ToList();
+                    journeyViewModel.CollectedKeywords.Keywords = journeyViewModel.CollectedKeywords.Keywords.Union(keywordsToAdd, new KeywordComparer()).ToList();
                 }
-                if (!String.IsNullOrEmpty(answer.ExcludeKeywords))
+                if (!string.IsNullOrEmpty(answer.ExcludeKeywords))
                 {
                     var excludeKeywordsToAdd = ParseKeywords(answer.ExcludeKeywords).ToList();
                     journeyViewModel.CollectedKeywords.ExcludeKeywords =
-                        journeyViewModel.CollectedKeywords.ExcludeKeywords.Union(excludeKeywordsToAdd).ToList();
+                        journeyViewModel.CollectedKeywords.ExcludeKeywords.Union(excludeKeywordsToAdd, new KeywordComparer()).ToList();
                 }
                 
             }
             return journeyViewModel;
         }
 
-        public IEnumerable<string> ParseKeywords(string keywordsString) {
+        public IEnumerable<Keyword> ParseKeywords(string keywordsString)
+        {
+            return ParseKeywords(keywordsString, true);
+        }
+
+        public IEnumerable<Keyword> ParseKeywords(string keywordsString, bool isFromAnswer) {
             if (string.IsNullOrEmpty(keywordsString))
-                return new List<string>();
+                return new List<Keyword>();
 
             var keywordsList = keywordsString.Split('|')
-                .Select(k => k.Trim()).Where(k => !String.IsNullOrEmpty(k))
+                .Select(k => k.Trim())
+                .Where(k => !string.IsNullOrEmpty(k))
+                .Select(k => new Keyword() { Value = k, IsFromAnswer = isFromAnswer })
                 .ToList();
 
             return keywordsList;
         }
 
-
-        public KeywordBag CollectFromJourneySteps(List<JourneyStep> journeySteps)
+        public KeywordBag CollectKeywordsFromPreviousQuestion(KeywordBag keywordBag, List<JourneyStep> journeySteps)
         {
-           var keywords = journeySteps
-               .Select(s => s.Answer)
-               .SelectMany(a => ParseKeywords(a.Keywords)).Distinct().ToList();
+            var bag = CollectKeywordsFromNonJourneySteps(keywordBag);
 
-           var excludekeywords = journeySteps
-             .Select(s => s.Answer)
-             .SelectMany(a => ParseKeywords(a.ExcludeKeywords)).Distinct().ToList();
+            if (journeySteps == null) return bag;
 
-            return new KeywordBag(keywords, excludekeywords);
+            var keywords = journeySteps
+                .Select(s => s.Answer)
+                .SelectMany(a => ParseKeywords(a.Keywords)).Distinct(new KeywordComparer()).ToList();
+
+            var excludeKeywords = journeySteps
+                .Select(s => s.Answer)
+                .SelectMany(a => ParseKeywords(a.ExcludeKeywords)).Distinct(new KeywordComparer()).ToList();
+
+            bag.Keywords = bag.Keywords.Union(keywords, new KeywordComparer()).ToList();
+            bag.ExcludeKeywords = bag.ExcludeKeywords.Union(excludeKeywords, new KeywordComparer()).ToList();
+
+            return bag;
         }
-
 
         public IEnumerable<string> ConsolidateKeywords(KeywordBag keywordBag)
         {
-            return keywordBag.Keywords.Except(keywordBag.ExcludeKeywords);
+            return keywordBag.Keywords.Except(keywordBag.ExcludeKeywords, new KeywordComparer()).Select(k => k.Value);
+        }
+
+        private KeywordBag CollectKeywordsFromNonJourneySteps(KeywordBag keywordBag)
+        {
+            if (keywordBag == null) return new KeywordBag();
+
+            return new KeywordBag()
+            {
+                Keywords = keywordBag.Keywords.Where(k => !k.IsFromAnswer).ToList(),
+                ExcludeKeywords = keywordBag.ExcludeKeywords.Where(k => !k.IsFromAnswer).ToList()
+            };
         }
     }
 }

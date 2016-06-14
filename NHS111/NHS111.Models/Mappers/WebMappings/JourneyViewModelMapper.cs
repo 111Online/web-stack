@@ -80,6 +80,9 @@ namespace NHS111.Models.Mappers.WebMappings
             var journeyViewModel = modelToPopulate;
             if (journeyViewModel == null)
                 journeyViewModel = new JourneyViewModel();
+
+            if (questionWithAnswers == null) return journeyViewModel;
+
             journeyViewModel.Id = questionWithAnswers.Question.Id;
             journeyViewModel.Title = questionWithAnswers.Question.Title;
 
