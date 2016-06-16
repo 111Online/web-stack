@@ -142,7 +142,7 @@ namespace NHS111.Domain.Test.Repository {
                 CareAdviceItem = new CareAdvice(){Id= "PARENT_CARE-ADVICE-1", Keyword = "TEST_KEYWORD", Title = "TEST_TITLE", Items = new List<CareAdviceText>()
                 {   
                 }},
-                CareAdvcieTextDecendanst = new List<CareaAdviceTextWithParent>()
+                CareAdvcieTextDecendants = new List<CareaAdviceTextWithParent>()
                 {
                     new CareaAdviceTextWithParent() { Id = "CareAdvice_NO_CHILD_2", OrderNo = 3, Text = "CareAdviecNoChild1", ParentId = "PARENT_CARE-ADVICE-1"},
                     new CareaAdviceTextWithParent() { Id = "CareAdvice_NO_CHILD_1", OrderNo = 1, Text = "CareAdviceParent1", ParentId = "PARENT_CARE-ADVICE-1" },

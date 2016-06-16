@@ -27,7 +27,7 @@ namespace NHS111.Domain.Repository
             var adviceWithAllItems = await _graphRepository.Client.Cypher.
                 Match("(t:CareAdviceText)-[:hasText*]-(c:InterimCareAdvice)").
                 Where(string.Format("c.id in [{0}]", string.Join(",", markers.Select(marker => string.Format("\"{0}-{1}-{2}\"", marker, ageGroup, gender))))).
-                Return((c, t) => new CareAdviceFlattened() { CareAdvcieTextDecendanst = t.CollectAs<CareaAdviceTextWithParent>(), CareAdviceItem = c.As<CareAdvice>() }).ResultsAsync;
+                Return((c, t) => new CareAdviceFlattened() { CareAdvcieTextDecendants = t.CollectAs<CareaAdviceTextWithParent>(), CareAdviceItem = c.As<CareAdvice>() }).ResultsAsync;
 
             return SoreCareAdviceDescentants(adviceWithAllItems);
         }
@@ -50,7 +50,7 @@ namespace NHS111.Domain.Repository
                 AndWhere(string.Format("o.id = \"{0}\"", dxCode.Value)).
                 AndWhere(string.Format("i.id =~ \".*-{0}-{1}\"", ageCategory.Value, gender.Value)).
                 AndWhere(BuildExcludeKeywordsWhereStatement(keywords)).
-                Return((i, t) => new CareAdviceFlattened() { CareAdvcieTextDecendanst = t.CollectAs<CareaAdviceTextWithParent>(), CareAdviceItem = i.As<CareAdvice>() }).ResultsAsync;
+                Return((i, t) => new CareAdviceFlattened() { CareAdvcieTextDecendants = t.CollectAs<CareaAdviceTextWithParent>(), CareAdviceItem = i.As<CareAdvice>() }).ResultsAsync;
 
             return SoreCareAdviceDescentants(adviceWithAllItems);
         }
@@ -77,7 +77,7 @@ namespace NHS111.Domain.Repository
         public class CareAdviceFlattened
         {
             public CareAdvice CareAdviceItem { get; set; }
-            public IEnumerable<CareaAdviceTextWithParent> CareAdvcieTextDecendanst { get; set; }
+            public IEnumerable<CareaAdviceTextWithParent> CareAdvcieTextDecendants { get; set; }
 
             public CareAdvice Sort()
             {
@@ -88,7 +88,7 @@ namespace NHS111.Domain.Repository
                     Keyword = CareAdviceItem.Keyword
                     ,
                     Items =
-                        CareAdvcieTextDecendanst.Where(adviceItems => adviceItems.ParentId == CareAdviceItem.Id)
+                        CareAdvcieTextDecendants.Where(adviceItems => adviceItems.ParentId == CareAdviceItem.Id)
                             .Select(
                                 i =>
                                     new CareAdviceText()
@@ -97,7 +97,7 @@ namespace NHS111.Domain.Repository
                                         OrderNo = i.OrderNo,
                                         Text = i.Text,
                                         Items =
-                                            CareAdvcieTextDecendanst.Where(adviceItems => adviceItems.ParentId == i.Id)
+                                            CareAdvcieTextDecendants.Where(adviceItems => adviceItems.ParentId == i.Id)
                                                 .Select(childItem => (CareAdviceText) childItem)
                                                 .OrderBy(ci => ci.OrderNo)
                                                 .ToList()
