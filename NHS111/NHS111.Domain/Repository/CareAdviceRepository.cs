@@ -27,7 +27,7 @@ namespace NHS111.Domain.Repository
             var adviceWithAllItems = await _graphRepository.Client.Cypher.
                 Match("(t:CareAdviceText)-[:hasText*]-(c:InterimCareAdvice)").
                 Where(string.Format("c.id in [{0}]", string.Join(",", markers.Select(marker => string.Format("\"{0}-{1}-{2}\"", marker, ageGroup, gender))))).
-                Return((c, t) => new CareAdviceFlattened() { CareAdvcieTextDecendants = t.CollectAs<CareaAdviceTextWithParent>(), CareAdviceItem = c.As<CareAdvice>() }).ResultsAsync;
+                Return((c, t) => new CareAdviceFlattened() { CareAdvcieTextDecendants = t.CollectAs<CareAdviceTextWithParent>(), CareAdviceItem = c.As<CareAdvice>() }).ResultsAsync;
 
             return SoreCareAdviceDescentants(adviceWithAllItems);
         }
@@ -50,7 +50,7 @@ namespace NHS111.Domain.Repository
                 AndWhere(string.Format("o.id = \"{0}\"", dxCode.Value)).
                 AndWhere(string.Format("i.id =~ \".*-{0}-{1}\"", ageCategory.Value, gender.Value)).
                 AndWhere(BuildExcludeKeywordsWhereStatement(keywords)).
-                Return((i, t) => new CareAdviceFlattened() { CareAdvcieTextDecendants = t.CollectAs<CareaAdviceTextWithParent>(), CareAdviceItem = i.As<CareAdvice>() }).ResultsAsync;
+                Return((i, t) => new CareAdviceFlattened() { CareAdvcieTextDecendants = t.CollectAs<CareAdviceTextWithParent>(), CareAdviceItem = i.As<CareAdvice>() }).ResultsAsync;
 
             return SoreCareAdviceDescentants(adviceWithAllItems);
         }
@@ -77,7 +77,7 @@ namespace NHS111.Domain.Repository
         public class CareAdviceFlattened
         {
             public CareAdvice CareAdviceItem { get; set; }
-            public IEnumerable<CareaAdviceTextWithParent> CareAdvcieTextDecendants { get; set; }
+            public IEnumerable<CareAdviceTextWithParent> CareAdvcieTextDecendants { get; set; }
 
             public CareAdvice Sort()
             {
@@ -87,23 +87,27 @@ namespace NHS111.Domain.Repository
                     Title = CareAdviceItem.Title,
                     Keyword = CareAdviceItem.Keyword
                     ,
-                    Items =
-                        CareAdvcieTextDecendants.Where(adviceItems => adviceItems.ParentId == CareAdviceItem.Id)
-                            .Select(
-                                i =>
-                                    new CareAdviceText()
-                                    {
-                                        Id = i.Id,
-                                        OrderNo = i.OrderNo,
-                                        Text = i.Text,
-                                        Items =
-                                            CareAdvcieTextDecendants.Where(adviceItems => adviceItems.ParentId == i.Id)
-                                                .Select(childItem => (CareAdviceText) childItem)
-                                                .OrderBy(ci => ci.OrderNo)
-                                                .ToList()
-                                    })
+                    Items = SortTextitemsIntoDescendantHierachy()
                             .OrderBy(i => i.OrderNo).ToList()
                 };
+            }
+
+            private IEnumerable<CareAdviceText> SortTextitemsIntoDescendantHierachy()
+            {
+                return CareAdvcieTextDecendants.Where(adviceItems => adviceItems.ParentId == CareAdviceItem.Id)
+                    .Select(
+                        i =>
+                            new CareAdviceText()
+                            {
+                                Id = i.Id,
+                                OrderNo = i.OrderNo,
+                                Text = i.Text,
+                                Items =
+                                    CareAdvcieTextDecendants.Where(adviceItems => adviceItems.ParentId == i.Id)
+                                        .Select(childItem => (CareAdviceText) childItem)
+                                        .OrderBy(ci => ci.OrderNo)
+                                        .ToList()
+                            });
             }
         }
 
