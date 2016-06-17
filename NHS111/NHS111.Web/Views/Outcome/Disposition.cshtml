@@ -8,6 +8,17 @@
 
 }
 
+@section Scripts {
+    <script>
+        var pageId = '@Model.Id';
+        dataLayer = [
+        {
+            'virtualPageUrl': document.location.pathname + '/' + pageId,
+            'virtualPageTitle': '@Model.TitleWithoutBullets'
+        }];
+    </script>
+}
+
 @section OuterSection {
     <div class="sub-header">
         <div>
