@@ -15,6 +15,16 @@
 
     <script src="~/scripts/custom.js"></script>
 
+    <script>
+        var pageId = '@Model.Id';
+        dataLayer = [
+        {
+            'virtualPageUrl': document.location.pathname + '/' + pageId,
+            'virtualPageTitle': '@Model.TitleWithoutBullets'
+            }
+        ];
+    </script>
+
 }
 
 <body id="jtbs">
