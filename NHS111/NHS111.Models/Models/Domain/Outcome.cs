@@ -10,7 +10,7 @@ namespace NHS111.Models.Models.Domain
         [JsonProperty(PropertyName = "title")]
         public string Title { get; set; }
 
-        [JsonProperty(PropertyName = "timeFrameText")]
+        [JsonProperty(PropertyName = "timeframeText")]
         public string TimeFrameText { get; set; }
     }
 }
