@@ -35,6 +35,9 @@ namespace NHS111.Models.Models.Domain
         [JsonProperty(PropertyName = "rationale")]
         public string Rationale { get; set; }
 
+        [JsonProperty(PropertyName = "timeframeText")]
+        public string TimeFrameText { get; set; }
+
         public bool IsJustToBeSafe()
         {
             return !(string.IsNullOrEmpty(Jtbs) || Jtbs.EndsWith("-"));

@@ -85,6 +85,7 @@ namespace NHS111.Models.Mappers.WebMappings
 
             journeyViewModel.Id = questionWithAnswers.Question.Id;
             journeyViewModel.Title = questionWithAnswers.Question.Title;
+            journeyViewModel.TimeFrameText = questionWithAnswers.Question.TimeFrameText;
 
             var questionAndBullets = questionWithAnswers.Question.TitleWithBullets();
             journeyViewModel.TitleWithoutBullets = questionAndBullets.Item1;
