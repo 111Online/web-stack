@@ -28,6 +28,7 @@ namespace NHS111.Web.Presentation.Configuration
 
         public string BusinessApiListOutcomesUrl { get { return ConfigurationManager.AppSettings["BusinessApiListOutcomesUrl"]; } }
 
+        public string GoogleAnalyticsContainerId { get {return ConfigurationManager.AppSettings["GoogleAnalyticsContainerId "]; } }
 
 
         public string GetBusinessApiGroupedPathwaysUrl(string searchString)
@@ -159,5 +160,6 @@ namespace NHS111.Web.Presentation.Configuration
         string DOSMobilePassword { get; }
 
         string BusinessApiListOutcomesUrl { get; }
+        string GoogleAnalyticsContainerId { get; }
     }
 }
