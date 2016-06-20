@@ -125,6 +125,7 @@
             @using (Html.BeginForm("Gender", "Question", FormMethod.Post))
             {
                 <input type="hidden" id="pathwayNo" name="pathwayNo" value=""/>
+                <input type="hidden" id="pathwayTitle" name="pathwayTitle" value="" />
 
                 <h2>I need help with</h2>
                 <div>
@@ -190,6 +191,7 @@
             select: function(event, ui) {
                 event.preventDefault();
                 $("#searchTags").val(ui.item.label);
+                $("#pathwayTitle").val(ui.item.label);
                 $("#pathwayNo").val(ui.item.value);
                 $("input.go").removeAttr("disabled");
                 return false;
