@@ -97,6 +97,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Analytics\AnalyticsTagPrinter.cs" />
+    <Compile Include="Analytics\GoogleTagManagerPrinter.cs" />
     <Compile Include="Builders\BaseBuilder.cs" />
     <Compile Include="Builders\CareAdviceBuilder.cs" />
     <Compile Include="Builders\DOSBuilder.cs" />
