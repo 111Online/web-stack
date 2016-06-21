@@ -51,7 +51,7 @@ namespace NHS111.Web.Presentation.Builders
         public async Task<DosCheckCapacitySummaryResult> FillCheckCapacitySummaryResult(DosViewModel dosViewModel)
         {
             if (!string.IsNullOrEmpty(dosViewModel.JourneyJson)) dosViewModel.SymptomGroup = await BuildSymptomGroup(dosViewModel.JourneyJson);
-            dosViewModel.SearchDistance = ConvertKilometersToMiles(dosViewModel.SearchDistance);
+        
             var request = BuildRequestMessage(dosViewModel);
             var body = await request.Content.ReadAsStringAsync();
             _logger.Debug(string.Format("DOSBuilder.FillCheckCapacitySummaryResult(): URL: {0} BODY: {1}", _configuration.BusinessDosCheckCapacitySummaryUrl, body));
@@ -72,12 +72,6 @@ namespace NHS111.Web.Presentation.Builders
             };
             
             return checkCapacitySummaryResult;
-        }
-
-        private int ConvertKilometersToMiles(int metricSearchDistance) {
-            const float MILES_PER_KM = 1.609344f;
-            float miles = metricSearchDistance / MILES_PER_KM;
-            return (int)Math.Ceiling(miles);
         }
 
         public async Task<DosServicesByClinicalTermResult> FillDosServicesByClinicalTermResult(DosViewModel dosViewModel)
