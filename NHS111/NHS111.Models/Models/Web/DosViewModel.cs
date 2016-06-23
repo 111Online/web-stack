@@ -36,7 +36,7 @@ namespace NHS111.Models.Models.Web
         {
             CareAdvices = new List<CareAdvice>();
             CareAdviceMarkers = new List<string>();
-            SearchDistances = new List<int>() { 0, 10, 30, 60, 100 };
+            SearchDistances = new List<int>() { 0, 10, 30, 60, 99 };
             DosCheckCapacitySummaryResult = new DosCheckCapacitySummaryResult();
         }
     }
