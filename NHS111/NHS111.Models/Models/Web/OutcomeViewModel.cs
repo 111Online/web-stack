@@ -18,6 +18,7 @@ namespace NHS111.Models.Models.Web
         public AddressSearchViewModel AddressSearchViewModel { get; set; }
         public bool? ItkSendSuccess { get; set; }
         public CareAdvice WorseningCareAdvice { get; set; }
+
         public DosService SelectedService
         {
             get

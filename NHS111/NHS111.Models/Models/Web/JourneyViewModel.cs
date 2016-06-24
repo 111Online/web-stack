@@ -48,7 +48,7 @@ namespace NHS111.Models.Models.Web
         public string StateJson { get; set; }
         public KeywordBag CollectedKeywords { get; set; }
         public string TimeFrameText { get; set; }
-
+        public OutcomeGroup OutcomeGroup { get; set; }
 
         public string StepLink {
             get {

@@ -45,12 +45,14 @@ namespace NHS111.Domain.Repository
                 Match(string.Format("({{ id: \"{0}\" }})-[a]->(next)", id)).
                 Where(string.Format("lower(a.title) = '{0}'", answer.Replace("'", "\\'").ToLower())).
                 OptionalMatch("next-[nextAnswer]->()").
+                OptionalMatch("next-[typeOf]->(g:OutcomeGroup)").
                 Return(next => new QuestionWithAnswers
                 {
                     Question = Return.As<Question>("next"),
-                    Answers = Return.As<List<Answer>>(string.Format("collect(nextAnswer)")),
+                    Answers = Return.As<List<Answer>>("collect(nextAnswer)"),
                     Labels = next.Labels(),
-                    Answered = Return.As<Answer>("a")
+                    Answered = Return.As<Answer>("a"),
+                    Group = Return.As<OutcomeGroup>("g")
                 });
             var res = await query.
                 ResultsAsync.

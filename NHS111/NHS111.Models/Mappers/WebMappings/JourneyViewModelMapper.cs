@@ -96,6 +96,11 @@ namespace NHS111.Models.Mappers.WebMappings
             journeyViewModel.QuestionNo = questionWithAnswers.Question.QuestionNo;
             journeyViewModel.Rationale = questionWithAnswers.Question.Rationale;
 
+            if (questionWithAnswers.Group != null)
+            {
+                journeyViewModel.OutcomeGroup = questionWithAnswers.Group;
+            }
+
             if (questionWithAnswers.State != null)
             {
                 journeyViewModel.State = questionWithAnswers.State;
