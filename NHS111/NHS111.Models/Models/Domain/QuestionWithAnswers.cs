@@ -9,5 +9,6 @@ namespace NHS111.Models.Models.Domain
         public Answer Answered { get; set; }
         public IEnumerable<string> Labels { get; set; }
         public IDictionary<string, string> State { get; set; }
+        public OutcomeGroup Group { get; set; }
     }
 }

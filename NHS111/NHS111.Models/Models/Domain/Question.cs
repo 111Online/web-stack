@@ -8,8 +8,6 @@ namespace NHS111.Models.Models.Domain
 {
     public class Question
     {
-        [JsonProperty(PropertyName = "group")]
-        public string Group { get; set; }
 
         [JsonProperty(PropertyName = "order")]
         public string Order { get; set; }

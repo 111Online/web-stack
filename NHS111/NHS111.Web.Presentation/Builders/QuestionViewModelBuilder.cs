@@ -115,26 +115,18 @@ namespace NHS111.Web.Presentation.Builders
 
         public async Task<Tuple<string, JourneyViewModel>> ActionSelection(JourneyViewModel model)
         {
-            var nonOutcome = new[] { "Dx011", "Dx012", "Dx013", "Dx016", };
-
-            if (nonOutcome.Contains(model.Id))
-            {
-                var newModel = _mappingEngine.Mapper.Map<OutcomeViewModel>(model);
-                return new Tuple<string, JourneyViewModel>("../Outcome/Emergency", await _outcomeViewModelBuilder.DispositionBuilder(newModel));
-            }
-
             switch (model.NodeType)
             {
                 case NodeType.Outcome:
+                {
+                    var newModel = _mappingEngine.Mapper.Map<OutcomeViewModel>(model);
+                    if (newModel.OutcomeGroup != null && newModel.OutcomeGroup.Id != "Call_999")
                     {
-                        var newModel = _mappingEngine.Mapper.Map<OutcomeViewModel>(model);
                         newModel = AddressSearchViewBuilder(newModel);
-                        newModel.CareAdviceMarkers = model.State.Keys.Where(key => key.StartsWith("Cx"));
-                        var disposition2 = new[] { "Dx02", "Dx25", "Dx75", "Dx30", "Dx03", "Dx16", "Dx94", "Dx09" };
-                        return disposition2.Contains(model.Id)
-                            ? new Tuple<string, JourneyViewModel>("../Outcome/Disposition2", await _outcomeViewModelBuilder.DispositionBuilder(newModel))
-                            : new Tuple<string, JourneyViewModel>("../Outcome/Disposition", await _outcomeViewModelBuilder.DispositionBuilder(newModel));
+                        newModel.CareAdviceMarkers = newModel.State.Keys.Where(key => key.StartsWith("Cx"));
                     }
+                    return await DetermineOutcomeView(newModel);
+                }
 
                 case NodeType.Pathway:
                     {
@@ -164,6 +156,19 @@ namespace NHS111.Web.Presentation.Builders
                     return new Tuple<string, JourneyViewModel>("../Question/Question", model);
 
             }
+        }
+
+        private async Task<Tuple<string, JourneyViewModel>> DetermineOutcomeView(OutcomeViewModel newModel)
+        {
+            if (newModel.OutcomeGroup != null && newModel.OutcomeGroup.Id == "Call_999")
+                return new Tuple<string, JourneyViewModel>("../Outcome/Emergency",
+                    await _outcomeViewModelBuilder.DispositionBuilder(newModel));
+
+            return (newModel.OutcomeGroup != null && newModel.OutcomeGroup.Id == "SP_Accident_and_emergency")
+                ? new Tuple<string, JourneyViewModel>("../Outcome/Disposition2",
+                    await _outcomeViewModelBuilder.DispositionBuilder(newModel))
+                : new Tuple<string, JourneyViewModel>("../Outcome/Disposition",
+                    await _outcomeViewModelBuilder.DispositionBuilder(newModel));
         }
     }
 
