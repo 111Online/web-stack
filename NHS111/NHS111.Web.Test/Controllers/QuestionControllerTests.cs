@@ -4,11 +4,13 @@ namespace NHS111.Web.Presentation.Test.Controllers {
     using System.Collections.Generic;
     using System.Threading.Tasks;
     using System.Web.Mvc;
+    using Configuration;
     using Moq;
     using NHS111.Models.Models.Domain;
     using NHS111.Models.Models.Web;
     using NUnit.Framework;
     using Presentation.Builders;
+    using Utils.Helpers;
     using Web.Controllers;
 
     [TestFixture]
@@ -16,19 +18,25 @@ namespace NHS111.Web.Presentation.Test.Controllers {
         private string _pathwayId = "PW755MaleAdult";
         private int _age = 35;
         private string _pathwayTitle = "Headache";
-        private Mock<IQuestionViewModelBuilder> _mockQuestionViewModelBuilder;
+        private Mock<IJourneyViewModelBuilder> _mockJourneyViewModelBuilder;
+        private Mock<IRestfulHelper> _mockRestfulHelper;
+        private Mock<IConfiguration> _mockConfiguration;
 
         [TestFixtureSetUp]
         public void Setup() {
-            _mockQuestionViewModelBuilder = new Mock<IQuestionViewModelBuilder>();
+            _mockJourneyViewModelBuilder = new Mock<IJourneyViewModelBuilder>();
+            _mockRestfulHelper = new Mock<IRestfulHelper>();
+            _mockConfiguration = new Mock<IConfiguration>();
         }
 
         [Test]
         public void Direct_WithNoAnswers_ReturnsFirstQuestionOfPathway() {
-            _mockQuestionViewModelBuilder.Setup(q => q.ActionSelection(It.IsAny<JourneyViewModel>()))
-                .Returns(() => Task<Tuple<string, JourneyViewModel>>.Factory.StartNew(() => new Tuple<string, JourneyViewModel>("../Question/Question", new JourneyViewModel())));
+            _mockJourneyViewModelBuilder.Setup(
+                q => q.Build(It.IsAny<JourneyViewModel>(), It.IsAny<QuestionWithAnswers>()))
+                .Returns(() => Task<JourneyViewModel>.Factory.StartNew(() => new JourneyViewModel()));
 
-            var sut = new QuestionController(_mockQuestionViewModelBuilder.Object, null);
+            var sut = new QuestionController(_mockJourneyViewModelBuilder.Object, _mockRestfulHelper.Object,
+                _mockConfiguration.Object);
 
             var result = sut.Direct(_pathwayId, _age, _pathwayTitle, null);
 
@@ -51,15 +59,14 @@ namespace NHS111.Web.Presentation.Test.Controllers {
                     },
                 }
             };
-            var mockTaskOfTuple = Task<Tuple<string, JourneyViewModel>>.Factory.StartNew(() => new Tuple<string, JourneyViewModel>("../Question/Question", mockJourney));
-            var mockQuestionViewModelBuilder = new Mock<IQuestionViewModelBuilder>();
-            mockQuestionViewModelBuilder.Setup(q => q.ActionSelection(It.IsAny<JourneyViewModel>()))
-                .Returns(() => mockTaskOfTuple);
-            mockQuestionViewModelBuilder.Setup(q => q.BuildQuestion(It.IsAny<JourneyViewModel>()))
-                .Returns(() => mockTaskOfTuple);
+            var mockJourneyViewModelBuilder = new Mock<IJourneyViewModelBuilder>();
+            mockJourneyViewModelBuilder.Setup(
+                q => q.Build(It.IsAny<JourneyViewModel>(), It.IsAny<QuestionWithAnswers>()))
+                .Returns(() => Task<JourneyViewModel>.Factory.StartNew(() => mockJourney));
 
-            var sut = new QuestionController(mockQuestionViewModelBuilder.Object, null);
-            var result = (ViewResult) await sut.Direct(_pathwayId, _age, _pathwayTitle, new [] { 0 });
+            var sut = new QuestionController(mockJourneyViewModelBuilder.Object, _mockRestfulHelper.Object,
+                _mockConfiguration.Object);
+            var result = (ViewResult) await sut.Direct(_pathwayId, _age, _pathwayTitle, new[] {0});
             var model = (JourneyViewModel) result.Model;
 
             Assert.IsTrue(model.SelectedAnswer.Contains(mockJourney.Answers[1].Title));

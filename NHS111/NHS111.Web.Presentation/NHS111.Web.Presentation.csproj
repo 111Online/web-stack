@@ -102,16 +102,20 @@
   <ItemGroup>
     <Compile Include="Analytics\AnalyticsTagPrinter.cs" />
     <Compile Include="Analytics\GoogleTagManagerPrinter.cs" />
+    <Compile Include="Builders\JourneyViewModelBuilder.cs" />
+    <Compile Include="ModelBinders\IntArrayModelBinder.cs" />
+    <Compile Include="ModelBinders\JourneyBinder.cs" />
+    <Compile Include="Builders\AddressViewModelBuilder.cs" />
     <Compile Include="Builders\BaseBuilder.cs" />
     <Compile Include="Builders\CareAdviceBuilder.cs" />
     <Compile Include="Builders\DOSBuilder.cs" />
     <Compile Include="Builders\FeedbackViewModelBuilder.cs" />
+    <Compile Include="Builders\IAddressViewModelBuilder.cs" />
     <Compile Include="Builders\JourneyViewModelStateBuilder.cs" />
     <Compile Include="Builders\JustToBeSafeFirstViewModelBuilder.cs" />
     <Compile Include="Builders\JustToBeSafeViewModelBuilder.cs" />
     <Compile Include="Builders\KeywordCollector.cs" />
     <Compile Include="Builders\OutcomeViewModelBuilder.cs" />
-    <Compile Include="Builders\QuestionViewModelBuilder.cs" />
     <Compile Include="Builders\SurgeryBuilder.cs" />
     <Compile Include="Builders\SymptomDicriminatorCollector.cs" />
     <Compile Include="Configuration\Configuration.cs" />

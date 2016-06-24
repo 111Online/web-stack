@@ -12,17 +12,21 @@ using IConfiguration = NHS111.Web.Presentation.Configuration.IConfiguration;
 
 namespace NHS111.Web.Presentation.Builders
 {
+    using System.Net.Http;
+    using System.Text;
+    using System.Web;
+
     public class JustToBeSafeViewModelBuilder : IJustToBeSafeViewModelBuilder
     {
         private readonly IConfiguration _configuration;
         private readonly IMappingEngine _mappingEngine;
         private readonly IRestfulHelper _restfulHelper;
-        private readonly IQuestionViewModelBuilder _questionViewModelBuilder;
+        private readonly IJourneyViewModelBuilder _journeyViewModelBuilder;
 
-        public JustToBeSafeViewModelBuilder(IQuestionViewModelBuilder questionViewModelBuilder, IRestfulHelper restfulHelper,
+        public JustToBeSafeViewModelBuilder(IJourneyViewModelBuilder journeyViewModelBuilder, IRestfulHelper restfulHelper,
             IConfiguration configuration, IMappingEngine mappingEngine)
         {
-            _questionViewModelBuilder = questionViewModelBuilder;
+            _journeyViewModelBuilder = journeyViewModelBuilder;
             _restfulHelper = restfulHelper;
             _configuration = configuration;
             _mappingEngine = mappingEngine;
@@ -83,8 +87,8 @@ namespace NHS111.Web.Presentation.Builders
 
                 _mappingEngine.Mapper.Map(selectedQuestion, journeyViewModel);
                 journeyViewModel = _mappingEngine.Mapper.Map(selectedAnswer, journeyViewModel);
-                
-                return await _questionViewModelBuilder.BuildQuestion(journeyViewModel);
+                var nextNode = await GetNextNode(journeyViewModel);
+                return  new Tuple<string, JourneyViewModel>("TODO NOT USED?", await _journeyViewModelBuilder.Build(journeyViewModel, nextNode));
             }
 
             if (questions.Count() == 1)
@@ -120,6 +124,20 @@ namespace NHS111.Web.Presentation.Builders
             return new Tuple<string, JourneyViewModel>("JustToBeSafe", viewModel);
 
         }
+
+        private async Task<QuestionWithAnswers> GetNextNode(JourneyViewModel model) {
+            var answer = JsonConvert.DeserializeObject<Answer>(model.SelectedAnswer);
+            var request = new HttpRequestMessage {
+                Content =
+                    new StringContent(JsonConvert.SerializeObject(answer.Title), Encoding.UTF8, "application/json")
+            };
+            var serialisedState = HttpUtility.UrlEncode(JsonConvert.SerializeObject(model.State));
+            var businessApiNextNodeUrl = _configuration.GetBusinessApiNextNodeUrl(model.PathwayId, model.Id,
+                serialisedState);
+            var response = await _restfulHelper.PostAsync(businessApiNextNodeUrl, request);
+            return JsonConvert.DeserializeObject<QuestionWithAnswers>(await response.Content.ReadAsStringAsync());
+        }
+
     }
 
     public interface IJustToBeSafeViewModelBuilder

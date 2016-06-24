@@ -21,60 +21,27 @@ namespace NHS111.Web.Presentation.Test.Builders
     {
         Mock<IOutcomeViewModelBuilder> _outcomeViewModelBuilder;
         Mock<IJustToBeSafeFirstViewModelBuilder> _justToBeSafeFirstViewModelBuilder;
-        Mock<IRestfulHelper> _restfulHelper;
         Mock<IConfiguration> _configuration;
         Mock<IMappingEngine> _mappingEngine;
         Mock<ISymptomDicriminatorCollector> _symptomDicriminatorCollector;
         Mock<IKeywordCollector> _keywordCollector;
-        private QuestionViewModelBuilder _sut;
+        private JourneyViewModelBuilder _sut;
 
         [SetUp]
         public void SetUp()
         {
             _outcomeViewModelBuilder = new Mock<IOutcomeViewModelBuilder>();
             _justToBeSafeFirstViewModelBuilder = new Mock<IJustToBeSafeFirstViewModelBuilder>();
-            _restfulHelper = new Mock<IRestfulHelper>();
-            _configuration = new Mock<IConfiguration>();
             _mappingEngine = new Mock<IMappingEngine>();
             _keywordCollector = new Mock<IKeywordCollector>();
             _symptomDicriminatorCollector = new Mock<ISymptomDicriminatorCollector>();
-            _sut = new QuestionViewModelBuilder(_outcomeViewModelBuilder.Object,
-                _justToBeSafeFirstViewModelBuilder.Object, _restfulHelper.Object, _configuration.Object,
-                _mappingEngine.Object, _symptomDicriminatorCollector.Object, _keywordCollector.Object);
+            _sut = new JourneyViewModelBuilder(_outcomeViewModelBuilder.Object,
+                _mappingEngine.Object, _symptomDicriminatorCollector.Object, _keywordCollector.Object, _justToBeSafeFirstViewModelBuilder.Object);
         }
 
         [Test]
-        public async void BuildGender_valid_title_returns_pathway_numbers()
+        public void BuildPreviousQuestion_with_keywords_on_previous_answers_retains_keywords()
         {
-            _configuration.Setup(x => x.GetBusinessApiPathwayNumbersUrl(It.IsAny<string>())).Returns("{0}");
-            _restfulHelper.Setup(x => x.GetAsync(It.IsAny<string>())).Returns(Task.FromResult("PW111, PW112"));
-            var result = await _sut.BuildGender(It.IsAny<string>());
-
-            //Assert
-            Assert.AreEqual(typeof (JourneyViewModel), result.GetType());
-            Assert.AreEqual(result.PathwayNo, "PW111, PW112");
-        }
-
-        [Test]
-        public async void BuildGender_invalid_title_returns_null()
-        {
-            _configuration.Setup(x => x.GetBusinessApiPathwayNumbersUrl(It.IsAny<string>())).Returns("{0}");
-            _restfulHelper.Setup(x => x.GetAsync(It.IsAny<string>())).Returns(Task.FromResult(string.Empty));
-            
-            var result = await _sut.BuildGender(It.IsAny<string>());
-            
-            //Assert
-            Assert.AreEqual(typeof (JourneyViewModel), result.GetType());
-            Assert.AreEqual(result.PathwayNo, string.Empty);
-        }
-
-        [Test]
-        public async void BuildPreviousQuestion_with_keywords_on_previous_answers_retains_keywords()
-        {
-            _sut = new QuestionViewModelBuilder(_outcomeViewModelBuilder.Object,
-                _justToBeSafeFirstViewModelBuilder.Object, _restfulHelper.Object, _configuration.Object,
-                _mappingEngine.Object, _symptomDicriminatorCollector.Object, new KeywordCollector());
-
             var journey = new JourneyViewModel
             {
                 JourneyJson =
@@ -107,12 +74,10 @@ namespace NHS111.Web.Presentation.Test.Builders
                     },
                 }
             };
-            _configuration.Setup(x => x.GetBusinessApiQuestionByIdUrl(It.IsAny<string>(), It.IsAny<string>())).Returns("http://someapiendpoint");
-            _restfulHelper.Setup(x => x.GetAsync(It.IsAny<string>())).Returns(Task.FromResult(string.Empty));
             Mapper.Initialize(m => m.AddProfile<NHS111.Models.Mappers.WebMappings.JourneyViewModelMapper>());
             _mappingEngine.Setup(x => x.Mapper).Returns(Mapper.Instance);
 
-            var result = await _sut.BuildPreviousQuestion(journey);
+            var result = _sut.BuildPreviousQuestion(null, journey);
 
             //Assert
             Assert.AreEqual(3, result.CollectedKeywords.Keywords.Count);
