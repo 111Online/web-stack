@@ -164,6 +164,11 @@ namespace NHS111.Web.Presentation.Builders
                 return new Tuple<string, JourneyViewModel>("../Outcome/Emergency",
                     await _outcomeViewModelBuilder.DispositionBuilder(newModel));
 
+            if (newModel.OutcomeGroup != null && newModel.OutcomeGroup.Id == "Home_Care")
+                return new Tuple<string, JourneyViewModel>("../Outcome/HomeCare",
+                    await _outcomeViewModelBuilder.DispositionBuilder(newModel));
+
+
             return (newModel.OutcomeGroup != null && newModel.OutcomeGroup.Id == "SP_Accident_and_emergency")
                 ? new Tuple<string, JourneyViewModel>("../Outcome/Disposition2",
                     await _outcomeViewModelBuilder.DispositionBuilder(newModel))

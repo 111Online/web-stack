@@ -1,0 +1,85 @@
+﻿@using NHS111.Models.Models.Domain
+@model NHS111.Models.Models.Web.OutcomeViewModel
+@{
+    Layout = "~/Views/Shared/_LayoutNhsUk.cshtml";
+}
+<link href="~/content/css_NhsUk/disposition.css" media="screen" rel="stylesheet" type="text/css"/>
+<link href="~/content/css_NhsUk/confirmation.css" media="screen" rel="stylesheet" type="text/css" />
+@section Title {
+
+}
+
+@section Scripts {
+    <script>
+        var pageId = '@Model.Id';
+        dataLayer = [
+        {
+            'virtualPageUrl': document.location.pathname + '/' + pageId,
+            'virtualPageTitle': '@Model.TitleWithoutBullets'
+        }];
+    </script>
+}
+
+@section OuterSection {
+    <div class="home-care sub-header">
+        <div>
+            <div class="home"></div>
+
+            <h2>You've finished your online assessment</h2>
+            <h3>What Happens next?</h3>
+            <p>Based on your answers you do not need to see a healthcare profesional at this time.<br/>
+              Please see the advice below on how to look after yourself</p>
+        </div>
+    </div>
+}
+
+@section FeedbackSection {
+    @Html.Partial("_FeedbackDetails", new Feedback() { PageId = Model.Id })
+}
+
+@using (Html.BeginForm("ServiceList", "Outcome", FormMethod.Post))
+{
+    @Html.HiddenFor(x => Model.Id)
+    @Html.HiddenFor(x => Model.JourneyJson)
+    @Html.HiddenFor(x => Model.PathwayId)
+    @Html.HiddenFor(x => Model.PathwayNo)
+    @Html.HiddenFor(x => Model.SymptomGroup)
+    @Html.HiddenFor(x => Model.UserInfo.Age)
+    @Html.HiddenFor(x => Model.UserInfo.Gender)
+    @Html.HiddenFor(x => Model.SymptomDiscriminator)
+    @Html.HiddenFor(x => Model.Title)
+    @Html.HiddenFor(x => Model.UserId)
+    @Html.HiddenFor(x => x.TimeFrameText)
+    for (int i = 0; i < Model.CollectedKeywords.Keywords.Count; i++)
+    {
+        @Html.HiddenFor(model => Model.CollectedKeywords.Keywords[i].Value)
+        @Html.HiddenFor(model => Model.CollectedKeywords.Keywords[i].IsFromAnswer)
+    }
+
+    for (int i = 0; i < Model.CollectedKeywords.ExcludeKeywords.Count; i++)
+    {
+        @Html.HiddenFor(model => Model.CollectedKeywords.ExcludeKeywords[i].Value)
+        @Html.HiddenFor(model => Model.CollectedKeywords.ExcludeKeywords[i].IsFromAnswer)
+    }
+
+
+    <div class="section-item last">
+        @if (Model.DisplayWorseningCareAdvice)
+        {
+            <h3 class="care-advice-section-header">
+                What if I feel worse?
+            </h3>
+
+            <div class="service-booking-message alert">
+                @foreach (var item in Model.WorseningCareAdvice.Items)
+                {
+                    <p>@item.Text</p>
+                }
+            </div>
+        }
+
+        @Html.Partial("_CareAdvice", Model.CareAdvices, new ViewDataDictionary { { "Title", "Advice to help you look after yourself" } });
+    </div>
+
+
+}
