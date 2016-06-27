@@ -319,6 +319,7 @@
     <Content Include="Content\img\gov-uk.gif" />
     <Content Include="Content\img\gov.uk_logotype_crown.png" />
     <Content Include="Content\img\greyArrow.png" />
+    <Content Include="Content\img\home.png" />
     <Content Include="Content\img\home1.png" />
     <Content Include="Content\img\home2.png" />
     <Content Include="Content\img\home3.png" />
