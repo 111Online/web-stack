@@ -50,6 +50,8 @@ namespace NHS111.Web.Presentation.Builders
         public async Task<OutcomeViewModel> DispositionBuilder(OutcomeViewModel model)
         {
             model.UserId = Guid.NewGuid();
+            model.WorseningCareAdvice = await _careAdviceBuilder.FillWorseningCareAdvice(model.UserInfo.Age,
+                model.UserInfo.Gender);
             model.CareAdvices = await
                     _careAdviceBuilder.FillCareAdviceBuilder(model.Id, new AgeCategory(model.UserInfo.Age).Value, model.UserInfo.Gender,
                         _keywordCollector.ConsolidateKeywords(model.CollectedKeywords).ToList());

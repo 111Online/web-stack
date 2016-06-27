@@ -25,6 +25,28 @@
         float: left;
     }
 
+      .sub-header .home {
+        color: #003087;
+        width: 60px;
+        height: 60px;
+        border-radius: 80px;
+        padding: 20px;
+        font-size: 78px;
+        line-height: 62px;
+        font-weight: bolder;
+        margin: 65px 30px 65px 0;
+        float: left;
+        background: #FFFFFF url('/content/img/home.png') 15px 15px/70px 70px no-repeat ;
+
+
+
+    }
+
+    .home-care.sub-header{
+        background-color: #003087;
+        padding-bottom: 40px;
+    }
+
     .sub-header h2 {
         padding-top: 70px;
     }
@@ -33,6 +55,19 @@
         font-size: 120%;
         padding-bottom: 70px;
     }
+
+    .home-care.sub-header p {
+        font-size: 120%;
+        line-height: 1.2em;
+        padding-bottom: 0px;
+    }
+
+     .home-care  h3 {
+        margin-top: 10px;
+        font-size: 1.6em;
+    }
+
+        
 
     form label input[type=text] {
         margin-top: 13px;

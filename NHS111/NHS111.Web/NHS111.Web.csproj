@@ -319,6 +319,7 @@
     <Content Include="Content\img\gov-uk.gif" />
     <Content Include="Content\img\gov.uk_logotype_crown.png" />
     <Content Include="Content\img\greyArrow.png" />
+    <Content Include="Content\img\home.png" />
     <Content Include="Content\img\home1.png" />
     <Content Include="Content\img\home2.png" />
     <Content Include="Content\img\home3.png" />
@@ -682,6 +683,7 @@
     <None Include="Properties\PublishProfiles\nhs111-web-beta - FTP.pubxml" />
     <None Include="Properties\PublishProfiles\nhs111-web-beta - Web Deploy.pubxml" />
     <Content Include="Views\Shared\_CareAdvice.cshtml" />
+    <Content Include="Views\Outcome\HomeCare.cshtml" />
     <None Include="Web.Development.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
