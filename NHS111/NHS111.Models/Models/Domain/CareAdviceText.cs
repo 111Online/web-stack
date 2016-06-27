@@ -26,7 +26,7 @@ namespace NHS111.Models.Models.Domain
         public List<CareAdviceText> Items { get; set; }
     }
 
-    public class CareaAdviceTextWithParent : CareAdviceText
+    public class CareAdviceTextWithParent : CareAdviceText
     {
         [JsonProperty(PropertyName = "parentId")]
         public string ParentId { get; set; }
