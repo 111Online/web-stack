@@ -24,8 +24,8 @@
         margin: 65px 30px 65px 0;
         float: left;
     }
-
-      .sub-header .home {
+@media (min-width: 641px) {
+    .sub-header .home {
         color: #003087;
         width: 60px;
         height: 60px;
@@ -36,12 +36,9 @@
         font-weight: bolder;
         margin: 65px 30px 65px 0;
         float: left;
-        background: #FFFFFF url('/content/img/home.png') 15px 15px/70px 70px no-repeat ;
-
-
-
+        background: #FFFFFF url('/content/img/home.png') 15px 15px/70px 70px no-repeat;
     }
-
+}
     .home-care.sub-header{
         background-color: #003087;
         padding-bottom: 40px;
