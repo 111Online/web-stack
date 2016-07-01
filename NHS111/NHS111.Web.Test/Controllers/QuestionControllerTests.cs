@@ -2,16 +2,21 @@
 namespace NHS111.Web.Presentation.Test.Controllers {
     using System;
     using System.Collections.Generic;
+    using System.Net;
+    using System.Net.Http;
     using System.Threading.Tasks;
     using System.Web.Mvc;
-    using Configuration;
+    using AutoMapper;
     using Moq;
+    using Newtonsoft.Json;
     using NHS111.Models.Models.Domain;
     using NHS111.Models.Models.Web;
     using NUnit.Framework;
     using Presentation.Builders;
     using Utils.Helpers;
     using Web.Controllers;
+    using IConfiguration = Configuration.IConfiguration;
+    using AwfulIdea = System.Tuple<string, NHS111.Models.Models.Web.JourneyViewModel>;
 
     [TestFixture]
     public class QuestionControllerTests {
@@ -21,22 +26,35 @@ namespace NHS111.Web.Presentation.Test.Controllers {
         private Mock<IJourneyViewModelBuilder> _mockJourneyViewModelBuilder;
         private Mock<IRestfulHelper> _mockRestfulHelper;
         private Mock<IConfiguration> _mockConfiguration;
+        private Mock<IMappingEngine> _mockMappingEngine;
+        private Mock<IJustToBeSafeFirstViewModelBuilder> _mockJtbsBuilderMock;
 
         [TestFixtureSetUp]
         public void Setup() {
             _mockJourneyViewModelBuilder = new Mock<IJourneyViewModelBuilder>();
             _mockRestfulHelper = new Mock<IRestfulHelper>();
             _mockConfiguration = new Mock<IConfiguration>();
+            _mockMappingEngine = new Mock<IMappingEngine>();
+            _mockJtbsBuilderMock = new Mock<IJustToBeSafeFirstViewModelBuilder>();
+
+            _mockMappingEngine.Setup(m => m.Mapper.Map<JustToBeSafeViewModel>(It.IsAny<JourneyViewModel>()))
+                .Returns(new JustToBeSafeViewModel());
+
+            _mockRestfulHelper.Setup(r => r.GetAsync(It.IsAny<string>()))
+                .Returns(() => StartedTask(JsonConvert.SerializeObject(new Pathway { Gender = "Male" })));
+
+            _mockRestfulHelper.Setup(r => r.PostAsync(It.IsAny<string>(), It.IsAny<HttpRequestMessage>()))
+                .Returns(() => StartedTask(new HttpResponseMessage(HttpStatusCode.OK) { Content = new StringContent(JsonConvert.SerializeObject(new QuestionWithAnswers())) }));
         }
 
         [Test]
         public void Direct_WithNoAnswers_ReturnsFirstQuestionOfPathway() {
-            _mockJourneyViewModelBuilder.Setup(
-                q => q.Build(It.IsAny<JourneyViewModel>(), It.IsAny<QuestionWithAnswers>()))
-                .Returns(() => Task<JourneyViewModel>.Factory.StartNew(() => new JourneyViewModel()));
+
+            _mockJtbsBuilderMock.Setup(j => j.JustToBeSafeFirstBuilder(It.IsAny<JustToBeSafeViewModel>()))
+                .Returns(StartedTask(new AwfulIdea("", new JourneyViewModel())));
 
             var sut = new QuestionController(_mockJourneyViewModelBuilder.Object, _mockRestfulHelper.Object,
-                _mockConfiguration.Object);
+                _mockConfiguration.Object, _mockJtbsBuilderMock.Object,  _mockMappingEngine.Object);
 
             var result = sut.Direct(_pathwayId, _age, _pathwayTitle, null);
 
@@ -59,13 +77,17 @@ namespace NHS111.Web.Presentation.Test.Controllers {
                     },
                 }
             };
-            var mockJourneyViewModelBuilder = new Mock<IJourneyViewModelBuilder>();
-            mockJourneyViewModelBuilder.Setup(
-                q => q.Build(It.IsAny<JourneyViewModel>(), It.IsAny<QuestionWithAnswers>()))
-                .Returns(() => Task<JourneyViewModel>.Factory.StartNew(() => mockJourney));
 
-            var sut = new QuestionController(mockJourneyViewModelBuilder.Object, _mockRestfulHelper.Object,
-                _mockConfiguration.Object);
+            _mockJtbsBuilderMock.Setup(j => j.JustToBeSafeFirstBuilder(It.IsAny<JustToBeSafeViewModel>()))
+                .Returns(StartedTask(new AwfulIdea("", mockJourney)));
+
+
+            _mockJourneyViewModelBuilder.Setup(j => j.Build(It.IsAny<JourneyViewModel>(), It.IsAny<QuestionWithAnswers>()))
+                .Returns(() => StartedTask(mockJourney));
+
+            var sut = new QuestionController(_mockJourneyViewModelBuilder.Object, _mockRestfulHelper.Object,
+                _mockConfiguration.Object, _mockJtbsBuilderMock.Object, _mockMappingEngine.Object);
+
             var result = (ViewResult) await sut.Direct(_pathwayId, _age, _pathwayTitle, new[] {0});
             var model = (JourneyViewModel) result.Model;
 
@@ -73,36 +95,60 @@ namespace NHS111.Web.Presentation.Test.Controllers {
 
         }
 
-        //[Test]
-        //public void Direct_WithAnswers_ProvidesAnswersToBuilder() {
+        private static Task<T> StartedTask<T>(T taskResult) {
+            return Task<T>.Factory.StartNew(() => taskResult);
+        }
 
-        //    var mockQuestionViewModelBuilder = new Mock<IQuestionViewModelBuilder>();
-        //    mockQuestionViewModelBuilder.Setup(q => q.ActionSelection(It.IsAny<JourneyViewModel>()))
-        //        .Returns(() => Task<Tuple<string, JourneyViewModel>>.Factory.StartNew(
-        //                    () => new Tuple<string, JourneyViewModel>("../Question/Question", new JourneyViewModel())));
+        [Test]
+        public void Direct_WithAnswers_ProvidesAnswersToBuilder()
+        {
+            //var mockQuestionViewModelBuilder = new Mock<IQuestionViewModelBuilder>();
+            var mockJourney = new JourneyViewModel {
+                Answers = new List<Answer> {
+                    new Answer {
+                        Order = 1,
+                        Title = "1"
+                    },
+                    new Answer {
+                        Order = 2,
+                        Title = "2"
+                    },
+                    new Answer {
+                        Order = 3,
+                        Title = "3"
+                    }
+                }
+            };
 
-        //    var sequence = new MockSequence();
+            _mockJourneyViewModelBuilder.Setup(q => q.Build(It.IsAny<JourneyViewModel>(), It.IsAny<QuestionWithAnswers>()))
+                .Returns(() => StartedTask(mockJourney));
 
-        //    mockQuestionViewModelBuilder.InSequence(sequence)
-        //        .Setup(x => x.BuildQuestion(It.Is<JourneyViewModel>(j => j.SelectedAnswer == "1")));
-        //    mockQuestionViewModelBuilder.InSequence(sequence)
-        //        .Setup(x => x.BuildQuestion(It.Is<JourneyViewModel>(j => j.SelectedAnswer == "2")));
-        //    mockQuestionViewModelBuilder.InSequence(sequence)
-        //        .Setup(x => x.BuildQuestion(It.Is<JourneyViewModel>(j => j.SelectedAnswer == "3")));
+            var sequence = new MockSequence();
 
-        //    var sut = new QuestionController(mockQuestionViewModelBuilder.Object, null);
+            _mockJourneyViewModelBuilder.InSequence(sequence)
+                .Setup(x => x.Build(It.Is<JourneyViewModel>(j => j.SelectedAnswer == "1"), It.IsAny<QuestionWithAnswers>()));
+            _mockJourneyViewModelBuilder.InSequence(sequence)
+                .Setup(x => x.Build(It.Is<JourneyViewModel>(j => j.SelectedAnswer == "2"), It.IsAny<QuestionWithAnswers>()));
+            _mockJourneyViewModelBuilder.InSequence(sequence)
+                .Setup(x => x.Build(It.Is<JourneyViewModel>(j => j.SelectedAnswer == "3"), It.IsAny<QuestionWithAnswers>()));
 
-        //    var pathwayId = "PW755MaleAdult";
-        //    var age = 35;
-        //    var pathwayTitle = "Headache";
+            _mockJtbsBuilderMock.Setup(j => j.JustToBeSafeFirstBuilder(It.IsAny<JustToBeSafeViewModel>()))
+                .Returns(StartedTask(new AwfulIdea("", mockJourney)));
 
-        //    var result = sut.Direct(pathwayId, age, pathwayTitle, new [] {1, 2, 3});
+            var sut = new QuestionController(_mockJourneyViewModelBuilder.Object, _mockRestfulHelper.Object,
+                _mockConfiguration.Object, _mockJtbsBuilderMock.Object, _mockMappingEngine.Object);
 
-        //    Assert.IsInstanceOf<ViewResult>(result.Result);
-        //    var viewResult = result.Result as ViewResult;
-        //    Assert.AreEqual("../Question/Question", viewResult.ViewName);
+            var pathwayId = "PW755MaleAdult";
+            var age = 35;
+            var pathwayTitle = "Headache";
 
-        //    mockQuestionViewModelBuilder.VerifyAll();
-        //}
+            var result = sut.Direct(pathwayId, age, pathwayTitle, new[] { 0, 1, 2 });
+
+            Assert.IsInstanceOf<ViewResult>(result.Result);
+            var viewResult = result.Result as ViewResult;
+            Assert.AreEqual("../Question/Question", viewResult.ViewName);
+
+            _mockJourneyViewModelBuilder.VerifyAll();
+        }
     }
 }

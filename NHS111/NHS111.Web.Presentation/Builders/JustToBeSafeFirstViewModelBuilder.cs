@@ -29,7 +29,9 @@ namespace NHS111.Web.Presentation.Builders
         }
 
         public async Task<Tuple<string, JourneyViewModel>> JustToBeSafeFirstBuilder(JustToBeSafeViewModel model) {
-            model = await DoWorkPreviouslyDoneInQuestionBuilder(model); //todo refactor away
+
+            if (model.PathwayId != null)
+                model = await DoWorkPreviouslyDoneInQuestionBuilder(model); //todo refactor away
 
             var identifiedModel = await BuildIdentifiedModel(model);
             var questionsJson = await _restfulHelper.GetAsync(_configuration.GetBusinessApiJustToBeSafePartOneUrl(identifiedModel.PathwayId));
@@ -45,7 +47,8 @@ namespace NHS111.Web.Presentation.Builders
                     JourneyJson = identifiedModel.JourneyJson,
                     State = JsonConvert.DeserializeObject<Dictionary<string, string>>(identifiedModel.StateJson),
                     StateJson = identifiedModel.StateJson,
-                    CollectedKeywords = identifiedModel.CollectedKeywords
+                    CollectedKeywords = identifiedModel.CollectedKeywords,
+                    Journey = JsonConvert.DeserializeObject<Journey>(identifiedModel.JourneyJson)
                
                 };
                 var question = JsonConvert.DeserializeObject<QuestionWithAnswers>(await _restfulHelper.GetAsync(_configuration.GetBusinessApiFirstQuestionUrl(identifiedModel.PathwayId, identifiedModel.StateJson)));

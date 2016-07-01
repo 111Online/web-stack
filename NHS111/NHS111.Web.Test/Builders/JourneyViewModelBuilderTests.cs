@@ -17,14 +17,13 @@ using IConfiguration = NHS111.Web.Presentation.Configuration.IConfiguration;
 namespace NHS111.Web.Presentation.Test.Builders
 {
     [TestFixture]
-    public class QuestionViewModelBuilderTests
+    public class JourneyViewModelBuilderTests
     {
         Mock<IOutcomeViewModelBuilder> _outcomeViewModelBuilder;
         Mock<IJustToBeSafeFirstViewModelBuilder> _justToBeSafeFirstViewModelBuilder;
         Mock<IConfiguration> _configuration;
         Mock<IMappingEngine> _mappingEngine;
         Mock<ISymptomDicriminatorCollector> _symptomDicriminatorCollector;
-        Mock<IKeywordCollector> _keywordCollector;
         private JourneyViewModelBuilder _sut;
 
         [SetUp]
@@ -33,26 +32,52 @@ namespace NHS111.Web.Presentation.Test.Builders
             _outcomeViewModelBuilder = new Mock<IOutcomeViewModelBuilder>();
             _justToBeSafeFirstViewModelBuilder = new Mock<IJustToBeSafeFirstViewModelBuilder>();
             _mappingEngine = new Mock<IMappingEngine>();
-            _keywordCollector = new Mock<IKeywordCollector>();
             _symptomDicriminatorCollector = new Mock<ISymptomDicriminatorCollector>();
             _sut = new JourneyViewModelBuilder(_outcomeViewModelBuilder.Object,
-                _mappingEngine.Object, _symptomDicriminatorCollector.Object, _keywordCollector.Object, _justToBeSafeFirstViewModelBuilder.Object);
+                _mappingEngine.Object, _symptomDicriminatorCollector.Object, new KeywordCollector(), _justToBeSafeFirstViewModelBuilder.Object);
+        }
+        /*
+                [Test]
+        public async void BuildGender_valid_title_returns_pathway_numbers()
+        {
+            _configuration.Setup(x => x.GetBusinessApiPathwayNumbersUrl(It.IsAny<string>())).Returns("{0}");
+            _restfulHelper.Setup(x => x.GetAsync(It.IsAny<string>())).Returns(Task.FromResult("PW111, PW112"));
+            var result = await _sut.BuildGender(It.IsAny<string>());
+
+            //Assert
+            Assert.AreEqual(typeof (JourneyViewModel), result.GetType());
+            Assert.AreEqual(result.PathwayNo, "PW111, PW112");
         }
 
         [Test]
+        public async void BuildGender_invalid_title_returns_null()
+        {
+            _configuration.Setup(x => x.GetBusinessApiPathwayNumbersUrl(It.IsAny<string>())).Returns("{0}");
+            _restfulHelper.Setup(x => x.GetAsync(It.IsAny<string>())).Returns(Task.FromResult(string.Empty));
+            
+            var result = await _sut.BuildGender(It.IsAny<string>());
+            
+            //Assert
+            Assert.AreEqual(typeof (JourneyViewModel), result.GetType());
+            Assert.AreEqual(result.PathwayNo, string.Empty);
+        }
+        */
+        [Test]
+        [Category("Integration")]
         public void BuildPreviousQuestion_with_keywords_on_previous_answers_retains_keywords()
         {
-            var journey = new JourneyViewModel
+            var journey = new Journey()
             {
-                JourneyJson =
-                    JsonConvert.SerializeObject(new Journey()
-                    {
-                        Steps = new List<JourneyStep>()
-                        {
-                            new JourneyStep() { QuestionId = "1", Answer = new Answer() { Keywords = "keyword 1|keyword 2", ExcludeKeywords = "" } },
-                            new JourneyStep() { QuestionId = "2" }
-                        }
-                    }),
+                Steps = new List<JourneyStep>()
+                {
+                    new JourneyStep() { QuestionId = "1", Answer = new Answer() { Keywords = "keyword 1|keyword 2", ExcludeKeywords = "" } },
+                    new JourneyStep() { QuestionId = "2" }
+                }
+            };
+            var journeyModel = new JourneyViewModel
+            {
+                Journey = journey,
+                JourneyJson = JsonConvert.SerializeObject(journey),
                 PreviousStateJson = JsonConvert.SerializeObject(new Dictionary<string, string>()),
                 CollectedKeywords = new KeywordBag()
                 {
@@ -76,10 +101,11 @@ namespace NHS111.Web.Presentation.Test.Builders
             };
             Mapper.Initialize(m => m.AddProfile<NHS111.Models.Mappers.WebMappings.JourneyViewModelMapper>());
             _mappingEngine.Setup(x => x.Mapper).Returns(Mapper.Instance);
+            var result = _sut.BuildPreviousQuestion(null, journeyModel);
 
-            var result = _sut.BuildPreviousQuestion(null, journey);
-
-            //Assert
+            
+            Assert.IsNotNull(result.CollectedKeywords);
+            Assert.IsNotNull(result.CollectedKeywords.Keywords);
             Assert.AreEqual(3, result.CollectedKeywords.Keywords.Count);
             Assert.AreEqual(1, result.CollectedKeywords.ExcludeKeywords.Count);
         }

@@ -92,7 +92,7 @@
     <Compile Include="Builders\JourneyViewModelStateBuilderTests.cs" />
     <Compile Include="Builders\JustToBeSafeFirstViewModelBuilderTests.cs" />
     <Compile Include="Builders\KeywordCollectorTests.cs" />
-    <Compile Include="Builders\QuestionViewModelBuilderTests.cs" />
+    <Compile Include="Builders\JourneyViewModelBuilderTests.cs" />
     <Compile Include="Builders\SurgeryBuilderTests.cs" />
     <Compile Include="Builders\SymptomDicriminatorCollectorTests.cs" />
     <Compile Include="Configuration\ConfigurationTests.cs" />

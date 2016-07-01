@@ -34,30 +34,29 @@ namespace NHS111.Web.Presentation.Builders {
 
             switch (model.NodeType) {
                 case NodeType.Outcome:
-                    return await _outcomeViewModelBuilder.DispositionBuilder(model as OutcomeViewModel);
+                    var outcome = _mappingEngine.Mapper.Map<OutcomeViewModel>(model);
+                    return await _outcomeViewModelBuilder.DispositionBuilder(outcome);
                 case NodeType.Pathway:
-                    return (await _justToBeSafeFirstViewModelBuilder.JustToBeSafeFirstBuilder(model as JustToBeSafeViewModel)).Item2; //todo refactor tuple away
+                    var jtbs = _mappingEngine.Mapper.Map<JustToBeSafeViewModel>(model);
+                    return (await _justToBeSafeFirstViewModelBuilder.JustToBeSafeFirstBuilder(jtbs)).Item2; //todo refactor tuple away
             }
 
             return model;
         }
 
         private static void AddLastStepToJourney(JourneyViewModel model) {
-            var journey = JsonConvert.DeserializeObject<Journey>(model.JourneyJson);
-            journey.Steps.Add(model.ToStep());
-            model.JourneyJson = JsonConvert.SerializeObject(journey);
+            model.Journey.Steps.Add(model.ToStep());
+            model.JourneyJson = JsonConvert.SerializeObject(model.Journey);
         }
 
         public JourneyViewModel BuildPreviousQuestion(QuestionWithAnswers lastStep, JourneyViewModel model) {
 
-            var journey = JsonConvert.DeserializeObject<Journey>(model.JourneyJson);
-
-            journey.RemoveLastStep();
+            model.Journey.RemoveLastStep();
 
             model.CollectedKeywords = _keywordCollector.CollectKeywordsFromPreviousQuestion(model.CollectedKeywords,
-                journey.Steps);
+                model.Journey.Steps);
 
-            model.RewindState(journey);
+            model.RewindState(model.Journey);
 
             return _mappingEngine.Mapper.Map(lastStep, model);
         }

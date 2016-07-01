@@ -14,15 +14,14 @@ namespace NHS111.Models.Test.Models.Web {
         [Test]
         public void StepLink_WithAnswersInJourney_ReturnsCorrectAnswersInLink() {
             var sut = new JourneyViewModel();
-            var journey = GenerateRandomJourney();
-            sut.JourneyJson = JsonConvert.SerializeObject(journey);
+            sut.Journey = GenerateRandomJourney();
 
             var result = sut.StepLink;
             var serialisedAnswers = result.Split('=')[1];
             var answers = serialisedAnswers.Split(',');
 
-            for (int i = 0; i < journey.Steps.Count; i++) {
-                var expectedIndex = journey.Steps[i].Answer.Order - 1;
+            for (int i = 0; i < sut.Journey.Steps.Count; i++) {
+                var expectedIndex = sut.Journey.Steps[i].Answer.Order - 1;
                 Assert.AreEqual(expectedIndex.ToString(), answers[i]); //tests for presence as well as order
             }
         }

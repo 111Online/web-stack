@@ -13,22 +13,24 @@ namespace NHS111.Web.Controllers {
     using System.Net.Http;
     using System.Text;
     using System.Web;
+    using AutoMapper;
     using Models.Models.Domain;
-    using Models.Models.Web.FromExternalServices;
     using Newtonsoft.Json;
-    using Presentation.Configuration;
     using Presentation.ModelBinders;
     using Utils.Helpers;
+    using IConfiguration = Presentation.Configuration.IConfiguration;
 
     [LogHandleErrorForMVC]
     public class QuestionController
         : Controller {
 
         public QuestionController(IJourneyViewModelBuilder journeyViewModelBuilder, IRestfulHelper restfulHelper,
-            IConfiguration configuration) {
+            IConfiguration configuration, IJustToBeSafeFirstViewModelBuilder justToBeSafeFirstViewModelBuilder, IMappingEngine mappingEngine) {
             _journeyViewModelBuilder = journeyViewModelBuilder;
             _restfulHelper = restfulHelper;
             _configuration = configuration;
+            _justToBeSafeFirstViewModelBuilder = justToBeSafeFirstViewModelBuilder;
+            _mappingEngine = mappingEngine;
         }
 
         [HttpPost]
@@ -77,12 +79,16 @@ namespace NHS111.Web.Controllers {
         [MultiSubmit(ButtonName = "Question")]
         public async Task<ActionResult> Question(JourneyViewModel model) {
             ModelState.Clear();
-            var nextNode = await GetNextNode(model);
-            var nextModel = await _journeyViewModelBuilder.Build(model, nextNode);
+            var nextModel = await GetNextJourneyViewModel(model);
 
             var viewName = DeterminViewName(nextModel);
 
-            return View(viewName, nextNode);
+            return View(viewName, nextModel);
+        }
+
+        private async Task<JourneyViewModel> GetNextJourneyViewModel(JourneyViewModel model) {
+            var nextNode = await GetNextNode(model);
+            return await _journeyViewModelBuilder.Build(model, nextNode);
         }
 
         private string DeterminViewName(JourneyViewModel model) {
@@ -109,8 +115,26 @@ namespace NHS111.Web.Controllers {
         [Route("question/direct/{pathwayId}/{age?}/{pathwayTitle}/{answers?}")]
         public async Task<ActionResult> Direct(string pathwayId, int? age, string pathwayTitle,
             [ModelBinder(typeof (IntArrayModelBinder))] int[] answers) {
-
+            //the below is copied from refactored code. Suggest removing once JTBS code is refactored away.
             var journeyViewModel = BuildJourneyViewModel(pathwayId, age, pathwayTitle);
+
+            var pathway = JsonConvert.DeserializeObject<Pathway>(await _restfulHelper.GetAsync(_configuration.GetBusinessApiPathwayUrl(pathwayId)));
+            if (pathway == null) return null;
+
+            var derivedAge = journeyViewModel.UserInfo.Age == -1 ? pathway.MinimumAgeInclusive : journeyViewModel.UserInfo.Age;
+            var newModel = new JustToBeSafeViewModel
+            {
+                PathwayId = pathway.Id,
+                PathwayNo = pathway.PathwayNo,
+                PathwayTitle = pathway.Title,
+                UserInfo = new UserInfo() { Age = derivedAge, Gender = pathway.Gender },
+                JourneyJson = journeyViewModel.JourneyJson,
+                SymptomDiscriminator = journeyViewModel.SymptomDiscriminator,
+                State = JourneyViewModelStateBuilder.BuildState(pathway.Gender, derivedAge),
+            };
+
+            newModel.StateJson = JourneyViewModelStateBuilder.BuildStateJson(newModel.State);
+            journeyViewModel = (await _justToBeSafeFirstViewModelBuilder.JustToBeSafeFirstBuilder(newModel)).Item2; //todo refactor tuple away
 
             await AnswerQuestions(journeyViewModel, answers);
             var viewName = DeterminViewName(journeyViewModel);
@@ -123,8 +147,7 @@ namespace NHS111.Web.Controllers {
         public async Task<ActionResult> PreviousQuestion(JourneyViewModel model) {
             ModelState.Clear();
 
-            var journey = JsonConvert.DeserializeObject<Journey>(model.JourneyJson);
-            var url = _configuration.GetBusinessApiQuestionByIdUrl(model.PathwayId, journey.Steps.Last().QuestionId);
+            var url = _configuration.GetBusinessApiQuestionByIdUrl(model.PathwayId, model.Journey.Steps.Last().QuestionId);
             var response = await _restfulHelper.GetAsync(url);
             var questionWithAnswers = JsonConvert.DeserializeObject<QuestionWithAnswers>(response);
 
@@ -168,7 +191,7 @@ namespace NHS111.Web.Controllers {
 
         private static JourneyViewModel BuildJourneyViewModel(string pathwayId, int? age, string pathwayTitle) {
             return new JourneyViewModel {
-                NodeType = NodeType.Question, //todo test
+                NodeType = NodeType.Pathway,
                 PathwayId = pathwayId,
                 PathwayTitle = pathwayTitle,
                 UserInfo = new UserInfo {Age = age ?? -1}
@@ -178,5 +201,7 @@ namespace NHS111.Web.Controllers {
         private readonly IJourneyViewModelBuilder _journeyViewModelBuilder;
         private readonly IRestfulHelper _restfulHelper;
         private readonly IConfiguration _configuration;
+        private readonly IJustToBeSafeFirstViewModelBuilder _justToBeSafeFirstViewModelBuilder;
+        private readonly IMappingEngine _mappingEngine;
     }
 }

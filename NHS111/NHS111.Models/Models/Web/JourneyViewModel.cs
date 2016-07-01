@@ -67,8 +67,7 @@ namespace NHS111.Models.Models.Web
         }
 
         private IEnumerable<int> GetPreviousAnswers() {
-            var journey = JsonConvert.DeserializeObject<Journey>(JourneyJson);
-            return journey.Steps.Select(step => step.Answer.Order - 1);
+            return Journey.Steps.Select(step => step.Answer.Order - 1);
         }
 
         public JourneyStep ToStep() {
