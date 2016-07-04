@@ -85,7 +85,7 @@
         }
         }
     </div>
-    if (!string.IsNullOrEmpty(Model.PreviousTitle))
+    if (!Model.IsFirstStep)
     {
         <input class="button previous-question" id="previousScreen" type="submit" name="PreviousQuestion" value="Previous question" />
     }

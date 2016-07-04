@@ -28,8 +28,11 @@ namespace NHS111.Web.Presentation.Builders
             _keywordCollector = keywordCollector;
         }
 
-        public async Task<Tuple<string, JourneyViewModel>> JustToBeSafeFirstBuilder(JustToBeSafeViewModel model)
-        {
+        public async Task<Tuple<string, JourneyViewModel>> JustToBeSafeFirstBuilder(JustToBeSafeViewModel model) {
+
+            if (model.PathwayId != null)
+                model = await DoWorkPreviouslyDoneInQuestionBuilder(model); //todo refactor away
+
             var identifiedModel = await BuildIdentifiedModel(model);
             var questionsJson = await _restfulHelper.GetAsync(_configuration.GetBusinessApiJustToBeSafePartOneUrl(identifiedModel.PathwayId));
             var questionsWithAnswers = JsonConvert.DeserializeObject<List<QuestionWithAnswers>>(questionsJson);
@@ -44,7 +47,8 @@ namespace NHS111.Web.Presentation.Builders
                     JourneyJson = identifiedModel.JourneyJson,
                     State = JsonConvert.DeserializeObject<Dictionary<string, string>>(identifiedModel.StateJson),
                     StateJson = identifiedModel.StateJson,
-                    CollectedKeywords = identifiedModel.CollectedKeywords
+                    CollectedKeywords = identifiedModel.CollectedKeywords,
+                    Journey = JsonConvert.DeserializeObject<Journey>(identifiedModel.JourneyJson)
                
                 };
                 var question = JsonConvert.DeserializeObject<QuestionWithAnswers>(await _restfulHelper.GetAsync(_configuration.GetBusinessApiFirstQuestionUrl(identifiedModel.PathwayId, identifiedModel.StateJson)));
@@ -57,6 +61,29 @@ namespace NHS111.Web.Presentation.Builders
             identifiedModel.JourneyJson = string.IsNullOrEmpty(identifiedModel.JourneyJson) ? JsonConvert.SerializeObject(new Journey()) : identifiedModel.JourneyJson;
             return new Tuple<string, JourneyViewModel>("../JustToBeSafe/JustToBeSafe", identifiedModel);
 
+        }
+
+        private async Task<JustToBeSafeViewModel> DoWorkPreviouslyDoneInQuestionBuilder(JustToBeSafeViewModel model) {
+            var businessApiPathwayUrl = _configuration.GetBusinessApiPathwayUrl(model.PathwayId);
+            var response = await _restfulHelper.GetAsync(businessApiPathwayUrl);
+            var pathway = JsonConvert.DeserializeObject<Pathway>(response);
+            if (pathway == null) return null;
+
+            var derivedAge = model.UserInfo.Age == -1 ? pathway.MinimumAgeInclusive : model.UserInfo.Age;
+            var newModel = new JustToBeSafeViewModel
+            {
+                PathwayId = pathway.Id,
+                PathwayNo = pathway.PathwayNo,
+                PathwayTitle = pathway.Title,
+                UserInfo = new UserInfo() { Age = derivedAge, Gender = pathway.Gender },
+                JourneyJson = model.JourneyJson,
+                SymptomDiscriminator = model.SymptomDiscriminator,
+                State = JourneyViewModelStateBuilder.BuildState(pathway.Gender, derivedAge),
+            };
+
+            newModel.StateJson = JourneyViewModelStateBuilder.BuildStateJson(newModel.State);
+
+            return newModel;
         }
 
         private async Task<JustToBeSafeViewModel> BuildIdentifiedModel(JustToBeSafeViewModel model)

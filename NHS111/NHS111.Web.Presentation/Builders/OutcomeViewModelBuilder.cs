@@ -29,8 +29,10 @@ namespace NHS111.Web.Presentation.Builders
         private readonly IMappingEngine _mappingEngine;
         private readonly ICacheManager<string, string> _cacheManager;
         private readonly IKeywordCollector _keywordCollector;
+        private readonly IAddressViewModelBuilder _addressViewModelBuilder;
 
-        public OutcomeViewModelBuilder(ICareAdviceBuilder careAdviceBuilder, IRestfulHelper restfulHelper, IConfiguration configuration, IMappingEngine mappingEngine, ICacheManager<string, string> cacheManager, IKeywordCollector keywordCollector)
+        public OutcomeViewModelBuilder(ICareAdviceBuilder careAdviceBuilder, IRestfulHelper restfulHelper, IConfiguration configuration, IMappingEngine mappingEngine, ICacheManager<string, string> cacheManager, IKeywordCollector keywordCollector,
+            IAddressViewModelBuilder addressViewModelBuilder)
         {
             _careAdviceBuilder = careAdviceBuilder;
             _restfulHelper = restfulHelper;
@@ -38,6 +40,7 @@ namespace NHS111.Web.Presentation.Builders
             _mappingEngine = mappingEngine;
             _cacheManager = cacheManager;
             _keywordCollector = keywordCollector;
+            _addressViewModelBuilder = addressViewModelBuilder;
         }
 
         public async Task<List<AddressInfo>> SearchPostcodeBuilder(string input)
@@ -49,6 +52,12 @@ namespace NHS111.Web.Presentation.Builders
 
         public async Task<OutcomeViewModel> DispositionBuilder(OutcomeViewModel model)
         {
+            if (OutcomeGroup.Call999.Equals(model.OutcomeGroup))
+            {
+                model.AddressSearchViewModel = _addressViewModelBuilder.Build(model);
+                model.CareAdviceMarkers = model.State.Keys.Where(key => key.StartsWith("Cx"));
+            }
+
             model.UserId = Guid.NewGuid();
             model.WorseningCareAdvice = await _careAdviceBuilder.FillWorseningCareAdvice(model.UserInfo.Age,
                 model.UserInfo.Gender);

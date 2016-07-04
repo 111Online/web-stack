@@ -1,23 +1,24 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using Newtonsoft.Json;
+﻿
+namespace NHS111.Models.Models.Web.FromExternalServices {
+    using Domain;
+    using System.Collections.Generic;
+    using Newtonsoft.Json;
 
-namespace NHS111.Models.Models.Web.FromExternalServices
-{
-    public class Journey
-    {
+    public class Journey {
         [JsonProperty(PropertyName = "steps")]
         public List<JourneyStep> Steps { get; set; }
 
-        public Journey()
-        {
+        public Journey() {
             Steps = new List<JourneyStep>();
         }
 
-        public Journey Add(Journey otherJourney)
-        {
+        public Journey Add(Journey otherJourney) {
             otherJourney.Steps.ForEach(step => Steps.Add(step));
             return this;
+        }
+
+        public void RemoveLastStep() {
+            Steps.RemoveAt(Steps.Count - 1);
         }
     }
 }

@@ -37,10 +37,18 @@ namespace NHS111.Models.Models.Web
         public NodeType NodeType { get; set; }
 
         public string JourneyJson { get; set; }
+        public Journey Journey { get; set; }
 
         public UserInfo UserInfo { get; set; }
 
-        public string PreviousTitle { get; set; }
+        public bool IsFirstStep {
+            get {
+                if (string.IsNullOrEmpty(JourneyJson))
+                    return false;
+                return !JsonConvert.DeserializeObject<Journey>(JourneyJson).Steps.Any();
+            }
+        }
+
         public string PreviousStateJson { get; set; }
         public string QuestionNo { get; set; }
         public string SymptomDiscriminator { get; set; }
@@ -59,8 +67,17 @@ namespace NHS111.Models.Models.Web
         }
 
         private IEnumerable<int> GetPreviousAnswers() {
-            var journey = JsonConvert.DeserializeObject<Journey>(JourneyJson);
-            return journey.Steps.Select(step => step.Answer.Order - 1);
+            return Journey.Steps.Select(step => step.Answer.Order - 1);
+        }
+
+        public JourneyStep ToStep() {
+            var answer = JsonConvert.DeserializeObject<Answer>(SelectedAnswer);
+            return new JourneyStep {
+                QuestionNo = QuestionNo,
+                QuestionTitle = Title,
+                Answer = answer,
+                QuestionId = Id
+            };
         }
 
         public JourneyViewModel()
@@ -77,6 +94,20 @@ namespace NHS111.Models.Models.Web
         public List<Answer> OrderedAnswers()
         {
             return Answers.OrderBy(x=>x.Order).ToList();
+        }
+
+        public void ProgressState() {
+            PreviousStateJson = StateJson;
+            State = JsonConvert.DeserializeObject<Dictionary<string, string>>(StateJson);
+        }
+
+
+        public void RemoveLastStep() {
+            Journey.RemoveLastStep();
+
+            StateJson = PreviousStateJson;
+            JourneyJson = JsonConvert.SerializeObject(Journey);
+            State = JsonConvert.DeserializeObject<Dictionary<string, string>>(StateJson);
         }
     }
 }
