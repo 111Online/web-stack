@@ -12,7 +12,7 @@ namespace NHS111.Web.Presentation.Builders.Tests
     [TestFixture()]
     public class SymptomDicriminatorCollectorTests
     {
-        SymptomDicriminatorCollector _symptomDicriminatorCollector = new SymptomDicriminatorCollector();
+        SymptomDiscriminatorCollector _symptomDiscriminatorCollector = new SymptomDiscriminatorCollector();
         const string TEST_SD_CODE = "1234";
 
         [Test()]
@@ -20,7 +20,7 @@ namespace NHS111.Web.Presentation.Builders.Tests
         {
             var testViewModel = new JourneyViewModel();
             var answer = new Answer(){Order = 0, Title = "Yes"};
-            _symptomDicriminatorCollector.Collect(answer, testViewModel);
+            _symptomDiscriminatorCollector.Collect(answer, testViewModel);
             Assert.AreEqual(String.Empty, testViewModel.SymptomDiscriminator);
         }
 
@@ -29,7 +29,7 @@ namespace NHS111.Web.Presentation.Builders.Tests
         {
             var testViewModel = new JourneyViewModel();
             var answer = new Answer() { Order = 0, Title = "Yes", SymptomDiscriminator = TEST_SD_CODE };
-            _symptomDicriminatorCollector.Collect(answer, testViewModel);
+            _symptomDiscriminatorCollector.Collect(answer, testViewModel);
             Assert.AreEqual(TEST_SD_CODE, testViewModel.SymptomDiscriminator);
         }
 
@@ -43,7 +43,7 @@ namespace NHS111.Web.Presentation.Builders.Tests
                 Answers = new List<Answer>() { new Answer() { Order = 0, Title = "Yes" }, new Answer() { Order = 1, Title = "No" }},
                 Question = new Question() { Order = "0", Title = "Test Question"}
             };
-            _symptomDicriminatorCollector.Collect(questionWithAnswers, testViewModel);
+            _symptomDiscriminatorCollector.Collect(questionWithAnswers, testViewModel);
             Assert.AreEqual(TEST_SD_CODE, testViewModel.SymptomDiscriminator);
         }
     }

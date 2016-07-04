@@ -103,6 +103,7 @@
     <Compile Include="Analytics\AnalyticsTagPrinter.cs" />
     <Compile Include="Analytics\GoogleTagManagerPrinter.cs" />
     <Compile Include="Builders\JourneyViewModelBuilder.cs" />
+    <Compile Include="Builders\SymptomDiscriminatorCollector.cs" />
     <Compile Include="ModelBinders\IntArrayModelBinder.cs" />
     <Compile Include="ModelBinders\JourneyBinder.cs" />
     <Compile Include="Builders\AddressViewModelBuilder.cs" />

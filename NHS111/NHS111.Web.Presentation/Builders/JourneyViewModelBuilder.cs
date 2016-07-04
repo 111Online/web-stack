@@ -11,10 +11,10 @@ namespace NHS111.Web.Presentation.Builders {
         : IJourneyViewModelBuilder {
 
         public JourneyViewModelBuilder(IOutcomeViewModelBuilder outcomeViewModelBuilder, IMappingEngine mappingEngine,
-            ISymptomDicriminatorCollector symptomDicriminatorCollector, IKeywordCollector keywordCollector, IJustToBeSafeFirstViewModelBuilder justToBeSafeFirstViewModelBuilder) {
+            ISymptomDiscriminatorCollector symptomDiscriminatorCollector, IKeywordCollector keywordCollector, IJustToBeSafeFirstViewModelBuilder justToBeSafeFirstViewModelBuilder) {
             _outcomeViewModelBuilder = outcomeViewModelBuilder;
             _mappingEngine = mappingEngine;
-            _symptomDicriminatorCollector = symptomDicriminatorCollector;
+            _symptomDiscriminatorCollector = symptomDiscriminatorCollector;
             _keywordCollector = keywordCollector;
             _justToBeSafeFirstViewModelBuilder = justToBeSafeFirstViewModelBuilder;
         }
@@ -27,7 +27,7 @@ namespace NHS111.Web.Presentation.Builders {
 
             var answer = JsonConvert.DeserializeObject<Answer>(model.SelectedAnswer);
 
-            _symptomDicriminatorCollector.Collect(nextNode, model);
+            _symptomDiscriminatorCollector.Collect(nextNode, model);
             model = _keywordCollector.Collect(answer, model);
 
             model = _mappingEngine.Mapper.Map(nextNode, model);
@@ -51,19 +51,17 @@ namespace NHS111.Web.Presentation.Builders {
 
         public JourneyViewModel BuildPreviousQuestion(QuestionWithAnswers lastStep, JourneyViewModel model) {
 
-            model.Journey.RemoveLastStep();
+            model.RemoveLastStep();
 
             model.CollectedKeywords = _keywordCollector.CollectKeywordsFromPreviousQuestion(model.CollectedKeywords,
                 model.Journey.Steps);
-
-            model.RewindState(model.Journey);
 
             return _mappingEngine.Mapper.Map(lastStep, model);
         }
 
         private readonly IOutcomeViewModelBuilder _outcomeViewModelBuilder;
         private readonly IMappingEngine _mappingEngine;
-        private readonly ISymptomDicriminatorCollector _symptomDicriminatorCollector;
+        private readonly ISymptomDiscriminatorCollector _symptomDiscriminatorCollector;
         private readonly IKeywordCollector _keywordCollector;
         private readonly IJustToBeSafeFirstViewModelBuilder _justToBeSafeFirstViewModelBuilder;
     }

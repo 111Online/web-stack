@@ -101,11 +101,13 @@ namespace NHS111.Models.Models.Web
             State = JsonConvert.DeserializeObject<Dictionary<string, string>>(StateJson);
         }
 
-        public void RewindState(Journey journey) {
+
+        public void RemoveLastStep() {
+            Journey.RemoveLastStep();
+
             StateJson = PreviousStateJson;
-            JourneyJson = JsonConvert.SerializeObject(journey);
+            JourneyJson = JsonConvert.SerializeObject(Journey);
             State = JsonConvert.DeserializeObject<Dictionary<string, string>>(StateJson);
         }
-
     }
 }

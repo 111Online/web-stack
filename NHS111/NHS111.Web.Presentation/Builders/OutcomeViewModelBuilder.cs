@@ -54,7 +54,7 @@ namespace NHS111.Web.Presentation.Builders
         {
             if (OutcomeGroup.Call999.Equals(model.OutcomeGroup))
             {
-                model = _addressViewModelBuilder.Build(model);
+                model.AddressSearchViewModel = _addressViewModelBuilder.Build(model);
                 model.CareAdviceMarkers = model.State.Keys.Where(key => key.StartsWith("Cx"));
             }
 

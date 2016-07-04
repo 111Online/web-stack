@@ -23,7 +23,7 @@ namespace NHS111.Web.Presentation.Test.Builders
         Mock<IJustToBeSafeFirstViewModelBuilder> _justToBeSafeFirstViewModelBuilder;
         Mock<IConfiguration> _configuration;
         Mock<IMappingEngine> _mappingEngine;
-        Mock<ISymptomDicriminatorCollector> _symptomDicriminatorCollector;
+        Mock<ISymptomDiscriminatorCollector> _symptomDicriminatorCollector;
         private JourneyViewModelBuilder _sut;
 
         [SetUp]
@@ -32,7 +32,7 @@ namespace NHS111.Web.Presentation.Test.Builders
             _outcomeViewModelBuilder = new Mock<IOutcomeViewModelBuilder>();
             _justToBeSafeFirstViewModelBuilder = new Mock<IJustToBeSafeFirstViewModelBuilder>();
             _mappingEngine = new Mock<IMappingEngine>();
-            _symptomDicriminatorCollector = new Mock<ISymptomDicriminatorCollector>();
+            _symptomDicriminatorCollector = new Mock<ISymptomDiscriminatorCollector>();
             _sut = new JourneyViewModelBuilder(_outcomeViewModelBuilder.Object,
                 _mappingEngine.Object, _symptomDicriminatorCollector.Object, new KeywordCollector(), _justToBeSafeFirstViewModelBuilder.Object);
         }

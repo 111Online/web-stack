@@ -81,7 +81,7 @@ namespace NHS111.Web.Controllers {
             ModelState.Clear();
             var nextModel = await GetNextJourneyViewModel(model);
 
-            var viewName = DeterminViewName(nextModel);
+            var viewName = DetermineViewName(nextModel);
 
             return View(viewName, nextModel);
         }
@@ -91,7 +91,7 @@ namespace NHS111.Web.Controllers {
             return await _journeyViewModelBuilder.Build(model, nextNode);
         }
 
-        private string DeterminViewName(JourneyViewModel model) {
+        private string DetermineViewName(JourneyViewModel model) {
             switch (model.NodeType) {
                 case NodeType.Outcome:
                     if (OutcomeGroup.Call999.Equals(model.OutcomeGroup))
@@ -137,7 +137,7 @@ namespace NHS111.Web.Controllers {
             journeyViewModel = (await _justToBeSafeFirstViewModelBuilder.JustToBeSafeFirstBuilder(newModel)).Item2; //todo refactor tuple away
 
             await AnswerQuestions(journeyViewModel, answers);
-            var viewName = DeterminViewName(journeyViewModel);
+            var viewName = DetermineViewName(journeyViewModel);
             return View(viewName, journeyViewModel);
         }
 
