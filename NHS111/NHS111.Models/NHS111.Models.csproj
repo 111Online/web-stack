@@ -110,6 +110,7 @@
     <Compile Include="Models\Domain\Answer.cs" />
     <Compile Include="Models\Domain\CareAdvice.cs" />
     <Compile Include="Models\Domain\CareAdviceText.cs" />
+    <Compile Include="Models\Domain\DefinedTerm.cs" />
     <Compile Include="Models\Domain\DispositionCode.cs" />
     <Compile Include="Models\Domain\OutcomeGroup.cs" />
     <Compile Include="Models\Web\DosRequests\DosServicesByClinicalTermRequest.cs" />
