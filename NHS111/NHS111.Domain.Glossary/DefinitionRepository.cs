@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using NHS111.Business.Glossary.Api.Models;
 using NHS111.Domain.Glossary.Configuration;
-using NHS111.Models.Models.Domain;
 
 namespace NHS111.Domain.Glossary
 {

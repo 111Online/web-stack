@@ -6,7 +6,6 @@ using System.Text;
 using System.Threading.Tasks;
 using CsvHelper.Configuration;
 using CsvHelper.TypeConversion;
-using NHS111.Models.Models.Domain;
 
 namespace NHS111.Domain.Glossary.Configuration
 {

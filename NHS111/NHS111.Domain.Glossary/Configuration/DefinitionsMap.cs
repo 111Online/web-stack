@@ -5,7 +5,8 @@ using System.Text;
 using System.Threading.Tasks;
 using CsvHelper.Configuration;
 using CsvHelper.TypeConversion;
-using NHS111.Models.Models.Domain;
+using NHS111.Business.Glossary.Api.Models;
+
 
 namespace NHS111.Domain.Glossary.Configuration
 {
@@ -16,6 +17,7 @@ namespace NHS111.Domain.Glossary.Configuration
         {
             Map(m => m.Term).Name("GLOSSARYTERM");
             Map(m => m.Definition).Name("DESCRIPTION");
+            Map(m => m.Synonyms).Name("SYNONYMS");
         }
     }
 }
