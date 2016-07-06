@@ -76,8 +76,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Comparer\PathwaysComparer_Test.cs" />
-    <Compile Include="Configuration\StatementParametersTests.cs" />
-    <Compile Include="Converters\FeedbackConverterTests.cs" />
     <Compile Include="Extensions\CypherFluentQueryExtensionTest.cs" />
     <Compile Include="Extensions\ListExtension_Test.cs" />
     <Compile Include="Extensions\StringExtensionTest.cs" />
