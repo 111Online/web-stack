@@ -11,7 +11,8 @@ namespace NHS111.Business.Glossary.Api.IoC
     {
         public static IContainer Initialize()
         {
-            var cont = new Container(c => c.AddRegistry<GlossaryDomainRegistry>());
+            var cont = new Container(c => c.AddRegistry<GlossaryBusinessApiRegistry>());
+           // cont.AssertConfigurationIsValid();
             return cont;
         }
     }
