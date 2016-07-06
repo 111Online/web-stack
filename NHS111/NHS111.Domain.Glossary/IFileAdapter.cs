@@ -12,4 +12,5 @@ namespace NHS111.Domain.Glossary
         String Filename { get; set; }
         StreamReader OpenText();
     }
+   
 }
