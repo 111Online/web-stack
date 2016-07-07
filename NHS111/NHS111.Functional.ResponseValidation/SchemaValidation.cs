@@ -10,7 +10,8 @@ namespace NHS111.Functional.ResponseValidation
             Pathway,
             Question,
             Answer,
-            Answers
+            Answers,
+            CheckServiceDetailsById
         }
 
         public static void AssertValidResponseSchema(string result, ResponseSchemaType schemaType)
@@ -28,6 +29,9 @@ namespace NHS111.Functional.ResponseValidation
                     break;
                 case ResponseSchemaType.Answer:
                     AssertValidAnswerResponseSchema(result);
+                    break;
+                case ResponseSchemaType.CheckServiceDetailsById:
+                    AssertValidCheckServiceDetailsByIdResponseSchema(result);
                     break;
                 default:
                     throw new InvalidEnumArgumentException(string.Format("{0}{1}{2}","ResponseSchemaType of ", schemaType.ToString(), "is unsupported"));
@@ -80,6 +84,15 @@ namespace NHS111.Functional.ResponseValidation
             Assert.IsTrue(result.Contains("\"symptomDiscriminator"));
             Assert.IsTrue(result.Contains("\"Labels"));
             Assert.IsTrue(result.Contains("\"State"));
+        }
+
+        private static void AssertValidCheckServiceDetailsByIdResponseSchema(string result)
+        {
+            Assert.IsTrue(result.Contains("\"tagField"));
+            Assert.IsTrue(result.Contains("\"nameField"));
+            Assert.IsTrue(result.Contains("\"valueField"));
+            Assert.IsTrue(result.Contains("\"orderField"));
+            Assert.IsTrue(result.Contains("\"PropertyChanged"));
         }
     }
 }
