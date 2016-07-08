@@ -43,11 +43,11 @@
       <HintPath>..\packages\Newtonsoft.Json.8.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="nunit.framework, Version=2.6.4.14350, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL">
+    <Reference Include="nunit.framework">
       <HintPath>..\packages\NUnit.2.6.4\lib\nunit.framework.dll</HintPath>
-      <Private>True</Private>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.configuration" />
     <Reference Include="System.Net.Http" />
   </ItemGroup>
   <Choose>
@@ -63,7 +63,7 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Compile Include="QuestionEnpointTests.cs" />
+    <Compile Include="BusinessDosApiTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -71,6 +71,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\NHS111.Functional.ResponseValidation\NHS111.Functional.ResponseValidation.csproj">
+      <Project>{287a7a76-88a0-4cbe-ad54-2b6d32fed830}</Project>
+      <Name>NHS111.Functional.ResponseValidation</Name>
+    </ProjectReference>
     <ProjectReference Include="..\NHS111.Utils\NHS111.Utils.csproj">
       <Project>{efc4426e-3564-4c5e-ac95-4de7a2c55876}</Project>
       <Name>NHS111.Utils</Name>
