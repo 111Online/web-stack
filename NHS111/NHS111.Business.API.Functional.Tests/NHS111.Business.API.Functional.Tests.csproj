@@ -74,9 +74,9 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\NHS111.Functional.ResponseValidation\NHS111.Functional.ResponseValidation.csproj">
+    <ProjectReference Include="..\NHS111.Functional.ResponseValidation\NHS111.Functional.Tests.Tools.csproj">
       <Project>{287a7a76-88a0-4cbe-ad54-2b6d32fed830}</Project>
-      <Name>NHS111.Functional.ResponseValidation</Name>
+      <Name>NHS111.Functional.Tests.Tools</Name>
     </ProjectReference>
     <ProjectReference Include="..\NHS111.Utils\NHS111.Utils.csproj">
       <Project>{efc4426e-3564-4c5e-ac95-4de7a2c55876}</Project>

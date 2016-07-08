@@ -86,7 +86,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NHS111.Domain.ITKDispatcher
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NHS111.Web.Tools", "NHS111.Web.Tools\NHS111.Web.Tools.csproj", "{FB7CB063-1F0D-4022-948D-6831A05EC6A6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NHS111.Functional.ResponseValidation", "NHS111.Functional.ResponseValidation\NHS111.Functional.ResponseValidation.csproj", "{287A7A76-88A0-4CBE-AD54-2B6D32FED830}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NHS111.Functional.Tests.Tools", "NHS111.Functional.ResponseValidation\NHS111.Functional.Tests.Tools.csproj", "{287A7A76-88A0-4CBE-AD54-2B6D32FED830}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
