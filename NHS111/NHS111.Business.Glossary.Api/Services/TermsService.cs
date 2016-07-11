@@ -44,10 +44,21 @@ namespace NHS111.Business.Glossary.Api.Services
 
         public async Task<IEnumerable<DefinedTerm>> FindContainedTerms(string text)
         {
-            var lCasetext = text.ToLower();
+            var normalisedtext = AppendAndPrependSpaces(RemovePunctuation(text.ToLower()));
             var terms = await ListDefinedTerms();
-            return terms.Where(t => lCasetext.Contains(t.Term.ToLower()));
+            return terms.Where(t => normalisedtext.Contains(" " + t.Term.ToLower() + " "));
         }
+
+        private string AppendAndPrependSpaces(string text)
+        {
+            return " " + text + " ";
+        }
+
+        private string RemovePunctuation(string text)
+        {
+            return new String(text.Where(c => !Char.IsPunctuation(c)).ToArray());
+        }
+
 
         public IEnumerable<DefinedTerm> MergeTermDefinitions(IEnumerable<Models.DefinedTerm> terms, IEnumerable<DefinedTerm> synonymDefinitions)
         {
