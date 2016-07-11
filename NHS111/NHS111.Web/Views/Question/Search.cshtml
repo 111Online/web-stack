@@ -1,4 +1,4 @@
-﻿@using NHS111.Models.Models.Domain
+﻿@using NHS111.Models.Models.Web
 @{
     Layout = "~/Views/Shared/_LayoutNhsUK.cshtml";
 }
@@ -108,7 +108,7 @@
 }
 
 @section FeedbackSection {
-    @Html.Partial("_FeedbackDetails", new Feedback() { PageId = Request.Url.GetComponents(UriComponents.PathAndQuery, UriFormat.SafeUnescaped) })
+    @Html.Partial("_FeedbackDetails", new FeedbackViewModel() { PageId = Request.Url.GetComponents(UriComponents.PathAndQuery, UriFormat.SafeUnescaped) })
 }
 
 <div id="search">

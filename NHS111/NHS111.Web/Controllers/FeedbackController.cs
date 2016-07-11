@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using Newtonsoft.Json;
+using NHS111.Models.Models.Web;
 using NHS111.Web.Presentation.Builders;
 
 namespace NHS111.Web.Controllers
@@ -16,7 +17,7 @@ namespace NHS111.Web.Controllers
         }
 
         [HttpPost]
-        public async Task<JsonResult> SubmitFeedback(Models.Models.Domain.Feedback feedbackData)
+        public async Task<JsonResult> SubmitFeedback(FeedbackViewModel feedbackData)
         {
             feedbackData.DateAdded = DateTime.Now; //this is when the feedback is added
             return Json(await _feedbackViewModelBuilder.FeedbackBuilder(feedbackData));

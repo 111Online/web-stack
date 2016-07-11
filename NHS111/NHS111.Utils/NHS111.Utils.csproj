@@ -142,14 +142,7 @@
     <Compile Include="Attributes\LogHandleErrorForMVCAttribute.cs" />
     <Compile Include="Attributes\MultiSubmitAttribute.cs" />
     <Compile Include="Comparer\KeywordComparer.cs" />
-    <Compile Include="Configuration\Configuration.cs" />
-    <Compile Include="Configuration\IConnectionManager.cs" />
-    <Compile Include="Configuration\IManagedDataReader.cs" />
-    <Compile Include="Configuration\ManagedDataReader.cs" />
     <Compile Include="Configuration\PathwaysConfigurationManager.cs" />
-    <Compile Include="Configuration\SqliteConnectionManager.cs" />
-    <Compile Include="Configuration\StatementParameters.cs" />
-    <Compile Include="Converters\FeedbackConverter.cs" />
     <Compile Include="Extensions\CypherFluentQueryExtension.cs" />
     <Compile Include="Helpers\HttpClientFactory.cs" />
     <Compile Include="Itk\ItkMessageBuilder.cs" />

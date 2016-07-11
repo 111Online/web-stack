@@ -5,7 +5,6 @@ using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
-using NHS111.Models.Models.Domain;
 using NHS111.Models.Models.Web;
 using NHS111.Utils.Helpers;
 using IConfiguration = NHS111.Web.Presentation.Configuration.IConfiguration;
@@ -23,7 +22,7 @@ namespace NHS111.Web.Presentation.Builders
             _configuration = configuration;
         }
 
-        public async Task<FeedbackConfirmation> FeedbackBuilder(Feedback feedback)
+        public async Task<FeedbackConfirmation> FeedbackBuilder(FeedbackViewModel feedback)
         {
             var model = new FeedbackConfirmation();
 
@@ -49,6 +48,6 @@ namespace NHS111.Web.Presentation.Builders
 
     public interface IFeedbackViewModelBuilder
     {
-        Task<FeedbackConfirmation> FeedbackBuilder(Feedback feedback);
+        Task<FeedbackConfirmation> FeedbackBuilder(FeedbackViewModel feedback);
     }
 }

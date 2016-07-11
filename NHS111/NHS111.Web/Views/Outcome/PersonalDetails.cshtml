@@ -1,5 +1,5 @@
-﻿@using NHS111.Models.Models.Domain
-@model NHS111.Models.Models.Web.OutcomeViewModel
+﻿@using NHS111.Models.Models.Web
+@model OutcomeViewModel
 @{
     Layout = "~/Views/Shared/_LayoutNhsUk.cshtml";
 }
@@ -9,7 +9,7 @@
 }
 
 @section FeedbackSection {
-    @Html.Partial("_FeedbackDetails", new Feedback() { PageId = Model.Id })
+    @Html.Partial("_FeedbackDetails", new FeedbackViewModel() { PageId = Model.Id })
 }
 
 <link href="~/content/css_NhsUk/personaldetails.css" media="screen" rel="stylesheet" type="text/css"/>

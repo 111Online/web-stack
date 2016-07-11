@@ -113,10 +113,10 @@
     <Compile Include="Models\Domain\DispositionCode.cs" />
     <Compile Include="Models\Domain\OutcomeGroup.cs" />
     <Compile Include="Models\Web\DosRequests\DosServicesByClinicalTermRequest.cs" />
+    <Compile Include="Models\Web\FeedbackViewModel.cs" />
     <Compile Include="Models\Web\FromExternalServices\DosCheckCapacitySummaryResult.cs" />
     <Compile Include="Models\Web\FromExternalServices\DosService.cs" />
     <Compile Include="Models\Web\FromExternalServices\DosServicesByClinicalTermResult.cs" />
-    <Compile Include="Models\Domain\Feedback.cs" />
     <Compile Include="Models\Domain\Gender.cs" />
     <Compile Include="Models\Domain\GroupedPathways.cs" />
     <Compile Include="Models\Domain\QuestionWithDeadEnd.cs" />
