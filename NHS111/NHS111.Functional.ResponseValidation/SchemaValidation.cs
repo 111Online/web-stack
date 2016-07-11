@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel;
 using NUnit.Framework;
 
-namespace NHS111.Functional.ResponseValidation
+namespace NHS111.Functional.Tests.Tools
 {
     public class SchemaValidation
     {
@@ -72,7 +72,6 @@ namespace NHS111.Functional.ResponseValidation
         private static void AssertValidQuestionResponseSchema(string result)
         {
             Assert.IsTrue(result.Contains("\"Question"));
-            Assert.IsTrue(result.Contains("\"group"));
             Assert.IsTrue(result.Contains("\"order"));
             Assert.IsTrue(result.Contains("\"topic"));
             Assert.IsTrue(result.Contains("\"id"));

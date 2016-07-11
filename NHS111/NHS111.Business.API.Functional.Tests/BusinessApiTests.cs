@@ -8,7 +8,7 @@ namespace NHS111.Business.API.Functional.Tests
     using NUnit.Framework;
     using System.Configuration;
     using Utils.Helpers;
-    using NHS111.Functional.ResponseValidation;
+    using NHS111.Functional.Tests.Tools;
 
     [TestFixture]
     public class BusinessApiTests
@@ -120,14 +120,6 @@ namespace NHS111.Business.API.Functional.Tests
             Assert.IsTrue(result.Contains("\"pathwayNo\":\"PW752"));
             Assert.IsTrue(result.Contains("\"pathwayNo\":\"PW755"));
             Assert.IsTrue(result.Contains("\"pathwayNo\":\"PW754"));
-        }
-
-        public static HttpRequestMessage CreateHTTPRequest(string requestContent)
-        {
-            return new HttpRequestMessage
-            {
-                Content = new StringContent("\"" + requestContent + "\"", Encoding.UTF8, "application/json")
-            };
         }
     }
 }

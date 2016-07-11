@@ -1,18 +1,38 @@
-﻿using System.ComponentModel;
-using System.Net.Http;
-using System.Text;
+﻿using System.Configuration;
+using Newtonsoft.Json.Linq;
+using NHS111.Functional.Tests.Tools;
 using NHS111.Utils.Helpers;
 using NUnit.Framework;
-using Newtonsoft.Json.Linq;
 
-namespace NHS111.Domain.DOS.API.Functional.Tests
+namespace NHS111.DOS.Domain.API.Functional.Tests
 {
     [TestFixture]
-    public class QuestionEnpointTests
+    public class DomainDOSApiTests
     {
-        private string _dosApiDomain =
-            "https://microsoft-apiapp089e023e4ca84f6bac0493c7-integration.azurewebsites.net/";
-            
+        private static string DomainDOSApiCheckCapacitySummaryUrl
+        {
+            get { return ConfigurationManager.AppSettings["DomainDOSApiBaseUrl"] + ConfigurationManager.AppSettings["DomainDOSApiCheckCapacitySummaryUrl"]; }
+        }
+
+        private static string DomainDOSApiServiceDetailsByIdUrl
+        {
+            get { return ConfigurationManager.AppSettings["DomainDOSApiBaseUrl"] + ConfigurationManager.AppSettings["DomainDOSApiServiceDetailsByIdUrl"]; }
+        }
+
+        private static string DomainDOSApiServicesByClinicalTermUrl
+        {
+            get { return ConfigurationManager.AppSettings["DomainDOSApiBaseUrl"] + ConfigurationManager.AppSettings["DomainDOSApiServicesByClinicalTermUrl"]; }
+        }
+        
+        private static string DOSApiUsername
+        {
+            get { return ConfigurationManager.AppSettings["dos_credential_user"]; }
+        }
+
+        private static string DOSApiPassword
+        {
+            get { return ConfigurationManager.AppSettings["dos_credential_password"]; }
+        }
 
         private RestfulHelper _restfulHelper = new RestfulHelper();
 
@@ -22,8 +42,7 @@ namespace NHS111.Domain.DOS.API.Functional.Tests
         [Test]
         public async void TestCheckCapacitySumary()
         {
-            var getNextQuestionEndpoint = "DOSapi/CheckCapacitySummary";
-            var result = await _restfulHelper.PostAsync(_dosApiDomain + getNextQuestionEndpoint, CreateHTTPRequest("{\"ServiceVersion\":\"1.3\",\"UserInfo\":{\"Username\":\"digital111_ws\",\"Password\":\"Valtech111\"},\"c\":{\"Postcode\":\"HP21 8AL\"}}"));
+            var result = await _restfulHelper.PostAsync(DomainDOSApiCheckCapacitySummaryUrl, RequestFormatting.CreateHTTPRequest("{\"ServiceVersion\":\"1.3\",\"UserInfo\":{\"Username\":\"" + DOSApiUsername + "\",\"Password\":\"" + DOSApiPassword + "\"},\"c\":{\"Postcode\":\"HP21 8AL\"}}",string.Empty));
 
             var resultContent = await result.Content.ReadAsStringAsync();
             dynamic jsonResult = Newtonsoft.Json.Linq.JObject.Parse(resultContent);
@@ -73,55 +92,15 @@ namespace NHS111.Domain.DOS.API.Functional.Tests
 
         }
 
-        public static HttpRequestMessage CreateHTTPRequest(string requestContent)
-        {
-            return new HttpRequestMessage
-            {
-                Content = new StringContent(requestContent, Encoding.UTF8, "application/json")
-            };
-        }
-
         [Test]
         public async void TestCheckServiceDetailsById()
         {
-            var getNextQuestionEndpoint = "DOSapi/ServiceDetailsById";
-            var result = await _restfulHelper.PostAsync(_dosApiDomain + getNextQuestionEndpoint, CreateHTTPRequest("{\"ServiceVersion\":\"1.3\",\"UserInfo\":{\"Username\":\"digital111_ws\",\"Password\":\"Valtech111\"},\"serviceId\":1315835856}"));
+            var result = await _restfulHelper.PostAsync(DomainDOSApiServiceDetailsByIdUrl, RequestFormatting.CreateHTTPRequest("{\"ServiceVersion\":\"1.3\",\"UserInfo\":{\"Username\":\"" + DOSApiUsername + "\",\"Password\":\"" + DOSApiPassword + "\"},\"serviceId\":1315835856}", string.Empty));
 
             var resultContent = await result.Content.ReadAsStringAsync();
 
             Assert.IsTrue(result.IsSuccessStatusCode);
-            AssertValidResponseSchema(resultContent, ResponseSchemaType.CheckServiceDetailsById);
-        }
-
-
-        public enum ResponseSchemaType
-        {
-            CheckServiceDetailsById
-        }
-
-        private static void AssertValidResponseSchema(string result, ResponseSchemaType schemaType)
-        {
-            switch (schemaType)
-            {
-
-                case ResponseSchemaType.CheckServiceDetailsById:
-                    AssertValidCheckServiceDetailsByIdResponseSchema(result);
-                    break;
-                default:
-                    throw new InvalidEnumArgumentException("ResponseSchemaType of " + schemaType.ToString() +
-                                                       "is unsupported");
-            }
-        }
-
-
-
-        private static void AssertValidCheckServiceDetailsByIdResponseSchema(string result)
-        {
-            Assert.IsTrue(result.Contains("\"tagField"));
-            Assert.IsTrue(result.Contains("\"nameField"));
-            Assert.IsTrue(result.Contains("\"valueField"));
-            Assert.IsTrue(result.Contains("\"orderField"));
-            Assert.IsTrue(result.Contains("\"PropertyChanged"));
+            SchemaValidation.AssertValidResponseSchema(resultContent, SchemaValidation.ResponseSchemaType.CheckServiceDetailsById);
         }
 
         [Test]
@@ -138,7 +117,7 @@ namespace NHS111.Domain.DOS.API.Functional.Tests
             var sd = "4003";
             var numberPerType = "1";
 
-            var result = await _restfulHelper.PostAsync(_dosApiDomain + "DOSapi/ServicesByClinicalTerm", CreateHTTPRequest(string.Format("{{\"caseId\":\"{0}\",\"postcode\":\"{1}\",\"searchDistance\":\"{2}\",\"gpPracticeId\":\"{3}\",\"age\":\"{4}\",\"gender\":\"{5}\",\"disposition\":\"{6}\",\"symptomGroupDiscriminatorCombos\":\"{7}={8}\",\"numberPerType\":\"{9}\" }}", caseId, postCode, searchDistance, gpPracticeId, age, gender, dispo, sg, sd, numberPerType)));
+            var result = await _restfulHelper.PostAsync(DomainDOSApiServicesByClinicalTermUrl, RequestFormatting.CreateHTTPRequest(string.Format("{{\"caseId\":\"{0}\",\"postcode\":\"{1}\",\"searchDistance\":\"{2}\",\"gpPracticeId\":\"{3}\",\"age\":\"{4}\",\"gender\":\"{5}\",\"disposition\":\"{6}\",\"symptomGroupDiscriminatorCombos\":\"{7}={8}\",\"numberPerType\":\"{9}\" }}", caseId, postCode, searchDistance, gpPracticeId, age, gender, dispo, sg, sd, numberPerType),string.Empty));
 
             var resultContent = await result.Content.ReadAsStringAsync();
 

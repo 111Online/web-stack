@@ -1,9 +1,7 @@
 ﻿namespace NHS111.Business.DOS.API.Functional.Tests
 {
-    using NHS111.Functional.ResponseValidation;
+    using NHS111.Functional.Tests.Tools;
     using System.Configuration;
-    using System.Net.Http;
-    using System.Text;
     using Utils.Helpers;
     using NUnit.Framework;
     using Newtonsoft.Json.Linq;
@@ -13,19 +11,24 @@
     {
         private RestfulHelper _restfulHelper = new RestfulHelper();
 
-        private static string DomainApiBaseUrl
+        private static string BusinessDosCheckCapacitySummaryUrl
         {
-            get { return ConfigurationManager.AppSettings["DomainApiBaseUrl"]; }
+            get { return ConfigurationManager.AppSettings["BusinessDosCheckCapacitySummaryUrl"]; }
         }
 
-        private static string DomainApiUsername
+        private static string BusinessDosServiceDetailsByIdUrl
         {
-            get { return ConfigurationManager.AppSettings["DomainApiUsername"]; }
+            get { return ConfigurationManager.AppSettings["BusinessDosServiceDetailsByIdUrl"]; }
+        }
+        
+        private static string DOSApiUsername
+        {
+            get { return ConfigurationManager.AppSettings["dos_credential_user"]; }
         }
 
-        private static string DomainApiPassword
+        private static string DOSApiPassword
         {
-            get { return ConfigurationManager.AppSettings["DomainApiPassword"]; }
+            get { return ConfigurationManager.AppSettings["dos_credential_password"]; }
         }
         
         /// <summary>
@@ -34,12 +37,11 @@
         [Test]
         public async void TestCheckDoSBusinessCapacitySumary()
         {
-            var getNextQuestionEndpoint = "DOSapi/CheckCapacitySummary";
             var result =
                 await
-                    _restfulHelper.PostAsync(DomainApiBaseUrl + getNextQuestionEndpoint,
-                        CreateHTTPRequest(
-                            "{\"ServiceVersion\":\"1.3\",\"UserInfo\":{\"Username\":\"" + DomainApiUsername +"\",\"Password\":\"" + DomainApiPassword + "\"},\"c\":{\"Postcode\":\"HP21 8AL\"}}"));
+                    _restfulHelper.PostAsync(BusinessDosCheckCapacitySummaryUrl,
+                        RequestFormatting.CreateHTTPRequest(
+                            "{\"ServiceVersion\":\"1.3\",\"UserInfo\":{\"Username\":\"" + DOSApiUsername + "\",\"Password\":\"" + DOSApiPassword + "\"},\"c\":{\"Postcode\":\"HP21 8AL\"}}", string.Empty));
 
             var resultContent = await result.Content.ReadAsStringAsync();
             dynamic jsonResult = Newtonsoft.Json.Linq.JObject.Parse(resultContent);
@@ -87,23 +89,14 @@
             Assert.IsNotNull(response.PropertyChanged);
         }
 
-        public static HttpRequestMessage CreateHTTPRequest(string requestContent)
-        {
-            return new HttpRequestMessage
-            {
-                Content = new StringContent(requestContent, Encoding.UTF8, "application/json")
-            };
-        }
-
         [Test]
         public async void TestCheckDosBusinessServiceDetailsById()
         {
-            var getNextQuestionEndpoint = "DOSapi/ServiceDetailsById";
             var result =
                 await
-                    _restfulHelper.PostAsync(DomainApiBaseUrl + getNextQuestionEndpoint,
-                        CreateHTTPRequest(
-                            "{\"ServiceVersion\":\"1.3\",\"UserInfo\":{\"Username\":\"" + DomainApiUsername + "\",\"Password\":\"" + DomainApiPassword + "\"},\"serviceId\":1315835856}"));
+                    _restfulHelper.PostAsync(BusinessDosServiceDetailsByIdUrl,
+                        RequestFormatting.CreateHTTPRequest(
+                            "{\"ServiceVersion\":\"1.3\",\"UserInfo\":{\"Username\":\"" + DOSApiUsername + "\",\"Password\":\"" + DOSApiPassword + "\"},\"serviceId\":1315835856}", string.Empty));
 
             var resultContent = await result.Content.ReadAsStringAsync();
 
