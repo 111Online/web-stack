@@ -1,43 +1,58 @@
-﻿
-
-namespace NHS111.Business.DOS.API.Functional.Tests
+﻿namespace NHS111.Business.DOS.API.Functional.Tests
 {
-    using System.ComponentModel;
-    using System.Net.Http;
-    using System.Text;
-    using NHS111.Utils.Helpers;
+    using NHS111.Functional.Tests.Tools;
+    using System.Configuration;
+    using Utils.Helpers;
     using NUnit.Framework;
     using Newtonsoft.Json.Linq;
 
     [TestFixture]
-    public class QuestionEnpointTests
+    public class BusinessDosApiTests
     {
-        private string _domainApiDomain =
-            "https://microsoft-apiapp9783ffa9d6244e6590fec540-integration.azurewebsites.net/";
-
-
         private RestfulHelper _restfulHelper = new RestfulHelper();
 
+        private static string BusinessDosCheckCapacitySummaryUrl
+        {
+            get { return ConfigurationManager.AppSettings["BusinessDosCheckCapacitySummaryUrl"]; }
+        }
+
+        private static string BusinessDosServiceDetailsByIdUrl
+        {
+            get { return ConfigurationManager.AppSettings["BusinessDosServiceDetailsByIdUrl"]; }
+        }
+        
+        private static string DOSApiUsername
+        {
+            get { return ConfigurationManager.AppSettings["dos_credential_user"]; }
+        }
+
+        private static string DOSApiPassword
+        {
+            get { return ConfigurationManager.AppSettings["dos_credential_password"]; }
+        }
+        
         /// <summary>
         /// Example test method for a HTTP POST
         /// </summary>
         [Test]
         public async void TestCheckDoSBusinessCapacitySumary()
         {
-            var getNextQuestionEndpoint = "DOSapi/CheckCapacitySummary";
-            var result = await _restfulHelper.PostAsync(_domainApiDomain + getNextQuestionEndpoint, CreateHTTPRequest("{\"ServiceVersion\":\"1.3\",\"UserInfo\":{\"Username\":\"digital111_ws\",\"Password\":\"Valtech111\"},\"c\":{\"Postcode\":\"HP21 8AL\"}}"));
+            var result =
+                await
+                    _restfulHelper.PostAsync(BusinessDosCheckCapacitySummaryUrl,
+                        RequestFormatting.CreateHTTPRequest(
+                            "{\"ServiceVersion\":\"1.3\",\"UserInfo\":{\"Username\":\"" + DOSApiUsername + "\",\"Password\":\"" + DOSApiPassword + "\"},\"c\":{\"Postcode\":\"HP21 8AL\"}}", string.Empty));
 
             var resultContent = await result.Content.ReadAsStringAsync();
             dynamic jsonResult = Newtonsoft.Json.Linq.JObject.Parse(resultContent);
             JArray summaryResult = jsonResult.CheckCapacitySummaryResult;
             dynamic firstService = summaryResult[0];
-            dynamic serviceTypeField = firstService.serviceTypeField;
+            var serviceTypeField = firstService.serviceTypeField;
 
             AssertResponse(firstService);
             //Assert.IsNotNull(serviceTypeField.idField);
             //Assert.AreEqual("40", (string)serviceTypeField.idField);
             Assert.IsTrue(result.IsSuccessStatusCode);
-
         }
 
         private void AssertResponse(dynamic response)
@@ -72,58 +87,21 @@ namespace NHS111.Business.DOS.API.Functional.Tests
             Assert.IsNotNull(response.odsCodeField);
             Assert.IsNotNull(response.rootParentField);
             Assert.IsNotNull(response.PropertyChanged);
-
-        }
-
-        public static HttpRequestMessage CreateHTTPRequest(string requestContent)
-        {
-            return new HttpRequestMessage
-            {
-                Content = new StringContent(requestContent, Encoding.UTF8, "application/json")
-            };
         }
 
         [Test]
         public async void TestCheckDosBusinessServiceDetailsById()
         {
-            var getNextQuestionEndpoint = "DOSapi/ServiceDetailsById";
-            var result = await _restfulHelper.PostAsync(_domainApiDomain + getNextQuestionEndpoint, CreateHTTPRequest("{\"ServiceVersion\":\"1.3\",\"UserInfo\":{\"Username\":\"digital111_ws\",\"Password\":\"Valtech111\"},\"serviceId\":1315835856}"));
+            var result =
+                await
+                    _restfulHelper.PostAsync(BusinessDosServiceDetailsByIdUrl,
+                        RequestFormatting.CreateHTTPRequest(
+                            "{\"ServiceVersion\":\"1.3\",\"UserInfo\":{\"Username\":\"" + DOSApiUsername + "\",\"Password\":\"" + DOSApiPassword + "\"},\"serviceId\":1315835856}", string.Empty));
 
             var resultContent = await result.Content.ReadAsStringAsync();
 
             Assert.IsTrue(result.IsSuccessStatusCode);
-            AssertValidResponseSchema(resultContent, ResponseSchemaType.CheckServiceDetailsById);
-        }
-
-
-        public enum ResponseSchemaType
-        {
-
-            CheckServiceDetailsById
-        }
-
-        private static void AssertValidResponseSchema(string result, ResponseSchemaType schemaType)
-        {
-            switch (schemaType)
-            {
-
-                case ResponseSchemaType.CheckServiceDetailsById:
-                    AssertValidCheckServiceDetailsByIdResponseSchema(result);
-                    break;
-                default:
-                    throw new InvalidEnumArgumentException("ResponseSchemaType of " + schemaType.ToString() +
-                                                       "is unsupported");
-            }
-        }
-
-
-        private static void AssertValidCheckServiceDetailsByIdResponseSchema(string result)
-        {
-            Assert.IsTrue(result.Contains("\"tagField"));
-            Assert.IsTrue(result.Contains("\"nameField"));
-            Assert.IsTrue(result.Contains("\"valueField"));
-            Assert.IsTrue(result.Contains("\"orderField"));
-            Assert.IsTrue(result.Contains("\"PropertyChanged"));
+            SchemaValidation.AssertValidResponseSchema(resultContent, SchemaValidation.ResponseSchemaType.CheckServiceDetailsById);
         }
     }
 }

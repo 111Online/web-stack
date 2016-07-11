@@ -48,6 +48,7 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.configuration" />
     <Reference Include="System.Net.Http" />
   </ItemGroup>
   <Choose>
@@ -63,10 +64,14 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Compile Include="QuestionEnpointTests.cs" />
+    <Compile Include="DomainDOSApiTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\NHS111.Functional.ResponseValidation\NHS111.Functional.Tests.Tools.csproj">
+      <Project>{287a7a76-88a0-4cbe-ad54-2b6d32fed830}</Project>
+      <Name>NHS111.Functional.Tests.Tools</Name>
+    </ProjectReference>
     <ProjectReference Include="..\NHS111.Models\NHS111.Models.csproj">
       <Project>{4ccf3abd-92c4-4999-8520-c4aa7b36f48c}</Project>
       <Name>NHS111.Models</Name>

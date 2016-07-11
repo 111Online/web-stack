@@ -160,9 +160,12 @@ namespace NHS111.Web.Controllers {
                 Content =
                     new StringContent(JsonConvert.SerializeObject(answer.Title), Encoding.UTF8, "application/json")
             };
-            var serialisedState = HttpUtility.UrlEncode(JsonConvert.SerializeObject(model.State));
+            var serialisedState = HttpUtility.UrlEncode(model.StateJson);
             var businessApiNextNodeUrl = _configuration.GetBusinessApiNextNodeUrl(model.PathwayId, model.Id, serialisedState);
             var response = await _restfulHelper.PostAsync(businessApiNextNodeUrl, request);
+            if (!response.IsSuccessStatusCode)
+                throw new Exception(string.Format("Problem posting {0} to {1}.", JsonConvert.SerializeObject(answer.Title), businessApiNextNodeUrl));
+
             return JsonConvert.DeserializeObject<QuestionWithAnswers>(await response.Content.ReadAsStringAsync());
         }
 
