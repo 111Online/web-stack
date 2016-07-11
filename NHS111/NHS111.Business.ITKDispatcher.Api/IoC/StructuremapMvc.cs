@@ -41,7 +41,7 @@ namespace NHS111.Business.ITKDispatcher.Api.IoC
         }
 		
         public static void Start() {
-            IContainer container = NHS111.Business.ITKDispatcher.Api.IoC.IoC.Initialize();
+            IContaifgdfgdfgner container = NHS111.Business.ITKDispatcher.Api.IoC.IoC.Initialize();
             StructureMapDependencyScope = new StructureMapDependencyScope(container);
             DependencyResolver.SetResolver(StructureMapDependencyScope);
             DynamicModuleUtility.RegisterModule(typeof(StructureMapScopeModule));
