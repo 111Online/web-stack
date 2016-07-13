@@ -115,6 +115,10 @@ namespace NHS111.Web.Controllers {
         [Route("question/direct/{pathwayId}/{age?}/{pathwayTitle}/{answers?}")]
         public async Task<ActionResult> Direct(string pathwayId, int? age, string pathwayTitle,
             [ModelBinder(typeof (IntArrayModelBinder))] int[] answers) {
+#if !DEBUG
+            return HttpNotFound();
+#endif
+
             //the below is copied from refactored code. Suggest removing once JTBS code is refactored away.
             var journeyViewModel = BuildJourneyViewModel(pathwayId, age, pathwayTitle);
 
