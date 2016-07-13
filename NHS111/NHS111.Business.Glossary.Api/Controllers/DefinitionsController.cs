@@ -31,9 +31,9 @@ namespace NHS111.Business.Glossary.Api.Controllers
             return result;
         }
 
-        [HttpGet]
-        [Route("findterms/{text}")]
-        public async Task<HttpResponseMessage> FindTerms(string text)
+        [HttpPost]
+        [Route("findterms")]
+        public async Task<HttpResponseMessage> FindTerms([FromBody]string text)
         {
             var result = await _termsService.FindContainedTerms(text).AsJson().AsHttpResponse();
             return result;
