@@ -227,6 +227,7 @@
     <Content Include="Content\css_NhsUK\emergency.css" />
     <Content Include="Content\css_NhsUK\gender.css" />
     <Content Include="Content\css_NhsUK\disposition.css" />
+    <Content Include="Content\css_NhsUK\modal.css" />
     <Content Include="Content\css_NhsUK\personaldetails.css" />
     <Content Include="Content\css_NhsUK\question.css" />
     <Content Include="Content\css_NhsUK\search.css" />
@@ -477,6 +478,7 @@
     </Content>
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Scripts\custom.js" />
+    <Content Include="Scripts\disclaimer-popup.js" />
     <Content Include="Scripts\disclaimer.js" />
     <Content Include="Scripts\icheck.js" />
     <Content Include="Scripts\jquery.blockUI.js" />
