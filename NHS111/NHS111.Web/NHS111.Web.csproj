@@ -229,6 +229,7 @@
     <Content Include="Content\css_NhsUK\disposition.css" />
     <Content Include="Content\css_NhsUK\modal.css" />
     <Content Include="Content\css_NhsUK\personaldetails.css" />
+    <Content Include="Content\css_NhsUK\phase-banner.css" />
     <Content Include="Content\css_NhsUK\question.css" />
     <Content Include="Content\css_NhsUK\search.css" />
     <Content Include="Content\css_NhsUK\servicedetails.css" />
