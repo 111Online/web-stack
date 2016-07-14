@@ -9,6 +9,7 @@ namespace NHS111.Web.Controllers {
     using Utils.Parser;
     using Presentation.Builders;
     using System.Collections.Generic;
+    using System.Diagnostics;
     using System.Linq;
     using System.Net.Http;
     using System.Text;
@@ -115,9 +116,10 @@ namespace NHS111.Web.Controllers {
         [Route("question/direct/{pathwayId}/{age?}/{pathwayTitle}/{answers?}")]
         public async Task<ActionResult> Direct(string pathwayId, int? age, string pathwayTitle,
             [ModelBinder(typeof (IntArrayModelBinder))] int[] answers) {
-#if !DEBUG
-            return HttpNotFound();
-#endif
+
+            if (_configuration.IsPublic) {
+                return HttpNotFound();
+            }
 
             //the below is copied from refactored code. Suggest removing once JTBS code is refactored away.
             var journeyViewModel = BuildJourneyViewModel(pathwayId, age, pathwayTitle);

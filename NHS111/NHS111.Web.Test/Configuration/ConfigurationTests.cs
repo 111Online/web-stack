@@ -146,6 +146,10 @@ namespace NHS111.Web.Presentation.Configuration.Tests
             Assert.AreEqual("http://testbusinessdomain.com/pathways/care-adviceEndpointTest/Dx9999/Toddler/Male", result);
        
         }
-      
+
+        [Test]
+        public void IsPublic_WhenNotDefined_DefaultsToTrue() {
+            Assert.IsTrue(_testConfiguration.IsPublic);
+        }      
     }
 }

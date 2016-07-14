@@ -30,6 +30,14 @@ namespace NHS111.Web.Presentation.Configuration
 
         public string GoogleAnalyticsContainerId { get {return ConfigurationManager.AppSettings["GoogleAnalyticsContainerId "]; } }
 
+        public bool IsPublic {
+            get {
+                if (ConfigurationManager.AppSettings["IsPublic"] == null)
+                    return true; //default to public if the setting isn't defined
+                return ConfigurationManager.AppSettings["IsPublic"].ToLower() == "true";
+            }
+        }
+
 
         public string GetBusinessApiGroupedPathwaysUrl(string searchString)
         {
@@ -161,5 +169,7 @@ namespace NHS111.Web.Presentation.Configuration
 
         string BusinessApiListOutcomesUrl { get; }
         string GoogleAnalyticsContainerId { get; }
+
+        bool IsPublic { get; }
     }
 }

@@ -45,6 +45,8 @@ namespace NHS111.Web.Presentation.Test.Controllers {
 
             _mockRestfulHelper.Setup(r => r.PostAsync(It.IsAny<string>(), It.IsAny<HttpRequestMessage>()))
                 .Returns(() => StartedTask(new HttpResponseMessage(HttpStatusCode.OK) { Content = new StringContent(JsonConvert.SerializeObject(new QuestionWithAnswers())) }));
+
+            _mockConfiguration.Setup(c => c.IsPublic).Returns(false);
         }
 
         [Test]
@@ -150,5 +152,19 @@ namespace NHS111.Web.Presentation.Test.Controllers {
 
             _mockJourneyViewModelBuilder.VerifyAll();
         }
+
+        [Test]
+        public void Direct_WhenPublic_ReturnsNotFoundResult() {
+            _mockConfiguration.Setup(c => c.IsPublic).Returns(true);
+
+            var sut = new QuestionController(_mockJourneyViewModelBuilder.Object, _mockRestfulHelper.Object,
+                _mockConfiguration.Object, _mockJtbsBuilderMock.Object, _mockMappingEngine.Object);
+
+            var result = sut.Direct(null, 0, null, null);
+
+            Assert.NotNull(result);
+            Assert.IsInstanceOf<HttpNotFoundResult>(result.Result);
+        }
+
     }
 }
