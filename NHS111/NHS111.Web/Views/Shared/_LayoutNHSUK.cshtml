@@ -11,13 +11,26 @@
 
     <!-- css -->
     <link href="http://nhsalpha.herokuapp.com/public/stylesheets/govuk-template.css?0.12.0" media="screen" rel="stylesheet" type="text/css" />
-    <link href="~/Content/css_NhsUK/application.css" media="screen" rel="stylesheet" type="text/css" />
+    <link href="~/Content/css_NhsUK/application.css" media="screen" rel="stylesheet" type="text/css"/>
 
     <!-- Javascript -->
     <script src="~/scripts/vendor/modernizr-custom.js"></script>
     <script src="~/scripts/jquery2.1.1.min.js"></script>
     <script src="~/Scripts/jquery1.11.2-ui.min.js"></script>
+    <script src="~/scripts/bootstrap.min.js"></script>
     <script src="~/scripts/jquery.cookie.js"></script>
+
+    <!-- toggle disclaimer -->
+    @{
+        var showDisclaimerPopUp = ConfigurationManager.AppSettings["ShowDisclaimerPopUp"];
+        if (showDisclaimerPopUp != "false") //if its not there or explicitly set then show the pop up
+        {
+            <link rel="stylesheet" href="~/Content/css_NhsUK/modal.css">
+            <script src="~/scripts/disclaimer-popup.js"></script>
+        }
+    }
+   
+    
     <script>
         $(function () {
             var userId = $.cookie("userId");
