@@ -40,6 +40,31 @@
     @RenderSection("Scripts", false)
 </head>
 <body class="">
+    <!-- toggle cookie banner -->
+    @{
+        var showCookieBanner = ConfigurationManager.AppSettings["ShowCookieBanner"];
+        if (showCookieBanner != "false") //if its not there or explicitly set then show the pop up
+        {
+            <link href="~/Content/css_NhsUK/banner.css" media="screen" rel="stylesheet" type="text/css" />
+            <div class="notification-banner notification-banner__hidden" id="global-cookies-banner" role="alert">
+                <p class="notification-banner--inner">
+                    NHS 111 uses cookies to make the site simpler.
+                    <a href="/help/cookies">Find out more about cookies</a>
+                </p>
+            </div>
+            <script>
+                $(function () {
+                    var seenCookieMessage = $.cookie("nhs111_seen_cookie_message");
+                    if (!seenCookieMessage) $('#global-cookies-banner').css({ display: "block" });
+                    $('#global-cookies-banner').click(function () {
+                        $.cookie("nhs111_seen_cookie_message", 1, { path: '/', expires: 28 });
+                        $('#global-cookies-banner').hide();
+                    });
+                });
+            </script>
+        }
+    }
+    
     @{
         var data = new Dictionary<string, string> { { "ContainerID", ConfigurationManager.AppSettings["GoogleAnalyticsContainerId"] } };
 
