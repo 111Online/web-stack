@@ -14,6 +14,7 @@ namespace NHS111.Business.Glossary.Api.Services
     public class TermsService : ITermsService
     {
         private const string TERMS_CACHE_KEY = "DEFINEDTERMS";
+        private char[] PUNCTUATION_EXEMPTIONS = new char[] {'-'};
         private IDefinitionRepository _definitionRepository;
         public TermsService(IDefinitionRepository definitionRepository)
         {
@@ -56,7 +57,7 @@ namespace NHS111.Business.Glossary.Api.Services
 
         private string RemovePunctuation(string text)
         {
-            return new String(text.Where(c => !Char.IsPunctuation(c)).ToArray());
+            return new String(text.Where(c => !(!PUNCTUATION_EXEMPTIONS.Contains(c) && Char.IsPunctuation(c))).ToArray());
         }
 
 
