@@ -23,9 +23,12 @@ namespace NHS111.Domain.Glossary
 
         public IEnumerable<T> List<T>()
         {
-            var csv = new CsvReader(_fileAdapter.OpenText());
-            csv.Configuration.RegisterClassMap<M>();
-            return csv.GetRecords<T>();
+            using (var csv = new CsvReader(_fileAdapter.OpenText()))
+            {
+                csv.Configuration.RegisterClassMap<M>();
+                return csv.GetRecords<T>().ToList();
+            }
+            
         }
     }
 }

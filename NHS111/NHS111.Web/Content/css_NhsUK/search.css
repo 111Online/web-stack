@@ -10,7 +10,13 @@
     margin-right: 10px;
 }
 
-
+input.linkButton { 
+     background: none;
+     border: none;
+     color: #0066ff;
+     text-decoration: underline;
+     cursor: pointer; 
+}
 
 ul.list-conditions {
     margin-left: 1em;

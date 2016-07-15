@@ -128,21 +128,29 @@
                 <input type="hidden" id="pathwayTitle" name="pathwayTitle" value="" />
 
                 <h2>I need help with</h2>
-                <div>
+                <!--<div>
                     <label for="searchTags">
                         <input type="text" class="input-symptoms" id="searchTags" autocomplete="off" name="searchTags" placeholder="Search for conditions and symptoms"/>
                     </label>
                     @* @Html.ActionLink("GO","Gender","Question", new {@class = "go"})*@
-                    <input type="submit" class="button button-get-started go" value="Go" id="submitSearch">
+                    <input type="submit" class="button button-get-started go" value="Go" id="submitSearch"/>
                 </div>
-                <hr/>
-                <h3 class="heading-medium">Common symptoms</h3>
+                <hr/>-->
                 <ul class="list-conditions" id="commonConditions">
-                    <li><a href="#">Abdominal pain</a></li>
+                    <!--<li><a href="#">Abdominal pain</a></li>
                     <li><a href="#">Fever for under 5 year olds</a></li>
                     <li><a href="#">Diarrhoea and vomiting</a></li>
                     <li><a href="#">Colds and flu</a></li>
-                    <li><a href="#">Dental – toothache and dental trauma</a></li>
+                    <li><a href="#">Dental – toothache and dental trauma</a></li>-->
+
+                    <li><input type="submit" class="linkButton" value="Abdominal pain" id="PW520,PW517,PW519,PW516" /></li>
+                    <li><input type="submit" class="linkButton" value="A headache" id="PW755,PW752,PW754,PW753,PW754,PW756" /></li>
+                    <li><input type="submit" class="linkButton" value="Chest and back pain" id="PA21,PA212,PA213,PA21,PA21,PA212,PA21,PA213" /></li>
+                    <li><input type="submit" class="linkButton" value="Cold or flu symptoms" id="PW574,PW1042,PW1043,PW1040,PW574,PW1041" /></li>
+                    <li><input type="submit" class="linkButton" value="A rash or skin problem" id="PW1623,PN1620,PW1623,PN1620,PN1620,PW1620,PN1619,PN1619,PW1620,PW1623,PW1620,PN1619,PN1619,PW1620,PN1620,PW1623" /></li>
+                    <li><input type="submit" class="linkButton" value="A mental health problem" id="PW1751,PW1751,PW1751,PW1751" /></li>
+                    <li><input type="submit" class="linkButton" value="Diarrhoea and vomiting" id="PW1554,PW1708,PW1563,PW1563,PW1555,PW1556,PW1553,PW1708" /></li>                   
+                    <li><input type="submit" class="linkButton" value="Sexual Concerns" id="PW1684,PW1699,PW1698,PW1685" /></li>
 
                 </ul>
 
@@ -201,8 +209,14 @@
             },
             appendTo: $('#SearchResults')
         });
- 
-    });
+
+        $(".linkButton").click(
+            function() {
+                //$("#searchTags").val(this.value);
+                $("#pathwayTitle").val(this.value);
+                $("#pathwayNo").val(this.id);
+            });
+ });
 
     </script>
 

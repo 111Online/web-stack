@@ -23,6 +23,7 @@ namespace NHS111.Domain.Glossary
         }
 
         public IEnumerable<DefinedTerm> List()
+        
         {
             return _csvRepository.List<DefinedTerm>().ToList();
         }
