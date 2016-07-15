@@ -1,0 +1,57 @@
+﻿@media (min-width: 641px)
+.phase-banner {
+    padding-bottom: 10px;
+}
+.phase-banner {
+    padding: 10px 0 8px 0;
+    border-bottom: 1px solid #bfc1c3;
+}
+.phase-banner p {
+    margin: 0;
+    color: black;
+    font-family: "nta", Arial, sans-serif;
+    font-size: 16px;
+    line-height: 1.25;
+    font-weight: 400;
+    text-transform: none;
+}
+@media (min-width: 641px)
+.phase-banner .phase-tag {
+    vertical-align: baseline;
+}
+.phase-banner .phase-tag {
+    display: -moz-inline-stack;
+    display: inline-block;
+    vertical-align: top;
+    margin: 0 8px 0 0;
+    padding: 2px 5px 0;
+    font-family: "nta", Arial, sans-serif;
+    font-size: 16px;
+    line-height: 1.25;
+    font-weight: 700;
+    text-transform: none;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    text-decoration: none;
+    color: #fff;
+}
+.phase-banner .phase-tag.alpha {
+    background-color: #d53880;
+}
+.phase-banner .phase-tag.beta {
+    background-color: #f47738;
+}
+.phase-banner .phase-tag.live {
+    background-color: #85994b;
+}
+@media (min-width: 641px)
+.phase-banner span {
+    width: auto;
+    vertical-align: baseline;
+}
+.phase-banner span {
+    display: -moz-inline-stack;
+    display: inline-block;
+    width: 75%;
+    vertical-align: top;
+}

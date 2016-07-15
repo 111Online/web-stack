@@ -17,7 +17,20 @@
     <script src="~/scripts/vendor/modernizr-custom.js"></script>
     <script src="~/scripts/jquery2.1.1.min.js"></script>
     <script src="~/Scripts/jquery1.11.2-ui.min.js"></script>
+    <script src="~/scripts/bootstrap.min.js"></script>
     <script src="~/scripts/jquery.cookie.js"></script>
+
+    <!-- toggle disclaimer popup -->
+    @{
+        var showDisclaimerPopUp = ConfigurationManager.AppSettings["ShowDisclaimerPopUp"];
+        if (showDisclaimerPopUp != "false") //if its not there or explicitly set then show the pop up
+        {
+            <link rel="stylesheet" href="~/Content/css_NhsUK/modal.css">
+            <script src="~/scripts/disclaimer-popup.js"></script>
+        }
+    }
+
+
     <script>
         $(function () {
             var userId = $.cookie("userId");
@@ -28,7 +41,7 @@
 </head>
 <body class="">
     @{
-        var data = new Dictionary<string, string> { { "ContainerID", ConfigurationManager.AppSettings["GoogleAnalyticsContainerId"]} };
+        var data = new Dictionary<string, string> { { "ContainerID", ConfigurationManager.AppSettings["GoogleAnalyticsContainerId"] } };
 
         var tagPrinter = new GoogleTagManagerPrinter(data);
     }
@@ -54,6 +67,27 @@
     <section class="outer-section">@RenderSection("OuterSection", false)</section>
 
     <main id="content" role="main">
+        <!-- toggle disclaimer banner-->
+        @{
+            var showDisclaimerBanner = ConfigurationManager.AppSettings["ShowDisclaimerBanner"];
+            if (showDisclaimerBanner != "false") //if its not there or explicitly set then show the pop up
+            {
+                <link href="~/Content/css_NhsUK/phase-banner.css" media="screen" rel="stylesheet" type="text/css" />
+                <div id="phase-banner">
+                    <div class="inner-block">
+                        <div class="phase-banner">
+                            <p>
+                                <strong class="phase-tag alpha">Alpha</strong>
+                                <span>
+                                    This is a new service.  Content on this site has <strong>not</strong> been clinically verified, and should not be relied upon for advice. <br />  <strong>If you need medical advice visit <a href="http://www.nhs.uk">www.nhs.uk</a> or call 111.</strong>
+                                </span>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            }
+        }
+
         @RenderBody()
     </main>
     <section class="feedback-section">@RenderSection("FeedbackSection", false)</section>
