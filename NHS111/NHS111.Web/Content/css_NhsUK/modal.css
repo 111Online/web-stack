@@ -79,6 +79,7 @@
 .modal-header {
     padding: 15px;
     border-bottom: 1px solid #e5e5e5;
+    background-color: #0072C6;
 }
 
     .modal-header .close {
@@ -88,6 +89,12 @@
 .modal-title {
     margin: 0;
     line-height: 1.42857143;
+    color: white;
+}
+
+.modal-title a.header-logo img {
+    /*display: block;*/
+    width: 90px;
 }
 
 .modal-body {
