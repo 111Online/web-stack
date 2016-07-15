@@ -25,7 +25,9 @@ namespace NHS111.Domain.Glossary
         {
             var csv = new CsvReader(_fileAdapter.OpenText());
             csv.Configuration.RegisterClassMap<M>();
-            return csv.GetRecords<T>();
+            var records = csv.GetRecords<T>().ToList();
+            csv.Dispose();
+            return records;
         }
     }
 }
