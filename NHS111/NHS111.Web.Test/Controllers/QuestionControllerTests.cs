@@ -7,6 +7,7 @@ namespace NHS111.Web.Presentation.Test.Controllers {
     using System.Threading.Tasks;
     using System.Web.Mvc;
     using AutoMapper;
+    using Features;
     using Moq;
     using Newtonsoft.Json;
     using NHS111.Models.Models.Domain;
@@ -26,7 +27,7 @@ namespace NHS111.Web.Presentation.Test.Controllers {
         private Mock<IJourneyViewModelBuilder> _mockJourneyViewModelBuilder;
         private Mock<IRestfulHelper> _mockRestfulHelper;
         private Mock<IConfiguration> _mockConfiguration;
-        private Mock<IMappingEngine> _mockMappingEngine;
+        private Mock<IDirectLinkingFeature> _mockFeature;
         private Mock<IJustToBeSafeFirstViewModelBuilder> _mockJtbsBuilderMock;
 
         [TestFixtureSetUp]
@@ -34,11 +35,10 @@ namespace NHS111.Web.Presentation.Test.Controllers {
             _mockJourneyViewModelBuilder = new Mock<IJourneyViewModelBuilder>();
             _mockRestfulHelper = new Mock<IRestfulHelper>();
             _mockConfiguration = new Mock<IConfiguration>();
-            _mockMappingEngine = new Mock<IMappingEngine>();
+            _mockFeature = new Mock<IDirectLinkingFeature>();
             _mockJtbsBuilderMock = new Mock<IJustToBeSafeFirstViewModelBuilder>();
 
-            _mockMappingEngine.Setup(m => m.Mapper.Map<JustToBeSafeViewModel>(It.IsAny<JourneyViewModel>()))
-                .Returns(new JustToBeSafeViewModel());
+            _mockFeature.Setup(m => m.IsEnabled).Returns(true);
 
             _mockRestfulHelper.Setup(r => r.GetAsync(It.IsAny<string>()))
                 .Returns(() => StartedTask(JsonConvert.SerializeObject(new Pathway { Gender = "Male" })));
@@ -56,7 +56,7 @@ namespace NHS111.Web.Presentation.Test.Controllers {
                 .Returns(StartedTask(new AwfulIdea("", new JourneyViewModel())));
 
             var sut = new QuestionController(_mockJourneyViewModelBuilder.Object, _mockRestfulHelper.Object,
-                _mockConfiguration.Object, _mockJtbsBuilderMock.Object,  _mockMappingEngine.Object);
+                _mockConfiguration.Object, _mockJtbsBuilderMock.Object, _mockFeature.Object);
 
             var result = sut.Direct(_pathwayId, _age, _pathwayTitle, null);
 
@@ -88,7 +88,7 @@ namespace NHS111.Web.Presentation.Test.Controllers {
                 .Returns(() => StartedTask(mockJourney));
 
             var sut = new QuestionController(_mockJourneyViewModelBuilder.Object, _mockRestfulHelper.Object,
-                _mockConfiguration.Object, _mockJtbsBuilderMock.Object, _mockMappingEngine.Object);
+                _mockConfiguration.Object, _mockJtbsBuilderMock.Object, _mockFeature.Object);
 
             var result = (ViewResult) await sut.Direct(_pathwayId, _age, _pathwayTitle, new[] {0});
             var model = (JourneyViewModel) result.Model;
@@ -138,7 +138,7 @@ namespace NHS111.Web.Presentation.Test.Controllers {
                 .Returns(StartedTask(new AwfulIdea("", mockJourney)));
 
             var sut = new QuestionController(_mockJourneyViewModelBuilder.Object, _mockRestfulHelper.Object,
-                _mockConfiguration.Object, _mockJtbsBuilderMock.Object, _mockMappingEngine.Object);
+                _mockConfiguration.Object, _mockJtbsBuilderMock.Object, _mockFeature.Object);
 
             var pathwayId = "PW755MaleAdult";
             var age = 35;
@@ -158,7 +158,7 @@ namespace NHS111.Web.Presentation.Test.Controllers {
             _mockConfiguration.Setup(c => c.IsPublic).Returns(true);
 
             var sut = new QuestionController(_mockJourneyViewModelBuilder.Object, _mockRestfulHelper.Object,
-                _mockConfiguration.Object, _mockJtbsBuilderMock.Object, _mockMappingEngine.Object);
+                _mockConfiguration.Object, _mockJtbsBuilderMock.Object, _mockFeature.Object);
 
             var result = sut.Direct(null, 0, null, null);
 
