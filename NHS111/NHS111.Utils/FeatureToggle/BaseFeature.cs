@@ -13,7 +13,7 @@ namespace NHS111.Utils.FeatureToggle {
         }
 
         public virtual bool IsEnabled {
-            get { return SettingValueProvider.GetSetting(this, null); }
+            get { return SettingValueProvider.GetSetting(this, DefaultSettingStrategy); }
         }
 
         public IFeatureSettingValueProvider SettingValueProvider { get; set; }
