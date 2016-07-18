@@ -42,15 +42,13 @@
     </div>';
 
 $(function () {
-    var disclaimeraccepted = $.cookie("acceptedDisclaimer");
     $("body").append(content);
-    if (!disclaimeraccepted) $('#disclaimerModal').modal(
+    $('#disclaimerModal').modal(
         {
             backdrop: 'static',
             keyboard: false
         });
     $('#acceptDisclaimer').click(function () {
-        $.cookie("acceptedDisclaimer", 1, { path: '/' });
         $('.disclaimer.alert').hide();
     });
 });
