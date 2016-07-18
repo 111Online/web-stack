@@ -147,5 +147,9 @@ namespace NHS111.Web.Presentation.Configuration.Tests
        
         }
       
+        [Test]
+        public void IsPublic_WhenNotDefined_DefaultsToTrue() {
+            Assert.IsTrue(_testConfiguration.IsPublic);
+        }      
     }
 }
