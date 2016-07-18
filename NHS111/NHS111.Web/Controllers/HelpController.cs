@@ -8,8 +8,12 @@ namespace NHS111.Web.Controllers
 {
     public class HelpController : Controller
     {
-        // GET: Help
         public ActionResult Cookies()
+        {
+            return View();
+        }
+
+        public ActionResult Privacy()
         {
             return View();
         }
