@@ -167,6 +167,7 @@
     <Compile Include="Authentication\BasicAuthenticationModule.cs" />
     <Compile Include="Controllers\DOSController.cs" />
     <Compile Include="Controllers\FeedbackController.cs" />
+    <Compile Include="Controllers\HelpController.cs" />
     <Compile Include="Controllers\OutcomeController.cs" />
     <Compile Include="Controllers\QuestionController.cs" />
     <Compile Include="Controllers\JustToBeSafeController.cs" />
@@ -687,6 +688,10 @@
     <None Include="Properties\PublishProfiles\nhs111-web-beta - Web Deploy.pubxml" />
     <Content Include="Views\Shared\_CareAdvice.cshtml" />
     <Content Include="Views\Outcome\HomeCare.cshtml" />
+    <Content Include="Views\Help\Cookies.cshtml" />
+    <Content Include="Views\Shared\_CookieBanner.cshtml" />
+    <Content Include="Views\Shared\_DisclaimerBanner.cshtml" />
+    <Content Include="Views\Help\Privacy.cshtml" />
     <None Include="Web.Development.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

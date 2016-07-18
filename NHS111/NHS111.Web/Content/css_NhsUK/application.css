@@ -1527,6 +1527,13 @@ html, #footer {
         margin: 0 auto;
         padding: 0 30px; } }
 
+#footer nav li {
+    display: inline;
+    list-style: none;
+    margin: 0 12px 0 0;
+    padding: 0;
+}
+
 .show-grid {
   background-image: -webkit-linear-gradient(top, cyan 0, rgba(255, 255, 255, 0) 1px);
   background-image: -moz-linear-gradient(top, cyan 0, rgba(255, 255, 255, 0) 1px);
