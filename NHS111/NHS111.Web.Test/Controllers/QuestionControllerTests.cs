@@ -30,12 +30,13 @@ namespace NHS111.Web.Presentation.Test.Controllers {
         private Mock<IDirectLinkingFeature> _mockFeature;
         private Mock<IJustToBeSafeFirstViewModelBuilder> _mockJtbsBuilderMock;
 
-        [TestFixtureSetUp]
+        [SetUp]
         public void Setup() {
             _mockJourneyViewModelBuilder = new Mock<IJourneyViewModelBuilder>();
             _mockRestfulHelper = new Mock<IRestfulHelper>();
             _mockConfiguration = new Mock<IConfiguration>();
             _mockFeature = new Mock<IDirectLinkingFeature>();
+            _mockFeature.Setup(c => c.IsEnabled).Returns(true);
             _mockJtbsBuilderMock = new Mock<IJustToBeSafeFirstViewModelBuilder>();
 
             _mockFeature.Setup(m => m.IsEnabled).Returns(true);
@@ -154,8 +155,8 @@ namespace NHS111.Web.Presentation.Test.Controllers {
         }
 
         [Test]
-        public void Direct_WhenPublic_ReturnsNotFoundResult() {
-            _mockConfiguration.Setup(c => c.IsPublic).Returns(true);
+        public void Direct_WithDirectLinkingDisabled_ReturnsNotFoundResult() {
+            _mockFeature.Setup(c => c.IsEnabled).Returns(false);
 
             var sut = new QuestionController(_mockJourneyViewModelBuilder.Object, _mockRestfulHelper.Object,
                 _mockConfiguration.Object, _mockJtbsBuilderMock.Object, _mockFeature.Object);
