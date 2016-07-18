@@ -24,6 +24,14 @@
     @Html.Partial("_FeedbackDetails", new FeedbackViewModel() { PageId = Request.Url.GetComponents(UriComponents.PathAndQuery, UriFormat.SafeUnescaped) + Model.PathwayId })
 }
 
+@functions {
+
+    string WriteDirectLink(JourneyViewModel model) {
+        return "<!-- DIRECT LINK: " + model.StepLink + " -->";
+    }
+
+}
+
 @using (Html.BeginForm("Navigation", "Question", FormMethod.Post))
 {
     @Html.HiddenFor(x => Model.Id)
@@ -37,7 +45,8 @@
     @Html.HiddenFor(x => Model.SymptomDiscriminator)
     @Html.HiddenFor(x => Model.QuestionNo)
     @Html.HiddenFor(x => Model.StateJson)
-    <!--DIRECT LINK: @Model.StepLink-->
+    
+    @Html.Raw(WriteDirectLink(Model))
 
     for (int i = 0; i < Model.CollectedKeywords.Keywords.Count; i++)
     {
