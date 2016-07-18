@@ -2,10 +2,11 @@
 using System.Configuration;
 using NHS111.Utils.Helpers;
 using NUnit.Framework;
-using NHS111.Functional.Tests.Tools;
 
 namespace NHS111.Domain.Functional.Tests
 {
+    using NHS111.Functional.Tests.Tools;
+
     [TestFixture]
     public class DomainApiTests
     {
