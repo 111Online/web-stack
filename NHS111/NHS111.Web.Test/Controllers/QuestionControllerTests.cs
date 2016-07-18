@@ -154,8 +154,8 @@ namespace NHS111.Web.Presentation.Test.Controllers {
         }
 
         [Test]
-        public void Direct_WhenPublic_ReturnsNotFoundResult() {
-            _mockConfiguration.Setup(c => c.IsPublic).Returns(true);
+        public void Direct_WhenDirectLinkingDisabled_ReturnsNotFoundResult() {
+            _mockFeature.Setup(c => c.IsEnabled).Returns(false);
 
             var sut = new QuestionController(_mockJourneyViewModelBuilder.Object, _mockRestfulHelper.Object,
                 _mockConfiguration.Object, _mockJtbsBuilderMock.Object, _mockFeature.Object);
