@@ -45,23 +45,7 @@
         var showCookieBanner = ConfigurationManager.AppSettings["ShowCookieBanner"];
         if (showCookieBanner != "false") //if its not there or explicitly set then show the pop up
         {
-            <link href="~/Content/css_NhsUK/banner.css" media="screen" rel="stylesheet" type="text/css" />
-            <div class="notification-banner notification-banner__hidden" id="global-cookies-banner" role="alert">
-                <p class="notification-banner--inner">
-                    NHS 111 uses cookies to make the site simpler.
-                    <a href="/help/cookies">Find out more about cookies</a>
-                </p>
-            </div>
-            <script>
-                $(function () {
-                    var seenCookieMessage = $.cookie("nhs111_seen_cookie_message");
-                    if (!seenCookieMessage) $('#global-cookies-banner').css({ display: "block" });
-                    $('#global-cookies-banner').click(function () {
-                        $.cookie("nhs111_seen_cookie_message", 1, { path: '/', expires: 28 });
-                        $('#global-cookies-banner').hide();
-                    });
-                });
-            </script>
+            @Html.Partial("_CookieBanner")
         }
     }
     
@@ -97,19 +81,7 @@
             var showDisclaimerBanner = ConfigurationManager.AppSettings["ShowDisclaimerBanner"];
             if (showDisclaimerBanner != "false") //if its not there or explicitly set then show the pop up
             {
-                <link href="~/Content/css_NhsUK/phase-banner.css" media="screen" rel="stylesheet" type="text/css" />
-                <div id="phase-banner">
-                    <div class="inner-block">
-                        <div class="phase-banner">
-                            <p>
-                                <strong class="phase-tag alpha">Alpha</strong>
-                                <span>
-                                    This is a new service.  Content on this site has <strong>not</strong> been clinically verified, and should not be relied upon for advice. <br />  <strong>If you need medical advice visit <a href="http://www.nhs.uk">www.nhs.uk</a> or call 111.</strong>
-                                </span>
-                            </p>
-                        </div>
-                    </div>
-                </div>
+                @Html.Partial("_DisclaimerBanner")
             }
         }
 
