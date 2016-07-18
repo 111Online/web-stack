@@ -223,6 +223,7 @@
     <Content Include="Content\css\skins\flat\_all.css" />
     <Content Include="Content\css_NhsUK\a-and-e.css" />
     <Content Include="Content\css_NhsUK\application.css" />
+    <Content Include="Content\css_NhsUK\banner.css" />
     <Content Include="Content\css_NhsUK\confirmation.css" />
     <Content Include="Content\css_NhsUK\emergency.css" />
     <Content Include="Content\css_NhsUK\gender.css" />

@@ -42,7 +42,7 @@
     </div>';
 
 $(function () {
-    var disclaimeraccepted = $.cookie("acceptedDisclaimer");
+    var disclaimeraccepted = $.cookie("nhs111_accepted_disclaimer_message");
     $("body").append(content);
     if (!disclaimeraccepted) $('#disclaimerModal').modal(
         {
@@ -50,7 +50,7 @@ $(function () {
             keyboard: false
         });
     $('#acceptDisclaimer').click(function () {
-        $.cookie("acceptedDisclaimer", 1, { path: '/' });
+        $.cookie("nhs111_accepted_disclaimer_message", 1, { path: '/' });
         $('.disclaimer.alert').hide();
     });
 });
