@@ -20,17 +20,6 @@
     <script src="~/scripts/bootstrap.min.js"></script>
     <script src="~/scripts/jquery.cookie.js"></script>
 
-    <!-- toggle disclaimer popup -->
-    @{
-        var showDisclaimerPopUp = ConfigurationManager.AppSettings["ShowDisclaimerPopUp"];
-        if (showDisclaimerPopUp != "false") //if its not there or explicitly set then show the pop up
-        {
-            <link rel="stylesheet" href="~/Content/css_NhsUK/modal.css">
-            <script src="~/scripts/disclaimer-popup.js"></script>
-        }
-    }
-
-
     <script>
         $(function () {
             var userId = $.cookie("userId");

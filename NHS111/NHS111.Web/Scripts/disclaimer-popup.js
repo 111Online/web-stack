@@ -42,15 +42,13 @@
     </div>';
 
 $(function () {
-    var disclaimeraccepted = $.cookie("nhs111_accepted_disclaimer_message");
     $("body").append(content);
-    if (!disclaimeraccepted) $('#disclaimerModal').modal(
+    $('#disclaimerModal').modal(
         {
             backdrop: 'static',
             keyboard: false
         });
     $('#acceptDisclaimer').click(function () {
-        $.cookie("nhs111_accepted_disclaimer_message", 1, { path: '/' });
         $('.disclaimer.alert').hide();
     });
 });
