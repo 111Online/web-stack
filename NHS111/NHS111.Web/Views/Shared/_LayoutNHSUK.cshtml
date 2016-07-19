@@ -1,5 +1,6 @@
 ﻿@using System.Configuration
 @using NHS111.Web.Presentation.Analytics
+@inherits NHS111.Web.Views.Shared.LayoutView
 
 <!DOCTYPE html>
 <html lang="">
@@ -29,14 +30,11 @@
     @RenderSection("Scripts", false)
 </head>
 <body class="">
-    <!-- toggle cookie banner -->
-    @{
-        var showCookieBanner = ConfigurationManager.AppSettings["ShowCookieBanner"];
-        if (showCookieBanner != "false") //if its not there or explicitly set then show the pop up
-        {
-            @Html.Partial("_CookieBanner")
-        }
+    @if (CookieBannerFeature.IsEnabled) {
+        <!-- toggle cookie banner -->
+        @Html.Partial("_CookieBanner")
     }
+    
     
     @{
         var data = new Dictionary<string, string> { { "ContainerID", ConfigurationManager.AppSettings["GoogleAnalyticsContainerId"] } };
@@ -65,13 +63,9 @@
     <section class="outer-section">@RenderSection("OuterSection", false)</section>
 
     <main id="content" role="main">
-        <!-- toggle disclaimer banner-->
-        @{
-            var showDisclaimerBanner = ConfigurationManager.AppSettings["ShowDisclaimerBanner"];
-            if (showDisclaimerBanner != "false") //if its not there or explicitly set then show the pop up
-            {
-                @Html.Partial("_DisclaimerBanner")
-            }
+        @if (DisclaimerBannerFeature.IsEnabled) {
+            <!-- toggle disclaimer banner-->
+            @Html.Partial("_DisclaimerBanner")
         }
 
         @RenderBody()
