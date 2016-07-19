@@ -3,25 +3,21 @@
 @{
     Layout = "~/Views/Shared/_LayoutNhsUK.cshtml";
 }
+@inherits NHS111.Web.Views.Shared.DisclaimerPopupView
 
-@section Title
-{NHS 111 Digital}
+@section Title {NHS 111 Digital}
 
 @section Scripts {
-
     <!--<script src="~/scripts/jquery2.1.1.min.js"></script> included on layout page -->
     <script src="~/scripts/jquery1.11.2-ui.min.js"></script>
     <script src="~/scripts/jquery.blockUI.js"></script>
     <script src="~/scripts/custom.js"></script>
-<script src="~/scripts/disclaimer.js"></script>
-
+    <script src="~/scripts/disclaimer.js"></script>
 }
 
-    <!-- toggle disclaimer popup -->
 @{
-    var showDisclaimerPopUp = ConfigurationManager.AppSettings["ShowDisclaimerPopUp"];
-    if (showDisclaimerPopUp != "false") //if its not there or explicitly set then show the pop up
-    {
+    if (DisclaimerPopupFeature.IsEnabled) {
+        <!-- toggle disclaimer popup -->
         <link rel="stylesheet" href="~/Content/css_NhsUK/modal.css">
         <script src="~/scripts/disclaimer-popup.js"></script>
     }
@@ -131,7 +127,6 @@
 
     <div class="content-container">
         <div>
-            <br />
             <!--<div id="linkBodySearch"> <a href="#" title="Try our body search instead"><span title="Try our body search" class="left">Try our body</span> <span class="bgIcon"></span> <span class="left">search instead </span></a>
             </div>-->
             @using (Html.BeginForm("Gender", "Question", FormMethod.Post))
