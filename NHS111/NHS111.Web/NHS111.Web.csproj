@@ -692,6 +692,8 @@
     <Content Include="Views\Shared\_CookieBanner.cshtml" />
     <Content Include="Views\Shared\_DisclaimerBanner.cshtml" />
     <Content Include="Views\Help\Privacy.cshtml" />
+    <None Include="Properties\PublishProfiles\nhs111-web-beta-alpha - FTP.pubxml" />
+    <None Include="Properties\PublishProfiles\nhs111-web-beta-alpha - Web Deploy.pubxml" />
     <None Include="Web.Development.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
