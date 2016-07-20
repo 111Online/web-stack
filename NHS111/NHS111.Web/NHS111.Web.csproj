@@ -493,6 +493,7 @@
     <Content Include="Scripts\mobileScroller.js" />
     <Content Include="Scripts\spin.min.js" />
     <Content Include="Scripts\vendor\modernizr-custom.js" />
+    <Content Include="Static\500.html" />
     <Content Include="Static\TempHTML\999Page.html" />
     <Content Include="Static\TempHTML\Confirmation.html" />
     <Content Include="Static\TempHTML\GpSearch.html" />
@@ -504,6 +505,9 @@
     <Content Include="Static\TempHTML\NoOutcome.html" />
     <Content Include="Static\TempHTML\PersonalDetails.html" />
     <Content Include="Static\TempHTML\SelectSurgery.html" />
+    <Content Include="Static\500.aspx" />
+    <Content Include="Static\404.html" />
+    <Content Include="Static\404.aspx" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
