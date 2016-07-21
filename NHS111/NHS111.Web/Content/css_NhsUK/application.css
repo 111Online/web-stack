@@ -1980,27 +1980,22 @@ button[disabled=disabled] {
     cursor: pointer;
     transition: font-size 200ms;
     text-align: center;
-    font-size: 0.6em;
+    font-size: 1em;
     display: block;
     margin-left: 10px;
     float: right;
     max-width: 120px;
     line-height: 1em;
 }
-@media screen and (min-width: 500px) {
-    .feedback-container .feedback-btn {
-        font-size: 0.8em;
-    }
 }
 @media screen and (min-width: 768px) {
     .feedback-container .feedback-btn {
-        font-size: 1em;
         padding: 8px 15px;
     }
 }
 .feedback-container .feedback-message {
     transition: font-size 200ms;
-    font-size: 0.6em;
+    font-size: 1em;
     display: block;
     margin: 0;
     padding: 0;
@@ -2009,18 +2004,11 @@ button[disabled=disabled] {
 @media screen and (min-width: 500px) {
     .feedback-container .feedback-message {
         margin-top: 0.5em;
-        font-size: 0.8em;
     }
 }
 @media screen and (min-width: 768px) {
     .feedback-container .feedback-message {
-        font-size: 1em;
         line-height: 1em;
-    }
-}
-@media screen and (min-width: 992px){
-    .feedback-container .feedback-message {
-        font-size: 1em;
     }
 }
 .feedback-message.feedback-title {
@@ -2088,7 +2076,6 @@ button[disabled=disabled] {
 @media screen and (min-width: 500px) {
     .feedback-btn.feedback-submit {
         margin-left: 0;
-        font-size: 0.8em;
     }
 }
 @media screen and (min-width: 768px) {
