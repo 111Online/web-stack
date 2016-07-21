@@ -212,12 +212,5 @@
 
     <div id="global-app-error" class="app-error hidden"></div>
 
-<!-- Visual Studio Browser Link -->
-<script type="application/json" id="__browserLink_initializationData">
-    {"appName":"Chrome","requestId":"4562bcd4425f4494af761a82e2015ab7"}
-</script>
-<script type="text/javascript" src="http://localhost:2369/4272ac4c2db5409fa839b764c0238e53/browserLink" async="async"></script>
-<!-- End Browser Link -->
-
 </body>
 </html>
