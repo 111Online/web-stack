@@ -692,6 +692,7 @@
     <Content Include="Views\Shared\_CookieBanner.cshtml" />
     <Content Include="Views\Shared\_DisclaimerBanner.cshtml" />
     <Content Include="Views\Help\Privacy.cshtml" />
+    <Content Include="Views\Help\Browsers.cshtml" />
     <None Include="Web.Development.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
