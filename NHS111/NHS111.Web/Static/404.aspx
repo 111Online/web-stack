@@ -1,4 +1,8 @@
-﻿<% Response.StatusCode = 404 %>
+﻿<%@ Page Language="C#" %>
+<%
+    Response.StatusCode = 404;  
+    string GaPropertyId = ConfigurationManager.AppSettings["GoogleAnalyticsContainerId"];
+%>
 
 
 <!DOCTYPE html>
@@ -52,7 +56,7 @@
 
     <!-- Google Tag Manager -->
     <noscript>
-        <iframe src='//www.googletagmanager.com/ns.html?id=GTM-PKQLJC'
+        <iframe src='//www.googletagmanager.com/ns.html?id=<%=GaPropertyId  %>'
                 height='0' width='0' style='display:none;visibility:hidden'></iframe>
         </noscript>
         <script>
