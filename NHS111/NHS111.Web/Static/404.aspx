@@ -27,7 +27,7 @@
     <script>
         $(function () {
             var userId = $.cookie("userId");
-            if (!userId) $.cookie("userId", '222ec958-64f7-44ee-8475-1e553c322924', { path: '/' });
+            if (!userId) $.cookie("userId", '<%=Guid.NewGuid()%>', { path: '/' });
         });
     </script>
     
