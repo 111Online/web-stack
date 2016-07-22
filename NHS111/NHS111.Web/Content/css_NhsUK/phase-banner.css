@@ -1,5 +1,17 @@
 ﻿#phase-banner {
-    margin-bottom: 20px;
+    margin-top: 2px;
+    background-color: #E31D1A;
+}
+#phase-banner .phase-container {
+    max-width: 75%;
+    margin: 0 15px;
+    padding: 0;
+}
+@media (min-width: 641px) {
+    #phase-banner .phase-container {
+        margin: 0 auto;
+        padding: 0 30px;
+    }
 }
 @media (min-width: 641px) {
     .phase-banner {
@@ -10,24 +22,20 @@
     padding: 10px 0 8px 0;
     border-bottom: 1px solid #bfc1c3;
 }
-.phase-banner p {
-    margin: 0;
-    color: black;
-    font-family: "nta", Arial, sans-serif;
-    font-size: 16px;
-    line-height: 1.25;
-    font-weight: 400;
-    text-transform: none;
+.phase-banner--inner {
+    max-width: 325px;
+    padding: 5px;
+    color: #fff;
 }
-@media (min-width: 641px) {
-    .phase-banner span {
-        width: auto;
-        vertical-align: baseline;
+@media (min-width: 925px) {
+    .phase-banner--inner {
+        max-width: 925px;
     }
 }
-.phase-banner span {
-    display: -moz-inline-stack;
-    display: inline-block;
-    width: 75%;
-    vertical-align: top;
+.phase-banner--inner a {
+    color: #fff;
 }
+.phase-container p {
+    margin-bottom: 0;
+}
+
