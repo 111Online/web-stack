@@ -12,7 +12,7 @@
 
     <!-- css -->
     <link href="http://nhsalpha.herokuapp.com/public/stylesheets/govuk-template.css?0.12.0" media="screen" rel="stylesheet" type="text/css" />
-    <link href="~/Content/css_NhsUK/application.css" media="screen" rel="stylesheet" type="text/css"/>
+    <link href="~/Content/css_NhsUK/application.css" media="screen" rel="stylesheet" type="text/css" />
 
     <!-- Javascript -->
     <script src="~/scripts/vendor/modernizr-custom.js"></script>
@@ -20,7 +20,7 @@
     <script src="~/Scripts/jquery1.11.2-ui.min.js"></script>
     <script src="~/scripts/bootstrap.min.js"></script>
     <script src="~/scripts/jquery.cookie.js"></script>
-    
+
     <script>
         $(function () {
             var userId = $.cookie("userId");
@@ -30,12 +30,13 @@
     @RenderSection("Scripts", false)
 </head>
 <body class="">
-    @if (CookieBannerFeature.IsEnabled) {
+    @if (CookieBannerFeature.IsEnabled)
+    {
         <!-- toggle cookie banner -->
         @Html.Partial("_CookieBanner")
     }
-    
-    
+
+
     @{
         var data = new Dictionary<string, string> { { "ContainerID", ConfigurationManager.AppSettings["GoogleAnalyticsContainerId"] } };
 
@@ -54,20 +55,25 @@
         <div class="header-container">
             <a href="/" class="header-logo" title="Go to the NHS.UK homepage">
                 <img src="/content/images/nhs-rev-logotype.svg" alt="">
+
             </a>
+            <div class="header-title">
+                111 Digital <strong class="phase-tag beta"></strong>
+            </div>
         </div>
     </header>
+    @if (DisclaimerBannerFeature.IsEnabled)
+    {
+            <!-- toggle disclaimer banner-->
+        @Html.Partial("_DisclaimerBanner")
+    }
     @RenderSection("HeaderContent", false)
     <!--end header-->
+
 
     <section class="outer-section">@RenderSection("OuterSection", false)</section>
 
     <main id="content" role="main">
-        @if (DisclaimerBannerFeature.IsEnabled) {
-            <!-- toggle disclaimer banner-->
-            @Html.Partial("_DisclaimerBanner")
-        }
-
         @RenderBody()
     </main>
     <section class="feedback-section">@RenderSection("FeedbackSection", false)</section>
