@@ -1,0 +1,68 @@
+﻿@using NHS111.Models.Models.Web
+@using NHS111.Utils.DispositionLogics
+@model OutcomeViewModel
+@{
+    Layout = "~/Views/Shared/_LayoutNhsUK.cshtml";
+}
+@section Title { Outcome }
+
+<link href="~/Content/css_NhsUK/a-and-e.css" media="screen" rel="stylesheet" type="text/css" />
+
+@section OuterSection{
+    <div class="sub-header">
+        <div>
+            <div class="aande">+</div>
+            <h2>Thank you!</h2>
+            @if (!String.IsNullOrWhiteSpace(Model.TimeFrameText))
+            {
+                <p>From your answers, we recommend you @Model.Title within @Model.TimeFrameText</p>
+            }
+            else
+            {
+                <p> From your answers, we recommend you @Model.Title </p>
+            }
+
+        </div>
+    </div>
+}
+
+@section FeedbackSection {
+    @Html.Partial("_FeedbackDetails", new FeedbackViewModel() { PageId = Model.Id })
+}
+
+@if (Grouping.Two.Contains(Model.Id))
+{
+    using (Html.BeginForm("ServiceDetails", "Outcome", FormMethod.Post))
+    {
+        @Html.HiddenFor(x => Model.Id)
+        @Html.HiddenFor(x => Model.JourneyJson)
+        @Html.HiddenFor(x => Model.PathwayId)
+        @Html.HiddenFor(x => Model.PathwayNo)
+        @Html.HiddenFor(x => Model.SymptomGroup)
+        @Html.HiddenFor(x => Model.UserInfo.Age)
+        @Html.HiddenFor(x => Model.UserInfo.Gender)
+        @Html.HiddenFor(x => Model.SymptomDiscriminator)
+        @Html.HiddenFor(x => Model.Title)
+        @Html.HiddenFor(x => Model.UserId)
+
+        <h2>Would you like us to find a healthcare provider near you?</h2>
+        <label>
+            Postcode of current address
+        </label>
+        <div class="inline-details">
+            @Html.TextBoxFor(m => m.UserInfo.CurrentAddress.PostCode, new { @class = "form-control form-control-8-chars", placeholder = "eg. SE1" })
+            <input type="submit" class="button button-next" value="Find" />
+        </div>
+    }
+    <div class="row">
+        <a class="button button-next button-link" href="#">I don't know my postcode</a>
+    </div>
+}
+
+@using (Html.BeginForm("Navigation", "Question", FormMethod.Post))
+{
+    @Html.Partial("_CommonHiddenFieldsOutcomeViewModel", Model)
+    <div class="row">
+        <input class="button button-next button-link" type="submit" name="PreviousQuestion" value="Change my answers" />
+    </div>
+} 

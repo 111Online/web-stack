@@ -1,0 +1,83 @@
+﻿@using NHS111.Models.Models.Web
+@model OutcomeViewModel
+@{
+    Layout = "~/Views/Shared/_LayoutNhsUk.cshtml";
+}
+
+@section Title {
+
+}
+
+@section Scripts {
+    <script>
+        var pageId = '@Model.Id';
+        dataLayer = [
+        {
+            'virtualPageUrl': document.location.pathname + '/' + pageId,
+            'virtualPageTitle': '@Model.TitleWithoutBullets'
+        }];
+    </script>
+}
+
+@section OuterSection {
+    <div class="sub-header">
+        <div>
+            <div class="tick">&#10003;</div>
+            <h2>You've finished your online assessment</h2>
+            <p>@Model.Title</p>
+        </div>
+    </div>
+}
+
+@section FeedbackSection {
+    @Html.Partial("_FeedbackDetails", new FeedbackViewModel() { PageId = Model.Id })
+}
+
+<link href="~/content/css_NhsUk/disposition.css" media="screen" rel="stylesheet" type="text/css" />
+
+<h2>Let us contact a healthcare provider near you</h2>
+<p>Please enter your details below to find a healthcare provider and they will contact you.</p>
+
+@using (Html.BeginForm("ServiceList", "Outcome", FormMethod.Post))
+{
+    @Html.HiddenFor(x => Model.Id)
+    @Html.HiddenFor(x => Model.JourneyJson)
+    @Html.HiddenFor(x => Model.PathwayId)
+    @Html.HiddenFor(x => Model.PathwayNo)
+    @Html.HiddenFor(x => Model.SymptomGroup)
+    @Html.HiddenFor(x => Model.UserInfo.Age)
+    @Html.HiddenFor(x => Model.UserInfo.Gender)
+    @Html.HiddenFor(x => Model.SymptomDiscriminator)
+    @Html.HiddenFor(x => Model.Title)
+    @Html.HiddenFor(x => Model.UserId)
+    @Html.HiddenFor(x => x.TimeFrameText)
+    for (int i = 0; i < Model.CollectedKeywords.Keywords.Count; i++)
+    {
+        @Html.HiddenFor(model => Model.CollectedKeywords.Keywords[i].Value)
+        @Html.HiddenFor(model => Model.CollectedKeywords.Keywords[i].IsFromAnswer)
+    }
+
+    for (int i = 0; i < Model.CollectedKeywords.ExcludeKeywords.Count; i++)
+    {
+        @Html.HiddenFor(model => Model.CollectedKeywords.ExcludeKeywords[i].Value)
+        @Html.HiddenFor(model => Model.CollectedKeywords.ExcludeKeywords[i].IsFromAnswer)
+    }
+
+
+    <label>
+        Postcode of current location
+        @Html.TextBoxFor(m => m.UserInfo.CurrentAddress.PostCode)
+    </label>
+        <aside>
+            <h3>Why we need this</h3>
+            <p>
+                So we can offer details of healthcare providers<br />available near to where you are right now.
+            </p>
+        </aside>
+
+
+        @Html.Partial("_GpSearch", Model)
+
+        <input class="button button-next" type="submit" name="DosResults" value="Find available healthcare providers" />
+
+}

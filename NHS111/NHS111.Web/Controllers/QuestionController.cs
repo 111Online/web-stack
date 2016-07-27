@@ -94,21 +94,23 @@ namespace NHS111.Web.Controllers {
         private string DetermineViewName(JourneyViewModel model) {
             switch (model.NodeType) {
                 case NodeType.Outcome:
-                    if (OutcomeGroup.Call999.Equals(model.OutcomeGroup))
-                        return "../Outcome/Emergency";
-
-                    if (OutcomeGroup.HomeCare.Equals(model.OutcomeGroup))
-                        return "../Outcome/HomeCare";
-
-                    return (OutcomeGroup.AccidentAndEmergency.Equals(model.OutcomeGroup))
-                        ? "../Outcome/Disposition2"
-                        : "../Outcome/Disposition";
+                
+                    var viewFilePath = "../Outcome/" + model.OutcomeGroup.Id;
+                    if (ViewExists(viewFilePath))
+                        return viewFilePath;
+                    throw new ArgumentOutOfRangeException(string.Format("Outcome group {0} for outcome {1} has no view configured", model.OutcomeGroup.ToString(), model.Id));
                 case NodeType.DeadEndJump:
                     return "../Question/DeadEndJump";
                 case NodeType.Question:
                 default:
                     return "../Question/Question";
             }
+        }
+
+        private bool ViewExists(string name)
+        {
+            ViewEngineResult result = ViewEngines.Engines.FindView(ControllerContext, name, null);
+            return (result.View != null);
         }
 
         [HttpGet]
