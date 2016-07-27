@@ -625,7 +625,7 @@
     <Content Include="Views\_Old\GPSearch.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Views\Outcome\Emergency.cshtml" />
+    <Content Include="Views\Outcome\Call_999.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\_Old\DosService.cshtml" />
@@ -634,7 +634,7 @@
     <Content Include="Views\DOS\Confirmation.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Views\Outcome\Disposition.cshtml" />
+    <Content Include="Views\Outcome\ITK_Referral.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Shared\_SurgeryDetails.cshtml" />
@@ -670,7 +670,7 @@
     <Content Include="Views\Shared\_GoogleMap.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Views\Outcome\Disposition2.cshtml" />
+    <Content Include="Views\Outcome\SP_Accident_and_emergency.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Question\Home.cshtml" />
@@ -692,12 +692,14 @@
     <Content Include="Views\Outcome\ServiceBookingFailure.cshtml" />
     <Content Include="Views\Question\DeadEndJump.cshtml" />
     <Content Include="Views\Shared\_CareAdvice.cshtml" />
-    <Content Include="Views\Outcome\HomeCare.cshtml" />
+    <Content Include="Views\Outcome\Home_Care.cshtml" />
     <Content Include="Views\Help\Cookies.cshtml" />
     <Content Include="Views\Shared\_CookieBanner.cshtml" />
     <Content Include="Views\Shared\_DisclaimerBanner.cshtml" />
     <Content Include="Views\Help\Privacy.cshtml" />
     <Content Include="Views\Help\Browsers.cshtml" />
+    <Content Include="Views\Outcome\SP_GP.cshtml" />
+    <Content Include="Views\Outcome\SP_Other.cshtml" />
     <None Include="Web.Development.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
