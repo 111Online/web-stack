@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Configuration;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -19,6 +20,16 @@ namespace NHS111.Integration.DOS.Api.Monitoring
             _pathWayServiceSoap = pathWayServiceSoap;
         }
 
+        private static string DosUser
+        {
+            get { return ConfigurationManager.AppSettings["dos_credential_user"]; }
+        }
+
+        private static string DosPassword
+        {
+            get { return ConfigurationManager.AppSettings["dos_credential_password"]; }
+        }
+
         public override string Metrics()
         {
             return "Metrics";
@@ -29,7 +40,7 @@ namespace NHS111.Integration.DOS.Api.Monitoring
             try
             {
                 var jsonString =
-                    new StringBuilder("{\"serviceVersion\":\"1.3\",\"userInfo\":{\"username\":\"digital111_ws\",\"password\":\"Valtech111\"},")
+                    new StringBuilder("{\"serviceVersion\":\"1.3\",\"userInfo\":{\"username\":\"" + DosUser + "\",\"password\":\"" + DosPassword + "\"},")
                         .Append("\"c\":{\"caseRef\":\"123\",\"caseId\":\"123\",\"postcode\":\"EC1A 4JQ\",\"surgery\":\"")
                         .Append("A83046\",\"age\":35,")
                         .Append("\"ageFormat\":0,\"disposition\":1002")
