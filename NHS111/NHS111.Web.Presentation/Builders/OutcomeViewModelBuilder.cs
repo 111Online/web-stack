@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Net.Configuration;
 using System.Net.Http;
@@ -14,7 +15,6 @@ using NHS111.Models.Models.Web.FromExternalServices;
 using NHS111.Models.Models.Web.ITK;
 using NHS111.Utils.Cache;
 using NHS111.Utils.Helpers;
-using NHS111.Utils.Itk;
 using NHS111.Utils.Logging;
 using IConfiguration = NHS111.Web.Presentation.Configuration.IConfiguration;
 
@@ -102,11 +102,15 @@ namespace NHS111.Web.Presentation.Builders
             return response;
         }
 
+        private Authentication getItkAuthentication()
+        {
+            return new Authentication { UserName = ConfigurationManager.AppSettings["itk_credential_user"], Password = ConfigurationManager.AppSettings["itk_credential_password"] };
+        }
+
         private ITKDispatchRequest CreateItkDispatchRequest(OutcomeViewModel model)
         {
-            var auth = new Authentication() {UserName = "admn", Password = "admnUat"};
             var itkRequestData = _mappingEngine.Mapper.Map<OutcomeViewModel, ITKDispatchRequest>(model);
-            itkRequestData.Authentication = auth;
+            itkRequestData.Authentication = getItkAuthentication();
             return itkRequestData;
         }
 
