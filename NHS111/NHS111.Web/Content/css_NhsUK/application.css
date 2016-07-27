@@ -1527,6 +1527,13 @@ html, #footer {
         margin: 0 auto;
         padding: 0 30px; } }
 
+#footer nav li {
+    display: inline;
+    list-style: none;
+    margin: 0 12px 0 0;
+    padding: 0;
+}
+
 .show-grid {
   background-image: -webkit-linear-gradient(top, cyan 0, rgba(255, 255, 255, 0) 1px);
   background-image: -moz-linear-gradient(top, cyan 0, rgba(255, 255, 255, 0) 1px);
@@ -1561,11 +1568,6 @@ body {
   color: #6f777b; }
 
 h1, h2, h3, h4, h5, h6 {
-    -webkit-font-feature-settings: 'dlig' 1, 'liga' 1, 'lnum' 1, 'kern' 1;
-    -moz-font-feature-settings: 'dlig' 1, 'liga' 1, 'lnum' 1, 'kern' 1;
-    -ms-font-feature-settings: 'dlig' 1, 'liga' 1, 'lnum' 1, 'kern' 1;
-    -o-font-feature-settings: 'dlig' 1, 'liga' 1, 'lnum' 1, 'kern' 1;
-    font-feature-settings: 'dlig' 1, 'liga' 1, 'lnum' 1, 'kern' 1;
     font-family: Arial, Helvetica Neue, Helvetica, sans-serif;
     font-style: normal;
     font-weight: 600;
@@ -1973,27 +1975,22 @@ button[disabled=disabled] {
     cursor: pointer;
     transition: font-size 200ms;
     text-align: center;
-    font-size: 0.6em;
+    font-size: 1em;
     display: block;
     margin-left: 10px;
     float: right;
     max-width: 120px;
     line-height: 1em;
 }
-@media screen and (min-width: 500px) {
-    .feedback-container .feedback-btn {
-        font-size: 0.8em;
-    }
 }
 @media screen and (min-width: 768px) {
     .feedback-container .feedback-btn {
-        font-size: 1em;
         padding: 8px 15px;
     }
 }
 .feedback-container .feedback-message {
     transition: font-size 200ms;
-    font-size: 0.6em;
+    font-size: 1em;
     display: block;
     margin: 0;
     padding: 0;
@@ -2002,18 +1999,11 @@ button[disabled=disabled] {
 @media screen and (min-width: 500px) {
     .feedback-container .feedback-message {
         margin-top: 0.5em;
-        font-size: 0.8em;
     }
 }
 @media screen and (min-width: 768px) {
     .feedback-container .feedback-message {
-        font-size: 1em;
         line-height: 1em;
-    }
-}
-@media screen and (min-width: 992px){
-    .feedback-container .feedback-message {
-        font-size: 1em;
     }
 }
 .feedback-message.feedback-title {
@@ -2081,7 +2071,6 @@ button[disabled=disabled] {
 @media screen and (min-width: 500px) {
     .feedback-btn.feedback-submit {
         margin-left: 0;
-        font-size: 0.8em;
     }
 }
 @media screen and (min-width: 768px) {
@@ -2160,6 +2149,45 @@ button[disabled=disabled] {
     font-size: 1.1em;
     line-height: 1.3em;
 }
-
+.header-title {
+    clear: both;
+    padding: 0 0 12px 0;
+    color: #ffffff;
+    font-size: 1.5em;
+}
+@media screen and (min-width: 40em) {
+    .header-title {
+        float: left;
+        clear: none;
+        padding: 19px 0 0 12px;
+    }
+}
+.header-title .phase-tag {
+    display: -moz-inline-stack;
+    display: inline-block;
+    vertical-align: top;
+    font-family: "nta", Arial, sans-serif;
+    font-size: 0.5em;
+    line-height: 1em;
+    font-weight: 700;
+    text-transform: none;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    text-decoration: none;
+    color: #0072C6;
+}
+.header-title .phase-tag.alpha {
+    background-color: #fff;
+    content: "Alpha";
+}
+.header-title .phase-tag.beta::after {
+    background-color: #fff;
+    content: "Beta";
+    padding: 2px;
+}
+.header-title .phase-tag.live {
+    background-color: #fff;
+    content: "Live";
+}
 
 

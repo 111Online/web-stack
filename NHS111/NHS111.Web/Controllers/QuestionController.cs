@@ -13,9 +13,9 @@ namespace NHS111.Web.Controllers {
     using System.Net.Http;
     using System.Text;
     using System.Web;
-    using AutoMapper;
     using Models.Models.Domain;
     using Newtonsoft.Json;
+    using Presentation.Features;
     using Presentation.ModelBinders;
     using Utils.Helpers;
     using IConfiguration = Presentation.Configuration.IConfiguration;
@@ -25,12 +25,12 @@ namespace NHS111.Web.Controllers {
         : Controller {
 
         public QuestionController(IJourneyViewModelBuilder journeyViewModelBuilder, IRestfulHelper restfulHelper,
-            IConfiguration configuration, IJustToBeSafeFirstViewModelBuilder justToBeSafeFirstViewModelBuilder, IMappingEngine mappingEngine) {
+            IConfiguration configuration, IJustToBeSafeFirstViewModelBuilder justToBeSafeFirstViewModelBuilder, IDirectLinkingFeature directLinkingFeature) {
             _journeyViewModelBuilder = journeyViewModelBuilder;
             _restfulHelper = restfulHelper;
             _configuration = configuration;
             _justToBeSafeFirstViewModelBuilder = justToBeSafeFirstViewModelBuilder;
-            _mappingEngine = mappingEngine;
+            _directLinkingFeature = directLinkingFeature;
         }
 
         [HttpPost]
@@ -115,6 +115,11 @@ namespace NHS111.Web.Controllers {
         [Route("question/direct/{pathwayId}/{age?}/{pathwayTitle}/{answers?}")]
         public async Task<ActionResult> Direct(string pathwayId, int? age, string pathwayTitle,
             [ModelBinder(typeof (IntArrayModelBinder))] int[] answers) {
+
+            if (!_directLinkingFeature.IsEnabled) {
+                return HttpNotFound();
+            }
+
             //the below is copied from refactored code. Suggest removing once JTBS code is refactored away.
             var journeyViewModel = BuildJourneyViewModel(pathwayId, age, pathwayTitle);
 
@@ -205,6 +210,6 @@ namespace NHS111.Web.Controllers {
         private readonly IRestfulHelper _restfulHelper;
         private readonly IConfiguration _configuration;
         private readonly IJustToBeSafeFirstViewModelBuilder _justToBeSafeFirstViewModelBuilder;
-        private readonly IMappingEngine _mappingEngine;
+        private readonly IDirectLinkingFeature _directLinkingFeature;
     }
 }

@@ -54,6 +54,10 @@
       <Private>True</Private>
       <HintPath>..\packages\Newtonsoft.Json.6.0.8\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
+    <Reference Include="NHS111.IoC, Version=1.0.0.26, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\NHS111.IoC.1.0.0.26\lib\net451\NHS111.IoC.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="StructureMap, Version=4.0.1.318, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\structuremap.4.0.1.318\lib\net40\StructureMap.dll</HintPath>
       <Private>True</Private>
@@ -169,10 +173,6 @@
     <Folder Include="Models\" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\NHS111.IoC\NHS111.IoC.csproj">
-      <Project>{1a4c1efc-d70e-47c1-b7c3-b5d2ae7ab54e}</Project>
-      <Name>NHS111.IoC</Name>
-    </ProjectReference>
     <ProjectReference Include="..\NHS111.Utils\NHS111.Utils.csproj">
       <Project>{efc4426e-3564-4c5e-ac95-4de7a2c55876}</Project>
       <Name>NHS111.Utils</Name>

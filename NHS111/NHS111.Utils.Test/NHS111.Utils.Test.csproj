@@ -80,6 +80,8 @@
     <Compile Include="Extensions\ListExtension_Test.cs" />
     <Compile Include="Extensions\StringExtensionTest.cs" />
     <Compile Include="Extensions\TaskExtension_Test.cs" />
+    <Compile Include="FeatureToggle\AppSettingValueProviderTests.cs" />
+    <Compile Include="FeatureToggle\BaseFeatureTests.cs" />
     <Compile Include="Helpers\RestfulHelperTests.cs" />
     <Compile Include="Parser\PathwayTitleUriParserTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

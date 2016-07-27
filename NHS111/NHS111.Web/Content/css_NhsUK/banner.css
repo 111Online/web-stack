@@ -1,0 +1,76 @@
+﻿.notification-banner {
+    background-color: #000;
+}
+    .notification-banner a {
+        color: #fff;
+    }
+.notification-banner--inner {
+    margin: 0 16px;
+    max-width: 325px;
+    padding: 8px 0;
+}
+@media (min-width: 925px) {
+    .notification-banner--inner {
+        margin: 0 32px;
+        max-width: 925px;
+    }
+}
+@media (min-width: 1024px) {
+    .notification-banner--inner {
+        margin: 0 auto;
+    }
+}
+.notification-banner * {
+    font-family: "FS Me",Arial,sans-serif;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 24px;
+    text-transform: none;
+    color: #fff;
+}
+@media (min-width: 641px) {
+    .notification-banner * {
+        font-size: 16px;
+        line-height: 24px;
+    }
+}
+@media (min-width: 925px) {
+    .notification-banner * {
+        font-size: 16px;
+        line-height: 24px;
+    }
+}
+.notification-banner__hidden {
+    display: none;
+}
+.notification-banner .icon {
+    /*padding-top: 10px;
+    padding-right: 10px;
+    padding-top: 10px;*/
+    padding-left: 10px;
+    opacity: 0.8;
+}
+@media (min-width: 980px) {
+    .notification-banner .icon {
+        padding-right: 0;
+    }
+}
+.icon {
+    display: inline-block;
+    vertical-align: top;
+    line-height: 1em;
+    font-weight: normal;
+    font-style: normal;
+    speak: none;
+    text-decoration: inherit;
+    text-transform: none;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+.icon-close {
+    cursor: pointer;
+}
+.icon-close:before {
+    content: "x";
+}

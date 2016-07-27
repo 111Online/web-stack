@@ -75,10 +75,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\NHS111.Business.ITKDispatcher.Api\NHS111.Business.ITKDispatcher.Api.csproj">
-      <Project>{396b6fa5-9842-455b-8856-887ba33adbca}</Project>
-      <Name>NHS111.Business.ITKDispatcher.Api</Name>
-    </ProjectReference>
     <ProjectReference Include="..\NHS111.Models\NHS111.Models.csproj">
       <Project>{4ccf3abd-92c4-4999-8520-c4aa7b36f48c}</Project>
       <Name>NHS111.Models</Name>

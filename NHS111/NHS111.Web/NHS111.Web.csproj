@@ -59,6 +59,10 @@
       <Private>True</Private>
       <HintPath>..\packages\Newtonsoft.Json.6.0.8\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
+    <Reference Include="NHS111.IoC, Version=1.0.0.26, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\NHS111.IoC.1.0.0.26\lib\net451\NHS111.IoC.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="StructureMap, Version=4.0.1.318, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\structuremap.4.0.1.318\lib\net40\StructureMap.dll</HintPath>
       <Private>True</Private>
@@ -150,7 +154,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="App_Data\" />
     <Folder Include="Content\styles\ie\" />
     <Folder Include="Content\styles\mobile\" />
     <Folder Include="Content\styles\print\" />
@@ -164,6 +167,7 @@
     <Compile Include="Authentication\BasicAuthenticationModule.cs" />
     <Compile Include="Controllers\DOSController.cs" />
     <Compile Include="Controllers\FeedbackController.cs" />
+    <Compile Include="Controllers\HelpController.cs" />
     <Compile Include="Controllers\OutcomeController.cs" />
     <Compile Include="Controllers\QuestionController.cs" />
     <Compile Include="Controllers\JustToBeSafeController.cs" />
@@ -176,6 +180,9 @@
     <Compile Include="IoC\StructureMapScopeModule.cs" />
     <Compile Include="IoC\StructuremapWebApi.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Views\Shared\DirectLinkingView.cs" />
+    <Compile Include="Views\Shared\DisclaimerView.cs" />
+    <Compile Include="Views\Shared\LayoutView.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\css\custom.css" />
@@ -220,11 +227,14 @@
     <Content Include="Content\css\skins\flat\_all.css" />
     <Content Include="Content\css_NhsUK\a-and-e.css" />
     <Content Include="Content\css_NhsUK\application.css" />
+    <Content Include="Content\css_NhsUK\banner.css" />
     <Content Include="Content\css_NhsUK\confirmation.css" />
     <Content Include="Content\css_NhsUK\emergency.css" />
     <Content Include="Content\css_NhsUK\gender.css" />
     <Content Include="Content\css_NhsUK\disposition.css" />
+    <Content Include="Content\css_NhsUK\modal.css" />
     <Content Include="Content\css_NhsUK\personaldetails.css" />
+    <Content Include="Content\css_NhsUK\phase-banner.css" />
     <Content Include="Content\css_NhsUK\question.css" />
     <Content Include="Content\css_NhsUK\search.css" />
     <Content Include="Content\css_NhsUK\servicedetails.css" />
@@ -474,6 +484,7 @@
     </Content>
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Scripts\custom.js" />
+    <Content Include="Scripts\disclaimer-popup.js" />
     <Content Include="Scripts\disclaimer.js" />
     <Content Include="Scripts\icheck.js" />
     <Content Include="Scripts\jquery.blockUI.js" />
@@ -483,6 +494,7 @@
     <Content Include="Scripts\mobileScroller.js" />
     <Content Include="Scripts\spin.min.js" />
     <Content Include="Scripts\vendor\modernizr-custom.js" />
+    <Content Include="Static\500.html" />
     <Content Include="Static\TempHTML\999Page.html" />
     <Content Include="Static\TempHTML\Confirmation.html" />
     <Content Include="Static\TempHTML\GpSearch.html" />
@@ -494,6 +506,9 @@
     <Content Include="Static\TempHTML\NoOutcome.html" />
     <Content Include="Static\TempHTML\PersonalDetails.html" />
     <Content Include="Static\TempHTML\SelectSurgery.html" />
+    <Content Include="Static\500.aspx" />
+    <Content Include="Static\404.html" />
+    <Content Include="Static\404.aspx" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -523,10 +538,6 @@
     <Content Include="Content\fonts\NTATabularNumbers-Bold.woff" />
     <Content Include="Content\fonts\NTATabularNumbers-Light.eot" />
     <Content Include="Content\fonts\NTATabularNumbers-Light.woff" />
-    <ProjectReference Include="..\NHS111.IoC\NHS111.IoC.csproj">
-      <Project>{1a4c1efc-d70e-47c1-b7c3-b5d2ae7ab54e}</Project>
-      <Name>NHS111.IoC</Name>
-    </ProjectReference>
     <ProjectReference Include="..\NHS111.Models\NHS111.Models.csproj">
       <Project>{4ccf3abd-92c4-4999-8520-c4aa7b36f48c}</Project>
       <Name>NHS111.Models</Name>
@@ -680,10 +691,13 @@
     <Content Include="Views\Outcome\ServiceList.cshtml" />
     <Content Include="Views\Outcome\ServiceBookingFailure.cshtml" />
     <Content Include="Views\Question\DeadEndJump.cshtml" />
-    <None Include="Properties\PublishProfiles\nhs111-web-beta - FTP.pubxml" />
-    <None Include="Properties\PublishProfiles\nhs111-web-beta - Web Deploy.pubxml" />
     <Content Include="Views\Shared\_CareAdvice.cshtml" />
     <Content Include="Views\Outcome\HomeCare.cshtml" />
+    <Content Include="Views\Help\Cookies.cshtml" />
+    <Content Include="Views\Shared\_CookieBanner.cshtml" />
+    <Content Include="Views\Shared\_DisclaimerBanner.cshtml" />
+    <Content Include="Views\Help\Privacy.cshtml" />
+    <Content Include="Views\Help\Browsers.cshtml" />
     <None Include="Web.Development.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

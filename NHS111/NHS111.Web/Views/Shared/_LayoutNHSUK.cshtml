@@ -1,5 +1,6 @@
 ﻿@using System.Configuration
 @using NHS111.Web.Presentation.Analytics
+@inherits NHS111.Web.Views.Shared.LayoutView
 
 <!DOCTYPE html>
 <html lang="">
@@ -17,7 +18,9 @@
     <script src="~/scripts/vendor/modernizr-custom.js"></script>
     <script src="~/scripts/jquery2.1.1.min.js"></script>
     <script src="~/Scripts/jquery1.11.2-ui.min.js"></script>
+    <script src="~/scripts/bootstrap.min.js"></script>
     <script src="~/scripts/jquery.cookie.js"></script>
+
     <script>
         $(function () {
             var userId = $.cookie("userId");
@@ -27,8 +30,15 @@
     @RenderSection("Scripts", false)
 </head>
 <body class="">
+    @if (CookieBannerFeature.IsEnabled)
+    {
+        <!-- toggle cookie banner -->
+        @Html.Partial("_CookieBanner")
+    }
+
+
     @{
-        var data = new Dictionary<string, string> { { "ContainerID", ConfigurationManager.AppSettings["GoogleAnalyticsContainerId"]} };
+        var data = new Dictionary<string, string> { { "ContainerID", ConfigurationManager.AppSettings["GoogleAnalyticsContainerId"] } };
 
         var tagPrinter = new GoogleTagManagerPrinter(data);
     }
@@ -45,11 +55,21 @@
         <div class="header-container">
             <a href="/" class="header-logo" title="Go to the NHS.UK homepage">
                 <img src="/content/images/nhs-rev-logotype.svg" alt="">
+
             </a>
+            <div class="header-title">
+                111 Digital <strong class="phase-tag beta"></strong>
+            </div>
         </div>
     </header>
+    @if (DisclaimerBannerFeature.IsEnabled)
+    {
+            <!-- toggle disclaimer banner-->
+        @Html.Partial("_DisclaimerBanner")
+    }
     @RenderSection("HeaderContent", false)
     <!--end header-->
+
 
     <section class="outer-section">@RenderSection("OuterSection", false)</section>
 
@@ -59,6 +79,12 @@
     <section class="feedback-section">@RenderSection("FeedbackSection", false)</section>
     <footer id="footer" role="contentinfo">
         <div class="footer-wrapper">
+            <nav>
+                <ul>
+                    <li>@Html.ActionLink("Cookies", "Cookies", "Help", null, new { target = "_blank" })</li>
+                    <li>@Html.ActionLink("Privacy statement", "Privacy", "Help", null, new { target = "_blank" })</li>
+                </ul>
+            </nav>
             <div class="text">
                 <p>
                     <small>

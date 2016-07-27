@@ -73,7 +73,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\NHS111.Functional.ResponseValidation\NHS111.Functional.Tests.Tools.csproj">
-      <Project>{287a7a76-88a0-4cbe-ad54-2b6d32fed830}</Project>
+      <Project>{287A7A76-88A0-4CBE-AD54-2B6D32FED830}</Project>
       <Name>NHS111.Functional.Tests.Tools</Name>
     </ProjectReference>
     <ProjectReference Include="..\NHS111.Utils\NHS111.Utils.csproj">

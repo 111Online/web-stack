@@ -1,7 +1,7 @@
 ﻿@using System.Reflection
 @using NHS111.Models.Models.Web
-@model JourneyViewModel
 @{ Layout = "~/Views/Shared/_LayoutNhsUk.cshtml"; }
+@inherits NHS111.Web.Views.Shared.DirectLinkingView<JourneyViewModel>
 
 <link href="~/content/css_NhsUk/question.css?@Assembly.GetCallingAssembly().GetName().Version.ToString()" media="screen" rel="stylesheet" type="text/css" />
 
@@ -24,6 +24,18 @@
     @Html.Partial("_FeedbackDetails", new FeedbackViewModel() { PageId = Request.Url.GetComponents(UriComponents.PathAndQuery, UriFormat.SafeUnescaped) + Model.PathwayId })
 }
 
+@functions {
+
+    string WriteDirectLink(JourneyViewModel model) {
+        if (DirectLinkingFeature.IsEnabled) {
+            return "<!-- DIRECT LINK: " + model.StepLink + " -->";
+        }
+
+        return "";
+    }
+
+}
+
 @using (Html.BeginForm("Navigation", "Question", FormMethod.Post))
 {
     @Html.HiddenFor(x => Model.Id)
@@ -37,7 +49,8 @@
     @Html.HiddenFor(x => Model.SymptomDiscriminator)
     @Html.HiddenFor(x => Model.QuestionNo)
     @Html.HiddenFor(x => Model.StateJson)
-    <!--DIRECT LINK: @Model.StepLink-->
+    
+    @Html.Raw(WriteDirectLink(Model))
 
     for (int i = 0; i < Model.CollectedKeywords.Keywords.Count; i++)
     {
