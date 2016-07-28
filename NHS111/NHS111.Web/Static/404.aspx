@@ -97,7 +97,7 @@
             <p>
                 <strong class="phase-tag alpha">Alpha</strong>
                 <span>
-                    This is a new service.  Content on this site has <strong>not</strong> been clinically verified, and should not be relied upon for advice. <br />  <strong>If you need medical advice visit <a href="http://www.nhs.uk">www.nhs.uk</a> or call 111.</strong>
+                    This is a test service.  Content on this site has <strong>not</strong> been clinically verified, and should not be relied upon for advice. <br />  <strong>If you need medical advice visit <a href="http://www.nhs.uk">www.nhs.uk</a> or call 111.</strong>
                 </span>
             </p>
         </div>
