@@ -8,7 +8,7 @@
                         <a href="/" class="header-logo" title="Go to the NHS.UK homepage"> \
                             <img src="/content/images/nhs-rev-logotype.svg" alt=""> \
                         </a> \
-                        NHS 111 Online \
+                        111 Online \
                     </h4> \
                 </div> \
                 <div class="modal-body"> \
@@ -16,7 +16,7 @@
                         <p> \
                             <strong class="phase-tag alpha">Alpha</strong> \
                                 <span> \
-                                    This is a new service - your feedback will help us improve it. \
+                                    This is a test service - your feedback will help us improve it. \
                                 </span> \
                         </p> \
                     </div> \
