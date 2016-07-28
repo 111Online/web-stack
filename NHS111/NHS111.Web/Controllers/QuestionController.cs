@@ -34,7 +34,8 @@ namespace NHS111.Web.Controllers {
         }
 
         [HttpPost]
-        public async Task<ActionResult> Search() {
+        [ActionName("Home")]
+        public  ActionResult Search() {
             return View("Search");
         }
 
@@ -71,7 +72,7 @@ namespace NHS111.Web.Controllers {
 
         [HttpGet]
         public ActionResult Home() {
-            return View("Search");
+            return View("Home");
         }
 
         [HttpPost]
