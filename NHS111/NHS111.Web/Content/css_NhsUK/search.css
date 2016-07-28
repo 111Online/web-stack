@@ -194,6 +194,10 @@ ol li:last-child.arrow_box:before, ol li:last-child.arrow_box:after, .progress-p
     margin-bottom: 30px;
 }
 
+.module-zero button.button {
+    width: 292px;
+}
+
 .module-zero .list-conditions li {
     font-size: 0.9em;
 }

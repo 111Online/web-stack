@@ -1,77 +1,120 @@
-﻿@using NHS111.Models.Models.Domain
+﻿@using System.Configuration
+@using NHS111.Models.Models.Web
 @{
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    Layout = "~/Views/Shared/_LayoutNhsUK.cshtml";
 }
+@inherits NHS111.Web.Views.Shared.DisclaimerPopupView
+
+@section Title {NHS 111 Digital}
 
 @section Scripts {
-
     <!--<script src="~/scripts/jquery2.1.1.min.js"></script> included on layout page -->
     <script src="~/scripts/jquery1.11.2-ui.min.js"></script>
     <script src="~/scripts/jquery.blockUI.js"></script>
-
     <script src="~/scripts/custom.js"></script>
-
+    <script src="~/scripts/disclaimer.js"></script>
 }
 
-<body id="homePage" class="homePageNew">
-    <div id="wrapper">
-        <header role="banner" class="global-header">
-            <div class="global-header__wrapper">
-                <div class="global-header__logo">
-                    <a href="/" title="Go to Homepage" class="logo"> <img src="~/content/img/med-logo.png" alt="MED"> </a>
-                    <h1>When it's urgent, but not an emergency</h1>
-                </div>
-                <!--<div id="logStatus"> <span title="Logged in as Kevin">Welcome back <strong>Kevin</strong></span> </div>-->
-            </div>
-        </header>
-        <div class="content-container">
+@{
+    if (DisclaimerPopupFeature.IsEnabled)
+    {
+        <!-- toggle disclaimer popup -->
+        <link rel="stylesheet" href="~/Content/css_NhsUK/modal.css">
+        <script src="~/scripts/disclaimer-popup.js"></script>
+    }
+}
 
-            <div id="content">
-                <form id="outerContent" action="/Question/Search" method="POST">
-                    <div id="threeColumnBlock">
-                        <img src="~/content/images/homeBanner.png" alt="" class="homeBanner">
-                      
-                        <input type="submit" class="button" id="getHelpBtn" value="Start here">
-                    </div><!--/threeColumnBlock-->
-                </form>
-            </div>
-            <!--content end-->
-        </div>
-        <footer>
-            <div class="footerWrapper">
-                <div id="footerColumn">
+<link href="~/Content/css_NhsUK/search.css" media="screen" rel="stylesheet" type="text/css" />
 
-                    <div id="footerColumnOne">
+@section OuterSection {
 
-                        <img src="~/content/img/case_image.png" alt="">
-
-                    </div>
-
-                    <div id="footerColumnTwo">
-                        <h2>Did you know?</h2>
-                        <p>
-                            Giving people more choice is a priority of the modern healthcare.  This is because research in the UK
-                            and overseas has shown that treatments are more effective if patients choose, understand and control their
-                            care.
-                        </p>
-
-                    </div>
-
-                    <div id="footerColumnThree">
-                        <p>
-                            For more information about your condition or see what NHS can do for you <a href="http://www.nhs.uk/" target="_blank">visit NHS.uk</a>
-                        </p>
-
-
-                    </div>
-
-                </div>
-            </div>
-        </footer>
+    <div id="progress-panel" class="progress-panel">
+        <h2>We'll ask you some questions to assess your symptoms and immediately direct you to the best medical care</h2>
+        <hr />
+        <ol>
+            <li class="arrow_box feeling-unwell"><span>Feeling Unwell</span></li>
+            <li class="arrow_box about-yourself"><span>Tell us what's wrong</span></li>
+            <li class="arrow_box ask-questions"><span>We'll ask the right questions</span></li>
+            <li class="arrow_box get-help"><span>Get the right help</span></li>
+        </ol>
     </div>
-    <!--wrapper ends-->
-    <div id="mobileScroller">
-        <div style="display:none;" class="nav_up" id="nav_up"></div>
-        <div style="display:none;" class="nav_down" id="nav_down"></div>
-    </div>
-</body>
+}
+
+<div id="wrapper">
+    @using (Html.BeginForm("Home", "Question", FormMethod.Post))
+    {
+            <div class="header">
+                <!--<a href="#" title="Close Disclaimer" class="closeDisclaimer accessibility">[ X ]</a>-->
+                <h2 class="discHead">Do I need to call 999?</h2>
+            </div>
+            <div id="yellowWrapper">
+                <div id="disclaimerContentWrapper">
+                    <div class="contentWrap module-zero">
+
+
+                        <h3 class="heading-med">Call 999 immediately if you have any of the following</h3>
+
+                        <ul class="list-conditions" id="disclaimerHelp">
+
+                            <li class="firstChild" id="chestPain">
+                                <a href="#">Central crushing <span class="green">chest pain</span></a>
+                                <p class="helper">
+                                    A feeling of crushing pressure like a heavy weight pushing down on your chest.
+                                </p>
+                            </li>
+
+                            <li id="stroke">
+                                <a href="#">You think you are <span class="green">having a stroke</span> </a>
+                                <p class="helper">
+                                    Signs of a stroke include being unable to raise both arms and keep them there, difficulty speaking or a lopsided face.
+                                </p>
+                            </li>
+
+                            <li id="chocking">
+                                <a href="#">Severe <span class="green">difficulty breathing</span>, choking or turning blue </a>
+                                <p class="helper">
+                                    This means you are unable to finish a sentence without stopping several times to take a breath. You may be gasping, wheezing or putting a lot of effort into breathing.
+                                </p>
+                            </li>
+
+                            <li id="bleeding">
+                                <a href="#"><span class="green">Bleeding</span> very heavily </a>
+                                <p class="helper">
+                                    This means heavy bleeding that is continuing despite attempts to stop it.
+                                </p>
+                            </li>
+
+                            <li id="injury">
+                                <a href="#">A <span class="green">severe injury</span> </a>
+                                <p class="helper">
+                                    This includes deep wounds, or injuries caused by falls, assault or road traffic accidents and will require an immediate medical assessment.
+                                </p>
+                            </li>
+
+                            <li class="lastChild" id="seizure">
+                                <a href="#">The person you are enquiring about is <span class="green">unconscious </span> having a <span class="green">seizure (fit)</span></a>
+                                <p class="helper">
+                                    Unconscious - Not awake and totally unaware of what is going on around you. As if you are asleep, but with no response if someone tries to wake you.<br><br>
+
+                                    Seizure - Uncontrolled electrical activity in the brain, which can lead to loss of consciousness and/or loss of bladder and bowel control. Seizures are often known as fits.
+                                </p>
+                            </li>
+
+                        </ul>
+
+                        <div class="center">
+                            <button type="submit" class="closeDisclaimer button button-get-started go">None of the above apply</button>
+                        </div>
+                    </div>
+                </div> <!-- /disclaimerContentWrapper-->
+            </div> <!-- /yellowWrapper-->
+    }
+</div>
+
+
+
+    @section FeedbackSection {
+        @Html.Partial("_FeedbackDetails", new FeedbackViewModel() { PageId = Request.Url.GetComponents(UriComponents.PathAndQuery, UriFormat.SafeUnescaped) })
+    }
+
+
