@@ -9,7 +9,7 @@ namespace NHS111.Business.Builders
     {
         public string SelectAnswer(IEnumerable<Answer> answers, string value)
         {
-            var selected = answers.Select(a => a.Title).OrderBy(a => a == "default").First(option =>
+            var selected = answers.OrderBy(a => a.Order).Select(a => a.Title).First(option =>
             {
                 if (option.PrepareTextForComparison() == "default")
                     return true;
