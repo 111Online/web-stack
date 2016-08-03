@@ -54,5 +54,25 @@ namespace NHS111.Business.Test.Builders
             var result = sut.SelectAnswer(answerList, "\"present\"");
             Assert.AreEqual("==\"present\"", result);
         }
+
+        [Test]
+        public void SelectAnswer_Evaluates_correct_order()
+        {
+            AnswersForNodeBuilder sut = new AnswersForNodeBuilder();
+        
+            Answer a2 = new Answer { Title = "<=35", Order = 3 };
+            Answer a3 = new Answer { Title = "<=77", Order = 2 };
+            Answer a1 = new Answer { Title = "<=10", Order = 1 };
+            Answer a4 = new Answer { Title = "<=80", Order = 4 };
+            Answer a5 = new Answer { Title = "default", Order = 5 };
+
+            List<Answer> answerList = new List<Answer> { a1, a2, a3, a4, a5 };
+
+            var under10result = sut.SelectAnswer(answerList, "9");
+            Assert.AreEqual("<=10", under10result);
+
+            var under77result = sut.SelectAnswer(answerList, "36");
+            Assert.AreEqual("<=77", under77result);
+        }
     }
 }
