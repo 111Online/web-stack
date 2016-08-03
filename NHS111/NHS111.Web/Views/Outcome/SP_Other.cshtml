@@ -13,14 +13,9 @@
         <div>
             <div class="aande">+</div>
             <h2>Thank you!</h2>
-            @if (!String.IsNullOrWhiteSpace(Model.TimeFrameText))
-            {
-                <p>From your answers, we recommend you @Model.Title within @Model.TimeFrameText</p>
-            }
-            else
-            {
-                <p> From your answers, we recommend you @Model.Title </p>
-            }
+         
+            <p> From your answers, we recommend you @Model.Title </p>
+            
 
         </div>
     </div>
