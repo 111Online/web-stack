@@ -1,5 +1,13 @@
 ﻿@model NHS111.Models.Models.Web.FeedbackViewModel
 @{ Model.DateAdded = DateTime.Now; }
+<!--[if lte IE 8]>
+    <style>
+        .feedback-container {
+            color: black;
+        }
+         
+    </style>
+<![endif]-->
 
 <div class="feedback-wrapper">
     <div class="feedback-container feedback-container--open">

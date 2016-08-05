@@ -16,6 +16,16 @@ input.linkButton {
      color: #0066ff;
      text-decoration: underline;
      cursor: pointer; 
+
+}
+
+a.linkButton { 
+     background: none;
+     border: none;
+     color: #0066ff;
+     text-decoration: underline;
+     cursor: pointer; 
+     margin-left: 0.5rem;
 }
 
 ul.list-conditions {
