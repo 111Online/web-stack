@@ -1,23 +1,47 @@
 ﻿<link href="~/Content/css_NhsUK/banner.css" media="screen" rel="stylesheet" type="text/css" />
 <div class="notification-banner notification-banner__hidden" id="global-cookies-banner" role="alert">
     <p class="notification-banner--inner">
-        NHS 111 uses cookies to make the site simpler. @Html.ActionLink("Find out more about cookies", "Cookies", "Help", null, new {target = "_blank", @id = "cookie-link"})
-        <i class="icon icon-close"></i>
+        <span id="cookie-message">
+            NHS 111 uses cookies to make the site simpler. @Html.ActionLink("Find out more about cookies", "Cookies", "Help", null, new { target = "_blank", @id = "cookie-link" })
+            <i class="icon icon-close"></i>
+        </span> 
+        <!--[if lt IE 9]>
+            <br/><strong>This site is not optimised for your current browser please upgrade for the best experience.</strong> 
+        <![endif]-->
+    
     </p>
 </div>
 <script>
-                $(function () {
-                    var seenCookieMessage = $.cookie("nhs111_seen_cookie_message");
-                    if (!seenCookieMessage) $('#global-cookies-banner').css({ display: "block" });
-                    $('#cookie-link').click(function () {
-                        dismissCookieBanner();
-                    });
-                    $('.icon-close').click(function () {
-                        dismissCookieBanner();
-                    });
-                    function dismissCookieBanner() {
-                        $.cookie("nhs111_seen_cookie_message", 1, { path: '/', expires: 28 });
-                        $('#global-cookies-banner').hide();
-                    }
-                });
+    $(function() {
+        var seenCookieMessage = $.cookie("nhs111_seen_cookie_message");
+        if (!seenCookieMessage) $('#global-cookies-banner').css({ display: "block" });
+        $('#cookie-link').click(function() {
+            dismissCookieBanner();
+        });
+        $('.icon-close').click(function() {
+            dismissCookieBanner();
+        });
+
+        function dismissCookieBanner() {
+            $.cookie("nhs111_seen_cookie_message", 1, { path: '/', expires: 28 });
+            $('#global-cookies-banner').hide();
+        }
+    });
 </script>
+
+<!--[if lt IE 9]>
+ <script>
+
+        $('#global-cookies-banner').css({ display: "block" });
+        var seenCookieMessage = $.cookie("nhs111_seen_cookie_message");
+
+        if (seenCookieMessage) dismissCookieBanner();
+      
+
+        function dismissCookieBanner() {
+            $('#cookie-message').hide();
+        }
+
+ </script>
+<![endif]-->
+
