@@ -15,9 +15,12 @@ namespace NHS111.Business.API.Functional.Tests
     {
         private string _testQuestionId = "PW1346.1000";
         private string _testPathwayNo2 = "PW752";
+        private string _testPathwayNo3 = "PW628";
         private string _testPathwayNo = "PW1708";
         private string _expectedNodeId = "PW752.200";
         private  string DxCode1 = "Dx12";
+        private string _testQuestionId2 = "PW628.9800";
+  
 
         private RestfulHelper _restfulHelper = new RestfulHelper();
 
@@ -29,6 +32,11 @@ namespace NHS111.Business.API.Functional.Tests
         private static string BusinessApiPathwaySymptomGroupUrl
         {
             get { return string.Format("{0}{1}", ConfigurationManager.AppSettings["BusinessApiProtocolandDomain"], ConfigurationManager.AppSettings["BusinessApiPathwaySymptomGroupUrl"]); }
+        }
+
+        private static string BusinessApiNextNodeUrl
+        {
+            get { return string.Format("{0}{1}", ConfigurationManager.AppSettings["BusinessApiProtocolandDomain"], ConfigurationManager.AppSettings["BusinessApiNextNodeUrl"]); }
         }
 
         [Test]
@@ -120,6 +128,30 @@ namespace NHS111.Business.API.Functional.Tests
             Assert.IsTrue(result.Contains("\"pathwayNo\":\"PW752"));
             Assert.IsTrue(result.Contains("\"pathwayNo\":\"PW755"));
             Assert.IsTrue(result.Contains("\"pathwayNo\":\"PW754"));
+        }
+
+        [Test]
+        //Test to show answer nodes are checked in the correct order so that 'evaluate variables' are handled correctly.
+        public async void TestGetQuestion_returns_expected_Next_QuestionAgeVariable()
+        {
+            var expectedNexQuestionId = "PW628.13100";
+            var NodeId = "PW628.10700";
+            var state="{\"PATIENT_AGE\":\"50\",\"PATIENT_GENDER\":\"\\\"F\\\"\",\"PATIENT_PARTY\":\"1\",\"PATIENT_AGEGROUP\":\"Adult\"}";
+            var getQuestionEndpoint = "node/{0}/next_node/{1}?state=" + System.Web.HttpUtility.UrlEncode(state);
+            var requestUrl = String.Format(BusinessApiNextNodeUrl + getQuestionEndpoint, _testPathwayNo3, NodeId);
+            var result = await _restfulHelper.PostAsync(requestUrl, RequestFormatting.CreateHTTPRequest("No"));
+
+            //this checks a responce is returned
+            Assert.IsNotNull(result);
+
+            var content = await result.Content.ReadAsStringAsync();
+
+            //these check the right fields are returned
+            Assert.IsTrue(content.Contains("\"id\":\"" + expectedNexQuestionId + "\""));
+           SchemaValidation.AssertValidResponseSchema(content, SchemaValidation.ResponseSchemaType.Question);
+
+            //this next one checks the right question has returned
+            Assert.IsTrue(content.Contains("\"questionNo\":\"Tx220118"));
         }
     }
 }
