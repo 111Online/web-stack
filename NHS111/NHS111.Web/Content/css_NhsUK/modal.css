@@ -92,9 +92,9 @@
     color: white;
 }
 
-.modal-title a.header-logo img {
-    /*display: block;*/
+.modal-title img {
     width: 90px;
+    vertical-align: middle;
 }
 
 .modal-body {

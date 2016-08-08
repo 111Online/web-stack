@@ -273,6 +273,7 @@
     <Content Include="Content\images\icons\redArrow.png" />
     <Content Include="Content\images\icons\redDownArrow.png" />
     <Content Include="Content\images\nhs-logo.png" />
+    <Content Include="Content\images\nhs-rev-logotype.jpg" />
     <Content Include="Content\images\nhs-rev-logotype.svg" />
     <Content Include="Content\img\ambulance-in-map.png" />
     <Content Include="Content\img\ambulance.png" />
