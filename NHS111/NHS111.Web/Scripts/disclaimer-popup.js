@@ -5,10 +5,8 @@
             <div class="modal-content"> \
                 <div class="modal-header"> \
                     <h4 class="modal-title" id="alphaWelcome"> \
-                        <a href="/" class="header-logo" title="Go to the NHS.UK homepage"> \
-                            <img src="/content/images/nhs-rev-logotype.svg" alt=""> \
-                        </a> \
-                        111 Online \
+                            <img src="/content/images/nhs-rev-logotype.jpg" alt=""> \
+                        <span style="vertical-align:middle;">111 Online</span> \
                     </h4> \
                 </div> \
                 <div class="modal-body"> \

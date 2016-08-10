@@ -2159,7 +2159,7 @@ button[disabled=disabled] {
     .header-title {
         float: left;
         clear: none;
-        padding: 19px 0 0 12px;
+        padding: 22px 0 0 12px;
     }
 }
 .header-title .phase-tag {

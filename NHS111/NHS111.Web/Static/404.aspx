@@ -79,7 +79,7 @@
     <header role="banner" id="global-header">
         <div class="header-container">
             <a href="/" class="header-logo" title="Go to the NHS.UK homepage">
-                <img src="/content/images/nhs-rev-logotype.svg" alt="">
+                <img src="/content/images/nhs-rev-logotype.jpg" alt="">
             </a>
         </div>
     </header>
