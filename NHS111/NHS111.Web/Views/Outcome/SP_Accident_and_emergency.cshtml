@@ -42,7 +42,7 @@
         <li>If you want to take this information to A&E:
             <ul>
                 <li>Print this page, or</li>
-                <li>Save this link to back to this page</li>
+                <li>Save this link to get back to this page</li>
             </ul>
         </li>
     </ul>
@@ -62,17 +62,15 @@
     @Html.HiddenFor(x => Model.UserId)
 
     <div class="findAandE" style="clear: both; margin-bottom: 20px;">
-        <h3>Find a suitable A&amp;E department</h3>
+        <h3>Find an A&amp;E department</h3>
         <div class="section-margin">
        
                 @Html.LabelFor(m => m.UserInfo.CurrentAddress.PostCode, "Postcode")
                 @Html.TextBoxFor(m => m.UserInfo.CurrentAddress.PostCode, new {@class = "form-control "})
 
                 <input class="button button-next" type="submit" name="DosResults" value="Find A&amp;E departments">
-
           
         </div>
-
     </div>
 
 }
