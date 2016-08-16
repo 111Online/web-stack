@@ -1,9 +1,13 @@
-﻿.sub-header {
-    background-color: #fa8633;
+﻿h3 {
+    font-size: 1.6em;
+}
+
+.sub-header {
+    background-color: #003087;
     /*height: 231px;*/
     color: white;
     font-size: 120%;
-    margin-bottom: 40px;
+    padding-bottom: 40px;
 }
 
     .sub-header div {
@@ -27,6 +31,8 @@
 
     .sub-header h2 {
         padding-top: 70px;
+        margin-bottom: 25px;
+        font-size: 1.6em;
     }
 
     .sub-header p {
@@ -77,3 +83,65 @@
     .button-link:hover, .button-link:focus {
         text-decoration: underline !important;
     }
+
+form .findAandE {
+    display: block;
+    float: left;
+    margin-bottom: 2rem;
+    margin-top: 1rem;
+}
+.findAandE .button-next {
+    background-position: 95% 60%;
+    float: left;
+    clear: right;
+
+}
+
+
+@media (min-width: 641px) {
+    .findAandE .form-control {
+        float: left;
+        clear: left;
+        width: 365px;
+    }
+
+    .findAandE .button-next {
+            margin-left: 20px;
+    }
+}
+
+@media (max-width: 640px) {
+    .findAandE .button-next {
+        margin-top: 5px;
+    }
+}
+
+.findAandE label {
+    font-weight: bold;
+    margin-bottom: 10px;
+    float: left;
+    clear: left;
+}
+.changeAnswers {
+    float: left;
+    clear:both;
+}
+
+.section-margin {
+    margin-top: 5px;
+}
+
+details summary {
+    width: 100%;
+    outline:none;
+     
+}
+
+details summary:hover {
+    border: 0;
+}
+
+details summary::-webkit-details-marker {
+    float: right;
+    padding-top: 1.4rem;
+}

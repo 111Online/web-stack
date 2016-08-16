@@ -2,6 +2,7 @@
 .care-advice {
    background-color: #EAEAEA;
     padding: 10px;
+    clear: both;
 }
 
 .care-advice-keywords {
@@ -49,12 +50,20 @@
     margin-left: 0;
 }
 .care-advice h3, .care-advice-section-header {
-    font-size: 1.8em;
+    font-size: 1.6em;
 }
 
 
 .care-advice h4 {
     font-size: 1.5em;
+}
+
+.care-advice ul {
+     margin-bottom: 0;
+}
+
+.care-advice ul, ol {
+    margin-bottom: 0;
 }
 
 .service-booking-message {
