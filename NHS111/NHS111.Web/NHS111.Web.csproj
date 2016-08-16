@@ -487,6 +487,7 @@
     <Content Include="Scripts\custom.js" />
     <Content Include="Scripts\disclaimer-popup.js" />
     <Content Include="Scripts\disclaimer.js" />
+    <Content Include="Scripts\geotools.js" />
     <Content Include="Scripts\icheck.js" />
     <Content Include="Scripts\jquery.blockUI.js" />
     <Content Include="Scripts\jquery.cookie.js" />
