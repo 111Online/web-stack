@@ -429,10 +429,6 @@ table th.numeric {
     background-color: #0072C6; }
 
 
-
-details {
-  display: block; }
-
 details summary {
   display: inline-block;
   color: #005ea5;
@@ -440,8 +436,6 @@ details summary {
   position: relative;
   margin-bottom: 0.26316em; }
 
-details summary:hover {
-  color: #2e8aca; }
 
 details .summary {
   text-decoration: underline; }

@@ -5,67 +5,129 @@
     Layout = "~/Views/Shared/_LayoutNhsUK.cshtml";
 }
 @section Title { Outcome }
-
+<link href="~/Content/css_NhsUK/confirmation.css" media="screen" rel="stylesheet" type="text/css" />
 <link href="~/Content/css_NhsUK/a-and-e.css" media="screen" rel="stylesheet" type="text/css" />
 
 @section OuterSection{
     <div class="sub-header">
-        <div>
-            <div class="aande">+</div>
-            <h2>Thank you!</h2>
-            @if (Grouping.One.Contains(Model.Id))
-            {
-                <p>From your answers, it appears you can @Html.Raw(Model.Title.ToLower()).</p>
-            }
-            @if (Grouping.Two.Contains(Model.Id) || Grouping.Three.Contains(Model.Id))
-            {
-                <p>From your answers, we recommend you @Html.Raw(Model.Title.ToLower()).</p>
-            }
-            @if (Grouping.Three.Contains(Model.Id))
-            {
-                <p>Please contact your Midwife in the next hour</p>
-            }
-        </div>
+    <div>
+
+        <h2 style="margin-bottom: 25px;font-size: 1.6em;">Your answers suggest you should go to an Accident and Emergency department within 1 hour</h2>
+
+
     </div>
+</div>
+
 }
 
 @section FeedbackSection {
     @Html.Partial("_FeedbackDetails", new FeedbackViewModel() { PageId = Model.Id })
 }
 
-@if (Grouping.Two.Contains(Model.Id))
-{
-    using (Html.BeginForm("ServiceDetails", "Outcome", FormMethod.Post))
-    {
-        @Html.HiddenFor(x => Model.Id)
-        @Html.HiddenFor(x => Model.JourneyJson)
-        @Html.HiddenFor(x => Model.PathwayId)
-        @Html.HiddenFor(x => Model.PathwayNo)
-        @Html.HiddenFor(x => Model.SymptomGroup)
-        @Html.HiddenFor(x => Model.UserInfo.Age)
-        @Html.HiddenFor(x => Model.UserInfo.Gender)
-        @Html.HiddenFor(x => Model.SymptomDiscriminator)
-        @Html.HiddenFor(x => Model.Title)
-        @Html.HiddenFor(x => Model.UserId)
+<div class="service-booking-message alert  section-margin">
+    <h3 class="care-advice-section-header">
+        What if I feel worse?
+    </h3>
+    <p>If there are any new symptoms, or if the condition gets worse, changes or you have any other concerns, call 999 and ask for an ambulance</p>
+</div>
 
-        <h2>Would you like us to find your nearest emergency treatment centre?</h2>
-        <label>
-            Postcode of current address
-        </label>
-        <div class="inline-details">
-            @Html.TextBoxFor(m => m.UserInfo.CurrentAddress.PostCode, new { @class = "form-control form-control-8-chars", placeholder = "eg. SE1" })
-            <input type="submit" class="button button-next" value="Find" />
+<div class="care-advice">
+    <h3 class="care-advice-section-header">
+        Advice for going to A&amp;E
+    </h3>
+
+    <ul>
+        <li>Do not drive yourself. Get someone else to take you.</li>
+        <li>Take all your current medicines with you.</li>
+        <li>If you want to take this information to A&E:
+            <ul>
+                <li>Print this page, or</li>
+                <li>Save this link to back to this page</li>
+            </ul>
+        </li>
+    </ul>
+</div>
+
+@using (Html.BeginForm("ServiceDetails", "Outcome", FormMethod.Post))
+{
+    @Html.HiddenFor(x => Model.Id)
+    @Html.HiddenFor(x => Model.JourneyJson)
+    @Html.HiddenFor(x => Model.PathwayId)
+    @Html.HiddenFor(x => Model.PathwayNo)
+    @Html.HiddenFor(x => Model.SymptomGroup)
+    @Html.HiddenFor(x => Model.UserInfo.Age)
+    @Html.HiddenFor(x => Model.UserInfo.Gender)
+    @Html.HiddenFor(x => Model.SymptomDiscriminator)
+    @Html.HiddenFor(x => Model.Title)
+    @Html.HiddenFor(x => Model.UserId)
+
+    <div class="findAandE" style="clear: both; margin-bottom: 20px;">
+        <h3>Find a suitable A&amp;E department</h3>
+        <div class="section-margin">
+       
+                @Html.LabelFor(m => m.UserInfo.CurrentAddress.PostCode, "Postcode")
+                @Html.TextBoxFor(m => m.UserInfo.CurrentAddress.PostCode, new {@class = "form-control "})
+
+                <input class="button button-next" type="submit" name="DosResults" value="Find A&amp;E departments">
+
+          
         </div>
-    }
-    <div class="row">
-        <a class="button button-next button-link" href="#">I don't know my postcode</a>
+
+    </div>
+
+}
+
+@if (Model.CareAdvices.Any())
+{
+    <div class="care-advice section-margin">
+        <details>
+            <summary>
+            <h3 class="self-care-title">I know which A&amp;E I'm going to.  What can I do in the meantime?</h3>
+            </summary>
+            <div class="care-advice-keywords">
+                <ol>
+                    @foreach (var careAdvice in Model.CareAdvices)
+                    {
+                        <li><a href=#Advice_@careAdvice.Id>@careAdvice.Keyword</a></li>
+                    }
+                </ol>
+            </div>
+            <div>
+
+                @foreach (var careAdvice in Model.CareAdvices)
+                {
+
+                    <h4 id="Advice_@careAdvice.Id" class="self-care-title">@careAdvice.Keyword</h4>
+                    @Html.Hidden(careAdvice.Id)
+                    <ul>
+                        @foreach (var parent in careAdvice.Items)
+                        {
+                            <li>
+                                @parent.Text
+                                @if (parent.Items.Any())
+                                {
+                                    <ul>
+                                        @foreach (var child in parent.Items)
+                                        {
+                                            <li>@child.Text</li>
+                                        }
+                                    </ul>
+                                }
+                            </li>
+
+                        }
+                    </ul>
+                }
+            </div>
+        </details>
     </div>
 }
 
+
 @using (Html.BeginForm("Navigation", "Question", FormMethod.Post))
 {
-    @Html.Partial("_CommonHiddenFieldsOutcomeViewModel", Model)
-    <div class="row">
-        <input class="button button-next button-link" type="submit" name="PreviousQuestion" value="Change my answers" />
-    </div>
-} 
+            @Html.Partial("_CommonHiddenFieldsOutcomeViewModel", Model)
+            <div class="changeAnswers row">
+                <input class="button button-next button-link" type="submit" name="PreviousQuestion" value="Change my answers" />
+            </div>
+}
