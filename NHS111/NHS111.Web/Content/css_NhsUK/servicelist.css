@@ -36,3 +36,18 @@
 .button-link:hover, .button-link:focus {
     text-decoration: underline !important;
 }
+.service-map {
+    height: 600px;
+}
+@media (min-width: 641px) {
+    .results-list {
+        width: 50%;
+        float: left;
+    }
+
+    .service-map {
+        width: 50%;
+        height: 600px;
+        float: left;
+    }
+}
