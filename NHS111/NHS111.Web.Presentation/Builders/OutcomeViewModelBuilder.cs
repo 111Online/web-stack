@@ -58,6 +58,11 @@ namespace NHS111.Web.Presentation.Builders
                 model.CareAdviceMarkers = model.State.Keys.Where(key => key.StartsWith("Cx"));
             }
 
+            if (!String.IsNullOrEmpty(model.SymptomDiscriminatorCode))
+            {
+                model.SymptomDiscriminator = await GetSymptomDiscriminator(model.SymptomDiscriminatorCode);
+            }
+
             model.UserId = Guid.NewGuid();
             model.WorseningCareAdvice = await _careAdviceBuilder.FillWorseningCareAdvice(model.UserInfo.Age,
                 model.UserInfo.Gender);
@@ -65,6 +70,21 @@ namespace NHS111.Web.Presentation.Builders
                     _careAdviceBuilder.FillCareAdviceBuilder(model.Id, new AgeCategory(model.UserInfo.Age).Value, model.UserInfo.Gender,
                         _keywordCollector.ConsolidateKeywords(model.CollectedKeywords).ToList());
             return model;
+        }
+
+        private async Task<SymptomDiscriminator> GetSymptomDiscriminator(string symptomDiscriminatorCode)
+        {
+
+            var symptomDiscriminatorResponse = await
+                _restfulHelper.GetResponseAsync(
+                    string.Format(_configuration.GetBusinessApiSymptomDiscriminatorUrl(symptomDiscriminatorCode)));
+            if (!symptomDiscriminatorResponse.IsSuccessStatusCode)
+                throw new Exception(string.Format("A problem occured getting the symptom discriminator at {0}. {1}",
+                    _configuration.GetBusinessApiSymptomDiscriminatorUrl(symptomDiscriminatorCode),
+                    await symptomDiscriminatorResponse.Content.ReadAsStringAsync()));
+
+            return 
+                JsonConvert.DeserializeObject<SymptomDiscriminator>(await symptomDiscriminatorResponse.Content.ReadAsStringAsync());
         }
 
         public async Task<OutcomeViewModel> ItkResponseBuilder(OutcomeViewModel model)

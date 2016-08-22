@@ -51,7 +51,7 @@ namespace NHS111.Models.Models.Web
 
         public string PreviousStateJson { get; set; }
         public string QuestionNo { get; set; }
-        public string SymptomDiscriminator { get; set; }
+        public string SymptomDiscriminatorCode { get; set; }
         public IDictionary<string, string> State { get; set; }
         public string StateJson { get; set; }
         public KeywordBag CollectedKeywords { get; set; }
@@ -86,7 +86,7 @@ namespace NHS111.Models.Models.Web
             JourneyJson = JsonConvert.SerializeObject(new Journey());
             Bullets = new List<string>();
             State = new Dictionary<string, string>();
-            SymptomDiscriminator = String.Empty;
+            SymptomDiscriminatorCode = String.Empty;
             CollectedKeywords = new KeywordBag();
 
         }

@@ -137,7 +137,7 @@ namespace NHS111.Web.Controllers {
                 PathwayTitle = pathway.Title,
                 UserInfo = new UserInfo() { Age = derivedAge, Gender = pathway.Gender },
                 JourneyJson = journeyViewModel.JourneyJson,
-                SymptomDiscriminator = journeyViewModel.SymptomDiscriminator,
+                SymptomDiscriminatorCode = journeyViewModel.SymptomDiscriminatorCode,
                 State = JourneyViewModelStateBuilder.BuildState(pathway.Gender, derivedAge),
             };
 

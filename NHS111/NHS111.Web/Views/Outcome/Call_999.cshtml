@@ -22,9 +22,18 @@
             </div>
             <div class="emergency-text">
                 <h2 class="heading-large">Dial 999 </h2>
-                <div>
-                    Your answers suggest you need to dial 999 immediately and ask for an ambulance.
-                </div>
+                @if (Model.HasEndpointReasoning)
+                {
+                    <div>
+                        @Model.SymptomDiscriminator.ReasoningText
+                    </div>
+                }
+                else
+                {
+                    <div>
+                        Your answers suggest you need to dial 999 immediately and ask for an ambulance.
+                    </div>
+                }
             </div>
         </div>
     </div>

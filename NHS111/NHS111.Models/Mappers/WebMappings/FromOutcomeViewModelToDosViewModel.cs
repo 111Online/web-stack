@@ -21,7 +21,7 @@ namespace NHS111.Models.Mappers.WebMappings
                 .ForMember(dest => dest.JourneyJson, opt => opt.MapFrom(src => src.JourneyJson))
                 .ForMember(dest => dest.PathwayNo, opt => opt.MapFrom(src => src.PathwayNo))
                 .ForMember(dest => dest.SelectedServiceId, opt => opt.MapFrom(src => src.SelectedServiceId))
-                .ForMember(dest => dest.SymptomDiscriminator, opt => opt.MapFrom(src => src.SymptomDiscriminator))
+                .ForMember(dest => dest.SymptomDiscriminator, opt => opt.MapFrom(src => src.SymptomDiscriminatorCode))
                 .ForMember(dest => dest.SymptomGroup, opt => opt.MapFrom(src => src.SymptomGroup))
                 .ForMember(dest => dest.UserId, opt => opt.MapFrom(src => src.UserId))
                 .ForMember(dest => dest.PostCode,
@@ -29,7 +29,7 @@ namespace NHS111.Models.Mappers.WebMappings
                 .ForMember(dest => dest.Disposition,
                     opt => opt.ResolveUsing<DispositionResolver>().FromMember(src => src.Id))
                 .ForMember(dest => dest.SymptomDiscriminatorList,
-                    opt => opt.ResolveUsing<SymptomDiscriminatorListResolver>().FromMember(dest => dest.SymptomDiscriminator))
+                    opt => opt.ResolveUsing<SymptomDiscriminatorListResolver>().FromMember(dest => dest.SymptomDiscriminatorCode))
                 .ForMember(dest => dest.Gender,
                     opt => opt.ResolveUsing<GenderResolver>().FromMember(src => src.UserInfo.Gender))
                 .ForMember(dest => dest.Age, opt => opt.MapFrom(src => src.UserInfo.Age))
@@ -64,7 +64,7 @@ namespace NHS111.Models.Mappers.WebMappings
             {
                 if (source == null) return new int[0];
                 int intVal = 0;
-                if (!int.TryParse(source, out intVal)) throw new FormatException("Cannnot convert SymptomDiscriminator.  Not of integer format");
+                if (!int.TryParse(source, out intVal)) throw new FormatException("Cannnot convert SymptomDiscriminatorCode.  Not of integer format");
 
                 return new[] { intVal };
             }
