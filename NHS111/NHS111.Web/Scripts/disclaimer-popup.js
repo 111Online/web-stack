@@ -23,12 +23,6 @@
                         This is an experimental prototype site put together by the NHS 111 Online team. \
                         It’s designed with patients at the heart of the service, and shows how the digital NHS could better link with real world services. \
                     </p> \
-                    <div class="alert alert-warning"> \
-                        <span class="exclaimaition" aria-hidden="true"></span> \
-                        <p> \
-                            Content on this site has <strong>not</strong> been clinically verified, and should not be relied upon for advice. \
-                        </p> \
-                    </div> \
                     <p><strong>If you need medical advice visit <a href="http://www.nhs.uk">www.nhs.uk</a> or call 111.</strong> \
                     </p> \
                 </div> \
