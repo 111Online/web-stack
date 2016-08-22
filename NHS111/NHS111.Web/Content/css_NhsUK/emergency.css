@@ -1,25 +1,20 @@
 ﻿.emergency {
     width:75%;
-    float:left;
     color: white;
-    padding: 70px 0 20px 0;
+    padding: 70px 0 35px 0;
+    margin: 0 auto;
 }
 .emergency-img-container {
-    float:left;
-	width:100%;
 	position:relative;
 	right:50%;
 }
 .emergency-img {
     float:left;
-	width:26%;
 	position:relative;
 	left:50%;
 	overflow:hidden;
 }
 .emergency-text {
-    float:left;
-	width:66%;
 	position:relative;
     left: 50%;
 	overflow:hidden;
@@ -32,6 +27,12 @@
     color: #A10400;
     padding-top: 0;
     line-height: 1;
+    font-size: 1.4em;
+}
+@media (min-width: 925px) {
+    .emergency-text h2 {
+        font-size: 1.6em;
+    }
 }
 .emergency-hr {
     background-size: 100% 1.5rem;
