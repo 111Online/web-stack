@@ -122,7 +122,7 @@ namespace NHS111.Business.Configuration
 
         public string GetDomainApiSymptomDisciminatorUrl(string symptomDiscriminatorCode)
         {
-            return GetDomainApiUrl("DomainApiSymptomDiscriminatorUrl").Replace("{SymptomDiscriminatorId}", symptomDiscriminatorCode);
+            return GetDomainApiUrl("DomainApiSymptomDiscriminatorCodeUrl").Replace("{SymptomDiscriminatorCodeId}", symptomDiscriminatorCode);
         }
     }
 

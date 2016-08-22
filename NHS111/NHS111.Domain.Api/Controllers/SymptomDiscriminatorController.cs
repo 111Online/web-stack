@@ -11,6 +11,7 @@ namespace NHS111.Domain.Api.Controllers {
             _repository = repository;
         }
 
+        [Route("symptomdiscriminator/{id}")]
         public async Task<SymptomDiscriminator> Get(int id) {
             var sd = await _repository.Get(id);
 

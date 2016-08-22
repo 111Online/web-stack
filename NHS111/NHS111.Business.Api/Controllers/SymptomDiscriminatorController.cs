@@ -22,7 +22,7 @@ namespace NHS111.Business.Api.Controllers
             _cacheManager = cacheManager;
         }
 
-       [Route("symptomdDisciminator/{symptomDisciminatorCode}")]
+       [Route("symptomdiscriminator/{symptomDisciminatorCode}")]
         public async Task<HttpResponseMessage> GetSymptomDisciminator(string symptomDisciminatorCode)
         {
             #if !DEBUG
