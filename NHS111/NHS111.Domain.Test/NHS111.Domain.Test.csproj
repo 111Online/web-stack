@@ -83,12 +83,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="API_Project\Controller\SymptomDiscriminatorControllerTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="API_Project\Controller\QuestionController_Test.cs" />
     <Compile Include="API_Project\Controller\PathwayController_Test.cs" />
     <Compile Include="API_Project\Controller\MonitoringController_Test.cs" />
     <Compile Include="API_Project\Controller\CareAdviceController_Test.cs" />
     <Compile Include="Repository\CareAdviceRepositoryTests.cs" />
+    <Compile Include="Repository\SymptomDiscriminatorRepositoryTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

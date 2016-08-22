@@ -113,6 +113,7 @@
     <Compile Include="Models\Domain\DefinedTerm.cs" />
     <Compile Include="Models\Domain\DispositionCode.cs" />
     <Compile Include="Models\Domain\OutcomeGroup.cs" />
+    <Compile Include="Models\Domain\SymptomDiscriminator.cs" />
     <Compile Include="Models\Web\DosRequests\DosServicesByClinicalTermRequest.cs" />
     <Compile Include="Models\Web\FeedbackViewModel.cs" />
     <Compile Include="Models\Web\FromExternalServices\DosCheckCapacitySummaryResult.cs" />
