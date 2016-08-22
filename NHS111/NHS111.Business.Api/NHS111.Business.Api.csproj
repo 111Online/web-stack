@@ -152,6 +152,7 @@
     <Compile Include="Controllers\CareAdviceController.cs" />
     <Compile Include="Controllers\PathwayController.cs" />
     <Compile Include="Controllers\QuestionController.cs" />
+    <Compile Include="Controllers\SymptomDiscriminatorController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>

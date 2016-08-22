@@ -29,7 +29,7 @@ namespace NHS111.Business.Test.Transformers
                     Answers = new List<Answer>(){
                         new Answer(){
                                 Title = "title",
-                                SymptomDiscriminator = "SymptomDiscriminator"
+                                SymptomDiscriminator = "SymptomDiscriminatorCode"
                                 }
                         },
                     Labels = new List<string>(){"Label1"}
@@ -60,7 +60,7 @@ namespace NHS111.Business.Test.Transformers
                     Answers = new List<Answer>(){
                         new Answer(){
                                 Title = "title",
-                                SymptomDiscriminator = "SymptomDiscriminator"
+                                SymptomDiscriminator = "SymptomDiscriminatorCode"
                                 }
                         },
                     Labels = new List<string>() { "Label1" }
@@ -86,7 +86,7 @@ namespace NHS111.Business.Test.Transformers
                         new Answer()
                         {
                             Title = "title",
-                            SymptomDiscriminator = "SymptomDiscriminator"
+                            SymptomDiscriminator = "SymptomDiscriminatorCode"
                         }};
 
             var json = JsonConvert.SerializeObject(answers);

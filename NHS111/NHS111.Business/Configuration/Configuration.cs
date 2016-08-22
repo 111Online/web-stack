@@ -118,6 +118,12 @@ namespace NHS111.Business.Configuration
         {
             return ConfigurationManager.AppSettings["RedisUrl"];
         }
+
+
+        public string GetDomainApiSymptomDisciminatorUrl(string symptomDiscriminatorCode)
+        {
+            return GetDomainApiUrl("DomainApiSymptomDiscriminatorUrl").Replace("{SymptomDiscriminatorId}", symptomDiscriminatorCode);
+        }
     }
 
     public interface IConfiguration
@@ -148,5 +154,8 @@ namespace NHS111.Business.Configuration
         string GetDomainApiListOutcomesUrl();
 
         string GetRedisUrl();
+
+        /* Symptom disciminator */
+        string GetDomainApiSymptomDisciminatorUrl(string symptomDiscriminatorCode);
     }
 }

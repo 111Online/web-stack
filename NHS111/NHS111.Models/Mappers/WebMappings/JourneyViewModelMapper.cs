@@ -42,7 +42,7 @@ namespace NHS111.Models.Mappers.WebMappings
                 var journeyViewModel = (JourneyViewModel)context.DestinationValue;
 
                 if (!string.IsNullOrEmpty(answer.SymptomDiscriminator))
-                    journeyViewModel.SymptomDiscriminator = answer.SymptomDiscriminator;
+                    journeyViewModel.SymptomDiscriminatorCode = answer.SymptomDiscriminator;
 
                 return journeyViewModel;
             }
