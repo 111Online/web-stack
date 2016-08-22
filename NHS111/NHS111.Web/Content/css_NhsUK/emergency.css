@@ -1,16 +1,14 @@
 ﻿.emergency {
-    width:100%;
+    width:75%;
     float:left;
-    background-color: #C02734;
     color: white;
-    padding: 70px 0;
+    padding: 70px 0 20px 0;
 }
 .emergency-img-container {
     float:left;
 	width:100%;
 	position:relative;
 	right:50%;
-	background:#C02734;
 }
 .emergency-img {
     float:left;
@@ -25,8 +23,21 @@
 	position:relative;
     left: 50%;
 	overflow:hidden;
+    color: black;
+    font-size: 1.6em;
+    font-weight: 600;
+    line-height: 1.2em
 }
-.ambulance-image {
+.emergency-text h2 {
+    color: #A10400;
+    padding-top: 0;
+    line-height: 1;
+}
+.emergency-hr {
+    background-size: 100% 1.5rem;
+    clear: both;
+}
+.emergency-image {
     float: right;
     margin-right: 25px;
 }
