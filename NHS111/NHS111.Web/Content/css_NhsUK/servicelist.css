@@ -39,14 +39,19 @@
 .service-map {
     height: 600px;
 }
+
+.service-list-header {
+    padding-bottom: 20px;
+}
+
 @media (min-width: 641px) {
     .results-list {
-        width: 50%;
+        width: 35%;
         float: left;
     }
 
     .service-map {
-        width: 50%;
+        width: 65%;
         height: 600px;
         float: left;
     }
