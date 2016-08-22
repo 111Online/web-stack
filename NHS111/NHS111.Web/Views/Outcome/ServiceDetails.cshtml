@@ -15,6 +15,12 @@
 
 @section OuterSection {
 
+    <div class="sub-header">
+        <div>
+            <h2 style="margin-bottom: 25px;font-size: 1.6em;">Your answers suggest you should go to an Accident and Emergency department within 1 hour</h2>
+        </div>
+    </div>
+
 }
 
 @section FeedbackSection {
@@ -23,17 +29,18 @@
 
 <link href="~/content/css_NhsUk/servicelist.css" media="screen" rel="stylesheet" type="text/css"/>
 <link href="~/content/css_NhsUk/service.css" media="screen" rel="stylesheet" type="text/css"/>
+
 <section>
     <div class="service-list-header">
-        <h3>
+        <h2>
             Recommended A&E departments for @Model.UserInfo.CurrentAddress.PostCode
-        </h3>
+        </h2>
     </div>
 </section>
 <div class="results-list">
 
     <section>
-        <div class="section-item">
+        <div class="results-service-recommended section-item">
             <h3 class="section-header">
                 Recommended service
             </h3>
@@ -47,16 +54,20 @@
             @if (selectedService != null)
             {
                 <div class="service-list-content">
-                    @Html.Partial("_SelectedService", selectedService)
+
                     <div class="form-item-wrapper">
                         <fieldset>
                             <div class="form-group">
-                                @using (Html.BeginForm("PersonalDetails", "Outcome", FormMethod.Post))
-                                {
-                                    @Html.Partial("_CommonHiddenFieldsOutcomeViewModel", Model)
-                                    @Html.Hidden("SelectedServiceId", @selectedService.Id)
 
-                                }
+                                <div class="service-name">
+                                    <img src="/content/images/icons/map-pointers/fac-map-1.png"/>
+                                    @WebUtility.HtmlDecode(selectedService.Name)
+                                </div>
+                                <div class="service-address">
+                                    @WebUtility.HtmlDecode(selectedService.Address)
+                                </div>
+
+                                <a class="button button-next" href="http://maps.google.com/maps?q=@selectedService.Address">Get Directions</a>
                             </div>
                         </fieldset>
                     </div>
@@ -67,31 +78,32 @@
 
     <section>
         <div class="section-item last">
-            <h3 class="section-header">
-                Other services near you
-            </h3>
+
             @if (Model.DosCheckCapacitySummaryResult.Success != null)
             {
+                var pointerNo = 1;
                 foreach (var service in Model.DosCheckCapacitySummaryResult.Success.Services.Skip(1))
                 {
+                    pointerNo++;
+                    var pointerimageSrc = "/content/images/icons/map-pointers/fac-map-" + pointerNo.ToString() + ".png";
                     <div class="service-list-content">
-                        @Html.Partial("_SelectedService", service)
                         <fieldset>
-                            <div class="form-group">
-                                @using (Html.BeginForm("PersonalDetails", "Outcome", FormMethod.Post))
-                                {
-                                    @Html.Partial("_CommonHiddenFieldsOutcomeViewModel", Model)
-                                    @Html.Hidden("SelectedServiceId", service.Id)
-
-                                }
+                            <div class="service-name">
+                                <img src="@pointerimageSrc"/>
+                                @WebUtility.HtmlDecode(service.Name)
                             </div>
+                            <div class="service-address">
+                                @WebUtility.HtmlDecode(service.Address)
+                            </div>
+                            <a href="http://maps.google.com/maps?q=@service.Address">Get Directions</a>
                         </fieldset>
-
                     </div>
                 }
             }
         </div>
     </section>
+
+  
 
     <script type="text/javascript">
 
@@ -123,9 +135,11 @@
     var marker, i;
 
     for (i = 0; i < locations.length; i++) {
+        var pointerNo = i + 1;
         marker = new google.maps.Marker({
             position: new google.maps.LatLng(locations[i][1], locations[i][2]),
-            map: map
+            map: map,
+            icon: "/content/images/icons/map-pointers/fac-map-" + pointerNo + ".png"
         });
 
         google.maps.event.addListener(marker, 'click', (function(marker, i) {
@@ -138,3 +152,8 @@
 
 
 </script>
+<section>
+    <div class="section-item last">
+        @Html.Partial("_CareAdvice", Model.CareAdvices, new ViewDataDictionary { { "Title", "Advice to help you look after yourself" } })
+    </div>
+</section>
