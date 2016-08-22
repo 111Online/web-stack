@@ -17,7 +17,7 @@
 
         private void AddDiscriminatorToModel(string symptomDisciminator, JourneyViewModel model) {
             if (!String.IsNullOrEmpty(symptomDisciminator))
-                model.SymptomDiscriminator = symptomDisciminator;
+                model.SymptomDiscriminatorCode = symptomDisciminator;
         }
     }
 }

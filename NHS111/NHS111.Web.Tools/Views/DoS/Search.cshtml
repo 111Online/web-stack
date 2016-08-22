@@ -59,7 +59,7 @@
     </div>
     <div class="row">
         <div class="form-group col-lg-2">
-            <label for="SymptomDiscriminator">Symptom Discriminator</label>
+            <label for="SymptomDiscriminatorCode">Symptom Discriminator</label>
             @Html.TextBoxFor(m => m.SymptomDiscriminator, new { @class = "form-control", @data_val = "true", @data_val_required = "A Symptom Discriminator must be specified", @data_val_range = "The Symptom Discriminator must be a number greater than 0.", @data_val_range_min = "1" })
             @Html.ValidationMessageFor(m => m.SymptomDiscriminator)
         </div>

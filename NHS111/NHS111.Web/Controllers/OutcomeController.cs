@@ -45,7 +45,7 @@ namespace NHS111.Web.Controllers
                     Gender = Gender.Value
                 },
                 SymptomGroup = symptomGroup ?? "1203",
-                SymptomDiscriminator = symptomDiscriminator ?? "4003",
+                SymptomDiscriminatorCode = symptomDiscriminator ?? "4003",
                 AddressSearchViewModel = new AddressSearchViewModel {
                     PostcodeApiAddress = _config.PostcodeSearchByIdApiUrl,
                     PostcodeApiSubscriptionKey = _config.PostcodeSubscriptionKey

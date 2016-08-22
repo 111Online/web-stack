@@ -18,6 +18,16 @@ namespace NHS111.Models.Models.Web
         public AddressSearchViewModel AddressSearchViewModel { get; set; }
         public bool? ItkSendSuccess { get; set; }
         public CareAdvice WorseningCareAdvice { get; set; }
+        public SymptomDiscriminator SymptomDiscriminator { get; set; }
+
+        public bool HasEndpointReasoning
+        {
+            get
+            {
+                return SymptomDiscriminator != null &&
+                       !String.IsNullOrWhiteSpace(SymptomDiscriminator.ReasoningText);
+            }
+        }
 
         public DosService SelectedService
         {

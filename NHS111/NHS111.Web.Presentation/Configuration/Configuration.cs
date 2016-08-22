@@ -104,6 +104,11 @@ namespace NHS111.Web.Presentation.Configuration
             return string.Format(GetBusinessApiUrlWithDomain("BusinessApiInterimCareAdviceUrl"), dxCode, ageGroup, gender);
         }
 
+        public string GetBusinessApiSymptomDiscriminatorUrl(string symptomDiscriminatorCode)
+        {
+            return string.Format(GetBusinessApiUrlWithDomain("BusinessApiSymptomDiscriminatorUrl"), symptomDiscriminatorCode);
+        }
+
         public string GetBusinessApiListOutcomesUrl()
         {
             return GetBusinessApiUrlWithDomain("BusinessApiListOutcomesUrl");
@@ -151,6 +156,7 @@ namespace NHS111.Web.Presentation.Configuration
         string GetBusinessApiJustToBeSafePartTwoUrl(string pathwayId, string questionId, string jtbsQuestionIds,bool hasAnswwers);
         string GetBusinessApiInterimCareAdviceUrl(string dxCode, string ageGroup, string gender);
         string GetBusinessApiListOutcomesUrl();
+        string GetBusinessApiSymptomDiscriminatorUrl(string symptomDiscriminatorCode);
 
         string BusinessDosCheckCapacitySummaryUrl { get; }
         string BusinessDosServicesByClinicalTermUrl { get; }

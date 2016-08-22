@@ -21,7 +21,7 @@ namespace NHS111.Web.Presentation.Builders.Tests
             var testViewModel = new JourneyViewModel();
             var answer = new Answer(){Order = 0, Title = "Yes"};
             _symptomDiscriminatorCollector.Collect(answer, testViewModel);
-            Assert.AreEqual(String.Empty, testViewModel.SymptomDiscriminator);
+            Assert.AreEqual(String.Empty, testViewModel.SymptomDiscriminatorCode);
         }
 
         [Test()]
@@ -30,7 +30,7 @@ namespace NHS111.Web.Presentation.Builders.Tests
             var testViewModel = new JourneyViewModel();
             var answer = new Answer() { Order = 0, Title = "Yes", SymptomDiscriminator = TEST_SD_CODE };
             _symptomDiscriminatorCollector.Collect(answer, testViewModel);
-            Assert.AreEqual(TEST_SD_CODE, testViewModel.SymptomDiscriminator);
+            Assert.AreEqual(TEST_SD_CODE, testViewModel.SymptomDiscriminatorCode);
         }
 
         [Test()]
@@ -44,7 +44,7 @@ namespace NHS111.Web.Presentation.Builders.Tests
                 Question = new Question() { Order = "0", Title = "Test Question"}
             };
             _symptomDiscriminatorCollector.Collect(questionWithAnswers, testViewModel);
-            Assert.AreEqual(TEST_SD_CODE, testViewModel.SymptomDiscriminator);
+            Assert.AreEqual(TEST_SD_CODE, testViewModel.SymptomDiscriminatorCode);
         }
     }
 }

@@ -77,7 +77,7 @@ namespace NHS111.Web.Presentation.Builders
                 PathwayTitle = pathway.Title,
                 UserInfo = new UserInfo() { Age = derivedAge, Gender = pathway.Gender },
                 JourneyJson = model.JourneyJson,
-                SymptomDiscriminator = model.SymptomDiscriminator,
+                SymptomDiscriminatorCode = model.SymptomDiscriminatorCode,
                 State = JourneyViewModelStateBuilder.BuildState(pathway.Gender, derivedAge),
             };
 
