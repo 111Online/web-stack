@@ -4,7 +4,7 @@
 @{
     Layout = "~/Views/Shared/_LayoutNhsUK.cshtml";
 }
-@section Title { Outcome }
+@section Title { Accident &amp; Emergency }
 <link href="~/Content/css_NhsUK/confirmation.css" media="screen" rel="stylesheet" type="text/css" />
 <link href="~/Content/css_NhsUK/a-and-e.css" media="screen" rel="stylesheet" type="text/css" />
 
@@ -28,7 +28,7 @@
     <h3 class="care-advice-section-header">
         What if I feel worse?
     </h3>
-    <p>If there are any new symptoms, or if the condition gets worse, changes or you have any other concerns, call 999 and ask for an ambulance</p>
+    <p>If there are any new symptoms, or if the condition gets worse, changes or you have any other concerns, call 999 and ask for an ambulance.</p>
 </div>
 
 <div class="care-advice">
@@ -37,12 +37,12 @@
     </h3>
 
     <ul>
-        <li>Do not drive yourself. Get someone else to take you.</li>
-        <li>Take all your current medicines with you.</li>
-        <li>If you want to take this information to A&E:
+        <li>do not drive yourself, get someone else to take you</li>
+        <li>take all your current medicines with you</li>
+        <li>if you want to take this information to A&E:
             <ul>
-                <li>Print this page, or</li>
-                <li>Save this link to get back to this page</li>
+                <li>print this page, or</li>
+                <li>save <a href="@Model.StepLink">this link</a> to get back to this page</li>
             </ul>
         </li>
     </ul>

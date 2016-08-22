@@ -144,9 +144,9 @@ namespace NHS111.Web.Controllers {
             newModel.StateJson = JourneyViewModelStateBuilder.BuildStateJson(newModel.State);
             journeyViewModel = (await _justToBeSafeFirstViewModelBuilder.JustToBeSafeFirstBuilder(newModel)).Item2; //todo refactor tuple away
 
-            await AnswerQuestions(journeyViewModel, answers);
-            var viewName = DetermineViewName(journeyViewModel);
-            return View(viewName, journeyViewModel);
+            var resultingModel = await AnswerQuestions(journeyViewModel, answers);
+            var viewName = DetermineViewName(resultingModel);
+            return View(viewName, resultingModel);
         }
 
         [HttpPost]
@@ -177,15 +177,16 @@ namespace NHS111.Web.Controllers {
             return JsonConvert.DeserializeObject<QuestionWithAnswers>(await response.Content.ReadAsStringAsync());
         }
 
-        private async Task AnswerQuestions(JourneyViewModel model, int[] answers) {
+        private async Task<JourneyViewModel> AnswerQuestions(JourneyViewModel model, int[] answers) {
             if (answers == null)
-                return;
+                return null;
 
             var queue = new Queue<int>(answers);
             while (queue.Any()) {
                 var answer = queue.Dequeue();
                 model = await AnswerQuestion(model, answer);
             }
+            return model;
         }
 
         private async Task<JourneyViewModel> AnswerQuestion(JourneyViewModel model, int answer) {
@@ -197,7 +198,7 @@ namespace NHS111.Web.Controllers {
             model.SelectedAnswer = JsonConvert.SerializeObject(model.Answers.First(a => a.Order == answer + 1));
             var result = (ViewResult) await Question(model);
 
-            return (JourneyViewModel) result.Model;
+            return result.Model is OutcomeViewModel ? (OutcomeViewModel)result.Model : (JourneyViewModel)result.Model;
         }
 
         private static JourneyViewModel BuildJourneyViewModel(string pathwayId, int? age, string pathwayTitle) {
