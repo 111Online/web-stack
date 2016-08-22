@@ -319,6 +319,7 @@
     <Content Include="Content\img\bg\whiteLinkArrow.png" />
     <Content Include="Content\img\book-appointment.png" />
     <Content Include="Content\img\bubbleArrow.png" />
+    <Content Include="Content\img\call_999.png" />
     <Content Include="Content\img\case_image.png" />
     <Content Include="Content\img\close.jpg" />
     <Content Include="Content\img\close.png" />
