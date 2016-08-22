@@ -269,6 +269,16 @@
     <Content Include="Content\images\icons\icon-button-prev.svg" />
     <Content Include="Content\images\icons\icon-link-go.png" />
     <Content Include="Content\images\icons\icon_info.png" />
+    <Content Include="Content\images\icons\map-pointers\fac-map-1.png" />
+    <Content Include="Content\images\icons\map-pointers\fac-map-10.png" />
+    <Content Include="Content\images\icons\map-pointers\fac-map-2.png" />
+    <Content Include="Content\images\icons\map-pointers\fac-map-3.png" />
+    <Content Include="Content\images\icons\map-pointers\fac-map-4.png" />
+    <Content Include="Content\images\icons\map-pointers\fac-map-5.png" />
+    <Content Include="Content\images\icons\map-pointers\fac-map-6.png" />
+    <Content Include="Content\images\icons\map-pointers\fac-map-7.png" />
+    <Content Include="Content\images\icons\map-pointers\fac-map-8.png" />
+    <Content Include="Content\images\icons\map-pointers\fac-map-9.png" />
     <Content Include="Content\images\icons\outcomeHeader.png" />
     <Content Include="Content\images\icons\redArrow.png" />
     <Content Include="Content\images\icons\redDownArrow.png" />
