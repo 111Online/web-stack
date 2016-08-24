@@ -93,6 +93,9 @@ namespace NHS111.Web.Controllers {
         }
 
         private string DetermineViewName(JourneyViewModel model) {
+
+            if (model == null) return "../Question/Question";
+
             switch (model.NodeType) {
                 case NodeType.Outcome:
                 
