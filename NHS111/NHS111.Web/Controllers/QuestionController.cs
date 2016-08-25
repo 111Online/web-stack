@@ -126,7 +126,29 @@ namespace NHS111.Web.Controllers {
                 return HttpNotFound();
             }
 
-            //the below is copied from refactored code. Suggest removing once JTBS code is refactored away.
+            var resultingModel = await DeriveJourneyView(pathwayId, age, pathwayTitle, answers);
+            var viewName = DetermineViewName(resultingModel);
+            return View(viewName, resultingModel);
+        }
+
+        [HttpGet]
+        [Route("question/outcomedetail/{pathwayId}/{age?}/{pathwayTitle}/{answers?}")]
+        public async Task<ActionResult> OutcomeDetail(string pathwayId, int? age, string pathwayTitle,
+            [ModelBinder(typeof(IntArrayModelBinder))] int[] answers)
+        {
+
+            var journeyViewModel = await DeriveJourneyView(pathwayId, age, pathwayTitle, answers);
+            var viewName = DetermineViewName(journeyViewModel);
+            if (journeyViewModel.OutcomeGroup.Id != OutcomeGroup.AccidentAndEmergency.Id)
+            {
+                return HttpNotFound();
+            }
+            journeyViewModel.DisplayOutcomeReferenceOnly = true;
+            return View(viewName, journeyViewModel);
+        }
+
+        private async Task<JourneyViewModel> DeriveJourneyView(string pathwayId, int? age, string pathwayTitle, int[] answers)
+        {
             var journeyViewModel = BuildJourneyViewModel(pathwayId, age, pathwayTitle);
 
             var pathway = JsonConvert.DeserializeObject<Pathway>(await _restfulHelper.GetAsync(_configuration.GetBusinessApiPathwayUrl(pathwayId)));
@@ -148,8 +170,7 @@ namespace NHS111.Web.Controllers {
             journeyViewModel = (await _justToBeSafeFirstViewModelBuilder.JustToBeSafeFirstBuilder(newModel)).Item2; //todo refactor tuple away
 
             var resultingModel = await AnswerQuestions(journeyViewModel, answers);
-            var viewName = DetermineViewName(resultingModel);
-            return View(viewName, resultingModel);
+            return resultingModel;
         }
 
         [HttpPost]

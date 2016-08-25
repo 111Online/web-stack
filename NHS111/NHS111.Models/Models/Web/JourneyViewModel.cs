@@ -58,10 +58,28 @@ namespace NHS111.Models.Models.Web
         public string TimeFrameText { get; set; }
         public OutcomeGroup OutcomeGroup { get; set; }
 
+        private bool _displayOutcomeReferenceOnly = false;
+        public bool DisplayOutcomeReferenceOnly
+        {
+
+            get { return _displayOutcomeReferenceOnly; }
+            set { _displayOutcomeReferenceOnly = value; }
+        }
+
         public string StepLink {
             get {
                 var age = UserInfo != null ? UserInfo.Age : 0;
                 return string.Format("/question/direct/{0}/{1}/{2}/?answers={3}", PathwayId, age, PathwayTitle,
+                    string.Join(",", GetPreviousAnswers()));
+            }
+        }
+
+        public string OutcomeDetailLink
+        {
+            get
+            {
+                var age = UserInfo != null ? UserInfo.Age : 0;
+                return string.Format("/question/outcomedetail/{0}/{1}/{2}/?answers={3}", PathwayId, age, PathwayTitle,
                     string.Join(",", GetPreviousAnswers()));
             }
         }

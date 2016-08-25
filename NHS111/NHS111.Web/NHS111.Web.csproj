@@ -225,6 +225,7 @@
     <Content Include="Content\css\skins\flat\yellow.css" />
     <Content Include="Content\css\skins\flat\yellow.png" />
     <Content Include="Content\css\skins\flat\_all.css" />
+    <Content Include="Content\css_NhsUK\a-and-e-print.css" />
     <Content Include="Content\css_NhsUK\a-and-e.css" />
     <Content Include="Content\css_NhsUK\application.css" />
     <Content Include="Content\css_NhsUK\banner.css" />
