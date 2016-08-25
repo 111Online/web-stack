@@ -5,8 +5,9 @@
     Layout = "~/Views/Shared/_LayoutNhsUK.cshtml";
 }
 @section Title { Accident &amp; Emergency }
-<link href="~/Content/css_NhsUK/confirmation.css" media="screen" rel="stylesheet" type="text/css" />
-<link href="~/Content/css_NhsUK/a-and-e.css" media="screen" rel="stylesheet" type="text/css" />
+<link href="~/Content/css_NhsUK/confirmation.css" media="all" rel="stylesheet" type="text/css" />
+<link href="~/Content/css_NhsUK/a-and-e.css" media="all" rel="stylesheet" type="text/css"/>
+<link href="~/Content/css_NhsUK/a-and-e-print.css" media="print" rel="stylesheet" type="text/css" />
 
 @section OuterSection{
     <div class="sub-header">
@@ -42,7 +43,7 @@
         <li>if you want to take this information to A&E:
             <ul>
                 <li>print this page, or</li>
-                <li>save <a href="@Model.StepLink">this link</a> to get back to this page</li>
+                <li>save <a href="@Model.OutcomeDetailLink">this link</a> to get back to this page</li>
             </ul>
         </li>
     </ul>
@@ -125,7 +126,42 @@
 @using (Html.BeginForm("Navigation", "Question", FormMethod.Post))
 {
             @Html.Partial("_CommonHiddenFieldsOutcomeViewModel", Model)
-            <div class="changeAnswers row">
-                <input class="button button-next button-link" type="submit" name="PreviousQuestion" value="Change my answers" />
-            </div>
+    if (!Model.DisplayOutcomeReferenceOnly)
+    {
+        <div class="changeAnswers row">
+            <input class="button button-next button-link" type="submit" name="PreviousQuestion" value="Change my answers"/>
+        </div>
+    }
 }
+
+<script type="text/javascript">
+
+    if ($('.care-advice details').attr('open') == undefined)
+    {
+
+        if ('matchMedia' in window) {
+            window.matchMedia('print').addListener(function (media) {
+                if (media.srcElement.matches) {
+                    openCareAdvice();
+                } else {
+                    closeCareAdvice();
+                }
+            });
+        } else {
+            window.onbeforeprint = function () {
+                openCareAdvice();
+            }
+            window.onafterprint = function () {
+                closeCareAdvice();
+            }
+        }
+    }
+
+    function closeCareAdvice() {
+        $('.care-advice details').removeAttr('open');
+    }
+    
+    function openCareAdvice() {
+        $('.care-advice details').attr('open', '');
+    }
+</script>
