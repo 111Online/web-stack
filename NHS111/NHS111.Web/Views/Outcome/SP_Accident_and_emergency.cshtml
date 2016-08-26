@@ -12,10 +12,17 @@
 @section OuterSection{
     <div class="sub-header">
     <div>
+            @if (Model.HasEndpointReasoning)
+            {
+                <h2 style="margin-bottom: 25px; font-size: 1.6em;">
+                    @Model.SymptomDiscriminator.ReasoningText
+                </h2>
+    }
+    else
+    {
+        <h2 style="margin-bottom: 25px; font-size: 1.6em;">Your answers suggest you should go to an Accident and Emergency department within 1 hour</h2>
 
-        <h2 style="margin-bottom: 25px;font-size: 1.6em;">Your answers suggest you should go to an Accident and Emergency department within 1 hour</h2>
-
-
+    }
     </div>
 </div>
 
@@ -32,7 +39,7 @@
     <p>If there are any new symptoms, or if the condition gets worse, changes or you have any other concerns, call 999 and ask for an ambulance.</p>
 </div>
 
-<div class="care-advice">
+<div class="care-advice advice-before-going">
     <h3 class="care-advice-section-header">
         Advice for going to A&amp;E
     </h3>
@@ -49,40 +56,42 @@
     </ul>
 </div>
 
-@using (Html.BeginForm("ServiceDetails", "Outcome", FormMethod.Post))
-{
-    @Html.HiddenFor(x => Model.Id)
-    @Html.HiddenFor(x => Model.JourneyJson)
-    @Html.HiddenFor(x => Model.PathwayId)
-    @Html.HiddenFor(x => Model.PathwayNo)
-    @Html.HiddenFor(x => Model.SymptomGroup)
-    @Html.HiddenFor(x => Model.UserInfo.Age)
-    @Html.HiddenFor(x => Model.UserInfo.Gender)
-    @Html.HiddenFor(x => Model.SymptomDiscriminatorCode)
-    @Html.HiddenFor(x => Model.Title)
-    @Html.HiddenFor(x => Model.UserId)
+<div class="findAandE-form">
 
-    <div class="findAandE" style="clear: both; margin-bottom: 20px;">
-        <h3>Find an A&amp;E department</h3>
-        <div class="section-margin">
-       
+    @using (Html.BeginForm("ServiceDetails", "Outcome", FormMethod.Post))
+    {
+        @Html.HiddenFor(x => Model.Id)
+        @Html.HiddenFor(x => Model.JourneyJson)
+        @Html.HiddenFor(x => Model.PathwayId)
+        @Html.HiddenFor(x => Model.PathwayNo)
+        @Html.HiddenFor(x => Model.SymptomGroup)
+        @Html.HiddenFor(x => Model.UserInfo.Age)
+        @Html.HiddenFor(x => Model.UserInfo.Gender)
+        @Html.HiddenFor(x => Model.SymptomDiscriminatorCode)
+        @Html.HiddenFor(x => Model.Title)
+        @Html.HiddenFor(x => Model.UserId)
+
+        <div class="findAandE">
+            <h3>Find an A&amp;E department</h3>
+            <div class="section-margin">
+
                 @Html.LabelFor(m => m.UserInfo.CurrentAddress.PostCode, "Postcode")
                 @Html.TextBoxFor(m => m.UserInfo.CurrentAddress.PostCode, new {@class = "form-control "})
 
                 <input class="button button-next" type="submit" name="DosResults" value="Find A&amp;E departments">
-          
-        </div>
-    </div>
 
-}
+            </div>
+        </div>
+
+    }
+</div>
+
 
 @if (Model.CareAdvices.Any())
 {
     <div class="care-advice section-margin">
-        <details>
-            <summary>
+        <hr />
             <h3 class="self-care-title">I know which A&amp;E I'm going to.  What can I do in the meantime?</h3>
-            </summary>
             <div class="care-advice-keywords">
                 <ol>
                     @foreach (var careAdvice in Model.CareAdvices)
@@ -118,7 +127,6 @@
                     </ul>
                 }
             </div>
-        </details>
     </div>
 }
 
