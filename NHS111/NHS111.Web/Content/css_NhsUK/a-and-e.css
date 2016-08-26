@@ -2,6 +2,43 @@
     font-size: 1.6em;
 }
 
+.care-advice {
+    background-color: #ffffff;
+    padding: 0;
+}
+
+.care-advice hr {
+    background-image: -webkit-gradient(linear, left top, left bottom, from(transparent), to(grey));
+    background-image: -webkit-linear-gradient(top, transparent 50%, grey 50%);
+    background-image: linear-gradient(to bottom, transparent 50%, grey 50%);
+}
+.advice-before-going {
+    padding: 0;
+    width:  45em;
+    float:left;
+}
+@media (max-width: 1720px) {
+    .advice-before-going {
+        width: 30em;
+    }
+}
+.findAandE {
+    padding: 20px;
+}
+
+
+.findAandE-form {
+    width: 25em; 
+    background-color:  #EAEAEA;
+    float: left;
+    border: 1px solid grey;
+}
+@media (max-width: 1360px) {
+    .findAandE-form {
+        width: 100%;
+    }
+}
+
 .sub-header {
     background-color: #003087;
     /*height: 231px;*/
@@ -87,13 +124,11 @@
 form .findAandE {
     display: block;
     float: left;
-    margin-bottom: 2rem;
-    margin-top: 1rem;
 }
 .findAandE .button-next {
     background-position: 95% 60%;
     float: left;
-    clear: right;
+    clear: both;
 
 }
 
@@ -106,7 +141,7 @@ form .findAandE {
     }
 
     .findAandE .button-next {
-            margin-left: 20px;
+            margin-top: 20px;
     }
 }
 
