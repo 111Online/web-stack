@@ -56,79 +56,13 @@
     </ul>
 </div>
 
-<div class="findAandE-form">
+@Html.Partial("_FindService", Model, new ViewDataDictionary { { "Title", "Find an A&amp;E department" } })
 
-    @using (Html.BeginForm("ServiceDetails", "Outcome", FormMethod.Post))
-    {
-        @Html.HiddenFor(x => Model.Id)
-        @Html.HiddenFor(x => Model.JourneyJson)
-        @Html.HiddenFor(x => Model.PathwayId)
-        @Html.HiddenFor(x => Model.PathwayNo)
-        @Html.HiddenFor(x => Model.SymptomGroup)
-        @Html.HiddenFor(x => Model.UserInfo.Age)
-        @Html.HiddenFor(x => Model.UserInfo.Gender)
-        @Html.HiddenFor(x => Model.SymptomDiscriminatorCode)
-        @Html.HiddenFor(x => Model.Title)
-        @Html.HiddenFor(x => Model.UserId)
-
-        <div class="findAandE">
-            <h3>Find an A&amp;E department</h3>
-            <div class="section-margin">
-
-                @Html.LabelFor(m => m.UserInfo.CurrentAddress.PostCode, "Postcode")
-                @Html.TextBoxFor(m => m.UserInfo.CurrentAddress.PostCode, new {@class = "form-control "})
-
-                <input class="button button-next" type="submit" name="DosResults" value="Find A&amp;E departments">
-
-            </div>
-        </div>
-
-    }
-</div>
+<hr/>
 
 
-@if (Model.CareAdvices.Any())
-{
-    <div class="care-advice section-margin">
-        <hr />
-            <h3 class="self-care-title">I know which A&amp;E I'm going to.  What can I do in the meantime?</h3>
-            <div class="care-advice-keywords">
-                <ol>
-                    @foreach (var careAdvice in Model.CareAdvices)
-                    {
-                        <li><a href=#Advice_@careAdvice.Id>@careAdvice.Keyword</a></li>
-                    }
-                </ol>
-            </div>
-            <div>
+@Html.Partial("_CareAdvice", Model.CareAdvices, new ViewDataDictionary { { "Title", "I know which A&amp;E I'm going to.  What can I do in the meantime?" } })
 
-                @foreach (var careAdvice in Model.CareAdvices)
-                {
-
-                    <h4 id="Advice_@careAdvice.Id" class="self-care-title">@careAdvice.Keyword</h4>
-                    @Html.Hidden(careAdvice.Id)
-                    <ul>
-                        @foreach (var parent in careAdvice.Items)
-                        {
-                            <li>
-                                @parent.Text
-                                @if (parent.Items.Any())
-                                {
-                                    <ul>
-                                        @foreach (var child in parent.Items)
-                                        {
-                                            <li>@child.Text</li>
-                                        }
-                                    </ul>
-                                }
-                            </li>
-
-                        }
-                    </ul>
-                }
-            </div>
-    </div>
-}
 
 
 @using (Html.BeginForm("Navigation", "Question", FormMethod.Post))
@@ -142,34 +76,4 @@
     }
 }
 
-<script type="text/javascript">
 
-    if ($('.care-advice details').attr('open') == undefined)
-    {
-
-        if ('matchMedia' in window) {
-            window.matchMedia('print').addListener(function (media) {
-                if (media.srcElement.matches) {
-                    openCareAdvice();
-                } else {
-                    closeCareAdvice();
-                }
-            });
-        } else {
-            window.onbeforeprint = function () {
-                openCareAdvice();
-            }
-            window.onafterprint = function () {
-                closeCareAdvice();
-            }
-        }
-    }
-
-    function closeCareAdvice() {
-        $('.care-advice details').removeAttr('open');
-    }
-    
-    function openCareAdvice() {
-        $('.care-advice details').attr('open', '');
-    }
-</script>

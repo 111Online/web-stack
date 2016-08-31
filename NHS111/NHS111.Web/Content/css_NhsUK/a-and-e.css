@@ -7,7 +7,8 @@
     padding: 0;
 }
 
-.care-advice hr {
+hr {
+    clear: left;
     background-image: -webkit-gradient(linear, left top, left bottom, from(transparent), to(grey));
     background-image: -webkit-linear-gradient(top, transparent 50%, grey 50%);
     background-image: linear-gradient(to bottom, transparent 50%, grey 50%);
