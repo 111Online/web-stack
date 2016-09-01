@@ -715,6 +715,7 @@
     <Content Include="Views\Outcome\SP_GP.cshtml" />
     <Content Include="Views\Outcome\SP_Other.cshtml" />
     <Content Include="Views\Shared\_FindService.cshtml" />
+    <Content Include="Views\Shared\_OutcomeHeader.cshtml" />
     <None Include="Web.Development.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

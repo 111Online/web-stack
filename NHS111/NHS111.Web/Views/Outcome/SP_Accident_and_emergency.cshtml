@@ -10,22 +10,7 @@
 <link href="~/Content/css_NhsUK/a-and-e-print.css" media="print" rel="stylesheet" type="text/css" />
 
 @section OuterSection{
-    <div class="sub-header">
-    <div>
-            @if (Model.HasEndpointReasoning)
-            {
-                <h2 style="margin-bottom: 25px; font-size: 1.6em;">
-                    @Model.SymptomDiscriminator.ReasoningText
-                </h2>
-    }
-    else
-    {
-        <h2 style="margin-bottom: 25px; font-size: 1.6em;">Your answers suggest you should go to an Accident and Emergency department within 1 hour</h2>
-
-    }
-    </div>
-</div>
-
+@Html.Partial("_OutcomeHeader", Model, new ViewDataDictionary { { "DefaultTitle", "Your answers suggest you should go to an Accident and Emergency department within 1 hour" } })
 }
 
 @section FeedbackSection {

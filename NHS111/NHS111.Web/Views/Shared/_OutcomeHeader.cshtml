@@ -1,0 +1,18 @@
+﻿@model NHS111.Models.Models.Web.OutcomeViewModel
+
+
+<div class="sub-header">
+    <div>
+        @if (Model.HasEndpointReasoning)
+        {
+            <h2 style="margin-bottom: 25px; font-size: 1.6em;">
+                @Model.SymptomDiscriminator.ReasoningText
+            </h2>
+        }
+        else
+        {
+            <h2 style="margin-bottom: 25px; font-size: 1.6em;">@Html.Raw((!ViewData.Keys.Contains("DefaultTitle") ? "Your answers suggest you should go to an " + Model.OutcomeGroup.Text+" within " + Model.TimeFrameText: ViewData["DefaultTitle"]))</h2>
+
+        }
+    </div>
+</div>
