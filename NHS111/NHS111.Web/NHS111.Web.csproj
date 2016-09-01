@@ -225,8 +225,8 @@
     <Content Include="Content\css\skins\flat\yellow.css" />
     <Content Include="Content\css\skins\flat\yellow.png" />
     <Content Include="Content\css\skins\flat\_all.css" />
-    <Content Include="Content\css_NhsUK\a-and-e-print.css" />
-    <Content Include="Content\css_NhsUK\a-and-e.css" />
+    <Content Include="Content\css_NhsUK\signposting-outcome-print.css" />
+    <Content Include="Content\css_NhsUK\signposting-outcome.css" />
     <Content Include="Content\css_NhsUK\application.css" />
     <Content Include="Content\css_NhsUK\banner.css" />
     <Content Include="Content\css_NhsUK\confirmation.css" />
@@ -714,6 +714,9 @@
     <Content Include="Views\Help\Browsers.cshtml" />
     <Content Include="Views\Outcome\SP_GP.cshtml" />
     <Content Include="Views\Outcome\SP_Other.cshtml" />
+    <Content Include="Views\Shared\_FindService.cshtml" />
+    <Content Include="Views\Shared\_OutcomeHeader.cshtml" />
+    <Content Include="Views\Outcome\SP_Pharmacy.cshtml" />
     <None Include="Web.Development.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

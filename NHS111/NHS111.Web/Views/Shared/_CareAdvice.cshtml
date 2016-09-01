@@ -2,7 +2,7 @@
 @if (Model.Any()) {
     <div class="care-advice">
 
-        <h3 class="self-care-title">@(!ViewData.Keys.Contains("Title") ? "What can I do in the meantime?": ViewData["Title"])</h3>
+        <h3 class="self-care-title">@Html.Raw((!ViewData.Keys.Contains("Title") ? "What can I do in the meantime?": ViewData["Title"]))</h3>
         <div class="care-advice-keywords">
             <ol>
                 @foreach (var careAdvice in Model) {

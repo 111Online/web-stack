@@ -7,7 +7,12 @@
     padding: 0;
 }
 
-.care-advice hr {
+.advice-before-going p {
+    font-size: 1.5rem;
+}
+
+hr {
+    clear: left;
     background-image: -webkit-gradient(linear, left top, left bottom, from(transparent), to(grey));
     background-image: -webkit-linear-gradient(top, transparent 50%, grey 50%);
     background-image: linear-gradient(to bottom, transparent 50%, grey 50%);
@@ -17,26 +22,26 @@
     width:  45em;
     float:left;
 }
-@media (max-width: 1720px) {
-    .advice-before-going {
-        width: 30em;
-    }
-}
-.findAandE {
+
+.findservice {
     padding: 20px;
 }
 
 
-.findAandE-form {
+.findservice-form {
     width: 25em; 
     background-color:  #EAEAEA;
     float: left;
     border: 1px solid grey;
 }
 @media (max-width: 1360px) {
-    .findAandE-form {
+    .findservice-form {
         width: 100%;
     }
+      .advice-before-going {
+        width: 100%;
+    }
+
 }
 
 .sub-header {
@@ -64,17 +69,6 @@
         font-weight: bolder;
         margin: 65px 30px 65px 0;
         float: left;
-    }
-
-    .sub-header h2 {
-        padding-top: 70px;
-        margin-bottom: 25px;
-        font-size: 1.6em;
-    }
-
-    .sub-header p {
-        font-size: 120%;
-        padding-bottom: 70px;
     }
 
 .button.find-address {
@@ -121,11 +115,11 @@
         text-decoration: underline !important;
     }
 
-form .findAandE {
+form .findservice {
     display: block;
     float: left;
 }
-.findAandE .button-next {
+.findservice .button-next {
     background-position: 95% 60%;
     float: left;
     clear: both;
@@ -134,24 +128,50 @@ form .findAandE {
 
 
 @media (min-width: 641px) {
-    .findAandE .form-control {
+     .sub-header h2 {
+        padding-top: 70px;
+        margin-bottom: 25px;
+        font-size: 1.6em;
+    }
+    .findservice .form-control {
         float: left;
         clear: left;
         width: 365px;
     }
 
-    .findAandE .button-next {
+    .findservice .button-next {
             margin-top: 20px;
+    }
+
+    .advice-before-going p {
+        padding-right: 15px;
     }
 }
 
 @media (max-width: 640px) {
-    .findAandE .button-next {
+    .findservice .button-next {
         margin-top: 5px;
+    }
+
+     .sub-header h2 {
+        padding-top: 20px;
+        font-size: 1.5em;
+    }
+    .sub-header {
+        padding-bottom: 20px;
+    }
+
+    .sub-header h2 {
+        line-height: 3.5rem;
+    }
+
+    .care-advice h3 {
+        font-size: 1.5em;
+        line-height: 3.5rem;
     }
 }
 
-.findAandE label {
+.findservice label {
     font-weight: bold;
     margin-bottom: 10px;
     float: left;
