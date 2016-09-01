@@ -13,7 +13,7 @@ namespace NHS111.Models.Models.Domain {
         public static OutcomeGroup Call999 = new OutcomeGroup { Id = "Call_999", Text = "Call_999" };
         public static OutcomeGroup AccidentAndEmergency = new OutcomeGroup { Id = "SP_Accident_and_emergency" };
         public static OutcomeGroup HomeCare = new OutcomeGroup { Id = "Home_Care", Text = "Home Care"};
-
+        public static OutcomeGroup Pharmacy = new OutcomeGroup { Id = "SP_Pharmacy", Text = "Pharmacy" };
         public override bool Equals(object obj) {
             var outcomeGroup = obj as OutcomeGroup;
             if (outcomeGroup == null)

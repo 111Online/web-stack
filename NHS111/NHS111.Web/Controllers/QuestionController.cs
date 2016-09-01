@@ -140,7 +140,7 @@ namespace NHS111.Web.Controllers {
             var journeyViewModel = await DeriveJourneyView(pathwayId, age, pathwayTitle, answers);
             var viewName = DetermineViewName(journeyViewModel);
             if (journeyViewModel.OutcomeGroup == null ||
-                journeyViewModel.OutcomeGroup.Id != OutcomeGroup.AccidentAndEmergency.Id)
+                journeyViewModel.OutcomeGroup.Id != OutcomeGroup.AccidentAndEmergency.Id || journeyViewModel.OutcomeGroup.Id != OutcomeGroup.Pharmacy.Id)
             {
                 return HttpNotFound();
             }

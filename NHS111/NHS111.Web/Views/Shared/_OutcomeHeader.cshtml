@@ -5,13 +5,13 @@
     <div>
         @if (Model.HasEndpointReasoning)
         {
-            <h2 style="margin-bottom: 25px; font-size: 1.6em;">
+            <h2>
                 @Model.SymptomDiscriminator.ReasoningText
             </h2>
         }
         else
         {
-            <h2 style="margin-bottom: 25px; font-size: 1.6em;">@Html.Raw((!ViewData.Keys.Contains("DefaultTitle") ? "Your answers suggest you should go to an " + Model.OutcomeGroup.Text+" within " + Model.TimeFrameText: ViewData["DefaultTitle"]))</h2>
+            <h2>@Html.Raw((!ViewData.Keys.Contains("DefaultTitle") ? "Your answers suggest you should go to an " + Model.OutcomeGroup.Text+" within " + Model.TimeFrameText: ViewData["DefaultTitle"]))</h2>
 
         }
     </div>

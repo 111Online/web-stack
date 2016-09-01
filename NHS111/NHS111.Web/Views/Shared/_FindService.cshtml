@@ -1,5 +1,5 @@
 ﻿@model  NHS111.Models.Models.Web.OutcomeViewModel
-<div class="findAandE-form">
+<div class="findservice-form">
 
     @using (Html.BeginForm("ServiceDetails", "Outcome", FormMethod.Post))
     {
@@ -14,7 +14,7 @@
         @Html.HiddenFor(x => Model.Title)
         @Html.HiddenFor(x => Model.UserId)
 
-        <div class="findAandE">
+        <div class="findservice">
             <h3>@Html.Raw((!ViewData.Keys.Contains("Title") ? "Find a Healthcare provider" : ViewData["Title"]))</h3>
             <div class="section-margin">
 
