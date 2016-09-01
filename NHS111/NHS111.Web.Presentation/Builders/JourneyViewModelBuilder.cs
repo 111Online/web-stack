@@ -34,15 +34,13 @@ namespace NHS111.Web.Presentation.Builders
             _symptomDiscriminatorCollector.Collect(nextNode, model);
             model = _keywordCollector.Collect(answer, model);
 
-            var lastQuestionAskedId = model.Id;
-
             model = _mappingEngine.Mapper.Map(nextNode, model);
 
             switch (model.NodeType)
             {
                 case NodeType.Outcome:
                     var outcome = _mappingEngine.Mapper.Map<OutcomeViewModel>(model);
-                    return await _outcomeViewModelBuilder.DispositionBuilder(outcome, lastQuestionAskedId);
+                    return await _outcomeViewModelBuilder.DispositionBuilder(outcome);
                 case NodeType.Pathway:
                     var jtbs = _mappingEngine.Mapper.Map<JustToBeSafeViewModel>(model);
                     return (await _justToBeSafeFirstViewModelBuilder.JustToBeSafeFirstBuilder(jtbs)).Item2; //todo refactor tuple away

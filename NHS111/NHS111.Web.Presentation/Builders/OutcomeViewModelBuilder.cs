@@ -50,7 +50,7 @@ namespace NHS111.Web.Presentation.Builders
             return _mappingEngine.Mapper.Map<List<AddressInfo>>(listPaf);
         }
 
-        public async Task<OutcomeViewModel> DispositionBuilder(OutcomeViewModel model, string lastQuestionAskedId)
+        public async Task<OutcomeViewModel> DispositionBuilder(OutcomeViewModel model)
         {
             if (OutcomeGroup.Call999.Equals(model.OutcomeGroup))
             {
@@ -63,9 +63,9 @@ namespace NHS111.Web.Presentation.Builders
                 model.SymptomDiscriminator = await GetSymptomDiscriminator(model.SymptomDiscriminatorCode);
             }
 
-            if (!string.IsNullOrEmpty(lastQuestionAskedId))
+            if (model.Journey.Steps.Count > 0)
             {
-                model.SymptomGroup = await GetSymptomGroup(ConvertQuestionIdToPathwayId(lastQuestionAskedId));
+                model.SymptomGroup = await GetSymptomGroup(ConvertQuestionIdToPathwayId(model.Journey.Steps.Last().QuestionId));
             }
 
             model.UserId = Guid.NewGuid();
@@ -186,7 +186,7 @@ namespace NHS111.Web.Presentation.Builders
     public interface IOutcomeViewModelBuilder
     {
         Task<List<AddressInfo>> SearchPostcodeBuilder(string input);
-        Task<OutcomeViewModel> DispositionBuilder(OutcomeViewModel model, string lastQuestionAnsweredId);
+        Task<OutcomeViewModel> DispositionBuilder(OutcomeViewModel model);
         Task<OutcomeViewModel> PostCodeSearchBuilder(OutcomeViewModel model);
         Task<OutcomeViewModel> PersonalDetailsBuilder(OutcomeViewModel model);
         Task<OutcomeViewModel> ItkResponseBuilder(OutcomeViewModel model);
