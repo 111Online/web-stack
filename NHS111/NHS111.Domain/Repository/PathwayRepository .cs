@@ -92,7 +92,8 @@ namespace NHS111.Domain.Repository
         {
             var symptomGroups = await _graphRepository.Client.Cypher
                 .Match("(p:Pathway)")
-                .Where(string.Format("p.pathwayNo in [{0}]", string.Join(", ", pathwayNos.Select(p => "\"" + p + "\""))), _pathwaysConfigurationManager.UseLivePathways)
+                .Where(string.Format("p.pathwayNo in [{0}]", string.Join(",", pathwayNos.Select(p => "\"" + p + "\""))))
+                //.Where(string.Format("p.pathwayNo in [{0}]", string.Join(", ", pathwayNos.Select(p => "\"" + p + "\""))), _pathwaysConfigurationManager.UseLivePathways)
                 .Return(p => new SymptomGroup { PathwayNo = Return.As<string>("p.pathwayNo"), Code = Return.As<string>("collect(distinct(p.symptomGroup))[0]")})
                 .ResultsAsync;
 

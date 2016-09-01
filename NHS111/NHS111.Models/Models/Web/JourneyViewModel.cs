@@ -52,6 +52,7 @@ namespace NHS111.Models.Models.Web
         public string PreviousStateJson { get; set; }
         public string QuestionNo { get; set; }
         public string SymptomDiscriminatorCode { get; set; }
+        public string SymptomGroup { get; set; }
         public IDictionary<string, string> State { get; set; }
         public string StateJson { get; set; }
         public KeywordBag CollectedKeywords { get; set; }
