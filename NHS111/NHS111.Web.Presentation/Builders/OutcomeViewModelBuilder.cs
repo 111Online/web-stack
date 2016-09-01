@@ -63,6 +63,11 @@ namespace NHS111.Web.Presentation.Builders
                 model.SymptomDiscriminator = await GetSymptomDiscriminator(model.SymptomDiscriminatorCode);
             }
 
+            if (model.Journey.Steps.Count > 0)
+            {
+                model.SymptomGroup = await GetSymptomGroup(ConvertQuestionIdToPathwayId(model.Journey.Steps.Last().QuestionId));
+            }
+
             model.UserId = Guid.NewGuid();
             model.WorseningCareAdvice = await _careAdviceBuilder.FillWorseningCareAdvice(model.UserInfo.Age,
                 model.UserInfo.Gender);
@@ -85,6 +90,25 @@ namespace NHS111.Web.Presentation.Builders
 
             return 
                 JsonConvert.DeserializeObject<SymptomDiscriminator>(await symptomDiscriminatorResponse.Content.ReadAsStringAsync());
+        }
+
+        private static string ConvertQuestionIdToPathwayId(string questionId)
+        {
+            var array = questionId.Split('.');
+            return array.Length > 0 ? array[0] : string.Empty;
+        }
+
+        private async Task<string> GetSymptomGroup(string pathway)
+        {
+            RestfulHelper restfulHelper = new RestfulHelper();
+
+            var symptomGroupResponse = await
+                restfulHelper.GetResponseAsync(string.Format(_configuration.GetBusinessApiPathwaySymptomGroupUrl(pathway)));
+            if (!symptomGroupResponse.IsSuccessStatusCode)
+                throw new Exception(string.Format("A problem occured getting the symptom group for {0}.", pathway));
+
+            return
+                await symptomGroupResponse.Content.ReadAsStringAsync();
         }
 
         public async Task<OutcomeViewModel> ItkResponseBuilder(OutcomeViewModel model)
