@@ -39,16 +39,17 @@ namespace NHS111.Web.Presentation.Builders
             _symptomDiscriminatorCollector.Collect(nextNode, model);
             model = _keywordCollector.Collect(answer, model);
 
-            if (!string.IsNullOrEmpty(model.Id))
-            {
-                model.SymptomGroup = await GetSymptomGroup(ConvertQuestionIdToPathwayId(model.Id));
-            }
+            var lastQuestionAskedId = model.Id;
 
             model = _mappingEngine.Mapper.Map(nextNode, model);
 
             switch (model.NodeType)
             {
                 case NodeType.Outcome:
+                    if (!string.IsNullOrEmpty(lastQuestionAskedId))
+                    {
+                        model.SymptomGroup = await GetSymptomGroup(ConvertQuestionIdToPathwayId(lastQuestionAskedId));
+                    }
                     var outcome = _mappingEngine.Mapper.Map<OutcomeViewModel>(model);
                     return await _outcomeViewModelBuilder.DispositionBuilder(outcome);
                 case NodeType.Pathway:
