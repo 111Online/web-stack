@@ -1,6 +1,3 @@
-using System;
-using NHS111.Utils.Helpers;
-
 namespace NHS111.Web.Presentation.Builders
 {
     using System.Threading.Tasks;
@@ -9,7 +6,6 @@ namespace NHS111.Web.Presentation.Builders
     using NHS111.Models.Models.Domain;
     using NHS111.Models.Models.Web;
     using NHS111.Models.Models.Web.Enums;
-    using IConfiguration = NHS111.Web.Presentation.Configuration.IConfiguration;
 
     public class JourneyViewModelBuilder
         : IJourneyViewModelBuilder
@@ -17,14 +13,13 @@ namespace NHS111.Web.Presentation.Builders
 
         public JourneyViewModelBuilder(IOutcomeViewModelBuilder outcomeViewModelBuilder, IMappingEngine mappingEngine,
             ISymptomDiscriminatorCollector symptomDiscriminatorCollector, IKeywordCollector keywordCollector,
-            IJustToBeSafeFirstViewModelBuilder justToBeSafeFirstViewModelBuilder, IConfiguration configuration)
+            IJustToBeSafeFirstViewModelBuilder justToBeSafeFirstViewModelBuilder)
         {
             _outcomeViewModelBuilder = outcomeViewModelBuilder;
             _mappingEngine = mappingEngine;
             _symptomDiscriminatorCollector = symptomDiscriminatorCollector;
             _keywordCollector = keywordCollector;
             _justToBeSafeFirstViewModelBuilder = justToBeSafeFirstViewModelBuilder;
-            _configuration = configuration;
         }
 
         public async Task<JourneyViewModel> Build(JourneyViewModel model, QuestionWithAnswers nextNode)
@@ -46,12 +41,8 @@ namespace NHS111.Web.Presentation.Builders
             switch (model.NodeType)
             {
                 case NodeType.Outcome:
-                    if (!string.IsNullOrEmpty(lastQuestionAskedId))
-                    {
-                        model.SymptomGroup = await GetSymptomGroup(ConvertQuestionIdToPathwayId(lastQuestionAskedId));
-                    }
                     var outcome = _mappingEngine.Mapper.Map<OutcomeViewModel>(model);
-                    return await _outcomeViewModelBuilder.DispositionBuilder(outcome);
+                    return await _outcomeViewModelBuilder.DispositionBuilder(outcome, lastQuestionAskedId);
                 case NodeType.Pathway:
                     var jtbs = _mappingEngine.Mapper.Map<JustToBeSafeViewModel>(model);
                     return (await _justToBeSafeFirstViewModelBuilder.JustToBeSafeFirstBuilder(jtbs)).Item2; //todo refactor tuple away
@@ -75,25 +66,6 @@ namespace NHS111.Web.Presentation.Builders
                 model.Journey.Steps);
 
             return _mappingEngine.Mapper.Map(lastStep, model);
-        }
-
-        private static string ConvertQuestionIdToPathwayId(string questionId)
-        {
-            var array = questionId.Split('.');
-            return array.Length > 0 ? array[0] : string.Empty;
-        }
-
-        private async Task<string> GetSymptomGroup(string pathway)
-        {
-            RestfulHelper restfulHelper = new RestfulHelper();
-
-            var symptomGroupResponse = await
-                restfulHelper.GetResponseAsync(string.Format(_configuration.GetBusinessApiPathwaySymptomGroupUrl(pathway)));
-            if (!symptomGroupResponse.IsSuccessStatusCode)
-                throw new Exception(string.Format("A problem occured getting the symptom group for {0}.", pathway));
-
-            return
-                await symptomGroupResponse.Content.ReadAsStringAsync();
         }
 
         private readonly IOutcomeViewModelBuilder _outcomeViewModelBuilder;

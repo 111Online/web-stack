@@ -50,7 +50,7 @@ namespace NHS111.Web.Presentation.Builders
             return _mappingEngine.Mapper.Map<List<AddressInfo>>(listPaf);
         }
 
-        public async Task<OutcomeViewModel> DispositionBuilder(OutcomeViewModel model)
+        public async Task<OutcomeViewModel> DispositionBuilder(OutcomeViewModel model, string lastQuestionAskedId)
         {
             if (OutcomeGroup.Call999.Equals(model.OutcomeGroup))
             {
@@ -61,6 +61,11 @@ namespace NHS111.Web.Presentation.Builders
             if (!String.IsNullOrEmpty(model.SymptomDiscriminatorCode))
             {
                 model.SymptomDiscriminator = await GetSymptomDiscriminator(model.SymptomDiscriminatorCode);
+            }
+
+            if (!string.IsNullOrEmpty(lastQuestionAskedId))
+            {
+                model.SymptomGroup = await GetSymptomGroup(ConvertQuestionIdToPathwayId(lastQuestionAskedId));
             }
 
             model.UserId = Guid.NewGuid();
@@ -85,6 +90,25 @@ namespace NHS111.Web.Presentation.Builders
 
             return 
                 JsonConvert.DeserializeObject<SymptomDiscriminator>(await symptomDiscriminatorResponse.Content.ReadAsStringAsync());
+        }
+
+        private static string ConvertQuestionIdToPathwayId(string questionId)
+        {
+            var array = questionId.Split('.');
+            return array.Length > 0 ? array[0] : string.Empty;
+        }
+
+        private async Task<string> GetSymptomGroup(string pathway)
+        {
+            RestfulHelper restfulHelper = new RestfulHelper();
+
+            var symptomGroupResponse = await
+                restfulHelper.GetResponseAsync(string.Format(_configuration.GetBusinessApiPathwaySymptomGroupUrl(pathway)));
+            if (!symptomGroupResponse.IsSuccessStatusCode)
+                throw new Exception(string.Format("A problem occured getting the symptom group for {0}.", pathway));
+
+            return
+                await symptomGroupResponse.Content.ReadAsStringAsync();
         }
 
         public async Task<OutcomeViewModel> ItkResponseBuilder(OutcomeViewModel model)
@@ -162,7 +186,7 @@ namespace NHS111.Web.Presentation.Builders
     public interface IOutcomeViewModelBuilder
     {
         Task<List<AddressInfo>> SearchPostcodeBuilder(string input);
-        Task<OutcomeViewModel> DispositionBuilder(OutcomeViewModel model);
+        Task<OutcomeViewModel> DispositionBuilder(OutcomeViewModel model, string lastQuestionAnsweredId);
         Task<OutcomeViewModel> PostCodeSearchBuilder(OutcomeViewModel model);
         Task<OutcomeViewModel> PersonalDetailsBuilder(OutcomeViewModel model);
         Task<OutcomeViewModel> ItkResponseBuilder(OutcomeViewModel model);
