@@ -30,10 +30,10 @@ namespace NHS111.Web.Presentation.Builders
         private readonly ICacheManager<string, string> _cacheManager;
         private readonly IKeywordCollector _keywordCollector;
         private readonly IAddressViewModelBuilder _addressViewModelBuilder;
-        private readonly ISymptomGroupBuilder _symptomGroupBuilder;
+        private readonly IJourneyHistoryWrangler _journeyHistoryWrangler;
 
         public OutcomeViewModelBuilder(ICareAdviceBuilder careAdviceBuilder, IRestfulHelper restfulHelper, IConfiguration configuration, IMappingEngine mappingEngine, ICacheManager<string, string> cacheManager, IKeywordCollector keywordCollector,
-            IAddressViewModelBuilder addressViewModelBuilder, ISymptomGroupBuilder symptomGroupBuilder)
+            IAddressViewModelBuilder addressViewModelBuilder, IJourneyHistoryWrangler journeyHistoryWrangler)
         {
             _careAdviceBuilder = careAdviceBuilder;
             _restfulHelper = restfulHelper;
@@ -42,7 +42,7 @@ namespace NHS111.Web.Presentation.Builders
             _cacheManager = cacheManager;
             _keywordCollector = keywordCollector;
             _addressViewModelBuilder = addressViewModelBuilder;
-            _symptomGroupBuilder = symptomGroupBuilder;
+            _journeyHistoryWrangler = journeyHistoryWrangler;
         }
 
         public async Task<List<AddressInfo>> SearchPostcodeBuilder(string input)
@@ -65,7 +65,7 @@ namespace NHS111.Web.Presentation.Builders
                 model.SymptomDiscriminator = await GetSymptomDiscriminator(model.SymptomDiscriminatorCode);
             }
 
-            var pathways = _symptomGroupBuilder.GetSymptomGroups(model.Journey.Steps);
+            var pathways = _journeyHistoryWrangler.GetPathwayNumbers(model.Journey.Steps);
 
             if (pathways.Length > 0)
             {

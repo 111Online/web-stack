@@ -4,9 +4,14 @@ using NHS111.Models.Models.Web.FromExternalServices;
 
 namespace NHS111.Web.Presentation.Builders
 {
-    public class SymptomGroupBuilder : ISymptomGroupBuilder
+    public class JourneyHistoryWrangler : IJourneyHistoryWrangler
     {
-        public string GetSymptomGroups(IList<JourneyStep> journeySteps)
+        public string GetPathwayNumbers(IList<JourneyStep> journeySteps)
+        {
+            return string.Join(",", GetPathwayNumbersList(journeySteps));
+        }
+
+        public IList<string> GetPathwayNumbersList(IList<JourneyStep> journeySteps)
         {
             List<string> pathways = journeySteps.Reverse()
                                                 .Where(step => !string.IsNullOrEmpty(step.QuestionId))
@@ -15,7 +20,7 @@ namespace NHS111.Web.Presentation.Builders
                                                 .Reverse()
                                                 .ToList();
 
-            return string.Join(",", pathways);
+            return pathways;
         }
 
         private static string ConvertQuestionIdToPathwayId(string questionId)
@@ -28,8 +33,9 @@ namespace NHS111.Web.Presentation.Builders
         }
     }
 
-    public interface ISymptomGroupBuilder
+    public interface IJourneyHistoryWrangler
     {
-        string GetSymptomGroups(IList<JourneyStep> journeySteps);
+        string GetPathwayNumbers(IList<JourneyStep> journeySteps);
+        IList<string> GetPathwayNumbersList(IList<JourneyStep> journeySteps);
     }
 }

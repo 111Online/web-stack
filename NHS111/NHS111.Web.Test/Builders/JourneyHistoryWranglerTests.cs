@@ -6,25 +6,25 @@ using NUnit.Framework;
 namespace NHS111.Web.Presentation.Test.Builders
 {
     [TestFixture]
-    public class SymptomGroupBuilderTests
+    public class JourneyHistoryWranglerTests
     {
-        private readonly ISymptomGroupBuilder _symptomGroupBuilder = new SymptomGroupBuilder();
+        private readonly IJourneyHistoryWrangler _symptomGroupBuilder = new JourneyHistoryWrangler();
 
         [Test]
-        public void GetSymptomGroupsSingleQuestion()
+        public void GetPathwayNumbersGroupsSingleQuestion()
         {
             //Arrange
             List<JourneyStep> list = new List<JourneyStep>();
             JourneyStep js1 = new JourneyStep { QuestionId = "PW123.300" };
             list.Add(js1);
             //Act
-            var result = _symptomGroupBuilder.GetSymptomGroups(list);
+            var result = _symptomGroupBuilder.GetPathwayNumbers(list);
             //Assert
             Assert.AreEqual("PW123", result);
         }
 
         [Test]
-        public void GetSymptomGroupsJumpingBetweenPathways()
+        public void GetPathwayNumbersJumpingBetweenPathways()
         {
             //Arrange
             List<JourneyStep> list = new List<JourneyStep>();
@@ -33,13 +33,13 @@ namespace NHS111.Web.Presentation.Test.Builders
             list.Add(js1);
             list.Add(js2);
             //Act
-            var result = _symptomGroupBuilder.GetSymptomGroups(list);
+            var result = _symptomGroupBuilder.GetPathwayNumbers(list);
             //Assert
             Assert.AreEqual("PW123,PW133", result);
         }
 
         [Test]
-        public void GetSymptomGroupsJumpingBackToPathway()
+        public void GetPathwayNumbersJumpingBackToPathway()
         {
             //Arrange
             List<JourneyStep> list = new List<JourneyStep>();
@@ -50,13 +50,32 @@ namespace NHS111.Web.Presentation.Test.Builders
             list.Add(js2);
             list.Add(js3);
             //Act
-            var result = _symptomGroupBuilder.GetSymptomGroups(list);
+            var result = _symptomGroupBuilder.GetPathwayNumbers(list);
             //Assert
             Assert.AreEqual("PW133,PW123", result);
         }
 
         [Test]
-        public void GetSymptomGroupsEmptyQuestionId()
+        public void GetPathwayNumbersJumpingBackToPathwayMultiple()
+        {
+            //Arrange
+            List<JourneyStep> list = new List<JourneyStep>();
+            JourneyStep js1 = new JourneyStep { QuestionId = "PW123.300" };
+            JourneyStep js2 = new JourneyStep { QuestionId = "PW143.100" };
+            JourneyStep js3 = new JourneyStep { QuestionId = "PW113.100" };
+            JourneyStep js4 = new JourneyStep { QuestionId = "PW123.330" };
+            list.Add(js1);
+            list.Add(js2);
+            list.Add(js3);
+            list.Add(js4);
+            //Act
+            var result = _symptomGroupBuilder.GetPathwayNumbers(list);
+            //Assert
+            Assert.AreEqual("PW143,PW113,PW123", result);
+        }
+
+        [Test]
+        public void GetPathwayNumbersEmptyQuestionId()
         {
             //Arrange
             List<JourneyStep> list = new List<JourneyStep>();
@@ -67,13 +86,13 @@ namespace NHS111.Web.Presentation.Test.Builders
             list.Add(js2);
             list.Add(js3);
             //Act
-            var result = _symptomGroupBuilder.GetSymptomGroups(list);
+            var result = _symptomGroupBuilder.GetPathwayNumbers(list);
             //Assert
             Assert.AreEqual("PW123,PW124", result);
         }
 
         [Test]
-        public void GetSymptomGroupsDuplicatePathway()
+        public void GetPathwayNumbersDuplicatePathway()
         {
             //Arrange
             List<JourneyStep> list = new List<JourneyStep>();
@@ -82,21 +101,21 @@ namespace NHS111.Web.Presentation.Test.Builders
             list.Add(js1);
             list.Add(js2);
             //Act
-            var result = _symptomGroupBuilder.GetSymptomGroups(list);
+            var result = _symptomGroupBuilder.GetPathwayNumbers(list);
             //Assert
             Assert.AreEqual("PW123", result);
         }
 
         [Test]
-        public void GetSymptomGroupsEmptyList()
+        public void GetPathwayNumbersEmptyList()
         {
             List<JourneyStep> empty = new List<JourneyStep>();
-            var result = _symptomGroupBuilder.GetSymptomGroups(empty);
+            var result = _symptomGroupBuilder.GetPathwayNumbers(empty);
             Assert.AreEqual(0, result.Length);
         }
 
         [Test]
-        public void GetSymptomGroupsListWithEmptyItems()
+        public void GetPathwayNumbersListWithEmptyItems()
         {
             //Arrange
             List<JourneyStep> list = new List<JourneyStep>();
@@ -105,7 +124,7 @@ namespace NHS111.Web.Presentation.Test.Builders
             list.Add(js1);
             list.Add(js2);
             //Act
-            var result = _symptomGroupBuilder.GetSymptomGroups(list);
+            var result = _symptomGroupBuilder.GetPathwayNumbers(list);
             //Assert
             Assert.AreEqual(0, result.Length);
         }

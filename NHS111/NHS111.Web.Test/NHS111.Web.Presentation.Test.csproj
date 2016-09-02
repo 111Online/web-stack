@@ -95,7 +95,7 @@
     <Compile Include="Builders\JourneyViewModelBuilderTests.cs" />
     <Compile Include="Builders\SurgeryBuilderTests.cs" />
     <Compile Include="Builders\SymptomDicriminatorCollectorTests.cs" />
-    <Compile Include="Builders\SymptomGroupBuilderTests.cs" />
+    <Compile Include="Builders\JourneyHistoryWranglerTests.cs" />
     <Compile Include="Configuration\ConfigurationTests.cs" />
     <Compile Include="Controllers\QuestionControllerTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
