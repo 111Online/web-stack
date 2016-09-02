@@ -52,7 +52,7 @@ namespace NHS111.Models.Models.Web
             {
                 var reasoningText = string.Empty;
                 if (HasEndpointReasoning)
-                    reasoningText = string.Format("From your answers, {1}", SymptomDiscriminator.ReasoningText);
+                    reasoningText = string.Format("From your answers, {0}", SymptomDiscriminator.ReasoningText);
 
                 var timeFrameText = !string.IsNullOrEmpty(TimeFrameText) ? string.Format(" within {0}", TimeFrameText) : string.Empty;
 
