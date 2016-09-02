@@ -1,17 +1,20 @@
-namespace NHS111.Web.Presentation.Builders {
+namespace NHS111.Web.Presentation.Builders
+{
     using System.Threading.Tasks;
     using AutoMapper;
     using Newtonsoft.Json;
     using NHS111.Models.Models.Domain;
     using NHS111.Models.Models.Web;
     using NHS111.Models.Models.Web.Enums;
-    using NHS111.Models.Models.Web.FromExternalServices;
 
     public class JourneyViewModelBuilder
-        : IJourneyViewModelBuilder {
+        : IJourneyViewModelBuilder
+    {
 
         public JourneyViewModelBuilder(IOutcomeViewModelBuilder outcomeViewModelBuilder, IMappingEngine mappingEngine,
-            ISymptomDiscriminatorCollector symptomDiscriminatorCollector, IKeywordCollector keywordCollector, IJustToBeSafeFirstViewModelBuilder justToBeSafeFirstViewModelBuilder) {
+            ISymptomDiscriminatorCollector symptomDiscriminatorCollector, IKeywordCollector keywordCollector,
+            IJustToBeSafeFirstViewModelBuilder justToBeSafeFirstViewModelBuilder)
+        {
             _outcomeViewModelBuilder = outcomeViewModelBuilder;
             _mappingEngine = mappingEngine;
             _symptomDiscriminatorCollector = symptomDiscriminatorCollector;
@@ -19,7 +22,8 @@ namespace NHS111.Web.Presentation.Builders {
             _justToBeSafeFirstViewModelBuilder = justToBeSafeFirstViewModelBuilder;
         }
 
-        public async Task<JourneyViewModel> Build(JourneyViewModel model, QuestionWithAnswers nextNode) {
+        public async Task<JourneyViewModel> Build(JourneyViewModel model, QuestionWithAnswers nextNode)
+        {
 
             model.ProgressState();
 
@@ -32,7 +36,8 @@ namespace NHS111.Web.Presentation.Builders {
 
             model = _mappingEngine.Mapper.Map(nextNode, model);
 
-            switch (model.NodeType) {
+            switch (model.NodeType)
+            {
                 case NodeType.Outcome:
                     var outcome = _mappingEngine.Mapper.Map<OutcomeViewModel>(model);
                     return await _outcomeViewModelBuilder.DispositionBuilder(outcome);
@@ -44,12 +49,14 @@ namespace NHS111.Web.Presentation.Builders {
             return model;
         }
 
-        private static void AddLastStepToJourney(JourneyViewModel model) {
+        private static void AddLastStepToJourney(JourneyViewModel model)
+        {
             model.Journey.Steps.Add(model.ToStep());
             model.JourneyJson = JsonConvert.SerializeObject(model.Journey);
         }
 
-        public JourneyViewModel BuildPreviousQuestion(QuestionWithAnswers lastStep, JourneyViewModel model) {
+        public JourneyViewModel BuildPreviousQuestion(QuestionWithAnswers lastStep, JourneyViewModel model)
+        {
 
             model.RemoveLastStep();
 
@@ -64,9 +71,11 @@ namespace NHS111.Web.Presentation.Builders {
         private readonly ISymptomDiscriminatorCollector _symptomDiscriminatorCollector;
         private readonly IKeywordCollector _keywordCollector;
         private readonly IJustToBeSafeFirstViewModelBuilder _justToBeSafeFirstViewModelBuilder;
+        private readonly IConfiguration _configuration;
     }
 
-    public interface IJourneyViewModelBuilder {
+    public interface IJourneyViewModelBuilder
+    {
         Task<JourneyViewModel> Build(JourneyViewModel model, QuestionWithAnswers nextNode);
         JourneyViewModel BuildPreviousQuestion(QuestionWithAnswers lastStep, JourneyViewModel model);
     }

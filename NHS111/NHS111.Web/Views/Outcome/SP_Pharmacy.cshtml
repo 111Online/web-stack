@@ -1,0 +1,67 @@
+﻿@using NHS111.Models.Models.Web
+@model OutcomeViewModel
+@{
+    ViewBag.Title = "See a Pharmacist";
+    Layout = "~/Views/Shared/_LayoutNhsUK.cshtml";
+}
+
+@section Title { See a Pharmacist }
+<link href="~/Content/css_NhsUK/confirmation.css" media="all" rel="stylesheet" type="text/css" />
+<link href="~/Content/css_NhsUK/signposting-outcome.css" media="all" rel="stylesheet" type="text/css" />
+<link href="~/Content/css_NhsUK/signposting-outcome-print.css" media="print" rel="stylesheet" type="text/css" />
+
+@section OuterSection{
+    @Html.Partial("_OutcomeHeader", Model, new ViewDataDictionary { { "DefaultTitle", "Your answers suggest you should see a pharmacist within " + Model.TimeFrameText } })
+}
+
+@section FeedbackSection {
+    @Html.Partial("_FeedbackDetails", new FeedbackViewModel() { PageId = Model.Id })
+}
+
+<div class="service-booking-message alert  section-margin">
+    <h3 class="care-advice-section-header">
+        What if I feel worse?
+    </h3>
+    <p>If there are any new symptoms, or if the condition gets worse, changes or you have any other concerns, call 111 for further advice</p>
+</div>
+
+<div class="care-advice advice-before-going">
+    <h3 class="care-advice-section-header">
+        Did you know?
+    </h3>
+    <p>In emergencies, some NHS pharmacies can supply prescription-only medicines during the out of hours period (without first seeing a doctor).</p>
+    <p>Find out more about <a href="http://www.nhs.uk/NHSEngland/AboutNHSservices/pharmacists/Pages/pharmacistsandchemists.aspx">NHS pharmacies and the full list of services they offer.</a></p>
+    <ul>
+        <li>
+            if you want to take this information with you:
+            <ul>
+                <li>print this page, or</li>
+                <li>save <a href="@Model.OutcomeDetailLink">this link</a> to get back to this page</li>
+            </ul>
+        </li>
+    </ul>
+</div>
+
+@Html.Partial("_FindService", Model, new ViewDataDictionary { { "Title", "Find a pharmacy" } })
+
+<hr />
+
+
+@Html.Partial("_CareAdvice", Model.CareAdvices, new ViewDataDictionary { { "Title", "I know which pharmacy I'm going to.  What can I do in the meantime?" } })
+
+
+
+@using (Html.BeginForm("Navigation", "Question", FormMethod.Post))
+{
+    @Html.Partial("_CommonHiddenFieldsOutcomeViewModel", Model)
+    if (!Model.DisplayOutcomeReferenceOnly)
+    {
+        <div class="changeAnswers row">
+            <input class="button button-next button-link" type="submit" name="PreviousQuestion" value="Change my answers" />
+        </div>
+    }
+}
+
+
+
+
