@@ -98,6 +98,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Configuration\Configuration.cs" />
+    <Compile Include="Features\PathwaysWhiteListFeature.cs" />
     <Compile Include="IoC\DomainRegistry.cs" />
     <Compile Include="Monitoring\Monitor.cs" />
     <Compile Include="Repository\SymptomDiscriminatorRepository.cs" />
