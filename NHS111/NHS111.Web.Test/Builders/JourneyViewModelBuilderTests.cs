@@ -1,18 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using System.Web.Mvc;
+﻿using System.Collections.Generic;
 using AutoMapper;
 using Moq;
 using Newtonsoft.Json;
 using NHS111.Models.Models.Domain;
 using NHS111.Models.Models.Web;
 using NHS111.Models.Models.Web.FromExternalServices;
-using NHS111.Utils.Helpers;
-using NHS111.Web.Controllers;
 using NHS111.Web.Presentation.Builders;
 using NUnit.Framework;
-using IConfiguration = NHS111.Web.Presentation.Configuration.IConfiguration;
 
 namespace NHS111.Web.Presentation.Test.Builders
 {
@@ -21,7 +15,6 @@ namespace NHS111.Web.Presentation.Test.Builders
     {
         Mock<IOutcomeViewModelBuilder> _outcomeViewModelBuilder;
         Mock<IJustToBeSafeFirstViewModelBuilder> _justToBeSafeFirstViewModelBuilder;
-        Mock<IConfiguration> _configuration;
         Mock<IMappingEngine> _mappingEngine;
         Mock<ISymptomDiscriminatorCollector> _symptomDicriminatorCollector;
         private JourneyViewModelBuilder _sut;
