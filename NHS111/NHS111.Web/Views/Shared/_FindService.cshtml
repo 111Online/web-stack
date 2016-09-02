@@ -21,7 +21,7 @@
                 @Html.LabelFor(m => m.UserInfo.CurrentAddress.PostCode, "Postcode")
                 @Html.TextBoxFor(m => m.UserInfo.CurrentAddress.PostCode, new { @class = "form-control " })
 
-                <input class="button button-next" type="submit" name="DosResults" value="Find A&amp;E departments">
+                <input class="button button-next" type="submit" name="DosResults" value="@Html.Raw(ViewData["ButtonText"])">
 
             </div>
         </div>
