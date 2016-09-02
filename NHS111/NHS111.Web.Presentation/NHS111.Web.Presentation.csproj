@@ -104,6 +104,7 @@
     <Compile Include="Analytics\GoogleTagManagerPrinter.cs" />
     <Compile Include="Builders\JourneyViewModelBuilder.cs" />
     <Compile Include="Builders\SymptomDiscriminatorCollector.cs" />
+    <Compile Include="Builders\SymptomGroupBuilder.cs" />
     <Compile Include="Features\CookieBannerFeature.cs" />
     <Compile Include="Features\DirectLinkingFeature.cs" />
     <Compile Include="Features\DisclaimerBannerFeature.cs" />

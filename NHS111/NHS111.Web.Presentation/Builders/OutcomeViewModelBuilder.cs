@@ -30,9 +30,10 @@ namespace NHS111.Web.Presentation.Builders
         private readonly ICacheManager<string, string> _cacheManager;
         private readonly IKeywordCollector _keywordCollector;
         private readonly IAddressViewModelBuilder _addressViewModelBuilder;
+        private readonly ISymptomGroupBuilder _symptomGroupBuilder;
 
         public OutcomeViewModelBuilder(ICareAdviceBuilder careAdviceBuilder, IRestfulHelper restfulHelper, IConfiguration configuration, IMappingEngine mappingEngine, ICacheManager<string, string> cacheManager, IKeywordCollector keywordCollector,
-            IAddressViewModelBuilder addressViewModelBuilder)
+            IAddressViewModelBuilder addressViewModelBuilder, ISymptomGroupBuilder symptomGroupBuilder)
         {
             _careAdviceBuilder = careAdviceBuilder;
             _restfulHelper = restfulHelper;
@@ -41,6 +42,7 @@ namespace NHS111.Web.Presentation.Builders
             _cacheManager = cacheManager;
             _keywordCollector = keywordCollector;
             _addressViewModelBuilder = addressViewModelBuilder;
+            _symptomGroupBuilder = symptomGroupBuilder;
         }
 
         public async Task<List<AddressInfo>> SearchPostcodeBuilder(string input)
@@ -63,9 +65,11 @@ namespace NHS111.Web.Presentation.Builders
                 model.SymptomDiscriminator = await GetSymptomDiscriminator(model.SymptomDiscriminatorCode);
             }
 
-            if (model.Journey.Steps.Count > 0)
+            var pathways = _symptomGroupBuilder.GetSymptomGroups(model.Journey.Steps);
+
+            if (pathways.Length > 0)
             {
-                model.SymptomGroup = await GetSymptomGroup(ConvertQuestionIdToPathwayId(model.Journey.Steps.Last().QuestionId));
+                model.SymptomGroup = await GetSymptomGroup(pathways);
             }
 
             model.UserId = Guid.NewGuid();
@@ -92,20 +96,14 @@ namespace NHS111.Web.Presentation.Builders
                 JsonConvert.DeserializeObject<SymptomDiscriminator>(await symptomDiscriminatorResponse.Content.ReadAsStringAsync());
         }
 
-        private static string ConvertQuestionIdToPathwayId(string questionId)
-        {
-            var array = questionId.Split('.');
-            return array.Length > 0 ? array[0] : string.Empty;
-        }
-
-        private async Task<string> GetSymptomGroup(string pathway)
+        private async Task<string> GetSymptomGroup(string pathways)
         {
             RestfulHelper restfulHelper = new RestfulHelper();
 
             var symptomGroupResponse = await
-                restfulHelper.GetResponseAsync(string.Format(_configuration.GetBusinessApiPathwaySymptomGroupUrl(pathway)));
+                restfulHelper.GetResponseAsync(string.Format(_configuration.GetBusinessApiPathwaySymptomGroupUrl(pathways)));
             if (!symptomGroupResponse.IsSuccessStatusCode)
-                throw new Exception(string.Format("A problem occured getting the symptom group for {0}.", pathway));
+                throw new Exception(string.Format("A problem occured getting the symptom group for {0}.", pathways));
 
             return
                 await symptomGroupResponse.Content.ReadAsStringAsync();
