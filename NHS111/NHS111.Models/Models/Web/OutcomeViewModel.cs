@@ -46,6 +46,22 @@ namespace NHS111.Models.Models.Web
             }
         }
 
+        public string DispositionText
+        {
+            get
+            {
+                var reasoningText = string.Empty;
+                if (HasEndpointReasoning)
+                    reasoningText = string.Format("From your answers, {0}", SymptomDiscriminator.ReasoningText);
+
+                var timeFrameText = !string.IsNullOrEmpty(TimeFrameText) ? string.Format(" within {0}", TimeFrameText) : string.Empty;
+
+                var dispositionText = !string.IsNullOrEmpty(OutcomeGroup.Text) ? string.Format("{0} {1}{2}.", !string.IsNullOrEmpty(reasoningText) ? "<br />You should" : "Your answers suggest you should", OutcomeGroup.Text, timeFrameText) : string.Empty;
+
+                return string.Format("{0}{1}", reasoningText, dispositionText);
+            }
+        }
+
         public OutcomeViewModel()
         {
             SurgeryViewModel = new SurgeryViewModel();

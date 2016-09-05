@@ -21,19 +21,7 @@
                 <img src="~/content/img/call_999.png" alt="Call 999" class="emergency-image"/>
             </div>
             <div class="emergency-text">
-                <h2 class="heading-large">Dial 999 </h2>
-                @if (Model.HasEndpointReasoning)
-                {
-                    <div>
-                        @Model.SymptomDiscriminator.ReasoningText
-                    </div>
-                }
-                else
-                {
-                    <div>
-                        Your answers suggest you need to dial 999 immediately and ask for an ambulance.
-                    </div>
-                }
+                @Html.Partial("_OutcomeHeader", Model, new ViewDataDictionary { { "DefaultTitle", "Your answers suggest you need to dial 999 immediately and ask for an ambulance." } })
             </div>
         </div>
     </div>
