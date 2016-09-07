@@ -13,14 +13,8 @@
     Service details
 }
 
-@section OuterSection {
-
-    <div class="sub-header">
-        <div>
-            <h2 style="margin-bottom: 25px;font-size: 1.6em;">Your answers suggest you should go to an Accident and Emergency department within 1 hour</h2>
-        </div>
-    </div>
-
+@section OuterSection{
+    @Html.Partial("_OutcomeHeader", Model, new ViewDataDictionary { { "DefaultTitle", "Your answers suggest you should go to an Accident and Emergency department within 1 hour" } })
 }
 
 @section FeedbackSection {
@@ -109,12 +103,15 @@
 
         var locations = [
             @{ int i = 0; }
-            @foreach (var service in Model.DosCheckCapacitySummaryResult.Success.Services)
+            @if (Model.DosCheckCapacitySummaryResult.Success != null)
             {
+                foreach (var service in Model.DosCheckCapacitySummaryResult.Success.Services)
+                {
 
 
-                @Html.Raw("['" + service.Name + "',OsGridRef.osGridToLatLon(new OsGridRef(" + service.Eastings + ", " + service.Northings + "), LatLon.datum.OSGB36).lat, OsGridRef.osGridToLatLon(new OsGridRef(" + service.Eastings + ", " + service.Northings + "), LatLon.datum.OSGB36).lon, " + i + "],")
-                i++;
+                    @Html.Raw("['" + service.Name + "',OsGridRef.osGridToLatLon(new OsGridRef(" + service.Eastings + ", " + service.Northings + "), LatLon.datum.OSGB36).lat, OsGridRef.osGridToLatLon(new OsGridRef(" + service.Eastings + ", " + service.Northings + "), LatLon.datum.OSGB36).lon, " + i + "],")
+                    i++;
+                }
             }
         ];
     </script>
