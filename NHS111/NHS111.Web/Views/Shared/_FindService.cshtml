@@ -3,17 +3,7 @@
 
     @using (Html.BeginForm("ServiceDetails", "Outcome", FormMethod.Post))
     {
-        @Html.HiddenFor(x => Model.Id)
-        @Html.HiddenFor(x => Model.JourneyJson)
-        @Html.HiddenFor(x => Model.PathwayId)
-        @Html.HiddenFor(x => Model.PathwayNo)
-        @Html.HiddenFor(x => Model.SymptomGroup)
-        @Html.HiddenFor(x => Model.UserInfo.Age)
-        @Html.HiddenFor(x => Model.UserInfo.Gender)
-        @Html.HiddenFor(x => Model.SymptomDiscriminatorCode)
-        @Html.HiddenFor(x => Model.Title)
-        @Html.HiddenFor(x => Model.UserId)
-
+        @Html.Partial("_CommonHiddenFieldsOutcomeViewModel", Model)
         <div class="findservice">
             <h3>@Html.Raw((!ViewData.Keys.Contains("Title") ? "Find a Healthcare provider" : ViewData["Title"]))</h3>
             <div class="section-margin">
