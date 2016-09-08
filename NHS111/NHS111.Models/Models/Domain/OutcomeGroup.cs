@@ -10,6 +10,8 @@ namespace NHS111.Models.Models.Domain {
         [JsonProperty(PropertyName = "text")]
         public string Text { get; set; }
 
+        public string Label { get; set; }
+
         public static OutcomeGroup Call999 = new OutcomeGroup { Id = "Call_999", Text = "Call_999" };
         public static OutcomeGroup AccidentAndEmergency = new OutcomeGroup { Id = "SP_Accident_and_emergency" };
         public static OutcomeGroup HomeCare = new OutcomeGroup { Id = "Home_Care", Text = "Home Care"};
