@@ -77,26 +77,6 @@ namespace NHS111.Web.Presentation.Builders.Tests
                         It.IsAny<List<string>>())).ReturnsAsync(mockCareAdvices);
         }
 
-     
-
-        [Test()]
-        public async void BuildCheckCapacitySummaryRequest_Creates_SymptomGroup_Test()
-        {
-            var expectedSymptomGroup = "12345";
-            var journeyJson = "{'steps':[" +
-                              "{'answer':{'title':'No','titleWithoutSpaces':'No','symptomDiscriminator':'','supportingInfo':'','keywords':'','order':3},'questionTitle':'Test q 1?','questionNo':'Tx1506','questionId':'" + _mockPathwayURL + ".0','jtbs':false}," +
-                              "{'answer':{'title':'No','titleWithoutSpaces':'No','symptomDiscriminator':'','supportingInfo':'','keywords':'','order':3},'questionTitle':'Test q 2?','questionNo':'Tx220054','questionId':'" + _mockPathwayURL + ".100','jtbs':false}" +
-                              "]}";
-
-            MockRestfulHelperWithExpectedUrl(expectedSymptomGroup);
-
-            var symptomGroup = await _dosBuilder.BuildSymptomGroup(journeyJson);
-
-             Assert.AreEqual(int.Parse(expectedSymptomGroup), symptomGroup);
-
-
-        }
-
         [Test]
         public async void FillCheckCapacitySummaryResult_WithDistanceInMetric_ConvertsToMiles() {
             var fakeResponse = new HttpResponseMessage(HttpStatusCode.OK) {
