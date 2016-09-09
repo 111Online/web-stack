@@ -20,6 +20,8 @@ namespace NHS111.Models.Models.Domain {
 
         public static OutcomeGroup AccidentAndEmergency = new OutcomeGroup { Id = "SP_Accident_and_emergency", DefaultTitle = "Your answers suggest you should go to an Accident and Emergency department" };
 
+        public static OutcomeGroup AccidentAndEmergencySexualAssault = new OutcomeGroup { Id = "SP_Accident_and_emergency_sexual_assault", DefaultTitle = "Your answers suggest you should go to an Accident and Emergency department" };
+
         public static OutcomeGroup HomeCare = new OutcomeGroup { Id = "Home_Care", Text = "Home Care"};
 
         public static OutcomeGroup Pharmacy = new OutcomeGroup { Id = "SP_Pharmacy", Text = "Pharmacy", DefaultTitle = "Your answers suggest you should see a pharmacist" };
@@ -32,8 +34,11 @@ namespace NHS111.Models.Models.Domain {
         {
             { Call999.Id, Call999 },
             { AccidentAndEmergency.Id, AccidentAndEmergency },
+            { AccidentAndEmergencySexualAssault.Id, AccidentAndEmergencySexualAssault },
             { HomeCare.Id, HomeCare },
             { Pharmacy.Id, Pharmacy },
+            { GumClinic.Id, GumClinic },
+            { Optician.Id, Optician }
         };
 
         public override bool Equals(object obj) {
