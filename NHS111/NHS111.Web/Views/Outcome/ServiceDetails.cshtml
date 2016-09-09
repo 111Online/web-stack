@@ -61,7 +61,7 @@
                                     @WebUtility.HtmlDecode(selectedService.Address)
                                 </div>
 
-                                <a class="button button-next" href="http://maps.google.com/maps?q=@selectedService.Address">Get Directions</a>
+                                <a class="button button-next" href="http://maps.google.com/maps?q=@selectedService.Name,@selectedService.Address">Get Directions</a>
                             </div>
                         </fieldset>
                     </div>
@@ -89,7 +89,7 @@
                             <div class="service-address">
                                 @WebUtility.HtmlDecode(service.Address)
                             </div>
-                            <a href="http://maps.google.com/maps?q=@service.Address">Get Directions</a>
+                            <a href="http://maps.google.com/maps?q=@service.Name,@service.Address">Get Directions</a>
                         </fieldset>
                     </div>
                 }
