@@ -11,7 +11,7 @@
 <link href="~/Content/css_NhsUK/signposting-outcome-print.css" media="print" rel="stylesheet" type="text/css" />
 
 @section OuterSection{
-    @Html.Partial("_OutcomeHeader", Model, new ViewDataDictionary { { "DefaultTitle", "Your answers suggest you should see an optician within " + Model.TimeFrameText } })
+    @Html.Partial("_OutcomeHeader", Model)
 }
 
 @section FeedbackSection {
@@ -33,7 +33,7 @@
     </ul>
 </div>
 
-@Html.Partial("_FindService", Model, new ViewDataDictionary { { "Title", "Find an optician" }, { "ButtonText", "Find pharmacies" } })
+@Html.Partial("_FindService", Model, new ViewDataDictionary { { "Title", "Find an optician" }, { "ButtonText", "Find opticians" }, { "Label", "opticians" } })
 
 @Html.Partial("_CareAdvice", Model.CareAdvices, new ViewDataDictionary { { "Title", "I know which optician I'm going to.  What can I do in the meantime?" } })
 
