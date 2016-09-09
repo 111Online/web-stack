@@ -5,13 +5,16 @@
     <div class="care-advice">
 
         <h3 class="self-care-title">@Html.Raw((!ViewData.Keys.Contains("Title") ? "What can I do in the meantime?": ViewData["Title"]))</h3>
-        <div class="care-advice-keywords">
-            <ol>
-                @foreach (var careAdvice in Model) {
-                    <li><a href=#Advice_@careAdvice.Id>@careAdvice.Keyword</a></li>
-                }
-            </ol>
-        </div>
+        @if (Model.Count() > 1) {
+            <div class="care-advice-keywords">
+                <ol>
+                    @foreach (var careAdvice in Model)
+                    {
+                        <li><a href=#Advice_@careAdvice.Id>@careAdvice.Keyword</a></li>
+                    }
+                </ol>
+            </div>
+        }
         <div>
 
             @foreach (var careAdvice in Model) {
