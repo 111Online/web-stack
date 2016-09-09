@@ -1,17 +1,18 @@
 ﻿@using NHS111.Models.Models.Web
 @model OutcomeViewModel
+
 @{
-    ViewBag.Title = "See a Pharmacist";
+    ViewBag.Title = "SP_GUM_Clinic";
     Layout = "~/Views/Shared/_LayoutNhsUK.cshtml";
 }
 
-@section Title { See a Pharmacist }
+@section Title { Visit a sexual health clinic }
 <link href="~/Content/css_NhsUK/confirmation.css" media="all" rel="stylesheet" type="text/css" />
 <link href="~/Content/css_NhsUK/signposting-outcome.css" media="all" rel="stylesheet" type="text/css" />
 <link href="~/Content/css_NhsUK/signposting-outcome-print.css" media="print" rel="stylesheet" type="text/css" />
 
 @section OuterSection{
-    @Html.Partial("_OutcomeHeader", Model, new ViewDataDictionary { { "DefaultTitle", "Your answers suggest you should see a pharmacist within " + Model.TimeFrameText } })
+    @Html.Partial("_OutcomeHeader", Model, new ViewDataDictionary { { "DefaultTitle", "Your answers suggest you should visit a sexual health clinic" } })
 }
 
 @section FeedbackSection {
@@ -27,25 +28,19 @@
 
 <div class="care-advice advice-before-going">
     <h3 class="care-advice-section-header">
-        Did you know?
+       If you want to save this information:
     </h3>
-    <p>In emergencies, some NHS pharmacies can supply prescription-only medicines during the out of hours period (without first seeing a doctor).</p>
-    <p>Find out more about <a href="http://www.nhs.uk/NHSEngland/AboutNHSservices/pharmacists/Pages/pharmacistsandchemists.aspx">NHS pharmacies and the full list of services they offer.</a></p>
-    <ul>
-        <li>
-            if you want to take this information with you:
+
             <ul>
                 <li>print this page, or</li>
                 <li>save <a href="@Model.OutcomeDetailLink">this link</a> to get back to this page</li>
             </ul>
-        </li>
-    </ul>
 </div>
 
-@Html.Partial("_FindService", Model, new ViewDataDictionary { { "Title", "Find a pharmacy" }, { "ButtonText", "Find pharmacies" } })
+@Html.Partial("_FindService", Model, new ViewDataDictionary { { "Title", "Find a sexual health clinic" }, { "ButtonText", "Find sexual health clinics" } })
 
 
-@Html.Partial("_CareAdvice", Model.CareAdvices, new ViewDataDictionary { { "Title", "I know which pharmacy I'm going to.  What can I do in the meantime?" } })
+@Html.Partial("_CareAdvice", Model.CareAdvices, new ViewDataDictionary { { "Title", "I know which clinc I'm going to.  What can I do in the meantime?" } })
 
 
 
@@ -59,6 +54,7 @@
         </div>
     }
 }
+
 
 
 
