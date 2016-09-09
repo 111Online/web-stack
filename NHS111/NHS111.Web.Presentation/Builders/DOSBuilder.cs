@@ -50,8 +50,6 @@ namespace NHS111.Web.Presentation.Builders
 
         public async Task<DosCheckCapacitySummaryResult> FillCheckCapacitySummaryResult(DosViewModel dosViewModel)
         {
-            if (!string.IsNullOrEmpty(dosViewModel.JourneyJson)) dosViewModel.SymptomGroup = await BuildSymptomGroup(dosViewModel.JourneyJson);
-        
             var request = BuildRequestMessage(dosViewModel);
             var body = await request.Content.ReadAsStringAsync();
             _logger.Debug(string.Format("DOSBuilder.FillCheckCapacitySummaryResult(): URL: {0} BODY: {1}", _configuration.BusinessDosCheckCapacitySummaryUrl, body));
@@ -134,17 +132,6 @@ namespace NHS111.Web.Presentation.Builders
             return model;
         }
 
-        public async Task<int> BuildSymptomGroup(string journeyJson)
-        {
-            var journey = JsonConvert.DeserializeObject<Journey>(journeyJson);
-            var symptomGroup =
-                await
-                    _restfulHelper.GetAsync(
-                        _configuration.GetBusinessApiPathwaySymptomGroupUrl(string.Join(",",
-                            journey.Steps.Select(s => s.QuestionId.Split('.').First()).Distinct())));
-            return int.Parse(symptomGroup);
-        }
-
         public HttpRequestMessage BuildRequestMessage(DosCase dosCase)
         {
             var dosCheckCapacitySummaryRequest = new DosCheckCapacitySummaryRequest(_configuration.DosUsername, _configuration.DosPassword, dosCase);
@@ -182,7 +169,6 @@ namespace NHS111.Web.Presentation.Builders
         Task<DosCheckCapacitySummaryResult> FillCheckCapacitySummaryResult(DosViewModel dosViewModel);
         Task<DosServicesByClinicalTermResult> FillDosServicesByClinicalTermResult(DosViewModel dosViewModel);
         Task<DosViewModel> FillServiceDetailsBuilder(DosViewModel model);
-        Task<int> BuildSymptomGroup(string journeyJson);
         HttpRequestMessage BuildRequestMessage(DosCase dosCase);
     }
 }
