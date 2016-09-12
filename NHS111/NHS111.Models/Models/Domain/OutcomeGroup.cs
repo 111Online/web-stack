@@ -1,10 +1,12 @@
 ﻿
+using System;
 using System.Collections.Generic;
 
 namespace NHS111.Models.Models.Domain {
     using Newtonsoft.Json;
 
-    public class OutcomeGroup {
+    public class OutcomeGroup : IEquatable<OutcomeGroup>
+    {
 
         [JsonProperty(PropertyName = "id")]
         public string Id { get; set; }
@@ -15,7 +17,6 @@ namespace NHS111.Models.Models.Domain {
         public string Label { get; set; }
 
         public string DefaultTitle { get; set; }
-
         public static OutcomeGroup Call999 = new OutcomeGroup { Id = "Call_999", Text = "Call_999", DefaultTitle = "Your answers suggest you need to dial 999 immediately and ask for an ambulance" };
 
         public static OutcomeGroup AccidentAndEmergency = new OutcomeGroup { Id = "SP_Accident_and_emergency", DefaultTitle = "Your answers suggest you should go to an Accident and Emergency department" };
@@ -30,6 +31,8 @@ namespace NHS111.Models.Models.Domain {
 
         public static OutcomeGroup Optician = new OutcomeGroup { Id = "SP_Optician", Text = "Optician", DefaultTitle = "Your answers suggest you should see an optician" };
 
+        public static OutcomeGroup[] SignpostingOutcomesGroups = new OutcomeGroup[] { AccidentAndEmergency, AccidentAndEmergencySexualAssault, Optician, Pharmacy, GumClinic };
+     
         private static readonly Dictionary<string, OutcomeGroup> OutcomeGroups = new Dictionary<string, OutcomeGroup>()
         {
             { Call999.Id, Call999 },
@@ -46,7 +49,7 @@ namespace NHS111.Models.Models.Domain {
             if (outcomeGroup == null)
                 return false;
 
-            return Text == outcomeGroup.Text;
+            return this.Equals(outcomeGroup);
         }
 
         public bool Equals(OutcomeGroup group) {
