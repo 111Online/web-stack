@@ -80,3 +80,22 @@
     border-left: 4px solid #982426;
     margin-left: 0;
 }
+
+.save-link {
+    clear: both;
+    margin-top: 10px;
+    padding: 5px 20px 20px 20px;
+}
+
+.advice-before-going {
+    margin-bottom: 15px;
+}
+
+.save-link h3 {
+    font-size: 1em;
+}
+
+.save-link .form-control {
+    width: 100%;
+    margin-bottom: 10px;
+}

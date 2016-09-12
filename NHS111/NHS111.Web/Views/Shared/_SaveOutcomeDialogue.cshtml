@@ -1,0 +1,56 @@
+﻿@model NHS111.Models.Models.Web.OutcomeViewModel
+@{
+    string emailSubject = "NHS111 Online saved outcome";
+    string emailBody = "Here's your saved outcome from the NHS 111 online service: \n\r\n\r";
+
+    var uri = new Uri(Request.Url, Model.OutcomeDetailLink);
+}
+
+<div id="saveLink">
+    <hr />
+    <div class="save-link">
+        <h3>Save this page</h3>
+
+        <input class="form-control" id="OutcomeDirectLink" name="OutcomeDirectLink" type="text" value="@uri">
+
+        <a href="" id="copy">Copy to clipboard</a>
+        <a href="mailto:?subject=@emailSubject&body=@(emailBody + uri.AbsoluteUri)" id="email">Email</a>
+    </div>
+</div>
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        $("#saveLink").hide();
+
+        $("#savePageLink").click(function() {
+            $("#saveLink").toggle();
+            return false;
+        });
+
+        function copyToClipboard() {
+            var directLink = document.querySelector("#OutcomeDirectLink");
+            directLink.select();
+
+            try {
+                var successful = document.execCommand('copy');
+                if (!successful)
+                    prompt(directLink.val());
+            } catch (err) {
+                prompt(directLink.val());
+            }
+            return false;
+        };
+
+        $("#OutcomeDirectLink").click(function () {
+            copyToClipboard();
+        });
+
+        $("#copy").click(function () {
+            copyToClipboard();
+        });
+    });
+
+    function prompt(text) {
+        window.prompt("Copy to clipboard: Ctrl+C, Enter", text);
+    }
+</script>
