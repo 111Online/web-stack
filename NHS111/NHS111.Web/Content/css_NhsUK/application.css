@@ -121,11 +121,9 @@ h1, h2, h3, h4, h5, h6, p, blockquote, pre, small, strike, strong, sub, sup, tt,
   font-weight: inherit; }
 
 #content {
-  padding-top: 2rem;
   padding-bottom: 30px; }
   @media (min-width: 769px) {
     #content {
-      padding-top: 1rem;
       padding-bottom: 90px; } }
 
 .column-quarter {
