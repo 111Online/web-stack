@@ -39,11 +39,12 @@
                 <li><a href="@Model.OutcomeDetailLink" id="savePageLink">save this page</a></li>
             </ul>
         </li>
-    </ul></div>
+    </ul>
+    @Html.Partial("_SaveOutcomeDialogue", Model)
+</div>
 
 @Html.Partial("_FindService", Model, new ViewDataDictionary { { "Title", "Find a pharmacy" }, { "ButtonText", "Find pharmacies" }, { "Label", "pharmacies" } })
 
-@Html.Partial("_SaveOutcomeDialogue", Model)
 
 @Html.Partial("_CareAdvice", Model.CareAdvices, new ViewDataDictionary { { "Title", "I know which pharmacy I'm going to.  What can I do in the meantime?" } })
 
