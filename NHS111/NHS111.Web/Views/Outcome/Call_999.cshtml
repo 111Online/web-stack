@@ -21,7 +21,15 @@
                 <img src="~/content/img/call_999.png" alt="Call 999" class="emergency-image"/>
             </div>
             <div class="emergency-text">
-                @Html.Partial("_OutcomeHeader", Model)
+                @{ var outcomeHeader = (!string.IsNullOrEmpty(Model.DispositionText) ? Model.DispositionText : Model.OutcomeGroup.GetDefaultTitle()); }
+                <div class="sub-header">
+                    <div>
+                        <h2>Call 999</h2>
+                    </div>
+                    <div>
+                        <h3 style="margin-bottom: 25px; font-size: 1.0em;">@Html.Raw(outcomeHeader)</h3>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
