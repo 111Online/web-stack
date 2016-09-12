@@ -30,15 +30,15 @@
     <h3 class="care-advice-section-header">
        If you want to save this information:
     </h3>
-
-            <ul>
-                <li>print this page, or</li>
-                <li>save <a href="@Model.OutcomeDetailLink">this link</a> to get back to this page</li>
-            </ul>
+    <ul>
+        <li>print this page, or</li>
+        <li><a href="@Model.OutcomeDetailLink" id="savePageLink">save this page</a></li>
+    </ul>
 </div>
 
 @Html.Partial("_FindService", Model, new ViewDataDictionary { { "Title", "Find a sexual health clinic" }, { "ButtonText", "Find sexual health clinics" }, { "Label", "sexual health clinics" } })
 
+@Html.Partial("_SaveOutcomeDialogue", Model)
 
 @Html.Partial("_CareAdvice", Model.CareAdvices, new ViewDataDictionary { { "Title", "I know which clinc I'm going to.  What can I do in the meantime?" } })
 

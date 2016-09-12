@@ -717,6 +717,8 @@
     <Content Include="Views\Shared\_FindService.cshtml" />
     <Content Include="Views\Shared\_OutcomeHeader.cshtml" />
     <Content Include="Views\Outcome\SP_Pharmacy.cshtml" />
+    <Content Include="Views\Shared\_SaveOutcomeLink.cshtml" />
+    <Content Include="Views\Shared\_SaveOutcomeDialogue.cshtml" />
     <Content Include="Views\Outcome\SP_Optician.cshtml" />
     <Content Include="Views\Outcome\SP_GUM_Clinic.cshtml" />
     <Content Include="Views\Outcome\SP_Accident_and_emergency_sexual_assault.cshtml" />

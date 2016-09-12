@@ -7,6 +7,7 @@ namespace NHS111.Utils.Helpers {
     using System.Net.Http;
     using System.Text;
     using System.Threading.Tasks;
+    using Newtonsoft.Json;
 
     public class RestfulHelper : IRestfulHelper {
 
@@ -40,8 +41,9 @@ namespace NHS111.Utils.Helpers {
             }
             catch (WebException e) {
                 using (var stream = new StreamReader(e.Response.GetResponseStream())) {
-                    throw new WebException(
-                        string.Format("There was a problem requesting '{0}'; {1}", url, stream.ReadToEnd()), e);
+                    var obj = JsonConvert.DeserializeObject(stream.ReadToEnd());
+                    var formatted = JsonConvert.SerializeObject(obj, Formatting.Indented);
+                    throw new WebException(string.Format("There was a problem requesting '{0}'; {1}", url, formatted), e);
                 }
             }
         }
@@ -54,8 +56,9 @@ namespace NHS111.Utils.Helpers {
             }
             catch (WebException e) {
                 using (var stream = new StreamReader(e.Response.GetResponseStream())) {
-                    throw new WebException(
-                        string.Format("There was a problem requesting '{0}'; {1}", url, stream.ReadToEnd()), e);
+                    var obj = JsonConvert.DeserializeObject(stream.ReadToEnd());
+                    var formatted = JsonConvert.SerializeObject(obj, Formatting.Indented);
+                    throw new WebException(string.Format("There was a problem requesting '{0}'; {1}", url, formatted), e);
                 }
             }
         }
