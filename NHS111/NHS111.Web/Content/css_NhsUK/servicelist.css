@@ -87,6 +87,28 @@
     background-color: #006647;
 }
 
+@media (max-width: 640px) {
+    .button-next {
+         background-position: 98% 60%;
+    }
+    .button {
+            padding: 0 2rem;
+    }
+
+    .sub-header {
+        padding-bottom: 10px;
+    }
+
+    .sub-header h2 {
+        padding-top: 30px;
+    }
+    .service-list-header h2 {
+        font-size: 1.7em;
+        line-height: 3rem;
+    }
+
+}
+
 @media (min-width: 641px) {
     .results-list {
         width: 35%;
