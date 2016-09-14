@@ -1,4 +1,4 @@
-@using NHS111.Models.Models.Domain
+﻿@using NHS111.Models.Models.Domain
 @using NHS111.Models.Models.Web
 @using NHS111.Utils.DispositionLogics
 @model OutcomeViewModel
@@ -6,7 +6,7 @@
     Layout = "~/Views/Shared/_LayoutNhsUK.cshtml";
 
 }
-@section Title { Go to Accident &amp; Emergency }
+@section Title { Get emergency dental treatment }
 <link href="~/Content/css_NhsUK/confirmation.css" media="all" rel="stylesheet" type="text/css" />
 <link href="~/Content/css_NhsUK/signposting-outcome.css" media="all" rel="stylesheet" type="text/css" />
 <link href="~/Content/css_NhsUK/signposting-outcome-print.css" media="print" rel="stylesheet" type="text/css" />
@@ -29,28 +29,34 @@
 
 <div class="care-advice advice-before-going">
     <h3 class="care-advice-section-header">
-        Advice for going to A&amp;E
+        Advice for getting emergency dental treatment
     </h3>
 
     <ul>
         <li>do not drive yourself, get someone else to take you</li>
         <li>take all your current medicines with you</li>
         <li>
-            if you want to take this information to A&E:
+            if you want to take this information with you:
             <ul>
                 <li>print this page, or</li>
                 <li><a href="javascript:void(0)" id="savePageLink">save this page</a></li>
             </ul>
         </li>
 
-</ul>
+    </ul>
+
+    <h3 class="care-advice-section-header">
+        Did you know?
+    </h3>
+    <p>There are emergency dental treatment clinics in some areas where you can get an appointment if you do not have a dentist?</p>
+    <p>Also, many dentists will see you in an emergency even if you aren’t registered with them.</p>
     @Html.Partial("_SaveOutcomeDialogue", Model)
 </div>
 
-@Html.Partial("_FindService", Model, new ViewDataDictionary { { "Title", "Find an A&amp;E department" }, { "ButtonText", "Find A&amp;E departments" }, { "Label", "A&amp;E departments" } })
+@Html.Partial("_FindService", Model, new ViewDataDictionary { { "Title", "Find emergency dental treatment" }, { "ButtonText", "Find emergency dental treatment" }, { "Label", "emergency dental treatment centres" } })
 
 
-@Html.Partial("_CareAdvice", Model.CareAdvices, new ViewDataDictionary { { "Title", "I know which A&amp;E I'm going to.  What can I do in the meantime?" } })
+@Html.Partial("_CareAdvice", Model.CareAdvices, new ViewDataDictionary { { "Title", "I know where to get emergency dental treatment.  What can I do in the meantime?" } })
 
 
 
