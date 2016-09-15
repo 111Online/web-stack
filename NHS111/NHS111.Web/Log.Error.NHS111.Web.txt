@@ -1556,3 +1556,657 @@ A public action method 'Search' was not found on controller 'NHS111.Web.Controll
    at System.Web.HttpApplication.ExecuteStep(IExecutionStep step, Boolean& completedSynchronously)
 Exception.Data:
 
+2016-09-09 15:08:00,999 [22] ERROR NHS111.Utils.Logging.Log4Net - System.Net.WebException occured executing 'PW1146FemaleChild/6/Eye, Sticky, Watery/Question/Direct'
+There was a problem requesting 'http://localhost:9001/pathway/PW1146FemaleChild'; {"Message":"An error has occurred.","ExceptionMessage":"There was a problem requesting 'http://localhost:9000/pathways/PW1146FemaleChild'; {\"Message\":\"An error has occurred.\",\"ExceptionMessage\":\"One or more errors occurred.\",\"ExceptionType\":\"System.AggregateException\",\"StackTrace\":\"   at System.Threading.Tasks.Task`1.GetResultCore(Boolean waitCompletionNotification)\\r\\n   at Neo4jClient.GraphClient.<>c__84`1.<PrepareCypherRequest>b__84_1(Task`1 response) in D:\\\\temp\\\\tmp5EFC\\\\Neo4jClient\\\\GraphClient.cs:line 943\\r\\n   at System.Threading.Tasks.ContinuationResultTaskFromResultTask`2.InnerInvoke()\\r\\n   at System.Threading.Tasks.Task.Execute()\\r\\n--- End of stack trace from previous location where exception was thrown ---\\r\\n   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)\\r\\n   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)\\r\\n   at System.Runtime.CompilerServices.ConfiguredTaskAwaitable`1.ConfiguredTaskAwaiter.GetResult()\\r\\n   at Neo4jClient.GraphClient.<Neo4jClient-IRawGraphClient-ExecuteGetCypherResultsAsync>d__86`1.MoveNext() in D:\\\\temp\\\\tmp5EFC\\\\Neo4jClient\\\\GraphClient.cs:line 1015\\r\\n--- End of stack trace from previous location where exception was thrown ---\\r\\n   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)\\r\\n   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)\\r\\n   at System.Runtime.CompilerServices.TaskAwaiter`1.GetResult()\\r\\n   at NHS111.Utils.Extensions.TaskExtension.<FirstOrDefault>d__6`1.MoveNext() in c:\\\\DASProjects\\\\Development\\\\nhs111-dotnet-beta\\\\NHS111\\\\NHS111.Utils\\\\Extensions\\\\TaskExtension.cs:line 23\\r\\n--- End of stack trace from previous location where exception was thrown ---\\r\\n   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)\\r\\n   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)\\r\\n   at System.Runtime.CompilerServices.TaskAwaiter`1.GetResult()\\r\\n   at NHS111.Domain.Repository.PathwayRepository.<GetPathway>d__0.MoveNext() in c:\\\\DASProjects\\\\Development\\\\nhs111-dotnet-beta\\\\NHS111\\\\NHS111.Domain\\\\Repository\\\\PathwayRepository .cs:line 36\\r\\n--- End of stack trace from previous location where exception was thrown ---\\r\\n   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)\\r\\n   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)\\r\\n   at System.Runtime.CompilerServices.TaskAwaiter`1.GetResult()\\r\\n   at NHS111.Utils.Extensions.TaskExtension.<AsJson>d__0`1.MoveNext() in c:\\\\DASProjects\\\\Development\\\\nhs111-dotnet-beta\\\\NHS111\\\\NHS111.Utils\\\\Extensions\\\\TaskExtension.cs:line 13\\r\\n--- End of stack trace from previous location where exception was thrown ---\\r\\n   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)\\r\\n   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)\\r\\n   at System.Runtime.CompilerServices.TaskAwaiter`1.GetResult()\\r\\n   at NHS111.Utils.Extensions.TaskExtension.<AsHttpResponse>d__3.MoveNext() in c:\\\\DASProjects\\\\Development\\\\nhs111-dotnet-beta\\\\NHS111\\\\NHS111.Utils\\\\Extensions\\\\TaskExtension.cs:line 18\\r\\n--- End of stack trace from previous location where exception was thrown ---\\r\\n   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)\\r\\n   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)\\r\\n   at System.Runtime.CompilerServices.TaskAwaiter`1.GetResult()\\r\\n   at NHS111.Domain.Api.Controllers.PathwayController.<GetPathway>d__3.MoveNext() in c:\\\\DASProjects\\\\Development\\\\nhs111-dotnet-beta\\\\NHS111\\\\NHS111.Domain.Api\\\\Controllers\\\\PathwayController.cs:line 34\\r\\n--- End of stack trace from previous location where exception was thrown ---\\r\\n   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)\\r\\n   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)\\r\\n   at System.Runtime.CompilerServices.TaskAwaiter`1.GetResult()\\r\\n   at System.Threading.Tasks.TaskHelpersExtensions.<CastToObject>d__3`1.MoveNext()\\r\\n--- End of stack trace from previous location where exception was thrown ---\\r\\n   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)\\r\\n   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)\\r\\n   at System.Runtime.CompilerServices.TaskAwaiter`1.GetResult()\\r\\n   at System.Web.Http.Controllers.ApiControllerActionInvoker.<InvokeActionAsyncCore>d__0.MoveNext()\\r\\n--- End of stack trace from previous location where exception was thrown ---\\r\\n   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)\\r\\n   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)\\r\\n   at System.Runtime.CompilerServices.TaskAwaiter`1.GetResult()\\r\\n   at System.Web.Http.Controllers.ActionFilterResult.<ExecuteAsync>d__2.MoveNext()\\r\\n--- End of stack trace from previous location where exception was thrown ---\\r\\n   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)\\r\\n   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)\\r\\n   at System.Runtime.CompilerServices.TaskAwaiter`1.GetResult()\\r\\n   at System.Web.Http.Controllers.ExceptionFilterResult.<ExecuteAsync>d__0.MoveNext()\\r\\n--- End of stack trace from previous location where exception was thrown ---\\r\\n   at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()\\r\\n   at System.Web.Http.Controllers.ExceptionFilterResult.<ExecuteAsync>d__0.MoveNext()\\r\\n--- End of stack trace from previous location where exception was thrown ---\\r\\n   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)\\r\\n   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)\\r\\n   at System.Runtime.CompilerServices.TaskAwaiter`1.GetResult()\\r\\n   at System.Web.Http.Dispatcher.HttpControllerDispatcher.<SendAsync>d__1.MoveNext()\",\"InnerException\":{\"Message\":\"An error has occurred.\",\"ExceptionMessage\":\"One or more errors occurred.\",\"ExceptionType\":\"System.AggregateException\",\"StackTrace\":\"   at System.Threading.Tasks.Task`1.GetResultCore(Boolean waitCompletionNotification)\\r\\n   at Neo4jClient.Execution.ResponseBuilder.<>c__DisplayClass21_0.<ExecuteAsync>b__0(Task`1 requestTask) in D:\\\\temp\\\\tmp5EFC\\\\Neo4jClient\\\\Execution\\\\ResponseBuilder.cs:line 124\\r\\n   at System.Threading.Tasks.ContinuationResultTaskFromResultTask`2.InnerInvoke()\\r\\n   at System.Threading.Tasks.Task.Execute()\",\"InnerException\":{\"Message\":\"An error has occurred.\",\"ExceptionMessage\":\"An error occurred while sending the request.\",\"ExceptionType\":\"System.Net.Http.HttpRequestException\",\"StackTrace\":null,\"InnerException\":{\"Message\":\"An error has occurred.\",\"ExceptionMessage\":\"Unable to connect to the remote server\",\"ExceptionType\":\"System.Net.WebException\",\"StackTrace\":\"   at System.Net.HttpWebRequest.EndGetRequestStream(IAsyncResult asyncResult, TransportContext& context)\\r\\n   at System.Net.Http.HttpClientHandler.GetRequestStreamCallback(IAsyncResult ar)\",\"InnerException\":{\"Message\":\"An error has occurred.\",\"ExceptionMessage\":\"No connection could be made because the target machine actively refused it 40.118.108.5:7476\",\"ExceptionType\":\"System.Net.Sockets.SocketException\",\"StackTrace\":\"   at System.Net.Sockets.Socket.EndConnect(IAsyncResult asyncResult)\\r\\n   at System.Net.ServicePoint.ConnectSocketInternal(Boolean connectFailure, Socket s4, Socket s6, Socket& socket, IPAddress& address, ConnectSocketState state, IAsyncResult asyncResult, Exception& exception)\"}}}}}","ExceptionType":"System.Net.WebException","StackTrace":"   at NHS111.Utils.Helpers.RestfulHelper.<GetAsync>d__0.MoveNext() in c:\\DASProjects\\Development\\nhs111-dotnet-beta\\NHS111\\NHS111.Utils\\Helpers\\RestfulHelper.cs:line 43\r\n--- End of stack trace from previous location where exception was thrown ---\r\n   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)\r\n   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)\r\n   at System.Runtime.CompilerServices.TaskAwaiter`1.GetResult()\r\n   at NHS111.Business.Services.PathwayService.<GetPathway>d__3.MoveNext() in c:\\DASProjects\\Development\\nhs111-dotnet-beta\\NHS111\\NHS111.Business\\Services\\PathwayService.cs:line 26\r\n--- End of stack trace from previous location where exception was thrown ---\r\n   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)\r\n   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)\r\n   at System.Runtime.CompilerServices.TaskAwaiter`1.GetResult()\r\n   at NHS111.Utils.Extensions.TaskExtension.<AsHttpResponse>d__3.MoveNext() in c:\\DASProjects\\Development\\nhs111-dotnet-beta\\NHS111\\NHS111.Utils\\Extensions\\TaskExtension.cs:line 18\r\n--- End of stack trace from previous location where exception was thrown ---\r\n   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)\r\n   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)\r\n   at System.Runtime.CompilerServices.TaskAwaiter`1.GetResult()\r\n   at NHS111.Business.Api.Controllers.PathwayController.<Get>d__0.MoveNext() in c:\\DASProjects\\Development\\nhs111-dotnet-beta\\NHS111\\NHS111.Business.Api\\Controllers\\PathwayController.cs:line 26\r\n--- End of stack trace from previous location where exception was thrown ---\r\n   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)\r\n   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)\r\n   at System.Runtime.CompilerServices.TaskAwaiter`1.GetResult()\r\n   at System.Threading.Tasks.TaskHelpersExtensions.<CastToObject>d__3`1.MoveNext()\r\n--- End of stack trace from previous location where exception was thrown ---\r\n   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)\r\n   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)\r\n   at System.Runtime.CompilerServices.TaskAwaiter`1.GetResult()\r\n   at System.Web.Http.Controllers.ApiControllerActionInvoker.<InvokeActionAsyncCore>d__0.MoveNext()\r\n--- End of stack trace from previous location where exception was thrown ---\r\n   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)\r\n   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)\r\n   at System.Runtime.CompilerServices.TaskAwaiter`1.GetResult()\r\n   at System.Web.Http.Controllers.ActionFilterResult.<ExecuteAsync>d__2.MoveNext()\r\n--- End of stack trace from previous location where exception was thrown ---\r\n   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)\r\n   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)\r\n   at System.Runtime.CompilerServices.TaskAwaiter`1.GetResult()\r\n   at System.Web.Http.Controllers.ExceptionFilterResult.<ExecuteAsync>d__0.MoveNext()\r\n--- End of stack trace from previous location where exception was thrown ---\r\n   at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()\r\n   at System.Web.Http.Controllers.ExceptionFilterResult.<ExecuteAsync>d__0.MoveNext()\r\n--- End of stack trace from previous location where exception was thrown ---\r\n   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)\r\n   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)\r\n   at System.Runtime.CompilerServices.TaskAwaiter`1.GetResult()\r\n   at System.Web.Http.Dispatcher.HttpControllerDispatcher.<SendAsync>d__1.MoveNext()","InnerException":{"Message":"An error has occurred.","ExceptionMessage":"The remote server returned an error: (500) Internal Server Error.","ExceptionType":"System.Net.WebException","StackTrace":"   at System.Net.HttpWebRequest.EndGetResponse(IAsyncResult asyncResult)\r\n   at System.Net.WebClient.GetWebResponse(WebRequest request, IAsyncResult result)\r\n   at System.Net.WebClient.DownloadBitsResponseCallback(IAsyncResult result)\r\n--- End of stack trace from previous location where exception was thrown ---\r\n   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)\r\n   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)\r\n   at System.Runtime.CompilerServices.TaskAwaiter`1.GetResult()\r\n   at NHS111.Utils.Helpers.RestfulHelper.<GetAsync>d__0.MoveNext() in c:\\DASProjects\\Development\\nhs111-dotnet-beta\\NHS111\\NHS111.Utils\\Helpers\\RestfulHelper.cs:line 39"}}
+   at NHS111.Utils.Helpers.RestfulHelper.<GetAsync>d__0.MoveNext() in c:\DASProjects\Development\nhs111-dotnet-beta\NHS111\NHS111.Utils\Helpers\RestfulHelper.cs:line 43
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter`1.GetResult()
+   at NHS111.Web.Controllers.QuestionController.<DeriveJourneyView>d__26.MoveNext() in c:\DASProjects\Development\nhs111-dotnet-beta\NHS111\NHS111.Web\Controllers\QuestionController.cs:line 155
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter`1.GetResult()
+   at NHS111.Web.Controllers.QuestionController.<Direct>d__1a.MoveNext() in c:\DASProjects\Development\nhs111-dotnet-beta\NHS111\NHS111.Web\Controllers\QuestionController.cs:line 129
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at lambda_method(Closure , Task )
+   at System.Threading.Tasks.TaskHelpersExtensions.ThrowIfFaulted(Task task)
+   at System.Web.Mvc.Async.TaskAsyncActionDescriptor.EndExecute(IAsyncResult asyncResult)
+   at System.Web.Mvc.Async.AsyncControllerActionInvoker.<>c__DisplayClass34.<BeginInvokeAsynchronousActionMethod>b__33(IAsyncResult asyncResult)
+   at System.Web.Mvc.Async.AsyncResultWrapper.WrappedAsyncResult`1.CallEndDelegate(IAsyncResult asyncResult)
+   at System.Web.Mvc.Async.AsyncResultWrapper.WrappedAsyncResultBase`1.End()
+   at System.Web.Mvc.Async.AsyncResultWrapper.End[TResult](IAsyncResult asyncResult, Object tag)
+   at System.Web.Mvc.Async.AsyncControllerActionInvoker.EndInvokeActionMethod(IAsyncResult asyncResult)
+   at System.Web.Mvc.Async.AsyncControllerActionInvoker.AsyncInvocationWithFilters.<InvokeActionMethodFilterAsynchronouslyRecursive>b__3c()
+   at System.Web.Mvc.Async.AsyncControllerActionInvoker.AsyncInvocationWithFilters.<>c__DisplayClass45.<InvokeActionMethodFilterAsynchronouslyRecursive>b__3e()
+   at System.Web.Mvc.Async.AsyncControllerActionInvoker.<>c__DisplayClass30.<BeginInvokeActionMethodWithFilters>b__2f(IAsyncResult asyncResult)
+   at System.Web.Mvc.Async.AsyncResultWrapper.WrappedAsyncResult`1.CallEndDelegate(IAsyncResult asyncResult)
+   at System.Web.Mvc.Async.AsyncResultWrapper.WrappedAsyncResultBase`1.End()
+   at System.Web.Mvc.Async.AsyncResultWrapper.End[TResult](IAsyncResult asyncResult, Object tag)
+   at System.Web.Mvc.Async.AsyncControllerActionInvoker.EndInvokeActionMethodWithFilters(IAsyncResult asyncResult)
+   at System.Web.Mvc.Async.AsyncControllerActionInvoker.<>c__DisplayClass1e.<>c__DisplayClass28.<BeginInvokeAction>b__19()
+   at System.Web.Mvc.Async.AsyncControllerActionInvoker.<>c__DisplayClass1e.<BeginInvokeAction>b__1b(IAsyncResult asyncResult)
+Exception.Data:
+
+2016-09-09 15:18:46,529 [76] ERROR NHS111.Utils.Logging.Log4Net - System.NullReferenceException occured executing 'PW1146FemaleChild/6/Eye, Sticky, Watery/Question/Direct'
+Object reference not set to an instance of an object.
+   at ASP._Page_Views_Question_Question_cshtml.WriteDirectLink(JourneyViewModel model) in c:\DASProjects\Development\nhs111-dotnet-beta\NHS111\NHS111.Web\Views\Question\Question.cshtml:line 31
+   at ASP._Page_Views_Question_Question_cshtml.Execute() in c:\DASProjects\Development\nhs111-dotnet-beta\NHS111\NHS111.Web\Views\Question\Question.cshtml:line 53
+   at System.Web.WebPages.WebPageBase.ExecutePageHierarchy()
+   at System.Web.Mvc.WebViewPage.ExecutePageHierarchy()
+   at System.Web.WebPages.StartPage.RunPage()
+   at System.Web.WebPages.StartPage.ExecutePageHierarchy()
+   at System.Web.WebPages.WebPageBase.ExecutePageHierarchy(WebPageContext pageContext, TextWriter writer, WebPageRenderingBase startPage)
+   at System.Web.Mvc.RazorView.RenderView(ViewContext viewContext, TextWriter writer, Object instance)
+   at System.Web.Mvc.BuildManagerCompiledView.Render(ViewContext viewContext, TextWriter writer)
+   at System.Web.Mvc.ViewResultBase.ExecuteResult(ControllerContext context)
+   at System.Web.Mvc.ControllerActionInvoker.InvokeActionResult(ControllerContext controllerContext, ActionResult actionResult)
+   at System.Web.Mvc.ControllerActionInvoker.InvokeActionResultFilterRecursive(IList`1 filters, Int32 filterIndex, ResultExecutingContext preContext, ControllerContext controllerContext, ActionResult actionResult)
+   at System.Web.Mvc.ControllerActionInvoker.InvokeActionResultFilterRecursive(IList`1 filters, Int32 filterIndex, ResultExecutingContext preContext, ControllerContext controllerContext, ActionResult actionResult)
+   at System.Web.Mvc.ControllerActionInvoker.InvokeActionResultWithFilters(ControllerContext controllerContext, IList`1 filters, ActionResult actionResult)
+   at System.Web.Mvc.Async.AsyncControllerActionInvoker.<>c__DisplayClass1e.<>c__DisplayClass28.<BeginInvokeAction>b__19()
+   at System.Web.Mvc.Async.AsyncControllerActionInvoker.<>c__DisplayClass1e.<BeginInvokeAction>b__1b(IAsyncResult asyncResult)
+Exception.Data:
+
+2016-09-09 15:18:49,955 [69] ERROR NHS111.Utils.Logging.Log4Net - System.NullReferenceException occured executing 'PW1146FemaleChild/6/Eye, Sticky, Watery/Question/Direct'
+Object reference not set to an instance of an object.
+   at ASP._Page_Views_Question_Question_cshtml.WriteDirectLink(JourneyViewModel model) in c:\DASProjects\Development\nhs111-dotnet-beta\NHS111\NHS111.Web\Views\Question\Question.cshtml:line 31
+   at ASP._Page_Views_Question_Question_cshtml.Execute() in c:\DASProjects\Development\nhs111-dotnet-beta\NHS111\NHS111.Web\Views\Question\Question.cshtml:line 53
+   at System.Web.WebPages.WebPageBase.ExecutePageHierarchy()
+   at System.Web.Mvc.WebViewPage.ExecutePageHierarchy()
+   at System.Web.WebPages.StartPage.RunPage()
+   at System.Web.WebPages.StartPage.ExecutePageHierarchy()
+   at System.Web.WebPages.WebPageBase.ExecutePageHierarchy(WebPageContext pageContext, TextWriter writer, WebPageRenderingBase startPage)
+   at System.Web.Mvc.RazorView.RenderView(ViewContext viewContext, TextWriter writer, Object instance)
+   at System.Web.Mvc.BuildManagerCompiledView.Render(ViewContext viewContext, TextWriter writer)
+   at System.Web.Mvc.ViewResultBase.ExecuteResult(ControllerContext context)
+   at System.Web.Mvc.ControllerActionInvoker.InvokeActionResult(ControllerContext controllerContext, ActionResult actionResult)
+   at System.Web.Mvc.ControllerActionInvoker.InvokeActionResultFilterRecursive(IList`1 filters, Int32 filterIndex, ResultExecutingContext preContext, ControllerContext controllerContext, ActionResult actionResult)
+   at System.Web.Mvc.ControllerActionInvoker.InvokeActionResultFilterRecursive(IList`1 filters, Int32 filterIndex, ResultExecutingContext preContext, ControllerContext controllerContext, ActionResult actionResult)
+   at System.Web.Mvc.ControllerActionInvoker.InvokeActionResultWithFilters(ControllerContext controllerContext, IList`1 filters, ActionResult actionResult)
+   at System.Web.Mvc.Async.AsyncControllerActionInvoker.<>c__DisplayClass1e.<>c__DisplayClass28.<BeginInvokeAction>b__19()
+   at System.Web.Mvc.Async.AsyncControllerActionInvoker.<>c__DisplayClass1e.<BeginInvokeAction>b__1b(IAsyncResult asyncResult)
+Exception.Data:
+
+2016-09-09 15:18:55,355 [75] ERROR NHS111.Utils.Logging.Log4Net - System.NullReferenceException occured executing 'PW1146FemaleChild/6/Eye, Sticky, Watery/Question/Direct'
+Object reference not set to an instance of an object.
+   at ASP._Page_Views_Question_Question_cshtml.WriteDirectLink(JourneyViewModel model) in c:\DASProjects\Development\nhs111-dotnet-beta\NHS111\NHS111.Web\Views\Question\Question.cshtml:line 31
+   at ASP._Page_Views_Question_Question_cshtml.Execute() in c:\DASProjects\Development\nhs111-dotnet-beta\NHS111\NHS111.Web\Views\Question\Question.cshtml:line 53
+   at System.Web.WebPages.WebPageBase.ExecutePageHierarchy()
+   at System.Web.Mvc.WebViewPage.ExecutePageHierarchy()
+   at System.Web.WebPages.StartPage.RunPage()
+   at System.Web.WebPages.StartPage.ExecutePageHierarchy()
+   at System.Web.WebPages.WebPageBase.ExecutePageHierarchy(WebPageContext pageContext, TextWriter writer, WebPageRenderingBase startPage)
+   at System.Web.Mvc.RazorView.RenderView(ViewContext viewContext, TextWriter writer, Object instance)
+   at System.Web.Mvc.BuildManagerCompiledView.Render(ViewContext viewContext, TextWriter writer)
+   at System.Web.Mvc.ViewResultBase.ExecuteResult(ControllerContext context)
+   at System.Web.Mvc.ControllerActionInvoker.InvokeActionResult(ControllerContext controllerContext, ActionResult actionResult)
+   at System.Web.Mvc.ControllerActionInvoker.InvokeActionResultFilterRecursive(IList`1 filters, Int32 filterIndex, ResultExecutingContext preContext, ControllerContext controllerContext, ActionResult actionResult)
+   at System.Web.Mvc.ControllerActionInvoker.InvokeActionResultFilterRecursive(IList`1 filters, Int32 filterIndex, ResultExecutingContext preContext, ControllerContext controllerContext, ActionResult actionResult)
+   at System.Web.Mvc.ControllerActionInvoker.InvokeActionResultWithFilters(ControllerContext controllerContext, IList`1 filters, ActionResult actionResult)
+   at System.Web.Mvc.Async.AsyncControllerActionInvoker.<>c__DisplayClass1e.<>c__DisplayClass28.<BeginInvokeAction>b__19()
+   at System.Web.Mvc.Async.AsyncControllerActionInvoker.<>c__DisplayClass1e.<BeginInvokeAction>b__1b(IAsyncResult asyncResult)
+Exception.Data:
+
+2016-09-09 15:29:02,261 [16] ERROR NHS111.Utils.Logging.Log4Net - System.Web.HttpException occured executing ''
+A public action method 'ServiceDetails' was not found on controller 'NHS111.Web.Controllers.OutcomeController'.
+   at System.Web.Mvc.Controller.HandleUnknownAction(String actionName)
+   at System.Web.Mvc.Controller.<BeginExecuteCore>b__1d(IAsyncResult asyncResult, ExecuteCoreState innerState)
+   at System.Web.Mvc.Async.AsyncResultWrapper.WrappedAsyncVoid`1.CallEndDelegate(IAsyncResult asyncResult)
+   at System.Web.Mvc.Async.AsyncResultWrapper.WrappedAsyncResultBase`1.End()
+   at System.Web.Mvc.Async.AsyncResultWrapper.End[TResult](IAsyncResult asyncResult, Object tag)
+   at System.Web.Mvc.Async.AsyncResultWrapper.End(IAsyncResult asyncResult, Object tag)
+   at System.Web.Mvc.Controller.EndExecuteCore(IAsyncResult asyncResult)
+   at System.Web.Mvc.Controller.<BeginExecute>b__15(IAsyncResult asyncResult, Controller controller)
+   at System.Web.Mvc.Async.AsyncResultWrapper.WrappedAsyncVoid`1.CallEndDelegate(IAsyncResult asyncResult)
+   at System.Web.Mvc.Async.AsyncResultWrapper.WrappedAsyncResultBase`1.End()
+   at System.Web.Mvc.Async.AsyncResultWrapper.End[TResult](IAsyncResult asyncResult, Object tag)
+   at System.Web.Mvc.Async.AsyncResultWrapper.End(IAsyncResult asyncResult, Object tag)
+   at System.Web.Mvc.Controller.EndExecute(IAsyncResult asyncResult)
+   at System.Web.Mvc.Controller.System.Web.Mvc.Async.IAsyncController.EndExecute(IAsyncResult asyncResult)
+   at System.Web.Mvc.MvcHandler.<BeginProcessRequest>b__4(IAsyncResult asyncResult, ProcessRequestState innerState)
+   at System.Web.Mvc.Async.AsyncResultWrapper.WrappedAsyncVoid`1.CallEndDelegate(IAsyncResult asyncResult)
+   at System.Web.Mvc.Async.AsyncResultWrapper.WrappedAsyncResultBase`1.End()
+   at System.Web.Mvc.Async.AsyncResultWrapper.End[TResult](IAsyncResult asyncResult, Object tag)
+   at System.Web.Mvc.Async.AsyncResultWrapper.End(IAsyncResult asyncResult, Object tag)
+   at System.Web.Mvc.MvcHandler.EndProcessRequest(IAsyncResult asyncResult)
+   at System.Web.Mvc.MvcHandler.System.Web.IHttpAsyncHandler.EndProcessRequest(IAsyncResult result)
+   at System.Web.HttpApplication.CallHandlerExecutionStep.System.Web.HttpApplication.IExecutionStep.Execute()
+   at System.Web.HttpApplication.ExecuteStep(IExecutionStep step, Boolean& completedSynchronously)
+Exception.Data:
+
+2016-09-09 15:30:23,237 [8] ERROR NHS111.Utils.Logging.Log4Net - System.FormatException occured executing 'Outcome/ServiceDetails'
+Input string was not in a correct format.
+   at System.Number.StringToNumber(String str, NumberStyles options, NumberBuffer& number, NumberFormatInfo info, Boolean parseDecimal)
+   at System.Number.ParseInt32(String s, NumberStyles style, NumberFormatInfo info)
+   at NHS111.Web.Presentation.Builders.DOSBuilder.<BuildSymptomGroup>d__23.MoveNext() in c:\DASProjects\Development\nhs111-dotnet-beta\NHS111\NHS111.Web.Presentation\Builders\DOSBuilder.cs:line 145
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter`1.GetResult()
+   at NHS111.Web.Presentation.Builders.DOSBuilder.<FillCheckCapacitySummaryResult>d__4.MoveNext() in c:\DASProjects\Development\nhs111-dotnet-beta\NHS111\NHS111.Web.Presentation\Builders\DOSBuilder.cs:line 53
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter`1.GetResult()
+   at NHS111.Web.Controllers.OutcomeController.<ServiceDetails>d__a.MoveNext() in c:\DASProjects\Development\nhs111-dotnet-beta\NHS111\NHS111.Web\Controllers\OutcomeController.cs:line 70
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at lambda_method(Closure , Task )
+   at System.Threading.Tasks.TaskHelpersExtensions.ThrowIfFaulted(Task task)
+   at System.Web.Mvc.Async.TaskAsyncActionDescriptor.EndExecute(IAsyncResult asyncResult)
+   at System.Web.Mvc.Async.AsyncControllerActionInvoker.<>c__DisplayClass34.<BeginInvokeAsynchronousActionMethod>b__33(IAsyncResult asyncResult)
+   at System.Web.Mvc.Async.AsyncResultWrapper.WrappedAsyncResult`1.CallEndDelegate(IAsyncResult asyncResult)
+   at System.Web.Mvc.Async.AsyncResultWrapper.WrappedAsyncResultBase`1.End()
+   at System.Web.Mvc.Async.AsyncResultWrapper.End[TResult](IAsyncResult asyncResult, Object tag)
+   at System.Web.Mvc.Async.AsyncControllerActionInvoker.EndInvokeActionMethod(IAsyncResult asyncResult)
+   at System.Web.Mvc.Async.AsyncControllerActionInvoker.AsyncInvocationWithFilters.<InvokeActionMethodFilterAsynchronouslyRecursive>b__3c()
+   at System.Web.Mvc.Async.AsyncControllerActionInvoker.AsyncInvocationWithFilters.<>c__DisplayClass45.<InvokeActionMethodFilterAsynchronouslyRecursive>b__3e()
+   at System.Web.Mvc.Async.AsyncControllerActionInvoker.<>c__DisplayClass30.<BeginInvokeActionMethodWithFilters>b__2f(IAsyncResult asyncResult)
+   at System.Web.Mvc.Async.AsyncResultWrapper.WrappedAsyncResult`1.CallEndDelegate(IAsyncResult asyncResult)
+   at System.Web.Mvc.Async.AsyncResultWrapper.WrappedAsyncResultBase`1.End()
+   at System.Web.Mvc.Async.AsyncResultWrapper.End[TResult](IAsyncResult asyncResult, Object tag)
+   at System.Web.Mvc.Async.AsyncControllerActionInvoker.EndInvokeActionMethodWithFilters(IAsyncResult asyncResult)
+   at System.Web.Mvc.Async.AsyncControllerActionInvoker.<>c__DisplayClass1e.<>c__DisplayClass28.<BeginInvokeAction>b__19()
+   at System.Web.Mvc.Async.AsyncControllerActionInvoker.<>c__DisplayClass1e.<BeginInvokeAction>b__1b(IAsyncResult asyncResult)
+Exception.Data:
+
+2016-09-09 15:30:29,689 [14] ERROR NHS111.Utils.Logging.Log4Net - System.FormatException occured executing 'Outcome/ServiceDetails'
+Input string was not in a correct format.
+   at System.Number.StringToNumber(String str, NumberStyles options, NumberBuffer& number, NumberFormatInfo info, Boolean parseDecimal)
+   at System.Number.ParseInt32(String s, NumberStyles style, NumberFormatInfo info)
+   at NHS111.Web.Presentation.Builders.DOSBuilder.<BuildSymptomGroup>d__23.MoveNext() in c:\DASProjects\Development\nhs111-dotnet-beta\NHS111\NHS111.Web.Presentation\Builders\DOSBuilder.cs:line 145
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter`1.GetResult()
+   at NHS111.Web.Presentation.Builders.DOSBuilder.<FillCheckCapacitySummaryResult>d__4.MoveNext() in c:\DASProjects\Development\nhs111-dotnet-beta\NHS111\NHS111.Web.Presentation\Builders\DOSBuilder.cs:line 53
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter`1.GetResult()
+   at NHS111.Web.Controllers.OutcomeController.<ServiceDetails>d__a.MoveNext() in c:\DASProjects\Development\nhs111-dotnet-beta\NHS111\NHS111.Web\Controllers\OutcomeController.cs:line 70
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at lambda_method(Closure , Task )
+   at System.Threading.Tasks.TaskHelpersExtensions.ThrowIfFaulted(Task task)
+   at System.Web.Mvc.Async.TaskAsyncActionDescriptor.EndExecute(IAsyncResult asyncResult)
+   at System.Web.Mvc.Async.AsyncControllerActionInvoker.<>c__DisplayClass34.<BeginInvokeAsynchronousActionMethod>b__33(IAsyncResult asyncResult)
+   at System.Web.Mvc.Async.AsyncResultWrapper.WrappedAsyncResult`1.CallEndDelegate(IAsyncResult asyncResult)
+   at System.Web.Mvc.Async.AsyncResultWrapper.WrappedAsyncResultBase`1.End()
+   at System.Web.Mvc.Async.AsyncResultWrapper.End[TResult](IAsyncResult asyncResult, Object tag)
+   at System.Web.Mvc.Async.AsyncControllerActionInvoker.EndInvokeActionMethod(IAsyncResult asyncResult)
+   at System.Web.Mvc.Async.AsyncControllerActionInvoker.AsyncInvocationWithFilters.<InvokeActionMethodFilterAsynchronouslyRecursive>b__3c()
+   at System.Web.Mvc.Async.AsyncControllerActionInvoker.AsyncInvocationWithFilters.<>c__DisplayClass45.<InvokeActionMethodFilterAsynchronouslyRecursive>b__3e()
+   at System.Web.Mvc.Async.AsyncControllerActionInvoker.<>c__DisplayClass30.<BeginInvokeActionMethodWithFilters>b__2f(IAsyncResult asyncResult)
+   at System.Web.Mvc.Async.AsyncResultWrapper.WrappedAsyncResult`1.CallEndDelegate(IAsyncResult asyncResult)
+   at System.Web.Mvc.Async.AsyncResultWrapper.WrappedAsyncResultBase`1.End()
+   at System.Web.Mvc.Async.AsyncResultWrapper.End[TResult](IAsyncResult asyncResult, Object tag)
+   at System.Web.Mvc.Async.AsyncControllerActionInvoker.EndInvokeActionMethodWithFilters(IAsyncResult asyncResult)
+   at System.Web.Mvc.Async.AsyncControllerActionInvoker.<>c__DisplayClass1e.<>c__DisplayClass28.<BeginInvokeAction>b__19()
+   at System.Web.Mvc.Async.AsyncControllerActionInvoker.<>c__DisplayClass1e.<BeginInvokeAction>b__1b(IAsyncResult asyncResult)
+Exception.Data:
+
+2016-09-09 15:31:15,177 [25] ERROR NHS111.Utils.Logging.Log4Net - System.FormatException occured executing 'Outcome/ServiceDetails'
+Input string was not in a correct format.
+   at System.Number.StringToNumber(String str, NumberStyles options, NumberBuffer& number, NumberFormatInfo info, Boolean parseDecimal)
+   at System.Number.ParseInt32(String s, NumberStyles style, NumberFormatInfo info)
+   at NHS111.Web.Presentation.Builders.DOSBuilder.<BuildSymptomGroup>d__23.MoveNext() in c:\DASProjects\Development\nhs111-dotnet-beta\NHS111\NHS111.Web.Presentation\Builders\DOSBuilder.cs:line 145
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter`1.GetResult()
+   at NHS111.Web.Presentation.Builders.DOSBuilder.<FillCheckCapacitySummaryResult>d__4.MoveNext() in c:\DASProjects\Development\nhs111-dotnet-beta\NHS111\NHS111.Web.Presentation\Builders\DOSBuilder.cs:line 53
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter`1.GetResult()
+   at NHS111.Web.Controllers.OutcomeController.<ServiceDetails>d__a.MoveNext() in c:\DASProjects\Development\nhs111-dotnet-beta\NHS111\NHS111.Web\Controllers\OutcomeController.cs:line 70
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at lambda_method(Closure , Task )
+   at System.Threading.Tasks.TaskHelpersExtensions.ThrowIfFaulted(Task task)
+   at System.Web.Mvc.Async.TaskAsyncActionDescriptor.EndExecute(IAsyncResult asyncResult)
+   at System.Web.Mvc.Async.AsyncControllerActionInvoker.<>c__DisplayClass34.<BeginInvokeAsynchronousActionMethod>b__33(IAsyncResult asyncResult)
+   at System.Web.Mvc.Async.AsyncResultWrapper.WrappedAsyncResult`1.CallEndDelegate(IAsyncResult asyncResult)
+   at System.Web.Mvc.Async.AsyncResultWrapper.WrappedAsyncResultBase`1.End()
+   at System.Web.Mvc.Async.AsyncResultWrapper.End[TResult](IAsyncResult asyncResult, Object tag)
+   at System.Web.Mvc.Async.AsyncControllerActionInvoker.EndInvokeActionMethod(IAsyncResult asyncResult)
+   at System.Web.Mvc.Async.AsyncControllerActionInvoker.AsyncInvocationWithFilters.<InvokeActionMethodFilterAsynchronouslyRecursive>b__3c()
+   at System.Web.Mvc.Async.AsyncControllerActionInvoker.AsyncInvocationWithFilters.<>c__DisplayClass45.<InvokeActionMethodFilterAsynchronouslyRecursive>b__3e()
+   at System.Web.Mvc.Async.AsyncControllerActionInvoker.<>c__DisplayClass30.<BeginInvokeActionMethodWithFilters>b__2f(IAsyncResult asyncResult)
+   at System.Web.Mvc.Async.AsyncResultWrapper.WrappedAsyncResult`1.CallEndDelegate(IAsyncResult asyncResult)
+   at System.Web.Mvc.Async.AsyncResultWrapper.WrappedAsyncResultBase`1.End()
+   at System.Web.Mvc.Async.AsyncResultWrapper.End[TResult](IAsyncResult asyncResult, Object tag)
+   at System.Web.Mvc.Async.AsyncControllerActionInvoker.EndInvokeActionMethodWithFilters(IAsyncResult asyncResult)
+   at System.Web.Mvc.Async.AsyncControllerActionInvoker.<>c__DisplayClass1e.<>c__DisplayClass28.<BeginInvokeAction>b__19()
+   at System.Web.Mvc.Async.AsyncControllerActionInvoker.<>c__DisplayClass1e.<BeginInvokeAction>b__1b(IAsyncResult asyncResult)
+Exception.Data:
+
+2016-09-09 15:31:37,585 [33] ERROR NHS111.Utils.Logging.Log4Net - System.FormatException occured executing 'Outcome/ServiceDetails'
+Input string was not in a correct format.
+   at System.Number.StringToNumber(String str, NumberStyles options, NumberBuffer& number, NumberFormatInfo info, Boolean parseDecimal)
+   at System.Number.ParseInt32(String s, NumberStyles style, NumberFormatInfo info)
+   at NHS111.Web.Presentation.Builders.DOSBuilder.<BuildSymptomGroup>d__23.MoveNext() in c:\DASProjects\Development\nhs111-dotnet-beta\NHS111\NHS111.Web.Presentation\Builders\DOSBuilder.cs:line 145
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter`1.GetResult()
+   at NHS111.Web.Presentation.Builders.DOSBuilder.<FillCheckCapacitySummaryResult>d__4.MoveNext() in c:\DASProjects\Development\nhs111-dotnet-beta\NHS111\NHS111.Web.Presentation\Builders\DOSBuilder.cs:line 53
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter`1.GetResult()
+   at NHS111.Web.Controllers.OutcomeController.<ServiceDetails>d__a.MoveNext() in c:\DASProjects\Development\nhs111-dotnet-beta\NHS111\NHS111.Web\Controllers\OutcomeController.cs:line 70
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at lambda_method(Closure , Task )
+   at System.Threading.Tasks.TaskHelpersExtensions.ThrowIfFaulted(Task task)
+   at System.Web.Mvc.Async.TaskAsyncActionDescriptor.EndExecute(IAsyncResult asyncResult)
+   at System.Web.Mvc.Async.AsyncControllerActionInvoker.<>c__DisplayClass34.<BeginInvokeAsynchronousActionMethod>b__33(IAsyncResult asyncResult)
+   at System.Web.Mvc.Async.AsyncResultWrapper.WrappedAsyncResult`1.CallEndDelegate(IAsyncResult asyncResult)
+   at System.Web.Mvc.Async.AsyncResultWrapper.WrappedAsyncResultBase`1.End()
+   at System.Web.Mvc.Async.AsyncResultWrapper.End[TResult](IAsyncResult asyncResult, Object tag)
+   at System.Web.Mvc.Async.AsyncControllerActionInvoker.EndInvokeActionMethod(IAsyncResult asyncResult)
+   at System.Web.Mvc.Async.AsyncControllerActionInvoker.AsyncInvocationWithFilters.<InvokeActionMethodFilterAsynchronouslyRecursive>b__3c()
+   at System.Web.Mvc.Async.AsyncControllerActionInvoker.AsyncInvocationWithFilters.<>c__DisplayClass45.<InvokeActionMethodFilterAsynchronouslyRecursive>b__3e()
+   at System.Web.Mvc.Async.AsyncControllerActionInvoker.<>c__DisplayClass30.<BeginInvokeActionMethodWithFilters>b__2f(IAsyncResult asyncResult)
+   at System.Web.Mvc.Async.AsyncResultWrapper.WrappedAsyncResult`1.CallEndDelegate(IAsyncResult asyncResult)
+   at System.Web.Mvc.Async.AsyncResultWrapper.WrappedAsyncResultBase`1.End()
+   at System.Web.Mvc.Async.AsyncResultWrapper.End[TResult](IAsyncResult asyncResult, Object tag)
+   at System.Web.Mvc.Async.AsyncControllerActionInvoker.EndInvokeActionMethodWithFilters(IAsyncResult asyncResult)
+   at System.Web.Mvc.Async.AsyncControllerActionInvoker.<>c__DisplayClass1e.<>c__DisplayClass28.<BeginInvokeAction>b__19()
+   at System.Web.Mvc.Async.AsyncControllerActionInvoker.<>c__DisplayClass1e.<BeginInvokeAction>b__1b(IAsyncResult asyncResult)
+Exception.Data:
+
+2016-09-09 15:32:40,595 [37] ERROR NHS111.Utils.Logging.Log4Net - System.FormatException occured executing 'Outcome/ServiceDetails'
+Input string was not in a correct format.
+   at System.Number.StringToNumber(String str, NumberStyles options, NumberBuffer& number, NumberFormatInfo info, Boolean parseDecimal)
+   at System.Number.ParseInt32(String s, NumberStyles style, NumberFormatInfo info)
+   at NHS111.Web.Presentation.Builders.DOSBuilder.<BuildSymptomGroup>d__23.MoveNext() in c:\DASProjects\Development\nhs111-dotnet-beta\NHS111\NHS111.Web.Presentation\Builders\DOSBuilder.cs:line 145
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter`1.GetResult()
+   at NHS111.Web.Presentation.Builders.DOSBuilder.<FillCheckCapacitySummaryResult>d__4.MoveNext() in c:\DASProjects\Development\nhs111-dotnet-beta\NHS111\NHS111.Web.Presentation\Builders\DOSBuilder.cs:line 53
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter`1.GetResult()
+   at NHS111.Web.Controllers.OutcomeController.<ServiceDetails>d__a.MoveNext() in c:\DASProjects\Development\nhs111-dotnet-beta\NHS111\NHS111.Web\Controllers\OutcomeController.cs:line 70
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at lambda_method(Closure , Task )
+   at System.Threading.Tasks.TaskHelpersExtensions.ThrowIfFaulted(Task task)
+   at System.Web.Mvc.Async.TaskAsyncActionDescriptor.EndExecute(IAsyncResult asyncResult)
+   at System.Web.Mvc.Async.AsyncControllerActionInvoker.<>c__DisplayClass34.<BeginInvokeAsynchronousActionMethod>b__33(IAsyncResult asyncResult)
+   at System.Web.Mvc.Async.AsyncResultWrapper.WrappedAsyncResult`1.CallEndDelegate(IAsyncResult asyncResult)
+   at System.Web.Mvc.Async.AsyncResultWrapper.WrappedAsyncResultBase`1.End()
+   at System.Web.Mvc.Async.AsyncResultWrapper.End[TResult](IAsyncResult asyncResult, Object tag)
+   at System.Web.Mvc.Async.AsyncControllerActionInvoker.EndInvokeActionMethod(IAsyncResult asyncResult)
+   at System.Web.Mvc.Async.AsyncControllerActionInvoker.AsyncInvocationWithFilters.<InvokeActionMethodFilterAsynchronouslyRecursive>b__3c()
+   at System.Web.Mvc.Async.AsyncControllerActionInvoker.AsyncInvocationWithFilters.<>c__DisplayClass45.<InvokeActionMethodFilterAsynchronouslyRecursive>b__3e()
+   at System.Web.Mvc.Async.AsyncControllerActionInvoker.<>c__DisplayClass30.<BeginInvokeActionMethodWithFilters>b__2f(IAsyncResult asyncResult)
+   at System.Web.Mvc.Async.AsyncResultWrapper.WrappedAsyncResult`1.CallEndDelegate(IAsyncResult asyncResult)
+   at System.Web.Mvc.Async.AsyncResultWrapper.WrappedAsyncResultBase`1.End()
+   at System.Web.Mvc.Async.AsyncResultWrapper.End[TResult](IAsyncResult asyncResult, Object tag)
+   at System.Web.Mvc.Async.AsyncControllerActionInvoker.EndInvokeActionMethodWithFilters(IAsyncResult asyncResult)
+   at System.Web.Mvc.Async.AsyncControllerActionInvoker.<>c__DisplayClass1e.<>c__DisplayClass28.<BeginInvokeAction>b__19()
+   at System.Web.Mvc.Async.AsyncControllerActionInvoker.<>c__DisplayClass1e.<BeginInvokeAction>b__1b(IAsyncResult asyncResult)
+Exception.Data:
+
+2016-09-09 15:33:13,243 [37] ERROR NHS111.Utils.Logging.Log4Net - System.FormatException occured executing 'Outcome/ServiceDetails'
+Input string was not in a correct format.
+   at System.Number.StringToNumber(String str, NumberStyles options, NumberBuffer& number, NumberFormatInfo info, Boolean parseDecimal)
+   at System.Number.ParseInt32(String s, NumberStyles style, NumberFormatInfo info)
+   at NHS111.Web.Presentation.Builders.DOSBuilder.<BuildSymptomGroup>d__23.MoveNext() in c:\DASProjects\Development\nhs111-dotnet-beta\NHS111\NHS111.Web.Presentation\Builders\DOSBuilder.cs:line 145
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter`1.GetResult()
+   at NHS111.Web.Presentation.Builders.DOSBuilder.<FillCheckCapacitySummaryResult>d__4.MoveNext() in c:\DASProjects\Development\nhs111-dotnet-beta\NHS111\NHS111.Web.Presentation\Builders\DOSBuilder.cs:line 53
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter`1.GetResult()
+   at NHS111.Web.Controllers.OutcomeController.<ServiceDetails>d__a.MoveNext() in c:\DASProjects\Development\nhs111-dotnet-beta\NHS111\NHS111.Web\Controllers\OutcomeController.cs:line 70
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at lambda_method(Closure , Task )
+   at System.Threading.Tasks.TaskHelpersExtensions.ThrowIfFaulted(Task task)
+   at System.Web.Mvc.Async.TaskAsyncActionDescriptor.EndExecute(IAsyncResult asyncResult)
+   at System.Web.Mvc.Async.AsyncControllerActionInvoker.<>c__DisplayClass34.<BeginInvokeAsynchronousActionMethod>b__33(IAsyncResult asyncResult)
+   at System.Web.Mvc.Async.AsyncResultWrapper.WrappedAsyncResult`1.CallEndDelegate(IAsyncResult asyncResult)
+   at System.Web.Mvc.Async.AsyncResultWrapper.WrappedAsyncResultBase`1.End()
+   at System.Web.Mvc.Async.AsyncResultWrapper.End[TResult](IAsyncResult asyncResult, Object tag)
+   at System.Web.Mvc.Async.AsyncControllerActionInvoker.EndInvokeActionMethod(IAsyncResult asyncResult)
+   at System.Web.Mvc.Async.AsyncControllerActionInvoker.AsyncInvocationWithFilters.<InvokeActionMethodFilterAsynchronouslyRecursive>b__3c()
+   at System.Web.Mvc.Async.AsyncControllerActionInvoker.AsyncInvocationWithFilters.<>c__DisplayClass45.<InvokeActionMethodFilterAsynchronouslyRecursive>b__3e()
+   at System.Web.Mvc.Async.AsyncControllerActionInvoker.<>c__DisplayClass30.<BeginInvokeActionMethodWithFilters>b__2f(IAsyncResult asyncResult)
+   at System.Web.Mvc.Async.AsyncResultWrapper.WrappedAsyncResult`1.CallEndDelegate(IAsyncResult asyncResult)
+   at System.Web.Mvc.Async.AsyncResultWrapper.WrappedAsyncResultBase`1.End()
+   at System.Web.Mvc.Async.AsyncResultWrapper.End[TResult](IAsyncResult asyncResult, Object tag)
+   at System.Web.Mvc.Async.AsyncControllerActionInvoker.EndInvokeActionMethodWithFilters(IAsyncResult asyncResult)
+   at System.Web.Mvc.Async.AsyncControllerActionInvoker.<>c__DisplayClass1e.<>c__DisplayClass28.<BeginInvokeAction>b__19()
+   at System.Web.Mvc.Async.AsyncControllerActionInvoker.<>c__DisplayClass1e.<BeginInvokeAction>b__1b(IAsyncResult asyncResult)
+Exception.Data:
+
+2016-09-09 15:38:07,158 [8] ERROR NHS111.Utils.Logging.Log4Net - System.FormatException occured executing 'Outcome/ServiceDetails'
+Input string was not in a correct format.
+   at System.Number.StringToNumber(String str, NumberStyles options, NumberBuffer& number, NumberFormatInfo info, Boolean parseDecimal)
+   at System.Number.ParseInt32(String s, NumberStyles style, NumberFormatInfo info)
+   at NHS111.Web.Presentation.Builders.DOSBuilder.<BuildSymptomGroup>d__23.MoveNext() in c:\DASProjects\Development\nhs111-dotnet-beta\NHS111\NHS111.Web.Presentation\Builders\DOSBuilder.cs:line 145
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter`1.GetResult()
+   at NHS111.Web.Presentation.Builders.DOSBuilder.<FillCheckCapacitySummaryResult>d__4.MoveNext() in c:\DASProjects\Development\nhs111-dotnet-beta\NHS111\NHS111.Web.Presentation\Builders\DOSBuilder.cs:line 53
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter`1.GetResult()
+   at NHS111.Web.Controllers.OutcomeController.<ServiceDetails>d__a.MoveNext() in c:\DASProjects\Development\nhs111-dotnet-beta\NHS111\NHS111.Web\Controllers\OutcomeController.cs:line 70
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at lambda_method(Closure , Task )
+   at System.Threading.Tasks.TaskHelpersExtensions.ThrowIfFaulted(Task task)
+   at System.Web.Mvc.Async.TaskAsyncActionDescriptor.EndExecute(IAsyncResult asyncResult)
+   at System.Web.Mvc.Async.AsyncControllerActionInvoker.<>c__DisplayClass34.<BeginInvokeAsynchronousActionMethod>b__33(IAsyncResult asyncResult)
+   at System.Web.Mvc.Async.AsyncResultWrapper.WrappedAsyncResult`1.CallEndDelegate(IAsyncResult asyncResult)
+   at System.Web.Mvc.Async.AsyncResultWrapper.WrappedAsyncResultBase`1.End()
+   at System.Web.Mvc.Async.AsyncResultWrapper.End[TResult](IAsyncResult asyncResult, Object tag)
+   at System.Web.Mvc.Async.AsyncControllerActionInvoker.EndInvokeActionMethod(IAsyncResult asyncResult)
+   at System.Web.Mvc.Async.AsyncControllerActionInvoker.AsyncInvocationWithFilters.<InvokeActionMethodFilterAsynchronouslyRecursive>b__3c()
+   at System.Web.Mvc.Async.AsyncControllerActionInvoker.AsyncInvocationWithFilters.<>c__DisplayClass45.<InvokeActionMethodFilterAsynchronouslyRecursive>b__3e()
+   at System.Web.Mvc.Async.AsyncControllerActionInvoker.<>c__DisplayClass30.<BeginInvokeActionMethodWithFilters>b__2f(IAsyncResult asyncResult)
+   at System.Web.Mvc.Async.AsyncResultWrapper.WrappedAsyncResult`1.CallEndDelegate(IAsyncResult asyncResult)
+   at System.Web.Mvc.Async.AsyncResultWrapper.WrappedAsyncResultBase`1.End()
+   at System.Web.Mvc.Async.AsyncResultWrapper.End[TResult](IAsyncResult asyncResult, Object tag)
+   at System.Web.Mvc.Async.AsyncControllerActionInvoker.EndInvokeActionMethodWithFilters(IAsyncResult asyncResult)
+   at System.Web.Mvc.Async.AsyncControllerActionInvoker.<>c__DisplayClass1e.<>c__DisplayClass28.<BeginInvokeAction>b__19()
+   at System.Web.Mvc.Async.AsyncControllerActionInvoker.<>c__DisplayClass1e.<BeginInvokeAction>b__1b(IAsyncResult asyncResult)
+Exception.Data:
+
+2016-09-09 16:11:18,409 [6] ERROR NHS111.Utils.Logging.Log4Net - System.NullReferenceException occured executing 'PW1146FemaleChild/6/Eye, Sticky, Watery/Question/Direct'
+Object reference not set to an instance of an object.
+   at ASP._Page_Views_Question_Question_cshtml.WriteDirectLink(JourneyViewModel model) in c:\DASProjects\Development\nhs111-dotnet-beta\NHS111\NHS111.Web\Views\Question\Question.cshtml:line 31
+   at ASP._Page_Views_Question_Question_cshtml.Execute() in c:\DASProjects\Development\nhs111-dotnet-beta\NHS111\NHS111.Web\Views\Question\Question.cshtml:line 53
+   at System.Web.WebPages.WebPageBase.ExecutePageHierarchy()
+   at System.Web.Mvc.WebViewPage.ExecutePageHierarchy()
+   at System.Web.WebPages.StartPage.RunPage()
+   at System.Web.WebPages.StartPage.ExecutePageHierarchy()
+   at System.Web.WebPages.WebPageBase.ExecutePageHierarchy(WebPageContext pageContext, TextWriter writer, WebPageRenderingBase startPage)
+   at System.Web.Mvc.RazorView.RenderView(ViewContext viewContext, TextWriter writer, Object instance)
+   at System.Web.Mvc.BuildManagerCompiledView.Render(ViewContext viewContext, TextWriter writer)
+   at System.Web.Mvc.ViewResultBase.ExecuteResult(ControllerContext context)
+   at System.Web.Mvc.ControllerActionInvoker.InvokeActionResult(ControllerContext controllerContext, ActionResult actionResult)
+   at System.Web.Mvc.ControllerActionInvoker.InvokeActionResultFilterRecursive(IList`1 filters, Int32 filterIndex, ResultExecutingContext preContext, ControllerContext controllerContext, ActionResult actionResult)
+   at System.Web.Mvc.ControllerActionInvoker.InvokeActionResultFilterRecursive(IList`1 filters, Int32 filterIndex, ResultExecutingContext preContext, ControllerContext controllerContext, ActionResult actionResult)
+   at System.Web.Mvc.ControllerActionInvoker.InvokeActionResultWithFilters(ControllerContext controllerContext, IList`1 filters, ActionResult actionResult)
+   at System.Web.Mvc.Async.AsyncControllerActionInvoker.<>c__DisplayClass1e.<>c__DisplayClass28.<BeginInvokeAction>b__19()
+   at System.Web.Mvc.Async.AsyncControllerActionInvoker.<>c__DisplayClass1e.<BeginInvokeAction>b__1b(IAsyncResult asyncResult)
+Exception.Data:
+
+2016-09-09 16:12:48,636 [8] ERROR NHS111.Utils.Logging.Log4Net - System.NullReferenceException occured executing 'PW1146FemaleChild/6/Eye, Sticky, Watery/Question/Direct'
+Object reference not set to an instance of an object.
+   at ASP._Page_Views_Question_Question_cshtml.WriteDirectLink(JourneyViewModel model) in c:\DASProjects\Development\nhs111-dotnet-beta\NHS111\NHS111.Web\Views\Question\Question.cshtml:line 31
+   at ASP._Page_Views_Question_Question_cshtml.Execute() in c:\DASProjects\Development\nhs111-dotnet-beta\NHS111\NHS111.Web\Views\Question\Question.cshtml:line 53
+   at System.Web.WebPages.WebPageBase.ExecutePageHierarchy()
+   at System.Web.Mvc.WebViewPage.ExecutePageHierarchy()
+   at System.Web.WebPages.StartPage.RunPage()
+   at System.Web.WebPages.StartPage.ExecutePageHierarchy()
+   at System.Web.WebPages.WebPageBase.ExecutePageHierarchy(WebPageContext pageContext, TextWriter writer, WebPageRenderingBase startPage)
+   at System.Web.Mvc.RazorView.RenderView(ViewContext viewContext, TextWriter writer, Object instance)
+   at System.Web.Mvc.BuildManagerCompiledView.Render(ViewContext viewContext, TextWriter writer)
+   at System.Web.Mvc.ViewResultBase.ExecuteResult(ControllerContext context)
+   at System.Web.Mvc.ControllerActionInvoker.InvokeActionResult(ControllerContext controllerContext, ActionResult actionResult)
+   at System.Web.Mvc.ControllerActionInvoker.InvokeActionResultFilterRecursive(IList`1 filters, Int32 filterIndex, ResultExecutingContext preContext, ControllerContext controllerContext, ActionResult actionResult)
+   at System.Web.Mvc.ControllerActionInvoker.InvokeActionResultFilterRecursive(IList`1 filters, Int32 filterIndex, ResultExecutingContext preContext, ControllerContext controllerContext, ActionResult actionResult)
+   at System.Web.Mvc.ControllerActionInvoker.InvokeActionResultWithFilters(ControllerContext controllerContext, IList`1 filters, ActionResult actionResult)
+   at System.Web.Mvc.Async.AsyncControllerActionInvoker.<>c__DisplayClass1e.<>c__DisplayClass28.<BeginInvokeAction>b__19()
+   at System.Web.Mvc.Async.AsyncControllerActionInvoker.<>c__DisplayClass1e.<BeginInvokeAction>b__1b(IAsyncResult asyncResult)
+Exception.Data:
+
+2016-09-09 16:12:55,659 [27] ERROR NHS111.Utils.Logging.Log4Net - System.NullReferenceException occured executing 'PW1146FemaleChild/6/Eye, Sticky, Watery/Question/Direct'
+Object reference not set to an instance of an object.
+   at ASP._Page_Views_Question_Question_cshtml.WriteDirectLink(JourneyViewModel model) in c:\DASProjects\Development\nhs111-dotnet-beta\NHS111\NHS111.Web\Views\Question\Question.cshtml:line 31
+   at ASP._Page_Views_Question_Question_cshtml.Execute() in c:\DASProjects\Development\nhs111-dotnet-beta\NHS111\NHS111.Web\Views\Question\Question.cshtml:line 53
+   at System.Web.WebPages.WebPageBase.ExecutePageHierarchy()
+   at System.Web.Mvc.WebViewPage.ExecutePageHierarchy()
+   at System.Web.WebPages.StartPage.RunPage()
+   at System.Web.WebPages.StartPage.ExecutePageHierarchy()
+   at System.Web.WebPages.WebPageBase.ExecutePageHierarchy(WebPageContext pageContext, TextWriter writer, WebPageRenderingBase startPage)
+   at System.Web.Mvc.RazorView.RenderView(ViewContext viewContext, TextWriter writer, Object instance)
+   at System.Web.Mvc.BuildManagerCompiledView.Render(ViewContext viewContext, TextWriter writer)
+   at System.Web.Mvc.ViewResultBase.ExecuteResult(ControllerContext context)
+   at System.Web.Mvc.ControllerActionInvoker.InvokeActionResult(ControllerContext controllerContext, ActionResult actionResult)
+   at System.Web.Mvc.ControllerActionInvoker.InvokeActionResultFilterRecursive(IList`1 filters, Int32 filterIndex, ResultExecutingContext preContext, ControllerContext controllerContext, ActionResult actionResult)
+   at System.Web.Mvc.ControllerActionInvoker.InvokeActionResultFilterRecursive(IList`1 filters, Int32 filterIndex, ResultExecutingContext preContext, ControllerContext controllerContext, ActionResult actionResult)
+   at System.Web.Mvc.ControllerActionInvoker.InvokeActionResultWithFilters(ControllerContext controllerContext, IList`1 filters, ActionResult actionResult)
+   at System.Web.Mvc.Async.AsyncControllerActionInvoker.<>c__DisplayClass1e.<>c__DisplayClass28.<BeginInvokeAction>b__19()
+   at System.Web.Mvc.Async.AsyncControllerActionInvoker.<>c__DisplayClass1e.<BeginInvokeAction>b__1b(IAsyncResult asyncResult)
+Exception.Data:
+
+2016-09-09 16:13:42,520 [28] ERROR NHS111.Utils.Logging.Log4Net - System.NullReferenceException occured executing 'PW1146FemaleChild/6/Eye, Sticky, Watery/Question/Direct'
+Object reference not set to an instance of an object.
+   at ASP._Page_Views_Question_Question_cshtml.WriteDirectLink(JourneyViewModel model) in c:\DASProjects\Development\nhs111-dotnet-beta\NHS111\NHS111.Web\Views\Question\Question.cshtml:line 31
+   at ASP._Page_Views_Question_Question_cshtml.Execute() in c:\DASProjects\Development\nhs111-dotnet-beta\NHS111\NHS111.Web\Views\Question\Question.cshtml:line 53
+   at System.Web.WebPages.WebPageBase.ExecutePageHierarchy()
+   at System.Web.Mvc.WebViewPage.ExecutePageHierarchy()
+   at System.Web.WebPages.StartPage.RunPage()
+   at System.Web.WebPages.StartPage.ExecutePageHierarchy()
+   at System.Web.WebPages.WebPageBase.ExecutePageHierarchy(WebPageContext pageContext, TextWriter writer, WebPageRenderingBase startPage)
+   at System.Web.Mvc.RazorView.RenderView(ViewContext viewContext, TextWriter writer, Object instance)
+   at System.Web.Mvc.BuildManagerCompiledView.Render(ViewContext viewContext, TextWriter writer)
+   at System.Web.Mvc.ViewResultBase.ExecuteResult(ControllerContext context)
+   at System.Web.Mvc.ControllerActionInvoker.InvokeActionResult(ControllerContext controllerContext, ActionResult actionResult)
+   at System.Web.Mvc.ControllerActionInvoker.InvokeActionResultFilterRecursive(IList`1 filters, Int32 filterIndex, ResultExecutingContext preContext, ControllerContext controllerContext, ActionResult actionResult)
+   at System.Web.Mvc.ControllerActionInvoker.InvokeActionResultFilterRecursive(IList`1 filters, Int32 filterIndex, ResultExecutingContext preContext, ControllerContext controllerContext, ActionResult actionResult)
+   at System.Web.Mvc.ControllerActionInvoker.InvokeActionResultWithFilters(ControllerContext controllerContext, IList`1 filters, ActionResult actionResult)
+   at System.Web.Mvc.Async.AsyncControllerActionInvoker.<>c__DisplayClass1e.<>c__DisplayClass28.<BeginInvokeAction>b__19()
+   at System.Web.Mvc.Async.AsyncControllerActionInvoker.<>c__DisplayClass1e.<BeginInvokeAction>b__1b(IAsyncResult asyncResult)
+Exception.Data:
+
+2016-09-09 16:13:49,741 [26] ERROR NHS111.Utils.Logging.Log4Net - System.NullReferenceException occured executing 'PW1146FemaleChild/6/Eye, Sticky, Watery/Question/Direct'
+Object reference not set to an instance of an object.
+   at ASP._Page_Views_Question_Question_cshtml.WriteDirectLink(JourneyViewModel model) in c:\DASProjects\Development\nhs111-dotnet-beta\NHS111\NHS111.Web\Views\Question\Question.cshtml:line 31
+   at ASP._Page_Views_Question_Question_cshtml.Execute() in c:\DASProjects\Development\nhs111-dotnet-beta\NHS111\NHS111.Web\Views\Question\Question.cshtml:line 53
+   at System.Web.WebPages.WebPageBase.ExecutePageHierarchy()
+   at System.Web.Mvc.WebViewPage.ExecutePageHierarchy()
+   at System.Web.WebPages.StartPage.RunPage()
+   at System.Web.WebPages.StartPage.ExecutePageHierarchy()
+   at System.Web.WebPages.WebPageBase.ExecutePageHierarchy(WebPageContext pageContext, TextWriter writer, WebPageRenderingBase startPage)
+   at System.Web.Mvc.RazorView.RenderView(ViewContext viewContext, TextWriter writer, Object instance)
+   at System.Web.Mvc.BuildManagerCompiledView.Render(ViewContext viewContext, TextWriter writer)
+   at System.Web.Mvc.ViewResultBase.ExecuteResult(ControllerContext context)
+   at System.Web.Mvc.ControllerActionInvoker.InvokeActionResult(ControllerContext controllerContext, ActionResult actionResult)
+   at System.Web.Mvc.ControllerActionInvoker.InvokeActionResultFilterRecursive(IList`1 filters, Int32 filterIndex, ResultExecutingContext preContext, ControllerContext controllerContext, ActionResult actionResult)
+   at System.Web.Mvc.ControllerActionInvoker.InvokeActionResultFilterRecursive(IList`1 filters, Int32 filterIndex, ResultExecutingContext preContext, ControllerContext controllerContext, ActionResult actionResult)
+   at System.Web.Mvc.ControllerActionInvoker.InvokeActionResultWithFilters(ControllerContext controllerContext, IList`1 filters, ActionResult actionResult)
+   at System.Web.Mvc.Async.AsyncControllerActionInvoker.<>c__DisplayClass1e.<>c__DisplayClass28.<BeginInvokeAction>b__19()
+   at System.Web.Mvc.Async.AsyncControllerActionInvoker.<>c__DisplayClass1e.<BeginInvokeAction>b__1b(IAsyncResult asyncResult)
+Exception.Data:
+
+2016-09-09 16:13:52,612 [21] ERROR NHS111.Utils.Logging.Log4Net - System.NullReferenceException occured executing 'PW1146FemaleChild/6/Eye, Sticky, Watery/Question/Direct'
+Object reference not set to an instance of an object.
+   at ASP._Page_Views_Question_Question_cshtml.WriteDirectLink(JourneyViewModel model) in c:\DASProjects\Development\nhs111-dotnet-beta\NHS111\NHS111.Web\Views\Question\Question.cshtml:line 31
+   at ASP._Page_Views_Question_Question_cshtml.Execute() in c:\DASProjects\Development\nhs111-dotnet-beta\NHS111\NHS111.Web\Views\Question\Question.cshtml:line 53
+   at System.Web.WebPages.WebPageBase.ExecutePageHierarchy()
+   at System.Web.Mvc.WebViewPage.ExecutePageHierarchy()
+   at System.Web.WebPages.StartPage.RunPage()
+   at System.Web.WebPages.StartPage.ExecutePageHierarchy()
+   at System.Web.WebPages.WebPageBase.ExecutePageHierarchy(WebPageContext pageContext, TextWriter writer, WebPageRenderingBase startPage)
+   at System.Web.Mvc.RazorView.RenderView(ViewContext viewContext, TextWriter writer, Object instance)
+   at System.Web.Mvc.BuildManagerCompiledView.Render(ViewContext viewContext, TextWriter writer)
+   at System.Web.Mvc.ViewResultBase.ExecuteResult(ControllerContext context)
+   at System.Web.Mvc.ControllerActionInvoker.InvokeActionResult(ControllerContext controllerContext, ActionResult actionResult)
+   at System.Web.Mvc.ControllerActionInvoker.InvokeActionResultFilterRecursive(IList`1 filters, Int32 filterIndex, ResultExecutingContext preContext, ControllerContext controllerContext, ActionResult actionResult)
+   at System.Web.Mvc.ControllerActionInvoker.InvokeActionResultFilterRecursive(IList`1 filters, Int32 filterIndex, ResultExecutingContext preContext, ControllerContext controllerContext, ActionResult actionResult)
+   at System.Web.Mvc.ControllerActionInvoker.InvokeActionResultWithFilters(ControllerContext controllerContext, IList`1 filters, ActionResult actionResult)
+   at System.Web.Mvc.Async.AsyncControllerActionInvoker.<>c__DisplayClass1e.<>c__DisplayClass28.<BeginInvokeAction>b__19()
+   at System.Web.Mvc.Async.AsyncControllerActionInvoker.<>c__DisplayClass1e.<BeginInvokeAction>b__1b(IAsyncResult asyncResult)
+Exception.Data:
+
+2016-09-09 16:14:16,014 [28] ERROR NHS111.Utils.Logging.Log4Net - System.NullReferenceException occured executing 'PW1146FemaleChild/6/Eye, Sticky, Watery/Question/Direct'
+Object reference not set to an instance of an object.
+   at ASP._Page_Views_Question_Question_cshtml.WriteDirectLink(JourneyViewModel model) in c:\DASProjects\Development\nhs111-dotnet-beta\NHS111\NHS111.Web\Views\Question\Question.cshtml:line 31
+   at ASP._Page_Views_Question_Question_cshtml.Execute() in c:\DASProjects\Development\nhs111-dotnet-beta\NHS111\NHS111.Web\Views\Question\Question.cshtml:line 53
+   at System.Web.WebPages.WebPageBase.ExecutePageHierarchy()
+   at System.Web.Mvc.WebViewPage.ExecutePageHierarchy()
+   at System.Web.WebPages.StartPage.RunPage()
+   at System.Web.WebPages.StartPage.ExecutePageHierarchy()
+   at System.Web.WebPages.WebPageBase.ExecutePageHierarchy(WebPageContext pageContext, TextWriter writer, WebPageRenderingBase startPage)
+   at System.Web.Mvc.RazorView.RenderView(ViewContext viewContext, TextWriter writer, Object instance)
+   at System.Web.Mvc.BuildManagerCompiledView.Render(ViewContext viewContext, TextWriter writer)
+   at System.Web.Mvc.ViewResultBase.ExecuteResult(ControllerContext context)
+   at System.Web.Mvc.ControllerActionInvoker.InvokeActionResult(ControllerContext controllerContext, ActionResult actionResult)
+   at System.Web.Mvc.ControllerActionInvoker.InvokeActionResultFilterRecursive(IList`1 filters, Int32 filterIndex, ResultExecutingContext preContext, ControllerContext controllerContext, ActionResult actionResult)
+   at System.Web.Mvc.ControllerActionInvoker.InvokeActionResultFilterRecursive(IList`1 filters, Int32 filterIndex, ResultExecutingContext preContext, ControllerContext controllerContext, ActionResult actionResult)
+   at System.Web.Mvc.ControllerActionInvoker.InvokeActionResultWithFilters(ControllerContext controllerContext, IList`1 filters, ActionResult actionResult)
+   at System.Web.Mvc.Async.AsyncControllerActionInvoker.<>c__DisplayClass1e.<>c__DisplayClass28.<BeginInvokeAction>b__19()
+   at System.Web.Mvc.Async.AsyncControllerActionInvoker.<>c__DisplayClass1e.<BeginInvokeAction>b__1b(IAsyncResult asyncResult)
+Exception.Data:
+
+2016-09-09 16:17:28,300 [43] ERROR NHS111.Utils.Logging.Log4Net - System.NullReferenceException occured executing 'PW1146FemaleChild/6/Eye, Sticky, Watery/Question/Direct'
+Object reference not set to an instance of an object.
+   at ASP._Page_Views_Question_Question_cshtml.WriteDirectLink(JourneyViewModel model) in c:\DASProjects\Development\nhs111-dotnet-beta\NHS111\NHS111.Web\Views\Question\Question.cshtml:line 31
+   at ASP._Page_Views_Question_Question_cshtml.Execute() in c:\DASProjects\Development\nhs111-dotnet-beta\NHS111\NHS111.Web\Views\Question\Question.cshtml:line 53
+   at System.Web.WebPages.WebPageBase.ExecutePageHierarchy()
+   at System.Web.Mvc.WebViewPage.ExecutePageHierarchy()
+   at System.Web.WebPages.StartPage.RunPage()
+   at System.Web.WebPages.StartPage.ExecutePageHierarchy()
+   at System.Web.WebPages.WebPageBase.ExecutePageHierarchy(WebPageContext pageContext, TextWriter writer, WebPageRenderingBase startPage)
+   at System.Web.Mvc.RazorView.RenderView(ViewContext viewContext, TextWriter writer, Object instance)
+   at System.Web.Mvc.BuildManagerCompiledView.Render(ViewContext viewContext, TextWriter writer)
+   at System.Web.Mvc.ViewResultBase.ExecuteResult(ControllerContext context)
+   at System.Web.Mvc.ControllerActionInvoker.InvokeActionResult(ControllerContext controllerContext, ActionResult actionResult)
+   at System.Web.Mvc.ControllerActionInvoker.InvokeActionResultFilterRecursive(IList`1 filters, Int32 filterIndex, ResultExecutingContext preContext, ControllerContext controllerContext, ActionResult actionResult)
+   at System.Web.Mvc.ControllerActionInvoker.InvokeActionResultFilterRecursive(IList`1 filters, Int32 filterIndex, ResultExecutingContext preContext, ControllerContext controllerContext, ActionResult actionResult)
+   at System.Web.Mvc.ControllerActionInvoker.InvokeActionResultWithFilters(ControllerContext controllerContext, IList`1 filters, ActionResult actionResult)
+   at System.Web.Mvc.Async.AsyncControllerActionInvoker.<>c__DisplayClass1e.<>c__DisplayClass28.<BeginInvokeAction>b__19()
+   at System.Web.Mvc.Async.AsyncControllerActionInvoker.<>c__DisplayClass1e.<BeginInvokeAction>b__1b(IAsyncResult asyncResult)
+Exception.Data:
+
+2016-09-09 16:18:33,437 [56] ERROR NHS111.Utils.Logging.Log4Net - System.NullReferenceException occured executing 'PW1146FemaleChild/6/Eye, Sticky, Watery/Question/Direct'
+Object reference not set to an instance of an object.
+   at ASP._Page_Views_Question_Question_cshtml.WriteDirectLink(JourneyViewModel model) in c:\DASProjects\Development\nhs111-dotnet-beta\NHS111\NHS111.Web\Views\Question\Question.cshtml:line 31
+   at ASP._Page_Views_Question_Question_cshtml.Execute() in c:\DASProjects\Development\nhs111-dotnet-beta\NHS111\NHS111.Web\Views\Question\Question.cshtml:line 53
+   at System.Web.WebPages.WebPageBase.ExecutePageHierarchy()
+   at System.Web.Mvc.WebViewPage.ExecutePageHierarchy()
+   at System.Web.WebPages.StartPage.RunPage()
+   at System.Web.WebPages.StartPage.ExecutePageHierarchy()
+   at System.Web.WebPages.WebPageBase.ExecutePageHierarchy(WebPageContext pageContext, TextWriter writer, WebPageRenderingBase startPage)
+   at System.Web.Mvc.RazorView.RenderView(ViewContext viewContext, TextWriter writer, Object instance)
+   at System.Web.Mvc.BuildManagerCompiledView.Render(ViewContext viewContext, TextWriter writer)
+   at System.Web.Mvc.ViewResultBase.ExecuteResult(ControllerContext context)
+   at System.Web.Mvc.ControllerActionInvoker.InvokeActionResult(ControllerContext controllerContext, ActionResult actionResult)
+   at System.Web.Mvc.ControllerActionInvoker.InvokeActionResultFilterRecursive(IList`1 filters, Int32 filterIndex, ResultExecutingContext preContext, ControllerContext controllerContext, ActionResult actionResult)
+   at System.Web.Mvc.ControllerActionInvoker.InvokeActionResultFilterRecursive(IList`1 filters, Int32 filterIndex, ResultExecutingContext preContext, ControllerContext controllerContext, ActionResult actionResult)
+   at System.Web.Mvc.ControllerActionInvoker.InvokeActionResultWithFilters(ControllerContext controllerContext, IList`1 filters, ActionResult actionResult)
+   at System.Web.Mvc.Async.AsyncControllerActionInvoker.<>c__DisplayClass1e.<>c__DisplayClass28.<BeginInvokeAction>b__19()
+   at System.Web.Mvc.Async.AsyncControllerActionInvoker.<>c__DisplayClass1e.<BeginInvokeAction>b__1b(IAsyncResult asyncResult)
+Exception.Data:
+
+2016-09-09 16:19:23,208 [37] ERROR NHS111.Utils.Logging.Log4Net - System.NullReferenceException occured executing 'PW1146FemaleChild/6/Eye, Sticky, Watery/Question/Direct'
+Object reference not set to an instance of an object.
+   at ASP._Page_Views_Question_Question_cshtml.WriteDirectLink(JourneyViewModel model) in c:\DASProjects\Development\nhs111-dotnet-beta\NHS111\NHS111.Web\Views\Question\Question.cshtml:line 31
+   at ASP._Page_Views_Question_Question_cshtml.Execute() in c:\DASProjects\Development\nhs111-dotnet-beta\NHS111\NHS111.Web\Views\Question\Question.cshtml:line 53
+   at System.Web.WebPages.WebPageBase.ExecutePageHierarchy()
+   at System.Web.Mvc.WebViewPage.ExecutePageHierarchy()
+   at System.Web.WebPages.StartPage.RunPage()
+   at System.Web.WebPages.StartPage.ExecutePageHierarchy()
+   at System.Web.WebPages.WebPageBase.ExecutePageHierarchy(WebPageContext pageContext, TextWriter writer, WebPageRenderingBase startPage)
+   at System.Web.Mvc.RazorView.RenderView(ViewContext viewContext, TextWriter writer, Object instance)
+   at System.Web.Mvc.BuildManagerCompiledView.Render(ViewContext viewContext, TextWriter writer)
+   at System.Web.Mvc.ViewResultBase.ExecuteResult(ControllerContext context)
+   at System.Web.Mvc.ControllerActionInvoker.InvokeActionResult(ControllerContext controllerContext, ActionResult actionResult)
+   at System.Web.Mvc.ControllerActionInvoker.InvokeActionResultFilterRecursive(IList`1 filters, Int32 filterIndex, ResultExecutingContext preContext, ControllerContext controllerContext, ActionResult actionResult)
+   at System.Web.Mvc.ControllerActionInvoker.InvokeActionResultFilterRecursive(IList`1 filters, Int32 filterIndex, ResultExecutingContext preContext, ControllerContext controllerContext, ActionResult actionResult)
+   at System.Web.Mvc.ControllerActionInvoker.InvokeActionResultWithFilters(ControllerContext controllerContext, IList`1 filters, ActionResult actionResult)
+   at System.Web.Mvc.Async.AsyncControllerActionInvoker.<>c__DisplayClass1e.<>c__DisplayClass28.<BeginInvokeAction>b__19()
+   at System.Web.Mvc.Async.AsyncControllerActionInvoker.<>c__DisplayClass1e.<BeginInvokeAction>b__1b(IAsyncResult asyncResult)
+Exception.Data:
+
+2016-09-12 14:20:23,773 [12] ERROR NHS111.Utils.Logging.Log4Net - System.Web.HttpException occured executing ''
+A public action method 'SP_Pharmacy' was not found on controller 'NHS111.Web.Controllers.OutcomeController'.
+   at System.Web.Mvc.Controller.HandleUnknownAction(String actionName)
+   at System.Web.Mvc.Controller.<BeginExecuteCore>b__1d(IAsyncResult asyncResult, ExecuteCoreState innerState)
+   at System.Web.Mvc.Async.AsyncResultWrapper.WrappedAsyncVoid`1.CallEndDelegate(IAsyncResult asyncResult)
+   at System.Web.Mvc.Async.AsyncResultWrapper.WrappedAsyncResultBase`1.End()
+   at System.Web.Mvc.Async.AsyncResultWrapper.End[TResult](IAsyncResult asyncResult, Object tag)
+   at System.Web.Mvc.Async.AsyncResultWrapper.End(IAsyncResult asyncResult, Object tag)
+   at System.Web.Mvc.Controller.EndExecuteCore(IAsyncResult asyncResult)
+   at System.Web.Mvc.Controller.<BeginExecute>b__15(IAsyncResult asyncResult, Controller controller)
+   at System.Web.Mvc.Async.AsyncResultWrapper.WrappedAsyncVoid`1.CallEndDelegate(IAsyncResult asyncResult)
+   at System.Web.Mvc.Async.AsyncResultWrapper.WrappedAsyncResultBase`1.End()
+   at System.Web.Mvc.Async.AsyncResultWrapper.End[TResult](IAsyncResult asyncResult, Object tag)
+   at System.Web.Mvc.Async.AsyncResultWrapper.End(IAsyncResult asyncResult, Object tag)
+   at System.Web.Mvc.Controller.EndExecute(IAsyncResult asyncResult)
+   at System.Web.Mvc.Controller.System.Web.Mvc.Async.IAsyncController.EndExecute(IAsyncResult asyncResult)
+   at System.Web.Mvc.MvcHandler.<BeginProcessRequest>b__4(IAsyncResult asyncResult, ProcessRequestState innerState)
+   at System.Web.Mvc.Async.AsyncResultWrapper.WrappedAsyncVoid`1.CallEndDelegate(IAsyncResult asyncResult)
+   at System.Web.Mvc.Async.AsyncResultWrapper.WrappedAsyncResultBase`1.End()
+   at System.Web.Mvc.Async.AsyncResultWrapper.End[TResult](IAsyncResult asyncResult, Object tag)
+   at System.Web.Mvc.Async.AsyncResultWrapper.End(IAsyncResult asyncResult, Object tag)
+   at System.Web.Mvc.MvcHandler.EndProcessRequest(IAsyncResult asyncResult)
+   at System.Web.Mvc.MvcHandler.System.Web.IHttpAsyncHandler.EndProcessRequest(IAsyncResult result)
+   at System.Web.HttpApplication.CallHandlerExecutionStep.System.Web.HttpApplication.IExecutionStep.Execute()
+   at System.Web.HttpApplication.ExecuteStep(IExecutionStep step, Boolean& completedSynchronously)
+Exception.Data:
+
+2016-09-13 10:17:31,679 [10] ERROR NHS111.Utils.Logging.Log4Net - System.Net.WebException occured executing 'PW1146FemaleChild/6/Eye, Sticky, Watery/Question/Direct'
+There was a problem requesting 'http://localhost:9001/pathway/PW1146FemaleChild'; {
+  "Message": "An error has occurred.",
+  "ExceptionMessage": "There was a problem requesting 'http://localhost:9000/pathways/PW1146FemaleChild'; {\r\n  \"Message\": \"An error has occurred.\",\r\n  \"ExceptionMessage\": \"An error occurred when trying to create a controller of type 'PathwayController'. Make sure that the controller has a parameterless public constructor.\",\r\n  \"ExceptionType\": \"System.InvalidOperationException\",\r\n  \"StackTrace\": \"   at System.Web.Http.Dispatcher.DefaultHttpControllerActivator.Create(HttpRequestMessage request, HttpControllerDescriptor controllerDescriptor, Type controllerType)\\r\\n   at System.Web.Http.Controllers.HttpControllerDescriptor.CreateController(HttpRequestMessage request)\\r\\n   at System.Web.Http.Dispatcher.HttpControllerDispatcher.<SendAsync>d__1.MoveNext()\",\r\n  \"InnerException\": {\r\n    \"Message\": \"An error has occurred.\",\r\n    \"ExceptionMessage\": \"Activation error occurred while trying to get instance of type PathwayController, key \\\"\\\"\",\r\n    \"ExceptionType\": \"Microsoft.Practices.ServiceLocation.ActivationException\",\r\n    \"StackTrace\": \"   at Microsoft.Practices.ServiceLocation.ServiceLocatorImplBase.GetInstance(Type serviceType, String key) in c:\\\\Projects\\\\CommonServiceLocator\\\\main\\\\Microsoft.Practices.ServiceLocation\\\\ServiceLocatorImplBase.cs:line 57\\r\\n   at Microsoft.Practices.ServiceLocation.ServiceLocatorImplBase.GetService(Type serviceType) in c:\\\\Projects\\\\CommonServiceLocator\\\\main\\\\Microsoft.Practices.ServiceLocation\\\\ServiceLocatorImplBase.cs:line 22\\r\\n   at System.Web.Http.Dispatcher.DefaultHttpControllerActivator.GetInstanceOrActivator(HttpRequestMessage request, Type controllerType, Func`1& activator)\\r\\n   at System.Web.Http.Dispatcher.DefaultHttpControllerActivator.Create(HttpRequestMessage request, HttpControllerDescriptor controllerDescriptor, Type controllerType)\",\r\n    \"InnerException\": {\r\n      \"Message\": \"An error has occurred.\",\r\n      \"ExceptionMessage\": \"Error while building type NHS111.Domain.Repository.GraphRepository.  See the inner exception for details\\r\\n1.) new GraphRepository(*Default of IConfiguration*)\\r\\n2.) NHS111.Domain.Repository.GraphRepository\\r\\n3.) Instance of NHS111.Domain.Repository.IGraphRepository (NHS111.Domain.Repository.GraphRepository)\\r\\n4.) new PathwayRepository(*Default of IGraphRepository*, *Default of IPathwaysConfigurationManager*, *Default of IPathwaysWhiteListFeature*)\\r\\n5.) NHS111.Domain.Repository.PathwayRepository ('NHS111.Domain.Repository.PathwayRepository, NHS111.Domain, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null')\\r\\n6.) Instance of NHS111.Domain.Repository.IPathwayRepository ('NHS111.Domain.Repository.PathwayRepository, NHS111.Domain, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null')\\r\\n7.) new PathwayController(*Default of IPathwayRepository*)\\r\\n8.) NHS111.Domain.Api.Controllers.PathwayController\\r\\n9.) Instance of NHS111.Domain.Api.Controllers.PathwayController\\r\\n10.) Container.GetInstance(NHS111.Domain.Api.Controllers.PathwayController)\\r\\n\",\r\n      \"ExceptionType\": \"StructureMap.Building.StructureMapBuildException\",\r\n      \"StackTrace\": \"   at lambda_method(Closure , IBuildSession , IContext )\\r\\n   at StructureMap.Building.BuildPlan.Build(IBuildSession session, IContext context) in C:\\\\BuildAgent\\\\work\\\\a395dbde6b793293\\\\src\\\\StructureMap.Shared\\\\Building\\\\BuildPlan.cs:line 154\\r\\n   at StructureMap.BuildSession.BuildNewInSession(Type pluginType, Instance instance) in C:\\\\BuildAgent\\\\work\\\\a395dbde6b793293\\\\src\\\\StructureMap.Shared\\\\BuildSession.cs:line 114\\r\\n   at StructureMap.Pipeline.ContainerSpecificObjectCache.buildWithSession(Type pluginType, Instance instance, IBuildSession session) in C:\\\\BuildAgent\\\\work\\\\a395dbde6b793293\\\\src\\\\StructureMap.Shared\\\\Pipeline\\\\ContainerSpecificObjectCache.cs:line 12\\r\\n   at StructureMap.Pipeline.LifecycleObjectCache.Get(Type pluginType, Instance instance, IBuildSession session) in C:\\\\BuildAgent\\\\work\\\\a395dbde6b793293\\\\src\\\\StructureMap.Shared\\\\Pipeline\\\\LifecycleObjectCache.cs:line 71\\r\\n   at StructureMap.BuildSession.ResolveFromLifecycle(Type pluginType, Instance instance) in C:\\\\BuildAgent\\\\work\\\\a395dbde6b793293\\\\src\\\\StructureMap.Shared\\\\BuildSession.cs:line 103\\r\\n   at StructureMap.SessionCache.GetObject(Type pluginType, Instance instance, ILifecycle lifecycle) in C:\\\\BuildAgent\\\\work\\\\a395dbde6b793293\\\\src\\\\StructureMap.Shared\\\\SessionCache.cs:line 93\\r\\n   at StructureMap.SessionCache.GetDefault(Type pluginType, IPipelineGraph pipelineGraph) in C:\\\\BuildAgent\\\\work\\\\a395dbde6b793293\\\\src\\\\StructureMap.Shared\\\\SessionCache.cs:line 68\\r\\n   at StructureMap.BuildSession.GetInstance(Type pluginType) in C:\\\\BuildAgent\\\\work\\\\a395dbde6b793293\\\\src\\\\StructureMap.Shared\\\\BuildSession.cs:line 60\\r\\n   at StructureMap.Container.DoGetInstance(Type pluginType) in C:\\\\BuildAgent\\\\work\\\\a395dbde6b793293\\\\src\\\\StructureMap.Shared\\\\Container.cs:line 726\\r\\n   at StructureMap.Container.GetInstance(Type pluginType) in C:\\\\BuildAgent\\\\work\\\\a395dbde6b793293\\\\src\\\\StructureMap.Shared\\\\Container.cs:line 722\\r\\n   at NHS111.IoC.DependencyResolution.StructureMapDependencyScope.DoGetInstance(Type serviceType, String key)\\r\\n   at Microsoft.Practices.ServiceLocation.ServiceLocatorImplBase.GetInstance(Type serviceType, String key) in c:\\\\Projects\\\\CommonServiceLocator\\\\main\\\\Microsoft.Practices.ServiceLocation\\\\ServiceLocatorImplBase.cs:line 49\",\r\n      \"InnerException\": {\r\n        \"Message\": \"An error has occurred.\",\r\n        \"ExceptionMessage\": \"One or more errors occurred.\",\r\n        \"ExceptionType\": \"System.AggregateException\",\r\n        \"StackTrace\": \"   at Neo4jClient.Execution.ResponseBuilder.Execute(String commandDescription, TaskFactory taskFactory) in D:\\\\temp\\\\tmp5EFC\\\\Neo4jClient\\\\Execution\\\\ResponseBuilder.cs:line 193\\r\\n   at Neo4jClient.Execution.ResponseBuilder`1.Execute(String commandDescription, TaskFactory taskFactory) in D:\\\\temp\\\\tmp5EFC\\\\Neo4jClient\\\\Execution\\\\ResponseBuilder`TParse.cs:line 92\\r\\n   at Neo4jClient.Execution.ResponseBuilder`1.Execute(String commandDescription) in D:\\\\temp\\\\tmp5EFC\\\\Neo4jClient\\\\Execution\\\\ResponseBuilder`TParse.cs:line 87\\r\\n   at Neo4jClient.Execution.ResponseBuilder`1.Execute() in D:\\\\temp\\\\tmp5EFC\\\\Neo4jClient\\\\Execution\\\\ResponseBuilder`TParse.cs:line 97\\r\\n   at Neo4jClient.GraphClient.Connect() in D:\\\\temp\\\\tmp5EFC\\\\Neo4jClient\\\\GraphClient.cs:line 191\\r\\n   at NHS111.Domain.Repository.GraphRepository..ctor(IConfiguration configuration) in c:\\\\DASProjects\\\\Development\\\\nhs111-dotnet-beta\\\\NHS111\\\\NHS111.Domain\\\\Repository\\\\GraphRepository.cs:line 15\\r\\n   at lambda_method(Closure , IBuildSession , IContext )\",\r\n        \"InnerException\": {\r\n          \"Message\": \"An error has occurred.\",\r\n          \"ExceptionMessage\": \"An error occurred while sending the request.\",\r\n          \"ExceptionType\": \"System.Net.Http.HttpRequestException\",\r\n          \"StackTrace\": null,\r\n          \"InnerException\": {\r\n            \"Message\": \"An error has occurred.\",\r\n            \"ExceptionMessage\": \"Unable to connect to the remote server\",\r\n            \"ExceptionType\": \"System.Net.WebException\",\r\n            \"StackTrace\": \"   at System.Net.HttpWebRequest.EndGetResponse(IAsyncResult asyncResult)\\r\\n   at System.Net.Http.HttpClientHandler.GetResponseCallback(IAsyncResult ar)\",\r\n            \"InnerException\": {\r\n              \"Message\": \"An error has occurred.\",\r\n              \"ExceptionMessage\": \"No connection could be made because the target machine actively refused it 40.118.108.5:7476\",\r\n              \"ExceptionType\": \"System.Net.Sockets.SocketException\",\r\n              \"StackTrace\": \"   at System.Net.Sockets.Socket.EndConnect(IAsyncResult asyncResult)\\r\\n   at System.Net.ServicePoint.ConnectSocketInternal(Boolean connectFailure, Socket s4, Socket s6, Socket& socket, IPAddress& address, ConnectSocketState state, IAsyncResult asyncResult, Exception& exception)\"\r\n            }\r\n          }\r\n        }\r\n      }\r\n    }\r\n  }\r\n}",
+  "ExceptionType": "System.Net.WebException",
+  "StackTrace": "   at NHS111.Utils.Helpers.RestfulHelper.<GetAsync>d__0.MoveNext() in c:\\DASProjects\\Development\\nhs111-dotnet-beta\\NHS111\\NHS111.Utils\\Helpers\\RestfulHelper.cs:line 46\r\n--- End of stack trace from previous location where exception was thrown ---\r\n   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)\r\n   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)\r\n   at System.Runtime.CompilerServices.TaskAwaiter`1.GetResult()\r\n   at NHS111.Business.Services.PathwayService.<GetPathway>d__3.MoveNext() in c:\\DASProjects\\Development\\nhs111-dotnet-beta\\NHS111\\NHS111.Business\\Services\\PathwayService.cs:line 26\r\n--- End of stack trace from previous location where exception was thrown ---\r\n   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)\r\n   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)\r\n   at System.Runtime.CompilerServices.TaskAwaiter`1.GetResult()\r\n   at NHS111.Utils.Extensions.TaskExtension.<AsHttpResponse>d__3.MoveNext() in c:\\DASProjects\\Development\\nhs111-dotnet-beta\\NHS111\\NHS111.Utils\\Extensions\\TaskExtension.cs:line 18\r\n--- End of stack trace from previous location where exception was thrown ---\r\n   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)\r\n   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)\r\n   at System.Runtime.CompilerServices.TaskAwaiter`1.GetResult()\r\n   at NHS111.Business.Api.Controllers.PathwayController.<Get>d__0.MoveNext() in c:\\DASProjects\\Development\\nhs111-dotnet-beta\\NHS111\\NHS111.Business.Api\\Controllers\\PathwayController.cs:line 26\r\n--- End of stack trace from previous location where exception was thrown ---\r\n   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)\r\n   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)\r\n   at System.Runtime.CompilerServices.TaskAwaiter`1.GetResult()\r\n   at System.Threading.Tasks.TaskHelpersExtensions.<CastToObject>d__3`1.MoveNext()\r\n--- End of stack trace from previous location where exception was thrown ---\r\n   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)\r\n   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)\r\n   at System.Runtime.CompilerServices.TaskAwaiter`1.GetResult()\r\n   at System.Web.Http.Controllers.ApiControllerActionInvoker.<InvokeActionAsyncCore>d__0.MoveNext()\r\n--- End of stack trace from previous location where exception was thrown ---\r\n   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)\r\n   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)\r\n   at System.Runtime.CompilerServices.TaskAwaiter`1.GetResult()\r\n   at System.Web.Http.Controllers.ActionFilterResult.<ExecuteAsync>d__2.MoveNext()\r\n--- End of stack trace from previous location where exception was thrown ---\r\n   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)\r\n   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)\r\n   at System.Runtime.CompilerServices.TaskAwaiter`1.GetResult()\r\n   at System.Web.Http.Controllers.ExceptionFilterResult.<ExecuteAsync>d__0.MoveNext()\r\n--- End of stack trace from previous location where exception was thrown ---\r\n   at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()\r\n   at System.Web.Http.Controllers.ExceptionFilterResult.<ExecuteAsync>d__0.MoveNext()\r\n--- End of stack trace from previous location where exception was thrown ---\r\n   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)\r\n   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)\r\n   at System.Runtime.CompilerServices.TaskAwaiter`1.GetResult()\r\n   at System.Web.Http.Dispatcher.HttpControllerDispatcher.<SendAsync>d__1.MoveNext()",
+  "InnerException": {
+    "Message": "An error has occurred.",
+    "ExceptionMessage": "The remote server returned an error: (500) Internal Server Error.",
+    "ExceptionType": "System.Net.WebException",
+    "StackTrace": "   at System.Net.HttpWebRequest.EndGetResponse(IAsyncResult asyncResult)\r\n   at System.Net.WebClient.GetWebResponse(WebRequest request, IAsyncResult result)\r\n   at System.Net.WebClient.DownloadBitsResponseCallback(IAsyncResult result)\r\n--- End of stack trace from previous location where exception was thrown ---\r\n   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)\r\n   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)\r\n   at System.Runtime.CompilerServices.TaskAwaiter`1.GetResult()\r\n   at NHS111.Utils.Helpers.RestfulHelper.<GetAsync>d__0.MoveNext() in c:\\DASProjects\\Development\\nhs111-dotnet-beta\\NHS111\\NHS111.Utils\\Helpers\\RestfulHelper.cs:line 40"
+  }
+}
+   at NHS111.Utils.Helpers.RestfulHelper.<GetAsync>d__0.MoveNext() in c:\DASProjects\Development\nhs111-dotnet-beta\NHS111\NHS111.Utils\Helpers\RestfulHelper.cs:line 46
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter`1.GetResult()
+   at NHS111.Web.Controllers.QuestionController.<DeriveJourneyView>d__26.MoveNext() in c:\DASProjects\Development\nhs111-dotnet-beta\NHS111\NHS111.Web\Controllers\QuestionController.cs:line 155
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter`1.GetResult()
+   at NHS111.Web.Controllers.QuestionController.<Direct>d__1a.MoveNext() in c:\DASProjects\Development\nhs111-dotnet-beta\NHS111\NHS111.Web\Controllers\QuestionController.cs:line 129
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at lambda_method(Closure , Task )
+   at System.Threading.Tasks.TaskHelpersExtensions.ThrowIfFaulted(Task task)
+   at System.Web.Mvc.Async.TaskAsyncActionDescriptor.EndExecute(IAsyncResult asyncResult)
+   at System.Web.Mvc.Async.AsyncControllerActionInvoker.<>c__DisplayClass34.<BeginInvokeAsynchronousActionMethod>b__33(IAsyncResult asyncResult)
+   at System.Web.Mvc.Async.AsyncResultWrapper.WrappedAsyncResult`1.CallEndDelegate(IAsyncResult asyncResult)
+   at System.Web.Mvc.Async.AsyncResultWrapper.WrappedAsyncResultBase`1.End()
+   at System.Web.Mvc.Async.AsyncResultWrapper.End[TResult](IAsyncResult asyncResult, Object tag)
+   at System.Web.Mvc.Async.AsyncControllerActionInvoker.EndInvokeActionMethod(IAsyncResult asyncResult)
+   at System.Web.Mvc.Async.AsyncControllerActionInvoker.AsyncInvocationWithFilters.<InvokeActionMethodFilterAsynchronouslyRecursive>b__3c()
+   at System.Web.Mvc.Async.AsyncControllerActionInvoker.AsyncInvocationWithFilters.<>c__DisplayClass45.<InvokeActionMethodFilterAsynchronouslyRecursive>b__3e()
+   at System.Web.Mvc.Async.AsyncControllerActionInvoker.<>c__DisplayClass30.<BeginInvokeActionMethodWithFilters>b__2f(IAsyncResult asyncResult)
+   at System.Web.Mvc.Async.AsyncResultWrapper.WrappedAsyncResult`1.CallEndDelegate(IAsyncResult asyncResult)
+   at System.Web.Mvc.Async.AsyncResultWrapper.WrappedAsyncResultBase`1.End()
+   at System.Web.Mvc.Async.AsyncResultWrapper.End[TResult](IAsyncResult asyncResult, Object tag)
+   at System.Web.Mvc.Async.AsyncControllerActionInvoker.EndInvokeActionMethodWithFilters(IAsyncResult asyncResult)
+   at System.Web.Mvc.Async.AsyncControllerActionInvoker.<>c__DisplayClass1e.<>c__DisplayClass28.<BeginInvokeAction>b__19()
+   at System.Web.Mvc.Async.AsyncControllerActionInvoker.<>c__DisplayClass1e.<BeginInvokeAction>b__1b(IAsyncResult asyncResult)
+Exception.Data:
+

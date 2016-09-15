@@ -66,11 +66,10 @@
     <div class="section-item last">
         @if (Model.DisplayWorseningCareAdvice)
         {
-            <h3 class="care-advice-section-header">
-                What if I feel worse?
-            </h3>
-
             <div class="service-booking-message alert">
+                <h3 class="care-advice-section-header">
+                    What if I feel worse?
+                </h3>
                 @foreach (var item in Model.WorseningCareAdvice.Items)
                 {
                     <p>@item.Text</p>
