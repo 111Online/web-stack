@@ -25,8 +25,8 @@ namespace NHS111.SmokeTests
         {
             try
             {
-               // _driver.Quit();
-              //  _driver.Dispose();
+                _driver.Quit();
+                _driver.Dispose();
             }
             catch (Exception)
             {
@@ -104,7 +104,11 @@ namespace NHS111.SmokeTests
                 .AnswerForDispostion("It's getting worse");
 
 
-            outcomePage.VerifyOutcome("You've finished your online assessment");
+            outcomePage.VerifyOutcome("Your answers suggest you should get emergency dental treatment within 4 hours");
+            outcomePage.VerifyFindService(FindServiceTypes.EmergencyDental);
+            outcomePage.VerifyWorseningPanel(WorseningMessages.Call999);
+            outcomePage.VerifyCareAdviceHeader("I know where to get emergency dental treatment. What can I do in the meantime?");
+            outcomePage.VerifyCareAdvice(new string[] { "Tooth extraction" });
         }
 
         [Test]
