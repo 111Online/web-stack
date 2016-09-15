@@ -17,7 +17,7 @@ namespace NHS111.SmokeTests
         [TestFixtureSetUp]
         public void InitTests()
         {
-            _driver = new FirefoxDriver();
+            _driver = new ChromeDriver();
         }
 
         [TestFixtureTearDown]
