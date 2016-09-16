@@ -188,8 +188,9 @@
     <Compile Include="Helpers\RestfulHelper.cs" />
     <Compile Include="IoC\UtilsRegistry.cs" />
     <Compile Include="Kafka\KafkaClient.cs" />
+    <Compile Include="Logging\AzureTableStorageAppended.cs" />
     <Compile Include="Logging\Log4Net.cs" />
-    <Compile Include="Logging\LogEntry.cs" />
+    <Compile Include="Logging\LogServiceContext.cs" />
     <Compile Include="Monitoring\BaseMonitor.cs" />
     <Compile Include="Monitoring\IMonitor.cs" />
     <Compile Include="Notifier\Notifier.cs" />
@@ -198,7 +199,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
-    <None Include="packages.config" />
+    <None Include="packages.config">
+      <SubType>Designer</SubType>
+    </None>
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
