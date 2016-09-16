@@ -128,6 +128,30 @@ namespace NHS111.SmokeTests
             outcomePage.VerifyCareAdvice(new string[] { "Headache", "Breathlessness", "Medication, pain and/or fever" });
         }
 
+        [Test]
+        public void OpticianEndpointJourney()
+        {
+            var questionPage = TestScenerios.LaunchTriageScenerio(_driver, "Eye, Sticky, Watery", TestScenerioGender.Female, TestScenerioAgeGroups.Child);
+
+            questionPage.ValidateQuestion("Have you noticed any new changes to your vision?");
+            var outcomePage = questionPage
+                .AnswerNo()
+                .AnswerYes()
+                .AnswerSuccessiveNo(2)
+                .Answer("My problem affects both eyes")
+                .AnswerSuccessiveNo(6)
+                .Answer("No, less than two weeks")
+                .AnswerSuccessiveNo(2)
+                .AnswerForDispostion("No");
+
+            outcomePage.VerifyOutcome("Your answers suggest you should see an optician within 3 days");
+            outcomePage.VerifyWorseningPanel(WorseningMessages.Call111);
+            outcomePage.VerifyFindService(FindServiceTypes.Optician);
+            outcomePage.VerifyCareAdviceHeader("I know which optician I'm going to. What can I do in the meantime?");
+            outcomePage.VerifyCareAdvice(new string[] { "Medication, pain and/or fever" });
+        }
+
+
 
 
 
