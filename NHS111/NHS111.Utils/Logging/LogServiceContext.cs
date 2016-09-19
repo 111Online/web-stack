@@ -1,14 +1,15 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Auth;
 using Microsoft.WindowsAzure.Storage.Table;
-using NHS111.Models.Models.Web.Logging;
 
 namespace NHS111.Utils.Logging
 {
-    internal class LogServiceContext
+    public class LogServiceContext : ILogServiceContext
     {
         private readonly CloudTable _table;
+
         public LogServiceContext(string accountName, string accountKey, string storageTable)
             : this(new StorageCredentials(accountName, accountKey), storageTable)
         {
@@ -24,10 +25,19 @@ namespace NHS111.Utils.Logging
             _table.CreateIfNotExists();
         }
 
-        internal void Log(LogEntry logEntry)
+        public void Log<T>(T entity) where T : ITableEntity
         {
-            var insertOperation = TableOperation.Insert(logEntry);
-            _table.Execute(insertOperation);
+            Action doWriteToTable = () =>
+            {
+                var insertOperation = TableOperation.Insert(entity);
+                _table.Execute(insertOperation);
+            };
+            doWriteToTable.BeginInvoke(null, null);
         }
+    }
+
+    public interface ILogServiceContext
+    {
+        void Log<T>(T entity) where T : ITableEntity;
     }
 }
