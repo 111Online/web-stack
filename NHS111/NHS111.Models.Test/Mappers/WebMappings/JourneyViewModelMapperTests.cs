@@ -6,9 +6,11 @@ using System.Threading.Tasks;
 using NHS111.Models.Mappers.WebMappings;
 using NUnit.Framework;
 using AutoMapper;
+using Newtonsoft.Json;
 using NHS111.Models.Models.Domain;
 using NHS111.Models.Models.Web;
 using NHS111.Models.Models.Web.Enums;
+using NHS111.Models.Models.Web.Logging;
 
 namespace NHS111.Models.Test.Mappers.WebMappings.JourneyViewModelMapper
 {
@@ -75,7 +77,19 @@ namespace NHS111.Models.Test.Mappers.WebMappings.JourneyViewModelMapper
             AssertValidModel(result);
         }
 
-     
+        [Test()]
+        public void FromJourneyViewModelToAuditEntryConverter_Test()
+        {
+            var userId = Guid.NewGuid();
+            var existingJourney = new JourneyViewModel() { UserId = userId, PathwayId = "PW123.00", PathwayTitle = "Pathway Title", JourneyJson = "{[]}", StateJson = "{[]}" };
+            
+            var result = Mapper.Map<AuditEntry>(existingJourney);
+            Assert.AreEqual(userId, result.SessionId);
+            Assert.AreEqual("PW123.00", result.PathwayId);
+            Assert.AreEqual("Pathway Title", result.PathwayTitle);
+            Assert.AreEqual("{[]}", result.Journey);
+            Assert.AreEqual("{[]}", result.State);
+        }
 
         private void AssertValidModel(JourneyViewModel result)
         {

@@ -5,6 +5,7 @@ using Newtonsoft.Json;
 using NHS111.Models.Models.Domain;
 using NHS111.Models.Models.Web;
 using NHS111.Models.Models.Web.Enums;
+using NHS111.Models.Models.Web.Logging;
 
 namespace NHS111.Models.Mappers.WebMappings
 {
@@ -33,6 +34,17 @@ namespace NHS111.Models.Mappers.WebMappings
                 .ForMember(s => s.ItkSendSuccess, o => o.Ignore())
                 .ForMember(s => s.WorseningCareAdvice, o => o.Ignore())
                 .ForMember(s => s.SymptomDiscriminator, o => o.Ignore());
+
+            Mapper.CreateMap<JourneyViewModel, AuditEntry>()
+                .ForMember(dest => dest.SessionId, opt => opt.MapFrom(src => src.UserId))
+                .ForMember(dest => dest.PathwayId, opt => opt.MapFrom(src => src.PathwayId))
+                .ForMember(dest => dest.PathwayTitle, opt => opt.MapFrom(src => src.PathwayTitle))
+                .ForMember(dest => dest.Journey, opt => opt.MapFrom(src => src.JourneyJson))
+                .ForMember(dest => dest.State, opt => opt.MapFrom(src => src.StateJson))
+                .ForMember(dest => dest.Timestamp, opt => opt.Ignore())
+                .ForMember(dest => dest.ETag, opt => opt.Ignore())
+                .ForMember(dest => dest.PartitionKey, opt => opt.Ignore())
+                .ForMember(dest => dest.RowKey, opt => opt.Ignore());
         }
 
         public class FromAnswerToJourneyViewModelConverter : ITypeConverter<Answer, JourneyViewModel>
