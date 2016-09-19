@@ -9,15 +9,24 @@ namespace NHS111.Utils.Logging
 {
     public sealed class AzureTableStorageAppender : AppenderSkeleton
     {
-        private readonly ILogServiceContext _logServiceContext;
+        private ILogServiceContext _logServiceContext;
 
         public AzureTableStorageAppender(ILogServiceContext logServiceContext)
         {
             _logServiceContext = logServiceContext;
         }
 
-        public AzureTableStorageAppender()
+        public AzureTableStorageAppender() {}
+
+        public string TableStorageAccountName { get; set; }
+
+        public string TableStorageAccountKey { get; set; }
+
+        public string TableStorageName { get; set; }
+
+        public override void ActivateOptions()
         {
+            base.ActivateOptions();
             try
             {
                 _logServiceContext = new LogServiceContext(TableStorageAccountName, TableStorageAccountKey, TableStorageName);
@@ -26,13 +35,7 @@ namespace NHS111.Utils.Logging
             {
                 ErrorHandler.Error(string.Format("{0}: Could not write log entry to {1}: {2}", GetType().AssemblyQualifiedName, TableStorageName, e.Message));
             }
-        } 
-
-        public string TableStorageAccountName { get; set; }
-
-        public string TableStorageAccountKey { get; set; }
-
-        public string TableStorageName { get; set; }
+        }
 
         protected override void Append(LoggingEvent loggingEvent)
         {
