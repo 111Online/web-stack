@@ -55,6 +55,7 @@
             <div id="content">
                 @using (Html.BeginForm("JustToBeSafeNext", "JustToBeSafe", FormMethod.Post, new { @id = "jtbsForm" }))
                 {
+                    @Html.HiddenFor(x => Model.SessionId)
                     @Html.HiddenFor(x => Model.PathwayId)
                     @Html.HiddenFor(x => Model.PathwayNo)
                     @Html.HiddenFor(x => Model.PathwayTitle)

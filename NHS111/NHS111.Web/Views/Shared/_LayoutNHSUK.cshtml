@@ -27,6 +27,11 @@
     <script src="~/scripts/jquery.cookie.js"></script>
 
     <script>
+        $(document).ready(function () {
+            var $sessionId = $("#SessionId");
+            if ($sessionId) $sessionId.val($.cookie("userId"));
+        });
+
         $(function () {
             var userId = $.cookie("userId");
             if (!userId) $.cookie("userId", '@Guid.NewGuid()', { path: '/' });

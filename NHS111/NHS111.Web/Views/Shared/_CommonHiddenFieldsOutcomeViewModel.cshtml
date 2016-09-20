@@ -1,5 +1,6 @@
 ﻿@model NHS111.Models.Models.Web.OutcomeViewModel
 
+@Html.HiddenFor(x => Model.SessionId)
 @Html.HiddenFor(x => Model.Id)
 @Html.HiddenFor(x => Model.JourneyJson)
 @Html.HiddenFor(x => Model.PathwayId)
@@ -11,7 +12,6 @@
 @Html.HiddenFor(x => Model.SymptomDiscriminatorCode)
 @Html.HiddenFor(x => Model.Title)
 @Html.HiddenFor(x => Model.UserInfo.CurrentAddress.PostCode)
-@Html.HiddenFor(x => Model.UserId)
 @Html.HiddenFor(x => Model.StateJson)
 @Html.HiddenFor(x => Model.PreviousStateJson)
 @Html.HiddenFor(x => Model.TimeFrameText)
