@@ -36,7 +36,7 @@ namespace NHS111.Models.Mappers.WebMappings
                 .ForMember(s => s.SymptomDiscriminator, o => o.Ignore());
 
             Mapper.CreateMap<JourneyViewModel, AuditEntry>()
-                .ForMember(dest => dest.SessionId, opt => opt.MapFrom(src => src.UserId))
+                .ForMember(dest => dest.SessionId, opt => opt.MapFrom(src => src.SessionId))
                 .ForMember(dest => dest.PathwayId, opt => opt.MapFrom(src => src.PathwayId))
                 .ForMember(dest => dest.PathwayTitle, opt => opt.MapFrom(src => src.PathwayTitle))
                 .ForMember(dest => dest.Journey, opt => opt.MapFrom(src => src.JourneyJson))

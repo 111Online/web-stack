@@ -32,7 +32,7 @@ namespace NHS111.Models.Mappers.WebMappings
             var outcome = (OutcomeViewModel)context.SourceValue;
             var caseDetails = (CaseDetails)context.DestinationValue ?? new CaseDetails();
 
-            caseDetails.ExternalReference = outcome.UserId.ToString();
+            caseDetails.ExternalReference = outcome.SessionId.ToString();
             caseDetails.DispositionCode = outcome.Id;
             caseDetails.DispositionName = outcome.Title;
 

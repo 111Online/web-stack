@@ -80,11 +80,11 @@ namespace NHS111.Models.Test.Mappers.WebMappings.JourneyViewModelMapper
         [Test()]
         public void FromJourneyViewModelToAuditEntryConverter_Test()
         {
-            var userId = Guid.NewGuid();
-            var existingJourney = new JourneyViewModel() { UserId = userId, PathwayId = "PW123.00", PathwayTitle = "Pathway Title", JourneyJson = "{[]}", StateJson = "{[]}" };
+            var sessionId = Guid.NewGuid();
+            var existingJourney = new JourneyViewModel() { SessionId = sessionId, PathwayId = "PW123.00", PathwayTitle = "Pathway Title", JourneyJson = "{[]}", StateJson = "{[]}" };
             
             var result = Mapper.Map<AuditEntry>(existingJourney);
-            Assert.AreEqual(userId, result.SessionId);
+            Assert.AreEqual(sessionId, result.SessionId);
             Assert.AreEqual("PW123.00", result.PathwayId);
             Assert.AreEqual("Pathway Title", result.PathwayTitle);
             Assert.AreEqual("{[]}", result.Journey);

@@ -28,6 +28,7 @@
         <div>
             @using (Html.BeginForm("JustToBeSafeFirst", "JustToBeSafe", FormMethod.Post, new { @id = "outerContent" }))
             {
+                @Html.HiddenFor(x => Model.SessionId)
                 @Html.HiddenFor(x => Model.PathwayNo)
                 <div>
                     <h2 class="heading-large">We need a few more details</h2>
