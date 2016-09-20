@@ -118,7 +118,6 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Models\LogData.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="StorageProviders\Log4NetStorageProvider.cs" />
   </ItemGroup>
