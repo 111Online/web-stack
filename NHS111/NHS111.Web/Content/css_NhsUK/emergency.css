@@ -29,6 +29,15 @@
     line-height: 1;
     font-size: 1.4em;
 }
+@media (max-width: 769px) {
+    .emergency-img {
+        display:none;
+    }
+    .emergency-text h3 {
+        line-height:3rem;
+    }
+}
+
 @media (min-width: 925px) {
     .emergency-text h2 {
         font-size: 1.6em;
