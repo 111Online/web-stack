@@ -29,7 +29,8 @@ namespace NHS111.Utils.Logging
             base.ActivateOptions();
             try
             {
-                _logServiceContext = new LogServiceContext(TableStorageAccountName, TableStorageAccountKey, TableStorageName);
+                if (_logServiceContext == null)
+                    _logServiceContext = new LogServiceContext(TableStorageAccountName, TableStorageAccountKey, TableStorageName);
             }
             catch (DataServiceRequestException e)
             {
