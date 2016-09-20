@@ -27,5 +27,10 @@ namespace NHS111.Utils.Logging
         {
             Logger.Error(msg);
         }
+
+        public static void Audit(string msg)
+        {
+            Logger.Audit(msg);
+        }
     }
 }

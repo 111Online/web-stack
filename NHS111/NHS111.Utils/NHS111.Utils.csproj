@@ -190,6 +190,7 @@
     <Compile Include="Kafka\KafkaClient.cs" />
     <Compile Include="Logging\AzureTableStorageAppender.cs" />
     <Compile Include="Logging\Log4Net.cs" />
+    <Compile Include="Logging\LogAudit.cs" />
     <Compile Include="Logging\LogServiceContext.cs" />
     <Compile Include="Monitoring\BaseMonitor.cs" />
     <Compile Include="Monitoring\IMonitor.cs" />
