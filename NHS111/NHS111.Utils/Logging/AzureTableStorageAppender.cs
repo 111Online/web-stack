@@ -32,9 +32,10 @@ namespace NHS111.Utils.Logging
                 if (_logServiceContext == null)
                     _logServiceContext = new LogServiceContext(TableStorageAccountName, TableStorageAccountKey, TableStorageName);
             }
-            catch (DataServiceRequestException e)
+            catch (Exception e)
             {
                 ErrorHandler.Error(string.Format("{0}: Could not write log entry to {1}: {2}", GetType().AssemblyQualifiedName, TableStorageName, e.Message));
+                throw;
             }
         }
 

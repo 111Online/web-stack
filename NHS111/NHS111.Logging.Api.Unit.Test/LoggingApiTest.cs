@@ -1,6 +1,7 @@
 ﻿
 namespace NHS111.Logging.Api.Unit.Test {
     using System;
+    using System.Data.Services.Client;
     using System.Threading.Tasks;
     using Controllers;
     using log4net;
@@ -14,15 +15,42 @@ namespace NHS111.Logging.Api.Unit.Test {
 
     [TestFixture]
     public class LoggingApiTest {
-        private static readonly Mock<ILogServiceContext> _mockLogServiceContext = new Mock<ILogServiceContext>();
 
         [Test]
         public async Task Audit_Always_StoresAuditInAzureStorage() {
+            await _logsController.Audit(_audit);
 
-            ConfigureLog4Net();
+            _mockLogServiceContext.Verify(c => c.Log(It.Is<AuditEntry>(a => a.SessionId == _audit.SessionId)));
+        }
 
-            var logsController = new LogsController();
-            var audit = new AuditEntry {
+        [Test]
+        public void ActivateOptions_WithConcreteLogServiceContext_ThrowsDataServiceRequestException() {
+            var appender = new AzureTableStorageAppender {
+                TableStorageAccountName = "someaccount",
+                TableStorageAccountKey =
+                    Convert.ToBase64String(System.Text.Encoding.UTF8.GetBytes("somekey".ToCharArray())),
+                TableStorageName = "sometable"
+            };
+
+            Assert.Throws(Is.InstanceOf<Exception>(), delegate { appender.ActivateOptions(); });
+        }
+
+        [SetUp]
+        public void SetUp() {
+            BasicConfigurator.Configure();
+
+            var logRepository = ((Hierarchy) LogManager.GetRepository());
+            var root = logRepository.Root;
+            var attachable = (IAppenderAttachable) root;
+
+            _appender = new AzureTableStorageAppender(_mockLogServiceContext.Object);
+            if (attachable != null)
+                attachable.AddAppender(_appender);
+
+            logRepository.Threshold = LogAudit.AuditLevel;
+            logRepository.RaiseConfigurationChanged(EventArgs.Empty);
+
+            _audit = new AuditEntry {
                 SessionId = Guid.NewGuid(),
                 PathwayId = "PW118",
                 PathwayTitle = "Test",
@@ -30,24 +58,11 @@ namespace NHS111.Logging.Api.Unit.Test {
                 State = "{ someOther: 'thingy' }"
             };
 
-            await logsController.Audit(audit);
-
-            _mockLogServiceContext.Verify(c => c.Log(It.Is<AuditEntry>(a => a.SessionId == audit.SessionId)));
         }
 
-        private static void ConfigureLog4Net() {
-            BasicConfigurator.Configure();
-
-            var logRepository = ((Hierarchy) LogManager.GetRepository());
-            var root = logRepository.Root;
-            var attachable = (IAppenderAttachable) root;
-
-            var appender = new AzureTableStorageAppender(_mockLogServiceContext.Object);
-            if (attachable != null)
-                attachable.AddAppender(appender);
-
-            logRepository.Threshold = LogAudit.AuditLevel;
-            logRepository.RaiseConfigurationChanged(EventArgs.Empty);
-        }
+        private static readonly Mock<ILogServiceContext> _mockLogServiceContext = new Mock<ILogServiceContext>();
+        private readonly LogsController _logsController = new LogsController();
+        private AuditEntry _audit;
+        private AzureTableStorageAppender _appender;
     }
 }
