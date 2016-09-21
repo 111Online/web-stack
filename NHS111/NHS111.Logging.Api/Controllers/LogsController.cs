@@ -12,7 +12,7 @@ namespace NHS111.Logging.Api.Controllers {
         : ApiController {
 
         public LogsController()
-            : this(new Log4NetStorageProvider(LogManager.GetLogger(typeof(Log4NetStorageProvider)))) {
+            : this(new Log4NetStorageProvider()) {
             
         }
 
