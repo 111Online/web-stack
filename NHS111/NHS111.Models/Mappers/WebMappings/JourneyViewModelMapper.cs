@@ -42,7 +42,7 @@ namespace NHS111.Models.Mappers.WebMappings
                 .ForMember(dest => dest.Journey, opt => opt.MapFrom(src => src.JourneyJson))
                 .ForMember(dest => dest.State, opt => opt.MapFrom(src => src.StateJson))
                 .ForMember(dest => dest.Timestamp, opt => opt.Ignore())
-                .ForMember(dest => dest.TimeStamp, opt => opt.Ignore())
+                .ForMember(dest => dest.TIMESTAMP, opt => opt.Ignore())
                 .ForMember(dest => dest.ETag, opt => opt.Ignore())
                 .ForMember(dest => dest.PartitionKey, opt => opt.Ignore())
                 .ForMember(dest => dest.RowKey, opt => opt.Ignore());
