@@ -176,6 +176,7 @@
     <Compile Include="FeatureToggle\IFeature.cs" />
     <Compile Include="FeatureToggle\IFeatureSettingValueProvider.cs" />
     <Compile Include="FeatureToggle\MissingSettingException.cs" />
+    <Compile Include="Filters\LogJourneyFilterAttribute.cs" />
     <Compile Include="Helpers\HttpClientFactory.cs" />
     <Compile Include="Cache\CacheManager.cs" />
     <Compile Include="Cache\ICacheManager.cs" />
