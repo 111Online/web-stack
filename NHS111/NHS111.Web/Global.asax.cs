@@ -9,6 +9,7 @@ namespace NHS111.Web {
     using System.Web.Routing;
     using Models.Models.Web;
     using Presentation.ModelBinders;
+    using Utils.Filters;
     using Utils.Logging;
 
     public class MvcApplication
@@ -21,6 +22,8 @@ namespace NHS111.Web {
             BundleConfig.RegisterBundles(BundleTable.Bundles);
 
             ModelBinders.Binders[typeof (JourneyViewModel)] = new JourneyViewModelBinder();
+
+            GlobalFilters.Filters.Add(new LogJourneyFilterAttribute());
         }
 
         protected void Application_Error(object sender, EventArgs e)
