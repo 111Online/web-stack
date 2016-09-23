@@ -48,8 +48,8 @@ namespace NHS111.Web.Presentation.Builders
                     State = JsonConvert.DeserializeObject<Dictionary<string, string>>(identifiedModel.StateJson),
                     StateJson = identifiedModel.StateJson,
                     CollectedKeywords = identifiedModel.CollectedKeywords,
-                    Journey = JsonConvert.DeserializeObject<Journey>(identifiedModel.JourneyJson)
-               
+                    Journey = JsonConvert.DeserializeObject<Journey>(identifiedModel.JourneyJson),
+                    SessionId = model.SessionId
                 };
                 var question = JsonConvert.DeserializeObject<QuestionWithAnswers>(await _restfulHelper.GetAsync(_configuration.GetBusinessApiFirstQuestionUrl(identifiedModel.PathwayId, identifiedModel.StateJson)));
                 _mappingEngine.Mapper.Map(question, journeyViewModel);
@@ -79,6 +79,7 @@ namespace NHS111.Web.Presentation.Builders
                 JourneyJson = model.JourneyJson,
                 SymptomDiscriminatorCode = model.SymptomDiscriminatorCode,
                 State = JourneyViewModelStateBuilder.BuildState(pathway.Gender, derivedAge),
+                SessionId = model.SessionId
             };
 
             newModel.StateJson = JourneyViewModelStateBuilder.BuildStateJson(newModel.State);

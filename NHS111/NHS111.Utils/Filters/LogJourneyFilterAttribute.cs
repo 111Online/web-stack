@@ -34,7 +34,8 @@ namespace NHS111.Utils.Filters
                 Journey = model.JourneyJson,
                 PathwayId = model.PathwayId,
                 PathwayTitle = model.PathwayTitle,
-                State = model.StateJson
+                State = model.StateJson,
+                DxCode = model is OutcomeViewModel ? model.Id : ""
             };
             var httpRequestMessage = new HttpRequestMessage(HttpMethod.Post, new Uri(url)) {
                 Content = new StringContent(JsonConvert.SerializeObject(audit))
