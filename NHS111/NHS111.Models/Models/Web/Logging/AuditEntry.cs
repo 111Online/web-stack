@@ -19,5 +19,8 @@ namespace NHS111.Models.Models.Web.Logging
 
         [JsonProperty(PropertyName = "journey")]
         public string Journey { get; set; }
+
+        [JsonProperty(PropertyName = "dxCode")]
+        public string DxCode { get; set; }
     }
 }
