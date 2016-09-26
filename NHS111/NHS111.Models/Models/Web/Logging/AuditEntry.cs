@@ -22,5 +22,8 @@ namespace NHS111.Models.Models.Web.Logging
 
         [JsonProperty(PropertyName = "dxCode")]
         public string DxCode { get; set; }
+
+        [JsonProperty(PropertyName = "eventData")]
+        public string EventData { get; set; }
     }
 }
