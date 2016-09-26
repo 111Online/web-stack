@@ -14,9 +14,12 @@ namespace NHS111.Web.Controllers {
     using System.Text;
     using System.Web;
     using Models.Models.Domain;
+    using Models.Models.Web.Logging;
     using Newtonsoft.Json;
     using Presentation.Features;
+    using Presentation.Logging;
     using Presentation.ModelBinders;
+    using Utils.Filters;
     using Utils.Helpers;
     using IConfiguration = Presentation.Configuration.IConfiguration;
 
@@ -25,17 +28,22 @@ namespace NHS111.Web.Controllers {
         : Controller {
 
         public QuestionController(IJourneyViewModelBuilder journeyViewModelBuilder, IRestfulHelper restfulHelper,
-            IConfiguration configuration, IJustToBeSafeFirstViewModelBuilder justToBeSafeFirstViewModelBuilder, IDirectLinkingFeature directLinkingFeature) {
+            IConfiguration configuration, IJustToBeSafeFirstViewModelBuilder justToBeSafeFirstViewModelBuilder, IDirectLinkingFeature directLinkingFeature,
+            IAuditLogger auditLogger) {
             _journeyViewModelBuilder = journeyViewModelBuilder;
             _restfulHelper = restfulHelper;
             _configuration = configuration;
             _justToBeSafeFirstViewModelBuilder = justToBeSafeFirstViewModelBuilder;
             _directLinkingFeature = directLinkingFeature;
+            _auditLogger = auditLogger;
         }
 
         [HttpPost]
         [ActionName("Home")]
-        public  ActionResult Search() {
+        public  ActionResult Search(JourneyViewModel model) {
+            var audit = model.ToAuditEntry();
+            audit.EventData = "User accepted module zero.";
+            _auditLogger.Log(audit);
             return View("Search");
         }
 
@@ -240,5 +248,6 @@ namespace NHS111.Web.Controllers {
         private readonly IConfiguration _configuration;
         private readonly IJustToBeSafeFirstViewModelBuilder _justToBeSafeFirstViewModelBuilder;
         private readonly IDirectLinkingFeature _directLinkingFeature;
+        private readonly IAuditLogger _auditLogger;
     }
 }
