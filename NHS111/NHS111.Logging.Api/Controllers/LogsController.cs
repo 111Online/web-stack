@@ -18,7 +18,7 @@ namespace NHS111.Logging.Api.Controllers {
 
         public LogsController(ILogStorageProvider logger) {
             if (logger == null)
-                throw new ArgumentNullException(nameof(logger), string.Format("Cannot construct a {0} with a null {1}", nameof(LogsController), nameof(logger)));
+                throw new ArgumentNullException("logger","Cannot construct a LogsController with a null logger");
 
             _logger = logger;
         }
@@ -34,10 +34,10 @@ namespace NHS111.Logging.Api.Controllers {
         public async Task<IHttpActionResult> Audit(AuditEntry audit) {
 
             if (audit == null)
-                return BadRequest(string.Format("Cannot log a null {0}", nameof(AuditEntry)));
+                return BadRequest("Cannot log a null AuditEntry");
 
             if (audit.SessionId == Guid.Empty)
-                return BadRequest(string.Format("{0} cannot be empty.", nameof(AuditEntry.SessionId)));
+                return BadRequest("AuditEntry.SessionId cannot be empty.");
 
             await _logger.Audit(audit);
 
