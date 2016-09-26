@@ -62,7 +62,7 @@ namespace NHS111.Utils.Filters
             if (step.Answer != null)
             {
                 auditEntry.AnswerTitle = step.Answer.Title;
-                auditEntry.AnswerOrder = step.Answer.Order;
+                auditEntry.AnswerOrder = step.Answer.Order.ToString();
             }
 
             auditEntry.QuestionId = step.QuestionId;

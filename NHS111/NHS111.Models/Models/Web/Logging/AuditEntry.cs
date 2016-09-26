@@ -10,9 +10,13 @@ namespace NHS111.Models.Models.Web.Logging
         private string _state = string.Empty;
         private string _journey = string.Empty;
         private string _answerTitle = string.Empty;
+        private string _answerOrder = string.Empty;
         private string _questionTitle = string.Empty;
         private string _questionNo = string.Empty;
         private string _questionId = string.Empty;
+        private string _dxCode = string.Empty;
+        private string _eventData = string.Empty;
+
 
         [JsonProperty(PropertyName = "sessionId")]
         public Guid SessionId { get; set; }
@@ -33,7 +37,7 @@ namespace NHS111.Models.Models.Web.Logging
         public string AnswerTitle { get { return _answerTitle; } set { _answerTitle = value; } }
 
         [JsonProperty(PropertyName = "answerOrder")]
-        public int AnswerOrder { get; set; }
+        public string AnswerOrder { get { return _answerOrder; } set { _answerOrder = value; } }
 
         [JsonProperty(PropertyName = "questionTitle")]
         public string QuestionTitle { get { return _questionTitle; } set { _questionTitle = value; } }
@@ -45,9 +49,9 @@ namespace NHS111.Models.Models.Web.Logging
         public string QuestionId { get { return _questionId; } set { _questionId = value; } }
 
         [JsonProperty(PropertyName = "dxCode")]
-        public string DxCode { get; set; }
+        public string DxCode { get { return _dxCode; } set { _dxCode = value; } }
 
         [JsonProperty(PropertyName = "eventData")]
-        public string EventData { get; set; }
+        public string EventData { get { return _eventData; } set { _eventData = value; } }
     }
 }
