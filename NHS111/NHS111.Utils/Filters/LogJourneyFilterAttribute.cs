@@ -29,7 +29,16 @@ namespace NHS111.Utils.Filters
         private static void LogAudit(JourneyViewModel model) {
             var url = ConfigurationManager.AppSettings["LoggingServiceUrl"];
             var rest = new RestfulHelper();
-            var audit = new AuditEntry {
+            var httpRequestMessage = new HttpRequestMessage(HttpMethod.Post, new Uri(url)) {
+                Content = new StringContent(JsonConvert.SerializeObject(model.ToAuditEntry()))
+            };
+            rest.PostAsync(url, httpRequestMessage);
+        }
+    }
+
+    public static class JourneyViewModelExtensions {
+        public static AuditEntry ToAuditEntry(this JourneyViewModel model) {
+            return new AuditEntry {
                 SessionId = model.SessionId,
                 Journey = model.JourneyJson,
                 PathwayId = model.PathwayId,
@@ -37,10 +46,6 @@ namespace NHS111.Utils.Filters
                 State = model.StateJson,
                 DxCode = model is OutcomeViewModel ? model.Id : ""
             };
-            var httpRequestMessage = new HttpRequestMessage(HttpMethod.Post, new Uri(url)) {
-                Content = new StringContent(JsonConvert.SerializeObject(audit))
-            };
-            rest.PostAsync(url, httpRequestMessage);
         }
     }
 }

@@ -43,6 +43,7 @@
 <div id="wrapper">
     @using (Html.BeginForm("Home", "Question", FormMethod.Post))
     {
+        @Html.HiddenFor(x => Model.SessionId)
             <div class="header">
                 <!--<a href="#" title="Close Disclaimer" class="closeDisclaimer accessibility">[ X ]</a>-->
                 <h2 class="discHead">Do I need to call 999?</h2>

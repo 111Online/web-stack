@@ -38,6 +38,7 @@ namespace NHS111.Web.Presentation.Configuration
             }
         }
 
+        public string LoggingServiceUrl { get { return ConfigurationManager.AppSettings["LoggingServiceUrl"]; } }
 
         public string GetBusinessApiGroupedPathwaysUrl(string searchString)
         {
@@ -177,5 +178,6 @@ namespace NHS111.Web.Presentation.Configuration
         string GoogleAnalyticsContainerId { get; }
 
         bool IsPublic { get; }
+        string LoggingServiceUrl { get; }
     }
 }
