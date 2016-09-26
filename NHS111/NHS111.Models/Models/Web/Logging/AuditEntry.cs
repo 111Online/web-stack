@@ -43,5 +43,11 @@ namespace NHS111.Models.Models.Web.Logging
 
         [JsonProperty(PropertyName = "questionId")]
         public string QuestionId { get { return _questionId; } set { _questionId = value; } }
+
+        [JsonProperty(PropertyName = "dxCode")]
+        public string DxCode { get; set; }
+
+        [JsonProperty(PropertyName = "eventData")]
+        public string EventData { get; set; }
     }
 }

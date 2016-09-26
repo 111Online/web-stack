@@ -32,21 +32,26 @@ namespace NHS111.Utils.Filters
         private static void LogAudit(JourneyViewModel model) {
             var url = ConfigurationManager.AppSettings["LoggingServiceUrl"];
             var rest = new RestfulHelper();
+            var httpRequestMessage = new HttpRequestMessage(HttpMethod.Post, new Uri(url)) {
+                Content = new StringContent(JsonConvert.SerializeObject(model.ToAuditEntry()))
+            };
+            rest.PostAsync(url, httpRequestMessage);
+        }
+    }
 
+    public static class JourneyViewModelExtensions {
+        public static AuditEntry ToAuditEntry(this JourneyViewModel model) {
             var audit = new AuditEntry {
                 SessionId = model.SessionId,
                 Journey = model.JourneyJson,
                 PathwayId = model.PathwayId,
                 PathwayTitle = model.PathwayTitle,
                 State = model.StateJson,
+                DxCode = model is OutcomeViewModel ? model.Id : ""
             };
-
             AddLatestJourneyStepToAuditEntry(model.Journey, audit);
-
-            var httpRequestMessage = new HttpRequestMessage(HttpMethod.Post, new Uri(url)) {
-                Content = new StringContent(JsonConvert.SerializeObject(audit))
-            };
-            rest.PostAsync(url, httpRequestMessage);
+            
+            return audit;
         }
 
         private static void AddLatestJourneyStepToAuditEntry(Journey journey, AuditEntry auditEntry)
