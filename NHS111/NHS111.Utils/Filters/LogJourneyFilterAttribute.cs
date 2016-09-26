@@ -1,4 +1,7 @@
 ﻿
+using System.Linq;
+using NHS111.Models.Models.Web.FromExternalServices;
+
 namespace NHS111.Utils.Filters
 {
     using System;
@@ -29,17 +32,37 @@ namespace NHS111.Utils.Filters
         private static void LogAudit(JourneyViewModel model) {
             var url = ConfigurationManager.AppSettings["LoggingServiceUrl"];
             var rest = new RestfulHelper();
+
             var audit = new AuditEntry {
                 SessionId = model.SessionId,
                 Journey = model.JourneyJson,
                 PathwayId = model.PathwayId,
                 PathwayTitle = model.PathwayTitle,
-                State = model.StateJson
+                State = model.StateJson,
             };
+
+            AddLatestJourneyStepToAuditEntry(model.Journey, audit);
+
             var httpRequestMessage = new HttpRequestMessage(HttpMethod.Post, new Uri(url)) {
                 Content = new StringContent(JsonConvert.SerializeObject(audit))
             };
             rest.PostAsync(url, httpRequestMessage);
+        }
+
+        private static void AddLatestJourneyStepToAuditEntry(Journey journey, AuditEntry auditEntry)
+        {
+            if (journey == null || journey.Steps == null || journey.Steps.Count <= 0) return;
+
+            var step = journey.Steps.Last();
+            if (step.Answer != null)
+            {
+                auditEntry.AnswerTitle = step.Answer.Title;
+                auditEntry.AnswerOrder = step.Answer.Order;
+            }
+
+            auditEntry.QuestionId = step.QuestionId;
+            auditEntry.QuestionNo = step.QuestionNo;
+            auditEntry.QuestionTitle = step.QuestionTitle;
         }
     }
 }
