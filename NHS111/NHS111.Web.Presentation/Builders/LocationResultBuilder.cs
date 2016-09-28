@@ -7,29 +7,29 @@ using NHS111.Web.Presentation.Configuration;
 
 namespace NHS111.Web.Presentation.Builders
 {
-    public class AddressBuilder : IAddressBuilder
+    public class LocationResultBuilder : ILocationResultBuilder
     {
         private readonly IRestfulHelper _restfulHelper;
         private readonly IConfiguration _configuration;
         private const string SubscriptionKey = "Ocp-Apim-Subscription-Key";
 
-        public AddressBuilder(IRestfulHelper restfulHelper, IConfiguration configuration)
+        public LocationResultBuilder(IRestfulHelper restfulHelper, IConfiguration configuration)
         {
             _restfulHelper = restfulHelper;
             _configuration = configuration;
         }
 
-        public async Task<List<LocationResult>> AddressByPostCodeBuilder(string postCode)
+        public async Task<List<LocationResult>> LocationResultByPostCodeBuilder(string postCode)
         {
             if (string.IsNullOrEmpty(postCode)) return new List<LocationResult>();
             var headers = new Dictionary<string, string>() {{ SubscriptionKey, _configuration.PostcodeSubscriptionKey} };
-            var addresses = JsonConvert.DeserializeObject<List<LocationResult>>(await _restfulHelper.GetAsync(string.Format(_configuration.PostcodeSearchByIdApiUrl, postCode), headers));
-            return addresses;
+            var locationResults = JsonConvert.DeserializeObject<List<LocationResult>>(await _restfulHelper.GetAsync(string.Format(_configuration.PostcodeSearchByIdApiUrl, postCode), headers));
+            return locationResults;
         }
     }
 
-    public interface IAddressBuilder
+    public interface ILocationResultBuilder
     {
-        Task<List<LocationResult>> AddressByPostCodeBuilder(string postCode);
+        Task<List<LocationResult>> LocationResultByPostCodeBuilder(string postCode);
     }
 }

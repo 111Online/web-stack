@@ -12,7 +12,7 @@ namespace NHS111.Web.Presentation.Test.Builders
     [TestFixture()]
     public class AddressBuilderTests
     {
-        private IAddressBuilder _addressBuilder;
+        private ILocationResultBuilder _locationResultBuilder;
         private Mock<IRestfulHelper> _mockRestfulHelper;
         private Mock<IConfiguration> _mockConfiguration;
 
@@ -25,42 +25,42 @@ namespace NHS111.Web.Presentation.Test.Builders
             _mockConfiguration.Setup(c => c.PostcodeSearchByIdApiUrl).Returns("/location/postcode/api");
             _mockConfiguration.Setup(c => c.PostcodeSubscriptionKey).Returns("xyz");
 
-            _addressBuilder = new AddressBuilder(_mockRestfulHelper.Object, _mockConfiguration.Object);
+            _locationResultBuilder = new LocationResultBuilder(_mockRestfulHelper.Object, _mockConfiguration.Object);
         }
 
         [Test()]
         public async void AddressByPostCodeBuilder_With_Valid_String_Returns_Results()
         {
-            var addresses = new[]
+            var results = new[]
             {
                 new LocationResult() {Postcode = "SO30"},
                 new LocationResult() {Postcode = "SO31"},
             };
 
-            _mockRestfulHelper.Setup(r => r.GetAsync(It.IsAny<string>(), It.IsAny<Dictionary<string, string>>())).ReturnsAsync(JsonConvert.SerializeObject(addresses));
+            _mockRestfulHelper.Setup(r => r.GetAsync(It.IsAny<string>(), It.IsAny<Dictionary<string, string>>())).ReturnsAsync(JsonConvert.SerializeObject(results));
 
-            var addressResults = await _addressBuilder.AddressByPostCodeBuilder("x");
+            var locationResults = await _locationResultBuilder.LocationResultByPostCodeBuilder("x");
 
-            Assert.IsInstanceOf(typeof(List<LocationResult>), addressResults);
-            Assert.AreEqual(addressResults.Count, 2);
+            Assert.IsInstanceOf(typeof(List<LocationResult>), locationResults);
+            Assert.AreEqual(locationResults.Count, 2);
         }
 
         [Test()]
         public async void AddressByPostCodeBuilder_With_Empty_String_Returns_Empty_List()
         {
-            var addressResults = await _addressBuilder.AddressByPostCodeBuilder(string.Empty);
+            var locationResults = await _locationResultBuilder.LocationResultByPostCodeBuilder(string.Empty);
 
-            Assert.IsInstanceOf(typeof(List<LocationResult>), addressResults);
-            Assert.AreEqual(addressResults.Count, 0);
+            Assert.IsInstanceOf(typeof(List<LocationResult>), locationResults);
+            Assert.AreEqual(locationResults.Count, 0);
         }
 
         [Test()]
         public async void AddressByPostCodeBuilder_With_Null_String_Returns_Empty_List()
         {
-            var addressResults = await _addressBuilder.AddressByPostCodeBuilder(null);
+            var locationResults = await _locationResultBuilder.LocationResultByPostCodeBuilder(null);
 
-            Assert.IsInstanceOf(typeof(List<LocationResult>), addressResults);
-            Assert.AreEqual(addressResults.Count, 0);
+            Assert.IsInstanceOf(typeof(List<LocationResult>), locationResults);
+            Assert.AreEqual(locationResults.Count, 0);
         }
     }
 }
