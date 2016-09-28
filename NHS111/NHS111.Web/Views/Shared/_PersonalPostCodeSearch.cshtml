@@ -2,14 +2,6 @@
 <script src="~/content/Js/vendor/spin.min.js"></script>
 <link rel="stylesheet" href="~/content/styles/vendor/jquery-ui.css">
 
-<div id="loadingPostcode" style="display: none;">
-    <div id="loadingcontent">
-        <p id="loadingspinner">
-            Searching for addresses matching <span id="postcodeSpan"></span>...
-        </p>
-    </div>
-</div>
-
 <label>
     Postcode of home address
 </label>
@@ -19,6 +11,14 @@
     <a class="button button-next button-link" href="#">I don't know my postcode</a>
 </div>
 
+<div id="loadingPostcode" style="display: none;">
+    <div id="loadingcontent">
+        <p id="loadingspinner">
+            Searching for addresses matching <span id="postcodeSpan"></span>...
+        </p>
+    </div>
+</div>
+
 <div id="AddressList">
     <label>Pick an address</label>
     <label class="select-label">
@@ -26,9 +26,6 @@
         </select>
     </label>
 </div>
-@*<div class="row">
-    <a class="button button-next button-link" href="#">I don't know my postcode</a>
-</div>*@
 
 <!--Spinner script-->
 <script type="text/javascript">
@@ -49,18 +46,12 @@
                 shadow: false, // Whether to render a shadow
                 hwaccel: false // Whether to use hardware acceleration
             };
-            var postcode = $("#PostCode").val();
-            //$("#postcodeSpan").text(postcode.toUpperCase());
             var target = document.getElementById('loadingPostcode');
             var spinner = new Spinner(opts).spin(target);
             $.ajax({
-                contentType: "application/json; charset=utf-8",
-                dataType: "json",
-                type: "GET",
-                url: "@Model.PostcodeApiAddress.Replace("{0}", "")" + postcode,
-                headers: {
-                    "Ocp-Apim-Subscription-Key": "@Model.PostcodeApiSubscriptionKey"
-                },
+                type: "POST",
+                url: "@Url.Action("PostcodeLookup", "Outcome")",
+                data: { postCode: $("#AddressSearchViewModel_PostCode").val() },
                 success: function (response) {
                     addresses = response;
                     var select = $("#AddressSelect");
@@ -89,15 +80,18 @@
                         $("#HomeAddress_PostCode").val(result[0].Postcode);
                         $("#AddressDetails").show();
                     });
-                    $("#AddressList").show();
-                    spinner.stop();
                     $("#loadingPostcode").fadeOut();
+                    $("#AddressList").show();
                 },
-                timeout: 3000,
+                //timeout: 10000,
                 error: function (XMLHttpRequest, textStatus, errorThrown) {
                     console.error("Status: " + textStatus); alert("Error: " + errorThrown);
                     $("#AddressList").hide();
                     $("#AddressDetails").hide();
+                },
+                complete: function () {
+                    spinner.stop();
+                    $("#loadingPostcode").fadeOut();
                 }
             });
         });

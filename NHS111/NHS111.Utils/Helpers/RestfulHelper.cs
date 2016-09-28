@@ -48,9 +48,12 @@ namespace NHS111.Utils.Helpers {
             }
         }
 
-        public async Task<string> GetAsync(string url, string credentials) {
+        public async Task<string> GetAsync(string url, Dictionary<string, string> headers) {
             try {
-                _webClient.Headers[HttpRequestHeader.Authorization] = credentials;
+                foreach (var header in headers)
+                {
+                    _webClient.Headers.Add(header.Key, header.Value);
+                }
 
                 return await _webClient.DownloadStringTaskAsync(new Uri(url));
             }
@@ -97,7 +100,7 @@ namespace NHS111.Utils.Helpers {
         Task<HttpResponseMessage> GetResponseAsync(string url);
         Task<HttpResponseMessage> GetResponseAsync(string url, string username, string password);
         Task<string> GetAsync(string url);
-        Task<string> GetAsync(string url, string credentials);
+        Task<string> GetAsync(string url, Dictionary<string, string> headers);
         Task<HttpResponseMessage> PostAsync(string url, HttpRequestMessage request);
         Task<HttpResponseMessage> PostAsync(string url, HttpRequestMessage request, Dictionary<string, string> headers);
     }
