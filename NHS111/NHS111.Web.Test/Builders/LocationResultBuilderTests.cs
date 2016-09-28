@@ -10,7 +10,7 @@ using NUnit.Framework;
 namespace NHS111.Web.Presentation.Test.Builders
 {
     [TestFixture()]
-    public class AddressBuilderTests
+    public class LocationResultBuilderTests
     {
         private ILocationResultBuilder _locationResultBuilder;
         private Mock<IRestfulHelper> _mockRestfulHelper;

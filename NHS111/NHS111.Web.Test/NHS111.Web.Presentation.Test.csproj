@@ -87,7 +87,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Builders\AddressBuilderTests.cs" />
+    <Compile Include="Builders\LocationResultBuilderTests.cs" />
     <Compile Include="Builders\CareAdviceBuilderTests.cs" />
     <Compile Include="Builders\DOSBuilderTests.cs" />
     <Compile Include="Builders\JourneyViewModelStateBuilderTests.cs" />
