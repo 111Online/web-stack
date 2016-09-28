@@ -19,7 +19,7 @@
     </div>
 </div>
 
-<div id="AddressList">
+<div id="AddressList" style="display: none;">
     <label>Pick an address</label>
     <label class="select-label">
         <select class="select-address" id="AddressSelect">
@@ -30,10 +30,10 @@
 <!--Spinner script-->
 <script type="text/javascript">
     $(function () {
-        $("#AddressList").hide();
-        $("#AddressDetails").hide();
         var addresses = [];
         $("#findMyAddress").click(function () {
+            $("#AddressList").hide();
+            if (!$("#AddressSearchViewModel_PostCode").val()) return;
             $("#loadingPostcode").fadeIn();
             var opts = {
                 lines: 12, // The number of lines to draw
@@ -55,14 +55,17 @@
                 success: function (response) {
                     addresses = response;
                     var select = $("#AddressSelect");
-                    select.empty();
-                    select.append($("<option />").val(0).text("Please choose..."));
-                    $.each(response, function () {
-                        var text = this.AddressLines[0];
-                        if (this.BuildingName != "")
-                            text = this.AddressLines[1];
-                        select.append($("<option />").val(this.UPRN).text(text));
-                    });
+                    if (addresses.length > 0) {
+                        select.empty();
+                        select.append($("<option />").val(0).text("Please choose..."));
+                        $.each(response, function () {
+                            var text = this.AddressLines[0];
+                            if (this.BuildingName != "")
+                                text = this.AddressLines[1];
+                            select.append($("<option />").val(this.UPRN).text(text));
+                        });
+                        $("#AddressList").show();
+                    }
                     select.change(function () {
                         var selectedAddress = $("#AddressSelect option:selected").attr("value");
                         if (selectedAddress == "0")
@@ -78,16 +81,13 @@
                         $("#HomeAddress_City").val(result[0].PostTown);
                         $("#HomeAddress_County").val(result[0].AdministrativeArea);
                         $("#HomeAddress_PostCode").val(result[0].Postcode);
-                        $("#AddressDetails").show();
                     });
                     $("#loadingPostcode").fadeOut();
-                    $("#AddressList").show();
                 },
-                //timeout: 10000,
+                timeout: 5000,
                 error: function (XMLHttpRequest, textStatus, errorThrown) {
                     console.error("Status: " + textStatus); alert("Error: " + errorThrown);
                     $("#AddressList").hide();
-                    $("#AddressDetails").hide();
                 },
                 complete: function () {
                     spinner.stop();
