@@ -1896,6 +1896,8 @@ button[type=submit].previous-question, input[type=submit].previous-question {
     background-repeat: no-repeat;
     background-position: left 12px top 16px;
     padding: 0 18px 10px 35px;
+    float: left;
+    margin-right: 10px;
 }
 
 button[disabled=disabled] {
