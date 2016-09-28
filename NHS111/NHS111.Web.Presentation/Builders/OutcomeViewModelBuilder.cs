@@ -72,7 +72,6 @@ namespace NHS111.Web.Presentation.Builders
                 model.SymptomGroup = await GetSymptomGroup(pathways);
             }
 
-            model.SessionId = Guid.NewGuid();
             model.WorseningCareAdvice = await _careAdviceBuilder.FillWorseningCareAdvice(model.UserInfo.Age,
                 model.UserInfo.Gender);
             model.CareAdvices = await
