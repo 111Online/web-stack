@@ -86,7 +86,7 @@
         @foreach (var answer in Model.OrderedAnswers())
         {
         <p class="answer">
-            <label for="@answer.TitleWithoutSpaces" class="@(!String.IsNullOrWhiteSpace(answer.SupportingInformation) ? "withPadding" : "")"><input name="SelectedAnswer" type="radio" id="@answer.TitleWithoutSpaces" value="@Newtonsoft.Json.JsonConvert.SerializeObject(answer)" /><span class="answer-text">@answer.Title</span></label>
+            <label for="@answer.TitleWithoutSpaces"><input name="SelectedAnswer" type="radio" id="@answer.TitleWithoutSpaces" value="@Newtonsoft.Json.JsonConvert.SerializeObject(answer)" /><span class="answer-text">@answer.Title</span></label>
 
             @if (!String.IsNullOrWhiteSpace(answer.SupportingInformation))
             {
