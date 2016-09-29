@@ -44,29 +44,29 @@ namespace NHS111.Models.Mappers.WebMappings
     {
         public PatientDetails Convert(ResolutionContext context)
         {
-            var outcome = (OutcomeViewModel) context.SourceValue;
-            var patientDetails = (PatientDetails) context.DestinationValue ?? new PatientDetails();
+            var outcome = (OutcomeViewModel)context.SourceValue;
+            var patientDetails = (PatientDetails)context.DestinationValue ?? new PatientDetails();
 
             patientDetails.Forename = outcome.UserInfo.FirstName;
             patientDetails.Surname = outcome.UserInfo.LastName;
-            patientDetails.ServiceAddressPostcode = outcome.UserInfo.CurrentAddress.PostCode;
+            patientDetails.ServiceAddressPostcode = outcome.SelectedService.PostCode;
             patientDetails.TelephoneNumber = outcome.UserInfo.TelephoneNumber;
             patientDetails.HomeAddress = new Address()
             {
-                PostalCode =  string.IsNullOrEmpty(outcome.AddressInfoViewModel.PostCode) ? null: outcome.AddressInfoViewModel.PostCode,
+                PostalCode = string.IsNullOrEmpty(outcome.AddressInfoViewModel.PostCode) ? null : outcome.AddressInfoViewModel.PostCode,
                 StreetAddressLine1 =
-                    !string.IsNullOrEmpty(outcome.UserInfo.HomeAddress.HouseNumber)
-                        ? string.Format("{0} {1}", outcome.UserInfo.HomeAddress.HouseNumber, outcome.UserInfo.HomeAddress.AddressLine1)
-                        : outcome.UserInfo.HomeAddress.AddressLine1,
-                StreetAddressLine2 = outcome.UserInfo.HomeAddress.AddressLine2,
-                StreetAddressLine3 = outcome.UserInfo.HomeAddress.City,
-                StreetAddressLine4 = outcome.UserInfo.HomeAddress.County,
-                StreetAddressLine5 = outcome.UserInfo.HomeAddress.PostCode
+                    !string.IsNullOrEmpty(outcome.AddressInfoViewModel.HouseNumber)
+                        ? string.Format("{0} {1}", outcome.AddressInfoViewModel.HouseNumber, outcome.AddressInfoViewModel.AddressLine1)
+                        : outcome.AddressInfoViewModel.AddressLine1,
+                StreetAddressLine2 = outcome.AddressInfoViewModel.AddressLine2,
+                StreetAddressLine3 = outcome.AddressInfoViewModel.City,
+                StreetAddressLine4 = outcome.AddressInfoViewModel.County,
+                StreetAddressLine5 = outcome.AddressInfoViewModel.PostCode
             };
             if (outcome.UserInfo.Year != null && outcome.UserInfo.Month != null && outcome.UserInfo.Day != null)
                 patientDetails.DateOfBirth =
                     new DateTime(outcome.UserInfo.Year.Value, outcome.UserInfo.Month.Value, outcome.UserInfo.Day.Value);
-                
+
             patientDetails.Gender = outcome.UserInfo.Gender;
             if (outcome.UserInfo.CurrentAddress != null) patientDetails.CurrentLocationPostcode = outcome.UserInfo.CurrentAddress.PostCode;
             return patientDetails;
