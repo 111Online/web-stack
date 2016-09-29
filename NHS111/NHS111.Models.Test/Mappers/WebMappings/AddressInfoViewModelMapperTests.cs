@@ -14,6 +14,7 @@ namespace NHS111.Models.Test.Mappers.WebMappings
         private string TEST_CITY = "Some place";
         private string TEST_COUNTY = "Some time";
         private string TEST_POSTCODE = "XX1 2YY";
+        private string TEST_UPRN = "12345";
 
         [TestFixtureSetUp()]
         public void InitializeAddressInfoViewModelMapper()
@@ -79,7 +80,8 @@ namespace NHS111.Models.Test.Mappers.WebMappings
                 AddressLines = new [] { TEST_ADDRESS_LINE_1, TEST_ADDRESS_LINE_2 },
                 PostTown = TEST_CITY,
                 AdministrativeArea = TEST_COUNTY,
-                Postcode = TEST_POSTCODE
+                Postcode = TEST_POSTCODE,
+                UPRN = TEST_UPRN
             };
 
             var result = Mapper.Map<AddressInfoViewModel>(locationResult);
@@ -89,6 +91,7 @@ namespace NHS111.Models.Test.Mappers.WebMappings
             Assert.AreEqual(TEST_CITY, result.City);
             Assert.AreEqual(TEST_COUNTY, result.County);
             Assert.AreEqual(TEST_POSTCODE, result.PostCode);
+            Assert.AreEqual(TEST_UPRN, result.UPRN);
         }
     }
 }

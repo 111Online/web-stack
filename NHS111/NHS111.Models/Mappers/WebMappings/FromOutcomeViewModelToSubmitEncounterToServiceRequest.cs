@@ -53,7 +53,7 @@ namespace NHS111.Models.Mappers.WebMappings
             patientDetails.TelephoneNumber = outcome.UserInfo.TelephoneNumber;
             patientDetails.HomeAddress = new Address()
             {
-                PostalCode =  string.IsNullOrEmpty(outcome.AddressSearchViewModel.PostCode) ? null: outcome.AddressSearchViewModel.PostCode,
+                PostalCode =  string.IsNullOrEmpty(outcome.AddressInfoViewModel.PostCode) ? null: outcome.AddressInfoViewModel.PostCode,
                 StreetAddressLine1 =
                     !string.IsNullOrEmpty(outcome.UserInfo.HomeAddress.HouseNumber)
                         ? string.Format("{0} {1}", outcome.UserInfo.HomeAddress.HouseNumber, outcome.UserInfo.HomeAddress.AddressLine1)

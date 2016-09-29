@@ -8,5 +8,6 @@
         public string AddressLine2 { get; set; }
         public string City { get; set; }
         public string County { get; set; }
+        public string UPRN { get; set; }
     }
 }

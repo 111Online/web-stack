@@ -53,7 +53,8 @@ namespace NHS111.Models.Mappers.WebMappings
                     AddressLine2 = addressLine2,
                     City = locationResult.PostTown,
                     County = locationResult.AdministrativeArea,
-                    PostCode = locationResult.Postcode
+                    PostCode = locationResult.Postcode,
+                    UPRN = locationResult.UPRN
                 };
 
                 return addressInfo;

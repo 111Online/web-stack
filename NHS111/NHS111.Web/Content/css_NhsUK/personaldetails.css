@@ -158,3 +158,11 @@
     color: #003366;
 }
 
+.address-panel {
+    display: none;
+}
+
+.manual-entry-text {
+    display: none;
+}
+

@@ -1,4 +1,6 @@
-﻿@model  NHS111.Models.Models.Web.AddressInfoViewModel
+﻿@using Newtonsoft.Json
+@using NHS111.Models.Models.Web
+@model  NHS111.Models.Models.Web.AddressInfoViewModel
 <script src="~/content/Js/vendor/spin.min.js"></script>
 <link rel="stylesheet" href="~/content/styles/vendor/jquery-ui.css">
 
@@ -8,11 +10,41 @@
 </label>
 <p class="validation-error-msg" id="postcode-validation-message">A valid UK postcode is required</p>
 <div class="inline-details">
-    @Html.TextBoxFor(m => m.PostCode, new {@class = "form-control form-control-8-chars", placeholder = "eg. SE1"})
+    @Html.TextBox("postcode-find", "", new {@class = "form-control form-control-8-chars", placeholder = "eg. SE1"})
     <input type="button" class="button find-address" id="findMyAddress" value="Find my address"/>
-    <a class="button button-next button-link" href="#">I don't know my postcode</a>
-</div>
 
+</div>
+<a class="button button-next button-link" href="javascript:void(0);" id="manual-entry-link">Enter address manually</a>
+<p class="manual-entry-text" id="manual-entry-text">Enter address manually</p>
+<div id="addressPanel" class="address-panel">
+    <label>
+        Street
+    </label>
+    <div class="inline-details">
+        @Html.TextBoxFor(m => m.AddressLine1, new {@class = "form-control", placeholder = "Address Line 1"})
+    </div>
+    <div class="inline-details">
+        @Html.TextBoxFor(m => m.AddressLine2, new {@class = "form-control", placeholder = "Address Line 2"})
+    </div>
+    <label>
+        City
+    </label>
+    <div class="inline-details">
+        @Html.TextBoxFor(m => m.City, new {@class = "form-control", placeholder = "City"})
+    </div>
+    <label>
+        County
+    </label>
+    <div class="inline-details">
+        @Html.TextBoxFor(m => m.County, new {@class = "form-control", placeholder = "County"})
+    </div>
+    <label>
+        Postcode
+    </label>
+    <div class="inline-details">
+        @Html.TextBoxFor(m => m.PostCode, new {@class = "form-control", placeholder = "Postcode"})
+    </div>
+</div>
 
 <div id="loadingPostcode" style="display: none;">
     <div id="loadingcontent">
@@ -35,8 +67,9 @@
     $(function () {
         var addresses = [];
         $("#findMyAddress").click(function () {
-            hideElements();
-            var $postCode = $("#PostCode").val();
+            $("#manual-entry-link").show();
+            resetElements();
+            var $postCode = $("#AddressInfoViewModel_postcode-find").val();
             if (!valid_postcode($postCode)) {
                 invalidatePostCode();
                 return;
@@ -67,9 +100,7 @@
                         select.empty();
                         select.append($("<option />").val(0).text("Please choose..."));
                         $.each(response, function () {
-                            var text = this.AddressLines[0];
-                            if (this.BuildingName != "")
-                                text = this.AddressLines[1];
+                            var text = this.AddressLine1;
                             select.append($("<option />").val(this.UPRN).text(text));
                         });
                         $("#AddressList").show();
@@ -83,12 +114,11 @@
                             console.error("Address selected with id " + selectedAddress + " which isn't in list of addresses.");
                             return;
                         }
-                        $("#HomeAddress_HouseNumber").val(result[0].HouseNumber);
-                        $("#HomeAddress_AddressLine1").val(result[0].StreetDescription);
-                        $("#HomeAddress_AddressLine2").val(result[0].TownName);
-                        $("#HomeAddress_City").val(result[0].PostTown);
-                        $("#HomeAddress_County").val(result[0].AdministrativeArea);
-                        $("#HomeAddress_PostCode").val(result[0].Postcode);
+                        setFields(result[0]);
+                        $("#manual-entry-link").hide();
+                        $("#AddressList").hide();
+                        $("#addressPanel").show();
+                        $("#manual-entry-text").show();
                     });
                     $("#loadingPostcode").fadeOut();
                 },
@@ -103,17 +133,36 @@
                 }
             });
         });
+
+        $("#manual-entry-link").click(function () {
+            $("#manual-entry-text").show();
+            $("#addressPanel").show();
+            $("#AddressList").hide();
+            $(this).hide();
+        });
     });
 
-    function hideElements() {
+    function resetElements() {
+        $("#addressPanel").hide();
         $("#AddressList").hide();
         $("#postcode-validation-message").hide();
-        $("#AddressSearchViewModel_PostCode").removeClass("validation-error-input");
+        $("#AddressInfoViewModel_postcode-find").removeClass("validation-error-input");
+        $("#manual-entry-text").hide();
+        setFields("@JsonConvert.SerializeObject(new AddressInfoViewModel())");
+    }
+
+    function setFields(result) {
+        $("#AddressInfoViewModel_HouseNumber").val(result.HouseNumber);
+        $("#AddressInfoViewModel_AddressLine1").val(result.AddressLine1);
+        $("#AddressInfoViewModel_AddressLine2").val(result.AddressLine2);
+        $("#AddressInfoViewModel_City").val(result.City);
+        $("#AddressInfoViewModel_County").val(result.County);
+        $("#AddressInfoViewModel_PostCode").val(result.PostCode);
     }
 
     function invalidatePostCode() {
         $("#postcode-validation-message").show();
-        $("#AddressSearchViewModel_PostCode").addClass("validation-error-input");
+        $("#AddressInfoViewModel_postcode-find").addClass("validation-error-input");
     }
 
     function valid_postcode(postcode) {

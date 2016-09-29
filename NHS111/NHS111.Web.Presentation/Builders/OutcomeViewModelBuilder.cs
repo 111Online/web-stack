@@ -27,21 +27,16 @@ namespace NHS111.Web.Presentation.Builders
         private readonly IRestfulHelper _restfulHelper;
         private readonly IConfiguration _configuration;
         private readonly IMappingEngine _mappingEngine;
-        private readonly ICacheManager<string, string> _cacheManager;
         private readonly IKeywordCollector _keywordCollector;
-        private readonly IAddressViewModelBuilder _addressViewModelBuilder;
         private readonly IJourneyHistoryWrangler _journeyHistoryWrangler;
 
-        public OutcomeViewModelBuilder(ICareAdviceBuilder careAdviceBuilder, IRestfulHelper restfulHelper, IConfiguration configuration, IMappingEngine mappingEngine, ICacheManager<string, string> cacheManager, IKeywordCollector keywordCollector,
-            IAddressViewModelBuilder addressViewModelBuilder, IJourneyHistoryWrangler journeyHistoryWrangler)
+        public OutcomeViewModelBuilder(ICareAdviceBuilder careAdviceBuilder, IRestfulHelper restfulHelper, IConfiguration configuration, IMappingEngine mappingEngine, IKeywordCollector keywordCollector, IJourneyHistoryWrangler journeyHistoryWrangler)
         {
             _careAdviceBuilder = careAdviceBuilder;
             _restfulHelper = restfulHelper;
             _configuration = configuration;
             _mappingEngine = mappingEngine;
-            _cacheManager = cacheManager;
             _keywordCollector = keywordCollector;
-            _addressViewModelBuilder = addressViewModelBuilder;
             _journeyHistoryWrangler = journeyHistoryWrangler;
         }
 
@@ -56,7 +51,6 @@ namespace NHS111.Web.Presentation.Builders
         {
             if (OutcomeGroup.Call999.Equals(model.OutcomeGroup))
             {
-                model.AddressSearchViewModel = _addressViewModelBuilder.Build(model);
                 model.CareAdviceMarkers = model.State.Keys.Where(key => key.StartsWith("Cx"));
             }
 
@@ -155,25 +149,8 @@ namespace NHS111.Web.Presentation.Builders
             return itkRequestData;
         }
 
-        public async Task<OutcomeViewModel> PostCodeSearchBuilder(OutcomeViewModel model)
-        {
-            var addresses = await SearchPostcodeBuilder(model.AddressSearchViewModel.PostCode);
-            model.AddressSearchViewModel.AddressInfoList = addresses;
-            model.AddressSearchViewModel.PostcodeApiAddress = _configuration.PostcodeSearchByIdApiUrl;
-            model.AddressSearchViewModel.PostcodeApiSubscriptionKey = _configuration.PostcodeSubscriptionKey;
-            return model;
-        }
-
         public async Task<OutcomeViewModel> PersonalDetailsBuilder(OutcomeViewModel model)
         {
-            if (!string.IsNullOrEmpty(model.AddressSearchViewModel.PostCode))
-            {
-                return await PostCodeSearchBuilder(model);
-            }
-
-            model.AddressSearchViewModel.PostcodeApiAddress = _configuration.PostcodeSearchByIdApiUrl;
-            model.AddressSearchViewModel.PostcodeApiSubscriptionKey = _configuration.PostcodeSubscriptionKey;
-
             model.CareAdvices = await _careAdviceBuilder.FillCareAdviceBuilder(model.UserInfo.Age, model.UserInfo.Gender, model.CareAdviceMarkers.ToList());
             return model;
         }
@@ -184,7 +161,6 @@ namespace NHS111.Web.Presentation.Builders
     {
         Task<List<AddressInfoViewModel>> SearchPostcodeBuilder(string input);
         Task<OutcomeViewModel> DispositionBuilder(OutcomeViewModel model);
-        Task<OutcomeViewModel> PostCodeSearchBuilder(OutcomeViewModel model);
         Task<OutcomeViewModel> PersonalDetailsBuilder(OutcomeViewModel model);
         Task<OutcomeViewModel> ItkResponseBuilder(OutcomeViewModel model);
     }
