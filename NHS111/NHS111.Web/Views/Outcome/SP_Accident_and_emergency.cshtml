@@ -35,16 +35,7 @@
     <ul>
         <li>do not drive yourself, get someone else to take you</li>
         <li>take all your current medicines with you</li>
-        <li>
-            if you want to take this information to A&E:
-            <ul>
-                <li>print this page, or</li>
-                <li><a href="javascript:void(0)" id="savePageLink">save this page</a></li>
-            </ul>
-        </li>
-
-</ul>
-    @Html.Partial("_SaveOutcomeDialogue", Model)
+    </ul>
 </div>
 
 @Html.Partial("_FindService", Model, new ViewDataDictionary { { "Title", "Find an A&amp;E department" }, { "ButtonText", "Find A&amp;E departments" }, { "Label", "A&amp;E departments" } })
