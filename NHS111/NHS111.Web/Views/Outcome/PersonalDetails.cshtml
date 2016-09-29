@@ -42,7 +42,6 @@
 @using (Html.BeginForm("Confirmation", "Outcome", FormMethod.Post))
 {
     @Html.Partial("_CommonHiddenFieldsOutcomeViewModel", Model)
-    @Html.Partial("_CommonHiddenFieldsHomeAddressInfo", Model.UserInfo.HomeAddress, new ViewDataDictionary { TemplateInfo = new TemplateInfo { HtmlFieldPrefix = "HomeAddress" } })
     @Html.HiddenFor(m => m.SelectedServiceId)
     <section>
         <div class="section-item last">
@@ -75,7 +74,7 @@
                 <div class="inline-details">
                     @Html.TextBoxFor(m => m.UserInfo.TelephoneNumber, new { @class = "form-control", placeholder = "Landline or mobile number" })
                 </div>
-                @Html.Partial("_PersonalPostCodeSearch", Model.AddressSearchViewModel, new ViewDataDictionary { TemplateInfo = new TemplateInfo { HtmlFieldPrefix = "AddressSearchViewModel" } })
+                @Html.Partial("_PersonalPostCodeSearch", Model.AddressInfoViewModel, new ViewDataDictionary { TemplateInfo = new TemplateInfo { HtmlFieldPrefix = "AddressInfoViewModel" } })
                 <div class="inline-details">
                     <input type="submit" class="button button-submit-details" value="Submit my details" />
                 </div>

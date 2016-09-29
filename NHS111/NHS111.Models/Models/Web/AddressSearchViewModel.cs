@@ -7,7 +7,7 @@ namespace NHS111.Models.Models.Web
     public class AddressSearchViewModel
     {
         public string PostCode { get; set; }
-        public List<AddressInfo> AddressInfoList { get; set; }
+        public List<AddressInfoViewModel> AddressInfoList { get; set; }
         public string SelectedAddress { get; set; }
         public string PostcodeApiAddress { get; set; }
         public string PostcodeApiSubscriptionKey { get; set; }
@@ -27,7 +27,7 @@ namespace NHS111.Models.Models.Web
 
         public AddressSearchViewModel()
         {
-            AddressInfoList = new List<AddressInfo>();
+            AddressInfoList = new List<AddressInfoViewModel>();
         }
     }
 }
