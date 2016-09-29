@@ -33,7 +33,9 @@
         var addresses = [];
         $("#findMyAddress").click(function () {
             $("#AddressList").hide();
-            if (!$("#AddressSearchViewModel_PostCode").val()) return;
+            var $postCode = $("#AddressSearchViewModel_PostCode").val();
+            if (!$postCode) return;
+            $("#postcodeSpan").text($postCode);
             $("#loadingPostcode").fadeIn();
             var opts = {
                 lines: 12, // The number of lines to draw
@@ -51,7 +53,7 @@
             $.ajax({
                 type: "POST",
                 url: "@Url.Action("PostcodeLookup", "Outcome")",
-                data: { postCode: $("#AddressSearchViewModel_PostCode").val() },
+                data: { postCode: $postCode },
                 success: function (response) {
                     addresses = response;
                     var select = $("#AddressSelect");
