@@ -2,14 +2,17 @@
 <script src="~/content/Js/vendor/spin.min.js"></script>
 <link rel="stylesheet" href="~/content/styles/vendor/jquery-ui.css">
 
+
 <label>
     Postcode of home address
 </label>
+<p class="validation-error-msg" id="postcode-validation-message">A valid UK postcode is required</p>
 <div class="inline-details">
-    @Html.TextBoxFor(m => m.PostCode, new { @class = "form-control form-control-8-chars", placeholder = "eg. SE1" })
+    @Html.TextBoxFor(m => m.PostCode, new {@class = "form-control form-control-8-chars", placeholder = "eg. SE1"})
     <input type="button" class="button find-address" id="findMyAddress" value="Find my address"/>
     <a class="button button-next button-link" href="#">I don't know my postcode</a>
 </div>
+
 
 <div id="loadingPostcode" style="display: none;">
     <div id="loadingcontent">
@@ -32,9 +35,12 @@
     $(function () {
         var addresses = [];
         $("#findMyAddress").click(function () {
-            $("#AddressList").hide();
+            hideElements();
             var $postCode = $("#AddressSearchViewModel_PostCode").val();
-            if (!$postCode) return;
+            if (!valid_postcode($postCode)) {
+                invalidatePostCode();
+                return;
+            }
             $("#postcodeSpan").text($postCode);
             $("#loadingPostcode").fadeIn();
             var opts = {
@@ -98,4 +104,22 @@
             });
         });
     });
+
+    function hideElements() {
+        $("#AddressList").hide();
+        $("#postcode-validation-message").hide();
+        $("#AddressSearchViewModel_PostCode").removeClass("validation-error-input");
+    }
+
+    function invalidatePostCode() {
+        $("#postcode-validation-message").show();
+        $("#AddressSearchViewModel_PostCode").addClass("validation-error-input");
+    }
+
+    function valid_postcode(postcode) {
+        postcode = postcode.replace(/\s/g, "");
+        var regex = /^[A-Z]{1,2}[0-9]{1,2} ?[0-9][A-Z]{2}$/i;
+        return regex.test(postcode);
+    }
+
 </script>
