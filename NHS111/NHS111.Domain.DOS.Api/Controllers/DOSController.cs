@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Configuration;
 using System.Net;
 using System.Net.Http;
@@ -50,9 +51,8 @@ namespace NHS111.Domain.DOS.Api.Controllers
             var urlWithRequest = string.Format(_configuration.DOSMobileServicesByClinicalTermUrl, requestObj.CaseId, requestObj.Postcode, requestObj.SearchDistance, requestObj.GpPracticeId, requestObj.Age, requestObj.Gender, requestObj.Disposition, requestObj.SymptomGroupDiscriminatorCombos, requestObj.NumberPerType);
 
             var usernamePassword = Convert.ToBase64String(Encoding.ASCII.GetBytes(_configuration.DOSMobileUsername + ":" + _configuration.DOSMobilePassword));
-            var credentials = string.Format("Basic {0}", usernamePassword);
-
-            var result = await _restfulHelper.GetAsync(urlWithRequest, credentials);
+            var headers = new Dictionary<string, string>() { { HttpRequestHeader.Authorization.ToString(), string.Format("Basic {0}", usernamePassword) } };
+            var result = await _restfulHelper.GetAsync(urlWithRequest, headers);
 
             return result.AsHttpResponse();
         }

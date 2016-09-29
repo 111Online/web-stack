@@ -7,7 +7,13 @@
     background-color: white !important;
     background-image: url("/content/images/icons/icon-link-go.png");
     background-repeat: no-repeat;
-    background-position: 100% 50%;
+    background-position: 85% 60%;
+}
+
+@media screen and (min-width: 641px) {
+    .button-link {
+        background-position: 100% 50%;
+    }
 }
 
 .button-link:link, .button-link:hover, .button-link:focus, .button-link:visited {
@@ -65,11 +71,18 @@
     background-image: url("/content/images/icons/icon-button-next.svg");
     background-repeat: no-repeat;
     background-position: 85% 60%;
+    margin-top: 10px;
 }
 
     .button.find-address:link, .button.find-address:hover, .button.find-address:focus, .button.find-address:visited {
         background-color: #333333;
     }
+
+@media screen and (min-width: 641px) {
+    .button.find-address {
+        margin-top: 0;
+    }
+}
 
 .button.button-submit-details {
     padding-right: 5rem;
@@ -80,20 +93,18 @@
 }
 
 .select-address {
-    display: inline-block;
+    display: block;
     cursor: pointer;
-    height: 4rem;
-    line-height: 4rem;
+    height: 3rem;
+    line-height: 3rem;
     padding: 0 1rem;
-    background-color: #fff;
     border: 2px solid #b9d2dc;
-    -webkit-appearance:none;
-    width: 255px;
+    width: 100%;
 }
 
-@media screen and (-webkit-min-device-pixel-ratio:0) {
+@media screen and (min-width: 641px) {
     .select-address {
-        padding-right: 18px;
+        width: auto;
     }
 }
 
@@ -102,28 +113,48 @@
     color: #b9d2dc;
 }
 
-.select-label:after {
-    content: '<>';
-    font-size: 2.5rem;
-    -webkit-transform: rotate(90deg);
-    -moz-transform: rotate(90deg);
-    -ms-transform: rotate(90deg);
-    transform: rotate(90deg);
-    right: 0;
-    top: 0;
-    padding-right: 5px;
-    position: absolute;
-    pointer-events: none;
+.validation-error-input {
+    border-color: #ff0000 !important;
 }
 
-.select-label:before {
-    content: '';
-    right: 2px;
-    top: -1rem;
-    width: 30px;
-    height: 3.5rem;
-    background: #fff;
-    position: absolute;
-    pointer-events: none;
-    display: block;
+.validation-error-msg {
+    color: #ff0000;
+    padding: 0;
+    margin: 0;
+    font-weight: bold;
+    display: none;
 }
+
+/*Spinner styles*/
+
+#loading, #loadingPostcode {
+    display: none;
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background: #E6E6E6;
+    opacity: 0.9;
+    z-index: 1000;
+}
+
+#loadingcontent {
+    display: table;
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+}
+
+#loadingspinner {
+    display: table-cell;
+    vertical-align: middle;
+    width: 100%;
+    text-align: center;
+    font-size: 18px;
+    padding-top: 80px;
+    color: #003366;
+}
+

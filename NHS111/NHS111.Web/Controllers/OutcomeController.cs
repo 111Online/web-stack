@@ -17,19 +17,27 @@ namespace NHS111.Web.Controllers
         private readonly IDOSBuilder _dosBuilder;
         private readonly IConfiguration _config;
         private readonly ISurgeryBuilder _surgeryBuilder;
+        private readonly ILocationResultBuilder _locationResultBuilder;
 
-        public OutcomeController(IOutcomeViewModelBuilder outcomeViewModelBuilder, IDOSBuilder dosBuilder, IConfiguration config, ISurgeryBuilder surgeryBuilder)
+        public OutcomeController(IOutcomeViewModelBuilder outcomeViewModelBuilder, IDOSBuilder dosBuilder, IConfiguration config, ISurgeryBuilder surgeryBuilder, ILocationResultBuilder locationResultBuilder)
         {
             _outcomeViewModelBuilder = outcomeViewModelBuilder;
             _dosBuilder = dosBuilder;
             _config = config;
             _surgeryBuilder = surgeryBuilder;
+            _locationResultBuilder = locationResultBuilder;
         }
 
         [HttpPost]
         public async Task<JsonResult> SearchSurgery(string input)
         {
             return Json((await _surgeryBuilder.SearchSurgeryBuilder(input)));
+        }
+
+        [HttpPost]
+        public async Task<JsonResult> PostcodeLookup(string postCode)
+        {
+            return Json((await _locationResultBuilder.LocationResultByPostCodeBuilder(postCode)));
         }
 
         [HttpGet]

@@ -2,6 +2,18 @@
 <script src="~/content/Js/vendor/spin.min.js"></script>
 <link rel="stylesheet" href="~/content/styles/vendor/jquery-ui.css">
 
+
+<label>
+    Postcode of home address
+</label>
+<p class="validation-error-msg" id="postcode-validation-message">A valid UK postcode is required</p>
+<div class="inline-details">
+    @Html.TextBoxFor(m => m.PostCode, new {@class = "form-control form-control-8-chars", placeholder = "eg. SE1"})
+    <input type="button" class="button find-address" id="findMyAddress" value="Find my address"/>
+    <a class="button button-next button-link" href="#">I don't know my postcode</a>
+</div>
+
+
 <div id="loadingPostcode" style="display: none;">
     <div id="loadingcontent">
         <p id="loadingspinner">
@@ -10,33 +22,26 @@
     </div>
 </div>
 
-<label>
-    Postcode of home address
-</label>
-<div class="inline-details">
-    @Html.TextBoxFor(m => m.PostCode, new { @class = "form-control form-control-8-chars", placeholder = "eg. SE1" })
-    <input type="button" class="button find-address" id="findMyAddress" value="Find my address"/>
-    <a class="button button-next button-link" href="#">I don't know my postcode</a>
-</div>
-
-<div id="AddressList">
+<div id="AddressList" style="display: none;">
     <label>Pick an address</label>
     <label class="select-label">
         <select class="select-address" id="AddressSelect">
         </select>
     </label>
 </div>
-@*<div class="row">
-    <a class="button button-next button-link" href="#">I don't know my postcode</a>
-</div>*@
 
 <!--Spinner script-->
 <script type="text/javascript">
     $(function () {
-        $("#AddressList").hide();
-        $("#AddressDetails").hide();
         var addresses = [];
         $("#findMyAddress").click(function () {
+            hideElements();
+            var $postCode = $("#AddressSearchViewModel_PostCode").val();
+            if (!valid_postcode($postCode)) {
+                invalidatePostCode();
+                return;
+            }
+            $("#postcodeSpan").text($postCode);
             $("#loadingPostcode").fadeIn();
             var opts = {
                 lines: 12, // The number of lines to draw
@@ -49,29 +54,26 @@
                 shadow: false, // Whether to render a shadow
                 hwaccel: false // Whether to use hardware acceleration
             };
-            var postcode = $("#PostCode").val();
-            //$("#postcodeSpan").text(postcode.toUpperCase());
             var target = document.getElementById('loadingPostcode');
             var spinner = new Spinner(opts).spin(target);
             $.ajax({
-                contentType: "application/json; charset=utf-8",
-                dataType: "json",
-                type: "GET",
-                url: "@Model.PostcodeApiAddress.Replace("{0}", "")" + postcode,
-                headers: {
-                    "Ocp-Apim-Subscription-Key": "@Model.PostcodeApiSubscriptionKey"
-                },
+                type: "POST",
+                url: "@Url.Action("PostcodeLookup", "Outcome")",
+                data: { postCode: $postCode },
                 success: function (response) {
                     addresses = response;
                     var select = $("#AddressSelect");
-                    select.empty();
-                    select.append($("<option />").val(0).text("Please choose..."));
-                    $.each(response, function () {
-                        var text = this.AddressLines[0];
-                        if (this.BuildingName != "")
-                            text = this.AddressLines[1];
-                        select.append($("<option />").val(this.UPRN).text(text));
-                    });
+                    if (addresses.length > 0) {
+                        select.empty();
+                        select.append($("<option />").val(0).text("Please choose..."));
+                        $.each(response, function () {
+                            var text = this.AddressLines[0];
+                            if (this.BuildingName != "")
+                                text = this.AddressLines[1];
+                            select.append($("<option />").val(this.UPRN).text(text));
+                        });
+                        $("#AddressList").show();
+                    }
                     select.change(function () {
                         var selectedAddress = $("#AddressSelect option:selected").attr("value");
                         if (selectedAddress == "0")
@@ -87,19 +89,37 @@
                         $("#HomeAddress_City").val(result[0].PostTown);
                         $("#HomeAddress_County").val(result[0].AdministrativeArea);
                         $("#HomeAddress_PostCode").val(result[0].Postcode);
-                        $("#AddressDetails").show();
                     });
-                    $("#AddressList").show();
-                    spinner.stop();
                     $("#loadingPostcode").fadeOut();
                 },
-                timeout: 3000,
+                timeout: 5000,
                 error: function (XMLHttpRequest, textStatus, errorThrown) {
                     console.error("Status: " + textStatus); alert("Error: " + errorThrown);
                     $("#AddressList").hide();
-                    $("#AddressDetails").hide();
+                },
+                complete: function () {
+                    spinner.stop();
+                    $("#loadingPostcode").fadeOut();
                 }
             });
         });
     });
+
+    function hideElements() {
+        $("#AddressList").hide();
+        $("#postcode-validation-message").hide();
+        $("#AddressSearchViewModel_PostCode").removeClass("validation-error-input");
+    }
+
+    function invalidatePostCode() {
+        $("#postcode-validation-message").show();
+        $("#AddressSearchViewModel_PostCode").addClass("validation-error-input");
+    }
+
+    function valid_postcode(postcode) {
+        postcode = postcode.replace(/\s/g, "");
+        var regex = /^[A-Z]{1,2}[0-9]{1,2} ?[0-9][A-Z]{2}$/i;
+        return regex.test(postcode);
+    }
+
 </script>
