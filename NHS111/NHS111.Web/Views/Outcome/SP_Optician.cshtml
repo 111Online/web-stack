@@ -25,15 +25,6 @@
     <p>If there are any new symptoms, or if the condition gets worse, changes or you have any other concerns, call NHS 111 for advice. Calls to 111 are free.</p>
 </div>
 
-<div class="care-advice advice-before-going">
-    <h3>If you want to save this information:</h3>
-    <ul>
-        <li>print this page, or</li>
-        <li><a href="javascript:void(0)" id="savePageLink">save this page</a></li>
-    </ul>
-@Html.Partial("_SaveOutcomeDialogue", Model)
-</div>
-
 @Html.Partial("_FindService", Model, new ViewDataDictionary { { "Title", "Find an optician" }, { "ButtonText", "Find opticians" }, { "Label", "opticians" } })
 
 
