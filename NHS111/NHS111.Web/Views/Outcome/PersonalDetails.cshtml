@@ -42,7 +42,7 @@
 @using (Html.BeginForm("Confirmation", "Outcome", FormMethod.Post))
 {
     @Html.Partial("_CommonHiddenFieldsOutcomeViewModel", Model)
-    @Html.Partial("_CommonHiddenFieldsHomeAddressInfo", Model.UserInfo.HomeAddress, new ViewDataDictionary { TemplateInfo = new TemplateInfo { HtmlFieldPrefix = "HomeAddress" } })
+    @Html.Partial("_CommonHiddenFieldsAddressInfoViewModel", Model.UserInfo.HomeAddress, new ViewDataDictionary { TemplateInfo = new TemplateInfo { HtmlFieldPrefix = "HomeAddress" } })
     @Html.HiddenFor(m => m.SelectedServiceId)
     <section>
         <div class="section-item last">

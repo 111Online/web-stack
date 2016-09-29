@@ -1,6 +1,6 @@
 ﻿namespace NHS111.Models.Models.Web
 {
-    public class AddressInfo
+    public class AddressInfoViewModel
     {
         public string PostCode { get; set; }
         public string HouseNumber { get; set; }

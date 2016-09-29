@@ -45,11 +45,11 @@ namespace NHS111.Web.Presentation.Builders
             _journeyHistoryWrangler = journeyHistoryWrangler;
         }
 
-        public async Task<List<AddressInfo>> SearchPostcodeBuilder(string input)
+        public async Task<List<AddressInfoViewModel>> SearchPostcodeBuilder(string input)
         {
             input = HttpUtility.UrlDecode(input);
             var listPaf = JsonConvert.DeserializeObject<List<PAF>>(await _restfulHelper.GetAsync(string.Format(_configuration.PostcodeSearchByIdApiUrl, input)));
-            return _mappingEngine.Mapper.Map<List<AddressInfo>>(listPaf);
+            return _mappingEngine.Mapper.Map<List<AddressInfoViewModel>>(listPaf);
         }
 
         public async Task<OutcomeViewModel> DispositionBuilder(OutcomeViewModel model)
@@ -182,7 +182,7 @@ namespace NHS111.Web.Presentation.Builders
 
     public interface IOutcomeViewModelBuilder
     {
-        Task<List<AddressInfo>> SearchPostcodeBuilder(string input);
+        Task<List<AddressInfoViewModel>> SearchPostcodeBuilder(string input);
         Task<OutcomeViewModel> DispositionBuilder(OutcomeViewModel model);
         Task<OutcomeViewModel> PostCodeSearchBuilder(OutcomeViewModel model);
         Task<OutcomeViewModel> PersonalDetailsBuilder(OutcomeViewModel model);

@@ -723,7 +723,7 @@
     <Content Include="Views\Outcome\PersonalDetails.cshtml" />
     <Content Include="Views\Shared\_SelectedService.cshtml" />
     <Content Include="Views\Shared\_CommonHiddenFieldsDosViewModel.cshtml" />
-    <Content Include="Views\Shared\_CommonHiddenFieldsHomeAddressInfo.cshtml" />
+    <Content Include="Views\Shared\_CommonHiddenFieldsAddressInfoViewModel.cshtml" />
     <Content Include="Views\Outcome\Confirmation.cshtml" />
     <Content Include="Views\Outcome\ServiceDetails.cshtml" />
     <Content Include="Views\Outcome\ServiceList.cshtml" />

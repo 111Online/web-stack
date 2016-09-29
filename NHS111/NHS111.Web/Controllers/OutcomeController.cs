@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using System.Web.Mvc;
 using AutoMapper;
 using NHS111.Models.Models.Web;
@@ -37,7 +38,8 @@ namespace NHS111.Web.Controllers
         [HttpPost]
         public async Task<JsonResult> PostcodeLookup(string postCode)
         {
-            return Json((await _locationResultBuilder.LocationResultByPostCodeBuilder(postCode)));
+            var locationResults = await _locationResultBuilder.LocationResultByPostCodeBuilder(postCode);
+            return Json(Mapper.Map<List<AddressInfoViewModel>>(locationResults));
         }
 
         [HttpGet]

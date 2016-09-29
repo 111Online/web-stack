@@ -1,4 +1,4 @@
-﻿@model  NHS111.Models.Models.Web.AddressSearchViewModel
+﻿@model  NHS111.Models.Models.Web.AddressInfoViewModel
 <script src="~/content/Js/vendor/spin.min.js"></script>
 <link rel="stylesheet" href="~/content/styles/vendor/jquery-ui.css">
 
@@ -36,7 +36,7 @@
         var addresses = [];
         $("#findMyAddress").click(function () {
             hideElements();
-            var $postCode = $("#AddressSearchViewModel_PostCode").val();
+            var $postCode = $("#PostCode").val();
             if (!valid_postcode($postCode)) {
                 invalidatePostCode();
                 return;

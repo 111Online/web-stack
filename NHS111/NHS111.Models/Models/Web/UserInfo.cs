@@ -28,13 +28,13 @@ namespace NHS111.Models.Models.Web
         public string Email { get; set; }
 
 
-        public AddressInfo HomeAddress { get; set; }
-        public AddressInfo CurrentAddress { get; set; }
+        public AddressInfoViewModel HomeAddress { get; set; }
+        public AddressInfoViewModel CurrentAddress { get; set; }
 
         public UserInfo()
         {
-            HomeAddress = new AddressInfo();
-            CurrentAddress = new AddressInfo();
+            HomeAddress = new AddressInfoViewModel();
+            CurrentAddress = new AddressInfoViewModel();
         }
     }
 }
