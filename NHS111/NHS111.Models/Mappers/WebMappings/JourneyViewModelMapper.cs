@@ -52,7 +52,9 @@ namespace NHS111.Models.Mappers.WebMappings
                 .ForMember(dest => dest.PartitionKey, opt => opt.Ignore())
                 .ForMember(dest => dest.RowKey, opt => opt.Ignore())
                 .ForMember(dest => dest.DxCode, opt => opt.Ignore())
-                .ForMember(dest => dest.EventData, opt => opt.Ignore());
+                .ForMember(dest => dest.EventData, opt => opt.Ignore())
+                .ForMember(dest => dest.DosRequest, opt => opt.Ignore())
+                .ForMember(dest => dest.DosResponse, opt => opt.Ignore());
         }
 
         public class FromAnswerToJourneyViewModelConverter : ITypeConverter<Answer, JourneyViewModel>

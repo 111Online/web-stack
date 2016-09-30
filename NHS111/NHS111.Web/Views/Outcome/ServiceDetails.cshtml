@@ -1,4 +1,5 @@
-﻿@using NHS111.Models.Models.Web
+﻿@using Newtonsoft.Json
+@using NHS111.Models.Models.Web
 @using NHS111.Models.Models.Web.FromExternalServices
 @model OutcomeViewModel
 <script src="http://maps.google.com/maps/api/js?key=AIzaSyCv3YwvmRoueyoLcW2iiSPjVeHecU18hmA "
@@ -61,7 +62,7 @@
                                     @WebUtility.HtmlDecode(selectedService.Address)
                                 </div>
 
-                                <a class="button button-next" href="http://maps.google.com/maps?q=@selectedService.Name,@selectedService.Address">Get Directions</a>
+                                <a class="button button-next audit" href="http://maps.google.com/maps?q=@selectedService.Name,@selectedService.Address" data-service-id="@selectedService.Id" data-service-name="@selectedService.Name">Get Directions</a>
                             </div>
                         </fieldset>
                     </div>
@@ -89,7 +90,7 @@
                             <div class="service-address">
                                 @WebUtility.HtmlDecode(service.Address)
                             </div>
-                            <a href="http://maps.google.com/maps?q=@service.Name,@service.Address">Get Directions</a>
+                            <a href="http://maps.google.com/maps?q=@service.Name,@service.Address" class="audit" data-service-id="@service.Id" data-service-name="@service.Name">Get Directions</a>
                         </fieldset>
                     </div>
                 }
@@ -120,7 +121,7 @@
 <div class="service-map" ></div>
 
 <script type="text/javascript">
-   
+
     var map = new google.maps.Map($('.service-map')[0], {
         zoom: 10,
         center: new google.maps.LatLng(locations[0][1], locations[0][2]),
@@ -146,6 +147,20 @@
             }
         })(marker, i));
     }
+
+    $(document).ready(function() {
+        $('.audit').click(function() {
+            var model = @Html.Raw(JsonConvert.SerializeObject(Model));
+            model.EventData = "User selected service '" + $(this).data("service-name") + "' (" + $(this).data("service-id") + ")";
+            $.ajax({
+                url: "@ViewBag.LoggingServiceUrl",
+                type: "POST",
+                data: model,
+                dataType: "application/json"
+            });
+        });
+
+    });
 
 
 </script>

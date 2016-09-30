@@ -85,6 +85,8 @@ namespace NHS111.Models.Models.Web
         }
 
         private IEnumerable<int> GetPreviousAnswers() {
+            if (Journey == null)
+                return new List<int>();
             return Journey.Steps.Select(step => step.Answer.Order - 1);
         }
 
