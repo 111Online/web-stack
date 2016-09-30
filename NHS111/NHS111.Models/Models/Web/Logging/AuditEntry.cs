@@ -53,5 +53,11 @@ namespace NHS111.Models.Models.Web.Logging
 
         [JsonProperty(PropertyName = "eventData")]
         public string EventData { get { return _eventData; } set { _eventData = value; } }
+
+        [JsonProperty(PropertyName = "dosRequest")]
+        public string DosRequest { get; set; }
+
+        [JsonProperty(PropertyName = "dosResponse")]
+        public string DosResponse { get; set; }
     }
 }
