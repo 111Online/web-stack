@@ -1,6 +1,7 @@
 ﻿@using Newtonsoft.Json
 @using NHS111.Models.Models.Web
 @using NHS111.Models.Models.Web.FromExternalServices
+@using NHS111.Utils.Filters
 @model OutcomeViewModel
 <script src="http://maps.google.com/maps/api/js?key=AIzaSyCv3YwvmRoueyoLcW2iiSPjVeHecU18hmA "
         type="text/javascript"></script>
@@ -150,13 +151,19 @@
 
     $(document).ready(function() {
         $('.audit').click(function() {
-            var model = @Html.Raw(JsonConvert.SerializeObject(Model));
-            model.EventData = "User selected service '" + $(this).data("service-name") + "' (" + $(this).data("service-id") + ")";
+            var model = @Html.Raw(JsonConvert.SerializeObject(Model.ToAuditEntry()));
+            model.eventData = "User selected service '" + $(this).data("service-name") + "' (" + $(this).data("service-id") + ")";
             $.ajax({
-                url: "@ViewBag.LoggingServiceUrl",
+                url: "/auditing/log",
                 type: "POST",
                 data: model,
-                dataType: "application/json"
+                dataType: "application/json",
+                success: function(data) {
+                    
+                },
+                fail: function(data) {
+                    var i = data;
+                }
             });
         });
 
