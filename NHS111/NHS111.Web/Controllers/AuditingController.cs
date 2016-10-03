@@ -1,0 +1,24 @@
+﻿
+namespace NHS111.Web.Controllers {
+    using System.Net;
+    using System.Web.Mvc;
+    using Models.Models.Web.Logging;
+    using Presentation.Logging;
+
+    public class AuditingController
+        : Controller {
+
+        public AuditingController(IAuditLogger auditLogger) {
+            _auditLogger = auditLogger;
+        }
+
+        [HttpPost]
+        public ActionResult Log(AuditViewModel audit) {
+            _auditLogger.Log(audit.ToAuditEntry());
+
+            return new HttpStatusCodeResult(HttpStatusCode.OK);
+        }
+
+        private readonly IAuditLogger _auditLogger;
+    }
+}

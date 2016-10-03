@@ -12,7 +12,6 @@ namespace NHS111.Web.Controllers {
     using Presentation.Logging;
     using Utils.Attributes;
     using Utils.Filters;
-    using IConfiguration = Presentation.Configuration.IConfiguration;
 
     [LogHandleErrorForMVC]
     public class OutcomeController : Controller {
@@ -21,16 +20,14 @@ namespace NHS111.Web.Controllers {
         private readonly ISurgeryBuilder _surgeryBuilder;
         private readonly ILocationResultBuilder _locationResultBuilder;
         private readonly IAuditLogger _auditLogger;
-        private readonly IConfiguration _configuration;
 
         public OutcomeController(IOutcomeViewModelBuilder outcomeViewModelBuilder, IDOSBuilder dosBuilder,
-            ISurgeryBuilder surgeryBuilder, ILocationResultBuilder locationResultBuilder, IAuditLogger auditLogger, IConfiguration configuration) {
+            ISurgeryBuilder surgeryBuilder, ILocationResultBuilder locationResultBuilder, IAuditLogger auditLogger) {
             _outcomeViewModelBuilder = outcomeViewModelBuilder;
             _dosBuilder = dosBuilder;
             _surgeryBuilder = surgeryBuilder;
             _locationResultBuilder = locationResultBuilder;
             _auditLogger = auditLogger;
-            _configuration = configuration;
         }
 
         [HttpPost]
@@ -68,7 +65,9 @@ namespace NHS111.Web.Controllers {
         [HttpPost]
         public async Task<ActionResult> ServiceList(OutcomeViewModel model) {
             var dosViewModel = Mapper.Map<DosViewModel>(model);
+            AuditDosRequest(model, dosViewModel);
             model.DosCheckCapacitySummaryResult = await _dosBuilder.FillCheckCapacitySummaryResult(dosViewModel);
+            AuditDosResponse(model);
             return View("ServiceList", model);
         }
 
@@ -78,7 +77,6 @@ namespace NHS111.Web.Controllers {
             AuditDosRequest(model, dosCase);
             model.DosCheckCapacitySummaryResult = await _dosBuilder.FillCheckCapacitySummaryResult(dosCase);
             AuditDosResponse(model);
-            ViewBag.LoggingServiceUrl = _configuration.LoggingServiceUrl;
             return View("ServiceDetails", model);
         }
 
@@ -117,7 +115,7 @@ namespace NHS111.Web.Controllers {
 
         private void AuditSelectedService(OutcomeViewModel model) {
             var audit = model.ToAuditEntry();
-            audit.EventData = string.Format("User selected service '{0}' ({1})", model.NodeType, model.SelectedServiceId);
+            audit.EventData = string.Format("User selected service '{0}' ({1})", model.SelectedService.Name, model.SelectedService.Id);
             _auditLogger.Log(audit);
         }
     }
