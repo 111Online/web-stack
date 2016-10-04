@@ -158,11 +158,12 @@
     color: #003366;
 }
 
-.address-panel {
+.find-address-panel {
     display: none;
 }
 
 .manual-entry-text {
-    display: none;
+    font-weight: bold;
+    font-size: 1.5rem;
 }
 

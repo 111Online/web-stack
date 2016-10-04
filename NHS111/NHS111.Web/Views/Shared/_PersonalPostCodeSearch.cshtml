@@ -4,19 +4,20 @@
 <script src="~/content/Js/vendor/spin.min.js"></script>
 <link rel="stylesheet" href="~/content/styles/vendor/jquery-ui.css">
 
-
-<label>
-    Postcode of home address
-</label>
-<p class="validation-error-msg" id="postcode-validation-message">A valid UK postcode is required</p>
-<div class="inline-details">
-    @Html.TextBox("postcode-find", "", new {@class = "form-control form-control-8-chars", placeholder = "eg. SE1"})
-    <input type="button" class="button find-address" id="findMyAddress" value="Find my address"/>
-
+<div class="find-address-panel">
+    <label>
+        Postcode of home address
+    </label>
+    <p class="validation-error-msg" id="postcode-validation-message">A valid UK postcode is required</p>
+    <div class="inline-details">
+        @Html.TextBox("postcode-find", "", new { @class = "form-control form-control-8-chars", placeholder = "eg. SE1" })
+        <input type="button" class="button find-address" id="findMyAddress" value="Find my address" />
+    </div>
+    <a class="button button-next button-link" href="javascript:void(0);" id="manual-entry-link">Enter address manually</a>
 </div>
-<a class="button button-next button-link" href="javascript:void(0);" id="manual-entry-link">Enter address manually</a>
-<p class="manual-entry-text" id="manual-entry-text">Enter address manually</p>
+
 <div id="addressPanel" class="address-panel">
+    <p class="manual-entry-text" id="manual-entry-text">Enter address manually</p>
     <label>
         Street
     </label>
@@ -64,6 +65,8 @@
 
 <!--Spinner script-->
 <script type="text/javascript">
+    $(".find-address-panel").show();
+    $(".address-panel").hide();
     $(function () {
         var addresses = [];
         $("#findMyAddress").click(function () {
@@ -117,8 +120,7 @@
                         setFields(result[0]);
                         $("#manual-entry-link").hide();
                         $("#AddressList").hide();
-                        $("#addressPanel").show();
-                        $("#manual-entry-text").show();
+                        $(".address-panel").show();
                     });
                     $("#loadingPostcode").fadeOut();
                 },
@@ -135,19 +137,17 @@
         });
 
         $("#manual-entry-link").click(function () {
-            $("#manual-entry-text").show();
-            $("#addressPanel").show();
+            $(".address-panel").show();
             $("#AddressList").hide();
             $(this).hide();
         });
     });
 
     function resetElements() {
-        $("#addressPanel").hide();
+        $(".address-panel").hide();
         $("#AddressList").hide();
         $("#postcode-validation-message").hide();
         $("#AddressInfoViewModel_postcode-find").removeClass("validation-error-input");
-        $("#manual-entry-text").hide();
         setFields("@JsonConvert.SerializeObject(new AddressInfoViewModel())");
     }
 
