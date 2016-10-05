@@ -16,7 +16,7 @@ namespace NHS111.Web.Presentation.Builders {
 
         private readonly IRestfulHelper _restfulHelper;
         private readonly IConfiguration _configuration;
-        private const string WORSENING_CAREADVICE_ID = "Cx1910";
+        private const string WORSENING_CAREADVICE_ID = "CX1910";
 
         public CareAdviceBuilder(IRestfulHelper restfulHelper, IConfiguration configuration) {
             _restfulHelper = restfulHelper;
