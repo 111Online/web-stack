@@ -118,7 +118,7 @@ namespace NHS111.SmokeTests
 
             questionPage.ValidateQuestion("Have you had an injury to your head in the last 7 days?");
             var outcomePage = questionPage
-                .AnswerSuccessiveNo(8)
+                .AnswerSuccessiveNo(7)
                 .AnswerForDispostion("Yes");
 
             outcomePage.VerifyOutcome("Your answers suggest you should go to A&E within 1 hour");
