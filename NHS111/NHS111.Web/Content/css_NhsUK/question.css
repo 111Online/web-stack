@@ -1,18 +1,16 @@
-﻿p.answer {
+﻿div.answer {
     border-top:1px dotted #ddd;
     margin: 0;
-    padding: 0;
-    position: relative;
     font-size: 20px;
+    position: relative;
 }
 
-p.answer:first-of-type {
+div.answer:first-of-type {
     border: none;
 }
 
-p.answer:last-of-type {
+div.answer:last-of-type {
     border-top:1px dotted #ddd;
-    
     margin-bottom: 15px;
 }
 
@@ -29,12 +27,7 @@ label {
     padding: 10px 0;
 }
 
-span.answer-text {
-    vertical-align: super;
-    padding-left: 5px;
-}
-
-p.answer label:hover {
+div.answer.answer-label:hover {
     background: #ddd;
 }
 
@@ -88,7 +81,7 @@ div.question-rationale {
     display: none;
     color: #404040;
     font-size: 18px;
-    padding-left: 43px;
+    padding-left: 40px;
     position: relative;
     margin-top: 10px;
     margin-bottom: 5px;
@@ -96,7 +89,32 @@ div.question-rationale {
 
 .help-text-link {
     font-size: 18px;
-    padding-left: 38px;
-    margin-left: 5px;
-    margin-right: 3px;
+}
+
+.answer-radio {
+    position: absolute;
+    top: 5px;
+    height: 100%;
+}
+
+.answer-text {
+    vertical-align: super;
+    position: relative;
+    left: 40px;
+}
+
+.answer-label {
+    display: block;
+    padding: 10px 0;
+    color: #231f20;
+}
+
+.supporting-info-radio {
+    display: inline;
+    float: left;
+    width: 40px;
+}
+
+.supporting-info-text {
+    padding-left: 40px;
 }

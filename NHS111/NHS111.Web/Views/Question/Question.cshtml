@@ -85,18 +85,25 @@
     <div id="answers">
         @foreach (var answer in Model.OrderedAnswers())
         {
-        <p class="answer">
-            <label for="@answer.TitleWithoutSpaces"><input name="SelectedAnswer" type="radio" id="@answer.TitleWithoutSpaces" value="@Newtonsoft.Json.JsonConvert.SerializeObject(answer)" /><span class="answer-text">@answer.Title</span></label>
 
-            @if (!String.IsNullOrWhiteSpace(answer.SupportingInformation))
+            <div class="answer answer-label">
+                <span class="answer-radio">
+                    <input name="SelectedAnswer" type="radio" id="@answer.TitleWithoutSpaces" value="@Newtonsoft.Json.JsonConvert.SerializeObject(answer)" />
+                </span>
+                <span class="answer-text">@answer.Title</span>
+            </div>
+
+            if (!String.IsNullOrWhiteSpace(answer.SupportingInformation))
             {
-                <a class="help-text-link" href="javascript:void(0);">What does this mean?</a>
+                <div>
+                    <span class="supporting-info-text"><a class="help-text-link" href="javascript:void(0);">What does this mean?</a></span>
+                </div>
             }
-        </p>
-        if (!String.IsNullOrWhiteSpace(answer.SupportingInformationHtml))
-        {
-        <div class="help-text-link-message">@Html.Raw(answer.SupportingInformationHtml)</div>
-        }
+
+            if (!String.IsNullOrWhiteSpace(answer.SupportingInformationHtml))
+            {
+                <div class="help-text-link-message">@Html.Raw(answer.SupportingInformationHtml)</div>
+            }
         }
     </div>
 
@@ -122,7 +129,7 @@
             var $this = $(this);
             //$this.preventDefault();
 
-            var $helpTextLinkMessage = $this.parent().next('.help-text-link-message');
+            var $helpTextLinkMessage = $this.parent().parent().next('.help-text-link-message');
             $helpTextLinkMessage.slideToggle("fast");
         });
     });
