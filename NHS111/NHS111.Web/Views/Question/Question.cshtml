@@ -86,12 +86,12 @@
         @foreach (var answer in Model.OrderedAnswers())
         {
 
-            <div class="answer answer-label">
+            <label for="@answer.TitleWithoutSpaces" class="answer answer-label">
                 <span class="answer-radio">
                     <input name="SelectedAnswer" type="radio" id="@answer.TitleWithoutSpaces" value="@Newtonsoft.Json.JsonConvert.SerializeObject(answer)" />
                 </span>
                 <span class="answer-text">@answer.Title</span>
-            </div>
+            </label>
 
             if (!String.IsNullOrWhiteSpace(answer.SupportingInformation))
             {

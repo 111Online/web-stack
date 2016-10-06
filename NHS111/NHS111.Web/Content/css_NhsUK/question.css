@@ -1,17 +1,22 @@
-﻿div.answer {
+﻿label.answer {
     border-top:1px dotted #ddd;
     margin: 0;
     font-size: 20px;
     position: relative;
+    padding-right: 40px;
 }
 
-div.answer:first-of-type {
+label.answer:first-of-type {
     border: none;
 }
 
-div.answer:last-of-type {
+label.answer:last-of-type {
     border-top:1px dotted #ddd;
     margin-bottom: 15px;
+}
+
+label.answer.answer-label:hover {
+    background: #ddd;
 }
 
 a.help-text-link {
@@ -21,16 +26,6 @@ a.help-text-link {
 a {
     top: 30px;
 }
-
-label {
-    display: block;
-    padding: 10px 0;
-}
-
-div.answer.answer-label:hover {
-    background: #ddd;
-}
-
 
 input[type='radio'] {
     display: inline;
