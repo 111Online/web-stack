@@ -88,19 +88,18 @@ div.question-rationale {
 
 .answer-radio {
     position: absolute;
-    top: 5px;
+    top: 10px;
     height: 100%;
 }
 
 .answer-text {
-    vertical-align: super;
     position: relative;
     left: 40px;
 }
 
 .answer-label {
     display: block;
-    padding: 10px 0;
+    padding: 15px 0 15px 0;
     color: #231f20;
 }
 
