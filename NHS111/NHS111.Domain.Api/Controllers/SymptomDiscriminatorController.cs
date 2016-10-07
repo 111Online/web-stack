@@ -3,7 +3,9 @@ namespace NHS111.Domain.Api.Controllers {
     using System.Web.Http;
     using Models.Models.Domain;
     using Repository;
+    using Utils.Attributes;
 
+    [LogHandleErrorForApi]
     public class SymptomDiscriminatorController
         : ApiController {
 
