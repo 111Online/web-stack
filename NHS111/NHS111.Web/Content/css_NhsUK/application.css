@@ -2144,18 +2144,20 @@ button[disabled=disabled] {
     line-height: 1.3em;
 }
 .header-title {
-    clear: both;
-    padding: 0 0 12px 0;
+    float: left;
+    clear: none;
+    padding: 22px 0 0 12px;
     color: #ffffff;
     font-size: 1.5em;
 }
-@media screen and (min-width: 40em) {
+
+@media (max-width: 335px) {
     .header-title {
-        float: left;
-        clear: none;
-        padding: 22px 0 0 12px;
+        padding: 7px 0;
+        clear: both;
     }
 }
+
 .header-title .phase-tag {
     display: -moz-inline-stack;
     display: inline-block;
