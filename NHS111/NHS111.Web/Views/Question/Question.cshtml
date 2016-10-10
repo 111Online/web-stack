@@ -117,9 +117,10 @@
 
 
     $(document).ready(function () {
-
         //enable disable submit button
-        $("#nextScreen[type=submit]").attr('disabled', 'disabled');
+        if (!($("form input[type=radio]").is(':checked'))) {
+            $("#nextScreen[type=submit]").attr('disabled', 'disabled');
+        }
 
         $("form input[type=radio]").change(function () {
             $("button[type=submit]").removeAttr('disabled');
