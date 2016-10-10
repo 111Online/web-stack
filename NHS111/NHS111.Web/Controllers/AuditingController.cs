@@ -1,13 +1,16 @@
 ﻿
+using NHS111.Utils.Attributes;
+
 namespace NHS111.Web.Controllers {
     using System.Net;
     using System.Web.Mvc;
     using Models.Models.Web.Logging;
     using Presentation.Logging;
 
+    [LogHandleErrorForMVC]
     public class AuditingController
         : Controller {
-
+        
         public AuditingController(IAuditLogger auditLogger) {
             _auditLogger = auditLogger;
         }
