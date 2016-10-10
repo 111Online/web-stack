@@ -116,7 +116,8 @@ namespace NHS111.Models.Models.Web.Logging {
                 DxCode = operand.DxCode,
                 EventData = operand.EventData,
                 DosRequest = operand.DosRequest,
-                DosResponse = operand.DosResponse
+                DosResponse = operand.DosResponse,
+                SessionId = operand.SessionId
             };
         }
     }
