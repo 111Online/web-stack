@@ -33,45 +33,50 @@
         </h2>
     </div>
 </section>
+
 <div class="results-list">
-
-    <section>
-        <div class="results-service-recommended section-item">
-            <h3 class="section-header">
-                Recommended service
-            </h3>
-            @{
-                DosService selectedService = null;
-                if (Model.DosCheckCapacitySummaryResult.Success != null)
-                {
-                    selectedService = Model.DosCheckCapacitySummaryResult.Success.Services.FirstOrDefault();
+    @using (Html.BeginForm("GetDirections", "Outcome", FormMethod.Post))
+    {
+        <section>
+            <div class="results-service-recommended section-item">
+                <h3 class="section-header">
+                    Recommended service
+                </h3>
+                @{
+                    DosService selectedService = null;
+                    if (Model.DosCheckCapacitySummaryResult.Success != null)
+                    {
+                        selectedService = Model.DosCheckCapacitySummaryResult.Success.Services.FirstOrDefault();
+                    }
                 }
-            }
-            @if (selectedService != null)
-            {
-                <div class="service-list-content">
+                @if (selectedService != null)
+                {
+                    <div class="service-list-content">
 
-                    <div class="form-item-wrapper">
-                        <fieldset>
-                            <div class="form-group">
+                        <div class="form-item-wrapper">
+                            <fieldset>
+                                <div class="form-group">
 
-                                <div class="service-name">
-                                    <img src="/content/images/icons/map-pointers/fac-map-1.png"/>
-                                    @WebUtility.HtmlDecode(selectedService.Name)
+                                    <div class="service-name">
+                                        <img src="/content/images/icons/map-pointers/fac-map-1.png"/>
+                                        @WebUtility.HtmlDecode(selectedService.Name)
+                                    </div>
+                                    <div class="service-address">
+                                        @WebUtility.HtmlDecode(selectedService.Address)
+                                    </div>
+                                    @Html.Hidden("SelectedServiceId", @selectedService.Id)
+                                    @Html.Hidden("SelectedServiceName", @selectedService.Name)
+                                    @Html.Hidden("SelectedServiceAddress", @selectedService.Address)
+                                    <button type="submit" class="button button-next">Get Directions</button>
                                 </div>
-                                <div class="service-address">
-                                    @WebUtility.HtmlDecode(selectedService.Address)
-                                </div>
-
-                                <a class="button button-next audit" href="http://maps.google.com/maps?q=@selectedService.Name,@selectedService.Address" data-service-id="@selectedService.Id" data-service-name="@selectedService.Name">Get Directions</a>
-                            </div>
-                        </fieldset>
+                            </fieldset>
+                        </div>
                     </div>
-                </div>
-            }
-        </div>
-    </section>
-
+                }
+            </div>
+        </section>
+    }
+    
     <section>
         <div class="section-item last">
 
@@ -80,20 +85,26 @@
                 var pointerNo = 1;
                 foreach (var service in Model.DosCheckCapacitySummaryResult.Success.Services.Skip(1))
                 {
-                    pointerNo++;
-                    var pointerimageSrc = "/content/images/icons/map-pointers/fac-map-" + pointerNo.ToString() + ".png";
-                    <div class="service-list-content">
-                        <fieldset>
-                            <div class="service-name">
-                                <img src="@pointerimageSrc"/>
-                                @WebUtility.HtmlDecode(service.Name)
+                    using (Html.BeginForm("GetDirections", "Outcome", FormMethod.Post))
+                    {
+                            pointerNo++;
+                            var pointerimageSrc = "/content/images/icons/map-pointers/fac-map-" + pointerNo.ToString() + ".png";
+                            <div class="service-list-content">
+                                <fieldset>
+                                    <div class="service-name">
+                                        <img src="@pointerimageSrc"/>
+                                        @WebUtility.HtmlDecode(service.Name)
+                                    </div>
+                                    <div class="service-address">
+                                        @WebUtility.HtmlDecode(service.Address)
+                                    </div>
+                                    @Html.Hidden("SelectedServiceId", @service.Id)
+                                    @Html.Hidden("SelectedServiceName", @service.Name)
+                                    @Html.Hidden("SelectedServiceAddress", @service.Address)
+                                    <button type="submit" class="button-link directions">Get Directions</button>
+                                </fieldset>
                             </div>
-                            <div class="service-address">
-                                @WebUtility.HtmlDecode(service.Address)
-                            </div>
-                            <a href="http://maps.google.com/maps?q=@service.Name,@service.Address" class="audit" data-service-id="@service.Id" data-service-name="@service.Name">Get Directions</a>
-                        </fieldset>
-                    </div>
+                    }
                 }
             }
         </div>
@@ -148,28 +159,6 @@
             }
         })(marker, i));
     }
-
-    $(document).ready(function() {
-        $('.audit').click(function() {
-            var model = @Html.Raw(JsonConvert.SerializeObject(Model.ToAuditEntry()));
-            model.eventData = "User selected service '" + $(this).data("service-name") + "' (" + $(this).data("service-id") + ")";
-            $.ajax({
-                url: "/auditing/log",
-                type: "POST",
-                data: model,
-                dataType: "application/json",
-                success: function(data) {
-                    
-                },
-                fail: function(data) {
-                    var i = data;
-                }
-            });
-        });
-
-    });
-
-
 </script>
 <section>
     <div class="section-item last">
