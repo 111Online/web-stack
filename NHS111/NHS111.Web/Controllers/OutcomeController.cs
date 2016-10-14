@@ -1,5 +1,8 @@
 ﻿
 
+using NHS111.Models.Models.Web.FromExternalServices;
+using NHS111.Models.Models.Web.Logging;
+
 namespace NHS111.Web.Controllers {
     using System.Collections.Generic;
     using System.Threading.Tasks;
@@ -20,15 +23,18 @@ namespace NHS111.Web.Controllers {
         private readonly ISurgeryBuilder _surgeryBuilder;
         private readonly ILocationResultBuilder _locationResultBuilder;
         private readonly IAuditLogger _auditLogger;
+        private readonly Presentation.Configuration.IConfiguration _configuration;
 
         public OutcomeController(IOutcomeViewModelBuilder outcomeViewModelBuilder, IDOSBuilder dosBuilder,
-            ISurgeryBuilder surgeryBuilder, ILocationResultBuilder locationResultBuilder, IAuditLogger auditLogger) {
+            ISurgeryBuilder surgeryBuilder, ILocationResultBuilder locationResultBuilder, IAuditLogger auditLogger, Presentation.Configuration.IConfiguration configuration)
+        {
             _outcomeViewModelBuilder = outcomeViewModelBuilder;
             _dosBuilder = dosBuilder;
             _surgeryBuilder = surgeryBuilder;
             _locationResultBuilder = locationResultBuilder;
             _auditLogger = auditLogger;
-        }
+            _configuration = configuration;
+            }
 
         [HttpPost]
         public async Task<JsonResult> SearchSurgery(string input) {
@@ -97,6 +103,14 @@ namespace NHS111.Web.Controllers {
         }
 
         [HttpPost]
+        public ActionResult GetDirections(OutcomeViewModel model, int selectedServiceId, string selectedServiceName, string selectedServiceAddress)
+        {
+            AuditSelectedService(model, selectedServiceName, selectedServiceId);
+
+            return Redirect(string.Format(_configuration.MapsApiUrl, selectedServiceName, selectedServiceAddress));
+        }
+
+        [HttpPost]
         public ActionResult Emergency() {
             return View();
         }
@@ -113,10 +127,23 @@ namespace NHS111.Web.Controllers {
             _auditLogger.Log(audit);
         }
 
-        private void AuditSelectedService(OutcomeViewModel model) {
+        private async Task AuditSelectedService(OutcomeViewModel model, string selectedServiceName, int selectedServiceId)
+        {
             var audit = model.ToAuditEntry();
-            audit.EventData = string.Format("User selected service '{0}' ({1})", model.SelectedService.Name, model.SelectedService.Id);
+            audit.EventData = FormatEventData(selectedServiceName, selectedServiceId);
             _auditLogger.Log(audit);
+        }
+
+        private void AuditSelectedService(OutcomeViewModel model)
+        {
+            var audit = model.ToAuditEntry();
+            audit.EventData = FormatEventData(model.SelectedService.Name, model.SelectedService.Id);
+            _auditLogger.Log(audit);
+        }
+
+        private string FormatEventData(string selectedServiceName, int selectedServiceId)
+        {
+            return string.Format("User selected service '{0}' ({1})", selectedServiceName, selectedServiceId);
         }
     }
 }
