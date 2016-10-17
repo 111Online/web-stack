@@ -10,5 +10,9 @@ namespace NHS111.Models.Models.Web.FromExternalServices
 
         [JsonProperty(PropertyName = "error")]
         public ErrorObject Error { get; set; }
+
+        public bool HasNoServices {
+            get { return Error != null || (Success != null && Success.Services.Count <= 0); }
+        }
     }
 }

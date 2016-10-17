@@ -2186,4 +2186,10 @@ button[disabled=disabled] {
     content: "Live";
 }
 
+.findservice p.error {
+    color: red;
+}
 
+.findservice input.error {
+    border: solid #ff6767;
+}
