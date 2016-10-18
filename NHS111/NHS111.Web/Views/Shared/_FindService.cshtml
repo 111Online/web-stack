@@ -27,7 +27,7 @@
             <h3>@Html.Raw((!ViewData.Keys.Contains("Title") ? "Find a Healthcare provider" : ViewData["Title"]))</h3>
             <div class="section-margin">
                 @if (error) {
-                    <p class="error">No services could be found for that postcode. Please check and try again.</p>
+                    <p class="error">No results could be found for that postcode. Please check and try again.</p>
                 }
                 @Html.LabelFor(m => m.UserInfo.CurrentAddress.PostCode, "Postcode")
                 @Html.TextBoxFor(m => m.UserInfo.CurrentAddress.PostCode, new { @class = "form-control " + (error ? "error" : "") })
