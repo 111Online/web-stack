@@ -5,7 +5,9 @@ using System.Text;
 using System.Threading.Tasks;
 using AutoMapper;
 using NHS111.Models.Models.Web;
+using NHS111.Models.Models.Web.FromExternalServices;
 using NHS111.Models.Models.Web.ITK;
+using ServiceDetails = NHS111.Models.Models.Web.ITK.ServiceDetails;
 
 namespace NHS111.Models.Mappers.WebMappings
 {
@@ -22,6 +24,9 @@ namespace NHS111.Models.Mappers.WebMappings
             Mapper.CreateMap<OutcomeViewModel, ServiceDetails>()
                 .ConvertUsing<FromOutcomeViewModelToServiceDetailsConverter>();
 
+            Mapper.CreateMap<List<JourneyStep>, List<String>>()
+              .ConvertUsing<FromJourneySetpsToReportTextStrings>();
+
         }
     }
 
@@ -35,8 +40,17 @@ namespace NHS111.Models.Mappers.WebMappings
             caseDetails.ExternalReference = outcome.SessionId.ToString();
             caseDetails.DispositionCode = outcome.Id;
             caseDetails.DispositionName = outcome.Title;
-
+            caseDetails.ReportItems = Mapper.Map<List<JourneyStep>, List<String>>(outcome.Journey.Steps);
             return caseDetails;
+        }
+    }
+
+    public class FromJourneySetpsToReportTextStrings : ITypeConverter<List<JourneyStep>, List<String>>
+    {
+        public List<String> Convert(ResolutionContext context)
+        {
+            var steps = (List<JourneyStep>)context.SourceValue;
+            return steps.Select(s => s.Answer.ReportText).ToList();
         }
     }
 
