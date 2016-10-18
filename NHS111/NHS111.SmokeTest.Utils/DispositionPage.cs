@@ -80,7 +80,6 @@ namespace NHS111.SmokeTest.Utils
 
         public void VerifyCareAdvice(string[] expectedAdviceItems)
         {
-            Assert.IsTrue(FindServicePanel.Displayed);
             var foundItems = _driver.FindElements(By.CssSelector(".care-advice div h4.self-care-title"));
             Assert.AreEqual(expectedAdviceItems.Count(), foundItems.Count);
 
