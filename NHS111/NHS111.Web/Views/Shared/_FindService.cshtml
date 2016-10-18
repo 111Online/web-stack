@@ -1,4 +1,7 @@
 ﻿@model  NHS111.Models.Models.Web.OutcomeViewModel
+@{
+    var error = Model.DosCheckCapacitySummaryResult.HasNoServices;
+}
 <div class="findservice-form">
 
     @using (Html.BeginForm("ServiceDetails", "Outcome", FormMethod.Post))
@@ -18,12 +21,16 @@
         @Html.HiddenFor(x => Model.OutcomeGroup.Id)
         @Html.HiddenFor(x => Model.OutcomeGroup.Text)
         @Html.Hidden("OutcomeGroup.Label", (!ViewData.Keys.Contains("Label") ? "Services" : ViewData["Label"]))
+        @Html.Hidden("CurrentView", ((RazorView)ViewContext.View).ViewPath)
+
         <div class="findservice">
             <h3>@Html.Raw((!ViewData.Keys.Contains("Title") ? "Find a Healthcare provider" : ViewData["Title"]))</h3>
             <div class="section-margin">
-
+                @if (error) {
+                    <p class="error">No results could be found for that postcode. Please check and try again.</p>
+                }
                 @Html.LabelFor(m => m.UserInfo.CurrentAddress.PostCode, "Postcode")
-                @Html.TextBoxFor(m => m.UserInfo.CurrentAddress.PostCode, new { @class = "form-control " })
+                @Html.TextBoxFor(m => m.UserInfo.CurrentAddress.PostCode, new { @class = "form-control " + (error ? "error" : "") })
 
                 <input class="button button-next" type="submit" name="DosResults" value="@Html.Raw(ViewData["ButtonText"])">
 

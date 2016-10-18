@@ -20,6 +20,8 @@ namespace NHS111.Models.Models.Web
         public CareAdvice WorseningCareAdvice { get; set; }
         public SymptomDiscriminator SymptomDiscriminator { get; set; }
 
+        public string CurrentView { get; set; }
+
         public bool HasEndpointReasoning
         {
             get

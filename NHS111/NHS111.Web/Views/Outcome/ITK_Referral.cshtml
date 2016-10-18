@@ -2,6 +2,7 @@
 @model OutcomeViewModel
 @{
     Layout = "~/Views/Shared/_LayoutNhsUk.cshtml";
+    var error = Model.DosCheckCapacitySummaryResult.HasNoServices;
 }
 
 @section Title {
@@ -51,6 +52,7 @@
     @Html.HiddenFor(x => Model.SymptomDiscriminatorCode)
     @Html.HiddenFor(x => Model.Title)
     @Html.HiddenFor(x => x.TimeFrameText)
+    @Html.Hidden("CurrentView", ((RazorView)ViewContext.View).ViewPath)
     for (int i = 0; i < Model.CollectedKeywords.Keywords.Count; i++)
     {
         @Html.HiddenFor(model => Model.CollectedKeywords.Keywords[i].Value)
@@ -64,10 +66,16 @@
     }
 
 
-    <label>
-        Postcode of current location
-        @Html.TextBoxFor(m => m.UserInfo.CurrentAddress.PostCode)
-    </label>
+    <div class="findservice">
+        @if (error)
+        {
+        <p class="error">No results could be found for that postcode. Please check and try again.</p>
+        }
+        <label>
+            Postcode of current location
+            @Html.TextBoxFor(m => m.UserInfo.CurrentAddress.PostCode, new { @class = (error ? "error" : "") })
+        </label>
+    </div>
         <aside>
             <h3>Why we need this</h3>
             <p>
