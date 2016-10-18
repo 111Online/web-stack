@@ -5,6 +5,7 @@ using NHS111.Models.Models.Web.Logging;
 
 namespace NHS111.Web.Controllers {
     using System.Collections.Generic;
+    using System.IO;
     using System.Threading.Tasks;
     using System.Web.Mvc;
     using AutoMapper;
@@ -74,7 +75,11 @@ namespace NHS111.Web.Controllers {
             AuditDosRequest(model, dosViewModel);
             model.DosCheckCapacitySummaryResult = await _dosBuilder.FillCheckCapacitySummaryResult(dosViewModel);
             AuditDosResponse(model);
-            return View("ServiceList", model);
+
+            if (model.DosCheckCapacitySummaryResult.Error == null)
+                return View("ServiceList", model);
+
+            return View(Path.GetFileNameWithoutExtension(model.CurrentView), model);
         }
 
         [HttpPost]
@@ -83,7 +88,10 @@ namespace NHS111.Web.Controllers {
             AuditDosRequest(model, dosCase);
             model.DosCheckCapacitySummaryResult = await _dosBuilder.FillCheckCapacitySummaryResult(dosCase);
             AuditDosResponse(model);
-            return View("ServiceDetails", model);
+            if (model.DosCheckCapacitySummaryResult.Error == null)
+                return View("ServiceDetails", model);
+
+            return View(Path.GetFileNameWithoutExtension(model.CurrentView), model);
         }
 
         [HttpPost]
