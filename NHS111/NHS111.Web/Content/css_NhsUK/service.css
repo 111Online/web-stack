@@ -13,3 +13,11 @@
 .service-address {
     
 }
+
+.service-status {
+    
+}
+
+.service-status.secondary {
+    margin-bottom: 10px;
+}

@@ -27,7 +27,7 @@
             Recommended service
         </h3>
         @{
-            DosService selectedService = null;
+            ServiceViewModel selectedService = null;
             if (Model.DosCheckCapacitySummaryResult.Success != null)
             {
                 selectedService = Model.DosCheckCapacitySummaryResult.Success.Services.FirstOrDefault();

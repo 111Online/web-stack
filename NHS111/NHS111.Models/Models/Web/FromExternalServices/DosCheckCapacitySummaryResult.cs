@@ -6,7 +6,7 @@ namespace NHS111.Models.Models.Web.FromExternalServices
     public class DosCheckCapacitySummaryResult
     {
         [JsonProperty(PropertyName = "success")]
-        public SuccessObject<DosService> Success { get; set; }
+        public SuccessObject<ServiceViewModel> Success { get; set; }
 
         [JsonProperty(PropertyName = "error")]
         public ErrorObject Error { get; set; }

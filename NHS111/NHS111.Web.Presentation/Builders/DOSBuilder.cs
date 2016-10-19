@@ -62,10 +62,10 @@ namespace NHS111.Web.Presentation.Builders
             var result = jObj["CheckCapacitySummaryResult"];
             var checkCapacitySummaryResult = new DosCheckCapacitySummaryResult()
             {
-                Success = new SuccessObject<DosService>()
+                Success = new SuccessObject<ServiceViewModel>()
                 {
                     Code = (int)response.StatusCode,
-                    Services = result.ToObject<List<DosService>>()
+                    Services = result.ToObject<List<ServiceViewModel>>()
                 }
             };
             
@@ -126,7 +126,7 @@ namespace NHS111.Web.Presentation.Builders
             _cacheManager.Set(model.UserId.ToString(), document.ToString());
             _notifier.Notify(_configuration.IntegrationApiItkDispatcher, model.UserId.ToString());
 
-            model.DosCheckCapacitySummaryResult = new DosCheckCapacitySummaryResult { Success = new SuccessObject<DosService>() { Services = new List<DosService>() { selectedService } } };
+            model.DosCheckCapacitySummaryResult = new DosCheckCapacitySummaryResult { Success = new SuccessObject<ServiceViewModel>() { Services = new List<ServiceViewModel>() { selectedService } } };
             model.CareAdvices = await _careAdviceBuilder.FillCareAdviceBuilder(Convert.ToInt32(model.Age), model.Gender.ToString(), model.CareAdviceMarkers.ToList());
 
             return model;

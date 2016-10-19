@@ -58,16 +58,16 @@ namespace NHS111.Models.Models.Web.FromExternalServices
 
     public class ServiceCareItemRotaSession
     {
-        [JsonProperty(PropertyName = "startDayOfWeek")]
-        public DayOfWeek StartDayOfWeek;
-        [JsonProperty(PropertyName = "startTime")]
-        public TimeOfDay StartTime;
-        [JsonProperty(PropertyName = "endDayOfWeek")]
-        public DayOfWeek EndDayOfWeek;
-        [JsonProperty(PropertyName = "endTime")]
-        public TimeOfDay EndTime;
-        [JsonProperty(PropertyName = "status")]
-        public string Status;
+        [JsonProperty(PropertyName = "startDayOfWeekField")]
+        public DayOfWeek StartDayOfWeek { get; set; }
+        [JsonProperty(PropertyName = "startTimeField")]
+        public TimeOfDay StartTime { get; set; }
+        [JsonProperty(PropertyName = "endDayOfWeekField")]
+        public DayOfWeek EndDayOfWeek { get; set; }
+        [JsonProperty(PropertyName = "endTimeField")]
+        public TimeOfDay EndTime { get; set; }
+        [JsonProperty(PropertyName = "statusField")]
+        public string Status { get; set; }
     }
 
     public class OpenTimeSpecifiedSession
@@ -96,9 +96,9 @@ namespace NHS111.Models.Models.Web.FromExternalServices
 
     public class TimeOfDay
     {
-        [JsonProperty(PropertyName = "hours")]
-        public short Hours;
-        [JsonProperty(PropertyName = "minutes")]
-        public short Minutes;
+        [JsonProperty(PropertyName = "hoursField")]
+        public short Hours { get; set; }
+        [JsonProperty(PropertyName = "minutesField")]
+        public short Minutes { get; set; }
     }
 }
