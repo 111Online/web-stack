@@ -238,6 +238,75 @@ namespace NHS111.Models.Test.Models.Web
 
             Assert.AreEqual("Closed", service.CurrentStatus);
         }
+
+        [Test]
+        public void OpeningTimes_Returns_List_Of_Opening_Times()
+        {
+            var clock = new StaticClock(DayOfWeek.Saturday, 12, 05);
+            var service = new ServiceViewModel(clock)
+            {
+                OpenAllHours = false,
+                RotaSessions = new[]
+                {
+                    MONDAY_SESSION,
+                    TUESDAY_SESSION,
+                    WEDNESDAY_SESSION,
+                    THURSDAY_SESSION,
+                    FRIDAY_SESSION
+                }
+            };
+
+            var openingTimes = service.OpeningTimes;
+            Assert.AreEqual(7, openingTimes.Count);
+            Assert.AreEqual("9:30am - 5:00pm", openingTimes[DayOfWeek.Monday]);
+            Assert.AreEqual("9:30am - 5:00pm", openingTimes[DayOfWeek.Tuesday]);
+            Assert.AreEqual("9:30am - 5:00pm", openingTimes[DayOfWeek.Wednesday]);
+            Assert.AreEqual("9:30am - 5:00pm", openingTimes[DayOfWeek.Thursday]);
+            Assert.AreEqual("9:30am - 5:00pm", openingTimes[DayOfWeek.Friday]);
+            Assert.AreEqual("Closed", openingTimes[DayOfWeek.Saturday]);
+            Assert.AreEqual("Closed", openingTimes[DayOfWeek.Sunday]);
+        }
+
+        [Test]
+        public void OpeningTimes_For_Open_All_Hours_Returns_Empty_List()
+        {
+            var clock = new StaticClock(DayOfWeek.Saturday, 12, 05);
+            var service = new ServiceViewModel(clock)
+            {
+                OpenAllHours = true,
+                RotaSessions = new[]
+                {
+                    MONDAY_SESSION,
+                    TUESDAY_SESSION,
+                    WEDNESDAY_SESSION,
+                    THURSDAY_SESSION,
+                    FRIDAY_SESSION
+                }
+            };
+
+            var openingTimes = service.OpeningTimes;
+            Assert.AreEqual(0, openingTimes.Count);
+        }
+
+        [Test]
+        public void OpeningTimes_Null_Rota_Sessions_Returns_Closed()
+        {
+            var clock = new StaticClock(DayOfWeek.Saturday, 12, 05);
+            var service = new ServiceViewModel(clock)
+            {
+                OpenAllHours = false
+            };
+
+            var openingTimes = service.OpeningTimes;
+            Assert.AreEqual(7, openingTimes.Count);
+            Assert.AreEqual("Closed", openingTimes[DayOfWeek.Monday]);
+            Assert.AreEqual("Closed", openingTimes[DayOfWeek.Tuesday]);
+            Assert.AreEqual("Closed", openingTimes[DayOfWeek.Wednesday]);
+            Assert.AreEqual("Closed", openingTimes[DayOfWeek.Thursday]);
+            Assert.AreEqual("Closed", openingTimes[DayOfWeek.Friday]);
+            Assert.AreEqual("Closed", openingTimes[DayOfWeek.Saturday]);
+            Assert.AreEqual("Closed", openingTimes[DayOfWeek.Sunday]);
+        }
     }
 
     public class StaticClock : IClock

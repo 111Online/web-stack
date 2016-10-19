@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using NHS111.Models.Models.Web.Clock;
 using NHS111.Models.Models.Web.FromExternalServices;
+using DayOfWeek = System.DayOfWeek;
 
 namespace NHS111.Models.Models.Web
 {
@@ -28,14 +30,35 @@ namespace NHS111.Models.Models.Web
             }
         }
 
-        //an array?
-        public string OpeningTimes { get; }
+        public Dictionary<DayOfWeek, string> OpeningTimes
+        {
+            get
+            {
+                if (OpenAllHours) return new Dictionary<DayOfWeek, string>();
+
+                var daysOfWeek = Enum.GetValues(typeof(DayOfWeek)).Cast<DayOfWeek>().ToArray();
+                return daysOfWeek.ToDictionary(day => day, GetOpeningTimes);
+            }
+        }
+
+        private string GetOpeningTimes(DayOfWeek day)
+        {
+            if (RotaSessions == null) return "Closed";
+
+            var rotaSession = RotaSessions.FirstOrDefault(rs => (int) rs.StartDayOfWeek == (int) day);
+            return rotaSession != null ? string.Format("{0} - {1}", GetTime(rotaSession.StartTime), GetTime(rotaSession.EndTime)) : "Closed";
+        }
+
+        private string GetTime(TimeOfDay time)
+        {
+            return DateTime.Today.Add(new TimeSpan(time.Hours, time.Minutes, 0)).ToString("h:mmtt").ToLower();
+        }
 
         public string CurrentStatus
         {
             get
             {
-                return _clock.Now.TimeOfDay > TodaysClosingTime ? "Closed" : string.Format("Open today: {0} until {1}", DateTime.Today.Add(TodaysOpeningTime).ToString("HH:mm").ToLower(), DateTime.Today.Add(TodaysClosingTime).ToString("HH:mm").ToLower());
+                return _clock.Now.TimeOfDay > TodaysClosingTime ? "Closed" : string.Format("Open today: {0} until {1}", DateTime.Today.Add(TodaysOpeningTime).ToString("HH:mm"), DateTime.Today.Add(TodaysClosingTime).ToString("HH:mm"));
             }
         }
 
