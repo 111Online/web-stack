@@ -24,6 +24,7 @@ namespace NHS111.Web {
             ModelBinders.Binders[typeof (JourneyViewModel)] = new JourneyViewModelBinder();
 
             GlobalFilters.Filters.Add(new LogJourneyFilterAttribute());
+            GlobalFilters.Filters.Add(new SetSessionIdFilterAttribute());
         }
 
         protected void Application_Error(object sender, EventArgs e)

@@ -80,7 +80,10 @@ namespace NHS111.Web.Controllers {
 
         [HttpGet]
         public ActionResult Home() {
-            return View("Home");
+            var startOfJourney = new JourneyViewModel {
+                SessionId = Guid.Parse(Request.AnonymousID)
+            };
+            return View("Home", startOfJourney);
         }
 
         [HttpPost]

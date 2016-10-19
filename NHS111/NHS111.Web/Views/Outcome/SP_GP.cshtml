@@ -1,67 +1,54 @@
 ﻿@using NHS111.Models.Models.Web
-@using NHS111.Utils.DispositionLogics
 @model OutcomeViewModel
 @{
+    ViewBag.Title = "See your GP";
     Layout = "~/Views/Shared/_LayoutNhsUK.cshtml";
 }
-@section Title { Outcome }
 
-<link href="~/Content/css_NhsUK/a-and-e.css" media="screen" rel="stylesheet" type="text/css" />
+@section Title { See your GP }
+<link href="~/Content/css_NhsUK/confirmation.css" media="all" rel="stylesheet" type="text/css" />
+<link href="~/Content/css_NhsUK/signposting-outcome.css" media="all" rel="stylesheet" type="text/css" />
+<link href="~/Content/css_NhsUK/signposting-outcome-print.css" media="print" rel="stylesheet" type="text/css" />
 
 @section OuterSection{
-    <div class="sub-header">
-        <div>
-            <div class="aande">+</div>
-            <h2>Thank you!</h2>
-            @if (!String.IsNullOrWhiteSpace(Model.TimeFrameText))
-            {
-                <p>From your answers, we recommend you visit your GP within @Model.TimeFrameText</p>
-            }
-            else
-            {
-                <p> From your answers, we recommend you visit your GP</p>
-            }
-                    
-        </div>
-            </div>
+    @Html.Partial("_OutcomeHeader", Model)
 }
 
 @section FeedbackSection {
     @Html.Partial("_FeedbackDetails", new FeedbackViewModel() { PageId = Model.Id })
-}
+}   
 
-@if (Grouping.Two.Contains(Model.Id))
-{
-    using (Html.BeginForm("ServiceDetails", "Outcome", FormMethod.Post))
-    {
-        @Html.HiddenFor(x => Model.Id)
-        @Html.HiddenFor(x => Model.JourneyJson)
-        @Html.HiddenFor(x => Model.PathwayId)
-        @Html.HiddenFor(x => Model.PathwayNo)
-        @Html.HiddenFor(x => Model.SymptomGroup)
-        @Html.HiddenFor(x => Model.UserInfo.Age)
-        @Html.HiddenFor(x => Model.UserInfo.Gender)
-        @Html.HiddenFor(x => Model.SymptomDiscriminatorCode)
-        @Html.HiddenFor(x => Model.Title)
-        
-        <h2>Would you like us to find your nearest GP?</h2>
-        <label>
-            Postcode of current address
-        </label>
-        <div class="inline-details">
-            @Html.TextBoxFor(m => m.UserInfo.CurrentAddress.PostCode, new { @class = "form-control form-control-8-chars", placeholder = "eg. SE1" })
-            <input type="submit" class="button button-next" value="Find" />
-        </div>
-    }
-    <div class="row">
-        <a class="button button-next button-link" href="#">I don't know my postcode</a>
-    </div>
-}
+<div class="service-booking-message alert sp-module">
+    <h3 class="care-advice-section-header">
+        What if I feel worse?
+    </h3>   
+    <p>If there are any new symptoms, or if the condition gets worse, changes or you have any other concerns, call NHS 111 for advice. Calls to 111 are free.</p>
+</div>
+
+<div>
+    <h3 class="care-advice-section-header">
+        What if I'm not registered with a GP?
+    </h3>
+    <p>You can get advice about how to register with a GP from the <a href="http://www.nhs.uk/NHSEngland/AboutNHSservices/doctors/Pages/NHSGPs.aspx">NHS Choices GP services page</a>.</p>
+</div>
+
+
+
+@Html.Partial("_CareAdvice", Model.CareAdvices, new ViewDataDictionary { { "Title", "What can I do in the meantime?" } })
+
+
 
 @using (Html.BeginForm("Navigation", "Question", FormMethod.Post))
 {
     @Html.Partial("_CommonHiddenFieldsOutcomeViewModel", Model)
-    <div class="row">
-        <input class="button button-next button-link" type="submit" name="PreviousQuestion" value="Change my answers" />
-    </div>
-} 
+    if (!Model.DisplayOutcomeReferenceOnly)
+    {
+        <div class="changeAnswers row">
+            <input class="button button-next button-link" type="submit" name="PreviousQuestion" value="Change my answers" />
+        </div>
+    }
+}
+
+
+
+

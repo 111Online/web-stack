@@ -151,6 +151,21 @@ namespace NHS111.SmokeTests
             outcomePage.VerifyCareAdvice(new string[] { "Medication, pain and/or fever" });
         }
 
+        [Test]
+        public void GPEndpointJourney()
+        {
+            var questionPage = TestScenerios.LaunchTriageScenerio(_driver, "Diarrhoea and Vomiting", TestScenerioGender.Male, TestScenerioAgeGroups.Child);
+
+            questionPage.ValidateQuestion("Have you vomited any of the following?");
+            var outcomePage = questionPage
+                .AnswerSuccessiveNo(18)
+                .AnswerForDispostion("Yes (one week or more)");
+
+            outcomePage.VerifyOutcome("Your answers suggest you should speak to your GP");
+            outcomePage.VerifyWorseningPanel(WorseningMessages.Call111);
+            outcomePage.VerifyCareAdviceHeader("What can I do in the meantime?");
+            outcomePage.VerifyCareAdvice(new string[] { "Diarrhoea & Vomiting" });
+        }
 
 
 

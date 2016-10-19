@@ -44,6 +44,9 @@ namespace NHS111.SmokeTest.Utils
 
         public QuestionPage AnswerYes()
         {
+            if (!_driver.FindElements(By.Id("Yes")).Any())
+                throw new Exception("No answer with id 'Yes' could be found for question " + Header.Text);
+
             AnswerYesButton.Click();
             NextButton.Click();
             AwaitNextQuestionPage();
@@ -52,7 +55,7 @@ namespace NHS111.SmokeTest.Utils
 
         public QuestionPage Answer(string answerText)
         {
-            _driver.FindElement(By.XPath("//span[contains(@class, 'answer-text') and text() = '" + answerText + "']/preceding-sibling::input")).Click();
+            _driver.FindElement(By.XPath("//span[contains(@class, 'answer-text') and text() = '" + answerText + "']/preceding-sibling::span[contains(@class, 'answer-radio')]")).Click();
             NextButton.Click(); 
             AwaitNextQuestionPage();
             return new QuestionPage(_driver);
@@ -60,7 +63,7 @@ namespace NHS111.SmokeTest.Utils
 
         public DispositionPage AnswerForDispostion(string answerText)
         {
-            _driver.FindElement(By.XPath("//span[contains(@class, 'answer-text') and text() = \"" + answerText + "\"]/preceding-sibling::input")).Click();
+            _driver.FindElement(By.XPath("//span[contains(@class, 'answer-text') and text() = \"" + answerText + "\"]/preceding-sibling::span[contains(@class, 'answer-radio')]")).Click();
             NextButton.Click();
             return new DispositionPage(_driver);
         }
@@ -89,8 +92,10 @@ namespace NHS111.SmokeTest.Utils
             return questionPage;
         }
 
-        public QuestionPage AnswerNo()
-        {
+        public QuestionPage AnswerNo() {
+            if (!_driver.FindElements(By.Id("No")).Any())
+                throw new Exception("No answer with id 'No' could be found for question " + Header.Text);
+
             AnswerNoButton.Click();
             NextButton.Click();
             AwaitNextQuestionPage();
