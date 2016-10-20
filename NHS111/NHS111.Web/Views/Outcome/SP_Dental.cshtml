@@ -1,0 +1,55 @@
+﻿@using NHS111.Models.Models.Domain
+@using NHS111.Models.Models.Web
+@using NHS111.Utils.DispositionLogics
+@model OutcomeViewModel
+@{
+    Layout = "~/Views/Shared/_LayoutNhsUK.cshtml";
+
+}
+@section Title { Get dental treatment }
+<link href="~/Content/css_NhsUK/confirmation.css" media="all" rel="stylesheet" type="text/css" />
+<link href="~/Content/css_NhsUK/signposting-outcome.css" media="all" rel="stylesheet" type="text/css" />
+<link href="~/Content/css_NhsUK/signposting-outcome-print.css" media="print" rel="stylesheet" type="text/css" />
+
+@section OuterSection{
+    @Html.Partial("_OutcomeHeader", Model)
+}
+
+@section FeedbackSection {
+    @Html.Partial("_FeedbackDetails", new FeedbackViewModel() { PageId = Model.Id })
+}
+
+@Html.Partial("_WorseningAdvice", Model)
+
+<div class="care-advice advice-before-going">
+    <h3 class="care-advice-section-header">
+        Advice for getting dental treatment
+    </h3>
+
+    <ul>
+        <li>take all your current medicines with you</li>
+    </ul>
+    <h3 class="care-advice-section-header">
+        Did you know?
+    </h3>
+    <p>There are emergency dental treatment clinics in some areas where you can get an appointment if you do not have a dentist?</p>
+    <p>Also, many dentists will see you in an emergency even if you aren’t registered with them.</p>
+</div>
+
+@Html.Partial("_FindService", Model, new ViewDataDictionary { { "Title", "Find dental treatment" }, { "ButtonText", "Find dental treatment" }, { "Label", "dental treatment centres" } })
+
+
+@Html.Partial("_CareAdvice", Model.CareAdvices, new ViewDataDictionary { { "Title", "I know where to get dental treatment.  What can I do in the meantime?" } })
+
+
+
+@using (Html.BeginForm("Navigation", "Question", FormMethod.Post))
+{
+    @Html.Partial("_CommonHiddenFieldsOutcomeViewModel", Model)
+    if (!Model.DisplayOutcomeReferenceOnly)
+    {
+        <div class="changeAnswers row">
+            <input class="button button-next button-link" type="submit" name="PreviousQuestion" value="Change my answers" />
+        </div>
+    }
+}
