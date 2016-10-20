@@ -4,7 +4,10 @@
 <div class="service-address">
     @WebUtility.HtmlDecode(Model.Address)
 </div>
-<div class="service-status">
-    @WebUtility.HtmlDecode(Model.CurrentStatus)
-</div>
+@if (!Model.OpenAllHours)
+{
+    <div class="service-status">
+        @WebUtility.HtmlDecode(Model.CurrentStatus)
+    </div>
+}
 @Html.HiddenFor(m => m.Id)

@@ -23,8 +23,8 @@
     @Html.Partial("_FeedbackDetails", new FeedbackViewModel() { PageId = Model.Id })
 }
 
-<link href="~/content/css_NhsUk/servicelist.css" media="screen" rel="stylesheet" type="text/css"/>
-<link href="~/content/css_NhsUk/service.css" media="screen" rel="stylesheet" type="text/css"/>
+<link href="~/content/css_NhsUk/servicelist.css" media="screen" rel="stylesheet" type="text/css" />
+<link href="~/content/css_NhsUk/service.css" media="screen" rel="stylesheet" type="text/css" />
 
 <section>
     <div class="service-list-header">
@@ -58,15 +58,18 @@
                                 <div class="form-group">
 
                                     <div class="service-name">
-                                        <img src="/content/images/icons/map-pointers/fac-map-1.png"/>
+                                        <img src="/content/images/icons/map-pointers/fac-map-1.png" />
                                         @WebUtility.HtmlDecode(selectedService.Name)
                                     </div>
                                     <div class="service-address">
                                         @WebUtility.HtmlDecode(selectedService.Address)
                                     </div>
-                                    <div class="service-status">
-                                        @WebUtility.HtmlDecode(selectedService.CurrentStatus)
-                                    </div>
+                                    @if (!selectedService.OpenAllHours)
+                                    {
+                                        <div class="service-status">
+                                            @WebUtility.HtmlDecode(selectedService.CurrentStatus)
+                                        </div>
+                                    }
                                     @Html.HiddenFor(m => m.SessionId)
                                     @Html.HiddenFor(m => m.JourneyJson)
                                     @Html.HiddenFor(m => m.Id)
@@ -81,8 +84,8 @@
                 }
             </div>
         </section>
-    }
-    
+                    }
+
     <section>
         <div class="section-item last">
 
@@ -93,36 +96,39 @@
                 {
                     using (Html.BeginForm("GetDirections", "Outcome", FormMethod.Post))
                     {
-                            pointerNo++;
-                            var pointerimageSrc = "/content/images/icons/map-pointers/fac-map-" + pointerNo.ToString() + ".png";
-                            <div class="service-list-content">
-                                <fieldset>
-                                    <div class="service-name">
-                                        <img src="@pointerimageSrc"/>
-                                        @WebUtility.HtmlDecode(service.Name)
-                                    </div>
-                                    <div class="service-address">
-                                        @WebUtility.HtmlDecode(service.Address)
-                                    </div>
+                        pointerNo++;
+                        var pointerimageSrc = "/content/images/icons/map-pointers/fac-map-" + pointerNo.ToString() + ".png";
+                        <div class="service-list-content">
+                            <fieldset>
+                                <div class="service-name">
+                                    <img src="@pointerimageSrc" />
+                                    @WebUtility.HtmlDecode(service.Name)
+                                </div>
+                                <div class="service-address">
+                                    @WebUtility.HtmlDecode(service.Address)
+                                </div>
+                                @if (!service.OpenAllHours)
+                                {
                                     <div class="service-status secondary">
                                         @WebUtility.HtmlDecode(service.CurrentStatus)
                                     </div>
-                                    @Html.HiddenFor(m => m.SessionId)
-                                    @Html.HiddenFor(m => m.JourneyJson)
-                                    @Html.HiddenFor(m => m.Id)
-                                    @Html.Hidden("SelectedServiceId", @service.Id)
-                                    @Html.Hidden("SelectedServiceName", @service.Name)
-                                    @Html.Hidden("SelectedServiceAddress", @service.Address)
-                                    <button type="submit" class="button-link directions">Get Directions</button>
-                                </fieldset>
-                            </div>
+                                }
+                                @Html.HiddenFor(m => m.SessionId)
+                                @Html.HiddenFor(m => m.JourneyJson)
+                                @Html.HiddenFor(m => m.Id)
+                                @Html.Hidden("SelectedServiceId", @service.Id)
+                                @Html.Hidden("SelectedServiceName", @service.Name)
+                                @Html.Hidden("SelectedServiceAddress", @service.Address)
+                                <button type="submit" class="button-link directions">Get Directions</button>
+                            </fieldset>
+                        </div>
                     }
                 }
             }
         </div>
     </section>
 
-  
+
 
     <script type="text/javascript">
 
@@ -142,7 +148,7 @@
     </script>
 
 </div>
-<div class="service-map" ></div>
+<div class="service-map"></div>
 
 <script type="text/javascript">
 
@@ -164,8 +170,8 @@
             icon: "/content/images/icons/map-pointers/fac-map-" + pointerNo + ".png"
         });
 
-        google.maps.event.addListener(marker, 'click', (function(marker, i) {
-            return function() {
+        google.maps.event.addListener(marker, 'click', (function (marker, i) {
+            return function () {
                 infowindow.setContent(locations[i][0]);
                 infowindow.open(map, marker);
             }

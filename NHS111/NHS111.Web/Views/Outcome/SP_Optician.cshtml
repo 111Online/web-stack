@@ -22,7 +22,6 @@
 
 @Html.Partial("_FindService", Model, new ViewDataDictionary { { "Title", "Find an optician" }, { "ButtonText", "Find opticians" }, { "Label", "opticians" } })
 
-
 @Html.Partial("_CareAdvice", Model.CareAdvices, new ViewDataDictionary { { "Title", "I know which optician I'm going to.  What can I do in the meantime?" } })
 
 @using (Html.BeginForm("Navigation", "Question", FormMethod.Post))
