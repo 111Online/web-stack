@@ -24,7 +24,7 @@
                 <ul>
                     @foreach (var parent in careAdvice.Items) {
                         <li>@parent.Text
-                            @if (parent.Items.Any()) {
+                            @if (parent.Items != null && parent.Items.Any()) {
                             <ul>
                                 @foreach (var child in parent.Items)
                                 {

@@ -67,18 +67,7 @@
 
 
     <div class="section-item last">
-        @if (Model.DisplayWorseningCareAdvice)
-        {
-            <div class="service-booking-message alert">
-                <h3 class="care-advice-section-header">
-                    What if I feel worse?
-                </h3>
-                @foreach (var item in Model.WorseningCareAdvice.Items)
-                {
-                    <p>@item.Text</p>
-                }
-            </div>
-        }
+        @Html.Partial("_WorseningAdvice", Model)
 
         @Html.Partial("_CareAdvice", Model.CareAdvices, new ViewDataDictionary {{"Title", "Advice to help you look after yourself"}})
     </div>

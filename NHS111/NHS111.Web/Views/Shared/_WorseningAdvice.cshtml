@@ -1,0 +1,15 @@
+﻿@using NHS111.Models.Models.Web
+@model OutcomeViewModel
+
+@if (Model.DisplayWorseningCareAdvice)
+{
+    <div class="service-booking-message alert sp-module">
+        <h3 class="care-advice-section-header">
+            What if I feel worse?
+        </h3>
+        @foreach (var item in Model.WorseningCareAdvice.Items)
+        {
+            <p>@item.Text</p>
+        }
+    </div>
+}

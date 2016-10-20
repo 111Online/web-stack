@@ -88,6 +88,7 @@ namespace NHS111.Web.Controllers {
             AuditDosRequest(model, dosCase);
             model.DosCheckCapacitySummaryResult = await _dosBuilder.FillCheckCapacitySummaryResult(dosCase);
             AuditDosResponse(model);
+
             if (model.DosCheckCapacitySummaryResult.Error == null)
                 return View("ServiceDetails", model);
 
