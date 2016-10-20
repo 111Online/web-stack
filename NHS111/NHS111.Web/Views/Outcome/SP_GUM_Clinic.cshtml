@@ -19,12 +19,7 @@
     @Html.Partial("_FeedbackDetails", new FeedbackViewModel() { PageId = Model.Id })
 }
 
-<div class="service-booking-message alert sp-module">
-    <h3 class="care-advice-section-header">
-        What if I feel worse?
-    </h3>
-    <p>If there are any new symptoms, or if the condition gets worse, changes or you have any other concerns, call NHS 111 for advice. Calls to 111 are free.</p>
-</div>
+@Html.Partial("_WorseningAdvice", Model)
 
 @Html.Partial("_FindService", Model, new ViewDataDictionary { { "Title", "Find a sexual health clinic" }, { "ButtonText", "Find sexual health clinics" }, { "Label", "sexual health clinics" } })
 
