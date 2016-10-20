@@ -90,9 +90,9 @@ namespace NHS111.Web.Presentation.Builders.Tests
                 SearchDistance = 1,
                 DosCheckCapacitySummaryResult = new DosCheckCapacitySummaryResult()
                 {
-                    Success = new SuccessObject<DosService>()
+                    Success = new SuccessObject<ServiceViewModel>()
                     {
-                        Services = new List<DosService>()
+                        Services = new List<ServiceViewModel>()
                     }
                 } 
             };
