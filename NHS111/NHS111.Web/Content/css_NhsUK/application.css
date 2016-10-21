@@ -1429,10 +1429,22 @@ body {
 #global-header {
   background-color: #0072C6;
    }
+
   #global-header .header-container {
-    max-width: 75%;
+    padding: 0;
     margin: 0 15px;
-    padding: 0; }
+  }
+
+@media (min-width: 1020px)  {
+    #global-header .header-container {
+        max-width: 75%;
+    }
+}
+@media (min-width: 641px) {
+    #global-header .header-container {
+        margin: 0 30px;
+    }
+}
     @media (min-width: 641px) {
       #global-header .header-container {
         margin: 0 auto;
@@ -2151,7 +2163,7 @@ button[disabled=disabled] {
     font-size: 1.5em;
 }
 
-@media (max-width: 335px) {
+@media (max-width: 319px) {
     .header-title {
         padding: 7px 0;
         clear: both;
