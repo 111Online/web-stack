@@ -26,7 +26,11 @@ namespace NHS111.Utils.Filters
             if (model == null) 
                 return;
 
-            LogAudit(model);
+            if (filterContext.RouteData.Values["controller"].Equals("Outcome") &&
+                filterContext.RouteData.Values["action"].Equals("ServiceDetails"))
+                return; //we don't want a blank audit for dos requests
+
+                LogAudit(model);
         }
 
         private static void LogAudit(JourneyViewModel model) {
