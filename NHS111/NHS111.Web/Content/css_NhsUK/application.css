@@ -1587,15 +1587,15 @@ h1, h2, h3, h4, h5, h6 {
       padding-top: 1.33380375rem; } }
 
 .heading-large, .markdown-content h1 {
-  font-size: 2.121rem;
-  line-height: 3rem;
-  margin-bottom: 1.083265rem;
+  font-size: 28px;
+  line-height: 32px;
+  margin-bottom: 30px;
   padding-top: 0.916735rem; }
   @media screen and (min-width: 40em) {
     .heading-large, .markdown-content h1 {
-      font-size: 2.9990833333rem;
-      line-height: 4rem;
-      margin-bottom: 0.8247379167rem;
+      font-size: 36px;
+      line-height: 36px;
+      margin-bottom: 30px;
       padding-top: 1.1752620833rem; } }
 
 .heading-medium, .markdown-content h2 {
@@ -1613,15 +1613,15 @@ h1, h2, h3, h4, h5, h6 {
     } }
 
 .heading-small, .markdown-content h3 {
-  font-size: 1.5rem;
-  line-height: 2rem;
-  margin-bottom: 0.41249rem;
+  font-size: 16px;
+  line-height: 20px;
+  margin-bottom: 10px;
   padding-top: 0.58751rem; }
   @media screen and (min-width: 40em) {
     .heading-small, .markdown-content h3 {
-      font-size: 1.5rem;
-      line-height: 2rem;
-      margin-bottom: 0.41249rem;
+      font-size: 20px;
+      line-height: 20px;
+      margin-bottom: 10px;
       padding-top: 0.58751rem; } }
 
 p {
@@ -1630,13 +1630,13 @@ p {
   -ms-font-feature-settings: 'kern' 1, 'onum' 1, 'liga' 1;
   -o-font-feature-settings: 'kern' 1, 'onum' 1, 'liga' 1;
   font-feature-settings: 'kern' 1, 'onum' 1, 'liga' 1;
-  line-height: 2rem;
-  font-size: 1.4rem;
+  line-height: 20px;
+  font-size: 16px;
   margin-bottom: 1.37499rem;
   padding-top: 0.62501rem; }
   @media screen and (min-width: 40em) {
     p {
-      font-size: 1.4rem;
+      font-size: 20px;
       margin-bottom: 1.37499rem;
       padding-top: 0.62501rem; } }
 
@@ -2162,7 +2162,7 @@ button[disabled=disabled] {
     display: -moz-inline-stack;
     display: inline-block;
     vertical-align: top;
-    font-family: "nta", Arial, sans-serif;
+    font-family: Arial, Helvetica Neue, Helvetica, sans-serif;
     font-size: 0.5em;
     line-height: 1em;
     font-weight: 700;
