@@ -71,7 +71,7 @@ namespace NHS111.Web.Presentation.Builders
                 }
             };
 
-            var isPharmacy = new Func<DosService, bool>(s => s.ServiceType.Id == PHARMACY || s.ServiceType.Id == PHARMACY_EXT_HOURS);
+            var isPharmacy = new Func<DosService, bool>(s => s.ServiceType != null && (s.ServiceType.Id == PHARMACY || s.ServiceType.Id == PHARMACY_EXT_HOURS));
 
             if (checkCapacitySummaryResult.Success.Services.Any(isPharmacy))
                 checkCapacitySummaryResult.Success.Services = checkCapacitySummaryResult.Success.Services.Take(6).ToList();
