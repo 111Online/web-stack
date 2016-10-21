@@ -22,6 +22,7 @@ namespace NHS111.Web {
             BundleConfig.RegisterBundles(BundleTable.Bundles);
 
             ModelBinders.Binders[typeof (JourneyViewModel)] = new JourneyViewModelBinder();
+            ModelBinders.Binders[typeof(OutcomeViewModel)] = new JourneyViewModelBinder();
 
             GlobalFilters.Filters.Add(new LogJourneyFilterAttribute());
             GlobalFilters.Filters.Add(new SetSessionIdFilterAttribute());
