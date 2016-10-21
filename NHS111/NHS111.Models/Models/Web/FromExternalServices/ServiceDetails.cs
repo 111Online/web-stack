@@ -9,9 +9,9 @@ namespace NHS111.Models.Models.Web.FromExternalServices
 {
     public class ServiceDetails
     {
-        [JsonProperty(PropertyName = "id")]
+        [JsonProperty(PropertyName = "idField")]
         public long Id;
-        [JsonProperty(PropertyName = "name")]
+        [JsonProperty(PropertyName = "nameField")]
         public string Name;
     }
 }
