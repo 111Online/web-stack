@@ -750,6 +750,7 @@
     <Content Include="Views\Outcome\SP_Accident_and_emergency_sexual_assault.cshtml" />
     <Content Include="Views\Outcome\SP_Emergency_dental.cshtml" />
     <Content Include="Views\Shared\_WorseningAdvice.cshtml" />
+    <Content Include="Views\Outcome\SP_Dental.cshtml" />
     <None Include="Web.Development.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

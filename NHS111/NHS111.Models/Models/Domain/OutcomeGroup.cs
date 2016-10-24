@@ -31,6 +31,8 @@ namespace NHS111.Models.Models.Domain {
 
         public static OutcomeGroup Optician = new OutcomeGroup { Id = "SP_Optician", Text = "Optician", DefaultTitle = "Your answers suggest you should see an optician" };
 
+        public static OutcomeGroup Dental = new OutcomeGroup { Id = "SP_Dental", Text = "Dental treatment centre", DefaultTitle = "Your answers suggest you should get dental treatment" };
+
         public static OutcomeGroup EmergencyDental = new OutcomeGroup { Id = "SP_Emergency_dental", Text = "Emergency dental treatment centre", DefaultTitle = "Your answers suggest you should get emergency dental treatment" };
 
         public static OutcomeGroup[] SignpostingOutcomesGroups = new OutcomeGroup[] { AccidentAndEmergency, AccidentAndEmergencySexualAssault, Optician, Pharmacy, GumClinic };
@@ -44,6 +46,7 @@ namespace NHS111.Models.Models.Domain {
             { Pharmacy.Id, Pharmacy },
             { GumClinic.Id, GumClinic },
             { Optician.Id, Optician },
+            { Dental.Id, Dental },
             { EmergencyDental.Id, EmergencyDental }
         };
 
