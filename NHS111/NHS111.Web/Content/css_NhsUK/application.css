@@ -1684,7 +1684,7 @@ p {
 
 ul, ol {
   list-style-type: none;
-  line-height: 2rem;
+  line-height: 20px;
   margin-bottom: 1.37499rem;
   padding-top: 0.62501rem; }
   @media screen and (min-width: 40em) {
