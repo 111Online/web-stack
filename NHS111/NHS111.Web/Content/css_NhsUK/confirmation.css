@@ -12,11 +12,11 @@
     float: left;
     clear: both;
     width: 100%;
-    margin-bottom: 10px;
+    padding: 20px 0;
 }
 
 .care-advice .care-advice-keywords ol {
-    padding: 20px;
+    padding: 0 20px;
     list-style-type: decimal;
 }
 
@@ -27,7 +27,7 @@
 
 
 .care-advice  ul li ul  {
-    padding-top: 0.75rem;
+    padding-bottom: 5px;
     padding-bottom: 0;
     list-style-type:circle;
 }
@@ -40,7 +40,6 @@
           text-align: left;
     width: 48%;
     float: left;
-    margin-bottom: -1px;
     }
 
  }
@@ -50,12 +49,19 @@
     margin-left: 0;
 }
 .care-advice h3, .care-advice-section-header {
-    font-size: 1.6em;
+    font-size: 28px;
+    line-height: 32px;
+}
+@media (max-width: 640px) {
+    .care-advice h3, .care-advice-section-header {
+        font-size: 24px;
+        line-height: 28px;
+    }
 }
 
-
 .care-advice h4 {
-    font-size: 1.4em;
+    font-size: 28px;
+    line-height: 32px;
 }
 
 .care-advice ul {
@@ -68,10 +74,9 @@
 
 .service-booking-message {
     background-color: #fffabf;
-    padding: 10px 20px;
+    padding: 20px;
     border-left: 4px solid #FFCF47;
     margin: 1rem 0 2rem 0.8rem;
-    line-height: 3rem;
 }
 
 .service-booking-message.alert {

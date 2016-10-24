@@ -1563,7 +1563,9 @@ body {
   font-size: 16px; }
   @media screen and (min-width: 40em) {
     body {
-      font-size: 20px; } }
+      font-size: 20px;
+      line-height: 24px;
+    } }
 
 .text {
   max-width: 33em; }
@@ -1599,16 +1601,14 @@ h1, h2, h3, h4, h5, h6 {
       padding-top: 1.33380375rem; } }
 
 .heading-large, .markdown-content h1 {
-  font-size: 28px;
-  line-height: 32px;
-  margin-bottom: 30px;
-  padding-top: 0.916735rem; }
+  font-size: 32px;
+  line-height: 36px;
+  margin-bottom: 30px; }
   @media screen and (min-width: 40em) {
     .heading-large, .markdown-content h1 {
       font-size: 36px;
-      line-height: 36px;
-      margin-bottom: 30px;
-      padding-top: 1.1752620833rem; } }
+      line-height: 40px;
+      margin: 30px 0; } }
 
 .heading-medium, .markdown-content h2 {
   font-size: 1.9506rem;
@@ -1632,7 +1632,7 @@ h1, h2, h3, h4, h5, h6 {
   @media screen and (min-width: 40em) {
     .heading-small, .markdown-content h3 {
       font-size: 20px;
-      line-height: 20px;
+      line-height: 24px;
       margin-bottom: 10px;
       padding-top: 0.58751rem; } }
 
@@ -1644,13 +1644,14 @@ p {
   font-feature-settings: 'kern' 1, 'onum' 1, 'liga' 1;
   line-height: 20px;
   font-size: 16px;
-  margin-bottom: 1.37499rem;
-  padding-top: 0.62501rem; }
+  padding-top: 5px;
+
+}
   @media screen and (min-width: 40em) {
     p {
       font-size: 20px;
-      margin-bottom: 1.37499rem;
-      padding-top: 0.62501rem; } }
+      line-height: 24px;
+    } }
 
 .lede, .planner h2 {
   font-size: 1.9506rem;
@@ -1685,12 +1686,12 @@ p {
 ul, ol {
   list-style-type: none;
   line-height: 20px;
-  margin-bottom: 1.37499rem;
-  padding-top: 0.62501rem; }
+  margin-bottom: 5px; }
   @media screen and (min-width: 40em) {
     ul, ol {
-      margin-bottom: 1.37499rem;
-      padding-top: 0.62501rem; } }
+      margin-bottom: 5px;
+      line-height: 24px;
+    } }
   ul li, ol li {
     -webkit-font-feature-settings: 'kern' 1, 'onum' 1, 'liga' 1;
     -moz-font-feature-settings: 'kern' 1, 'onum' 1, 'liga' 1;
@@ -1698,10 +1699,9 @@ ul, ol {
     -o-font-feature-settings: 'kern' 1, 'onum' 1, 'liga' 1;
     font-feature-settings: 'kern' 1, 'onum' 1, 'liga' 1;
     margin-left: 0;
-    margin-bottom: 0.75rem; }
+    margin-bottom: 5px; }
     ul li ol, ul li ul, ol li ol, ol li ul {
-      padding-top: 1rem;
-      margin-bottom: 1rem; }
+      margin-bottom: 5px; }
 
 .list-number, .markdown-content ol {
   list-style-type: decimal;
@@ -1874,10 +1874,10 @@ label, .form-label, .form-label-bold {
       font-size: 1.5rem; } }
 
 .button {
-  font-size: 1.5rem; }
+  font-size: 16px; }
   @media screen and (min-width: 40em) {
     .button {
-      font-size: 1.5rem; } }
+      font-size: 20px; } }
 
 .appointment-section-heading {
   font-size: 2.3rem;
@@ -1951,7 +1951,7 @@ button[disabled=disabled] {
     .feedback-container {
         padding: 15px 0;
         font-size: 20px;
-        line-height: 20px;
+        line-height: 24px;
     }
 }
 .feedback-container, .feedback-message, .feedback-btn {
@@ -2006,6 +2006,7 @@ button[disabled=disabled] {
     .feedback-container .feedback-message {
         margin-top: 0.5em;
         font-size: 20px;
+        line-height: 24px;
     }
 }
 .feedback-form {
@@ -2018,6 +2019,7 @@ button[disabled=disabled] {
     .feedback-form {
         margin-top: 0.5em;
         font-size: 20px;
+        line-height: 24px;
     }
 }
 

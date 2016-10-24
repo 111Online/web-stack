@@ -1,5 +1,6 @@
 ﻿h3 {
-    font-size: 1.6em;
+    font-size: 28px;
+    line-height: 32px;
 }
 
 .care-advice {
@@ -16,7 +17,7 @@
 }
 @media (min-width: 769px) {
     .sp-module {
-        margin: 40px 0;
+        margin: 30px 0;
     }
 }
 
@@ -65,7 +66,7 @@ hr {
     /*height: 231px;*/
     color: white;
     font-size: 120%;
-    padding-bottom: 40px;
+    padding-bottom: 30px;
 }
 
     .sub-header div {
@@ -145,9 +146,10 @@ form .findservice {
 
 @media (min-width: 641px) {
      .sub-header h2 {
-        padding-top: 70px;
-        margin-bottom: 25px;
-        font-size: 1.6em;
+        padding-top: 60px;
+        margin-bottom: 30px;
+        font-size: 40px;
+        line-height: 44px;
     }
     .findservice .form-control {
         float: left;
@@ -170,33 +172,30 @@ form .findservice {
     }
 
      .sub-header h2 {
-        padding-top: 20px;
-        font-size: 1.5em;
+        padding-top: 30px;
+        font-size: 36px;
+        line-height: 40px;
     }
     .sub-header {
-        padding-bottom: 20px;
-    }
-
-    .sub-header h2 {
-        line-height: 3.5rem;
+        padding-bottom: 30px;
     }
 
     .care-advice h3 {
-        font-size: 1.5em;
-        line-height: 3.5rem;
-        margin-bottom: 20px;
+        font-size: 24px;
+        line-height: 28px;
     }
 }
 
 .findservice label {
     font-weight: bold;
-    margin-bottom: 10px;
+    margin-bottom: 5px;
     float: left;
     clear: left;
 }
 .changeAnswers {
     float: left;
     clear:both;
+    margin-top: 10px;
 }
 
 .section-margin {

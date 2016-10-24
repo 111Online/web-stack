@@ -3,6 +3,6 @@
 @{ var outcomeHeader = (!string.IsNullOrEmpty(Model.DispositionText) ? Model.DispositionText : Model.OutcomeGroup.GetDefaultTitle()); }
 <div class="sub-header">
     <div>
-        <h2 style="margin-bottom: 25px; font-size: 1.6em;">@Html.Raw(outcomeHeader)</h2>
+        <h2>@Html.Raw(outcomeHeader)</h2>
     </div>
 </div>
