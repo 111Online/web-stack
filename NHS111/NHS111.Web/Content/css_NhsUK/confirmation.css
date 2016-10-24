@@ -12,7 +12,7 @@
     float: left;
     clear: both;
     width: 100%;
-    padding: 20px 0;
+    padding-bottom: 20px;
 }
 
 .care-advice .care-advice-keywords ol {
@@ -21,14 +21,13 @@
 }
 
 .care-advice  ul  {
-    padding: 20px; 
+    padding: 0 20px; 
     list-style-type:disc;
+    margin: 0 0 20px 20px;
 }
 
-
 .care-advice  ul li ul  {
-    padding-bottom: 5px;
-    padding-bottom: 0;
+    padding: 5px 0;
     list-style-type:circle;
 }
 
@@ -43,14 +42,14 @@
     }
 
  }
-
-
+ 
 .care-advice .care-advice-keywords ol li:first-child {
     margin-left: 0;
 }
 .care-advice h3, .care-advice-section-header {
     font-size: 28px;
     line-height: 32px;
+    padding-bottom: 20px;
 }
 @media (max-width: 640px) {
     .care-advice h3, .care-advice-section-header {
@@ -63,13 +62,15 @@
     font-size: 28px;
     line-height: 32px;
 }
-
-.care-advice ul {
-     margin-bottom: 0;
+@media (max-width: 640px) {
+    .care-advice h4 {
+        font-size: 24px;
+        line-height: 28px;
+    }
 }
 
-.care-advice ul, ol {
-    margin-bottom: 0;
+.self-care-title {
+    padding-bottom: 20px;
 }
 
 .service-booking-message {
@@ -90,10 +91,6 @@
     clear: both;
     margin-top: -20px;
     padding: 5px 20px 20px 20px;
-}
-
-.advice-before-going {
-    margin-bottom: 15px;
 }
 
 .save-link h3 {

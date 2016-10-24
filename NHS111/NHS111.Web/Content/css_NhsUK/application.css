@@ -2175,6 +2175,7 @@ button[disabled=disabled] {
 
 .findservice p.error {
     color: red;
+    padding-bottom: 5px;
 }
 
 .findservice input.error {
