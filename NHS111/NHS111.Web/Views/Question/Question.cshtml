@@ -26,8 +26,10 @@
 
 @functions {
 
-    string WriteDirectLink(JourneyViewModel model) {
-        if (DirectLinkingFeature.IsEnabled) {
+    string WriteDirectLink(JourneyViewModel model)
+    {
+        if (DirectLinkingFeature.IsEnabled)
+        {
             return "<!-- DIRECT LINK: " + model.StepLink + " -->";
         }
 
@@ -50,7 +52,7 @@
     @Html.HiddenFor(x => Model.SymptomDiscriminatorCode)
     @Html.HiddenFor(x => Model.QuestionNo)
     @Html.HiddenFor(x => Model.StateJson)
-    
+
     @Html.Raw(WriteDirectLink(Model))
 
     for (int i = 0; i < Model.CollectedKeywords.Keywords.Count; i++)
@@ -70,7 +72,7 @@
     @Html.HiddenFor(x => Model.PreviousStateJson)
 
 
-    <h2 class="question-header">@Model.TitleWithoutBullets</h2>
+    <h2 class="heading-large">@Model.TitleWithoutBullets</h2>
     foreach (var bullet in Model.Bullets)
     {
         <span class="red">@bullet</span>
@@ -78,7 +80,7 @@
     if (!String.IsNullOrWhiteSpace(Model.Rationale))
     {
         <div class="question-rationale">
-            <h3>Why are we asking this?</h3>
+            <h2 class="heading-small">Why are we asking this?</h2>
             <p>@Html.Raw(@Model.RationaleHtml)</p>
         </div>
     }
@@ -95,7 +97,7 @@
 
             if (!String.IsNullOrWhiteSpace(answer.SupportingInformation))
             {
-                <div>
+                <div class="help-text">
                     <span class="supporting-info-text"><a class="help-text-link" href="javascript:void(0);">What does this mean?</a></span>
                 </div>
             }

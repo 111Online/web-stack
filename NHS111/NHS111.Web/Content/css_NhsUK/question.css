@@ -1,9 +1,16 @@
 ﻿label.answer {
     border-top:1px dotted #ddd;
     margin: 0;
-    font-size: 20px;
+    font-size: 16px;
+    line-height: 20px;
     position: relative;
     padding-right: 40px;
+}
+@media screen and (min-width: 40em) {
+    label.answer {
+      font-size: 20px;
+      line-height: 24px;
+    } 
 }
 
 label.answer:first-of-type {
@@ -12,11 +19,42 @@ label.answer:first-of-type {
 
 label.answer:last-of-type {
     border-top:1px dotted #ddd;
-    margin-bottom: 15px;
+    margin-bottom: 30px;
 }
 
 label.answer.answer-label:hover {
     background: #ddd;
+}
+
+.help-text-link-message {
+    display: none;
+    font-size: 16px;
+    line-height: 20px;
+    padding-left: 40px;
+    position: relative;
+    margin-top: 15px;
+    margin-bottom: 5px;
+}
+@media screen and (min-width: 40em) {
+    .help-text-link-message {
+      font-size: 20px;
+      line-height: 24px;
+    } 
+}
+
+.help-text {
+    margin-bottom: 5px;
+}
+
+.help-text-link {
+    font-size: 16px;
+    line-height: 20px;
+}
+@media screen and (min-width: 40em) {
+    .help-text-link {
+      font-size: 20px;
+      line-height: 24px;
+    } 
 }
 
 a.help-text-link {
@@ -59,7 +97,11 @@ div.question-rationale {
     position: relative;
     padding: 10px 20px;
     border-left: 4px solid #0073c6;
-    margin: 0 0 20px 0;
+    margin: 0 0 30px 0;
+}
+
+div.question-rationale p {
+    padding-bottom: 0.58751rem;
 }
 
     div.question-rationale h3 {
@@ -71,20 +113,6 @@ div.question-rationale {
         margin-bottom: 0;
         padding-top: 0;
     }
-
-.help-text-link-message {
-    display: none;
-    color: #404040;
-    font-size: 18px;
-    padding-left: 40px;
-    position: relative;
-    margin-top: 10px;
-    margin-bottom: 5px;
-}
-
-.help-text-link {
-    font-size: 18px;
-}
 
 .answer-radio {
     position: absolute;

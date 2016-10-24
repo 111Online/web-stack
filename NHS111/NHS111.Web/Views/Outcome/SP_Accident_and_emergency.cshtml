@@ -19,7 +19,15 @@
     @Html.Partial("_FeedbackDetails", new FeedbackViewModel() { PageId = Model.Id })
 }
 
-@Html.Partial("_WorseningAdvice", Model)
+@if (Model.DisplayWorseningCareAdvice)
+{
+    <div class="service-booking-message alert sp-module">
+        <h3 class="care-advice-section-header">
+            What if I feel worse?
+        </h3>
+        <p>If there are any new symptoms, or if the condition gets worse, changes or you have any other concerns, call 999 and ask for an ambulance.</p>
+    </div>
+}
 
 <div class="care-advice advice-before-going">
     <h3 class="care-advice-section-header">

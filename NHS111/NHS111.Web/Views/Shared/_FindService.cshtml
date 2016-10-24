@@ -40,6 +40,12 @@
                 @Html.Hidden(string.Format("CareAdvices[{0}].Items[{1}].Id", i, j), @WebUtility.HtmlDecode(careAdvices[i].Items[j].Id))
                 @Html.Hidden(string.Format("CareAdvices[{0}].Items[{1}].OrderNo", i, j), careAdvices[i].Items[j].OrderNo)
                 @Html.Hidden(string.Format("CareAdvices[{0}].Items[{1}].Text", i, j), @WebUtility.HtmlDecode(careAdvices[i].Items[j].Text))
+                for (var k = 0; k < careAdvices[i].Items[j].Items.Count; ++k)
+                {
+                    @Html.Hidden(string.Format("CareAdvices[{0}].Items[{1}].Items[{2}].Id", i, j, k), @WebUtility.HtmlDecode(careAdvices[i].Items[j].Items[k].Id))
+                    @Html.Hidden(string.Format("CareAdvices[{0}].Items[{1}].Items[{2}].OrderNo", i, j, k), careAdvices[i].Items[j].Items[k].OrderNo)
+                    @Html.Hidden(string.Format("CareAdvices[{0}].Items[{1}].Items[{2}].Text", i, j, k), @WebUtility.HtmlDecode(careAdvices[i].Items[j].Items[k].Text))
+                }
             }
         }
 
