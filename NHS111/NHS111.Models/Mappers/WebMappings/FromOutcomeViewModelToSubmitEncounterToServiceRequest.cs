@@ -50,7 +50,7 @@ namespace NHS111.Models.Mappers.WebMappings
         public List<String> Convert(ResolutionContext context)
         {
             var steps = (List<JourneyStep>)context.SourceValue;
-            return steps.Select(s => s.Answer.ReportText).ToList();
+            return steps.Where(s => !String.IsNullOrEmpty(s.Answer.ReportText)).Select(s => s.Answer.ReportText).ToList();
         }
     }
 

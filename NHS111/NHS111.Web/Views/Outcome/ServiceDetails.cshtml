@@ -23,8 +23,9 @@
     @Html.Partial("_FeedbackDetails", new FeedbackViewModel() { PageId = Model.Id })
 }
 
+<link href="~/Content/css_NhsUK/confirmation.css" media="all" rel="stylesheet" type="text/css" />
 <link href="~/content/css_NhsUk/servicelist.css" media="screen" rel="stylesheet" type="text/css" />
-<link href="~/content/css_NhsUk/service.css" media="screen" rel="stylesheet" type="text/css" />
+<link href="~/content/css_NhsUk/service.css" media="screen" rel="stylesheet" type="text/css"/>
 
 <section>
     <div class="service-list-header">
@@ -178,7 +179,7 @@
         })(marker, i));
     }
 </script>
-<section>
+<section class="service-details-care-advice">
     <div class="section-item last">
         @Html.Partial("_CareAdvice", Model.CareAdvices, new ViewDataDictionary { { "Title", "Advice to help you look after yourself" } })
     </div>

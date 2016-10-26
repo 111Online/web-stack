@@ -9,7 +9,7 @@
 @media screen and (min-width: 40em) {
     label.answer {
       font-size: 20px;
-      line-height: 20px;
+      line-height: 24px;
     } 
 }
 
@@ -19,7 +19,7 @@ label.answer:first-of-type {
 
 label.answer:last-of-type {
     border-top:1px dotted #ddd;
-    margin-bottom: 15px;
+    margin-bottom: 30px;
 }
 
 label.answer.answer-label:hover {
@@ -38,17 +38,22 @@ label.answer.answer-label:hover {
 @media screen and (min-width: 40em) {
     .help-text-link-message {
       font-size: 20px;
-      line-height: 20px;
+      line-height: 24px;
     } 
+}
+
+.help-text {
+    margin-bottom: 5px;
 }
 
 .help-text-link {
     font-size: 16px;
+    line-height: 20px;
 }
 @media screen and (min-width: 40em) {
     .help-text-link {
       font-size: 20px;
-      line-height: 20px;
+      line-height: 24px;
     } 
 }
 

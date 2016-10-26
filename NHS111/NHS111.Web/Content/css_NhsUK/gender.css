@@ -7,14 +7,15 @@
 {
     display: inline;
     float: left;
-    margin: 30px 15px;
     cursor: pointer;
+    margin: 0 22px 0 15px;
+}
+.gender-content {
+    margin: 30px 0;
+    
 }
 .maleIcon {
     
-}
-.female {
-    margin-left: 30px;
 }
 .age-content {
     

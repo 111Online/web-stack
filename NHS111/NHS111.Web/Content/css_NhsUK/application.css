@@ -1429,10 +1429,22 @@ body {
 #global-header {
   background-color: #0072C6;
    }
+
   #global-header .header-container {
-    max-width: 75%;
+    padding: 0;
     margin: 0 15px;
-    padding: 0; }
+  }
+
+@media (min-width: 1020px)  {
+    #global-header .header-container {
+        max-width: 75%;
+    }
+}
+@media (min-width: 641px) {
+    #global-header .header-container {
+        margin: 0 30px;
+    }
+}
     @media (min-width: 641px) {
       #global-header .header-container {
         margin: 0 auto;
@@ -1547,11 +1559,13 @@ body {
   font-family: Arial, Helvetica Neue, Helvetica, sans-serif;
   font-style: normal;
   font-weight: normal;
-  line-height: 2rem;
-  font-size: 1.5rem; }
+  line-height: 20px;
+  font-size: 16px; }
   @media screen and (min-width: 40em) {
     body {
-      font-size: 1.5rem; } }
+      font-size: 20px;
+      line-height: 24px;
+    } }
 
 .text {
   max-width: 33em; }
@@ -1587,16 +1601,14 @@ h1, h2, h3, h4, h5, h6 {
       padding-top: 1.33380375rem; } }
 
 .heading-large, .markdown-content h1 {
-  font-size: 28px;
-  line-height: 32px;
-  margin-bottom: 30px;
-  padding-top: 0.916735rem; }
+  font-size: 32px;
+  line-height: 36px;
+  margin-bottom: 30px; }
   @media screen and (min-width: 40em) {
     .heading-large, .markdown-content h1 {
       font-size: 36px;
-      line-height: 36px;
-      margin-bottom: 30px;
-      padding-top: 1.1752620833rem; } }
+      line-height: 40px;
+      margin: 30px 0; } }
 
 .heading-medium, .markdown-content h2 {
   font-size: 1.9506rem;
@@ -1620,7 +1632,7 @@ h1, h2, h3, h4, h5, h6 {
   @media screen and (min-width: 40em) {
     .heading-small, .markdown-content h3 {
       font-size: 20px;
-      line-height: 20px;
+      line-height: 24px;
       margin-bottom: 10px;
       padding-top: 0.58751rem; } }
 
@@ -1632,13 +1644,14 @@ p {
   font-feature-settings: 'kern' 1, 'onum' 1, 'liga' 1;
   line-height: 20px;
   font-size: 16px;
-  margin-bottom: 1.37499rem;
-  padding-top: 0.62501rem; }
+  padding-top: 5px;
+
+}
   @media screen and (min-width: 40em) {
     p {
       font-size: 20px;
-      margin-bottom: 1.37499rem;
-      padding-top: 0.62501rem; } }
+      line-height: 24px;
+    } }
 
 .lede, .planner h2 {
   font-size: 1.9506rem;
@@ -1672,13 +1685,13 @@ p {
 
 ul, ol {
   list-style-type: none;
-  line-height: 2rem;
-  margin-bottom: 1.37499rem;
-  padding-top: 0.62501rem; }
+  line-height: 20px;
+  margin-bottom: 5px; }
   @media screen and (min-width: 40em) {
     ul, ol {
-      margin-bottom: 1.37499rem;
-      padding-top: 0.62501rem; } }
+      margin-bottom: 5px;
+      line-height: 24px;
+    } }
   ul li, ol li {
     -webkit-font-feature-settings: 'kern' 1, 'onum' 1, 'liga' 1;
     -moz-font-feature-settings: 'kern' 1, 'onum' 1, 'liga' 1;
@@ -1686,10 +1699,9 @@ ul, ol {
     -o-font-feature-settings: 'kern' 1, 'onum' 1, 'liga' 1;
     font-feature-settings: 'kern' 1, 'onum' 1, 'liga' 1;
     margin-left: 0;
-    margin-bottom: 0.75rem; }
+    margin-bottom: 5px; }
     ul li ol, ul li ul, ol li ol, ol li ul {
-      padding-top: 1rem;
-      margin-bottom: 1rem; }
+      margin-bottom: 5px; }
 
 .list-number, .markdown-content ol {
   list-style-type: decimal;
@@ -1862,10 +1874,10 @@ label, .form-label, .form-label-bold {
       font-size: 1.5rem; } }
 
 .button {
-  font-size: 1.5rem; }
+  font-size: 16px; }
   @media screen and (min-width: 40em) {
     .button {
-      font-size: 1.5rem; } }
+      font-size: 20px; } }
 
 .appointment-section-heading {
   font-size: 2.3rem;
@@ -1909,12 +1921,13 @@ button[disabled=disabled] {
     position: relative;
 }
 .feedback-banner {
-    max-width: 75%;
     display: inline-block;
+    margin: 0 15px;
 }
 @media (min-width: 641px) {
     .feedback-banner {
         margin: 0 30px;
+        max-width: 75%;
     }
 }
 @media (min-width: 1020px) {
@@ -1927,19 +1940,18 @@ button[disabled=disabled] {
     color: #fff;
     background-color: rgba(53,53,53,0.9);
     box-sizing: border-box;
-    /*position: fixed;
-    left: 0;
-    right: 0;
-    bottom: 0;*/
-    font-size: 1.5rem;
+    font-size: 16px;
+    line-height: 20px;
     border-top: 2px solid #0075A7; 
     border-bottom: none;
     text-align: initial;
-    padding: 10px;
+    padding: 10px 0;
 }
 @media screen and (min-width: 768px) {
     .feedback-container {
         padding: 15px 0;
+        font-size: 20px;
+        line-height: 24px;
     }
 }
 .feedback-container, .feedback-message, .feedback-btn {
@@ -1964,121 +1976,96 @@ button[disabled=disabled] {
     transition: 200ms color;
 }
 .feedback-container .feedback-btn {
-    padding: 8px 10px;
+    padding: 0 10px;
     background-color: #f1d600;
     cursor: pointer;
     transition: font-size 200ms;
     text-align: center;
-    font-size: 1em;
+    font-size: 16px;
     display: block;
     margin-left: 10px;
     float: right;
     max-width: 120px;
-    line-height: 1em;
+    line-height: 20px;
 }
 }
 @media screen and (min-width: 768px) {
     .feedback-container .feedback-btn {
-        padding: 8px 15px;
+        font-size: 20px;
     }
 }
 .feedback-container .feedback-message {
     transition: font-size 200ms;
-    font-size: 1em;
+    font-size: 16px;
     display: block;
     margin: 0;
     padding: 0;
-    line-height: 1.5em;
+    line-height: 20px;
 }
 @media screen and (min-width: 500px) {
     .feedback-container .feedback-message {
         margin-top: 0.5em;
-    }
-}
-@media screen and (min-width: 768px) {
-    .feedback-container .feedback-message {
-        line-height: 1em;
-    }
-}
-.feedback-message.feedback-title {
-    font-weight: 800;
-}
-@media screen and (min-width: 500px) {
-    .feedback-message.feedback-title {
-        font-weight: 600;
+        font-size: 20px;
+        line-height: 24px;
     }
 }
 .feedback-form {
-    font-size: 0.6em;
     margin: 3em 0;
     margin-top: 0.5em;
-    font-size: 0.8em;
+    font-size: 16px;
+    line-height: 20px;
 }
 @media screen and (min-width: 500px) {
     .feedback-form {
         margin-top: 0.5em;
-        font-size: 0.8em;
+        font-size: 20px;
+        line-height: 24px;
     }
 }
-@media screen and (min-width: 768px) {
-    .feedback-form {
-        font-size: 1em;
-        line-height: 2em;
-    }
-}
-@media screen and (min-width: 992px){
-    .feedback-form {
-        font-size: 1em;
-    }
-}
+
 .feedback-input {
     float: left;
     resize: none; 
-    width: 100%;
-    height: 2em;
-    padding: 0 1em;
+    width: 90%;
+    height: 40px;
+    padding: 0 10px;
     background-color: #fff;
     border: 2px solid #b9d2dc;
     -webkit-appearance: none;
     border-radius: 0;
     margin-right: 10px;
     margin-bottom: 10px;
+    font-size: 16px;
+    line-height: 40px;
 }
 @media screen and (min-width: 500px) {
     .feedback-input {
-        width: 80%;
+        font-size: 20px;
     }
 }
 .feedback-btn.feedback-submit {
     float: left;
     max-width: none;
-    height: 1rem;
-    line-height: 1rem;
+    height: 40px;
+    font-size: 16px;
+    line-height: 40px;
     color: #fff;
     background-color: #4c9c39;
     margin-left: 0;
+    border: 2px solid #4c9c39;
 }
 .feedback-btn.feedback-submit:link, .feedback-btn.feedback-submit:hover, .feedback-btn.feedback-submit:focus, .feedback-btn.feedback-submit:visited {
     color: #fff;
     background-color: #006647;
+    border: 2px solid #006647;
 }
 @media screen and (min-width: 500px) {
     .feedback-btn.feedback-submit {
         margin-left: 0;
+        font-size: 20px;
     }
 }
-@media screen and (min-width: 768px) {
-    .feedback-btn.feedback-submit {
-        font-size: 1em;
-        height: 2rem;
-        line-height: 2rem;
-    }
-}
-@media screen and (min-width: 992px){
-    .feedback-btn.feedback-submit {
-        font-size: 1em;
-    }
-}
+
 .feedback-dismiss {
     position: absolute;
     right: 10px;
@@ -2089,7 +2076,7 @@ button[disabled=disabled] {
     -webkit-appearance: none;
     -moz-appearance: none;
     appearance: none;
-    font-size: 1rem;
+    font-size: 20px;
     background-color: transparent;
     cursor: pointer;
 }
@@ -2151,7 +2138,7 @@ button[disabled=disabled] {
     font-size: 1.5em;
 }
 
-@media (max-width: 335px) {
+@media (max-width: 319px) {
     .header-title {
         padding: 7px 0;
         clear: both;
@@ -2188,6 +2175,7 @@ button[disabled=disabled] {
 
 .findservice p.error {
     color: red;
+    padding-bottom: 5px;
 }
 
 .findservice input.error {

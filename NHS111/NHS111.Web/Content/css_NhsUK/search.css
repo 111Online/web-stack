@@ -8,6 +8,11 @@
 .input-symptoms {
     float: left;
     margin-right: 10px;
+    margin-bottom: 10px;
+}
+
+hr {
+    clear: both;
 }
 
 input.linkButton { 
@@ -235,5 +240,8 @@ ol li:last-child.arrow_box:before, ol li:last-child.arrow_box:after, .progress-p
      background: url(/content/img/banner/get-help-white.png) no-repeat left top;
 }
 
+div.symptoms-search {
+    margin-top: 20px;
+}
 
 
