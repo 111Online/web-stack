@@ -5,9 +5,8 @@
     var error = Model.DosCheckCapacitySummaryResult.HasNoServices;
 }
 
-@section Title {
-
-}
+@section Title { Speak to a clinician }
+<link href="~/content/css_NhsUk/disposition.css" media="screen" rel="stylesheet" type="text/css" />
 
 @section Scripts {
     <script>
@@ -24,8 +23,8 @@
     <div class="sub-header">
         <div>
             <div class="tick">&#10003;</div>
-            <h2>You've finished your online assessment</h2>
-            <p>@Model.Title</p>
+            <p>You've finished your online assessment</p>
+            <h2>@string.Format("We recommend that you {0} within {1}", Model.OutcomeGroup.Text, Model.TimeFrameText)</h2>
         </div>
     </div>
 }
@@ -33,8 +32,6 @@
 @section FeedbackSection {
     @Html.Partial("_FeedbackDetails", new FeedbackViewModel() { PageId = Model.Id })
 }
-
-<link href="~/content/css_NhsUk/disposition.css" media="screen" rel="stylesheet" type="text/css" />
 
 <h2>Let us contact a healthcare provider near you</h2>
 <p>Please enter your details below to find a healthcare provider and they will contact you.</p>

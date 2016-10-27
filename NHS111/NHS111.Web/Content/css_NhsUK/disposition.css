@@ -1,9 +1,8 @@
 ﻿    .sub-header {
         background-color: #4c9c39;
-        /*height: 231px;*/
         color: white;
         font-size: 120%;
-        margin-bottom: 40px;
+        padding: 30px 0;
     }
 
     .sub-header div {
@@ -19,9 +18,9 @@
         border-radius: 80px;
         padding: 20px;
         font-size: 78px;
-        line-height: 62px;
+        line-height: 60px;
         font-weight: bolder;
-        margin: 65px 30px 65px 0;
+        margin: 5px 15px;
         float: left;
     }
 @media (min-width: 641px) {
@@ -45,14 +44,9 @@
     }
 
     .sub-header h2 {
-        padding-top: 70px;
+        font-size: 40px;
+        line-height: 44px;
     }
-
-    .sub-header p {
-        font-size: 120%;
-        padding-bottom: 70px;
-    }
-
     .home-care.sub-header p {
         font-size: 120%;
         line-height: 1.2em;
@@ -63,9 +57,6 @@
         margin-top: 10px;
         font-size: 1.6em;
     }
-
-        
-
     form label input[type=text] {
         margin-top: 13px;
         width: 365px;
