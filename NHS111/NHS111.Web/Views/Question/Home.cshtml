@@ -28,94 +28,58 @@
 
 @section OuterSection {
 
-    <div id="progress-panel" class="progress-panel">
-        <h2>We'll ask you some questions to assess your symptoms and immediately direct you to the best medical care</h2>
-        <hr />
-        <ol>
-            <li class="arrow_box feeling-unwell"><span>Feeling Unwell</span></li>
-            <li class="arrow_box about-yourself"><span>Tell us what's wrong</span></li>
-            <li class="arrow_box ask-questions"><span>We'll ask the right questions</span></li>
-            <li class="arrow_box get-help"><span>Get the right help</span></li>
-        </ol>
-    </div>
 }
 
-<div id="wrapper">
+
+<div id="wrapper" class="home">
     @using (Html.BeginForm("Home", "Question", FormMethod.Post))
     {
         @Html.HiddenFor(x => Model.SessionId)
-            <div class="header">
-                <!--<a href="#" title="Close Disclaimer" class="closeDisclaimer accessibility">[ X ]</a>-->
-                <h2 class="discHead">Do I need to call 999?</h2>
-            </div>
-            <div id="yellowWrapper">
-                <div id="disclaimerContentWrapper">
-                    <div class="contentWrap module-zero">
 
+        <div class="header home">
+            <h2 class="discHead">Welcome to NHS 111 Online</h2>
+        </div>
 
-                        <h3 class="heading-med">Call 999 immediately if you have any of the following</h3>
-
-                        <ul class="list-conditions" id="disclaimerHelp">
-
-                            <li class="firstChild" id="chestPain">
-                                <a href="#">Central crushing <span class="green">chest pain</span></a>
-                                <p class="helper">
-                                    A feeling of crushing pressure like a heavy weight pushing down on your chest.
-                                </p>
-                            </li>
-
-                            <li id="stroke">
-                                <a href="#">You think you are <span class="green">having a stroke</span> </a>
-                                <p class="helper">
-                                    Signs of a stroke include being unable to raise both arms and keep them there, difficulty speaking or a lopsided face.
-                                </p>
-                            </li>
-
-                            <li id="chocking">
-                                <a href="#">Severe <span class="green">difficulty breathing</span>, choking or turning blue </a>
-                                <p class="helper">
-                                    This means you are unable to finish a sentence without stopping several times to take a breath. You may be gasping, wheezing or putting a lot of effort into breathing.
-                                </p>
-                            </li>
-
-                            <li id="bleeding">
-                                <a href="#"><span class="green">Bleeding</span> very heavily </a>
-                                <p class="helper">
-                                    This means heavy bleeding that is continuing despite attempts to stop it.
-                                </p>
-                            </li>
-
-                            <li id="injury">
-                                <a href="#">A <span class="green">severe injury</span> </a>
-                                <p class="helper">
-                                    This includes deep wounds, or injuries caused by falls, assault or road traffic accidents and will require an immediate medical assessment.
-                                </p>
-                            </li>
-
-                            <li class="lastChild" id="seizure">
-                                <a href="#">The person you are enquiring about is <span class="green">unconscious </span> having a <span class="green">seizure (fit)</span></a>
-                                <p class="helper">
-                                    Unconscious - Not awake and totally unaware of what is going on around you. As if you are asleep, but with no response if someone tries to wake you.<br><br>
-
-                                    Seizure - Uncontrolled electrical activity in the brain, which can lead to loss of consciousness and/or loss of bladder and bowel control. Seizures are often known as fits.
-                                </p>
-                            </li>
-
-                        </ul>
-
-                        <div class="center">
-                            <button type="submit" class="closeDisclaimer button button-get-started go">None of the above apply</button>
-                        </div>
+        <p class="trial strong">Use this service when you need medical help or advice but it's not life-threatening.</p>
+        <p>This service is being trialled in West Yorkshire and is only available in the West Yorkshire region.</p>
+        <div class="steps">
+            <ol class="steps-list row">
+                <li>
+                    <div class="step">
+                        <p>We'll check nothing is life threatening</p>
                     </div>
-                </div> <!-- /disclaimerContentWrapper-->
-            </div> <!-- /yellowWrapper-->
+                    <div class="step-number">
+                        <p>1</p>
+                    </div>
+                </li>
+                <li>
+                    <div class="step">
+                        <p>We'll ask you the right questions</p>
+                    </div>
+                    <div class="step-number">
+                        <p>2</p>
+                    </div>
+                </li>
+                <li>
+                    <div class="step">
+                        <p>We can advise you on what to do</p>
+                    </div>
+                    <div class="step-number">
+                        <p>3</p>
+                    </div>
+                </li>
+            </ol>
+        </div>
+        <div class="clear"></div>
+        <p>Once you have completed this we can advise you on what to do. This might be something you can do at home, a medicine you can get over the counter, or a visit to a GP or health professional.</p>
+        <p>If you need help or advice when your usual service is closed, we will tell you what to do.</p>
+        <button type="submit" class="button button-get-started go">Start NHS 111 online</button>
+
+        <p>If you're looking NHS opening times or contact information, use <a href="http://www.nhs.uk">NHS Choices</a>.</p>
+
     }
 </div>
 
-
-
-    @section FeedbackSection {
-        @Html.Partial("_FeedbackDetails", new FeedbackViewModel() { PageId = Request.Url.GetComponents(UriComponents.PathAndQuery, UriFormat.SafeUnescaped) })
-    }
-
-
+@section FeedbackSection {
+    @Html.Partial("_FeedbackDetails", new FeedbackViewModel() { PageId = Request.Url.GetComponents(UriComponents.PathAndQuery, UriFormat.SafeUnescaped) })
+}
