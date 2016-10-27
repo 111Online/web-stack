@@ -11,27 +11,24 @@
     margin: 0 22px 0 15px;
 }
 .gender-content {
-    margin: 30px 0;
-    
-}
-.maleIcon {
-    
-}
-.age-content {
+    margin: 15px 0;
     
 }
 .age {
-    margin: 30px 0;
+    margin: 15px 0;
 }
 .input-age {
     width: 50px;
+    display: block;
+    height: 50px;
 }
-.hide-age {
-    display: none;
+input[type='checkbox'] {
+    display: inline;
+    width: 30px;
+    height: 30px;
+    margin: 10px 10px 10px 0;
+    vertical-align: middle;
 }
-.femaleIcon {
-    margin-left: 30px;
-}
-.maleIcon {
-    margin-left: 30px;
+.age label {
+   
 }
