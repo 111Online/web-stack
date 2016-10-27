@@ -19,12 +19,16 @@
 }
 .input-age {
     width: 50px;
-}
-.hide-age {
-    display: none;
+    display: block;
+    height: 50px;
 }
 input[type='checkbox'] {
     display: inline;
     width: 30px;
     height: 30px;
+    margin: 10px 10px 10px 0;
+    vertical-align: middle;
+}
+.age label {
+   
 }
