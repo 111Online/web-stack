@@ -7,12 +7,6 @@
 @section Title
 {NHS 111 Digital}
 
-@section Scripts {
-    <script>
-        dataLayer = [{ 'searchTerm': '@Model.PathwayTitle' }];
-    </script>
-}
-
 @section FeedbackSection {
     @Html.Partial("_FeedbackDetails", new FeedbackViewModel() { PageId = Request.Url.GetComponents(UriComponents.PathAndQuery, UriFormat.SafeUnescaped) })
 }
@@ -20,12 +14,11 @@
 <link href="~/Content/css_NhsUK/gender.css" media="screen" rel="stylesheet" type="text/css" />
 <link href="~/content/css_NhsUk/question.css?@Assembly.GetCallingAssembly().GetName().Version.ToString()" media="screen" rel="stylesheet" type="text/css" />
 
-@using (Html.BeginForm("JustToBeSafeFirst", "JustToBeSafe", FormMethod.Post, new { @id = "outerContent" }))
+@using (Html.BeginForm("Search", "Question", FormMethod.Post, new { @id = "outerContent" }))
             {
     @Html.HiddenFor(x => Model.SessionId)
-    @Html.HiddenFor(x => Model.PathwayNo)
+    //@Html.HiddenFor(x => Model.PathwayNo)
     <h2 class="heading-large">Details about you or the person you're enquiring about</h2>
-
         <div class="question-rationale">
             <h2 class="heading-small">Why we need this</h2>
             <p>We need these details so that we can ask you the correct questions based on your gender and age. We cannot identify you from these details.</p>
@@ -51,7 +44,7 @@
             <h2 class="heading-small">Age in years</h2>
             <div class="age">
                 <span id="errmsg"></span>
-                @Html.TextBoxFor(m => m.UserInfo.Age, new { @class = "form-control input-age", size = 2, maxlength = 2, onkeypress = "return numbersonly(this, event);" })
+                @Html.TextBoxFor(m => m.UserInfo.Age, new { @class = "form-control input-age", type="number", size = 2, maxlength = 2, onkeypress = "return numbersonly(this, event);" })
                 <label><input type="checkbox" id="AgeZero" value="0" />Baby less than 1 year old</label>
             </div>
         </div>

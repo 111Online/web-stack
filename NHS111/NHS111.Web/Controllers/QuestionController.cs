@@ -1,4 +1,6 @@
 ﻿
+using AutoMapper;
+
 namespace NHS111.Web.Controllers {
     using System;
     using System.Threading.Tasks;
@@ -36,17 +38,20 @@ namespace NHS111.Web.Controllers {
             _justToBeSafeFirstViewModelBuilder = justToBeSafeFirstViewModelBuilder;
             _directLinkingFeature = directLinkingFeature;
             _auditLogger = auditLogger;
+            }
+
+        [HttpPost]
+        public  ActionResult Home(JourneyViewModel model) {
+            
+            return View("InitialQuestion");
         }
 
         [HttpPost]
-        [ActionName("Home")]
-        public  ActionResult Search(JourneyViewModel model) {
-            var audit = model.ToAuditEntry();
-            audit.EventData = "User accepted module zero.";
-            _auditLogger.Log(audit);
-            return View("Search");
+        public ActionResult Search(JourneyViewModel model)
+        {
+            return View(model);
         }
-
+        
         [HttpPost]
         public async Task<JsonResult> AutosuggestPathways(string input) {
             return Json(await Search(input));
@@ -98,6 +103,17 @@ namespace NHS111.Web.Controllers {
             return View(viewName, nextModel);
         }
 
+        
+        [HttpPost]
+        public async Task<ActionResult> InitialQuestion(JourneyViewModel model)
+        {
+            var audit = model.ToAuditEntry();
+            audit.EventData = "User accepted module zero.";
+            _auditLogger.Log(audit);
+            //go to age page
+            return View("Gender");
+        }
+        
         private async Task<JourneyViewModel> GetNextJourneyViewModel(JourneyViewModel model) {
             var nextNode = await GetNextNode(model);
             return await _journeyViewModelBuilder.Build(model, nextNode);
@@ -252,5 +268,6 @@ namespace NHS111.Web.Controllers {
         private readonly IJustToBeSafeFirstViewModelBuilder _justToBeSafeFirstViewModelBuilder;
         private readonly IDirectLinkingFeature _directLinkingFeature;
         private readonly IAuditLogger _auditLogger;
-    }
+        private readonly IMappingEngine _mappingEngine;
+        }
 }
