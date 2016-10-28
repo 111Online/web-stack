@@ -1,16 +1,23 @@
-﻿    .sub-header {
-        background-color: #4c9c39;
-        color: white;
-        font-size: 120%;
-        padding: 30px 0;
-    }
-
-    .sub-header div {
-        margin: 0 auto;
-        width: 75%;
-    }
-
+﻿.sub-header {
+    background-color: #4c9c39;
+    color: white;
+    padding: 30px 0;
+    margin-bottom: 40px;
+}
+.sub-header div {
+    position: relative;
+    margin: 0 auto;
+    width: 75%;
+}
+.sub-header .tick {
+    display: none;
+}
+@media (min-width: 641px) {
     .sub-header .tick {
+        display: block;
+        position: absolute;
+        left: 0;
+        top: 0;
         background-color: white;
         color: #4c9c39;
         width: 60px;
@@ -20,83 +27,100 @@
         font-size: 78px;
         line-height: 60px;
         font-weight: bolder;
-        margin: 5px 15px;
-        float: left;
     }
+}
+.sub-header-icon p, .sub-header-icon h2 {
+    width: 75%;
+    position: relative;
+    left: 0;
+}
+@media (min-width: 641px) {
+    .sub-header-icon p, .sub-header-icon h2 {
+        left: 130px;
+    }
+}
 @media (min-width: 641px) {
     .sub-header .home {
+        position: absolute;
+        left: 0;
+        top: 0;
         color: #003087;
         width: 60px;
         height: 60px;
         border-radius: 80px;
         padding: 20px;
         font-size: 78px;
-        line-height: 62px;
         font-weight: bolder;
-        margin: 65px 30px 65px 0;
-        float: left;
         background: #FFFFFF url('/content/img/home.png') 15px 15px/70px 70px no-repeat;
     }
 }
-    .home-care.sub-header{
-        background-color: #003087;
-        padding-bottom: 40px;
-    }
-
+.home-care.sub-header {
+    background-color: #003087;
+    padding-bottom: 40px;
+}
+.sub-header h2 {
+    font-size: 36px;
+    line-height: 40px;
+}
+@media (min-width: 641px) {
     .sub-header h2 {
         font-size: 40px;
         line-height: 44px;
     }
-    .home-care.sub-header p {
-        font-size: 120%;
-        line-height: 1.2em;
-        padding-bottom: 0px;
+}
+.home-care-header-text p, .home-care-header-text h2, .home-care-header-text h3 {
+    position: relative;
+    left: 0
+}
+@media (min-width: 641px) {
+    .home-care-header-text p, .home-care-header-text h2, .home-care-header-text h3 {
+        left: 130px;
     }
+}
+.home-care h3 {
+    margin-top: 10px;
+    font-size: 1.6em;
+}
 
-     .home-care  h3 {
-        margin-top: 10px;
-        font-size: 1.6em;
-    }
-    form label input[type=text] {
-        margin-top: 13px;
-        width: 365px;
-        display: block;
-        height: 4rem;
-        line-height: 4rem;
-        padding: 0 1rem;
-        background-color: #fff;
-        border: 2px solid #b9d2dc;
-        border-radius: 0;
-        box-sizing:inherit;
-        -webkit-appearance: none;
-    }
+form label input[type=text] {
+    margin-top: 13px;
+    width: 365px;
+    display: block;
+    height: 4rem;
+    line-height: 4rem;
+    padding: 0 1rem;
+    background-color: #fff;
+    border: 2px solid #b9d2dc;
+    border-radius: 0;
+    box-sizing: inherit;
+    -webkit-appearance: none;
+}
 
-    form label {
-        margin: 20px 60px 20px 0;
-        font-weight: bold;
-        margin-bottom: 10px;
-        float: left;
-        clear: left;
-    }
+form label {
+    margin: 20px 60px 20px 0;
+    font-weight: bold;
+    margin-bottom: 10px;
+    float: left;
+    clear: left;
+}
 
     form label span {
         font-weight: normal;
     }
 
-    .form-control {
-        width: 385px;
-    }
+.form-control {
+    width: 385px;
+}
 
-    aside {
-        background-color: #e4f1f9;
-        position: relative;
-        padding: 10px 20px;
-        border-left: 4px solid #0073c6;
-        width: 400px;
-        margin: 20px 0 20px 0;
-        float: left;
-
-    }
+aside {
+    background-color: #e4f1f9;
+    position: relative;
+    padding: 10px 20px;
+    border-left: 4px solid #0073c6;
+    width: 400px;
+    margin: 20px 0 20px 0;
+    float: left;
+}
 
     aside h3 {
         font-size: 100%;
@@ -108,31 +132,25 @@
     }
 
     aside:after {
-	    right: 100%;
-	    top: 50%;
-	    border: solid transparent;
-	    content: " ";
-	    height: 0;
-	    width: 0;
-	    position: absolute;
-	    pointer-events: none;
-	    border-color: rgba(0, 115, 198, 0);
-	    border-right-color: #0073c6;
-	    border-width: 15px;
-	    margin-top: -15px;
+        right: 100%;
+        top: 50%;
+        border: solid transparent;
+        content: " ";
+        height: 0;
+        width: 0;
+        position: absolute;
+        pointer-events: none;
+        border-color: rgba(0, 115, 198, 0);
+        border-right-color: #0073c6;
+        border-width: 15px;
+        margin-top: -15px;
     }
 
-    input[type=submit] {
-        float: left;
-        clear: left;
-
-    }
-
-    input[type='submit'].button-next {
-    background-position: 90% 60%;
+input[type=submit] {
+    float: left;
+    clear: left;
 }
 
-div.home-care-header-text {
-    width: initial;
-    padding-left: 130px;
+input[type='submit'].button-next {
+    background-position: 90% 60%;
 }
