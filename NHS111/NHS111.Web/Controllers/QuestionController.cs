@@ -49,7 +49,7 @@ namespace NHS111.Web.Controllers {
         [HttpPost]
         public ActionResult Search(JourneyViewModel model)
         {
-            return View();
+            return View(model);
         }
         
         [HttpPost]
