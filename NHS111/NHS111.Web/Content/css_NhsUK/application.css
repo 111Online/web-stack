@@ -378,7 +378,7 @@ table th.numeric {
   outline: none; }
 
 .button-get-started {
-  font-weight: bold;
+  font-weight: normal;
   padding-right: 3rem;
   background-image: url("/content/images/icons/icon-button-next.svg");
   background-repeat: no-repeat;
