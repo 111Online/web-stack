@@ -81,6 +81,13 @@ a.linkButton {
      .common-symptoms {
        margin-top: 10px;
     }
+     .common-symptoms ul{
+      padding: 20px 0 20px 20px;
+    }
+    .common-symptoms h3 {
+        padding: 20px 20px 0px 20px;
+}
+
     hr {
         display: none;
     }
