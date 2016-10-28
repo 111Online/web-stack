@@ -71,6 +71,12 @@ input[type='radio'] {
     height: 30px;
 }
 
+input[type='checkbox'] {
+    display: inline;
+    width: 30px;
+    height: 30px;
+}
+
 button[type='submit'].button-next {
     background-position: 100% 60%;
 }
@@ -115,6 +121,12 @@ div.question-rationale p {
     }
 
 .answer-radio {
+    position: absolute;
+    top: 10px;
+    height: 100%;
+}
+
+.answer-checkbox {
     position: absolute;
     top: 10px;
     height: 100%;

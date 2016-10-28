@@ -1,4 +1,6 @@
 ﻿
+using AutoMapper;
+
 namespace NHS111.Web.Controllers {
     using System;
     using System.Threading.Tasks;
@@ -29,14 +31,15 @@ namespace NHS111.Web.Controllers {
 
         public QuestionController(IJourneyViewModelBuilder journeyViewModelBuilder, IRestfulHelper restfulHelper,
             IConfiguration configuration, IJustToBeSafeFirstViewModelBuilder justToBeSafeFirstViewModelBuilder, IDirectLinkingFeature directLinkingFeature,
-            IAuditLogger auditLogger) {
+            IAuditLogger auditLogger, IMappingEngine mappingEngine) {
             _journeyViewModelBuilder = journeyViewModelBuilder;
             _restfulHelper = restfulHelper;
             _configuration = configuration;
             _justToBeSafeFirstViewModelBuilder = justToBeSafeFirstViewModelBuilder;
             _directLinkingFeature = directLinkingFeature;
             _auditLogger = auditLogger;
-        }
+            _mappingEngine = mappingEngine;
+            }
 
         [HttpPost]
         [ActionName("Home")]
@@ -98,6 +101,19 @@ namespace NHS111.Web.Controllers {
             return View(viewName, nextModel);
         }
 
+        [HttpGet]
+        public ActionResult InitialQuestion()
+        {
+            return View(_journeyViewModelBuilder.BuildInitialQuestion());
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> InitialQuestion(JourneyViewModel model)
+        {
+                //go to age page
+                return View("AgeyMcAgeface");
+        }
+        
         private async Task<JourneyViewModel> GetNextJourneyViewModel(JourneyViewModel model) {
             var nextNode = await GetNextNode(model);
             return await _journeyViewModelBuilder.Build(model, nextNode);
@@ -252,5 +268,6 @@ namespace NHS111.Web.Controllers {
         private readonly IJustToBeSafeFirstViewModelBuilder _justToBeSafeFirstViewModelBuilder;
         private readonly IDirectLinkingFeature _directLinkingFeature;
         private readonly IAuditLogger _auditLogger;
-    }
+        private readonly IMappingEngine _mappingEngine;
+        }
 }
