@@ -68,63 +68,6 @@ namespace NHS111.Web.Presentation.Builders
             return _mappingEngine.Mapper.Map(lastStep, model);
         }
 
-        public JourneyViewModel BuildInitialQuestion()
-        {
-            JourneyViewModel model = new JourneyViewModel();
-
-            Answer crush = new Answer
-            {
-                Title = "Central crushing pain",
-                SupportingInformation = "A feeling of crushing pressure like a heavy weight pushing down on your chest.",
-                Order = 1
-            };
-
-            Answer stroke = new Answer
-            {
-                Title = "You think it's a stroke",
-                SupportingInformation =
-                    "Signs of a stroke include being unable to raise both arms and keep them there, difficulty speaking or a lopsided face.",
-                Order = 2
-            };
-
-            Answer choke = new Answer
-            {
-                Title = "Severe difficulty breathing, choking or turning blue",
-                SupportingInformation =
-                    "This means you are unable to finish a sentence without stopping several times to take a breath. You may be gasping, wheezing or putting a lot of effort into breathing.",
-                Order = 3
-            };
-
-            Answer bleed = new Answer
-            {
-                Title = "Bleeding very heavily",
-                SupportingInformation = "This means heavy bleeding that is continuing despite attempts to stop it.",
-                Order = 4
-            };
-
-            Answer injury = new Answer
-            {
-                Title = "A severe injury",
-                SupportingInformation =
-                    "This includes deep wounds, or injuries caused by falls, assault or road traffic accidents and will require an immediate medical assessment.",
-                Order = 5
-            };
-
-            Answer seizure = new Answer
-            {
-                Title = "The person you are enquiring about is unconscious or having a seizure (fit)",
-                SupportingInformation =
-                    @"Unconscious - Not awake and totally unaware of what is going on around you. As if you are asleep, but with no response if someone tries to wake you. 
-                    
-                    Seizure - Uncontrolled electrical activity in the brain, which can lead to loss of consciousness and/or loss of bladder and bowel control. Seizures are often known as fits.",
-                Order = 6
-            };
-
-            model.Answers = new List<Answer> { crush, stroke, choke, bleed, injury, seizure };
-
-            return model;
-        }
-
         private readonly IOutcomeViewModelBuilder _outcomeViewModelBuilder;
         private readonly IMappingEngine _mappingEngine;
         private readonly ISymptomDiscriminatorCollector _symptomDiscriminatorCollector;
@@ -137,6 +80,5 @@ namespace NHS111.Web.Presentation.Builders
     {
         Task<JourneyViewModel> Build(JourneyViewModel model, QuestionWithAnswers nextNode);
         JourneyViewModel BuildPreviousQuestion(QuestionWithAnswers lastStep, JourneyViewModel model);
-        JourneyViewModel BuildInitialQuestion();
     }
 }

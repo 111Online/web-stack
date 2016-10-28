@@ -31,23 +31,20 @@ namespace NHS111.Web.Controllers {
 
         public QuestionController(IJourneyViewModelBuilder journeyViewModelBuilder, IRestfulHelper restfulHelper,
             IConfiguration configuration, IJustToBeSafeFirstViewModelBuilder justToBeSafeFirstViewModelBuilder, IDirectLinkingFeature directLinkingFeature,
-            IAuditLogger auditLogger, IMappingEngine mappingEngine) {
+            IAuditLogger auditLogger) {
             _journeyViewModelBuilder = journeyViewModelBuilder;
             _restfulHelper = restfulHelper;
             _configuration = configuration;
             _justToBeSafeFirstViewModelBuilder = justToBeSafeFirstViewModelBuilder;
             _directLinkingFeature = directLinkingFeature;
             _auditLogger = auditLogger;
-            _mappingEngine = mappingEngine;
             }
 
         [HttpPost]
         [ActionName("Home")]
         public  ActionResult Search(JourneyViewModel model) {
-            var audit = model.ToAuditEntry();
-            audit.EventData = "User accepted module zero.";
-            _auditLogger.Log(audit);
-            return View("Search");
+            
+            return View("InitialQuestion");
         }
 
         [HttpPost]
@@ -104,12 +101,15 @@ namespace NHS111.Web.Controllers {
         [HttpGet]
         public ActionResult InitialQuestion()
         {
-            return View(_journeyViewModelBuilder.BuildInitialQuestion());
+            return View();
         }
 
         [HttpPost]
         public async Task<ActionResult> InitialQuestion(JourneyViewModel model)
         {
+            var audit = model.ToAuditEntry();
+            audit.EventData = "User accepted module zero.";
+            _auditLogger.Log(audit);
             //go to age page
             return View("Gender");
         }

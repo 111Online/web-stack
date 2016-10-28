@@ -7,40 +7,15 @@
 
 @section Title {}
 
-@section Scripts {
-    <script>
-        var pageId = '@Model.Id';
-        dataLayer = [
-        {
-            'virtualPageUrl': document.location.pathname + '/' + pageId,
-            'virtualPageTitle': '@Model.TitleWithoutBullets'
-            }
-        ];
-    </script>
-}
-
 @section OuterSection {}
 
 @section FeedbackSection {
-    @Html.Partial("_FeedbackDetails", new FeedbackViewModel() { PageId = Request.Url.GetComponents(UriComponents.PathAndQuery, UriFormat.SafeUnescaped) + Model.PathwayId })
+    @Html.Partial("_FeedbackDetails", new FeedbackViewModel() { PageId = Request.Url.GetComponents(UriComponents.PathAndQuery, UriFormat.SafeUnescaped) })
 }
 
 @using (Html.BeginForm("InitialQuestion", "Question", FormMethod.Post))
 {
     @Html.HiddenFor(x => Model.SessionId)
-    @Html.HiddenFor(x => Model.Id)
-    @Html.HiddenFor(x => Model.JourneyJson)
-    @Html.HiddenFor(x => Model.PathwayId)
-    @Html.HiddenFor(x => Model.PathwayNo)
-    @Html.HiddenFor(x => Model.PathwayTitle)
-    @Html.HiddenFor(x => Model.UserInfo.Age)
-    @Html.HiddenFor(x => Model.UserInfo.Gender)
-    @Html.HiddenFor(x => Model.Title)
-    @Html.HiddenFor(x => Model.SymptomDiscriminatorCode)
-    @Html.HiddenFor(x => Model.QuestionNo)
-    @Html.HiddenFor(x => Model.StateJson)
-
-    @Html.HiddenFor(x => Model.PreviousStateJson)
 
     <h2 class="heading-large">Do any of these apply?</h2>
 
