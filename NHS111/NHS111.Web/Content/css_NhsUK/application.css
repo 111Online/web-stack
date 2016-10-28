@@ -230,7 +230,7 @@ fieldset {
   border-radius: 0; }
   @media (min-width: 641px) {
     .form-control, .ui-autocomplete-input {
-      width: 50%; } }
+      width: 80%; } }
 
 textarea.form-control {
   min-height: 10rem;
