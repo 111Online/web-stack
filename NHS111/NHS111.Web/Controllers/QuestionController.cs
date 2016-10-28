@@ -41,12 +41,17 @@ namespace NHS111.Web.Controllers {
             }
 
         [HttpPost]
-        [ActionName("Home")]
-        public  ActionResult Search(JourneyViewModel model) {
+        public  ActionResult Home(JourneyViewModel model) {
             
             return View("InitialQuestion");
         }
 
+        [HttpPost]
+        public ActionResult Search(JourneyViewModel model)
+        {
+            return View();
+        }
+        
         [HttpPost]
         public async Task<JsonResult> AutosuggestPathways(string input) {
             return Json(await Search(input));
@@ -98,12 +103,7 @@ namespace NHS111.Web.Controllers {
             return View(viewName, nextModel);
         }
 
-        [HttpGet]
-        public ActionResult InitialQuestion()
-        {
-            return View();
-        }
-
+        
         [HttpPost]
         public async Task<ActionResult> InitialQuestion(JourneyViewModel model)
         {

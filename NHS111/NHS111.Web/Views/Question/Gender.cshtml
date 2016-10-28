@@ -7,12 +7,6 @@
 @section Title
 {NHS 111 Digital}
 
-@section Scripts {
-    <script>
-        dataLayer = [{ 'searchTerm': '@Model.PathwayTitle' }];
-    </script>
-}
-
 @section FeedbackSection {
     @Html.Partial("_FeedbackDetails", new FeedbackViewModel() { PageId = Request.Url.GetComponents(UriComponents.PathAndQuery, UriFormat.SafeUnescaped) })
 }
@@ -20,7 +14,7 @@
 <link href="~/Content/css_NhsUK/gender.css" media="screen" rel="stylesheet" type="text/css" />
 <link href="~/content/css_NhsUk/question.css?@Assembly.GetCallingAssembly().GetName().Version.ToString()" media="screen" rel="stylesheet" type="text/css" />
 
-@using (Html.BeginForm("JustToBeSafeFirst", "JustToBeSafe", FormMethod.Post, new { @id = "outerContent" }))
+@using (Html.BeginForm("Search", "Question", FormMethod.Post, new { @id = "outerContent" }))
             {
     @Html.HiddenFor(x => Model.SessionId)
     @Html.HiddenFor(x => Model.PathwayNo)
