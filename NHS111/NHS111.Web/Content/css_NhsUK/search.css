@@ -54,7 +54,7 @@ a.linkButton {
 }
 
 .common-symptoms ul{
-      padding: 30px 0 30px 30px;
+      padding: 20px 0 20px 30px;
 }
 .common-symptoms h3 {
     padding: 20px 20px 0px 30px;
@@ -68,13 +68,18 @@ a.linkButton {
     }
     .symptoms-find-container {
         width: 60%;
-        margin-right: 20px;
+        margin-right: 45px;
     }
      .symptoms-find-header h2 {
         width:60%
     }
          .form-control, .ui-autocomplete-input {
         width: 75%; 
+    }
+}
+@media (max-width: 1200px) {
+    .symptoms-find-container {
+        margin-right: 20px;
     }
 }
 @media (max-width: 960px) {
