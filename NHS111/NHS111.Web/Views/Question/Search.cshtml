@@ -27,16 +27,7 @@
 
 @section OuterSection {
 
-<div id="progress-panel" class="progress-panel">
-    <h2>We'll ask you some questions to assess your symptoms and immediately direct you to the best medical care</h2>
-    <hr/>
-    <ol>
-        <li class="arrow_box feeling-unwell"><span>Feeling Unwell</span></li>
-        <li class="arrow_box about-yourself"><span>Tell us what's wrong</span></li>
-        <li class="arrow_box ask-questions"><span>We'll ask the right questions</span></li>
-        <li class="arrow_box get-help"><span>Get the right help</span></li>
-    </ol>
-</div>
+
 }
 
 @section FeedbackSection {
@@ -46,7 +37,6 @@
 <div id="search">
 
 
-    
 
 <div id="wrapper">
 
@@ -58,33 +48,43 @@
             {
                 <input type="hidden" id="pathwayNo" name="pathwayNo" value=""/>
                 <input type="hidden" id="pathwayTitle" name="pathwayTitle" value=""/>
-
-                <h2>I need help with</h2>
-                <div class="symptoms-search">
-                    <label for="searchTags">
-                        <input type="text" class="input-symptoms ui-autocomplete-input" id="searchTags" autocomplete="off" name="searchTags" placeholder="Search for conditions and symptoms" />
-                    </label>
-                    @* @Html.ActionLink("GO","Gender","Question", new {@class = "go"})*@
-                    <input type="submit" class="button button-get-started go" value="Go" id="submitSearch"/>
+                <div class="symptoms-find-header">
+                    <h2>Find the symptom giving you the most concern</h2>
                 </div>
-                <hr/>
-                <ul class="list-conditions" id="commonConditions">
-                    <!--<li><a href="#">Abdominal pain</a></li>
-                    <li><a href="#">Fever for under 5 year olds</a></li>
-                    <li><a href="#">Diarrhoea and vomiting</a></li>
-                    <li><a href="#">Colds and flu</a></li>
-                    <li><a href="#">Dental – toothache and dental trauma</a></li>-->
+                <div class="symptoms-find-container">
+                    <p>Next we'll ask you some questions to check how severe your symptoms are</p>
+                    <p>It may feel like we're asking a lot of questions, but we need to rule out some serious conditions first. It's important we check everything thoroughly.</p>
 
-                    <li><a class="linkButton" id="PW520,PW517,PW519,PW516" href="/gender/Abdominal pain">Abdominal pain</a></li>
-                    <li><a class="linkButton" id="PW755,PW752,PW754,PW753,PW754,PW756" href="/gender/headache">A headache</a></li>
-                    <li><a class="linkButton" id="PA21,PA212,PA213,PA21,PA21,PA212,PA21,PA213" href="/gender/Chest and Upper Back Pain">Chest and back pain</a></li>
-                    <li><a class="linkButton" id="PW574,PW1042,PW1043,PW1040,PW574,PW1041" href="/gender/Cold or Flu (Declared)">Cold or flu symptoms</a></li>
-                    <li><a class="linkButton" id="PW1623,PN1620,PW1623,PN1620,PN1620,PW1620,PN1619,PN1619,PW1620,PW1623,PW1620,PN1619,PN1619,PW1620,PN1620,PW1623" href="/gender/Skin, Rash">A rash or skin problem</a></li>
-                    <li><a class="linkButton" id="PW1751,PW1751,PW1751,PW1751" href="/gender/Mental Health Problems">A mental health problem</a></li>
-                    <li><a class="linkButton" id="PW1554,PW1708,PW1563,PW1563,PW1555,PW1556,PW1553,PW1708" href="/gender/Diarrhoea and vomiting">Diarrhoea and vomiting</a></li>
-                    <li><a class="linkButton" id="PW1684,PW1699,PW1698,PW1685" href="/gender/Sexual or Menstrual Concerns">Sexual Concerns</a></li>
+                    <hr/>
+                    <div class="symptoms-search">
+                        <label for="searchTags">
+                            <input type="text" class="input-symptoms ui-autocomplete-input" id="searchTags" autocomplete="off" name="searchTags" placeholder="Search for conditions and symptoms"/>
+                        </label>
+                        @* @Html.ActionLink("GO","Gender","Question", new {@class = "go"})*@
+                        <input type="submit" class="button button-get-started go" value="Go" id="submitSearch"/>
+                    </div>
+                </div>
+    <div class="common-symptoms">
+        <h3>Common symptoms</h3>
+        <ul class="list-conditions" id="commonConditions">
+            <!--<li><a href="#">Abdominal pain</a></li>
+            <li><a href="#">Fever for under 5 year olds</a></li>
+            <li><a href="#">Diarrhoea and vomiting</a></li>
+            <li><a href="#">Colds and flu</a></li>
+            <li><a href="#">Dental – toothache and dental trauma</a></li>-->
 
-                </ul>
+            <li><a class="linkButton" id="PW520,PW517,PW519,PW516" href="/gender/Abdominal pain">Abdominal pain</a></li>
+            <li><a class="linkButton" id="PW755,PW752,PW754,PW753,PW754,PW756" href="/gender/headache">A headache</a></li>
+            <li><a class="linkButton" id="PA21,PA212,PA213,PA21,PA21,PA212,PA21,PA213" href="/gender/Chest and Upper Back Pain">Chest and back pain</a></li>
+            <li><a class="linkButton" id="PW574,PW1042,PW1043,PW1040,PW574,PW1041" href="/gender/Cold or Flu (Declared)">Cold or flu symptoms</a></li>
+            <li><a class="linkButton" id="PW1623,PN1620,PW1623,PN1620,PN1620,PW1620,PN1619,PN1619,PW1620,PW1623,PW1620,PN1619,PN1619,PW1620,PN1620,PW1623" href="/gender/Skin, Rash">A rash or skin problem</a></li>
+            <li><a class="linkButton" id="PW1751,PW1751,PW1751,PW1751" href="/gender/Mental Health Problems">A mental health problem</a></li>
+            <li><a class="linkButton" id="PW1554,PW1708,PW1563,PW1563,PW1555,PW1556,PW1553,PW1708" href="/gender/Diarrhoea and vomiting">Diarrhoea and vomiting</a></li>
+            <li><a class="linkButton" id="PW1684,PW1699,PW1698,PW1685" href="/gender/Sexual or Menstrual Concerns">Sexual Concerns</a></li>
+
+        </ul>
+
+    </div>
 
                 <div id="SearchResults">
                     @*Search Results appended here as list tags*@
