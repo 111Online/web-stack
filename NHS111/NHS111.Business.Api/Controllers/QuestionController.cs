@@ -129,6 +129,13 @@ namespace NHS111.Business.Api.Controllers
                 var selected = _answersForNodeBuilder.SelectAnswer(answers, value);
                 return await GetNextNode(pathwayId, firstNode.Question.Id, JsonConvert.SerializeObject(stateDictionary), selected);
             }
+            if (nextLabel == "Set")
+            {
+                var answers = JsonConvert.DeserializeObject<IEnumerable<Answer>>(await _questionService.GetAnswersForQuestion(firstNode.Question.Id));
+                stateDictionary.Add(firstNode.Question.Title, answers.First().Title);
+                var updatedState = JsonConvert.SerializeObject(stateDictionary);
+                return await GetNextNode(pathwayId, firstNode.Question.Id, updatedState, answers.First().Title);
+            }
             return firstNodeJson.AsHttpResponse();
         }
 
