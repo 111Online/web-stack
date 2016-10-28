@@ -17,11 +17,6 @@
             }
         ];
     </script>
-    <style>
-        .hideOption {
-            display:none;
-        }
-    </style>
 }
 
 @section OuterSection {}
@@ -48,73 +43,54 @@
     @Html.HiddenFor(x => Model.PreviousStateJson)
 
     <h2 class="heading-large">Do any of these apply?</h2>
-    foreach (var bullet in Model.Bullets)
-    {
-        <span class="red">@bullet</span>
-    }
 
-    <div class="question-rationale">
-        <h2 class="heading-small">Why are we asking this?</h2>
-        <p>Before we ask about the symptoms, we need to check it's not an emergency. If any of these apply, <strong>call 999 now</strong></p>
+    <div class="question-rationale no-header">
+        <p>Before we ask about the symptoms, we need to check it's not an emergency.<br/><br/>If any of these apply, <strong>call 999 now</strong></p>
     </div>
 
     <div id="answers">
-        @foreach (var answer in Model.OrderedAnswers())
-        {
+        <label for="Centralcrushingpain" class="answer answer-label">
+            <span class="answer-text">• Central crushing <a class="help-text-link" href="javascript:void(0);">chest pain</a></span>
+        </label>
+        <div class="help-text-link-message">A feeling of crushing pressure like a heavy weight pushing down on your chest.</div>
 
-            <label for="@answer.TitleWithoutSpaces" class="answer answer-label">
-                <span class="answer-text">@answer.Title</span>
-            </label>
+        <label for="Youthinkit'sastroke" class="answer answer-label">
+            <span class="answer-text">• You think it's a <a class="help-text-link" href="javascript:void(0);">stroke</a></span>
+        </label>
+        <div class="help-text-link-message">Signs of a stroke include being unable to raise both arms and keep them there, difficulty speaking or a lopsided face.</div>
 
-            if (!String.IsNullOrWhiteSpace(answer.SupportingInformation))
-            {
-                <div class="help-text">
-                    <span class="supporting-info-text"><a class="help-text-link" href="javascript:void(0);">What does this mean?</a></span>
-                </div>
-            }
+        <label for="Severedifficultybreathing,chokingorturning blue" class="answer answer-label">
+            <span class="answer-text">• Severe <a class="help-text-link" href="javascript:void(0);">difficulty breathing</a>, choking or turning blue</span>
+        </label>
+        <div class="help-text-link-message">This means you are unable to finish a sentence without stopping several times to take a breath. You may be gasping, wheezing or putting a lot of effort into breathing.</div>
 
-            if (!String.IsNullOrWhiteSpace(answer.SupportingInformationHtml))
-            {
-                <div class="help-text-link-message">@Html.Raw(answer.SupportingInformationHtml)</div>
-            }
-        }
+        <label for="Bleedingveryheavily" class="answer answer-label">
+            <span class="answer-text">• <a class="help-text-link" href="javascript:void(0);">Bleeding</a> very heavily</span>
+        </label>
+        <div class="help-text-link-message">This means heavy bleeding that is continuing despite attempts to stop it.</div>
+
+        <label for="Asevereinjury" class="answer answer-label">
+            <span class="answer-text">• A <a class="help-text-link" href="javascript:void(0);">severe</a> injury</span>
+        </label>
+        <div class="help-text-link-message">This includes deep wounds, or injuries caused by falls, assault or road traffic accidents and will require an immediate medical assessment.</div>
+
+        <label for="Thepersonyouareenquiringaboutisunconsciousorhavingaseizure(fit)" class="answer answer-label">
+            <span class="answer-text">• The person you are enquiring about is <a class="help-text-link" href="javascript:void(0);">unconscious</a> or having a <a class="help-text-link" href="javascript:void(0);">seizure (fit)</a></span>
+        </label>
+        <div class="help-text-link-message">Unconscious - Not awake and totally unaware of what is going on around you. As if you are asleep, but with no response if someone tries to wake you.<br/><br/>Seizure - Uncontrolled electrical activity in the brain, which can lead to loss of consciousness and/or loss of bladder and bowel control. Seizures are often known as fits.</div>
     </div>
-    <hr/>
-    <div class="answer answer-label">If none of these apply, click next to continue</div>
+    <hr class="compact"/>
+    <div class="none-label">If none of these apply, click next to continue</div>
 
     <button class="button button-next" id="nextScreen" type="submit" name="Question" value="Question">Next</button>
 }
 <script type="text/javascript">
     $(document).ready(function () {
-        //enable / disable submit button
-        /*if (!($("form input[type=checkbox]").is(':checked'))) {
-            $("#nextScreen[type=submit]").attr('disabled', 'disabled');
-        }*/
-
-        $("form input[type=checkbox]").change(function () {
-            if (($(this).is(':checked'))) {
-                $("#nextScreen[type=submit]").removeAttr('disabled');
-            } else {
-                $("#nextScreen[type=submit]").attr('disabled', 'disabled');
-            }
-
-            //make 'none of the above' mutually exclusive
-            if ($(this).attr("noneoption") === "false") {
-                $("input[type=checkbox][noneoption=true]").attr("checked", false);
-            }
-            else if ($(this).attr("noneoption") === "true") {
-                $("input[type=checkbox][noneoption=false]").attr("checked", false);
-            }
-        });
-
         $('.help-text-link').click(function () {
             var $this = $(this);
 
             var $helpTextLinkMessage = $this.parent().parent().next('.help-text-link-message');
             $helpTextLinkMessage.slideToggle("fast");
         });
-
     });
-
-
 </script>

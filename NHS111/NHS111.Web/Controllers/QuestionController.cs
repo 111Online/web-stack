@@ -110,8 +110,8 @@ namespace NHS111.Web.Controllers {
         [HttpPost]
         public async Task<ActionResult> InitialQuestion(JourneyViewModel model)
         {
-                //go to age page
-                return View("AgeyMcAgeface");
+            //go to age page
+            return View("Gender");
         }
         
         private async Task<JourneyViewModel> GetNextJourneyViewModel(JourneyViewModel model) {

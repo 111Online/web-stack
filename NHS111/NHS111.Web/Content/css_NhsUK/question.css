@@ -106,9 +106,19 @@ div.question-rationale {
     margin: 0 0 30px 0;
 }
 
+div.question-rationale.no-header {
+    padding: 20px 20px;
+    margin-bottom: 10px;
+}
+
 div.question-rationale p {
     padding-bottom: 0.58751rem;
 }
+
+div.question-rationale.no-header p {
+    padding-bottom: 0;
+}
+
 
     div.question-rationale h3 {
         font-size: 100%;
@@ -141,6 +151,19 @@ div.question-rationale p {
     display: block;
     padding: 15px 0 15px 0;
     color: #231f20;
+}
+
+.none-label {
+    display: block;
+    padding: 25px 0 25px 0;
+    color: #231f20;
+}
+
+hr.compact {
+    padding-top: 5px;
+    padding-bottom: 5px;
+    margin-top:0px;
+    margin-bottom:0px;
 }
 
 .supporting-info-radio {
