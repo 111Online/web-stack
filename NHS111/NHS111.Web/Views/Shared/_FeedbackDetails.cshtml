@@ -16,10 +16,10 @@
             <form id="FeedbackForm" action="@Url.Action("SubmitFeedback", "Feedback")">
                 <div id="FeedbackDetails">
                     <h3 class="feedback-message feedback-title">
-                        Help us improve 111 online
+                        Help us improve this service
                     </h3>
                     <p class="feedback-message">
-                        If you’d like to give your views on helping us improve 111 online, please use the form below.
+                        If you’d like to give your views on helping us improve this online service, please use the form below.
                     </p>
                     <div class="feedback-form">
                         @Html.TextAreaFor(m => m.Text, new { @placeholder = "Feedback", @Value = "", @class = "feedback-input", @maxlength = "8000" })
