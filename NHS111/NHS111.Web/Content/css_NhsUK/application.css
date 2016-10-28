@@ -2007,7 +2007,7 @@ button[disabled=disabled] {
 .feedback-input {
     float: left;
     resize: none; 
-    width: 90%;
+    width: 80%;
     height: 40px;
     padding: 0 10px;
     background-color: #fff;
