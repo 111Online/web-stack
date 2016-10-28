@@ -54,10 +54,11 @@ a.linkButton {
 }
 
 .common-symptoms ul{
-    padding: 20px;
+      padding: 20px 0 20px 30px;
 }
 .common-symptoms h3 {
-    padding: 20px 20px 0px 20px;
+    padding: 20px 20px 0px 30px;
+    font-size: 1.6em;
 }
     
 
@@ -67,7 +68,7 @@ a.linkButton {
     }
     .symptoms-find-container {
         width: 60%;
-        margin-right: 20px;
+        margin-right: 45px;
     }
      .symptoms-find-header h2 {
         width:60%
@@ -76,13 +77,24 @@ a.linkButton {
         width: 75%; 
     }
 }
+@media (max-width: 1200px) {
+    .symptoms-find-container {
+        margin-right: 20px;
+    }
+}
 @media (max-width: 960px) {
      .common-symptoms {
        margin-top: 10px;
     }
+     .common-symptoms ul{
+      padding: 20px 0 20px 20px;
+    }
+    .common-symptoms h3 {
+        padding: 20px 20px 0px 20px;
+}
+
     hr {
-        padding-bottom: 1rem;
-        padding-top: 1rem;
+        display: none;
     }
 }
 
