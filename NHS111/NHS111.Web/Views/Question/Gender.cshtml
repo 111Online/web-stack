@@ -1,4 +1,5 @@
-﻿@using NHS111.Models.Models.Web
+﻿@using System.Reflection
+@using NHS111.Models.Models.Web
 @model JourneyViewModel
 @{
     Layout = "~/Views/Shared/_LayoutNhsUK.cshtml";
@@ -7,12 +8,8 @@
 {NHS 111 Digital}
 
 @section Scripts {
-    <!--<script src="~/scripts/jquery2.1.1.min.js"></script> included on layout page -->
-    <script src="~/scripts/jquery1.11.2-ui.min.js"></script>
-    <script src="~/scripts/jquery.blockUI.js"></script>
-    <script src="~/scripts/custom.js"></script>
     <script>
-        dataLayer = [{'searchTerm':'@Model.PathwayTitle'}];
+        dataLayer = [{ 'searchTerm': '@Model.PathwayTitle' }];
     </script>
 }
 
@@ -21,57 +18,91 @@
 }
 
 <link href="~/Content/css_NhsUK/gender.css" media="screen" rel="stylesheet" type="text/css" />
+<link href="~/content/css_NhsUk/question.css?@Assembly.GetCallingAssembly().GetName().Version.ToString()" media="screen" rel="stylesheet" type="text/css" />
 
-<div id="wrapper">
-    <div class="content-container">
-
-        <div>
-            @using (Html.BeginForm("JustToBeSafeFirst", "JustToBeSafe", FormMethod.Post, new { @id = "outerContent" }))
+@using (Html.BeginForm("JustToBeSafeFirst", "JustToBeSafe", FormMethod.Post, new { @id = "outerContent" }))
             {
-                @Html.HiddenFor(x => Model.SessionId)
-                @Html.HiddenFor(x => Model.PathwayNo)
-                <div>
-                    <h2 class="heading-large">We need a few more details</h2>
-                    <h2 class="heading-small">Choose your gender</h2>
-                    <div class="gender-content">
-                        <div class="gender male" title="Male">
-                            <input name="UserInfo.Gender" value="Male" type="radio" id="Male">
-                            <img src="~/content/img/male.png" alt="Male" class="maleImage">
-                            <h2 class="heading-small">Male</h2>
-                        </div>
-                        <div class="gender female" title="Female">
-                            <input name="UserInfo.Gender" value="Female" type="radio" id="Female">
-                            <img src="~/content/img/female.png" alt="Female" class="femaleImage">
-                            <h2 class="heading-small">Female</h2>
-                        </div>
-                        @*@Html.HiddenFor(m => m.UserInfo.Gender)*@
-                    </div>
+    @Html.HiddenFor(x => Model.SessionId)
+    @Html.HiddenFor(x => Model.PathwayNo)
+    <h2 class="heading-large">Details about you or the person you're enquiring about</h2>
 
-                    <div class="age-content">
-                        <div class="age">
-                            <h2 class="heading-small">Type your age</h2>
-                            <span id="errmsg"></span>
-                            @Html.TextBoxFor(m => m.UserInfo.Age, new { @class = "form-control input-age", size = 2, maxlength = 2, onkeypress = "return numbersonly(this, event);" })
-                        </div>
-                    </div>
-
-                    <input class="button button-next" id="submitGender" type="submit" name="Slider" value="Next" />
-
-                </div>
-            }
-
+        <div class="question-rationale">
+            <h2 class="heading-small">Why we need this</h2>
+            <p>We need these details so that we can ask you the correct questions based on your gender and age. We cannot identify you from these details.</p>
         </div>
-        <!--content end-->
-    </div>
-</div>
-<!--wrapper ends-->
+
+        <h2 class="heading-small">Sex</h2>
+        <div id="answers">
+            <label for="Male" class="answer answer-label">
+                <span class="answer-radio">
+                    <input name="UserInfo.Gender" type="radio" id="Male" value="Male" />
+                </span>
+                <span class="answer-text">Male</span>
+            </label>
+            <label for="Female" class="answer answer-label">
+                <span class="answer-radio">
+                    <input name="UserInfo.Gender" type="radio" id="Female" value="Female" />
+                </span>
+                <span class="answer-text">Female</span>
+            </label>
+        </div>
+
+        <div class="age-content">
+            <h2 class="heading-small">Age in years</h2>
+            <div class="age">
+                <span id="errmsg"></span>
+                @Html.TextBoxFor(m => m.UserInfo.Age, new { @class = "form-control input-age", size = 2, maxlength = 2, onkeypress = "return numbersonly(this, event);" })
+                <label><input type="checkbox" id="AgeZero" value="0" />Baby less than 1 year old</label>
+            </div>
+        </div>
+
+        <input class="button button-next" id="submitGender" type="submit" name="Slider" value="Next" />
+}
 
 <script type="text/javascript">
- 
-// copyright 1999 Idocs, Inc. http://www.idocs.com
-// Distribute this script freely but keep this notice in place
-    function numbersonly(myfield, e, dec)
-    {
+
+    $(document).ready(function () {
+        //enable disable submit button
+        validateForm();
+
+        $("form input[type=radio]").change(function () {
+            validateForm();
+        });
+
+        $('.input-age').bind('input', function () {
+            if ($("#UserInfo_Age").val() != "0") {
+                $("#AgeZero").prop('checked', false);
+            }
+            validateForm();
+        });
+
+        $("#UserInfo_Age").keydown(function (e) {
+            validateForm();
+        });
+
+        $("#AgeZero").change(function () {
+            if ($("#AgeZero").is(':checked')) {
+                $("#UserInfo_Age").val("0");
+            } else {
+                $("#UserInfo_Age").val("");
+            }
+            validateForm();
+        });
+    });
+
+    function validateForm() {
+        genderSelected = $("form input[type=radio]").is(':checked');
+        ageEntered = $("#UserInfo_Age").val() != '' || $("#AgeZero").is(':checked');
+        if (genderSelected && ageEntered) {
+            $("#submitGender[type=submit]").removeAttr('disabled');
+        } else {
+            $("#submitGender[type=submit]").attr('disabled', 'disabled');
+        }
+    }
+
+    // copyright 1999 Idocs, Inc. http://www.idocs.com
+    // Distribute this script freely but keep this notice in place
+    function numbersonly(myfield, e, dec) {
         var key;
         var keychar;
 
@@ -83,18 +114,17 @@
             return true;
         keychar = String.fromCharCode(key);
 
-// control keys
-        if ((key==null) || (key==0) || (key==8) ||
-        (key==9) || (key==13) || (key==27) )
+        // control keys
+        if ((key == null) || (key == 0) || (key == 8) ||
+        (key == 9) || (key == 13) || (key == 27))
             return true;
 
-// numbers
+            // numbers
         else if ((("0123456789").indexOf(keychar) > -1))
             return true;
 
-// decimal point jump
-        else if (dec && (keychar == "."))
-        {
+            // decimal point jump
+        else if (dec && (keychar == ".")) {
             myfield.form.elements[dec].focus();
             return false;
         }
@@ -103,5 +133,3 @@
     }
 
 </script>
-
-

@@ -3,7 +3,7 @@
 @{
     Layout = "~/Views/Shared/_LayoutNhsUk.cshtml";
 }
-<link href="~/content/css_NhsUk/disposition.css" media="screen" rel="stylesheet" type="text/css"/>
+<link href="~/content/css_NhsUk/disposition.css" media="screen" rel="stylesheet" type="text/css" />
 <link href="~/content/css_NhsUk/confirmation.css" media="screen" rel="stylesheet" type="text/css" />
 @section Title {
 
@@ -21,17 +21,11 @@
 }
 
 @section OuterSection {
-    <div class="home-care sub-header">
-        <div>
-            <div class="home"></div>
-            <div class="home-care-header-text">
-                <h2>You've finished your online assessment</h2>
-                <h3>What Happens next?</h3>
-                <p>
-                    Based on your answers you do not need to see a healthcare profesional at this time.<br />
-                    Please see the advice below on how to look after yourself
-                </p>
-            </div>
+    <div class="sub-header home-care">
+        <div class="sub-header-icon">
+            <span class="home"></span>
+            <h3>You've finished your online assessment</h3>
+            <h2>Based on your answers you do not need to see a healthcare professional at this time.  Please see the advice below on how to look after yourself</h2>
         </div>
     </div>
 }
@@ -69,7 +63,7 @@
     <div class="section-item last">
         @Html.Partial("_WorseningAdvice", Model)
 
-        @Html.Partial("_CareAdvice", Model.CareAdvices, new ViewDataDictionary {{"Title", "Advice to help you look after yourself"}})
+        @Html.Partial("_CareAdvice", Model.CareAdvices, new ViewDataDictionary { { "Title", "Advice to help you look after yourself" } })
     </div>
 
 
