@@ -29,6 +29,9 @@ namespace NHS111.Models.Models.Domain
         [JsonProperty(PropertyName = "reportText")]
         public string ReportText { get; set; }
 
+        [JsonProperty(PropertyName = "dispoDisplayText")]
+        public string DispositionDisplayText { get; set; }
+
         [JsonIgnore]
         public string SupportingInformationHtml {
             get { return StaticTextToHtml.Convert(SupportingInformation); }

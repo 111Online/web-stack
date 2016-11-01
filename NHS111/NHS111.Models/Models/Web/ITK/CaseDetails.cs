@@ -9,5 +9,6 @@ namespace NHS111.Models.Models.Web.ITK
         public string DispositionCode { get; set; }
         public string DispositionName { get; set; }
         public List<string> ReportItems { get; set; }
+        public List<string> ConsultationSummaryItems { get; set; }
     }
 }
