@@ -1,5 +1,13 @@
-﻿label.answer {
+﻿.answer-content {
     border-top:1px dotted #ddd;
+}
+.answer-content:first-of-type {
+    border: none;
+} 
+.answer-content:last-of-type {
+    margin-bottom: 30px;
+} 
+label.answer {
     margin: 0;
     font-size: 16px;
     line-height: 20px;
@@ -12,20 +20,9 @@
       line-height: 24px;
     } 
 }
-
-label.answer:first-of-type {
-    border: none;
-}
-
-label.answer:last-of-type {
-    border-top:1px dotted #ddd;
-    margin-bottom: 30px;
-}
-
 label.answer.answer-label:hover {
     background: #ddd;
 }
-
 .help-text-link-message {
     display: none;
     font-size: 16px;
