@@ -18,10 +18,10 @@ namespace NHS111.Business.Services
             _pathwayService = pathwayService;
         }
 
-        public async Task<string> GetCorrection(string input)
+        public async Task<string> GetCorrection(string input, bool startingOnly)
         {
             input = input.ToLower();
-            var pathways = JsonConvert.DeserializeObject<List<GroupedPathways>>(await _pathwayService.GetPathways(true));
+            var pathways = JsonConvert.DeserializeObject<List<GroupedPathways>>(await _pathwayService.GetPathways(true, startingOnly));
             
             var pathwaysMatches = pathways.Where(x => x.Group.ToLower().Contains(input)).ToList();
             if (!pathwaysMatches.Any())// && !correctedTerms.Any())
@@ -34,6 +34,6 @@ namespace NHS111.Business.Services
 
     public interface ISearchCorrectionService
     {
-        Task<string> GetCorrection(string input);
+        Task<string> GetCorrection(string input, bool startingOnly);
     }
 }

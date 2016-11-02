@@ -116,7 +116,7 @@ namespace NHS111.Domain.Integration.Test.Repository
             MockPathwaysConfigurationManager.Setup(m => m.UseLivePathways).Returns(false);
             _pathwayRepository = new PathwayRepository(GraphRepository, MockPathwaysConfigurationManager.Object, MockPathwaysWhiteListFeature.Object);
 
-            var res = await _pathwayRepository.GetAllPathways();
+            var res = await _pathwayRepository.GetAllPathways(true);
             Assert.AreEqual(res.Count(), Pathways.Count());
         }
 
@@ -128,7 +128,7 @@ namespace NHS111.Domain.Integration.Test.Repository
             
             var liveOnlyPathways = PathwaysConfigurationManager.GetLivePathwaysElements().Select(e => e.Title);
             
-            var res = await _pathwayRepository.GetAllPathways();
+            var res = await _pathwayRepository.GetAllPathways(true);
             Assert.AreEqual(res.Count(), Pathways.Count(p => liveOnlyPathways.Contains(p.Title)));
         }
 
@@ -140,7 +140,7 @@ namespace NHS111.Domain.Integration.Test.Repository
 
             var allDistinctPathways = Pathways.Where(p => p.Module == "1").Select(p => p.Title).Distinct();
 
-            var res = await _pathwayRepository.GetGroupedPathways();
+            var res = await _pathwayRepository.GetGroupedPathways(true);
             Assert.AreEqual(res.Count(), allDistinctPathways.Count());
         }
 
@@ -153,7 +153,7 @@ namespace NHS111.Domain.Integration.Test.Repository
             var liveOnlyPathways = PathwaysConfigurationManager.GetLivePathwaysElements().Select(e => e.Title);
             var liveOnlyDistinctPathways = Pathways.Where(p => p.Module == "1" && liveOnlyPathways.Contains(p.Title)).Select(p => p.Title).Distinct();
 
-            var res = await _pathwayRepository.GetGroupedPathways();
+            var res = await _pathwayRepository.GetGroupedPathways(true);
             Assert.AreEqual(res.Count(), liveOnlyDistinctPathways.Count());
         }
     }

@@ -30,16 +30,16 @@ namespace NHS111.Business.Test.Services
             var unique = true;
             var resultString = "pathway1, pathway2";
 
-            _configuration.Setup(x => x.GetDomainApiPathwaysUrl(unique)).Returns(url);
+            _configuration.Setup(x => x.GetDomainApiPathwaysUrl(unique, false)).Returns(url);
             _restfulHelper.Setup(x => x.GetAsync(url)).Returns(Task.FromResult(resultString));
 
             var sut = new PathwayService(_configuration.Object, _restfulHelper.Object);
 
             //Act
-            var result = await sut.GetPathways(unique);
+            var result = await sut.GetPathways(unique, false);
 
             //Assert 
-            _configuration.Verify(x => x.GetDomainApiPathwaysUrl(unique), Times.Once);
+            _configuration.Verify(x => x.GetDomainApiPathwaysUrl(unique, false), Times.Once);
             _restfulHelper.Verify(x => x.GetAsync(url), Times.Once);
             Assert.That(result.Split(new string[] { "," }, StringSplitOptions.None).Count(), Is.EqualTo(2));
             Assert.That(result, Is.EqualTo(resultString));

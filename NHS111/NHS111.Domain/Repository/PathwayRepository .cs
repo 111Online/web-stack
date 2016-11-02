@@ -80,21 +80,26 @@ namespace NHS111.Domain.Repository
             return pathway;
         }
 
-        public async Task<IEnumerable<Pathway>> GetAllPathways()
+        public async Task<IEnumerable<Pathway>> GetAllPathways(bool startingOnly)
         {
-            return await _graphRepository.Client.Cypher
-                .Match(UseWhitelist, "(p:Pathway)")
-                .Return(p => p.As<Pathway>())
-                .ResultsAsync;
+            return await GetPathwayQuery(startingOnly)
+                .Return(p => p.As<Pathway>()).ResultsAsync;
         }
 
-        public async Task<IEnumerable<GroupedPathways>> GetGroupedPathways()
+        public async Task<IEnumerable<GroupedPathways>> GetGroupedPathways(bool startingOnly)
         {
-            var query = _graphRepository.Client.Cypher
-                .Match(UseWhitelist, "(p:Pathway)")
+            var query = GetPathwayQuery(startingOnly)
                 .Return(p => new GroupedPathways { Group = Return.As<string>("distinct(p.title)"), PathwayNumbers = Return.As<IEnumerable<string>>("collect(p.pathwayNo)") });
 
             return await query.ResultsAsync;
+        }
+
+        private ICypherFluentQuery GetPathwayQuery(bool startingOnly)
+        {
+            var pathwayQuery = _graphRepository.Client.Cypher
+               .Match(UseWhitelist, "(p:Pathway)");
+
+            return startingOnly ? pathwayQuery.Where("p.startingPathway = true") : pathwayQuery;
         }
 
         public async Task<string> GetSymptomGroup(IList<string> pathwayNos)
@@ -130,8 +135,8 @@ namespace NHS111.Domain.Repository
         Task<Pathway> GetPathway(string id);
         Task<Pathway> GetIdentifiedPathway(IEnumerable<string> pathwayNumbers, string gender, int age);
         Task<Pathway> GetIdentifiedPathway(string pathwayTitle, string gender, int age);
-        Task<IEnumerable<Pathway>> GetAllPathways();
-        Task<IEnumerable<GroupedPathways>> GetGroupedPathways();
+        Task<IEnumerable<Pathway>> GetAllPathways(bool startingOnly);
+        Task<IEnumerable<GroupedPathways>> GetGroupedPathways(bool startingOnly);
         Task<string> GetSymptomGroup(IList<string> pathwayNos);
         Task<string> GetPathwaysNumbers(string pathwayTitle);
     }

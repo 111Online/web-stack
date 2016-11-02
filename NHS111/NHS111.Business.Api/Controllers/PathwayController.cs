@@ -41,13 +41,13 @@ namespace NHS111.Business.Api.Controllers
         [Route("pathway")]
         public async Task<HttpResponseMessage> GetAll()
         {
-            return await _pathwayService.GetPathways(false).AsHttpResponse();
+            return await _pathwayService.GetPathways(false, false).AsHttpResponse();
         }
 
-        [Route("pathway_suggest/{name}")]
-        public async Task<HttpResponseMessage> GetSuggestedPathway(string name)
+        [Route("pathway_suggest/{name}/{startingOnly}")]
+        public async Task<HttpResponseMessage> GetSuggestedPathway(string name, bool startingOnly)
         {
-            return await _searchCorrectionService.GetCorrection(name).AsHttpResponse();
+            return await _searchCorrectionService.GetCorrection(name, startingOnly).AsHttpResponse();
         }
 
         [Route("pathway_direct/{pathwayTitle}")]
@@ -63,9 +63,9 @@ namespace NHS111.Business.Api.Controllers
         }
 
         [Route("pathway_question/{name}/{gender}/{age}")]
-        public async Task<HttpResponseMessage> GetPathwayQuestion(string name)
+        public async Task<HttpResponseMessage> GetPathwayQuestion(string name, bool startingOnly)
         {
-            return await _searchCorrectionService.GetCorrection(name).AsHttpResponse();
+            return await _searchCorrectionService.GetCorrection(name, startingOnly).AsHttpResponse();
         }
     }
 }
