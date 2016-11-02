@@ -17,7 +17,7 @@ namespace NHS111.SmokeTest.Utils
         [FindsBy(How = How.ClassName, Using = "button-next")]
         public IWebElement NextButton { get; set; }
 
-        [FindsBy(How = How.ClassName, Using = "question-header")]
+        [FindsBy(How = How.ClassName, Using = "heading-large")]
         public IWebElement Header { get; set; }
         
         [FindsBy(How = How.ClassName, Using = "previous-question")]
@@ -55,7 +55,7 @@ namespace NHS111.SmokeTest.Utils
 
         public QuestionPage Answer(string answerText)
         {
-            _driver.FindElement(By.XPath("//span[contains(@class, 'answer-text') and text() = '" + answerText + "']/preceding-sibling::span[contains(@class, 'answer-radio')]")).Click();
+            _driver.FindElement(By.XPath("//span[contains(@class, 'answer-text') and text() = \"" + answerText + "\"]/preceding-sibling::span[contains(@class, 'answer-radio')]")).Click();
             NextButton.Click(); 
             AwaitNextQuestionPage();
             return new QuestionPage(_driver);

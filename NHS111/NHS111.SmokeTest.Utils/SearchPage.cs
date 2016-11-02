@@ -14,7 +14,7 @@ namespace NHS111.SmokeTest.Utils
     public class SearchPage
     {
         private readonly IWebDriver _driver;
-        private const string _headerText = "I need help with";
+        private const string _headerText = "Find the symptom giving you the most concern";
 
         [FindsBy(How = How.Id, Using = "searchTags")]
         public IWebElement SearchTxtBox { get; set; }
@@ -51,10 +51,10 @@ namespace NHS111.SmokeTest.Utils
             _driver.FindElement(By.XPath("//li[contains(@class, 'ui-menu-item') and text() = '" + pathway + "']")).Click();
         }
 
-        public GenderPage ClickGoButton()
+        public QuestionPage ClickGoButton()
         {
-            GoButton.Click();
-            return new GenderPage(_driver);
+            GoButton.Submit();
+            return new QuestionPage(_driver);
         }
 
     }

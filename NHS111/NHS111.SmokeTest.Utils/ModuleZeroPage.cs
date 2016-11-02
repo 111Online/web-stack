@@ -13,21 +13,14 @@ namespace NHS111.SmokeTest.Utils
     public class ModuleZeroPage 
     {
         private readonly IWebDriver _driver;
-        private static string _baseUrl = ConfigurationManager.AppSettings["TestWebsiteUrl"].ToString();
+        private const string _headerText = "Do any of these apply?";
 
-        private const string _headerText = "Do I need to call 999?";
-
-        [FindsBy(How = How.ClassName, Using = "closeDisclaimer")]
+        [FindsBy(How = How.ClassName, Using = "button-next")]
         public IWebElement NoneApplyButton { get; set; }
 
-        [FindsBy(How = How.CssSelector, Using = "h2.discHead")]
+        [FindsBy(How = How.CssSelector, Using = "h2.heading-large")]
         public IWebElement Header { get; set; }
 
-        public void Load()
-        {
-            _driver.Navigate().GoToUrl(_baseUrl);
-            _driver.Manage().Window.Maximize();
-        }
 
         public ModuleZeroPage(IWebDriver driver) 
         {
@@ -35,10 +28,10 @@ namespace NHS111.SmokeTest.Utils
             PageFactory.InitElements(_driver, this);
         }
 
-        public SearchPage ClickNoneApplyButton()
+        public GenderPage ClickNoneApplyButton()
         {
-            NoneApplyButton.Click();
-            return new SearchPage(_driver);
+            NoneApplyButton.Submit();
+            return new GenderPage(_driver);
         }
         public void Verify()
         {
