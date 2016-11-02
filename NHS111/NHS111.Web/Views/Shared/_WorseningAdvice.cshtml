@@ -7,9 +7,16 @@
         <h3 class="care-advice-section-header">
             What if I feel worse?
         </h3>
-        @foreach (var item in Model.WorseningCareAdvice.Items)
+        @if (!ViewData.Keys.Contains("OverrideText"))
         {
-            <p>@item.Text</p>
+            foreach (var item in Model.WorseningCareAdvice.Items)
+            {
+                <p>@item.Text</p>
+            }
+        }
+        else
+        {
+            <p>@Html.Raw(ViewData["OverrideText"])</p> 
         }
     </div>
 }
