@@ -51,10 +51,11 @@ namespace NHS111.Business.Configuration
                 Replace("{selectedQuestionId}", selectedQuestionId);
         }
 
-        public string GetDomainApiPathwaysUrl(bool grouped)
+        public string GetDomainApiPathwaysUrl(bool grouped, bool startingOnly)
         {
-            return GetDomainApiUrl("DomainApiPathwaysUrl").
-                Replace("{grouped}", grouped.ToString());
+            return GetDomainApiUrl("DomainApiPathwaysUrl")
+                .Replace("{grouped}", grouped.ToString())
+                .Replace("{startingOnly}", startingOnly.ToString());
         }
 
         public string GetDomainApiPathwayUrl(string pathwayId)
@@ -139,7 +140,7 @@ namespace NHS111.Business.Configuration
         string GetDomainApiJustToBeSafeQuestionsNextUrl(string pathwayId, IEnumerable<string> answeredQuestionIds, bool multipleChoice, string selectedQuestionId);
 
         /* Pathways */
-        string GetDomainApiPathwaysUrl(bool grouped);
+        string GetDomainApiPathwaysUrl(bool grouped, bool startingOnly);
         string GetDomainApiPathwayUrl(string pathwayId);
         string GetDomainApiIdentifiedPathwayUrl(string pathwayNumbers, string gender, int age);
         string GetDomainApiIdentifiedPathwayFromTitleUrl(string pathwayTitle, string gender, int age);

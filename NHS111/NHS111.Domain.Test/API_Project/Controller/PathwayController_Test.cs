@@ -28,14 +28,14 @@ namespace NHS111.Domain.Test.API_Project.Controller
         {
             //Arrange
             IEnumerable<GroupedPathways> pathwayList = new List<GroupedPathways>();
-            _pathwayRepository.Setup(x => x.GetGroupedPathways()).Returns(Task.FromResult(pathwayList));
+            _pathwayRepository.Setup(x => x.GetGroupedPathways(true)).Returns(Task.FromResult(pathwayList));
 
             //Act
-            var result = await _sut.GetPathways(true);
+            var result = await _sut.GetPathways(grouped:true,startingOnly:true);
 
             //Assert
-            _pathwayRepository.Verify(x => x.GetGroupedPathways(), Times.Once);
-            _pathwayRepository.Verify(x => x.GetAllPathways(), Times.Never);
+            _pathwayRepository.Verify(x => x.GetGroupedPathways(true), Times.Once);
+            _pathwayRepository.Verify(x => x.GetAllPathways(true), Times.Never);
             Assert.That(result.StatusCode, Is.EqualTo(HttpStatusCode.OK));
 
         }
@@ -45,16 +45,16 @@ namespace NHS111.Domain.Test.API_Project.Controller
         {
             //Arrange
             IEnumerable<Pathway> pathwayList = new List<Pathway>();
-            _pathwayRepository.Setup(x => x.GetAllPathways()).Returns(Task.FromResult(pathwayList));
+            _pathwayRepository.Setup(x => x.GetAllPathways(true)).Returns(Task.FromResult(pathwayList));
 
             var sut = new PathwayController(_pathwayRepository.Object);
 
             //Act
-            var result = await sut.GetPathways(false);
+            var result = await sut.GetPathways(grouped: false, startingOnly: true);
 
             //Assert
-            _pathwayRepository.Verify(x => x.GetGroupedPathways(), Times.Never);
-            _pathwayRepository.Verify(x => x.GetAllPathways(), Times.Once);
+            _pathwayRepository.Verify(x => x.GetGroupedPathways(true), Times.Never);
+            _pathwayRepository.Verify(x => x.GetAllPathways(true), Times.Once);
             Assert.That(result.StatusCode, Is.EqualTo(HttpStatusCode.OK));
 
         }
@@ -63,7 +63,7 @@ namespace NHS111.Domain.Test.API_Project.Controller
         public async void should_return_a_single_pathway()
         {
             //Arrange
-
+             
             var id = "PW1234";
            
             _pathwayRepository.Setup(x => x.GetPathway(id)).Returns(Task.FromResult(new Pathway()));

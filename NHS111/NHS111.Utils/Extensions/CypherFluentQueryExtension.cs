@@ -12,7 +12,10 @@ namespace NHS111.Utils.Extensions
 
             return query
                 .Match(matchText)
-                .Where(string.Format("p.title in [{0}]", string.Join(", ", PathwaysConfigurationManager.GetLivePathwaysElements().Select(p => string.Format("'{0}'", p.Title)))));
+                .Where(string.Format("p.title in [{0}]",
+                    string.Join(", ",
+                        PathwaysConfigurationManager.GetLivePathwaysElements()
+                            .Select(p => string.Format("'{0}'", p.Title)))));
         }
 
         public static ICypherFluentQuery Where(this ICypherFluentQuery query, string matchText, bool onlyLive = false)

@@ -39,11 +39,21 @@ namespace NHS111.Web.Presentation.Configuration
             }
         }
 
+        public bool SuggestStartingPathwaysOnly
+        {
+            get
+            {
+                if (ConfigurationManager.AppSettings["SuggestStartingPathwaysOnly"] == null)
+                    return true; //default to only starting pathways if the setting isn't defined
+                return ConfigurationManager.AppSettings["SuggestStartingPathwaysOnly"].ToLower() == "true";
+            }
+        }
+
         public string LoggingServiceUrl { get { return ConfigurationManager.AppSettings["LoggingServiceUrl"]; } }
 
         public string GetBusinessApiGroupedPathwaysUrl(string searchString)
         {
-            return string.Format(GetBusinessApiUrlWithDomain("BusinessApiGroupedPathwaysUrl"), searchString);
+            return string.Format(GetBusinessApiUrlWithDomain("BusinessApiGroupedPathwaysUrl"), searchString, SuggestStartingPathwaysOnly);
         }
 
         public string GetBusinessApiPathwayUrl(string pathwayId)
