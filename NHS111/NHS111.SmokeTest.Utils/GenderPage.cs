@@ -13,16 +13,16 @@ namespace NHS111.SmokeTest.Utils
     {
         private readonly IWebDriver _driver;
 
-        private string _headerText = "We need a few more details";
+        private string _headerText = "Details about you or the person you're enquiring about";
 
-        [FindsBy(How = How.CssSelector, Using = ".content-container h2")]
+        [FindsBy(How = How.CssSelector, Using = "h2.heading-large")]
         public IWebElement Header { get; set; }
 
 
-        [FindsBy(How = How.ClassName, Using = "maleImage")]
+        [FindsBy(How = How.Id, Using = "Male")]
         public IWebElement MaleButton { get; set; }
 
-        [FindsBy(How = How.ClassName, Using = "femaleImage")]
+        [FindsBy(How = How.Id, Using = "Female")]
         public IWebElement FemaleButton { get; set; }
 
         [FindsBy(How = How.ClassName, Using = "input-age")]
@@ -62,10 +62,10 @@ namespace NHS111.SmokeTest.Utils
             Assert.AreEqual(_headerText, Header.Text);
         }
 
-        public QuestionPage NextPage()
+        public SearchPage NextPage()
         {
-            NextButton.Click();
-            return new QuestionPage(_driver);
+            NextButton.Submit();
+            return new SearchPage(_driver);
         }
 
 

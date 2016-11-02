@@ -26,18 +26,24 @@ namespace NHS111.SmokeTest.Utils
     {
         public static QuestionPage LaunchTriageScenerio(IWebDriver driver, string pathwayTopic, string gender, int age)
         {
-            var moduleZeroPage = new ModuleZeroPage(driver);
-            moduleZeroPage.Load();
+            var homePage = new HomePage(driver);
+            homePage.Load();
+            homePage.Verify();
+
+
+            var moduleZeroPage = homePage.ClickNextButton();
             moduleZeroPage.Verify();
 
-            var searchpage = moduleZeroPage.ClickNoneApplyButton();
+            var genderPage = moduleZeroPage.ClickNoneApplyButton();
+            genderPage.Verify();
+            genderPage.SelectGenderAndAge(gender, age);
+
+            var searchpage = genderPage.NextPage();
             searchpage.Verify();
             searchpage.TypeSearchTextAndSelect(pathwayTopic);
 
-            var genderPage = searchpage.ClickGoButton();
-            genderPage.SelectGenderAndAge(gender, age);
-
-            return genderPage.NextPage();
+            return searchpage.ClickGoButton();
+      
         }
     }
 }

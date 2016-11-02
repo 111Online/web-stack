@@ -59,7 +59,7 @@ namespace NHS111.SmokeTests
                 .AnswerSuccessiveNo(2)
                 .Answer("My problem affects one eye")
                 .AnswerSuccessiveNo(4)
-                .Answer("No, less than two weeks")
+                .Answer("No")
                 .AnswerNo()
                 .AnswerForDispostion("Yes");
 
@@ -75,17 +75,17 @@ namespace NHS111.SmokeTests
         {
             var questionPage = TestScenerios.LaunchTriageScenerio(_driver, "Cold or Flu (Declared)", TestScenerioGender.Female, TestScenerioAgeGroups.Adult);
 
-            questionPage.ValidateQuestion("Are you feeling severely ill and you also have new marks under your skin that look like bruising or bleeding?");
+            questionPage.ValidateQuestion("Do you have new bruises, a rash, or marks on your skin and feel severely ill?");
             var outcomePage = questionPage
                 .AnswerSuccessiveNo(6)
                 .Answer("None of the above")
-                .AnswerNo()
-                .AnswerForDispostion("No, less than two weeks");
+                .Answer("No - I don't have diabetes")
+                .AnswerForDispostion("No");
 
 
-            outcomePage.VerifyOutcome("You've finished your online assessment");
-            outcomePage.VerifySubHeader("What Happens next?");
-            outcomePage.VerifyHeaderOtherInfo("Based on your answers you do not need to see a healthcare profesional at this time.\r\nPlease see the advice below on how to look after yourself");
+            outcomePage.VerifyOutcome("Based on your answers you do not need to see a healthcare professional at this time. Please see the advice below on how to look after yourself");
+            outcomePage.VerifySubHeader("You've finished your online assessment");
+           // outcomePage.VerifyHeaderOtherInfo("Based on your answers you do not need to see a healthcare profesional at this time.\r\nPlease see the advice below on how to look after yourself");
             outcomePage.VerifyWorseningPanel(WorseningMessages.Call111);
             
         }
@@ -139,9 +139,7 @@ namespace NHS111.SmokeTests
                 .AnswerYes()
                 .AnswerSuccessiveNo(2)
                 .Answer("My problem affects both eyes")
-                .AnswerSuccessiveNo(6)
-                .Answer("No, less than two weeks")
-                .AnswerSuccessiveNo(2)
+                .AnswerSuccessiveNo(9) 
                 .AnswerForDispostion("No");
 
             outcomePage.VerifyOutcome("Your answers suggest you should see an optician within 3 days");
@@ -156,9 +154,13 @@ namespace NHS111.SmokeTests
         {
             var questionPage = TestScenerios.LaunchTriageScenerio(_driver, "Diarrhoea and Vomiting", TestScenerioGender.Male, TestScenerioAgeGroups.Child);
 
-            questionPage.ValidateQuestion("Have you vomited any of the following?");
+            questionPage.ValidateQuestion("Have you had any blood in your sick (vomit)?");
             var outcomePage = questionPage
-                .AnswerSuccessiveNo(18)
+                .AnswerSuccessiveNo(4)
+                .Answer("None of these")
+                .AnswerSuccessiveNo(2)
+                .Answer("No - I don't have diabetes")
+                .AnswerSuccessiveNo(10)
                 .AnswerForDispostion("Yes (one week or more)");
 
             outcomePage.VerifyOutcome("Your answers suggest you should speak to your GP");
