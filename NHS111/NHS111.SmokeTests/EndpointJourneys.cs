@@ -39,10 +39,11 @@ namespace NHS111.SmokeTests
         [Test]
         public void Call999EndpointJourney()
         {
-            var questionPage = TestScenerios.LaunchTriageScenerio(_driver, "Skin, Rash", TestScenerioGender.Female, TestScenerioAgeGroups.Adult);
+            var questionPage = TestScenerios.LaunchTriageScenerio(_driver, "Skin Problems", TestScenerioGender.Female, TestScenerioAgeGroups.Adult);
 
-            questionPage.ValidateQuestion("Is your rash made up of blisters?");
+            questionPage.ValidateQuestion("What is your main problem?");
             var outcomePage =  questionPage
+                .Answer("You have a rash")
                 .AnswerSuccessiveYes(2)
                 .AnswerForDispostion("Yes");
 
@@ -52,10 +53,11 @@ namespace NHS111.SmokeTests
         [Test]
         public void PharmacyEndpointJourney()
         {
-            var questionPage = TestScenerios.LaunchTriageScenerio(_driver, "Eye, Red or Irritable", TestScenerioGender.Male, TestScenerioAgeGroups.Adult);
+            var questionPage = TestScenerios.LaunchTriageScenerio(_driver, "Eye or Eyelid Problems", TestScenerioGender.Male, TestScenerioAgeGroups.Adult);
 
-            questionPage.ValidateQuestion("Have you noticed any new changes to your vision?");
+            questionPage.ValidateQuestion("What is your main problem?");
             var outcomePage = questionPage
+                .Answer("You've redness or irritation of your eye")
                 .AnswerSuccessiveNo(2)
                 .Answer("My problem affects one eye")
                 .AnswerSuccessiveNo(4)
@@ -93,10 +95,11 @@ namespace NHS111.SmokeTests
         [Test]
         public void EmergencyDentalEndpointJourney()
         {
-            var questionPage = TestScenerios.LaunchTriageScenerio(_driver, "Dental Bleeding", TestScenerioGender.Female, TestScenerioAgeGroups.Adult);
+            var questionPage = TestScenerios.LaunchTriageScenerio(_driver, "Dental Problems", TestScenerioGender.Female, TestScenerioAgeGroups.Adult);
 
-            questionPage.ValidateQuestion("Was the bleeding caused by an injury?");
+            questionPage.ValidateQuestion("What is your main problem?");
             var outcomePage = questionPage
+                .Answer("Dental bleeding")
                 .AnswerNo()
                 .AnswerYes()
                 .Answer("A tooth extraction")
@@ -131,10 +134,11 @@ namespace NHS111.SmokeTests
         [Test]
         public void OpticianEndpointJourney()
         {
-            var questionPage = TestScenerios.LaunchTriageScenerio(_driver, "Eye, Sticky, Watery", TestScenerioGender.Female, TestScenerioAgeGroups.Child);
+            var questionPage = TestScenerios.LaunchTriageScenerio(_driver, "Eye or Eyelid Problems", TestScenerioGender.Female, TestScenerioAgeGroups.Child);
 
-            questionPage.ValidateQuestion("Have you noticed any new changes to your vision?");
+            questionPage.ValidateQuestion("What is your main problem?");
             var outcomePage = questionPage
+                .Answer("You've a sticky or watery eye discharge")
                 .AnswerNo()
                 .AnswerYes()
                 .AnswerSuccessiveNo(2)
