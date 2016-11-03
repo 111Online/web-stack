@@ -22,11 +22,14 @@
         @Html.HiddenFor(x => Model.OutcomeGroup.Text)
         @Html.Hidden("OutcomeGroup.Label", (!ViewData.Keys.Contains("Label") ? "Services" : ViewData["Label"]))
         @Html.Hidden("CurrentView", ((RazorView)ViewContext.View).ViewPath)
-        for (var i = 0; i < Model.WorseningCareAdvice.Items.Count; ++i)
+        if (Model.DisplayWorseningCareAdvice)
         {
-            @Html.HiddenFor(m => m.WorseningCareAdvice.Items[i].Id)
-            @Html.HiddenFor(m => m.WorseningCareAdvice.Items[i].OrderNo)
-            @Html.HiddenFor(m => m.WorseningCareAdvice.Items[i].Text)
+            for (var i = 0; i < Model.WorseningCareAdvice.Items.Count; ++i)
+            {
+                @Html.HiddenFor(m => m.WorseningCareAdvice.Items[i].Id)
+                @Html.HiddenFor(m => m.WorseningCareAdvice.Items[i].OrderNo)
+                @Html.HiddenFor(m => m.WorseningCareAdvice.Items[i].Text)
+            }
         }
 
         var careAdvices = Model.CareAdvices.ToList();
