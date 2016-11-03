@@ -150,7 +150,7 @@ namespace NHS111.SmokeTests
             outcomePage.VerifyWorseningPanel(WorseningMessages.Call111);
             outcomePage.VerifyFindService(FindServiceTypes.Optician);
             outcomePage.VerifyCareAdviceHeader("I know which optician I'm going to. What can I do in the meantime?");
-            outcomePage.VerifyCareAdvice(new string[] { "Medication, pain and/or fever" });
+            outcomePage.VerifyCareAdvice(new string[] {"Eye discharge", "Medication, pain and/or fever" });
         }
 
         [Test]
