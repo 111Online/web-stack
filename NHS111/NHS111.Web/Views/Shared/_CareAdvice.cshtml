@@ -1,6 +1,5 @@
 ﻿@model  IEnumerable<NHS111.Models.Models.Domain.CareAdvice>
-@if (Model.Any())
-{
+@if (Model.Any()) {
     <hr />
     <div class="care-advice">
 
@@ -8,34 +7,33 @@
         @if (Model.Count() > 1) {
             <div class="care-advice-keywords">
                 <ol>
-                    @foreach (var careAdvice in Model)
-                    {
+                    @foreach (var careAdvice in Model) {
                         <li><a href=#Advice_@careAdvice.Id>@careAdvice.Keyword</a></li>
                     }
                 </ol>
             </div>
         }
+
         <div>
-
             @foreach (var careAdvice in Model) {
-
-                <h4 id="Advice_@careAdvice.Id" class="self-care-title">@careAdvice.Keyword</h4>
-                @Html.Hidden(careAdvice.Id)
-                <ul>
-                    @foreach (var parent in careAdvice.Items) {
-                        <li>@parent.Text
-                            @if (parent.Items != null && parent.Items.Any()) {
-                            <ul>
-                                @foreach (var child in parent.Items)
-                                {
-                                    <li>@child.Text</li>
+                if (careAdvice.Items != null && careAdvice.Items.Any()) {
+                    <h4 id="Advice_@careAdvice.Id" class="self-care-title">@careAdvice.Keyword</h4>
+                    @Html.Hidden(careAdvice.Id)
+                    <ul>
+                        @foreach (var parent in careAdvice.Items) {
+                            <li>@parent.Text
+                                @if (parent.Items != null && parent.Items.Any()) {
+                                    <ul>
+                                        @foreach (var child in parent.Items) {
+                                            <li>@child.Text</li>
+                                        }
+                                    </ul>
                                 }
-                            </ul>
-                            }
-                    </li>
-                       
-                    }
-                </ul>
+                            </li>
+
+                        }
+                    </ul>
+                }
             }
         </div>
     </div>
