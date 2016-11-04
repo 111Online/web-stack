@@ -41,9 +41,12 @@ namespace NHS111.Utils.Helpers {
             }
             catch (WebException e) {
                 using (var stream = new StreamReader(e.Response.GetResponseStream())) {
-                    var obj = JsonConvert.DeserializeObject(stream.ReadToEnd());
-                    var formatted = JsonConvert.SerializeObject(obj, Formatting.Indented);
-                    throw new WebException(string.Format("There was a problem requesting '{0}'; {1}", url, formatted), e);
+                    string result = stream.ReadToEnd();
+                    if (e.Response.ContentType == "application/json") {
+                        var obj = JsonConvert.DeserializeObject(result);
+                        result = JsonConvert.SerializeObject(obj, Formatting.Indented);
+                    }
+                    throw new WebException(string.Format("There was a problem requesting '{0}'; {1}", url, result), e);
                 }
             }
         }
