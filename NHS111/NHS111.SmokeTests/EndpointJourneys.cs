@@ -97,9 +97,9 @@ namespace NHS111.SmokeTests
         {
             var questionPage = TestScenerios.LaunchTriageScenerio(_driver, "Dental Problems", TestScenerioGender.Female, TestScenerioAgeGroups.Adult);
 
-            questionPage.ValidateQuestion("What is your main problem?");
+            questionPage.ValidateQuestion("Which of the following apply to you?");
             var outcomePage = questionPage
-                .Answer("Dental bleeding")
+                .Answer("My teeth or gums are bleeding")
                 .AnswerNo()
                 .AnswerYes()
                 .Answer("A tooth extraction")
@@ -119,7 +119,7 @@ namespace NHS111.SmokeTests
         {
             var questionPage = TestScenerios.LaunchTriageScenerio(_driver, "Headache", TestScenerioGender.Male, TestScenerioAgeGroups.Adult);
 
-            questionPage.ValidateQuestion("Have you had an injury to your head in the last 7 days?");
+            questionPage.ValidateQuestion("Have you had a bang on the head or injured your head in the last 7 days?");
             var outcomePage = questionPage
                 .AnswerSuccessiveNo(7)
                 .AnswerForDispostion("Yes");
@@ -150,7 +150,7 @@ namespace NHS111.SmokeTests
             outcomePage.VerifyWorseningPanel(WorseningMessages.Call111);
             outcomePage.VerifyFindService(FindServiceTypes.Optician);
             outcomePage.VerifyCareAdviceHeader("I know which optician I'm going to. What can I do in the meantime?");
-            outcomePage.VerifyCareAdvice(new string[] { "Medication, pain and/or fever" });
+            outcomePage.VerifyCareAdvice(new string[] {"Eye discharge", "Medication, pain and/or fever" });
         }
 
         [Test]
