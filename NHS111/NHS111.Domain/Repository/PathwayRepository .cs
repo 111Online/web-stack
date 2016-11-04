@@ -83,13 +83,13 @@ namespace NHS111.Domain.Repository
         public async Task<IEnumerable<Pathway>> GetAllPathways(bool startingOnly)
         {
             return await GetPathwayQuery(startingOnly)
-                .Return(p => p.As<Pathway>()).ResultsAsync;
+                .Return(p => Return.As<Pathway>("p")).ResultsAsync;
         }
 
         public async Task<IEnumerable<GroupedPathways>> GetGroupedPathways(bool startingOnly)
         {
             var query = GetPathwayQuery(startingOnly)
-                .Return(p => new GroupedPathways { Group = Return.As<string>("distinct(p.title)"), PathwayNumbers = Return.As<IEnumerable<string>>("collect(p.pathwayNo)") });
+                .Return(p => new GroupedPathways { Group = Return.As<string>("distinct(m.digitalDescription)"), PathwayNumbers = Return.As<IEnumerable<string>>("collect(distinct(m.pathwayNo))") });
 
             return await query.ResultsAsync;
         }
@@ -97,7 +97,7 @@ namespace NHS111.Domain.Repository
         private ICypherFluentQuery GetPathwayQuery(bool startingOnly)
         {
             var pathwayQuery = _graphRepository.Client.Cypher
-               .Match(UseWhitelist, "(p:Pathway)");
+               .Match(UseWhitelist, "(p:Pathway)-[:isDescribedAs]->(m:PathwayMetaData)");
 
             return startingOnly ? pathwayQuery.Where("p.startingPathway = true") : pathwayQuery;
         }
