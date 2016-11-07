@@ -26,14 +26,14 @@ namespace NHS111.Domain.Api.Controllers
 
         [HttpGet]
         [Route("categories/pathways")]
-        public async Task<HttpResponseMessage> GetAnswersForQuestion()
+        public async Task<HttpResponseMessage> GetCategoriesWithPathways()
         {
             return await _categoryRepository.GetCategoriesWithPathways().AsJson().AsHttpResponse();
         }
 
         [HttpGet]
         [Route("category/{category}/pathways")]
-        public async Task<HttpResponseMessage> GetNextQuestion(string category)
+        public async Task<HttpResponseMessage> GetCategoryWithPathways(string category)
         {
             return await _categoryRepository.GetCategoryWithPathways(category).AsJson().AsHttpResponse();
         }
