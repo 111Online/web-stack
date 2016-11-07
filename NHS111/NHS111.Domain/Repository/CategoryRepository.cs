@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web.UI;
 using Neo4jClient.Cypher;
 using NHS111.Models.Models.Domain;
 using NHS111.Utils.Extensions;
@@ -28,20 +31,59 @@ namespace NHS111.Domain.Repository
 
         public async Task<IEnumerable<CategoryWithPathways>> GetCategoriesWithPathways()
         {
-            return await _graphRepository.Client.Cypher
-                .Match("(c:Category)-[:hasPathway]->(p:Pathway)")
-                .Return(q => new CategoryWithPathways { Category = Return.As<Category>("c"), Pathways = Return.As<List<Pathway>>("collect(p)") })
+            var query = await _graphRepository.Client.Cypher
+                .Match(CategoryMatch)
+                .Return(
+                    (c, p, pmd) =>
+                        new CategoryPathwaysFlattened
+                        {
+                            Category = c.As<Category>(),
+                            Pathways = p.CollectAs<Pathway>(),
+                            PathwaysMetaData = pmd.CollectAs<PathwayMetaData>()
+                        })
                 .ResultsAsync;
+
+            return query.Select(CategroisePathways);
+
         }
 
         public async Task<CategoryWithPathways> GetCategoryWithPathways(string category)
         {
-            return await _graphRepository.Client.Cypher
-                .Match("(c:Category)-[:hasPathway]->(p:Pathway)")
+            var query = _graphRepository.Client.Cypher
+                .Match(CategoryMatch)
                 .Where(string.Format("c.title = '{0}'", category))
-                .Return(q => new CategoryWithPathways { Category = Return.As<Category>("c"), Pathways = Return.As<List<Pathway>>("collect(p)") })
-                .ResultsAsync
-                .FirstOrDefault();
+                .Return(
+                    (c, p, pmd) =>
+                        new CategoryPathwaysFlattened
+                        {
+                            Category = c.As<Category>(),
+                            Pathways = p.CollectAs<Pathway>(),
+                            PathwaysMetaData = pmd.CollectAs<PathwayMetaData>()
+                        });
+
+            return CategroisePathways(await query.ResultsAsync.FirstOrDefault());
+        }
+
+        private static string CategoryMatch
+        {
+            get { return "(c:Category)-[:hasPathway]->(p:Pathway)-[:isDescribedAs]->(pmd:PathwayMetaData)"; }
+        }
+
+        private static CategoryWithPathways CategroisePathways(CategoryPathwaysFlattened flattenedData)
+        {
+            return new CategoryWithPathways
+            {
+                Category = flattenedData.Category,
+                Pathways = flattenedData.Pathways
+                    .Distinct(new PathwayComparer())
+                    .Select(p => new PathwayWithDescriptions()
+                    {
+                        Pathway = p,
+                        PathwayDescriptions = flattenedData.PathwaysMetaData
+                            .Distinct(new PathwayMetaDataComparer())
+                            .Where(pd => pd.PathwayNo == p.PathwayNo)
+                    })
+            };
         }
     }
 
@@ -52,5 +94,33 @@ namespace NHS111.Domain.Repository
         Task<IEnumerable<CategoryWithPathways>> GetCategoriesWithPathways();
 
         Task<CategoryWithPathways> GetCategoryWithPathways(string category);
+    }
+
+    public class PathwayComparer : IEqualityComparer<Pathway>
+    {
+
+        public bool Equals(Pathway x, Pathway y)
+        {
+            return x.Id == y.Id;
+        }
+
+        public int GetHashCode(Pathway obj)
+        {
+            return obj.Id.GetHashCode();
+        }
+    }
+
+    public class PathwayMetaDataComparer : IEqualityComparer<PathwayMetaData>
+    {
+
+        public bool Equals(PathwayMetaData x, PathwayMetaData y)
+        {
+            return x.PathwayNo == y.PathwayNo && x.DigitalDescription == y.DigitalDescription;
+        }
+
+        public int GetHashCode(PathwayMetaData obj)
+        {
+            return obj.DigitalDescription.GetHashCode();
+        }
     }
 }

@@ -135,11 +135,13 @@
     <Compile Include="Models\Domain\CareAdvice.cs" />
     <Compile Include="Models\Domain\CareAdviceText.cs" />
     <Compile Include="Models\Domain\Category.cs" />
+    <Compile Include="Models\Domain\CategoryPathwaysFlattened.cs" />
     <Compile Include="Models\Domain\CategoryWithPathways.cs" />
     <Compile Include="Models\Domain\DefinedTerm.cs" />
     <Compile Include="Models\Domain\DispositionCode.cs" />
     <Compile Include="Models\Domain\OutcomeGroup.cs" />
     <Compile Include="Models\Domain\PathwayMetaData.cs" />
+    <Compile Include="Models\Domain\PathwayWithDescriptions.cs" />
     <Compile Include="Models\Domain\SymptomDiscriminator.cs" />
     <Compile Include="Models\Web\Clock\SystemClock.cs" />
     <Compile Include="Models\Web\Clock\IClock.cs" />
