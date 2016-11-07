@@ -125,6 +125,10 @@ namespace NHS111.Business.Configuration
         {
             return GetDomainApiUrl("DomainApiSymptomDiscriminatorCodeUrl").Replace("{SymptomDiscriminatorCodeId}", symptomDiscriminatorCode);
         }
+
+        public string GetCategoriesWithPathwaysUrl() {
+            return GetDomainApiUrl("DomainApiGetCategoriesWithPathwaysUrl");
+        }
     }
 
     public interface IConfiguration
@@ -158,5 +162,6 @@ namespace NHS111.Business.Configuration
 
         /* Symptom disciminator */
         string GetDomainApiSymptomDisciminatorUrl(string symptomDiscriminatorCode);
+        string GetCategoriesWithPathwaysUrl();
     }
 }

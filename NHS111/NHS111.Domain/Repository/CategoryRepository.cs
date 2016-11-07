@@ -120,6 +120,8 @@ namespace NHS111.Domain.Repository
 
         public int GetHashCode(PathwayMetaData obj)
         {
+            if (obj.DigitalDescription == null)
+                return obj.PathwayNo.GetHashCode();
             return obj.DigitalDescription.GetHashCode();
         }
     }
