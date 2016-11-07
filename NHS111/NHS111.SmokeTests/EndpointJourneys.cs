@@ -39,7 +39,7 @@ namespace NHS111.SmokeTests
         [Test]
         public void Call999EndpointJourney()
         {
-            var questionPage = TestScenerios.LaunchTriageScenerio(_driver, "Skin Problems", TestScenerioGender.Female, TestScenerioAgeGroups.Adult);
+            var questionPage = TestScenerios.LaunchTriageScenerio(_driver, "Skin problems", TestScenerioGender.Female, TestScenerioAgeGroups.Adult);
 
             questionPage.ValidateQuestion("What is your main problem?");
             var outcomePage =  questionPage
@@ -53,7 +53,7 @@ namespace NHS111.SmokeTests
         [Test]
         public void PharmacyEndpointJourney()
         {
-            var questionPage = TestScenerios.LaunchTriageScenerio(_driver, "Eye or Eyelid Problems", TestScenerioGender.Male, TestScenerioAgeGroups.Adult);
+            var questionPage = TestScenerios.LaunchTriageScenerio(_driver, "Eye problems", TestScenerioGender.Male, TestScenerioAgeGroups.Adult);
 
             questionPage.ValidateQuestion("What is your main problem?");
             var outcomePage = questionPage
@@ -75,7 +75,7 @@ namespace NHS111.SmokeTests
         [Test]
         public void HomeCareEndpointJourney()
         {
-            var questionPage = TestScenerios.LaunchTriageScenerio(_driver, "Cold or Flu (Declared)", TestScenerioGender.Female, TestScenerioAgeGroups.Adult);
+            var questionPage = TestScenerios.LaunchTriageScenerio(_driver, "Colds and flu", TestScenerioGender.Female, TestScenerioAgeGroups.Adult);
 
             questionPage.ValidateQuestion("Do you have new bruises, a rash, or marks on your skin and feel severely ill?");
             var outcomePage = questionPage
@@ -95,7 +95,7 @@ namespace NHS111.SmokeTests
         [Test]
         public void EmergencyDentalEndpointJourney()
         {
-            var questionPage = TestScenerios.LaunchTriageScenerio(_driver, "Dental Problems", TestScenerioGender.Female, TestScenerioAgeGroups.Adult);
+            var questionPage = TestScenerios.LaunchTriageScenerio(_driver, "Dental problems", TestScenerioGender.Female, TestScenerioAgeGroups.Adult);
 
             questionPage.ValidateQuestion("Which of the following apply to you?");
             var outcomePage = questionPage
@@ -134,7 +134,7 @@ namespace NHS111.SmokeTests
         [Test]
         public void OpticianEndpointJourney()
         {
-            var questionPage = TestScenerios.LaunchTriageScenerio(_driver, "Eye or Eyelid Problems", TestScenerioGender.Female, TestScenerioAgeGroups.Child);
+            var questionPage = TestScenerios.LaunchTriageScenerio(_driver, "Eye problems", TestScenerioGender.Female, TestScenerioAgeGroups.Child);
 
             questionPage.ValidateQuestion("What is your main problem?");
             var outcomePage = questionPage
@@ -156,7 +156,7 @@ namespace NHS111.SmokeTests
         [Test]
         public void GPEndpointJourney()
         {
-            var questionPage = TestScenerios.LaunchTriageScenerio(_driver, "Diarrhoea and Vomiting", TestScenerioGender.Male, TestScenerioAgeGroups.Child);
+            var questionPage = TestScenerios.LaunchTriageScenerio(_driver, "Diarrhoea and vomiting", TestScenerioGender.Male, TestScenerioAgeGroups.Child);
 
             questionPage.ValidateQuestion("Have you had any blood in your sick (vomit)?");
             var outcomePage = questionPage
