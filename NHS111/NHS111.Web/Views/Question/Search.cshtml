@@ -88,35 +88,32 @@
 
                     </div>
                     <div class="all-symptoms">
-                        @*@{
+                        @{
                             var lists = new List<IEnumerable<CategoryWithPathways>>(2);
-                            lists.Add(Model.AllTopics.Take(Model.AllTopics.Count() / 2));
+                            lists.Add(Model.AllTopics.Take((Model.AllTopics.Count() / 2)));
                             lists.Add(Model.AllTopics.Skip(lists[0].Count()));
-                        }*@
+                        }
                         <h3>All Symptoms</h3>
-                        @*@foreach (var list in lists) {*@
-                            <ul class="right">
-                                @foreach (var categoryWithPathways in Model.AllTopics) {
+                        @for (int i = 0; i < lists.Count; ++i)
+                        {
+                            <ul class="@Html.Raw(i == 0 ? "left" : "right")">
+                                @foreach (var categoryWithPathways in lists[i])
+                                {
                                     <li>
-                                        <h4 style="text-transform: capitalize">@categoryWithPathways.Category.Title</h4>
-                                        <ul>
-                                            @*@{
-                                                var pathwayNos = from pathwayWithDescription in categoryWithPathways.Pathways
-                                                    group pathwayWithDescription by pathwayWithDescription.Pathway.Title
-                                                    into topic
-                                                    select string.Join(",", topic.Select(t => t.Pathway.PathwayNo));
-                                            }*@
-
-                                            @foreach (var groups in categoryWithPathways.Pathways.GroupBy(p => p.Pathway.Title)) {
-                                                foreach (var metaData in groups.First().PathwayDescriptions) {
-                                                    <li><input type="submit" class="linkButton" value="@metaData.DigitalDescription" id="@string.Join(",", groups.Select(t => t.Pathway.PathwayNo).Distinct())"/></li>
+                                        <h5 style="text-transform: capitalize"><a class="category linkButton" href="javascript:void(0);">@categoryWithPathways.Category.Title</a></h5>
+                                        <ul class="pathways">
+                                            @foreach (var groups in categoryWithPathways.Pathways.GroupBy(p => p.Pathway.Title))
+                                            {
+                                                foreach (var metaData in groups.First().PathwayDescriptions)
+                                                {
+                                                    <li><input type="submit" class="linkButton" value="@metaData.DigitalDescription" id="@string.Join(",", groups.Select(t => t.Pathway.PathwayNo).Distinct())" /></li>
                                                 }
                                             }
                                         </ul>
                                     </li>
                                 }
                             </ul>
-                        @*}*@
+                        }
                     </div>
 
                     <div id="SearchResults">
@@ -181,8 +178,14 @@
                 $("#pathwayTitle").val(this.value);
                 $("#pathwayNo").val(this.id);
             });
- });
 
+        $('.category').click(function () {
+            var $this = $(this);
+
+            var $helpTextLinkMessage = $this.parent().next('.pathways');
+            $helpTextLinkMessage.slideToggle("fast");
+        });
+
+     });
     </script>
-
 </div>
