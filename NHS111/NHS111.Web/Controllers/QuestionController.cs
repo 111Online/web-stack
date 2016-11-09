@@ -47,8 +47,11 @@ namespace NHS111.Web.Controllers {
         }
 
         [HttpPost]
-        public ActionResult Search(JourneyViewModel model)
+        public async Task<ActionResult> Search(JourneyViewModel model)
         {
+            var response = await _restfulHelper.GetAsync(_configuration.GetBusinessApiGetCategoriesWithPathways());
+            model.AllTopics = JsonConvert.DeserializeObject<List<CategoryWithPathways>>(response);
+
             return View(model);
         }
         
