@@ -2166,6 +2166,26 @@ button[disabled=disabled] {
     margin: 20px 0;
 }
 
+.trial-text {
+    padding:25px;
+}
+
+.trial-section {
+    background-color: #white;
+    border: 1px solid #0072C6;
+    margin-left: 0;    
+    margin: 0 0 10px 0;
+}
+
+.trial-icon {
+    margin-right:10px;
+    width: 90px;
+    height: 90px;
+    display:block;
+    float:left;
+    background: #FFFFFF url("/Content/_assets/img/exclamation_blue.png") 15px 15px/70px 70px no-repeat;
+}
+
 .steps {
     max-width: 1000px;
 }
@@ -2248,8 +2268,6 @@ button[disabled=disabled] {
 }
 .clear {
     clear: both;
-}
-.trial {
 }
 
 .home p {
