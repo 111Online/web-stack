@@ -5,7 +5,7 @@
 }
 @inherits NHS111.Web.Views.Shared.DisclaimerPopupView
 
-@section Title {NHS 111 Digital}
+@section Title {NHS 111}
 
 @section Scripts {
     <!--<script src="~/scripts/jquery2.1.1.min.js"></script> included on layout page -->
@@ -39,9 +39,16 @@
         <div class="header home">
             <h2 class="discHead">Welcome to NHS 111</h2>
         </div>
+    <div class="trial-section">
+        <div>
+            <span class="trial-icon"></span>
+        </div>
+        <div class="trial-text">
+            <span>This is a trial of a new online service which is only available to residents of Leeds. If you don’t live in this area but need medical help, please call 111.</span>
+        </div>
+    </div>
 
-        <p class="trial strong">Use this service when you need medical help or advice but it's not an emergency.</p>
-        <p>This is a trial of a new online service which is only available to residents of West Yorkshire.  If you don’t live in this area but need medical help, please call 111.</p>
+    <p class="strong">Use this service when you need medical help or advice but it's not an emergency.</p>
         <div class="steps">
             <ol class="steps-list row">
                 <li>

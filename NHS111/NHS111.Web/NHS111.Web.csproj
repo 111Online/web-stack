@@ -437,6 +437,7 @@
     <Content Include="Content\_assets\css\main.css" />
     <Content Include="Content\_assets\img\bg-pattern.png" />
     <Content Include="Content\_assets\img\countdownbg-ie8.png" />
+    <Content Include="Content\_assets\img\exclamation_blue.png" />
     <Content Include="Content\_assets\img\favicon.ico" />
     <Content Include="Content\_assets\img\icon-address.png" />
     <Content Include="Content\_assets\img\icon-blue-search.png" />
