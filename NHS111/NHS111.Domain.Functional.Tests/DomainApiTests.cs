@@ -54,7 +54,7 @@ namespace NHS111.Domain.Functional.Tests
             SchemaValidation.AssertValidResponseSchema(result, SchemaValidation.ResponseSchemaType.Question);
 
             //this next one checks the right question has returned.
-            Assert.IsTrue(result.Contains("\"questionNo\":\"Tx1506"));
+            Assert.IsTrue(result.Contains("\"questionNo\":\"TX1506"));
         }
 
         [Test]
@@ -94,7 +94,7 @@ namespace NHS111.Domain.Functional.Tests
             SchemaValidation.AssertValidResponseSchema(result, SchemaValidation.ResponseSchemaType.Question);
 
             //this next one checks the right question has returned
-            Assert.IsTrue(result.Contains("\"questionNo\":\"Tx1506"));
+            Assert.IsTrue(result.Contains("\"questionNo\":\"TX1506"));
         }
 
         // Care Advice Controller tests
@@ -242,7 +242,7 @@ namespace NHS111.Domain.Functional.Tests
             SchemaValidation.AssertValidResponseSchema(result, SchemaValidation.ResponseSchemaType.Question);
 
             //this next one checks the right question has returned
-            Assert.IsTrue(result.Contains("\"questionNo\":\"Tx1488"));
+            Assert.IsTrue(result.Contains("\"questionNo\":\"TX1488"));
         }
     }
 }
