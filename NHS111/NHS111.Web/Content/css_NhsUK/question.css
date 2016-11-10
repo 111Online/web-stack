@@ -120,7 +120,8 @@ div.question-rationale.no-header p {
 
     div.question-rationale p {
         margin-bottom: 0;
-        padding-top: 0;
+        padding-top: 10px;
+        padding-bottom: 10px;
     }
 
 .answer-radio {
