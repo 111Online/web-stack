@@ -1604,25 +1604,24 @@ h1, h2, h3, h4, h5, h6 {
 .heading-large, .markdown-content h1 {
   font-size: 32px;
   line-height: 36px;
-  margin-bottom: 30px; }
+  margin-bottom: 10px; }
   @media screen and (min-width: 40em) {
     .heading-large, .markdown-content h1 {
       font-size: 36px;
       line-height: 40px;
-      margin: 30px 0; } }
+      margin: 10px 0; } }
 
 .heading-medium, .markdown-content h2 {
-  font-size: 1.9506rem;
-  line-height: 3rem;
-  margin-bottom: 1.036405rem;
+  font-size: 24px;
+  line-height: 28px;
+  margin-bottom: 10px;
   padding-top: 0.963595rem; }
   @media screen and (min-width: 40em) {
     .heading-medium, .markdown-content h2 {
-      font-size: 2.2rem;
-      line-height: 3rem;
-      margin-bottom: 1.083265rem;
+      font-size: 28px;
+      line-height: 32px;
+      margin-bottom: 10px;
       padding-top: 0.916735rem;
-      letter-spacing: 0.1rem;
     } }
 
 .heading-small, .markdown-content h3 {
@@ -2297,4 +2296,32 @@ button[disabled=disabled] {
     .clear {
         margin-bottom: 20px;
     }
+}
+
+.outcome-header {
+    margin-top: 30px;
+    background-color: #0072C6;
+    padding: 20px;
+    color: #fff;
+}
+
+.outcome-header .worsening-advice-icon {
+background-image: url("/content/img/worsening.png");
+background-position: left center;
+background-repeat: no-repeat;
+
+padding-left: 44px;
+}
+
+.outcome-header.fail {
+    background-color: #FFB71A;
+    color: #000;
+}
+
+.outcome-header.fail .worsening-advice-icon {
+background-image: url("/content/img/worsening-fail.png");
+background-position: left center;
+background-repeat: no-repeat;
+
+padding-left: 44px;
 }

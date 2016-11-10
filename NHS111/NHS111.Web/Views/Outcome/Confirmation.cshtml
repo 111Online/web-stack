@@ -26,20 +26,9 @@
 
 
 <section>
+    @Html.Partial("_OutcomeHeader", Model)
     <div class="section-item last">
-        @if (Model.DisplayWorseningCareAdvice)
-        {
-            <h3 class="care-advice-section-header">
-                What if I feel worse?
-            </h3>
-
-            <div class="service-booking-message alert">
-                @foreach (var item in Model.WorseningCareAdvice.Items)
-                {
-                    <p>@item.Text</p>
-                }
-            </div>
-        }
+        @Html.Partial("_WorseningAdvice", Model)
         @Html.Partial("_CareAdvice", Model.CareAdvices)
     </div>
 </section>
