@@ -19,10 +19,10 @@
     <ServiceContractMappings />
   </ClientOptions>
   <MetadataSources>
-    <MetadataSource Address="https://uat.pathwaysdos.nhs.uk/app/api/webservices" Protocol="http" SourceId="1" />
+    <MetadataSource Address="https://uat.pathwaysdos.nhs.uk/app/api/webservices?wsdl=1.3" Protocol="http" SourceId="1" />
   </MetadataSources>
   <Metadata>
-    <MetadataFile FileName="webservices.wsdl" MetadataType="Wsdl" ID="ee2a03ce-0784-43da-ae97-2fde05465abf" SourceId="1" SourceUrl="https://uat.pathwaysdos.nhs.uk/app/api/webservices" />
+    <MetadataFile FileName="webservices1.wsdl" MetadataType="Wsdl" ID="24ec8552-7d2d-474a-ac67-14ed5a90cbd7" SourceId="1" SourceUrl="https://uat.pathwaysdos.nhs.uk/app/api/webservices?wsdl=1.3" />
   </Metadata>
   <Extensions>
     <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />

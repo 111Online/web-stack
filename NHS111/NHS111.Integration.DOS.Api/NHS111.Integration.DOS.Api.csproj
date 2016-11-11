@@ -135,19 +135,7 @@
     <Content Include="IoC\readme.txt" />
     <None Include="Service References\DOSService\configuration91.svcinfo" />
     <None Include="Service References\DOSService\configuration.svcinfo" />
-    <Content Include="Service References\DOSService\NHS111.Integration.DOS.Api.DOSService.CheckCapacityResponse.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </Content>
     <Content Include="Service References\DOSService\NHS111.Integration.DOS.Api.DOSService.CheckCapacitySummaryResponse.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </Content>
-    <Content Include="Service References\DOSService\NHS111.Integration.DOS.Api.DOSService.ContactDetail.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </Content>
-    <Content Include="Service References\DOSService\NHS111.Integration.DOS.Api.DOSService.Disposition.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </Content>
-    <Content Include="Service References\DOSService\NHS111.Integration.DOS.Api.DOSService.DispositionsResponse.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Content>
     <Content Include="Service References\DOSService\NHS111.Integration.DOS.Api.DOSService.ExceptionCapture.datasource">
@@ -156,22 +144,25 @@
     <Content Include="Service References\DOSService\NHS111.Integration.DOS.Api.DOSService.ExceptionCaptureResponse.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Content>
-    <Content Include="Service References\DOSService\NHS111.Integration.DOS.Api.DOSService.ServiceCareDestination.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </Content>
-    <Content Include="Service References\DOSService\NHS111.Integration.DOS.Api.DOSService.ServiceCareExceptionResponse.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </Content>
-    <Content Include="Service References\DOSService\NHS111.Integration.DOS.Api.DOSService.ServiceCareItem.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </Content>
-    <Content Include="Service References\DOSService\NHS111.Integration.DOS.Api.DOSService.ServiceCareResponse.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </Content>
     <Content Include="Service References\DOSService\NHS111.Integration.DOS.Api.DOSService.ServiceCareSummaryDestination.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Content>
     <Content Include="Service References\DOSService\NHS111.Integration.DOS.Api.DOSService.ServiceDetailsByIdResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Content>
+    <Content Include="Service References\DOSService\NHS111.Integration.DOS.Api.DOSService.GetHospitalScoresResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Content>
+    <Content Include="Service References\DOSService\NHS111.Integration.DOS.Api.DOSService.Hospital.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Content>
+    <Content Include="Service References\DOSService\NHS111.Integration.DOS.Api.DOSService.ServiceAnalysisResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Content>
+    <Content Include="Service References\DOSService\NHS111.Integration.DOS.Api.DOSService.ServiceAnalysisResult.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Content>
+    <Content Include="Service References\DOSService\NHS111.Integration.DOS.Api.DOSService.ServiceDetail.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Content>
     <None Include="Service References\DOSService\Reference.svcmap">
@@ -179,6 +170,7 @@
       <LastGenOutput>Reference.cs</LastGenOutput>
     </None>
     <Content Include="Web.config" />
+    <None Include="Service References\DOSService\webservices1.wsdl" />
     <None Include="Web.Development.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -196,6 +188,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="HeaderInspector.cs" />
     <Compile Include="IoC\IntegrationDosApiRegistry.cs" />
     <Compile Include="IoC\IoC.cs" />
     <Compile Include="IoC\StructuremapMvc.cs" />
@@ -211,7 +204,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
-    <None Include="Service References\DOSService\webservices.wsdl" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
