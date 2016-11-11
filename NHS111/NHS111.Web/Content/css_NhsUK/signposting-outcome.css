@@ -6,6 +6,7 @@
 .care-advice {
     background-color: #ffffff;
     padding: 0;
+    margin-bottom: 40px;
 }
 
 .sp-module {
@@ -32,20 +33,14 @@ hr {
 
 .advice-before-going {
     padding: 0;
-    width:  50%;
-    float:left;
+    width:  67%;
 }
-
-.findservice {
-    padding: 20px;
-}
-
-
 .findservice-form {
-    width: 25em; 
     background-color:  #EAEAEA;
-    float: left;
     border: 1px solid grey;
+    margin-bottom: 40px;
+    padding: 40px;
+    width:  67%;
 }
 @media (max-width: 1360px) {
     .findservice-form {
@@ -59,7 +54,6 @@ hr {
 
 .sub-header {
     background-color: #003087;
-    /*height: 231px;*/
     color: white;
     font-size: 120%;
     padding-bottom: 30px;
@@ -128,15 +122,8 @@ hr {
         text-decoration: underline !important;
     }
 
-form .findservice {
-    display: block;
-    float: left;
-}
 .findservice .button-next {
     background-position: 95% 60%;
-    float: left;
-    clear: both;
-
 }
 
 
@@ -148,13 +135,11 @@ form .findservice {
         line-height: 44px;
     }
     .findservice .form-control {
-        float: left;
-        clear: left;
-        width: 365px;
+        width: 200px;
     }
 
     .findservice .button-next {
-            margin-top: 20px;
+        margin-top: 20px;
     }
 
     .advice-before-going p {
@@ -185,8 +170,6 @@ form .findservice {
 .findservice label {
     font-weight: bold;
     margin-bottom: 5px;
-    float: left;
-    clear: left;
 }
 .changeAnswers {
     float: left;
@@ -195,9 +178,12 @@ form .findservice {
 }
 
 .section-margin {
-    margin-top: 5px;
+    margin-top: 40px;
 }
-
+.section-margin label {
+    display: block;
+    margin-bottom: 20px;
+}
 details summary {
     width: 100%;
     outline:none;
@@ -212,7 +198,16 @@ details summary::-webkit-details-marker {
     float: right;
     padding-top: 1.4rem;
 }
-
 .outcome-additional-info {
-    padding-bottom: 20px;
+    padding-bottom: 40px;
+}
+.outcome-additional-info ul {
+    padding: 0 20px; 
+    list-style-type:disc;
+    margin: 0 0 20px 20px;
+}
+.outcome-additional-info-header {
+    font-size: 28px;
+    line-height: 32px;
+    padding-bottom: 40px;
 }
