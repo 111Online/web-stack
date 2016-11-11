@@ -20,13 +20,7 @@
         <h2 class="heading-large">Your callback has been confirmed</h2>
         <h3 class="heading-medium">You'll receive a call from <strong>@WebUtility.HtmlDecode(Model.SelectedService.Name)</strong>
         @(!string.IsNullOrEmpty(@Model.TimeFrameText) ? Html.Raw(string.Format("within <strong>{0}</strong>.", @Model.TimeFrameText)) : Html.Raw(string.Format(". <br />We have notified them of your outcome <strong>{0}</strong>.", @Model.Title)))</h3>
-        @if (Model.DisplayWorseningCareAdvice)
-        {
-            foreach (var item in Model.WorseningCareAdvice.Items)
-            {
-                <p class="worsening-advice-icon">@item.Text</p>
-            }
-        }
+        @Html.Partial("_WorseningAdvice", Model)
     </div>
 </section>
 

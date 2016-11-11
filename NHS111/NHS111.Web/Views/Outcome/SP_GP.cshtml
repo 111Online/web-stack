@@ -10,28 +10,20 @@
 <link href="~/Content/css_NhsUK/signposting-outcome.css" media="all" rel="stylesheet" type="text/css" />
 <link href="~/Content/css_NhsUK/signposting-outcome-print.css" media="print" rel="stylesheet" type="text/css" />
 
-@section OuterSection{
-    @Html.Partial("_OutcomeHeader", Model)
-}
+@Html.Partial("_OutcomeHeader", Model)
 
 @section FeedbackSection {
     @Html.Partial("_FeedbackDetails", new FeedbackViewModel() { PageId = Model.Id })
 }   
 
-@Html.Partial("_WorseningAdvice", Model)
-
-<div>
-    <h3 class="care-advice-section-header">
+<div class="outcome-additional-info">
+    <h3 class="heading-medium">
         What if I'm not registered with a GP?
     </h3>
     <p>You can get advice about how to register with a GP from the <a href="http://www.nhs.uk/NHSEngland/AboutNHSservices/doctors/Pages/NHSGPs.aspx">NHS Choices GP services page</a>.</p>
 </div>
 
-
-
 @Html.Partial("_CareAdvice", Model.CareAdvices, new ViewDataDictionary { { "Title", "What can I do in the meantime?" } })
-
-
 
 @using (Html.BeginForm("Navigation", "Question", FormMethod.Post))
 {

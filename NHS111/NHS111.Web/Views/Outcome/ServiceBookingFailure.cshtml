@@ -19,13 +19,7 @@
     <div class="outcome-header fail">
         <h2 class="heading-large">Unfortunately your callback request failed.</h2>
         <h3 class="heading-medium">Please call NHS 111 for further care and advice. You may need to provide your details again so that we can best help you</h3>
-        @if (Model.DisplayWorseningCareAdvice)
-        {
-            foreach (var item in Model.WorseningCareAdvice.Items)
-            {
-                <p class="worsening-advice-icon">@item.Text</p>
-            }
-        }
+        @Html.Partial("_WorseningAdvice", Model)
     </div>
 </section>
 

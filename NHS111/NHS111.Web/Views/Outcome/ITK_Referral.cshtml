@@ -19,7 +19,7 @@
     </script>
 }
 
-@section OuterSection {
+
     <div class="sub-header itk">
         <div class="sub-header-icon">
             <span class="tick">&#10003;</span>
@@ -27,7 +27,7 @@
             <h2>@string.Format("We recommend that you {0} within {1}", Model.OutcomeGroup.Text, Model.TimeFrameText)</h2>
         </div>
     </div>
-}
+
 
 @section FeedbackSection {
     @Html.Partial("_FeedbackDetails", new FeedbackViewModel() { PageId = Model.Id })

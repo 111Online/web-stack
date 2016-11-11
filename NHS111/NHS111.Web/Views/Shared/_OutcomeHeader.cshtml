@@ -4,12 +4,6 @@
 <section>
     <div class="outcome-header">
         <h2 class="heading-large">@Html.Raw(outcomeHeader)</h2>
-        @if (Model.DisplayWorseningCareAdvice)
-        {
-            foreach (var item in Model.WorseningCareAdvice.Items)
-            {
-                <p class="worsening-advice-icon">@item.Text</p>
-            }
-        }
+        @Html.Partial("_WorseningAdvice", Model)
     </div>
 </section>

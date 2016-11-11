@@ -3,20 +3,15 @@
 
 @if (Model.DisplayWorseningCareAdvice)
 {
-    <div class="service-booking-message alert sp-module">
-        <h3 class="care-advice-section-header">
-            What if I feel worse?
-        </h3>
-        @if (!ViewData.Keys.Contains("OverrideText"))
+    if (!ViewData.Keys.Contains("OverrideText"))
+    {
+        foreach (var item in Model.WorseningCareAdvice.Items)
         {
-            foreach (var item in Model.WorseningCareAdvice.Items)
-            {
-                <p>@item.Text</p>
-            }
+            <p class="worsening-advice-icon">@item.Text</p>
         }
-        else
-        {
-            <p>@Html.Raw(ViewData["OverrideText"])</p> 
-        }
-    </div>
+    }
+    else
+    {
+        <p class="worsening-advice-icon">@Html.Raw(ViewData["OverrideText"])</p>
+    }
 }
