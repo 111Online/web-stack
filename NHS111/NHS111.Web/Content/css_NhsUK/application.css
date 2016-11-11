@@ -2317,14 +2317,14 @@ button[disabled=disabled] {
 }
 
 .outcome-header {
-    margin-top: 30px;
+    margin: 30px 0;
     background-color: #0072C6;
     padding: 20px;
     color: #fff;
 }
 
 .outcome-header h2 {
-    margin: 10px 0;
+    margin: 20px 0;
 }
 
 .worsening-advice-icon {

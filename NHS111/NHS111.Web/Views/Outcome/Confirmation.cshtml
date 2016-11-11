@@ -12,17 +12,32 @@
     @Html.Partial("_FeedbackDetails", new FeedbackViewModel() { PageId = Model.Id })
 }
 
-<link href="~/content/css_NhsUk/confirmation.css" media="screen" rel="stylesheet" type="text/css" />
+<link href="~/content/css_NhsUk/confirmation.css" media="screen" rel="stylesheet" type="text/css"/>
+<link href="~/Content/css_NhsUK/signposting-outcome.css" media="all" rel="stylesheet" type="text/css" />
+<link href="~/Content/css_NhsUK/signposting-outcome-print.css" media="print" rel="stylesheet" type="text/css" />
 <link href="~/content/css_NhsUk/service.css" media="screen" rel="stylesheet" type="text/css" />
 
 <section>
     <div class="outcome-header">
         <h2 class="heading-large">Your callback has been confirmed</h2>
-        <h3 class="heading-medium">You'll receive a call from <strong>@WebUtility.HtmlDecode(Model.SelectedService.Name)</strong>
-        @(!string.IsNullOrEmpty(@Model.TimeFrameText) ? Html.Raw(string.Format("within <strong>{0}</strong>.", @Model.TimeFrameText)) : Html.Raw(string.Format(". <br />We have notified them of your outcome <strong>{0}</strong>.", @Model.Title)))</h3>
+        <h3 class="heading-medium">
+            You'll receive a call from <strong>@WebUtility.HtmlDecode(Model.SelectedService.Name)</strong>
+            @(!string.IsNullOrEmpty(@Model.TimeFrameText) ? Html.Raw(string.Format("within <strong>{0}</strong>.", @Model.TimeFrameText)) : Html.Raw(string.Format(". <br />We have notified them of your outcome <strong>{0}</strong>.", @Model.Title)))
+        </h3>
         @Html.Partial("_WorseningAdvice", Model)
     </div>
 </section>
+
+@if (!string.IsNullOrEmpty(Model.WaitTimeText))
+{
+    <section>
+        <div class="outcome-additional-info">
+            <h3 class="heading-medium">
+                If you have not heard within @Model.WaitTimeText please call 111
+            </h3>
+        </div>
+    </section>
+}
 
 <section>
     <div>

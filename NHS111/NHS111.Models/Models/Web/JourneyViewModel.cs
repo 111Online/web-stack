@@ -62,6 +62,7 @@ namespace NHS111.Models.Models.Web
         public KeywordBag CollectedKeywords { get; set; }
         public string TimeFrameText { get; set; }
         public OutcomeGroup OutcomeGroup { get; set; }
+        public string WaitTimeText { get; set; }
 
         private bool _displayOutcomeReferenceOnly = false;
         public bool DisplayOutcomeReferenceOnly
