@@ -294,6 +294,7 @@
     <Content Include="Content\images\icons\hospital.png" />
     <Content Include="Content\images\icons\icon-button-next.svg" />
     <Content Include="Content\images\icons\icon-button-prev.svg" />
+    <Content Include="Content\images\icons\icon-link-back.png" />
     <Content Include="Content\images\icons\icon-link-go.png" />
     <Content Include="Content\images\icons\icon_info.png" />
     <Content Include="Content\images\icons\map-pointers\fac-map-1.png" />
