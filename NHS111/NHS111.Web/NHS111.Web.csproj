@@ -411,6 +411,8 @@
     <Content Include="Content\img\white-home.jpg" />
     <Content Include="Content\img\white-Tel.jpg" />
     <Content Include="Content\img\white-website.jpg" />
+    <Content Include="Content\img\worsening-fail.png" />
+    <Content Include="Content\img\worsening.png" />
     <Content Include="Content\Js\site.js" />
     <Content Include="Content\Js\vendor\html5shiv-printshiv.js" />
     <Content Include="Content\Js\vendor\html5shiv.js" />

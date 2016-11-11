@@ -14,21 +14,24 @@
 
 <link href="~/content/css_NhsUk/confirmation.css" media="screen" rel="stylesheet" type="text/css" />
 <link href="~/content/css_NhsUk/service.css" media="screen" rel="stylesheet" type="text/css" />
-@section OuterSection {
-    <div class="info-panel">
-        <h2>Your callback has been confirmed</h2>
-        <div class="info-panel-innertext">
-            You'll receive a call from <strong>@WebUtility.HtmlDecode(Model.SelectedService.Name)</strong>
-            @(!string.IsNullOrEmpty(@Model.TimeFrameText) ? Html.Raw(string.Format("within <strong>{0}</strong>.", @Model.TimeFrameText)) : Html.Raw(string.Format(". <br />We have notified them of your outcome <strong>{0}</strong>.", @Model.Title)))
-</div>
-</div>
-}
-
 
 <section>
-    @Html.Partial("_OutcomeHeader", Model)
-    <div class="section-item last">
-        @Html.Partial("_WorseningAdvice", Model)
+    <div class="outcome-header">
+        <h2 class="heading-large">Your callback has been confirmed</h2>
+        <h3 class="heading-medium">You'll receive a call from <strong>@WebUtility.HtmlDecode(Model.SelectedService.Name)</strong>
+        @(!string.IsNullOrEmpty(@Model.TimeFrameText) ? Html.Raw(string.Format("within <strong>{0}</strong>.", @Model.TimeFrameText)) : Html.Raw(string.Format(". <br />We have notified them of your outcome <strong>{0}</strong>.", @Model.Title)))</h3>
+        @if (Model.DisplayWorseningCareAdvice)
+        {
+            foreach (var item in Model.WorseningCareAdvice.Items)
+            {
+                <p class="worsening-advice-icon">@item.Text</p>
+            }
+        }
+    </div>
+</section>
+
+<section>
+    <div>
         @Html.Partial("_CareAdvice", Model.CareAdvices)
     </div>
 </section>

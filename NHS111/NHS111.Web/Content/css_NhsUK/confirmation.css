@@ -5,18 +5,18 @@
 }
 
 .care-advice-keywords {
-    height: 100%;
-    width: 100%;
-    display: block;
-    float: left;
-    clear: both;
-    width: 100%;
     padding-bottom: 20px;
 }
 
 .care-advice .care-advice-keywords ol {
     padding: 0 20px;
     list-style-type: decimal;
+    line-height: 32px;
+}
+@media (max-width: 640px) {
+    .care-advice .care-advice-keywords ol {
+        line-height: 24px;
+    }
 }
 
 .care-advice  ul  {
@@ -30,19 +30,7 @@
     list-style-type:circle;
 }
 
- @media (min-width: 641px) {
-    .care-advice .care-advice-keywords ol {
-        position: relative;
-    }
-    .care-advice .care-advice-keywords ol li {
-          text-align: left;
-    width: 48%;
-    float: left;
-    }
-
- }
- 
-.care-advice .care-advice-keywords ol li:first-child {
+ .care-advice .care-advice-keywords ol li:first-child {
     margin-left: 0;
 }
 .care-advice h3, .care-advice-section-header {
