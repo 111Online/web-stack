@@ -1602,13 +1602,13 @@ h1, h2, h3, h4, h5, h6 {
       padding-top: 1.33380375rem; } }
 
 .heading-large, .markdown-content h1 {
-  font-size: 32px;
-  line-height: 36px;
+  font-size: 36px;
+  line-height: 40px;
   margin-bottom: 30px; }
   @media screen and (min-width: 40em) {
     .heading-large, .markdown-content h1 {
-      font-size: 36px;
-      line-height: 40px;
+      font-size: 40px;
+      line-height: 44px;
       margin: 30px 0; } }
 
 .heading-medium, .markdown-content h2 {
@@ -2317,14 +2317,14 @@ button[disabled=disabled] {
 }
 
 .outcome-header {
-    margin: 30px 0;
+    margin: 40px 0;
     background-color: #0072C6;
-    padding: 20px;
+    padding: 40px;
     color: #fff;
 }
 
 .outcome-header h2 {
-    margin: 20px 0;
+    margin: 0;
 }
 
 .worsening-advice-icon {
@@ -2333,6 +2333,8 @@ button[disabled=disabled] {
     background-repeat: no-repeat;
     padding-left: 44px;
     line-height: 32px;
+    margin-top: 40px;
+    padding-top: 0;
 }
 @media (max-width: 640px) {
     .worsening-advice-icon {
