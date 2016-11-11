@@ -212,3 +212,7 @@ details summary::-webkit-details-marker {
     float: right;
     padding-top: 1.4rem;
 }
+
+.outcome-additional-info {
+    padding-bottom: 20px;
+}

@@ -29,11 +29,6 @@
 
 <link href="~/Content/css_NhsUK/search.css" media="screen" rel="stylesheet" type="text/css" />
 
-@section OuterSection {
-
-
-}
-
 @section FeedbackSection {
     @Html.Partial("_FeedbackDetails", new FeedbackViewModel() { PageId = Request.Url.GetComponents(UriComponents.PathAndQuery, UriFormat.SafeUnescaped) })
 }

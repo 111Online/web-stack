@@ -12,7 +12,6 @@
     <script src="~/scripts/custom.js"></script>
 }
 
-@section OuterSection{
     <link href="~/Content/css_NhsUK/emergency.css" media="screen" rel="stylesheet" type="text/css" />
 
     <div class="emergency">
@@ -34,7 +33,7 @@
         </div>
     </div>
     <hr class="emergency-hr" />
-}
+
 
 @section FeedbackSection {
     @Html.Partial("_FeedbackDetails", new FeedbackViewModel() { PageId = Model.Id })

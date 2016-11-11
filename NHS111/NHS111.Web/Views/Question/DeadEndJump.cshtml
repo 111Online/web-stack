@@ -6,8 +6,6 @@
 
 @section Title {}
 
-@section OuterSection {}
-
 @section FeedbackSection {
     @Html.Partial("_FeedbackDetails", new FeedbackViewModel() { PageId = Request.Url.GetComponents(UriComponents.PathAndQuery, UriFormat.SafeUnescaped) + Model.PathwayId })
 }

@@ -20,7 +20,7 @@
     </script>
 }
 
-@section OuterSection {
+
     <div class="sub-header home-care">
         <div class="sub-header-icon">
             <span class="home"></span>
@@ -28,43 +28,14 @@
             <h2>Based on your answers you do not need to see a healthcare professional at this time.  Please see the advice below on how to look after yourself</h2>
         </div>
     </div>
-}
+
 
 @section FeedbackSection {
     @Html.Partial("_FeedbackDetails", new FeedbackViewModel() { PageId = Model.Id })
 }
 
-@using (Html.BeginForm("ServiceList", "Outcome", FormMethod.Post))
-{
-    @Html.HiddenFor(x => Model.SessionId)
-    @Html.HiddenFor(x => Model.Id)
-    @Html.HiddenFor(x => Model.JourneyJson)
-    @Html.HiddenFor(x => Model.PathwayId)
-    @Html.HiddenFor(x => Model.PathwayNo)
-    @Html.HiddenFor(x => Model.SymptomGroup)
-    @Html.HiddenFor(x => Model.UserInfo.Age)
-    @Html.HiddenFor(x => Model.UserInfo.Gender)
-    @Html.HiddenFor(x => Model.SymptomDiscriminatorCode)
-    @Html.HiddenFor(x => Model.Title)
-    @Html.HiddenFor(x => x.TimeFrameText)
-    for (int i = 0; i < Model.CollectedKeywords.Keywords.Count; i++)
-    {
-        @Html.HiddenFor(model => Model.CollectedKeywords.Keywords[i].Value)
-        @Html.HiddenFor(model => Model.CollectedKeywords.Keywords[i].IsFromAnswer)
-    }
-
-    for (int i = 0; i < Model.CollectedKeywords.ExcludeKeywords.Count; i++)
-    {
-        @Html.HiddenFor(model => Model.CollectedKeywords.ExcludeKeywords[i].Value)
-        @Html.HiddenFor(model => Model.CollectedKeywords.ExcludeKeywords[i].IsFromAnswer)
-    }
-
-
-    <div class="section-item last">
-        @Html.Partial("_WorseningAdvice", Model)
-
-        @Html.Partial("_CareAdvice", Model.CareAdvices, new ViewDataDictionary { { "Title", "Advice to help you look after yourself" } })
+<section>
+    <div>
+        @Html.Partial("_CareAdvice", Model.CareAdvices)
     </div>
-
-
-}
+</section>
