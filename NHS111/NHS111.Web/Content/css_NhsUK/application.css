@@ -1604,12 +1604,12 @@ h1, h2, h3, h4, h5, h6 {
 .heading-large, .markdown-content h1 {
   font-size: 36px;
   line-height: 40px;
-  margin-bottom: 30px; }
+  margin-bottom: 40px; }
   @media screen and (min-width: 40em) {
     .heading-large, .markdown-content h1 {
       font-size: 40px;
       line-height: 44px;
-      margin: 30px 0; } }
+      margin: 40px 0; } }
 
 .heading-medium, .markdown-content h2 {
   font-size: 24px;
@@ -2349,4 +2349,20 @@ button[disabled=disabled] {
 
 .outcome-header.fail .worsening-advice-icon {
     background-image: url("/content/img/worsening-fail.png");
+}
+
+.button-link {
+    background-color: transparent;
+    text-decoration: underline;
+    border: none;
+    color: #79AFDD;
+    cursor: pointer;
+    float: right;
+    background-image: url(/content/images/icons/icon-link-back.png);
+    background-repeat: no-repeat;
+    background-position: 0 50%;
+    padding-left: 20px;
+}
+.button-link:focus {
+  outline: none;
 }
