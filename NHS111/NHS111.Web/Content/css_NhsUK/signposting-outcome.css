@@ -109,13 +109,13 @@ hr {
 .button-link {
     border: none;
     padding: 0 !important;
-    padding-left: 20px !important;
+    padding-right: 20px !important;
     cursor: pointer;
     color: #79AFDD;
     background-color: white !important;
-    background-image: url("/content/images/icons/icon-link-back.png");
+    background-image: url("/content/images/icons/icon-link-go.png");
     background-repeat: no-repeat;
-    background-position: 0;
+    background-position: 100% 50%;
 }
 
     .button-link:link, .button-link:hover, .button-link:focus, .button-link:visited {
