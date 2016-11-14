@@ -17,10 +17,8 @@
     @Html.Partial("_FeedbackDetails", new FeedbackViewModel() { PageId = Model.Id })
 }
 
-@Html.Partial("_WorseningAdvice", Model, new ViewDataDictionary() { { "OverrideText", "If there are any new symptoms, or if the condition gets worse, changes or you have any other concerns, call 999 and ask for an ambulance." } })
-
-<div class="care-advice advice-before-going">
-    <h3 class="care-advice-section-header">
+<div class="outcome-additional-info">
+    <h3 class="outcome-additional-info-header">
         Advice for getting emergency dental treatment
     </h3>
 
@@ -28,19 +26,25 @@
         <li>do not drive yourself, get someone else to take you</li>
         <li>take all your current medicines with you</li>
     </ul>
-    <h3 class="care-advice-section-header">
+</div>
+
+@Html.Partial("_FindService", Model, new ViewDataDictionary { { "Title", "Find emergency dental treatment" }, { "ButtonText", "Find dental treatment" }, { "Label", "emergency dental treatment centres" } })
+
+<hr />
+
+<div class="outcome-additional-info">
+    <h3 class="outcome-additional-info-header">
         Did you know?
     </h3>
     <p>There are emergency dental treatment clinics in some areas where you can get an appointment if you do not have a dentist?</p>
     <p>Also, many dentists will see you in an emergency even if you aren’t registered with them.</p>
 </div>
 
-@Html.Partial("_FindService", Model, new ViewDataDictionary { { "Title", "Find emergency dental treatment" }, { "ButtonText", "Find dental treatment" }, { "Label", "emergency dental treatment centres" } })
-
+<hr />
 
 @Html.Partial("_CareAdvice", Model.CareAdvices, new ViewDataDictionary { { "Title", "I know where to get emergency dental treatment.  What can I do in the meantime?" } })
 
-
+<hr />
 
 @using (Html.BeginForm("Navigation", "Question", FormMethod.Post))
 {
