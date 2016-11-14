@@ -2369,4 +2369,8 @@ button[disabled=disabled] {
 .changeAnswers input {
     line-height: inherit;
     height: inherit;
+    padding-left: 20px !important;
+    background-image: url("/content/images/icons/icon-link-back.png");
+    background-position: 0;
+
 }
