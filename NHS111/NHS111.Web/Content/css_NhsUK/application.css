@@ -2155,7 +2155,7 @@ button[disabled=disabled] {
 
 .findservice p.error {
     color: red;
-    padding-bottom: 5px;
+    padding-bottom: 20px;
 }
 
 .findservice input.error {
@@ -2332,7 +2332,7 @@ button[disabled=disabled] {
     background-position: left center;
     background-repeat: no-repeat;
     padding-left: 44px;
-    line-height: 32px;
+    line-height: 34px;
     margin-top: 40px;
     padding-top: 0;
 }
@@ -2351,7 +2351,7 @@ button[disabled=disabled] {
     background-image: url("/content/img/worsening-fail.png");
 }
 
-.button-link {
+.button-link-prev {
     background-color: transparent;
     text-decoration: underline;
     border: none;

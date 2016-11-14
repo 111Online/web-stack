@@ -14,14 +14,18 @@
 
 @section FeedbackSection {
     @Html.Partial("_FeedbackDetails", new FeedbackViewModel() { PageId = Model.Id })
-}   
+}
 
-<div class="outcome-additional-info">
-    <h3 class="heading-medium">
-        What if I'm not registered with a GP?
-    </h3>
-    <p>You can get advice about how to register with a GP from the <a href="http://www.nhs.uk/NHSEngland/AboutNHSservices/doctors/Pages/NHSGPs.aspx">NHS Choices GP services page</a>.</p>
-</div>
+<section>
+    <div class="outcome-additional-info">
+        <h3 class="heading-medium">
+            What if I'm not registered with a GP?
+        </h3>
+        <p>
+            You can get advice about how to register with a GP from the <a href="http://www.nhs.uk/NHSEngland/AboutNHSservices/doctors/Pages/NHSGPs.aspx">NHS Choices GP services page</a>.
+        </p>
+    </div>
+</section>
 
 @Html.Partial("_CareAdvice", Model.CareAdvices, new ViewDataDictionary { { "Title", "What can I do in the meantime?" } })
 
