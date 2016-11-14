@@ -42,6 +42,7 @@ namespace NHS111.Models.Models.Domain {
         private static readonly Dictionary<string, OutcomeGroup> OutcomeGroups = new Dictionary<string, OutcomeGroup>()
         {
             { Call999.Id, Call999 },
+            { Call999Police.Id, Call999Police },
             { AccidentAndEmergency.Id, AccidentAndEmergency },
             { AccidentAndEmergencySexualAssault.Id, AccidentAndEmergencySexualAssault },
             { HomeCare.Id, HomeCare },
