@@ -2366,3 +2366,7 @@ button[disabled=disabled] {
 .button-link:focus {
   outline: none;
 }
+.changeAnswers input {
+    line-height: inherit;
+    height: inherit;
+}
