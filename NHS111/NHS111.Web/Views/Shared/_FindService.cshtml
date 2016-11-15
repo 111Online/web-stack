@@ -62,7 +62,7 @@
             }
 
             <div class="findservice">
-                <h3>@Html.Raw((!ViewData.Keys.Contains("Title") ? "Find a Healthcare provider" : ViewData["Title"]))</h3>
+                @Html.Raw((!ViewData.Keys.Contains("Title") ? null : string.Format("<h3>{0}</h3>", ViewData["Title"])))
                 <div class="section-margin">
                     @if (error)
                 {

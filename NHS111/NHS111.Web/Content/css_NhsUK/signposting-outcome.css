@@ -192,8 +192,8 @@ p {
     clear:both;
 }
 
-.section-margin {
-    margin-top: 30px;
+.findservice h3 {
+    margin-bottom: 30px;
 }
 .section-margin label {
     display: block;
@@ -224,4 +224,10 @@ details summary::-webkit-details-marker {
     font-size: 28px;
     line-height: 32px;
     padding-bottom: 30px;
+}
+.itk-message h3 {
+    padding-bottom: 30px;
+}
+.itk-message p {
+    padding-bottom: 40px;
 }
