@@ -33,6 +33,10 @@ hr {
     }
 }
 
+p {
+    padding-top: 0;
+}
+
 .advice-before-going {
     padding: 0;
     width:  67%;
@@ -171,10 +175,17 @@ hr {
         line-height: 28px;
     }
 }
-
 .findservice label {
     font-weight: bold;
-    margin-bottom: 5px;
+    display: block;
+    margin-bottom: 20px;
+}
+.findservice .find-service-help {
+    padding-top: 20px;
+    padding-bottom: 30px;
+}
+.findservice .find-service-help:last-of-type {
+    padding-bottom: 10px;
 }
 .changeAnswers {
     float: right;
