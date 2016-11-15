@@ -1,4 +1,5 @@
-﻿@model NHS111.Models.Models.Web.OutcomeViewModel
+﻿@using NHS111.Models.Models.Web
+@model NHS111.Models.Models.Web.OutcomeViewModel
 @{
     Layout = "~/Views/Shared/_LayoutNhsUk.cshtml";
 }
@@ -7,35 +8,25 @@
     Service Booking Failure
 }
 
-<link href="~/content/css_NhsUk/confirmation.css" media="screen" rel="stylesheet" type="text/css" />
+<link href="~/content/css_NhsUk/confirmation.css" media="screen" rel="stylesheet" type="text/css"/>
+<link href="~/Content/css_NhsUK/signposting-outcome.css" media="all" rel="stylesheet" type="text/css" />
+<link href="~/Content/css_NhsUK/signposting-outcome-print.css" media="print" rel="stylesheet" type="text/css" />
 <link href="~/content/css_NhsUk/service.css" media="screen" rel="stylesheet" type="text/css" />
 
-
-@section OuterSection {
-    <div class="info-panel">
-        <h2>Unfortunately your callback request failed.</h2>
-        <div class="info-panel-innertext">
-            We were unable to contact <strong>@WebUtility.HtmlDecode(Model.SelectedService.Name)</strong> <br />
-            <strong>Call 111 to book an appointment</strong>
-        </div>
-    </div>
+@section FeedbackSection {
+    @Html.Partial("_FeedbackDetails", new FeedbackViewModel() { PageId = "Itk_Failure" })
 }
 
 <section>
-    <div class="section-item last">
-        @if (Model.DisplayWorseningCareAdvice)
-        {
-            <h3 class="care-advice-section-header">
-                What if I feel worse?
-            </h3>
+    <div class="outcome-header fail">
+        <h2 class="heading-large">Unfortunately your callback request failed.</h2>
+        <h3 class="heading-medium">Please call NHS 111 for further care and advice. You may need to provide your details again so that we can best help you</h3>
+        @Html.Partial("_WorseningAdvice", Model)
+    </div>
+</section>
 
-            <div class="service-booking-message alert">
-                @foreach (var item in Model.WorseningCareAdvice.Items)
-                {
-                    <p>@item.Text</p>
-                }
-            </div>
-        }
+<section>
+    <div>
         @Html.Partial("_CareAdvice", Model.CareAdvices)
     </div>
 </section>

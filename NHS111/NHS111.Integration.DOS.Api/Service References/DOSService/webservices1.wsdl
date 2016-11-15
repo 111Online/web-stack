@@ -5,7 +5,7 @@
       <s:element name="ServiceDetailsById">
         <s:complexType>
           <s:sequence>
-            <s:element minOccurs="0" maxOccurs="1" name="userInfo" type="tns:UserInfo" />
+            <s:element minOccurs="1" maxOccurs="1" name="userInfo" type="tns:UserInfo" />
             <s:element minOccurs="1" maxOccurs="1" name="serviceId" type="s:string" />
           </s:sequence>
         </s:complexType>
@@ -13,13 +13,25 @@
       <s:element name="ServiceDetailsByIdResponse">
         <s:complexType>
           <s:sequence>
-            <s:element minOccurs="0" maxOccurs="1" name="ContactDetails" type="tns:ArrayOfContactDetail" />
+            <s:element minOccurs="0" maxOccurs="1" name="services" type="tns:ArrayOfServices" />
           </s:sequence>
         </s:complexType>
       </s:element>
-      <s:complexType name="ArrayOfContactDetail">
+      <s:complexType name="ArrayOfServices">
         <s:sequence>
-          <s:element minOccurs="0" maxOccurs="unbounded" name="ContactDetail" nillable="true" type="tns:ContactDetail" />
+          <s:element minOccurs="0" maxOccurs="unbounded" name="service" nillable="true" type="tns:ServiceDetail" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="ServiceDetail">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="id" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="odsCode" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="contactDetails" type="tns:ArrayOfContactDetails" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="ArrayOfContactDetails">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="contactDetail" nillable="true" type="tns:ContactDetail" />
         </s:sequence>
       </s:complexType>
       <s:complexType name="ContactDetail">
@@ -31,50 +43,44 @@
         </s:sequence>
       </s:complexType>
       <s:element name="serviceVersion" type="s:string" />
-      <s:element name="Dispositions">
-        <s:complexType>
-          <s:sequence>
-            <s:element minOccurs="0" maxOccurs="1" name="userInfo" type="tns:UserInfo" />
-          </s:sequence>
-        </s:complexType>
-      </s:element>
       <s:complexType name="UserInfo">
         <s:sequence>
-          <s:element minOccurs="0" maxOccurs="1" name="username" type="s:string" />
-          <s:element minOccurs="0" maxOccurs="1" name="password" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="username" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="password" type="s:string" />
         </s:sequence>
       </s:complexType>
-      <s:element name="DispositionsResponse">
-        <s:complexType>
-          <s:sequence>
-            <s:element minOccurs="0" maxOccurs="1" name="DispositionsResult" type="tns:ArrayOfDisposition" />
-          </s:sequence>
-        </s:complexType>
-      </s:element>
-      <s:complexType name="ArrayOfDisposition">
-        <s:sequence>
-          <s:element minOccurs="0" maxOccurs="unbounded" name="Disposition" nillable="true" type="tns:Disposition" />
-        </s:sequence>
-      </s:complexType>
-      <s:complexType name="Disposition">
-        <s:sequence>
-          <s:element minOccurs="1" maxOccurs="1" name="code" type="s:int" />
-          <s:element minOccurs="0" maxOccurs="1" name="description" type="s:string" />
-        </s:sequence>
-      </s:complexType>
-      <s:element name="CheckCapacity">
+      <s:element name="GetHospitalScores">
         <s:complexType>
           <s:sequence>
             <s:element minOccurs="0" maxOccurs="1" name="userInfo" type="tns:UserInfo" />
-            <s:element minOccurs="0" maxOccurs="1" name="c" type="tns:Case" />
           </s:sequence>
         </s:complexType>
       </s:element>
+      <s:element name="GetHospitalScoresResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetHospitalScoresResult" type="tns:ArrayOfHospitalScores" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ArrayOfHospitalScores">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="Hospital" nillable="true" type="tns:Hospital" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="Hospital">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="hospital_name" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="total_score" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="note" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="update_date" type="s:string" />
+        </s:sequence>
+      </s:complexType>
       <s:element name="CheckCapacitySummary">
         <s:complexType>
           <s:sequence>
-            <s:element minOccurs="0" maxOccurs="1" name="userInfo" type="tns:UserInfo" />
-            <s:element minOccurs="0" maxOccurs="1" name="c" type="tns:Case" />
+            <s:element minOccurs="1" maxOccurs="1" name="userInfo" type="tns:UserInfo" />
+            <s:element minOccurs="1" maxOccurs="1" name="c" type="tns:Case" />
           </s:sequence>
         </s:complexType>
       </s:element>
@@ -91,6 +97,22 @@
           <s:element minOccurs="1" maxOccurs="1" name="symptomDiscriminatorList" type="tns:ArrayOfInt" />
           <s:element minOccurs="0" maxOccurs="1" name="searchDistance" type="s:int" />
           <s:element minOccurs="1" maxOccurs="1" name="gender" type="tns:genderType" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="SACase">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="caseRef" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="caseId" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="postcode" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="surgery" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="age" type="s:short" />
+          <s:element minOccurs="1" maxOccurs="1" name="ageFormat" type="tns:ageFormatType" />
+          <s:element minOccurs="1" maxOccurs="1" name="disposition" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="symptomGroup" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="symptomDiscriminator" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="searchDistance" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="gender" type="tns:genderType" />
+          <s:element minOccurs="0" maxOccurs="1" name="searchRole" type="s:int" />
         </s:sequence>
       </s:complexType>
       <s:simpleType name="genderType">
@@ -120,23 +142,30 @@
           <s:element minOccurs="0" maxOccurs="unbounded" name="int" type="s:int" />
         </s:sequence>
       </s:complexType>
-      <s:element name="CheckCapacityResponse">
-        <s:complexType>
-          <s:sequence>
-            <s:element minOccurs="0" maxOccurs="1" name="CheckCapacityResult" type="tns:ArrayOfServiceCareDestination" />
-          </s:sequence>
-        </s:complexType>
-      </s:element>
       <s:element name="CheckCapacitySummaryResponse">
         <s:complexType>
           <s:sequence>
-            <s:element minOccurs="0" maxOccurs="1" name="CheckCapacitySummaryResult" type="tns:ArrayOfServiceCareSummaryDestination" />
+            <s:element minOccurs="1" maxOccurs="1" name="TransactionId" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="CheckCapacitySummaryResult" type="tns:ArrayOfServiceCareSummaryDestination" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ServiceAnalysisResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="TransactionId" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="ServiceAnalysisResultArray" type="tns:ArrayOfServiceAnalysisResults" />
           </s:sequence>
         </s:complexType>
       </s:element>
       <s:complexType name="ArrayOfServiceCareSummaryDestination">
         <s:sequence>
           <s:element minOccurs="0" maxOccurs="unbounded" name="ServiceCareSummaryDestination" nillable="true" type="tns:ServiceCareSummaryDestination" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="ArrayOfServiceAnalysisResults">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="ServiceAnalysisResult" nillable="true" type="tns:ServiceAnalysisResult" />
         </s:sequence>
       </s:complexType>
       <s:complexType name="ServiceCareSummaryDestination">
@@ -150,14 +179,39 @@
           <s:element minOccurs="0" maxOccurs="1" name="northings" type="s:int" />
           <s:element minOccurs="0" maxOccurs="1" name="eastings" type="s:int" />
           <s:element minOccurs="0" maxOccurs="1" name="url" type="s:string" />
-          <s:element minOccurs="0" maxOccurs="1" name="notes" type="s:string" />
-          <s:element minOccurs="1" maxOccurs="1" name="obsolete" type="s:boolean" />
-          <s:element minOccurs="1" maxOccurs="1" name="updateTime" type="s:dateTime" />
-          <s:element minOccurs="1" maxOccurs="1" name="openAllHours" type="s:boolean" />
-          <s:element minOccurs="0" maxOccurs="1" name="rotaSessions" type="tns:ArrayOfServiceCareItemRotaSession" />
           <s:element minOccurs="1" maxOccurs="1" name="serviceType" type="tns:serviceDetails" />
           <s:element minOccurs="0" maxOccurs="1" name="odsCode" type="s:string" />
-          <s:element minOccurs="0" maxOccurs="1" name="rootParent" type="tns:serviceDetails" />
+          <s:element minOccurs="0" maxOccurs="1" name="nonPublicTelephoneNo" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="fax" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="referralText" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="distance" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="notes" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="openAllHours" type="s:boolean" />
+          <s:element minOccurs="0" maxOccurs="1" name="rotaSessions" type="tns:ArrayOfServiceCareItemRotaSession" />
+          <s:element minOccurs="0" maxOccurs="1" name="openTimeSpecifiedSessions" type="tns:ArrayOfOpenTimeSpecified" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="ServiceAnalysisResult">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="id" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="capacity" type="tns:Capacity" />
+          <s:element minOccurs="0" maxOccurs="1" name="name" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="contactDetails" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="address" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="postcode" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="northings" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="eastings" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="url" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="serviceType" type="tns:serviceDetails" />
+          <s:element minOccurs="0" maxOccurs="1" name="odsCode" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="nonPublicTelephoneNo" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="fax" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="referralText" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="distance" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="notes" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="openAllHours" type="s:boolean" />
+          <s:element minOccurs="0" maxOccurs="1" name="rotaSessions" type="tns:ArrayOfServiceCareItemRotaSession" />
+          <s:element minOccurs="0" maxOccurs="1" name="openTimeSpecifiedSessions" type="tns:ArrayOfOpenTimeSpecified" />
         </s:sequence>
       </s:complexType>
       <s:complexType name="serviceDetails">
@@ -184,35 +238,6 @@
           <s:enumeration value="None" />
         </s:restriction>
       </s:simpleType>
-      <s:element name="ServiceCare">
-        <s:complexType>
-          <s:sequence>
-            <s:element minOccurs="0" maxOccurs="1" name="userInfo" type="tns:UserInfo" />
-            <s:element minOccurs="1" maxOccurs="1" name="serviceCareId" type="s:int" />
-          </s:sequence>
-        </s:complexType>
-      </s:element>
-      <s:element name="ServiceCareResponse">
-        <s:complexType>
-          <s:sequence>
-            <s:element minOccurs="0" maxOccurs="1" name="ServiceCareResult" type="tns:ServiceCareItem" />
-          </s:sequence>
-        </s:complexType>
-      </s:element>
-      <s:complexType name="ServiceCareItem">
-        <s:sequence>
-          <s:element minOccurs="1" maxOccurs="1" name="id" type="s:int" />
-          <s:element minOccurs="0" maxOccurs="1" name="name" type="s:string" />
-          <s:element minOccurs="0" maxOccurs="1" name="contactDetails" type="s:string" />
-          <s:element minOccurs="0" maxOccurs="1" name="address" type="s:string" />
-          <s:element minOccurs="0" maxOccurs="1" name="url" type="s:string" />
-          <s:element minOccurs="0" maxOccurs="1" name="notes" type="s:string" />
-          <s:element minOccurs="1" maxOccurs="1" name="obsolete" type="s:boolean" />
-          <s:element minOccurs="1" maxOccurs="1" name="updateTime" type="s:dateTime" />
-          <s:element minOccurs="1" maxOccurs="1" name="openAllHours" type="s:boolean" />
-          <s:element minOccurs="0" maxOccurs="1" name="rotaSessions" type="tns:ArrayOfServiceCareItemRotaSession" />
-        </s:sequence>
-      </s:complexType>
       <s:complexType name="ArrayOfServiceCareItemRotaSession">
         <s:sequence>
           <s:element minOccurs="0" maxOccurs="unbounded" name="ServiceCareItemRotaSession" nillable="true" type="tns:ServiceCareItemRotaSession" />
@@ -236,6 +261,7 @@
           <s:enumeration value="Thursday" />
           <s:enumeration value="Friday" />
           <s:enumeration value="Saturday" />
+          <s:enumeration value="Bankholiday" />
         </s:restriction>
       </s:simpleType>
       <s:complexType name="TimeOfDay">
@@ -244,10 +270,15 @@
           <s:element minOccurs="1" maxOccurs="1" name="minutes" type="s:short" />
         </s:sequence>
       </s:complexType>
+      <s:complexType name="ArrayOfOpenTimeSpecified">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="openTimeSpecified" nillable="true" type="s:string" />
+        </s:sequence>
+      </s:complexType>
       <s:element name="ExceptionCapture">
         <s:complexType>
           <s:sequence>
-            <s:element minOccurs="0" maxOccurs="1" name="userInfo" type="tns:UserInfo" />
+            <s:element minOccurs="1" maxOccurs="1" name="userInfo" type="tns:UserInfo" />
           </s:sequence>
         </s:complexType>
       </s:element>
@@ -269,65 +300,33 @@
           <s:element minOccurs="0" maxOccurs="1" name="reason" type="s:string" />
         </s:sequence>
       </s:complexType>
-      <s:element name="ServiceCareException">
+      <s:element name="ServiceAnalysis">
         <s:complexType>
           <s:sequence>
-            <s:element minOccurs="0" maxOccurs="1" name="userInfo" type="tns:UserInfo" />
-            <s:element minOccurs="0" maxOccurs="1" name="serviceCareExp" type="tns:ServiceCareException" />
-          </s:sequence>
-        </s:complexType>
-      </s:element>
-      <s:complexType name="ServiceCareException">
-        <s:sequence>
-          <s:element minOccurs="0" maxOccurs="1" name="caseRef" type="s:string" />
-          <s:element minOccurs="1" maxOccurs="1" name="id" type="s:int" />
-          <s:element minOccurs="1" maxOccurs="1" name="exceptionid" type="s:short" />
-        </s:sequence>
-      </s:complexType>
-      <s:element name="ServiceCareExceptionResponse">
-        <s:complexType>
-          <s:sequence>
-            <s:element minOccurs="0" maxOccurs="1" name="ServiceCareExceptionResult" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="userInfo" type="tns:UserInfo" />
+            <s:element minOccurs="1" maxOccurs="1" name="c" type="tns:SACase" />
           </s:sequence>
         </s:complexType>
       </s:element>
     </s:schema>
   </wsdl:types>
-  <wsdl:message name="DispositionsSoapIn">
-    <wsdl:part name="parameters" element="tns:Dispositions" />
-  </wsdl:message>
-  <wsdl:message name="DispositionsSoapOut">
-    <wsdl:part name="parameters" element="tns:DispositionsResponse" />
-  </wsdl:message>
-  <wsdl:message name="CheckCapacitySoapIn">
-    <wsdl:part name="parameters" element="tns:CheckCapacity" />
-  </wsdl:message>
-  <wsdl:message name="CheckCapacitySoapOut">
-    <wsdl:part name="parameters" element="tns:CheckCapacityResponse" />
-  </wsdl:message>
   <wsdl:message name="CheckCapacitySummarySoapIn">
     <wsdl:part name="parameters" element="tns:CheckCapacitySummary" />
   </wsdl:message>
   <wsdl:message name="CheckCapacitySummarySoapOut">
     <wsdl:part name="parameters" element="tns:CheckCapacitySummaryResponse" />
   </wsdl:message>
-  <wsdl:message name="ServiceCareSoapIn">
-    <wsdl:part name="parameters" element="tns:ServiceCare" />
+  <wsdl:message name="ServiceAnalysisSoapIn">
+    <wsdl:part name="parameters" element="tns:ServiceAnalysis" />
   </wsdl:message>
-  <wsdl:message name="ServiceCareSoapOut">
-    <wsdl:part name="parameters" element="tns:ServiceCareResponse" />
+  <wsdl:message name="ServiceAnalysisSoapOut">
+    <wsdl:part name="parameters" element="tns:ServiceAnalysisResponse" />
   </wsdl:message>
   <wsdl:message name="ExceptionCaptureSoapIn">
     <wsdl:part name="parameters" element="tns:ExceptionCapture" />
   </wsdl:message>
   <wsdl:message name="ExceptionCaptureSoapOut">
     <wsdl:part name="parameters" element="tns:ExceptionCaptureResponse" />
-  </wsdl:message>
-  <wsdl:message name="ServiceCareExceptionSoapIn">
-    <wsdl:part name="parameters" element="tns:ServiceCareException" />
-  </wsdl:message>
-  <wsdl:message name="ServiceCareExceptionSoapOut">
-    <wsdl:part name="parameters" element="tns:ServiceCareExceptionResponse" />
   </wsdl:message>
   <wsdl:message name="ServiceVersionHeader">
     <wsdl:part name="ServiceVersion" element="tns:serviceVersion" />
@@ -337,6 +336,12 @@
   </wsdl:message>
   <wsdl:message name="ServiceDetailsByIdResponse">
     <wsdl:part name="parameters" element="tns:ServiceDetailsByIdResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetHospitalScoresSoapIn">
+    <wsdl:part name="parameters" element="tns:GetHospitalScores" />
+  </wsdl:message>
+  <wsdl:message name="GetHospitalScoresSoapOut">
+    <wsdl:part name="parameters" element="tns:GetHospitalScoresResponse" />
   </wsdl:message>
   <wsdl:portType name="PathWayServiceSoap">
     <wsdl:operation name="ServiceDetailsById">
@@ -354,19 +359,12 @@
       <wsdl:input message="tns:ServiceDetailsByIdRequest" />
       <wsdl:output message="tns:ServiceDetailsByIdResponse" />
     </wsdl:operation>
-    <wsdl:operation name="Dispositions">
-      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns all the
-                Disposition codes
+    <wsdl:operation name="GetHospitalScores">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns the OHA score 
+                for all Emergency Departments
             </wsdl:documentation>
-      <wsdl:input message="tns:DispositionsSoapIn" />
-      <wsdl:output message="tns:DispositionsSoapOut" />
-    </wsdl:operation>
-    <wsdl:operation name="CheckCapacity">
-      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns an ordered
-                list of Service Care items that a particular case can be referred to
-            </wsdl:documentation>
-      <wsdl:input message="tns:CheckCapacitySoapIn" />
-      <wsdl:output message="tns:CheckCapacitySoapOut" />
+      <wsdl:input message="tns:GetHospitalScoresSoapIn" />
+      <wsdl:output message="tns:GetHospitalScoresSoapOut" />
     </wsdl:operation>
     <wsdl:operation name="CheckCapacitySummary">
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns an ordered
@@ -375,12 +373,12 @@
       <wsdl:input message="tns:CheckCapacitySummarySoapIn" />
       <wsdl:output message="tns:CheckCapacitySummarySoapOut" />
     </wsdl:operation>
-    <wsdl:operation name="ServiceCare">
-      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns details of
-                a specific ServiceCare item
+    <wsdl:operation name="ServiceAnalysis">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns an ordered
+                list of services that are clinically appropriate
             </wsdl:documentation>
-      <wsdl:input message="tns:ServiceCareSoapIn" />
-      <wsdl:output message="tns:ServiceCareSoapOut" />
+      <wsdl:input message="tns:ServiceAnalysisSoapIn" />
+      <wsdl:output message="tns:ServiceAnalysisSoapOut" />
     </wsdl:operation>
     <wsdl:operation name="ExceptionCapture">
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns all the
@@ -389,87 +387,7 @@
       <wsdl:input message="tns:ExceptionCaptureSoapIn" />
       <wsdl:output message="tns:ExceptionCaptureSoapOut" />
     </wsdl:operation>
-    <wsdl:operation name="ServiceCareException">
-      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns all the
-                ExceptionCapture items for a particular user
-            </wsdl:documentation>
-      <wsdl:input message="tns:ServiceCareExceptionSoapIn" />
-      <wsdl:output message="tns:ServiceCareExceptionSoapOut" />
-    </wsdl:operation>
   </wsdl:portType>
-  <wsdl:binding name="PathWayServiceSoap" type="tns:PathWayServiceSoap">
-    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
-    <wsdl:operation name="ServiceDetailsById">
-      <soap:operation soapAction="https://nww.pathwaysdos.nhs.uk/DoSServices/ServiceDetailsById" />
-      <wsdl:input>
-        <soap:header message="tns:ServiceVersionHeader" part="ServiceVersion" use="literal" />
-        <soap:body use="literal" />
-      </wsdl:input>
-      <wsdl:output>
-        <soap:body use="literal" />
-      </wsdl:output>
-    </wsdl:operation>
-    <wsdl:operation name="Dispositions">
-      <soap:operation soapAction="https://nww.pathwaysdos.nhs.uk/app/api/webservices/Dispositions" style="document" />
-      <wsdl:input>
-        <soap:header message="tns:ServiceVersionHeader" part="ServiceVersion" use="literal" />
-        <soap:body use="literal" />
-      </wsdl:input>
-      <wsdl:output>
-        <soap:body use="literal" />
-      </wsdl:output>
-    </wsdl:operation>
-    <wsdl:operation name="CheckCapacity">
-      <soap:operation soapAction="https://nww.pathwaysdos.nhs.uk/app/api/webservices/CheckCapacity" style="document" />
-      <wsdl:input>
-        <soap:header message="tns:ServiceVersionHeader" part="ServiceVersion" use="literal" />
-        <soap:body use="literal" />
-      </wsdl:input>
-      <wsdl:output>
-        <soap:body use="literal" />
-      </wsdl:output>
-    </wsdl:operation>
-    <wsdl:operation name="CheckCapacitySummary">
-      <soap:operation soapAction="https://nww.pathwaysdos.nhs.uk/app/api/webservices/CheckCapacitySummary" style="document" />
-      <wsdl:input>
-        <soap:header message="tns:ServiceVersionHeader" part="ServiceVersion" use="literal" />
-        <soap:body use="literal" />
-      </wsdl:input>
-      <wsdl:output>
-        <soap:body use="literal" />
-      </wsdl:output>
-    </wsdl:operation>
-    <wsdl:operation name="ServiceCare">
-      <soap:operation soapAction="https://nww.pathwaysdos.nhs.uk/app/api/webservices/ServiceCare" style="document" />
-      <wsdl:input>
-        <soap:header message="tns:ServiceVersionHeader" part="ServiceVersion" use="literal" />
-        <soap:body use="literal" />
-      </wsdl:input>
-      <wsdl:output>
-        <soap:body use="literal" />
-      </wsdl:output>
-    </wsdl:operation>
-    <wsdl:operation name="ExceptionCapture">
-      <soap:operation soapAction="https://nww.pathwaysdos.nhs.uk/app/api/webservices/ExceptionCapture" style="document" />
-      <wsdl:input>
-        <soap:header message="tns:ServiceVersionHeader" part="ServiceVersion" use="literal" />
-        <soap:body use="literal" />
-      </wsdl:input>
-      <wsdl:output>
-        <soap:body use="literal" />
-      </wsdl:output>
-    </wsdl:operation>
-    <wsdl:operation name="ServiceCareException">
-      <soap:operation soapAction="https://nww.pathwaysdos.nhs.uk/app/api/webservices/ServiceCareException" style="document" />
-      <wsdl:input>
-        <soap:header message="tns:ServiceVersionHeader" part="ServiceVersion" use="literal" />
-        <soap:body use="literal" />
-      </wsdl:input>
-      <wsdl:output>
-        <soap:body use="literal" />
-      </wsdl:output>
-    </wsdl:operation>
-  </wsdl:binding>
   <wsdl:binding name="PathWayServiceSoap12" type="tns:PathWayServiceSoap">
     <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
     <wsdl:operation name="ServiceDetailsById">
@@ -482,18 +400,8 @@
         <soap12:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
-    <wsdl:operation name="Dispositions">
-      <soap12:operation soapAction="https://nww.pathwaysdos.nhs.uk/app/api/webservices/Dispositions" style="document" />
-      <wsdl:input>
-        <soap12:header message="tns:ServiceVersionHeader" part="ServiceVersion" use="literal" />
-        <soap12:body use="literal" />
-      </wsdl:input>
-      <wsdl:output>
-        <soap12:body use="literal" />
-      </wsdl:output>
-    </wsdl:operation>
-    <wsdl:operation name="CheckCapacity">
-      <soap12:operation soapAction="https://nww.pathwaysdos.nhs.uk/app/api/webservices/CheckCapacity" style="document" />
+    <wsdl:operation name="GetHospitalScores">
+      <soap12:operation soapAction="https://nww.pathwaysdos.nhs.uk/app/api/webservices/GetHospitalScores" style="document" />
       <wsdl:input>
         <soap12:header message="tns:ServiceVersionHeader" part="ServiceVersion" use="literal" />
         <soap12:body use="literal" />
@@ -512,8 +420,8 @@
         <soap12:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
-    <wsdl:operation name="ServiceCare">
-      <soap12:operation soapAction="https://nww.pathwaysdos.nhs.uk/app/api/webservices/ServiceCare" style="document" />
+    <wsdl:operation name="ServiceAnalysis">
+      <soap12:operation soapAction="https://nww.pathwaysdos.nhs.uk/app/api/webservices/ServiceAnalysis" style="document" />
       <wsdl:input>
         <soap12:header message="tns:ServiceVersionHeader" part="ServiceVersion" use="literal" />
         <soap12:body use="literal" />
@@ -532,21 +440,8 @@
         <soap12:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
-    <wsdl:operation name="ServiceCareException">
-      <soap12:operation soapAction="https://nww.pathwaysdos.nhs.uk/app/api/webservices/ServiceCareException" style="document" />
-      <wsdl:input>
-        <soap12:header message="tns:ServiceVersionHeader" part="ServiceVersion" use="literal" />
-        <soap12:body use="literal" />
-      </wsdl:input>
-      <wsdl:output>
-        <soap12:body use="literal" />
-      </wsdl:output>
-    </wsdl:operation>
   </wsdl:binding>
   <wsdl:service name="PathWayService">
-    <wsdl:port name="PathWayServiceSoap" binding="tns:PathWayServiceSoap">
-      <soap:address location="https://nww.pathwaysdos.nhs.uk/app/api/webservices" />
-    </wsdl:port>
     <wsdl:port name="PathWayServiceSoap12" binding="tns:PathWayServiceSoap12">
       <soap12:address location="https://nww.pathwaysdos.nhs.uk/app/api/webservices" />
     </wsdl:port>

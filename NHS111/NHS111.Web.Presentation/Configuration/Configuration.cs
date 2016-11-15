@@ -31,6 +31,7 @@ namespace NHS111.Web.Presentation.Configuration
         public string GoogleAnalyticsContainerId { get {return ConfigurationManager.AppSettings["GoogleAnalyticsContainerId "]; } }
         public string MapsApiUrl { get { return ConfigurationManager.AppSettings["MapsApiUrl"]; } }
 
+
         public bool IsPublic {
             get {
                 if (ConfigurationManager.AppSettings["IsPublic"] == null)
@@ -50,6 +51,8 @@ namespace NHS111.Web.Presentation.Configuration
         }
 
         public string LoggingServiceUrl { get { return ConfigurationManager.AppSettings["LoggingServiceUrl"]; } }
+
+        public string GetBusinessApiGetCategoriesWithPathways() { return GetBusinessApiUrlWithDomain("BusinessApiGetCategoriesWithPathways"); }
 
         public string GetBusinessApiGroupedPathwaysUrl(string searchString)
         {
@@ -169,6 +172,7 @@ namespace NHS111.Web.Presentation.Configuration
         string GetBusinessApiInterimCareAdviceUrl(string dxCode, string ageGroup, string gender);
         string GetBusinessApiListOutcomesUrl();
         string GetBusinessApiSymptomDiscriminatorUrl(string symptomDiscriminatorCode);
+        string GetBusinessApiGetCategoriesWithPathways();
 
         string BusinessDosCheckCapacitySummaryUrl { get; }
         string BusinessDosServicesByClinicalTermUrl { get; }

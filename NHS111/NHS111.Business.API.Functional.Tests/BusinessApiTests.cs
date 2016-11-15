@@ -137,8 +137,7 @@ namespace NHS111.Business.API.Functional.Tests
             var expectedNexQuestionId = "PW628.13100";
             var NodeId = "PW628.10700";
             var state="{\"PATIENT_AGE\":\"50\",\"PATIENT_GENDER\":\"\\\"F\\\"\",\"PATIENT_PARTY\":\"1\",\"PATIENT_AGEGROUP\":\"Adult\"}";
-            var getQuestionEndpoint = "node/{0}/next_node/{1}?state=" + System.Web.HttpUtility.UrlEncode(state);
-            var requestUrl = String.Format(BusinessApiNextNodeUrl + getQuestionEndpoint, _testPathwayNo3, NodeId);
+            var requestUrl = string.Format(BusinessApiNextNodeUrl, _testPathwayNo3, NodeId, System.Web.HttpUtility.UrlEncode(state));
             var result = await _restfulHelper.PostAsync(requestUrl, RequestFormatting.CreateHTTPRequest("No"));
 
             //this checks a responce is returned
@@ -151,7 +150,7 @@ namespace NHS111.Business.API.Functional.Tests
            SchemaValidation.AssertValidResponseSchema(content, SchemaValidation.ResponseSchemaType.Question);
 
             //this next one checks the right question has returned
-            Assert.IsTrue(content.Contains("\"questionNo\":\"Tx220118"));
+            Assert.IsTrue(content.Contains("\"questionNo\":\"TX220118"));
         }
     }
 }

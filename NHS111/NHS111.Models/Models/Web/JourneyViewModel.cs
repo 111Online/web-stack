@@ -28,7 +28,8 @@ namespace NHS111.Models.Models.Web
         public List<string> Bullets { get; set; }
 
         public string Rationale { get; set; }
-        public string RationaleHtml {
+        public string RationaleHtml
+        {
             get { return StaticTextToHtml.Convert(Rationale); }
         }
 
@@ -41,13 +42,17 @@ namespace NHS111.Models.Models.Web
 
         public UserInfo UserInfo { get; set; }
 
-        public bool IsFirstStep {
-            get {
+        public bool IsFirstStep
+        {
+            get
+            {
                 if (string.IsNullOrEmpty(JourneyJson))
                     return false;
                 return !JsonConvert.DeserializeObject<Journey>(JourneyJson).Steps.Any();
             }
         }
+
+        public IEnumerable<CategoryWithPathways> AllTopics { get; set; }
 
         public string PreviousStateJson { get; set; }
         public string QuestionNo { get; set; }
@@ -57,6 +62,7 @@ namespace NHS111.Models.Models.Web
         public KeywordBag CollectedKeywords { get; set; }
         public string TimeFrameText { get; set; }
         public OutcomeGroup OutcomeGroup { get; set; }
+        public string WaitTimeText { get; set; }
 
         private bool _displayOutcomeReferenceOnly = false;
         public bool DisplayOutcomeReferenceOnly
@@ -66,8 +72,10 @@ namespace NHS111.Models.Models.Web
             set { _displayOutcomeReferenceOnly = value; }
         }
 
-        public string StepLink {
-            get {
+        public string StepLink
+        {
+            get
+            {
                 var age = UserInfo != null ? UserInfo.Age : 0;
                 return string.Format("/question/direct/{0}/{1}/{2}/?answers={3}", PathwayId, age, PathwayTitle,
                     string.Join(",", GetPreviousAnswers()));
@@ -84,15 +92,18 @@ namespace NHS111.Models.Models.Web
             }
         }
 
-        private IEnumerable<int> GetPreviousAnswers() {
+        private IEnumerable<int> GetPreviousAnswers()
+        {
             if (Journey == null)
                 return new List<int>();
             return Journey.Steps.Select(step => step.Answer.Order - 1);
         }
 
-        public JourneyStep ToStep() {
+        public JourneyStep ToStep()
+        {
             var answer = JsonConvert.DeserializeObject<Answer>(SelectedAnswer);
-            return new JourneyStep {
+            return new JourneyStep
+            {
                 QuestionNo = QuestionNo,
                 QuestionTitle = Title,
                 Answer = answer,
@@ -113,16 +124,18 @@ namespace NHS111.Models.Models.Web
 
         public List<Answer> OrderedAnswers()
         {
-            return Answers.OrderBy(x=>x.Order).ToList();
+            return Answers.OrderBy(x => x.Order).ToList();
         }
 
-        public void ProgressState() {
+        public void ProgressState()
+        {
             PreviousStateJson = StateJson;
             State = JsonConvert.DeserializeObject<Dictionary<string, string>>(StateJson);
         }
 
 
-        public void RemoveLastStep() {
+        public void RemoveLastStep()
+        {
             Journey.RemoveLastStep();
 
             StateJson = PreviousStateJson;

@@ -1,4 +1,7 @@
 ﻿@using System.Configuration
+@using AutoMapper.Internal
+@using Microsoft.Ajax.Utilities
+@using NHS111.Models.Models.Domain
 @using NHS111.Models.Models.Web
 @{
     Layout = "~/Views/Shared/_LayoutNhsUK.cshtml";
@@ -16,7 +19,8 @@
 }
 
 @{
-    if (DisclaimerPopupFeature.IsEnabled) {
+    if (DisclaimerPopupFeature.IsEnabled)
+    {
         <!-- toggle disclaimer popup -->
         <link rel="stylesheet" href="~/Content/css_NhsUK/modal.css">
         <script src="~/scripts/disclaimer-popup.js"></script>
@@ -24,11 +28,6 @@
 }
 
 <link href="~/Content/css_NhsUK/search.css" media="screen" rel="stylesheet" type="text/css" />
-
-@section OuterSection {
-
-
-}
 
 @section FeedbackSection {
     @Html.Partial("_FeedbackDetails", new FeedbackViewModel() { PageId = Request.Url.GetComponents(UriComponents.PathAndQuery, UriFormat.SafeUnescaped) })
@@ -38,68 +37,98 @@
 
 
 
-<div id="wrapper">
+    <div id="wrapper">
 
-    <div class="content-container">
-        <div>
-            <!--<div id="linkBodySearch"> <a href="#" title="Try our body search instead"><span title="Try our body search" class="left">Try our body</span> <span class="bgIcon"></span> <span class="left">search instead </span></a>
-            </div>-->
-            @using (Html.BeginForm("JustToBeSafeFirst", "JustToBeSafe", FormMethod.Post))
+        <div class="content-container">
+            <div>
+                <!--<div id="linkBodySearch"> <a href="#" title="Try our body search instead"><span title="Try our body search" class="left">Try our body</span> <span class="bgIcon"></span> <span class="left">search instead </span></a>
+                </div>-->
+                @using (Html.BeginForm("JustToBeSafeFirst", "JustToBeSafe", FormMethod.Post))
             {
-                @Html.HiddenFor(x => Model.UserInfo.Gender)
-                @Html.HiddenFor(x => Model.UserInfo.Age)
-                
-                <input type="hidden" id="pathwayNo" name="pathwayNo" value=""/>
-                <input type="hidden" id="pathwayTitle" name="pathwayTitle" value=""/>
-                <div class="symptoms-find-header">
-                    <h2>Find the symptom giving you the most concern</h2>
-                </div>
-                <div class="symptoms-find-container">
-                    <p>Next we'll ask you some questions to check how severe your symptoms are</p>
-                    <p>It may feel like we're asking a lot of questions, but we need to rule out some serious conditions first. It's important we check everything thoroughly.</p>
+                    @Html.HiddenFor(x => Model.UserInfo.Gender)
+                    @Html.HiddenFor(x => Model.UserInfo.Age)
 
-                    <hr/>
-                    <div class="symptoms-search">
-                        <label for="searchTags">
-                            <input type="text" class="input-symptoms ui-autocomplete-input" id="searchTags" autocomplete="off" name="searchTags" placeholder="Search for conditions and symptoms"/>
-                        </label>
-                        @* @Html.ActionLink("GO","Gender","Question", new {@class = "go"})*@
-                        <input type="submit" class="button button-get-started go" value="Go" id="submitSearch"/>
+                    <input type="hidden" id="pathwayNo" name="pathwayNo" value="" />
+                    <input type="hidden" id="pathwayTitle" name="pathwayTitle" value="" />
+                    <div class="symptoms-find-header">
+                        <h2>Find the symptom giving you the most concern</h2>
                     </div>
-                </div>
-    <div class="common-symptoms">
-        <h3>Common symptoms</h3>
-        <ul class="list-conditions" id="commonConditions">
-            <li><input type="submit" class="linkButton" value="Abdominal pain" id="PW520,PW517,PW519,PW516"/></li>
-            <li><input type="submit" class="linkButton" value="A headache" id="PW755,PW752,PW754,PW753,PW754,PW756" /></li>
-            <li><input type="submit" class="linkButton" value="Chest and back pain" id="PA21,PA212,PA213,PA21,PA21,PA212,PA21,PA213" /></li>
-            <li><input type="submit" class="linkButton" value="Cold or flu symptoms" id="PW574,PW1042,PW1043,PW1040,PW574,PW1041" /></li>
-            <li><input type="submit" class="linkButton" value="A rash or skin problem" id="PW1623,PN1620,PW1623,PN1620,PN1620,PW1620,PN1619,PN1619,PW1620,PW1623,PW1620,PN1619,PN1619,PW1620,PN1620,PW1623" /></li>
-            <li><input type="submit" class="linkButton" value="A mental health problem" id="PW1751,PW1751,PW1751,PW1751" /></li>
-            <li><input type="submit" class="linkButton" value="Diarrhoea and vomiting" id="PW1554,PW1708,PW1563,PW1563,PW1555,PW1556,PW1553,PW1708" /></li>
-            <li><input type="submit" class="linkButton" value="Sexual Concerns" id="PW1684,PW1699,PW1698,PW1685" /></li>
-        </ul>
+                    <div class="symptoms-find-container">
+                        <p>Next we'll ask you some questions to check how severe your symptoms are</p>
+                        <p>It may feel like we're asking a lot of questions, but we need to rule out some serious conditions first. It's important we check everything thoroughly.</p>
 
-    </div>
+                        <hr />
+                        <div class="symptoms-search">
+                            <label for="searchTags">
+                                <input type="text" class="input-symptoms ui-autocomplete-input" id="searchTags" autocomplete="off" name="searchTags" placeholder="Search for conditions and symptoms" />
+                            </label>
+                            @* @Html.ActionLink("GO","Gender","Question", new {@class = "go"})*@
+                            <input type="submit" class="button button-get-started go" value="Go" id="submitSearch" />
+                        </div>
+                    </div>
 
-                <div id="SearchResults">
-                    @*Search Results appended here as list tags*@
-                </div>
 
-            }
+                    <div class="common-symptoms">
+                        <h3>Common symptoms</h3>
+                        <ul class="list-conditions" id="commonConditions">
+                            <li><input type="submit" class="linkButton" value="Abdominal pain" id="PW520,PW517,PW519,PW516" /></li>
+                            <li><input type="submit" class="linkButton" value="A headache" id="PW755,PW752,PW754,PW753,PW754,PW756" /></li>
+                            <li><input type="submit" class="linkButton" value="Chest and back pain" id="PA21,PA212,PA213,PA21,PA21,PA212,PA21,PA213" /></li>
+                            <li><input type="submit" class="linkButton" value="Cold or flu symptoms" id="PW574,PW1042,PW1043,PW1040,PW574,PW1041" /></li>
+                            <li><input type="submit" class="linkButton" value="A rash or skin problem" id="PW1623,PN1620,PW1623,PN1620,PN1620,PW1620,PN1619,PN1619,PW1620,PW1623,PW1620,PN1619,PN1619,PW1620,PN1620,PW1623" /></li>
+                            <li><input type="submit" class="linkButton" value="A mental health problem" id="PW1751,PW1751,PW1751,PW1751" /></li>
+                            <li><input type="submit" class="linkButton" value="Diarrhoea and vomiting" id="PW1554,PW1708,PW1563,PW1563,PW1555,PW1556,PW1553,PW1708" /></li>
+                            <li><input type="submit" class="linkButton" value="Sexual Concerns" id="PW1684,PW1699,PW1698,PW1685" /></li>
+                        </ul>
 
+                    </div>
+                    <div class="all-symptoms">
+                        @{
+                            var lists = new List<IEnumerable<CategoryWithPathways>>(2);
+                            lists.Add(Model.AllTopics.Take((Model.AllTopics.Count() / 2)));
+                            lists.Add(Model.AllTopics.Skip(lists[0].Count()));
+                        }
+                        <h3>All Symptoms</h3>
+                        @for (int i = 0; i < lists.Count; ++i)
+                        {
+                            <ul class="@Html.Raw(i == 0 ? "left" : "right")">
+                                @foreach (var categoryWithPathways in lists[i])
+                                {
+                                    <li>
+                                        <h5 style="text-transform: capitalize"><a class="category linkButton" href="javascript:void(0);">@categoryWithPathways.Category.Title</a></h5>
+                                        <ul class="pathways">
+                                            @foreach (var groups in categoryWithPathways.Pathways.GroupBy(p => p.Pathway.Title))
+                                            {
+                                                foreach (var metaData in groups.First().PathwayDescriptions)
+                                                {
+                                                    <li><input type="submit" class="linkButton" value="@metaData.DigitalDescription" id="@string.Join(",", groups.Select(t => t.Pathway.PathwayNo).Distinct())" /></li>
+                                                }
+                                            }
+                                        </ul>
+                                    </li>
+                                }
+                            </ul>
+                        }
+                    </div>
+
+                    <div id="SearchResults">
+                        @*Search Results appended here as list tags*@
+                    </div>
+
+                            }
+
+
+            </div>
+            <!--content end-->
 
         </div>
-        <!--content end-->
+
+
 
     </div>
 
+    <!--wrapper ends-->
 
-
-</div>
-
-<!--wrapper ends-->
-    
 
     <script>
     // -- search box autocomplete mock script
@@ -144,8 +173,14 @@
                 $("#pathwayTitle").val(this.value);
                 $("#pathwayNo").val(this.id);
             });
- });
 
+        $('.category').click(function () {
+            var $this = $(this);
+
+            var $helpTextLinkMessage = $this.parent().next('.pathways');
+            $helpTextLinkMessage.slideToggle("fast");
+        });
+
+     });
     </script>
-
 </div>

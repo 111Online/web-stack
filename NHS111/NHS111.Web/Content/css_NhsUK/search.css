@@ -49,8 +49,9 @@ a.linkButton {
 
 .common-symptoms {
     background-color: #e4f1f9;
-    float: left;
+    float: right;
     width: 100%;
+    margin-bottom: 40px;
 }
 
 .common-symptoms ul{
@@ -310,4 +311,46 @@ div.symptoms-search {
     margin-top: 20px;
 }
 
+.all-symptoms {
+    clear: left;
+}
 
+.all-symptoms h3 {
+    font-size: 1.6em;
+    padding: 30px 0;
+}
+
+.all-symptoms ul {
+    white-space: nowrap;
+}
+
+.all-symptoms ul.left {
+    float: left;
+    padding-right: 100px;
+    min-width: 300px;
+}
+
+    .all-symptoms ul.right {
+        overflow: hidden;
+    }
+
+.all-symptoms li {
+}
+
+h5 {
+    font-size: 1em;
+}
+
+.all-symptoms input {
+    font-size: 1em;
+    padding: 0 10px;
+
+}
+
+.all-symptoms .pathways {
+    display: none;
+}
+
+h5 {
+    line-height: 3rem;
+}

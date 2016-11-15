@@ -1,22 +1,18 @@
-﻿@using NHS111.Models.Models.Web
+﻿@using NHS111.Models.Models.Domain
+@using NHS111.Models.Models.Web
 @model OutcomeViewModel
-
 @if (Model.DisplayWorseningCareAdvice)
 {
-    <div class="service-booking-message alert sp-module">
-        <h3 class="care-advice-section-header">
-            What if I feel worse?
-        </h3>
-        @if (!ViewData.Keys.Contains("OverrideText"))
+    var isEmergencyOutcome = Model.OutcomeGroup.Equals(OutcomeGroup.AccidentAndEmergency) || Model.OutcomeGroup.Equals(OutcomeGroup.AccidentAndEmergencySexualAssault) || Model.OutcomeGroup.Equals(OutcomeGroup.EmergencyDental);
+    if (!isEmergencyOutcome)
+    {
+        foreach (var item in Model.WorseningCareAdvice.Items)
         {
-            foreach (var item in Model.WorseningCareAdvice.Items)
-            {
-                <p>@item.Text</p>
-            }
+            <p class="worsening-advice-icon">@item.Text</p>
         }
-        else
-        {
-            <p>@Html.Raw(ViewData["OverrideText"])</p> 
-        }
-    </div>
+    }
+    else
+    {
+        <p class="worsening-advice-icon">Call 999 and ask for an ambulance if there are any new symptoms or the condition gets worse.</p>
+    }
 }

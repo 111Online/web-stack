@@ -1602,27 +1602,26 @@ h1, h2, h3, h4, h5, h6 {
       padding-top: 1.33380375rem; } }
 
 .heading-large, .markdown-content h1 {
-  font-size: 32px;
-  line-height: 36px;
-  margin-bottom: 30px; }
+  font-size: 36px;
+  line-height: 40px;
+  margin-bottom: 40px; }
   @media screen and (min-width: 40em) {
     .heading-large, .markdown-content h1 {
-      font-size: 36px;
-      line-height: 40px;
-      margin: 30px 0; } }
+      font-size: 40px;
+      line-height: 44px;
+      margin: 40px 0; } }
 
 .heading-medium, .markdown-content h2 {
-  font-size: 1.9506rem;
-  line-height: 3rem;
-  margin-bottom: 1.036405rem;
+  font-size: 24px;
+  line-height: 28px;
+  margin-bottom: 10px;
   padding-top: 0.963595rem; }
   @media screen and (min-width: 40em) {
     .heading-medium, .markdown-content h2 {
-      font-size: 2.2rem;
-      line-height: 3rem;
-      margin-bottom: 1.083265rem;
+      font-size: 28px;
+      line-height: 32px;
+      margin-bottom: 10px;
       padding-top: 0.916735rem;
-      letter-spacing: 0.1rem;
     } }
 
 .heading-small, .markdown-content h3 {
@@ -2156,7 +2155,7 @@ button[disabled=disabled] {
 
 .findservice p.error {
     color: red;
-    padding-bottom: 5px;
+    padding-bottom: 20px;
 }
 
 .findservice input.error {
@@ -2165,6 +2164,26 @@ button[disabled=disabled] {
 
 .header.home {
     margin: 20px 0;
+}
+
+.trial-text {
+    padding:25px;
+}
+
+.trial-section {
+    background-color: #white;
+    border: 1px solid #0072C6;
+    margin-left: 0;    
+    margin: 0 0 10px 0;
+}
+
+.trial-icon {
+    margin-right:10px;
+    width: 90px;
+    height: 90px;
+    display:block;
+    float:left;
+    background: #FFFFFF url("/Content/_assets/img/exclamation_blue.png") 15px 15px/70px 70px no-repeat;
 }
 
 .steps {
@@ -2250,8 +2269,6 @@ button[disabled=disabled] {
 .clear {
     clear: both;
 }
-.trial {
-}
 
 .home p {
     margin-bottom: 20px;
@@ -2321,4 +2338,63 @@ button[disabled=disabled] {
 
 .validation-summary-valid {
     display: none;
+}
+
+.outcome-header {
+    margin: 40px 0;
+    background-color: #0072C6;
+    padding: 40px;
+    color: #fff;
+}
+
+.outcome-header h2 {
+    margin: 0;
+}
+
+.worsening-advice-icon {
+    background-image: url("/content/img/worsening.png");
+    background-position: left center;
+    background-repeat: no-repeat;
+    padding-left: 44px;
+    line-height: 34px;
+    margin-top: 40px;
+    padding-top: 0;
+}
+@media (max-width: 640px) {
+    .worsening-advice-icon {
+        line-height: 20px;
+    }
+}
+
+.outcome-header.fail {
+    background-color: #FFB71A;
+    color: #000;
+}
+
+.outcome-header.fail .worsening-advice-icon {
+    background-image: url("/content/img/worsening-fail.png");
+}
+
+.button-link-prev {
+    background-color: transparent;
+    text-decoration: underline;
+    border: none;
+    color: #79AFDD;
+    cursor: pointer;
+    float: right;
+    background-image: url(/content/images/icons/icon-link-back.png);
+    background-repeat: no-repeat;
+    background-position: 0 50%;
+    padding-left: 20px;
+}
+.button-link:focus {
+  outline: none;
+}
+.changeAnswers input {
+    line-height: inherit;
+    height: inherit;
+    padding-left: 20px !important;
+    background-image: url("/content/images/icons/icon-link-back.png");
+    background-position: 0;
+
 }

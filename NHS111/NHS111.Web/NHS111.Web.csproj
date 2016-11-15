@@ -302,6 +302,7 @@
     <Content Include="Content\images\icons\hospital.png" />
     <Content Include="Content\images\icons\icon-button-next.svg" />
     <Content Include="Content\images\icons\icon-button-prev.svg" />
+    <Content Include="Content\images\icons\icon-link-back.png" />
     <Content Include="Content\images\icons\icon-link-go.png" />
     <Content Include="Content\images\icons\icon_info.png" />
     <Content Include="Content\images\icons\map-pointers\fac-map-1.png" />
@@ -419,6 +420,8 @@
     <Content Include="Content\img\white-home.jpg" />
     <Content Include="Content\img\white-Tel.jpg" />
     <Content Include="Content\img\white-website.jpg" />
+    <Content Include="Content\img\worsening-fail.png" />
+    <Content Include="Content\img\worsening.png" />
     <Content Include="Content\Js\site.js" />
     <Content Include="Content\Js\vendor\html5shiv-printshiv.js" />
     <Content Include="Content\Js\vendor\html5shiv.js" />
@@ -445,6 +448,7 @@
     <Content Include="Content\_assets\css\main.css" />
     <Content Include="Content\_assets\img\bg-pattern.png" />
     <Content Include="Content\_assets\img\countdownbg-ie8.png" />
+    <Content Include="Content\_assets\img\exclamation_blue.png" />
     <Content Include="Content\_assets\img\favicon.ico" />
     <Content Include="Content\_assets\img\icon-address.png" />
     <Content Include="Content\_assets\img\icon-blue-search.png" />
@@ -760,6 +764,7 @@
     <Content Include="Views\Shared\_WorseningAdvice.cshtml" />
     <Content Include="Views\Outcome\SP_Dental.cshtml" />
     <Content Include="Views\Question\InitialQuestion.cshtml" />
+    <Content Include="Views\Outcome\Call_999_police.cshtml" />
     <None Include="Web.Development.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

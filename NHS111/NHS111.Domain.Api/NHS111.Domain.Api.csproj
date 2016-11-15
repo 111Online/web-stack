@@ -148,6 +148,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Controllers\CategoryController.cs" />
     <Compile Include="Controllers\OutcomeController.cs" />
     <Compile Include="Controllers\MonitoringController.cs" />
     <Compile Include="Controllers\PathwayController.cs" />
@@ -173,7 +174,9 @@
       <DependentUpon>Web.config</DependentUpon>
     </None>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Views\Category\" />
+  </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\NHS111.Domain\NHS111.Domain.csproj">
       <Project>{1b36b587-9dc6-4382-b0a0-2139218c8a45}</Project>
