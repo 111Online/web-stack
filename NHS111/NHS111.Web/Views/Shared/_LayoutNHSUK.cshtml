@@ -5,14 +5,14 @@
 <!DOCTYPE html>
 <html lang="">
 <head>
-    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <title>@RenderSection("Title")</title>
 
     <!-- css -->
-    <link href="http://nhsalpha.herokuapp.com/public/stylesheets/govuk-template.css?0.12.0" media="all" rel="stylesheet" type="text/css" />
-    <link href="~/Content/css_NhsUK/application.css" media="all" rel="stylesheet" type="text/css" />
+    <link href="http://nhsalpha.herokuapp.com/public/stylesheets/govuk-template.css?0.12.0" media="all" rel="stylesheet" type="text/css"/>
+    <link href="~/Content/css_NhsUK/application.css" media="all" rel="stylesheet" type="text/css"/>
 
     <!-- Javascript -->
     <script src="~/scripts/vendor/modernizr-custom.js"></script>
@@ -25,6 +25,8 @@
     <script src="~/Scripts/jquery1.11.2-ui.min.js"></script>
     <script src="~/scripts/bootstrap.min.js"></script>
     <script src="~/scripts/jquery.cookie.js"></script>
+    <script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.11.1/jquery.validate.min.js"></script>
+    <script src="http://ajax.aspnetcdn.com/ajax/mvc/5.1/jquery.validate.unobtrusive.min.js"></script>
 
     @RenderSection("Scripts", false)
 </head>
@@ -37,7 +39,7 @@
 
 
     @{
-        var data = new Dictionary<string, string> { { "ContainerID", ConfigurationManager.AppSettings["GoogleAnalyticsContainerId"] } };
+    var data = new Dictionary<string, string> {{"ContainerID", ConfigurationManager.AppSettings["GoogleAnalyticsContainerId"]}};
 
         var tagPrinter = new GoogleTagManagerPrinter(data);
     }
@@ -80,8 +82,8 @@
         <div class="footer-wrapper">
             <nav>
                 <ul>
-                    <li>@Html.ActionLink("Cookies", "Cookies", "Help", null, new { target = "_blank" })</li>
-                    <li>@Html.ActionLink("Privacy statement", "Privacy", "Help", null, new { target = "_blank" })</li>
+                <li>@Html.ActionLink("Cookies", "Cookies", "Help", null, new {target = "_blank"})</li>
+                <li>@Html.ActionLink("Privacy statement", "Privacy", "Help", null, new {target = "_blank"})</li>
                 </ul>
             </nav>
             <div class="text">
@@ -98,3 +100,4 @@
     <div id="global-app-error" class="app-error hidden"></div>
 </body>
 </html>
+

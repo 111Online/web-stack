@@ -2314,6 +2314,30 @@ button[disabled=disabled] {
     .clear {
         margin-bottom: 20px;
     }
+
+ 
+}
+
+   .field-validation-error {
+    color: #b10000;
+    font-size: smaller;
+}
+
+.field-validation-valid {
+    display: none;
+}
+
+.input-validation-error {
+    border: 2px ridge #ff0000;
+}
+
+.validation-summary-errors {
+    font-weight: bold;
+    color: #ff0000;
+}
+
+.validation-summary-valid {
+    display: none;
 }
 
 .outcome-header {

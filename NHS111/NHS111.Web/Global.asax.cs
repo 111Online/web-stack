@@ -1,4 +1,6 @@
 ﻿
+using FluentValidation.Mvc;
+
 namespace NHS111.Web {
     using System;
     using System.Collections;
@@ -26,6 +28,7 @@ namespace NHS111.Web {
 
             GlobalFilters.Filters.Add(new LogJourneyFilterAttribute());
             GlobalFilters.Filters.Add(new SetSessionIdFilterAttribute());
+            FluentValidationModelValidatorProvider.Configure();
         }
 
         protected void Application_Error(object sender, EventArgs e)
