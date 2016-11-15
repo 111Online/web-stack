@@ -686,7 +686,7 @@
     <Content Include="Views\DOS\Confirmation.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Views\Outcome\ITK_Referral.cshtml" />
+    <Content Include="Views\Outcome\ITK_Clinician_call_back.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Shared\_SurgeryDetails.cshtml" />

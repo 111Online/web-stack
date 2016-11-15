@@ -3,7 +3,16 @@
 @{ var outcomeHeader = (!string.IsNullOrEmpty(Model.DispositionText) ? Model.DispositionText : Model.OutcomeGroup.GetDefaultTitle()); }
 <section>
     <div class="outcome-header">
-        <h2 class="heading-large">@Html.Raw(outcomeHeader)</h2>
+        @if (!ViewData.Keys.Contains("OverrideOutcomeHeader"))
+        {
+            <h2 class="heading-large">@Html.Raw(outcomeHeader)</h2>
+        }
+        else
+        {
+            <h2 class="heading-large">You've finished your online assessment</h2>
+            <h2 class="heading-large">Based on your answers, we recommend that you speak to a clinician within @Model.TimeFrameText</h2>
+        }
+        
         @if (!ViewData.Keys.Contains("OverrideWorseningAdvice"))
         {
             @Html.Partial("_WorseningAdvice", Model)
