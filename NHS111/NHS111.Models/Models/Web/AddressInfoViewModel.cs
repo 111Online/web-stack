@@ -4,7 +4,6 @@ using FluentValidation.Attributes;
 
 namespace NHS111.Models.Models.Web
 {
-    [Validator(typeof(AddressInfoViewModelValidator))]
     public class AddressInfoViewModel
     {
         public string PostCode { get; set; }
@@ -16,9 +15,14 @@ namespace NHS111.Models.Models.Web
         public string UPRN { get; set; }
     }
 
-    public class AddressInfoViewModelValidator : AbstractValidator<AddressInfoViewModel>
+    [Validator(typeof(PersonalInfoAddressViewModelValidator))]
+    public class PersonalInfoAddressViewModel : AddressInfoViewModel
+    {  
+    }
+    
+    public class PersonalInfoAddressViewModelValidator : AbstractValidator<PersonalInfoAddressViewModel>
     {
-        public AddressInfoViewModelValidator()
+        public PersonalInfoAddressViewModelValidator()
         {
             RuleFor(a => a.PostCode).NotEmpty();
             RuleFor(a => a.AddressLine1).NotEmpty();

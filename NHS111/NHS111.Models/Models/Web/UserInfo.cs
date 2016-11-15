@@ -53,7 +53,6 @@ namespace NHS111.Models.Models.Web
     {
         public UserInfoValidator()
         {
-            DateTime date;
             RuleFor(p => p.FirstName).NotEmpty();
             RuleFor(p => p.LastName).NotEmpty();
             RuleFor(p => p.TelephoneNumber).NotEmpty();
