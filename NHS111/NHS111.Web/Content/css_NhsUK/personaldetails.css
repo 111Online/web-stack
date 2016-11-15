@@ -125,6 +125,28 @@
     display: none;
 }
 
+   .field-validation-error {
+    color: #b10000;
+    font-size: smaller;
+}
+
+.field-validation-valid {
+    display: none;
+}
+
+.personal-details-content .input-validation-error {
+    border: 2px solid #ff0000;
+}
+
+.validation-summary-errors {
+    font-weight: bold;
+    color: #ff0000;
+}
+
+.validation-summary-valid {
+    display: none;
+}
+
 /*Spinner styles*/
 
 #loading, #loadingPostcode {

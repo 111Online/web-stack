@@ -97,6 +97,7 @@ namespace NHS111.Web.Controllers {
 
         [HttpPost]
         public async Task<ActionResult> PersonalDetails(OutcomeViewModel model) {
+            ModelState.Clear();
             AuditSelectedService(model);
 
             model = await _outcomeViewModelBuilder.PersonalDetailsBuilder(model);
@@ -105,6 +106,7 @@ namespace NHS111.Web.Controllers {
 
         [HttpPost]
         public async Task<ActionResult> Confirmation(OutcomeViewModel model) {
+            if (!ModelState.IsValid) return View("PersonalDetails", model);
             model = await _outcomeViewModelBuilder.ItkResponseBuilder(model);
             if (model.ItkSendSuccess.HasValue && model.ItkSendSuccess.Value)
                 return View(model);

@@ -5,19 +5,19 @@
 <!DOCTYPE html>
 <html lang="">
 <head>
-    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <title>@RenderSection("Title")</title>
 
     <!-- css -->
-    <link href="http://nhsalpha.herokuapp.com/public/stylesheets/govuk-template.css?0.12.0" media="all" rel="stylesheet" type="text/css" />
-    <link href="~/Content/css_NhsUK/application.css" media="all" rel="stylesheet" type="text/css" />
+    <link href="http://nhsalpha.herokuapp.com/public/stylesheets/govuk-template.css?0.12.0" media="all" rel="stylesheet" type="text/css"/>
+    <link href="~/Content/css_NhsUK/application.css" media="all" rel="stylesheet" type="text/css"/>
 
     <!-- Javascript -->
     <script src="~/scripts/vendor/modernizr-custom.js"></script>
     <!--[if lt IE 9]>
-     <script src="https://code.jquery.com/jquery-1.12.4.min.js" integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ=" crossorigin="anonymous"></script>
+        <script src="https://code.jquery.com/jquery-1.12.4.min.js" integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ=" crossorigin="anonymous"></script>
     <![endif]-->
 
     <script src="~/scripts/jquery2.1.1.min.js"></script>
@@ -25,76 +25,79 @@
     <script src="~/Scripts/jquery1.11.2-ui.min.js"></script>
     <script src="~/scripts/bootstrap.min.js"></script>
     <script src="~/scripts/jquery.cookie.js"></script>
+    <script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.11.1/jquery.validate.min.js"></script>
+    <script src="http://ajax.aspnetcdn.com/ajax/mvc/5.1/jquery.validate.unobtrusive.min.js"></script>
 
     @RenderSection("Scripts", false)
 </head>
 <body class="">
-    @if (CookieBannerFeature.IsEnabled)
-    {
-        <!-- toggle cookie banner -->
-        @Html.Partial("_CookieBanner")
-    }
+@if (CookieBannerFeature.IsEnabled)
+{
+    <!-- toggle cookie banner -->
+    @Html.Partial("_CookieBanner")
+}
 
 
-    @{
-        var data = new Dictionary<string, string> { { "ContainerID", ConfigurationManager.AppSettings["GoogleAnalyticsContainerId"] } };
+@{
+    var data = new Dictionary<string, string> {{"ContainerID", ConfigurationManager.AppSettings["GoogleAnalyticsContainerId"]}};
 
-        var tagPrinter = new GoogleTagManagerPrinter(data);
-    }
+    var tagPrinter = new GoogleTagManagerPrinter(data);
+}
 
-    @tagPrinter.Print()
+@tagPrinter.Print()
 
-    <script type="text/javascript">document.body.className = ((document.body.className) ? document.body.className + ' js-enabled' : 'js-enabled');</script>
-    <div id="skiplink-container">
-        <div>
-            <a href="#content" class="skiplink">Skip to main content</a>
+<script type="text/javascript">document.body.className = ((document.body.className) ? document.body.className + ' js-enabled' : 'js-enabled');</script>
+<div id="skiplink-container">
+    <div>
+        <a href="#content" class="skiplink">Skip to main content</a>
+    </div>
+</div>
+<header role="banner" id="global-header">
+    <div class="header-container">
+        <a href="/" class="header-logo" title="Go to the NHS.UK homepage">
+            <img src="/content/images/nhs-rev-logotype.jpg" alt=""/>
+
+        </a>
+        <div class="header-title">
+            111 Online <strong class="phase-tag beta"></strong>
         </div>
     </div>
-    <header role="banner" id="global-header">
-        <div class="header-container">
-            <a href="/" class="header-logo" title="Go to the NHS.UK homepage">
-                <img src="/content/images/nhs-rev-logotype.jpg" alt=""/>
+</header>
+@if (DisclaimerBannerFeature.IsEnabled)
+{
+    <!-- toggle disclaimer banner-->
+    @Html.Partial("_DisclaimerBanner")
+}
+@RenderSection("HeaderContent", false)
+<!--end header-->
 
-            </a>
-            <div class="header-title">
-                111 Online <strong class="phase-tag beta"></strong>
-            </div>
+
+<section class="outer-section">@RenderSection("OuterSection", false)</section>
+
+<main id="content" role="main">
+    @RenderBody()
+</main>
+<section class="feedback-section">@RenderSection("FeedbackSection", false)</section>
+<footer id="footer" role="contentinfo">
+    <div class="footer-wrapper">
+        <nav>
+            <ul>
+                <li>@Html.ActionLink("Cookies", "Cookies", "Help", null, new {target = "_blank"})</li>
+                <li>@Html.ActionLink("Privacy statement", "Privacy", "Help", null, new {target = "_blank"})</li>
+            </ul>
+        </nav>
+        <div class="text">
+            <p>
+                <small>
+                    &copy; Crown copyright<br>
+                    Content available under <a href="https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/">Open Government Licence v3.0</a>, except where otherwise stated.
+                </small>
+            </p>
         </div>
-    </header>
-    @if (DisclaimerBannerFeature.IsEnabled)
-    {
-            <!-- toggle disclaimer banner-->
-        @Html.Partial("_DisclaimerBanner")
-    }
-    @RenderSection("HeaderContent", false)
-    <!--end header-->
+    </div>
+</footer>
 
-
-    <section class="outer-section">@RenderSection("OuterSection", false)</section>
-
-    <main id="content" role="main">
-        @RenderBody()
-    </main>
-    <section class="feedback-section">@RenderSection("FeedbackSection", false)</section>
-    <footer id="footer" role="contentinfo">
-        <div class="footer-wrapper">
-            <nav>
-                <ul>
-                    <li>@Html.ActionLink("Cookies", "Cookies", "Help", null, new { target = "_blank" })</li>
-                    <li>@Html.ActionLink("Privacy statement", "Privacy", "Help", null, new { target = "_blank" })</li>
-                </ul>
-            </nav>
-            <div class="text">
-                <p>
-                    <small>
-                        &copy; Crown copyright<br>
-                        Content available under <a href="https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/">Open Government Licence v3.0</a>, except where otherwise stated.
-                    </small>
-                </p>
-            </div>
-        </div>
-    </footer>
-
-    <div id="global-app-error" class="app-error hidden"></div>
+<div id="global-app-error" class="app-error hidden"></div>
 </body>
 </html>
+
