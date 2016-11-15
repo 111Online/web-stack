@@ -27,66 +27,9 @@
     @Html.Partial("_FeedbackDetails", new FeedbackViewModel() { PageId = Model.Id })
 }
 
-@*<section>
-    <div class="outcome-additional-info">
-        <h3 class="outcome-additional-info-header">
-            Let us contact a healthcare service near you
-        </h3>
-        <p>Please enter your details below to find a healthcare service and they will contact you.</p>
-    </div>
-</section>*@
-
 @Html.Partial("_FindService", Model, new ViewDataDictionary { { "Title", "Let us find a clinician for you" }, { "ButtonText", "Find healthcare services" }, { "Label", "healthcare services" } })
 
-@*<section>
-
-    <div class="findservice-form">
-        @using (Html.BeginForm("ServiceList", "Outcome", FormMethod.Post))
-        {
-            @Html.HiddenFor(x => Model.SessionId)
-            @Html.HiddenFor(x => Model.Id)
-            @Html.HiddenFor(x => Model.JourneyJson)
-            @Html.HiddenFor(x => Model.PathwayId)
-            @Html.HiddenFor(x => Model.PathwayNo)
-            @Html.HiddenFor(x => Model.PathwayTitle)
-            @Html.HiddenFor(x => Model.SymptomGroup)
-            @Html.HiddenFor(x => Model.UserInfo.Age)
-            @Html.HiddenFor(x => Model.UserInfo.Gender)
-            @Html.HiddenFor(x => Model.SymptomDiscriminatorCode)
-            @Html.HiddenFor(x => Model.Title)
-            @Html.HiddenFor(x => x.TimeFrameText)
-            @Html.Hidden("CurrentView", ((RazorView)ViewContext.View).ViewPath)
-            for (int i = 0; i < Model.CollectedKeywords.Keywords.Count; i++)
-            {
-                @Html.HiddenFor(model => Model.CollectedKeywords.Keywords[i].Value)
-                @Html.HiddenFor(model => Model.CollectedKeywords.Keywords[i].IsFromAnswer)
-            }
-
-            for (int i = 0; i < Model.CollectedKeywords.ExcludeKeywords.Count; i++)
-            {
-                @Html.HiddenFor(model => Model.CollectedKeywords.ExcludeKeywords[i].Value)
-                @Html.HiddenFor(model => Model.CollectedKeywords.ExcludeKeywords[i].IsFromAnswer)
-            }
-
-            <div class="findservice">
-                @if (error)
-                {
-                    <p class="error">No results could be found for that postcode. Please check and try again.</p>
-                }
-
-                @Html.LabelFor(m => m.UserInfo.CurrentAddress.PostCode, "Postcode")
-                @Html.TextBoxFor(m => m.UserInfo.CurrentAddress.PostCode, new { @class = (error ? "form-control error" : "form-control") })
-                <p class="find-service-help">We need this so we can offer details of healthcare services near to where you are now</p>
-
-                @Html.Partial("_GpSearch", Model)
-                <p class="find-service-help">We need this so we can offer healthcare services which may be available through your own GP practice</p>
-
-                <input class="button button-next" type="submit" name="DosResults" value="Find healthcare services" />
-
-            </div>
-        }
-    </div>
-</section>*@
+@Html.Partial("_WorseningAdvice", Model)
 
 <hr />
 
