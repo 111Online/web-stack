@@ -19,15 +19,7 @@
     </script>
 }
 
-
-    <div class="sub-header itk">
-        <div class="sub-header-icon">
-            <span class="tick">&#10003;</span>
-            <h3>You've finished your online assessment</h3>
-            <h2>@string.Format("We recommend that you {0} within {1}", Model.OutcomeGroup.Text, Model.TimeFrameText)</h2>
-        </div>
-    </div>
-
+@Html.Partial("_OutcomeHeader", Model, new ViewDataDictionary() { { "OverrideOutcomeHeader", "true" } })
 
 @section FeedbackSection {
     @Html.Partial("_FeedbackDetails", new FeedbackViewModel() { PageId = Model.Id })
