@@ -16,10 +16,10 @@
 <link href="~/content/css_NhsUk/service.css" media="screen" rel="stylesheet" type="text/css" />
 
 <section>
-    <div class="section-item">
-        <h3 class="section-header">
+    <div class="outcome-header">
+        <h2 class="heading-large">
             Your selected service
-        </h3>
+        </h2>
         <div class="personal-details-content">
             @Html.Partial("_SelectedService", Model.SelectedService)
             <div class="form-item-wrapper">
@@ -29,7 +29,7 @@
                         {
                             @Html.Partial("_CommonHiddenFieldsOutcomeViewModel", Model)
                             <div class="row">
-                                <input class="button button-next button-link" type="submit" name="DifferentService" value="Choose a different service" />
+                                <input class="service-link  button-link" type="submit" name="DifferentService" value="Choose a different service" />
                             </div>
                         }
                     </div>
