@@ -21,6 +21,10 @@
 
 @Html.Partial("_CareAdvice", Model.CareAdvices, new ViewDataDictionary { { "Title", "I know which clinc I'm going to.  What can I do in the meantime?" } })
 
+@Html.Partial("_WorseningAdvice", Model )
+
+<hr />
+
 @using (Html.BeginForm("Navigation", "Question", FormMethod.Post))
 {
     @Html.Partial("_CommonHiddenFieldsOutcomeViewModel", Model)
