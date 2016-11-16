@@ -63,7 +63,7 @@ namespace NHS111.Web.Controllers {
                 },
                 SymptomGroup = symptomGroup ?? "1203",
                 SymptomDiscriminatorCode = symptomDiscriminator ?? "4003",
-                AddressInfoViewModel = new AddressInfoViewModel()
+                AddressInfoViewModel = new PersonalInfoAddressViewModel()
             };
 
             return View(model);

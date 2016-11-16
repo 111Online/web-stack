@@ -5,7 +5,7 @@
 <section>
     <div class="findservice-form">
 
-        @using (Html.BeginForm("ServiceDetails", "Outcome", FormMethod.Post))
+        @using (Html.BeginForm(ViewData.ContainsKey("ITK") ? "ServiceList" : "ServiceDetails", "Outcome", FormMethod.Post))
         {
             @Html.HiddenFor(x => Model.Id)
             @Html.HiddenFor(x => Model.JourneyJson)
@@ -62,7 +62,7 @@
             }
 
             <div class="findservice">
-                <h3>@Html.Raw((!ViewData.Keys.Contains("Title") ? "Find a Healthcare provider" : ViewData["Title"]))</h3>
+                @Html.Raw((!ViewData.Keys.Contains("Title") ? null : string.Format("<h3>{0}</h3>", ViewData["Title"])))
                 <div class="section-margin">
                     @if (error)
                 {
@@ -70,7 +70,6 @@
                     }
                     @Html.LabelFor(m => m.UserInfo.CurrentAddress.PostCode, "Postcode")
                     @Html.TextBoxFor(m => m.UserInfo.CurrentAddress.PostCode, new { @class = "form-control " + (error ? "error" : "") })
-
                     <input class="button button-next" type="submit" name="DosResults" value="@Html.Raw(ViewData["ButtonText"])">
 
                 </div>

@@ -2352,7 +2352,7 @@ button[disabled=disabled] {
 }
 
 .worsening-advice-icon {
-    background-image: url("/content/img/worsening.png");
+    background-image: url("/content/images/icons/warning.png");
     background-position: left center;
     background-repeat: no-repeat;
     padding-left: 44px;

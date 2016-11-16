@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using FluentValidation;
+using FluentValidation.Attributes;
 using NHS111.Models.Models.Domain;
 using NHS111.Models.Models.Web.FromExternalServices;
 
@@ -15,7 +17,7 @@ namespace NHS111.Models.Models.Web
         public IEnumerable<string> CareAdviceMarkers { get; set; }
         public Enums.Urgency Urgency { get; set; }
         public string SymptomGroup { get; set; }
-        public AddressInfoViewModel AddressInfoViewModel { get; set; }
+        public PersonalInfoAddressViewModel AddressInfoViewModel { get; set; }
         public bool? ItkSendSuccess { get; set; }
         public CareAdvice WorseningCareAdvice { get; set; }
         public SymptomDiscriminator SymptomDiscriminator { get; set; }
@@ -69,8 +71,9 @@ namespace NHS111.Models.Models.Web
             SurgeryViewModel = new SurgeryViewModel();
             CareAdvices = new List<CareAdvice>();
             CareAdviceMarkers = new List<string>();
-            AddressInfoViewModel = new AddressInfoViewModel();
+            AddressInfoViewModel = new PersonalInfoAddressViewModel();
             DosCheckCapacitySummaryResult = new DosCheckCapacitySummaryResult();
         }
     }
+
 }

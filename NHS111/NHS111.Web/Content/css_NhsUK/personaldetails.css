@@ -8,6 +8,7 @@
     background-image: url("/content/images/icons/icon-link-go.png");
     background-repeat: no-repeat;
     background-position: 85% 60%;
+    font-size: 18px;
 }
 
 @media screen and (min-width: 641px) {
@@ -25,9 +26,11 @@
     text-decoration: underline !important;
 }
 
+
 .personal-details-content {
-    padding: 1rem 1rem 0 1rem;
+    padding: 1rem 1rem 0 0;
     max-width: 45.8333333333rem;
+    line-height: 25px;
 }
 @media screen and (min-width: 40em) {
     .personal-details-content {
@@ -189,3 +192,13 @@
     font-size: 1.5rem;
 }
 
+.service-link, .service-link:hover, .service-link, .service-link:visited {
+    background-color: #0072C6 !important;
+    color: #ffffff;
+     background-image: url("/content/images/icons/icon-button-next.svg");
+     background-position: 102% 65%;
+}
+
+.personal-details-content .form-control-6-chars {
+    width: 14em;
+}

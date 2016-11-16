@@ -53,7 +53,6 @@ namespace NHS111.Models.Models.Web
     {
         public UserInfoValidator()
         {
-            DateTime date;
             RuleFor(p => p.FirstName).NotEmpty();
             RuleFor(p => p.LastName).NotEmpty();
             RuleFor(p => p.TelephoneNumber).NotEmpty();
@@ -87,7 +86,7 @@ namespace NHS111.Models.Models.Web
             DateTime date;
             if (!day.HasValue || !month.HasValue || !year.HasValue) return false;
             return DateTime.TryParseExact(String.Format("{0}/{1}/{2}", day.Value, month.Value, year.Value).ToString(),
-                "dd/MM/yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out date);
+                "d/M/yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out date);
         }
 
         public IEnumerable<ModelClientValidationRule> GetClientValidationRules(ModelMetadata metadata, ControllerContext context)

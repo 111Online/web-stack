@@ -1,16 +1,8 @@
 ﻿@model NHS111.Models.Models.Web.OutcomeViewModel
 
-<label>
-    Name of your GP practice <span>(optional)</span>
-    <input type="text" id="FindGP">
-    @Html.HiddenFor(m => m.SurgeryViewModel.SelectedSurgery)
-</label>
-<aside>
-    <h3>Why we need this</h3>
-    <p>
-        So we can offer healthcare providers which may be<br />available through your own GP practice.
-    </p>
-</aside>
+<label>Name of your GP practice <span>(optional)</span></label>
+<input type="text" id="FindGP" class="form-control">
+@Html.HiddenFor(m => m.SurgeryViewModel.SelectedSurgery)
 
 <script>
     $(function () {

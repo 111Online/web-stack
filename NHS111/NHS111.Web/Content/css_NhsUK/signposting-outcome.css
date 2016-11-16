@@ -33,6 +33,10 @@ hr {
     }
 }
 
+p {
+    padding-top: 0;
+}
+
 .advice-before-going {
     padding: 0;
     width:  67%;
@@ -171,18 +175,25 @@ hr {
         line-height: 28px;
     }
 }
-
 .findservice label {
     font-weight: bold;
-    margin-bottom: 5px;
+    display: block;
+    margin-bottom: 20px;
+}
+.findservice .find-service-help {
+    padding-top: 20px;
+    padding-bottom: 30px;
+}
+.findservice .find-service-help:last-of-type {
+    padding-bottom: 10px;
 }
 .changeAnswers {
     float: right;
     clear:both;
 }
 
-.section-margin {
-    margin-top: 30px;
+.findservice h3 {
+    margin-bottom: 30px;
 }
 .section-margin label {
     display: block;
@@ -213,4 +224,12 @@ details summary::-webkit-details-marker {
     font-size: 28px;
     line-height: 32px;
     padding-bottom: 30px;
+}
+.itk-message ul li {
+    list-style-type: disc;
+}
+
+.itk-message ul {
+    margin-left: 20px;
+    margin-bottom: 40px;
 }
