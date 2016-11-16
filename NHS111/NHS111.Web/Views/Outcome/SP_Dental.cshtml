@@ -17,15 +17,28 @@
     @Html.Partial("_FeedbackDetails", new FeedbackViewModel() { PageId = Model.Id })
 }
 
+<div class="itk-message">
+    <ul>
+        <li>
+            You should see your own dentist if possible.
+        </li>
+        <li>
+            If you can't see your own dentist, or you want to be referred to another dental service, you can search for one below
+        </li>
+    </ul>
+</div>
+
+
+@Html.Partial("_FindService", Model, new ViewDataDictionary { { "Title", "Find dental treatment" }, { "ButtonText", "Find dental treatment" }, { "Label", "dental treatment centres" } })
 <div class="outcome-additional-info">
     <h3 class="outcome-additional-info-header">
         Advice for getting dental treatment
     </h3>
-
     <ul>
         <li>take all your current medicines with you</li>
     </ul>
 </div>
+
 <div class="outcome-additional-info">
     <h3 class="care-advice-section-header">
         Did you know?
@@ -33,9 +46,6 @@
     <p>There are dental treatment clinics in some areas where you can get an appointment if you do not have a dentist?</p>
     <p>Also, many dentists will see you even if you aren’t registered with them.</p>
 </div>
-
-@Html.Partial("_FindService", Model, new ViewDataDictionary { { "Title", "Find dental treatment" }, { "ButtonText", "Find dental treatment" }, { "Label", "dental treatment centres" } })
-
 
 @Html.Partial("_CareAdvice", Model.CareAdvices, new ViewDataDictionary { { "Title", "I know where to get dental treatment.  What can I do in the meantime?" } })
 
