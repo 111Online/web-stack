@@ -16,7 +16,9 @@
     @Html.Partial("_FeedbackDetails", new FeedbackViewModel() { PageId = Model.Id })
 }
 
-@Html.Partial("_OutcomeHeader", Model)
+@Html.Partial("_OutcomeHeader", new ViewDataDictionary() { { "OutcomeHeader", string.Format("Your answers suggest you need urgent medical attention within {0}", Model.TimeFrameText) } })
+
+@Html.Partial("_FindService", Model, new ViewDataDictionary { { "Title", "Find a service that can see you" }, { "ButtonText", "Find a service" }, { "Label", "Urgent healthcare services" } })
 
 <section>
     <div class="outcome-additional-info">
@@ -30,7 +32,7 @@
     </div>
 </section>
 
-@Html.Partial("_FindService", Model, new ViewDataDictionary { { "Title", "Find an urgent healthcare service" }, { "ButtonText", "Find an urgent healthcare service" }, { "Label", "Urgent healthcare services" } })
+@Html.Partial("_WorseningAdvice", Model)
 
 @Html.Partial("_CareAdvice", Model.CareAdvices, new ViewDataDictionary { { "Title", "What can I do in the meantime?" } })
 
