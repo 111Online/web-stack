@@ -238,3 +238,12 @@ details summary::-webkit-details-marker {
 .itk-message ul li:last-of-type {
     padding-bottom: 0;
 }
+
+.itk-message ul li {
+    list-style-type: disc;
+}
+
+.itk-message ul {
+    margin-left: 20px;
+    margin-bottom: 40px;
+}
