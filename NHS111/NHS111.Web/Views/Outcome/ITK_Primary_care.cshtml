@@ -21,8 +21,10 @@
     <p>Please enter your details below to find a clinician from our service and they will call you back.</p>
 </div>
 
-@Html.Partial("_FindService", Model, new ViewDataDictionary { { "ButtonText", "Find healthcare services" }, { "Label", "healthcare services" } })
+@Html.Partial("_FindService", Model, new ViewDataDictionary { { "ButtonText", "Find healthcare services" }, { "Label", "healthcare services" }, { "ITK", true } })
+
 @Html.Partial("_WorseningAdvice", Model)
+
 @section FeedbackSection {
     @Html.Partial("_FeedbackDetails", new FeedbackViewModel() { PageId = Model.Id })
 }

@@ -5,7 +5,7 @@
 <section>
     <div class="findservice-form">
 
-        @using (Html.BeginForm("ServiceDetails", "Outcome", FormMethod.Post))
+        @using (Html.BeginForm(ViewData.ContainsKey("ITK") ? "ServiceList" : "ServiceDetails", "Outcome", FormMethod.Post))
         {
             @Html.HiddenFor(x => Model.Id)
             @Html.HiddenFor(x => Model.JourneyJson)
