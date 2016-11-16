@@ -10,11 +10,7 @@
 <link href="~/Content/css_NhsUK/signposting-outcome.css" media="all" rel="stylesheet" type="text/css" />
 <link href="~/Content/css_NhsUK/signposting-outcome-print.css" media="print" rel="stylesheet" type="text/css" />
 
-<section>
-    <div class="outcome-header">
-        <h2 class="heading-large">Based on your answers, we recommend you speak to a healthcare service within @Model.TimeFrameText</h2>
-    </div>
-</section>
+@Html.Partial("_OutcomeHeader", new ViewDataDictionary() { { "OutcomeHeader", string.Format("Based on your answers, we recommend you speak to a healthcare service within {0}", Model.TimeFrameText) } })
 
 <div class="itk-message">
     <ul>
@@ -23,7 +19,7 @@
     </ul>
 </div>
 
-@Html.Partial("_FindService", Model, new ViewDataDictionary { { "ButtonText", "Find healthcare services" }, { "Label", "healthcare services" }, { "ITK", true } })
+@Html.Partial("_FindService", Model, new ViewDataDictionary { { "Title", "Find a service that can help you" }, { "ButtonText", "Find healthcare services" }, { "Label", "healthcare services" }, { "ITK", true } })
 
 @Html.Partial("_WorseningAdvice", Model)
 
