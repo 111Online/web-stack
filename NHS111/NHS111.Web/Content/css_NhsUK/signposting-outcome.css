@@ -225,13 +225,6 @@ details summary::-webkit-details-marker {
     line-height: 32px;
     padding-bottom: 30px;
 }
-.itk-message h3 {
-    padding-bottom: 30px;
-}
-.itk-message p {
-    padding-bottom: 40px;
-}
-
 .itk-message ul li {
     list-style-type: disc;
 }

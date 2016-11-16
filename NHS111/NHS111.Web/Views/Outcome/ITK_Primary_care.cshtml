@@ -10,24 +10,18 @@
 <link href="~/Content/css_NhsUK/signposting-outcome.css" media="all" rel="stylesheet" type="text/css" />
 <link href="~/Content/css_NhsUK/signposting-outcome-print.css" media="print" rel="stylesheet" type="text/css" />
 
-<section>
-    <div class="outcome-header">
-        <h2 class="heading-large">Based on your answers, we recommend you speak to a healthcare service within @Model.TimeFrameText</h2>
-    </div>
-</section>
+@Html.Partial("_OutcomeHeader", new ViewDataDictionary() { { "OutcomeHeader", string.Format("Based on your answers, we recommend you speak to a healthcare service within {0}", Model.TimeFrameText) } })
 
 <div class="itk-message">
     <ul>
         <li>You should contact your GP practice first. GPs are normally open from 8.30am to 6.00pm.</li>
         <li>If you can’t contact your GP practice or if it’s closed, you should search for another service below.</li>
-
     </ul>
 </div>
 
-@Html.Partial("_FindService", Model, new ViewDataDictionary {{"Title", "Find a service that can help you"}, { "ButtonText", "Find a service" }, { "Label", "healthcare services" } })
-@Html.Partial("_WorseningAdvice", Model)
+@Html.Partial("_FindService", Model, new ViewDataDictionary { { "Title", "Find a service that can help you" }, { "ButtonText", "Find healthcare services" }, { "Label", "healthcare services" }, { "ITK", true } })
 
-<hr/>
+@Html.Partial("_WorseningAdvice", Model)
 
 @Html.Partial("_CareAdvice", Model.CareAdvices, new ViewDataDictionary { { "Title", "What can I do in the meantime?" } })
 

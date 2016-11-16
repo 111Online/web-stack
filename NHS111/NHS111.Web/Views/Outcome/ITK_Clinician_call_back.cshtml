@@ -21,20 +21,28 @@
     </script>
 }
 
-@Html.Partial("_OutcomeHeader", Model, new ViewDataDictionary() { { "OverrideOutcomeHeader", "true" } })
+@Html.Partial("_OutcomeHeader", new ViewDataDictionary() { { "OutcomeHeader", "Your answers suggest that you need a 111 clinician to call you" }})
 
 @section FeedbackSection {
     @Html.Partial("_FeedbackDetails", new FeedbackViewModel() { PageId = Model.Id })
 }
 
 <div class="itk-message">
-    <h3>Let us find a clinician for you</h3>
-    <p>Please enter your details below to find a clinician from our service and they will call you back.</p>
+    <ul>
+        <li>
+            Search for a service below and a clinician will call you.
+        </li>
+        <li>
+            If you have not heard back within @Model.WaitTimeText, please call 111 and tell them you have used the online tool.
+        </li>
+    </ul>
 </div>
 
-@Html.Partial("_FindService", Model, new ViewDataDictionary { { "ButtonText", "Find healthcare services" }, { "Label", "healthcare services" } })
+@Html.Partial("_FindService", Model, new ViewDataDictionary { { "ButtonText", "Find healthcare services" }, { "Label", "healthcare services" }, { "ITK", true } })
 
 @Html.Partial("_WorseningAdvice", Model)
+
+@Html.Partial("_CareAdvice", Model.CareAdvices)
 
 <hr />
 
