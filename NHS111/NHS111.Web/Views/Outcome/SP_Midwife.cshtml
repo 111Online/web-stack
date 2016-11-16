@@ -20,13 +20,19 @@
 
 <section>
     <div class="outcome-additional-info">
-        <h3 class="outcome-additional-info-header">
-            If you don't have a midwife, or can't get in contact with them, you can find who to contact below
-        </h3>
+        <ul>
+            <li>
+                You should contact your own midwife first.</li>
+            <li>
+                If you can’t contact your midwife or you don't have a midwife, you should search for another service below.
+            </li>
+        </ul>
     </div>
 </section>
 
-@Html.Partial("_FindService", Model, new ViewDataDictionary { { "Title", "If you don't have a midwife, or can't get in contact with them" }, { "ButtonText", "Find antenatal services" }, { "Label", "Antenatal services" } })
+@Html.Partial("_FindService", Model, new ViewDataDictionary { { "Title", "Find a service that can help you" }, { "ButtonText", "Find antenatal services" }, { "Label", "Antenatal services" } })
+
+@Html.Partial("_WorseningAdvice", Model)
 
 @Html.Partial("_CareAdvice", Model.CareAdvices, new ViewDataDictionary { { "Title", "What can I do in the meantime?" } })
 
