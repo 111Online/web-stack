@@ -70,7 +70,6 @@
                     }
                     @Html.LabelFor(m => m.UserInfo.CurrentAddress.PostCode, "Postcode")
                     @Html.TextBoxFor(m => m.UserInfo.CurrentAddress.PostCode, new { @class = "form-control " + (error ? "error" : "") })
-                    <p class="find-service-help">@string.Format("We need this so we can offer details of {0} near to where you are now", Html.Raw(ViewData["Label"]))</p>
                     <input class="button button-next" type="submit" name="DosResults" value="@Html.Raw(ViewData["ButtonText"])">
 
                 </div>
