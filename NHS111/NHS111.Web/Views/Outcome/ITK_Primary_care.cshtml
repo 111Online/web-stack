@@ -5,24 +5,32 @@
     Layout = "~/Views/Shared/_LayoutNhsUK.cshtml";
 }
 @section Title { Contact a healthcare service }
+<link href="~/Content/css_NhsUK/confirmation.css" media="all" rel="stylesheet" type="text/css" />
 <link href="~/content/css_NhsUk/disposition.css" media="screen" rel="stylesheet" type="text/css"/>
 <link href="~/Content/css_NhsUK/signposting-outcome.css" media="all" rel="stylesheet" type="text/css" />
 <link href="~/Content/css_NhsUK/signposting-outcome-print.css" media="print" rel="stylesheet" type="text/css" />
 
 <section>
     <div class="outcome-header">
-        <h2 class="heading-large">Based on your answers, we recommend you contact a healthcare service within @Model.TimeFrameText</h2>
-        <h3 class="heading-medium">This should be your own GP practice. GP practices are generally open from 8am to 6pm</h3>
+        <h2 class="heading-large">Based on your answers, we recommend you speak to a healthcare service within @Model.TimeFrameText</h2>
     </div>
 </section>
 
 <div class="itk-message">
-    <h3>If you cannot contact your GP you can search for alternative services here</h3>
-    <p>Please enter your details below to find a clinician from our service and they will call you back.</p>
+    <ul>
+        <li>You should contact your GP practice first. GPs are normally open from 8.30am to 6.00pm.</li>
+        <li>If you can’t contact your GP practice or if it’s closed, you should search for another service below.</li>
+
+    </ul>
 </div>
 
-@Html.Partial("_FindService", Model, new ViewDataDictionary { { "ButtonText", "Find healthcare services" }, { "Label", "healthcare services" } })
+@Html.Partial("_FindService", Model, new ViewDataDictionary {{"Title", "Find a service that can help you"}, { "ButtonText", "Find a service" }, { "Label", "healthcare services" } })
 @Html.Partial("_WorseningAdvice", Model)
+
+<hr/>
+
+@Html.Partial("_CareAdvice", Model.CareAdvices, new ViewDataDictionary { { "Title", "What can I do in the meantime?" } })
+
 @section FeedbackSection {
     @Html.Partial("_FeedbackDetails", new FeedbackViewModel() { PageId = Model.Id })
 }
