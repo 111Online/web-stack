@@ -1,0 +1,31 @@
+﻿@using NHS111.Models.Models.Web
+@model OutcomeViewModel
+@{
+    ViewBag.Title = "ITK_Primary_care";
+    Layout = "~/Views/Shared/_LayoutNhsUK.cshtml";
+}
+
+<link href="~/content/css_NhsUk/disposition.css" media="screen" rel="stylesheet" type="text/css" />
+
+<section>
+    <div class="outcome-header">
+        <h2 class="heading-large">Based on your answers, we recommend you contact a healthcare service within @Model.TimeFrameText</h2>
+        <h3 class="heading-medium">This should be your own GP practice. GP practices are generally open from 8am to 6pm</h3>
+    </div>
+</section>
+
+@section FeedbackSection {
+    @Html.Partial("_FeedbackDetails", new FeedbackViewModel() { PageId = Model.Id })
+}
+
+@using (Html.BeginForm("Navigation", "Question", FormMethod.Post))
+{
+    @Html.Partial("_CommonHiddenFieldsOutcomeViewModel", Model)
+    if (!Model.DisplayOutcomeReferenceOnly)
+    {
+        <hr />
+        <div class="changeAnswers row">
+            <input class="button button-next button-link" type="submit" name="PreviousQuestion" value="Change my answers" />
+        </div>
+    }
+}
