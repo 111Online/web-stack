@@ -12,10 +12,5 @@
             <h2 class="heading-large">You've finished your online assessment</h2>
             <h2 class="heading-large">Based on your answers, we recommend that you speak to a clinician within @Model.TimeFrameText</h2>
         }
-        
-        @if (!ViewData.Keys.Contains("OverrideWorseningAdvice"))
-        {
-            @Html.Partial("_WorseningAdvice", Model)
-        }
     </div>
 </section>

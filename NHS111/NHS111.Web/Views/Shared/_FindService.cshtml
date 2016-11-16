@@ -62,7 +62,7 @@
             }
 
             <div class="findservice">
-                <h3>@Html.Raw((!ViewData.Keys.Contains("Title") ? "Find a Healthcare provider" : ViewData["Title"]))</h3>
+                @Html.Raw((!ViewData.Keys.Contains("Title") ? null : string.Format("<h3>{0}</h3>", ViewData["Title"])))
                 <div class="section-margin">
                     @if (error)
                 {
@@ -70,7 +70,7 @@
                     }
                     @Html.LabelFor(m => m.UserInfo.CurrentAddress.PostCode, "Postcode")
                     @Html.TextBoxFor(m => m.UserInfo.CurrentAddress.PostCode, new { @class = "form-control " + (error ? "error" : "") })
-
+                    <p class="find-service-help">@string.Format("We need this so we can offer details of {0} near to where you are now", Html.Raw(ViewData["Label"]))</p>
                     <input class="button button-next" type="submit" name="DosResults" value="@Html.Raw(ViewData["ButtonText"])">
 
                 </div>
