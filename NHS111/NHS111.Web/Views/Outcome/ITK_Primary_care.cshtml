@@ -4,8 +4,10 @@
     ViewBag.Title = "ITK_Primary_care";
     Layout = "~/Views/Shared/_LayoutNhsUK.cshtml";
 }
-
-<link href="~/content/css_NhsUk/disposition.css" media="screen" rel="stylesheet" type="text/css" />
+@section Title { Contact a healthcare service }
+<link href="~/content/css_NhsUk/disposition.css" media="screen" rel="stylesheet" type="text/css"/>
+<link href="~/Content/css_NhsUK/signposting-outcome.css" media="all" rel="stylesheet" type="text/css" />
+<link href="~/Content/css_NhsUK/signposting-outcome-print.css" media="print" rel="stylesheet" type="text/css" />
 
 <section>
     <div class="outcome-header">
@@ -14,6 +16,13 @@
     </div>
 </section>
 
+<div class="itk-message">
+    <h3>If you cannot contact your GP you can search for alternative services here</h3>
+    <p>Please enter your details below to find a clinician from our service and they will call you back.</p>
+</div>
+
+@Html.Partial("_FindService", Model, new ViewDataDictionary { { "ButtonText", "Find healthcare services" }, { "Label", "healthcare services" } })
+@Html.Partial("_WorseningAdvice", Model)
 @section FeedbackSection {
     @Html.Partial("_FeedbackDetails", new FeedbackViewModel() { PageId = Model.Id })
 }
