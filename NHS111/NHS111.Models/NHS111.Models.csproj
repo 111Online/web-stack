@@ -156,10 +156,9 @@
     <Compile Include="Mappers\WebMappings\FromOutcomeVIewModelToITKDispatchRequest.cs" />
     <Compile Include="Mappers\WebMappings\FromOutcomeViewModelToSubmitEncounterToServiceRequest.cs" />
     <Compile Include="Mappers\WebMappings\AddressInfoViewModelMapper.cs" />
-    <Compile Include="Models\Business\IServiceAvailabilityProfile.cs" />
     <Compile Include="Models\Business\ProfileHoursOfOperation.cs" />
-    <Compile Include="Models\Business\ServiceAvailabilityProfile.cs" />
     <Compile Include="Models\Business\ProfileServiceTimes.cs" />
+    <Compile Include="Models\Business\ServiceAvailability.cs" />
     <Compile Include="Models\Business\Suggestion.cs" />
     <Compile Include="Models\Configuration\LivePathwaysCollection.cs" />
     <Compile Include="Models\Configuration\LivePathwaysElement.cs" />

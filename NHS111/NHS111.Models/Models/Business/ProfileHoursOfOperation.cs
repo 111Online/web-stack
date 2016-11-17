@@ -8,7 +8,7 @@ namespace NHS111.Models.Models.Business
 {
     public class ProfileHoursOfOperation
     {
-        private List<ProfileServiceTimes> ServiceTimes { get; }
+        private List<ProfileServiceTimes> ServiceTimes { get;  set; }
 
         public ProfileHoursOfOperation()
         {
