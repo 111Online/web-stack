@@ -8,7 +8,7 @@ namespace NHS111.Models.Models.Business.Enums
 {
     public enum DispositionTimePeriod
     {
-        DispositionInHoursTimeFrameInHours,
+        DispositionAndTimeFrameInHours,
         DispositionInHoursTimeFrameOutOfHours,
         DispositionOutOfHoursTimeFrameInHours,
         DispositionAndTimeFrameOutOfHours

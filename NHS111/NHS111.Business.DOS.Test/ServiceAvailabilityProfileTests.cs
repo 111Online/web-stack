@@ -1,26 +1,28 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using NHS111.Business.DOS;
-using NHS111.Models.Models.Business;
+using NHS111.Models.Models.Business.Enums;
+using NHS111.Models.Models.Web.Clock;
 using NUnit.Framework;
-namespace NHS111.Business.DOS.Tests
+
+namespace NHS111.Business.DOS.Test
 {
     [TestFixture()]
     public class ServiceAvailabilityProfileTests
     {
-        private ServiceAvailabilityProfile _serviceAvailabilityProfile = new ServiceAvailabilityProfile();
-        public static DateTime InHoursStartTime = new DateTime(2016, 11, 17, 10,0,0); // Thurs 17 Nov 10am 
+        private readonly ServiceAvailabilityProfile _serviceAvailabilityProfile = new ServiceAvailabilityProfile();
+        public static IClock InHoursStartTime = new InHoursClock();  
 
         [Test()]
-        // Test for dispo IH perios and timeframe within IH perion
+        // Test for dispo IH period and timeframe within IH perion
         public void GetServiceAvailability_In_Hours_And_Timeframe_In_hours_Test()
         {
-
-            var result = _serviceAvailabilityProfile.GetServiceAvailability(InHoursStartTime, 60);
-            Assert.AreEqual(ServiceAvailability.DispositionAndTimeFrameInHours, result);
+            var result = _serviceAvailabilityProfile.GetServiceAvailability(InHoursStartTime.Now, 60);
+            Assert.AreEqual(DispositionTimePeriod.DispositionAndTimeFrameInHours, result);
         }
+    }
+
+    public class InHoursClock : IClock
+    {
+        // Thurs 17 Nov 10am
+        public DateTime Now { get { return new DateTime(2016, 11, 17, 10, 0, 0); } } 
     }
 }

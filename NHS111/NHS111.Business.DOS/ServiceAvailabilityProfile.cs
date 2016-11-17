@@ -1,24 +1,25 @@
 ﻿using System;
+using NHS111.Models.Models.Business;
 using NHS111.Models.Models.Business.Enums;
 
 namespace NHS111.Business.DOS
 {
-    public abstract class ServiceAvailabilityProfile : IServiceAvailabilityProfile
+    public class ServiceAvailabilityProfile : IServiceAvailabilityProfile
     {
-        protected ServiceAvailabilityProfile()
+        public ServiceAvailabilityProfile()
         {
 
         }
 
-        public virtual int ProfileId { get; set; }
+        public int ProfileId { get; set; }
 
-        public virtual string ProfileName { get; set; }
+        public string ProfileName { get; set; }
 
-        public virtual ProfileHoursOfOperation OperatingHours { get; set; }
+        public ProfileHoursOfOperation OperatingHours { get; set; }
 
-        public virtual DispositionTimePeriod GetServiceAvailability(DateTime dispositionDateTime, int timeFrameMinutes)
+        public DispositionTimePeriod GetServiceAvailability(DateTime dispositionDateTime, int timeFrameMinutes)
         {
-            throw new NotImplementedException();
+            return DispositionTimePeriod.DispositionAndTimeFrameInHours;
         }
     }
 }
