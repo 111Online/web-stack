@@ -23,26 +23,26 @@
     </h3>
 
     <ul>
-        <li>do not drive yourself, get someone else to take you</li>
+        <li>don't drive yourself, get someone else to take you</li>
         <li>take all your current medicines with you</li>
     </ul>
 </div>
 
-@Html.Partial("_FindService", Model, new ViewDataDictionary { { "Title", "Find emergency dental treatment" }, { "ButtonText", "Find dental treatment" }, { "Label", "emergency dental treatment centres" } })
-
-<hr />
+@Html.Partial("_FindService", Model, new ViewDataDictionary { { "Title", "Find emergency dental treatment" }, { "ButtonText", "Find emergency dental treatment" }, { "Label", "emergency dental treatment centres" } })
 
 <div class="outcome-additional-info">
     <h3 class="outcome-additional-info-header">
         Did you know?
     </h3>
-    <p>There are emergency dental treatment clinics in some areas where you can get an appointment if you do not have a dentist?</p>
-    <p>Also, many dentists will see you in an emergency even if you aren’t registered with them.</p>
+    <p style="margin-bottom: 20px">If you don't have a dentist:</p>
+    <ul>
+        <li>some areas have emergency dental treatment clinics where you can get an appointment</li>
+        <li>many dentists will see you in an emergency even if you aren't registered with them</li>
+    </ul>
 </div>
 
-<hr />
 
-@Html.Partial("_CareAdvice", Model.CareAdvices, new ViewDataDictionary { { "Title", "I know where to get emergency dental treatment.  What can I do in the meantime?" } })
+@Html.Partial("_CareAdvice", Model.CareAdvices, new ViewDataDictionary { { "Title", "What can I do in the meantime?" } })
 
 <hr />
 

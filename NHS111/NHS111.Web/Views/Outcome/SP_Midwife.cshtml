@@ -1,4 +1,4 @@
-@using NHS111.Models.Models.Domain
+﻿@using NHS111.Models.Models.Domain
 @using NHS111.Models.Models.Web
 @using NHS111.Utils.DispositionLogics
 @model OutcomeViewModel
@@ -6,7 +6,7 @@
     Layout = "~/Views/Shared/_LayoutNhsUK.cshtml";
 
 }
-@section Title { Go to an urgent healthcare service }
+@section Title { Speak to a midwife }
 
 <link href="~/Content/css_NhsUK/confirmation.css" media="all" rel="stylesheet" type="text/css" />
 <link href="~/Content/css_NhsUK/signposting-outcome.css" media="all" rel="stylesheet" type="text/css" />
@@ -16,21 +16,21 @@
     @Html.Partial("_FeedbackDetails", new FeedbackViewModel() { PageId = Model.Id })
 }
 
-@Html.Partial("_OutcomeHeader", new ViewDataDictionary() { { "OutcomeHeader", string.Format("Your answers suggest you need urgent medical attention within {0}", Model.TimeFrameText) } })
-
-@Html.Partial("_FindService", Model, new ViewDataDictionary { { "Title", "Find a service that can see you" }, { "ButtonText", "Find a service" }, { "Label", "Urgent healthcare services" } })
+@Html.Partial("_OutcomeHeader", Model)
 
 <section>
     <div class="outcome-additional-info">
-        <h3 class="outcome-additional-info-header">
-            Advice before you go
-        </h3>
         <ul>
-            <li>don't drive yourself, get someone else to take you</li>
-            <li>take all your current medicines with you</li>
+            <li>
+                You should contact your own midwife first.</li>
+            <li>
+                If you can’t contact your midwife or you don't have a midwife, you should search for another service below.
+            </li>
         </ul>
     </div>
 </section>
+
+@Html.Partial("_FindService", Model, new ViewDataDictionary { { "Title", "Find a service that can help you" }, { "ButtonText", "Find antenatal services" }, { "Label", "Antenatal services" } })
 
 @Html.Partial("_WorseningAdvice", Model)
 
