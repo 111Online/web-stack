@@ -60,7 +60,7 @@ namespace NHS111.Models.Models.Web
 
                 if (!(String.IsNullOrEmpty(TimeFrameText)))
                 {
-                    var preposition = System.Text.RegularExpressions.Regex.IsMatch("^[0-9]", TimeFrameText.Substring(0, 1)) ? "within " : String.Empty;
+                    var preposition = System.Text.RegularExpressions.Regex.IsMatch("^[0-9]", TimeFrameText.Trim().Substring(0, 1)) ? "within " : String.Empty;
                     timeFrameText = string.Format(" {0}{1}", preposition, TimeFrameText);
                 }
 

@@ -296,6 +296,8 @@
     <Content Include="Content\images\bg\website.png" />
     <Content Include="Content\images\headacheBanner.png" />
     <Content Include="Content\images\homeBanner.png" />
+    <Content Include="Content\images\icon-button-next-black.png" />
+    <Content Include="Content\images\icon-button-prev.png" />
     <Content Include="Content\images\icons\blueArrow.png" />
     <Content Include="Content\images\icons\breadcrumbOne.png" />
     <Content Include="Content\images\icons\breadcrumbTwo.png" />

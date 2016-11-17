@@ -18,10 +18,13 @@
 <link href="~/content/css_NhsUk/service.css" media="screen" rel="stylesheet" type="text/css" />
 
 <section>
-    <div class="section-item">
-        <h3 class="section-header">
+    <div class="outcome-header section-item">
+        <h2>
             Recommended service
-        </h3>
+        </h2>
+        <div class="">
+            <p>This is the most suitable service for the symptoms you've described in your answers</p>
+        </div>
         @{
             ServiceViewModel selectedService = null;
             if (Model.DosCheckCapacitySummaryResult.Success != null)

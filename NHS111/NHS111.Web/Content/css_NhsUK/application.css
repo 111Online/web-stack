@@ -2351,6 +2351,15 @@ button[disabled=disabled] {
     margin: 0;
 }
 
+.outcome-header .button {
+    color: black;
+    background-color: white;
+}
+.outcome-header .button-next {
+    background-image: url("/content/images/icons/icon-button-next-black.png");
+}
+
+
 .worsening-advice-icon {
     background-image: url("/content/images/icons/warning.png");
     background-position: left center;
@@ -2360,6 +2369,7 @@ button[disabled=disabled] {
     margin-top: 40px;
     padding-top: 0;
 }
+
 @media (max-width: 640px) {
     .worsening-advice-icon {
         line-height: 20px;
