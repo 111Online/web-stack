@@ -33,8 +33,7 @@ namespace NHS111.Business.DOS.Test
 
         public void GetServiceAvailability_In_Hours_And_Timeframe_Out_of_hours_Test()
         {
-            var result = _serviceAvailabilityProfile.GetServiceAvailability(InHoursToOoHoursPeriodWeekday.Item1,
-                InHoursToOoHoursPeriodWeekday.Item2);
+            var result = _serviceAvailabilityProfile.GetServiceAvailability(InHoursToOoHoursPeriodWeekday.Item1, InHoursToOoHoursPeriodWeekday.Item2);
             Assert.AreEqual(DispositionTimePeriod.DispositionAndTimeFrameInHours, result);
         }
 
@@ -42,8 +41,7 @@ namespace NHS111.Business.DOS.Test
 
         public void GetServiceAvailability_Out_of_Hours_And_Timeframe_In_hours_Test()
         {
-            var result = _serviceAvailabilityProfile.GetServiceAvailability(OoHoursToInHoursPeriodWeekday.Item1,
-                OoHoursToInHoursPeriodWeekday.Item2);
+            var result = _serviceAvailabilityProfile.GetServiceAvailability(OoHoursToInHoursPeriodWeekday.Item1, OoHoursToInHoursPeriodWeekday.Item2);
             Assert.AreEqual(DispositionTimePeriod.DispositionOutOfHoursTimeFrameInHours, result);
         }
     }
