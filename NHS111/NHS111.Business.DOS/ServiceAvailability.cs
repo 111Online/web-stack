@@ -31,7 +31,7 @@ namespace NHS111.Business.DOS
             get
             {
                 var dispositionTimePeriod = _serviceAvailabilityProfile.GetServiceAvailability(_dispositionDateTime, _timeFrameMinutes);
-                return dispositionTimePeriod == DispositionTimePeriod.DispositionAndTimeFrameOutOfHours;
+                return dispositionTimePeriod == DispositionTimePeriod.DispositionAndTimeFrameOutOfHours || dispositionTimePeriod == DispositionTimePeriod.DispositionOutOfHoursTimeFrameInShoulder;
             }
         }
 

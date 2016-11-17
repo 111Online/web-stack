@@ -14,18 +14,16 @@ namespace NHS111.Business.DOS.Test
 
         public static IClock OutOfHoursClock = new OutOfHoursClock();
 
-        private static Tuple<DateTime, int> InHoursToInHoursPeriodWeekday = new Tuple<DateTime, int>(InHoursStartTime.Now, 60);
-
         private static readonly Tuple<DateTime, int> InHoursToOoHoursPeriodWeekday = new Tuple<DateTime, int>(InHoursStartTime.Now, 12*60);
 
-        private static Tuple<DateTime, int> OOHoursToOOHoursPeriodWeekday = new Tuple<DateTime, int>(OutOfHoursClock.Now, 60);
+        private static readonly Tuple<DateTime, int> OoHoursToOoHoursPeriodWeekday = new Tuple<DateTime, int>(OutOfHoursClock.Now, 60);
 
         private static readonly Tuple<DateTime, int> OoHoursToInHoursPeriodWeekday = new Tuple<DateTime, int>(OutOfHoursClock.Now, 60*60);
 
         [Test()]
         public void GetServiceAvailability_In_Hours_And_Timeframe_In_hours_Test()
         {
-            var result = _serviceAvailabilityProfile.GetServiceAvailability(InHoursStartTime.Now, 60);
+            var result = _serviceAvailabilityProfile.GetServiceAvailability(InHoursToOoHoursPeriodWeekday.Item1, 60);
             Assert.AreEqual(DispositionTimePeriod.DispositionAndTimeFrameInHours, result);
         }
 
@@ -33,7 +31,7 @@ namespace NHS111.Business.DOS.Test
         public void GetServiceAvailability_In_Hours_And_Timeframe_Out_of_hours_Test()
         {
             var result = _serviceAvailabilityProfile.GetServiceAvailability(InHoursToOoHoursPeriodWeekday.Item1, InHoursToOoHoursPeriodWeekday.Item2);
-            Assert.AreEqual(DispositionTimePeriod.DispositionAndTimeFrameInHours, result);
+            Assert.AreEqual(DispositionTimePeriod.DispositionInHoursTimeFrameOutOfHours, result);
         }
 
         [Test()]
@@ -44,11 +42,25 @@ namespace NHS111.Business.DOS.Test
         }
 
         [Test()]
+        public void GetServiceAvailability_Out_of_Hours_And_Timeframe_Out_of_hours_traverses_in_hours_Test()
+        {
+            var result = _serviceAvailabilityProfile.GetServiceAvailability(InHoursToOoHoursPeriodWeekday.Item1, OoHoursToOoHoursPeriodWeekday.Item2);
+            Assert.AreEqual(DispositionTimePeriod.DispositionAndTimeFrameOutOfHoursTraversesInHours, result);
+        }
+
+        //only out of hours if starts in ooh and ends in ooh without traversing an entire in hours period or ends in shoulder time
+        [Test()]
         public void GetServiceAvailability_Out_of_Hours_And_Timeframe_Out_of_hours_Test()
         {
-            var result = _serviceAvailabilityProfile.GetServiceAvailability(OOHoursToOOHoursPeriodWeekday.Item1,
-                OOHoursToOOHoursPeriodWeekday.Item2);
+            var result = _serviceAvailabilityProfile.GetServiceAvailability(OoHoursToOoHoursPeriodWeekday.Item1, OoHoursToOoHoursPeriodWeekday.Item2);
             Assert.AreEqual(DispositionTimePeriod.DispositionAndTimeFrameOutOfHours, result);
+        }
+
+        [Test()]
+        public void GetServiceAvailability_Out_of_Hours_And_Timeframe_in_shoulder_Test()
+        {
+            var result = _serviceAvailabilityProfile.GetServiceAvailability(OoHoursToOoHoursPeriodWeekday.Item1, OoHoursToOoHoursPeriodWeekday.Item2);
+            Assert.AreEqual(DispositionTimePeriod.DispositionOutOfHoursTimeFrameInShoulder, result);
         }
     }
 
