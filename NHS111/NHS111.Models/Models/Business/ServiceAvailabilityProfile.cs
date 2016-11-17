@@ -14,12 +14,16 @@ namespace NHS111.Models.Models.Business
         DispositionAndTimeFrameOutOfHours
     }
 
-    public class ServiceAvailabilityProfile
+    public class ServiceAvailabilityProfile : IServiceAvailabilityProfile
     {
         private int ProfileId { get; set; }
 
         private string ProfileName { get; set; }
 
         private ProfileHoursOfOperation OperatingHours { get; set; }
+        public ServiceAvailability GetServiceAvailability(DateTime dispositionDateTime, int timeFrameMinutes)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
