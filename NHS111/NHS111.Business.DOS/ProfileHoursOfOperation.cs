@@ -1,22 +1,25 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using NHS111.Business.DOS.Configuration;
 using NHS111.Models.Models.Business;
 
 namespace NHS111.Business.DOS
 {
     public class ProfileHoursOfOperation
     {
-        private List<ProfileServiceTimes> ServiceTimes { get;  set; }
-
-        public ProfileHoursOfOperation()
+        private IConfiguration _configuration;
+        public ProfileHoursOfOperation(IConfiguration configuration)
         {
-            ServiceTimes = new List<ProfileServiceTimes>();
+            _configuration = configuration;
         }
 
-        public void Add(ProfileServiceTimes profileServiceTimes)
+        public ProfileServiceTimes GeServiceTime(DateTime date)
         {
-            if (profileServiceTimes == null) return;
-
-            ServiceTimes.Add(profileServiceTimes);
+            throw new NotImplementedException();
         }
+
+
+
+       
     }
 }
