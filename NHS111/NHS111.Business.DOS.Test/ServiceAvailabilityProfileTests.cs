@@ -20,7 +20,6 @@ namespace NHS111.Business.DOS.Tests
         private static Tuple<DateTime, int> OOHoursToInHoursPeriodWeekday = new Tuple<DateTime, int>(OOHoursWeekdayStartTime, 60 * 60);
 
         [Test()]
-        // Test for dispo IH perios and timeframe within IH perion
         public void GetServiceAvailability_In_Hours_And_Timeframe_In_hours_Test()
         {
             var result = _serviceAvailabilityProfile.GetServiceAvailability(InHoursToInHoursPeriodWeekday.Item1, InHoursToInHoursPeriodWeekday.Item2);
@@ -28,11 +27,20 @@ namespace NHS111.Business.DOS.Tests
         }
 
         [Test()]
-        // Test for dispo IH perios and timeframe within IH perion
+
         public void GetServiceAvailability_In_Hours_And_Timeframe_Out_of_hours_Test()
         {
-            var result = _serviceAvailabilityProfile.GetServiceAvailability(InHoursToOOHoursPeriodWeekday.Item1, InHoursToOOHoursPeriodWeekday.Item2);
-            Assert.AreEqual(ServiceAvailability.DispositionAndTimeFrameInHours, result);
+            var result = _serviceAvailabilityProfile.GetServiceAvailability(InHoursToOOHoursPeriodWeekday.Item1,
+                InHoursToOOHoursPeriodWeekday.Item2);
+            Assert.AreEqual(ServiceAvailability.DispositionInHoursTimeFrameOutOfHours, result);
+        }
+
+        [Test()]
+
+        public void GetServiceAvailability_Out_of_Hours_And_Timeframe_In_hours_Test()
+        {
+            var result = _serviceAvailabilityProfile.GetServiceAvailability(OOHoursToInHoursPeriodWeekday.Item1, OOHoursToInHoursPeriodWeekday.Item2);
+            Assert.AreEqual(ServiceAvailability.DispositionOutOfHoursTimeFrameInHours, result);
         }
     }
 }
