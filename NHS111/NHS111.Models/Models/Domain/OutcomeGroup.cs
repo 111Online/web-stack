@@ -50,6 +50,7 @@ namespace NHS111.Models.Models.Domain {
         {
             { ClinicianCallBack.Id, ClinicianCallBack},
             { Call999.Id, Call999 },
+            { Call999Assess.Id, Call999Assess },
             { Call999Police.Id, Call999Police },
             { AccidentAndEmergency.Id, AccidentAndEmergency },
             { AccidentAndEmergencySexualAssault.Id, AccidentAndEmergencySexualAssault },

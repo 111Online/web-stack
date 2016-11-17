@@ -1,4 +1,5 @@
-﻿@using NHS111.Models.Models.Web
+﻿@using NHS111.Models.Models.Domain
+@using NHS111.Models.Models.Web
 @model OutcomeViewModel
 @{
     Layout = "~/Views/Shared/_LayoutNhsUK.cshtml";
@@ -16,7 +17,7 @@
     @Html.Partial("_FeedbackDetails", new FeedbackViewModel() { PageId = Model.Id })
 }
 
-@Html.Partial("_OutcomeHeader", Model, new ViewDataDictionary() { { "OverrideWorseningAdvice", "true" } })
+@Html.Partial("_OutcomeHeader", Model, new ViewDataDictionary() { { "OutcomeHeader", Model.OutcomeGroup.GetDefaultTitle() } })
 
 <div id="wrapper">
     <div>
