@@ -12,30 +12,39 @@ namespace NHS111.Business.DOS.Test
 
         public static IClock InHoursStartTime = new InHoursClock();
 
-        public static IClock OutOfHursClock = new OutOfHoursClock();
+        public static IClock OutOfHoursClock = new OutOfHoursClock();
 
         private static Tuple<DateTime, int> InHoursToInHoursPeriodWeekday = new Tuple<DateTime, int>(InHoursStartTime.Now, 60);
 
-        private static Tuple<DateTime, int> InHoursToOOHoursPeriodWeekday = new Tuple<DateTime, int>(InHoursStartTime.Now, 12*60);
+        private static readonly Tuple<DateTime, int> InHoursToOoHoursPeriodWeekday = new Tuple<DateTime, int>(InHoursStartTime.Now, 12*60);
 
-        private static Tuple<DateTime, int> OOHoursToOOHoursPeriodWeekday = new Tuple<DateTime, int>(OutOfHursClock.Now, 60);
+        private static Tuple<DateTime, int> OOHoursToOOHoursPeriodWeekday = new Tuple<DateTime, int>(OutOfHoursClock.Now, 60);
 
-        private static Tuple<DateTime, int> OOHoursToInHoursPeriodWeekday = new Tuple<DateTime, int>(OutOfHursClock.Now, 60*60);
+        private static readonly Tuple<DateTime, int> OoHoursToInHoursPeriodWeekday = new Tuple<DateTime, int>(OutOfHoursClock.Now, 60*60);
 
         [Test()]
-        // Test for dispo IH period and timeframe within IH perion
         public void GetServiceAvailability_In_Hours_And_Timeframe_In_hours_Test()
         {
             var result = _serviceAvailabilityProfile.GetServiceAvailability(InHoursStartTime.Now, 60);
             Assert.AreEqual(DispositionTimePeriod.DispositionAndTimeFrameInHours, result);
         }
-        
+
         [Test()]
-        // Test for dispo IH perios and timeframe within IH perion
+
         public void GetServiceAvailability_In_Hours_And_Timeframe_Out_of_hours_Test()
         {
-            var result = _serviceAvailabilityProfile.GetServiceAvailability(InHoursToOOHoursPeriodWeekday.Item1, InHoursToOOHoursPeriodWeekday.Item2);
+            var result = _serviceAvailabilityProfile.GetServiceAvailability(InHoursToOoHoursPeriodWeekday.Item1,
+                InHoursToOoHoursPeriodWeekday.Item2);
             Assert.AreEqual(DispositionTimePeriod.DispositionAndTimeFrameInHours, result);
+        }
+
+        [Test()]
+
+        public void GetServiceAvailability_Out_of_Hours_And_Timeframe_In_hours_Test()
+        {
+            var result = _serviceAvailabilityProfile.GetServiceAvailability(OoHoursToInHoursPeriodWeekday.Item1,
+                OoHoursToInHoursPeriodWeekday.Item2);
+            Assert.AreEqual(DispositionTimePeriod.DispositionOutOfHoursTimeFrameInHours, result);
         }
     }
 
