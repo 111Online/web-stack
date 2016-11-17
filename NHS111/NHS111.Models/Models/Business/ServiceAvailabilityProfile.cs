@@ -1,27 +1,22 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using NHS111.Models.Models.Business.Enums;
 
 namespace NHS111.Models.Models.Business
 {
-    public enum ServiceAvailability
+    public abstract class ServiceAvailabilityProfile : IServiceAvailabilityProfile
     {
-        DispositionAndTimeFrameInHours,
-        DispositionInHoursTimeFrameOutOfHours,
-        DispositionOutOfHoursTimeFrameInHours,
-        DispositionAndTimeFrameOutOfHours
-    }
+        protected ServiceAvailabilityProfile()
+        {
 
-    public class ServiceAvailabilityProfile : IServiceAvailabilityProfile
-    {
-        private int ProfileId { get; set; }
+        }
 
-        private string ProfileName { get; set; }
+        public virtual int ProfileId { get; set; }
 
-        private ProfileHoursOfOperation OperatingHours { get; set; }
-        public ServiceAvailability GetServiceAvailability(DateTime dispositionDateTime, int timeFrameMinutes)
+        public virtual string ProfileName { get; set; }
+
+        public virtual ProfileHoursOfOperation OperatingHours { get; set; }
+
+        public virtual DispositionTimePeriod GetServiceAvailability(DateTime dispositionDateTime, int timeFrameMinutes)
         {
             throw new NotImplementedException();
         }
