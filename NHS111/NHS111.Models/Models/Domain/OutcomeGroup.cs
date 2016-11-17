@@ -24,6 +24,8 @@ namespace NHS111.Models.Models.Domain {
 
         public static OutcomeGroup Call999 = new OutcomeGroup { Id = "Call_999", Text = "Call_999", DefaultTitle = "Your answers suggest you need to dial 999 immediately and ask for an ambulance" };
 
+        public static OutcomeGroup Call999Assess = new OutcomeGroup { Id = "Call_999_Assess", Text = "Call_999_Assess", DefaultTitle = "Based on your answers, we recommend you dial 999 for advice on what to do next" };
+
         public static OutcomeGroup AccidentAndEmergency = new OutcomeGroup { Id = "SP_Accident_and_emergency", DefaultTitle = "Your answers suggest you should go to an Accident and Emergency department" };
 
         public static OutcomeGroup AccidentAndEmergencySexualAssault = new OutcomeGroup { Id = "SP_Accident_and_emergency_sexual_assault", DefaultTitle = "Your answers suggest you should go to an Accident and Emergency department" };
@@ -48,6 +50,7 @@ namespace NHS111.Models.Models.Domain {
         {
             { ClinicianCallBack.Id, ClinicianCallBack},
             { Call999.Id, Call999 },
+            { Call999Assess.Id, Call999Assess },
             { Call999Police.Id, Call999Police },
             { AccidentAndEmergency.Id, AccidentAndEmergency },
             { AccidentAndEmergencySexualAssault.Id, AccidentAndEmergencySexualAssault },

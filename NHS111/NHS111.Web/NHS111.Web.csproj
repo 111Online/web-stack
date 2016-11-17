@@ -768,6 +768,7 @@
     <Content Include="Views\Outcome\Call_999_police.cshtml" />
     <Content Include="Views\Outcome\ITK_Primary_care.cshtml" />
     <Content Include="Views\Outcome\SP_Midwife.cshtml" />
+    <Content Include="Views\Outcome\Call_999_Assess.cshtml" />
     <None Include="Web.Development.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
