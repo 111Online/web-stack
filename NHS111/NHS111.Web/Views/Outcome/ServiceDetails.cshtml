@@ -28,7 +28,7 @@
 <section>
     <div class="service-list-header">
         <h2>
-            Recommended @Html.Raw(Model.OutcomeGroup.Label) for @Model.UserInfo.CurrentAddress.PostCode
+            @Html.Raw(Model.OutcomeGroup.Label) for @Model.UserInfo.CurrentAddress.PostCode
         </h2>
     </div>
 </section>
@@ -39,7 +39,7 @@
         <section>
             <div class="results-service-recommended section-item">
                 <h3 class="section-header">
-                    Recommended service
+                    Recommended service based on the symptoms
                 </h3>
                 @{
                     ServiceViewModel selectedService = null;
@@ -75,7 +75,7 @@
                                     @Html.Hidden("SelectedServiceId", @selectedService.Id)
                                     @Html.Hidden("SelectedServiceName", @selectedService.Name)
                                     @Html.Hidden("SelectedServiceAddress", @selectedService.Address)
-                                    <button type="submit" class="button button-next">Show on map</button>
+                                    <button type="submit" class="button button-next">Open in Google Maps</button>
                                 </div>
                             </fieldset>
                         </div>
@@ -118,7 +118,7 @@
                                 @Html.Hidden("SelectedServiceId", @service.Id)
                                 @Html.Hidden("SelectedServiceName", @service.Name)
                                 @Html.Hidden("SelectedServiceAddress", @service.Address)
-                                <button type="submit" class="button-link directions">Show on map</button>
+                                <button type="submit" class="button-link directions">Open in Google Maps</button>
                             </fieldset>
                         </div>
                     }

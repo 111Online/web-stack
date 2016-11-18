@@ -18,8 +18,11 @@
 }
 
 .button-next {
-    background-position: 85% 60%;
+    background-position: 100% 60%;
     margin: 10px 0 10px;
+    line-height:200%;
+    padding:0 12.5% 0 10%;
+    height: auto;
 }
 
 .button-link {
@@ -136,12 +139,12 @@
 
 @media (min-width: 730px) {
     .results-list {
-        width: 35%;
+        width: 45%;
         float: left;
     }
 
     .service-map {
-        width: 65%;
+        width: 55%;
         height: 600px;
         float: left;
     }
