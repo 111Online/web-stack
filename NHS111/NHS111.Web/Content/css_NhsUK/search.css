@@ -51,7 +51,6 @@ a.linkButton {
     background-color: #e4f1f9;
     float: right;
     width: 100%;
-    margin-bottom: 40px;
 }
 
 .common-symptoms ul{
@@ -86,6 +85,7 @@ a.linkButton {
 @media (max-width: 960px) {
      .common-symptoms {
        margin-top: 10px;
+       margin-bottom: 40px;
     }
      .common-symptoms ul{
       padding: 20px 0 20px 20px;
@@ -93,7 +93,9 @@ a.linkButton {
     .common-symptoms h3 {
         padding: 20px 20px 0px 20px;
 }
-
+    .all-symptoms ul {
+        float: none;
+    }
     hr {
         display: none;
     }
@@ -106,8 +108,8 @@ ul.list-conditions {
 }
 
 ul.list-conditions, ol.list-conditions {
-    line-height: 3rem;
-    font-size: 1.2em;
+    line-height: 2rem;
+    font-size: 1em;
 }
 
 .progress-panel ol li {
@@ -321,17 +323,10 @@ div.symptoms-search {
 }
 
 .all-symptoms ul {
-    white-space: nowrap;
-}
-
-.all-symptoms ul.left {
     float: left;
-    padding-right: 100px;
-    min-width: 300px;
 }
-
-.all-symptoms ul.right {
-    overflow: hidden;
+.all-symptoms ul.left {
+    padding-right: 20%;
 }
 
 .all-symptoms ul ul {
@@ -341,6 +336,7 @@ div.symptoms-search {
 }
 
 h5 {
+    line-height: 3rem;
     color: #0066ff;
     font-size: 1em;
 }
@@ -355,6 +351,8 @@ h5 {
     display: none;
 }
 
-h5 {
-    line-height: 3rem;
+@media (max-width: 960px) {
+    .all-symptoms ul {
+        float: none;
+    }
 }

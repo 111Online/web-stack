@@ -20,9 +20,9 @@
     </script>
 }
 
-        <div class="outcome-header">
-            <h2 class="heading-large">Based on your answers you don't need to see a healthcare professional at this time</h2>
-        </div>
+<div class="outcome-header">
+    <h2 class="heading-large">Based on your answers, you don't need to see a healthcare professional at this time</h2>
+</div>
     
 
 
@@ -32,6 +32,10 @@
 
 <section>
     <div>
-        @Html.Partial("_CareAdvice", Model.CareAdvices)
+        @if (Model.CareAdvices != null && Model.CareAdvices.Any()) {
+            @Html.Partial("_CareAdvice", Model.CareAdvices, new ViewDataDictionary() { { "NoHR", true } })
+        } else {
+            <h2 class="no-careadvice">If you need more help with your problem, you can find further information on <a href="www.nhs.uk">NHS Choices</a>.</h2>
+        }
     </div>
 </section>
