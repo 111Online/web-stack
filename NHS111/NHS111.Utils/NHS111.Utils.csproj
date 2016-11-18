@@ -191,6 +191,7 @@
     <Compile Include="Attributes\MultiSubmitAttribute.cs" />
     <Compile Include="Comparer\KeywordComparer.cs" />
     <Compile Include="Configuration\PathwaysConfigurationManager.cs" />
+    <Compile Include="Dates\NonWorkingDays.cs" />
     <Compile Include="Extensions\CypherFluentQueryExtension.cs" />
     <Compile Include="FeatureToggle\AppSettingValueProvider.cs" />
     <Compile Include="FeatureToggle\BaseFeature.cs" />

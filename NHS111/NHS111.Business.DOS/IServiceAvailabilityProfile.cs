@@ -10,8 +10,6 @@ namespace NHS111.Business.DOS
 
         string ProfileName { get; set; }
 
-        ProfileHoursOfOperation OperatingHours { get; set; }
-
         DispositionTimePeriod GetServiceAvailability(DateTime dispositionDateTime, int timeFrameMinutes);
     }
 }

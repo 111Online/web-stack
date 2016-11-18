@@ -1,4 +1,5 @@
 ﻿using System;
+using NHS111.Business.DOS.Configuration;
 using NHS111.Models.Models.Business;
 using NHS111.Models.Models.Business.Enums;
 
@@ -6,47 +7,41 @@ namespace NHS111.Business.DOS
 {
     public class ServiceAvailabilityProfile : IServiceAvailabilityProfile
     {
-        private DateTime _inHoursStart = DateTime.Now.Date + new TimeSpan(8, 00, 00);
-        private DateTime _outOfHoursStart = DateTime.Now.Date + new TimeSpan(20, 00, 00);
+        private readonly IProfileHoursOfOperation _profileHoursOfOperation;
 
-        public ServiceAvailabilityProfile()
+        public ServiceAvailabilityProfile(IProfileHoursOfOperation profileHoursOfOperation)
         {
-
+            _profileHoursOfOperation = profileHoursOfOperation;
         }
 
         public int ProfileId { get; set; }
 
         public string ProfileName { get; set; }
-
-        public ProfileHoursOfOperation OperatingHours { get; set; }
-
+        
         public DispositionTimePeriod GetServiceAvailability(DateTime dispositionDateTime, int timeFrameMinutes)
         {
-            var timeFrame = dispositionDateTime.AddMinutes(timeFrameMinutes);
+            var timeFrameDateTime = dispositionDateTime.AddMinutes(timeFrameMinutes);
 
-            if (IsInHours(dispositionDateTime.Hour) && IsInHours(timeFrame.Hour))
+            var dispositionServiceTime = _profileHoursOfOperation.GetServiceTime(dispositionDateTime);
+            var timeFrameServiceTime = _profileHoursOfOperation.GetServiceTime(timeFrameDateTime);
+
+            if (dispositionServiceTime == ProfileServiceTimes.InHours && timeFrameServiceTime == ProfileServiceTimes.InHours)
                 return DispositionTimePeriod.DispositionAndTimeFrameInHours;
 
-            if (IsInHours(dispositionDateTime.Hour) && IsOutOfHours(timeFrame.Hour))
+            if (dispositionServiceTime == ProfileServiceTimes.InHours && timeFrameServiceTime == ProfileServiceTimes.OutOfHours)
                 return DispositionTimePeriod.DispositionInHoursTimeFrameOutOfHours;
 
-            if (IsOutOfHours(dispositionDateTime.Hour) && IsInHours(timeFrame.Hour))
+            if (dispositionServiceTime == ProfileServiceTimes.OutOfHours && timeFrameServiceTime == ProfileServiceTimes.InHours)
                 return DispositionTimePeriod.DispositionOutOfHoursTimeFrameInHours;
 
-            if(IsOutOfHours(dispositionDateTime.Hour) && IsOutOfHours(timeFrame.Hour) && (dispositionDateTime.Hour < _inHoursStart.Hour && timeFrame.Hour > _outOfHoursStart.Hour))
+            if (dispositionServiceTime == ProfileServiceTimes.OutOfHours && timeFrameServiceTime == ProfileServiceTimes.InHoursShoulder)
+                return DispositionTimePeriod.DispositionOutOfHoursTimeFrameInShoulder;
+
+            var containsInHoursPeriod = _profileHoursOfOperation.ContainsInHoursPeriod(dispositionDateTime, timeFrameDateTime);
+            if (dispositionServiceTime == ProfileServiceTimes.OutOfHours && timeFrameServiceTime == ProfileServiceTimes.OutOfHours && containsInHoursPeriod)
                 return DispositionTimePeriod.DispositionAndTimeFrameOutOfHoursTraversesInHours;
-
+            
             return DispositionTimePeriod.DispositionAndTimeFrameOutOfHours;
-        }
-
-        private bool IsInHours(int hour)
-        {
-            return hour >= _inHoursStart.Hour && hour < _outOfHoursStart.Hour;
-        }
-
-        private bool IsOutOfHours(int hour)
-        {
-            return hour >= _outOfHoursStart.Hour;
         }
     }
 }
