@@ -20,11 +20,14 @@ namespace NHS111.Business.DOS.Service
             _dosService = dosService;
         }
 
-        public async Task<HttpResponseMessage> GetFilteredServices(HttpRequestMessage request)
+        public async Task<HttpResponseMessage> GetFilteredServices(bool isFiltered, HttpRequestMessage request)
         {
             var response = await _dosService.GetServices(request);
 
+            if (!isFiltered) return response;
+
             if (response.StatusCode != HttpStatusCode.OK) return response;
+
 
             var requestContent = await request.Content.ReadAsStringAsync();
             var dosCase = JsonConvert.DeserializeObject<DosCase>(requestContent);
@@ -52,6 +55,6 @@ namespace NHS111.Business.DOS.Service
 
     public interface IServiceAvailabilityFilterService
     {
-        Task<HttpResponseMessage> GetFilteredServices(HttpRequestMessage request);
+        Task<HttpResponseMessage> GetFilteredServices(bool isFiltered, HttpRequestMessage request);
     }
 }
