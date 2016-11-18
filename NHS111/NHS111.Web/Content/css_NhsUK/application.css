@@ -2348,13 +2348,23 @@ button[disabled=disabled] {
 }
 
 .outcome-header h2 {
-    margin: 0;
+    margin: 10px;
+}
+
+.outcome-header p {
+    margin: 10px;
 }
 
 .outcome-header .button {
     color: black;
     background-color: white;
 }
+
+.outcome-header .button:hover {
+    color: black;
+    background-color: #768692;
+}
+
 .outcome-header .button-next {
     background-image: url("/content/images/icons/icon-button-next-black.png");
 }
