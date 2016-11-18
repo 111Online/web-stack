@@ -24,6 +24,8 @@ namespace NHS111.Models.Models.Domain {
 
         public static OutcomeGroup Call999 = new OutcomeGroup { Id = "Call_999", Text = "Call_999", DefaultTitle = "Your answers suggest you need to dial 999 immediately and ask for an ambulance" };
 
+        public static OutcomeGroup Call999Assess = new OutcomeGroup { Id = "Call_999_Assess", Text = "Call_999_Assess", DefaultTitle = "Based on your answers, we recommend you dial 999 for advice on what to do next" };
+
         public static OutcomeGroup AccidentAndEmergency = new OutcomeGroup { Id = "SP_Accident_and_emergency", DefaultTitle = "Your answers suggest you should go to an Accident and Emergency department" };
 
         public static OutcomeGroup AccidentAndEmergencySexualAssault = new OutcomeGroup { Id = "SP_Accident_and_emergency_sexual_assault", DefaultTitle = "Your answers suggest you should go to an Accident and Emergency department" };
@@ -40,12 +42,15 @@ namespace NHS111.Models.Models.Domain {
 
         public static OutcomeGroup EmergencyDental = new OutcomeGroup { Id = "SP_Emergency_dental", Text = "Emergency dental treatment centre", DefaultTitle = "Your answers suggest you should get emergency dental treatment" };
 
-        public static OutcomeGroup[] SignpostingOutcomesGroups = new OutcomeGroup[] { AccidentAndEmergency, AccidentAndEmergencySexualAssault, Optician, Pharmacy, GumClinic, Dental, EmergencyDental };
+        public static OutcomeGroup Midwife = new OutcomeGroup { Id = "SP_Midwife", Text = "SP_Midwife", DefaultTitle = "Your answers suggest you should speak to your midwife" };
+
+        public static OutcomeGroup[] SignpostingOutcomesGroups = new OutcomeGroup[] { AccidentAndEmergency, AccidentAndEmergencySexualAssault, Optician, Pharmacy, GumClinic, Dental, EmergencyDental, Midwife };
      
         private static readonly Dictionary<string, OutcomeGroup> OutcomeGroups = new Dictionary<string, OutcomeGroup>()
         {
             { ClinicianCallBack.Id, ClinicianCallBack},
             { Call999.Id, Call999 },
+            { Call999Assess.Id, Call999Assess },
             { Call999Police.Id, Call999Police },
             { AccidentAndEmergency.Id, AccidentAndEmergency },
             { AccidentAndEmergencySexualAssault.Id, AccidentAndEmergencySexualAssault },
@@ -54,7 +59,8 @@ namespace NHS111.Models.Models.Domain {
             { GumClinic.Id, GumClinic },
             { Optician.Id, Optician },
             { Dental.Id, Dental },
-            { EmergencyDental.Id, EmergencyDental }
+            { EmergencyDental.Id, EmergencyDental },
+            { Midwife.Id, Midwife }
         };
 
         public override bool Equals(object obj) {

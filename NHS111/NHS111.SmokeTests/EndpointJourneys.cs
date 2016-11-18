@@ -25,8 +25,8 @@ namespace NHS111.SmokeTests
         {
             try
             {
-                _driver.Quit();
-                _driver.Dispose();
+                //_driver.Quit();
+                //_driver.Dispose();
             }
             catch (Exception)
             {
@@ -41,13 +41,13 @@ namespace NHS111.SmokeTests
         {
             var questionPage = TestScenerios.LaunchTriageScenerio(_driver, "Skin problems", TestScenerioGender.Female, TestScenerioAgeGroups.Adult);
 
-            questionPage.ValidateQuestion("What is your main problem?");
+            questionPage.ValidateQuestion("What is the main problem?");
             var outcomePage =  questionPage
-                .Answer("You have a rash")
+                .Answer("A rash")
                 .AnswerSuccessiveYes(2)
                 .AnswerForDispostion("Yes");
 
-            outcomePage.VerifyOutcome("Call 999");
+            outcomePage.VerifyOutcome("Your answers suggest you should dial 999 now for an ambulance");
         }
 
         [Test]
@@ -65,7 +65,7 @@ namespace NHS111.SmokeTests
                 .AnswerNo()
                 .AnswerForDispostion("Yes");
 
-            outcomePage.VerifyOutcome("Your answers suggest you should see a pharmacist within 12 hours");
+            outcomePage.VerifyOutcome("Your answers suggest you should see a pharmacist 12 hours");
             outcomePage.VerifyWorseningPanel(WorseningMessages.Call111);
             outcomePage.VerifyFindService(FindServiceTypes.Pharmacy);
             outcomePage.VerifyCareAdviceHeader("I know which pharmacy I'm going to. What can I do in the meantime?");
@@ -85,8 +85,7 @@ namespace NHS111.SmokeTests
                 .AnswerForDispostion("No");
 
 
-            outcomePage.VerifyOutcome("Based on your answers you do not need to see a healthcare professional at this time. Please see the advice below on how to look after yourself");
-            outcomePage.VerifySubHeader("You've finished your online assessment");
+            outcomePage.VerifyOutcome("Based on your answers you don't need to see a healthcare professional at this time");
            // outcomePage.VerifyHeaderOtherInfo("Based on your answers you do not need to see a healthcare profesional at this time.\r\nPlease see the advice below on how to look after yourself");
             outcomePage.VerifyWorseningPanel(WorseningMessages.Call111);
             
@@ -124,10 +123,10 @@ namespace NHS111.SmokeTests
                 .AnswerSuccessiveNo(7)
                 .AnswerForDispostion("Yes");
 
-            outcomePage.VerifyOutcome("Your answers suggest you should go to A&E within 1 hour");
+            outcomePage.VerifyOutcome("Your answers suggest you need urgent medical attention within 1 hour");
             outcomePage.VerifyWorseningPanel(WorseningMessages.Call999);
             outcomePage.VerifyFindService(FindServiceTypes.AccidentAndEmergency);
-            outcomePage.VerifyCareAdviceHeader("I know which A&E I'm going to. What can I do in the meantime?");
+            outcomePage.VerifyCareAdviceHeader("What can I do in the meantime?");
             outcomePage.VerifyCareAdvice(new string[] { "Headache", "Breathlessness", "Medication, pain and/or fever" });
         }
 
@@ -149,7 +148,7 @@ namespace NHS111.SmokeTests
             outcomePage.VerifyOutcome("Your answers suggest you should see an optician within 3 days");
             outcomePage.VerifyWorseningPanel(WorseningMessages.Call111);
             outcomePage.VerifyFindService(FindServiceTypes.Optician);
-            outcomePage.VerifyCareAdviceHeader("I know which optician I'm going to. What can I do in the meantime?");
+            outcomePage.VerifyCareAdviceHeader("What can I do in the meantime?");
             outcomePage.VerifyCareAdvice(new string[] {"Eye discharge", "Medication, pain and/or fever" });
         }
 

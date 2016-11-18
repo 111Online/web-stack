@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using FluentValidation;
-using FluentValidation.Attributes;
+using System.Text.RegularExpressions;
 using NHS111.Models.Models.Domain;
 using NHS111.Models.Models.Web.FromExternalServices;
 
@@ -58,7 +57,13 @@ namespace NHS111.Models.Models.Web
                 if (HasEndpointReasoning)
                     reasoningText = string.Format("From your answers, {0}", SymptomDiscriminator.ReasoningText);
 
-                var timeFrameText = !string.IsNullOrEmpty(TimeFrameText) ? string.Format(" within {0}", TimeFrameText) : string.Empty;
+                var timeFrameText = string.Empty;
+
+                if (!(String.IsNullOrEmpty(TimeFrameText)))
+                {
+                    var preposition = Regex.IsMatch(TimeFrameText, @"\s*^[0-9]") ? "within " : String.Empty;
+                    timeFrameText = string.Format(" {0}{1}", preposition, TimeFrameText);
+                }
 
                 var dispositionText = !string.IsNullOrEmpty(OutcomeGroup.Text) ? string.Format("{0} {1}{2}", !string.IsNullOrEmpty(reasoningText) ? "<br />You should" : "Your answers suggest you should", OutcomeGroup.Text, timeFrameText) : string.Empty;
 

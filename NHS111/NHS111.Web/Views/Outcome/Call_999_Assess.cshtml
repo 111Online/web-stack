@@ -1,0 +1,36 @@
+﻿@using NHS111.Models.Models.Domain
+@using NHS111.Models.Models.Web
+@model OutcomeViewModel
+@{
+    Layout = "~/Views/Shared/_LayoutNhsUK.cshtml";
+}
+@section Title
+{NHS 111 Digital}
+@section Scripts {
+    <!--<script src="~/scripts/jquery2.1.1.min.js"></script> included on layout page -->
+    <script src="~/scripts/jquery1.11.2-ui.min.js"></script>
+    <script src="~/scripts/jquery.blockUI.js"></script>
+    <script src="~/scripts/custom.js"></script>
+}
+
+@section FeedbackSection {
+    @Html.Partial("_FeedbackDetails", new FeedbackViewModel() { PageId = Model.Id })
+}
+
+@Html.Partial("_OutcomeHeader", Model, new ViewDataDictionary() { { "OutcomeHeader", Model.OutcomeGroup.GetDefaultTitle() } })
+
+<div id="wrapper">
+    <div>
+
+    </div> <!--/ContentWrapper-->
+    @using (Html.BeginForm("Navigation", "Question", FormMethod.Post))
+    {
+
+        @Html.Partial("_CommonHiddenFieldsOutcomeViewModel", Model)
+        <div class="row">
+            <input class="button-link-prev" type="submit" name="PreviousQuestion" value="Change my previous answer" />
+        </div>
+
+    }
+
+</div> <!-- /site -->

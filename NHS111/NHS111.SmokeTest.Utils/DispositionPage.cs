@@ -14,16 +14,16 @@ namespace NHS111.SmokeTest.Utils
     {
         private readonly IWebDriver _driver;
 
-        [FindsBy(How = How.CssSelector, Using = ".sub-header h2")]
+        [FindsBy(How = How.CssSelector, Using = ".outcome-header h2")]
         public IWebElement Header { get; set; }
 
-        [FindsBy(How = How.CssSelector, Using = ".sub-header h3")]
+        [FindsBy(How = How.CssSelector, Using = ".outcome-header h3")]
         public IWebElement SubHeader { get; set; }
 
         [FindsBy(How = How.CssSelector, Using = ".sub-header p")]
         public IWebElement HeaderOtherInfo { get; set; }
 
-        [FindsBy(How = How.ClassName, Using = "service-booking-message")]
+        [FindsBy(How = How.ClassName, Using = "worsening-advice-icon")]
         public IWebElement WhatIfFeelWorsePanel { get; set; }
 
         [FindsBy(How = How.ClassName, Using = "self-care-title")]
@@ -92,11 +92,9 @@ namespace NHS111.SmokeTest.Utils
 
     public static class WorseningMessages
     {
-        public static WorseningMessageType Call999 = new WorseningMessageType("What if I feel worse?\r\nIf there are any new symptoms," +
-                                                                              " or if the condition gets worse, changes or you have any other concerns, call 999 and ask for an ambulance.");
+        public static WorseningMessageType Call999 = new WorseningMessageType("Call 999 and ask for an ambulance if there are any new symptoms or the condition gets worse.");
 
-        public static WorseningMessageType Call111 = new WorseningMessageType("What if I feel worse?\r\nIf there are any new symptoms, or if the condition gets worse," +
-                              " changes or you have any other concerns, call NHS 111 for advice. Calls to 111 are free.");
+        public static WorseningMessageType Call111 = new WorseningMessageType("If there are any new symptoms, or if the condition gets worse, changes or you have any other concerns, call NHS 111 for advice. Calls to 111 are free.");
     }
 
     public class WorseningMessageType
@@ -111,7 +109,7 @@ namespace NHS111.SmokeTest.Utils
 
     public static class FindServiceTypes
     {
-        public static FindServiceType AccidentAndEmergency = new FindServiceType("Find an A&E department");
+        public static FindServiceType AccidentAndEmergency = new FindServiceType("Find a service that can see you");
         public static FindServiceType Pharmacy = new FindServiceType("Find a pharmacy");
         public static FindServiceType SexualHealthClinic = new FindServiceType("Find a sexual health clinic");
         public static FindServiceType EmergencyDental = new FindServiceType("Find emergency dental treatment");

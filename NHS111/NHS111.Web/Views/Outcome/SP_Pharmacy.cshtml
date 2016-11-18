@@ -16,16 +16,19 @@
     @Html.Partial("_FeedbackDetails", new FeedbackViewModel() { PageId = Model.Id })
 }
 
+@Html.Partial("_FindService", Model, new ViewDataDictionary { { "Title", "Find a pharmacy" }, { "ButtonText", "Find pharmacies" }, { "Label", "pharmacies" } })
+
 <div class="outcome-additional-info">
-    <h3 class="heading-medium">Did you know?</h3>
+    <h3 class="outcome-additional-info-header">Did you know?</h3>
     <p>In emergencies, some NHS pharmacies can supply prescription-only medicines during the out of hours period (without first seeing a doctor).</p>
     <p>Find out more about <a href="http://www.nhs.uk/NHSEngland/AboutNHSservices/pharmacists/Pages/pharmacistsandchemists.aspx">NHS pharmacies and the full list of services they offer.</a></p>
     <p>By going to the pharmacist rather than your GP you could save the NHS around £50</p>
 </div>
-
-@Html.Partial("_FindService", Model, new ViewDataDictionary { { "Title", "Find a pharmacy" }, { "ButtonText", "Find pharmacies" }, { "Label", "pharmacies" } })
+@Html.Partial("_WorseningAdvice", Model)
 
 @Html.Partial("_CareAdvice", Model.CareAdvices, new ViewDataDictionary { { "Title", "I know which pharmacy I'm going to.  What can I do in the meantime?" } })
+
+<hr />
 
 @using (Html.BeginForm("Navigation", "Question", FormMethod.Post))
 {
