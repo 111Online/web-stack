@@ -1,8 +1,9 @@
 ﻿@model  IEnumerable<NHS111.Models.Models.Domain.CareAdvice>
 @if (Model.Any())
 {
-    <hr/>
-
+    if (!ViewData.Keys.Contains("NoHR") || (bool) ViewData["NoHR"] == false) {
+        <hr/>
+    }
     <div class="care-advice">
 
         <h3 class="self-care-title">@Html.Raw((!ViewData.Keys.Contains("Title") ? "Looking after yourself" : ViewData["Title"]))</h3>

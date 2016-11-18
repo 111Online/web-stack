@@ -16,17 +16,21 @@
     @Html.Partial("_FeedbackDetails", new FeedbackViewModel() { PageId = Model.Id })
 }
 
-@Html.Partial("_FindService", Model, new ViewDataDictionary { { "Title", "Find a pharmacy" }, { "ButtonText", "Find pharmacies" }, { "Label", "pharmacies" } })
+@Html.Partial("_FindService", Model, new ViewDataDictionary { { "Title", "Find a pharmacy" }, { "ButtonText", "Find a pharmacy" }, { "Label", "pharmacies" } })
 
 <div class="outcome-additional-info">
     <h3 class="outcome-additional-info-header">Did you know?</h3>
-    <p>In emergencies, some NHS pharmacies can supply prescription-only medicines during the out of hours period (without first seeing a doctor).</p>
-    <p>Find out more about <a href="http://www.nhs.uk/NHSEngland/AboutNHSservices/pharmacists/Pages/pharmacistsandchemists.aspx">NHS pharmacies and the full list of services they offer.</a></p>
-    <p>By going to the pharmacist rather than your GP you could save the NHS around £50</p>
+    <p>In an emergency, some NHS pharmacies can supply prescription medicines outside normal opening hours.</p>
+    <p>Find out more about:</p>
+    <ul>
+        <li><a href="http://www.nhs.uk/Livewell/Pharmacy/Pages/Medicinesoutofhours.aspx">Out-of-hours medicines</a></li>
+        <li><a href="http://www.nhs.uk/NHSEngland/AboutNHSservices/pharmacists/Pages/pharmacistsandchemists.aspx">NHS pharmacies and the services they can offer</a></li>
+    </ul>
+    <p>By going to a pharmacist rather than your GP, you could save the NHS around £50.</p>
 </div>
 @Html.Partial("_WorseningAdvice", Model)
 
-@Html.Partial("_CareAdvice", Model.CareAdvices, new ViewDataDictionary { { "Title", "I know which pharmacy I'm going to.  What can I do in the meantime?" } })
+@Html.Partial("_CareAdvice", Model.CareAdvices, new ViewDataDictionary { { "Title", "What can I do in the meantime?" } })
 
 <hr />
 
