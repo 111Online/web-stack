@@ -291,7 +291,7 @@ ol li:last-child.arrow_box:before, ol li:last-child.arrow_box:after, .progress-p
 
 .module-zero .list-conditions li a span {
     text-decoration: underline;
-    color: #0077CC; ;
+    color: #0077CC;
 }
 
 .feeling-unwell {
@@ -330,14 +330,18 @@ div.symptoms-search {
     min-width: 300px;
 }
 
-    .all-symptoms ul.right {
-        overflow: hidden;
-    }
+.all-symptoms ul.right {
+    overflow: hidden;
+}
 
-.all-symptoms li {
+.all-symptoms ul ul {
+    padding-left: 10px;
+    border-left: 3px lightgrey solid;
+    margin-left: 25px;
 }
 
 h5 {
+    color: #0066ff;
     font-size: 1em;
 }
 

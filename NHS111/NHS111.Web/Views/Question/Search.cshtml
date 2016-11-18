@@ -91,11 +91,11 @@
                         <h3>All Symptoms</h3>
                         @for (int i = 0; i < lists.Count; ++i)
                         {
-                            <ul class="@Html.Raw(i == 0 ? "left" : "right")">
+                            <ul class="topics @Html.Raw(i == 0 ? "left" : "right")">
                                 @foreach (var categoryWithPathways in lists[i])
                                 {
                                     <li>
-                                        <h5 style="text-transform: capitalize"><a class="category linkButton" href="javascript:void(0);">@categoryWithPathways.Category.Title</a></h5>
+                                        <h5 style="text-transform: capitalize">&#9654;<a class="category linkButton" href="javascript:void(0);">@categoryWithPathways.Category.Title</a></h5>
                                         <ul class="pathways">
                                             @foreach (var groups in categoryWithPathways.Pathways.GroupBy(p => p.Pathway.Title))
                                             {
