@@ -16,7 +16,7 @@ namespace NHS111.Models.Models.Web.FromExternalServices
         public string OdsCode { get; set; }
         [JsonProperty(PropertyName = "capacityField")]
         public DosCapacity Capacity { get; set; }
-        [JsonProperty(PropertyName = "contactDetailsField ")]
+        [JsonProperty(PropertyName = "contactDetailsField")]
         public string ContactDetails { get; set; }
         [JsonProperty(PropertyName = "addressField")]
         public string Address { get; set; }

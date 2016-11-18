@@ -41,6 +41,8 @@ namespace NHS111.Models.Models.Web
             }
         }
 
+        public bool CallbackEnabled { get; set; }
+
         private string GetOpeningTimes(DayOfWeek day)
         {
             if (RotaSessions == null) return "Closed";

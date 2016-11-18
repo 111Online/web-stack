@@ -2351,10 +2351,6 @@ button[disabled=disabled] {
     margin: 10px;
 }
 
-.outcome-header p {
-    margin: 10px;
-}
-
 .outcome-header .button {
     color: black;
     background-color: white;

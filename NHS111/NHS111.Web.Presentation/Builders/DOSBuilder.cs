@@ -67,7 +67,7 @@ namespace NHS111.Web.Presentation.Builders
                 Success = new SuccessObject<ServiceViewModel>()
                 {
                     Code = (int)response.StatusCode,
-                    Services = result.ToObject<List<ServiceViewModel>>()
+                    Services = DetermineCallbackEnabled(result.ToObject<List<ServiceViewModel>>())
                 }
             };
 
@@ -77,6 +77,18 @@ namespace NHS111.Web.Presentation.Builders
                 checkCapacitySummaryResult.Success.Services = checkCapacitySummaryResult.Success.Services.Take(6).ToList();
 
             return checkCapacitySummaryResult;
+        }
+
+        public List<ServiceViewModel> DetermineCallbackEnabled(List<ServiceViewModel> serviceResult)
+        {
+            var whitelist = _configuration.DOSWhitelist.Split('|');
+
+            foreach (var service in serviceResult)
+            {
+                service.CallbackEnabled = whitelist.Contains(service.Id.ToString());
+            }
+
+            return serviceResult;
         }
 
         public async Task<DosServicesByClinicalTermResult> FillDosServicesByClinicalTermResult(DosViewModel dosViewModel)
