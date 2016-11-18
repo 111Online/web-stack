@@ -21,7 +21,9 @@ namespace NHS111.Web.Presentation.Configuration
         public string RedisConnectionString { get { return ConfigurationManager.AppSettings["RedisConnectionString"]; } }
         public string DosUsername { get { return ConfigurationManager.AppSettings["dos_credential_user"]; } }
         public string DosPassword { get { return ConfigurationManager.AppSettings["dos_credential_password"]; } }
-       
+
+        public string DOSWhitelist { get { return ConfigurationManager.AppSettings["DOSWhitelist"]; } }
+
         public string DOSMobileBaseUrl { get { return ConfigurationManager.AppSettings["DOSMobileBaseUrl"]; } }
         public string DOSMobileUsername { get { return ConfigurationManager.AppSettings["dos_mobile_credential_user"]; } }
         public string DOSMobilePassword { get { return ConfigurationManager.AppSettings["dos_mobile_credential_password"]; } }
@@ -30,7 +32,6 @@ namespace NHS111.Web.Presentation.Configuration
 
         public string GoogleAnalyticsContainerId { get {return ConfigurationManager.AppSettings["GoogleAnalyticsContainerId "]; } }
         public string MapsApiUrl { get { return ConfigurationManager.AppSettings["MapsApiUrl"]; } }
-
 
         public bool IsPublic {
             get {
@@ -188,6 +189,7 @@ namespace NHS111.Web.Presentation.Configuration
         string DOSMobileBaseUrl { get; }
         string DOSMobileUsername { get; }
         string DOSMobilePassword { get; }
+        string DOSWhitelist { get; }
 
         string BusinessApiListOutcomesUrl { get; }
         string GoogleAnalyticsContainerId { get; }

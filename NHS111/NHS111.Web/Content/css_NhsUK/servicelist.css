@@ -165,3 +165,12 @@
 .service-details-care-advice {
     display: inline-block;
 }
+
+input.linkButton { 
+    padding: 0;
+    background: none;
+    border: none;
+    color: #0066ff;
+    text-decoration: underline;
+    cursor: pointer; 
+}
