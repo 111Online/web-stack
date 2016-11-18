@@ -33,5 +33,42 @@ namespace NHS111.Business.DOS.Configuration
            var parser =  LocalTimePattern.CreateWithCurrentCulture("HH:mm").Parse(configText);
            return parser.GetValueOrThrow();
         }
+        public string DomainDOSApiBaseUrl { get { return ConfigurationManager.AppSettings["DomainDOSApiBaseUrl"]; } }
+        public string DomainDOSApiCheckCapacitySummaryUrl
+        {
+            get
+            {
+                return string.Format("{0}{1}", ConfigurationManager.AppSettings["DomainDOSApiBaseUrl"],
+                  ConfigurationManager.AppSettings["DomainDOSApiCheckCapacitySummaryUrl"]);
+            }
+        }
+
+        public string DomainDOSApiServiceDetailsByIdUrl
+        {
+            get
+            {
+                return string.Format("{0}{1}", ConfigurationManager.AppSettings["DomainDOSApiBaseUrl"],
+                  ConfigurationManager.AppSettings["DomainDOSApiServiceDetailsByIdUrl"]);
+            }
+        }
+
+        public string DomainDOSApiMonitorHealthUrl
+        {
+            get
+            {
+                return string.Format("{0}{1}", ConfigurationManager.AppSettings["DomainDOSApiBaseUrl"],
+                  ConfigurationManager.AppSettings["DomainDOSApiMonitorHealthUrl"]);
+
+            }
+        }
+
+        public string DomainDOSApiServicesByClinicalTermUrl
+        {
+            get
+            {
+                return string.Format("{0}{1}", ConfigurationManager.AppSettings["DomainDOSApiBaseUrl"],
+                    ConfigurationManager.AppSettings["DomainDOSApiServicesByClinicalTermUrl"]);
+            }
+        }
     }
 }

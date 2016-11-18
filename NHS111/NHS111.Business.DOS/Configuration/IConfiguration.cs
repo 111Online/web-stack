@@ -12,5 +12,10 @@ namespace NHS111.Business.DOS.Configuration
         LocalTime WorkingDayInHoursStartTime { get; }
         LocalTime WorkingDayInHoursEndTime { get; }
         LocalTime WorkingDayInHoursShoulderEndTime { get; }
+        string DomainDOSApiBaseUrl { get; }
+        string DomainDOSApiCheckCapacitySummaryUrl { get; }
+        string DomainDOSApiServiceDetailsByIdUrl { get; }
+        string DomainDOSApiMonitorHealthUrl { get; }
+        string DomainDOSApiServicesByClinicalTermUrl { get; }
     }
 }
