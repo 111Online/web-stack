@@ -2,7 +2,7 @@
 @model OutcomeViewModel
 
 @{
-    ViewBag.Title = "SP_GUM_Clinic";
+    ViewBag.Title = "Sexual health clinic";
     Layout = "~/Views/Shared/_LayoutNhsUK.cshtml";
 }
 
@@ -17,9 +17,12 @@
     @Html.Partial("_FeedbackDetails", new FeedbackViewModel() { PageId = Model.Id })
 }
 
-@Html.Partial("_FindService", Model, new ViewDataDictionary { { "Title", "Find a sexual health clinic" }, { "ButtonText", "Find sexual health clinics" }, { "Label", "sexual health clinics" } })
+@Html.Partial("_FindService", Model, new ViewDataDictionary { { "Title", "Find a sexual health clinic" }, { "ButtonText", "Find a sexual health clinic" }, { "Label", "sexual health clinics" } })
+@Html.Partial("_WorseningAdvice", Model)
 
-@Html.Partial("_CareAdvice", Model.CareAdvices, new ViewDataDictionary { { "Title", "I know which clinc I'm going to.  What can I do in the meantime?" } })
+@Html.Partial("_CareAdvice", Model.CareAdvices, new ViewDataDictionary { { "Title", "What can I do in the meantime?" } })
+
+<hr />
 
 @using (Html.BeginForm("Navigation", "Question", FormMethod.Post))
 {
