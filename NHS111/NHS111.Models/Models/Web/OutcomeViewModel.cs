@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 using NHS111.Models.Models.Domain;
 using NHS111.Models.Models.Web.FromExternalServices;
 
@@ -60,7 +61,7 @@ namespace NHS111.Models.Models.Web
 
                 if (!(String.IsNullOrEmpty(TimeFrameText)))
                 {
-                    var preposition = System.Text.RegularExpressions.Regex.IsMatch("^[0-9]", TimeFrameText.Trim().Substring(0, 1)) ? "within " : String.Empty;
+                    var preposition = Regex.IsMatch(TimeFrameText, @"\s*^[0-9]") ? "within " : String.Empty;
                     timeFrameText = string.Format(" {0}{1}", preposition, TimeFrameText);
                 }
 
