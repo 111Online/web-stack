@@ -63,6 +63,9 @@ namespace NHS111.Models.Models.Web
         public string TimeFrameText { get; set; }
         public OutcomeGroup OutcomeGroup { get; set; }
         public string WaitTimeText { get; set; }
+        public DateTime DispositionTime { get; set; }
+
+        public int TimeFrameMinutes { get; set; }
 
         private bool _displayOutcomeReferenceOnly = false;
         public bool DisplayOutcomeReferenceOnly

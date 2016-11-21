@@ -19,19 +19,16 @@ namespace NHS111.Web.Presentation.Configuration
 
         public string IntegrationApiItkDispatcher { get { return ConfigurationManager.AppSettings["IntegrationApiItkDispatcher"]; } }
         public string RedisConnectionString { get { return ConfigurationManager.AppSettings["RedisConnectionString"]; } }
-        public string DosUsername { get { return ConfigurationManager.AppSettings["dos_credential_user"]; } }
-        public string DosPassword { get { return ConfigurationManager.AppSettings["dos_credential_password"]; } }
-
         public string DOSWhitelist { get { return ConfigurationManager.AppSettings["DOSWhitelist"]; } }
-
-        public string DOSMobileBaseUrl { get { return ConfigurationManager.AppSettings["DOSMobileBaseUrl"]; } }
-        public string DOSMobileUsername { get { return ConfigurationManager.AppSettings["dos_mobile_credential_user"]; } }
-        public string DOSMobilePassword { get { return ConfigurationManager.AppSettings["dos_mobile_credential_password"]; } }
-
+        
         public string BusinessApiListOutcomesUrl { get { return ConfigurationManager.AppSettings["BusinessApiListOutcomesUrl"]; } }
 
         public string GoogleAnalyticsContainerId { get {return ConfigurationManager.AppSettings["GoogleAnalyticsContainerId "]; } }
         public string MapsApiUrl { get { return ConfigurationManager.AppSettings["MapsApiUrl"]; } }
+
+        public string DosMobileBaseUrl { get { return ConfigurationManager.AppSettings["DOSMobileBaseUrl"]; } }
+        public string DosMobileUsername { get { return ConfigurationManager.AppSettings["dos_mobile_credential_user"]; } }
+        public string DosMobilePassword { get { return ConfigurationManager.AppSettings["dos_mobile_credential_password"]; } }
 
         public bool IsPublic {
             get {
@@ -184,12 +181,7 @@ namespace NHS111.Web.Presentation.Configuration
         string PostcodeSubscriptionKey { get; }
         string IntegrationApiItkDispatcher { get; }
         string RedisConnectionString { get; }
-        string DosUsername { get; }
-        string DosPassword { get; }
-        string DOSMobileBaseUrl { get; }
-        string DOSMobileUsername { get; }
-        string DOSMobilePassword { get; }
-        string DOSWhitelist { get; }
+       string DOSWhitelist { get; }
 
         string BusinessApiListOutcomesUrl { get; }
         string GoogleAnalyticsContainerId { get; }
@@ -197,5 +189,8 @@ namespace NHS111.Web.Presentation.Configuration
 
         bool IsPublic { get; }
         string LoggingServiceUrl { get; }
+        string DosMobileBaseUrl { get; }
+        string DosMobileUsername { get; }
+        string DosMobilePassword { get; }
     }
 }

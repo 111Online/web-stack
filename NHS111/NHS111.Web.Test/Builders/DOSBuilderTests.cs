@@ -2,6 +2,7 @@
 using AutoMapper;
 using Moq;
 using NHS111.Models.Models.Domain;
+using NHS111.Models.Models.Web.DosRequests;
 using NHS111.Utils.Cache;
 using NHS111.Utils.Helpers;
 using NHS111.Utils.Notifier;
@@ -57,8 +58,6 @@ namespace NHS111.Web.Presentation.Builders.Tests
 
         private void SetupMockConfiguration()
         {
-            _mockConfiguration.SetupGet(c => c.DosUsername).Returns("TestUsername");
-            _mockConfiguration.SetupGet(c => c.DosPassword).Returns("TestPassword");
             _expectedBusinessApiPathwaySymptomGroupUrl = "http://Test.ApiPathwaySymptomGroupUrl.com/" + _mockPathwayURL;
             _mockConfiguration.Setup(c => c.GetBusinessApiPathwaySymptomGroupUrl(_mockPathwayURL)).Returns(_expectedBusinessApiPathwaySymptomGroupUrl);
         }
@@ -103,10 +102,10 @@ namespace NHS111.Web.Presentation.Builders.Tests
 
         private bool AssertIsMetric(HttpRequestMessage request, int original) {
             var content = request.Content.ReadAsStringAsync().Result;
-            var payload = JsonConvert.DeserializeObject<DosCheckCapacitySummaryRequest>(content);
+            var payload = JsonConvert.DeserializeObject<DosCase>(content);
 
             const float MILES_PER_KM = 1.609344f;
-            return payload.Case.SearchDistance == (int)Math.Ceiling(original / MILES_PER_KM);
+            return payload.SearchDistance == (int)Math.Ceiling(original / MILES_PER_KM);
         }
 
         private void MockRestfulHelperWithExpectedUrl(string expectedSymptomGroup)

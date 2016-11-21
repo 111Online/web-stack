@@ -151,10 +151,9 @@ namespace NHS111.Web.Presentation.Builders
             return model;
         }
 
-        public HttpRequestMessage BuildRequestMessage(DosCase dosCase)
+        public HttpRequestMessage BuildRequestMessage(DosFilteredCase dosCase)
         {
-            var dosCheckCapacitySummaryRequest = new DosCheckCapacitySummaryRequest(_configuration.DosUsername, _configuration.DosPassword, dosCase);
-            return new HttpRequestMessage { Content = new StringContent(JsonConvert.SerializeObject(dosCheckCapacitySummaryRequest), Encoding.UTF8, "application/json") };
+            return new HttpRequestMessage { Content = new StringContent(JsonConvert.SerializeObject(dosCase), Encoding.UTF8, "application/json") };
         }
 
         private async Task<string> GetPracticeIdFromSurgeryId(string surgeryId)
@@ -170,7 +169,7 @@ namespace NHS111.Web.Presentation.Builders
             var urlWithRequest = CreateMobileDoSUrl(endPoint, args);
             _logger.Debug("DOSBuilder.FillDosServicesByClinicalTermResult(): URL: " + urlWithRequest);
 
-            var http = new HttpClient(new HttpClientHandler {Credentials = new NetworkCredential(_configuration.DOSMobileUsername, _configuration.DOSMobilePassword) });
+            var http = new HttpClient(new HttpClientHandler {Credentials = new NetworkCredential(_configuration.DosMobileUsername, _configuration.DosMobilePassword) });
             var response = await http.GetAsync(urlWithRequest);
 
             var dosResult = await response.Content.ReadAsStringAsync();
@@ -179,7 +178,7 @@ namespace NHS111.Web.Presentation.Builders
 
         private string CreateMobileDoSUrl(string endPoint, params object[] args)
         {
-            return string.Format(_configuration.DOSMobileBaseUrl + endPoint, args);
+            return string.Format(_configuration.DosMobileBaseUrl + endPoint, args);
         }
     }
 
@@ -188,6 +187,6 @@ namespace NHS111.Web.Presentation.Builders
         Task<DosCheckCapacitySummaryResult> FillCheckCapacitySummaryResult(DosViewModel dosViewModel);
         Task<DosServicesByClinicalTermResult> FillDosServicesByClinicalTermResult(DosViewModel dosViewModel);
         Task<DosViewModel> FillServiceDetailsBuilder(DosViewModel model);
-        HttpRequestMessage BuildRequestMessage(DosCase dosCase);
+        HttpRequestMessage BuildRequestMessage(DosFilteredCase dosCase);
     }
 }
