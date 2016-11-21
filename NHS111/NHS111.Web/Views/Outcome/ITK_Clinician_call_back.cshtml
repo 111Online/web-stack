@@ -5,7 +5,8 @@
     var error = Model.DosCheckCapacitySummaryResult.HasNoServices;
 }
 
-@section Title { Speak to a clinician }
+@section Title { NHS 111 - Speak to a clinician }
+<link href="/Content/css_NhsUK/confirmation.css" media="all" rel="stylesheet" type="text/css">
 <link href="~/content/css_NhsUk/disposition.css" media="screen" rel="stylesheet" type="text/css" />
 <link href="~/Content/css_NhsUK/signposting-outcome.css" media="all" rel="stylesheet" type="text/css" />
 <link href="~/Content/css_NhsUK/signposting-outcome-print.css" media="print" rel="stylesheet" type="text/css" />
@@ -33,8 +34,12 @@
             Search for a service below and a clinician will call you.
         </li>
         <li>
-            If you have not heard back within @Model.WaitTimeText, please call 111 and tell them you have used the online tool.
+            If you have not heard back within @Model.WaitTimeText, please call 111 and tell them you have used NHS 111 online.
         </li>
+        <li>
+            Please don't use this online service again if you feel worse - follow the advice below instead.
+        </li>
+
     </ul>
 </div>
 
