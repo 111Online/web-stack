@@ -60,6 +60,7 @@ namespace NHS111.Web.Presentation.Builders.Tests
         {
             _expectedBusinessApiPathwaySymptomGroupUrl = "http://Test.ApiPathwaySymptomGroupUrl.com/" + _mockPathwayURL;
             _mockConfiguration.Setup(c => c.GetBusinessApiPathwaySymptomGroupUrl(_mockPathwayURL)).Returns(_expectedBusinessApiPathwaySymptomGroupUrl);
+            _mockConfiguration.Setup(c => c.DOSWhitelist).Returns("Service 1|Service 2");
         }
 
         private void SetupMockFillCareAdviceBuilder()
