@@ -155,6 +155,7 @@
     <Compile Include="Features\DirectLinkingFeature.cs" />
     <Compile Include="Features\DisclaimerBannerFeature.cs" />
     <Compile Include="Features\DisclaimerPopupFeature.cs" />
+    <Compile Include="Features\DOSFilteringToggleFeature.cs" />
     <Compile Include="Logging\AuditLogger.cs" />
     <Compile Include="ModelBinders\IntArrayModelBinder.cs" />
     <Compile Include="ModelBinders\JourneyBinder.cs" />
