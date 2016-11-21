@@ -49,6 +49,8 @@ namespace NHS111.Web.Presentation.Builders
 
         public async Task<OutcomeViewModel> DispositionBuilder(OutcomeViewModel model)
         {
+            model.DispositionTime = DateTime.Now;
+
             if (OutcomeGroup.Call999.Equals(model.OutcomeGroup))
             {
                 model.CareAdviceMarkers = model.State.Keys.Where(key => key.StartsWith("Cx"));

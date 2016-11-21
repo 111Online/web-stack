@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using AutoMapper;
 using NHS111.Models.Models.Domain;
 using NHS111.Models.Models.Web;
@@ -13,7 +14,8 @@ namespace NHS111.Models.Mappers.WebMappings
         {
             Mapper.CreateMap<OutcomeViewModel, DosViewModel>()
                 .ForMember(dest => dest.CareAdvices, opt => opt.MapFrom(src => src.CareAdvices))
-                .ForMember(dest => dest.DosCheckCapacitySummaryResult, opt => opt.MapFrom(src => src.DosCheckCapacitySummaryResult))
+                .ForMember(dest => dest.DosCheckCapacitySummaryResult,
+                    opt => opt.MapFrom(src => src.DosCheckCapacitySummaryResult))
                 .ForMember(dest => dest.Title, opt => opt.MapFrom(src => src.Title))
                 .ForMember(dest => dest.CareAdviceMarkers, opt => opt.MapFrom(src => src.CareAdviceMarkers))
                 .ForMember(dest => dest.CareAdvices, opt => opt.MapFrom(src => src.CareAdvices))
@@ -29,11 +31,15 @@ namespace NHS111.Models.Mappers.WebMappings
                 .ForMember(dest => dest.Disposition,
                     opt => opt.ResolveUsing<DispositionResolver>().FromMember(src => src.Id))
                 .ForMember(dest => dest.SymptomDiscriminatorList,
-                    opt => opt.ResolveUsing<SymptomDiscriminatorListResolver>().FromMember(dest => dest.SymptomDiscriminatorCode))
+                    opt =>
+                        opt.ResolveUsing<SymptomDiscriminatorListResolver>()
+                            .FromMember(dest => dest.SymptomDiscriminatorCode))
                 .ForMember(dest => dest.Gender,
                     opt => opt.ResolveUsing<GenderResolver>().FromMember(src => src.UserInfo.Gender))
                 .ForMember(dest => dest.Age, opt => opt.MapFrom(src => src.UserInfo.Age))
-                .ForMember(dest => dest.Surgery, opt => opt.MapFrom(src => src.SurgeryViewModel.SelectedSurgery)); ;
+                .ForMember(dest => dest.Surgery, opt => opt.MapFrom(src => src.SurgeryViewModel.SelectedSurgery))
+                .ForMember(dest => dest.DispositionTime, opt => opt.MapFrom(src => src.DispositionTime))
+                .ForMember(dest => dest.DispositionTimeFrameMinutes, opt => opt.MapFrom(src => src.TimeFrameMinutes));
         }
 
         public class DispositionResolver : ValueResolver<string, int>

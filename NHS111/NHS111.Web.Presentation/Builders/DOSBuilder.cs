@@ -139,7 +139,7 @@ namespace NHS111.Web.Presentation.Builders
             return model;
         }
 
-        public HttpRequestMessage BuildRequestMessage(DosCase dosCase)
+        public HttpRequestMessage BuildRequestMessage(DosFilteredCase dosCase)
         {
             return new HttpRequestMessage { Content = new StringContent(JsonConvert.SerializeObject(dosCase), Encoding.UTF8, "application/json") };
         }
@@ -175,6 +175,6 @@ namespace NHS111.Web.Presentation.Builders
         Task<DosCheckCapacitySummaryResult> FillCheckCapacitySummaryResult(DosViewModel dosViewModel);
         Task<DosServicesByClinicalTermResult> FillDosServicesByClinicalTermResult(DosViewModel dosViewModel);
         Task<DosViewModel> FillServiceDetailsBuilder(DosViewModel model);
-        HttpRequestMessage BuildRequestMessage(DosCase dosCase);
+        HttpRequestMessage BuildRequestMessage(DosFilteredCase dosCase);
     }
 }

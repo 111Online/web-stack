@@ -36,6 +36,9 @@ namespace NHS111.Models.Models.Domain
         [JsonProperty(PropertyName = "timeFrameText")]
         public string TimeFrameText { get; set; }
 
+        [JsonProperty(PropertyName = "timeFrame")]
+        public int TimeFrame { get; set; }
+
         [JsonProperty(PropertyName = "waitTimeText")]
         public string WaitTimeText { get; set; }
 

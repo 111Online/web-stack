@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
+using NHS111.Models.Models.Web.DosRequests;
 
 namespace NHS111.Web.Presentation.Models
 {

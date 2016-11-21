@@ -1,10 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using AutoMapper;
 using NHS111.Models.Models.Web;
+using NHS111.Models.Models.Web.DosRequests;
 using NHS111.Web.Presentation.Models;
 
 namespace NHS111.Web.Presentation.Converters
