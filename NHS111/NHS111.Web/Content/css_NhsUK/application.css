@@ -1602,7 +1602,7 @@ h1, h2, h3, h4, h5, h6 {
       padding-top: 1.33380375rem; } }
 
 .heading-large, .markdown-content h1 {
-  font-size: 2em;
+  font-size: 36px;
   line-height: 40px;
   margin-bottom: 40px; }
   @media screen and (min-width: 40em) {
@@ -2411,8 +2411,8 @@ button[disabled=disabled] {
 }
 @media (max-width: 360px) {
     .heading-large {
-        font-size: 1.5em;
-        line-height: 1.5em;
+        font-size: 20px;
+        line-height: 28px;
     }
     .button-next {
         padding-left: 8px;
