@@ -1,7 +1,10 @@
 ﻿
 
+using System;
+using System.Web.Http;
 using NHS111.Models.Models.Web.FromExternalServices;
 using NHS111.Models.Models.Web.Logging;
+using NHS111.Web.Presentation.Features;
 
 namespace NHS111.Web.Controllers {
     using System.Collections.Generic;
@@ -25,9 +28,10 @@ namespace NHS111.Web.Controllers {
         private readonly ILocationResultBuilder _locationResultBuilder;
         private readonly IAuditLogger _auditLogger;
         private readonly Presentation.Configuration.IConfiguration _configuration;
+        private readonly IDOSFilteringToggleFeature _dosFilteringToggle;
 
         public OutcomeController(IOutcomeViewModelBuilder outcomeViewModelBuilder, IDOSBuilder dosBuilder,
-            ISurgeryBuilder surgeryBuilder, ILocationResultBuilder locationResultBuilder, IAuditLogger auditLogger, Presentation.Configuration.IConfiguration configuration)
+            ISurgeryBuilder surgeryBuilder, ILocationResultBuilder locationResultBuilder, IAuditLogger auditLogger, Presentation.Configuration.IConfiguration configuration, IDOSFilteringToggleFeature dosFilteringToggle)
         {
             _outcomeViewModelBuilder = outcomeViewModelBuilder;
             _dosBuilder = dosBuilder;
@@ -35,7 +39,8 @@ namespace NHS111.Web.Controllers {
             _locationResultBuilder = locationResultBuilder;
             _auditLogger = auditLogger;
             _configuration = configuration;
-            }
+            _dosFilteringToggle = dosFilteringToggle;
+        }
 
         [HttpPost]
         public async Task<JsonResult> SearchSurgery(string input) {
@@ -70,8 +75,14 @@ namespace NHS111.Web.Controllers {
         }
 
         [HttpPost]
-        public async Task<ActionResult> ServiceList(OutcomeViewModel model) {
+        public async Task<ActionResult> ServiceList(OutcomeViewModel model,  [FromUri]DateTime? overrideDate, [FromUri]bool disableFilter = false)
+        {
             var dosViewModel = Mapper.Map<DosViewModel>(model);
+            if (_dosFilteringToggle.IsEnabled)
+            {
+                if (overrideDate.HasValue) throw new NotImplementedException(); //Do date stuff
+            }
+            
             AuditDosRequest(model, dosViewModel);
             model.DosCheckCapacitySummaryResult = await _dosBuilder.FillCheckCapacitySummaryResult(dosViewModel);
             AuditDosResponse(model);
