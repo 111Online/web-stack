@@ -80,7 +80,7 @@ namespace NHS111.Web.Controllers {
             var dosViewModel = Mapper.Map<DosViewModel>(model);
             if (_dosFilteringToggle.IsEnabled)
             {
-                if (overrideDate.HasValue) throw new NotImplementedException(); //Do date stuff
+                if (overrideDate.HasValue) dosViewModel.DispositionTime = overrideDate.Value;
             }
             
             AuditDosRequest(model, dosViewModel);
