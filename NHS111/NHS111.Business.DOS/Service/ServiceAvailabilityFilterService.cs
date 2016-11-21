@@ -6,7 +6,9 @@ using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using NHS111.Business.DOS.Configuration;
+using NHS111.Models.Mappers.WebMappings;
 using NHS111.Models.Models.Web.DosRequests;
 using NHS111.Models.Models.Web.FromExternalServices;
 using NHS111.Web.Presentation.Models;
@@ -26,8 +28,9 @@ namespace NHS111.Business.DOS.Service
 
         public async Task<HttpResponseMessage> GetFilteredServices(HttpRequestMessage request)
         {
-            var dosFilteredCase = GetObjectFromRequest<DosFilteredCase>(await request.Content.ReadAsStringAsync());
-            var dosCaseRequest = BuildRequestMessage(dosFilteredCase);
+            var content = await request.Content.ReadAsStringAsync();
+            var dosFilteredCase = GetObjectFromRequest<DosFilteredCase>(content);
+            var dosCaseRequest = BuildRequestMessage(GetObjectFromRequest<DosCase>(content));
             var response = await _dosService.GetServices(dosCaseRequest);
 
             if (response.StatusCode != HttpStatusCode.OK) return response;
@@ -35,16 +38,13 @@ namespace NHS111.Business.DOS.Service
             var isFiltered = GetFilterDosResults(dosFilteredCase.Disposition);
             if (!isFiltered) return response;
 
-            var result = GetObjectFromRequest<DosCheckCapacitySummaryResult>(await response.Content.ReadAsStringAsync());
+            var val = await response.Content.ReadAsStringAsync();
+            var jObj = (JObject)JsonConvert.DeserializeObject(val);
+            var x = jObj["CheckCapacitySummaryResult"];
+            var results = x.ToObject<List<Models.Models.Web.FromExternalServices.DosService>>();
 
             var serviceAvailability = new ServiceAvailability(new ServiceAvailabilityProfile(new ProfileHoursOfOperation(_configuration)), dosFilteredCase.DispositionTime, dosFilteredCase.DispositionTimeFrameMinutes);
-            if (!serviceAvailability.IsOutOfHours)
-                result.Success.Services = result.Success.Services
-                    .Where(s => FilteredDosServiceIds.Contains((int)s.ServiceType.Id))
-                    .ToList();
-
-            var responseMessage = new HttpResponseMessage { Content = new StringContent(JsonConvert.SerializeObject(result)) };
-            return responseMessage;
+            return BuildResponseMessage(!serviceAvailability.IsOutOfHours ? results.Where(s => FilteredDosServiceIds.Contains((int)s.ServiceType.Id)) : results);
         }
 
         private bool GetFilterDosResults(int dispositionCode)
@@ -67,6 +67,11 @@ namespace NHS111.Business.DOS.Service
         {
             var dosCheckCapacitySummaryRequest = new DosCheckCapacitySummaryRequest(_configuration.DosUsername, _configuration.DosPassword, dosCase);
             return new HttpRequestMessage { Content = new StringContent(JsonConvert.SerializeObject(dosCheckCapacitySummaryRequest), Encoding.UTF8, "application/json") };
+        }
+
+        public HttpResponseMessage BuildResponseMessage(IEnumerable<Models.Models.Web.FromExternalServices.DosService> results)
+        {
+            return new HttpResponseMessage { Content = new StringContent(JsonConvert.SerializeObject(results)) };
         }
 
         public T GetObjectFromRequest<T>(string content)
