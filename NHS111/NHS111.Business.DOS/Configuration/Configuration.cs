@@ -33,8 +33,8 @@ namespace NHS111.Business.DOS.Configuration
            var parser =  LocalTimePattern.CreateWithCurrentCulture("HH:mm").Parse(configText);
            return parser.GetValueOrThrow();
         }
-        public string DomainDOSApiBaseUrl { get { return ConfigurationManager.AppSettings["DomainDOSApiBaseUrl"]; } }
-        public string DomainDOSApiCheckCapacitySummaryUrl
+        public string DomainDosApiBaseUrl { get { return ConfigurationManager.AppSettings["DomainDOSApiBaseUrl"]; } }
+        public string DomainDosApiCheckCapacitySummaryUrl
         {
             get
             {
@@ -43,7 +43,7 @@ namespace NHS111.Business.DOS.Configuration
             }
         }
 
-        public string DomainDOSApiServiceDetailsByIdUrl
+        public string DomainDosApiServiceDetailsByIdUrl
         {
             get
             {
@@ -52,7 +52,7 @@ namespace NHS111.Business.DOS.Configuration
             }
         }
 
-        public string DomainDOSApiMonitorHealthUrl
+        public string DomainDosApiMonitorHealthUrl
         {
             get
             {
@@ -62,7 +62,7 @@ namespace NHS111.Business.DOS.Configuration
             }
         }
 
-        public string DomainDOSApiServicesByClinicalTermUrl
+        public string DomainDosApiServicesByClinicalTermUrl
         {
             get
             {
@@ -70,5 +70,18 @@ namespace NHS111.Business.DOS.Configuration
                     ConfigurationManager.AppSettings["DomainDOSApiServicesByClinicalTermUrl"]);
             }
         }
+
+        public string FilteredDispositionCodes
+        {
+            get { return ConfigurationManager.AppSettings["FilteredDispositionCodes"]; }
+        }
+
+        public string FilteredDosServiceIds
+        {
+            get { return ConfigurationManager.AppSettings["FilteredDosServiceIds"]; }
+        }
+
+        public string DosUsername { get { return ConfigurationManager.AppSettings["dos_credential_user"]; } }
+        public string DosPassword { get { return ConfigurationManager.AppSettings["dos_credential_password"]; } }
     }
 }

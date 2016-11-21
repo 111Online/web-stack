@@ -3,8 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
+using NHS111.Business.DOS.Configuration;
+using NHS111.Models.Models.Web.DosRequests;
 using NHS111.Models.Models.Web.FromExternalServices;
 using NHS111.Web.Presentation.Models;
 
@@ -13,48 +16,69 @@ namespace NHS111.Business.DOS.Service
     public class ServiceAvailabilityFilterService : IServiceAvailabilityFilterService
     {
         private readonly IDosService _dosService;
-        private readonly List<long> _filteredServiceTypes = new List<long>() {1, 2, 3};
+        private readonly IConfiguration _configuration;
 
-        public ServiceAvailabilityFilterService(IDosService dosService)
+        public ServiceAvailabilityFilterService(IDosService dosService, IConfiguration configuration)
         {
             _dosService = dosService;
+            _configuration = configuration;
         }
 
-        public async Task<HttpResponseMessage> GetFilteredServices(bool isFiltered, HttpRequestMessage request)
+        public async Task<HttpResponseMessage> GetFilteredServices(HttpRequestMessage request)
         {
-            var response = await _dosService.GetServices(request);
-
-            if (!isFiltered) return response;
+            var dosFilteredCase = GetObjectFromRequest<DosFilteredCase>(await request.Content.ReadAsStringAsync());
+            var dosCaseRequest = BuildRequestMessage(dosFilteredCase);
+            var response = await _dosService.GetServices(dosCaseRequest);
 
             if (response.StatusCode != HttpStatusCode.OK) return response;
+            
+            var isFiltered = GetFilterDosResults(dosFilteredCase.Disposition);
+            if (!isFiltered) return response;
 
+            var result = GetObjectFromRequest<DosCheckCapacitySummaryResult>(await response.Content.ReadAsStringAsync());
 
-            var requestContent = await request.Content.ReadAsStringAsync();
-            var dosCase = JsonConvert.DeserializeObject<DosCase>(requestContent);
-
-            var content = await response.Content.ReadAsStringAsync();
-            var result = JsonConvert.DeserializeObject<DosCheckCapacitySummaryResult>(content);
-
-            //need to figure out time frame and dispo time
-            //then call service availability
-            //dosCase.Time?
-            //dosCase.TimeFrame?  
-            //will this break dos?
-            var dispositonTime = DateTime.Now;
-            var serviceAvailability = new ServiceAvailability(new ServiceAvailabilityProfile(new ProfileHoursOfOperation(new Configuration.Configuration())), dispositonTime, 0 );
+            var serviceAvailability = new ServiceAvailability(new ServiceAvailabilityProfile(new ProfileHoursOfOperation(_configuration)), dosFilteredCase.DispositionTime, dosFilteredCase.DispositionTimeFrameMinutes);
             if (!serviceAvailability.IsOutOfHours)
                 result.Success.Services = result.Success.Services
-                    .Where(s => _filteredServiceTypes.Contains(s.ServiceType.Id))
+                    .Where(s => FilteredDosServiceIds.Contains((int)s.ServiceType.Id))
                     .ToList();
 
             var responseMessage = new HttpResponseMessage { Content = new StringContent(JsonConvert.SerializeObject(result)) };
-
             return responseMessage;
+        }
+
+        private bool GetFilterDosResults(int dispositionCode)
+        {
+            var filteredDispositionCodes = _configuration.FilteredDispositionCodes;
+            return !string.IsNullOrEmpty(filteredDispositionCodes) && filteredDispositionCodes.Split('|').Select(c => Convert.ToInt32(c)).Contains(dispositionCode);
+
+        }
+
+        public IEnumerable<int> FilteredDosServiceIds
+        {
+            get
+            {
+                var filteredDosServiceIds = _configuration.FilteredDosServiceIds;
+                return !string.IsNullOrEmpty(filteredDosServiceIds) ? filteredDosServiceIds.Split('|').Select(c => Convert.ToInt32(c)) : new List<int>();
+            }
+        }
+
+        public HttpRequestMessage BuildRequestMessage(DosCase dosCase)
+        {
+            var dosCheckCapacitySummaryRequest = new DosCheckCapacitySummaryRequest(_configuration.DosUsername, _configuration.DosPassword, dosCase);
+            return new HttpRequestMessage { Content = new StringContent(JsonConvert.SerializeObject(dosCheckCapacitySummaryRequest), Encoding.UTF8, "application/json") };
+        }
+
+        public T GetObjectFromRequest<T>(string content)
+        {
+            return JsonConvert.DeserializeObject<T>(content);
         }
     }
 
     public interface IServiceAvailabilityFilterService
     {
-        Task<HttpResponseMessage> GetFilteredServices(bool isFiltered, HttpRequestMessage request);
+        Task<HttpResponseMessage> GetFilteredServices(HttpRequestMessage request);
+
+        IEnumerable<int> FilteredDosServiceIds { get; }
     }
 }

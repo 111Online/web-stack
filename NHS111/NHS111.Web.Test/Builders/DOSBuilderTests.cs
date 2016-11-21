@@ -57,8 +57,6 @@ namespace NHS111.Web.Presentation.Builders.Tests
 
         private void SetupMockConfiguration()
         {
-            _mockConfiguration.SetupGet(c => c.DosUsername).Returns("TestUsername");
-            _mockConfiguration.SetupGet(c => c.DosPassword).Returns("TestPassword");
             _expectedBusinessApiPathwaySymptomGroupUrl = "http://Test.ApiPathwaySymptomGroupUrl.com/" + _mockPathwayURL;
             _mockConfiguration.Setup(c => c.GetBusinessApiPathwaySymptomGroupUrl(_mockPathwayURL)).Returns(_expectedBusinessApiPathwaySymptomGroupUrl);
         }

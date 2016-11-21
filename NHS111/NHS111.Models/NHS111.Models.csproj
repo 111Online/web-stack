@@ -179,6 +179,7 @@
     <Compile Include="Models\Domain\SymptomDiscriminator.cs" />
     <Compile Include="Models\Web\Clock\SystemClock.cs" />
     <Compile Include="Models\Web\Clock\IClock.cs" />
+    <Compile Include="Models\Web\DosRequests\DosFilteredCase.cs" />
     <Compile Include="Models\Web\DosRequests\DosServicesByClinicalTermRequest.cs" />
     <Compile Include="Models\Web\FeedbackViewModel.cs" />
     <Compile Include="Models\Web\FromExternalServices\DosCheckCapacitySummaryResult.cs" />

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
-using NHS111.Business.DOS.Api.Configuration;
+using NHS111.Business.DOS.Configuration;
 using NHS111.Utils.Helpers;
 using NHS111.Utils.Monitoring;
 
@@ -29,7 +29,7 @@ namespace NHS111.Business.DOS.Api.Monitoring
         {
             try
             {
-                return JsonConvert.DeserializeObject<bool>(await _restfulHelper.GetAsync(_configuration.DomainDOSApiMonitorHealthUrl));
+                return JsonConvert.DeserializeObject<bool>(await _restfulHelper.GetAsync(_configuration.DomainDosApiMonitorHealthUrl));
             }
             catch (Exception ex)
             {

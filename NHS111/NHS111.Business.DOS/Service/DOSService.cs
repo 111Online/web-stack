@@ -21,17 +21,17 @@ namespace NHS111.Business.DOS.Service
         }
         public async Task<HttpResponseMessage> GetServices(HttpRequestMessage request)
         {
-            return await _restfulHelper.PostAsync(_configuration.DomainDOSApiCheckCapacitySummaryUrl, request);
+            return await _restfulHelper.PostAsync(_configuration.DomainDosApiCheckCapacitySummaryUrl, request);
         }
 
         public async Task<HttpResponseMessage> GetServiceById(HttpRequestMessage request)
         {
-            return await _restfulHelper.PostAsync(_configuration.DomainDOSApiServiceDetailsByIdUrl, request);
+            return await _restfulHelper.PostAsync(_configuration.DomainDosApiServiceDetailsByIdUrl, request);
         }
 
         public async Task<HttpResponseMessage> GetServicesByClinicalTerm(HttpRequestMessage request)
         {
-            return await _restfulHelper.PostAsync(_configuration.DomainDOSApiServicesByClinicalTermUrl, request);
+            return await _restfulHelper.PostAsync(_configuration.DomainDosApiServicesByClinicalTermUrl, request);
         }
     }
 
