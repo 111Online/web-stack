@@ -1602,13 +1602,13 @@ h1, h2, h3, h4, h5, h6 {
       padding-top: 1.33380375rem; } }
 
 .heading-large, .markdown-content h1 {
-  font-size: 36px;
+  font-size: 2em;
   line-height: 40px;
   margin-bottom: 40px; }
   @media screen and (min-width: 40em) {
     .heading-large, .markdown-content h1 {
       font-size: 40px;
-      line-height: 44px;
+      line-height: 52px;
       margin: 40px 0; } }
 
 .heading-medium, .markdown-content h2 {
@@ -2398,5 +2398,25 @@ button[disabled=disabled] {
     padding-left: 20px !important;
     background-image: url("/content/images/icons/icon-link-back.png");
     background-position: 0;
+
+}
+
+@media (max-width:480px) {
+    .outcome-header {
+        margin-top: 0;
+    }
+    .form-control {
+        width: 100% !important;
+    }
+}
+@media (max-width: 360px) {
+    .heading-large {
+        font-size: 1.5em;
+        line-height: 1.5em;
+    }
+    .button-next {
+        padding-left: 8px;
+        padding-right: 5em;
+    }
 
 }

@@ -1,11 +1,10 @@
-﻿@using NHS111.Models.Models.Domain
-@using NHS111.Models.Models.Web
-@using NHS111.Utils.DispositionLogics
+﻿@using NHS111.Models.Models.Web
 @model OutcomeViewModel
 @{
     Layout = "~/Views/Shared/_LayoutNhsUK.cshtml";
 }
-@section Title { Go to Accident &amp; Emergency for sexual assault }
+
+@section Title { NHS 111 - Go to Accident &amp; Emergency for sexual assault }
 <link href="~/Content/css_NhsUK/confirmation.css" media="all" rel="stylesheet" type="text/css" />
 <link href="~/Content/css_NhsUK/signposting-outcome.css" media="all" rel="stylesheet" type="text/css" />
 <link href="~/Content/css_NhsUK/signposting-outcome-print.css" media="print" rel="stylesheet" type="text/css" />
@@ -16,15 +15,7 @@
     @Html.Partial("_FeedbackDetails", new FeedbackViewModel() { PageId = Model.Id })
 }
 
-@if (Model.DisplayWorseningCareAdvice)
-{
-    <div class="service-booking-message alert sp-module">
-        <h3 class="care-advice-section-header">
-            What if I feel worse?
-        </h3>
-        <p>If there are any new symptoms, or if the condition gets worse, changes or you have any other concerns, call 999 and ask for an ambulance.</p>
-    </div>
-}
+@Html.Partial("_FindService", Model, new ViewDataDictionary { { "Title", "Find an A&amp;E department" }, { "ButtonText", "Find an A&amp;E department" }, { "Label", "A&amp;E departments" } })
 
 <div class="care-advice advice-before-going">
     <h3 class="care-advice-section-header">
@@ -32,18 +23,17 @@
     </h3>
 
     <ul>
-        <li>do not drive yourself, get someone else to take you</li>
+        <li>don't drive yourself, get someone else to take you</li>
         <li>take all your current medicines with you</li>
-        <li>don’t wash yourself or change your clothes until you have been seen by a Doctor or specialist nurse. This is to avoid destroying important evidence should you wish to report the assault to the Police.</li>
+        <li>don’t wash yourself or change your clothes until you have been seen by a doctor or specialist nurse. This is to avoid destroying important evidence should you wish to report the assault to the police.</li>
     </ul>
 </div>
 
-@Html.Partial("_FindService", Model, new ViewDataDictionary { { "Title", "Find an A&amp;E department" }, { "ButtonText", "Find A&amp;E departments" }, { "Label", "A&amp;E departments" } })
+@Html.Partial("_WorseningAdvice", Model)
 
+@Html.Partial("_CareAdvice", Model.CareAdvices, new ViewDataDictionary { { "Title", "What can I do in the meantime?" } })
 
-@Html.Partial("_CareAdvice", Model.CareAdvices, new ViewDataDictionary { { "Title", "I know which A&amp;E I'm going to.  What can I do in the meantime?" } })
-
-
+<hr/>
 
 @using (Html.BeginForm("Navigation", "Question", FormMethod.Post))
 {
@@ -51,7 +41,7 @@
     if (!Model.DisplayOutcomeReferenceOnly)
     {
         <div class="changeAnswers row">
-            <input class="button button-next button-link" type="submit" name="PreviousQuestion" value="Change my answers" />
+            <input class="button button-next button-link" type="submit" name="PreviousQuestion" value="Change my previous answer" />
         </div>
     }
 }

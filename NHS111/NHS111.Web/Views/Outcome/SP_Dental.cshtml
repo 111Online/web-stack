@@ -47,11 +47,13 @@
     <h3 class="care-advice-section-header">
         Did you know?
     </h3>
-    <p>If you don't have a dentist:</p>
+    <p>If you don't have a dentist:</p><br/>
     <ul>
         <li>some areas have dental treatment clinics where you can get an appointment</li>
         <li>many dentists will see you even if you aren't registered with them</li>
     </ul>
+    <br/>
+    <p>Find out more about <a href="http://www.nhs.uk/NHSEngland/AboutNHSservices/dentists/Pages/find-an-NHS-dentist.aspx">NHS dental services</a></p>
 </div>
 
 @Html.Partial("_CareAdvice", Model.CareAdvices, new ViewDataDictionary { { "Title", "I know where to get dental treatment.  What can I do in the meantime?" } })
@@ -64,7 +66,7 @@
     {
         <hr/>
         <div class="changeAnswers row">
-            <input class="button button-next button-link" type="submit" name="PreviousQuestion" value="Change my answers" />
+            <input class="button button-next button-link" type="submit" name="PreviousQuestion" value="Change my previous answer" />
         </div>
     }
 }

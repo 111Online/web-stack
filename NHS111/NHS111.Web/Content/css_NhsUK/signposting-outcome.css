@@ -115,7 +115,7 @@ p {
     padding: 0 !important;
     padding-right: 20px !important;
     cursor: pointer;
-    color: #79AFDD;
+    color: #0072C6;
     background-color: white !important;
     background-image: url("/content/images/icons/icon-link-go.png");
     background-repeat: no-repeat;
@@ -123,7 +123,7 @@ p {
 }
 
     .button-link:link, .button-link:hover, .button-link:focus, .button-link:visited {
-        color: #79AFDD;
+        color: #0072C6;
         outline: none;
     }
 
