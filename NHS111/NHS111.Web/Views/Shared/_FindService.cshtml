@@ -23,6 +23,8 @@
             @Html.HiddenFor(x => Model.OutcomeGroup.Text)
             @Html.Hidden("OutcomeGroup.Label", (!ViewData.Keys.Contains("Label") ? "Services" : ViewData["Label"]))
             @Html.Hidden("CurrentView", ((RazorView)ViewContext.View).ViewPath)
+            @Html.HiddenFor(x => x.DispositionTime)
+            @Html.HiddenFor(x => x.TimeFrameMinutes)
             if (Model.DisplayWorseningCareAdvice)
             {
                 for (var i = 0; i < Model.WorseningCareAdvice.Items.Count; ++i)
