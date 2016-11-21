@@ -26,7 +26,7 @@ input[type='checkbox'] {
     display: inline;
     width: 30px;
     height: 30px;
-    margin: 10px 10px 10px 0;
+    margin: 10px 5px 10px 7px;
     vertical-align: middle;
 }
 .age label {

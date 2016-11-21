@@ -19,6 +19,7 @@ namespace NHS111.Web.Presentation.Configuration
 
         public string IntegrationApiItkDispatcher { get { return ConfigurationManager.AppSettings["IntegrationApiItkDispatcher"]; } }
         public string RedisConnectionString { get { return ConfigurationManager.AppSettings["RedisConnectionString"]; } }
+        public string DOSWhitelist { get { return ConfigurationManager.AppSettings["DOSWhitelist"]; } }
         
         public string BusinessApiListOutcomesUrl { get { return ConfigurationManager.AppSettings["BusinessApiListOutcomesUrl"]; } }
 
@@ -180,7 +181,8 @@ namespace NHS111.Web.Presentation.Configuration
         string PostcodeSubscriptionKey { get; }
         string IntegrationApiItkDispatcher { get; }
         string RedisConnectionString { get; }
-        
+       string DOSWhitelist { get; }
+
         string BusinessApiListOutcomesUrl { get; }
         string GoogleAnalyticsContainerId { get; }
         string MapsApiUrl { get; }

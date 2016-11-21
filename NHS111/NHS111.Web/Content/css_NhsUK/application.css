@@ -1798,9 +1798,9 @@ summary {
       padding-top: 0.62501rem; } }
 
 hr {
-  background-image: -webkit-gradient(linear, left top, left bottom, from(transparent), to(#0072c6));
-  background-image: -webkit-linear-gradient(top, transparent 50%, #0072c6 50%);
-  background-image: linear-gradient(to bottom, transparent 50%, #0072c6 50%);
+  background-image: -webkit-gradient(linear, left top, left bottom, from(transparent), to(#dbdbdb));
+  background-image: -webkit-linear-gradient(top, transparent 50%, #dbdbdb 50%);
+  background-image: linear-gradient(to bottom, transparent 50%, #dbdbdb 50%);
   background-position: 0 50%;
   background-repeat: repeat-x;
   background-size: 100% 0.20rem;
@@ -2188,6 +2188,7 @@ button[disabled=disabled] {
 
 .steps {
     max-width: 1000px;
+    padding-top: 15px;
 }
 .steps-list {
     position: relative;
@@ -2268,6 +2269,7 @@ button[disabled=disabled] {
 }
 .clear {
     clear: both;
+    padding-top: 10px;
 }
 
 .home p {
@@ -2348,10 +2350,6 @@ button[disabled=disabled] {
 }
 
 .outcome-header h2 {
-    margin: 10px;
-}
-
-.outcome-header p {
     margin: 10px;
 }
 

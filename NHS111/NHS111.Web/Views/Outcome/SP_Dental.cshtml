@@ -23,7 +23,7 @@
             You should see your own dentist if possible.
         </li>
         <li>
-            If you can't see your own dentist, or you want to be referred to another dental service, you can search for one below
+            If you can't see your own dentist, you can search for one below
         </li>
     </ul>
 </div>
@@ -39,12 +39,19 @@
     </ul>
 </div>
 
+@Html.Partial("_WorseningAdvice", Model)
+
+<hr/>
+
 <div class="outcome-additional-info">
     <h3 class="care-advice-section-header">
         Did you know?
     </h3>
-    <p>There are dental treatment clinics in some areas where you can get an appointment if you do not have a dentist?</p>
-    <p>Also, many dentists will see you even if you aren’t registered with them.</p>
+    <p>If you don't have a dentist:</p>
+    <ul>
+        <li>some areas have dental treatment clinics where you can get an appointment</li>
+        <li>many dentists will see you even if you aren't registered with them</li>
+    </ul>
 </div>
 
 @Html.Partial("_CareAdvice", Model.CareAdvices, new ViewDataDictionary { { "Title", "I know where to get dental treatment.  What can I do in the meantime?" } })

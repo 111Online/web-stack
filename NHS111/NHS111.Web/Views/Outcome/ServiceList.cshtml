@@ -20,11 +20,9 @@
 <section>
     <div class="outcome-header section-item">
         <h2>
-            Recommended service
+            Recommended service based on your answers
         </h2>
-        <div class="">
-            <p>This is the most suitable service for the symptoms you've described in your answers</p>
-        </div>
+
         @{
             ServiceViewModel selectedService = null;
             if (Model.DosCheckCapacitySummaryResult.Success != null)
@@ -43,9 +41,22 @@
                             {
                                 @Html.Partial("_CommonHiddenFieldsOutcomeViewModel", Model)
                                 @Html.Hidden("SelectedServiceId", @selectedService.Id)
-                                <div class="row">
-                                    <input class="button button-next" type="submit" name="PersonalDetails" value="Request a call back" />
-                                </div>
+
+                                if (selectedService.CallbackEnabled)
+                                {
+                                    
+                                    <p>This service can call you back to give you advice</p>
+                                    
+                                    <div class="row">
+                                        <input class="button button-next" type="submit" name="PersonalDetails" value="Request a call back" />
+                                    </div>
+                                }
+                                else
+                                {
+                                    <div class="row">
+                                        <p>Please call this service for advice: @selectedService.ContactDetails</p>
+                                    </div>
+                                }
                             }
                         </div>
                     </fieldset>
@@ -72,9 +83,22 @@
                             {
                                 @Html.Partial("_CommonHiddenFieldsOutcomeViewModel", Model)
                                 @Html.Hidden("SelectedServiceId", service.Id)
-                                <div class="row">
-                                    <input class="button button-next button-link" type="submit" name="PersonalDetails" value="Request a call back"/>
-                                </div>
+                                
+                                if (service.CallbackEnabled)
+                                {
+
+                                    <p>This service can call you back to give you advice</p>
+
+                                    <div class="row">
+                                        <input class="linkButton" type="submit" name="PersonalDetails" value="Request a call back" />
+                                    </div>
+                                }
+                                else
+                                {
+                                    <div class="row">
+                                        <p>Please call this service for advice: @service.ContactDetails</p>
+                                    </div>
+                                }
                             }
                         </div>
                     </fieldset>
