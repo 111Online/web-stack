@@ -44,7 +44,7 @@ namespace NHS111.Business.DOS.Service
             var results = x.ToObject<List<Models.Models.Web.FromExternalServices.DosService>>();
 
             var serviceAvailability = new ServiceAvailability(new ServiceAvailabilityProfile(new ProfileHoursOfOperation(_configuration)), dosFilteredCase.DispositionTime, dosFilteredCase.DispositionTimeFrameMinutes);
-            return BuildResponseMessage(!serviceAvailability.IsOutOfHours ? results.Where(s => FilteredDosServiceIds.Contains((int)s.ServiceType.Id)) : results);
+            return BuildResponseMessage(!serviceAvailability.IsOutOfHours ? results.Where(s => !FilteredDosServiceIds.Contains((int)s.ServiceType.Id)).ToList() : results);
         }
 
         private bool GetFilterDosResults(int dispositionCode)
@@ -59,7 +59,7 @@ namespace NHS111.Business.DOS.Service
             get
             {
                 var filteredDosServiceIds = _configuration.FilteredDosServiceIds;
-                return !string.IsNullOrEmpty(filteredDosServiceIds) ? filteredDosServiceIds.Split('|').Select(c => Convert.ToInt32(c)) : new List<int>();
+                return !string.IsNullOrEmpty(filteredDosServiceIds) ? filteredDosServiceIds.Split('|').Select(c => Convert.ToInt32(c)).ToList() : new List<int>();
             }
         }
 
