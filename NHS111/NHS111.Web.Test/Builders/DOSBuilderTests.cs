@@ -80,7 +80,7 @@ namespace NHS111.Web.Presentation.Builders.Tests
         [Test]
         public async void FillCheckCapacitySummaryResult_WithDistanceInMetric_ConvertsToMiles() {
             var fakeResponse = new HttpResponseMessage(HttpStatusCode.OK) {
-                Content = new StringContent("{ CheckCapacitySummaryResult: [{}] }")
+                Content = new StringContent("[{}]")
             };
             _mockRestfulHelper.Setup(r => r.PostAsync(It.IsAny<string>(), It.IsAny<HttpRequestMessage>()))
                 .Returns(Task<HttpResponseMessage>.Factory.StartNew(() => fakeResponse));
