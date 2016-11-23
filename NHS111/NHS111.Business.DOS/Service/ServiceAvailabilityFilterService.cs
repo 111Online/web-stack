@@ -29,19 +29,19 @@ namespace NHS111.Business.DOS.Service
         public async Task<HttpResponseMessage> GetFilteredServices(HttpRequestMessage request)
         {
             var content = await request.Content.ReadAsStringAsync();
-            var dosFilteredCase = GetObjectFromRequest<DosFilteredCase>(content);
             var dosCaseRequest = BuildRequestMessage(GetObjectFromRequest<DosCase>(content));
             var response = await _dosService.GetServices(dosCaseRequest);
 
             if (response.StatusCode != HttpStatusCode.OK) return response;
-            
+
+            var dosFilteredCase = GetObjectFromRequest<DosFilteredCase>(content);
             var isFiltered = GetFilterDosResults(dosFilteredCase.Disposition);
             if (!isFiltered) return response;
 
             var val = await response.Content.ReadAsStringAsync();
             var jObj = (JObject)JsonConvert.DeserializeObject(val);
-            var x = jObj["CheckCapacitySummaryResult"];
-            var results = x.ToObject<List<Models.Models.Web.FromExternalServices.DosService>>();
+            var services = jObj["CheckCapacitySummaryResult"];
+            var results = services.ToObject<List<Models.Models.Web.FromExternalServices.DosService>>();
 
             var serviceAvailability = new ServiceAvailability(new ServiceAvailabilityProfile(new ProfileHoursOfOperation(_configuration)), dosFilteredCase.DispositionTime, dosFilteredCase.DispositionTimeFrameMinutes);
             return BuildResponseMessage(!serviceAvailability.IsOutOfHours ? results.Where(s => !FilteredDosServiceIds.Contains((int)s.ServiceType.Id)).ToList() : results);
@@ -71,7 +71,8 @@ namespace NHS111.Business.DOS.Service
 
         public HttpResponseMessage BuildResponseMessage(IEnumerable<Models.Models.Web.FromExternalServices.DosService> results)
         {
-            return new HttpResponseMessage { Content = new StringContent(JsonConvert.SerializeObject(results)) };
+            var result = new JsonCheckCapacitySummaryResult(results);
+            return new HttpResponseMessage { Content = new StringContent(JsonConvert.SerializeObject(result)) };
         }
 
         public T GetObjectFromRequest<T>(string content)
@@ -85,5 +86,22 @@ namespace NHS111.Business.DOS.Service
         Task<HttpResponseMessage> GetFilteredServices(HttpRequestMessage request);
 
         IEnumerable<int> FilteredDosServiceIds { get; }
+    }
+
+    public class JsonCheckCapacitySummaryResult
+    {
+        private readonly CheckCapacitySummaryResult[] _checkCapacitySummaryResults;
+
+        public JsonCheckCapacitySummaryResult(IEnumerable<Models.Models.Web.FromExternalServices.DosService> dosServices)
+        {
+            var serialisedServices = JsonConvert.SerializeObject(dosServices);
+            _checkCapacitySummaryResults = JsonConvert.DeserializeObject<CheckCapacitySummaryResult[]>(serialisedServices);
+        }
+
+        [JsonProperty(PropertyName = "CheckCapacitySummaryResult")]
+        public CheckCapacitySummaryResult[] CheckCapacitySummaryResults
+        {
+            get { return _checkCapacitySummaryResults; }
+        }
     }
 }

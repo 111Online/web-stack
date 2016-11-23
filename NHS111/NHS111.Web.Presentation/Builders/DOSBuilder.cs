@@ -60,7 +60,10 @@ namespace NHS111.Web.Presentation.Builders
             if (response.StatusCode != HttpStatusCode.OK) return new DosCheckCapacitySummaryResult { Error = new ErrorObject() { Code = (int) response.StatusCode, Message = response.ReasonPhrase } };
 
             var val = await response.Content.ReadAsStringAsync();
-            var services = JsonConvert.DeserializeObject<List<ServiceViewModel>>(val);
+            var jObj = (JObject)JsonConvert.DeserializeObject(val);
+            var results = jObj["CheckCapacitySummaryResult"];
+            var services = results.ToObject<List<ServiceViewModel>>();
+
             var checkCapacitySummaryResult = new DosCheckCapacitySummaryResult()
             {
                 Success = new SuccessObject<ServiceViewModel>()
