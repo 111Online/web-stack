@@ -55,9 +55,9 @@ namespace NHS111.SmokeTests
         {
             var questionPage = TestScenerios.LaunchTriageScenerio(_driver, "Eye problems", TestScenerioGender.Male, TestScenerioAgeGroups.Adult);
 
-            questionPage.ValidateQuestion("What is your main problem?");
+            questionPage.ValidateQuestion("What is the main problem?");
             var outcomePage = questionPage
-                .Answer("You've redness or irritation of your eye")
+                .Answer("Eye redness or irritation")
                 .AnswerSuccessiveNo(2)
                 .Answer("My problem affects one eye")
                 .AnswerSuccessiveNo(4)
@@ -65,10 +65,10 @@ namespace NHS111.SmokeTests
                 .AnswerNo()
                 .AnswerForDispostion("Yes");
 
-            outcomePage.VerifyOutcome("Your answers suggest you should see a pharmacist 12 hours");
+            outcomePage.VerifyOutcome("Your answers suggest you should see a pharmacist within 12 hours");
             outcomePage.VerifyWorseningPanel(WorseningMessages.Call111);
             outcomePage.VerifyFindService(FindServiceTypes.Pharmacy);
-            outcomePage.VerifyCareAdviceHeader("I know which pharmacy I'm going to. What can I do in the meantime?");
+            outcomePage.VerifyCareAdviceHeader("What can I do in the meantime?");
             outcomePage.VerifyCareAdvice(new[] { "Eye discharge" });
         }
 
@@ -85,7 +85,7 @@ namespace NHS111.SmokeTests
                 .AnswerForDispostion("No");
 
 
-            outcomePage.VerifyOutcome("Based on your answers you don't need to see a healthcare professional at this time");
+            outcomePage.VerifyOutcome("Based on your answers, you don't need to see a healthcare professional at this time");
            // outcomePage.VerifyHeaderOtherInfo("Based on your answers you do not need to see a healthcare profesional at this time.\r\nPlease see the advice below on how to look after yourself");
             outcomePage.VerifyWorseningPanel(WorseningMessages.Call111);
             
@@ -96,9 +96,9 @@ namespace NHS111.SmokeTests
         {
             var questionPage = TestScenerios.LaunchTriageScenerio(_driver, "Dental problems", TestScenerioGender.Female, TestScenerioAgeGroups.Adult);
 
-            questionPage.ValidateQuestion("Which of the following apply to you?");
+            questionPage.ValidateQuestion("What is the main problem?");
             var outcomePage = questionPage
-                .Answer("My teeth or gums are bleeding")
+                .Answer("Dental bleeding")
                 .AnswerNo()
                 .AnswerYes()
                 .Answer("A tooth extraction")
@@ -109,7 +109,7 @@ namespace NHS111.SmokeTests
             outcomePage.VerifyOutcome("Your answers suggest you should get emergency dental treatment within 4 hours");
             outcomePage.VerifyFindService(FindServiceTypes.EmergencyDental);
             outcomePage.VerifyWorseningPanel(WorseningMessages.Call999);
-            outcomePage.VerifyCareAdviceHeader("I know where to get emergency dental treatment. What can I do in the meantime?");
+            outcomePage.VerifyCareAdviceHeader("What can I do in the meantime?");
             outcomePage.VerifyCareAdvice(new string[] { "Tooth extraction" });
         }
 
@@ -163,10 +163,12 @@ namespace NHS111.SmokeTests
                 .Answer("None of these")
                 .AnswerSuccessiveNo(2)
                 .Answer("No - I don't have diabetes")
-                .AnswerSuccessiveNo(10)
-                .AnswerForDispostion("Yes (one week or more)");
+                .AnswerNo()
+                .Answer("None of these")
+                .AnswerSuccessiveNo(8)
+                .AnswerForDispostion("Yes - 1 week or more");
 
-            outcomePage.VerifyOutcome("Your answers suggest you should speak to your GP");
+            outcomePage.VerifyOutcome("Your answers suggest you should speak to your GP within 3 days");
             outcomePage.VerifyWorseningPanel(WorseningMessages.Call111);
             outcomePage.VerifyCareAdviceHeader("What can I do in the meantime?");
             outcomePage.VerifyCareAdvice(new string[] { "Diarrhoea & Vomiting" });
