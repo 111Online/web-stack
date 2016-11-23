@@ -3,7 +3,7 @@
     public class CheckCapacitySummaryResult
     {
         public int IdField { get; set; }
-        public Capacity CapacityField { get; set; }
+        public DosCapacity CapacityField { get; set; }
         public string NameField { get; set; }
         public string ContactDetailsField { get; set; }
         public string AddressField { get; set; }
