@@ -72,7 +72,7 @@ namespace NHS111.Business.DOS.Service
         public HttpResponseMessage BuildResponseMessage(IEnumerable<Models.Models.Web.FromExternalServices.DosService> results)
         {
             var result = new JsonCheckCapacitySummaryResult(results);
-            return new HttpResponseMessage { Content = new StringContent(JsonConvert.SerializeObject(result)) };
+            return new HttpResponseMessage { Content = new StringContent(JsonConvert.SerializeObject(result), Encoding.UTF8, "application/json") };
         }
 
         public T GetObjectFromRequest<T>(string content)
