@@ -3,7 +3,7 @@
 @model OutcomeViewModel
 @if (Model.DisplayWorseningCareAdvice)
 {
-    var isEmergencyOutcome = Model.OutcomeGroup.Equals(OutcomeGroup.AccidentAndEmergency) || Model.OutcomeGroup.Equals(OutcomeGroup.AccidentAndEmergencySexualAssault) || Model.OutcomeGroup.Equals(OutcomeGroup.EmergencyDental);
+    var isEmergencyOutcome = Model.OutcomeGroup.Equals(OutcomeGroup.AccidentAndEmergency) || Model.OutcomeGroup.Equals(OutcomeGroup.AccidentAndEmergencySexualAssault);
     if (!isEmergencyOutcome)
     {
         foreach (var item in Model.WorseningCareAdvice.Items)
