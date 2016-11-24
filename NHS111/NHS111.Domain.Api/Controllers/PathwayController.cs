@@ -28,6 +28,16 @@ namespace NHS111.Domain.Api.Controllers
         }
 
         [HttpGet]
+        [Route("pathways/{gender}/{age}")]
+        public async Task<HttpResponseMessage> GetPathways(string gender, int age, [FromUri]bool grouped = false, [FromUri]bool startingOnly = false)
+        {
+            return grouped
+                ? await _pathwayRepository.GetGroupedPathways(startingOnly, gender, age).AsJson().AsHttpResponse()
+                : await _pathwayRepository.GetAllPathways(startingOnly, gender, age).AsJson().AsHttpResponse();
+        }
+
+        
+        [HttpGet]
         [Route("pathways/{pathwayId}")]
         public async Task<HttpResponseMessage> GetPathway(string pathwayId)
         {

@@ -25,10 +25,25 @@ namespace NHS111.Domain.Api.Controllers
         }
 
         [HttpGet]
+        [Route("categories/{gender}/{age}")]
+        public async Task<HttpResponseMessage> GetCategories(string gender, int age)
+        {
+            return await _categoryRepository.GetCategories(gender, age).AsJson().AsHttpResponse();
+        }
+
+        [HttpGet]
         [Route("categories/pathways")]
         public async Task<HttpResponseMessage> GetCategoriesWithPathways()
         {
             return await _categoryRepository.GetCategoriesWithPathways().AsJson().AsHttpResponse();
+        }
+
+
+        [HttpGet]
+        [Route("categories/pathways/{gender}/{age}")]
+        public async Task<HttpResponseMessage> GetCategoriesWithPathways(string gender, int age)
+        {
+            return await _categoryRepository.GetCategoriesWithPathways(gender,age).AsJson().AsHttpResponse();
         }
 
         [HttpGet]
@@ -36,6 +51,13 @@ namespace NHS111.Domain.Api.Controllers
         public async Task<HttpResponseMessage> GetCategoryWithPathways(string category)
         {
             return await _categoryRepository.GetCategoryWithPathways(category).AsJson().AsHttpResponse();
+        }
+
+        [HttpGet]
+        [Route("category/{category}/pathways/{gender}/{age}")]
+        public async Task<HttpResponseMessage> GetCategoryWithPathways(string category,string gender, int age)
+        {
+            return await _categoryRepository.GetCategoryWithPathways(category, gender,age).AsJson().AsHttpResponse();
         }
     }
 }

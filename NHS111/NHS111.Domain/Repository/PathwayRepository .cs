@@ -62,9 +62,6 @@ namespace NHS111.Domain.Repository
 
         public async Task<Pathway> GetIdentifiedPathway(string pathwayTitle, string gender, int age)
         {
-            var genderIs = new Func<string, string>(g => string.Format("(p.gender is null or p.gender = \"\" or p.gender = \"{0}\")", g));
-            var ageIsAboveMinimum = new Func<int, string>(a => string.Format("(p.minimumAgeInclusive is null or p.minimumAgeInclusive = \"\" or p.minimumAgeInclusive <= {0})", a));
-            var ageIsBelowMaximum = new Func<int, string>(a => string.Format("(p.maximumAgeExclusive is null or p.maximumAgeExclusive = \"\" or {0} < p.maximumAgeExclusive)", a));
             var pathwayTitleEquals = string.Format("p.title = {0}", JsonConvert.SerializeObject(pathwayTitle));
 
             var jumptToPathways = PathwaysConfigurationManager.GetJumpToPathwaysElements().Select(e => e.Id);
@@ -72,7 +69,7 @@ namespace NHS111.Domain.Repository
 
             var pathway = await _graphRepository.Client.Cypher
                 .Match("(p:Pathway)")
-                .Where(string.Join(" and ", new List<string> { genderIs(gender), ageIsAboveMinimum(age), ageIsBelowMaximum(age), pathwayIdIn(jumptToPathways), pathwayTitleEquals }), UseWhitelist)
+                .Where(string.Join(" and ", new List<string> { GenderIs(gender), AgeIsAboveMinimum(age), AgeIsBelowMaximum(age), pathwayIdIn(jumptToPathways), pathwayTitleEquals }), UseWhitelist)
                 .Return(p => Return.As<Pathway>("p"))
                 .ResultsAsync
                 .FirstOrDefault();
@@ -86,9 +83,26 @@ namespace NHS111.Domain.Repository
                 .Return(p => Return.As<Pathway>("p")).ResultsAsync;
         }
 
+        public async Task<IEnumerable<Pathway>> GetAllPathways(bool startingOnly, string gender, int age)
+        {
+            return await GetPathwayQuery(startingOnly)
+                .Where(string.Join(" and ", new List<string> { GenderIs(gender), AgeIsAboveMinimum(age), AgeIsBelowMaximum(age) }))
+                .Return(p => Return.As<Pathway>("p"))
+                .ResultsAsync;
+        }
+
         public async Task<IEnumerable<GroupedPathways>> GetGroupedPathways(bool startingOnly)
         {
             var query = GetPathwayQuery(startingOnly)
+                .Return(p => new GroupedPathways { Group = Return.As<string>("distinct(m.digitalDescription)"), PathwayNumbers = Return.As<IEnumerable<string>>("collect(distinct(m.pathwayNo))") });
+
+            return await query.ResultsAsync;
+        }
+
+        public async Task<IEnumerable<GroupedPathways>> GetGroupedPathways(bool startingOnly, string gender, int age)
+        {
+            var query = GetPathwayQuery(startingOnly)
+                .Where(string.Join(" and ", new List<string> { GenderIs(gender), AgeIsAboveMinimum(age), AgeIsBelowMaximum(age) }))
                 .Return(p => new GroupedPathways { Group = Return.As<string>("distinct(m.digitalDescription)"), PathwayNumbers = Return.As<IEnumerable<string>>("collect(distinct(m.pathwayNo))") });
 
             return await query.ResultsAsync;
@@ -128,6 +142,27 @@ namespace NHS111.Domain.Repository
             var pathwayNumbers = pathwayNumberList as string[] ?? pathwayNumberList.ToArray();
             return !pathwayNumbers.Any() ? string.Empty : string.Join(",", pathwayNumbers.Distinct());
         }
+
+        private string GenderIs(string gender)
+        {
+            return String.Format("(p.gender is null or p.gender = \"\" or p.gender = \"{0}\")", gender);
+        }
+
+
+        private string AgeIsAboveMinimum(int age)
+        {
+            return
+                String.Format(
+                    "(p.minimumAgeInclusive is null or p.minimumAgeInclusive = \"\" or p.minimumAgeInclusive <= {0})",
+                    age);
+        }
+
+        private string AgeIsBelowMaximum(int age)
+        {
+            return
+                String.Format(
+                    "(p.maximumAgeExclusive is null or p.maximumAgeExclusive = \"\" or {0} < p.maximumAgeExclusive)", age);
+        }
     }
 
     public interface IPathwayRepository
@@ -136,7 +171,9 @@ namespace NHS111.Domain.Repository
         Task<Pathway> GetIdentifiedPathway(IEnumerable<string> pathwayNumbers, string gender, int age);
         Task<Pathway> GetIdentifiedPathway(string pathwayTitle, string gender, int age);
         Task<IEnumerable<Pathway>> GetAllPathways(bool startingOnly);
+        Task<IEnumerable<Pathway>> GetAllPathways(bool startingOnly, string gender, int age);
         Task<IEnumerable<GroupedPathways>> GetGroupedPathways(bool startingOnly);
+        Task<IEnumerable<GroupedPathways>> GetGroupedPathways(bool startingOnly, string gender, int age);
         Task<string> GetSymptomGroup(IList<string> pathwayNos);
         Task<string> GetPathwaysNumbers(string pathwayTitle);
     }
