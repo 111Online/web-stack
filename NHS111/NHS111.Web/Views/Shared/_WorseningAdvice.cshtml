@@ -8,11 +8,15 @@
     {
         foreach (var item in Model.WorseningCareAdvice.Items)
         {
-            <p class="worsening-advice-icon">@item.Text</p>
+            <div class="worsening-advice-icon">
+                <p>@item.Text</p>
+            </div>
         }
     }
     else
     {
-        <p class="worsening-advice-icon">If you have any new symptoms, or the condition gets worse, changes or you have any other concerns call 999.</p>
+        <div class="worsening-advice-icon">
+            <p>If you have any new symptoms, or the condition gets worse, changes or you have any other concerns call 999.</p>
+        </div>
     }
 }

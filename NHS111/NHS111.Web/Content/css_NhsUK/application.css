@@ -2373,13 +2373,17 @@ button[disabled=disabled] {
     background-position: left center;
     background-repeat: no-repeat;
     padding-left: 44px;
-    line-height: 34px;
     margin-top: 40px;
     padding-top: 0;
+    min-height:34px;
+}
+
+.worsening-advice-icon p {
+    line-height: 34px;
 }
 
 @media (max-width: 640px) {
-    .worsening-advice-icon {
+    .worsening-advice-icon p {
         line-height: 20px;
     }
 }
@@ -2391,6 +2395,10 @@ button[disabled=disabled] {
 
 .outcome-header.fail .worsening-advice-icon {
     background-image: url("/content/img/worsening-fail.png");
+}
+
+.outcome-header.fail h3 {
+    margin: 10px 10px 0 10px;
 }
 
 .button-link-prev {
@@ -2420,6 +2428,8 @@ button[disabled=disabled] {
 @media (max-width:480px) {
     .outcome-header {
         margin-top: 0;
+        padding: 20px;
+        margin: 20px 0;
     }
     .form-control {
         width: 100% !important;
@@ -2429,6 +2439,10 @@ button[disabled=disabled] {
     .heading-large {
         font-size: 20px;
         line-height: 28px;
+    }
+    .heading-medium {
+        font-size: 16px;
+        line-height: 24px;
     }
     .button-next {
         padding-left: 8px;

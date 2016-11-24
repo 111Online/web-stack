@@ -81,16 +81,15 @@ namespace NHS111.Web.Presentation.Builders
             return checkCapacitySummaryResult;
         }
 
-        public List<ServiceViewModel> DetermineCallbackEnabled(List<ServiceViewModel> serviceResult)
+        public List<ServiceViewModel> DetermineCallbackEnabled(List<ServiceViewModel> services)
         {
             var whitelist = _configuration.DOSWhitelist.Split('|');
 
-            foreach (var service in serviceResult)
+            return services.Select(s =>
             {
-                service.CallbackEnabled = whitelist.Contains(service.Id.ToString());
-            }
-
-            return serviceResult;
+                s.CallbackEnabled = whitelist.Contains(s.Id.ToString());
+                return s;
+            }).ToList();
         }
 
         public async Task<DosServicesByClinicalTermResult> FillDosServicesByClinicalTermResult(DosViewModel dosViewModel)
