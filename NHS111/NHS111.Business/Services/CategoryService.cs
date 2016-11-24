@@ -16,12 +16,17 @@ namespace NHS111.Business.Services {
 
         public async Task<string> GetCategoriesWithPathways() {
             return await _restfulHelper.GetAsync(_configuration.GetCategoriesWithPathwaysUrl());
+        }
 
+        public async Task<string> GetCategoriesWithPathways(string gender, int age)
+        {
+            return await _restfulHelper.GetAsync(_configuration.GetCategoriesWithPathwaysUrl(gender, age));
         }
 
     }
 
     public interface ICategoryService {
         Task<string> GetCategoriesWithPathways();
+        Task<string> GetCategoriesWithPathways(string gender, int age);
     }
 }

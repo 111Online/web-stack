@@ -58,6 +58,15 @@ namespace NHS111.Business.Configuration
                 .Replace("{startingOnly}", startingOnly.ToString());
         }
 
+        public string GetDomainApiPathwaysUrl(bool grouped, bool startingOnly, string gender, int age)
+        {
+            return GetDomainApiUrl("DomainApiPathwaysAgeGenderUrl")
+                .Replace("{grouped}", grouped.ToString())
+                .Replace("{startingOnly}", startingOnly.ToString())
+                .Replace("{gender}", gender)
+                .Replace("{age}", age.ToString());
+        }
+
         public string GetDomainApiPathwayUrl(string pathwayId)
         {
             return GetDomainApiUrl("DomainApiPathwayUrl").
@@ -129,6 +138,14 @@ namespace NHS111.Business.Configuration
         public string GetCategoriesWithPathwaysUrl() {
             return GetDomainApiUrl("DomainApiGetCategoriesWithPathwaysUrl");
         }
+
+
+        public string GetCategoriesWithPathwaysUrl(string gender, int age)
+        {
+            return GetDomainApiUrl("DomainApiGetCategoriesWithPathwaysAgeGenderUrl")
+                .Replace("{gender}", gender)
+                .Replace("{age}", age.ToString());
+        }
     }
 
     public interface IConfiguration
@@ -145,6 +162,7 @@ namespace NHS111.Business.Configuration
 
         /* Pathways */
         string GetDomainApiPathwaysUrl(bool grouped, bool startingOnly);
+        string GetDomainApiPathwaysUrl(bool grouped, bool startingOnly, string gender, int age);
         string GetDomainApiPathwayUrl(string pathwayId);
         string GetDomainApiIdentifiedPathwayUrl(string pathwayNumbers, string gender, int age);
         string GetDomainApiIdentifiedPathwayFromTitleUrl(string pathwayTitle, string gender, int age);
@@ -162,6 +180,9 @@ namespace NHS111.Business.Configuration
 
         /* Symptom disciminator */
         string GetDomainApiSymptomDisciminatorUrl(string symptomDiscriminatorCode);
+
+        /*Categories*/
         string GetCategoriesWithPathwaysUrl();
+        string GetCategoriesWithPathwaysUrl(string gender, int age);
     }
 }
