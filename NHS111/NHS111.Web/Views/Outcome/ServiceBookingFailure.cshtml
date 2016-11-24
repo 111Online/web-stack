@@ -5,7 +5,7 @@
 }
 
 @section Title {
-    Service Booking Failure
+    Call NHS 111 - request for callback not completed
 }
 
 <link href="~/content/css_NhsUk/confirmation.css" media="screen" rel="stylesheet" type="text/css"/>
@@ -19,9 +19,8 @@
 
 <section>
     <div class="outcome-header fail">
-        <h2 class="heading-large">Unfortunately your callback request failed.</h2>
-        <h3 class="heading-medium">Please call NHS 111 for further care and advice. You may need to provide your details again so that we can best help you</h3>
-        @Html.Partial("_WorseningAdvice", Model)
+        <h2 class="heading-large">Sorry, we can't confirm your callback from the service you selected. This problem has been reported.</h2>
+        <h3 class="heading-medium">Please call NHS 111 for advice. You may be asked to provide your details again so that we can help you</h3>
     </div>
 </section>
 
