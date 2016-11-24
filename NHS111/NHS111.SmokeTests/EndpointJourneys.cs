@@ -65,7 +65,7 @@ namespace NHS111.SmokeTests
                 .AnswerNo()
                 .AnswerForDispostion("Yes");
 
-            outcomePage.VerifyOutcome("Your answers suggest you should see a pharmacist within 12 hours");
+            outcomePage.VerifyOutcome("Your answers suggest you should contact a pharmacist within 12 hours");
             outcomePage.VerifyWorseningPanel(WorseningMessages.Call111);
             outcomePage.VerifyFindService(FindServiceTypes.Pharmacy);
             outcomePage.VerifyCareAdviceHeader("What can I do in the meantime?");
@@ -77,7 +77,7 @@ namespace NHS111.SmokeTests
         {
             var questionPage = TestScenerios.LaunchTriageScenerio(_driver, "Colds and flu", TestScenerioGender.Female, TestScenerioAgeGroups.Adult);
 
-            questionPage.ValidateQuestion("Do you have new bruises, a rash, or marks on your skin and feel severely ill?");
+            questionPage.ValidateQuestion("Are you severely ill AND got new marks, like bruising or bleeding under the skin?");
             var outcomePage = questionPage
                 .AnswerSuccessiveNo(6)
                 .Answer("None of the above")
@@ -85,7 +85,7 @@ namespace NHS111.SmokeTests
                 .AnswerForDispostion("No");
 
 
-            outcomePage.VerifyOutcome("Based on your answers, you don't need to see a healthcare professional at this time");
+            outcomePage.VerifyOutcome("Based on your answers, you can look after yourself and don't need to see a healthcare professional");
            // outcomePage.VerifyHeaderOtherInfo("Based on your answers you do not need to see a healthcare profesional at this time.\r\nPlease see the advice below on how to look after yourself");
             outcomePage.VerifyWorseningPanel(WorseningMessages.Call111);
             
@@ -106,9 +106,9 @@ namespace NHS111.SmokeTests
                 .AnswerForDispostion("It's getting worse");
 
 
-            outcomePage.VerifyOutcome("Your answers suggest you should get emergency dental treatment within 4 hours");
+            outcomePage.VerifyOutcome("Your answers suggest you need urgent attention for your dental problem within 4 hours");
             outcomePage.VerifyFindService(FindServiceTypes.EmergencyDental);
-            outcomePage.VerifyWorseningPanel(WorseningMessages.Call999);
+            outcomePage.VerifyWorseningPanel(WorseningMessages.Call111);
             outcomePage.VerifyCareAdviceHeader("What can I do in the meantime?");
             outcomePage.VerifyCareAdvice(new string[] { "Tooth extraction" });
         }
@@ -135,9 +135,9 @@ namespace NHS111.SmokeTests
         {
             var questionPage = TestScenerios.LaunchTriageScenerio(_driver, "Eye problems", TestScenerioGender.Female, TestScenerioAgeGroups.Child);
 
-            questionPage.ValidateQuestion("What is your main problem?");
+            questionPage.ValidateQuestion("What is the main problem?");
             var outcomePage = questionPage
-                .Answer("You've a sticky or watery eye discharge")
+                .Answer("A sticky or watery discharge from your eye")
                 .AnswerNo()
                 .AnswerYes()
                 .AnswerSuccessiveNo(2)
