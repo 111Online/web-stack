@@ -85,8 +85,9 @@
                     <div class="all-symptoms">
                         @{
                             var lists = new List<IEnumerable<CategoryWithPathways>>(2);
-                            lists.Add(Model.AllTopics.Take((Model.AllTopics.Count() / 2)));
-                            lists.Add(Model.AllTopics.Skip(lists[0].Count()));
+                            var orderLists = Model.AllTopics.OrderBy(c => c.Category.Title);
+                            lists.Add(orderLists.Take((orderLists.Count() / 2)));
+                            lists.Add(orderLists.Skip(lists[0].Count()));
                         }
                         <h3>All symptoms</h3>
                         @for (int i = 0; i < lists.Count; ++i)

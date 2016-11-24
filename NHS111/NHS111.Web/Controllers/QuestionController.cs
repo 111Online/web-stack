@@ -50,7 +50,9 @@ namespace NHS111.Web.Controllers {
         public async Task<ActionResult> Search(JourneyViewModel model)
         {
             var response = await _restfulHelper.GetAsync(_configuration.GetBusinessApiGetCategoriesWithPathways());
-            model.AllTopics = JsonConvert.DeserializeObject<List<CategoryWithPathways>>(response);
+            var allTopics = JsonConvert.DeserializeObject<List<CategoryWithPathways>>(response);
+            var topicsContainingStartingPathways = allTopics.Where(c => c.Pathways.Any(p => p.Pathway.StartingPathway));
+            model.AllTopics = topicsContainingStartingPathways;
 
             return View(model);
         }
