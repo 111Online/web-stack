@@ -92,6 +92,25 @@ namespace NHS111.SmokeTests
         }
 
         [Test]
+        public void DentalEndpointJourney()
+        {
+            var questionPage = TestScenerios.LaunchTriageScenerio(_driver, "Dental problems", TestScenerioGender.Female, TestScenerioAgeGroups.Adult);
+
+            questionPage.ValidateQuestion("What is the main problem?");
+            var outcomePage = questionPage
+                .Answer("Toothache")
+                .AnswerSuccessiveNo(8)
+                .Answer("No - less than 14 days")
+                .AnswerForDispostion("No - I've not taken any painkillers");
+
+            outcomePage.VerifyOutcome("Your answers suggest you should see a dentist within 5 working days");
+            outcomePage.VerifyWorseningPanel(WorseningMessages.Call111);
+            outcomePage.VerifyFindService(FindServiceTypes.Dental);
+            outcomePage.VerifyCareAdviceHeader("What can I do in the meantime?");
+            outcomePage.VerifyCareAdvice(new string[] { "Toothache", "Medication, pain and/or fever" });
+        }
+
+        [Test]
         public void EmergencyDentalEndpointJourney()
         {
             var questionPage = TestScenerios.LaunchTriageScenerio(_driver, "Dental problems", TestScenerioGender.Female, TestScenerioAgeGroups.Adult);
