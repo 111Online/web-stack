@@ -54,7 +54,7 @@
                         <h2>Find the symptom giving you the most concern</h2>
                     </div>
                     <div class="symptoms-find-container">
-                        <p>Next we'll ask you some questions to check how severe your symptoms are</p>
+                        <p>Next we'll ask you some questions to check how severe your symptoms are.</p>
                         <p>It may feel like we're asking a lot of questions, but we need to rule out some serious conditions first. It's important we check everything thoroughly.</p>
 
                         <hr />
@@ -69,7 +69,7 @@
 
 
                     <div class="common-symptoms">
-                        <h3>Common symptoms</h3>
+                        <h3>Popular searches</h3>
                         <ul class="list-conditions" id="commonConditions">
                             <li><input type="submit" class="linkButton" value="Abdominal pain" id="PW520,PW517,PW519,PW516" /></li>
                             <li><input type="submit" class="linkButton" value="A headache" id="PW755,PW752,PW754,PW753,PW754,PW756" /></li>
@@ -88,7 +88,7 @@
                             lists.Add(Model.AllTopics.Take((Model.AllTopics.Count() / 2)));
                             lists.Add(Model.AllTopics.Skip(lists[0].Count()));
                         }
-                        <h3>All Symptoms</h3>
+                        <h3>All symptoms</h3>
                         @for (int i = 0; i < lists.Count; ++i)
                         {
                             <ul class="topics @Html.Raw(i == 0 ? "left" : "right")">
