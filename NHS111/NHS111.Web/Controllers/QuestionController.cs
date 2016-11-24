@@ -49,12 +49,30 @@ namespace NHS111.Web.Controllers {
         [HttpPost]
         public async Task<ActionResult> Search(JourneyViewModel model)
         {
-            var response = await _restfulHelper.GetAsync(_configuration.GetBusinessApiGetCategoriesWithPathways());
+            var response = await _restfulHelper.GetAsync(string.Format(_configuration.GetBusinessApiGetCategoriesWithPathways(), model.UserInfo.Age, model.UserInfo.Gender)); //include age and gender
             model.AllTopics = JsonConvert.DeserializeObject<List<CategoryWithPathways>>(response);
+
+            model.CommonTopics = BuildCommonTopics(model.AllTopics);
 
             return View(model);
         }
-        
+
+        private IEnumerable<Pathway> BuildCommonTopics(IEnumerable<CategoryWithPathways> allTopics) {
+            var commonTopics = new List<string> {
+                "Abdominal pain",
+                "Headache",
+                "Chest and back pain",
+                "Cold or flu symptoms",
+                "A rash or skin problem",
+                "A mental health problem",
+                "Diarrhoea and vomiting",
+                "Sexual Concerns"
+            };
+
+            var flattenedPathways = allTopics.SelectMany(t => t.Pathways);
+            return flattenedPathways.Where(p => commonTopics.Contains(p.Pathway.Title)).Select(p => p.Pathway);
+        }
+
         [HttpPost]
         public async Task<JsonResult> AutosuggestPathways(string input) {
             return Json(await Search(input));
