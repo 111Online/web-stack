@@ -2397,6 +2397,10 @@ button[disabled=disabled] {
     background-image: url("/content/img/worsening-fail.png");
 }
 
+.outcome-header.fail h3 {
+    margin: 10px 10px 0 10px;
+}
+
 .button-link-prev {
     background-color: transparent;
     text-decoration: underline;
@@ -2424,6 +2428,8 @@ button[disabled=disabled] {
 @media (max-width:480px) {
     .outcome-header {
         margin-top: 0;
+        padding: 20px;
+        margin: 20px 0;
     }
     .form-control {
         width: 100% !important;
@@ -2433,6 +2439,10 @@ button[disabled=disabled] {
     .heading-large {
         font-size: 20px;
         line-height: 28px;
+    }
+    .heading-medium {
+        font-size: 16px;
+        line-height: 24px;
     }
     .button-next {
         padding-left: 8px;
