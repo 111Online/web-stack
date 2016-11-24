@@ -2374,13 +2374,16 @@ button[disabled=disabled] {
     background-repeat: no-repeat;
     padding-left: 44px;
     margin-top: 40px;
-    margin-bottom: 10px;
     padding-top: 0;
     min-height:34px;
 }
 
+.worsening-advice-icon p {
+    line-height: 34px;
+}
+
 @media (max-width: 640px) {
-    .worsening-advice-icon {
+    .worsening-advice-icon p {
         line-height: 20px;
     }
 }
