@@ -15,11 +15,11 @@ namespace NHS111.Utils.Test.FeatureToggle {
             var feature = new Mock<IFeature>().Object;
 
             ConfigurationManager.AppSettings[feature.GetType().Name] = "true";
-            var result = sut.GetSetting(feature, null, "IsEnabled");
+            var result = sut.GetSetting(feature, null, It.IsAny<string>());
             Assert.IsTrue(result);
 
             ConfigurationManager.AppSettings[feature.GetType().Name] = "false";
-            result = sut.GetSetting(feature, null, "IsEnabled");
+            result = sut.GetSetting(feature, null, It.IsAny<string>());
             Assert.IsFalse(result);
 
             ConfigurationManager.AppSettings.Remove(feature.GetType().Name);
