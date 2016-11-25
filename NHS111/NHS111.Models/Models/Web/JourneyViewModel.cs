@@ -96,6 +96,8 @@ namespace NHS111.Models.Models.Web
             }
         }
 
+        public IEnumerable<string> PathwayNumbers { get; set; }
+
         private IEnumerable<int> GetPreviousAnswers()
         {
             if (Journey == null)

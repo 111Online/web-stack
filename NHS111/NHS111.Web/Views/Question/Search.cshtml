@@ -71,18 +71,34 @@
                     <div class="common-symptoms">
                         <h3>Popular searches</h3>
                         <ul class="list-conditions" id="commonConditions">
-                            @foreach (var topic in Model.CommonTopics) {
-                                <li><input type="submit" class="linkButton" value="@topic.Title" id="@topic.Id" /></li>
+                            @{
+                                var links = new Dictionary<string, List<string>> {
+                                    { "Abdominal pain", new List<string> { "PW520", "PW517", "PW519", "PW516" } },
+                                    { "A headache", new List<string> { "PW755", "PW752", "PW754", "PW753", "PW754", "PW756" } },
+                                    { "Chest and back pain", new List<string> { "PA21", "PA212", "PA213", "PA21", "PA21", "PA212", "PA21", "PA213" } },
+                                    { "Cold or flu symptoms", new List<string> { "PW574", "PW1042", "PW1043", "PW1040", "PW574", "PW1041" } },
+                                    { "A rash or skin problem", new List<string> { "PW1771", "PW1772", "PW1773", "PW1774" } },
+                                    { "A mental health problem", new List<string> { "PW1751", "PW1751", "PW1751", "PW1751" } },
+                                    { "Diarrhoea and vomiting", new List<string> { "PW1554", "PW1708", "PW1563", "PW1563", "PW1555", "PW1556", "PW1553", "PW1708" } },
+                                    { "Sexual Concerns", new List<string> { "PW1684", "PW1699", "PW1698", "PW1685" } }
+                                };
+
+                                foreach (var link in links) {
+                                    link.Value.RemoveAll(number => !Model.PathwayNumbers.Contains(number));
+                                    if (link.Value.Any()) {
+                                        <li><input type="submit" class="linkButton" value="@link.Key" id="@string.Join(",", link.Value)"/></li>
+                                    }
+                                }
                             }
-                        <!--
-                        <li><input type="submit" class="linkButton" value="Abdominal pain" id="PW520,PW517,PW519,PW516"/></li>
-                        <li><input type="submit" class="linkButton" value="A headache" id="PW755,PW752,PW754,PW753,PW754,PW756"/></li>
-                        <li><input type="submit" class="linkButton" value="Chest and back pain" id="PA21,PA212,PA213,PA21,PA21,PA212,PA21,PA213"/></li>
-                        <li><input type="submit" class="linkButton" value="Cold or flu symptoms" id="PW574,PW1042,PW1043,PW1040,PW574,PW1041"/></li>
-                        <li><input type="submit" class="linkButton" value="A rash or skin problem" id="PW1771,PW1772,PW1773,PW1774"/></li>
-                        <li><input type="submit" class="linkButton" value="A mental health problem" id="PW1751,PW1751,PW1751,PW1751"/></li>
-                        <li><input type="submit" class="linkButton" value="Diarrhoea and vomiting" id="PW1554,PW1708,PW1563,PW1563,PW1555,PW1556,PW1553,PW1708"/></li>
-                        <li><input type="submit" class="linkButton" value="Sexual Concerns" id="PW1684,PW1699,PW1698,PW1685"/></li>
+                            <!--
+                            <li><input type="submit" class="linkButton" value="Abdominal pain" id="PW520,PW517,PW519,PW516"/></li>
+                            <li><input type="submit" class="linkButton" value="A headache" id="PW755,PW752,PW754,PW753,PW754,PW756"/></li>
+                            <li><input type="submit" class="linkButton" value="Chest and back pain" id="PA21,PA212,PA213,PA21,PA21,PA212,PA21,PA213"/></li>
+                            <li><input type="submit" class="linkButton" value="Cold or flu symptoms" id="PW574,PW1042,PW1043,PW1040,PW574,PW1041"/></li>
+                            <li><input type="submit" class="linkButton" value="A rash or skin problem" id="PW1771,PW1772,PW1773,PW1774"/></li>
+                            <li><input type="submit" class="linkButton" value="A mental health problem" id="PW1751,PW1751,PW1751,PW1751"/></li>
+                            <li><input type="submit" class="linkButton" value="Diarrhoea and vomiting" id="PW1554,PW1708,PW1563,PW1563,PW1555,PW1556,PW1553,PW1708"/></li>
+                            <li><input type="submit" class="linkButton" value="Sexual Concerns" id="PW1684,PW1699,PW1698,PW1685"/></li>
                             -->
                         </ul>
 
