@@ -1,22 +1,30 @@
 ﻿
 namespace NHS111.Utils.FeatureToggle {
 
-    public abstract class BaseFeature
-        : IFeature {
+    public abstract class BaseFeature : IFeature {
 
         protected BaseFeature() {
-            SettingValueProvider = new AppSettingValueProvider();
+            BoolSettingValueProvider = new AppSettingBoolValueProvider();
+            StringSettingValueProvider = new AppSettingStringValueProvider();
         }
 
-        protected BaseFeature(IFeatureSettingValueProvider settingValueProvider) {
-            SettingValueProvider = settingValueProvider;
+        protected BaseFeature(IFeatureSettingValueProvider<bool> boolSettingValueProvider, IFeatureSettingValueProvider<string> stringSettingValueProvider) {
+            BoolSettingValueProvider = boolSettingValueProvider;
+            StringSettingValueProvider = stringSettingValueProvider;
         }
 
         public virtual bool IsEnabled {
-            get { return SettingValueProvider.GetSetting(this, DefaultSettingStrategy); }
+            get { return BoolSettingValueProvider.GetSetting(this, DefaultBoolSettingStrategy); }
         }
 
-        public IFeatureSettingValueProvider SettingValueProvider { get; set; }
-        public IDefaultSettingStrategy DefaultSettingStrategy { get; set; }
+        public virtual string StringValue
+        {
+            get { return StringSettingValueProvider.GetSetting(this, DefaultStringSettingStrategy); }
+        }
+
+        public IFeatureSettingValueProvider<bool> BoolSettingValueProvider { get; set; }
+        public IDefaultSettingStrategy<bool> DefaultBoolSettingStrategy { get; set; }
+        public IFeatureSettingValueProvider<string> StringSettingValueProvider { get; set; }
+        public IDefaultSettingStrategy<string> DefaultStringSettingStrategy { get; set; }
     }
 }

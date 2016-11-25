@@ -1,11 +1,9 @@
 namespace NHS111.Utils.FeatureToggle {
     using System.Configuration;
 
-    public class AppSettingValueProvider
-        : IFeatureSettingValueProvider
+    public class AppSettingBoolValueProvider : IFeatureSettingValueProvider<bool>
     {
-
-        public bool GetSetting(IFeature feature, IDefaultSettingStrategy defaultStrategy)
+        public bool GetSetting(IFeature feature, IDefaultSettingStrategy<bool> defaultStrategy)
         {
             var setting = ConfigurationManager.AppSettings[feature.GetType().Name];
 

@@ -1,5 +1,7 @@
 ﻿namespace NHS111.Utils.FeatureToggle {
-    public interface IFeature {
+    public interface IFeature
+    {
         bool IsEnabled { get; }
+        string StringValue { get; }
     }
 }

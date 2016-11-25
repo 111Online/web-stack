@@ -10,7 +10,7 @@ namespace NHS111.Web.Presentation.Features
     public class DOSFilteringToggleFeature : BaseFeature, IDOSFilteringToggleFeature {
 
         public DOSFilteringToggleFeature() {
-            DefaultSettingStrategy = new DisabledByDefaultSettingStrategy();
+            DefaultBoolSettingStrategy = new DisabledByDefaultSettingStrategy();
         }
     }
 

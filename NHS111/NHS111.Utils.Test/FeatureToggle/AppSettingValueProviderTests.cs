@@ -11,7 +11,7 @@ namespace NHS111.Utils.Test.FeatureToggle {
         [Ignore("Can't isolate configuration manager.")]
         public void GetSetting_WithValue_ReturnsValue() {
 
-            var sut = new AppSettingValueProvider();
+            var sut = new AppSettingBoolValueProvider();
             var feature = new Mock<IFeature>().Object;
 
             ConfigurationManager.AppSettings[feature.GetType().Name] = "true";
@@ -27,16 +27,35 @@ namespace NHS111.Utils.Test.FeatureToggle {
 
         [Test]
         [ExpectedException(typeof (MissingSettingException))]
-        public void GetSetting_WithNullDefaultStrategy_ThrowsException() {
+        public void GetSetting_WithNullDefaultBoolStrategy_ThrowsException() {
 
-            var sut = new AppSettingValueProvider();
+            var sut = new AppSettingBoolValueProvider();
             sut.GetSetting(new Mock<IFeature>().Object, null);
         }
 
         [Test]
-        public void IsEnabled_WithDefaultStrategy_QueriesDefaultStrategy() {
-            var sut = new AppSettingValueProvider();
-            var defaultSettingStrategy = new Mock<IDefaultSettingStrategy>();
+        public void IsEnabled_WithDefaultBoolStrategy_QueriesDefaultStrategy() {
+            var sut = new AppSettingBoolValueProvider();
+            var defaultSettingStrategy = new Mock<IDefaultSettingStrategy<bool>>();
+            sut.GetSetting(new Mock<IFeature>().Object, defaultSettingStrategy.Object);
+
+            defaultSettingStrategy.Verify(s => s.GetDefaultSetting());
+        }
+
+        [Test]
+        [ExpectedException(typeof(MissingSettingException))]
+        public void GetSetting_WithNullDefaultStringStrategy_ThrowsException()
+        {
+
+            var sut = new AppSettingStringValueProvider();
+            sut.GetSetting(new Mock<IFeature>().Object, null);
+        }
+
+        [Test]
+        public void IsEnabled_WithDefaultStringStrategy_QueriesDefaultStrategy()
+        {
+            var sut = new AppSettingStringValueProvider();
+            var defaultSettingStrategy = new Mock<IDefaultSettingStrategy<string>>();
             sut.GetSetting(new Mock<IFeature>().Object, defaultSettingStrategy.Object);
 
             defaultSettingStrategy.Verify(s => s.GetDefaultSetting());

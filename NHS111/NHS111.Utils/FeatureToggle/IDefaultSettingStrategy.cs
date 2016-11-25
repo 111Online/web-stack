@@ -1,6 +1,6 @@
 ﻿namespace NHS111.Utils.FeatureToggle {
 
-    public interface IDefaultSettingStrategy {
-        bool GetDefaultSetting();
+    public interface IDefaultSettingStrategy<out T> {
+        T GetDefaultSetting();
     }
 }

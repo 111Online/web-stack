@@ -9,7 +9,7 @@ namespace NHS111.Web.Presentation.Features {
     public class DisclaimerPopupFeature
         : BaseFeature, IDisclaimerPopupFeature {
         public DisclaimerPopupFeature() {
-            DefaultSettingStrategy = new EnabledByDefaultSettingStrategy();
+            DefaultBoolSettingStrategy = new EnabledByDefaultSettingStrategy();
         }
     }
 }
