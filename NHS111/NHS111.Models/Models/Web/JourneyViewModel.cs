@@ -52,6 +52,7 @@ namespace NHS111.Models.Models.Web
             }
         }
 
+        public IEnumerable<Pathway> CommonTopics { get; set; }
         public IEnumerable<CategoryWithPathways> AllTopics { get; set; }
 
         public string QuestionNo { get; set; }
@@ -93,6 +94,8 @@ namespace NHS111.Models.Models.Web
                     string.Join(",", GetPreviousAnswers()));
             }
         }
+
+        public IEnumerable<string> PathwayNumbers { get; set; }
 
         private IEnumerable<int> GetPreviousAnswers()
         {

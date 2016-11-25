@@ -9,6 +9,8 @@ namespace NHS111.Web.Presentation.Configuration
         public string GPSearchUrl { get { return ConfigurationManager.AppSettings["GPSearchUrl"]; } }
         public string GPSearchApiUrl { get { return ConfigurationManager.AppSettings["GPSearchApiUrl"]; } }
         public string GPSearchByIdUrl { get { return ConfigurationManager.AppSettings["GPSearchByIdUrl"]; } }
+
+
         public string BusinessDosCheckCapacitySummaryUrl { get { return ConfigurationManager.AppSettings["BusinessDosCheckCapacitySummaryUrl"]; } }
         public string BusinessDosServicesByClinicalTermUrl { get { return ConfigurationManager.AppSettings["BusinessDosServicesByClinicalTermUrl"]; } }
         public string BusinessDosServiceDetailsByIdUrl { get { return ConfigurationManager.AppSettings["BusinessDosServiceDetailsByIdUrl"]; } }
@@ -51,6 +53,14 @@ namespace NHS111.Web.Presentation.Configuration
         public string LoggingServiceUrl { get { return ConfigurationManager.AppSettings["LoggingServiceUrl"]; } }
 
         public string GetBusinessApiGetCategoriesWithPathways() { return GetBusinessApiUrlWithDomain("BusinessApiGetCategoriesWithPathways"); }
+
+        public string GetBusinessApiGetCategoriesWithPathwaysGenderAge(string gender, int age) {
+            return string.Format(GetBusinessApiUrlWithDomain("BusinessApiGetCategoriesWithPathwaysGenderAge"), gender, age);
+        }
+
+        public string GetBusinessApiGetPathwaysGenderAge(string gender, int age) {
+            return string.Format(GetBusinessApiUrlWithDomain("BusinessApiGetPathwaysGenderAge"), gender, age);
+        }
 
         public string GetBusinessApiGroupedPathwaysUrl(string searchString)
         {
@@ -171,6 +181,8 @@ namespace NHS111.Web.Presentation.Configuration
         string GetBusinessApiListOutcomesUrl();
         string GetBusinessApiSymptomDiscriminatorUrl(string symptomDiscriminatorCode);
         string GetBusinessApiGetCategoriesWithPathways();
+        string GetBusinessApiGetCategoriesWithPathwaysGenderAge(string gender, int age);
+        string GetBusinessApiGetPathwaysGenderAge(string gender, int age);
 
         string BusinessDosCheckCapacitySummaryUrl { get; }
         string BusinessDosServicesByClinicalTermUrl { get; }
