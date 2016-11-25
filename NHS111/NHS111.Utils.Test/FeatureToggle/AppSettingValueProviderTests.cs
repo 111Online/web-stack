@@ -30,14 +30,14 @@ namespace NHS111.Utils.Test.FeatureToggle {
         public void GetSetting_WithNullDefaultBoolStrategy_ThrowsException() {
 
             var sut = new AppSettingBoolValueProvider();
-            sut.GetSetting(new Mock<IFeature>().Object, null, "IsEnabled");
+            sut.GetSetting(new Mock<IFeature>().Object, null, It.IsAny<string>());
         }
 
         [Test]
         public void IsEnabled_WithDefaultBoolStrategy_QueriesDefaultStrategy() {
             var sut = new AppSettingBoolValueProvider();
             var defaultSettingStrategy = new Mock<IDefaultSettingStrategy<bool>>();
-            sut.GetSetting(new Mock<IFeature>().Object, defaultSettingStrategy.Object, "IsEnabled");
+            sut.GetSetting(new Mock<IFeature>().Object, defaultSettingStrategy.Object, It.IsAny<string>());
 
             defaultSettingStrategy.Verify(s => s.GetDefaultSetting());
         }
@@ -48,7 +48,7 @@ namespace NHS111.Utils.Test.FeatureToggle {
         {
 
             var sut = new AppSettingStringValueProvider();
-            sut.GetSetting(new Mock<IFeature>().Object, null, "StringValue");
+            sut.GetSetting(new Mock<IFeature>().Object, null, It.IsAny<string>());
         }
 
         [Test]
@@ -56,7 +56,7 @@ namespace NHS111.Utils.Test.FeatureToggle {
         {
             var sut = new AppSettingStringValueProvider();
             var defaultSettingStrategy = new Mock<IDefaultSettingStrategy<string>>();
-            sut.GetSetting(new Mock<IFeature>().Object, defaultSettingStrategy.Object, "StringValue");
+            sut.GetSetting(new Mock<IFeature>().Object, defaultSettingStrategy.Object, It.IsAny<string>());
 
             defaultSettingStrategy.Verify(s => s.GetDefaultSetting());
         }
