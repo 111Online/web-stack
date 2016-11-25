@@ -1,4 +1,8 @@
 ﻿
+using System;
+using System.Linq;
+using System.Security.Policy;
+
 namespace NHS111.Models.Models.Web.FromExternalServices {
     using Domain;
     using System.Collections.Generic;
@@ -19,6 +23,13 @@ namespace NHS111.Models.Models.Web.FromExternalServices {
 
         public void RemoveLastStep() {
             Steps.RemoveAt(Steps.Count - 1);
+        }
+
+        public string GetLastState()
+        {
+            var lastStep = Steps.LastOrDefault();
+            if (lastStep != null) return lastStep.State;
+            return String.Empty;
         }
     }
 }

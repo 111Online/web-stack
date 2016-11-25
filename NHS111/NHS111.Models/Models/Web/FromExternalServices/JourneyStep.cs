@@ -20,6 +20,9 @@ namespace NHS111.Models.Models.Web.FromExternalServices
         [JsonProperty(PropertyName = "jtbs")]
         public bool IsJustToBeSafe { get; set; }
 
+        [JsonProperty(PropertyName = "state")]
+        public string State { get; set; }
+
         public JourneyStep()
         {
             IsJustToBeSafe = false;

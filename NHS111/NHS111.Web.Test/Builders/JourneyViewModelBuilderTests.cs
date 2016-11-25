@@ -63,15 +63,14 @@ namespace NHS111.Web.Presentation.Test.Builders
             {
                 Steps = new List<JourneyStep>()
                 {
-                    new JourneyStep() { QuestionId = "1", Answer = new Answer() { Keywords = "keyword 1|keyword 2", ExcludeKeywords = "" } },
-                    new JourneyStep() { QuestionId = "2" }
+                    new JourneyStep() { QuestionId = "1", Answer = new Answer() { Keywords = "keyword 1|keyword 2", ExcludeKeywords = "" }, State = "{'PATIENT_AGE':'20'}"},
+                    new JourneyStep() { QuestionId = "2",State = "{'PATIENT_AGE':'20'}" }
                 }
             };
             var journeyModel = new JourneyViewModel
             {
                 Journey = journey,
                 JourneyJson = JsonConvert.SerializeObject(journey),
-                PreviousStateJson = JsonConvert.SerializeObject(new Dictionary<string, string>()),
                 CollectedKeywords = new KeywordBag()
                 {
                     Keywords = new List<Keyword>()
