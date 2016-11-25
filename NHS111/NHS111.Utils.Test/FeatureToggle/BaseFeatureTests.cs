@@ -33,7 +33,7 @@ namespace NHS111.Utils.Test.FeatureToggle {
 
             var result = basicFeature.IsEnabled;
 
-            mockProvider.Verify(p => p.GetSetting(It.Is<IFeature>(f => f == basicFeature), It.IsAny<IDefaultSettingStrategy<bool>>()));
+            mockProvider.Verify(p => p.GetSetting(It.Is<IFeature>(f => f == basicFeature), It.IsAny<IDefaultSettingStrategy<bool>>(), It.IsAny<string>()));
         }
 
         [Test]
@@ -44,7 +44,7 @@ namespace NHS111.Utils.Test.FeatureToggle {
 
             var result = basicFeature.IsEnabled;
 
-            mockProvider.Verify(p => p.GetSetting(It.IsAny<IFeature>(), It.Is<IDefaultSettingStrategy<bool>>(s => s == mockStrategy.Object)));
+            mockProvider.Verify(p => p.GetSetting(It.IsAny<IFeature>(), It.Is<IDefaultSettingStrategy<bool>>(s => s == mockStrategy.Object), It.IsAny<string>()));
         }
 
         [Test]
@@ -55,7 +55,7 @@ namespace NHS111.Utils.Test.FeatureToggle {
 
             var result = basicFeature.StringValue;
 
-            mockProvider.Verify(p => p.GetSetting(It.Is<IFeature>(f => f == basicFeature), It.IsAny<IDefaultSettingStrategy<string>>()));
+            mockProvider.Verify(p => p.GetSetting(It.Is<IFeature>(f => f == basicFeature), It.IsAny<IDefaultSettingStrategy<string>>(), It.IsAny<string>()));
         }
 
         [Test]
@@ -67,7 +67,7 @@ namespace NHS111.Utils.Test.FeatureToggle {
 
             var result = basicFeature.StringValue;
 
-            mockProvider.Verify(p => p.GetSetting(It.IsAny<IFeature>(), It.Is<IDefaultSettingStrategy<string>>(s => s == mockStrategy.Object)));
+            mockProvider.Verify(p => p.GetSetting(It.IsAny<IFeature>(), It.Is<IDefaultSettingStrategy<string>>(s => s == mockStrategy.Object), It.IsAny<string>()));
         }
     }
 }

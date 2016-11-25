@@ -9,9 +9,10 @@ namespace NHS111.Utils.FeatureToggle
 {
     public class AppSettingStringValueProvider : IFeatureSettingValueProvider<string>
     {
-        public string GetSetting(IFeature feature, IDefaultSettingStrategy<string> defaultStrategy)
+        public string GetSetting(IFeature feature, IDefaultSettingStrategy<string> defaultStrategy, string propertyName)
         {
-            var setting = ConfigurationManager.AppSettings[feature.GetType().Name];
+            var settingName = string.Format("{0}{1}", feature.GetType().Name, propertyName);
+            var setting = ConfigurationManager.AppSettings[settingName];
 
             if (setting != null)
                 return setting.ToLower();

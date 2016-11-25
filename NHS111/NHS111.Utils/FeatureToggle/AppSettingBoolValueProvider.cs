@@ -3,9 +3,10 @@ namespace NHS111.Utils.FeatureToggle {
 
     public class AppSettingBoolValueProvider : IFeatureSettingValueProvider<bool>
     {
-        public bool GetSetting(IFeature feature, IDefaultSettingStrategy<bool> defaultStrategy)
+        public bool GetSetting(IFeature feature, IDefaultSettingStrategy<bool> defaultStrategy, string propertyName)
         {
-            var setting = ConfigurationManager.AppSettings[feature.GetType().Name];
+            var settingName = string.Format("{0}{1}", feature.GetType().Name, propertyName);
+            var setting = ConfigurationManager.AppSettings[settingName];
 
             if (setting != null)
                 return setting.ToLower() == "true";

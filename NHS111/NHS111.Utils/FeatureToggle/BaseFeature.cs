@@ -14,12 +14,12 @@ namespace NHS111.Utils.FeatureToggle {
         }
 
         public virtual bool IsEnabled {
-            get { return BoolSettingValueProvider.GetSetting(this, DefaultBoolSettingStrategy); }
+            get { return BoolSettingValueProvider.GetSetting(this, DefaultBoolSettingStrategy, "IsEnabled"); }
         }
 
         public virtual string StringValue
         {
-            get { return StringSettingValueProvider.GetSetting(this, DefaultStringSettingStrategy); }
+            get { return StringSettingValueProvider.GetSetting(this, DefaultStringSettingStrategy, "StringValue"); }
         }
 
         public IFeatureSettingValueProvider<bool> BoolSettingValueProvider { get; set; }

@@ -19,11 +19,7 @@ namespace NHS111.Web.Presentation.Features
 
         public IEnumerable<AgeCategory> FilteredAgeCategories
         {
-            get
-            {
-                var ageCategories = StringSettingValueProvider.GetSetting(this, DefaultStringSettingStrategy);
-                return (!string.IsNullOrEmpty(ageCategories)) ? ageCategories.Split('|').Select(a => new AgeCategory(a)) : new List<AgeCategory>();
-            }
+            get { return (!string.IsNullOrEmpty(StringValue)) ? StringValue.Split('|').Select(a => new AgeCategory(a)) : new List<AgeCategory>(); }
         }
     }
 
