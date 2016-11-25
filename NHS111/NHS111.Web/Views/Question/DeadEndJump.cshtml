@@ -25,9 +25,6 @@
     @Html.HiddenFor(x => Model.QuestionNo)
     @Html.HiddenFor(x => Model.StateJson)
 
-    @Html.HiddenFor(x => Model.PreviousStateJson)
-
-
     <h2 class="question-header">@Model.TitleWithoutBullets</h2>
     foreach (var bullet in Model.Bullets)
     {
