@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
+using Newtonsoft.Json;
 using NHS111.Business.Services;
+using NHS111.Models.Models.Domain;
 using NHS111.Utils.Attributes;
 using NHS111.Utils.Cache;
 using NHS111.Utils.Extensions;
@@ -71,6 +73,26 @@ namespace NHS111.Business.Api.Controllers
         public async Task<HttpResponseMessage> GetSuggestedPathway(string name, bool startingOnly)
         {
             return await _searchCorrectionService.GetCorrection(name, startingOnly).AsHttpResponse();
+        }
+
+        [Route("pathway_suggest/{name}/{startingOnly}/{gender}/{age}")]
+        public async Task<HttpResponseMessage> GetSuggestedPathway(string name, bool startingOnly, string gender, int age)
+        {
+
+            var cacheKey = String.Format("PathwayGetAllGrouped-{0}-{1}", gender, age);
+            #if !DEBUG
+                var cacheValue = await _cacheManager.Read(cacheKey);
+                if (cacheValue != null)
+                {
+                    return cacheValue.AsHttpResponse();
+                }
+            #endif
+
+            var result = await _pathwayService.GetPathways(true, false, gender, age);
+            #if !DEBUG
+            _cacheManager.Set(cacheKey, result);
+            #endif
+            return _searchCorrectionService.GetCorrection(JsonConvert.DeserializeObject<List<GroupedPathways>>(result), name).AsHttpResponse();
         }
 
         [Route("pathway_direct/{pathwayTitle}")]

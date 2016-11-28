@@ -16,6 +16,7 @@ namespace NHS111.Web.Controllers {
     using System.Text;
     using System.Web;
     using Models.Models.Domain;
+    using Models.Models.Web.Logging;
     using Newtonsoft.Json;
     using Presentation.Features;
     using Presentation.Logging;
@@ -57,16 +58,21 @@ namespace NHS111.Web.Controllers {
             model.PathwayNumbers = filteredPathways.SelectMany(p => p.PathwayNo.Split(','));
 
             return View(model);
+
         }
+   
 
         [HttpPost]
-        public async Task<JsonResult> AutosuggestPathways(string input) {
-            return Json(await Search(input));
+        public async Task<JsonResult> AutosuggestPathways(string input, string gender, int age)
+        {
+            var response = await _restfulHelper.GetAsync(_configuration.GetBusinessApiGroupedPathwaysUrl(input, gender, age));
+            return Json(await Search(JsonConvert.DeserializeObject<List<GroupedPathways>>(response)));
         }
 
-        private async Task<string> Search(string input) {
-            var response = await _restfulHelper.GetAsync(_configuration.GetBusinessApiGroupedPathwaysUrl(input));
-            var pathways = JsonConvert.DeserializeObject<List<GroupedPathways>>(response);
+
+        private async Task<string> Search(List<GroupedPathways> pathways)
+        {
+            
             return
                 JsonConvert.SerializeObject(
                     pathways.Select(pathway => new {label = pathway.Group, value = pathway.PathwayNumbers}));

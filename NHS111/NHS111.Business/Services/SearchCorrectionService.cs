@@ -22,18 +22,25 @@ namespace NHS111.Business.Services
         {
             input = input.ToLower();
             var pathways = JsonConvert.DeserializeObject<List<GroupedPathways>>(await _pathwayService.GetPathways(true, startingOnly));
-            
-            var pathwaysMatches = pathways.Where(x => x.Group.ToLower().Contains(input)).ToList();
-            if (!pathwaysMatches.Any())// && !correctedTerms.Any())
-                return JsonConvert.SerializeObject(pathways);
 
-            //pathwaysMatches.AddRange(correctedTerms);
-            return JsonConvert.SerializeObject(pathwaysMatches.Distinct(new PathwaysComparer()).OrderByDescending(x=>x.Group));
+           return GetCorrection(pathways, input);
+        }
+
+        public string GetCorrection(IEnumerable<GroupedPathways> pathwaysToFilter, string input)
+        {
+
+            input = input.ToLower();
+            var pathways = pathwaysToFilter;
+            var pathwaysMatches = pathways.Where(x => x.Group.ToLower().Contains(input)).ToList();
+            if (!pathwaysMatches.Any())
+                return JsonConvert.SerializeObject(pathways);
+            return JsonConvert.SerializeObject(pathwaysMatches.Distinct(new PathwaysComparer()).OrderByDescending(x => x.Group));
         }
     }
 
     public interface ISearchCorrectionService
     {
         Task<string> GetCorrection(string input, bool startingOnly);
+        string GetCorrection(IEnumerable<GroupedPathways> pathwaysToFilter, string input);
     }
 }

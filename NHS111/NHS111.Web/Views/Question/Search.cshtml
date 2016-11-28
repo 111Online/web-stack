@@ -160,7 +160,7 @@
                     url: '@Url.Action("AutosuggestPathways", "Question")',
                     type: "post",
                     dataType: "json",
-                    data: { input: $("#searchTags").val() },
+                    data: { input: $("#searchTags").val(), gender: '@Model.UserInfo.Gender', age: @Model.UserInfo.Age},
                     success: function(data) {
                         response(JSON.parse(data).slice(0, 7));
                     },

@@ -67,6 +67,11 @@ namespace NHS111.Web.Presentation.Configuration
             return string.Format(GetBusinessApiUrlWithDomain("BusinessApiGroupedPathwaysUrl"), searchString, SuggestStartingPathwaysOnly);
         }
 
+        public string GetBusinessApiGroupedPathwaysUrl(string searchString, string gender, int age)
+        {
+            return string.Format(GetBusinessApiUrlWithDomain("BusinessApiGroupedPathwaysGenderAgeUrl"), searchString, SuggestStartingPathwaysOnly, gender, age);
+        }
+
         public string GetBusinessApiPathwayUrl(string pathwayId)
         {
             return string.Format(GetBusinessApiUrlWithDomain("BusinessApiPathwayUrl"), pathwayId);
@@ -167,6 +172,7 @@ namespace NHS111.Web.Presentation.Configuration
         string GPSearchByIdUrl { get; }
         string GetBusinessApiPathwayUrl(string pathwayId);
         string GetBusinessApiGroupedPathwaysUrl(string searchString);
+        string GetBusinessApiGroupedPathwaysUrl(string searchString, string gender, int age);
         string GetBusinessApiPathwayIdUrl(string pathwayNumber, string gender, int age);
         string GetBusinessApiPathwaySymptomGroupUrl(string symptonGroups);
         string GetBusinessApiNextNodeUrl(string pathwayId, string journeyId, string state);
