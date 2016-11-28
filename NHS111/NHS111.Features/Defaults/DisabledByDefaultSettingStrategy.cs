@@ -1,10 +1,10 @@
 ﻿namespace NHS111.Features.Defaults {
 
-    public class DisabledByDefaultSettingStrategy: IDefaultSettingStrategy<bool>
+    public class DisabledByDefaultSettingStrategy: IDefaultSettingStrategy
     {
-
-        public bool GetDefaultSetting() {
-            return false;
+        public string Value
+        {
+            get { return "false"; }
         }
     }
 }

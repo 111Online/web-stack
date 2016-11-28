@@ -7,7 +7,7 @@ namespace NHS111.Features
 
         public PathwaysWhiteListFeature()
         {
-            DefaultBoolSettingStrategy = new DisabledByDefaultSettingStrategy();
+            DefaultIsEnabledSettingStrategy = new DisabledByDefaultSettingStrategy();
         }
     }
 

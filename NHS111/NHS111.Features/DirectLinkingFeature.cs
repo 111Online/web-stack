@@ -6,7 +6,7 @@ namespace NHS111.Features {
         : BaseFeature, IDirectLinkingFeature {
 
         public DirectLinkingFeature() {
-            DefaultBoolSettingStrategy = new DisabledByDefaultSettingStrategy();
+            DefaultIsEnabledSettingStrategy = new DisabledByDefaultSettingStrategy();
         }
     }
 

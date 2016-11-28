@@ -5,7 +5,7 @@ namespace NHS111.Features
     public class DOSFilteringToggleFeature : BaseFeature, IDOSFilteringToggleFeature {
 
         public DOSFilteringToggleFeature() {
-            DefaultBoolSettingStrategy = new DisabledByDefaultSettingStrategy();
+            DefaultIsEnabledSettingStrategy = new DisabledByDefaultSettingStrategy();
         }
     }
 

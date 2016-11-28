@@ -1,6 +1,8 @@
-﻿namespace NHS111.Features.Defaults {
+﻿using NHS111.Features.Values;
 
-    public interface IDefaultSettingStrategy<out T> {
-        T GetDefaultSetting();
+namespace NHS111.Features.Defaults {
+
+    public interface IDefaultSettingStrategy : IFeatureValue
+    {
     }
 }

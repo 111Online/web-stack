@@ -1,11 +1,7 @@
 ﻿namespace NHS111.Features.Defaults
 {
-    public class FilteredAgesDefaultStrategy : IDefaultSettingStrategy<string>
+    public class FilteredAgesDefaultStrategy : IDefaultSettingStrategy
     {
-        public string GetDefaultSetting()
-        {
-            // "infant|toddler"
-            return string.Empty;
-        }
+        public string Value { get { return string.Empty; } }
     }
 }

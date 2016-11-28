@@ -1,4 +1,5 @@
-﻿using NHS111.Features.Defaults;
+﻿using System.Collections.Generic;
+using NHS111.Features.Defaults;
 
 namespace NHS111.Features
 {
@@ -7,18 +8,21 @@ namespace NHS111.Features
 
         public FilterPathwaysByAgeFeature()
         {
-            DefaultBoolSettingStrategy = new EnabledByDefaultSettingStrategy();
-            DefaultStringSettingStrategy = new FilteredAgesDefaultStrategy();
+            DefaultIsEnabledSettingStrategy = new EnabledByDefaultSettingStrategy();
         }
 
-        //public IEnumerable<AgeCategory> FilteredAgeCategories
-        //{
-        //    get { return (!string.IsNullOrEmpty(StringValue)) ? StringValue.Split('|').Select(a => new AgeCategory(a)) : new List<AgeCategory>(); }
-        //}
+        public IEnumerable<string> FilteredAgeCategories
+        {
+            get
+            {
+                var x = FeatureValue(new FilteredAgesDefaultStrategy(), "AgeCategories");
+                return (!string.IsNullOrEmpty(x.Value)) ? x.Value.Split('|') : new string[0];
+            }
+        }
     }
 
     public interface IFilterPathwaysByAgeFeature : IFeature
     {
-        //IEnumerable<AgeCategory> FilteredAgeCategories { get; }
+        IEnumerable<string> FilteredAgeCategories { get; }
     }
 }

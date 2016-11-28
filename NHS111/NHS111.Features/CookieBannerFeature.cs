@@ -10,7 +10,7 @@ namespace NHS111.Features {
         : BaseFeature, ICookieBannerFeature {
 
         public CookieBannerFeature() {
-            DefaultBoolSettingStrategy = new EnabledByDefaultSettingStrategy();
+            DefaultIsEnabledSettingStrategy = new EnabledByDefaultSettingStrategy();
         }
     }
 }

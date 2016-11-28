@@ -1,21 +1,22 @@
 using System.Configuration;
 using NHS111.Features.Defaults;
+using NHS111.Features.Values;
 
 namespace NHS111.Features.Providers {
-    public class AppSettingBoolValueProvider : IFeatureSettingValueProvider<bool>
+    public class AppSettingValueProvider : IFeatureSettingValueProvider
     {
-        public bool GetSetting(IFeature feature, IDefaultSettingStrategy<bool> defaultStrategy, string propertyName)
+        public IFeatureValue GetSetting(IFeature feature, IDefaultSettingStrategy defaultStrategy, string propertyName)
         {
             var settingName = string.Format("{0}{1}", feature.GetType().Name, propertyName);
             var setting = ConfigurationManager.AppSettings[settingName];
 
             if (setting != null)
-                return setting.ToLower() == "true";
+                return new FeatureValue(setting.ToLower()); 
 
             if (defaultStrategy == null)
                 throw new MissingSettingException();
 
-            return defaultStrategy.GetDefaultSetting();
+            return new FeatureValue(defaultStrategy.Value);
         }
     }
 }

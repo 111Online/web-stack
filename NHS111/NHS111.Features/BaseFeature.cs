@@ -1,33 +1,33 @@
 ﻿
+using System.Collections.Generic;
 using NHS111.Features.Defaults;
 using NHS111.Features.Providers;
+using NHS111.Features.Values;
 
 namespace NHS111.Features {
 
-    public abstract class BaseFeature : IFeature {
+    public abstract class BaseFeature : IFeature
+    {
 
         protected BaseFeature() {
-            BoolSettingValueProvider = new AppSettingBoolValueProvider();
-            StringSettingValueProvider = new AppSettingStringValueProvider();
+            SettingValueProvider = new AppSettingValueProvider();
         }
 
-        protected BaseFeature(IFeatureSettingValueProvider<bool> boolSettingValueProvider, IFeatureSettingValueProvider<string> stringSettingValueProvider) {
-            BoolSettingValueProvider = boolSettingValueProvider;
-            StringSettingValueProvider = stringSettingValueProvider;
+        protected BaseFeature(IFeatureSettingValueProvider settingValueProvider) {
+            SettingValueProvider = settingValueProvider;
+        }
+        
+        public virtual IFeatureValue FeatureValue(IDefaultSettingStrategy defaultSettingStrategy, string featureName)
+        {
+            return SettingValueProvider.GetSetting(this, defaultSettingStrategy, featureName);
         }
 
         public virtual bool IsEnabled {
-            get { return BoolSettingValueProvider.GetSetting(this, DefaultBoolSettingStrategy, "IsEnabled"); }
+            get { return FeatureValue(DefaultIsEnabledSettingStrategy, "IsEnabled").Value.ToLower() == "true"; }
         }
 
-        public virtual string StringValue
-        {
-            get { return StringSettingValueProvider.GetSetting(this, DefaultStringSettingStrategy, "StringValue"); }
-        }
+        public IFeatureSettingValueProvider SettingValueProvider { get; set; }
 
-        public IFeatureSettingValueProvider<bool> BoolSettingValueProvider { get; set; }
-        public IDefaultSettingStrategy<bool> DefaultBoolSettingStrategy { get; set; }
-        public IFeatureSettingValueProvider<string> StringSettingValueProvider { get; set; }
-        public IDefaultSettingStrategy<string> DefaultStringSettingStrategy { get; set; }
+        public IDefaultSettingStrategy DefaultIsEnabledSettingStrategy { get; set; }
     }
 }
