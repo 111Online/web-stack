@@ -8,10 +8,7 @@ namespace NHS111.Models.Models.Web
     [Validator(typeof(UserInfoValidator))]
     public class UserInfo
     {
-        public string Gender { get; set; }
-        public int Age { get; set; }
-
-
+        public AgeGenderViewModel Demography { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public int? Day { get; set; }

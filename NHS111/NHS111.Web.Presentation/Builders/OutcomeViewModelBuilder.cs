@@ -68,10 +68,10 @@ namespace NHS111.Web.Presentation.Builders
                 model.SymptomGroup = await GetSymptomGroup(pathways);
             }
 
-            model.WorseningCareAdvice = await _careAdviceBuilder.FillWorseningCareAdvice(model.UserInfo.Age,
-                model.UserInfo.Gender);
+            model.WorseningCareAdvice = await _careAdviceBuilder.FillWorseningCareAdvice(model.UserInfo.Demography.Age,
+                model.UserInfo.Demography.Gender);
             model.CareAdvices = await
-                    _careAdviceBuilder.FillCareAdviceBuilder(model.Id, new AgeCategory(model.UserInfo.Age).Value, model.UserInfo.Gender,
+                    _careAdviceBuilder.FillCareAdviceBuilder(model.Id, new AgeCategory(model.UserInfo.Demography.Age).Value, model.UserInfo.Demography.Gender,
                         _keywordCollector.ConsolidateKeywords(model.CollectedKeywords).ToList());
             return model;
         }
@@ -121,11 +121,11 @@ namespace NHS111.Web.Presentation.Builders
             }
             model.CareAdvices =
                 await
-                    _careAdviceBuilder.FillCareAdviceBuilder(model.Id, new AgeCategory(model.UserInfo.Age).Value, model.UserInfo.Gender,
+                    _careAdviceBuilder.FillCareAdviceBuilder(model.Id, new AgeCategory(model.UserInfo.Demography.Age).Value, model.UserInfo.Demography.Gender,
                         _keywordCollector.ConsolidateKeywords(model.CollectedKeywords).ToList());
 
             model.WorseningCareAdvice =
-                await _careAdviceBuilder.FillWorseningCareAdvice(model.UserInfo.Age, model.UserInfo.Gender);
+                await _careAdviceBuilder.FillWorseningCareAdvice(model.UserInfo.Demography.Age, model.UserInfo.Demography.Gender);
             return model;
         }
 
@@ -153,7 +153,7 @@ namespace NHS111.Web.Presentation.Builders
 
         public async Task<OutcomeViewModel> PersonalDetailsBuilder(OutcomeViewModel model)
         {
-            model.CareAdvices = await _careAdviceBuilder.FillCareAdviceBuilder(model.UserInfo.Age, model.UserInfo.Gender, model.CareAdviceMarkers.ToList());
+            model.CareAdvices = await _careAdviceBuilder.FillCareAdviceBuilder(model.UserInfo.Demography.Age, model.UserInfo.Demography.Gender, model.CareAdviceMarkers.ToList());
             return model;
         }
 

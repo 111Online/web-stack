@@ -45,8 +45,8 @@
                 </div>-->
                 @using (Html.BeginForm("JustToBeSafeFirst", "JustToBeSafe", FormMethod.Post))
             {
-                    @Html.HiddenFor(x => Model.UserInfo.Gender)
-                    @Html.HiddenFor(x => Model.UserInfo.Age)
+                    @Html.HiddenFor(x => Model.UserInfo.Demography.Gender)
+                    @Html.HiddenFor(x => Model.UserInfo.Demography.Age)
 
                     <input type="hidden" id="pathwayNo" name="pathwayNo" value="" />
                     <input type="hidden" id="pathwayTitle" name="pathwayTitle" value="" />

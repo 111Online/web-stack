@@ -177,6 +177,7 @@
     <Compile Include="Models\Domain\PathwayMetaData.cs" />
     <Compile Include="Models\Domain\PathwayWithDescriptions.cs" />
     <Compile Include="Models\Domain\SymptomDiscriminator.cs" />
+    <Compile Include="Models\Web\AgeGenderViewModel.cs" />
     <Compile Include="Models\Web\Clock\SystemClock.cs" />
     <Compile Include="Models\Web\Clock\IClock.cs" />
     <Compile Include="Models\Web\DosRequests\DosFilteredCase.cs" />
@@ -240,6 +241,7 @@
     <Compile Include="Models\Web\SurgeryViewModel.cs" />
     <Compile Include="Models\Web\UserInfo.cs" />
     <Compile Include="Models\Web\Users.cs" />
+    <Compile Include="Models\Web\Validators\AgeGenderViewModelValidator.cs" />
     <Compile Include="Models\Web\Validators\AgeValidator.cs" />
     <Compile Include="Models\Web\Validators\DateOfBirthValidator.cs" />
     <Compile Include="Models\Web\Validators\UserInfoValidator.cs" />

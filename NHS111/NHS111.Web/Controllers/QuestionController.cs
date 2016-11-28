@@ -46,16 +46,21 @@ namespace NHS111.Web.Controllers {
         }
 
         [HttpPost]
-        public async Task<ActionResult> Search(JourneyViewModel model)
+        public async Task<ActionResult> Search(AgeGenderViewModel model)
         {
-            if (!ModelState.IsValid) return View("Gender", model);
+            if (!ModelState.IsValid) return View("Gender", new JourneyViewModel { UserInfo = new UserInfo { Demography = model } });
 
             var response = await _restfulHelper.GetAsync(_configuration.GetBusinessApiGetCategoriesWithPathways());
             var allTopics = JsonConvert.DeserializeObject<List<CategoryWithPathways>>(response);
             var topicsContainingStartingPathways = allTopics.Where(c => c.Pathways.Any(p => p.Pathway.StartingPathway));
-            model.AllTopics = topicsContainingStartingPathways;
 
-            return View(model);
+            var startOfJourney = new JourneyViewModel
+            {
+                UserInfo = new UserInfo {Demography = model},
+                AllTopics = topicsContainingStartingPathways
+            };
+
+            return View(startOfJourney);
         }
         
         [HttpPost]
@@ -82,7 +87,7 @@ namespace NHS111.Web.Controllers {
                 await
                     _restfulHelper.GetAsync(
                         _configuration.GetBusinessApiPathwayNumbersUrl(PathwayTitleUriParser.Parse(pathwayTitle)));
-            var model = new JourneyViewModel() {PathwayNo = pathwayNo};
+            var model = new JourneyViewModel() { PathwayNo = pathwayNo, UserInfo = new UserInfo { Demography = new AgeGenderViewModel() } };
 
             if (model.PathwayNo == string.Empty)
                 return Redirect(Url.RouteUrl(new {controller = "Question", action = "Home"}));
@@ -90,8 +95,10 @@ namespace NHS111.Web.Controllers {
         }
 
         [HttpGet]
-        public ActionResult Home() {
-            var startOfJourney = new JourneyViewModel {
+        public ActionResult Home()
+        {
+            var startOfJourney = new JourneyViewModel
+            {
                 SessionId = Guid.Parse(Request.AnonymousID)
             };
             return View("Home", startOfJourney);
@@ -115,10 +122,11 @@ namespace NHS111.Web.Controllers {
         {
             var audit = model.ToAuditEntry();
             audit.EventData = "User accepted module zero.";
-            _auditLogger.Log(audit);
+            await _auditLogger.Log(audit);
 
             ModelState.Clear();
-            return View("Gender");
+            model.UserInfo = new UserInfo { Demography = new AgeGenderViewModel() };
+            return View("Gender", model);
         }
         
         private async Task<JourneyViewModel> GetNextJourneyViewModel(JourneyViewModel model) {
@@ -189,13 +197,13 @@ namespace NHS111.Web.Controllers {
             var pathway = JsonConvert.DeserializeObject<Pathway>(await _restfulHelper.GetAsync(_configuration.GetBusinessApiPathwayUrl(pathwayId)));
             if (pathway == null) return null;
 
-            var derivedAge = journeyViewModel.UserInfo.Age == -1 ? pathway.MinimumAgeInclusive : journeyViewModel.UserInfo.Age;
+            var derivedAge = journeyViewModel.UserInfo.Demography.Age == -1 ? pathway.MinimumAgeInclusive : journeyViewModel.UserInfo.Demography.Age;
             var newModel = new JustToBeSafeViewModel
             {
                 PathwayId = pathway.Id,
                 PathwayNo = pathway.PathwayNo,
                 PathwayTitle = pathway.Title,
-                UserInfo = new UserInfo() { Age = derivedAge, Gender = pathway.Gender },
+                UserInfo = new UserInfo() { Demography = new AgeGenderViewModel { Age = derivedAge, Gender = pathway.Gender } },
                 JourneyJson = journeyViewModel.JourneyJson,
                 SymptomDiscriminatorCode = journeyViewModel.SymptomDiscriminatorCode,
                 State = JourneyViewModelStateBuilder.BuildState(pathway.Gender, derivedAge),
@@ -265,7 +273,7 @@ namespace NHS111.Web.Controllers {
                 NodeType = NodeType.Pathway,
                 PathwayId = pathwayId,
                 PathwayTitle = pathwayTitle,
-                UserInfo = new UserInfo {Age = age ?? -1}
+                UserInfo = new UserInfo { Demography = new AgeGenderViewModel { Age = age ?? -1 }}
             };
         }
 

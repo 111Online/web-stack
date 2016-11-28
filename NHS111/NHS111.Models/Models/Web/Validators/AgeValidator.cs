@@ -20,14 +20,14 @@ namespace NHS111.Models.Models.Web.Validators
 
         protected override bool IsValid(PropertyValidatorContext context)
         {
-            var userInfo = context.Instance as UserInfo;
-            return IsAValidAge(userInfo.Age);
+            var ageGenderViewModel = context.Instance as AgeGenderViewModel;
+            return IsAValidAge(ageGenderViewModel.Age);
         }
 
         private static bool IsAValidAge(int age)
         {
             var ageFeature = new FilterPathwaysByAgeFeature();
-            return ageFeature.IsEnabled;
+            return !ageFeature.IsEnabled;
         }
 
         public IEnumerable<ModelClientValidationRule> GetClientValidationRules(ModelMetadata metadata, ControllerContext context)

@@ -60,9 +60,13 @@ namespace NHS111.Web.Controllers {
 
             var model = new OutcomeViewModel {
                 Id = DxCode.Value,
-                UserInfo = new UserInfo {
-                    Age = age ?? 38,
-                    Gender = Gender.Value
+                UserInfo = new UserInfo
+                {
+                    Demography = new AgeGenderViewModel
+                    { 
+                        Age = age ?? 38,
+                        Gender = Gender.Value
+                    }
                 },
                 SymptomGroup = symptomGroup ?? "1203",
                 SymptomDiscriminatorCode = symptomDiscriminator ?? "4003",

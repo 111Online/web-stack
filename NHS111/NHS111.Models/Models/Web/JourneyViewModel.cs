@@ -79,7 +79,7 @@ namespace NHS111.Models.Models.Web
         {
             get
             {
-                var age = UserInfo != null ? UserInfo.Age : 0;
+                var age = UserInfo != null ? UserInfo.Demography.Age : 0;
                 return string.Format("/question/direct/{0}/{1}/{2}/?answers={3}", PathwayId, age, PathwayTitle,
                     string.Join(",", GetPreviousAnswers()));
             }
@@ -89,7 +89,7 @@ namespace NHS111.Models.Models.Web
         {
             get
             {
-                var age = UserInfo != null ? UserInfo.Age : 0;
+                var age = UserInfo != null ? UserInfo.Demography.Age : 0;
                 return string.Format("/question/outcomedetail/{0}/{1}/{2}/?answers={3}", PathwayId, age, PathwayTitle,
                     string.Join(",", GetPreviousAnswers()));
             }
