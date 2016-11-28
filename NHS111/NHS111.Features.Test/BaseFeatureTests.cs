@@ -2,6 +2,7 @@
 using Moq;
 using NHS111.Features.Defaults;
 using NHS111.Features.Providers;
+using NHS111.Features.Values;
 using NUnit.Framework;
 
 namespace NHS111.Features.Test {
@@ -25,47 +26,31 @@ namespace NHS111.Features.Test {
         }
 
         [Test]
-        public void IsEnabled_WithProvider_QueriesSuppliedBoolProvider() {
-            var mockProvider = new Mock<IFeatureSettingValueProvider<bool>>();
-            var basicFeature = new TestFeature {BoolSettingValueProvider = mockProvider.Object};
+        public void IsEnabled_WithProvider_QueriesSuppliedProvider() {
+            var mockProvider = new Mock<IFeatureSettingValueProvider>();
+            var basicFeature = new TestFeature { SettingValueProvider = mockProvider.Object };
+            mockProvider.Setup(
+               p => p.GetSetting(It.Is<IFeature>(f => f == basicFeature), It.IsAny<IDefaultSettingStrategy>(), It.IsAny<string>()))
+               .Returns(new FeatureValue(string.Empty));
 
             var result = basicFeature.IsEnabled;
 
-            mockProvider.Verify(p => p.GetSetting(It.Is<IFeature>(f => f == basicFeature), It.IsAny<IDefaultSettingStrategy<bool>>(), It.IsAny<string>()));
+            mockProvider.Verify(p => p.GetSetting(It.Is<IFeature>(f => f == basicFeature), It.IsAny<IDefaultSettingStrategy>(), It.IsAny<string>()));
         }
 
         [Test]
-        public void IsEnabled_Always_PassesDefaultBoolSettingStrategyIntoValueProvider() {
-            var mockProvider = new Mock<IFeatureSettingValueProvider<bool>>();
-            var mockStrategy = new Mock<IDefaultSettingStrategy<bool>>();
-            var basicFeature = new TestFeature { BoolSettingValueProvider = mockProvider.Object, DefaultBoolSettingStrategy = mockStrategy.Object };
+        public void IsEnabled_Always_PassesDefaultSettingStrategyIntoValueProvider() {
+            var mockProvider = new Mock<IFeatureSettingValueProvider>();
+            var mockStrategy = new Mock<IDefaultSettingStrategy>();
+            var basicFeature = new TestFeature { SettingValueProvider = mockProvider.Object, DefaultIsEnabledSettingStrategy = mockStrategy.Object };
+
+            mockProvider.Setup(
+               p => p.GetSetting(It.IsAny<IFeature>(), It.Is<IDefaultSettingStrategy>(s => s == mockStrategy.Object), It.IsAny<string>()))
+               .Returns(new FeatureValue(string.Empty));
 
             var result = basicFeature.IsEnabled;
 
-            mockProvider.Verify(p => p.GetSetting(It.IsAny<IFeature>(), It.Is<IDefaultSettingStrategy<bool>>(s => s == mockStrategy.Object), It.IsAny<string>()));
-        }
-
-        [Test]
-        public void IsEnabled_WithProvider_QueriesSuppliedStringProvider()
-        {
-            var mockProvider = new Mock<IFeatureSettingValueProvider<string>>();
-            var basicFeature = new TestFeature { StringSettingValueProvider = mockProvider.Object };
-
-            var result = basicFeature.StringValue;
-
-            mockProvider.Verify(p => p.GetSetting(It.Is<IFeature>(f => f == basicFeature), It.IsAny<IDefaultSettingStrategy<string>>(), It.IsAny<string>()));
-        }
-
-        [Test]
-        public void IsEnabled_Always_PassesDefaultStringSettingStrategyIntoValueProvider()
-        {
-            var mockProvider = new Mock<IFeatureSettingValueProvider<string>>();
-            var mockStrategy = new Mock<IDefaultSettingStrategy<string>>();
-            var basicFeature = new TestFeature { StringSettingValueProvider = mockProvider.Object, DefaultStringSettingStrategy = mockStrategy.Object };
-
-            var result = basicFeature.StringValue;
-
-            mockProvider.Verify(p => p.GetSetting(It.IsAny<IFeature>(), It.Is<IDefaultSettingStrategy<string>>(s => s == mockStrategy.Object), It.IsAny<string>()));
+            mockProvider.Verify(p => p.GetSetting(It.IsAny<IFeature>(), It.Is<IDefaultSettingStrategy>(s => s == mockStrategy.Object), It.IsAny<string>()));
         }
     }
 }

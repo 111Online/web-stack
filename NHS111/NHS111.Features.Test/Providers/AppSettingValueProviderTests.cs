@@ -12,16 +12,16 @@ namespace NHS111.Features.Test.Providers {
         [Ignore("Can't isolate configuration manager.")]
         public void GetSetting_WithValue_ReturnsValue() {
 
-            var sut = new AppSettingBoolValueProvider();
+            var sut = new AppSettingValueProvider();
             var feature = new Mock<IFeature>().Object;
 
             ConfigurationManager.AppSettings[feature.GetType().Name] = "true";
             var result = sut.GetSetting(feature, null, It.IsAny<string>());
-            Assert.IsTrue(result);
+            Assert.AreEqual("true", result.Value);
 
             ConfigurationManager.AppSettings[feature.GetType().Name] = "false";
             result = sut.GetSetting(feature, null, It.IsAny<string>());
-            Assert.IsFalse(result);
+            Assert.AreEqual("false", result.Value);
 
             ConfigurationManager.AppSettings.Remove(feature.GetType().Name);
         }
@@ -30,36 +30,17 @@ namespace NHS111.Features.Test.Providers {
         [ExpectedException(typeof (MissingSettingException))]
         public void GetSetting_WithNullDefaultBoolStrategy_ThrowsException() {
 
-            var sut = new AppSettingBoolValueProvider();
+            var sut = new AppSettingValueProvider();
             sut.GetSetting(new Mock<IFeature>().Object, null, It.IsAny<string>());
         }
 
         [Test]
         public void IsEnabled_WithDefaultBoolStrategy_QueriesDefaultStrategy() {
-            var sut = new AppSettingBoolValueProvider();
-            var defaultSettingStrategy = new Mock<IDefaultSettingStrategy<bool>>();
+            var sut = new AppSettingValueProvider();
+            var defaultSettingStrategy = new Mock<IDefaultSettingStrategy>();
             sut.GetSetting(new Mock<IFeature>().Object, defaultSettingStrategy.Object, It.IsAny<string>());
 
-            defaultSettingStrategy.Verify(s => s.GetDefaultSetting());
-        }
-
-        [Test]
-        [ExpectedException(typeof(MissingSettingException))]
-        public void GetSetting_WithNullDefaultStringStrategy_ThrowsException()
-        {
-
-            var sut = new AppSettingStringValueProvider();
-            sut.GetSetting(new Mock<IFeature>().Object, null, It.IsAny<string>());
-        }
-
-        [Test]
-        public void IsEnabled_WithDefaultStringStrategy_QueriesDefaultStrategy()
-        {
-            var sut = new AppSettingStringValueProvider();
-            var defaultSettingStrategy = new Mock<IDefaultSettingStrategy<string>>();
-            sut.GetSetting(new Mock<IFeature>().Object, defaultSettingStrategy.Object, It.IsAny<string>());
-
-            defaultSettingStrategy.Verify(s => s.GetDefaultSetting());
+            defaultSettingStrategy.Verify(s => s.Value);
         }
     }
 }
