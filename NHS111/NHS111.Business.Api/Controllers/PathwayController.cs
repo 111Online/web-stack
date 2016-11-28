@@ -84,7 +84,8 @@ namespace NHS111.Business.Api.Controllers
                 var cacheValue = await _cacheManager.Read(cacheKey);
                 if (cacheValue != null)
                 {
-                    return cacheValue.AsHttpResponse();
+                    return _searchCorrectionService.GetCorrection(JsonConvert.DeserializeObject<List<GroupedPathways>>(cacheValue), name).AsHttpResponse();
+
                 }
             #endif
 
