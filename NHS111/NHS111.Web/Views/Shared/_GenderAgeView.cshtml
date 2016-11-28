@@ -1,4 +1,5 @@
-﻿@model NHS111.Models.Models.Web.AgeGenderViewModel
+﻿@using NHS111.Models.Models.Domain
+@model NHS111.Models.Models.Web.AgeGenderViewModel
 
 <h2 class="heading-large">Details about you or the person you're enquiring about</h2>
 <div class="question-rationale">
@@ -9,13 +10,15 @@
 <div id="answers">
     <label for="Male" class="answer answer-label">
         <span class="answer-radio">
-            <input name="UserInfo.Demography.Gender" type="radio" id="Male" value="Male" />
+            @Html.RadioButtonFor(m => m.Gender, GenderEnum.Male, new { @id = "Male" })
+            @*<input name="Gender" type="radio" id="Male" value="Male" />*@
         </span>
         <span class="answer-text">Male</span>
     </label>
     <label for="Female" class="answer answer-label">
         <span class="answer-radio">
-            <input name="UserInfo.Demography.Gender" type="radio" id="Female" value="Female" />
+            @Html.RadioButtonFor(m => m.Gender, GenderEnum.Female, new { @id = "Female" })
+            @*<input name="Gender" type="radio" id="Female" value="Female" />*@
         </span>
         <span class="answer-text">Female</span>
     </label>
@@ -34,7 +37,10 @@
 
 <script type="text/javascript">
 
+    if ($("#Age").val() == "0") $("#Age").val('');
+
     $(document).ready(function () {
+
         //enable disable submit button
         validateForm();
 

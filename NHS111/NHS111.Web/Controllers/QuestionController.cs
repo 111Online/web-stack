@@ -56,7 +56,7 @@ namespace NHS111.Web.Controllers {
 
             var startOfJourney = new JourneyViewModel
             {
-                UserInfo = new UserInfo {Demography = model},
+                UserInfo = new UserInfo { Demography = model },
                 AllTopics = topicsContainingStartingPathways
             };
 
@@ -125,7 +125,7 @@ namespace NHS111.Web.Controllers {
             await _auditLogger.Log(audit);
 
             ModelState.Clear();
-            model.UserInfo = new UserInfo { Demography = new AgeGenderViewModel() };
+            model.UserInfo = new UserInfo();
             return View("Gender", model);
         }
         
