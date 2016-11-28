@@ -17,7 +17,6 @@
 @using (Html.BeginForm("Search", "Question", FormMethod.Post, new { @id = "outerContent" }))
             {
     @Html.HiddenFor(x => Model.SessionId)
-    //@Html.HiddenFor(x => Model.PathwayNo)
     <h2 class="heading-large">Details about you or the person you're enquiring about</h2>
         <div class="question-rationale">
             <p>We need these details so that we can ask you the correct questions based on your gender and age. We cannot identify you from these details.</p>
@@ -41,6 +40,9 @@
 
         <div class="age-content">
             <h2 class="heading-small">Age in years</h2>
+            <div>
+                @Html.ValidationMessageFor(m => m.UserInfo.Age, "The service is not available for users of that age")
+            </div>
             <div class="age">
                 <span id="errmsg"></span>
                 @Html.TextBoxFor(m => m.UserInfo.Age, new { @class = "form-control input-age", type="number", size = 2, maxlength = 2, onkeypress = "return numbersonly(this, event);" })

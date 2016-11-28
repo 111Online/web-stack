@@ -1,7 +1,6 @@
-﻿
-namespace NHS111.Web.Presentation.Features {
-    using Utils.FeatureToggle;
+﻿using NHS111.Features.Defaults;
 
+namespace NHS111.Features {
     public interface ICookieBannerFeature
     : IFeature {
 

@@ -1,5 +1,8 @@
 ﻿
-namespace NHS111.Utils.FeatureToggle {
+using NHS111.Features.Defaults;
+using NHS111.Features.Providers;
+
+namespace NHS111.Features {
 
     public abstract class BaseFeature : IFeature {
 

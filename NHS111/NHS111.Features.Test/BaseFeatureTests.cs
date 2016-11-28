@@ -1,16 +1,14 @@
-﻿
-namespace NHS111.Utils.Test.FeatureToggle {
+﻿using System.Configuration;
+using Moq;
+using NHS111.Features.Defaults;
+using NHS111.Features.Providers;
+using NUnit.Framework;
 
-    using System.Configuration;
-    using Moq;
-    using NUnit.Framework;
-    using Utils.FeatureToggle;
-
+namespace NHS111.Features.Test {
     [TestFixture]
     public class BaseFeatureTests {
 
-        private class TestFeature
-            : BaseFeature { }
+        private class TestFeature : BaseFeature { }
 
         [Test]
         [Ignore("Can't isolate configuration manager.")]

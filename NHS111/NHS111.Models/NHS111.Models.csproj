@@ -240,13 +240,21 @@
     <Compile Include="Models\Web\SurgeryViewModel.cs" />
     <Compile Include="Models\Web\UserInfo.cs" />
     <Compile Include="Models\Web\Users.cs" />
+    <Compile Include="Models\Web\Validators\AgeValidator.cs" />
+    <Compile Include="Models\Web\Validators\DateOfBirthValidator.cs" />
+    <Compile Include="Models\Web\Validators\UserInfoValidator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\NHS111.Features\NHS111.Features.csproj">
+      <Project>{bd9f2634-bada-43e6-b16d-522be17da255}</Project>
+      <Name>NHS111.Features</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

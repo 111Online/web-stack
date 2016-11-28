@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using NHS111.Utils.FeatureToggle;
+﻿using NHS111.Features.Defaults;
 
-namespace NHS111.Web.Presentation.Features
+namespace NHS111.Features
 {
     public class DOSFilteringToggleFeature : BaseFeature, IDOSFilteringToggleFeature {
 

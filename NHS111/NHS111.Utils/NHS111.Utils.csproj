@@ -193,16 +193,6 @@
     <Compile Include="Configuration\PathwaysConfigurationManager.cs" />
     <Compile Include="Dates\NonWorkingDays.cs" />
     <Compile Include="Extensions\CypherFluentQueryExtension.cs" />
-    <Compile Include="FeatureToggle\AppSettingBoolValueProvider.cs" />
-    <Compile Include="FeatureToggle\AppSettingStringValueProvider.cs" />
-    <Compile Include="FeatureToggle\BaseFeature.cs" />
-    <Compile Include="FeatureToggle\FilteredAgesDefaultStrategy.cs" />
-    <Compile Include="FeatureToggle\EnabledByDefaultSettingStrategy.cs" />
-    <Compile Include="FeatureToggle\DisabledByDefaultSettingStrategy.cs" />
-    <Compile Include="FeatureToggle\IDefaultSettingStrategy.cs" />
-    <Compile Include="FeatureToggle\IFeature.cs" />
-    <Compile Include="FeatureToggle\IFeatureSettingValueProvider.cs" />
-    <Compile Include="FeatureToggle\MissingSettingException.cs" />
     <Compile Include="Filters\SetSessionIdFilterAttribute.cs" />
     <Compile Include="Filters\LogJourneyFilterAttribute.cs" />
     <Compile Include="Helpers\HttpClientFactory.cs" />

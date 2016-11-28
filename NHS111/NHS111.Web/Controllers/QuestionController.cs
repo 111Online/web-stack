@@ -1,5 +1,6 @@
 ﻿
 using AutoMapper;
+using NHS111.Features;
 
 namespace NHS111.Web.Controllers {
     using System;
@@ -16,9 +17,7 @@ namespace NHS111.Web.Controllers {
     using System.Text;
     using System.Web;
     using Models.Models.Domain;
-    using Models.Models.Web.Logging;
     using Newtonsoft.Json;
-    using Presentation.Features;
     using Presentation.Logging;
     using Presentation.ModelBinders;
     using Utils.Filters;
@@ -49,6 +48,8 @@ namespace NHS111.Web.Controllers {
         [HttpPost]
         public async Task<ActionResult> Search(JourneyViewModel model)
         {
+            if (!ModelState.IsValid) return View("Gender", model);
+
             var response = await _restfulHelper.GetAsync(_configuration.GetBusinessApiGetCategoriesWithPathways());
             var allTopics = JsonConvert.DeserializeObject<List<CategoryWithPathways>>(response);
             var topicsContainingStartingPathways = allTopics.Where(c => c.Pathways.Any(p => p.Pathway.StartingPathway));
@@ -115,7 +116,8 @@ namespace NHS111.Web.Controllers {
             var audit = model.ToAuditEntry();
             audit.EventData = "User accepted module zero.";
             _auditLogger.Log(audit);
-            //go to age page
+
+            ModelState.Clear();
             return View("Gender");
         }
         

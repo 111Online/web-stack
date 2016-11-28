@@ -1,6 +1,6 @@
-﻿namespace NHS111.Web.Views.Shared {
-    using Presentation.Features;
+﻿using NHS111.Features;
 
+namespace NHS111.Web.Views.Shared {
     public class LayoutView
         : DisclaimerPopupView {
 

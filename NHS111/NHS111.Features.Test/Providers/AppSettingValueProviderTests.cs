@@ -1,9 +1,10 @@
-namespace NHS111.Utils.Test.FeatureToggle {
-    using System.Configuration;
-    using Moq;
-    using NUnit.Framework;
-    using Utils.FeatureToggle;
+using System.Configuration;
+using NHS111.Features.Defaults;
+using NHS111.Features.Providers;
+using Moq;
+using NUnit.Framework;
 
+namespace NHS111.Features.Test.Providers {
     [TestFixture]
     public class AppSettingValueProviderTests {
 

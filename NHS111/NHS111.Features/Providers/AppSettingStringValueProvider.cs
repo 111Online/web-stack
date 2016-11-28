@@ -1,15 +1,17 @@
-namespace NHS111.Utils.FeatureToggle {
-    using System.Configuration;
+﻿using System.Configuration;
+using NHS111.Features.Defaults;
 
-    public class AppSettingBoolValueProvider : IFeatureSettingValueProvider<bool>
+namespace NHS111.Features.Providers
+{
+    public class AppSettingStringValueProvider : IFeatureSettingValueProvider<string>
     {
-        public bool GetSetting(IFeature feature, IDefaultSettingStrategy<bool> defaultStrategy, string propertyName)
+        public string GetSetting(IFeature feature, IDefaultSettingStrategy<string> defaultStrategy, string propertyName)
         {
             var settingName = string.Format("{0}{1}", feature.GetType().Name, propertyName);
             var setting = ConfigurationManager.AppSettings[settingName];
 
             if (setting != null)
-                return setting.ToLower() == "true";
+                return setting.ToLower();
 
             if (defaultStrategy == null)
                 throw new MissingSettingException();

@@ -1,6 +1,6 @@
 ﻿using Moq;
-using NHS111.Domain.Features;
 using NHS111.Domain.Repository;
+using NHS111.Features;
 using NHS111.Models.Models.Domain;
 using NHS111.Utils.Configuration;
 

@@ -1,4 +1,4 @@
-﻿namespace NHS111.Utils.FeatureToggle {
+﻿namespace NHS111.Features {
     public interface IFeature
     {
         bool IsEnabled { get; }

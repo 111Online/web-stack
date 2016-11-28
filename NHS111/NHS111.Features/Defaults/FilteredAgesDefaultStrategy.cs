@@ -1,12 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Neo4jClient.Cypher;
-using NHS111.Models.Models.Domain;
-
-namespace NHS111.Utils.FeatureToggle
+﻿namespace NHS111.Features.Defaults
 {
     public class FilteredAgesDefaultStrategy : IDefaultSettingStrategy<string>
     {

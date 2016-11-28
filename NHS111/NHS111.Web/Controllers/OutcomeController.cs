@@ -2,9 +2,7 @@
 
 using System;
 using System.Web.Http;
-using NHS111.Models.Models.Web.FromExternalServices;
-using NHS111.Models.Models.Web.Logging;
-using NHS111.Web.Presentation.Features;
+using NHS111.Features;
 
 namespace NHS111.Web.Controllers {
     using System.Collections.Generic;

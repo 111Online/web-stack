@@ -1,6 +1,6 @@
-﻿using NHS111.Utils.FeatureToggle;
+﻿using NHS111.Features.Defaults;
 
-namespace NHS111.Domain.Features
+namespace NHS111.Features
 {
     public class PathwaysWhiteListFeature : BaseFeature, IPathwaysWhiteListFeature
     {
