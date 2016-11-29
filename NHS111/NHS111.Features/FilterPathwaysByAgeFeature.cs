@@ -15,8 +15,8 @@ namespace NHS111.Features
         {
             get
             {
-                var x = FeatureValue(new FilteredAgesDefaultStrategy(), "AgeCategories");
-                return (!string.IsNullOrEmpty(x.Value)) ? x.Value.Split('|') : new string[0];
+                var ageCategories = FeatureValue(new FilteredAgesDefaultStrategy(), "AgeCategories");
+                return (!string.IsNullOrEmpty(ageCategories.Value)) ? ageCategories.Value.Split('|') : new string[0];
             }
         }
     }
