@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Linq.Expressions;
 using System.Web.Mvc;
 using FluentValidation.Validators;
 using NHS111.Features;
+using NHS111.Models.Models.Domain;
 
 namespace NHS111.Models.Models.Web.Validators
 {
@@ -11,12 +13,18 @@ namespace NHS111.Models.Models.Web.Validators
     {
 
         private readonly string _dependencyElement;
+        private readonly IFilterPathwaysByAgeFeature _filterPathwaysByAgeFeature;
 
-        public AgeValidator(Expression<Func<TModel, TProperty>> expression) : base("Age restriction violated")
+        public AgeValidator(Expression<Func<TModel, TProperty>> expression) : this(expression, new FilterPathwaysByAgeFeature())
         {
-            _dependencyElement = (expression.Body as MemberExpression).Member.Name;
+
         }
 
+        public AgeValidator(Expression<Func<TModel, TProperty>> expression, IFilterPathwaysByAgeFeature filterPathwaysByAgeFeature) : base("Age restriction violated")
+        {
+            _dependencyElement = (expression.Body as MemberExpression).Member.Name;
+            _filterPathwaysByAgeFeature = filterPathwaysByAgeFeature;
+        }
 
         protected override bool IsValid(PropertyValidatorContext context)
         {
@@ -24,10 +32,12 @@ namespace NHS111.Models.Models.Web.Validators
             return IsAValidAge(ageGenderViewModel.Age);
         }
 
-        private static bool IsAValidAge(int age)
+        public bool IsAValidAge(int age)
         {
-            var ageFeature = new FilterPathwaysByAgeFeature();
-            return !ageFeature.IsEnabled;
+            if (!_filterPathwaysByAgeFeature.IsEnabled) return true;
+
+            var ageCategories = _filterPathwaysByAgeFeature.FilteredAgeCategories.Select(a => new AgeCategory(a));
+            return !ageCategories.Any(a => age >= a.MinimumAge && age <= a.MaximumAge);
         }
 
         public IEnumerable<ModelClientValidationRule> GetClientValidationRules(ModelMetadata metadata, ControllerContext context)

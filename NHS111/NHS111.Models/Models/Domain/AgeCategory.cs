@@ -19,6 +19,10 @@ namespace NHS111.Models.Models.Domain {
 
         public string Value { get; private set; }
 
+        public int MinimumAge { get; private set; }
+
+        public int MaximumAge { get; private set; }
+
         public AgeCategory(AgeCategoryEnum ageCategory) {
             Initialise(ageCategory);
         }
@@ -62,15 +66,23 @@ namespace NHS111.Models.Models.Domain {
             switch (ageCategory) {
                 case AgeCategoryEnum.Adult:
                     Value = "Adult";
+                    MinimumAge = 16;
+                    MaximumAge = int.MaxValue;
                     break;
                 case AgeCategoryEnum.Child:
                     Value = "Child";
+                    MinimumAge = 5;
+                    MaximumAge = 15;
                     break;
                 case AgeCategoryEnum.Toddler:
                     Value = "Toddler";
+                    MinimumAge = 1;
+                    MaximumAge = 4;
                     break;
                 case AgeCategoryEnum.Infant:
                     Value = "Infant";
+                    MinimumAge = 0;
+                    MaximumAge = 0;
                     break;
             }
         }
