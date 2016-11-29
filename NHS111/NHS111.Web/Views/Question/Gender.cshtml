@@ -17,7 +17,7 @@
 @using (Html.BeginForm("Search", "Question", FormMethod.Post, new {@id = "outerContent"}))
 {
     @Html.HiddenFor(x => Model.SessionId)
-    @Html.Partial("_GenderAgeView", new AgeGenderViewModel())
+    @Html.Partial("_GenderAgeView", Model.UserInfo.Demography ?? new AgeGenderViewModel())
 
     <input class="button button-next" id="submitGender" type="submit" name="Slider" value="Next"/>
 }
