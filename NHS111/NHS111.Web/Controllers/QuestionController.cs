@@ -50,23 +50,20 @@ namespace NHS111.Web.Controllers {
         {
             if (!ModelState.IsValid) return View("Gender", new JourneyViewModel { UserInfo = new UserInfo { Demography = model } });
 
-            var response = await _restfulHelper.GetAsync(_configuration.GetBusinessApiGetCategoriesWithPathways());
-            var allTopics = JsonConvert.DeserializeObject<List<CategoryWithPathways>>(response);
+            var categoryTask = await _restfulHelper.GetAsync(_configuration.GetBusinessApiGetCategoriesWithPathwaysGenderAge(model.Gender, model.Age));
+            var pathwayTask = await _restfulHelper.GetAsync(_configuration.GetBusinessApiGetPathwaysGenderAge(model.Gender, model.Age));
+
+            var allTopics = JsonConvert.DeserializeObject<List<CategoryWithPathways>>(categoryTask);
             var topicsContainingStartingPathways = allTopics.Where(c => c.Pathways.Any(p => p.Pathway.StartingPathway));
-
-            var categoryTask = await _restfulHelper.GetAsync(_configuration.GetBusinessApiGetCategoriesWithPathwaysGenderAge(model.UserInfo.Gender, model.UserInfo.Age));
-            var pathwayTask = await _restfulHelper.GetAsync(_configuration.GetBusinessApiGetPathwaysGenderAge(model.UserInfo.Gender, model.UserInfo.Age));
-            model.AllTopics = JsonConvert.DeserializeObject<List<CategoryWithPathways>>(categoryTask);
-
+            
             var filteredPathways = JsonConvert.DeserializeObject<List<Pathway>>(pathwayTask);
-            model.PathwayNumbers = filteredPathways.SelectMany(p => p.PathwayNo.Split(','));
-
-            return View(model);
+            var startingPathways = filteredPathways.Where(p => p.StartingPathway).SelectMany(p => p.PathwayNo.Split(','));
 
             var startOfJourney = new JourneyViewModel
             {
                 UserInfo = new UserInfo { Demography = model },
-                AllTopics = topicsContainingStartingPathways
+                AllTopics = topicsContainingStartingPathways,
+                PathwayNumbers = startingPathways
             };
 
             return View(startOfJourney);
