@@ -1,5 +1,7 @@
 ﻿
 
+using NHS111.Features.IoC;
+
 namespace NHS111.Web.IoC {
     using Models.IoC;
     using Utils.Cache;
@@ -21,6 +23,7 @@ namespace NHS111.Web.IoC {
         }
 
         private void Configure() {
+            IncludeRegistry<FeatureRegistry>();
             IncludeRegistry<UtilsRegistry>();
             IncludeRegistry<ModelsRegistry>();
             IncludeRegistry<WebPresentationRegistry>();

@@ -83,7 +83,7 @@ namespace NHS111.Models.Mappers.WebMappings
                 patientDetails.DateOfBirth =
                     new DateTime(outcome.UserInfo.Year.Value, outcome.UserInfo.Month.Value, outcome.UserInfo.Day.Value);
 
-            patientDetails.Gender = outcome.UserInfo.Gender;
+            patientDetails.Gender = outcome.UserInfo.Demography.Gender;
             if (outcome.UserInfo.CurrentAddress != null) patientDetails.CurrentLocationPostcode = outcome.UserInfo.CurrentAddress.PostCode;
             return patientDetails;
         }

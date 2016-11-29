@@ -1,7 +1,7 @@
-﻿namespace NHS111.Utils.FeatureToggle {
-    using System;
-    using System.Runtime.Serialization;
+﻿using System;
+using System.Runtime.Serialization;
 
+namespace NHS111.Features.Providers {
     [Serializable]
     public class MissingSettingException
         : Exception

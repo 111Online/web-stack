@@ -1,0 +1,100 @@
+﻿@using NHS111.Models.Models.Domain
+@model NHS111.Models.Models.Web.AgeGenderViewModel
+
+<h2 class="heading-large">Details about you or the person you're enquiring about</h2>
+<div class="question-rationale">
+    <p>We need these details so that we can ask you the correct questions based on your gender and age. We cannot identify you from these details.</p>
+</div>
+
+<h2 class="heading-small">Sex</h2>
+<div id="answers">
+    <label for="Male" class="answer answer-label">
+        <span class="answer-radio">
+            @Html.RadioButtonFor(m => m.Gender, GenderEnum.Male, new { @id = "Male" })
+        </span>
+        <span class="answer-text">Male</span>
+    </label>
+    <label for="Female" class="answer answer-label">
+        <span class="answer-radio">
+            @Html.RadioButtonFor(m => m.Gender, GenderEnum.Female, new { @id = "Female" })
+        </span>
+        <span class="answer-text">Female</span>
+    </label>
+</div>
+
+<div class="age-content">
+    <h2 class="heading-small">Age in years</h2>
+    <div>
+        @Html.ValidationMessageFor(m => m.Age, "Sorry, this service is not available for children under 5 years of age.")
+    </div>
+    <div class="age">
+        <span id="errmsg"></span>
+        @Html.TextBoxFor(m => m.Age, new { @class = "form-control input-age", type = "number", size = 2, maxlength = 2, onkeypress = "return numbersonly(this, event);" })
+    </div>
+</div>
+
+<script type="text/javascript">
+
+    if ($("#Age").val() == "0") $("#Age").val('');
+
+    $(document).ready(function () {
+
+        //enable disable submit button
+        validateForm();
+
+        $("form input[type=radio]").change(function () {
+            validateForm();
+        });
+
+        $('.input-age').bind('input', function () {
+            validateForm();
+        });
+
+        $("#Age").keydown(function (e) {
+            validateForm();
+        });
+    });
+
+    function validateForm() {
+        genderSelected = $("form input[type=radio]").is(':checked');
+        ageEntered = $("#Age").val() != '';
+        if (genderSelected && ageEntered) {
+            $("#submitGender[type=submit]").removeAttr('disabled');
+        } else {
+            $("#submitGender[type=submit]").attr('disabled', 'disabled');
+        }
+    }
+
+    // copyright 1999 Idocs, Inc. http://www.idocs.com
+    // Distribute this script freely but keep this notice in place
+    function numbersonly(myfield, e, dec) {
+        var key;
+        var keychar;
+
+        if (window.event)
+            key = window.event.keyCode;
+        else if (e)
+            key = e.which;
+        else
+            return true;
+        keychar = String.fromCharCode(key);
+
+        // control keys
+        if ((key == null) || (key == 0) || (key == 8) ||
+        (key == 9) || (key == 13) || (key == 27))
+            return true;
+
+            // numbers
+        else if ((("0123456789").indexOf(keychar) > -1))
+            return true;
+
+            // decimal point jump
+        else if (dec && (keychar == ".")) {
+            myfield.form.elements[dec].focus();
+            return false;
+        }
+        else
+            return false;
+    }
+
+</script>

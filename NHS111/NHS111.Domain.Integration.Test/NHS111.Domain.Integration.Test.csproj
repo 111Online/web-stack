@@ -85,6 +85,10 @@
       <Project>{1b36b587-9dc6-4382-b0a0-2139218c8a45}</Project>
       <Name>NHS111.Domain</Name>
     </ProjectReference>
+    <ProjectReference Include="..\NHS111.Features\NHS111.Features.csproj">
+      <Project>{BD9F2634-BADA-43E6-B16D-522BE17DA255}</Project>
+      <Name>NHS111.Features</Name>
+    </ProjectReference>
     <ProjectReference Include="..\NHS111.Models\NHS111.Models.csproj">
       <Project>{4ccf3abd-92c4-4999-8520-c4aa7b36f48c}</Project>
       <Name>NHS111.Models</Name>

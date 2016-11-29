@@ -1,0 +1,22 @@
+using System.Configuration;
+using NHS111.Features.Defaults;
+using NHS111.Features.Values;
+
+namespace NHS111.Features.Providers {
+    public class AppSettingValueProvider : IFeatureSettingValueProvider
+    {
+        public IFeatureValue GetSetting(IFeature feature, IDefaultSettingStrategy defaultStrategy, string propertyName)
+        {
+            var settingName = string.Format("{0}{1}", feature.GetType().Name, propertyName);
+            var setting = ConfigurationManager.AppSettings[settingName];
+
+            if (setting != null)
+                return new FeatureValue(setting.ToLower()); 
+
+            if (defaultStrategy == null)
+                throw new MissingSettingException();
+
+            return new FeatureValue(defaultStrategy.Value);
+        }
+    }
+}

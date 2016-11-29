@@ -36,6 +36,9 @@ namespace NHS111.Models.Models.Domain
 
         [JsonProperty(PropertyName = "excludeKeywords")]
         public string ExcludeKeywords { get; set; }
+
+        [JsonProperty(PropertyName = "startingPathway")]
+        public bool StartingPathway { get; set; }
     }
 
 }

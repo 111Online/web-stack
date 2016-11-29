@@ -1,4 +1,5 @@
 ﻿using NHS111.Domain.Repository;
+using NHS111.Features.IoC;
 using NHS111.Utils.IoC;
 using StructureMap;
 using StructureMap.Configuration.DSL;
@@ -11,6 +12,7 @@ namespace NHS111.Domain.IoC
         public DomainRegistry()
         {
             IncludeRegistry<UtilsRegistry>();
+            IncludeRegistry<FeatureRegistry>();
 
             For<IGraphRepository>().Use<GraphRepository>().Singleton();
             Scan(scan =>

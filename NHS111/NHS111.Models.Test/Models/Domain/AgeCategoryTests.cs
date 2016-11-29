@@ -75,5 +75,37 @@ namespace NHS111.Models.Test.Models.Domain {
         public void Ctor_WithInvalidString_ThrowsArgumentException() {
             new AgeCategory("SomeNonsense");
         }
+
+        [Test]
+        public void Infant_agecategory_return_correct_minimum_and_maximum_ages()
+        {
+            var sut = new AgeCategory(AgeCategoryEnum.Infant);
+            Assert.AreEqual(0, sut.MinimumAge);
+            Assert.AreEqual(0, sut.MaximumAge);
+        }
+
+        [Test]
+        public void Toddler_agecategory_return_correct_minimum_and_maximum_ages()
+        {
+            var sut = new AgeCategory(AgeCategoryEnum.Toddler);
+            Assert.AreEqual(1, sut.MinimumAge);
+            Assert.AreEqual(4, sut.MaximumAge);
+        }
+
+        [Test]
+        public void Child_agecategory_return_correct_minimum_and_maximum_ages()
+        {
+            var sut = new AgeCategory(AgeCategoryEnum.Child);
+            Assert.AreEqual(5, sut.MinimumAge);
+            Assert.AreEqual(15, sut.MaximumAge);
+        }
+
+        [Test]
+        public void Adult_agecategory_return_correct_minimum_and_maximum_ages()
+        {
+            var sut = new AgeCategory(AgeCategoryEnum.Adult);
+            Assert.AreEqual(16, sut.MinimumAge);
+            Assert.AreEqual(int.MaxValue, sut.MaximumAge);
+        }
     }
 }
