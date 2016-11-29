@@ -14,10 +14,11 @@
 <link href="~/Content/css_NhsUK/gender.css" media="screen" rel="stylesheet" type="text/css" />
 <link href="~/content/css_NhsUk/question.css?@Assembly.GetCallingAssembly().GetName().Version.ToString()" media="screen" rel="stylesheet" type="text/css" />
 
-@using (Html.BeginForm("Search", "Question", FormMethod.Post, new {@id = "outerContent"}))
+@using (Html.BeginForm("Search", "Question", FormMethod.Post, new { @id = "outerContent" }))
 {
     @Html.HiddenFor(x => Model.SessionId)
     @Html.Partial("_GenderAgeView", Model.UserInfo.Demography ?? new AgeGenderViewModel())
 
-    <input class="button button-next" id="submitGender" type="submit" name="Slider" value="Next"/>
+    <input class="button button-next" id="submitGender" type="submit" name="Slider" value="Next" />
 }
+@*  *@
