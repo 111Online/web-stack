@@ -9,6 +9,8 @@ namespace NHS111.Web.Presentation.Configuration
         public string GPSearchUrl { get { return ConfigurationManager.AppSettings["GPSearchUrl"]; } }
         public string GPSearchApiUrl { get { return ConfigurationManager.AppSettings["GPSearchApiUrl"]; } }
         public string GPSearchByIdUrl { get { return ConfigurationManager.AppSettings["GPSearchByIdUrl"]; } }
+
+
         public string BusinessDosCheckCapacitySummaryUrl { get { return ConfigurationManager.AppSettings["BusinessDosCheckCapacitySummaryUrl"]; } }
         public string BusinessDosServicesByClinicalTermUrl { get { return ConfigurationManager.AppSettings["BusinessDosServicesByClinicalTermUrl"]; } }
         public string BusinessDosServiceDetailsByIdUrl { get { return ConfigurationManager.AppSettings["BusinessDosServiceDetailsByIdUrl"]; } }
@@ -52,9 +54,22 @@ namespace NHS111.Web.Presentation.Configuration
 
         public string GetBusinessApiGetCategoriesWithPathways() { return GetBusinessApiUrlWithDomain("BusinessApiGetCategoriesWithPathways"); }
 
+        public string GetBusinessApiGetCategoriesWithPathwaysGenderAge(string gender, int age) {
+            return string.Format(GetBusinessApiUrlWithDomain("BusinessApiGetCategoriesWithPathwaysGenderAge"), gender, age);
+        }
+
+        public string GetBusinessApiGetPathwaysGenderAge(string gender, int age) {
+            return string.Format(GetBusinessApiUrlWithDomain("BusinessApiGetPathwaysGenderAge"), gender, age);
+        }
+
         public string GetBusinessApiGroupedPathwaysUrl(string searchString)
         {
             return string.Format(GetBusinessApiUrlWithDomain("BusinessApiGroupedPathwaysUrl"), searchString, SuggestStartingPathwaysOnly);
+        }
+
+        public string GetBusinessApiGroupedPathwaysUrl(string searchString, string gender, int age)
+        {
+            return string.Format(GetBusinessApiUrlWithDomain("BusinessApiGroupedPathwaysGenderAgeUrl"), searchString, SuggestStartingPathwaysOnly, gender, age);
         }
 
         public string GetBusinessApiPathwayUrl(string pathwayId)
@@ -157,6 +172,7 @@ namespace NHS111.Web.Presentation.Configuration
         string GPSearchByIdUrl { get; }
         string GetBusinessApiPathwayUrl(string pathwayId);
         string GetBusinessApiGroupedPathwaysUrl(string searchString);
+        string GetBusinessApiGroupedPathwaysUrl(string searchString, string gender, int age);
         string GetBusinessApiPathwayIdUrl(string pathwayNumber, string gender, int age);
         string GetBusinessApiPathwaySymptomGroupUrl(string symptonGroups);
         string GetBusinessApiNextNodeUrl(string pathwayId, string journeyId, string state);
@@ -171,6 +187,8 @@ namespace NHS111.Web.Presentation.Configuration
         string GetBusinessApiListOutcomesUrl();
         string GetBusinessApiSymptomDiscriminatorUrl(string symptomDiscriminatorCode);
         string GetBusinessApiGetCategoriesWithPathways();
+        string GetBusinessApiGetCategoriesWithPathwaysGenderAge(string gender, int age);
+        string GetBusinessApiGetPathwaysGenderAge(string gender, int age);
 
         string BusinessDosCheckCapacitySummaryUrl { get; }
         string BusinessDosServicesByClinicalTermUrl { get; }

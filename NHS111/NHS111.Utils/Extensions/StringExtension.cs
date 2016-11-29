@@ -19,5 +19,13 @@ namespace NHS111.Utils.Extensions
             
             return s.ToUpper();
         }
+
+        public static string ToTitleCase(this string s) {
+            if (string.IsNullOrEmpty(s))
+                return s;
+
+            s = s.ToLower();
+            return FirstToUpper(s);
+        }
     }
 }

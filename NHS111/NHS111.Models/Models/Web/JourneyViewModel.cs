@@ -52,9 +52,9 @@ namespace NHS111.Models.Models.Web
             }
         }
 
+        public IEnumerable<Pathway> CommonTopics { get; set; }
         public IEnumerable<CategoryWithPathways> AllTopics { get; set; }
 
-        public string PreviousStateJson { get; set; }
         public string QuestionNo { get; set; }
         public string SymptomDiscriminatorCode { get; set; }
         public IDictionary<string, string> State { get; set; }
@@ -95,6 +95,8 @@ namespace NHS111.Models.Models.Web
             }
         }
 
+        public IEnumerable<string> PathwayNumbers { get; set; }
+
         private IEnumerable<int> GetPreviousAnswers()
         {
             if (Journey == null)
@@ -110,7 +112,8 @@ namespace NHS111.Models.Models.Web
                 QuestionNo = QuestionNo,
                 QuestionTitle = Title,
                 Answer = answer,
-                QuestionId = Id
+                QuestionId = Id,
+                State = StateJson
             };
         }
 
@@ -132,16 +135,14 @@ namespace NHS111.Models.Models.Web
 
         public void ProgressState()
         {
-            PreviousStateJson = StateJson;
             State = JsonConvert.DeserializeObject<Dictionary<string, string>>(StateJson);
         }
 
 
         public void RemoveLastStep()
         {
+            StateJson = Journey.GetLastState();
             Journey.RemoveLastStep();
-
-            StateJson = PreviousStateJson;
             JourneyJson = JsonConvert.SerializeObject(Journey);
             State = JsonConvert.DeserializeObject<Dictionary<string, string>>(StateJson);
         }

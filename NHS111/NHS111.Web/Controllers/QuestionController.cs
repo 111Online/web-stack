@@ -54,6 +54,15 @@ namespace NHS111.Web.Controllers {
             var allTopics = JsonConvert.DeserializeObject<List<CategoryWithPathways>>(response);
             var topicsContainingStartingPathways = allTopics.Where(c => c.Pathways.Any(p => p.Pathway.StartingPathway));
 
+            var categoryTask = await _restfulHelper.GetAsync(_configuration.GetBusinessApiGetCategoriesWithPathwaysGenderAge(model.UserInfo.Gender, model.UserInfo.Age));
+            var pathwayTask = await _restfulHelper.GetAsync(_configuration.GetBusinessApiGetPathwaysGenderAge(model.UserInfo.Gender, model.UserInfo.Age));
+            model.AllTopics = JsonConvert.DeserializeObject<List<CategoryWithPathways>>(categoryTask);
+
+            var filteredPathways = JsonConvert.DeserializeObject<List<Pathway>>(pathwayTask);
+            model.PathwayNumbers = filteredPathways.SelectMany(p => p.PathwayNo.Split(','));
+
+            return View(model);
+
             var startOfJourney = new JourneyViewModel
             {
                 UserInfo = new UserInfo { Demography = model },
@@ -61,16 +70,21 @@ namespace NHS111.Web.Controllers {
             };
 
             return View(startOfJourney);
+
         }
-        
+   
+
         [HttpPost]
-        public async Task<JsonResult> AutosuggestPathways(string input) {
-            return Json(await Search(input));
+        public async Task<JsonResult> AutosuggestPathways(string input, string gender, int age)
+        {
+            var response = await _restfulHelper.GetAsync(_configuration.GetBusinessApiGroupedPathwaysUrl(input, gender, age));
+            return Json(await Search(JsonConvert.DeserializeObject<List<GroupedPathways>>(response)));
         }
 
-        private async Task<string> Search(string input) {
-            var response = await _restfulHelper.GetAsync(_configuration.GetBusinessApiGroupedPathwaysUrl(input));
-            var pathways = JsonConvert.DeserializeObject<List<GroupedPathways>>(response);
+
+        private async Task<string> Search(List<GroupedPathways> pathways)
+        {
+            
             return
                 JsonConvert.SerializeObject(
                     pathways.Select(pathway => new {label = pathway.Group, value = pathway.PathwayNumbers}));
