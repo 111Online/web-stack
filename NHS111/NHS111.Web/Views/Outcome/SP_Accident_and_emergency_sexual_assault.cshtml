@@ -4,7 +4,7 @@
     Layout = "~/Views/Shared/_LayoutNhsUK.cshtml";
 }
 
-@section Title { NHS 111 - Go to Accident &amp; Emergency for sexual assault }
+@section Title { NHS 111 - Go to Accident &amp; Emergency }
 <link href="~/Content/css_NhsUK/confirmation.css" media="all" rel="stylesheet" type="text/css" />
 <link href="~/Content/css_NhsUK/signposting-outcome.css" media="all" rel="stylesheet" type="text/css" />
 <link href="~/Content/css_NhsUK/signposting-outcome-print.css" media="print" rel="stylesheet" type="text/css" />
@@ -17,17 +17,18 @@
 
 @Html.Partial("_FindService", Model, new ViewDataDictionary { { "Title", "Find an A&amp;E department" }, { "ButtonText", "Find an A&amp;E department" }, { "Label", "A&amp;E departments" } })
 
-<div class="care-advice advice-before-going">
-    <h3 class="care-advice-section-header">
-        Advice for going to A&amp;E
-    </h3>
-
-    <ul>
-        <li>don't drive yourself, get someone else to take you</li>
-        <li>take all your current medicines with you</li>
-        <li>don’t wash yourself or change your clothes until you have been seen by a doctor or specialist nurse. This is to avoid destroying important evidence should you wish to report the assault to the police.</li>
-    </ul>
-</div>
+<section>
+    <div class="outcome-additional-info">
+        <h3 class="outcome-additional-info-header">
+            Advice before you go
+        </h3>
+        <ul>
+            <li>don't drive yourself, get someone else to take you</li>
+            <li>take all your current medicines with you</li>
+            <li>don’t wash yourself or change your clothes until you have been seen by a doctor or specialist nurse. This is to avoid destroying important evidence should you wish to report the assault to the police.</li>
+        </ul>
+    </div>
+</section>
 
 @Html.Partial("_WorseningAdvice", Model)
 
