@@ -1,7 +1,7 @@
 ﻿
-namespace NHS111.Web.Presentation.Features {
-    using Utils.FeatureToggle;
+using NHS111.Features.Defaults;
 
+namespace NHS111.Features {
     public interface IDisclaimerPopupFeature {
         bool IsEnabled { get; }
     }
@@ -9,7 +9,7 @@ namespace NHS111.Web.Presentation.Features {
     public class DisclaimerPopupFeature
         : BaseFeature, IDisclaimerPopupFeature {
         public DisclaimerPopupFeature() {
-            DefaultSettingStrategy = new EnabledByDefaultSettingStrategy();
+            DefaultIsEnabledSettingStrategy = new EnabledByDefaultSettingStrategy();
         }
     }
 }

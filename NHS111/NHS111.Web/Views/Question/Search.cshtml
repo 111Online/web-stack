@@ -45,18 +45,17 @@
                 </div>-->
                 @using (Html.BeginForm("JustToBeSafeFirst", "JustToBeSafe", FormMethod.Post))
             {
-                    @Html.HiddenFor(x => Model.UserInfo.Gender)
-                    @Html.HiddenFor(x => Model.UserInfo.Age)
+                    @Html.HiddenFor(x => Model.UserInfo.Demography.Gender)
+                    @Html.HiddenFor(x => Model.UserInfo.Demography.Age)
 
                     <input type="hidden" id="pathwayNo" name="pathwayNo" value="" />
                     <input type="hidden" id="pathwayTitle" name="pathwayTitle" value="" />
                     <div class="symptoms-find-header">
-                        <h2>Find the symptom giving you the most concern</h2>
+                        <h2>Search for the symptom you're most concerned about</h2>
                     </div>
                     <div class="symptoms-find-container">
-                        <p>Next we'll ask you some questions to check how severe your symptoms are.</p>
-                        <p>It may feel like we're asking a lot of questions, but we need to rule out some serious conditions first. It's important we check everything thoroughly.</p>
-
+                        <p>It may feel like we're asking a lot of questions, but it's important we check everything thoroughly and rule out serious conditions.</p>
+                        <p>Make sure you answer all of the questions and follow the advice you are given.</p>
                         <hr />
                         <div class="symptoms-search">
                             <label for="searchTags">
@@ -106,8 +105,9 @@
                     <div class="all-symptoms">
                         @{
                             var lists = new List<IEnumerable<CategoryWithPathways>>(2);
-                            lists.Add(Model.AllTopics.Take((Model.AllTopics.Count() / 2)));
-                            lists.Add(Model.AllTopics.Skip(lists[0].Count()));
+                            var orderLists = Model.AllTopics.OrderBy(c => c.Category.Title);
+                            lists.Add(orderLists.Take((orderLists.Count() / 2)));
+                            lists.Add(orderLists.Skip(lists[0].Count()));
                         }
                         <h3>All symptoms</h3>
                         @for (int i = 0; i < lists.Count; ++i)
@@ -160,7 +160,7 @@
                     url: '@Url.Action("AutosuggestPathways", "Question")',
                     type: "post",
                     dataType: "json",
-                    data: { input: $("#searchTags").val() },
+                    data: { input: $("#searchTags").val(), gender: '@Model.UserInfo.Demography.Gender', age: @Model.UserInfo.Demography.Age},
                     success: function(data) {
                         response(JSON.parse(data).slice(0, 7));
                     },

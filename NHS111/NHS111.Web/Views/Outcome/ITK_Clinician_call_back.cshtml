@@ -43,7 +43,7 @@
 
 @Html.Partial("_WorseningAdvice", Model)
 
-@Html.Partial("_CareAdvice", Model.CareAdvices)
+@Html.Partial("_CareAdvice", Model.CareAdvices, new ViewDataDictionary { { "Title", "What can I do in the meantime?" } })
 
 <hr />
 

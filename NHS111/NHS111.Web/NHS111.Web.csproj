@@ -593,6 +593,10 @@
     <Content Include="Content\fonts\NTATabularNumbers-Bold.woff" />
     <Content Include="Content\fonts\NTATabularNumbers-Light.eot" />
     <Content Include="Content\fonts\NTATabularNumbers-Light.woff" />
+    <ProjectReference Include="..\NHS111.Features\NHS111.Features.csproj">
+      <Project>{BD9F2634-BADA-43E6-B16D-522BE17DA255}</Project>
+      <Name>NHS111.Features</Name>
+    </ProjectReference>
     <ProjectReference Include="..\NHS111.Models\NHS111.Models.csproj">
       <Project>{4ccf3abd-92c4-4999-8520-c4aa7b36f48c}</Project>
       <Name>NHS111.Models</Name>
@@ -771,6 +775,9 @@
     <Content Include="Views\Outcome\ITK_Primary_care.cshtml" />
     <Content Include="Views\Outcome\SP_Midwife.cshtml" />
     <Content Include="Views\Outcome\Call_999_Assess.cshtml" />
+    <Content Include="Views\Question\InlineCareAdvice.cshtml" />
+    <Content Include="Views\Shared\_CommonHiddenFieldsNode.cshtml" />
+    <Content Include="Views\Shared\_GenderAgeView.cshtml" />
     <None Include="Web.Development.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

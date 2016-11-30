@@ -69,13 +69,13 @@ namespace NHS111.Web.Presentation.Builders
             var pathway = JsonConvert.DeserializeObject<Pathway>(response);
             if (pathway == null) return null;
 
-            var derivedAge = model.UserInfo.Age == -1 ? pathway.MinimumAgeInclusive : model.UserInfo.Age;
+            var derivedAge = model.UserInfo.Demography.Age == -1 ? pathway.MinimumAgeInclusive : model.UserInfo.Demography.Age;
             var newModel = new JustToBeSafeViewModel
             {
                 PathwayId = pathway.Id,
                 PathwayNo = pathway.PathwayNo,
                 PathwayTitle = pathway.Title,
-                UserInfo = new UserInfo() { Age = derivedAge, Gender = pathway.Gender },
+                UserInfo = new UserInfo { Demography = new AgeGenderViewModel { Age = derivedAge, Gender = pathway.Gender } },
                 JourneyJson = model.JourneyJson,
                 SymptomDiscriminatorCode = model.SymptomDiscriminatorCode,
                 State = JourneyViewModelStateBuilder.BuildState(pathway.Gender, derivedAge),
@@ -89,14 +89,14 @@ namespace NHS111.Web.Presentation.Builders
 
         private async Task<JustToBeSafeViewModel> BuildIdentifiedModel(JustToBeSafeViewModel model)
         {
-            var pathway = JsonConvert.DeserializeObject<Pathway>(await _restfulHelper.GetAsync(_configuration.GetBusinessApiPathwayIdUrl(model.PathwayNo, model.UserInfo.Gender, model.UserInfo.Age)));
+            var pathway = JsonConvert.DeserializeObject<Pathway>(await _restfulHelper.GetAsync(_configuration.GetBusinessApiPathwayIdUrl(model.PathwayNo, model.UserInfo.Demography.Gender, model.UserInfo.Demography.Age)));
 
             if (pathway == null) return null;
 
             model.PathwayId = pathway.Id;
             model.PathwayTitle = pathway.Title;
             model.PathwayNo = pathway.PathwayNo;
-            model.State = JourneyViewModelStateBuilder.BuildState(model.UserInfo.Gender,model.UserInfo.Age, model.State);
+            model.State = JourneyViewModelStateBuilder.BuildState(model.UserInfo.Demography.Gender,model.UserInfo.Demography.Age, model.State);
             model.StateJson = JourneyViewModelStateBuilder.BuildStateJson(model.State);
             model.CollectedKeywords = new KeywordBag(_keywordCollector.ParseKeywords(pathway.Keywords, false).ToList(), _keywordCollector.ParseKeywords(pathway.ExcludeKeywords, false).ToList());
             return model;

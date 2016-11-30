@@ -89,7 +89,7 @@ namespace NHS111.Web.Presentation.Builders.Tests
         [Test()]
         public async void JustToBeSafeFirstBuilder_Builds_Pathways_Data_Test()
         {
-            var result = await _testJustToBeSafeFirstViewModelBuilder.JustToBeSafeFirstBuilder(new JustToBeSafeViewModel(){UserInfo = new UserInfo(){Age = 22, Gender = testGender}, PathwayNo = testPathwayNo});
+            var result = await _testJustToBeSafeFirstViewModelBuilder.JustToBeSafeFirstBuilder(new JustToBeSafeViewModel(){UserInfo = new UserInfo { Demography = new AgeGenderViewModel { Age = 22, Gender = testGender } }, PathwayNo = testPathwayNo});
             Assert.IsNotNull(result);
 
             Assert.AreEqual(testPathwayTitle,result.Item2.PathwayTitle);
@@ -102,7 +102,7 @@ namespace NHS111.Web.Presentation.Builders.Tests
         [Test()]
         public async void JustToBeSafeFirstBuilder_Builds_Keywords_Data_Test()
         {
-            var result = await _testJustToBeSafeFirstViewModelBuilder.JustToBeSafeFirstBuilder(new JustToBeSafeViewModel() { UserInfo = new UserInfo() { Age = 22, Gender = testGender }, PathwayNo = testPathwayNo });
+            var result = await _testJustToBeSafeFirstViewModelBuilder.JustToBeSafeFirstBuilder(new JustToBeSafeViewModel() { UserInfo = new UserInfo { Demography = new AgeGenderViewModel { Age = 22, Gender = testGender } }, PathwayNo = testPathwayNo });
             Assert.IsNotNull(result);
 
 

@@ -10,6 +10,8 @@ using NHS111.Models.Models.Web.FromExternalServices;
 
 namespace NHS111.Models.Models.Web
 {
+    using System.Collections;
+
     public class JourneyViewModel
     {
         public Guid SessionId { get; set; }
@@ -79,7 +81,7 @@ namespace NHS111.Models.Models.Web
         {
             get
             {
-                var age = UserInfo != null ? UserInfo.Age : 0;
+                var age = UserInfo != null ? UserInfo.Demography.Age : 0;
                 return string.Format("/question/direct/{0}/{1}/{2}/?answers={3}", PathwayId, age, PathwayTitle,
                     string.Join(",", GetPreviousAnswers()));
             }
@@ -89,13 +91,14 @@ namespace NHS111.Models.Models.Web
         {
             get
             {
-                var age = UserInfo != null ? UserInfo.Age : 0;
+                var age = UserInfo != null ? UserInfo.Demography.Age : 0;
                 return string.Format("/question/outcomedetail/{0}/{1}/{2}/?answers={3}", PathwayId, age, PathwayTitle,
                     string.Join(",", GetPreviousAnswers()));
             }
         }
 
         public IEnumerable<string> PathwayNumbers { get; set; }
+        public IEnumerable<CareAdvice> InlineCareAdvice { get; set; }
 
         private IEnumerable<int> GetPreviousAnswers()
         {

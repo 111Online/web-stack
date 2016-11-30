@@ -2,9 +2,7 @@
 
 using System;
 using System.Web.Http;
-using NHS111.Models.Models.Web.FromExternalServices;
-using NHS111.Models.Models.Web.Logging;
-using NHS111.Web.Presentation.Features;
+using NHS111.Features;
 
 namespace NHS111.Web.Controllers {
     using System.Collections.Generic;
@@ -62,9 +60,13 @@ namespace NHS111.Web.Controllers {
 
             var model = new OutcomeViewModel {
                 Id = DxCode.Value,
-                UserInfo = new UserInfo {
-                    Age = age ?? 38,
-                    Gender = Gender.Value
+                UserInfo = new UserInfo
+                {
+                    Demography = new AgeGenderViewModel
+                    { 
+                        Age = age ?? 38,
+                        Gender = Gender.Value
+                    }
                 },
                 SymptomGroup = symptomGroup ?? "1203",
                 SymptomDiscriminatorCode = symptomDiscriminator ?? "4003",

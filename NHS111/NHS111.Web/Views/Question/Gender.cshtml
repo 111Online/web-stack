@@ -15,113 +15,14 @@
 <link href="~/content/css_NhsUk/question.css?@Assembly.GetCallingAssembly().GetName().Version.ToString()" media="screen" rel="stylesheet" type="text/css" />
 
 @using (Html.BeginForm("Search", "Question", FormMethod.Post, new { @id = "outerContent" }))
-            {
+{
     @Html.HiddenFor(x => Model.SessionId)
-    //@Html.HiddenFor(x => Model.PathwayNo)
-    <h2 class="heading-large">Details about you or the person you're enquiring about</h2>
-        <div class="question-rationale">
-            <p>We need these details so that we can ask you the correct questions based on your gender and age. We cannot identify you from these details.</p>
-        </div>
+    @Html.Partial("_GenderAgeView", Model.UserInfo.Demography ?? new AgeGenderViewModel())
 
-        <h2 class="heading-small">Sex</h2>
-        <div id="answers">
-            <label for="Male" class="answer answer-label">
-                <span class="answer-radio">
-                    <input name="UserInfo.Gender" type="radio" id="Male" value="Male" />
-                </span>
-                <span class="answer-text">Male</span>
-            </label>
-            <label for="Female" class="answer answer-label">
-                <span class="answer-radio">
-                    <input name="UserInfo.Gender" type="radio" id="Female" value="Female" />
-                </span>
-                <span class="answer-text">Female</span>
-            </label>
-        </div>
+    <div class="worsening-advice-icon">
+        <p>If you're worried that a child or adult has been deliberately harmed, call 111 to talk to someone.</p>
+    </div>
+    <hr />
 
-        <div class="age-content">
-            <h2 class="heading-small">Age in years</h2>
-            <div class="age">
-                <span id="errmsg"></span>
-                @Html.TextBoxFor(m => m.UserInfo.Age, new { @class = "form-control input-age", type="number", size = 2, maxlength = 2, onkeypress = "return numbersonly(this, event);" })
-                <label><input type="checkbox" id="AgeZero" value="0" />Baby less than 1 year old</label>
-            </div>
-        </div>
-
-        <input class="button button-next" id="submitGender" type="submit" name="Slider" value="Next" />
+    <input class="button button-next" id="submitGender" type="submit" name="Slider" value="Next" />
 }
-
-<script type="text/javascript">
-
-    $(document).ready(function () {
-        //enable disable submit button
-        validateForm();
-
-        $("form input[type=radio]").change(function () {
-            validateForm();
-        });
-
-        $('.input-age').bind('input', function () {
-            if ($("#UserInfo_Age").val() != "0") {
-                $("#AgeZero").prop('checked', false);
-            }
-            validateForm();
-        });
-
-        $("#UserInfo_Age").keydown(function (e) {
-            validateForm();
-        });
-
-        $("#AgeZero").change(function () {
-            if ($("#AgeZero").is(':checked')) {
-                $("#UserInfo_Age").val("0");
-            } else {
-                $("#UserInfo_Age").val("");
-            }
-            validateForm();
-        });
-    });
-
-    function validateForm() {
-        genderSelected = $("form input[type=radio]").is(':checked');
-        ageEntered = $("#UserInfo_Age").val() != '' || $("#AgeZero").is(':checked');
-        if (genderSelected && ageEntered) {
-            $("#submitGender[type=submit]").removeAttr('disabled');
-        } else {
-            $("#submitGender[type=submit]").attr('disabled', 'disabled');
-        }
-    }
-
-    // copyright 1999 Idocs, Inc. http://www.idocs.com
-    // Distribute this script freely but keep this notice in place
-    function numbersonly(myfield, e, dec) {
-        var key;
-        var keychar;
-
-        if (window.event)
-            key = window.event.keyCode;
-        else if (e)
-            key = e.which;
-        else
-            return true;
-        keychar = String.fromCharCode(key);
-
-        // control keys
-        if ((key == null) || (key == 0) || (key == 8) ||
-        (key == 9) || (key == 13) || (key == 27))
-            return true;
-
-            // numbers
-        else if ((("0123456789").indexOf(keychar) > -1))
-            return true;
-
-            // decimal point jump
-        else if (dec && (keychar == ".")) {
-            myfield.form.elements[dec].focus();
-            return false;
-        }
-        else
-            return false;
-    }
-
-</script>

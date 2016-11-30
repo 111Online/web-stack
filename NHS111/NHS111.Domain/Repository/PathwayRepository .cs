@@ -5,7 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Neo4jClient.Cypher;
 using Newtonsoft.Json;
-using NHS111.Domain.Api.Features;
+using NHS111.Features;
 using NHS111.Models.Models.Domain;
 using NHS111.Utils.Configuration;
 using NHS111.Utils.Extensions;
