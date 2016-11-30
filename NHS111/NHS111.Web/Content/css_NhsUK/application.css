@@ -2372,14 +2372,18 @@ button[disabled=disabled] {
     background-image: url("/content/images/icons/warning.png");
     background-position: left center;
     background-repeat: no-repeat;
+    padding-top: 0;
     padding-left: 44px;
     margin-top: 40px;
-    padding-top: 0;
     min-height:34px;
 }
 
+.worsening-advice-icon.trial {
+    margin-bottom: 20px;
+}
+
 .worsening-advice-icon p {
-    line-height: 34px;
+   padding-top: 5px;
 }
 
 @media (max-width: 640px) {
