@@ -41,7 +41,7 @@
                             {
                                 @Html.Partial("_CommonHiddenFieldsOutcomeViewModel", Model)
                                 @Html.Hidden("SelectedServiceId", @selectedService.Id)
-
+                                
                                 if (selectedService.CallbackEnabled)
                                 {
                                     
@@ -51,10 +51,16 @@
                                         <input class="button button-next" type="submit" name="PersonalDetails" value="Request a call back" />
                                     </div>
                                 }
-                                else
+                                else if (!string.IsNullOrEmpty(@selectedService.ContactDetails))
                                 {
                                     <div class="row">
                                         <p>Please call this service for advice: @selectedService.ContactDetails</p>
+                                    </div>
+                                }
+                                else
+                                {
+                                    <div class="row">
+                                        <p>You don't need to call this service, you can go there during the times shown above</p>
                                     </div>
                                 }
                             }
@@ -93,10 +99,16 @@
                                         <input class="linkButton" type="submit" name="PersonalDetails" value="Request a call back" />
                                     </div>
                                 }
-                                else
+                                else if (!string.IsNullOrEmpty(service.ContactDetails))
                                 {
                                     <div class="row">
                                         <p>Please call this service for advice: @service.ContactDetails</p>
+                                    </div>
+                                }
+                                else
+                                {
+                                    <div class="row">
+                                        <p>You don't need to call this service, you can go there during the times shown above</p>
                                     </div>
                                 }
                             }
