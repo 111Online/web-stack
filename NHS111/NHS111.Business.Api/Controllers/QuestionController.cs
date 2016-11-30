@@ -89,8 +89,9 @@ namespace NHS111.Business.Api.Controllers
             if (nextLabel == "CareAdvice")
             {
                 stateDictionary.Add(next.Question.QuestionNo, "");
-                var updatedState = JsonConvert.SerializeObject(stateDictionary);
-                return await GetNextNode(pathwayId, next.Question.Id, updatedState, next.Answers.First().Title, cacheKey);
+                next.State = stateDictionary;
+                var result = _questionTransformer.AsQuestionWithAnswers(JsonConvert.SerializeObject(next));
+                return result.AsHttpResponse();
             }
 
             if (nextLabel == "InlineDisposition")
