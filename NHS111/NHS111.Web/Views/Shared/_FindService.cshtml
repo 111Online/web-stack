@@ -25,6 +25,7 @@
             @Html.Hidden("CurrentView", ((RazorView)ViewContext.View).ViewPath)
             @Html.HiddenFor(x => x.DispositionTime)
             @Html.HiddenFor(x => x.TimeFrameMinutes)
+            @Html.HiddenFor(x => x.WaitTimeText)
             if (Model.DisplayWorseningCareAdvice)
             {
                 for (var i = 0; i < Model.WorseningCareAdvice.Items.Count; ++i)
