@@ -1,0 +1,47 @@
+﻿@using NHS111.Models.Models.Web
+@inherits NHS111.Web.Views.Shared.DirectLinkingView<JourneyViewModel>
+
+@{ Layout = "~/Views/Shared/_LayoutNhsUk.cshtml"; }
+
+<link href="~/content/css_NhsUk/question.css" media="screen" rel="stylesheet" type="text/css" />
+
+@section Title {}
+
+@section Scripts {
+    <script>
+        dataLayer = [{
+            'virtualPageUrl': document.location.pathname + '/@Model.Id',
+            'virtualPageTitle': '@Model.TitleWithoutBullets'
+        }];
+    </script>
+}
+
+@section FeedbackSection {
+    @Html.Partial("_FeedbackDetails", new FeedbackViewModel() { PageId = Request.Url.GetComponents(UriComponents.PathAndQuery, UriFormat.SafeUnescaped) + Model.PathwayId })
+}
+
+@using (Html.BeginForm("Navigation", "Question", FormMethod.Post)) {
+
+    @Html.Partial("_CommonHiddenFieldsNode", Model)
+
+    if (DirectLinkingFeature.IsEnabled) {
+        Html.Raw("<!-- DIRECT LINK: " + Model.StepLink + " -->");
+    }
+
+    <h2 class="heading-large">Before you continue, here's some advice for you to follow</h2>
+
+    <div id="answers">
+        <ul class="bulleted">
+            @foreach (var answer in Model.Answers) {
+                <li>
+                    <div class="answer-content">@answer.Title</div>
+                </li>
+            }
+        </ul>
+    </div>
+
+    <button class="button button-next" id="nextScreen" type="submit" name="Question" value="Question">Next question</button>
+    if (!Model.IsFirstStep) {
+        <input class="button previous-question" id="previousScreen" type="submit" name="PreviousQuestion" value="Previous question" />
+    }
+}

@@ -10,6 +10,8 @@ using NHS111.Models.Models.Web.FromExternalServices;
 
 namespace NHS111.Models.Models.Web
 {
+    using System.Collections;
+
     public class JourneyViewModel
     {
         public Guid SessionId { get; set; }
@@ -96,6 +98,7 @@ namespace NHS111.Models.Models.Web
         }
 
         public IEnumerable<string> PathwayNumbers { get; set; }
+        public IEnumerable<CareAdvice> InlineCareAdvice { get; set; }
 
         private IEnumerable<int> GetPreviousAnswers()
         {
