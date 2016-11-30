@@ -87,8 +87,7 @@ namespace NHS111.Web.Presentation.Builders
 
             return services.Select(s =>
             {
-                //s.CallbackEnabled = whitelist.Contains(s.Id.ToString());
-                s.CallbackEnabled = true;
+                s.CallbackEnabled = whitelist.Contains(s.Id.ToString());
                 return s;
             }).ToList();
         }
