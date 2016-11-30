@@ -1917,12 +1917,10 @@ button[disabled=disabled] {
     }
 }
 .feedback-container {
-    color: #fff;
-    background-color: rgba(53,53,53,0.9);
+    background-color: #d8e0e2;
     box-sizing: border-box;
     font-size: 16px;
     line-height: 20px;
-    border-top: 2px solid #0075A7; 
     border-bottom: none;
     text-align: initial;
     padding: 10px 0;
@@ -2004,10 +2002,7 @@ button[disabled=disabled] {
 }
 
 .feedback-input {
-    float: left;
     resize: none; 
-    width: 80%;
-    height: 40px;
     padding: 0 10px;
     background-color: #fff;
     border: 2px solid #b9d2dc;
@@ -2016,7 +2011,19 @@ button[disabled=disabled] {
     margin-right: 10px;
     margin-bottom: 10px;
     font-size: 16px;
-    line-height: 40px;
+    padding: 20px 0 15px 15px;
+}
+
+@media (min-width:769px ) {
+    .feedback-input {
+        width: 80%;
+    }
+}
+
+@media (max-width:770px ) {
+    .feedback-input {
+        width: 100%;
+    }
 }
 @media screen and (min-width: 500px) {
     .feedback-input {
@@ -2030,14 +2037,17 @@ button[disabled=disabled] {
     font-size: 16px;
     line-height: 40px;
     color: #fff;
-    background-color: #4c9c39;
+    background-color: #405364;
     margin-left: 0;
-    border: 2px solid #4c9c39;
+    width: 200px;
+    background-position: 97% 60%;
+    padding: 5px;
+
+
 }
 .feedback-btn.feedback-submit:link, .feedback-btn.feedback-submit:hover, .feedback-btn.feedback-submit:focus, .feedback-btn.feedback-submit:visited {
     color: #fff;
-    background-color: #006647;
-    border: 2px solid #006647;
+    background-color: #2e3b47;
 }
 @media screen and (min-width: 500px) {
     .feedback-btn.feedback-submit {

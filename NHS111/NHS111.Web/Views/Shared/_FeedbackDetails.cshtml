@@ -15,15 +15,13 @@
             <a href="#FeedbackForm" class="feedback-dismiss"></a>
             <form id="FeedbackForm" action="@Url.Action("SubmitFeedback", "Feedback")">
                 <div id="FeedbackDetails">
-                    <h3 class="feedback-message feedback-title">
-                        Help us improve this service
-                    </h3>
+        
                     <p class="feedback-message">
-                        If you’d like to give your views on helping us improve this online service, please use the form below.
+                        Tell us if this page isn't clear
                     </p>
                     <div class="feedback-form">
                         @Html.TextAreaFor(m => m.Text, new { @placeholder = "Feedback", @Value = "", @class = "feedback-input", @maxlength = "8000" })
-                        <a class="feedback-btn feedback-submit" id="btnFeedback" onclick="SubmitFeedback(this);">Submit</a>
+                        <a class="feedback-btn feedback-submit button-next" id="btnFeedback" onclick="SubmitFeedback(this);">Send feedback</a>
                     </div>
                 </div>
                 @Html.HiddenFor(m => m.UserId)
@@ -48,16 +46,10 @@
     $(document).ready(function () {
         var $userId = $("#FeedbackForm #UserId");
         $userId.val($.cookie("userId"));
+        $('.feedback-input').autogrow({ vertical: true, horizontal: false });
+
     });
 
-    $("#Text").keypress(function (event) {
-        var keycode = (event.keyCode ? event.keyCode : event.which);
-        var RETURNKEY = 13;
-        if (keycode === RETURNKEY) {
-            $("#btnFeedback").click();
-            return false;
-        }
-    });
 
     function SubmitFeedback(btnClicked) {
         if ($("#Text").val() !== "") {
@@ -82,4 +74,6 @@
             return false;
         }
     }
+
+   
 </script>

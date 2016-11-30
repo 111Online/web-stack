@@ -14,9 +14,6 @@
     <link href="~/Content/css_NhsUK/signposting-outcome.css" media="all" rel="stylesheet" type="text/css" />
 }
 
-@section FeedbackSection {
-    @Html.Partial("_FeedbackDetails", new FeedbackViewModel() { PageId = Model.Id })
-}
 
 @Html.Partial("_OutcomeHeader", Model, new ViewDataDictionary() { { "OutcomeHeader", Model.OutcomeGroup.GetDefaultTitle() } })
 
