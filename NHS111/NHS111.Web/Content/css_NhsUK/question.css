@@ -169,3 +169,6 @@ hr.compact {
 .supporting-info-text {
     padding-left: 40px;
 }
+ul.bulleted {
+    list-style-type: inherit;
+}
