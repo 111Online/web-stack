@@ -3,20 +3,13 @@
 @model OutcomeViewModel
 @if (Model.DisplayWorseningCareAdvice)
 {
-    var isEmergencyOutcome = Model.OutcomeGroup.Equals(OutcomeGroup.AccidentAndEmergency) || Model.OutcomeGroup.Equals(OutcomeGroup.AccidentAndEmergencySexualAssault);
-    if (!isEmergencyOutcome)
-    {
-        foreach (var item in Model.WorseningCareAdvice.Items)
-        {
-            <div class="worsening-advice-icon">
-                <p>@item.Text</p>
-            </div>
-        }
-    }
-    else
+
+    foreach (var item in Model.WorseningCareAdvice.Items)
     {
         <div class="worsening-advice-icon">
-            <p>If you have any new symptoms, or the condition gets worse, changes or you have any other concerns call 999.</p>
+            <p>@item.Text</p>
         </div>
     }
+    
+
 }
