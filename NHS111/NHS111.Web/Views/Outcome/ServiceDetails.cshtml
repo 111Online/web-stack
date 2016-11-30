@@ -151,7 +151,8 @@
 
 <script type="text/javascript">
 
-    var map = new google.maps.Map($('.service-map')[0], {
+    var map = new google.maps.Map($('.service-map')[0],
+    {
         zoom: 10,
         center: new google.maps.LatLng(locations[0][1], locations[0][2]),
         mapTypeId: google.maps.MapTypeId.ROADMAP
@@ -169,14 +170,19 @@
             icon: "/content/images/icons/map-pointers/fac-map-" + pointerNo + ".png"
         });
 
-        google.maps.event.addListener(marker, 'click', (function (marker, i) {
-            return function () {
-                infowindow.setContent(locations[i][0]);
-                infowindow.open(map, marker);
-            }
-        })(marker, i));
+        google.maps.event.addListener(marker,
+            'click',
+            (function(marker, i) {
+                return function() {
+                    infowindow.setContent(locations[i][0]);
+                    infowindow.open(map, marker);
+                }
+            })(marker, i));
     }
 </script>
+
+@Html.Partial("_WorseningAdvice", Model)
+
 <section class="service-details-care-advice">
     <div class="section-item last">
         @Html.Partial("_CareAdvice", Model.CareAdvices, new ViewDataDictionary { { "Title", "Advice to help you look after yourself" } })
