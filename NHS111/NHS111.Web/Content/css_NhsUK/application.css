@@ -1916,10 +1916,10 @@ button[disabled=disabled] {
         display: block;
     }
 }
+
 .feedback-container {
     background-color: #d8e0e2;
     box-sizing: border-box;
-    font-size: 16px;
     line-height: 20px;
     border-bottom: none;
     text-align: initial;
@@ -1928,7 +1928,6 @@ button[disabled=disabled] {
 @media screen and (min-width: 768px) {
     .feedback-container {
         padding: 15px 0;
-        font-size: 20px;
         line-height: 24px;
     }
 }
@@ -1966,15 +1965,10 @@ button[disabled=disabled] {
     max-width: 120px;
     line-height: 20px;
 }
-}
-@media screen and (min-width: 768px) {
-    .feedback-container .feedback-btn {
-        font-size: 20px;
-    }
-}
+
 .feedback-container .feedback-message {
     transition: font-size 200ms;
-    font-size: 16px;
+
     display: block;
     margin: 0;
     padding: 0;
@@ -1983,14 +1977,14 @@ button[disabled=disabled] {
 @media screen and (min-width: 500px) {
     .feedback-container .feedback-message {
         margin-top: 0.5em;
-        font-size: 20px;
+
         line-height: 24px;
     }
 }
 .feedback-form {
     margin: 3em 0;
     margin-top: 0.5em;
-    font-size: 16px;
+    font-size: 18px;
     line-height: 20px;
 }
 @media screen and (min-width: 500px) {
@@ -2027,14 +2021,13 @@ button[disabled=disabled] {
 }
 @media screen and (min-width: 500px) {
     .feedback-input {
-        font-size: 20px;
+        font-size: 18px;
     }
 }
 .feedback-btn.feedback-submit {
     float: left;
     max-width: none;
     height: 40px;
-    font-size: 16px;
     line-height: 40px;
     color: #fff;
     background-color: #405364;
