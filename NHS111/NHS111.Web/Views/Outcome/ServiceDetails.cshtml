@@ -177,8 +177,5 @@
         })(marker, i));
     }
 </script>
-<section class="service-details-care-advice">
-    <div class="section-item last">
-        @Html.Partial("_CareAdvice", Model.CareAdvices, new ViewDataDictionary { { "Title", "Advice to help you look after yourself" } })
-    </div>
-</section>
+
+@Html.Partial("_CareAdvice", Model.CareAdvices, new ViewDataDictionary { { "Title", "What can I do in the meantime?" } })
