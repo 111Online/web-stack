@@ -193,6 +193,32 @@ namespace NHS111.Business.DOS.Test.Service
             Assert.AreEqual(1, services.Count());
         }
 
+        [Test]
+        public async void out_of_hours_traversing_in_hours_should_return_filtered_CheckCapacitySummaryResult()
+        {
+            var fakeResponse = new HttpResponseMessage(HttpStatusCode.OK)
+            {
+                Content = new StringContent(CheckCapacitySummaryResults)
+            };
+
+            var fakeDoSFilteredCase = new DosFilteredCase() { PostCode = "So30 2Un", Disposition = 1008, DispositionTime = new DateTime(2016, 12, 1, 18, 1, 0), DispositionTimeFrameMinutes = 1440 };
+            var request = new HttpRequestMessage() { Content = new StringContent(JsonConvert.SerializeObject(fakeDoSFilteredCase)) };
+
+            _mockDosService.Setup(x => x.GetServices((It.IsAny<HttpRequestMessage>()))).Returns(Task<HttpResponseMessage>.Factory.StartNew(() => fakeResponse));
+
+            var sut = new ServiceAvailabilityFilterService(_mockDosService.Object, _mockConfiguration.Object);
+
+            //Act
+            var result = await sut.GetFilteredServices(request);
+
+            //Assert 
+            _mockDosService.Verify(x => x.GetServices(It.IsAny<HttpRequestMessage>()), Times.Once);
+
+            var jObj = GetJObjectFromResponse(result);
+            var services = jObj["CheckCapacitySummaryResult"];
+            Assert.AreEqual(1, services.Count());
+        }
+
         private static JObject GetJObjectFromResponse(HttpResponseMessage response)
         {
             var val = response.Content.ReadAsStringAsync().Result;
