@@ -132,6 +132,42 @@ namespace NHS111.Business.DOS.Test
             var result = _serviceAvailabilityProfile.GetServiceAvailability(OoHoursToOoHoursPeriodWeekday.Item1, OoHoursToOoHoursPeriodWeekday.Item2);
             Assert.AreEqual(DispositionTimePeriod.DispositionOutOfHoursTimeFrameInShoulder, result);
         }
+
+        [Test()]
+        public void GetServiceAvailability_In_shoulder_And_Timeframe_In_hours_Test()
+        {
+            var inShoulderDateTime = new DateTime(2016, 11, 17, 8, 20, 0);
+            _mockProfileHoursOfConfiguration
+               .Setup(c => c.GetServiceTime(inShoulderDateTime))
+               .Returns(ProfileServiceTimes.InHoursShoulder);
+
+            _mockProfileHoursOfConfiguration
+                .Setup(c => c.GetServiceTime(inShoulderDateTime.AddMinutes(120)))
+                .Returns(ProfileServiceTimes.InHours);
+
+            _serviceAvailabilityProfile = new ServiceAvailabilityProfile(_mockProfileHoursOfConfiguration.Object);
+
+            var result = _serviceAvailabilityProfile.GetServiceAvailability(inShoulderDateTime, 120);
+            Assert.AreEqual(DispositionTimePeriod.DispositionInShoulderTimeFrameInHours, result);
+        }
+
+        [Test()]
+        public void GetServiceAvailability_In_shoulder_And_Timeframe_Out_of_hours_Test()
+        {
+            var inShoulderDateTime = new DateTime(2016, 11, 17, 8, 20, 0);
+            _mockProfileHoursOfConfiguration
+               .Setup(c => c.GetServiceTime(inShoulderDateTime))
+               .Returns(ProfileServiceTimes.InHoursShoulder);
+
+            _mockProfileHoursOfConfiguration
+                .Setup(c => c.GetServiceTime(inShoulderDateTime.AddMinutes(720)))
+                .Returns(ProfileServiceTimes.OutOfHours);
+
+            _serviceAvailabilityProfile = new ServiceAvailabilityProfile(_mockProfileHoursOfConfiguration.Object);
+
+            var result = _serviceAvailabilityProfile.GetServiceAvailability(inShoulderDateTime, 720);
+            Assert.AreEqual(DispositionTimePeriod.DispositionInShoulderTimeFrameOutOfHours, result);
+        }
     }
 
     public class InHoursClock : IClock
