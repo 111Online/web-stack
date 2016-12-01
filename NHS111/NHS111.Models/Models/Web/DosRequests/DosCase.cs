@@ -7,7 +7,7 @@
             AgeFormat = AgeFormatType.Years;
             Surgery = "UKN";
             NumberPerType = 2;
-            SearchDistance = 60;
+            SearchDistance = 32;
         }
 
         public string CaseRef { get; set; }
