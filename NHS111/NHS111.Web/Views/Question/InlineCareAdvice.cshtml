@@ -23,8 +23,10 @@
 @using (Html.BeginForm("Navigation", "Question", FormMethod.Post)) {
 
     @Html.Partial("_CommonHiddenFieldsNode", Model)
+    <input name="SelectedAnswer" type="hidden" id="@Model.Answers.First().TitleWithoutSpaces" value="@Newtonsoft.Json.JsonConvert.SerializeObject(Model.Answers.First())" />
 
-    if (DirectLinkingFeature.IsEnabled) {
+    if (DirectLinkingFeature.IsEnabled)
+    {
         Html.Raw("<!-- DIRECT LINK: " + Model.StepLink + " -->");
     }
 
@@ -32,7 +34,7 @@
 
     <div id="answers">
         <ul class="bulleted">
-            @foreach (var answer in Model.Answers) {
+            @foreach (var answer in Model.OrderedAnswers()) {
                 <li>
                     <div class="answer-content">@answer.Title</div>
                 </li>
