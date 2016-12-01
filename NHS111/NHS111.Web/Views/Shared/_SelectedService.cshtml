@@ -10,4 +10,10 @@
         @WebUtility.HtmlDecode(Model.CurrentStatus)
     </div>
 }
+else
+{
+    <div class="service-status">
+        Open 24 hours
+    </div>
+}
 @Html.HiddenFor(m => m.Id)
