@@ -86,7 +86,7 @@ namespace NHS111.Utils.Helpers {
         }
 
         private async Task<HttpRequestMessage> BuildRequestMessage(string url, HttpRequestMessage request) {
-            var data = await request.Content.ReadAsStringAsync();
+            var data = request.Content == null ? "" : await request.Content.ReadAsStringAsync();
             var httpRequestMessage = new HttpRequestMessage(HttpMethod.Post, new Uri(url)) {
                 Content = new StringContent(data, Encoding.UTF8, "application/json"),
                 Version = HttpVersion.Version10 //forcing 1.0 to prevent Expect 100 Continue header

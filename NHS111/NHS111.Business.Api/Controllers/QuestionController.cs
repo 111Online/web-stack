@@ -111,7 +111,29 @@ namespace NHS111.Business.Api.Controllers
         [Route("node/{pathwayId}/question/{questionId}")]
         public async Task<HttpResponseMessage> GetQuestionById(string pathwayId, string questionId)
         {
-            return _questionTransformer.AsQuestionWithAnswers(await _questionService.GetQuestion(questionId)).AsHttpResponse();
+            var node = JsonConvert.DeserializeObject<QuestionWithAnswers>(await _questionService.GetQuestion(questionId));
+
+            var nextLabel = node.Labels.FirstOrDefault();
+
+            if (nextLabel == "Question" || nextLabel == "Outcome" || nextLabel == "CareAdvice")
+            {
+                var result = _questionTransformer.AsQuestionWithAnswers(JsonConvert.SerializeObject(node));
+
+#if !DEBUG
+                    _cacheManager.Set(cacheKey, result);
+#endif
+
+                return result.AsHttpResponse();
+            }
+
+            if (nextLabel == "DeadEndJump")
+            {
+                var result = _questionTransformer.AsQuestionWithDeadEnd(JsonConvert.SerializeObject(node));
+                return result.AsHttpResponse();
+            }
+
+            throw new Exception(string.Format("Unrecognized node of type '{0}'.", nextLabel));
+
         }
 
         [HttpGet]

@@ -239,7 +239,9 @@ namespace NHS111.Web.Controllers {
             var response = await _restfulHelper.GetAsync(url);
             var questionWithAnswers = JsonConvert.DeserializeObject<QuestionWithAnswers>(response);
 
-            return View("Question", _journeyViewModelBuilder.BuildPreviousQuestion(questionWithAnswers, model));
+            var result = _journeyViewModelBuilder.BuildPreviousQuestion(questionWithAnswers, model);
+            var viewName = DetermineViewName(result);
+            return View(viewName, result);
         }
 
         private async Task<QuestionWithAnswers> GetNextNode(JourneyViewModel model) {
