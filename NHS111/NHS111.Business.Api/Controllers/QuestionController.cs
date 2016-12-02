@@ -109,18 +109,35 @@ namespace NHS111.Business.Api.Controllers
         }
 
         [Route("node/{pathwayId}/question/{questionId}")]
-        public async Task<HttpResponseMessage> GetQuestionById(string pathwayId, string questionId)
+        public async Task<HttpResponseMessage> GetQuestionById(string pathwayId, string questionId, string cacheKey = null)
         {
+#if !DEBUG
+                cacheKey = cacheKey ?? string.Format("{0}-{1}", pathwayId, questionId);
+
+                var cacheValue = await _cacheManager.Read(cacheKey);
+                if (cacheValue != null)
+                {
+                    return cacheValue.AsHttpResponse();
+                }
+#endif
+
             var node = JsonConvert.DeserializeObject<QuestionWithAnswers>(await _questionService.GetQuestion(questionId));
 
             var nextLabel = node.Labels.FirstOrDefault();
 
-            if (nextLabel == "Question" || nextLabel == "Outcome" || nextLabel == "CareAdvice") {
+            if (nextLabel == "Question" || nextLabel == "Outcome" || nextLabel == "CareAdvice")
+            {
                 var result = _questionTransformer.AsQuestionWithAnswers(JsonConvert.SerializeObject(node));
+
+#if !DEBUG
+                    _cacheManager.Set(cacheKey, result);
+#endif
+
                 return result.AsHttpResponse();
             }
 
-            if (nextLabel == "DeadEndJump") {
+            if (nextLabel == "DeadEndJump")
+            {
                 var result = _questionTransformer.AsQuestionWithDeadEnd(JsonConvert.SerializeObject(node));
                 return result.AsHttpResponse();
             }
