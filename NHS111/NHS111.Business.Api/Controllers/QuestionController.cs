@@ -112,7 +112,7 @@ namespace NHS111.Business.Api.Controllers
         public async Task<HttpResponseMessage> GetQuestionById(string pathwayId, string questionId, string cacheKey = null)
         {
 #if !DEBUG
-                cacheKey = cacheKey ?? string.Format("{0}-{1}", pathwayId, questionId);
+                cacheKey = cacheKey ?? string.Format("GetQuestionById-{0}-{1}", pathwayId, questionId);
 
                 var cacheValue = await _cacheManager.Read(cacheKey);
                 if (cacheValue != null)
