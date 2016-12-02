@@ -22,7 +22,7 @@ namespace NHS111.Domain.Repository
         public async Task<QuestionWithAnswers> GetQuestion(string id)
         {
             return await _graphRepository.Client.Cypher.
-                Match(string.Format("(q:Question {{ id: \"{0}\" }})", id)).
+                Match(string.Format("(q {{ id: \"{0}\" }})", id)).
                 OptionalMatch("q-[a:Answer]->()").
                 Return(q => new QuestionWithAnswers { Question = Return.As<Question>("q"), Answers = Return.As<List<Answer>>(string.Format("collect(a)")), Labels = q.Labels() }).
                 ResultsAsync.
