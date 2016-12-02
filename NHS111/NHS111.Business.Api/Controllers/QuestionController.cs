@@ -115,19 +115,12 @@ namespace NHS111.Business.Api.Controllers
 
             var nextLabel = node.Labels.FirstOrDefault();
 
-            if (nextLabel == "Question" || nextLabel == "Outcome" || nextLabel == "CareAdvice")
-            {
+            if (nextLabel == "Question" || nextLabel == "Outcome" || nextLabel == "CareAdvice") {
                 var result = _questionTransformer.AsQuestionWithAnswers(JsonConvert.SerializeObject(node));
-
-#if !DEBUG
-                    _cacheManager.Set(cacheKey, result);
-#endif
-
                 return result.AsHttpResponse();
             }
 
-            if (nextLabel == "DeadEndJump")
-            {
+            if (nextLabel == "DeadEndJump") {
                 var result = _questionTransformer.AsQuestionWithDeadEnd(JsonConvert.SerializeObject(node));
                 return result.AsHttpResponse();
             }
