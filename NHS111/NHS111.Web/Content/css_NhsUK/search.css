@@ -355,3 +355,10 @@ h5 {
         float: none;
     }
 }
+
+a.category {
+    text-decoration: none;
+}
+span.underline {
+    text-decoration: underline;
+}

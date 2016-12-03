@@ -59,7 +59,7 @@
                         <hr />
                         <div class="symptoms-search">
                             <label for="searchTags">
-                                <input type="text" class="input-symptoms ui-autocomplete-input" id="searchTags" autocomplete="off" name="searchTags" placeholder="Search for conditions and symptoms" />
+                                <input type="text" class="input-symptoms ui-autocomplete-input" id="searchTags" autocomplete="off" name="searchTags" placeholder="Search for symptoms" />
                             </label>
                             @* @Html.ActionLink("GO","Gender","Question", new {@class = "go"})*@
                             <input type="submit" class="button button-get-started go" value="Go" id="submitSearch" />
@@ -68,17 +68,17 @@
 
 
                     <div class="common-symptoms">
-                        <h3>Popular searches</h3>
+                        <h3>Popular topics</h3>
                         <ul class="list-conditions" id="commonConditions">
                             @{
                                 var links = new Dictionary<string, List<string>> {
                                     { "Abdominal pain", new List<string> { "PW520", "PW517", "PW519", "PW516" } },
-                                    { "A headache", new List<string> { "PW755", "PW752", "PW754", "PW753", "PW754", "PW756" } },
                                     { "Chest and back pain", new List<string> { "PA21", "PA212", "PA213", "PA21", "PA21", "PA212", "PA21", "PA213" } },
                                     { "Cold or flu symptoms", new List<string> { "PW574", "PW1042", "PW1043", "PW1040", "PW574", "PW1041" } },
-                                    { "A rash or skin problem", new List<string> { "PW1771", "PW1772", "PW1773", "PW1774" } },
-                                    { "A mental health problem", new List<string> { "PW1751", "PW1751", "PW1751", "PW1751" } },
                                     { "Diarrhoea and vomiting", new List<string> { "PW1554", "PW1708", "PW1563", "PW1563", "PW1555", "PW1556", "PW1553", "PW1708" } },
+                                    { "Headache", new List<string> { "PW755", "PW752", "PW754", "PW753", "PW754", "PW756" } },
+                                    { "Mental health problems", new List<string> { "PW1751", "PW1751", "PW1751", "PW1751" } },
+                                    { "Rash or skin problems", new List<string> { "PW1771", "PW1772", "PW1773", "PW1774" } },
                                     { "Sexual Concerns", new List<string> { "PW1684", "PW1699", "PW1698", "PW1685" } }
                                 };
 
@@ -109,14 +109,14 @@
                             lists.Add(orderLists.Take((orderLists.Count() / 2)));
                             lists.Add(orderLists.Skip(lists[0].Count()));
                         }
-                        <h3>All symptoms</h3>
+                        <h3>All topics</h3>
                         @for (int i = 0; i < lists.Count; ++i)
                         {
                             <ul class="topics @Html.Raw(i == 0 ? "left" : "right")">
                                 @foreach (var categoryWithPathways in lists[i])
                                 {
                                     <li>
-                                        <h5 style="text-transform: capitalize">&#9654;<a class="category linkButton" href="javascript:void(0);">@categoryWithPathways.Category.Title</a></h5>
+                                        <h5 style="text-transform: capitalize"><a class="category linkButton bullet" href="javascript:void(0);">&bull; <span class="underline">@categoryWithPathways.Category.Title</span></a></h5>
                                         <ul class="pathways">
                                             @foreach (var groups in categoryWithPathways.Pathways.GroupBy(p => p.Pathway.Title))
                                             {

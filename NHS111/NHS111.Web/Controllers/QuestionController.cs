@@ -59,6 +59,8 @@ namespace NHS111.Web.Controllers {
             var filteredPathways = JsonConvert.DeserializeObject<List<Pathway>>(pathwayTask);
             var startingPathways = filteredPathways.Where(p => p.StartingPathway).SelectMany(p => p.PathwayNo.Split(','));
 
+            topicsContainingStartingPathways = GetDummyListOfCategories();
+
             var startOfJourney = new JourneyViewModel
             {
                 UserInfo = new UserInfo { Demography = model },
@@ -69,7 +71,28 @@ namespace NHS111.Web.Controllers {
             return View(startOfJourney);
 
         }
-   
+
+        private IEnumerable<CategoryWithPathways> GetDummyListOfCategories() {
+            return new List<CategoryWithPathways> {
+                new CategoryWithPathways {
+                    Category = new Category {Title = "Diarrhoea and Vomiting"},
+                    Pathways = new List<PathwayWithDescriptions>()
+                },
+                new CategoryWithPathways {
+                    Category = new Category {Title = "Head and Neck"},
+                    Pathways = new List<PathwayWithDescriptions>()
+                },
+                new CategoryWithPathways {
+                    Category = new Category {Title = "Allergies"},
+                    Pathways = new List<PathwayWithDescriptions>()
+                },
+                new CategoryWithPathways {
+                    Category = new Category {Title = "Chest and Back"},
+                    Pathways = new List<PathwayWithDescriptions>()
+                }
+            };
+        }
+
 
         [HttpPost]
         public async Task<JsonResult> AutosuggestPathways(string input, string gender, int age)
