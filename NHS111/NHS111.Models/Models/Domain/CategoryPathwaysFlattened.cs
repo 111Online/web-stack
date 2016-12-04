@@ -13,5 +13,7 @@ namespace NHS111.Models.Models.Domain
         public IEnumerable<Pathway> Pathways { get; set; }
 
         public IEnumerable<PathwayMetaData> PathwaysMetaData { get; set; }
+
+        public IEnumerable<CategoryPathwaysFlattened> SubCategoriesPathwaysFlattened { get; set; }
     }
 }

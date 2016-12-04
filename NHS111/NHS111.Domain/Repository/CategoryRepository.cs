@@ -31,88 +31,134 @@ namespace NHS111.Domain.Repository
 
         public async Task<IEnumerable<Category>> GetCategories(string gender, int age)
         {
-            return await _graphRepository.Client.Cypher
-                .Match("(c:Category)-[:hasPathway]->(p:Pathway)")
-                .Where(string.Join(" and ", new List<string> { GenderIs(gender), AgeIsAboveMinimum(age), AgeIsBelowMaximum(age) }))
-                .ReturnDistinct(c => c.As<Category>())
+            var query = await AllCategoriesQuery
+                .OptionalMatch("(category)-[:hasPathway]->(categorypathway:Pathway)")
+                .Where(string.Join(" and ", new List<string> { GenderIs(gender, "categorypathway"), AgeIsAboveMinimum(age, "categorypathway"), AgeIsBelowMaximum(age, "categorypathway") }))
+                .OptionalMatch("(subcategory)-[:hasPathway]->(subcategorypathway:Pathway)")
+                .Where(string.Join(" and ", new List<string> { GenderIs(gender, "subcategorypathway"), AgeIsAboveMinimum(age, "subcategorypathway"), AgeIsBelowMaximum(age, "subcategorypathway") }))
+                .ReturnDistinct((category, subcategory) => new{ category = category.As<Category>(), subcategory = subcategory.As<Category>() })
                 .ResultsAsync;
+
+            var categories = query.Select(c => c.category);
+            var subCategories = query.Select(c => c.subcategory);
+            return categories.Union(subCategories).Distinct(new CategoryComparer());
         }
 
         public async Task<IEnumerable<CategoryWithPathways>> GetCategoriesWithPathways()
         {
-            var query = await _graphRepository.Client.Cypher
-                .Match(CategoryMatch)
+            var query = await AllCategoriesQuery
+                .OptionalMatch("(category)-[:hasPathway]->(categorypathway:Pathway)-[:isDescribedAs]->(categorypathwaymd:PathwayMetaData)") // get the categories pathways and descriptions
+                .OptionalMatch("(subcategory)-[:hasPathway]->(subcategorypathway:Pathway)-[:isDescribedAs]->(subcategorypathwaymd:PathwayMetaData)") // get the sub-categories pathways and descriptions
                 .Return(
-                    (c, p, pmd) =>
+                    (category, categorypathway, categorypathwaymd, subcategory, subcategorypathway, subcategorypathwaymd) =>
                         new CategoryPathwaysFlattened
                         {
-                            Category = c.As<Category>(),
-                            Pathways = p.CollectAs<Pathway>(),
-                            PathwaysMetaData = pmd.CollectAs<PathwayMetaData>()
+                            Category = category.As<Category>(),
+                            Pathways = categorypathway.CollectAsDistinct<Pathway>(),
+                            PathwaysMetaData = categorypathwaymd.CollectAsDistinct<PathwayMetaData>()
                         })
                 .ResultsAsync;
 
-            return query.Select(CategroisePathways);
+            return query.Select(CategorisePathways);
         }
 
         public async Task<IEnumerable<CategoryWithPathways>> GetCategoriesWithPathways(string gender, int age)
         {
-            var query = await _graphRepository.Client.Cypher
-                .Match(CategoryMatch)
-                .Where(string.Join(" and ", new List<string> { GenderIs(gender), AgeIsAboveMinimum(age), AgeIsBelowMaximum(age) }))
+            var query = AllCategoriesQuery
+                .OptionalMatch(
+                    "(category)-[:hasPathway]->(categorypathway:Pathway)-[:isDescribedAs]->(categorypathwaymd:PathwayMetaData)") // get the categories pathways and descriptions
+                .Where(string.Join(" and ",
+                    new List<string>
+                    {
+                        GenderIs(gender, "categorypathway"),
+                        AgeIsAboveMinimum(age, "categorypathway"),
+                        AgeIsBelowMaximum(age, "categorypathway")
+                    }))
+                .OptionalMatch(
+                    "(subcategory)-[:hasPathway]->(subcategorypathway:Pathway)-[:isDescribedAs]->(subcategorypathwaymd:PathwayMetaData)") // get the sub-categories pathways and descriptions
+                .Where(string.Join(" and ",
+                    new List<string>
+                    {
+                        GenderIs(gender, "subcategorypathway"),
+                        AgeIsAboveMinimum(age, "subcategorypathway"),
+                        AgeIsBelowMaximum(age, "subcategorypathway")
+                    }))
                 .Return(
-                    (c, p, pmd) =>
+                    (category, categorypathway, categorypathwaymd, subcategory, subcategorypathway, subcategorypathwaymd)
+                        =>
                         new CategoryPathwaysFlattened
                         {
-                            Category = c.As<Category>(),
-                            Pathways = p.CollectAs<Pathway>(),
-                            PathwaysMetaData = pmd.CollectAs<PathwayMetaData>()
-                        })
-                .ResultsAsync;
-
-            return query.Select(CategroisePathways);
-        }
-
-        public async Task<CategoryWithPathways> GetCategoryWithPathways(string category)
-        {
-            var query = _graphRepository.Client.Cypher
-                .Match(CategoryMatch)
-                .Where(string.Format("c.title = '{0}'", category))
-                .Return(
-                    (c, p, pmd) =>
-                        new CategoryPathwaysFlattened
-                        {
-                            Category = c.As<Category>(),
-                            Pathways = p.CollectAs<Pathway>(),
-                            PathwaysMetaData = pmd.CollectAs<PathwayMetaData>()
+                            Category = category.As<Category>(),
+                            Pathways = categorypathway.CollectAsDistinct<Pathway>(),
+                            PathwaysMetaData = categorypathwaymd.CollectAsDistinct<PathwayMetaData>(),
+                            SubCategoriesPathwaysFlattened = subcategory.CollectAsDistinct<Category>()
+                                .Select(sc => new CategoryPathwaysFlattened()
+                                {
+                                    Category = sc,
+                                    Pathways = subcategorypathway.CollectAsDistinct<Pathway>(),
+                                    PathwaysMetaData = subcategorypathwaymd.CollectAsDistinct<PathwayMetaData>()
+                                })
                         });
 
-            return CategroisePathways(await query.ResultsAsync.FirstOrDefault());
+            var results = await query.ResultsAsync;
+
+            return results.Select(CategorisePathways);
         }
 
-        public async Task<CategoryWithPathways> GetCategoryWithPathways(string category,string gender, int age)
+        public async Task<CategoryWithPathways> GetCategoryWithPathways(string id)
         {
-            var query = _graphRepository.Client.Cypher
-                .Match(CategoryMatch)
-                .Where(string.Join(" and ", new List<string> { GenderIs(gender), AgeIsAboveMinimum(age), AgeIsBelowMaximum(age), string.Format("c.title = '{0}'", category) }))
+            var query = CategoryMatch(id)
                 .Return(
-                    (c, p, pmd) =>
+                    (c, p, pathwaymd) =>
                         new CategoryPathwaysFlattened
                         {
                             Category = c.As<Category>(),
-                            Pathways = p.CollectAs<Pathway>(),
-                            PathwaysMetaData = pmd.CollectAs<PathwayMetaData>()
+                            Pathways = p.CollectAsDistinct<Pathway>(),
+                            PathwaysMetaData = pathwaymd.CollectAsDistinct<PathwayMetaData>()
                         });
 
-            return CategroisePathways(await query.ResultsAsync.FirstOrDefault());
+            return CategorisePathways(await query.ResultsAsync.FirstOrDefault());
         }
 
-        private static string CategoryMatch
+        public async Task<CategoryWithPathways> GetCategoryWithPathways(string id,string gender, int age)
         {
-            get { return "(c:Category)-[:hasPathway]->(p:Pathway)-[:isDescribedAs]->(pmd:PathwayMetaData)"; }
+            var query = CategoryMatch(id)
+                .Where(string.Join(" and ", new List<string> { GenderIs(gender, "p"), AgeIsAboveMinimum(age, "p"), AgeIsBelowMaximum(age, "p") }))
+                .Return(
+                    (c, p, pathwaymd) =>
+                        new CategoryPathwaysFlattened
+                        {
+                            Category = c.As<Category>(),
+                            Pathways = p.CollectAsDistinct<Pathway>(),
+                            PathwaysMetaData = pathwaymd.CollectAsDistinct<PathwayMetaData>()
+                        });
+
+            return CategorisePathways(await query.ResultsAsync.FirstOrDefault());
         }
 
-        private static CategoryWithPathways CategroisePathways(CategoryPathwaysFlattened flattenedData)
+        private ICypherFluentQuery CategoryMatch(string id)
+        {
+            return _graphRepository.Client.Cypher
+                .Match("(c:Category)")
+                .Where(string.Format("c.id = '{0}'", id))
+                .With("c")
+                .OptionalMatch("(c)-[:hasPathway]->(p:Pathway)-[:isDescribedAs]->(pathwaymd:PathwayMetaData)");
+        }
+
+        private ICypherFluentQuery AllCategoriesQuery
+        {
+            get
+            {
+                return _graphRepository.Client.Cypher
+                    .Match("(c:Category)") // all categories ;
+                    .Where("NOT (:Category)<-[:hasParent]-(c)") // filter on parents only
+                    .With("c AS parent")
+                    .OptionalMatch("(parent)<-[:hasParent]-(c:Category)") // get any sub-categories
+                    .With("parent AS category, c AS subcategory");
+            }
+        }
+
+        private static CategoryWithPathways CategorisePathways(CategoryPathwaysFlattened flattenedData)
         {
             return new CategoryWithPathways
             {
@@ -125,29 +171,29 @@ namespace NHS111.Domain.Repository
                         PathwayDescriptions = flattenedData.PathwaysMetaData
                             .Distinct(new PathwayMetaDataComparer())
                             .Where(pd => pd.PathwayNo == p.PathwayNo)
-                    })
+                    }),
+                //SubCategories = flattenedData.SubCategories.Select(flattenedData.)
             };
         }
 
-        private string GenderIs(string gender)
+        private string GenderIs(string gender, string alias)
         {
-            return String.Format("(p.gender is null or p.gender = \"\" or p.gender = \"{0}\")", gender);
+            return String.Format("({1}.gender is null or {1}.gender = \"\" or {1}.gender = \"{0}\")", gender, alias);
         }
 
 
-        private string AgeIsAboveMinimum(int age)
+        private string AgeIsAboveMinimum(int age, string alias)
         {
             return
                 String.Format(
-                    "(p.minimumAgeInclusive is null or p.minimumAgeInclusive = \"\" or p.minimumAgeInclusive <= {0})",
-                    age);
+                    "({1}.minimumAgeInclusive is null or {1}.minimumAgeInclusive = \"\" or {1}.minimumAgeInclusive <= {0})", age, alias);
         }
 
-        private string AgeIsBelowMaximum(int age)
+        private string AgeIsBelowMaximum(int age, string alias)
         {
             return
                 String.Format(
-                    "(p.maximumAgeExclusive is null or p.maximumAgeExclusive = \"\" or {0} < p.maximumAgeExclusive)", age);
+                    "({1}.maximumAgeExclusive is null or {1}.maximumAgeExclusive = \"\" or {0} <{1}.maximumAgeExclusive)", age, alias);
         }
     }
 
@@ -161,6 +207,20 @@ namespace NHS111.Domain.Repository
 
         Task<CategoryWithPathways> GetCategoryWithPathways(string category, string gender, int age);
         Task<CategoryWithPathways> GetCategoryWithPathways(string category);
+    }
+
+    public class CategoryComparer : IEqualityComparer<Category>
+    {
+
+        public bool Equals(Category x, Category y)
+        {
+            return x.Id == y.Id;
+        }
+
+        public int GetHashCode(Category obj)
+        {
+            return obj.Id.GetHashCode();
+        }
     }
 
     public class PathwayComparer : IEqualityComparer<Pathway>
