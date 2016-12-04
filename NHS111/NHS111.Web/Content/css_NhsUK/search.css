@@ -312,7 +312,7 @@ div.symptoms-search {
     margin-top: 20px;
 }
 
-.all-symptoms {
+/*.all-symptoms {
     clear: left;
 }
 
@@ -333,28 +333,41 @@ div.symptoms-search {
     border-left: 3px lightgrey solid;
     margin-left: 25px;
 }
-
+*/
 h5 {
     line-height: 3rem;
     color: #0066ff;
     font-size: 1em;
+    text-transform: capitalize;
 }
 
+.top-level-category {
+    
+}
+
+.sub-category {
+    
+}
+
+.pathway {
+    
+}
+
+.content {
+    display: none;
+}
+/*
 .all-symptoms input {
     font-size: 1em;
     padding: 0 10px;
 
 }
 
-.all-symptoms .pathways {
-    display: none;
-}
-
 @media (max-width: 960px) {
     .all-symptoms ul {
         float: none;
     }
-}
+}*/
 
 a.category {
     text-decoration: none;

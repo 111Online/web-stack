@@ -104,28 +104,49 @@
                     </div>
                     <div class="all-symptoms">
                         @{
+                            var bodyParts = new List<string> {"Head and Neck", "Shoulder, arm and hand", "Chest and Back", "Abdomen, groin and side of the body", "Bowel and urinary problems", "Genitals", "Leg and foot", "Skin and hair"};
                             var lists = new List<IEnumerable<CategoryWithPathways>>(2);
-                            var orderLists = Model.AllTopics.OrderBy(c => c.Category.Title);
-                            lists.Add(orderLists.Take((orderLists.Count() / 2)));
-                            lists.Add(orderLists.Skip(lists[0].Count()));
+                            lists.Add(Model.AllTopics.Where(t => bodyParts.Contains(t.Category.Title)));
+                            lists.Add(Model.AllTopics.Where(t => !bodyParts.Contains(t.Category.Title)));
+                            //var orderLists = Model.AllTopics.OrderBy(c => c.Category.Title);
+                            //lists.Add(orderLists.Take((orderLists.Count() / 2)));
+                            //lists.Add(orderLists.Skip(lists[0].Count()));
                         }
+
+
                         <h3>All topics</h3>
-                        @for (int i = 0; i < lists.Count; ++i)
-                        {
-                            <ul class="topics @Html.Raw(i == 0 ? "left" : "right")">
-                                @foreach (var categoryWithPathways in lists[i])
-                                {
+
+
+                        @for (int i = 0; i < lists.Count; ++i) {
+                            <ul class="@Html.Raw(i == 0 ? "left" : "right")">
+                                @foreach (var topLevelCategory in lists[i]) {
                                     <li>
-                                        <h5 style="text-transform: capitalize"><a class="category linkButton bullet" href="javascript:void(0);">&bull; <span class="underline">@categoryWithPathways.Category.Title</span></a></h5>
-                                        <ul class="pathways">
-                                            @foreach (var groups in categoryWithPathways.Pathways.GroupBy(p => p.Pathway.Title))
-                                            {
-                                                foreach (var metaData in groups.First().PathwayDescriptions)
-                                                {
-                                                    <li><input type="submit" class="linkButton" value="@metaData.DigitalDescription" id="@string.Join(",", groups.Select(t => t.Pathway.PathwayNo).Distinct())" /></li>
+                                        <h5><a class="category linkButton bullet" href="javascript:void(0);">&bull; <span class="underline">@topLevelCategory.Category.Title</span></a></h5>
+                                        @if (topLevelCategory.SubCategories != null) {
+                                            <ul class="content">
+                                                @foreach (var subCategory in topLevelCategory.SubCategories) {
+                                                    <li>
+                                                        <h5><a class="category linkButton bullet" href="javascript:void(0);">&bull; <span class="underline">@subCategory.Category.Title</span></a></h5>
+                                                        <ul class="">
+                                                            @foreach (var groups in subCategory.Pathways.GroupBy(p => p.Pathway.Title)) {
+                                                                foreach (var metaData in groups.First().PathwayDescriptions) {
+                                                                    <li><input type="submit" class="linkButton" value="@metaData.DigitalDescription" id="@string.Join(",", groups.Select(t => t.Pathway.PathwayNo).Distinct())"/></li>
+                                                                }
+                                                            }
+                                                        </ul>
+                                                    </li>
                                                 }
-                                            }
-                                        </ul>
+                                            </ul>
+                                        }
+                                        @if (topLevelCategory.Pathways != null) {
+                                            <ul class="content">
+                                                @foreach (var groups in topLevelCategory.Pathways.GroupBy(p => p.Pathway.Title)) {
+                                                    foreach (var metaData in groups.First().PathwayDescriptions) {
+                                                        <li><input type="submit" class="linkButton" value="@metaData.DigitalDescription" id="@string.Join(",", groups.Select(t => t.Pathway.PathwayNo).Distinct())"/></li>
+                                                    }
+                                                }
+                                            </ul>
+                                        }
                                     </li>
                                 }
                             </ul>
@@ -153,7 +174,7 @@
 
     <script>
     // -- search box autocomplete mock script
-    $(function () {
+        $(function () {
         $("#searchTags").autocomplete({
             source: function(request, response) {
                 $.ajax({
@@ -198,7 +219,7 @@
         $('.category').click(function () {
             var $this = $(this);
 
-            var $helpTextLinkMessage = $this.parent().next('.pathways');
+            var $helpTextLinkMessage = $this.parent().next('.content');
             $helpTextLinkMessage.slideToggle("fast");
         });
 
