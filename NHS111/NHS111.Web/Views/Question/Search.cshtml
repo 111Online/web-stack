@@ -104,10 +104,10 @@
                     </div>
                     <div class="all-symptoms">
                         @{
-                            var bodyParts = new List<string> {"Head and Neck", "Shoulder, arm and hand", "Chest and Back", "Abdomen, groin and side of the body", "Bowel and urinary problems", "Genitals", "Leg and foot", "Skin and hair"};
+                            var bodyParts = new List<string> {"Head and neck", "Shoulder, arm and hand", "Chest and back", "Abdomen, groin and side of the body", "Bowel and urinary problems", "Genitals", "Leg and foot", "Skin and hair"};
                             var lists = new List<IEnumerable<CategoryWithPathways>>(2);
-                            lists.Add(Model.AllTopics.Where(t => bodyParts.Contains(t.Category.Title)));
-                            lists.Add(Model.AllTopics.Where(t => !bodyParts.Contains(t.Category.Title)));
+                            lists.Add(Model.AllTopics.Where(t => bodyParts.Contains(t.Category.Title)).OrderBy(x => x.Category.OrderNo));
+                            lists.Add(Model.AllTopics.Where(t => !bodyParts.Contains(t.Category.Title)).OrderBy(x => x.Category.OrderNo));
                             //var orderLists = Model.AllTopics.OrderBy(c => c.Category.Title);
                             //lists.Add(orderLists.Take((orderLists.Count() / 2)));
                             //lists.Add(orderLists.Skip(lists[0].Count()));
@@ -117,39 +117,53 @@
                         <h3>All topics</h3>
 
 
-                        @for (int i = 0; i < lists.Count; ++i) {
-                            <ul class="@Html.Raw(i == 0 ? "left" : "right")">
-                                @foreach (var topLevelCategory in lists[i]) {
-                                    <li>
-                                        <h5><a class="category linkButton bullet" href="javascript:void(0);">&bull; <span class="underline">@topLevelCategory.Category.Title</span></a></h5>
-                                        @if (topLevelCategory.SubCategories != null && topLevelCategory.SubCategories.Any()) {
-                                            <ul class="content">
-                                                @foreach (var subCategory in topLevelCategory.SubCategories) {
-                                                    <li>
-                                                        <h5><a class="category linkButton bullet" href="javascript:void(0);">&bull; <span class="underline">@subCategory.Category.Title</span></a></h5>
-                                                        <ul class="">
-                                                            @foreach (var groups in subCategory.Pathways.GroupBy(p => p.Pathway.Title)) {
-                                                                foreach (var metaData in groups.First().PathwayDescriptions) {
-                                                                    <li><input type="submit" class="linkButton" value="@metaData.DigitalDescription" id="@string.Join(",", groups.Select(t => t.Pathway.PathwayNo).Distinct())"/></li>
+                        @for (int i = 0; i < lists.Count; ++i)
+                        {
+                            <div class="@Html.Raw(i == 0 ? "left" : "right")">
+                                <ul>
+                                    @foreach (var topLevelCategory in lists[i])
+                                    {
+                                        <li>
+                                            <h5><a class="category linkButton bullet" href="javascript:void(0);">&bull; <span class="underline">@topLevelCategory.Category.Title</span></a></h5>
+                                            @if (topLevelCategory.SubCategories != null && topLevelCategory.SubCategories.Any())
+                                            {
+                                                <ul class="content">
+                                                    @foreach (var subCategory in topLevelCategory.SubCategories)
+                                                    {
+                                                        if (!subCategory.Pathways.Any()) {
+                                                             continue;
+                                                        }
+                                                        <li>
+                                                            <h5><a class="category linkButton bullet" href="javascript:void(0);">&bull; <span class="underline">@subCategory.Category.Title</span></a></h5>
+                                                            <ul class="content">
+                                                                @foreach (var groups in subCategory.Pathways.GroupBy(p => p.Pathway.Title))
+                                                                {
+                                                                    foreach (var metaData in groups.First().PathwayDescriptions)
+                                                                    {
+                                                                        <li><input type="submit" class="linkButton" value="@metaData.DigitalDescription" id="@string.Join(",", groups.Select(t => t.Pathway.PathwayNo).Distinct())" /></li>
+                                                                    }
                                                                 }
-                                                            }
-                                                        </ul>
-                                                    </li>
-                                                }
-                                            </ul>
-                                        }
-                                        @if (topLevelCategory.Pathways != null) {
-                                            <ul class="content">
-                                                @foreach (var groups in topLevelCategory.Pathways.GroupBy(p => p.Pathway.Title)) {
-                                                    foreach (var metaData in groups.First().PathwayDescriptions) {
-                                                        <li><input type="submit" class="linkButton" value="@metaData.DigitalDescription" id="@string.Join(",", groups.Select(t => t.Pathway.PathwayNo).Distinct())"/></li>
+                                                            </ul>
+                                                        </li>
                                                     }
-                                                }
-                                            </ul>
-                                        }
-                                    </li>
-                                }
-                            </ul>
+                                                </ul>
+                                            }
+                                            @if (topLevelCategory.Pathways != null && topLevelCategory.Pathways.Any())
+                                            {
+                                                <ul class="content">
+                                                    @foreach (var groups in topLevelCategory.Pathways.GroupBy(p => p.Pathway.Title))
+                                                    {
+                                                        foreach (var metaData in groups.First().PathwayDescriptions)
+                                                        {
+                                                            <li><input type="submit" class="linkButton" value="@metaData.DigitalDescription" id="@string.Join(",", groups.Select(t => t.Pathway.PathwayNo).Distinct())" /></li>
+                                                        }
+                                                    }
+                                                </ul>
+                                            }
+                                        </li>
+                                    }
+                                </ul>
+                            </div>
                         }
                     </div>
 
