@@ -315,11 +315,10 @@ div.symptoms-search {
 .all-symptoms {
     clear: both;
 }
-/*
 .all-symptoms h3 {
-    font-size: 1.6em;
-    padding: 30px 0;
+    padding-bottom: 23px;
 }
+/*
 
 .all-symptoms ul {
     float: left;

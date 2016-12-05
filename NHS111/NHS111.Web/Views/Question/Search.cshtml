@@ -130,6 +130,9 @@
                                                 <ul class="content">
                                                     @foreach (var subCategory in topLevelCategory.SubCategories)
                                                     {
+                                                        if (!subCategory.Pathways.Any()) {
+                                                             continue;
+                                                        }
                                                         <li>
                                                             <h5><a class="category linkButton bullet" href="javascript:void(0);">&bull; <span class="underline">@subCategory.Category.Title</span></a></h5>
                                                             <ul class="content">
