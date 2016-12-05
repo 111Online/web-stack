@@ -69,7 +69,9 @@
                 <div class="section-margin">
                     @if (error)
                 {
-                        <p class="error">No results could be found for that postcode. Please check and try again.</p>
+                    <p class="error">Sorry, no results were found for this postcode.</p>
+                    <p>Please check you have entered the postcode correctly, then try again. <br/><br/> If the search still gives no results, please call 111 for advice.</p>
+                    <br/>
                     }
                     @Html.LabelFor(m => m.UserInfo.CurrentAddress.PostCode, "Postcode")
                     @Html.TextBoxFor(m => m.UserInfo.CurrentAddress.PostCode, new { @class = "form-control " + (error ? "error" : "") })
