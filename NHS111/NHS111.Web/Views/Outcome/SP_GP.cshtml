@@ -11,9 +11,9 @@
 <link href="~/Content/css_NhsUK/signposting-outcome-print.css" media="print" rel="stylesheet" type="text/css" />
 
 @{
-    ViewDataDictionary dict = null;
+    ViewDataDictionary dict = new ViewDataDictionary();
     if (Model.Id == "Dx09" || Model.Id == "Dx16") {
-        dict = new ViewDataDictionary {{ "OutcomeHeader", "For persistent or reoccurring symptoms, get in touch with your GP in 3 days"}};
+        dict.Add("OutcomeHeader", "For persistent or reoccurring symptoms, get in touch with your GP in 3 days");
     }
 }
 
