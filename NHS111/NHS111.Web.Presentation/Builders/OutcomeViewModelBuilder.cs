@@ -68,6 +68,15 @@ namespace NHS111.Web.Presentation.Builders
                 model.SymptomGroup = await GetSymptomGroup(pathways);
             }
 
+            if (OutcomeGroup.ClinicianCallBack.Equals(model.OutcomeGroup))
+            {
+                //hard code SD and SG codes to fix DOS for Yorkshire region
+                //TODO: Fix this in DOS and remove this hack
+
+                model.SymptomDiscriminatorCode = "4193";
+                model.SymptomGroup = "1206";
+            }
+
             model.WorseningCareAdvice = await _careAdviceBuilder.FillWorseningCareAdvice(model.UserInfo.Demography.Age,
                 model.UserInfo.Demography.Gender);
             model.CareAdvices = await
