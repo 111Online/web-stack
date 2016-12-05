@@ -122,7 +122,7 @@
                                 @foreach (var topLevelCategory in lists[i]) {
                                     <li>
                                         <h5><a class="category linkButton bullet" href="javascript:void(0);">&bull; <span class="underline">@topLevelCategory.Category.Title</span></a></h5>
-                                        @if (topLevelCategory.SubCategories != null) {
+                                        @if (topLevelCategory.SubCategories != null && topLevelCategory.SubCategories.Any()) {
                                             <ul class="content">
                                                 @foreach (var subCategory in topLevelCategory.SubCategories) {
                                                     <li>

@@ -54,13 +54,11 @@ namespace NHS111.Web.Controllers {
             var pathwayTask = await _restfulHelper.GetAsync(_configuration.GetBusinessApiGetPathwaysGenderAge(model.Gender, model.Age));
 
             var allTopics = JsonConvert.DeserializeObject<List<CategoryWithPathways>>(categoryTask);
-            var topicsContainingStartingPathways = allTopics.Where(c => c.Pathways.Any(p => p.Pathway.StartingPathway));
+            var topicsContainingStartingPathways = allTopics.Where(c => c.Pathways.Any(p => p.Pathway.StartingPathway) || c.SubCategories.Any(sc => sc.Pathways.Any(p => p.Pathway.StartingPathway)));
             
             var filteredPathways = JsonConvert.DeserializeObject<List<Pathway>>(pathwayTask);
             var startingPathways = filteredPathways.Where(p => p.StartingPathway).SelectMany(p => p.PathwayNo.Split(','));
-
-            topicsContainingStartingPathways = GetDummyListOfCategories();
-
+            
             var startOfJourney = new JourneyViewModel
             {
                 UserInfo = new UserInfo { Demography = model },

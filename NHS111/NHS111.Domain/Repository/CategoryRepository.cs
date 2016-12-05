@@ -174,7 +174,9 @@ namespace NHS111.Domain.Repository
                                 .Where(pd => pd.PathwayNo == p.PathwayNo)
                         }),
                     SubCategories = flattenedDataList.Where(f => f.SubCategory != null && f.SubCategory.ParentId == parent.Id).Select(SubCategoryPathways)
-                }).ToList();
+                })
+                .Distinct(new CategoryWithPathwaysComparer())
+                .ToList();
         }
 
         private static CategoryWithPathways CategoryPathways(CategoryPathwaysFlattened flattenedData)
@@ -255,6 +257,20 @@ namespace NHS111.Domain.Repository
         public int GetHashCode(Category obj)
         {
             return obj.Id.GetHashCode();
+        }
+    }
+
+    public class CategoryWithPathwaysComparer : IEqualityComparer<CategoryWithPathways>
+    {
+
+        public bool Equals(CategoryWithPathways x, CategoryWithPathways y)
+        {
+            return x.Category.Id == y.Category.Id;
+        }
+
+        public int GetHashCode(CategoryWithPathways obj)
+        {
+            return obj.Category.Id.GetHashCode();
         }
     }
 
