@@ -27,10 +27,27 @@
     }
 }
 
+@functions {
+
+    public class PathwayLink {
+        public string Title { get; set; }
+        public string PathwayNumbers { get; set; }
+    }
+
+    private IEnumerable<PathwayLink> GroupAndSortPathways(IEnumerable<PathwayWithDescriptions> pathways) {
+        return (from groups in pathways.GroupBy(p => p.Pathway.Title)
+                from metaData in groups.First().PathwayDescriptions
+                select new PathwayLink {
+                    Title = metaData.DigitalDescription,
+                    PathwayNumbers = string.Join(",", groups.Select(t => t.Pathway.PathwayNo).Distinct())
+                }).OrderBy(x => x.Title);
+    }
+
+}
 <link href="~/Content/css_NhsUK/search.css" media="screen" rel="stylesheet" type="text/css" />
 
 @section FeedbackSection {
-    @Html.Partial("_FeedbackDetails", new FeedbackViewModel() { PageId = Request.Url.GetComponents(UriComponents.PathAndQuery, UriFormat.SafeUnescaped) })
+                @Html.Partial("_FeedbackDetails", new FeedbackViewModel() { PageId = Request.Url.GetComponents(UriComponents.PathAndQuery, UriFormat.SafeUnescaped) })
 }
 
 <div id="search">
@@ -128,7 +145,7 @@
                                             @if (topLevelCategory.SubCategories != null && topLevelCategory.SubCategories.Any())
                                             {
                                                 <ul class="content">
-                                                    @foreach (var subCategory in topLevelCategory.SubCategories)
+                                                    @foreach (var subCategory in topLevelCategory.SubCategories.OrderBy(x => x.Category.Title))
                                                     {
                                                         if (!subCategory.Pathways.Any()) {
                                                              continue;
@@ -136,12 +153,9 @@
                                                         <li>
                                                             <h5><a class="category linkButton bullet" href="javascript:void(0);">&bull; <span class="underline">@subCategory.Category.Title</span></a></h5>
                                                             <ul class="content">
-                                                                @foreach (var groups in subCategory.Pathways.GroupBy(p => p.Pathway.Title))
+                                                                @foreach (var pathway in GroupAndSortPathways(subCategory.Pathways))
                                                                 {
-                                                                    foreach (var metaData in groups.First().PathwayDescriptions)
-                                                                    {
-                                                                        <li><input type="submit" class="linkButton" value="@metaData.DigitalDescription" id="@string.Join(",", groups.Select(t => t.Pathway.PathwayNo).Distinct())" /></li>
-                                                                    }
+                                                                    <li><input type="submit" class="linkButton" value="@pathway.Title" id="@pathway.PathwayNumbers" /></li>
                                                                 }
                                                             </ul>
                                                         </li>
@@ -151,12 +165,9 @@
                                             @if (topLevelCategory.Pathways != null && topLevelCategory.Pathways.Any())
                                             {
                                                 <ul class="content">
-                                                    @foreach (var groups in topLevelCategory.Pathways.GroupBy(p => p.Pathway.Title))
+                                                    @foreach (var pathway in GroupAndSortPathways(topLevelCategory.Pathways))
                                                     {
-                                                        foreach (var metaData in groups.First().PathwayDescriptions)
-                                                        {
-                                                            <li><input type="submit" class="linkButton" value="@metaData.DigitalDescription" id="@string.Join(",", groups.Select(t => t.Pathway.PathwayNo).Distinct())" /></li>
-                                                        }
+                                                        <li><input type="submit" class="linkButton" value="@pathway.Title" id="@pathway.PathwayNumbers" /></li>
                                                     }
                                                 </ul>
                                             }
@@ -228,7 +239,7 @@
                 //$("#searchTags").val(this.value);
                 $("#pathwayTitle").val(this.value);
                 $("#pathwayNo").val(this.id);
-            });
+        });
 
         $('.category').click(function () {
             var $this = $(this);
@@ -237,6 +248,6 @@
             $helpTextLinkMessage.slideToggle("fast");
         });
 
-     });
+    });
     </script>
 </div>
