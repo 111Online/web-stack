@@ -54,11 +54,11 @@ namespace NHS111.Web.Controllers {
             var pathwayTask = await _restfulHelper.GetAsync(_configuration.GetBusinessApiGetPathwaysGenderAge(model.Gender, model.Age));
 
             var allTopics = JsonConvert.DeserializeObject<List<CategoryWithPathways>>(categoryTask);
-            var topicsContainingStartingPathways = allTopics.Where(c => c.Pathways.Any(p => p.Pathway.StartingPathway));
+            var topicsContainingStartingPathways = allTopics.Where(c => c.Pathways.Any(p => p.Pathway.StartingPathway) || c.SubCategories.Any(sc => sc.Pathways.Any(p => p.Pathway.StartingPathway)));
             
             var filteredPathways = JsonConvert.DeserializeObject<List<Pathway>>(pathwayTask);
             var startingPathways = filteredPathways.Where(p => p.StartingPathway).SelectMany(p => p.PathwayNo.Split(','));
-
+            
             var startOfJourney = new JourneyViewModel
             {
                 UserInfo = new UserInfo { Demography = model },
@@ -69,7 +69,78 @@ namespace NHS111.Web.Controllers {
             return View(startOfJourney);
 
         }
-   
+
+        private IEnumerable<CategoryWithPathways> GetDummyListOfCategories() {
+            return new List<CategoryWithPathways> {
+                new CategoryWithPathways {
+                    Category = new Category {Title = "Diarrhoea and Vomiting"},
+                    SubCategories = new List<CategoryWithPathways> {
+                        new CategoryWithPathways {
+                            Category = new Category {Title = "Abdo Pain"},
+                            Pathways = new List<PathwayWithDescriptions>()
+                        },
+                        new CategoryWithPathways {
+                            Category = new Category {Title = "Abdo Pain"},
+                            Pathways = new List<PathwayWithDescriptions>()
+                        }
+                    },
+                },
+                new CategoryWithPathways {
+                    Category = new Category {Title = "Head and Neck"},
+                    SubCategories = new List<CategoryWithPathways> {
+                        new CategoryWithPathways {
+                            Category = new Category {Title = "Ear"},
+                            Pathways = new List<PathwayWithDescriptions> {
+                                new PathwayWithDescriptions {
+                                    Pathway = new Pathway { Title = "Blocked ear" },
+                                    PathwayDescriptions = new List<PathwayMetaData> { new PathwayMetaData { PathwayNo = "PW123"} }
+                                },
+                                new PathwayWithDescriptions {
+                                    Pathway = new Pathway { Title = "Ear discharge" },
+                                    PathwayDescriptions = new List<PathwayMetaData> { new PathwayMetaData { PathwayNo = "PW123"} }
+                                }
+                            }
+                        },
+                        new CategoryWithPathways {
+                            Category = new Category {Title = "Eye"},
+                            Pathways = new List<PathwayWithDescriptions> {
+                                new PathwayWithDescriptions {
+                                    Pathway = new Pathway { Title = "Eye injury" },
+                                    PathwayDescriptions = new List<PathwayMetaData> { new PathwayMetaData { PathwayNo = "PW123"} }
+                                }
+                            }
+                        }
+                    }
+                },
+                new CategoryWithPathways {
+                    Category = new Category {Title = "Allergies"},
+                    SubCategories = new List<CategoryWithPathways> {
+                        new CategoryWithPathways {
+                            Category = new Category {Title = "Hayfever"},
+                            Pathways = new List<PathwayWithDescriptions>()
+                        },
+                        new CategoryWithPathways {
+                            Category = new Category {Title = "Hayfever"},
+                            Pathways = new List<PathwayWithDescriptions>()
+                        }
+                    }
+                },
+                new CategoryWithPathways {
+                    Category = new Category {Title = "Chest and Back"},
+                    SubCategories = new List<CategoryWithPathways> {
+                        new CategoryWithPathways {
+                            Category = new Category {Title = "Cough"},
+                            Pathways = new List<PathwayWithDescriptions>()
+                        },
+                        new CategoryWithPathways {
+                            Category = new Category {Title = "Cough"},
+                            Pathways = new List<PathwayWithDescriptions>()
+                        }
+                    }
+                }
+            };
+        }
+
 
         [HttpPost]
         public async Task<JsonResult> AutosuggestPathways(string input, string gender, int age)
