@@ -46,7 +46,7 @@ namespace NHS111.Domain.Repository
 
         public async Task<IEnumerable<CategoryWithPathways>> GetCategoriesWithPathways()
         {
-            var query = await AllCategoriesQuery
+            var query = AllCategoriesQuery
                 .OptionalMatch("(category)-[:hasPathway]->(categorypathway:Pathway)-[:isDescribedAs]->(categorypathwaymd:PathwayMetaData)") // get the categories pathways and descriptions
                 .OptionalMatch("(subcategory)-[:hasPathway]->(subcategorypathway:Pathway)-[:isDescribedAs]->(subcategorypathwaymd:PathwayMetaData)") // get the sub-categories pathways and descriptions
                 .Return(
@@ -56,10 +56,11 @@ namespace NHS111.Domain.Repository
                             Category = category.As<Category>(),
                             Pathways = categorypathway.CollectAsDistinct<Pathway>(),
                             PathwaysMetaData = categorypathwaymd.CollectAsDistinct<PathwayMetaData>()
-                        })
-                .ResultsAsync;
+                        });
 
-            return query.Select(CategorisePathways);
+            var results = await query.ResultsAsync;
+            var categories = CategorisePathways(results);
+            return categories;
         }
 
         public async Task<IEnumerable<CategoryWithPathways>> GetCategoriesWithPathways(string gender, int age)
@@ -91,18 +92,14 @@ namespace NHS111.Domain.Repository
                             Category = category.As<Category>(),
                             Pathways = categorypathway.CollectAsDistinct<Pathway>(),
                             PathwaysMetaData = categorypathwaymd.CollectAsDistinct<PathwayMetaData>(),
-                            SubCategoriesPathwaysFlattened = subcategory.CollectAsDistinct<Category>()
-                                .Select(sc => new CategoryPathwaysFlattened()
-                                {
-                                    Category = sc,
-                                    Pathways = subcategorypathway.CollectAsDistinct<Pathway>(),
-                                    PathwaysMetaData = subcategorypathwaymd.CollectAsDistinct<PathwayMetaData>()
-                                })
+                            SubCategory = subcategory.As<Category>(),
+                            SubCategoryPathways = subcategorypathway.CollectAsDistinct<Pathway>(),
+                            SubCategoryPathwaysMetaData = subcategorypathwaymd.CollectAsDistinct<PathwayMetaData>()
                         });
 
             var results = await query.ResultsAsync;
-
-            return results.Select(CategorisePathways);
+            var categories = CategorisePathways(results);
+            return categories;
         }
 
         public async Task<CategoryWithPathways> GetCategoryWithPathways(string id)
@@ -117,7 +114,8 @@ namespace NHS111.Domain.Repository
                             PathwaysMetaData = pathwaymd.CollectAsDistinct<PathwayMetaData>()
                         });
 
-            return CategorisePathways(await query.ResultsAsync.FirstOrDefault());
+            var results = await query.ResultsAsync;
+            return CategoryPathways(results.FirstOrDefault());
         }
 
         public async Task<CategoryWithPathways> GetCategoryWithPathways(string id,string gender, int age)
@@ -133,7 +131,8 @@ namespace NHS111.Domain.Repository
                             PathwaysMetaData = pathwaymd.CollectAsDistinct<PathwayMetaData>()
                         });
 
-            return CategorisePathways(await query.ResultsAsync.FirstOrDefault());
+            var results = await query.ResultsAsync;
+            return CategoryPathways(results.FirstOrDefault());
         }
 
         private ICypherFluentQuery CategoryMatch(string id)
@@ -158,7 +157,27 @@ namespace NHS111.Domain.Repository
             }
         }
 
-        private static CategoryWithPathways CategorisePathways(CategoryPathwaysFlattened flattenedData)
+        private static List<CategoryWithPathways> CategorisePathways(IEnumerable<CategoryPathwaysFlattened> flattenedDataList)
+        {
+            return (from flattenedData in flattenedDataList
+                let parent = flattenedData.Category
+                select new CategoryWithPathways()
+                {
+                    Category = parent,
+                    Pathways = flattenedData.Pathways
+                        .Distinct(new PathwayComparer())
+                        .Select(p => new PathwayWithDescriptions()
+                        {
+                            Pathway = p,
+                            PathwayDescriptions = flattenedData.PathwaysMetaData
+                                .Distinct(new PathwayMetaDataComparer())
+                                .Where(pd => pd.PathwayNo == p.PathwayNo)
+                        }),
+                    SubCategories = flattenedDataList.Where(f => f.SubCategory != null && f.SubCategory.ParentId == parent.Id).Select(SubCategoryPathways)
+                }).ToList();
+        }
+
+        private static CategoryWithPathways CategoryPathways(CategoryPathwaysFlattened flattenedData)
         {
             return new CategoryWithPathways
             {
@@ -171,8 +190,24 @@ namespace NHS111.Domain.Repository
                         PathwayDescriptions = flattenedData.PathwaysMetaData
                             .Distinct(new PathwayMetaDataComparer())
                             .Where(pd => pd.PathwayNo == p.PathwayNo)
-                    }),
-                //SubCategories = flattenedData.SubCategories.Select(flattenedData.)
+                    })
+            };
+        }
+
+        private static CategoryWithPathways SubCategoryPathways(CategoryPathwaysFlattened flattenedData)
+        {
+            return new CategoryWithPathways
+            {
+                Category = flattenedData.SubCategory,
+                Pathways = flattenedData.SubCategoryPathways
+                    .Distinct(new PathwayComparer())
+                    .Select(p => new PathwayWithDescriptions()
+                    {
+                        Pathway = p,
+                        PathwayDescriptions = flattenedData.SubCategoryPathwaysMetaData
+                            .Distinct(new PathwayMetaDataComparer())
+                            .Where(pd => pd.PathwayNo == p.PathwayNo)
+                    })
             };
         }
 
