@@ -152,6 +152,24 @@ namespace NHS111.Business.DOS.Test
         }
 
         [Test()]
+        public void GetServiceAvailability_In_shoulder_And_Timeframe_In_Shoulder_Test()
+        {
+            var inShoulderDateTime = new DateTime(2016, 11, 17, 8, 20, 0);
+            _mockProfileHoursOfConfiguration
+               .Setup(c => c.GetServiceTime(inShoulderDateTime))
+               .Returns(ProfileServiceTimes.InHoursShoulder);
+
+            _mockProfileHoursOfConfiguration
+                .Setup(c => c.GetServiceTime(inShoulderDateTime.AddMinutes(1440)))
+                .Returns(ProfileServiceTimes.InHoursShoulder);
+
+            _serviceAvailabilityProfile = new ServiceAvailabilityProfile(_mockProfileHoursOfConfiguration.Object);
+
+            var result = _serviceAvailabilityProfile.GetServiceAvailability(inShoulderDateTime, 1440);
+            Assert.AreEqual(DispositionTimePeriod.DispositionInShoulderTimeFrameInShoulder, result);
+        }
+
+        [Test()]
         public void GetServiceAvailability_In_shoulder_And_Timeframe_Out_of_hours_Test()
         {
             var inShoulderDateTime = new DateTime(2016, 11, 17, 8, 20, 0);
