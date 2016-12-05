@@ -76,19 +76,69 @@ namespace NHS111.Web.Controllers {
             return new List<CategoryWithPathways> {
                 new CategoryWithPathways {
                     Category = new Category {Title = "Diarrhoea and Vomiting"},
-                    Pathways = new List<PathwayWithDescriptions>()
+                    SubCategories = new List<CategoryWithPathways> {
+                        new CategoryWithPathways {
+                            Category = new Category {Title = "Abdo Pain"},
+                            Pathways = new List<PathwayWithDescriptions>()
+                        },
+                        new CategoryWithPathways {
+                            Category = new Category {Title = "Abdo Pain"},
+                            Pathways = new List<PathwayWithDescriptions>()
+                        }
+                    },
                 },
                 new CategoryWithPathways {
                     Category = new Category {Title = "Head and Neck"},
-                    Pathways = new List<PathwayWithDescriptions>()
+                    SubCategories = new List<CategoryWithPathways> {
+                        new CategoryWithPathways {
+                            Category = new Category {Title = "Ear"},
+                            Pathways = new List<PathwayWithDescriptions> {
+                                new PathwayWithDescriptions {
+                                    Pathway = new Pathway { Title = "Blocked ear" },
+                                    PathwayDescriptions = new List<PathwayMetaData> { new PathwayMetaData { PathwayNo = "PW123"} }
+                                },
+                                new PathwayWithDescriptions {
+                                    Pathway = new Pathway { Title = "Ear discharge" },
+                                    PathwayDescriptions = new List<PathwayMetaData> { new PathwayMetaData { PathwayNo = "PW123"} }
+                                }
+                            }
+                        },
+                        new CategoryWithPathways {
+                            Category = new Category {Title = "Eye"},
+                            Pathways = new List<PathwayWithDescriptions> {
+                                new PathwayWithDescriptions {
+                                    Pathway = new Pathway { Title = "Eye injury" },
+                                    PathwayDescriptions = new List<PathwayMetaData> { new PathwayMetaData { PathwayNo = "PW123"} }
+                                }
+                            }
+                        }
+                    }
                 },
                 new CategoryWithPathways {
                     Category = new Category {Title = "Allergies"},
-                    Pathways = new List<PathwayWithDescriptions>()
+                    SubCategories = new List<CategoryWithPathways> {
+                        new CategoryWithPathways {
+                            Category = new Category {Title = "Hayfever"},
+                            Pathways = new List<PathwayWithDescriptions>()
+                        },
+                        new CategoryWithPathways {
+                            Category = new Category {Title = "Hayfever"},
+                            Pathways = new List<PathwayWithDescriptions>()
+                        }
+                    }
                 },
                 new CategoryWithPathways {
                     Category = new Category {Title = "Chest and Back"},
-                    Pathways = new List<PathwayWithDescriptions>()
+                    SubCategories = new List<CategoryWithPathways> {
+                        new CategoryWithPathways {
+                            Category = new Category {Title = "Cough"},
+                            Pathways = new List<PathwayWithDescriptions>()
+                        },
+                        new CategoryWithPathways {
+                            Category = new Category {Title = "Cough"},
+                            Pathways = new List<PathwayWithDescriptions>()
+                        }
+                    }
                 }
             };
         }
