@@ -28,6 +28,9 @@ namespace NHS111.Business.DOS
             if (dispositionServiceTime == ProfileServiceTimes.InHoursShoulder && timeFrameServiceTime == ProfileServiceTimes.InHours)
                 return DispositionTimePeriod.DispositionInShoulderTimeFrameInHours;
 
+            if (dispositionServiceTime == ProfileServiceTimes.InHoursShoulder && timeFrameServiceTime == ProfileServiceTimes.InHoursShoulder)
+                return DispositionTimePeriod.DispositionInShoulderTimeFrameInShoulder;
+
             if (dispositionServiceTime == ProfileServiceTimes.InHoursShoulder && timeFrameServiceTime == ProfileServiceTimes.OutOfHours)
                 return DispositionTimePeriod.DispositionInShoulderTimeFrameOutOfHours;
 

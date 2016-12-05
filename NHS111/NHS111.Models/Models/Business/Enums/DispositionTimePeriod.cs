@@ -15,6 +15,7 @@ namespace NHS111.Models.Models.Business.Enums
         DispositionAndTimeFrameOutOfHoursTraversesInHours,
         DispositionOutOfHoursTimeFrameInShoulder,
         DispositionInShoulderTimeFrameOutOfHours,
-        DispositionInShoulderTimeFrameInHours
+        DispositionInShoulderTimeFrameInHours,
+        DispositionInShoulderTimeFrameInShoulder
     }
 }

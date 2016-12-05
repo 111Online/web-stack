@@ -65,6 +65,18 @@ namespace NHS111.Business.DOS.Test
         }
 
         [Test()]
+        public void IsOutOfHours_Dispo_In_Hours_Shoulder_And_Time_Frame_In_Hours_Shoulder_Test()
+        {
+            _mockServiceAvailabilityProfile
+                .Setup(c => c.GetServiceAvailability(It.IsAny<DateTime>(), It.IsAny<int>()))
+                .Returns(DispositionTimePeriod.DispositionInShoulderTimeFrameInShoulder);
+
+            _serviceAvailability = new ServiceAvailability(_mockServiceAvailabilityProfile.Object, It.IsAny<DateTime>(), It.IsAny<int>());
+
+            Assert.IsFalse(_serviceAvailability.IsOutOfHours);
+        }
+
+        [Test()]
         public void IsOutOfHours_Dispo_Out_Of_Hours_And_Time_Frame_In_Hours_Test()
         {
             _mockServiceAvailabilityProfile
