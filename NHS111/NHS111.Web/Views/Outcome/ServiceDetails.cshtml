@@ -66,11 +66,18 @@
                                             @WebUtility.HtmlDecode(selectedService.Address)
                                         </div>
                                         @if (!selectedService.OpenAllHours)
-                                    {
+                                        {
                                             <div class="service-status">
                                                 @WebUtility.HtmlDecode(selectedService.CurrentStatus)
                                             </div>
-                                    }
+                                        }
+                                        else
+                                        {
+                                            <div class="service-status">
+                                                Open 24 hours
+                                            </div>
+                                        }
+
                                         @Html.HiddenFor(m => m.SessionId)
                                         @Html.HiddenFor(m => m.JourneyJson)
                                         @Html.HiddenFor(m => m.Id)
@@ -107,11 +114,18 @@
                                         @WebUtility.HtmlDecode(service.Address)
                                     </div>
                                     @if (!service.OpenAllHours)
-                                {
+                                    {
                                         <div class="service-status secondary">
                                             @WebUtility.HtmlDecode(service.CurrentStatus)
                                         </div>
-                                }
+                                    }
+                                    else
+                                    {
+                                        <div class="service-status">
+                                            Open 24 hours
+                                        </div>
+                                    }
+
                                     @Html.HiddenFor(m => m.SessionId)
                                     @Html.HiddenFor(m => m.JourneyJson)
                                     @Html.HiddenFor(m => m.Id)
