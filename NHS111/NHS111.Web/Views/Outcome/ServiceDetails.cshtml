@@ -78,19 +78,6 @@
                                             </div>
                                         }
 
-                                        @if (!string.IsNullOrEmpty(selectedService.ContactDetails))
-                                        {
-                                            <div class="row">
-                                                <p>Please call this service for advice: @selectedService.ContactDetails</p>
-                                            </div>
-                                        }
-                                        else
-                                        {
-                                            <div class="row">
-                                                <p>You don't need to call this service, you can go there during the times shown above.</p>
-                                            </div>
-                                        }
-
                                         @Html.HiddenFor(m => m.SessionId)
                                         @Html.HiddenFor(m => m.JourneyJson)
                                         @Html.HiddenFor(m => m.Id)
