@@ -2381,6 +2381,10 @@ button[disabled=disabled] {
     min-height:34px;
 }
 
+.worsening-advice-icon.confirmation {
+    background-image: url("/content/images/icons/warning-white.png");
+}
+
 .worsening-advice-icon.trial {
     margin-bottom: 20px;
 }
