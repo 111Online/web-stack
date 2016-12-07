@@ -21,7 +21,7 @@ namespace NHS111.Models.Test.Models.Web.Validators
             var mockFeature = new Mock<IAllowedPostcodeFeature>();
             mockFeature.Setup(f => f.IsEnabled).Returns(false);
 
-            var sut = new PostCodeAllowedValidator<PostcodeViewModel, string>(p => p.PostCode, mockFeature.Object);
+            var sut = new PostCodeAllowedValidator<PostcodeViewModel, string>(p => p.Postcode, mockFeature.Object);
             Assert.IsTrue(sut.IsAllowedPostcode("SO30 2UN"));
         }
 
@@ -32,7 +32,7 @@ namespace NHS111.Models.Test.Models.Web.Validators
             mockFeature.Setup(f => f.IsEnabled).Returns(true);
             mockFeature.Setup(f => f.PostcodeFile).Returns((TextReader.Null));
 
-            var sut = new PostCodeAllowedValidator<PostcodeViewModel, string>(p => p.PostCode, mockFeature.Object);
+            var sut = new PostCodeAllowedValidator<PostcodeViewModel, string>(p => p.Postcode, mockFeature.Object);
             Assert.IsFalse(sut.IsAllowedPostcode("SO30 2UN"));
         }
 
@@ -45,7 +45,7 @@ namespace NHS111.Models.Test.Models.Web.Validators
             mockFeature.Setup(f => f.IsEnabled).Returns(true);
             mockFeature.Setup(f => f.PostcodeFile).Returns(new StringReader(mockPostcodeList));
 
-            var sut = new PostCodeAllowedValidator<PostcodeViewModel, string>(p => p.PostCode, mockFeature.Object);
+            var sut = new PostCodeAllowedValidator<PostcodeViewModel, string>(p => p.Postcode, mockFeature.Object);
             Assert.IsFalse(sut.IsAllowedPostcode("SO30 2UN"));
         }
 
@@ -58,7 +58,7 @@ namespace NHS111.Models.Test.Models.Web.Validators
             mockFeature.Setup(f => f.IsEnabled).Returns(true);
             mockFeature.Setup(f => f.PostcodeFile).Returns(new StringReader(string.Join(Environment.NewLine, mockPostcodeList)));
 
-            var sut = new PostCodeAllowedValidator<PostcodeViewModel, string>(p => p.PostCode, mockFeature.Object);
+            var sut = new PostCodeAllowedValidator<PostcodeViewModel, string>(p => p.Postcode, mockFeature.Object);
             Assert.IsTrue(sut.IsAllowedPostcode("SO30 2UN"));
         }
 
@@ -71,7 +71,7 @@ namespace NHS111.Models.Test.Models.Web.Validators
             mockFeature.Setup(f => f.IsEnabled).Returns(true);
             mockFeature.Setup(f => f.PostcodeFile).Returns(new StringReader(string.Join(Environment.NewLine, mockPostcodeList)));
 
-            var sut = new PostCodeAllowedValidator<PostcodeViewModel, string>(p => p.PostCode, mockFeature.Object);
+            var sut = new PostCodeAllowedValidator<PostcodeViewModel, string>(p => p.Postcode, mockFeature.Object);
             Assert.IsTrue(sut.IsAllowedPostcode("SO302UN"));
         }
 
@@ -84,7 +84,7 @@ namespace NHS111.Models.Test.Models.Web.Validators
             mockFeature.Setup(f => f.IsEnabled).Returns(true);
             mockFeature.Setup(f => f.PostcodeFile).Returns(new StringReader(string.Join(Environment.NewLine, mockPostcodeList)));
 
-            var sut = new PostCodeAllowedValidator<PostcodeViewModel, string>(p => p.PostCode, mockFeature.Object);
+            var sut = new PostCodeAllowedValidator<PostcodeViewModel, string>(p => p.Postcode, mockFeature.Object);
             Assert.IsTrue(sut.IsAllowedPostcode("So30 2uN"));
         }
 
@@ -97,7 +97,7 @@ namespace NHS111.Models.Test.Models.Web.Validators
             mockFeature.Setup(f => f.IsEnabled).Returns(true);
             mockFeature.Setup(f => f.PostcodeFile).Returns(new StringReader(string.Join(Environment.NewLine, mockPostcodeList)));
 
-            var sut = new PostCodeAllowedValidator<PostcodeViewModel, string>(p => p.PostCode, mockFeature.Object);
+            var sut = new PostCodeAllowedValidator<PostcodeViewModel, string>(p => p.Postcode, mockFeature.Object);
             Assert.IsFalse(sut.IsAllowedPostcode("Ls1 6Xy"));
         }
     }

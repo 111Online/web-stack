@@ -46,7 +46,7 @@ namespace NHS111.Models.Test.Mappers.WebMappings
             Assert.AreEqual(string.Empty, result.AddressLine2);
             Assert.AreEqual(TEST_CITY, result.City);
             Assert.AreEqual(TEST_COUNTY, result.County);
-            Assert.AreEqual(TEST_POSTCODE, result.PostCode);
+            Assert.AreEqual(TEST_POSTCODE, result.PostcodeViewModel.Postcode);
         }
 
         [Test()]
@@ -67,7 +67,7 @@ namespace NHS111.Models.Test.Mappers.WebMappings
             Assert.AreEqual(string.Empty, result.AddressLine2);
             Assert.AreEqual(TEST_CITY, result.City);
             Assert.AreEqual(TEST_COUNTY, result.County);
-            Assert.AreEqual(TEST_POSTCODE, result.PostCode);
+            Assert.AreEqual(TEST_POSTCODE, result.PostcodeViewModel.Postcode);
         }
 
 
@@ -90,7 +90,7 @@ namespace NHS111.Models.Test.Mappers.WebMappings
             Assert.AreEqual(TEST_ADDRESS_LINE_2, result.AddressLine2);
             Assert.AreEqual(TEST_CITY, result.City);
             Assert.AreEqual(TEST_COUNTY, result.County);
-            Assert.AreEqual(TEST_POSTCODE, result.PostCode);
+            Assert.AreEqual(TEST_POSTCODE, result.PostcodeViewModel.Postcode);
             Assert.AreEqual(TEST_UPRN, result.UPRN);
         }
     }

@@ -22,7 +22,7 @@
         Street
     </label>
     <div class="inline-details">
-        <div>@Html.ValidationMessageFor(m => m.PostCode, "Please enter the first line of your address")</div>
+        <div>@Html.ValidationMessageFor(m => m.AddressLine1, "Please enter the first line of your address")</div>
         @Html.TextBoxFor(m => m.AddressLine1, new {@class = "form-control", placeholder = "Address Line 1"})
     </div>
     <div class="inline-details">
@@ -32,7 +32,7 @@
         City
     </label>
     <div class="inline-details">
-        <div>@Html.ValidationMessageFor(m => m.PostCode, "Please enter a city")</div>
+        <div>@Html.ValidationMessageFor(m => m.City, "Please enter a city")</div>
         @Html.TextBoxFor(m => m.City, new {@class = "form-control", placeholder = "City"})
     </div>
     <label>
@@ -45,8 +45,8 @@
         Postcode
     </label>
     <div class="inline-details">
-        <div>@Html.ValidationMessageFor(m => m.PostCode, "Please enter a valid postcode")</div>
-        @Html.TextBoxFor(m => m.PostCode, new {@class = "form-control", placeholder = "Postcode"})
+        <div>@Html.ValidationMessageFor(m => m.PostcodeViewModel.Postcode, "Please enter a valid postcode")</div>
+        @Html.TextBoxFor(m => m.PostcodeViewModel.Postcode, new {@class = "form-control", placeholder = "Postcode"})
     </div>
 </div>
 

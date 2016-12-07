@@ -32,7 +32,7 @@ namespace NHS111.Models.Models.Web.Validators
         protected override bool IsValid(PropertyValidatorContext context)
         {
             var postcodeViewModel = context.Instance as PostcodeViewModel;
-            return IsAllowedPostcode(postcodeViewModel.PostCode);
+            return IsAllowedPostcode(postcodeViewModel.Postcode);
         }
 
         public bool IsAllowedPostcode(string postcode)
@@ -51,7 +51,7 @@ namespace NHS111.Models.Models.Web.Validators
             var rule = new ModelClientValidationRule
             {
                 ErrorMessage = this.ErrorMessageSource.GetString(), // default error message
-                ValidationType = "allowed-postcode" // name of the validatoin which will be used inside unobtrusive library
+                ValidationType = "allowedpostcode" // name of the validatoin which will be used inside unobtrusive library
             };
 
             rule.ValidationParameters["prefixelement"] = _dependencyElement;

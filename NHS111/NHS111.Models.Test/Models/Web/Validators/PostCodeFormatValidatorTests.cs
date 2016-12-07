@@ -9,6 +9,12 @@ namespace NHS111.Models.Test.Models.Web.Validators
     public class PostCodeFormatValidatorTests
     {
         [Test]
+        public void Is_valid_null_string_returns_false()
+        {
+            Assert.IsFalse(PostCodeFormatValidator<PostcodeViewModel, string>.IsAValidPostcode(null));
+        }
+
+        [Test]
         public void Is_valid_empty_string_returns_false()
         {
             Assert.IsFalse(PostCodeFormatValidator<PostcodeViewModel, string>.IsAValidPostcode(string.Empty));

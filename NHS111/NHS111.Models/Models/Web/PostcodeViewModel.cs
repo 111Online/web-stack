@@ -11,6 +11,6 @@ namespace NHS111.Models.Models.Web
     [Validator(typeof(PostCodeViewModelValidator))]
     public class PostcodeViewModel
     {
-        public string PostCode { get; set; }
+        public string Postcode { get; set; }
     }
 }

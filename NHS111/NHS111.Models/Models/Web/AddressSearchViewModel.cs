@@ -18,8 +18,8 @@ namespace NHS111.Models.Models.Web
             {
                 return AddressInfoList.Select(x => new SelectListItem
                 {
-                    Value = x.PostCode,
-                    Text = string.Format("{0} {1} {2} {3} {4}", x.HouseNumber, x.AddressLine1, x.AddressLine2, x.City, x.PostCode),
+                    Value = x.PostcodeViewModel.Postcode,
+                    Text = string.Format("{0} {1} {2} {3} {4}", x.HouseNumber, x.AddressLine1, x.AddressLine2, x.City, x.PostcodeViewModel.Postcode),
                     Selected = false
                 });
             }

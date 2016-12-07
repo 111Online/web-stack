@@ -6,7 +6,7 @@ namespace NHS111.Models.Models.Web
 {
     public class AddressInfoViewModel
     {
-        public string PostCode { get; set; }
+        public PostcodeViewModel PostcodeViewModel { get; set; }
         public string HouseNumber { get; set; }
         public string AddressLine1 { get; set; }
         public string AddressLine2 { get; set; }
@@ -24,7 +24,7 @@ namespace NHS111.Models.Models.Web
     {
         public PersonalInfoAddressViewModelValidator()
         {
-            RuleFor(a => a.PostCode).NotEmpty();
+            RuleFor(a => a.PostcodeViewModel.Postcode).NotEmpty();
             RuleFor(a => a.AddressLine1).NotEmpty();
             RuleFor(a => a.City).NotEmpty();
         }

@@ -24,12 +24,12 @@ namespace NHS111.Models.Models.Web.Validators
         {
             var postcodeViewModel = context.Instance as PostcodeViewModel;
 
-            return IsAValidPostcode(postcodeViewModel.PostCode);
+            return IsAValidPostcode(postcodeViewModel.Postcode);
         }
 
         public static bool IsAValidPostcode(string postcode)
         {
-            return Regex.IsMatch(postcode.Replace(" ", string.Empty).ToLower(), PostcodeRegex);
+            return !string.IsNullOrEmpty(postcode) && Regex.IsMatch(postcode.Replace(" ", string.Empty).ToLower(), PostcodeRegex);
         }
 
         public IEnumerable<ModelClientValidationRule> GetClientValidationRules(ModelMetadata metadata, ControllerContext context)
@@ -37,7 +37,7 @@ namespace NHS111.Models.Models.Web.Validators
             var rule = new ModelClientValidationRule
             {
                 ErrorMessage = this.ErrorMessageSource.GetString(), // default error message
-                ValidationType = "valid-postcode" // name of the validatoin which will be used inside unobtrusive library
+                ValidationType = "validpostcode" // name of the validatoin which will be used inside unobtrusive library
             };
 
             rule.ValidationParameters["prefixelement"] = _dependencyElement; // html element which includes prefix information
