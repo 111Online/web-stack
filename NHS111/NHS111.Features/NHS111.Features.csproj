@@ -56,12 +56,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AllowedPostcodeFeature.cs" />
     <Compile Include="BaseFeature.cs" />
     <Compile Include="CookieBannerFeature.cs" />
     <Compile Include="Defaults\DisabledByDefaultSettingStrategy.cs" />
     <Compile Include="Defaults\EnabledByDefaultSettingStrategy.cs" />
     <Compile Include="Defaults\FilteredAgesDefaultStrategy.cs" />
     <Compile Include="Defaults\IDefaultSettingStrategy.cs" />
+    <Compile Include="Defaults\PostcodeFilePathDefaultSettingStrategy.cs" />
     <Compile Include="DirectLinkingFeature.cs" />
     <Compile Include="DisclaimerBannerFeature.cs" />
     <Compile Include="DisclaimerPopupFeature.cs" />
