@@ -214,6 +214,7 @@
     <Compile Include="Monitoring\BaseMonitor.cs" />
     <Compile Include="Monitoring\IMonitor.cs" />
     <Compile Include="Notifier\Notifier.cs" />
+    <Compile Include="Parser\CsvParser.cs" />
     <Compile Include="Parser\PathwayTitleUriParser.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
