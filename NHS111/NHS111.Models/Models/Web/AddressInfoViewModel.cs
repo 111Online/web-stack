@@ -28,8 +28,6 @@ namespace NHS111.Models.Models.Web
             RuleFor(a => a.AddressLine1).NotEmpty();
             RuleFor(a => a.City).NotEmpty();
         }
-
-
     }
 
 }

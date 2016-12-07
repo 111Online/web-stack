@@ -141,6 +141,7 @@
     <Compile Include="Models\Web\JourneyViewModelTests.cs" />
     <Compile Include="Models\Web\ServiceViewModelTests.cs" />
     <Compile Include="Models\Web\Validators\AgeValidatorTests.cs" />
+    <Compile Include="Models\Web\Validators\PostCodeAllowedValidatorTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="JourneyViewModelTests.cs" />
     <Compile Include="SymptomDiscriminatorListResolverTests.cs" />
