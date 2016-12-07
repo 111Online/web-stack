@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
+using System.Text.RegularExpressions;
 using System.Web.Mvc;
 using FluentValidation.Validators;
 using NHS111.Features;
@@ -9,10 +10,13 @@ namespace NHS111.Models.Models.Web.Validators
 {
     public class PostCodeFormatValidator<TModel, TProperty> : PropertyValidator, IClientValidatable
     {
-        private string dependencyElement;
+        private readonly string _dependencyElement;
+        private const string PostcodeRegex = @"^([Gg][Ii][Rr] 0[Aa]{2})|((([A-Za-z][0-9]{1,2})|(([A-Za-z][A-Ha-hJ-Yj-y][0-9]{1,2})|(([A-Za-z][0-9][A-Za-z])|([A-Za-z][A-Ha-hJ-Yj-y][0-9]?[A-Za-z]))))[0-9][A-Za-z]{2})$";
+
+
         public PostCodeFormatValidator(Expression<Func<TModel, TProperty>> expression) : base("Incorrect postcode format")
         {
-            dependencyElement = (expression.Body as MemberExpression).Member.Name;
+            _dependencyElement = (expression.Body as MemberExpression).Member.Name;
         }
 
 
@@ -23,9 +27,9 @@ namespace NHS111.Models.Models.Web.Validators
             return IsAValidPostcode(postcodeViewModel.PostCode);
         }
 
-        private static bool IsAValidPostcode(string postcode)
+        public static bool IsAValidPostcode(string postcode)
         {
-            return true;
+            return Regex.IsMatch(postcode.Replace(" ", string.Empty).ToLower(), PostcodeRegex);
         }
 
         public IEnumerable<ModelClientValidationRule> GetClientValidationRules(ModelMetadata metadata, ControllerContext context)
@@ -36,7 +40,7 @@ namespace NHS111.Models.Models.Web.Validators
                 ValidationType = "valid-postcode" // name of the validatoin which will be used inside unobtrusive library
             };
 
-            rule.ValidationParameters["prefixelement"] = dependencyElement; // html element which includes prefix information
+            rule.ValidationParameters["prefixelement"] = _dependencyElement; // html element which includes prefix information
 
             yield return rule;
         }
