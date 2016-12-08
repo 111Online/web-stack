@@ -30,12 +30,12 @@ namespace NHS111.Models.Models.Web
 
 
         public AddressInfoViewModel HomeAddress { get; set; }
-        public AddressInfoViewModel CurrentAddress { get; set; }
+        public PersonalInfoAddressViewModel CurrentAddress { get; set; }
 
         public UserInfo()
         {
             HomeAddress = new AddressInfoViewModel();
-            CurrentAddress = new AddressInfoViewModel();
+            CurrentAddress = new PersonalInfoAddressViewModel();
         }
     }
 }

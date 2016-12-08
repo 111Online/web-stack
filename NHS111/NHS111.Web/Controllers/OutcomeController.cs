@@ -101,7 +101,7 @@ namespace NHS111.Web.Controllers {
         [HttpPost]
         public async Task<ActionResult> ServiceDetails(OutcomeViewModel model) {
 
-            if (!ModelState.IsValidField("UserInfo.CurrentAddress.PostcodeViewModel.Postcode")) return View(Path.GetFileNameWithoutExtension(model.CurrentView), model);
+            if (!ModelState.IsValidField("UserInfo.CurrentAddress.Postcode")) return View(Path.GetFileNameWithoutExtension(model.CurrentView), model);
 
             var dosCase = Mapper.Map<DosViewModel>(model);
             AuditDosRequest(model, dosCase);
