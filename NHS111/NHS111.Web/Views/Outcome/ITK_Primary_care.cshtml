@@ -16,6 +16,9 @@
     <ul>
         <li>You should contact your GP practice first. GPs are normally open from 8.30am to 6.00pm.</li>
         <li>If you can’t contact your GP practice or if it’s closed, you should search for another service below.</li>
+        @if (Model.Id == "Dx08") {
+            <li>If you are not seeing your own GP take a list of your current medicines with you.</li>
+        }
     </ul>
 </div>
 
