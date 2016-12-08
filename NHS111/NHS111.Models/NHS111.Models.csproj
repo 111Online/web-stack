@@ -242,7 +242,6 @@
     <Compile Include="Models\Web\OutcomeViewModel.cs" />
     <Compile Include="Models\Web\JourneyViewModel.cs" />
     <Compile Include="Models\Web\FromExternalServices\Surgery.cs" />
-    <Compile Include="Models\Web\PostcodeViewModel.cs" />
     <Compile Include="Models\Web\ServiceViewModel.cs" />
     <Compile Include="Models\Web\SurgeryViewModel.cs" />
     <Compile Include="Models\Web\UserInfo.cs" />
@@ -250,9 +249,9 @@
     <Compile Include="Models\Web\Validators\AgeGenderViewModelValidator.cs" />
     <Compile Include="Models\Web\Validators\AgeValidator.cs" />
     <Compile Include="Models\Web\Validators\DateOfBirthValidator.cs" />
+    <Compile Include="Models\Web\Validators\PersonalInfoAddressViewModelValidator.cs" />
     <Compile Include="Models\Web\Validators\PostCodeAllowedValidator.cs" />
     <Compile Include="Models\Web\Validators\PostCodeFormatValidator.cs" />
-    <Compile Include="Models\Web\Validators\PostCodeViewModelValidator.cs" />
     <Compile Include="Models\Web\Validators\UserInfoValidator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

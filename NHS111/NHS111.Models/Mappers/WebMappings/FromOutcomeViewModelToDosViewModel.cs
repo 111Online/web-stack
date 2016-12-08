@@ -58,9 +58,9 @@ namespace NHS111.Models.Mappers.WebMappings
 
             protected override string ResolveCore(UserInfo source)
             {
-                return !string.IsNullOrEmpty(source.CurrentAddress.PostcodeViewModel.Postcode)
-                   ? source.CurrentAddress.PostcodeViewModel.Postcode
-                   : source.HomeAddress.PostcodeViewModel.Postcode;
+                return !string.IsNullOrEmpty(source.CurrentAddress.Postcode)
+                   ? source.CurrentAddress.Postcode
+                   : source.HomeAddress.Postcode;
             }
         }
 

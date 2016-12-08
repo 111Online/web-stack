@@ -31,8 +31,8 @@ namespace NHS111.Models.Models.Web.Validators
 
         protected override bool IsValid(PropertyValidatorContext context)
         {
-            var postcodeViewModel = context.Instance as PostcodeViewModel;
-            return IsAllowedPostcode(postcodeViewModel.Postcode);
+            var personalInfoAddressViewModel = context.Instance as PersonalInfoAddressViewModel;
+            return IsAllowedPostcode(personalInfoAddressViewModel.Postcode);
         }
 
         public bool IsAllowedPostcode(string postcode)

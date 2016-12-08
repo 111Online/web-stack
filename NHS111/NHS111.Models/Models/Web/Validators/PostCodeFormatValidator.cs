@@ -22,9 +22,9 @@ namespace NHS111.Models.Models.Web.Validators
 
         protected override bool IsValid(PropertyValidatorContext context)
         {
-            var postcodeViewModel = context.Instance as PostcodeViewModel;
+            var personalInfoAddressViewModel = context.Instance as PersonalInfoAddressViewModel;
 
-            return IsAValidPostcode(postcodeViewModel.Postcode);
+            return IsAValidPostcode(personalInfoAddressViewModel.Postcode);
         }
 
         public static bool IsAValidPostcode(string postcode)

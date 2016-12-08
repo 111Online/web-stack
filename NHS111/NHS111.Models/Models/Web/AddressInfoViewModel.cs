@@ -1,12 +1,11 @@
-﻿using System;
-using FluentValidation;
-using FluentValidation.Attributes;
+﻿using FluentValidation.Attributes;
+using NHS111.Models.Models.Web.Validators;
 
 namespace NHS111.Models.Models.Web
 {
     public class AddressInfoViewModel
     {
-        public PostcodeViewModel PostcodeViewModel { get; set; }
+        public string Postcode { get; set; }
         public string HouseNumber { get; set; }
         public string AddressLine1 { get; set; }
         public string AddressLine2 { get; set; }
@@ -18,16 +17,6 @@ namespace NHS111.Models.Models.Web
     [Validator(typeof(PersonalInfoAddressViewModelValidator))]
     public class PersonalInfoAddressViewModel : AddressInfoViewModel
     {  
-    }
-    
-    public class PersonalInfoAddressViewModelValidator : AbstractValidator<PersonalInfoAddressViewModel>
-    {
-        public PersonalInfoAddressViewModelValidator()
-        {
-            RuleFor(a => a.PostcodeViewModel.Postcode).NotEmpty();
-            RuleFor(a => a.AddressLine1).NotEmpty();
-            RuleFor(a => a.City).NotEmpty();
-        }
     }
 
 }

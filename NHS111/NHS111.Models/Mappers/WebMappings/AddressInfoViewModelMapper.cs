@@ -29,7 +29,7 @@ namespace NHS111.Models.Mappers.WebMappings
                         AddressLine1 = paf.BuildingNumber,
                         AddressLine2 = paf.DepartmentName,
                         City = paf.Town,
-                        PostcodeViewModel = new PostcodeViewModel { Postcode = paf.Postcode }
+                        Postcode = paf.Postcode
                     });
                 }
 
@@ -53,7 +53,7 @@ namespace NHS111.Models.Mappers.WebMappings
                     AddressLine2 = addressLine2,
                     City = locationResult.PostTown,
                     County = locationResult.AdministrativeArea,
-                    PostcodeViewModel = new PostcodeViewModel { Postcode = locationResult.Postcode },
+                    Postcode = locationResult.Postcode,
                     UPRN = locationResult.UPRN
                 };
 
