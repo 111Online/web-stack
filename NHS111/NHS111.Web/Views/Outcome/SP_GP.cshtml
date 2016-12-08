@@ -11,14 +11,27 @@
 <link href="~/Content/css_NhsUK/signposting-outcome-print.css" media="print" rel="stylesheet" type="text/css" />
 
 @{
-    ViewDataDictionary dict = new ViewDataDictionary();
-    if (Model.Id == "Dx09" || Model.Id == "Dx16") {
-        dict.Add("OutcomeHeader", "For persistent or reoccurring symptoms, get in touch with your GP in 3 days");
+    var text = "";
+    switch (Model.Id)
+    {
+        case "Dx09":
+            text = "Your answers suggest that you should see your own GP if you are not feeling better within a few days";
+            break;
+        case "Dx10":
+            text = "Your answers require that you must make a routine appointment to see your own GP";
+            break;
+        case "Dx16":
+            text = "Your answers require that you must make an appointment to see your own GP within 3 working days";
+            break;
+        case "Dx75":
+            text = "Your answers suggest that you should talk to your own GP in 3 working days if you are not feeling better";
+            break;
     }
+    var dict = new ViewDataDictionary { { "OutcomeHeader", text } };
+
 }
 
 @Html.Partial("_OutcomeHeader", Model, dict)
-
 
 @section FeedbackSection {
     @Html.Partial("_FeedbackDetails", new FeedbackViewModel() { PageId = Model.Id })
