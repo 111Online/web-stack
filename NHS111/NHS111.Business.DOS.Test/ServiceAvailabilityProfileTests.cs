@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Moq;
 using NHS111.Models.Models.Business;
 using NHS111.Models.Models.Business.Enums;
@@ -11,6 +12,7 @@ namespace NHS111.Business.DOS.Test
     [TestFixture()]
     public class ServiceAvailabilityProfileTests
     {
+        private readonly IEnumerable<int> FILTERED_DOS_SERVICCE_TYPES = new List<int>(); 
         private readonly Mock<IProfileHoursOfOperation> _mockProfileHoursOfConfiguration = new Mock<IProfileHoursOfOperation>();
         private ServiceAvailabilityProfile _serviceAvailabilityProfile;
 
@@ -33,7 +35,7 @@ namespace NHS111.Business.DOS.Test
                 .Setup(c => c.GetServiceTime(InHoursToOoHoursPeriodWeekday.Item1))
                 .Returns(ProfileServiceTimes.InHours);
 
-            _serviceAvailabilityProfile = new ServiceAvailabilityProfile(_mockProfileHoursOfConfiguration.Object);
+            _serviceAvailabilityProfile = new ServiceAvailabilityProfile(_mockProfileHoursOfConfiguration.Object, FILTERED_DOS_SERVICCE_TYPES);
 
             var result = _serviceAvailabilityProfile.GetServiceAvailability(InHoursToOoHoursPeriodWeekday.Item1, 60);
             Assert.AreEqual(DispositionTimePeriod.DispositionAndTimeFrameInHours, result);
@@ -50,7 +52,7 @@ namespace NHS111.Business.DOS.Test
                 .Setup(c => c.GetServiceTime(InHoursToOoHoursPeriodWeekday.Item1.AddMinutes(InHoursToOoHoursPeriodWeekday.Item2)))
                 .Returns(ProfileServiceTimes.OutOfHours);
 
-            _serviceAvailabilityProfile = new ServiceAvailabilityProfile(_mockProfileHoursOfConfiguration.Object);
+            _serviceAvailabilityProfile = new ServiceAvailabilityProfile(_mockProfileHoursOfConfiguration.Object, FILTERED_DOS_SERVICCE_TYPES);
 
             var result = _serviceAvailabilityProfile.GetServiceAvailability(InHoursToOoHoursPeriodWeekday.Item1, InHoursToOoHoursPeriodWeekday.Item2);
             Assert.AreEqual(DispositionTimePeriod.DispositionInHoursTimeFrameOutOfHours, result);
@@ -67,7 +69,7 @@ namespace NHS111.Business.DOS.Test
                 .Setup(c => c.GetServiceTime(OoHoursToInHoursPeriodWeekday.Item1.AddMinutes(OoHoursToInHoursPeriodWeekday.Item2)))
                 .Returns(ProfileServiceTimes.InHours);
 
-            _serviceAvailabilityProfile = new ServiceAvailabilityProfile(_mockProfileHoursOfConfiguration.Object);
+            _serviceAvailabilityProfile = new ServiceAvailabilityProfile(_mockProfileHoursOfConfiguration.Object, FILTERED_DOS_SERVICCE_TYPES);
 
             var result = _serviceAvailabilityProfile.GetServiceAvailability(OoHoursToInHoursPeriodWeekday.Item1, OoHoursToInHoursPeriodWeekday.Item2);
             Assert.AreEqual(DispositionTimePeriod.DispositionOutOfHoursTimeFrameInHours, result);
@@ -88,7 +90,7 @@ namespace NHS111.Business.DOS.Test
                 .Setup(c => c.ContainsInHoursPeriod(OoHoursToOoHoursTraverseInHoursPeriodWeekday.Item1, OoHoursToOoHoursTraverseInHoursPeriodWeekday.Item1.AddMinutes(OoHoursToOoHoursTraverseInHoursPeriodWeekday.Item2)))
                 .Returns(true);
 
-            _serviceAvailabilityProfile = new ServiceAvailabilityProfile(_mockProfileHoursOfConfiguration.Object);
+            _serviceAvailabilityProfile = new ServiceAvailabilityProfile(_mockProfileHoursOfConfiguration.Object, FILTERED_DOS_SERVICCE_TYPES);
 
             var result = _serviceAvailabilityProfile.GetServiceAvailability(OoHoursToOoHoursTraverseInHoursPeriodWeekday.Item1, OoHoursToOoHoursTraverseInHoursPeriodWeekday.Item2);
             Assert.AreEqual(DispositionTimePeriod.DispositionAndTimeFrameOutOfHoursTraversesInHours, result);
@@ -110,7 +112,7 @@ namespace NHS111.Business.DOS.Test
                 .Setup(c => c.ContainsInHoursPeriod(OoHoursToOoHoursPeriodWeekday.Item1, OoHoursToOoHoursPeriodWeekday.Item1.AddMinutes(OoHoursToOoHoursPeriodWeekday.Item2)))
                 .Returns(false);
 
-            _serviceAvailabilityProfile = new ServiceAvailabilityProfile(_mockProfileHoursOfConfiguration.Object);
+            _serviceAvailabilityProfile = new ServiceAvailabilityProfile(_mockProfileHoursOfConfiguration.Object, FILTERED_DOS_SERVICCE_TYPES);
 
             var result = _serviceAvailabilityProfile.GetServiceAvailability(OoHoursToOoHoursPeriodWeekday.Item1, OoHoursToOoHoursPeriodWeekday.Item2);
             Assert.AreEqual(DispositionTimePeriod.DispositionAndTimeFrameOutOfHours, result);
@@ -127,7 +129,7 @@ namespace NHS111.Business.DOS.Test
                 .Setup(c => c.GetServiceTime(OoHoursToOoHoursPeriodWeekday.Item1.AddMinutes(OoHoursToOoHoursPeriodWeekday.Item2)))
                 .Returns(ProfileServiceTimes.InHoursShoulder);
 
-            _serviceAvailabilityProfile = new ServiceAvailabilityProfile(_mockProfileHoursOfConfiguration.Object);
+            _serviceAvailabilityProfile = new ServiceAvailabilityProfile(_mockProfileHoursOfConfiguration.Object, FILTERED_DOS_SERVICCE_TYPES);
 
             var result = _serviceAvailabilityProfile.GetServiceAvailability(OoHoursToOoHoursPeriodWeekday.Item1, OoHoursToOoHoursPeriodWeekday.Item2);
             Assert.AreEqual(DispositionTimePeriod.DispositionOutOfHoursTimeFrameInShoulder, result);
@@ -145,7 +147,7 @@ namespace NHS111.Business.DOS.Test
                 .Setup(c => c.GetServiceTime(inShoulderDateTime.AddMinutes(120)))
                 .Returns(ProfileServiceTimes.InHours);
 
-            _serviceAvailabilityProfile = new ServiceAvailabilityProfile(_mockProfileHoursOfConfiguration.Object);
+            _serviceAvailabilityProfile = new ServiceAvailabilityProfile(_mockProfileHoursOfConfiguration.Object, FILTERED_DOS_SERVICCE_TYPES);
 
             var result = _serviceAvailabilityProfile.GetServiceAvailability(inShoulderDateTime, 120);
             Assert.AreEqual(DispositionTimePeriod.DispositionInShoulderTimeFrameInHours, result);
@@ -163,7 +165,7 @@ namespace NHS111.Business.DOS.Test
                 .Setup(c => c.GetServiceTime(inShoulderDateTime.AddMinutes(1440)))
                 .Returns(ProfileServiceTimes.InHoursShoulder);
 
-            _serviceAvailabilityProfile = new ServiceAvailabilityProfile(_mockProfileHoursOfConfiguration.Object);
+            _serviceAvailabilityProfile = new ServiceAvailabilityProfile(_mockProfileHoursOfConfiguration.Object, FILTERED_DOS_SERVICCE_TYPES);
 
             var result = _serviceAvailabilityProfile.GetServiceAvailability(inShoulderDateTime, 1440);
             Assert.AreEqual(DispositionTimePeriod.DispositionInShoulderTimeFrameInShoulder, result);
@@ -181,7 +183,7 @@ namespace NHS111.Business.DOS.Test
                 .Setup(c => c.GetServiceTime(inShoulderDateTime.AddMinutes(720)))
                 .Returns(ProfileServiceTimes.OutOfHours);
 
-            _serviceAvailabilityProfile = new ServiceAvailabilityProfile(_mockProfileHoursOfConfiguration.Object);
+            _serviceAvailabilityProfile = new ServiceAvailabilityProfile(_mockProfileHoursOfConfiguration.Object, FILTERED_DOS_SERVICCE_TYPES);
 
             var result = _serviceAvailabilityProfile.GetServiceAvailability(inShoulderDateTime, 720);
             Assert.AreEqual(DispositionTimePeriod.DispositionInShoulderTimeFrameOutOfHours, result);

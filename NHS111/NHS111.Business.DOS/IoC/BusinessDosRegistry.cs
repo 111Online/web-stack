@@ -9,7 +9,7 @@ namespace NHS111.Business.DOS.IoC
         public BusinessDosRegistry()
         {
             IncludeRegistry<UtilsRegistry>();
-
+            For<IServiceAvailabilityProfileManager>().Use<ServiceAvailablityProfileManager>();
             Scan(scan =>
             {
                 scan.TheCallingAssembly();
