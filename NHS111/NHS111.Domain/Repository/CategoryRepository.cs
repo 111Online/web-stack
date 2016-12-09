@@ -32,9 +32,9 @@ namespace NHS111.Domain.Repository
         public async Task<IEnumerable<Category>> GetCategories(string gender, int age)
         {
             var query = await AllCategoriesQuery
-                .OptionalMatch("(category)-[:hasPathway]->(categorypathway:Pathway)")
+                .OptionalMatch("(category)-[:hasPathway]->(md:PathwayMetaData)<-[:isDescribedAs]-(categorypathway:Pathway)")
                 .Where(string.Join(" and ", new List<string> { GenderIs(gender, "categorypathway"), AgeIsAboveMinimum(age, "categorypathway"), AgeIsBelowMaximum(age, "categorypathway") }))
-                .OptionalMatch("(subcategory)-[:hasPathway]->(subcategorypathway:Pathway)")
+                .OptionalMatch("(subcategory)-[:hasPathway]->(md:PathwayMetaData)<-[:isDescribedAs]-(subcategorypathway:Pathway)")
                 .Where(string.Join(" and ", new List<string> { GenderIs(gender, "subcategorypathway"), AgeIsAboveMinimum(age, "subcategorypathway"), AgeIsBelowMaximum(age, "subcategorypathway") }))
                 .ReturnDistinct((category, subcategory) => new{ category = category.As<Category>(), subcategory = subcategory.As<Category>() })
                 .ResultsAsync;
@@ -47,8 +47,8 @@ namespace NHS111.Domain.Repository
         public async Task<IEnumerable<CategoryWithPathways>> GetCategoriesWithPathways()
         {
             var query = AllCategoriesQuery
-                .OptionalMatch("(category)-[:hasPathway]->(categorypathway:Pathway)-[:isDescribedAs]->(categorypathwaymd:PathwayMetaData)") // get the categories pathways and descriptions
-                .OptionalMatch("(subcategory)-[:hasPathway]->(subcategorypathway:Pathway)-[:isDescribedAs]->(subcategorypathwaymd:PathwayMetaData)") // get the sub-categories pathways and descriptions
+                .OptionalMatch("(category)-[:hasPathway]->(categorypathwaymd:PathwayMetaData)<-[:isDescribedAs]-(categorypathway:Pathway)") // get the categories pathways and descriptions
+                .OptionalMatch("(subcategory)-[:hasPathway]->(subcategorypathwaymd:PathwayMetaData)<-[:isDescribedAs]-(subcategorypathway:Pathway)") // get the sub-categories pathways and descriptions
                 .Return(
                     (category, categorypathway, categorypathwaymd, subcategory, subcategorypathway, subcategorypathwaymd) =>
                         new CategoryPathwaysFlattened
@@ -66,8 +66,7 @@ namespace NHS111.Domain.Repository
         public async Task<IEnumerable<CategoryWithPathways>> GetCategoriesWithPathways(string gender, int age)
         {
             var query = AllCategoriesQuery
-                .OptionalMatch(
-                    "(category)-[:hasPathway]->(categorypathway:Pathway)-[:isDescribedAs]->(categorypathwaymd:PathwayMetaData)") // get the categories pathways and descriptions
+                .OptionalMatch("(category)-[:hasPathway]->(categorypathwaymd:PathwayMetaData)<-[:isDescribedAs]-(categorypathway:Pathway)") // get the categories pathways and descriptions
                 .Where(string.Join(" and ",
                     new List<string>
                     {
@@ -75,8 +74,7 @@ namespace NHS111.Domain.Repository
                         AgeIsAboveMinimum(age, "categorypathway"),
                         AgeIsBelowMaximum(age, "categorypathway")
                     }))
-                .OptionalMatch(
-                    "(subcategory)-[:hasPathway]->(subcategorypathway:Pathway)-[:isDescribedAs]->(subcategorypathwaymd:PathwayMetaData)") // get the sub-categories pathways and descriptions
+                .OptionalMatch("(subcategory)-[:hasPathway]->(subcategorypathwaymd:PathwayMetaData)<-[:isDescribedAs]-(subcategorypathway:Pathway)") // get the sub-categories pathways and descriptions
                 .Where(string.Join(" and ",
                     new List<string>
                     {
@@ -141,7 +139,22 @@ namespace NHS111.Domain.Repository
                 .Match("(c:Category)")
                 .Where(string.Format("c.id = '{0}'", id))
                 .With("c")
-                .OptionalMatch("(c)-[:hasPathway]->(p:Pathway)-[:isDescribedAs]->(pathwaymd:PathwayMetaData)");
+                .OptionalMatch("(c)-[:hasPathway]->(pathwaymd:PathwayMetaData)<-[:isDescribedAs]-(p:Pathway)");
+        }
+
+        private static CategoryWithPathways CategoryPathways(CategoryPathwaysFlattened flattenedData)
+        {
+            return new CategoryWithPathways
+            {
+                Category = flattenedData.Category,
+                Pathways = flattenedData.PathwaysMetaData
+                    .Distinct(new PathwayMetaDataComparer())
+                    .Select(md => new PathwayWithDescription
+                    {
+                        PathwayData = md,
+                        Pathway = flattenedData.Pathways.FirstOrDefault(p => p.PathwayNo == md.PathwayNo)
+                    })
+            };
         }
 
         private ICypherFluentQuery AllCategoriesQuery
@@ -164,14 +177,12 @@ namespace NHS111.Domain.Repository
                 select new CategoryWithPathways()
                 {
                     Category = parent,
-                    Pathways = flattenedData.Pathways
-                        .Distinct(new PathwayComparer())
-                        .Select(p => new PathwayWithDescriptions()
+                    Pathways = flattenedData.PathwaysMetaData
+                        .Distinct(new PathwayMetaDataComparer())
+                        .Select(md => new PathwayWithDescription()
                         {
-                            Pathway = p,
-                            PathwayDescriptions = flattenedData.PathwaysMetaData
-                                .Distinct(new PathwayMetaDataComparer())
-                                .Where(pd => pd.PathwayNo == p.PathwayNo)
+                            PathwayData = md,
+                            Pathway = flattenedData.Pathways.FirstOrDefault(p => md.PathwayNo == p.PathwayNo)
                         }),
                     SubCategories = flattenedDataList.Where(f => f.SubCategory != null && f.SubCategory.ParentId == parent.Id).Select(SubCategoryPathways)
                 })
@@ -179,36 +190,17 @@ namespace NHS111.Domain.Repository
                 .ToList();
         }
 
-        private static CategoryWithPathways CategoryPathways(CategoryPathwaysFlattened flattenedData)
-        {
-            return new CategoryWithPathways
-            {
-                Category = flattenedData.Category,
-                Pathways = flattenedData.Pathways
-                    .Distinct(new PathwayComparer())
-                    .Select(p => new PathwayWithDescriptions()
-                    {
-                        Pathway = p,
-                        PathwayDescriptions = flattenedData.PathwaysMetaData
-                            .Distinct(new PathwayMetaDataComparer())
-                            .Where(pd => pd.PathwayNo == p.PathwayNo)
-                    })
-            };
-        }
-
         private static CategoryWithPathways SubCategoryPathways(CategoryPathwaysFlattened flattenedData)
         {
             return new CategoryWithPathways
             {
                 Category = flattenedData.SubCategory,
-                Pathways = flattenedData.SubCategoryPathways
-                    .Distinct(new PathwayComparer())
-                    .Select(p => new PathwayWithDescriptions()
+                Pathways = flattenedData.SubCategoryPathwaysMetaData
+                    .Distinct(new PathwayMetaDataComparer())
+                    .Select(md => new PathwayWithDescription()
                     {
-                        Pathway = p,
-                        PathwayDescriptions = flattenedData.SubCategoryPathwaysMetaData
-                            .Distinct(new PathwayMetaDataComparer())
-                            .Where(pd => pd.PathwayNo == p.PathwayNo)
+                        PathwayData = md,
+                        Pathway = flattenedData.SubCategoryPathways.FirstOrDefault(p => md.PathwayNo == p.PathwayNo)
                     })
             };
         }
@@ -293,14 +285,14 @@ namespace NHS111.Domain.Repository
 
         public bool Equals(PathwayMetaData x, PathwayMetaData y)
         {
-            return x.PathwayNo == y.PathwayNo && x.DigitalDescription == y.DigitalDescription;
+            return x.PathwayNo == y.PathwayNo && x.DigitalTitleId == y.DigitalTitleId;
         }
 
         public int GetHashCode(PathwayMetaData obj)
         {
-            if (obj.DigitalDescription == null)
+            if (obj.DigitalTitleId == null)
                 return obj.PathwayNo.GetHashCode();
-            return obj.DigitalDescription.GetHashCode();
+            return obj.DigitalTitleId.GetHashCode();
         }
     }
 }
