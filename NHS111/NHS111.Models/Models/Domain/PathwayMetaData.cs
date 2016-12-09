@@ -12,7 +12,10 @@ namespace NHS111.Models.Models.Domain
         [JsonProperty(PropertyName = "pathwayNo")]
         public string PathwayNo { get; set; }
 
+        [JsonProperty(PropertyName = "digitalDescriptionId")]
+        public string DigitalTitleId { get; set; }
+
         [JsonProperty(PropertyName = "digitalDescription")]
-        public string DigitalDescription { get; set; }
+        public string DigitalTitle { get; set; }
     }
 }

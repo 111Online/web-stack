@@ -34,11 +34,10 @@
         public string PathwayNumbers { get; set; }
     }
 
-    private IEnumerable<PathwayLink> GroupAndSortPathways(IEnumerable<PathwayWithDescriptions> pathways) {
+    private IEnumerable<PathwayLink> GroupAndSortPathways(IEnumerable<PathwayWithDescription> pathways) {
         return (from groups in pathways.GroupBy(p => p.Pathway.Title)
-                from metaData in groups.First().PathwayDescriptions
                 select new PathwayLink {
-                    Title = metaData.DigitalDescription,
+                    Title = groups.FirstOrDefault().PathwayData.DigitalTitle,
                     PathwayNumbers = string.Join(",", groups.Select(t => t.Pathway.PathwayNo).Distinct())
                 }).OrderBy(x => x.Title);
     }
@@ -153,9 +152,9 @@
                                                         <li>
                                                             <h5><a class="category linkButton bullet" href="javascript:void(0);">&bull; <span class="underline">@subCategory.Category.Title</span></a></h5>
                                                             <ul class="content">
-                                                                @foreach (var pathway in GroupAndSortPathways(subCategory.Pathways))
+                                                                @foreach (var pathway in subCategory.Pathways)
                                                                 {
-                                                                    <li><input type="submit" class="linkButton" value="@pathway.Title" id="@pathway.PathwayNumbers" /></li>
+                                                                    <li><input type="submit" class="linkButton" value="@pathway.PathwayData.DigitalTitle" id="@pathway.Pathway.PathwayNo" /></li>
                                                                 }
                                                             </ul>
                                                         </li>
@@ -165,9 +164,9 @@
                                             @if (topLevelCategory.Pathways != null && topLevelCategory.Pathways.Any())
                                             {
                                                 <ul class="content">
-                                                    @foreach (var pathway in GroupAndSortPathways(topLevelCategory.Pathways))
+                                                    @foreach (var pathway in topLevelCategory.Pathways)
                                                     {
-                                                        <li><input type="submit" class="linkButton" value="@pathway.Title" id="@pathway.PathwayNumbers" /></li>
+                                                        <li><input type="submit" class="linkButton" value="@pathway.PathwayData.DigitalTitle" id="@pathway.Pathway.PathwayNo" /></li>
                                                     }
                                                 </ul>
                                             }
