@@ -8,6 +8,6 @@ namespace NHS111.Models.Models.Domain
 
         public IEnumerable<CategoryWithPathways> SubCategories { get; set; }
 
-        public IEnumerable<PathwayWithDescriptions> Pathways { get; set; }
+        public IEnumerable<PathwayWithDescription> Pathways { get; set; }
     }
 }
