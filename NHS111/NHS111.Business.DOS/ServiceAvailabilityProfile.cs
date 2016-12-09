@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using NHS111.Business.DOS.Configuration;
 using NHS111.Models.Models.Business;
 using NHS111.Models.Models.Business.Enums;
@@ -8,10 +9,12 @@ namespace NHS111.Business.DOS
     public class ServiceAvailabilityProfile : IServiceAvailabilityProfile
     {
         private readonly IProfileHoursOfOperation _profileHoursOfOperation;
+        private readonly IEnumerable<int> _serviceTypeIdBlacklist;
 
-        public ServiceAvailabilityProfile(IProfileHoursOfOperation profileHoursOfOperation)
+        public ServiceAvailabilityProfile(IProfileHoursOfOperation profileHoursOfOperation, IEnumerable<int> serviceTypeIdBlacklist)
         {
             _profileHoursOfOperation = profileHoursOfOperation;
+            _serviceTypeIdBlacklist = serviceTypeIdBlacklist;
         }
 
         public int ProfileId { get; set; }
@@ -51,6 +54,12 @@ namespace NHS111.Business.DOS
                 return DispositionTimePeriod.DispositionAndTimeFrameOutOfHoursTraversesInHours;
             
             return DispositionTimePeriod.DispositionAndTimeFrameOutOfHours;
+        }
+
+
+        public IEnumerable<int> ServiceTypeIdBlacklist
+        {
+            get { return _serviceTypeIdBlacklist; }
         }
     }
 }

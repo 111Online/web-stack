@@ -20,10 +20,10 @@ namespace NHS111.Business.DOS.Tests
         [SetUp]
         public void SetupConfig()
         {
-            _mockConfiguration.SetupGet(c => c.WorkingDayInHoursEndTime).Returns(new LocalTime(18, 0));
-            _mockConfiguration.SetupGet(c => c.WorkingDayInHoursShoulderEndTime).Returns(new LocalTime(9, 0));
-            _mockConfiguration.SetupGet(c => c.WorkingDayInHoursStartTime).Returns(new LocalTime(8, 0));
-            _profileHoursOfOperation = new ProfileHoursOfOperation(_mockConfiguration.Object);
+            var workingDayPrimaryCareInHoursEndTime = new LocalTime(18, 0);
+            var workingDayPrimaryCareInHoursShoulderEndTime = new LocalTime(9, 0);
+            var workingDayPrimaryCareInHoursStartTime = new LocalTime(8, 0);
+            _profileHoursOfOperation = new ProfileHoursOfOperation(workingDayPrimaryCareInHoursStartTime, workingDayPrimaryCareInHoursShoulderEndTime, workingDayPrimaryCareInHoursEndTime);
         }
 
         [Test()]
