@@ -92,7 +92,7 @@ namespace NHS111.Web.Controllers {
             model.DosCheckCapacitySummaryResult = await _dosBuilder.FillCheckCapacitySummaryResult(dosViewModel);
             AuditDosResponse(model);
 
-            if (model.DosCheckCapacitySummaryResult.Error == null)
+            if (model.DosCheckCapacitySummaryResult.Error == null && !model.DosCheckCapacitySummaryResult.HasNoServices)
                 return View("ServiceList", model);
 
             return View(Path.GetFileNameWithoutExtension(model.CurrentView), model);

@@ -47,8 +47,11 @@ namespace NHS111.Models.Mappers.WebMappings
             protected override int ResolveCore(string source)
             {
                 if (!source.StartsWith("Dx")) throw new FormatException("Dx code does not have prefix \"Dx\". Cannot convert");
+                var code = source.Replace("Dx", "");
+                if (code.Length == 3)
+                    return Convert.ToInt32("11" + code);
 
-                return Convert.ToInt32(source.Replace("Dx", "10"));
+                return Convert.ToInt32("10" + code);
             }
         }
 

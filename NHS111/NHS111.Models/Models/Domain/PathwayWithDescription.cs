@@ -2,10 +2,10 @@
 
 namespace NHS111.Models.Models.Domain
 {
-    public class PathwayWithDescriptions
+    public class PathwayWithDescription
     {
         public Pathway Pathway { get; set; }
 
-        public IEnumerable<PathwayMetaData> PathwayDescriptions { get; set; }
+        public PathwayMetaData PathwayData { get; set; }
     }
 }
