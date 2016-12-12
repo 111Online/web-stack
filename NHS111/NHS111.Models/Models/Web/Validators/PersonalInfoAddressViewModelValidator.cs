@@ -17,7 +17,7 @@ namespace NHS111.Models.Models.Web.Validators
                 .SetValidator(new PostCodeFormatValidator<PersonalInfoAddressViewModel, string>(u => u.Postcode))
                 .WithMessage("Please enter a valid UK postcode")
                 .SetValidator(new PostCodeAllowedValidator<PersonalInfoAddressViewModel, string>(u => u.Postcode))
-                .WithMessage("Sorry, this service is not available outside of Leeds, for medical advice please call 111.");
+                .WithMessage("Sorry, this service is not currently available in your area.  Please call NHS 111 for advice now.");
 
             RuleFor(a => a.AddressLine1).NotEmpty();
             RuleFor(a => a.City).NotEmpty();

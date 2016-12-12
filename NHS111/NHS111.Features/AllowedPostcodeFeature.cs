@@ -22,8 +22,8 @@ namespace NHS111.Features
             {
                 try
                 {
-                    var filePath = FeatureValue(new PostcodeFilePathDefaultSettingStrategy(), "PostcodeFilePath").Value;
-                    return new StreamReader(filePath);
+                    var filePath = FeatureValue(new PostcodeFilePathDefaultSettingStrategy(), "PostcodeFile").Value;
+                    return new StreamReader(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, filePath));
                 }
                 catch (Exception ex) // missing file
                 {

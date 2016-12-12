@@ -8,6 +8,6 @@ namespace NHS111.Features.Defaults
 {
     public class PostcodeFilePathDefaultSettingStrategy : IDefaultSettingStrategy
     {
-        public string Value { get { return @"Parser\Leeds postcodes.csv"; } }
+        public string Value { get { return @"postcodes.csv"; } }
     }
 }
