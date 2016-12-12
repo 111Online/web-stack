@@ -14,7 +14,6 @@ namespace NHS111.Models.Models.Web.Validators
         {
             RuleFor(p => p.Postcode)
                 .Cascade(CascadeMode.StopOnFirstFailure)
-                .NotEmpty().WithMessage("Empty text box")
                 .SetValidator(new PostCodeFormatValidator<PersonalInfoAddressViewModel, string>(u => u.Postcode))
                 .WithMessage("Please enter a valid UK postcode")
                 .SetValidator(new PostCodeAllowedValidator<PersonalInfoAddressViewModel, string>(u => u.Postcode))

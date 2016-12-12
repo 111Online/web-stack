@@ -22,7 +22,14 @@
     </ul>
 </div>
 
-@Html.Partial("_FindService", Model, new ViewDataDictionary { { "Title", "Find a service that can help you" }, { "ButtonText", "Find a healthcare service" }, { "Label", "healthcare services" }, { "ITK", true } })
+@{
+    var dataDictionary = ViewContext.ViewData;
+    dataDictionary.Add(new KeyValuePair<string, object>("Title", "Find a service that can help you"));
+    dataDictionary.Add(new KeyValuePair<string, object>("ButtonText", "Find a healthcare service"));
+    dataDictionary.Add(new KeyValuePair<string, object>("Label", "healthcare services"));
+    dataDictionary.Add(new KeyValuePair<string, object>("ITK", true));
+}
+@Html.Partial("_FindService", Model, dataDictionary)
 
 <div class="outcome-additional-info">
     <h3 class="outcome-additional-info-header">Did you know?</h3>

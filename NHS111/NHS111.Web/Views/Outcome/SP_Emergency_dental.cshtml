@@ -17,7 +17,13 @@
     @Html.Partial("_FeedbackDetails", new FeedbackViewModel() { PageId = Model.Id })
 }
 
-@Html.Partial("_FindService", Model, new ViewDataDictionary { { "Title", "Find an emergency dental service that can see you" }, { "ButtonText", "Find an emergency dental service" }, { "Label", "emergency dental treatment centres" } })
+@{
+    var dataDictionary = ViewContext.ViewData;
+    dataDictionary.Add(new KeyValuePair<string, object>("Title", "Find an emergency dental service that can see you"));
+    dataDictionary.Add(new KeyValuePair<string, object>("ButtonText", "Find an emergency dental service"));
+    dataDictionary.Add(new KeyValuePair<string, object>("Label", "emergency dental treatment centres"));
+}
+@Html.Partial("_FindService", Model, dataDictionary)
 
 <div class="outcome-additional-info">
     <h3 class="outcome-additional-info-header">
