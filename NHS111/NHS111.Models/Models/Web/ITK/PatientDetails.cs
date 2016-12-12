@@ -10,7 +10,7 @@ namespace NHS111.Models.Models.Web.ITK
         public string Gender { get; set; }
         public string ServiceAddressPostcode { get; set; }
         public Address HomeAddress { get; set; }
-        public string CurrentLocationPostcode { get; set; }
+        public Address CurrentAddress { get; set; }
         public GpPractice GpPractice { get; set; }
         public string TelephoneNumber { get; set; }
     }
