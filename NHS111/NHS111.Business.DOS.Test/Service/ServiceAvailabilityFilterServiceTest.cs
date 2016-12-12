@@ -20,6 +20,7 @@ namespace NHS111.Business.DOS.Test.Service
     {
         private Mock<Configuration.IConfiguration> _mockConfiguration;
         private Mock<IDosService> _mockDosService;
+        private Mock<IServiceAvailabilityProfileManager> _mockServiceAvailabilityProfileManager;
         private const string DOS_USERNAME = "made_up_user";
         private const string DOS_PASSWORD = "made_up_password";
         private const string FILTERED_DISPOSITION_CODES = "1005|1006|1007|1008";
@@ -52,16 +53,34 @@ namespace NHS111.Business.DOS.Test.Service
         [SetUp]
         public void SetUp()
         {
+            var workingDayPrimaryCareInHoursEndTime = new LocalTime(18, 0);
+            var workingDayPrimaryCareInHoursShoulderEndTime = new LocalTime(9, 0);
+            var workingDayPrimaryCareInHoursStartTime = new LocalTime(8, 0);
+
+            var filteredDosServiceIds = FILTERED_DOS_SERVICE_IDS.Split('|').Select(i => Convert.ToInt32(i)).ToList();
+            var filteredDispositionCodes = FILTERED_DISPOSITION_CODES.Split('|').Select(i => Convert.ToInt32(i)).ToList();
+            var t = filteredDispositionCodes.OrderBy(i => i).Last();
+            var mockServiceAvailabliityProfileResponse = new ServiceAvailabilityProfile(
+                new ProfileHoursOfOperation(workingDayPrimaryCareInHoursStartTime,
+                    workingDayPrimaryCareInHoursShoulderEndTime, workingDayPrimaryCareInHoursEndTime)
+                , filteredDosServiceIds);
+
+            var mockServiceAvailabliityDefaultProfileResponse = new ServiceAvailabilityProfile(new ProfileHoursOfOperation(new LocalTime(0, 0), new LocalTime(0, 0), new LocalTime(0, 0)), new List<int>());
+
+
             _mockConfiguration = new Mock<Configuration.IConfiguration>();
             _mockDosService = new Mock<IDosService>();
-
+            _mockServiceAvailabilityProfileManager = new Mock<IServiceAvailabilityProfileManager>();
+            
             _mockConfiguration.Setup(c => c.DosUsername).Returns(DOS_USERNAME);
             _mockConfiguration.Setup(c => c.DosPassword).Returns(DOS_PASSWORD);
-            _mockConfiguration.Setup(c => c.FilteredDispositionCodes).Returns(FILTERED_DISPOSITION_CODES);
-            _mockConfiguration.Setup(c => c.FilteredDosServiceIds).Returns(FILTERED_DOS_SERVICE_IDS);
-            _mockConfiguration.SetupGet(c => c.WorkingDayInHoursEndTime).Returns(new LocalTime(18, 0));
-            _mockConfiguration.SetupGet(c => c.WorkingDayInHoursShoulderEndTime).Returns(new LocalTime(9, 0));
-            _mockConfiguration.SetupGet(c => c.WorkingDayInHoursStartTime).Returns(new LocalTime(8, 0));
+            _mockConfiguration.Setup(c => c.FilteredPrimaryCareDispositionCodes).Returns(FILTERED_DISPOSITION_CODES);
+            _mockConfiguration.Setup(c => c.FilteredPrimaryCareDosServiceIds).Returns(FILTERED_DOS_SERVICE_IDS);
+
+            _mockServiceAvailabilityProfileManager.Setup(c => c.FindServiceAvailability(It.IsInRange<int>(filteredDispositionCodes.OrderBy(i => i).First(), filteredDispositionCodes.OrderBy(i => i).Last(), Range.Inclusive)))
+                .Returns(mockServiceAvailabliityProfileResponse);
+            _mockServiceAvailabilityProfileManager.Setup(c => c.FindServiceAvailability(It.IsNotIn<int>(filteredDispositionCodes)))
+                .Returns(mockServiceAvailabliityDefaultProfileResponse);
         }
 
         [Test]
@@ -77,7 +96,7 @@ namespace NHS111.Business.DOS.Test.Service
 
             _mockDosService.Setup(x => x.GetServices(It.IsAny<HttpRequestMessage>())).Returns(Task<HttpResponseMessage>.Factory.StartNew(() => fakeResponse));
 
-            var sut = new ServiceAvailabilityFilterService(_mockDosService.Object, _mockConfiguration.Object);
+            var sut = new ServiceAvailabilityFilterService(_mockDosService.Object, _mockConfiguration.Object, _mockServiceAvailabilityProfileManager.Object);
 
             //Act
             var result = await sut.GetFilteredServices(fakeRequest);
@@ -102,7 +121,7 @@ namespace NHS111.Business.DOS.Test.Service
 
             _mockDosService.Setup(x => x.GetServices(It.IsAny<HttpRequestMessage>())).Returns(Task<HttpResponseMessage>.Factory.StartNew(() => fakeResponse));
 
-            var sut = new ServiceAvailabilityFilterService(_mockDosService.Object, _mockConfiguration.Object);
+            var sut = new ServiceAvailabilityFilterService(_mockDosService.Object, _mockConfiguration.Object, _mockServiceAvailabilityProfileManager.Object);
 
             //Act
             var result = await sut.GetFilteredServices(fakeRequest);
@@ -128,7 +147,7 @@ namespace NHS111.Business.DOS.Test.Service
 
             _mockDosService.Setup(x => x.GetServices((It.IsAny<HttpRequestMessage>()))).Returns(Task<HttpResponseMessage>.Factory.StartNew(() => fakeResponse));
 
-            var sut = new ServiceAvailabilityFilterService(_mockDosService.Object, _mockConfiguration.Object);
+            var sut = new ServiceAvailabilityFilterService(_mockDosService.Object, _mockConfiguration.Object, _mockServiceAvailabilityProfileManager.Object);
 
             //Act
             var result = await sut.GetFilteredServices(request);
@@ -154,7 +173,7 @@ namespace NHS111.Business.DOS.Test.Service
 
             _mockDosService.Setup(x => x.GetServices((It.IsAny<HttpRequestMessage>()))).Returns(Task<HttpResponseMessage>.Factory.StartNew(() => fakeResponse));
 
-            var sut = new ServiceAvailabilityFilterService(_mockDosService.Object, _mockConfiguration.Object);
+            var sut = new ServiceAvailabilityFilterService(_mockDosService.Object, _mockConfiguration.Object, _mockServiceAvailabilityProfileManager.Object);
 
             //Act
             var result = await sut.GetFilteredServices(request);
@@ -180,7 +199,7 @@ namespace NHS111.Business.DOS.Test.Service
 
             _mockDosService.Setup(x => x.GetServices((It.IsAny<HttpRequestMessage>()))).Returns(Task<HttpResponseMessage>.Factory.StartNew(() => fakeResponse));
 
-            var sut = new ServiceAvailabilityFilterService(_mockDosService.Object, _mockConfiguration.Object);
+            var sut = new ServiceAvailabilityFilterService(_mockDosService.Object, _mockConfiguration.Object, _mockServiceAvailabilityProfileManager.Object);
 
             //Act
             var result = await sut.GetFilteredServices(request);
@@ -206,7 +225,7 @@ namespace NHS111.Business.DOS.Test.Service
 
             _mockDosService.Setup(x => x.GetServices((It.IsAny<HttpRequestMessage>()))).Returns(Task<HttpResponseMessage>.Factory.StartNew(() => fakeResponse));
 
-            var sut = new ServiceAvailabilityFilterService(_mockDosService.Object, _mockConfiguration.Object);
+            var sut = new ServiceAvailabilityFilterService(_mockDosService.Object, _mockConfiguration.Object, _mockServiceAvailabilityProfileManager.Object);
 
             //Act
             var result = await sut.GetFilteredServices(request);
@@ -232,7 +251,7 @@ namespace NHS111.Business.DOS.Test.Service
 
             _mockDosService.Setup(x => x.GetServices((It.IsAny<HttpRequestMessage>()))).Returns(Task<HttpResponseMessage>.Factory.StartNew(() => fakeResponse));
 
-            var sut = new ServiceAvailabilityFilterService(_mockDosService.Object, _mockConfiguration.Object);
+            var sut = new ServiceAvailabilityFilterService(_mockDosService.Object, _mockConfiguration.Object, _mockServiceAvailabilityProfileManager.Object);
 
             //Act
             var result = await sut.GetFilteredServices(request);

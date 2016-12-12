@@ -13,19 +13,19 @@ namespace NHS111.Business.DOS.Configuration
     public class Configuration : IConfiguration
     {
 
-        public LocalTime WorkingDayInHoursStartTime
+        public LocalTime WorkingDayPrimaryCareInHoursStartTime
         {
-            get { return Get(ConfigurationManager.AppSettings["WorkingDayInHoursStartTime"]); }
+            get { return Get(ConfigurationManager.AppSettings["WorkingDayPrimaryCareInHoursStartTime"]); }
         }
 
-        public LocalTime WorkingDayInHoursEndTime
+        public LocalTime WorkingDayPrimaryCareInHoursEndTime
         {
-            get { return Get(ConfigurationManager.AppSettings["WorkingDayInHoursEndTime"]); }
+            get { return Get(ConfigurationManager.AppSettings["WorkingDayPrimaryCareInHoursEndTime"]); }
         }
 
-        public LocalTime WorkingDayInHoursShoulderEndTime
+        public LocalTime WorkingDayPrimaryCareInHoursShoulderEndTime
         {
-            get { return Get(ConfigurationManager.AppSettings["WorkingDayInHoursShoulderEndTime"]); }
+            get { return Get(ConfigurationManager.AppSettings["WorkingDayPrimaryCareInHoursShoulderEndTime"]); }
         }
 
         private LocalTime Get(string configText)
@@ -71,17 +71,45 @@ namespace NHS111.Business.DOS.Configuration
             }
         }
 
-        public string FilteredDispositionCodes
+        public string FilteredPrimaryCareDispositionCodes
         {
-            get { return ConfigurationManager.AppSettings["FilteredDispositionCodes"]; }
+            get { return ConfigurationManager.AppSettings["FilteredPrimaryCareDispositionCodes"]; }
         }
 
-        public string FilteredDosServiceIds
+        public string FilteredPrimaryCareDosServiceIds
         {
-            get { return ConfigurationManager.AppSettings["FilteredDosServiceIds"]; }
+            get { return ConfigurationManager.AppSettings["FilteredPrimaryCareDosServiceIds"]; }
         }
 
         public string DosUsername { get { return ConfigurationManager.AppSettings["dos_credential_user"]; } }
         public string DosPassword { get { return ConfigurationManager.AppSettings["dos_credential_password"]; } }
+
+
+        public string FilteredDentalDispositionCodes
+        {
+            get { return ConfigurationManager.AppSettings["FilteredDentalDispositionCodes"]; }
+        }
+
+
+        public string FilteredDentalDosServiceIds
+        {
+            get { return ConfigurationManager.AppSettings["FilteredDentalDosServiceIds"]; }
+        }
+
+
+        public LocalTime WorkingDayDentalInHoursStartTime
+        {
+            get { return Get(ConfigurationManager.AppSettings["WorkingDayDentalInHoursStartTime"]); }
+        }
+
+        public LocalTime WorkingDayDentalInHoursEndTime
+        {
+            get { return Get(ConfigurationManager.AppSettings["WorkingDayDentalInHoursEndTime"]); }
+        }
+
+        public LocalTime WorkingDayDentalInHoursShoulderEndTime
+        {
+            get { return Get(ConfigurationManager.AppSettings["WorkingDayDentalInHoursShoulderEndTime"]); }
+        }
     }
 }
