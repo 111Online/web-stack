@@ -152,7 +152,7 @@
                                                         <li>
                                                             <h5><a class="category linkButton bullet" href="javascript:void(0);">&bull; <span class="underline">@subCategory.Category.Title</span></a></h5>
                                                             <ul class="content">
-                                                                @foreach (var pathway in subCategory.Pathways)
+                                                                @foreach (var pathway in subCategory.Pathways.OrderBy(p => p.PathwayData.DigitalTitle))
                                                                 {
                                                                     <li><input type="submit" class="linkButton" value="@pathway.PathwayData.DigitalTitle" id="@pathway.Pathway.PathwayNo" /></li>
                                                                 }
@@ -164,7 +164,7 @@
                                             @if (topLevelCategory.Pathways != null && topLevelCategory.Pathways.Any())
                                             {
                                                 <ul class="content">
-                                                    @foreach (var pathway in topLevelCategory.Pathways)
+                                                    @foreach (var pathway in topLevelCategory.Pathways.OrderBy(p => p.PathwayData.DigitalTitle))
                                                     {
                                                         <li><input type="submit" class="linkButton" value="@pathway.PathwayData.DigitalTitle" id="@pathway.Pathway.PathwayNo" /></li>
                                                     }
