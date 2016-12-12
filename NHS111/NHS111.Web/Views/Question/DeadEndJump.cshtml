@@ -26,21 +26,9 @@
     @Html.HiddenFor(x => Model.StateJson)
 
     <h2 class="question-header">@Model.TitleWithoutBullets</h2>
-    foreach (var bullet in Model.Bullets)
-    {
-        <span class="red">@bullet</span>
-    }
-
-    <ul>
-        @foreach (var answer in Model.OrderedAnswers())
-        {
-            <li>
-                <input name="SelectedAnswer" type="radio" id="@answer.TitleWithoutSpaces" value="@Newtonsoft.Json.JsonConvert.SerializeObject(answer)" />
-                <label for="@answer.TitleWithoutSpaces">@answer.Title</label>
-            </li>
-        }
-    </ul>
-
+    <p>Your health assessment can’t be completed with the current online service.</p>
+    <p>Please call 111 now for help and advice. Calls to NHS 111 are free.</p>
+    <hr />
     if (!Model.IsFirstStep)
     {
         <input class="button previous-question" id="previousScreen" type="submit" name="PreviousQuestion" value="Previous question" />
