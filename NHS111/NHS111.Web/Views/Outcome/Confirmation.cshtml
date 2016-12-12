@@ -1,7 +1,10 @@
-﻿@using NHS111.Models.Models.Web
+﻿@using NHS111.Models.Models.Domain
+@using NHS111.Models.Models.Web
 @model OutcomeViewModel
 @{
     Layout = "~/Views/Shared/_LayoutNhsUk.cshtml";
+    var outcomeHeader = (!string.IsNullOrEmpty(Model.DispositionText) ? Model.DispositionText : Model.OutcomeGroup.GetDefaultTitle());
+    Model.WorseningCareAdvice.Items.Add(new CareAdviceText { Text = "You don't need to send any further requests for a callback. However, if you feel worse whilst you are waiting, please call 111 now." });
 }
 
 @section Title {
@@ -19,22 +22,23 @@
 
 <section>
     <div class="outcome-header">
-        <h2 class="heading-large">Your callback has been confirmed</h2>
+        <h2 class="heading-large">We have received your request for a callback</h2>
         <h3 class="heading-medium">
-            You'll receive a call from <strong>@WebUtility.HtmlDecode(Model.SelectedService.Name)</strong>
-            @(!string.IsNullOrEmpty(@Model.TimeFrameText) ? Html.Raw(string.Format("within <strong>{0}</strong>.", @Model.TimeFrameText)) : Html.Raw(string.Format(". <br />We have notified them of your outcome <strong>{0}</strong>.", @Model.Title)))
-        </h3>
-        @if (Model.DisplayWorseningCareAdvice)
-        {
-
-            foreach (var item in Model.WorseningCareAdvice.Items)
-            {
-                <div class="worsening-advice-icon confirmation">
-                    <p>@item.Text</p>
-                </div>
+            @* The below must appear on one line else the browser will include extraneous spaces *@
+            You'll receive a call from <strong>@WebUtility.HtmlDecode(Model.SelectedService.Name)</strong>@if (!string.IsNullOrEmpty(Model.TimeFrameText)) {
+                <span>@Html.Raw(string.Format(" within <strong>{0}</strong>.", Model.TimeFrameText))</span>
+            } else {
+                @(".")
             }
-
-
+        </h3>
+        @if (Model.DisplayWorseningCareAdvice) {
+            <div class="worsening-advice-icon confirmation">
+                <p>
+                    @foreach (var item in Model.WorseningCareAdvice.Items) {
+                        @(item.Text + " ");
+                    }
+                </p>
+            </div>
         }
     </div>
 </section>

@@ -1,5 +1,5 @@
 ﻿using System;
-using NHS111.Models.Models.Business;
+using System.Collections.Generic;
 using NHS111.Models.Models.Business.Enums;
 
 namespace NHS111.Business.DOS
@@ -11,5 +11,7 @@ namespace NHS111.Business.DOS
         string ProfileName { get; set; }
 
         DispositionTimePeriod GetServiceAvailability(DateTime dispositionDateTime, int timeFrameMinutes);
+
+        IEnumerable<int> ServiceTypeIdBlacklist { get; }
     }
 }

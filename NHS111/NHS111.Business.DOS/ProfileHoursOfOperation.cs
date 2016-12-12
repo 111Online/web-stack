@@ -5,27 +5,35 @@ using System.Linq;
 using NHS111.Business.DOS.Configuration;
 using NHS111.Models.Models.Business;
 using NHS111.Utils.Dates;
+using NodaTime;
 
 namespace NHS111.Business.DOS
 {
     public class ProfileHoursOfOperation : IProfileHoursOfOperation
     {
-        private readonly IConfiguration _configuration;
+       
+        private LocalTime _workingDayInHoursStartTime;
+        private LocalTime _workingDayInHoursShoulderEndTime;
+        private LocalTime _workingDayInHoursEndTime;
 
-        public ProfileHoursOfOperation(IConfiguration configuration)
+   
+        public ProfileHoursOfOperation(LocalTime workingDayInHoursStartTime, LocalTime workingDayInHoursShoulderEndTime,
+            LocalTime workingDayInHoursEndTime)
         {
-            _configuration = configuration;
+            _workingDayInHoursStartTime = workingDayInHoursStartTime;
+            _workingDayInHoursShoulderEndTime = workingDayInHoursShoulderEndTime;
+            _workingDayInHoursEndTime = workingDayInHoursEndTime;
         }
 
         public ProfileServiceTimes GetServiceTime(DateTime date)
         {
             if(IsNonWorkingDay(date)) return ProfileServiceTimes.OutOfHours;
 
-            if (date.Hour < _configuration.WorkingDayInHoursStartTime.Hour) return ProfileServiceTimes.OutOfHours;
+            if (date.Hour < _workingDayInHoursStartTime.Hour) return ProfileServiceTimes.OutOfHours;
 
-            if (date.Hour < _configuration.WorkingDayInHoursShoulderEndTime.Hour) return ProfileServiceTimes.InHoursShoulder;
+            if (date.Hour < _workingDayInHoursShoulderEndTime.Hour) return ProfileServiceTimes.InHoursShoulder;
 
-            return date.Hour < _configuration.WorkingDayInHoursEndTime.Hour ? ProfileServiceTimes.InHours : ProfileServiceTimes.OutOfHours;
+            return date.Hour < _workingDayInHoursEndTime.Hour ? ProfileServiceTimes.InHours : ProfileServiceTimes.OutOfHours;
         }
 
         public bool ContainsInHoursPeriod(DateTime startDateTime, DateTime endDateTime)
@@ -65,12 +73,12 @@ namespace NHS111.Business.DOS
 
         private DateTime GetInHoursStartDateTime(DateTime date)
         {
-            return new DateTime(date.Year, date.Month, date.Day, _configuration.WorkingDayInHoursStartTime.Hour, _configuration.WorkingDayInHoursStartTime.Minute, _configuration.WorkingDayInHoursStartTime.Second);
+            return new DateTime(date.Year, date.Month, date.Day, _workingDayInHoursStartTime.Hour, _workingDayInHoursStartTime.Minute, _workingDayInHoursStartTime.Second);
         }
 
         private DateTime GetInHoursEndDateTime(DateTime date)
         {
-            return new DateTime(date.Year, date.Month, date.Day, _configuration.WorkingDayInHoursEndTime.Hour, _configuration.WorkingDayInHoursEndTime.Minute, _configuration.WorkingDayInHoursEndTime.Second);
+            return new DateTime(date.Year, date.Month, date.Day, _workingDayInHoursEndTime.Hour, _workingDayInHoursEndTime.Minute, _workingDayInHoursEndTime.Second);
         }
     }
 }

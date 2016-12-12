@@ -67,7 +67,7 @@ namespace NHS111.Models.Mappers.WebMappings
             patientDetails.Surname = outcome.UserInfo.LastName;
             patientDetails.ServiceAddressPostcode = outcome.SelectedService.PostCode;
             patientDetails.TelephoneNumber = outcome.UserInfo.TelephoneNumber;
-            patientDetails.HomeAddress = new Address()
+            patientDetails.CurrentAddress = new Address()
             {
                 PostalCode = string.IsNullOrEmpty(outcome.AddressInfoViewModel.Postcode) ? null : outcome.AddressInfoViewModel.Postcode,
                 StreetAddressLine1 =
@@ -84,7 +84,7 @@ namespace NHS111.Models.Mappers.WebMappings
                     new DateTime(outcome.UserInfo.Year.Value, outcome.UserInfo.Month.Value, outcome.UserInfo.Day.Value);
 
             patientDetails.Gender = outcome.UserInfo.Demography.Gender;
-            if (outcome.UserInfo.CurrentAddress != null) patientDetails.CurrentLocationPostcode = outcome.UserInfo.CurrentAddress.Postcode;
+            
             return patientDetails;
         }
     }
