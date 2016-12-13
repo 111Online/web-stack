@@ -4,7 +4,7 @@ using System.Linq;
 using NHS111.Models.Models.Business.Enums;
 using NHS111.Models.Models.Web.DosRequests;
 
-namespace NHS111.Business.DOS
+namespace NHS111.Business.DOS.ServiceAviliablility
 {
     public class ServiceAvailability : IServiceAvailability
     {
@@ -22,7 +22,7 @@ namespace NHS111.Business.DOS
         {
         }
 
-        public List<Models.Models.Web.FromExternalServices.DosService> Filter(List<Models.Models.Web.FromExternalServices.DosService> resultsToFilter)
+        public virtual List<Models.Models.Web.FromExternalServices.DosService> Filter(List<Models.Models.Web.FromExternalServices.DosService> resultsToFilter)
         {
             return !this.IsOutOfHours
                 ? resultsToFilter.Where(
