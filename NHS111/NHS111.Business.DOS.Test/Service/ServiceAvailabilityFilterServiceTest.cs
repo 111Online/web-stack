@@ -9,6 +9,7 @@ using Moq;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using NHS111.Business.DOS.Service;
+using NHS111.Business.DOS.ServiceAviliablility;
 using NHS111.Models.Models.Web.DosRequests;
 using NHS111.Models.Models.Web.FromExternalServices;
 using NodaTime;
@@ -30,7 +31,6 @@ namespace NHS111.Business.DOS.Test.Service
         private const string FILTERED_DENTAL_DOS_SERVICE_IDS = "100|123|117|40|25|12";
 
         private ServiceAvailabilityProfile _mockServiceAvailabliityProfileResponse;
-        private ServiceAvailabilityProfile _mockServiceAvailabliityDefaultProfileResponse = new ServiceAvailabilityProfile(new ProfileHoursOfOperation(new LocalTime(0, 0), new LocalTime(0, 0), new LocalTime(0, 0)), new List<int>());
         private static readonly string CheckCapacitySummaryResults = @"{
             ""CheckCapacitySummaryResult"": [{
                     ""idField"": 1419419101,
@@ -62,7 +62,9 @@ namespace NHS111.Business.DOS.Test.Service
             var workingDayPrimaryCareInHoursShoulderEndTime = new LocalTime(9, 0);
             var workingDayPrimaryCareInHoursStartTime = new LocalTime(8, 0);
 
-            var filteredDispositionCodes = FILTERED_DISPOSITION_CODES.Split('|').Select(i => Convert.ToInt32(i)).ToList();
+            var workingDayDentalInHoursEndTime = new LocalTime(22, 0);
+            var workingDayDentalInHoursShoulderEndTime = new LocalTime(7, 30);
+            var workingDayDentalInHoursStartTime = new LocalTime(7, 30);
 
             _mockConfiguration = new Mock<Configuration.IConfiguration>();
             _mockDosService = new Mock<IDosService>();
@@ -80,6 +82,13 @@ namespace NHS111.Business.DOS.Test.Service
                 .Returns(workingDayPrimaryCareInHoursShoulderEndTime);
             _mockConfiguration.Setup(c => c.WorkingDayPrimaryCareInHoursEndTime)
                 .Returns(workingDayPrimaryCareInHoursEndTime);
+
+            _mockConfiguration.Setup(c => c.WorkingDayDentalInHoursStartTime)
+               .Returns(workingDayDentalInHoursStartTime);
+            _mockConfiguration.Setup(c => c.WorkingDayDentalInHoursShoulderEndTime)
+                .Returns(workingDayDentalInHoursShoulderEndTime);
+            _mockConfiguration.Setup(c => c.WorkingDayDentalInHoursEndTime)
+                .Returns(workingDayDentalInHoursEndTime);
         }
 
         [Test]
@@ -211,6 +220,62 @@ namespace NHS111.Business.DOS.Test.Service
 
             var sut = new ServiceAvailablityManager(_mockConfiguration.Object).FindServiceAvailability(fakeDoSFilteredCase);
             
+            //Act
+            var result = sut.Filter(results);
+
+            //Assert 
+
+            Assert.AreEqual(1, result.Count());
+        }
+
+        [Test]
+        public async void Dental_out_of_hours_traversing_in_hours_should_return_filtered_CheckCapacitySummaryResult()
+        {
+            var jObj = (JObject)JsonConvert.DeserializeObject(CheckCapacitySummaryResults);
+            var results = jObj["CheckCapacitySummaryResult"].ToObject<List<Models.Models.Web.FromExternalServices.DosService>>();
+
+            var fakeDoSFilteredCase = new DosFilteredCase() { PostCode = "So30 2Un", Disposition = 1017, DispositionTime = new DateTime(2016, 12, 1, 22, 1, 0), DispositionTimeFrameMinutes = 1440 };
+
+
+            var sut = new ServiceAvailablityManager(_mockConfiguration.Object).FindServiceAvailability(fakeDoSFilteredCase);
+
+            //Act
+            var result = sut.Filter(results);
+
+            //Assert 
+
+            Assert.AreEqual(1, result.Count());
+        }
+
+        [Test]
+        public async void Dental_in_hours_shoulder_should_return_filtered_CheckCapacitySummaryResult()
+        {
+            var jObj = (JObject)JsonConvert.DeserializeObject(CheckCapacitySummaryResults);
+            var results = jObj["CheckCapacitySummaryResult"].ToObject<List<Models.Models.Web.FromExternalServices.DosService>>();
+
+            var fakeDoSFilteredCase = new DosFilteredCase() { PostCode = "So30 2Un", Disposition = 1017, DispositionTime = new DateTime(2016, 11, 23, 7, 31, 0), DispositionTimeFrameMinutes = 720 };
+
+            var sut = new ServiceAvailablityManager(_mockConfiguration.Object).FindServiceAvailability(fakeDoSFilteredCase);
+
+            //Act
+            var result = sut.Filter(results);
+
+            //Assert 
+
+            Assert.AreEqual(1, result.Count());
+        }
+
+        [Test]
+        public async void Dental_out_of_hours_should_return_filtered_CheckCapacitySummaryResult()
+        {
+            var jObj = (JObject)JsonConvert.DeserializeObject(CheckCapacitySummaryResults);
+            var results = jObj["CheckCapacitySummaryResult"].ToObject<List<Models.Models.Web.FromExternalServices.DosService>>();
+
+
+            var fakeDoSFilteredCase = new DosFilteredCase() { PostCode = "So30 2Un", Disposition = 1017, DispositionTime = new DateTime(2016, 11, 23, 23, 30, 0), DispositionTimeFrameMinutes = 60 };
+
+
+            var sut = new ServiceAvailablityManager(_mockConfiguration.Object).FindServiceAvailability(fakeDoSFilteredCase);
             //Act
             var result = sut.Filter(results);
 

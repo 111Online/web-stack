@@ -7,7 +7,7 @@ using NHS111.Models.Models.Business;
 using NHS111.Utils.Dates;
 using NodaTime;
 
-namespace NHS111.Business.DOS
+namespace NHS111.Business.DOS.ServiceAviliablility
 {
     public class ProfileHoursOfOperation : IProfileHoursOfOperation
     {
@@ -25,7 +25,7 @@ namespace NHS111.Business.DOS
             _workingDayInHoursEndTime = workingDayInHoursEndTime;
         }
 
-        public ProfileServiceTimes GetServiceTime(DateTime date)
+        public virtual ProfileServiceTimes GetServiceTime(DateTime date)
         {
             if(IsNonWorkingDay(date)) return ProfileServiceTimes.OutOfHours;
 
@@ -36,7 +36,7 @@ namespace NHS111.Business.DOS
             return date.Hour < _workingDayInHoursEndTime.Hour ? ProfileServiceTimes.InHours : ProfileServiceTimes.OutOfHours;
         }
 
-        public bool ContainsInHoursPeriod(DateTime startDateTime, DateTime endDateTime)
+        public virtual bool ContainsInHoursPeriod(DateTime startDateTime, DateTime endDateTime)
         {
             var days = GetListOfDatesInPeriod(startDateTime, endDateTime);
             if (days.TrueForAll(IsNonWorkingDay)) return false;
@@ -50,12 +50,12 @@ namespace NHS111.Business.DOS
                         GetInHoursEndDateTime(d)));
         }
 
-        private static bool OverlapsInHoursPeriod(DateTime startDateTime, DateTime endDateTime, DateTime inHoursStartDateTime, DateTime inHoursEndDateTime)
+        protected static bool OverlapsInHoursPeriod(DateTime startDateTime, DateTime endDateTime, DateTime inHoursStartDateTime, DateTime inHoursEndDateTime)
         {
             return startDateTime < inHoursEndDateTime && inHoursStartDateTime < endDateTime;
         }
 
-        private static List<DateTime> GetListOfDatesInPeriod(DateTime startDateTime, DateTime endDateTime)
+        protected static List<DateTime> GetListOfDatesInPeriod(DateTime startDateTime, DateTime endDateTime)
         {
             var days = new List<DateTime>();
             for (var date = startDateTime; date.Date <= endDateTime.Date; date = date.AddDays(1))
@@ -65,18 +65,18 @@ namespace NHS111.Business.DOS
             return days;
         }
 
-        private static bool IsNonWorkingDay(DateTime date)
+        protected static bool IsNonWorkingDay(DateTime date)
         {
             var dt = date.Date;
             return NonWorkingDays.IsWeekend(dt) || NonWorkingDays.IsBankHoliday(dt);
         }
 
-        private DateTime GetInHoursStartDateTime(DateTime date)
+        protected DateTime GetInHoursStartDateTime(DateTime date)
         {
             return new DateTime(date.Year, date.Month, date.Day, _workingDayInHoursStartTime.Hour, _workingDayInHoursStartTime.Minute, _workingDayInHoursStartTime.Second);
         }
 
-        private DateTime GetInHoursEndDateTime(DateTime date)
+        protected DateTime GetInHoursEndDateTime(DateTime date)
         {
             return new DateTime(date.Year, date.Month, date.Day, _workingDayInHoursEndTime.Hour, _workingDayInHoursEndTime.Minute, _workingDayInHoursEndTime.Second);
         }

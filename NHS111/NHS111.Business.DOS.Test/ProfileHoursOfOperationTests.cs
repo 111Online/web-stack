@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Moq;
 using NHS111.Business.DOS;
 using NHS111.Business.DOS.Configuration;
+using NHS111.Business.DOS.ServiceAviliablility;
 using NHS111.Models.Models.Business;
 using NodaTime;
 using NUnit.Framework;
@@ -16,7 +17,7 @@ namespace NHS111.Business.DOS.Tests
     {
         private readonly Mock<IConfiguration> _mockConfiguration = new Mock<IConfiguration>();
         private ProfileHoursOfOperation _profileHoursOfOperation;
-
+        private DentalProfileHoursOfOperation _dentalProfileHoursOfOperation;
         [SetUp]
         public void SetupConfig()
         {
@@ -24,6 +25,11 @@ namespace NHS111.Business.DOS.Tests
             var workingDayPrimaryCareInHoursShoulderEndTime = new LocalTime(9, 0);
             var workingDayPrimaryCareInHoursStartTime = new LocalTime(8, 0);
             _profileHoursOfOperation = new ProfileHoursOfOperation(workingDayPrimaryCareInHoursStartTime, workingDayPrimaryCareInHoursShoulderEndTime, workingDayPrimaryCareInHoursEndTime);
+
+            var workingDayDentalInHoursEndTime = new LocalTime(22, 0);
+            var workingDayDentalInHoursShoulderEndTime = new LocalTime(7, 30);
+            var workingDayDentalInHoursStartTime = new LocalTime(7, 30);
+            _dentalProfileHoursOfOperation = new DentalProfileHoursOfOperation(workingDayDentalInHoursStartTime, workingDayDentalInHoursShoulderEndTime, workingDayDentalInHoursEndTime);
         }
 
         [Test()]
@@ -171,6 +177,35 @@ namespace NHS111.Business.DOS.Tests
         {
             var result = _profileHoursOfOperation.ContainsInHoursPeriod(new DateTime(2016, 8, 27, 10, 0, 0), new DateTime(2016, 8, 29, 17, 0, 0));
             Assert.IsFalse(result);
+        }
+
+
+        [Test()]
+        public void GetServiceTime_Dental_Weekend_InHours_Test()
+        {
+            var result = _dentalProfileHoursOfOperation.GetServiceTime(new DateTime(2016, 11, 19, 10, 0, 0));
+            Assert.AreEqual(ProfileServiceTimes.InHours, result);
+        }
+
+        [Test()]
+        public void GetServiceTime_Dental_Weekday_Out_Of_Hours_Before_Test()
+        {
+            var result = _dentalProfileHoursOfOperation.GetServiceTime(new DateTime(2016, 11, 18, 3, 30, 0));
+            Assert.AreEqual(ProfileServiceTimes.OutOfHours, result);
+        }
+
+        [Test()]
+        public void GetServiceTime_Dental_Weekday_End_In_Hours_Limit_Test()
+        {
+            var result = _dentalProfileHoursOfOperation.GetServiceTime(new DateTime(2016, 11, 18, 21, 59, 59));
+            Assert.AreEqual(ProfileServiceTimes.InHours, result);
+        }
+
+        [Test()]
+        public void GetServiceTime_Dental_Weekend_Out_Of_Hours_Test()
+        {
+            var result = _dentalProfileHoursOfOperation.GetServiceTime(new DateTime(2016, 11, 19, 07, 29, 59));
+            Assert.AreEqual(ProfileServiceTimes.OutOfHours, result);
         }
     }
 }
