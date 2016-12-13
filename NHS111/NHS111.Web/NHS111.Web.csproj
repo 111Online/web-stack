@@ -780,7 +780,7 @@
     <Content Include="Views\Question\InlineCareAdvice.cshtml" />
     <Content Include="Views\Shared\_CommonHiddenFieldsNode.cshtml" />
     <Content Include="Views\Shared\_GenderAgeView.cshtml" />
-    <Content Include="Leeds postcodes.csv" />
+    <Content Include="leeds-postcodes.csv" />
     <None Include="Web.Development.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
