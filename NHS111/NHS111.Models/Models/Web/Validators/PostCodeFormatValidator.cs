@@ -22,7 +22,7 @@ namespace NHS111.Models.Models.Web.Validators
 
         protected override bool IsValid(PropertyValidatorContext context)
         {
-            var personalInfoAddressViewModel = context.Instance as PersonalInfoAddressViewModel;
+            var personalInfoAddressViewModel = context.Instance as FindServicesAddressViewModel;
 
             return IsAValidPostcode(personalInfoAddressViewModel.Postcode);
         }

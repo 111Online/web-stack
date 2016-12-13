@@ -19,4 +19,9 @@ namespace NHS111.Models.Models.Web
     {  
     }
 
+    [Validator(typeof(FindServicesAddressViewModelValidator))]
+    public class FindServicesAddressViewModel : AddressInfoViewModel
+    {
+    }
+
 }
