@@ -19,13 +19,13 @@ namespace NHS111.Business.DOS.Service
     {
         private readonly IDosService _dosService;
         private readonly IConfiguration _configuration;
-        private readonly IServiceAvailabilityProfileManager _serviceAvailabilityProfileManager;
+        private readonly IServiceAvailabilityManager _serviceAvailabilityManager;
 
-        public ServiceAvailabilityFilterService(IDosService dosService, IConfiguration configuration, IServiceAvailabilityProfileManager serviceAvailabilityProfileManager)
+        public ServiceAvailabilityFilterService(IDosService dosService, IConfiguration configuration, IServiceAvailabilityManager serviceAvailabilityManager)
         {
             _dosService = dosService;
             _configuration = configuration;
-            _serviceAvailabilityProfileManager = serviceAvailabilityProfileManager;
+            _serviceAvailabilityManager = serviceAvailabilityManager;
         }
 
         public async Task<HttpResponseMessage> GetFilteredServices(HttpRequestMessage request)
@@ -43,11 +43,10 @@ namespace NHS111.Business.DOS.Service
             var services = jObj["CheckCapacitySummaryResult"];
             var results = services.ToObject<List<Models.Models.Web.FromExternalServices.DosService>>();
 
-            var serviceAvailabilityProfile =
-                _serviceAvailabilityProfileManager.FindServiceAvailability(dosFilteredCase.Disposition);
+            var serviceAvailability =
+                _serviceAvailabilityManager.FindServiceAvailability(dosFilteredCase);
 
-            var serviceAvailability = new ServiceAvailability(serviceAvailabilityProfile, dosFilteredCase.DispositionTime, dosFilteredCase.DispositionTimeFrameMinutes);
-            return BuildResponseMessage(!serviceAvailability.IsOutOfHours ? results.Where(s => !serviceAvailabilityProfile.ServiceTypeIdBlacklist.Contains((int)s.ServiceType.Id)).ToList() : results);
+            return BuildResponseMessage(serviceAvailability.Filter(results));
         }
 
 

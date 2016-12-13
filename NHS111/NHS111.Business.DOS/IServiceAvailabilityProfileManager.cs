@@ -2,11 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using NHS111.Models.Models.Web.DosRequests;
 
 namespace NHS111.Business.DOS
 {
-    public interface IServiceAvailabilityProfileManager
+    public interface IServiceAvailabilityManager
     {
-        IServiceAvailabilityProfile FindServiceAvailability(int dxCode);
+        IServiceAvailability FindServiceAvailability(DosFilteredCase dosFilteredCase);
     }
 }
