@@ -73,8 +73,9 @@
                     <p>Please check you have entered the postcode correctly, then try again. <br/><br/> If the search still gives no results, please call 111 for advice.</p>
                     <br/>
                     }
-                    @Html.LabelFor(m => m.UserInfo.CurrentAddress.PostCode, "Postcode")
-                    @Html.TextBoxFor(m => m.UserInfo.CurrentAddress.PostCode, new { @class = "form-control " + (error ? "error" : "") })
+                    @Html.ValidationMessageFor(m => m.UserInfo.CurrentAddress.Postcode)
+                    @Html.LabelFor(m => m.UserInfo.CurrentAddress.Postcode, "Postcode")
+                    @Html.TextBoxFor(m => m.UserInfo.CurrentAddress.Postcode, new { @class = "form-control " + (error ? "error" : "") })
                     <input class="button button-next" type="submit" name="DosResults" value="@Html.Raw(ViewData["ButtonText"])">
 
                 </div>

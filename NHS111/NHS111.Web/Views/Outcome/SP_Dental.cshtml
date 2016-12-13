@@ -28,8 +28,15 @@
     </ul>
 </div>
 
+@{
+    var dataDictionary = ViewContext.ViewData;
+    dataDictionary.Add(new KeyValuePair<string, object>("Title", "Find a dental service"));
+    dataDictionary.Add(new KeyValuePair<string, object>("ButtonText", "Find a dental service"));
+    dataDictionary.Add(new KeyValuePair<string, object>("Label", "Dental treatment centres"));
+    dataDictionary.Add(new KeyValuePair<string, object>("ITK", true));
+}
+@Html.Partial("_FindService", Model, dataDictionary)
 
-@Html.Partial("_FindService", Model, new ViewDataDictionary { { "Title", "Find a dental service" }, { "ButtonText", "Find a dental service" }, { "Label", "dental treatment centres" }, { "ITK", true } })
 <div class="outcome-additional-info">
     <h3 class="outcome-additional-info-header">
         Advice for getting dental treatment

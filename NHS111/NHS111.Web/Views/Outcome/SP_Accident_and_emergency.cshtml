@@ -18,7 +18,13 @@
 
 @Html.Partial("_OutcomeHeader", new ViewDataDictionary() { { "OutcomeHeader", string.Format("Your answers suggest you need urgent medical attention within {0}", Model.TimeFrameText) } })
 
-@Html.Partial("_FindService", Model, new ViewDataDictionary { { "Title", "Find a service that can see you" }, { "ButtonText", "Find a service" }, { "Label", "Urgent healthcare services" } })
+@{
+    var dataDictionary = ViewContext.ViewData;
+    dataDictionary.Add(new KeyValuePair<string, object>("Title", "Find a service that can see you"));
+    dataDictionary.Add(new KeyValuePair<string, object>("ButtonText", "Find a service"));
+    dataDictionary.Add(new KeyValuePair<string, object>("Label", "Urgent healthcare services"));
+}
+@Html.Partial("_FindService", Model, dataDictionary)
 
 <section>
     <div class="outcome-additional-info">

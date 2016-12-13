@@ -30,7 +30,14 @@
     </div>
 </section>
 
-@Html.Partial("_FindService", Model, new ViewDataDictionary { { "Title", "Find a service that can help you" }, { "ButtonText", "Find a service" }, { "Label", "Antenatal services" }, { "ITK", true } })
+@{
+    var dataDictionary = ViewContext.ViewData;
+    dataDictionary.Add(new KeyValuePair<string, object>("Title", "Find a service that can help you"));
+    dataDictionary.Add(new KeyValuePair<string, object>("ButtonText", "Find a service"));
+    dataDictionary.Add(new KeyValuePair<string, object>("Label", "Antenatal services"));
+    dataDictionary.Add(new KeyValuePair<string, object>("ITK", true));
+}
+@Html.Partial("_FindService", Model, dataDictionary)
 
 @Html.Partial("_WorseningAdvice", Model)
 

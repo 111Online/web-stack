@@ -12,7 +12,7 @@
     @Html.Partial("_FeedbackDetails", new FeedbackViewModel() { PageId = Model.Id })
 }
 
-<link href="~/content/css_NhsUk/personaldetails.css" media="screen" rel="stylesheet" type="text/css"/>
+<link href="~/content/css_NhsUk/personaldetails.css" media="screen" rel="stylesheet" type="text/css" />
 <link href="~/content/css_NhsUk/service.css" media="screen" rel="stylesheet" type="text/css" />
 
 <section>
@@ -57,7 +57,7 @@
                     @Html.ValidationMessageFor(m => m.UserInfo.LastName, "Please enter your last name")
                 </div>
                 <div class="inline-details">
-                    @Html.TextBoxFor(m => m.UserInfo.FirstName, new {@class = "form-control form-control-6-chars", placeholder = "First name"})
+                    @Html.TextBoxFor(m => m.UserInfo.FirstName, new { @class = "form-control form-control-6-chars", placeholder = "First name" })
                     @Html.TextBoxFor(m => m.UserInfo.LastName, new { @class = "form-control form-control-6-chars", placeholder = "Last name" })
                 </div>
 
@@ -69,10 +69,10 @@
                     For example 18 4 1973
                 </label>
                 <div class="inline-details">
-                    @Html.TextBoxFor(m => m.UserInfo.Day, new {@class = "form-control form-control-2-chars", placeholder = "DD"})
-                    @Html.TextBoxFor(m => m.UserInfo.Month, new {@class = "form-control form-control-2-chars", placeholder = "MM"})
-                    @Html.TextBoxFor(m => m.UserInfo.Year, new {@class = "form-control form-control-4-chars", placeholder = "YYYY"}) 
-               
+                    @Html.TextBoxFor(m => m.UserInfo.Day, new { @class = "form-control form-control-2-chars", placeholder = "DD" })
+                    @Html.TextBoxFor(m => m.UserInfo.Month, new { @class = "form-control form-control-2-chars", placeholder = "MM" })
+                    @Html.TextBoxFor(m => m.UserInfo.Year, new { @class = "form-control form-control-4-chars", placeholder = "YYYY" })
+
                 </div>
 
 
@@ -83,39 +83,34 @@
                 <div class="inline-details">
                     @Html.TextBoxFor(m => m.UserInfo.TelephoneNumber, new { @class = "form-control", placeholder = "Landline or mobile number" })
                 </div>
-                @Html.Partial("_PersonalPostCodeSearch", Model.AddressInfoViewModel, new ViewDataDictionary { TemplateInfo = new TemplateInfo { HtmlFieldPrefix = "AddressInfoViewModel" } })
+                @{
+                    var dataDictionary = ViewContext.ViewData;
+                    dataDictionary.TemplateInfo = new TemplateInfo { HtmlFieldPrefix = "AddressInfoViewModel" };
+                }
+                @Html.Partial("_PersonalPostCodeSearch", Model.AddressInfoViewModel, dataDictionary)
                 <div class="inline-details">
                     <input type="submit" class="button button-submit-details" value="Submit my details" />
                 </div>
             </div>
         </div>
     </section>
-}
+                    }
 
 <script type="text/javascript">
-  
-        jQuery.validator.addMethod('dateofbirth', function (value, element, params) {
-            var day = $('#UserInfo_Day').val();
-            var month = $('#UserInfo_Month').val();
-            var year = $('#UserInfo_Year').val();
-            var date = new Date(year + '-' + month + '-' + day);
-            return (date.getFullYear() == parseInt(year) && date.getMonth() + 1 == parseInt(month) && date.getDate() == parseInt(day))
+
+    jQuery.validator.addMethod('dateofbirth', function (value, element, params) {
+        var day = $('#UserInfo_Day').val();
+        var month = $('#UserInfo_Month').val();
+        var year = $('#UserInfo_Year').val();
+        var date = new Date(year + '-' + month + '-' + day);
+        return (date.getFullYear() == parseInt(year) && date.getMonth() + 1 == parseInt(month) && date.getDate() == parseInt(day))
     });
 
-        jQuery.validator.unobtrusive.adapters.add('dateofbirth', ['prefixelement'], function (options) {
-            options.rules['dateofbirth'] = options.params;
-            if (options.message != null) {
-                options.messages['dateofbirth'] = options.message;
-            }
-        });
-        $("#personalDetailForm").submit(function () {
-            if (!$(this).valid()) {
-                var postcodeValid = $('#AddressInfoViewModel_PostCode').valid();
-                if (!postcodeValid) {
-                    $(".address-panel").show();
-                    $("#manual-entry-link").hide();
-                }
-            }
-        });
+    jQuery.validator.unobtrusive.adapters.add('dateofbirth', ['prefixelement'], function (options) {
+        options.rules['dateofbirth'] = options.params;
+        if (options.message != null) {
+            options.messages['dateofbirth'] = options.message;
+        }
+    });
 
 </script>

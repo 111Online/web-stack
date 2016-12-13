@@ -6,7 +6,7 @@
 
 <div class="find-address-panel">
     <label>
-        Postcode of home address
+        Postcode of current address
     </label>
     <p class="validation-error-msg" id="postcode-validation-message">A valid UK postcode is required</p>
     <div class="inline-details">
@@ -22,7 +22,7 @@
         Street
     </label>
     <div class="inline-details">
-        <div>@Html.ValidationMessageFor(m => m.PostCode, "Please enter the first line of your address")</div>
+        <div>@Html.ValidationMessageFor(m => m.AddressLine1, "Please enter the first line of your address")</div>
         @Html.TextBoxFor(m => m.AddressLine1, new {@class = "form-control", placeholder = "Address Line 1"})
     </div>
     <div class="inline-details">
@@ -32,7 +32,7 @@
         City
     </label>
     <div class="inline-details">
-        <div>@Html.ValidationMessageFor(m => m.PostCode, "Please enter a city")</div>
+        <div>@Html.ValidationMessageFor(m => m.City, "Please enter a city")</div>
         @Html.TextBoxFor(m => m.City, new {@class = "form-control", placeholder = "City"})
     </div>
     <label>
@@ -45,8 +45,8 @@
         Postcode
     </label>
     <div class="inline-details">
-        <div>@Html.ValidationMessageFor(m => m.PostCode, "Please enter a valid postcode")</div>
-        @Html.TextBoxFor(m => m.PostCode, new {@class = "form-control", placeholder = "Postcode"})
+        <div>@Html.ValidationMessageFor(m => m.Postcode)</div>
+        @Html.TextBoxFor(m => m.Postcode, new {@class = "form-control", placeholder = "Postcode"})
     </div>
 </div>
 
@@ -160,7 +160,7 @@
         $("#AddressInfoViewModel_AddressLine2").val(result.AddressLine2);
         $("#AddressInfoViewModel_City").val(result.City);
         $("#AddressInfoViewModel_County").val(result.County);
-        $("#AddressInfoViewModel_PostCode").val(result.PostCode);
+        $("#AddressInfoViewModel_Postcode").val(result.Postcode);
     }
 
     function invalidatePostCode() {

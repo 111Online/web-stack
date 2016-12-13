@@ -17,7 +17,14 @@
     @Html.Partial("_FeedbackDetails", new FeedbackViewModel() { PageId = Model.Id })
 }
 
-@Html.Partial("_FindService", Model, new ViewDataDictionary { { "Title", "Find a sexual health clinic" }, { "ButtonText", "Find a sexual health clinic" }, { "Label", "sexual health clinics" } })
+@{
+    var dataDictionary = ViewContext.ViewData;
+    dataDictionary.Add(new KeyValuePair<string, object>("Title", "Find a sexual health clinic"));
+    dataDictionary.Add(new KeyValuePair<string, object>("ButtonText", "Find a sexual health clinic"));
+    dataDictionary.Add(new KeyValuePair<string, object>("Label", "Sexual health clinics"));
+}
+@Html.Partial("_FindService", Model, dataDictionary)
+
 @Html.Partial("_WorseningAdvice", Model)
 
 @Html.Partial("_CareAdvice", Model.CareAdvices, new ViewDataDictionary { { "Title", "What can I do in the meantime?" } })

@@ -15,7 +15,13 @@
     @Html.Partial("_FeedbackDetails", new FeedbackViewModel() { PageId = Model.Id })
 }
 
-@Html.Partial("_FindService", Model, new ViewDataDictionary { { "Title", "Find a pharmacy" }, { "ButtonText", "Find a pharmacy" }, { "Label", "pharmacies" } })
+@{
+    var dataDictionary = ViewContext.ViewData;
+    dataDictionary.Add(new KeyValuePair<string, object>("Title", "Find a pharmacy"));
+    dataDictionary.Add(new KeyValuePair<string, object>("ButtonText", "Find a pharmacy"));
+    dataDictionary.Add(new KeyValuePair<string, object>("Label", "Pharmacies"));
+}
+@Html.Partial("_FindService", Model, dataDictionary)
 
 <div class="outcome-additional-info">
     <h3 class="outcome-additional-info-header">Did you know?</h3>

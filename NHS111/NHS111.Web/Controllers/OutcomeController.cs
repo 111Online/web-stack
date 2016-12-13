@@ -1,6 +1,7 @@
 ﻿
 
 using System;
+using System.Linq;
 using System.Web.Http;
 using NHS111.Features;
 
@@ -79,6 +80,8 @@ namespace NHS111.Web.Controllers {
         [HttpPost]
         public async Task<ActionResult> ServiceList(OutcomeViewModel model,  [FromUri]DateTime? overrideDate, [FromUri]bool disableFilter = false)
         {
+            if (!ModelState.IsValidField("UserInfo.CurrentAddress.PostCode")) return View(Path.GetFileNameWithoutExtension(model.CurrentView), model);
+
             var dosViewModel = Mapper.Map<DosViewModel>(model);
             if (_dosFilteringToggle.IsEnabled)
             {
@@ -97,6 +100,9 @@ namespace NHS111.Web.Controllers {
 
         [HttpPost]
         public async Task<ActionResult> ServiceDetails(OutcomeViewModel model) {
+
+            if (!ModelState.IsValidField("UserInfo.CurrentAddress.Postcode")) return View(Path.GetFileNameWithoutExtension(model.CurrentView), model);
+
             var dosCase = Mapper.Map<DosViewModel>(model);
             AuditDosRequest(model, dosCase);
             model.DosCheckCapacitySummaryResult = await _dosBuilder.FillCheckCapacitySummaryResult(dosCase);
