@@ -81,6 +81,8 @@
     <Compile Include="ServiceAviliablility\IServiceAvailability.cs" />
     <Compile Include="IServiceAvailabilityProfile.cs" />
     <Compile Include="IServiceAvailabilityProfileManager.cs" />
+    <Compile Include="ServiceAviliablility\PrimaryCareProfileHoursOfOperation.cs" />
+    <Compile Include="ServiceAviliablility\PrimaryCareServiceAvailiablity.cs" />
     <Compile Include="ServiceAviliablility\ProfileHoursOfOperation.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ServiceAviliablility\ServiceAvailability.cs" />

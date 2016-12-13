@@ -20,7 +20,8 @@ namespace NHS111.Business.DOS
 
         public IServiceAvailability FindServiceAvailability(DosFilteredCase dosFilteredCase)
         {
-            if (IsDentalDispoition(dosFilteredCase.Disposition)) return new DentalServiceAvailibility(FindServiceAvailabilityProfile(dosFilteredCase.Disposition), dosFilteredCase.DispositionTime, dosFilteredCase.DispositionTimeFrameMinutes);
+            if (IsDentalDispoition(dosFilteredCase.Disposition)) return new DentalServiceAvailability(FindServiceAvailabilityProfile(dosFilteredCase.Disposition), dosFilteredCase.DispositionTime, dosFilteredCase.DispositionTimeFrameMinutes);
+            if (IsPrimaryCareDispoition(dosFilteredCase.Disposition)) return new PrimaryCareServiceAvailability(FindServiceAvailabilityProfile(dosFilteredCase.Disposition), dosFilteredCase.DispositionTime, dosFilteredCase.DispositionTimeFrameMinutes);
             return new ServiceAvailability(FindServiceAvailabilityProfile(dosFilteredCase.Disposition), dosFilteredCase.DispositionTime, dosFilteredCase.DispositionTimeFrameMinutes);
         }
 
@@ -31,7 +32,7 @@ namespace NHS111.Business.DOS
             var dentalServiceTypeIdBlackist = ConvertPipeDeliminatedString(_configuration.FilteredDentalDosServiceIds);
 
             if (IsPrimaryCareDispoition(dxCode)) return new ServiceAvailabilityProfile(
-                new ProfileHoursOfOperation(_configuration.WorkingDayPrimaryCareInHoursStartTime, _configuration.WorkingDayPrimaryCareInHoursShoulderEndTime, _configuration.WorkingDayPrimaryCareInHoursEndTime), primaryCareServiceTypeIdBlackist);
+                new PrimaryCareProfileHoursOfOperation(_configuration.WorkingDayPrimaryCareInHoursStartTime, _configuration.WorkingDayPrimaryCareInHoursShoulderEndTime, _configuration.WorkingDayPrimaryCareInHoursEndTime), primaryCareServiceTypeIdBlackist);
 
             if (IsDentalDispoition(dxCode)) return new ServiceAvailabilityProfile(
                 new DentalProfileHoursOfOperation(_configuration.WorkingDayDentalInHoursStartTime, _configuration.WorkingDayDentalInHoursShoulderEndTime, _configuration.WorkingDayDentalInHoursEndTime), dentalServiceTypeIdBlackist);

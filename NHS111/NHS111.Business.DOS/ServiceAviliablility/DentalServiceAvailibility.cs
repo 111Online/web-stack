@@ -9,10 +9,10 @@ using NHS111.Models.Models.Web.FromExternalServices;
 
 namespace NHS111.Business.DOS.ServiceAviliablility
 {
-    public class DentalServiceAvailibility : ServiceAvailability
+    public class DentalServiceAvailability : ServiceAvailability
     {
         private IServiceAvailabilityProfile _serviceAvailabilityProfile;
-        public DentalServiceAvailibility(IServiceAvailabilityProfile serviceAvailabilityProfile,
+        public DentalServiceAvailability(IServiceAvailabilityProfile serviceAvailabilityProfile,
             DateTime dispositionDateTime, int dispostionTimeframe)
             : base(serviceAvailabilityProfile, dispositionDateTime, dispostionTimeframe)
         {
