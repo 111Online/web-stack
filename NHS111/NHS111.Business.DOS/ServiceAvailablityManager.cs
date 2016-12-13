@@ -4,19 +4,25 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using NHS111.Business.DOS.Configuration;
+using NHS111.Models.Models.Web.DosRequests;
 using NodaTime;
 
 namespace NHS111.Business.DOS
 {
-    public class ServiceAvailablityProfileManager : IServiceAvailabilityProfileManager
+    public class ServiceAvailablityManager : IServiceAvailabilityManager
     {
         private IConfiguration _configuration;
-        public ServiceAvailablityProfileManager(IConfiguration configuration)
+        public ServiceAvailablityManager(IConfiguration configuration)
         {
             _configuration = configuration;
         }
 
-        public IServiceAvailabilityProfile FindServiceAvailability(int dxCode)
+        public IServiceAvailability FindServiceAvailability(DosFilteredCase dosFilteredCase)
+        {
+            return new ServiceAvailability(FindServiceAvailabilityProfile(dosFilteredCase.Disposition), dosFilteredCase.DispositionTime, dosFilteredCase.DispositionTimeFrameMinutes);
+        }
+
+        private IServiceAvailabilityProfile FindServiceAvailabilityProfile(int dxCode)
         {
             var dentalDispoCodes = ConvertPipeDeliminatedString(_configuration.FilteredDentalDispositionCodes);
             var primaryCareDispoCodes = ConvertPipeDeliminatedString(_configuration.FilteredPrimaryCareDispositionCodes);
@@ -35,6 +41,6 @@ namespace NHS111.Business.DOS
         private IEnumerable<int> ConvertPipeDeliminatedString(string pipedeliminatedString)
         {
             return pipedeliminatedString.Split('|').Select(c => Convert.ToInt32(c)).ToList();
-        } 
+        }
     }
 }

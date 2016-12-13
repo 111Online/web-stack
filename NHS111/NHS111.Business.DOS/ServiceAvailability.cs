@@ -1,5 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using NHS111.Models.Models.Business.Enums;
+using NHS111.Models.Models.Web.DosRequests;
 
 namespace NHS111.Business.DOS
 {
@@ -17,6 +20,14 @@ namespace NHS111.Business.DOS
 
         public ServiceAvailability(IServiceAvailabilityProfile serviceAvailabilityProfile, DateTime dispositionDateTime, int timeFrameHours, int timeFrameMinutes) : this(serviceAvailabilityProfile, dispositionDateTime, ConvertDaysHoursToMinutes(0, timeFrameHours, timeFrameMinutes))
         {
+        }
+
+        public List<Models.Models.Web.FromExternalServices.DosService> Filter(List<Models.Models.Web.FromExternalServices.DosService> resultsToFilter)
+        {
+            return !this.IsOutOfHours
+                ? resultsToFilter.Where(
+                    s => !_serviceAvailabilityProfile.ServiceTypeIdBlacklist.Contains((int) s.ServiceType.Id)).ToList()
+                : resultsToFilter;
         }
 
         public ServiceAvailability(IServiceAvailabilityProfile serviceAvailabilityProfile, DateTime dispositionDateTime, int timeFrameMinutes)
