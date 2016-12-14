@@ -140,7 +140,7 @@
                                     @foreach (var topLevelCategory in lists[i])
                                     {
                                         <li>
-                                            <h5><a class="category linkButton bullet" href="javascript:void(0);">&bull; <span class="underline">@topLevelCategory.Category.Title</span></a></h5>
+                                            <h5><a class="category linkButton bullet" href="javascript:void(0);">&bull; <span class="underline" id="@topLevelCategory.Category.Id">@topLevelCategory.Category.Title</span></a></h5>
                                             @if (topLevelCategory.SubCategories != null && topLevelCategory.SubCategories.Any())
                                             {
                                                 <ul class="content">
@@ -150,11 +150,11 @@
                                                              continue;
                                                         }
                                                         <li>
-                                                            <h5><a class="category linkButton bullet" href="javascript:void(0);">&bull; <span class="underline">@subCategory.Category.Title</span></a></h5>
+                                                            <h5><a class="category linkButton bullet" href="javascript:void(0);">&bull; <span class="underline" id="@topLevelCategory.Category.Id">@subCategory.Category.Title</span></a></h5>
                                                             <ul class="content">
                                                                 @foreach (var pathway in subCategory.Pathways.OrderBy(p => p.PathwayData.DigitalTitle))
                                                                 {
-                                                                    <li><input type="submit" class="linkButton" value="@pathway.PathwayData.DigitalTitle" id="@pathway.Pathway.PathwayNo" /></li>
+                                                                    <li><input type="submit" class="linkButton" value="@pathway.PathwayData.DigitalTitle" id="@pathway.Pathway.PathwayNo" digital-id="@pathway.PathwayData.DigitalTitleId" /></li>
                                                                 }
                                                             </ul>
                                                         </li>
@@ -166,7 +166,7 @@
                                                 <ul class="content">
                                                     @foreach (var pathway in topLevelCategory.Pathways.OrderBy(p => p.PathwayData.DigitalTitle))
                                                     {
-                                                        <li><input type="submit" class="linkButton" value="@pathway.PathwayData.DigitalTitle" id="@pathway.Pathway.PathwayNo" /></li>
+                                                        <li><input type="submit" class="linkButton" value="@pathway.PathwayData.DigitalTitle" id="@pathway.Pathway.PathwayNo" digital-id="@pathway.PathwayData.DigitalTitleId" /></li>
                                                     }
                                                 </ul>
                                             }
