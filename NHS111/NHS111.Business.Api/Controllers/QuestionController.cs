@@ -72,9 +72,16 @@ namespace NHS111.Business.Api.Controllers
 
             if (nextLabel == "Set")
             {
-                stateDictionary.Add(next.Question.Title, next.Answers.First().Title);
+                var answered = next.Answers.First();
+                stateDictionary.Add(next.Question.Title, answered.Title);
                 var updatedState = JsonConvert.SerializeObject(stateDictionary);
-                return await GetNextNode(pathwayId, next.Question.Id, updatedState, next.Answers.First().Title, cacheKey);
+                var httpResponseMessage = await GetNextNode(pathwayId, next.Question.Id, updatedState, answered.Title, cacheKey);
+                var nextQuestion = JsonConvert.DeserializeObject<QuestionWithAnswers>(await httpResponseMessage.Content.ReadAsStringAsync());
+                foreach (var nextAnswer in nextQuestion.Answers) {
+                    nextAnswer.Keywords += "|" + answered.Keywords;
+                    nextAnswer.ExcludeKeywords += "|" + answered.ExcludeKeywords;
+                }
+                return JsonConvert.SerializeObject(nextQuestion).AsHttpResponse();
             }
 
             if (nextLabel == "Read")
@@ -90,6 +97,9 @@ namespace NHS111.Business.Api.Controllers
             {
                 stateDictionary.Add(next.Question.QuestionNo, "");
                 next.State = stateDictionary;
+                //next.Answers.First().Keywords += "|" + answered.Keywords;
+                //nextAnswer.ExcludeKeywords += "|" + answered.ExcludeKeywords;
+
                 var result = _questionTransformer.AsQuestionWithAnswers(JsonConvert.SerializeObject(next));
                 return result.AsHttpResponse();
             }

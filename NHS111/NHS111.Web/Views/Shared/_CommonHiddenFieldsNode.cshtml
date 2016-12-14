@@ -14,12 +14,14 @@
 @Html.HiddenFor(x => Model.QuestionNo)
 @Html.HiddenFor(x => Model.StateJson)
 
-@foreach (Keyword keyword in Model.CollectedKeywords.Keywords) {
-    @Html.HiddenFor(model => keyword.Value)
-    @Html.HiddenFor(model => keyword.IsFromAnswer)
+@for (int i = 0; i < Model.CollectedKeywords.Keywords.Count; i++)
+{
+    @Html.HiddenFor(model => Model.CollectedKeywords.Keywords[i].Value)
+    @Html.HiddenFor(model => Model.CollectedKeywords.Keywords[i].IsFromAnswer)
 }
 
-@foreach (Keyword excludeKeyword in Model.CollectedKeywords.ExcludeKeywords) {
-    @Html.HiddenFor(model => excludeKeyword.Value)
-    @Html.HiddenFor(model => excludeKeyword.IsFromAnswer)
+@for (int i = 0; i < Model.CollectedKeywords.ExcludeKeywords.Count; i++)
+{
+    @Html.HiddenFor(model => Model.CollectedKeywords.ExcludeKeywords[i].Value)
+    @Html.HiddenFor(model => Model.CollectedKeywords.ExcludeKeywords[i].IsFromAnswer)
 }
