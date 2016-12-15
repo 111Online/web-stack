@@ -77,6 +77,8 @@ namespace NHS111.Business.Api.Controllers
                 var updatedState = JsonConvert.SerializeObject(stateDictionary);
                 var httpResponseMessage = await GetNextNode(pathwayId, next.Question.Id, updatedState, answered.Title, cacheKey);
                 var nextQuestion = JsonConvert.DeserializeObject<QuestionWithAnswers>(await httpResponseMessage.Content.ReadAsStringAsync());
+                nextQuestion.NonQuestionKeywords = answered.Keywords;
+                nextQuestion.NonQuestionExcludeKeywords = answered.ExcludeKeywords;
                 foreach (var nextAnswer in nextQuestion.Answers) {
                     nextAnswer.Keywords += "|" + answered.Keywords;
                     nextAnswer.ExcludeKeywords += "|" + answered.ExcludeKeywords;
