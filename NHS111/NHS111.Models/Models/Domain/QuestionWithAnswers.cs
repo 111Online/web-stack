@@ -10,5 +10,8 @@ namespace NHS111.Models.Models.Domain
         public IEnumerable<string> Labels { get; set; }
         public IDictionary<string, string> State { get; set; }
         public OutcomeGroup Group { get; set; }
+
+        public string NonQuestionKeywords { get; set; }
+        public string NonQuestionExcludeKeywords { get; set; }
     }
 }
