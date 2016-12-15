@@ -30,6 +30,9 @@ namespace NHS111.Business.DOS.Test.Service
         private const string FILTERED_DENTAL_DISPOSITION_CODES = "1017|1018|1019|1020|1021|1022";
         private const string FILTERED_DENTAL_DOS_SERVICE_IDS = "100|123|117|40|25|12";
 
+        private const string FILTERED_CLINICIAN_DISPOSITION_CODES = "11329|11106|1034|11327|11325|1035|1032";
+        private const string FILTERED_CLINICIAN_DOS_SERVICE_IDS = "40";
+
         private ServiceAvailabilityProfile _mockServiceAvailabliityProfileResponse;
         private static readonly string CheckCapacitySummaryResults = @"{
             ""CheckCapacitySummaryResult"": [{
@@ -76,6 +79,8 @@ namespace NHS111.Business.DOS.Test.Service
             _mockConfiguration.Setup(c => c.FilteredPrimaryCareDosServiceIds).Returns(FILTERED_DOS_SERVICE_IDS);
             _mockConfiguration.Setup(c => c.FilteredDentalDosServiceIds).Returns(FILTERED_DENTAL_DOS_SERVICE_IDS);
             _mockConfiguration.Setup(c => c.FilteredDentalDispositionCodes).Returns(FILTERED_DENTAL_DISPOSITION_CODES);
+            _mockConfiguration.Setup(c => c.FilteredClinicianCallbackDispositionCodes).Returns(FILTERED_CLINICIAN_DISPOSITION_CODES);
+            _mockConfiguration.Setup(c => c.FilteredClinicianCallbackDosServiceIds).Returns(FILTERED_CLINICIAN_DOS_SERVICE_IDS);
             _mockConfiguration.Setup(c => c.WorkingDayPrimaryCareInHoursStartTime)
                 .Returns(workingDayPrimaryCareInHoursStartTime);
             _mockConfiguration.Setup(c => c.WorkingDayPrimaryCareInHoursShoulderEndTime)
