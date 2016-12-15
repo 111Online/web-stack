@@ -10,6 +10,8 @@ using NodaTime;
 
 namespace NHS111.Business.DOS
 {
+    using Models.Models.Business;
+
     public class ServiceAvailablityManager : IServiceAvailabilityManager
     {
         private IConfiguration _configuration;
@@ -30,12 +32,16 @@ namespace NHS111.Business.DOS
            
             var primaryCareServiceTypeIdBlackist = ConvertPipeDeliminatedString(_configuration.FilteredPrimaryCareDosServiceIds);
             var dentalServiceTypeIdBlackist = ConvertPipeDeliminatedString(_configuration.FilteredDentalDosServiceIds);
+            var clinicianCallbackServiceTypeIdBlackist = ConvertPipeDeliminatedString(_configuration.FilteredClinicianCallbackDosServiceIds);
 
             if (IsPrimaryCareDispoition(dxCode)) return new ServiceAvailabilityProfile(
                 new PrimaryCareProfileHoursOfOperation(_configuration.WorkingDayPrimaryCareInHoursStartTime, _configuration.WorkingDayPrimaryCareInHoursShoulderEndTime, _configuration.WorkingDayPrimaryCareInHoursEndTime), primaryCareServiceTypeIdBlackist);
 
             if (IsDentalDispoition(dxCode)) return new ServiceAvailabilityProfile(
                 new DentalProfileHoursOfOperation(_configuration.WorkingDayDentalInHoursStartTime, _configuration.WorkingDayDentalInHoursShoulderEndTime, _configuration.WorkingDayDentalInHoursEndTime), dentalServiceTypeIdBlackist);
+
+            if (IsClinicianCallbackDispoition(dxCode)) return new ServiceAvailabilityProfile(
+                new ClinicianCallbackProfileHoursOfOperation(), clinicianCallbackServiceTypeIdBlackist);
 
             return new ServiceAvailabilityProfile(new ProfileHoursOfOperation(new LocalTime(0, 0), new LocalTime(0, 0), new LocalTime(0, 0)), new List<int>());
         }
@@ -50,9 +56,27 @@ namespace NHS111.Business.DOS
             return ConvertPipeDeliminatedString(_configuration.FilteredPrimaryCareDispositionCodes).Contains(dxCode);
         }
 
+        private bool IsClinicianCallbackDispoition(int dxCode)
+        {
+            return ConvertPipeDeliminatedString(_configuration.FilteredClinicianCallbackDispositionCodes).Contains(dxCode);
+        }
+
+
         private IEnumerable<int> ConvertPipeDeliminatedString(string pipedeliminatedString)
         {
             return pipedeliminatedString.Split('|').Select(c => Convert.ToInt32(c)).ToList();
+        }
+    }
+
+    public class ClinicianCallbackProfileHoursOfOperation
+        : IProfileHoursOfOperation {
+
+        public ProfileServiceTimes GetServiceTime(DateTime date) {
+            return ProfileServiceTimes.InHours;
+        }
+
+        public bool ContainsInHoursPeriod(DateTime startDateTime, DateTime endDateTime) {
+            return true;
         }
     }
 }
