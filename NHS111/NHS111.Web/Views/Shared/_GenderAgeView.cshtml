@@ -26,42 +26,16 @@
     </div>
     <div class="age">
         <span id="errmsg"></span>
-        @Html.TextBoxFor(m => m.Age, new { @class = "form-control input-age", type = "number", size = 2, maxlength = 2, onkeypress = "return numbersonly(this, event);" })
+        @Html.TextBoxFor(m => m.Age, new {@class = "form-control input-age", type = "number", size = 3, maxlength = 3})
     </div>
 </div>
 
+
+
 <script type="text/javascript">
 
-    if ($("#Age").val() == "0") $("#Age").val('');
 
-    $(document).ready(function () {
-
-        //enable disable submit button
-        validateForm();
-
-        $("form input[type=radio]").change(function () {
-            validateForm();
-        });
-
-        $('.input-age').bind('input', function () {
-            validateForm();
-        });
-
-        $("#Age").keydown(function (e) {
-            validateForm();
-        });
-    });
-
-    function validateForm() {
-        genderSelected = $("form input[type=radio]").is(':checked');
-        ageEntered = $("#Age").val() != '';
-        if (genderSelected && ageEntered) {
-            $("#submitGender[type=submit]").removeAttr('disabled');
-        } else {
-            $("#submitGender[type=submit]").attr('disabled', 'disabled');
-        }
-    }
-
+ 
     // copyright 1999 Idocs, Inc. http://www.idocs.com
     // Distribute this script freely but keep this notice in place
     function numbersonly(myfield, e, dec) {
@@ -80,18 +54,30 @@
         if ((key == null) || (key == 0) || (key == 8) ||
         (key == 9) || (key == 13) || (key == 27))
             return true;
-
-            // numbers
+// numbers
         else if ((("0123456789").indexOf(keychar) > -1))
             return true;
-
-            // decimal point jump
+// decimal point jump
         else if (dec && (keychar == ".")) {
             myfield.form.elements[dec].focus();
             return false;
-        }
-        else
+        } else
             return false;
     }
+
+</script>
+
+<script type="text/javascript">
+
+    jQuery.validator.addMethod('age', function (value, element, params) {
+        return numbersonly(element, event) && parseInt(value) >= 5;
+    });
+
+    jQuery.validator.unobtrusive.adapters.add('age', ['prefixelement'], function (options) {
+        options.rules['age'] = options.params;
+        if (options.message != null) {
+            options.messages['age'] = options.message;
+        }
+    });
 
 </script>
