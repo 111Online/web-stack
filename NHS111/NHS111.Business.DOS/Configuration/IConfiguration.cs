@@ -26,6 +26,8 @@ namespace NHS111.Business.DOS.Configuration
         string FilteredDentalDispositionCodes { get; }
         string FilteredPrimaryCareDosServiceIds { get; }
         string FilteredDentalDosServiceIds { get; }
+        string FilteredClinicianCallbackDispositionCodes { get; }
+        string FilteredClinicianCallbackDosServiceIds { get; }
         string DosUsername { get; }
         string DosPassword { get; }
     }
