@@ -17,7 +17,7 @@
 @using (Html.BeginForm("Search", "Question", FormMethod.Post, new { @id = "outerContent" }))
 {
     @Html.HiddenFor(x => Model.SessionId)
-    @Html.Partial("_GenderAgeView", Model.UserInfo.Demography ?? new AgeGenderViewModel())
+    @Html.Partial("_GenderAgeView", Model.UserInfo.Demography, new ViewDataDictionary(ViewData) { Model = null })
 
     <div class="worsening-advice-icon">
         <p>If you're worried that a child or adult has been deliberately harmed, call 111 to talk to someone.</p>
