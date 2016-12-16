@@ -28,16 +28,17 @@ namespace NHS111.Web.Presentation.Builders
         public async Task<JourneyViewModel> Build(JourneyViewModel model, QuestionWithAnswers nextNode)
         {
 
+            model.ProgressState();
+
+            model.Journey.Steps.Add(model.ToStep());
+
             if (!string.IsNullOrEmpty(nextNode.NonQuestionKeywords)) {
                 model.Journey.Steps.Last().Answer.Keywords += "|" + nextNode.NonQuestionKeywords;
             }
             if (!string.IsNullOrEmpty(nextNode.NonQuestionExcludeKeywords)) {
                 model.Journey.Steps.Last().Answer.ExcludeKeywords += "|" + nextNode.NonQuestionExcludeKeywords;
             }
-
-            model.ProgressState();
-
-            AddLastStepToJourney(model);
+            model.JourneyJson = JsonConvert.SerializeObject(model.Journey);
 
             var answer = JsonConvert.DeserializeObject<Answer>(model.SelectedAnswer);
 
@@ -57,12 +58,6 @@ namespace NHS111.Web.Presentation.Builders
             }
 
             return model;
-        }
-
-        private static void AddLastStepToJourney(JourneyViewModel model)
-        {
-            model.Journey.Steps.Add(model.ToStep());
-            model.JourneyJson = JsonConvert.SerializeObject(model.Journey);
         }
 
         public JourneyViewModel BuildPreviousQuestion(QuestionWithAnswers lastStep, JourneyViewModel model)
