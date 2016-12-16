@@ -157,6 +157,8 @@ namespace NHS111.Web.Controllers {
                     throw new ArgumentOutOfRangeException(string.Format("Outcome group {0} for outcome {1} has no view configured", model.OutcomeGroup.ToString(), model.Id));
                 case NodeType.DeadEndJump:
                     return "../Question/DeadEndJump";
+                case NodeType.PathwaySelectionJump:
+                    return "../Outcome/PathwaySelectionJump";
                 case NodeType.CareAdvice:
                     return "../Question/InlineCareAdvice";
                 case NodeType.Question:

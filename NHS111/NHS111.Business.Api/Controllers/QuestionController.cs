@@ -70,6 +70,13 @@ namespace NHS111.Business.Api.Controllers
                 return result.AsHttpResponse();
             }
 
+            if (nextLabel == "PathwaySelectionJump")
+            {
+                next.State = stateDictionary;
+                var result = _questionTransformer.AsQuestionWithDeadEnd(JsonConvert.SerializeObject(next));
+                return result.AsHttpResponse();
+            }
+
             if (nextLabel == "Set")
             {
                 var answered = next.Answers.First();
