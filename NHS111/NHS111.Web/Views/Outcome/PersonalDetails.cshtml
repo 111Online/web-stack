@@ -81,7 +81,7 @@
                 </label>
                 <div>@Html.ValidationMessageFor(m => m.UserInfo.TelephoneNumber, "Please enter a valid Phone number")</div>
                 <div class="inline-details">
-                    @Html.TextBoxFor(m => m.UserInfo.TelephoneNumber, new { @class = "form-control", placeholder = "Landline or mobile number" })
+                    @Html.TextBoxFor(m => m.UserInfo.TelephoneNumber, new { @class = "form-control", placeholder = "Landline or mobile number", type = "tel" })
                 </div>
                 @{
                     var dataDictionary = ViewContext.ViewData;
