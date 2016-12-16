@@ -6,6 +6,7 @@
         Pathway,
         Outcome,
         DeadEndJump,
-        CareAdvice
+        CareAdvice,
+        PathwaySelectionJump
     }
 }
