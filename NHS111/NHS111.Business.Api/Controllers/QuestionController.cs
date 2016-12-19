@@ -70,6 +70,13 @@ namespace NHS111.Business.Api.Controllers
                 return result.AsHttpResponse();
             }
 
+            if (nextLabel == "PathwaySelectionJump")
+            {
+                next.State = stateDictionary;
+                var result = _questionTransformer.AsQuestionWithDeadEnd(JsonConvert.SerializeObject(next));
+                return result.AsHttpResponse();
+            }
+
             if (nextLabel == "Set")
             {
                 var answered = next.Answers.First();
@@ -77,6 +84,8 @@ namespace NHS111.Business.Api.Controllers
                 var updatedState = JsonConvert.SerializeObject(stateDictionary);
                 var httpResponseMessage = await GetNextNode(pathwayId, next.Question.Id, updatedState, answered.Title, cacheKey);
                 var nextQuestion = JsonConvert.DeserializeObject<QuestionWithAnswers>(await httpResponseMessage.Content.ReadAsStringAsync());
+                nextQuestion.NonQuestionKeywords = answered.Keywords;
+                nextQuestion.NonQuestionExcludeKeywords = answered.ExcludeKeywords;
                 foreach (var nextAnswer in nextQuestion.Answers) {
                     nextAnswer.Keywords += "|" + answered.Keywords;
                     nextAnswer.ExcludeKeywords += "|" + answered.ExcludeKeywords;

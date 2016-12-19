@@ -27,6 +27,7 @@
         @Html.Hidden(string.Format("DosCheckCapacitySummaryResult.Success.Services[{0}].Address", i), @WebUtility.HtmlDecode(Model.DosCheckCapacitySummaryResult.Success.Services[i].Address))
         @Html.HiddenFor(m => Model.DosCheckCapacitySummaryResult.Success.Services[i].OdsCode)
         @Html.HiddenFor(m => Model.DosCheckCapacitySummaryResult.Success.Services[i].PostCode)
+        @Html.HiddenFor(m => Model.DosCheckCapacitySummaryResult.Success.Services[i].OpenAllHours)
         if (Model.DosCheckCapacitySummaryResult.Success.Services[i].RotaSessions != null)
         {
             for (var j = 0; j < Model.DosCheckCapacitySummaryResult.Success.Services[i].RotaSessions.Length; j++)

@@ -26,7 +26,7 @@ namespace NHS111.Models.Models.Web
             {
                 if (OpenAllHours) return true;
 
-                return (TodaysOpeningTime <= _clock.Now.TimeOfDay) && (TodaysClosingTime >= _clock.Now.TimeOfDay);
+                return !TodaysRotaSessions.All(c => _clock.Now.TimeOfDay >= c.ClosingTime);
             }
         }
 
@@ -48,7 +48,9 @@ namespace NHS111.Models.Models.Web
             if (RotaSessions == null) return "Closed";
 
             var rotaSession = RotaSessions.FirstOrDefault(rs => (int) rs.StartDayOfWeek == (int) day);
-            return rotaSession != null ? string.Format("{0} - {1}", GetTime(rotaSession.StartTime), GetTime(rotaSession.EndTime)) : "Closed";
+            return rotaSession != null
+                ? string.Format("{0} - {1}", GetTime(rotaSession.StartTime), GetTime(rotaSession.EndTime))
+                : "Closed";
         }
 
         private string GetTime(TimeOfDay time)
@@ -60,24 +62,56 @@ namespace NHS111.Models.Models.Web
         {
             get
             {
-                return _clock.Now.TimeOfDay > TodaysClosingTime ? "Closed" : string.Format("Open today: {0} until {1}", DateTime.Today.Add(TodaysOpeningTime).ToString("HH:mm"), DateTime.Today.Add(TodaysClosingTime).ToString("HH:mm"));
+                if (!IsOpen) return "Closed";
+
+                return CurrentRotaSession != null 
+                    ? string.Format("Open today: {0} until {1}", DateTime.Today.Add(CurrentRotaSession.OpeningTime).ToString("HH:mm"), DateTime.Today.Add(CurrentRotaSession.ClosingTime).ToString("HH:mm"))
+                    : "Closed";
             }
         }
 
-        private ServiceCareItemRotaSession TodaysRotaSession
+        private IEnumerable<ServiceCareItemRotaSession> TodaysServiceCareItemRotaSessions
         {
-            get { return RotaSessions != null ? RotaSessions.FirstOrDefault(rs => (int)rs.StartDayOfWeek == (int)_clock.Now.DayOfWeek) : null; }
+            get
+            {
+                return RotaSessions != null &&
+                       RotaSessions.Any(rs => (int) rs.StartDayOfWeek == (int) _clock.Now.DayOfWeek)
+                    ? RotaSessions.Where(rs => (int) rs.StartDayOfWeek == (int) _clock.Now.DayOfWeek)
+                    : new List<ServiceCareItemRotaSession>();
+            }
         }
 
-        private TimeSpan TodaysOpeningTime
+        private IEnumerable<RotaSession> TodaysRotaSessions
         {
-            get { return TodaysRotaSession != null ? new TimeSpan(TodaysRotaSession.StartTime.Hours, TodaysRotaSession.StartTime.Minutes, 0) : new TimeSpan(); }
+            get
+            {
+                return TodaysServiceCareItemRotaSessions.Any()
+                    ? TodaysServiceCareItemRotaSessions.Select(
+                        rs =>
+                            new RotaSession
+                            {
+                                OpeningTime = new TimeSpan(rs.StartTime.Hours, rs.StartTime.Minutes, 0),
+                                ClosingTime = new TimeSpan(rs.EndTime.Hours, rs.EndTime.Minutes, 0)
+                            })
+                    : new List<RotaSession>();
+            }
         }
 
-        private TimeSpan TodaysClosingTime
+        private RotaSession CurrentRotaSession
         {
-            get { return TodaysRotaSession != null ? new TimeSpan(TodaysRotaSession.EndTime.Hours, TodaysRotaSession.EndTime.Minutes, 0) : new TimeSpan(); }
+            get
+            {
+                return TodaysRotaSessions
+                    .OrderBy(rs => rs.OpeningTime)
+                    .FirstOrDefault(rs => _clock.Now.TimeOfDay < rs.ClosingTime);
+            }
         }
+    }
 
+    internal class RotaSession
+    {
+        public TimeSpan OpeningTime { get; set; }
+
+        public TimeSpan ClosingTime { get; set; }
     }
 }

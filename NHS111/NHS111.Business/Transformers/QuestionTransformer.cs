@@ -32,6 +32,12 @@ namespace NHS111.Business.Transformers
             return JsonConvert.SerializeObject(questionWithDeadEnd);
         }
 
+        public string AsQuestionWithPathwaySelection(string s)
+        {
+            var questionWithPathwaySelection = JsonConvert.DeserializeObject<QuestionWithPathwaySelection>(s);
+            return JsonConvert.SerializeObject(questionWithPathwaySelection);
+        }
+
         public string AsAnswers(string s)
         {
             var answers = JsonConvert.DeserializeObject<List<Answer>>(s);
@@ -56,5 +62,6 @@ namespace NHS111.Business.Transformers
         string AsQuestionWithAnswers(string s);
         string AsAnswers(string s);
         string AsQuestionWithDeadEnd(string s);
+        string AsQuestionWithPathwaySelection(string s);
     }
 }
