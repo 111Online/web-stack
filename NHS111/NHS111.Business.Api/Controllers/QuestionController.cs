@@ -96,7 +96,15 @@ namespace NHS111.Business.Api.Controllers
                     }
                 }
 
-                return JsonConvert.SerializeObject(nextQuestion).AsHttpResponse();
+                // have to add the node to the cache so thats its not missed when going back
+                // to collect keywords 
+                var result = JsonConvert.SerializeObject(nextQuestion);
+                
+                #if !DEBUG
+ 	                _cacheManager.Set(cacheKey, result);
+ 	            #endif
+
+ 	            return result.AsHttpResponse();
             }
 
             if (nextLabel == "Read")
