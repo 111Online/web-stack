@@ -41,6 +41,7 @@
                             @using (Html.BeginForm("PersonalDetails", "Outcome", FormMethod.Post))
                             {
                                 @Html.Partial("_CommonHiddenFieldsOutcomeViewModel", Model)
+                                @Html.Partial("_CommonHiddenFieldsCareAdviceViewModel", Model)
                                 @Html.Hidden("SelectedServiceId", @selectedService.Id)
                                 
                                 if (selectedService.CallbackEnabled)
@@ -90,6 +91,7 @@
                                 @using (Html.BeginForm("PersonalDetails", "Outcome", FormMethod.Post))
                                 {
                                     @Html.Partial("_CommonHiddenFieldsOutcomeViewModel", Model)
+                                    @Html.Partial("_CommonHiddenFieldsCareAdviceViewModel", Model)
                                     @Html.Hidden("SelectedServiceId", service.Id)
 
                                     if (service.CallbackEnabled)

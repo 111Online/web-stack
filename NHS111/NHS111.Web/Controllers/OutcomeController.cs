@@ -119,7 +119,7 @@ namespace NHS111.Web.Controllers {
             ModelState.Clear();
             AuditSelectedService(model);
 
-            model = await _outcomeViewModelBuilder.PersonalDetailsBuilder(model);
+         //   model = await _outcomeViewModelBuilder.PersonalDetailsBuilder(model);
             return View("PersonalDetails", model);
         }
 

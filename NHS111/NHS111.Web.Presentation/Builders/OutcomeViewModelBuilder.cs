@@ -128,13 +128,6 @@ namespace NHS111.Web.Presentation.Builders
                 Log4Net.Error("Error sending ITK message : Status Code -" + response.StatusCode.ToString() +
                               " Content -" + response.Content.ReadAsStringAsync());
             }
-            model.CareAdvices =
-                await
-                    _careAdviceBuilder.FillCareAdviceBuilder(model.Id, new AgeCategory(model.UserInfo.Demography.Age).Value, model.UserInfo.Demography.Gender,
-                        _keywordCollector.ConsolidateKeywords(model.CollectedKeywords).ToList());
-
-            model.WorseningCareAdvice =
-                await _careAdviceBuilder.FillWorseningCareAdvice(model.UserInfo.Demography.Age, model.UserInfo.Demography.Gender);
             return model;
         }
 
