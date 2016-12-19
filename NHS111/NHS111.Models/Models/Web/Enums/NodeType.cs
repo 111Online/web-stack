@@ -7,6 +7,7 @@
         Outcome,
         DeadEndJump,
         CareAdvice,
-        PathwaySelectionJump
+        PathwaySelectionJump,
+        Set
     }
 }
