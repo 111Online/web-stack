@@ -781,6 +781,7 @@
     <Content Include="Views\Shared\_CommonHiddenFieldsNode.cshtml" />
     <Content Include="Views\Shared\_GenderAgeView.cshtml" />
     <Content Include="leeds-postcodes.csv" />
+    <Content Include="Views\Shared\_CommonHiddenFieldsCareAdviceViewModel.cshtml" />
     <None Include="Web.Development.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

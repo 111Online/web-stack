@@ -1,0 +1,40 @@
+﻿@model NHS111.Models.Models.Web.OutcomeViewModel
+
+@if (Model.DisplayWorseningCareAdvice)
+            {
+                for (var i = 0; i < Model.WorseningCareAdvice.Items.Count; ++i)
+                {
+                    @Html.HiddenFor(m => m.WorseningCareAdvice.Items[i].Id)
+                    @Html.HiddenFor(m => m.WorseningCareAdvice.Items[i].OrderNo)
+                    @Html.HiddenFor(m => m.WorseningCareAdvice.Items[i].Text)
+                }
+            }
+@{
+    var careAdvices = Model.CareAdvices.ToList();
+    for (var i = 0; i < careAdvices.Count; ++i)
+    {
+        @Html.Hidden(string.Format("CareAdvices[{0}].Id", i), @WebUtility.HtmlDecode(careAdvices[i].Id))
+        @Html.Hidden(string.Format("CareAdvices[{0}].Keyword", i), @WebUtility.HtmlDecode(careAdvices[i].Keyword))
+        @Html.Hidden(string.Format("CareAdvices[{0}].Title", i), @WebUtility.HtmlDecode(careAdvices[i].Title))
+        if (careAdvices[i].Items == null)
+        {
+            continue;
+        }
+        for (var j = 0; j < careAdvices[i].Items.Count; ++j)
+        {
+            @Html.Hidden(string.Format("CareAdvices[{0}].Items[{1}].Id", i, j), @WebUtility.HtmlDecode(careAdvices[i].Items[j].Id))
+            @Html.Hidden(string.Format("CareAdvices[{0}].Items[{1}].OrderNo", i, j), careAdvices[i].Items[j].OrderNo)
+            @Html.Hidden(string.Format("CareAdvices[{0}].Items[{1}].Text", i, j), @WebUtility.HtmlDecode(careAdvices[i].Items[j].Text))
+            if (careAdvices[i].Items[j].Items == null)
+            {
+                continue;
+            }
+            for (var k = 0; k < careAdvices[i].Items[j].Items.Count; ++k)
+            {
+                @Html.Hidden(string.Format("CareAdvices[{0}].Items[{1}].Items[{2}].Id", i, j, k), @WebUtility.HtmlDecode(careAdvices[i].Items[j].Items[k].Id))
+                @Html.Hidden(string.Format("CareAdvices[{0}].Items[{1}].Items[{2}].OrderNo", i, j, k), careAdvices[i].Items[j].Items[k].OrderNo)
+                @Html.Hidden(string.Format("CareAdvices[{0}].Items[{1}].Items[{2}].Text", i, j, k), @WebUtility.HtmlDecode(careAdvices[i].Items[j].Items[k].Text))
+            }
+        }
+    }
+}
