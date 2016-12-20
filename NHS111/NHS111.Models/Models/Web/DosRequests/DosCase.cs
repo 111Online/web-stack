@@ -12,7 +12,7 @@
 
         public string CaseRef { get; set; }
         public string CaseId { get; set; }
-        public string PostCode { get; set; }
+        public virtual string PostCode { get; set; }
         public string Surgery  { get; set; }
         public string Age { get; set; }
         public AgeFormatType AgeFormat { get; set; }
