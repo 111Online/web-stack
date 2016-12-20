@@ -91,7 +91,11 @@
                 }
                 @Html.Partial("_PersonalPostCodeSearch", Model.AddressInfoViewModel, dataDictionary)
                 <div class="inline-details">
-                    <input type="submit" class="button button-submit-details" value="Submit my details" />
+                    <p class="submit-details-disclaimer">
+                        By clicking Submit my details, you agree to share your information with other NHS organisations.
+                        See our @Html.ActionLink("privacy policy", "Privacy", "Help", null, new { target = "_blank" }) for more information.
+                    </p>
+                    <input type="submit" class="button button-submit-details" value="Submit my details"/>
                 </div>
             </div>
         </div>
