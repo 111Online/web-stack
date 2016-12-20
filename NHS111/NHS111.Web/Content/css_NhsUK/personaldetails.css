@@ -202,3 +202,8 @@
 .personal-details-content .form-control-6-chars {
     width: 14em;
 }
+.submit-details-disclaimer {
+    font-size: 1.1rem;
+    margin: 0;
+    line-height: 1.2rem;
+}
