@@ -4,6 +4,7 @@ using System;
 using System.Linq;
 using System.Web.Http;
 using NHS111.Features;
+using NHS111.Models.Models.Web.Logging;
 
 namespace NHS111.Web.Controllers {
     using System.Collections.Generic;
@@ -147,7 +148,8 @@ namespace NHS111.Web.Controllers {
 
         private void AuditDosRequest(OutcomeViewModel model, DosViewModel dosViewModel) {
             var audit = model.ToAuditEntry();
-            audit.DosRequest = JsonConvert.SerializeObject(dosViewModel);
+            var auditedDosViewModel = Mapper.Map<AuditedDosRequest>(dosViewModel);
+            audit.DosRequest = JsonConvert.SerializeObject(auditedDosViewModel);
             _auditLogger.Log(audit);
         }
 

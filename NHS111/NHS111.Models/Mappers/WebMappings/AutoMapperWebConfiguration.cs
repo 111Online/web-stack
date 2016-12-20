@@ -1,4 +1,6 @@
 ﻿using AutoMapper;
+using NHS111.Models.Models.Web;
+using NHS111.Models.Models.Web.Logging;
 
 namespace NHS111.Models.Mappers.WebMappings
 {
@@ -14,6 +16,7 @@ namespace NHS111.Models.Mappers.WebMappings
                 cfg.AddProfile(new FromOutcomeViewModelToSubmitEncounterToServiceRequest());
                 cfg.AddProfile(new FromOutcomeVIewModelToITKDispatchRequest());
                 cfg.AddProfile(new FromDosCaseToDosServicesByClinicalTermRequest());
+                cfg.CreateMap<DosViewModel, AuditedDosRequest>();
             });
         }
     }
