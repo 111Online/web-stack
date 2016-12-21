@@ -18,6 +18,11 @@ namespace NHS111.Web.Controllers
             return View();
         }
 
+        public ActionResult Terms()
+        {
+            return View();
+        }
+
         public ActionResult Browsers()
         {
             return View();

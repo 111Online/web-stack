@@ -278,6 +278,7 @@
     <Content Include="Content\css_NhsUK\servicelist.css" />
     <Content Include="Content\css_NhsUK\slider.css" />
     <Content Include="Content\css_NhsUK\service.css" />
+    <Content Include="Content\css_NhsUK\help.css" />
     <Content Include="Content\images\999-Body-Image.png" />
     <Content Include="Content\images\bg\999Banner.png" />
     <Content Include="Content\images\bg\activeSurgery.png" />
@@ -784,6 +785,7 @@
     <Content Include="leeds-postcodes.csv" />
     <Content Include="Views\Shared\_CommonHiddenFieldsCareAdviceViewModel.cshtml" />
     <Content Include="Views\Outcome\PathwaySelectionJump.cshtml" />
+    <Content Include="Views\Help\Terms.cshtml" />
     <None Include="Web.Development.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
