@@ -5,8 +5,10 @@
 <!DOCTYPE html>
 <html lang="">
 <head>
+    @RenderSection("HeadTop", false)
+    
     @{
-        var data = new Dictionary<string, string> { { "ContainerID", ConfigurationManager.AppSettings["GoogleAnalyticsContainerId"] } };
+        var data = new Dictionary<string, string> {{"ContainerID", ConfigurationManager.AppSettings["GoogleAnalyticsContainerId"]}};
 
         var tagPrinter = new GoogleTagManagerPrinter(data);
     }
@@ -25,7 +27,7 @@
     <!-- Javascript -->
     <script src="~/scripts/vendor/modernizr-custom.js"></script>
     <!--[if lt IE 9]>
-     <script src="https://code.jquery.com/jquery-1.12.4.min.js" integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ=" crossorigin="anonymous"></script>
+        <script src="https://code.jquery.com/jquery-1.12.4.min.js" integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ=" crossorigin="anonymous"></script>
     <![endif]-->
 
     <script src="~/scripts/jquery2.1.1.min.js"></script>
