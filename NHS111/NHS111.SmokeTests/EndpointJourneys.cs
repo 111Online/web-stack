@@ -77,7 +77,7 @@ namespace NHS111.SmokeTests
         {
             var questionPage = TestScenerios.LaunchTriageScenerio(_driver, "Colds and flu", TestScenerioGender.Female, TestScenerioAgeGroups.Adult);
 
-            questionPage.ValidateQuestion("Are you severely ill AND got new marks, like bruising or bleeding under the skin?");
+            questionPage.ValidateQuestion("Do you feel severely ill with a new rash, like bruising or bleeding, under the skin?");
             var outcomePage = questionPage
                 .AnswerSuccessiveNo(6)
                 .Answer("None of the above")
@@ -99,7 +99,7 @@ namespace NHS111.SmokeTests
             questionPage.ValidateQuestion("What is the main problem?");
             var outcomePage = questionPage
                 .Answer("Toothache")
-                .AnswerSuccessiveNo(8)
+                .AnswerSuccessiveNo(5)
                 .Answer("No - less than 14 days")
                 .AnswerForDispostion("No - I've not taken any painkillers");
 
@@ -178,7 +178,8 @@ namespace NHS111.SmokeTests
 
             questionPage.ValidateQuestion("Have you had any blood in your sick (vomit)?");
             var outcomePage = questionPage
-                .AnswerSuccessiveNo(4)
+                .Answer("No blood or I haven't vomited")
+                .AnswerSuccessiveNo(3)
                 .Answer("None of these")
                 .AnswerSuccessiveNo(2)
                 .Answer("No - I don't have diabetes")
@@ -187,7 +188,7 @@ namespace NHS111.SmokeTests
                 .AnswerSuccessiveNo(8)
                 .AnswerForDispostion("Yes - 1 week or more");
 
-            outcomePage.VerifyOutcome("Your answers suggest you should speak to your GP within 3 days");
+            outcomePage.VerifyOutcome("Your answers suggest that you should talk to your own GP in 3 working days if you are not feeling better");
             outcomePage.VerifyWorseningPanel(WorseningMessages.Call111);
             outcomePage.VerifyCareAdviceHeader("What can I do in the meantime?");
             outcomePage.VerifyCareAdvice(new string[] { "Diarrhoea & Vomiting" });

@@ -92,7 +92,7 @@ namespace NHS111.SmokeTest.Utils
 
     public static class WorseningMessages
     {
-        public static WorseningMessageType Call999 = new WorseningMessageType("If you have any new symptoms, or the condition gets worse, changes or you have any other concerns call 999.");
+        public static WorseningMessageType Call999 = new WorseningMessageType("If there are any new symptoms, or if the condition gets worse, changes or you have any other concerns, call NHS 111 for advice. Calls to 111 are free.");
 
         public static WorseningMessageType Call111 = new WorseningMessageType("If there are any new symptoms, or if the condition gets worse, changes or you have any other concerns, call NHS 111 for advice. Calls to 111 are free.");
     }
