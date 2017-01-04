@@ -43,16 +43,16 @@ namespace NHS111.Domain.Repository
             var presentsForRelationshipName = "presentsFor";
             var outcomeNodeName = "Outcome";
 
-            var adviceWithAllItems = await  _graphRepository.Client.Cypher.
+            var adviceWithAllItemsQuery =   _graphRepository.Client.Cypher.
                 Match(string.Format("(t:CareAdviceText)-[:hasText*]-(i:{0})-[:{1}]->(o:{2})", interimCaNodeName, presentsForRelationshipName,
                     outcomeNodeName)).
                 Where(string.Format("i.keyword in [{0}]", JoinAndEncloseKeywords(keywords))).
                 AndWhere(string.Format("o.id = \"{0}\"", dxCode.Value)).
                 AndWhere(string.Format("i.id =~ \".*-{0}-{1}\"", ageCategory.Value, gender.Value)).
                 AndWhere(BuildExcludeKeywordsWhereStatement(keywords)).
-                Return((i, t) => new CareAdviceFlattened() { CareAdvcieTextDecendants = t.CollectAs<CareAdviceTextWithParent>(), CareAdviceItem = i.As<CareAdvice>() }).ResultsAsync;
+                Return((i, t) => new CareAdviceFlattened() { CareAdvcieTextDecendants = t.CollectAs<CareAdviceTextWithParent>(), CareAdviceItem = i.As<CareAdvice>() });
 
-            return SoreCareAdviceDescentants(adviceWithAllItems);
+            return SoreCareAdviceDescentants(await adviceWithAllItemsQuery.ResultsAsync);
         }
 
 
@@ -66,10 +66,10 @@ namespace NHS111.Domain.Repository
             var distinctKeywords = keywords.Distinct();
             foreach (var keyword in distinctKeywords)
             {
-                if (distinctKeywords.First() == keyword) whereStatement += "NOT (";
+                if (distinctKeywords.First() == keyword) whereStatement += "(i.excludeKeywords IS null OR NOT (";
                 whereStatement += string.Format("ANY(ex in i.excludeKeywords WHERE ex = {0})", keyword.DoubleQuoted());
                 if (distinctKeywords.Last() != keyword) whereStatement += " OR ";
-                else whereStatement += ")";
+                else whereStatement += "))";
             }
             return whereStatement;
         }
