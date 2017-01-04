@@ -11,6 +11,8 @@ namespace NHS111.Web.Presentation.Analytics {
 
         public abstract HtmlString Print();
 
+        public abstract HtmlString PrintNoScript();
+
         protected readonly Dictionary<string, string> _data;
     }
 }
