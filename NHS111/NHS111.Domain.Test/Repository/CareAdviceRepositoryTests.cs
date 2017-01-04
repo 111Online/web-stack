@@ -105,7 +105,7 @@ namespace NHS111.Domain.Test.Repository {
         public async void GetCareAdvice_WithArgs_Builds_ExcludesKeywords_Where_Statement()
         {
             SetupMockImplimentations();
-            var expectedAndWhereClause = "NOT (ANY(ex in i.excludeKeywords WHERE ex = \"Keyword1\") OR ANY(ex in i.excludeKeywords WHERE ex = \"Keyword2\"))";
+            var expectedAndWhereClause = "(i.excludeKeywords IS null OR NOT (ANY(ex in i.excludeKeywords WHERE ex = \"Keyword1\") OR ANY(ex in i.excludeKeywords WHERE ex = \"Keyword2\")))";
             var sut = new CareAdviceRepository(_mockGraph.Object);
             await sut.GetCareAdvice(_ageCategory, _gender, _keywords, _dxCode);
             _mockQuery.Verify(q => q.AndWhere(It.Is<string>(s => s == expectedAndWhereClause)), Times.Once);
