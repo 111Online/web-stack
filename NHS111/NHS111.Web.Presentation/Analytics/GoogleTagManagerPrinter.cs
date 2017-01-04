@@ -19,10 +19,6 @@ namespace NHS111.Web.Presentation.Analytics {
 
             //this html could be moved to a stand alone file so that you get syntax highlighting etc.
             string tag = @"<!-- Google Tag Manager -->
-    <noscript>
-        <iframe src='//www.googletagmanager.com/ns.html?id=" + containerId + @"'
-                height='0' width='0' style='display:none;visibility:hidden'></iframe>
-        </noscript>
         <script>
             (function(w, d, s, l, i) {
                 w[l] = w[l] || []; w[l].push({
@@ -33,6 +29,19 @@ namespace NHS111.Web.Presentation.Analytics {
             '//www.googletagmanager.com/gtm.js?id=' + i + dl; f.parentNode.insertBefore(j, f);
         })(window, document, 'script', 'dataLayer', '" + containerId + @"');</script>
     <!-- End Google Tag Manager -->";
+
+            return new HtmlString(tag);
+        }
+
+        public override HtmlString PrintNoScript() {
+            string containerId = _data["ContainerID"];
+            string tag = @"<!-- Google Tag Manager -->
+
+    <noscript>
+        <iframe src='//www.googletagmanager.com/ns.html?id=" + containerId + @"'
+                height='0' width='0' style='display:none;visibility:hidden'></iframe>
+    </noscript>
+<!-- End Google Tag Manager -->";
 
             return new HtmlString(tag);
         }

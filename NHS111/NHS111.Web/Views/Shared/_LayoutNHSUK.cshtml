@@ -5,6 +5,14 @@
 <!DOCTYPE html>
 <html lang="">
 <head>
+    @{
+        var data = new Dictionary<string, string> { { "ContainerID", ConfigurationManager.AppSettings["GoogleAnalyticsContainerId"] } };
+
+        var tagPrinter = new GoogleTagManagerPrinter(data);
+    }
+
+    @tagPrinter.Print()
+
     <meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -39,13 +47,8 @@
     }
 
 
-    @{
-    var data = new Dictionary<string, string> {{"ContainerID", ConfigurationManager.AppSettings["GoogleAnalyticsContainerId"]}};
 
-        var tagPrinter = new GoogleTagManagerPrinter(data);
-    }
-
-    @tagPrinter.Print()
+    @tagPrinter.PrintNoScript()
 
     <script type="text/javascript">document.body.className = ((document.body.className) ? document.body.className + ' js-enabled' : 'js-enabled');</script>
     <div id="skiplink-container">
