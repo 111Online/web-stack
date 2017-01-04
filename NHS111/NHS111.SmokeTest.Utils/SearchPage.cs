@@ -14,7 +14,7 @@ namespace NHS111.SmokeTest.Utils
     public class SearchPage
     {
         private readonly IWebDriver _driver;
-        private const string _headerText = "Find the symptom giving you the most concern";
+        private const string _headerText = "Search for the symptom you're most concerned about";
 
         [FindsBy(How = How.Id, Using = "searchTags")]
         public IWebElement SearchTxtBox { get; set; }

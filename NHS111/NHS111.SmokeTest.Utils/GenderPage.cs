@@ -13,7 +13,7 @@ namespace NHS111.SmokeTest.Utils
     {
         private readonly IWebDriver _driver;
 
-        private string _headerText = "Details about you or the person you're enquiring about";
+        private string _headerText = "Tell us about you, or the person you're asking about";
 
         [FindsBy(How = How.CssSelector, Using = "h2.heading-large")]
         public IWebElement Header { get; set; }
