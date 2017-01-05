@@ -7,6 +7,17 @@
 @section Title {
     Call NHS 111 - request for callback not completed
 }
+@section HeadTop {
+    <script>
+        var pageId = '@Model.Id';
+        dataLayer = [
+        {
+            'virtualPageUrl': document.location.pathname + '/' + pageId,
+            'virtualPageTitle': '@Model.TitleWithoutBullets'
+        }];
+    </script>
+}
+
 
 <link href="~/content/css_NhsUk/confirmation.css" media="screen" rel="stylesheet" type="text/css"/>
 <link href="~/Content/css_NhsUK/signposting-outcome.css" media="all" rel="stylesheet" type="text/css" />
