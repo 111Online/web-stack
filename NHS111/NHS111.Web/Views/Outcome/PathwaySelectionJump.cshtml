@@ -5,6 +5,17 @@
 <link href="~/content/css_NhsUk/question.css" media="screen" rel="stylesheet" type="text/css" />
 
 @section Title {}
+@section HeadTop {
+    <script>
+        var pageId = '@Model.Id';
+        dataLayer = [
+        {
+            'virtualPageUrl': document.location.pathname + '/' + pageId,
+            'virtualPageTitle': '@Model.TitleWithoutBullets'
+        }];
+    </script>
+}
+
 
 @section FeedbackSection {
     @Html.Partial("_FeedbackDetails", new FeedbackViewModel() { PageId = Request.Url.GetComponents(UriComponents.PathAndQuery, UriFormat.SafeUnescaped) + Model.PathwayId })

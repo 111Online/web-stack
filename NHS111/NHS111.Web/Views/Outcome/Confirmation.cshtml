@@ -11,6 +11,18 @@
     Confirmation
 }
 
+@section HeadTop {
+    <script>
+        var pageId = '@Model.Id';
+        dataLayer = [
+        {
+            'virtualPageUrl': document.location.pathname + '/' + pageId,
+            'virtualPageTitle': '@Model.TitleWithoutBullets'
+        }];
+    </script>
+}
+
+
 @section FeedbackSection {
     @Html.Partial("_FeedbackDetails", new FeedbackViewModel() { PageId = Model.Id })
 }

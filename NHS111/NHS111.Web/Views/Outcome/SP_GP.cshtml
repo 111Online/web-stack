@@ -30,6 +30,17 @@
     var dict = new ViewDataDictionary { { "OutcomeHeader", text } };
 
 }
+@section HeadTop {
+    <script>
+        var pageId = '@Model.Id';
+        dataLayer = [
+        {
+            'virtualPageUrl': document.location.pathname + '/' + pageId,
+            'virtualPageTitle': '@Model.TitleWithoutBullets'
+        }];
+    </script>
+}
+
 
 @Html.Partial("_OutcomeHeader", Model, dict)
 

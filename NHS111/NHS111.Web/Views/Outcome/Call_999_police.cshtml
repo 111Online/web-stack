@@ -5,6 +5,18 @@
 }
 @section Title
 {NHS 111 - 999 Police}
+@section HeadTop {
+    <script>
+        var pageId = '@Model.Id';
+        dataLayer = [
+        {
+            'virtualPageUrl': document.location.pathname + '/' + pageId,
+            'virtualPageTitle': '@Model.TitleWithoutBullets'
+        }];
+    </script>
+}
+
+
 @section Scripts {
     <!--<script src="~/scripts/jquery2.1.1.min.js"></script> included on layout page -->
     <script src="~/scripts/jquery1.11.2-ui.min.js"></script>

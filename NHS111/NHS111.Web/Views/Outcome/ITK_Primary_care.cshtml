@@ -4,6 +4,18 @@
     ViewBag.Title = "ITK_Primary_care";
     Layout = "~/Views/Shared/_LayoutNhsUK.cshtml";
 }
+@section HeadTop {
+    <script>
+        var pageId = '@Model.Id';
+        dataLayer = [
+        {
+            'virtualPageUrl': document.location.pathname + '/' + pageId,
+            'virtualPageTitle': '@Model.TitleWithoutBullets'
+        }];
+    </script>
+}
+
+
 @section Title { NHS 111 - Contact a healthcare service }
 <link href="~/Content/css_NhsUK/confirmation.css" media="all" rel="stylesheet" type="text/css" />
 <link href="~/content/css_NhsUk/disposition.css" media="screen" rel="stylesheet" type="text/css"/>

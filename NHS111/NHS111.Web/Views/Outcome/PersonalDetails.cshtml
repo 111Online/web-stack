@@ -11,6 +11,17 @@
 @section FeedbackSection {
     @Html.Partial("_FeedbackDetails", new FeedbackViewModel() { PageId = Model.Id })
 }
+@section HeadTop {
+    <script>
+        var pageId = '@Model.Id';
+        dataLayer = [
+        {
+            'virtualPageUrl': document.location.pathname + '/' + pageId,
+            'virtualPageTitle': '@Model.TitleWithoutBullets'
+        }];
+    </script>
+}
+
 
 <link href="~/content/css_NhsUk/personaldetails.css" media="screen" rel="stylesheet" type="text/css" />
 <link href="~/content/css_NhsUk/service.css" media="screen" rel="stylesheet" type="text/css" />
