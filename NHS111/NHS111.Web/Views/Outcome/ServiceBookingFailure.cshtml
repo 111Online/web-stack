@@ -12,7 +12,7 @@
         var pageId = '@Model.Id';
         dataLayer = [
         {
-            'virtualPageUrl': 'itk/failure/' + pageId,
+            'virtualPageUrl': 'itk/failure/' + @Model.SelectedService.Name,
             'virtualPageTitle': '@Model.TitleWithoutBullets'
         }];
     </script>
