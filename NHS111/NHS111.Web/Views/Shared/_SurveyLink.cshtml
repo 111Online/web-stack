@@ -1,0 +1,30 @@
+﻿<link href="~/Content/css_NhsUK/banner.css" media="screen" rel="stylesheet" type="text/css" />
+<div class="survey-banner-wrap clear">
+    <div class="survey-banner-content">
+        <div class="survey-invite">
+            <p>Take a short survey to help us improve</p>
+        </div>
+        <ul>
+            <li class="leave-feedback agree">
+                <a id="AgreeButton">Yes</a>
+            </li>
+            <li class="go-back postpone">
+                <a id="PostponeButton">Not now</a>
+            </li>
+        </ul>
+    </div>
+</div>
+
+<script>
+
+    $(document).ready(function () {
+        if (!$.cookie("nhs111-survey-link-banner")) {
+            $(".survey-banner-wrap").show();
+        }
+    });
+
+    $("a").click(function () {
+        $.cookie("nhs111-survey-link-banner", "survey-link-not-now", { path: '/' });
+        $(".survey-banner-wrap").hide();
+    });
+</script>
