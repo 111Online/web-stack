@@ -12,6 +12,9 @@
 <link href="~/Content/css_NhsUK/signposting-outcome-print.css" media="print" rel="stylesheet" type="text/css" />
 
 @Html.Partial("_OutcomeHeader", Model)
+
+@Html.Partial("_SurveyLink")
+
 @section HeadTop {
     <script>
         var pageId = '@Model.Id';
@@ -21,11 +24,6 @@
             'virtualPageTitle': '@Model.TitleWithoutBullets'
         }];
     </script>
-}
-
-
-@section FeedbackSection {
-    @Html.Partial("_FeedbackDetails", new FeedbackViewModel() { PageId = Model.Id })
 }
 
 @{

@@ -22,12 +22,9 @@
     </script>
 }
 
-
-@section FeedbackSection {
-    @Html.Partial("_FeedbackDetails", new FeedbackViewModel() { PageId = Model.Id })
-}
-
 @Html.Partial("_OutcomeHeader", new ViewDataDictionary() { { "OutcomeHeader", string.Format("Your answers suggest you need urgent medical attention within {0}", Model.TimeFrameText) } })
+
+@Html.Partial("_SurveyLink")
 
 @{
     var dataDictionary = ViewContext.ViewData;

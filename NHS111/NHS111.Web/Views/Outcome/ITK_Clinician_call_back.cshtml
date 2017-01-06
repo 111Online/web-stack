@@ -24,9 +24,7 @@
 
 @Html.Partial("_OutcomeHeader", new ViewDataDictionary() { { "OutcomeHeader", "Your answers suggest that you need a 111 clinician to call you" }})
 
-@section FeedbackSection {
-    @Html.Partial("_FeedbackDetails", new FeedbackViewModel() { PageId = Model.Id })
-}
+@Html.Partial("_SurveyLink")
 
 <div class="itk-message">
     <ul>
