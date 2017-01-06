@@ -78,3 +78,77 @@
 .notification-banner--inner strong {
     font-weight: bold;
 }
+/*surevey link banner styles*/
+.survey-banner-wrap {
+    background: #578300;
+    padding: 1em 0;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    z-index: 1;
+    left: 0;
+    display: none;
+}
+@media (max-width: 640px) {
+    .survey-banner-wrap {
+        width: 100%;
+    }
+}
+.survey-banner-wrap.clear {
+    margin-bottom: 0;
+}
+.survey-banner-wrap .survey-banner-content {
+    margin: 0 auto;
+    width: auto;
+    padding: 0 10px 10px 10px;
+}
+.survey-banner-wrap .survey-banner-content .survey-invite {
+    float: left;
+    width: 58%;
+}
+.survey-banner-wrap .survey-banner-content p {
+    color: #fff;
+    padding-bottom: 0;
+    margin-top: .6em;
+    margin-right: 1em;
+}
+.survey-banner-content ul {
+    float: left;
+    list-style: none;
+    width: 42%;
+}
+@media (max-width: 640px) {
+    .survey-banner-wrap .survey-banner-content p, .survey-banner-content ul {
+        float: none;
+        width: 100%;
+        margin-top: 0;
+        margin-right: 0;
+    }
+}
+.survey-banner-content ul li {
+    float: left;
+    margin-top: .6em;
+    margin-right: 1em;
+}
+@media (max-width: 640px) {
+    .survey-banner-wrap .survey-banner-content ul li {
+        display: inline;
+        margin-right: .3em;
+    }
+}
+.survey-banner-content ul li a {
+    background: #fff;
+    border-radius: 5px;
+    color: #333;
+    display: block;
+    font-weight: bold;
+    padding: 5px 15px;
+    text-decoration: none;
+    cursor: pointer;
+}
+@media (max-width: 640px) {
+    .survey-banner-wrap .survey-banner-content ul li a {
+        padding: 3px 5px;
+        font-size: .9em;
+    }
+}
