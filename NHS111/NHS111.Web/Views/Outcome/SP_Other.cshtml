@@ -19,9 +19,8 @@
         </div>
     </div>
 
-@section FeedbackSection {
-    @Html.Partial("_FeedbackDetails", new FeedbackViewModel() { PageId = Model.Id })
-}
+@Html.Partial("_SurveyLink")
+
 @section HeadTop {
 @{ var url = string.Format("/outcome/{0}/{1}/{2}/disposition/", Url.Encode(Model.PathwayNo), Url.Encode(Model.OutcomeGroup.Text), Url.Encode(Model.Id)); }
     <script>
@@ -54,7 +53,7 @@
             Postcode of current address
         </label>
         <div class="inline-details">
-            @Html.TextBoxFor(m => m.UserInfo.CurrentAddress.PostCode, new { @class = "form-control form-control-8-chars", placeholder = "eg. SE1" })
+            @Html.TextBoxFor(m => m.UserInfo.CurrentAddress.Postcode, new { @class = "form-control form-control-8-chars", placeholder = "eg. SE1" })
             <input type="submit" class="button button-next" value="Find" />
         </div>
     }

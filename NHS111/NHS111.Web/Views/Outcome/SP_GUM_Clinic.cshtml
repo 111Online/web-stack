@@ -12,6 +12,9 @@
 <link href="~/Content/css_NhsUK/signposting-outcome-print.css" media="print" rel="stylesheet" type="text/css" />
 
 @Html.Partial("_OutcomeHeader", Model)
+
+@Html.Partial("_SurveyLink")
+
 @section HeadTop {
 @{ var url = string.Format("/outcome/{0}/{1}/{2}/disposition/", Url.Encode(Model.PathwayNo), Url.Encode(Model.OutcomeGroup.Text), Url.Encode(Model.Id)); }
     <script>
@@ -22,11 +25,6 @@
             'virtualPageTitle': '@Model.TitleWithoutBullets'
         }];
     </script>
-}
-
-
-@section FeedbackSection {
-    @Html.Partial("_FeedbackDetails", new FeedbackViewModel() { PageId = Model.Id })
 }
 
 @{

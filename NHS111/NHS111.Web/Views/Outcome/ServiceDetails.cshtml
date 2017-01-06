@@ -29,6 +29,8 @@
 
 @Html.Partial("_OutcomeHeader", Model)
 
+@Html.Partial("_SurveyLink")
+
 @section FeedbackSection {
     @Html.Partial("_FeedbackDetails", new FeedbackViewModel() { PageId = Model.Id })
 }

@@ -23,7 +23,6 @@
     </script>
 }
 
-
 @section FeedbackSection {
     @Html.Partial("_FeedbackDetails", new FeedbackViewModel() { PageId = Model.Id })
 }
@@ -55,6 +54,8 @@
         }
     </div>
 </section>
+
+@Html.Partial("_SurveyLink")
 
 @if (!string.IsNullOrEmpty(Model.WaitTimeText))
 {
