@@ -49,13 +49,15 @@ namespace NHS111.Web.Presentation.Builders
                     StateJson = identifiedModel.StateJson,
                     CollectedKeywords = identifiedModel.CollectedKeywords,
                     Journey = JsonConvert.DeserializeObject<Journey>(identifiedModel.JourneyJson),
-                    SessionId = model.SessionId
+                    SessionId = model.SessionId,
+                    JourneyId = Guid.NewGuid()
                 };
                 var question = JsonConvert.DeserializeObject<QuestionWithAnswers>(await _restfulHelper.GetAsync(_configuration.GetBusinessApiFirstQuestionUrl(identifiedModel.PathwayId, identifiedModel.StateJson)));
                 _mappingEngine.Mapper.Map(question, journeyViewModel);
                 return new Tuple<string, JourneyViewModel>("../Question/Question", journeyViewModel);
             }
             identifiedModel.Part = 1;
+            identifiedModel.JourneyId = Guid.NewGuid();
             identifiedModel.Questions = questionsWithAnswers;
             identifiedModel.QuestionsJson = questionsJson;
             identifiedModel.JourneyJson = string.IsNullOrEmpty(identifiedModel.JourneyJson) ? JsonConvert.SerializeObject(new Journey()) : identifiedModel.JourneyJson;
