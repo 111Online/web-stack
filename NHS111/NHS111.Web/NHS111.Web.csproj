@@ -218,6 +218,7 @@
     <Compile Include="Views\Shared\DirectLinkingView.cs" />
     <Compile Include="Views\Shared\DisclaimerView.cs" />
     <Compile Include="Views\Shared\LayoutView.cs" />
+    <Compile Include="Views\Shared\SurveyLinkView.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\css\custom.css" />
