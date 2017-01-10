@@ -12,8 +12,6 @@
 
 @Html.Partial("_OutcomeHeader", Model)
 
-@Html.Partial("_SurveyLink")
-
 @section HeadTop {
 @{ var url = string.Format("/outcome/{0}/{1}/{2}/disposition/", Url.Encode(Model.PathwayNo), Url.Encode(Model.OutcomeGroup.Text), Url.Encode(Model.Id)); }
     <script>
@@ -26,6 +24,9 @@
     </script>
 }
 
+@section FeedbackSection {
+    @Html.Partial("_DispositionBanners")
+}
 
 @{
     var dataDictionary = ViewContext.ViewData;

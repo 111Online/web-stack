@@ -21,11 +21,13 @@
     </script>
 }
 
+@section FeedbackSection {
+    @Html.Partial("_DispositionBanners")
+}
+
 <div class="outcome-header">
     <h2 class="heading-large">Based on your answers, you can look after yourself and don't need to see a healthcare professional</h2>
 </div>
-    
-@Html.Partial("_SurveyLink")
 
 @Html.Partial("_WorseningAdvice", Model)
 <section>

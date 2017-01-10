@@ -116,6 +116,8 @@
     float: left;
     list-style: none;
     width: 42%;
+    margin-bottom: 0;
+    clear: none;
 }
 @media (max-width: 640px) {
     .survey-banner-wrap .survey-banner-content p, .survey-banner-content ul {

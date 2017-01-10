@@ -26,11 +26,11 @@
     <link href="~/Content/css_NhsUK/signposting-outcome.css" media="all" rel="stylesheet" type="text/css" />
 }
 
-
+@section FeedbackSection {
+    @Html.Partial("_DispositionBanners")
+}
 
 @Html.Partial("_OutcomeHeader", Model, new ViewDataDictionary() { { "OverrideWorseningAdvice", "true" } })
-
-@Html.Partial("_SurveyLink")
 
 <div id="wrapper">
     <div>

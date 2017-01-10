@@ -21,11 +21,13 @@
 <link href="~/Content/css_NhsUK/confirmation.css" media="all" rel="stylesheet" type="text/css" />
 <link href="~/content/css_NhsUk/disposition.css" media="screen" rel="stylesheet" type="text/css"/>
 <link href="~/Content/css_NhsUK/signposting-outcome.css" media="all" rel="stylesheet" type="text/css" />
-<link href="~/Content/css_NhsUK/signposting-outcome-print.css" media="print" rel="stylesheet" type="text/css" />
+<link href="~/Content/css_NhsUK/signposting-outcome-print.css" media="print" rel="stylesheet" type="text/css"/>
+
+@section FeedbackSection {
+    @Html.Partial("_DispositionBanners")
+}
 
 @Html.Partial("_OutcomeHeader", new ViewDataDictionary() { { "OutcomeHeader", string.Format("Based on your answers, we recommend you speak to a healthcare service within {0}", Model.TimeFrameText) } })
-
-@Html.Partial("_SurveyLink")
 
 <div class="itk-message">
     <ul>

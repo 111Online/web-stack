@@ -26,14 +26,11 @@
     </script>
 }
 
+@section FeedbackSection {
+    @Html.Partial("_DispositionBanners")
+}
 
 @Html.Partial("_OutcomeHeader", Model)
-
-@Html.Partial("_SurveyLink")
-
-@section FeedbackSection {
-    @Html.Partial("_FeedbackDetails", new FeedbackViewModel() { PageId = Model.Id })
-}
 
 <link href="~/Content/css_NhsUK/confirmation.css" media="all" rel="stylesheet" type="text/css" />
 <link href="~/content/css_NhsUk/servicelist.css" media="screen" rel="stylesheet" type="text/css" />

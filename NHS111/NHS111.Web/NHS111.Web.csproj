@@ -788,6 +788,7 @@
     <Content Include="Views\Outcome\PathwaySelectionJump.cshtml" />
     <Content Include="Views\Help\Terms.cshtml" />
     <Content Include="Views\Shared\_SurveyLink.cshtml" />
+    <Content Include="Views\Shared\_DispositionBanners.cshtml" />
     <None Include="Web.Development.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

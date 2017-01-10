@@ -10,9 +10,6 @@
     Select a service
 }
 
-@section FeedbackSection {
-    @Html.Partial("_FeedbackDetails", new FeedbackViewModel() { PageId = @Model.Id })
-}
 @section HeadTop {
 @{ var url = string.Format("/outcome/{0}/{1}/{2}/servicelist/{3}/", Url.Encode(Model.PathwayNo), Url.Encode(Model.OutcomeGroup.Text), Url.Encode(Model.Id), Url.Encode(Model.UserInfo.CurrentAddress.Postcode)); }
     <script>
@@ -25,6 +22,9 @@
     </script>
 }
 
+@section FeedbackSection {
+    @Html.Partial("_DispositionBanners")
+}
 
 <link href="~/Content/css_NhsUK/confirmation.css" media="all" rel="stylesheet" type="text/css" />
 <link href="~/content/css_NhsUk/servicelist.css" media="screen" rel="stylesheet" type="text/css" />
@@ -85,8 +85,6 @@
         }
     </div>
 </section>
-
-@Html.Partial("_SurveyLink")
 
 @if (Model.DosCheckCapacitySummaryResult.Success.Services.Count > 1)
 {

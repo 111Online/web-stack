@@ -26,7 +26,7 @@
 <link href="~/content/css_NhsUk/service.css" media="screen" rel="stylesheet" type="text/css" />
 
 @section FeedbackSection {
-    @Html.Partial("_FeedbackDetails", new FeedbackViewModel() { PageId = "Itk_Failure" })
+    @Html.Partial("_DispositionBanners")
 }
 
 <section>
@@ -36,7 +36,5 @@
         <h3 class="heading-medium">Please call NHS 111 now for advice.  We may ask for your details again so that we can help you.</h3>
     </div>
 </section>
-
-@Html.Partial("_SurveyLink")
 
 @Html.Partial("_CareAdvice", Model.CareAdvices, new ViewDataDictionary { { "Title", "What can I do in the meantime?" } })

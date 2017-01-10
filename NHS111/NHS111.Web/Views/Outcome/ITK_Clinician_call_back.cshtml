@@ -23,9 +23,11 @@
     </script>
 }
 
-@Html.Partial("_OutcomeHeader", new ViewDataDictionary() { { "OutcomeHeader", "Your answers suggest that you need a 111 clinician to call you" }})
+@section FeedbackSection {
+    @Html.Partial("_DispositionBanners")
+}
 
-@Html.Partial("_SurveyLink")
+@Html.Partial("_OutcomeHeader", new ViewDataDictionary() { { "OutcomeHeader", "Your answers suggest that you need a 111 clinician to call you" }})
 
 <div class="itk-message">
     <ul>

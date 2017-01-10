@@ -23,14 +23,14 @@
     </script>
 }
 
-@section FeedbackSection {
-    @Html.Partial("_FeedbackDetails", new FeedbackViewModel() { PageId = Model.Id })
-}
-
 <link href="~/content/css_NhsUk/confirmation.css" media="screen" rel="stylesheet" type="text/css"/>
 <link href="~/Content/css_NhsUK/signposting-outcome.css" media="all" rel="stylesheet" type="text/css" />
 <link href="~/Content/css_NhsUK/signposting-outcome-print.css" media="print" rel="stylesheet" type="text/css" />
-<link href="~/content/css_NhsUk/service.css" media="screen" rel="stylesheet" type="text/css" />
+<link href="~/content/css_NhsUk/service.css" media="screen" rel="stylesheet" type="text/css"/>
+
+@section FeedbackSection {
+    @Html.Partial("_DispositionBanners")
+}
 
 <section>
     <div class="outcome-header">
@@ -54,8 +54,6 @@
         }
     </div>
 </section>
-
-@Html.Partial("_SurveyLink")
 
 @if (!string.IsNullOrEmpty(Model.WaitTimeText))
 {
