@@ -52,6 +52,8 @@
     </div>
 </section>
 
+@Html.Partial("_SurveyLink")
+
 @using (Html.BeginForm("Confirmation", "Outcome", FormMethod.Post, new { id = "personalDetailForm" }))
 {
     @Html.Partial("_CommonHiddenFieldsOutcomeViewModel", Model)
