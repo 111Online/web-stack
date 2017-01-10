@@ -101,7 +101,7 @@
                                 foreach (var link in links) {
                                     link.Value.RemoveAll(number => !Model.PathwayNumbers.Contains(number));
                                     if (link.Value.Any()) {
-                                        <li><input type="submit" class="linkButton" value="@link.Key" id="@string.Join(",", link.Value)"/></li>
+                                        <li><input type="submit" class="popularTopic linkButton" value="@link.Key" id="@string.Join(",", link.Value)"/></li>
                                     }
                                 }
                             }
