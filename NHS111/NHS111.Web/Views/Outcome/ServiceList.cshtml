@@ -14,7 +14,7 @@
     @Html.Partial("_FeedbackDetails", new FeedbackViewModel() { PageId = @Model.Id })
 }
 @section HeadTop {
-@{ var url = string.Format("/outcome/{0}/{1}/{2}/itk/servicelist/{3}/{4}/", Url.Encode(Model.PathwayNo), Url.Encode(Model.OutcomeGroup.Text), Url.Encode(Model.Id), Url.Encode(Model.SelectedServiceId), Url.Encode(Model.SelectedService.Name)); }
+@{ var url = string.Format("/outcome/{0}/{1}/{2}/servicelist/{3}/", Url.Encode(Model.PathwayNo), Url.Encode(Model.OutcomeGroup.Text), Url.Encode(Model.Id), Url.Encode(Model.UserInfo.CurrentAddress.Postcode)); }
     <script>
         var pageId = '@Model.Id';
         dataLayer = [
