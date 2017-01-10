@@ -6,11 +6,12 @@
 @section Title
 {NHS 111 - 999 Police}
 @section HeadTop {
+@{ var url = string.Format("/outcome/{0}/{1}/{2}/disposition/", Url.Encode(Model.PathwayNo), Url.Encode(Model.OutcomeGroup.Text), Url.Encode(Model.Id)); }
     <script>
         var pageId = '@Model.Id';
         dataLayer = [
         {
-            'virtualPageUrl': 'outcome/' + pageId,
+            'virtualPageUrl': @url,
             'virtualPageTitle': '@Model.TitleWithoutBullets'
         }];
     </script>

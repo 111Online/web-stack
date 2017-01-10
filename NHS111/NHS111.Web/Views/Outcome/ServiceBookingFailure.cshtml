@@ -8,11 +8,12 @@
     Call NHS 111 - request for callback not completed
 }
 @section HeadTop {
+@{ var url = string.Format("/outcome/{0}/{1}/{2}/itk/failure/{3}/{4}/", Url.Encode(Model.PathwayNo), Url.Encode(Model.OutcomeGroup.Text), Url.Encode(Model.Id), Url.Encode(Model.SelectedServiceId), Url.Encode(Model.SelectedService.Name)); }
     <script>
         var pageId = '@Model.Id';
         dataLayer = [
         {
-            'virtualPageUrl': 'itk/failure/@Model.SelectedService.Name',
+            'virtualPageUrl': @url,
             'virtualPageTitle': '@Model.TitleWithoutBullets'
         }];
     </script>

@@ -12,11 +12,12 @@
 <link href="~/Content/css_NhsUK/signposting-outcome-print.css" media="print" rel="stylesheet" type="text/css" />
 
 @section HeadTop {
+@{ var url = string.Format("/outcome/{0}/{1}/{2}/{3}/disposition/", Url.Encode(Model.PathwayNo), Url.Encode(Model.OutcomeGroup.Text), Url.Encode(Model.Id), Url.Encode(Model.QuestionNo)); }
     <script>
         var pageId = '@Model.Id';
         dataLayer = [
         {
-            'virtualPageUrl': 'outcome/' + pageId,
+            'virtualPageUrl': @url,
             'virtualPageTitle': '@Model.TitleWithoutBullets'
         }];
     </script>

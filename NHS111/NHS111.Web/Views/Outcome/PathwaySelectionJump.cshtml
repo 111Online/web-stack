@@ -6,11 +6,12 @@
 
 @section Title {}
 @section HeadTop {
+@{ var url = string.Format("/selectionjump/{0}/", Url.Encode(Model.PathwayNo)); }
     <script>
         var pageId = '@Model.Id';
         dataLayer = [
         {
-            'virtualPageUrl': document.location.pathname + '/' + pageId,
+            'virtualPageUrl': @url,
             'virtualPageTitle': '@Model.TitleWithoutBullets'
         }];
     </script>

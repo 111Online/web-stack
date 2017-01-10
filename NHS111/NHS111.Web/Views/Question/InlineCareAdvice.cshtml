@@ -8,9 +8,10 @@
 @section Title {}
 
 @section HeadTop {
+    @{ var url = string.Format("/{0}/{1}/{2}/", Url.Encode(Model.PathwayId), Url.Encode(Model.PathwayTitle), Url.Encode(Model.QuestionNo)); }
     <script>
         dataLayer = [{
-            'virtualPageUrl': document.location.pathname + '/@Model.Id',
+            'virtualPageUrl': document.location.pathname + '@url',
             'virtualPageTitle': '@Model.TitleWithoutBullets'
         }];
     </script>
