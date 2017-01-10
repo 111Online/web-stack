@@ -16,7 +16,12 @@ namespace NHS111.Features {
         protected BaseFeature(IFeatureSettingValueProvider settingValueProvider) {
             SettingValueProvider = settingValueProvider;
         }
-        
+
+        public virtual IFeatureValue FeatureValue(string featureName)
+        {
+            return FeatureValue(null, featureName);
+        }
+
         public virtual IFeatureValue FeatureValue(IDefaultSettingStrategy defaultSettingStrategy, string featureName)
         {
             return SettingValueProvider.GetSetting(this, defaultSettingStrategy, featureName);

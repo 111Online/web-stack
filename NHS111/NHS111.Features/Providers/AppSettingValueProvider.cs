@@ -14,7 +14,7 @@ namespace NHS111.Features.Providers {
                 return new FeatureValue(setting.ToLower()); 
 
             if (defaultStrategy == null)
-                throw new MissingSettingException();
+                throw new MissingSettingException("Missing setting : " + settingName);
 
             return new FeatureValue(defaultStrategy.Value);
         }
