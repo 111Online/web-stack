@@ -1,4 +1,5 @@
-﻿@inherits NHS111.Web.Views.Shared.SurveyLinkView
+﻿@using NHS111.Utils.Parser
+@inherits NHS111.Web.Views.Shared.SurveyLinkView<NHS111.Models.Models.Web.JourneyViewModel>
 
 @if (SurveyLinkFeature.IsEnabled)
 {
@@ -28,7 +29,17 @@
                 }
             });
 
-        $("a")
+        $("#AgreeButton")
+            .click(function () {
+                var url = '@string.Format(SurveyLinkFeature.BaseUrl, SurveyLinkFeature.SurveyId, Model.JourneyId, Model.PathwayNo, JourneyJsonParser.GetEndingPathway(Model.JourneyJson), Model.Id)';
+                var win = window.open(url);
+                //win.focus();
+                $.cookie("nhs111-survey-link-banner", "survey-link-yes", { path: '/' });
+                $(".survey-banner-wrap").hide();
+
+            });
+
+        $("#PostponeButton")
             .click(function() {
                 $.cookie("nhs111-survey-link-banner", "survey-link-not-now", { path: '/' });
                 $(".survey-banner-wrap").hide();

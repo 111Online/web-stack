@@ -3,7 +3,7 @@ using NHS111.Features;
 
 namespace NHS111.Web.Views.Shared
 {
-    public class SurveyLinkView : WebViewPage
+    public class SurveyLinkView<T> : WebViewPage<T>
     {
         public ISurveyLinkFeature SurveyLinkFeature { get; set; }
 

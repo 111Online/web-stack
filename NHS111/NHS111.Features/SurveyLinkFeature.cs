@@ -1,4 +1,7 @@
-﻿using NHS111.Features.Defaults;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using NHS111.Features.Defaults;
 
 namespace NHS111.Features
 {
@@ -8,10 +11,22 @@ namespace NHS111.Features
         {
             DefaultIsEnabledSettingStrategy = new EnabledByDefaultSettingStrategy();
         }
+
+        public string BaseUrl
+        {
+            get { return FeatureValue("BaseUrl").Value; }
+        }
+
+        public string SurveyId
+        {
+            get { return FeatureValue("SurveyId").Value; }
+        }
     }
 
     public interface ISurveyLinkFeature : IFeature
     {
-        
+        string BaseUrl { get; }
+
+        string SurveyId { get; }
     }
 }
