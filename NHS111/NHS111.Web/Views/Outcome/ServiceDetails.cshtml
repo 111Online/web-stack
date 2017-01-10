@@ -15,11 +15,12 @@
     Service details
 }
 @section HeadTop {
+@{ var url = string.Format("/outcome/{0}/{1}/{2}/servicelist/{3}/", Url.Encode(Model.PathwayNo), Url.Encode(Model.OutcomeGroup.Text), Url.Encode(Model.Id), Url.Encode(Model.UserInfo.CurrentAddress.Postcode)); }
     <script>
         var pageId = '@Model.Id';
         dataLayer = [
         {
-            'virtualPageUrl': document.location.pathname + '/' + pageId,
+            'virtualPageUrl': @url,
             'virtualPageTitle': '@Model.TitleWithoutBullets'
         }];
     </script>
