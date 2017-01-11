@@ -1,81 +1,197 @@
 ﻿@{
     Layout = "~/Views/Shared/_LayoutNhsUK.cshtml";
 }
-
 @section Title {Privacy statement}
+<link href="~/Content/css_NhsUK/help.css" media="screen" rel="stylesheet" type="text/css" />
+<div class="help privacy">
+    <h2>Privacy Policy</h2>
 
-<link href="disposition.css" media="screen" rel="stylesheet" type="text/css">
+    <h3>Overview</h3>
 
-<div class="content-block">
-    <div class="inner">
+    <p>
+        When you use the 111 service information about your condition is collected so we can understand it. In addition we collect anonymous information about how you reached the website. This is so we can improve the service for future users. However unless you choose to be referred no information that can identify you is collected.
+    </p>
 
+    <p>
+        If you do choose to participate in the triage and be referred this is what we collect:
+    </p>
 
-        <div class="summary">
-            <p>NHS Digital is the Data Controller for NHS 111 Online under the Data Protection Act 1998.</p>
-            <p>We will process your data in accordance with the Data Protection Act.</p>
-            <p>The purpose of the privacy policy is to inform you as a user of NHS 111 Online about what information we collect when you visit the service, how we use the information, whether the information is disclosed and the ways in which we protect users' privacy.</p>
-            <p>We want you to feel secure when using the service. We are committed to respecting your privacy. Below we give an overview of how we do that.</p>
-        </div>
+    <ul>
+        <li>Age and gender – so the service can provide you with the most accurate medical triage</li>
+        <li>Location information – we need your postcode so we can find the most appropriate medical service for your condition. To help keep your privacy we only keep the first part of your postcode on the system.</li>
+        <li>Personal information – we will ask for this only where you would like to be referred to a health care provider. For this we will collect your first name, last name, email address, postcode, address and telephone number or we ask for the details of the person you are contacting us about. This information along with the advice you’ve been given will be passed to a healthcare professional.</li>
+    </ul>
 
-        <h2 class="heading-large">Data collection</h2>
+    <p>
+        Without this information we cannot provide the service you have requested.
+    </p>
 
-        <p>We collect certain information or data about you when you use NHS 111 Online.</p>
+    <p>
+        The information is collected by NHS Digital who provide the technical side of the 111 service. We store copies of clinical records for audit purposes only with strict security controls. After 8 years (which is the standard retention period for this type of record) it will be securely deleted from NHS Digital’s systems. By agreeing to be referred to a healthcare professional you agree to this.
+    </p>
 
-        <p>This includes:</p>
+    <p>
+        The healthcare team that your information is passed to will have their own policies which cover the use of the information you have provided. This will include who they may share your information with to provide further healthcare.
+    </p>
 
-        <ul>
-            <li>questions, queries or feedback you leave, including your email address if you send feedback to NHS 111 Online</li>
-            <li>your IP address, and details of which version of @Html.ActionLink("web browser", "Browsers", "Help") you used</li>
-            <li>information on how you use the site, using @Html.ActionLink("cookies", "Cookies", "Help") and page tagging techniques to help us improve the website</li>
-            <li>details to allow you to access suitable NHS services, eg an postcode (you’ll always be told when this information is being collected, and it will only be used for the purpose you provide it for)</li>
-            <li class="query">user journey - how should that be expressed?</li>
-            <li class="query">anything else?</li>
-        </ul>
+    <p>
+        If you want to find out more about the NHS 111 service and how it uses your information please see below.
+    </p>
 
-        <p>This helps us to:</p>
+    <hr />
 
-        <ul>
-            <li>improve the site by monitoring how you use it</li>
-            <li>respond to any feedback you send us, if you’ve asked us to</li>
-            <li>provide you with information about local services appropriate to you</li>
-        </ul>
+    <h2>Information we may collect, and how we use it</h2>
 
-        <h2 class="heading-large">Where your data is stored</h2>
+    <p>
+        In all cases below, where we refer to ‘you’ the user, if you are contacting us about someone else this information may also refer to them.
+    </p>
 
-        <p class="query">We store your data on our secure servers.</p>
+    <h3>We collect the following anonymous information</h3>
 
-        <p>It may be stored outside of Europe, where it could be viewed by our staff or suppliers.</p>
+    <ul>
+        <li>
+            Technical information.  As you travel through the site we anonymously collect IP address and the website you came from, details of which version of web browser you used, information on how you use the site, using @Html.ActionLink("cookies", "Cookies", null, new { target = "_blank" }) and page tagging techniques.
+            <ul>
+                <li>
+                    We use this information to understand behaviours on our site, so we can make changes to the content and structure of the service and make it better for users.
+                </li>
+            </ul>
+        </li>
+    </ul>
+    <ul>
+        <li>
+            Clinical information.  We automatically collect the answers you give to the questions in our medical triage, as well as the symptom you select and the recommendation (disposition) you reach.
+            <ul>
+                <li>
+                    We need to collect the answers to your questions so we can calculate the right recommendation for your health needs. This is done anonymously, unless you or the person you are contacting us about opt to be referred. If you optionally decide to be referred to a health service, we will connect this information with your personal details and securely pass it to the relevant healthcare professional. More details are given below.
+                </li>
+            </ul>
+        </li>
+    </ul>
 
-        <p>By submitting your personal data, you agree to this.</p>
+    <hr />
 
-        <h2>Keeping your data secure</h2>
+    <h3>You may optionally provide us with the following identifiable information</h3>
 
-        <p>Transmitting information over the internet is generally not completely secure, and we can’t guarantee the security of your data.</p>
+    <ul class="spaced-list">
+        <li>
+            Demographic information. In order that our service can provide you with the most accurate medical triage, we collect your sex and age. If you wish to complete a triage we require this information.   The triage questions are specific to sex and age so we need this information to ensure we ask you about the right things.
+        </li>
+        <li>
+            Location information. If you wish to search for a health service provider to suit your medical needs, you provide the postcode of the location you wish to search in. We only store the first half of your postcode to ensure the data we store remains anonymous.  If you wish to access services in your area we use postcode as the basis for our search.
+        </li>
+        <li>
+            Personal information. If, and only if, you wish to be referred to a healthcare provider, we will collect first name, last name, email address, postcode, address and telephone number your, or the person you are contacting us about. We will attach these details to the advice you’ve been given so that we can pass the information to a healthcare professional. You’ll be told when this information is being collected.
+        </li>
+        <li>
+            Feedback data. You are able to leave feedback on most pages of the website. Feedback on pages is collected anonymously and is not monitored closely so will not be responded to. If you need someone to get back to you, please call 111.
+        </li>
+    </ul>
 
-        <h3 class="heading-small">Any data you transmit is at your own risk.</h3>
+    <p>
+        You may be asked to complete a survey when you’ve finished using the service. You may also be asked to provide your email address so can we send you a survey later about what happened after your use of 111. With your permission only, we may link your survey responses to the information you entered in the website. This information helps us improve the service for future users.
+    </p>
 
-        <p>We have procedures and security features in place to try and keep your data secure once we receive it.</p>
+    <p>
+        We also store all of the above information according to the NHS Digital retention policy of up to 8 years for audit purposes.
+    </p>
 
-        <p>We won’t share your information with any other organisations for marketing, market research or commercial purposes, and we don’t pass on your details to other websites.</p>
+    <hr />
 
-        <h2 class="heading-large">Disclosing your information</h2>
+    <h3>Keeping your data secure</h3>
 
-        <p>We may pass on your personal information if we have a legal obligation to do so, or if we have to enforce or apply our <a href="http://www.nhs.uk/aboutNHSChoices/aboutnhschoices/termsandconditions/Pages/termsandconditions.aspx">terms of use</a> and other agreements. This includes exchanging information with other NHS services for legal reasons.</p>
+    <ul class="spaced-list">
+        <li>
+            We convert your data into secure code (encrypt it) and store it on secure servers. Our infrastructure is hosted on Microsoft Azure in England. Microsoft are providing hosting as a commodity service and have no say in how the information is used. There are no legitimate means by which Microsoft employees can access the data, and technical controls have been put in place to ensure this.
+        </li>
+        <li>
+            All data is stored anonymously, unless you have opted to provide us with your personal information in order to complete a referral to another healthcare provider, or if you have opted to complete a survey.
+        </li>
+        <li>
+            If you opt to be referred to a healthcare service, we combine your personal details to the answers you have given to create a clinical record. This is securely transmitted to the relevant healthcare service that you select.
+        </li>
+        <li>
+            We store copies of clinical records for audit purposes only with strict security controls. It will only be stored in England, and can only be viewed by approved persons in the NHS 111 development team. By agreeing to be referred to a relevant healthcare professional you agree to this.
+        </li>
+        <li>
+            Any data we transmit is via TLS mutual authentication i.e. has technical controls around it to keep it safe.
+        </li>
+    </ul>
 
-        <h2 class="heading-large">Your rights</h2>
+    <hr />
 
-        <p>You can <a href="https://www.gov.uk/data-protection">find out what information we hold about you</a>, and ask us not to use any of the information we collect.</p>
+    <h3>Data sharing</h3>
 
-        <h2 class="heading-large">Links to other websites</h2>
+    <h4>Provision of care</h4>
 
-        <p>This privacy policy only applies to this website, and doesn’t cover other government services and transactions that we link to.</p>
+    <ul>
+        <li>
+            If either you or the person are contacting us about,has the option of being referred into a healthcare service; we will pass the answers to your or that person’s questions, along with the personal details entered, to the healthcare service you have selected.
+        </li>
+        <li>
+            That service may then further share your data with other healthcare providers according to their own policies and in accordance with the Data Protection Act.
+        </li>
+        <li>
+            By opting to refer to another healthcare provider you are consenting to the onward transmission of your data for the purposes of direct care.
+        </li>
+        <li>
+            If you are contacting us on behalf of someone else you should ensure you have that person’s consent to share his or her data in this way.
+        </li>
+    </ul>
 
-        <h3 class="heading-medium">Following a link to another website</h3>
+    <h4>Legal powers</h4>
 
-        <p>If you go to another website from this one, read the privacy policy on that website to find out what it does with your information.</p>
+    <ul>
+        <li>
+            We may pass on your personal information if we have a legal obligation to do so.
+        </li>
+        <li>
+            In the event of a claim against us from you as a user, we and other third parties such as solicitors acting on our behalf, may need to look at this information.
+        </li>
+    </ul>
 
-        <h3 class="heading-medium">Following a link to NHS 111 Online from another website</h3>
+    <p>Other than the circumstances outlined above we will not share personal information with other third parties without your consent.</p>
 
-        <p>If you come to NHS 111 Online from another website, we may receive personal information about you from the other website. You should read the privacy policy of the website you came from to find out more about this.</p>
-    </div>
+    <hr />
+
+    <h3>Further information</h3>
+
+    <ul>
+        <li>
+            NHS Digital is the Data Controller for NHS 111 Online under the Data Protection Act 1998.
+        </li>
+        <li>
+            We will process your data in accordance with the Data Protection Act.
+        </li>
+        <li>
+            The purpose of the privacy policy is to inform you as a user of NHS 111 Online about what information we collect when you visit the service, how we use the information, whether the information is disclosed and the ways in which we protect users' privacy.
+        </li>
+        <li>
+            We want you to feel secure when using the service. We are committed to respecting your privacy.
+        </li>
+    </ul>
+
+    <hr />
+
+    <h3>Your rights</h3>
+
+    <ul>
+        <li>
+            You can find out what information we hold about you, and ask us to delete any of the information we collect about you. Please contact us via the form on our @Html.ActionLink("terms and conditions", "terms", null, new { target = "_blank" }) pages.
+        </li>
+    </ul>
+
+    <hr />
+
+    <h3>Links to other websites</h3>
+
+    <ul>
+        <li>
+            This privacy policy only applies to this website, and doesn’t cover other websites that we link to.
+        </li>
+        <li>
+            If you go to another website from this one, read the privacy policy on that website to find out what it does with your information.
+        </li>
+    </ul>
+
 </div>
