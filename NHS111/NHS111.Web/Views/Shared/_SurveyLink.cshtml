@@ -1,45 +1,52 @@
 ﻿@using NHS111.Utils.Parser
 @inherits NHS111.Web.Views.Shared.SurveyLinkView<NHS111.Models.Models.Web.JourneyViewModel>
 
-<link href="~/Content/css_NhsUK/banner.css" media="screen" rel="stylesheet" type="text/css" />
-<div class="survey-banner-wrap clear">
-    <div class="survey-banner-content">
-        <div class="survey-invite">
-            <p>Take a short survey to help us improve</p>
+@{
+    var launchPage = ViewData.ContainsKey("LaunchPage") ? ViewData["LaunchPage"] : "outcome";
+}
+
+@if (SurveyLinkFeature.IsEnabled)
+{
+    <link href="~/Content/css_NhsUK/banner.css" media="screen" rel="stylesheet" type="text/css" />
+    <div class="survey-banner-wrap clear">
+        <div class="survey-banner-content">
+            <div class="survey-invite">
+                <p>Take a short survey to help us improve</p>
+            </div>
+            <ul>
+                <li class="leave-feedback agree">
+                    <a id="AgreeButton">Yes</a>
+                </li>
+                <li class="go-back postpone">
+                    <a id="PostponeButton">Not now</a>
+                </li>
+            </ul>
         </div>
-        <ul>
-            <li class="leave-feedback agree">
-                <a id="AgreeButton">Yes</a>
-            </li>
-            <li class="go-back postpone">
-                <a id="PostponeButton">Not now</a>
-            </li>
-        </ul>
     </div>
-</div>
 
-<script>
+    <script>
 
-    $(document)
-        .ready(function () {
-            if (!$.cookie("nhs111-survey-link-banner")) {
-                $(".survey-banner-wrap").show();
-            }
-        });
+        $(document)
+            .ready(function () {
+                if (!$.cookie("nhs111-survey-link-banner")) {
+                    $(".survey-banner-wrap").show();
+                }
+            });
 
-    $("#AgreeButton")
-        .click(function () {
-            var url = '@string.Format(SurveyLinkFeature.BaseUrl, SurveyLinkFeature.SurveyId, Model.JourneyId, Model.PathwayNo, JourneyJsonParser.GetEndingPathway(Model.JourneyJson), Model.Id)';
-            var win = window.open(url);
-            //win.focus();
-            $.cookie("nhs111-survey-link-banner", "survey-link-yes", { path: '/' });
-            $(".survey-banner-wrap").hide();
+        $("#AgreeButton")
+            .click(function () {
+                var url = '@string.Format(SurveyLinkFeature.BaseUrl, SurveyLinkFeature.SurveyId, Model.JourneyId, Model.PathwayNo, JourneyJsonParser.GetEndingPathway(Model.JourneyJson), Model.Id, launchPage)';
+                var win = window.open(url);
+                
+                $.cookie("nhs111-survey-link-banner", "survey-link-yes", { path: '/' });
+                $(".survey-banner-wrap").hide();
 
-        });
+            });
 
-    $("#PostponeButton")
-        .click(function () {
-            $.cookie("nhs111-survey-link-banner", "survey-link-not-now", { path: '/' });
-            $(".survey-banner-wrap").hide();
-        });
-</script>
+        $("#PostponeButton")
+            .click(function () {
+                $.cookie("nhs111-survey-link-banner", "survey-link-not-now", { path: '/' });
+                $(".survey-banner-wrap").hide();
+            });
+    </script>
+}

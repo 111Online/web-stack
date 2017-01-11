@@ -26,8 +26,12 @@
     </script>
 }
 
+@{
+    var dataDictionary = ViewContext.ViewData;
+    dataDictionary.Add(new KeyValuePair<string, object>("LaunchPage", "service-details"));
+}
 @section FeedbackSection {
-    @Html.Partial("_DispositionBanners")
+    @Html.Partial("_DispositionBanners", dataDictionary)
 }
 
 @Html.Partial("_OutcomeHeader", Model)

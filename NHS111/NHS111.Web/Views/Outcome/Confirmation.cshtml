@@ -23,8 +23,12 @@
     </script>
 }
 
+@{ 
+    var dataDictionary = ViewContext.ViewData;
+    dataDictionary.Add(new KeyValuePair<string, object>("LaunchPage", "confirmation"));
+}
 @section FeedbackSection {
-    @Html.Partial("_DispositionBanners")
+        @Html.Partial("_DispositionBanners", dataDictionary)
 }
 
 <section>
@@ -32,16 +36,21 @@
         <h2 class="heading-large">We have received your request for a callback</h2>
         <h3 class="heading-medium">
             @* The below must appear on one line else the browser will include extraneous spaces *@
-            You'll receive a call from <strong>@WebUtility.HtmlDecode(Model.SelectedService.Name)</strong>@if (!string.IsNullOrEmpty(Model.TimeFrameText)) {
+            You'll receive a call from <strong>@WebUtility.HtmlDecode(Model.SelectedService.Name)</strong>@if (!string.IsNullOrEmpty(Model.TimeFrameText))
+            {
                 <span>@Html.Raw(string.Format(" within <strong>{0}</strong>.", Model.TimeFrameText))</span>
-            } else {
+            }
+            else
+            {
                 @(".")
             }
         </h3>
-        @if (Model.DisplayWorseningCareAdvice) {
+        @if (Model.DisplayWorseningCareAdvice)
+        {
             <div class="worsening-advice-icon confirmation">
                 <p>
-                    @foreach (var item in Model.WorseningCareAdvice.Items) {
+                    @foreach (var item in Model.WorseningCareAdvice.Items)
+                    {
                         @(item.Text + " ");
                     }
                 </p>

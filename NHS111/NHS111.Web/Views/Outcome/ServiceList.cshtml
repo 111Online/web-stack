@@ -22,8 +22,12 @@
     </script>
 }
 
+@{
+    var dataDictionary = ViewContext.ViewData;
+    dataDictionary.Add(new KeyValuePair<string, object>("LaunchPage", "service-list"));
+}
 @section FeedbackSection {
-    @Html.Partial("_DispositionBanners")
+    @Html.Partial("_DispositionBanners", dataDictionary)
 }
 
 <link href="~/Content/css_NhsUK/confirmation.css" media="all" rel="stylesheet" type="text/css" />
