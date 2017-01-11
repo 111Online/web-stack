@@ -25,12 +25,15 @@
     <p>
         Without this information we cannot provide the service you have requested.
     </p>
+
     <p>
         The information is collected by NHS Digital who provide the technical side of the 111 service. We store copies of clinical records for audit purposes only with strict security controls. After 8 years (which is the standard retention period for this type of record) it will be securely deleted from NHS Digital’s systems. By agreeing to be referred to a healthcare professional you agree to this.
     </p>
+
     <p>
         The healthcare team that your information is passed to will have their own policies which cover the use of the information you have provided. This will include who they may share your information with to provide further healthcare.
     </p>
+
     <p>
         If you want to find out more about the NHS 111 service and how it uses your information please see below.
     </p>
@@ -47,59 +50,148 @@
 
     <ul>
         <li>
-            Technical information.  As you travel through the site we anonymously collect IP address and the website you came from, details of which version of web browser you used, information on how you use the site, using cookies and page tagging techniques.
+            Technical information.  As you travel through the site we anonymously collect IP address and the website you came from, details of which version of web browser you used, information on how you use the site, using @Html.ActionLink("cookies", "Cookies", null, new { target = "_blank" }) and page tagging techniques.
+            <ul>
+                <li>
+                    We use this information to understand behaviours on our site, so we can make changes to the content and structure of the service and make it better for users.
+                </li>
+            </ul>
         </li>
+    </ul>
+    <ul>
         <li>
-            We cannot guarantee uninterrupted access to the website, or the sites to which it links. We accept no responsibility for any damage arising from the unavailability of this website or the information it contains.
-        </li>
-        <li>
-            This website contains links to other sites. We are not responsible for the content of any third party website and a link to another site in no way constitutes NHS Digital’s endorsement of the contents therein.
-        </li>
-        <li>
-            You may link to our home page, provided you do so in a way that is fair and legal and does not damage our reputation or take advantage of it. You must not establish a link in such a way as to suggest any form of association, approval or endorsement on our part. We reserve the right to withdraw linking permission without notice.
-        </li>
-        <li>
-            If you submit personal information to us through this website, it will be used in accordance with our privacy policy.
-        </li>
-        <li>
-            We do not guarantee that this website will be secure or free from bugs or viruses. You are responsible for configuring your information technology, computer programmes and platform to access our site. You should use your own virus protection software.
-            You must not misuse this website by knowingly introducing viruses, trojans, worms, logic bombs or other material that is malicious or technologically harmful. You must not attempt to gain unauthorised access to our site, the server on which this website is stored, or any server, computer or database connected to this website. You must not attack this website via a denial-of-service attack or a distributed denial-of service attack. By breaching this provision, you would commit a criminal offence under the Computer Misuse Act 1990. We will report any such breach to the relevant law enforcement authorities and we will co-operate with those authorities by disclosing your identity to them. In the event of such a breach, your right to use this website will cease immediately.
+            Clinical information.  We automatically collect the answers you give to the questions in our medical triage, as well as the symptom you select and the recommendation (disposition) you reach.
+            <ul>
+                <li>
+                    We need to collect the answers to your questions so we can calculate the right recommendation for your health needs. This is done anonymously, unless you or the person you are contacting us about opt to be referred. If you optionally decide to be referred to a health service, we will connect this information with your personal details and securely pass it to the relevant healthcare professional. More details are given below.
+                </li>
+            </ul>
         </li>
     </ul>
 
     <hr />
 
-    <h3>General</h3>
+    <h3>You may optionally provide us with the following identifiable information</h3>
 
-    <ul>
+    <ul class="spaced-list">
         <li>
-            We aim to ensure that the information published on this website is accurate and consistent with current knowledge and practice in the NHS. However, medical knowledge and practice is constantly evolving and this site may not reflect the latest knowledge or practice.
+            Demographic information. In order that our service can provide you with the most accurate medical triage, we collect your sex and age. If you wish to complete a triage we require this information.   The triage questions are specific to sex and age so we need this information to ensure we ask you about the right things.
         </li>
         <li>
-            This website is written on the basis of general likely scenarios. Individual cases may require specific advice that cannot be addressed through this website. Accordingly, this website is provided for information only. It is not intended to replace a consultation with an appropriately qualified health professional. You should not ignore any professional medical advice on the basis of this website. We cannot guarantee that information provided by us through this website will meet your health or medical requirements.
+            Location information. If you wish to search for a health service provider to suit your medical needs, you provide the postcode of the location you wish to search in. We only store the first half of your postcode to ensure the data we store remains anonymous.  If you wish to access services in your area we use postcode as the basis for our search.
         </li>
         <li>
-            If you are concerned about your health, please contact a health professional such as your GP or call NHS 111 by dialing 111 from any landline or mobile phone free of charge.
+            Personal information. If, and only if, you wish to be referred to a healthcare provider, we will collect first name, last name, email address, postcode, address and telephone number your, or the person you are contacting us about. We will attach these details to the advice you’ve been given so that we can pass the information to a healthcare professional. You’ll be told when this information is being collected.
         </li>
         <li>
-            You acknowledge and agree that NHS Digital will not be responsible for any injury, loss or damage (whether direct or indirect) arising out of, or relating to the misuse of, or inappropriate reliance on the contents or advice contained within the NHS 111 Online website, except to the extent that such liability cannot be excluded by law.
+            Feedback data. You are able to leave feedback on most pages of the website. Feedback on pages is collected anonymously and is not monitored closely so will not be responded to. If you need someone to get back to you, please call 111.
+        </li>
+    </ul>
+
+    <p>
+        You may be asked to complete a survey when you’ve finished using the service. You may also be asked to provide your email address so can we send you a survey later about what happened after your use of 111. With your permission only, we may link your survey responses to the information you entered in the website. This information helps us improve the service for future users.
+    </p>
+
+    <p>
+        We also store all of the above information according to the NHS Digital retention policy of up to 8 years for audit purposes.
+    </p>
+
+    <hr />
+
+    <h3>Keeping your data secure</h3>
+
+    <ul class="spaced-list">
+        <li>
+            We convert your data into secure code (encrypt it) and store it on secure servers. Our infrastructure is hosted on Microsoft Azure in England. Microsoft are providing hosting as a commodity service and have no say in how the information is used. There are no legitimate means by which Microsoft employees can access the data, and technical controls have been put in place to ensure this.
         </li>
         <li>
-            We only provide this website for domestic and private use. You agree not to use this website for any commercial or business purposes, and we have no liability to you for any loss of profit, loss of business, business interruption, or loss of business opportunity.
-            Nothing in these terms of use shall exclude our liability to you for fraudulent misrepresentation by us or our employees or for death or personal injury resulting from our negligence or that of our employees.
+            All data is stored anonymously, unless you have opted to provide us with your personal information in order to complete a referral to another healthcare provider, or if you have opted to complete a survey.
         </li>
         <li>
-            These terms of use shall be governed by and interpreted in accordance with the laws of England, and we both agree to the exclusive jurisdiction of the courts of England in respect of any disputes which may arise in relation to our website.
+            If you opt to be referred to a healthcare service, we combine your personal details to the answers you have given to create a clinical record. This is securely transmitted to the relevant healthcare service that you select.
+        </li>
+        <li>
+            We store copies of clinical records for audit purposes only with strict security controls. It will only be stored in England, and can only be viewed by approved persons in the NHS 111 development team. By agreeing to be referred to a relevant healthcare professional you agree to this.
+        </li>
+        <li>
+            Any data we transmit is via TLS mutual authentication i.e. has technical controls around it to keep it safe.
         </li>
     </ul>
 
     <hr />
 
-    <h3>Contact details</h3>
+    <h3>Data sharing</h3>
+
+    <h4>Provision of care</h4>
 
     <ul>
         <li>
-            If you need to get in touch you can contact us at the following email address <a href="mailto:nhsdigital.NHS.UK-ServiceDesk@nhs.net">nhsdigital.NHS.UK-ServiceDesk@nhs.net</a>
+            If either you or the person are contacting us about,has the option of being referred into a healthcare service; we will pass the answers to your or that person’s questions, along with the personal details entered, to the healthcare service you have selected.
+        </li>
+        <li>
+            That service may then further share your data with other healthcare providers according to their own policies and in accordance with the Data Protection Act.
+        </li>
+        <li>
+            By opting to refer to another healthcare provider you are consenting to the onward transmission of your data for the purposes of direct care.
+        </li>
+        <li>
+            If you are contacting us on behalf of someone else you should ensure you have that person’s consent to share his or her data in this way.
         </li>
     </ul>
+
+    <h4>Legal powers</h4>
+
+    <ul>
+        <li>
+            We may pass on your personal information if we have a legal obligation to do so.
+        </li>
+        <li>
+            In the event of a claim against us from you as a user, we and other third parties such as solicitors acting on our behalf, may need to look at this information.
+        </li>
+    </ul>
+
+    <p>Other than the circumstances outlined above we will not share personal information with other third parties without your consent.</p>
+
+    <hr />
+
+    <h3>Further information</h3>
+
+    <ul>
+        <li>
+            NHS Digital is the Data Controller for NHS 111 Online under the Data Protection Act 1998.
+        </li>
+        <li>
+            We will process your data in accordance with the Data Protection Act.
+        </li>
+        <li>
+            The purpose of the privacy policy is to inform you as a user of NHS 111 Online about what information we collect when you visit the service, how we use the information, whether the information is disclosed and the ways in which we protect users' privacy.
+        </li>
+        <li>
+            We want you to feel secure when using the service. We are committed to respecting your privacy.
+        </li>
+    </ul>
+
+    <hr />
+
+    <h3>Your rights</h3>
+
+    <ul>
+        <li>
+            You can find out what information we hold about you, and ask us to delete any of the information we collect about you. Please contact us via the form on our @Html.ActionLink("terms and conditions", "terms", null, new { target = "_blank" }) pages.
+        </li>
+    </ul>
+
+    <hr />
+
+    <h3>Links to other websites</h3>
+
+    <ul>
+        <li>
+            This privacy policy only applies to this website, and doesn’t cover other websites that we link to.
+        </li>
+        <li>
+            If you go to another website from this one, read the privacy policy on that website to find out what it does with your information.
+        </li>
+    </ul>
+
 </div>

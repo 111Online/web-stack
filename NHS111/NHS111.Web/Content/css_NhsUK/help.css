@@ -25,6 +25,11 @@
     margin-bottom: 40px;
     font-size: 1.6em;
 }
+.privacy h4 {
+    margin-bottom: 20px;
+    font-size: 1.4em;
+    font-weight: 200;
+}
 .privacy p {
     margin-bottom: 20px;
 }
@@ -35,9 +40,20 @@
     list-style-position: outside;
     margin-left: 2em;
 }
+.privacy ul + p { /*adjacent selector*/
+    margin-top: 20px;
+}
+.privacy ul + h4 { /*adjacent selector*/
+    margin-top: 20px;
+}
+.privacy ul li ul {
+    margin-top: 5px;
+    list-style-type: circle;
+}
+.privacy ul li ul li {
+    list-style-position: outside;
+    margin-left: 2em;
+}
 .privacy ul.spaced-list li {
     margin-bottom: 20px;
-}
-.privacy ul.spaced-list li ul li {
-    margin-bottom: 0;
 }
