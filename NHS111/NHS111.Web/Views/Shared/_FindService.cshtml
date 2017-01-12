@@ -27,6 +27,13 @@
             @Html.HiddenFor(x => x.DispositionTime)
             @Html.HiddenFor(x => x.TimeFrameMinutes)
             @Html.HiddenFor(x => x.WaitTimeText)
+            @Html.HiddenFor(x => x.SurveyLink.PathwayNo)
+            @Html.HiddenFor(x => x.SurveyLink.EndPathwayNo)
+            @Html.HiddenFor(x => x.SurveyLink.EndPathwayTitle)
+            @Html.HiddenFor(x => x.SurveyLink.PathwayTitle)
+            @Html.HiddenFor(x => x.SurveyLink.DispositionCode)
+            @Html.HiddenFor(x => x.SurveyLink.JourneyId)
+            @Html.HiddenFor(x => x.SurveyLink.DispositionDateTime)
             @Html.Partial("_CommonHiddenFieldsCareAdviceViewModel", Model)
             
             <div class="findservice">

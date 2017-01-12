@@ -1,5 +1,6 @@
-﻿@using NHS111.Utils.Parser
-@inherits NHS111.Web.Views.Shared.SurveyLinkView<NHS111.Models.Models.Web.JourneyViewModel>
+﻿@using System.Text.RegularExpressions
+@using NHS111.Utils.Parser
+@inherits NHS111.Web.Views.Shared.SurveyLinkView<NHS111.Models.Models.Web.SurveyLinkViewModel>
 
 @{
     var launchPage = ViewData.ContainsKey("LaunchPage") ? ViewData["LaunchPage"] : "outcome";
@@ -7,6 +8,20 @@
 
 @if (SurveyLinkFeature.IsEnabled)
 {
+    var baseUrl = SurveyLinkFeature.BaseUrl;
+    var url = string.Format(
+        baseUrl,
+        SurveyLinkFeature.SurveyId,
+        Model.JourneyId,
+        Model.PathwayNo,
+        Model.EndPathwayNo,
+        Model.DispositionCode,
+        launchPage,
+        Model.PathwayTitle,
+        Model.EndPathwayTitle,
+        Model.DispositionDateTime.Date.ToString("dddd, dd MMMM yyyy"),
+        Model.DispositionDateTime.ToString("HH:mm:ss"));
+
     <link href="~/Content/css_NhsUK/banner.css" media="screen" rel="stylesheet" type="text/css" />
     <div class="survey-banner-wrap clear">
         <div class="survey-banner-content">
@@ -15,7 +30,7 @@
             </div>
             <ul>
                 <li class="leave-feedback agree">
-                    <a id="AgreeButton">Yes</a>
+                    <a id="AgreeButton" href="@url" target="_blank">Yes</a>
                 </li>
                 <li class="go-back postpone">
                     <a id="PostponeButton">Not now</a>
@@ -35,12 +50,8 @@
 
         $("#AgreeButton")
             .click(function () {
-                var url = '@string.Format(SurveyLinkFeature.BaseUrl, SurveyLinkFeature.SurveyId, Model.JourneyId, Model.PathwayNo, JourneyJsonParser.GetEndingPathway(Model.JourneyJson), Model.Id, launchPage)';
-                var win = window.open(url);
-                
                 $.cookie("nhs111-survey-link-banner", "survey-link-yes", { path: '/' });
                 $(".survey-banner-wrap").hide();
-
             });
 
         $("#PostponeButton")
@@ -49,4 +60,4 @@
                 $(".survey-banner-wrap").hide();
             });
     </script>
-}
+    }
