@@ -102,7 +102,6 @@
                     @Html.TextBoxFor(m => m.UserInfo.TelephoneNumber, new { @class = "form-control", placeholder = "Landline or mobile number", type = "tel" })
                 </div>
                 @{
-                    var dataDictionary = ViewContext.ViewData;
                     dataDictionary.TemplateInfo = new TemplateInfo { HtmlFieldPrefix = "AddressInfoViewModel" };
                 }
                 @Html.Partial("_PersonalPostCodeSearch", Model.AddressInfoViewModel, dataDictionary)

@@ -34,8 +34,8 @@ namespace NHS111.Web.Presentation.Builders
             {
                 DispositionCode = model.Id,
                 DispositionDateTime = model.DispositionTime,
-                EndPathwayNo = pathway.PathwayNo,
-                EndPathwayTitle = pathway.Title,
+                EndPathwayNo = (pathway != null) ? pathway.PathwayNo : string.Empty,
+                EndPathwayTitle = (pathway != null) ? pathway.Title : string.Empty,
                 JourneyId = model.JourneyId.ToString(),
                 PathwayNo = model.PathwayNo,
                 PathwayTitle = model.PathwayTitle
