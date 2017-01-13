@@ -20,6 +20,13 @@
 @Html.HiddenFor(x => Model.OutcomeGroup.Text)
 @Html.HiddenFor(x => x.TimeFrameMinutes)
 @Html.HiddenFor(x => x.DispositionTime)
+@Html.HiddenFor(x => x.SurveyLink.PathwayNo)
+@Html.HiddenFor(x => x.SurveyLink.EndPathwayNo)
+@Html.HiddenFor(x => x.SurveyLink.EndPathwayTitle)
+@Html.HiddenFor(x => x.SurveyLink.PathwayTitle)
+@Html.HiddenFor(x => x.SurveyLink.DispositionCode)
+@Html.HiddenFor(x => x.SurveyLink.JourneyId)
+@Html.HiddenFor(x => x.SurveyLink.DispositionDateTime)
 @if (Model.DosCheckCapacitySummaryResult.Success != null)
 {
     for (var i = 0; i < Model.DosCheckCapacitySummaryResult.Success.Services.Count(); ++i)

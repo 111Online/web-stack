@@ -29,8 +29,9 @@ namespace NHS111.Web.Presentation.Builders
         private readonly IMappingEngine _mappingEngine;
         private readonly IKeywordCollector _keywordCollector;
         private readonly IJourneyHistoryWrangler _journeyHistoryWrangler;
+        private readonly ISurveyLinkViewModelBuilder _surveyLinkViewModelBuilder;
 
-        public OutcomeViewModelBuilder(ICareAdviceBuilder careAdviceBuilder, IRestfulHelper restfulHelper, IConfiguration configuration, IMappingEngine mappingEngine, IKeywordCollector keywordCollector, IJourneyHistoryWrangler journeyHistoryWrangler)
+        public OutcomeViewModelBuilder(ICareAdviceBuilder careAdviceBuilder, IRestfulHelper restfulHelper, IConfiguration configuration, IMappingEngine mappingEngine, IKeywordCollector keywordCollector, IJourneyHistoryWrangler journeyHistoryWrangler, ISurveyLinkViewModelBuilder surveyLinkViewModelBuilder)
         {
             _careAdviceBuilder = careAdviceBuilder;
             _restfulHelper = restfulHelper;
@@ -38,6 +39,7 @@ namespace NHS111.Web.Presentation.Builders
             _mappingEngine = mappingEngine;
             _keywordCollector = keywordCollector;
             _journeyHistoryWrangler = journeyHistoryWrangler;
+            _surveyLinkViewModelBuilder = surveyLinkViewModelBuilder;
         }
 
         public async Task<List<AddressInfoViewModel>> SearchPostcodeBuilder(string input)
@@ -82,6 +84,8 @@ namespace NHS111.Web.Presentation.Builders
             model.CareAdvices = await
                     _careAdviceBuilder.FillCareAdviceBuilder(model.Id, new AgeCategory(model.UserInfo.Demography.Age).Value, model.UserInfo.Demography.Gender,
                         _keywordCollector.ConsolidateKeywords(model.CollectedKeywords).ToList());
+
+            model.SurveyLink = await _surveyLinkViewModelBuilder.SurveyLinkBuilder(model);
             return model;
         }
 
@@ -131,6 +135,20 @@ namespace NHS111.Web.Presentation.Builders
             return model;
         }
 
+        public async Task<OutcomeViewModel> DeadEndJumpBuilder(OutcomeViewModel model)
+        {
+            model.DispositionTime = DateTime.Now;
+            model.SurveyLink = await _surveyLinkViewModelBuilder.SurveyLinkBuilder(model);
+            return model;
+        }
+
+        public async Task<OutcomeViewModel> PathwaySelectionJumpBuilder(OutcomeViewModel model)
+        {
+            model.DispositionTime = DateTime.Now;
+            model.SurveyLink = await _surveyLinkViewModelBuilder.SurveyLinkBuilder(model);
+            return model;
+        }
+
         private async Task<HttpResponseMessage> SendItkMessage(ITKDispatchRequest itkRequestData)
         {
             var request = new HttpRequestMessage
@@ -167,5 +185,7 @@ namespace NHS111.Web.Presentation.Builders
         Task<OutcomeViewModel> DispositionBuilder(OutcomeViewModel model);
         Task<OutcomeViewModel> PersonalDetailsBuilder(OutcomeViewModel model);
         Task<OutcomeViewModel> ItkResponseBuilder(OutcomeViewModel model);
+        Task<OutcomeViewModel> DeadEndJumpBuilder(OutcomeViewModel model);
+        Task<OutcomeViewModel> PathwaySelectionJumpBuilder(OutcomeViewModel model);
     }
 }

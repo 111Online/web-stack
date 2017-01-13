@@ -57,6 +57,12 @@ namespace NHS111.Web.Presentation.Builders
                 case NodeType.Pathway:
                     var jtbs = _mappingEngine.Mapper.Map<JustToBeSafeViewModel>(model);
                     return (await _justToBeSafeFirstViewModelBuilder.JustToBeSafeFirstBuilder(jtbs)).Item2; //todo refactor tuple away
+                case NodeType.DeadEndJump:
+                    var deadEndJump = _mappingEngine.Mapper.Map<OutcomeViewModel>(model);
+                    return await _outcomeViewModelBuilder.DeadEndJumpBuilder(deadEndJump);
+                case NodeType.PathwaySelectionJump:
+                    var pathwaySelectionJump = _mappingEngine.Mapper.Map<OutcomeViewModel>(model);
+                    return await _outcomeViewModelBuilder.PathwaySelectionJumpBuilder(pathwaySelectionJump);
             }
 
             return model;

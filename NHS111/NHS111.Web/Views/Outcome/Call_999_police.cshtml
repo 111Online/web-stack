@@ -26,7 +26,9 @@
     <link href="~/Content/css_NhsUK/signposting-outcome.css" media="all" rel="stylesheet" type="text/css" />
 }
 
-
+@section FeedbackSection {
+    @Html.Partial("_SurveyLink", Model.SurveyLink)
+}
 
 @Html.Partial("_OutcomeHeader", Model, new ViewDataDictionary() { { "OverrideWorseningAdvice", "true" } })
 

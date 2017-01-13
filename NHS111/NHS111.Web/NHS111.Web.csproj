@@ -754,7 +754,7 @@
     <Content Include="Views\Outcome\ServiceDetails.cshtml" />
     <Content Include="Views\Outcome\ServiceList.cshtml" />
     <Content Include="Views\Outcome\ServiceBookingFailure.cshtml" />
-    <Content Include="Views\Question\DeadEndJump.cshtml" />
+    <Content Include="Views\Outcome\DeadEndJump.cshtml" />
     <Content Include="Views\Shared\_CareAdvice.cshtml" />
     <Content Include="Views\Outcome\Home_Care.cshtml" />
     <Content Include="Views\Help\Cookies.cshtml" />
@@ -788,6 +788,7 @@
     <Content Include="Views\Outcome\PathwaySelectionJump.cshtml" />
     <Content Include="Views\Help\Terms.cshtml" />
     <Content Include="Views\Shared\_SurveyLink.cshtml" />
+    <Content Include="Views\Shared\_DispositionBanners.cshtml" />
     <None Include="Web.Development.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

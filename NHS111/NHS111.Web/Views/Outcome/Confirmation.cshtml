@@ -23,31 +23,34 @@
     </script>
 }
 
-
-@section FeedbackSection {
-    @Html.Partial("_FeedbackDetails", new FeedbackViewModel() { PageId = Model.Id })
+@{ 
+    var dataDictionary = ViewContext.ViewData;
+    dataDictionary.Add(new KeyValuePair<string, object>("LaunchPage", "confirmation"));
 }
-
-<link href="~/content/css_NhsUk/confirmation.css" media="screen" rel="stylesheet" type="text/css"/>
-<link href="~/Content/css_NhsUK/signposting-outcome.css" media="all" rel="stylesheet" type="text/css" />
-<link href="~/Content/css_NhsUK/signposting-outcome-print.css" media="print" rel="stylesheet" type="text/css" />
-<link href="~/content/css_NhsUk/service.css" media="screen" rel="stylesheet" type="text/css" />
+@section FeedbackSection {
+        @Html.Partial("_DispositionBanners", dataDictionary)
+}
 
 <section>
     <div class="outcome-header">
         <h2 class="heading-large">We have received your request for a callback</h2>
         <h3 class="heading-medium">
             @* The below must appear on one line else the browser will include extraneous spaces *@
-            You'll receive a call from <strong>@WebUtility.HtmlDecode(Model.SelectedService.Name)</strong>@if (!string.IsNullOrEmpty(Model.TimeFrameText)) {
+            You'll receive a call from <strong>@WebUtility.HtmlDecode(Model.SelectedService.Name)</strong>@if (!string.IsNullOrEmpty(Model.TimeFrameText))
+            {
                 <span>@Html.Raw(string.Format(" within <strong>{0}</strong>.", Model.TimeFrameText))</span>
-            } else {
+            }
+            else
+            {
                 @(".")
             }
         </h3>
-        @if (Model.DisplayWorseningCareAdvice) {
+        @if (Model.DisplayWorseningCareAdvice)
+        {
             <div class="worsening-advice-icon confirmation">
                 <p>
-                    @foreach (var item in Model.WorseningCareAdvice.Items) {
+                    @foreach (var item in Model.WorseningCareAdvice.Items)
+                    {
                         @(item.Text + " ");
                     }
                 </p>

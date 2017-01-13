@@ -13,9 +13,6 @@
 
 @Html.Partial("_OutcomeHeader", Model)
 
-@section FeedbackSection {
-    @Html.Partial("_FeedbackDetails", new FeedbackViewModel() { PageId = Model.Id })
-}
 @section HeadTop {
 @{ var url = string.Format("/outcome/{0}/{1}/{2}/disposition/", Url.Encode(Model.PathwayNo), Url.Encode(Model.OutcomeGroup.Text), Url.Encode(Model.Id)); }
     <script>
@@ -28,6 +25,9 @@
     </script>
 }
 
+@section FeedbackSection {
+    @Html.Partial("_DispositionBanners")
+}
 
 <div class="itk-message">
     <ul>

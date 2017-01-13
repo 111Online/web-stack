@@ -42,12 +42,11 @@
     </script>
 }
 
+@section FeedbackSection {
+    @Html.Partial("_DispositionBanners")
+}
 
 @Html.Partial("_OutcomeHeader", Model, dict)
-
-@section FeedbackSection {
-    @Html.Partial("_FeedbackDetails", new FeedbackViewModel() { PageId = Model.Id })
-}
 
 <section>
     <div class="outcome-additional-info">

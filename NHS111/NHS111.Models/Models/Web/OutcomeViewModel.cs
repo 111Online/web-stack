@@ -23,6 +23,8 @@ namespace NHS111.Models.Models.Web
 
         public string CurrentView { get; set; }
 
+        public  SurveyLinkViewModel SurveyLink { get; set; }
+
         public bool HasEndpointReasoning
         {
             get
@@ -78,6 +80,7 @@ namespace NHS111.Models.Models.Web
             CareAdviceMarkers = new List<string>();
             AddressInfoViewModel = new PersonalInfoAddressViewModel();
             DosCheckCapacitySummaryResult = new DosCheckCapacitySummaryResult();
+            SurveyLink = new SurveyLinkViewModel();
         }
     }
 
