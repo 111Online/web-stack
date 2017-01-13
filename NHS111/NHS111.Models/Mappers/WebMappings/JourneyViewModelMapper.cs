@@ -34,7 +34,8 @@ namespace NHS111.Models.Mappers.WebMappings
                 .ForMember(s => s.ItkSendSuccess, o => o.Ignore())
                 .ForMember(s => s.WorseningCareAdvice, o => o.Ignore())
                 .ForMember(s => s.SymptomDiscriminator, o => o.Ignore())
-                .ForMember(s => s.CurrentView, o => o.Ignore());
+                .ForMember(s => s.CurrentView, o => o.Ignore())
+                .ForMember(s => s.SurveyLink, o => o.Ignore());
 
             Mapper.CreateMap<JourneyViewModel, AuditEntry>()
                 .ForMember(dest => dest.AnswerTitle, opt => opt.Ignore())
