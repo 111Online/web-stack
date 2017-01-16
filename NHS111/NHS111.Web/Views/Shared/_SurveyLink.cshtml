@@ -2,6 +2,10 @@
 
 @{
     var launchPage = ViewData.ContainsKey("LaunchPage") ? ViewData["LaunchPage"] : "outcome";
+
+    var is999Survey = ViewData.ContainsKey("999Survey");
+    var surveyText = is999Survey ? "Take a 30-second survey to help us improve" : "Take a short survey to help us improve";
+    var surveyPostponeText = is999Survey ? "No thanks" : "Not now";
 }
 
 @if (SurveyLinkFeature.IsEnabled)
@@ -24,14 +28,14 @@
     <div class="survey-banner-wrap clear">
         <div class="survey-banner-content">
             <div class="survey-invite">
-                <p>Take a short survey to help us improve</p>
+                <p>@surveyText</p>
             </div>
             <ul>
                 <li class="leave-feedback agree">
                     <a id="AgreeButton" href="@url" target="_blank">Yes</a>
                 </li>
                 <li class="go-back postpone">
-                    <a id="PostponeButton">Not now</a>
+                    <a id="PostponeButton">@surveyPostponeText</a>
                 </li>
             </ul>
         </div>
@@ -54,7 +58,6 @@
 
         $("#PostponeButton")
             .click(function () {
-                $.cookie("nhs111-survey-link-banner", "survey-link-not-now", { path: '/' });
                 $(".survey-banner-wrap").hide();
             });
     </script>
