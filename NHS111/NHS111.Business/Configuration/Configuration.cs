@@ -1,6 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Configuration;
 using System.IO;
+using Nest;
 using Newtonsoft.Json;
 
 namespace NHS111.Business.Configuration
@@ -146,6 +148,16 @@ namespace NHS111.Business.Configuration
                 .Replace("{gender}", gender)
                 .Replace("{age}", age.ToString());
         }
+
+        public ConnectionSettings GetElasticClientSettings()
+        {
+            return new ConnectionSettings(new Uri(ConfigurationManager.AppSettings["PathwayElasticSearchUrl"]));
+        }
+
+        public IElasticClient GetElasticClient()
+        {
+            return new ElasticClient(GetElasticClientSettings().DisableDirectStreaming());
+        }
     }
 
     public interface IConfiguration
@@ -184,5 +196,10 @@ namespace NHS111.Business.Configuration
         /*Categories*/
         string GetCategoriesWithPathwaysUrl();
         string GetCategoriesWithPathwaysUrl(string gender, int age);
+
+        /*Pathways Search */
+
+        ConnectionSettings GetElasticClientSettings();
+        IElasticClient GetElasticClient();
     }
 }
