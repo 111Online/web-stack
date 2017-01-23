@@ -23,10 +23,17 @@ namespace NHS111.Business.Api.Controllers
         }
 
 
-        [Route("pathwaysearch/{query?}")]
+        [Route("pathwaysearch/{query}")]
         public async Task<List<PathwaySearchResult>> Get(string query)
         {
             var results =  await _pathwaySearchService.FindResults(query);
+            return results;
+        }
+
+        [Route("pathwaysearch/{gender}/{ageGroup}/{query}")]
+        public async Task<List<PathwaySearchResult>> Get(string gender, string ageGroup, string query)
+        {
+            var results = await _pathwaySearchService.FindResults(query, gender, ageGroup);
             return results;
         }
     }

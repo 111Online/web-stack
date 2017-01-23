@@ -20,5 +20,11 @@ namespace NHS111.Models.Models.Business.PathwaySearch
 
         [String(Name = "PW_ID", Index = FieldIndexOption.NotAnalyzed)]
         public string PathwayNo { get; set; }
+
+        [String(Name = "PW_Gender", Index = FieldIndexOption.NotAnalyzed)]
+        public List<string> Gender { get; set; }
+
+        [String(Name = "PW_Age", Index = FieldIndexOption.NotAnalyzed)]
+        public List<string> AgeGroup { get; set; }
     }
 }
