@@ -58,8 +58,9 @@ namespace NHS111.Business.Services
             return searchDescriptor.Query(q =>
                 q.MultiMatch(m =>
                     m.Fields(f => f
-                        .Field(p => p.Title)
-                        .Field(p => p.Description)
+                        .Field(p => p.Title, boost: 6)
+                        .Field(p => p.Description, boost: 2)
+                        .Field(p => p.PathwayTitle)
                         ).Operator(Operator.Or)
                         .Type(TextQueryType.MostFields)
                         .Fuzziness(Fuzziness.Auto)
