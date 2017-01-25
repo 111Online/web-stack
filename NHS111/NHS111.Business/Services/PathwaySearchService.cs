@@ -37,7 +37,7 @@ namespace NHS111.Business.Services
         public async Task<List<PathwaySearchResult>> FindResults(string query)
         {
             var res = await _elastic.SearchAsync<PathwaySearchResult>(s =>
-                BuildPathwaysTextQuery(s.Index("pathways"), query)
+                    BuildPathwaysTextQuery(s.Index("pathways"), query)
                 );
 
             return res.Hits.Select(h => h.Source).ToList(); 
@@ -55,18 +55,58 @@ namespace NHS111.Business.Services
         private SearchDescriptor<PathwaySearchResult> BuildPathwaysTextQuery(
             SearchDescriptor<PathwaySearchResult> searchDescriptor, string query)
         {
-            return searchDescriptor.Query(q =>
-                q.MultiMatch(m =>
-                    m.Fields(f => f
-                        .Field(p => p.Title, boost: 6)
-                        .Field(p => p.Description, boost: 2)
-                        .Field(p => p.PathwayTitle)
-                        ).Operator(Operator.Or)
-                        .Type(TextQueryType.MostFields)
-                        .Fuzziness(Fuzziness.Auto)
-                        .Query(query)
-                    )
-                );
+            // boost exact matches on parent and child documents
+            // then fuzzy match
+            // slop value scores higher where more than one words from the query are found in a document (I THINK!)
+            var shouldQuery = searchDescriptor.Query(q => q
+                            .Bool(b => b
+                                .Should
+                                    (
+                                        s => s.MultiMatch(m =>
+                                            m.Fields(f => f
+                                                    .Field(p => p.Title, boost: 6)
+                                                    .Field(p => p.Description, boost: 2)
+                                                )
+                                                .Operator(Operator.Or)
+                                                .Type(TextQueryType.MostFields)
+                                                .Slop(50)
+                                                .Boost(10)
+                                                .Query(query)
+                                            ),
+                                        s => s.HasChild<PathwayPhraseResult>(c => 
+                                            c.Query(q2 => 
+                                                q2.Match(m => 
+                                                    m.Field("CommonPhrase")
+                                                        .Query(query)
+                                                        .Boost(10)
+                                                        .Slop(50)
+                                                        )
+                                                    )
+                                            ),
+                                        s => s.MultiMatch(m =>
+                                            m.Fields(f => f
+                                                    .Field(p => p.Title, boost: 6)
+                                                    .Field(p => p.Description, boost: 2)
+                                                )
+                                                .Operator(Operator.Or)
+                                                .Type(TextQueryType.MostFields)
+                                                .Fuzziness(Fuzziness.Auto)
+                                                .Slop(50)
+                                                .Query(query)
+                                            ),
+                                        s => s.HasChild<PathwayPhraseResult>(c =>
+                                            c.Query(q2 =>
+                                                q2.Fuzzy(m =>
+                                                    m.Field("CommonPhrase")
+                                                        .Value(query)
+                                                    )
+                                                )
+                                            )
+                                    )
+                               .MinimumShouldMatch(1)
+                               ));
+
+            return shouldQuery;
         }
 
         private SearchDescriptor<PathwaySearchResult> AddAgeGenderFilters(

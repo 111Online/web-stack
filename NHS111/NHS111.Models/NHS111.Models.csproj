@@ -170,6 +170,7 @@
     <Compile Include="Mappers\WebMappings\FromOutcomeViewModelToSubmitEncounterToServiceRequest.cs" />
     <Compile Include="Mappers\WebMappings\AddressInfoViewModelMapper.cs" />
     <Compile Include="Models\Business\Enums\DispositionTimePeriod.cs" />
+    <Compile Include="Models\Business\PathwaySearch\PathwayPhraseResult.cs" />
     <Compile Include="Models\Business\PathwaySearch\PathwaySearchResult.cs" />
     <Compile Include="Models\Business\ProfileServiceTimes.cs" />
     <Compile Include="Models\Business\Suggestion.cs" />
