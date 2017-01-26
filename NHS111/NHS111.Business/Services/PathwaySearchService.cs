@@ -85,7 +85,7 @@ namespace NHS111.Business.Services
                                 break;
 
                             case "DigitalDescription":
-                                hit.Source.Title = highlight.Value.Highlights.FirstOrDefault();
+                                hit.Source.Title = highlight.Value.Highlights.ToList();
                                 break;
                         }
 
