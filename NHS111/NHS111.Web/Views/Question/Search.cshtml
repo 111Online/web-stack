@@ -67,57 +67,23 @@
                     <input type="hidden" id="pathwayNo" name="pathwayNo" value="" />
                     <input type="hidden" id="pathwayTitle" name="pathwayTitle" value="" />
                     <div class="symptoms-find-header">
-                        <h2>Search for the symptom you're most concerned about</h2>
+                        <h2>Search by symptom</h2>
                     </div>
                     <div class="symptoms-find-container">
-                        <p>It may feel like we're asking a lot of questions, but it's important we check everything thoroughly and rule out serious conditions.</p>
-                        <p>Make sure you answer all of the questions and follow the advice you are given.</p>
-                        <hr />
                         <div class="symptoms-search">
                             <label for="searchTags">
-                                <input type="text" class="input-symptoms ui-autocomplete-input" id="searchTags" autocomplete="off" name="searchTags" placeholder="Search for symptoms" />
+                                <input type="text" class="input-symptoms ui-autocomplete-input" id="searchTags" autocomplete="off" name="searchTags" />
                             </label>
                             @* @Html.ActionLink("GO","Gender","Question", new {@class = "go"})*@
-                            <input type="submit" class="button button-get-started go" value="Go" id="submitSearch" />
+                            <input type="submit" class="button button-get-started" value="Search" id="searchButton" />
                         </div>
                     </div>
-
-
-                    <div class="common-symptoms">
-                        <h3>Popular topics</h3>
-                        <ul class="list-conditions" id="commonConditions">
-                            @{
-                                var links = new Dictionary<string, List<string>> {
-                                    { "Abdominal pain", new List<string> { "PW520", "PW517", "PW519", "PW516" } },
-                                    { "Chest and back pain", new List<string> { "PA21", "PA212", "PA213", "PA21", "PA21", "PA212", "PA21", "PA213" } },
-                                    { "Cold or flu symptoms", new List<string> { "PW574", "PW1042", "PW1043", "PW1040", "PW574", "PW1041" } },
-                                    { "Diarrhoea and vomiting", new List<string> { "PW1554", "PW1708", "PW1563", "PW1563", "PW1555", "PW1556", "PW1553", "PW1708" } },
-                                    { "Headache", new List<string> { "PW755", "PW752", "PW754", "PW753", "PW754", "PW756" } },
-                                    { "Mental health problems", new List<string> { "PW1751", "PW1751", "PW1751", "PW1751" } },
-                                    { "Rash or skin problems", new List<string> { "PW1771", "PW1772", "PW1773", "PW1774" } },
-                                    { "Sexual concerns", new List<string> { "PW1684", "PW1699", "PW1698", "PW1685" } }
-                                };
-
-                                foreach (var link in links) {
-                                    link.Value.RemoveAll(number => !Model.PathwayNumbers.Contains(number));
-                                    if (link.Value.Any()) {
-                                        <li><input type="submit" class="popularTopic linkButton" value="@link.Key" id="@string.Join(",", link.Value)"/></li>
-                                    }
-                                }
-                            }
-                            <!--
-                            <li><input type="submit" class="linkButton" value="Abdominal pain" id="PW520,PW517,PW519,PW516"/></li>
-                            <li><input type="submit" class="linkButton" value="A headache" id="PW755,PW752,PW754,PW753,PW754,PW756"/></li>
-                            <li><input type="submit" class="linkButton" value="Chest and back pain" id="PA21,PA212,PA213,PA21,PA21,PA212,PA21,PA213"/></li>
-                            <li><input type="submit" class="linkButton" value="Cold or flu symptoms" id="PW574,PW1042,PW1043,PW1040,PW574,PW1041"/></li>
-                            <li><input type="submit" class="linkButton" value="A rash or skin problem" id="PW1771,PW1772,PW1773,PW1774"/></li>
-                            <li><input type="submit" class="linkButton" value="A mental health problem" id="PW1751,PW1751,PW1751,PW1751"/></li>
-                            <li><input type="submit" class="linkButton" value="Diarrhoea and vomiting" id="PW1554,PW1708,PW1563,PW1563,PW1555,PW1556,PW1553,PW1708"/></li>
-                            <li><input type="submit" class="linkButton" value="Sexual Concerns" id="PW1684,PW1699,PW1698,PW1685"/></li>
-                            -->
-                        </ul>
-
+                    <hr/>
+                    <div id="SearchResults">
+                        <h3></h3>
+                        <ul></ul>
                     </div>
+
                     <div class="all-symptoms">
                         @{
                             var bodyParts = new List<string> {"Head and neck", "Dental", "Shoulder, arm and hand", "Chest and back", "Abdomen, groin and side of the body", "Bowel and urinary problems", "Genitals", "Leg and foot", "Skin and hair"};
@@ -130,43 +96,38 @@
                         }
 
 
-                        <h3>All topics</h3>
+                        <h2>Find a topic</h2>
 
 
                         @for (int i = 0; i < lists.Count; ++i)
                         {
                             <div class="@Html.Raw(i == 0 ? "left" : "right")">
+                                <h3>@Html.Raw(i == 0 ? "Body" : "General")</h3>
                                 <ul>
-                                    @foreach (var topLevelCategory in lists[i])
-                                    {
+                                    @foreach (var topLevelCategory in lists[i]) {
                                         <li>
                                             <h5><a class="category linkButton bullet" href="javascript:void(0);">&bull; <span class="underline" id="@topLevelCategory.Category.Id">@topLevelCategory.Category.Title</span></a></h5>
-                                            @if (topLevelCategory.SubCategories != null && topLevelCategory.SubCategories.Any())
-                                            {
+                                            @if (topLevelCategory.SubCategories != null && topLevelCategory.SubCategories.Any()) {
                                                 <ul class="content">
-                                                    @foreach (var subCategory in topLevelCategory.SubCategories.OrderBy(x => x.Category.Title))
-                                                    {
+                                                    @foreach (var subCategory in topLevelCategory.SubCategories.OrderBy(x => x.Category.Title)) {
                                                         if (!subCategory.Pathways.Any()) {
-                                                             continue;
+                                                            continue;
                                                         }
                                                         <li>
                                                             <h5><a class="category linkButton bullet" href="javascript:void(0);">&bull; <span class="underline" id="@subCategory.Category.Id">@subCategory.Category.Title</span></a></h5>
                                                             <ul class="content">
-                                                                @foreach (var pathway in subCategory.Pathways.OrderBy(p => p.PathwayData.DigitalTitle))
-                                                                {
-                                                                    <li><input type="submit" class="linkButton" value="@pathway.PathwayData.DigitalTitle" id="@pathway.Pathway.PathwayNo" digital-id="@pathway.PathwayData.DigitalTitleId" /></li>
+                                                                @foreach (var pathway in subCategory.Pathways.OrderBy(p => p.PathwayData.DigitalTitle)) {
+                                                                    <li><input type="submit" class="linkButton" value="@pathway.PathwayData.DigitalTitle" id="@pathway.Pathway.PathwayNo" digital-id="@pathway.PathwayData.DigitalTitleId"/></li>
                                                                 }
                                                             </ul>
                                                         </li>
                                                     }
                                                 </ul>
                                             }
-                                            @if (topLevelCategory.Pathways != null && topLevelCategory.Pathways.Any())
-                                            {
+                                            @if (topLevelCategory.Pathways != null && topLevelCategory.Pathways.Any()) {
                                                 <ul class="content">
-                                                    @foreach (var pathway in topLevelCategory.Pathways.OrderBy(p => p.PathwayData.DigitalTitle))
-                                                    {
-                                                        <li><input type="submit" class="linkButton" value="@pathway.PathwayData.DigitalTitle" id="@pathway.Pathway.PathwayNo" digital-id="@pathway.PathwayData.DigitalTitleId" /></li>
+                                                    @foreach (var pathway in topLevelCategory.Pathways.OrderBy(p => p.PathwayData.DigitalTitle)) {
+                                                        <li><input type="submit" class="linkButton" value="@pathway.PathwayData.DigitalTitle" id="@pathway.Pathway.PathwayNo" digital-id="@pathway.PathwayData.DigitalTitleId"/></li>
                                                     }
                                                 </ul>
                                             }
@@ -177,9 +138,6 @@
                         }
                     </div>
 
-                    <div id="SearchResults">
-                        @*Search Results appended here as list tags*@
-                    </div>
 
                             }
 
@@ -199,46 +157,41 @@
     <script>
     // -- search box autocomplete mock script
         $(function () {
-        $("#searchTags").autocomplete({
-            source: function(request, response) {
+
+            $("#searchTags").focus();
+
+            $("#searchButton").click(
+            function() {
                 $.ajax({
-                    url: '@Url.Action("AutosuggestPathways", "Question")',
+                    url: '@Url.Action("PathwaySearch", "Question")',
                     type: "post",
                     dataType: "json",
-                    data: { input: $("#searchTags").val(), gender: '@Model.UserInfo.Demography.Gender', age: @Model.UserInfo.Demography.Age},
+                    data: { searchTerm: $("#searchTags").val(), gender: '@Model.UserInfo.Demography.Gender', age: @Model.UserInfo.Demography.Age},
                     success: function(data) {
-                        response(JSON.parse(data).slice(0, 7));
+                        data = JSON.parse(data);
+                        $("#SearchResults").hide();
+                        $("#SearchResults ul").empty();
+                        $("#SearchResults h3").text(data.length + " topics found matching '" + $("#searchTags").val() + "'");
+                        for (var i = 0; i < 10; i++) {
+                            var topic = data[i];
+                            var desc = "";
+                            if (topic.Description != null) {
+                                desc = topic.Description;
+                                desc = desc.replace(/\\n\\n/g, ". ");
+                                desc = desc.replace(" . ", ". ");
+                            }
+                            var li = $("<li><input type='submit' class='linkButton' value='" + topic.PathwayTitle + "' id='" + topic.PathwayNumber + "'><p>" + desc + "</p></li>");
+                            $("#SearchResults ul").append(li);
+                        }
+                        $("#SearchResults").show();
                     },
                     error: function(textStatus, errorThrown) {
                         return null;
                     }
                 });
-            },
-            focus: function(event, ui) {
-                event.preventDefault();
-                $("#searchTags").val(ui.item.label);
-                return false;
-            },
-            select: function(event, ui) {
-                event.preventDefault();
-                $("#searchTags").val(ui.item.label);
-                $("#pathwayTitle").val(ui.item.label);
-                $("#pathwayNo").val(ui.item.value);
-                $("input.go").removeAttr("disabled");
-                return false;
-            },
-            open: function (event, ui) {
-                $('.ui-autocomplete').off('menufocus hover mouseover mouseenter');
-            },
-            appendTo: $('#SearchResults')
-        });
 
-        $(".linkButton").click(
-            function() {
-                //$("#searchTags").val(this.value);
-                $("#pathwayTitle").val(this.value);
-                $("#pathwayNo").val(this.id);
-        });
+                return false;
+            });
 
         $('.category').click(function () {
             var $this = $(this);
