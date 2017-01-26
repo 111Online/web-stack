@@ -32,5 +32,8 @@ namespace NHS111.Models.Models.Business.PathwaySearch
 
         [String(Name = "PW_Age", Index = FieldIndexOption.NotAnalyzed)]
         public List<string> AgeGroup { get; set; }
+
+        [Text(Ignore = true)]
+        public double? Score { get; set; }
     }
 }
