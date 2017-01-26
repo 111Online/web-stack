@@ -24,16 +24,16 @@ namespace NHS111.Business.Api.Controllers
 
 
         [Route("pathwaysearch/{query}")]
-        public async Task<List<PathwaySearchResult>> Get(string query)
+        public async Task<List<PathwaySearchResult>> Get(string query, [FromUri] bool highlight = false, [FromUri] bool score = false)
         {
-            var results =  await _pathwaySearchService.FindResults(query);
+            var results =  await _pathwaySearchService.FindResults(query, highlight, score);
             return results;
         }
 
         [Route("pathwaysearch/{gender}/{ageGroup}/{query}")]
-        public async Task<List<PathwaySearchResult>> Get(string gender, string ageGroup, string query)
+        public async Task<List<PathwaySearchResult>> Get(string gender, string ageGroup, string query, [FromUri] bool highlight = false, [FromUri] bool score = false)
         {
-            var results = await _pathwaySearchService.FindResults(query, gender, ageGroup);
+            var results = await _pathwaySearchService.FindResults(query, gender, ageGroup, highlight, score);
             return results;
         }
     }

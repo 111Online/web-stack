@@ -34,22 +34,66 @@ namespace NHS111.Business.Services
             _elastic = elastic;
         }
 
-        public async Task<List<PathwaySearchResult>> FindResults(string query)
+        public async Task<List<PathwaySearchResult>> FindResults(string query, bool highlight, bool score)
         {
             var res = await _elastic.SearchAsync<PathwaySearchResult>(s =>
                     BuildPathwaysTextQuery(s.Index("pathways"), query)
                 );
 
-            return res.Hits.Select(h => h.Source).ToList(); 
+            var highlightedResults = BuildHighlights(res.Hits, highlight);
+
+            return BuildScoredResults(highlightedResults, res.Hits, score).ToList();
         }
 
-        public async Task<List<PathwaySearchResult>> FindResults(string query, string gender, string ageGroup)
+        public async Task<List<PathwaySearchResult>> FindResults(string query, string gender, string ageGroup, bool highlight, bool score)
         {
             var res = await _elastic.SearchAsync<PathwaySearchResult>(s =>
                 AddAgeGenderFilters(BuildPathwaysTextQuery(s.Index("pathways"), query), gender, ageGroup));
 
-            return res.Hits.Select(h => h.Source).ToList();
-            ;
+            var highlightedResults = BuildHighlights(res.Hits, highlight);
+            
+            return BuildScoredResults(highlightedResults, res.Hits, score).ToList();
+        }
+
+        private IEnumerable<PathwaySearchResult> BuildScoredResults(IEnumerable<PathwaySearchResult> results, IReadOnlyCollection<IHit<PathwaySearchResult>> hits, bool includeScores)
+        {
+            if (includeScores)
+            {
+                foreach (var result in results)
+                    result.Score = hits.First(h => h.Id == result.PathwayDigitalId).Score;
+            }
+
+            return results;
+        }
+
+        private IEnumerable<PathwaySearchResult> BuildHighlights(IReadOnlyCollection<IHit<PathwaySearchResult>> hits, bool inlcudeHighlights)
+        {
+            if (inlcudeHighlights)
+            {
+                // hack - sorry James
+                //hopefully you'll have a better way :-)
+                foreach (var hit in hits)
+                {
+                    if (!hit.Highlights.Any()) continue;
+
+                    foreach (var highlight in hit.Highlights)
+                    {
+                        switch (highlight.Key)
+                        {
+                            case "KP_Use":
+                                hit.Source.Description = highlight.Value.Highlights.FirstOrDefault();
+                                break;
+
+                            case "DigitalDescription":
+                                hit.Source.Title = highlight.Value.Highlights.FirstOrDefault();
+                                break;
+                        }
+
+                    }
+                }
+            }
+
+            return hits.Select(h => h.Source);
         }
 
         private SearchDescriptor<PathwaySearchResult> BuildPathwaysTextQuery(
@@ -104,7 +148,14 @@ namespace NHS111.Business.Services
                                             )
                                     )
                                .MinimumShouldMatch(1)
-                               ));
+                               ))
+                    .Highlight(h => 
+                        h.Fields(
+                            f => f.Field(p => p.Title),
+                            f => f.Field(p => p.Description).NumberOfFragments(0))
+                .PreTags("<em class='highlight-term'>")
+                .PostTags("</em>"));
+            ;
 
             return shouldQuery;
         }
@@ -124,8 +175,8 @@ namespace NHS111.Business.Services
 
     public interface IPathwaySearchService
     {
-        Task<List<PathwaySearchResult>> FindResults(string query);
-        Task<List<PathwaySearchResult>> FindResults(string query, string gender, string ageGroup);
+        Task<List<PathwaySearchResult>> FindResults(string query, bool highlight, bool score);
+        Task<List<PathwaySearchResult>> FindResults(string query, string gender, string ageGroup, bool highlight, bool score);
     }
     
 }
