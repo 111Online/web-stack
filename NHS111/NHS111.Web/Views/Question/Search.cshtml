@@ -120,7 +120,7 @@
                     </div>
                     <div class="all-symptoms">
                         @{
-                            var bodyParts = new List<string> {"Head and neck", "Shoulder, arm and hand", "Chest and back", "Abdomen, groin and side of the body", "Bowel and urinary problems", "Genitals", "Leg and foot", "Skin and hair"};
+                            var bodyParts = new List<string> {"Head and neck", "Dental", "Shoulder, arm and hand", "Chest and back", "Abdomen, groin and side of the body", "Bowel and urinary problems", "Genitals", "Leg and foot", "Skin and hair"};
                             var lists = new List<IEnumerable<CategoryWithPathways>>(2);
                             lists.Add(Model.AllTopics.Where(t => bodyParts.Contains(t.Category.Title)).OrderBy(x => x.Category.OrderNo));
                             lists.Add(Model.AllTopics.Where(t => !bodyParts.Contains(t.Category.Title)).OrderBy(x => x.Category.OrderNo));
