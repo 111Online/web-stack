@@ -19,9 +19,6 @@
     @Html.HiddenFor(x => Model.SessionId)
     @Html.Partial("_GenderAgeView", Model.UserInfo.Demography, new ViewDataDictionary(ViewData) { Model = null })
 
-    <div class="worsening-advice-icon">
-        <p>If you're worried that a child or adult has been deliberately harmed, call 111 to talk to someone.</p>
-    </div>
     <hr />
 
     <input class="button button-next" id="submitGender" type="submit" name="Slider" value="Next" />
