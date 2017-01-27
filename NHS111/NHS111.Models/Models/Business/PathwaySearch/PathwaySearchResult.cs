@@ -15,8 +15,8 @@ namespace NHS111.Models.Models.Business.PathwaySearch
         [String(Name = "PathwayTitle", Index = FieldIndexOption.NotAnalyzed)]
         public string PathwayTitle { get; set; }
 
-        [String(Name = "DigitalDescription", Index = FieldIndexOption.Analyzed)]
-        public string Title { get; set; }
+        [String(Name = "DigitalDescriptions", Index = FieldIndexOption.Analyzed)]
+        public List<string> Title { get; set; }
 
         [String(Name = "KP_Use", Index = FieldIndexOption.Analyzed)]
         public string Description { get; set; }
