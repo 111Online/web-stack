@@ -60,7 +60,7 @@ namespace NHS111.Business.Services
             if (includeScores)
             {
                 foreach (var result in results)
-                    result.Score = hits.First(h => h.Id == result.PathwayDigitalId).Score;
+                    result.Score = hits.First(h => h.Id == result.PathwayNo).Score;
             }
 
             return results;
@@ -84,7 +84,7 @@ namespace NHS111.Business.Services
                                 hit.Source.Description = highlight.Value.Highlights.FirstOrDefault();
                                 break;
 
-                            case "DigitalDescription":
+                            case "DigitalDescriptions":
                                 hit.Source.Title = highlight.Value.Highlights.ToList();
                                 break;
                         }
