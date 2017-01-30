@@ -107,6 +107,8 @@
 
             $("#searchButton").click(
                 function() {
+                    if ($("#searchTags").val() == '')
+                        return false;
                     $.ajax({
                         url: '@Url.Action("PathwaySearch", "Question")',
                         type: "post",
