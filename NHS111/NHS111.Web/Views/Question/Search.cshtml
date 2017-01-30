@@ -32,23 +32,25 @@
     <div id="wrapper">
 
         <div class="content-container search-box">
-            <h2>Search by symptom</h2>
-            <div class="symptoms-find-container">
-                <label for="searchTags">
-                    <input type="text" class="input-symptoms ui-autocomplete-input" id="searchTags" autocomplete="off" name="searchTags"/>
-                </label>
-                <input type="submit" class="button button-get-started" value="Search" id="searchButton"/>
-            </div>
+            <form>
+                <h2>Search by symptom</h2>
+                <div class="symptoms-find-container">
+                    <label for="searchTags">
+                        <input type="text" class="input-symptoms ui-autocomplete-input" id="searchTags" autocomplete="off" name="searchTags"/>
+                    </label>
+                    <input type="submit" class="button button-get-started" value="Search" id="searchButton"/>
+                </div>
+            </form>
 
             <div id="SearchResults">
-                <hr />
+                <hr/>
                 <h3></h3>
 
                 <form action="/JustToBeSafe/JustToBeSafeFirst" method="post" novalidate="novalidate">
-                    <input type="hidden" id="pathwayNo" name="pathwayNo" value="" />
-                    <input type="hidden" id="pathwayTitle" name="pathwayTitle" value="" />
-                    <input id="UserInfo_Demography_Gender" name="UserInfo.Demography.Gender" type="hidden" value="@Model.UserInfo.Demography.Gender" />
-                    <input id="UserInfo_Demography_Age" name="UserInfo.Demography.Age" type="hidden" value="@Model.UserInfo.Demography.Age" />
+                    <input type="hidden" id="pathwayNo" name="pathwayNo" value=""/>
+                    <input type="hidden" id="pathwayTitle" name="pathwayTitle" value=""/>
+                    <input id="UserInfo_Demography_Gender" name="UserInfo.Demography.Gender" type="hidden" value="@Model.UserInfo.Demography.Gender"/>
+                    <input id="UserInfo_Demography_Age" name="UserInfo.Demography.Age" type="hidden" value="@Model.UserInfo.Demography.Age"/>
                     <ul></ul>
                 </form>
             </div>
