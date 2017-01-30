@@ -1,8 +1,4 @@
-﻿@using System.Configuration
-@using AutoMapper.Internal
-@using Microsoft.Ajax.Utilities
-@using NHS111.Models.Models.Domain
-@using NHS111.Models.Models.Web
+﻿@using NHS111.Models.Models.Web
 @{
     Layout = "~/Views/Shared/_LayoutNhsUK.cshtml";
 }
@@ -11,7 +7,6 @@
 @section Title {NHS 111 Digital}
 
 @section Scripts {
-    <!--<script src="~/scripts/jquery2.1.1.min.js"></script> included on layout page -->
     <script src="~/scripts/jquery1.11.2-ui.min.js"></script>
     <script src="~/scripts/jquery.blockUI.js"></script>
     <script src="~/scripts/custom.js"></script>
@@ -19,234 +14,127 @@
 }
 
 @{
-    if (DisclaimerPopupFeature.IsEnabled)
-    {
+    if (DisclaimerPopupFeature.IsEnabled) {
         <!-- toggle disclaimer popup -->
         <link rel="stylesheet" href="~/Content/css_NhsUK/modal.css">
         <script src="~/scripts/disclaimer-popup.js"></script>
     }
 }
 
-@functions {
-
-    public class PathwayLink {
-        public string Title { get; set; }
-        public string PathwayNumbers { get; set; }
-    }
-
-    private IEnumerable<PathwayLink> GroupAndSortPathways(IEnumerable<PathwayWithDescription> pathways) {
-        return (from groups in pathways.GroupBy(p => p.Pathway.Title)
-                select new PathwayLink {
-                    Title = groups.FirstOrDefault().PathwayData.DigitalTitle,
-                    PathwayNumbers = string.Join(",", groups.Select(t => t.Pathway.PathwayNo).Distinct())
-                }).OrderBy(x => x.Title);
-    }
-
-}
 <link href="~/Content/css_NhsUK/search.css" media="screen" rel="stylesheet" type="text/css" />
 
 @section FeedbackSection {
-                @Html.Partial("_FeedbackDetails", new FeedbackViewModel() { PageId = Request.Url.GetComponents(UriComponents.PathAndQuery, UriFormat.SafeUnescaped) })
+    @Html.Partial("_FeedbackDetails", new FeedbackViewModel() { PageId = Request.Url.GetComponents(UriComponents.PathAndQuery, UriFormat.SafeUnescaped) })
 }
 
 <div id="search">
 
-
-
     <div id="wrapper">
 
-        <div class="content-container">
-            <div>
-                <!--<div id="linkBodySearch"> <a href="#" title="Try our body search instead"><span title="Try our body search" class="left">Try our body</span> <span class="bgIcon"></span> <span class="left">search instead </span></a>
-                </div>-->
-                @using (Html.BeginForm("JustToBeSafeFirst", "JustToBeSafe", FormMethod.Post))
-            {
-                    @Html.HiddenFor(x => Model.UserInfo.Demography.Gender)
-                    @Html.HiddenFor(x => Model.UserInfo.Demography.Age)
+        <div class="content-container search-box">
+            <h2>Search by symptom</h2>
+            <div class="symptoms-find-container">
+                <label for="searchTags">
+                    <input type="text" class="input-symptoms ui-autocomplete-input" id="searchTags" autocomplete="off" name="searchTags"/>
+                </label>
+                <input type="submit" class="button button-get-started" value="Search" id="searchButton"/>
+            </div>
 
+            <div id="SearchResults">
+                <hr />
+                <h3></h3>
+
+                <form action="/JustToBeSafe/JustToBeSafeFirst" method="post" novalidate="novalidate">
                     <input type="hidden" id="pathwayNo" name="pathwayNo" value="" />
                     <input type="hidden" id="pathwayTitle" name="pathwayTitle" value="" />
-                    <div class="symptoms-find-header">
-                        <h2>Search for the symptom you're most concerned about</h2>
-                    </div>
-                    <div class="symptoms-find-container">
-                        <p>It may feel like we're asking a lot of questions, but it's important we check everything thoroughly and rule out serious conditions.</p>
-                        <p>Make sure you answer all of the questions and follow the advice you are given.</p>
-                        <hr />
-                        <div class="symptoms-search">
-                            <label for="searchTags">
-                                <input type="text" class="input-symptoms ui-autocomplete-input" id="searchTags" autocomplete="off" name="searchTags" placeholder="Search for symptoms" />
-                            </label>
-                            @* @Html.ActionLink("GO","Gender","Question", new {@class = "go"})*@
-                            <input type="submit" class="button button-get-started go" value="Go" id="submitSearch" />
-                        </div>
-                    </div>
-
-
-                    <div class="common-symptoms">
-                        <h3>Popular topics</h3>
-                        <ul class="list-conditions" id="commonConditions">
-                            @{
-                                var links = new Dictionary<string, List<string>> {
-                                    { "Abdominal pain", new List<string> { "PW520", "PW517", "PW519", "PW516" } },
-                                    { "Chest and back pain", new List<string> { "PA21", "PA212", "PA213", "PA21", "PA21", "PA212", "PA21", "PA213" } },
-                                    { "Cold or flu symptoms", new List<string> { "PW574", "PW1042", "PW1043", "PW1040", "PW574", "PW1041" } },
-                                    { "Diarrhoea and vomiting", new List<string> { "PW1554", "PW1708", "PW1563", "PW1563", "PW1555", "PW1556", "PW1553", "PW1708" } },
-                                    { "Headache", new List<string> { "PW755", "PW752", "PW754", "PW753", "PW754", "PW756" } },
-                                    { "Mental health problems", new List<string> { "PW1751", "PW1751", "PW1751", "PW1751" } },
-                                    { "Rash or skin problems", new List<string> { "PW1771", "PW1772", "PW1773", "PW1774" } },
-                                    { "Sexual concerns", new List<string> { "PW1684", "PW1699", "PW1698", "PW1685" } }
-                                };
-
-                                foreach (var link in links) {
-                                    link.Value.RemoveAll(number => !Model.PathwayNumbers.Contains(number));
-                                    if (link.Value.Any()) {
-                                        <li><input type="submit" class="popularTopic linkButton" value="@link.Key" id="@string.Join(",", link.Value)"/></li>
-                                    }
-                                }
-                            }
-                            <!--
-                            <li><input type="submit" class="linkButton" value="Abdominal pain" id="PW520,PW517,PW519,PW516"/></li>
-                            <li><input type="submit" class="linkButton" value="A headache" id="PW755,PW752,PW754,PW753,PW754,PW756"/></li>
-                            <li><input type="submit" class="linkButton" value="Chest and back pain" id="PA21,PA212,PA213,PA21,PA21,PA212,PA21,PA213"/></li>
-                            <li><input type="submit" class="linkButton" value="Cold or flu symptoms" id="PW574,PW1042,PW1043,PW1040,PW574,PW1041"/></li>
-                            <li><input type="submit" class="linkButton" value="A rash or skin problem" id="PW1771,PW1772,PW1773,PW1774"/></li>
-                            <li><input type="submit" class="linkButton" value="A mental health problem" id="PW1751,PW1751,PW1751,PW1751"/></li>
-                            <li><input type="submit" class="linkButton" value="Diarrhoea and vomiting" id="PW1554,PW1708,PW1563,PW1563,PW1555,PW1556,PW1553,PW1708"/></li>
-                            <li><input type="submit" class="linkButton" value="Sexual Concerns" id="PW1684,PW1699,PW1698,PW1685"/></li>
-                            -->
-                        </ul>
-
-                    </div>
-                    <div class="all-symptoms">
-                        @{
-                            var bodyParts = new List<string> {"Head and neck", "Dental", "Shoulder, arm and hand", "Chest and back", "Abdomen, groin and side of the body", "Bowel and urinary problems", "Genitals", "Leg and foot", "Skin and hair"};
-                            var lists = new List<IEnumerable<CategoryWithPathways>>(2);
-                            lists.Add(Model.AllTopics.Where(t => bodyParts.Contains(t.Category.Title)).OrderBy(x => x.Category.OrderNo));
-                            lists.Add(Model.AllTopics.Where(t => !bodyParts.Contains(t.Category.Title)).OrderBy(x => x.Category.OrderNo));
-                            //var orderLists = Model.AllTopics.OrderBy(c => c.Category.Title);
-                            //lists.Add(orderLists.Take((orderLists.Count() / 2)));
-                            //lists.Add(orderLists.Skip(lists[0].Count()));
-                        }
-
-
-                        <h3>All topics</h3>
-
-
-                        @for (int i = 0; i < lists.Count; ++i)
-                        {
-                            <div class="@Html.Raw(i == 0 ? "left" : "right")">
-                                <ul>
-                                    @foreach (var topLevelCategory in lists[i])
-                                    {
-                                        <li>
-                                            <h5><a class="category linkButton bullet" href="javascript:void(0);">&bull; <span class="underline" id="@topLevelCategory.Category.Id">@topLevelCategory.Category.Title</span></a></h5>
-                                            @if (topLevelCategory.SubCategories != null && topLevelCategory.SubCategories.Any())
-                                            {
-                                                <ul class="content">
-                                                    @foreach (var subCategory in topLevelCategory.SubCategories.OrderBy(x => x.Category.Title))
-                                                    {
-                                                        if (!subCategory.Pathways.Any()) {
-                                                             continue;
-                                                        }
-                                                        <li>
-                                                            <h5><a class="category linkButton bullet" href="javascript:void(0);">&bull; <span class="underline" id="@subCategory.Category.Id">@subCategory.Category.Title</span></a></h5>
-                                                            <ul class="content">
-                                                                @foreach (var pathway in subCategory.Pathways.OrderBy(p => p.PathwayData.DigitalTitle))
-                                                                {
-                                                                    <li><input type="submit" class="linkButton" value="@pathway.PathwayData.DigitalTitle" id="@pathway.Pathway.PathwayNo" digital-id="@pathway.PathwayData.DigitalTitleId" /></li>
-                                                                }
-                                                            </ul>
-                                                        </li>
-                                                    }
-                                                </ul>
-                                            }
-                                            @if (topLevelCategory.Pathways != null && topLevelCategory.Pathways.Any())
-                                            {
-                                                <ul class="content">
-                                                    @foreach (var pathway in topLevelCategory.Pathways.OrderBy(p => p.PathwayData.DigitalTitle))
-                                                    {
-                                                        <li><input type="submit" class="linkButton" value="@pathway.PathwayData.DigitalTitle" id="@pathway.Pathway.PathwayNo" digital-id="@pathway.PathwayData.DigitalTitleId" /></li>
-                                                    }
-                                                </ul>
-                                            }
-                                        </li>
-                                    }
-                                </ul>
-                            </div>
-                        }
-                    </div>
-
-                    <div id="SearchResults">
-                        @*Search Results appended here as list tags*@
-                    </div>
-
-                            }
-
-
+                    <input id="UserInfo_Demography_Gender" name="UserInfo.Demography.Gender" type="hidden" value="@Model.UserInfo.Demography.Gender" />
+                    <input id="UserInfo_Demography_Age" name="UserInfo.Demography.Age" type="hidden" value="@Model.UserInfo.Demography.Age" />
+                    <ul></ul>
+                </form>
             </div>
-            <!--content end-->
 
         </div>
 
-
-
     </div>
 
-    <!--wrapper ends-->
 
 
     <script>
-    // -- search box autocomplete mock script
+        function GetDescription(description) {
+            var result = "";
+            if (description != null) {
+                result = description + ".";
+                result = result.replace(/\\n\\n/g, ". ");
+                result = result.replace(" . ", ". ");
+                result = result.replace("..", ".");
+            }
+
+            return result;
+        }
+
+        function UpdateSearchResults(searchResults) {
+            if (searchResults.length < 1) {
+                $("#SearchResults ul").empty();
+                $("#SearchResults h3").text("No topics found matching '" + $("#searchTags").val() + "' please try again.");
+                $("#SearchResults").show();
+
+                return;
+            }
+
+            var MAX_RESULTS = 10;
+            var resultCount = searchResults.length < MAX_RESULTS ? searchResults.length : MAX_RESULTS;
+            $("#SearchResults").hide();
+            $("#SearchResults ul").empty();
+            $("#SearchResults h3").text(searchResults.length + " topics found matching '" + $("#searchTags").val() + "'");
+            for (var i = 0; i < resultCount; i++) {
+                var topic = searchResults[i];
+                var desc = GetDescription(topic.Description);
+                var additionalTopics = topic.Title.slice(1);
+                var additionalTopicsText = additionalTopics.length > 0 ? ("<p class='additional-topics'>Also covers: " + additionalTopics.join(', ') + "</p>") : "";
+                var li = $("<li><button type='submit' class='linkButton topicLink' id='" + topic.PathwayNo + "' data-title='" + topic.PathwayTitle + "'>" + topic.Title[0] + "</button>" + additionalTopicsText + "<p>" + desc + "</p></li>");
+                $("#SearchResults ul").append(li);
+            }
+            $("#SearchResults").show();
+
+        }
+
         $(function () {
-        $("#searchTags").autocomplete({
-            source: function(request, response) {
-                $.ajax({
-                    url: '@Url.Action("AutosuggestPathways", "Question")',
-                    type: "post",
-                    dataType: "json",
-                    data: { input: $("#searchTags").val(), gender: '@Model.UserInfo.Demography.Gender', age: @Model.UserInfo.Demography.Age},
-                    success: function(data) {
-                        response(JSON.parse(data).slice(0, 7));
-                    },
-                    error: function(textStatus, errorThrown) {
-                        return null;
-                    }
+            $("#SearchResults").hide();
+
+            $("#searchTags").focus();
+
+            $("#searchButton").click(
+                function() {
+                    $.ajax({
+                        url: '@Url.Action("PathwaySearch", "Question")',
+                        type: "post",
+                        dataType: "json",
+                        data: { searchTerm: $("#searchTags").val(), gender: '@Model.UserInfo.Demography.Gender', age: @Model.UserInfo.Demography.Age},
+                        success: function(data) {
+                            data = JSON.parse(data);
+                            UpdateSearchResults(data);
+                        },
+                        error: function(textStatus, errorThrown) {
+                            return null;
+                        }
+                    });
+
+                    return false;
                 });
-            },
-            focus: function(event, ui) {
-                event.preventDefault();
-                $("#searchTags").val(ui.item.label);
-                return false;
-            },
-            select: function(event, ui) {
-                event.preventDefault();
-                $("#searchTags").val(ui.item.label);
-                $("#pathwayTitle").val(ui.item.label);
-                $("#pathwayNo").val(ui.item.value);
-                $("input.go").removeAttr("disabled");
-                return false;
-            },
-            open: function (event, ui) {
-                $('.ui-autocomplete').off('menufocus hover mouseover mouseenter');
-            },
-            appendTo: $('#SearchResults')
+
+            $(document).on("click", ".topicLink", function(){
+                var $this = $(this);
+                $('#pathwayNo').val($this.attr("id"));
+                $('#pathwayTitle').val($this.data("title"));
+            });
+
+            $('.category').click(function () {
+                var $this = $(this);
+
+                var $helpTextLinkMessage = $this.parent().next('.content');
+                $helpTextLinkMessage.slideToggle("fast");
+            });
+
         });
-
-        $(".linkButton").click(
-            function() {
-                //$("#searchTags").val(this.value);
-                $("#pathwayTitle").val(this.value);
-                $("#pathwayNo").val(this.id);
-        });
-
-        $('.category').click(function () {
-            var $this = $(this);
-
-            var $helpTextLinkMessage = $this.parent().next('.content');
-            $helpTextLinkMessage.slideToggle("fast");
-        });
-
-    });
     </script>
 </div>

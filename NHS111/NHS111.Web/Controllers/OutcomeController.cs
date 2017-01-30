@@ -146,6 +146,9 @@ namespace NHS111.Web.Controllers {
             return View();
         }
 
+        [HttpPost]
+
+
         private void AuditDosRequest(OutcomeViewModel model, DosViewModel dosViewModel) {
             var audit = model.ToAuditEntry();
             var auditedDosViewModel = Mapper.Map<AuditedDosRequest>(dosViewModel);

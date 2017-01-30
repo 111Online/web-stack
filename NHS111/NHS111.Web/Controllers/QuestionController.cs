@@ -12,6 +12,7 @@ namespace NHS111.Web.Controllers {
     using Utils.Parser;
     using Presentation.Builders;
     using System.Collections.Generic;
+    using System.ComponentModel;
     using System.Linq;
     using System.Net.Http;
     using System.Text;
@@ -49,21 +50,10 @@ namespace NHS111.Web.Controllers {
         public async Task<ActionResult> Search(AgeGenderViewModel model)
         {
             if (!ModelState.IsValid) return View("Gender", new JourneyViewModel { UserInfo = new UserInfo { Demography = model } });
-
-            var categoryTask = await _restfulHelper.GetAsync(_configuration.GetBusinessApiGetCategoriesWithPathwaysGenderAge(model.Gender, model.Age));
-            var pathwayTask = await _restfulHelper.GetAsync(_configuration.GetBusinessApiGetPathwaysGenderAge(model.Gender, model.Age));
-
-            var allTopics = JsonConvert.DeserializeObject<List<CategoryWithPathways>>(categoryTask);
-            var topicsContainingStartingPathways = allTopics.Where(c => c.Pathways.Any(p => p.Pathway.StartingPathway) || c.SubCategories.Any(sc => sc.Pathways.Any(p => p.Pathway.StartingPathway)));
-            
-            var filteredPathways = JsonConvert.DeserializeObject<List<Pathway>>(pathwayTask);
-            var startingPathways = filteredPathways.Where(p => p.StartingPathway).SelectMany(p => p.PathwayNo.Split(','));
             
             var startOfJourney = new JourneyViewModel
             {
-                UserInfo = new UserInfo { Demography = model },
-                AllTopics = topicsContainingStartingPathways,
-                PathwayNumbers = startingPathways
+                UserInfo = new UserInfo { Demography = model }
             };
 
             return View(startOfJourney);
@@ -71,10 +61,23 @@ namespace NHS111.Web.Controllers {
         }
 
         [HttpPost]
-        public async Task<JsonResult> AutosuggestPathways(string input, string gender, int age)
-        {
+        public async Task<JsonResult> AutosuggestPathways(string input, string gender, int age) {
             var response = await _restfulHelper.GetAsync(_configuration.GetBusinessApiGroupedPathwaysUrl(input, gender, age));
             return Json(await Search(JsonConvert.DeserializeObject<List<GroupedPathways>>(response)));
+        }
+
+        private string NormaliseAgeGroup(int age) {
+            //0-1, 1-5, 5-16, 16
+            if (age >= 0 && age < 1)
+                return "Infant";
+            if (age >= 1 && age < 5)
+                return "Toddler";
+            if (age >= 5 && age < 16)
+                return "Child";
+            if (age >= 16)
+                return "Adult";
+
+            throw new InvalidEnumArgumentException("Invalid age " + age);
         }
 
 
@@ -138,7 +141,16 @@ namespace NHS111.Web.Controllers {
             model.UserInfo = new UserInfo();
             return View("Gender", model);
         }
-        
+
+        [HttpPost]
+        public async Task<JsonResult> PathwaySearch(string gender, int age, string searchTerm) {
+            var ageGroup = NormaliseAgeGroup(age);
+            var response = await _restfulHelper.GetAsync(_configuration.GetBusinessApiPathwaySearchUrl(gender, ageGroup, searchTerm));
+
+            return Json(response);
+        }
+
+
         private async Task<JourneyViewModel> GetNextJourneyViewModel(JourneyViewModel model) {
             var nextNode = await GetNextNode(model);
             return await _journeyViewModelBuilder.Build(model, nextNode);
