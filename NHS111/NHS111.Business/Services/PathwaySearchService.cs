@@ -126,6 +126,7 @@ namespace NHS111.Business.Services
                                                         .Slop(50)
                                                         )
                                                     )
+                                                    .ScoreMode(ChildScoreMode.Sum)
                                             ),
                                         s => s.MultiMatch(m =>
                                             m.Fields(f => f
@@ -145,6 +146,7 @@ namespace NHS111.Business.Services
                                                         .Value(query)
                                                     )
                                                 )
+                                                .ScoreMode(ChildScoreMode.Sum)
                                             )
                                     )
                                .MinimumShouldMatch(1)
