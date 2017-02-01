@@ -330,6 +330,10 @@
     <Content Include="Content\images\nhs-logo.png" />
     <Content Include="Content\images\nhs-rev-logotype.jpg" />
     <Content Include="Content\images\nhs-rev-logotype.svg" />
+    <Content Include="Content\images\step-1.png" />
+    <Content Include="Content\images\step-2.png" />
+    <Content Include="Content\images\step-3.png" />
+    <Content Include="Content\images\warning-blue.png" />
     <Content Include="Content\img\ambulance-in-map.png" />
     <Content Include="Content\img\ambulance.png" />
     <Content Include="Content\img\arrowActive_left.png" />
