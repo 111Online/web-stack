@@ -262,6 +262,7 @@
     <Content Include="Content\css\skins\flat\yellow.png" />
     <Content Include="Content\css\skins\flat\_all.css" />
     <Content Include="Content\css_NhsUK\govuk-template.css" />
+    <Content Include="Content\css_NhsUK\home.css" />
     <Content Include="Content\css_NhsUK\signposting-outcome-print.css" />
     <Content Include="Content\css_NhsUK\signposting-outcome.css" />
     <Content Include="Content\css_NhsUK\application.css" />

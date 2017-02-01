@@ -8,77 +8,60 @@
 @section Title {NHS 111}
 
 @section Scripts {
-    <!--<script src="~/scripts/jquery2.1.1.min.js"></script> included on layout page -->
     <script src="~/scripts/jquery1.11.2-ui.min.js"></script>
     <script src="~/scripts/jquery.blockUI.js"></script>
     <script src="~/scripts/custom.js"></script>
     <script src="~/scripts/disclaimer.js"></script>
+    <link rel="stylesheet" href="~/Content/css_NhsUK/home.css">
 }
 
 @{
-    if (DisclaimerPopupFeature.IsEnabled)
-    {
+    if (DisclaimerPopupFeature.IsEnabled) {
         <!-- toggle disclaimer popup -->
         <link rel="stylesheet" href="~/Content/css_NhsUK/modal.css">
         <script src="~/scripts/disclaimer-popup.js"></script>
     }
 }
 
-<link href="~/Content/css_NhsUK/search.css" media="screen" rel="stylesheet" type="text/css" />
 
 <div id="wrapper" class="home">
-    @using (Html.BeginForm("Home", "Question", FormMethod.Post))
-    {
+    @using (Html.BeginForm("Home", "Question", FormMethod.Post)) {
         @Html.HiddenFor(x => Model.SessionId)
 
         <div class="header home">
-            <h2 class="discHead">Welcome to NHS 111</h2>
+            <h2 class="discHead">Getting care with 111 Online</h2>
         </div>
 
-        <div class="worsening-advice-icon trial">
-            <p>
-                This is a trial of a new online service. It's currently available in Leeds for adults and children aged 5 and over. If you can't access the trial but need medical help please call 111.
-                This service is not a substitute for a medical consultation. See @Html.ActionLink("terms", "Terms", "Help", null, new { target = "_blank" }).
-            </p>
-        </div>
+        <p>Use this service when:
+            <ul>
+                <li>you need medical help, but it's not a 999 emergency</li>
+                <li>you don't know who to contact, or your normal service isn't available</li>
+            </ul>
+        </p>
 
-        <p class="strong">Use this service if you need medical help or advice on what to do or where to go.</p>
+        <h3>How does 111 work?</h3>
+        <ol>
+            <li class="step-1">
+                Answer a series of questions about your symptoms
+            </li>
+            <li class="step-2">
+                You'll get advice on who you need to see, and how urgently
+            </li>
+            <li class="step-3">
+                We'll connect you to the right healthcare for your medical needs
+            </li>
+        </ol>
+        <p>The service doesn't diagnose specific conditions.</p>
 
-        <div class="steps">
-            <ol class="steps-list row">
-                <li>
-                    <div class="step">
-                        <p>We’ll rule out some serious conditions</p>
-                    </div>
-                    <div class="step-number">
-                        <p>1</p>
-                    </div>
-                </li>
-                <li>
-                    <div class="step">
-                        <p>We’ll ask the right questions about your problem</p>
-                    </div>
-                    <div class="step-number">
-                        <p>2</p>
-                    </div>
-                </li>
-                <li>
-                    <div class="step">
-                        <p>We’ll advise you what to do</p>
-                    </div>
-                    <div class="step-number">
-                        <p>3</p>
-                    </div>
-                </li>
-            </ol>
-        </div>
-        <div class="clear"></div>
-        <p>Our advice could be something you can do at home, a medicine you can get over the counter, or a visit to a GP or another health professional.</p>
-        <p>We can also advise you what to do when your usual service is closed.</p>
-        <button type="submit" class="button button-get-started go">Start NHS 111</button>
+          
+            <div class="trial">
+                <p>111 Online is being trialled in Leeds for patients aged 5 and over. This service is not a substitute for a medical consultation. See @Html.ActionLink("terms", "Terms", "Help", null, new { target = "_blank" }).</p>
+            </div>
 
-        <p>If you're looking for NHS opening times or contact information, use <a href="http://www.nhs.uk">NHS Choices</a>.</p>
+        <button type="submit" class="button button-get-started go">Start now</button>
 
+        <p>If you're looking for NHS opening times or contact information, use <a href="http://www.nhs.uk">NHS Choices</a>.
+        </p>
     }
 </div>
 
