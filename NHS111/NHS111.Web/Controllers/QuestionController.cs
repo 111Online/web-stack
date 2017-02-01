@@ -66,21 +66,6 @@ namespace NHS111.Web.Controllers {
             return Json(await Search(JsonConvert.DeserializeObject<List<GroupedPathways>>(response)));
         }
 
-        private string NormaliseAgeGroup(int age) {
-            //0-1, 1-5, 5-16, 16
-            if (age >= 0 && age < 1)
-                return "Infant";
-            if (age >= 1 && age < 5)
-                return "Toddler";
-            if (age >= 5 && age < 16)
-                return "Child";
-            if (age >= 16)
-                return "Adult";
-
-            throw new InvalidEnumArgumentException("Invalid age " + age);
-        }
-
-
         private async Task<string> Search(List<GroupedPathways> pathways)
         {
             
@@ -144,8 +129,8 @@ namespace NHS111.Web.Controllers {
 
         [HttpPost]
         public async Task<JsonResult> PathwaySearch(string gender, int age, string searchTerm) {
-            var ageGroup = NormaliseAgeGroup(age);
-            var response = await _restfulHelper.GetAsync(_configuration.GetBusinessApiPathwaySearchUrl(gender, ageGroup, searchTerm));
+            var ageGroup = new AgeCategory(age);
+            var response = await _restfulHelper.GetAsync(_configuration.GetBusinessApiPathwaySearchUrl(gender, ageGroup.Value, searchTerm));
 
             return Json(response);
         }
