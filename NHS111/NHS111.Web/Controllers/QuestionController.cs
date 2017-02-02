@@ -50,10 +50,21 @@ namespace NHS111.Web.Controllers {
         public async Task<ActionResult> Search(AgeGenderViewModel model)
         {
             if (!ModelState.IsValid) return View("Gender", new JourneyViewModel { UserInfo = new UserInfo { Demography = model } });
-            
+
+            var categoryTask = await _restfulHelper.GetAsync(_configuration.GetBusinessApiGetCategoriesWithPathwaysGenderAge(model.Gender, model.Age));
+            var pathwayTask = await _restfulHelper.GetAsync(_configuration.GetBusinessApiGetPathwaysGenderAge(model.Gender, model.Age));
+
+            var allTopics = JsonConvert.DeserializeObject<List<CategoryWithPathways>>(categoryTask);
+            var topicsContainingStartingPathways = allTopics.Where(c => c.Pathways.Any(p => p.Pathway.StartingPathway) || c.SubCategories.Any(sc => sc.Pathways.Any(p => p.Pathway.StartingPathway)));
+
+            var filteredPathways = JsonConvert.DeserializeObject<List<Pathway>>(pathwayTask);
+            var startingPathways = filteredPathways.Where(p => p.StartingPathway).SelectMany(p => p.PathwayNo.Split(','));
+
             var startOfJourney = new JourneyViewModel
             {
-                UserInfo = new UserInfo { Demography = model }
+                UserInfo = new UserInfo { Demography = model },
+                AllTopics = topicsContainingStartingPathways,
+                PathwayNumbers = startingPathways
             };
 
             return View(startOfJourney);
