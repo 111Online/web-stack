@@ -47,12 +47,16 @@
                 <input type="hidden" id="pathwayNo" name="pathwayNo" value="" />
                 <input type="hidden" id="pathwayTitle" name="pathwayTitle" value="" />
                 <input id="UserInfo_Demography_Gender" name="UserInfo.Demography.Gender" type="hidden" value="@Model.UserInfo.Demography.Gender" />
-                <input id="UserInfo_Demography_Age" name="UserInfo.Demography.Age" type="hidden" value="@Model.UserInfo.Demography.Age" />
-                <div id="SearchResults">
-                    <hr />
-                    <h3></h3>
+                <input id="UserInfo_Demography_Age" name="UserInfo.Demography.Age" type="hidden" value="@Model.UserInfo.Demography.Age"/>
 
-                    <ul></ul>
+                <div id="SearchResults">
+                    <hr/>
+                    <div class="results-list">
+                        <h3></h3>
+
+                        <ul></ul>
+                    </div>
+                    <p id="category-option">If you can't find a topic you can try <a href="#" id="show-categories">searching by category</a>.</p>
                 </div>
 
                 <div id="categories" class="all-symptoms">
@@ -129,16 +133,20 @@
         function UpdateSearchResults(searchResults) {
             if (searchResults.length < 1) {
                 $("#SearchResults ul").empty();
+                $(".results-list").show();
                 $("#SearchResults h3").text("No topics found matching '" + $("#searchTags").val() + "' please try again.");
                 $("#SearchResults").show();
                 $("#categories").show();
-
+                $("#category-option").hide();
+                
                 return;
             }
 
             var MAX_RESULTS = 10;
             var resultCount = searchResults.length < MAX_RESULTS ? searchResults.length : MAX_RESULTS;
             $("#SearchResults").hide();
+            $(".results-list").show();
+            $("#category-option").show();
             $("#SearchResults ul").empty();
             $("#SearchResults h3").text(searchResults.length + " topics found matching '" + $("#searchTags").val() + "'");
             for (var i = 0; i < resultCount; i++) {
@@ -187,6 +195,13 @@
                 var $this = $(this);
                 $('#pathwayNo').val($this.attr("id"));
                 $('#pathwayTitle').val($this.data("title"));
+            });
+
+            $(document).on("click", "#show-categories", function(){
+                $("#categories").show();
+                $(".results-list").hide();
+                $("#category-option").hide();
+                
             });
 
             $('.category').click(function () {
