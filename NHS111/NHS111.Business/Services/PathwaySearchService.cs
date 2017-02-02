@@ -108,13 +108,23 @@ namespace NHS111.Business.Services
                                     (
                                         s => s.MultiMatch(m =>
                                             m.Fields(f => f
-                                                    .Field(p => p.Title, boost: 6)
+                                                    .Field(p => p.Title, boost: 10)
                                                     .Field(p => p.Description, boost: 2)
                                                 )
                                                 .Operator(Operator.Or)
                                                 .Type(TextQueryType.MostFields)
                                                 .Slop(50)
                                                 .Boost(10)
+                                                .Query(query)
+                                            ),
+                                            s => s.MultiMatch(m =>
+                                            m.Fields(f => f
+                                                    .Field(p => p.TitlePhonetic, boost: 10)
+                                                    .Field(p => p.DescriptionPhonetic, boost: 2)
+                                                )
+                                                .Operator(Operator.Or)
+                                                .Type(TextQueryType.MostFields)
+                                                .Slop(50)
                                                 .Query(query)
                                             ),
                                         s => s.HasChild<PathwayPhraseResult>(c => 
@@ -130,7 +140,7 @@ namespace NHS111.Business.Services
                                             ),
                                         s => s.MultiMatch(m =>
                                             m.Fields(f => f
-                                                    .Field(p => p.Title, boost: 6)
+                                                    .Field(p => p.Title, boost: 10)
                                                     .Field(p => p.Description, boost: 2)
                                                 )
                                                 .Operator(Operator.Or)
@@ -148,6 +158,7 @@ namespace NHS111.Business.Services
                                                 )
                                                 .ScoreMode(ChildScoreMode.Sum)
                                             )
+                                            
                                     )
                                .MinimumShouldMatch(1)
                                ))
