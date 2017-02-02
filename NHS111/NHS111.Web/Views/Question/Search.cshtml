@@ -107,13 +107,15 @@
 
             $("#searchButton").click(
                 function() {
-                    if ($("#searchTags").val() == '')
+                    var term = $("#searchTags").val().trim();
+                    term = encodeURIComponent(term);
+                    if (term == '')
                         return false;
                     $.ajax({
                         url: '@Url.Action("PathwaySearch", "Question")',
                         type: "post",
                         dataType: "json",
-                        data: { searchTerm: $("#searchTags").val(), gender: '@Model.UserInfo.Demography.Gender', age: @Model.UserInfo.Demography.Age},
+                        data: { searchTerm: term, gender: '@Model.UserInfo.Demography.Gender', age: @Model.UserInfo.Demography.Age},
                         success: function(data) {
                             data = JSON.parse(data);
                             UpdateSearchResults(data);
