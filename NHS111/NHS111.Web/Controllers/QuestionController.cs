@@ -81,7 +81,7 @@ namespace NHS111.Web.Controllers {
             if (string.IsNullOrEmpty(q))
                 return View(model);
 
-            var encodedTerm = Url.Encode(model.SanitisedSearchTerm);
+            var encodedTerm = Uri.EscapeDataString(model.SanitisedSearchTerm);
             var response =
                 await
                     _restfulHelper.GetAsync(_configuration.GetBusinessApiPathwaySearchUrl(gender, ageGroup.Value,
