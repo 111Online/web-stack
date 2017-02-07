@@ -215,6 +215,7 @@
     <Compile Include="Monitoring\IMonitor.cs" />
     <Compile Include="Notifier\Notifier.cs" />
     <Compile Include="Parser\JourneyJsonParser.cs" />
+    <Compile Include="Parser\PathwayIdParser.cs" />
     <Compile Include="Parser\PathwayTitleUriParser.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

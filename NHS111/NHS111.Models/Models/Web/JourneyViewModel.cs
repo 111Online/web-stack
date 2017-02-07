@@ -56,7 +56,6 @@ namespace NHS111.Models.Models.Web
         }
 
         public IEnumerable<Pathway> CommonTopics { get; set; }
-        public IEnumerable<CategoryWithPathways> AllTopics { get; set; }
 
         public string QuestionNo { get; set; }
         public string SymptomDiscriminatorCode { get; set; }

@@ -205,6 +205,7 @@
     <Compile Include="Controllers\OutcomeController.cs" />
     <Compile Include="Controllers\QuestionController.cs" />
     <Compile Include="Controllers\JustToBeSafeController.cs" />
+    <Compile Include="Controllers\TopicController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -794,6 +795,7 @@
     <Content Include="Views\Help\Terms.cshtml" />
     <Content Include="Views\Shared\_SurveyLink.cshtml" />
     <Content Include="Views\Shared\_DispositionBanners.cshtml" />
+    <Content Include="Views\Topic\Search.cshtml" />
     <None Include="Web.Development.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

@@ -16,6 +16,7 @@ namespace NHS111.Web.Controllers {
     using System.Linq;
     using System.Net.Http;
     using System.Text;
+    using System.Text.RegularExpressions;
     using System.Web;
     using Models.Models.Domain;
     using Newtonsoft.Json;
@@ -28,6 +29,8 @@ namespace NHS111.Web.Controllers {
     [LogHandleErrorForMVC]
     public class QuestionController
         : Controller {
+
+        public const int MAX_SEARCH_RESULTS = 10;
 
         public QuestionController(IJourneyViewModelBuilder journeyViewModelBuilder, IRestfulHelper restfulHelper,
             IConfiguration configuration, IJustToBeSafeFirstViewModelBuilder justToBeSafeFirstViewModelBuilder, IDirectLinkingFeature directLinkingFeature,
@@ -51,25 +54,53 @@ namespace NHS111.Web.Controllers {
         {
             if (!ModelState.IsValid) return View("Gender", new JourneyViewModel { UserInfo = new UserInfo { Demography = model } });
 
-            var categoryTask = await _restfulHelper.GetAsync(_configuration.GetBusinessApiGetCategoriesWithPathwaysGenderAge(model.Gender, model.Age));
-            var pathwayTask = await _restfulHelper.GetAsync(_configuration.GetBusinessApiGetPathwaysGenderAge(model.Gender, model.Age));
+            var topicsContainingStartingPathways = await GetAllTopics(model);
 
-            var allTopics = JsonConvert.DeserializeObject<List<CategoryWithPathways>>(categoryTask);
-            var topicsContainingStartingPathways = allTopics.Where(c => c.Pathways.Any(p => p.Pathway.StartingPathway) || c.SubCategories.Any(sc => sc.Pathways.Any(p => p.Pathway.StartingPathway)));
-
-            var filteredPathways = JsonConvert.DeserializeObject<List<Pathway>>(pathwayTask);
-            var startingPathways = filteredPathways.Where(p => p.StartingPathway).SelectMany(p => p.PathwayNo.Split(','));
-
-            var startOfJourney = new JourneyViewModel
+            var startOfJourney = new SearchJourneyViewModel
             {
                 UserInfo = new UserInfo { Demography = model },
-                AllTopics = topicsContainingStartingPathways,
-                PathwayNumbers = startingPathways
+                AllTopics = topicsContainingStartingPathways
             };
 
             return View(startOfJourney);
 
         }
+
+        [HttpGet]
+        public async Task<ActionResult> Search(string q, string gender, int age) {
+            var ageGroup = new AgeCategory(age);
+
+            var ageGenderViewModel = new AgeGenderViewModel {Gender = gender, Age = age};
+            var topicsContainingStartingPathways = await GetAllTopics(ageGenderViewModel);
+            var model = new SearchJourneyViewModel {
+                SanitisedSearchTerm = q.Trim(),
+                UserInfo = new UserInfo {Demography = ageGenderViewModel},
+                AllTopics = topicsContainingStartingPathways
+            };
+
+            if (string.IsNullOrEmpty(q))
+                return View(model);
+
+            var encodedTerm = Url.Encode(model.SanitisedSearchTerm);
+            var response =
+                await
+                    _restfulHelper.GetAsync(_configuration.GetBusinessApiPathwaySearchUrl(gender, ageGroup.Value,
+                        encodedTerm));
+            model.Results =
+                JsonConvert.DeserializeObject<List<SearchResultViewModel>>(response)
+                    .Take(MAX_SEARCH_RESULTS)
+                    .Select(CleanseDescription);
+            return View(model);
+        }
+
+        private SearchResultViewModel CleanseDescription(SearchResultViewModel result) {
+            result.Description += ".";
+            result.Description = result.Description.Replace("\\n\\n", ". ");
+            result.Description = result.Description.Replace(" . ", ". ");
+            result.Description = result.Description.Replace("..", ".");
+            return result;
+        }
+
 
         [HttpPost]
         public async Task<JsonResult> AutosuggestPathways(string input, string gender, int age) {
@@ -150,6 +181,22 @@ namespace NHS111.Web.Controllers {
         private async Task<JourneyViewModel> GetNextJourneyViewModel(JourneyViewModel model) {
             var nextNode = await GetNextNode(model);
             return await _journeyViewModelBuilder.Build(model, nextNode);
+        }
+
+        private async Task<IEnumerable<CategoryWithPathways>> GetAllTopics(AgeGenderViewModel model)
+        {
+            var categoryTask =
+                await
+                    _restfulHelper.GetAsync(_configuration.GetBusinessApiGetCategoriesWithPathwaysGenderAge(model.Gender,
+                        model.Age));
+
+            var allTopics = JsonConvert.DeserializeObject<List<CategoryWithPathways>>(categoryTask);
+            var topicsContainingStartingPathways =
+                allTopics.Where(
+                    c =>
+                        c.Pathways.Any(p => p.Pathway.StartingPathway) ||
+                        c.SubCategories.Any(sc => sc.Pathways.Any(p => p.Pathway.StartingPathway)));
+            return topicsContainingStartingPathways;
         }
 
         private string DetermineViewName(JourneyViewModel model) {
