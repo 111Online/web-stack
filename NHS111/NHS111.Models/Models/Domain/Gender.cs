@@ -12,12 +12,14 @@ namespace NHS111.Models.Models.Domain {
         //Other
     }
 
-    public class Gender {
+    public class Gender
+        :IEquatable<Gender> {
 
         public static Gender Male = new Gender(GenderEnum.Male);
         public static Gender Female = new Gender(GenderEnum.Female);
 
         public string Value { get; private set; }
+        public GenderEnum Enum { get; private set; }
 
         public Gender(string gender) {
             var lower = gender.ToLower();
@@ -33,7 +35,25 @@ namespace NHS111.Models.Models.Domain {
             Initialise(gender);
         }
 
+        public bool Equals(Gender other) {
+            return this.Enum == other?.Enum;
+        }
+
+        public override bool Equals(object obj) {
+            if (obj == null || GetType() != obj.GetType())
+                return false;
+
+            var p = (Gender)obj;
+            return Equals(p);
+        }
+
+        public override int GetHashCode()
+        {
+            return Value.GetHashCode();
+        }
+
         private void Initialise(GenderEnum gender) {
+            Enum = gender;
             switch (gender) {
                 case GenderEnum.Male:
                     Value = "Male";

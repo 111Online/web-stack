@@ -6,6 +6,12 @@ using NHS111.Web.Presentation.Builders;
 
 namespace NHS111.Web.Controllers
 {
+    using System;
+    using System.Runtime.CompilerServices;
+    using Models.Models.Domain;
+    using Models.Models.Web.Validators;
+    using Utils.Parser;
+
     [LogHandleErrorForMVC]
     public class JustToBeSafeController : Controller
     {
@@ -32,6 +38,29 @@ namespace NHS111.Web.Controllers
             ModelState.Clear();
             var next = await _justToBeSafeViewModelBuilder.JustToBeSafeNextBuilder(model);
             return View(next.Item1, next.Item2);
+        }
+
+        [HttpGet]
+        [Route("{pathwayTitle}/{pathwayId}/start")]
+        public async Task<ActionResult> PathwayStart(string pathwayTitle, string pathwayId, int age) {
+            string pathwayNumber;
+            Gender gender;
+            AgeCategory ageCategory;
+            if (!PathwayIdParser.TryParse(pathwayId, out pathwayNumber, out gender, out ageCategory))
+                throw new ArgumentException("Unable to parse age and gender from Pathway id " + pathwayId);
+
+            var model = new JustToBeSafeViewModel {
+                PathwayTitle = pathwayTitle,
+                PathwayNo = pathwayNumber,
+                UserInfo = new UserInfo {
+                    Demography = new AgeGenderViewModel {
+                        Age = age,
+                        Gender = gender.Value
+                    }
+                }
+            };
+
+            return await JustToBeSafeFirst(model);
         }
     }
 }

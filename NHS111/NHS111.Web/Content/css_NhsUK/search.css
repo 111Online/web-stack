@@ -30,7 +30,6 @@ a.linkButton {
      color: #0066ff;
      text-decoration: underline;
      cursor: pointer; 
-     margin-left: 0.5rem;
 }
     .symptoms-find-container p {
         padding-top: 8px;
@@ -434,6 +433,6 @@ p.additional-topics {
 
 }
 
-.all-symptoms h4 {
+h4 {
     font-size: 25px;
 }
