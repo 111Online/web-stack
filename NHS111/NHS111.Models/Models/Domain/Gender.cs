@@ -36,7 +36,9 @@ namespace NHS111.Models.Models.Domain {
         }
 
         public bool Equals(Gender other) {
-            return this.Enum == other?.Enum;
+            if (other == null)
+                return false;
+            return this.Enum == other.Enum;
         }
 
         public override bool Equals(object obj) {
