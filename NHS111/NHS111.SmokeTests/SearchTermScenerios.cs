@@ -24,7 +24,17 @@ namespace NHS111.SmokeTests
             {
                 new Tuple<string, string>("tummy pain","Abdominal Pain"), //abdo pain
                 new Tuple<string, string>("pain in my tooth","Dental Problems"), //dental
-                new Tuple<string, string>("diorea","Diarrhoea and vomiting") // mispelling
+                new Tuple<string, string>("diorea","Diarrhoea and vomiting"), // mispelling
+                new Tuple<string, string>("stomach ache","Abdominal Pain"), //synonym
+                new Tuple<string, string>("Head ache","Headache"), //synonym
+                new Tuple<string, string>("diarhoea","Diarrhoea no vomiting"), //misspelling not on list
+                new Tuple<string, string>("vomitting","vomiting"), //misspelling
+                new Tuple<string, string>("under","Something under the skin"), //Appears in digital title only not description
+                new Tuple<string, string>("swallowing","Sore throat"), //Appears in description only not title
+                new Tuple<string, string>("lumps","Skin Problems"), //Appears in digital description only
+                new Tuple<string, string>("Chest and upper back pain","Chest pain"), //additional digital title for Chest pain PW559 MaleAdult
+                new Tuple<string, string>("Breathing problems","Breathing problems"), //additional digital title for Chest pain PW559 MaleAdult
+                new Tuple<string, string>("Wheezing","Wheezing"), //additional digital title for Chest pain PW559 MaleAdult
             };
         }
 

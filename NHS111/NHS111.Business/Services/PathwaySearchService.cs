@@ -167,7 +167,7 @@ namespace NHS111.Business.Services
                                                     m.Field("CommonPhrase")
                                                         .Value(query)
                                                     )
-                                                ).Boost(0.1)
+                                                )
                                                 .ScoreMode(ChildScoreMode.Sum)
                                             )
                                             
