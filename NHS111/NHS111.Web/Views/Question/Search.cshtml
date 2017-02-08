@@ -90,7 +90,7 @@
                             <ul>
                                 @foreach (var topLevelCategory in lists[i]) {
                                     <li>
-                                        <h5><a class="category linkButton bullet" href="javascript:void(0);">&bull; <span class="underline" id="@topLevelCategory.Category.Id">@topLevelCategory.Category.Title</span></a></h5>
+                                        <h5><a class="category linkButton bullet" href="javascript:void(0);"><img class="arrow" src="/Content/images/blue-arrow-down.png" /> <span class="underline" id="@topLevelCategory.Category.Id">@topLevelCategory.Category.Title (@(topLevelCategory.SubCategories.SelectMany(s => s.Pathways).Count() + topLevelCategory.Pathways.Count()))</span></a></h5>
                                         @if (topLevelCategory.SubCategories != null && topLevelCategory.SubCategories.Any()) {
                                             <ul class="content">
                                                 @foreach (var subCategory in topLevelCategory.SubCategories.OrderBy(x => x.Category.Title)) {
@@ -98,7 +98,7 @@
                                                         continue;
                                                     }
                                                     <li>
-                                                        <h5><a class="category linkButton bullet" href="javascript:void(0);">&bull; <span class="underline" id="@subCategory.Category.Id">@subCategory.Category.Title</span></a></h5>
+                                                        <h5><a class="category linkButton bullet" href="javascript:void(0);"><img class="arrow" src="/Content/images/blue-arrow-down.png" /> <span class="underline" id="@subCategory.Category.Id">@subCategory.Category.Title (@subCategory.Pathways.Count())</span></a></h5>
                                                         <ul class="content">
                                                             @foreach (var pathway in subCategory.Pathways.OrderBy(p => p.PathwayData.DigitalTitle)) {
                                                                 <li>
@@ -151,6 +151,12 @@
 
             var $helpTextLinkMessage = $this.parent().next('.content');
             $helpTextLinkMessage.slideToggle("fast");
+            var arrow = $this.children(".arrow");
+            if (arrow.attr("src") == "/Content/images/blue-arrow-down.png") {
+                arrow.attr("src", "/Content/images/blue-arrow-right.png");
+            } else {
+                arrow.attr("src", "/Content/images/blue-arrow-down.png");
+            }
         });
     </script>
 </div>

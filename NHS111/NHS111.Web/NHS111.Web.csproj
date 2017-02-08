@@ -300,6 +300,8 @@
     <Content Include="Content\images\bg\sliderH3.png" />
     <Content Include="Content\images\bg\telephone.png" />
     <Content Include="Content\images\bg\website.png" />
+    <Content Include="Content\images\blue-arrow-down.png" />
+    <Content Include="Content\images\blue-arrow-right.png" />
     <Content Include="Content\images\headacheBanner.png" />
     <Content Include="Content\images\homeBanner.png" />
     <Content Include="Content\images\icon-button-next-black.png" />
