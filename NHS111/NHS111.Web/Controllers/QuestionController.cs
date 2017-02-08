@@ -89,16 +89,30 @@ namespace NHS111.Web.Controllers {
             model.Results =
                 JsonConvert.DeserializeObject<List<SearchResultViewModel>>(response)
                     .Take(MAX_SEARCH_RESULTS)
-                    .Select(CleanseDescription);
+                    .Select(r => Transform(r, model.SanitisedSearchTerm));
             return View(model);
         }
 
-        private SearchResultViewModel CleanseDescription(SearchResultViewModel result) {
+        private SearchResultViewModel Transform(SearchResultViewModel result, string searchTerm) {
             result.Description += ".";
             result.Description = result.Description.Replace("\\n\\n", ". ");
             result.Description = result.Description.Replace(" . ", ". ");
             result.Description = result.Description.Replace("..", ".");
+
+            SortTitlesByRelevancy(result, searchTerm);
+
             return result;
+        }
+
+        private void SortTitlesByRelevancy(SearchResultViewModel result, string searchTerm) {
+            var lowerTerm = searchTerm.ToLower();
+            for (var i = 0; i < result.Title.Count; i++) {
+                var title = result.Title[i];
+                if (!title.ToLower().Contains(lowerTerm))
+                    continue;
+                result.Title.RemoveAt(i);
+                result.Title.Insert(0, title);
+            }
         }
 
 
