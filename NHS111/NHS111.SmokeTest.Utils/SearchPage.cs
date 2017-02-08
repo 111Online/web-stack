@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using NUnit.Framework;
 using OpenQA.Selenium;
@@ -14,7 +15,7 @@ namespace NHS111.SmokeTest.Utils
     public class SearchPage
     {
         private readonly IWebDriver _driver;
-        private const string _headerText = "Search for the symptom you're most concerned about";
+        private const string _headerText = "Search by symptom";
 
         [FindsBy(How = How.Id, Using = "searchTags")]
         public IWebElement SearchTxtBox { get; set; }
@@ -51,11 +52,53 @@ namespace NHS111.SmokeTest.Utils
             _driver.FindElement(By.XPath("//li[contains(@class, 'ui-menu-item') and text() = '" + pathway + "']")).Click();
         }
 
+        public IEnumerable<IWebElement> GetHits()
+        {
+            new WebDriverWait(_driver, TimeSpan.FromSeconds(5)).Until(ExpectedConditions.ElementIsVisible(By.XPath("//div[@class='results-list']/ul/li")));
+            return _driver.FindElements(By.XPath("//div[@class='results-list']/ul/li")); 
+        }
+
+        public void SearchByTerm(string term)
+        {
+            this.SearchTxtBox.Clear();
+            this.SearchTxtBox.SendKeys(term);
+            this.ClickGoButton();
+        }
+        public void VerifyTermHits(string expectedHitTitle, int maxRank)
+        {
+            var rank = 0;
+            var linkText = "";
+            foreach (var hit in this.GetHits().ToList())
+            {
+                rank++;
+                var linkElements = hit.FindElements(By.TagName("a"));
+                if (linkElements.Count > 0)
+                {
+                    linkText = linkElements.FirstOrDefault().Text.StripHTML();
+                    return;
+                }
+            }
+
+            Assert.AreEqual(expectedHitTitle, linkText);
+            Assert.IsTrue(rank <= maxRank);
+        }
+
+
         public QuestionPage ClickGoButton()
         {
-            GoButton.Submit();
+            GoButton.Click();
             return new QuestionPage(_driver);
         }
 
+        
+
+    }
+
+    public static class StringExtensionMethods
+    {
+        public static string StripHTML(this string input)
+        {
+            return Regex.Replace(input, "<.*?>", String.Empty);
+        }
     }
 }

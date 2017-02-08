@@ -16,7 +16,7 @@ namespace NHS111.SmokeTest.Utils
         private readonly IWebDriver _driver;
         private static string _baseUrl = ConfigurationManager.AppSettings["TestWebsiteUrl"].ToString();
 
-        private const string _headerText = "Welcome to NHS 111";
+        private const string _headerText = "Getting care with 111 Online";
 
         [FindsBy(How = How.CssSelector, Using = "h2.discHead")]
         public IWebElement Header { get; set; }

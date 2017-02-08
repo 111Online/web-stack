@@ -106,6 +106,13 @@ namespace NHS111.Business.Services
                             .Bool(b => b
                                 .Should
                                     (
+                                       s => s.MatchPhrase(f => f.Field(p => p.Title)
+                                           .Boost(20)
+                                           ),
+                                        s => s.MatchPhrase(f => f.Field(p => p.Description)
+                                            .Boost(20)
+                                            ),
+
                                         s => s.MultiMatch(m =>
                                             m.Fields(f => f
                                                     .Field(p => p.Title, boost: 10)
@@ -115,6 +122,17 @@ namespace NHS111.Business.Services
                                                 .Type(TextQueryType.MostFields)
                                                 .Slop(50)
                                                 .Boost(10)
+                                                .Query(query)
+                                            ),
+                                            s => s.MultiMatch(m =>
+                                            m.Fields(f => f
+                                                    .Field(p => p.TitleShingles, boost: 10)
+                                                    .Field(p => p.DescriptionShingles, boost: 2)
+                                                )
+                                                .Operator(Operator.Or)
+                                                .Type(TextQueryType.MostFields)
+                                                .Slop(50)
+                                                .Boost(20)
                                                 .Query(query)
                                             ),
                                             s => s.MultiMatch(m =>
@@ -147,6 +165,7 @@ namespace NHS111.Business.Services
                                                 .Type(TextQueryType.MostFields)
                                                 .Fuzziness(Fuzziness.Auto)
                                                 .Slop(50)
+                                                .Boost(0.1)
                                                 .Query(query)
                                             ),
                                         s => s.HasChild<PathwayPhraseResult>(c =>
@@ -155,7 +174,7 @@ namespace NHS111.Business.Services
                                                     m.Field("CommonPhrase")
                                                         .Value(query)
                                                     )
-                                                )
+                                                ).Boost(0.1)
                                                 .ScoreMode(ChildScoreMode.Sum)
                                             )
                                             

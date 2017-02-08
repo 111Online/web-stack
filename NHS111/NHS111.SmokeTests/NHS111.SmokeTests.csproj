@@ -60,6 +60,7 @@
   <ItemGroup>
     <Compile Include="EndpointJourneys.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SearchTermScenerios.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
