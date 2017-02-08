@@ -54,7 +54,7 @@
                             @foreach (var result in Model.Results) {
                                 var additionalTopics = result.Title.Skip(1);
                                 <li>
-                                    <a class="linkButton" href="/@result.PathwayTitle/@result.PathwayNo@result.Gender.First()@result.AgeGroup.First()/start?age=@Model.UserInfo.Demography.Age">@Html.Raw(result.Title.First())</a>
+                                    <a class="linkButton" href="/@result.PathwayNo@result.Gender.First()@result.AgeGroup.First()/start?age=@Model.UserInfo.Demography.Age">@Html.Raw(result.Title.First())</a>
                                     @if (additionalTopics.Any()) {
                                         <p class='additional-topics'>Also covers: @Html.Raw(string.Join(", ", additionalTopics))</p>
                                     }
@@ -133,18 +133,6 @@
 
 
     <script>
-        function GetDescription(description) {
-            var result = "";
-            if (description != null) {
-                result = description + ".";
-                result = result.replace(/\\n\\n/g, ". ");
-                result = result.replace(" . ", ". ");
-                result = result.replace("..", ".");
-            }
-
-            return result;
-        }
-
         $(document).ready(function() {
         @if (Model.Results.Any()) {
             @Html.Raw("$('#categories').hide();");
