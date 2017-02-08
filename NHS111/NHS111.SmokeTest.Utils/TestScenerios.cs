@@ -24,6 +24,27 @@ namespace NHS111.SmokeTest.Utils
 
     public static class TestScenerios
     {
+
+        public static SearchPage LaunchSearchScenerio(IWebDriver driver, string gender, int age)
+        {
+            var homePage = new HomePage(driver);
+            homePage.Load();
+            homePage.Verify();
+
+
+            var moduleZeroPage = homePage.ClickNextButton();
+            moduleZeroPage.Verify();
+
+            var genderPage = moduleZeroPage.ClickNoneApplyButton();
+            genderPage.Verify();
+            genderPage.SelectGenderAndAge(gender, age);
+
+            var searchpage = genderPage.NextPage();
+            searchpage.Verify();
+            return searchpage;
+
+        }
+
         public static QuestionPage LaunchTriageScenerio(IWebDriver driver, string pathwayTopic, string gender, int age)
         {
             var homePage = new HomePage(driver);

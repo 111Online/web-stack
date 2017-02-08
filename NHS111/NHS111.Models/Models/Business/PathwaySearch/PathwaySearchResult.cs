@@ -21,12 +21,17 @@ namespace NHS111.Models.Models.Business.PathwaySearch
         [String(Name = "DigitalDescriptions.phonetic", Index = FieldIndexOption.Analyzed)]
         public List<string> TitlePhonetic{ get; set; }
 
+        [String(Name = "DigitalDescriptions.shingles", Index = FieldIndexOption.Analyzed)]
+        public List<string> TitleShingles{ get; set; }
+
         [String(Name = "KP_Use", Index = FieldIndexOption.Analyzed)]
         public string Description { get; set; }
 
         [String(Name = "KP_Use.phonetic", Index = FieldIndexOption.Analyzed)]
         public List<string> DescriptionPhonetic { get; set; }
 
+        [String(Name = "KP_Use.shingles", Index = FieldIndexOption.Analyzed)]
+        public List<string> DescriptionShingles { get; set; }
 
         [String(Name = "PW_ID", Index = FieldIndexOption.NotAnalyzed)]
         public string PathwayNo { get; set; }

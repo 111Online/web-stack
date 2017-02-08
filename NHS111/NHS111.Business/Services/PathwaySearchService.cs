@@ -119,6 +119,17 @@ namespace NHS111.Business.Services
                                             ),
                                             s => s.MultiMatch(m =>
                                             m.Fields(f => f
+                                                    .Field(p => p.TitleShingles, boost: 10)
+                                                    .Field(p => p.DescriptionShingles, boost: 2)
+                                                )
+                                                .Operator(Operator.Or)
+                                                .Type(TextQueryType.MostFields)
+                                                .Slop(50)
+                                                .Boost(20)
+                                                .Query(query)
+                                            ),
+                                            s => s.MultiMatch(m =>
+                                            m.Fields(f => f
                                                     .Field(p => p.TitlePhonetic, boost: 10)
                                                     .Field(p => p.DescriptionPhonetic, boost: 2)
                                                 )
@@ -147,6 +158,7 @@ namespace NHS111.Business.Services
                                                 .Type(TextQueryType.MostFields)
                                                 .Fuzziness(Fuzziness.Auto)
                                                 .Slop(50)
+                                                .Boost(0.1)
                                                 .Query(query)
                                             ),
                                         s => s.HasChild<PathwayPhraseResult>(c =>
@@ -155,7 +167,7 @@ namespace NHS111.Business.Services
                                                     m.Field("CommonPhrase")
                                                         .Value(query)
                                                     )
-                                                )
+                                                ).Boost(0.1)
                                                 .ScoreMode(ChildScoreMode.Sum)
                                             )
                                             
@@ -179,8 +191,8 @@ namespace NHS111.Business.Services
             return searchDescriptor.PostFilter(pf =>
                 pf.Bool(b => b
                     .Must(
-                        m => m.Term(p => p.Gender, gender),
-                        m => m.Term(p => p.AgeGroup, ageGroup)
+                        m => m.Match(p => p.Field(f => f.Gender).Query(gender)),
+                        m => m.Match(p => p.Field(f => f.AgeGroup).Query(ageGroup))
                     )
                     ));
         }
