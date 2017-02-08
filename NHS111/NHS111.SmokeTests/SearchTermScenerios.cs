@@ -22,9 +22,9 @@ namespace NHS111.SmokeTests
             _driver = new ChromeDriver();
             _testTerms = new List<Tuple<string, string>>()
             {
-                new Tuple<string, string>("tummy pain","Abdominal Pain"),
-                new Tuple<string, string>("pain in my tooth","Dental Problems"),
-                new Tuple<string, string>("diorea","Diarrhoea and vomiting")
+                new Tuple<string, string>("tummy pain","Abdominal Pain"), //abdo pain
+                new Tuple<string, string>("pain in my tooth","Dental Problems"), //dental
+                new Tuple<string, string>("diorea","Diarrhoea and vomiting") // mispelling
             };
         }
 

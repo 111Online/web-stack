@@ -106,13 +106,6 @@ namespace NHS111.Business.Services
                             .Bool(b => b
                                 .Should
                                     (
-                                       s => s.MatchPhrase(f => f.Field(p => p.Title)
-                                           .Boost(20)
-                                           ),
-                                        s => s.MatchPhrase(f => f.Field(p => p.Description)
-                                            .Boost(20)
-                                            ),
-
                                         s => s.MultiMatch(m =>
                                             m.Fields(f => f
                                                     .Field(p => p.Title, boost: 10)
@@ -198,8 +191,8 @@ namespace NHS111.Business.Services
             return searchDescriptor.PostFilter(pf =>
                 pf.Bool(b => b
                     .Must(
-                        m => m.Term(p => p.Gender, gender),
-                        m => m.Term(p => p.AgeGroup, ageGroup)
+                        m => m.Match(p => p.Field(f => f.Gender).Query(gender)),
+                        m => m.Match(p => p.Field(f => f.AgeGroup).Query(ageGroup))
                     )
                     ));
         }
