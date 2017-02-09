@@ -1,4 +1,5 @@
-﻿using FluentValidation;
+﻿using System;
+using FluentValidation;
 
 namespace NHS111.Models.Models.Web.Validators
 {
@@ -18,9 +19,10 @@ namespace NHS111.Models.Models.Web.Validators
                 .WithMessage("Please enter only numbers")
                 .Length(10, 13)
                 .WithMessage("Please enter a number between 10 and 13 digits");
-            RuleFor(p => p.Day).SetValidator(new DateOfBirthValidator<UserInfo, int?>(m => m.Day));
-            RuleFor(p => p.Month).SetValidator(new DateOfBirthValidator<UserInfo, int?>(m => m.Month));
-            RuleFor(p => p.Year).SetValidator(new DateOfBirthValidator<UserInfo, int?>(m => m.Year));
+            RuleFor(p => p.Day).SetValidator(new DateOfBirthDayValidator<UserInfo, int?>(m => m.Day));
+            RuleFor(p => p.Month).SetValidator(new DateOfBirthMonthValidator<UserInfo, int?>(m => m.Month));
+            RuleFor(p => p.Year).SetValidator(new DateOfBirthYearValidator<UserInfo, int?>(m => m.Year));
+            RuleFor(p => p.DoB).SetValidator(new DateOfBirthValidator<UserInfo, DateTime?>(m => m.DoB));
         }
     }
 }

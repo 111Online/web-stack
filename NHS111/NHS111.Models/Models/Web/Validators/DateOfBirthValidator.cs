@@ -24,7 +24,12 @@ namespace NHS111.Models.Models.Web.Validators
             return IsAValidDate(userInfo.Day, userInfo.Month, userInfo.Year);
         }
 
-        private bool IsAValidDate(int? day, int? month, int? year)
+        public static bool IsAValidDate(UserInfo userInfo)
+        {
+            return IsAValidDate(userInfo.Day, userInfo.Month, userInfo.Year);
+        }
+
+        private static bool IsAValidDate(int? day, int? month, int? year)
         {
             DateTime date;
             if (!day.HasValue || !month.HasValue || !year.HasValue) return false;
@@ -34,15 +39,15 @@ namespace NHS111.Models.Models.Web.Validators
 
         public IEnumerable<ModelClientValidationRule> GetClientValidationRules(ModelMetadata metadata, ControllerContext context)
         {
-            var rule = new ModelClientValidationRule
+            var ruleDate = new ModelClientValidationRule
             {
                 ErrorMessage = this.ErrorMessageSource.GetString(), // default error message
                 ValidationType = "dateofbirth" // name of the validatoin which will be used inside unobtrusive library
             };
 
-            rule.ValidationParameters["prefixelement"] = dependencyElement; // html element which includes prefix information
+            ruleDate.ValidationParameters["prefixelement"] = dependencyElement; // html element which includes prefix information
 
-            yield return rule;
+            yield return ruleDate;
         }
     }
 }

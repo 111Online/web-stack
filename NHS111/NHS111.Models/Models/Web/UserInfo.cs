@@ -21,8 +21,18 @@ namespace NHS111.Models.Models.Web
             get
             {
                 if (Year != null && Month != null && Day != null)
-                    return _dob = new DateTime(Year.Value, Month.Value, Day.Value);
-                return _dob;
+                {
+                    try
+                    {
+                        _dob = new DateTime(Year.Value, Month.Value, Day.Value);
+                        return _dob;
+                    }
+                    catch (ArgumentOutOfRangeException)
+                    {
+                        return null;
+                    }
+                }
+                return null;
             }
         }
         public string TelephoneNumber { get; set; }
