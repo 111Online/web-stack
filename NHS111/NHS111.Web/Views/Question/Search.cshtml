@@ -3,7 +3,7 @@
 @model SearchJourneyViewModel
 @{
     Layout = "~/Views/Shared/_LayoutNhsUK.cshtml";
-    var searchResultHeading = string.Format("No topics found matching '{0}' please try again.", Model.SanitisedSearchTerm);
+    var searchResultHeading = string.Format("No results found for '{0}', try searching by topic instead.", Model.SanitisedSearchTerm);
     if (Model.Results.Any())
     {
         searchResultHeading = string.Format("{0} topics found matching '{1}'", Model.Results.Count(), Model.SanitisedSearchTerm);
