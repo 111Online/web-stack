@@ -34,15 +34,15 @@ namespace NHS111.Models.Models.Web.Validators
 
         public IEnumerable<ModelClientValidationRule> GetClientValidationRules(ModelMetadata metadata, ControllerContext context)
         {
-            var rule = new ModelClientValidationRule
+            var ruleDate = new ModelClientValidationRule
             {
                 ErrorMessage = this.ErrorMessageSource.GetString(), // default error message
                 ValidationType = "dateofbirth" // name of the validatoin which will be used inside unobtrusive library
             };
 
-            rule.ValidationParameters["prefixelement"] = dependencyElement; // html element which includes prefix information
+            ruleDate.ValidationParameters["prefixelement"] = dependencyElement; // html element which includes prefix information
 
-            yield return rule;
+            yield return ruleDate;
         }
     }
 }
