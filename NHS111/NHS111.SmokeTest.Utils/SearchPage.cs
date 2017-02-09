@@ -74,12 +74,12 @@ namespace NHS111.SmokeTest.Utils
                 var linkElements = hit.FindElements(By.TagName("a"));
                 if (linkElements.Count > 0)
                 {
-                    linkText = linkElements.FirstOrDefault().Text.StripHTML();
-                    return;
+                    linkText = linkElements.FirstOrDefault().Text.StripHTML().ToLower();
+                    if(linkText == expectedHitTitle.ToLower()) break;
                 }
             }
 
-            Assert.AreEqual(expectedHitTitle, linkText);
+            Assert.AreEqual(expectedHitTitle.ToLower(), linkText);
             Assert.IsTrue(rank <= maxRank);
         }
 
