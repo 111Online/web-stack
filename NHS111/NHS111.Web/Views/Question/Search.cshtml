@@ -3,7 +3,7 @@
 @model SearchJourneyViewModel
 @{
     Layout = "~/Views/Shared/_LayoutNhsUK.cshtml";
-    var searchResultHeading = string.Format("No results found for '{0}', try searching by topic instead.", Model.SanitisedSearchTerm);
+    var searchResultHeading = string.Format("Sorry, there are no results for '{0}'. Try searching by topic instead.", Model.SanitisedSearchTerm);
     if (Model.Results.Any())
     {
         searchResultHeading = string.Format("{0} topics found matching '{1}'", Model.Results.Count(), Model.SanitisedSearchTerm);
@@ -64,7 +64,7 @@
                             }
                         </ul>
                         <h4 id="category-option">
-                            If you can't find a topic you can try <a href="#" id="show-categories" class="linkButton">searching by category</a>.
+                            If you can't find what you're looking for, try <a href="#" id="show-categories" class="linkButton">searching by category</a> instead.
                         </h4>
                     </div>
                 }
