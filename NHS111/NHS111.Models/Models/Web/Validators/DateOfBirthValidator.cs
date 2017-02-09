@@ -24,12 +24,7 @@ namespace NHS111.Models.Models.Web.Validators
             return IsAValidDate(userInfo.Day, userInfo.Month, userInfo.Year);
         }
 
-        public static bool IsAValidDate(UserInfo userInfo)
-        {
-            return IsAValidDate(userInfo.Day, userInfo.Month, userInfo.Year);
-        }
-
-        private static bool IsAValidDate(int? day, int? month, int? year)
+        private bool IsAValidDate(int? day, int? month, int? year)
         {
             DateTime date;
             if (!day.HasValue || !month.HasValue || !year.HasValue) return false;
