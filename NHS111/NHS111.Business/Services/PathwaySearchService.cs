@@ -103,6 +103,8 @@ namespace NHS111.Business.Services
             // then fuzzy match
             // slop value scores higher where more than one words from the query are found in a document (I THINK!)
             var shouldQuery = searchDescriptor.Query(q => q
+                        .Boosting(qb => qb
+                            .Positive(pos => pos
                             .Bool(b => b
                                 .Should
                                     (
@@ -114,6 +116,7 @@ namespace NHS111.Business.Services
                                                 .Operator(Operator.Or)
                                                 .Type(TextQueryType.MostFields)
                                                 .Slop(50)
+                                                .CutoffFrequency(0.001)
                                                 .Boost(10)
                                                 .Query(query)
                                             ),
@@ -136,6 +139,7 @@ namespace NHS111.Business.Services
                                                 .Operator(Operator.Or)
                                                 .Type(TextQueryType.MostFields)
                                                 .Slop(50)
+                                                .CutoffFrequency(0.001)
                                                 .Query(query)
                                             ),
                                         s => s.HasChild<PathwayPhraseResult>(c => 
@@ -158,6 +162,7 @@ namespace NHS111.Business.Services
                                                 .Type(TextQueryType.MostFields)
                                                 .Fuzziness(Fuzziness.Auto)
                                                 .Slop(50)
+                                                .CutoffFrequency(0.001)
                                                 .Boost(0.1)
                                                 .Query(query)
                                             ),
@@ -168,12 +173,23 @@ namespace NHS111.Business.Services
                                                         .Value(query)
                                                     )
                                                 ).Boost(0.1)
+                                          
                                                 .ScoreMode(ChildScoreMode.Sum)
                                             )
                                             
                                     )
                                .MinimumShouldMatch(1)
                                ))
+                               .Negative(n => n
+                                   
+                                   .Term(t => t
+                                       .Field(f => f.Title).Value("pain")
+                                       )
+                                       )
+                                       .NegativeBoost(0.2)
+                               )
+                               
+                               )
                     .Highlight(h => 
                         h.Fields(
                             f => f.Field(p => p.Title),
