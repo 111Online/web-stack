@@ -17,12 +17,18 @@ namespace NHS111.Models.Models.Web.Validators
                 .WithMessage("Please provide a telephone number")
                 .Must(s => s.ToCharArray().All(char.IsDigit))
                 .WithMessage("Please enter only numbers")
-                .Length(10, 13)
-                .WithMessage("Please enter a number between 10 and 13 digits");
+                .Length(10, 15)
+                .WithMessage("Please enter a number between 10 and 15 digits");
             RuleFor(p => p.Day).SetValidator(new DateOfBirthDayValidator<UserInfo, int?>(m => m.Day));
             RuleFor(p => p.Month).SetValidator(new DateOfBirthMonthValidator<UserInfo, int?>(m => m.Month));
             RuleFor(p => p.Year).SetValidator(new DateOfBirthYearValidator<UserInfo, int?>(m => m.Year));
             RuleFor(p => p.DoB).SetValidator(new DateOfBirthValidator<UserInfo, DateTime?>(m => m.DoB));
+        }
+
+        private static bool IsDigitOrSymbol(char c)
+        {
+            //telephone number can include numbers, spaces or +
+            return (char.IsDigit(c) || char.IsSeparator(c) || c == '+');
         }
     }
 }

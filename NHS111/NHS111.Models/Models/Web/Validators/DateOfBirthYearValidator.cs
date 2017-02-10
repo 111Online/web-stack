@@ -21,10 +21,10 @@ namespace NHS111.Models.Models.Web.Validators
         {
             var userInfo = context.Instance as UserInfo;
 
-            return IsAValidDate(userInfo.Year);
+            return IsAValidYear(userInfo.Year);
         }
 
-        private bool IsAValidDate(int? year)
+        private bool IsAValidYear(int? year)
         {
            return (year > 1900 && year < (DateTime.Now.Year + 1));
         }

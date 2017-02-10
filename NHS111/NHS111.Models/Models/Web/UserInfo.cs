@@ -35,9 +35,18 @@ namespace NHS111.Models.Models.Web
                 return null;
             }
         }
-        public string TelephoneNumber { get; set; }
-        public string Email { get; set; }
 
+        private string _telephoneNumber;
+        public string TelephoneNumber
+        {
+            get
+            {
+                return string.IsNullOrEmpty(_telephoneNumber) ? string.Empty : _telephoneNumber.Replace(" ", "").Replace("+","");
+            }
+            set { _telephoneNumber = value; }
+        }
+
+        public string Email { get; set; }
 
         public AddressInfoViewModel HomeAddress { get; set; }
         public FindServicesAddressViewModel CurrentAddress { get; set; }

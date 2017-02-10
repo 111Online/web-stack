@@ -21,10 +21,10 @@ namespace NHS111.Models.Models.Web.Validators
         {
             var userInfo = context.Instance as UserInfo;
 
-            return IsAValidDate(userInfo.Month);
+            return IsAValidMonth(userInfo.Month);
         }
 
-        private bool IsAValidDate(int? month)
+        private bool IsAValidMonth(int? month)
         {
             return (month > 0 && month < 13);
         }
