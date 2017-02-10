@@ -2443,7 +2443,13 @@ button[disabled=disabled] {
         margin: 20px 0;
     }
     .form-control {
-        width: 100% !important;
+        width: 100%;
+    }
+    .form-control .date-2-chars {
+        width:5rem;
+    }
+    .form-control .date-4-chars {
+        width:10rem;
     }
 }
 @media (max-width: 360px) {
