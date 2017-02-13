@@ -20,10 +20,10 @@ namespace NHS111.Models.Models.Web.Validators
         {
             var userInfo = context.Instance as UserInfo;
 
-            return IsAValidDate(userInfo.Day);
+            return IsAValidDay(userInfo.Day);
         }
 
-        private bool IsAValidDate(int? day)
+        private bool IsAValidDay(int? day)
         {
             return (day > 0 && day < 32);
         }
