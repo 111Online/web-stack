@@ -14,11 +14,8 @@ namespace NHS111.Models.Models.Web.Validators
             RuleFor(p => p.TelephoneNumber)
                 .Cascade(CascadeMode.StopOnFirstFailure)
                 .NotEmpty()
-                .WithMessage("Please provide a telephone number")
                 .Must(s => s.ToCharArray().All(char.IsDigit))
-                .WithMessage("Please enter only numbers")
-                .Length(10, 15)
-                .WithMessage("Please enter a number between 10 and 15 digits");
+                .Length(10, 15);
             RuleFor(p => p.Day).SetValidator(new DateOfBirthDayValidator<UserInfo, int?>(m => m.Day));
             RuleFor(p => p.Month).SetValidator(new DateOfBirthMonthValidator<UserInfo, int?>(m => m.Month));
             RuleFor(p => p.Year).SetValidator(new DateOfBirthYearValidator<UserInfo, int?>(m => m.Year));
