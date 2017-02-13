@@ -52,7 +52,7 @@
 
         $("#AgreeButton")
             .click(function () {
-                $.cookie("nhs111-survey-link-banner", "survey-link-yes", { path: '/' });
+                $.cookie("nhs111-survey-link-banner", "survey-link-yes", { path: '/', secure: true });
                 $(".survey-banner-wrap").hide();
             });
 
