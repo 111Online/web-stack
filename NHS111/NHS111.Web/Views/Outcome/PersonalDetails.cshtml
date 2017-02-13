@@ -75,8 +75,8 @@
                     @Html.ValidationMessageFor(m => m.UserInfo.LastName, "Please enter your last name")
                 </div>
                 <div class="inline-details">
-                    @Html.TextBoxFor(m => m.UserInfo.FirstName, new { @class = "form-control form-control-6-chars", placeholder = "First name" })
-                    @Html.TextBoxFor(m => m.UserInfo.LastName, new { @class = "form-control form-control-6-chars", placeholder = "Last name" })
+                    @Html.TextBoxFor(m => m.UserInfo.FirstName, new { @class = "form-control form-control-10-chars", placeholder = "First name" })
+                    @Html.TextBoxFor(m => m.UserInfo.LastName, new { @class = "form-control form-control-10-chars", placeholder = "Last name" })
                 </div>
 
                 <label>
@@ -90,9 +90,9 @@
                     For example 18 4 1973
                 </label>
                 <div class="inline-details">
-                    @Html.TextBoxFor(m => m.UserInfo.Day, new { @class = "form-control form-control-2-chars", placeholder = "DD", type = "number", maxlength = "2" })
-                    @Html.TextBoxFor(m => m.UserInfo.Month, new { @class = "form-control form-control-2-chars", placeholder = "MM", type = "number" , maxlength = "2" })
-                    @Html.TextBoxFor(m => m.UserInfo.Year, new { @class = "form-control form-control-4-chars", placeholder = "YYYY", type = "number", maxlength = "4"  })
+                    @Html.TextBoxFor(m => m.UserInfo.Day, new { @class = "form-control form-control-2-chars date-2-chars", placeholder = "DD", type = "number", maxlength = "2" })
+                    @Html.TextBoxFor(m => m.UserInfo.Month, new { @class = "form-control form-control-2-chars date-2-chars", placeholder = "MM", type = "number", maxlength = "2" })
+                    @Html.TextBoxFor(m => m.UserInfo.Year, new { @class = "form-control form-control-4-chars date-4-chars", placeholder = "YYYY", type = "number", maxlength = "4" })
                     @Html.HiddenFor(m => m.UserInfo.DoB)
                 </div>
 
@@ -101,7 +101,7 @@
                 </label>
                 <div>@Html.ValidationMessageFor(m => m.UserInfo.TelephoneNumber, "Please enter a valid Phone number")</div>
                 <div class="inline-details">
-                    @Html.TextBoxFor(m => m.UserInfo.TelephoneNumber, new { @class = "form-control", placeholder = "Landline or mobile number", type = "tel" })
+                    @Html.TextBoxFor(m => m.UserInfo.TelephoneNumber, new { @class = "form-control form-control-10-chars", placeholder = "Landline or mobile number", type = "tel" })
                 </div>
                 @{
                     dataDictionary.TemplateInfo = new TemplateInfo { HtmlFieldPrefix = "AddressInfoViewModel" };

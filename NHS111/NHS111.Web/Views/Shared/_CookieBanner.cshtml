@@ -23,7 +23,8 @@
         });
 
         function dismissCookieBanner() {
-            $.cookie("nhs111_seen_cookie_message", 1, { path: '/', expires: 28 });
+            var isSecure = window.location.protocol.toLowerCase() == 'https:';
+            $.cookie("nhs111_seen_cookie_message", 1, { path: '/', expires: 28, secure: isSecure });
             $('#global-cookies-banner').hide();
         }
     });

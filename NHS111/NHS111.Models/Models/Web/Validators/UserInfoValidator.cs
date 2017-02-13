@@ -21,11 +21,5 @@ namespace NHS111.Models.Models.Web.Validators
             RuleFor(p => p.Year).SetValidator(new DateOfBirthYearValidator<UserInfo, int?>(m => m.Year));
             RuleFor(p => p.DoB).SetValidator(new DateOfBirthValidator<UserInfo, DateTime?>(m => m.DoB));
         }
-
-        private static bool IsDigitOrSymbol(char c)
-        {
-            //telephone number can include numbers, spaces or +
-            return (char.IsDigit(c) || char.IsSeparator(c) || c == '+');
-        }
     }
 }
