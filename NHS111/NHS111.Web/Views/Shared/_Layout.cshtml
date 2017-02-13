@@ -40,8 +40,9 @@
     
     <script>
         $(function () {
+            var isSecure = window.location.protocol.toLowerCase() == 'https:';
             var userId = $.cookie("userId");
-            if (!userId) $.cookie("userId", '@Guid.NewGuid()', { path: '/' });
+            if (!userId) $.cookie("userId", '@Guid.NewGuid()', { path: '/', secure: isSecure });
         });
     </script>
     @RenderSection("Scripts", false)
