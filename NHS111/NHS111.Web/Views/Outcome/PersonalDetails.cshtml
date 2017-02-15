@@ -112,12 +112,13 @@
                         By clicking Submit my details, you agree to share your information with other NHS organisations.
                         See our @Html.ActionLink("privacy policy", "Privacy", "Help", null, new { target = "_blank" }) for more information.
                     </p>
-                    <input type="submit" class="button button-submit-details" value="Submit my details"/>
+                    <input type="submit" class="button button-submit-details" value="Submit my details" id="submitDetails"/>
                 </div>
             </div>
         </div>
     </section>
-                    }
+
+    @Html.Partial("_PageLoadingIndicator")                    }
 
 <script type="text/javascript">
     jQuery.validator.addMethod('day', function (value, element, params) {
@@ -224,4 +225,8 @@
             return false;
         }
     }
+
+    $('#submitDetails').click(function () {
+        if ($("#personalDetailForm").valid()) startPageLoadingIndicator('Contacting your selected service...');
+    });
 </script>
