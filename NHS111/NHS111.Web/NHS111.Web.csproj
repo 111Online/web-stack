@@ -264,6 +264,7 @@
     <Content Include="Content\css\skins\flat\_all.css" />
     <Content Include="Content\css_NhsUK\govuk-template.css" />
     <Content Include="Content\css_NhsUK\home.css" />
+    <Content Include="Content\css_NhsUK\loading-indicator.css" />
     <Content Include="Content\css_NhsUK\signposting-outcome-print.css" />
     <Content Include="Content\css_NhsUK\signposting-outcome.css" />
     <Content Include="Content\css_NhsUK\application.css" />
@@ -627,9 +628,6 @@
     <Content Include="Views\Question\Gender.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Views\_Old\Home.cshtml" />
-  </ItemGroup>
-  <ItemGroup>
     <Content Include="Views\JustToBeSafe\JustToBeSafe.cshtml" />
   </ItemGroup>
   <ItemGroup>
@@ -694,13 +692,7 @@
     <Content Include="Content\_assets\scss\_modules.scss" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Views\_Old\GPSearch.cshtml" />
-  </ItemGroup>
-  <ItemGroup>
     <Content Include="Views\Outcome\Call_999.cshtml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Views\_Old\DosService.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\DOS\Confirmation.cshtml" />
@@ -715,28 +707,16 @@
     <Content Include="Views\Shared\_LayoutOutcome.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Views\Shared\_PostCodeSearch.cshtml" />
-  </ItemGroup>
-  <ItemGroup>
     <Content Include="Views\Shared\_AreYouAtHome.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Shared\_AddressDetails.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Views\_Old\DOService.cshtml" />
-  </ItemGroup>
-  <ItemGroup>
     <Content Include="Views\Shared\_GpSearch.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\DOS\DosResults.cshtml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Views\_Old\_SurgeryDetails.cshtml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Views\_Old\Confirmation.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Shared\_GoogleMap.cshtml" />
@@ -748,7 +728,6 @@
     <Content Include="Views\Question\Home.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Views\_Old\Emergency.cshtml" />
     <Content Include="Views\Shared\_CommonHiddenFieldsJourneyViewModel.cshtml" />
     <Content Include="Views\Shared\_CommonHiddenFieldsOutcomeViewModel.cshtml" />
     <Content Include="Views\Shared\_PersonalPostCodeSearch.cshtml" />
@@ -798,6 +777,7 @@
     <Content Include="Views\Shared\_SurveyLink.cshtml" />
     <Content Include="Views\Shared\_DispositionBanners.cshtml" />
     <Content Include="Views\Topic\Search.cshtml" />
+    <Content Include="Views\Shared\_PageLoadingIndicator.cshtml" />
     <None Include="Web.Development.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

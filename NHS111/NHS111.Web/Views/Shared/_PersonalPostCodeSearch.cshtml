@@ -1,8 +1,6 @@
 ﻿@using Newtonsoft.Json
 @using NHS111.Models.Models.Web
-@model  NHS111.Models.Models.Web.PersonalInfoAddressViewModel
-<script src="~/content/Js/vendor/spin.min.js"></script>
-<link rel="stylesheet" href="~/content/styles/vendor/jquery-ui.css">
+@model  PersonalInfoAddressViewModel
 
 <div class="find-address-panel">
     <label>
@@ -50,14 +48,6 @@
     </div>
 </div>
 
-<div id="loadingPostcode" style="display: none;">
-    <div id="loadingcontent">
-        <p id="loadingspinner">
-            Searching for addresses matching <span id="postcodeSpan"></span>...
-        </p>
-    </div>
-</div>
-
 <div id="AddressList" style="display: none;">
     <label>Pick an address</label>
     <label class="select-label">
@@ -66,7 +56,8 @@
     </label>
 </div>
 
-<!--Spinner script-->
+@Html.Partial("_PageLoadingIndicator")
+
 <script type="text/javascript">
     $(".find-address-panel").show();
     $(".address-panel").hide();
@@ -80,21 +71,7 @@
                 invalidatePostCode();
                 return;
             }
-            $("#postcodeSpan").text($postCode);
-            $("#loadingPostcode").fadeIn();
-            var opts = {
-                lines: 12, // The number of lines to draw
-                length: 7, // The length of each line
-                width: 4, // The line thickness
-                radius: 10, // The radius of the inner circle
-                color: '#000', // #rgb or #rrggbb
-                speed: 1, // Rounds per second
-                trail: 60, // Afterglow percentage
-                shadow: false, // Whether to render a shadow
-                hwaccel: false // Whether to use hardware acceleration
-            };
-            var target = document.getElementById('loadingPostcode');
-            var spinner = new Spinner(opts).spin(target);
+            startPageLoadingIndicator('Searching for addresses matching ' + $postCode + '...')
             $.ajax({
                 type: "POST",
                 url: "@Url.Action("PostcodeLookup", "Outcome")",
@@ -125,7 +102,6 @@
                         $("#AddressList").hide();
                         $(".address-panel").show();
                     });
-                    $("#loadingPostcode").fadeOut();
                 },
                 timeout: 5000,
                 error: function (XMLHttpRequest, textStatus, errorThrown) {
@@ -133,8 +109,7 @@
                     $("#AddressList").hide();
                 },
                 complete: function () {
-                    spinner.stop();
-                    $("#loadingPostcode").fadeOut();
+                    stopPageLoadingIndicator()
                 }
             });
         });
