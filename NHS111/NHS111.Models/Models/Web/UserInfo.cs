@@ -41,7 +41,14 @@ namespace NHS111.Models.Models.Web
         {
             get
             {
-                return string.IsNullOrEmpty(_telephoneNumber) ? string.Empty : _telephoneNumber.Replace(" ", "").Replace("+","");
+                if (string.IsNullOrEmpty(_telephoneNumber)) return string.Empty;
+
+                _telephoneNumber = _telephoneNumber.Replace(" ", "");
+
+                if (_telephoneNumber.LastIndexOf("+44", StringComparison.Ordinal) == 0)
+                    _telephoneNumber = _telephoneNumber.Replace("+44", "0");
+
+                return _telephoneNumber;
             }
             set { _telephoneNumber = value; }
         }
