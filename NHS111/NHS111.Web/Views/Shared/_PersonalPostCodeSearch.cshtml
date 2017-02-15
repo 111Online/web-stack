@@ -61,7 +61,8 @@
     $(".address-panel").hide();
     $(function () {
         var addresses = [];
-        $("#findMyAddress").click(function () {
+        $('#findMyAddress').css('cursor', 'pointer');
+        $(document).on('click', '#findMyAddress', function (event) {
             $("#manual-entry-link").show();
             resetElements();
             var $postCode = $("#AddressInfoViewModel_postcode-find").val();

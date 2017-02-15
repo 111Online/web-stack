@@ -226,7 +226,12 @@
         }
     }
 
-    $('#submitDetails').click(function () {
+    $('#submitDetails').css('cursor', 'pointer');
+    $(document).on('click', '#submitDetails', function (event) {
         if ($("#personalDetailForm").valid()) startPageLoadingIndicator('Contacting your selected service...');
+    });
+
+    $(window).unload(function () {
+        stopPageLoadingIndicator();
     });
 </script>

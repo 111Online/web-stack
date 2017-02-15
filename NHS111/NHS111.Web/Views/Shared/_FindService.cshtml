@@ -60,12 +60,15 @@
 @Html.Partial("_PageLoadingIndicator")
 
 <script type="text/javascript">
-    
-    $('#DosLookup').click(function () {
+    $('#DosLookup').css('cursor', 'pointer');
+    $(document).on('click', '#DosLookup', function (event) {
         if ($("#findServicesForm").valid()) {
             var $postcode = $('#UserInfo_CurrentAddress_Postcode').val();
             startPageLoadingIndicator('Searching for services near to ' + $postcode + '...');
         }
     });
 
+    $(window).unload(function () {
+        stopPageLoadingIndicator();
+    });
 </script>
