@@ -231,7 +231,7 @@
         if ($("#personalDetailForm").valid()) startPageLoadingIndicator('Contacting your selected service...');
     });
 
-    $(window).unload(function () {
+    $(window).on('unload', function () {
         stopPageLoadingIndicator();
     });
 </script>
