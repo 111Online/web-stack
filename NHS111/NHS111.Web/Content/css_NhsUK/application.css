@@ -41,7 +41,7 @@
       margin: 0 30px; } }
   @media (min-width: 1020px) {
     #content {
-      max-width: 75%;
+      max-width: 66%;
       margin: 0 auto; } }
 
 .grid-row {
@@ -1438,7 +1438,7 @@ body {
 
 @media (min-width: 1020px)  {
     #global-header .header-container {
-        max-width: 75%;
+        max-width: 66%;
     }
 }
 @media (min-width: 641px) {
@@ -1524,7 +1524,7 @@ html, #footer {
   #footer a {
     color: #d9dbdd; }
   #footer .footer-wrapper {
-    max-width: 75%;
+    max-width: 66%;
     margin: 0 15px;
     padding: 0; }
     @media (min-width: 641px) {
@@ -1891,7 +1891,7 @@ button[type=submit].previous-question, input[type=submit].previous-question {
     float: left;
     margin-right: 10px;
 }
-
+1441
 button[disabled=disabled] {
     background: #A4B192;
 }
@@ -1908,7 +1908,7 @@ button[disabled=disabled] {
 @media (min-width: 641px) {
     .feedback-banner {
         margin: 0 30px;
-        max-width: 75%;
+        max-width: 66%;
     }
 }
 @media (min-width: 1020px) {
