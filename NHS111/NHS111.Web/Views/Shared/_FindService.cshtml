@@ -68,7 +68,7 @@
         }
     });
 
-    $(window).unload(function () {
+    $(window).on('unload', function(){
         stopPageLoadingIndicator();
     });
 </script>
