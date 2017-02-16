@@ -52,9 +52,10 @@
                     <div class="results-list">
                         <ul>
                             @foreach (var result in Model.Results) {
-                                var additionalTopics = result.Title.Skip(1);
+                                var additionalTopics = result.HighlightedTitle != null ? result.HighlightedTitle.Skip(1) : new List<string>();
+                                var title = result.HighlightedTitle != null ? result.HighlightedTitle.First() : result.Title.First();
                                 <li>
-                                    <a class="linkButton" data-title="@result.PathwayTitle" data-pathway-number="@result.PathwayNo" href="/@result.PathwayNo@result.Gender.First()@result.AgeGroup.First()/start?age=@Model.UserInfo.Demography.Age">@Html.Raw(result.Title.First())</a>
+                                    <a class="linkButton" data-title="@result.PathwayTitle" data-pathway-number="@result.PathwayNo" href="/@result.PathwayNo@result.Gender.First()@result.AgeGroup.First()/start?age=@Model.UserInfo.Demography.Age">@Html.Raw(title)</a>
                                     @if (additionalTopics.Any()) {
                                         <p class='additional-topics'>Also covers: @Html.Raw(string.Join(", ", additionalTopics))</p>
                                     }
