@@ -121,6 +121,10 @@
     @Html.Partial("_PageLoadingIndicator")                    }
 
 <script type="text/javascript">
+    $(document).ready(function () {
+        stopPageLoadingIndicator();
+    });
+
     jQuery.validator.addMethod('day', function (value, element, params) {
         //don't add any more errors if we've already failed whole date validation
         if (DoBErrorShowing()) return true;
