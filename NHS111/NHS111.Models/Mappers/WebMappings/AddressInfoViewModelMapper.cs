@@ -42,17 +42,54 @@ namespace NHS111.Models.Mappers.WebMappings
             public AddressInfoViewModel Convert(ResolutionContext context)
             {
                 var locationResult = (LocationResult)context.SourceValue;
+                string city;
+                string county;
+                var tempCity = string.IsNullOrEmpty(locationResult.PostTown) ? locationResult.Locality : locationResult.PostTown;
+
+                if (string.IsNullOrEmpty(tempCity))
+                {
+                    city = locationResult.AdministrativeArea;
+                    county = string.Empty;
+                }
+                else if(tempCity.Trim().Equals(locationResult.AdministrativeArea.Trim()))
+                {
+                    city = tempCity;
+                    county = string.Empty;
+                }
+                else
+                {
+                    city = tempCity;
+                    county = locationResult.AdministrativeArea;
+                }
+
                 var addressLines = locationResult.AddressLines;
-                var addressLine1 = (addressLines == null || addressLines.Length == 0) ? locationResult.StreetDescription : addressLines[0];
-                var addressLine2 = (addressLines == null || addressLines.Length < 2) ? string.Empty : addressLines[1];
+
+                string addressLine1;
+                string addressLine2;
+
+                if (!string.IsNullOrEmpty(locationResult.BuildingName))
+                {
+                    addressLine1 = locationResult.BuildingName;
+                    addressLine2 = locationResult.StreetDescription;
+                }
+                else
+                {
+                    addressLine1 = (addressLines == null || addressLines.Length == 0) ? locationResult.StreetDescription : addressLines[0];
+                    addressLine2 = (addressLines == null || addressLines.Length < 2) ? string.Empty : addressLines[1];
+
+                    if (addressLine2.Trim().Equals(city.Trim()))
+                    {
+                        addressLine2 = string.Empty;
+                    }
+                }
 
                 var addressInfo = new AddressInfoViewModel()
                 {
                     HouseNumber = locationResult.HouseNumber,
                     AddressLine1 = addressLine1,
                     AddressLine2 = addressLine2,
-                    City = locationResult.PostTown,
-                    County = locationResult.AdministrativeArea,
+                    City = city,
+                    County = county,
                     Postcode = locationResult.Postcode,
                     UPRN = locationResult.UPRN
                 };
@@ -61,5 +98,4 @@ namespace NHS111.Models.Mappers.WebMappings
             }
         }
     }
-   
 }
