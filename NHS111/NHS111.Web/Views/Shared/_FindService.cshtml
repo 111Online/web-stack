@@ -60,6 +60,10 @@
 @Html.Partial("_PageLoadingIndicator")
 
 <script type="text/javascript">
+    $(document).ready(function () {
+        stopPageLoadingIndicator();
+    });
+
     $('#DosLookup').css('cursor', 'pointer');
     $(document).on('click', '#DosLookup', function (event) {
         if ($("#findServicesForm").valid()) {
@@ -68,7 +72,7 @@
         }
     });
 
-    $(window).on('unload', function(){
+    $(document).on("pagehide", function () {
         stopPageLoadingIndicator();
     });
 </script>
