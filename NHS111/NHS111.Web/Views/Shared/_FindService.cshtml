@@ -72,7 +72,7 @@
         }
     });
 
-    $(document).on("pagehide", function () {
+    window.onpageshow = function (event) {
         stopPageLoadingIndicator();
-    });
+    };
 </script>
