@@ -10,8 +10,38 @@ using NHS111.Models.Models.Business.PathwaySearch;
 
 namespace NHS111.Business.Services
 {
+    public class MyHighlightHit : HighlightHit {
+        public IReadOnlyCollection<string> Highlights { get; set; }
+    }
+
+    public class MyHighlightFieldDictionary : HighlightFieldDictionary {
+        public void Set(string key, MyHighlightHit value) {
+            this[key] = value;
+        }
+    }
+
+    public class MyHit<T> : IHit<T> where T : class {
+        public string Index { get; }
+        public string Type { get; }
+        public long? Version { get; }
+        public string Routing { get; }
+        public string Id { get; }
+        public string Parent { get; }
+        public T Source { get; set; }
+        public long? Timestamp { get; }
+        public long? Ttl { get; }
+        public double? Score { get; }
+        public FieldValues Fields { get; }
+        public IReadOnlyCollection<object> Sorts { get; }
+        public HighlightFieldDictionary Highlights { get; set; }
+        public Explanation Explanation { get; }
+        public IReadOnlyCollection<string> MatchedQueries { get; }
+        public IReadOnlyDictionary<string, InnerHitsResult> InnerHits { get; }
+    }
     public class PathwaySearchService : IPathwaySearchService
     {
+        public const string HighlightPreTags = "<em class='highlight-term'>";
+        public const string HighlightPostTags = "</em>";
         private readonly IElasticClient _elastic;
 
         public PathwaySearchService(IConfiguration _configuration)
@@ -85,7 +115,7 @@ namespace NHS111.Business.Services
                                 break;
 
                             case "DigitalDescriptions":
-                                hit.Source.HighlightedTitle = highlight.Value.Highlights.ToList();
+                                hit.Source.DisplayTitle = hit.Source.Title.Select(t => TitleOrHighLight(t, highlight.Value.Highlights)).ToList();
                                 break;
                         }
 
@@ -94,6 +124,15 @@ namespace NHS111.Business.Services
             }
 
             return hits.Select(h => h.Source);
+        }
+
+        private string TitleOrHighLight(string title, IReadOnlyCollection<string> highlights) {
+            var highlightedTitle = highlights.FirstOrDefault(t=> title == StripHighlightMarkup(t));
+            return highlightedTitle != null ? highlightedTitle : title;
+        }
+
+        private string StripHighlightMarkup(string highlightedTitle) {
+            return highlightedTitle.Replace(HighlightPreTags, "").Replace(HighlightPostTags, "");
         }
 
         private SearchDescriptor<PathwaySearchResult> BuildPathwaysTextQuery(
@@ -194,8 +233,8 @@ namespace NHS111.Business.Services
                         h.Fields(
                             f => f.Field(p => p.Title),
                             f => f.Field(p => p.Description).NumberOfFragments(0))
-                .PreTags("<em class='highlight-term'>")
-                .PostTags("</em>"));
+                .PreTags(HighlightPreTags)
+                .PostTags(HighlightPostTags));
             ;
 
             return shouldQuery;
