@@ -8,7 +8,7 @@
     </label>
     <p class="validation-error-msg" id="postcode-validation-message">A valid UK postcode is required</p>
     <div class="inline-details">
-        @Html.TextBox("postcode-find", "", new { @class = "form-control form-control-8-chars", placeholder = "eg. SE1" })
+        @InputExtensions.TextBox(Html, "postcode-find", ViewBag.Postcode, new { @class = "form-control form-control-8-chars", placeholder = "eg. SE1"})
         <input type="button" class="button find-address" id="findMyAddress" value="Find my address" />
     </div>
     <a class="button button-next button-link" href="javascript:void(0);" id="manual-entry-link">Enter address manually</a>

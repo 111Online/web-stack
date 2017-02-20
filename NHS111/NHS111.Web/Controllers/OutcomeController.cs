@@ -120,6 +120,10 @@ namespace NHS111.Web.Controllers {
             ModelState.Clear();
             AuditSelectedService(model);
 
+            //map postcode to field to submit to ITK (preventing multiple entries of same data)
+            var enteredPostcode = model.UserInfo.CurrentAddress.Postcode;
+            ViewBag.Postcode = enteredPostcode;
+
          //   model = await _outcomeViewModelBuilder.PersonalDetailsBuilder(model);
             return View("PersonalDetails", model);
         }
