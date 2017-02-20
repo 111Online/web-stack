@@ -186,6 +186,7 @@ namespace NHS111.Business.Api.Controllers
             var firstNodeJson = _questionTransformer.AsQuestionWithAnswers(await (await _questionService.GetFirstQuestion(pathwayId).AsHttpResponse()).Content.ReadAsStringAsync());
             var firstNode = JsonConvert.DeserializeObject<QuestionWithAnswers>(firstNodeJson);
             var stateDictionary = JsonConvert.DeserializeObject<IDictionary<string, string>>(HttpUtility.UrlDecode(state));
+            stateDictionary.Add("SYSTEM_ONLINE", "online");//turn on online question flows
             var nextLabel = firstNode.Labels.FirstOrDefault();
 
             if (nextLabel == "Read")
