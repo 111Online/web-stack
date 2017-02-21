@@ -12,6 +12,8 @@ namespace NHS111.Business.Services
 {
     public class PathwaySearchService : IPathwaySearchService
     {
+        public const string HighlightPreTags = "<em class='highlight-term'>";
+        public const string HighlightPostTags = "</em>";
         private readonly IElasticClient _elastic;
 
         public PathwaySearchService(IConfiguration _configuration)
@@ -85,7 +87,7 @@ namespace NHS111.Business.Services
                                 break;
 
                             case "DigitalDescriptions":
-                                hit.Source.HighlightedTitle = highlight.Value.Highlights.ToList();
+                                hit.Source.DisplayTitle = hit.Source.Title.Select(t => TitleOrHighLight(t, highlight.Value.Highlights)).ToList();
                                 break;
                         }
 
@@ -94,6 +96,15 @@ namespace NHS111.Business.Services
             }
 
             return hits.Select(h => h.Source);
+        }
+
+        private string TitleOrHighLight(string title, IReadOnlyCollection<string> highlights) {
+            var highlightedTitle = highlights.FirstOrDefault(t=> title == StripHighlightMarkup(t));
+            return highlightedTitle != null ? highlightedTitle : title;
+        }
+
+        private string StripHighlightMarkup(string highlightedTitle) {
+            return highlightedTitle.Replace(HighlightPreTags, "").Replace(HighlightPostTags, "");
         }
 
         private SearchDescriptor<PathwaySearchResult> BuildPathwaysTextQuery(
@@ -194,8 +205,8 @@ namespace NHS111.Business.Services
                         h.Fields(
                             f => f.Field(p => p.Title),
                             f => f.Field(p => p.Description).NumberOfFragments(0))
-                .PreTags("<em class='highlight-term'>")
-                .PostTags("</em>"));
+                .PreTags(HighlightPreTags)
+                .PostTags(HighlightPostTags));
             ;
 
             return shouldQuery;

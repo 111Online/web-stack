@@ -18,7 +18,7 @@ namespace NHS111.Models.Models.Business.PathwaySearch
         [String(Name = "DigitalDescriptions", Index = FieldIndexOption.Analyzed)]
         public List<string> Title { get; set; }
         
-        public List<string> HighlightedTitle { get; set; }
+        public List<string> DisplayTitle { get; set; }
 
         [String(Name = "DigitalDescriptions.phonetic", Index = FieldIndexOption.Analyzed)]
         public List<string> TitlePhonetic{ get; set; }
