@@ -27,8 +27,11 @@
     var dataDictionary = ViewContext.ViewData;
     dataDictionary.Add(new KeyValuePair<string, object>("LaunchPage", "confirmation"));
 }
+@section SurveyBanner{
+    @Html.Partial("_SurveyLink", Model.SurveyLink, dataDictionary)
+}
 @section FeedbackSection {
-        @Html.Partial("_DispositionBanners", dataDictionary)
+        @Html.Partial("_FeedbackDetails", new FeedbackViewModel() {PageId = Model.Id})
 }
 
 <section>

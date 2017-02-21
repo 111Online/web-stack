@@ -16,9 +16,11 @@
         }];
     </script>
 }
-
+@section SurveyBanner{
+    @Html.Partial("_SurveyLink", Model.SurveyLink)
+}
 @section FeedbackSection {
-    @Html.Partial("_DispositionBanners")
+    @Html.Partial("_FeedbackDetails", new FeedbackViewModel() { PageId = Model.Id })
 }
 
 @using (Html.BeginForm("Navigation", "Question", FormMethod.Post))

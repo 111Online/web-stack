@@ -806,7 +806,6 @@
     <Content Include="Views\Outcome\PathwaySelectionJump.cshtml" />
     <Content Include="Views\Help\Terms.cshtml" />
     <Content Include="Views\Shared\_SurveyLink.cshtml" />
-    <Content Include="Views\Shared\_DispositionBanners.cshtml" />
     <Content Include="Views\Topic\Search.cshtml" />
     <Content Include="ApplicationInsights.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
