@@ -61,10 +61,7 @@ namespace NHS111.SmokeTest.Utils
 
             var searchpage = genderPage.NextPage();
             searchpage.Verify();
-            searchpage.TypeSearchTextAndSelect(pathwayTopic);
-
-            return searchpage.ClickGoButton();
-      
+            return searchpage.TypeSearchTextAndSelect(pathwayTopic);
         }
     }
 }

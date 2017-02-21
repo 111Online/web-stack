@@ -39,7 +39,7 @@ namespace NHS111.SmokeTests
         [Test]
         public void Call999EndpointJourney()
         {
-            var questionPage = TestScenerios.LaunchTriageScenerio(_driver, "Skin problems", TestScenerioGender.Female, TestScenerioAgeGroups.Adult);
+            var questionPage = TestScenerios.LaunchTriageScenerio(_driver, "Skin Problems", TestScenerioGender.Female, TestScenerioAgeGroups.Adult);
 
             questionPage.ValidateQuestion("What is the main problem?");
             var outcomePage =  questionPage
@@ -53,7 +53,7 @@ namespace NHS111.SmokeTests
         [Test]
         public void PharmacyEndpointJourney()
         {
-            var questionPage = TestScenerios.LaunchTriageScenerio(_driver, "Eye problems", TestScenerioGender.Male, TestScenerioAgeGroups.Adult);
+            var questionPage = TestScenerios.LaunchTriageScenerio(_driver, "Eye or Eyelid Problems", TestScenerioGender.Male, TestScenerioAgeGroups.Adult);
 
             questionPage.ValidateQuestion("What is the main problem?");
             var outcomePage = questionPage
@@ -75,11 +75,12 @@ namespace NHS111.SmokeTests
         [Test]
         public void HomeCareEndpointJourney()
         {
-            var questionPage = TestScenerios.LaunchTriageScenerio(_driver, "Colds and flu", TestScenerioGender.Female, TestScenerioAgeGroups.Adult);
+            var questionPage = TestScenerios.LaunchTriageScenerio(_driver, "Cold or Flu (Declared)", TestScenerioGender.Female, TestScenerioAgeGroups.Adult);
 
             questionPage.ValidateQuestion("Do you feel severely ill with a new rash, like bruising or bleeding, under the skin?");
             var outcomePage = questionPage
-                .AnswerSuccessiveNo(6)
+                .AnswerSuccessiveNo(5)
+                .Answer("No - not in the last 12 hours")
                 .Answer("None of the above")
                 .Answer("No - I don't have diabetes")
                 .AnswerForDispostion("No");
@@ -94,13 +95,14 @@ namespace NHS111.SmokeTests
         [Test]
         public void DentalEndpointJourney()
         {
-            var questionPage = TestScenerios.LaunchTriageScenerio(_driver, "Dental problems", TestScenerioGender.Female, TestScenerioAgeGroups.Adult);
+            var questionPage = TestScenerios.LaunchTriageScenerio(_driver, "Dental Problems", TestScenerioGender.Female, TestScenerioAgeGroups.Adult);
 
             questionPage.ValidateQuestion("What is the main problem?");
             var outcomePage = questionPage
                 .Answer("Toothache")
-                .AnswerSuccessiveNo(5)
-                .Answer("No - less than 14 days")
+                .Answer("No - not in the last 12 hours")
+                .AnswerSuccessiveNo(4)
+                .Answer("Less than 14 days")
                 .AnswerForDispostion("No - I've not taken any painkillers");
 
             outcomePage.VerifyOutcome("Your answers suggest you should see a dentist within 5 working days");
@@ -113,7 +115,7 @@ namespace NHS111.SmokeTests
         [Test]
         public void EmergencyDentalEndpointJourney()
         {
-            var questionPage = TestScenerios.LaunchTriageScenerio(_driver, "Dental problems", TestScenerioGender.Female, TestScenerioAgeGroups.Adult);
+            var questionPage = TestScenerios.LaunchTriageScenerio(_driver, "Dental Problems", TestScenerioGender.Female, TestScenerioAgeGroups.Adult);
 
             questionPage.ValidateQuestion("What is the main problem?");
             var outcomePage = questionPage
@@ -137,9 +139,14 @@ namespace NHS111.SmokeTests
         {
             var questionPage = TestScenerios.LaunchTriageScenerio(_driver, "Headache", TestScenerioGender.Male, TestScenerioAgeGroups.Adult);
 
-            questionPage.ValidateQuestion("Have you had a bang on the head or injured your head in the last 7 days?");
+            questionPage.ValidateQuestion("Have you hurt or banged your head in the last 7 days?");
             var outcomePage = questionPage
-                .AnswerSuccessiveNo(7)
+                .AnswerNo()
+                .Answer("No - I have not fainted or blacked out")
+                .Answer("No - I am not that ill")
+                .Answer("None of these")
+                .AnswerSuccessiveNo(2)
+                .Answer("I don't have a headache")
                 .AnswerForDispostion("Yes");
 
             outcomePage.VerifyOutcome("Your answers suggest you need urgent medical attention within 1 hour");
@@ -152,7 +159,7 @@ namespace NHS111.SmokeTests
         [Test]
         public void OpticianEndpointJourney()
         {
-            var questionPage = TestScenerios.LaunchTriageScenerio(_driver, "Eye problems", TestScenerioGender.Female, TestScenerioAgeGroups.Child);
+            var questionPage = TestScenerios.LaunchTriageScenerio(_driver, "Eye or Eyelid Problems", TestScenerioGender.Female, TestScenerioAgeGroups.Child);
 
             questionPage.ValidateQuestion("What is the main problem?");
             var outcomePage = questionPage
@@ -161,7 +168,9 @@ namespace NHS111.SmokeTests
                 .AnswerYes()
                 .AnswerSuccessiveNo(2)
                 .Answer("My problem affects both eyes")
-                .AnswerSuccessiveNo(9) 
+                .AnswerSuccessiveNo(2)
+                .Answer("No - not in the last 12 hours")
+                .AnswerSuccessiveNo(6)
                 .AnswerForDispostion("No");
 
             outcomePage.VerifyOutcome("Your answers suggest you should see an optician within 3 days");
@@ -174,18 +183,17 @@ namespace NHS111.SmokeTests
         [Test]
         public void GPEndpointJourney()
         {
-            var questionPage = TestScenerios.LaunchTriageScenerio(_driver, "Diarrhoea and vomiting", TestScenerioGender.Male, TestScenerioAgeGroups.Child);
+            var questionPage = TestScenerios.LaunchTriageScenerio(_driver, "Diarrhoea and Vomiting", TestScenerioGender.Male, TestScenerioAgeGroups.Child);
 
             questionPage.ValidateQuestion("Have you had any blood in your sick (vomit)?");
             var outcomePage = questionPage
                 .Answer("No blood or I haven't vomited")
-                .AnswerSuccessiveNo(3)
-                .Answer("None of these")
-                .AnswerSuccessiveNo(2)
+                .AnswerSuccessiveNo(6)
                 .Answer("No - I don't have diabetes")
                 .AnswerNo()
                 .Answer("None of these")
-                .AnswerSuccessiveNo(8)
+                .Answer("No - not in the last 12 hours")
+                .AnswerSuccessiveNo(7)
                 .AnswerForDispostion("Yes - 1 week or more");
 
             outcomePage.VerifyOutcome("Your answers suggest that you should talk to your own GP in 3 working days if you are not feeling better");
