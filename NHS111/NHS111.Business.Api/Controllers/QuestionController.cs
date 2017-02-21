@@ -206,9 +206,10 @@ namespace NHS111.Business.Api.Controllers
             }
 
             if (firstNode.State == null)
-                firstNode.State = new Dictionary<string, string>();
+                firstNode.State = stateDictionary;
+            else
+                firstNode.State.Add("SYSTEM_ONLINE", "online");//turn on online question flows
 
-            firstNode.State.Add("SYSTEM_ONLINE", "online");//turn on online question flows
             return JsonConvert.SerializeObject(firstNode).AsHttpResponse();
         }
 
