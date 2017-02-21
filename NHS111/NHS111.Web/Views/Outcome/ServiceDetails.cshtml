@@ -1,8 +1,5 @@
-﻿@using Newtonsoft.Json
-@using NHS111.Models.Models.Web
-@using NHS111.Models.Models.Web.FromExternalServices
-@using NHS111.Utils.Filters
-@model OutcomeViewModel
+﻿@using NHS111.Models.Models.Web
+@inherits NHS111.Web.Views.Shared.SurveyLinkView<OutcomeViewModel>
 <script src="http://maps.google.com/maps/api/js?key=AIzaSyCv3YwvmRoueyoLcW2iiSPjVeHecU18hmA "
         type="text/javascript"></script>
 <script src="/Scripts/geotools.js"
@@ -34,7 +31,10 @@
     @Html.Partial("_SurveyLink", Model.SurveyLink, dataDictionary)
 }
 @section FeedbackSection {
-    @Html.Partial("_FeedbackDetails", new FeedbackViewModel() { PageId = Model.Id })
+    @if (!SurveyLinkFeature.IsEnabled)
+    {
+        @Html.Partial("_FeedbackDetails", new FeedbackViewModel() { PageId = Model.Id });
+    }
 }
 
 @Html.Partial("_OutcomeHeader", Model)

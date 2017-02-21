@@ -1,6 +1,5 @@
 ﻿@using NHS111.Models.Models.Web
-@model OutcomeViewModel
-
+@inherits NHS111.Web.Views.Shared.SurveyLinkView<OutcomeViewModel>
 @{
     ViewBag.Title = "Sexual health clinic";
     Layout = "~/Views/Shared/_LayoutNhsUK.cshtml";
@@ -28,7 +27,10 @@
     @Html.Partial("_SurveyLink", Model.SurveyLink)
 }
 @section FeedbackSection {
-    @Html.Partial("_FeedbackDetails", new FeedbackViewModel() { PageId = Model.Id })
+    @if (!SurveyLinkFeature.IsEnabled)
+    {
+        @Html.Partial("_FeedbackDetails", new FeedbackViewModel() { PageId = Model.Id });
+    }
 }
 
 @{

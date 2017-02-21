@@ -1,7 +1,5 @@
 ﻿@using NHS111.Models.Models.Web
-@using NHS111.Models.Models.Web.FromExternalServices
-@model OutcomeViewModel
-
+@inherits NHS111.Web.Views.Shared.SurveyLinkView<OutcomeViewModel>
 @{
     Layout = "~/Views/Shared/_LayoutNhsUk.cshtml";
 }
@@ -30,7 +28,10 @@
     @Html.Partial("_SurveyLink", Model.SurveyLink, dataDictionary)
 }
 @section FeedbackSection {
-    @Html.Partial("_FeedbackDetails", new FeedbackViewModel() { PageId = Model.Id })
+    @if (!SurveyLinkFeature.IsEnabled)
+    {
+        @Html.Partial("_FeedbackDetails", new FeedbackViewModel() { PageId = Model.Id });
+    }
 }
 
 <link href="~/Content/css_NhsUK/confirmation.css" media="all" rel="stylesheet" type="text/css" />

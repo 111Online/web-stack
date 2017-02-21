@@ -1,6 +1,6 @@
 ﻿@using NHS111.Models.Models.Web
 @using NHS111.Utils.DispositionLogics
-@model OutcomeViewModel
+@inherits NHS111.Web.Views.Shared.SurveyLinkView<OutcomeViewModel>
 @{
     Layout = "~/Views/Shared/_LayoutNhsUK.cshtml";
 }
@@ -34,7 +34,10 @@
     @Html.Partial("_SurveyLink", Model.SurveyLink)
 }
 @section FeedbackSection {
-    @Html.Partial("_FeedbackDetails", new FeedbackViewModel() { PageId = Model.Id })
+    @if (!SurveyLinkFeature.IsEnabled)
+    {
+        @Html.Partial("_FeedbackDetails", new FeedbackViewModel() { PageId = Model.Id });
+    }
 }
 
 @if (Grouping.Two.Contains(Model.Id))

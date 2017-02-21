@@ -1,5 +1,5 @@
 ﻿@using NHS111.Models.Models.Web
-@model OutcomeViewModel
+@inherits NHS111.Web.Views.Shared.SurveyLinkView<OutcomeViewModel>
 @{
     Layout = "~/Views/Shared/_LayoutNhsUk.cshtml";
     var error = Model.DosCheckCapacitySummaryResult.HasNoServices;
@@ -26,7 +26,10 @@
     @Html.Partial("_SurveyLink", Model.SurveyLink)
 }
 @section FeedbackSection {
-    @Html.Partial("_FeedbackDetails", new FeedbackViewModel() { PageId = Model.Id })
+    @if (!SurveyLinkFeature.IsEnabled)
+    {
+        @Html.Partial("_FeedbackDetails", new FeedbackViewModel() { PageId = Model.Id });
+    }
 }
 
 @Html.Partial("_OutcomeHeader", new ViewDataDictionary() { { "OutcomeHeader", "Your answers suggest that you need a 111 clinician to call you" }})

@@ -1,11 +1,4 @@
-﻿@using NHS111.Models.Models.Web
-@inherits NHS111.Web.Views.Shared.SurveyLinkView<FeedbackViewModel>
-
-@if (SurveyLinkFeature.IsEnabled)
-{
-    return;
-}
-
+﻿@model NHS111.Models.Models.Web.FeedbackViewModel
 @{ Model.DateAdded = DateTime.Now; }
 <!--[if lte IE 8]>
     <style>
