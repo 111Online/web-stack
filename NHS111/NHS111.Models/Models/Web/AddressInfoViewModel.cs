@@ -32,5 +32,6 @@ namespace NHS111.Models.Models.Web
         public List<SelectListItem> AddressPicker { get; set; }
         public string SelectedAddressFromPicker { get; set; }
         public string PreviouslyEnteredPostcode { get; set; }
+        public string AddressOptions { get; set; }
     }
 }

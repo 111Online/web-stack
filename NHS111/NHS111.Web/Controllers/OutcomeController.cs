@@ -3,6 +3,8 @@
 using System;
 using System.Linq;
 using System.Web.Http;
+using System.Web.Script.Serialization;
+using Microsoft.Ajax.Utilities;
 using NHS111.Features;
 using NHS111.Models.Models.Web.Logging;
 
@@ -133,8 +135,11 @@ namespace NHS111.Web.Controllers {
 
             //pre-populate picker fields from postcode lookup service
             var postcodes = await GetPostcodeResults(model.AddressInfoViewModel.PreviouslyEnteredPostcode);
-            var items = postcodes.Select(postcode => new SelectListItem {Text = postcode.AddressLine1, Value = postcode.UPRN}).ToList();
+            var items = new List<SelectListItem>{new SelectListItem{Text = "Please choose...", Value="0", Selected = true}};
+            items.AddRange(postcodes.Select(postcode => new SelectListItem {Text = postcode.AddressLine1, Value = postcode.UPRN}).ToList());
             model.AddressInfoViewModel.AddressPicker = items;
+
+            model.AddressInfoViewModel.AddressOptions = new JavaScriptSerializer().Serialize(Json(postcodes).Data);
 
             return View("PersonalDetails", model);
         }

@@ -52,17 +52,37 @@
     <label>Pick an address</label>
     <label class="select-label">
         @Html.DropDownListFor(m=>m.SelectedAddressFromPicker, Model.AddressPicker, new { @class="select-address" })
+        @Html.HiddenFor(m=>m.AddressOptions)
     </label>
 </div>
 
 <script type="text/javascript">
+    var addressList = $.parseJSON($("#AddressInfoViewModel_AddressOptions").val());
     $(".find-address-panel").show();
     $(".address-panel").hide();
-    $(function() {
+    $(function () {
+        var select = $("#AddressInfoViewModel_SelectedAddressFromPicker");
         var selectOptions = $("#AddressInfoViewModel_SelectedAddressFromPicker option");
         if (selectOptions.length > 0) {
             $("#AddressList").show();
         }
+        //select.change(addressPicked());
+    });
+
+    $("#AddressInfoViewModel_SelectedAddressFromPicker").change(function () {
+        //var addresses = $("AddressInfoViewModel_AllAddressOptions").val();
+        var selectedAddress = $("#AddressInfoViewModel_SelectedAddressFromPicker option:selected").attr("value");
+        if (selectedAddress === "0")
+            return;
+        var result = $.grep(addressList, function (e) { return e.UPRN === selectedAddress; });
+        if (result.length < 1) {
+            console.error("Address selected with id " + selectedAddress + " which isn't in list of addresses.");
+            return;
+        }
+        setFields(result[0]);
+        $("#manual-entry-link").hide();
+        $("#AddressList").hide();
+        $(".address-panel").show();
     });
 
     $(function () {
@@ -87,25 +107,13 @@
                     if (addresses.length > 0) {
                         select.empty();
                         select.append($("<option />").val(0).text("Please choose..."));
-                        $.each(response, function () {
+                        $.each(addresses, function () {
                             select.append($("<option />").val(this.UPRN).text(this.AddressLine1));
                         });
                         $("#AddressList").show();
                     }
-                    select.change(function () {
-                        var selectedAddress = $("#AddressInfoViewModel_SelectedAddressFromPicker option:selected").attr("value");
-                        if (selectedAddress == "0")
-                            return;
-                        var result = $.grep(addresses, function (e) { return e.UPRN == selectedAddress; });
-                        if (result.length < 1) {
-                            console.error("Address selected with id " + selectedAddress + " which isn't in list of addresses.");
-                            return;
-                        }
-                        setFields(result[0]);
-                        $("#manual-entry-link").hide();
-                        $("#AddressList").hide();
-                        $(".address-panel").show();
-                    });
+                    addressList = addresses;
+                    //select.change(addressPicked());
                 },
                 timeout: 5000,
                 error: function (XMLHttpRequest, textStatus, errorThrown) {
