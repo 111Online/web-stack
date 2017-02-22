@@ -19,6 +19,7 @@ namespace NHS111.Models.Models.Web
         public string PathwayId { get; set; }
         public string PathwayNo { get; set; }
         public string PathwayTitle { get; set; }
+        public string DigitalTitle { get; set; }
         public string Id { get; set; }
 
         private string _title;

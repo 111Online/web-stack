@@ -1,5 +1,6 @@
 ﻿@using NHS111.Models.Models.Domain
 @using NHS111.Models.Models.Web
+@using NHS111.Models.Models.Business.PathwaySearch
 @model SearchJourneyViewModel
 @{
     Layout = "~/Views/Shared/_LayoutNhsUK.cshtml";
@@ -54,8 +55,9 @@
                             @foreach (var result in Model.Results) {
                                 var additionalTopics = result.DisplayTitle != null ? result.DisplayTitle.Skip(1) : new List<string>();
                                 var title = result.DisplayTitle != null ? result.DisplayTitle.First() : result.Title.First();
+                                var digitalTitle = PathwaySearchResult.StripHighlightMarkup(title);
                                 <li>
-                                    <a class="linkButton" data-title="@result.PathwayTitle" data-pathway-number="@result.PathwayNo" href="/@result.PathwayNo@result.Gender.First()@result.AgeGroup.First()/start?age=@Model.UserInfo.Demography.Age">@Html.Raw(title)</a>
+                                    <a class="linkButton" data-title="@result.PathwayTitle" data-pathway-number="@result.PathwayNo" href="/@result.PathwayNo@result.Gender.First()@result.AgeGroup.First()/start?age=@Model.UserInfo.Demography.Age&digitalTitle=@digitalTitle">@Html.Raw(title)</a>
                                     @if (additionalTopics.Any()) {
                                         <p class='additional-topics'>Also covers: @Html.Raw(string.Join(", ", additionalTopics))</p>
                                     }
