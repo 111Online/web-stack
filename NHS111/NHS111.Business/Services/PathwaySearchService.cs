@@ -12,8 +12,6 @@ namespace NHS111.Business.Services
 {
     public class PathwaySearchService : IPathwaySearchService
     {
-        public const string HighlightPreTags = "<em class='highlight-term'>";
-        public const string HighlightPostTags = "</em>";
         private readonly IElasticClient _elastic;
 
         public PathwaySearchService(IConfiguration _configuration)
@@ -99,12 +97,8 @@ namespace NHS111.Business.Services
         }
 
         private string TitleOrHighLight(string title, IReadOnlyCollection<string> highlights) {
-            var highlightedTitle = highlights.FirstOrDefault(t=> title == StripHighlightMarkup(t));
+            var highlightedTitle = highlights.FirstOrDefault(t=> title == PathwaySearchResult.StripHighlightMarkup(t));
             return highlightedTitle != null ? highlightedTitle : title;
-        }
-
-        private string StripHighlightMarkup(string highlightedTitle) {
-            return highlightedTitle.Replace(HighlightPreTags, "").Replace(HighlightPostTags, "");
         }
 
         private SearchDescriptor<PathwaySearchResult> BuildPathwaysTextQuery(
@@ -205,9 +199,8 @@ namespace NHS111.Business.Services
                         h.Fields(
                             f => f.Field(p => p.Title),
                             f => f.Field(p => p.Description).NumberOfFragments(0))
-                .PreTags(HighlightPreTags)
-                .PostTags(HighlightPostTags));
-            ;
+                .PreTags(PathwaySearchResult.HighlightPreTags)
+                .PostTags(PathwaySearchResult.HighlightPostTags));
 
             return shouldQuery;
         }
