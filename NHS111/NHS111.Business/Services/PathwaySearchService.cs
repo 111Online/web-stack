@@ -199,9 +199,8 @@ namespace NHS111.Business.Services
                         h.Fields(
                             f => f.Field(p => p.Title),
                             f => f.Field(p => p.Description).NumberOfFragments(0))
-                .PreTags(HighlightPreTags)
-                .PostTags(HighlightPostTags));
-            ;
+                .PreTags(PathwaySearchResult.HighlightPreTags)
+                .PostTags(PathwaySearchResult.HighlightPostTags));
 
             return shouldQuery;
         }
