@@ -48,10 +48,18 @@ namespace NHS111.Web.Controllers {
         }
 
         [HttpPost]
-        public async Task<JsonResult> PostcodeLookup(string postCode) {
-            var locationResults = await _locationResultBuilder.LocationResultByPostCodeBuilder(postCode);
-            return Json(Mapper.Map<List<AddressInfoViewModel>>(locationResults));
+        public async Task<JsonResult> PostcodeLookup(string postCode)
+        {
+            var locationResults = await GetPostcodeResults(postCode);
+            return Json((locationResults));
         }
+
+        private async Task<List<AddressInfoViewModel>> GetPostcodeResults(string postCode)
+        {
+            //TODO: Add timeout, so we don't wait too long!
+            var results = await _locationResultBuilder.LocationResultByPostCodeBuilder(postCode);
+            return Mapper.Map<List<AddressInfoViewModel>>(results);
+        } 
 
         [HttpGet]
         [Route("outcome/disposition/{age?}/{gender?}/{dxCode?}/{symptomGroup?}/{symptomDiscriminator?}")]
@@ -72,7 +80,7 @@ namespace NHS111.Web.Controllers {
                 },
                 SymptomGroup = symptomGroup ?? "1203",
                 SymptomDiscriminatorCode = symptomDiscriminator ?? "4003",
-                AddressInfoViewModel = new PersonalInfoAddressViewModel()
+                AddressInfoViewModel = new PersonalDetailsAddressViewModel()
             };
 
             return View(model);
@@ -121,10 +129,13 @@ namespace NHS111.Web.Controllers {
             AuditSelectedService(model);
 
             //map postcode to field to submit to ITK (preventing multiple entries of same data)
-            var enteredPostcode = model.UserInfo.CurrentAddress.Postcode;
-            ViewBag.Postcode = enteredPostcode;
+            model.AddressInfoViewModel.PreviouslyEnteredPostcode = model.UserInfo.CurrentAddress.Postcode;
 
-         //   model = await _outcomeViewModelBuilder.PersonalDetailsBuilder(model);
+            //pre-populate picker fields from postcode lookup service
+            var postcodes = await GetPostcodeResults(model.AddressInfoViewModel.PreviouslyEnteredPostcode);
+            var items = postcodes.Select(postcode => new SelectListItem {Text = postcode.AddressLine1, Value = postcode.UPRN}).ToList();
+            model.AddressInfoViewModel.AddressPicker = items;
+
             return View("PersonalDetails", model);
         }
 

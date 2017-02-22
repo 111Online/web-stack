@@ -1,6 +1,6 @@
 ﻿@using Newtonsoft.Json
 @using NHS111.Models.Models.Web
-@model  PersonalInfoAddressViewModel
+@model  PersonalDetailsAddressViewModel
 
 <div class="find-address-panel">
     <label>
@@ -8,14 +8,14 @@
     </label>
     <p class="validation-error-msg" id="postcode-validation-message">A valid UK postcode is required</p>
     <div class="inline-details">
-        @InputExtensions.TextBox(Html, "postcode-find", ViewBag.Postcode, new { @class = "form-control form-control-8-chars", placeholder = "eg. SE1"})
-        <input type="button" class="button find-address" id="findMyAddress" value="Find my address" />
+        @Html.TextBoxFor(m => m.PreviouslyEnteredPostcode, new { @class = "form-control form-control-8-chars", placeholder = "eg. SE1" })
+        <input type="button" class="button find-address" id="findMyAddress" value="Find my address"/>
     </div>
     <a class="button button-next button-link" href="javascript:void(0);" id="manual-entry-link">Enter address manually</a>
 </div>
 
 <div id="addressPanel" class="address-panel">
-    <p class="manual-entry-text" id="manual-entry-text">Enter address manually</p>
+    <p class="manual-entry-text" id="manual-entry-text">Enter address</p>
     <label>
         Street
     </label>
@@ -51,21 +51,27 @@
 <div id="AddressList" style="display: none;">
     <label>Pick an address</label>
     <label class="select-label">
-        <select class="select-address" id="AddressSelect">
-        </select>
+        @Html.DropDownListFor(m=>m.SelectedAddressFromPicker, Model.AddressPicker, new { @class="select-address" })
     </label>
 </div>
 
 <script type="text/javascript">
     $(".find-address-panel").show();
     $(".address-panel").hide();
+    $(function() {
+        var selectOptions = $("#AddressInfoViewModel_SelectedAddressFromPicker option");
+        if (selectOptions.length > 0) {
+            $("#AddressList").show();
+        }
+    });
+
     $(function () {
         var addresses = [];
         $('#findMyAddress').css('cursor', 'pointer');
         $(document).on('click', '#findMyAddress', function (event) {
             $("#manual-entry-link").show();
             resetElements();
-            var $postCode = $("#AddressInfoViewModel_postcode-find").val();
+            var $postCode = $("#AddressInfoViewModel_PreviouslyEnteredPostcode").val();
             if (!valid_postcode($postCode)) {
                 invalidatePostCode();
                 return;
@@ -77,18 +83,17 @@
                 data: { postCode: $postCode },
                 success: function (response) {
                     addresses = response;
-                    var select = $("#AddressSelect");
+                    var select = $("#AddressInfoViewModel_SelectedAddressFromPicker");
                     if (addresses.length > 0) {
                         select.empty();
                         select.append($("<option />").val(0).text("Please choose..."));
                         $.each(response, function () {
-                            var text = this.AddressLine1;
-                            select.append($("<option />").val(this.UPRN).text(text));
+                            select.append($("<option />").val(this.UPRN).text(this.AddressLine1));
                         });
                         $("#AddressList").show();
                     }
                     select.change(function () {
-                        var selectedAddress = $("#AddressSelect option:selected").attr("value");
+                        var selectedAddress = $("#AddressInfoViewModel_SelectedAddressFromPicker option:selected").attr("value");
                         if (selectedAddress == "0")
                             return;
                         var result = $.grep(addresses, function (e) { return e.UPRN == selectedAddress; });

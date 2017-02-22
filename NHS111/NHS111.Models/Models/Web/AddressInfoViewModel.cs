@@ -1,4 +1,6 @@
-﻿using FluentValidation.Attributes;
+﻿using System.Collections.Generic;
+using System.Web.Mvc;
+using FluentValidation.Attributes;
 using NHS111.Models.Models.Web.Validators;
 
 namespace NHS111.Models.Models.Web
@@ -24,4 +26,11 @@ namespace NHS111.Models.Models.Web
     {
     }
 
+    [Validator(typeof(PersonalInfoAddressViewModelValidator))]
+    public class PersonalDetailsAddressViewModel : PersonalInfoAddressViewModel
+    {
+        public List<SelectListItem> AddressPicker { get; set; }
+        public string SelectedAddressFromPicker { get; set; }
+        public string PreviouslyEnteredPostcode { get; set; }
+    }
 }
