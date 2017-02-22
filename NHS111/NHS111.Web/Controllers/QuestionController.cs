@@ -31,6 +31,8 @@ namespace NHS111.Web.Controllers {
         : Controller {
 
         public const int MAX_SEARCH_RESULTS = 10;
+        public const string HighlightPreTags = "<em class='highlight-term'>";
+        public const string HighlightPostTags = "</em>";
 
         public QuestionController(IJourneyViewModelBuilder journeyViewModelBuilder, IRestfulHelper restfulHelper,
             IConfiguration configuration, IJustToBeSafeFirstViewModelBuilder justToBeSafeFirstViewModelBuilder, IDirectLinkingFeature directLinkingFeature,
@@ -105,14 +107,21 @@ namespace NHS111.Web.Controllers {
         }
 
         private void SortTitlesByRelevancy(SearchResultViewModel result, string searchTerm) {
+            if (result.DisplayTitle == null)
+                return;
             var lowerTerm = searchTerm.ToLower();
-            for (var i = 0; i < result.Title.Count; i++) {
-                var title = result.Title[i];
-                if (!title.ToLower().Contains(lowerTerm))
+            for (var i = 0; i < result.DisplayTitle.Count; i++) {
+                var title = result.DisplayTitle[i];
+                if (!StripHighlightMarkup(title).ToLower().Contains(lowerTerm))
                     continue;
-                result.Title.RemoveAt(i);
-                result.Title.Insert(0, title);
+                result.DisplayTitle.RemoveAt(i);
+                result.DisplayTitle.Insert(0, title);
             }
+        }
+
+        private string StripHighlightMarkup(string highlightedTitle)
+        {
+            return highlightedTitle.Replace(HighlightPreTags, "").Replace(HighlightPostTags, "");
         }
 
 
