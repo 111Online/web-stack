@@ -18,6 +18,7 @@ namespace NHS111.Web.Controllers {
     using System.Text;
     using System.Text.RegularExpressions;
     using System.Web;
+    using Models.Models.Business.PathwaySearch;
     using Models.Models.Domain;
     using Newtonsoft.Json;
     using Presentation.Logging;
@@ -31,8 +32,6 @@ namespace NHS111.Web.Controllers {
         : Controller {
 
         public const int MAX_SEARCH_RESULTS = 10;
-        public const string HighlightPreTags = "<em class='highlight-term'>";
-        public const string HighlightPostTags = "</em>";
 
         public QuestionController(IJourneyViewModelBuilder journeyViewModelBuilder, IRestfulHelper restfulHelper,
             IConfiguration configuration, IJustToBeSafeFirstViewModelBuilder justToBeSafeFirstViewModelBuilder, IDirectLinkingFeature directLinkingFeature,
@@ -112,16 +111,11 @@ namespace NHS111.Web.Controllers {
             var lowerTerm = searchTerm.ToLower();
             for (var i = 0; i < result.DisplayTitle.Count; i++) {
                 var title = result.DisplayTitle[i];
-                if (!StripHighlightMarkup(title).ToLower().Contains(lowerTerm))
+                if (!PathwaySearchResult.StripHighlightMarkup(title).ToLower().Contains(lowerTerm))
                     continue;
                 result.DisplayTitle.RemoveAt(i);
                 result.DisplayTitle.Insert(0, title);
             }
-        }
-
-        private string StripHighlightMarkup(string highlightedTitle)
-        {
-            return highlightedTitle.Replace(HighlightPreTags, "").Replace(HighlightPostTags, "");
         }
 
 

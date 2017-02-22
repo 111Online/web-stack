@@ -1,17 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Policy;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using Nest;
-using StructureMap.Diagnostics.TreeView;
 
 namespace NHS111.Models.Models.Business.PathwaySearch
 {
     [ElasticsearchType(IdProperty = "PathwayDigitalId", Name = "pathway")]
     public class PathwaySearchResult
     {
+        public const string HighlightPreTags = "<em class='highlight-term'>";
+        public const string HighlightPostTags = "</em>";
+
         [String(Name = "PathwayTitle", Index = FieldIndexOption.NotAnalyzed)]
         public string PathwayTitle { get; set; }
 
@@ -46,5 +43,9 @@ namespace NHS111.Models.Models.Business.PathwaySearch
 
         [Text(Ignore = true)]
         public double? Score { get; set; }
+
+        public static string StripHighlightMarkup(string highlightedTitle) {
+            return highlightedTitle.Replace(HighlightPreTags, "").Replace(HighlightPostTags, "");
+        }
     }
 }
