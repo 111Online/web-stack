@@ -289,6 +289,7 @@ namespace NHS111.Web.Controllers {
                 PathwayId = pathway.Id,
                 PathwayNo = pathway.PathwayNo,
                 PathwayTitle = pathway.Title,
+                DigitalTitle = string.IsNullOrEmpty(journeyViewModel.DigitalTitle) ? pathway.Title : journeyViewModel.DigitalTitle,
                 UserInfo = new UserInfo() { Demography = new AgeGenderViewModel { Age = derivedAge, Gender = pathway.Gender } },
                 JourneyJson = journeyViewModel.JourneyJson,
                 SymptomDiscriminatorCode = journeyViewModel.SymptomDiscriminatorCode,
