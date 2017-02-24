@@ -21,7 +21,7 @@ namespace NHS111.Utils.Helpers {
         }
 
         public RestfulHelper() {
-            _webClient = new WebClient();
+            _webClient = new WebClient() { Encoding = Encoding.UTF8 };
             _httpClient = new HttpClient();
             _httpClientFactory = new HttpClientFactory();
         }
