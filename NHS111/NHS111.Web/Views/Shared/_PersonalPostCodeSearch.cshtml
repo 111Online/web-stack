@@ -2,20 +2,23 @@
 @using NHS111.Models.Models.Web
 @model  PersonalDetailsAddressViewModel
 
+
 <div class="find-address-panel">
     <label>
         Postcode of current address
     </label>
     <p class="validation-error-msg" id="postcode-validation-message">A valid UK postcode is required</p>
     <div class="inline-details">
-        @Html.TextBoxFor(m => m.PreviouslyEnteredPostcode, new { @class = "form-control form-control-8-chars", placeholder = "eg. SE1" })
-        <input type="button" class="button find-address" id="findMyAddress" value="Find my address"/>
+        @Html.TextBoxFor(m => m.PreviouslyEnteredPostcode, new {@class = "form-control form-control-8-chars", placeholder = "eg. SE1", @readonly= "readonly" })
+        <a class="button button-next button-link" id="postcode-change-link" href="javascript:void(0);">Change this postcode</a>
+        <input style="display:none" type="button" class="button find-address" id="findMyAddress" value="Find address" />
     </div>
-    <a class="button button-next button-link" href="javascript:void(0);" id="manual-entry-link">Enter address manually</a>
 </div>
 
+<p class="" style="display: none;" id="no-results-message">We couldn't find any addresses for that postcode, please enter your address below, or change your postcode</p>
+
 <div id="addressPanel" class="address-panel">
-    <p class="manual-entry-text" id="manual-entry-text">Enter address</p>
+    <p class="manual-entry-text" id="manual-entry-title">Enter address</p>
     <label>
         Street
     </label>
@@ -51,10 +54,12 @@
 <div id="AddressList" style="display: none;">
     <label>Pick an address</label>
     <label class="select-label">
-        @Html.DropDownListFor(m=>m.SelectedAddressFromPicker, Model.AddressPicker, new { @class="select-address" })
-        @Html.HiddenFor(m=>m.AddressOptions)
+        @Html.DropDownListFor(m => m.SelectedAddressFromPicker, Model.AddressPicker, new { @class = "select-address" })
+        @Html.HiddenFor(m => m.AddressOptions)
     </label>
 </div>
+
+<a class="button button-next button-link" href="javascript:void(0);" id="manual-entry-link">I can't find my address in the list</a>
 
 <script type="text/javascript">
     var addressList = $.parseJSON($("#AddressInfoViewModel_AddressOptions").val());
@@ -63,14 +68,17 @@
     $(function () {
         var select = $("#AddressInfoViewModel_SelectedAddressFromPicker");
         var selectOptions = $("#AddressInfoViewModel_SelectedAddressFromPicker option");
-        if (selectOptions.length > 0) {
+        if (selectOptions.length > 1) {
             $("#AddressList").show();
+        } else {
+            $("#manual-entry-link").hide();
+            $("#AddressList").hide();
+            $(".address-panel").show();
+            $("#no-results-message").show();
         }
-        //select.change(addressPicked());
     });
 
     $("#AddressInfoViewModel_SelectedAddressFromPicker").change(function () {
-        //var addresses = $("AddressInfoViewModel_AllAddressOptions").val();
         var selectedAddress = $("#AddressInfoViewModel_SelectedAddressFromPicker option:selected").attr("value");
         if (selectedAddress === "0")
             return;
@@ -106,14 +114,19 @@
                     var select = $("#AddressInfoViewModel_SelectedAddressFromPicker");
                     if (addresses.length > 0) {
                         select.empty();
-                        select.append($("<option />").val(0).text("Please choose..."));
-                        $.each(addresses, function () {
+                        select.append($("<option />").val(0).text(addresses.length + " addresses found. Please choose..."));
+                        $.each(addresses, function() {
                             select.append($("<option />").val(this.UPRN).text(this.AddressLine1));
                         });
+                        $("#no-results-message").hide();
                         $("#AddressList").show();
+                    } else {
+                        $("#manual-entry-link").hide();
+                        $("#AddressList").hide();
+                        $(".address-panel").show();
+                        $("#no-results-message").show();
                     }
                     addressList = addresses;
-                    //select.change(addressPicked());
                 },
                 timeout: 5000,
                 error: function (XMLHttpRequest, textStatus, errorThrown) {
@@ -121,7 +134,7 @@
                     $("#AddressList").hide();
                 },
                 complete: function () {
-                    stopPageLoadingIndicator()
+                    stopPageLoadingIndicator();
                 }
             });
         });
@@ -131,6 +144,12 @@
             $("#AddressList").hide();
             $(this).hide();
         });
+    });
+
+    $("#postcode-change-link").click(function () {
+        $("#findMyAddress").show();
+        $("#AddressInfoViewModel_PreviouslyEnteredPostcode").prop('readonly', false);
+        $("#postcode-change-link").hide();
     });
 
     function resetElements() {

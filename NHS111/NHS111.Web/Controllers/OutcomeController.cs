@@ -130,23 +130,37 @@ namespace NHS111.Web.Controllers {
             ModelState.Clear();
             AuditSelectedService(model);
 
+            model = await PopulateAddressPickerFields(model);
+
+            return View("PersonalDetails", model);
+        }
+
+        private async Task<OutcomeViewModel> PopulateAddressPickerFields(OutcomeViewModel model)
+        {
             //map postcode to field to submit to ITK (preventing multiple entries of same data)
             model.AddressInfoViewModel.PreviouslyEnteredPostcode = model.UserInfo.CurrentAddress.Postcode;
 
             //pre-populate picker fields from postcode lookup service
             var postcodes = await GetPostcodeResults(model.AddressInfoViewModel.PreviouslyEnteredPostcode);
-            var items = new List<SelectListItem>{new SelectListItem{Text = "Please choose...", Value="0", Selected = true}};
-            items.AddRange(postcodes.Select(postcode => new SelectListItem {Text = postcode.AddressLine1, Value = postcode.UPRN}).ToList());
+            var firstSelectItemText = postcodes.Count + " addresses found. Please choose...";
+            var items = new List<SelectListItem> { new SelectListItem { Text = firstSelectItemText, Value = "0", Selected = true } };
+            items.AddRange(postcodes.Select(postcode => new SelectListItem { Text = postcode.AddressLine1, Value = postcode.UPRN }).ToList());
             model.AddressInfoViewModel.AddressPicker = items;
 
             model.AddressInfoViewModel.AddressOptions = new JavaScriptSerializer().Serialize(Json(postcodes).Data);
 
-            return View("PersonalDetails", model);
+            return model;
         }
 
         [HttpPost]
         public async Task<ActionResult> Confirmation(OutcomeViewModel model) {
-            if (!ModelState.IsValid) return View("PersonalDetails", model);
+            if (!ModelState.IsValid)
+            {
+                //populate address picker fields
+                model = await PopulateAddressPickerFields(model);
+                return View("PersonalDetails", model);
+            }
+
             model = await _outcomeViewModelBuilder.ItkResponseBuilder(model);
             if (model.ItkSendSuccess.HasValue && model.ItkSendSuccess.Value)
                 return View(model);
