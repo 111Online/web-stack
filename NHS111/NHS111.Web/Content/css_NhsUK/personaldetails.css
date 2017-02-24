@@ -47,12 +47,6 @@
     border: 2px solid #E6E6E6;
 }
 
-@media (min-width: 641px) {
-    #UserInfo_TelephoneNumber {
-        width: 25%;
-    }
-}
-
 .inline-details {
     overflow: auto;
     display: block;

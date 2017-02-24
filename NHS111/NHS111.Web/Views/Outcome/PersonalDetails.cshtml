@@ -101,7 +101,7 @@
                 </label>
                 <div>@Html.ValidationMessageFor(m => m.UserInfo.TelephoneNumber, "Please enter a valid Phone number")</div>
                 <div class="inline-details">
-                    @Html.TextBoxFor(m => m.UserInfo.TelephoneNumber, new { @class = "form-control form-control-10-chars", placeholder = "Landline or mobile number", type = "tel" })
+                    @Html.TextBoxFor(m => m.UserInfo.TelephoneNumber, new { @class = "form-control form-control-16-chars", placeholder = "Landline or mobile number", type = "tel" })
                 </div>
                 @{
                     dataDictionary.TemplateInfo = new TemplateInfo { HtmlFieldPrefix = "AddressInfoViewModel" };

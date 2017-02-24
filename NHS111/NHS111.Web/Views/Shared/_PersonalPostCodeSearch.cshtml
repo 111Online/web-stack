@@ -65,6 +65,7 @@
     var addressList = $.parseJSON($("#AddressInfoViewModel_AddressOptions").val());
     $(".find-address-panel").show();
     $(".address-panel").hide();
+
     $(function () {
         var select = $("#AddressInfoViewModel_SelectedAddressFromPicker");
         var selectOptions = $("#AddressInfoViewModel_SelectedAddressFromPicker option");
@@ -75,6 +76,10 @@
             $("#AddressList").hide();
             $(".address-panel").show();
             $("#no-results-message").show();
+        }
+
+        if ($("#AddressInfoViewModel_AddressLine1").hasClass("input-validation-error")) {
+            $("#AddressInfoViewModel_SelectedAddressFromPicker").addClass("input-validation-error");
         }
     });
 
@@ -87,7 +92,12 @@
             console.error("Address selected with id " + selectedAddress + " which isn't in list of addresses.");
             return;
         }
+        
         setFields(result[0]);
+
+        $("#AddressInfoViewModel_SelectedAddressFromPicker").removeClass("input-validation-error");
+        runAddressValidation();
+
         $("#manual-entry-link").hide();
         $("#AddressList").hide();
         $(".address-panel").show();
@@ -98,6 +108,7 @@
         $('#findMyAddress').css('cursor', 'pointer');
         $(document).on('click', '#findMyAddress', function (event) {
             $("#manual-entry-link").show();
+            postcodeChangeLink("show");
             resetElements();
             var $postCode = $("#AddressInfoViewModel_PreviouslyEnteredPostcode").val();
             if (!valid_postcode($postCode)) {
@@ -147,10 +158,30 @@
     });
 
     $("#postcode-change-link").click(function () {
-        $("#findMyAddress").show();
-        $("#AddressInfoViewModel_PreviouslyEnteredPostcode").prop('readonly', false);
-        $("#postcode-change-link").hide();
+        postcodeChangeLink("hide");
     });
+
+    function postcodeChangeLink(flag) {
+        if (flag === "hide") {
+            $("#findMyAddress").show();
+            $("#AddressInfoViewModel_PreviouslyEnteredPostcode").prop('readonly', false);
+            $("#manual-entry-link").hide();
+            $("#AddressList").hide();
+            $("#postcode-change-link").hide();
+        } else if (flag === "show") {
+            $("#findMyAddress").hide();
+            $("#AddressInfoViewModel_PreviouslyEnteredPostcode").prop('readonly', true);
+            $("#postcode-change-link").show();
+        }
+    }
+
+    function runAddressValidation() {
+        $("#AddressInfoViewModel_AddressLine1").valid();
+        $("#AddressInfoViewModel_AddressLine2").valid();
+        $("#AddressInfoViewModel_City").valid();
+        $("#AddressInfoViewModel_County").valid();
+        $("#AddressInfoViewModel_Postcode").valid();
+    }
 
     function resetElements() {
         $(".address-panel").hide();
