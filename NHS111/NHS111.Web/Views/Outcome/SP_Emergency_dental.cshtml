@@ -1,7 +1,5 @@
-﻿@using NHS111.Models.Models.Domain
-@using NHS111.Models.Models.Web
-@using NHS111.Utils.DispositionLogics
-@model OutcomeViewModel
+﻿@using NHS111.Models.Models.Web
+@inherits NHS111.Web.Views.Shared.SurveyLinkView<OutcomeViewModel>
 @{
     Layout = "~/Views/Shared/_LayoutNhsUK.cshtml";
 
@@ -24,9 +22,14 @@
         }];
     </script>
 }
-
+@section SurveyBanner{
+    @Html.Partial("_SurveyLink", Model.SurveyLink)
+}
 @section FeedbackSection {
-    @Html.Partial("_DispositionBanners")
+    @if (!SurveyLinkFeature.IsEnabled)
+    {
+        @Html.Partial("_FeedbackDetails", new FeedbackViewModel() { PageId = Model.Id });
+    }
 }
 
 @{

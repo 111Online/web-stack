@@ -85,7 +85,7 @@ namespace NHS111.Business.Services
                                 break;
 
                             case "DigitalDescriptions":
-                                hit.Source.HighlightedTitle = highlight.Value.Highlights.ToList();
+                                hit.Source.DisplayTitle = hit.Source.Title.Select(t => TitleOrHighLight(t, highlight.Value.Highlights)).ToList();
                                 break;
                         }
 
@@ -94,6 +94,11 @@ namespace NHS111.Business.Services
             }
 
             return hits.Select(h => h.Source);
+        }
+
+        private string TitleOrHighLight(string title, IReadOnlyCollection<string> highlights) {
+            var highlightedTitle = highlights.FirstOrDefault(t=> title == PathwaySearchResult.StripHighlightMarkup(t));
+            return highlightedTitle != null ? highlightedTitle : title;
         }
 
         private SearchDescriptor<PathwaySearchResult> BuildPathwaysTextQuery(
@@ -194,9 +199,8 @@ namespace NHS111.Business.Services
                         h.Fields(
                             f => f.Field(p => p.Title),
                             f => f.Field(p => p.Description).NumberOfFragments(0))
-                .PreTags("<em class='highlight-term'>")
-                .PostTags("</em>"));
-            ;
+                .PreTags(PathwaySearchResult.HighlightPreTags)
+                .PostTags(PathwaySearchResult.HighlightPostTags));
 
             return shouldQuery;
         }

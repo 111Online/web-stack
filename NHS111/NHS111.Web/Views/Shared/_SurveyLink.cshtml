@@ -2,10 +2,6 @@
 
 @{
     var launchPage = ViewData.ContainsKey("LaunchPage") ? ViewData["LaunchPage"] : "outcome";
-
-    var is999Survey = ViewData.ContainsKey("999Survey");
-    var surveyText = is999Survey ? "Take a 30-second survey to help us improve" : "Take a short survey to help us improve";
-    var surveyPostponeText = is999Survey ? "No thanks" : "Not now";
 }
 
 @if (SurveyLinkFeature.IsEnabled)
@@ -19,26 +15,16 @@
         Model.EndPathwayNo,
         Model.DispositionCode,
         launchPage,
-        Model.PathwayTitle.ToLower(),
+        Model.DigitalTitle.ToLower(),
         Model.EndPathwayTitle,
         Model.DispositionDateTime.Date.ToString("dddd, dd MMMM yyyy"),
         Model.DispositionDateTime.ToString("HH:mm:ss"));
 
     <link href="~/Content/css_NhsUK/banner.css" media="screen" rel="stylesheet" type="text/css" />
-    <div class="survey-banner-wrap clear">
-        <div class="survey-banner-content">
-            <div class="survey-invite">
-                <p>@surveyText</p>
-            </div>
-            <ul>
-                <li class="leave-feedback agree">
-                    <a id="AgreeButton" href="@url" target="_blank">Yes</a>
-                </li>
-                <li class="go-back postpone">
-                    <a id="PostponeButton">@surveyPostponeText</a>
-                </li>
-            </ul>
-        </div>
+    <div class="notification-banner notification-banner--hiviz">
+        <p class="notification-banner--inner">
+            When you’ve finished, help us improve by taking a <a href="@url" target="_blank">short survey</a>
+        </p>
     </div>
 
     <script>

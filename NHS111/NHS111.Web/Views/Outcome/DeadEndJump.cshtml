@@ -1,13 +1,18 @@
 ﻿@using NHS111.Models.Models.Web
-@model OutcomeViewModel
+@inherits NHS111.Web.Views.Shared.SurveyLinkView<OutcomeViewModel>
 @{ Layout = "~/Views/Shared/_LayoutNhsUk.cshtml"; }
 
 <link href="~/content/css_NhsUk/question.css" media="screen" rel="stylesheet" type="text/css" />
 
 @section Title {}
-
+@section SurveyBanner{
+    @Html.Partial("_SurveyLink", Model.SurveyLink)
+}
 @section FeedbackSection {
-    @Html.Partial("_DispositionBanners")
+    @if (!SurveyLinkFeature.IsEnabled)
+    {
+        @Html.Partial("_FeedbackDetails", new FeedbackViewModel() { PageId = Model.Id });
+    }
 }
 
 @using (Html.BeginForm("Navigation", "Question", FormMethod.Post))
@@ -18,6 +23,7 @@
     @Html.HiddenFor(x => Model.PathwayId)
     @Html.HiddenFor(x => Model.PathwayNo)
     @Html.HiddenFor(x => Model.PathwayTitle)
+    @Html.HiddenFor(x => Model.DigitalTitle)
     @Html.HiddenFor(x => Model.UserInfo.Demography.Age)
     @Html.HiddenFor(x => Model.UserInfo.Demography.Gender)
     @Html.HiddenFor(x => Model.Title)

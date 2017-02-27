@@ -1,4 +1,0 @@
-﻿@using NHS111.Models.Models.Web
-@inherits NHS111.Web.Views.Shared.SurveyLinkView<OutcomeViewModel>
-
-@(SurveyLinkFeature.IsEnabled ? Html.Partial("_SurveyLink", Model.SurveyLink) : Html.Partial("_FeedbackDetails", new FeedbackViewModel() {PageId = Model.Id}))

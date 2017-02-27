@@ -42,7 +42,7 @@ namespace NHS111.Web.Controllers
 
         [HttpGet]
         [Route("{pathwayId}/start")]
-        public async Task<ActionResult> PathwayStart(string pathwayId, int age) {
+        public async Task<ActionResult> PathwayStart(string pathwayId, int age, string digitalTitle) {
             string pathwayNumber;
             Gender gender;
             AgeCategory ageCategory;
@@ -51,6 +51,7 @@ namespace NHS111.Web.Controllers
 
             var model = new JustToBeSafeViewModel {
                 PathwayNo = pathwayNumber,
+                DigitalTitle = digitalTitle,
                 UserInfo = new UserInfo {
                     Demography = new AgeGenderViewModel {
                         Age = age,

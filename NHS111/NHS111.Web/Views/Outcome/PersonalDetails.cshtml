@@ -1,5 +1,5 @@
 ﻿@using NHS111.Models.Models.Web
-@model OutcomeViewModel
+@inherits NHS111.Web.Views.Shared.SurveyLinkView<OutcomeViewModel>
 @{
     Layout = "~/Views/Shared/_LayoutNhsUk.cshtml";
 }
@@ -27,8 +27,14 @@
     var dataDictionary = ViewContext.ViewData;
     dataDictionary.Add(new KeyValuePair<string, object>("LaunchPage", "personal-details"));
 }
+@section SurveyBanner{
+    @Html.Partial("_SurveyLink", Model.SurveyLink, dataDictionary)
+}
 @section FeedbackSection {
-    @Html.Partial("_DispositionBanners", dataDictionary)
+    @if (!SurveyLinkFeature.IsEnabled)
+    {
+        @Html.Partial("_FeedbackDetails", new FeedbackViewModel() { PageId = Model.Id });
+    }
 }
 
 <section>

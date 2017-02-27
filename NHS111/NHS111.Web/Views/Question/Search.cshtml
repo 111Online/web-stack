@@ -1,9 +1,10 @@
 ﻿@using NHS111.Models.Models.Domain
 @using NHS111.Models.Models.Web
+@using NHS111.Models.Models.Business.PathwaySearch
 @model SearchJourneyViewModel
 @{
     Layout = "~/Views/Shared/_LayoutNhsUK.cshtml";
-    var searchResultHeading = string.Format("Sorry, there are no results for '{0}'. Try searching by topic instead.", Model.SanitisedSearchTerm);
+    var searchResultHeading = string.Format("Sorry, there are no results for '{0}'. Try searching by topic instead. If you can't find what you need, please call 111 now.", Model.SanitisedSearchTerm);
     if (Model.Results.Any())
     {
         searchResultHeading = string.Format("{0} topics found matching '{1}'", Model.Results.Count(), Model.SanitisedSearchTerm);
@@ -52,10 +53,11 @@
                     <div class="results-list">
                         <ul>
                             @foreach (var result in Model.Results) {
-                                var additionalTopics = result.HighlightedTitle != null ? result.HighlightedTitle.Skip(1) : new List<string>();
-                                var title = result.HighlightedTitle != null ? result.HighlightedTitle.First() : result.Title.First();
+                                var additionalTopics = result.DisplayTitle != null ? result.DisplayTitle.Skip(1) : new List<string>();
+                                var title = result.DisplayTitle != null ? result.DisplayTitle.First() : result.Title.First();
+                                var digitalTitle = PathwaySearchResult.StripHighlightMarkup(title);
                                 <li>
-                                    <a class="linkButton" data-title="@result.PathwayTitle" data-pathway-number="@result.PathwayNo" href="/@result.PathwayNo@result.Gender.First()@result.AgeGroup.First()/start?age=@Model.UserInfo.Demography.Age">@Html.Raw(title)</a>
+                                    <a class="linkButton" data-title="@result.PathwayTitle" data-pathway-number="@result.PathwayNo" href="/@result.PathwayNo@result.Gender.First()@result.AgeGroup.First()/start?age=@Model.UserInfo.Demography.Age&digitalTitle=@digitalTitle">@Html.Raw(title)</a>
                                     @if (additionalTopics.Any()) {
                                         <p class='additional-topics'>Also covers: @Html.Raw(string.Join(", ", additionalTopics))</p>
                                     }

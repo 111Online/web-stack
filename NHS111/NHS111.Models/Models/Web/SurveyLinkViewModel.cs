@@ -12,7 +12,7 @@ namespace NHS111.Models.Models.Web
 
         public string PathwayNo { get; set; }
 
-        public string PathwayTitle { get; set; }
+        public string DigitalTitle { get; set; }
 
         public string EndPathwayNo { get; set; }
 
