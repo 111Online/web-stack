@@ -59,7 +59,7 @@
     </label>
 </div>
 
-<a class="button button-next button-link" href="javascript:void(0);" id="manual-entry-link">I can't find my address in the list</a>
+<a class="button button-next button-link" href="javascript:void(0);" style="display: none;" id="manual-entry-link">I can't find my address in the list</a>
 
 <script type="text/javascript">
     var addressList = $.parseJSON($("#AddressInfoViewModel_AddressOptions").val());
@@ -71,6 +71,7 @@
         var selectOptions = $("#AddressInfoViewModel_SelectedAddressFromPicker option");
         if (selectOptions.length > 1) {
             $("#AddressList").show();
+            $("#manual-entry-link").show();
         } else {
             $("#manual-entry-link").hide();
             $("#AddressList").hide();
@@ -131,6 +132,7 @@
                         });
                         $("#no-results-message").hide();
                         $("#AddressList").show();
+                        $("#manual-entry-link").show();
                     } else {
                         $("#manual-entry-link").hide();
                         $("#AddressList").hide();
