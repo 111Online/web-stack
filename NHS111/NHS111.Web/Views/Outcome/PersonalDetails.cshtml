@@ -88,10 +88,10 @@
                 <label>
                     Date of birth
                 </label>
-                <div>@Html.ValidationMessageFor(m => m.UserInfo.Day, "Please enter a valid Day")</div>
-                <div>@Html.ValidationMessageFor(m => m.UserInfo.Month, "Please enter a valid Month")</div>
-                <div>@Html.ValidationMessageFor(m => m.UserInfo.Year, "Please enter a valid Year")</div>
-                <div>@Html.ValidationMessageFor(m => m.UserInfo.DoB, "Please enter a valid Date")</div>
+                <div>@Html.ValidationMessageFor(m => m.UserInfo.Day, "Please enter a valid day")</div>
+                <div>@Html.ValidationMessageFor(m => m.UserInfo.Month, "Please enter a valid month")</div>
+                <div>@Html.ValidationMessageFor(m => m.UserInfo.Year, "Please enter a valid year")</div>
+                <div>@Html.ValidationMessageFor(m => m.UserInfo.DoB, "Please enter a valid date")</div>
                 <label class="form-hint">
                     For example 18 4 1973
                 </label>
@@ -105,7 +105,7 @@
                 <label>
                     Contact number
                 </label>
-                <div>@Html.ValidationMessageFor(m => m.UserInfo.TelephoneNumber, "Please enter a valid Phone number")</div>
+                <div>@Html.ValidationMessageFor(m => m.UserInfo.TelephoneNumber, "Please enter a valid phone number")</div>
                 <div class="inline-details">
                     @Html.TextBoxFor(m => m.UserInfo.TelephoneNumber, new { @class = "form-control form-control-16-chars", placeholder = "Landline or mobile number", type = "tel" })
                 </div>
