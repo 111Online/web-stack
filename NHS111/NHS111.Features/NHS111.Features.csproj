@@ -73,6 +73,7 @@
     <Compile Include="FilterPathwaysByAgeFeature.cs" />
     <Compile Include="IFeature.cs" />
     <Compile Include="IoC\FeatureRegistry.cs" />
+    <Compile Include="ITKMessagingFeature.cs" />
     <Compile Include="PathwaysWhiteListFeature.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Providers\AppSettingValueProvider.cs" />

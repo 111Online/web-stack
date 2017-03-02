@@ -175,6 +175,10 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
+    <ProjectReference Include="..\NHS111.Features\NHS111.Features.csproj">
+      <Project>{bd9f2634-bada-43e6-b16d-522be17da255}</Project>
+      <Name>NHS111.Features</Name>
+    </ProjectReference>
     <ProjectReference Include="..\NHS111.Models\NHS111.Models.csproj">
       <Project>{4ccf3abd-92c4-4999-8520-c4aa7b36f48c}</Project>
       <Name>NHS111.Models</Name>
