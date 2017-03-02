@@ -19,7 +19,7 @@ namespace NHS111.Web.Controllers {
 
         public async Task<ActionResult> Search(string q, string gender, int age) {
             var ageGroup = new AgeCategory(age);
-            var response = await _restfulHelper.GetAsync(_configuration.GetBusinessApiPathwaySearchUrl(gender, ageGroup.Value, q));
+            var response = await _restfulHelper.GetAsync(_configuration.GetBusinessApiPathwaySearchUrl(gender, ageGroup.Value));
             var results = JsonConvert.DeserializeObject<List<SearchResultViewModel>>(response);
             return View(new SearchJourneyViewModel { Results = results });
         }
