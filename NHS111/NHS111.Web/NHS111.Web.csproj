@@ -247,6 +247,7 @@
     <Compile Include="IoC\StructuremapWebApi.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Views\Shared\AgeValidationView.cs" />
+    <Compile Include="Views\Shared\UserZoomView.cs" />
     <Compile Include="Views\Shared\QuestionView.cs" />
     <Compile Include="Views\Shared\DisclaimerView.cs" />
     <Compile Include="Views\Shared\LayoutView.cs" />

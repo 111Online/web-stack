@@ -1,4 +1,4 @@
-﻿@model NHS111.Models.Models.Web.OutcomeViewModel
+﻿@inherits NHS111.Web.Views.Shared.UserZoomView<NHS111.Models.Models.Web.OutcomeViewModel>
 
 @{
     var outcomeHeader = ViewData.ContainsKey("OutcomeHeader") ? ViewData["OutcomeHeader"] : (!string.IsNullOrEmpty(Model.DispositionText) ? Model.DispositionText : Model.OutcomeGroup.GetDefaultTitle());
@@ -8,3 +8,16 @@
         <h2 class="heading-large">@Html.Raw(outcomeHeader)</h2>
     </div>
 </section>
+@if (UserZoomSurveyFeature.IsEnabled)
+{
+    <script>
+        @{ var urlForUserZoom = string.Format("/outcome/{0}/{1}/{2}/disposition/", Url.Encode(Model.PathwayNo), Url.Encode(Model.OutcomeGroup.Text), Url.Encode(Model.Id)); }
+
+        $(document).ready(function () {
+            uztracker('send', 'page', {
+                'url': document.location.pathname + '@urlForUserZoom',
+                'title': '@Model.TitleWithoutBullets'
+            }, false);
+        });
+    </script>
+}
