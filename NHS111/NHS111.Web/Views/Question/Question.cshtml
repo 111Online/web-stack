@@ -1,7 +1,7 @@
 ﻿@using System.Reflection
 @using NHS111.Models.Models.Web
 @{ Layout = "~/Views/Shared/_LayoutNhsUk.cshtml"; }
-@inherits NHS111.Web.Views.Shared.DirectLinkingView<JourneyViewModel>
+@inherits NHS111.Web.Views.Shared.QuestionView<JourneyViewModel>
 
 <link href="~/content/css_NhsUk/question.css?@Assembly.GetCallingAssembly().GetName().Version.ToString()" media="screen" rel="stylesheet" type="text/css" />
 
@@ -35,7 +35,6 @@
 
         return "";
     }
-
 }
 
 @using (Html.BeginForm("Navigation", "Question", FormMethod.Post))
@@ -115,19 +114,17 @@
     }
 }
 <script type="text/javascript">
-
-
-    $(document).ready(function () {
+    $(document).ready(function() {
         //enable disable submit button
         if (!($("form input[type=radio]").is(':checked'))) {
             $("#nextScreen[type=submit]").attr('disabled', 'disabled');
         }
 
-        $("form input[type=radio]").change(function () {
+        $("form input[type=radio]").change(function() {
             $("button[type=submit]").removeAttr('disabled');
         });
 
-        $('.help-text-link').click(function () {
+        $('.help-text-link').click(function() {
             var $this = $(this);
             //$this.preventDefault();
 
@@ -135,6 +132,32 @@
             $helpTextLinkMessage.slideToggle("fast");
         });
     });
-
-
 </script>
+
+@if (UserZoomSurveyFeature.IsEnabled)
+{
+    <script>
+        @{ var urlForUserZoom = string.Format("/{0}/{1}/{2}/", Url.Encode(Model.PathwayId), Url.Encode(Model.PathwayTitle), Url.Encode(Model.QuestionNo)); }
+
+        $('button[type=submit]').click(function() {
+            uztracker('send', 'page', {
+                'url': document.location.pathname + '@urlForUserZoom',
+                'title': '@Model.TitleWithoutBullets'
+            }, false);
+
+            var answer = "";
+            var answerValue = $.parseJSON($("input[name='SelectedAnswer']:checked").val());
+
+            if (answerValue != null && answerValue.titleWithoutSpaces != undefined) {
+                answer = answerValue.titleWithoutSpaces;
+            }
+
+            uztracker('send', 'form', {
+                'questionId': '@Model.QuestionNo',
+                'questionTitle': '@Model.TitleWithoutBullets',
+                'answer': answer
+            });
+        });
+
+    </script>
+}

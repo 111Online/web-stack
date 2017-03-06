@@ -80,6 +80,7 @@
     <Compile Include="Providers\IFeatureSettingValueProvider.cs" />
     <Compile Include="Providers\MissingSettingException.cs" />
     <Compile Include="SurveyLinkFeature.cs" />
+    <Compile Include="UserZoomSurveyFeature.cs" />
     <Compile Include="Values\IFeatureValue.cs" />
     <Compile Include="Values\FeatureValue.cs" />
   </ItemGroup>

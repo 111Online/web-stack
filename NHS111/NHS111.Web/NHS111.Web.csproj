@@ -247,7 +247,7 @@
     <Compile Include="IoC\StructuremapWebApi.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Views\Shared\AgeValidationView.cs" />
-    <Compile Include="Views\Shared\DirectLinkingView.cs" />
+    <Compile Include="Views\Shared\QuestionView.cs" />
     <Compile Include="Views\Shared\DisclaimerView.cs" />
     <Compile Include="Views\Shared\LayoutView.cs" />
     <Compile Include="Views\Shared\SurveyLinkView.cs" />
@@ -812,6 +812,7 @@
     </Content>
     <Content Include="Service References\Application Insights\ConnectedService.json" />
     <Content Include="Views\Shared\_PageLoadingIndicator.cshtml" />
+    <Content Include="Views\Shared\_UserZoom.cshtml" />
     <None Include="Web.Development.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
