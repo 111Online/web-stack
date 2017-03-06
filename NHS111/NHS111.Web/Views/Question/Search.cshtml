@@ -32,7 +32,7 @@
     <div id="wrapper">
 
         <div class="content-container search-box">
-            <form action="/question/search/" method="GET">
+            <form action="/question/searchresults/" method="POST">
                 <input type="hidden" name="age" value="@Model.UserInfo.Demography.Age"/>
                 <input type="hidden" name="gender" value="@Model.UserInfo.Demography.Gender"/>
                 <h2>Search by symptom</h2>

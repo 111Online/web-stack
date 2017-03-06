@@ -67,8 +67,8 @@ namespace NHS111.Web.Controllers {
 
         }
 
-        [HttpGet]
-        public async Task<ActionResult> Search(string q, string gender, int age) {
+        [HttpPost]
+        public async Task<ActionResult> SearchResults(string q, string gender, int age) {
             var ageGroup = new AgeCategory(age);
 
             var ageGenderViewModel = new AgeGenderViewModel {Gender = gender, Age = age};
@@ -80,18 +80,18 @@ namespace NHS111.Web.Controllers {
             };
 
             if (string.IsNullOrEmpty(q))
-                return View(model);
+                return View("search", model);
 
-            var encodedTerm = Uri.EscapeDataString(model.SanitisedSearchTerm);
-            var response =
-                await
-                    _restfulHelper.GetAsync(_configuration.GetBusinessApiPathwaySearchUrl(gender, ageGroup.Value,
-                        encodedTerm));
+            var url = _configuration.GetBusinessApiPathwaySearchUrl(gender, ageGroup.Value);
+            var request = new HttpRequestMessage(HttpMethod.Post, new Uri(url)) {
+                Content = new StringContent(JsonConvert.SerializeObject(Uri.EscapeDataString(model.SanitisedSearchTerm)))
+            };
+            var response = await _restfulHelper.PostAsync(url, request);
             model.Results =
-                JsonConvert.DeserializeObject<List<SearchResultViewModel>>(response)
+                JsonConvert.DeserializeObject<List<SearchResultViewModel>>(await response.Content.ReadAsStringAsync())
                     .Take(MAX_SEARCH_RESULTS)
                     .Select(r => Transform(r, model.SanitisedSearchTerm));
-            return View(model);
+            return View("search", model);
         }
 
         private SearchResultViewModel Transform(SearchResultViewModel result, string searchTerm) {
@@ -189,7 +189,7 @@ namespace NHS111.Web.Controllers {
         [HttpPost]
         public async Task<JsonResult> PathwaySearch(string gender, int age, string searchTerm) {
             var ageGroup = new AgeCategory(age);
-            var response = await _restfulHelper.GetAsync(_configuration.GetBusinessApiPathwaySearchUrl(gender, ageGroup.Value, searchTerm));
+            var response = await _restfulHelper.GetAsync(_configuration.GetBusinessApiPathwaySearchUrl(gender, ageGroup.Value));
 
             return Json(response);
         }
