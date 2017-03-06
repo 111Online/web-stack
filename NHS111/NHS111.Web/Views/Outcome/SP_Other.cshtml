@@ -8,16 +8,7 @@
 
 <link href="~/Content/css_NhsUK/a-and-e.css" media="screen" rel="stylesheet" type="text/css" />
 
-    <div class="sub-header">
-        <div>
-            <div class="aande">+</div>
-            <h2>Thank you!</h2>
-         
-            <p> From your answers, we recommend you @Model.Title </p>
-            
-
-        </div>
-    </div>
+@Html.Partial("_OutcomeHeader", Model, new ViewDataDictionary() { { "OutcomeHeader", string.Format("From your answers, we recommend you {0}", Model.Title) } })
 
 @section HeadTop {
 @{ var url = string.Format("/outcome/{0}/{1}/{2}/disposition/", Url.Encode(Model.PathwayNo), Url.Encode(Model.OutcomeGroup.Text), Url.Encode(Model.Id)); }

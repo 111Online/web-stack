@@ -31,7 +31,7 @@
     }
 }
 
-@Html.Partial("_OutcomeHeader", new ViewDataDictionary() { { "OutcomeHeader", string.Format("Your answers suggest you need urgent medical attention within {0}", Model.TimeFrameText) } })
+@Html.Partial("_OutcomeHeader", Model, new ViewDataDictionary() { { "OutcomeHeader", string.Format("Your answers suggest you need urgent medical attention within {0}", Model.TimeFrameText) } })
 
 @{
     var dataDictionary = ViewContext.ViewData;

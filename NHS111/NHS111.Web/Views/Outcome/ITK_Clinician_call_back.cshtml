@@ -32,7 +32,7 @@
     }
 }
 
-@Html.Partial("_OutcomeHeader", new ViewDataDictionary() { { "OutcomeHeader", "Your answers suggest that you need a 111 clinician to call you" }})
+@Html.Partial("_OutcomeHeader", Model, new ViewDataDictionary() { { "OutcomeHeader", "Your answers suggest that you need a 111 clinician to call you" }})
 
 <div class="itk-message">
     <ul>

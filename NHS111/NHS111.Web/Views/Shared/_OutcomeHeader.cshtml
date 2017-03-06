@@ -11,12 +11,20 @@
 @if (UserZoomSurveyFeature.IsEnabled)
 {
     <script>
-        @{ var urlForUserZoom = string.Format("/outcome/{0}/{1}/{2}/disposition/", Url.Encode(Model.PathwayNo), Url.Encode(Model.OutcomeGroup.Text), Url.Encode(Model.Id)); }
+        @{
+            var urlForUserZoom = "";
+            
+            if (Model != null)
+            {
+                var outcomeGroup = Model.OutcomeGroup == null ? "NoGroup" : Url.Encode(Model.OutcomeGroup.Text);
+                urlForUserZoom = string.Format("/outcome/{0}/{1}/{2}/disposition/", Url.Encode(Model.PathwayNo), outcomeGroup, Url.Encode(Model.Id));
+            }
+        }
 
         $(document).ready(function () {
             uztracker('send', 'page', {
                 'url': document.location.pathname + '@urlForUserZoom',
-                'title': '@Model.TitleWithoutBullets'
+                'title': '@outcomeHeader'
             }, false);
         });
     </script>
