@@ -48,3 +48,23 @@
         <input class="button previous-question" id="previousScreen" type="submit" name="PreviousQuestion" value="Previous question" />
     }
 }
+
+@if (UserZoomSurveyFeature.IsEnabled)
+{
+    <script>
+        @{ var urlForUserZoom = string.Format("/{0}/{1}/{2}/", Url.Encode(Model.PathwayId), Url.Encode(Model.PathwayTitle), Url.Encode(Model.QuestionNo)); }
+
+        $('button[type=submit]').click(function () {
+            uztracker('send', 'page', {
+                'url': document.location.pathname + '@urlForUserZoom',
+                'title': '@Model.QuestionNo'
+            }, false);
+
+            uztracker('send', 'form', {
+                'questionId': '@Model.QuestionNo',
+                'questionTitle': 'No question',
+                'answer': 'No answer'
+            });
+        });
+    </script>
+}
