@@ -37,7 +37,7 @@ namespace NHS111.Business.Services
         public async Task<List<PathwaySearchResult>> FindResults(string query, bool highlight, bool score)
         {
             var res = await _elastic.SearchAsync<PathwaySearchResult>(s =>
-                    BuildPathwaysTextQuery(s.Index("pathways"), query)
+                    BuildPathwaysTextQuery(s.Index("pathways"), Uri.UnescapeDataString(query))
                 );
 
             var highlightedResults = BuildHighlights(res.Hits, highlight);
@@ -48,7 +48,7 @@ namespace NHS111.Business.Services
         public async Task<List<PathwaySearchResult>> FindResults(string query, string gender, string ageGroup, bool highlight, bool score)
         {
             var res = await _elastic.SearchAsync<PathwaySearchResult>(s =>
-                AddAgeGenderFilters(BuildPathwaysTextQuery(s.Index("pathways"), query), gender, ageGroup));
+                AddAgeGenderFilters(BuildPathwaysTextQuery(s.Index("pathways"), Uri.UnescapeDataString(query)), gender, ageGroup));
 
             var highlightedResults = BuildHighlights(res.Hits, highlight);
             
