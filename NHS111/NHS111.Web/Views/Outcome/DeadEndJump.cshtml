@@ -1,5 +1,5 @@
 ﻿@using NHS111.Models.Models.Web
-@inherits NHS111.Web.Views.Shared.SurveyLinkView<OutcomeViewModel>
+@inherits NHS111.Web.Views.Shared.UnusualOutcomeView<OutcomeViewModel>
 @{ Layout = "~/Views/Shared/_LayoutNhsUk.cshtml"; }
 
 <link href="~/content/css_NhsUk/question.css" media="screen" rel="stylesheet" type="text/css" />
@@ -43,23 +43,34 @@
 <script type="text/javascript">
 
 
-    $(document).ready(function () {
+    $(document).ready(function() {
 
         //enable disable submit button
         $("#nextScreen[type=submit]").attr('disabled', 'disabled');
 
-        $("form label").click(function () {
+        $("form label").click(function() {
             $("button[type=submit]").removeAttr('disabled');
         });
 
-        $("form input[type=radio]").click(function () {
+        $("form input[type=radio]").click(function() {
             $("button[type=submit]").removeAttr('disabled');
         });
-
-
 
 
     });
 
 
 </script>
+@if (UserZoomSurveyFeature.IsEnabled)
+{
+    <script>
+        @{ var urlForUserZoom = string.Format("/deadendjump/{0}/", Url.Encode(Model.PathwayNo)); }
+
+        $(document).ready(function () {
+            uztracker('send', 'page', {
+                'url': document.location.pathname + '@urlForUserZoom',
+                'title': '@Model.TitleWithoutBullets'
+            }, false);
+        });
+    </script>
+}
