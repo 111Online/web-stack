@@ -141,7 +141,7 @@
 
         $('button[type=submit]').click(function() {
             uztracker('send', 'page', {
-                'url': document.location.pathname + '@urlForUserZoom',
+                'url': document.location.href + '@urlForUserZoom',
                 'title': '@Model.TitleWithoutBullets'
             }, false);
 
@@ -153,9 +153,7 @@
             }
 
             uztracker('send', 'form', {
-                'questionId': '@Model.QuestionNo',
-                'questionTitle': '@Model.TitleWithoutBullets',
-                'answer': answer
+                'id': answer
             });
         });
     </script>
