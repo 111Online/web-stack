@@ -145,16 +145,6 @@
                 'title': '@Model.TitleWithoutBullets'
             }, false);
 
-            var answer = "";
-            var answerValue = $.parseJSON($("input[name='SelectedAnswer']:checked").val());
-
-            if (answerValue != null && answerValue.titleWithoutSpaces != undefined) {
-                answer = answerValue.titleWithoutSpaces;
-            }
-
-            uztracker('send', 'form', {
-                'id': answer
-            });
         });
     </script>
 }

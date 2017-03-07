@@ -56,7 +56,7 @@
 
         $('button[type=submit]').click(function () {
             uztracker('send', 'page', {
-                'url': document.location.pathname + '@urlForUserZoom',
+                'url': document.location.href + '@urlForUserZoom',
                 'title': '@Model.QuestionNo'
             }, false);
         });
