@@ -139,7 +139,7 @@
     <script>
         @{ var urlForUserZoom = string.Format("/{0}/{1}/{2}/", Url.Encode(Model.PathwayId), Url.Encode(Model.PathwayTitle), Url.Encode(Model.QuestionNo)); }
 
-        $('button[type=submit]').click(function() {
+        $(document).ready(function () {
             uztracker('send', 'page', {
                 'url': document.location.href + '@urlForUserZoom',
                 'title': '@Model.TitleWithoutBullets'
