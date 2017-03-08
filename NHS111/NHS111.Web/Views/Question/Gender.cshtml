@@ -1,6 +1,6 @@
 ﻿@using System.Reflection
 @using NHS111.Models.Models.Web
-@model JourneyViewModel
+@inherits NHS111.Web.Views.Shared.UserZoomView<JourneyViewModel>
 @{
     Layout = "~/Views/Shared/_LayoutNhsUK.cshtml";
 }
@@ -22,4 +22,16 @@
     <hr />
 
     <input class="button button-next" id="submitGender" type="submit" name="Slider" value="Next" />
+}
+
+@if (UserZoomSurveyFeature.IsEnabled)
+{
+    <script>
+        $(document).ready(function () {
+            uztracker('send', 'page', {
+                'url': document.location.href,
+                'title': 'Gender'
+            });
+        });
+    </script>
 }

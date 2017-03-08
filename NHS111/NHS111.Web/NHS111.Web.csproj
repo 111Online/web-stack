@@ -250,7 +250,7 @@
     <Compile Include="Views\Shared\UnusualOutcomeView.cs" />
     <Compile Include="Views\Shared\UserZoomView.cs" />
     <Compile Include="Views\Shared\QuestionView.cs" />
-    <Compile Include="Views\Shared\DisclaimerView.cs" />
+    <Compile Include="Views\Shared\SiteEntrypointView.cs" />
     <Compile Include="Views\Shared\LayoutView.cs" />
     <Compile Include="Views\Shared\SurveyLinkView.cs" />
   </ItemGroup>

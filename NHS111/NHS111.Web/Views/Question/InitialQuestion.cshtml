@@ -58,8 +58,8 @@
     <button class="button button-next" id="nextScreen" type="submit" name="Question" value="Question">Next</button>
 }
 <script type="text/javascript">
-    $(document).ready(function () {
-        $('.help-text-link').click(function () {
+    $(document).ready(function() {
+        $('.help-text-link').click(function() {
             var $this = $(this);
 
             var $helpTextLinkMessage = $this.parent().parent().next('.help-text-link-message');
@@ -67,3 +67,15 @@
         });
     });
 </script>
+
+@if (UserZoomSurveyFeature.IsEnabled)
+{
+    <script>
+        $(document).ready(function () {
+            uztracker('send', 'page', {
+                'url': document.location.href,
+                'title': 'Initial Question'
+            });
+        });
+    </script>
+}
