@@ -2,16 +2,14 @@
 
 namespace NHS111.Web.Views.Shared {
     public class LayoutView
-        : DisclaimerPopupView {
+        : SiteEntrypointView {
 
         public IDisclaimerBannerFeature DisclaimerBannerFeature { get; set; }
         public ICookieBannerFeature CookieBannerFeature { get; set; }
-        public IUserZoomSurveyFeature UserZoomSurveyFeature { get; set; }
 
         public LayoutView() {
             DisclaimerBannerFeature = new DisclaimerBannerFeature();
             CookieBannerFeature = new CookieBannerFeature();
-            UserZoomSurveyFeature = new UserZoomSurveyFeature();
         }
     }
 }
