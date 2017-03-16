@@ -1,20 +1,18 @@
 ﻿
 using NHS111.Features;
+using NHS111.Models.Models.Web;
 
 namespace NHS111.Web.Views.Shared {
-    using System.Web.Mvc;
-    using Models.Models.Web;
 
     public class SiteEntrypointView
-        : WebViewPage<JourneyViewModel> {
+        : BaseView<JourneyViewModel>
+    {
 
         public IDisclaimerPopupFeature DisclaimerPopupFeature { get; set; }
-        public IUserZoomSurveyFeature UserZoomSurveyFeature { get; set; }
 
         public SiteEntrypointView()
         {
             DisclaimerPopupFeature = new DisclaimerPopupFeature();
-            UserZoomSurveyFeature = new UserZoomSurveyFeature();
         }
 
         public override void Execute() { }

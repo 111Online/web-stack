@@ -1,4 +1,4 @@
-﻿@inherits NHS111.Web.Views.Shared.UserZoomView<NHS111.Models.Models.Web.OutcomeViewModel>
+﻿@inherits NHS111.Web.Views.Shared.BaseView<NHS111.Models.Models.Web.OutcomeViewModel>
 
 @{
     var outcomeHeader = ViewData.ContainsKey("OutcomeHeader") ? ViewData["OutcomeHeader"] : (!string.IsNullOrEmpty(Model.DispositionText) ? Model.DispositionText : Model.OutcomeGroup.GetDefaultTitle());
