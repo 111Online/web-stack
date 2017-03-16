@@ -12,10 +12,18 @@ namespace NHS111.Utils.Filters
     using Models.Models.Web;
     using Models.Models.Web.Logging;
     using Newtonsoft.Json;
+    using System.Collections.Generic;
 
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method, Inherited = true, AllowMultiple = true)]
     public class LogJourneyFilterAttribute : ActionFilterAttribute
     {
+        private readonly List<string> _manuallyTriggeredAuditList = new List<string>
+        {
+            "ServiceDetails",
+            "ServiceList",
+            "Confirmation"
+        };
+
         public override void OnActionExecuted(ActionExecutedContext filterContext)
         {
             var result = filterContext.Result as ViewResultBase;
@@ -26,9 +34,8 @@ namespace NHS111.Utils.Filters
             if (model == null) 
                 return;
 
-            if (filterContext.RouteData.Values["controller"].Equals("Outcome") &&
-                filterContext.RouteData.Values["action"].Equals("ServiceDetails"))
-                return; //we don't want a blank audit for dos requests
+            if (filterContext.RouteData.Values["controller"].Equals("Outcome") && _manuallyTriggeredAuditList.Contains(filterContext.RouteData.Values["action"]))
+                return; //we don't want to audit where audit has already been maually triggerred in code
 
                 LogAudit(model);
         }

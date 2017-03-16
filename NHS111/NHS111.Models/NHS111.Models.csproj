@@ -249,6 +249,7 @@
     <Compile Include="Models\Web\Enums\NodeType.cs" />
     <Compile Include="Models\Web\KeywordBag.cs" />
     <Compile Include="Models\Web\Logging\AuditedDosRequest.cs" />
+    <Compile Include="Models\Web\Logging\AuditedItkRequest.cs" />
     <Compile Include="Models\Web\Logging\AuditEntry.cs" />
     <Compile Include="Models\Web\Logging\AuditViewModel.cs" />
     <Compile Include="Models\Web\Logging\LogEntry.cs" />

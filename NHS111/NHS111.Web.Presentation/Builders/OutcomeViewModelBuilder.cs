@@ -13,9 +13,12 @@ using NHS111.Models.Models.Domain;
 using NHS111.Models.Models.Web;
 using NHS111.Models.Models.Web.FromExternalServices;
 using NHS111.Models.Models.Web.ITK;
+using NHS111.Models.Models.Web.Logging;
 using NHS111.Utils.Cache;
+using NHS111.Utils.Filters;
 using NHS111.Utils.Helpers;
 using NHS111.Utils.Logging;
+using NHS111.Web.Presentation.Logging;
 using IConfiguration = NHS111.Web.Presentation.Configuration.IConfiguration;
 
 namespace NHS111.Web.Presentation.Builders
@@ -30,8 +33,11 @@ namespace NHS111.Web.Presentation.Builders
         private readonly IKeywordCollector _keywordCollector;
         private readonly IJourneyHistoryWrangler _journeyHistoryWrangler;
         private readonly ISurveyLinkViewModelBuilder _surveyLinkViewModelBuilder;
+        private readonly IAuditLogger _auditLogger;
 
-        public OutcomeViewModelBuilder(ICareAdviceBuilder careAdviceBuilder, IRestfulHelper restfulHelper, IConfiguration configuration, IMappingEngine mappingEngine, IKeywordCollector keywordCollector, IJourneyHistoryWrangler journeyHistoryWrangler, ISurveyLinkViewModelBuilder surveyLinkViewModelBuilder)
+
+        public OutcomeViewModelBuilder(ICareAdviceBuilder careAdviceBuilder, IRestfulHelper restfulHelper, IConfiguration configuration, IMappingEngine mappingEngine, IKeywordCollector keywordCollector,
+            IJourneyHistoryWrangler journeyHistoryWrangler, ISurveyLinkViewModelBuilder surveyLinkViewModelBuilder, IAuditLogger auditLogger)
         {
             _careAdviceBuilder = careAdviceBuilder;
             _restfulHelper = restfulHelper;
@@ -40,6 +46,7 @@ namespace NHS111.Web.Presentation.Builders
             _keywordCollector = keywordCollector;
             _journeyHistoryWrangler = journeyHistoryWrangler;
             _surveyLinkViewModelBuilder = surveyLinkViewModelBuilder;
+            _auditLogger = auditLogger;
         }
 
         public async Task<List<AddressInfoViewModel>> SearchPostcodeBuilder(string input)
@@ -167,6 +174,7 @@ namespace NHS111.Web.Presentation.Builders
         private ITKDispatchRequest CreateItkDispatchRequest(OutcomeViewModel model)
         {
             var itkRequestData = _mappingEngine.Mapper.Map<OutcomeViewModel, ITKDispatchRequest>(model);
+            //AuditItkRequest(model, itkRequestData);
             itkRequestData.Authentication = getItkAuthentication();
             return itkRequestData;
         }
@@ -176,6 +184,21 @@ namespace NHS111.Web.Presentation.Builders
             model.CareAdvices = await _careAdviceBuilder.FillCareAdviceBuilder(model.UserInfo.Demography.Age, model.UserInfo.Demography.Gender, model.CareAdviceMarkers.ToList());
             return model;
         }
+
+        //private void AuditItkRequest(OutcomeViewModel model, ITKDispatchRequest itkRequest)
+        //{
+        //    var audit = model.ToAuditEntry();
+        //    var auditedItkViewModel = Mapper.Map<AuditedItkRequest>(itkRequest);
+        //    audit.ItkRequest = JsonConvert.SerializeObject(auditedItkViewModel);
+        //    _auditLogger.Log(audit);
+        //}
+
+        //private void AuditItKResponse(OutcomeViewModel model)
+        //{
+        //    var audit = model.ToAuditEntry();
+        //    audit.DosResponse = JsonConvert.SerializeObject(model.DosCheckCapacitySummaryResult);
+        //    _auditLogger.Log(audit);
+        //}
 
     }
 
