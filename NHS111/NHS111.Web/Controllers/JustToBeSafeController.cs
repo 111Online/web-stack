@@ -41,13 +41,8 @@ namespace NHS111.Web.Controllers
         }
 
         [HttpGet]
-        [Route("{pathwayId}/start")]
-        public async Task<ActionResult> PathwayStart(string pathwayId, int age, string digitalTitle) {
-            string pathwayNumber;
-            Gender gender;
-            AgeCategory ageCategory;
-            if (!PathwayIdParser.TryParse(pathwayId, out pathwayNumber, out gender, out ageCategory))
-                throw new ArgumentException("Unable to parse age and gender from Pathway id " + pathwayId);
+        [Route("{pathwayNumber}/{gender}/{age}/start")]
+        public async Task<ActionResult> PathwayStart(string pathwayNumber, string gender, int age, string digitalTitle) {
 
             var model = new JustToBeSafeViewModel {
                 PathwayNo = pathwayNumber,
@@ -55,7 +50,7 @@ namespace NHS111.Web.Controllers
                 UserInfo = new UserInfo {
                     Demography = new AgeGenderViewModel {
                         Age = age,
-                        Gender = gender.Value
+                        Gender = gender
                     }
                 }
             };
