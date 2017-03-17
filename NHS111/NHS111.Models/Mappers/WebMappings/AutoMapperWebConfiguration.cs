@@ -16,7 +16,7 @@ namespace NHS111.Models.Mappers.WebMappings
                 cfg.AddProfile(new FromOutcomeViewModelToSubmitEncounterToServiceRequest());
                 cfg.AddProfile(new FromOutcomeVIewModelToITKDispatchRequest());
                 cfg.AddProfile(new FromDosCaseToDosServicesByClinicalTermRequest());
-                cfg.CreateMap<DosViewModel, AuditedDosRequest>();
+                cfg.AddProfile(new AuditedModelMappers());
             });
         }
     }

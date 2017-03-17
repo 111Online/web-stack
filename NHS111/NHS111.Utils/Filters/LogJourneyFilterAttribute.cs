@@ -21,6 +21,7 @@ namespace NHS111.Utils.Filters
         {
             "ServiceDetails",
             "ServiceList",
+            "PersonalDetails",
             "Confirmation"
         };
 

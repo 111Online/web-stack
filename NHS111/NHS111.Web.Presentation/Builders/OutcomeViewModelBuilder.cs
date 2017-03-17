@@ -127,7 +127,9 @@ namespace NHS111.Web.Presentation.Builders
         public async Task<OutcomeViewModel> ItkResponseBuilder(OutcomeViewModel model)
         {
             var itkRequestData = CreateItkDispatchRequest(model);
+            AuditItkRequest(model, itkRequestData);
             var response = await SendItkMessage(itkRequestData);
+            AuditItKResponse(model, response);
             if (response.IsSuccessStatusCode)
             {
                 model.ItkSendSuccess = true;
@@ -174,7 +176,6 @@ namespace NHS111.Web.Presentation.Builders
         private ITKDispatchRequest CreateItkDispatchRequest(OutcomeViewModel model)
         {
             var itkRequestData = _mappingEngine.Mapper.Map<OutcomeViewModel, ITKDispatchRequest>(model);
-            //AuditItkRequest(model, itkRequestData);
             itkRequestData.Authentication = getItkAuthentication();
             return itkRequestData;
         }
@@ -185,20 +186,21 @@ namespace NHS111.Web.Presentation.Builders
             return model;
         }
 
-        //private void AuditItkRequest(OutcomeViewModel model, ITKDispatchRequest itkRequest)
-        //{
-        //    var audit = model.ToAuditEntry();
-        //    var auditedItkViewModel = Mapper.Map<AuditedItkRequest>(itkRequest);
-        //    audit.ItkRequest = JsonConvert.SerializeObject(auditedItkViewModel);
-        //    _auditLogger.Log(audit);
-        //}
+        private void AuditItkRequest(OutcomeViewModel model, ITKDispatchRequest itkRequest)
+        {
+            var audit = model.ToAuditEntry();
+            var auditedItkRequest = Mapper.Map<AuditedItkRequest>(itkRequest);
+            audit.ItkRequest = JsonConvert.SerializeObject(auditedItkRequest);
+            _auditLogger.Log(audit);
+        }
 
-        //private void AuditItKResponse(OutcomeViewModel model)
-        //{
-        //    var audit = model.ToAuditEntry();
-        //    audit.DosResponse = JsonConvert.SerializeObject(model.DosCheckCapacitySummaryResult);
-        //    _auditLogger.Log(audit);
-        //}
+        private void AuditItKResponse(OutcomeViewModel model, HttpResponseMessage response)
+        {
+            var audit = model.ToAuditEntry();
+            var auditedItkResponse = Mapper.Map<AuditedItkResponse>(response);
+            audit.ItkResponse = JsonConvert.SerializeObject(auditedItkResponse);
+            _auditLogger.Log(audit);
+        }
 
     }
 

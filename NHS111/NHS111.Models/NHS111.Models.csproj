@@ -163,6 +163,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Mappers\StaticTextToHtml.cs" />
+    <Compile Include="Mappers\WebMappings\AuditedModelMappers.cs" />
     <Compile Include="Mappers\WebMappings\AutoMapperWebConfiguration.cs" />
     <Compile Include="Mappers\WebMappings\FromDosCaseToDosServicesByClinicalTermRequest.cs" />
     <Compile Include="Mappers\WebMappings\FromOutcomeViewModelToDosViewModel.cs" />
@@ -250,6 +251,7 @@
     <Compile Include="Models\Web\KeywordBag.cs" />
     <Compile Include="Models\Web\Logging\AuditedDosRequest.cs" />
     <Compile Include="Models\Web\Logging\AuditedItkRequest.cs" />
+    <Compile Include="Models\Web\Logging\AuditedItkResponse.cs" />
     <Compile Include="Models\Web\Logging\AuditEntry.cs" />
     <Compile Include="Models\Web\Logging\AuditViewModel.cs" />
     <Compile Include="Models\Web\Logging\LogEntry.cs" />
