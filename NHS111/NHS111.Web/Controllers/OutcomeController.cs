@@ -192,6 +192,7 @@ namespace NHS111.Web.Controllers {
 
         private void AuditDosResponse(OutcomeViewModel model) {
             var audit = model.ToAuditEntry();
+            var auditedDosResponse = Mapper.Map<AuditedDosResponse>(model.DosCheckCapacitySummaryResult);
             audit.DosResponse = JsonConvert.SerializeObject(model.DosCheckCapacitySummaryResult);
             _auditLogger.Log(audit);
         }

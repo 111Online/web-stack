@@ -15,6 +15,8 @@ namespace NHS111.Models.Mappers.WebMappings
             Mapper.CreateMap<ITKDispatchRequest, AuditedItkRequest>();
 
             Mapper.CreateMap<HttpResponseMessage, AuditedItkResponse>();
+
+            Mapper.CreateMap<DosCheckCapacitySummaryResult, AuditedDosResponse>();
         }
     }
 }
