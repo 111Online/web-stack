@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using NHS111.Models.Models.Web;
+using NHS111.Models.Models.Web.FromExternalServices;
 using NHS111.Models.Models.Web.ITK;
 using NHS111.Models.Models.Web.Logging;
 using System.Net.Http;
