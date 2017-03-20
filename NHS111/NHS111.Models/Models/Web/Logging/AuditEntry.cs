@@ -18,7 +18,8 @@ namespace NHS111.Models.Models.Web.Logging
         private string _eventData = string.Empty;
         private string _dosRequest = string.Empty;
         private string _dosResponse = string.Empty;
-
+        private string _itkRequest = string.Empty;
+        private string _itkResponse = string.Empty;
 
         [JsonProperty(PropertyName = "sessionId")]
         public Guid SessionId { get; set; }
@@ -64,5 +65,19 @@ namespace NHS111.Models.Models.Web.Logging
 
         [JsonProperty(PropertyName = "dosResponse")]
         public string DosResponse { get { return _dosResponse; } set { _dosResponse = value; } }
+
+        [JsonProperty(PropertyName = "itkRequest")]
+        public string ItkRequest
+        {
+            get { return _itkRequest; }
+            set { _itkRequest = value; }
+        }
+
+        [JsonProperty(PropertyName = "itkResponse")]
+        public string ItkResponse
+        {
+            get { return _itkResponse; }
+            set { _itkResponse = value; }
+        }
     }
 }

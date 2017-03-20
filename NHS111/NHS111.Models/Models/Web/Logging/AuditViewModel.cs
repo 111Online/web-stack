@@ -18,7 +18,6 @@ namespace NHS111.Models.Models.Web.Logging {
         private string _dosRequest = string.Empty;
         private string _dosResponse = string.Empty;
 
-
         [JsonProperty(PropertyName = "sessionId")]
         public Guid SessionId { get; set; }
 
@@ -99,6 +98,8 @@ namespace NHS111.Models.Models.Web.Logging {
             get { return _dosResponse; }
             set { _dosResponse = value; }
         }
+
+        
     }
 
     public static class AuditViewModelExtensions {
