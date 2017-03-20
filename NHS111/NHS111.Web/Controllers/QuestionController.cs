@@ -76,7 +76,8 @@ namespace NHS111.Web.Controllers {
             var model = new SearchJourneyViewModel {
                 SanitisedSearchTerm = q.Trim(),
                 UserInfo = new UserInfo {Demography = ageGenderViewModel},
-                AllTopics = topicsContainingStartingPathways
+                AllTopics = topicsContainingStartingPathways,
+                EntrySearchTerm = q
             };
 
             if (string.IsNullOrEmpty(q))
