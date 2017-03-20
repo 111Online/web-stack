@@ -65,16 +65,3 @@
         });
     });
 </script>
-@if (UserZoomSurveyFeature.IsEnabled)
-{
-    <script>
-        @{ var urlForUserZoom = string.Format("/selectionjump/{0}/", Url.Encode(Model.PathwayNo)); }
-
-    $(document).ready(function () {
-        uztracker('send', 'page', {
-            'url': document.location.href + '@urlForUserZoom',
-            'title': '@Model.TitleWithoutBullets'
-        });
-    });
-    </script>
-}

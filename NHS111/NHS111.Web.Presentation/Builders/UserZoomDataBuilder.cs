@@ -8,12 +8,9 @@ namespace NHS111.Web.Presentation.Builders
     {
         public void SetFieldsForQuestion(JourneyViewModel model)
         {
-            UrlHelper urlHelper = new UrlHelper(HttpContext.Current.Request.RequestContext);
-
             var title = model.TitleWithoutBullets;
-            var url = string.Format("{0}/{1}/{2}/", urlHelper.Encode(model.PathwayId), urlHelper.Encode(model.PathwayTitle), urlHelper.Encode(model.QuestionNo));
 
-            SetUserZoomFields(title, url, model);
+            SetUserZoomFields(title, GetQuestioNUrl(model), model);
         }
 
         public void SetFieldsForOutcome(JourneyViewModel model)
@@ -21,7 +18,7 @@ namespace NHS111.Web.Presentation.Builders
             UrlHelper urlHelper = new UrlHelper(HttpContext.Current.Request.RequestContext);
 
             var outcomeGroup = model.OutcomeGroup == null ? "NoGroup" : urlHelper.Encode(model.OutcomeGroup.Text);
-            var url = string.Format("/outcome/{0}/{1}/{2}/disposition/", urlHelper.Encode(model.PathwayNo), outcomeGroup, urlHelper.Encode(model.Id));
+            var url = string.Format("outcome/{0}/{1}/{2}/disposition/", urlHelper.Encode(model.PathwayNo), outcomeGroup, urlHelper.Encode(model.Id));
 
             SetUserZoomFields("title", url, model);
         }
@@ -34,6 +31,18 @@ namespace NHS111.Web.Presentation.Builders
         public void SetFieldsForSearchResults(SearchJourneyViewModel model)
         {
             SetUserZoomFields("Search Results", "SearchResults", model);
+        }
+
+        public void SetFieldsForCareAdvice(JourneyViewModel model)
+        {
+            SetUserZoomFields(model.QuestionNo, GetQuestioNUrl(model), model);
+        }
+
+        private static string GetQuestioNUrl(JourneyViewModel model)
+        {
+            UrlHelper urlHelper = new UrlHelper(HttpContext.Current.Request.RequestContext);
+
+            return string.Format("{0}/{1}/{2}/", urlHelper.Encode(model.PathwayId), urlHelper.Encode(model.PathwayTitle), urlHelper.Encode(model.QuestionNo));
         }
 
         private static void SetUserZoomFields(string title, string url, JourneyViewModel model)
@@ -49,5 +58,6 @@ namespace NHS111.Web.Presentation.Builders
         void SetFieldsForOutcome(JourneyViewModel model);
         void SetFieldsForSearch(SearchJourneyViewModel model);
         void SetFieldsForSearchResults(SearchJourneyViewModel model);
+        void SetFieldsForCareAdvice(JourneyViewModel model);
     }
 }

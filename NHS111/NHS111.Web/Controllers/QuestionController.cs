@@ -241,10 +241,13 @@ namespace NHS111.Web.Controllers {
                     }
                     throw new ArgumentOutOfRangeException(string.Format("Outcome group {0} for outcome {1} has no view configured", model.OutcomeGroup.ToString(), model.Id));
                 case NodeType.DeadEndJump:
+                    _userZoomDataBuilder.SetFieldsForOutcome(model);
                     return "../Outcome/DeadEndJump";
                 case NodeType.PathwaySelectionJump:
+                    _userZoomDataBuilder.SetFieldsForOutcome(model);
                     return "../Outcome/PathwaySelectionJump";
                 case NodeType.CareAdvice:
+                    _userZoomDataBuilder.SetFieldsForCareAdvice(model);
                     return "../Question/InlineCareAdvice";
                 case NodeType.Question:
                 default:
