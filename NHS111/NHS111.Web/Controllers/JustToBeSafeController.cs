@@ -41,11 +41,12 @@ namespace NHS111.Web.Controllers
 
         [HttpGet]
         [Route("{pathwayNumber}/{gender}/{age}/start")]
-        public async Task<ActionResult> PathwayStart(string pathwayNumber, string gender, int age, string digitalTitle) {
+        public async Task<ActionResult> PathwayStart(string pathwayNumber, string gender, int age, string digitalTitle, string entrySearchTerm) {
 
             var model = new JustToBeSafeViewModel {
                 PathwayNo = pathwayNumber,
                 DigitalTitle = digitalTitle,
+                EntrySearchTerm = entrySearchTerm,
                 UserInfo = new UserInfo {
                     Demography = new AgeGenderViewModel {
                         Age = age,

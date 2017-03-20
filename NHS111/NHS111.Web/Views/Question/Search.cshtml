@@ -57,7 +57,7 @@
                                 var title = result.DisplayTitle != null ? result.DisplayTitle.First() : result.Title.First();
                                 var digitalTitle = PathwaySearchResult.StripHighlightMarkup(title);
                                 <li>
-                                    <a class="linkButton" data-title="@result.PathwayTitle" data-pathway-number="@result.PathwayNo" href="/@result.PathwayNo/@Model.UserInfo.Demography.Gender/@Model.UserInfo.Demography.Age/start?age=@Model.UserInfo.Demography.Age&digitalTitle=@digitalTitle">@Html.Raw(title)</a>
+                                    <a class="linkButton" data-title="@result.PathwayTitle" data-pathway-number="@result.PathwayNo" href="/@result.PathwayNo/@Model.UserInfo.Demography.Gender/@Model.UserInfo.Demography.Age/start?age=@Model.UserInfo.Demography.Age&digitalTitle=@digitalTitle&entrySearchTerm=@Model.SanitisedSearchTerm">@Html.Raw(title)</a>
                                     @if (additionalTopics.Any()) {
                                         <p class='additional-topics'>Also covers: @Html.Raw(string.Join(", ", additionalTopics))</p>
                                     }
