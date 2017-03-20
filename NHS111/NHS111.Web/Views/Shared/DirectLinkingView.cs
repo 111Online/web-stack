@@ -1,13 +1,14 @@
-﻿using NHS111.Features;
+﻿using System.Web.Mvc;
+using NHS111.Features;
 
 namespace NHS111.Web.Views.Shared
 {
-    public class QuestionView<T>
-        : BaseView<T>
+    public class DirectLinkingView<T>
+        : WebViewPage<T>
     {
         protected readonly IDirectLinkingFeature DirectLinkingFeature;
 
-        public QuestionView()
+        public DirectLinkingView()
         {
             DirectLinkingFeature = new DirectLinkingFeature();
         }

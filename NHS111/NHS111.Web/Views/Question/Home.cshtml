@@ -3,7 +3,7 @@
 @{
     Layout = "~/Views/Shared/_LayoutNhsUK.cshtml";
 }
-@inherits NHS111.Web.Views.Shared.SiteEntrypointView
+@inherits NHS111.Web.Views.Shared.DisclaimerPopupView
 
 @section Title {NHS 111}
 
@@ -64,18 +64,6 @@
         </p>
     }
 </div>
-
-@if (UserZoomSurveyFeature.IsEnabled)
-{
-    <script>
-        $(document).ready(function () {
-            uztracker('send', 'page', {
-                'url': document.location.href + '/Home',
-                'title': 'Home'
-            });
-        });
-    </script>
-}
 
 @section FeedbackSection {
     @Html.Partial("_FeedbackDetails", new FeedbackViewModel() { PageId = Request.Url.GetComponents(UriComponents.PathAndQuery, UriFormat.SafeUnescaped) })

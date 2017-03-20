@@ -121,6 +121,9 @@ namespace NHS111.Models.Models.Web
             };
         }
 
+        public string UserZoomTitle { get; set; }
+        public string UserZoomUrl { get; set; }
+
         public JourneyViewModel()
         {
             Answers = new List<Answer>();
