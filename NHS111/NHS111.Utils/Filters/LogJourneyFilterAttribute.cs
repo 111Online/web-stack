@@ -25,6 +25,8 @@ namespace NHS111.Utils.Filters
             "Confirmation"
         };
 
+        private static readonly Guid CampaignJourneyId = new Guid("11111111111111111111111111111111");
+
         public override void OnActionExecuted(ActionExecutedContext filterContext)
         {
             var result = filterContext.Result as ViewResultBase;
@@ -38,7 +40,11 @@ namespace NHS111.Utils.Filters
             if (filterContext.RouteData.Values["controller"].Equals("Outcome") && _manuallyTriggeredAuditList.Contains(filterContext.RouteData.Values["action"]))
                 return; //we don't want to audit where audit has already been maually triggerred in code
 
-                LogAudit(model);
+            var campaign = filterContext.RequestContext.HttpContext.Request.Params["utm_campaign"];
+            if(!string.IsNullOrEmpty(campaign) && model.JourneyId == Guid.Empty)
+                model.JourneyId = CampaignJourneyId;
+
+            LogAudit(model);
         }
 
         private static void LogAudit(JourneyViewModel model) {
@@ -52,7 +58,9 @@ namespace NHS111.Utils.Filters
     }
 
     public static class JourneyViewModelExtensions {
-        public static AuditEntry ToAuditEntry(this JourneyViewModel model) {
+
+        public static AuditEntry ToAuditEntry(this JourneyViewModel model)
+        {
             var audit = new AuditEntry {
                 SessionId = model.SessionId,
                 JourneyId = model.JourneyId != Guid.Empty ? model.JourneyId.ToString() : null,
