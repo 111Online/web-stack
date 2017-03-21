@@ -21,7 +21,7 @@ namespace NHS111.Web.Presentation.Builders
             var outcomeGroup = model.OutcomeGroup == null ? "NoGroup" : urlHelper.Encode(model.OutcomeGroup.Text);
             var url = string.Format("outcome/{0}/{1}/{2}/disposition/", urlHelper.Encode(model.PathwayNo), outcomeGroup, urlHelper.Encode(model.Id));
 
-            SetUserZoomFields(outcomeGroup, url, model);
+            SetUserZoomFields(model.Id, url, model);
         }
 
         public void SetFieldsForSearch(SearchJourneyViewModel model)
