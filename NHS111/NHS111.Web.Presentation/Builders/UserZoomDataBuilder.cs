@@ -10,7 +10,7 @@ namespace NHS111.Web.Presentation.Builders
         {
             var title = model.TitleWithoutBullets;
 
-            SetUserZoomFields(title, GetQuestioNUrl(model), model);
+            SetUserZoomFields(title, GetQuestionUrl(model), model);
         }
 
         public void SetFieldsForOutcome(JourneyViewModel model)
@@ -20,7 +20,7 @@ namespace NHS111.Web.Presentation.Builders
             var outcomeGroup = model.OutcomeGroup == null ? "NoGroup" : urlHelper.Encode(model.OutcomeGroup.Text);
             var url = string.Format("outcome/{0}/{1}/{2}/disposition/", urlHelper.Encode(model.PathwayNo), outcomeGroup, urlHelper.Encode(model.Id));
 
-            SetUserZoomFields("title", url, model);
+            SetUserZoomFields(outcomeGroup, url, model);
         }
 
         public void SetFieldsForSearch(SearchJourneyViewModel model)
@@ -35,10 +35,10 @@ namespace NHS111.Web.Presentation.Builders
 
         public void SetFieldsForCareAdvice(JourneyViewModel model)
         {
-            SetUserZoomFields(model.QuestionNo, GetQuestioNUrl(model), model);
+            SetUserZoomFields(model.QuestionNo, GetQuestionUrl(model), model);
         }
 
-        private static string GetQuestioNUrl(JourneyViewModel model)
+        private static string GetQuestionUrl(JourneyViewModel model)
         {
             UrlHelper urlHelper = new UrlHelper(HttpContext.Current.Request.RequestContext);
 

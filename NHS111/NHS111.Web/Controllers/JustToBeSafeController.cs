@@ -17,14 +17,11 @@ namespace NHS111.Web.Controllers
     {
         private readonly IJustToBeSafeFirstViewModelBuilder _justToBeSafeFirstViewModelBuilder;
         private readonly IJustToBeSafeViewModelBuilder _justToBeSafeViewModelBuilder;
-        private readonly IUserZoomDataBuilder _userZoomDataBuilder;
 
-
-        public JustToBeSafeController(IJustToBeSafeFirstViewModelBuilder justToBeSafeFirstViewModelBuilder, IJustToBeSafeViewModelBuilder justToBeSafeViewModelBuilder, IUserZoomDataBuilder userZoomDataBuilder)
+        public JustToBeSafeController(IJustToBeSafeFirstViewModelBuilder justToBeSafeFirstViewModelBuilder, IJustToBeSafeViewModelBuilder justToBeSafeViewModelBuilder)
         {
             _justToBeSafeFirstViewModelBuilder = justToBeSafeFirstViewModelBuilder;
             _justToBeSafeViewModelBuilder = justToBeSafeViewModelBuilder;
-            _userZoomDataBuilder = userZoomDataBuilder;
         }
 
         [HttpPost]
@@ -61,8 +58,6 @@ namespace NHS111.Web.Controllers
                     }
                 }
             };
-
-            
 
             return await JustToBeSafeFirst(model);
         }
