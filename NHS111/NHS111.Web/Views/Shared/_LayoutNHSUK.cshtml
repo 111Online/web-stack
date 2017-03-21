@@ -109,7 +109,7 @@
     </footer>
 
     <div id="global-app-error" class="app-error hidden"></div>
-    @if (UserZoomSurveyFeature.IsEnabled)
+    @if (UserZoomSurveyFeature.IsEnabled && Model != null && !string.IsNullOrEmpty(Model.UserZoomUrl) && !string.IsNullOrEmpty(Model.UserZoomTitle))
     {
     <script>
         $(document).ready(function () {

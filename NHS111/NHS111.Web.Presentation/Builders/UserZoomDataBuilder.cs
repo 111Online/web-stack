@@ -30,7 +30,7 @@ namespace NHS111.Web.Presentation.Builders
 
         public void SetFieldsForSearchResults(SearchJourneyViewModel model)
         {
-            SetUserZoomFields("Search Results", "SearchResults", model);
+            SetUserZoomFields("Search Results for " + model.SanitisedSearchTerm, "SearchResults", model);
         }
 
         public void SetFieldsForCareAdvice(JourneyViewModel model)
