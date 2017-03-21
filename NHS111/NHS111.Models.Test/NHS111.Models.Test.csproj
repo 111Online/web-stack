@@ -140,6 +140,7 @@
     <Compile Include="Models\Domain\GenderTests.cs" />
     <Compile Include="Models\Web\JourneyViewModelTests.cs" />
     <Compile Include="Models\Web\Logging\AuditedDosRequestTests.cs" />
+    <Compile Include="Models\Web\Logging\AuditedDosResponseTest.cs" />
     <Compile Include="Models\Web\ServiceViewModelTests.cs" />
     <Compile Include="Models\Web\Validators\AgeValidatorTests.cs" />
     <Compile Include="Models\Web\Validators\PostCodeAllowedValidatorTests.cs" />
