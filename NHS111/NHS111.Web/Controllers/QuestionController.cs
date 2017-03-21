@@ -51,24 +51,28 @@ namespace NHS111.Web.Controllers {
             var startOfJourney = new JourneyViewModel
             {
                 SessionId = Guid.Parse(Request.AnonymousID),
-                UserZoomTitle = "Home",
-                UserZoomUrl = "Home"
             };
+
+            _userZoomDataBuilder.SetFieldsForHome(startOfJourney);
             return View("Home", startOfJourney);
         }
 
         [HttpPost]
         public  ActionResult Home(JourneyViewModel model)
         {
-            model.UserZoomTitle = "Initial Question";
-            model.UserZoomUrl = "InitialQuestion";
+            _userZoomDataBuilder.SetFieldsForInitialQuestion(model);
             return View("InitialQuestion", model);
         }
 
         [HttpPost]
         public async Task<ActionResult> Search(AgeGenderViewModel model)
         {
-            if (!ModelState.IsValid) return View("Gender", new JourneyViewModel { UserInfo = new UserInfo { Demography = model }, UserZoomTitle = "Gender", UserZoomUrl = "Gender"});
+            if (!ModelState.IsValid)
+            {
+                var genderModel = new JourneyViewModel {UserInfo = new UserInfo {Demography = model}};
+                _userZoomDataBuilder.SetFieldsForDemographics(genderModel);
+                return View("Gender", genderModel);
+            }
 
             var topicsContainingStartingPathways = await GetAllTopics(model);
 
@@ -192,8 +196,7 @@ namespace NHS111.Web.Controllers {
             ModelState.Clear();
             model.UserInfo = new UserInfo();
 
-            model.UserZoomTitle = "Gender";
-            model.UserZoomUrl = "Gender";
+            _userZoomDataBuilder.SetFieldsForDemographics(model);
             return View("Gender", model);
         }
 

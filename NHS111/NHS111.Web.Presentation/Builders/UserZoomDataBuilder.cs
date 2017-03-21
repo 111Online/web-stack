@@ -1,4 +1,5 @@
-﻿using System.Web;
+﻿using System;
+using System.Web;
 using System.Web.Mvc;
 using NHS111.Models.Models.Web;
 
@@ -38,6 +39,21 @@ namespace NHS111.Web.Presentation.Builders
             SetUserZoomFields(model.QuestionNo, GetQuestionUrl(model), model);
         }
 
+        public void SetFieldsForInitialQuestion(JourneyViewModel model)
+        {
+            SetUserZoomFields("Initial Question", "InitialQuestion", model);
+        }
+
+        public void SetFieldsForDemographics(JourneyViewModel model)
+        {
+            SetUserZoomFields("Demographics", "Demographics", model);
+        }
+
+        public void SetFieldsForHome(JourneyViewModel model)
+        {
+            SetUserZoomFields("Home", "Home", model);
+        }
+
         private static string GetQuestionUrl(JourneyViewModel model)
         {
             UrlHelper urlHelper = new UrlHelper(HttpContext.Current.Request.RequestContext);
@@ -59,5 +75,8 @@ namespace NHS111.Web.Presentation.Builders
         void SetFieldsForSearch(SearchJourneyViewModel model);
         void SetFieldsForSearchResults(SearchJourneyViewModel model);
         void SetFieldsForCareAdvice(JourneyViewModel model);
+        void SetFieldsForInitialQuestion(JourneyViewModel model);
+        void SetFieldsForDemographics(JourneyViewModel model);
+        void SetFieldsForHome(JourneyViewModel model);
     }
 }
