@@ -189,7 +189,7 @@ namespace NHS111.Web.Controllers {
         [HttpPost]
         public async Task<ActionResult> InitialQuestion(JourneyViewModel model)
         {
-            var audit = model.ToAuditEntry();
+            var audit = model.ToAuditEntry(new HttpSessionStateWrapper(System.Web.HttpContext.Current.Session));
             audit.EventData = "User accepted module zero.";
             await _auditLogger.Log(audit);
 

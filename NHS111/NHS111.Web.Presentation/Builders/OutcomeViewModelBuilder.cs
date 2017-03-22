@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
-using System.Net.Configuration;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
@@ -14,7 +13,6 @@ using NHS111.Models.Models.Web;
 using NHS111.Models.Models.Web.FromExternalServices;
 using NHS111.Models.Models.Web.ITK;
 using NHS111.Models.Models.Web.Logging;
-using NHS111.Utils.Cache;
 using NHS111.Utils.Filters;
 using NHS111.Utils.Helpers;
 using NHS111.Utils.Logging;
@@ -188,7 +186,7 @@ namespace NHS111.Web.Presentation.Builders
 
         private void AuditItkRequest(OutcomeViewModel model, ITKDispatchRequest itkRequest)
         {
-            var audit = model.ToAuditEntry();
+            var audit = model.ToAuditEntry(new HttpSessionStateWrapper(HttpContext.Current.Session));
             var auditedItkRequest = Mapper.Map<AuditedItkRequest>(itkRequest);
             audit.ItkRequest = JsonConvert.SerializeObject(auditedItkRequest);
             _auditLogger.Log(audit);
@@ -196,7 +194,7 @@ namespace NHS111.Web.Presentation.Builders
 
         private void AuditItKResponse(OutcomeViewModel model, HttpResponseMessage response)
         {
-            var audit = model.ToAuditEntry();
+            var audit = model.ToAuditEntry(new HttpSessionStateWrapper(HttpContext.Current.Session));
             var auditedItkResponse = Mapper.Map<AuditedItkResponse>(response);
             audit.ItkResponse = JsonConvert.SerializeObject(auditedItkResponse);
             _auditLogger.Log(audit);
