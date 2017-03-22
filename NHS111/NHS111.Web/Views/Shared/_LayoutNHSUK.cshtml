@@ -1,4 +1,5 @@
 ﻿@using System.Configuration
+@using System.Reflection
 @using NHS111.Web.Presentation.Analytics
 @inherits NHS111.Web.Views.Shared.LayoutView
 
@@ -40,6 +41,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.ns-autogrow/1.1.6/jquery.ns-autogrow.min.js"></script>
 
     @RenderSection("Scripts", false)
+
 </head>
 <body class="">
     @if (CookieBannerFeature.IsEnabled)
@@ -97,6 +99,19 @@
     </footer>
 
     <div id="global-app-error" class="app-error hidden"></div>
+
+    <script type="text/javascript">
+        var website = {
+            name: 'NHS 111',
+            phase: 'beta',
+            version: '@ViewContext.Controller.GetType().Assembly.GetName().Version',
+            date: '@File.GetCreationTime(ViewContext.Controller.GetType().Assembly.Location)'
+        };
+
+        console.groupCollapsed('%s (%s) v%s', website.name, website.phase, website.version);
+        console.log("Date compiled %s", website.date);
+        console.groupEnd();
+    </script>
 </body>
 </html>
 
