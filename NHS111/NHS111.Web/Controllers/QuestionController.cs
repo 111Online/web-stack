@@ -35,25 +35,44 @@ namespace NHS111.Web.Controllers {
 
         public QuestionController(IJourneyViewModelBuilder journeyViewModelBuilder, IRestfulHelper restfulHelper,
             IConfiguration configuration, IJustToBeSafeFirstViewModelBuilder justToBeSafeFirstViewModelBuilder, IDirectLinkingFeature directLinkingFeature,
-            IAuditLogger auditLogger) {
+            IAuditLogger auditLogger, IUserZoomDataBuilder userZoomDataBuilder) {
             _journeyViewModelBuilder = journeyViewModelBuilder;
             _restfulHelper = restfulHelper;
             _configuration = configuration;
             _justToBeSafeFirstViewModelBuilder = justToBeSafeFirstViewModelBuilder;
             _directLinkingFeature = directLinkingFeature;
             _auditLogger = auditLogger;
+            _userZoomDataBuilder = userZoomDataBuilder;
             }
 
+        [HttpGet]
+        public ActionResult Home()
+        {
+            var startOfJourney = new JourneyViewModel
+            {
+                SessionId = Guid.Parse(Request.AnonymousID),
+            };
+
+            _userZoomDataBuilder.SetFieldsForHome(startOfJourney);
+            return View("Home", startOfJourney);
+        }
+
         [HttpPost]
-        public  ActionResult Home(JourneyViewModel model) {
-            
-            return View("InitialQuestion");
+        public  ActionResult Home(JourneyViewModel model)
+        {
+            _userZoomDataBuilder.SetFieldsForInitialQuestion(model);
+            return View("InitialQuestion", model);
         }
 
         [HttpPost]
         public async Task<ActionResult> Search(AgeGenderViewModel model)
         {
-            if (!ModelState.IsValid) return View("Gender", new JourneyViewModel { UserInfo = new UserInfo { Demography = model } });
+            if (!ModelState.IsValid)
+            {
+                var genderModel = new JourneyViewModel {UserInfo = new UserInfo {Demography = model}};
+                _userZoomDataBuilder.SetFieldsForDemographics(genderModel);
+                return View("Gender", genderModel);
+            }
 
             var topicsContainingStartingPathways = await GetAllTopics(model);
 
@@ -62,6 +81,8 @@ namespace NHS111.Web.Controllers {
                 UserInfo = new UserInfo { Demography = model },
                 AllTopics = topicsContainingStartingPathways
             };
+
+            _userZoomDataBuilder.SetFieldsForSearch(startOfJourney);
 
             return View(startOfJourney);
 
@@ -78,6 +99,8 @@ namespace NHS111.Web.Controllers {
                 UserInfo = new UserInfo {Demography = ageGenderViewModel},
                 AllTopics = topicsContainingStartingPathways
             };
+
+            _userZoomDataBuilder.SetFieldsForSearchResults(model);
 
             if (string.IsNullOrEmpty(q))
                 return View("search", model);
@@ -151,16 +174,6 @@ namespace NHS111.Web.Controllers {
             return View("Gender", model);
         }
 
-        [HttpGet]
-        public ActionResult Home()
-        {
-            var startOfJourney = new JourneyViewModel
-            {
-                SessionId = Guid.Parse(Request.AnonymousID)
-            };
-            return View("Home", startOfJourney);
-        }
-
         [HttpPost]
         [ActionName("Navigation")]
         [MultiSubmit(ButtonName = "Question")]
@@ -169,10 +182,9 @@ namespace NHS111.Web.Controllers {
             var nextModel = await GetNextJourneyViewModel(model);
 
             var viewName = DetermineViewName(nextModel);
-
+           
             return View(viewName, nextModel);
         }
-
         
         [HttpPost]
         public async Task<ActionResult> InitialQuestion(JourneyViewModel model)
@@ -183,6 +195,8 @@ namespace NHS111.Web.Controllers {
 
             ModelState.Clear();
             model.UserInfo = new UserInfo();
+
+            _userZoomDataBuilder.SetFieldsForDemographics(model);
             return View("Gender", model);
         }
 
@@ -222,19 +236,25 @@ namespace NHS111.Web.Controllers {
 
             switch (model.NodeType) {
                 case NodeType.Outcome:
-                
                     var viewFilePath = "../Outcome/" + model.OutcomeGroup.Id;
                     if (ViewExists(viewFilePath))
+                    {
+                        _userZoomDataBuilder.SetFieldsForOutcome(model);
                         return viewFilePath;
+                    }
                     throw new ArgumentOutOfRangeException(string.Format("Outcome group {0} for outcome {1} has no view configured", model.OutcomeGroup.ToString(), model.Id));
                 case NodeType.DeadEndJump:
+                    _userZoomDataBuilder.SetFieldsForOutcome(model);
                     return "../Outcome/DeadEndJump";
                 case NodeType.PathwaySelectionJump:
+                    _userZoomDataBuilder.SetFieldsForOutcome(model);
                     return "../Outcome/PathwaySelectionJump";
                 case NodeType.CareAdvice:
+                    _userZoomDataBuilder.SetFieldsForCareAdvice(model);
                     return "../Question/InlineCareAdvice";
                 case NodeType.Question:
                 default:
+                    _userZoomDataBuilder.SetFieldsForQuestion(model);
                     return "../Question/Question";
             }
         }
@@ -315,6 +335,7 @@ namespace NHS111.Web.Controllers {
 
             var result = _journeyViewModelBuilder.BuildPreviousQuestion(questionWithAnswers, model);
             var viewName = DetermineViewName(result);
+
             return View(viewName, result);
         }
 
@@ -373,5 +394,6 @@ namespace NHS111.Web.Controllers {
         private readonly IDirectLinkingFeature _directLinkingFeature;
         private readonly IAuditLogger _auditLogger;
         private readonly IMappingEngine _mappingEngine;
+        private readonly IUserZoomDataBuilder _userZoomDataBuilder;
         }
 }

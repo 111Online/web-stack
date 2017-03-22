@@ -137,9 +137,11 @@
 
     <script>
         $(document).ready(function() {
-        @if (Model.Results.Any()) {
-            @Html.Raw("$('#categories').hide();");
-        }
+            @if (Model.Results.Any())
+            {
+                @Html.Raw("$('#categories').hide();")
+                ;
+            }
         });
 
         $(document).on("click", "#show-categories", function() {

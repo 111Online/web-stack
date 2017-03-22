@@ -19,13 +19,15 @@ namespace NHS111.Web.Presentation.Builders
         private readonly IMappingEngine _mappingEngine;
         private readonly IRestfulHelper _restfulHelper;
         private readonly IKeywordCollector _keywordCollector;
+        private readonly IUserZoomDataBuilder _userZoomDataBuilder;
 
-        public JustToBeSafeFirstViewModelBuilder(IRestfulHelper restfulHelper, IConfiguration configuration, IMappingEngine mappingEngine, IKeywordCollector keywordCollector)
+        public JustToBeSafeFirstViewModelBuilder(IRestfulHelper restfulHelper, IConfiguration configuration, IMappingEngine mappingEngine, IKeywordCollector keywordCollector, IUserZoomDataBuilder userZoomDataBuilder)
         {
             _restfulHelper = restfulHelper;
             _configuration = configuration;
             _mappingEngine = mappingEngine;
             _keywordCollector = keywordCollector;
+            _userZoomDataBuilder = userZoomDataBuilder;
         }
 
         public async Task<Tuple<string, JourneyViewModel>> JustToBeSafeFirstBuilder(JustToBeSafeViewModel model) {
@@ -51,10 +53,13 @@ namespace NHS111.Web.Presentation.Builders
                     CollectedKeywords = identifiedModel.CollectedKeywords,
                     Journey = JsonConvert.DeserializeObject<Journey>(identifiedModel.JourneyJson),
                     SessionId = model.SessionId,
-                    JourneyId = Guid.NewGuid()
+                    JourneyId = Guid.NewGuid(),
                 };
                 var question = JsonConvert.DeserializeObject<QuestionWithAnswers>(await _restfulHelper.GetAsync(_configuration.GetBusinessApiFirstQuestionUrl(identifiedModel.PathwayId, identifiedModel.StateJson)));
                 _mappingEngine.Mapper.Map(question, journeyViewModel);
+
+                _userZoomDataBuilder.SetFieldsForQuestion(journeyViewModel);
+
                 return new Tuple<string, JourneyViewModel>("../Question/Question", journeyViewModel);
             }
             identifiedModel.Part = 1;
