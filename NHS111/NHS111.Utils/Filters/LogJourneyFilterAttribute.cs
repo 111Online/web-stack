@@ -66,16 +66,9 @@ namespace NHS111.Utils.Filters
 
         public static AuditEntry ToAuditEntry(this JourneyViewModel model, HttpSessionStateBase session)
         {
-            string journeyId = null;
-            var campaign = session["utm_campaign"] as string;
-            if (!string.IsNullOrEmpty(campaign))
-                journeyId = CampaignJourneyId.ToString();
-            else if (model.JourneyId != Guid.Empty)
-                model.JourneyId.ToString();
-
             var audit = new AuditEntry {
                 SessionId = model.SessionId,
-                JourneyId = journeyId,
+                JourneyId = GetJourneyId(session["utm_campaign"] as string, model.JourneyId),
                 Campaign = session["utm_campaign"] as string,
                 CampaignSource = session["utm_source"] as string,
                 Journey = model.JourneyJson,
@@ -103,6 +96,16 @@ namespace NHS111.Utils.Filters
             auditEntry.QuestionId = step.QuestionId;
             auditEntry.QuestionNo = step.QuestionNo;
             auditEntry.QuestionTitle = step.QuestionTitle;
+        }
+
+        private static string GetJourneyId(string campaign, Guid journeyId)
+        {
+            if (!string.IsNullOrEmpty(campaign))
+                return CampaignJourneyId.ToString();
+            else if (journeyId != Guid.Empty)
+                return journeyId.ToString();
+
+            return null;
         }
     }
 }
