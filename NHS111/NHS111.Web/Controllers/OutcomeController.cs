@@ -4,11 +4,11 @@ using System;
 using System.Linq;
 using System.Web.Http;
 using System.Web.Script.Serialization;
-using Microsoft.Ajax.Utilities;
 using NHS111.Features;
 using NHS111.Models.Models.Web.Logging;
 
-namespace NHS111.Web.Controllers {
+namespace NHS111.Web.Controllers
+{
     using System.Collections.Generic;
     using System.IO;
     using System.Threading.Tasks;
@@ -21,6 +21,7 @@ namespace NHS111.Web.Controllers {
     using Presentation.Logging;
     using Utils.Attributes;
     using Utils.Filters;
+    using System.Web;
 
     [LogHandleErrorForMVC]
     public class OutcomeController : Controller {
@@ -184,14 +185,14 @@ namespace NHS111.Web.Controllers {
 
 
         private void AuditDosRequest(OutcomeViewModel model, DosViewModel dosViewModel) {
-            var audit = model.ToAuditEntry();
+            var audit = model.ToAuditEntry(new HttpSessionStateWrapper(System.Web.HttpContext.Current.Session));
             var auditedDosViewModel = Mapper.Map<AuditedDosRequest>(dosViewModel);
             audit.DosRequest = JsonConvert.SerializeObject(auditedDosViewModel);
             _auditLogger.Log(audit);
         }
 
         private void AuditDosResponse(OutcomeViewModel model) {
-            var audit = model.ToAuditEntry();
+            var audit = model.ToAuditEntry(new HttpSessionStateWrapper(System.Web.HttpContext.Current.Session));
             var auditedDosResponse = Mapper.Map<AuditedDosResponse>(model.DosCheckCapacitySummaryResult);
             audit.DosResponse = JsonConvert.SerializeObject(auditedDosResponse);
             _auditLogger.Log(audit);
@@ -199,14 +200,14 @@ namespace NHS111.Web.Controllers {
 
         private async Task AuditSelectedService(OutcomeViewModel model, string selectedServiceName, int selectedServiceId)
         {
-            var audit = model.ToAuditEntry();
+            var audit = model.ToAuditEntry(new HttpSessionStateWrapper(System.Web.HttpContext.Current.Session));
             audit.EventData = FormatEventData(selectedServiceName, selectedServiceId);
             _auditLogger.Log(audit);
         }
 
         private void AuditSelectedService(OutcomeViewModel model)
         {
-            var audit = model.ToAuditEntry();
+            var audit = model.ToAuditEntry(new HttpSessionStateWrapper(System.Web.HttpContext.Current.Session));
             audit.EventData = FormatEventData(model.SelectedService.Name, model.SelectedService.Id);
             _auditLogger.Log(audit);
         }

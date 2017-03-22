@@ -27,6 +27,12 @@ namespace NHS111.Models.Models.Web.Logging
         [JsonProperty(PropertyName = "journeyId")]
         public string JourneyId { get; set; }
 
+        [JsonProperty(PropertyName = "campaign")]
+        public string Campaign { get; set; }
+
+        [JsonProperty(PropertyName = "campaignSource")]
+        public string CampaignSource { get; set; }
+
         [JsonProperty(PropertyName = "pathwayId")]
         public string PathwayId { get { return _pathwayId; } set { _pathwayId = value; } }
 

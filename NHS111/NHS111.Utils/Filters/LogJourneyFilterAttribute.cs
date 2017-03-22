@@ -13,6 +13,8 @@ namespace NHS111.Utils.Filters
     using Models.Models.Web.Logging;
     using Newtonsoft.Json;
     using System.Collections.Generic;
+    using System.Web;
+    using System.Web.SessionState;
 
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method, Inherited = true, AllowMultiple = true)]
     public class LogJourneyFilterAttribute : ActionFilterAttribute
@@ -25,8 +27,6 @@ namespace NHS111.Utils.Filters
             "Confirmation"
         };
 
-        private static readonly Guid CampaignJourneyId = new Guid("11111111111111111111111111111111");
-
         public override void OnActionExecuted(ActionExecutedContext filterContext)
         {
             var result = filterContext.Result as ViewResultBase;
@@ -38,20 +38,23 @@ namespace NHS111.Utils.Filters
                 return;
 
             if (filterContext.RouteData.Values["controller"].Equals("Outcome") && _manuallyTriggeredAuditList.Contains(filterContext.RouteData.Values["action"]))
-                return; //we don't want to audit where audit has already been maually triggerred in code
+                return; //we don't want to audit where audit has already been manually triggered in code
 
             var campaign = filterContext.RequestContext.HttpContext.Request.Params["utm_campaign"];
-            if(!string.IsNullOrEmpty(campaign) && model.JourneyId == Guid.Empty)
-                model.JourneyId = CampaignJourneyId;
+            if (!string.IsNullOrEmpty(campaign))
+            {
+                filterContext.RequestContext.HttpContext.Session["utm_campaign"] = campaign;
+                filterContext.RequestContext.HttpContext.Session["utm_source"] = filterContext.RequestContext.HttpContext.Request.Params["utm_source"]; ;
+            }
 
-            LogAudit(model);
+            LogAudit(model, filterContext.RequestContext.HttpContext.Session);
         }
 
-        private static void LogAudit(JourneyViewModel model) {
+        private static void LogAudit(JourneyViewModel model, HttpSessionStateBase session) {
             var url = ConfigurationManager.AppSettings["LoggingServiceUrl"];
             var rest = new RestfulHelper();
             var httpRequestMessage = new HttpRequestMessage(HttpMethod.Post, new Uri(url)) {
-                Content = new StringContent(JsonConvert.SerializeObject(model.ToAuditEntry()))
+                Content = new StringContent(JsonConvert.SerializeObject(model.ToAuditEntry(session)))
             };
             rest.PostAsync(url, httpRequestMessage);
         }
@@ -59,11 +62,22 @@ namespace NHS111.Utils.Filters
 
     public static class JourneyViewModelExtensions {
 
-        public static AuditEntry ToAuditEntry(this JourneyViewModel model)
+        private static readonly Guid CampaignJourneyId = new Guid("11111111111111111111111111111111");
+
+        public static AuditEntry ToAuditEntry(this JourneyViewModel model, HttpSessionStateBase session)
         {
+            string journeyId = null;
+            var campaign = session["utm_campaign"] as string;
+            if (!string.IsNullOrEmpty(campaign))
+                journeyId = CampaignJourneyId.ToString();
+            else if (model.JourneyId != Guid.Empty)
+                model.JourneyId.ToString();
+
             var audit = new AuditEntry {
                 SessionId = model.SessionId,
-                JourneyId = model.JourneyId != Guid.Empty ? model.JourneyId.ToString() : null,
+                JourneyId = journeyId,
+                Campaign = session["utm_campaign"] as string,
+                CampaignSource = session["utm_source"] as string,
                 Journey = model.JourneyJson,
                 PathwayId = model.PathwayId,
                 PathwayTitle = model.PathwayTitle,
