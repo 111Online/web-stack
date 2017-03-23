@@ -1,4 +1,10 @@
 ﻿
+using System.Web;
+using AutoMapper;
+using NHS111.Models.Models.Web;
+using NHS111.Models.Models.Web.ITK;
+using NHS111.Utils.Filters;
+
 namespace NHS111.Web.Presentation.Logging {
     using System;
     using System.Net.Http;
@@ -10,10 +16,15 @@ namespace NHS111.Web.Presentation.Logging {
 
     public interface IAuditLogger {
         Task Log(AuditEntry auditEntry);
+        Task LogDosRequest(OutcomeViewModel model, DosViewModel dosViewModel);
+        Task LogDosResponse(OutcomeViewModel model);
+        Task LogSelectedService(OutcomeViewModel model, string selectedServiceName, int selectedServiceId);
+        Task LogSelectedService(OutcomeViewModel model);
+        Task LogItkRequest(OutcomeViewModel model, ITKDispatchRequest itkRequest);
+        Task LogItkResponse(OutcomeViewModel model, HttpResponseMessage response);
     }
 
-    public class AuditLogger
-        : IAuditLogger {
+    public class AuditLogger : IAuditLogger {
         
         public AuditLogger(IRestfulHelper restfulHelper, IConfiguration configuration) {
             _restfulHelper = restfulHelper;
@@ -27,6 +38,57 @@ namespace NHS111.Web.Presentation.Logging {
                 Content = new StringContent(JsonConvert.SerializeObject(auditEntry))
             };
             await _restfulHelper.PostAsync(url, httpRequestMessage);
+        }
+
+        public async Task LogDosRequest(OutcomeViewModel model, DosViewModel dosViewModel)
+        {
+            var audit = model.ToAuditEntry(new HttpSessionStateWrapper(HttpContext.Current.Session));
+            var auditedDosViewModel = Mapper.Map<AuditedDosRequest>(dosViewModel);
+            audit.DosRequest = JsonConvert.SerializeObject(auditedDosViewModel);
+            await Log(audit);
+        }
+
+        public async Task LogDosResponse(OutcomeViewModel model)
+        {
+            var audit = model.ToAuditEntry(new HttpSessionStateWrapper(HttpContext.Current.Session));
+            var auditedDosResponse = Mapper.Map<AuditedDosResponse>(model.DosCheckCapacitySummaryResult);
+            audit.DosResponse = JsonConvert.SerializeObject(auditedDosResponse);
+            await Log(audit);
+        }
+
+        public async Task LogSelectedService(OutcomeViewModel model, string selectedServiceName, int selectedServiceId)
+        {
+            var audit = model.ToAuditEntry(new HttpSessionStateWrapper(System.Web.HttpContext.Current.Session));
+            audit.EventData = FormatEventData(selectedServiceName, selectedServiceId);
+            await Log(audit);
+        }
+
+        public async Task LogSelectedService(OutcomeViewModel model)
+        {
+            var audit = model.ToAuditEntry(new HttpSessionStateWrapper(System.Web.HttpContext.Current.Session));
+            audit.EventData = FormatEventData(model.SelectedService.Name, model.SelectedService.Id);
+            await Log(audit);
+        }
+
+        public async Task LogItkRequest(OutcomeViewModel model, ITKDispatchRequest itkRequest)
+        {
+            var audit = model.ToAuditEntry(new HttpSessionStateWrapper(HttpContext.Current.Session));
+            var auditedItkRequest = Mapper.Map<AuditedItkRequest>(itkRequest);
+            audit.ItkRequest = JsonConvert.SerializeObject(auditedItkRequest);
+            await Log(audit);
+        }
+
+        public async Task LogItkResponse(OutcomeViewModel model, HttpResponseMessage response)
+        {
+            var audit = model.ToAuditEntry(new HttpSessionStateWrapper(HttpContext.Current.Session));
+            var auditedItkResponse = Mapper.Map<AuditedItkResponse>(response);
+            audit.ItkResponse = JsonConvert.SerializeObject(auditedItkResponse);
+            await Log(audit);
+        }
+
+        private string FormatEventData(string selectedServiceName, int selectedServiceId)
+        {
+            return string.Format("User selected service '{0}' ({1})", selectedServiceName, selectedServiceId);
         }
 
         private readonly IRestfulHelper _restfulHelper;

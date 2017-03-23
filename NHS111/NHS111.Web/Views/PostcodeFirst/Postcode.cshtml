@@ -33,9 +33,32 @@
 <section>
     <div class="postcode-first">
 
-        @using (Html.BeginForm("ServiceList", "Outcome", FormMethod.Post, new { id = "findServicesForm" }))
+        @using (Html.BeginForm("Outcome", "PostcodeFirst", FormMethod.Post, new { id = "findServicesForm" }))
         {
-            @Html.Partial("_CommonHiddenFieldsOutcomeViewModel", Model)
+            @Html.HiddenFor(x => Model.Id)
+            @Html.HiddenFor(x => Model.JourneyJson)
+            @Html.HiddenFor(x => Model.PathwayId)
+            @Html.HiddenFor(x => Model.JourneyId)
+            @Html.HiddenFor(x => Model.PathwayNo)
+            @Html.HiddenFor(x => Model.SymptomGroup)
+            @Html.HiddenFor(x => Model.UserInfo.Demography.Age)
+            @Html.HiddenFor(x => Model.UserInfo.Demography.Gender)
+            @Html.HiddenFor(x => Model.SymptomDiscriminatorCode)
+            @Html.HiddenFor(x => Model.Title)
+            @Html.HiddenFor(x => Model.SessionId)
+            @Html.HiddenFor(x => Model.TimeFrameText)
+            @Html.HiddenFor(x => Model.OutcomeGroup.Id)
+            @Html.HiddenFor(x => Model.OutcomeGroup.Text)
+            @Html.HiddenFor(x => x.DispositionTime)
+            @Html.HiddenFor(x => x.TimeFrameMinutes)
+            @Html.HiddenFor(x => x.WaitTimeText)
+            @Html.HiddenFor(x => x.SurveyLink.PathwayNo)
+            @Html.HiddenFor(x => x.SurveyLink.EndPathwayNo)
+            @Html.HiddenFor(x => x.SurveyLink.EndPathwayTitle)
+            @Html.HiddenFor(x => x.SurveyLink.DigitalTitle)
+            @Html.HiddenFor(x => x.SurveyLink.DispositionCode)
+            @Html.HiddenFor(x => x.SurveyLink.JourneyId)
+            @Html.HiddenFor(x => x.SurveyLink.DispositionDateTime)
 
             <h2 id="strap-line">You've answered the questions</h2>
             <h3>Now we can tell you what to do next</h3>

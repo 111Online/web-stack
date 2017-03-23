@@ -100,9 +100,9 @@ namespace NHS111.Web.Controllers
                 if (overrideDate.HasValue) dosViewModel.DispositionTime = overrideDate.Value;
             }
             
-            AuditDosRequest(model, dosViewModel);
+            await _auditLogger.LogDosRequest(model, dosViewModel);
             model.DosCheckCapacitySummaryResult = await _dosBuilder.FillCheckCapacitySummaryResult(dosViewModel);
-            AuditDosResponse(model);
+            await _auditLogger.LogDosResponse(model);
 
             if (model.DosCheckCapacitySummaryResult.Error == null && !model.DosCheckCapacitySummaryResult.HasNoServices)
                 return View("ServiceList", model);
@@ -116,9 +116,9 @@ namespace NHS111.Web.Controllers
             if (!ModelState.IsValidField("UserInfo.CurrentAddress.Postcode")) return View(Path.GetFileNameWithoutExtension(model.CurrentView), model);
 
             var dosCase = Mapper.Map<DosViewModel>(model);
-            AuditDosRequest(model, dosCase);
+            await _auditLogger.LogDosRequest(model, dosCase);
             model.DosCheckCapacitySummaryResult = await _dosBuilder.FillCheckCapacitySummaryResult(dosCase);
-            AuditDosResponse(model);
+            await _auditLogger.LogDosResponse(model);
 
             if (model.DosCheckCapacitySummaryResult.Error == null)
                 return View("ServiceDetails", model);
@@ -129,7 +129,7 @@ namespace NHS111.Web.Controllers
         [HttpPost]
         public async Task<ActionResult> PersonalDetails(OutcomeViewModel model) {
             ModelState.Clear();
-            AuditSelectedService(model);
+            await _auditLogger.LogSelectedService(model);
 
             model = await PopulateAddressPickerFields(model);
 
@@ -171,7 +171,7 @@ namespace NHS111.Web.Controllers
         [HttpPost]
         public ActionResult GetDirections(OutcomeViewModel model, int selectedServiceId, string selectedServiceName, string selectedServiceAddress)
         {
-            AuditSelectedService(model, selectedServiceName, selectedServiceId);
+            _auditLogger.LogSelectedService(model, selectedServiceName, selectedServiceId);
 
             return Redirect(string.Format(_configuration.MapsApiUrl, selectedServiceName, selectedServiceAddress));
         }
@@ -179,42 +179,6 @@ namespace NHS111.Web.Controllers
         [HttpPost]
         public ActionResult Emergency() {
             return View();
-        }
-
-        [HttpPost]
-
-
-        private void AuditDosRequest(OutcomeViewModel model, DosViewModel dosViewModel) {
-            var audit = model.ToAuditEntry(new HttpSessionStateWrapper(System.Web.HttpContext.Current.Session));
-            var auditedDosViewModel = Mapper.Map<AuditedDosRequest>(dosViewModel);
-            audit.DosRequest = JsonConvert.SerializeObject(auditedDosViewModel);
-            _auditLogger.Log(audit);
-        }
-
-        private void AuditDosResponse(OutcomeViewModel model) {
-            var audit = model.ToAuditEntry(new HttpSessionStateWrapper(System.Web.HttpContext.Current.Session));
-            var auditedDosResponse = Mapper.Map<AuditedDosResponse>(model.DosCheckCapacitySummaryResult);
-            audit.DosResponse = JsonConvert.SerializeObject(auditedDosResponse);
-            _auditLogger.Log(audit);
-        }
-
-        private async Task AuditSelectedService(OutcomeViewModel model, string selectedServiceName, int selectedServiceId)
-        {
-            var audit = model.ToAuditEntry(new HttpSessionStateWrapper(System.Web.HttpContext.Current.Session));
-            audit.EventData = FormatEventData(selectedServiceName, selectedServiceId);
-            _auditLogger.Log(audit);
-        }
-
-        private void AuditSelectedService(OutcomeViewModel model)
-        {
-            var audit = model.ToAuditEntry(new HttpSessionStateWrapper(System.Web.HttpContext.Current.Session));
-            audit.EventData = FormatEventData(model.SelectedService.Name, model.SelectedService.Id);
-            _auditLogger.Log(audit);
-        }
-
-        private string FormatEventData(string selectedServiceName, int selectedServiceId)
-        {
-            return string.Format("User selected service '{0}' ({1})", selectedServiceName, selectedServiceId);
         }
     }
 }
