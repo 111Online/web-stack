@@ -142,9 +142,9 @@ namespace NHS111.SmokeTests
             questionPage.ValidateQuestion("Have you hurt or banged your head in the last 7 days?");
             var outcomePage = questionPage
                 .AnswerNo()
-                .Answer("No - I have not fainted or blacked out")
+                .Answer("I haven't fainted or blacked out")
                 .Answer("No - I am not that ill")
-                .Answer("None of these")
+                .AnswerNo()
                 .AnswerSuccessiveNo(2)
                 .Answer("I don't have a headache")
                 .AnswerForDispostion("Yes");

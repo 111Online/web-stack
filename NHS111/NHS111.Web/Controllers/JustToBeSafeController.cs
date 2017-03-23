@@ -18,7 +18,6 @@ namespace NHS111.Web.Controllers
         private readonly IJustToBeSafeFirstViewModelBuilder _justToBeSafeFirstViewModelBuilder;
         private readonly IJustToBeSafeViewModelBuilder _justToBeSafeViewModelBuilder;
 
-
         public JustToBeSafeController(IJustToBeSafeFirstViewModelBuilder justToBeSafeFirstViewModelBuilder, IJustToBeSafeViewModelBuilder justToBeSafeViewModelBuilder)
         {
             _justToBeSafeFirstViewModelBuilder = justToBeSafeFirstViewModelBuilder;

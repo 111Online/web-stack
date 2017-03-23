@@ -32,7 +32,7 @@
     }
 }
 
-@Html.Partial("_OutcomeHeader", new ViewDataDictionary() { { "OutcomeHeader", string.Format("Based on your answers, we recommend you speak to a healthcare service within {0}", Model.TimeFrameText) } })
+@Html.Partial("_OutcomeHeader", Model, new ViewDataDictionary() { { "OutcomeHeader", string.Format("Based on your answers, we recommend you speak to a healthcare service within {0}", Model.TimeFrameText) } })
 
 <div class="itk-message">
     <ul>

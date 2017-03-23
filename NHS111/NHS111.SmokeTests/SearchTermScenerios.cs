@@ -31,10 +31,10 @@ namespace NHS111.SmokeTests
                 new Tuple<string, string>("vomitting","Vomiting or nausea"), //misspelling
                 new Tuple<string, string>("under","Something under the skin"), //Appears in digital title only not description
                 new Tuple<string, string>("swallowing","Difficulty swallowing"), //Appears in description only not title
-                new Tuple<string, string>("lumps","Rashes, itching, spots, moles and other skin problems"), //Appears in digital description only
-                new Tuple<string, string>("Chest and upper back pain","Chest and upper back pain"), //additional digital title for Chest pain PW559 MaleAdult
+                new Tuple<string, string>("lumps","Rashes, itchy skin, spots and blisters"), //Appears in digital description only
+                new Tuple<string, string>("Chest and upper back pain","Breathing problems"), //additional digital title for Chest pain PW559 MaleAdult
                 new Tuple<string, string>("Breathing problems","Breathing problems"), //additional digital title for Chest pain PW559 MaleAdult
-                new Tuple<string, string>("Wheezing","Wheezing"), //additional digital title for Chest pain PW559 MaleAdult
+                new Tuple<string, string>("Wheezing","Wheezing and breathlessness"), //additional digital title for Chest pain PW559 MaleAdult
                 
             };
         }

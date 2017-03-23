@@ -54,8 +54,8 @@ namespace NHS111.Web.Presentation.Configuration
         public string LoggingServiceUrl { get { return ConfigurationManager.AppSettings["LoggingServiceUrl"]; } }
 
         public string GetBusinessApiGetCategoriesWithPathways() { return GetBusinessApiUrlWithDomain("BusinessApiGetCategoriesWithPathways"); }
-        public string GetBusinessApiPathwaySearchUrl(string gender, string age, string searchTerm) {
-            return string.Format(GetBusinessApiUrlWithDomain("BusinessApiPathwaySearchUrl"), gender, age, searchTerm);
+        public string GetBusinessApiPathwaySearchUrl(string gender, string age) {
+            return string.Format(GetBusinessApiUrlWithDomain("BusinessApiPathwaySearchUrl"), gender, age);
         }
 
         public string GetBusinessApiGetCategoriesWithPathwaysGenderAge(string gender, int age) {
@@ -193,7 +193,7 @@ namespace NHS111.Web.Presentation.Configuration
         string GetBusinessApiGetCategoriesWithPathways();
         string GetBusinessApiGetCategoriesWithPathwaysGenderAge(string gender, int age);
         string GetBusinessApiGetPathwaysGenderAge(string gender, int age);
-        string GetBusinessApiPathwaySearchUrl(string gender, string age, string searchTerm);
+        string GetBusinessApiPathwaySearchUrl(string gender, string age);
 
         string BusinessDosCheckCapacitySummaryUrl { get; }
         string BusinessDosServicesByClinicalTermUrl { get; }

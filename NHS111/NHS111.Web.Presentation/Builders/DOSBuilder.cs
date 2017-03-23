@@ -19,6 +19,7 @@ using NHS111.Utils.Helpers;
 using NHS111.Utils.Notifier;
 using NHS111.Web.Presentation.Models;
 using IConfiguration = NHS111.Web.Presentation.Configuration.IConfiguration;
+using NHS111.Features;
 
 namespace NHS111.Web.Presentation.Builders
 {
@@ -33,9 +34,10 @@ namespace NHS111.Web.Presentation.Builders
         private readonly IMappingEngine _mappingEngine;
         private readonly ICacheManager<string, string> _cacheManager;
         private readonly INotifier<string> _notifier;
+        private readonly IITKMessagingFeature _itkMessagingFeature;
         private static readonly ILog _logger = LogManager.GetLogger(typeof (DOSBuilder));
 
-        public DOSBuilder(ICareAdviceBuilder careAdviceBuilder, IRestfulHelper restfulHelper, IConfiguration configuration, IMappingEngine mappingEngine, ICacheManager<string, string> cacheManager, INotifier<string> notifier)
+        public DOSBuilder(ICareAdviceBuilder careAdviceBuilder, IRestfulHelper restfulHelper, IConfiguration configuration, IMappingEngine mappingEngine, ICacheManager<string, string> cacheManager, INotifier<string> notifier, IITKMessagingFeature itkMessagingFeature)
         {
             _careAdviceBuilder = careAdviceBuilder;
             _restfulHelper = restfulHelper;
@@ -43,6 +45,7 @@ namespace NHS111.Web.Presentation.Builders
             _mappingEngine = mappingEngine;
             _cacheManager = cacheManager;
             _notifier = notifier;
+            _itkMessagingFeature = itkMessagingFeature;
 
             XmlConfigurator.Configure();
 
@@ -85,11 +88,19 @@ namespace NHS111.Web.Presentation.Builders
         {
             var whitelist = _configuration.DOSWhitelist.Split('|');
 
-            return services.Select(s =>
+            var list = services.Select(s =>
             {
                 s.CallbackEnabled = whitelist.Contains(s.Id.ToString());
                 return s;
             }).ToList();
+
+            if (_itkMessagingFeature.IsEnabled)
+            {
+                return list;
+            }
+            
+            //remove callback services from list, as these are disabled
+            return list.Where(s => s.CallbackEnabled == false).ToList();
         }
 
         public async Task<DosServicesByClinicalTermResult> FillDosServicesByClinicalTermResult(DosViewModel dosViewModel)

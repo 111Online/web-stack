@@ -24,6 +24,7 @@ namespace NHS111.Web.Presentation.Builders.Tests
         Mock<IMappingEngine> _mappingEngine;
         Mock<IKeywordCollector> _keywordCollector;
         Mock<IMapper> _mapper;
+        private Mock<IUserZoomDataBuilder> _userZoomDataBuilder;
 
         private const string MOCK_BusinessApiPathwayIdUrl = "http://testpathwaybyid.com";
         private const string MOCK_GetBusinessApiJustToBeSafePartOneUrl = "http://testGetBusinessApiJustToBeSafePartOneUrl.com";
@@ -50,6 +51,7 @@ namespace NHS111.Web.Presentation.Builders.Tests
             _mappingEngine = new Mock<IMappingEngine>();
             _keywordCollector = new Mock<IKeywordCollector>();
             _mapper = new Mock<IMapper>();
+            _userZoomDataBuilder = new Mock<IUserZoomDataBuilder>();
 
             _configuration.Setup(c => c.GetBusinessApiPathwayIdUrl(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<int>())).Returns(MOCK_BusinessApiPathwayIdUrl);
             _configuration.Setup(c => c.GetBusinessApiJustToBeSafePartOneUrl(It.IsAny<string>())).Returns(MOCK_GetBusinessApiJustToBeSafePartOneUrl);
@@ -81,7 +83,7 @@ namespace NHS111.Web.Presentation.Builders.Tests
             _keywordCollector.Setup(k => k.ParseKeywords(testKeywords, false))
                 .Returns(testKeywordsCollection);
 
-            _testJustToBeSafeFirstViewModelBuilder = new JustToBeSafeFirstViewModelBuilder(_restfulHelper.Object,_configuration.Object, _mappingEngine.Object, _keywordCollector.Object);
+            _testJustToBeSafeFirstViewModelBuilder = new JustToBeSafeFirstViewModelBuilder(_restfulHelper.Object, _configuration.Object, _mappingEngine.Object, _keywordCollector.Object, _userZoomDataBuilder.Object);
             
 
         }

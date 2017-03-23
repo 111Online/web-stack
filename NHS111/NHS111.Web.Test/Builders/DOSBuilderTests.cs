@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using AutoMapper;
 using Moq;
+using NHS111.Features;
 using NHS111.Models.Models.Domain;
 using NHS111.Models.Models.Web.DosRequests;
 using NHS111.Utils.Cache;
@@ -30,6 +31,7 @@ namespace NHS111.Web.Presentation.Builders.Tests
         private Mock<INotifier<string>> _mockNotifier;
         private DOSBuilder _dosBuilder;
         private Mock<ISurgeryBuilder> _mockSurgeryBuilder;
+        private Mock<IITKMessagingFeature> _mockItkMessagingFeature;
 
         private string _mockPathwayURL = "PW755";
 
@@ -44,6 +46,7 @@ namespace NHS111.Web.Presentation.Builders.Tests
             _mockConfiguration = new Mock<Configuration.IConfiguration>();
             _mockCacheManager = new Mock<ICacheManager<string, string>>();
             _mockNotifier = new Mock<INotifier<string>>();
+            _mockItkMessagingFeature = new Mock<IITKMessagingFeature>();
 
             SetupMockFillCareAdviceBuilder();
 
@@ -53,7 +56,8 @@ namespace NHS111.Web.Presentation.Builders.Tests
                 _mockRestfulHelper.Object, 
                 _mockConfiguration.Object, 
                 _mappingEngine.Object, _mockCacheManager.Object,
-                _mockNotifier.Object);
+                _mockNotifier.Object,
+                _mockItkMessagingFeature.Object);
         }
 
         private void SetupMockConfiguration()
