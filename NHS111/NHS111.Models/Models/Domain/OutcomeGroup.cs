@@ -20,7 +20,7 @@ namespace NHS111.Models.Models.Domain {
 
         public static OutcomeGroup ClinicianCallBack = new OutcomeGroup() { Id = "ITK_Clinician_call_back", Text = "ITK_Clinician_call_back", DefaultTitle = "Based on your answers, we recommend that you speak to a clinician" };
 
-        public static OutcomeGroup ItkPrimaryCare = new OutcomeGroup() { Id = "ITK_Primary_Care ", Text = "ITK_Primary_Care ", DefaultTitle = "Based on your answers, we recommend you speak to a healthcare service" };
+        public static OutcomeGroup ItkPrimaryCare = new OutcomeGroup() { Id = "ITK_Primary_care", Text = "ITK_Primary_care", DefaultTitle = "Based on your answers, we recommend you speak to a healthcare service" };
 
         public static OutcomeGroup Call999Police = new OutcomeGroup { Id = "Call_999_police", Text = "Call_999_police", DefaultTitle = "Your answers suggest you should dial 999 now for the police" };
 
