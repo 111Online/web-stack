@@ -1,7 +1,20 @@
-﻿
+﻿@using NHS111.Models.Models.Web
+@inherits NHS111.Web.Views.Shared.SurveyLinkView<OutcomeViewModel>
 @{
     ViewBag.Title = "Postcode";
     Layout = "~/Views/Shared/_LayoutNhsUK.cshtml";
+}
+
+@section HeadTop {
+    @{ var url = string.Format("/outcome/{0}/{1}/{2}/postcode/", Url.Encode(Model.PathwayNo), Url.Encode(Model.OutcomeGroup.Text), Url.Encode(Model.Id)); }
+    <script>
+        var pageId = '@Model.Id';
+        dataLayer = [
+        {
+            'virtualPageUrl': '@url',
+            'virtualPageTitle': '@Model.TitleWithoutBullets'
+        }];
+    </script>
 }
 
 <h2>Postcode</h2>
