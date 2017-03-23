@@ -1,4 +1,6 @@
-﻿namespace NHS111.Models.Models.Web {
+﻿using System.Security.Policy;
+
+namespace NHS111.Models.Models.Web {
     using System.Collections.Generic;
 
     public class SearchResultViewModel {
@@ -12,5 +14,6 @@
         public List<string> Gender { get; set; }
         public List<string> AgeGroup { get; set; }
         public object Score { get; set; }
+
     }
 }
