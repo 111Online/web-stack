@@ -17,5 +17,64 @@
     </script>
 }
 
-<h2>Postcode</h2>
+@section Title { NHS 111 - Tell us your postcode }
+<link href="~/Content/css_NhsUK/signposting-outcome.css" media="all" rel="stylesheet" type="text/css" />
 
+@section FeedbackSection {
+    @if (!SurveyLinkFeature.IsEnabled)
+    {
+        @Html.Partial("_FeedbackDetails", new FeedbackViewModel() { PageId = Model.Id });
+    }
+}
+
+@{
+    var error = Model.DosCheckCapacitySummaryResult.HasNoServices;
+}
+<section>
+    <div class="postcode-first">
+
+        @using (Html.BeginForm("ServiceList", "Outcome", FormMethod.Post, new { id = "findServicesForm" }))
+        {
+            @Html.Partial("_CommonHiddenFieldsOutcomeViewModel", Model)
+
+            <h2 id="strap-line">You've answered the questions</h2>
+            <h3>Now we can tell you what to do next</h3>
+
+            <div class="symptoms-find-container">
+                <div class="symptoms-search">
+                    @if (error)
+                    {
+                        <p class="error">Sorry, no results were found for this postcode.</p>
+                        <p>Please check you have entered the postcode correctly, then try again. <br /><br /> If the search still gives no results, please call 111 for advice.</p>
+                            <br />
+                    }
+                    @Html.ValidationMessageFor(m => m.UserInfo.CurrentAddress.Postcode)
+                    @Html.LabelFor(m => m.UserInfo.CurrentAddress.Postcode, "Enter your postcode for services near you (optional)")
+                    @Html.TextBoxFor(m => m.UserInfo.CurrentAddress.Postcode, new { @class = "form-control " + (error ? "error" : "") })
+                    <button class="button button-next" type="submit" name="DosResults" id="DosLookup">Next</button>
+                </div>
+            </div>
+        }
+
+    </div>
+</section>
+
+@Html.Partial("_PageLoadingIndicator")
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        stopPageLoadingIndicator();
+    });
+
+    $('#DosLookup').css('cursor', 'pointer');
+    $(document).on('click', '#DosLookup', function (event) {
+        if ($("#findServicesForm").valid()) {
+            var $postcode = $('#UserInfo_CurrentAddress_Postcode').val();
+            startPageLoadingIndicator('Searching for services near to ' + $postcode + '...');
+        }
+    });
+
+    window.onpageshow = function (event) {
+        stopPageLoadingIndicator();
+    };
+</script>
