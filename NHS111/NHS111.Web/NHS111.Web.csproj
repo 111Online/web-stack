@@ -233,6 +233,7 @@
     <Compile Include="Controllers\FeedbackController.cs" />
     <Compile Include="Controllers\HelpController.cs" />
     <Compile Include="Controllers\OutcomeController.cs" />
+    <Compile Include="Controllers\PostcodeFirstController.cs" />
     <Compile Include="Controllers\QuestionController.cs" />
     <Compile Include="Controllers\JustToBeSafeController.cs" />
     <Compile Include="Controllers\TopicController.cs" />
@@ -360,6 +361,7 @@
     <Content Include="Content\images\icons\outcomeHeader.png" />
     <Content Include="Content\images\icons\redArrow.png" />
     <Content Include="Content\images\icons\redDownArrow.png" />
+    <Content Include="Content\images\icons\warning-blue.png" />
     <Content Include="Content\images\icons\warning-white.png" />
     <Content Include="Content\images\icons\warning.png" />
     <Content Include="Content\images\nhs-logo.png" />
@@ -812,6 +814,9 @@
     </Content>
     <Content Include="Service References\Application Insights\ConnectedService.json" />
     <Content Include="Views\Shared\_PageLoadingIndicator.cshtml" />
+    <Content Include="Views\PostcodeFirst\Postcode.cshtml" />
+    <Content Include="Views\PostcodeFirst\Outcome.cshtml" />
+    <Content Include="Views\Shared\_AlternativeServices.cshtml" />
     <None Include="Web.Development.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
