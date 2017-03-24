@@ -7,16 +7,6 @@
     <div class="care-advice">
 
         <h3 class="self-care-title">@Html.Raw((!ViewData.Keys.Contains("Title") ? "Looking after yourself" : ViewData["Title"]))</h3>
-        @if (Model.Count() > 1) {
-            <div class="care-advice-keywords">
-                <ol>
-                    @foreach (var careAdvice in Model) {
-                        <li><a href=#Advice_@careAdvice.Id>@careAdvice.Keyword</a></li>
-                    }
-                </ol>
-            </div>
-        }
-
         <div>
             @foreach (var careAdvice in Model) {
                 if (careAdvice.Items != null && careAdvice.Items.Any()) {
