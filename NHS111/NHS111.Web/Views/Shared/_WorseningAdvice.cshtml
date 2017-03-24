@@ -1,15 +1,18 @@
 ﻿@using NHS111.Models.Models.Domain
 @using NHS111.Models.Models.Web
 @model OutcomeViewModel
+
+@{
+    var worseningAdviceClass = ViewData.ContainsKey("WorseningAdviceClass") ? ViewData["WorseningAdviceClass"] : string.Empty;
+}
+
 @if (Model.DisplayWorseningCareAdvice)
 {
 
     foreach (var item in Model.WorseningCareAdvice.Items)
     {
-        <div class="worsening-advice-icon">
+        <div class="@string.Format("worsening-advice-icon {0}", worseningAdviceClass)">
             <p>@item.Text</p>
         </div>
     }
-    
-
 }

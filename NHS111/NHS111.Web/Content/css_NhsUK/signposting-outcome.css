@@ -266,3 +266,14 @@ details summary::-webkit-details-marker {
         margin-bottom: 20px;
     }
 }
+.worsening-advice-icon.blue {
+    background-image: url(/content/images/icons/warning-blue.png);
+    background-position: 20px center;
+    background-repeat: no-repeat;
+    padding-top: 0;
+    margin-top: 40px;
+    min-height: 34px;
+    color: #0072C6;
+    border: 2px solid #0072C6;
+    padding: 20px 70px;
+}

@@ -59,6 +59,7 @@
             @Html.HiddenFor(x => x.SurveyLink.DispositionCode)
             @Html.HiddenFor(x => x.SurveyLink.JourneyId)
             @Html.HiddenFor(x => x.SurveyLink.DispositionDateTime)
+            @Html.Partial("_CommonHiddenFieldsCareAdviceViewModel", Model)
 
             <h2 id="strap-line">You've answered the questions</h2>
             <h3>Now we can tell you what to do next</h3>
