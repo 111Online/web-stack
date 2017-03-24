@@ -171,8 +171,8 @@ p {
     }
 
     .care-advice h3 {
-        font-size: 24px;
-        line-height: 28px;
+        font-size: 20px;
+        line-height: 24px;
     }
 }
 .findservice label {
@@ -321,5 +321,17 @@ details summary::-webkit-details-marker {
     display: none;
 }
 .service-direction {
-    padding-bottom: 20px;
+    padding: 20px 0;
+}
+.alternative-care-button-link {
+    border: 1px solid white;
+    text-decoration: none;
+    padding: 10px 20px;
+    background-color: #4c9c39;
+    color: #fff;
+}
+.alternative-care-button-link:hover {
+    background-color: #006647;
+    border: 1px solid #006647;
+    cursor:pointer;
 }

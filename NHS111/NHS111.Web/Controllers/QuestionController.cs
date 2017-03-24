@@ -237,7 +237,7 @@ namespace NHS111.Web.Controllers {
 
             switch (model.NodeType) {
                 case NodeType.Outcome:
-                    var viewFilePath = string.Format("{0}", model.OutcomeGroup.Equals(OutcomeGroup.ItkPrimaryCare) ? "../PostcodeFirst/Postcode" : "../Outcome/" + model.OutcomeGroup.Id);
+                    var viewFilePath = model.OutcomeGroup.Equals(OutcomeGroup.ItkPrimaryCare) ? "../PostcodeFirst/Postcode" : "../Outcome/" + model.OutcomeGroup.Id;
                     if (ViewExists(viewFilePath))
                     {
                         _userZoomDataBuilder.SetFieldsForOutcome(model);
