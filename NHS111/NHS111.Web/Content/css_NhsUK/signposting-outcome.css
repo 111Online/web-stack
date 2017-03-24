@@ -277,3 +277,49 @@ details summary::-webkit-details-marker {
     border: 2px solid #0072C6;
     padding: 20px 70px;
 }
+.alternative-care {
+    font-size: 20px;
+    line-height: 28px;
+    display: none;
+}
+.alternative-care h3 {
+    font-size: 28px;
+    padding-bottom: 20px;
+}
+@media (max-width: 640px) {
+    .alternative-care h3 {
+        font-size: 20px;
+        line-height: 24px;
+    }
+}
+.alternative-care h4 {
+    font-size: 20px;
+    line-height: 28px;
+}
+@media (max-width: 640px) {
+    .alternative-care h4 {
+        font-size: 16px;
+        line-height: 20px;
+    }
+}
+.alternative-care.service-hidden {
+    display: block;
+}
+.alternative-care.service-hidden h5 {
+    font-size: 20px;
+}
+@media (max-width: 640px) {
+    .alternative-care.service-hidden h5 {
+        font-size: 16px;
+        line-height: 20px;
+        margin-bottom: 20px;
+    }
+}
+.alternative-care-service.content {
+    margin-left: 14px;
+    padding-top: 20px;
+    display: none;
+}
+.service-direction {
+    padding-bottom: 20px;
+}

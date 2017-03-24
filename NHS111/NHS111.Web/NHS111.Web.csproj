@@ -816,6 +816,7 @@
     <Content Include="Views\Shared\_PageLoadingIndicator.cshtml" />
     <Content Include="Views\PostcodeFirst\Postcode.cshtml" />
     <Content Include="Views\PostcodeFirst\Outcome.cshtml" />
+    <Content Include="Views\Shared\_AlternativeServices.cshtml" />
     <None Include="Web.Development.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

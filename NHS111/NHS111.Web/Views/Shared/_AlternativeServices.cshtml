@@ -1,0 +1,75 @@
+﻿@using NHS111.Models.Models.Web
+@model  OutcomeViewModel
+
+<div class="alternative-care service-hidden">
+    <h3>If you can't see your GP</h3>
+    @{
+        var services = Model.DosCheckCapacitySummaryResult.Success.Services;
+    }
+    @if (services.Any(s => s.CallbackEnabled))
+    {
+        var callbackService = services.First(s => s.CallbackEnabled);
+        <h5>
+            <a class="category linkButton bullet" href="javascript:void(0);">
+                <img class="arrow" src="/Content/images/blue-arrow-right.png">
+                <span class="underline">Get an out of hours service to call you</span>
+            </a>
+        </h5>
+        <div class="alternative-care-service content">
+            <p>They will check through the anwers you have entered and give you advice on what to do next.</p>
+            <div class="service-direction">
+                <a class="button button-next button-link" href="#">Book a call</a>
+            </div>
+        </div>
+    }
+
+    @if (services.Any(s => !s.CallbackEnabled))
+    {
+        var serviceCount = services.Count(s => !s.CallbackEnabled);
+        var title = serviceCount > 1 ? "There are " + serviceCount + " places you can visit" : "There is 1 place you can visit";
+        <h5>
+            <a class="category linkButton bullet" href="javascript:void(0);">
+                <img class="arrow" src="/Content/images/blue-arrow-right.png">
+                <span class="underline">@title</span>
+            </a>
+        </h5>
+
+        <div class="alternative-care-service content">
+            @foreach (var service in services.Where(s => !s.CallbackEnabled))
+            {
+                <h4 class="service-title">@WebUtility.HtmlDecode(service.Name)</h4>
+                <p>@WebUtility.HtmlDecode(service.Address)</p>
+                <p>@WebUtility.HtmlDecode(service.CurrentStatus)</p>
+                <p>You don't need to call this service, you can go there during the times shown above.</p>
+                using (Html.BeginForm("GetDirections", "Outcome", FormMethod.Post))
+                {
+                    @Html.HiddenFor(m => m.SessionId)
+                    @Html.HiddenFor(m => m.JourneyId)
+                    @Html.HiddenFor(m => m.JourneyJson)
+                    @Html.HiddenFor(m => m.Id)
+                    @Html.Hidden("SelectedServiceId", @service.Id)
+                    @Html.Hidden("SelectedServiceName", @service.Name)
+                    @Html.Hidden("SelectedServiceAddress", @service.Address)
+                    <div class="service-direction">
+                        <input class="button button-next button-link" type="submit" value="Get directions" />
+                    </div>
+                }
+            }
+        </div>
+    }
+</div>
+
+<script>
+    $('.category').click(function () {
+        var $this = $(this);
+
+        var $helpTextLinkMessage = $this.parent().next('.content');
+        $helpTextLinkMessage.slideToggle("fast");
+        var arrow = $this.children(".arrow");
+        if (arrow.attr("src") == "/Content/images/blue-arrow-right.png") {
+            arrow.attr("src", "/Content/images/blue-arrow-down.png");
+        } else {
+            arrow.attr("src", "/Content/images/blue-arrow-right.png");
+        }
+    });
+</script>
