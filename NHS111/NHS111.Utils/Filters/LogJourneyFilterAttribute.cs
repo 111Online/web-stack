@@ -34,7 +34,7 @@ namespace NHS111.Utils.Filters
                 return;
 
             var model = result.Model as JourneyViewModel;
-            if (model == null) 
+            if (model == null)
                 return;
 
             if (filterContext.RouteData.Values["controller"].Equals("Outcome") && _manuallyTriggeredAuditList.Contains(filterContext.RouteData.Values["action"]))
@@ -43,32 +43,40 @@ namespace NHS111.Utils.Filters
             var campaign = filterContext.RequestContext.HttpContext.Request.Params["utm_campaign"];
             if (!string.IsNullOrEmpty(campaign))
             {
-                filterContext.RequestContext.HttpContext.Session["utm_campaign"] = campaign;
-                filterContext.RequestContext.HttpContext.Session["utm_source"] = filterContext.RequestContext.HttpContext.Request.Params["utm_source"]; ;
+                if (filterContext.RequestContext.HttpContext.Session != null)
+                {
+                    filterContext.RequestContext.HttpContext.Session["utm_campaign"] = campaign;
+                    filterContext.RequestContext.HttpContext.Session["utm_source"] = filterContext.RequestContext.HttpContext.Request.Params["utm_source"];
+                }
             }
 
             LogAudit(model, filterContext.RequestContext.HttpContext.Session);
         }
 
-        private static void LogAudit(JourneyViewModel model, HttpSessionStateBase session) {
+        private static void LogAudit(JourneyViewModel model, HttpSessionStateBase session)
+        {
             var url = ConfigurationManager.AppSettings["LoggingServiceUrl"];
             var rest = new RestfulHelper();
-            var httpRequestMessage = new HttpRequestMessage(HttpMethod.Post, new Uri(url)) {
+            var httpRequestMessage = new HttpRequestMessage(HttpMethod.Post, new Uri(url))
+            {
                 Content = new StringContent(JsonConvert.SerializeObject(model.ToAuditEntry(session)))
             };
             rest.PostAsync(url, httpRequestMessage);
         }
     }
 
-    public static class JourneyViewModelExtensions {
+    public static class JourneyViewModelExtensions
+    {
 
-        private static readonly Guid CampaignJourneyId = new Guid("11111111111111111111111111111111");
+        private static readonly string CampaignTestingId = "NHS111Testing";
+        private static readonly Guid CampaignTestingJourneyId = new Guid("11111111111111111111111111111111");
 
         public static AuditEntry ToAuditEntry(this JourneyViewModel model, HttpSessionStateBase session)
         {
-            var audit = new AuditEntry {
-                SessionId = model.SessionId,
-                JourneyId = GetJourneyId(session["utm_campaign"] as string, model.JourneyId),
+            var audit = new AuditEntry
+            {
+                SessionId = GetSessionId(session["utm_campaign"] as string, model.SessionId),
+                JourneyId = model.JourneyId != Guid.Empty ? model.JourneyId.ToString() : null,
                 Campaign = session["utm_campaign"] as string,
                 CampaignSource = session["utm_source"] as string,
                 Journey = model.JourneyJson,
@@ -78,7 +86,7 @@ namespace NHS111.Utils.Filters
                 DxCode = model is OutcomeViewModel ? model.Id : ""
             };
             AddLatestJourneyStepToAuditEntry(model.Journey, audit);
-            
+
             return audit;
         }
 
@@ -98,14 +106,9 @@ namespace NHS111.Utils.Filters
             auditEntry.QuestionTitle = step.QuestionTitle;
         }
 
-        private static string GetJourneyId(string campaign, Guid journeyId)
+        private static Guid GetSessionId(string campaign, Guid sessionId)
         {
-            if (!string.IsNullOrEmpty(campaign))
-                return CampaignJourneyId.ToString();
-            else if (journeyId != Guid.Empty)
-                return journeyId.ToString();
-
-            return null;
+            return campaign == CampaignTestingId ? CampaignTestingJourneyId : sessionId;
         }
     }
 }
