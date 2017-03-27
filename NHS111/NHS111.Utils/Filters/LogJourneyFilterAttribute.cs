@@ -43,8 +43,11 @@ namespace NHS111.Utils.Filters
             var campaign = filterContext.RequestContext.HttpContext.Request.Params["utm_campaign"];
             if (!string.IsNullOrEmpty(campaign))
             {
-                filterContext.RequestContext.HttpContext.Session["utm_campaign"] = campaign;
-                filterContext.RequestContext.HttpContext.Session["utm_source"] = filterContext.RequestContext.HttpContext.Request.Params["utm_source"]; ;
+                if (filterContext.RequestContext.HttpContext.Session != null)
+                {
+                    filterContext.RequestContext.HttpContext.Session["utm_campaign"] = campaign;
+                    filterContext.RequestContext.HttpContext.Session["utm_source"] = filterContext.RequestContext.HttpContext.Request.Params["utm_source"];
+                }
             }
 
             LogAudit(model, filterContext.RequestContext.HttpContext.Session);
@@ -62,13 +65,14 @@ namespace NHS111.Utils.Filters
 
     public static class JourneyViewModelExtensions {
 
-        private static readonly Guid CampaignJourneyId = new Guid("11111111111111111111111111111111");
+        private static readonly string CampaignTestingId = "NHS111Testing";
+        private static readonly Guid CampaignTestingJourneyId = new Guid("11111111111111111111111111111111");
 
         public static AuditEntry ToAuditEntry(this JourneyViewModel model, HttpSessionStateBase session)
         {
             var audit = new AuditEntry {
-                SessionId = model.SessionId,
-                JourneyId = GetJourneyId(session["utm_campaign"] as string, model.JourneyId),
+                SessionId = GetSessionId(session["utm_campaign"] as string, model.SessionId),
+                JourneyId = model.JourneyId != Guid.Empty ? model.JourneyId.ToString() : null,
                 Campaign = session["utm_campaign"] as string,
                 CampaignSource = session["utm_source"] as string,
                 Journey = model.JourneyJson,
@@ -98,14 +102,9 @@ namespace NHS111.Utils.Filters
             auditEntry.QuestionTitle = step.QuestionTitle;
         }
 
-        private static string GetJourneyId(string campaign, Guid journeyId)
+        private static Guid GetSessionId(string campaign, Guid sessionId)
         {
-            if (!string.IsNullOrEmpty(campaign))
-                return CampaignJourneyId.ToString();
-            else if (journeyId != Guid.Empty)
-                return journeyId.ToString();
-
-            return null;
+            return campaign == CampaignTestingId ? CampaignTestingJourneyId : sessionId;
         }
     }
 }
