@@ -34,7 +34,7 @@ namespace NHS111.Utils.Filters
                 return;
 
             var model = result.Model as JourneyViewModel;
-            if (model == null) 
+            if (model == null)
                 return;
 
             if (filterContext.RouteData.Values["controller"].Equals("Outcome") && _manuallyTriggeredAuditList.Contains(filterContext.RouteData.Values["action"]))
@@ -53,24 +53,26 @@ namespace NHS111.Utils.Filters
             LogAudit(model, filterContext.RequestContext.HttpContext.Session);
         }
 
-        private static void LogAudit(JourneyViewModel model, HttpSessionStateBase session) {
+        private static void LogAudit(JourneyViewModel model, HttpSessionStateBase session)
+        {
             var url = ConfigurationManager.AppSettings["LoggingServiceUrl"];
             var rest = new RestfulHelper();
-            var httpRequestMessage = new HttpRequestMessage(HttpMethod.Post, new Uri(url)) {
+            var httpRequestMessage = new HttpRequestMessage(HttpMethod.Post, new Uri(url))
+            {
                 Content = new StringContent(JsonConvert.SerializeObject(model.ToAuditEntry(session)))
             };
             rest.PostAsync(url, httpRequestMessage);
         }
     }
 
-    public static class JourneyViewModelExtensions {
+    public static class JourneyViewModelExtensions
+    {
 
         private static readonly string CampaignTestingId = "NHS111Testing";
         private static readonly Guid CampaignTestingJourneyId = new Guid("11111111111111111111111111111111");
 
         public static AuditEntry ToAuditEntry(this JourneyViewModel model, HttpSessionStateBase session)
         {
-            var audit = new AuditEntry {
                 SessionId = GetSessionId(session["utm_campaign"] as string, model.SessionId),
                 JourneyId = model.JourneyId != Guid.Empty ? model.JourneyId.ToString() : null,
                 Campaign = session["utm_campaign"] as string,
@@ -82,7 +84,7 @@ namespace NHS111.Utils.Filters
                 DxCode = model is OutcomeViewModel ? model.Id : ""
             };
             AddLatestJourneyStepToAuditEntry(model.Journey, audit);
-            
+
             return audit;
         }
 
