@@ -30,17 +30,20 @@
     }
 }
 
-<div class="outcome-header">
-    <h2 class="heading-large">Based on your answers, you can look after yourself and don't need to see a healthcare professional</h2>
-</div>
+@Html.Partial("_OutcomeHeader", Model, new ViewDataDictionary() { { "OutcomeHeader", "Based on your answers, you can look after yourself and don't need to see a healthcare professional" } })
 
 @Html.Partial("_WorseningAdvice", Model)
 <section>
     <div>
-        @if (Model.CareAdvices != null && Model.CareAdvices.Any()) {
+        @if (Model.CareAdvices != null && Model.CareAdvices.Any())
+        {
             @Html.Partial("_CareAdvice", Model.CareAdvices)
-        } else {
-            <h2 class="no-careadvice">If you need more help with your problem, you can find further information on <a href="http://www.nhs.uk">NHS Choices</a>.</h2>
+        }
+        else
+        {
+            <h2 class="no-careadvice">If you need more help with your problem, you can find further information on <a href="http://www.nhs.uk">NHS Choices</a>.
+            </h2>
         }
     </div>
 </section>
+

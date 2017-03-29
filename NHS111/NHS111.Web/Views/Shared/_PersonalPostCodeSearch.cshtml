@@ -1,6 +1,7 @@
 ﻿@using Newtonsoft.Json
 @using NHS111.Models.Models.Web
-@model  PersonalInfoAddressViewModel
+@model  PersonalDetailsAddressViewModel
+
 
 <div class="find-address-panel">
     <label>
@@ -8,14 +9,16 @@
     </label>
     <p class="validation-error-msg" id="postcode-validation-message">A valid UK postcode is required</p>
     <div class="inline-details">
-        @InputExtensions.TextBox(Html, "postcode-find", ViewBag.Postcode, new { @class = "form-control form-control-8-chars", placeholder = "eg. SE1"})
-        <input type="button" class="button find-address" id="findMyAddress" value="Find my address" />
+        @Html.TextBoxFor(m => m.PreviouslyEnteredPostcode, new {@class = "form-control form-control-8-chars", placeholder = "eg. SE1", @readonly= "readonly" })
+        <a class="button button-next button-link" id="postcode-change-link" href="javascript:void(0);">Change this postcode</a>
+        <input style="display:none" type="button" class="button find-address" id="findMyAddress" value="Find address" />
     </div>
-    <a class="button button-next button-link" href="javascript:void(0);" id="manual-entry-link">Enter address manually</a>
 </div>
 
+<p class="" style="display: none;" id="no-results-message">Sorry, we couldn't find an address using that postcode.<br/>Please enter your address below or try a different postcode.</p>
+
 <div id="addressPanel" class="address-panel">
-    <p class="manual-entry-text" id="manual-entry-text">Enter address manually</p>
+    <p class="manual-entry-text" id="manual-entry-title">Enter address</p>
     <label>
         Street
     </label>
@@ -51,21 +54,64 @@
 <div id="AddressList" style="display: none;">
     <label>Pick an address</label>
     <label class="select-label">
-        <select class="select-address" id="AddressSelect">
-        </select>
+        @Html.DropDownListFor(m => m.SelectedAddressFromPicker, Model.AddressPicker, new { @class = "select-address" })
+        @Html.HiddenFor(m => m.AddressOptions)
     </label>
 </div>
 
+<a class="button button-next button-link" href="javascript:void(0);" style="display: none;" id="manual-entry-link">I can't find my address in the list</a>
+
 <script type="text/javascript">
+    var addressList = $.parseJSON($("#AddressInfoViewModel_AddressOptions").val());
     $(".find-address-panel").show();
     $(".address-panel").hide();
+
+    $(function () {
+        var select = $("#AddressInfoViewModel_SelectedAddressFromPicker");
+        var selectOptions = $("#AddressInfoViewModel_SelectedAddressFromPicker option");
+        if (selectOptions.length > 1) {
+            $("#AddressList").show();
+            $("#manual-entry-link").show();
+        } else {
+            $("#manual-entry-link").hide();
+            $("#AddressList").hide();
+            $(".address-panel").show();
+            $("#no-results-message").show();
+        }
+
+        if ($("#AddressInfoViewModel_AddressLine1").hasClass("input-validation-error")) {
+            $("#AddressInfoViewModel_SelectedAddressFromPicker").addClass("input-validation-error");
+        }
+    });
+
+    $("#AddressInfoViewModel_SelectedAddressFromPicker").change(function () {
+        var selectedAddress = $("#AddressInfoViewModel_SelectedAddressFromPicker option:selected").attr("value");
+        if (selectedAddress === "0")
+            return;
+        var result = $.grep(addressList, function (e) { return e.UPRN === selectedAddress; });
+        if (result.length < 1) {
+            console.error("Address selected with id " + selectedAddress + " which isn't in list of addresses.");
+            return;
+        }
+        
+        setFields(result[0]);
+
+        $("#AddressInfoViewModel_SelectedAddressFromPicker").removeClass("input-validation-error");
+        runAddressValidation();
+
+        $("#manual-entry-link").hide();
+        $("#AddressList").hide();
+        $(".address-panel").show();
+    });
+
     $(function () {
         var addresses = [];
         $('#findMyAddress').css('cursor', 'pointer');
         $(document).on('click', '#findMyAddress', function (event) {
             $("#manual-entry-link").show();
+            postcodeChangeLink("show");
             resetElements();
-            var $postCode = $("#AddressInfoViewModel_postcode-find").val();
+            var $postCode = $("#AddressInfoViewModel_PreviouslyEnteredPostcode").val();
             if (!valid_postcode($postCode)) {
                 invalidatePostCode();
                 return;
@@ -77,30 +123,23 @@
                 data: { postCode: $postCode },
                 success: function (response) {
                     addresses = response;
-                    var select = $("#AddressSelect");
+                    var select = $("#AddressInfoViewModel_SelectedAddressFromPicker");
                     if (addresses.length > 0) {
                         select.empty();
-                        select.append($("<option />").val(0).text("Please choose..."));
-                        $.each(response, function () {
-                            var text = this.AddressLine1;
-                            select.append($("<option />").val(this.UPRN).text(text));
+                        select.append($("<option />").val(0).text(addresses.length + " addresses found. Please choose..."));
+                        $.each(addresses, function() {
+                            select.append($("<option />").val(this.UPRN).text(this.AddressLine1));
                         });
+                        $("#no-results-message").hide();
                         $("#AddressList").show();
-                    }
-                    select.change(function () {
-                        var selectedAddress = $("#AddressSelect option:selected").attr("value");
-                        if (selectedAddress == "0")
-                            return;
-                        var result = $.grep(addresses, function (e) { return e.UPRN == selectedAddress; });
-                        if (result.length < 1) {
-                            console.error("Address selected with id " + selectedAddress + " which isn't in list of addresses.");
-                            return;
-                        }
-                        setFields(result[0]);
+                        $("#manual-entry-link").show();
+                    } else {
                         $("#manual-entry-link").hide();
                         $("#AddressList").hide();
                         $(".address-panel").show();
-                    });
+                        $("#no-results-message").show();
+                    }
+                    addressList = addresses;
                 },
                 timeout: 5000,
                 error: function (XMLHttpRequest, textStatus, errorThrown) {
@@ -108,7 +147,7 @@
                     $("#AddressList").hide();
                 },
                 complete: function () {
-                    stopPageLoadingIndicator()
+                    stopPageLoadingIndicator();
                 }
             });
         });
@@ -119,6 +158,32 @@
             $(this).hide();
         });
     });
+
+    $("#postcode-change-link").click(function () {
+        postcodeChangeLink("hide");
+    });
+
+    function postcodeChangeLink(flag) {
+        if (flag === "hide") {
+            $("#findMyAddress").show();
+            $("#AddressInfoViewModel_PreviouslyEnteredPostcode").prop('readonly', false);
+            $("#manual-entry-link").hide();
+            $("#AddressList").hide();
+            $("#postcode-change-link").hide();
+        } else if (flag === "show") {
+            $("#findMyAddress").hide();
+            $("#AddressInfoViewModel_PreviouslyEnteredPostcode").prop('readonly', true);
+            $("#postcode-change-link").show();
+        }
+    }
+
+    function runAddressValidation() {
+        $("#AddressInfoViewModel_AddressLine1").valid();
+        $("#AddressInfoViewModel_AddressLine2").valid();
+        $("#AddressInfoViewModel_City").valid();
+        $("#AddressInfoViewModel_County").valid();
+        $("#AddressInfoViewModel_Postcode").valid();
+    }
 
     function resetElements() {
         $(".address-panel").hide();

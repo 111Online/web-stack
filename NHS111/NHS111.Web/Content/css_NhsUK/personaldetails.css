@@ -47,12 +47,6 @@
     border: 2px solid #E6E6E6;
 }
 
-@media (min-width: 641px) {
-    #UserInfo_TelephoneNumber {
-        width: 25%;
-    }
-}
-
 .inline-details {
     overflow: auto;
     display: block;
@@ -99,17 +93,30 @@
 .select-address {
     display: block;
     cursor: pointer;
-    height: 3rem;
+    height: 4rem;
     line-height: 3rem;
     padding: 0 1rem;
-    border: 2px solid #b9d2dc;
+    border: 2px solid RGB(230,230,230);
     width: 100%;
+    font-size: 20px;
 }
 
 @media screen and (min-width: 641px) {
     .select-address {
-        width: auto;
+        width: 20em;
     }
+}
+
+input:read-only {
+    color: #999999;
+}
+
+#manual-entry-title {
+    padding-bottom: 1rem;
+}
+
+#no-results-message {
+    padding-bottom: 1rem;
 }
 
 .select-label {

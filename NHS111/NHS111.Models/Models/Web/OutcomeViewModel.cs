@@ -16,7 +16,7 @@ namespace NHS111.Models.Models.Web
         public IEnumerable<string> CareAdviceMarkers { get; set; }
         public Enums.Urgency Urgency { get; set; }
         public string SymptomGroup { get; set; }
-        public PersonalInfoAddressViewModel AddressInfoViewModel { get; set; }
+        public PersonalDetailsAddressViewModel AddressInfoViewModel { get; set; }
         public bool? ItkSendSuccess { get; set; }
         public CareAdvice WorseningCareAdvice { get; set; }
         public SymptomDiscriminator SymptomDiscriminator { get; set; }
@@ -78,7 +78,7 @@ namespace NHS111.Models.Models.Web
             SurgeryViewModel = new SurgeryViewModel();
             CareAdvices = new List<CareAdvice>();
             CareAdviceMarkers = new List<string>();
-            AddressInfoViewModel = new PersonalInfoAddressViewModel();
+            AddressInfoViewModel = new PersonalDetailsAddressViewModel();
             DosCheckCapacitySummaryResult = new DosCheckCapacitySummaryResult();
             SurveyLink = new SurveyLinkViewModel();
         }

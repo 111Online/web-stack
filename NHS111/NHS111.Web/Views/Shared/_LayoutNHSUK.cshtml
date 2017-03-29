@@ -1,4 +1,5 @@
 ﻿@using System.Configuration
+@using System.Reflection
 @using NHS111.Web.Presentation.Analytics
 @inherits NHS111.Web.Views.Shared.LayoutView
 
@@ -25,6 +26,13 @@
     <link href="~/Content/css_NhsUK/application.css" media="all" rel="stylesheet" type="text/css"/>
 
     <!-- Javascript -->
+    @if (UserZoomSurveyFeature.IsEnabled)
+    {
+        <script>
+            (function (w) { w.uztracker = w.uztracker || function () { console.warn && console.warn('The uztracker() is not available.'); }; })(window);
+        </script>
+    }
+    
     <script src="~/scripts/vendor/modernizr-custom.js"></script>
     <!--[if lt IE 9]>
         <script src="https://code.jquery.com/jquery-1.12.4.min.js" integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ=" crossorigin="anonymous"></script>
@@ -39,7 +47,13 @@
     <script src="https://ajax.aspnetcdn.com/ajax/mvc/5.1/jquery.validate.unobtrusive.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.ns-autogrow/1.1.6/jquery.ns-autogrow.min.js"></script>
 
+    @if (UserZoomSurveyFeature.IsEnabled)
+    {
+        <script type="text/javascript" charset="utf-8" src="https://cdn3.userzoom.com/uz.js?cuid=AE08A9785B32E2119DA70022196C4538"></script>
+    }
+
     @RenderSection("Scripts", false)
+
 </head>
 <body class="">
     @if (CookieBannerFeature.IsEnabled)
@@ -52,7 +66,7 @@
 
     @tagPrinter.PrintNoScript()
 
-    <script type="text/javascript">document.body.className = ((document.body.className) ? document.body.className + ' js-enabled' : 'js-enabled');</script>
+    <script type="text/javascript"> document.body.className = ((document.body.className) ? document.body.className + ' js-enabled' : 'js-enabled'); </script>
     <div id="skiplink-container">
         <div>
             <a href="#content" class="skiplink">Skip to main content</a>
@@ -71,7 +85,7 @@
     </header>
     @if (DisclaimerBannerFeature.IsEnabled)
     {
-            <!-- toggle disclaimer banner-->
+        <!-- toggle disclaimer banner-->
         @Html.Partial("_DisclaimerBanner")
     }
     @RenderSection("HeaderContent", false)
@@ -88,15 +102,38 @@
         <div class="footer-wrapper">
             <nav>
                 <ul>
-                    <li>@Html.ActionLink("Terms and conditions", "Terms", "Help", null, new { target = "_blank" })</li>
+                    <li>@Html.ActionLink("Terms and conditions", "Terms", "Help", null, new {target = "_blank"})</li>
                     <li>@Html.ActionLink("Privacy statement", "Privacy", "Help", null, new {target = "_blank"})</li>
-                    <li>@Html.ActionLink("Cookies", "Cookies", "Help", null, new { target = "_blank" })</li>
+                    <li>@Html.ActionLink("Cookies", "Cookies", "Help", null, new {target = "_blank"})</li>
                 </ul>
             </nav>
         </div>
     </footer>
 
     <div id="global-app-error" class="app-error hidden"></div>
+    @if (UserZoomSurveyFeature.IsEnabled && Model != null && !string.IsNullOrEmpty(Model.UserZoomUrl) && !string.IsNullOrEmpty(Model.UserZoomTitle))
+    {
+    <script>
+        $(document).ready(function () {
+            uztracker('send', 'page', {
+                'url': document.location.href + '/' + '@Model.UserZoomUrl',
+                'title': '@Model.UserZoomTitle'
+            });
+        });
+    </script>
+    }
+
+    <script type="text/javascript">
+        var website = {
+            name: 'NHS 111',
+            phase: 'beta',
+            version: '@ViewContext.Controller.GetType().Assembly.GetName().Version',
+            date: '@File.GetCreationTime(ViewContext.Controller.GetType().Assembly.Location)'
+        };
+
+        console.groupCollapsed('%s (%s) v%s', website.name, website.phase, website.version);
+        console.log("Date compiled %s", website.date);
+        console.groupEnd();
+    </script>
 </body>
 </html>
-

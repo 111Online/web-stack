@@ -3,7 +3,7 @@
 @{
     Layout = "~/Views/Shared/_LayoutNhsUK.cshtml";
 }
-@inherits NHS111.Web.Views.Shared.DisclaimerPopupView
+@inherits NHS111.Web.Views.Shared.SiteEntrypointView
 
 @section Title { NHS 111 Digital }
 
@@ -164,7 +164,7 @@
 
         }
 
-        $(function () {
+        $(function() {
             $("#SearchResults").hide();
             $("#categories").hide();
 
@@ -181,33 +181,33 @@
                         url: '@Url.Action("PathwaySearch", "Question")',
                         type: "post",
                         dataType: "json",
-                        data: { searchTerm: term, gender: '@Model.UserInfo.Demography.Gender', age: @Model.UserInfo.Demography.Age},
-                        success: function(data) {
-                            data = JSON.parse(data);
-                            UpdateSearchResults(data);
-                        },
-                        error: function(textStatus, errorThrown) {
-                            return null;
-                        }
-                    });
-
-                    return false;
+                        data: { searchTerm: term, gender: '@Model.UserInfo.Demography.Gender', age: @Model.UserInfo.Demography.Age },
+                    success: function(data) {
+                        data = JSON.parse(data);
+                        UpdateSearchResults(data);
+                    },
+                    error: function(textStatus, errorThrown) {
+                        return null;
+                    }
                 });
 
-            $(document).on("click", ".topicLink", function(){
+                return false;
+            });
+
+            $(document).on("click", ".topicLink", function() {
                 var $this = $(this);
                 $('#pathwayNo').val($this.attr("id"));
                 $('#pathwayTitle').val($this.data("title"));
             });
 
-            $(document).on("click", "#show-categories", function(){
+            $(document).on("click", "#show-categories", function() {
                 $("#categories").show();
                 $(".results-list").hide();
                 $("#category-option").hide();
 
             });
 
-            $('.category').click(function () {
+            $('.category').click(function() {
                 var $this = $(this);
 
                 var $helpTextLinkMessage = $this.parent().next('.content');
@@ -216,4 +216,17 @@
 
         });
     </script>
+
+    @if (UserZoomSurveyFeature.IsEnabled)
+    {
+        <script>
+            $(document).ready(function () {
+                uztracker('send', 'page', {
+                    'url': document.location.href + '/Search',
+                    'title': 'Search'
+                });
+            });
+        </script>
+    }
+
 </div>

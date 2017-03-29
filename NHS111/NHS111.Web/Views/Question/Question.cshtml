@@ -35,7 +35,6 @@
 
         return "";
     }
-
 }
 
 @using (Html.BeginForm("Navigation", "Question", FormMethod.Post))
@@ -116,19 +115,17 @@
     }
 }
 <script type="text/javascript">
-
-
-    $(document).ready(function () {
+    $(document).ready(function() {
         //enable disable submit button
         if (!($("form input[type=radio]").is(':checked'))) {
             $("#nextScreen[type=submit]").attr('disabled', 'disabled');
         }
 
-        $("form input[type=radio]").change(function () {
+        $("form input[type=radio]").change(function() {
             $("button[type=submit]").removeAttr('disabled');
         });
 
-        $('.help-text-link').click(function () {
+        $('.help-text-link').click(function() {
             var $this = $(this);
             //$this.preventDefault();
 
@@ -136,6 +133,4 @@
             $helpTextLinkMessage.slideToggle("fast");
         });
     });
-
-
 </script>

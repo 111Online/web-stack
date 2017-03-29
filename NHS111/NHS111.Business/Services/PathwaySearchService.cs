@@ -37,7 +37,7 @@ namespace NHS111.Business.Services
         public async Task<List<PathwaySearchResult>> FindResults(string query, bool highlight, bool score)
         {
             var res = await _elastic.SearchAsync<PathwaySearchResult>(s =>
-                    BuildPathwaysTextQuery(s.Index("pathways"), query)
+                    BuildPathwaysTextQuery(s.Index("pathways"), Uri.UnescapeDataString(query))
                 );
 
             var highlightedResults = BuildHighlights(res.Hits, highlight);
@@ -48,7 +48,7 @@ namespace NHS111.Business.Services
         public async Task<List<PathwaySearchResult>> FindResults(string query, string gender, string ageGroup, bool highlight, bool score)
         {
             var res = await _elastic.SearchAsync<PathwaySearchResult>(s =>
-                AddAgeGenderFilters(BuildPathwaysTextQuery(s.Index("pathways"), query), gender, ageGroup));
+                AddAgeGenderFilters(BuildPathwaysTextQuery(s.Index("pathways"), Uri.UnescapeDataString(query)), gender, ageGroup));
 
             var highlightedResults = BuildHighlights(res.Hits, highlight);
             
@@ -113,74 +113,12 @@ namespace NHS111.Business.Services
                             .Bool(b => b
                                 .Should
                                     (
-                                        s => s.MultiMatch(m =>
-                                            m.Fields(f => f
-                                                    .Field(p => p.Title, boost: 10)
-                                                    .Field(p => p.Description, boost: 2)
-                                                )
-                                                .Operator(Operator.Or)
-                                                .Type(TextQueryType.MostFields)
-                                                .Slop(50)
-                                                .CutoffFrequency(0.001)
-                                                .Boost(10)
-                                                .Query(query)
-                                            ),
-                                            s => s.MultiMatch(m =>
-                                            m.Fields(f => f
-                                                    .Field(p => p.TitleShingles, boost: 10)
-                                                    .Field(p => p.DescriptionShingles, boost: 2)
-                                                )
-                                                .Operator(Operator.Or)
-                                                .Type(TextQueryType.MostFields)
-                                                .Slop(50)
-                                                .Boost(20)
-                                                .Query(query)
-                                            ),
-                                            s => s.MultiMatch(m =>
-                                            m.Fields(f => f
-                                                    .Field(p => p.TitlePhonetic, boost: 10)
-                                                    .Field(p => p.DescriptionPhonetic, boost: 2)
-                                                )
-                                                .Operator(Operator.Or)
-                                                .Type(TextQueryType.MostFields)
-                                                .Slop(50)
-                                                .CutoffFrequency(0.001)
-                                                .Query(query)
-                                            ),
-                                        s => s.HasChild<PathwayPhraseResult>(c => 
-                                            c.Query(q2 => 
-                                                q2.Match(m => 
-                                                    m.Field("CommonPhrase")
-                                                        .Query(query)
-                                                        .Boost(10)
-                                                        .Slop(50)
-                                                        )
-                                                    )
-                                                    .ScoreMode(ChildScoreMode.Sum)
-                                            ),
-                                        s => s.MultiMatch(m =>
-                                            m.Fields(f => f
-                                                    .Field(p => p.Title, boost: 10)
-                                                    .Field(p => p.Description, boost: 2)
-                                                )
-                                                .Operator(Operator.Or)
-                                                .Type(TextQueryType.MostFields)
-                                                .Fuzziness(Fuzziness.Auto)
-                                                .Slop(50)
-                                                .CutoffFrequency(0.001)
-                                                .Boost(0.1)
-                                                .Query(query)
-                                            ),
-                                        s => s.HasChild<PathwayPhraseResult>(c =>
-                                            c.Query(q2 =>
-                                                q2.Fuzzy(m =>
-                                                    m.Field("CommonPhrase")
-                                                        .Value(query)
-                                                    )
-                                                ).Boost(0.1)
-                                          
-                                                .ScoreMode(ChildScoreMode.Sum)
-                                            )
+                                        AddTitleAndDerscriptionMatchingQuery(query, 10),
+                                        AddShingleMatchQuery(query, 20),
+                                        AddPhoneticsMatchQuery(query),
+                                        AddPhraseMatchQuery(query, 10),
+                                        AddFuzzyTitleAndDescriptionMatchQuery(query, 0.1),
+                                        AddFuzzyPhraseMatchQuery(query, 0.1)
                                             
                                     )
                                .MinimumShouldMatch(1)
@@ -203,6 +141,98 @@ namespace NHS111.Business.Services
                 .PostTags(PathwaySearchResult.HighlightPostTags));
 
             return shouldQuery;
+        }
+
+        private Func<QueryContainerDescriptor<PathwaySearchResult>, QueryContainer> AddFuzzyPhraseMatchQuery(string query, double boostScore)
+        {
+            return s => s.HasChild<PathwayPhraseResult>(c =>
+                c.Query(q2 =>
+                    q2.Fuzzy(m =>
+                        m.Field("CommonPhrase")
+                            .Value(query)
+                        )
+                    ).Boost(boostScore)
+                                          
+                    .ScoreMode(ChildScoreMode.Sum)
+                );
+        }
+
+        private Func<QueryContainerDescriptor<PathwaySearchResult>, QueryContainer> AddFuzzyTitleAndDescriptionMatchQuery(string query, double boostScore)
+        {
+            return s => s.MultiMatch(m =>
+                m.Fields(f => f
+                    .Field(p => p.Title, boost: 10)
+                    .Field(p => p.Description, boost: 2)
+                    )
+                    .Operator(Operator.Or)
+                    .Type(TextQueryType.MostFields)
+                    .Fuzziness(Fuzziness.Auto)
+                    .Slop(50)
+                    .CutoffFrequency(0.001)
+                    .Boost(boostScore)
+                    .Query(query)
+                );
+        }
+
+        private Func<QueryContainerDescriptor<PathwaySearchResult>, QueryContainer> AddPhraseMatchQuery(string query, double boostScore)
+        {
+            return s => s.HasChild<PathwayPhraseResult>(c => 
+                c.Query(q2 => 
+                    q2.Match(m => 
+                        m.Field("CommonPhrase")
+                            .Query(query)
+                            .Boost(boostScore)
+                            .Slop(50)
+                        )
+                    )
+                    .ScoreMode(ChildScoreMode.Sum)
+                );
+        }
+
+        private  Func<QueryContainerDescriptor<PathwaySearchResult>, QueryContainer> AddPhoneticsMatchQuery(string query)
+        {
+            return s => s.MultiMatch(m =>
+                m.Fields(f => f
+                    .Field(p => p.TitlePhonetic, boost: 10)
+                    .Field(p => p.DescriptionPhonetic, boost: 2)
+                    )
+                    .Operator(Operator.Or)
+                    .Type(TextQueryType.MostFields)
+                    .Slop(50)
+                    .CutoffFrequency(0.001)
+                    .Query(query)
+                );
+        }
+
+        private Func<QueryContainerDescriptor<PathwaySearchResult>, QueryContainer> AddShingleMatchQuery(string query, double boostScore)
+        {
+            return s => s.MultiMatch(m =>
+                m.Fields(f => f
+                    .Field(p => p.TitleShingles, boost: 10)
+                    .Field(p => p.DescriptionShingles, boost: 2)
+                    )
+                    .Operator(Operator.Or)
+                    .Type(TextQueryType.MostFields)
+                    .Slop(50)
+                    .Boost(boostScore)
+                    .Query(query)
+                );
+        }
+
+        private Func<QueryContainerDescriptor<PathwaySearchResult>, QueryContainer> AddTitleAndDerscriptionMatchingQuery(string query, double boostScore)
+        {
+            return s => s.MultiMatch(m =>
+                m.Fields(f => f
+                    .Field(p => p.Title, boost: 10)
+                    .Field(p => p.Description, boost: 2)
+                    )
+                    .Operator(Operator.Or)
+                    .Type(TextQueryType.MostFields)
+                    .Slop(50)
+                    .CutoffFrequency(0.001)
+                    .Boost(boostScore)
+                    .Query(query)
+                );
         }
 
         private SearchDescriptor<PathwaySearchResult> AddAgeGenderFilters(
