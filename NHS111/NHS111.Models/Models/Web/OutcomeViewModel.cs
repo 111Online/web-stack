@@ -27,6 +27,8 @@ namespace NHS111.Models.Models.Web
 
         public InformantViewModel Informant { get; set; }
 
+        public bool IsInformant { get; set; }
+
         public bool HasEndpointReasoning
         {
             get

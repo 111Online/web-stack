@@ -817,6 +817,8 @@
     <Content Include="Views\PostcodeFirst\Postcode.cshtml" />
     <Content Include="Views\PostcodeFirst\Outcome.cshtml" />
     <Content Include="Views\Shared\_AlternativeServices.cshtml" />
+    <Content Include="Views\Shared\_PersonalDetailsSelf.cshtml" />
+    <Content Include="Views\Shared\_InformantDetails.cshtml" />
     <None Include="Web.Development.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
