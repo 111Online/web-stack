@@ -812,6 +812,8 @@
     </Content>
     <Content Include="Service References\Application Insights\ConnectedService.json" />
     <Content Include="Views\Shared\_PageLoadingIndicator.cshtml" />
+    <Content Include="Views\Shared\_PersonalDetailsSelf.cshtml" />
+    <Content Include="Views\Shared\_InformantDetails.cshtml" />
     <None Include="Web.Development.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
