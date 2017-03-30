@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using AutoMapper;
+using CsvHelper.TypeConversion;
 using NHS111.Models.Models.Web;
 using NHS111.Models.Models.Web.FromExternalServices;
 using NHS111.Models.Models.Web.ITK;
@@ -84,6 +85,15 @@ namespace NHS111.Models.Mappers.WebMappings
                     new DateTime(outcome.UserInfo.Year.Value, outcome.UserInfo.Month.Value, outcome.UserInfo.Day.Value);
 
             patientDetails.Gender = outcome.UserInfo.Demography.Gender;
+
+            InformantType informantType;
+            patientDetails.Informant = new InformantDetails()
+            {
+                Forename = outcome.Informant.Forename,
+                Surname = outcome.Informant.Surname,
+                TelephoneNumber = outcome.Informant.TelephoneNumber,
+                Type = Enum.TryParse(outcome.Informant.Type, false, out informantType) ? informantType : InformantType.Self
+            };
             
             return patientDetails;
         }
