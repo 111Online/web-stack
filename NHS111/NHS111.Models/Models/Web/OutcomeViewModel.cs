@@ -25,6 +25,8 @@ namespace NHS111.Models.Models.Web
 
         public  SurveyLinkViewModel SurveyLink { get; set; }
 
+        public InformantViewModel Informant { get; set; }
+
         public bool HasEndpointReasoning
         {
             get
@@ -81,6 +83,7 @@ namespace NHS111.Models.Models.Web
             AddressInfoViewModel = new PersonalDetailsAddressViewModel();
             DosCheckCapacitySummaryResult = new DosCheckCapacitySummaryResult();
             SurveyLink = new SurveyLinkViewModel();
+            Informant = new InformantViewModel();
         }
     }
 
