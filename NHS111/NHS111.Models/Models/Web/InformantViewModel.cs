@@ -8,14 +8,9 @@ namespace NHS111.Models.Models.Web
 {
     public class InformantViewModel
     {
-        public InformantViewModel()
-        {
-            Type = "Self";
-        }
-
         public string Forename { get; set; }
         public string Surname { get; set; }
         public string TelephoneNumber { get; set; }
-        public string Type { get; set; }
+        public bool IsInformant { get; set; }
     }
 }

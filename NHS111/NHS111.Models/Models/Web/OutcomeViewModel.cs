@@ -26,9 +26,7 @@ namespace NHS111.Models.Models.Web
         public  SurveyLinkViewModel SurveyLink { get; set; }
 
         public InformantViewModel Informant { get; set; }
-
-        public bool IsInformant { get; set; }
-
+        
         public bool HasEndpointReasoning
         {
             get
