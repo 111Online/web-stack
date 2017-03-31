@@ -86,14 +86,16 @@ namespace NHS111.Models.Mappers.WebMappings
 
             patientDetails.Gender = outcome.UserInfo.Demography.Gender;
 
-            InformantType informantType;
-            patientDetails.Informant = new InformantDetails()
+            if (outcome.Informant.IsInformant)
             {
-                Forename = outcome.Informant.Forename,
-                Surname = outcome.Informant.Surname,
-                TelephoneNumber = outcome.Informant.TelephoneNumber,
-                Type = outcome.Informant.IsInformant ? InformantType.NotSpecified : InformantType.Self
-            };
+                patientDetails.Informant = new InformantDetails()
+                {
+                    Forename = outcome.Informant.Forename,
+                    Surname = outcome.Informant.Surname,
+                    TelephoneNumber = outcome.UserInfo.TelephoneNumber,
+                    Type = InformantType.NotSpecified
+                };
+            }
             
             return patientDetails;
         }
