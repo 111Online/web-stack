@@ -92,7 +92,7 @@ namespace NHS111.Models.Mappers.WebMappings
                 Forename = outcome.Informant.Forename,
                 Surname = outcome.Informant.Surname,
                 TelephoneNumber = outcome.Informant.TelephoneNumber,
-                Type = Enum.TryParse(outcome.Informant.Type, false, out informantType) ? informantType : InformantType.Self
+                Type = outcome.Informant.IsInformant ? InformantType.NotSpecified : InformantType.Self
             };
             
             return patientDetails;

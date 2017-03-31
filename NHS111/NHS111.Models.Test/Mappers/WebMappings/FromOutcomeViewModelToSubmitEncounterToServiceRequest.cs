@@ -68,7 +68,7 @@ namespace NHS111.Models.Test.Mappers.WebMappings
         }
 
         [Test]
-        public void FromOutcomeViewModelToPatientDetailsConverter_Informant_self_test()
+        public void FromOutcomeViewModelToPatientDetailsConverter_Informant_false_test()
         {
             var outcome = new OutcomeViewModel()
             {
@@ -102,7 +102,7 @@ namespace NHS111.Models.Test.Mappers.WebMappings
                 },
                 Informant = new InformantViewModel()
                 {
-                    Type = "Self"
+                    IsInformant = false
                 }
             };
 
@@ -112,7 +112,7 @@ namespace NHS111.Models.Test.Mappers.WebMappings
         }
 
         [Test]
-        public void FromOutcomeViewModelToPatientDetailsConverter_Informant_notspecified_test()
+        public void FromOutcomeViewModelToPatientDetailsConverter_Informant_true_test()
         {
             var outcome = new OutcomeViewModel()
             {
@@ -148,7 +148,7 @@ namespace NHS111.Models.Test.Mappers.WebMappings
                 {
                     Forename = "Informer",
                     Surname = "bormer",
-                    Type = "NotSpecified",
+                    IsInformant = true,
                     TelephoneNumber = "2222 222222"
                 }
             };
