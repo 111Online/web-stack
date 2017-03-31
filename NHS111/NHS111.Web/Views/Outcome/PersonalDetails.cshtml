@@ -43,32 +43,49 @@
     @Html.Partial("_CommonHiddenFieldsOutcomeViewModel", Model)
     @Html.Partial("_CommonHiddenFieldsCareAdviceViewModel", Model)
     @Html.HiddenFor(m => m.SelectedServiceId)
-    
-    @Html.Partial("_PersonalDetailsSelf", Model, dataDictionary)
-    
-    <label for="Informant" class="informant informant-label">
-        <span class="informant-radio">
-           @Html.CheckBoxFor(m => m.Informant.IsInformant, new { @id = "Informant" })
-        </span>
-        <span class="informant-text">Did you complete the questions on behalf of the person above?</span>
-    </label>
-
-    @Html.Partial("_InformantDetails", Model.Informant, dataDictionary)
-
-    <div class="inline-details">
-        <p class="submit-details-disclaimer">
-            By clicking Submit my details, you agree to share your information with other NHS organisations.
-            See our @Html.ActionLink("privacy policy", "Privacy", "Help", null, new {target = "_blank"}) for more information.
-        </p>
-        <input type="submit" class="button button-submit-details" value="Submit my details" id="submitDetails"/>
-    </div>
+    <section style="margin-top: 40px;">
+        <div class="section-item last">
+            <h3 class="section-header">
+                Enter the details of the person the questions were about
+            </h3>
+            <div class="personal-details-content">
+                @Html.Partial("_PersonalDetailsSelf", Model, dataDictionary)
+                <label for="Informant" class="informant informant-label">
+                    <span class="informant-radio">
+                        @Html.CheckBoxFor(m => m.Informant.IsInformant, new { @id = "Informant" })
+                    </span>
+                    <span class="informant-text">I was answering questions on behalf of someone else</span>
+                </label>
+            </div>
+            <h3 class="section-header">
+                Enter the contact details of the person who will get the call
+            </h3>
+            <div class="personal-details-content">
+                @Html.Partial("_InformantDetails", Model.Informant, dataDictionary)
+                <label>
+                    Contact number
+                </label>
+                <div>@Html.ValidationMessageFor(m => m.UserInfo.TelephoneNumber, "Please enter a valid phone number")</div>
+                <div class="inline-details">
+                    @Html.TextBoxFor(m => m.UserInfo.TelephoneNumber, new { @class = "form-control form-control-16-chars", placeholder = "Landline or mobile number", type = "tel" })
+                </div>
+                <div class="inline-details">
+                    <p class="submit-details-disclaimer">
+                        By clicking Submit my details, you agree to share your information with other NHS organisations.
+                        See our @Html.ActionLink("privacy policy", "Privacy", "Help", null, new { target = "_blank" }) for more information.
+                    </p>
+                    <input type="submit" class="button button-submit-details" value="Submit my details" id="submitDetails" />
+                </div>
+            </div>
+        </div>
+    </section>
 
     @Html.Partial("_PageLoadingIndicator")                    }
 
 <script type="text/javascript">
     $(document).ready(function () {
         stopPageLoadingIndicator();
-        $("#informant-details").hide();
+        toggleInformant($('#Informant'));
     });
 
     $('#submitDetails').css('cursor', 'pointer');
@@ -77,10 +94,21 @@
     });
 
     $(document).on('click', '#Informant', function () {
-        $("#informant-details").toggle();
+        toggleInformant($(this));
     });
 
     window.onpageshow = function (event) {
         stopPageLoadingIndicator();
     };
+
+    function toggleInformant($informantCheckbox) {
+        if ($informantCheckbox.is(':checked')) {
+            $('#informant-details').show();
+        }
+        else {
+            $('#informant-details').hide();
+            $('#Informant_Forename').val('');
+            $('#Informant_Surname').val('');
+        }
+    }
 </script>
