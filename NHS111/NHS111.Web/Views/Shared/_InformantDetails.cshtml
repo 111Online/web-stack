@@ -1,0 +1,21 @@
+﻿@using NHS111.Models.Models.Web
+@model InformantViewModel
+
+@{
+    var dataDictionary = ViewContext.ViewData;
+    dataDictionary.TemplateInfo = new TemplateInfo { HtmlFieldPrefix = "Informant" };
+}
+
+<div id="informant-details">
+    <label>
+        Full name (optional)
+    </label>
+    <div>
+        @Html.ValidationMessageFor(m => m.Forename, "Please enter your first name")
+        @Html.ValidationMessageFor(m => m.Surname, "Please enter your last name")
+    </div>
+    <div class="inline-details">
+        @Html.TextBoxFor(m => m.Forename, new { @class = "form-control form-control-10-chars", placeholder = "First name" })
+        @Html.TextBoxFor(m => m.Surname, new { @class = "form-control form-control-10-chars", placeholder = "Last name" })
+    </div>
+</div>

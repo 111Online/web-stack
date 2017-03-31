@@ -85,15 +85,14 @@ namespace NHS111.Models.Mappers.WebMappings
                     new DateTime(outcome.UserInfo.Year.Value, outcome.UserInfo.Month.Value, outcome.UserInfo.Day.Value);
 
             patientDetails.Gender = outcome.UserInfo.Demography.Gender;
-
-            InformantType informantType;
+            
             patientDetails.Informant = new InformantDetails()
             {
                 Forename = outcome.Informant.Forename,
                 Surname = outcome.Informant.Surname,
-                TelephoneNumber = outcome.Informant.TelephoneNumber,
-                Type = Enum.TryParse(outcome.Informant.Type, false, out informantType) ? informantType : InformantType.Self
-            };
+                TelephoneNumber = outcome.UserInfo.TelephoneNumber,
+                Type = outcome.Informant.IsInformant ? InformantType.NotSpecified : InformantType.Self
+            };           
             
             return patientDetails;
         }

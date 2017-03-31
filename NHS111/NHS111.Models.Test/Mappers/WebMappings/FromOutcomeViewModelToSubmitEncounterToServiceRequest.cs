@@ -63,12 +63,12 @@ namespace NHS111.Models.Test.Mappers.WebMappings
             };
 
             var result = Mapper.Map<OutcomeViewModel, PatientDetails>(outcome);
-            Assert.IsTrue(string.IsNullOrEmpty(result.Informant.TelephoneNumber));
+            Assert.AreEqual("111", result.Informant.TelephoneNumber);
             Assert.AreEqual(InformantType.Self, result.Informant.Type);
         }
 
         [Test]
-        public void FromOutcomeViewModelToPatientDetailsConverter_Informant_self_test()
+        public void FromOutcomeViewModelToPatientDetailsConverter_Informant_false_test()
         {
             var outcome = new OutcomeViewModel()
             {
@@ -102,17 +102,17 @@ namespace NHS111.Models.Test.Mappers.WebMappings
                 },
                 Informant = new InformantViewModel()
                 {
-                    Type = "Self"
+                    IsInformant = false
                 }
             };
 
             var result = Mapper.Map<OutcomeViewModel, PatientDetails>(outcome);
-            Assert.IsTrue(string.IsNullOrEmpty(result.Informant.TelephoneNumber));
+            Assert.AreEqual("111", result.Informant.TelephoneNumber);
             Assert.AreEqual(InformantType.Self, result.Informant.Type);
         }
 
         [Test]
-        public void FromOutcomeViewModelToPatientDetailsConverter_Informant_notspecified_test()
+        public void FromOutcomeViewModelToPatientDetailsConverter_Informant_true_test()
         {
             var outcome = new OutcomeViewModel()
             {
@@ -148,15 +148,14 @@ namespace NHS111.Models.Test.Mappers.WebMappings
                 {
                     Forename = "Informer",
                     Surname = "bormer",
-                    Type = "NotSpecified",
-                    TelephoneNumber = "2222 222222"
+                    IsInformant = true
                 }
             };
 
             var result = Mapper.Map<OutcomeViewModel, PatientDetails>(outcome);
             Assert.AreEqual("Informer", result.Informant.Forename);
             Assert.AreEqual("bormer", result.Informant.Surname);
-            Assert.AreEqual("2222 222222", result.Informant.TelephoneNumber);
+            Assert.AreEqual("111", result.Informant.TelephoneNumber);
             Assert.AreEqual(InformantType.NotSpecified, result.Informant.Type);
         }
     }
