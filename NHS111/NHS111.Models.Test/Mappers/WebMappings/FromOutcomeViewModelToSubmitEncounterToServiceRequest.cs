@@ -148,15 +148,14 @@ namespace NHS111.Models.Test.Mappers.WebMappings
                 {
                     Forename = "Informer",
                     Surname = "bormer",
-                    IsInformant = true,
-                    TelephoneNumber = "2222 222222"
+                    IsInformant = true
                 }
             };
 
             var result = Mapper.Map<OutcomeViewModel, PatientDetails>(outcome);
             Assert.AreEqual("Informer", result.Informant.Forename);
             Assert.AreEqual("bormer", result.Informant.Surname);
-            Assert.AreEqual("2222 222222", result.Informant.TelephoneNumber);
+            Assert.AreEqual("111", result.Informant.TelephoneNumber);
             Assert.AreEqual(InformantType.NotSpecified, result.Informant.Type);
         }
     }
