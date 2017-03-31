@@ -85,17 +85,14 @@ namespace NHS111.Models.Mappers.WebMappings
                     new DateTime(outcome.UserInfo.Year.Value, outcome.UserInfo.Month.Value, outcome.UserInfo.Day.Value);
 
             patientDetails.Gender = outcome.UserInfo.Demography.Gender;
-
-            if (outcome.Informant.IsInformant)
+            
+            patientDetails.Informant = new InformantDetails()
             {
-                patientDetails.Informant = new InformantDetails()
-                {
-                    Forename = outcome.Informant.Forename,
-                    Surname = outcome.Informant.Surname,
-                    TelephoneNumber = outcome.UserInfo.TelephoneNumber,
-                    Type = InformantType.NotSpecified
-                };
-            }
+                Forename = outcome.Informant.Forename,
+                Surname = outcome.Informant.Surname,
+                TelephoneNumber = outcome.UserInfo.TelephoneNumber,
+                Type = outcome.Informant.IsInformant ? InformantType.NotSpecified : InformantType.Self
+            };           
             
             return patientDetails;
         }
