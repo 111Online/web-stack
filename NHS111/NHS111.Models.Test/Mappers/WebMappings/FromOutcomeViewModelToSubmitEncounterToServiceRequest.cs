@@ -63,7 +63,7 @@ namespace NHS111.Models.Test.Mappers.WebMappings
             };
 
             var result = Mapper.Map<OutcomeViewModel, PatientDetails>(outcome);
-            Assert.IsTrue(string.IsNullOrEmpty(result.Informant.TelephoneNumber));
+            Assert.AreEqual("111", result.Informant.TelephoneNumber);
             Assert.AreEqual(InformantType.Self, result.Informant.Type);
         }
 
@@ -107,7 +107,7 @@ namespace NHS111.Models.Test.Mappers.WebMappings
             };
 
             var result = Mapper.Map<OutcomeViewModel, PatientDetails>(outcome);
-            Assert.IsTrue(string.IsNullOrEmpty(result.Informant.TelephoneNumber));
+            Assert.AreEqual("111", result.Informant.TelephoneNumber);
             Assert.AreEqual(InformantType.Self, result.Informant.Type);
         }
 
