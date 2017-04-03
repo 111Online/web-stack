@@ -1,41 +1,42 @@
 ﻿@using NHS111.Models.Models.Web
 @model OutcomeViewModel
 
-<label>
-    Full name
-</label>
-<div>
-    @Html.ValidationMessageFor(m => m.UserInfo.FirstName, "Please enter your first name")
-    @Html.ValidationMessageFor(m => m.UserInfo.LastName, "Please enter your last name")
-</div>
-<div class="inline-details">
-    @Html.TextBoxFor(m => m.UserInfo.FirstName, new { @class = "form-control form-control-10-chars", placeholder = "First name" })
-    @Html.TextBoxFor(m => m.UserInfo.LastName, new { @class = "form-control form-control-10-chars", placeholder = "Last name" })
-</div>
+<div class="personal-details-content">
+    <label>
+        Full name
+    </label>
+    <div>
+        @Html.ValidationMessageFor(m => m.UserInfo.FirstName, "Please enter first name")
+        @Html.ValidationMessageFor(m => m.UserInfo.LastName, "Please enter last name")
+    </div>
+    <div class="inline-details">
+        @Html.TextBoxFor(m => m.UserInfo.FirstName, new { @class = "form-control form-control-10-chars", placeholder = "First name" })
+        @Html.TextBoxFor(m => m.UserInfo.LastName, new { @class = "form-control form-control-10-chars", placeholder = "Last name" })
+    </div>
 
-<label>
-    Date of birth
-</label>
-<div>@Html.ValidationMessageFor(m => m.UserInfo.Day, "Please enter a valid day")</div>
-<div>@Html.ValidationMessageFor(m => m.UserInfo.Month, "Please enter a valid month")</div>
-<div>@Html.ValidationMessageFor(m => m.UserInfo.Year, "Please enter a valid year")</div>
-<div>@Html.ValidationMessageFor(m => m.UserInfo.DoB, "Please enter a valid date")</div>
-<label class="form-hint">
-    For example 18 04 1973
-</label>
-<div class="inline-details">
-    @Html.TextBoxFor(m => m.UserInfo.Day, new { @class = "form-control form-control-2-chars date-2-chars", placeholder = "DD", type = "number", maxlength = "2" })
-    @Html.TextBoxFor(m => m.UserInfo.Month, new { @class = "form-control form-control-2-chars date-2-chars", placeholder = "MM", type = "number", maxlength = "2" })
-    @Html.TextBoxFor(m => m.UserInfo.Year, new { @class = "form-control form-control-4-chars date-4-chars", placeholder = "YYYY", type = "number", maxlength = "4" })
-    @Html.HiddenFor(m => m.UserInfo.DoB)
+    <label>
+        Date of birth
+    </label>
+    <div>@Html.ValidationMessageFor(m => m.UserInfo.Day, "Please enter a valid day")</div>
+    <div>@Html.ValidationMessageFor(m => m.UserInfo.Month, "Please enter a valid month")</div>
+    <div>@Html.ValidationMessageFor(m => m.UserInfo.Year, "Please enter a valid year")</div>
+    <div>@Html.ValidationMessageFor(m => m.UserInfo.DoB, "Please enter a valid date")</div>
+    <label class="form-hint">
+        For example 18 04 1973
+    </label>
+    <div class="inline-details">
+        @Html.TextBoxFor(m => m.UserInfo.Day, new { @class = "form-control form-control-2-chars date-2-chars", placeholder = "DD", type = "number", maxlength = "2" })
+        @Html.TextBoxFor(m => m.UserInfo.Month, new { @class = "form-control form-control-2-chars date-2-chars", placeholder = "MM", type = "number", maxlength = "2" })
+        @Html.TextBoxFor(m => m.UserInfo.Year, new { @class = "form-control form-control-4-chars date-4-chars", placeholder = "YYYY", type = "number", maxlength = "4" })
+        @Html.HiddenFor(m => m.UserInfo.DoB)
+    </div>
+
+    @{
+        var dataDictionary = ViewContext.ViewData;
+        dataDictionary.TemplateInfo = new TemplateInfo { HtmlFieldPrefix = "AddressInfoViewModel" };
+    }
+    @Html.Partial("_PersonalPostCodeSearch", Model.AddressInfoViewModel, dataDictionary)
 </div>
-
-@{
-    var dataDictionary = ViewContext.ViewData;
-    dataDictionary.TemplateInfo = new TemplateInfo { HtmlFieldPrefix = "AddressInfoViewModel" };
-}
-@Html.Partial("_PersonalPostCodeSearch", Model.AddressInfoViewModel, dataDictionary)
-
 <script type="text/javascript">
 
     jQuery.validator.addMethod('day', function (value, element, params) {
