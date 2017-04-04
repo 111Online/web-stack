@@ -819,6 +819,7 @@
     <Content Include="Views\Shared\_AlternativeServices.cshtml" />
     <Content Include="Views\Shared\_PersonalDetailsSelf.cshtml" />
     <Content Include="Views\Shared\_InformantDetails.cshtml" />
+    <Content Include="Views\Outcome\DuplicateBookingFailure.cshtml" />
     <None Include="Web.Development.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
