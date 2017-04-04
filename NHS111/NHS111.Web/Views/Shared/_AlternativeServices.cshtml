@@ -2,7 +2,7 @@
 @model  OutcomeViewModel
 
 <div class="alternative-care service-hidden">
-    <h3>If you can't see your GP</h3>
+    <h3>@Html.Raw((!ViewData.Keys.Contains("Title") ? "If you can't see your GP" : ViewData["Title"]))</h3>
     @{
         var services = Model.DosCheckCapacitySummaryResult.Success.Services;
     }
