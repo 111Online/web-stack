@@ -5,29 +5,31 @@
     var dataDictionary = ViewContext.ViewData;
     dataDictionary.TemplateInfo = new TemplateInfo { HtmlFieldPrefix = "Informant" };
 }
-<div class="personal-details-content">
-    <label for="Informant" class="informant informant-label">
-        <span class="informant-radio">
-            @Html.CheckBoxFor(m => m.IsInformant, new {@id = "Informant"})
-        </span>
-        <span class="informant-text">I was answering questions on behalf of someone else</span>
-    </label>
-</div>
-<h3 class="section-header">
-    Enter the contact details of the person who will get the call
-</h3>
-<div class="personal-details-content">
-    <div id="informant-details">
-        <label>
-            Full name
+<div class="informant">
+    <div class="personal-details-content">
+        <label for="Informant" class="informant informant-label">
+            <span class="informant-radio">
+                @Html.CheckBoxFor(m => m.IsInformant, new { @id = "Informant" })
+            </span>
+            <span class="informant-text">I was answering questions about someone else</span>
         </label>
-        <div>
-            @Html.ValidationMessageFor(m => m.Forename, "Please enter your first name")
-            @Html.ValidationMessageFor(m => m.Surname, "Please enter your last name")
-        </div>
-        <div class="inline-details">
-            @Html.TextBoxFor(m => m.Forename, new { @class = "form-control form-control-10-chars", placeholder = "First name" })
-            @Html.TextBoxFor(m => m.Surname, new { @class = "form-control form-control-10-chars", placeholder = "Last name" })
+    </div>
+    <h4 class="section-header">
+        Enter details for the person who will get the call
+    </h4>
+    <div class="personal-details-content">
+        <div id="informant-details">
+            <label>
+                Full name
+            </label>
+            <div>
+                @Html.ValidationMessageFor(m => m.Forename, "Please enter your first name")
+                @Html.ValidationMessageFor(m => m.Surname, "Please enter your last name")
+            </div>
+            <div class="inline-details">
+                @Html.TextBoxFor(m => m.Forename, new { @class = "form-control form-control-10-chars", placeholder = "First name" })
+                @Html.TextBoxFor(m => m.Surname, new { @class = "form-control form-control-10-chars", placeholder = "Last name" })
+            </div>
         </div>
     </div>
 </div>
