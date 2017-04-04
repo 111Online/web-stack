@@ -21,7 +21,7 @@ namespace NHS111.Models.Models.Web
         public bool? ItkDuplicate { get; set; }
         public CareAdvice WorseningCareAdvice { get; set; }
         public SymptomDiscriminator SymptomDiscriminator { get; set; }
-
+        public DosService UnavailableSelectedService { get; set; }
         public string CurrentView { get; set; }
 
         public  SurveyLinkViewModel SurveyLink { get; set; }
