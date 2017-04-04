@@ -5,6 +5,7 @@ using System.Linq;
 using System.Web.Http;
 using System.Web.Script.Serialization;
 using NHS111.Features;
+using NHS111.Models.Models.Web.FromExternalServices;
 using NHS111.Models.Models.Web.Logging;
 
 namespace NHS111.Web.Controllers
@@ -94,20 +95,25 @@ namespace NHS111.Web.Controllers
         {
             if (!ModelState.IsValidField("UserInfo.CurrentAddress.PostCode")) return View(Path.GetFileNameWithoutExtension(model.CurrentView), model);
 
-            var dosViewModel = Mapper.Map<DosViewModel>(model);
-            if (_dosFilteringToggle.IsEnabled)
-            {
-                if (overrideDate.HasValue) dosViewModel.DispositionTime = overrideDate.Value;
-            }
-            
-            await _auditLogger.LogDosRequest(model, dosViewModel);
-            model.DosCheckCapacitySummaryResult = await _dosBuilder.FillCheckCapacitySummaryResult(dosViewModel);
+            model.DosCheckCapacitySummaryResult = await GetServiceAvailability(model, overrideDate);
             await _auditLogger.LogDosResponse(model);
 
             if (model.DosCheckCapacitySummaryResult.Error == null && !model.DosCheckCapacitySummaryResult.HasNoServices)
                 return View("ServiceList", model);
 
             return View(Path.GetFileNameWithoutExtension(model.CurrentView), model);
+        }
+
+        private async Task<DosCheckCapacitySummaryResult> GetServiceAvailability(OutcomeViewModel model, DateTime? overrideDate)
+        {
+            var dosViewModel = Mapper.Map<DosViewModel>(model);
+            if (_dosFilteringToggle.IsEnabled)
+            {
+                if (overrideDate.HasValue) dosViewModel.DispositionTime = overrideDate.Value;
+            }
+
+           await _auditLogger.LogDosRequest(model, dosViewModel);
+           return await _dosBuilder.FillCheckCapacitySummaryResult(dosViewModel);
         }
 
         [HttpPost]
@@ -161,11 +167,22 @@ namespace NHS111.Web.Controllers
                 model = await PopulateAddressPickerFields(model);
                 return View("PersonalDetails", model);
             }
+            var availiableServices = await GetServiceAvailability(model, null);
+            if (SelectedServiceExits(model.SelectedService.Id, availiableServices))
+            {
+                model = await _outcomeViewModelBuilder.ItkResponseBuilder(model);
+                if (model.ItkSendSuccess.HasValue && model.ItkSendSuccess.Value)
+                    return View(model);
+                return View("ServiceBookingFailure", model);
+            }
+            model.UnavailableSelectedService = model.SelectedService;
+            model.DosCheckCapacitySummaryResult = availiableServices;
+            return View("ServieBookingUnavailable", model);
+        }
 
-            model = await _outcomeViewModelBuilder.ItkResponseBuilder(model);
-            if (model.ItkSendSuccess.HasValue && model.ItkSendSuccess.Value)
-                return View(model);
-            return View("ServiceBookingFailure", model);
+        private bool SelectedServiceExits(int selectedServiceId, DosCheckCapacitySummaryResult availiableServices)
+        {
+            return !availiableServices.HasNoServices && availiableServices.Success.Services.Exists(s => s.Id == selectedServiceId);
         }
 
         [HttpPost]
