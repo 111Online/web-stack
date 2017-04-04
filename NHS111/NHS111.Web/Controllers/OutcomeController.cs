@@ -173,7 +173,7 @@ namespace NHS111.Web.Controllers
                 model = await _outcomeViewModelBuilder.ItkResponseBuilder(model);
                 if (model.ItkSendSuccess.HasValue && model.ItkSendSuccess.Value)
                     return View(model);
-                return View("ServiceBookingFailure", model);
+                return model.ItkDuplicate.HasValue && model.ItkDuplicate.Value ? View("DuplicateBookingFailure", model) : View("ServiceBookingFailure", model);
             }
             model.UnavailableSelectedService = model.SelectedService;
             model.DosCheckCapacitySummaryResult = availiableServices;
