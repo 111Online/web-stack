@@ -46,22 +46,14 @@
     <section style="margin-top: 40px;">
         <div class="section-item last">
             <h3 class="section-header">
-                Enter the details of the person the questions were about
+                Enter details of the person you were answering questions about
             </h3>
+
+            @Html.Partial("_PersonalDetailsSelf", Model, dataDictionary)
+
+            @Html.Partial("_InformantDetails", Model.Informant, dataDictionary)
+
             <div class="personal-details-content">
-                @Html.Partial("_PersonalDetailsSelf", Model, dataDictionary)
-                <label for="Informant" class="informant informant-label">
-                    <span class="informant-radio">
-                        @Html.CheckBoxFor(m => m.Informant.IsInformant, new { @id = "Informant" })
-                    </span>
-                    <span class="informant-text">I was answering questions on behalf of someone else</span>
-                </label>
-            </div>
-            <h3 class="section-header">
-                Enter the contact details of the person who will get the call
-            </h3>
-            <div class="personal-details-content">
-                @Html.Partial("_InformantDetails", Model.Informant, dataDictionary)
                 <label>
                     Contact number
                 </label>
