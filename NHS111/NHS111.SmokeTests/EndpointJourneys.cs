@@ -43,8 +43,8 @@ namespace NHS111.SmokeTests
 
             questionPage.ValidateQuestion("What is the main problem?");
             var outcomePage =  questionPage
-                .Answer("A rash")
-                .AnswerSuccessiveYes(2)
+                .Answer(1)
+                .AnswerSuccessiveByOrder(1,2)
                 .AnswerForDispostion("Yes");
 
             outcomePage.VerifyOutcome("Your answers suggest you should dial 999 now for an ambulance");
