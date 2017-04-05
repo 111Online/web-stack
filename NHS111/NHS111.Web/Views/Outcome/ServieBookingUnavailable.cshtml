@@ -1,0 +1,50 @@
+﻿@using NHS111.Models.Models.Web
+@inherits NHS111.Web.Views.Shared.SurveyLinkView<OutcomeViewModel>
+@{
+    Layout = "~/Views/Shared/_LayoutNhsUk.cshtml";
+}
+
+@section Title {
+    Call NHS 111 - request for callback not completed
+}
+@section HeadTop {
+    @{ var url = string.Format("/outcome/{0}/{1}/{2}/itk/serviceUnavailable/{3}/{4}/", Url.Encode(Model.PathwayNo), Url.Encode(Model.OutcomeGroup.Text), Url.Encode(Model.Id), Url.Encode(Model.UnavailableSelectedService.Id.ToString()), Url.Encode(Model.UnavailableSelectedService.Name)); }
+    <script>
+        var pageId = '@Model.Id';
+        dataLayer = [
+        {
+            'virtualPageUrl': '@url',
+            'virtualPageTitle': '@Model.TitleWithoutBullets'
+        }];
+    </script>
+}
+
+
+<link href="~/content/css_NhsUk/confirmation.css" media="screen" rel="stylesheet" type="text/css" />
+<link href="~/Content/css_NhsUK/signposting-outcome.css" media="all" rel="stylesheet" type="text/css" />
+<link href="~/Content/css_NhsUK/signposting-outcome-print.css" media="print" rel="stylesheet" type="text/css" />
+<link href="~/content/css_NhsUk/service.css" media="screen" rel="stylesheet" type="text/css" />
+
+@{
+    var dataDictionary = ViewContext.ViewData;
+    dataDictionary.Add(new KeyValuePair<string, object>("LaunchPage", "failure"));
+}
+@section SurveyBanner{
+    @Html.Partial("_SurveyLink", Model.SurveyLink, dataDictionary)
+}
+@section FeedbackSection {
+    @if (!SurveyLinkFeature.IsEnabled)
+    {
+        @Html.Partial("_FeedbackDetails", new FeedbackViewModel() { PageId = Model.Id });
+    }
+}
+
+<section>
+    <div class="outcome-header fail">
+        <h2 class="heading-large">Sorry, the service you previously selected is no longer available at this time</h2>
+    </div>
+
+    @Html.Partial("_AlternativeServices", Model, new ViewDataDictionary { { "Title", "Please choose another service which is currently available" } })
+</section>
+
+@Html.Partial("_CareAdvice", Model.CareAdvices, new ViewDataDictionary { { "Title", "What can I do in the meantime?" } })
