@@ -14,6 +14,7 @@ namespace NHS111.Models.Models.Web
         public string City { get; set; }
         public string County { get; set; }
         public string UPRN { get; set; }
+        public bool IsPostcodeFirst { get; set; }
     }
 
     [Validator(typeof(PersonalInfoAddressViewModelValidator))]

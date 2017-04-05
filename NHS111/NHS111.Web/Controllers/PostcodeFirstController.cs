@@ -35,6 +35,9 @@ namespace NHS111.Web.Controllers
                 if (overrideDate.HasValue) dosViewModel.DispositionTime = overrideDate.Value;
             }
 
+            if(string.IsNullOrEmpty(model.UserInfo.CurrentAddress.Postcode))
+                return View("Outcome", model);
+
             await _auditLogger.LogDosRequest(model, dosViewModel);
             model.DosCheckCapacitySummaryResult = await _dosBuilder.FillCheckCapacitySummaryResult(dosViewModel);
             await _auditLogger.LogDosResponse(model);

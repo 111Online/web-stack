@@ -34,7 +34,10 @@
 
 @Html.Partial("_OutcomeHeader", Model, new ViewDataDictionary() { { "OutcomeHeader", string.Format("You should visit your GP within the next {0}", Model.TimeFrameText) } })
 
-@Html.Partial("_AlternativeServices", Model)
+@if (!string.IsNullOrEmpty(Model.UserInfo.CurrentAddress.Postcode))
+{
+    @Html.Partial("_AlternativeServices", Model, new ViewDataDictionary { { "Title", "If you can't see your GP" } });
+}
 
 <hr />
 
