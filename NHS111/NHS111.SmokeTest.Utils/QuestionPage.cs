@@ -76,6 +76,13 @@ namespace NHS111.SmokeTest.Utils
             return new DispositionPage(_driver);
         }
 
+        public DispositionPage AnswerForDispostion(int answerOrder)
+        {
+            _driver.FindElement(By.XPath("(//span[contains(@class, 'answer-radio')])[" + answerOrder + "]")).Click();
+            NextButton.Click();
+            return new DispositionPage(_driver);
+        }
+
         public QuestionPage AnswerSuccessiveByOrder(int answerOrder, int numberOfTimes)
         {
             int i = 0;
