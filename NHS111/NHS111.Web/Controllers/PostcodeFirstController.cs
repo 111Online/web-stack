@@ -25,6 +25,14 @@ namespace NHS111.Web.Controllers
         }
 
         [HttpPost]
+        public ActionResult Postcode(OutcomeViewModel model)
+        {
+            ModelState.Clear();
+            model.UserInfo.CurrentAddress.IsPostcodeFirst = false;
+            return View(model);
+        }
+
+        [HttpPost]
         public async Task<ActionResult> Outcome(OutcomeViewModel model, [FromUri] DateTime? overrideDate, [FromUri] bool disableFilter = false)
         {
             if (!ModelState.IsValidField("UserInfo.CurrentAddress.PostCode")) return View("Postcode", model);
