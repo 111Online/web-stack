@@ -3,6 +3,7 @@
 @{
     ViewBag.Title = "Postcode";
     Layout = "~/Views/Shared/_LayoutNhsUK.cshtml";
+    Model.UserInfo.CurrentAddress.IsPostcodeFirst = true;
 }
 
 @section HeadTop {
@@ -43,6 +44,7 @@
             @Html.HiddenFor(x => Model.SymptomGroup)
             @Html.HiddenFor(x => Model.UserInfo.Demography.Age)
             @Html.HiddenFor(x => Model.UserInfo.Demography.Gender)
+            @Html.HiddenFor(x => Model.UserInfo.CurrentAddress.IsPostcodeFirst)
             @Html.HiddenFor(x => Model.SymptomDiscriminatorCode)
             @Html.HiddenFor(x => Model.Title)
             @Html.HiddenFor(x => Model.SessionId)
@@ -68,9 +70,8 @@
                 <div class="symptoms-search">
                     @if (error)
                     {
-                        <p class="error">Sorry, no results were found for this postcode.</p>
-                        <p>Please check you have entered the postcode correctly, then try again. <br /><br /> If the search still gives no results, please call 111 for advice.</p>
-                            <br />
+                        <p class="field-validation-error">Sorry, no results were found for this postcode.</p>
+                        <p class="field-validation-error">Please check you have entered the postcode correctly, then try again. <br /> If the search still gives no results, please call 111 for advice.</p>
                     }
                     @Html.ValidationMessageFor(m => m.UserInfo.CurrentAddress.Postcode)
                     @Html.LabelFor(m => m.UserInfo.CurrentAddress.Postcode, "Enter your postcode for services near you (optional)")
