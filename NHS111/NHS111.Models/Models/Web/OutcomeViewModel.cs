@@ -18,6 +18,7 @@ namespace NHS111.Models.Models.Web
         public string SymptomGroup { get; set; }
         public PersonalDetailsAddressViewModel AddressInfoViewModel { get; set; }
         public bool? ItkSendSuccess { get; set; }
+        public bool? ItkDuplicate { get; set; }
         public CareAdvice WorseningCareAdvice { get; set; }
         public SymptomDiscriminator SymptomDiscriminator { get; set; }
         public DosService UnavailableSelectedService { get; set; }
