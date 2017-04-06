@@ -241,8 +241,3 @@ input[type='checkbox'] {
     font-size: 1.1em;
     line-height: 1.3em;
 }
-@media screen and (min-width: 40em) {
-    .section-item h5 {
-      
-    } 
-}
