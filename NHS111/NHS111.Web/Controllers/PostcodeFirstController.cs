@@ -25,6 +25,14 @@ namespace NHS111.Web.Controllers
         }
 
         [HttpPost]
+        public ActionResult Postcode(OutcomeViewModel model)
+        {
+            ModelState.Clear();
+            model.UserInfo.CurrentAddress.IsPostcodeFirst = false;
+            return View(model);
+        }
+
+        [HttpPost]
         public async Task<ActionResult> Outcome(OutcomeViewModel model, [FromUri] DateTime? overrideDate, [FromUri] bool disableFilter = false)
         {
             if (!ModelState.IsValidField("UserInfo.CurrentAddress.PostCode")) return View("Postcode", model);
@@ -43,7 +51,7 @@ namespace NHS111.Web.Controllers
             await _auditLogger.LogDosResponse(model);
 
             if (model.DosCheckCapacitySummaryResult.Error == null && !model.DosCheckCapacitySummaryResult.HasNoServices)
-                return View("Outcome", model);
+                return model.UserInfo.CurrentAddress.IsPostcodeFirst ? View("Outcome", model) : View("Services", model);
 
             return View("Postcode", model);
         }

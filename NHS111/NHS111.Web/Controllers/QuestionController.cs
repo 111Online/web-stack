@@ -250,6 +250,10 @@ namespace NHS111.Web.Controllers {
 
             switch (model.NodeType) {
                 case NodeType.Outcome:
+
+                    if (model.OutcomeGroup.Equals(OutcomeGroup.ItkPrimaryCare))
+                        model.UserInfo.CurrentAddress.IsPostcodeFirst = true;
+
                     var viewFilePath = model.OutcomeGroup.Equals(OutcomeGroup.ItkPrimaryCare) ? "../PostcodeFirst/Postcode" : "../Outcome/" + model.OutcomeGroup.Id;
                     if (ViewExists(viewFilePath))
                     {

@@ -234,7 +234,7 @@ details summary::-webkit-details-marker {
     margin-bottom: 40px;
 }
 .postcode-first {
-    
+    margin-top: 40px;
 }
 .postcode-first h1, h2, h3, h4 {
     font-family: Arial, Helvetica Neue, Helvetica, sans-serif;
@@ -323,6 +323,9 @@ details summary::-webkit-details-marker {
 .service-direction {
     padding: 20px 0;
 }
+.service-call {
+    padding: 0;
+}
 .alternative-care-button-link {
     border: 1px solid white;
     text-decoration: none;
@@ -334,4 +337,21 @@ details summary::-webkit-details-marker {
     background-color: #006647;
     border: 1px solid #006647;
     cursor:pointer;
+}
+.outcome-header h3 {
+    margin: 10px;
+    font-weight: bold;
+}
+@media (max-width: 360px){
+    .outcome-header h3 {
+        font-size: 18px;
+        line-height: 28px;
+    }
+}
+.outcome-header p {
+    margin: 10px;
+    font-weight: bold;
+}
+.alternative-care-hr {
+    margin: 20px;
 }
