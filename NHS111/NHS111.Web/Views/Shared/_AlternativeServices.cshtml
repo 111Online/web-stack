@@ -2,10 +2,20 @@
 @model  OutcomeViewModel
 
 <div class="alternative-care service-hidden">
-    <h3>@Html.Raw((!ViewData.Keys.Contains("Title") ? "If you can't see your GP" : ViewData["Title"]))</h3>
     @{
         var services = Model.DosCheckCapacitySummaryResult.Success.Services;
+        //remove the first one if no call backs enabled as this will be shown in the header
+        if(!Model.UserInfo.CurrentAddress.IsPostcodeFirst)
+        {
+            services.RemoveAt(0);
+        }
     }
+
+    @if (services.Any())
+    {
+        <h3>@Html.Raw((!ViewData.Keys.Contains("Title") ? "If you can't see your GP" : ViewData["Title"]))</h3>
+    }
+
     @if (services.Any(s => s.CallbackEnabled))
     {
         var callbackService = services.First(s => s.CallbackEnabled);
