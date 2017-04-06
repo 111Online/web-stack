@@ -2352,7 +2352,7 @@ button[disabled=disabled] {
     color: #fff;
 }
 
-.outcome-header h2 {
+.outcome-header h2, .outcome-header h3 {
     margin: 10px;
 }
 

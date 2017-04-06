@@ -12,7 +12,7 @@
 }
 
 @section HeadTop {
-@{ var url = string.Format("/outcome/{0}/{1}/{2}/itk/confirmation/{3}/{4}/", Url.Encode(Model.PathwayNo), Url.Encode(Model.OutcomeGroup.Text), Url.Encode(Model.Id), Url.Encode(Model.SelectedServiceId), Url.Encode(Model.SelectedService.Name)); }
+    @{ var url = string.Format("/outcome/{0}/{1}/{2}/itk/confirmation/{3}/{4}/", Url.Encode(Model.PathwayNo), Url.Encode(Model.OutcomeGroup.Text), Url.Encode(Model.Id), Url.Encode(Model.SelectedServiceId), Url.Encode(Model.SelectedService.Name)); }
     <script>
         var pageId = '@Model.Id';
         dataLayer = [
@@ -23,7 +23,12 @@
     </script>
 }
 
-@{ 
+@section Scripts {
+<link href="~/Content/css_NhsUK/home.css" media="all" rel="stylesheet" type="text/css" />
+    <link href="~/Content/css_NhsUK/confirmation.css" media="all" rel="stylesheet" type="text/css"/>
+}
+
+@{
     var dataDictionary = ViewContext.ViewData;
     dataDictionary.Add(new KeyValuePair<string, object>("LaunchPage", "confirmation"));
 }
@@ -33,29 +38,29 @@
 @section FeedbackSection {
     @if (!SurveyLinkFeature.IsEnabled)
     {
-        @Html.Partial("_FeedbackDetails", new FeedbackViewModel() {PageId = Model.Id});
+        @Html.Partial("_FeedbackDetails", new FeedbackViewModel() { PageId = Model.Id });
     }
 }
 
 <section>
     <div class="outcome-header">
-        <h2 class="heading-large">We have received your request for a callback</h2>
+        <h2 class="heading-large">Your call is confirmed</h2>
         <h3 class="heading-medium">
-            @* The below must appear on one line else the browser will include extraneous spaces *@
-            You will receive a call from <strong>@WebUtility.HtmlDecode(Model.SelectedService.Name)</strong>.  If you have not heard from this service within <strong>@WebUtility.HtmlDecode(Model.WaitTimeText)</strong> please call 111.
+            If you have not heard anything within <strong>@WebUtility.HtmlDecode(Model.WaitTimeText)</strong>, please call 111
         </h3>
-        @if (Model.DisplayWorseningCareAdvice)
-        {
-            <div class="worsening-advice-icon confirmation">
-                <p>
-                    @foreach (var item in Model.WorseningCareAdvice.Items)
-                    {
-                        @(item.Text + " ");
-                    }
-                </p>
-            </div>
-        }
     </div>
 </section>
 
-@Html.Partial("_CareAdvice", Model.CareAdvices, new ViewDataDictionary { { "Title", "What can I do in the meantime?" } })
+@Html.Partial("_CareAdvice", Model.CareAdvices, new ViewDataDictionary { { "Title", "What can I do in the meantime?" }, { "NoHR", true } })
+
+@if (Model.DisplayWorseningCareAdvice)
+{
+    <div class="trial">
+        <p>
+            @foreach (var item in Model.WorseningCareAdvice.Items)
+            {
+                @(item.Text + " ");
+            }
+        </p>
+    </div>
+}
