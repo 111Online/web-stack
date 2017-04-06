@@ -323,6 +323,9 @@ details summary::-webkit-details-marker {
 .service-direction {
     padding: 20px 0;
 }
+.service-call {
+    padding: 0;
+}
 .alternative-care-button-link {
     border: 1px solid white;
     text-decoration: none;
