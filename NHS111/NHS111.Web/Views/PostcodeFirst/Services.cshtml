@@ -44,16 +44,6 @@
             <p>They will check through the anwers you have entered and give you advice on what to do next</p>
         </div>
     </section>
-    var callbackService = services.First(s => s.CallbackEnabled);
-    using (Html.BeginForm("PersonalDetails", "Outcome", FormMethod.Post))
-    {
-        @Html.Partial("_CommonHiddenFieldsOutcomeViewModel", Model)
-        @Html.Partial("_CommonHiddenFieldsCareAdviceViewModel", Model)
-        @Html.Hidden("SelectedServiceId", @callbackService.Id)
-        <div class="service-call">
-            <input class="alternative-care-button-link" type="submit" name="PersonalDetails" value="Book a call" />
-        </div>
-    }
 }
 else
 {
@@ -61,29 +51,14 @@ else
         <div class="outcome-header">
             <h2 class="heading-large">We recommend you visit the following service</h2>
             <h3 class="service-title">@WebUtility.HtmlDecode(recommendedService.Name)</h3>
-            <p>@WebUtility.HtmlDecode(recommendedService.Address)</p>
-            <p>@WebUtility.HtmlDecode(recommendedService.CurrentStatus)</p>
-            <p>You don't need to call this service, you can go there during the times shown above.</p>
+            <p>You don't need to call this service, you can go there during the times shown below</p>
         </div>
     </section>
-    using (Html.BeginForm("GetDirections", "Outcome", FormMethod.Post))
-    {
-        @Html.HiddenFor(m => m.SessionId)
-        @Html.HiddenFor(m => m.JourneyId)
-        @Html.HiddenFor(m => m.JourneyJson)
-        @Html.HiddenFor(m => m.Id)
-        @Html.Hidden("SelectedServiceId", @recommendedService.Id)
-        @Html.Hidden("SelectedServiceName", @recommendedService.Name)
-        @Html.Hidden("SelectedServiceAddress", @recommendedService.Address)
-        <div class="service-call">
-            <input class="alternative-care-button-link" type="submit" value="Get directions" />
-        </div>
-    }
 }
 
 <hr class="alternative-care-hr" />
 
-@Html.Partial("_AlternativeServices", Model, new ViewDataDictionary { { "Title", "Other services you can visit now" } })
+@Html.Partial("_AlternativeServices", Model, new ViewDataDictionary { { "Title", "Available services" } })
 
 <hr class="alternative-care-hr" />
 

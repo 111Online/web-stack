@@ -822,6 +822,8 @@
     <Content Include="Views\Outcome\ServieBookingUnavailable.cshtml" />
     <Content Include="Views\Outcome\DuplicateBookingFailure.cshtml" />
     <Content Include="Views\PostcodeFirst\Services.cshtml" />
+    <Content Include="Views\Shared\_CallbackServices.cshtml" />
+    <Content Include="Views\Shared\_GotoServices.cshtml" />
     <None Include="Web.Development.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
