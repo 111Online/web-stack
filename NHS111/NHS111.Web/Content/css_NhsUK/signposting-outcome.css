@@ -324,7 +324,7 @@ details summary::-webkit-details-marker {
     padding: 20px 0;
 }
 .service-call {
-    margin-top: 20px;
+    margin: 20px 0;
     padding: 0;
 }
 .alternative-care-button-link {
@@ -333,6 +333,7 @@ details summary::-webkit-details-marker {
     padding: 10px 20px;
     background-color: #4c9c39;
     color: #fff;
+    line-height: 2rem;
 }
 .alternative-care-button-link:hover {
     background-color: #006647;
