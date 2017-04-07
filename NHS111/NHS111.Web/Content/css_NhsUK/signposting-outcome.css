@@ -318,7 +318,7 @@ details summary::-webkit-details-marker {
 .alternative-care-service.content {
     margin-left: 14px;
     padding-top: 20px;
-    display: none;
+
 }
 .service-direction {
     padding: 20px 0;
@@ -334,4 +334,24 @@ details summary::-webkit-details-marker {
     background-color: #006647;
     border: 1px solid #006647;
     cursor:pointer;
+}
+
+.alternative-care h5
+{
+    color: #0072C6;
+    text-decoration: underline;
+    cursor: pointer;
+
+}
+.alternative-care h5:focus {
+    border: none;
+    outline: none;
+}
+
+.alternative-care h5:before {
+     content:url('/Content/images/blue-arrow-right.png');
+}
+
+.alternative-care h5.ui-accordion-header-active:before {
+     content:url('/Content/images/blue-arrow-down.png');
 }
