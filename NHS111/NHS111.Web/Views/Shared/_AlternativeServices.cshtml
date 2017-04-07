@@ -5,13 +5,13 @@
     @{
         var services = Model.DosCheckCapacitySummaryResult.Success.Services;
     }
-    <div id="availableServices">
+
         @if (services.Any())
         {
             <h3>@Html.Raw((!ViewData.Keys.Contains("Title") ? "If you can't see your GP" : ViewData["Title"]))</h3>
+        <div id="availableServices">
 
-            //first service is a call back
-            if (services.FirstOrDefault(s => s.CallbackEnabled) != null)
+           @if (services.FirstOrDefault(s => s.CallbackEnabled) != null) //first service is a call back
             {
                 @Html.Partial("_CallbackServices", Model)
                 @Html.Partial("_GotoServices", Model)
@@ -21,26 +21,13 @@
                 @Html.Partial("_CallbackServices", Model)
                 @Html.Partial("_GotoServices", Model)
             }
+        </div>
         }
 
 
     </div>
-</div>
+
 <script>
-
-    //$('.category').click(function () {
-    //    var $this = $(this);
-
-    //    var $helpTextLinkMessage = $this.parent().next('.content');
-    //    $helpTextLinkMessage.slideToggle("fast");
-    //    var arrow = $this.children(".arrow");
-    //    if (arrow.attr("src") == "/Content/images/blue-arrow-right.png") {
-    //        arrow.attr("src", "/Content/images/blue-arrow-down.png");
-    //    } else {
-    //        arrow.attr("src", "/Content/images/blue-arrow-right.png");
-    //    }
-    //});
-
     $(function () {
         $("#availableServices").accordion({ collapsible: true, active: 'none' });
     });
