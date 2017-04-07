@@ -7,12 +7,7 @@
 
 @if (services.Any(s => s.CallbackEnabled))
 {
-    <h5>
-        <a class="category linkButton bullet" href="javascript:void(0);">
-            <img class="arrow" src="/Content/images/blue-arrow-right.png">
-            <span class="underline">Get a service to call you</span>
-        </a>
-    </h5>
+    <h5>Get a service to call you</h5>
     <div class="alternative-care-service content">
         @foreach (var callbackService in services.Where(s => s.CallbackEnabled))
         {

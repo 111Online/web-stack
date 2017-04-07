@@ -9,12 +9,7 @@
 {
     var serviceCount = services.Where(s => !s.CallbackEnabled).Count(s => !s.CallbackEnabled);
     var title = serviceCount > 1 ? "There are " + serviceCount + " places you can visit" : "There is 1 place you can visit";
-    <h5>
-        <a class="category linkButton bullet" href="javascript:void(0);">
-            <img class="arrow" src="/Content/images/blue-arrow-right.png">
-            <span class="underline">@title</span>
-        </a>
-    </h5>
+    <h5>@title</h5>
 
         <div class="alternative-care-service content">
             @foreach (var service in services.Where(s => !s.CallbackEnabled))
