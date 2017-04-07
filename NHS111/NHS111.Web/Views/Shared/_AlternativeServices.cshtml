@@ -2,65 +2,32 @@
 @model  OutcomeViewModel
 
 <div class="alternative-care service-hidden">
-    <h3>@Html.Raw((!ViewData.Keys.Contains("Title") ? "If you can't see your GP" : ViewData["Title"]))</h3>
     @{
         var services = Model.DosCheckCapacitySummaryResult.Success.Services;
     }
     <div id="availableServices">
-        @if (services.Any(s => s.CallbackEnabled))
+        @if (services.Any())
         {
-            var callbackService = services.First(s => s.CallbackEnabled);
-            <h5>Get an out of hours service to call you</h5>
-            <div class="alternative-care-service content">
-                <p>They will check through the anwers you have entered and give you advice on what to do next.</p>
-                @using (Html.BeginForm("PersonalDetails", "Outcome", FormMethod.Post))
-                {
-                    @Html.Partial("_CommonHiddenFieldsOutcomeViewModel", Model)
-                    @Html.Partial("_CommonHiddenFieldsCareAdviceViewModel", Model)
-                    @Html.Hidden("SelectedServiceId", @callbackService.Id)
-                    <div class="service-direction">
-                        <input class="alternative-care-button-link" type="submit" name="PersonalDetails" value="Book a call" />
-                    </div>
-                }
-            </div>
+            <h3>@Html.Raw((!ViewData.Keys.Contains("Title") ? "If you can't see your GP" : ViewData["Title"]))</h3>
+
+            //first service is a call back
+            if (services.FirstOrDefault(s => s.CallbackEnabled) != null)
+            {
+                @Html.Partial("_CallbackServices", Model)
+                @Html.Partial("_GotoServices", Model)
+            }
+            else
+            {
+                @Html.Partial("_CallbackServices", Model)
+                @Html.Partial("_GotoServices", Model)
+            }
         }
 
-        @if (services.Any(s => !s.CallbackEnabled))
-        {
-            var serviceCount = services.Count(s => !s.CallbackEnabled);
-            var title = serviceCount > 1 ? "There are " + serviceCount + " places you can visit" : "There is 1 place you can visit";
-            <h5>
-               @title
-            </h5>
 
-            <div class="alternative-care-service content">
-                @foreach (var service in services.Where(s => !s.CallbackEnabled))
-                {
-                    <h4 class="service-title">@WebUtility.HtmlDecode(service.Name)</h4>
-                    <p>@WebUtility.HtmlDecode(service.Address)</p>
-                    <p>@WebUtility.HtmlDecode(service.CurrentStatus)</p>
-                    <p>You don't need to call this service, you can go there during the times shown above.</p>
-                    using (Html.BeginForm("GetDirections", "Outcome", FormMethod.Post))
-                    {
-                        @Html.HiddenFor(m => m.SessionId)
-                        @Html.HiddenFor(m => m.JourneyId)
-                        @Html.HiddenFor(m => m.JourneyJson)
-                        @Html.HiddenFor(m => m.Id)
-                        @Html.Hidden("SelectedServiceId", @service.Id)
-                        @Html.Hidden("SelectedServiceName", @service.Name)
-                        @Html.Hidden("SelectedServiceAddress", @service.Address)
-                        <div class="service-direction">
-                            <input class="button button-next button-link" type="submit" value="Get directions" />
-                        </div>
-                    }
-                }
-            </div>
-
-        }
     </div>
 </div>
 <script>
-    
+
     //$('.category').click(function () {
     //    var $this = $(this);
 

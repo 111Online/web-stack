@@ -1,0 +1,36 @@
+﻿@using NHS111.Models.Models.Web
+@model  OutcomeViewModel
+
+@{
+    var services = Model.DosCheckCapacitySummaryResult.Success.Services;
+}
+
+@if (services.Any(s => !s.CallbackEnabled))
+{
+    var serviceCount = services.Where(s => !s.CallbackEnabled).Count(s => !s.CallbackEnabled);
+    var title = serviceCount > 1 ? "There are " + serviceCount + " places you can visit" : "There is 1 place you can visit";
+    <h5>@title</h5>
+
+        <div class="alternative-care-service content">
+            @foreach (var service in services.Where(s => !s.CallbackEnabled))
+            {
+                <h4 class="service-title">@WebUtility.HtmlDecode(service.Name)</h4>
+                <p>@WebUtility.HtmlDecode(service.Address)</p>
+                <p>@WebUtility.HtmlDecode(service.CurrentStatus)</p>
+                <p>You don't need to call this service, you can go there during the times shown above.</p>
+                using (Html.BeginForm("GetDirections", "Outcome", FormMethod.Post))
+                {
+                    @Html.HiddenFor(m => m.SessionId)
+                    @Html.HiddenFor(m => m.JourneyId)
+                    @Html.HiddenFor(m => m.JourneyJson)
+                    @Html.HiddenFor(m => m.Id)
+                    @Html.Hidden("SelectedServiceId", @service.Id)
+                    @Html.Hidden("SelectedServiceName", @service.Name)
+                    @Html.Hidden("SelectedServiceAddress", @service.Address)
+                    <div class="service-direction">
+                        <input class="button button-next button-link" type="submit" value="Get directions" />
+                    </div>
+                }
+            }
+        </div>
+}
