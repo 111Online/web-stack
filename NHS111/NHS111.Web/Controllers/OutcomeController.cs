@@ -167,7 +167,7 @@ namespace NHS111.Web.Controllers
                 model = await PopulateAddressPickerFields(model);
                 return View("PersonalDetails", model);
             }
-            var availiableServices = await GetServiceAvailability(model, null);
+            var availiableServices = await GetServiceAvailability(model, DateTime.Now);
             if (SelectedServiceExits(model.SelectedService.Id, availiableServices))
             {
                 model = await _outcomeViewModelBuilder.ItkResponseBuilder(model);
