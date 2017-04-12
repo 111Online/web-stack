@@ -73,6 +73,8 @@ namespace NHS111.Utils.Filters
 
         public static AuditEntry ToAuditEntry(this JourneyViewModel model, HttpSessionStateBase session)
         {
+            var audit = new AuditEntry
+            {
                 SessionId = GetSessionId(session["utm_campaign"] as string, model.SessionId),
                 JourneyId = model.JourneyId != Guid.Empty ? model.JourneyId.ToString() : null,
                 Campaign = session["utm_campaign"] as string,
