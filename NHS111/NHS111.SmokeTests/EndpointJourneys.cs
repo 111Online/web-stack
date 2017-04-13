@@ -43,8 +43,8 @@ namespace NHS111.SmokeTests
 
             questionPage.ValidateQuestion("What is the main problem?");
             var outcomePage =  questionPage
-                .Answer("A rash")
-                .AnswerSuccessiveYes(2)
+                .Answer(1)
+                .AnswerSuccessiveByOrder(1,2)
                 .AnswerForDispostion("Yes");
 
             outcomePage.VerifyOutcome("Your answers suggest you should dial 999 now for an ambulance");
@@ -57,14 +57,13 @@ namespace NHS111.SmokeTests
 
             questionPage.ValidateQuestion("What is the main problem?");
             var outcomePage = questionPage
-                .Answer("Eye redness or irritation")
-                .AnswerSuccessiveNo(2)
-                .Answer("My problem affects one eye")
-                .AnswerSuccessiveNo(4)
-                .Answer("No")
-                .AnswerNo()
+                .Answer(3)
+                .Answer(3)
+                .Answer(3)
+                .AnswerSuccessiveByOrder(1, 1)
+                .AnswerSuccessiveByOrder(3, 6)
                 .AnswerForDispostion("Yes");
-
+ 
             outcomePage.VerifyOutcome("Your answers suggest you should contact a pharmacist within 12 hours");
             outcomePage.VerifyWorseningPanel(WorseningMessages.Call111);
             outcomePage.VerifyFindService(FindServiceTypes.Pharmacy);
@@ -79,12 +78,15 @@ namespace NHS111.SmokeTests
 
             questionPage.ValidateQuestion("Do you feel severely ill with a new rash, like bruising or bleeding, under the skin?");
             var outcomePage = questionPage
-                .AnswerSuccessiveNo(5)
-                .Answer("No - not in the last 12 hours")
-                .Answer("None of the above")
-                .Answer("No - I don't have diabetes")
+                .Answer(3)
+                .Answer(4)
+                .Answer(3)
+                .Answer(3)
+                .Answer(3)
+                .Answer(4)
+                .Answer(6)
+                .Answer(3)
                 .AnswerForDispostion("No");
-
 
             outcomePage.VerifyOutcome("Based on your answers, you can look after yourself and don't need to see a healthcare professional");
            // outcomePage.VerifyHeaderOtherInfo("Based on your answers you do not need to see a healthcare profesional at this time.\r\nPlease see the advice below on how to look after yourself");
@@ -99,10 +101,9 @@ namespace NHS111.SmokeTests
 
             questionPage.ValidateQuestion("What is the main problem?");
             var outcomePage = questionPage
-                .Answer("Toothache")
-                .Answer("No - not in the last 12 hours")
-                .AnswerSuccessiveNo(4)
-                .Answer("Less than 14 days")
+                .Answer(2)
+                .Answer(4)
+                .AnswerSuccessiveByOrder(3, 6)
                 .AnswerForDispostion("No - I've not taken any painkillers");
 
             outcomePage.VerifyOutcome("Your answers suggest you should see a dentist within 5 working days");
@@ -119,11 +120,11 @@ namespace NHS111.SmokeTests
 
             questionPage.ValidateQuestion("What is the main problem?");
             var outcomePage = questionPage
-                .Answer("Dental bleeding")
-                .AnswerNo()
-                .AnswerYes()
-                .Answer("A tooth extraction")
-                .AnswerNo()
+                .Answer(1)
+                .Answer(3)
+                .Answer(1)
+                .Answer(1)
+                .Answer(4)
                 .AnswerForDispostion("It's getting worse");
 
 
@@ -141,12 +142,11 @@ namespace NHS111.SmokeTests
 
             questionPage.ValidateQuestion("Have you hurt or banged your head in the last 7 days?");
             var outcomePage = questionPage
-                .AnswerNo()
-                .Answer("I haven't fainted or blacked out")
-                .Answer("No - I am not that ill")
-                .AnswerNo()
-                .AnswerSuccessiveNo(2)
-                .Answer("I don't have a headache")
+                .AnswerSuccessiveByOrder(3,3)
+                .Answer(5)
+                .Answer(3)
+                .Answer(4)
+                .Answer(3)
                 .AnswerForDispostion("Yes");
 
             outcomePage.VerifyOutcome("Your answers suggest you need urgent medical attention within 1 hour");
@@ -163,14 +163,18 @@ namespace NHS111.SmokeTests
 
             questionPage.ValidateQuestion("What is the main problem?");
             var outcomePage = questionPage
-                .Answer("A sticky or watery discharge from your eye")
-                .AnswerNo()
-                .AnswerYes()
-                .AnswerSuccessiveNo(2)
-                .Answer("My problem affects both eyes")
-                .AnswerSuccessiveNo(2)
-                .Answer("No - not in the last 12 hours")
-                .AnswerSuccessiveNo(6)
+                .Answer(5)
+                .Answer(3)
+                .Answer(1)
+                .Answer(5)
+                .Answer(3)
+                .Answer(2)
+                .Answer(4)
+                .Answer(3)
+                .Answer(4)
+                .AnswerSuccessiveByOrder(3,2)
+                .Answer(4)
+                .AnswerSuccessiveByOrder(3,3)
                 .AnswerForDispostion("No");
 
             outcomePage.VerifyOutcome("Your answers suggest you should see an optician within 3 days");
@@ -187,13 +191,16 @@ namespace NHS111.SmokeTests
 
             questionPage.ValidateQuestion("Have you had any blood in your sick (vomit)?");
             var outcomePage = questionPage
-                .Answer("No blood or I haven't vomited")
-                .AnswerSuccessiveNo(6)
-                .Answer("No - I don't have diabetes")
-                .AnswerNo()
-                .Answer("None of these")
-                .Answer("No - not in the last 12 hours")
-                .AnswerSuccessiveNo(7)
+                .Answer(4)
+                .AnswerSuccessiveByOrder(3,2)
+                .Answer(5)
+                .Answer(4)
+                .AnswerSuccessiveByOrder(3,4)
+                .AnswerSuccessiveByOrder(4,2)
+                .AnswerSuccessiveByOrder(3,3)
+                .Answer(5)
+                .AnswerSuccessiveByOrder(3, 2)
+                .Answer(5)
                 .AnswerForDispostion("Yes - 1 week or more");
 
             outcomePage.VerifyOutcome("Your answers suggest that you should talk to your own GP in 3 working days if you are not feeling better");

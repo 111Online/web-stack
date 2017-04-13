@@ -190,3 +190,54 @@ input:read-only {
         width: 10rem;
     }
 }
+.informant {
+    display: block;
+}
+label.informant {
+    margin: 0;
+    font-size: 16px;
+    line-height: 20px;
+    position: relative;
+    padding-right: 40px;
+}
+@media screen and (min-width: 40em) {
+    label.informant {
+      font-size: 20px;
+      line-height: 24px;
+    } 
+}
+label.informant.informant-label:hover {
+    background: #ddd;
+}
+input[type='checkbox'] {
+    display: inline;
+    width: 30px;
+    height: 30px;
+}
+.informant-radio {
+    position: absolute;
+    top: 10px;
+    height: 100%;
+}
+.informant-text {
+    position: relative;
+    left: 40px;
+}
+.informant-label {
+    display: block;
+    padding: 15px 0 15px 0;
+    color: #231f20;
+}
+.informant h4 {
+    margin-top: 10px;
+    font-size: 1.5em;
+    line-height: 3rem;
+}
+.section-item h4 {
+    font-size: 1.3em;
+    line-height: 1.5em;
+}
+.section-item h5 {
+    font-size: 1.1em;
+    line-height: 1.3em;
+}

@@ -5,6 +5,7 @@ using System.Linq;
 using System.Web.Http;
 using System.Web.Script.Serialization;
 using NHS111.Features;
+using NHS111.Models.Models.Web.FromExternalServices;
 using NHS111.Models.Models.Web.Logging;
 
 namespace NHS111.Web.Controllers
@@ -94,20 +95,25 @@ namespace NHS111.Web.Controllers
         {
             if (!ModelState.IsValidField("UserInfo.CurrentAddress.PostCode")) return View(Path.GetFileNameWithoutExtension(model.CurrentView), model);
 
-            var dosViewModel = Mapper.Map<DosViewModel>(model);
-            if (_dosFilteringToggle.IsEnabled)
-            {
-                if (overrideDate.HasValue) dosViewModel.DispositionTime = overrideDate.Value;
-            }
-            
-            AuditDosRequest(model, dosViewModel);
-            model.DosCheckCapacitySummaryResult = await _dosBuilder.FillCheckCapacitySummaryResult(dosViewModel);
-            AuditDosResponse(model);
+            model.DosCheckCapacitySummaryResult = await GetServiceAvailability(model, overrideDate);
+            await _auditLogger.LogDosResponse(model);
 
             if (model.DosCheckCapacitySummaryResult.Error == null && !model.DosCheckCapacitySummaryResult.HasNoServices)
                 return View("ServiceList", model);
 
             return View(Path.GetFileNameWithoutExtension(model.CurrentView), model);
+        }
+
+        private async Task<DosCheckCapacitySummaryResult> GetServiceAvailability(OutcomeViewModel model, DateTime? overrideDate)
+        {
+            var dosViewModel = Mapper.Map<DosViewModel>(model);
+            if (_dosFilteringToggle.IsEnabled)
+            {
+                if (overrideDate.HasValue) dosViewModel.DispositionTime = overrideDate.Value;
+            }
+
+           await _auditLogger.LogDosRequest(model, dosViewModel);
+           return await _dosBuilder.FillCheckCapacitySummaryResult(dosViewModel);
         }
 
         [HttpPost]
@@ -116,9 +122,9 @@ namespace NHS111.Web.Controllers
             if (!ModelState.IsValidField("UserInfo.CurrentAddress.Postcode")) return View(Path.GetFileNameWithoutExtension(model.CurrentView), model);
 
             var dosCase = Mapper.Map<DosViewModel>(model);
-            AuditDosRequest(model, dosCase);
+            await _auditLogger.LogDosRequest(model, dosCase);
             model.DosCheckCapacitySummaryResult = await _dosBuilder.FillCheckCapacitySummaryResult(dosCase);
-            AuditDosResponse(model);
+            await _auditLogger.LogDosResponse(model);
 
             if (model.DosCheckCapacitySummaryResult.Error == null)
                 return View("ServiceDetails", model);
@@ -129,7 +135,7 @@ namespace NHS111.Web.Controllers
         [HttpPost]
         public async Task<ActionResult> PersonalDetails(OutcomeViewModel model) {
             ModelState.Clear();
-            AuditSelectedService(model);
+            await _auditLogger.LogSelectedService(model);
 
             model = await PopulateAddressPickerFields(model);
 
@@ -161,17 +167,28 @@ namespace NHS111.Web.Controllers
                 model = await PopulateAddressPickerFields(model);
                 return View("PersonalDetails", model);
             }
+            var availiableServices = await GetServiceAvailability(model, null);
+            if (SelectedServiceExits(model.SelectedService.Id, availiableServices))
+            {
+                model = await _outcomeViewModelBuilder.ItkResponseBuilder(model);
+                if (model.ItkSendSuccess.HasValue && model.ItkSendSuccess.Value)
+                    return View(model);
+                return model.ItkDuplicate.HasValue && model.ItkDuplicate.Value ? View("DuplicateBookingFailure", model) : View("ServiceBookingFailure", model);
+            }
+            model.UnavailableSelectedService = model.SelectedService;
+            model.DosCheckCapacitySummaryResult = availiableServices;
+            return View("ServieBookingUnavailable", model);
+        }
 
-            model = await _outcomeViewModelBuilder.ItkResponseBuilder(model);
-            if (model.ItkSendSuccess.HasValue && model.ItkSendSuccess.Value)
-                return View(model);
-            return View("ServiceBookingFailure", model);
+        private bool SelectedServiceExits(int selectedServiceId, DosCheckCapacitySummaryResult availiableServices)
+        {
+            return !availiableServices.HasNoServices && availiableServices.Success.Services.Exists(s => s.Id == selectedServiceId);
         }
 
         [HttpPost]
         public ActionResult GetDirections(OutcomeViewModel model, int selectedServiceId, string selectedServiceName, string selectedServiceAddress)
         {
-            AuditSelectedService(model, selectedServiceName, selectedServiceId);
+            _auditLogger.LogSelectedService(model, selectedServiceName, selectedServiceId);
 
             return Redirect(string.Format(_configuration.MapsApiUrl, selectedServiceName, selectedServiceAddress));
         }
@@ -179,42 +196,6 @@ namespace NHS111.Web.Controllers
         [HttpPost]
         public ActionResult Emergency() {
             return View();
-        }
-
-        [HttpPost]
-
-
-        private void AuditDosRequest(OutcomeViewModel model, DosViewModel dosViewModel) {
-            var audit = model.ToAuditEntry(new HttpSessionStateWrapper(System.Web.HttpContext.Current.Session));
-            var auditedDosViewModel = Mapper.Map<AuditedDosRequest>(dosViewModel);
-            audit.DosRequest = JsonConvert.SerializeObject(auditedDosViewModel);
-            _auditLogger.Log(audit);
-        }
-
-        private void AuditDosResponse(OutcomeViewModel model) {
-            var audit = model.ToAuditEntry(new HttpSessionStateWrapper(System.Web.HttpContext.Current.Session));
-            var auditedDosResponse = Mapper.Map<AuditedDosResponse>(model.DosCheckCapacitySummaryResult);
-            audit.DosResponse = JsonConvert.SerializeObject(auditedDosResponse);
-            _auditLogger.Log(audit);
-        }
-
-        private async Task AuditSelectedService(OutcomeViewModel model, string selectedServiceName, int selectedServiceId)
-        {
-            var audit = model.ToAuditEntry(new HttpSessionStateWrapper(System.Web.HttpContext.Current.Session));
-            audit.EventData = FormatEventData(selectedServiceName, selectedServiceId);
-            _auditLogger.Log(audit);
-        }
-
-        private void AuditSelectedService(OutcomeViewModel model)
-        {
-            var audit = model.ToAuditEntry(new HttpSessionStateWrapper(System.Web.HttpContext.Current.Session));
-            audit.EventData = FormatEventData(model.SelectedService.Name, model.SelectedService.Id);
-            _auditLogger.Log(audit);
-        }
-
-        private string FormatEventData(string selectedServiceName, int selectedServiceId)
-        {
-            return string.Format("User selected service '{0}' ({1})", selectedServiceName, selectedServiceId);
         }
     }
 }

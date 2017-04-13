@@ -133,6 +133,7 @@
     <Compile Include="Mappers\StaticTextToHtmlTests.cs" />
     <Compile Include="Mappers\WebMappings\AddressInfoViewModelMapperTests.cs" />
     <Compile Include="Mappers\WebMappings\FromDosCaseToDosServicesByClinicalTermRequestTests.cs" />
+    <Compile Include="Mappers\WebMappings\FromOutcomeViewModelToSubmitEncounterToServiceRequest.cs" />
     <Compile Include="Mappers\WebMappings\JourneyViewModelMapperTests.cs" />
     <Compile Include="Mappers\WebMappings\StaticTextToHtmlTests.cs" />
     <Compile Include="Models\Domain\AgeCategoryTests.cs" />
@@ -151,7 +152,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
-    <None Include="packages.config" />
+    <None Include="packages.config">
+      <SubType>Designer</SubType>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\NHS111.Features\NHS111.Features.csproj">

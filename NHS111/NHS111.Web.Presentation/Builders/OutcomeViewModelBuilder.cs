@@ -125,9 +125,10 @@ namespace NHS111.Web.Presentation.Builders
         public async Task<OutcomeViewModel> ItkResponseBuilder(OutcomeViewModel model)
         {
             var itkRequestData = CreateItkDispatchRequest(model);
-            AuditItkRequest(model, itkRequestData);
+            await _auditLogger.LogItkRequest(model, itkRequestData);
             var response = await SendItkMessage(itkRequestData);
-            AuditItKResponse(model, response);
+            await _auditLogger.LogItkResponse(model, response);
+            model.ItkDuplicate = response.StatusCode == System.Net.HttpStatusCode.Conflict;
             if (response.IsSuccessStatusCode)
             {
                 model.ItkSendSuccess = true;
@@ -183,23 +184,6 @@ namespace NHS111.Web.Presentation.Builders
             model.CareAdvices = await _careAdviceBuilder.FillCareAdviceBuilder(model.UserInfo.Demography.Age, model.UserInfo.Demography.Gender, model.CareAdviceMarkers.ToList());
             return model;
         }
-
-        private void AuditItkRequest(OutcomeViewModel model, ITKDispatchRequest itkRequest)
-        {
-            var audit = model.ToAuditEntry(new HttpSessionStateWrapper(HttpContext.Current.Session));
-            var auditedItkRequest = Mapper.Map<AuditedItkRequest>(itkRequest);
-            audit.ItkRequest = JsonConvert.SerializeObject(auditedItkRequest);
-            _auditLogger.Log(audit);
-        }
-
-        private void AuditItKResponse(OutcomeViewModel model, HttpResponseMessage response)
-        {
-            var audit = model.ToAuditEntry(new HttpSessionStateWrapper(HttpContext.Current.Session));
-            var auditedItkResponse = Mapper.Map<AuditedItkResponse>(response);
-            audit.ItkResponse = JsonConvert.SerializeObject(auditedItkResponse);
-            _auditLogger.Log(audit);
-        }
-
     }
 
     public interface IOutcomeViewModelBuilder

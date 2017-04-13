@@ -1,0 +1,148 @@
+﻿@using NHS111.Models.Models.Web
+@model OutcomeViewModel
+
+<div class="personal-details-content">
+    <label>
+        Full name
+    </label>
+    <div>
+        @Html.ValidationMessageFor(m => m.UserInfo.FirstName, "Please enter first name")
+        @Html.ValidationMessageFor(m => m.UserInfo.LastName, "Please enter last name")
+    </div>
+    <div class="inline-details">
+        @Html.TextBoxFor(m => m.UserInfo.FirstName, new { @class = "form-control form-control-10-chars", placeholder = "First name" })
+        @Html.TextBoxFor(m => m.UserInfo.LastName, new { @class = "form-control form-control-10-chars", placeholder = "Last name" })
+    </div>
+
+    <label>
+        Date of birth
+    </label>
+    <div>@Html.ValidationMessageFor(m => m.UserInfo.Day, "Please enter a valid day")</div>
+    <div>@Html.ValidationMessageFor(m => m.UserInfo.Month, "Please enter a valid month")</div>
+    <div>@Html.ValidationMessageFor(m => m.UserInfo.Year, "Please enter a valid year")</div>
+    <div>@Html.ValidationMessageFor(m => m.UserInfo.DoB, "Please enter a valid date")</div>
+    <label class="form-hint">
+        For example 18 04 1973
+    </label>
+    <div class="inline-details">
+        @Html.TextBoxFor(m => m.UserInfo.Day, new { @class = "form-control form-control-2-chars date-2-chars", placeholder = "DD", type = "number", maxlength = "2" })
+        @Html.TextBoxFor(m => m.UserInfo.Month, new { @class = "form-control form-control-2-chars date-2-chars", placeholder = "MM", type = "number", maxlength = "2" })
+        @Html.TextBoxFor(m => m.UserInfo.Year, new { @class = "form-control form-control-4-chars date-4-chars", placeholder = "YYYY", type = "number", maxlength = "4" })
+        @Html.HiddenFor(m => m.UserInfo.DoB)
+    </div>
+
+    @{
+        var dataDictionary = ViewContext.ViewData;
+        dataDictionary.TemplateInfo = new TemplateInfo { HtmlFieldPrefix = "AddressInfoViewModel" };
+    }
+    @Html.Partial("_PersonalPostCodeSearch", Model.AddressInfoViewModel, dataDictionary)
+</div>
+<script type="text/javascript">
+
+    jQuery.validator.addMethod('day', function (value, element, params) {
+        //don't add any more errors if we've already failed whole date validation
+        if (DoBErrorShowing()) return true;
+
+        var day = $('#UserInfo_Day').val();
+
+        var result = (parseInt(day) > 0 && parseInt(day) < 32);
+        return result;
+    });
+
+    jQuery.validator.addMethod('month', function (value, element, params) {
+        if (DoBErrorShowing()) return true;
+
+        var month = $('#UserInfo_Month').val();
+
+        var result = (parseInt(month) > 0 && parseInt(month) < 13);
+        return result;
+    });
+
+    jQuery.validator.addMethod('year', function (value, element, params) {
+        if (DoBErrorShowing()) return true;
+
+        var year = $('#UserInfo_Year').val();
+
+        var currentYear = new Date().getFullYear();
+        var result = (parseInt(year) > 1900 && parseInt(year) < (currentYear + 1));
+        return result;
+    });
+
+    jQuery.validator.addMethod('dateofbirth', function (value, element, params) {
+        var day = $('#UserInfo_Day').val();
+        var month = $('#UserInfo_Month').val();
+        var year = $('#UserInfo_Year').val();
+
+        //month is indexed from zero (thanks, Java) - so some adjustments needed
+        var date = new Date(parseInt(year), parseInt(month) - 1, parseInt(day));
+        return (date.getFullYear() === parseInt(year) && (date.getMonth() + 1) === parseInt(month) && date.getDate() === parseInt(day));
+    });
+
+    //attach validators for each field, and whole date
+    jQuery.validator.unobtrusive.adapters.add('day', ['prefixelement'], function (options) {
+        options.rules['day'] = options.params;
+        if (options.message != null) {
+            options.messages['day'] = options.message;
+        }
+    });
+    jQuery.validator.unobtrusive.adapters.add('month', ['prefixelement'], function (options) {
+        options.rules['month'] = options.params;
+        if (options.message != null) {
+            options.messages['month'] = options.message;
+        }
+    });
+    jQuery.validator.unobtrusive.adapters.add('year', ['prefixelement'], function (options) {
+        options.rules['year'] = options.params;
+        if (options.message != null) {
+            options.messages['year'] = options.message;
+        }
+    });
+    jQuery.validator.unobtrusive.adapters.add('dateofbirth', ['prefixelement'], function (options) {
+        options.rules['dateofbirth'] = options.params;
+        if (options.message != null) {
+            options.messages['dateofbirth'] = options.message;
+        }
+    });
+
+    //validate Dob if we change any of the individual fields
+    jQuery('#UserInfo_Day').change(function () {
+        ValidateWholeDateOfBirth();
+    });
+    jQuery('#UserInfo_Month').change(function () {
+        ValidateWholeDateOfBirth();
+    });
+    jQuery('#UserInfo_Year').change(function () {
+        ValidateWholeDateOfBirth();
+    });
+
+    function DoBErrorShowing() {
+        if (jQuery("#UserInfo_DoB").hasClass("input-validation-error")) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    function ValidateWholeDateOfBirth() {
+        if (AllIndividualDatePartsValid()) {
+            jQuery("#personalDetailForm").validate().element("#UserInfo_DoB");
+        }
+    }
+
+    function AllIndividualDatePartsValid() {
+        if (jQuery("#UserInfo_Day").val() === ""
+            || jQuery("#UserInfo_Month").val() === ""
+            || jQuery("#UserInfo_Year").val() === "")
+            return false;
+
+        if (jQuery("#UserInfo_Day").valid()
+            && jQuery("#UserInfo_Month").valid()
+            && jQuery("#UserInfo_Year").valid()) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+</script>
+

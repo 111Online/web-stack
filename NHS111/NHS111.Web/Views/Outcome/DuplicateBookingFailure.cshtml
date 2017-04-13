@@ -1,0 +1,49 @@
+﻿@using NHS111.Models.Models.Web
+@inherits NHS111.Web.Views.Shared.SurveyLinkView<OutcomeViewModel>
+@{
+    Layout = "~/Views/Shared/_LayoutNhsUk.cshtml";
+}
+
+@section Title {
+    Call NHS 111 - duplicate request for callback
+}
+@section HeadTop {
+    @{ var url = string.Format("/outcome/{0}/{1}/{2}/itk/failure/{3}/{4}/", Url.Encode(Model.PathwayNo), Url.Encode(Model.OutcomeGroup.Text), Url.Encode(Model.Id), Url.Encode(Model.SelectedServiceId), Url.Encode(Model.SelectedService.Name)); }
+    <script>
+        var pageId = '@Model.Id';
+        dataLayer = [
+        {
+            'virtualPageUrl': '@url',
+            'virtualPageTitle': '@Model.TitleWithoutBullets'
+        }];
+    </script>
+}
+
+
+<link href="~/content/css_NhsUk/confirmation.css" media="screen" rel="stylesheet" type="text/css" />
+<link href="~/Content/css_NhsUK/signposting-outcome.css" media="all" rel="stylesheet" type="text/css" />
+<link href="~/Content/css_NhsUK/signposting-outcome-print.css" media="print" rel="stylesheet" type="text/css" />
+<link href="~/content/css_NhsUk/service.css" media="screen" rel="stylesheet" type="text/css" />
+
+@{
+    var dataDictionary = ViewContext.ViewData;
+    dataDictionary.Add(new KeyValuePair<string, object>("LaunchPage", "duplicate"));
+}
+@section SurveyBanner{
+    @Html.Partial("_SurveyLink", Model.SurveyLink, dataDictionary)
+}
+@section FeedbackSection {
+    @if (!SurveyLinkFeature.IsEnabled)
+    {
+        @Html.Partial("_FeedbackDetails", new FeedbackViewModel() { PageId = Model.Id });
+    }
+}
+
+<section>
+    <div class="outcome-header fail">
+        <h2 class="heading-large">Your request for a call has already been sent through</h2>
+        <h3 class="heading-medium">If you've already had a call, please close this page</h3>
+        <h3 class="heading-medium">If you haven't had a call within the time suggested, or the symptoms have got worse, you should @Html.ActionLink("start again", "InitialQuestion", "Question") or call 111</h3>    </div>
+</section>
+
+@Html.Partial("_CareAdvice", Model.CareAdvices, new ViewDataDictionary { { "Title", "What you can do in the meantime" } })

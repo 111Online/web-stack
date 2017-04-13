@@ -186,7 +186,20 @@ namespace NHS111.Web.Controllers {
            
             return View(viewName, nextModel);
         }
-        
+
+        [HttpGet]
+        public async Task<ActionResult> InitialQuestion()
+        {
+            var model = new JourneyViewModel();
+            var audit = model.ToAuditEntry(new HttpSessionStateWrapper(System.Web.HttpContext.Current.Session));
+            audit.EventData = "User directed from duplicate submission page";
+            await _auditLogger.Log(audit);
+
+            model.UserInfo = new UserInfo();
+            _userZoomDataBuilder.SetFieldsForDemographics(model);
+            return View("Gender", model);
+        }
+
         [HttpPost]
         public async Task<ActionResult> InitialQuestion(JourneyViewModel model)
         {

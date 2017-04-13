@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using AutoMapper;
+using CsvHelper.TypeConversion;
 using NHS111.Models.Models.Web;
 using NHS111.Models.Models.Web.FromExternalServices;
 using NHS111.Models.Models.Web.ITK;
@@ -37,22 +38,22 @@ namespace NHS111.Models.Mappers.WebMappings
             var outcome = (OutcomeViewModel)context.SourceValue;
             var caseDetails = (CaseDetails)context.DestinationValue ?? new CaseDetails();
 
-            caseDetails.ExternalReference = outcome.SessionId.ToString();
+            caseDetails.ExternalReference = outcome.JourneyId.ToString();
             caseDetails.DispositionCode = outcome.Id;
             caseDetails.DispositionName = outcome.Title;
             caseDetails.Source = outcome.PathwayTitle;
-            caseDetails.ReportItems = Mapper.Map<List<JourneyStep>, List<String>>(outcome.Journey.Steps);
-            caseDetails.ConsultationSummaryItems = outcome.Journey.Steps.Where(s => !String.IsNullOrEmpty(s.Answer.DispositionDisplayText)).Select(s => s.Answer.ReportText).Distinct().ToList();
+            caseDetails.ReportItems = Mapper.Map<List<JourneyStep>, List<string>>(outcome.Journey.Steps);
+            caseDetails.ConsultationSummaryItems = outcome.Journey.Steps.Where(s => !string.IsNullOrEmpty(s.Answer.DispositionDisplayText)).Select(s => s.Answer.ReportText).Distinct().ToList();
             return caseDetails;
         }
     }
 
-    public class FromJourneySetpsToReportTextStrings : ITypeConverter<List<JourneyStep>, List<String>>
+    public class FromJourneySetpsToReportTextStrings : ITypeConverter<List<JourneyStep>, List<string>>
     {
-        public List<String> Convert(ResolutionContext context)
+        public List<string> Convert(ResolutionContext context)
         {
             var steps = (List<JourneyStep>)context.SourceValue;
-            return steps.Where(s => !String.IsNullOrEmpty(s.Answer.ReportText)).Select(s => s.Answer.ReportText).ToList();
+            return steps.Where(s => !string.IsNullOrEmpty(s.Answer.ReportText)).Select(s => s.Answer.ReportText).ToList();
         }
     }
 
@@ -84,6 +85,14 @@ namespace NHS111.Models.Mappers.WebMappings
                     new DateTime(outcome.UserInfo.Year.Value, outcome.UserInfo.Month.Value, outcome.UserInfo.Day.Value);
 
             patientDetails.Gender = outcome.UserInfo.Demography.Gender;
+            
+            patientDetails.Informant = new InformantDetails()
+            {
+                Forename = outcome.Informant.Forename,
+                Surname = outcome.Informant.Surname,
+                TelephoneNumber = outcome.UserInfo.TelephoneNumber,
+                Type = outcome.Informant.IsInformant ? InformantType.NotSpecified : InformantType.Self
+            };           
             
             return patientDetails;
         }

@@ -233,12 +233,14 @@
     <Compile Include="Models\Web\FromExternalServices\JourneyStep.cs" />
     <Compile Include="Models\Web\FromExternalServices\SuccessObject.cs" />
     <Compile Include="Models\Web\FromExternalServices\ValidPostCode.cs" />
+    <Compile Include="Models\Web\InformantViewModel.cs" />
     <Compile Include="Models\Web\ITK\Address.cs" />
     <Compile Include="Models\Web\ITK\Authentication.cs" />
     <Compile Include="Models\Web\ITK\CaseDetails.cs" />
     <Compile Include="Models\Web\ITK\CaseSummary.cs" />
     <Compile Include="Models\Web\ITK\ContactDetails.cs" />
     <Compile Include="Models\Web\ITK\GpPractice.cs" />
+    <Compile Include="Models\Web\ITK\InformantDetails.cs" />
     <Compile Include="Models\Web\ITK\ITKDispatchRequest.cs" />
     <Compile Include="Models\Web\ITK\ITKDispatchResponse.cs" />
     <Compile Include="Models\Web\ITK\PatientDetails.cs" />
@@ -266,6 +268,9 @@
     <Compile Include="Models\Web\Validators\DateOfBirthMonthValidator.cs" />
     <Compile Include="Models\Web\Validators\DateOfBirthYearValidator.cs" />
     <Compile Include="Models\Web\Validators\FindServicesAddressViewModelValidator.cs" />
+    <Compile Include="Models\Web\Validators\InformantForenameValidator.cs" />
+    <Compile Include="Models\Web\Validators\InformantSurnameValidator.cs" />
+    <Compile Include="Models\Web\Validators\InformantViewModelValidator.cs" />
     <Compile Include="Models\Web\Validators\RuleBuilderExtensions\RuleBuilderExtensions.cs" />
     <Compile Include="Models\Web\ServiceViewModel.cs" />
     <Compile Include="Models\Web\SurgeryViewModel.cs" />

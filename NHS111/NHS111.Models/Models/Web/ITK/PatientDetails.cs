@@ -13,5 +13,6 @@ namespace NHS111.Models.Models.Web.ITK
         public Address CurrentAddress { get; set; }
         public GpPractice GpPractice { get; set; }
         public string TelephoneNumber { get; set; }
+        public InformantDetails Informant { get; set; }
     }
 }

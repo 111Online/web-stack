@@ -1,0 +1,70 @@
+﻿@using NHS111.Models.Models.Web
+@model InformantViewModel
+
+@{
+    var dataDictionary = ViewContext.ViewData;
+    dataDictionary.TemplateInfo = new TemplateInfo { HtmlFieldPrefix = "Informant" };
+}
+<div class="informant">
+    <div class="personal-details-content">
+        <label for="Informant" class="informant informant-label">
+            <span class="informant-radio">
+                @Html.CheckBoxFor(m => m.IsInformant, new { @id = "Informant" })
+            </span>
+            <span class="informant-text">I was answering questions about someone else</span>
+        </label>
+    </div>
+    <h4 class="section-header">
+        Enter the contact details of the best person for us to call
+    </h4>
+    <h5 class="section-header">
+        Make sure they are able to talk about the answers given
+    </h5>
+    <div class="personal-details-content">
+        <div id="informant-details">
+            <label>
+                Full name
+            </label>
+            <div>
+                @Html.ValidationMessageFor(m => m.Forename, "Please enter your first name")
+                @Html.ValidationMessageFor(m => m.Surname, "Please enter your last name")
+            </div>
+            <div class="inline-details">
+                @Html.TextBoxFor(m => m.Forename, new { @class = "form-control form-control-10-chars", placeholder = "First name" })
+                @Html.TextBoxFor(m => m.Surname, new { @class = "form-control form-control-10-chars", placeholder = "Last name" })
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+
+    jQuery.validator.addMethod('forename', function (value, element, params) {
+        if (!$("#Informant").is(":checked")) return true;
+
+        var firstname = $('#Informant_Forename').val();
+
+        return firstname.trim();
+    });
+
+    jQuery.validator.addMethod('surname', function (value, element, params) {
+        if (!$("#Informant").is(":checked")) return true;
+
+        var lastname = $('#Informant_Forename').val();
+
+        return lastname.trim();
+    });
+
+    jQuery.validator.unobtrusive.adapters.add('forename', ['prefixelement'], function (options) {
+        options.rules['forename'] = options.params;
+        if (options.message != null) {
+            options.messages['forename'] = options.message;
+        }
+    });
+    jQuery.validator.unobtrusive.adapters.add('surname', ['prefixelement'], function (options) {
+        options.rules['surname'] = options.params;
+        if (options.message != null) {
+            options.messages['surname'] = options.message;
+        }
+    });
+
+</script>

@@ -61,11 +61,38 @@ namespace NHS111.SmokeTest.Utils
             return new QuestionPage(_driver);
         }
 
+        public QuestionPage Answer(int answerOrder)
+        {
+            _driver.FindElement(By.XPath("(//span[contains(@class, 'answer-radio')])[" + answerOrder + "]")).Click();
+            NextButton.Click();
+            AwaitNextQuestionPage();
+            return new QuestionPage(_driver);
+        }
+
         public DispositionPage AnswerForDispostion(string answerText)
         {
             _driver.FindElement(By.XPath("//span[contains(@class, 'answer-text') and text() = \"" + answerText + "\"]/preceding-sibling::span[contains(@class, 'answer-radio')]")).Click();
             NextButton.Click();
             return new DispositionPage(_driver);
+        }
+
+        public DispositionPage AnswerForDispostion(int answerOrder)
+        {
+            _driver.FindElement(By.XPath("(//span[contains(@class, 'answer-radio')])[" + answerOrder + "]")).Click();
+            NextButton.Click();
+            return new DispositionPage(_driver);
+        }
+
+        public QuestionPage AnswerSuccessiveByOrder(int answerOrder, int numberOfTimes)
+        {
+            int i = 0;
+            var questionPage = this;
+            while (i < numberOfTimes)
+            {
+                questionPage = questionPage.Answer(answerOrder);
+                i++;
+            }
+            return questionPage;
         }
 
         public QuestionPage AnswerSuccessiveNo(int numberOfTimes)
