@@ -64,6 +64,8 @@ namespace NHS111.Models.Models.Web
             {
                 if (!IsOpen) return "Closed";
 
+                if (OpenAllHours) return "Open today: 24 hours";
+
                 return CurrentRotaSession != null 
                     ? string.Format("Open today: {0} until {1}", DateTime.Today.Add(CurrentRotaSession.OpeningTime).ToString("HH:mm"), DateTime.Today.Add(CurrentRotaSession.ClosingTime).ToString("HH:mm"))
                     : "Closed";
