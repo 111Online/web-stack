@@ -10,7 +10,9 @@ namespace NHS111.Models.Models.Web
     public class ServiceViewModel : DosService
     {
         private readonly IClock _clock;
-
+        private const string ServiceClosedMessage = "Closed";
+        private const string OpenAllHoursMessage = "Open today: 24 hours";
+        
         public ServiceViewModel() : this(new SystemClock())
         {
         }
@@ -45,12 +47,12 @@ namespace NHS111.Models.Models.Web
 
         private string GetOpeningTimes(DayOfWeek day)
         {
-            if (RotaSessions == null) return "Closed";
+            if (RotaSessions == null) return ServiceClosedMessage;
 
             var rotaSession = RotaSessions.FirstOrDefault(rs => (int) rs.StartDayOfWeek == (int) day);
             return rotaSession != null
                 ? string.Format("{0} - {1}", GetTime(rotaSession.StartTime), GetTime(rotaSession.EndTime))
-                : "Closed";
+                : ServiceClosedMessage;
         }
 
         private string GetTime(TimeOfDay time)
@@ -62,13 +64,13 @@ namespace NHS111.Models.Models.Web
         {
             get
             {
-                if (!IsOpen) return "Closed";
+                if (!IsOpen) return ServiceClosedMessage;
 
-                if (OpenAllHours) return "Open today: 24 hours";
+                if (OpenAllHours) return OpenAllHoursMessage;
 
                 return CurrentRotaSession != null 
                     ? string.Format("Open today: {0} until {1}", DateTime.Today.Add(CurrentRotaSession.OpeningTime).ToString("HH:mm"), DateTime.Today.Add(CurrentRotaSession.ClosingTime).ToString("HH:mm"))
-                    : "Closed";
+                    : ServiceClosedMessage;
             }
         }
 
