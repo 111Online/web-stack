@@ -168,6 +168,7 @@ namespace NHS111.Web.Controllers
                 return View("PersonalDetails", model);
             }
             var availiableServices = await GetServiceAvailability(model, DateTime.Now);
+            _auditLogger.LogDosResponse(model);
             if (SelectedServiceExits(model.SelectedService.Id, availiableServices))
             {
                 model = await _outcomeViewModelBuilder.ItkResponseBuilder(model);
