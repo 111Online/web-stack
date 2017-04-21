@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Web.Http;
 using NHS111.Features;
+using NHS111.Models.Models.Web.Validators;
 using NHS111.Web.Presentation.Logging;
 
 namespace NHS111.Web.Controllers
@@ -51,9 +52,18 @@ namespace NHS111.Web.Controllers
             await _auditLogger.LogDosResponse(model);
 
             if (model.DosCheckCapacitySummaryResult.Error == null && !model.DosCheckCapacitySummaryResult.HasNoServices)
+            {
                 return model.UserInfo.CurrentAddress.IsPostcodeFirst ? View("Outcome", model) : View("Services", model);
-
-            return View("Postcode", model);
+            }
+            else if (model.DosCheckCapacitySummaryResult.Error == null && model.DosCheckCapacitySummaryResult.HasNoServices)
+            {
+                return View("Outcome", model);
+            }
+            else
+            {
+                //present screen with validation errors
+                return View("Postcode", model);
+            }
         }
     }
 }
