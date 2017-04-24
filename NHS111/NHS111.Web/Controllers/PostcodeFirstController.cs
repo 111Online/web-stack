@@ -17,12 +17,14 @@ namespace NHS111.Web.Controllers
         private readonly IDOSBuilder _dosBuilder;
         private readonly IDOSFilteringToggleFeature _dosFilteringToggle;
         private readonly IAuditLogger _auditLogger;
+        private readonly IPostCodeAllowedValidator _postCodeAllowedValidator;
 
-        public PostcodeFirstController(IDOSBuilder dosBuilder, IDOSFilteringToggleFeature dosFilteringToggle, IAuditLogger auditLogger)
+        public PostcodeFirstController(IDOSBuilder dosBuilder, IDOSFilteringToggleFeature dosFilteringToggle, IAuditLogger auditLogger, IPostCodeAllowedValidator postCodeAllowedValidator)
         {
             _dosBuilder = dosBuilder;
             _dosFilteringToggle = dosFilteringToggle;
             _auditLogger = auditLogger;
+            _postCodeAllowedValidator = postCodeAllowedValidator;
         }
 
         [HttpPost]
@@ -46,6 +48,13 @@ namespace NHS111.Web.Controllers
 
             if(string.IsNullOrEmpty(model.UserInfo.CurrentAddress.Postcode))
                 return View("Outcome", model);
+
+            model.UserInfo.CurrentAddress.IsInPilotArea = _postCodeAllowedValidator.IsAllowedPostcode(model.UserInfo.CurrentAddress.Postcode);
+
+            if (!model.UserInfo.CurrentAddress.IsInPilotArea)
+            {
+                return View("Outcome", model);
+            }
 
             await _auditLogger.LogDosRequest(model, dosViewModel);
             model.DosCheckCapacitySummaryResult = await _dosBuilder.FillCheckCapacitySummaryResult(dosViewModel);
