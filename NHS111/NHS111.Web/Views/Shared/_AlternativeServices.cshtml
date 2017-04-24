@@ -23,14 +23,10 @@
                 }
             </div>
         }
-        else if (ViewData.Keys.Contains("NoServicesMessage1") && ViewData.Keys.Contains("NoServicesMessage2"))
-        {
-            <h4>@Html.Raw(ViewData["NoServicesMessage1"])</h4>
-            <h4>@Html.Raw(ViewData["NoServicesMessage2"])</h4>
-        }
         else
         {
             <h4>Sorry, no other services are currently available for the postcode you entered</h4>
+            <br />
             <h4>If you can’t @Html.Raw(Model.OutcomeGroup.Text), you should call 111 for advice</h4>
         }
     </div>
