@@ -36,7 +36,7 @@
 
 @if (!string.IsNullOrEmpty(Model.UserInfo.CurrentAddress.Postcode))
 {
-    @Html.Partial("_AlternativeServices", Model, new ViewDataDictionary { { "Title", "If you can't see your GP" } });
+    @Html.Partial("_AlternativeServices", Model, new ViewDataDictionary { { "Title", "If you can't speak to your GP practice" } });
 }
 else
 {
