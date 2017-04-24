@@ -9,22 +9,26 @@
         @if (services.Any())
         {
             <h3>@Html.Raw((!ViewData.Keys.Contains("Title") ? "If you can't see your GP" : ViewData["Title"]))</h3>
-        <div id="availableServices">
+            <div id="availableServices">
 
-            @if (services.FirstOrDefault(s => s.CallbackEnabled) != null) //first service is a call back
-            {
-                @Html.Partial("_CallbackServices", Model)
-                @Html.Partial("_GotoServices", Model)
-            }
-            else
-            {
-               @Html.Partial("_GotoServices", Model)            
-               @Html.Partial("_CallbackServices", Model)
-            }
-        </div>
+                @if (services.FirstOrDefault(s => s.CallbackEnabled) != null) //first service is a call back
+                {
+                    @Html.Partial("_CallbackServices", Model)
+                    @Html.Partial("_GotoServices", Model)
+                }
+                else
+                {
+                    @Html.Partial("_GotoServices", Model)
+                    @Html.Partial("_CallbackServices", Model)
+                }
+            </div>
         }
-
-
+        else
+        {
+            <h4>Sorry, no other services are currently available for the postcode you entered</h4>
+            <br />
+            <h4>If you can’t @Html.Raw(Model.OutcomeGroup.Text), you should call 111 for advice</h4>
+        }
     </div>
 
 <script>
