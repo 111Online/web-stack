@@ -323,6 +323,9 @@ details summary::-webkit-details-marker {
     padding-top: 20px;
 
 }
+.alternative-care-service.content p {
+    margin-left: 0;
+}
 .service-direction {
     padding: 20px 0;
 }

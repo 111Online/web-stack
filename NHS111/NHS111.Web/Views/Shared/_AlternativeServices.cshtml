@@ -8,7 +8,7 @@
 
         @if (result != null && result.Success != null && result.Success.Services != null && result.Success.Services.Any())
         {
-            <h3>@Html.Raw((!ViewData.Keys.Contains("Title") ? "If you can't see your GP" : ViewData["Title"]))</h3>
+            <h3>@Html.Raw((!ViewData.Keys.Contains("Title") ? "If you can't speak to your GP practice" : ViewData["Title"]))</h3>
             <div id="availableServices">
 
             @if (result.Success.Services.FirstOrDefault(s => s.CallbackEnabled) != null) //first service is a call back
