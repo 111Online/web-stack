@@ -13,13 +13,13 @@
 
             @if (services.FirstOrDefault(s => s.CallbackEnabled) != null) //first service is a call back
             {
-                @Html.Partial("_CallbackServices", Model)
-                @Html.Partial("_GotoServices", Model)
+                @Html.Partial("_CallbackServices", Model, ViewData)
+                @Html.Partial("_GotoServices", Model, ViewData)
             }
             else
             {
-               @Html.Partial("_GotoServices", Model)            
-               @Html.Partial("_CallbackServices", Model)
+               @Html.Partial("_GotoServices", Model, ViewData)            
+               @Html.Partial("_CallbackServices", Model, ViewData)
             }
         </div>
         }

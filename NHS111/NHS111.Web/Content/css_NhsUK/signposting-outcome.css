@@ -302,6 +302,9 @@ details summary::-webkit-details-marker {
         line-height: 20px;
     }
 }
+.alternative-care-service p {
+    margin-left: 14px;
+}
 .alternative-care.service-hidden {
     display: block;
 }

@@ -7,8 +7,16 @@
 
 @if (services.Any(s => !s.CallbackEnabled))
 {
-    var serviceCount = services.Where(s => !s.CallbackEnabled).Count(s => !s.CallbackEnabled);
-    var title = serviceCount > 1 ? "There are " + serviceCount + " places you can visit" : "There is 1 place you can visit";
+    string title;
+    if (ViewData.Keys.Contains("VisitTitle"))
+    {
+        title = ViewData["VisitTitle"] as string;
+    }
+    else
+    {
+        var serviceCount = services.Where(s => !s.CallbackEnabled).Count(s => !s.CallbackEnabled);
+        title = serviceCount > 1 ? "There are " + serviceCount + " places you can visit" : "There is 1 place you can visit";
+    }
     <h5>@title</h5>
 
         <div class="alternative-care-service content">
