@@ -75,7 +75,7 @@
                         <p class="field-validation-error">Please check you have entered the postcode correctly, then try again. <br /> If the search still gives no results, please call 111 for advice.</p>
                     }
                     @Html.ValidationMessageFor(m => m.UserInfo.CurrentAddress.Postcode)
-                    @Html.LabelFor(m => m.UserInfo.CurrentAddress.Postcode, Model.UserInfo.CurrentAddress.IsPostcodeFirst ? "Enter your postcode for services that can help you (optional)" : "If you enter your postcode now, we can find services that can help you")
+                    <label for="UserInfo_CurrentAddress_Postcode">@(Model.UserInfo.CurrentAddress.IsPostcodeFirst ? Html.Raw("Enter your postcode for services that can help you <span class=\"de-emphasised\">(optional)<span>") : Html.Raw("If you enter your postcode now, we can find services that can help you"))</label>
                     @Html.TextBoxFor(m => m.UserInfo.CurrentAddress.Postcode, new { @class = "form-control " + (error ? "error" : "") })
                     <button class="button button-next" type="submit" name="DosResults" id="DosLookup">Next</button>
                 </div>

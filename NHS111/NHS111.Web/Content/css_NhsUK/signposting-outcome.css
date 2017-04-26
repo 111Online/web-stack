@@ -387,3 +387,7 @@ details summary::-webkit-details-marker {
 .alternative-care-hr {
     margin: 20px;
 }
+
+.de-emphasised {
+    font-weight: normal;
+}
