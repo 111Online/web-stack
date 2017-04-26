@@ -7,6 +7,7 @@ using System.Web.Script.Serialization;
 using NHS111.Features;
 using NHS111.Models.Models.Web.FromExternalServices;
 using NHS111.Models.Models.Web.Logging;
+using NHS111.Models.Models.Web.Validators;
 
 namespace NHS111.Web.Controllers
 {
@@ -33,9 +34,10 @@ namespace NHS111.Web.Controllers
         private readonly IAuditLogger _auditLogger;
         private readonly Presentation.Configuration.IConfiguration _configuration;
         private readonly IDOSFilteringToggleFeature _dosFilteringToggle;
+        private readonly IPostCodeAllowedValidator _postCodeAllowedValidator;
 
         public OutcomeController(IOutcomeViewModelBuilder outcomeViewModelBuilder, IDOSBuilder dosBuilder,
-            ISurgeryBuilder surgeryBuilder, ILocationResultBuilder locationResultBuilder, IAuditLogger auditLogger, Presentation.Configuration.IConfiguration configuration, IDOSFilteringToggleFeature dosFilteringToggle)
+            ISurgeryBuilder surgeryBuilder, ILocationResultBuilder locationResultBuilder, IAuditLogger auditLogger, Presentation.Configuration.IConfiguration configuration, IDOSFilteringToggleFeature dosFilteringToggle, IPostCodeAllowedValidator postCodeAllowedValidator)
         {
             _outcomeViewModelBuilder = outcomeViewModelBuilder;
             _dosBuilder = dosBuilder;
@@ -44,6 +46,7 @@ namespace NHS111.Web.Controllers
             _auditLogger = auditLogger;
             _configuration = configuration;
             _dosFilteringToggle = dosFilteringToggle;
+            _postCodeAllowedValidator = postCodeAllowedValidator;
         }
 
         [HttpPost]
@@ -72,7 +75,7 @@ namespace NHS111.Web.Controllers
             var DxCode = new DispositionCode(dxCode ?? "Dx38");
             var Gender = new Gender(gender ?? "Male");
 
-            var model = new OutcomeViewModel {
+            var model = new OutcomeViewModel() {
                 Id = DxCode.Value,
                 UserInfo = new UserInfo
                 {
@@ -178,6 +181,8 @@ namespace NHS111.Web.Controllers
             }
             model.UnavailableSelectedService = model.SelectedService;
             model.DosCheckCapacitySummaryResult = availiableServices;
+            model.UserInfo.CurrentAddress.IsInPilotArea = _postCodeAllowedValidator.IsAllowedPostcode(model.UserInfo.CurrentAddress.Postcode);
+
             return View("ServieBookingUnavailable", model);
         }
 
