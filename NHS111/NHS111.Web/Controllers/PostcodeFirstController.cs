@@ -28,10 +28,11 @@ namespace NHS111.Web.Controllers
         }
 
         [HttpPost]
-        public ActionResult Postcode(OutcomeViewModel model)
+        public async Task<ActionResult> Postcode(OutcomeViewModel model)
         {
             ModelState.Clear();
             model.UserInfo.CurrentAddress.IsPostcodeFirst = false;
+            await _auditLogger.LogEventData(model, "User entered postcode on second request");
             return View(model);
         }
 
@@ -46,13 +47,17 @@ namespace NHS111.Web.Controllers
                 if (overrideDate.HasValue) dosViewModel.DispositionTime = overrideDate.Value;
             }
 
-            if(string.IsNullOrEmpty(model.UserInfo.CurrentAddress.Postcode))
+            if (string.IsNullOrEmpty(model.UserInfo.CurrentAddress.Postcode))
+            {
+                await _auditLogger.LogEventData(model, "User did not enter a postcode");
                 return View("Outcome", model);
+            }
 
             model.UserInfo.CurrentAddress.IsInPilotArea = _postCodeAllowedValidator.IsAllowedPostcode(model.UserInfo.CurrentAddress.Postcode);
 
             if (!model.UserInfo.CurrentAddress.IsInPilotArea)
             {
+                await _auditLogger.LogEventData(model, "User entered a postcode outside of pilot area");
                 return View("Outcome", model);
             }
 

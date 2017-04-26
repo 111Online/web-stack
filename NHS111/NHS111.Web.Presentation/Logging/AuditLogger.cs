@@ -18,7 +18,7 @@ namespace NHS111.Web.Presentation.Logging {
         Task Log(AuditEntry auditEntry);
         Task LogDosRequest(OutcomeViewModel model, DosViewModel dosViewModel);
         Task LogDosResponse(OutcomeViewModel model);
-        Task LogSelectedService(OutcomeViewModel model, string selectedServiceName, int selectedServiceId);
+        Task LogEventData(JourneyViewModel model, string eventData);
         Task LogSelectedService(OutcomeViewModel model);
         Task LogItkRequest(OutcomeViewModel model, ITKDispatchRequest itkRequest);
         Task LogItkResponse(OutcomeViewModel model, HttpResponseMessage response);
@@ -56,17 +56,15 @@ namespace NHS111.Web.Presentation.Logging {
             await Log(audit);
         }
 
-        public async Task LogSelectedService(OutcomeViewModel model, string selectedServiceName, int selectedServiceId)
-        {
-            var audit = model.ToAuditEntry(new HttpSessionStateWrapper(System.Web.HttpContext.Current.Session));
-            audit.EventData = FormatEventData(selectedServiceName, selectedServiceId);
-            await Log(audit);
-        }
-
         public async Task LogSelectedService(OutcomeViewModel model)
         {
+            await LogEventData(model, string.Format("User selected service '{0}' ({1})", model.SelectedService.Name, model.SelectedService.Id));
+        }
+
+        public async Task LogEventData(JourneyViewModel model, string eventData)
+        {
             var audit = model.ToAuditEntry(new HttpSessionStateWrapper(System.Web.HttpContext.Current.Session));
-            audit.EventData = FormatEventData(model.SelectedService.Name, model.SelectedService.Id);
+            audit.EventData = eventData;
             await Log(audit);
         }
 
@@ -84,11 +82,6 @@ namespace NHS111.Web.Presentation.Logging {
             var auditedItkResponse = Mapper.Map<AuditedItkResponse>(response);
             audit.ItkResponse = JsonConvert.SerializeObject(auditedItkResponse);
             await Log(audit);
-        }
-
-        private string FormatEventData(string selectedServiceName, int selectedServiceId)
-        {
-            return string.Format("User selected service '{0}' ({1})", selectedServiceName, selectedServiceId);
         }
 
         private readonly IRestfulHelper _restfulHelper;
