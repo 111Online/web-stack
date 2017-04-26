@@ -94,8 +94,8 @@
 
     $('#DosLookup').css('cursor', 'pointer');
     $(document).on('click', '#DosLookup', function (event) {
-        if ($("#findServicesForm").valid()) {
-            var $postcode = $('#UserInfo_CurrentAddress_Postcode').val();
+        var $postcode = $('#UserInfo_CurrentAddress_Postcode').val();
+        if ($("#findServicesForm").valid() && !!$postcode) {
             startPageLoadingIndicator('Searching for services near to ' + $postcode + '...');
         }
     });
