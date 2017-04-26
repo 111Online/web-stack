@@ -15,14 +15,12 @@ namespace NHS111.Web.Controllers
     public class PostcodeFirstController : Controller
     {
         private readonly IDOSBuilder _dosBuilder;
-        private readonly IDOSFilteringToggleFeature _dosFilteringToggle;
         private readonly IAuditLogger _auditLogger;
         private readonly IPostCodeAllowedValidator _postCodeAllowedValidator;
 
-        public PostcodeFirstController(IDOSBuilder dosBuilder, IDOSFilteringToggleFeature dosFilteringToggle, IAuditLogger auditLogger, IPostCodeAllowedValidator postCodeAllowedValidator)
+        public PostcodeFirstController(IDOSBuilder dosBuilder, IAuditLogger auditLogger, IPostCodeAllowedValidator postCodeAllowedValidator)
         {
             _dosBuilder = dosBuilder;
-            _dosFilteringToggle = dosFilteringToggle;
             _auditLogger = auditLogger;
             _postCodeAllowedValidator = postCodeAllowedValidator;
         }
@@ -41,10 +39,8 @@ namespace NHS111.Web.Controllers
             if (!ModelState.IsValidField("UserInfo.CurrentAddress.PostCode")) return View("Postcode", model);
 
             var dosViewModel = Mapper.Map<DosViewModel>(model);
-            if (_dosFilteringToggle.IsEnabled)
-            {
-                if (overrideDate.HasValue) dosViewModel.DispositionTime = overrideDate.Value;
-            }
+            
+            if (overrideDate.HasValue) dosViewModel.DispositionTime = overrideDate.Value;
 
             if(string.IsNullOrEmpty(model.UserInfo.CurrentAddress.Postcode))
                 return View("Outcome", model);

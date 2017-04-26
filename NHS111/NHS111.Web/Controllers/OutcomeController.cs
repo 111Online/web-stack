@@ -32,10 +32,9 @@ namespace NHS111.Web.Controllers
         private readonly ILocationResultBuilder _locationResultBuilder;
         private readonly IAuditLogger _auditLogger;
         private readonly Presentation.Configuration.IConfiguration _configuration;
-        private readonly IDOSFilteringToggleFeature _dosFilteringToggle;
 
         public OutcomeController(IOutcomeViewModelBuilder outcomeViewModelBuilder, IDOSBuilder dosBuilder,
-            ISurgeryBuilder surgeryBuilder, ILocationResultBuilder locationResultBuilder, IAuditLogger auditLogger, Presentation.Configuration.IConfiguration configuration, IDOSFilteringToggleFeature dosFilteringToggle)
+            ISurgeryBuilder surgeryBuilder, ILocationResultBuilder locationResultBuilder, IAuditLogger auditLogger, Presentation.Configuration.IConfiguration configuration)
         {
             _outcomeViewModelBuilder = outcomeViewModelBuilder;
             _dosBuilder = dosBuilder;
@@ -43,7 +42,6 @@ namespace NHS111.Web.Controllers
             _locationResultBuilder = locationResultBuilder;
             _auditLogger = auditLogger;
             _configuration = configuration;
-            _dosFilteringToggle = dosFilteringToggle;
         }
 
         [HttpPost]
@@ -107,10 +105,7 @@ namespace NHS111.Web.Controllers
         private async Task<DosCheckCapacitySummaryResult> GetServiceAvailability(OutcomeViewModel model, DateTime? overrideDate)
         {
             var dosViewModel = Mapper.Map<DosViewModel>(model);
-            if (_dosFilteringToggle.IsEnabled)
-            {
-                if (overrideDate.HasValue) dosViewModel.DispositionTime = overrideDate.Value;
-            }
+            if (overrideDate.HasValue) dosViewModel.DispositionTime = overrideDate.Value;
 
            await _auditLogger.LogDosRequest(model, dosViewModel);
            return await _dosBuilder.FillCheckCapacitySummaryResult(dosViewModel);
