@@ -6,36 +6,36 @@
         var result = Model.DosCheckCapacitySummaryResult;
     }
 
-        @if (result != null && result.Success != null && result.Success.Services != null && result.Success.Services.Any())
-        {
-            <h3>@Html.Raw((!ViewData.Keys.Contains("Title") ? "If you can't speak to your GP practice" : ViewData["Title"]))</h3>
-            <div id="availableServices">
+    @if (!Model.UserInfo.CurrentAddress.IsInPilotArea)
+    {
+        <h4>The postcode you entered is outside the Leeds trial area, so we can’t look up other services for you</h4>
+        <br />
+        <h4>If you can’t @Html.Raw(Model.OutcomeGroup.Text), please call 111 for advice</h4>
+    }
+    else if (result != null && result.Success != null && result.Success.Services != null && result.Success.Services.Any())
+    {
+        <h3>@Html.Raw((!ViewData.Keys.Contains("Title") ? "If you can't speak to your GP practice" : ViewData["Title"]))</h3>
+        <div id="availableServices">
 
             @if (result.Success.Services.FirstOrDefault(s => s.CallbackEnabled) != null) //first service is a call back
-            {
+                {
                 @Html.Partial("_CallbackServices", Model, ViewData)
                 @Html.Partial("_GotoServices", Model, ViewData)
             }
             else
             {
-               @Html.Partial("_GotoServices", Model, ViewData)            
-               @Html.Partial("_CallbackServices", Model, ViewData)
+                @Html.Partial("_GotoServices", Model, ViewData)
+                @Html.Partial("_CallbackServices", Model, ViewData)
             }
         </div>
-        }
-        else if (!Model.UserInfo.CurrentAddress.IsInPilotArea)
-        {
-            <h4>The postcode you entered is outside the Leeds trial area, so we can’t look up other services for you</h4>
-            <br />
-            <h4>If you can’t @Html.Raw(Model.OutcomeGroup.Text), please call 111 for advice</h4>
-        }
-        else
-        {
-            <h4>Sorry, no other services are currently available for the postcode you entered</h4>
-            <br />
-            <h4>If you can’t @Html.Raw(Model.OutcomeGroup.Text), you should call 111 for advice</h4>
-        }
-    </div>
+    }
+    else if (Model.UserInfo.CurrentAddress.IsPostcodeFirst)
+    {
+        <h4>Sorry, no other services are currently available for the postcode you entered</h4>
+        <br />
+        <h4>If you can’t @Html.Raw(Model.OutcomeGroup.Text), you should call 111 for advice</h4>
+    }
+</div>
 
 <script>
     $(function () {
