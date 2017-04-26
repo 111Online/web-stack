@@ -64,7 +64,7 @@ namespace NHS111.Web.Controllers
             {
                 return model.UserInfo.CurrentAddress.IsPostcodeFirst ? View("Outcome", model) : View("Services", model);
             }
-            else if (model.DosCheckCapacitySummaryResult.Error == null && model.DosCheckCapacitySummaryResult.HasNoServices)
+            else if (model.DosCheckCapacitySummaryResult.Error != null || model.DosCheckCapacitySummaryResult.HasNoServices)
             {
                 return View("Outcome", model);
             }
