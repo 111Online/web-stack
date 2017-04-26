@@ -305,6 +305,10 @@ details summary::-webkit-details-marker {
 .alternative-care-service p {
     margin-left: 14px;
 }
+.alternative-care-service ul {
+    list-style-type: disc;
+    padding: 0 20px;
+}
 .alternative-care.service-hidden {
     display: block;
 }
