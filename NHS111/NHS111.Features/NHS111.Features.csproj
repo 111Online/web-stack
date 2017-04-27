@@ -69,7 +69,6 @@
     <Compile Include="DirectLinkingFeature.cs" />
     <Compile Include="DisclaimerBannerFeature.cs" />
     <Compile Include="DisclaimerPopupFeature.cs" />
-    <Compile Include="DOSFilteringToggleFeature.cs" />
     <Compile Include="FilterPathwaysByAgeFeature.cs" />
     <Compile Include="IFeature.cs" />
     <Compile Include="IoC\FeatureRegistry.cs" />
