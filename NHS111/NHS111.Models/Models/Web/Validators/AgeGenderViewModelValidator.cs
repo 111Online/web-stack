@@ -4,7 +4,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using FluentValidation;
-using NHS111.Models.Models.Domain;
 
 namespace NHS111.Models.Models.Web.Validators
 {
@@ -12,7 +11,7 @@ namespace NHS111.Models.Models.Web.Validators
     {
         public AgeGenderViewModelValidator()
         {
-            RuleFor(p => p.Gender).Cascade(CascadeMode.Continue)
+            RuleFor(p => p.Gender)
                 .NotEmpty();
             RuleFor(p => p.Age)
                 .SetValidator(new AgeValidator<AgeGenderViewModel, int>(u => u.Age));
