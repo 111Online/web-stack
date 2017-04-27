@@ -59,13 +59,14 @@ namespace NHS111.Web.Controllers
 
             await _auditLogger.LogDosRequest(model, dosViewModel);
             model.DosCheckCapacitySummaryResult = await _dosBuilder.FillCheckCapacitySummaryResult(dosViewModel);
+            model.DosCheckCapacitySummaryResult.ServicesUnavailable = model.DosCheckCapacitySummaryResult.ResultListEmpty;
             await _auditLogger.LogDosResponse(model);
 
-            if (model.DosCheckCapacitySummaryResult.Error == null && !model.DosCheckCapacitySummaryResult.HasNoServices)
+            if (model.DosCheckCapacitySummaryResult.Error == null && !model.DosCheckCapacitySummaryResult.ResultListEmpty)
             {
                 return model.UserInfo.CurrentAddress.IsPostcodeFirst ? View("Outcome", model) : View("Services", model);
             }
-            else if (model.DosCheckCapacitySummaryResult.Error != null || model.DosCheckCapacitySummaryResult.HasNoServices)
+            else if (model.DosCheckCapacitySummaryResult.Error != null || model.DosCheckCapacitySummaryResult.ResultListEmpty)
             {
                 return View("Outcome", model);
             }
