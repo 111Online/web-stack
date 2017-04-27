@@ -26,7 +26,7 @@ namespace NHS111.Models.Models.Web.Validators
             return postcodes.Any(p => p.ParsedPostcode.Contains(ValidPostCode.ParsePostcode(postcode)));
         }
     }
-
+     
     public interface IPostCodeAllowedValidator
     {
         bool IsAllowedPostcode(string postcode);

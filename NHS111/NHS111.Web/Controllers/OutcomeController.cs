@@ -7,6 +7,7 @@ using System.Web.Script.Serialization;
 using NHS111.Features;
 using NHS111.Models.Models.Web.FromExternalServices;
 using NHS111.Models.Models.Web.Logging;
+using NHS111.Models.Models.Web.Validators;
 
 namespace NHS111.Web.Controllers
 {
@@ -32,9 +33,10 @@ namespace NHS111.Web.Controllers
         private readonly ILocationResultBuilder _locationResultBuilder;
         private readonly IAuditLogger _auditLogger;
         private readonly Presentation.Configuration.IConfiguration _configuration;
+        private readonly IPostCodeAllowedValidator _postCodeAllowedValidator;
 
         public OutcomeController(IOutcomeViewModelBuilder outcomeViewModelBuilder, IDOSBuilder dosBuilder,
-            ISurgeryBuilder surgeryBuilder, ILocationResultBuilder locationResultBuilder, IAuditLogger auditLogger, Presentation.Configuration.IConfiguration configuration)
+            ISurgeryBuilder surgeryBuilder, ILocationResultBuilder locationResultBuilder, IAuditLogger auditLogger, Presentation.Configuration.IConfiguration configuration, IPostCodeAllowedValidator postCodeAllowedValidator)
         {
             _outcomeViewModelBuilder = outcomeViewModelBuilder;
             _dosBuilder = dosBuilder;
@@ -42,6 +44,7 @@ namespace NHS111.Web.Controllers
             _locationResultBuilder = locationResultBuilder;
             _auditLogger = auditLogger;
             _configuration = configuration;
+            _postCodeAllowedValidator = postCodeAllowedValidator;
         }
 
         [HttpPost]
@@ -70,7 +73,7 @@ namespace NHS111.Web.Controllers
             var DxCode = new DispositionCode(dxCode ?? "Dx38");
             var Gender = new Gender(gender ?? "Male");
 
-            var model = new OutcomeViewModel {
+            var model = new OutcomeViewModel() {
                 Id = DxCode.Value,
                 UserInfo = new UserInfo
                 {
@@ -105,7 +108,7 @@ namespace NHS111.Web.Controllers
         private async Task<DosCheckCapacitySummaryResult> GetServiceAvailability(OutcomeViewModel model, DateTime? overrideDate)
         {
             var dosViewModel = Mapper.Map<DosViewModel>(model);
-            if (overrideDate.HasValue) dosViewModel.DispositionTime = overrideDate.Value;
+                if (overrideDate.HasValue) dosViewModel.DispositionTime = overrideDate.Value;
 
            await _auditLogger.LogDosRequest(model, dosViewModel);
            return await _dosBuilder.FillCheckCapacitySummaryResult(dosViewModel);
@@ -173,6 +176,8 @@ namespace NHS111.Web.Controllers
             }
             model.UnavailableSelectedService = model.SelectedService;
             model.DosCheckCapacitySummaryResult = availiableServices;
+            model.UserInfo.CurrentAddress.IsInPilotArea = _postCodeAllowedValidator.IsAllowedPostcode(model.UserInfo.CurrentAddress.Postcode);
+
             return View("ServieBookingUnavailable", model);
         }
 
