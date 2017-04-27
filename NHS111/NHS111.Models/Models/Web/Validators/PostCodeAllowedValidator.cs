@@ -39,9 +39,10 @@ namespace NHS111.Models.Models.Web.Validators
         {
             if (!_allowedPostcodeFeature.IsEnabled) return true;
 
-            if(_allowedPostcodeFeature.PostcodeFile == TextReader.Null) return false;
+            var postcodeFile = _allowedPostcodeFeature.PostcodeFile;
+            if(postcodeFile == TextReader.Null) return false;
 
-            var csv = new CsvReader(_allowedPostcodeFeature.PostcodeFile);
+            var csv = new CsvReader(postcodeFile);
             var postcodes = csv.GetRecords<ValidPostCode>().ToList();
             return postcodes.Any(p => p.ParsedPostcode.Contains(ValidPostCode.ParsePostcode(postcode)));
         }
