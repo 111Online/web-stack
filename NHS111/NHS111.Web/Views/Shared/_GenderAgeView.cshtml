@@ -4,6 +4,9 @@
 <h2 class="heading-large">Tell us about you, or the person you're asking about</h2>
 
 <h2 class="heading-small">Sex</h2>
+<div>
+    @Html.ValidationMessageFor(m => m.Gender, "Please select a gender")
+</div>
 <div id="answers">
     <label for="Male" class="answer answer-label">
         <span class="answer-radio">
