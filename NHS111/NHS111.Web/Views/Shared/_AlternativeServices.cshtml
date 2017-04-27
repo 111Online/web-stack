@@ -31,7 +31,7 @@
     }
     else if (Model.UserInfo.CurrentAddress.IsPostcodeFirst)
     {
-        <h4>Sorry, no other services are currently available for the postcode you entered</h4>
+        <h4 id="NoDosResults">Sorry, no other services are currently available for the postcode you entered</h4>
         <br />
         <h4>If you can’t @Html.Raw(Model.OutcomeGroup.Text), you should call 111 for advice</h4>
     }
