@@ -1,6 +1,4 @@
-﻿
-
-using System;
+﻿using System;
 using System.Linq;
 using System.Web.Http;
 using System.Web.Script.Serialization;
@@ -99,7 +97,7 @@ namespace NHS111.Web.Controllers
             model.DosCheckCapacitySummaryResult = await GetServiceAvailability(model, overrideDate);
             await _auditLogger.LogDosResponse(model);
 
-            if (model.DosCheckCapacitySummaryResult.Error == null && !model.DosCheckCapacitySummaryResult.HasNoServices)
+            if (model.DosCheckCapacitySummaryResult.Error == null && !model.DosCheckCapacitySummaryResult.ResultListEmpty)
                 return View("ServiceList", model);
 
             return View(Path.GetFileNameWithoutExtension(model.CurrentView), model);
@@ -176,14 +174,15 @@ namespace NHS111.Web.Controllers
             }
             model.UnavailableSelectedService = model.SelectedService;
             model.DosCheckCapacitySummaryResult = availiableServices;
+            model.DosCheckCapacitySummaryResult.ServicesUnavailable = !availiableServices.ResultListEmpty;
             model.UserInfo.CurrentAddress.IsInPilotArea = _postCodeAllowedValidator.IsAllowedPostcode(model.UserInfo.CurrentAddress.Postcode);
-
+            
             return View("ServieBookingUnavailable", model);
         }
 
         private bool SelectedServiceExits(int selectedServiceId, DosCheckCapacitySummaryResult availiableServices)
         {
-            return !availiableServices.HasNoServices && availiableServices.Success.Services.Exists(s => s.Id == selectedServiceId);
+            return !availiableServices.ResultListEmpty && availiableServices.Success.Services.Exists(s => s.Id == selectedServiceId);
         }
 
         [HttpPost]

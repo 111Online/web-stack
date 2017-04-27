@@ -29,7 +29,7 @@
             }
         </div>
     }
-    else if (Model.UserInfo.CurrentAddress.IsPostcodeFirst)
+    else if (result != null && result.ServicesUnavailable)
     {
         <h4>Sorry, no other services are currently available for the postcode you entered</h4>
         <br />

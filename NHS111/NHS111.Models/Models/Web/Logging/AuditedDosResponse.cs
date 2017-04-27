@@ -5,6 +5,6 @@ namespace NHS111.Models.Models.Web.Logging
 {
     public class AuditedDosResponse : DosCheckCapacitySummaryResult
     {
-        public bool DosResultsContainItkOfferring { get { return !HasNoServices && Success.Services.Any(s => s.CallbackEnabled); }  }
+        public bool DosResultsContainItkOfferring { get { return !ResultListEmpty && Success.Services.Any(s => s.CallbackEnabled); }  }
     }
 }
