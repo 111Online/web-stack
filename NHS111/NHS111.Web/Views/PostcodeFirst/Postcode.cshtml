@@ -6,7 +6,7 @@
 }
 
 @section HeadTop {
-    @{ var url = string.Format("/outcome/{0}/{1}/{2}/postcode/", Url.Encode(Model.PathwayNo), Url.Encode(Model.OutcomeGroup.Text), Url.Encode(Model.Id)); }
+    @{ var url = string.Format("/outcome/{0}/{1}/{2}/", Url.Encode(Model.PathwayNo), Url.Encode(Model.OutcomeGroup.Text), Model.UserInfo.CurrentAddress.IsPostcodeFirst ? "postcode-first" : "postcode"); }
     <script>
         var pageId = '@Model.Id';
         dataLayer = [
@@ -71,7 +71,7 @@
                 <div class="symptoms-search">
                     @if (error)
                     {
-                        <p class="field-validation-error">Sorry, no results were found for this postcode.</p>
+                        <p class="field-validation-error" id="NoDosResults">Sorry, no results were found for this postcode.</p>
                         <p class="field-validation-error">Please check you have entered the postcode correctly, then try again. <br /> If the search still gives no results, please call 111 for advice.</p>
                     }
                     @Html.ValidationMessageFor(m => m.UserInfo.CurrentAddress.Postcode)
