@@ -254,7 +254,7 @@ namespace NHS111.Web.Controllers {
                     if (model.OutcomeGroup.Equals(OutcomeGroup.ItkPrimaryCare))
                     {
                         model.UserInfo.CurrentAddress.IsPostcodeFirst = true;
-                        _auditLogger.LogEventData(model, string.Format("Postcode first for outcome {0}", model.Id));
+                        _auditLogger.LogEventData(model, "Postcode first journey started");
                     }
 
                     var viewFilePath = model.OutcomeGroup.Equals(OutcomeGroup.ItkPrimaryCare) ? "../PostcodeFirst/Postcode" : "../Outcome/" + model.OutcomeGroup.Id;
