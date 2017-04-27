@@ -20,6 +20,12 @@
 @section Title { NHS 111 - Tell us your postcode }
 <link href="~/Content/css_NhsUK/signposting-outcome.css" media="all" rel="stylesheet" type="text/css" />
 
+@section SurveyBanner{
+    @if (!Model.UserInfo.CurrentAddress.IsPostcodeFirst) { 
+        @Html.Partial("_SurveyLink", Model.SurveyLink) 
+    }
+}
+
 @section FeedbackSection {
     @if (!SurveyLinkFeature.IsEnabled)
     {
