@@ -13,7 +13,7 @@ namespace NHS111.Models.Models.Web.Validators
         public AgeGenderViewModelValidator()
         {
             RuleFor(p => p.Gender).Cascade(CascadeMode.Continue)
-                .NotNull();
+                .NotEmpty();
             RuleFor(p => p.Age)
                 .SetValidator(new AgeValidator<AgeGenderViewModel, int>(u => u.Age));
         }
