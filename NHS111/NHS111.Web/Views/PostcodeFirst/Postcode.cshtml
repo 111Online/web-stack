@@ -27,8 +27,7 @@
 }
 
 @section FeedbackSection {
-    @if (!SurveyLinkFeature.IsEnabled)
-    {
+    @if (Model.UserInfo.CurrentAddress.IsPostcodeFirst) {
         @Html.Partial("_FeedbackDetails", new FeedbackViewModel() { PageId = Model.Id });
     }
 }
