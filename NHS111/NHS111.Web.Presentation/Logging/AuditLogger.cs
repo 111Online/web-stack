@@ -14,7 +14,8 @@ namespace NHS111.Web.Presentation.Logging {
     using NHS111.Models.Models.Web.Logging;
     using Utils.Helpers;
 
-    public interface IAuditLogger {
+    public interface IAuditLogger
+    {
         Task Log(AuditEntry auditEntry);
         Task LogDosRequest(OutcomeViewModel model, DosViewModel dosViewModel);
         Task LogDosResponse(OutcomeViewModel model);
@@ -31,7 +32,8 @@ namespace NHS111.Web.Presentation.Logging {
             _configuration = configuration;
         }
 
-        public async Task Log(AuditEntry auditEntry) {
+        public async Task Log(AuditEntry auditEntry)
+        {
             var url = _configuration.LoggingServiceUrl;
             var httpRequestMessage = new HttpRequestMessage(HttpMethod.Post, new Uri(url))
             {
