@@ -76,7 +76,7 @@ namespace NHS111.SmokeTests
         {
             var questionPage = TestScenerios.LaunchTriageScenerio(_driver, "Cold or Flu (Declared)", TestScenerioGender.Female, TestScenerioAgeGroups.Adult);
 
-            questionPage.ValidateQuestion("Do you feel severely ill with a new rash, like bruising or bleeding, under the skin?");
+            questionPage.ValidateQuestion("Do you feel the worst you've ever felt in your life and have a new rash under your skin?");
             var outcomePage = questionPage
                 .Answer(3)
                 .Answer(4)
