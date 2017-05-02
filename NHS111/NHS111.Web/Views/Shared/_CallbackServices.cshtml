@@ -9,7 +9,7 @@
 {
     <h5>@string.Format("{0}", ViewData.Keys.Contains("CallbackTitle") ? ViewData["CallbackTitle"] : "We can arrange for someone to call you")</h5>
     <div class="alternative-care-service">
-        <p>They will check through the anwers you have entered and give you advice on what to do next.</p>
+        <p>They will check through the answers you have entered and give you advice on what to do next</p>
         <div class="alternative-care-service content">
             @foreach (var callbackService in services.Where(s => s.CallbackEnabled))
             {
