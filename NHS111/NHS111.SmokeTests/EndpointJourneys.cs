@@ -103,7 +103,7 @@ namespace NHS111.SmokeTests
             var outcomePage = questionPage
                 .Answer(2)
                 .Answer(4)
-                .AnswerSuccessiveByOrder(3, 6)
+                .AnswerSuccessiveByOrder(3, 5)
                 .AnswerForDispostion("No - I've not taken any painkillers");
 
             outcomePage.VerifyOutcome("Your answers suggest you should see a dentist within 5 working days");
