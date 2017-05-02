@@ -19,12 +19,10 @@ namespace NHS111.Utils.Filters
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method, Inherited = true, AllowMultiple = true)]
     public class LogJourneyFilterAttribute : ActionFilterAttribute
     {
-        private readonly List<string> _manuallyTriggeredAuditList = new List<string>
+        private readonly Dictionary<string, List<string>> _manuallyTriggeredAuditList = new Dictionary<string, List<string>>
         {
-            "ServiceDetails",
-            "ServiceList",
-            "PersonalDetails",
-            "Confirmation"
+            { "Outcome", new List<string> { "ServiceDetails", "ServiceList", "PersonalDetails", "Confirmation" } },
+            { "PostcodeFirst", new List<string> { "Outcome", "Postcode" } }
         };
 
         public override void OnActionExecuted(ActionExecutedContext filterContext)
@@ -37,7 +35,10 @@ namespace NHS111.Utils.Filters
             if (model == null)
                 return;
 
-            if (filterContext.RouteData.Values["controller"].Equals("Outcome") && _manuallyTriggeredAuditList.Contains(filterContext.RouteData.Values["action"]))
+            var controller = filterContext.RouteData.Values["controller"] as string;
+            var action = filterContext.RouteData.Values["action"] as string;
+            if (_manuallyTriggeredAuditList.ContainsKey(controller) && _manuallyTriggeredAuditList[controller].Contains(action) || 
+                controller.Equals("Question") && result.ViewName == "../PostcodeFirst/Postcode") // don't log when hitting postcode first page
                 return; //we don't want to audit where audit has already been manually triggered in code
 
             var campaign = filterContext.RequestContext.HttpContext.Request.Params["utm_campaign"];
@@ -73,8 +74,7 @@ namespace NHS111.Utils.Filters
 
         public static AuditEntry ToAuditEntry(this JourneyViewModel model, HttpSessionStateBase session)
         {
-            var audit = new AuditEntry
-            {
+            var audit = new AuditEntry {
                 SessionId = GetSessionId(session["utm_campaign"] as string, model.SessionId),
                 JourneyId = model.JourneyId != Guid.Empty ? model.JourneyId.ToString() : null,
                 Campaign = session["utm_campaign"] as string,

@@ -22,37 +22,37 @@
 .care-advice  ul  {
     padding: 0 20px; 
     list-style-type:disc;
-    margin: 0 0 20px 20px;
+    margin: 0 0 20px 0;
 }
 
 .care-advice  ul li ul  {
     padding: 5px 0;
     list-style-type:circle;
+    margin: 0 0 0 20px;
 }
 
  .care-advice .care-advice-keywords ol li:first-child {
     margin-left: 0;
 }
 .care-advice h3, .care-advice-section-header {
-    font-size: 38px;
-    line-height: 32px;
+    font-size: 28px;
     padding-bottom: 20px;
 }
 @media (max-width: 640px) {
     .care-advice h3, .care-advice-section-header {
-        font-size: 24px;
-        line-height: 28px;
+        font-size: 20px;
+        line-height: 24px;
     }
 }
 
 .care-advice h4 {
-    font-size: 28px;
-    line-height: 32px;
+    font-size: 24px;
+    line-height: 28px;
 }
 @media (max-width: 640px) {
     .care-advice h4 {
-        font-size: 24px;
-        line-height: 28px;
+        font-size: 20px;
+        line-height: 24px;
     }
 }
 

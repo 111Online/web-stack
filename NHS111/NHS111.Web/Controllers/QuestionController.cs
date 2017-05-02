@@ -250,7 +250,14 @@ namespace NHS111.Web.Controllers {
 
             switch (model.NodeType) {
                 case NodeType.Outcome:
-                    var viewFilePath = "../Outcome/" + model.OutcomeGroup.Id;
+
+                    if (model.OutcomeGroup.Equals(OutcomeGroup.ItkPrimaryCare))
+                    {
+                        model.UserInfo.CurrentAddress.IsPostcodeFirst = true;
+                        _auditLogger.LogEventData(model, "Postcode first journey started");
+                    }
+
+                    var viewFilePath = model.OutcomeGroup.Equals(OutcomeGroup.ItkPrimaryCare) ? "../PostcodeFirst/Postcode" : "../Outcome/" + model.OutcomeGroup.Id;
                     if (ViewExists(viewFilePath))
                     {
                         _userZoomDataBuilder.SetFieldsForOutcome(model);
