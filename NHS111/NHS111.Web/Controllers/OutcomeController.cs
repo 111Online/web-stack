@@ -1,12 +1,11 @@
-﻿
-
-using System;
+﻿using System;
 using System.Linq;
 using System.Web.Http;
 using System.Web.Script.Serialization;
 using NHS111.Features;
 using NHS111.Models.Models.Web.FromExternalServices;
 using NHS111.Models.Models.Web.Logging;
+using NHS111.Models.Models.Web.Validators;
 
 namespace NHS111.Web.Controllers
 {
@@ -32,10 +31,10 @@ namespace NHS111.Web.Controllers
         private readonly ILocationResultBuilder _locationResultBuilder;
         private readonly IAuditLogger _auditLogger;
         private readonly Presentation.Configuration.IConfiguration _configuration;
-        private readonly IDOSFilteringToggleFeature _dosFilteringToggle;
+        private readonly IPostCodeAllowedValidator _postCodeAllowedValidator;
 
         public OutcomeController(IOutcomeViewModelBuilder outcomeViewModelBuilder, IDOSBuilder dosBuilder,
-            ISurgeryBuilder surgeryBuilder, ILocationResultBuilder locationResultBuilder, IAuditLogger auditLogger, Presentation.Configuration.IConfiguration configuration, IDOSFilteringToggleFeature dosFilteringToggle)
+            ISurgeryBuilder surgeryBuilder, ILocationResultBuilder locationResultBuilder, IAuditLogger auditLogger, Presentation.Configuration.IConfiguration configuration, IPostCodeAllowedValidator postCodeAllowedValidator)
         {
             _outcomeViewModelBuilder = outcomeViewModelBuilder;
             _dosBuilder = dosBuilder;
@@ -43,7 +42,7 @@ namespace NHS111.Web.Controllers
             _locationResultBuilder = locationResultBuilder;
             _auditLogger = auditLogger;
             _configuration = configuration;
-            _dosFilteringToggle = dosFilteringToggle;
+            _postCodeAllowedValidator = postCodeAllowedValidator;
         }
 
         [HttpPost]
@@ -72,7 +71,7 @@ namespace NHS111.Web.Controllers
             var DxCode = new DispositionCode(dxCode ?? "Dx38");
             var Gender = new Gender(gender ?? "Male");
 
-            var model = new OutcomeViewModel {
+            var model = new OutcomeViewModel() {
                 Id = DxCode.Value,
                 UserInfo = new UserInfo
                 {
@@ -98,7 +97,7 @@ namespace NHS111.Web.Controllers
             model.DosCheckCapacitySummaryResult = await GetServiceAvailability(model, overrideDate);
             await _auditLogger.LogDosResponse(model);
 
-            if (model.DosCheckCapacitySummaryResult.Error == null && !model.DosCheckCapacitySummaryResult.HasNoServices)
+            if (model.DosCheckCapacitySummaryResult.Error == null && !model.DosCheckCapacitySummaryResult.ResultListEmpty)
                 return View("ServiceList", model);
 
             return View(Path.GetFileNameWithoutExtension(model.CurrentView), model);
@@ -107,10 +106,7 @@ namespace NHS111.Web.Controllers
         private async Task<DosCheckCapacitySummaryResult> GetServiceAvailability(OutcomeViewModel model, DateTime? overrideDate)
         {
             var dosViewModel = Mapper.Map<DosViewModel>(model);
-            if (_dosFilteringToggle.IsEnabled)
-            {
                 if (overrideDate.HasValue) dosViewModel.DispositionTime = overrideDate.Value;
-            }
 
            await _auditLogger.LogDosRequest(model, dosViewModel);
            return await _dosBuilder.FillCheckCapacitySummaryResult(dosViewModel);
@@ -167,7 +163,8 @@ namespace NHS111.Web.Controllers
                 model = await PopulateAddressPickerFields(model);
                 return View("PersonalDetails", model);
             }
-            var availiableServices = await GetServiceAvailability(model, null);
+            var availiableServices = await GetServiceAvailability(model, DateTime.Now);
+            _auditLogger.LogDosResponse(model);
             if (SelectedServiceExits(model.SelectedService.Id, availiableServices))
             {
                 model = await _outcomeViewModelBuilder.ItkResponseBuilder(model);
@@ -177,19 +174,21 @@ namespace NHS111.Web.Controllers
             }
             model.UnavailableSelectedService = model.SelectedService;
             model.DosCheckCapacitySummaryResult = availiableServices;
+            model.DosCheckCapacitySummaryResult.ServicesUnavailable = availiableServices.ResultListEmpty;
+            model.UserInfo.CurrentAddress.IsInPilotArea = _postCodeAllowedValidator.IsAllowedPostcode(model.UserInfo.CurrentAddress.Postcode);
+            
             return View("ServieBookingUnavailable", model);
         }
 
         private bool SelectedServiceExits(int selectedServiceId, DosCheckCapacitySummaryResult availiableServices)
         {
-            return !availiableServices.HasNoServices && availiableServices.Success.Services.Exists(s => s.Id == selectedServiceId);
+            return !availiableServices.ResultListEmpty && availiableServices.Success.Services.Exists(s => s.Id == selectedServiceId);
         }
 
         [HttpPost]
         public ActionResult GetDirections(OutcomeViewModel model, int selectedServiceId, string selectedServiceName, string selectedServiceAddress)
         {
-            _auditLogger.LogSelectedService(model, selectedServiceName, selectedServiceId);
-
+            _auditLogger.LogEventData(model, string.Format("User selected service '{0}' ({1})", selectedServiceName, selectedServiceId));
             return Redirect(string.Format(_configuration.MapsApiUrl, selectedServiceName, selectedServiceAddress));
         }
 

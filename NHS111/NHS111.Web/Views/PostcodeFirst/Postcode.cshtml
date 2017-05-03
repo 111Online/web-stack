@@ -6,13 +6,13 @@
 }
 
 @section HeadTop {
-    @{ var url = string.Format("/outcome/{0}/{1}/{2}/postcode/", Url.Encode(Model.PathwayNo), Url.Encode(Model.OutcomeGroup.Text), Url.Encode(Model.Id)); }
+    @{ var url = string.Format("/outcome/{0}/{1}/{2}/", Url.Encode(Model.PathwayNo), Url.Encode(Model.OutcomeGroup.Text), Model.UserInfo.CurrentAddress.IsPostcodeFirst ? "postcode-first" : "postcode"); }
     <script>
         var pageId = '@Model.Id';
         dataLayer = [
         {
             'virtualPageUrl': '@url',
-            'virtualPageTitle': '@Model.TitleWithoutBullets'
+            'virtualPageTitle': '@Model.OutcomeGroup.Text'
         }];
     </script>
 }
@@ -20,15 +20,20 @@
 @section Title { NHS 111 - Tell us your postcode }
 <link href="~/Content/css_NhsUK/signposting-outcome.css" media="all" rel="stylesheet" type="text/css" />
 
+@section SurveyBanner{
+    @if (!Model.UserInfo.CurrentAddress.IsPostcodeFirst) { 
+        @Html.Partial("_SurveyLink", Model.SurveyLink) 
+    }
+}
+
 @section FeedbackSection {
-    @if (!SurveyLinkFeature.IsEnabled)
-    {
+    @if (Model.UserInfo.CurrentAddress.IsPostcodeFirst) {
         @Html.Partial("_FeedbackDetails", new FeedbackViewModel() { PageId = Model.Id });
     }
 }
 
 @{
-    var error = Model.DosCheckCapacitySummaryResult.HasNoServices;
+    var error = Model.DosCheckCapacitySummaryResult.ResultListEmpty;
 }
 <section>
     <div class="postcode-first">
@@ -71,11 +76,11 @@
                 <div class="symptoms-search">
                     @if (error)
                     {
-                        <p class="field-validation-error">Sorry, no results were found for this postcode.</p>
+                        <p class="field-validation-error" id="NoDosResults">Sorry, no results were found for this postcode.</p>
                         <p class="field-validation-error">Please check you have entered the postcode correctly, then try again. <br /> If the search still gives no results, please call 111 for advice.</p>
                     }
                     @Html.ValidationMessageFor(m => m.UserInfo.CurrentAddress.Postcode)
-                    @Html.LabelFor(m => m.UserInfo.CurrentAddress.Postcode, string.Format("Enter your postcode for services near you {0} ", Model.UserInfo.CurrentAddress.IsPostcodeFirst ? "(optional)" : string.Empty ))
+                    <label for="UserInfo_CurrentAddress_Postcode">@(Model.UserInfo.CurrentAddress.IsPostcodeFirst ? Html.Raw("Enter your postcode for services that can help you <span class=\"de-emphasised\">(optional)<span>") : Html.Raw("If you enter your postcode now, we can find services that can help you"))</label>
                     @Html.TextBoxFor(m => m.UserInfo.CurrentAddress.Postcode, new { @class = "form-control " + (error ? "error" : "") })
                     <button class="button button-next" type="submit" name="DosResults" id="DosLookup">Next</button>
                 </div>
@@ -94,8 +99,8 @@
 
     $('#DosLookup').css('cursor', 'pointer');
     $(document).on('click', '#DosLookup', function (event) {
-        if ($("#findServicesForm").valid()) {
-            var $postcode = $('#UserInfo_CurrentAddress_Postcode').val();
+        var $postcode = $('#UserInfo_CurrentAddress_Postcode').val();
+        if ($("#findServicesForm").valid() && !!$postcode) {
             startPageLoadingIndicator('Searching for services near to ' + $postcode + '...');
         }
     });

@@ -15,6 +15,7 @@ namespace NHS111.Models.Models.Web
         public string County { get; set; }
         public string UPRN { get; set; }
         public bool IsPostcodeFirst { get; set; }
+        public bool IsInPilotArea { get; set; }
     }
 
     [Validator(typeof(PersonalInfoAddressViewModelValidator))]

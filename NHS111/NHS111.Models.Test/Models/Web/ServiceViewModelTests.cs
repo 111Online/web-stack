@@ -94,6 +94,17 @@ namespace NHS111.Models.Test.Models.Web
         }
 
         [Test]
+        public void CurrentStatus_Returns_24Hours_When_Service_Open_All_Hours()
+        {
+            var service = new ServiceViewModel()
+            {
+                OpenAllHours = true,
+            };
+
+            Assert.AreEqual("Open today: 24 hours", service.CurrentStatus);
+        }
+
+        [Test]
         public void IsOpen_Returns_True_When_Service_Is_Open()
         {
             var clock = new StaticClock(DayOfWeek.Monday, 10, 37);

@@ -1,7 +1,8 @@
 ﻿@using NHS111.Models.Models.Web
 @inherits NHS111.Web.Views.Shared.SurveyLinkView<OutcomeViewModel>
-<script src="http://maps.google.com/maps/api/js?key=AIzaSyCv3YwvmRoueyoLcW2iiSPjVeHecU18hmA "
+<script src="https://maps.google.com/maps/api/js?key=AIzaSyCv3YwvmRoueyoLcW2iiSPjVeHecU18hmA "
         type="text/javascript"></script>
+
 <script src="/Scripts/geotools.js"
         type="text/javascript"></script>
 @{
@@ -83,18 +84,9 @@
                                         <div class="service-address">
                                             @WebUtility.HtmlDecode(selectedService.Address)
                                         </div>
-                                        @if (!selectedService.OpenAllHours)
-                                        {
-                                            <div class="service-status">
-                                                @WebUtility.HtmlDecode(selectedService.CurrentStatus)
-                                            </div>
-                                        }
-                                        else
-                                        {
-                                            <div class="service-status">
-                                                Open 24 hours
-                                            </div>
-                                        }
+                                        <div class="service-status">
+                                            @WebUtility.HtmlDecode(selectedService.CurrentStatus)
+                                        </div>
 
                                         @Html.HiddenFor(m => m.SessionId)
                                         @Html.HiddenFor(m => m.JourneyJson)
@@ -131,18 +123,10 @@
                                     <div class="service-address">
                                         @WebUtility.HtmlDecode(service.Address)
                                     </div>
-                                    @if (!service.OpenAllHours)
-                                    {
-                                        <div class="service-status secondary">
-                                            @WebUtility.HtmlDecode(service.CurrentStatus)
-                                        </div>
-                                    }
-                                    else
-                                    {
-                                        <div class="service-status">
-                                            Open 24 hours
-                                        </div>
-                                    }
+
+                                    <div class="service-status secondary">
+                                        @WebUtility.HtmlDecode(service.CurrentStatus)
+                                    </div>
 
                                     @Html.HiddenFor(m => m.SessionId)
                                     @Html.HiddenFor(m => m.JourneyJson)

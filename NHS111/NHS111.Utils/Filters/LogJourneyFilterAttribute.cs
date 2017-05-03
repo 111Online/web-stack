@@ -19,12 +19,10 @@ namespace NHS111.Utils.Filters
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method, Inherited = true, AllowMultiple = true)]
     public class LogJourneyFilterAttribute : ActionFilterAttribute
     {
-        private readonly List<string> _manuallyTriggeredAuditList = new List<string>
+        private readonly Dictionary<string, List<string>> _manuallyTriggeredAuditList = new Dictionary<string, List<string>>
         {
-            "ServiceDetails",
-            "ServiceList",
-            "PersonalDetails",
-            "Confirmation"
+            { "Outcome", new List<string> { "ServiceDetails", "ServiceList", "PersonalDetails", "Confirmation" } },
+            { "PostcodeFirst", new List<string> { "Outcome", "Postcode" } }
         };
 
         public override void OnActionExecuted(ActionExecutedContext filterContext)
@@ -34,10 +32,13 @@ namespace NHS111.Utils.Filters
                 return;
 
             var model = result.Model as JourneyViewModel;
-            if (model == null) 
+            if (model == null)
                 return;
 
-            if (filterContext.RouteData.Values["controller"].Equals("Outcome") && _manuallyTriggeredAuditList.Contains(filterContext.RouteData.Values["action"]))
+            var controller = filterContext.RouteData.Values["controller"] as string;
+            var action = filterContext.RouteData.Values["action"] as string;
+            if (_manuallyTriggeredAuditList.ContainsKey(controller) && _manuallyTriggeredAuditList[controller].Contains(action) || 
+                controller.Equals("Question") && result.ViewName == "../PostcodeFirst/Postcode") // don't log when hitting postcode first page
                 return; //we don't want to audit where audit has already been manually triggered in code
 
             var campaign = filterContext.RequestContext.HttpContext.Request.Params["utm_campaign"];
@@ -53,17 +54,20 @@ namespace NHS111.Utils.Filters
             LogAudit(model, filterContext.RequestContext.HttpContext.Session);
         }
 
-        private static void LogAudit(JourneyViewModel model, HttpSessionStateBase session) {
+        private static void LogAudit(JourneyViewModel model, HttpSessionStateBase session)
+        {
             var url = ConfigurationManager.AppSettings["LoggingServiceUrl"];
             var rest = new RestfulHelper();
-            var httpRequestMessage = new HttpRequestMessage(HttpMethod.Post, new Uri(url)) {
+            var httpRequestMessage = new HttpRequestMessage(HttpMethod.Post, new Uri(url))
+            {
                 Content = new StringContent(JsonConvert.SerializeObject(model.ToAuditEntry(session)))
             };
             rest.PostAsync(url, httpRequestMessage);
         }
     }
 
-    public static class JourneyViewModelExtensions {
+    public static class JourneyViewModelExtensions
+    {
 
         private static readonly string CampaignTestingId = "NHS111Testing";
         private static readonly Guid CampaignTestingJourneyId = new Guid("11111111111111111111111111111111");
@@ -82,7 +86,7 @@ namespace NHS111.Utils.Filters
                 DxCode = model is OutcomeViewModel ? model.Id : ""
             };
             AddLatestJourneyStepToAuditEntry(model.Journey, audit);
-            
+
             return audit;
         }
 

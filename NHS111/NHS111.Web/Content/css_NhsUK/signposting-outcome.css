@@ -302,6 +302,13 @@ details summary::-webkit-details-marker {
         line-height: 20px;
     }
 }
+.alternative-care-service p {
+    margin-left: 14px;
+}
+.alternative-care-service ul {
+    list-style-type: disc;
+    padding: 0 20px;
+}
 .alternative-care.service-hidden {
     display: block;
 }
@@ -318,12 +325,16 @@ details summary::-webkit-details-marker {
 .alternative-care-service.content {
     margin-left: 14px;
     padding-top: 20px;
-    display: none;
+
+}
+.alternative-care-service.content p {
+    margin-left: 0;
 }
 .service-direction {
     padding: 20px 0;
 }
 .service-call {
+    margin: 20px 0;
     padding: 0;
 }
 .alternative-care-button-link {
@@ -332,11 +343,32 @@ details summary::-webkit-details-marker {
     padding: 10px 20px;
     background-color: #4c9c39;
     color: #fff;
+    line-height: 2rem;
 }
 .alternative-care-button-link:hover {
     background-color: #006647;
     border: 1px solid #006647;
     cursor:pointer;
+}
+
+.alternative-care h5
+{
+    color: #0072C6;
+    text-decoration: underline;
+    cursor: pointer;
+
+}
+.alternative-care h5:focus {
+    border: none;
+    outline: none;
+}
+
+.alternative-care h5:before {
+     content:url('/Content/images/blue-arrow-right.png');
+}
+
+.alternative-care h5.ui-accordion-header-active:before {
+     content:url('/Content/images/blue-arrow-down.png');
 }
 .outcome-header h3 {
     margin: 10px;
@@ -354,4 +386,8 @@ details summary::-webkit-details-marker {
 }
 .alternative-care-hr {
     margin: 20px;
+}
+
+.de-emphasised {
+    font-weight: normal;
 }

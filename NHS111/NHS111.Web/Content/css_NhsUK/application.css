@@ -2355,7 +2355,10 @@ button[disabled=disabled] {
 .outcome-header h2, .outcome-header h3 {
     margin: 10px;
 }
-
+.outcome-header h4 {
+    margin: 10px;
+    font-size: 1.8rem;
+}
 .outcome-header .button {
     color: black;
     background-color: white;
