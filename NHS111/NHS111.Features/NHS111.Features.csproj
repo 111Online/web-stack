@@ -70,6 +70,7 @@
     <Compile Include="DisclaimerBannerFeature.cs" />
     <Compile Include="DisclaimerPopupFeature.cs" />
     <Compile Include="FilterPathwaysByAgeFeature.cs" />
+    <Compile Include="FilterServicesFeature.cs" />
     <Compile Include="IFeature.cs" />
     <Compile Include="IoC\FeatureRegistry.cs" />
     <Compile Include="ITKMessagingFeature.cs" />
