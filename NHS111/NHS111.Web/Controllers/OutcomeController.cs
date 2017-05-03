@@ -93,6 +93,12 @@ namespace NHS111.Web.Controllers
         public async Task<ActionResult> ServiceList(OutcomeViewModel model,  [FromUri]DateTime? overrideDate, [FromUri]bool disableFilter = false)
         {
             if (!ModelState.IsValidField("UserInfo.CurrentAddress.PostCode")) return View(Path.GetFileNameWithoutExtension(model.CurrentView), model);
+            
+            if (!_postCodeAllowedValidator.IsAllowedPostcode(model.UserInfo.CurrentAddress.Postcode))
+            {
+                ModelState.AddModelError("UserInfo.CurrentAddress.Postcode", "Sorry, this service is not currently available in your area.  Please call NHS 111 for advice now");
+                return View(Path.GetFileNameWithoutExtension(model.CurrentView), model);
+            }
 
             model.DosCheckCapacitySummaryResult = await GetServiceAvailability(model, overrideDate);
             await _auditLogger.LogDosResponse(model);
@@ -116,6 +122,12 @@ namespace NHS111.Web.Controllers
         public async Task<ActionResult> ServiceDetails(OutcomeViewModel model) {
 
             if (!ModelState.IsValidField("UserInfo.CurrentAddress.Postcode")) return View(Path.GetFileNameWithoutExtension(model.CurrentView), model);
+            
+            if (!_postCodeAllowedValidator.IsAllowedPostcode(model.UserInfo.CurrentAddress.Postcode))
+            {
+                ModelState.AddModelError("UserInfo.CurrentAddress.Postcode", "Sorry, this service is not currently available in your area.  Please call NHS 111 for advice now");
+                return View(Path.GetFileNameWithoutExtension(model.CurrentView), model);
+            }
 
             var dosCase = Mapper.Map<DosViewModel>(model);
             await _auditLogger.LogDosRequest(model, dosCase);
