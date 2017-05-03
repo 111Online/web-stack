@@ -51,12 +51,12 @@ namespace NHS111.Web.Tools.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> FillServiceDetails(DosViewModel model)
+        public async Task<ActionResult> FillServiceDetails(DosViewModel model, bool? filterServices)
         {
             model.SymptomDiscriminatorList = new[] { model.SymptomDiscriminator };
             var dosView = new DosViewModel
             {
-                DosCheckCapacitySummaryResult = (await _dosBuilder.FillCheckCapacitySummaryResult(model)),
+                DosCheckCapacitySummaryResult = (await _dosBuilder.FillCheckCapacitySummaryResult(model, filterServices.HasValue ? filterServices.Value : true)),
                 DosServicesByClinicalTermResult = (await _dosBuilder.FillDosServicesByClinicalTermResult(model))
             };
 
