@@ -299,7 +299,9 @@ namespace NHS111.Web.Controllers {
             }
 
             var resultingModel = await DeriveJourneyView(pathwayId, age, pathwayTitle, answers);
-            resultingModel.FilterServices = filterServices.HasValue ? filterServices.Value : true;
+            if(resultingModel != null)
+                resultingModel.FilterServices = filterServices.HasValue ? filterServices.Value : true;
+
             var viewName = DetermineViewName(resultingModel);
             return View(viewName, resultingModel);
         }
@@ -311,7 +313,9 @@ namespace NHS111.Web.Controllers {
         {
 
             var journeyViewModel = await DeriveJourneyView(pathwayId, age, pathwayTitle, answers);
-            journeyViewModel.FilterServices = filterServices.HasValue ? filterServices.Value : true;
+            if(journeyViewModel != null)
+                journeyViewModel.FilterServices = filterServices.HasValue ? filterServices.Value : true;
+
             var viewName = DetermineViewName(journeyViewModel);
             if (journeyViewModel.OutcomeGroup == null ||
                 !OutcomeGroup.SignpostingOutcomesGroups.Contains(journeyViewModel.OutcomeGroup))
