@@ -20,9 +20,9 @@ namespace NHS111.Business.DOS.Api.Controllers
 
         [HttpPost]
         [Route("DOSapi/CheckCapacitySummary")]
-        public async Task<HttpResponseMessage> CheckCapacitySummary(HttpRequestMessage request)
+        public async Task<HttpResponseMessage> CheckCapacitySummary(HttpRequestMessage request, [FromUri] bool filterServices = true)
         {
-            return await _serviceAvailabilityFilterService.GetFilteredServices(request);
+            return await _serviceAvailabilityFilterService.GetFilteredServices(request, filterServices);
         }
 
         [HttpPost]

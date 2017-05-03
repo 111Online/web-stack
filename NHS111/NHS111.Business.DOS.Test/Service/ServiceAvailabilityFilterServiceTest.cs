@@ -117,7 +117,7 @@ namespace NHS111.Business.DOS.Test.Service
             var sut = new ServiceAvailabilityFilterService(_mockDosService.Object, _mockConfiguration.Object, _mockServiceAvailabilityProfileManager.Object);
 
             //Act
-            var result = await sut.GetFilteredServices(fakeRequest);
+            var result = await sut.GetFilteredServices(fakeRequest, true);
 
             //Assert 
             _mockDosService.Verify(x => x.GetServices(It.IsAny<HttpRequestMessage>()), Times.Once);

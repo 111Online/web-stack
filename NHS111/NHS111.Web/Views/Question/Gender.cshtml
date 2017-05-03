@@ -17,7 +17,8 @@
 @using (Html.BeginForm("Search", "Question", FormMethod.Post, new { @id = "outerContent" }))
 {
     @Html.HiddenFor(x => Model.SessionId)
-    @Html.Partial("_GenderAgeView", Model.UserInfo.Demography, new ViewDataDictionary(ViewData) { Model = null })
+    @Html.HiddenFor(x => Model.FilterServices)
+    @Html.Partial("_GenderAgeView", Model, new ViewDataDictionary(ViewData) { Model = null })
 
     <hr />
 

@@ -46,11 +46,12 @@ namespace NHS111.Web.Controllers {
             }
 
         [HttpGet]
-        public ActionResult Home()
+        public ActionResult Home(bool filterServices = true)
         {
             var startOfJourney = new JourneyViewModel
             {
                 SessionId = Guid.Parse(Request.AnonymousID),
+                FilterServices = filterServices
             };
 
             _userZoomDataBuilder.SetFieldsForHome(startOfJourney);
@@ -65,21 +66,22 @@ namespace NHS111.Web.Controllers {
         }
 
         [HttpPost]
-        public async Task<ActionResult> Search(AgeGenderViewModel model)
+        public async Task<ActionResult> Search(JourneyViewModel model)
         {
-            if (!ModelState.IsValid)
+            if (!ModelState.IsValidField("UserInfo.Demography.Gender") || !ModelState.IsValidField("UserInfo.Demography.Age"))
             {
-                var genderModel = new JourneyViewModel {UserInfo = new UserInfo {Demography = model}};
-                _userZoomDataBuilder.SetFieldsForDemographics(genderModel);
-                return View("Gender", genderModel);
+                //var genderModel = new JourneyViewModel {UserInfo = new UserInfo {Demography = model}};
+                _userZoomDataBuilder.SetFieldsForDemographics(model);
+                return View("Gender", model);
             }
 
-            var topicsContainingStartingPathways = await GetAllTopics(model);
+            var topicsContainingStartingPathways = await GetAllTopics(model.UserInfo.Demography);
 
             var startOfJourney = new SearchJourneyViewModel
             {
-                UserInfo = new UserInfo { Demography = model },
-                AllTopics = topicsContainingStartingPathways
+                UserInfo = new UserInfo { Demography = model.UserInfo.Demography },
+                AllTopics = topicsContainingStartingPathways,
+                FilterServices = model.FilterServices
             };
 
             _userZoomDataBuilder.SetFieldsForSearch(startOfJourney);
@@ -89,7 +91,7 @@ namespace NHS111.Web.Controllers {
         }
 
         [HttpPost]
-        public async Task<ActionResult> SearchResults(string q, string gender, int age) {
+        public async Task<ActionResult> SearchResults(string q, string gender, int age, bool filterServices) {
             var ageGroup = new AgeCategory(age);
 
             var ageGenderViewModel = new AgeGenderViewModel {Gender = gender, Age = age};
@@ -98,7 +100,8 @@ namespace NHS111.Web.Controllers {
                 SanitisedSearchTerm = q.Trim(),
                 UserInfo = new UserInfo {Demography = ageGenderViewModel},
                 AllTopics = topicsContainingStartingPathways,
-                EntrySearchTerm = q
+                EntrySearchTerm = q,
+                FilterServices = filterServices
             };
 
             _userZoomDataBuilder.SetFieldsForSearchResults(model);
@@ -289,13 +292,14 @@ namespace NHS111.Web.Controllers {
         [HttpGet]
         [Route("question/direct/{pathwayId}/{age?}/{pathwayTitle}/{answers?}")]
         public async Task<ActionResult> Direct(string pathwayId, int? age, string pathwayTitle,
-            [ModelBinder(typeof (IntArrayModelBinder))] int[] answers) {
+            [ModelBinder(typeof (IntArrayModelBinder))] int[] answers, bool? filterServices) {
 
             if (!_directLinkingFeature.IsEnabled) {
                 return HttpNotFound();
             }
 
             var resultingModel = await DeriveJourneyView(pathwayId, age, pathwayTitle, answers);
+            resultingModel.FilterServices = filterServices.HasValue ? filterServices.Value : true;
             var viewName = DetermineViewName(resultingModel);
             return View(viewName, resultingModel);
         }
@@ -303,10 +307,11 @@ namespace NHS111.Web.Controllers {
         [HttpGet]
         [Route("question/outcomedetail/{pathwayId}/{age?}/{pathwayTitle}/{answers?}")]
         public async Task<ActionResult> OutcomeDetail(string pathwayId, int? age, string pathwayTitle,
-            [ModelBinder(typeof(IntArrayModelBinder))] int[] answers)
+            [ModelBinder(typeof(IntArrayModelBinder))] int[] answers, bool? filterServices)
         {
 
             var journeyViewModel = await DeriveJourneyView(pathwayId, age, pathwayTitle, answers);
+            journeyViewModel.FilterServices = filterServices.HasValue ? filterServices.Value : true;
             var viewName = DetermineViewName(journeyViewModel);
             if (journeyViewModel.OutcomeGroup == null ||
                 !OutcomeGroup.SignpostingOutcomesGroups.Contains(journeyViewModel.OutcomeGroup))

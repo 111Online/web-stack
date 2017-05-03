@@ -101,6 +101,7 @@ namespace NHS111.Models.Models.Web
 
         public IEnumerable<string> PathwayNumbers { get; set; }
         public IEnumerable<CareAdvice> InlineCareAdvice { get; set; }
+        public bool FilterServices { get; set; }
 
         private IEnumerable<int> GetPreviousAnswers()
         {

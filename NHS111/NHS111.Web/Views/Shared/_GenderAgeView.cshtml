@@ -1,22 +1,22 @@
 ﻿@using NHS111.Models.Models.Domain
-@inherits NHS111.Web.Views.Shared.AgeValidationView<NHS111.Models.Models.Web.AgeGenderViewModel>
+@inherits NHS111.Web.Views.Shared.AgeValidationView<NHS111.Models.Models.Web.JourneyViewModel>
 
 <h2 class="heading-large">Tell us about you, or the person you're asking about</h2>
 
 <h2 class="heading-small">Sex</h2>
 <div>
-    @Html.ValidationMessageFor(m => m.Gender, "Please select a sex")
+    @Html.ValidationMessageFor(m => m.UserInfo.Demography.Gender, "Please select a sex")
 </div>
 <div id="answers">
     <label for="Male" class="answer answer-label">
         <span class="answer-radio">
-            @Html.RadioButtonFor(m => m.Gender, GenderEnum.Male, new { @id = "Male" })
+            @Html.RadioButtonFor(m => m.UserInfo.Demography.Gender, GenderEnum.Male, new { @id = "Male" })
         </span>
         <span class="answer-text">Male</span>
     </label>
     <label for="Female" class="answer answer-label">
         <span class="answer-radio">
-            @Html.RadioButtonFor(m => m.Gender, GenderEnum.Female, new { @id = "Female" })
+            @Html.RadioButtonFor(m => m.UserInfo.Demography.Gender, GenderEnum.Female, new { @id = "Female" })
         </span>
         <span class="answer-text">Female</span>
     </label>
@@ -25,11 +25,11 @@
 <div class="age-content">
     <h2 class="heading-small">Age in years</h2>
     <div>
-        @Html.ValidationMessageFor(m => m.Age)
+        @Html.ValidationMessageFor(m => m.UserInfo.Demography.Age)
     </div>
     <div class="age">
         <span id="errmsg"></span>
-        @Html.TextBoxFor(m => m.Age, new {@class = "form-control input-age", type = "number", size = 3, maxlength = 3})
+        @Html.TextBoxFor(m => m.UserInfo.Demography.Age, new {@class = "form-control input-age", type = "number", size = 3, maxlength = 3})
     </div>
 </div>
 

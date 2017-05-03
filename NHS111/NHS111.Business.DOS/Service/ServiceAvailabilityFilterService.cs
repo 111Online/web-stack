@@ -28,7 +28,7 @@ namespace NHS111.Business.DOS.Service
             _serviceAvailabilityManager = serviceAvailabilityManager;
         }
 
-        public async Task<HttpResponseMessage> GetFilteredServices(HttpRequestMessage request)
+        public async Task<HttpResponseMessage> GetFilteredServices(HttpRequestMessage request, bool filterServices)
         {
             var content = await request.Content.ReadAsStringAsync();
             var dosCaseRequest = BuildRequestMessage(GetObjectFromRequest<DosCase>(content));
@@ -43,9 +43,9 @@ namespace NHS111.Business.DOS.Service
             var services = jObj["CheckCapacitySummaryResult"];
             var results = services.ToObject<List<Models.Models.Web.FromExternalServices.DosService>>();
 
-            var serviceAvailability =
-                _serviceAvailabilityManager.FindServiceAvailability(dosFilteredCase);
+            if (!filterServices) return BuildResponseMessage(results);
 
+            var serviceAvailability = _serviceAvailabilityManager.FindServiceAvailability(dosFilteredCase);
             return BuildResponseMessage(serviceAvailability.Filter(results));
         }
 
@@ -70,7 +70,7 @@ namespace NHS111.Business.DOS.Service
 
     public interface IServiceAvailabilityFilterService
     {
-        Task<HttpResponseMessage> GetFilteredServices(HttpRequestMessage request);
+        Task<HttpResponseMessage> GetFilteredServices(HttpRequestMessage request, bool filterServices);
     }
 
     public class JsonCheckCapacitySummaryResult
