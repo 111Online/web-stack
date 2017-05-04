@@ -90,7 +90,7 @@ namespace NHS111.Web.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> ServiceList(OutcomeViewModel model,  [FromUri]DateTime? overrideDate, [FromUri]bool disableFilter = false)
+        public async Task<ActionResult> ServiceList(OutcomeViewModel model,  [FromUri] DateTime? overrideDate, [FromUri] bool? overrideFilterServices)
         {
             if (!ModelState.IsValidField("UserInfo.CurrentAddress.PostCode")) return View(Path.GetFileNameWithoutExtension(model.CurrentView), model);
             
@@ -100,7 +100,7 @@ namespace NHS111.Web.Controllers
                 return View(Path.GetFileNameWithoutExtension(model.CurrentView), model);
             }
 
-            model.DosCheckCapacitySummaryResult = await GetServiceAvailability(model, overrideDate);
+            model.DosCheckCapacitySummaryResult = await GetServiceAvailability(model, overrideDate, overrideFilterServices.HasValue ? overrideFilterServices.Value : model.FilterServices);
             await _auditLogger.LogDosResponse(model);
 
             if (model.DosCheckCapacitySummaryResult.Error == null && !model.DosCheckCapacitySummaryResult.ResultListEmpty)
@@ -109,17 +109,17 @@ namespace NHS111.Web.Controllers
             return View(Path.GetFileNameWithoutExtension(model.CurrentView), model);
         }
 
-        private async Task<DosCheckCapacitySummaryResult> GetServiceAvailability(OutcomeViewModel model, DateTime? overrideDate)
+        private async Task<DosCheckCapacitySummaryResult> GetServiceAvailability(OutcomeViewModel model, DateTime? overrideDate, bool filterServices)
         {
             var dosViewModel = Mapper.Map<DosViewModel>(model);
                 if (overrideDate.HasValue) dosViewModel.DispositionTime = overrideDate.Value;
 
            await _auditLogger.LogDosRequest(model, dosViewModel);
-           return await _dosBuilder.FillCheckCapacitySummaryResult(dosViewModel);
+           return await _dosBuilder.FillCheckCapacitySummaryResult(dosViewModel, filterServices);
         }
 
         [HttpPost]
-        public async Task<ActionResult> ServiceDetails(OutcomeViewModel model) {
+        public async Task<ActionResult> ServiceDetails(OutcomeViewModel model, [FromUri] bool? overrideFilterServices) {
 
             if (!ModelState.IsValidField("UserInfo.CurrentAddress.Postcode")) return View(Path.GetFileNameWithoutExtension(model.CurrentView), model);
             
@@ -131,7 +131,7 @@ namespace NHS111.Web.Controllers
 
             var dosCase = Mapper.Map<DosViewModel>(model);
             await _auditLogger.LogDosRequest(model, dosCase);
-            model.DosCheckCapacitySummaryResult = await _dosBuilder.FillCheckCapacitySummaryResult(dosCase);
+            model.DosCheckCapacitySummaryResult = await _dosBuilder.FillCheckCapacitySummaryResult(dosCase, overrideFilterServices.HasValue ? overrideFilterServices.Value : model.FilterServices);
             await _auditLogger.LogDosResponse(model);
 
             if (model.DosCheckCapacitySummaryResult.Error == null)
@@ -168,14 +168,14 @@ namespace NHS111.Web.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> Confirmation(OutcomeViewModel model) {
+        public async Task<ActionResult> Confirmation(OutcomeViewModel model, [FromUri] bool? overrideFilterServices) {
             if (!ModelState.IsValid)
             {
                 //populate address picker fields
                 model = await PopulateAddressPickerFields(model);
                 return View("PersonalDetails", model);
             }
-            var availiableServices = await GetServiceAvailability(model, DateTime.Now);
+            var availiableServices = await GetServiceAvailability(model, DateTime.Now, overrideFilterServices.HasValue ? overrideFilterServices.Value : model.FilterServices);
             _auditLogger.LogDosResponse(model);
             if (SelectedServiceExits(model.SelectedService.Id, availiableServices))
             {

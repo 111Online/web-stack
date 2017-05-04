@@ -12,6 +12,7 @@ using NHS111.Models.Mappers.WebMappings;
 using NHS111.Models.Models.Web.DosRequests;
 using NHS111.Models.Models.Web.FromExternalServices;
 using NHS111.Web.Presentation.Models;
+using NHS111.Features;
 
 namespace NHS111.Business.DOS.Service
 {
@@ -20,15 +21,17 @@ namespace NHS111.Business.DOS.Service
         private readonly IDosService _dosService;
         private readonly IConfiguration _configuration;
         private readonly IServiceAvailabilityManager _serviceAvailabilityManager;
+        private readonly IFilterServicesFeature _filterServicesFeature;
 
-        public ServiceAvailabilityFilterService(IDosService dosService, IConfiguration configuration, IServiceAvailabilityManager serviceAvailabilityManager)
+        public ServiceAvailabilityFilterService(IDosService dosService, IConfiguration configuration, IServiceAvailabilityManager serviceAvailabilityManager, IFilterServicesFeature filterServicesFeature)
         {
             _dosService = dosService;
             _configuration = configuration;
             _serviceAvailabilityManager = serviceAvailabilityManager;
+            _filterServicesFeature = filterServicesFeature;
         }
 
-        public async Task<HttpResponseMessage> GetFilteredServices(HttpRequestMessage request)
+        public async Task<HttpResponseMessage> GetFilteredServices(HttpRequestMessage request, bool filterServices)
         {
             var content = await request.Content.ReadAsStringAsync();
             var dosCaseRequest = BuildRequestMessage(GetObjectFromRequest<DosCase>(content));
@@ -43,9 +46,9 @@ namespace NHS111.Business.DOS.Service
             var services = jObj["CheckCapacitySummaryResult"];
             var results = services.ToObject<List<Models.Models.Web.FromExternalServices.DosService>>();
 
-            var serviceAvailability =
-                _serviceAvailabilityManager.FindServiceAvailability(dosFilteredCase);
+            if (!_filterServicesFeature.IsEnabled && !filterServices) return BuildResponseMessage(results);
 
+            var serviceAvailability = _serviceAvailabilityManager.FindServiceAvailability(dosFilteredCase);
             return BuildResponseMessage(serviceAvailability.Filter(results));
         }
 
@@ -70,7 +73,7 @@ namespace NHS111.Business.DOS.Service
 
     public interface IServiceAvailabilityFilterService
     {
-        Task<HttpResponseMessage> GetFilteredServices(HttpRequestMessage request);
+        Task<HttpResponseMessage> GetFilteredServices(HttpRequestMessage request, bool filterServices);
     }
 
     public class JsonCheckCapacitySummaryResult

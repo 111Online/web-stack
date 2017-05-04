@@ -51,14 +51,17 @@ namespace NHS111.Web.Presentation.Builders
 
         }
 
-        public async Task<DosCheckCapacitySummaryResult> FillCheckCapacitySummaryResult(DosViewModel dosViewModel) {
+        public async Task<DosCheckCapacitySummaryResult> FillCheckCapacitySummaryResult(DosViewModel dosViewModel, bool filterServices) {
             const int PHARMACY = 13;
             const int PHARMACY_EXT_HOURS = 116;
 
             var request = BuildRequestMessage(dosViewModel);
             var body = await request.Content.ReadAsStringAsync();
-            _logger.Debug(string.Format("DOSBuilder.FillCheckCapacitySummaryResult(): URL: {0} BODY: {1}", _configuration.BusinessDosCheckCapacitySummaryUrl, body));
-            var response = await _restfulHelper.PostAsync(_configuration.BusinessDosCheckCapacitySummaryUrl, request);
+
+            string checkCapacitySummaryUrl = string.Format("{0}?filterServices={1}", _configuration.BusinessDosCheckCapacitySummaryUrl, filterServices);
+           
+            _logger.Debug(string.Format("DOSBuilder.FillCheckCapacitySummaryResult(): URL: {0} BODY: {1}", checkCapacitySummaryUrl, body));
+            var response = await _restfulHelper.PostAsync(checkCapacitySummaryUrl, request);
 
             if (response.StatusCode != HttpStatusCode.OK) return new DosCheckCapacitySummaryResult { Error = new ErrorObject() { Code = (int) response.StatusCode, Message = response.ReasonPhrase } };
 
@@ -196,7 +199,7 @@ namespace NHS111.Web.Presentation.Builders
 
     public interface IDOSBuilder
     {
-        Task<DosCheckCapacitySummaryResult> FillCheckCapacitySummaryResult(DosViewModel dosViewModel);
+        Task<DosCheckCapacitySummaryResult> FillCheckCapacitySummaryResult(DosViewModel dosViewModel, bool filterServices);
         Task<DosServicesByClinicalTermResult> FillDosServicesByClinicalTermResult(DosViewModel dosViewModel);
         Task<DosViewModel> FillServiceDetailsBuilder(DosViewModel model);
         HttpRequestMessage BuildRequestMessage(DosFilteredCase dosCase);

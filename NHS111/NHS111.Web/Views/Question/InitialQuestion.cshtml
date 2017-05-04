@@ -14,6 +14,7 @@
 @using (Html.BeginForm("InitialQuestion", "Question", FormMethod.Post))
 {
     @Html.HiddenFor(x => Model.SessionId)
+    @Html.HiddenFor(x => Model.FilterServices)
 
     <h2 class="heading-large">Do any of these apply?</h2>
 

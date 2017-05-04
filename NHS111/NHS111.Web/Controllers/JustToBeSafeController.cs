@@ -41,7 +41,7 @@ namespace NHS111.Web.Controllers
 
         [HttpGet]
         [Route("{pathwayNumber}/{gender}/{age}/start")]
-        public async Task<ActionResult> PathwayStart(string pathwayNumber, string gender, int age, string digitalTitle, string entrySearchTerm) {
+        public async Task<ActionResult> PathwayStart(string pathwayNumber, string gender, int age, string digitalTitle, string entrySearchTerm, bool? filterServices) {
 
             var model = new JustToBeSafeViewModel {
                 PathwayNo = pathwayNumber,
@@ -52,7 +52,8 @@ namespace NHS111.Web.Controllers
                         Age = age,
                         Gender = gender
                     }
-                }
+                },
+                FilterServices = filterServices.HasValue ? filterServices.Value : true
             };
 
             return await JustToBeSafeFirst(model);
