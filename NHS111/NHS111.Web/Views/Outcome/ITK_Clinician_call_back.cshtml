@@ -28,7 +28,7 @@
 @section FeedbackSection {
     @if (!SurveyLinkFeature.IsEnabled)
     {
-        @Html.Partial("_FeedbackDetails", new FeedbackViewModel() { PageId = Model.Id });
+        @Html.Partial("_FeedbackDetails", new FeedbackViewModel() { UserId = Model.SessionId.ToString(), PageId = Model.Id });
     }
 }
 
@@ -56,7 +56,7 @@
 
 @Html.Partial("_WorseningAdvice", Model)
 
-@Html.Partial("_CareAdvice", Model.CareAdvices, new ViewDataDictionary { { "Title", "What can I do in the meantime?" } })
+@Html.Partial("_CareAdvice", Model.CareAdvices, new ViewDataDictionary { { "Title", "What you can do in the meantime" } })
 
 <hr />
 

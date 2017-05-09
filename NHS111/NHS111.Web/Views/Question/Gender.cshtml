@@ -8,7 +8,7 @@
 {NHS 111 Digital}
 
 @section FeedbackSection {
-    @Html.Partial("_FeedbackDetails", new FeedbackViewModel() { PageId = Request.Url.GetComponents(UriComponents.PathAndQuery, UriFormat.SafeUnescaped) })
+    @Html.Partial("_FeedbackDetails", new FeedbackViewModel() { UserId = Model.SessionId.ToString(), PageId = Request.Url.GetComponents(UriComponents.PathAndQuery, UriFormat.SafeUnescaped) })
 }
 
 <link href="~/Content/css_NhsUK/gender.css" media="screen" rel="stylesheet" type="text/css" />
@@ -17,7 +17,8 @@
 @using (Html.BeginForm("Search", "Question", FormMethod.Post, new { @id = "outerContent" }))
 {
     @Html.HiddenFor(x => Model.SessionId)
-    @Html.Partial("_GenderAgeView", Model.UserInfo.Demography, new ViewDataDictionary(ViewData) { Model = null })
+    @Html.HiddenFor(x => Model.FilterServices)
+    @Html.Partial("_GenderAgeView", Model, new ViewDataDictionary(ViewData) { Model = null })
 
     <hr />
 

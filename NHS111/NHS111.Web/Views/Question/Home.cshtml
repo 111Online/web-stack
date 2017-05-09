@@ -27,6 +27,7 @@
 <div id="wrapper" class="home">
     @using (Html.BeginForm("Home", "Question", FormMethod.Post)) {
         @Html.HiddenFor(x => Model.SessionId)
+        @Html.HiddenFor(x => Model.FilterServices)
 
         <div class="header home">
             <h2 class="discHead">Getting care with 111 Online</h2>
@@ -66,5 +67,5 @@
 </div>
 
 @section FeedbackSection {
-    @Html.Partial("_FeedbackDetails", new FeedbackViewModel() { PageId = Request.Url.GetComponents(UriComponents.PathAndQuery, UriFormat.SafeUnescaped) })
+    @Html.Partial("_FeedbackDetails", new FeedbackViewModel() { UserId = Model.SessionId.ToString(), PageId = Request.Url.GetComponents(UriComponents.PathAndQuery, UriFormat.SafeUnescaped) })
 }

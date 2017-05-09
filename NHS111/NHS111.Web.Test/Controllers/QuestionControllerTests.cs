@@ -62,7 +62,7 @@ namespace NHS111.Web.Presentation.Test.Controllers {
             var sut = new QuestionController(_mockJourneyViewModelBuilder.Object, _mockRestfulHelper.Object,
                 _mockConfiguration.Object, _mockJtbsBuilderMock.Object, _mockFeature.Object, _mockAuditLogger.Object, _mockUserZoomDataBuilder.Object);
 
-            var result = sut.Direct(_pathwayId, _age, _pathwayTitle, null);
+            var result = sut.Direct(_pathwayId, _age, _pathwayTitle, null, true);
 
             Assert.IsInstanceOf<ViewResult>(result.Result);
             var viewResult = result.Result as ViewResult;
@@ -94,7 +94,7 @@ namespace NHS111.Web.Presentation.Test.Controllers {
             var sut = new QuestionController(_mockJourneyViewModelBuilder.Object, _mockRestfulHelper.Object,
                 _mockConfiguration.Object, _mockJtbsBuilderMock.Object, _mockFeature.Object, _mockAuditLogger.Object, _mockUserZoomDataBuilder.Object);
 
-            var result = (ViewResult) await sut.Direct(_pathwayId, _age, _pathwayTitle, new[] {0});
+            var result = (ViewResult) await sut.Direct(_pathwayId, _age, _pathwayTitle, new[] {0}, true);
             var model = (JourneyViewModel) result.Model;
 
             Assert.IsTrue(model.SelectedAnswer.Contains(mockJourney.Answers[1].Title));
@@ -148,7 +148,7 @@ namespace NHS111.Web.Presentation.Test.Controllers {
             var age = 35;
             var pathwayTitle = "Headache";
 
-            var result = sut.Direct(pathwayId, age, pathwayTitle, new[] { 0, 1, 2 });
+            var result = sut.Direct(pathwayId, age, pathwayTitle, new[] { 0, 1, 2 }, true);
 
             Assert.IsInstanceOf<ViewResult>(result.Result);
             var viewResult = result.Result as ViewResult;
@@ -164,7 +164,7 @@ namespace NHS111.Web.Presentation.Test.Controllers {
             var sut = new QuestionController(_mockJourneyViewModelBuilder.Object, _mockRestfulHelper.Object,
                 _mockConfiguration.Object, _mockJtbsBuilderMock.Object, _mockFeature.Object, _mockAuditLogger.Object, _mockUserZoomDataBuilder.Object);
 
-            var result = sut.Direct(null, 0, null, null);
+            var result = sut.Direct(null, 0, null, null, null);
 
             Assert.NotNull(result);
             Assert.IsInstanceOf<HttpNotFoundResult>(result.Result);

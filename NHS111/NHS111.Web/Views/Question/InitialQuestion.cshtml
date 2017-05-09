@@ -8,12 +8,13 @@
 @section Title {}
 
 @section FeedbackSection {
-    @Html.Partial("_FeedbackDetails", new FeedbackViewModel() { PageId = Request.Url.GetComponents(UriComponents.PathAndQuery, UriFormat.SafeUnescaped) })
+    @Html.Partial("_FeedbackDetails", new FeedbackViewModel() { UserId = Model.SessionId.ToString(), PageId = Request.Url.GetComponents(UriComponents.PathAndQuery, UriFormat.SafeUnescaped) })
 }
 
 @using (Html.BeginForm("InitialQuestion", "Question", FormMethod.Post))
 {
     @Html.HiddenFor(x => Model.SessionId)
+    @Html.HiddenFor(x => Model.FilterServices)
 
     <h2 class="heading-large">Do any of these apply?</h2>
 

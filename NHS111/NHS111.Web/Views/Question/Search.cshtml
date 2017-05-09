@@ -22,7 +22,7 @@
 }
 
 @section FeedbackSection {
-    @Html.Partial("_FeedbackDetails", new FeedbackViewModel() { PageId = Request.Url.GetComponents(UriComponents.PathAndQuery, UriFormat.SafeUnescaped) })
+    @Html.Partial("_FeedbackDetails", new FeedbackViewModel() { UserId = Model.SessionId.ToString(), PageId = Request.Url.GetComponents(UriComponents.PathAndQuery, UriFormat.SafeUnescaped) })
 }
 
 <link href="~/Content/css_NhsUK/search.css" media="screen" rel="stylesheet" type="text/css"/>
@@ -35,6 +35,7 @@
             <form action="/question/searchresults/" method="POST">
                 <input type="hidden" name="age" value="@Model.UserInfo.Demography.Age"/>
                 <input type="hidden" name="gender" value="@Model.UserInfo.Demography.Gender"/>
+                <input type="hidden" name="filterServices" value=@(Model.FilterServices.ToString()) />
                 <h2>Search by symptom</h2>
                 <div class="symptoms-find-container">
                     <label for="searchTags">
@@ -57,7 +58,7 @@
                                 var title = result.DisplayTitle != null ? result.DisplayTitle.First() : result.Title.First();
                                 var digitalTitle = PathwaySearchResult.StripHighlightMarkup(title);
                                 <li>
-                                    <a class="linkButton" data-title="@result.PathwayTitle" data-pathway-number="@result.PathwayNo" href="/@result.PathwayNo/@Model.UserInfo.Demography.Gender/@Model.UserInfo.Demography.Age/start?age=@Model.UserInfo.Demography.Age&digitalTitle=@digitalTitle&entrySearchTerm=@Model.SanitisedSearchTerm">@Html.Raw(title)</a>
+                                    <a class="linkButton" data-title="@result.PathwayTitle" data-pathway-number="@result.PathwayNo" href="/@result.PathwayNo/@Model.UserInfo.Demography.Gender/@Model.UserInfo.Demography.Age/start?age=@Model.UserInfo.Demography.Age&digitalTitle=@digitalTitle&entrySearchTerm=@Model.SanitisedSearchTerm&filterServices=@(Model.FilterServices.ToString())">@Html.Raw(title)</a>
                                     @if (additionalTopics.Any()) {
                                         <p class='additional-topics'>Also covers: @Html.Raw(string.Join(", ", additionalTopics))</p>
                                     }
@@ -105,7 +106,7 @@
                                                         <ul class="content">
                                                             @foreach (var pathway in subCategory.Pathways.OrderBy(p => p.PathwayData.DigitalTitle)) {
                                                                 <li>
-                                                                    <a class="linkButton" data-title="@pathway.PathwayData.DigitalTitle" data-pathway-number="@pathway.Pathway.Id" href="/@pathway.Pathway.PathwayNo/@Model.UserInfo.Demography.Gender/@Model.UserInfo.Demography.Age/start?age=@Model.UserInfo.Demography.Age">@Html.Raw(pathway.PathwayData.DigitalTitle)</a>
+                                                                    <a class="linkButton" data-title="@pathway.PathwayData.DigitalTitle" data-pathway-number="@pathway.Pathway.Id" href="/@pathway.Pathway.PathwayNo/@Model.UserInfo.Demography.Gender/@Model.UserInfo.Demography.Age/start?age=@Model.UserInfo.Demography.Age&filterServices=@(Model.FilterServices.ToString())">@Html.Raw(pathway.PathwayData.DigitalTitle)</a>
                                                                 </li>
                                                             }
                                                         </ul>
@@ -117,7 +118,7 @@
                                             <ul class="content">
                                                 @foreach (var pathway in topLevelCategory.Pathways.OrderBy(p => p.PathwayData.DigitalTitle)) {
                                                     <li>
-                                                    <a class="linkButton" data-title="@pathway.PathwayData.DigitalTitle" data-pathway-number="@pathway.Pathway.Id" href="/@pathway.Pathway.PathwayNo/@Model.UserInfo.Demography.Gender/@Model.UserInfo.Demography.Age/start?age=@Model.UserInfo.Demography.Age">@Html.Raw(pathway.PathwayData.DigitalTitle)</a>
+                                                    <a class="linkButton" data-title="@pathway.PathwayData.DigitalTitle" data-pathway-number="@pathway.Pathway.Id" href="/@pathway.Pathway.PathwayNo/@Model.UserInfo.Demography.Gender/@Model.UserInfo.Demography.Age/start?age=@Model.UserInfo.Demography.Age&filterServices=@(Model.FilterServices.ToString())">@Html.Raw(pathway.PathwayData.DigitalTitle)</a>
                                                     </li>
                                                 }
                                             </ul>

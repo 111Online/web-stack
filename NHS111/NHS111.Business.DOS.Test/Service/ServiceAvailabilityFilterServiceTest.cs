@@ -14,6 +14,7 @@ using NHS111.Models.Models.Web.DosRequests;
 using NHS111.Models.Models.Web.FromExternalServices;
 using NodaTime;
 using NUnit.Framework;
+using NHS111.Features;
 
 namespace NHS111.Business.DOS.Test.Service
 {
@@ -22,6 +23,7 @@ namespace NHS111.Business.DOS.Test.Service
         private Mock<Configuration.IConfiguration> _mockConfiguration;
         private Mock<IDosService> _mockDosService;
         private Mock<IServiceAvailabilityManager> _mockServiceAvailabilityProfileManager;
+        private Mock<IFilterServicesFeature> _mockFilterServicesFeature;
         private const string DOS_USERNAME = "made_up_user";
         private const string DOS_PASSWORD = "made_up_password";
         private const string FILTERED_DISPOSITION_CODES = "1005|1006|1007|1008";
@@ -72,7 +74,8 @@ namespace NHS111.Business.DOS.Test.Service
             _mockConfiguration = new Mock<Configuration.IConfiguration>();
             _mockDosService = new Mock<IDosService>();
             _mockServiceAvailabilityProfileManager = new Mock<IServiceAvailabilityManager>();
-            
+            _mockFilterServicesFeature = new Mock<IFilterServicesFeature>();
+
             _mockConfiguration.Setup(c => c.DosUsername).Returns(DOS_USERNAME);
             _mockConfiguration.Setup(c => c.DosPassword).Returns(DOS_PASSWORD);
             _mockConfiguration.Setup(c => c.FilteredPrimaryCareDispositionCodes).Returns(FILTERED_DISPOSITION_CODES);
@@ -112,12 +115,14 @@ namespace NHS111.Business.DOS.Test.Service
             _mockServiceAvailabilityProfileManager.Setup(c => c.FindServiceAvailability(fakeDoSFilteredCase))
                 .Returns(new ServiceAvailability(_mockServiceAvailabliityProfileResponse, fakeDoSFilteredCase.DispositionTime, fakeDoSFilteredCase.DispositionTimeFrameMinutes));
 
+            _mockFilterServicesFeature.Setup(c => c.IsEnabled).Returns(true);
+
             //var sut = new ServiceAvailablityManager(_mockConfiguration.Object);
 
-            var sut = new ServiceAvailabilityFilterService(_mockDosService.Object, _mockConfiguration.Object, _mockServiceAvailabilityProfileManager.Object);
+            var sut = new ServiceAvailabilityFilterService(_mockDosService.Object, _mockConfiguration.Object, _mockServiceAvailabilityProfileManager.Object, _mockFilterServicesFeature.Object);
 
             //Act
-            var result = await sut.GetFilteredServices(fakeRequest);
+            var result = await sut.GetFilteredServices(fakeRequest, true);
 
             //Assert 
             _mockDosService.Verify(x => x.GetServices(It.IsAny<HttpRequestMessage>()), Times.Once);
