@@ -5,7 +5,7 @@
         public DosCase()
         {
             AgeFormat = AgeFormatType.Years;
-            Surgery = "UKN";
+            Surgery = "UNK";
             NumberPerType = 2;
             SearchDistance = 32;
         }

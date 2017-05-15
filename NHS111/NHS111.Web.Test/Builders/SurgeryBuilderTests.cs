@@ -78,17 +78,17 @@ namespace NHS111.Web.Presentation.Test.Builders
         }
 
         [Test()]
-        public async void SearchSurgeryById_With_Empty_String_Returns_UKN()
+        public async void SearchSurgeryById_With_Empty_String_Returns_UNK()
         {
             var surgery = await _surgeryBuilder.SurgeryByIdBuilder(string.Empty);
-            Assert.AreEqual(surgery.SurgeryId, "UKN");
+            Assert.AreEqual(surgery.SurgeryId, "UNK");
         }
 
         [Test()]
-        public async void SearchSurgeryById_With_Null_String_Returns_UKN()
+        public async void SearchSurgeryById_With_Null_String_Returns_UNK()
         {
             var surgery = await _surgeryBuilder.SurgeryByIdBuilder(null);
-            Assert.AreEqual(surgery.SurgeryId, "UKN");
+            Assert.AreEqual(surgery.SurgeryId, "UNK");
         }
     }
 }
