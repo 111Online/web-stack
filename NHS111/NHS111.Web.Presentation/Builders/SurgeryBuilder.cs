@@ -28,7 +28,7 @@ namespace NHS111.Web.Presentation.Builders
 
         public async Task<Surgery> SurgeryByIdBuilder(string surgeryId)
         {
-            return string.IsNullOrEmpty(surgeryId) ? new Surgery() { SurgeryId = "UKN" } : JsonConvert.DeserializeObject<Surgery>(await _restfulHelper.GetAsync(string.Format(_configuration.GPSearchByIdUrl, surgeryId)));
+            return string.IsNullOrEmpty(surgeryId) ? new Surgery() { SurgeryId = "UNK" } : JsonConvert.DeserializeObject<Surgery>(await _restfulHelper.GetAsync(string.Format(_configuration.GPSearchByIdUrl, surgeryId)));
         }
     }
 
