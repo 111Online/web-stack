@@ -209,6 +209,30 @@ namespace NHS111.SmokeTests
             outcomePage.VerifyCareAdvice(new string[] { "Diarrhoea & Vomiting" });
         }
 
+        [Test]
+        public void JumpToRemappedMentalHealthPathway()
+        {
+            var questionPage = TestScenerios.LaunchTriageScenerio(_driver, "Tiredness (Fatigue)", TestScenerioGender.Male, TestScenerioAgeGroups.Adult);
+
+            questionPage.ValidateQuestion("Have you got a raised temperature now or have you had one at any time since the tiredness started?");
+            var outcomePage = questionPage
+                .AnswerSuccessiveByOrder(3,4)
+               .AnswerSuccessiveByOrder(4, 2)
+               .Answer(2)
+               .Answer(3)
+               .Answer(2)
+               .AnswerSuccessiveByOrder(5,2)
+               .AnswerSuccessiveByOrder(2,4)
+               .Answer(3)
+               .Answer(1)
+               .AnswerForDispostion("No");
+
+            outcomePage.VerifyOutcome("Your answers suggest that you need a 111 clinician to call you");
+            outcomePage.VerifyWorseningPanel(WorseningMessages.Call111);
+            outcomePage.VerifyCareAdviceHeader("What you can do in the meantime");
+            outcomePage.VerifyCareAdvice(new string[] { "Depression, worsening" });
+        }
+
 
 
 
