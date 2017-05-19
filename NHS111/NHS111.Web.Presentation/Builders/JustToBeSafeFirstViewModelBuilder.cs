@@ -54,6 +54,7 @@ namespace NHS111.Web.Presentation.Builders
                     Journey = JsonConvert.DeserializeObject<Journey>(identifiedModel.JourneyJson),
                     SessionId = model.SessionId,
                     JourneyId = Guid.NewGuid(),
+                    FilterServices = model.FilterServices
                 };
                 var question = JsonConvert.DeserializeObject<QuestionWithAnswers>(await _restfulHelper.GetAsync(_configuration.GetBusinessApiFirstQuestionUrl(identifiedModel.PathwayId, identifiedModel.StateJson)));
                 _mappingEngine.Mapper.Map(question, journeyViewModel);
@@ -67,6 +68,7 @@ namespace NHS111.Web.Presentation.Builders
             identifiedModel.Questions = questionsWithAnswers;
             identifiedModel.QuestionsJson = questionsJson;
             identifiedModel.JourneyJson = string.IsNullOrEmpty(identifiedModel.JourneyJson) ? JsonConvert.SerializeObject(new Journey()) : identifiedModel.JourneyJson;
+            identifiedModel.FilterServices = model.FilterServices;
             return new Tuple<string, JourneyViewModel>("../JustToBeSafe/JustToBeSafe", identifiedModel);
 
         }
@@ -88,7 +90,8 @@ namespace NHS111.Web.Presentation.Builders
                 JourneyJson = model.JourneyJson,
                 SymptomDiscriminatorCode = model.SymptomDiscriminatorCode,
                 State = JourneyViewModelStateBuilder.BuildState(pathway.Gender, derivedAge),
-                SessionId = model.SessionId
+                SessionId = model.SessionId,
+                FilterServices = model.FilterServices
             };
 
             newModel.StateJson = JourneyViewModelStateBuilder.BuildStateJson(newModel.State);
