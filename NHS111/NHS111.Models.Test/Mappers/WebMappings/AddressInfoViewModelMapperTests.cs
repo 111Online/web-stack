@@ -100,7 +100,97 @@ namespace NHS111.Models.Test.Mappers.WebMappings
             string houseNumber = string.Empty;
             const string buildingName = "145C";
             const string streetDescription = "The Road";
-            string[] addressLines = { "145C The Road", "145 The Road" };
+            string[] addressLines = { "145C", "145 The Road" };
+
+            var locationResult = new LocationResult()
+            {
+                HouseNumber = houseNumber,
+                BuildingName = buildingName,
+                AddressLines = addressLines,
+                StreetDescription = streetDescription,
+                PostTown = TEST_CITY,
+                AdministrativeArea = TEST_COUNTY,
+                Postcode = TEST_POSTCODE,
+                UPRN = TEST_UPRN
+            };
+
+            var result = Mapper.Map<AddressInfoViewModel>(locationResult);
+            Assert.AreEqual(houseNumber, result.HouseNumber);
+            Assert.AreEqual(buildingName + " " + streetDescription, result.AddressLine1);
+            Assert.AreEqual(string.Empty, result.AddressLine2);
+            Assert.AreEqual(TEST_CITY, result.City);
+            Assert.AreEqual(TEST_COUNTY, result.County);
+            Assert.AreEqual(TEST_POSTCODE, result.Postcode);
+            Assert.AreEqual(TEST_UPRN, result.UPRN);
+        }
+
+        [Test()]
+        public void FromLocationResultToAddressInfoConverter_HouseNumberWithLettersAndSpace()
+        {
+            string houseNumber = string.Empty;
+            const string buildingName = "145 C";
+            const string streetDescription = "The Road";
+            string[] addressLines = { "145 C", "145 The Road" };
+
+            var locationResult = new LocationResult()
+            {
+                HouseNumber = houseNumber,
+                BuildingName = buildingName,
+                AddressLines = addressLines,
+                StreetDescription = streetDescription,
+                PostTown = TEST_CITY,
+                AdministrativeArea = TEST_COUNTY,
+                Postcode = TEST_POSTCODE,
+                UPRN = TEST_UPRN
+            };
+
+            var result = Mapper.Map<AddressInfoViewModel>(locationResult);
+            Assert.AreEqual(houseNumber, result.HouseNumber);
+            Assert.AreEqual(buildingName + " " + streetDescription, result.AddressLine1);
+            Assert.AreEqual(string.Empty, result.AddressLine2);
+            Assert.AreEqual(TEST_CITY, result.City);
+            Assert.AreEqual(TEST_COUNTY, result.County);
+            Assert.AreEqual(TEST_POSTCODE, result.Postcode);
+            Assert.AreEqual(TEST_UPRN, result.UPRN);
+        }
+
+        [Test()]
+        public void FromLocationResultToAddressInfoConverter_HouseNumberInBuildingNameField()
+        {
+            string houseNumber = string.Empty;
+            const string buildingName = "145";
+            const string streetDescription = "The Road";
+            string[] addressLines = { "145", "145 The Road" };
+
+            var locationResult = new LocationResult()
+            {
+                HouseNumber = houseNumber,
+                BuildingName = buildingName,
+                AddressLines = addressLines,
+                StreetDescription = streetDescription,
+                PostTown = TEST_CITY,
+                AdministrativeArea = TEST_COUNTY,
+                Postcode = TEST_POSTCODE,
+                UPRN = TEST_UPRN
+            };
+
+            var result = Mapper.Map<AddressInfoViewModel>(locationResult);
+            Assert.AreEqual(houseNumber, result.HouseNumber);
+            Assert.AreEqual(buildingName + " " + streetDescription, result.AddressLine1);
+            Assert.AreEqual(string.Empty, result.AddressLine2);
+            Assert.AreEqual(TEST_CITY, result.City);
+            Assert.AreEqual(TEST_COUNTY, result.County);
+            Assert.AreEqual(TEST_POSTCODE, result.Postcode);
+            Assert.AreEqual(TEST_UPRN, result.UPRN);
+        }
+
+        [Test()]
+        public void FromLocationResultToAddressInfoConverter_OfficeBuilding()
+        {
+            string houseNumber = string.Empty;
+            const string buildingName = "Head Office 5";
+            const string streetDescription = "The Road";
+            string[] addressLines = { "Head Office", "145 The Road" };
 
             var locationResult = new LocationResult()
             {

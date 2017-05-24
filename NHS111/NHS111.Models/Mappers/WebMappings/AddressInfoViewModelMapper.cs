@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text.RegularExpressions;
 using AutoMapper;
 using NHS111.Models.Models.Web;
 using NHS111.Models.Models.Web.FromExternalServices;
@@ -69,8 +70,17 @@ namespace NHS111.Models.Mappers.WebMappings
 
                 if (!string.IsNullOrEmpty(locationResult.BuildingName))
                 {
-                    addressLine1 = locationResult.BuildingName;
-                    addressLine2 = locationResult.StreetDescription;
+                    if (Regex.IsMatch(locationResult.BuildingName, "^[0-9]{1,}[a-zA-Z0-9\\s]*$"))
+                    {
+                        //building name actually stores a house number in the format 7A, 58C or similar
+                        addressLine1 = string.Format("{0} {1}", locationResult.BuildingName, locationResult.StreetDescription);
+                        addressLine2 = string.Empty;
+                    }
+                    else
+                    {
+                        addressLine1 = locationResult.BuildingName;
+                        addressLine2 = locationResult.StreetDescription;    
+                    }
                 }
                 else
                 {
