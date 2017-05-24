@@ -28,6 +28,10 @@
     {
         @Html.Partial("_FeedbackDetails", new FeedbackViewModel() { UserId = Model.SessionId.ToString(), PageId = Model.Id });
     }
+    else
+    {
+        @Html.Partial("_SurveyLink", Model.SurveyLink)
+    }
 }
 
 @Html.Partial("_OutcomeHeader", Model, new ViewDataDictionary() { { "OutcomeHeader", "Based on your answers, you can look after yourself and don't need to see a healthcare professional" } })
