@@ -6,7 +6,8 @@
 }
 @section Title { Outcome }
 
-<link href="~/Content/css_NhsUK/a-and-e.css" media="screen" rel="stylesheet" type="text/css" />
+
+<link href="@NHS111.Web.Helpers.Versioning.GetVersionedUriRef("~/Content/css_NhsUK/a-and-e.css")" media="screen" rel="stylesheet" type="text/css" />
 
 @Html.Partial("_OutcomeHeader", Model, new ViewDataDictionary() { { "OutcomeHeader", string.Format("From your answers, we recommend you {0}", Model.Title) } })
 

@@ -17,15 +17,15 @@
 @section Scripts {
     <script src="~/scripts/jquery1.11.2-ui.min.js"></script>
     <script src="~/scripts/jquery.blockUI.js"></script>
-    <script src="~/scripts/custom.js"></script>
-    <script src="~/scripts/disclaimer.js"></script>
+    <script src="@NHS111.Web.Helpers.Versioning.GetVersionedUriRef("~/scripts/custom.js")"></script>
+    <script src="@NHS111.Web.Helpers.Versioning.GetVersionedUriRef("~/scripts/disclaimer.js")"></script>
 }
 
 @section FeedbackSection {
     @Html.Partial("_FeedbackDetails", new FeedbackViewModel() { UserId = Model.SessionId.ToString(), PageId = Request.Url.GetComponents(UriComponents.PathAndQuery, UriFormat.SafeUnescaped) })
 }
 
-<link href="~/Content/css_NhsUK/search.css" media="screen" rel="stylesheet" type="text/css"/>
+<link href="@NHS111.Web.Helpers.Versioning.GetVersionedUriRef("~/Content/css_NhsUK/search.css")" media="screen" rel="stylesheet" type="text/css" />
 
 <div id="search">
 

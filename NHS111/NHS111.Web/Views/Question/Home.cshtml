@@ -11,15 +11,15 @@
     <script src="~/scripts/jquery1.11.2-ui.min.js"></script>
     <script src="~/scripts/jquery.blockUI.js"></script>
     <script src="~/scripts/custom.js"></script>
-    <script src="~/scripts/disclaimer.js"></script>
-    <link rel="stylesheet" href="~/Content/css_NhsUK/home.css">
+    <script src="@NHS111.Web.Helpers.Versioning.GetVersionedUriRef("~/scripts/disclaimer.js")"></script>
+    <link rel="stylesheet" href="@NHS111.Web.Helpers.Versioning.GetVersionedUriRef("~/Content/css_NhsUK/home.css")">
 }
 
 @{
     if (DisclaimerPopupFeature.IsEnabled) {
         <!-- toggle disclaimer popup -->
-        <link rel="stylesheet" href="~/Content/css_NhsUK/modal.css">
-        <script src="~/scripts/disclaimer-popup.js"></script>
+    <link rel="stylesheet" href="@NHS111.Web.Helpers.Versioning.GetVersionedUriRef("~/Content/css_NhsUK/modal.css")">
+    <script src="@NHS111.Web.Helpers.Versioning.GetVersionedUriRef("~/scripts/disclaimer-popup.js")"></script>
     }
 }
 
@@ -54,7 +54,7 @@
         </ol>
         <p>The service doesn't diagnose specific conditions.</p>
 
-          
+
             <div class="trial">
                 <p>111 Online is being trialled in Leeds for patients aged 5 and over. This service is not a substitute for a medical consultation. See @Html.ActionLink("terms", "Terms", "Help", null, new { target = "_blank" }).</p>
             </div>
