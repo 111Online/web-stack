@@ -30,6 +30,10 @@
     @if (Model.UserInfo.CurrentAddress.IsPostcodeFirst) {
         @Html.Partial("_FeedbackDetails", new FeedbackViewModel() { UserId = Model.SessionId.ToString(), PageId = Model.Id });
     }
+    else
+    {
+        @Html.Partial("_SurveyLink", Model.SurveyLink)
+    }
 }
 
 @{
