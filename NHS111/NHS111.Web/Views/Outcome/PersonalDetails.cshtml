@@ -36,6 +36,10 @@
     {
         @Html.Partial("_FeedbackDetails", new FeedbackViewModel() { UserId = Model.SessionId.ToString(), PageId = Model.Id });
     }
+    else
+    {
+        @Html.Partial("_SurveyLink", Model.SurveyLink)
+    }
 }
 
 @using (Html.BeginForm("Confirmation", "Outcome", FormMethod.Post, new { id = "personalDetailForm" }))

@@ -30,6 +30,10 @@
     {
         @Html.Partial("_FeedbackDetails", new FeedbackViewModel() { UserId = Model.SessionId.ToString(), PageId = Model.Id });
     }
+    else
+    {
+        @Html.Partial("_SurveyLink", Model.SurveyLink)
+    }
 }
 
 @Html.Partial("_OutcomeHeader", Model, new ViewDataDictionary() { { "OutcomeHeader", "Your answers suggest that you need a 111 clinician to call you" }})

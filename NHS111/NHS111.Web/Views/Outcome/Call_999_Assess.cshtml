@@ -31,6 +31,10 @@
     @Html.Partial("_SurveyLink", Model.SurveyLink, new ViewDataDictionary() { { "999Survey", "true" } })
 }
 
+@section FeedbackSection {
+    @Html.Partial("_SurveyLink", Model.SurveyLink, new ViewDataDictionary() { { "999Survey", "true" } })
+}
+
 @Html.Partial("_OutcomeHeader", Model, new ViewDataDictionary() { { "OutcomeHeader", Model.OutcomeGroup.GetDefaultTitle() } })
 
 <div id="wrapper">

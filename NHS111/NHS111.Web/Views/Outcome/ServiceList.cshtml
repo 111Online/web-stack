@@ -32,6 +32,10 @@
     {
         @Html.Partial("_FeedbackDetails", new FeedbackViewModel() { UserId = Model.SessionId.ToString(), PageId = Model.Id });
     }
+    else
+    {
+        @Html.Partial("_SurveyLink", Model.SurveyLink)
+    }
 }
 
 <link href="@NHS111.Web.Helpers.Versioning.GetVersionedUriRef("~/Content/css_NhsUK/confirmation.css")" media="all" rel="stylesheet" type="text/css" />
