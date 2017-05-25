@@ -43,8 +43,4 @@ namespace NHS111.Web.Helpers.Tests
         }
     }
 
-    public static class TestStream
-    {
-        
-    }
 }
