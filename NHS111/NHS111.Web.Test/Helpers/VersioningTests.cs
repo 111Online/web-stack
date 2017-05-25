@@ -15,7 +15,7 @@ namespace NHS111.Web.Helpers.Tests
         [Test()]
         public void GetVersionedUriRefTest()
         {
-            string EXPECTED_HASH = "/test/?640ab2bae07bedc4c163f679a746f7ab7fb5d1fa";
+            string EXPECTED_HASH = "640ab2bae07bedc4c163f679a746f7ab7fb5d1fa";
             string keyToPass = "~/content/css_NhsUk/question.css";
 
             var filestream = this.ToStream("Test");
@@ -23,13 +23,13 @@ namespace NHS111.Web.Helpers.Tests
             mockFileIO.Setup(i => i.OpenRead(It.IsAny<string>())).Returns(filestream);
 
             var mockPathProvider = new Mock<IPathProvider>();
-            mockPathProvider.Setup(i => i.ToAbsolute(It.IsAny<string>())).Returns((string passdString) =>"/test/?"+ passdString);
+            mockPathProvider.Setup(i => i.ToAbsolute(It.IsAny<string>())).Returns((string passdString) => passdString);
 
             Versioning._fileIO = mockFileIO.Object;
             Versioning._pathProvider = mockPathProvider.Object;
 
             Parallel.For(0, 2, i =>
-                Assert.AreEqual(keyToPass + EXPECTED_HASH, Versioning.GetVersionedUriRef("~/content/css_NhsUk/question.css"))
+                Assert.AreEqual(keyToPass + "?" + EXPECTED_HASH, Versioning.GetVersionedUriRef("~/content/css_NhsUk/question.css"))
                 );
         }
 
