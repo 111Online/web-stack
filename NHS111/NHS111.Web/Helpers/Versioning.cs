@@ -4,8 +4,6 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Web;
-using System.Web.Hosting;
-using Microsoft.Ajax.Utilities;
 
 namespace NHS111.Web.Helpers
 {
@@ -13,7 +11,7 @@ namespace NHS111.Web.Helpers
     {
 
         private static string _version;
-        private static Dictionary<string, string> _fileHashes;
+        private static readonly Dictionary<string, string> _fileHashes = new Dictionary<string, string>();
         public static string GetWebsiteVersion()
         {
             if (_version == null)
@@ -25,7 +23,6 @@ namespace NHS111.Web.Helpers
 
         public static string GetVersionedUriRef(string uri)
         {
-            if (_fileHashes == null) _fileHashes = new Dictionary<string, string>();
             if (_fileHashes.ContainsKey(uri)) return _fileHashes[uri];
             var hashvalue = GenerateChecksum(uri);
             var versionedUriRef = VirtualPathUtility.ToAbsolute(String.Format("{0}?{1}", uri, hashvalue));
@@ -35,11 +32,13 @@ namespace NHS111.Web.Helpers
 
         private static string GenerateChecksum(string uri)
         {
-            var sha1 = System.Security.Cryptography.SHA1.Create();
-            var reader = File.OpenRead(HttpContext.Current.Server.MapPath(uri));
-            var hash = sha1.ComputeHash(reader);
-            var hashvalue = string.Join("", hash.Select(b => b.ToString("x2")).ToArray());
-            return hashvalue;
+            using (var sha1 = System.Security.Cryptography.SHA1.Create()) {
+                using (var reader = File.OpenRead(HttpContext.Current.Server.MapPath(uri))) {
+                    var hash = sha1.ComputeHash(reader);
+                    var hashvalue = string.Join("", hash.Select(b => b.ToString("x2")).ToArray());
+                    return hashvalue;
+                }
+            }
         }
     }
 }
