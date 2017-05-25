@@ -18,9 +18,8 @@ namespace NHS111.Web.Helpers.Tests
             string EXPECTED_HASH = "640ab2bae07bedc4c163f679a746f7ab7fb5d1fa";
             string keyToPass = "~/content/css_NhsUk/question.css";
 
-            var filestream = this.ToStream("Test");
             var mockFileIO = new Mock<IFileIO>();
-            mockFileIO.Setup(i => i.OpenRead(It.IsAny<string>())).Returns(filestream);
+            mockFileIO.Setup(i => i.OpenRead(It.IsAny<string>())).Returns(() =>ToStream("Test"));
 
             var mockPathProvider = new Mock<IPathProvider>();
             mockPathProvider.Setup(i => i.ToAbsolute(It.IsAny<string>())).Returns((string passdString) => passdString);
@@ -43,4 +42,5 @@ namespace NHS111.Web.Helpers.Tests
             return stream;
         }
     }
+
 }
