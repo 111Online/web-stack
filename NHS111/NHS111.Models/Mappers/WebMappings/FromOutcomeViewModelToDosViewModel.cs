@@ -37,7 +37,6 @@ namespace NHS111.Models.Mappers.WebMappings
                 .ForMember(dest => dest.Gender,
                     opt => opt.ResolveUsing<GenderResolver>().FromMember(src => src.UserInfo.Demography.Gender))
                 .ForMember(dest => dest.Age, opt => opt.MapFrom(src => src.UserInfo.Demography.Age))
-                .ForMember(dest => dest.Surgery, opt => opt.MapFrom(src => src.SurgeryViewModel.SelectedSurgery))
                 .ForMember(dest => dest.DispositionTime, opt => opt.MapFrom(src => src.DispositionTime))
                 .ForMember(dest => dest.DispositionTimeFrameMinutes, opt => opt.MapFrom(src => src.TimeFrameMinutes));
         }
