@@ -70,7 +70,7 @@ namespace NHS111.Models.Mappers.WebMappings
 
                 if (!string.IsNullOrEmpty(locationResult.BuildingName))
                 {
-                    if (Regex.IsMatch(locationResult.BuildingName, "^[0-9]{1,}[a-zA-Z0-9\\s]*$"))
+                    if (Regex.IsMatch(locationResult.BuildingName, "^[0-9]{1,}[a-zA-Z0-9\\s-]*$"))
                     {
                         //building name actually stores a house number in the format 7A, 58C or similar
                         addressLine1 = string.Format("{0} {1}", locationResult.BuildingName, locationResult.StreetDescription);
