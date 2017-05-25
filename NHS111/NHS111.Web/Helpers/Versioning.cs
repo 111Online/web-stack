@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -11,9 +12,11 @@ namespace NHS111.Web.Helpers
     {
 
         private static string _version;
-        private static readonly Dictionary<string, string> _fileHashes = new Dictionary<string, string>();
+        private static readonly ConcurrentDictionary<string, string> _fileHashes = new ConcurrentDictionary<string, string>();
         public static IPathProvider _pathProvider = new ServerPathProvider();
         public static IFileIO _fileIO = new FileIO();
+        private static readonly object Locker = new object();
+
         public static string GetWebsiteVersion()
         {
             if (_version == null)
@@ -26,21 +29,31 @@ namespace NHS111.Web.Helpers
         public static string GetVersionedUriRef(string uri)
         {
             if (_fileHashes.ContainsKey(uri)) return _fileHashes[uri];
+           
             var hashvalue = GenerateChecksum(uri);
             var versionedUriRef = _pathProvider.ToAbsolute(String.Format("{0}?{1}", uri, hashvalue));
-             _fileHashes.Add(uri, versionedUriRef);
+            if (!_fileHashes.TryAdd(uri, versionedUriRef)) GetVersionedUriRef(uri);
+
             return versionedUriRef;
+            
         }
 
         private static string GenerateChecksum(string uri)
         {
-            using (var sha1 = System.Security.Cryptography.SHA1.Create()) {
-                using (var reader = _fileIO.OpenRead(_pathProvider.MapPath(uri))) {
-                    var hash = sha1.ComputeHash(reader);
-                    var hashvalue = string.Join("", hash.Select(b => b.ToString("x2")).ToArray());
-                    return hashvalue;
+            lock (Locker)
+            {
+                using (var reader = _fileIO.OpenRead(_pathProvider.MapPath(uri)))
+                {
+                    using (var sha1 = System.Security.Cryptography.SHA1.Create())
+                    {
+
+                        var hash = sha1.ComputeHash(reader);
+                        var hashvalue = string.Join("", hash.Select(b => b.ToString("x2")).ToArray());
+                        return hashvalue;
+                    }
                 }
             }
+
         }
     }
 
