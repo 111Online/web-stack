@@ -99,6 +99,7 @@
     <Compile Include="Builders\JourneyHistoryWranglerTests.cs" />
     <Compile Include="Configuration\ConfigurationTests.cs" />
     <Compile Include="Controllers\QuestionControllerTests.cs" />
+    <Compile Include="Helpers\VersioningTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

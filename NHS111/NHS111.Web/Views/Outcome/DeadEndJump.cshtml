@@ -2,7 +2,7 @@
 @inherits NHS111.Web.Views.Shared.SurveyLinkView<OutcomeViewModel>
 @{ Layout = "~/Views/Shared/_LayoutNhsUk.cshtml"; }
 
-<link href="~/content/css_NhsUk/question.css" media="screen" rel="stylesheet" type="text/css" />
+<link href="@NHS111.Web.Helpers.Versioning.GetVersionedUriRef("~/content/css_NhsUk/question.css")" media="screen" rel="stylesheet" type="text/css" />
 
 @section Title {}
 @section SurveyBanner{
@@ -11,7 +11,12 @@
 @section FeedbackSection {
     @if (!SurveyLinkFeature.IsEnabled)
     {
-        @Html.Partial("_FeedbackDetails", new FeedbackViewModel() { UserId = Model.SessionId.ToString(), PageId = Model.Id });
+        @Html.Partial("_FeedbackDetails", new FeedbackViewModel() {UserId = Model.SessionId.ToString(), PageId = Model.Id})
+        ;
+    }
+    else
+    {
+        @Html.Partial("_SurveyLink", Model.SurveyLink)
     }
 }
 
@@ -30,6 +35,7 @@
     @Html.HiddenFor(x => Model.SymptomDiscriminatorCode)
     @Html.HiddenFor(x => Model.QuestionNo)
     @Html.HiddenFor(x => Model.StateJson)
+    @Html.HiddenFor(x => Model.FilterServices)
 
     <h2 class="question-header">@Model.TitleWithoutBullets</h2>
     <p>Your health assessment can’t be completed with the current online service.</p>

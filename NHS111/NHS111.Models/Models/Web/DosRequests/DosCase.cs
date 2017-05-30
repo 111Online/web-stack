@@ -5,7 +5,6 @@
         public DosCase()
         {
             AgeFormat = AgeFormatType.Years;
-            Surgery = "UKN";
             NumberPerType = 2;
             SearchDistance = 32;
         }
@@ -13,7 +12,7 @@
         public string CaseRef { get; set; }
         public string CaseId { get; set; }
         public virtual string PostCode { get; set; }
-        public string Surgery  { get; set; }
+        public string Surgery { get { return "UNK"; } }
         public string Age { get; set; }
         public AgeFormatType AgeFormat { get; set; }
         public int Disposition { get; set; }

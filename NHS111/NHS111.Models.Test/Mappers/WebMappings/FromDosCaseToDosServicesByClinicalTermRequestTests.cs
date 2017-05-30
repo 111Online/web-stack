@@ -45,7 +45,6 @@ namespace NHS111.Models.Test.Mappers.WebMappings
                 CaseId = "xyz",
                 PostCode = "xy1 z23",
                 SearchDistance = 10,
-                Surgery = "BXU123",
                 Age = "5",
                 Gender = "F",
                 Disposition = 10013,

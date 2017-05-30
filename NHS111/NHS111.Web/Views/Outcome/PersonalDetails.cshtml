@@ -21,8 +21,8 @@
     </script>
 }
 
-<link href="~/content/css_NhsUk/personaldetails.css" media="screen" rel="stylesheet" type="text/css" />
-<link href="~/content/css_NhsUk/service.css" media="screen" rel="stylesheet" type="text/css" />
+<link href="@NHS111.Web.Helpers.Versioning.GetVersionedUriRef("~/content/css_NhsUk/personaldetails.css")" media="screen" rel="stylesheet" type="text/css" />
+<link href="@NHS111.Web.Helpers.Versioning.GetVersionedUriRef("~/content/css_NhsUk/service.css")" media="screen" rel="stylesheet" type="text/css" /> 
 
 @{
     var dataDictionary = ViewContext.ViewData;
@@ -35,6 +35,10 @@
     @if (!SurveyLinkFeature.IsEnabled)
     {
         @Html.Partial("_FeedbackDetails", new FeedbackViewModel() { UserId = Model.SessionId.ToString(), PageId = Model.Id });
+    }
+    else
+    {
+        @Html.Partial("_SurveyLink", Model.SurveyLink)
     }
 }
 

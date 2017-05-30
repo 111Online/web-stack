@@ -3,8 +3,8 @@
 @{
     Layout = "~/Views/Shared/_LayoutNhsUk.cshtml";
 }
-<link href="~/content/css_NhsUk/disposition.css" media="screen" rel="stylesheet" type="text/css" />
-<link href="~/content/css_NhsUk/confirmation.css" media="screen" rel="stylesheet" type="text/css" />
+<link href="@NHS111.Web.Helpers.Versioning.GetVersionedUriRef("~/content/css_NhsUk/disposition.css")" media="screen" rel="stylesheet" type="text/css" />
+<link href="@NHS111.Web.Helpers.Versioning.GetVersionedUriRef("~/content/css_NhsUk/confirmation.css")" media="screen" rel="stylesheet" type="text/css" />
 @section Title {
     NHS 111 - Looking after yourself
 }
@@ -27,6 +27,10 @@
     @if (!SurveyLinkFeature.IsEnabled)
     {
         @Html.Partial("_FeedbackDetails", new FeedbackViewModel() { UserId = Model.SessionId.ToString(), PageId = Model.Id });
+    }
+    else
+    {
+        @Html.Partial("_SurveyLink", Model.SurveyLink)
     }
 }
 

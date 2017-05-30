@@ -17,7 +17,7 @@ namespace NHS111.Web.Presentation.Converters
         {
         }
 
-        private string _surgeryid = "UKN";
+        private string _surgeryid = "UNK";
         public DosCase Convert(ResolutionContext context)
         {
             var dosviewModel = context.SourceValue as DosViewModel;

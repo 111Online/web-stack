@@ -67,7 +67,7 @@ namespace NHS111.SmokeTests
             outcomePage.VerifyOutcome("Your answers suggest you should contact a pharmacist within 12 hours");
             outcomePage.VerifyWorseningPanel(WorseningMessages.Call111);
             outcomePage.VerifyFindService(FindServiceTypes.Pharmacy);
-            outcomePage.VerifyCareAdviceHeader("What can I do in the meantime?");
+            outcomePage.VerifyCareAdviceHeader("What you can do in the meantime");
             outcomePage.VerifyCareAdvice(new[] { "Eye discharge" });
         }
 
@@ -76,7 +76,7 @@ namespace NHS111.SmokeTests
         {
             var questionPage = TestScenerios.LaunchTriageScenerio(_driver, "Cold or Flu (Declared)", TestScenerioGender.Female, TestScenerioAgeGroups.Adult);
 
-            questionPage.ValidateQuestion("Do you feel severely ill with a new rash, like bruising or bleeding, under the skin?");
+            questionPage.ValidateQuestion("Do you feel the worst you've ever felt in your life and have a new rash under your skin?");
             var outcomePage = questionPage
                 .Answer(3)
                 .Answer(4)
@@ -99,17 +99,17 @@ namespace NHS111.SmokeTests
         {
             var questionPage = TestScenerios.LaunchTriageScenerio(_driver, "Dental Problems", TestScenerioGender.Female, TestScenerioAgeGroups.Adult);
 
-            questionPage.ValidateQuestion("What is the main problem?");
+            questionPage.ValidateQuestion("Do you have dental bleeding, toothache or a different dental problem?");
             var outcomePage = questionPage
                 .Answer(2)
                 .Answer(4)
-                .AnswerSuccessiveByOrder(3, 6)
+                .AnswerSuccessiveByOrder(3, 5)
                 .AnswerForDispostion("No - I've not taken any painkillers");
 
             outcomePage.VerifyOutcome("Your answers suggest you should see a dentist within 5 working days");
             outcomePage.VerifyWorseningPanel(WorseningMessages.Call111);
             outcomePage.VerifyFindService(FindServiceTypes.Dental);
-            outcomePage.VerifyCareAdviceHeader("What can I do in the meantime?");
+            outcomePage.VerifyCareAdviceHeader("What you can do in the meantime");
             outcomePage.VerifyCareAdvice(new string[] { "Toothache", "Medication, pain and/or fever" });
         }
 
@@ -118,7 +118,7 @@ namespace NHS111.SmokeTests
         {
             var questionPage = TestScenerios.LaunchTriageScenerio(_driver, "Dental Problems", TestScenerioGender.Female, TestScenerioAgeGroups.Adult);
 
-            questionPage.ValidateQuestion("What is the main problem?");
+            questionPage.ValidateQuestion("Do you have dental bleeding, toothache or a different dental problem?");
             var outcomePage = questionPage
                 .Answer(1)
                 .Answer(3)
@@ -131,7 +131,7 @@ namespace NHS111.SmokeTests
             outcomePage.VerifyOutcome("Your answers suggest you need urgent attention for your dental problem within 4 hours");
             outcomePage.VerifyFindService(FindServiceTypes.EmergencyDental);
             outcomePage.VerifyWorseningPanel(WorseningMessages.Call111);
-            outcomePage.VerifyCareAdviceHeader("What can I do in the meantime?");
+            outcomePage.VerifyCareAdviceHeader("What you can do in the meantime");
             outcomePage.VerifyCareAdvice(new string[] { "Tooth extraction" });
         }
 
@@ -152,7 +152,7 @@ namespace NHS111.SmokeTests
             outcomePage.VerifyOutcome("Your answers suggest you need urgent medical attention within 1 hour");
             outcomePage.VerifyWorseningPanel(WorseningMessages.Call999);
             outcomePage.VerifyFindService(FindServiceTypes.AccidentAndEmergency);
-            outcomePage.VerifyCareAdviceHeader("What can I do in the meantime?");
+            outcomePage.VerifyCareAdviceHeader("What you can do in the meantime");
             outcomePage.VerifyCareAdvice(new string[] { "Headache", "Breathlessness", "Medication, pain and/or fever" });
         }
 
@@ -180,7 +180,7 @@ namespace NHS111.SmokeTests
             outcomePage.VerifyOutcome("Your answers suggest you should see an optician within 3 days");
             outcomePage.VerifyWorseningPanel(WorseningMessages.Call111);
             outcomePage.VerifyFindService(FindServiceTypes.Optician);
-            outcomePage.VerifyCareAdviceHeader("What can I do in the meantime?");
+            outcomePage.VerifyCareAdviceHeader("What you can do in the meantime");
             outcomePage.VerifyCareAdvice(new string[] {"Eye discharge", "Medication, pain and/or fever" });
         }
 
@@ -205,8 +205,32 @@ namespace NHS111.SmokeTests
 
             outcomePage.VerifyOutcome("Your answers suggest that you should talk to your own GP in 3 working days if you are not feeling better");
             outcomePage.VerifyWorseningPanel(WorseningMessages.Call111);
-            outcomePage.VerifyCareAdviceHeader("What can I do in the meantime?");
+            outcomePage.VerifyCareAdviceHeader("What you can do in the meantime");
             outcomePage.VerifyCareAdvice(new string[] { "Diarrhoea & Vomiting" });
+        }
+
+        [Test]
+        public void JumpToRemappedMentalHealthPathway()
+        {
+            var questionPage = TestScenerios.LaunchTriageScenerio(_driver, "Tiredness (Fatigue)", TestScenerioGender.Male, TestScenerioAgeGroups.Adult);
+
+            questionPage.ValidateQuestion("Have you got a raised temperature now or have you had one at any time since the tiredness started?");
+            var outcomePage = questionPage
+                .AnswerSuccessiveByOrder(3,4)
+               .AnswerSuccessiveByOrder(4, 2)
+               .Answer(2)
+               .Answer(3)
+               .Answer(2)
+               .AnswerSuccessiveByOrder(5,2)
+               .AnswerSuccessiveByOrder(2,4)
+               .Answer(3)
+               .Answer(1)
+               .AnswerForDispostion("No");
+
+            outcomePage.VerifyOutcome("Your answers suggest that you need a 111 clinician to call you");
+            outcomePage.VerifyWorseningPanel(WorseningMessages.Call111);
+            outcomePage.VerifyCareAdviceHeader("What you can do in the meantime");
+            outcomePage.VerifyCareAdvice(new string[] { "Depression, worsening" });
         }
 
 
