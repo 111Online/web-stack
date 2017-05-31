@@ -233,7 +233,31 @@ namespace NHS111.SmokeTests
             outcomePage.VerifyCareAdvice(new string[] { "Depression, worsening" });
         }
 
+        [Test]
+        public void GPOOHEndpointJourney()
+        {
+            var questionPage = TestScenerios.LaunchTriageScenerio(_driver, "Headache", TestScenerioGender.Male, TestScenerioAgeGroups.Adult);
 
+            questionPage.ValidateQuestion("Have you hurt or banged your head in the last 7 days?");
+            var outcomePage = questionPage
+                .AnswerSuccessiveByOrder(3, 3)
+                .Answer(5)
+                .Answer(1)
+                .Answer(3)
+                .Answer(4)
+                .AnswerSuccessiveByOrder(3, 2)
+                .AnswerSuccessiveByOrder(1,2)
+                .AnswerForDispostion("Yes");
+
+           
+            outcomePage.EnterPostCodeAndSubmit("LS17 7NZ");
+         
+
+            outcomePage.VerifyOutcome("You should speak to your GP practice within the next 2 hours");
+            outcomePage.VerifyWorseningPanel(WorseningMessages.Call111);
+            outcomePage.VerifyCareAdviceHeader("What you can do in the meantime");
+            outcomePage.VerifyCareAdvice(new string[] { "Medication, pain and/or fever", "Headache" });
+       }
 
 
 
