@@ -33,7 +33,19 @@ namespace NHS111.SmokeTest.Utils
         [FindsBy(How = How.ClassName, Using = "findservice")]
         public IWebElement FindServicePanel { get; set; }
 
+        [FindsBy(How = How.Id, Using = "UserInfo_CurrentAddress_Postcode")]
+        public IWebElement PostcodeField { get; set; }
 
+        [FindsBy(How = How.Id, Using = "DosLookup")]
+        public IWebElement PostcodeSubmitButton { get; set; }
+
+
+        public DispositionPage EnterPostCodeAndSubmit(string postcode)
+        {
+            this.PostcodeField.SendKeys(postcode);
+            this.PostcodeSubmitButton.Click();
+            return new DispositionPage(_driver);
+        }
 
 
         public DispositionPage(IWebDriver driver)
