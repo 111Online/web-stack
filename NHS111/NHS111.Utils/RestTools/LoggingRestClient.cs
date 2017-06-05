@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using log4net;
@@ -28,9 +29,9 @@ namespace NHS111.Utils.RestTools
 
         public override async Task<IRestResponse<T>> ExecuteTaskAsync<T>(IRestRequest request)
         {
+            _logger.Info(string.Format("Request to: {0}{1} performed", BaseUrl,request.Resource));
             var response = await base.ExecuteTaskAsync<T>(request);
-            _logger.Info(string.Format("Request to: {0} perfomred", response.ResponseUri.AbsoluteUri));
-            if(response.ResponseStatus != ResponseStatus.Completed) _logger.Error(String.Format("Request to: {0} returned with Error Code: {1} and response: {2}", response.ResponseUri.AbsoluteUri, response.StatusCode, response.ErrorMessage));
+            if(response.StatusCode !=  HttpStatusCode.OK) _logger.Error(String.Format("Request to: {0} returned with Error Code: {1} and response: {2}", response.ResponseUri.AbsoluteUri, response.StatusCode, response.ErrorMessage));
             return response;
         }
     }

@@ -380,14 +380,8 @@ namespace NHS111.Web.Controllers {
             var serialisedState = HttpUtility.UrlEncode(model.StateJson);
             var request = CreateJsonRequest(_configuration.GetBusinessApiNextNodeUrl(model.PathwayId, model.Id, serialisedState, true), Method.POST);
             request.AddJsonBody(answer.Title);
-            var businessApiNextNodeUrl = _configuration.GetBusinessApiNextNodeUrl(model.PathwayId, model.Id, serialisedState);
             var response = await _restClientBusinessApi.ExecuteTaskAsync<QuestionWithAnswers>(request);
-
-            if (response.ResponseStatus != ResponseStatus.Completed)
-                throw new Exception(string.Format("Problem posting {0} to {1}.", JsonConvert.SerializeObject(answer.Title), businessApiNextNodeUrl));
-
             return response.Data;
-
         }
 
         private async Task<JourneyViewModel> AnswerQuestions(JourneyViewModel model, int[] answers) {
