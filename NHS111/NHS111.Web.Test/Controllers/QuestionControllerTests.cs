@@ -1,4 +1,6 @@
 ﻿
+using RestSharp;
+
 namespace NHS111.Web.Presentation.Test.Controllers {
     using System.Collections.Generic;
     using System.Net;
@@ -30,6 +32,7 @@ namespace NHS111.Web.Presentation.Test.Controllers {
         private Mock<IJustToBeSafeFirstViewModelBuilder> _mockJtbsBuilderMock;
         private Mock<IAuditLogger> _mockAuditLogger;
         private Mock<IUserZoomDataBuilder> _mockUserZoomDataBuilder;
+        private Mock<IRestClient> _mockRestClient;
 
         [SetUp]
         public void Setup() {
@@ -41,9 +44,11 @@ namespace NHS111.Web.Presentation.Test.Controllers {
             _mockJtbsBuilderMock = new Mock<IJustToBeSafeFirstViewModelBuilder>();
             _mockAuditLogger = new Mock<IAuditLogger>();
             _mockUserZoomDataBuilder = new Mock<IUserZoomDataBuilder>();
+            _mockRestClient = new Mock<IRestClient>();
 
             _mockFeature.Setup(m => m.IsEnabled).Returns(true);
-
+            _mockRestClient.Setup(r => r.ExecuteTaskAsync<Pathway>(It.IsAny<IRestRequest>())).Returns(() => StartedTask(It.IsAny<IRestResponse<Pathway>>()));
+            
             _mockRestfulHelper.Setup(r => r.GetAsync(It.IsAny<string>()))
                 .Returns(() => StartedTask(JsonConvert.SerializeObject(new Pathway { Gender = "Male" })));
 
@@ -59,8 +64,8 @@ namespace NHS111.Web.Presentation.Test.Controllers {
             _mockJtbsBuilderMock.Setup(j => j.JustToBeSafeFirstBuilder(It.IsAny<JustToBeSafeViewModel>()))
                 .Returns(StartedTask(new AwfulIdea("", new JourneyViewModel())));
 
-            var sut = new QuestionController(_mockJourneyViewModelBuilder.Object, _mockRestfulHelper.Object,
-                _mockConfiguration.Object, _mockJtbsBuilderMock.Object, _mockFeature.Object, _mockAuditLogger.Object, _mockUserZoomDataBuilder.Object);
+            var sut = new QuestionController(_mockJourneyViewModelBuilder.Object,
+                _mockConfiguration.Object, _mockJtbsBuilderMock.Object, _mockFeature.Object, _mockAuditLogger.Object, _mockUserZoomDataBuilder.Object, _mockRestClient.Object);
 
             var result = sut.Direct(_pathwayId, _age, _pathwayTitle, null, true);
 
@@ -91,8 +96,8 @@ namespace NHS111.Web.Presentation.Test.Controllers {
             _mockJourneyViewModelBuilder.Setup(j => j.Build(It.IsAny<JourneyViewModel>(), It.IsAny<QuestionWithAnswers>()))
                 .Returns(() => StartedTask(mockJourney));
 
-            var sut = new QuestionController(_mockJourneyViewModelBuilder.Object, _mockRestfulHelper.Object,
-                _mockConfiguration.Object, _mockJtbsBuilderMock.Object, _mockFeature.Object, _mockAuditLogger.Object, _mockUserZoomDataBuilder.Object);
+            var sut = new QuestionController(_mockJourneyViewModelBuilder.Object, 
+                _mockConfiguration.Object, _mockJtbsBuilderMock.Object, _mockFeature.Object, _mockAuditLogger.Object, _mockUserZoomDataBuilder.Object, _mockRestClient.Object);
 
             var result = (ViewResult) await sut.Direct(_pathwayId, _age, _pathwayTitle, new[] {0}, true);
             var model = (JourneyViewModel) result.Model;
@@ -141,8 +146,8 @@ namespace NHS111.Web.Presentation.Test.Controllers {
             _mockJtbsBuilderMock.Setup(j => j.JustToBeSafeFirstBuilder(It.IsAny<JustToBeSafeViewModel>()))
                 .Returns(StartedTask(new AwfulIdea("", mockJourney)));
 
-            var sut = new QuestionController(_mockJourneyViewModelBuilder.Object, _mockRestfulHelper.Object,
-                _mockConfiguration.Object, _mockJtbsBuilderMock.Object, _mockFeature.Object, _mockAuditLogger.Object, _mockUserZoomDataBuilder.Object);
+            var sut = new QuestionController(_mockJourneyViewModelBuilder.Object, 
+                _mockConfiguration.Object, _mockJtbsBuilderMock.Object, _mockFeature.Object, _mockAuditLogger.Object, _mockUserZoomDataBuilder.Object, _mockRestClient.Object);
 
             var pathwayId = "PW755MaleAdult";
             var age = 35;
@@ -161,8 +166,8 @@ namespace NHS111.Web.Presentation.Test.Controllers {
         public void Direct_WithDirectLinkingDisabled_ReturnsNotFoundResult() {
             _mockFeature.Setup(c => c.IsEnabled).Returns(false);
 
-            var sut = new QuestionController(_mockJourneyViewModelBuilder.Object, _mockRestfulHelper.Object,
-                _mockConfiguration.Object, _mockJtbsBuilderMock.Object, _mockFeature.Object, _mockAuditLogger.Object, _mockUserZoomDataBuilder.Object);
+            var sut = new QuestionController(_mockJourneyViewModelBuilder.Object, 
+                _mockConfiguration.Object, _mockJtbsBuilderMock.Object, _mockFeature.Object, _mockAuditLogger.Object, _mockUserZoomDataBuilder.Object, _mockRestClient.Object);
 
             var result = sut.Direct(null, 0, null, null, null);
 

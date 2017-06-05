@@ -1,6 +1,12 @@
 ﻿
+using System.IO;
+using System.Net.Mime;
 using AutoMapper;
+using Newtonsoft.Json;
 using NHS111.Features;
+using RestSharp;
+using RestSharp.Deserializers;
+using RestSharp.Serializers;
 
 namespace NHS111.Web.Controllers {
     using System;
@@ -33,16 +39,16 @@ namespace NHS111.Web.Controllers {
 
         public const int MAX_SEARCH_RESULTS = 10;
 
-        public QuestionController(IJourneyViewModelBuilder journeyViewModelBuilder, IRestfulHelper restfulHelper,
+        public QuestionController(IJourneyViewModelBuilder journeyViewModelBuilder,
             IConfiguration configuration, IJustToBeSafeFirstViewModelBuilder justToBeSafeFirstViewModelBuilder, IDirectLinkingFeature directLinkingFeature,
-            IAuditLogger auditLogger, IUserZoomDataBuilder userZoomDataBuilder) {
+            IAuditLogger auditLogger, IUserZoomDataBuilder userZoomDataBuilder, IRestClient restClientBusinessApi) {
             _journeyViewModelBuilder = journeyViewModelBuilder;
-            _restfulHelper = restfulHelper;
             _configuration = configuration;
             _justToBeSafeFirstViewModelBuilder = justToBeSafeFirstViewModelBuilder;
             _directLinkingFeature = directLinkingFeature;
             _auditLogger = auditLogger;
             _userZoomDataBuilder = userZoomDataBuilder;
+            _restClientBusinessApi = restClientBusinessApi;
             }
 
         [HttpGet]
@@ -109,15 +115,16 @@ namespace NHS111.Web.Controllers {
             if (string.IsNullOrEmpty(q))
                 return View("search", model);
 
-            var url = _configuration.GetBusinessApiPathwaySearchUrl(gender, ageGroup.Value);
-            var request = new HttpRequestMessage(HttpMethod.Post, new Uri(url)) {
-                Content = new StringContent(JsonConvert.SerializeObject(Uri.EscapeDataString(model.SanitisedSearchTerm)))
-            };
-            var response = await _restfulHelper.PostAsync(url, request);
-            model.Results =
-                JsonConvert.DeserializeObject<List<SearchResultViewModel>>(await response.Content.ReadAsStringAsync())
-                    .Take(MAX_SEARCH_RESULTS)
-                    .Select(r => Transform(r, model.SanitisedSearchTerm));
+            var requestPath = _configuration.GetBusinessApiPathwaySearchUrl(gender, ageGroup.Value, true);
+
+            var request = new RestRequest(requestPath, Method.POST);
+            request.AddJsonBody(Uri.EscapeDataString(model.SanitisedSearchTerm));
+
+            var response = await _restClientBusinessApi.ExecuteTaskAsync<List<SearchResultViewModel>>(request);
+
+            model.Results = response.Data
+                .Take(MAX_SEARCH_RESULTS)
+                 .Select(r => Transform(r, model.SanitisedSearchTerm));
             return View("search", model);
         }
 
@@ -147,9 +154,13 @@ namespace NHS111.Web.Controllers {
 
 
         [HttpPost]
-        public async Task<JsonResult> AutosuggestPathways(string input, string gender, int age) {
-            var response = await _restfulHelper.GetAsync(_configuration.GetBusinessApiGroupedPathwaysUrl(input, gender, age));
-            return Json(await Search(JsonConvert.DeserializeObject<List<GroupedPathways>>(response)));
+        public async Task<JsonResult> AutosuggestPathways(string input, string gender, int age)
+        {
+ 
+            var response = await _restClientBusinessApi.ExecuteTaskAsync<List<GroupedPathways>>(
+                     new RestRequest(_configuration.GetBusinessApiGroupedPathwaysUrl(input, gender, age, true), Method.GET));
+
+            return Json(await Search(response.Data));
         }
 
         private async Task<string> Search(List<GroupedPathways> pathways)
@@ -165,18 +176,6 @@ namespace NHS111.Web.Controllers {
             return View(model);
         }
 
-        [HttpGet]
-        public async Task<ActionResult> GenderDirect(string pathwayTitle) {
-            var pathwayNo =
-                await
-                    _restfulHelper.GetAsync(
-                        _configuration.GetBusinessApiPathwayNumbersUrl(PathwayTitleUriParser.Parse(pathwayTitle)));
-            var model = new JourneyViewModel() { PathwayNo = pathwayNo, UserInfo = new UserInfo { Demography = new AgeGenderViewModel() } };
-
-            if (model.PathwayNo == string.Empty)
-                return Redirect(Url.RouteUrl(new {controller = "Question", action = "Home"}));
-            return View("Gender", model);
-        }
 
         [HttpPost]
         [ActionName("Navigation")]
@@ -220,9 +219,13 @@ namespace NHS111.Web.Controllers {
         [HttpPost]
         public async Task<JsonResult> PathwaySearch(string gender, int age, string searchTerm) {
             var ageGroup = new AgeCategory(age);
-            var response = await _restfulHelper.GetAsync(_configuration.GetBusinessApiPathwaySearchUrl(gender, ageGroup.Value));
+            var response =
+                await
+                    _restClientBusinessApi.ExecuteTaskAsync(
+                        new RestRequest(_configuration.GetBusinessApiPathwaySearchUrl(gender, ageGroup.Value, true),
+                            Method.GET));
 
-            return Json(response);
+            return Json(response.Content);
         }
 
 
@@ -233,12 +236,13 @@ namespace NHS111.Web.Controllers {
 
         private async Task<IEnumerable<CategoryWithPathways>> GetAllTopics(AgeGenderViewModel model)
         {
-            var categoryTask =
-                await
-                    _restfulHelper.GetAsync(_configuration.GetBusinessApiGetCategoriesWithPathwaysGenderAge(model.Gender,
-                        model.Age));
+            var url = _configuration.GetBusinessApiGetCategoriesWithPathwaysGenderAge(model.Gender,
+                model.Age, true);
+            var response = await
+                _restClientBusinessApi.ExecuteTaskAsync<List<CategoryWithPathways>>(CreateJsonRequest(url, Method.GET));
 
-            var allTopics = JsonConvert.DeserializeObject<List<CategoryWithPathways>>(categoryTask);
+
+            var allTopics = response.Data;
             var topicsContainingStartingPathways =
                 allTopics.Where(
                     c =>
@@ -329,8 +333,10 @@ namespace NHS111.Web.Controllers {
         private async Task<JourneyViewModel> DeriveJourneyView(string pathwayId, int? age, string pathwayTitle, int[] answers)
         {
             var journeyViewModel = BuildJourneyViewModel(pathwayId, age, pathwayTitle);
-
-            var pathway = JsonConvert.DeserializeObject<Pathway>(await _restfulHelper.GetAsync(_configuration.GetBusinessApiPathwayUrl(pathwayId)));
+            var response = await 
+                _restClientBusinessApi.ExecuteTaskAsync<Pathway>(
+                    CreateJsonRequest(_configuration.GetBusinessApiPathwayUrl(pathwayId, true), Method.GET));
+            var pathway = response.Data;
             if (pathway == null) return null;
 
             var derivedAge = journeyViewModel.UserInfo.Demography.Age == -1 ? pathway.MinimumAgeInclusive : journeyViewModel.UserInfo.Demography.Age;
@@ -359,9 +365,9 @@ namespace NHS111.Web.Controllers {
         public async Task<ActionResult> PreviousQuestion(JourneyViewModel model) {
             ModelState.Clear();
 
-            var url = _configuration.GetBusinessApiQuestionByIdUrl(model.PathwayId, model.Journey.Steps.Last().QuestionId);
-            var response = await _restfulHelper.GetAsync(url);
-            var questionWithAnswers = JsonConvert.DeserializeObject<QuestionWithAnswers>(response);
+            var url = _configuration.GetBusinessApiQuestionByIdUrl(model.PathwayId, model.Journey.Steps.Last().QuestionId, true);
+            var response = await _restClientBusinessApi.ExecuteTaskAsync<QuestionWithAnswers>(CreateJsonRequest(url, Method.GET));
+            var questionWithAnswers = response.Data;
 
             var result = _journeyViewModelBuilder.BuildPreviousQuestion(questionWithAnswers, model);
             var viewName = DetermineViewName(result);
@@ -371,17 +377,17 @@ namespace NHS111.Web.Controllers {
 
         private async Task<QuestionWithAnswers> GetNextNode(JourneyViewModel model) {
             var answer = JsonConvert.DeserializeObject<Answer>(model.SelectedAnswer);
-            var request = new HttpRequestMessage {
-                Content =
-                    new StringContent(JsonConvert.SerializeObject(answer.Title), Encoding.UTF8, "application/json")
-            };
             var serialisedState = HttpUtility.UrlEncode(model.StateJson);
+            var request = CreateJsonRequest(_configuration.GetBusinessApiNextNodeUrl(model.PathwayId, model.Id, serialisedState, true), Method.POST);
+            request.AddJsonBody(answer.Title);
             var businessApiNextNodeUrl = _configuration.GetBusinessApiNextNodeUrl(model.PathwayId, model.Id, serialisedState);
-            var response = await _restfulHelper.PostAsync(businessApiNextNodeUrl, request);
-            if (!response.IsSuccessStatusCode)
+            var response = await _restClientBusinessApi.ExecuteTaskAsync<QuestionWithAnswers>(request);
+
+            if (response.ResponseStatus != ResponseStatus.Completed)
                 throw new Exception(string.Format("Problem posting {0} to {1}.", JsonConvert.SerializeObject(answer.Title), businessApiNextNodeUrl));
 
-            return JsonConvert.DeserializeObject<QuestionWithAnswers>(await response.Content.ReadAsStringAsync());
+            return response.Data;
+
         }
 
         private async Task<JourneyViewModel> AnswerQuestions(JourneyViewModel model, int[] answers) {
@@ -417,13 +423,20 @@ namespace NHS111.Web.Controllers {
             };
         }
 
+        private RestRequest CreateJsonRequest(string url, Method method)
+        {
+            var request =  new RestRequest(url, method);
+            request.OnBeforeDeserialization = resp => { resp.ContentType = "application/json"; };
+            return request;
+        }
+
         private readonly IJourneyViewModelBuilder _journeyViewModelBuilder;
-        private readonly IRestfulHelper _restfulHelper;
         private readonly IConfiguration _configuration;
         private readonly IJustToBeSafeFirstViewModelBuilder _justToBeSafeFirstViewModelBuilder;
         private readonly IDirectLinkingFeature _directLinkingFeature;
         private readonly IAuditLogger _auditLogger;
         private readonly IMappingEngine _mappingEngine;
         private readonly IUserZoomDataBuilder _userZoomDataBuilder;
+        private readonly IRestClient _restClientBusinessApi;
         }
 }
