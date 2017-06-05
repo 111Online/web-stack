@@ -47,8 +47,11 @@ namespace NHS111.Web.Presentation.Test.Controllers {
             _mockRestClient = new Mock<IRestClient>();
 
             _mockFeature.Setup(m => m.IsEnabled).Returns(true);
-            _mockRestClient.Setup(r => r.ExecuteTaskAsync<Pathway>(It.IsAny<IRestRequest>())).Returns(() => StartedTask(It.IsAny<IRestResponse<Pathway>>()));
-            
+            _mockRestClient.Setup(r => r.ExecuteTaskAsync<Pathway>(It.IsAny<RestRequest>())).Returns(() => StartedTask((IRestResponse<Pathway>)new RestResponse<Pathway>() { ResponseStatus = ResponseStatus.Completed, Data = new Pathway { Gender = "Male" } }));
+
+            _mockRestClient.Setup(r => r.ExecuteTaskAsync<QuestionWithAnswers>(It.IsAny<RestRequest>())).Returns(() => StartedTask((IRestResponse<QuestionWithAnswers>)new RestResponse<QuestionWithAnswers>() { ResponseStatus = ResponseStatus.Completed, Data = new QuestionWithAnswers()}));
+           
+
             _mockRestfulHelper.Setup(r => r.GetAsync(It.IsAny<string>()))
                 .Returns(() => StartedTask(JsonConvert.SerializeObject(new Pathway { Gender = "Male" })));
 
@@ -92,7 +95,8 @@ namespace NHS111.Web.Presentation.Test.Controllers {
             _mockJtbsBuilderMock.Setup(j => j.JustToBeSafeFirstBuilder(It.IsAny<JustToBeSafeViewModel>()))
                 .Returns(StartedTask(new AwfulIdea("", mockJourney)));
 
-
+            _mockRestClient.Setup(r => r.ExecuteTaskAsync<QuestionWithAnswers>(It.IsAny<RestRequest>())).Returns(() => StartedTask((IRestResponse<QuestionWithAnswers>)new RestResponse<QuestionWithAnswers>() {ResponseStatus  = ResponseStatus.Completed , Data = new QuestionWithAnswers() { Answers = mockJourney.Answers } }));
+           
             _mockJourneyViewModelBuilder.Setup(j => j.Build(It.IsAny<JourneyViewModel>(), It.IsAny<QuestionWithAnswers>()))
                 .Returns(() => StartedTask(mockJourney));
 
