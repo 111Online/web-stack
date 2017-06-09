@@ -24,7 +24,7 @@ label.answer.answer-label:hover {
     background: #ddd;
 }
 .help-text-link-message {
-    display: none;
+    display: block;
     font-size: 16px;
     line-height: 20px;
     padding-left: 40px;
