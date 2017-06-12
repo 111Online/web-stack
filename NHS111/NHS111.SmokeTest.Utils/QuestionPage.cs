@@ -134,5 +134,14 @@ namespace NHS111.SmokeTest.Utils
             new WebDriverWait(_driver, TimeSpan.FromSeconds(20)).Until(
                 ExpectedConditions.ElementExists(By.CssSelector(".button-next:disabled")));
         }
+        private void AwaitPreviousQuestionPage()
+        {
+            new WebDriverWait(_driver, TimeSpan.FromSeconds(1));
+        }
+        public QuestionPage NavigateBack()
+        {
+            _driver.Navigate().Back();
+            return new QuestionPage(_driver);
+        }
     }
 }

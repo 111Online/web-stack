@@ -14,8 +14,14 @@ namespace NHS111.SmokeTest.Utils
     {
         private readonly IWebDriver _driver;
 
+        private const string PATHWAY_NOT_FOUND__EXPECTED_TEXT = "This health assessment can't be completed online";
+
         [FindsBy(How = How.CssSelector, Using = ".outcome-header h2")]
         public IWebElement Header { get; set; }
+
+        [FindsBy(How = How.CssSelector, Using = ".question-header")]
+        public IWebElement PathwayNotFoundHeader { get; set; }
+
 
         [FindsBy(How = How.CssSelector, Using = ".outcome-header h3")]
         public IWebElement SubHeader { get; set; }
@@ -72,6 +78,12 @@ namespace NHS111.SmokeTest.Utils
             Assert.AreEqual(outcomeHeadertext, Header.Text);
         }
 
+        public void VerifyPathwayNotFound()
+        {
+            Assert.IsTrue(PathwayNotFoundHeader.Displayed);
+            Assert.AreEqual(PATHWAY_NOT_FOUND__EXPECTED_TEXT, PathwayNotFoundHeader.Text);
+        }
+
         public void VerifyHeaderOtherInfo(string otherInfoHeadertext)
         {
             Assert.IsTrue(HeaderOtherInfo.Displayed);
@@ -119,6 +131,9 @@ namespace NHS111.SmokeTest.Utils
         public string Value{ get { return _worseningText; }}
     }
 
+ 
+
+
     public static class FindServiceTypes
     {
         public static FindServiceType AccidentAndEmergency = new FindServiceType("Find a service that can see you");
@@ -128,6 +143,7 @@ namespace NHS111.SmokeTest.Utils
         public static FindServiceType Optician = new FindServiceType("Find an optician");
         public static FindServiceType Dental = new FindServiceType("Find a dental service");
     }
+
 
     public class FindServiceType
     {
