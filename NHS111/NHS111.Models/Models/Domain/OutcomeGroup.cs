@@ -18,9 +18,9 @@ namespace NHS111.Models.Models.Domain {
 
         public string DefaultTitle { get; set; }
 
-        public static OutcomeGroup ClinicianCallBack = new OutcomeGroup() { Id = "ITK_Clinician_call_back", Text = "ITK_Clinician_call_back", DefaultTitle = "Based on your answers, we recommend that you speak to a clinician" };
+        public static OutcomeGroup ClinicianCallBack = new OutcomeGroup() { Id = "ITK_Clinician_call_back", Text = "ITK_Clinician_call_back", DefaultTitle = "Based on your answers, we recommend that you speak to a clinician"};
 
-        public static OutcomeGroup ItkPrimaryCare = new OutcomeGroup() { Id = "ITK_Primary_care", Text = "ITK_Primary_care", DefaultTitle = "Based on your answers, we recommend you speak to a healthcare service" };
+        public static OutcomeGroup ItkPrimaryCare = new OutcomeGroup() { Id = "ITK_Primary_care", Text = "ITK_Primary_care", PostcodeFirst = true, DefaultTitle = "Based on your answers, we recommend you speak to a healthcare service" };
 
         public static OutcomeGroup Call999Police = new OutcomeGroup { Id = "Call_999_police", Text = "Call_999_police", DefaultTitle = "Your answers suggest you should dial 999 now for the police" };
 
@@ -40,7 +40,7 @@ namespace NHS111.Models.Models.Domain {
 
         public static OutcomeGroup Optician = new OutcomeGroup { Id = "SP_Optician", Text = "Optician", DefaultTitle = "Your answers suggest you should see an optician" };
 
-        public static OutcomeGroup Dental = new OutcomeGroup { Id = "SP_Dental", Text = "Dental treatment centre", DefaultTitle = "Your answers suggest you should get dental treatment" };
+        public static OutcomeGroup Dental = new OutcomeGroup { Id = "SP_Dental", Text = "Dental treatment centre", PostcodeFirst = true, DefaultTitle = "Your answers suggest you should get dental treatment" };
 
         public static OutcomeGroup EmergencyDental = new OutcomeGroup { Id = "SP_Emergency_dental", Text = "Emergency dental treatment centre", DefaultTitle = "Your answers suggest you should get emergency dental treatment" };
 
@@ -89,5 +89,12 @@ namespace NHS111.Models.Models.Domain {
         {
             return OutcomeGroups.ContainsKey(Id) ? OutcomeGroups[Id].DefaultTitle : "Search results";
         }
+
+        public bool IsPostcodeFirst()
+        {
+            return OutcomeGroups.ContainsKey(Id) && OutcomeGroups[Id].PostcodeFirst;
+        }
+
+        private bool PostcodeFirst { get; set; }
     }
 }

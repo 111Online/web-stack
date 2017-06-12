@@ -257,14 +257,13 @@ namespace NHS111.Web.Controllers {
 
             switch (model.NodeType) {
                 case NodeType.Outcome:
-
-                    if (model.OutcomeGroup.Equals(OutcomeGroup.ItkPrimaryCare))
+                    if (model.OutcomeGroup.IsPostcodeFirst())
                     {
                         model.UserInfo.CurrentAddress.IsPostcodeFirst = true;
                         _auditLogger.LogEventData(model, "Postcode first journey started");
                     }
 
-                    var viewFilePath = model.OutcomeGroup.Equals(OutcomeGroup.ItkPrimaryCare) ? "../PostcodeFirst/Postcode" : "../Outcome/" + model.OutcomeGroup.Id;
+                    var viewFilePath = model.OutcomeGroup.IsPostcodeFirst() ? "../PostcodeFirst/Postcode" : "../Outcome/" + model.OutcomeGroup.Id;
                     if (ViewExists(viewFilePath))
                     {
                         _userZoomDataBuilder.SetFieldsForOutcome(model);

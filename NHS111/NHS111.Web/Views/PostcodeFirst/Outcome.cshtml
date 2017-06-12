@@ -40,11 +40,11 @@
 
 @if (!string.IsNullOrEmpty(Model.UserInfo.CurrentAddress.Postcode))
 {
-    @Html.Partial("_AlternativeServices", Model, new ViewDataDictionary { { "Title", "If you can't speak to your GP practice" } });
+    @Html.Partial("_AlternativeServices", Model, new ViewDataDictionary { { "Title", string.Format("If you can't {0}", Model.OutcomeGroup.Text) } });
 }
 else
 {
-    <p>If you can't speak to your GP practice, we can find another service that can help you</p>
+    <p>@Html.Raw(string.Format("If you can't {0}, we can find another service that can help you", Model.OutcomeGroup.Text))</p>
     using (Html.BeginForm("Postcode", "PostcodeFirst", FormMethod.Post))
     {
         @Html.Partial("_CommonHiddenFieldsOutcomeViewModel", Model)
