@@ -43,8 +43,6 @@ namespace NHS111.SmokeTests
             var outcomePage = questionPage
                 .AnswerSuccessiveByOrder(3, 4)
                 .Answer(4)
-         // can't get this to work   Assert.AreEqual("Have you been getting palpitations or new ankle swelling?", outcomePage.Header);
-
                 .Answer(4)
                 .Answer(3)
                 .Answer(4)
@@ -67,8 +65,48 @@ namespace NHS111.SmokeTests
         
             outcomePage.VerifyPathwayNotFound();
         }
+
+
         [Test]
-        public void SplitQuestionYesYes()
+        public void SplitQuestionNavigateBackDisplaysCorrectCareAdvice()
+        {
+            var questionPage = TestScenerios.LaunchTriageScenerio(_driver, "Headache", "Female", 49);
+
+            var outcomePage = questionPage.ValidateQuestion("Is there a chance you are pregnant?")
+
+           .AnswerSuccessiveByOrder(3, 4)
+            .Answer(1)
+            .Answer(3)
+            .Answer(5)
+            .Answer(3)
+            .Answer(4)
+            .Answer(2)
+            .Answer(3)
+            .Answer(3)
+            .Answer(3)
+            .Answer(4)
+            .Answer(1)
+            .Answer(3)
+            .Answer(4)
+            .AnswerForDispostion(1);
+
+            var newOutcome = outcomePage.NavigateBack()
+            .Answer(3, false)
+            .Answer(1)
+
+
+             .AnswerForDispostion("Within the next 6 hours");
+
+            newOutcome.EnterPostCodeAndSubmit("LS17 7NZ");
+
+            newOutcome.VerifyOutcome("You should speak to your GP practice within the next 6 hours");
+            newOutcome.VerifyCareAdvice(new[] { "Medication, next dose", "Medication, pain and/or fever", "Headache" });
+
+            
+        }
+
+        [Test]
+        public void SplitQuestionJourneyThroughEachRoute()
         {
             var questionPage = TestScenerios.LaunchTriageScenerio(_driver, "Headache", TestScenerioGender.Male, TestScenerioAgeGroups.Adult);
 
@@ -80,16 +118,42 @@ namespace NHS111.SmokeTests
              .AnswerForDispostion("Yes - I have a rash that doesn't disappear if I press it");
 
             outcomePage.VerifyOutcome("Your answers suggest you should dial 999 now for an ambulance");
-        }
 
-        [Test]
-        public void SplitQuestionNo()
-        {
-            //need age 50
-            var questionPage = TestScenerios.LaunchTriageScenerio(_driver, "Headache", "Female", 50);
+            TestScenerios.LaunchTriageScenerio(_driver, "Headache", "Female", 49);
 
-            questionPage.ValidateQuestion("Is there a chance you are pregnant?");
-            var outcomePage = questionPage
+            questionPage.ValidateQuestion("Is there a chance you are pregnant?")
+            
+           .AnswerSuccessiveByOrder(3, 4)
+            .Answer(1)
+            .Answer(3)
+            .Answer(5)
+            .Answer(3)
+            .Answer(4)
+            .Answer(2)
+            .Answer(3)
+            .Answer(3)
+            .Answer(3)
+            .Answer(4)
+            .Answer(1)
+            .Answer(3)
+            .Answer(4)
+                //.Answer(1)
+                //.NavigateBack()
+            .Answer(3)
+            .Answer(1)
+              
+
+             .AnswerForDispostion("Within the next 6 hours");
+
+            outcomePage.EnterPostCodeAndSubmit("LS17 7NZ");
+
+            outcomePage.VerifyOutcome("You should speak to your GP practice within the next 6 hours");
+
+
+            TestScenerios.LaunchTriageScenerio(_driver, "Headache", "Female", 50);
+
+            questionPage.ValidateQuestion("Is there a chance you are pregnant?")
+            
                .AnswerSuccessiveByOrder(3, 5)
                 .Answer(5)
                 .Answer(3)

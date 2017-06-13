@@ -53,6 +53,11 @@ namespace NHS111.SmokeTest.Utils
             return new DispositionPage(_driver);
         }
 
+        public QuestionPage NavigateBack()
+        {
+            _driver.Navigate().Back();
+            return new QuestionPage(_driver);
+        }
 
         public DispositionPage(IWebDriver driver)
         {

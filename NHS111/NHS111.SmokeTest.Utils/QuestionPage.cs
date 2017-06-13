@@ -19,7 +19,7 @@ namespace NHS111.SmokeTest.Utils
 
         [FindsBy(How = How.ClassName, Using = "heading-large")]
         public IWebElement Header { get; set; }
-        
+
         [FindsBy(How = How.ClassName, Using = "previous-question")]
         public IWebElement PreviousButton { get; set; }
 
@@ -56,16 +56,16 @@ namespace NHS111.SmokeTest.Utils
         public QuestionPage Answer(string answerText)
         {
             _driver.FindElement(By.XPath("//span[contains(@class, 'answer-text') and text() = \"" + answerText + "\"]/preceding-sibling::span[contains(@class, 'answer-radio')]")).Click();
-            NextButton.Click(); 
+            NextButton.Click();
             AwaitNextQuestionPage();
             return new QuestionPage(_driver);
         }
 
-        public QuestionPage Answer(int answerOrder)
+        public QuestionPage Answer(int answerOrder, bool requireButtonAwait = true)
         {
             _driver.FindElement(By.XPath("(//span[contains(@class, 'answer-radio')])[" + answerOrder + "]")).Click();
             NextButton.Click();
-            AwaitNextQuestionPage();
+            AwaitNextQuestionPage(requireButtonAwait);
             return new QuestionPage(_driver);
         }
 
@@ -101,8 +101,8 @@ namespace NHS111.SmokeTest.Utils
             var questionPage = this;
             while (i < numberOfTimes)
             {
-               questionPage = questionPage.AnswerNo();
-               i++;
+                questionPage = questionPage.AnswerNo();
+                i++;
             }
             return questionPage;
         }
@@ -119,25 +119,25 @@ namespace NHS111.SmokeTest.Utils
             return questionPage;
         }
 
-        public QuestionPage AnswerNo() {
+        public QuestionPage AnswerNo(bool requireButtonAwait = true)
+        {
             if (!_driver.FindElements(By.Id("No")).Any())
                 throw new Exception("No answer with id 'No' could be found for question " + Header.Text);
 
             AnswerNoButton.Click();
             NextButton.Click();
-            AwaitNextQuestionPage();
+            AwaitNextQuestionPage(requireButtonAwait);
             return new QuestionPage(_driver);
         }
 
-        private void AwaitNextQuestionPage()
+        private void AwaitNextQuestionPage(bool requireButtonAwait = true)
         {
-            new WebDriverWait(_driver, TimeSpan.FromSeconds(20)).Until(
+            if(requireButtonAwait)
+                new WebDriverWait(_driver, TimeSpan.FromSeconds(20)).Until(
                 ExpectedConditions.ElementExists(By.CssSelector(".button-next:disabled")));
-        }
-        private void AwaitPreviousQuestionPage()
-        {
             new WebDriverWait(_driver, TimeSpan.FromSeconds(1));
         }
+
         public QuestionPage NavigateBack()
         {
             _driver.Navigate().Back();
