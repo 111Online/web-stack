@@ -250,6 +250,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Helpers\Versioning.cs" />
+    <Compile Include="Helpers\ViewDeterminer.cs" />
     <Compile Include="IoC\WebRegistry.cs" />
     <Compile Include="IoC\IoC.cs" />
     <Compile Include="IoC\StructuremapMvc.cs" />
@@ -833,6 +834,8 @@
     <Content Include="Views\PostcodeFirst\Services.cshtml" />
     <Content Include="Views\Shared\_CallbackServices.cshtml" />
     <Content Include="Views\Shared\_GotoServices.cshtml" />
+    <Content Include="Views\PostcodeFirst\SP_Dental.cshtml" />
+    <Content Include="Views\PostcodeFirst\ITK_Primary_care.cshtml" />
     <None Include="Web.Development.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
