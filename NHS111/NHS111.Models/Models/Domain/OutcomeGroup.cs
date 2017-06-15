@@ -92,6 +92,7 @@ namespace NHS111.Models.Models.Domain {
 
         public bool IsPostcodeFirst()
         {
+            if (Id == null) return false;
             return OutcomeGroups.ContainsKey(Id) && OutcomeGroups[Id].PostcodeFirst;
         }
 

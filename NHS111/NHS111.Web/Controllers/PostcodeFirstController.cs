@@ -1,7 +1,9 @@
 ﻿using System;
+using System.EnterpriseServices;
 using System.Web.Http;
 using NHS111.Features;
 using NHS111.Models.Models.Web.Validators;
+using NHS111.Web.Helpers;
 using NHS111.Web.Presentation.Logging;
 
 namespace NHS111.Web.Controllers
@@ -17,12 +19,14 @@ namespace NHS111.Web.Controllers
         private readonly IDOSBuilder _dosBuilder;
         private readonly IAuditLogger _auditLogger;
         private readonly IPostCodeAllowedValidator _postCodeAllowedValidator;
+        private readonly IViewRouter _viewRouter;
 
-        public PostcodeFirstController(IDOSBuilder dosBuilder, IAuditLogger auditLogger, IPostCodeAllowedValidator postCodeAllowedValidator)
+        public PostcodeFirstController(IDOSBuilder dosBuilder, IAuditLogger auditLogger, IPostCodeAllowedValidator postCodeAllowedValidator, IViewRouter viewRouter)
         {
             _dosBuilder = dosBuilder;
             _auditLogger = auditLogger;
             _postCodeAllowedValidator = postCodeAllowedValidator;
+            _viewRouter = viewRouter;
         }
 
         [HttpPost]
@@ -37,6 +41,9 @@ namespace NHS111.Web.Controllers
         [HttpPost]
         public async Task<ActionResult> Outcome(OutcomeViewModel model, [FromUri] DateTime? overrideDate, [FromUri] bool? overrideFilterServices)
         {
+            const string outcomeView = "Outcome";
+            const string servicesView = "Services";
+
             if (!ModelState.IsValidField("UserInfo.CurrentAddress.PostCode")) return View("Postcode", model);
 
             var dosViewModel = Mapper.Map<DosViewModel>(model);
@@ -46,7 +53,8 @@ namespace NHS111.Web.Controllers
             if (string.IsNullOrEmpty(model.UserInfo.CurrentAddress.Postcode))
             {
                 await _auditLogger.LogEventData(model, "User did not enter a postcode");
-                return View("Outcome", model);
+
+                return View(_viewRouter.GetOutcomeViewPath(model, ControllerContext,outcomeView), model);
             }
 
             model.UserInfo.CurrentAddress.IsInPilotArea = _postCodeAllowedValidator.IsAllowedPostcode(model.UserInfo.CurrentAddress.Postcode);
@@ -54,7 +62,7 @@ namespace NHS111.Web.Controllers
             if (!model.UserInfo.CurrentAddress.IsInPilotArea)
             {
                 await _auditLogger.LogEventData(model, "User entered a postcode outside of pilot area");
-                return View("Outcome", model);
+                return View(_viewRouter.GetOutcomeViewPath(model, ControllerContext, outcomeView), model);
             }
 
             await _auditLogger.LogDosRequest(model, dosViewModel);
@@ -65,16 +73,19 @@ namespace NHS111.Web.Controllers
 
             if (model.DosCheckCapacitySummaryResult.Error == null && !model.DosCheckCapacitySummaryResult.ResultListEmpty)
             {
-                return model.UserInfo.CurrentAddress.IsPostcodeFirst ? View("Outcome", model) : View("Services", model);
+                if (model.UserInfo.CurrentAddress.IsPostcodeFirst)
+                    return View(_viewRouter.GetOutcomeViewPath(model, ControllerContext, outcomeView), model);
+                else
+                    return View(_viewRouter.GetOutcomeViewPath(model, ControllerContext, servicesView), model);
             }
             else if (model.DosCheckCapacitySummaryResult.Error != null || model.DosCheckCapacitySummaryResult.ResultListEmpty)
             {
-                return View("Outcome", model);
+                return View(_viewRouter.GetOutcomeViewPath(model, ControllerContext, outcomeView), model);
             }
             else
             {
                 //present screen with validation errors
-                return View("Postcode", model);
+                return View(_viewRouter.GetOutcomeViewPath(model, ControllerContext, outcomeView), model);
             }
         }
     }

@@ -7,12 +7,6 @@ using NHS111.Web.Presentation.Logging;
 
 namespace NHS111.Web.Helpers
 {
-    public interface IViewRouter
-    {
-        string DetermineViewName(JourneyViewModel model, ControllerContext context);
-        string DetermineOutcomeView(JourneyViewModel model, ControllerContext context);
-    }
-
     public class ViewRouter : IViewRouter
     {
         private readonly IAuditLogger _auditLogger;
@@ -24,12 +18,18 @@ namespace NHS111.Web.Helpers
             _userZoomDataBuilder = userZoomDataBuilder;
         }
 
-        public string DetermineOutcomeView(JourneyViewModel model, ControllerContext context)
+        public string GetOutcomeViewPath(OutcomeViewModel model, ControllerContext context, string nextView)
         {
-            throw new NotImplementedException();
+            var viewFilePath = string.Format("../PostcodeFirst/{0}/{1}", model.OutcomeGroup.Id, nextView);
+            if (ViewExists(viewFilePath, context))
+            {
+                _userZoomDataBuilder.SetFieldsForOutcome(model);
+                return viewFilePath;
+            }
+            throw new ArgumentOutOfRangeException(string.Format("Outcome group {0} for outcome {1} has no view configured", model.OutcomeGroup.ToString(), model.Id));
         }
 
-        public string DetermineViewName(JourneyViewModel model, ControllerContext context)
+        public string GetViewName(JourneyViewModel model, ControllerContext context)
         {
             if (model == null) return "../Question/Question";
 
@@ -70,5 +70,11 @@ namespace NHS111.Web.Helpers
             ViewEngineResult result = ViewEngines.Engines.FindView(context, name, null);
             return (result.View != null);
         }
+    }
+
+    public interface IViewRouter
+    {
+        string GetViewName(JourneyViewModel model, ControllerContext context);
+        string GetOutcomeViewPath(OutcomeViewModel model, ControllerContext context, string nextView);
     }
 }

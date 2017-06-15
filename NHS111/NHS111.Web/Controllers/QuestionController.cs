@@ -186,7 +186,7 @@ namespace NHS111.Web.Controllers {
             ModelState.Clear();
             var nextModel = await GetNextJourneyViewModel(model);
 
-            var viewName = _viewRouter.DetermineViewName(nextModel, ControllerContext);
+            var viewName = _viewRouter.GetViewName(nextModel, ControllerContext);
            
             return View(viewName, nextModel);
         }
@@ -266,7 +266,7 @@ namespace NHS111.Web.Controllers {
             if(resultingModel != null)
                 resultingModel.FilterServices = filterServices.HasValue ? filterServices.Value : true;
 
-            var viewName = _viewRouter.DetermineViewName(resultingModel, ControllerContext);
+            var viewName = _viewRouter.GetViewName(resultingModel, ControllerContext);
             return View(viewName, resultingModel);
         }
 
@@ -280,7 +280,7 @@ namespace NHS111.Web.Controllers {
             if(journeyViewModel != null)
                 journeyViewModel.FilterServices = filterServices.HasValue ? filterServices.Value : true;
 
-            var viewName = _viewRouter.DetermineViewName(journeyViewModel, ControllerContext);
+            var viewName = _viewRouter.GetViewName(journeyViewModel, ControllerContext);
             if (journeyViewModel.OutcomeGroup == null ||
                 !OutcomeGroup.SignpostingOutcomesGroups.Contains(journeyViewModel.OutcomeGroup))
             {
@@ -330,7 +330,7 @@ namespace NHS111.Web.Controllers {
             var questionWithAnswers = response.Data;
 
             var result = _journeyViewModelBuilder.BuildPreviousQuestion(questionWithAnswers, model);
-            var viewName = _viewRouter.DetermineViewName(result, ControllerContext);
+            var viewName = _viewRouter.GetViewName(result, ControllerContext);
 
             return View(viewName, result);
         }
