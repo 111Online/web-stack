@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using NHS111.Models.Models.Web.Clock;
 using NHS111.Models.Models.Web.FromExternalServices;
@@ -21,8 +22,18 @@ namespace NHS111.Models.Models.Web
         {
             _clock = clock;
         }
-
         public bool IsOpen
+        {
+            get
+            {
+               
+                if (OpenAllHours) return true;
+                if (TodaysRotaSessions == null || !TodaysRotaSessions.Any()) return false;
+                return TodaysRotaSessions.All(c => _clock.Now.TimeOfDay >= c.OpeningTime && _clock.Now.TimeOfDay <= c.ClosingTime);
+            }
+        }
+
+        public bool IsOpenToday
         {
             get
             {
@@ -60,16 +71,37 @@ namespace NHS111.Models.Models.Web
             return DateTime.Today.Add(new TimeSpan(time.Hours, time.Minutes, 0)).ToString("h:mmtt").ToLower();
         }
 
+        public string ServiceOpeningTimesMessage
+        {
+            get
+            {
+                var rotasesion = CurrentRotaSession;
+                if (rotasesion == null) rotasesion = NextRotaSession;
+                return string.Format("Open {0}: {1} until {2}",
+                    GetDayMessage(rotasesion.Day),
+                    DateTime.Today.Add(rotasesion.OpeningTime).ToString("HH:mm"),
+                    DateTime.Today.Add(rotasesion.ClosingTime).ToString("HH:mm"));
+            }
+        }
+
+        private string GetDayMessage(DayOfWeek day)
+        {
+            if (_clock.Now.DayOfWeek == day) return "today";
+            if (_clock.Now.AddDays(1).DayOfWeek == day) return "tomorrow";
+            return CultureInfo.CurrentCulture.DateTimeFormat.DayNames[(int)day];
+        }
+
+
         public string CurrentStatus
         {
             get
             {
-                if (!IsOpen) return ServiceClosedMessage;
+                if (!IsOpenToday) return ServiceClosedMessage;
 
                 if (OpenAllHours) return OpenAllHoursMessage;
 
-                return CurrentRotaSession != null 
-                    ? string.Format("Open today: {0} until {1}", DateTime.Today.Add(CurrentRotaSession.OpeningTime).ToString("HH:mm"), DateTime.Today.Add(CurrentRotaSession.ClosingTime).ToString("HH:mm"))
+                return CurrentRotaSession != null
+                    ? ServiceOpeningTimesMessage
                     : ServiceClosedMessage;
             }
         }
@@ -95,9 +127,26 @@ namespace NHS111.Models.Models.Web
                             new RotaSession
                             {
                                 OpeningTime = new TimeSpan(rs.StartTime.Hours, rs.StartTime.Minutes, 0),
-                                ClosingTime = new TimeSpan(rs.EndTime.Hours, rs.EndTime.Minutes, 0)
+                                ClosingTime = new TimeSpan(rs.EndTime.Hours, rs.EndTime.Minutes, 0),
+                                Day = (DayOfWeek)rs.StartDayOfWeek,
                             })
                     : new List<RotaSession>();
+            }
+        }
+
+        private RotaSession NextRotaSession
+        {
+            get
+            {
+                var closedTime = _clock.Now;
+                if (CurrentRotaSession != null) closedTime = DateTime.Today.Add(CurrentRotaSession.ClosingTime);
+
+                var orderedSessions = RotaSessions.OrderBy(rs => rs.StartDayOfWeek).ThenBy(rs => rs.StartTime);
+                var nextSession = orderedSessions.First(rs => 
+                    ((int)rs.StartDayOfWeek != (int)closedTime.DayOfWeek) 
+                    || (new TimeSpan(rs.StartTime.Hours, rs.StartTime.Minutes, 0) > closedTime.TimeOfDay));
+                return new RotaSession() {Day  = (DayOfWeek)nextSession.StartDayOfWeek, OpeningTime = new TimeSpan(nextSession.StartTime.Hours, nextSession.StartTime.Minutes, 0), ClosingTime = new TimeSpan(nextSession.EndTime.Hours, nextSession.EndTime.Minutes, 0) };
+
             }
         }
 
@@ -117,5 +166,7 @@ namespace NHS111.Models.Models.Web
         public TimeSpan OpeningTime { get; set; }
 
         public TimeSpan ClosingTime { get; set; }
+        public DayOfWeek Day { get; set; }
     }
+   
 }
