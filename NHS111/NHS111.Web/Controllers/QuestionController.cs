@@ -4,6 +4,7 @@ using System.Net.Mime;
 using AutoMapper;
 using Newtonsoft.Json;
 using NHS111.Features;
+using NHS111.Web.Helpers;
 using RestSharp;
 using RestSharp.Deserializers;
 using RestSharp.Serializers;
@@ -41,7 +42,7 @@ namespace NHS111.Web.Controllers {
 
         public QuestionController(IJourneyViewModelBuilder journeyViewModelBuilder,
             IConfiguration configuration, IJustToBeSafeFirstViewModelBuilder justToBeSafeFirstViewModelBuilder, IDirectLinkingFeature directLinkingFeature,
-            IAuditLogger auditLogger, IUserZoomDataBuilder userZoomDataBuilder, IRestClient restClientBusinessApi) {
+            IAuditLogger auditLogger, IUserZoomDataBuilder userZoomDataBuilder, IRestClient restClientBusinessApi, IViewRouter viewRouter) {
             _journeyViewModelBuilder = journeyViewModelBuilder;
             _configuration = configuration;
             _justToBeSafeFirstViewModelBuilder = justToBeSafeFirstViewModelBuilder;
@@ -49,6 +50,7 @@ namespace NHS111.Web.Controllers {
             _auditLogger = auditLogger;
             _userZoomDataBuilder = userZoomDataBuilder;
             _restClientBusinessApi = restClientBusinessApi;
+            _viewRouter = viewRouter;
             }
 
         [HttpGet]
@@ -184,7 +186,7 @@ namespace NHS111.Web.Controllers {
             ModelState.Clear();
             var nextModel = await GetNextJourneyViewModel(model);
 
-            var viewName = DetermineViewName(nextModel);
+            var viewName = _viewRouter.GetViewName(nextModel, ControllerContext);
            
             return View(viewName, nextModel);
         }
@@ -251,48 +253,6 @@ namespace NHS111.Web.Controllers {
             return topicsContainingStartingPathways;
         }
 
-        private string DetermineViewName(JourneyViewModel model) {
-
-            if (model == null) return "../Question/Question";
-
-            switch (model.NodeType) {
-                case NodeType.Outcome:
-
-                    if (model.OutcomeGroup.Equals(OutcomeGroup.ItkPrimaryCare))
-                    {
-                        model.UserInfo.CurrentAddress.IsPostcodeFirst = true;
-                        _auditLogger.LogEventData(model, "Postcode first journey started");
-                    }
-
-                    var viewFilePath = model.OutcomeGroup.Equals(OutcomeGroup.ItkPrimaryCare) ? "../PostcodeFirst/Postcode" : "../Outcome/" + model.OutcomeGroup.Id;
-                    if (ViewExists(viewFilePath))
-                    {
-                        _userZoomDataBuilder.SetFieldsForOutcome(model);
-                        return viewFilePath;
-                    }
-                    throw new ArgumentOutOfRangeException(string.Format("Outcome group {0} for outcome {1} has no view configured", model.OutcomeGroup.ToString(), model.Id));
-                case NodeType.DeadEndJump:
-                    _userZoomDataBuilder.SetFieldsForOutcome(model);
-                    return "../Outcome/DeadEndJump";
-                case NodeType.PathwaySelectionJump:
-                    _userZoomDataBuilder.SetFieldsForOutcome(model);
-                    return "../Outcome/PathwaySelectionJump";
-                case NodeType.CareAdvice:
-                    _userZoomDataBuilder.SetFieldsForCareAdvice(model);
-                    return "../Question/InlineCareAdvice";
-                case NodeType.Question:
-                default:
-                    _userZoomDataBuilder.SetFieldsForQuestion(model);
-                    return "../Question/Question";
-            }
-        }
-
-        private bool ViewExists(string name)
-        {
-            ViewEngineResult result = ViewEngines.Engines.FindView(ControllerContext, name, null);
-            return (result.View != null);
-        }
-
         [HttpGet]
         [Route("question/direct/{pathwayId}/{age?}/{pathwayTitle}/{answers?}")]
         public async Task<ActionResult> Direct(string pathwayId, int? age, string pathwayTitle,
@@ -306,7 +266,7 @@ namespace NHS111.Web.Controllers {
             if(resultingModel != null)
                 resultingModel.FilterServices = filterServices.HasValue ? filterServices.Value : true;
 
-            var viewName = DetermineViewName(resultingModel);
+            var viewName = _viewRouter.GetViewName(resultingModel, ControllerContext);
             return View(viewName, resultingModel);
         }
 
@@ -320,7 +280,7 @@ namespace NHS111.Web.Controllers {
             if(journeyViewModel != null)
                 journeyViewModel.FilterServices = filterServices.HasValue ? filterServices.Value : true;
 
-            var viewName = DetermineViewName(journeyViewModel);
+            var viewName = _viewRouter.GetViewName(journeyViewModel, ControllerContext);
             if (journeyViewModel.OutcomeGroup == null ||
                 !OutcomeGroup.SignpostingOutcomesGroups.Contains(journeyViewModel.OutcomeGroup))
             {
@@ -370,7 +330,7 @@ namespace NHS111.Web.Controllers {
             var questionWithAnswers = response.Data;
 
             var result = _journeyViewModelBuilder.BuildPreviousQuestion(questionWithAnswers, model);
-            var viewName = DetermineViewName(result);
+            var viewName = _viewRouter.GetViewName(result, ControllerContext);
 
             return View(viewName, result);
         }
@@ -432,5 +392,6 @@ namespace NHS111.Web.Controllers {
         private readonly IMappingEngine _mappingEngine;
         private readonly IUserZoomDataBuilder _userZoomDataBuilder;
         private readonly IRestClient _restClientBusinessApi;
+        private readonly IViewRouter _viewRouter;
         }
 }

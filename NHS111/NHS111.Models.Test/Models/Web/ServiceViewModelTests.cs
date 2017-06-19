@@ -129,7 +129,7 @@ namespace NHS111.Models.Test.Models.Web
         [Test]
         public void IsOpen_Returns_False_When_Service_Is_Closed()
         {
-            var clock = new StaticClock(DayOfWeek.Sunday, 16, 2);
+            var clock = new StaticClock(DayOfWeek.Monday, 8, 2);
             var service = new ServiceViewModel(clock)
             {
                 OpenAllHours = false,
@@ -200,6 +200,46 @@ namespace NHS111.Models.Test.Models.Web
             };
 
             Assert.AreEqual("Open today: 09:00 until 18:00", service.CurrentStatus);
+        }
+
+        [Test]
+        public void CurrentStatus_Returns_Correct_Open_Tomorrow_Times()
+        {
+            var clock = new StaticClock(DayOfWeek.Sunday, 22, 35);
+            var service = new ServiceViewModel(clock)
+            {
+                OpenAllHours = false,
+                RotaSessions = new[]
+                {
+                    MONDAY_SESSION,
+                    TUESDAY_SESSION,
+                    WEDNESDAY_SESSION,
+                    THURSDAY_SESSION,
+                    FRIDAY_SESSION,
+                }
+            };
+
+            Assert.AreEqual("Open tomorrow: 09:30 until 17:00", service.ServiceOpeningTimesMessage);
+        }
+
+        [Test]
+        public void CurrentStatus_Returns_Correct_Open_Day_After_Tomorrow_Times()
+        {
+            var clock = new StaticClock(DayOfWeek.Saturday, 22, 35);
+            var service = new ServiceViewModel(clock)
+            {
+                OpenAllHours = false,
+                RotaSessions = new[]
+                {
+                    MONDAY_SESSION,
+                    TUESDAY_SESSION,
+                    WEDNESDAY_SESSION,
+                    THURSDAY_SESSION,
+                    FRIDAY_SESSION,
+                }
+            };
+
+            Assert.AreEqual("Open Monday: 09:30 until 17:00", service.ServiceOpeningTimesMessage);
         }
 
         [Test]
@@ -384,6 +424,23 @@ namespace NHS111.Models.Test.Models.Web
             };
 
             Assert.AreEqual("Open today: 13:00 until 18:00", service.CurrentStatus);
+        }
+
+        [Test]
+        public void OpeningTimes_Multiple_Rota_Sessions_Time_Between_Sessions_Returns_Afternoon_Next_Opening()
+        {
+            var clock = new StaticClock(DayOfWeek.Thursday, 11, 00);
+            var service = new ServiceViewModel(clock)
+            {
+                OpenAllHours = false,
+                RotaSessions = new[]
+                {
+                    THURSDAY_MORNING_SESSION,
+                    THURSDAY_AFTERNOON_SESSION
+                },
+            };
+
+            Assert.AreEqual("Open today: 13:00 until 18:00", service.ServiceOpeningTimesMessage);
         }
 
         [Test]

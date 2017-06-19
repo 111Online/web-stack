@@ -15,5 +15,8 @@ namespace NHS111.Models.Models.Domain
 
         [JsonProperty(PropertyName = "waitTimeText")]
         public string WaitTimeText { get; set; }
+
+        [JsonProperty(PropertyName = "dispositionUrgencyText")]
+        public string DispositionUrgencyText { get; set; }
     }
 }
