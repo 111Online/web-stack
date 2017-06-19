@@ -72,6 +72,12 @@
             @Html.Partial("_CommonHiddenFieldsCareAdviceViewModel", Model)
             @Html.Hidden("SelectedServiceId", recommendedService.Id)
             @Html.Hidden("SelectedService_Name", recommendedService.Name)
+            if (!recommendedService.IsOpen)
+            {
+                <div class="service-status">
+                    @recommendedService.ServiceOpeningTimesMessage
+                </div>
+            }
             <div class="service-call">
                 <input class="button alternative-care-button-link" type="submit" name="PersonalDetails" value="Book a call"/>
             </div>

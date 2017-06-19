@@ -15,10 +15,13 @@
             {
                 <h4 class="service-title">@WebUtility.HtmlDecode(callbackService.Name)</h4>
 
-                <div class="service-status">
-                    @WebUtility.HtmlDecode(callbackService.CurrentStatus)
-                </div>
-                
+                if (!callbackService.IsOpen)
+                {
+                    <div class="service-status">
+                        @WebUtility.HtmlDecode(callbackService.ServiceOpeningTimesMessage)
+                    </div>
+                }
+
                 using (Html.BeginForm("PersonalDetails", "Outcome", FormMethod.Post))
                 {
                     @Html.Partial("_CommonHiddenFieldsOutcomeViewModel", Model)
