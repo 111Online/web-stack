@@ -68,6 +68,24 @@ namespace NHS111.Models.Models.Web
         public OutcomeGroup OutcomeGroup { get; set; }
         public string WaitTimeText { get; set; }
         public DateTime DispositionTime { get; set; }
+        public string DispositionUrgencyText { get; set; }
+
+        public string DispositionUrgencyTitle
+        {
+            get
+            {
+                if (string.IsNullOrEmpty(OutcomeGroup.Text))
+                    return string.Empty;
+                // convert to char array of the string
+                char[] outcomeGroupArray = OutcomeGroup.Text.ToCharArray();
+                // upper case the first char
+                outcomeGroupArray[0] = char.ToUpper(outcomeGroupArray[0]);
+                // return the array made of the new char array
+                var outcomeGroupText = new string(outcomeGroupArray);
+
+                return string.Format("{0} {1}", outcomeGroupText, DispositionUrgencyText);
+            }
+        }
 
         public int TimeFrameMinutes { get; set; }
 
@@ -125,6 +143,7 @@ namespace NHS111.Models.Models.Web
 
         public string UserZoomTitle { get; set; }
         public string UserZoomUrl { get; set; }
+        
 
         public JourneyViewModel()
         {
