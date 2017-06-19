@@ -70,6 +70,8 @@ namespace NHS111.Web.Presentation.Test.Controllers {
             _mockJtbsBuilderMock.Setup(j => j.JustToBeSafeFirstBuilder(It.IsAny<JustToBeSafeViewModel>()))
                 .Returns(StartedTask(new AwfulIdea("", new JourneyViewModel())));
 
+            _mockViewRouter.Setup(v => v.GetViewName(It.IsAny<JourneyViewModel>(), It.IsAny<ControllerContext>())).Returns(() => "../Question/Question");
+
             var sut = new QuestionController(_mockJourneyViewModelBuilder.Object,
                 _mockConfiguration.Object, _mockJtbsBuilderMock.Object, _mockFeature.Object, _mockAuditLogger.Object, _mockUserZoomDataBuilder.Object, _mockRestClient.Object, _mockViewRouter.Object);
 
@@ -152,6 +154,8 @@ namespace NHS111.Web.Presentation.Test.Controllers {
 
             _mockJtbsBuilderMock.Setup(j => j.JustToBeSafeFirstBuilder(It.IsAny<JustToBeSafeViewModel>()))
                 .Returns(StartedTask(new AwfulIdea("", mockJourney)));
+
+            _mockViewRouter.Setup(v => v.GetViewName(It.IsAny<JourneyViewModel>(), It.IsAny<ControllerContext>())).Returns(() => "../Question/Question");
 
             var sut = new QuestionController(_mockJourneyViewModelBuilder.Object,
                 _mockConfiguration.Object, _mockJtbsBuilderMock.Object, _mockFeature.Object, _mockAuditLogger.Object, _mockUserZoomDataBuilder.Object, _mockRestClient.Object, _mockViewRouter.Object);
