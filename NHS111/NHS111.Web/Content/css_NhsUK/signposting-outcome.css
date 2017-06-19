@@ -267,6 +267,9 @@ details summary::-webkit-details-marker {
     }
 }
 .worsening-advice-icon.blue {
+    background-image: url(/content/images/icons/warning-blue.png);
+    background-position: 20px center;
+    background-repeat: no-repeat;
     padding-top: 0;
     margin-top: 40px;
     min-height: 34px;
