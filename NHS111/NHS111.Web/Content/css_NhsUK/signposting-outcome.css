@@ -399,3 +399,9 @@ details summary::-webkit-details-marker {
 .de-emphasised {
     font-weight: normal;
 }
+
+.disposition-title-splitter {
+    width:20%;
+    border-top: 3px solid white;
+    margin-left: 10px;
+}
