@@ -1,7 +1,7 @@
 ﻿@using NHS111.Models.Models.Domain
 @inherits NHS111.Web.Views.Shared.AgeValidationView<NHS111.Models.Models.Web.JourneyViewModel>
 
-<h2 class="heading-large gender-heading">Tell us about you, or the person you're asking about</h2>
+<h1 class="heading-large gender-heading">Tell us about you, or the person you're asking about</h1>
 <div class="question-rationale white-bg no-padding">
     <p>
         The questions are based on age and whether you are male or female. At present you won't be able to use this service if you don't give this information.
@@ -17,18 +17,21 @@
     @Html.ValidationMessageFor(m => m.UserInfo.Demography.Gender, "Please select a sex")
 </div>
 <div id="answers">
-    <label for="Male" class="answer answer-label">
-        <span class="answer-radio">
-            @Html.RadioButtonFor(m => m.UserInfo.Demography.Gender, GenderEnum.Male, new { @id = "Male" })
-        </span>
-        <span class="answer-text">Male</span>
-    </label>
-    <label for="Female" class="answer answer-label">
-        <span class="answer-radio">
-            @Html.RadioButtonFor(m => m.UserInfo.Demography.Gender, GenderEnum.Female, new { @id = "Female" })
-        </span>
-        <span class="answer-text">Female</span>
-    </label>
+    <fieldset>
+        <legend>What is your sex?</legend>
+        <label for="Male" class="answer answer-label">
+            <span class="answer-radio">
+                @Html.RadioButtonFor(m => m.UserInfo.Demography.Gender, GenderEnum.Male, new { @id = "Male" })
+            </span>
+            <span class="answer-text">Male</span>
+        </label>
+        <label for="Female" class="answer answer-label">
+            <span class="answer-radio">
+                @Html.RadioButtonFor(m => m.UserInfo.Demography.Gender, GenderEnum.Female, new { @id = "Female" })
+            </span>
+            <span class="answer-text">Female</span>
+        </label>
+    </fieldset>
 </div>
 
 <div class="age-content">

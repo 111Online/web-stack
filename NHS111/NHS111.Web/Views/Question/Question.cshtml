@@ -71,7 +71,7 @@
     }
 
 
-    <h2 class="heading-large">@Model.TitleWithoutBullets</h2>
+    <h1 class="heading-large">@Model.TitleWithoutBullets</h1>
     foreach (var bullet in Model.Bullets)
     {
         <span class="red">@bullet</span>
@@ -83,30 +83,33 @@
         </div>
     }
     <div id="answers">
-        @foreach (var answer in Model.OrderedAnswers())
-        {
-            <div class="answer-content">
+        <fieldset>
+            <legend>Please choose from the following answers</legend>
+            @foreach (var answer in Model.OrderedAnswers())
+            {
+                <div class="answer-content">
 
-                <label for="@answer.TitleWithoutSpaces" class="answer answer-label">
-                    <span class="answer-radio">
-                        <input name="SelectedAnswer" type="radio" id="@answer.TitleWithoutSpaces" value="@Newtonsoft.Json.JsonConvert.SerializeObject(answer)" />
-                    </span>
-                    <span class="answer-text">@answer.Title</span>
-                </label>
+                    <label for="@answer.TitleWithoutSpaces" class="answer answer-label">
+                        <span class="answer-radio">
+                            <input name="SelectedAnswer" type="radio" id="@answer.TitleWithoutSpaces" value="@Newtonsoft.Json.JsonConvert.SerializeObject(answer)" />
+                        </span>
+                        <span class="answer-text">@answer.Title</span>
+                    </label>
 
-                @if (!String.IsNullOrWhiteSpace(answer.SupportingInformation))
-                {
-                <div class="help-text">
-                    <span class="supporting-info-text"><a class="help-text-link" href="javascript:void(0);" data-helptext="@Html.Encode(answer.SupportingInformation)">What does this mean?</a></span>
+                    @if (!String.IsNullOrWhiteSpace(answer.SupportingInformation))
+                    {
+                        <div class="help-text">
+                            <span class="supporting-info-text"><a class="help-text-link" href="javascript:void(0);" data-helptext="@Html.Encode(answer.SupportingInformation)">What does this mean?</a></span>
+                        </div>
+                    }
+
+                    @if (!String.IsNullOrWhiteSpace(answer.SupportingInformationHtml))
+                    {
+                        <div class="help-text-link-message">@Html.Raw(answer.SupportingInformationHtml)</div>
+                    }
                 </div>
-                }
-
-                @if (!String.IsNullOrWhiteSpace(answer.SupportingInformationHtml))
-                {
-                <div class="help-text-link-message">@Html.Raw(answer.SupportingInformationHtml)</div>
-                }
-            </div>
-        }
+            }
+        </fieldset>
     </div>
 
     <button class="button button-next" id="nextScreen" type="submit" name="Question" value="Question">Next question</button>
