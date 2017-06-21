@@ -1,11 +1,11 @@
-﻿@using System.Reflection
-@using NHS111.Models.Models.Web
+﻿@using NHS111.Models.Models.Web
 @{ Layout = "~/Views/Shared/_LayoutNhsUk.cshtml"; }
 @inherits NHS111.Web.Views.Shared.DirectLinkingView<JourneyViewModel>
 
 <link href="@NHS111.Web.Helpers.Versioning.GetVersionedUriRef("~/content/css_NhsUk/question.css")" media="screen" rel="stylesheet" type="text/css" />
 
-@section Title {}
+@section Title  {NHS 111 Online - @Model.TitleWithoutBullets}
+
 
 @section HeadTop {
     @{ var url = string.Format("/{0}/{1}/{2}/", Url.Encode(Model.PathwayId), Url.Encode(Model.PathwayTitle), Url.Encode(Model.QuestionNo)); }

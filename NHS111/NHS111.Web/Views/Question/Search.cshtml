@@ -12,7 +12,7 @@
     var ageCategory = new AgeCategory(Model.UserInfo.Demography.Age).Value;
 }
 
-@section Title  {NHS 111 Digital}
+@section Title  {NHS 111 Online - Search for a topic}
 
 @section Scripts {
     <script src="~/scripts/jquery1.11.2-ui.min.js"></script>
@@ -36,11 +36,9 @@
                 <input type="hidden" name="age" value="@Model.UserInfo.Demography.Age"/>
                 <input type="hidden" name="gender" value="@Model.UserInfo.Demography.Gender"/>
                 <input type="hidden" name="filterServices" value=@(Model.FilterServices.ToString()) />
-                <h2>Search by symptom</h2>
+                <h2><label for="searchTags">Search by symptom</label></h2>
                 <div class="symptoms-find-container">
-                    <label for="searchTags">
-                        <input type="text" class="input-symptoms ui-autocomplete-input" id="searchTags" name="q" autocomplete="off" value="@Model.SanitisedSearchTerm"/>
-                    </label>
+                    <input type="text" class="input-symptoms ui-autocomplete-input" id="searchTags" name="q" autocomplete="off" value="@Model.SanitisedSearchTerm"/>
                     <input type="submit" class="button button-get-started" value="Search" id="searchButton"/>
                 </div>
             </form>
@@ -94,7 +92,7 @@
                             <ul>
                                 @foreach (var topLevelCategory in lists[i]) {
                                     <li>
-                                        <h5><a class="category linkButton bullet" href="javascript:void(0);"><img class="arrow" src="/Content/images/blue-arrow-down.png" /> <span class="underline" id="@topLevelCategory.Category.Id">@topLevelCategory.Category.Title (@(topLevelCategory.SubCategories.SelectMany(s => s.Pathways).Count() + topLevelCategory.Pathways.Count()))</span></a></h5>
+                                        <h5><a class="category linkButton bullet" href="javascript:void(0);"><img class="arrow" src="/Content/images/blue-arrow-down.png" alt="Expand category" /> <span class="underline" id="@topLevelCategory.Category.Id">@topLevelCategory.Category.Title (@(topLevelCategory.SubCategories.SelectMany(s => s.Pathways).Count() + topLevelCategory.Pathways.Count()))</span></a></h5>
                                         @if (topLevelCategory.SubCategories != null && topLevelCategory.SubCategories.Any()) {
                                             <ul class="content">
                                                 @foreach (var subCategory in topLevelCategory.SubCategories.OrderBy(x => x.Category.Title)) {
@@ -102,7 +100,7 @@
                                                         continue;
                                                     }
                                                     <li>
-                                                        <h5><a class="category linkButton bullet" href="javascript:void(0);"><img class="arrow" src="/Content/images/blue-arrow-down.png" /> <span class="underline" id="@subCategory.Category.Id">@subCategory.Category.Title (@subCategory.Pathways.Count())</span></a></h5>
+                                                        <h5><a class="category linkButton bullet" href="javascript:void(0);"><img class="arrow" src="/Content/images/blue-arrow-down.png" alt="Expand category" /> <span class="underline" id="@subCategory.Category.Id">@subCategory.Category.Title (@subCategory.Pathways.Count())</span></a></h5>
                                                         <ul class="content">
                                                             @foreach (var pathway in subCategory.Pathways.OrderBy(p => p.PathwayData.DigitalTitle)) {
                                                                 <li>

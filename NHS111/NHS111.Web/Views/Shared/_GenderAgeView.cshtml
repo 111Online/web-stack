@@ -32,7 +32,7 @@
 </div>
 
 <div class="age-content">
-    <h2 class="heading-small">Age in years</h2>
+    <h2 class="heading-small">@Html.LabelFor(m => m.UserInfo.Demography.Age, "Age in years")</h2>
     <div>
         @Html.ValidationMessageFor(m => m.UserInfo.Demography.Age)
     </div>
