@@ -12,12 +12,12 @@
 <div class="feedback-wrapper">
     <div class="feedback-container feedback-container--open">
         <div class="feedback-banner">
-            <a href="#FeedbackForm" class="feedback-dismiss"></a>
+            <span class="feedback-dismiss"></span>
             <form id="FeedbackForm" action="@Url.Action("SubmitFeedback", "Feedback")">
                 <div id="FeedbackDetails">
         
                     <p class="feedback-message">
-                        Tell us if this page isn't clear
+                        @Html.LabelFor(m => m.Text, "Tell us if this page isn't clear")
                     </p>
                     <div class="feedback-form">
                         @Html.TextAreaFor(m => m.Text, new { @placeholder = "Feedback", @Value = "", @class = "feedback-input", @maxlength = "8000" })

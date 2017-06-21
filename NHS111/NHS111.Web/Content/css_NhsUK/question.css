@@ -20,8 +20,13 @@ label.answer {
       line-height: 24px;
     } 
 }
-label.answer.answer-label:hover {
+div.answer.answer-label:hover, label.answer.answer-label:hover {
     background: #ddd;
+}
+.help-text-link {
+    color: #0072C6;
+    text-decoration:underline;
+    cursor: pointer;
 }
 .help-text-link-message {
     display: block;
