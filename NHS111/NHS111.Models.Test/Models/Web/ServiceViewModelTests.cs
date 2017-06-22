@@ -181,6 +181,36 @@ namespace NHS111.Models.Test.Models.Web
         }
 
         [Test]
+        public void CurrentStatus_Returns_Open_Today_Midnight()
+        {
+            var clock = new StaticClock(DayOfWeek.Saturday, 6, 30);
+            var service = new ServiceViewModel(clock)
+            {
+                OpenAllHours = false,
+                RotaSessions = new[]
+                {
+                    MONDAY_SESSION,
+                    TUESDAY_SESSION,
+                    WEDNESDAY_SESSION,
+                    THURSDAY_SESSION,
+                    FRIDAY_SESSION,            
+                    new ServiceCareItemRotaSession()
+                    {
+                        StartDayOfWeek = NHS111.Models.Models.Web.FromExternalServices.DayOfWeek.Saturday,
+                        EndDayOfWeek = NHS111.Models.Models.Web.FromExternalServices.DayOfWeek.Saturday,
+                        StartTime = new TimeOfDay() { Hours = 0, Minutes = 0 },
+                        EndTime = new TimeOfDay() { Hours = 7, Minutes = 30 }
+                    },
+                    SUNDAY_SESSION
+                }
+            };
+
+            Assert.IsTrue(service.IsOpen);
+            Assert.AreEqual("Opens today: 00:00 until 07:30", service.CurrentStatus);
+            Assert.AreEqual("Opens today: 00:00 until 07:30", service.ServiceOpeningTimesMessage);
+        }
+
+        [Test]
         public void CurrentStatus_Returns_Correct_Open_Today_Times()
         {
             var clock = new StaticClock(DayOfWeek.Saturday, 12, 35);
@@ -199,7 +229,7 @@ namespace NHS111.Models.Test.Models.Web
                 }
             };
 
-            Assert.AreEqual("Open today: 09:00 until 18:00", service.CurrentStatus);
+            Assert.AreEqual("Opens today: 09:00 until 18:00", service.CurrentStatus);
         }
 
         [Test]
@@ -219,7 +249,7 @@ namespace NHS111.Models.Test.Models.Web
                 }
             };
 
-            Assert.AreEqual("Open tomorrow: 09:30 until 17:00", service.ServiceOpeningTimesMessage);
+            Assert.AreEqual("Opens tomorrow: 09:30 until 17:00", service.ServiceOpeningTimesMessage);
         }
 
         [Test]
@@ -239,7 +269,7 @@ namespace NHS111.Models.Test.Models.Web
                 }
             };
 
-            Assert.AreEqual("Open Monday: 09:30 until 17:00", service.ServiceOpeningTimesMessage);
+            Assert.AreEqual("Opens Monday: 09:30 until 17:00", service.ServiceOpeningTimesMessage);
         }
 
         [Test]
@@ -261,7 +291,7 @@ namespace NHS111.Models.Test.Models.Web
                 }
             };
 
-            Assert.AreEqual("Open today: 09:30 until 17:00", service.CurrentStatus);
+            Assert.AreEqual("Opens today: 09:30 until 17:00", service.CurrentStatus);
         }
 
         [Test]
@@ -406,7 +436,7 @@ namespace NHS111.Models.Test.Models.Web
                 },
             };
 
-            Assert.AreEqual("Open today: 08:30 until 11:00", service.CurrentStatus);
+            Assert.AreEqual("Opens today: 08:30 until 11:00", service.CurrentStatus);
         }
 
         [Test]
@@ -423,7 +453,7 @@ namespace NHS111.Models.Test.Models.Web
                 },
             };
 
-            Assert.AreEqual("Open today: 13:00 until 18:00", service.CurrentStatus);
+            Assert.AreEqual("Opens today: 13:00 until 18:00", service.CurrentStatus);
         }
 
         [Test]
@@ -440,7 +470,7 @@ namespace NHS111.Models.Test.Models.Web
                 },
             };
 
-            Assert.AreEqual("Open today: 13:00 until 18:00", service.ServiceOpeningTimesMessage);
+            Assert.AreEqual("Opens today: 13:00 until 18:00", service.ServiceOpeningTimesMessage);
         }
 
         [Test]
@@ -457,7 +487,7 @@ namespace NHS111.Models.Test.Models.Web
                 },
             };
 
-            Assert.AreEqual("Open today: 08:30 until 11:00", service.CurrentStatus);
+            Assert.AreEqual("Opens today: 08:30 until 11:00", service.CurrentStatus);
         }
 
         [Test]
@@ -474,7 +504,7 @@ namespace NHS111.Models.Test.Models.Web
                 },
             };
 
-            Assert.AreEqual("Open today: 13:00 until 18:00", service.CurrentStatus);
+            Assert.AreEqual("Opens today: 13:00 until 18:00", service.CurrentStatus);
         }
     }
 
