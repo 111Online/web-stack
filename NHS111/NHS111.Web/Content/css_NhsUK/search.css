@@ -347,7 +347,7 @@ div.symptoms-search {
     }
 }
 
-h5 {
+h4, h5 {
     line-height: 3rem;
     color: #0066ff;
     font-size: 1em;
