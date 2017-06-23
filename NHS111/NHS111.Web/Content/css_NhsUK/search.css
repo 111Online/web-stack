@@ -394,7 +394,7 @@ span.underline {
     text-decoration: underline;
 }
 
-.search-box h2 {
+.search-box h1 {
     margin: 30px 0;
 }
 
@@ -422,7 +422,7 @@ button {
     text-align: left;
 }
 
-h3 {
+h2 {
     font-size: 1.5em;
 }
 
@@ -433,6 +433,11 @@ p.additional-topics {
 
 }
 
-h4 {
+h3 {
     font-size: 25px;
+}
+
+#show-categories {
+    font-size: 25px;
+    font-weight: 600;
 }

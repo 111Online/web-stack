@@ -21,7 +21,7 @@
                     </p>
                     <div class="feedback-form">
                         @Html.TextAreaFor(m => m.Text, new { @placeholder = "Feedback", @Value = "", @class = "feedback-input", @maxlength = "8000" })
-                        <a class="feedback-btn feedback-submit button-next" id="btnFeedback" onclick="SubmitFeedback(this);">Send feedback</a>
+                        <button class="feedback-btn feedback-submit button-next" id="btnFeedback" onclick="SubmitFeedback(this);" tabindex="0">Send feedback</button>
                     </div>
                 </div>
                 @Html.HiddenFor(m => m.UserId)

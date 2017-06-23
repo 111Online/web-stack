@@ -71,22 +71,21 @@
     }
 
 
-    <h1 class="heading-large">@Model.TitleWithoutBullets</h1>
-    foreach (var bullet in Model.Bullets)
-    {
-        <span class="red">@bullet</span>
-    }
-    if (!String.IsNullOrWhiteSpace(Model.Rationale))
-    {
-        <div class="question-rationale">
-            <p>@Html.Raw(@Model.RationaleHtml)</p>
-        </div>
-    }
-    <div id="answers">
-        <fieldset>
-            <legend>Please choose from the following answers</legend>
-            @foreach (var answer in Model.OrderedAnswers())
-            {
+    <fieldset>
+        <legend class="heading-large">
+            <h1 class="heading-large">@Model.TitleWithoutBullets</h1>
+        </legend>
+        @foreach (var bullet in Model.Bullets) {
+            <span class="red">@bullet</span>
+        }
+        @if (!String.IsNullOrWhiteSpace(Model.Rationale)) {
+            <div class="question-rationale">
+                <p>@Html.Raw(@Model.RationaleHtml)</p>
+            </div>
+        }
+        <div id="answers">
+
+            @foreach (var answer in Model.OrderedAnswers()) {
                 <div class="answer-content">
 
                     <label for="@answer.TitleWithoutSpaces" class="answer answer-label">
@@ -96,21 +95,19 @@
                         <span class="answer-text">@answer.Title</span>
                     </label>
 
-                    @if (!String.IsNullOrWhiteSpace(answer.SupportingInformation))
-                    {
+                    @if (!String.IsNullOrWhiteSpace(answer.SupportingInformation)) {
                         <div class="help-text">
-                            <span class="supporting-info-text"><a class="help-text-link" href="javascript:void(0);" data-helptext="@Html.Encode(answer.SupportingInformation)">What does this mean?</a></span>
+                            <span class="supporting-info-text"><button class="help-text-link" href="javascript:void(0);" data-helptext="@Html.Encode(answer.SupportingInformation)">What does this mean?</button></span>
                         </div>
                     }
 
-                    @if (!String.IsNullOrWhiteSpace(answer.SupportingInformationHtml))
-                    {
+                    @if (!String.IsNullOrWhiteSpace(answer.SupportingInformationHtml)) {
                         <div class="help-text-link-message">@Html.Raw(answer.SupportingInformationHtml)</div>
                     }
                 </div>
             }
-        </fieldset>
-    </div>
+        </div>
+    </fieldset>
 
     <button class="button button-next" id="nextScreen" type="submit" name="Question" value="Question">Next question</button>
     if (!Model.IsFirstStep)
@@ -136,6 +133,7 @@
 
             var $helpTextLinkMessage = $this.parent().parent().next('.help-text-link-message');
             $helpTextLinkMessage.slideToggle("fast");
+            return false;
         });
     });
 </script>
