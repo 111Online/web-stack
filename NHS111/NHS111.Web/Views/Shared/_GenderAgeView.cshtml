@@ -8,17 +8,19 @@
     </p>
 </div>
 
-<h2 class="heading-small">Sex</h2>
-<div class="help-text">
-    <span class="supporting-info-text no-padding"><a class="help-text-link" href="javascript:void(0);" data-helptext="@Html.Encode("So that the questions apply to you. If you can't answer, please call 111.")">Why do we need to know this?</a></span>
-</div>
-<div class="help-text-link-message no-padding">@Html.Raw("So that the questions apply to you. If you can't answer, please call 111.")</div>
-<div>
-    @Html.ValidationMessageFor(m => m.UserInfo.Demography.Gender, "Please select a sex")
-</div>
-<div id="answers">
-    <fieldset>
-        <legend>What is your sex?</legend>
+<fieldset>
+    <legend>
+        <h2 class="heading-small">Sex</h2>
+    </legend>
+    <div class="help-text">
+        <span class="supporting-info-text no-padding"><button class="help-text-link" data-helptext="@Html.Encode("So that the questions apply to you. If you can't answer, please call 111.")">Why do we need to know this?</button></span>
+    </div>
+    <div class="help-text-link-message no-padding">@Html.Raw("So that the questions apply to you. If you can't answer, please call 111.")</div>
+    <div>
+        @Html.ValidationMessageFor(m => m.UserInfo.Demography.Gender, "Please select a sex")
+    </div>
+    <div id="answers">
+    
         <label for="Male" class="answer answer-label">
             <span class="answer-radio">
                 @Html.RadioButtonFor(m => m.UserInfo.Demography.Gender, GenderEnum.Male, new { @id = "Male" })
@@ -31,8 +33,8 @@
             </span>
             <span class="answer-text">Female</span>
         </label>
-    </fieldset>
-</div>
+    </div>
+</fieldset>
 
 <div class="age-content">
     <h2 class="heading-small">@Html.LabelFor(m => m.UserInfo.Demography.Age, "Age in years")</h2>
@@ -86,6 +88,7 @@
 
             var $helpTextLinkMessage = $this.parent().parent().next('.help-text-link-message');
             $helpTextLinkMessage.slideToggle("fast");
+            return false;
         });
     });
 
