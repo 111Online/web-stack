@@ -29,8 +29,13 @@ namespace NHS111.Models.Models.Web
                
                 if (OpenAllHours) return true;
                 if (TodaysRotaSessions == null || !TodaysRotaSessions.Any()) return false;
-                return TodaysRotaSessions.Any(c => _clock.Now.TimeOfDay >= c.OpeningTime && _clock.Now.TimeOfDay <= c.ClosingTime);
+                return TodaysRotaSessions.Any(c => TimeBetween(_clock.Now.TimeOfDay, c.OpeningTime, c.ClosingTime));
             }
+        }
+
+        private static bool TimeBetween(TimeSpan timeNow, TimeSpan openingTime, TimeSpan closingTime)
+        {
+            return (timeNow >= openingTime && timeNow < closingTime);
         }
 
         public bool IsOpenToday
@@ -39,7 +44,7 @@ namespace NHS111.Models.Models.Web
             {
                 if (OpenAllHours) return true;
 
-                return !TodaysRotaSessions.All(c => _clock.Now.TimeOfDay >= c.ClosingTime);
+                return !TodaysRotaSessions.All(c => _clock.Now.TimeOfDay > c.ClosingTime);
             }
         }
 
@@ -76,15 +81,12 @@ namespace NHS111.Models.Models.Web
             get
             {
                 var rotaSession = CurrentRotaSession;
-                string openingMessage = "Opens";
-
-                if (rotaSession == null)
-                {
-                    rotaSession = NextRotaSession;
-                    openingMessage = "Opens";
-                }
+                string openingTense = (IsOpen) ? "Open" : "Opens";
+                    
+                if (rotaSession == null) rotaSession = NextRotaSession;
+                
                 return string.Format("{0} {1}: {2} until {3}",
-                    openingMessage,
+                    openingTense,
                     GetDayMessage(rotaSession.Day),
                     DateTime.Today.Add(rotaSession.OpeningTime).ToString("HH:mm"),
                     DateTime.Today.Add(rotaSession.ClosingTime).ToString("HH:mm"));
@@ -170,7 +172,6 @@ namespace NHS111.Models.Models.Web
     internal class RotaSession
     {
         public TimeSpan OpeningTime { get; set; }
-
         public TimeSpan ClosingTime { get; set; }
         public DayOfWeek Day { get; set; }
     }
