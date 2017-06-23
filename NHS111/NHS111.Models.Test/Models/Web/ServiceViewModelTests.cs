@@ -183,7 +183,7 @@ namespace NHS111.Models.Test.Models.Web
         [Test]
         public void CurrentStatus_Returns_Open_Today_Midnight()
         {
-            var clock = new StaticClock(DayOfWeek.Saturday, 6, 30);
+            var clock = new StaticClock(DayOfWeek.Saturday, 6, 40);
             var service = new ServiceViewModel(clock)
             {
                 OpenAllHours = false,
@@ -200,6 +200,13 @@ namespace NHS111.Models.Test.Models.Web
                         EndDayOfWeek = NHS111.Models.Models.Web.FromExternalServices.DayOfWeek.Saturday,
                         StartTime = new TimeOfDay() { Hours = 0, Minutes = 0 },
                         EndTime = new TimeOfDay() { Hours = 7, Minutes = 30 }
+                    },
+                    new ServiceCareItemRotaSession()
+                    {
+                        StartDayOfWeek = NHS111.Models.Models.Web.FromExternalServices.DayOfWeek.Saturday,
+                        EndDayOfWeek = NHS111.Models.Models.Web.FromExternalServices.DayOfWeek.Saturday,
+                        StartTime = new TimeOfDay() { Hours = 22, Minutes = 0 },
+                        EndTime = new TimeOfDay() { Hours = 23, Minutes = 59 }
                     },
                     SUNDAY_SESSION
                 }

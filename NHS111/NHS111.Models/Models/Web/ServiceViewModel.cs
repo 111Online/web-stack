@@ -29,7 +29,7 @@ namespace NHS111.Models.Models.Web
                
                 if (OpenAllHours) return true;
                 if (TodaysRotaSessions == null || !TodaysRotaSessions.Any()) return false;
-                return TodaysRotaSessions.All(c => _clock.Now.TimeOfDay >= c.OpeningTime && _clock.Now.TimeOfDay <= c.ClosingTime);
+                return TodaysRotaSessions.Any(c => _clock.Now.TimeOfDay >= c.OpeningTime && _clock.Now.TimeOfDay <= c.ClosingTime);
             }
         }
 
@@ -76,8 +76,15 @@ namespace NHS111.Models.Models.Web
             get
             {
                 var rotaSession = CurrentRotaSession;
-                if (rotaSession == null) rotaSession = NextRotaSession;
-                return string.Format("Opens {0}: {1} until {2}",
+                string openingMessage = "Opens";
+
+                if (rotaSession == null)
+                {
+                    rotaSession = NextRotaSession;
+                    openingMessage = "Opens";
+                }
+                return string.Format("{0} {1}: {2} until {3}",
+                    openingMessage,
                     GetDayMessage(rotaSession.Day),
                     DateTime.Today.Add(rotaSession.OpeningTime).ToString("HH:mm"),
                     DateTime.Today.Add(rotaSession.ClosingTime).ToString("HH:mm"));
@@ -145,7 +152,7 @@ namespace NHS111.Models.Models.Web
                 var nextSession = orderedSessions.First(rs => 
                     ((int)rs.StartDayOfWeek != (int)closedTime.DayOfWeek) 
                     || (new TimeSpan(rs.StartTime.Hours, rs.StartTime.Minutes, 0) > closedTime.TimeOfDay));
-                return new RotaSession() {Day  = (DayOfWeek)nextSession.StartDayOfWeek, OpeningTime = new TimeSpan(nextSession.StartTime.Hours, nextSession.StartTime.Minutes, 0), ClosingTime = new TimeSpan(nextSession.EndTime.Hours, nextSession.EndTime.Minutes, 0) };
+                return new RotaSession() { Day = (DayOfWeek)nextSession.StartDayOfWeek, OpeningTime = new TimeSpan(nextSession.StartTime.Hours, nextSession.StartTime.Minutes, 0), ClosingTime = new TimeSpan(nextSession.EndTime.Hours, nextSession.EndTime.Minutes, 0) };
             }
         }
 
