@@ -82,6 +82,8 @@ namespace NHS111.Models.Models.Web
             {
                 if (OpenAllHours) return OpenAllHoursMessage;
 
+                if (RotaSessions == null || !RotaSessions.Any()) return ServiceClosedMessage;
+
                 var rotaSession = CurrentRotaSession;
                 string openingTense = (IsOpen) ? "Open" : "Opens";
                     

@@ -500,6 +500,26 @@ namespace NHS111.Models.Test.Models.Web
         }
 
         [Test]
+        public void ServiceOpeningTimesMessage_Returns_24Hours_When_Service_Open_All_Hours()
+        {
+            var service = new ServiceViewModel()
+            {
+                OpenAllHours = true,
+            };
+
+            Assert.AreEqual("Open today: 24 hours", service.ServiceOpeningTimesMessage);
+        }
+        [Test]
+        public void ServiceOpeningTimesMessage_Returns_Closed_When_Not_Open_All_Hours_And_No_Rotasessions()
+        {
+            var service = new ServiceViewModel()
+            {
+                OpenAllHours = false,
+            };
+            Assert.AreEqual("Closed", service.ServiceOpeningTimesMessage);
+        }
+
+        [Test]
         public void OpeningTimes_Multiple_Rota_Sessions_Time_InBetween_Afternoon_Session_Returns_Afternoon_Opening()
         {
             var clock = new StaticClock(DayOfWeek.Thursday, 15, 00);
