@@ -97,7 +97,7 @@
 
                     @if (!String.IsNullOrWhiteSpace(answer.SupportingInformation)) {
                         <div class="help-text">
-                            <span class="supporting-info-text"><button class="help-text-link" href="javascript:void(0);" data-helptext="@Html.Encode(answer.SupportingInformation)">What does this mean?</button></span>
+                            <span class="supporting-info-text"><button type="button" class="help-text-link" data-helptext="@Html.Encode(answer.SupportingInformation)">What does this mean?</button></span>
                         </div>
                     }
 

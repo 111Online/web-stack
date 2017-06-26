@@ -374,7 +374,6 @@ h4, h5 {
 }
 
 .content {
-    display: none;
     padding-left: 10px;
     border-left: 3px lightgrey solid;
     margin-left: 25px;
