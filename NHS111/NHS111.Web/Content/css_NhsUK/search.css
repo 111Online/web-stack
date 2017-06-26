@@ -31,6 +31,14 @@ a.linkButton {
      text-decoration: underline;
      cursor: pointer; 
 }
+
+span.linkButton { 
+     background: none;
+     border: none;
+     color: #0066ff;
+     text-decoration: underline;
+     cursor: pointer; 
+}
     .symptoms-find-container p {
         padding-top: 8px;
         padding-bottom: 8px;
@@ -387,7 +395,7 @@ h4, h5 {
     }
 }*/
 
-a.category {
+span.category {
     text-decoration: none;
 }
 span.underline {
