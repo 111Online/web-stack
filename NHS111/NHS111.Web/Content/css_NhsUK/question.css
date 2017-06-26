@@ -52,13 +52,17 @@ div.answer.answer-label:hover, label.answer.answer-label:hover {
     font-size: 16px;
     line-height: 20px;
     border: 0;
+    padding: 0;
     background: none;
 }
 @media screen and (min-width: 40em) {
     .help-text-link {
       font-size: 20px;
-      line-height: 24px;
+      line-height: 24px;  
     } 
+}
+.help-text-link:focus {
+    outline: 0;
 }
 
 a.help-text-link {
