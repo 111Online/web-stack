@@ -189,7 +189,7 @@ namespace NHS111.Web.Controllers
             model.DosCheckCapacitySummaryResult.ServicesUnavailable = availiableServices.ResultListEmpty;
             model.UserInfo.CurrentAddress.IsInPilotArea = _postCodeAllowedValidator.IsAllowedPostcode(model.UserInfo.CurrentAddress.Postcode);
             
-            return View("ServieBookingUnavailable", model);
+            return View("ServiceBookingUnavailable", model);
         }
 
         private bool SelectedServiceExits(int selectedServiceId, DosCheckCapacitySummaryResult availiableServices)
