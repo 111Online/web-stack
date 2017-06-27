@@ -175,9 +175,9 @@ namespace NHS111.Web.Controllers
                 model = await PopulateAddressPickerFields(model);
                 return View("PersonalDetails", model);
             }
-            var availiableServices = await GetServiceAvailability(model, DateTime.Now, overrideFilterServices.HasValue ? overrideFilterServices.Value : model.FilterServices);
+            var availableServices = await GetServiceAvailability(model, DateTime.Now, overrideFilterServices.HasValue ? overrideFilterServices.Value : model.FilterServices);
             _auditLogger.LogDosResponse(model);
-            if (SelectedServiceExits(model.SelectedService.Id, availiableServices))
+            if (SelectedServiceExits(model.SelectedService.Id, availableServices))
             {
                 model = await _outcomeViewModelBuilder.ItkResponseBuilder(model);
                 if (model.ItkSendSuccess.HasValue && model.ItkSendSuccess.Value)
@@ -185,16 +185,16 @@ namespace NHS111.Web.Controllers
                 return model.ItkDuplicate.HasValue && model.ItkDuplicate.Value ? View("DuplicateBookingFailure", model) : View("ServiceBookingFailure", model);
             }
             model.UnavailableSelectedService = model.SelectedService;
-            model.DosCheckCapacitySummaryResult = availiableServices;
-            model.DosCheckCapacitySummaryResult.ServicesUnavailable = availiableServices.ResultListEmpty;
+            model.DosCheckCapacitySummaryResult = availableServices;
+            model.DosCheckCapacitySummaryResult.ServicesUnavailable = availableServices.ResultListEmpty;
             model.UserInfo.CurrentAddress.IsInPilotArea = _postCodeAllowedValidator.IsAllowedPostcode(model.UserInfo.CurrentAddress.Postcode);
             
             return View("ServiceBookingUnavailable", model);
         }
 
-        private bool SelectedServiceExits(int selectedServiceId, DosCheckCapacitySummaryResult availiableServices)
+        private bool SelectedServiceExits(int selectedServiceId, DosCheckCapacitySummaryResult availableServices)
         {
-            return !availiableServices.ResultListEmpty && availiableServices.Success.Services.Exists(s => s.Id == selectedServiceId);
+            return !availableServices.ResultListEmpty && availableServices.Success.Services.Exists(s => s.Id == selectedServiceId);
         }
 
         [HttpPost]
