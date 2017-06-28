@@ -1173,6 +1173,10 @@ details .panel-indent {
 legend + * {
   -webkit-margin-top-collapse: discard; }
 
+legend {
+    font-weight: 600;
+}
+
 textarea {
   display: block; }
 

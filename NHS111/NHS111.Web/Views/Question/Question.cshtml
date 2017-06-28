@@ -35,7 +35,10 @@
 
         return "";
     }
+
 }
+
+<h1 class="heading-large">@Model.TitleWithoutBullets</h1>
 
 @using (Html.BeginForm("Navigation", "Question", FormMethod.Post))
 {
@@ -70,11 +73,8 @@
         @Html.HiddenFor(model => Model.CollectedKeywords.ExcludeKeywords[i].IsFromAnswer)
     }
 
-
     <fieldset>
-        <legend class="heading-large">
-            <h1 class="heading-large">@Model.TitleWithoutBullets</h1>
-        </legend>
+        <legend class="visuallyhidden">@Model.TitleWithoutBullets</legend>
         @foreach (var bullet in Model.Bullets) {
             <span class="red">@bullet</span>
         }
