@@ -54,6 +54,11 @@
             <br/>
             <p>They will check through the answers you have entered and give you advice on what to do next</p>
         }
+        else if (!string.IsNullOrEmpty(@recommendedService.ContactDetails))
+        {
+            <p>Please phone this service for advice: @recommendedService.ContactDetails</p>
+         
+        }
         else
         {
             <p>@WebUtility.HtmlDecode(recommendedService.Address)</p>
