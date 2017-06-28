@@ -836,6 +836,7 @@
     <Content Include="Views\PostcodeFirst\ITK_Primary_care\Outcome.cshtml" />
     <Content Include="Views\PostcodeFirst\ITK_Primary_care\Services.cshtml" />
     <Content Include="Views\PostcodeFirst\SP_Dental\Services.cshtml" />
+    <Content Include="Views\Shared\_PublicPhoneServices.cshtml" />
     <Content Include="Views\Shared\_OutcomeHeaderTwoTitles.cshtml" />
     <Content Include="Views\Shared\_WorseningAdviceWithTitle.cshtml" />
     <None Include="Web.Development.config">
