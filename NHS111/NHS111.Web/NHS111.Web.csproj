@@ -828,7 +828,7 @@
     <Content Include="Views\Shared\_AlternativeServices.cshtml" />
     <Content Include="Views\Shared\_PersonalDetailsSelf.cshtml" />
     <Content Include="Views\Shared\_InformantDetails.cshtml" />
-    <Content Include="Views\Outcome\ServieBookingUnavailable.cshtml" />
+    <Content Include="Views\Outcome\ServiceBookingUnavailable.cshtml" />
     <Content Include="Views\Outcome\DuplicateBookingFailure.cshtml" />
     <Content Include="Views\Shared\_CallbackServices.cshtml" />
     <Content Include="Views\Shared\_GotoServices.cshtml" />
@@ -837,6 +837,8 @@
     <Content Include="Views\PostcodeFirst\ITK_Primary_care\Services.cshtml" />
     <Content Include="Views\PostcodeFirst\SP_Dental\Services.cshtml" />
     <Content Include="Views\Shared\_PublicPhoneServices.cshtml" />
+    <Content Include="Views\Shared\_OutcomeHeaderTwoTitles.cshtml" />
+    <Content Include="Views\Shared\_WorseningAdviceWithTitle.cshtml" />
     <None Include="Web.Development.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

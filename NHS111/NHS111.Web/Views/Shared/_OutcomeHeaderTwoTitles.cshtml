@@ -1,0 +1,12 @@
+﻿@model NHS111.Models.Models.Web.OutcomeViewModel
+
+@{
+    var outcomeHeader = ViewData.ContainsKey("OutcomeHeader") ? ViewData["OutcomeHeader"] : (!string.IsNullOrEmpty(Model.DispositionText) ? Model.DispositionText : Model.OutcomeGroup.GetDefaultTitle());
+}
+<section>
+    <div class="outcome-header">
+        <h2 class="heading-large">@Html.Raw(Model.DispositionUrgencyTitle)</h2>
+        <div class="disposition-title-splitter"></div>
+        <h4>@Html.Raw(outcomeHeader)</h4>
+    </div>
+</section>

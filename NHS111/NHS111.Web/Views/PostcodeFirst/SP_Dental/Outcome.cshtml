@@ -16,7 +16,7 @@
     </script>
 }
 
-@section Title { NHS 111 - Contact a healthcare service }
+@section Title { NHS 111 - @Model.OutcomeGroup.Text }
 <link href="@NHS111.Web.Helpers.Versioning.GetVersionedUriRef("~/Content/css_NhsUK/confirmation.css")" media="all" rel="stylesheet" type="text/css">
 <link href="@NHS111.Web.Helpers.Versioning.GetVersionedUriRef("~/Content/css_NhsUK/signposting-outcome.css")" media="all" rel="stylesheet" type="text/css" />
 <link href="@NHS111.Web.Helpers.Versioning.GetVersionedUriRef("~/Content/css_NhsUK/signposting-outcome-print.css")" media="print" rel="stylesheet" type="text/css" />
@@ -36,7 +36,7 @@
     }
 }
 
-@Html.Partial("_OutcomeHeader", Model, new ViewDataDictionary() { { "OutcomeHeader", string.Format("You should {0} within the next {1}",Model.OutcomeGroup.Text, Model.TimeFrameText) } })
+@Html.Partial("_OutcomeHeaderTwoTitles", Model, new ViewDataDictionary() { { "OutcomeHeader", string.Format("You should {0} within the next {1}",Model.OutcomeGroup.Text, Model.TimeFrameText) } })
 
 @if (!string.IsNullOrEmpty(Model.UserInfo.CurrentAddress.Postcode))
 {
@@ -59,4 +59,4 @@ else
 
 @Html.Partial("_CareAdvice", Model.CareAdvices, new ViewDataDictionary { { "Title", "What you can do in the meantime" }, { "NoHR", true } })
 
-@Html.Partial("_WorseningAdvice", Model)
+@Html.Partial("_WorseningAdviceWithTitle", Model)

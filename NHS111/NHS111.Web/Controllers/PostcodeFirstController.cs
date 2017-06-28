@@ -53,7 +53,6 @@ namespace NHS111.Web.Controllers
             if (string.IsNullOrEmpty(model.UserInfo.CurrentAddress.Postcode))
             {
                 await _auditLogger.LogEventData(model, "User did not enter a postcode");
-
                 return View(_viewRouter.GetOutcomeViewPath(model, ControllerContext,outcomeView), model);
             }
 
@@ -66,7 +65,6 @@ namespace NHS111.Web.Controllers
             }
 
             await _auditLogger.LogDosRequest(model, dosViewModel);
-
             model.DosCheckCapacitySummaryResult = await _dosBuilder.FillCheckCapacitySummaryResult(dosViewModel, overrideFilterServices.HasValue ? overrideFilterServices.Value : model.FilterServices);
             model.DosCheckCapacitySummaryResult.ServicesUnavailable = model.DosCheckCapacitySummaryResult.ResultListEmpty;
             await _auditLogger.LogDosResponse(model);

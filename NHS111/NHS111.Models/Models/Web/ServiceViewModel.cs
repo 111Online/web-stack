@@ -29,8 +29,13 @@ namespace NHS111.Models.Models.Web
                
                 if (OpenAllHours) return true;
                 if (TodaysRotaSessions == null || !TodaysRotaSessions.Any()) return false;
-                return TodaysRotaSessions.All(c => _clock.Now.TimeOfDay >= c.OpeningTime && _clock.Now.TimeOfDay <= c.ClosingTime);
+                return TodaysRotaSessions.Any(c => TimeBetween(_clock.Now.TimeOfDay, c.OpeningTime, c.ClosingTime));
             }
+        }
+
+        private static bool TimeBetween(TimeSpan timeNow, TimeSpan openingTime, TimeSpan closingTime)
+        {
+            return (timeNow >= openingTime && timeNow < closingTime);
         }
 
         public bool IsOpenToday
@@ -39,7 +44,7 @@ namespace NHS111.Models.Models.Web
             {
                 if (OpenAllHours) return true;
 
-                return !TodaysRotaSessions.All(c => _clock.Now.TimeOfDay >= c.ClosingTime);
+                return !TodaysRotaSessions.All(c => _clock.Now.TimeOfDay > c.ClosingTime);
             }
         }
 
@@ -75,12 +80,20 @@ namespace NHS111.Models.Models.Web
         {
             get
             {
-                var rotasesion = CurrentRotaSession;
-                if (rotasesion == null) rotasesion = NextRotaSession;
-                return string.Format("Open {0}: {1} until {2}",
-                    GetDayMessage(rotasesion.Day),
-                    DateTime.Today.Add(rotasesion.OpeningTime).ToString("HH:mm"),
-                    DateTime.Today.Add(rotasesion.ClosingTime).ToString("HH:mm"));
+                if (OpenAllHours) return OpenAllHoursMessage;
+
+                if (RotaSessions == null || !RotaSessions.Any()) return ServiceClosedMessage;
+
+                var rotaSession = CurrentRotaSession;
+                string openingTense = (IsOpen) ? "Open" : "Opens";
+                    
+                if (rotaSession == null) rotaSession = NextRotaSession;
+                
+                return string.Format("{0} {1}: {2} until {3}",
+                    openingTense,
+                    GetDayMessage(rotaSession.Day),
+                    DateTime.Today.Add(rotaSession.OpeningTime).ToString("HH:mm"),
+                    DateTime.Today.Add(rotaSession.ClosingTime).ToString("HH:mm"));
             }
         }
 
@@ -145,8 +158,7 @@ namespace NHS111.Models.Models.Web
                 var nextSession = orderedSessions.First(rs => 
                     ((int)rs.StartDayOfWeek != (int)closedTime.DayOfWeek) 
                     || (new TimeSpan(rs.StartTime.Hours, rs.StartTime.Minutes, 0) > closedTime.TimeOfDay));
-                return new RotaSession() {Day  = (DayOfWeek)nextSession.StartDayOfWeek, OpeningTime = new TimeSpan(nextSession.StartTime.Hours, nextSession.StartTime.Minutes, 0), ClosingTime = new TimeSpan(nextSession.EndTime.Hours, nextSession.EndTime.Minutes, 0) };
-
+                return new RotaSession() { Day = (DayOfWeek)nextSession.StartDayOfWeek, OpeningTime = new TimeSpan(nextSession.StartTime.Hours, nextSession.StartTime.Minutes, 0), ClosingTime = new TimeSpan(nextSession.EndTime.Hours, nextSession.EndTime.Minutes, 0) };
             }
         }
 
@@ -164,7 +176,6 @@ namespace NHS111.Models.Models.Web
     internal class RotaSession
     {
         public TimeSpan OpeningTime { get; set; }
-
         public TimeSpan ClosingTime { get; set; }
         public DayOfWeek Day { get; set; }
     }

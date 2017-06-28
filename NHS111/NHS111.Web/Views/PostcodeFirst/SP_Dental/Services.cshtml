@@ -50,8 +50,6 @@
         <h4>@WebUtility.HtmlDecode(recommendedService.Name)</h4>
         @if (recommendedService.CallbackEnabled)
         {
-            <p>@WebUtility.HtmlDecode(recommendedService.CurrentStatus)</p>
-            <br/>
             <p>They will check through the answers you have entered and give you advice on what to do next</p>
         }
         else if (!string.IsNullOrEmpty(@recommendedService.ContactDetails))
@@ -120,4 +118,4 @@
 
 @Html.Partial("_CareAdvice", Model.CareAdvices, new ViewDataDictionary { { "Title", "What you can do in the meantime" }, { "NoHR", true } })
 
-@Html.Partial("_WorseningAdvice", Model, new ViewDataDictionary() { { "WorseningAdviceClass", "blue" } })
+@Html.Partial("_WorseningAdviceWithTitle", Model)

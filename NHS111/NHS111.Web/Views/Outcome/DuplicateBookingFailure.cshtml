@@ -27,7 +27,7 @@
 
 @{
     var dataDictionary = ViewContext.ViewData;
-    dataDictionary.Add(new KeyValuePair><string, object>("LaunchPage", "duplicate"));
+    dataDictionary.Add(new KeyValuePair<string, object>("LaunchPage", "duplicate"));
 }
 @section SurveyBanner{
     @Html.Partial("_SurveyLink", Model.SurveyLink, dataDictionary)

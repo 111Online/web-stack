@@ -1,29 +1,31 @@
 ﻿@using NHS111.Models.Models.Domain
 @inherits NHS111.Web.Views.Shared.AgeValidationView<NHS111.Models.Models.Web.JourneyViewModel>
 
-<h2 class="heading-large">Tell us about you, or the person you're asking about</h2>
+<h1 class="heading-large gender-heading">Tell us about you, or the person you're asking about</h1>
 
-<h2 class="heading-small">Sex</h2>
-<div>
-    @Html.ValidationMessageFor(m => m.UserInfo.Demography.Gender, "Please select a sex")
-</div>
-<div id="answers">
-    <label for="Male" class="answer answer-label">
-        <span class="answer-radio">
-            @Html.RadioButtonFor(m => m.UserInfo.Demography.Gender, GenderEnum.Male, new { @id = "Male" })
-        </span>
-        <span class="answer-text">Male</span>
-    </label>
-    <label for="Female" class="answer answer-label">
-        <span class="answer-radio">
-            @Html.RadioButtonFor(m => m.UserInfo.Demography.Gender, GenderEnum.Female, new { @id = "Female" })
-        </span>
-        <span class="answer-text">Female</span>
-    </label>
-</div>
+<fieldset>
+    <legend>
+        <h2 class="heading-small">Sex</h2>
+    </legend>
+    <div id="answers">
+    
+        <label for="Male" class="answer answer-label">
+            <span class="answer-radio">
+                @Html.RadioButtonFor(m => m.UserInfo.Demography.Gender, GenderEnum.Male, new { @id = "Male" })
+            </span>
+            <span class="answer-text">Male</span>
+        </label>
+        <label for="Female" class="answer answer-label">
+            <span class="answer-radio">
+                @Html.RadioButtonFor(m => m.UserInfo.Demography.Gender, GenderEnum.Female, new { @id = "Female" })
+            </span>
+            <span class="answer-text">Female</span>
+        </label>
+    </div>
+</fieldset>
 
 <div class="age-content">
-    <h2 class="heading-small">Age in years</h2>
+    <h2 class="heading-small">@Html.LabelFor(m => m.UserInfo.Demography.Age, "Age in years")</h2>
     <div>
         @Html.ValidationMessageFor(m => m.UserInfo.Demography.Age)
     </div>
@@ -65,6 +67,18 @@
         } else
             return false;
     }
+
+    $(document).ready(function () {
+        $('.help-text-link-message').hide();
+        $('.help-text-link').click(function () {
+            var $this = $(this);
+            //$this.preventDefault();
+
+            var $helpTextLinkMessage = $this.parent().parent().next('.help-text-link-message');
+            $helpTextLinkMessage.slideToggle("fast");
+            return false;
+        });
+    });
 
 </script>
 
