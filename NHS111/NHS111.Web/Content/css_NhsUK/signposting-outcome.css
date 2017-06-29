@@ -304,6 +304,12 @@ details summary::-webkit-details-marker {
     font-size: 20px;
     line-height: 28px;
 }
+.phone-service h4 {
+   margin-top: 20px;
+}
+.phone-service h4:first-child {
+   margin-top: 0px;
+}
 @media (max-width: 640px) {
     .alternative-care h4 {
         font-size: 16px;
@@ -402,6 +408,6 @@ details summary::-webkit-details-marker {
 
 .disposition-title-splitter {
     width:20%;
-    border-top: 3px solid white;
+    border-top: 3px solid #76adda;
     margin-left: 10px;
 }
