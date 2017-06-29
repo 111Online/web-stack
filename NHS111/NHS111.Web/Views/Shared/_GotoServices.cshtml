@@ -5,7 +5,7 @@
     var services = Model.DosCheckCapacitySummaryResult.Success.Services;
 }
 
-@if (services.Any(s => !s.CallbackEnabled) || services.Any(s => !s.CallbackEnabled && string.IsNullOrEmpty(s.ContactDetails)))
+@if (services.Any(s => !s.CallbackEnabled && string.IsNullOrEmpty(s.ContactDetails)))
 {
     string title;
     if (ViewData.Keys.Contains("VisitTitle"))
