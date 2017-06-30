@@ -82,6 +82,8 @@ namespace NHS111.Models.Test.Models.Web
             EndTime = new TimeOfDay() { Hours = 18, Minutes = 0 }
         };
 
+        #region IsOpen
+
         [Test]
         public void IsOpen_Returns_True_When_Service_Open_All_Hours()
         {
@@ -92,18 +94,7 @@ namespace NHS111.Models.Test.Models.Web
 
             Assert.IsTrue(service.IsOpen);
         }
-
-        [Test]
-        public void CurrentStatus_Returns_24Hours_When_Service_Open_All_Hours()
-        {
-            var service = new ServiceViewModel()
-            {
-                OpenAllHours = true,
-            };
-
-            Assert.AreEqual("Open today: 24 hours", service.CurrentStatus);
-        }
-
+        
         [Test]
         public void IsOpen_Returns_True_When_Service_Is_Open()
         {
@@ -180,6 +171,22 @@ namespace NHS111.Models.Test.Models.Web
             Assert.IsFalse(service.IsOpen);
         }
 
+        #endregion
+
+        #region CurrentStatus
+
+        [Test]
+        public void CurrentStatus_Returns_24Hours_When_Service_Open_All_Hours()
+        {
+            var service = new ServiceViewModel()
+            {
+                OpenAllHours = true,
+            };
+
+            Assert.AreEqual("Open today: 24 hours", service.CurrentStatus);
+            Assert.AreEqual("Open today: 24 hours", service.ServiceOpeningTimesMessage);
+        }
+
         [Test]
         public void CurrentStatus_Returns_Open_Today_Midnight()
         {
@@ -237,47 +244,10 @@ namespace NHS111.Models.Test.Models.Web
             };
 
             Assert.AreEqual("Open today: 09:00 until 18:00", service.CurrentStatus);
+            Assert.AreEqual("Open today: 09:00 until 18:00", service.ServiceOpeningTimesMessage);
         }
 
-        [Test]
-        public void CurrentStatus_Returns_Correct_Open_Tomorrow_Times()
-        {
-            var clock = new StaticClock(DayOfWeek.Sunday, 22, 35);
-            var service = new ServiceViewModel(clock)
-            {
-                OpenAllHours = false,
-                RotaSessions = new[]
-                {
-                    MONDAY_SESSION,
-                    TUESDAY_SESSION,
-                    WEDNESDAY_SESSION,
-                    THURSDAY_SESSION,
-                    FRIDAY_SESSION,
-                }
-            };
-
-            Assert.AreEqual("Opens tomorrow: 09:30 until 17:00", service.ServiceOpeningTimesMessage);
-        }
-
-        [Test]
-        public void CurrentStatus_Returns_Correct_Open_Day_After_Tomorrow_Times()
-        {
-            var clock = new StaticClock(DayOfWeek.Saturday, 22, 35);
-            var service = new ServiceViewModel(clock)
-            {
-                OpenAllHours = false,
-                RotaSessions = new[]
-                {
-                    MONDAY_SESSION,
-                    TUESDAY_SESSION,
-                    WEDNESDAY_SESSION,
-                    THURSDAY_SESSION,
-                    FRIDAY_SESSION,
-                }
-            };
-
-            Assert.AreEqual("Opens Monday: 09:30 until 17:00", service.ServiceOpeningTimesMessage);
-        }
+ 
 
         [Test]
         public void CurrentStatus_Returns_Correct_Open_Today_Times_When_Time_Before_Todays_Opening()
@@ -299,6 +269,7 @@ namespace NHS111.Models.Test.Models.Web
             };
 
             Assert.AreEqual("Opens today: 09:30 until 17:00", service.CurrentStatus);
+            Assert.AreEqual("Opens today: 09:30 until 17:00", service.ServiceOpeningTimesMessage);
         }
 
         [Test]
@@ -321,7 +292,7 @@ namespace NHS111.Models.Test.Models.Web
             };
 
             Assert.AreEqual("Closed", service.CurrentStatus);
-        }
+       }
 
         [Test]
         public void CurrentStatus_Returns_Closed_When_No_Rota_Session_For_Today()
@@ -342,6 +313,10 @@ namespace NHS111.Models.Test.Models.Web
 
             Assert.AreEqual("Closed", service.CurrentStatus);
         }
+
+        #endregion
+
+        #region OpeningTimes
 
         [Test]
         public void OpeningTimes_Returns_List_Of_Opening_Times()
@@ -444,6 +419,7 @@ namespace NHS111.Models.Test.Models.Web
             };
 
             Assert.AreEqual("Opens today: 08:30 until 11:00", service.CurrentStatus);
+            Assert.AreEqual("Opens today: 08:30 until 11:00", service.ServiceOpeningTimesMessage);
         }
 
         [Test]
@@ -496,27 +472,8 @@ namespace NHS111.Models.Test.Models.Web
                 },
             };
 
+            Assert.AreEqual("Open today: 08:30 until 11:00", service.ServiceOpeningTimesMessage);
             Assert.AreEqual("Open today: 08:30 until 11:00", service.CurrentStatus);
-        }
-
-        [Test]
-        public void ServiceOpeningTimesMessage_Returns_24Hours_When_Service_Open_All_Hours()
-        {
-            var service = new ServiceViewModel()
-            {
-                OpenAllHours = true,
-            };
-
-            Assert.AreEqual("Open today: 24 hours", service.ServiceOpeningTimesMessage);
-        }
-        [Test]
-        public void ServiceOpeningTimesMessage_Returns_Closed_When_Not_Open_All_Hours_And_No_Rotasessions()
-        {
-            var service = new ServiceViewModel()
-            {
-                OpenAllHours = false,
-            };
-            Assert.AreEqual("Closed", service.ServiceOpeningTimesMessage);
         }
 
         [Test]
@@ -532,11 +489,136 @@ namespace NHS111.Models.Test.Models.Web
                     THURSDAY_AFTERNOON_SESSION
                 },
             };
-
+            
             Assert.AreEqual("Open today: 13:00 until 18:00", service.CurrentStatus);
+            Assert.AreEqual("Open today: 13:00 until 18:00", service.ServiceOpeningTimesMessage);
         }
-    }
 
+        #endregion
+
+        #region ServiceOpeningTimes
+
+        [Test]
+        public void ServiceOpeningTimesMessage_Returns_Tomorrow_Closed_Today()
+        {
+            var clock = new StaticClock(DayOfWeek.Wednesday, 12, 30);
+            var service = new ServiceViewModel(clock)
+            {
+                OpenAllHours = false,
+                RotaSessions = new[]
+                {
+                    MONDAY_SESSION,
+                    TUESDAY_SESSION,
+                    THURSDAY_SESSION,
+                    FRIDAY_SESSION,            
+                    SATURDAY_SESSION,
+                    SUNDAY_SESSION
+                }
+            };
+
+            Assert.AreEqual("Opens tomorrow: 09:30 until 17:00", service.ServiceOpeningTimesMessage);
+        }
+
+
+        [Test]
+        public void ServiceOpeningTimesMessage_Returns_Next_Day_Closed_Today()
+        {
+            var clock = new StaticClock(DayOfWeek.Wednesday, 12, 30);
+            var service = new ServiceViewModel(clock)
+            {
+                OpenAllHours = false,
+                RotaSessions = new[]
+                {
+                    TUESDAY_SESSION
+                }
+            };
+
+            Assert.AreEqual("Opens Tuesday: 09:30 until 17:00", service.ServiceOpeningTimesMessage);
+        }
+
+        [Test]
+        public void ServiceOpeningTimesMessage_Returns_First_Session_Of_Two_On_Same_Day_Closed_Today()
+        {
+            var clock = new StaticClock(DayOfWeek.Friday, 12, 30);
+            var service = new ServiceViewModel(clock)
+            {
+                OpenAllHours = false,
+                RotaSessions = new[]
+                {
+                    THURSDAY_AFTERNOON_SESSION,
+                    THURSDAY_MORNING_SESSION
+                }
+            };
+
+            Assert.AreEqual("Opens Thursday: 08:30 until 11:00", service.ServiceOpeningTimesMessage);
+        }
+
+        [Test]
+        public void ServiceOpeningTimesMessage_Returns_Correct_Open_Tomorrow_Times()
+        {
+            var clock = new StaticClock(DayOfWeek.Sunday, 22, 35);
+            var service = new ServiceViewModel(clock)
+            {
+                OpenAllHours = false,
+                RotaSessions = new[]
+                {
+                    MONDAY_SESSION,
+                    TUESDAY_SESSION,
+                    WEDNESDAY_SESSION,
+                    THURSDAY_SESSION,
+                    FRIDAY_SESSION,
+                }
+            };
+
+            Assert.AreEqual("Opens tomorrow: 09:30 until 17:00", service.ServiceOpeningTimesMessage);
+        }
+
+        [Test]
+        public void ServiceOpeningTimesMessage_Returns_Correct_Open_Day_After_Tomorrow_Times()
+        {
+            var clock = new StaticClock(DayOfWeek.Saturday, 22, 35);
+            var service = new ServiceViewModel(clock)
+            {
+                OpenAllHours = false,
+                RotaSessions = new[]
+                {
+                    MONDAY_SESSION,
+                    TUESDAY_SESSION,
+                    WEDNESDAY_SESSION,
+                    THURSDAY_SESSION,
+                    FRIDAY_SESSION,
+                }
+            };
+
+            Assert.AreEqual("Opens Monday: 09:30 until 17:00", service.ServiceOpeningTimesMessage);
+        }
+
+        [Test]
+        public void ServiceOpeningTimesMessage_Returns_24Hours_When_Service_Open_All_Hours()
+        {
+            var service = new ServiceViewModel()
+            {
+                OpenAllHours = true,
+            };
+
+            Assert.AreEqual("Open today: 24 hours", service.CurrentStatus);
+            Assert.AreEqual("Open today: 24 hours", service.ServiceOpeningTimesMessage);
+        }
+        [Test]
+        public void ServiceOpeningTimesMessage_Returns_Closed_When_Not_Open_All_Hours_And_No_Rotasessions()
+        {
+            var service = new ServiceViewModel()
+            {
+                OpenAllHours = false,
+            };
+
+            Assert.AreEqual("Closed", service.CurrentStatus);
+            Assert.AreEqual("Closed", service.ServiceOpeningTimesMessage);
+        }
+
+        #endregion
+    }
+    
     public class StaticClock : IClock
     {
         private readonly DayOfWeek _day;
