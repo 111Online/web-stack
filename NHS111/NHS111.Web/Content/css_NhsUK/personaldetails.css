@@ -88,6 +88,7 @@
     background-image: url("/content/images/icons/icon-button-next.svg");
     background-repeat: no-repeat;
     background-position: 85% 60%;
+    -webkit-appearance: none;
 }
 
 .select-address {
