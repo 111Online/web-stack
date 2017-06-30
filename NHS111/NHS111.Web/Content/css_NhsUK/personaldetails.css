@@ -10,7 +10,7 @@
     background-position: 85% 60%;
     font-size: 18px;
 }
-
+input[type=submit], input[type=Reset]{ -webkit-appearance:none; }
 @media screen and (min-width: 641px) {
     .button-link {
         background-position: 100% 50%;
