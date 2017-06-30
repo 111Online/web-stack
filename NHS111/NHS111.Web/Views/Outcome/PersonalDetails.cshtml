@@ -87,7 +87,6 @@
         toggleInformant($('#Informant'));
     });
 
-    $('#submitDetails').css('cursor', 'pointer');
     $(document).on('click', '#submitDetails', function (event) {
         if ($("#personalDetailForm").valid()) startPageLoadingIndicator('Contacting your selected service...');
     });
