@@ -54,13 +54,14 @@
         }
         else if (!string.IsNullOrEmpty(@recommendedService.ContactDetails))
         {
+            <p>@WebUtility.HtmlDecode(recommendedService.ServiceOpeningTimesMessage)</p>
             <p>Please phone this service for advice: @recommendedService.ContactDetails</p>
          
         }
         else
         {
             <p>@WebUtility.HtmlDecode(recommendedService.Address)</p>
-            <p>@WebUtility.HtmlDecode(recommendedService.CurrentStatus)</p>
+            <p>@WebUtility.HtmlDecode(recommendedService.ServiceOpeningTimesMessage)</p>
             <p>You don't need to call this service, you can go there during the times shown above.</p>
         }
     </div>
