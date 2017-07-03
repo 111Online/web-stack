@@ -27,7 +27,7 @@
             {
                 <h4 class="service-title">@WebUtility.HtmlDecode(service.Name)</h4>
                 <p>@WebUtility.HtmlDecode(service.Address)</p>
-                <p>@WebUtility.HtmlDecode(service.CurrentStatus)</p>
+                <p>@WebUtility.HtmlDecode(service.ServiceOpeningTimesMessage)</p>
                 <p>You don't need to call this service, you can go there during the times shown above.</p>
                 using (Html.BeginForm("GetDirections", "Outcome", FormMethod.Post))
                 {
