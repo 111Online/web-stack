@@ -80,8 +80,8 @@
       <HintPath>..\packages\Newtonsoft.Json.9.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="NHS111.IoC, Version=1.0.0.26, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\NHS111.IoC.1.0.0.26\lib\net451\NHS111.IoC.dll</HintPath>
+    <Reference Include="NHS111.IoC, Version=1.0.0.30, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\NHS111.IoC.1.0.0.30\lib\net451\NHS111.IoC.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="StructureMap, Version=4.0.1.318, Culture=neutral, processorArchitecture=MSIL">
