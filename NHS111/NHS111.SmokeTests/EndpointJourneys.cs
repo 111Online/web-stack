@@ -86,7 +86,7 @@ namespace NHS111.SmokeTests
                 .Answer(4)
                 .Answer(6)
                 .Answer(3)
-                .AnswerForDispostion("No");
+                .AnswerForDispostion(3);
 
             outcomePage.VerifyOutcome("Based on your answers, you can look after yourself and don't need to see a healthcare professional");
            // outcomePage.VerifyHeaderOtherInfo("Based on your answers you do not need to see a healthcare profesional at this time.\r\nPlease see the advice below on how to look after yourself");
@@ -106,9 +106,10 @@ namespace NHS111.SmokeTests
                 .AnswerSuccessiveByOrder(3, 5)
                 .AnswerForDispostion("No - I've not taken any painkillers");
 
-            outcomePage.VerifyOutcome("Your answers suggest you should see a dentist within 5 working days");
-            outcomePage.VerifyWorseningPanel(WorseningMessages.Call111);
-            outcomePage.VerifyFindService(FindServiceTypes.Dental);
+            outcomePage.EnterPostCodeAndSubmit("LS17 7NZ");
+
+            outcomePage.VerifyOutcome("See a dentist in the next few days");
+            outcomePage.VerifyWorseningPanel(WorseningMessages.Call111PostCodeFirst);
             outcomePage.VerifyCareAdviceHeader("What you can do in the meantime");
             outcomePage.VerifyCareAdvice(new string[] { "Toothache", "Medication, pain and/or fever" });
         }
@@ -254,7 +255,7 @@ namespace NHS111.SmokeTests
          
 
             outcomePage.VerifyOutcome("You should speak to your GP practice within the next 2 hours");
-            outcomePage.VerifyWorseningPanel(WorseningMessages.Call111);
+            outcomePage.VerifyWorseningPanel(WorseningMessages.Call111PostCodeFirst);
             outcomePage.VerifyCareAdviceHeader("What you can do in the meantime");
             outcomePage.VerifyCareAdvice(new string[] { "Medication, pain and/or fever", "Headache" });
        }

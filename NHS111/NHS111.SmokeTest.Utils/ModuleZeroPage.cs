@@ -18,7 +18,7 @@ namespace NHS111.SmokeTest.Utils
         [FindsBy(How = How.ClassName, Using = "button-next")]
         public IWebElement NoneApplyButton { get; set; }
 
-        [FindsBy(How = How.CssSelector, Using = "h2.heading-large")]
+        [FindsBy(How = How.CssSelector, Using = "h1.heading-large")]
         public IWebElement Header { get; set; }
 
 
