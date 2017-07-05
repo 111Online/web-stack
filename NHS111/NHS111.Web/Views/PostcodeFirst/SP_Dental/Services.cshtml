@@ -58,7 +58,7 @@
         }
         else if (!string.IsNullOrEmpty(@recommendedService.ContactDetails))
         {
-            <p>Phone: <a href="tel: @recommendedService.ContactDetails">@recommendedService.ContactDetails</a> for advice</p>
+            <p>Phone: @WebUtility.HtmlDecode(recommendedService.ContactDetails) for advice</p>
             <p>@WebUtility.HtmlDecode(recommendedService.ServiceOpeningTimesMessage)</p>
             <p>You can phone this service for advice during the times shown above.</p>        
         }
