@@ -76,7 +76,7 @@
 
             if (Model.UserInfo.CurrentAddress.IsPostcodeFirst)
             {
-                <h1 id="strap-line">You've answered the questions</h1>
+                <h1 id="strap-line" class="element-invisible">You've answered the questions</h1>
                 <h2>Now we can tell you what to do next</h2>
             }
             <div class="symptoms-find-container">
@@ -86,8 +86,12 @@
                         <p class="field-validation-error" id="NoDosResults">Sorry, no results were found for this postcode.</p>
                         <p class="field-validation-error">Please check you have entered the postcode correctly, then try again. <br /> If the search still gives no results, please call 111 for advice.</p>
                     }
+                    @if (!Model.UserInfo.CurrentAddress.IsPostcodeFirst)
+                    {
+                        <h1 class="heading-small">If you enter your postcode now, we can find services that can help you</h1>
+                    }
                     @Html.ValidationMessageFor(m => m.UserInfo.CurrentAddress.Postcode)
-                    <label for="UserInfo_CurrentAddress_Postcode">@(Model.UserInfo.CurrentAddress.IsPostcodeFirst ? Html.Raw("Enter your postcode for services that can help you <span class=\"de-emphasised\">(optional)<span>") : Html.Raw("If you enter your postcode now, we can find services that can help you"))</label>
+                    @(Model.UserInfo.CurrentAddress.IsPostcodeFirst ? Html.Raw("<label for=\"UserInfo_CurrentAddress_Postcode\">Enter your postcode for services that can help you <span class=\"de-emphasised\">(optional)<span></label>") : Html.Raw("<label for=\"UserInfo_CurrentAddress_Postcode\" class=\"alwayshidden\">Postcode required</label>"))
                     @Html.TextBoxFor(m => m.UserInfo.CurrentAddress.Postcode, new { @class = "form-control " + (error ? "error" : "") })
                     <button class="button button-next" type="submit" name="DosResults" id="DosLookup">Next</button>
                 </div>
