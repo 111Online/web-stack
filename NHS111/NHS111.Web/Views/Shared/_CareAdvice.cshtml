@@ -6,11 +6,11 @@
     }
     <div class="care-advice">
 
-        <h3 class="self-care-title">@Html.Raw((!ViewData.Keys.Contains("Title") ? "Looking after yourself" : ViewData["Title"]))</h3>
+        <h2 class="self-care-title">@Html.Raw((!ViewData.Keys.Contains("Title") ? "Looking after yourself" : ViewData["Title"]))</h2>
         <div>
             @foreach (var careAdvice in Model) {
                 if (careAdvice.Items != null && careAdvice.Items.Any()) {
-                    <h4 id="Advice_@careAdvice.Id" class="self-care-title">@careAdvice.Keyword</h4>
+                    <h3 id="Advice_@careAdvice.Id" class="self-care-title">@careAdvice.Keyword</h3>
                     @Html.Hidden(careAdvice.Id)
                     <ul>
                         @foreach (var parent in careAdvice.Items) {
