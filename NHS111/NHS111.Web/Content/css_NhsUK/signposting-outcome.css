@@ -266,6 +266,9 @@ details summary::-webkit-details-marker {
         margin-bottom: 20px;
     }
 }
+.worsening-advice-icon h2 {
+    margin-top: 0;
+}
 .worsening-advice-icon.blue {
     background-image: url(/content/images/icons/warning-blue.png);
     background-position: 20px center;

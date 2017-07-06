@@ -2,38 +2,45 @@
 @model OutcomeViewModel
 
 <div class="personal-details-content">
-    <label>
-        Full name
-    </label>
-    <div>
-        @Html.ValidationMessageFor(m => m.UserInfo.FirstName, "Please enter first name")
-        @Html.ValidationMessageFor(m => m.UserInfo.LastName, "Please enter last name")
-    </div>
-    <div class="inline-details">
-        @Html.TextBoxFor(m => m.UserInfo.FirstName, new { @class = "form-control form-control-10-chars", placeholder = "First name" })
-        @Html.TextBoxFor(m => m.UserInfo.LastName, new { @class = "form-control form-control-10-chars", placeholder = "Last name" })
-    </div>
+    <fieldset>
+        <legend>Full name</legend>
+        <div>
+            @Html.ValidationMessageFor(m => m.UserInfo.FirstName, "Please enter first name")
+        </div>
+        <div>
+            @Html.ValidationMessageFor(m => m.UserInfo.LastName, "Please enter last name")
+        </div>
+        <div class="inline-details">
+            @Html.LabelFor(m => m.UserInfo.FirstName, new {@class = "hidden"})
+            @Html.TextBoxFor(m => m.UserInfo.FirstName, new {@class = "form-control form-control-10-chars", placeholder = "First name"})
+            @Html.LabelFor(m => m.UserInfo.LastName, new {@class = "hidden"})
+            @Html.TextBoxFor(m => m.UserInfo.LastName, new {@class = "form-control form-control-10-chars", placeholder = "Last name"})
+        </div>
+    </fieldset>
 
-    <label>
-        Date of birth
-    </label>
-    <div>@Html.ValidationMessageFor(m => m.UserInfo.Day, "Please enter a valid day")</div>
-    <div>@Html.ValidationMessageFor(m => m.UserInfo.Month, "Please enter a valid month")</div>
-    <div>@Html.ValidationMessageFor(m => m.UserInfo.Year, "Please enter a valid year")</div>
-    <div>@Html.ValidationMessageFor(m => m.UserInfo.DoB, "Please enter a valid date")</div>
-    <label class="form-hint">
-        For example 18 04 1973
-    </label>
-    <div class="inline-details">
-        @Html.TextBoxFor(m => m.UserInfo.Day, new { @class = "form-control form-control-2-chars date-2-chars", placeholder = "DD", type = "number", maxlength = "2" })
-        @Html.TextBoxFor(m => m.UserInfo.Month, new { @class = "form-control form-control-2-chars date-2-chars", placeholder = "MM", type = "number", maxlength = "2" })
-        @Html.TextBoxFor(m => m.UserInfo.Year, new { @class = "form-control form-control-4-chars date-4-chars", placeholder = "YYYY", type = "number", maxlength = "4" })
-        @Html.HiddenFor(m => m.UserInfo.DoB)
-    </div>
+    <fieldset>
+        <legend>Date of birth</legend>
+        <div>@Html.ValidationMessageFor(m => m.UserInfo.Day, "Please enter a valid day")</div>
+        <div>@Html.ValidationMessageFor(m => m.UserInfo.Month, "Please enter a valid month")</div>
+        <div>@Html.ValidationMessageFor(m => m.UserInfo.Year, "Please enter a valid year")</div>
+        <div>@Html.ValidationMessageFor(m => m.UserInfo.DoB, "Please enter a valid date")</div>
+        <p class="form-hint">
+            For example 18 04 1973
+        </p>
+        <div class="inline-details">
+            @Html.LabelFor(m => m.UserInfo.Day, new { @class = "hidden" })
+            @Html.TextBoxFor(m => m.UserInfo.Day, new {@class = "form-control form-control-2-chars date-2-chars", placeholder = "DD", type = "number", maxlength = "2"})
+            @Html.LabelFor(m => m.UserInfo.Month, new { @class = "hidden" })
+            @Html.TextBoxFor(m => m.UserInfo.Month, new {@class = "form-control form-control-2-chars date-2-chars", placeholder = "MM", type = "number", maxlength = "2"})
+            @Html.LabelFor(m => m.UserInfo.Year, new { @class = "hidden" })
+            @Html.TextBoxFor(m => m.UserInfo.Year, new {@class = "form-control form-control-4-chars date-4-chars", placeholder = "YYYY", type = "number", maxlength = "4"})
+            @Html.HiddenFor(m => m.UserInfo.DoB)
+        </div>
+    </fieldset>
 
     @{
         var dataDictionary = ViewContext.ViewData;
-        dataDictionary.TemplateInfo = new TemplateInfo { HtmlFieldPrefix = "AddressInfoViewModel" };
+        dataDictionary.TemplateInfo = new TemplateInfo {HtmlFieldPrefix = "AddressInfoViewModel"};
     }
     @Html.Partial("_PersonalPostCodeSearch", Model.AddressInfoViewModel, dataDictionary)
 </div>
