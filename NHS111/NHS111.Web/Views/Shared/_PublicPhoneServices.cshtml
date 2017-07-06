@@ -17,7 +17,7 @@
         var serviceCount = services.Count(s => !s.CallbackEnabled && !string.IsNullOrEmpty(s.ContactDetails));
         title = serviceCount > 1 ? "There are " + serviceCount + " places you can phone" : "There is 1 place you can phone";
     }
-    <h5 id="alternative-service-go-to-link">@title</h5>
+    <h3 id="alternative-service-go-to-link" class="heading-small">@title</h3>
     <div class="alternative-care-service">
         @if (Model.Id == "Dx08" && Model.UserInfo.CurrentAddress.IsPostcodeFirst)
         {
@@ -26,7 +26,7 @@
         <div class="alternative-care-service phone-service content">
             @foreach (var service in services.Where(s => !s.CallbackEnabled && !string.IsNullOrEmpty(s.ContactDetails)))
             {
-                <h4 class="service-title">@WebUtility.HtmlDecode(service.Name)</h4>
+                <h4 class="service-title heading-small">@WebUtility.HtmlDecode(service.Name)</h4>
                 <p>Phone: <a href="tel: @service.ContactDetails">@service.ContactDetails</a> for advice</p>
                 <p>@WebUtility.HtmlDecode(service.ServiceOpeningTimesMessage)</p>
                 <p>You can phone this service for advice during the times shown above.</p>
