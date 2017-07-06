@@ -1610,53 +1610,60 @@ h1, h2, h3, h4, h5, h6 {
       padding-top: 1.33380375rem; } }
 
 .heading-large, .markdown-content h1 {
-  font-size: 36px;
-  line-height: 40px;
-  margin-bottom: 40px; }
-  @media screen and (min-width: 40em) {
-    .heading-large, .markdown-content h1 {
-      font-size: 40px;
-      line-height: 52px;
-      margin: 40px 0;
-      padding-top: 1px;
-    } }
-
-.heading-medium, .markdown-content h2 {
-  font-size: 24px;
-  line-height: 28px;
-  margin-bottom: 10px;
-  padding-top: 0.963595rem; }
-  @media screen and (min-width: 40em) {
-    .heading-medium, .markdown-content h2 {
-      font-size: 28px;
-      line-height: 32px;
-      margin-bottom: 10px;
-      padding-top: 0.916735rem;
-    } }
-
-.heading-small, .markdown-content h3 {
-  font-size: 16px;
-  line-height: 20px;
-  margin-bottom: 10px;
-  padding-top: 0.58751rem; }
-  @media screen and (min-width: 40em) {
-    .heading-small, .markdown-content h3 {
-      font-size: 20px;
-      line-height: 24px;
-      margin-bottom: 10px;
-      padding-top: 0.58751rem; } }
-
-p {
-  line-height: 20px;
-  font-size: 16px;
-  padding-top: 5px;
-
+    text-transform: none;
+    font-size: 24px;
+    line-height: 1.04167;
+    margin-top: 1.04167em;
+    margin-bottom: 0.41667em;
 }
-  @media screen and (min-width: 40em) {
+@media screen and (min-width: 40em) {
+    .heading-large, .markdown-content h1 {
+        margin-top: 1.25em;
+        margin-bottom: 0.55556em;
+        font-size: 36px;
+        line-height: 1.11111;
+    }
+}
+.heading-medium, .markdown-content h2 {
+    text-transform: none;
+    font-size: 18px;
+    line-height: 1.2;
+    margin-top: 1.25em;
+    margin-bottom: 0.5em;
+}
+@media screen and (min-width: 40em) {
+    .heading-medium, .markdown-content h2 {
+        margin-top: 1.875em;
+        margin-bottom: 0.83333em;
+        font-size: 24px;
+        line-height: 1.25;
+    }
+}
+.heading-small, .markdown-content h3 {
+    text-transform: none;
+    font-size: 16px;
+    line-height: 1.25;
+    margin-top: 0.625em;
+    margin-bottom: 0.3125em;
+}
+@media screen and (min-width: 40em) {
+    .heading-small, .markdown-content h3 {
+        margin-top: 1.05263em;
+        font-size: 19px;
+        line-height: 1.31579;
+    }
+}
+p {
+    font-size: 16px;
+    line-height: 1.25;
+    padding-top: 5px;
+}
+@media screen and (min-width: 40em) {
     p {
-      font-size: 20px;
-      line-height: 24px;
-    } }
+        font-size: 19px;
+        line-height: 1.31579;
+    }
+}
 
 .lede, .planner h2 {
   font-size: 1.9506rem;
@@ -2363,13 +2370,8 @@ button[disabled=disabled] {
     padding: 40px;
     color: #fff;
 }
-
-.outcome-header h2, .outcome-header h3 {
+.outcome-header h1, .outcome-header h2, .outcome-header h3 {
     margin: 10px;
-}
-.outcome-header h4 {
-    margin: 10px;
-    font-size: 1.8rem;
 }
 .outcome-header .button {
     color: black;
@@ -2465,10 +2467,6 @@ button[disabled=disabled] {
     }
 }
 @media (max-width: 360px) {
-    .heading-large {
-        font-size: 20px;
-        line-height: 28px;
-    }
     .button-next {
         padding-left: 8px;
         padding-right: 5em;
