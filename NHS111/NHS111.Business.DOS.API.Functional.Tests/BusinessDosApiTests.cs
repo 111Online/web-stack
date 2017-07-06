@@ -41,13 +41,13 @@
                 await
                     _restfulHelper.PostAsync(BusinessDosCheckCapacitySummaryUrl,
                         RequestFormatting.CreateHTTPRequest(
-                            "{\"ServiceVersion\":\"1.3\",\"UserInfo\":{\"Username\":\"" + DOSApiUsername + "\",\"Password\":\"" + DOSApiPassword + "\"},\"c\":{\"Postcode\":\"HP21 8AL\"}}", string.Empty));
+                            "{\"PostCode\":\"HP21 8AL\", \"Age\":22, \"Gender\":\"M\"}", string.Empty));
 
             var resultContent = await result.Content.ReadAsStringAsync();
             dynamic jsonResult = Newtonsoft.Json.Linq.JObject.Parse(resultContent);
             JArray summaryResult = jsonResult.CheckCapacitySummaryResult;
             dynamic firstService = summaryResult[0];
-            var serviceTypeField = firstService.serviceTypeField;
+            var serviceTypeField = firstService.ServiceTypeField;
 
             AssertResponse(firstService);
             //Assert.IsNotNull(serviceTypeField.idField);
@@ -57,36 +57,29 @@
 
         private void AssertResponse(dynamic response)
         {
-            dynamic serviceTypeField = response.serviceTypeField;
+            dynamic serviceTypeField = response.ServiceTypeField;
             Assert.IsNotNull(serviceTypeField.idField);
             Assert.IsNotNull(serviceTypeField.nameField);
-            Assert.IsNotNull(serviceTypeField.PropertyChanged);
 
-            dynamic rootParentField = response.rootParentField;
-            Assert.IsNotNull(rootParentField.idField);
-            Assert.IsNotNull(rootParentField.nameField);
-            Assert.IsNotNull(rootParentField.PropertyChanged);
-
-            Assert.IsNotNull(response.idField);
-            Assert.IsNotNull(response.capacityField);
-            Assert.IsNotNull(response.nameField);
-            Assert.IsNotNull(response.contactDetailsField);
-            Assert.IsNotNull(response.addressField);
-            Assert.IsNotNull(response.postcodeField);
-            Assert.IsNotNull(response.northingsField);
-            Assert.IsNotNull(response.northingsFieldSpecified);
-            Assert.IsNotNull(response.eastingsField);
-            Assert.IsNotNull(response.eastingsFieldSpecified);
-            Assert.IsNotNull(response.urlField);
-            Assert.IsNotNull(response.notesField);
-            Assert.IsNotNull(response.obsoleteField);
-            Assert.IsNotNull(response.updateTimeField);
-            Assert.IsNotNull(response.openAllHoursField);
-            Assert.IsNotNull(response.rotaSessionsField);
-            Assert.IsNotNull(response.serviceTypeField);
-            Assert.IsNotNull(response.odsCodeField);
-            Assert.IsNotNull(response.rootParentField);
-            Assert.IsNotNull(response.PropertyChanged);
+            Assert.IsNotNull(response.IdField);
+            Assert.IsNotNull(response.CapacityField);
+            Assert.IsNotNull(response.NameField);
+            Assert.IsNotNull(response.ContactDetailsField);
+            Assert.IsNotNull(response.AddressField);
+            Assert.IsNotNull(response.PostcodeField);
+            Assert.IsNotNull(response.NorthingsField);
+            Assert.IsNotNull(response.NorthingsSpecifiedField);
+            Assert.IsNotNull(response.EastingsField);
+            Assert.IsNotNull(response.EastingsSpecifiedField);
+            Assert.IsNotNull(response.UrlField);
+            Assert.IsNotNull(response.NotesField);
+            Assert.IsNotNull(response.ObsoleteField);
+            Assert.IsNotNull(response.UpdateTimeField);
+            Assert.IsNotNull(response.OpenAllHoursField);
+            Assert.IsNotNull(response.RotaSessionsField);
+            Assert.IsNotNull(response.ServiceTypeField);
+            Assert.IsNotNull(response.OdsCodeField);
+            Assert.IsNotNull(response.RootParentField);
         }
 
         [Test]

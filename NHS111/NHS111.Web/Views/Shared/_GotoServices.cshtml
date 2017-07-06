@@ -5,7 +5,7 @@
     var services = Model.DosCheckCapacitySummaryResult.Success.Services;
 }
 
-@if (services.Any(s => !s.CallbackEnabled))
+@if (services.Any(s => !s.CallbackEnabled && string.IsNullOrEmpty(s.ContactDetails)))
 {
     string title;
     if (ViewData.Keys.Contains("VisitTitle"))
@@ -14,20 +14,20 @@
     }
     else
     {
-        var serviceCount = services.Where(s => !s.CallbackEnabled).Count(s => !s.CallbackEnabled);
+        var serviceCount = services.Count(s => !s.CallbackEnabled && string.IsNullOrEmpty(s.ContactDetails));
         title = serviceCount > 1 ? "There are " + serviceCount + " places you can visit" : "There is 1 place you can visit";
     }
-    <h5>@title</h5>
+    <h5 id="alternative-service-go-to-link">@title</h5>
     <div class="alternative-care-service">
         @if (Model.Id == "Dx08" && Model.UserInfo.CurrentAddress.IsPostcodeFirst) {
             <ul><li>Your own GP should already know about any medicines you’re taking. If you see a different GP, tell them about your medicines</li></ul>
         }
         <div class="alternative-care-service content">
-            @foreach (var service in services.Where(s => !s.CallbackEnabled))
+            @foreach (var service in services.Where(s => !s.CallbackEnabled  && string.IsNullOrEmpty(s.ContactDetails)))
             {
                 <h4 class="service-title">@WebUtility.HtmlDecode(service.Name)</h4>
                 <p>@WebUtility.HtmlDecode(service.Address)</p>
-                <p>@WebUtility.HtmlDecode(service.CurrentStatus)</p>
+                <p>@WebUtility.HtmlDecode(service.ServiceOpeningTimesMessage)</p>
                 <p>You don't need to call this service, you can go there during the times shown above.</p>
                 using (Html.BeginForm("GetDirections", "Outcome", FormMethod.Post))
                 {

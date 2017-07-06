@@ -48,7 +48,6 @@ namespace NHS111.DOS.Domain.API.Functional.Tests
             dynamic jsonResult = Newtonsoft.Json.Linq.JObject.Parse(resultContent);
             JArray summaryResult = jsonResult.CheckCapacitySummaryResult;
             dynamic firstService = summaryResult[0];
-            dynamic serviceTypeField = firstService.serviceTypeField;
 
             AssertResponse(firstService);
             //Assert.IsNotNull(serviceTypeField.idField);
@@ -62,12 +61,6 @@ namespace NHS111.DOS.Domain.API.Functional.Tests
             dynamic serviceTypeField = response.serviceTypeField;
             Assert.IsNotNull(serviceTypeField.idField);
             Assert.IsNotNull(serviceTypeField.nameField);
-            Assert.IsNotNull(serviceTypeField.PropertyChanged);
-
-            dynamic rootParentField = response.rootParentField;
-            Assert.IsNotNull(rootParentField.idField);
-            Assert.IsNotNull(rootParentField.nameField);
-            Assert.IsNotNull(rootParentField.PropertyChanged);
 
             Assert.IsNotNull(response.idField);
             Assert.IsNotNull(response.capacityField);
@@ -81,14 +74,11 @@ namespace NHS111.DOS.Domain.API.Functional.Tests
             Assert.IsNotNull(response.eastingsFieldSpecified);
             Assert.IsNotNull(response.urlField);
             Assert.IsNotNull(response.notesField);
-            Assert.IsNotNull(response.obsoleteField);
-            Assert.IsNotNull(response.updateTimeField);
+
             Assert.IsNotNull(response.openAllHoursField);
             Assert.IsNotNull(response.rotaSessionsField);
             Assert.IsNotNull(response.serviceTypeField);
             Assert.IsNotNull(response.odsCodeField);
-            Assert.IsNotNull(response.rootParentField);
-            Assert.IsNotNull(response.PropertyChanged);
 
         }
 

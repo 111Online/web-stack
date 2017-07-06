@@ -15,7 +15,7 @@ namespace NHS111.SmokeTest.Utils
 
         private string _headerText = "Tell us about you, or the person you're asking about";
 
-        [FindsBy(How = How.CssSelector, Using = "h2.heading-large")]
+        [FindsBy(How = How.CssSelector, Using = "h1.heading-large")]
         public IWebElement Header { get; set; }
 
 

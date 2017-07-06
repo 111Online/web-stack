@@ -1,0 +1,112 @@
+﻿@using NHS111.Models.Models.Web
+@inherits NHS111.Web.Views.Shared.SurveyLinkView<OutcomeViewModel>
+@{
+    ViewBag.Title = "ITK_Primary_care";
+    Layout = "~/Views/Shared/_LayoutNhsUK.cshtml";
+}
+@section HeadTop {
+    @{ var url = string.Format("/outcome/{0}/{1}/{2}/services/", Url.Encode(Model.PathwayNo), Url.Encode(Model.OutcomeGroup.Text), Url.Encode(Model.Id)); }
+    <script>
+        var pageId = '@Model.Id';
+        dataLayer = [
+        {
+            'virtualPageUrl': '@url',
+            'virtualPageTitle': '@Model.OutcomeGroup.Text'
+        }];
+    </script>
+}
+
+@{
+    // can only get here if at least one service so should never be null
+    // if that ever changes a check may need to be included here to prevent custard screen
+    var services = Model.DosCheckCapacitySummaryResult.Success.Services;
+    var recommendedService = services.First();
+}
+
+@section Title { NHS 111 - Contact a healthcare service }
+<link href="@NHS111.Web.Helpers.Versioning.GetVersionedUriRef("~/Content/css_NhsUK/confirmation.css")" media="all" rel="stylesheet" type="text/css">
+<link href="@NHS111.Web.Helpers.Versioning.GetVersionedUriRef("~/Content/css_NhsUK/disposition.css")" media="all" rel="stylesheet" type="text/css">
+<link href="@NHS111.Web.Helpers.Versioning.GetVersionedUriRef("~/Content/css_NhsUK/signposting-outcome.css")" media="all" rel="stylesheet" type="text/css" />
+<link href="@NHS111.Web.Helpers.Versioning.GetVersionedUriRef("~/Content/css_NhsUK/signposting-outcome-print.css")" media="print" rel="stylesheet" type="text/css" />
+
+@section SurveyBanner{
+    @Html.Partial("_SurveyLink", Model.SurveyLink)
+}
+
+@section FeedbackSection {
+    @if (!SurveyLinkFeature.IsEnabled)
+    {
+        @Html.Partial("_FeedbackDetails", new FeedbackViewModel() { UserId = Model.SessionId.ToString(), PageId = Model.Id });
+    }
+    else
+    {
+        @Html.Partial("_SurveyLink", Model.SurveyLink)
+    }
+}
+
+<section>
+    <div class="outcome-header">
+        <h2 class="heading-large">Recommended service</h2>
+        <h4>@WebUtility.HtmlDecode(recommendedService.Name)</h4>
+        @if (recommendedService.CallbackEnabled)
+        {
+            <p>@WebUtility.HtmlDecode(recommendedService.CurrentStatus)</p>
+            <br/>
+            <p>They will check through the answers you have entered and give you advice on what to do next</p>
+        }
+        else
+        {
+            <p>@WebUtility.HtmlDecode(recommendedService.Address)</p>
+            <p>@WebUtility.HtmlDecode(recommendedService.ServiceOpeningTimesMessage)</p>
+            <p>You don't need to call this service, you can go there during the times shown above.</p>
+        }
+    </div>
+</section>
+
+<div class="alternative-care-service">
+    @if (recommendedService.CallbackEnabled)
+    {
+        using (Html.BeginForm("PersonalDetails", "Outcome", FormMethod.Post))
+        {
+            @Html.Partial("_CommonHiddenFieldsOutcomeViewModel", Model)
+            @Html.Partial("_CommonHiddenFieldsCareAdviceViewModel", Model)
+            @Html.Hidden("SelectedServiceId", recommendedService.Id)
+            @Html.Hidden("SelectedService_Name", recommendedService.Name)
+            <div class="service-call">
+                <input class="button alternative-care-button-link" type="submit" name="PersonalDetails" value="Book a call"/>
+            </div>
+        }
+    }
+    else
+    {
+        if (Model.Id == "Dx08")
+        {
+            <ul><li>Your own GP should already know about any medicines you’re taking. If you see a different GP, tell them about your medicines</li></ul>
+        }
+        using (Html.BeginForm("GetDirections", "Outcome", FormMethod.Post))
+        {
+            @Html.HiddenFor(m => m.SessionId)
+            @Html.HiddenFor(m => m.JourneyId)
+            @Html.HiddenFor(m => m.JourneyJson)
+            @Html.HiddenFor(m => m.Id)
+            @Html.Hidden("SelectedServiceId", recommendedService.Id)
+            @Html.Hidden("SelectedServiceName", recommendedService.Name)
+            @Html.Hidden("SelectedServiceAddress", recommendedService.Address)
+            <div class="service-call">
+                <input class="button alternative-care-button-link" type="submit" value="Get directions" />
+            </div>
+        }
+    }
+</div>
+
+<hr class="alternative-care-hr" />
+@{
+    Model.DosCheckCapacitySummaryResult.Success.Services.RemoveAt(0);
+}
+@Html.Partial("_AlternativeServices", Model, new ViewDataDictionary { { "Title", "Other services" }, { "VisitTitle", "Places you can visit" }, { "CallbackTitle", "Places that can phone you" }, {"PhoneTitle", "Places you can phone" }})
+
+<hr class="alternative-care-hr" />
+
+@Html.Partial("_CareAdvice", Model.CareAdvices, new ViewDataDictionary { { "Title", "What you can do in the meantime" }, { "NoHR", true } })
+
+@Html.Partial("_WorseningAdviceWithTitle", Model)

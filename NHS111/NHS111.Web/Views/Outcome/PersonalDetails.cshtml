@@ -73,7 +73,7 @@
                         By clicking Submit my details, you agree to share your information with other NHS organisations.
                         See our @Html.ActionLink("privacy policy", "Privacy", "Help", null, new { target = "_blank" }) for more information.
                     </p>
-                    <input type="submit" class="button button-submit-details" value="Submit my details" id="submitDetails" />
+                    <button type="submit" class="button button-submit-details" id="submitDetails">Submit my details</button>
                 </div>
             </div>
         </div>
@@ -87,7 +87,6 @@
         toggleInformant($('#Informant'));
     });
 
-    $('#submitDetails').css('cursor', 'pointer');
     $(document).on('click', '#submitDetails', function (event) {
         if ($("#personalDetailForm").valid()) startPageLoadingIndicator('Contacting your selected service...');
     });

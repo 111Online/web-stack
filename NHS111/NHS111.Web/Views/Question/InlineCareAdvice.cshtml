@@ -5,7 +5,8 @@
 
 <link href="@NHS111.Web.Helpers.Versioning.GetVersionedUriRef("~/content/css_NhsUk/question.css")" media="screen" rel="stylesheet" type="text/css" />
 
-@section Title {}
+@section Title  {NHS 111 Online - @Model.TitleWithoutBullets}
+
 
 @section HeadTop {
     @{ var url = string.Format("/{0}/{1}/{2}/", Url.Encode(Model.PathwayId), Url.Encode(Model.PathwayTitle), Url.Encode(Model.QuestionNo)); }
@@ -31,7 +32,7 @@
         Html.Raw("<!-- DIRECT LINK: " + Model.StepLink + " -->");
     }
 
-    <h2 class="heading-large">Before you continue, here's some advice for you to follow</h2>
+    <h1 class="heading-large">Before you continue, here's some advice for you to follow</h1>
 
     <div id="answers">
         <ul class="bulleted">

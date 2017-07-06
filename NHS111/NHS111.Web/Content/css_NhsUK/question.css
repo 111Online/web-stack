@@ -20,11 +20,16 @@ label.answer {
       line-height: 24px;
     } 
 }
-label.answer.answer-label:hover {
+div.answer.answer-label:hover, label.answer.answer-label:hover {
     background: #ddd;
 }
+.help-text-link {
+    color: #0072C6;
+    text-decoration:underline;
+    cursor: pointer;
+}
 .help-text-link-message {
-    display: none;
+    display: block;
     font-size: 16px;
     line-height: 20px;
     padding-left: 40px;
@@ -46,12 +51,18 @@ label.answer.answer-label:hover {
 .help-text-link {
     font-size: 16px;
     line-height: 20px;
+    border: 0;
+    padding: 0;
+    background: none;
 }
 @media screen and (min-width: 40em) {
     .help-text-link {
       font-size: 20px;
-      line-height: 24px;
+      line-height: 24px;  
     } 
+}
+.help-text-link:focus {
+    outline: 0;
 }
 
 a.help-text-link {
@@ -171,4 +182,9 @@ hr.compact {
 }
 ul.bulleted {
     list-style-type: inherit;
+}
+
+h1.dead-end-jump {
+    margin-top: 40px;
+    margin-bottom: 40px;
 }
