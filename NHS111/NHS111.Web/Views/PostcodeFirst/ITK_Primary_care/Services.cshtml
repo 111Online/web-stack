@@ -46,8 +46,8 @@
 
 <section>
     <div class="outcome-header">
-        <h2 class="heading-large">Recommended service</h2>
-        <h4>@WebUtility.HtmlDecode(recommendedService.Name)</h4>
+        <h1 class="heading-large">Recommended service</h1>
+        <h2 class="heading-small">@WebUtility.HtmlDecode(recommendedService.Name)</h2>
         @if (recommendedService.CallbackEnabled)
         {
             <p>@WebUtility.HtmlDecode(recommendedService.CurrentStatus)</p>
