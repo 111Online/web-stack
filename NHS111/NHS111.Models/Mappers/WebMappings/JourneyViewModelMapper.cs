@@ -120,6 +120,7 @@ namespace NHS111.Models.Mappers.WebMappings
             journeyViewModel.TimeFrameText = questionWithAnswers.Question.TimeFrameText;
             journeyViewModel.TimeFrameMinutes = questionWithAnswers.Question.TimeFrame;
             journeyViewModel.WaitTimeText = questionWithAnswers.Question.WaitTimeText;
+            journeyViewModel.DispositionUrgencyText = questionWithAnswers.Question.DispositionUrgencyText;
 
             var questionAndBullets = questionWithAnswers.Question.TitleWithBullets();
             journeyViewModel.TitleWithoutBullets = questionAndBullets.Item1;

@@ -14,17 +14,19 @@
     }
     else if (result != null && result.Success != null && result.Success.Services != null && result.Success.Services.Any())
     {
-        <h3>@Html.Raw((!ViewData.Keys.Contains("Title") ? "If you can't speak to your GP practice" : ViewData["Title"]))</h3>
+        <h3>@Html.Raw((!ViewData.Keys.Contains("Title") ? "If you can't " + Model.OutcomeGroup.Text: ViewData["Title"]))</h3>
         <div id="availableServices">
 
             @if (result.Success.Services.FirstOrDefault(s => s.CallbackEnabled) != null) //first service is a call back
                 {
                 @Html.Partial("_CallbackServices", Model, ViewData)
                 @Html.Partial("_GotoServices", Model, ViewData)
-            }
+                @Html.Partial("_PublicPhoneServices", Model, ViewData)
+                }
             else
             {
                 @Html.Partial("_GotoServices", Model, ViewData)
+                @Html.Partial("_PublicPhoneServices", Model, ViewData)
                 @Html.Partial("_CallbackServices", Model, ViewData)
             }
         </div>

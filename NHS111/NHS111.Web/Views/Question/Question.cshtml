@@ -1,11 +1,11 @@
-﻿@using System.Reflection
-@using NHS111.Models.Models.Web
+﻿@using NHS111.Models.Models.Web
 @{ Layout = "~/Views/Shared/_LayoutNhsUk.cshtml"; }
 @inherits NHS111.Web.Views.Shared.DirectLinkingView<JourneyViewModel>
 
 <link href="@NHS111.Web.Helpers.Versioning.GetVersionedUriRef("~/content/css_NhsUk/question.css")" media="screen" rel="stylesheet" type="text/css" />
 
-@section Title {}
+@section Title  {NHS 111 Online - @Model.TitleWithoutBullets}
+
 
 @section HeadTop {
     @{ var url = string.Format("/{0}/{1}/{2}/", Url.Encode(Model.PathwayId), Url.Encode(Model.PathwayTitle), Url.Encode(Model.QuestionNo)); }
@@ -35,7 +35,10 @@
 
         return "";
     }
+
 }
+
+<h1 class="heading-large">@Model.TitleWithoutBullets</h1>
 
 @using (Html.BeginForm("Navigation", "Question", FormMethod.Post))
 {
@@ -70,44 +73,41 @@
         @Html.HiddenFor(model => Model.CollectedKeywords.ExcludeKeywords[i].IsFromAnswer)
     }
 
-
-    <h2 class="heading-large">@Model.TitleWithoutBullets</h2>
-    foreach (var bullet in Model.Bullets)
-    {
-        <span class="red">@bullet</span>
-    }
-    if (!String.IsNullOrWhiteSpace(Model.Rationale))
-    {
-        <div class="question-rationale">
-            <p>@Html.Raw(@Model.RationaleHtml)</p>
-        </div>
-    }
-    <div id="answers">
-        @foreach (var answer in Model.OrderedAnswers())
-        {
-            <div class="answer-content">
-
-                <label for="@answer.TitleWithoutSpaces" class="answer answer-label">
-                    <span class="answer-radio">
-                        <input name="SelectedAnswer" type="radio" id="@answer.TitleWithoutSpaces" value="@Newtonsoft.Json.JsonConvert.SerializeObject(answer)" />
-                    </span>
-                    <span class="answer-text">@answer.Title</span>
-                </label>
-
-                @if (!String.IsNullOrWhiteSpace(answer.SupportingInformation))
-                {
-                <div class="help-text">
-                    <span class="supporting-info-text"><a class="help-text-link" href="javascript:void(0);" data-helptext="@Html.Encode(answer.SupportingInformation)">What does this mean?</a></span>
-                </div>
-                }
-
-                @if (!String.IsNullOrWhiteSpace(answer.SupportingInformationHtml))
-                {
-                <div class="help-text-link-message">@Html.Raw(answer.SupportingInformationHtml)</div>
-                }
+    <fieldset>
+        <legend class="visuallyhidden">@Model.TitleWithoutBullets</legend>
+        @foreach (var bullet in Model.Bullets) {
+            <span class="red">@bullet</span>
+        }
+        @if (!String.IsNullOrWhiteSpace(Model.Rationale)) {
+            <div class="question-rationale">
+                <p>@Html.Raw(@Model.RationaleHtml)</p>
             </div>
         }
-    </div>
+        <div id="answers">
+
+            @foreach (var answer in Model.OrderedAnswers()) {
+                <div class="answer-content">
+
+                    <label for="@answer.TitleWithoutSpaces" class="answer answer-label">
+                        <span class="answer-radio">
+                            <input name="SelectedAnswer" type="radio" id="@answer.TitleWithoutSpaces" value="@Newtonsoft.Json.JsonConvert.SerializeObject(answer)" />
+                        </span>
+                        <span class="answer-text">@answer.Title</span>
+                    </label>
+
+                    @if (!String.IsNullOrWhiteSpace(answer.SupportingInformation)) {
+                        <div class="help-text">
+                            <span class="supporting-info-text"><button type="button" class="help-text-link" data-helptext="@Html.Encode(answer.SupportingInformation)">What does this mean?</button></span>
+                        </div>
+                    }
+
+                    @if (!String.IsNullOrWhiteSpace(answer.SupportingInformationHtml)) {
+                        <div class="help-text-link-message">@Html.Raw(answer.SupportingInformationHtml)</div>
+                    }
+                </div>
+            }
+        </div>
+    </fieldset>
 
     <button class="button button-next" id="nextScreen" type="submit" name="Question" value="Question">Next question</button>
     if (!Model.IsFirstStep)
@@ -126,12 +126,14 @@
             $("button[type=submit]").removeAttr('disabled');
         });
 
-        $('.help-text-link').click(function() {
+        $('.help-text-link-message').hide();
+        $('.help-text-link').click(function () {
             var $this = $(this);
             //$this.preventDefault();
 
             var $helpTextLinkMessage = $this.parent().parent().next('.help-text-link-message');
             $helpTextLinkMessage.slideToggle("fast");
+            return false;
         });
     });
 </script>

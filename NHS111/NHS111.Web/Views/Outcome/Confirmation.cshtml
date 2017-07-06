@@ -24,8 +24,9 @@
 }
 
 @section Scripts {
-<link href="@NHS111.Web.Helpers.Versioning.GetVersionedUriRef("~/Content/css_NhsUK/home.css")" media="all" rel="stylesheet" type="text/css" />
-<link href="@NHS111.Web.Helpers.Versioning.GetVersionedUriRef("~/Content/css_NhsUK/confirmation.css")" media="all" rel="stylesheet" type="text/css" />
+    <link href="@NHS111.Web.Helpers.Versioning.GetVersionedUriRef("~/Content/css_NhsUK/home.css")" media="all" rel="stylesheet" type="text/css" />
+    <link href="@NHS111.Web.Helpers.Versioning.GetVersionedUriRef("~/Content/css_NhsUK/confirmation.css")" media="all" rel="stylesheet" type="text/css"/>
+    <link href="@NHS111.Web.Helpers.Versioning.GetVersionedUriRef("~/Content/css_NhsUK/signposting-outcome.css")" media="all" rel="stylesheet" type="text/css" />
 }
 
 @{
@@ -57,14 +58,4 @@
 
 @Html.Partial("_CareAdvice", Model.CareAdvices, new ViewDataDictionary { { "Title", "What you can do in the meantime" }, { "NoHR", true } })
 
-@if (Model.DisplayWorseningCareAdvice)
-{
-    <div class="trial">
-        <p>
-            @foreach (var item in Model.WorseningCareAdvice.Items)
-            {
-                @(item.Text + " ");
-            }
-        </p>
-    </div>
-}
+@Html.Partial("_WorseningAdviceWithTitle", Model)

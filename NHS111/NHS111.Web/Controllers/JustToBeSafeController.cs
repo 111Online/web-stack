@@ -6,12 +6,6 @@ using NHS111.Web.Presentation.Builders;
 
 namespace NHS111.Web.Controllers
 {
-    using System;
-    using System.Runtime.CompilerServices;
-    using Models.Models.Domain;
-    using Models.Models.Web.Validators;
-    using Utils.Parser;
-
     [LogHandleErrorForMVC]
     public class JustToBeSafeController : Controller
     {

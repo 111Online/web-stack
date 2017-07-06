@@ -7,7 +7,7 @@
 
 @if (services.Any(s => s.CallbackEnabled))
 {
-    <h5>@string.Format("{0}", ViewData.Keys.Contains("CallbackTitle") ? ViewData["CallbackTitle"] : "We can arrange for someone to call you")</h5>
+    <h5 id ="alternative-service-callback-link">@string.Format("{0}", ViewData.Keys.Contains("CallbackTitle") ? ViewData["CallbackTitle"] : "We can arrange for someone to phone you")</h5>
     <div class="alternative-care-service">
         <p>They will check through the answers you have entered and give you advice on what to do next</p>
         <div class="alternative-care-service content">
@@ -15,10 +15,13 @@
             {
                 <h4 class="service-title">@WebUtility.HtmlDecode(callbackService.Name)</h4>
 
-                <div class="service-status">
-                    @WebUtility.HtmlDecode(callbackService.CurrentStatus)
-                </div>
-                
+                if (!callbackService.IsOpen)
+                {
+                    <div class="service-status">
+                        @WebUtility.HtmlDecode(callbackService.ServiceOpeningTimesMessage)
+                    </div>
+                }
+
                 using (Html.BeginForm("PersonalDetails", "Outcome", FormMethod.Post))
                 {
                     @Html.Partial("_CommonHiddenFieldsOutcomeViewModel", Model)

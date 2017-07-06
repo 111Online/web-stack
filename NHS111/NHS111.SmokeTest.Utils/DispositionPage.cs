@@ -14,8 +14,14 @@ namespace NHS111.SmokeTest.Utils
     {
         private readonly IWebDriver _driver;
 
+        private const string PATHWAY_NOT_FOUND__EXPECTED_TEXT = "This health assessment can't be completed online";
+
         [FindsBy(How = How.CssSelector, Using = ".outcome-header h2")]
         public IWebElement Header { get; set; }
+
+        [FindsBy(How = How.CssSelector, Using = ".question-header")]
+        public IWebElement PathwayNotFoundHeader { get; set; }
+
 
         [FindsBy(How = How.CssSelector, Using = ".outcome-header h3")]
         public IWebElement SubHeader { get; set; }
@@ -33,8 +39,25 @@ namespace NHS111.SmokeTest.Utils
         [FindsBy(How = How.ClassName, Using = "findservice")]
         public IWebElement FindServicePanel { get; set; }
 
+        [FindsBy(How = How.Id, Using = "UserInfo_CurrentAddress_Postcode")]
+        public IWebElement PostcodeField { get; set; }
+
+        [FindsBy(How = How.Id, Using = "DosLookup")]
+        public IWebElement PostcodeSubmitButton { get; set; }
 
 
+        public DispositionPage EnterPostCodeAndSubmit(string postcode)
+        {
+            this.PostcodeField.SendKeys(postcode);
+            this.PostcodeSubmitButton.Click();
+            return new DispositionPage(_driver);
+        }
+
+        public QuestionPage NavigateBack()
+        {
+            _driver.Navigate().Back();
+            return new QuestionPage(_driver);
+        }
 
         public DispositionPage(IWebDriver driver)
         {
@@ -58,6 +81,12 @@ namespace NHS111.SmokeTest.Utils
         {
             Assert.IsTrue(Header.Displayed);
             Assert.AreEqual(outcomeHeadertext, Header.Text);
+        }
+
+        public void VerifyPathwayNotFound()
+        {
+            Assert.IsTrue(PathwayNotFoundHeader.Displayed);
+            Assert.AreEqual(PATHWAY_NOT_FOUND__EXPECTED_TEXT, PathwayNotFoundHeader.Text);
         }
 
         public void VerifyHeaderOtherInfo(string otherInfoHeadertext)
@@ -95,6 +124,7 @@ namespace NHS111.SmokeTest.Utils
         public static WorseningMessageType Call999 = new WorseningMessageType("If there are any new symptoms, or if the condition gets worse, changes or you have any other concerns, call NHS 111 for advice. Calls to 111 are free.");
 
         public static WorseningMessageType Call111 = new WorseningMessageType("If there are any new symptoms, or if the condition gets worse, changes or you have any other concerns, call NHS 111 for advice. Calls to 111 are free.");
+        public static WorseningMessageType Call111PostCodeFirst = new WorseningMessageType("Call 111 if your symptoms get worse\r\nIf there are any new symptoms, or if the condition gets worse, changes or you have any other concerns, call NHS 111 for advice. Calls to 111 are free.");
     }
 
     public class WorseningMessageType
@@ -107,6 +137,9 @@ namespace NHS111.SmokeTest.Utils
         public string Value{ get { return _worseningText; }}
     }
 
+ 
+
+
     public static class FindServiceTypes
     {
         public static FindServiceType AccidentAndEmergency = new FindServiceType("Find a service that can see you");
@@ -116,6 +149,7 @@ namespace NHS111.SmokeTest.Utils
         public static FindServiceType Optician = new FindServiceType("Find an optician");
         public static FindServiceType Dental = new FindServiceType("Find a dental service");
     }
+
 
     public class FindServiceType
     {

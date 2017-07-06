@@ -51,6 +51,6 @@
     @Html.Partial("_AlternativeServices", Model, new ViewDataDictionary { { "Title", "Please choose another service instead" } })
 </section>
 
-@Html.Partial("_WorseningAdvice", Model)
+@Html.Partial("_WorseningAdviceWithTitle", Model)
 
 @Html.Partial("_CareAdvice", Model.CareAdvices, new ViewDataDictionary { { "Title", "What you can do in the meantime" } })

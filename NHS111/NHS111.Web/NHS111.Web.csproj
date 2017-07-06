@@ -61,6 +61,10 @@
       <HintPath>..\packages\FluentValidation.MVC5.6.2.1.0\lib\Net45\FluentValidation.Mvc.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="log4net, Version=2.0.8.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
+      <HintPath>..\packages\log4net.2.0.8\lib\net45-full\log4net.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Microsoft.AI.Agent.Intercept, Version=2.0.6.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.ApplicationInsights.Agent.Intercept.2.0.6\lib\net45\Microsoft.AI.Agent.Intercept.dll</HintPath>
       <Private>True</Private>
@@ -117,8 +121,12 @@
       <HintPath>..\packages\Newtonsoft.Json.9.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="NHS111.IoC, Version=1.0.0.26, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\NHS111.IoC.1.0.0.26\lib\net451\NHS111.IoC.dll</HintPath>
+    <Reference Include="NHS111.IoC, Version=1.0.0.30, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\NHS111.IoC.1.0.0.30\lib\net451\NHS111.IoC.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="RestSharp, Version=105.2.3.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\RestSharp.105.2.3\lib\net451\RestSharp.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="StructureMap, Version=4.0.1.318, Culture=neutral, processorArchitecture=MSIL">
@@ -242,6 +250,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Helpers\Versioning.cs" />
+    <Compile Include="Helpers\ViewDeterminer.cs" />
     <Compile Include="IoC\WebRegistry.cs" />
     <Compile Include="IoC\IoC.cs" />
     <Compile Include="IoC\StructuremapMvc.cs" />
@@ -816,15 +825,20 @@
     <Content Include="Service References\Application Insights\ConnectedService.json" />
     <Content Include="Views\Shared\_PageLoadingIndicator.cshtml" />
     <Content Include="Views\PostcodeFirst\Postcode.cshtml" />
-    <Content Include="Views\PostcodeFirst\Outcome.cshtml" />
     <Content Include="Views\Shared\_AlternativeServices.cshtml" />
     <Content Include="Views\Shared\_PersonalDetailsSelf.cshtml" />
     <Content Include="Views\Shared\_InformantDetails.cshtml" />
-    <Content Include="Views\Outcome\ServieBookingUnavailable.cshtml" />
+    <Content Include="Views\Outcome\ServiceBookingUnavailable.cshtml" />
     <Content Include="Views\Outcome\DuplicateBookingFailure.cshtml" />
-    <Content Include="Views\PostcodeFirst\Services.cshtml" />
     <Content Include="Views\Shared\_CallbackServices.cshtml" />
     <Content Include="Views\Shared\_GotoServices.cshtml" />
+    <Content Include="Views\PostcodeFirst\SP_Dental\Outcome.cshtml" />
+    <Content Include="Views\PostcodeFirst\ITK_Primary_care\Outcome.cshtml" />
+    <Content Include="Views\PostcodeFirst\ITK_Primary_care\Services.cshtml" />
+    <Content Include="Views\PostcodeFirst\SP_Dental\Services.cshtml" />
+    <Content Include="Views\Shared\_PublicPhoneServices.cshtml" />
+    <Content Include="Views\Shared\_OutcomeHeaderTwoTitles.cshtml" />
+    <Content Include="Views\Shared\_WorseningAdviceWithTitle.cshtml" />
     <None Include="Web.Development.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

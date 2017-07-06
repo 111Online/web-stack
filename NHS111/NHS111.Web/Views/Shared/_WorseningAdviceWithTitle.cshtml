@@ -1,0 +1,18 @@
+﻿@using NHS111.Models.Models.Web
+@model OutcomeViewModel
+
+@{
+    var worseningAdviceClass = ViewData.ContainsKey("WorseningAdviceClass") ? ViewData["WorseningAdviceClass"] : string.Empty;
+}
+
+@if (Model.DisplayWorseningCareAdvice && Model.WorseningCareAdvice.Items.Any())
+{
+    <div class="@string.Format("worsening-advice-icon black {0}", worseningAdviceClass)">
+        <h3>Call 111 if your symptoms get worse</h3>
+
+        @foreach (var item in Model.WorseningCareAdvice.Items)
+        {
+            <p>@item.Text</p>
+        }
+    </div>
+}

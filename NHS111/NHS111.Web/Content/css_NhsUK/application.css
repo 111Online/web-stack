@@ -1173,6 +1173,10 @@ details .panel-indent {
 legend + * {
   -webkit-margin-top-collapse: discard; }
 
+legend {
+    font-weight: 600;
+}
+
 textarea {
   display: block; }
 
@@ -1609,7 +1613,9 @@ h1, h2, h3, h4, h5, h6 {
     .heading-large, .markdown-content h1 {
       font-size: 40px;
       line-height: 52px;
-      margin: 40px 0; } }
+      margin: 40px 0;
+      padding-top: 1px;
+    } }
 
 .heading-medium, .markdown-content h2 {
   font-size: 24px;
@@ -2027,7 +2033,7 @@ button[disabled=disabled] {
 .feedback-btn.feedback-submit {
     float: left;
     max-width: none;
-    height: 40px;
+    border: 0;
     line-height: 40px;
     color: #fff;
     background-color: #405364;
@@ -2375,9 +2381,6 @@ button[disabled=disabled] {
 
 
 .worsening-advice-icon {
-    background-image: url("/content/images/icons/warning.png");
-    background-position: left center;
-    background-repeat: no-repeat;
     padding-top: 0;
     padding-left: 44px;
     margin-top: 40px;
