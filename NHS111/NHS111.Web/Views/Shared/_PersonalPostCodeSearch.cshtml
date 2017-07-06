@@ -4,9 +4,7 @@
 
 
 <div class="find-address-panel">
-    <label>
-        Postcode of current address
-    </label>
+    @Html.LabelFor(m => m.PreviouslyEnteredPostcode, "Postcode of current address")
     <p class="validation-error-msg" id="postcode-validation-message">A valid UK postcode is required</p>
     <div class="inline-details">
         @Html.TextBoxFor(m => m.PreviouslyEnteredPostcode, new {@class = "form-control form-control-8-chars", placeholder = "eg. SE1", @readonly= "readonly" })
@@ -18,33 +16,29 @@
 <p class="" style="display: none;" id="no-results-message">Sorry, we couldn't find an address using that postcode.<br/>Please enter your address below or try a different postcode.</p>
 
 <div id="addressPanel" class="address-panel">
-    <p class="manual-entry-text" id="manual-entry-title">Enter address</p>
-    <label>
-        Street
-    </label>
-    <div class="inline-details">
+    <h2 class="heading-medium" id="manual-entry-title">Enter address</h2>
+    <fieldset>
+        <legend>Street</legend>
         <div>@Html.ValidationMessageFor(m => m.AddressLine1, "Please enter the first line of your address")</div>
-        @Html.TextBoxFor(m => m.AddressLine1, new {@class = "form-control", placeholder = "Address Line 1"})
-    </div>
-    <div class="inline-details">
-        @Html.TextBoxFor(m => m.AddressLine2, new {@class = "form-control", placeholder = "Address Line 2"})
-    </div>
-    <label>
-        City
-    </label>
+        <div class="inline-details">
+            @Html.LabelFor(m => m.AddressLine1, new { @class = "hidden" })
+            @Html.TextBoxFor(m => m.AddressLine1, new { @class = "form-control", placeholder = "Address Line 1" })
+        </div>
+        <div class="inline-details">
+            @Html.LabelFor(m => m.AddressLine2, new { @class = "hidden" })
+            @Html.TextBoxFor(m => m.AddressLine2, new { @class = "form-control", placeholder = "Address Line 2" })
+        </div>
+    </fieldset>
+    @Html.LabelFor(m => m.City)
     <div class="inline-details">
         <div>@Html.ValidationMessageFor(m => m.City, "Please enter a city")</div>
         @Html.TextBoxFor(m => m.City, new {@class = "form-control", placeholder = "City"})
     </div>
-    <label>
-        County
-    </label>
+    @Html.LabelFor(m => m.County)
     <div class="inline-details">
         @Html.TextBoxFor(m => m.County, new {@class = "form-control", placeholder = "County"})
     </div>
-    <label>
-        Postcode
-    </label>
+    @Html.LabelFor(m => m.Postcode)
     <div class="inline-details">
         <div>@Html.ValidationMessageFor(m => m.Postcode)</div>
         @Html.TextBoxFor(m => m.Postcode, new {@class = "form-control", placeholder = "Postcode"})
@@ -52,11 +46,11 @@
 </div>
 
 <div id="AddressList" style="display: none;">
-    <label>Pick an address</label>
-    <label class="select-label">
+    @Html.LabelFor(m => m.SelectedAddressFromPicker, "Pick an address")
+    <div class="select-label">
         @Html.DropDownListFor(m => m.SelectedAddressFromPicker, Model.AddressPicker, new { @class = "select-address" })
         @Html.HiddenFor(m => m.AddressOptions)
-    </label>
+    </div>
 </div>
 
 <a class="button button-next button-link" href="javascript:void(0);" style="display: none;" id="manual-entry-link">I can't find the address in the list</a>
