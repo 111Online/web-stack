@@ -31,7 +31,7 @@
 
 }
 @section HeadTop {
-@{ var url = string.Format("/outcome/{0}/{1}/{2}/disposition/", Url.Encode(Model.PathwayNo), Url.Encode(Model.OutcomeGroup.Text), Url.Encode(Model.Id)); }
+    @{ var url = string.Format("/outcome/{0}/{1}/{2}/disposition/", Url.Encode(Model.PathwayNo), Url.Encode(Model.OutcomeGroup.Text), Url.Encode(Model.Id)); }
     <script>
         var pageId = '@Model.Id';
         dataLayer = [
@@ -58,14 +58,12 @@
 @Html.Partial("_OutcomeHeader", Model, dict)
 
 <section>
-    <div class="outcome-additional-info">
-        <h3 class="heading-medium">
-            What if I'm not registered with a GP?
-        </h3>
-        <p>
-            You can get advice about how to register with a GP from the <a href="http://www.nhs.uk/NHSEngland/AboutNHSservices/doctors/Pages/NHSGPs.aspx">NHS Choices GP services page</a>.
-        </p>
-    </div>
+    <h2 class="heading-medium">
+        What if I'm not registered with a GP?
+    </h2>
+    <p>
+        You can get advice about how to register with a GP from the <a href="http://www.nhs.uk/NHSEngland/AboutNHSservices/doctors/Pages/NHSGPs.aspx">NHS Choices GP services page</a>.
+    </p>
 </section>
 
 @Html.Partial("_WorseningAdvice", Model)
