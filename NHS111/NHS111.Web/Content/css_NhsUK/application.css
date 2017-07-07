@@ -2138,6 +2138,7 @@ button[disabled=disabled] {
     padding: 22px 0 0 12px;
     color: #ffffff;
     font-size: 1.5em;
+    line-height: 24px;
 }
 
 @media (max-width: 319px) {
