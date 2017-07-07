@@ -9,7 +9,7 @@
 }
 
 @section HeadTop {
-@{ var url = string.Format("/outcome/{0}/{1}/{2}/servicelist/{3}/", Url.Encode(Model.PathwayNo), Url.Encode(Model.OutcomeGroup.Text), Url.Encode(Model.Id), Url.Encode(Model.UserInfo.CurrentAddress.Postcode)); }
+    @{ var url = string.Format("/outcome/{0}/{1}/{2}/servicelist/{3}/", Url.Encode(Model.PathwayNo), Url.Encode(Model.OutcomeGroup.Text), Url.Encode(Model.Id), Url.Encode(Model.UserInfo.CurrentAddress.Postcode)); }
     <script>
         var pageId = '@Model.Id';
         dataLayer = [
@@ -41,12 +41,14 @@
 <link href="@NHS111.Web.Helpers.Versioning.GetVersionedUriRef("~/Content/css_NhsUK/confirmation.css")" media="all" rel="stylesheet" type="text/css" />
 <link href="@NHS111.Web.Helpers.Versioning.GetVersionedUriRef("~/content/css_NhsUk/servicelist.css")" media="screen" rel="stylesheet" type="text/css" />
 <link href="@NHS111.Web.Helpers.Versioning.GetVersionedUriRef("~/content/css_NhsUk/service.css")" media="screen" rel="stylesheet" type="text/css" />
+<link href="@NHS111.Web.Helpers.Versioning.GetVersionedUriRef("~/Content/css_NhsUK/signposting-outcome.css")" media="all" rel="stylesheet" type="text/css" />
+<link href="@NHS111.Web.Helpers.Versioning.GetVersionedUriRef("~/Content/css_NhsUK/signposting-outcome-print.css")" media="print" rel="stylesheet" type="text/css" />
 
 <section>
-    <div class="outcome-header section-item">
-        <h2>
+    <div class="outcome-header">
+        <h1 class="heading-large">
             Recommended service based on your answers
-        </h2>
+        </h1>
 
         @{
             ServiceViewModel selectedService = null;
@@ -57,43 +59,34 @@
         }
         @if (selectedService != null)
         {
-            <div class="service-list-content">
+            @*<div class="service-list-content">*@
                 @Html.Partial("_SelectedService", selectedService)
                 <div class="form-item-wrapper">
-                    <fieldset>
-                        <div class="form-group">
-                            @using (Html.BeginForm("PersonalDetails", "Outcome", FormMethod.Post))
+                    <div class="form-group">
+                        @using (Html.BeginForm("PersonalDetails", "Outcome", FormMethod.Post))
+                        {
+                            @Html.Partial("_CommonHiddenFieldsOutcomeViewModel", Model)
+                            @Html.Partial("_CommonHiddenFieldsCareAdviceViewModel", Model)
+                            @Html.Hidden("SelectedServiceId", @selectedService.Id)
+
+                            if (selectedService.CallbackEnabled)
                             {
-                                @Html.Partial("_CommonHiddenFieldsOutcomeViewModel", Model)
-                                @Html.Partial("_CommonHiddenFieldsCareAdviceViewModel", Model)
-                                @Html.Hidden("SelectedServiceId", @selectedService.Id)
-                                
-                                if (selectedService.CallbackEnabled)
-                                {
-                                    
-                                    <p>This service can call you back to give you advice</p>
-                                    
-                                    <div class="row">
-                                        <input class="button button-next" type="submit" name="PersonalDetails" value="Request a call back" />
-                                    </div>
-                                }
-                                else if (!string.IsNullOrEmpty(@selectedService.ContactDetails))
-                                {
-                                    <div class="row">
-                                        <p>Please call this service for advice: @selectedService.ContactDetails</p>
-                                    </div>
-                                }
-                                else
-                                {
-                                    <div class="row">
-                                        <p>You don't need to call this service, you can go there during the times shown above.</p>
-                                    </div>
-                                }
+
+                                <p>This service can call you back to give you advice</p>
+                                <input class="button button-next" type="submit" name="PersonalDetails" value="Request a call back" />
                             }
-                        </div>
-                    </fieldset>
+                            else if (!string.IsNullOrEmpty(@selectedService.ContactDetails))
+                            {
+                                <p>Please call this service for advice: @selectedService.ContactDetails</p>
+                            }
+                            else
+                            {
+                                <p>You don't need to call this service, you can go there during the times shown above.</p>
+                            }
+                        }
+                    </div>
                 </div>
-            </div>
+            @*</div>*@
         }
     </div>
 </section>
@@ -102,9 +95,9 @@
 {
     <section>
         <div class="section-item last">
-            <h3 class="section-header">
+            <h2 class="heading-medium">
                 Other services near you
-            </h3>
+            </h2>
             @if (Model.DosCheckCapacitySummaryResult.Success != null)
             {
                 foreach (var service in Model.DosCheckCapacitySummaryResult.Success.Services.Skip(1))
@@ -125,7 +118,7 @@
                                         <p>This service can call you back to give you advice</p>
 
                                         <div class="row">
-                                            <input class="linkButton" type="submit" name="PersonalDetails" value="Request a call back"/>
+                                            <input class="linkButton" type="submit" name="PersonalDetails" value="Request a call back" />
                                         </div>
                                     }
                                     else if (!string.IsNullOrEmpty(service.ContactDetails))

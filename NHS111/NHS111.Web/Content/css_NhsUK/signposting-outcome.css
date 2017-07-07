@@ -381,6 +381,9 @@ details summary::-webkit-details-marker {
     margin: 10px;
     font-weight: 600;
 }
+.outcome-header input {
+    margin: 10px;
+}
 .alternative-care-hr {
     margin: 20px;
 }
