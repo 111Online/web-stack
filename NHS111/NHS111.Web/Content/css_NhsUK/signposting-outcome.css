@@ -398,4 +398,5 @@ details summary::-webkit-details-marker {
 .outcome-header > p > a:link {
     color: #ffffff;
     text-decoration: none;
+    background-color: #0072c6;
 }
