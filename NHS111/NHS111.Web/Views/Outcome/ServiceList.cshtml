@@ -59,34 +59,32 @@
         }
         @if (selectedService != null)
         {
-            @*<div class="service-list-content">*@
-                @Html.Partial("_SelectedService", selectedService)
-                <div class="form-item-wrapper">
-                    <div class="form-group">
-                        @using (Html.BeginForm("PersonalDetails", "Outcome", FormMethod.Post))
+            @Html.Partial("_SelectedService", selectedService)
+            <div class="form-item-wrapper">
+                <div class="form-group">
+                    @using (Html.BeginForm("PersonalDetails", "Outcome", FormMethod.Post))
+                    {
+                        @Html.Partial("_CommonHiddenFieldsOutcomeViewModel", Model)
+                        @Html.Partial("_CommonHiddenFieldsCareAdviceViewModel", Model)
+                        @Html.Hidden("SelectedServiceId", @selectedService.Id)
+
+                        if (selectedService.CallbackEnabled)
                         {
-                            @Html.Partial("_CommonHiddenFieldsOutcomeViewModel", Model)
-                            @Html.Partial("_CommonHiddenFieldsCareAdviceViewModel", Model)
-                            @Html.Hidden("SelectedServiceId", @selectedService.Id)
 
-                            if (selectedService.CallbackEnabled)
-                            {
-
-                                <p>This service can call you back to give you advice</p>
+                            <p>This service can call you back to give you advice</p>
                                 <input class="button button-next" type="submit" name="PersonalDetails" value="Request a call back" />
-                            }
-                            else if (!string.IsNullOrEmpty(@selectedService.ContactDetails))
-                            {
-                                <p>Please call this service for advice: @selectedService.ContactDetails</p>
-                            }
-                            else
-                            {
-                                <p>You don't need to call this service, you can go there during the times shown above.</p>
-                            }
                         }
-                    </div>
+                        else if (!string.IsNullOrEmpty(@selectedService.ContactDetails))
+                        {
+                            <p>Please call this service for advice: @selectedService.ContactDetails</p>
+                        }
+                        else
+                        {
+                            <p>You don't need to call this service, you can go there during the times shown above.</p>
+                        }
+                    }
                 </div>
-            @*</div>*@
+            </div>
         }
     </div>
 </section>
