@@ -394,3 +394,8 @@ details summary::-webkit-details-marker {
     border-top: 3px solid #76adda;
     margin-left: 10px;
 }
+
+.outcome-header > p > a:link {
+    color: #ffffff;
+    text-decoration: none;
+}

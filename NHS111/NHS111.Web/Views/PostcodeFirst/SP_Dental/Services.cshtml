@@ -50,13 +50,17 @@
         <h4>@WebUtility.HtmlDecode(recommendedService.Name)</h4>
         @if (recommendedService.CallbackEnabled)
         {
+            if (!recommendedService.IsOpen)
+            {
+                <p>@WebUtility.HtmlDecode(recommendedService.ServiceOpeningTimesMessage)</p>
+            }
             <p>They will check through the answers you have entered and give you advice on what to do next</p>
         }
         else if (!string.IsNullOrEmpty(@recommendedService.ContactDetails))
         {
+            <p>Phone: <a href="tel: @recommendedService.ContactDetails">@recommendedService.ContactDetails</a> for advice</p>
             <p>@WebUtility.HtmlDecode(recommendedService.ServiceOpeningTimesMessage)</p>
-            <p>Please phone this service for advice: @recommendedService.ContactDetails</p>
-         
+            <p>You can phone this service for advice during the times shown above.</p>        
         }
         else
         {
@@ -76,18 +80,13 @@
             @Html.Partial("_CommonHiddenFieldsCareAdviceViewModel", Model)
             @Html.Hidden("SelectedServiceId", recommendedService.Id)
             @Html.Hidden("SelectedService_Name", recommendedService.Name)
-            if (!recommendedService.IsOpen)
-            {
-                <div class="service-status">
-                    @recommendedService.ServiceOpeningTimesMessage
-                </div>
-            }
+            
             <div class="service-call">
                 <input class="button alternative-care-button-link" type="submit" name="PersonalDetails" value="Book a call"/>
             </div>
         }
     }
-    else
+    else if (string.IsNullOrEmpty(recommendedService.ContactDetails))
     {
         if (Model.Id == "Dx08")
         {
