@@ -13,7 +13,7 @@
     Service details
 }
 @section HeadTop {
-@{ var url = string.Format("/outcome/{0}/{1}/{2}/servicelist/{3}/", Url.Encode(Model.PathwayNo), Url.Encode(Model.OutcomeGroup.Text), Url.Encode(Model.Id), Url.Encode(Model.UserInfo.CurrentAddress.Postcode)); }
+    @{ var url = string.Format("/outcome/{0}/{1}/{2}/servicelist/{3}/", Url.Encode(Model.PathwayNo), Url.Encode(Model.OutcomeGroup.Text), Url.Encode(Model.Id), Url.Encode(Model.UserInfo.CurrentAddress.Postcode)); }
     <script>
         var pageId = '@Model.Id';
         dataLayer = [
@@ -48,90 +48,78 @@
 <link href="@NHS111.Web.Helpers.Versioning.GetVersionedUriRef("~/Content/css_NhsUK/confirmation.css")" media="all" rel="stylesheet" type="text/css" />
 <link href="@NHS111.Web.Helpers.Versioning.GetVersionedUriRef("~/content/css_NhsUk/servicelist.css")" media="screen" rel="stylesheet" type="text/css" />
 <link href="@NHS111.Web.Helpers.Versioning.GetVersionedUriRef("~/content/css_NhsUk/service.css")" media="screen" rel="stylesheet" type="text/css" />
+<link href="@NHS111.Web.Helpers.Versioning.GetVersionedUriRef("~/Content/css_NhsUK/signposting-outcome.css")" media="all" rel="stylesheet" type="text/css" />
+<link href="@NHS111.Web.Helpers.Versioning.GetVersionedUriRef("~/Content/css_NhsUK/signposting-outcome-print.css")" media="print" rel="stylesheet" type="text/css" />
 
 <section>
-    <div class="service-list-header">
-        <h2>
-            @Html.Raw(Model.OutcomeGroup.Label) for @Model.UserInfo.CurrentAddress.Postcode
-        </h2>
-    </div>
+    <h2 class="heading-medium">
+        @Html.Raw(Model.OutcomeGroup.Label) for @Model.UserInfo.CurrentAddress.Postcode
+    </h2>
 </section>
 
 <section>
     <div class="results-map">
         <div class="results-list">
             @using (Html.BeginForm("GetDirections", "Outcome", FormMethod.Post))
-        {
+            {
 
                 <div class="results-service-recommended section-item">
-                    <h3 class="section-header">
+                    <h3 class="heading-small">
                         Recommended service based on your answers
                     </h3>
                     @{
-                    ServiceViewModel selectedService = null;
-                    if (Model.DosCheckCapacitySummaryResult.Success != null)
-                    {
-                        selectedService = Model.DosCheckCapacitySummaryResult.Success.Services.FirstOrDefault();
-                    }
+                        ServiceViewModel selectedService = null;
+                        if (Model.DosCheckCapacitySummaryResult.Success != null)
+                        {
+                            selectedService = Model.DosCheckCapacitySummaryResult.Success.Services.FirstOrDefault();
+                        }
                     }
                     @if (selectedService != null)
-                {
+                    {
                         <div class="service-list-content">
-
                             <div class="form-item-wrapper">
                                 <fieldset>
-                                    <div class="form-group">
+                                    <legend>
+                                        <img src="/content/images/icons/map-pointers/fac-map-1.png" alt="Pointer 1" />
+                                        @WebUtility.HtmlDecode(selectedService.Name)
+                                    </legend>
+                                    <p>@WebUtility.HtmlDecode(selectedService.Address)</p>
+                                    <p>@WebUtility.HtmlDecode(selectedService.CurrentStatus)</p>
 
-                                        <div class="service-name">
-                                            <img src="/content/images/icons/map-pointers/fac-map-1.png" />
-                                            @WebUtility.HtmlDecode(selectedService.Name)
-                                        </div>
-                                        <div class="service-address">
-                                            @WebUtility.HtmlDecode(selectedService.Address)
-                                        </div>
-                                        <div class="service-status">
-                                            @WebUtility.HtmlDecode(selectedService.CurrentStatus)
-                                        </div>
-
-                                        @Html.HiddenFor(m => m.SessionId)
-                                        @Html.HiddenFor(m => m.JourneyJson)
-                                        @Html.HiddenFor(m => m.Id)
-                                        @Html.Hidden("SelectedServiceId", @selectedService.Id)
-                                        @Html.Hidden("SelectedServiceName", @selectedService.Name)
-                                        @Html.Hidden("SelectedServiceAddress", @selectedService.Address)
-                                        <button type="submit" class="button button-next">Open in Google Maps</button>
-                                    </div>
+                                    @Html.HiddenFor(m => m.SessionId)
+                                    @Html.HiddenFor(m => m.JourneyJson)
+                                    @Html.HiddenFor(m => m.Id)
+                                    @Html.Hidden("SelectedServiceId", @selectedService.Id)
+                                    @Html.Hidden("SelectedServiceName", @selectedService.Name)
+                                    @Html.Hidden("SelectedServiceAddress", @selectedService.Address)
+                                    <button type="submit" class="button button-next">Open in Google Maps</button>
                                 </fieldset>
                             </div>
                         </div>
-                }
+                    }
                 </div>
-        }
+            }
 
             <div class="section-item last">
 
                 @if (Model.DosCheckCapacitySummaryResult.Success != null)
-            {
-                var pointerNo = 1;
-                foreach (var service in Model.DosCheckCapacitySummaryResult.Success.Services.Skip(1))
                 {
-                    using (Html.BeginForm("GetDirections", "Outcome", FormMethod.Post))
+                    var pointerNo = 1;
+                    foreach (var service in Model.DosCheckCapacitySummaryResult.Success.Services.Skip(1))
                     {
-                        pointerNo++;
-                        var pointerimageSrc = "/content/images/icons/map-pointers/fac-map-" + pointerNo.ToString() + ".png";
+                        using (Html.BeginForm("GetDirections", "Outcome", FormMethod.Post))
+                        {
+                            pointerNo++;
+                            var pointerimageSrc = "/content/images/icons/map-pointers/fac-map-" + pointerNo.ToString() + ".png";
+                            var pointerAlt = string.Format("Pointer {0}", pointerNo);
                             <div class="service-list-content">
                                 <fieldset>
-                                    <div class="service-name">
-                                        <img src="@pointerimageSrc" />
+                                    <legend>
+                                        <img src="@pointerimageSrc" alt="@pointerAlt" />
                                         @WebUtility.HtmlDecode(service.Name)
-                                    </div>
-                                    <div class="service-address">
-                                        @WebUtility.HtmlDecode(service.Address)
-                                    </div>
-
-                                    <div class="service-status secondary">
-                                        @WebUtility.HtmlDecode(service.CurrentStatus)
-                                    </div>
+                                    </legend>
+                                    <p>@WebUtility.HtmlDecode(service.Address)</p>
+                                    <p>@WebUtility.HtmlDecode(service.CurrentStatus)</p>
 
                                     @Html.HiddenFor(m => m.SessionId)
                                     @Html.HiddenFor(m => m.JourneyJson)
@@ -142,16 +130,16 @@
                                     <button type="submit" class="button-link directions">Open in Google Maps</button>
                                 </fieldset>
                             </div>
+                        }
                     }
                 }
-            }
             </div>
 
             <script type="text/javascript">
 
-            var locations = [
-                @{ int i = 0; }
-                @if (Model.DosCheckCapacitySummaryResult.Success != null)
+                var locations = [
+                    @{ int i = 0; }
+                    @if (Model.DosCheckCapacitySummaryResult.Success != null)
                 {
                     foreach (var service in Model.DosCheckCapacitySummaryResult.Success.Services)
                     {
@@ -161,7 +149,7 @@
                         i++;
                     }
                 }
-            ];
+                ];
             </script>
 
         </div>
@@ -169,34 +157,34 @@
 
         <script type="text/javascript">
 
-        var map = new google.maps.Map($('.service-map')[0],
-        {
-            zoom: 10,
-            center: new google.maps.LatLng(locations[0][1], locations[0][2]),
-            mapTypeId: google.maps.MapTypeId.ROADMAP
-        });
-
-        var infowindow = new google.maps.InfoWindow();
-
-        var marker, i;
-
-        for (i = 0; i < locations.length; i++) {
-            var pointerNo = i + 1;
-            marker = new google.maps.Marker({
-                position: new google.maps.LatLng(locations[i][1], locations[i][2]),
-                map: map,
-                icon: "/content/images/icons/map-pointers/fac-map-" + pointerNo + ".png"
+            var map = new google.maps.Map($('.service-map')[0],
+            {
+                zoom: 10,
+                center: new google.maps.LatLng(locations[0][1], locations[0][2]),
+                mapTypeId: google.maps.MapTypeId.ROADMAP
             });
 
-            google.maps.event.addListener(marker,
-                'click',
-                (function(marker, i) {
-                    return function() {
-                        infowindow.setContent(locations[i][0]);
-                        infowindow.open(map, marker);
-                    }
-                })(marker, i));
-        }
+            var infowindow = new google.maps.InfoWindow();
+
+            var marker, i;
+
+            for (i = 0; i < locations.length; i++) {
+                var pointerNo = i + 1;
+                marker = new google.maps.Marker({
+                    position: new google.maps.LatLng(locations[i][1], locations[i][2]),
+                    map: map,
+                    icon: "/content/images/icons/map-pointers/fac-map-" + pointerNo + ".png"
+                });
+
+                google.maps.event.addListener(marker,
+                    'click',
+                    (function (marker, i) {
+                        return function () {
+                            infowindow.setContent(locations[i][0]);
+                            infowindow.open(map, marker);
+                        }
+                    })(marker, i));
+            }
         </script>
     </div>
 </section>
