@@ -131,7 +131,7 @@ p {
         text-decoration: underline !important;
     }
 
-.findservice .button-next {
+.find-service .button-next {
     background-position: 95% 60%;
 }
 
@@ -143,11 +143,11 @@ p {
         font-size: 40px;
         line-height: 44px;
     }
-    .findservice .form-control {
+    .find-service .form-control {
         width: 265px;
     }
 
-    .findservice .button-next {
+    .find-service .button-next {
         margin-top: 20px;
     }
 
@@ -157,7 +157,7 @@ p {
 }
 
 @media (max-width: 640px) {
-    .findservice .button-next {
+    .find-service .button-next {
         margin-top: 5px;
     }
 
@@ -175,16 +175,16 @@ p {
         line-height: 24px;
     }
 }
-.findservice label {
+.find-service label {
     font-weight: bold;
     display: block;
     margin-bottom: 20px;
 }
-.findservice .find-service-help {
+.find-service .find-service-help {
     padding-top: 20px;
     padding-bottom: 30px;
 }
-.findservice .find-service-help:last-of-type {
+.find-service .find-service-help:last-of-type {
     padding-bottom: 10px;
 }
 .changeAnswers {
@@ -192,7 +192,8 @@ p {
     clear:both;
 }
 
-.findservice h3 {
+.find-service h2 {
+    margin-top: 0;
     margin-bottom: 30px;
 }
 .section-margin label {
