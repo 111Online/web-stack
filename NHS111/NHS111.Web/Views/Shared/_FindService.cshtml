@@ -39,14 +39,14 @@
             @Html.HiddenFor(x => x.SurveyLink.DispositionDateTime)
             @Html.Partial("_CommonHiddenFieldsCareAdviceViewModel", Model)
             
-            <div class="findservice">
-                @Html.Raw((!ViewData.Keys.Contains("Title") ? null : string.Format("<h3>{0}</h3>", ViewData["Title"])))
+            <div class="find-service">
+                <h2 class="heading-medium">@Html.Raw((!ViewData.Keys.Contains("Title") ? null : string.Format("{0}", ViewData["Title"])))</h2>
                 <div class="section-margin">
                     @if (error)
                 {
-                    <p class="error">Sorry, no results were found for this postcode.</p>
-                    <p>Please check you have entered the postcode correctly, then try again. <br/><br/> If the search still gives no results, please call 111 for advice.</p>
-                    <br/>
+                        <p class="error">Sorry, no results were found for this postcode.</p>
+                        <p>Please check you have entered the postcode correctly, then try again. <br /><br /> If the search still gives no results, please call 111 for advice.</p>
+                        <br />
                     }
                     @Html.ValidationMessageFor(m => m.UserInfo.CurrentAddress.Postcode)
                     @Html.LabelFor(m => m.UserInfo.CurrentAddress.Postcode, "Postcode")
@@ -54,7 +54,7 @@
                     <input class="button button-next" type="submit" name="DosResults" value="@Html.Raw(ViewData["ButtonText"])" id="DosLookup">
 
                 </div>
-            </div>
+</div>
         }
 
     </div>
