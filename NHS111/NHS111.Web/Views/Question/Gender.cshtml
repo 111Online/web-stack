@@ -7,7 +7,7 @@
 @section Title { NHS 111 Online - Tell us about you }
 
 @section FeedbackSection {
-    @Html.Partial("_FeedbackDetails", new FeedbackViewModel() { UserId = Model.SessionId.ToString(), PageId = Request.Url.GetComponents(UriComponents.PathAndQuery, UriFormat.SafeUnescaped) })
+    @Html.Partial("_FeedbackDetails", new FeedbackViewModel() { UserId = Model.SessionId.ToString(), PageId = Request.Url.GetComponents(UriComponents.PathAndQuery, UriFormat.SafeUnescaped) + "/demographics" })
 }
 
 <link href="@NHS111.Web.Helpers.Versioning.GetVersionedUriRef("~/Content/css_NhsUK/gender.css")" media="screen" rel="stylesheet" type="text/css" />
