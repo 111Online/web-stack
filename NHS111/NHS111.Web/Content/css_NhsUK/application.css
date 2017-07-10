@@ -411,7 +411,7 @@ table th.numeric {
     background-color: #dbe4f3; }
 
 .button-secondary-cta {
-  background-color: #0072C6;
+  background-color: #005eb8;
   border-color: #002F87;
   border-width: 2px;
   color: #fff;
@@ -425,7 +425,7 @@ table th.numeric {
   background-position: 97.5% 57.5%; }
   .button-secondary-cta:link, .button-secondary-cta:hover, .button-secondary-cta:focus, .button-secondary-cta:visited {
     color: #fff;
-    background-color: #0072C6; }
+    background-color: #005eb8; }
 
 
 details summary {
@@ -605,7 +605,7 @@ details .panel-indent {
     font-size: 1.5rem;
     margin-bottom: -0.62501rem;
     padding-top: 0.62501rem;
-    color: #0072C6;
+    color: #005eb8;
     text-decoration: underline; }
     @media screen and (min-width: 40em) {
       .practioner-link h3 {
@@ -962,7 +962,7 @@ details .panel-indent {
   color: #fff;
   font-weight: bold;
   padding: 0.75rem 1rem;
-  background-color: #0072C6; }
+  background-color: #005eb8; }
   @media screen and (min-width: 40em) {
     .item-header .item-heading {
       padding-right: 7rem; } }
@@ -1432,7 +1432,7 @@ body {
   background: #fff; }
 
 #global-header {
-  background-color: #0072C6;
+  background-color: #005eb8;
    }
 
   #global-header .header-container {
@@ -1760,20 +1760,20 @@ a {
 
 
 a:link, .link {
-  color: #0072C6;
+  color: #005eb8;
   text-decoration: underline;
   cursor: pointer;
     background-color: #fff;
 }
 
 a:visited, .link:visited {
-  color: #0072C6; }
+  color: #005eb8; }
 
 a:hover, .link:hover {
   color: #2e8aca; }
 
 a:active, .link:active {
-  color: #0072C6; }
+  color: #005eb8; }
 
 a.danger:link {
   color: #8F1336; }
@@ -1785,7 +1785,7 @@ a.danger:hover {
   color: #8F1336; }
 
 a.danger:active {
-  color: #0072C6; }
+  color: #005eb8; }
 
 b, strong {
   font-weight: bold; }
@@ -2160,7 +2160,7 @@ button[disabled=disabled] {
     text-transform: uppercase;
     letter-spacing: 1px;
     text-decoration: none;
-    color: #0072C6;
+    color: #005eb8;
 }
 .header-title .phase-tag.alpha {
     background-color: #fff;
@@ -2195,7 +2195,7 @@ button[disabled=disabled] {
 
 .trial-section {
     background-color: #white;
-    border: 1px solid #0072C6;
+    border: 1px solid #005eb8;
     margin-left: 0;    
     margin: 0 0 10px 0;
 }
@@ -2367,7 +2367,7 @@ button[disabled=disabled] {
 
 .outcome-header {
     margin: 40px 0;
-    background-color: #0072C6;
+    background-color: #005eb8;
     padding: 40px;
     color: #fff;
 }
@@ -2415,7 +2415,7 @@ button[disabled=disabled] {
 }
 
 .outcome-header.fail {
-    background-color: #FFB71A;
+    background-color: #fdf2d5;
     color: #000;
 }
 
@@ -2423,8 +2423,8 @@ button[disabled=disabled] {
     background-image: url("/content/img/worsening-fail.png");
 }
 
-.outcome-header.fail h3 {
-    margin: 10px 10px 0 10px;
+.outcome-header.fail a:link {
+    background-color: #fdf2d5;
 }
 
 .button-link-prev {
