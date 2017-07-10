@@ -7,6 +7,9 @@
     <legend class="heading-small">
         Sex
     </legend>
+    <div>
+        @Html.ValidationMessageFor(m => m.UserInfo.Demography.Gender, "Please select a sex")
+    </div>
     <div id="answers">
         
         <label for="Male" class="answer answer-label">
