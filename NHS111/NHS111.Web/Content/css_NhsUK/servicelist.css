@@ -75,10 +75,11 @@
 }
 
 .results-service-recommended {
+    padding-top: 10px;
     background-color: #eef6eb;
 }
-.results-service-recommended h3{
-    background-color: #eef6eb;
+.results-service-recommended h3 {
+    margin: 10px;
 }
 
 .results-list h3 {
