@@ -1,9 +1,12 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 using System.Net.Http;
-using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.Azure;
+using Microsoft.WindowsAzure.Storage;
+using Microsoft.WindowsAzure.Storage.Table;
 using Newtonsoft.Json;
 using NHS111.Models.Models.Web;
 using NHS111.Utils.Helpers;
@@ -44,10 +47,27 @@ namespace NHS111.Web.Presentation.Builders
 
             return model;
         }
+
+        public async Task<IEnumerable<FeedbackViewModel>> ViewFeedbackBuilder(int pageNumber = 0, int pageSize = 1000)
+        {
+            var storageAccount = CloudStorageAccount.Parse(CloudConfigurationManager.GetSetting("StorageConnectionString"));
+            var tableClient = storageAccount.CreateCloudTableClient();
+            var table = tableClient.GetTableReference(CloudConfigurationManager.GetSetting("StorageTableReference"));
+
+            var query = new TableQuery<FeedbackViewModel>();
+            var results = await table.ExecuteQueryAsync(query);
+
+            if (!results.Any()) return new List<FeedbackViewModel>();
+
+            var orderedResults = results.OrderByDescending(f => f.DateAdded);
+            var feedback = (pageNumber > 0) ? orderedResults.Skip((pageNumber - 1) * pageSize).Take(pageSize) : orderedResults.Take(pageSize);
+            return feedback;
+        }
     }
 
     public interface IFeedbackViewModelBuilder
     {
         Task<FeedbackConfirmation> FeedbackBuilder(FeedbackViewModel feedback);
+        Task<IEnumerable<FeedbackViewModel>> ViewFeedbackBuilder(int pageNumber = 0, int pageSize = 1000);
     }
 }
