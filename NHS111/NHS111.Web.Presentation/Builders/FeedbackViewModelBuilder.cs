@@ -1,16 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
-using System.Net.Http.Headers;
 using System.Text;
-using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Azure;
 using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Table;
-using Microsoft.WindowsAzure.Storage.Table.Queryable;
 using Newtonsoft.Json;
 using NHS111.Models.Models.Web;
 using NHS111.Utils.Helpers;
@@ -67,27 +62,5 @@ namespace NHS111.Web.Presentation.Builders
     {
         Task<FeedbackConfirmation> FeedbackBuilder(FeedbackViewModel feedback);
         Task<IEnumerable<FeedbackViewModel>> ViewFeedbackBuilder();
-    }
-
-    public static class AzureHelper
-    {
-        public static async Task<IEnumerable<T>> ExecuteQueryAsync<T>(this CloudTable table, TableQuery<T> query, CancellationToken ct = default(CancellationToken), Action<IList<T>> onProgress = null) where T : ITableEntity, new()
-        {
-
-            var items = new List<T>();
-            TableContinuationToken token = null;
-
-            do
-            {
-
-                TableQuerySegment<T> seg = await table.ExecuteQuerySegmentedAsync<T>(query, token);
-                token = seg.ContinuationToken;
-                items.AddRange(seg);
-                if (onProgress != null) onProgress(items);
-
-            } while (token != null && !ct.IsCancellationRequested);
-
-            return items;
-        }
     }
 }
