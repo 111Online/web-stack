@@ -42,6 +42,7 @@
     dataDictionary.Add(new KeyValuePair<string, object>("Title", "Find an optician"));
     dataDictionary.Add(new KeyValuePair<string, object>("ButtonText", "Find an optician"));
     dataDictionary.Add(new KeyValuePair<string, object>("Label", "Opticians"));
+    dataDictionary.TemplateInfo = new TemplateInfo() { HtmlFieldPrefix = "FindService" };
 }
 @Html.Partial("_FindService", Model, dataDictionary)
 
