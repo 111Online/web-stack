@@ -42,6 +42,7 @@
     dataDictionary.Add(new KeyValuePair<string, object>("Title", "Find a service that can see you"));
     dataDictionary.Add(new KeyValuePair<string, object>("ButtonText", "Find a service"));
     dataDictionary.Add(new KeyValuePair<string, object>("Label", "Urgent healthcare services"));
+    dataDictionary.TemplateInfo = new TemplateInfo() {HtmlFieldPrefix = "FindService"};
 }
 @Html.Partial("_FindService", Model, dataDictionary)
 
@@ -65,9 +66,7 @@
 
 @using (Html.BeginForm("Navigation", "Question", FormMethod.Post))
 {
-    @*@Html.Partial("_CommonHiddenFieldsOutcomeViewModel", Model)*@
-    @Html.HiddenFor(x => Model.PathwayId)
-    @Html.HiddenFor(x => Model.JourneyJson)
+    @Html.Partial("_CommonHiddenFieldsOutcomeViewModel", Model)
     if (!Model.DisplayOutcomeReferenceOnly)
     {
         <div class="changeAnswers row">
