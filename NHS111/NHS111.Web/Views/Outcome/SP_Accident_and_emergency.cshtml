@@ -66,9 +66,7 @@
 
 @using (Html.BeginForm("Navigation", "Question", FormMethod.Post))
 {
-    @*@Html.Partial("_CommonHiddenFieldsOutcomeViewModel", Model)*@
-    @Html.HiddenFor(x => Model.PathwayId)
-    @Html.HiddenFor(x => Model.JourneyJson)
+    @Html.Partial("_CommonHiddenFieldsOutcomeViewModel", Model)
     if (!Model.DisplayOutcomeReferenceOnly)
     {
         <div class="changeAnswers row">
