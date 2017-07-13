@@ -9,18 +9,24 @@
     </style>
 <![endif]-->
 
+@{
+    const int maxFeedbackLength = 1200;
+}
+
 <div class="feedback-wrapper">
     <div class="feedback-container feedback-container--open">
         <div class="feedback-banner">
             <span class="feedback-dismiss"></span>
             <form id="FeedbackForm" action="@Url.Action("SubmitFeedback", "Feedback")">
                 <div id="FeedbackDetails">
-        
-                    <p class="feedback-message">
+
+                    <h2 class="heading-small">
                         @Html.LabelFor(m => m.Text, "Tell us if this page isn't clear")
-                    </p>
+                    </h2>
+                    <p>Don't include personal information.</p>
                     <div class="feedback-form">
-                        @Html.TextAreaFor(m => m.Text, new { @placeholder = "Feedback", @Value = "", @class = "feedback-input", @maxlength = "8000" })
+                        @Html.TextAreaFor(m => m.Text, new { @placeholder = "Feedback", @Value = "", @class = "feedback-input", @maxlength = maxFeedbackLength })
+                        <p id="textdetailscounter">(Limit is 1200 characters)</p>
                         <button type="button" class="feedback-btn feedback-submit button-next" id="btnFeedback" onclick="SubmitFeedback(this);" tabindex="0">Send feedback</button>
                     </div>
                 </div>
@@ -31,6 +37,13 @@
     </div>
 </div>
 <script>
+
+    var maxLength = @maxFeedbackLength;
+    $('.feedback-input').keyup(function () {
+        var length = $(this).val().length;
+        var length = maxLength - length;
+        $('#textdetailscounter').text(length + ' characters remaining (limit is ' + @maxFeedbackLength + ' characters)');
+    });
 
     $('.feedback-dismiss').click(function () {
         $('.feedback-wrapper').slideToggle();
