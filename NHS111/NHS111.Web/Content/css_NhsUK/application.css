@@ -2019,7 +2019,7 @@ button[disabled=disabled] {
     -webkit-appearance: none;
     border-radius: 0;
     padding: 20px 0 15px 15px;
-    /*box-sizing: border-box;*/
+    box-sizing: border-box;
     width: 100%;
 }
 .button-feedback {
