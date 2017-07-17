@@ -17,7 +17,6 @@
     <div class="feedback-container feedback-container--open">
         <div class="feedback-banner">
             <span class="feedback-dismiss"></span>
-            @*<form id="FeedbackForm" action="@Url.Action("SubmitFeedback", "Feedback")">*@
             <div id="feedback-details">
                 @using (Ajax.BeginForm("SubmitFeedback", "Feedback", new AjaxOptions { InsertionMode = InsertionMode.Replace, UpdateTargetId = "feedback-details", LoadingElementId = "loader", HttpMethod = "POST", OnBegin = "$('#feedback-details').slideToggle(600);", OnSuccess = "$('#feedback-details').slideToggle(600);" }))
                 {
@@ -30,12 +29,10 @@
                     <div class="feedback-form">
                         @Html.TextAreaFor(m => m.Text, new { @placeholder = "Feedback", @Value = "", @class = "feedback-input", @maxlength = maxFeedbackLength })
                         <p id="textdetailscounter">(Limit is 1200 characters)</p>
-                        @*<button type="button" class="feedback-btn feedback-submit button-next" id="btnFeedback" onclick="SubmitFeedback(this);" tabindex="0">Send feedback</button>*@
                         <button class="button button-feedback" id="btnFeedback">Send feedback</button>
                     </div>
                 }
             </div>
-            @*</form>*@
         </div>
     </div>
 </div>
@@ -63,31 +60,5 @@
         $('.feedback-input').autogrow({ vertical: true, horizontal: false });
         $('.feedback-wrapper').show();
     });
-
-
-    //function SubmitFeedback(btnClicked) {
-    //    if ($("#Text").val() !== "") {
-    //        var $form = $(btnClicked).parents("form");
-    //        $form[0][0].value = $('<div/>').text($form[0][0].value).html();
-    //        var detailsDiv = $("#FeedbackDetails");
-    //        $(detailsDiv).slideToggle(600);
-    //        $.ajax({
-    //            type: "POST",
-    //            url: $form.attr("action"),
-    //            data: $form.serialize(),
-    //            error: function (xhr, status, error) {
-    //                alert(error);
-    //                $(detailsDiv).slideToggle(600);
-    //                //do something about the error
-    //            },
-    //            success: function (response) {
-    //                $(detailsDiv).html('<p>' + response.Message + '</p>');
-    //                $(detailsDiv).slideToggle(600);
-    //            }
-    //        });
-    //        return false;
-    //    }
-    //}
-
    
 </script>

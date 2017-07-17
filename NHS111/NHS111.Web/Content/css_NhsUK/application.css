@@ -2021,8 +2021,6 @@ button[disabled=disabled] {
     padding: 20px 0 15px 15px;
     /*box-sizing: border-box;*/
     width: 100%;
-    /*min-height: 83px;*/ /* 24 line-height * 2 (rows) + 20 padding-top + 15 padding-bottom */
-    /*min-width: 100%;*/
 }
 .button-feedback {
     font-weight: normal;
