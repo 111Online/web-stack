@@ -25,7 +25,7 @@
                     <h2 class="heading-small">
                         @Html.LabelFor(m => m.Text, "Tell us if this page isn't clear")
                     </h2>
-                    <p>Don't include personal information.</p>
+                    <p>Don’t include any personal information, such as your name, date of birth, address or NHS number.</p>
                     <div class="feedback-form">
                         @Html.TextAreaFor(m => m.Text, new { @placeholder = "Feedback", @Value = "", @class = "feedback-input", @maxlength = maxFeedbackLength })
                         <p id="textdetailscounter">(Limit is 1200 characters)</p>
