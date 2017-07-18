@@ -601,6 +601,8 @@
     <Content Include="Scripts\icheck.js" />
     <Content Include="Scripts\jquery.blockUI.js" />
     <Content Include="Scripts\jquery.cookie.js" />
+    <Content Include="Scripts\jquery.unobtrusive-ajax.js" />
+    <Content Include="Scripts\jquery.unobtrusive-ajax.min.js" />
     <Content Include="Scripts\jquery1.11.2-ui.min.js" />
     <Content Include="Scripts\jquery2.1.1.min.js" />
     <Content Include="Scripts\mobileScroller.js" />

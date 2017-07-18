@@ -1917,22 +1917,20 @@ button[disabled=disabled] {
 .feedback-wrapper {
     /*z-index: 9001;*/
     position: relative;
+    display: none;
 }
 .feedback-banner {
-    display: inline-block;
     margin: 0 15px;
-    width: 80%;
 }
 @media (min-width: 641px) {
     .feedback-banner {
         margin: 0 30px;
-        max-width: 66%;
     }
 }
 @media (min-width: 1020px) {
     .feedback-banner {
+        max-width: 66%;
         margin: 0 auto;
-        display: block;
     }
 }
 
@@ -2016,57 +2014,35 @@ button[disabled=disabled] {
 
 .feedback-input {
     resize: none; 
-    padding: 0 10px;
     background-color: #fff;
     border: 2px solid #b9d2dc;
     -webkit-appearance: none;
     border-radius: 0;
-    margin-right: 10px;
-    margin-bottom: 10px;
-    font-size: 16px;
     padding: 20px 0 15px 15px;
+    box-sizing: border-box;
+    width: 100%;
 }
-
-@media (min-width:769px ) {
-    .feedback-input {
-        width: 80%;
-    }
-}
-
-@media (max-width:770px ) {
-    .feedback-input {
-        width: 100%;
-    }
-}
-@media screen and (min-width: 500px) {
-    .feedback-input {
-        font-size: 18px;
-    }
-}
-.feedback-btn.feedback-submit {
-    float: left;
-    max-width: none;
-    border: 0;
-    line-height: 40px;
+.button-feedback {
+    font-weight: normal;
+    padding-right: 5rem;
+    background-image: url(/content/images/icons/icon-button-next.svg);
+    background-repeat: no-repeat;
     color: #fff;
     background-color: #405364;
-    margin-left: 0;
-    width: 200px;
-    background-position: 97% 60%;
-    padding: 5px;
+    background-position: 100% 60%;
     text-decoration: none;
+    margin-top: 10px;
 }
-.feedback-btn.feedback-submit:link, .feedback-btn.feedback-submit:hover, .feedback-btn.feedback-submit:focus, .feedback-btn.feedback-submit:visited {
+.button-feedback:link, .button-feedback:hover, .button-feedback:focus, .button-feedback:visited {
     color: #fff;
     background-color: #2e3b47;
 }
-@media screen and (min-width: 500px) {
-    .feedback-btn.feedback-submit {
-        margin-left: 0;
-        font-size: 20px;
+@media screen and (max-width: 360px) {
+    .button-feedback {
+        padding-left: 8px;
+        padding-right: 5em;
     }
 }
-
 .feedback-dismiss {
     position: absolute;
     right: 10px;
