@@ -1,8 +1,8 @@
 ﻿.notification-banner {
-    background-color: #000;
+    background-color: #f0f4f5;
 }
 .notification-banner a {
-    color: #fff;
+    background-color: #f0f4f5;
 }
 .notification-banner--hiviz {
     background-color: #fada8b;
