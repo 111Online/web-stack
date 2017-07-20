@@ -841,6 +841,7 @@
     <Content Include="Views\Shared\_PublicPhoneServices.cshtml" />
     <Content Include="Views\Shared\_OutcomeHeaderTwoTitles.cshtml" />
     <Content Include="Views\Shared\_WorseningAdviceWithTitle.cshtml" />
+    <Content Include="Views\Shared\_VersionInfo.cshtml" />
     <None Include="Web.Development.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
