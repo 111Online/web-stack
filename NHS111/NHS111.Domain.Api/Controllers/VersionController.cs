@@ -6,11 +6,13 @@ using System.Threading.Tasks;
 using System.Web;
 using System.Web.Http;
 using NHS111.Domain.Repository;
+using NHS111.Utils.Attributes;
 using NHS111.Utils.Extensions;
 
 namespace NHS111.Domain.Api.Controllers
 {
-    public class VersionController
+    [LogHandleErrorForApi]
+    public class VersionController : ApiController
     {
         private readonly IVersionRepository _versionRepository;
 
