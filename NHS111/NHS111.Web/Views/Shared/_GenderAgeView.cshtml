@@ -7,17 +7,20 @@
     <legend class="heading-small">
         Sex
     </legend>
+    <div>
+        @Html.ValidationMessageFor(m => m.UserInfo.Demography.Gender, "Please select a sex")
+    </div>
     <div id="answers">
-    
+        
         <label for="Male" class="answer answer-label">
             <span class="answer-radio">
-                @Html.RadioButtonFor(m => m.UserInfo.Demography.Gender, GenderEnum.Male, new { @id = "Male" })
+                @Html.RadioButtonFor(m => m.UserInfo.Demography.Gender, GenderEnum.Male, new {@id = "Male"})
             </span>
             <span class="answer-text">Male</span>
         </label>
         <label for="Female" class="answer answer-label">
             <span class="answer-radio">
-                @Html.RadioButtonFor(m => m.UserInfo.Demography.Gender, GenderEnum.Female, new { @id = "Female" })
+                @Html.RadioButtonFor(m => m.UserInfo.Demography.Gender, GenderEnum.Female, new {@id = "Female"})
             </span>
             <span class="answer-text">Female</span>
         </label>

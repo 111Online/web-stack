@@ -17,10 +17,11 @@ namespace NHS111.Web.Controllers
         }
 
         [HttpPost]
-        public async Task<JsonResult> SubmitFeedback(FeedbackViewModel feedbackData)
+        public async Task<ActionResult> SubmitFeedback(FeedbackViewModel feedbackData)
         {
             feedbackData.DateAdded = DateTime.Now; //this is when the feedback is added
-            return Json(await _feedbackViewModelBuilder.FeedbackBuilder(feedbackData));
+            var model = await _feedbackViewModelBuilder.FeedbackBuilder(feedbackData);
+            return Content("<p>" + model.Message + "</p>", "text/html");
         }
     }
 }

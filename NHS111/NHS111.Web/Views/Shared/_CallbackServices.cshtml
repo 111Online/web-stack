@@ -7,13 +7,13 @@
 
 @if (services.Any(s => s.CallbackEnabled))
 {
-    <h5 id ="alternative-service-callback-link">@string.Format("{0}", ViewData.Keys.Contains("CallbackTitle") ? ViewData["CallbackTitle"] : "We can arrange for someone to phone you")</h5>
+    <h3 id ="alternative-service-callback-link" class="heading-small">@string.Format("{0}", ViewData.Keys.Contains("CallbackTitle") ? ViewData["CallbackTitle"] : "We can arrange for someone to phone you")</h3>
     <div class="alternative-care-service">
         <p>They will check through the answers you have entered and give you advice on what to do next</p>
         <div class="alternative-care-service content">
             @foreach (var callbackService in services.Where(s => s.CallbackEnabled))
             {
-                <h4 class="service-title">@WebUtility.HtmlDecode(callbackService.Name)</h4>
+                <h4 class="service-title heading-small">@WebUtility.HtmlDecode(callbackService.Name)</h4>
 
                 if (!callbackService.IsOpen)
                 {

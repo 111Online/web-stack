@@ -55,6 +55,8 @@
     dataDictionary.Add(new KeyValuePair<string, object>("ButtonText", "Find a healthcare service"));
     dataDictionary.Add(new KeyValuePair<string, object>("Label", "Healthcare services"));
     dataDictionary.Add(new KeyValuePair<string, object>("ITK", true));
+    dataDictionary.TemplateInfo = new TemplateInfo() { HtmlFieldPrefix = "FindService" };
+
 }
 @Html.Partial("_FindService", Model, dataDictionary)
 

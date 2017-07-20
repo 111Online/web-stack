@@ -42,6 +42,7 @@
     dataDictionary.Add(new KeyValuePair<string, object>("Title", "Find a sexual health clinic"));
     dataDictionary.Add(new KeyValuePair<string, object>("ButtonText", "Find a sexual health clinic"));
     dataDictionary.Add(new KeyValuePair<string, object>("Label", "Sexual health clinics"));
+    dataDictionary.TemplateInfo = new TemplateInfo() { HtmlFieldPrefix = "FindService" };
 }
 @Html.Partial("_FindService", Model, dataDictionary)
 

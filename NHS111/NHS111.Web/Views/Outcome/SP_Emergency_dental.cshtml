@@ -41,6 +41,7 @@
     dataDictionary.Add(new KeyValuePair<string, object>("Title", "Find an emergency dental service that can see you"));
     dataDictionary.Add(new KeyValuePair<string, object>("ButtonText", "Find an emergency dental service"));
     dataDictionary.Add(new KeyValuePair<string, object>("Label", "Emergency dental treatment centres"));
+    dataDictionary.TemplateInfo = new TemplateInfo() { HtmlFieldPrefix = "FindService" };
 }
 @Html.Partial("_FindService", Model, dataDictionary)
 

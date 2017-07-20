@@ -115,7 +115,7 @@ p {
     padding: 0 !important;
     padding-right: 20px !important;
     cursor: pointer;
-    color: #0072C6;
+    color: #005eb8;
     background-color: white !important;
     background-image: url("/content/images/icons/icon-link-go.png");
     background-repeat: no-repeat;
@@ -123,7 +123,7 @@ p {
 }
 
     .button-link:link, .button-link:hover, .button-link:focus, .button-link:visited {
-        color: #0072C6;
+        color: #005eb8;
         outline: none;
     }
 
@@ -131,7 +131,7 @@ p {
         text-decoration: underline !important;
     }
 
-.findservice .button-next {
+.find-service .button-next {
     background-position: 95% 60%;
 }
 
@@ -143,11 +143,11 @@ p {
         font-size: 40px;
         line-height: 44px;
     }
-    .findservice .form-control {
+    .find-service .form-control {
         width: 265px;
     }
 
-    .findservice .button-next {
+    .find-service .button-next {
         margin-top: 20px;
     }
 
@@ -157,7 +157,7 @@ p {
 }
 
 @media (max-width: 640px) {
-    .findservice .button-next {
+    .find-service .button-next {
         margin-top: 5px;
     }
 
@@ -170,26 +170,21 @@ p {
         padding-bottom: 30px;
     }
 
-    .care-advice h3 {
-        font-size: 20px;
-        line-height: 24px;
-    }
-
     h3 {
         font-size: 20px;
         line-height: 24px;
     }
 }
-.findservice label {
+.find-service label {
     font-weight: bold;
     display: block;
     margin-bottom: 20px;
 }
-.findservice .find-service-help {
+.find-service .find-service-help {
     padding-top: 20px;
     padding-bottom: 30px;
 }
-.findservice .find-service-help:last-of-type {
+.find-service .find-service-help:last-of-type {
     padding-bottom: 10px;
 }
 .changeAnswers {
@@ -197,7 +192,8 @@ p {
     clear:both;
 }
 
-.findservice h3 {
+.find-service h2 {
+    margin-top: 0;
     margin-bottom: 30px;
 }
 .section-margin label {
@@ -271,6 +267,9 @@ details summary::-webkit-details-marker {
         margin-bottom: 20px;
     }
 }
+.worsening-advice-icon h2 {
+    margin-top: 0;
+}
 .worsening-advice-icon.blue {
     background-image: url(/content/images/icons/warning-blue.png);
     background-position: 20px center;
@@ -278,8 +277,8 @@ details summary::-webkit-details-marker {
     padding-top: 0;
     margin-top: 40px;
     min-height: 34px;
-    color: #0072C6;
-    border: 2px solid #0072C6;
+    color: #005eb8;
+    border: 2px solid #005eb8;
     padding: 20px 70px;
 }
 .worsening-advice-icon.black {
@@ -287,7 +286,7 @@ details summary::-webkit-details-marker {
     margin-top: 40px;
     min-height: 34px;
     color: black;
-    border: 4px solid #0072C6;
+    border: 4px solid #005eb8;
     padding: 20px 40px;
 }
 .alternative-care {
@@ -295,31 +294,11 @@ details summary::-webkit-details-marker {
     line-height: 28px;
     display: none;
 }
-.alternative-care h3 {
-    font-size: 28px;
-    padding-bottom: 20px;
-}
-@media (max-width: 640px) {
-    .alternative-care h3 {
-        font-size: 20px;
-        line-height: 24px;
-    }
-}
-.alternative-care h4 {
-    font-size: 20px;
-    line-height: 28px;
-}
 .phone-service h4 {
    margin-top: 20px;
 }
 .phone-service h4:first-child {
    margin-top: 0px;
-}
-@media (max-width: 640px) {
-    .alternative-care h4 {
-        font-size: 16px;
-        line-height: 20px;
-    }
 }
 .alternative-care-service p {
     margin-left: 14px;
@@ -370,23 +349,23 @@ details summary::-webkit-details-marker {
     cursor:pointer;
 }
 
-.alternative-care h5
+.alternative-care h3
 {
-    color: #0072C6;
+    color: #005eb8;
     text-decoration: underline;
     cursor: pointer;
 
 }
-.alternative-care h5:focus {
+.alternative-care h3:focus {
     border: none;
     outline: none;
 }
 
-.alternative-care h5:before {
+.alternative-care h3:before {
      content:url('/Content/images/blue-arrow-right.png');
 }
 
-.alternative-care h5.ui-accordion-header-active:before {
+.alternative-care h3.ui-accordion-header-active:before {
      content:url('/Content/images/blue-arrow-down.png');
 }
 .outcome-header h3 {
@@ -401,7 +380,10 @@ details summary::-webkit-details-marker {
 }
 .outcome-header p {
     margin: 10px;
-    font-weight: bold;
+    font-weight: 600;
+}
+.outcome-header input {
+    margin: 10px;
 }
 .alternative-care-hr {
     margin: 20px;
@@ -420,4 +402,5 @@ details summary::-webkit-details-marker {
 .outcome-header > p > a:link {
     color: #ffffff;
     text-decoration: none;
+    background-color: #005eb8;
 }

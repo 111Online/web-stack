@@ -49,21 +49,19 @@
     @Html.HiddenFor(m => m.SelectedServiceId)
     <section style="margin-top: 40px;">
         <div class="section-item last">
-            <h3 class="section-header">
+            <h1 class="heading-large">
                 Enter your details
-            </h3>
-            <h4 class="section-header">
+            </h1>
+            <h2 class="heading-medium">
                 If you were answering the questions about someone else, enter their details instead
-            </h4>
+            </h2>
 
             @Html.Partial("_PersonalDetailsSelf", Model, dataDictionary)
 
             @Html.Partial("_InformantDetails", Model.Informant, dataDictionary)
 
             <div class="personal-details-content">
-                <label>
-                    Contact number
-                </label>
+                @Html.LabelFor(m => m.UserInfo.TelephoneNumber, "Contact number")
                 <div>@Html.ValidationMessageFor(m => m.UserInfo.TelephoneNumber, "Please enter a valid phone number")</div>
                 <div class="inline-details">
                     @Html.TextBoxFor(m => m.UserInfo.TelephoneNumber, new { @class = "form-control form-control-16-chars", placeholder = "Landline or mobile number", type = "tel" })

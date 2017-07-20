@@ -42,14 +42,15 @@
     dataDictionary.Add(new KeyValuePair<string, object>("Title", "Find a service that can see you"));
     dataDictionary.Add(new KeyValuePair<string, object>("ButtonText", "Find a service"));
     dataDictionary.Add(new KeyValuePair<string, object>("Label", "Urgent healthcare services"));
+    dataDictionary.TemplateInfo = new TemplateInfo() {HtmlFieldPrefix = "FindService"};
 }
 @Html.Partial("_FindService", Model, dataDictionary)
 
 <section>
     <div class="outcome-additional-info">
-        <h3 class="outcome-additional-info-header">
+        <h2 class="heading-medium">
             Advice before you go
-        </h3>
+        </h2>
         <ul>
             <li>don't drive yourself, get someone else to take you</li>
             <li>take all your current medicines with you</li>

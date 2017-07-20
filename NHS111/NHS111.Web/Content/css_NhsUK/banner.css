@@ -1,17 +1,18 @@
 ﻿.notification-banner {
-    background-color: #000;
+    background-color: #f0f4f5;
 }
 .notification-banner a {
-    color: #fff;
+    background-color: #f0f4f5;
 }
 .notification-banner--hiviz {
-    background-color: #ffca55;
+    background-color: #fada8b;
 }
 .notification-banner--hiviz a:visited {
-    color: #0072C6;
+    color: #00276f;
 }
 .notification-banner--hiviz a:link {
-    color: #0072C6;
+    color: #004d97;
+    background-color: #fada8b;
 }
 .notification-banner--inner {
     margin: 0 16px;

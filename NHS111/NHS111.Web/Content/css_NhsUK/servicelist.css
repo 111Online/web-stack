@@ -47,7 +47,7 @@
     text-decoration: underline !important;
 }
 .directions {
-    color: #0072C6;
+    color: #005eb8;
     background-image:none;
     font-size: 1.5rem;
 }
@@ -75,10 +75,11 @@
 }
 
 .results-service-recommended {
+    padding-top: 10px;
     background-color: #eef6eb;
 }
-.results-service-recommended h3{
-    background-color: #eef6eb;
+.results-service-recommended h3 {
+    margin: 10px;
 }
 
 .results-list h3 {

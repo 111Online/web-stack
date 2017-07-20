@@ -8,7 +8,7 @@
 @section Title { NHS 111 Online - Is it an emergency? }
 
 @section FeedbackSection {
-    @Html.Partial("_FeedbackDetails", new FeedbackViewModel() { UserId = Model.SessionId.ToString(), PageId = Request.Url.GetComponents(UriComponents.PathAndQuery, UriFormat.SafeUnescaped) })
+    @Html.Partial("_FeedbackDetails", new FeedbackViewModel() { UserId = Model.SessionId.ToString(), PageId = Request.Url.GetComponents(UriComponents.PathAndQuery, UriFormat.SafeUnescaped) + "module zero" })
 }
 
 @using (Html.BeginForm("InitialQuestion", "Question", FormMethod.Post))

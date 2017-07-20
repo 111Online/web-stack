@@ -34,12 +34,12 @@
  .care-advice .care-advice-keywords ol li:first-child {
     margin-left: 0;
 }
-.care-advice h3, .care-advice-section-header {
+.care-advice-section-header {
     font-size: 28px;
     padding-bottom: 20px;
 }
 @media (max-width: 640px) {
-    .care-advice h3, .care-advice-section-header {
+    .care-advice-section-header {
         font-size: 20px;
         line-height: 24px;
     }
