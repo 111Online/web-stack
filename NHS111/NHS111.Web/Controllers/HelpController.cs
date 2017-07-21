@@ -40,13 +40,11 @@ namespace NHS111.Web.Controllers
 
         public async Task<PartialViewResult> VersionInfo()
         {
-            var url = _configuration.GetBusinessApiVersionInfoUrl();
+            var url = _configuration.GetBusinessApiVersionUrl();
             var request = new RestRequest(url, Method.GET);
             request.OnBeforeDeserialization = resp => { resp.ContentType = "application/json"; };
             
-            //var response = await _restClientBusinessApi.ExecuteTaskAsync<VersionInfo>(request);
-
-            var response = new RestResponse<VersionInfo>() { Data = new VersionInfo() { Build = "v111", Date = DateTime.Now, ContentBranch = "/content/branch", DataBranch = "/data/branch", Version = "v11" } };
+            var response = await _restClientBusinessApi.ExecuteTaskAsync<VersionInfo>(request);
 
             return PartialView("_VersionInfo", response.Data);
         }
