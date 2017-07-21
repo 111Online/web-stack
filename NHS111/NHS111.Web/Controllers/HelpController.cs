@@ -1,15 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Web;
-using System.Web.Mvc;
+﻿using System.Web.Mvc;
 using NHS111.Models.Models.Domain;
+using NHS111.Utils.Attributes;
 using NHS111.Web.Presentation.Configuration;
 using RestSharp;
 
 namespace NHS111.Web.Controllers
 {
+    [LogHandleErrorForMVC]
     public class HelpController : Controller
     {
         public HelpController(IConfiguration configuration, IRestClient restClientBusinessApi)
@@ -38,13 +35,13 @@ namespace NHS111.Web.Controllers
             return View();
         }
 
-        public async Task<PartialViewResult> VersionInfo()
+        public ActionResult VersionInfo()
         {
-            var url = _configuration.GetBusinessApiVersionUrl();
+            var url = _configuration.GetBusinessApiVersionUrl(true);
             var request = new RestRequest(url, Method.GET);
             request.OnBeforeDeserialization = resp => { resp.ContentType = "application/json"; };
             
-            var response = await _restClientBusinessApi.ExecuteTaskAsync<VersionInfo>(request);
+            var response = _restClientBusinessApi.Execute<VersionInfo>(request);
 
             return PartialView("_VersionInfo", response.Data);
         }
