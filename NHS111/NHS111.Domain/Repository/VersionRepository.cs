@@ -1,14 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
+using Neo4jClient.Cypher;
 using NHS111.Models.Models.Domain;
 using NHS111.Utils.Extensions;
 
 namespace NHS111.Domain.Repository
 {
-    public class VersionRepository
+    public class VersionRepository : IVersionRepository
     {
         public VersionRepository(IGraphRepository graphRepository)
         {
@@ -18,7 +15,8 @@ namespace NHS111.Domain.Repository
         public async Task<VersionInfo> GetInfo()
         {
             return await _graphRepository.Client.Cypher
-                .Return(v => v.As<VersionInfo>())
+                .Match("(v:Version)")
+                .Return(v => Return.As<VersionInfo>("v"))
                 .ResultsAsync
                 .FirstOrDefault();
         }

@@ -16,7 +16,7 @@ namespace NHS111.Models.Models.Domain
         public string Build { get; set; }
 
         [JsonProperty(PropertyName = "dateTime")]
-        public DateTime Date { get; set; }
+        public string Date { get; set; }
 
         [JsonProperty(PropertyName = "pathwaysBranch")]
         public string ContentBranch { get; set; }
