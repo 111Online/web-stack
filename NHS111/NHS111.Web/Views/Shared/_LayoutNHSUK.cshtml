@@ -125,17 +125,6 @@
     </script>
     }
 
-    <script type="text/javascript">
-        var website = {
-            name: 'NHS 111',
-            phase: 'beta',
-            version: '@NHS111.Web.Helpers.Versioning.GetWebsiteVersion()',
-            date: '@File.GetCreationTime(ViewContext.Controller.GetType().Assembly.Location)'
-        };
-
-        console.groupCollapsed('%s (%s) v%s', website.name, website.phase, website.version);
-        console.log("Date compiled %s", website.date);
-        console.groupEnd();
-    </script>
+    @{ Html.RenderAction("VersionInfo", "Help"); }
 </body>
 </html>

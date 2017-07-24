@@ -158,6 +158,11 @@ namespace NHS111.Business.Configuration
         {
             return new ElasticClient(GetElasticClientSettings().DisableDirectStreaming());
         }
+
+        public string GetDomainApiVersionUrl()
+        {
+            return GetDomainApiUrl("DomainApiGetVersionUrl");
+        }
     }
 
     public interface IConfiguration
@@ -198,8 +203,10 @@ namespace NHS111.Business.Configuration
         string GetCategoriesWithPathwaysUrl(string gender, int age);
 
         /*Pathways Search */
-
         ConnectionSettings GetElasticClientSettings();
         IElasticClient GetElasticClient();
+
+        /*Version*/
+        string GetDomainApiVersionUrl();
     }
 }

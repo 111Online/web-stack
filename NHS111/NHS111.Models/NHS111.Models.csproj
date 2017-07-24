@@ -194,6 +194,7 @@
     <Compile Include="Models\Domain\PathwayWithDescription.cs" />
     <Compile Include="Models\Domain\QuestionWithPathwaySelection.cs" />
     <Compile Include="Models\Domain\SymptomDiscriminator.cs" />
+    <Compile Include="Models\Domain\VersionInfo.cs" />
     <Compile Include="Models\Web\AgeGenderViewModel.cs" />
     <Compile Include="Models\Web\Clock\SystemClock.cs" />
     <Compile Include="Models\Web\Clock\IClock.cs" />

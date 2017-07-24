@@ -137,6 +137,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\SearchCorrectionService.cs" />
     <Compile Include="Services\SymptomDisciminatorService.cs" />
+    <Compile Include="Services\VersionService.cs" />
     <Compile Include="Transformers\QuestionTransformer.cs" />
   </ItemGroup>
   <ItemGroup>
