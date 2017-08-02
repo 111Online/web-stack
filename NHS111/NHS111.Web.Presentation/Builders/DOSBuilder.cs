@@ -56,10 +56,6 @@ namespace NHS111.Web.Presentation.Builders
             const int PHARMACY = 13;
             const int PHARMACY_EXT_HOURS = 116;
 
-            var doscheckcap = File.ReadAllText("C:\\Work\\json.txt");
-            var obj = JsonConvert.DeserializeObject<DosCheckCapacitySummaryResult>(doscheckcap);
-            return obj;
-
             var request = BuildRequestMessage(dosViewModel);
             var body = await request.Content.ReadAsStringAsync();
 
