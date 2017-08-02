@@ -34,8 +34,28 @@ namespace NHS111.SmokeTest.Utils
         public void Load()
         {
             _driver.Navigate().GoToUrl(_baseUrl);
+            if (UrlContainsCredentials())
+            {
+                _driver.Navigate().GoToUrl(GetUrlWithoutCredentials());
+            }
             _driver.Manage().Window.Maximize();
         }
+
+        private string GetUrlWithoutCredentials()
+        {
+            if (UrlContainsCredentials())
+            {
+                return _driver.Url.Remove(_baseUrl.IndexOf("://") + 3,
+                    _baseUrl.LastIndexOf("@") - (_baseUrl.IndexOf("://") + 3));
+            }
+            return _baseUrl;
+        }
+
+        private static bool UrlContainsCredentials()
+        {
+            return _baseUrl.Contains("@");
+        }
+
         public ModuleZeroPage ClickNextButton()
         {
             NextButton.Click();
