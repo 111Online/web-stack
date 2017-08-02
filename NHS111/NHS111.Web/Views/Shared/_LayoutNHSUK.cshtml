@@ -85,20 +85,21 @@
             </div>
         </div>
     </header>
-    @if (DisclaimerBannerFeature.IsEnabled)
-    {
-        <!-- toggle disclaimer banner-->
-        @Html.Partial("_DisclaimerBanner")
-    }
+    
     @RenderSection("HeaderContent", false)
     <!--end header-->
 
 
     <section class="outer-section">@RenderSection("OuterSection", false)</section>
 
-    <main id="content" role="main">
-        @RenderBody()
-    </main>
+<main id="content" role="main">
+    @if (DisclaimerBannerFeature.IsEnabled)
+    {
+        <!-- toggle disclaimer banner-->
+        @Html.Partial("_DisclaimerBanner")
+    }
+    @RenderBody()
+</main>
     <section class="feedback-section">@RenderSection("FeedbackSection", false)</section>
     <footer id="footer" role="contentinfo">
         <div class="footer-wrapper">

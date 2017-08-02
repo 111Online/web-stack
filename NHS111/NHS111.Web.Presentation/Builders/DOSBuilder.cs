@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -54,6 +55,10 @@ namespace NHS111.Web.Presentation.Builders
         public async Task<DosCheckCapacitySummaryResult> FillCheckCapacitySummaryResult(DosViewModel dosViewModel, bool filterServices) {
             const int PHARMACY = 13;
             const int PHARMACY_EXT_HOURS = 116;
+
+            var doscheckcap = File.ReadAllText("C:\\Work\\json.txt");
+            var obj = JsonConvert.DeserializeObject<DosCheckCapacitySummaryResult>(doscheckcap);
+            return obj;
 
             var request = BuildRequestMessage(dosViewModel);
             var body = await request.Content.ReadAsStringAsync();
