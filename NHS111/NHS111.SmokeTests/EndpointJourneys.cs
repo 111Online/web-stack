@@ -260,7 +260,31 @@ namespace NHS111.SmokeTests
             outcomePage.VerifyCareAdvice(new string[] { "Medication, pain and/or fever", "Headache" });
        }
 
+        [Test]
+        public void MidwifeEndpointJourney()
+        {
+            var questionPage = TestScenerios.LaunchTriageScenerio(_driver, "Headache", TestScenerioGender.Female, TestScenerioAgeGroups.Adult);
 
+            questionPage.ValidateQuestion("Is there a chance you are pregnant?");
+            var outcomePage = questionPage
+                .Answer(3)
+                .Answer(1)
+                .AnswerSuccessiveByOrder(3, 3)
+                .Answer(5)
+                .Answer(3)
+                .Answer(4)
+                .AnswerSuccessiveByOrder(3, 4)
+                .AnswerForDispostion("No");
+
+
+            outcomePage.VerifyFindService(FindServiceTypes.Midwife);
+
+
+            outcomePage.VerifyOutcome("Your answers suggest you should speak to your midwife within 1 hour");
+            outcomePage.VerifyWorseningPanel(WorseningMessages.Call111);
+            outcomePage.VerifyCareAdviceHeader("What you can do in the meantime");
+            outcomePage.VerifyCareAdvice(new string[] { "Medication, pain and/or fever", "Headache" });
+        }
 
 
     }

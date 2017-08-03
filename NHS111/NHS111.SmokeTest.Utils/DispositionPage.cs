@@ -148,6 +148,7 @@ namespace NHS111.SmokeTest.Utils
         public static FindServiceType EmergencyDental = new FindServiceType("Find an emergency dental service that can see you");
         public static FindServiceType Optician = new FindServiceType("Find an optician");
         public static FindServiceType Dental = new FindServiceType("Find a dental service");
+        public static FindServiceType Midwife = new FindServiceType("Find a service that can help you");
     }
 
 
