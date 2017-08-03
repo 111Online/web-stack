@@ -9,12 +9,6 @@ namespace NHS111.Web.Controllers
     [LogHandleErrorForMVC]
     public class HelpController : Controller
     {
-        public HelpController(IConfiguration configuration, IRestClient restClientBusinessApi)
-        {
-            _configuration = configuration;
-            _restClientBusinessApi = restClientBusinessApi;
-        }
-
         public ActionResult Cookies()
         {
             return View();
@@ -34,19 +28,5 @@ namespace NHS111.Web.Controllers
         {
             return View();
         }
-
-        public ActionResult VersionInfo()
-        {
-            var url = _configuration.GetBusinessApiVersionUrl(true);
-            var request = new RestRequest(url, Method.GET);
-            request.OnBeforeDeserialization = resp => { resp.ContentType = "application/json"; };
-            
-            var response = _restClientBusinessApi.Execute<VersionInfo>(request);
-
-            return PartialView("_VersionInfo", response.Data);
-        }
-
-        private readonly IConfiguration _configuration;
-        private readonly IRestClient _restClientBusinessApi;
     }
 }
