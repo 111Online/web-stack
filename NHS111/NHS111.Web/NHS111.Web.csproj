@@ -229,6 +229,7 @@
     <Folder Include="Content\styles\print\" />
     <Folder Include="Models\" />
     <Folder Include="Views\Auditing\" />
+    <Folder Include="Views\Version\" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\BundleConfig.cs" />
@@ -245,6 +246,7 @@
     <Compile Include="Controllers\QuestionController.cs" />
     <Compile Include="Controllers\JustToBeSafeController.cs" />
     <Compile Include="Controllers\TopicController.cs" />
+    <Compile Include="Controllers\VersionController.cs" />
     <Compile Include="ErrorHandler\AiHandleErrorAttribute.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
