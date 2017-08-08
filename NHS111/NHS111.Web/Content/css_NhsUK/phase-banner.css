@@ -40,11 +40,11 @@
 }
 @media (min-width: 925px) {
     .callout {
-        padding: 32px;
+        padding: 0 32px 32px 32px;
     }
 }
 .callout {
-    padding: 16px;
+    padding: 0 16px 16px 16px;
     background-color: #fff;
 }
 .callout--alert {
