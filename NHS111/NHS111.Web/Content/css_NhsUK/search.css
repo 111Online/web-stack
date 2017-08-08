@@ -429,9 +429,9 @@ button {
     text-align: left;
 }
 
-h2 {
+/*h2 {
     font-size: 1.5em;
-}
+}*/
 
 p.additional-topics {
     font-size: 16px;
@@ -440,9 +440,9 @@ p.additional-topics {
 
 }
 
-h3 {
+/*h3 {
     font-size: 25px;
-}
+}*/
 
 #show-categories {
     font-size: 25px;
