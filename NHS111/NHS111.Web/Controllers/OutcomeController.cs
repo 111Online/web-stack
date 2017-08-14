@@ -135,7 +135,7 @@ namespace NHS111.Web.Controllers
             await _auditLogger.LogDosResponse(model);
 
             if (model.DosCheckCapacitySummaryResult.Error == null)
-                return View("~\\Views\\Outcome\\ServiceDetails.cshtml", model);
+                return View("~\\Views\\Outcome\\ServiceDetails.cshtml", model); //explicit path to view because, when direct-linking, the route is no longer /outcome causing convention based view lookup to fail
 
             return View(Path.GetFileNameWithoutExtension(model.CurrentView), model);
         }
