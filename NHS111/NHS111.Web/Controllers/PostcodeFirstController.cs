@@ -20,18 +20,24 @@ namespace NHS111.Web.Controllers
         private readonly IAuditLogger _auditLogger;
         private readonly IPostCodeAllowedValidator _postCodeAllowedValidator;
         private readonly IViewRouter _viewRouter;
+        private readonly IPostcodePrefillFeature _postcodePrefillFeature;
 
-        public PostcodeFirstController(IDOSBuilder dosBuilder, IAuditLogger auditLogger, IPostCodeAllowedValidator postCodeAllowedValidator, IViewRouter viewRouter)
+        public PostcodeFirstController(IDOSBuilder dosBuilder, IAuditLogger auditLogger, IPostCodeAllowedValidator postCodeAllowedValidator, IViewRouter viewRouter, IPostcodePrefillFeature postcodePrefillFeature)
         {
             _dosBuilder = dosBuilder;
             _auditLogger = auditLogger;
             _postCodeAllowedValidator = postCodeAllowedValidator;
             _viewRouter = viewRouter;
+            _postcodePrefillFeature = postcodePrefillFeature;
         }
 
         [HttpPost]
-        public async Task<ActionResult> Postcode(OutcomeViewModel model)
-        {
+        public async Task<ActionResult> Postcode(OutcomeViewModel model) {
+            if (_postcodePrefillFeature.IsEnabled && _postcodePrefillFeature.RequestIncludesPostcode(Request)) {
+                model.UserInfo.CurrentAddress.Postcode = _postcodePrefillFeature.GetPostcode(Request);
+                return await Outcome(model, null, null);
+            }
+
             ModelState.Clear();
             model.UserInfo.CurrentAddress.IsPostcodeFirst = false;
             await _auditLogger.LogEventData(model, "User entered postcode on second request");

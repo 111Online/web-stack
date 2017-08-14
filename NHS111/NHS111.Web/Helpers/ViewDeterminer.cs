@@ -7,6 +7,9 @@ using NHS111.Web.Presentation.Logging;
 
 namespace NHS111.Web.Helpers
 {
+    using Controllers;
+    using Features;
+
     public class ViewRouter : IViewRouter
     {
         private readonly IAuditLogger _auditLogger;
@@ -36,13 +39,15 @@ namespace NHS111.Web.Helpers
             switch (model.NodeType)
             {
                 case NodeType.Outcome:
+                    var viewFilePath = "../Outcome/" + model.OutcomeGroup.Id;
                     if (model.OutcomeGroup.IsPostcodeFirst())
                     {
                         model.UserInfo.CurrentAddress.IsPostcodeFirst = true;
                         _auditLogger.LogEventData(model, "Postcode first journey started");
+
+                        viewFilePath = "../PostcodeFirst/Postcode";
                     }
 
-                    var viewFilePath = model.OutcomeGroup.IsPostcodeFirst() ? "../PostcodeFirst/Postcode" : "../Outcome/" + model.OutcomeGroup.Id;
                     if (ViewExists(viewFilePath, context))
                     {
                         _userZoomDataBuilder.SetFieldsForOutcome(model);

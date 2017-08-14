@@ -135,7 +135,7 @@ namespace NHS111.Web.Controllers
             await _auditLogger.LogDosResponse(model);
 
             if (model.DosCheckCapacitySummaryResult.Error == null)
-                return View("ServiceDetails", model);
+                return View("~\\Views\\Outcome\\ServiceDetails.cshtml", model);
 
             return View(Path.GetFileNameWithoutExtension(model.CurrentView), model);
         }
