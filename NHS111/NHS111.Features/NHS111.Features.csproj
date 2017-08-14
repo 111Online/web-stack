@@ -50,6 +50,7 @@
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Web" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -67,6 +68,7 @@
     <Compile Include="Defaults\IDefaultSettingStrategy.cs" />
     <Compile Include="Defaults\PostcodeFilePathDefaultSettingStrategy.cs" />
     <Compile Include="DeleteFeedbackFeature.cs" />
+    <Compile Include="PostcodePrefillFeature.cs" />
     <Compile Include="DirectLinkingFeature.cs" />
     <Compile Include="DisclaimerBannerFeature.cs" />
     <Compile Include="DisclaimerPopupFeature.cs" />

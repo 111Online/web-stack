@@ -1,37 +1,25 @@
 ﻿
-using System.IO;
-using System.Net.Mime;
-using AutoMapper;
-using Newtonsoft.Json;
-using NHS111.Features;
-using NHS111.Web.Helpers;
-using RestSharp;
-using RestSharp.Deserializers;
-using RestSharp.Serializers;
-
 namespace NHS111.Web.Controllers {
+    using Features;
+    using Helpers;
+    using RestSharp;
     using System;
     using System.Threading.Tasks;
     using System.Web.Mvc;
     using Models.Models.Web;
     using Models.Models.Web.Enums;
     using Utils.Attributes;
-    using Utils.Parser;
     using Presentation.Builders;
     using System.Collections.Generic;
-    using System.ComponentModel;
     using System.Linq;
-    using System.Net.Http;
-    using System.Text;
-    using System.Text.RegularExpressions;
     using System.Web;
+    using AutoMapper;
     using Models.Models.Business.PathwaySearch;
     using Models.Models.Domain;
     using Newtonsoft.Json;
     using Presentation.Logging;
     using Presentation.ModelBinders;
     using Utils.Filters;
-    using Utils.Helpers;
     using IConfiguration = Presentation.Configuration.IConfiguration;
 
     [LogHandleErrorForMVC]
@@ -42,7 +30,7 @@ namespace NHS111.Web.Controllers {
 
         public QuestionController(IJourneyViewModelBuilder journeyViewModelBuilder,
             IConfiguration configuration, IJustToBeSafeFirstViewModelBuilder justToBeSafeFirstViewModelBuilder, IDirectLinkingFeature directLinkingFeature,
-            IAuditLogger auditLogger, IUserZoomDataBuilder userZoomDataBuilder, IRestClient restClientBusinessApi, IViewRouter viewRouter) {
+            IAuditLogger auditLogger, IUserZoomDataBuilder userZoomDataBuilder, IRestClient restClientBusinessApi, IViewRouter viewRouter, IPostcodePrefillFeature postcodePrefillFeature) {
             _journeyViewModelBuilder = journeyViewModelBuilder;
             _configuration = configuration;
             _justToBeSafeFirstViewModelBuilder = justToBeSafeFirstViewModelBuilder;
@@ -51,7 +39,8 @@ namespace NHS111.Web.Controllers {
             _userZoomDataBuilder = userZoomDataBuilder;
             _restClientBusinessApi = restClientBusinessApi;
             _viewRouter = viewRouter;
-            }
+            _postcodePrefillFeature = postcodePrefillFeature;
+        }
 
         [HttpGet]
         public ActionResult Home(bool filterServices = true)
@@ -266,6 +255,20 @@ namespace NHS111.Web.Controllers {
             if(resultingModel != null)
                 resultingModel.FilterServices = filterServices.HasValue ? filterServices.Value : true;
 
+            bool shouldPrefillPostcode = _postcodePrefillFeature.IsEnabled && resultingModel.NodeType == NodeType.Outcome && _postcodePrefillFeature.RequestIncludesPostcode(Request);
+            if (shouldPrefillPostcode) {
+                resultingModel.UserInfo.CurrentAddress.Postcode = _postcodePrefillFeature.GetPostcode(Request);
+                if (resultingModel.OutcomeGroup.IsPostcodeFirst()) {
+                    var controller = DependencyResolver.Current.GetService<PostcodeFirstController>();
+                    controller.ControllerContext = new ControllerContext(ControllerContext.RequestContext, controller);
+                    return await controller.Outcome((OutcomeViewModel) resultingModel, null, null);
+                } else {
+                    var controller = DependencyResolver.Current.GetService<OutcomeController>();
+                    controller.ControllerContext = new ControllerContext(ControllerContext.RequestContext, controller);
+                    return await controller.ServiceDetails((OutcomeViewModel)resultingModel, null);
+                }
+            }
+
             var viewName = _viewRouter.GetViewName(resultingModel, ControllerContext);
             return View(viewName, resultingModel);
         }
@@ -389,9 +392,9 @@ namespace NHS111.Web.Controllers {
         private readonly IJustToBeSafeFirstViewModelBuilder _justToBeSafeFirstViewModelBuilder;
         private readonly IDirectLinkingFeature _directLinkingFeature;
         private readonly IAuditLogger _auditLogger;
-        private readonly IMappingEngine _mappingEngine;
         private readonly IUserZoomDataBuilder _userZoomDataBuilder;
         private readonly IRestClient _restClientBusinessApi;
         private readonly IViewRouter _viewRouter;
-        }
+        private readonly IPostcodePrefillFeature _postcodePrefillFeature;
+    }
 }
