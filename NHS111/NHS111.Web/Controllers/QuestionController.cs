@@ -252,33 +252,34 @@ namespace NHS111.Web.Controllers {
             }
 
             var resultingModel = await DeriveJourneyView(pathwayId, age, pathwayTitle, answers);
-            if(resultingModel != null)
+            if (resultingModel != null) {
                 resultingModel.FilterServices = filterServices.HasValue ? filterServices.Value : true;
 
-            if (resultingModel.NodeType == NodeType.Outcome) {
-                var outcomeModel = resultingModel as OutcomeViewModel;
-                
-                bool shouldPrefillPostcode = _postcodePrefillFeature.IsEnabled &&
-                                             OutcomeGroup.DosSearchOutcomesGroups.Contains(outcomeModel.OutcomeGroup) &&
-                                             _postcodePrefillFeature.RequestIncludesPostcode(Request);
-                if (shouldPrefillPostcode) {
-                    resultingModel.UserInfo.CurrentAddress.Postcode = _postcodePrefillFeature.GetPostcode(Request);
-                    outcomeModel.CurrentView = _viewRouter.GetViewName(resultingModel, ControllerContext);
+                if (resultingModel.NodeType == NodeType.Outcome) {
+                    var outcomeModel = resultingModel as OutcomeViewModel;
+
+                    bool shouldPrefillPostcode = _postcodePrefillFeature.IsEnabled &&
+                                                 OutcomeGroup.DosSearchOutcomesGroups.Contains(outcomeModel.OutcomeGroup) &&
+                                                 _postcodePrefillFeature.RequestIncludesPostcode(Request);
+                    if (shouldPrefillPostcode) {
+                        resultingModel.UserInfo.CurrentAddress.Postcode = _postcodePrefillFeature.GetPostcode(Request);
+                        outcomeModel.CurrentView = _viewRouter.GetViewName(resultingModel, ControllerContext);
                         //defaulting the label to 'services' because this is normally handled by the specific outcome view
-                    if (outcomeModel.OutcomeGroup.IsPostcodeFirst()) {
-                        var controller = DependencyResolver.Current.GetService<PostcodeFirstController>();
-                        controller.ControllerContext = new ControllerContext(ControllerContext.RequestContext,
-                            controller);
-                        return await controller.Outcome(outcomeModel, null, null);
-                    }
-                    else {
-                        var controller = DependencyResolver.Current.GetService<OutcomeController>();
-                        controller.ControllerContext = new ControllerContext(ControllerContext.RequestContext,
-                            controller);
-                        if (outcomeModel.OutcomeGroup.SearchDestination == "ServiceDetails")
-                            return await controller.ServiceDetails(outcomeModel, null);
-                        if (outcomeModel.OutcomeGroup.SearchDestination == "ServiceList")
-                            return await controller.ServiceList(outcomeModel, null, null);
+                        if (outcomeModel.OutcomeGroup.IsPostcodeFirst()) {
+                            var controller = DependencyResolver.Current.GetService<PostcodeFirstController>();
+                            controller.ControllerContext = new ControllerContext(ControllerContext.RequestContext,
+                                controller);
+                            return await controller.Outcome(outcomeModel, null, null);
+                        }
+                        else {
+                            var controller = DependencyResolver.Current.GetService<OutcomeController>();
+                            controller.ControllerContext = new ControllerContext(ControllerContext.RequestContext,
+                                controller);
+                            if (outcomeModel.OutcomeGroup.SearchDestination == "ServiceDetails")
+                                return await controller.ServiceDetails(outcomeModel, null);
+                            if (outcomeModel.OutcomeGroup.SearchDestination == "ServiceList")
+                                return await controller.ServiceList(outcomeModel, null, null);
+                        }
                     }
                 }
             }
