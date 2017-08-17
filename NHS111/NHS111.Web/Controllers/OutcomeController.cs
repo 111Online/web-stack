@@ -126,7 +126,7 @@ namespace NHS111.Web.Controllers
             if (!_postCodeAllowedValidator.IsAllowedPostcode(model.UserInfo.CurrentAddress.Postcode))
             {
                 ModelState.AddModelError("FindService.UserInfo.CurrentAddress.Postcode", "Sorry, this service is not currently available in your area.  Please call NHS 111 for advice now");
-                return View(Path.GetFileNameWithoutExtension(model.CurrentView), model);
+                return View("~\\Views\\Outcome\\" + model.CurrentView + ".cshtml", model);
             }
 
             var dosCase = Mapper.Map<DosViewModel>(model);
