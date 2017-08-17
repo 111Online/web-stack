@@ -18,7 +18,7 @@ namespace NHS111.Models.Models.Domain {
 
         public string DefaultTitle { get; set; }
 
-        public static OutcomeGroup ClinicianCallBack = new OutcomeGroup() { Id = "ITK_Clinician_call_back", Text = "ITK_Clinician_call_back", DefaultTitle = "Based on your answers, we recommend that you speak to a clinician"};
+        public static OutcomeGroup ClinicianCallBack = new OutcomeGroup() { Id = "ITK_Clinician_call_back", Text = "ITK_Clinician_call_back", AutomaticSelectionOfItkResult = true, DefaultTitle = "Based on your answers, we recommend that you speak to a clinician" };
 
         public static OutcomeGroup ItkPrimaryCare = new OutcomeGroup() { Id = "ITK_Primary_care", Text = "ITK_Primary_care", PostcodeFirst = true, DefaultTitle = "Based on your answers, we recommend you speak to a healthcare service" };
 
@@ -96,6 +96,13 @@ namespace NHS111.Models.Models.Domain {
             return OutcomeGroups.ContainsKey(Id) && OutcomeGroups[Id].PostcodeFirst;
         }
 
+        public bool IsAutomaticSelectionOfItkResult()
+        {
+            if (Id == null) return false;
+            return OutcomeGroups.ContainsKey(Id) && OutcomeGroups[Id].AutomaticSelectionOfItkResult;
+        }
+
         private bool PostcodeFirst { get; set; }
+        private bool AutomaticSelectionOfItkResult { get; set; }
     }
 }
