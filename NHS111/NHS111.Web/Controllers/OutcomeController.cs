@@ -89,12 +89,20 @@ namespace NHS111.Web.Controllers
             return View(model);
         }
 
+        public void AutoSelectFirstItkService(OutcomeViewModel model)
+        {
+            var service = model.DosCheckCapacitySummaryResult.Success.Services.FirstOrDefault(s => s.CallbackEnabled);
+            
+            if (service != null)
+                model.SelectedServiceId = service.Id.ToString();
+        }
+
         [HttpPost]
         public async Task<ActionResult> ServiceList([Bind(Prefix = "FindService")]OutcomeViewModel model,  [FromUri] DateTime? overrideDate, [FromUri] bool? overrideFilterServices)
         {
             if (!ModelState.IsValidField("FindService.UserInfo.CurrentAddress.PostCode"))
                 return View("~\\Views\\Outcome\\" + model.CurrentView + ".cshtml", model);
-
+            
             if (!_postCodeAllowedValidator.IsAllowedPostcode(model.UserInfo.CurrentAddress.Postcode))
             {
                 ModelState.AddModelError("FindService.UserInfo.CurrentAddress.Postcode", "Sorry, this service is not currently available in your area.  Please call NHS 111 for advice now");
@@ -104,8 +112,18 @@ namespace NHS111.Web.Controllers
             model.DosCheckCapacitySummaryResult = await GetServiceAvailability(model, overrideDate, overrideFilterServices.HasValue ? overrideFilterServices.Value : model.FilterServices);
             await _auditLogger.LogDosResponse(model);
 
-            if (model.DosCheckCapacitySummaryResult.Error == null && !model.DosCheckCapacitySummaryResult.ResultListEmpty)
+            if (model.DosCheckCapacitySummaryResult.Error == null &&
+                !model.DosCheckCapacitySummaryResult.ResultListEmpty)
+            {
+                if (model.OutcomeGroup.IsAutomaticSelectionOfItkResult())
+                {
+                    AutoSelectFirstItkService(model);
+                    if (model.SelectedService != null)
+                        return await PersonalDetails(model);
+                }
+                
                 return View("~\\Views\\Outcome\\ServiceList.cshtml", model);
+            }
 
             return View(Path.GetFileNameWithoutExtension(model.CurrentView), model);
         }
@@ -124,7 +142,7 @@ namespace NHS111.Web.Controllers
 
             if (!ModelState.IsValidField("FindService.UserInfo.CurrentAddress.Postcode"))
                 return View("~\\Views\\Outcome\\" + model.CurrentView + ".cshtml", model);
-
+            
             if (!_postCodeAllowedValidator.IsAllowedPostcode(model.UserInfo.CurrentAddress.Postcode))
             {
                 ModelState.AddModelError("FindService.UserInfo.CurrentAddress.Postcode", "Sorry, this service is not currently available in your area.  Please call NHS 111 for advice now");
@@ -136,8 +154,18 @@ namespace NHS111.Web.Controllers
             model.DosCheckCapacitySummaryResult = await _dosBuilder.FillCheckCapacitySummaryResult(dosCase, overrideFilterServices.HasValue ? overrideFilterServices.Value : model.FilterServices);
             await _auditLogger.LogDosResponse(model);
 
-            if (model.DosCheckCapacitySummaryResult.Error == null)
-                return View("~\\Views\\Outcome\\ServiceDetails.cshtml", model); //explicit path to view because, when direct-linking, the route is no longer /outcome causing convention based view lookup to fail
+            if (model.DosCheckCapacitySummaryResult.Error == null &&
+                !model.DosCheckCapacitySummaryResult.ResultListEmpty)
+            {
+                if (model.OutcomeGroup.IsAutomaticSelectionOfItkResult())
+                {
+                    AutoSelectFirstItkService(model);
+                    if (model.SelectedService != null)
+                        return await PersonalDetails(model);
+                }
+                    return View("~\\Views\\Outcome\\ServiceDetails.cshtml", model);
+                    //explicit path to view because, when direct-linking, the route is no longer /outcome causing convention based view lookup to fail    
+            }
 
             return View(Path.GetFileNameWithoutExtension(model.CurrentView), model);
         }
