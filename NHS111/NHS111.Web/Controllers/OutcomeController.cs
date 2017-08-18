@@ -89,7 +89,7 @@ namespace NHS111.Web.Controllers
             return View(model);
         }
 
-        public static void AutoSelectFirstItkService(OutcomeViewModel model)
+        public void AutoSelectFirstItkService(OutcomeViewModel model)
         {
             var service = model.DosCheckCapacitySummaryResult.Success.Services.FirstOrDefault(s => s.CallbackEnabled);
             

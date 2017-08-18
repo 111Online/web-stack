@@ -1,13 +1,41 @@
 ﻿using System.Collections.Generic;
+using Moq;
 using NHS111.Models.Models.Web;
 using NHS111.Models.Models.Web.FromExternalServices;
+using NHS111.Models.Models.Web.Validators;
 using NHS111.Web.Controllers;
+using NHS111.Web.Presentation.Builders;
+using NHS111.Web.Presentation.Logging;
 using NUnit.Framework;
 
 namespace NHS111.Web.Presentation.Test.Controllers {
 
     [TestFixture]
-    public class OutcomeControllerTests {
+    public class OutcomeControllerTests
+    {
+        private OutcomeController _outcomeController;
+
+        private Mock<IOutcomeViewModelBuilder> _outcomeViewModelBuilder;
+        private Mock<IDOSBuilder> _dosBuilder;
+        private Mock<ISurgeryBuilder> _surgeryBuilder;
+        private Mock<ILocationResultBuilder> _locationResultBuilder;
+        private Mock<IAuditLogger> _auditLogger;
+        private Mock<Configuration.IConfiguration> _configuration;
+        private Mock<IPostCodeAllowedValidator> _postCodeAllowedValidator;
+
+        [SetUp]
+        public void Setup()
+        {
+            _outcomeViewModelBuilder = new Mock<IOutcomeViewModelBuilder>();
+            _dosBuilder = new Mock<IDOSBuilder>();
+            _surgeryBuilder = new Mock<ISurgeryBuilder>();
+            _locationResultBuilder = new Mock<ILocationResultBuilder>();
+            _auditLogger = new Mock<IAuditLogger>();
+            _configuration = new Mock<Configuration.IConfiguration>();
+            _postCodeAllowedValidator = new Mock<IPostCodeAllowedValidator>();
+
+            _outcomeController = new OutcomeController(_outcomeViewModelBuilder.Object, _dosBuilder.Object, _surgeryBuilder.Object, _locationResultBuilder.Object, _auditLogger.Object, _configuration.Object, _postCodeAllowedValidator.Object);
+        }
 
         [Test]
         public void AutoSelectFirstItkService_NoServices_SelectedServiceNull()
@@ -17,7 +45,7 @@ namespace NHS111.Web.Presentation.Test.Controllers {
             model.DosCheckCapacitySummaryResult.Success = new SuccessObject<ServiceViewModel>();
             model.DosCheckCapacitySummaryResult.Success.Services = new List<ServiceViewModel>();
 
-            OutcomeController.AutoSelectFirstItkService(model);
+            _outcomeController.AutoSelectFirstItkService(model);
             Assert.Null(model.SelectedService);
         }
 
@@ -30,8 +58,8 @@ namespace NHS111.Web.Presentation.Test.Controllers {
             model.DosCheckCapacitySummaryResult.Success.Services = new List<ServiceViewModel>();
             ServiceViewModel svm = new ServiceViewModel {Id = 123456, CallbackEnabled = false};
             model.DosCheckCapacitySummaryResult.Success.Services.Add(svm);
-            
-            OutcomeController.AutoSelectFirstItkService(model);
+
+            _outcomeController.AutoSelectFirstItkService(model);
             Assert.Null(model.SelectedService);
         }
 
@@ -45,7 +73,7 @@ namespace NHS111.Web.Presentation.Test.Controllers {
             ServiceViewModel svm = new ServiceViewModel { Id = 123456, CallbackEnabled = true };
             model.DosCheckCapacitySummaryResult.Success.Services.Add(svm);
 
-            OutcomeController.AutoSelectFirstItkService(model);
+            _outcomeController.AutoSelectFirstItkService(model);
             Assert.AreEqual(123456, model.SelectedService.Id);
         }
 
@@ -60,8 +88,8 @@ namespace NHS111.Web.Presentation.Test.Controllers {
             ServiceViewModel svm2 = new ServiceViewModel { Id = 123456, CallbackEnabled = true };
             model.DosCheckCapacitySummaryResult.Success.Services.Add(svm1);
             model.DosCheckCapacitySummaryResult.Success.Services.Add(svm2);
-            
-            OutcomeController.AutoSelectFirstItkService(model);
+
+            _outcomeController.AutoSelectFirstItkService(model);
             Assert.AreEqual(123456, model.SelectedService.Id);
         }
 
@@ -77,7 +105,7 @@ namespace NHS111.Web.Presentation.Test.Controllers {
             model.DosCheckCapacitySummaryResult.Success.Services.Add(svm1);
             model.DosCheckCapacitySummaryResult.Success.Services.Add(svm2);
 
-            OutcomeController.AutoSelectFirstItkService(model);
+            _outcomeController.AutoSelectFirstItkService(model);
             Assert.AreEqual(987654, model.SelectedService.Id);
         }
     }
