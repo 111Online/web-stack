@@ -117,11 +117,6 @@ namespace NHS111.Web.Controllers
             {
                 if (model.OutcomeGroup.IsAutomaticSelectionOfItkResult())
                 {
-                    if (model.DosCheckCapacitySummaryResult.ResultListEmpty)
-                    {
-                        return View(Path.GetFileNameWithoutExtension(model.CurrentView), model);
-                    }
-
                     AutoSelectFirstItkService(model);
                     if (model.SelectedService != null)
                         return await PersonalDetails(model);
@@ -159,15 +154,11 @@ namespace NHS111.Web.Controllers
             model.DosCheckCapacitySummaryResult = await _dosBuilder.FillCheckCapacitySummaryResult(dosCase, overrideFilterServices.HasValue ? overrideFilterServices.Value : model.FilterServices);
             await _auditLogger.LogDosResponse(model);
 
-            if (model.DosCheckCapacitySummaryResult.Error == null)
+            if (model.DosCheckCapacitySummaryResult.Error == null &&
+                !model.DosCheckCapacitySummaryResult.ResultListEmpty)
             {
                 if (model.OutcomeGroup.IsAutomaticSelectionOfItkResult())
                 {
-                    if (model.DosCheckCapacitySummaryResult.ResultListEmpty)
-                    {
-                        return View(Path.GetFileNameWithoutExtension(model.CurrentView), model);
-                    }
-
                     AutoSelectFirstItkService(model);
                     if (model.SelectedService != null)
                         return await PersonalDetails(model);
