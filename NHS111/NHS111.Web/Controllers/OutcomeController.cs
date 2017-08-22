@@ -101,12 +101,12 @@ namespace NHS111.Web.Controllers
         public async Task<ActionResult> ServiceList([Bind(Prefix = "FindService")]OutcomeViewModel model,  [FromUri] DateTime? overrideDate, [FromUri] bool? overrideFilterServices)
         {
             if (!ModelState.IsValidField("FindService.UserInfo.CurrentAddress.PostCode"))
-                return View("~\\Views\\Outcome\\" + model.CurrentView + ".cshtml", model);
+                return View(model.CurrentView, model);
             
             if (!_postCodeAllowedValidator.IsAllowedPostcode(model.UserInfo.CurrentAddress.Postcode))
             {
                 ModelState.AddModelError("FindService.UserInfo.CurrentAddress.Postcode", "Sorry, this service is not currently available in your area.  Please call NHS 111 for advice now");
-                return View("~\\Views\\Outcome\\" + model.CurrentView + ".cshtml", model);
+                return View(model.CurrentView, model);
             }
 
             model.DosCheckCapacitySummaryResult = await GetServiceAvailability(model, overrideDate, overrideFilterServices.HasValue ? overrideFilterServices.Value : model.FilterServices);
@@ -141,12 +141,12 @@ namespace NHS111.Web.Controllers
         public async Task<ActionResult> ServiceDetails([Bind(Prefix = "FindService")]OutcomeViewModel model, [FromUri] bool? overrideFilterServices) {
 
             if (!ModelState.IsValidField("FindService.UserInfo.CurrentAddress.Postcode"))
-                return View("~\\Views\\Outcome\\" + model.CurrentView + ".cshtml", model);
-            
+                return View(model.CurrentView, model);
+
             if (!_postCodeAllowedValidator.IsAllowedPostcode(model.UserInfo.CurrentAddress.Postcode))
             {
                 ModelState.AddModelError("FindService.UserInfo.CurrentAddress.Postcode", "Sorry, this service is not currently available in your area.  Please call NHS 111 for advice now");
-                return View("~\\Views\\Outcome\\" + model.CurrentView + ".cshtml", model);
+                return View(model.CurrentView, model);
             }
 
             var dosCase = Mapper.Map<DosViewModel>(model);
