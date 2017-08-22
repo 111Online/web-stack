@@ -8,14 +8,14 @@
             date: '@File.GetCreationTime(ViewContext.Controller.GetType().Assembly.Location)'
         };
 
-        var database = {
-            name: 'neo4j',
-            version: @Model.Version,
-            build: @Model.Build,
-            date: @Model.Date,
-            dataBranch: @Model.DataBranch,
-            contentBranch: @Model.ContentBranch
-        }
+    var database = {
+        name: 'neo4j',
+        version: '@Model.Version',
+        build: '@Model.Build',
+        date: '@Model.Date',
+        dataBranch: '@Model.DataBranch',
+        contentBranch: '@Model.ContentBranch'
+        };
 
         console.groupCollapsed('%s (%s) v%s', website.name, website.phase, website.version);
         console.log("Date compiled %s", website.date);

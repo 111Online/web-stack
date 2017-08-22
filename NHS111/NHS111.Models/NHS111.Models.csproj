@@ -262,6 +262,8 @@
     <Compile Include="Models\Web\OutcomeViewModel.cs" />
     <Compile Include="Models\Web\JourneyViewModel.cs" />
     <Compile Include="Models\Web\FromExternalServices\Surgery.cs" />
+    <Compile Include="Models\Web\PatientInformantViewModel.cs" />
+    <Compile Include="Models\Web\PersonalDetailViewModel.cs" />
     <Compile Include="Models\Web\SearchJourneyViewModel.cs" />
     <Compile Include="Models\Web\SearchResultViewModel.cs" />
     <Compile Include="Models\Web\SurveyLinkViewModel.cs" />
@@ -272,6 +274,8 @@
     <Compile Include="Models\Web\Validators\InformantForenameValidator.cs" />
     <Compile Include="Models\Web\Validators\InformantSurnameValidator.cs" />
     <Compile Include="Models\Web\Validators\InformantViewModelValidator.cs" />
+    <Compile Include="Models\Web\Validators\PatientInformantViewModelValidator.cs" />
+    <Compile Include="Models\Web\Validators\PersonNameValidator.cs" />
     <Compile Include="Models\Web\Validators\RuleBuilderExtensions\RuleBuilderExtensions.cs" />
     <Compile Include="Models\Web\ServiceViewModel.cs" />
     <Compile Include="Models\Web\SurgeryViewModel.cs" />
