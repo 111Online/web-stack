@@ -25,10 +25,12 @@
     <div class="form-group">
         <div id="AddressList" style="display: none;">
             <label for="@Html.NameFor(m => m.SelectedAddressFromPicker)">What is the address?</label>
-            <label class="select-label">
-                @Html.DropDownListFor(m => m.SelectedAddressFromPicker, Model.AddressPicker, new { @class = "select-address" })
-                @Html.HiddenFor(m => m.AddressOptions)
-            </label>
+            <div id="AddressListPicker">
+                <label class="select-label">
+                    @Html.DropDownListFor(m => m.SelectedAddressFromPicker, Model.AddressPicker, new { @class = "select-address" })
+                    @Html.HiddenFor(m => m.AddressOptions)
+                </label>
+            </div>
         </div>
         <div id="addressPanel" class="address-panel">
             <h2 class="heading-medium" id="manual-entry-title">Enter address</h2>
@@ -37,26 +39,26 @@
                 <div>@Html.ValidationMessageFor(m => m.AddressLine1, "Please enter the first line of your address")</div>
                 <div class="inline-details">
                     @Html.LabelFor(m => m.AddressLine1, new { @class = "hidden" })
-                    @Html.TextBoxFor(m => m.AddressLine1, new { @class = "form-control", placeholder = "Address Line 1" })
+                    @Html.TextBoxFor(m => m.AddressLine1, new { @class = "form-control" })
                 </div>
                 <div class="inline-details">
                     @Html.LabelFor(m => m.AddressLine2, new { @class = "hidden" })
-                    @Html.TextBoxFor(m => m.AddressLine2, new { @class = "form-control", placeholder = "Address Line 2" })
+                    @Html.TextBoxFor(m => m.AddressLine2, new { @class = "form-control" })
                 </div>
             </fieldset>
             @Html.LabelFor(m => m.City)
             <div class="inline-details">
                 <div>@Html.ValidationMessageFor(m => m.City, "Please enter a city")</div>
-                @Html.TextBoxFor(m => m.City, new { @class = "form-control", placeholder = "City" })
+                @Html.TextBoxFor(m => m.City, new { @class = "form-control" })
             </div>
             @Html.LabelFor(m => m.County)
             <div class="inline-details">
-                @Html.TextBoxFor(m => m.County, new { @class = "form-control", placeholder = "County" })
+                @Html.TextBoxFor(m => m.County, new { @class = "form-control" })
             </div>
             @Html.LabelFor(m => m.Postcode)
             <div class="inline-details">
                 <div>@Html.ValidationMessageFor(m => m.Postcode)</div>
-                @Html.TextBoxFor(m => m.Postcode, new { @class = "form-control", placeholder = "Postcode" })
+                @Html.TextBoxFor(m => m.Postcode, new { @class = "form-control" })
             </div>
         </div>
         <a class="button button-next button-link" href="javascript:void(0);" style="display: none;" id="manual-entry-link">I can't find the address in the list</a>
@@ -86,7 +88,7 @@
         }
 
         if ($("#AddressInfoViewModel_AddressLine1").hasClass("input-validation-error")) {
-            $("#AddressInfoViewModel_SelectedAddressFromPicker").addClass("input-validation-error");
+            $("#AddressListPicker").addClass("input-validation-error");
         }
     });
 
@@ -104,7 +106,7 @@
         
         setFields(result[0]);
 
-        $("#AddressInfoViewModel_SelectedAddressFromPicker").removeClass("input-validation-error");
+        $("#AddressListPicker").removeClass("input-validation-error");
         runAddressValidation();
 
         $("#manual-entry-link").hide();
@@ -198,6 +200,10 @@
         $("#AddressList").hide();
         $("#postcode-validation-message").hide();
         $("#AddressInfoViewModel_postcode-find").removeClass("validation-error-input");
+        $("#AddressListPicker").removeClass("input-validation-error");
+        $("#AddressInfoViewModel_AddressLine1").removeClass("input-validation-error");
+        $("#AddressInfoViewModel_City").removeClass("input-validation-error");
+        $("#AddressInfoViewModel_Postcode").removeClass("input-validation-error");
         setFields("@JsonConvert.SerializeObject(new AddressInfoViewModel())");
     }
 

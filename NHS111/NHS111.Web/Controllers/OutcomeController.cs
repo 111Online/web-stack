@@ -119,7 +119,7 @@ namespace NHS111.Web.Controllers
                 {
                     AutoSelectFirstItkService(model);
                     if (model.SelectedService != null)
-                        return await PersonalDetails(model);
+                        return await PersonalDetails(Mapper.Map<PersonalDetailViewModel>(model));
                 }
                 
                 return View("~\\Views\\Outcome\\ServiceList.cshtml", model);
@@ -161,7 +161,7 @@ namespace NHS111.Web.Controllers
                 {
                     AutoSelectFirstItkService(model);
                     if (model.SelectedService != null)
-                        return await PersonalDetails(model);
+                        return await PersonalDetails(Mapper.Map<PersonalDetailViewModel>(model));
                 }
                     return View("~\\Views\\Outcome\\ServiceDetails.cshtml", model);
                     //explicit path to view because, when direct-linking, the route is no longer /outcome causing convention based view lookup to fail    
