@@ -166,6 +166,7 @@
     <Compile Include="Mappers\WebMappings\AuditedModelMappers.cs" />
     <Compile Include="Mappers\WebMappings\AutoMapperWebConfiguration.cs" />
     <Compile Include="Mappers\WebMappings\FromDosCaseToDosServicesByClinicalTermRequest.cs" />
+    <Compile Include="Mappers\WebMappings\FromOutcomeViewModelToPersonalDetailViewModel.cs" />
     <Compile Include="Mappers\WebMappings\FromOutcomeViewModelToDosViewModel.cs" />
     <Compile Include="Mappers\WebMappings\FromOutcomeVIewModelToITKDispatchRequest.cs" />
     <Compile Include="Mappers\WebMappings\FromOutcomeViewModelToSubmitEncounterToServiceRequest.cs" />
