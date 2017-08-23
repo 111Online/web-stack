@@ -5,7 +5,7 @@
 <section>
     <div class="findservice-form">
 
-        @using (Html.BeginForm(ViewData.ContainsKey("ITK") ? "ServiceList" : "ServiceDetails", "Outcome", FormMethod.Post, new { id = "findServicesForm" }))
+        @using (Html.BeginForm(Model.OutcomeGroup.SearchDestination, "Outcome", FormMethod.Post, new { id = "findServicesForm" }))
         {
             @Html.HiddenFor(x => Model.Id)
             @Html.HiddenFor(x => Model.JourneyJson)
@@ -25,7 +25,8 @@
             @Html.HiddenFor(x => Model.SymptomDiscriminator.ReasoningText)
             @Html.HiddenFor(x => Model.OutcomeGroup.Id)
             @Html.HiddenFor(x => Model.OutcomeGroup.Text)
-            @Html.Hidden("OutcomeGroup.Label", (!ViewData.Keys.Contains("Label") ? "Services" : ViewData["Label"]))
+            @Html.HiddenFor(x => Model.OutcomeGroup.Label)
+            @Html.HiddenFor(x => Model.OutcomeGroup.ITK)
             @Html.Hidden("CurrentView", ((RazorView)ViewContext.View).ViewPath)
             @Html.HiddenFor(x => x.DispositionTime)
             @Html.HiddenFor(x => x.TimeFrameMinutes)

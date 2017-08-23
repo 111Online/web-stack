@@ -228,10 +228,7 @@ namespace NHS111.SmokeTests
                .Answer(1)
                .AnswerForDispostion("No");
 
-            outcomePage.VerifyOutcome("Your answers suggest that you need a 111 clinician to call you");
-            outcomePage.VerifyWorseningPanel(WorseningMessages.Call111);
-            outcomePage.VerifyCareAdviceHeader("What you can do in the meantime");
-            outcomePage.VerifyCareAdvice(new string[] { "Depression, worsening" });
+            outcomePage.VerifyOutcome("Book a phone call with a 111 Nurse");
         }
 
         [Test]

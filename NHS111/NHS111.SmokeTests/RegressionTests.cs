@@ -52,7 +52,7 @@ namespace NHS111.SmokeTests
                 .AnswerSuccessiveByOrder(3, 4)
                 .AnswerForDispostion("Alcohol");
 
-            outcomePage.VerifyOutcome("Your answers suggest that you need a 111 clinician to call you");
+            outcomePage.VerifyOutcome("Book a phone call with a 111 Nurse");
         }
         [Test]
         public void PathwayNotFound()
