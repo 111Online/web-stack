@@ -37,10 +37,17 @@
     border: 2px solid #E6E6E6;
 }
 
+.toggle-content {
+    padding-top: 16px;
+    margin-left: 20px;
+    padding-left: 16px;
+    border-left: 4px solid #0072ce;
+}
+
 .inline-details {
     overflow: auto;
     display: block;
-    padding: 0.5rem 0 2rem 0;
+    padding: 0 0 2rem 0;
 }
 
     .inline-details input {
@@ -53,6 +60,23 @@
     font-weight: normal !important;
 }
 
+.form-group .form-control {
+    margin-top: 0.5rem;
+}
+
+fieldset {
+    margin-bottom: 16px;
+}
+.content-seperator {
+    width: 130px;
+    height: 4px;
+    background-color: #f0f4f5;
+    margin-bottom: 32px;
+}
+.-date div {
+    float: left;
+    padding-right: 1em;
+}
 .button.find-address {
     background-color: #707070;
     padding-right: 5rem;

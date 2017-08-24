@@ -9,8 +9,8 @@ namespace NHS111.Models.Models.Web.Validators
     {
         public UserInfoValidator()
         {
-            RuleFor(p => p.FirstName).NotEmpty();
-            RuleFor(p => p.LastName).NotEmpty();
+            //RuleFor(p => p.FirstName).NotEmpty();
+           // RuleFor(p => p.LastName).NotEmpty();
             RuleFor(p => p.TelephoneNumber)
                 .Cascade(CascadeMode.StopOnFirstFailure)
                 .NotEmpty()

@@ -3,57 +3,71 @@
 @model  PersonalDetailsAddressViewModel
 
 
-<div class="find-address-panel">
-    @Html.LabelFor(m => m.PreviouslyEnteredPostcode, "Postcode of current address")
-    <p class="validation-error-msg" id="postcode-validation-message">A valid UK postcode is required</p>
-    <div class="inline-details">
-        @Html.TextBoxFor(m => m.PreviouslyEnteredPostcode, new {@class = "form-control form-control-8-chars", placeholder = "eg. SE1", @readonly= "readonly" })
-        <a class="button button-next button-link" id="postcode-change-link" href="javascript:void(0);">Change this postcode</a>
-        <input style="display:none" type="button" class="button find-address" id="findMyAddress" value="Find address" />
-    </div>
-</div>
 
 <p class="" style="display: none;" id="no-results-message">Sorry, we couldn't find an address using that postcode.<br/>Please enter your address below or try a different postcode.</p>
 
-<div id="addressPanel" class="address-panel">
-    <h2 class="heading-medium" id="manual-entry-title">Enter address</h2>
-    <fieldset>
-        <legend>Street</legend>
-        <div>@Html.ValidationMessageFor(m => m.AddressLine1, "Please enter the first line of your address")</div>
-        <div class="inline-details">
-            @Html.LabelFor(m => m.AddressLine1, new { @class = "hidden" })
-            @Html.TextBoxFor(m => m.AddressLine1, new { @class = "form-control", placeholder = "Address Line 1" })
-        </div>
-        <div class="inline-details">
-            @Html.LabelFor(m => m.AddressLine2, new { @class = "hidden" })
-            @Html.TextBoxFor(m => m.AddressLine2, new { @class = "form-control", placeholder = "Address Line 2" })
-        </div>
-    </fieldset>
-    @Html.LabelFor(m => m.City)
-    <div class="inline-details">
-        <div>@Html.ValidationMessageFor(m => m.City, "Please enter a city")</div>
-        @Html.TextBoxFor(m => m.City, new {@class = "form-control", placeholder = "City"})
-    </div>
-    @Html.LabelFor(m => m.County)
-    <div class="inline-details">
-        @Html.TextBoxFor(m => m.County, new {@class = "form-control", placeholder = "County"})
-    </div>
-    @Html.LabelFor(m => m.Postcode)
-    <div class="inline-details">
-        <div>@Html.ValidationMessageFor(m => m.Postcode)</div>
-        @Html.TextBoxFor(m => m.Postcode, new {@class = "form-control", placeholder = "Postcode"})
-    </div>
-</div>
+<fieldset>
+    <legend class="heading-large">
+        Current location
+    </legend>
 
-<div id="AddressList" style="display: none;">
-    @Html.LabelFor(m => m.SelectedAddressFromPicker, "Pick an address")
-    <div class="select-label">
-        @Html.DropDownListFor(m => m.SelectedAddressFromPicker, Model.AddressPicker, new { @class = "select-address" })
-        @Html.HiddenFor(m => m.AddressOptions)
+    <div class="form-group ">
+        <div>
+            <label for="@Html.NameFor(m => m.PreviouslyEnteredPostcode)">Postcode</label>
+            <div class="inline-details">
+                @Html.TextBoxFor(m => m.PreviouslyEnteredPostcode, new { @class = "form-control form-control-8-chars", placeholder = "eg. SE1", @readonly = "readonly" })
+                <a class="button button-next button-link" id="postcode-change-link" href="javascript:void(0);">Change this postcode</a>
+                <input style="display: none" type="button" class="button find-address" id="findMyAddress" value="Find address" />
+            </div>
+        </div>
     </div>
-</div>
 
-<a class="button button-next button-link" href="javascript:void(0);" style="display: none;" id="manual-entry-link">I can't find the address in the list</a>
+    <div class="form-group">
+        <div id="AddressList" style="display: none;">
+            <label for="@Html.NameFor(m => m.SelectedAddressFromPicker)">What is the address?</label>
+            <div id="AddressListPicker">
+                <label class="select-label">
+                    @Html.DropDownListFor(m => m.SelectedAddressFromPicker, Model.AddressPicker, new { @class = "select-address" })
+                    @Html.HiddenFor(m => m.AddressOptions)
+                </label>
+            </div>
+        </div>
+        <div id="addressPanel" class="address-panel">
+            <h2 class="heading-medium" id="manual-entry-title">Enter address</h2>
+            <fieldset>
+                <legend>Street</legend>
+                <div>@Html.ValidationMessageFor(m => m.AddressLine1, "Please enter the first line of your address")</div>
+                <div class="inline-details">
+                    @Html.LabelFor(m => m.AddressLine1, new { @class = "hidden" })
+                    @Html.TextBoxFor(m => m.AddressLine1, new { @class = "form-control" })
+                </div>
+                <div class="inline-details">
+                    @Html.LabelFor(m => m.AddressLine2, new { @class = "hidden" })
+                    @Html.TextBoxFor(m => m.AddressLine2, new { @class = "form-control" })
+                </div>
+            </fieldset>
+            @Html.LabelFor(m => m.City)
+            <div class="inline-details">
+                <div>@Html.ValidationMessageFor(m => m.City, "Please enter a city")</div>
+                @Html.TextBoxFor(m => m.City, new { @class = "form-control" })
+            </div>
+            @Html.LabelFor(m => m.County)
+            <div class="inline-details">
+                @Html.TextBoxFor(m => m.County, new { @class = "form-control" })
+            </div>
+            @Html.LabelFor(m => m.Postcode)
+            <div class="inline-details">
+                <div>@Html.ValidationMessageFor(m => m.Postcode)</div>
+                @Html.TextBoxFor(m => m.Postcode, new { @class = "form-control" })
+            </div>
+        </div>
+        <a class="button button-next button-link" href="javascript:void(0);" style="display: none;" id="manual-entry-link">I can't find the address in the list</a>
+    </div>
+
+</fieldset>
+
+
+
 
 <script type="text/javascript">
     var addressList = $.parseJSON($("#AddressInfoViewModel_AddressOptions").val());
@@ -74,9 +88,11 @@
         }
 
         if ($("#AddressInfoViewModel_AddressLine1").hasClass("input-validation-error")) {
-            $("#AddressInfoViewModel_SelectedAddressFromPicker").addClass("input-validation-error");
+            $("#AddressListPicker").addClass("input-validation-error");
         }
     });
+
+
 
     $("#AddressInfoViewModel_SelectedAddressFromPicker").change(function () {
         var selectedAddress = $("#AddressInfoViewModel_SelectedAddressFromPicker option:selected").attr("value");
@@ -90,7 +106,7 @@
         
         setFields(result[0]);
 
-        $("#AddressInfoViewModel_SelectedAddressFromPicker").removeClass("input-validation-error");
+        $("#AddressListPicker").removeClass("input-validation-error");
         runAddressValidation();
 
         $("#manual-entry-link").hide();
@@ -184,6 +200,10 @@
         $("#AddressList").hide();
         $("#postcode-validation-message").hide();
         $("#AddressInfoViewModel_postcode-find").removeClass("validation-error-input");
+        $("#AddressListPicker").removeClass("input-validation-error");
+        $("#AddressInfoViewModel_AddressLine1").removeClass("input-validation-error");
+        $("#AddressInfoViewModel_City").removeClass("input-validation-error");
+        $("#AddressInfoViewModel_Postcode").removeClass("input-validation-error");
         setFields("@JsonConvert.SerializeObject(new AddressInfoViewModel())");
     }
 

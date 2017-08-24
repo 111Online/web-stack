@@ -1,6 +1,6 @@
 ﻿@using NHS111.Models.Models.Web
 @using NHS111.Models.Models.Web.ITK
-@inherits NHS111.Web.Views.Shared.SurveyLinkView<OutcomeViewModel>
+@inherits NHS111.Web.Views.Shared.SurveyLinkView<PersonalDetailViewModel>
 @{
     Layout = "~/Views/Shared/_LayoutNhsUk.cshtml";
 }
@@ -20,7 +20,7 @@
         }];
     </script>
 }
-
+<link href="@NHS111.Web.Helpers.Versioning.GetVersionedUriRef("~/content/css_NhsUk/question.css")" media="screen" rel="stylesheet" type="text/css" />
 <link href="@NHS111.Web.Helpers.Versioning.GetVersionedUriRef("~/content/css_NhsUk/personaldetails.css")" media="screen" rel="stylesheet" type="text/css" />
 <link href="@NHS111.Web.Helpers.Versioning.GetVersionedUriRef("~/content/css_NhsUk/service.css")" media="screen" rel="stylesheet" type="text/css" /> 
 
@@ -49,23 +49,262 @@
     @Html.HiddenFor(m => m.SelectedServiceId)
     <section style="margin-top: 40px;">
         <div class="section-item last">
-            <h1 class="heading-large">
-                Enter your details
-            </h1>
-            <h2 class="heading-medium">
-                If you were answering the questions about someone else, enter their details instead
-            </h2>
+            <div class="outcome-header">
+                <h1 class="heading-large">
+                    Enter details
+                </h1>
+            </div>
 
-            @Html.Partial("_PersonalDetailsSelf", Model, dataDictionary)
 
-            @Html.Partial("_InformantDetails", Model.Informant, dataDictionary)
+            <fieldset>
+                <legend class="heading-large">
+                    Who are you asking for?
+                </legend>
+                <div>@Html.ValidationMessageFor(m => m.PatientInformantDetails.Informant, "Please tell us who you ae asking for")</div>
+                <div class="form form-group ">
+                    <label for="PatientInformantDetails_Informant_Self" class="block-label answer answer-label" data-target="self-data">
+                        <span class="answer-radio">@Html.RadioButtonFor(m => m.PatientInformantDetails.Informant, NHS111.Models.Models.Web.InformantType.Self, new { id = "PatientInformantDetails_Informant_Self" })</span>
+                        <span class="answer-text">For myself</span>
+                    </label>
+                </div>
+
+                <div class="js-hidden toggle-content" id="self-data">
+                    <div class="form-group ">
+                        <label for="@Html.NameFor(m => m.PatientInformantDetails.SelfName.Forename)">First name</label>
+                        <div>@Html.ValidationMessageFor(m => m.PatientInformantDetails.SelfName.Forename, "Please enter your first name")</div>
+                        @Html.TextBoxFor(m => m.PatientInformantDetails.SelfName.Forename, new {@class = "form-control form-control-15-chars"})
+                    </div>
+                    <div class="form-group ">
+                        <label for="@Html.NameFor(m => m.PatientInformantDetails.SelfName.Surname)">Last name</label>
+                        <div>@Html.ValidationMessageFor(m => m.PatientInformantDetails.SelfName.Surname, "Please enter your last name")</div>
+                        @Html.TextBoxFor(m => m.PatientInformantDetails.SelfName.Surname, new {@class = "form-control form-control-15-chars"})
+                    </div>
+                </div>
+
+                <div class="form-group ">
+                    <label for="PatientInformantDetails_Informant_ThirdParty" class="block-label answer answer-label" data-target="other-data">
+                        <span class="answer-radio">@Html.RadioButtonFor(m => m.PatientInformantDetails.Informant, NHS111.Models.Models.Web.InformantType.ThirdParty, new { id = "PatientInformantDetails_Informant_ThirdParty" })</span>
+                        <span class="answer-text">For someone else</span>
+                    </label>
+                </div>
+
+                <div class="js-hidden toggle-content" id="other-data">
+                    <h3 class="heading-small">Enter the details of the person needing care</h3>
+                    <div class="form-group ">
+                        <label for="@Html.IdFor(m => m.PatientInformantDetails.PatientName.Forename)">First name</label>
+                        <div>@Html.ValidationMessageFor(m => m.PatientInformantDetails.PatientName.Forename, "Please enter the first name of the person needing care")</div>
+                        @Html.TextBoxFor(m => m.PatientInformantDetails.PatientName.Forename, new {@class = "form-control form-control-15-chars"})
+
+                    </div>
+                    <div class="form-group ">
+                        <label for="@Html.IdFor(m => m.PatientInformantDetails.PatientName.Surname)">Last name</label>
+                        <div>@Html.ValidationMessageFor(m => m.PatientInformantDetails.PatientName.Surname, "Please enter the last name of the person needing care")</div>
+                        @Html.TextBoxFor(m => m.PatientInformantDetails.PatientName.Surname, new {@class = "form-control form-control-15-chars"})
+
+                    </div>
+                    <div class="content-seperator"></div>
+                    <div>
+                        <h3 class="heading-small">Enter the details of someone we can speak to</h3>
+                        <p>We'll need them to be able to answer questions about the person needing care.</p>
+                        <div class="form-group ">
+                            <label for="@Html.IdFor(m => m.PatientInformantDetails.InformantName.Forename)">First name</label>
+                            <div>@Html.ValidationMessageFor(m => m.PatientInformantDetails.InformantName.Forename, "Please enter the first name of someone we can speak to")</div>
+                            @Html.TextBoxFor(m => m.PatientInformantDetails.InformantName.Forename, new {@class = "form-control form-control-15-chars"})
+                        </div>
+                        <div class="form-group ">
+                            <label for="@Html.IdFor(m => m.PatientInformantDetails.InformantName.Surname)">Last name</label>
+                            <div>@Html.ValidationMessageFor(m => m.PatientInformantDetails.InformantName.Surname, "Please enter the last name of someone we can speak to")</div>
+                            @Html.TextBoxFor(m => m.PatientInformantDetails.InformantName.Surname, new {@class = "form-control form-control-15-chars"})
+                        </div>
+                    </div>
+                </div>
+
+            </fieldset>
+
+            <div class="content-seperator"></div>
+
+            <fieldset id="tel-number-fields">
+                <legend class="heading-large">
+                    What phone number can we call back on?
+                </legend>
+
+                <div class="form-group">
+                    <label for="@Html.NameFor(m => m.UserInfo.TelephoneNumber)">Phone number</label>
+                    <div>@Html.ValidationMessageFor(m => m.UserInfo.TelephoneNumber, "Please enter a valid phone number")</div>
+                     @Html.TextBoxFor(m => m.UserInfo.TelephoneNumber, new { @class = "form-control form-control-16-chars", placeholder = "Landline or mobile number", type = "tel" })
+                </div>
+            </fieldset>
+
+            <div class="content-seperator"></div>
+
+            <fieldset>
+                <legend class="heading-large">
+                    Date of birth
+                </legend>
+                <p>This is the date of birth of the person needing care.</p>
+                <p class="form-hint">
+                    For example, 31 / 12 / 1980
+                </p>
+                <div>@Html.ValidationMessageFor(m => m.UserInfo.Day, "Please enter a valid day")</div>
+                <div>@Html.ValidationMessageFor(m => m.UserInfo.Month, "Please enter a valid month")</div>
+                <div>@Html.ValidationMessageFor(m => m.UserInfo.Year, "Please enter a valid year")</div>
+                <div>@Html.ValidationMessageFor(m => m.UserInfo.DoB, "Please enter a valid date")</div>
+                <div class="form-group -date">
+                    <div>
+                        <label for="@Html.IdFor(m => m.UserInfo.Day)">Day</label>
+                        @Html.TextBoxFor(m => m.UserInfo.Day, new {@class = "form-control form-control-2-chars date-2-chars", placeholder = "DD", type = "number", maxlength = "2"})
+                    </div>
+                    <div>
+                        <label for="@Html.IdFor(m => m.UserInfo.Month)">Month</label>
+                        @Html.TextBoxFor(m => m.UserInfo.Month, new {@class = "form-control form-control-2-chars date-2-chars", placeholder = "MM", type = "number", maxlength = "2"})
+                    </div>
+                    <div>
+                        <label for="@Html.IdFor(m => m.UserInfo.Year)">Year</label>
+                        @Html.TextBoxFor(m => m.UserInfo.Year, new {@class = "form-control form-control-4-chars date-4-chars", placeholder = "YYYY", type = "number", maxlength = "4"})
+                    </div>
+                </div>
+                @Html.HiddenFor(m => m.UserInfo.DoB)
+            </fieldset>
+            <div class="content-seperator"></div>
+        <script type="text/javascript">
+            
+            jQuery.validator.addMethod('personname', function (value, element, params) {
+                var peronelement = $(element);
+                if ($('input[name="PatientInformantDetails.Informant"]:checked').val() == "Self" &&
+                    peronelement.attr('name').startsWith("PatientInformantDetails.SelfName")) {
+                    return (value) !== "";
+                }
+                if ($('input[name="PatientInformantDetails.Informant"]:checked').val() == "ThirdParty" &&
+                  (peronelement.attr('name').startsWith("PatientInformantDetails.PatientName")
+                    || (peronelement.attr('name').startsWith("PatientInformantDetails.InformantName")))) {
+                    return (value) !== "";
+                }
+                return true;
+
+            });
+
+            jQuery.validator.addMethod('day', function (value, element, params) {
+                //don't add any more errors if we've already failed whole date validation
+                if (DoBErrorShowing()) return true;
+
+                var day = $('#UserInfo_Day').val();
+
+                var result = (parseInt(day) > 0 && parseInt(day) < 32);
+                return result;
+            });
+
+            jQuery.validator.addMethod('month', function (value, element, params) {
+                if (DoBErrorShowing()) return true;
+
+                var month = $('#UserInfo_Month').val();
+
+                var result = (parseInt(month) > 0 && parseInt(month) < 13);
+                return result;
+            });
+
+            jQuery.validator.addMethod('year', function (value, element, params) {
+                if (DoBErrorShowing()) return true;
+
+                var year = $('#UserInfo_Year').val();
+
+                var currentYear = new Date().getFullYear();
+                var result = (parseInt(year) > 1900 && parseInt(year) < (currentYear + 1));
+                return result;
+            });
+
+            jQuery.validator.addMethod('dateofbirth', function (value, element, params) {
+                var day = $('#UserInfo_Day').val();
+                var month = $('#UserInfo_Month').val();
+                var year = $('#UserInfo_Year').val();
+
+                //month is indexed from zero (thanks, Java) - so some adjustments needed
+                var date = new Date(parseInt(year), parseInt(month) - 1, parseInt(day));
+                return (date.getFullYear() === parseInt(year) && (date.getMonth() + 1) === parseInt(month) && date.getDate() === parseInt(day));
+            });
+
+            jQuery.validator.unobtrusive.adapters.add('personname', ['prefixelement'], function (options) {
+                options.rules['personname'] = options.params;
+                if (options.message != null) {
+                    options.messages['personname'] = options.message;
+                }
+            });
+
+            //attach validators for each field, and whole date
+            jQuery.validator.unobtrusive.adapters.add('day', ['prefixelement'], function (options) {
+                options.rules['day'] = options.params;
+                if (options.message != null) {
+                    options.messages['day'] = options.message;
+                }
+            });
+            jQuery.validator.unobtrusive.adapters.add('month', ['prefixelement'], function (options) {
+                options.rules['month'] = options.params;
+                if (options.message != null) {
+                    options.messages['month'] = options.message;
+                }
+            });
+            jQuery.validator.unobtrusive.adapters.add('year', ['prefixelement'], function (options) {
+                options.rules['year'] = options.params;
+                if (options.message != null) {
+                    options.messages['year'] = options.message;
+                }
+            });
+            jQuery.validator.unobtrusive.adapters.add('dateofbirth', ['prefixelement'], function (options) {
+                options.rules['dateofbirth'] = options.params;
+                if (options.message != null) {
+                    options.messages['dateofbirth'] = options.message;
+                }
+            });
+
+            //validate Dob if we change any of the individual fields
+            jQuery('#UserInfo_Day').change(function () {
+                ValidateWholeDateOfBirth();
+            });
+            jQuery('#UserInfo_Month').change(function () {
+                ValidateWholeDateOfBirth();
+            });
+            jQuery('#UserInfo_Year').change(function () {
+                ValidateWholeDateOfBirth();
+            });
+
+            function DoBErrorShowing() {
+                if (jQuery("#UserInfo_DoB").hasClass("input-validation-error")) {
+                    return true;
+                } else {
+                    return false;
+                }
+            }
+
+            function ValidateWholeDateOfBirth() {
+                if (AllIndividualDatePartsValid()) {
+                    jQuery("#personalDetailForm").validate().element("#UserInfo_DoB");
+                }
+            }
+
+            function AllIndividualDatePartsValid() {
+                if (jQuery("#UserInfo_Day").val() === ""
+                    || jQuery("#UserInfo_Month").val() === ""
+                    || jQuery("#UserInfo_Year").val() === "")
+                    return false;
+
+                if (jQuery("#UserInfo_Day").valid()
+                    && jQuery("#UserInfo_Month").valid()
+                    && jQuery("#UserInfo_Year").valid()) {
+                    return true;
+                } else {
+                    return false;
+                }
+            }
+
+        </script>
+
+   
+            @{
+                dataDictionary.TemplateInfo = new TemplateInfo { HtmlFieldPrefix = "AddressInfoViewModel" };
+            }
+            @Html.Partial("_PersonalPostCodeSearch", Model.AddressInfoViewModel, dataDictionary)
 
             <div class="personal-details-content">
-                @Html.LabelFor(m => m.UserInfo.TelephoneNumber, "Contact number")
-                <div>@Html.ValidationMessageFor(m => m.UserInfo.TelephoneNumber, "Please enter a valid phone number")</div>
-                <div class="inline-details">
-                    @Html.TextBoxFor(m => m.UserInfo.TelephoneNumber, new { @class = "form-control form-control-16-chars", placeholder = "Landline or mobile number", type = "tel" })
-                </div>
+   
                 <div class="inline-details">
                     <p class="submit-details-disclaimer">
                         By clicking Submit my details, you agree to share your information with other NHS organisations.
@@ -81,6 +320,34 @@
 
 <script type="text/javascript">
     $(document).ready(function () {
+
+
+        if ($('.form-group').length > 0) {
+
+            // Add/remove selected class
+            $('.block-label').find('input[type=radio], input[type=checkbox]').click(function () {
+
+                $('input:not(:checked)').parent().parent().removeClass('selected');
+                $('input:checked').parent().parent().addClass('selected');
+
+                $('.toggle-content').hide();
+
+                var target = $('input:checked').parent().parent().attr('data-target');
+                var $target = $('#' + target);
+
+                $target.css('display', 'inline-block');
+                $target.attr('aria-expanded', true);
+
+
+            });
+
+            // For pre-checked inputs, show toggled content
+            var target = $('input:checked').parent().parent().attr('data-target');
+            $('#' + target).show();
+
+        }
+
+
         stopPageLoadingIndicator();
         toggleInformant($('#Informant'));
     });
@@ -97,6 +364,8 @@
         stopPageLoadingIndicator();
     };
 
+  
+
     function toggleInformant($informantCheckbox) {
         if ($informantCheckbox.is(':checked')) {
             $('#informant-details').show();
@@ -107,4 +376,5 @@
             $('#Informant_Surname').val('');
         }
     }
+
 </script>
