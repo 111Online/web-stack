@@ -56,7 +56,7 @@ namespace NHS111.Web.Tools.Controllers
             model.SymptomDiscriminatorList = new[] { model.SymptomDiscriminator };
             var dosView = new DosViewModel
             {
-                DosCheckCapacitySummaryResult = (await _dosBuilder.FillCheckCapacitySummaryResult(model, filterServices.HasValue ? filterServices.Value : true)),
+                DosCheckCapacitySummaryResult = (await _dosBuilder.FillCheckCapacitySummaryResult(model, filterServices.HasValue ? filterServices.Value : true, null)),
                 DosServicesByClinicalTermResult = (await _dosBuilder.FillDosServicesByClinicalTermResult(model))
             };
 

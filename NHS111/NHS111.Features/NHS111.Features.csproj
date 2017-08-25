@@ -59,6 +59,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DosEndpointFeature.cs" />
     <Compile Include="AllowedPostcodeFeature.cs" />
     <Compile Include="BaseFeature.cs" />
     <Compile Include="CookieBannerFeature.cs" />

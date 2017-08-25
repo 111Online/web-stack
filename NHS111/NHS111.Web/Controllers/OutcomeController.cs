@@ -22,6 +22,7 @@ namespace NHS111.Web.Controllers
     using Utils.Attributes;
     using Utils.Filters;
     using System.Web;
+    using Models.Models.Web.DosRequests;
 
     [LogHandleErrorForMVC]
     public class OutcomeController : Controller {
@@ -134,11 +135,11 @@ namespace NHS111.Web.Controllers
                 if (overrideDate.HasValue) dosViewModel.DispositionTime = overrideDate.Value;
 
            await _auditLogger.LogDosRequest(model, dosViewModel);
-           return await _dosBuilder.FillCheckCapacitySummaryResult(dosViewModel, filterServices);
+           return await _dosBuilder.FillCheckCapacitySummaryResult(dosViewModel, filterServices, null);
         }
 
         [HttpPost]
-        public async Task<ActionResult> ServiceDetails([Bind(Prefix = "FindService")]OutcomeViewModel model, [FromUri] bool? overrideFilterServices) {
+        public async Task<ActionResult> ServiceDetails([Bind(Prefix = "FindService")]OutcomeViewModel model, [FromUri] bool? overrideFilterServices, DosEndpoint? endpoint) {
 
             if (!ModelState.IsValidField("FindService.UserInfo.CurrentAddress.Postcode"))
                 return View(model.CurrentView, model);
@@ -151,7 +152,7 @@ namespace NHS111.Web.Controllers
 
             var dosCase = Mapper.Map<DosViewModel>(model);
             await _auditLogger.LogDosRequest(model, dosCase);
-            model.DosCheckCapacitySummaryResult = await _dosBuilder.FillCheckCapacitySummaryResult(dosCase, overrideFilterServices.HasValue ? overrideFilterServices.Value : model.FilterServices);
+            model.DosCheckCapacitySummaryResult = await _dosBuilder.FillCheckCapacitySummaryResult(dosCase, overrideFilterServices.HasValue ? overrideFilterServices.Value : model.FilterServices, endpoint);
             await _auditLogger.LogDosResponse(model);
 
             if (model.DosCheckCapacitySummaryResult.Error == null &&
