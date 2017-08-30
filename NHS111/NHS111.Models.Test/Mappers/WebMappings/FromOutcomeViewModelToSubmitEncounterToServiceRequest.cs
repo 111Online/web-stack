@@ -102,7 +102,7 @@ namespace NHS111.Models.Test.Mappers.WebMappings
                 },
                 Informant = new InformantViewModel()
                 {
-                    IsInformant = false
+                    IsInformantForPatient = false
                 }
             };
 
@@ -148,7 +148,7 @@ namespace NHS111.Models.Test.Mappers.WebMappings
                 {
                     Forename = "Informer",
                     Surname = "bormer",
-                    IsInformant = true
+                    IsInformantForPatient = true
                 }
             };
 
