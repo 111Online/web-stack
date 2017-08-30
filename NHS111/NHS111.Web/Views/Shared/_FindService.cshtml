@@ -1,6 +1,7 @@
 ﻿@model  NHS111.Models.Models.Web.OutcomeViewModel
 @{
     var error = Model.DosCheckCapacitySummaryResult.ResultListEmpty;
+    var addressInfoMessage = ViewData.ContainsKey("AddressInfoMessage") ? ViewData["AddressInfoMessage"].ToString() : string.Empty;
 }
 <section>
     <div class="findservice-form">
@@ -39,7 +40,14 @@
             @Html.HiddenFor(x => x.SurveyLink.JourneyId)
             @Html.HiddenFor(x => x.SurveyLink.DispositionDateTime)
             @Html.Partial("_CommonHiddenFieldsCareAdviceViewModel", Model)
-            
+
+            if (!String.IsNullOrEmpty(addressInfoMessage))
+            {
+                <div class="callout callout--info">
+                    <p>@Html.Raw(addressInfoMessage)</p>
+                </div>
+            }
+
             <div class="find-service">
                 <h2 class="heading-medium">@Html.Raw((!ViewData.Keys.Contains("Title") ? null : string.Format("{0}", ViewData["Title"])))</h2>
                 <div class="section-margin">
