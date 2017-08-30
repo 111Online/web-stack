@@ -190,7 +190,7 @@ namespace NHS111.Web.Controllers
             //pre-populate picker fields from postcode lookup service
             var postcodes = await GetPostcodeResults(model.AddressInfoViewModel.PreviouslyEnteredPostcode);
             var firstSelectItemText = postcodes.Count + " addresses found. Please choose...";
-            var items = new List<SelectListItem> { new SelectListItem { Text = firstSelectItemText, Value = "0", Selected = true } };
+            var items = new List<SelectListItem> { new SelectListItem { Text = firstSelectItemText, Value = "", Selected = true } };
             items.AddRange(postcodes.Select(postcode => new SelectListItem { Text = postcode.AddressLine1, Value = postcode.UPRN }).ToList());
             model.AddressInfoViewModel.AddressPicker = items;
 

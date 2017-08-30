@@ -138,6 +138,9 @@ input:read-only {
     color: #b9d2dc;
 }
 
+.select-address.input-validation-error {
+    border: 2px ridge #ff0000;
+}
 .validation-error-input {
     border-color: #ff0000 !important;
 }
