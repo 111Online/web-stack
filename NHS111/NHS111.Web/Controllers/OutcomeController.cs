@@ -6,6 +6,7 @@ using NHS111.Features;
 using NHS111.Models.Models.Web.FromExternalServices;
 using NHS111.Models.Models.Web.Logging;
 using NHS111.Models.Models.Web.Validators;
+using DayOfWeek = System.DayOfWeek;
 
 namespace NHS111.Web.Controllers
 {
@@ -208,6 +209,7 @@ namespace NHS111.Web.Controllers
                 return View("PersonalDetails", model);
             }
             var availableServices = await GetServiceAvailability(model, DateTime.Now, overrideFilterServices.HasValue ? overrideFilterServices.Value : model.FilterServices);
+
             _auditLogger.LogDosResponse(model);
             if (SelectedServiceExits(model.SelectedService.Id, availableServices))
             {
@@ -217,6 +219,7 @@ namespace NHS111.Web.Controllers
                    return View(outcomeViewModel);
                return outcomeViewModel.ItkDuplicate.HasValue && outcomeViewModel.ItkDuplicate.Value ? View("DuplicateBookingFailure", outcomeViewModel) : View("ServiceBookingFailure", outcomeViewModel);
             }
+
             model.UnavailableSelectedService = model.SelectedService;
             model.DosCheckCapacitySummaryResult = availableServices;
             model.DosCheckCapacitySummaryResult.ServicesUnavailable = availableServices.ResultListEmpty;
@@ -231,7 +234,7 @@ namespace NHS111.Web.Controllers
             {
                 model.UserInfo.FirstName = patientInformantModel.SelfName.Forename;
                 model.UserInfo.LastName = patientInformantModel.SelfName.Surname;
-                model.Informant.IsInformant = true;
+                model.Informant.IsInformantForPatient = false;
             }
 
             if (patientInformantModel.Informant == InformantType.ThirdParty)
@@ -241,7 +244,7 @@ namespace NHS111.Web.Controllers
 
                 model.Informant.Forename = patientInformantModel.InformantName.Forename;
                 model.Informant.Surname = patientInformantModel.InformantName.Surname;
-                model.Informant.IsInformant = false;
+                model.Informant.IsInformantForPatient = true;
             }
             return model;
         }

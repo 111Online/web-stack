@@ -23,7 +23,7 @@ namespace NHS111.Models.Models.Web.Validators
         {
             var informantViewModel = context.Instance as InformantViewModel;
 
-            return informantViewModel.IsInformant == false || !string.IsNullOrEmpty(informantViewModel.Forename);
+            return informantViewModel.IsInformantForPatient == false || !string.IsNullOrEmpty(informantViewModel.Forename);
         } 
 
         public IEnumerable<ModelClientValidationRule> GetClientValidationRules(ModelMetadata metadata, ControllerContext context)
