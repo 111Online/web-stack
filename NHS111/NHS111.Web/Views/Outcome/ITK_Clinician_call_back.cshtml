@@ -45,7 +45,7 @@
 </section>
 
 <div class="itk-message">
-    <p>The 111 nurse should phone in 20 minutes and will</p>
+    <p>The 111 nurse will aim to phone within 20 minutes and will:</p>
     <br/>
     <ul>
         <li>
@@ -66,10 +66,11 @@
     dataDictionary.Add(new KeyValuePair<string, object>("ButtonText", "Next"));
     dataDictionary.Add(new KeyValuePair<string, object>("Label", ""));
     dataDictionary.Add(new KeyValuePair<string, object>("ITK", true));
-    dataDictionary.Add(new KeyValuePair<string, object>("AddressInfoMessage", "This postcode finds the nearest 111 service and is where you will get care. It's usually your home postcode."));
+    dataDictionary.Add(new KeyValuePair<string, object>("AddressInfoMessage", "<p>This postcode finds the nearest 111 service to call you.</p><p>They can book an appointment for you, if needed.</p><br/><p> This postcode is usually your home postcode.</p>"));
     dataDictionary.TemplateInfo = new TemplateInfo() { HtmlFieldPrefix = "FindService" };
 
 }
+
 @Html.Partial("_FindService", Model, dataDictionary)
 
 <hr />
@@ -81,8 +82,22 @@
         if (!Model.DisplayOutcomeReferenceOnly)
         {
             <div class="changeAnswers row">
-                <input class="button button-next button-link" type="submit" name="PreviousQuestion" value="Change my previous answer" />
+                <input class="button button-next button-link" type="submit" name="PreviousQuestion" value="Change my previous answer"/>
             </div>
         }
     }
+</section>
+
+<section>
+    <div class="answer answer-label">
+        <span class="answer-text help-text-link">If you do not wish for a nurse to call you back, please read this advice</span>
+    </div>
+    <div class="help-text-link-message">
+        <h2 class="heading-small">Please call NHS 111 for advice now</h2>
+
+        @Html.Partial("_CareAdvice", Model.CareAdvices)
+
+        @Html.Partial("_WorseningAdvice", Model)
+    </div>
+
 </section>
