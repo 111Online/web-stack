@@ -39,10 +39,7 @@
             @Html.HiddenFor(x => x.SurveyLink.JourneyId)
             @Html.HiddenFor(x => x.SurveyLink.DispositionDateTime)
             @Html.Partial("_CommonHiddenFieldsCareAdviceViewModel", Model)
-
-    <div class="callout callout--info">
-        <p>This postcode finds the nearest 111 service and is where you will get care. It's usually your home postcode.</p>
-    </div>
+            
             <div class="find-service">
                 <h2 class="heading-medium">@Html.Raw((!ViewData.Keys.Contains("Title") ? null : string.Format("{0}", ViewData["Title"])))</h2>
                 <div class="section-margin">
