@@ -10,18 +10,20 @@
     <legend class="heading-large">
         Current location
     </legend>
-    <div class="find-address-panel">
-        <div class="form-group ">
-            <div>
-                <label for="@Html.NameFor(m => m.PreviouslyEnteredPostcode)">Postcode</label>
-                <div class="inline-details">
-                    @Html.TextBoxFor(m => m.PreviouslyEnteredPostcode, new {@class = "form-control form-control-8-chars", placeholder = "eg. SE1", @readonly = "readonly"})
-                    <a class="button button-next button-link" id="postcode-change-link" href="javascript:void(0);">Change this postcode</a>
-                    <input style="display: none" type="button" class="button find-address" id="findMyAddress" value="Find address"/>
+
+    <p class="form-info">We need this in case the person needing care requires emergency help.</p>
+        <div class="find-address-panel">
+            <div class="form-group ">
+                <div>
+                    <label for="@Html.NameFor(m => m.PreviouslyEnteredPostcode)">Postcode</label>
+                    <div class="inline-details">
+                        @Html.TextBoxFor(m => m.PreviouslyEnteredPostcode, new { @class = "form-control form-control-8-chars", placeholder = "eg. SE1", @readonly = "readonly" })
+                        <a class="button button-next button-link" id="postcode-change-link" href="javascript:void(0);">Change this postcode</a>
+                        <input style="display: none" type="button" class="button find-address" id="findMyAddress" value="Find address" />
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
 
         <div class="form-group">
             <div id="AddressList" style="display: none;">
