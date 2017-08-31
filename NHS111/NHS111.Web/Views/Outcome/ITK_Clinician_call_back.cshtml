@@ -45,8 +45,9 @@
 </section>
 
 <div class="itk-message">
-    <p>The 111 nurse will aim to phone within 20 minutes and will:</p>
+    <p>The 111 nurse will aim to phone you in 20 minutes or less.</p>
     <br/>
+    <p>The 111 nurse will:</p>
     <ul>
         <li>
             have your answers
@@ -66,7 +67,7 @@
     dataDictionary.Add(new KeyValuePair<string, object>("ButtonText", "Next"));
     dataDictionary.Add(new KeyValuePair<string, object>("Label", ""));
     dataDictionary.Add(new KeyValuePair<string, object>("ITK", true));
-    dataDictionary.Add(new KeyValuePair<string, object>("AddressInfoMessage", "<p>This postcode finds the nearest 111 service to phone you.</p><p>They can book an appointment for you, if needed.</p><br/><p> This postcode is usually your home postcode.</p>"));
+    dataDictionary.Add(new KeyValuePair<string, object>("AddressInfoMessage", "<p>This postcode finds the nearest 111 service to phone you.</p><br/><p> This postcode is usually your home postcode.</p>"));
     dataDictionary.TemplateInfo = new TemplateInfo() { HtmlFieldPrefix = "FindService" };
 
 }
@@ -76,11 +77,11 @@
 
 <hr/>
 <div id="care-advice-expanding">
-    <h3 class="care-advice-expanding-link heading-small">If you do not wish for a nurse to call you back, please read this advice</h3>
+    <h3 class="care-advice-expanding-link heading-small">If you don't want to book a call from this service, please read the following advice</h3>
     <div class="care-advice-expanding-content content">
-        <h4 class="heading-small">Please call NHS 111 for advice now</h4>
+        <h4 class="heading-small">Please call 111 now, and read the advice below</h4>
 
-        @Html.Partial("_CareAdvice", Model.CareAdvices)
+        @Html.Partial("_CareAdvice", Model.CareAdvices, new ViewDataDictionary { { "Title", "" }})
 
         @Html.Partial("_WorseningAdvice", Model)
     </div>
