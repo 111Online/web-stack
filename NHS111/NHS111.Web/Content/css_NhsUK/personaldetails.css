@@ -82,18 +82,21 @@ fieldset {
     float: left;
     padding-right: 1em;
 }
-.button.find-address {
-    background-color: #707070;
+.find-address {
+    font-weight: normal;
     padding-right: 5rem;
-    background-image: url("/content/images/icons/icon-button-next.svg");
+    background-image: url(/content/images/icons/icon-button-next.svg);
     background-repeat: no-repeat;
-    background-position: 85% 60%;
+    color: #fff;
+    background-color: #405364;
+    background-position: 100% 60%;
+    text-decoration: none;
     margin-top: 10px;
 }
-
-    .button.find-address:link, .button.find-address:hover, .button.find-address:focus, .button.find-address:visited {
-        background-color: #333333;
-    }
+.find-address:link, .find-address:hover, .find-address:focus, .find-address:visited {
+    color: #fff;
+    background-color: #2e3b47;
+}
 
 @media screen and (min-width: 641px) {
     .button.find-address {
