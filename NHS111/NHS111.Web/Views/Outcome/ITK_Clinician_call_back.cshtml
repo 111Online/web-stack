@@ -66,38 +66,29 @@
     dataDictionary.Add(new KeyValuePair<string, object>("ButtonText", "Next"));
     dataDictionary.Add(new KeyValuePair<string, object>("Label", ""));
     dataDictionary.Add(new KeyValuePair<string, object>("ITK", true));
-    dataDictionary.Add(new KeyValuePair<string, object>("AddressInfoMessage", "<p>This postcode finds the nearest 111 service to call you.</p><p>They can book an appointment for you, if needed.</p><br/><p> This postcode is usually your home postcode.</p>"));
+    dataDictionary.Add(new KeyValuePair<string, object>("AddressInfoMessage", "<p>This postcode finds the nearest 111 service to phone you.</p><p>They can book an appointment for you, if needed.</p><br/><p> This postcode is usually your home postcode.</p>"));
     dataDictionary.TemplateInfo = new TemplateInfo() { HtmlFieldPrefix = "FindService" };
 
 }
 
 @Html.Partial("_FindService", Model, dataDictionary)
 
-<hr />
 
-<section>
-    @using (Html.BeginForm("Navigation", "Question", FormMethod.Post))
-    {
-        @Html.Partial("_CommonHiddenFieldsOutcomeViewModel", Model)
-        if (!Model.DisplayOutcomeReferenceOnly)
-        {
-            <div class="changeAnswers row">
-                <input class="button button-next button-link" type="submit" name="PreviousQuestion" value="Change my previous answer"/>
-            </div>
-        }
-    }
-</section>
-
-<section>
-    <div class="answer answer-label">
-        <span class="answer-text help-text-link">If you do not wish for a nurse to call you back, please read this advice</span>
-    </div>
-    <div class="help-text-link-message">
-        <h2 class="heading-small">Please call NHS 111 for advice now</h2>
+<hr/>
+<div id="care-advice-expanding">
+    <h3 class="care-advice-expanding-link heading-small">If you do not wish for a nurse to call you back, please read this advice</h3>
+    <div class="care-advice-expanding-content content">
+        <h4 class="heading-small">Please call NHS 111 for advice now</h4>
 
         @Html.Partial("_CareAdvice", Model.CareAdvices)
 
         @Html.Partial("_WorseningAdvice", Model)
     </div>
+</div>
 
-</section>
+
+<script>
+    $(function () {
+        $("#care-advice-expanding").accordion({ collapsible: true, active: 'none', heightStyle: "content" });
+    });
+</script>

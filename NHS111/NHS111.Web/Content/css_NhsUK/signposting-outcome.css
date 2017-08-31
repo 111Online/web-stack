@@ -368,6 +368,20 @@ details summary::-webkit-details-marker {
 .alternative-care h3.ui-accordion-header-active:before {
      content:url('/Content/images/blue-arrow-down.png');
 }
+.care-advice-expanding-link
+{
+    color: #005eb8;
+    text-decoration: underline;
+    cursor: pointer;
+
+}
+#care-advice-expanding h3:before {
+     content:url('/Content/images/blue-arrow-right.png');
+}
+
+#care-advice-expanding h3.ui-accordion-header-active:before {
+     content:url('/Content/images/blue-arrow-down.png');
+}
 .outcome-header h3 {
     margin: 10px;
     font-weight: bold;
