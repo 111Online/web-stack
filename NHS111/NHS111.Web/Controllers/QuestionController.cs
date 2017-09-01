@@ -24,10 +24,7 @@ namespace NHS111.Web.Controllers {
     using IConfiguration = Presentation.Configuration.IConfiguration;
 
     [LogHandleErrorForMVC]
-    public class QuestionController
-        : Controller {
-
-        public const int MAX_SEARCH_RESULTS = 10;
+    public class QuestionController : Controller {
 
         public QuestionController(IJourneyViewModelBuilder journeyViewModelBuilder,
             IConfiguration configuration, IJustToBeSafeFirstViewModelBuilder justToBeSafeFirstViewModelBuilder, IDirectLinkingFeature directLinkingFeature,
@@ -63,88 +60,6 @@ namespace NHS111.Web.Controllers {
             _userZoomDataBuilder.SetFieldsForInitialQuestion(model);
             return View("InitialQuestion", model);
         }
-
-        [HttpPost]
-        public async Task<ActionResult> Search(JourneyViewModel model)
-        {
-            if (!ModelState.IsValidField("UserInfo.Demography.Gender") || !ModelState.IsValidField("UserInfo.Demography.Age"))
-            {
-                //var genderModel = new JourneyViewModel {UserInfo = new UserInfo {Demography = model}};
-                _userZoomDataBuilder.SetFieldsForDemographics(model);
-                return View("Gender", model);
-            }
-
-            var topicsContainingStartingPathways = await GetAllTopics(model.UserInfo.Demography);
-
-            var startOfJourney = new SearchJourneyViewModel
-            {
-                UserInfo = new UserInfo { Demography = model.UserInfo.Demography },
-                AllTopics = topicsContainingStartingPathways,
-                FilterServices = model.FilterServices
-            };
-
-            _userZoomDataBuilder.SetFieldsForSearch(startOfJourney);
-
-            return View(startOfJourney);
-
-        }
-
-        [HttpPost]
-        public async Task<ActionResult> SearchResults(string q, string gender, int age, bool filterServices) {
-            var ageGroup = new AgeCategory(age);
-
-            var ageGenderViewModel = new AgeGenderViewModel {Gender = gender, Age = age};
-            var topicsContainingStartingPathways = await GetAllTopics(ageGenderViewModel);
-            var model = new SearchJourneyViewModel {
-                SanitisedSearchTerm = q.Trim(),
-                UserInfo = new UserInfo {Demography = ageGenderViewModel},
-                AllTopics = topicsContainingStartingPathways,
-                EntrySearchTerm = q,
-                FilterServices = filterServices
-            };
-
-            _userZoomDataBuilder.SetFieldsForSearchResults(model);
-
-            if (string.IsNullOrEmpty(q))
-                return View("search", model);
-
-            var requestPath = _configuration.GetBusinessApiPathwaySearchUrl(gender, ageGroup.Value, true);
-
-            var request = new RestRequest(requestPath, Method.POST);
-            request.AddJsonBody(Uri.EscapeDataString(model.SanitisedSearchTerm));
-
-            var response = await _restClientBusinessApi.ExecuteTaskAsync<List<SearchResultViewModel>>(request);
-
-            model.Results = response.Data
-                .Take(MAX_SEARCH_RESULTS)
-                 .Select(r => Transform(r, model.SanitisedSearchTerm));
-            return View("search", model);
-        }
-
-        private SearchResultViewModel Transform(SearchResultViewModel result, string searchTerm) {
-            result.Description += ".";
-            result.Description = result.Description.Replace("\\n\\n", ". ");
-            result.Description = result.Description.Replace(" . ", ". ");
-            result.Description = result.Description.Replace("..", ".");
-
-            SortTitlesByRelevancy(result, searchTerm);
-
-            return result;
-        }
-
-        private void SortTitlesByRelevancy(SearchResultViewModel result, string searchTerm) {
-            if (result.DisplayTitle == null)
-                return;
-            var lowerTerm = searchTerm.ToLower();
-            for (var i = 0; i < result.DisplayTitle.Count; i++) {
-                var title = result.DisplayTitle[i];
-                if (!PathwaySearchResult.StripHighlightMarkup(title).ToLower().Contains(lowerTerm))
-                    continue;
-                result.DisplayTitle.RemoveAt(i);
-                result.DisplayTitle.Insert(0, title);
-            }
-        }
-
 
         [HttpPost]
         public async Task<JsonResult> AutosuggestPathways(string input, string gender, int age)
@@ -225,23 +140,6 @@ namespace NHS111.Web.Controllers {
         private async Task<JourneyViewModel> GetNextJourneyViewModel(JourneyViewModel model) {
             var nextNode = await GetNextNode(model);
             return await _journeyViewModelBuilder.Build(model, nextNode);
-        }
-
-        private async Task<IEnumerable<CategoryWithPathways>> GetAllTopics(AgeGenderViewModel model)
-        {
-            var url = _configuration.GetBusinessApiGetCategoriesWithPathwaysGenderAge(model.Gender,
-                model.Age, true);
-            var response = await
-                _restClientBusinessApi.ExecuteTaskAsync<List<CategoryWithPathways>>(CreateJsonRequest(url, Method.GET));
-
-
-            var allTopics = response.Data;
-            var topicsContainingStartingPathways =
-                allTopics.Where(
-                    c =>
-                        c.Pathways.Any(p => p.Pathway.StartingPathway) ||
-                        c.SubCategories.Any(sc => sc.Pathways.Any(p => p.Pathway.StartingPathway)));
-            return topicsContainingStartingPathways;
         }
 
         [HttpGet]

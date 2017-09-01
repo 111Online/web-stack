@@ -20,7 +20,7 @@ namespace NHS111.SmokeTest.Utils
         [FindsBy(How = How.Id, Using = "searchTags")]
         public IWebElement SearchTxtBox { get; set; }
 
-        [FindsBy(How = How.ClassName, Using = "button-get-started")]
+        [FindsBy(How = How.ClassName, Using = "button--next")]
         public IWebElement GoButton { get; set; }
 
         [FindsBy(How = How.CssSelector, Using = ".content-container h1")]

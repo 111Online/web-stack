@@ -19,12 +19,6 @@
     </script>
 }
 
-
-<link href="@NHS111.Web.Helpers.Versioning.GetVersionedUriRef("~/Content/css_NhsUK/confirmation.css")" media="all" rel="stylesheet" type="text/css">
-<link href="@NHS111.Web.Helpers.Versioning.GetVersionedUriRef("~/Content/css_NhsUK/signposting-outcome.css")" media="all" rel="stylesheet" type="text/css" />
-<link href="@NHS111.Web.Helpers.Versioning.GetVersionedUriRef("~/Content/css_NhsUK/signposting-outcome-print.css")" media="print" rel="stylesheet" type="text/css" />
-<link href="@NHS111.Web.Helpers.Versioning.GetVersionedUriRef("~/content/css_NhsUk/service.css")" media="screen" rel="stylesheet" type="text/css" />
-
 @{
     var dataDictionary = ViewContext.ViewData;
     dataDictionary.Add(new KeyValuePair<string, object>("LaunchPage", "failure"));
@@ -44,8 +38,8 @@
 }
 
 <section>
-    <div class="outcome-header fail">
-        <h1 class="heading-large">The service you selected is no longer available</h1>
+    <div class="local-header fail">
+        <h1 class="local-header__title">The service you selected is no longer available</h1>
     </div>
 
     @Html.Partial("_AlternativeServices", Model, new ViewDataDictionary { { "Title", "Please choose another service instead" } })

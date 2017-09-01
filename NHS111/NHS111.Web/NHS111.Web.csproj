@@ -18,8 +18,8 @@
     <MvcBuildViews>false</MvcBuildViews>
     <UseIISExpress>true</UseIISExpress>
     <IISExpressSSLPort />
-    <IISExpressAnonymousAuthentication />
-    <IISExpressWindowsAuthentication />
+    <IISExpressAnonymousAuthentication>enabled</IISExpressAnonymousAuthentication>
+    <IISExpressWindowsAuthentication>disabled</IISExpressWindowsAuthentication>
     <IISExpressUseClassicPipelineMode />
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
     <RestorePackages>true</RestorePackages>
@@ -224,9 +224,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Content\styles\ie\" />
-    <Folder Include="Content\styles\mobile\" />
-    <Folder Include="Content\styles\print\" />
     <Folder Include="Models\" />
     <Folder Include="Views\Auditing\" />
     <Folder Include="Views\Version\" />
@@ -245,6 +242,7 @@
     <Compile Include="Controllers\PostcodeFirstController.cs" />
     <Compile Include="Controllers\QuestionController.cs" />
     <Compile Include="Controllers\JustToBeSafeController.cs" />
+    <Compile Include="Controllers\SearchController.cs" />
     <Compile Include="Controllers\TopicController.cs" />
     <Compile Include="Controllers\VersionController.cs" />
     <Compile Include="ErrorHandler\AiHandleErrorAttribute.cs" />
@@ -266,67 +264,6 @@
     <Compile Include="Views\Shared\SurveyLinkView.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Content\css\custom.css" />
-    <Content Include="Content\css\font-awesome\css\font-awesome.min.css" />
-    <Content Include="Content\css\font-awesome\fonts\fontawesome-webfont.svg" />
-    <Content Include="Content\css\fonts-ie8.css" />
-    <Content Include="Content\css\fonts.css" />
-    <Content Include="Content\css\jquery-ui.css" />
-    <Content Include="Content\css\main-ie8.css" />
-    <Content Include="Content\css\main.css" />
-    <Content Include="Content\css\responsive.css" />
-    <Content Include="Content\css\skins\flat\aero%402x.png" />
-    <Content Include="Content\css\skins\flat\aero.css" />
-    <Content Include="Content\css\skins\flat\aero.png" />
-    <Content Include="Content\css\skins\flat\blue%402x.png" />
-    <Content Include="Content\css\skins\flat\blue.css" />
-    <Content Include="Content\css\skins\flat\blue.png" />
-    <Content Include="Content\css\skins\flat\flat%402x.png" />
-    <Content Include="Content\css\skins\flat\flat.css" />
-    <Content Include="Content\css\skins\flat\flat.png" />
-    <Content Include="Content\css\skins\flat\green%402x.png" />
-    <Content Include="Content\css\skins\flat\green.css" />
-    <Content Include="Content\css\skins\flat\green.png" />
-    <Content Include="Content\css\skins\flat\grey%402x.png" />
-    <Content Include="Content\css\skins\flat\grey.css" />
-    <Content Include="Content\css\skins\flat\grey.png" />
-    <Content Include="Content\css\skins\flat\orange%402x.png" />
-    <Content Include="Content\css\skins\flat\orange.css" />
-    <Content Include="Content\css\skins\flat\orange.png" />
-    <Content Include="Content\css\skins\flat\pink%402x.png" />
-    <Content Include="Content\css\skins\flat\pink.css" />
-    <Content Include="Content\css\skins\flat\pink.png" />
-    <Content Include="Content\css\skins\flat\purple%402x.png" />
-    <Content Include="Content\css\skins\flat\purple.css" />
-    <Content Include="Content\css\skins\flat\purple.png" />
-    <Content Include="Content\css\skins\flat\red%402x.png" />
-    <Content Include="Content\css\skins\flat\red.css" />
-    <Content Include="Content\css\skins\flat\red.png" />
-    <Content Include="Content\css\skins\flat\yellowOption.png" />
-    <Content Include="Content\css\skins\flat\yellow.css" />
-    <Content Include="Content\css\skins\flat\yellow.png" />
-    <Content Include="Content\css\skins\flat\_all.css" />
-    <Content Include="Content\css_NhsUK\govuk-template.css" />
-    <Content Include="Content\css_NhsUK\home.css" />
-    <Content Include="Content\css_NhsUK\loading-indicator.css" />
-    <Content Include="Content\css_NhsUK\signposting-outcome-print.css" />
-    <Content Include="Content\css_NhsUK\signposting-outcome.css" />
-    <Content Include="Content\css_NhsUK\application.css" />
-    <Content Include="Content\css_NhsUK\banner.css" />
-    <Content Include="Content\css_NhsUK\confirmation.css" />
-    <Content Include="Content\css_NhsUK\emergency.css" />
-    <Content Include="Content\css_NhsUK\gender.css" />
-    <Content Include="Content\css_NhsUK\disposition.css" />
-    <Content Include="Content\css_NhsUK\modal.css" />
-    <Content Include="Content\css_NhsUK\personaldetails.css" />
-    <Content Include="Content\css_NhsUK\phase-banner.css" />
-    <Content Include="Content\css_NhsUK\question.css" />
-    <Content Include="Content\css_NhsUK\search.css" />
-    <Content Include="Content\css_NhsUK\servicedetails.css" />
-    <Content Include="Content\css_NhsUK\servicelist.css" />
-    <Content Include="Content\css_NhsUK\slider.css" />
-    <Content Include="Content\css_NhsUK\service.css" />
-    <Content Include="Content\css_NhsUK\help.css" />
     <Content Include="Content\images\999-Body-Image.png" />
     <Content Include="Content\images\bg\999Banner.png" />
     <Content Include="Content\images\bg\activeSurgery.png" />
@@ -351,6 +288,9 @@
     <Content Include="Content\images\homeBanner.png" />
     <Content Include="Content\images\icon-button-next-black.png" />
     <Content Include="Content\images\icon-button-prev.png" />
+    <Content Include="Content\images\icon-pointer.png" />
+    <Content Include="Content\images\icons\arrow--blue.svg" />
+    <Content Include="Content\images\icons\arrow--white.svg" />
     <Content Include="Content\images\icons\blueArrow.png" />
     <Content Include="Content\images\icons\breadcrumbOne.png" />
     <Content Include="Content\images\icons\breadcrumbTwo.png" />
@@ -377,6 +317,8 @@
     <Content Include="Content\images\icons\warning-white.png" />
     <Content Include="Content\images\icons\warning.png" />
     <Content Include="Content\images\nhs-logo.png" />
+    <Content Include="Content\images\nhs-logotype-blue.svg" />
+    <Content Include="Content\images\nhs-logotype-footer.svg" />
     <Content Include="Content\images\nhs-rev-logotype.jpg" />
     <Content Include="Content\images\nhs-rev-logotype.svg" />
     <Content Include="Content\images\step-1.png" />
@@ -491,112 +433,22 @@
     <Content Include="Content\Js\vendor\jquery-ui.js" />
     <Content Include="Content\Js\vendor\jquery-ui.min.js" />
     <Content Include="Content\Js\vendor\spin.min.js" />
-    <Content Include="Content\styles\layout.css" />
-    <Content Include="Content\styles\responsive.css" />
-    <Content Include="Content\styles\site.css" />
-    <Content Include="Content\styles\vendor\bootstrap-theme.min.css" />
-    <Content Include="Content\styles\vendor\bootstrap.min.css" />
-    <Content Include="Content\styles\vendor\jquery-ui.css" />
     <Content Include="Content\Js\vendor\jquery.nouislider.js" />
     <Content Include="Content\Js\vendor\jquery.nouislider.all.min.js" />
-    <Content Include="Content\styles\vendor\jquery.nouislider.css" />
-    <Content Include="Content\styles\vendor\normalize-legacy.css" />
-    <Content Include="Content\styles\vendor\normalize.css" />
-    <Content Include="Content\_assets\css\font-awesome\css\font-awesome.min.css" />
-    <Content Include="Content\_assets\css\font-awesome\fonts\fontawesome-webfont.svg" />
-    <Content Include="Content\_assets\css\fonts-ie8.css" />
-    <Content Include="Content\_assets\css\fonts.css" />
-    <Content Include="Content\_assets\css\main-ie8.css" />
-    <Content Include="Content\_assets\css\main.css" />
-    <Content Include="Content\_assets\img\bg-pattern.png" />
-    <Content Include="Content\_assets\img\countdownbg-ie8.png" />
-    <Content Include="Content\_assets\img\exclamation_blue.png" />
-    <Content Include="Content\_assets\img\favicon.ico" />
-    <Content Include="Content\_assets\img\icon-address.png" />
-    <Content Include="Content\_assets\img\icon-blue-search.png" />
-    <Content Include="Content\_assets\img\icon-blue-surgery-off.png" />
-    <Content Include="Content\_assets\img\icon-blue-surgery-on.png" />
-    <Content Include="Content\_assets\img\icon-body-female.png" />
-    <Content Include="Content\_assets\img\icon-external-hover.svg" />
-    <Content Include="Content\_assets\img\icon-external.png" />
-    <Content Include="Content\_assets\img\icon-external.svg" />
-    <Content Include="Content\_assets\img\icon-fuschia-search.png" />
-    <Content Include="Content\_assets\img\icon-fuschia-surgery-off.png" />
-    <Content Include="Content\_assets\img\icon-fuschia-surgery-on.png" />
-    <Content Include="Content\_assets\img\icon-location-selected.png" />
-    <Content Include="Content\_assets\img\icon-location-selected.svg" />
-    <Content Include="Content\_assets\img\icon-location.png" />
-    <Content Include="Content\_assets\img\icon-location.svg" />
-    <Content Include="Content\_assets\img\icon-minus-blue.png" />
-    <Content Include="Content\_assets\img\icon-phone.png" />
-    <Content Include="Content\_assets\img\icon-plus-blue.png" />
-    <Content Include="Content\_assets\img\icon-plus-fuschia.png" />
-    <Content Include="Content\_assets\img\icon-pointer-2x.png" />
-    <Content Include="Content\_assets\img\icon-pointer.png" />
-    <Content Include="Content\_assets\img\icon-services-house-blue.png" />
-    <Content Include="Content\_assets\img\icon-services-house-fuschia.png" />
-    <Content Include="Content\_assets\img\icon-services-phone-blue.png" />
-    <Content Include="Content\_assets\img\icon-services-tel-fuschia.png" />
-    <Content Include="Content\_assets\img\icon-services-web-blue.png" />
-    <Content Include="Content\_assets\img\icon-services-web-fuschia.png" />
-    <Content Include="Content\_assets\img\icon-web.png" />
-    <Content Include="Content\_assets\img\icon-white-surgery-on.png" />
-    <Content Include="Content\_assets\img\iicon-minus-fuschia.png" />
-    <Content Include="Content\_assets\img\img-outcome-ae-left.png" />
-    <Content Include="Content\_assets\img\img-outcome-primary-left.png" />
-    <Content Include="Content\_assets\img\img-outcome-priority-left.png" />
-    <Content Include="Content\_assets\img\img-outcome-priority-right.png" />
-    <Content Include="Content\_assets\img\img-outcome-selfcare-left.png" />
-    <Content Include="Content\_assets\img\img-outcome-selfcare-right.png" />
-    <Content Include="Content\_assets\img\magnifying-glass.png" />
-    <Content Include="Content\_assets\img\med-logo.png" />
-    <Content Include="Content\_assets\img\open-government-licence.png" />
-    <Content Include="Content\_assets\img\open-government-licence_2x.png" />
-    <Content Include="Content\_assets\img\Outcome_pages_v2_A&amp;E_findGP.htm" />
-    <Content Include="Content\_assets\img\performance-icon-2x.png" />
-    <Content Include="Content\_assets\img\performance-icon.png" />
-    <Content Include="Content\_assets\img\pie-pieces\pie-pieces-assets\pie-01-2x.png" />
-    <Content Include="Content\_assets\img\pie-pieces\pie-pieces-assets\pie-01.png" />
-    <Content Include="Content\_assets\img\pie-pieces\pie-pieces-assets\pie-02-2x.png" />
-    <Content Include="Content\_assets\img\pie-pieces\pie-pieces-assets\pie-02.png" />
-    <Content Include="Content\_assets\img\pie-pieces\pie-pieces-assets\pie-03-2x.png" />
-    <Content Include="Content\_assets\img\pie-pieces\pie-pieces-assets\pie-03.png" />
-    <Content Include="Content\_assets\img\pie-pieces\pie-pieces-assets\pie-04-2x.png" />
-    <Content Include="Content\_assets\img\pie-pieces\pie-pieces-assets\pie-04.png" />
-    <Content Include="Content\_assets\img\pie-pieces\pie-pieces-assets\pie-05-2x.png" />
-    <Content Include="Content\_assets\img\pie-pieces\pie-pieces-assets\pie-05.png" />
-    <Content Include="Content\_assets\img\pie-pieces\pie-pieces-assets\pie-06-2x.png" />
-    <Content Include="Content\_assets\img\pie-pieces\pie-pieces-assets\pie-06.png" />
-    <Content Include="Content\_assets\img\pie-pieces\pie-pieces-assets\pie-07-2x.png" />
-    <Content Include="Content\_assets\img\pie-pieces\pie-pieces-assets\pie-07.png" />
-    <Content Include="Content\_assets\img\pie-pieces\pie-pieces-assets\pie-08-2x.png" />
-    <Content Include="Content\_assets\img\pie-pieces\pie-pieces-assets\pie-08.png" />
-    <Content Include="Content\_assets\img\pie-pieces\pie-pieces-assets\pie-09-2x.png" />
-    <Content Include="Content\_assets\img\pie-pieces\pie-pieces-assets\pie-09.png" />
-    <Content Include="Content\_assets\img\pin-fuschia.png" />
-    <Content Include="Content\_assets\img\radio-ie8.png" />
-    <Content Include="Content\_assets\img\radioselected-ie8.png" />
-    <Content Include="Content\_assets\img\spacer.gif" />
-    <Content Include="Content\_assets\js\interactions.js" />
-    <Content Include="Content\_assets\js\old-browsers.js" />
-    <Content Include="Content\_assets\js\scripts.js" />
-    <Content Include="Content\_assets\js\scripts.min.js" />
-    <Content Include="Content\_assets\js\vendor\fastclick.js" />
-    <Content Include="Content\_assets\js\vendor\goog\webfont-debug.js" />
-    <Content Include="Content\_assets\js\vendor\jquery-1.11.1.min.js" />
-    <Content Include="Content\_assets\js\vendor\jquery-ui-1.10.4.custom.min.js" />
-    <Content Include="Content\_assets\js\vendor\jquery.cookie.js" />
-    <Content Include="Content\_assets\js\vendor\jstorage.js" />
-    <Content Include="Content\_assets\js\vendor\modernizr-2.7.1.js" />
-    <Content Include="Content\_assets\js\vendor\modernizr-custom.js" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="IoC\readme.txt" />
+    <Content Include="nhs-online-ie6.css" />
+    <Content Include="nhs-online-ie7.css" />
+    <Content Include="nhs-online-ie8.css" />
+    <Content Include="nhs-online-print.css" />
+    <Content Include="nhs-online.css" />
     <Content Include="robots.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Scripts\custom.js" />
+    <Content Include="Scripts\details.ployfill.js" />
     <Content Include="Scripts\disclaimer-popup.js" />
     <Content Include="Scripts\disclaimer.js" />
     <Content Include="Scripts\geotools.js" />
@@ -641,14 +493,10 @@
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
-    <Content Include="Views\Question\Search.cshtml" />
+    <Content Include="Views\Search\Search.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
-    <Content Include="Content\css\font-awesome\fonts\fontawesome-webfont.eot" />
-    <Content Include="Content\css\font-awesome\fonts\fontawesome-webfont.ttf" />
-    <Content Include="Content\css\font-awesome\fonts\fontawesome-webfont.woff" />
-    <Content Include="Content\css\font-awesome\fonts\FontAwesome.otf" />
     <Content Include="Content\fonts\NTA-Bold-20130221.eot" />
     <Content Include="Content\fonts\NTA-Bold-20130221.woff" />
     <Content Include="Content\fonts\NTA-Light-20130221.eot" />
@@ -684,68 +532,7 @@
     <Content Include="Views\Question\Question.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Content\_assets\css\font-awesome\fonts\fontawesome-webfont.eot" />
-    <Content Include="Content\_assets\css\font-awesome\fonts\fontawesome-webfont.ttf" />
-    <Content Include="Content\_assets\css\font-awesome\fonts\fontawesome-webfont.woff" />
-    <Content Include="Content\_assets\css\font-awesome\fonts\FontAwesome.otf" />
-    <Content Include="Content\_assets\css\main-ie8.css.map" />
-    <Content Include="Content\_assets\css\main.css.map" />
-    <Content Include="Content\_assets\fonts\NTA-Bold-20130221.eot" />
-    <Content Include="Content\_assets\fonts\NTA-Bold-20130221.woff" />
-    <Content Include="Content\_assets\fonts\NTA-Light-20130221.eot" />
-    <Content Include="Content\_assets\fonts\NTA-Light-20130221.woff" />
-    <Content Include="Content\_assets\fonts\NTATabularNumbers-Bold.eot" />
-    <Content Include="Content\_assets\fonts\NTATabularNumbers-Bold.woff" />
-    <Content Include="Content\_assets\fonts\NTATabularNumbers-Light.eot" />
-    <Content Include="Content\_assets\fonts\NTATabularNumbers-Light.woff" />
-    <Content Include="Content\_assets\img\pie-pieces\pie-pieces.psd" />
-    <Content Include="Content\_assets\scss\base\mixins\_buttons.scss" />
-    <Content Include="Content\_assets\scss\base\mixins\_conditionals.scss" />
-    <Content Include="Content\_assets\scss\base\mixins\_css3.scss" />
-    <Content Include="Content\_assets\scss\base\mixins\_device-pixels.scss" />
-    <Content Include="Content\_assets\scss\base\mixins\_grid.scss" />
-    <Content Include="Content\_assets\scss\base\mixins\_media-player.scss" />
-    <Content Include="Content\_assets\scss\base\mixins\_typography.scss" />
-    <Content Include="Content\_assets\scss\base\variables\_colours.scss" />
-    <Content Include="Content\_assets\scss\base\variables\_font-stack.scss" />
-    <Content Include="Content\_assets\scss\base\variables\_measurements.scss" />
-    <Content Include="Content\_assets\scss\base\_extends.scss" />
-    <Content Include="Content\_assets\scss\base\_mixins.scss" />
-    <Content Include="Content\_assets\scss\base\_reset.scss" />
-    <Content Include="Content\_assets\scss\base\_variables.scss" />
-    <Content Include="Content\_assets\scss\components\forms\_form-chunky-labels.scss" />
-    <Content Include="Content\_assets\scss\components\forms\_form-validation.scss" />
-    <Content Include="Content\_assets\scss\components\_accessibility.scss" />
-    <Content Include="Content\_assets\scss\components\_buttons.scss" />
-    <Content Include="Content\_assets\scss\components\_forms.scss" />
-    <Content Include="Content\_assets\scss\components\_grid.scss" />
-    <Content Include="Content\_assets\scss\components\_images.scss" />
-    <Content Include="Content\_assets\scss\components\_lists.scss" />
-    <Content Include="Content\_assets\scss\components\_margins.scss" />
-    <Content Include="Content\_assets\scss\components\_misc.scss" />
-    <Content Include="Content\_assets\scss\components\_modifiers.scss" />
-    <Content Include="Content\_assets\scss\components\_navigation.scss" />
-    <Content Include="Content\_assets\scss\components\_padding.scss" />
-    <Content Include="Content\_assets\scss\components\_panels.scss" />
-    <Content Include="Content\_assets\scss\components\_progress-indicator.scss" />
-    <Content Include="Content\_assets\scss\components\_tables.scss" />
-    <Content Include="Content\_assets\scss\components\_typography.scss" />
-    <Content Include="Content\_assets\scss\components\_video.scss" />
-    <Content Include="Content\_assets\scss\main-ie8.scss" />
-    <Content Include="Content\_assets\scss\main.scss" />
-    <Content Include="Content\_assets\scss\modules\_footer.scss" />
-    <Content Include="Content\_assets\scss\modules\_header.scss" />
-    <Content Include="Content\_assets\scss\modules\_main-content.scss" />
-    <Content Include="Content\_assets\scss\modules\_search-results.scss" />
-    <Content Include="Content\_assets\scss\_base.scss" />
-    <Content Include="Content\_assets\scss\_components.scss" />
-    <Content Include="Content\_assets\scss\_modules.scss" />
-  </ItemGroup>
-  <ItemGroup>
     <Content Include="Views\Outcome\Call_999.cshtml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Views\DOS\Confirmation.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Outcome\ITK_Clinician_call_back.cshtml" />
@@ -764,9 +551,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Shared\_GpSearch.cshtml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Views\DOS\DosResults.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Shared\_GoogleMap.cshtml" />
@@ -846,7 +630,12 @@
     <Content Include="Views\Shared\_PublicPhoneServices.cshtml" />
     <Content Include="Views\Shared\_OutcomeHeaderTwoTitles.cshtml" />
     <Content Include="Views\Shared\_WorseningAdviceWithTitle.cshtml" />
+    <Content Include="Views\Shared\Elements\_HiddenText.cshtml" />
+    <Content Include="Views\Shared\Elements\_Callout.cshtml" />
+    <Content Include="Views\Shared\Elements\_Button.cshtml" />
     <Content Include="Views\Shared\_VersionInfo.cshtml" />
+    <Content Include="Views\Search\SearchResults.cshtml" />
+    <Content Include="Views\Search\Categories.cshtml" />
     <None Include="Web.Development.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

@@ -14,19 +14,19 @@ namespace NHS111.SmokeTest.Utils
     {
         private readonly IWebDriver _driver;
 
-        [FindsBy(How = How.ClassName, Using = "button-next")]
+        [FindsBy(How = How.ClassName, Using = "button--next")]
         public IWebElement NextButton { get; set; }
 
-        [FindsBy(How = How.ClassName, Using = "heading-large")]
+        [FindsBy(How = How.CssSelector, Using = "h1")]
         public IWebElement Header { get; set; }
 
-        [FindsBy(How = How.ClassName, Using = "previous-question")]
+        [FindsBy(How = How.ClassName, Using = "button--previous")]
         public IWebElement PreviousButton { get; set; }
 
-        [FindsBy(How = How.Id, Using = "Yes")]
+        [FindsBy(How = How.CssSelector, Using = "[for='Yes']")]
         public IWebElement AnswerYesButton { get; set; }
 
-        [FindsBy(How = How.Id, Using = "No")]
+        [FindsBy(How = How.CssSelector, Using = "[for='No']")]
         public IWebElement AnswerNoButton { get; set; }
 
 
@@ -44,8 +44,8 @@ namespace NHS111.SmokeTest.Utils
 
         public QuestionPage AnswerYes()
         {
-            if (!_driver.FindElements(By.Id("Yes")).Any())
-                throw new Exception("No answer with id 'Yes' could be found for question " + Header.Text);
+            if (!_driver.FindElements(By.CssSelector("[for='Yes']")).Any())
+                throw new Exception("No answer with label for 'Yes' could be found for question " + Header.Text);
 
             AnswerYesButton.Click();
             NextButton.Click();
@@ -55,7 +55,7 @@ namespace NHS111.SmokeTest.Utils
 
         public QuestionPage Answer(string answerText)
         {
-            _driver.FindElement(By.XPath("//span[contains(@class, 'answer-text') and text() = \"" + answerText + "\"]/preceding-sibling::span[contains(@class, 'answer-radio')]")).Click();
+            _driver.FindElement(By.XPath("//label[contains(@class, 'multiple-choice--radio') and text() = \"" + answerText + "\"]")).Click();
             NextButton.Click();
             AwaitNextQuestionPage();
             return new QuestionPage(_driver);
@@ -63,7 +63,7 @@ namespace NHS111.SmokeTest.Utils
 
         public QuestionPage Answer(int answerOrder, bool requireButtonAwait = true)
         {
-            _driver.FindElement(By.XPath("(//span[contains(@class, 'answer-radio')])[" + answerOrder + "]")).Click();
+            _driver.FindElement(By.XPath("(//label[contains(@class, 'multiple-choice--radio')])[" + answerOrder + "]")).Click();
             NextButton.Click();
             AwaitNextQuestionPage(requireButtonAwait);
             return new QuestionPage(_driver);
@@ -71,14 +71,14 @@ namespace NHS111.SmokeTest.Utils
 
         public DispositionPage AnswerForDispostion(string answerText)
         {
-            _driver.FindElement(By.XPath("//span[contains(@class, 'answer-text') and text() = \"" + answerText + "\"]/preceding-sibling::span[contains(@class, 'answer-radio')]")).Click();
+            _driver.FindElement(By.XPath("//label[contains(@class, 'multiple-choice--radio') and text() = \"" + answerText + "\"]")).Click();
             NextButton.Click();
             return new DispositionPage(_driver);
         }
 
         public DispositionPage AnswerForDispostion(int answerOrder)
         {
-            _driver.FindElement(By.XPath("(//span[contains(@class, 'answer-radio')])[" + answerOrder + "]")).Click();
+            _driver.FindElement(By.XPath("(//label[contains(@class, 'multiple-choice--radio')])[" + answerOrder + "]")).Click();
             NextButton.Click();
             return new DispositionPage(_driver);
         }
@@ -134,7 +134,7 @@ namespace NHS111.SmokeTest.Utils
         {
             if(requireButtonAwait)
                 new WebDriverWait(_driver, TimeSpan.FromSeconds(20)).Until(
-                ExpectedConditions.ElementExists(By.CssSelector(".button-next:disabled")));
+                ExpectedConditions.ElementExists(By.CssSelector(".multiple-choice--radio")));
             new WebDriverWait(_driver, TimeSpan.FromSeconds(1));
         }
 
