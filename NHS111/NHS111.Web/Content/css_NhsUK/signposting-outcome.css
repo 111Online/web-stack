@@ -228,6 +228,7 @@ details summary::-webkit-details-marker {
 }
 .itk-message ul li {
     list-style-type: disc;
+    margin-left: 20px;
 }
 
 .itk-message ul {
@@ -366,6 +367,20 @@ details summary::-webkit-details-marker {
 }
 
 .alternative-care h3.ui-accordion-header-active:before {
+     content:url('/Content/images/blue-arrow-down.png');
+}
+.care-advice-expanding-link
+{
+    color: #005eb8;
+    text-decoration: underline;
+    cursor: pointer;
+
+}
+#care-advice-expanding .care-advice-expanding-link:before {
+     content:url('/Content/images/blue-arrow-right.png');
+}
+
+#care-advice-expanding .care-advice-expanding-link.ui-accordion-header-active:before {
      content:url('/Content/images/blue-arrow-down.png');
 }
 .outcome-header h3 {
