@@ -784,7 +784,6 @@
     <Content Include="Views\Shared\_FeedbackDetails.cshtml" />
     <Content Include="Views\Shared\_LayoutNhsUK.cshtml" />
     <Content Include="Views\Outcome\PersonalDetails.cshtml" />
-    <Content Include="Views\Shared\_SelectedService.cshtml" />
     <Content Include="Views\Shared\_CommonHiddenFieldsDosViewModel.cshtml" />
     <Content Include="Views\Shared\_CommonHiddenFieldsAddressInfoViewModel.cshtml" />
     <Content Include="Views\Outcome\Confirmation.cshtml" />
