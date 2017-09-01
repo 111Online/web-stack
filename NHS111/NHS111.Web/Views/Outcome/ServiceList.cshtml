@@ -59,7 +59,6 @@
         }
         @if (selectedService != null)
         {
-            @Html.Partial("_SelectedService", selectedService)
             <div class="form-item-wrapper">
                 <div class="form-group">
                     @using (Html.BeginForm("PersonalDetails", "Outcome", FormMethod.Post))
@@ -67,19 +66,25 @@
                         @Html.Partial("_CommonHiddenFieldsOutcomeViewModel", Model)
                         @Html.Partial("_CommonHiddenFieldsCareAdviceViewModel", Model)
                         @Html.Hidden("SelectedServiceId", @selectedService.Id)
+                        @Html.HiddenFor(m => m.Id)
+
+                        <h2 class="heading-small">@WebUtility.HtmlDecode(selectedService.Name)</h2>
 
                         if (selectedService.CallbackEnabled)
                         {
-
+                            <p>@WebUtility.HtmlDecode(selectedService.CurrentStatus)</p>
                             <p>This service can call you back to give you advice</p>
-                                <input class="button button-next" type="submit" name="PersonalDetails" value="Request a call back" />
+                            <input class="button button-next" type="submit" name="PersonalDetails" value="Request a call back" />
                         }
                         else if (!string.IsNullOrEmpty(@selectedService.ContactDetails))
                         {
+                            <p>@WebUtility.HtmlDecode(selectedService.CurrentStatus)</p>
                             <p>Please call this service for advice: @selectedService.ContactDetails</p>
                         }
                         else
                         {
+                            <p>@WebUtility.HtmlDecode(selectedService.Address)</p>
+                            <p>@WebUtility.HtmlDecode(selectedService.CurrentStatus)</p>
                             <p>You don't need to call this service, you can go there during the times shown above.</p>
                         }
                     }
@@ -101,7 +106,6 @@
                 foreach (var service in Model.DosCheckCapacitySummaryResult.Success.Services.Skip(1))
                 {
                     <div class="service-list-content">
-                        @Html.Partial("_SelectedService", service)
                         <fieldset>
                             <div class="form-group">
                                 @using (Html.BeginForm("PersonalDetails", "Outcome", FormMethod.Post))
@@ -109,10 +113,13 @@
                                     @Html.Partial("_CommonHiddenFieldsOutcomeViewModel", Model)
                                     @Html.Partial("_CommonHiddenFieldsCareAdviceViewModel", Model)
                                     @Html.Hidden("SelectedServiceId", service.Id)
+                                    @Html.HiddenFor(m => m.Id)
+
+                                    <h2 class="heading-small">@WebUtility.HtmlDecode(service.Name)</h2>
 
                                     if (service.CallbackEnabled)
                                     {
-
+                                        <p>@WebUtility.HtmlDecode(selectedService.CurrentStatus)</p>
                                         <p>This service can call you back to give you advice</p>
 
                                         <div class="row">
@@ -121,12 +128,15 @@
                                     }
                                     else if (!string.IsNullOrEmpty(service.ContactDetails))
                                     {
+                                        <p>@WebUtility.HtmlDecode(selectedService.CurrentStatus)</p>
                                         <div class="row">
                                             <p>Please call this service for advice: @service.ContactDetails</p>
                                         </div>
                                     }
                                     else
                                     {
+                                        <p>@WebUtility.HtmlDecode(selectedService.Address)</p>
+                                        <p>@WebUtility.HtmlDecode(selectedService.CurrentStatus)</p>
                                         <div class="row">
                                             <p>You don't need to call this service, you can go there during the times shown above.</p>
                                         </div>
