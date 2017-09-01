@@ -197,6 +197,8 @@
     <Compile Include="Models\Domain\SymptomDiscriminator.cs" />
     <Compile Include="Models\Domain\VersionInfo.cs" />
     <Compile Include="Models\Web\AgeGenderViewModel.cs" />
+    <Compile Include="Models\Web\ButtonViewModel.cs" />
+    <Compile Include="Models\Web\CalloutViewModel.cs" />
     <Compile Include="Models\Web\Clock\SystemClock.cs" />
     <Compile Include="Models\Web\Clock\IClock.cs" />
     <Compile Include="Models\Web\DosRequests\DosFilteredCase.cs" />
@@ -235,6 +237,7 @@
     <Compile Include="Models\Web\FromExternalServices\JourneyStep.cs" />
     <Compile Include="Models\Web\FromExternalServices\SuccessObject.cs" />
     <Compile Include="Models\Web\FromExternalServices\ValidPostCode.cs" />
+    <Compile Include="Models\Web\HiddenTextViewModel.cs" />
     <Compile Include="Models\Web\InformantViewModel.cs" />
     <Compile Include="Models\Web\ITK\Address.cs" />
     <Compile Include="Models\Web\ITK\Authentication.cs" />
@@ -288,6 +291,7 @@
     <Compile Include="Models\Web\Validators\PersonalInfoAddressViewModelValidator.cs" />
     <Compile Include="Models\Web\Validators\PostCodeAllowedValidator.cs" />
     <Compile Include="Models\Web\Validators\PostCodeFormatValidator.cs" />
+    <Compile Include="Models\Web\Validators\SearchJourneyViewModelValidator.cs" />
     <Compile Include="Models\Web\Validators\UserInfoValidator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

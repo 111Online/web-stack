@@ -16,20 +16,20 @@ namespace NHS111.SmokeTest.Utils
 
         private const string PATHWAY_NOT_FOUND__EXPECTED_TEXT = "This health assessment can't be completed online";
 
-        [FindsBy(How = How.CssSelector, Using = ".outcome-header h1")]
+        [FindsBy(How = How.CssSelector, Using = ".local-header h1")]
         public IWebElement Header { get; set; }
 
         [FindsBy(How = How.CssSelector, Using = ".question-header")]
         public IWebElement PathwayNotFoundHeader { get; set; }
 
 
-        [FindsBy(How = How.CssSelector, Using = ".outcome-header h3")]
+        [FindsBy(How = How.CssSelector, Using = ".local-header h3")]
         public IWebElement SubHeader { get; set; }
 
         [FindsBy(How = How.CssSelector, Using = ".sub-header p")]
         public IWebElement HeaderOtherInfo { get; set; }
 
-        [FindsBy(How = How.ClassName, Using = "worsening-advice-icon")]
+        [FindsBy(How = How.CssSelector, Using = ".callout--attention")]
         public IWebElement WhatIfFeelWorsePanel { get; set; }
 
         [FindsBy(How = How.CssSelector, Using = ".care-advice .heading-medium")]

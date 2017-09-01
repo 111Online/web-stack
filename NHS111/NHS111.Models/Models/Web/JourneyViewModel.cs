@@ -74,7 +74,7 @@ namespace NHS111.Models.Models.Web
         {
             get
             {
-                if (string.IsNullOrEmpty(OutcomeGroup.Text))
+                if (OutcomeGroup == null || string.IsNullOrEmpty(OutcomeGroup.Text))
                     return string.Empty;
                 // convert to char array of the string
                 char[] outcomeGroupArray = OutcomeGroup.Text.ToCharArray();
