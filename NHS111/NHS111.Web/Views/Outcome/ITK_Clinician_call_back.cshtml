@@ -79,9 +79,8 @@
 <div id="care-advice-expanding">
     <h3 class="care-advice-expanding-link heading-small">If you don't want to book a call from this service, please read the following advice</h3>
     <div class="care-advice-expanding-content content">
-        <h4 class="heading-small">Please call 111 now, and read the advice below</h4>
 
-        @Html.Partial("_CareAdvice", Model.CareAdvices, new ViewDataDictionary { { "Title", "" }})
+        @Html.Partial("_CareAdvice", Model.CareAdvices, new ViewDataDictionary { { "Title", "" }, {"NoHR", "true"}})
 
         @Html.Partial("_WorseningAdvice", Model)
     </div>
