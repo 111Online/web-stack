@@ -61,7 +61,12 @@ span.linkButton {
     padding: 20px 20px 0px 30px;
     font-size: 1.6em;
 }
-    
+
+@media (min-width: 641px) {
+    #search-results-heading.heading-medium {
+        margin-top: 0;
+    }
+}
 
 @media (min-width: 961px) {
     .common-symptoms {
