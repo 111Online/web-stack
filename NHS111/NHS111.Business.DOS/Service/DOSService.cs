@@ -10,6 +10,7 @@ using NHS111.Utils.Helpers;
 namespace NHS111.Business.DOS.Service
 {
     using System.Web;
+    using Models.Models.Web.DosRequests;
 
     public class DosService : IDosService
     {
@@ -21,15 +22,14 @@ namespace NHS111.Business.DOS.Service
             _configuration = configuration;
             _restfulHelper = restfulHelper;
         }
-        public async Task<HttpResponseMessage> GetServices(HttpRequestMessage request) {
-            var values = HttpUtility.ParseQueryString(request.RequestUri.Query);
-            var endpoint = _configuration.DomainDosApiCheckCapacitySummaryUrl;
-            if (values["endpoint"] == null)
-                return await _restfulHelper.PostAsync(endpoint, request);
+        public async Task<HttpResponseMessage> GetServices(HttpRequestMessage request, DosEndpoint? endpoint) {
+            var url = _configuration.DomainDosApiCheckCapacitySummaryUrl;
+            if (!endpoint.HasValue)
+                return await _restfulHelper.PostAsync(url, request);
 
-            var prefix = endpoint.Contains("?") ? "&" : "?";
-            endpoint = string.Format("{0}{1}{2}{3}", endpoint, prefix, "endpoint=", values["endpoint"]);
-            return await _restfulHelper.PostAsync(endpoint, request);
+            var prefix = url.Contains("?") ? "&" : "?";
+            url = string.Format("{0}{1}{2}{3}", url, prefix, "endpoint=", endpoint);
+            return await _restfulHelper.PostAsync(url, request);
         }
 
         public async Task<HttpResponseMessage> GetServiceById(HttpRequestMessage request)
@@ -45,7 +45,7 @@ namespace NHS111.Business.DOS.Service
 
     public interface IDosService
     {
-        Task<HttpResponseMessage> GetServices(HttpRequestMessage request);
+        Task<HttpResponseMessage> GetServices(HttpRequestMessage request, DosEndpoint? endpoint);
 
         Task<HttpResponseMessage> GetServiceById(HttpRequestMessage request);
 

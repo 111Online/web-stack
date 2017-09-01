@@ -59,8 +59,7 @@ namespace NHS111.Web.Presentation.Builders
             var request = BuildRequestMessage(dosViewModel);
             var body = await request.Content.ReadAsStringAsync();
 
-            string endpointQuery = endpoint != null ? "&endpoint=" + endpoint : "";
-            string checkCapacitySummaryUrl = string.Format("{0}?filterServices={1}{2}", _configuration.BusinessDosCheckCapacitySummaryUrl, filterServices, endpointQuery);
+            string checkCapacitySummaryUrl = string.Format("{0}?filterServices={1}&endpoint={2}", _configuration.BusinessDosCheckCapacitySummaryUrl, filterServices, endpoint);
            
             _logger.Debug(string.Format("DOSBuilder.FillCheckCapacitySummaryResult(): URL: {0} BODY: {1}", checkCapacitySummaryUrl, body));
             var response = await _restfulHelper.PostAsync(checkCapacitySummaryUrl, request);

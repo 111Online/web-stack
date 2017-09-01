@@ -100,7 +100,7 @@ namespace NHS111.Web.Presentation.Builders.Tests
                     }
                 } 
             };
-            await _dosBuilder.FillCheckCapacitySummaryResult(model, true);
+            await _dosBuilder.FillCheckCapacitySummaryResult(model, true, null);
 
             _mockRestfulHelper.Verify(r => r.PostAsync(It.IsAny<string>(), It.Is<HttpRequestMessage>(h => AssertIsMetric(h, model.SearchDistance))));
         }
