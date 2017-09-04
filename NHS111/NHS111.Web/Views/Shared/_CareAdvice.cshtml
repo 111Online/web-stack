@@ -1,7 +1,7 @@
 ﻿@model  IEnumerable<NHS111.Models.Models.Domain.CareAdvice>
 @if (Model.Any())
 {
-    if (!ViewData.Keys.Contains("NoHR") || (bool) ViewData["NoHR"] == false) {
+    if (!ViewData.Keys.Contains("NoHR") || ViewData["NoHR"] == "false") {
         <hr/>
     }
     <div class="care-advice">
