@@ -13,9 +13,6 @@ namespace NHS111.Integration.DOS.Api.IoC
             IncludeRegistry<UtilsRegistry>();
 
 
-            //var pathWayServiceSoapClient = new PathWayServiceSoapClient();
-            //pathWayServiceSoapClient.Endpoint.Behaviors.Add(new HeaderInspectionBehavior());
-            //For<IPathwayServiceSoapFactory>().Use( pathWayServiceSoapClient);
 
             Scan(scan =>
             {
