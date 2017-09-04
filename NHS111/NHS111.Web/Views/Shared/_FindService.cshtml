@@ -51,20 +51,19 @@
 
             <div class="find-service">
                 <h2 class="heading-medium">@Html.Raw((!ViewData.Keys.Contains("Title") ? null : string.Format("{0}", ViewData["Title"])))</h2>
-                <div class="section-margin">
-                    @if (error)
-                {
-                        <p class="error">Sorry, no results were found for this postcode.</p>
-                        <p>Please check you have entered the postcode correctly, then try again. <br /><br /> If the search still gives no results, please call 111 for advice.</p>
-                        <br />
-                    }
-                    @Html.ValidationMessageFor(m => m.UserInfo.CurrentAddress.Postcode)
+                <div class="form-group @(@ViewData.ModelState.IsValidField("UserInfo.CurrentAddress.Postcode") ? "form-group-error" : "")">
                     @Html.LabelFor(m => m.UserInfo.CurrentAddress.Postcode, "Postcode")
-                    @Html.TextBoxFor(m => m.UserInfo.CurrentAddress.Postcode, new { @class = "form-control " + (error ? "error" : "") })
+                    @Html.ValidationMessageFor(m => m.UserInfo.CurrentAddress.Postcode, null, new { @class = (error ? "error-message" : "") })
+                    @if (error) {
+                        <p class="error-message">Sorry, no results were found for this postcode.</p>
+                        <p>Please check you have entered the postcode correctly, then try again.</p>
+                        <p>If the search still gives no results, please call 111 for advice.</p>
+                    }
+                    @Html.TextBoxFor(m => m.UserInfo.CurrentAddress.Postcode, new {  @class = "form-control " + (error ? "error" : "") })
                     <button class="button--next" type="submit" name="DosResults" id="DosLookup">@Html.Raw(ViewData["ButtonText"])</button>
 
                 </div>
-</div>
+            </div>
         }
 
     </div>

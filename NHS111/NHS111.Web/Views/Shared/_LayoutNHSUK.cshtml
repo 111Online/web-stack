@@ -131,6 +131,21 @@
         });
         </script>
     }
+                
+                
+    <script type="text/javascript">
+
+        $.validator.setDefaults({
+            highlight: function (element, errorClass, validClass) {
+                $(element).closest(".form-group").addClass("form-group-error");
+            },
+            unhighlight: function (element, errorClass, validClass) {
+                $(element).closest(".form-group").removeClass("form-group-error");
+            }
+        });
+
+    </script>
+
 
     @{ Html.RenderAction("VersionInfo", "Version"); }
 </body>
