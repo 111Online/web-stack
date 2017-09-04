@@ -274,7 +274,7 @@ namespace NHS111.Web.Controllers {
                             var controller = DependencyResolver.Current.GetService<PostcodeFirstController>();
                             controller.ControllerContext = new ControllerContext(ControllerContext.RequestContext,
                                 controller);
-                            return await controller.Outcome(outcomeModel, null, null);
+                            return await controller.Outcome(outcomeModel, null, null, endpoint);
                         }
                         else {
                             var controller = DependencyResolver.Current.GetService<OutcomeController>();
@@ -283,7 +283,7 @@ namespace NHS111.Web.Controllers {
                             if (outcomeModel.OutcomeGroup.SearchDestination == "ServiceDetails")
                                 return await controller.ServiceDetails(outcomeModel, null, endpoint);
                             if (outcomeModel.OutcomeGroup.SearchDestination == "ServiceList")
-                                return await controller.ServiceList(outcomeModel, null, null);
+                                return await controller.ServiceList(outcomeModel, null, null, endpoint);
                         }
                     }
                 }

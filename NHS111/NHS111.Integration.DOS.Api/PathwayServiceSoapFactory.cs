@@ -19,10 +19,10 @@ namespace NHS111.Integration.DOS.Api
             PathWayServiceSoapClient client;
 
             var values = HttpUtility.ParseQueryString(request.RequestUri.Query);
-            if (values["endpoint"] == null)
+            if (values["endpoint"] == null || values["endpoint"] == "Unspecified")
                 client = new PathWayServiceSoapClient();
             else {
-                var endpoint = values["endpoint"] == "live"
+                var endpoint = values["endpoint"] == "Live"
                     ? ConfigurationManager.AppSettings["dos-live-endpoint"]
                     : ConfigurationManager.AppSettings["dos-uat-endpoint"];
                 var uri = new Uri(endpoint);
