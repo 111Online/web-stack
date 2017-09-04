@@ -16,6 +16,7 @@ namespace NHS111.Web.Controllers {
     using AutoMapper;
     using Models.Models.Business.PathwaySearch;
     using Models.Models.Domain;
+    using Models.Models.Web.DosRequests;
     using Newtonsoft.Json;
     using Presentation.Logging;
     using Presentation.ModelBinders;
@@ -30,7 +31,7 @@ namespace NHS111.Web.Controllers {
 
         public QuestionController(IJourneyViewModelBuilder journeyViewModelBuilder,
             IConfiguration configuration, IJustToBeSafeFirstViewModelBuilder justToBeSafeFirstViewModelBuilder, IDirectLinkingFeature directLinkingFeature,
-            IAuditLogger auditLogger, IUserZoomDataBuilder userZoomDataBuilder, IRestClient restClientBusinessApi, IViewRouter viewRouter, IPostcodePrefillFeature postcodePrefillFeature) {
+            IAuditLogger auditLogger, IUserZoomDataBuilder userZoomDataBuilder, IRestClient restClientBusinessApi, IViewRouter viewRouter, IPostcodePrefillFeature postcodePrefillFeature, IDosEndpointFeature dosEndpointFeature) {
             _journeyViewModelBuilder = journeyViewModelBuilder;
             _configuration = configuration;
             _justToBeSafeFirstViewModelBuilder = justToBeSafeFirstViewModelBuilder;
@@ -40,6 +41,7 @@ namespace NHS111.Web.Controllers {
             _restClientBusinessApi = restClientBusinessApi;
             _viewRouter = viewRouter;
             _postcodePrefillFeature = postcodePrefillFeature;
+            _dosEndpointFeature = dosEndpointFeature;
         }
 
         [HttpGet]
@@ -261,6 +263,9 @@ namespace NHS111.Web.Controllers {
                     bool shouldPrefillPostcode = _postcodePrefillFeature.IsEnabled &&
                                                  OutcomeGroup.DosSearchOutcomesGroups.Contains(outcomeModel.OutcomeGroup) &&
                                                  _postcodePrefillFeature.RequestIncludesPostcode(Request);
+
+                    DosEndpoint? endpoint = SetEndpoint();
+
                     if (shouldPrefillPostcode) {
                         resultingModel.UserInfo.CurrentAddress.Postcode = _postcodePrefillFeature.GetPostcode(Request);
                         outcomeModel.CurrentView = _viewRouter.GetViewName(resultingModel, ControllerContext);
@@ -269,16 +274,16 @@ namespace NHS111.Web.Controllers {
                             var controller = DependencyResolver.Current.GetService<PostcodeFirstController>();
                             controller.ControllerContext = new ControllerContext(ControllerContext.RequestContext,
                                 controller);
-                            return await controller.Outcome(outcomeModel, null, null);
+                            return await controller.Outcome(outcomeModel, null, null, endpoint);
                         }
                         else {
                             var controller = DependencyResolver.Current.GetService<OutcomeController>();
                             controller.ControllerContext = new ControllerContext(ControllerContext.RequestContext,
                                 controller);
                             if (outcomeModel.OutcomeGroup.SearchDestination == "ServiceDetails")
-                                return await controller.ServiceDetails(outcomeModel, null);
+                                return await controller.ServiceDetails(outcomeModel, null, endpoint);
                             if (outcomeModel.OutcomeGroup.SearchDestination == "ServiceList")
-                                return await controller.ServiceList(outcomeModel, null, null);
+                                return await controller.ServiceList(outcomeModel, null, null, endpoint);
                         }
                     }
                 }
@@ -286,6 +291,20 @@ namespace NHS111.Web.Controllers {
 
             var viewName = _viewRouter.GetViewName(resultingModel, ControllerContext);
             return View(viewName, resultingModel);
+        }
+
+        private DosEndpoint? SetEndpoint() {
+            if (!_dosEndpointFeature.IsEnabled)
+                return null;
+
+            switch (_dosEndpointFeature.GetEndpoint(Request)) {
+                case "uat":
+                    return DosEndpoint.UAT;
+                case "live":
+                    return DosEndpoint.Live;
+                default:
+                    return null;
+            }
         }
 
         [HttpGet]
@@ -411,5 +430,6 @@ namespace NHS111.Web.Controllers {
         private readonly IRestClient _restClientBusinessApi;
         private readonly IViewRouter _viewRouter;
         private readonly IPostcodePrefillFeature _postcodePrefillFeature;
+        private readonly IDosEndpointFeature _dosEndpointFeature;
     }
 }
