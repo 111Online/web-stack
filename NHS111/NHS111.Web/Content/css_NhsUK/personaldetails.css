@@ -129,9 +129,6 @@ fieldset {
     }
 }
 
-input:read-only {
-    color: #999999;
-}
 
 #manual-entry-title {
     padding-bottom: 1rem;
