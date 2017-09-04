@@ -51,9 +51,9 @@
 
             <div class="find-service">
                 <h2 class="heading-medium">@Html.Raw((!ViewData.Keys.Contains("Title") ? null : string.Format("{0}", ViewData["Title"])))</h2>
-                <div class="form-group @(@ViewData.ModelState.IsValidField("UserInfo.CurrentAddress.Postcode") ? "form-group-error" : "")">
+                <div class="form-group @(ViewData.ModelState.IsValidField("FindService.UserInfo.CurrentAddress.Postcode") ? "" : "form-group-error")">
                     @Html.LabelFor(m => m.UserInfo.CurrentAddress.Postcode, "Postcode")
-                    @Html.ValidationMessageFor(m => m.UserInfo.CurrentAddress.Postcode, null, new { @class = (error ? "error-message" : "") })
+                    @Html.ValidationMessageFor(m => m.UserInfo.CurrentAddress.Postcode)
                     @if (error) {
                         <p class="error-message">Sorry, no results were found for this postcode.</p>
                         <p>Please check you have entered the postcode correctly, then try again.</p>
