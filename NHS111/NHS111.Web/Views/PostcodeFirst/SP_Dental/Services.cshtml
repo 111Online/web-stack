@@ -106,13 +106,11 @@
     }
 </div>
 
-<hr class="alternative-care-hr" />
+<hr />
 @{
     Model.DosCheckCapacitySummaryResult.Success.Services.RemoveAt(0);
 }
 @Html.Partial("_AlternativeServices", Model, new ViewDataDictionary { { "Title", "Other services" }, { "VisitTitle", "Places you can visit" }, { "CallbackTitle", "Places that can phone you" }, {"PhoneTitle", "Places you can phone" }})
-
-<hr class="alternative-care-hr" />
 
 @Html.Partial("_CareAdvice", Model.CareAdvices, new ViewDataDictionary { { "Title", "What you can do in the meantime" }, { "NoHR", true } })
 
