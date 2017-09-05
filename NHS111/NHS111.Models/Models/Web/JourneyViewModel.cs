@@ -36,7 +36,7 @@ namespace NHS111.Models.Models.Web
         }
 
         public List<Answer> Answers { get; set; }
-        //public string SelectedAnswer { get; set; }
+
         public NodeType NodeType { get; set; }
 
         public string JourneyJson { get; set; }
@@ -124,19 +124,6 @@ namespace NHS111.Models.Models.Web
                 return new List<int>();
             return Journey.Steps.Select(step => step.Answer.Order - 1);
         }
-
-        //public JourneyStep ToStep()
-        //{
-        //    var answer = JsonConvert.DeserializeObject<Answer>(SelectedAnswer);
-        //    return new JourneyStep
-        //    {
-        //        QuestionNo = QuestionNo,
-        //        QuestionTitle = Title,
-        //        Answer = answer,
-        //        QuestionId = Id,
-        //        State = StateJson
-        //    };
-        //}
 
         public string UserZoomTitle { get; set; }
         public string UserZoomUrl { get; set; }
