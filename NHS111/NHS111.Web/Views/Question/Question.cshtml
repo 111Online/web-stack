@@ -75,10 +75,9 @@
         <fieldset>
             <legend>
                 <h1>@Model.TitleWithoutBullets</h1>
-                   @Html.HiddenFor(m => m.TitleWithoutBullets)
+                @Html.HiddenFor(m => m.TitleWithoutBullets)
             </legend>
             @Html.ValidationMessageFor(m => m.SelectedAnswer, "Please select an answer", new { @class = "error-message" })
-            @*@foreach (var answer in Model.OrderedAnswers())*@
             @for(var i=0;i < Model.OrderedAnswers().Count; i++)
             {
                 var answer = Model.OrderedAnswers()[i];
