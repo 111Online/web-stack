@@ -88,7 +88,10 @@ namespace NHS111.Web.Controllers {
         [HttpPost]
         [ActionName("Navigation")]
         [MultiSubmit(ButtonName = "Question")]
-        public async Task<ActionResult> Question(JourneyViewModel model) {
+        public async Task<ActionResult> Question(QuestionViewModel model)
+        {
+            if (!ModelState.IsValidField("SelectedAnswer")) return View("Question", model);
+
             ModelState.Clear();
             var nextModel = await GetNextJourneyViewModel(model);
 
@@ -137,7 +140,7 @@ namespace NHS111.Web.Controllers {
         }
 
 
-        private async Task<JourneyViewModel> GetNextJourneyViewModel(JourneyViewModel model) {
+        private async Task<JourneyViewModel> GetNextJourneyViewModel(QuestionViewModel model) {
             var nextNode = await GetNextNode(model);
             return await _journeyViewModelBuilder.Build(model, nextNode);
         }
@@ -227,37 +230,37 @@ namespace NHS111.Web.Controllers {
 
         private async Task<JourneyViewModel> DeriveJourneyView(string pathwayId, int? age, string pathwayTitle, int[] answers)
         {
-            var journeyViewModel = BuildJourneyViewModel(pathwayId, age, pathwayTitle);
+            var questionViewModel = BuildQuestionViewModel(pathwayId, age, pathwayTitle);
             var response = await 
                 _restClientBusinessApi.ExecuteTaskAsync<Pathway>(
                     CreateJsonRequest(_configuration.GetBusinessApiPathwayUrl(pathwayId, true), Method.GET));
             var pathway = response.Data;
             if (pathway == null) return null;
 
-            var derivedAge = journeyViewModel.UserInfo.Demography.Age == -1 ? pathway.MinimumAgeInclusive : journeyViewModel.UserInfo.Demography.Age;
+            var derivedAge = questionViewModel.UserInfo.Demography.Age == -1 ? pathway.MinimumAgeInclusive : questionViewModel.UserInfo.Demography.Age;
             var newModel = new JustToBeSafeViewModel
             {
                 PathwayId = pathway.Id,
                 PathwayNo = pathway.PathwayNo,
                 PathwayTitle = pathway.Title,
-                DigitalTitle = string.IsNullOrEmpty(journeyViewModel.DigitalTitle) ? pathway.Title : journeyViewModel.DigitalTitle,
+                DigitalTitle = string.IsNullOrEmpty(questionViewModel.DigitalTitle) ? pathway.Title : questionViewModel.DigitalTitle,
                 UserInfo = new UserInfo() { Demography = new AgeGenderViewModel { Age = derivedAge, Gender = pathway.Gender } },
-                JourneyJson = journeyViewModel.JourneyJson,
-                SymptomDiscriminatorCode = journeyViewModel.SymptomDiscriminatorCode,
+                JourneyJson = questionViewModel.JourneyJson,
+                SymptomDiscriminatorCode = questionViewModel.SymptomDiscriminatorCode,
                 State = JourneyViewModelStateBuilder.BuildState(pathway.Gender, derivedAge),
             };
 
             newModel.StateJson = JourneyViewModelStateBuilder.BuildStateJson(newModel.State);
-            journeyViewModel = (await _justToBeSafeFirstViewModelBuilder.JustToBeSafeFirstBuilder(newModel)).Item2; //todo refactor tuple away
+            questionViewModel = (await _justToBeSafeFirstViewModelBuilder.JustToBeSafeFirstBuilder(newModel)).Item2; //todo refactor tuple away
 
-            var resultingModel = await AnswerQuestions(journeyViewModel, answers);
+            var resultingModel = await AnswerQuestions(questionViewModel, answers);
             return resultingModel;
         }
 
         [HttpPost]
         [ActionName("Navigation")]
         [MultiSubmit(ButtonName = "PreviousQuestion")]
-        public async Task<ActionResult> PreviousQuestion(JourneyViewModel model) {
+        public async Task<ActionResult> PreviousQuestion(QuestionViewModel model) {
             ModelState.Clear();
 
             var url = _configuration.GetBusinessApiQuestionByIdUrl(model.PathwayId, model.Journey.Steps.Last().QuestionId, true);
@@ -270,7 +273,7 @@ namespace NHS111.Web.Controllers {
             return View(viewName, result);
         }
 
-        private async Task<QuestionWithAnswers> GetNextNode(JourneyViewModel model) {
+        private async Task<QuestionWithAnswers> GetNextNode(QuestionViewModel model) {
             var answer = JsonConvert.DeserializeObject<Answer>(model.SelectedAnswer);
             var serialisedState = HttpUtility.UrlEncode(model.StateJson);
             var request = CreateJsonRequest(_configuration.GetBusinessApiNextNodeUrl(model.PathwayId, model.Id, serialisedState, true), Method.POST);
@@ -279,19 +282,20 @@ namespace NHS111.Web.Controllers {
             return response.Data;
         }
 
-        private async Task<JourneyViewModel> AnswerQuestions(JourneyViewModel model, int[] answers) {
+        private async Task<JourneyViewModel> AnswerQuestions(QuestionViewModel model, int[] answers) {
             if (answers == null)
                 return null;
 
             var queue = new Queue<int>(answers);
+            var journeyViewModel = new JourneyViewModel();
             while (queue.Any()) {
                 var answer = queue.Dequeue();
-                model = await AnswerQuestion(model, answer);
+                journeyViewModel = await AnswerQuestion(model, answer);
             }
-            return model;
+            return journeyViewModel;
         }
 
-        private async Task<JourneyViewModel> AnswerQuestion(JourneyViewModel model, int answer) {
+        private async Task<JourneyViewModel> AnswerQuestion(QuestionViewModel model, int answer) {
             if (answer < 0 || answer >= model.Answers.Count)
                 throw new ArgumentOutOfRangeException(
                     string.Format("The answer index '{0}' was not found within the range of answers: {1}", answer,
@@ -303,8 +307,9 @@ namespace NHS111.Web.Controllers {
             return result.Model is OutcomeViewModel ? (OutcomeViewModel)result.Model : (JourneyViewModel)result.Model;
         }
 
-        private static JourneyViewModel BuildJourneyViewModel(string pathwayId, int? age, string pathwayTitle) {
-            return new JourneyViewModel {
+        private static QuestionViewModel BuildQuestionViewModel(string pathwayId, int? age, string pathwayTitle) {
+            return new QuestionViewModel
+            {
                 NodeType = NodeType.Pathway,
                 PathwayId = pathwayId,
                 PathwayTitle = pathwayTitle,

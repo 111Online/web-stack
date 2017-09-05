@@ -26,6 +26,7 @@ namespace NHS111.Web {
             ModelBinders.Binders[typeof (JourneyViewModel)] = new JourneyViewModelBinder();
             ModelBinders.Binders[typeof(OutcomeViewModel)] = new JourneyViewModelBinder();
             ModelBinders.Binders[typeof(PersonalDetailViewModel)] = new JourneyViewModelBinder();
+            ModelBinders.Binders[typeof(QuestionViewModel)] = new JourneyViewModelBinder();
 
             GlobalFilters.Filters.Add(new LogJourneyFilterAttribute());
             GlobalFilters.Filters.Add(new SetSessionIdFilterAttribute());
