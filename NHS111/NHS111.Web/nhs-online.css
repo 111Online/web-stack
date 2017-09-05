@@ -28,6 +28,13 @@ hr {
     margin: 0;
     padding: 0; }
 
+@font-face {
+    font-family: "Frutiger W01";
+    src: url("https://assets.nhs.uk/fonts/fe232554-5489-4874-bb45-bd966c8c5932.eot?#iefix");
+    src: url("https://assets.nhs.uk/fonts/fe232554-5489-4874-bb45-bd966c8c5932.eot?#iefix") format("eot"), url("https://assets.nhs.uk/fonts/0811514e-6660-4043-92c1-23d0b8caaa2f.woff2") format("woff2"), url("https://assets.nhs.uk/fonts/aeae8cac-ba4d-40d2-bbcf-936f2c7dcfe6.woff") format("woff"), url("https://assets.nhs.uk/fonts/caedf2e6-fbef-4928-b08e-1f975981ae8d.ttf") format("truetype"), url("https://assets.nhs.uk/fonts/7def0e34-f28d-434f-b2ec-472bde847115.svg") format("svg");
+    font-weight: 400;
+    font-style: normal; }
+
 html,
 body,
 button,
@@ -35,7 +42,7 @@ input,
 table,
 td,
 th {
-    font-family: Arial, sans-serif; }
+    font-family: "Frutiger W01", Arial, sans-serif; }
 
 html {
     background-color: #005eb8;
@@ -189,7 +196,7 @@ details {
     clear: both;
     display: block; }
 details summary {
-    font-family: Arial, sans-serif;
+    font-family: "Frutiger W01", Arial, sans-serif;
     font-size: 20px;
     font-weight: 400;
     line-height: 32px;
@@ -259,7 +266,7 @@ body:not(:-moz-handler-blocked) fieldset {
     display: table-cell; }
 
 legend {
-    font-family: Arial, sans-serif;
+    font-family: "Frutiger W01", Arial, sans-serif;
     font-size: 20px;
     font-weight: 400;
     line-height: 32px;
@@ -280,7 +287,7 @@ legend + * {
     -webkit-margin-top-collapse: separate; }
 
 textarea {
-    font-family: Arial, sans-serif;
+    font-family: "Frutiger W01", Arial, sans-serif;
     font-size: 20px;
     font-weight: 400;
     line-height: 32px;
@@ -300,8 +307,26 @@ textarea {
 textarea:focus {
     outline: 3px solid #ffb81c; }
 
+select {
+    display: block;
+    cursor: pointer;
+    height: 4rem;
+    line-height: 3rem;
+    padding: 0 1rem;
+    border: 2px solid RGB(230, 230, 230);
+    width: 20em;
+    font-size: 20px; }
+
 .field-validation-valid {
     display: none; }
+
+.field-validation-error {
+    display: block; }
+
+.form-group--inline {
+    display: inline-block;
+    margin: 0;
+    margin-right: 2em; }
 
 .form-group-error {
     margin-right: 15px;
@@ -312,6 +337,8 @@ textarea:focus {
         border-left: 5px solid #B10E1E;
         padding-left: 16px; } }
 
+.field-validation-error + .form-control,
+.form-control.input-validation-error,
 .form-control-error {
     border: 4px solid #B10E1E; }
 
@@ -321,7 +348,7 @@ textarea:focus {
     font-size: 19px;
     color: #B10E1E;
     clear: both;
-    margin: 0;
+    margin: 10px 0;
     padding: 2px 0; }
 
 .form-label .error-message,
@@ -359,7 +386,7 @@ textarea:focus {
     text-decoration: underline; }
 
 .form-hint {
-    font-family: Arial, sans-serif;
+    font-family: "Frutiger W01", Arial, sans-serif;
     font-size: 20px;
     font-weight: 400;
     line-height: 32px;
@@ -377,7 +404,7 @@ textarea:focus {
         line-height: 32px; } }
 
 h1 {
-    font-family: Arial, sans-serif;
+    font-family: "Frutiger W01", Arial, sans-serif;
     font-size: 32px;
     font-weight: 600;
     line-height: 40px;
@@ -392,7 +419,7 @@ h1 {
         line-height: 48px; } }
 
 h2 {
-    font-family: Arial, sans-serif;
+    font-family: "Frutiger W01", Arial, sans-serif;
     font-size: 24px;
     font-weight: 600;
     line-height: 40px;
@@ -407,7 +434,7 @@ h2 {
         line-height: 48px; } }
 
 h3 {
-    font-family: Arial, sans-serif;
+    font-family: "Frutiger W01", Arial, sans-serif;
     font-size: 24px;
     font-weight: 600;
     line-height: 32px;
@@ -422,7 +449,7 @@ h3 {
         line-height: 32px; } }
 
 h4 {
-    font-family: Arial, sans-serif;
+    font-family: "Frutiger W01", Arial, sans-serif;
     font-size: 20px;
     font-weight: 600;
     line-height: 32px;
@@ -437,7 +464,7 @@ h4 {
         line-height: 32px; } }
 
 h5 {
-    font-family: Arial, sans-serif;
+    font-family: "Frutiger W01", Arial, sans-serif;
     font-size: 16px;
     font-weight: 600;
     line-height: 24px;
@@ -452,7 +479,7 @@ h5 {
         line-height: 24px; } }
 
 h6 {
-    font-family: Arial, sans-serif;
+    font-family: "Frutiger W01", Arial, sans-serif;
     font-size: 16px;
     font-weight: 400;
     line-height: 24px;
@@ -520,7 +547,7 @@ a:focus {
     outline: 3px solid #ffb81c; }
 
 ul {
-    font-family: Arial, sans-serif;
+    font-family: "Frutiger W01", Arial, sans-serif;
     font-size: 20px;
     font-weight: 400;
     line-height: 32px;
@@ -537,7 +564,7 @@ ul {
         line-height: 32px; } }
 
 ol {
-    font-family: Arial, sans-serif;
+    font-family: "Frutiger W01", Arial, sans-serif;
     font-size: 20px;
     font-weight: 400;
     line-height: 32px;
@@ -556,7 +583,7 @@ ol li {
     padding-left: .2em; }
 
 dl {
-    font-family: Arial, sans-serif;
+    font-family: "Frutiger W01", Arial, sans-serif;
     font-size: 20px;
     font-weight: 400;
     line-height: 32px;
@@ -570,7 +597,7 @@ dl {
         font-size: 20px;
         line-height: 32px; } }
 dl dt {
-    font-family: Arial, sans-serif;
+    font-family: "Frutiger W01", Arial, sans-serif;
     font-size: 20px;
     font-weight: 600;
     line-height: 32px;
@@ -678,8 +705,27 @@ dl dt {
     -webkit-transform: rotate(-45deg);
     transform: rotate(-45deg); }
 
+.list--numbered {
+    counter-reset: numbered-list;
+    padding-left: 0; }
+.list--numbered li {
+    list-style: none;
+    padding-bottom: 15px; }
+.list--numbered li::before {
+    content: counter(numbered-list);
+    counter-increment: numbered-list;
+    border: 3px solid #005eb8;
+    border-radius: 50px;
+    color: #005eb8;
+    display: inline-block;
+    font-weight: 700;
+    height: 40px;
+    margin-right: 0.5em;
+    text-align: center;
+    width: 40px; }
+
 p {
-    font-family: Arial, sans-serif;
+    font-family: "Frutiger W01", Arial, sans-serif;
     font-size: 20px;
     font-weight: 400;
     line-height: 32px;
@@ -714,7 +760,7 @@ table {
     margin: 16px 0 32px;
     width: 100%; }
 table caption {
-    font-family: Arial, sans-serif;
+    font-family: "Frutiger W01", Arial, sans-serif;
     font-size: 24px;
     font-weight: 400;
     line-height: 32px;
@@ -734,7 +780,7 @@ table caption {
         margin-bottom: 32px; } }
 table th,
 table td {
-    font-family: Arial, sans-serif;
+    font-family: "Frutiger W01", Arial, sans-serif;
     font-size: 16px;
     font-weight: 400;
     line-height: 24px;
@@ -753,7 +799,7 @@ table td {
         font-size: 16px;
         line-height: 24px; } }
 table th {
-    font-family: Arial, sans-serif;
+    font-family: "Frutiger W01", Arial, sans-serif;
     font-size: 20px;
     font-weight: 600;
     line-height: 32px;
@@ -811,7 +857,7 @@ main {
     margin-bottom: 0; }
 
 button, .button {
-    font-family: Arial, sans-serif;
+    font-family: "Frutiger W01", Arial, sans-serif;
     font-size: 20px;
     font-weight: 600;
     line-height: 32px;
@@ -885,7 +931,7 @@ button:active:before, .button:active:before {
     top: -10%; }
 
 .button--secondary {
-    font-family: Arial, sans-serif;
+    font-family: "Frutiger W01", Arial, sans-serif;
     font-size: 20px;
     font-weight: 600;
     line-height: 32px;
@@ -959,7 +1005,7 @@ button:active:before, .button:active:before {
     top: -10%; }
 
 .button--cancel {
-    font-family: Arial, sans-serif;
+    font-family: "Frutiger W01", Arial, sans-serif;
     font-size: 20px;
     font-weight: 600;
     line-height: 32px;
@@ -1270,7 +1316,7 @@ button:active:before, .button:active:before {
 
 .form-label,
 label {
-    font-family: Arial, sans-serif;
+    font-family: "Frutiger W01", Arial, sans-serif;
     font-size: 20px;
     font-weight: 600;
     line-height: 32px;
@@ -1288,7 +1334,7 @@ label {
         line-height: 32px; } }
 
 .form-label--large {
-    font-family: Arial, sans-serif;
+    font-family: "Frutiger W01", Arial, sans-serif;
     font-size: 24px;
     font-weight: 600;
     line-height: 40px;
@@ -1321,7 +1367,7 @@ h4 label {
 input[type="text"],
 input[type="number"],
 .form-textbox {
-    font-family: Arial, sans-serif;
+    font-family: "Frutiger W01", Arial, sans-serif;
     font-size: 20px;
     font-weight: 400;
     line-height: 32px;
@@ -1329,7 +1375,7 @@ input[type="number"],
     -webkit-appearance: none;
     -moz-appearance: none;
     appearance: none;
-    border: 2px solid #768692;
+    border: 2px solid #005eb8;
     display: block;
     max-width: 540px;
     padding: 4px;
@@ -1352,23 +1398,23 @@ input[type="number"]:focus,
     outline: 3px solid #ffb81c; }
 
 .form-textbox[maxlength="1"] {
-    width: 1.2em; }
+    width: 2em; }
 
 .form-textbox[maxlength="2"] {
-    width: 2.2em; }
+    width: 3em; }
 
 .form-textbox[maxlength="3"] {
-    width: 3.2em; }
+    width: 4em; }
 
 .form-textbox[maxlength="4"] {
-    width: 4.2em; }
+    width: 5em; }
 
 .global-footer {
     background-color: #005eb8;
     border-top: 4px solid #003087;
     color: #fff; }
 .global-footer * {
-    font-family: Arial, sans-serif;
+    font-family: "Frutiger W01", Arial, sans-serif;
     font-size: 16px;
     font-weight: 400;
     line-height: 24px;
@@ -1414,7 +1460,7 @@ input[type="number"]:focus,
         padding-top: 48px; } }
 
 .global-header__service-name {
-    font-family: Arial, sans-serif;
+    font-family: "Frutiger W01", Arial, sans-serif;
     font-size: 16px;
     font-weight: 400;
     line-height: 24px;
@@ -1432,7 +1478,7 @@ input[type="number"]:focus,
         line-height: 24px; } }
 @media (min-width: 641px) {
     .global-header__service-name {
-        font-family: Arial, sans-serif;
+        font-family: "Frutiger W01", Arial, sans-serif;
         font-size: 20px;
         font-weight: 400;
         line-height: 32px;
@@ -1651,7 +1697,7 @@ a.global-header__logo {
     color: #fff; }
 
 .local-header__title {
-    font-family: Arial, sans-serif;
+    font-family: "Frutiger W01", Arial, sans-serif;
     font-size: 24px;
     font-weight: 600;
     line-height: 40px;
@@ -1693,7 +1739,7 @@ a.global-header__logo {
 .notification-banner {
     background-color: #f0f4f5; }
 .notification-banner * {
-    font-family: Arial, sans-serif;
+    font-family: "Frutiger W01", Arial, sans-serif;
     font-size: 16px;
     font-weight: 400;
     line-height: 24px;
@@ -1781,7 +1827,7 @@ input[type="checkbox"] {
 
 input[type="radio"] + label,
 input[type="checkbox"] + label {
-    font-family: Arial, sans-serif;
+    font-family: "Frutiger W01", Arial, sans-serif;
     font-size: 20px;
     font-weight: 400;
     line-height: 32px;
@@ -1822,7 +1868,7 @@ input[type="checkbox"] {
 
 input[type="radio"] + label::before {
     background: #fff;
-    border: 2px solid #768692;
+    border: 3px solid #005eb8;
     border-radius: 50%;
     content: "";
     height: 38px;
@@ -1846,7 +1892,7 @@ input[type="radio"] + label::after {
 
 input[type="checkbox"] + label::before {
     background: #fff;
-    border: 2px solid #768692;
+    border: 3px solid #005eb8;
     content: "";
     height: 38px;
     left: 0;

@@ -44,7 +44,7 @@
     @Html.Partial("_CommonHiddenFieldsOutcomeViewModel", Model)
     @Html.Partial("_CommonHiddenFieldsCareAdviceViewModel", Model)
     @Html.HiddenFor(m => m.SelectedServiceId)
-    <section style="margin-top: 40px;">
+    <section>
         <div class="section-item last">
             <div class="local-header">
                 <h1 class="local-header__title">
@@ -126,7 +126,7 @@
                     </h2>
                 </legend>
 
-                <div class="form-group">
+                <div class="form-group  @(@ViewData.ModelState.IsValidField("UserInfo.TelephoneNumber") ? "" : "form-group-error")">
                     <label for="UserInfo_TelephoneNumber">Phone number</label>
                     @Html.ValidationMessageFor(m => m.UserInfo.TelephoneNumber, "Please enter a valid phone number")
                     @Html.TextBoxFor(m => m.UserInfo.TelephoneNumber, new { @class = "form-control form-textbox form-control-16-chars", placeholder = "Landline or mobile number", type = "tel" })
@@ -142,28 +142,28 @@
                 </h2>
             </legend>
             <p>This is the date of birth of the person needing care.</p>
-            <p class="form-hint">
-                For example, 31 / 12 / 1980
-            </p>
-            <div>@Html.ValidationMessageFor(m => m.UserInfo.Day, "Please enter a valid day")</div>
-            <div>@Html.ValidationMessageFor(m => m.UserInfo.Month, "Please enter a valid month")</div>
-            <div>@Html.ValidationMessageFor(m => m.UserInfo.Year, "Please enter a valid year")</div>
-            <div>@Html.ValidationMessageFor(m => m.UserInfo.DoB, "Please enter a valid date")</div>
-            <div class="form-group -date">
-                <div>
+            <p class="form-hint">For example, 31 / 12 / 1980</p>
+            @{ var validDate = @ViewData.ModelState.IsValidField("UserInfo.DoB") && @ViewData.ModelState.IsValidField("UserInfo.Day") &&
+                               @ViewData.ModelState.IsValidField("UserInfo.Month") && @ViewData.ModelState.IsValidField("UserInfo.Year"); }
+            <div class="form-group @(validDate ? "" : "form-group-error")">
+                @Html.ValidationMessageFor(m => m.UserInfo.DoB, "Please enter a valid date")
+                @Html.ValidationMessageFor(m => m.UserInfo.Day, "Please enter a valid day")
+                @Html.ValidationMessageFor(m => m.UserInfo.Month, "Please enter a valid month")
+                @Html.ValidationMessageFor(m => m.UserInfo.Year, "Please enter a valid year")
+                <div class="form-group--inline">
                     <label for="@Html.IdFor(m => m.UserInfo.Day)">Day</label>
-                    @Html.TextBoxFor(m => m.UserInfo.Day, new { @class = "form-control form-control-2-chars date-2-chars", placeholder = "DD", type = "number", maxlength = "2" })
+                    @Html.TextBoxFor(m => m.UserInfo.Day, new { @class = "form-control form-textbox", placeholder = "DD", type = "number", maxlength = "2" })
                 </div>
-                <div>
+                <div class="form-group--inline">
                     <label for="@Html.IdFor(m => m.UserInfo.Month)">Month</label>
-                    @Html.TextBoxFor(m => m.UserInfo.Month, new { @class = "form-control form-control-2-chars date-2-chars", placeholder = "MM", type = "number", maxlength = "2" })
+                    @Html.TextBoxFor(m => m.UserInfo.Month, new { @class = "form-control form-textbox", placeholder = "MM", type = "number", maxlength = "2" })
                 </div>
-                <div>
+                <div class="form-group--inline">
                     <label for="@Html.IdFor(m => m.UserInfo.Year)">Year</label>
-                    @Html.TextBoxFor(m => m.UserInfo.Year, new { @class = "form-control form-control-4-chars date-4-chars", placeholder = "YYYY", type = "number", maxlength = "4" })
+                    @Html.TextBoxFor(m => m.UserInfo.Year, new { @class = "form-control form-textbox", placeholder = "YYYY", type = "number", maxlength = "4" })
                 </div>
+                @Html.HiddenFor(m => m.UserInfo.DoB)
             </div>
-            @Html.HiddenFor(m => m.UserInfo.DoB)
         </fieldset>
         <hr />
         <script type="text/javascript">
@@ -219,7 +219,10 @@
 
                 //month is indexed from zero (thanks, Java) - so some adjustments needed
                 var date = new Date(parseInt(year), parseInt(month) - 1, parseInt(day));
-                return (date.getFullYear() === parseInt(year) && (date.getMonth() + 1) === parseInt(month) && date.getDate() === parseInt(day));
+                var result = (date.getFullYear() === parseInt(year) && (date.getMonth() + 1) === parseInt(month) && date.getDate() === parseInt(day));
+                
+                jQuery("#UserInfo_DoB").closest(".form-group").toggleClass("form-group-error", !result);
+                return result;
             });
 
             jQuery.validator.unobtrusive.adapters.add('personname', ['prefixelement'], function (options) {
@@ -310,7 +313,7 @@
                         By clicking Submit my details, you agree to share your information with other NHS organisations.
                         See our @Html.ActionLink("privacy policy", "Privacy", "Help", null, new { target = "_blank" }) for more information.
                     </p>
-                    <button type="submit" class="button button-submit-details" id="submitDetails">Submit my details</button>
+                    <button type="submit" class="button--next" id="submitDetails">Submit my details</button>
                 </div>
             </div>
         </div>
