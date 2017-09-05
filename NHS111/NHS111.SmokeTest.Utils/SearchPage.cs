@@ -15,15 +15,15 @@ namespace NHS111.SmokeTest.Utils
     public class SearchPage
     {
         private readonly IWebDriver _driver;
-        private const string _headerText = "Search by symptom";
+        private const string _headerText = "Tell us the symptom you’re concerned about";
 
-        [FindsBy(How = How.Id, Using = "searchTags")]
+        [FindsBy(How = How.Id, Using = "SanitisedSearchTerm")]
         public IWebElement SearchTxtBox { get; set; }
 
         [FindsBy(How = How.ClassName, Using = "button--next")]
         public IWebElement GoButton { get; set; }
 
-        [FindsBy(How = How.CssSelector, Using = ".content-container h1")]
+        [FindsBy(How = How.CssSelector, Using = ".content-container h1 label")]
         public IWebElement Header { get; set; }
 
         public SearchPage(IWebDriver driver)
