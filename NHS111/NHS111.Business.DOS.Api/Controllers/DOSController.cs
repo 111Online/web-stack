@@ -24,7 +24,7 @@ namespace NHS111.Business.DOS.Api.Controllers
 
         [HttpPost]
         [Route("DOSapi/CheckCapacitySummary")]
-        public async Task<HttpResponseMessage> CheckCapacitySummary(HttpRequestMessage request, string endpoint, [FromUri] bool filterServices = true) {
+        public async Task<HttpResponseMessage> CheckCapacitySummary(HttpRequestMessage request, string endpoint = null, [FromUri] bool filterServices = true) {
             var dosEndpoint = EnumHelper.ParseEnum<DosEndpoint>(endpoint, DosEndpoint.Unspecified);
             return await _serviceAvailabilityFilterService.GetFilteredServices(request, filterServices, dosEndpoint);
         }
