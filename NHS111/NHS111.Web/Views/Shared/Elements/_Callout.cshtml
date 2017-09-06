@@ -1,0 +1,19 @@
+﻿@model NHS111.Models.Models.Web.CalloutViewModel
+
+<section class="callout @foreach (var modifier in @Model.Modifiers) { @Html.Raw("callout--" + modifier) }">
+    <div class="reading-width">
+        @if (!string.IsNullOrEmpty(Model.Heading))
+        {
+            <h2>
+                @Html.Raw(Model.Heading)
+            </h2>
+        }
+
+        @foreach (var detail in @Model.Details)
+        {
+            <p>
+                @Html.Raw(detail)
+            </p>
+        }
+    </div>
+</section>

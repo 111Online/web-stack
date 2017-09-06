@@ -18,12 +18,9 @@
     if (DisclaimerPopupFeature.IsEnabled)
     {
         <!-- toggle disclaimer popup -->
-        <link rel="stylesheet" href="~/Content/css_NhsUK/modal.css">
         <script src="~/scripts/disclaimer-popup.js"></script>
     }
 }
-
-<link href="~/Content/css_NhsUK/search.css" media="screen" rel="stylesheet" type="text/css" />
 
 @section FeedbackSection {
     @Html.Partial("_FeedbackDetails", new FeedbackViewModel() { PageId = Request.Url.GetComponents(UriComponents.PathAndQuery, UriFormat.SafeUnescaped) })
@@ -40,7 +37,7 @@
                     <label for="searchTags">
                         <input type="text" class="input-symptoms ui-autocomplete-input" id="searchTags" name="q" autocomplete="off" />
                     </label>
-                    <input type="submit" class="button button-get-started" value="Search" id="searchButton" />
+                    <button type="submit" class="button button--next" id="searchButton">Search</button>
                 </div>
             </form>
 

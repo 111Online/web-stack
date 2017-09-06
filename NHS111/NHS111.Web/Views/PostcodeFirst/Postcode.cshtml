@@ -18,8 +18,6 @@
 }
 
 @section Title { NHS 111 - Tell us your postcode }
-<link href="@NHS111.Web.Helpers.Versioning.GetVersionedUriRef("~/Content/css_NhsUK/signposting-outcome.css")" media="all" rel="stylesheet" type="text/css" />
-<link href="@NHS111.Web.Helpers.Versioning.GetVersionedUriRef("~/Content/css_NhsUK/signposting-outcome-print.css")" media="print" rel="stylesheet" type="text/css" />
 
 @section SurveyBanner{
     @if (!Model.UserInfo.CurrentAddress.IsPostcodeFirst) { 
@@ -92,8 +90,8 @@
                     }
                     @Html.ValidationMessageFor(m => m.UserInfo.CurrentAddress.Postcode)
                     @(Model.UserInfo.CurrentAddress.IsPostcodeFirst ? Html.Raw("<label for=\"UserInfo_CurrentAddress_Postcode\">Enter your postcode for services that can help you <span class=\"de-emphasised\">(optional)<span></label>") : Html.Raw("<label for=\"UserInfo_CurrentAddress_Postcode\" class=\"alwayshidden\">Postcode required</label>"))
-                    @Html.TextBoxFor(m => m.UserInfo.CurrentAddress.Postcode, new { @class = "form-control " + (error ? "error" : "") })
-                    <button class="button button-next" type="submit" name="DosResults" id="DosLookup">Next</button>
+                    @Html.TextBoxFor(m => m.UserInfo.CurrentAddress.Postcode, new { @class = "form-textbox" + (error ? " error" : "") })
+                    <button class="button button--next" type="submit" name="DosResults" id="DosLookup">Next</button>
                 </div>
             </div>
         }

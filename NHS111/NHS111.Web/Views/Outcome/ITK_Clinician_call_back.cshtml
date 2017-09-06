@@ -6,10 +6,6 @@
 }
 
 @section Title { NHS 111 - Speak to a clinician }
-<link href="@NHS111.Web.Helpers.Versioning.GetVersionedUriRef("~/Content/css_NhsUK/confirmation.css")" media="all" rel="stylesheet" type="text/css">
-<link href="@NHS111.Web.Helpers.Versioning.GetVersionedUriRef("~/content/css_NhsUk/disposition.css")" media="screen" rel="stylesheet" type="text/css" />
-<link href="@NHS111.Web.Helpers.Versioning.GetVersionedUriRef("~/Content/css_NhsUK/signposting-outcome.css")" media="all" rel="stylesheet" type="text/css" />
-<link href="@NHS111.Web.Helpers.Versioning.GetVersionedUriRef("~/Content/css_NhsUK/signposting-outcome-print.css")" media="print" rel="stylesheet" type="text/css" />
 
 @section HeadTop {
 @{ var url = string.Format("/outcome/{0}/{1}/{2}/disposition/", Url.Encode(Model.PathwayNo), Url.Encode(Model.OutcomeGroup.Text), Url.Encode(Model.Id)); }
@@ -37,16 +33,16 @@
 }
 
 <section>
-    <div class="outcome-header">
-        <h1 class="heading-large">A nurse from 111 will phone you</h1>
-        <div class="disposition-title-splitter"></div>
-        <h2 class="heading-small">Enter a postcode so we can find a suitable local service</h2>
+    <div class="local-header">
+        <h1 class="local-header__title">A nurse from 111 will phone you</h1>
+        <div class="local-header__intro">
+            <p>Enter a postcode so we can find a suitable local service</p>
+        </div>
     </div>
 </section>
 
 <div class="itk-message">
     <p>The 111 nurse will aim to phone you in 20 minutes or less.</p>
-    <br/>
     <p>The 111 nurse will:</p>
     <ul>
         <li>
@@ -67,7 +63,7 @@
     dataDictionary.Add(new KeyValuePair<string, object>("ButtonText", "Next"));
     dataDictionary.Add(new KeyValuePair<string, object>("Label", ""));
     dataDictionary.Add(new KeyValuePair<string, object>("ITK", true));
-    dataDictionary.Add(new KeyValuePair<string, object>("AddressInfoMessage", "<p>This postcode finds the nearest 111 service to phone you.</p><br/><p> It is usually your home postcode.</p>"));
+    dataDictionary.Add(new KeyValuePair<string, object>("AddressInfoMessage", "This postcode finds the nearest 111 service to phone you.<br/>It is usually your home postcode."));
     dataDictionary.TemplateInfo = new TemplateInfo() { HtmlFieldPrefix = "FindService" };
 
 }
@@ -76,19 +72,17 @@
 
 
 <hr/>
-<div id="care-advice-expanding">
-    <h3 class="care-advice-expanding-link heading-small">If you don't want to book a call from this service, please read the following advice</h3>
-    <div class="care-advice-expanding-content content">
 
-        @Html.Partial("_CareAdvice", Model.CareAdvices, new ViewDataDictionary { { "Title", "" }, {"NoHR", "true"}})
+@if (Model.CareAdvices != null && Model.CareAdvices.Any())
+{
+    <details>
+        <summary>
+            <span class="summary">If you don't want to book a call from this service, please read the following advice</span>
+        </summary>
+        <div class="panel panel-border-narrow">
+            @Html.Partial("_CareAdvice", Model.CareAdvices, new ViewDataDictionary { { "Title", "" }, {"NoHR", "true"}})
+        </div>
+    </details>
+}
 
-        @Html.Partial("_WorseningAdvice", Model)
-    </div>
-</div>
-
-
-<script>
-    $(function () {
-        $("#care-advice-expanding").accordion({ collapsible: true, active: 'none', heightStyle: "content" });
-    });
-</script>
+@Html.Partial("_WorseningAdvice", Model)

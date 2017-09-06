@@ -7,8 +7,8 @@
 <p class="" style="display: none;" id="no-results-message">Sorry, we couldn't find an address using that postcode.<br/>Please enter your address below or try a different postcode.</p>
 
 <fieldset>
-    <legend class="heading-large">
-        Current location
+    <legend>
+        <h2>Current location</h2>
     </legend>
 
     <p class="form-info">We need this in case the person needing care requires emergency help.</p>
@@ -17,9 +17,10 @@
                 <div>
                     <label for="@Html.NameFor(m => m.PreviouslyEnteredPostcode)">Postcode</label>
                     <div class="inline-details">
-                        @Html.TextBoxFor(m => m.PreviouslyEnteredPostcode, new { @class = "form-control form-control-8-chars", placeholder = "eg. SE1", @readonly = "readonly" })
-                        <a class="button button-next button-link" id="postcode-change-link" href="javascript:void(0);">Change this postcode</a>
-                        <input style="display: none" type="button" class="button find-address" id="findMyAddress" value="Find address" />
+                        <p id="postcode-readonly">@Html.ValueFor(m => m.PreviouslyEnteredPostcode)</p>
+                        @Html.TextBoxFor(m => m.PreviouslyEnteredPostcode, new {@class = "form-control form-control-8-chars", placeholder = "eg. SE1", @readonly = "readonly", @type = "hidden"})
+                        <button class="button--next button--link" id="postcode-change-link" type="button">Change this postcode</button>
+                        <button style="display: none" type="button" class="button--next button--secondary find-address" id="findMyAddress">Find address</button>
                     </div>
                 </div>
             </div>
@@ -39,33 +40,32 @@
             <div id="addressPanel" class="address-panel">
                 <h2 class="heading-medium" id="manual-entry-title">Enter address</h2>
                 <fieldset>
-                    <legend>Street</legend>
-                    <div>@Html.ValidationMessageFor(m => m.AddressLine1, "Please enter the first line of your address")</div>
                     <div class="inline-details">
-                        @Html.LabelFor(m => m.AddressLine1, new { @class = "hidden" })
+                        @Html.LabelFor(m => m.AddressLine1, "House name or number")
+                        @Html.ValidationMessageFor(m => m.AddressLine1, "Please enter the house name or number")
                         @Html.TextBoxFor(m => m.AddressLine1, new { @class = "form-control" })
                     </div>
                     <div class="inline-details">
-                        @Html.LabelFor(m => m.AddressLine2, new { @class = "hidden" })
+                        @Html.LabelFor(m => m.AddressLine2, "Street")
                         @Html.TextBoxFor(m => m.AddressLine2, new { @class = "form-control" })
                     </div>
                 </fieldset>
-                @Html.LabelFor(m => m.City)
                 <div class="inline-details">
-                    <div>@Html.ValidationMessageFor(m => m.City, "Please enter a city")</div>
+                    @Html.LabelFor(m => m.City)
+                    @Html.ValidationMessageFor(m => m.City, "Please enter a city")
                     @Html.TextBoxFor(m => m.City, new { @class = "form-control" })
                 </div>
-                @Html.LabelFor(m => m.County)
                 <div class="inline-details">
+                    @Html.LabelFor(m => m.County)
                     @Html.TextBoxFor(m => m.County, new { @class = "form-control" })
                 </div>
-                @Html.LabelFor(m => m.Postcode)
                 <div class="inline-details">
-                    <div>@Html.ValidationMessageFor(m => m.Postcode)</div>
+                    @Html.LabelFor(m => m.Postcode)
+                    @Html.ValidationMessageFor(m => m.Postcode)
                     @Html.TextBoxFor(m => m.Postcode, new { @class = "form-control" })
                 </div>
             </div>
-            <a class="button button-next button-link" href="javascript:void(0);" style="display: none;" id="manual-entry-link">I can't find the address in the list</a>
+            <button class="button--next button--link" style="display: none;" id="manual-entry-link">I can't find the address in the list</button>
         </div>
 
 </fieldset>
@@ -180,13 +180,18 @@
     function postcodeChangeLink(flag) {
         if (flag === "hide") {
             $("#findMyAddress").show();
+            $("#AddressInfoViewModel_PreviouslyEnteredPostcode").prop('type', 'text');
             $("#AddressInfoViewModel_PreviouslyEnteredPostcode").prop('readonly', false);
             $("#manual-entry-link").hide();
             $("#AddressList").hide();
+            $("#AddressInfoViewModel_PreviouslyEnteredPostcode").prop('type', 'hidden');
+            $("#AddressInfoViewModel_PreviouslyEnteredPostcode").prop('readonly', true);
+            $("#postcode-readonly").html($("#AddressInfoViewModel_PreviouslyEnteredPostcode").val());
+            $("#postcode-readonly").show();
+            $("#postcode-readonly").hide();
             $("#postcode-change-link").hide();
         } else if (flag === "show") {
             $("#findMyAddress").hide();
-            $("#AddressInfoViewModel_PreviouslyEnteredPostcode").prop('readonly', true);
             $("#postcode-change-link").show();
         }
     }

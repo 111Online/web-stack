@@ -30,7 +30,7 @@ namespace NHS111.Web.Presentation.Builders
             _userZoomDataBuilder = userZoomDataBuilder;
         }
 
-        public async Task<Tuple<string, JourneyViewModel>> JustToBeSafeFirstBuilder(JustToBeSafeViewModel model) {
+        public async Task<Tuple<string, QuestionViewModel>> JustToBeSafeFirstBuilder(JustToBeSafeViewModel model) {
 
             if (model.PathwayId != null)
                 model = await DoWorkPreviouslyDoneInQuestionBuilder(model); //todo refactor away
@@ -40,7 +40,7 @@ namespace NHS111.Web.Presentation.Builders
             var questionsWithAnswers = JsonConvert.DeserializeObject<List<QuestionWithAnswers>>(questionsJson);
             if (!questionsWithAnswers.Any())
             {
-                var journeyViewModel = new JourneyViewModel
+                var questionViewModel = new QuestionViewModel
                 {
                     PathwayId = identifiedModel.PathwayId,
                     PathwayNo = identifiedModel.PathwayNo,
@@ -57,11 +57,11 @@ namespace NHS111.Web.Presentation.Builders
                     FilterServices = model.FilterServices
                 };
                 var question = JsonConvert.DeserializeObject<QuestionWithAnswers>(await _restfulHelper.GetAsync(_configuration.GetBusinessApiFirstQuestionUrl(identifiedModel.PathwayId, identifiedModel.StateJson)));
-                _mappingEngine.Mapper.Map(question, journeyViewModel);
+                _mappingEngine.Mapper.Map(question, questionViewModel);
 
-                _userZoomDataBuilder.SetFieldsForQuestion(journeyViewModel);
+                _userZoomDataBuilder.SetFieldsForQuestion(questionViewModel);
 
-                return new Tuple<string, JourneyViewModel>("../Question/Question", journeyViewModel);
+                return new Tuple<string, QuestionViewModel>("../Question/Question", questionViewModel);
             }
             identifiedModel.Part = 1;
             identifiedModel.JourneyId = Guid.NewGuid();
@@ -69,7 +69,7 @@ namespace NHS111.Web.Presentation.Builders
             identifiedModel.QuestionsJson = questionsJson;
             identifiedModel.JourneyJson = string.IsNullOrEmpty(identifiedModel.JourneyJson) ? JsonConvert.SerializeObject(new Journey()) : identifiedModel.JourneyJson;
             identifiedModel.FilterServices = model.FilterServices;
-            return new Tuple<string, JourneyViewModel>("../JustToBeSafe/JustToBeSafe", identifiedModel);
+            return new Tuple<string, QuestionViewModel>("../JustToBeSafe/JustToBeSafe", identifiedModel);
 
         }
 
@@ -117,6 +117,6 @@ namespace NHS111.Web.Presentation.Builders
 
     public interface IJustToBeSafeFirstViewModelBuilder
     {
-        Task<Tuple<string, JourneyViewModel>> JustToBeSafeFirstBuilder(JustToBeSafeViewModel model);
+        Task<Tuple<string, QuestionViewModel>> JustToBeSafeFirstBuilder(JustToBeSafeViewModel model);
     }
 }

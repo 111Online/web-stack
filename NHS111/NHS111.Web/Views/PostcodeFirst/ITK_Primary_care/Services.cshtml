@@ -24,10 +24,6 @@
 }
 
 @section Title { NHS 111 - Contact a healthcare service }
-<link href="@NHS111.Web.Helpers.Versioning.GetVersionedUriRef("~/Content/css_NhsUK/confirmation.css")" media="all" rel="stylesheet" type="text/css">
-<link href="@NHS111.Web.Helpers.Versioning.GetVersionedUriRef("~/Content/css_NhsUK/disposition.css")" media="all" rel="stylesheet" type="text/css">
-<link href="@NHS111.Web.Helpers.Versioning.GetVersionedUriRef("~/Content/css_NhsUK/signposting-outcome.css")" media="all" rel="stylesheet" type="text/css" />
-<link href="@NHS111.Web.Helpers.Versioning.GetVersionedUriRef("~/Content/css_NhsUK/signposting-outcome-print.css")" media="print" rel="stylesheet" type="text/css" />
 
 @section SurveyBanner{
     @Html.Partial("_SurveyLink", Model.SurveyLink)
@@ -45,21 +41,23 @@
 }
 
 <section>
-    <div class="outcome-header">
-        <h1 class="heading-large">Recommended service</h1>
-        <h2 class="heading-small">@WebUtility.HtmlDecode(recommendedService.Name)</h2>
-        @if (recommendedService.CallbackEnabled)
-        {
-            <p>@WebUtility.HtmlDecode(recommendedService.CurrentStatus)</p>
-            <br/>
-            <p>They will check through the answers you have entered and give you advice on what to do next</p>
-        }
-        else
-        {
-            <p>@WebUtility.HtmlDecode(recommendedService.Address)</p>
-            <p>@WebUtility.HtmlDecode(recommendedService.ServiceOpeningTimesMessage)</p>
-            <p>You don't need to call this service, you can go there during the times shown above.</p>
-        }
+    <div class="local-header">
+        <h1 class="local-header__title">Recommended service</h1>
+        <div class="local-header__intro">
+            <h2 class="heading-small">@WebUtility.HtmlDecode(recommendedService.Name)</h2>
+            @if (recommendedService.CallbackEnabled)
+            {
+                <p>@WebUtility.HtmlDecode(recommendedService.CurrentStatus)</p>
+                <br/>
+                <p>They will check through the answers you have entered and give you advice on what to do next</p>
+            }
+            else
+            {
+                <p>@WebUtility.HtmlDecode(recommendedService.Address)</p>
+                <p>@WebUtility.HtmlDecode(recommendedService.ServiceOpeningTimesMessage)</p>
+                <p>You don't need to call this service, you can go there during the times shown above.</p>
+            }
+        </div>
     </div>
 </section>
 
