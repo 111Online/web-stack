@@ -81,6 +81,7 @@
                     <label for="PatientInformantDetails_Informant_ThirdParty" class="multiple-choice--radio" name="PatientInformantDetails_Informant"  data-target="other-data">Someone else</label>
               
                     <div class="toggle-content panel">
+                        <h3>Enter the name of the person needing care</h3>
                         <div class="form-group ">
                             <label for="@Html.IdFor(m => m.PatientInformantDetails.PatientName.Forename)">First name</label>
                             <div>@Html.ValidationMessageFor(m => m.PatientInformantDetails.PatientName.Forename, "Please enter the first name of the person needing care")</div>
@@ -93,7 +94,7 @@
                             @Html.TextBoxFor(m => m.PatientInformantDetails.PatientName.Surname, new {@class = "form-control form-control-15-chars"})
 
                         </div>
-                        
+
                         <hr/>
 
                         <div>
