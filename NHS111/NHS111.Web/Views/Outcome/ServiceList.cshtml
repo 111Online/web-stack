@@ -53,7 +53,10 @@
             }
             @if (selectedService != null)
             {
-                @Html.Partial("_SelectedService", selectedService)
+                <p>@WebUtility.HtmlDecode(selectedService.Name)</p>
+                <p>@WebUtility.HtmlDecode(selectedService.Address)</p>
+                <p>@WebUtility.HtmlDecode(selectedService.CurrentStatus)</p>
+                @Html.Hidden("Id", selectedService.Id)
                 <div class="form-item-wrapper">
                     <div class="form-group">
                         @using (Html.BeginForm("PersonalDetails", "Outcome", FormMethod.Post))
@@ -88,7 +91,7 @@
 {
     <section>
         <div class="section-item last">
-            <h2 class="heading-medium">
+            <h2>
                 Other services near you
             </h2>
             @if (Model.DosCheckCapacitySummaryResult.Success != null)
