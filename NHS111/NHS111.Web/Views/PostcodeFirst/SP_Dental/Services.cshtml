@@ -44,12 +44,13 @@
     <div class="local-header">
         <h1 class="local-header__title">Recommended service</h1>
         <div class="local-header__intro">
-            <h2 class="heading-small">@WebUtility.HtmlDecode(recommendedService.Name)</h2>
+            <p>@WebUtility.HtmlDecode(recommendedService.Name)</p>
             @if (recommendedService.CallbackEnabled)
             {
                 if (!recommendedService.IsOpen)
                 {
                     <p>@WebUtility.HtmlDecode(recommendedService.ServiceOpeningTimesMessage)</p>
+                    <br/>
                 }
                 <p>They will check through the answers you have entered and give you advice on what to do next</p>
             }
