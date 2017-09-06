@@ -5,7 +5,7 @@
     var services = Model.DosCheckCapacitySummaryResult.Success.Services;
 }
 
-@if (services.Any(s => !s.CallbackEnabled && !string.IsNullOrEmpty(s.ContactDetails) ))
+@if (services.Any(s => !s.CallbackEnabled && !string.IsNullOrEmpty(s.ContactDetails)))
 {
     string title;
     if (ViewData.Keys.Contains("PhoneTitle"))
@@ -17,22 +17,28 @@
         var serviceCount = services.Count(s => !s.CallbackEnabled && !string.IsNullOrEmpty(s.ContactDetails));
         title = serviceCount > 1 ? "There are " + serviceCount + " places you can phone" : "There is 1 place you can phone";
     }
-    <h3 id="alternative-service-go-to-link" class="heading-small">@title</h3>
-    <div class="alternative-care-service">
-        @if (Model.Id == "Dx08" && Model.UserInfo.CurrentAddress.IsPostcodeFirst)
-        {
-            <ul><li>Your own GP should already know about any medicines you’re taking. If you see a different GP, tell them about your medicines</li></ul>
-        }
-        <div class="alternative-care-service phone-service content">
-            @foreach (var service in services.Where(s => !s.CallbackEnabled && !string.IsNullOrEmpty(s.ContactDetails)))
+    <details>
+        <summary>
+            <span>@title</span>
+        </summary>
+        <div class="panel panel-border-narrow">
+            @if (Model.Id == "Dx08" && Model.UserInfo.CurrentAddress.IsPostcodeFirst)
             {
-                <h4 class="service-title heading-small">@WebUtility.HtmlDecode(service.Name)</h4>
-                <p>Phone: <a href="tel: @service.ContactDetails">@service.ContactDetails</a> for advice</p>
-                <p>@WebUtility.HtmlDecode(service.ServiceOpeningTimesMessage)</p>
-                <p>You can phone this service for advice during the times shown above.</p>
-              
+                <ul><li>Your own GP should already know about any medicines you’re taking. If you see a different GP, tell them about your medicines</li></ul>
             }
+            <div>
+                @foreach (var service in services.Where(s => !s.CallbackEnabled && !string.IsNullOrEmpty(s.ContactDetails)))
+                {
+                    <h3>@WebUtility.HtmlDecode(service.Name)</h3>
+                    <p>
+                        Phone: <a href="tel: @service.ContactDetails">@service.ContactDetails</a> for advice
+                    </p>
+                    <p>@WebUtility.HtmlDecode(service.ServiceOpeningTimesMessage)</p>
+                    <p>You can phone this service for advice during the times shown above.</p>
+
+                }
+            </div>
         </div>
-    </div>
+    </details>
 }
 
