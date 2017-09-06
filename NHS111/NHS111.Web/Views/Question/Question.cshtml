@@ -82,7 +82,7 @@
             {
                 var answer = Model.OrderedAnswers()[i];
                 <div class="multiple-choice">
-                    <input name="SelectedAnswer" type="radio" class="multiple-choice__input" id="@answer.TitleWithoutSpaces" value="@Newtonsoft.Json.JsonConvert.SerializeObject(answer)" />
+                    <input name="SelectedAnswer" data-val="true" data-val-required="'SelectedAnswer' should not be empty." type="radio" class="multiple-choice__input" id="@answer.TitleWithoutSpaces" value="@Newtonsoft.Json.JsonConvert.SerializeObject(answer)" />
                     <label for="@answer.TitleWithoutSpaces" class="multiple-choice--radio">@answer.Title</label>
                     @Html.Hidden(string.Format("Answers[{0}].Title", i), answer.Title)
                     @Html.Hidden(string.Format("Answers[{0}].TitleWithoutSpaces", i), answer.TitleWithoutSpaces)
