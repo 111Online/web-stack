@@ -44,7 +44,7 @@
     <div class="local-header">
         <h1 class="local-header__title">Recommended service</h1>
         <div class="local-header__intro">
-            <h2 class="heading-small">@WebUtility.HtmlDecode(recommendedService.Name)</h2>
+            <p>@WebUtility.HtmlDecode(recommendedService.Name)</p>
             @if (recommendedService.CallbackEnabled)
             {
                 <p>@WebUtility.HtmlDecode(recommendedService.CurrentStatus)</p>

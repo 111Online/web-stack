@@ -180,19 +180,19 @@
     function postcodeChangeLink(flag) {
         if (flag === "hide") {
             $("#findMyAddress").show();
-            $("#AddressInfoViewModel_PreviouslyEnteredPostcode").prop('type', 'text');
-            $("#AddressInfoViewModel_PreviouslyEnteredPostcode").prop('readonly', false);
+            $("#AddressInfoViewModel_PreviouslyEnteredPostcode").attr('type', 'text');
+            $("#AddressInfoViewModel_PreviouslyEnteredPostcode").removeAttr('readonly');
             $("#manual-entry-link").hide();
             $("#AddressList").hide();
-            $("#AddressInfoViewModel_PreviouslyEnteredPostcode").prop('type', 'hidden');
-            $("#AddressInfoViewModel_PreviouslyEnteredPostcode").prop('readonly', true);
             $("#postcode-readonly").html($("#AddressInfoViewModel_PreviouslyEnteredPostcode").val());
-            $("#postcode-readonly").show();
             $("#postcode-readonly").hide();
             $("#postcode-change-link").hide();
         } else if (flag === "show") {
             $("#findMyAddress").hide();
             $("#postcode-change-link").show();
+            $("#postcode-readonly").show();
+            $("#AddressInfoViewModel_PreviouslyEnteredPostcode").attr('type', 'hidden');
+            $("#AddressInfoViewModel_PreviouslyEnteredPostcode").attr('readonly', true);
         }
     }
 
