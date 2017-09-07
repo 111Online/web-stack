@@ -22,13 +22,12 @@
                 {
                     @Html.HiddenFor(m => m.UserId)
                     @Html.HiddenFor(m => m.PageId)
-                    <h2 class="heading-small">
+                    <h2>
                         @Html.LabelFor(m => m.Text, "Tell us if this page isn't clear")
                     </h2>
-                    <p>Don’t include any personal information, such as your name, date of birth, address or NHS number.</p>
-                    <div class="feedback-form">
+                    <div>
+                        <p>Don’t include any personal information, such as your name, date of birth, address or NHS number.<br><span id="textdetailscounter">(Limit is 1200 characters)</span></p>
                         @Html.TextAreaFor(m => m.Text, new { @placeholder = "Feedback", @Value = "", @class = "feedback-input", @maxlength = maxFeedbackLength })
-                        <p id="textdetailscounter">(Limit is 1200 characters)</p>
                         <button class="button button--next button--secondary" id="btnFeedback">Send feedback</button>
                     </div>
                 }
