@@ -1,0 +1,342 @@
+.panel-indent {
+  @extend %clearfix;
+  border-left: 5px solid $grey-3;
+  clear: both;
+  margin: 0 0 $gutter;
+  padding: 0 15px;
+  @include media(tablet) {
+    padding: 10px 15px 10px 30px;
+  }
+  p, ul {
+    margin-bottom: 0;
+  }
+}
+
+%message-panel {
+  @extend %clearfix;
+  background: $success-background;
+  border-left: 3px solid $success-colour;
+  box-sizing: content-box;
+  margin-bottom: $gutter;
+  margin-left: -15px;
+  margin-right: -15px;
+  padding: $gutter-half $gutter-half $gutter $gutter-half;
+  ul {
+    margin-top: 10px;
+  }
+  li, p {
+    @include core-16;
+  }
+  p {
+    margin-top: $gutter-half;
+    margin-bottom: 5px;
+  }
+  .heading-small {
+    color: $success-colour;
+    margin-top: $gutter-half;
+  }
+}
+
+.panel-success {
+  @extend %message-panel;
+  background: $success-background;
+  border-color: $success-colour;
+  .heading-small {
+    color: $success-colour;
+  }
+  @include media(tablet) {
+    margin-left: -18px;
+    margin-right: 0;
+  }
+}
+
+.panel-warning {
+  @extend %message-panel;
+  background: $warning-background;
+  border-color: $warning-colour;
+  .heading-small {
+    color: $warning-colour;
+  }
+  @include media(tablet) {
+    margin-left: -18px;
+    margin-right: 0;
+  }
+}
+
+.panel-danger {
+  @extend %message-panel;
+  background: $error-background;
+  border-color: $error-colour;
+  .heading-small {
+    color: $error-colour;
+  }
+  @include media(tablet) {
+    margin-left: -18px;
+    margin-right: 0;
+  }
+}
+
+.panel-info {
+  @extend %message-panel;
+  background: $info-background;
+  border-color: $info-colour;
+  .heading-small {
+    color: $info-colour;
+  }
+  @include media(tablet) {
+    margin-left: -18px;
+    margin-right: 0;
+  }
+}
+
+.fixed-info {
+  background: $info-background;
+  border-left: 3px solid $info-colour;
+  position: fixed;
+  bottom: 0; right: 0;
+  padding: 10px $gutter;
+  text-align: center;
+  width: 100%;
+  p {
+    @include core-16;
+    margin: 0; padding: 0;
+  }
+  @include media(tablet) {
+    padding-top: $gutter-half;
+    padding-bottom: $gutter-half;
+    width: auto;
+  }
+}
+
+.scrolling-panel {
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  &::-webkit-scrollbar {
+    -webkit-appearance: none;
+    width: 7px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    border-radius: 4px;
+    background-color: rgba(0, 0, 0, 0.5);
+    -webkit-box-shadow: 0 0 1px rgba(255, 255, 255, 0.5);
+  }
+}
+
+.max-height-15 {
+  max-height: 19em; /* 304px */
+}
+
+.max-height-6ish {
+  max-height: 11em;
+  @media (min-height: 681px) {
+    max-height: 20em;
+  }
+  @media (min-height: 781px) {
+    max-height: 31em;
+  }
+}
+
+// Show & hide links
+details {
+  margin-bottom: $gutter;
+}
+
+details,
+summary {
+  display: block;
+  // max-width: 30em;
+}
+
+details summary {
+  @extend .fake-link;
+  @include core-19;
+  margin-bottom: $gutter-half;
+}
+
+details summary:focus {
+  outline: 3px solid $yellow;
+}
+
+// Styles for browsers that don't yet natively support details/summary
+.no-details details p,
+.no-details details .detail-content {
+  display: none;
+}
+.no-details details > summary:before {
+  content: "\25b6 ";
+  font-size: 16px;
+  float: left;
+  margin-top: 1px;
+  margin-right: -1px;
+  width: 20px;
+}
+
+.summary-style {
+  display: inline-block;
+  margin-left: 5px;
+}
+
+.summary-style:before {
+  content: "\25b6 ";
+  font-size: 16px;
+  display: inline-block;
+  margin-top: 1px;
+  margin-right: -1px;
+  width: 20px;
+}
+
+.no-details details.open summary:focus {
+  outline: 3px solid $yellow;
+}
+.no-details details.open summary:before,
+.summary-style.open:before {
+  content: "\25bc ";
+}
+.no-details .open p,
+.no-js details p,
+.no-details .open .detail-content,
+.no-js details .detail-content, {
+  display: block;
+}
+
+.summary-box {
+  background: $white;
+  color: $black;
+  font-size: 16px;
+  margin-top: 10px;
+  padding: 20px;
+  @include media(tablet) {
+    font-size: 19px;
+  }
+  .heading-medium {
+    margin-top: 10px;
+  }
+}
+
+.summary-close {
+  cursor: pointer;
+  display: inline-block;
+  font-size: 16px;
+  font-weight: 700;
+  margin: 0;
+  padding: $gutter-half $gutter-half $gutter-half 0;
+  &:before {
+    content: "\00d7";
+    display: inline-block;
+    font-size: 26px;
+    line-height: 22px;
+    margin-right: 4px;
+    vertical-align: top;
+  }
+}
+
+.success-banner {
+  background: $turquoise;
+  color: $white;
+  margin-bottom: $gutter;
+  padding: $gutter-half;
+  text-align: center;
+  width: 100%;
+  @include media(tablet) {
+    padding: $gutter;
+  }
+}
+
+.mob-collpanel-trigger {
+  @media (max-width: 640px) {
+    &:after {
+      content: " \25BC";
+      display: inline-block;
+      font-size: 12px;
+      height: 14px;
+      padding-left: 10px;
+      vertical-align: middle;
+    }
+    &.triggered {
+      &:after {
+        content: " \25B2";
+      }
+    }
+  }
+}
+
+.mob-collpanel {
+  @media (max-width: 640px) {
+    &.panel-open {
+      display: block;
+    }
+  }
+}
+
+.collpanel-trigger {
+  cursor: pointer;
+  &:after {
+    content: " \25BC";
+    display: inline-block;
+    font-size: 12px;
+    height: 14px;
+    padding-left: 10px;
+    vertical-align: middle;
+  }
+  &.triggered {
+    &:after {
+      content: " \25B2";
+    }
+  }
+}
+
+.collpanel {
+  &.panel-open {
+    display: block;
+  }
+}
+
+.no-js .hover-link:hover {
+  .hidden {
+    display: block;
+    visibility: visible;
+  }
+}
+
+.no-js .nojs-hoverhelp {
+  position: absolute;
+  top: 0; right: 0;
+  width: 90px; height: 50px;
+}
+
+.hover-link {
+  position: relative;
+}
+
+.floating-panel {
+  background: $white;
+  border: 3px solid $grey-2;
+  color: $black;
+  padding: $gutter-half;
+  position: absolute;
+  top: 1.95em; right: 0;
+  width: 250px;
+}
+
+.hover-link__close {
+  padding: 3px;
+  position: absolute;
+  top: 10px; right: 10px;
+}
+
+.nhs-question-container {
+  margin-bottom: 2.5em;
+  @include media(tablet) {
+    margin-bottom: 3.5em;
+    .color-blue & {
+      margin-bottom:20px;
+    }
+  }
+}
+
+.nhs-question-secondary {
+  color: $secondary-text-colour;
+  margin-top: 1em;
+}
+

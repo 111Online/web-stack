@@ -1,0 +1,94 @@
+#main {
+  display: block;
+  @extend %clearfix;
+}
+
+.content-container {
+  margin: 0 auto;
+  max-width: 1020px;
+  padding: 0 15px;
+  @include media(tablet) {
+    padding: 0 30px;
+  }
+  @media (max-width: 640px) {
+    font-size: 16px;
+    line-height: 1.25;
+  }
+  .two-columnlayout & {
+    padding: 0;
+  }
+}
+
+.nhs-body-container {
+  margin: 0 auto;
+  max-width: 580px;
+  padding: 30px 0;
+  text-align: center;
+  width: 100%;
+  @include media(tablet) {
+    padding-top: 100px;
+    .color-blue & {
+    padding-top:50px;}
+    padding-bottom: 50px;
+  }
+  &.nhs-animate-inout {
+    display: none;
+    margin-top: 2000px;
+    position: relative;
+    @media screen and ( min-height: 200px ) {
+      margin-top: 300px;
+    }
+    @media screen and ( min-height: 400px ) {
+      margin-top: 500px;
+    }
+    @media screen and ( min-height: 600px ) {
+      margin-top: 700px;
+    }
+    @media screen and ( min-height: 800px ) {
+      margin-top: 900px;
+    }
+    @media screen and ( min-height: 1000px ) {
+      margin-top: 1100px;
+    }
+    @media screen and ( min-height: 1200px ) {
+      margin-top: 1300px;
+    }
+    @media screen and ( min-height: 1400px ) {
+      margin-top: 1500px;
+    }
+    @media screen and ( min-height: 1600px ) {
+      margin-top: 1700px;
+    }
+    .lt-ie9 & {
+      display: block;
+      margin-top: 0;
+    }
+  }
+}
+
+.nhs-navtriangle {
+  .nhs-animate-inout & {
+    border-left: 1.5em solid transparent;
+    border-right: 1.5em solid transparent;
+
+    border-bottom: 1em solid $nhs-pink;
+    display: inline-block;
+    margin-left: -1.45em;
+
+    position: absolute;
+    top: -1em; left: 50%;
+  }
+  .nhs-first-page & {
+    display: none;
+  }
+}
+
+aside {
+  h2:first-child {
+    margin-top: $gutter-half;
+  }
+}
+
+.clearfix {
+  @extend %clearfix;
+}

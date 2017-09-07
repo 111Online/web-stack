@@ -11,7 +11,7 @@
 
     foreach (var item in Model.WorseningCareAdvice.Items)
     {
-        <div class="callout callout--attention">
+        <div class="@string.Format("worsening-advice-icon blue {0}", worseningAdviceClass)">
             <p>@item.Text</p>
         </div>
     }

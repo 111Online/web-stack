@@ -1,39 +1,38 @@
 ﻿@using NHS111.Models.Models.Web
 @model  OutcomeViewModel
+
 @{
     var services = Model.DosCheckCapacitySummaryResult.Success.Services;
 }
+
 @if (services.Any(s => s.CallbackEnabled))
 {
-    <details>
-        <summary>
-            <span class="summary">@string.Format("{0}", ViewData.Keys.Contains("CallbackTitle") ? ViewData["CallbackTitle"] : "We can arrange for someone to phone you")</span>
-        </summary>
-        <div class="panel panel-border-narrow">
-            <p>They will check through the answers you have entered and give you advice on what to do next</p>
-            <div>
-                @foreach (var callbackService in services.Where(s => s.CallbackEnabled))
+    <h3 id ="alternative-service-callback-link" class="heading-small">@string.Format("{0}", ViewData.Keys.Contains("CallbackTitle") ? ViewData["CallbackTitle"] : "We can arrange for someone to phone you")</h3>
+    <div class="alternative-care-service">
+        <p>They will check through the answers you have entered and give you advice on what to do next</p>
+        <div class="alternative-care-service content">
+            @foreach (var callbackService in services.Where(s => s.CallbackEnabled))
+            {
+                <h4 class="service-title heading-small">@WebUtility.HtmlDecode(callbackService.Name)</h4>
+
+                if (!callbackService.IsOpen)
                 {
-                    <h3>@WebUtility.HtmlDecode(callbackService.Name)</h3>
-
-                    if (!callbackService.IsOpen)
-                    {
-                        <div class="service-status">
-                            @WebUtility.HtmlDecode(callbackService.ServiceOpeningTimesMessage)
-                        </div>
-                    }
-
-                    using (Html.BeginForm("PersonalDetails", "Outcome", FormMethod.Post))
-                    {
-                        @Html.Partial("_CommonHiddenFieldsOutcomeViewModel", Model)
-                        @Html.Partial("_CommonHiddenFieldsCareAdviceViewModel", Model)
-                        @Html.Hidden("SelectedServiceId", @callbackService.Id)
-                        <div>
-                            <input class="button alternative-care-button-link" type="submit" name="PersonalDetails" value="Book a call"/>
-                        </div>
-                    }
+                    <div class="service-status">
+                        @WebUtility.HtmlDecode(callbackService.ServiceOpeningTimesMessage)
+                    </div>
                 }
-            </div>
+
+                using (Html.BeginForm("PersonalDetails", "Outcome", FormMethod.Post))
+                {
+                    @Html.Partial("_CommonHiddenFieldsOutcomeViewModel", Model)
+                    @Html.Partial("_CommonHiddenFieldsCareAdviceViewModel", Model)
+                    @Html.Hidden("SelectedServiceId", @callbackService.Id)
+                    <div class="service-call">
+                        <input class="button alternative-care-button-link" type="submit" name="PersonalDetails" value="Book a call"  />
+                    </div>
+                }
+            }
         </div>
-    </details>
+    </div>
 }
+

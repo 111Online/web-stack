@@ -1,0 +1,112 @@
+/* Make skiplinks visible when they are tabbed to */
+.skiplink {
+  position: absolute;
+  left: -9999em;
+}
+
+.skiplink:focus {
+  position: static;
+}
+
+.skiplink-container {
+  background: $black;
+  font-size: 16px;
+  text-align: center;
+  div {
+    margin: 0 auto;
+    max-width: 1020px;
+    text-align: left;
+  }
+  .skiplink {
+    display: -moz-inline-stack;
+    display: inline-block;
+    margin: 0.75em 0 0 30px;
+  }
+}
+
+
+/* For image replacement */
+.ir {
+  background-repeat: no-repeat;
+  direction: ltr;
+  display: block;
+  overflow: hidden;
+  text-align: left;
+  text-indent: -999em;
+  br {
+    display: none;
+  }
+}
+
+/* Hide for both screenreaders and browsers */
+.hidden {
+  display: none;
+  visibility: hidden; }
+
+.alwayshidden {
+  display: none !important;
+  visibility: hidden !important;
+}
+
+.hide-button {
+  background: transparent !important;
+  border: 0 !important;
+  border:none !important;
+  color: transparent !important;
+  display: block !important;
+  width: 0 !important; height: 0 !important;
+  margin: 0 !important;
+  overflow: visible !important;
+  padding: 0 !important;
+}
+
+/* Hide only visually, but have it available for screenreaders */
+.visuallyhidden {
+  position: absolute;
+  left: -9999em;
+  /*
+   * Extends the .visuallyhidden class to allow the element to be
+   * focusable when navigated to via the keyboard
+   */
+  &.focusable:active, &.focusable:focus {
+    clip: auto;
+    height: auto;
+    margin: 0;
+    overflow: visible;
+    position: static;
+    width: auto;
+  }
+}
+
+/* Hide visually and from screenreaders, but maintain layout */
+.invisible {
+  visibility: hidden;
+}
+
+/* Give a strong clear visual idea as to what is currently in focus */
+a {
+  -webkit-tap-highlight-color: rgba(black, 0.3);
+}
+
+// a:focus, button:focus {
+//   background-color: $yellow;
+//   outline: 3px solid $yellow;
+// }
+
+// .button:focus {
+//   outline: 3px solid $yellow;
+// }
+
+// button:active {
+//   outline: none;
+// }
+
+// input:focus,
+// textarea:focus,
+// select:focus {
+//   outline: 3px solid $yellow;
+// }
+
+.disabled:focus {
+  outline: none;
+}

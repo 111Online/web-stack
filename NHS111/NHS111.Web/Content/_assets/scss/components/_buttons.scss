@@ -1,0 +1,36 @@
+// Buttons
+// ==========================================================================
+
+.nhs-button-container {
+
+}
+
+.button {
+  background: $nhs-darkpink;
+  border: none;
+  border-radius: 3px;
+  color: $white;
+  cursor: pointer;
+  display: inline-block;
+  font-family: inherit;
+  font-weight: bold;
+  line-height: 1.2;
+  margin-bottom: $gutter-half;
+  padding: 22px 23px 18px;
+  position: relative;
+  text-align: center;
+  text-decoration: none;
+  text-transform: uppercase;
+  -webkit-appearance: none;
+  @include box-shadow(0 2px 0 darken($nhs-darkpink, 15%));
+  @include ie-lte(8) {
+    border-bottom: 2px solid darken($nhs-darkpink, 15%);
+  }
+  &:hover, &:focus {
+    color: darken($white, 10%);
+  }
+  &:active {
+    top: 2px;
+    @include box-shadow(0 0 0 $nhs-darkpink);
+  }
+}

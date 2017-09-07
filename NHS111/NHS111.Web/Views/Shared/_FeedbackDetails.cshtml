@@ -15,7 +15,7 @@
 
 <div class="feedback-wrapper">
     <div class="feedback-container feedback-container--open">
-        <div class="page-section">
+        <div class="feedback-banner">
             <span class="feedback-dismiss"></span>
             <div id="feedback-details">
                 @using (Ajax.BeginForm("SubmitFeedback", "Feedback", new AjaxOptions { InsertionMode = InsertionMode.Replace, UpdateTargetId = "feedback-details", LoadingElementId = "loader", HttpMethod = "POST", OnBegin = "$('#feedback-details').slideToggle(600);", OnSuccess = "$('#feedback-details').slideToggle(600);" }))
@@ -29,7 +29,7 @@
                     <div class="feedback-form">
                         @Html.TextAreaFor(m => m.Text, new { @placeholder = "Feedback", @Value = "", @class = "feedback-input", @maxlength = maxFeedbackLength })
                         <p id="textdetailscounter">(Limit is 1200 characters)</p>
-                        <button class="button button--next button--secondary" id="btnFeedback">Send feedback</button>
+                        <button class="button button-feedback" id="btnFeedback">Send feedback</button>
                     </div>
                 }
             </div>

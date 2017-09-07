@@ -1,0 +1,649 @@
+// Forms
+// ==========================================================================
+
+// Form layout
+
+input[type="button"], input[type="submit"]{
+  border:0;
+  text-align: center;
+}
+
+
+form section{
+  margin-bottom:0!important;
+}
+
+form p{
+  margin-bottom:10px;
+}
+
+select,
+input[type="text"],
+input[type="email"],
+input[type="date"],
+input[type="tel"],
+{
+ 
+  font-style: italic;
+  font-size:0.75em;
+    color:$grey-1;
+ 
+}
+
+fieldset{
+  width: 195px;
+  clear:none;
+} 
+
+//buttons
+input[type="button"], input[type="submit"] {
+  text-transform:uppercase;
+  font-size:0.9em;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
+  padding: 15px 5px 10px 5px;
+  margin-left:10px;
+  color:$white;
+  background-color:$nhs-navdarkblue;
+      .two-columnlayout & {
+     float:right;
+    }
+}
+
+
+
+//build form
+.form-group{
+  @extend .clearfix;
+}
+
+fieldset,
+legend {
+  float: left;
+}
+
+legend {
+  clear: both;
+  width: 100%;
+}
+
+fieldset:first-of-type {
+  legend.heading-large, legend.heading-medium {
+    margin-top: 0;
+  }
+}
+
+fieldset { /*Overriding normalize presets*/
+  border: 0;
+  padding: 0;
+}
+
+.heading-large {
+  .icon-with-text {
+    @include copy-19;
+    float: right;
+  }
+}
+
+
+
+select {
+  border: 1px solid $border-colour;
+  font-family: inherit;
+  font-size: inherit;
+  height: 31px;
+  line-height: 31px;
+  padding: 2px 0 2px 4px;
+  vertical-align: middle;
+  width: 100%;
+  @include media(tablet) {
+    height: 36px;
+    line-height: 36px;
+    width: auto;
+  }
+  table & {
+    height: 29px;
+  }
+  .copy-16 & {
+    height: 31px;
+  }
+  &.select-mode {
+    margin-right: 5px;
+    width: auto;
+  }
+}
+
+select.address-lookup{
+  line-height:1em;
+  font-size: 0.75em;
+  height:40px;
+  /*-webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  max-height:50px;
+  overflow: scroll!important;
+  background:url(http://cdn1.iconfinder.com/data/icons/cc_mono_icon_set/blacks/16x16/br_down.png) no-repeat right $white;
+  -webkit-appearance: none;
+  background-position-x: 100%;*/
+  color:$grey-1;
+
+}
+
+select.address-lookup option{
+  padding-right:15px;
+}
+.android-browser {
+  select,
+  select[size="0"],
+  select[size="1"] {
+    -webkit-appearance: none; /* clean up default UI*/
+    background-image: url(data:image/png;base64,R0lGODlhDQAEAIAAAAAAAP8A/yH5BAEHAAEALAAAAAANAAQAAAILhA+hG5jMDpxvhgIAOw==); /* a simple arrow img */
+    background-repeat: no-repeat;
+    background-position: right center;
+    padding-right: 20px;
+  }
+}
+
+input[type='number'] {
+    -moz-appearance:textfield;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+}
+
+.fieldset-with-border {
+  border-bottom: 1px solid $grey-2;
+  margin-bottom: 20px;
+  @include media(tablet) {
+    margin-bottom: 30px;
+  }
+}
+
+.add-focus {
+  outline: 3px solid #ffbf47;
+  input[type="radio"], input[type="checkbox"] {
+    outline: 0;
+  }
+}
+
+[disabled] {
+  opacity: 0.5;
+}
+
+// Form group is used to wrap label and input pairs
+.form-group {
+  clear: both;
+  margin-bottom: 20px;
+  width: 100%;
+  @include media(tablet) {
+    margin-bottom: $gutter;
+    .inline & {
+      clear: none;
+      display: inline-block;
+      float: none;
+      margin-right: -4px;
+      padding-right: 20px;
+      vertical-align: baseline;
+      width: auto;
+      .form-control {
+        width: 100%;
+      }
+    }
+    .float-right-wrap & {
+      float: right;
+      width: auto;
+    }
+  }
+  .inline-fixed & {
+    clear: none;
+    display: inline-block;
+    float: none;
+    margin-right: -4px;
+    padding-right: 20px;
+    vertical-align: baseline;
+    width: auto;
+    &:last-child {
+      margin-right: 0;
+      padding-right: 0;
+    }
+  }
+  &.disabled {
+    opacity: 0.3;
+  }
+  .list-text {
+    margin-bottom: 0;
+  }
+}
+
+.form-group-compound {
+  margin-bottom: $gutter-half;
+}
+
+.form-group-withlink {
+  margin-bottom: 0;
+}
+
+// Labels
+
+// Form labels, or for legends styled to look like labels
+.form-label {
+  @include core-19;
+  display: block;
+  margin-bottom: 5px;
+  &.inline {
+    @include media(tablet) {
+      display: inline-block;
+      margin-right: 5px;
+    }
+  }
+  .copy-16 & {
+    @include core-16;
+  }
+  .form-lighter-labels & {
+    color: $secondary-text-colour;
+  }
+}
+
+.form-label-bold {
+  @include bold-24;
+  display: block;
+  margin-bottom: 0;
+  .form-hint {
+    @include core-19;
+  }
+}
+
+.form-hint {
+  @include copy-19;
+  color: $secondary-text-colour;
+  display: block;
+}
+
+// Used for paragraphs i n-between forms
+.form-block {
+  float: left;
+  width: 100%;
+}
+
+// Form controls
+
+// By default, form controls are 50% width for desktop,
+// and 100% width for mobile
+.form-control {
+  background: $white;
+  border: 1px solid $border-colour;
+  font-family: inherit;
+  font-size: 0.9;
+  margin-top: 0; margin-bottom: 10px; // Remove mysterious top and bottom margins. Note: margin needed for mobile
+  padding: 10px;
+  width: 100%;
+  // Disable webkit appearance and remove rounded corners
+  border-radius: 0;
+  -webkit-appearance: none;
+  @include media(tablet){
+    width: 50%;
+    .controls-3-4 & {
+      width: 75%;
+    }
+  }
+  table & {
+    width: 100%;
+  }
+  &[readonly] {
+    border: none;
+    cursor: text;
+    padding: 5px;
+    &:focus {
+      outline: none;
+    }
+  }
+}
+
+.input-withlink {
+  position: relative;
+  width: 100%;
+  .form-control {
+    width: 100%;
+  }
+  @include media(tablet) {
+    width: 50%;
+    .controls-3-4 & {
+      width: 75%;
+    }
+  }
+}
+
+.input-withlink--all-select {
+  position: static;
+  .js-enabled & {
+    padding-left: 60px;
+    position: relative;
+  }
+}
+
+.input-withlink__link {
+  display: inline-block;
+  padding-top: 5px;
+  @include media(tablet) {
+    position: absolute;
+    bottom: 5px; right: 10px;
+  }
+}
+
+.input-withlink__select {
+  bottom: 0; left: 0;
+  .input-withlink--left & {
+    left: 0;
+  }
+  .js-enabled & {
+    position: absolute;
+  }
+}
+
+.js-enabled .all-select {
+  width: 60px;
+}
+
+.js-enabled .auto-width {
+  &.input-withlink--all-select {
+    @media screen and (max-width: 640px) {
+      padding-left: 0 !important;
+    }
+  }
+  .all-select {
+    width: auto;
+    @media screen and (max-width: 640px) {
+      position: static;
+      width: 100%;
+    }
+  }
+}
+
+
+.form-prepopped {
+  color: $grey-1;
+  font-weight: 700;
+  margin-right: 10px;
+  &.form-control, &.cell-span {
+    margin-right: 0;
+  }
+}
+
+
+// Form control widths
+.form-control-3-4 {
+  width: 100%;
+  @include media(tablet) {
+    width: 75%;
+  }
+}
+
+.form-control-hours {
+  width: 4em !important;
+}
+
+.form-control-xsmall {
+  width: 2.5em !important;
+}
+
+.form-control-small {
+  width: 4em !important;
+}
+
+.form-control-medium {
+  width: 6em !important;
+}
+
+.form-control-large {
+  width: 7em !important;
+  @include media(tablet) {
+    width: 8em !important;
+  }
+}
+
+.form-control-xlarge {
+  width: 10em !important;
+}
+
+.form-control-wage {
+  width: 8em;
+}
+.form-control-wage-1 {
+  width: 9em;
+}
+
+.form-control--1-8 {
+  width: 100%;
+  @include media(tablet) {
+    width: 12.5%;
+  }
+}
+
+.form-control-1-4 {
+  width: 100%;
+  @include media(tablet){
+    width: 25%;
+  }
+}
+
+.form-control-1-3 {
+  width: 100%;
+  @include media(tablet){
+    width: 33.33%;
+  }
+}
+
+.form-control--1-2 {
+  width: 100%;
+  @include media(tablet){
+    width: 50%;
+  }
+}
+
+.form-control-1-1 {
+  width: 100%;
+}
+
+/*absolute widths*/
+.form-control-190 {
+  width: 190px;
+}
+
+.form-control-195 {
+  width: 190px;
+}
+
+// Radio buttons
+.form-radio {
+  display: block;
+  margin: 10px 0;
+}
+.form-radio input {
+  vertical-align: middle;
+  margin: -4px 5px 0 0;
+}
+
+// Checkboxes
+.form-checkbox {
+  display: block;
+  margin: $gutter-half 0;
+}
+.form-checkbox input {
+  vertical-align: middle;
+  margin: -2px 5px 0 0;
+}
+
+// Form validation
+@import "forms/form-validation";
+
+// Form patterns
+
+@import "forms/form-chunky-labels";
+
+.logo-upload img {
+  border: 1px solid $grey-2;
+  width: 10em;
+}
+
+.review-vacancy {
+  h2:first-child {
+    margin-top: 0;
+  }
+  .vacancy-title {
+    display: block;
+    margin-bottom: 15px;
+    @include media(tablet) {
+      display: inline-block;
+      margin-bottom: 0;
+      margin-right: -4px;
+      width: 70%;
+    }
+  }
+}
+
+.vacancy-answers {
+  display: none;
+  .no-js &, .expanded & {
+    display: block;
+  }
+}
+
+.amend-answers {
+  display: block;
+  font-size: 0.65em;
+  font-weight: normal;
+  @include media(tablet) {
+    display: inline-block;
+    font-size: 0.54em;
+    margin-right: -4px;
+    text-align: right;
+    vertical-align: middle;
+    width: 30%;
+  }
+  .expanded & {
+    display: none;
+  }
+}
+
+//Password strength
+.password-wrapper {
+  position: relative;
+  input {
+    width: 100%;
+  }
+  .pw-masktoggle {
+    margin: 0;
+    position: absolute;
+    bottom: 0; right: 0;
+  }
+  @include media(tablet) {
+    width: 50%;
+  }
+}
+
+.strength-indicator {
+  span, .strength-weak {
+    color: $error-colour;
+  }
+  .strength-medium {
+    color: $orange;
+  }
+  .strength-strong {
+    color: $green;
+  }
+}
+
+.qual-input-edit {
+  @media (max-width: 450px) {
+    font-size: 16px;
+    &[readonly] {
+      font-size: 12px;
+    }
+  }
+}
+
+.qual-input-edit + span,
+.cell-span {
+  display: inline-block;
+  padding: 5px;
+}
+
+.heading-span {
+  display: inline-block;
+  padding-left: 5px;
+}
+
+//NHS
+
+.nhs-answer-container {
+  margin-bottom: 3em;
+  @include media(tablet) {
+    margin-bottom: 5em;
+  }
+}
+
+.not-ie8 {
+  .nhs-radiobtn__label {
+    cursor: pointer;
+    display: inline-block;
+    font-size: 1.2em;
+    margin-right: 1.1em;
+    padding-left: 2em;
+    position: relative;
+    &:before {
+      background: rgba(black, 0.3);
+      border-radius: 50%;
+      content: '';
+      display: inline-block;
+      margin-top: -0.1em;
+      position: absolute;
+      left: 0;
+      vertical-align: middle;
+      width: 1.4em; height: 1.4em;
+    }
+  }
+  .nhs-radiobtn__input {
+    max-width: 0;
+    max-height: 0;
+    opacity: 0;
+    margin: 0; padding: 0;
+    &:checked + .nhs-radiobtn__label:before {
+      background: white;
+      border: 0.35em solid $nhs-yellow;
+    }
+  }
+}
+
+/*Address Pop-up Styles*/
+.address-popup{
+  background-color:$nhs-darkblue;
+  padding:15px;
+  font-size: 0.8em;
+  margin-bottom: 10px;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
+}
+
+  .address-popup h3{
+    font-weight:bold;
+    color:$nhs-navdarkblue; }
+
+  .address-popup a{
+    display:block;
+    font-size:0.9em;
+    text-align: right;
+    color:$white;
+  }
+
+  .address-popup dt{
+    display:none;
+  }
+
+
+
+
+

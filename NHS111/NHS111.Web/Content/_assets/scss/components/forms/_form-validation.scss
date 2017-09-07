@@ -1,0 +1,188 @@
+
+.validation-summary-valid {
+  display: none;
+}
+
+// Validation summary box
+.validation-summary,
+.validation-summary-errors{
+  @extend %clearfix;
+  background: $error-background;
+  border-left: 3px solid $error-colour;
+  box-sizing: content-box;
+  margin-bottom: $gutter;
+  margin-left: -13px;
+  padding: $gutter-half 0 $gutter $gutter-half;
+  @include media(tablet) {
+    margin-left: -18px;
+  }
+  ul {
+    margin-top: 10px;
+  }
+  li, p {
+    @include core-16;
+  }
+  p {
+    margin-top: $gutter-half;
+    margin-bottom: 5px;
+  }
+  .heading-small {
+    color: $error-colour;
+    margin-top: $gutter-half;
+  }
+};
+
+//primary OOH form errors
+
+.validation-summary-OOH {
+  background-color:$error-summary;
+  color: $error-colour;
+  border:1px solid $error-colour;
+  border-radius:3px;
+  padding:10px;
+  width:90%;
+  margin-bottom:20px;
+}
+
+.validation-summary-OOH ul{
+  padding:0;
+}
+
+.validation-summary-OOH li{
+   font-size: 0.70em;
+   margin-left:10px;
+}
+
+// Validation error message box
+.validation-error,
+.input-validation-error {
+  border-left: 3px solid $error-colour;
+  box-sizing: content-box;
+  margin-left: -13px;
+  padding: 0 0 0 10px;
+  .form-control {
+    box-sizing: border-box;
+    border: 1px solid $border-colour;
+    color: $black;
+    margin-left: 0;
+    padding: 4px;
+  }
+  &.block-label {
+    margin-left: 0;
+  }
+  @include media(tablet) {
+    margin-left: -18px;
+    padding-left: $gutter-half;
+  }
+}
+
+.validation-warning,
+.input-validation-warning {
+  border-left: 3px solid $warning-colour;
+  box-sizing: content-box;
+  margin-left: -13px;
+  padding: 0 0 0 10px;
+  .form-control {
+    box-sizing: border-box;
+    border: 1px solid $border-colour;
+    color: $black;
+    margin-left: 0;
+    padding: 4px;
+  }
+  &.block-label {
+    margin-left: 0;
+  }
+  @include media(tablet) {
+    margin-left: -18px;
+    padding-left: $gutter-half;
+  }
+}
+
+.validation-info,
+.input-validation-info {
+  border-left: 3px solid $info-colour;
+  box-sizing: content-box;
+  margin-left: -13px;
+  padding: 0 0 0 10px;
+  .form-control {
+    box-sizing: border-box;
+    border: 1px solid $border-colour;
+    color: $black;
+    margin-left: 0;
+    padding: 4px;
+  }
+  &.block-label {
+    margin-left: 0;
+  }
+  @include media(tablet) {
+    margin-left: -18px;
+    padding-left: $gutter-half;
+  }
+}
+
+.field-validation-valid {
+  clear: left;
+}
+.field-validation-error {
+  clear: left;
+  color: $error-colour;
+  display: block;
+  margin-top: 8px;
+}
+
+.form-control.input-validation-error {
+  background: $error-background;
+}
+
+// Validation message
+.validation-message {
+  display: block;
+  @include core-16;
+  color: $error-colour;
+  margin-top: 5px;
+}
+
+.form-group.input-validation-error {
+  > .form-control {
+    background: $error-background;
+  }
+  .form-group.input-validation-error {
+    border-left: 0;
+    margin-left: 0;
+    padding-left: 0;
+  }
+}
+
+.form-control.input-validation-warning {
+  background: $warning-background;
+}
+
+.form-group.input-validation-warning {
+  > .form-control {
+    background: $warning-background;
+  }
+  .form-group.input-validation-warning {
+    border-left: 0;
+    margin-left: 0;
+    padding-left: 0;
+  }
+}
+
+.form-control.input-validation-info {
+  background: $info-background;
+}
+
+.form-group.input-validation-info {
+  > .form-control {
+    background: $info-background;
+  }
+  .form-group.input-validation-info {
+    border-left: 0;
+    margin-left: 0;
+    padding-left: 0;
+  }
+}
+
+.verified {
+  color: $turquoise;
+}

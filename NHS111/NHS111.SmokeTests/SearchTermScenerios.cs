@@ -57,9 +57,10 @@ namespace NHS111.SmokeTests
         [Test]
         public void SearchTermYieldsHits()
         {
+            var searchPage = TestScenerios.LaunchSearchScenerio(_driver, TestScenerioGender.Male, 33);
+
             foreach (var testTerm in _testTerms)
             {
-                var searchPage = TestScenerios.LaunchSearchScenerio(_driver, TestScenerioGender.Male, 33);
                 searchPage.SearchByTerm(testTerm.Item1);
                 searchPage.VerifyTermHits(testTerm.Item2, 3);
             } 

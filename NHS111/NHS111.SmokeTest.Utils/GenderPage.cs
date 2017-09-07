@@ -15,20 +15,20 @@ namespace NHS111.SmokeTest.Utils
 
         private string _headerText = "Tell us about you, or the person you're asking about";
 
-        [FindsBy(How = How.CssSelector, Using = "h1")]
+        [FindsBy(How = How.CssSelector, Using = "h1.heading-large")]
         public IWebElement Header { get; set; }
 
 
-        [FindsBy(How = How.CssSelector, Using = "[for='Male']")]
+        [FindsBy(How = How.Id, Using = "Male")]
         public IWebElement MaleButton { get; set; }
 
-        [FindsBy(How = How.CssSelector, Using = "[for='Female']")]
+        [FindsBy(How = How.Id, Using = "Female")]
         public IWebElement FemaleButton { get; set; }
 
-        [FindsBy(How = How.Id, Using = "UserInfo_Demography_Age")]
+        [FindsBy(How = How.ClassName, Using = "input-age")]
         public IWebElement AgeInput { get; set; }
 
-        [FindsBy(How = How.ClassName, Using = "button--next")]
+        [FindsBy(How = How.ClassName, Using = "button-next")]
         public IWebElement NextButton { get; set; }
 
         public GenderPage(IWebDriver driver)

@@ -8,12 +8,12 @@
 
     @if (!Model.UserInfo.CurrentAddress.IsInPilotArea)
     {
-        <p id="OutsidePilot">The postcode you entered is outside the Leeds trial area, so we can’t look up other services for you</p>
-        <p>If you can’t @Html.Raw(Model.OutcomeGroup.Text), please call 111 for advice</p>
+        <h2 id="OutsidePilot" class="heading-small">The postcode you entered is outside the Leeds trial area, so we can’t look up other services for you</h2>
+        <h2 class="heading-small">If you can’t @Html.Raw(Model.OutcomeGroup.Text), please call 111 for advice</h2>
     }
     else if (result != null && result.Success != null && result.Success.Services != null && result.Success.Services.Any())
     {
-        <h2>@Html.Raw((!ViewData.Keys.Contains("Title") ? "If you can't " + Model.OutcomeGroup.Text: ViewData["Title"]))</h2>
+        <h2 class="heading-medium">@Html.Raw((!ViewData.Keys.Contains("Title") ? "If you can't " + Model.OutcomeGroup.Text: ViewData["Title"]))</h2>
         <div id="availableServices">
 
             @if (result.Success.Services.FirstOrDefault(s => s.CallbackEnabled) != null) //first service is a call back
@@ -32,7 +32,13 @@
     }
     else if (result != null && result.ServicesUnavailable)
     {
-        <p id="NoDosResults">Sorry, no other services are currently available for the postcode you entered</p>
-        <p>If you can’t @Html.Raw(Model.OutcomeGroup.Text), you should call 111 for advice</p>
+        <h2 id="NoDosResults" class="heading-small">Sorry, no other services are currently available for the postcode you entered</h2>
+        <h2 class="heading-small">If you can’t @Html.Raw(Model.OutcomeGroup.Text), you should call 111 for advice</h2>
     }
 </div>
+
+<script>
+    $(function () {
+        $("#availableServices").accordion({ collapsible: true, active: 'none', heightStyle: "content" });
+    });
+</script>

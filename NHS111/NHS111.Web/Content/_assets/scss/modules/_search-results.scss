@@ -1,0 +1,122 @@
+.search-filter {
+  @include media(tablet) {
+    padding-right: $gutter;
+  }
+  .form-control {
+    width: 100%;
+  }
+}
+
+.search-results-wrapper {
+  fieldset {
+    float: none;
+  }
+}
+
+.search-results {
+  list-style: none;
+  padding-left: 0;
+}
+
+.search-shortdesc {
+  margin-bottom: 5px;
+}
+
+.search-results__item {
+  margin: 0;
+  // overflow: hidden;
+  padding: 15px 0;
+  &:first-child {
+    padding-top: 0;
+  }
+}
+
+.search-save {
+  padding: 0 10px;
+  text-align: right;
+}
+
+.save-trigger {
+  max-height: 0;
+  max-width: 0;
+  opacity: 0;
+}
+
+// .save-trigger + label {
+//   color: $govuk-blue;
+//   cursor: pointer;
+//   display: inline-block;
+//   text-decoration: underline;
+//   &:before {
+//     background: url(../img/icon-star-hollow.png) no-repeat;
+//     background-size: 19px 19px;
+//     content: '';
+//     display: inline-block;
+//     margin-right: 5px;
+//     margin-bottom: -2px;
+//     width: 19px; height: 19px;
+//     @include device-pixel-ratio(2) {
+//       background-image: url(../img/icon-star-hollow-2x.png);
+//     }
+//   }
+// }
+
+// .save-trigger:checked + label {
+//   &:after {
+//     content: 'd';
+//   }
+//   &:before {
+//     background-image: url(../img/icon-star-filled.png);
+//     @include device-pixel-ratio(2) {
+//       background-image: url(../img/icon-star-filled-2x.png);
+//     }
+//   }
+// }
+
+/* Application form stuff */
+
+.work-history-item {
+  margin-bottom: $gutter-half;
+  position: relative;
+  select {
+    height: 27px;
+    width: 100%;
+    @include media(tablet) {
+      height: 29px;
+    }
+  }
+  @include media(tablet) {
+    margin-bottom: $gutter;
+  }
+  .work-controls {
+    @include core-14;
+    position: absolute;
+    width: 40%;
+    top: 5px; right: 0;
+    @include media(tablet) {
+      top: 50px;
+      width: 20%;
+    }
+  }
+  .work-edit,
+  .work-delete {
+    display: inline-block;
+    margin-right: -4px;
+    vertical-align: middle;
+    width: 50%;
+  }
+}
+
+.work-history-item.edit-mode {
+  .toggle-content {
+    display: block;
+  }
+  .toggle-content.inline {
+    display: inline-block;
+    margin-bottom: $gutter-half;
+  }
+  .work-hyphen,
+  .toggle-content ~ span {
+    display: none;
+  }
+}
