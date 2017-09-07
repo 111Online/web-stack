@@ -285,6 +285,8 @@ details {
         cursor: pointer;
         display: inline-block;
         margin-bottom: em(5);
+        padding-left: 1.5em;
+        text-indent: -1.4em;
         position: relative;
         width: 100%;
     }
