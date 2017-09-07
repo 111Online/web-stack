@@ -636,6 +636,7 @@
     <Content Include="Views\Shared\_VersionInfo.cshtml" />
     <Content Include="Views\Search\SearchResults.cshtml" />
     <Content Include="Views\Search\Categories.cshtml" />
+    <Content Include="Views\Shared\_SearchBox.cshtml" />
     <None Include="Web.Development.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
