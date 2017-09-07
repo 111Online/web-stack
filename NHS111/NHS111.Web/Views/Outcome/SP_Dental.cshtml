@@ -5,9 +5,6 @@
 
 }
 @section Title { NHS 111 - Get dental treatment }
-<link href="@NHS111.Web.Helpers.Versioning.GetVersionedUriRef("~/Content/css_NhsUK/confirmation.css")" media="all" rel="stylesheet" type="text/css">
-<link href="@NHS111.Web.Helpers.Versioning.GetVersionedUriRef("~/Content/css_NhsUK/signposting-outcome.css")" media="all" rel="stylesheet" type="text/css" />
-<link href="@NHS111.Web.Helpers.Versioning.GetVersionedUriRef("~/Content/css_NhsUK/signposting-outcome-print.css")" media="print" rel="stylesheet" type="text/css" />
 
 @Html.Partial("_OutcomeHeader", Model)
 
@@ -91,9 +88,8 @@
     @Html.Partial("_CommonHiddenFieldsOutcomeViewModel", Model)
     if (!Model.DisplayOutcomeReferenceOnly)
     {
-        <hr/>
         <div class="changeAnswers row">
-            <input class="button button-next button-link" type="submit" name="PreviousQuestion" value="Change my previous answer" />
+            <button class="button button--previous button--link" type="submit" value="PreviousQuestion" name="PreviousQuestion" formnovalidate>Change my previous answer</button>
         </div>
     }
 }

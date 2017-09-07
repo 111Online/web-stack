@@ -14,6 +14,7 @@ using NHS111.Utils.Helpers;
 
 namespace NHS111.Domain.DOS.Api.Controllers
 {
+    using System.Web;
     using Utils.Extensions;
 
     [LogHandleErrorForApi]
@@ -32,7 +33,14 @@ namespace NHS111.Domain.DOS.Api.Controllers
         [Route("DOSapi/CheckCapacitySummary")]
         public async Task<HttpResponseMessage> CheckCapacitySummary(HttpRequestMessage request)
         {
-            return await _restfulHelper.PostAsync(_configuration.DOSIntegrationCheckCapacitySummaryUrl, request);
+            var values = HttpUtility.ParseQueryString(request.RequestUri.Query);
+            var endpoint = _configuration.DOSIntegrationCheckCapacitySummaryUrl;
+            if (values["endpoint"] == null)
+                return await _restfulHelper.PostAsync(endpoint, request);
+
+            var prefix = endpoint.Contains("?") ? "&" : "?";
+            endpoint = string.Format("{0}{1}{2}{3}", endpoint, prefix, "endpoint=", values["endpoint"]);
+            return await _restfulHelper.PostAsync(endpoint, request);
         }
 
         [HttpPost]

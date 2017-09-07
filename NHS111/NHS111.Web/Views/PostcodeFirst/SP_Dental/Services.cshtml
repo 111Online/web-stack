@@ -24,10 +24,6 @@
 }
 
 @section Title { NHS 111 - Contact a healthcare service }
-<link href="@NHS111.Web.Helpers.Versioning.GetVersionedUriRef("~/Content/css_NhsUK/confirmation.css")" media="all" rel="stylesheet" type="text/css">
-<link href="@NHS111.Web.Helpers.Versioning.GetVersionedUriRef("~/Content/css_NhsUK/disposition.css")" media="all" rel="stylesheet" type="text/css">
-<link href="@NHS111.Web.Helpers.Versioning.GetVersionedUriRef("~/Content/css_NhsUK/signposting-outcome.css")" media="all" rel="stylesheet" type="text/css" />
-<link href="@NHS111.Web.Helpers.Versioning.GetVersionedUriRef("~/Content/css_NhsUK/signposting-outcome-print.css")" media="print" rel="stylesheet" type="text/css" />
 
 @section SurveyBanner{
     @Html.Partial("_SurveyLink", Model.SurveyLink)
@@ -45,29 +41,32 @@
 }
 
 <section>
-    <div class="outcome-header">
-        <h1 class="heading-large">Recommended service</h1>
-        <h2 class="heading-small">@WebUtility.HtmlDecode(recommendedService.Name)</h2>
-        @if (recommendedService.CallbackEnabled)
-        {
-            if (!recommendedService.IsOpen)
+    <div class="local-header">
+        <h1 class="local-header__title">Recommended service</h1>
+        <div class="local-header__intro">
+            <p>@WebUtility.HtmlDecode(recommendedService.Name)</p>
+            @if (recommendedService.CallbackEnabled)
             {
-                <p>@WebUtility.HtmlDecode(recommendedService.ServiceOpeningTimesMessage)</p>
+                if (!recommendedService.IsOpen)
+                {
+                    <p>@WebUtility.HtmlDecode(recommendedService.ServiceOpeningTimesMessage)</p>
+                    <br/>
+                }
+                <p>They will check through the answers you have entered and give you advice on what to do next</p>
             }
-            <p>They will check through the answers you have entered and give you advice on what to do next</p>
-        }
-        else if (!string.IsNullOrEmpty(@recommendedService.ContactDetails))
-        {
-            <p>Phone: <a href="tel: @recommendedService.ContactDetails">@recommendedService.ContactDetails</a> for advice</p>
-            <p>@WebUtility.HtmlDecode(recommendedService.ServiceOpeningTimesMessage)</p>
-            <p>You can phone this service for advice during the times shown above.</p>        
-        }
-        else
-        {
-            <p>@WebUtility.HtmlDecode(recommendedService.Address)</p>
-            <p>@WebUtility.HtmlDecode(recommendedService.ServiceOpeningTimesMessage)</p>
-            <p>You don't need to call this service, you can go there during the times shown above.</p>
-        }
+            else if (!string.IsNullOrEmpty(@recommendedService.ContactDetails))
+            {
+                <p>Phone: <a href="tel: @recommendedService.ContactDetails">@recommendedService.ContactDetails</a> for advice</p>
+                <p>@WebUtility.HtmlDecode(recommendedService.ServiceOpeningTimesMessage)</p>
+                <p>You can phone this service for advice during the times shown above.</p>        
+            }
+            else
+            {
+                <p>@WebUtility.HtmlDecode(recommendedService.Address)</p>
+                <p>@WebUtility.HtmlDecode(recommendedService.ServiceOpeningTimesMessage)</p>
+                <p>You don't need to call this service, you can go there during the times shown above.</p>
+            }
+        </div>
     </div>
 </section>
 
@@ -108,13 +107,11 @@
     }
 </div>
 
-<hr class="alternative-care-hr" />
+<hr />
 @{
     Model.DosCheckCapacitySummaryResult.Success.Services.RemoveAt(0);
 }
 @Html.Partial("_AlternativeServices", Model, new ViewDataDictionary { { "Title", "Other services" }, { "VisitTitle", "Places you can visit" }, { "CallbackTitle", "Places that can phone you" }, {"PhoneTitle", "Places you can phone" }})
-
-<hr class="alternative-care-hr" />
 
 @Html.Partial("_CareAdvice", Model.CareAdvices, new ViewDataDictionary { { "Title", "What you can do in the meantime" }, { "NoHR", true } })
 
