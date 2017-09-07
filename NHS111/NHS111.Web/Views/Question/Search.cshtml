@@ -36,7 +36,7 @@
                 <input type="hidden" name="age" value="@Model.UserInfo.Demography.Age"/>
                 <input type="hidden" name="gender" value="@Model.UserInfo.Demography.Gender"/>
                 <input type="hidden" name="filterServices" value=@(Model.FilterServices.ToString()) />
-                <h1><label for="searchTags">Search by symptom</label></h1>
+                <h1 class="heading-large"><label for="searchTags">Search by symptom</label></h1>
                 <div class="symptoms-find-container">
                     <input type="text" class="input-symptoms ui-autocomplete-input" id="searchTags" name="q" autocomplete="off" value="@Model.SanitisedSearchTerm"/>
                     <input type="submit" class="button button-get-started" value="Search" id="searchButton"/>
@@ -46,7 +46,7 @@
             <div id="SearchResults">
                 @if (Model.HasSearched) {
                     <hr/>
-                    <h2 id="search-results-heading">@searchResultHeading</h2>
+                    <h2 class="heading-medium" id="search-results-heading">@searchResultHeading</h2>
                 }
                 @if (Model.Results.Any()) {
                     <div class="results-list">
@@ -65,7 +65,7 @@
 
                             }
                         </ul>
-                        <h3 id="category-option">
+                        <h3 class="heading-medium" id="category-option">
                             If you can't find what you're looking for, try <button id="show-categories" class="linkButton">searching by category</button> instead.
                         </h3>
                     </div>
@@ -84,11 +84,11 @@
                         //lists.Add(orderLists.Skip(lists[0].Count()));
                     }
 
-                    <h2>Find a topic</h2>
+                    <h2 class="heading-medium">Find a topic</h2>
 
                     @for (int i = 0; i < lists.Count; ++i) {
                         <div class="@Html.Raw(i == 0 ? "left" : "right")">
-                            <h3>@Html.Raw(i == 0 ? "Body" : "General")</h3>
+                            <h3 class="heading-small">@Html.Raw(i == 0 ? "Body" : "General")</h3>
                             <ul>
                                 @foreach (var topLevelCategory in lists[i]) {
                                     <li>

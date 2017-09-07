@@ -91,7 +91,7 @@ namespace NHS111.Models.Mappers.WebMappings
                 Forename = outcome.Informant.Forename,
                 Surname = outcome.Informant.Surname,
                 TelephoneNumber = outcome.UserInfo.TelephoneNumber,
-                Type = outcome.Informant.IsInformant ? InformantType.NotSpecified : InformantType.Self
+                Type = outcome.Informant.IsInformantForPatient ? NHS111.Models.Models.Web.ITK.InformantType.NotSpecified : NHS111.Models.Models.Web.ITK.InformantType.Self
             };           
             
             return patientDetails;

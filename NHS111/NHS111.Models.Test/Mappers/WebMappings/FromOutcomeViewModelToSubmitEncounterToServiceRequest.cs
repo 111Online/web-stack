@@ -64,7 +64,7 @@ namespace NHS111.Models.Test.Mappers.WebMappings
 
             var result = Mapper.Map<OutcomeViewModel, PatientDetails>(outcome);
             Assert.AreEqual("111", result.Informant.TelephoneNumber);
-            Assert.AreEqual(InformantType.Self, result.Informant.Type);
+            Assert.AreEqual(NHS111.Models.Models.Web.ITK.InformantType.Self, result.Informant.Type);
         }
 
         [Test]
@@ -102,13 +102,13 @@ namespace NHS111.Models.Test.Mappers.WebMappings
                 },
                 Informant = new InformantViewModel()
                 {
-                    IsInformant = false
+                    IsInformantForPatient = false
                 }
             };
 
             var result = Mapper.Map<OutcomeViewModel, PatientDetails>(outcome);
             Assert.AreEqual("111", result.Informant.TelephoneNumber);
-            Assert.AreEqual(InformantType.Self, result.Informant.Type);
+            Assert.AreEqual(NHS111.Models.Models.Web.ITK.InformantType.Self, result.Informant.Type);
         }
 
         [Test]
@@ -148,7 +148,7 @@ namespace NHS111.Models.Test.Mappers.WebMappings
                 {
                     Forename = "Informer",
                     Surname = "bormer",
-                    IsInformant = true
+                    IsInformantForPatient = true
                 }
             };
 
@@ -156,7 +156,7 @@ namespace NHS111.Models.Test.Mappers.WebMappings
             Assert.AreEqual("Informer", result.Informant.Forename);
             Assert.AreEqual("bormer", result.Informant.Surname);
             Assert.AreEqual("111", result.Informant.TelephoneNumber);
-            Assert.AreEqual(InformantType.NotSpecified, result.Informant.Type);
+            Assert.AreEqual(NHS111.Models.Models.Web.ITK.InformantType.NotSpecified, result.Informant.Type);
         }
     }
 }

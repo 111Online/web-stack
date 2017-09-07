@@ -38,4 +38,26 @@
 .phase-container p {
     margin-bottom: 0;
 }
-
+@media (min-width: 925px) {
+    .callout {
+        padding: 0 32px 32px 32px;
+    }
+}
+.callout {
+    padding: 0 16px 16px 16px;
+    background-color: #fff;
+}
+.callout--alert {
+    background-color: #f5e6e4;
+    border-top: 8px solid #da291c;
+}
+.callout--alert a {
+    background-color: #f5e6e4;
+}
+#global-disclaimer-banner {
+    background-color: #f5e6e4;
+    border-top: 8px solid #da291c;
+}
+#global-disclaimer-banner a {
+    background-color: #f5e6e4;
+}

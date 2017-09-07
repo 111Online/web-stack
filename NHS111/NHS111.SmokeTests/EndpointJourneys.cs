@@ -25,8 +25,8 @@ namespace NHS111.SmokeTests
         {
             try
             {
-                //_driver.Quit();
-                //_driver.Dispose();
+                _driver.Quit();
+                _driver.Dispose();
             }
             catch (Exception)
             {
@@ -76,7 +76,7 @@ namespace NHS111.SmokeTests
         {
             var questionPage = TestScenerios.LaunchTriageScenerio(_driver, "Cold or Flu (Declared)", TestScenerioGender.Female, TestScenerioAgeGroups.Adult);
 
-            questionPage.ValidateQuestion("Do you feel the worst you've ever felt in your life and have a new rash under your skin?");
+            questionPage.ValidateQuestion("Do you feel so ill that you can't think of anything else?");
             var outcomePage = questionPage
                 .Answer(3)
                 .Answer(4)
@@ -228,10 +228,7 @@ namespace NHS111.SmokeTests
                .Answer(1)
                .AnswerForDispostion("No");
 
-            outcomePage.VerifyOutcome("Your answers suggest that you need a 111 clinician to call you");
-            outcomePage.VerifyWorseningPanel(WorseningMessages.Call111);
-            outcomePage.VerifyCareAdviceHeader("What you can do in the meantime");
-            outcomePage.VerifyCareAdvice(new string[] { "Depression, worsening" });
+            outcomePage.VerifyOutcome("A nurse from 111 will phone you");
         }
 
         [Test]
@@ -260,7 +257,31 @@ namespace NHS111.SmokeTests
             outcomePage.VerifyCareAdvice(new string[] { "Medication, pain and/or fever", "Headache" });
        }
 
+        [Test]
+        public void MidwifeEndpointJourney()
+        {
+            var questionPage = TestScenerios.LaunchTriageScenerio(_driver, "Headache", TestScenerioGender.Female, TestScenerioAgeGroups.Adult);
 
+            questionPage.ValidateQuestion("Is there a chance you are pregnant?");
+            var outcomePage = questionPage
+                .Answer(3)
+                .Answer(1)
+                .AnswerSuccessiveByOrder(3, 3)
+                .Answer(5)
+                .Answer(3)
+                .Answer(4)
+                .AnswerSuccessiveByOrder(3, 4)
+                .AnswerForDispostion("No");
+
+
+            outcomePage.VerifyFindService(FindServiceTypes.Midwife);
+
+
+            outcomePage.VerifyOutcome("Your answers suggest you should speak to your midwife within 1 hour");
+            outcomePage.VerifyWorseningPanel(WorseningMessages.Call111);
+            outcomePage.VerifyCareAdviceHeader("What you can do in the meantime");
+            outcomePage.VerifyCareAdvice(new string[] { "Medication, pain and/or fever", "Headache" });
+        }
 
 
     }

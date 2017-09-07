@@ -134,6 +134,10 @@ namespace NHS111.Models.Mappers.WebMappings
             if (questionWithAnswers.Group != null)
             {
                 journeyViewModel.OutcomeGroup = questionWithAnswers.Group;
+                //this needs to be mapped better, ultimately this should be data driven from data layers so the above line is all that's needed.
+                var outcomeGroup = OutcomeGroup.OutcomeGroups[questionWithAnswers.Group.Id];
+                journeyViewModel.OutcomeGroup.Label = outcomeGroup.Label;
+                journeyViewModel.OutcomeGroup.ITK = outcomeGroup.ITK;
             }
 
             if (questionWithAnswers.State != null)

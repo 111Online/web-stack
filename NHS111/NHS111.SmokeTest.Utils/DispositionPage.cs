@@ -16,7 +16,7 @@ namespace NHS111.SmokeTest.Utils
 
         private const string PATHWAY_NOT_FOUND__EXPECTED_TEXT = "This health assessment can't be completed online";
 
-        [FindsBy(How = How.CssSelector, Using = ".outcome-header h2")]
+        [FindsBy(How = How.CssSelector, Using = ".outcome-header h1")]
         public IWebElement Header { get; set; }
 
         [FindsBy(How = How.CssSelector, Using = ".question-header")]
@@ -32,11 +32,11 @@ namespace NHS111.SmokeTest.Utils
         [FindsBy(How = How.ClassName, Using = "worsening-advice-icon")]
         public IWebElement WhatIfFeelWorsePanel { get; set; }
 
-        [FindsBy(How = How.ClassName, Using = "self-care-title")]
+        [FindsBy(How = How.CssSelector, Using = ".care-advice .heading-medium")]
         public IWebElement CareAdviceTitleElement { get; set; }
 
 
-        [FindsBy(How = How.ClassName, Using = "findservice")]
+        [FindsBy(How = How.ClassName, Using = "findservice-form")]
         public IWebElement FindServicePanel { get; set; }
 
         [FindsBy(How = How.Id, Using = "UserInfo_CurrentAddress_Postcode")]
@@ -98,7 +98,7 @@ namespace NHS111.SmokeTest.Utils
         public void VerifyFindService(FindServiceType serviceType)
         {
             Assert.IsTrue(FindServicePanel.Displayed);
-            Assert.AreEqual(serviceType.Headertext, FindServicePanel.FindElement(By.TagName("h3")).Text);
+            Assert.AreEqual(serviceType.Headertext, FindServicePanel.FindElement(By.TagName("h2")).Text);
         }
 
         public void VerifyCareAdviceHeader(string careAdciceTitle)
@@ -109,7 +109,7 @@ namespace NHS111.SmokeTest.Utils
 
         public void VerifyCareAdvice(string[] expectedAdviceItems)
         {
-            var foundItems = _driver.FindElements(By.CssSelector(".care-advice div h4.self-care-title"));
+            var foundItems = _driver.FindElements(By.CssSelector(".care-advice div h3"));
             Assert.AreEqual(expectedAdviceItems.Count(), foundItems.Count);
 
             foreach (var item in foundItems)
@@ -148,6 +148,7 @@ namespace NHS111.SmokeTest.Utils
         public static FindServiceType EmergencyDental = new FindServiceType("Find an emergency dental service that can see you");
         public static FindServiceType Optician = new FindServiceType("Find an optician");
         public static FindServiceType Dental = new FindServiceType("Find a dental service");
+        public static FindServiceType Midwife = new FindServiceType("Find a service that can help you");
     }
 
 

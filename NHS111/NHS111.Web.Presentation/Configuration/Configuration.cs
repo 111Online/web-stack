@@ -150,6 +150,11 @@ namespace NHS111.Web.Presentation.Configuration
             return GetBusinessApiUrlWithDomain("BusinessApiListOutcomesUrl");
         }
 
+        public string GetBusinessApiVersionUrl(bool pathOnly = false)
+        {
+            return GetBusinessApiUrlWithDomain("BusinessApiVersionUrl", pathOnly);
+        }
+
         private string GetBusinessApiUrlWithDomain(string endpointUrlkey, bool pathOnly=false)
         {
             var businessApiDomain = ConfigurationManager.AppSettings["BusinessApiProtocolandDomain"];
@@ -200,6 +205,7 @@ namespace NHS111.Web.Presentation.Configuration
         string GetBusinessApiGetCategoriesWithPathwaysGenderAge(string gender, int age, bool pathOnly = false);
         string GetBusinessApiGetPathwaysGenderAge(string gender, int age);
         string GetBusinessApiPathwaySearchUrl(string gender, string age, bool pathOnly=false);
+        string GetBusinessApiVersionUrl(bool pathOnly = false);
 
         string BusinessDosCheckCapacitySummaryUrl { get; }
         string BusinessDosServicesByClinicalTermUrl { get; }
