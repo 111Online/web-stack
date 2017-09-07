@@ -46,7 +46,7 @@
 
 
 <section>
-    <h2 class="heading-medium">
+    <h2>
         @Html.Raw(Model.OutcomeGroup.Label) for @Model.UserInfo.CurrentAddress.Postcode
     </h2>
 </section>
@@ -74,7 +74,7 @@
                             <div class="form-item-wrapper">
                                 <fieldset>
                                     <legend>
-                                        <img src="/content/images/icons/map-pointers/fac-map-1.png" alt="Pointer 1" />
+                                        <img src="/content/images/icons/map-pointers/fac-map-1.png" alt="" />
                                         @WebUtility.HtmlDecode(selectedService.Name)
                                     </legend>
                                     <p>@WebUtility.HtmlDecode(selectedService.Address)</p>
@@ -109,7 +109,7 @@
                             <div class="service-list-content">
                                 <fieldset>
                                     <legend>
-                                        <img src="@pointerimageSrc" alt="@pointerAlt" />
+                                        <img src="@pointerimageSrc" alt="" />
                                         @WebUtility.HtmlDecode(service.Name)
                                     </legend>
                                     <p>@WebUtility.HtmlDecode(service.Address)</p>
