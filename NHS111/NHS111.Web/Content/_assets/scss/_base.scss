@@ -1,0 +1,132 @@
+@import "base/reset";
+@import "base/variables";
+@import "base/extends";
+@import "base/mixins";
+
+*, *:after, *:before {
+  @include box-sizing(border-box);
+}
+
+.toggle-content {
+  display: none;
+}
+
+.toggle-content--mob {
+  @media (max-width: 640px) {
+    display: none;
+  }
+}
+
+.js-enabled {
+  .nojs-notice {
+    display: none;
+  }
+}
+
+.show-nojs {
+  display: none;
+}
+
+.no-js {
+  .toggle-content, .toggle-content--mob {
+    display: block !important;
+  }
+  .nojs-notice {
+    display: table-cell;
+  }
+  .hide-nojs {
+    display: none !important;
+  }
+  .show-nojs {
+    display: block;
+  }
+  span.show-nojs {
+    display: inline-block;
+  }
+}
+
+.js-enabled .hide-js {
+  display: none;
+}
+
+.hide-tablet {
+  @include media(tablet) {
+    display: none;
+  }
+}
+
+.hide-mob {
+  @media screen and (max-width: 640px) {
+    display: none;
+  }
+}
+
+/* 1. Stops scrollbar from hiding when user is inactive on the page */
+
+html {
+  background-color: $nhs-pink;
+  &.color-pink {
+    background-color: $nhs-pink;
+  }
+  &.color-blue {
+    background-color: $nhs-blue;
+  }
+  &.color-green {
+    background-color: $nhs-green;
+  }
+  background-image: url(../img/bg-pattern.png);
+  overflow-y: scroll;
+  /* 1 */
+  -ms-overflow-style: scrollbar; /*auto | none | scrollbar | -ms-autohiding-scrollbar*/
+  -webkit-text-size-adjust: 100%;
+  -ms-text-size-adjust: 100%;
+  min-width: 300px; /*Set minimum width for windows and other browsers that can squeeze narrower*/
+}
+
+body {
+  margin: 0;
+}
+
+img {
+  border: 0; }
+
+button {
+  *overflow: visible; }
+
+abbr[title] {
+  cursor: help; }
+
+section {
+  margin-bottom: 20px;
+  @include media(tablet) {
+    margin-bottom: $gutter;
+  }
+}
+
+/*
+ * 1. Addresses `appearance` set to `searchfield` in Safari 5 and Chrome.
+ * 2. Addresses `box-sizing` set to `border-box` in Safari 5 and Chrome
+ *    (include `-moz` to future-proof).
+ */
+input[type="search"] {
+  -webkit-appearance: textfield;
+  /* 1 */
+  -moz-box-sizing: content-box;
+  -webkit-box-sizing: content-box;
+  /* 2 */
+  box-sizing: content-box; }
+
+input[type="search"]::-webkit-search-cancel-button {
+  -webkit-appearance: searchfield-cancel-button;
+  margin-right: 2px; }
+
+input[type="search"]::-webkit-search-decoration {
+  -webkit-appearance: none; }
+
+
+
+@-ms-viewport {
+  width: device-width; }
+
+@-o-viewport {
+  width: device-width; }

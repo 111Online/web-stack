@@ -1,0 +1,84 @@
+
+.ogl-logo {
+  background: url(../img/open-government-licence.png) no-repeat;
+  background-size: 41px 17px;
+  display: inline-block;
+  margin-right: 8px;
+  vertical-align: top;
+  width: 41px; height: 17px;
+  @include device-pixel-ratio(2) {
+    background-image: url(../img/open-government-licence_2x.png);
+  }
+}
+
+footer {
+  background: $grey-8;
+  color: #454A4C;
+  font-size: 16px;
+  overflow: hidden;
+}
+
+.footer__wrapper {
+  border-top: 1px solid #a1acb2;
+  a {
+    color: #454A4C;
+    &:hover {
+      color: #171819;
+    }
+  }
+}
+
+.footer__meta {
+  margin: 0 auto;
+  max-width: 1000px;
+  overflow: hidden;
+  padding: 10px 15px 60px;
+  @include media(tablet) {
+    padding-top: 60px;
+  }
+}
+
+.footer__nav {
+  display: inline-block;
+  list-style: none;
+  margin-bottom: 30px;
+  padding: 0;
+  width: 100%;
+  @include media(tablet) {
+    margin-bottom: 0;
+    margin-right: -4px;
+    width: 75%;
+  }
+}
+
+.footer__contact {
+  margin-bottom: 10px;
+}
+
+.footer__link {
+  padding-right: 20px;
+  vertical-align: bottom;
+  @include media(tablet) {
+    display: inline-block;
+    margin-bottom: 0;
+  }
+}
+
+.footer__ogl {
+  margin-top: $gutter-half;
+  margin-bottom: 0;
+}
+
+.footer__copyright {
+  display: inline-block;
+  text-align: center;
+  text-decoration: none;
+  width: 100%;
+  @include media(tablet) {
+    margin-right: -4px;
+    width: 25%;
+  }
+  &:hover {
+    text-decoration: underline;
+  }
+}

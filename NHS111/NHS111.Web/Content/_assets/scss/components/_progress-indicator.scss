@@ -1,0 +1,201 @@
+
+//NHS
+
+.progress-container {
+  background: $nhs-navblue;
+  position: relative;
+}
+
+
+.progressbg-left {
+  display: none;
+  background: $nhs-navdarkblue;
+  height: 100%;
+  position: absolute; left: 0;
+  width: 50%;
+  z-index: 1;
+  @include media(tablet) {
+    display: block;
+  }
+}
+
+.progress-indicator {
+  font-size: 12px;
+  margin: 0 auto;
+  max-width: 1020px;
+  position: relative;
+  z-index: 2;
+  @include media(tablet) {
+    padding-left: 30px;
+    padding-right: 30px;
+  }
+  .indicator {
+    color: $black;
+    display: block;
+    font-style: italic;
+    padding: 12px 30px 10px;
+    @include media(tablet) {
+      display: inline-block;
+      width: 33%;
+      position: relative;
+      &:after{
+        content:"";
+        display:inline-block;
+        position:absolute;
+        border-top: 20px solid transparent;
+        border-bottom: 19px solid transparent;
+        border-left: 11px solid $nhs-navdarkblue;
+        right: 0; top: 0;
+        margin-right: -11px;
+        z-index: 50;
+      }
+    }
+  }
+  .first {
+    background: $nhs-navdarkblue;
+    @include media(tablet) {
+
+    }
+  }
+  .second {
+    background: $nhs-navmedblue;
+    &:after {
+      border-left-color: $nhs-navmedblue;
+      margin-right: -10px; 
+      z-index: 50;
+    }
+  }
+  .active {
+    background: $nhs-navblue;
+    &:after {
+      border-left-color: $nhs-navblue; 
+      z-index: 50;
+    }
+    color: $white;
+    .caps {
+      font-style: normal;
+    }
+  }
+}
+
+// .progress-pie {
+//   width: 130px; height: 130px;
+//   circle {
+//     fill: transparent;
+//     stroke-width: 0;
+//   }
+// }
+
+// .svg-pie path {
+//   fill: rgba(black,0.5);
+// }
+
+.nhs-countdown-container {
+  display: inline-block;
+  margin-bottom: 2em;
+  min-height: 130px; min-width: 130px;
+  position: relative;
+}
+
+.nhs-countdown {
+  background: $nhs-yellow;
+  border-radius: 50%;
+  color: $nhs-pink;
+  display: table;
+  padding-top: 5px;
+  position: absolute;
+  top: 50%; left: 50%;
+  height: 4em;
+  width: 4em;
+  margin-left: -2em;
+  margin-top: -2em;
+  .nhs-the-count {
+    display: table-cell;
+    font-weight: bold;
+    line-height: 0.8;
+    vertical-align: middle;
+  }
+  .lt-ie9 & {
+    background: url(../img/countdownbg-ie8.png) no-repeat;
+    margin-top: -52px; margin-left: -52px;
+    width: 103px; height: 104px;
+  }
+}
+
+.progress-pie {
+  background: url(../img/pie-pieces/pie-pieces-assets/pie-01.png) no-repeat;
+  position: absolute;
+  top: 50%; left: 50%;
+  margin-top: -3.42em; margin-left: -3.42em;
+  width: 130px; height: 130px;
+  @include device-pixel-ratio(2) {
+    background-size: 130px 130px;
+  }
+  @media screen and (max-width: 640px) {
+    background-size: 109px 109px;
+    width: 109px; height: 109px;
+  }
+}
+
+.progress-pie-01 {
+  background-image: url(../img/pie-pieces/pie-pieces-assets/pie-01.png);
+  @include device-pixel-ratio(2) {
+    background-image: url(../img/pie-pieces/pie-pieces-assets/pie-01-2x.png);
+  }
+}
+
+.progress-pie-02 {
+  background-image: url(../img/pie-pieces/pie-pieces-assets/pie-02.png);
+  @include device-pixel-ratio(2) {
+    background-image: url(../img/pie-pieces/pie-pieces-assets/pie-02-2x.png);
+  }
+}
+
+.progress-pie-03 {
+  background-image: url(../img/pie-pieces/pie-pieces-assets/pie-03.png);
+  @include device-pixel-ratio(2) {
+    background-image: url(../img/pie-pieces/pie-pieces-assets/pie-03-2x.png);
+  }
+}
+
+.progress-pie-04 {
+  background-image: url(../img/pie-pieces/pie-pieces-assets/pie-04.png);
+  @include device-pixel-ratio(2) {
+    background-image: url(../img/pie-pieces/pie-pieces-assets/pie-04-2x.png);
+  }
+}
+
+.progress-pie-05 {
+  background-image: url(../img/pie-pieces/pie-pieces-assets/pie-05.png);
+  @include device-pixel-ratio(2) {
+    background-image: url(../img/pie-pieces/pie-pieces-assets/pie-05-2x.png);
+  }
+}
+
+.progress-pie-06 {
+  background-image: url(../img/pie-pieces/pie-pieces-assets/pie-06.png);
+  @include device-pixel-ratio(2) {
+    background-image: url(../img/pie-pieces/pie-pieces-assets/pie-06-2x.png);
+  }
+}
+
+.progress-pie-07 {
+  background-image: url(../img/pie-pieces/pie-pieces-assets/pie-07.png);
+  @include device-pixel-ratio(2) {
+    background-image: url(../img/pie-pieces/pie-pieces-assets/pie-07-2x.png);
+  }
+}
+
+.progress-pie-08 {
+  background-image: url(../img/pie-pieces/pie-pieces-assets/pie-08.png);
+  @include device-pixel-ratio(2) {
+    background-image: url(../img/pie-pieces/pie-pieces-assets/pie-08-2x.png);
+  }
+}
+
+.progress-pie-09 {
+  background-image: url(../img/pie-pieces/pie-pieces-assets/pie-09.png);
+  @include device-pixel-ratio(2) {
+    background-image: url(../img/pie-pieces/pie-pieces-assets/pie-09-2x.png);
+  }
+}

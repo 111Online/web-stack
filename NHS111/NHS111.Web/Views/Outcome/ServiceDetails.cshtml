@@ -45,6 +45,12 @@
 @Html.Partial("_OutcomeHeader", Model)
 
 
+<link href="@NHS111.Web.Helpers.Versioning.GetVersionedUriRef("~/Content/css_NhsUK/confirmation.css")" media="all" rel="stylesheet" type="text/css" />
+<link href="@NHS111.Web.Helpers.Versioning.GetVersionedUriRef("~/content/css_NhsUk/servicelist.css")" media="screen" rel="stylesheet" type="text/css" />
+<link href="@NHS111.Web.Helpers.Versioning.GetVersionedUriRef("~/content/css_NhsUk/service.css")" media="screen" rel="stylesheet" type="text/css" />
+<link href="@NHS111.Web.Helpers.Versioning.GetVersionedUriRef("~/Content/css_NhsUK/signposting-outcome.css")" media="all" rel="stylesheet" type="text/css" />
+<link href="@NHS111.Web.Helpers.Versioning.GetVersionedUriRef("~/Content/css_NhsUK/signposting-outcome-print.css")" media="print" rel="stylesheet" type="text/css" />
+
 <section>
     <h2 class="heading-medium">
         @Html.Raw(Model.OutcomeGroup.Label) for @Model.UserInfo.CurrentAddress.Postcode
@@ -86,7 +92,7 @@
                                     @Html.Hidden("SelectedServiceId", @selectedService.Id)
                                     @Html.Hidden("SelectedServiceName", @selectedService.Name)
                                     @Html.Hidden("SelectedServiceAddress", @selectedService.Address)
-                                    <button type="submit" class="button--next">Open in Google Maps</button>
+                                    <button type="submit" class="button button-next">Open in Google Maps</button>
                                 </fieldset>
                             </div>
                         </div>
@@ -121,7 +127,7 @@
                                     @Html.Hidden("SelectedServiceId", @service.Id)
                                     @Html.Hidden("SelectedServiceName", @service.Name)
                                     @Html.Hidden("SelectedServiceAddress", @service.Address)
-                                    <button type="submit" class="button--link button--next">Open in Google Maps</button>
+                                    <button type="submit" class="button-link directions">Open in Google Maps</button>
                                 </fieldset>
                             </div>
                         }

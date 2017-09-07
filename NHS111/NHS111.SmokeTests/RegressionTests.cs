@@ -177,8 +177,7 @@ namespace NHS111.SmokeTests
 
                 var searchPage = TestScenerios.LaunchSearchScenerio(_driver, TestScenerioGender.Female, 5);
 
-            searchPage.SearchByTerm("a");
-            searchPage.ClickGoButton();
+               searchPage.ClickGoButton();
 
                searchPage.FindPathwayInCathgryList("Abdomen injury - skin not broken","PW500FemaleChild");
                searchPage.FindPathwayInCathgryList("Injury to the side of the body - skin not broken","PW500FemaleChild");
@@ -374,9 +373,8 @@ namespace NHS111.SmokeTests
            {
 
                var searchPage = TestScenerios.LaunchSearchScenerio(_driver, TestScenerioGender.Female, 40);
-                searchPage.SearchByTerm("a");
-               searchPage.ClickGoButton();
 
+               _driver.FindElement(By.Id("searchButton")).Click();
                searchPage.FindPathwayInCathgryList("Can't feel baby moving as much", "PW1763FemaleAdult");
                searchPage.FindPathwayInCathgryList("Abdomen injury - skin not broken","PW500FemaleAdult");
                searchPage.FindPathwayInCathgryList("Injury to the side of the body - skin not broken","PW500FemaleAdult");
@@ -574,10 +572,9 @@ namespace NHS111.SmokeTests
 
                var searchPage = TestScenerios.LaunchSearchScenerio(_driver, TestScenerioGender.Male, 5);
 
-               searchPage.SearchByTerm("a");
-                searchPage.ClickGoButton();
+               searchPage.ClickGoButton();
 
-            searchPage.FindPathwayInCathgryList("Abdomen injury - skin not broken", "PW503MaleChild");
+               searchPage.FindPathwayInCathgryList("Abdomen injury - skin not broken", "PW503MaleChild");
                searchPage.FindPathwayInCathgryList("Injury to the side of the body - skin not broken", "PW503MaleChild");
                searchPage.FindPathwayInCathgryList("Abdomen injury with broken skin", "PW511MaleChild");
                searchPage.FindPathwayInCathgryList("Injury to the side of the body with broken skin", "PW511MaleChild");
@@ -766,8 +763,7 @@ namespace NHS111.SmokeTests
 
                var searchPage = TestScenerios.LaunchSearchScenerio(_driver, TestScenerioGender.Male, 40);
 
-            searchPage.SearchByTerm("a");
-            searchPage.ClickGoButton();
+               searchPage.ClickGoButton();
 
                searchPage.FindPathwayInCathgryList("Abdomen injury - skin not broken","PW503MaleAdult"); 
                searchPage.FindPathwayInCathgryList("Injury to the side of the body - skin not broken","PW503MaleAdult");

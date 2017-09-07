@@ -1,0 +1,103 @@
+﻿.sub-header {
+    padding: 30px 0;
+    margin-bottom: 40px;
+}
+.itk {
+    background-color: #4c9c39;
+    color: white;
+}
+.home-care {
+    background-color: #003087;
+    color: white;
+}
+.sub-header-icon {
+    margin: 0 15px;
+}
+@media (min-width: 641px) {
+    .sub-header-icon {
+        margin: 0 30px;
+    }
+}
+@media (min-width: 1020px) {
+    .sub-header-icon {
+        max-width: 75%;
+        margin: 0 auto;
+    }
+}
+.sub-header h2 {
+    font-size: 36px;
+    line-height: 40px;
+}
+@media (min-width: 641px) {
+    .sub-header h2 {
+        font-size: 40px;
+        line-height: 44px;
+    }
+}
+.sub-header h3 {
+    font-size: 24px;
+    line-height: 28px;
+}
+@media (min-width: 641px) {
+    .sub-header h3 {
+        font-size: 28px;
+        line-height: 32px;
+    }
+}
+.sub-header-icon h2, .sub-header-icon h3 {
+    
+}
+@media (min-width: 641px) {
+    .sub-header-icon h2, .sub-header-icon h3 {
+        
+    }
+}
+
+.sub-header .tick {
+    display: none;
+    float: left;
+    background-color: white;
+    color: #4c9c39;
+    width: 60px;
+    height: 60px;
+    border-radius: 80px;
+    padding: 20px;
+    font-size: 78px;
+    line-height: 60px;
+    font-weight: bolder;
+}
+@media (min-width: 641px) {
+    .sub-header .tick {
+        display: block;
+        margin-right: 10px;
+        margin-top: -10px;
+    }
+}
+.sub-header .home {
+    display: none;
+    float: left;
+    background-color: white;
+    color: #003087;
+    width: 60px;
+    height: 60px;
+    border-radius: 80px;
+    padding: 20px;
+    font-size: 78px;
+    line-height: 60px;
+    font-weight: bolder;
+    background: #FFFFFF url(/content/img/home.png) 15px 15px/70px 70px no-repeat;
+}
+@media (min-width: 641px) {
+    .sub-header .home {
+        display: block;
+        margin-right: 10px;
+        margin-top: 30px;
+    }
+}
+
+    form label span {
+        font-weight: normal;
+    }
+h2.no-careadvice {
+     font-size: 1.5em;
+ }

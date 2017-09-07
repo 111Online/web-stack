@@ -110,7 +110,7 @@ namespace NHS111.Business.DOS.Test.Service
             var fakeDoSFilteredCase = new DosFilteredCase() { PostCode = "So30 2Un", Disposition = 1010 };
             var fakeRequest = new HttpRequestMessage() { Content = new StringContent(JsonConvert.SerializeObject(fakeDoSFilteredCase)) };
 
-            _mockDosService.Setup(x => x.GetServices(It.IsAny<HttpRequestMessage>(), null)).Returns(Task<HttpResponseMessage>.Factory.StartNew(() => fakeResponse));
+            _mockDosService.Setup(x => x.GetServices(It.IsAny<HttpRequestMessage>())).Returns(Task<HttpResponseMessage>.Factory.StartNew(() => fakeResponse));
 
             _mockServiceAvailabilityProfileManager.Setup(c => c.FindServiceAvailability(fakeDoSFilteredCase))
                 .Returns(new ServiceAvailability(_mockServiceAvailabliityProfileResponse, fakeDoSFilteredCase.DispositionTime, fakeDoSFilteredCase.DispositionTimeFrameMinutes));
@@ -122,10 +122,10 @@ namespace NHS111.Business.DOS.Test.Service
             var sut = new ServiceAvailabilityFilterService(_mockDosService.Object, _mockConfiguration.Object, _mockServiceAvailabilityProfileManager.Object, _mockFilterServicesFeature.Object);
 
             //Act
-            var result = await sut.GetFilteredServices(fakeRequest, true, null);
+            var result = await sut.GetFilteredServices(fakeRequest, true);
 
             //Assert 
-            _mockDosService.Verify(x => x.GetServices(It.IsAny<HttpRequestMessage>(), null), Times.Once);
+            _mockDosService.Verify(x => x.GetServices(It.IsAny<HttpRequestMessage>()), Times.Once);
             var JObj = GetJObjectFromResponse(result);
             var services = JObj["CheckCapacitySummaryResult"];
             Assert.AreEqual("{CheckCapacitySummaryResult: [{}]}", result.Content.ReadAsStringAsync().Result);

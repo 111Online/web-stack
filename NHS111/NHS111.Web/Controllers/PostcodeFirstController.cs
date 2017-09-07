@@ -12,7 +12,6 @@ namespace NHS111.Web.Controllers
     using System.Web.Mvc;
     using AutoMapper;
     using Models.Models.Web;
-    using Models.Models.Web.DosRequests;
     using Presentation.Builders;
 
     public class PostcodeFirstController : Controller
@@ -36,7 +35,7 @@ namespace NHS111.Web.Controllers
         public async Task<ActionResult> Postcode(OutcomeViewModel model) {
             if (_postcodePrefillFeature.IsEnabled && _postcodePrefillFeature.RequestIncludesPostcode(Request)) {
                 model.UserInfo.CurrentAddress.Postcode = _postcodePrefillFeature.GetPostcode(Request);
-                return await Outcome(model, null, null, null);
+                return await Outcome(model, null, null);
             }
 
             ModelState.Clear();
@@ -46,7 +45,7 @@ namespace NHS111.Web.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> Outcome(OutcomeViewModel model, [FromUri] DateTime? overrideDate, [FromUri] bool? overrideFilterServices, DosEndpoint? endpoint)
+        public async Task<ActionResult> Outcome(OutcomeViewModel model, [FromUri] DateTime? overrideDate, [FromUri] bool? overrideFilterServices)
         {
             const string outcomeView = "Outcome";
             const string servicesView = "Services";
@@ -72,7 +71,7 @@ namespace NHS111.Web.Controllers
             }
 
             await _auditLogger.LogDosRequest(model, dosViewModel);
-            model.DosCheckCapacitySummaryResult = await _dosBuilder.FillCheckCapacitySummaryResult(dosViewModel, overrideFilterServices.HasValue ? overrideFilterServices.Value : model.FilterServices, endpoint);
+            model.DosCheckCapacitySummaryResult = await _dosBuilder.FillCheckCapacitySummaryResult(dosViewModel, overrideFilterServices.HasValue ? overrideFilterServices.Value : model.FilterServices);
             model.DosCheckCapacitySummaryResult.ServicesUnavailable = model.DosCheckCapacitySummaryResult.ResultListEmpty;
             await _auditLogger.LogDosResponse(model);
 

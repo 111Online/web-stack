@@ -1,0 +1,304 @@
+﻿@charset "utf-8";
+/* Mobile Responsive Styles */
+
+
+
+/*phoneP*/
+@media only screen and (min-width : 320px) and (max-width : 480px) {
+
+#FormSearchGP .row{
+    margin-left:0;
+    width: 100%;    
+}
+
+#SubHeadWrapper h2{
+    font-size:21px;
+    margin-top:0;
+}
+
+#NoOutcome #SubHeadWrapper h2{
+    font-size:21px;
+    margin-top:0;
+}
+
+.outcomeResults {
+     width: auto;
+  margin: 0;
+  font-size: 18px;
+
+    }
+
+.outcomeResults ul li{
+     text-align: left;
+  line-height: 1.3em;
+  margin-bottom: 10px;
+}
+
+.searchInput, .searchInput:focus{
+    width: 75%;
+}
+
+#FormSearchGP .button {
+  margin: 16px 0px 0 0;
+  width: auto;
+  font-size: 15px;
+}
+
+#SubHeadWrapper{
+	padding-top:20px;
+}
+
+#ProgressBar ul{
+	padding:0;
+    height:auto;
+}
+
+#ProgressBar li{
+	width:100%;
+	padding:15px 0 15px 15px;
+}
+
+#ProgressBar li img{
+	display:none;
+}
+
+#ProgressBar li span.left{
+	position:relative;
+}
+
+.headImage {
+	text-align:center;
+	clear:both;
+}
+
+.headImage img.left{
+	float:none;
+	width:60%;
+}
+
+h2{
+	font-size:25px;
+	margin-top:20px;	
+}
+
+
+.twenty{
+	width:100%;
+	clear:both;
+
+}
+
+.thirty{
+	width:100%;
+	clear:both;
+
+}
+
+
+.fifty{
+	width:100%;
+	clear:both;
+
+
+}
+
+.seventy{
+	width:100%;
+	clear:both;
+
+
+}
+
+.eighty{
+	width:100%;
+	clear:both;
+}
+
+
+.headText p{
+	width:100%;
+}
+
+#OutcomeQuestion h3{
+	margin-top:70px;
+}
+
+#OutcomeQuestion .buttonLeft,
+#OutcomeQuestion .buttonRight{
+	margin:20px 20px 0px 20px
+}
+
+.row {
+    width:100%;
+    margin-left:0;
+    }
+
+#AboutYou .fifty{
+    width:100%;
+}
+
+.divider{
+    margin-left:auto;
+    margin-top:20px;
+}
+
+.blank{
+    display:none;
+}
+
+#AboutYou .button{
+    
+    width:100%;
+    margin:20px 0 0 0;
+
+}
+
+#FormWrapper .lastChild{
+    text-align:center;
+}
+
+#OutcomeThree #FormWrapper .lastChild{
+    text-align:left;
+}
+
+button, .button {
+    box-shadow:none;
+    }
+
+#OutcomeOne #SubHeadWrapper h2{
+    width:100%;
+}
+
+#AboutYou .postcode {
+    width:94%;
+    }
+
+#AboutYou #SearchPostcode {
+        float: left;
+        margin: 20px 0 0 0px;
+        padding: 10px 20px;
+        width: 85%;
+        text-align: center;
+    }
+
+#AboutYou h3{
+    margin-left:0;
+}
+
+.highlightYellow{
+     clear: both;
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+#FormWrapper .addressBlock{
+    width:86%;
+}
+
+.radio input {
+    width:auto;
+  
+}
+
+.question .firstChild{
+      margin:0 20px 0 0;
+}
+
+#PersonalDetails #AboutYou .row {
+  margin-left: 0;
+  width: auto;
+}
+
+
+#PersonalDetails #AboutYou .row {
+  margin-left: 0;
+  width: 93%;
+}
+
+#PersonalDetails #AboutYou .searchPostcode {
+  float: left;
+  margin: 11px 0 15px 0px;
+  padding: 10px 20px;
+  width: auto;
+  font-size: 15px;
+}
+
+
+.homePageNew .content-container{
+    min-height:auto; 
+}
+
+
+
+
+}
+
+/*phoneL*/
+@media only screen and (min-width : 325px) and (max-width : 568px) {
+
+#AboutYou #SearchPostcode{
+    width:89%;
+
+    }
+
+select {
+    width:99%;
+    }
+
+.outcomeResults {
+     width: auto;
+  margin: 0;
+  font-size: 18px;
+
+    }
+
+.outcomeResults ul li{
+     text-align: left;
+  line-height: 1.3em;
+  margin-bottom: 10px;
+}
+
+
+}
+
+
+
+
+
+
+
+
+
+/*IPadP*/
+@media only screen and (min-width : 768px) and (max-width : 1024px) {
+    #PersonalDetails #AboutYou .row{
+        width:75%;
+        margin-left:13%;
+    }
+
+    .dob{
+        width:100%;
+    }
+    input.dd, input.mm, input.yy{
+        width:25%;
+    }
+
+    #AboutYou .button {
+     margin-right: 95px;
+    }
+
+
+
+
+
+}
+
+/*IpadL*/
+@media only screen and (min-width: 770px) and (max-width: 1024px) {
+  
+   #AboutYou .button {
+     margin-right: 133px;
+    }
+
+
+}

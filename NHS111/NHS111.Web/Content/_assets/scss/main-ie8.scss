@@ -1,0 +1,15 @@
+$is-ie: true;
+$ie-version: 8;
+
+@import "main";
+
+/* IE8 Specific hacks */
+
+input[type="password"] {
+  color: $black !important;
+  font-family: Arial !important;
+}
+
+.all-select:focus {
+  width: auto;
+}

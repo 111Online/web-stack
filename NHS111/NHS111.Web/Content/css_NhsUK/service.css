@@ -1,0 +1,23 @@
+﻿.service-content {
+    padding: 1rem 1rem 0 1rem;
+    max-width: 50rem;
+}
+@media screen and (min-width: 40em) {
+    .service-content {
+        max-width: 45.8333333333rem;
+    }
+}
+.service-name {
+    font-weight: bold;
+}
+.service-address {
+    
+}
+
+.service-status {
+    
+}
+
+.service-status.secondary {
+    margin-bottom: 10px;
+}

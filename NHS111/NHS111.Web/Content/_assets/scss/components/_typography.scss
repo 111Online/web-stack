@@ -1,0 +1,398 @@
+html {
+  font-size: 62.5%;
+  /* 1 */
+}
+
+/*
+ *    1. Font-size increased to compensate for change to html element font-size in
+ *    order to support beta typography which was set in ems
+ *    (62.5% * 160% = 100%)
+ */
+
+body {
+  color: $text-colour;
+  font-family: $NTA-Light;
+  -webkit-font-smoothing: antialiased;
+}
+
+// Typography
+// ==========================================================================
+
+// Increase default font size to 19px
+.content-container {
+  @include core-19;
+}
+
+// Headings
+
+h1 {
+  @include core-48;
+}
+
+h2 {
+  @include core-36;
+}
+
+h3 {
+  @include core-24;
+}
+
+h4, h5, h6 {
+  @include core-19;
+}
+
+.hgroup {
+  margin-bottom: $gutter;
+  padding: 0;
+  h1, .heading-xlarge {
+    margin-bottom: 5px;
+  }
+  .subtitle {
+    @include core-24;
+    color: $secondary-text-colour;
+    margin: 0;
+  }
+  @include media(tablet) {
+    margin-bottom: $gutter * 2;
+  }
+}
+
+.hgroup-large {
+  margin-bottom: 20px;
+  padding: 0;
+  h2, .heading-large {
+    margin-bottom: 5px;
+  }
+  .subtitle {
+    @include core-24;
+    color: $secondary-text-colour;
+    margin: 0;
+  }
+  @include media(tablet) {
+    margin-bottom: 45px;
+  }
+}
+
+.hgroup-medium {
+  margin-bottom: $gutter-half;
+  .heading-medium {
+    margin-bottom: 5px;
+  }
+  .subtitle {
+    @include core-19;
+    color: $secondary-text-colour;
+    margin: 0;
+  }
+}
+
+.hgroup-small {
+  margin-bottom: $gutter-half;
+  .heading-small {
+    margin-bottom: 5px;
+  }
+  .subtitle {
+    @include core-16;
+    color: $secondary-text-colour;
+    margin: 0;
+  }
+}
+
+// Common heading sizes
+// Using the bold-xx mixins from the govuk_toolkit _typography.scss file
+// Spacing is set in em, using the px to em function in the elements _helpers.scss file
+
+// Headings
+.heading-xlarge {
+  @include bold-48();
+  // margin-top: em(15, 32);
+  margin-bottom: em(30, 32);
+  @include media(tablet) {
+    // margin-top: em(30, 48);
+    margin-bottom: em(60, 48);
+  }
+  .heading-secondary {
+    @include core-27();
+    color: $secondary-text-colour;
+    display: block;
+  }
+  &.inline {
+    display: block;
+    margin: 0 10px 10px 0;
+    @include media(tablet) {
+      display: inline-block;
+      margin-bottom: 0;
+    }
+  }
+}
+
+.heading-xlarge-caps {
+  @include bold-48();
+  text-transform:uppercase;
+  letter-spacing: 0.2em;
+}
+
+.heading-large {
+  @include bold-36();
+  // margin-top: em(25, 24);
+  margin-bottom: em(10, 24);
+  @include media(tablet) {
+    // margin-top: em(45, 36);
+    margin-bottom: 45px;
+  }
+  &.inline {
+    display: block;
+    margin: 0 10px 10px 0;
+    @include media(tablet) {
+      display: inline-block;
+      margin-bottom: 0;
+    }
+  }
+}
+
+
+
+.heading-medium {
+  @include bold-24();
+  // margin-top: em(25, 20);
+  margin-bottom: em(10, 20);
+  @include media(tablet) {
+    // margin-top: em(45, 24);
+    margin-bottom: em(20, 24);
+  }
+  &.inline {
+    display: block;
+    margin: 0 10px 10px 0;
+    @include media(tablet) {
+      display: inline-block;
+      margin-bottom: 0;
+    }
+  }
+}
+
+.heading-small {
+  @include bold-19();
+  margin-bottom: em(10, 16);
+  @include media(tablet) {
+    margin-bottom: em(10, 19);
+  }
+  &.inline {
+    display: block;
+    margin: 0 10px 10px 0;
+    @include media(tablet) {
+      display: inline-block;
+      margin-bottom: 0;
+    }
+  }
+}
+
+// Core font sizes
+.font-xxlarge {
+  @include core-80;
+}
+.font-xlarge {
+  @include core-48;
+}
+.font-large {
+  @include core-36;
+}
+.font-medium {
+  @include core-24;
+}
+.font-small {
+  @include core-19;
+}
+.font-xsmall {
+  @include core-16;
+}
+.font-xxsmall {
+  @include core-14;
+}
+
+
+// Bold font sizes
+.bold-xxlarge {
+  @include bold-80();
+}
+.bold-xlarge {
+  @include bold-48();
+}
+.bold-large {
+  @include bold-36();
+}
+.bold-medium {
+  @include bold-24();
+}
+.bold-small {
+  @include bold-19();
+}
+.bold-xsmall {
+  @include bold-14();
+}
+
+.bold-xxsmall {
+  @include bold-12();
+}
+
+.lede,
+.lead {
+  @include core-24;
+}
+
+.copy-16 {
+  @include core-16;
+}
+
+// Set a max-width for text blocks
+// Fewer than 75 characters per line of text
+.text {
+  max-width: 30em;
+}
+
+// Data
+.data-80 {
+  @include bold-80;
+}
+
+.data-48 {
+  @include bold-48;
+  line-height: 0.9;
+}
+
+.data p {
+  @include bold-16;
+}
+
+.heading-with-border {
+  border-top: 1px solid $grey-2;
+  padding-top: $gutter-half;
+}
+
+.copy-19 {
+  @include copy-19;
+  margin-bottom: 20px;
+}
+
+.copy-16, .subtext {
+  @include copy-16;
+}
+
+.subtext {
+  clear: both;
+  font-style: italic;
+}
+
+p, pre {
+  margin: 5px 0 20px;
+  &.text {
+    @include copy-19;
+    clear: both;
+  }
+}
+
+article {
+  h1, h2, h3, h4, h5 {
+    &:first-of-type {
+
+    }
+  }
+}
+
+a, .fake-link {
+  color: $link-colour;
+  &:active {
+    color: $link-active-colour;
+  }
+  &:hover {
+    color: $link-hover-colour;
+  }
+  &.link-withbold {
+    border-bottom: 1px solid $link-colour;
+    text-decoration: none;
+  }
+  &.link-unimp {
+    text-decoration: none;
+    &:hover, &:focus {
+      text-decoration: underline;
+    }
+  }
+  &[href^=mailto] {
+    word-wrap: break-word;
+  }
+}
+
+.fake-link {
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+
+a[rel="external"]:after {
+  background-image: url(../img/icon-external.svg);
+  background-repeat: no-repeat;
+  background-position: 3px 0.4em;
+  content: '\A0\A0\A0\A0\A0';
+  background-size: 0.7em 0.6em;
+  .lt-ie9 & {
+    background-image: url('../img/icon-external.png');
+  }
+  .lt-ie9 .phase-notice &, .lt-ie9 .copy-16 &  {
+    display: none;
+  }
+}
+
+.not-ie8 a[rel="external"]:hover:after {
+  background-image: url('../img/icon-external-hover.svg');
+}
+
+b,
+strong {
+  font-weight: 600;
+}
+
+.highlight {
+  color: $hm-government;
+}
+
+.text {
+  max-width: 30em;
+}
+
+.caps {
+  text-transform: uppercase;
+}
+
+.page-link {
+  display: block;
+  margin-bottom: $gutter-half;
+  @include media(tablet) {
+    margin-right: 5px;
+    text-align: right;
+  }
+}
+
+.closing-vsoon {
+  color: $error-colour;
+}
+
+.closing-soon {
+  color: $warning-colour;
+}
+
+/*Paragraphs*/
+
+.intro-para{
+  font-size:1.2em;
+  margin-bottom:40px;
+  .color-blue & {
+  color:$nhs-reallydarkblue;
+  }
+}
+
+.nhs-the-question{
+  text-transform:uppercase;
+  font-size:1.5em;
+  font-weight:bold;
+  .color-blue & {
+  color:$nhs-reallydarkblue;
+  }
+}

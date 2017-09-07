@@ -1,0 +1,115 @@
+﻿@model NHS111.Models.Models.Web.DosViewModel
+@{
+    Layout = "~/Views/Shared/_LayoutOutcome.cshtml";
+}
+
+<div class="site" id="Confirmation">
+    <div id="ProgressBar">
+        <ul>
+            <li class="firstChild"><span class="left">01 What's wrong </span> <img src="../../content/images/icons/breadcrumbOne.png" alt="" class="right"></li>
+            <li class="secondChild"><span class="left">02 Tell us more </span><img src="../../content/images/icons/breadcrumbTwo.png" alt="" class="right"></li>
+            <li class="lastChild"><span class="left">03 YOU ARE HERE . Next steps </span></li>
+        </ul>
+    </div>
+    <div id="ContentWrapper">
+
+        <div id="SubHeadWrapper">
+            <section>
+                <h2>THANK YOU!</h2>
+                @*<p>Your selected healthcare provider will @Html.Raw(Model.Title.ToLower()).</p>*@
+                <p>When you visit, please inform them that you've done the online 111 triage.</p>
+            </section>
+        </div>
+        @using (Html.BeginForm(FormMethod.Post))
+        {
+            <div id="OutcomeEnd">
+                <img src="../../content/images/icons/blueArrow.png" class="arrowDown" alt="">
+                <section>
+                    @if (Model.CheckCapacitySummaryResultList != null)
+                    {
+                        foreach (var serviceCareSummaryDestination in Model.CheckCapacitySummaryResultList)
+                        {
+                            <div id="FormWrapper">
+                                <div class="row">
+
+                                    <ul>
+
+                                        <li>
+                                            <h3>@Html.Raw(serviceCareSummaryDestination.NameField)</h3>
+                                            <div class="ui-accordion-content">
+                                                <p>@Html.Raw(serviceCareSummaryDestination.AddressField)</p>
+                                                @if (serviceCareSummaryDestination.ContactDetailsField != null && !serviceCareSummaryDestination.ContactDetailsField.IsEmpty())
+                                                {
+                                                    <p class="telIcon">@Html.Raw(serviceCareSummaryDestination.ContactDetailsField)</p>
+                                                }
+                                                @if (serviceCareSummaryDestination.UrlField != null && !serviceCareSummaryDestination.UrlField.IsEmpty())
+                                                {
+                                                    <p class="webIcon"><a target="_blank" href="http://@Html.Raw(serviceCareSummaryDestination.UrlField)">@Html.Raw(serviceCareSummaryDestination.UrlField)</a></p>
+                                                }
+                                            </div>
+                                        </li>
+
+                                        <li id="MapView">
+
+                                            <p>@Html.Partial("_GoogleMap", serviceCareSummaryDestination.PostcodeField)</p>
+
+                                        </li>
+
+
+                                    </ul>
+                                    <div class="generalAdvice whiteBG">
+                                        <p class="large">Call NHS 111 for a further assessment if:</p>
+                                        <ul>
+
+                                            <li>Your symptoms change or get worse</li>
+                                            <li>You develop any new symptoms</li>
+                                            <li>You have any further concerns</li>
+
+                                        </ul>
+                                        <p>It's free from any landline or mobile phone</p>
+                                        @if (Model.CareAdvices.Any())
+                                        {
+                                            <p>
+                                                In the meantime...
+                                            </p>
+                                            
+                                                <p>
+                                                    @{
+                                                var excludeTitles = Model.CareAdvices.Select(careAdvice => careAdvice.ExcludeTitle).Where(title => !string.IsNullOrEmpty(title)).ToList();
+                                                var includeCareAdvice = Model.CareAdvices.Where(careAdvice => !excludeTitles.Contains(careAdvice.Title));
+                                                    }
+                                                    @foreach (var careAdvice in includeCareAdvice)
+                                                    {
+                                                    <p><strong>@Html.Raw(careAdvice.Title)</strong></p>
+                                                        <ul>
+                                                            @foreach (var item in careAdvice.Items)
+                                                            {
+                                                                <li>@Html.Raw(item)</li>
+                                                            }
+                                                        </ul>
+                                                    }
+                                                    </p>
+                                        }
+                                       
+
+                                    </div>
+
+                                </div>
+                                <!--/row-->
+                            </div>
+                        }
+                    }
+                    <!--/FormWrapper-->
+
+                </section>
+            </div>
+        <!--/OutcomeEnd-->
+        }
+    </div>
+    <!--/ContentWrapper-->
+    <div id="FooterWrapper">
+        <footer>
+            <!-- Copyright information -->
+        </footer>
+    </div>
+</div>

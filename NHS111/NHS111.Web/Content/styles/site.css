@@ -1,0 +1,1073 @@
+﻿@charset "utf-8";
+/* Site specific styles */
+
+
+/* hover states */
+button, .button, input.button{
+    font-size: 20px;
+    font-weight:bold;
+    font-style:normal;
+    margin: 40px 0;
+    padding: 14px 20px 10px;
+    text-transform: uppercase;
+    background:#003366;
+    border:1px solid #003366;
+    border-radius: 5px;
+    box-shadow: 1px 1px 1px #003366;
+    color:#fff;
+    width:auto;
+}
+
+
+.site a, .site a:visited, .site a:active{
+    text-decoration:none;
+    color:#fff;
+
+}
+
+.site #HospitalsList a, .site #HospitalsList a:visited, .site #HospitalsList a:active,
+.site #OutcomeEnd a, .site #OutcomeEnd a:visited, .site #OutcomeEnd a:active {
+    color:#003366;
+    text-decoration: none;
+    font-style: normal
+}
+
+
+.site a:hover, .site #HospitalsList a:hover,
+.site a:hover, .site #OutcomeEnd a:hover{
+    text-decoration:underline;
+    font-style: normal
+}
+
+/* END hover states */
+
+
+
+#HomePage #MainHeader
+{
+    text-align:center;
+
+}
+
+
+#HomePage h1{
+
+    text-align: center;
+    text-transform: uppercase;
+    margin-bottom:0;
+    color:#13aae1;
+
+}
+
+#HomePage #ContentWrapper{
+    background:#13aae1;
+}
+
+#HomePage #FooterWrapper{
+
+    background: url("../images/bg/footerBG.png") repeat;
+    float: left;
+ 
+}
+
+#ProgressBar li{
+    padding:0 0 0 1%;
+}
+
+#OutcomeOne #ContentWrapper{padding:0;}
+#OutcomeOne #SubHeadWrapper section {text-align:left;}
+#SubHeadWrapper{
+    /*background:#a14103;*/
+    background:#00aad6;
+    padding:25px 0;
+    
+}
+
+#ProgressEnds{
+ 
+    background:#009ac1;
+    padding:35px 0; 
+    border-bottom:2px solid #008db1;
+}
+
+#ProgressEnds .guideText{
+     color: #fff;
+    font-size: 18px;
+    font-weight: bold;
+    margin-top: 30px;
+
+}
+
+#ProgressEnds .meter { 
+	height: 20px;  /* Can be anything */
+	position: relative;
+	background:#009ac1;
+	-moz-border-radius: 25px;
+	-webkit-border-radius: 25px;
+	border-radius: 25px;
+	padding: 1px;
+	box-shadow: inset 0 -1px 1px rgba(255,255,255,0.3);
+    margin:3% 20%;
+}
+
+#ProgressEnds .meter{
+     float: left;
+    height: 17px;
+    margin: 0 15px 0 0;
+    width: 65%;
+}
+
+#ProgressEnds .meter > span {
+  display: block;
+  height: 100%;
+  border-radius:20px;
+  position: relative;
+  overflow: hidden;
+}
+
+#ProgressEnds .nhsBlue > span {
+  background:#007aaa;
+  background-image: linear-gradient(to bottom, #007aaa, #007aaa);
+}
+
+#ProgressEnds .nhsBlue > span.p25{
+    width:10%;
+}
+
+#ProgressEnds .nhsBlue > span.p25{
+    width:25%;
+}
+
+
+#ProgressEnds .nhsBlue > span.p100{
+    width:100%;
+    background:#00d142;
+}
+
+#jtbs .content-container {
+    margin-top:90px;
+}
+#ProgressEnds #progressWrapper{
+    margin: 0% 25%;
+    padding-top:0px;
+}
+
+#AboutYou h3{
+    font-size:25px;
+    color:#003366;
+    margin:0;
+}
+
+#OutcomeOne .headImage{
+     background:url(../images/icons/outcomeHeader.png) no-repeat left bottom;
+     height:275px;
+     
+}
+
+.headText p{
+    width:45%;
+     line-height: 1.5em;
+}
+
+#orangeBG{
+    background:url(../images/bg/blueBG.png) repeat;
+}
+
+#OutcomeQuestion{
+
+    text-align:center;
+    position:relative;
+    padding-top:0;
+}
+
+#OutcomeQuestion h3{
+        font-size:23px;
+        margin-top:95px;
+        
+        
+}
+
+.arrowDown{position:absolute; left:50%;margin-left:-2em;}
+
+#OutcomeQuestion .button,
+#OutcomeQuestion a.button
+{
+    background:#003366;
+    border:0;
+}
+
+
+#OutcomeQuestion .buttonLeft {
+    margin-right:25px;
+    margin-top:10px;
+    margin-bottom:10px;
+}
+
+#OutcomeQuestion .buttonRight {
+    /*margin-left:25px;*/
+        margin-top:10px;
+}
+
+#ProgressBar li{
+   color: #ccc;
+    height: 48px;
+    opacity: 0.4;
+}
+
+#ProgressBar li span.left{
+    position:absolute;
+    top:35%;
+}
+
+#ProgressBar li.lastChild span{
+    color:#fff;
+
+}
+
+
+#SubHeadWrapper h2 {
+    font-size:25px;
+    color:#fff;
+    margin-bottom:0;
+        
+}
+
+#OutcomeOne #SubHeadWrapper h2{
+    font-size: 33px;
+    margin-bottom: 25px;
+    margin-top:30px;
+    width: 90%;
+}
+
+#SubHeadWrapper section{
+    text-align:center;
+}
+
+#OutcomeOne #SubHeadWrapper{
+    padding:0;
+}
+
+#AboutYou,#FormSearchGP, #OutcomeEnd {
+    padding-top: 0;
+    position: relative;
+    text-align: left;
+    width: 100%;
+ 
+}
+
+#AboutYou section, #FormSearchGP section, #OutcomeEnd section{
+    padding-top:75px;
+}
+
+#AboutYou .fifty{
+    width:48%;
+}
+
+.dob{
+    border: 1px solid #fff;
+    border-radius: 3px;
+    float: left;
+    width: 99.6%;
+    background: #fff;
+}
+
+input.dd, input.mm, input.yy{
+     border-radius: 0;
+    float: left;
+    width: 25.3%;
+    text-align: center;
+
+}
+
+input.dd, input.mm{
+    border-right:1px solid #ccc;
+}
+
+#AboutYou .button{
+
+    margin-right:187px;
+    width:auto;
+
+}
+
+#FormSearchGP .row{
+     margin-left: 30%;
+    width: 40%;
+}
+
+#FormSearchGP .button {
+    margin:100px 307px 0 0;
+    width:auto;
+}
+
+#OutcomeThree .firstChild input,
+#OutcomeThree .lastChild input {
+    width:100px;
+}
+
+#AboutYou .postcode{
+   width:160px;
+   float: left;
+
+}
+
+#AboutYou #SearchPostcode{
+ float: left;
+    margin: 1px 0 0 9px;
+    padding: 10px 20px;
+    width: auto;
+}
+
+button.changeAddress{
+    background:none;
+    border: 0 none;
+    box-shadow: none;
+    color: #fff;
+    font-size: 15px;
+    font-weight: normal;
+    margin: 0;
+    padding: 0;
+    text-decoration: underline;
+    text-transform: none;
+
+}
+
+button.changeAddress:hover{
+    color:#4a0400;
+    text-decoration:underline;
+
+}
+
+#FormWrapper .addressBlock{
+  background:url(../images/bg/homeAddressBG.png) repeat;
+   border-radius: 3px;
+   padding: 20px;
+   width: 60%;
+   color:#fff;
+   font-size:15px;
+}
+
+.title{
+   color: #4a0400;
+    
+    margin-bottom: 0;
+    
+}
+
+.homeAddress p{
+    margin-bottom:0;
+}
+
+.homeAddress p.title {
+    margin-bottom: 10px;
+}
+
+.question{
+    color:#4a0400;
+    font-size:15px;
+    font-weight:bold;
+}
+
+.question .radio{
+    margin: 18px 0 0 41px;    
+}
+
+.radio input{
+    width:auto;
+}
+
+
+.highlightYellow{
+    background:#fed86a;
+    padding:15px;
+}
+
+#FormSearchGP #FormWrapper{
+    margin-top:
+
+}
+
+.searchBox{
+   
+    border-radius: 3px;
+    position: relative;
+}
+
+.searchInput,.searchInput:focus{
+    border:0;
+    outline:0;
+    width:95%;
+
+}
+
+.findGP{
+    display:block;
+    float:right;
+    border:0;
+    height:42px;
+    width:40px;
+    
+
+}
+
+
+#SubHeadWrapper p{
+    color: #fff;
+    font-size: 18px;
+    margin-bottom: 0;
+    margin-left: 12px;
+    margin-top: 10px;
+}
+
+#HospitalsList h3{
+    cursor: pointer;
+    font-size: 21px;
+    padding-top: 5px;
+    outline:0;
+}
+
+#HospitalsList .ui-accordion-content{
+    padding-left:60px;
+    padding-bottom: 20px;
+
+}
+
+#HospitalsList .ui-accordion-content p{
+    font-size: 15px;
+    margin-bottom: 10px;
+}
+
+#HospitalsList li{
+    background:#fff;
+    border-radius:3px;
+    margin-bottom: 30px;
+    padding:10px 10px 10px 0;
+    color:#003366;
+}
+
+#HospitalsList .ui-accordion-header {
+    margin-bottom:20px;
+    background: url("../images/bg/inactiveSurgery.png") no-repeat 17px top;
+    padding-left:60px;
+    color: #a9a9a9;
+    border:0;
+}
+
+#HospitalsList .ui-accordion-header-active{
+    margin-bottom:10px;
+    background: url("../images/bg/activeSurgery.png") no-repeat 17px 0px;
+    padding-left:60px;
+    color:#003366;
+}
+
+
+.ui-accordion-content-active p{
+    margin-bottom:0;
+}
+
+#HospitalsList .button{
+    margin:10px 0 0 0;
+    font-size: 15px;
+
+}
+
+.telIcon{
+    background: url("../images/bg/telephone.png") no-repeat left -2px;
+    padding-left: 30px;
+    height:29px;
+}
+
+.webIcon{
+
+    background: url("../images/bg/website.png") no-repeat left center;
+    padding-left: 30px;
+}
+
+#AboutYou p{
+    color:#003366;
+}
+
+#AboutYou label span{
+    display:block;
+    margin-bottom:5px;
+    
+}
+
+#AdditionalInfo .row{
+    margin-left:0;
+}
+
+#PersonalDetails #AboutYou .row{
+ margin-left: 30%;
+    width: 42%;
+}
+
+#PersonalDetails #AboutYou .nextPage{
+    font-size: 15px;
+    width: auto;
+    margin-right: 0;
+    margin-top:10px;
+
+}
+
+#AboutYou .medium input{
+    width:280px;
+}
+
+#AboutYou .small input{
+    width:120px;
+}
+
+#DOB input.dd, input.mm {
+    border-radius: 0;
+    float: left;
+    text-align: center;
+    width: 40px;
+}
+
+#DOB .yy{
+    width:70px;
+    border-radius: 3px;
+    float: left;
+    text-align: center;
+    
+}
+
+#DOB input.dd, #DOB input.mm{
+    margin-right: 14px;
+    border-radius: 3px;
+}
+
+#PersonalDetails #AboutYou h3{
+    border-bottom: 1px solid #003366;
+    margin-top:20px;
+}
+
+#AboutYou .firstChild p{
+    margin-bottom:0;
+}
+
+#PersonalDetails #AboutYou .searchPostcode {
+    float: left;
+    margin: 1px 0 0 9px;
+    padding: 10px 14px;
+    width: 119px;
+}
+
+#PersonalDetails .enterManually{
+
+    margin-bottom:25px;
+}
+
+#PersonalDetails #PC{
+    margin-bottom: 10px;
+
+}
+
+#HospitalsList .ui-icon-triangle-1-e {
+    background: url("../images/bg/plus.png") no-repeat right top;  
+}
+
+#HospitalsList .ui-icon-triangle-1-s {
+    /*background: url("../images/bg/minus.png") no-repeat right top;      */
+    background: none;
+}
+
+#OutcomeEnd .row {
+  margin-left: 26%;
+    width: 50%;
+}
+
+
+#OutcomeEnd li {
+    background: #fff none repeat scroll 0 0;
+    border-radius: 3px;
+    color: #003366;
+    margin-bottom: 30px;
+    padding: 15px 25px;
+
+}
+
+#OutcomeEnd li h3{
+    margin-bottom:10px;
+    background: url("../images/bg/activeSurgery.png") no-repeat -2px top;
+  padding: 5px 0 0 45px;
+    
+    font-size: 21px;
+
+}
+
+#OutcomeEnd li p {
+    font-size: 15px;
+    margin-bottom: 10px;
+    margin-left: 45px;
+}
+
+
+#MapView{
+    min-height: 300px;
+}
+
+.ui-widget-content{
+    width:425px;
+}
+
+.ui-widget-content a {
+    font-size:15px;
+    font-style:italic;
+    
+    }
+.ui-menu .ui-menu-item{
+   
+}
+
+#HospitalsList .ui-widget-content{
+    width:auto;
+    border:0;
+     padding-bottom: 15px;
+    padding-top: 0;
+}
+
+#OutcomeOne .outcomeMsg{
+    font-size:23px;
+    margin:0;
+    width:100%;
+    color: #193f50;
+    font-weight:bold;
+}
+
+#SelectSurgery #FormSearchGP .row {
+    margin-left: 19%;
+    width: 66%;
+}
+
+#OutcomeOne #OutcomeQuestion a.buttonRight:hover{
+    text-decoration:none;
+}
+
+#SubHeadWrapper .seventy h3{
+    font-size:23px;
+}
+
+.site a.textLink{
+    clear:both;
+   text-align:center;
+    color:#003366;
+    text-decoration:underline;
+    
+}
+
+.textLink{
+    background:none;
+    text-decoration:underline;
+    width:auto;
+    padding:0;
+}
+
+
+#AboutYou .large input{
+    width:280px;
+}
+
+#PersonalDetails #AboutYou .bgColor{
+    width:42%;
+    background:#00c9f1;
+    
+}
+
+#PersonalDetails #AboutYou .bgColor .row{
+    margin-left:0;
+    margin-bottom:0;
+    padding:10px;
+    width:90%;
+}
+
+#PersonalDetails #AboutYou .sectionHead{
+    margin-bottom:5px;
+}
+
+
+#PersonalDetails #AboutYou #ManualEntryHome{
+        background:#ccc;
+   
+}
+
+#PersonalDetails #AboutYou #ManualEntryHome .row{
+    margin-left:0;
+    margin-bottom:0;
+    padding:10px;
+    width:90%;
+
+}
+
+#PersonalDetails #AboutYou #ManualEntryHome{
+        background:#00c9f1;
+   
+}
+
+#PersonalDetails #AboutYou #AdditionalInfo{
+        background:#00c9f1;
+   
+}
+
+
+#PersonalDetails #AboutYou #AdditionalInfo .row{
+    margin-left:0;
+     padding:10px;
+    width:90%;
+    margin-bottom:0;
+
+}
+
+#PersonalDetails #AboutYou #SectionBlock{
+    margin-bottom:0;
+}
+
+#HospitalsList .ui-accordion-content p.telIcon{
+    margin-bottom:5px;
+}
+
+
+/*New slider*/
+.noUi-target{
+    width:80%;
+    margin-left:10%;
+    border:1px solid #aaa;
+
+}
+
+#sliderContent #twoColumnBlock .minHandle{
+    margin-top:35px;
+    color:#fff;
+}
+
+#sliderContent #twoColumnBlock .maxHandle{
+    margin-top:35px;
+    margin-right: 69px;
+    color:#fff;
+}
+
+
+
+#gender #nextScreen{
+    border:0;
+}
+
+#gender #columnOne .painDays span{
+    
+    background:#6f2f40;
+    padding:5px;
+    border-radius: 7px;
+    color: #fff;
+    display: inline;
+    padding:8px 12px;
+}
+
+.noUi-horizontal{
+    height:40px;
+}
+
+.noUi-origin, .noUi-base, .noUi-target{
+    border-radius:22px;
+}
+
+.noUi-base {
+    background:#28b9d1;
+}
+
+.noUi-origin{
+    background:#fff;
+}
+
+.noUi-horizontal .noUi-handle{
+    
+    height:80px;
+    width:80px;
+    background:url(../../content/img/slider_button.png) no-repeat;
+    box-shadow:none;
+    border:0;
+    top:-21px;
+}
+
+.noUi-handle::before, .noUi-handle::after{
+    background:none;
+}
+
+.sliderHeading{
+    margin-bottom:35px;
+}
+
+/*New Home page*/
+
+
+.homePageNew #content #getHelpBtn{
+    border:0;
+    font-size:35px;
+    width:500px;
+}
+
+.homePageNew .content-container{
+    min-height:500px;
+}
+
+#submitSearch{
+     margin: 1px 8px 0 6px;
+    padding: 12px 10px 9px;
+}
+
+input[disabled], button[disabled]{
+    cursor:not-allowed !important;
+}
+
+#gender #columnTwo label img, #gender #columnThree label img{
+    border: 4px solid transparent;
+    cursor: pointer;
+    padding: 5%;
+    }
+
+#gender #columnTwo label img.selected, #gender #columnThree label img.selected{
+    border: 4px solid #d96769;
+}
+
+#sliderBottom .painDays{
+    margin-top:50px;
+}
+
+#sliderContent h2{
+    color:#fff;
+}
+
+.sliderHeading{
+    color:#fff;
+}
+
+/*No Outcome page styles*/
+
+#NoOutcome #SubHeadWrapper h2 {
+    text-transform:uppercase;
+    font-size:35px;
+}
+
+#OutcomeContent{
+     padding-top: 0;
+    position: relative;
+    text-align: center;
+}
+
+.outcomeBanner{
+    margin-top:80px;
+}
+
+.lineShadow{
+    background:url("../images/bg/lineShadowBG.png") no-repeat;
+    clear: both;
+    display: block;
+}
+
+.outcomeResults{
+     clear: both;
+    float: left;
+    font-size: 20px;
+    font-weight: bold;
+    margin-left: 23%;
+    margin-right: 23%;
+    text-transform: uppercase;
+    width: 55%;
+}
+
+.outcomeResults p{
+    margin:20px 0;
+   
+}
+
+.outcomeResults ul{
+    clear: both;
+    float: left;
+    margin-bottom: 20px;
+    width: 100%;
+}
+
+.outcomeResults ul li{
+    list-style:disc;
+    float: left;
+    margin-left: 13%;
+    line-height:1.6em;
+}
+
+.generalAdvice p{
+    text-transform:none;
+    font-size:20px;
+    font-weight:bold;
+    line-height: 1.4em;
+    margin-top:20px;
+    clear:both;
+}
+
+.findEmergency .row{
+    margin-left:10%;
+    text-align:left;
+    width:80%;
+}
+
+.findEmergency input.postcode{
+    width:60%;
+    float:left;
+}
+
+.findEmergency .searchPostcode{
+    float: left;
+    margin: 2px 0 0 10px;
+    width: 30%;
+}
+
+#PostcodeBackground{
+    background: #00aad6;
+  float: left;
+  margin-left: 14%;
+  padding: 25px 0 0 0;
+  width: 75%;
+}
+}
+
+#ThankYou{
+     margin-left: 26%;
+     clear: both;
+    float: left;
+}
+
+#ThankYou .button{
+    background:none;
+    border-radius: 0;
+    box-shadow: none;
+    clear: both;
+    text-decoration: underline;
+    color:#004877;
+}
+
+#DispositionNo{
+    background:none;
+    text-decoration: underline;
+    width:auto;
+}
+
+#OutcomeContent .generalAdvice{
+    text-align:left;
+}
+
+.generalAdvice ul{
+ clear: both;
+    float: left;
+    margin-bottom: 20px;
+   
+    width: 100%;
+}
+
+.generalAdvice ul li{
+    list-style:disc;
+    margin-left:20px;
+    font-size: 20px;
+    font-weight: bold;
+    line-height: 1.8em;
+    clear:both;
+    float:left;
+
+}
+
+
+#OutcomeOne .nineNineNine{
+     background:url(../images/bg/999Banner.png) no-repeat left bottom;
+     height:275px;
+     
+}
+
+
+#OutcomeOne #SubHeadWrapper h2.largeText{
+    font-size: 51px;
+    letter-spacing: 5px;
+    text-transform: uppercase;
+}
+
+#SubHeadWrapper .seventy h3 span.largeText{
+    font-size:28px;
+    
+}
+
+ul.firstChild{
+    float:left;
+    width:40%;
+    text-align:left;
+    margin-right:10%;
+}
+
+ul.lastChild {
+    float:left;
+    width:40%;
+    margin-left:10%;
+    text-align:left;
+
+}
+
+ul.firstChild li, ul.lastChild li{
+    margin-bottom:15px;
+    line-height:1.5em;
+    list-style:disc;
+}
+
+#OutcomeQuestion h3.headerGap{
+    margin-bottom:40px;
+}
+
+.emergencyOutcome #SubHeadWrapper{
+    background:#ac1500;
+}
+
+#SubHeadWrapper .seventy h3{
+    color:#fff;
+}
+
+#orangeBG .emergencyOutcome{
+     background:url(../images/bg/redBG.png) repeat;
+    min-height: 900px;
+}
+
+#orangeBG .emergencyOutcome #OutcomeQuestion{
+    color:#fff;
+}
+
+.emergencyOutcome #OutcomeQuestion h3{
+    font-size:36px;
+}
+
+#OutcomeEnd .whiteBG{
+    background:#fff;
+    padding:20px;
+    border-radius:3px;
+}
+
+#OutcomeEnd .whiteBG ul li{
+     font-size: 16px;
+    font-weight: normal;
+    margin-bottom:0;
+    padding: 0;
+}
+
+#OutcomeEnd .whiteBG p{
+    font-size:16px;
+    font-weight:normal;
+}
+
+#OutcomeEnd .whiteBG p.large{
+    font-weight:bold;
+    font-size:18px;
+}
+
+#emergencyImage{
+    margin-top:100px;
+
+}
+
+.emergencyOutcome .row{
+    text-align:center;
+    float:none;
+    color:#fff;
+}

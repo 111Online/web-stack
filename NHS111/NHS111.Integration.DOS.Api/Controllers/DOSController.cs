@@ -11,11 +11,11 @@ namespace NHS111.Integration.DOS.Api.Controllers
     [LogHandleErrorForApi]
     public class DOSController : ApiController
     {
-        private readonly IPathwayServiceSoapFactory _pathWayServiceFactory;
+        private readonly PathWayServiceSoap _pathWayServiceSoap;
 
-        public DOSController(IPathwayServiceSoapFactory pathWayServiceFactory)
+        public DOSController(PathWayServiceSoap pathWayServiceSoap)
         {
-            _pathWayServiceFactory = pathWayServiceFactory;
+            _pathWayServiceSoap = pathWayServiceSoap;
         }
 
         [HttpPost]
@@ -24,8 +24,7 @@ namespace NHS111.Integration.DOS.Api.Controllers
         {
             var jsonString = await request.Content.ReadAsStringAsync();
             var checkCapacitySummaryRequest = JsonConvert.DeserializeObject<CheckCapacitySummaryRequest>(jsonString);
-            var client = _pathWayServiceFactory.Create(request);
-            return await client.CheckCapacitySummaryAsync(checkCapacitySummaryRequest);
+            return await _pathWayServiceSoap.CheckCapacitySummaryAsync(checkCapacitySummaryRequest);
         }
 
         [HttpPost]
@@ -34,8 +33,7 @@ namespace NHS111.Integration.DOS.Api.Controllers
         {
             var jsonString = await request.Content.ReadAsStringAsync();
             var serviceDetailsByIdRequest = JsonConvert.DeserializeObject<ServiceDetailsByIdRequest>(jsonString);
-            var client = _pathWayServiceFactory.Create(request);
-            return await client.ServiceDetailsByIdAsync(serviceDetailsByIdRequest);
+            return await _pathWayServiceSoap.ServiceDetailsByIdAsync(serviceDetailsByIdRequest);
         }
     }
 }

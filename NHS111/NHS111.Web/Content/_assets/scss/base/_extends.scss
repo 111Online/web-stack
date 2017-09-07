@@ -1,0 +1,11 @@
+%clearfix {
+  &:after {
+    clear: both;
+    content: "";
+    display: table;
+  }
+}
+
+%list-nobullet{
+	list-style-type:none;
+}

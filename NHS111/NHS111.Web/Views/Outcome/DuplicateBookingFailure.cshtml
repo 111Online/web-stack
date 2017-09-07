@@ -19,6 +19,12 @@
     </script>
 }
 
+
+<link href="@NHS111.Web.Helpers.Versioning.GetVersionedUriRef("~/content/css_NhsUk/confirmation.css")" media="screen" rel="stylesheet" type="text/css" />
+<link href="@NHS111.Web.Helpers.Versioning.GetVersionedUriRef("~/Content/css_NhsUK/signposting-outcome.css")" media="all" rel="stylesheet" type="text/css" />
+<link href="@NHS111.Web.Helpers.Versioning.GetVersionedUriRef("~/Content/css_NhsUK/signposting-outcome-print.css")" media="print" rel="stylesheet" type="text/css" />
+<link href="@NHS111.Web.Helpers.Versioning.GetVersionedUriRef("~/content/css_NhsUk/service.css")" media="screen" rel="stylesheet" type="text/css" />
+
 @{
     var dataDictionary = ViewContext.ViewData;
     dataDictionary.Add(new KeyValuePair<string, object>("LaunchPage", "duplicate"));
@@ -38,12 +44,10 @@
 }
 
 <section>
-    <div class="local-header fail">
-        <h1 class="local-header__title">A call has already been requested for you</h1>
-        <div class="local-header__intro">
-            <p>If you've already had a call, please close this page</p>
-            <p>If you haven't had a call within the time suggested, or the symptoms have got worse, you should @Html.ActionLink("start again", "InitialQuestion", "Question") or call 111</p>
-        </div>
+    <div class="outcome-header fail">
+        <h1 class="heading-large">A call has already been requested for you</h1>
+        <h2 class="heading-small">If you've already had a call, please close this page</h2>
+        <h2 class="heading-small">If you haven't had a call within the time suggested, or the symptoms have got worse, you should @Html.ActionLink("start again", "InitialQuestion", "Question") or call 111</h2>
     </div>
 </section>
 

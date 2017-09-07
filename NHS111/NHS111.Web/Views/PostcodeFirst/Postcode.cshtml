@@ -18,6 +18,8 @@
 }
 
 @section Title { NHS 111 - Tell us your postcode }
+<link href="@NHS111.Web.Helpers.Versioning.GetVersionedUriRef("~/Content/css_NhsUK/signposting-outcome.css")" media="all" rel="stylesheet" type="text/css" />
+<link href="@NHS111.Web.Helpers.Versioning.GetVersionedUriRef("~/Content/css_NhsUK/signposting-outcome-print.css")" media="print" rel="stylesheet" type="text/css" />
 
 @section SurveyBanner{
     @if (!Model.UserInfo.CurrentAddress.IsPostcodeFirst) { 
@@ -39,7 +41,7 @@
     var error = Model.DosCheckCapacitySummaryResult.ResultListEmpty;
 }
 <section>
-    <div>
+    <div class="postcode-first">
 
         @using (Html.BeginForm("Outcome", "PostcodeFirst", FormMethod.Post, new { id = "findServicesForm" }))
         {
@@ -77,8 +79,8 @@
                 <h1 id="strap-line">You've answered the questions</h1>
                 <h2>Now we can tell you what to do next</h2>
             }
-            <div>
-                <div class="@(@ViewData.ModelState.IsValidField("UserInfo.CurrentAddress.Postcode") ? "" : "form-group-error")">
+            <div class="symptoms-find-container">
+                <div class="symptoms-search">
                     @if (error)
                     {
                         <p class="field-validation-error" id="NoDosResults">Sorry, no results were found for this postcode.</p>
@@ -86,12 +88,12 @@
                     }
                     @if (!Model.UserInfo.CurrentAddress.IsPostcodeFirst)
                     {
-                        <h1>If you enter your postcode now, we can find services that can help you</h1>
+                        <h1 class="heading-small">If you enter your postcode now, we can find services that can help you</h1>
                     }
                     @Html.ValidationMessageFor(m => m.UserInfo.CurrentAddress.Postcode)
                     @(Model.UserInfo.CurrentAddress.IsPostcodeFirst ? Html.Raw("<label for=\"UserInfo_CurrentAddress_Postcode\">Enter your postcode for services that can help you <span class=\"de-emphasised\">(optional)<span></label>") : Html.Raw("<label for=\"UserInfo_CurrentAddress_Postcode\" class=\"alwayshidden\">Postcode required</label>"))
-                    @Html.TextBoxFor(m => m.UserInfo.CurrentAddress.Postcode)
-                    <button class="button button--next" type="submit" name="DosResults" id="DosLookup">Next</button>
+                    @Html.TextBoxFor(m => m.UserInfo.CurrentAddress.Postcode, new { @class = "form-control " + (error ? "error" : "") })
+                    <button class="button button-next" type="submit" name="DosResults" id="DosLookup">Next</button>
                 </div>
             </div>
         }

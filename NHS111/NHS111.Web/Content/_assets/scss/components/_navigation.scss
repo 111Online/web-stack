@@ -1,0 +1,41 @@
+// NHS
+
+.nhs-page-navigation {
+  background: darken($nhs-pink, 5%);
+  display: none;
+  padding: 1.8em 0 3.2em;
+  text-align: center;
+  &.nhs-show-nav {
+    display: block;
+  }
+}
+
+.nhs-pagenav-container {
+  margin: 0 auto;
+  max-width: 400px;
+  padding: 0 15px;
+  @include media(tablet) {
+    padding: 0;
+  }
+}
+
+.nhs-page-navigation__title {
+  color: $nhs-yellow;
+  font-size: 1.2em;
+  margin-bottom: 0.15em;
+  @include media(tablet) {
+    font-size: 1.4em;
+  }
+}
+
+.nhs-page-navigation__link {
+  color: $white;
+  font-size: 1.4em;
+  &:hover, &:active {
+    color: darken($white, 10%);
+  }
+  @include media(tablet) {
+    font-size: 1.7em;
+  }
+}
+

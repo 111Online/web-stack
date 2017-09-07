@@ -10,11 +10,16 @@
     @Html.Partial("_FeedbackDetails", new FeedbackViewModel() { UserId = Model.SessionId.ToString(), PageId = Request.Url.GetComponents(UriComponents.PathAndQuery, UriFormat.SafeUnescaped) + "/demographics" })
 }
 
-@using (Html.BeginForm("Search", "Search", FormMethod.Post, new { @id = "outerContent" }))
+<link href="@NHS111.Web.Helpers.Versioning.GetVersionedUriRef("~/Content/css_NhsUK/gender.css")" media="screen" rel="stylesheet" type="text/css" />
+<link href="@NHS111.Web.Helpers.Versioning.GetVersionedUriRef("~/content/css_NhsUk/question.css")" media="screen" rel="stylesheet" type="text/css" />
+
+@using (Html.BeginForm("Search", "Question", FormMethod.Post, new { @id = "outerContent" }))
 {
     @Html.HiddenFor(x => Model.SessionId)
     @Html.HiddenFor(x => Model.FilterServices)
     @Html.Partial("_GenderAgeView", Model, new ViewDataDictionary(ViewData) { Model = null })
 
-    <button class="button button--next" id="submitGender" type="submit" name="Slider">Next</button>
+    <hr />
+
+    <input class="button button-next" id="submitGender" type="submit" name="Slider" value="Next" />
 }

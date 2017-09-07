@@ -1,0 +1,264 @@
+ul {
+  padding-left: 20px;
+  .text & {
+    margin: 5px 0 20px;
+  }
+}
+
+.list-text {
+  list-style-type: none;
+  margin-bottom: 20px;
+  padding-left: 0;
+  &.btm-align, &.top-align{
+    margin-bottom: 0;
+    li:last-child {
+      margin-bottom: 0;
+    }
+  }
+}
+
+.list-checkradio {
+  li {
+    margin-bottom: 7px;
+    padding-left: 25px;
+    position: relative;
+  }
+  &.scrolling-panel {
+    input[type="radio"], input[type="checkbox"] {
+      left: 3px; /* Compensates for the overflow on the panel */
+    }
+  }
+  input[type="radio"], input[type="checkbox"] {
+    cursor: pointer;
+    margin: 0;
+    position: absolute;
+    left: 0; top: 2px;
+    + label {
+      cursor: pointer;
+      display: block;
+    }
+    ~ details {
+      display: none;
+    }
+    &:checked ~ details {
+      background: $grey-4;
+      display: block;
+      margin-top: 5px;
+      margin-bottom: 5px;
+      padding: 5px 10px 5px 7px;
+      summary {
+        margin-bottom: 0;
+      }
+    }
+  }
+}
+
+.ie8-details {
+  background: $grey-4;
+  display: block !important;
+  margin-top: 5px;
+  margin-bottom: 5px;
+  padding: 5px 10px 5px 7px;
+  summary {
+    margin-bottom: 0;
+  }
+}
+
+.child-list {
+  padding-left: $gutter-half;
+}
+
+.list-bullet {
+  margin-bottom: 20px;
+}
+
+.list-max-11 {
+  @include core-16;
+  max-height: 17.25em; /*276px*/
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  width: 100%;
+}
+
+.list-max-6 {
+  max-height: 10.125em; /*162px*/
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  width: 100%;
+}
+
+ol {
+  margin-left: 25px;
+}
+
+.list-number {
+  margin-bottom: 20px;
+  @include media(tablet) {
+    margin-bottom: 30px;
+  }
+}
+
+.list-nav {
+  margin-bottom: $gutter;
+  padding: 0;
+  li {
+    list-style: none;
+    margin-bottom: 10px;
+    &.toggle-content {
+      display: none;
+    }
+    @include media(tablet) {
+      display: inline-block;
+      margin-right: $gutter;
+    }
+  }
+}
+
+.list-flowing {
+  @extend %clearfix;
+  @include media(tablet) {
+    li {
+      float: left;
+      width: 50%;
+    }
+  }
+}
+
+.list-flowing-2cols {
+  list-style-type: none;
+  padding-left: 0;
+  li {
+    @include media(tablet){
+      display: inline-block;
+      margin-right: -4px;
+      vertical-align: top;
+      width: 50%;
+    }
+  }
+}
+
+.list-flowing-3cols {
+  list-style-type: none;
+  padding-left: 0;
+  li {
+    @include media(tablet){
+      display: inline-block;
+      margin-right: -4px;
+      vertical-align: top;
+      width: 33.3%;
+    }
+  }
+}
+
+ol, ul {
+  li {
+    margin-bottom: 5px;
+  }
+}
+
+.heading-with-check {
+  padding-left: 1.7em;
+  position: relative;
+  .fa {
+    top: -0.12em; left: 0;
+    position: absolute;
+  }
+}
+
+.list-plus{
+  @extend %list-nobullet;
+  font-size:0.9em;
+}
+
+.list-plus li {
+  padding-left: 20px;
+  position: relative;
+  margin-bottom: 10px;
+  &:before {    
+    font-family: 'FontAwesome';
+    font-size:0.9em;
+    content: '\f067';
+    position: absolute; left: 0; top: 0;
+    .color-pink & {
+      color:$nhs-darkpink;
+    }
+    .color-blue & {
+      color:$nhs-darkblue;
+    }
+    .color-green & {
+      color:$nhs-darkgreen;
+    }
+  }
+}
+
+.list-numbers li{
+  padding:0;
+  position:relative;
+  list-style-type: none;
+  counter-increment: step-counter;
+  margin-bottom: 15px;
+  &:before{
+    content: counter(step-counter);
+    margin-right: 5px;
+    font-size:0.70em;
+    position: absolute; 
+    left: -30px; 
+    top: -2px;
+    .color-pink & {
+      background-color:$nhs-reallydarkpink;
+    }
+    .color-blue & {
+      background-color:$nhs-reallydarkblue;
+    }
+    .color-green & {
+      background-color:$nhs-green;
+      color:$nhs-darkgreen;
+    }
+    color: white;
+    text-align: center;
+    padding:5px 9px;
+    min-width:10px;
+    @include media(tablet) {
+      min-width:25px;
+    }
+    border-radius: 50%;
+  }
+}
+
+.reset-counter{
+  counter-reset: section;
+}
+
+h2.heading-list{
+  position:relative;
+  margin-left:40px;
+  margin-bottom:15px;
+}
+
+h2.heading-list:before {
+    counter-increment: section;
+    content: "" counter(section) "";
+    margin-right: 5px;
+    font-size:0.60em;
+    position:absolute;
+    top:0;
+    left:-40px;
+    .color-pink & {
+      background-color:$nhs-reallydarkpink;
+    }
+    .color-blue & {
+      background-color:$nhs-reallydarkblue;
+    }
+    .color-green & {
+      background-color:$nhs-green;
+      color:$nhs-darkgreen;
+    }
+    color: white;
+    text-align: center;
+    padding:5px 12px;
+    min-width:10px;
+    @include media(tablet) {
+      min-width:25px;
+    }
+    border-radius: 50%;
+}

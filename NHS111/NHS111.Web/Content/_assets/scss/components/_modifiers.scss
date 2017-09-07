@@ -1,0 +1,113 @@
+// Border, background etc classes
+
+
+.gov-border {
+  border-top: 10px solid $govuk-blue;
+}
+
+.section-border {
+  border-bottom: 1px solid $border-colour;
+}
+
+.float-right-wrap {
+  clear: both;
+  float: left;
+  width: 100%;
+}
+
+.no-right-margin {
+  margin-right: 0 !important;
+}
+
+.no-left-margin {
+  margin-left: 0 !important;
+}
+
+.no-btm-margin {
+  margin-bottom: 0 !important;
+}
+
+.small-btm-margin {
+  margin-bottom: 5px;
+}
+
+.med-btm-margin {
+  margin-bottom: 10px;
+}
+
+.lrg-btm-margin {
+  margin-bottom: 20px;
+}
+
+.para-btm-margin {
+  margin-bottom: $gutter-half;
+  @include media(tablet) {
+    margin-bottom: $gutter;
+  }
+}
+
+.inl-block {
+	display: inline-block;
+}
+
+.inl-block-fix {
+  display: inline-block;
+  margin-right: -4px;
+}
+
+.vert-align-top {
+  vertical-align: top !important;
+}
+
+.has-error {
+  color: $error-colour;
+}
+
+.fa {
+  margin-right: .3em; /* Icon margin is relative to font size */
+}
+
+.disp-block {
+  display: block;
+}
+
+.inline-float {
+  clear: none;
+  float: left;
+}
+
+.prewrap {
+  white-space: pre-wrap;
+}
+
+.no-underline {
+  text-decoration: none !important;
+}
+
+.disabled, .disabled > *{
+  opacity: .5;
+  pointer-events: none;
+}
+
+.fixedsticky {
+  top: 23px;
+}
+
+.sticky {
+  @include media(tablet) {
+    position: fixed;
+    width: 30%;
+    max-width: 320px;
+  }
+
+  @media screen and (max-height: 769px) {
+    max-height: 660px;
+    overflow-y: auto;
+  }
+}
+
+.no-geolocation {
+  .geolocater {
+    display: none;
+  }
+}
