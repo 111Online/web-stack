@@ -19,11 +19,15 @@
     @Html.Partial("_FeedbackDetails", new FeedbackViewModel() { UserId = Model.SessionId.ToString(), PageId = Request.Url.GetComponents(UriComponents.PathAndQuery, UriFormat.SafeUnescaped) })
 }
 
+@Html.Partial("_SearchBox", Model, ViewData)
+
+<hr />
+
 <div id="SearchResults">
-    <h2 class="heading-medium" id="search-results-heading">Which of the following best applies?</h2>
+    <h2 id="search-results-heading">Which of the following best applies?</h2>
     @if (Model.Results.Any())
     {
-        <div class="results-list">
+        <div>
             <ul class="link-list link-list--results">
                 @foreach (var result in Model.Results)
                 {
@@ -34,7 +38,7 @@
                         <a data-title="@result.PathwayTitle" data-pathway-number="@result.PathwayNo" href="/@result.PathwayNo/@Model.UserInfo.Demography.Gender/@Model.UserInfo.Demography.Age/start?age=@Model.UserInfo.Demography.Age&digitalTitle=@digitalTitle&entrySearchTerm=@Model.SanitisedSearchTerm&filterServices=@(Model.FilterServices.ToString())">@Html.Raw(title)</a>
                         @if (additionalTopics.Any())
                         {
-                            <p class='additional-topics'>Includes: @Html.Raw(string.Join(", ", additionalTopics))</p>
+                            <p>Includes: @Html.Raw(string.Join(", ", additionalTopics))</p>
                         }
                         <p>@Html.Raw(result.Description)</p>
                     </li>
