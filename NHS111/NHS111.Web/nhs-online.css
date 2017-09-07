@@ -410,6 +410,10 @@ legend + * {
     -webkit-margin-top-collapse: separate;
 }
 
+legend + .inline-details {
+    margin-top: 0;
+}
+
 textarea {
     font-family: "Frutiger W01", Arial, sans-serif;
     font-size: 20px;

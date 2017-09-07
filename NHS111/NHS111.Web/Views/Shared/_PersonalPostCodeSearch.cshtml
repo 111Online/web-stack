@@ -40,13 +40,14 @@
             <div id="addressPanel" class="address-panel">
                 <h2 class="heading-medium" id="manual-entry-title">Enter address</h2>
                 <fieldset>
+                    <legend class="form-label">Street</legend>
                     <div class="inline-details">
-                        @Html.LabelFor(m => m.AddressLine1, "House name or number")
-                        @Html.ValidationMessageFor(m => m.AddressLine1, "Please enter the house name or number")
+                        @Html.LabelFor(m => m.AddressLine1, "Address line 1", new { @class = "util-visuallyhidden" })
+                        @Html.ValidationMessageFor(m => m.AddressLine1, "Please enter the first line of the address")
                         @Html.TextBoxFor(m => m.AddressLine1, new { @class = "form-control" })
                     </div>
                     <div class="inline-details">
-                        @Html.LabelFor(m => m.AddressLine2, "Street")
+                        @Html.LabelFor(m => m.AddressLine2, "Address line 2", new { @class = "util-visuallyhidden" })
                         @Html.TextBoxFor(m => m.AddressLine2, new { @class = "form-control" })
                     </div>
                 </fieldset>
