@@ -306,7 +306,7 @@ details {
 }
 
 details summary:hover {
-    color: #4c92d9;
+    color: #0095D7;
 }
 
 details summary:focus {
@@ -744,11 +744,11 @@ a:visited {
 }
 
 a:hover {
-    color: #4c92d9;
+    color: #0095D7;
 }
 
 a:active {
-    color: #4c92d9;
+    color: #0095D7;
 }
 
 a:focus {
@@ -1554,7 +1554,7 @@ button:active:before, .button:active:before {
     .button--link:focus {
         background: none;
         border: none;
-        color: #4c92d9;
+        color: #0095D7;
     }
 
     .button--link:active {
@@ -2659,11 +2659,11 @@ a.global-header__logo {
     }
 
     .notification-banner--hiviz a:hover {
-        color: #3e78b2;
+        color: #007ab0;
     }
 
     .notification-banner--hiviz a:active {
-        color: #3e78b2;
+        color: #007ab0;
     }
 
     .notification-banner--hiviz a:focus {
