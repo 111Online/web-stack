@@ -23,7 +23,7 @@ namespace NHS111.SmokeTest.Utils
         [FindsBy(How = How.ClassName, Using = "button--next")]
         public IWebElement GoButton { get; set; }
 
-        [FindsBy(How = How.CssSelector, Using = ".content-container h1 label")]
+        [FindsBy(How = How.CssSelector, Using = ".content-container h1")]
         public IWebElement Header { get; set; }
 
         public SearchPage(IWebDriver driver)
