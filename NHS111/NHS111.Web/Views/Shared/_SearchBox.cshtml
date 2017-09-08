@@ -11,7 +11,7 @@
             <span class="form-hint">For example, headache, swollen knee or rash</span>
         </h1>
         @Html.ValidationMessageFor(m => m.SanitisedSearchTerm, "Please enter the symptom you're concerned about", new { @class = "error-message" })
-        <div class="symptoms-find-container">
+        <div>
             @Html.TextBoxFor(m => m.SanitisedSearchTerm, new { @autocomplete = "off", @class = "form-textbox" })
             <button type="submit" class="button button--next" value="Search" id="searchButton">Next</button>
         </div>

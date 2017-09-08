@@ -23,7 +23,7 @@ namespace NHS111.SmokeTest.Utils
         [FindsBy(How = How.ClassName, Using = "button--next")]
         public IWebElement GoButton { get; set; }
 
-        [FindsBy(How = How.CssSelector, Using = ".content-container h1")]
+        [FindsBy(How = How.CssSelector, Using = ".form-group h1 label")]
         public IWebElement Header { get; set; }
 
         public SearchPage(IWebDriver driver)
@@ -67,15 +67,15 @@ namespace NHS111.SmokeTest.Utils
             SearchTxtBox.Clear();
             SearchTxtBox.SendKeys(pathway);
             this.ClickGoButton();
-            new WebDriverWait(_driver, TimeSpan.FromSeconds(5)).Until(ExpectedConditions.ElementIsVisible(By.XPath("//div[@class='results-list']/ul/li")));
-            _driver.FindElement(By.XPath("//div[@class='results-list']/ul/li/a[@data-title='" + pathway + "']")).Click();
+            new WebDriverWait(_driver, TimeSpan.FromSeconds(5)).Until(ExpectedConditions.ElementIsVisible(By.XPath("//ul[contains(@class, 'link-list') and contains(@class, 'link-list--results')]/li")));
+            _driver.FindElement(By.XPath("//ul[contains(@class, 'link-list') and contains(@class, 'link-list--results')]/li/a[@data-title='" + pathway + "']")).Click();
             return new QuestionPage(_driver);
         }
 
         public IEnumerable<IWebElement> GetHits()
         {
-            new WebDriverWait(_driver, TimeSpan.FromSeconds(5)).Until(ExpectedConditions.ElementIsVisible(By.XPath("//div[@class='results-list']/ul/li")));
-            return _driver.FindElements(By.XPath("//div[@class='results-list']/ul/li")); 
+            new WebDriverWait(_driver, TimeSpan.FromSeconds(5)).Until(ExpectedConditions.ElementIsVisible(By.XPath("//ul[contains(@class, 'link-list') and contains(@class, 'link-list--results')]/li")));
+            return _driver.FindElements(By.XPath("//ul[contains(@class, 'link-list') and contains(@class, 'link-list--results')]/li")); 
         }
 
         public void SearchByTerm(string term)
