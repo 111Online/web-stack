@@ -358,23 +358,23 @@ dl dt {
     padding-left: 32px;
 }
 
-    .list--chevron li {
+.list--chevron li {
         position: relative;
     }
 
-        .list--chevron li:before, .list--chevron li:after {
-            border-style: solid;
-            content: "";
-            display: block;
-            height: 0;
-            position: absolute;
-            top: 6px;
+.list--chevron li:before, .list--chevron li:after {
+    border-style: solid;
+    content: "";
+    display: block;
+    height: 0;
+    position: absolute;
+    top: 6px;
             width: 0;
         }
 
-        .list--chevron li:before {
-            border-color: transparent transparent transparent #425563;
-            border-width: 10px 0 10px 10px;
+.list--chevron li:before {
+    border-color: transparent transparent transparent #425563;
+    border-width: 10px 0 10px 10px;
             left: -32px;
         }
 
@@ -415,43 +415,43 @@ dl dt {
     padding-left: 32px;
 }
 
-    .list--check li,
-    .list--cross li {
+.list--check li,
+.list--cross li {
         position: relative;
     }
 
-        .list--check li::before, .list--check li::after,
-        .list--cross li::before,
-        .list--cross li::after {
-            content: "";
-            left: -32px;
-            position: absolute;
+.list--check li::before, .list--check li::after,
+.list--cross li::before,
+.list--cross li::after {
+    content: "";
+    left: -32px;
+    position: absolute;
             zoom: 1;
         }
 
-        .list--check li::before {
-            background: transparent;
-            border: solid;
-            border-color: #007f3b;
-            border-width: 0 0 5px 5px;
-            height: 12px;
-            top: 7px;
-            -webkit-transform: rotate(-45deg);
-            transform: rotate(-45deg);
+.list--check li::before {
+    background: transparent;
+    border: solid;
+    border-color: #007f3b;
+    border-width: 0 0 5px 5px;
+    height: 12px;
+    top: 7px;
+    -webkit-transform: rotate(-45deg);
+    transform: rotate(-45deg);
             width: 22px;
         }
 
-        .list--cross li::before, .list--cross li::after {
-            background: #da291c;
-            height: 5px;
-            top: 12px;
-            -webkit-transform: rotate(45deg);
-            transform: rotate(45deg);
+.list--cross li::before, .list--cross li::after {
+    background: #da291c;
+    height: 5px;
+    top: 12px;
+    -webkit-transform: rotate(45deg);
+    transform: rotate(45deg);
             width: 24px;
         }
 
-        .list--cross li::after {
-            -webkit-transform: rotate(-45deg);
+.list--cross li::after {
+    -webkit-transform: rotate(-45deg);
             transform: rotate(-45deg);
         }
 
@@ -523,19 +523,19 @@ blockquote {
     quotes: "“" "”";
 }
 
-    blockquote p:before {
+blockquote p:before {
         content: open-quote;
     }
 
-    blockquote p:after {
+blockquote p:after {
         content: no-close-quote;
     }
 
-    blockquote p:last-of-type {
+blockquote p:last-of-type {
         margin-bottom: 0;
     }
 
-        blockquote p:last-of-type:after {
+blockquote p:last-of-type:after {
             content: close-quote;
         }
 
@@ -570,25 +570,25 @@ a {
     text-decoration: none;
 }
 
-    a::after {
+a::after {
         font-weight: 400;
     }
 
-    a:visited {
+a:visited {
         word-wrap: break-word;
     }
 
-    a[href^="/"]:after {
-        content: " (https://www.nhs.uk" attr(href) ")";
+a[href^="/"]:after {
+    content: " (https://www.nhs.uk" attr(href) ")";
         font-size: 90%;
     }
 
-    a[href^="http://"]:after, a[href^="https://"]:after {
-        content: " (" attr(href) ")";
+a[href^="http://"]:after, a[href^="https://"]:after {
+    content: " (" attr(href) ")";
         font-size: 90%;
     }
 
-    a[href^="javascript:"]:after, a[href^="#"]:after {
+a[href^="javascript:"]:after, a[href^="#"]:after {
         content: "";
     }
 
@@ -639,12 +639,12 @@ details {
     margin: 1cm 0;
 }
 
-    details summary {
-        font-family: sans-serif;
-        font-size: 16pt;
-        font-weight: 600;
-        line-height: 32px;
-        text-transform: none;
+details summary {
+    font-family: sans-serif;
+    font-size: 16pt;
+    font-weight: 600;
+    line-height: 32px;
+    text-transform: none;
         margin-bottom: .5cm;
     }
 

@@ -4,7 +4,6 @@
 
 
 
-<p class="" style="display: none;" id="no-results-message">Sorry, we couldn't find an address using that postcode.<br/>Please enter your address below or try a different postcode.</p>
 
 <fieldset>
     <legend>
@@ -18,11 +17,12 @@
                     <label for="@Html.NameFor(m => m.PreviouslyEnteredPostcode)">Postcode</label>
                     <div class="inline-details">
                         <p id="postcode-readonly">@Html.ValueFor(m => m.PreviouslyEnteredPostcode)</p>
-                        @Html.TextBoxFor(m => m.PreviouslyEnteredPostcode, new {@class = "form-control form-control-8-chars", placeholder = "eg. SE1", @readonly = "readonly", @type = "hidden"})
+                        @Html.TextBoxFor(m => m.PreviouslyEnteredPostcode, new {@class = "form-control form-control-8-chars", @readonly = "readonly", @type = "hidden"})
                         <button class="button--next button--link" id="postcode-change-link" type="button">Change this postcode</button>
                         <button style="display: none" type="button" class="button--next button--secondary find-address" id="findMyAddress">Find address</button>
                     </div>
                 </div>
+                <p style="color:red; display: none;" id="no-results-message">Sorry, we couldn't find an address using that postcode.<br/>Please enter your address below or try a different postcode.</p>
             </div>
         </div>
 
@@ -157,8 +157,10 @@
                 },
                 timeout: 5000,
                 error: function (XMLHttpRequest, textStatus, errorThrown) {
-                    console.error("Status: " + textStatus); alert("Error: " + errorThrown);
+                    $("#manual-entry-link").hide();
                     $("#AddressList").hide();
+                    $(".address-panel").show();
+                    $("#no-results-message").show();
                 },
                 complete: function () {
                     stopPageLoadingIndicator();
@@ -189,6 +191,7 @@
             $("#postcode-change-link").hide();
         } else if (flag === "show") {
             $("#findMyAddress").hide();
+            $("#AddressInfoViewModel_PreviouslyEnteredPostcode").prop('readonly', true);
             $("#postcode-change-link").show();
             $("#postcode-readonly").show();
             $("#AddressInfoViewModel_PreviouslyEnteredPostcode").attr('type', 'hidden');
@@ -207,7 +210,7 @@
     function resetElements() {
         $(".address-panel").hide();
         $("#AddressList").hide();
-        $("#postcode-validation-message").hide();
+        $("#no-results-message").hide();
         $("#AddressInfoViewModel_postcode-find").removeClass("validation-error-input");
         $("#AddressListPicker").removeClass("input-validation-error");
         $("#AddressInfoViewModel_AddressLine1").removeClass("input-validation-error");
@@ -226,7 +229,10 @@
     }
 
     function invalidatePostCode() {
-        $("#postcode-validation-message").show();
+        $("#manual-entry-link").hide();
+        $("#AddressList").hide();
+        $(".address-panel").show();
+        $("#no-results-message").show();
         $("#AddressInfoViewModel_postcode-find").addClass("validation-error-input");
     }
 
