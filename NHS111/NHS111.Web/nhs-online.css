@@ -2487,7 +2487,7 @@ a.global-header__logo {
 .local-header__intro {
     color: #fff;
     margin-top: 16px;
-    max-width: 40em;
+    max-width: none;
     padding-top: 16px;
     position: relative;
 }
@@ -2512,6 +2512,10 @@ a.global-header__logo {
 
 .local-header__intro p {
     max-width: none;
+}
+
+.local-header__intro * + * {
+    margin-top: 16px;
 }
 
 .results-map:after {
