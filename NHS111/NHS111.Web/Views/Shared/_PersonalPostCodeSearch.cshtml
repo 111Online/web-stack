@@ -123,6 +123,7 @@
         $('#findMyAddress').css('cursor', 'pointer');
         $(document).on('click', '#findMyAddress', function (event) {
             $("#manual-entry-link").show();
+            $("#postcode-readonly").html($("#AddressInfoViewModel_PreviouslyEnteredPostcode").val());
             postcodeChangeLink("show");
             resetElements();
             var $postCode = $("#AddressInfoViewModel_PreviouslyEnteredPostcode").val();
@@ -186,12 +187,11 @@
             $("#AddressInfoViewModel_PreviouslyEnteredPostcode").removeAttr('readonly');
             $("#manual-entry-link").hide();
             $("#AddressList").hide();
-            $("#postcode-readonly").html($("#AddressInfoViewModel_PreviouslyEnteredPostcode").val());
+
             $("#postcode-readonly").hide();
             $("#postcode-change-link").hide();
         } else if (flag === "show") {
             $("#findMyAddress").hide();
-            $("#AddressInfoViewModel_PreviouslyEnteredPostcode").prop('readonly', true);
             $("#postcode-change-link").show();
             $("#postcode-readonly").show();
             $("#AddressInfoViewModel_PreviouslyEnteredPostcode").attr('type', 'hidden');
