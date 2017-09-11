@@ -2059,10 +2059,12 @@ a.global-header__logo {
     all: unset;
 }
 
-.results-map .page-section .service-map * + * {
-    margin: 0;
-    all: unset;
-}
+    .results-map .service-map * + * {
+        margin: 0;
+        font-family: inherit;
+        font-size: inherit;
+        all: unset;
+    }
 
 .results-map .results-map {
     display: inline-block;
