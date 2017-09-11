@@ -36,7 +36,7 @@
     }
 }
 
-@Html.Partial("_OutcomeHeader", Model, new ViewDataDictionary() { { "OutcomeHeader", string.Format("You should {0} within the next {1}", Model.OutcomeGroup.Text, Model.TimeFrameText) } })
+@Html.Partial("_OutcomeHeaderTwoTitles", Model, new ViewDataDictionary() { { "OutcomeHeader", string.Format("You should {0} within the next {1}", Model.OutcomeGroup.Text, Model.TimeFrameText) } })
 
 @if (!string.IsNullOrEmpty(Model.UserInfo.CurrentAddress.Postcode))
 {
