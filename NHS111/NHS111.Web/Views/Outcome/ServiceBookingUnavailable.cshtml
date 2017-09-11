@@ -38,8 +38,8 @@
 }
 
 <section>
-    <div class="local-header fail">
-        <h1 class="local-header__title">The service you selected is no longer available</h1>
+    <div class="callout callout--warning">
+        <h1>The service you selected is no longer available</h1>
     </div>
 
     @Html.Partial("_AlternativeServices", Model, new ViewDataDictionary { { "Title", "Please choose another service instead" } })

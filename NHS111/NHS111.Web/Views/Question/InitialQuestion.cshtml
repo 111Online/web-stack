@@ -14,7 +14,7 @@
     @Html.HiddenFor(x => Model.FilterServices)
 
     <h1 class="heading-large">Do any of these apply?</h1>
-    @Html.Partial("_Callout", new CalloutViewModel() { Details = new[] { "Before we ask about the symptoms, we need to check it's not an emergency.", "If any of these apply, <strong>call 999 now</strong>" }, Modifiers = new[] { "info" } })
+    @Html.Partial("_Callout", new CalloutViewModel() { Details = new[] { "Before we ask about the symptoms, we need to check it's not an emergency.", "If any of these apply, <strong>call <span aria-label='9 9 9'>999</span> now</strong>" }, Modifiers = new[] { "info" } })
 
     @Html.Partial("_HiddenText", new HiddenTextViewModel() { Summary = "Central crushing chest pain", Details = new[] { "A feeling of crushing pressure like a heavy weight pushing down on your chest." } })
     @Html.Partial("_HiddenText", new HiddenTextViewModel() { Summary = "You think it's a stroke", Details = new[] { "Signs of a stroke include being unable to raise both arms and keep them there, difficulty speaking or a lopsided face." } })

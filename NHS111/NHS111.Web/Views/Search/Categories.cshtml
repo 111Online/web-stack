@@ -18,7 +18,11 @@
     @Html.Partial("_FeedbackDetails", new FeedbackViewModel() { UserId = Model.SessionId.ToString(), PageId = Request.Url.GetComponents(UriComponents.PathAndQuery, UriFormat.SafeUnescaped) })
 }
 
-<div id="categories" class="all-symptoms">
+@Html.Partial("_SearchBox", Model, ViewData)
+
+<hr/>
+
+<div id="categories">
     @{
         var bodyParts = new List<string> {"Head and neck", "Shoulder, arm and hand", "Chest and back", "Abdomen, groin and side of the body", "Bowel and urinary problems", "Genitals", "Leg and foot", "Skin and hair"};
         var lists = new List<IEnumerable<CategoryWithPathways>>(2);
@@ -28,12 +32,12 @@
 
     @if (!string.IsNullOrEmpty(Model.SanitisedSearchTerm))
     {
-        <h2 class="heading-medium">@string.Format("Sorry, there are no results for '{0}'.", Model.SanitisedSearchTerm.Trim())</h2>
-        <h2 class="heading-medium">Try finding your symptoms by topic instead.  If you can't find what you need, please call 111 now.</h2>
+        <h2>@string.Format("Sorry, there are no results for '{0}'.", Model.SanitisedSearchTerm.Trim())</h2>
+        <h2>Try finding your symptoms by topic instead.  If you can't find what you need, please call 111 now.</h2>
     }
         else
         {
-        <h2 class="heading-medium">Find your symptoms from the topic list.  If you can't find what you need, please call 111 now.</h2>
+        <h2>Find your symptoms from the topic list.  If you can't find what you need, please call 111 now.</h2>
     }
     
     <div class="grid-row">

@@ -87,7 +87,7 @@
     <header role="banner" class="global-header">
         <div class="global-header__inner">
             <a href="/" class="global-header__logo" title="Go to the NHS 111 homepage">
-                <img src="/content/images/nhs-logotype-blue.svg" width="79px" height="32px" alt="NHS logo"> 111 <span class="global-header__phase-tag">beta</span>
+                <img src="/content/images/nhs-logotype-blue.svg" width="79px" height="32px" alt=""> <span aria-label="1 1 1">111</span> <span class="global-header__phase-tag">beta</span>
             </a>
         </div>
     </header>
@@ -147,6 +147,6 @@
     </script>
 
 
-    @*{ Html.RenderAction("VersionInfo", "Version"); }*@
+    @{ Html.RenderAction("VersionInfo", "Version"); }
 </body>
 </html>

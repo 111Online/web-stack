@@ -8,7 +8,7 @@
 @section Title { NHS 111 - Speak to a clinician }
 
 @section HeadTop {
-@{ var url = string.Format("/outcome/{0}/{1}/{2}/disposition/", Url.Encode(Model.PathwayNo), Url.Encode(Model.OutcomeGroup.Text), Url.Encode(Model.Id)); }
+    @{ var url = string.Format("/outcome/{0}/{1}/{2}/disposition/", Url.Encode(Model.PathwayNo), Url.Encode(Model.OutcomeGroup.Text), Url.Encode(Model.Id)); }
     <script>
         var pageId = '@Model.Id';
         dataLayer = [
@@ -43,7 +43,7 @@
 
 <div class="itk-message">
     <p>The 111 nurse will aim to phone you in @Html.Raw(Model.WaitTimeText) or less.</p>
-    <br/>
+    <br />
     <p>The 111 nurse will:</p>
     <ul>
         <li>
@@ -72,18 +72,17 @@
 @Html.Partial("_FindService", Model, dataDictionary)
 
 
-<hr/>
+<hr />
 
-@if (Model.CareAdvices != null && Model.CareAdvices.Any())
-{
-    <details>
-        <summary>
-            <span class="summary">If you don't want to book a call from this service, please read the following advice</span>
-        </summary>
-        <div class="panel panel-border-narrow">
-            @Html.Partial("_CareAdvice", Model.CareAdvices, new ViewDataDictionary { { "Title", "" }, {"NoHR", "true"}})
-        </div>
-    </details>
-}
-
-@Html.Partial("_WorseningAdvice", Model)
+<details>
+    <summary>
+        <span class="summary">If you don't want to book a call from this service, please read the following advice</span>
+    </summary>
+    <div class="panel panel-border-narrow">
+        @if (Model.CareAdvices != null && Model.CareAdvices.Any())
+        {
+            @Html.Partial("_CareAdvice", Model.CareAdvices, new ViewDataDictionary {{"Title", ""}, {"NoHR", "true"}})
+        }
+        @Html.Partial("_WorseningAdvice", Model)
+    </div>
+</details>
