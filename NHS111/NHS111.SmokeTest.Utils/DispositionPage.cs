@@ -19,7 +19,7 @@ namespace NHS111.SmokeTest.Utils
         [FindsBy(How = How.CssSelector, Using = ".local-header h1")]
         public IWebElement Header { get; set; }
 
-        [FindsBy(How = How.CssSelector, Using = ".question-header")]
+        [FindsBy(How = How.Id, Using = "dead-end-jump-header")]
         public IWebElement PathwayNotFoundHeader { get; set; }
 
 
