@@ -1635,6 +1635,29 @@ button:active:before, .button:active:before {
     outline: 3px solid #ffb81c;
 }
 
+.callout h1 {
+    font-family: "Frutiger W01", Arial, sans-serif;
+    font-size: 24px;
+    font-weight: 600;
+    line-height: 40px;
+    text-transform: none;
+    color: #231f20;
+}
+
+@media (min-width: 641px) {
+    .callout h1 {
+        font-size: 28px;
+        line-height: 48px;
+    }
+}
+
+@media (min-width: 925px) {
+    .callout h1 {
+        font-size: 32px;
+        line-height: 48px;
+    }
+}
+
 .callout--muted {
     background-color: #d8dde0;
 }
