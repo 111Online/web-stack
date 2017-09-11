@@ -23,12 +23,6 @@
     </script>
 }
 
-@section Scripts {
-    <link href="@NHS111.Web.Helpers.Versioning.GetVersionedUriRef("~/Content/css_NhsUK/home.css")" media="all" rel="stylesheet" type="text/css" />
-    <link href="@NHS111.Web.Helpers.Versioning.GetVersionedUriRef("~/Content/css_NhsUK/confirmation.css")" media="all" rel="stylesheet" type="text/css"/>
-    <link href="@NHS111.Web.Helpers.Versioning.GetVersionedUriRef("~/Content/css_NhsUK/signposting-outcome.css")" media="all" rel="stylesheet" type="text/css" />
-}
-
 @{
     var dataDictionary = ViewContext.ViewData;
     dataDictionary.Add(new KeyValuePair<string, object>("LaunchPage", "confirmation"));
@@ -48,11 +42,11 @@
 }
 
 <section>
-    <div class="outcome-header">
-        <h1 class="heading-large">Your call is confirmed</h1>
-        <h2 class="heading-small">
-            If you haven't had a call within <strong>@WebUtility.HtmlDecode(Model.WaitTimeText)</strong>, please call 111
-        </h2>
+    <div class="local-header">
+        <h1 class="local-header__title">Your call is confirmed</h1>
+        <div class="local-header__intro">
+            <p>If you haven't had a call within <strong>@WebUtility.HtmlDecode(Model.WaitTimeText)</strong>, please call 111</p>
+        </div>
     </div>
 </section>
 

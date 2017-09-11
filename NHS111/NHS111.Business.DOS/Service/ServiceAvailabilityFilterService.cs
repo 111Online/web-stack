@@ -31,11 +31,11 @@ namespace NHS111.Business.DOS.Service
             _filterServicesFeature = filterServicesFeature;
         }
 
-        public async Task<HttpResponseMessage> GetFilteredServices(HttpRequestMessage request, bool filterServices)
+        public async Task<HttpResponseMessage> GetFilteredServices(HttpRequestMessage request, bool filterServices, DosEndpoint? endpoint)
         {
             var content = await request.Content.ReadAsStringAsync();
             var dosCaseRequest = BuildRequestMessage(GetObjectFromRequest<DosCase>(content));
-            var response = await _dosService.GetServices(dosCaseRequest);
+            var response = await _dosService.GetServices(dosCaseRequest, endpoint);
 
             if (response.StatusCode != HttpStatusCode.OK) return response;
 
@@ -73,7 +73,7 @@ namespace NHS111.Business.DOS.Service
 
     public interface IServiceAvailabilityFilterService
     {
-        Task<HttpResponseMessage> GetFilteredServices(HttpRequestMessage request, bool filterServices);
+        Task<HttpResponseMessage> GetFilteredServices(HttpRequestMessage request, bool filterServices, DosEndpoint? endpoint);
     }
 
     public class JsonCheckCapacitySummaryResult
