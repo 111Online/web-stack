@@ -45,11 +45,10 @@
     @Html.HiddenFor(x => Model.StateJson)
     @Html.HiddenFor(x => Model.FilterServices)
 
-    <div class="callout callout--warning">
-        <h1>@Model.TitleWithoutBullets</h1>
-        <p>Your health assessment can’t be completed with the current online service.</p>
-        <p>Please call 111 now for help and advice. Calls to NHS 111 are free.</p>
-    </div>
+    <h2>@Model.TitleWithoutBullets</h2>
+    <p>Your health assessment can’t be completed with the current online service.</p>
+    <p>Please call 111 now for help and advice. Calls to NHS 111 are free.</p>
+    <hr />
 
     if (!Model.IsFirstStep)
     {
