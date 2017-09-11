@@ -1,0 +1,3 @@
+﻿@model NHS111.Models.Models.Web.ButtonViewModel
+    
+<button class="button @foreach (var modifier in @Model.Modifiers) { @Html.Raw("button--" + modifier) }" @if (Model.Type != "") { @Html.Raw("type='" + @Model.Type + "'") }>@Html.Raw(@Model.Text)</button>

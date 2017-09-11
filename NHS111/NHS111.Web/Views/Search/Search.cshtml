@@ -1,0 +1,20 @@
+﻿@using NHS111.Models.Models.Web
+@model SearchJourneyViewModel
+@{
+    Layout = "~/Views/Shared/_LayoutNhsUK.cshtml";
+}
+
+@section Title  {NHS 111 Online - Tell us the symptom}
+
+@section Scripts {
+    <script src="~/scripts/jquery1.11.2-ui.min.js"></script>
+    <script src="~/scripts/jquery.blockUI.js"></script>
+    <script src="@NHS111.Web.Helpers.Versioning.GetVersionedUriRef("~/scripts/custom.js")"></script>
+    <script src="@NHS111.Web.Helpers.Versioning.GetVersionedUriRef("~/scripts/disclaimer.js")"></script>
+}
+
+@section FeedbackSection {
+    @Html.Partial("_FeedbackDetails", new FeedbackViewModel() { UserId = Model.SessionId.ToString(), PageId = Request.Url.GetComponents(UriComponents.PathAndQuery, UriFormat.SafeUnescaped) })
+}
+
+@Html.Partial("_SearchBox", Model, ViewData)

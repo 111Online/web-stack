@@ -200,6 +200,7 @@
     <Compile Include="Filters\SetSessionIdFilterAttribute.cs" />
     <Compile Include="Filters\LogJourneyFilterAttribute.cs" />
     <Compile Include="Helpers\AzureHelper.cs" />
+    <Compile Include="Helpers\EnumHelper.cs" />
     <Compile Include="Helpers\HttpClientFactory.cs" />
     <Compile Include="Cache\CacheManager.cs" />
     <Compile Include="Cache\ICacheManager.cs" />

@@ -1,6 +1,7 @@
 ﻿@model  NHS111.Models.Models.Web.OutcomeViewModel
 @{
     var error = Model.DosCheckCapacitySummaryResult.ResultListEmpty;
+    var addressInfoMessage = ViewData.ContainsKey("AddressInfoMessage") ? ViewData["AddressInfoMessage"].ToString() : string.Empty;
 }
 <section>
     <div class="findservice-form">
@@ -14,6 +15,7 @@
             @Html.HiddenFor(x => Model.PathwayNo)
             @Html.HiddenFor(x => Model.SymptomGroup)
             @Html.HiddenFor(x => Model.FilterServices)
+            @Html.HiddenFor(x=>Model.DigitalTitle)
             @Html.HiddenFor(x => Model.UserInfo.Demography.Age)
             @Html.HiddenFor(x => Model.UserInfo.Demography.Gender)
             @Html.HiddenFor(x => Model.SymptomDiscriminatorCode)
@@ -39,23 +41,29 @@
             @Html.HiddenFor(x => x.SurveyLink.JourneyId)
             @Html.HiddenFor(x => x.SurveyLink.DispositionDateTime)
             @Html.Partial("_CommonHiddenFieldsCareAdviceViewModel", Model)
-            
+
             <div class="find-service">
                 <h2 class="heading-medium">@Html.Raw((!ViewData.Keys.Contains("Title") ? null : string.Format("{0}", ViewData["Title"])))</h2>
-                <div class="section-margin">
-                    @if (error)
-                {
-                        <p class="error">Sorry, no results were found for this postcode.</p>
-                        <p>Please check you have entered the postcode correctly, then try again. <br /><br /> If the search still gives no results, please call 111 for advice.</p>
-                        <br />
-                    }
-                    @Html.ValidationMessageFor(m => m.UserInfo.CurrentAddress.Postcode)
+                <div class="form-group @(ViewData.ModelState.IsValidField("FindService.UserInfo.CurrentAddress.Postcode") ? "" : "form-group-error")">
                     @Html.LabelFor(m => m.UserInfo.CurrentAddress.Postcode, "Postcode")
-                    @Html.TextBoxFor(m => m.UserInfo.CurrentAddress.Postcode, new { @class = "form-control " + (error ? "error" : "") })
-                    <input class="button button-next" type="submit" name="DosResults" value="@Html.Raw(ViewData["ButtonText"])" id="DosLookup">
+                    @if (!String.IsNullOrEmpty(addressInfoMessage))
+                    {
+                        <div class="callout callout--info">
+                            <p>@Html.Raw(addressInfoMessage)</p>
+                        </div>
+                    }
+
+                    @Html.ValidationMessageFor(m => m.UserInfo.CurrentAddress.Postcode)
+                    @if (error) {
+                        <p class="error-message">Sorry, no results were found for this postcode.</p>
+                        <p>Please check you have entered the postcode correctly, then try again.</p>
+                        <p>If the search still gives no results, please call 111 for advice.</p>
+                    }
+                    @Html.TextBoxFor(m => m.UserInfo.CurrentAddress.Postcode, new {  @class = "form-control " + (error ? "error" : "") })
+                    <button class="button--next" type="submit" name="DosResults" id="DosLookup">@Html.Raw(ViewData["ButtonText"])</button>
 
                 </div>
-</div>
+            </div>
         }
 
     </div>

@@ -6,6 +6,10 @@ using NHS111.Utils.Attributes;
 
 namespace NHS111.Business.DOS.Api.Controllers
 {
+    using System;
+    using Models.Models.Web.DosRequests;
+    using Utils.Helpers;
+
     [LogHandleErrorForApi]
     public class DOSController : ApiController
     {
@@ -20,9 +24,9 @@ namespace NHS111.Business.DOS.Api.Controllers
 
         [HttpPost]
         [Route("DOSapi/CheckCapacitySummary")]
-        public async Task<HttpResponseMessage> CheckCapacitySummary(HttpRequestMessage request, [FromUri] bool filterServices = true)
-        {
-            return await _serviceAvailabilityFilterService.GetFilteredServices(request, filterServices);
+        public async Task<HttpResponseMessage> CheckCapacitySummary(HttpRequestMessage request, string endpoint = null, [FromUri] bool filterServices = true) {
+            var dosEndpoint = EnumHelper.ParseEnum<DosEndpoint>(endpoint, DosEndpoint.Unspecified);
+            return await _serviceAvailabilityFilterService.GetFilteredServices(request, filterServices, dosEndpoint);
         }
 
         [HttpPost]

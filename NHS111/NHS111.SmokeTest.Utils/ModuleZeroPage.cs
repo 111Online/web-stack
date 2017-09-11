@@ -15,7 +15,7 @@ namespace NHS111.SmokeTest.Utils
         private readonly IWebDriver _driver;
         private const string _headerText = "Do any of these apply?";
 
-        [FindsBy(How = How.ClassName, Using = "button-next")]
+        [FindsBy(How = How.ClassName, Using = "button--next")]
         public IWebElement NoneApplyButton { get; set; }
 
         [FindsBy(How = How.CssSelector, Using = "h1.heading-large")]

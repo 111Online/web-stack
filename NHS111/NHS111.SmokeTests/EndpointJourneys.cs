@@ -228,7 +228,7 @@ namespace NHS111.SmokeTests
                .Answer(1)
                .AnswerForDispostion("No");
 
-            outcomePage.VerifyOutcome("Book a phone call with a 111 Nurse");
+            outcomePage.VerifyOutcome("A nurse from 111 will phone you");
         }
 
         [Test]

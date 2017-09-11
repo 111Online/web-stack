@@ -67,7 +67,7 @@ namespace NHS111.Web.Presentation.Test.Builders
                     new JourneyStep() { QuestionId = "2",State = "{'PATIENT_AGE':'20'}" }
                 }
             };
-            var journeyModel = new JourneyViewModel
+            var questionModel = new QuestionViewModel
             {
                 Journey = journey,
                 JourneyJson = JsonConvert.SerializeObject(journey),
@@ -93,7 +93,7 @@ namespace NHS111.Web.Presentation.Test.Builders
             };
             Mapper.Initialize(m => m.AddProfile<NHS111.Models.Mappers.WebMappings.JourneyViewModelMapper>());
             _mappingEngine.Setup(x => x.Mapper).Returns(Mapper.Instance);
-            var result = _sut.BuildPreviousQuestion(null, journeyModel);
+            var result = _sut.BuildPreviousQuestion(null, questionModel);
 
             
             Assert.IsNotNull(result.CollectedKeywords);
