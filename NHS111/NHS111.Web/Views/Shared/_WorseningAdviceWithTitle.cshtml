@@ -7,7 +7,7 @@
 
 @if (Model.DisplayWorseningCareAdvice && Model.WorseningCareAdvice.Items.Any())
 {
-    <div class="@string.Format("worsening-advice-icon black {0}", worseningAdviceClass)">
+    <div class="callout callout--attention">
         <h2 class="heading-medium">Call 111 if your symptoms get worse</h2>
 
         @foreach (var item in Model.WorseningCareAdvice.Items)

@@ -26,10 +26,21 @@ namespace NHS111.Web {
             ModelBinders.Binders[typeof (JourneyViewModel)] = new JourneyViewModelBinder();
             ModelBinders.Binders[typeof(OutcomeViewModel)] = new JourneyViewModelBinder();
             ModelBinders.Binders[typeof(PersonalDetailViewModel)] = new JourneyViewModelBinder();
+            ModelBinders.Binders[typeof(QuestionViewModel)] = new JourneyViewModelBinder();
 
             GlobalFilters.Filters.Add(new LogJourneyFilterAttribute());
             GlobalFilters.Filters.Add(new SetSessionIdFilterAttribute());
             FluentValidationModelValidatorProvider.Configure();
+
+            var razorEngine = ViewEngines.Engines.OfType<RazorViewEngine>().FirstOrDefault();
+            if (razorEngine == null) return;
+            var newPartialViewFormats = new[]
+            {
+                "~/Views/{1}/Elements/{0}.cshtml",
+                "~/Views/Shared/Elements/{0}.cshtml"
+            };
+
+            razorEngine.PartialViewLocationFormats = razorEngine.PartialViewLocationFormats.Union(newPartialViewFormats).ToArray();
         }
 
         protected void Application_Error(object sender, EventArgs e)

@@ -52,14 +52,14 @@ namespace NHS111.Web.Presentation.Builders
 
         }
 
-        public async Task<DosCheckCapacitySummaryResult> FillCheckCapacitySummaryResult(DosViewModel dosViewModel, bool filterServices) {
+        public async Task<DosCheckCapacitySummaryResult> FillCheckCapacitySummaryResult(DosViewModel dosViewModel, bool filterServices, DosEndpoint? endpoint) {
             const int PHARMACY = 13;
             const int PHARMACY_EXT_HOURS = 116;
 
             var request = BuildRequestMessage(dosViewModel);
             var body = await request.Content.ReadAsStringAsync();
 
-            string checkCapacitySummaryUrl = string.Format("{0}?filterServices={1}", _configuration.BusinessDosCheckCapacitySummaryUrl, filterServices);
+            string checkCapacitySummaryUrl = string.Format("{0}?filterServices={1}&endpoint={2}", _configuration.BusinessDosCheckCapacitySummaryUrl, filterServices, endpoint);
            
             _logger.Debug(string.Format("DOSBuilder.FillCheckCapacitySummaryResult(): URL: {0} BODY: {1}", checkCapacitySummaryUrl, body));
             var response = await _restfulHelper.PostAsync(checkCapacitySummaryUrl, request);
@@ -200,7 +200,7 @@ namespace NHS111.Web.Presentation.Builders
 
     public interface IDOSBuilder
     {
-        Task<DosCheckCapacitySummaryResult> FillCheckCapacitySummaryResult(DosViewModel dosViewModel, bool filterServices);
+        Task<DosCheckCapacitySummaryResult> FillCheckCapacitySummaryResult(DosViewModel dosViewModel, bool filterServices, DosEndpoint? endpoint);
         Task<DosServicesByClinicalTermResult> FillDosServicesByClinicalTermResult(DosViewModel dosViewModel);
         Task<DosViewModel> FillServiceDetailsBuilder(DosViewModel model);
         HttpRequestMessage BuildRequestMessage(DosFilteredCase dosCase);

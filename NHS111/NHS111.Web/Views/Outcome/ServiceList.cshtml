@@ -38,18 +38,12 @@
     }
 }
 
-<link href="@NHS111.Web.Helpers.Versioning.GetVersionedUriRef("~/Content/css_NhsUK/confirmation.css")" media="all" rel="stylesheet" type="text/css" />
-<link href="@NHS111.Web.Helpers.Versioning.GetVersionedUriRef("~/content/css_NhsUk/servicelist.css")" media="screen" rel="stylesheet" type="text/css" />
-<link href="@NHS111.Web.Helpers.Versioning.GetVersionedUriRef("~/content/css_NhsUk/service.css")" media="screen" rel="stylesheet" type="text/css" />
-<link href="@NHS111.Web.Helpers.Versioning.GetVersionedUriRef("~/Content/css_NhsUK/signposting-outcome.css")" media="all" rel="stylesheet" type="text/css" />
-<link href="@NHS111.Web.Helpers.Versioning.GetVersionedUriRef("~/Content/css_NhsUK/signposting-outcome-print.css")" media="print" rel="stylesheet" type="text/css" />
-
 <section>
-    <div class="outcome-header">
-        <h1 class="heading-large">
+    <div class="local-header">
+        <h1 class="local-header__title">
             Recommended service based on your answers
         </h1>
-
+        <div class="local-header__intro"> 
         @{
             ServiceViewModel selectedService = null;
             if (Model.DosCheckCapacitySummaryResult.Success != null)
@@ -68,13 +62,13 @@
                         @Html.Hidden("SelectedServiceId", @selectedService.Id)
                         @Html.HiddenFor(m => m.Id)
 
-                        <h2 class="heading-small">@WebUtility.HtmlDecode(selectedService.Name)</h2>
+                        <h3>@WebUtility.HtmlDecode(selectedService.Name)</h3>
 
                         if (selectedService.CallbackEnabled)
                         {
                             <p>@WebUtility.HtmlDecode(selectedService.CurrentStatus)</p>
                             <p>This service can call you back to give you advice</p>
-                            <input class="button button-next" type="submit" name="PersonalDetails" value="Request a call back" />
+                                <button class="button button--next" type="submit" name="PersonalDetails">Request a call back</button>
                         }
                         else if (!string.IsNullOrEmpty(@selectedService.ContactDetails))
                         {
@@ -92,13 +86,14 @@
             </div>
         }
     </div>
+    </div>
 </section>
 
 @if (Model.DosCheckCapacitySummaryResult.Success.Services.Count > 1)
 {
     <section>
         <div class="section-item last">
-            <h2 class="heading-medium">
+            <h2>
                 Other services near you
             </h2>
             @if (Model.DosCheckCapacitySummaryResult.Success != null)
@@ -115,7 +110,7 @@
                                     @Html.Hidden("SelectedServiceId", service.Id)
                                     @Html.HiddenFor(m => m.Id)
 
-                                    <h2 class="heading-small">@WebUtility.HtmlDecode(service.Name)</h2>
+                                    <h3>@WebUtility.HtmlDecode(service.Name)</h3>
 
                                     if (service.CallbackEnabled)
                                     {

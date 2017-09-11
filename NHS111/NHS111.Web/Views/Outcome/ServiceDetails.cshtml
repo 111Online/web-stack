@@ -45,14 +45,8 @@
 @Html.Partial("_OutcomeHeader", Model)
 
 
-<link href="@NHS111.Web.Helpers.Versioning.GetVersionedUriRef("~/Content/css_NhsUK/confirmation.css")" media="all" rel="stylesheet" type="text/css" />
-<link href="@NHS111.Web.Helpers.Versioning.GetVersionedUriRef("~/content/css_NhsUk/servicelist.css")" media="screen" rel="stylesheet" type="text/css" />
-<link href="@NHS111.Web.Helpers.Versioning.GetVersionedUriRef("~/content/css_NhsUk/service.css")" media="screen" rel="stylesheet" type="text/css" />
-<link href="@NHS111.Web.Helpers.Versioning.GetVersionedUriRef("~/Content/css_NhsUK/signposting-outcome.css")" media="all" rel="stylesheet" type="text/css" />
-<link href="@NHS111.Web.Helpers.Versioning.GetVersionedUriRef("~/Content/css_NhsUK/signposting-outcome-print.css")" media="print" rel="stylesheet" type="text/css" />
-
 <section>
-    <h2 class="heading-medium">
+    <h2>
         @Html.Raw(Model.OutcomeGroup.Label) for @Model.UserInfo.CurrentAddress.Postcode
     </h2>
 </section>
@@ -80,7 +74,7 @@
                             <div class="form-item-wrapper">
                                 <fieldset>
                                     <legend>
-                                        <img src="/content/images/icons/map-pointers/fac-map-1.png" alt="Pointer 1" />
+                                        <img src="/content/images/icons/map-pointers/fac-map-1.png" alt="" />
                                         @WebUtility.HtmlDecode(selectedService.Name)
                                     </legend>
                                     <p>@WebUtility.HtmlDecode(selectedService.Address)</p>
@@ -92,7 +86,7 @@
                                     @Html.Hidden("SelectedServiceId", @selectedService.Id)
                                     @Html.Hidden("SelectedServiceName", @selectedService.Name)
                                     @Html.Hidden("SelectedServiceAddress", @selectedService.Address)
-                                    <button type="submit" class="button button-next">Open in Google Maps</button>
+                                    <button type="submit" class="button--next">Open in Google Maps</button>
                                 </fieldset>
                             </div>
                         </div>
@@ -115,7 +109,7 @@
                             <div class="service-list-content">
                                 <fieldset>
                                     <legend>
-                                        <img src="@pointerimageSrc" alt="@pointerAlt" />
+                                        <img src="@pointerimageSrc" alt="" />
                                         @WebUtility.HtmlDecode(service.Name)
                                     </legend>
                                     <p>@WebUtility.HtmlDecode(service.Address)</p>
@@ -127,7 +121,7 @@
                                     @Html.Hidden("SelectedServiceId", @service.Id)
                                     @Html.Hidden("SelectedServiceName", @service.Name)
                                     @Html.Hidden("SelectedServiceAddress", @service.Address)
-                                    <button type="submit" class="button-link directions">Open in Google Maps</button>
+                                    <button type="submit" class="button--link button--next">Open in Google Maps</button>
                                 </fieldset>
                             </div>
                         }

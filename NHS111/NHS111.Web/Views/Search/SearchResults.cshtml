@@ -1,0 +1,53 @@
+﻿@using NHS111.Models.Models.Business.PathwaySearch
+@using NHS111.Models.Models.Domain
+@using NHS111.Models.Models.Web
+@model NHS111.Models.Models.Web.SearchJourneyViewModel
+@{
+    Layout = "~/Views/Shared/_LayoutNhsUK.cshtml";
+}
+
+@section Title  {NHS 111 Online - Best applies}
+
+@section Scripts {
+    <script src="~/scripts/jquery1.11.2-ui.min.js"></script>
+    <script src="~/scripts/jquery.blockUI.js"></script>
+    <script src="@NHS111.Web.Helpers.Versioning.GetVersionedUriRef("~/scripts/custom.js")"></script>
+    <script src="@NHS111.Web.Helpers.Versioning.GetVersionedUriRef("~/scripts/disclaimer.js")"></script>
+}
+
+@section FeedbackSection {
+    @Html.Partial("_FeedbackDetails", new FeedbackViewModel() { UserId = Model.SessionId.ToString(), PageId = Request.Url.GetComponents(UriComponents.PathAndQuery, UriFormat.SafeUnescaped) })
+}
+
+@Html.Partial("_SearchBox", Model, ViewData)
+
+<hr />
+
+<div id="SearchResults">
+    <h2 id="search-results-heading">Which of the following best applies?</h2>
+    @if (Model.Results.Any())
+    {
+        <div>
+            <ul class="link-list link-list--results">
+                @foreach (var result in Model.Results)
+                {
+                    var additionalTopics = result.DisplayTitle != null ? result.DisplayTitle.Skip(1) : new List<string>();
+                    var title = result.DisplayTitle != null ? result.DisplayTitle.First() : result.Title.First();
+                    var digitalTitle = PathwaySearchResult.StripHighlightMarkup(title);
+                    <li>
+                        <a data-title="@result.PathwayTitle" data-pathway-number="@result.PathwayNo" href="/@result.PathwayNo/@Model.UserInfo.Demography.Gender/@Model.UserInfo.Demography.Age/start?age=@Model.UserInfo.Demography.Age&digitalTitle=@digitalTitle&entrySearchTerm=@Model.SanitisedSearchTerm&filterServices=@(Model.FilterServices.ToString())">@Html.Raw(title)</a>
+                        @if (additionalTopics.Any())
+                        {
+                            <p>Includes: @Html.Raw(string.Join(", ", additionalTopics))</p>
+                        }
+                        <p>@Html.Raw(result.Description)</p>
+                    </li>
+
+                }
+            </ul>
+            <h3 id="category-option">
+                If you can't find what you're looking for, try <a id="show-categories" href="/@Model.UserInfo.Demography.Gender/@Model.UserInfo.Demography.Age/Topics?filterServices=@(Model.FilterServices.ToString())">searching by category</a> instead.
+            </h3>
+        </div>
+    }
+</div>

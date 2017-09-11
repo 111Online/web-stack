@@ -18,10 +18,10 @@ namespace NHS111.SmokeTest.Utils
 
         private const string _headerText = "Getting care with 111 Online";
 
-        [FindsBy(How = How.CssSelector, Using = "h1.discHead")]
+        [FindsBy(How = How.CssSelector, Using = "h1")]
         public IWebElement Header { get; set; }
 
-        [FindsBy(How = How.ClassName, Using = "button-get-started")]
+        [FindsBy(How = How.ClassName, Using = "button--next")]
         public IWebElement NextButton { get; set; }
 
 
