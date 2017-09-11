@@ -502,7 +502,7 @@ select {
 
 .field-validation-error + .form-control,
 .form-control.input-validation-error,
-.form-control-error {
+.form-control.form-control-error {
     border: 4px solid #B10E1E;
 }
 
@@ -818,6 +818,10 @@ ul {
         font-size: 20px;
         line-height: 32px;
     }
+}
+
+ul ul {
+    list-style-type: circle;
 }
 
 ol {
@@ -2802,6 +2806,11 @@ input[type="checkbox"] + label {
         font-size: 20px;
         line-height: 32px;
     }
+}
+
+input[type="radio"] + label:hover,
+input[type="checkbox"] + label:hover {
+    background: #dee0e2;
 }
 
 input[type="radio"],
