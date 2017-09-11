@@ -970,6 +970,17 @@ main {
     margin-bottom: 0;
 }
 
+.icon-close {
+    color: #ffffff;
+    background-image: url("/content/img/icon-button-cancel.svg");
+    background-repeat: no-repeat;
+    width: 20px;
+    height: 20px;
+    position: absolute;
+    right: 0;
+    top: 12px;
+}
+
 button, .button {
     font-family: "Frutiger W01", Arial, sans-serif;
     font-size: 20px;
@@ -1433,7 +1444,7 @@ button, .button {
 }
 
 .feedback-container {
-    background-color: #d8e0e2;
+    background-color: #f0f4f5;
     box-sizing: border-box;
     line-height: 20px;
     border-bottom: none;
@@ -1553,33 +1564,11 @@ button, .button {
 
 #feedback-details {
     margin-top: 0;
+    position: relative;
 }
 
 .feedback-container .page-section {
     padding-top: 0;
-}
-
-.feedback-dismiss {
-    position: absolute;
-    right: 10px;
-    top: 35px;
-    border: 0;
-    margin: 0;
-    padding: 0;
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    appearance: none;
-    font-size: 20px;
-    background-color: transparent;
-    cursor: pointer;
-}
-
-.feedback-dismiss {
-    color: #ffffff;
-    background-image: url("/content/img/icon-button-cancel.svg");
-    background-repeat: no-repeat;
-    width: 20px;
-    height: 20px;
 }
 
 .form-label,
@@ -2204,6 +2193,10 @@ a.global-header__logo {
         line-height: 24px;
     }
 
+.notification-banner__hidden {
+    display: none;
+}
+
 .js-enabled .notification-banner--js-hidden {
     display: none;
 }
@@ -2248,6 +2241,7 @@ a.global-header__logo {
     margin: 0 32px;
     margin: 0 auto;
     padding: 8px 0;
+    position: relative;
 }
 
 .skiplinks {

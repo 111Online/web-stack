@@ -92,7 +92,6 @@ body {
 }
 
 .grid-row {
-    zoom: 1;
     margin: 0 -16px;
 }
 
@@ -112,7 +111,6 @@ body {
     padding: 0 16px;
     float: left;
     width: 25%;
-    width: 216px;
 }
 
 .column--one-third {
@@ -120,7 +118,6 @@ body {
     padding: 0 16px;
     float: left;
     width: 33.33333%;
-    width: 298.66667px;
 }
 
 .column--one-half {
@@ -128,7 +125,6 @@ body {
     padding: 0 16px;
     float: left;
     width: 50%;
-    width: 464px;
 }
 
 .column--two-thirds {
@@ -136,7 +132,6 @@ body {
     padding: 0 16px;
     float: left;
     width: 66.66667%;
-    width: 629.33333px;
 }
 
 .column--three-quarters {
@@ -144,7 +139,6 @@ body {
     padding: 0 16px;
     float: left;
     width: 75%;
-    width: 712px;
 }
 
 .column--one-quarter-right {
@@ -152,7 +146,6 @@ body {
     padding: 0 16px;
     float: right;
     width: 25%;
-    width: 216px;
 }
 
 .column--one-third-right {
@@ -160,7 +153,6 @@ body {
     padding: 0 16px;
     float: right;
     width: 33.33333%;
-    width: 298.66667px;
 }
 
 .column--one-half-right {
@@ -168,7 +160,6 @@ body {
     padding: 0 16px;
     float: right;
     width: 50%;
-    width: 464px;
 }
 
 .column--two-thirds-right {
@@ -176,7 +167,6 @@ body {
     padding: 0 16px;
     float: right;
     width: 66.66667%;
-    width: 629.33333px;
 }
 
 .column--three-quarters-right {
@@ -184,7 +174,6 @@ body {
     padding: 0 16px;
     float: right;
     width: 75%;
-    width: 712px;
 }
 
 .page-section {
@@ -644,7 +633,6 @@ ol {
     line-height: 32px;
     list-style: decimal outside;
     padding-left: 1em;
-    padding-left: 1.5em;
 }
 
     ol li {
@@ -702,8 +690,6 @@ dl {
 .list--chevron {
     list-style: none;
     padding-left: 32px;
-    list-style: disc;
-    padding-left: 1em;
 }
 
     .list--chevron li {
@@ -968,6 +954,17 @@ main {
 .inline .panel-border-narrow:last-child {
     margin-top: 10px;
     margin-bottom: 0;
+}
+
+.icon-close {
+    color: #ffffff;
+    background-image: url("/content/img/icon-button-cancel.svg");
+    background-repeat: no-repeat;
+    width: 20px;
+    height: 20px;
+    position: absolute;
+    right: 0;
+    top: 12px;
 }
 
 button, .button {
@@ -1433,7 +1430,7 @@ button, .button {
 }
 
 .feedback-container {
-    background-color: #d8e0e2;
+    background-color: #f0f4f5;
     box-sizing: border-box;
     line-height: 20px;
     border-bottom: none;
@@ -1553,33 +1550,11 @@ button, .button {
 
 #feedback-details {
     margin-top: 0;
+    position: relative;
 }
 
 .feedback-container .page-section {
     padding-top: 0;
-}
-
-.feedback-dismiss {
-    position: absolute;
-    right: 10px;
-    top: 35px;
-    border: 0;
-    margin: 0;
-    padding: 0;
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    appearance: none;
-    font-size: 20px;
-    background-color: transparent;
-    cursor: pointer;
-}
-
-.feedback-dismiss {
-    color: #ffffff;
-    background-image: url("/content/img/icon-button-cancel.svg");
-    background-repeat: no-repeat;
-    width: 20px;
-    height: 20px;
 }
 
 .form-label,
@@ -1756,7 +1731,6 @@ input[type="number"],
     width: 960px;
     margin: 0 32px;
     margin: 0 auto;
-    zoom: 1;
     padding-bottom: 16px;
     padding-top: 16px;
     padding-bottom: 24px;
@@ -1786,7 +1760,6 @@ a.global-header__logo {
 }
 
 .link-list__row {
-    zoom: 1;
     margin: 0 -16px;
 }
 
@@ -1819,7 +1792,6 @@ a.global-header__logo {
     padding: 0 16px;
     float: left;
     width: 50%;
-    width: 464px;
 }
 
     .link-list--one-half + .link-list--one-half {
@@ -2034,20 +2006,16 @@ a.global-header__logo {
         margin-top: 16px;
     }
 
-.results-map {
-    zoom: 1;
+.results-map:after {
+    clear: both;
+    content: "";
+    display: table;
 }
 
-    .results-map:after {
-        clear: both;
-        content: "";
-        display: table;
-    }
-
-    .results-map .service-list-content {
-        padding: 10px 10px 0 10px;
-        max-width: 45.8333333333rem;
-    }
+.results-map .service-list-content {
+    padding: 10px 10px 0 10px;
+    max-width: 45.8333333333rem;
+}
 
 @media screen and (min-width: 40em) {
     .results-map .service-list-content {
@@ -2204,6 +2172,10 @@ a.global-header__logo {
         line-height: 24px;
     }
 
+.notification-banner__hidden {
+    display: none;
+}
+
 .js-enabled .notification-banner--js-hidden {
     display: none;
 }
@@ -2248,6 +2220,7 @@ a.global-header__logo {
     margin: 0 32px;
     margin: 0 auto;
     padding: 8px 0;
+    position: relative;
 }
 
 .skiplinks {

@@ -16,8 +16,8 @@
 <div class="feedback-wrapper">
     <div class="feedback-container feedback-container--open">
         <div class="page-section">
-            <span class="feedback-dismiss"></span>
             <div id="feedback-details">
+                <span class="icon-close"></span>
                 @using (Ajax.BeginForm("SubmitFeedback", "Feedback", new AjaxOptions { InsertionMode = InsertionMode.Replace, UpdateTargetId = "feedback-details", LoadingElementId = "loader", HttpMethod = "POST", OnBegin = "$('#feedback-details').slideToggle(600);", OnSuccess = "$('#feedback-details').slideToggle(600);" }))
                 {
                     @Html.HiddenFor(m => m.UserId)
@@ -44,7 +44,7 @@
         $('#textdetailscounter').text(length + ' characters remaining (limit is ' + @maxFeedbackLength + ' characters)');
     });
 
-    $('.feedback-dismiss').click(function () {
+    $('.feedback-container .icon-close').click(function () {
         $('.feedback-wrapper').slideToggle();
     });
 
