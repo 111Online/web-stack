@@ -34,11 +34,12 @@
     @Html.HiddenFor(x => Model.QuestionNo)
     @Html.HiddenFor(x => Model.StateJson)
     @Html.HiddenFor(x => Model.FilterServices)
+    <div class="callout callout--warning">
+        <h1>@Model.TitleWithoutBullets</h1>
+        <p>Your health assessment can’t be completed with the current online service.</p>
+        <p>Please call <span aria-label="1 1 1">111</span> now for help and advice. Calls to NHS <span aria-label="1 1 1">111</span> are free.</p>
+    </div>
 
-    <h1>@Model.TitleWithoutBullets</h1>
-    <p>Your health assessment can’t be completed with the current online service.</p>
-    <p>Please call <span aria-label="1 1 1">111</span> now for help and advice. Calls to NHS <span aria-label="1 1 1">111</span> are free.</p>
-    <hr />
     if (!Model.IsFirstStep)
     {
         <button class="button--stacked button--previous button--link" id="previousScreen" type="submit" value="PreviousQuestion" name="PreviousQuestion" formnovalidate>Change my previous answer</button>

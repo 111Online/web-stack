@@ -502,7 +502,7 @@ select {
 
 .field-validation-error + .form-control,
 .form-control.input-validation-error,
-.form-control-error {
+.form-control.form-control-error {
     border: 4px solid #B10E1E;
 }
 
@@ -818,6 +818,10 @@ ul {
         font-size: 20px;
         line-height: 32px;
     }
+}
+
+ul ul {
+    list-style-type: circle;
 }
 
 ol {
@@ -1629,6 +1633,29 @@ button:active:before, .button:active:before {
 
 .callout:focus {
     outline: 3px solid #ffb81c;
+}
+
+.callout h1 {
+    font-family: "Frutiger W01", Arial, sans-serif;
+    font-size: 24px;
+    font-weight: 600;
+    line-height: 40px;
+    text-transform: none;
+    color: #231f20;
+}
+
+@media (min-width: 641px) {
+    .callout h1 {
+        font-size: 28px;
+        line-height: 48px;
+    }
+}
+
+@media (min-width: 925px) {
+    .callout h1 {
+        font-size: 32px;
+        line-height: 48px;
+    }
 }
 
 .callout--muted {
@@ -2802,6 +2829,11 @@ input[type="checkbox"] + label {
         font-size: 20px;
         line-height: 32px;
     }
+}
+
+input[type="radio"] + label:hover,
+input[type="checkbox"] + label:hover {
+    background: #dee0e2;
 }
 
 input[type="radio"],
