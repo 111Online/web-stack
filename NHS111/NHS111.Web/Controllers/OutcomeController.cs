@@ -180,7 +180,7 @@ namespace NHS111.Web.Controllers
 
             model = await PopulateAddressPickerFields(model);
 
-            return View("PersonalDetails", model);
+            return View("~\\Views\\Outcome\\PersonalDetails.cshtml", model);
         }
 
         private async Task<PersonalDetailViewModel> PopulateAddressPickerFields(PersonalDetailViewModel model)
