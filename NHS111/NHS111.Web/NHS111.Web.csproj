@@ -449,7 +449,6 @@
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Scripts\details.ployfill.js" />
     <Content Include="Scripts\disclaimer-popup.js" />
-    <Content Include="Scripts\disclaimer.js" />
     <Content Include="Scripts\geotools.js" />
     <Content Include="Scripts\icheck.js" />
     <Content Include="Scripts\jquery.blockUI.js" />

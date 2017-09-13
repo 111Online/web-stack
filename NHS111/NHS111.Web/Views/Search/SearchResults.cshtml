@@ -8,13 +8,6 @@
 
 @section Title  {NHS 111 Online - Best applies}
 
-@section Scripts {
-    
-    <script src="~/scripts/jquery.blockUI.js"></script>
-    
-    <script src="@NHS111.Web.Helpers.Versioning.GetVersionedUriRef("~/scripts/disclaimer.js")"></script>
-}
-
 @section FeedbackSection {
     @Html.Partial("_FeedbackDetails", new FeedbackViewModel() { UserId = Model.SessionId.ToString(), PageId = Request.Url.GetComponents(UriComponents.PathAndQuery, UriFormat.SafeUnescaped) })
 }
