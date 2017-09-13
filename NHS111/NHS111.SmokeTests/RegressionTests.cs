@@ -366,7 +366,7 @@ namespace NHS111.SmokeTests
         }
 
         [Test]
-        //alias and id check for categories age 5 Male with mental health
+        //alias and id check for categories age 40 female with mental health
         public void CategoriesPresentForFemaleAdult()
         {
             var categoryPage = TestScenerios.LaunchCategoryScenerio(_driver, TestScenerioGender.Female, 40);
