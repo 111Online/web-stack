@@ -55,6 +55,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CategoryPage.cs" />
     <Compile Include="DispositionPage.cs" />
     <Compile Include="GenderPage.cs" />
     <Compile Include="HomePage.cs" />
