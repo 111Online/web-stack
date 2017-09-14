@@ -1781,6 +1781,10 @@ a.global-header__logo {
     font-weight: 700;
 }
 
+.global-header__text {
+    vertical-align: inherit;
+}
+
 .link-list__row {
     zoom: 1;
     margin: 0 -16px;
