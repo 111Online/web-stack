@@ -95,5 +95,37 @@ namespace NHS111.SmokeTests.Regression
             outcomePage.VerifyOutcome("A nurse from 111 will phone you");
             outcomePage.VerifyDispositionCode("Dx35");
         }
+
+        [Test]
+        //PT8 via Behaviour Change Tx221449 and Tx222008
+        public void Pt8ViaBehaviourChangeTx221449Tx222008()
+        {
+            var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Behaviour Change", TestScenerioGender.Male, TestScenerioAgeGroups.Adult);
+
+            var outcomePage = questionPage
+                .AnswerSuccessiveNo(3)
+                .Answer(3)
+                .AnswerSuccessiveNo(4)
+                .AnswerForDispostion("Yes");
+
+            outcomePage.VerifyOutcome("A nurse from 111 will phone you");
+            outcomePage.VerifyDispositionCode("Dx35");
+        }
+
+        [Test]
+        //PT8 via Behaviour Change Tx221449 and Tx222009
+        public void Pt8ViaBehaviourChangeTx221449Tx222009()
+        {
+            var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Behaviour Change", TestScenerioGender.Male, TestScenerioAgeGroups.Adult);
+
+            var outcomePage = questionPage
+                .AnswerSuccessiveNo(3)
+                .Answer(3)
+                .AnswerSuccessiveNo(3)
+                .AnswerForDispostion("I've stopped taking a medicine");
+
+            outcomePage.VerifyOutcome("A nurse from 111 will phone you");
+            outcomePage.VerifyDispositionCode("Dx35");
+        }
     }
 }
