@@ -580,7 +580,6 @@ namespace NHS111.SmokeTests.Regression
             categoryPage.SelectPathway("Something in the bottom/back passage");
 
             Driver.FindElement(By.XPath("//input[@value = 'PW1531MaleChild']"));
-
         }
 
         [Test]
@@ -765,8 +764,6 @@ namespace NHS111.SmokeTests.Regression
             categoryPage.SelectCategory("bowel-and-urinary-problems-bowel-problems");
             categoryPage.SelectPathway("Something in the bottom/back passage");
 
-            //var wait = new WebDriverWait(_driver, new TimeSpan(0, 0, 5));
-            //wait.Until(ExpectedConditions.ElementExists(By.XPath("//input[@value = 'PW1531MaleAdult']")));
             Driver.FindElement(By.XPath("//input[@value = 'PW1531MaleAdult']"));
         }
     }
