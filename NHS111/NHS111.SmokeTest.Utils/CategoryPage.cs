@@ -37,29 +37,31 @@ namespace NHS111.SmokeTest.Utils
         public void VerifyPathwayInCategoryList(string title, string pathwayId)
         {
             bool result = true;
+            var xpath = string.Format("//a[@data-title= \"{0}\"][@data-pathway-number= '{1}']", title, pathwayId);
             try
             {
-                _driver.FindElement(By.XPath(String.Format("//a[@data-title= \"{0}\"][@data-pathway-number= '{1}']", title, pathwayId)));
+                _driver.FindElement(By.XPath(xpath));
             }
             catch (NoSuchElementException)
             {
                 result = false;
             }
-            Assert.IsTrue(result);
+            Assert.IsTrue(result, string.Format("VerifyPathwayInCategoryList : {0}", xpath));
         }
 
         public void VerifyPathwayNotInCategoryList(string title, string pathwayId)
         {
             bool result = false;
+            var xpath = string.Format("//a[@data-title= \"{0}\"][@data-pathway-number= '{1}']", title, pathwayId);
             try
             {
-                _driver.FindElement(By.XPath(String.Format("//a[@data-title= \"{0}\"][@data-pathway-number= '{1}']", title, pathwayId)));
+                _driver.FindElement(By.XPath(xpath));
             }
             catch (NoSuchElementException)
             {
                 result = true;
             }
-            Assert.IsTrue(result);
+            Assert.IsTrue(result, string.Format("VerifyPathwayNotInCategoryList : {0}", xpath));
         }
 
         public void SelectCategory(string categoryTitle)
