@@ -42,6 +42,15 @@ namespace NHS111.SmokeTest.Utils
             return this;
         }
 
+        public QuestionPage AnswerAndValidateQuestion(int answerOrder, string expectedQuestion, bool requireButtonAwait = true)
+        {
+            _driver.FindElement(By.XPath("(//label[contains(@class, 'multiple-choice--radio')])[" + answerOrder + "]")).Click();
+            NextButton.Click();
+            AwaitNextQuestionPage(requireButtonAwait);
+            Assert.AreEqual(expectedQuestion, Header.Text);
+            return new QuestionPage(_driver);
+        }
+
         public QuestionPage AnswerYes()
         {
             if (!_driver.FindElements(By.CssSelector("[for='Yes']")).Any())
