@@ -118,29 +118,16 @@
             });
         </script>
     }
-                
-                
-    <script type="text/javascript">
-
-        $.validator.setDefaults({
-            highlight: function (element, errorClass, validClass) {
-                $(element).closest(".form-group").addClass("form-group-error");
-            },
-            unhighlight: function (element, errorClass, validClass) {
-                $(element).closest(".form-group").removeClass("form-group-error");
-            }
-        });
-
-    </script>
+          
 
 
     @{ Html.RenderAction("VersionInfo", "Version"); }
 
     <script src="~/scripts/vendor/modernizr-custom.js" async></script>
-    <script src="https://ajax.aspnetcdn.com/ajax/jquery.validate/1.11.1/jquery.validate.min.js" integrity="sha384-B1miHxuCmAMGc0405Cm/zSXCc38EP5hNOy2bblqF6yiX01Svinm1mWMwJDdNDBGr" crossorigin="anonymous" defer></script>
+    <script src="https://ajax.aspnetcdn.com/ajax/jquery.validate/1.11.1/jquery.validate.min.js" integrity="sha384-B1miHxuCmAMGc0405Cm/zSXCc38EP5hNOy2bblqF6yiX01Svinm1mWMwJDdNDBGr" crossorigin="anonymous" ></script>
     <script>(jQuery.validator) || document.write('<script src="/scripts/jquery.validate-1.11.1.min.js" defer><\/script>');</script>
 
-    <script src="https://ajax.aspnetcdn.com/ajax/mvc/5.1/jquery.validate.unobtrusive.min.js" integrity="sha384-25k6pBZ2fUhwDc1+3NAKvjzihGFoC8UTFCYCINNm28DqC9bOwTAiLdiGpOuKCe66" crossorigin="anonymous" defer></script>
+    <script src="https://ajax.aspnetcdn.com/ajax/mvc/5.1/jquery.validate.unobtrusive.min.js" integrity="sha384-25k6pBZ2fUhwDc1+3NAKvjzihGFoC8UTFCYCINNm28DqC9bOwTAiLdiGpOuKCe66" crossorigin="anonymous" ></script>
     <script>(window.jQuery.validator.unobtrusive) || document.write('<script src="/scripts/jquery.validate.unobtrusive-5.1.min.js" defer><\/script>');</script>
 
     <script src="~/scripts/jquery.unobtrusive-ajax.min.js" defer></script>
@@ -148,6 +135,20 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.ns-autogrow/1.1.6/jquery.ns-autogrow.min.js" integrity="sha384-YkP6HTmTW2n1l3gZwUJI3k7lsRCIrThucnxbVSRNoeUM7ow2gj16EXZS6k2aO+L5" crossorigin="anonymous" defer></script>
     <script>($().autogrow) || document.write('<script src="/scripts/jquery.ns-autogrow-1.1.6.min.js" defer><\/script>');</script>
 
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $.validator.setDefaults({
+                highlight: function (element, errorClass, validClass) {
+                    $(element).closest(".form-group").addClass("form-group-error");
+                },
+                unhighlight: function (element, errorClass, validClass) {
+                    $(element).closest(".form-group").removeClass("form-group-error");
+                }
+            });
+        });
+
+    </script>
     <link rel="stylesheet" href="@NHS111.Web.Helpers.Versioning.GetVersionedUriRef("~/nhs-online-print.css")" media="print" type="text/css">
 
 </body>
