@@ -7,28 +7,6 @@ namespace NHS111.SmokeTests
     public class RegressionTests : BaseTests
     {
         [Test]
-        public void PT8JumpToDx35()
-        {
-            var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Tiredness (Fatigue)",
-                TestScenerioGender.Male, TestScenerioAgeGroups.Adult);
-
-            questionPage.ValidateQuestion(
-                "Have you got a raised temperature now or have you had one at any time since the tiredness started?");
-            var outcomePage = questionPage
-                .AnswerSuccessiveByOrder(3, 4)
-                .Answer(4)
-                .Answer(4)
-                .Answer(3)
-                .Answer(4)
-                .Answer(3)
-                .AnswerSuccessiveByOrder(5, 2)
-                .AnswerSuccessiveByOrder(3, 4)
-                .AnswerForDispostion("Alcohol");
-
-            outcomePage.VerifyOutcome("A nurse from 111 will phone you");
-        }
-
-        [Test]
         public void PathwayNotFound()
         {
             var questionPage = TestScenerios.LaunchTriageScenerio(Driver,

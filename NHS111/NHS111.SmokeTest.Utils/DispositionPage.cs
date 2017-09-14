@@ -83,6 +83,23 @@ namespace NHS111.SmokeTest.Utils
             Assert.AreEqual(outcomeHeadertext, Header.Text);
         }
 
+        public void VerifyDispositionCode(string dispositionCode)
+        {
+            bool result = true;
+            var xpath = string.Format("//input[@value = \"{0}\"]", dispositionCode);
+            IWebElement dispostionCodeField = null;
+            try
+            {
+                dispostionCodeField = _driver.FindElement(By.XPath(xpath));
+            }
+            catch (NoSuchElementException)
+            {
+                result = false;
+            }
+            Assert.IsTrue(result, string.Format("VerifyDispositionCode : {0}", xpath));
+            Assert.AreEqual(dispositionCode, dispostionCodeField.GetAttribute("value"));
+        }
+
         public void VerifyPathwayNotFound()
         {
             Assert.IsTrue(PathwayNotFoundHeader.Displayed);
