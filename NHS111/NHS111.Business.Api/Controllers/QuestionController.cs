@@ -35,9 +35,9 @@ namespace NHS111.Business.Api.Controllers
         [HttpPost]
         [Route("node/{pathwayId}/next_node/{nodeId}")]
         public async Task<HttpResponseMessage> GetNextNode(string pathwayId, string nodeId,
-            string state, [FromBody] string answer, string cacheKey = null)
+            string state, [FromBody] string answer)
         {
-            return await GetNextNode(pathwayId, "Question", nodeId, state, answer, cacheKey);
+            return await GetNextNode(pathwayId, "Question", nodeId, state, answer);
         }
 
         public async Task<HttpResponseMessage> GetNextNode(string pathwayId, string nodeLabel, string nodeId, string state, [FromBody]string answer, string cacheKey = null)
