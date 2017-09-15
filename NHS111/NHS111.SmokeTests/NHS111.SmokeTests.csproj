@@ -69,6 +69,7 @@
     <Compile Include="RegressionTests.cs" />
     <Compile Include="Regression\AgeTests.cs" />
     <Compile Include="Regression\CategoryTests.cs" />
+    <Compile Include="Regression\DosLookupTests.cs" />
     <Compile Include="Regression\JumpTests.cs" />
     <Compile Include="SearchTermResultsTests.cs" />
   </ItemGroup>
