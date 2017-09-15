@@ -457,8 +457,8 @@
     <Content Include="Scripts\jquery.unobtrusive-ajax.js" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.min.js" />
     <Content Include="Scripts\jquery.validate-1.11.1.min.js" />
-    <Content Include="Scripts\jquery.validate.unobtrusive-5.1.min.js" />
-    <Content Include="Scripts\jquery2.1.1.min.js" />
+    <Content Include="Scripts\jquery.validate.unobtrusive-5.2.3.min.js" />
+    <Content Include="Scripts\jquery3.2.1.min.js" />
     <Content Include="Scripts\mobileScroller.js" />
     <Content Include="Scripts\spin.min.js" />
     <Content Include="Scripts\vendor\modernizr-custom.js" />
