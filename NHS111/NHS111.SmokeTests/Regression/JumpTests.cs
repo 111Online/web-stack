@@ -24,7 +24,7 @@ namespace NHS111.SmokeTests.Regression
                 .Answer(3)
                 .AnswerSuccessiveByOrder(5, 2)
                 .AnswerSuccessiveByOrder(3, 4)
-                .AnswerForDispostion("Alcohol");
+                .AnswerForDispostion<OutcomePage>("Alcohol");
 
             outcomePage.VerifyOutcome("A nurse from 111 will phone you");
         }
@@ -39,7 +39,7 @@ namespace NHS111.SmokeTests.Regression
                 .AnswerSuccessiveNo(3)
                 .Answer(3)
                 .AnswerSuccessiveNo(11)
-                .AnswerForDispostion("Yes");
+                .AnswerForDispostion<OutcomePage>("Yes");
 
             outcomePage.VerifyOutcome("A nurse from 111 will phone you");
             outcomePage.VerifyDispositionCode("Dx35");
@@ -58,7 +58,7 @@ namespace NHS111.SmokeTests.Regression
                 .Answer(2)
                 .AnswerSuccessiveNo(8)
                 .Answer(1)
-                .AnswerForDispostion("No");
+                .AnswerForDispostion<OutcomePage>("No");
 
             outcomePage.VerifyOutcome("A nurse from 111 will phone you");
             outcomePage.VerifyDispositionCode("Dx35");
@@ -74,7 +74,7 @@ namespace NHS111.SmokeTests.Regression
                 .AnswerSuccessiveNo(3)
                 .Answer(3)
                 .AnswerSuccessiveNo(12)
-                .AnswerForDispostion("No");
+                .AnswerForDispostion<OutcomePage>("No");
 
             outcomePage.VerifyOutcome("A nurse from 111 will phone you");
             outcomePage.VerifyDispositionCode("Dx35");
@@ -90,7 +90,7 @@ namespace NHS111.SmokeTests.Regression
                 .AnswerSuccessiveNo(3)
                 .Answer(3)
                 .AnswerSuccessiveNo(12)
-                .AnswerForDispostion("Yes");
+                .AnswerForDispostion<OutcomePage>("Yes");
 
             outcomePage.VerifyOutcome("A nurse from 111 will phone you");
             outcomePage.VerifyDispositionCode("Dx35");
@@ -106,7 +106,7 @@ namespace NHS111.SmokeTests.Regression
                 .AnswerSuccessiveNo(3)
                 .Answer(3)
                 .AnswerSuccessiveNo(4)
-                .AnswerForDispostion("Yes");
+                .AnswerForDispostion<OutcomePage>("Yes");
 
             outcomePage.VerifyOutcome("A nurse from 111 will phone you");
             outcomePage.VerifyDispositionCode("Dx35");
@@ -122,7 +122,7 @@ namespace NHS111.SmokeTests.Regression
                 .AnswerSuccessiveNo(3)
                 .Answer(3)
                 .AnswerSuccessiveNo(3)
-                .AnswerForDispostion("I've stopped taking a medicine");
+                .AnswerForDispostion<OutcomePage>("I've stopped taking a medicine");
 
             outcomePage.VerifyOutcome("A nurse from 111 will phone you");
             outcomePage.VerifyDispositionCode("Dx35");
@@ -140,7 +140,7 @@ namespace NHS111.SmokeTests.Regression
                 .AnswerSuccessiveNo(5)
                 .Answer(1)
                 .Answer(3)
-                .AnswerForDispostion("No");
+                .AnswerForDispostion<OutcomePage>("No");
 
             outcomePage.VerifyOutcome("A nurse from 111 will phone you");
             outcomePage.VerifyDispositionCode("Dx35");
@@ -158,7 +158,7 @@ namespace NHS111.SmokeTests.Regression
                 .AnswerSuccessiveNo(5)
                 .Answer(1)
                 .Answer(3)
-                .AnswerForDispostion("Yes");
+                .AnswerForDispostion<OutcomePage>("Yes");
 
             outcomePage.VerifyOutcome("A nurse from 111 will phone you");
             outcomePage.VerifyDispositionCode("Dx35");
@@ -175,7 +175,7 @@ namespace NHS111.SmokeTests.Regression
                 .Answer(3)
                 .AnswerSuccessiveNo(5)
                 .Answer(1)
-                .AnswerForDispostion("Yes");
+                .AnswerForDispostion<OutcomePage>("Yes");
 
             outcomePage.VerifyOutcome("A nurse from 111 will phone you");
             outcomePage.VerifyDispositionCode("Dx35");
@@ -193,7 +193,7 @@ namespace NHS111.SmokeTests.Regression
                 .AnswerSuccessiveNo(5)
                 .Answer(2)
                 .AnswerNo()
-                .AnswerForDispostion("No");
+                .AnswerForDispostion<OutcomePage>("No");
 
             outcomePage.VerifyOutcome("A nurse from 111 will phone you");
             outcomePage.VerifyDispositionCode("Dx35");
@@ -211,7 +211,7 @@ namespace NHS111.SmokeTests.Regression
                 .AnswerSuccessiveNo(5)
                 .Answer(2)
                 .Answer(3)
-                .AnswerForDispostion("Yes");
+                .AnswerForDispostion<OutcomePage>("Yes");
 
             outcomePage.VerifyOutcome("A nurse from 111 will phone you");
             outcomePage.VerifyDispositionCode("Dx35");
@@ -228,7 +228,7 @@ namespace NHS111.SmokeTests.Regression
                 .Answer(3)
                 .AnswerSuccessiveNo(5)
                 .Answer(2)
-                .AnswerForDispostion("Yes");
+                .AnswerForDispostion<OutcomePage>("Yes");
 
             outcomePage.VerifyOutcome("A nurse from 111 will phone you");
             outcomePage.VerifyDispositionCode("Dx35");
@@ -246,7 +246,7 @@ namespace NHS111.SmokeTests.Regression
                 .AnswerSuccessiveNo(5)
                 .Answer(3)
                 .AnswerNo()
-                .AnswerForDispostion("No");
+                .AnswerForDispostion<OutcomePage>("No");
 
             outcomePage.VerifyOutcome("A nurse from 111 will phone you");
             outcomePage.VerifyDispositionCode("Dx35");
@@ -264,7 +264,7 @@ namespace NHS111.SmokeTests.Regression
                 .AnswerSuccessiveNo(5)
                 .Answer(3)
                 .AnswerNo()
-                .AnswerForDispostion("Yes");
+                .AnswerForDispostion<OutcomePage>("Yes");
 
             outcomePage.VerifyOutcome("A nurse from 111 will phone you");
             outcomePage.VerifyDispositionCode("Dx35");
@@ -281,7 +281,7 @@ namespace NHS111.SmokeTests.Regression
                 .Answer(3)
                 .AnswerSuccessiveNo(5)
                 .Answer(3)
-                .AnswerForDispostion("Yes");
+                .AnswerForDispostion<OutcomePage>("Yes");
 
             outcomePage.VerifyOutcome("A nurse from 111 will phone you");
             outcomePage.VerifyDispositionCode("Dx35");
@@ -299,7 +299,7 @@ namespace NHS111.SmokeTests.Regression
                 .AnswerSuccessiveNo(6)
                 .AnswerYes()
                 .AnswerNo()
-                .AnswerForDispostion("No");
+                .AnswerForDispostion<OutcomePage>("No");
 
             outcomePage.VerifyOutcome("A nurse from 111 will phone you");
             outcomePage.VerifyDispositionCode("Dx35");
@@ -317,7 +317,7 @@ namespace NHS111.SmokeTests.Regression
                 .AnswerSuccessiveNo(6)
                 .AnswerYes()
                 .AnswerNo()
-                .AnswerForDispostion("Yes");
+                .AnswerForDispostion<OutcomePage>("Yes");
 
             outcomePage.VerifyOutcome("A nurse from 111 will phone you");
             outcomePage.VerifyDispositionCode("Dx35");
@@ -334,7 +334,7 @@ namespace NHS111.SmokeTests.Regression
                 .Answer(3)
                 .AnswerSuccessiveNo(6)
                 .AnswerYes()
-                .AnswerForDispostion("Yes");
+                .AnswerForDispostion<OutcomePage>("Yes");
 
             outcomePage.VerifyOutcome("A nurse from 111 will phone you");
             outcomePage.VerifyDispositionCode("Dx35");

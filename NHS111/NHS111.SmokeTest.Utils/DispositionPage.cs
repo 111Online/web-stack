@@ -10,7 +10,7 @@ using OpenQA.Selenium.Support.PageObjects;
 
 namespace NHS111.SmokeTest.Utils
 {
-    public class DispositionPage : LayoutPage
+    public abstract class DispositionPage<T> : LayoutPage
     {
         private const string PATHWAY_NOT_FOUND__EXPECTED_TEXT = "This health assessment can't be completed online";
 
@@ -35,27 +35,19 @@ namespace NHS111.SmokeTest.Utils
         [FindsBy(How = How.ClassName, Using = "findservice-form")]
         private IWebElement FindServicePanel { get; set; }
 
-        [FindsBy(How = How.Id, Using = "FindService_UserInfo_CurrentAddress_Postcode")]
-        private IWebElement PostcodeField { get; set; }
-
         [FindsBy(How = How.Id, Using = "DosLookup")]
-        private IWebElement PostcodeSubmitButton { get; set; }
+        public IWebElement PostcodeSubmitButton { get; set; }
 
-        public DispositionPage EnterPostCodeAndSubmit(string postcode)
+        protected DispositionPage(IWebDriver driver) : base(driver)
         {
-            this.PostcodeField.SendKeys(postcode);
-            this.PostcodeSubmitButton.Click();
-            return new DispositionPage(Driver);
         }
+
+        public abstract T EnterPostCodeAndSubmit(string postcode);
 
         public QuestionPage NavigateBack()
         {
             Driver.Navigate().Back();
             return new QuestionPage(Driver);
-        }
-
-        public DispositionPage(IWebDriver driver) : base(driver)
-        {
         }
 
         public void VerifySubHeader(string subHeadertext)

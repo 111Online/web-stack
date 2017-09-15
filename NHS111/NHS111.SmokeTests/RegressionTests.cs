@@ -16,7 +16,7 @@ namespace NHS111.SmokeTests
             questionPage.ValidateQuestion("Is the problem to do with any of these?");
             var outcomePage = questionPage
 
-                .AnswerForDispostion("A tube or drain");
+                .AnswerForDispostion<OutcomePage>("A tube or drain");
 
             outcomePage.VerifyPathwayNotFound();
         }
@@ -43,14 +43,12 @@ namespace NHS111.SmokeTests
                 .Answer(1)
                 .Answer(3)
                 .Answer(4)
-                .AnswerForDispostion(1);
+                .AnswerForDispostion<OutcomePage>(1);
 
             var newOutcome = outcomePage.NavigateBack()
                 .Answer(3, false)
                 .Answer(1)
-
-
-                .AnswerForDispostion("Within the next 6 hours");
+                .AnswerForDispostion<OutcomePage>("Within the next 6 hours");
 
             newOutcome.EnterPostCodeAndSubmit("LS17 7NZ");
 
@@ -69,7 +67,7 @@ namespace NHS111.SmokeTests
                 .Answer(3)
                 .Answer(3)
                 .Answer(1)
-                .AnswerForDispostion("Yes - I have a rash that doesn't disappear if I press it");
+                .AnswerForDispostion<OutcomePage>("Yes - I have a rash that doesn't disappear if I press it");
 
             outcomePage.VerifyOutcome("Your answers suggest you should dial 999 now for an ambulance");
 
@@ -95,7 +93,7 @@ namespace NHS111.SmokeTests
                 .Answer(1)
 
 
-                .AnswerForDispostion("Within the next 6 hours");
+                .AnswerForDispostion<OutcomePage>("Within the next 6 hours");
 
             outcomePage.EnterPostCodeAndSubmit("LS17 7NZ");
 
@@ -113,7 +111,7 @@ namespace NHS111.SmokeTests
                 .Answer(2)
                 .AnswerSuccessiveByOrder(3, 3)
 
-                .AnswerForDispostion("Yes");
+                .AnswerForDispostion<OutcomePage>("Yes");
 
             outcomePage.EnterPostCodeAndSubmit("LS17 7NZ");
 

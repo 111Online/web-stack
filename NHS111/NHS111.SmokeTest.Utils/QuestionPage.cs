@@ -73,18 +73,18 @@ namespace NHS111.SmokeTest.Utils
             return new QuestionPage(Driver);
         }
 
-        public DispositionPage AnswerForDispostion(string answerText)
+        public T AnswerForDispostion<T>(string answerText) where T : DispositionPage<T>
         {
             Driver.FindElement(By.XPath("//label[contains(@class, 'multiple-choice--radio') and text() = \"" + answerText + "\"]")).Click();
             NextButton.Click();
-            return new DispositionPage(Driver);
+            return (T) Activator.CreateInstance(typeof(T), Driver);
         }
 
-        public DispositionPage AnswerForDispostion(int answerOrder)
+        public T AnswerForDispostion<T>(int answerOrder) where T : DispositionPage<T>
         {
             Driver.FindElement(By.XPath("(//label[contains(@class, 'multiple-choice--radio')])[" + answerOrder + "]")).Click();
             NextButton.Click();
-            return new DispositionPage(Driver);
+            return (T)Activator.CreateInstance(typeof(T), Driver);
         }
 
         public QuestionPage AnswerSuccessiveByOrder(int answerOrder, int numberOfTimes)
