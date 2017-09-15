@@ -26,6 +26,10 @@ namespace NHS111.SmokeTests.Regression
 
             outcomePage.VerifyOutcome("A nurse from 111 will phone you");
             outcomePage.VerifyDispositionCode("Dx35");
+
+            outcomePage.EnterPostCodeAndSubmit("LS17 7NZ");
+
+            outcomePage.VerifyLayoutPagePresent();
         }
 
         [Test]
@@ -44,6 +48,10 @@ namespace NHS111.SmokeTests.Regression
 
             outcomePage.VerifyOutcome("A nurse from 111 will phone you");
             outcomePage.VerifyDispositionCode("Dx35");
+
+            outcomePage.EnterPostCodeAndSubmit("LS17 7NZ");
+
+            outcomePage.VerifyLayoutPagePresent();
         }
 
         [Test]
@@ -61,6 +69,10 @@ namespace NHS111.SmokeTests.Regression
 
             outcomePage.VerifyOutcome("A nurse from 111 will phone you");
             outcomePage.VerifyDispositionCode("Dx35");
+
+            outcomePage.EnterPostCodeAndSubmit("LS17 7NZ");
+
+            outcomePage.VerifyLayoutPagePresent();
         }
 
         [Test]
@@ -79,6 +91,10 @@ namespace NHS111.SmokeTests.Regression
 
             outcomePage.VerifyOutcome("A nurse from 111 will phone you");
             outcomePage.VerifyDispositionCode("Dx35");
+
+            outcomePage.EnterPostCodeAndSubmit("LS17 7NZ");
+
+            outcomePage.VerifyLayoutPagePresent();
         }
 
         [Test]
@@ -97,6 +113,10 @@ namespace NHS111.SmokeTests.Regression
 
             outcomePage.VerifyOutcome("A nurse from 111 will phone you");
             outcomePage.VerifyDispositionCode("Dx35");
+
+            outcomePage.EnterPostCodeAndSubmit("LS17 7NZ");
+
+            outcomePage.VerifyLayoutPagePresent();
         }
 
         [Test]
@@ -114,6 +134,10 @@ namespace NHS111.SmokeTests.Regression
 
             outcomePage.VerifyOutcome("A nurse from 111 will phone you");
             outcomePage.VerifyDispositionCode("Dx35");
+
+            outcomePage.EnterPostCodeAndSubmit("LS17 7NZ");
+
+            outcomePage.VerifyLayoutPagePresent();
         }
 
         [Test]
@@ -132,6 +156,10 @@ namespace NHS111.SmokeTests.Regression
 
             outcomePage.VerifyOutcome("A nurse from 111 will phone you");
             outcomePage.VerifyDispositionCode("Dx35");
+
+            outcomePage.EnterPostCodeAndSubmit("LS17 7NZ");
+
+            outcomePage.VerifyLayoutPagePresent();
         }
 
         [Test]
@@ -150,6 +178,10 @@ namespace NHS111.SmokeTests.Regression
 
             outcomePage.VerifyOutcome("A nurse from 111 will phone you");
             outcomePage.VerifyDispositionCode("Dx35");
+
+            outcomePage.EnterPostCodeAndSubmit("LS17 7NZ");
+
+            outcomePage.VerifyLayoutPagePresent();
         }
 
         [Test]
@@ -167,6 +199,10 @@ namespace NHS111.SmokeTests.Regression
 
             outcomePage.VerifyOutcome("A nurse from 111 will phone you");
             outcomePage.VerifyDispositionCode("Dx35");
+
+            outcomePage.EnterPostCodeAndSubmit("LS17 7NZ");
+
+            outcomePage.VerifyLayoutPagePresent();
         }
     }
 }

@@ -56,8 +56,6 @@ namespace NHS111.SmokeTests
 
             newOutcome.VerifyOutcome("You should speak to your GP practice within the next 6 hours");
             newOutcome.VerifyCareAdvice(new[] {"Medication, next dose", "Medication, pain and/or fever", "Headache"});
-
-
         }
 
         [Test]
@@ -93,8 +91,6 @@ namespace NHS111.SmokeTests
                 .Answer(1)
                 .Answer(3)
                 .Answer(4)
-                //.Answer(1)
-                //.NavigateBack()
                 .Answer(3)
                 .Answer(1)
 

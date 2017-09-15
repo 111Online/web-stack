@@ -10,21 +10,18 @@ using OpenQA.Selenium.Support.UI;
 
 namespace NHS111.SmokeTest.Utils
 {
-    public class CategoryPage
+    public class CategoryPage : LayoutPage
     {
-        private readonly IWebDriver _driver;
         private const string _topicsMessageText = "Try finding your symptoms by topic instead. If you can't find what you need, please call 111 now.";
 
         [FindsBy(How = How.XPath, Using = "//*[@id=\"categories\"]/h2[1]")]
-        public IWebElement NoResultsMessage { get; set; }
+        private IWebElement NoResultsMessage { get; set; }
 
         [FindsBy(How = How.XPath, Using = "//*[@id=\"categories\"]/h2[2]")]
-        public IWebElement TopicsMessage { get; set; }
+        private IWebElement TopicsMessage { get; set; }
 
-        public CategoryPage(IWebDriver driver)
+        public CategoryPage(IWebDriver driver) : base(driver)
         {
-            _driver = driver;
-            PageFactory.InitElements(_driver, this);
         }
 
         public void Verify()
@@ -40,7 +37,7 @@ namespace NHS111.SmokeTest.Utils
             var xpath = string.Format("//a[@data-title= \"{0}\"][@data-pathway-number= '{1}']", title, pathwayId);
             try
             {
-                _driver.FindElement(By.XPath(xpath));
+                Driver.FindElement(By.XPath(xpath));
             }
             catch (NoSuchElementException)
             {
@@ -55,7 +52,7 @@ namespace NHS111.SmokeTest.Utils
             var xpath = string.Format("//a[@data-title= \"{0}\"][@data-pathway-number= '{1}']", title, pathwayId);
             try
             {
-                _driver.FindElement(By.XPath(xpath));
+                Driver.FindElement(By.XPath(xpath));
             }
             catch (NoSuchElementException)
             {
@@ -66,16 +63,16 @@ namespace NHS111.SmokeTest.Utils
 
         public void SelectCategory(string categoryTitle)
         {
-            new WebDriverWait(_driver, new TimeSpan(0, 0, 5))
+            new WebDriverWait(Driver, new TimeSpan(0, 0, 5))
                 .Until(ExpectedConditions.VisibilityOfAllElementsLocatedBy((By.Id(categoryTitle))));
-            _driver.FindElement(By.Id(categoryTitle)).Click();
+            Driver.FindElement(By.Id(categoryTitle)).Click();
         }
 
         public void SelectPathway(string pathwayTitle)
         {
-            new WebDriverWait(_driver, new TimeSpan(0, 0, 5))
+            new WebDriverWait(Driver, new TimeSpan(0, 0, 5))
                 .Until(ExpectedConditions.VisibilityOfAllElementsLocatedBy((By.XPath(String.Format("//a[@data-title= '{0}']", pathwayTitle)))));
-            _driver.FindElement(By.XPath(String.Format("//a[@data-title= '{0}']", pathwayTitle))).Click();
+            Driver.FindElement(By.XPath(String.Format("//a[@data-title= '{0}']", pathwayTitle))).Click();
         }
     }
 }

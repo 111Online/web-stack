@@ -10,59 +10,52 @@ using OpenQA.Selenium.Support.PageObjects;
 
 namespace NHS111.SmokeTest.Utils
 {
-    public class DispositionPage
+    public class DispositionPage : LayoutPage
     {
-        private readonly IWebDriver _driver;
-
         private const string PATHWAY_NOT_FOUND__EXPECTED_TEXT = "This health assessment can't be completed online";
 
         [FindsBy(How = How.CssSelector, Using = ".local-header h1")]
-        public IWebElement Header { get; set; }
+        private IWebElement Header { get; set; }
 
         [FindsBy(How = How.XPath, Using = "//h1")]
-        public IWebElement PathwayNotFoundHeader { get; set; }
-
-
+        private IWebElement PathwayNotFoundHeader { get; set; }
+        
         [FindsBy(How = How.CssSelector, Using = ".local-header h3")]
-        public IWebElement SubHeader { get; set; }
+        private IWebElement SubHeader { get; set; }
 
         [FindsBy(How = How.CssSelector, Using = ".sub-header p")]
-        public IWebElement HeaderOtherInfo { get; set; }
+        private IWebElement HeaderOtherInfo { get; set; }
 
         [FindsBy(How = How.CssSelector, Using = ".callout--attention")]
-        public IWebElement WhatIfFeelWorsePanel { get; set; }
+        private IWebElement WhatIfFeelWorsePanel { get; set; }
 
         [FindsBy(How = How.CssSelector, Using = ".care-advice .heading-medium")]
-        public IWebElement CareAdviceTitleElement { get; set; }
-
+        private IWebElement CareAdviceTitleElement { get; set; }
 
         [FindsBy(How = How.ClassName, Using = "findservice-form")]
-        public IWebElement FindServicePanel { get; set; }
+        private IWebElement FindServicePanel { get; set; }
 
-        [FindsBy(How = How.Id, Using = "UserInfo_CurrentAddress_Postcode")]
-        public IWebElement PostcodeField { get; set; }
+        [FindsBy(How = How.Id, Using = "FindService_UserInfo_CurrentAddress_Postcode")]
+        private IWebElement PostcodeField { get; set; }
 
         [FindsBy(How = How.Id, Using = "DosLookup")]
-        public IWebElement PostcodeSubmitButton { get; set; }
-
+        private IWebElement PostcodeSubmitButton { get; set; }
 
         public DispositionPage EnterPostCodeAndSubmit(string postcode)
         {
             this.PostcodeField.SendKeys(postcode);
             this.PostcodeSubmitButton.Click();
-            return new DispositionPage(_driver);
+            return new DispositionPage(Driver);
         }
 
         public QuestionPage NavigateBack()
         {
-            _driver.Navigate().Back();
-            return new QuestionPage(_driver);
+            Driver.Navigate().Back();
+            return new QuestionPage(Driver);
         }
 
-        public DispositionPage(IWebDriver driver)
+        public DispositionPage(IWebDriver driver) : base(driver)
         {
-            _driver = driver;
-            PageFactory.InitElements(_driver, this);
         }
 
         public void VerifySubHeader(string subHeadertext)
@@ -90,7 +83,7 @@ namespace NHS111.SmokeTest.Utils
             IWebElement dispostionCodeField = null;
             try
             {
-                dispostionCodeField = _driver.FindElement(By.XPath(xpath));
+                dispostionCodeField = Driver.FindElement(By.XPath(xpath));
             }
             catch (NoSuchElementException)
             {
@@ -126,7 +119,7 @@ namespace NHS111.SmokeTest.Utils
 
         public void VerifyCareAdvice(string[] expectedAdviceItems)
         {
-            var foundItems = _driver.FindElements(By.CssSelector(".care-advice div h3"));
+            var foundItems = Driver.FindElements(By.CssSelector(".care-advice div h3"));
             Assert.AreEqual(expectedAdviceItems.Count(), foundItems.Count);
 
             foreach (var item in foundItems)
