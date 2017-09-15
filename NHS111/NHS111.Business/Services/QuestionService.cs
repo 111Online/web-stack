@@ -29,10 +29,10 @@ namespace NHS111.Business.Services
             return await _restfulHelper.GetAsync(_configuration.GetDomainApiAnswersForQuestionUrl(id));
         }
 
-        public async Task<HttpResponseMessage> GetNextQuestion(string id, string answer)
+        public async Task<HttpResponseMessage> GetNextQuestion(string id, string nodeLabel, string answer)
         {
             var request = new HttpRequestMessage { Content = new StringContent(JsonConvert.SerializeObject(answer), Encoding.UTF8, "application/json") };
-            return (await _restfulHelper.PostAsync(_configuration.GetDomainApiNextQuestionUrl(id), request));
+            return (await _restfulHelper.PostAsync(_configuration.GetDomainApiNextQuestionUrl(id, nodeLabel), request));
         }
 
         public async Task<string> GetFirstQuestion(string pathwayId)
@@ -56,7 +56,7 @@ namespace NHS111.Business.Services
     {
         Task<string> GetQuestion(string id);
         Task<string> GetAnswersForQuestion(string id);
-        Task<HttpResponseMessage> GetNextQuestion(string id, string answer);
+        Task<HttpResponseMessage> GetNextQuestion(string id, string nodeLabel,  string answer);
         Task<string> GetFirstQuestion(string pathwayId);
         Task<string> GetJustToBeSafeQuestionsFirst(string pathwayId);
         Task<string> GetJustToBeSafeQuestionsNext(string pathwayId, IEnumerable<string> answeredQuestionIds, bool multipleChoice, string selectedQuestionId);

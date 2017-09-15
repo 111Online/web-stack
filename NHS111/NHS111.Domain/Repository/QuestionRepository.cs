@@ -39,10 +39,10 @@ namespace NHS111.Domain.Repository
             return res;
         }
 
-        public async Task<QuestionWithAnswers> GetNextQuestion(string id, string answer)
+        public async Task<QuestionWithAnswers> GetNextQuestion(string id, string nodeLabel, string answer)
         {
             var query = _graphRepository.Client.Cypher.
-                Match(string.Format("({{ id: \"{0}\" }})-[a]->(next)", id)).
+                Match(string.Format("(:{0}{{ id: \"{1}\" }})-[a:Answer]->(next)", nodeLabel, id)).
                 Where(string.Format("lower(a.title) = '{0}'", answer.Replace("'", "\\'").ToLower())).
                 OptionalMatch("next-[nextAnswer]->()").
                 OptionalMatch("next-[typeOf]->(g:OutcomeGroup)").
@@ -117,7 +117,7 @@ namespace NHS111.Domain.Repository
                 return await GetQuestion(selectedQuestionId).InList();
             }
 
-            var nextQuestion = await (questionWasSelected ? GetNextQuestion(selectedQuestionId, "Yes") : getNextQuestionWithPath());
+            var nextQuestion = await (questionWasSelected ? GetNextQuestion(selectedQuestionId, "Question", "Yes") : getNextQuestionWithPath());
 
 
             if (nextQuestion == null || nextQuestion.Labels.FirstOrDefault() == "Outcome")
@@ -135,7 +135,7 @@ namespace NHS111.Domain.Repository
     {
         Task<QuestionWithAnswers> GetQuestion(string id);
         Task<IEnumerable<Answer>> GetAnswersForQuestion(string id);
-        Task<QuestionWithAnswers> GetNextQuestion(string id, string answer);
+        Task<QuestionWithAnswers> GetNextQuestion(string id, string nodeLabel, string answer);
         Task<QuestionWithAnswers> GetFirstQuestion(string pathwayId);
         Task<IEnumerable<QuestionWithAnswers>> GetJustToBeSafeQuestions(string pathwayId, string justToBeSafePart);
         Task<IEnumerable<QuestionWithAnswers>> GetJustToBeSafeQuestions(string pathwayId, string selectedQuestionId, bool multipleChoice, string answeredQuestionIds);
