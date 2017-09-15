@@ -205,7 +205,7 @@ namespace NHS111.Domain.Functional.Tests
         [Test]
         public async void TestDomainApi_GetNextQuestion()
         {
-            var getNextQuestionEndpoint = "questions/{0}/answersNext";
+            var getNextQuestionEndpoint = "questions/{0}/Question/answersNext";
             var expectedNextId = "PW756.300";
             var address = String.Format(DomainApiBaseUrl + getNextQuestionEndpoint, _testQuestionId);
 
