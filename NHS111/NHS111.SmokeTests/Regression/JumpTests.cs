@@ -27,6 +27,7 @@ namespace NHS111.SmokeTests.Regression
                 .AnswerForDispostion<OutcomePage>("Alcohol");
 
             outcomePage.VerifyOutcome("A nurse from 111 will phone you");
+            outcomePage.VerifyDispositionCode("Dx35");
         }
 
         [Test]
@@ -338,6 +339,527 @@ namespace NHS111.SmokeTests.Regression
 
             outcomePage.VerifyOutcome("A nurse from 111 will phone you");
             outcomePage.VerifyDispositionCode("Dx35");
+        }
+
+        [Test]
+        //PT8 via Behaviour Change Tx222027 and Tx222006
+        public void Pt8ViaBehaviourChangeTx222027Tx222006()
+        {
+            var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Behaviour Change", TestScenerioGender.Male, TestScenerioAgeGroups.Adult);
+
+            var outcomePage = questionPage
+                .AnswerSuccessiveNo(3)
+                .Answer(3)
+                .AnswerSuccessiveNo(7)
+                .AnswerYes()
+                .AnswerNo()
+                .AnswerForDispostion<OutcomePage>("No");
+
+            outcomePage.VerifyOutcome("A nurse from 111 will phone you");
+            outcomePage.VerifyDispositionCode("Dx35");
+        }
+
+        [Test]
+        //PT8 via Behaviour Change Tx222027 and Tx222007
+        public void Pt8ViaBehaviourChangeTx222027Tx222007()
+        {
+            var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Behaviour Change", TestScenerioGender.Male, TestScenerioAgeGroups.Adult);
+
+            var outcomePage = questionPage
+                .AnswerSuccessiveNo(3)
+                .Answer(3)
+                .AnswerSuccessiveNo(7)
+                .AnswerYes()
+                .AnswerNo()
+                .AnswerForDispostion<OutcomePage>("Yes");
+
+            outcomePage.VerifyOutcome("A nurse from 111 will phone you");
+            outcomePage.VerifyDispositionCode("Dx35");
+        }
+
+        [Test]
+        //PT8 via Behaviour Change Tx222027 and Tx222008
+        public void Pt8ViaBehaviourChangeTx222027Tx222008()
+        {
+            var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Behaviour Change", TestScenerioGender.Male, TestScenerioAgeGroups.Adult);
+
+            var outcomePage = questionPage
+                .AnswerSuccessiveNo(3)
+                .Answer(3)
+                .AnswerSuccessiveNo(7)
+                .AnswerYes()
+                .AnswerForDispostion<OutcomePage>("Yes");
+
+            outcomePage.VerifyOutcome("A nurse from 111 will phone you");
+            outcomePage.VerifyDispositionCode("Dx35");
+        }
+
+        [Test]
+        //PT8 via Behaviour Change Tx222028 and Tx222006
+        public void Pt8ViaBehaviourChangeTx222028Tx222006()
+        {
+            var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Behaviour Change", TestScenerioGender.Male, TestScenerioAgeGroups.Adult);
+
+            var outcomePage = questionPage
+                .AnswerSuccessiveNo(3)
+                .Answer(3)
+                .AnswerSuccessiveNo(8)
+                .AnswerYes()
+                .AnswerNo()
+                .AnswerForDispostion<OutcomePage>("No");
+
+            outcomePage.VerifyOutcome("A nurse from 111 will phone you");
+            outcomePage.VerifyDispositionCode("Dx35");
+        }
+
+        [Test]
+        //PT8 via Behaviour Change Tx222027 and Tx222007
+        public void Pt8ViaBehaviourChangeTx222028Tx222007()
+        {
+            var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Behaviour Change", TestScenerioGender.Male, TestScenerioAgeGroups.Adult);
+
+            var outcomePage = questionPage
+                .AnswerSuccessiveNo(3)
+                .Answer(3)
+                .AnswerSuccessiveNo(8)
+                .AnswerYes()
+                .AnswerNo()
+                .AnswerForDispostion<OutcomePage>("Yes");
+
+            outcomePage.VerifyOutcome("A nurse from 111 will phone you");
+            outcomePage.VerifyDispositionCode("Dx35");
+        }
+
+        [Test]
+        //PT8 via Behaviour Change Tx222027 and Tx222008
+        public void Pt8ViaBehaviourChangeTx222028Tx222008()
+        {
+            var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Behaviour Change", TestScenerioGender.Male, TestScenerioAgeGroups.Adult);
+
+            var outcomePage = questionPage
+                .AnswerSuccessiveNo(3)
+                .Answer(3)
+                .AnswerSuccessiveNo(8)
+                .AnswerYes()
+                .AnswerForDispostion<OutcomePage>("Yes");
+
+            outcomePage.VerifyOutcome("A nurse from 111 will phone you");
+            outcomePage.VerifyDispositionCode("Dx35");
+        }
+
+        [Test]
+        //PT8 via Behaviour Change Tx222031 and Tx222006
+        public void Pt8ViaBehaviourChangeTx222031Tx222006()
+        {
+            var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Behaviour Change", TestScenerioGender.Male, TestScenerioAgeGroups.Adult);
+
+            var outcomePage = questionPage
+                .AnswerSuccessiveNo(3)
+                .Answer(3)
+                .AnswerSuccessiveNo(9)
+                .AnswerYes()
+                .AnswerNo()
+                .AnswerForDispostion<OutcomePage>("No");
+
+            outcomePage.VerifyOutcome("A nurse from 111 will phone you");
+            outcomePage.VerifyDispositionCode("Dx35");
+        }
+
+        [Test]
+        //PT8 via Behaviour Change Tx222031 and Tx222007
+        public void Pt8ViaBehaviourChangeTx222031Tx222007()
+        {
+            var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Behaviour Change", TestScenerioGender.Male, TestScenerioAgeGroups.Adult);
+
+            var outcomePage = questionPage
+                .AnswerSuccessiveNo(3)
+                .Answer(3)
+                .AnswerSuccessiveNo(9)
+                .AnswerYes()
+                .AnswerNo()
+                .AnswerForDispostion<OutcomePage>("Yes");
+
+            outcomePage.VerifyOutcome("A nurse from 111 will phone you");
+            outcomePage.VerifyDispositionCode("Dx35");
+        }
+
+        [Test]
+        //PT8 via Behaviour Change Tx222031 and Tx222008
+        public void Pt8ViaBehaviourChangeTx222031Tx222008()
+        {
+            var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Behaviour Change", TestScenerioGender.Male, TestScenerioAgeGroups.Adult);
+
+            var outcomePage = questionPage
+                .AnswerSuccessiveNo(3)
+                .Answer(3)
+                .AnswerSuccessiveNo(9)
+                .AnswerYes()
+                .AnswerForDispostion<OutcomePage>("Yes");
+
+            outcomePage.VerifyOutcome("A nurse from 111 will phone you");
+            outcomePage.VerifyDispositionCode("Dx35");
+        }
+
+        [Test]
+        //PT8 via Behaviour Change Tx222048 and Tx222006
+        public void Pt8ViaBehaviourChangeTx222048Tx222006()
+        {
+            var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Behaviour Change", TestScenerioGender.Male, TestScenerioAgeGroups.Adult);
+
+            var outcomePage = questionPage
+                .AnswerSuccessiveNo(3)
+                .Answer(3)
+                .AnswerSuccessiveNo(10)
+                .Answer(2)
+                .AnswerNo()
+                .AnswerForDispostion<OutcomePage>("No");
+
+            outcomePage.VerifyOutcome("A nurse from 111 will phone you");
+            outcomePage.VerifyDispositionCode("Dx35");
+        }
+
+        [Test]
+        //PT8 via Behaviour Change Tx222048 and Tx222007
+        public void Pt8ViaBehaviourChangeTx222048Tx222007()
+        {
+            var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Behaviour Change", TestScenerioGender.Male, TestScenerioAgeGroups.Adult);
+
+            var outcomePage = questionPage
+                .AnswerSuccessiveNo(3)
+                .Answer(3)
+                .AnswerSuccessiveNo(10)
+                .Answer(2)
+                .AnswerNo()
+                .AnswerForDispostion<OutcomePage>("Yes");
+
+            outcomePage.VerifyOutcome("A nurse from 111 will phone you");
+            outcomePage.VerifyDispositionCode("Dx35");
+        }
+
+        [Test]
+        //PT8 via Behaviour Change Tx222048 and Tx222008
+        public void Pt8ViaBehaviourChangeTx222048Tx222008()
+        {
+            var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Behaviour Change", TestScenerioGender.Male, TestScenerioAgeGroups.Adult);
+
+            var outcomePage = questionPage
+                .AnswerSuccessiveNo(3)
+                .Answer(3)
+                .AnswerSuccessiveNo(10)
+                .Answer(2)
+                .AnswerForDispostion<OutcomePage>("Yes");
+
+            outcomePage.VerifyOutcome("A nurse from 111 will phone you");
+            outcomePage.VerifyDispositionCode("Dx35");
+        }
+
+        [Test]
+        //PT8 via Behaviour Change Tx222049 and Tx222006
+        public void Pt8ViaBehaviourChangeTx222049Tx222006()
+        {
+            var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Behaviour Change", TestScenerioGender.Male, TestScenerioAgeGroups.Adult);
+
+            var outcomePage = questionPage
+                .AnswerSuccessiveNo(3)
+                .Answer(3)
+                .AnswerSuccessiveNo(10)
+                .Answer(1)
+                .AnswerNo()
+                .AnswerForDispostion<OutcomePage>("No");
+
+            outcomePage.VerifyOutcome("A nurse from 111 will phone you");
+            outcomePage.VerifyDispositionCode("Dx35");
+        }
+
+        [Test]
+        //PT8 via Behaviour Change Tx222049 and Tx222007
+        public void Pt8ViaBehaviourChangeTx222049Tx222007()
+        {
+            var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Behaviour Change", TestScenerioGender.Male, TestScenerioAgeGroups.Adult);
+
+            var outcomePage = questionPage
+                .AnswerSuccessiveNo(3)
+                .Answer(3)
+                .AnswerSuccessiveNo(10)
+                .Answer(1)
+                .AnswerNo()
+                .AnswerForDispostion<OutcomePage>("Yes");
+
+            outcomePage.VerifyOutcome("A nurse from 111 will phone you");
+            outcomePage.VerifyDispositionCode("Dx35");
+        }
+
+        [Test]
+        //PT8 via Behaviour Change Tx222049 and Tx222008
+        public void Pt8ViaBehaviourChangeTx222049Tx222008()
+        {
+            var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Behaviour Change", TestScenerioGender.Male, TestScenerioAgeGroups.Adult);
+
+            var outcomePage = questionPage
+                .AnswerSuccessiveNo(3)
+                .Answer(3)
+                .AnswerSuccessiveNo(10)
+                .Answer(1)
+                .AnswerForDispostion<OutcomePage>("Yes");
+
+            outcomePage.VerifyOutcome("A nurse from 111 will phone you");
+            outcomePage.VerifyDispositionCode("Dx35");
+        }
+
+        [Test]
+        //PT8 via Headache Tx222027 and Tx222006 FA
+        public void Pt8ViaHeadacheTx222027Tx222006Fa()
+        {
+            var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Headache", TestScenerioGender.Female, TestScenerioAgeGroups.Adult);
+
+            var outcomePage = questionPage
+                .AnswerYes()
+                .AnswerSuccessiveByOrder(3, 4)
+                .AnswerSuccessiveNo(3)
+                .Answer(3)
+                .AnswerSuccessiveNo(4)
+                .Answer(3)
+                .Answer(5)
+                .Answer(4)
+                .AnswerNo()
+                .Answer(3)
+                .Answer(7)
+                .AnswerNo()
+                .Answer(2)
+                .AnswerForDispostion<OutcomePage>("No");
+
+            outcomePage.VerifyOutcome("A nurse from 111 will phone you");
+            outcomePage.VerifyDispositionCode("Dx35");
+        }
+
+        [Test]
+        //PT8 via Headache Tx222027 and Tx222006 MC
+        public void Pt8ViaHeadacheTx222027Tx222006Mc()
+        {
+            var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Headache", TestScenerioGender.Male, TestScenerioAgeGroups.Child);
+
+            var outcomePage = questionPage
+                .AnswerSuccessiveByOrder(3, 3)
+                .AnswerSuccessiveNo(2)
+                .Answer(3)
+                .AnswerSuccessiveNo(4)
+                .Answer(3)
+                .Answer(5)
+                .AnswerSuccessiveNo(2)
+                .Answer(3)
+                .Answer(7)
+                .AnswerNo()
+                .Answer(1)
+                .AnswerForDispostion<OutcomePage>("No");
+
+            outcomePage.VerifyOutcome("A nurse from 111 will phone you");
+            outcomePage.VerifyDispositionCode("Dx35");
+        }
+
+        [Test]
+        //PT8 via Headache Tx222027 and Tx222006
+        public void Pt8ViaHeadacheTx222027Tx222006()
+        {
+            var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Headache", TestScenerioGender.Male, TestScenerioAgeGroups.Adult);
+
+            var outcomePage = questionPage
+                .AnswerSuccessiveByOrder(3, 3)
+                .AnswerSuccessiveNo(3)
+                .Answer(3)
+                .AnswerSuccessiveNo(4)
+                .Answer(3)
+                .Answer(5)
+                .Answer(4)
+                .AnswerNo()
+                .Answer(3)
+                .Answer(7)
+                .AnswerNo()
+                .Answer(1)
+                .AnswerForDispostion<OutcomePage>("No");
+
+            outcomePage.VerifyOutcome("A nurse from 111 will phone you");
+            outcomePage.VerifyDispositionCode("Dx35");
+        }
+
+        [Test]
+        //PT8 via Headache Tx222027 and Tx222007 FA
+        public void Pt8ViaHeadacheTx222027Tx222007Fa()
+        {
+            var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Headache", TestScenerioGender.Female, TestScenerioAgeGroups.Adult);
+
+            var outcomePage = questionPage
+                .AnswerYes()
+                .AnswerSuccessiveByOrder(3, 4)
+                .AnswerSuccessiveNo(3)
+                .Answer(3)
+                .AnswerSuccessiveNo(4)
+                .Answer(3)
+                .Answer(5)
+                .Answer(4)
+                .AnswerNo()
+                .Answer(3)
+                .Answer(7)
+                .AnswerNo()
+                .Answer(2)
+                .AnswerForDispostion<OutcomePage>("Yes");
+
+            outcomePage.VerifyOutcome("A nurse from 111 will phone you");
+            outcomePage.VerifyDispositionCode("Dx35");
+        }
+
+        [Test]
+        //PT8 via Headache Tx222027 and Tx222007 MC
+        public void Pt8ViaHeadacheTx222027Tx222007Mc()
+        {
+            var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Headache", TestScenerioGender.Male, TestScenerioAgeGroups.Child);
+
+            var outcomePage = questionPage
+                .AnswerSuccessiveByOrder(3, 3)
+                .AnswerSuccessiveNo(2)
+                .Answer(3)
+                .AnswerSuccessiveNo(4)
+                .Answer(3)
+                .Answer(5)
+                .AnswerSuccessiveNo(2)
+                .Answer(3)
+                .Answer(7)
+                .AnswerNo()
+                .Answer(1)
+                .AnswerForDispostion<OutcomePage>("Yes");
+
+            outcomePage.VerifyOutcome("A nurse from 111 will phone you");
+            outcomePage.VerifyDispositionCode("Dx35");
+        }
+
+        [Test]
+        //PT8 via Headache Tx222027 and Tx222007
+        public void Pt8ViaHeadacheTx222027Tx222007()
+        {
+            var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Headache", TestScenerioGender.Male, TestScenerioAgeGroups.Adult);
+
+            var outcomePage = questionPage
+                .AnswerSuccessiveByOrder(3, 3)
+                .AnswerSuccessiveNo(3)
+                .Answer(3)
+                .AnswerSuccessiveNo(4)
+                .Answer(3)
+                .Answer(5)
+                .Answer(4)
+                .AnswerNo()
+                .Answer(3)
+                .Answer(7)
+                .AnswerNo()
+                .Answer(1)
+                .AnswerForDispostion<OutcomePage>("Yes");
+
+            outcomePage.VerifyOutcome("A nurse from 111 will phone you");
+            outcomePage.VerifyDispositionCode("Dx35");
+        }
+
+        [Test]
+        //PT8 via Headache Tx222031 and Tx222006 FA
+        public void Pt8ViaHeadacheTx222031Tx222006Fa()
+        {
+            var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Headache", TestScenerioGender.Female, TestScenerioAgeGroups.Adult);
+
+            var outcomePage = questionPage
+                .AnswerYes()
+                .AnswerSuccessiveByOrder(3, 4)
+                .AnswerSuccessiveNo(3)
+                .Answer(3)
+                .AnswerSuccessiveNo(4)
+                .Answer(3)
+                .Answer(5)
+                .Answer(4)
+                .AnswerNo()
+                .Answer(3)
+                .Answer(7)
+                .AnswerNo()
+                .Answer(3)
+                .AnswerForDispostion<OutcomePage>("No");
+
+            outcomePage.VerifyOutcome("A nurse from 111 will phone you");
+            outcomePage.VerifyDispositionCode("Dx35");
+        }
+
+        [Test]
+        //PT8 via Headache Tx222031 and Tx222006 MC
+        public void Pt8ViaHeadacheTx222031Tx222006Mc()
+        {
+            var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Headache", TestScenerioGender.Male, TestScenerioAgeGroups.Child);
+
+            var outcomePage = questionPage
+                .AnswerSuccessiveByOrder(3, 3)
+                .AnswerSuccessiveNo(2)
+                .Answer(3)
+                .AnswerSuccessiveNo(4)
+                .Answer(3)
+                .Answer(5)
+                .AnswerSuccessiveNo(2)
+                .Answer(3)
+                .Answer(7)
+                .AnswerNo()
+                .Answer(3)
+                .AnswerForDispostion<OutcomePage>("No");
+
+            outcomePage.VerifyOutcome("A nurse from 111 will phone you");
+            outcomePage.VerifyDispositionCode("Dx35");
+        }
+
+        [Test]
+        //PT8 via Headache Tx222031 and Tx222006
+        public void Pt8ViaHeadacheTx222031Tx222006()
+        {
+            var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Headache", TestScenerioGender.Male, TestScenerioAgeGroups.Adult);
+
+            var outcomePage = questionPage
+                .AnswerSuccessiveByOrder(3, 3)
+                .AnswerSuccessiveNo(3)
+                .Answer(3)
+                .AnswerSuccessiveNo(4)
+                .Answer(3)
+                .Answer(5)
+                .Answer(4)
+                .AnswerNo()
+                .Answer(3)
+                .Answer(7)
+                .AnswerNo()
+                .Answer(3)
+                .AnswerForDispostion<OutcomePage>("No");
+
+            outcomePage.VerifyOutcome("A nurse from 111 will phone you");
+            outcomePage.VerifyDispositionCode("Dx35");
+        }
+
+        [Test]
+        //PT8 via Tremor via Age variable and 2 strings
+        public void Pt8ViaTremorViaAgeVariable2Strings()
+        {
+            var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Tremor", TestScenerioGender.Male, 13);
+
+            var outcomePage = questionPage
+                .AnswerNo()
+                .Answer(3)
+                .AnswerSuccessiveNo(3)
+                .AnswerForDispostion<OutcomePage>("Yes");
+
+            outcomePage.VerifyDispositionCode("Dx06");
+
+            var genderPage = outcomePage.NavigateBackToGenderPage();
+
+            genderPage.Verify();
+            genderPage.SelectGenderAndAge(TestScenerioGender.Male, 14);
+
+            var searchpage = genderPage.NextPage();
+            var newQuestionPage = searchpage.TypeSearchTextAndSelect("Tremor");
+
+            var newOutcomePage = newQuestionPage
+                .AnswerNo()
+                .Answer(3)
+                .AnswerSuccessiveNo(3)
+                .AnswerForDispostion<OutcomePage>("Yes");
+
+            newOutcomePage.VerifyDispositionCode("Dx35");
         }
     }
 }
