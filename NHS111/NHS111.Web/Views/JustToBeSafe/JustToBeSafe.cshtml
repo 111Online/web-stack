@@ -52,7 +52,7 @@
         </header>
         <div class="content-container">
 
-            <div id="content">
+            <div>
                 @using (Html.BeginForm("JustToBeSafeNext", "JustToBeSafe", FormMethod.Post, new { @id = "jtbsForm" }))
                 {
                     @Html.HiddenFor(x => Model.SessionId)
