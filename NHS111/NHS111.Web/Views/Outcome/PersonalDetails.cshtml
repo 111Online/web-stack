@@ -64,12 +64,12 @@
                 
                     <div class="toggle-content panel">
                         <div class="form-group @(@ViewData.ModelState.IsValidField("PatientInformantDetails.SelfName.Forename") ? "" : "form-group-error")">
-                            <label for="@Html.NameFor(m => m.PatientInformantDetails.SelfName.Forename)">First name</label>
+                            <label for="@Html.IdFor(m => m.PatientInformantDetails.SelfName.Forename)">First name</label>
                             @Html.ValidationMessageFor(m => m.PatientInformantDetails.SelfName.Forename, "Please enter your first name")
                             @Html.TextBoxFor(m => m.PatientInformantDetails.SelfName.Forename, new {@class = "form-control form-control-15-chars"})
                         </div>
                         <div class="form-group @(@ViewData.ModelState.IsValidField("PatientInformantDetails.SelfName.Surname") ? "" : "form-group-error")">
-                            <label for="@Html.NameFor(m => m.PatientInformantDetails.SelfName.Surname)">Last name</label>
+                            <label for="@Html.IdFor(m => m.PatientInformantDetails.SelfName.Surname)">Last name</label>
                             @Html.ValidationMessageFor(m => m.PatientInformantDetails.SelfName.Surname, "Please enter your last name")
                             @Html.TextBoxFor(m => m.PatientInformantDetails.SelfName.Surname, new {@class = "form-control form-control-15-chars"})
                         </div>
@@ -83,12 +83,12 @@
                     <div class="toggle-content panel">
                         <h3>Enter the name of the person needing care</h3>
                         <div class="form-group @(@ViewData.ModelState.IsValidField("PatientInformantDetails.PatientName.Forename") ? "" : "form-group-error")">
-                            <label for="@Html.NameFor(m => m.PatientInformantDetails.PatientName.Forename)">First name</label>
+                            <label for="@Html.IdFor(m => m.PatientInformantDetails.PatientName.Forename)">First name</label>
                             @Html.ValidationMessageFor(m => m.PatientInformantDetails.PatientName.Forename, "Please enter the first name of the person needing care")
                             @Html.TextBoxFor(m => m.PatientInformantDetails.PatientName.Forename, new {@class = "form-control form-control-15-chars"})
                         </div>
                         <div class="form-group @(@ViewData.ModelState.IsValidField("PatientInformantDetails.PatientName.Surname") ? "" : "form-group-error")">
-                            <label for="@Html.NameFor(m => m.PatientInformantDetails.PatientName.Surname)">Last name</label>
+                            <label for="@Html.IdFor(m => m.PatientInformantDetails.PatientName.Surname)">Last name</label>
                             @Html.ValidationMessageFor(m => m.PatientInformantDetails.PatientName.Surname, "Please enter the last name of the person needing care")
                             @Html.TextBoxFor(m => m.PatientInformantDetails.PatientName.Surname, new {@class = "form-control form-control-15-chars"})
                         </div>
@@ -99,12 +99,12 @@
                             <h3 class="heading-small">Enter your name</h3>
                             <p class="form-info">You need to be able to answer questions about the person needing care.</p>
                             <div class="form-group @(@ViewData.ModelState.IsValidField("PatientInformantDetails.InformantName.Forename") ? "" : "form-group-error")">
-                                <label for="@Html.NameFor(m => m.PatientInformantDetails.InformantName.Forename)">First name</label>
+                                <label for="@Html.IdFor(m => m.PatientInformantDetails.InformantName.Forename)">First name</label>
                                 @Html.ValidationMessageFor(m => m.PatientInformantDetails.InformantName.Forename, "Please enter your first name")
                                 @Html.TextBoxFor(m => m.PatientInformantDetails.InformantName.Forename, new {@class = "form-control form-control-15-chars"})
                             </div>
                             <div class="form-group @(@ViewData.ModelState.IsValidField("PatientInformantDetails.InformantName.Surname") ? "" : "form-group-error")">
-                                <label for="@Html.NameFor(m => m.PatientInformantDetails.InformantName.Surname)">Last name</label>
+                                <label for="@Html.IdFor(m => m.PatientInformantDetails.InformantName.Surname)">Last name</label>
                                 @Html.ValidationMessageFor(m => m.PatientInformantDetails.InformantName.Surname, "Please enter your last name")
                                 @Html.TextBoxFor(m => m.PatientInformantDetails.InformantName.Surname, new {@class = "form-control form-control-15-chars"})
                             </div>
