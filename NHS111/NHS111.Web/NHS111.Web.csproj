@@ -448,7 +448,7 @@
     </Content>
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Scripts\custom.js" />
-    <Content Include="Scripts\details.ployfill.js" />
+    <Content Include="Scripts\details.min.js" />
     <Content Include="Scripts\disclaimer-popup.js" />
     <Content Include="Scripts\disclaimer.js" />
     <Content Include="Scripts\geotools.js" />
