@@ -10,28 +10,24 @@ using OpenQA.Selenium.Support.PageObjects;
 
 namespace NHS111.SmokeTest.Utils
 {
-    public class ModuleZeroPage 
+    public class ModuleZeroPage : LayoutPage
     {
-        private readonly IWebDriver _driver;
         private const string _headerText = "Do any of these apply?";
 
         [FindsBy(How = How.ClassName, Using = "button--next")]
-        public IWebElement NoneApplyButton { get; set; }
+        private IWebElement NoneApplyButton { get; set; }
 
         [FindsBy(How = How.CssSelector, Using = "h1.heading-large")]
-        public IWebElement Header { get; set; }
+        private IWebElement Header { get; set; }
 
-
-        public ModuleZeroPage(IWebDriver driver) 
+        public ModuleZeroPage(IWebDriver driver) : base(driver)
         {
-            _driver = driver;
-            PageFactory.InitElements(_driver, this);
         }
 
         public GenderPage ClickNoneApplyButton()
         {
             NoneApplyButton.Submit();
-            return new GenderPage(_driver);
+            return new GenderPage(Driver);
         }
         public void Verify()
         {
