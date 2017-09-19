@@ -76,7 +76,7 @@
     <header role="banner" class="global-header">
         <div class="global-header__inner">
             <a href="/" class="global-header__logo" title="Go to the NHS 111 homepage">
-                <img src="/content/images/nhs-logotype-blue.svg" width="79" height="32" alt="NHS"> <span aria-label="1 1 1">111</span> <span class="global-header__phase-tag">beta</span>
+                <img src="/content/images/nhs-logotype-blue.svg" width="79px" height="32px" alt=""> <span aria-label="1 1 1" class="global-header__text">111</span> <span class="global-header__phase-tag">beta</span>
             </a>
         </div>
     </header>
@@ -87,7 +87,7 @@
 
     <section class="outer-section">@RenderSection("OuterSection", false)</section>
 
-<main class="page-section clearfix" role="main">
+<main class="page-section clearfix" id="content" role="main">
     @if (DisclaimerBannerFeature.IsEnabled)
     {
         <!-- toggle disclaimer banner-->
@@ -139,19 +139,20 @@
 
 
     <script type="text/javascript">
-        $(document).ready(function () {
-            $.validator.setDefaults({
-                highlight: function (element, errorClass, validClass) {
-                    $(element).closest(".form-group").addClass("form-group-error");
-                },
-                unhighlight: function (element, errorClass, validClass) {
-                    $(element).closest(".form-group").removeClass("form-group-error");
-                }
-            });
+        $.validator.setDefaults({
+            highlight: function (element, errorClass, validClass) {
+                $(element).closest(".form-group").addClass("form-group-error");
+            },
+            unhighlight: function (element, errorClass, validClass) {
+                $(element).closest(".form-group").removeClass("form-group-error");
+            }
         });
-
     </script>
     <link rel="stylesheet" href="@NHS111.Web.Helpers.Versioning.GetVersionedUriRef("~/nhs-online-print.css")" media="print" type="text/css">
 
+
+    @{ Html.RenderAction("VersionInfo", "Version"); }
+
+    <script src="~/scripts/details.min.js" defer></script>
 </body>
 </html>
