@@ -447,7 +447,8 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Scripts\bootstrap.min.js" />
-    <Content Include="Scripts\details.ployfill.js" />
+    <Content Include="Scripts\custom.js" />
+    <Content Include="Scripts\details.min.js" />
     <Content Include="Scripts\disclaimer-popup.js" />
     <Content Include="Scripts\geotools.js" />
     <Content Include="Scripts\icheck.js" />
@@ -565,7 +566,6 @@
     <Content Include="Views\Shared\_FeedbackDetails.cshtml" />
     <Content Include="Views\Shared\_LayoutNhsUK.cshtml" />
     <Content Include="Views\Outcome\PersonalDetails.cshtml" />
-    <Content Include="Views\Shared\_SelectedService.cshtml" />
     <Content Include="Views\Shared\_CommonHiddenFieldsDosViewModel.cshtml" />
     <Content Include="Views\Shared\_CommonHiddenFieldsAddressInfoViewModel.cshtml" />
     <Content Include="Views\Outcome\Confirmation.cshtml" />
