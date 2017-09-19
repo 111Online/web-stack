@@ -52,7 +52,7 @@
         </header>
         <div class="content-container">
 
-            <div id="content">
+            <div>
                 @using (Html.BeginForm("JustToBeSafeNext", "JustToBeSafe", FormMethod.Post, new { @id = "jtbsForm" }))
                 {
                     @Html.HiddenFor(x => Model.SessionId)
@@ -105,7 +105,7 @@
                         </div>
                     </div> <!--/jtbsQuestion-->
 
-                    <input type="submit" class="button" id="nextScreen" value="Next"/>
+                    <button type="submit" class="button" id="nextScreen">Next</button>
                 }
 
             </div>

@@ -4,7 +4,7 @@ using NHS111.Models.Models.Domain;
 
 namespace NHS111.Models.Models.Web
 {
-    public class JustToBeSafeViewModel: JourneyViewModel
+    public class JustToBeSafeViewModel: QuestionViewModel
     {
         public int Part { get; set; }
         public List<QuestionWithAnswers> Questions { get; set; }

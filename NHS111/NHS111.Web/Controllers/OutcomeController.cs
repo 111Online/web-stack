@@ -23,6 +23,7 @@ namespace NHS111.Web.Controllers
     using Utils.Attributes;
     using Utils.Filters;
     using System.Web;
+    using Models.Models.Web.DosRequests;
 
     [LogHandleErrorForMVC]
     public class OutcomeController : Controller {
@@ -99,7 +100,7 @@ namespace NHS111.Web.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> ServiceList([Bind(Prefix = "FindService")]OutcomeViewModel model,  [FromUri] DateTime? overrideDate, [FromUri] bool? overrideFilterServices)
+        public async Task<ActionResult> ServiceList([Bind(Prefix = "FindService")]OutcomeViewModel model,  [FromUri] DateTime? overrideDate, [FromUri] bool? overrideFilterServices, DosEndpoint? endpoint)
         {
             if (!ModelState.IsValidField("FindService.UserInfo.CurrentAddress.PostCode"))
                 return View(model.CurrentView, model);
@@ -110,7 +111,7 @@ namespace NHS111.Web.Controllers
                 return View(model.CurrentView, model);
             }
 
-            model.DosCheckCapacitySummaryResult = await GetServiceAvailability(model, overrideDate, overrideFilterServices.HasValue ? overrideFilterServices.Value : model.FilterServices);
+            model.DosCheckCapacitySummaryResult = await GetServiceAvailability(model, overrideDate, overrideFilterServices.HasValue ? overrideFilterServices.Value : model.FilterServices, endpoint);
             await _auditLogger.LogDosResponse(model);
 
             if (model.DosCheckCapacitySummaryResult.Error == null &&
@@ -129,17 +130,17 @@ namespace NHS111.Web.Controllers
             return View(Path.GetFileNameWithoutExtension(model.CurrentView), model);
         }
 
-        private async Task<DosCheckCapacitySummaryResult> GetServiceAvailability(OutcomeViewModel model, DateTime? overrideDate, bool filterServices)
+        private async Task<DosCheckCapacitySummaryResult> GetServiceAvailability(OutcomeViewModel model, DateTime? overrideDate, bool filterServices, DosEndpoint? endpoint)
         {
             var dosViewModel = Mapper.Map<DosViewModel>(model);
                 if (overrideDate.HasValue) dosViewModel.DispositionTime = overrideDate.Value;
 
            await _auditLogger.LogDosRequest(model, dosViewModel);
-           return await _dosBuilder.FillCheckCapacitySummaryResult(dosViewModel, filterServices);
+           return await _dosBuilder.FillCheckCapacitySummaryResult(dosViewModel, filterServices, endpoint);
         }
 
         [HttpPost]
-        public async Task<ActionResult> ServiceDetails([Bind(Prefix = "FindService")]OutcomeViewModel model, [FromUri] bool? overrideFilterServices) {
+        public async Task<ActionResult> ServiceDetails([Bind(Prefix = "FindService")]OutcomeViewModel model, [FromUri] bool? overrideFilterServices, DosEndpoint? endpoint) {
 
             if (!ModelState.IsValidField("FindService.UserInfo.CurrentAddress.Postcode"))
                 return View(model.CurrentView, model);
@@ -152,7 +153,7 @@ namespace NHS111.Web.Controllers
 
             var dosCase = Mapper.Map<DosViewModel>(model);
             await _auditLogger.LogDosRequest(model, dosCase);
-            model.DosCheckCapacitySummaryResult = await _dosBuilder.FillCheckCapacitySummaryResult(dosCase, overrideFilterServices.HasValue ? overrideFilterServices.Value : model.FilterServices);
+            model.DosCheckCapacitySummaryResult = await _dosBuilder.FillCheckCapacitySummaryResult(dosCase, overrideFilterServices.HasValue ? overrideFilterServices.Value : model.FilterServices, endpoint);
             await _auditLogger.LogDosResponse(model);
 
             if (model.DosCheckCapacitySummaryResult.Error == null &&
@@ -179,7 +180,7 @@ namespace NHS111.Web.Controllers
 
             model = await PopulateAddressPickerFields(model);
 
-            return View("PersonalDetails", model);
+            return View("~\\Views\\Outcome\\PersonalDetails.cshtml", model);
         }
 
         private async Task<PersonalDetailViewModel> PopulateAddressPickerFields(PersonalDetailViewModel model)
@@ -208,8 +209,7 @@ namespace NHS111.Web.Controllers
                 model = await PopulateAddressPickerFields(model);
                 return View("PersonalDetails", model);
             }
-            var availableServices = await GetServiceAvailability(model, DateTime.Now, overrideFilterServices.HasValue ? overrideFilterServices.Value : model.FilterServices);
-
+            var availableServices = await GetServiceAvailability(model, DateTime.Now, overrideFilterServices.HasValue ? overrideFilterServices.Value : model.FilterServices, null);
             _auditLogger.LogDosResponse(model);
             if (SelectedServiceExits(model.SelectedService.Id, availableServices))
             {
