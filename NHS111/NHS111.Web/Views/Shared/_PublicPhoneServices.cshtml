@@ -22,10 +22,6 @@
             <span>@title</span>
         </summary>
         <div>
-            @if (Model.Id == "Dx08" && Model.UserInfo.CurrentAddress.IsPostcodeFirst)
-            {
-                <div class="callout callout--info">Your own GP should already know about any medicines you’re taking. If you see a different GP, tell them about your medicines</div>
-            }
             <div class="cards">
                 @foreach (var service in services.Where(s => !s.CallbackEnabled && !string.IsNullOrEmpty(s.ContactDetails)))
                 {
@@ -34,6 +30,10 @@
                         <p class="card__details">@WebUtility.HtmlDecode(service.ServiceOpeningTimesMessage)</p>
                         <hr />
                         <p>You can phone this service for advice during the times shown above.</p>
+                        @if (Model.Id == "Dx08" && Model.UserInfo.CurrentAddress.IsPostcodeFirst)
+                        {
+                            <p>If you see a different GP, tell them about your medicines</p>
+                        }
                         <p><a href="tel: @service.ContactDetails">Phone @service.ContactDetails</a></p>
                     </div>
                 }

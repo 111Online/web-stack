@@ -44,7 +44,7 @@
                         @Html.Hidden("SelectedServiceAddress", @service.Address)
                         <hr />
                         <p>You don't need to call this service, you can go there during the times shown above.</p>
-                        @if (Model.Id == "Dx08" && Model.UserInfo.CurrentAddress.IsPostcodeFirst)
+                        if (Model.Id == "Dx08" && Model.UserInfo.CurrentAddress.IsPostcodeFirst)
                         {
                             <p>If you see a different GP, tell them about your medicines</p>
                         }
