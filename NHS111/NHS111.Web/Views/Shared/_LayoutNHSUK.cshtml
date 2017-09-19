@@ -139,17 +139,14 @@
 
 
     <script type="text/javascript">
-        $(document).ready(function () {
-            $.validator.setDefaults({
-                highlight: function (element, errorClass, validClass) {
-                    $(element).closest(".form-group").addClass("form-group-error");
-                },
-                unhighlight: function (element, errorClass, validClass) {
-                    $(element).closest(".form-group").removeClass("form-group-error");
-                }
-            });
+        $.validator.setDefaults({
+            highlight: function (element, errorClass, validClass) {
+                $(element).closest(".form-group").addClass("form-group-error");
+            },
+            unhighlight: function (element, errorClass, validClass) {
+                $(element).closest(".form-group").removeClass("form-group-error");
+            }
         });
-
     </script>
     <link rel="stylesheet" href="@NHS111.Web.Helpers.Versioning.GetVersionedUriRef("~/nhs-online-print.css")" media="print" type="text/css">
 
