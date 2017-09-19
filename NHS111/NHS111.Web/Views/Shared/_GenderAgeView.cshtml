@@ -47,8 +47,7 @@
             if (event.which == 13 || event.keyCode == 13) {
                 return;
             }
-
-            if (event.which == 13 || event.keyCode == 13) {
+            
             // Forces numbers-only (no scientific notation, which type=number allows) on keypress and paste
             if (/[^0-9]/g.test(key) || $(this).val().length >= maxLength) e.preventDefault();
             $(this).val($(this).val().replace(/[^0-9]/gi, '').slice(0, maxLength))
