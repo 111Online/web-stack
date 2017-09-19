@@ -23,7 +23,7 @@ namespace NHS111.SmokeTests.Regression
                 .AnswerAndValidateQuestion(3, "Have you had any blood in your sick (vomit)?")
                 .AnswerAndValidateQuestion(4, "Does your poo look black and tarry or red or maroon in colour?")
                 .AnswerAndValidateQuestion(4, "Do you have to stay completely still because of the pain?")
-                .AnswerForDispostion("Yes");
+                .AnswerForDispostion<OutcomePage>("Yes");
 
             outcomePage.VerifyOutcome("Your answers suggest you should dial 999 now for an ambulance");
         }
@@ -44,7 +44,7 @@ namespace NHS111.SmokeTests.Regression
                 .AnswerAndValidateQuestion(3, "Have you had any blood in your sick (vomit)?")
                 .AnswerAndValidateQuestion(4, "Does your poo look black and tarry or red or maroon in colour?")
                 .AnswerAndValidateQuestion(4, "Do you have to stay completely still because of the pain?")
-                .AnswerForDispostion("Yes");
+                .AnswerForDispostion<OutcomePage>("Yes");
 
             outcomePage.VerifyOutcome("Your answers suggest you should dial 999 now for an ambulance");
         }
@@ -61,7 +61,7 @@ namespace NHS111.SmokeTests.Regression
                 .AnswerAndValidateQuestion(3, "Have you had any blood in your sick (vomit)?")
                 .AnswerAndValidateQuestion(4, "Does your poo look black and tarry or red or maroon in colour?")
                 .AnswerAndValidateQuestion(4, "Do you have to stay completely still because of the pain?")
-                .AnswerForDispostion("Yes");
+                .AnswerForDispostion<OutcomePage>("Yes");
 
             outcomePage.VerifyOutcome("Your answers suggest you should dial 999 now for an ambulance");
         }

@@ -11,41 +11,37 @@ using OpenQA.Selenium.Support.PageObjects;
 
 namespace NHS111.SmokeTest.Utils
 {
-    public class HomePage
+    public class HomePage : LayoutPage
     {
-        private readonly IWebDriver _driver;
-        private static string _baseUrl = ConfigurationManager.AppSettings["TestWebsiteUrl"].ToString();
+        private static string _baseUrl = ConfigurationManager.AppSettings["TestWebsiteUrl"];
 
         private const string _headerText = "Getting care with 111 Online";
 
         [FindsBy(How = How.CssSelector, Using = "h1")]
-        public IWebElement Header { get; set; }
+        private IWebElement Header { get; set; }
 
         [FindsBy(How = How.ClassName, Using = "button--next")]
-        public IWebElement NextButton { get; set; }
-
-
-        public HomePage(IWebDriver driver) 
+        private IWebElement NextButton { get; set; }
+        
+        public HomePage(IWebDriver driver) : base(driver)
         {
-            _driver = driver;
-            PageFactory.InitElements(_driver, this);
         }
 
         public void Load()
         {
-            _driver.Navigate().GoToUrl(_baseUrl);
+            Driver.Navigate().GoToUrl(_baseUrl);
             if (UrlContainsCredentials())
             {
-                _driver.Navigate().GoToUrl(GetUrlWithoutCredentials());
+                Driver.Navigate().GoToUrl(GetUrlWithoutCredentials());
             }
-            _driver.Manage().Window.Maximize();
+            Driver.Manage().Window.Maximize();
         }
 
         private string GetUrlWithoutCredentials()
         {
             if (UrlContainsCredentials())
             {
-                return _driver.Url.Remove(_baseUrl.IndexOf("://") + 3,
+                return Driver.Url.Remove(_baseUrl.IndexOf("://") + 3,
                     _baseUrl.LastIndexOf("@") - (_baseUrl.IndexOf("://") + 3));
             }
             return _baseUrl;
@@ -59,7 +55,7 @@ namespace NHS111.SmokeTest.Utils
         public ModuleZeroPage ClickNextButton()
         {
             NextButton.Click();
-            return new ModuleZeroPage(_driver);
+            return new ModuleZeroPage(Driver);
         }
         public void Verify()
         {
