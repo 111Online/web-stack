@@ -14,7 +14,7 @@
         <div class="find-address-panel">
             <div class="form-group ">
                 <div>
-                    <label for="@Html.NameFor(m => m.PreviouslyEnteredPostcode)">Postcode</label>
+                    <label for="@Html.IdFor(m => m.PreviouslyEnteredPostcode)">Postcode</label>
                     <div class="inline-details">
                         <p id="postcode-readonly">@Html.ValueFor(m => m.PreviouslyEnteredPostcode)</p>
                         @Html.TextBoxFor(m => m.PreviouslyEnteredPostcode, new {@class = "form-control form-control-8-chars", @readonly = "readonly", @type = "hidden"})
@@ -28,12 +28,12 @@
 
         <div class="form-group">
             <div id="AddressList" style="display: none;">
-                <label for="@Html.NameFor(m => m.SelectedAddressFromPicker)">What is the address?</label>
-                <label class="form-group select-label @(@ViewData.ModelState.IsValidField("AddressInfoViewModel.AddressPicker") ? "" : "form-group-error")">
+                <label for="@Html.IdFor(m => m.SelectedAddressFromPicker)">What is the address?</label>
+                <div class="form-group @(@ViewData.ModelState.IsValidField("AddressInfoViewModel.AddressPicker") ? "" : "form-group-error")">
                     @Html.ValidationMessageFor(m => m.AddressPicker, "Please select the address")
                     @Html.DropDownListFor(m => m.SelectedAddressFromPicker, Model.AddressPicker, new { @class = "select-address" })
                     @Html.HiddenFor(m => m.AddressOptions)
-                </label>
+                </div>
 
             </div>
             <div id="addressPanel" class="address-panel">
