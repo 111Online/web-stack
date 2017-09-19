@@ -21,18 +21,18 @@
         <summary>
             <span>@title</span>
         </summary>
-        <div class="panel panel-border-narrow">
-            @if (Model.Id == "Dx08" && Model.UserInfo.CurrentAddress.IsPostcodeFirst)
-            {
-                <ul><li>Your own GP should already know about any medicines you’re taking. If you see a different GP, tell them about your medicines</li></ul>
-            }
-            <div>
+        <div class="cards">
+            <div class="card">
                 @foreach (var service in services.Where(s => !s.CallbackEnabled && string.IsNullOrEmpty(s.ContactDetails)))
                 {
                     <h3>@WebUtility.HtmlDecode(service.Name)</h3>
-                    <p>@WebUtility.HtmlDecode(service.Address)</p>
-                    <p>@WebUtility.HtmlDecode(service.ServiceOpeningTimesMessage)</p>
-                    <p>You don't need to call this service, you can go there during the times shown above.</p>
+                    <p>
+                        @foreach (String address in service.AddressLines)
+                        {
+                            @WebUtility.HtmlDecode(address)<br />
+                        }
+                    </p>
+                    <p class="card__details">@WebUtility.HtmlDecode(service.ServiceOpeningTimesMessage)</p>
                     using (Html.BeginForm("GetDirections", "Outcome", FormMethod.Post))
                     {
                         @Html.HiddenFor(m => m.SessionId)
@@ -42,9 +42,13 @@
                         @Html.Hidden("SelectedServiceId", @service.Id)
                         @Html.Hidden("SelectedServiceName", @service.Name)
                         @Html.Hidden("SelectedServiceAddress", @service.Address)
-                        <div>
-                            <button class="button button--next button--link" type="submit">Get directions</button>
-                        </div>
+                        <hr />
+                        <p>You don't need to call this service, you can go there during the times shown above.</p>
+                        @if (Model.Id == "Dx08" && Model.UserInfo.CurrentAddress.IsPostcodeFirst)
+                        {
+                            <p>If you see a different GP, tell them about your medicines</p>
+                        }
+                        <button class="button button--link" type="submit">Get directions</button>
                     }
                 }
             </div>
