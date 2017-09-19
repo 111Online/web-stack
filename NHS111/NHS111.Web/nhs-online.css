@@ -1733,6 +1733,105 @@ button:active:before, .button:active:before {
     }
 }
 
+@media (min-width: 600px) {
+    .cards {
+        display: -ms-grid;
+        display: grid;
+        grid-gap: 25px;
+        -ms-grid-columns: 1fr 1fr;
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .card {
+        margin-top: 0;
+    }
+}
+
+.card {
+    background: #fff;
+    border: 2px solid #F0F3F5;
+    border-left: 8px solid #F0F3F5;
+    padding: 20px 10px;
+    margin: 0;
+    margin-top: 10px;
+}
+
+    .card h3 {
+        font-family: "Frutiger W01", Arial, sans-serif;
+        font-size: 20px;
+        font-weight: 600;
+        line-height: 32px;
+        text-transform: none;
+    }
+
+@media (min-width: 641px) {
+    .card h3 {
+        font-size: 20px;
+        line-height: 32px;
+    }
+}
+
+@media (min-width: 925px) {
+    .card h3 {
+        font-size: 20px;
+        line-height: 32px;
+    }
+}
+
+.card p {
+    font-family: "Frutiger W01", Arial, sans-serif;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 24px;
+    text-transform: none;
+    color: #768692;
+}
+
+@media (min-width: 641px) {
+    .card p {
+        font-size: 16px;
+        line-height: 24px;
+    }
+}
+
+@media (min-width: 925px) {
+    .card p {
+        font-size: 16px;
+        line-height: 24px;
+    }
+}
+
+.card a {
+    font-family: "Frutiger W01", Arial, sans-serif;
+    font-size: 20px;
+    font-weight: 400;
+    line-height: 32px;
+    text-transform: none;
+}
+
+@media (min-width: 641px) {
+    .card a {
+        font-size: 20px;
+        line-height: 32px;
+    }
+}
+
+@media (min-width: 925px) {
+    .card a {
+        font-size: 20px;
+        line-height: 32px;
+    }
+}
+
+.card * + * {
+    margin-top: 16px;
+}
+
+p.card__details {
+    color: #231f20;
+    font-weight: 600;
+}
+
 .feedback-wrapper {
     /*z-index: 9001;*/
     position: relative;
@@ -2539,8 +2638,8 @@ a.global-header__logo {
 }
 
 .results-map .service-map {
-    height: 600px;
-    all: unset;
+    width: 100%;
+    height: 400px;
 }
 
     .results-map .service-map * + * {
