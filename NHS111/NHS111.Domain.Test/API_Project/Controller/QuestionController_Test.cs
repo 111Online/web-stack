@@ -69,14 +69,15 @@ namespace NHS111.Domain.Test.API_Project.Controller
 
             var answer = "answer";
             var id = "qId1";
-            _questionRepository.Setup(x => x.GetNextQuestion(id, answer)).Returns(Task.FromResult(questionWithAnswers));
+            var nodeLabel = "Question";
+            _questionRepository.Setup(x => x.GetNextQuestion(id, nodeLabel, answer)).Returns(Task.FromResult(questionWithAnswers));
 
 
             //Act
-            var result = await _sut.GetNextQuestion(id, answer);
+            var result = await _sut.GetNextQuestion(id, nodeLabel, answer);
 
             //Assert
-            _questionRepository.Verify(x => x.GetNextQuestion(id, answer), Times.Once);
+            _questionRepository.Verify(x => x.GetNextQuestion(id, nodeLabel, answer), Times.Once);
             Assert.That(result.StatusCode, Is.EqualTo(HttpStatusCode.OK));
 
         }

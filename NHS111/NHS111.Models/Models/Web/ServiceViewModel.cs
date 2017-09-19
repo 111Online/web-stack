@@ -2,9 +2,11 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using System.Text.RegularExpressions;
 using Nest;
 using NHS111.Models.Models.Web.Clock;
 using NHS111.Models.Models.Web.FromExternalServices;
+using NHS111.Models.Models.Web.Validators;
 using DayOfWeek = System.DayOfWeek;
 using TimeOfDay = NHS111.Models.Models.Web.FromExternalServices.TimeOfDay;
 
@@ -15,6 +17,8 @@ namespace NHS111.Models.Models.Web
         private readonly IClock _clock;
         private const string ServiceClosedMessage = "Closed";
         private const string OpenAllHoursMessage = "Open today: 24 hours";
+
+        private List<string> _addressLines;
 
         public ServiceViewModel()
             : this(new SystemClock())
@@ -39,6 +43,33 @@ namespace NHS111.Models.Models.Web
         private static bool TimeBetween(TimeSpan timeNow, TimeSpan openingTime, TimeSpan closingTime)
         {
             return (timeNow >= openingTime && timeNow < closingTime);
+        }
+
+        public List<string> AddressLines
+        {
+            get
+            {
+                return _addressLines ?? (_addressLines = BuildFormattedAddressLines(this.Address));
+            }
+        }
+
+        private List<string> BuildFormattedAddressLines(string unformattedAddress)
+        {
+            return String.IsNullOrEmpty(unformattedAddress)
+                ? new List<string>()
+                : unformattedAddress.Split(',').ToList().Select(a => IsAPostcode(a) ? a.Trim() : TitleCaseAddressLine(a)).ToList();
+        }
+
+        private string TitleCaseAddressLine(string addressLine)
+        {
+            return new CultureInfo("en-US", false).TextInfo
+                .ToTitleCase(addressLine.ToLower()).Trim();
+        }
+
+        private bool IsAPostcode(string addressLine)
+        {
+            var postcodeRegex = new Regex(PostCodeFormatValidator.PostcodeRegex, RegexOptions.IgnoreCase);
+            return postcodeRegex.IsMatch(addressLine.Replace(" ", ""));
         }
 
         public bool IsOpenToday

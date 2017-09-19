@@ -53,20 +53,20 @@
 @if (FilterPathwaysByAgeFeature.IsEnabled)
 {
     <script type="text/javascript">
+        jQuery(function () {
+            jQuery.validator.addMethod('age',
+                function (value, element, params) {
+                    return parseInt(value) >= 5;
+                });
 
-        jQuery.validator.addMethod('age',
-            function (value, element, params) {
-                return parseInt(value) >= 5;
-            });
-
-        jQuery.validator.unobtrusive.adapters.add('age',
-            ['prefixelement'],
-            function (options) {
-                options.rules['age'] = options.params;
-                if (options.message != null) {
-                    options.messages['age'] = options.message;
-                }
-            });
-
+            jQuery.validator.unobtrusive.adapters.add('age',
+                ['prefixelement'],
+                function (options) {
+                    options.rules['age'] = options.params;
+                    if (options.message != null) {
+                        options.messages['age'] = options.message;
+                    }
+                });
+        });
     </script>
 }

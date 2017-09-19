@@ -50,12 +50,10 @@ th {
 }
 
 html {
-    background-color: #005eb8;
     color: #231f20;
 }
 
 body {
-    background-color: #fff;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
 }
