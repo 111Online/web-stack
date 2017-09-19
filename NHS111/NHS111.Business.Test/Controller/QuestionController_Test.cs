@@ -49,13 +49,13 @@ namespace NHS111.Business.Test.Controller
                 State = new Dictionary<string, string>()
             };
             var json = JsonConvert.SerializeObject(question);
-            _questionService.Setup(x => x.GetNextQuestion(It.IsAny<string>(), It.IsAny<string>())).Returns(Task.FromResult(json.AsHttpResponse()));
+            _questionService.Setup(x => x.GetNextQuestion(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>())).Returns(Task.FromResult(json.AsHttpResponse()));
 
             _questionTransformer.Setup(x => x.AsQuestionWithDeadEnd(It.IsAny<string>())).Returns(json);
 
             var result = await _sut.GetNextNode("1", "2", "", "yes");
 
-            _questionService.Verify(x => x.GetNextQuestion(It.IsAny<string>(), It.IsAny<string>()), Times.Once);
+            _questionService.Verify(x => x.GetNextQuestion(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>()), Times.Once);
             Assert.IsInstanceOf<QuestionWithDeadEnd>(JsonConvert.DeserializeObject<QuestionWithDeadEnd>(await result.Content.ReadAsStringAsync()));
         }
 
@@ -72,13 +72,13 @@ namespace NHS111.Business.Test.Controller
                 State = new Dictionary<string, string>()
             };
             var json = JsonConvert.SerializeObject(question);
-            _questionService.Setup(x => x.GetNextQuestion(It.IsAny<string>(), It.IsAny<string>())).Returns(Task.FromResult(json.AsHttpResponse()));
+            _questionService.Setup(x => x.GetNextQuestion(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>())).Returns(Task.FromResult(json.AsHttpResponse()));
 
             _questionTransformer.Setup(x => x.AsQuestionWithAnswers(It.IsAny<string>())).Returns(json);
 
             var result = await _sut.GetNextNode("1", "2", "", "yes");
 
-            _questionService.Verify(x => x.GetNextQuestion(It.IsAny<string>(), It.IsAny<string>()), Times.Once);
+            _questionService.Verify(x => x.GetNextQuestion(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>()), Times.Once);
             Assert.IsInstanceOf<QuestionWithAnswers>(JsonConvert.DeserializeObject<QuestionWithAnswers>(await result.Content.ReadAsStringAsync()));
         }
     }

@@ -16,6 +16,8 @@ namespace NHS111.Models.Models.Web
         private const string ServiceClosedMessage = "Closed";
         private const string OpenAllHoursMessage = "Open today: 24 hours";
 
+        private IEnumerable<string> _addressLines; 
+
         public ServiceViewModel()
             : this(new SystemClock())
         {
@@ -39,6 +41,15 @@ namespace NHS111.Models.Models.Web
         private static bool TimeBetween(TimeSpan timeNow, TimeSpan openingTime, TimeSpan closingTime)
         {
             return (timeNow >= openingTime && timeNow < closingTime);
+        }
+
+        public List<string> AddressLines
+        {
+            get { 
+                return String.IsNullOrEmpty(Address) ? 
+                        new List<string>() : 
+                        Address.Split(',').ToList().Select(a => a.Trim()).ToList(); 
+            }
         }
 
         public bool IsOpenToday

@@ -63,10 +63,13 @@
     <Otherwise />
   </Choose>
   <ItemGroup>
-    <Compile Include="EndpointJourneys.cs" />
+    <Compile Include="BaseTests.cs" />
+    <Compile Include="EndpointJourneyTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RegressionTests.cs" />
-    <Compile Include="SearchTermScenerios.cs" />
+    <Compile Include="Regression\AgeTests.cs" />
+    <Compile Include="Regression\CategoryTests.cs" />
+    <Compile Include="SearchTermResultsTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
