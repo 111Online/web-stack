@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Xml;
 using AutoMapper;
 using Newtonsoft.Json;
 using NHS111.Models.Models.Domain;
@@ -132,7 +133,7 @@ namespace NHS111.Web.Presentation.Builders
                     new StringContent(JsonConvert.SerializeObject(answer.Title), Encoding.UTF8, "application/json")
             };
             var serialisedState = HttpUtility.UrlEncode(JsonConvert.SerializeObject(model.State));
-            var businessApiNextNodeUrl = _configuration.GetBusinessApiNextNodeUrl(model.PathwayId, model.Id,
+            var businessApiNextNodeUrl = _configuration.GetBusinessApiNextNodeUrl(model.PathwayId, model.NodeType, model.Id,
                 serialisedState);
             var response = await _restfulHelper.PostAsync(businessApiNextNodeUrl, request);
             return JsonConvert.DeserializeObject<QuestionWithAnswers>(await response.Content.ReadAsStringAsync());
