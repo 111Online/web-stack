@@ -4,6 +4,7 @@ using System.Configuration;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using NHS111.Models.Models.Web.Enums;
 using NHS111.Web.Presentation.Configuration;
 using NUnit.Framework;
 namespace NHS111.Web.Presentation.Configuration.Tests
@@ -68,10 +69,10 @@ namespace NHS111.Web.Presentation.Configuration.Tests
         [Test()]
         public void GetBusinessApiNextNodeUrl_with_relative_url_configured_Test()
         {
-            ConfigurationManager.AppSettings["BusinessApiNextNodeUrl"] = "nextEndpoint/{0}/next/{1}/{2}";
-                var result = _testConfiguration.GetBusinessApiNextNodeUrl("PW1234", "xxx-ddd", "{State:'somestate'}");
+            ConfigurationManager.AppSettings["BusinessApiNextNodeUrl"] = "nextEndpoint/{0}/{1}/next/{2}/{3}";
+                var result = _testConfiguration.GetBusinessApiNextNodeUrl("PW1234", NodeType.Question,  "xxx-ddd", "{State:'somestate'}");
 
-            Assert.AreEqual("http://testbusinessdomain.com/nextEndpoint/PW1234/next/xxx-ddd/{State:'somestate'}", result);
+            Assert.AreEqual("http://testbusinessdomain.com/nextEndpoint/PW1234/Question/next/xxx-ddd/{State:'somestate'}", result);
         }
 
         [Test()]
