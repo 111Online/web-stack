@@ -50,7 +50,7 @@ namespace NHS111.SmokeTests
 
             newOutcome.EnterPostCodeAndSubmit("LS17 7NZ");
 
-            newOutcome.VerifyOutcome("You should speak to your GP practice within the next 6 hours");
+            newOutcome.VerifyOutcome("Speak to your GP practice today");
             newOutcome.VerifyCareAdvice(new[] {"Medication, next dose", "Medication, pain and/or fever", "Headache"});
         }
 
@@ -88,8 +88,8 @@ namespace NHS111.SmokeTests
                 .AnswerForDispostion<PostcodeFirstPage>("Within the next 6 hours");
 
             postcodeFirstPage.EnterPostCodeAndSubmit("LS17 7NZ");
-
-            postcodeFirstPage.VerifyOutcome("You should speak to your GP practice within the next 6 hours");
+            
+            postcodeFirstPage.VerifyOutcome("Speak to your GP practice today");
 
             TestScenerios.LaunchTriageScenerio(Driver, "Headache", "Female", 50);
             postcodeFirstPage = questionPage.ValidateQuestion("Is there a chance you are pregnant?")
@@ -103,7 +103,7 @@ namespace NHS111.SmokeTests
 
             postcodeFirstPage.EnterPostCodeAndSubmit("LS17 7NZ");
 
-            postcodeFirstPage.VerifyOutcome("You should speak to your GP practice within the next 2 hours");
+            postcodeFirstPage.VerifyOutcome("Speak to your GP practice urgently");
         }
 
     }

@@ -11,6 +11,7 @@ using NHS111.Business.Services;
 using NHS111.Business.Transformers;
 using NHS111.Utils.Attributes;
 using NHS111.Models.Models.Domain;
+using NHS111.Models.Models.Web.Enums;
 using NHS111.Utils.Cache;
 using NHS111.Utils.Extensions;
 
@@ -33,11 +34,11 @@ namespace NHS111.Business.Api.Controllers
         }
 
         [HttpPost]
-        [Route("node/{pathwayId}/next_node/{nodeId}")]
-        public async Task<HttpResponseMessage> GetNextNode(string pathwayId, string nodeId,
+        [Route("node/{pathwayId}/{currentNodeType}/next_node/{nodeId}")]
+        public async Task<HttpResponseMessage> GetNextNode(string pathwayId, NodeType currentNodeType, string nodeId,
             string state, [FromBody] string answer)
         {
-            return await GetNextNode(pathwayId, "Question", nodeId, state, answer);
+            return await GetNextNode(pathwayId, currentNodeType.ToString(), nodeId, state, answer);
         }
 
         public async Task<HttpResponseMessage> GetNextNode(string pathwayId, string nodeLabel, string nodeId, string state, [FromBody]string answer, string cacheKey = null)
