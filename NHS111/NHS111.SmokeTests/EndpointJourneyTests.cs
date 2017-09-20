@@ -218,7 +218,7 @@ namespace NHS111.SmokeTests
            
             outcomePage.EnterPostCodeAndSubmit("LS17 7NZ");
 
-            outcomePage.VerifyOutcome("You should speak to your GP practice within the next 2 hours");
+            outcomePage.VerifyOutcome("Speak to your GP practice urgently");
             outcomePage.VerifyWorseningPanel(WorseningMessages.Call111PostCodeFirst);
             outcomePage.VerifyCareAdviceHeader("What you can do in the meantime");
             outcomePage.VerifyCareAdvice(new string[] { "Medication, pain and/or fever", "Headache" });

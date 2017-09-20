@@ -76,7 +76,7 @@ namespace NHS111.SmokeTests
 
             newOutcome.EnterPostCodeAndSubmit("LS17 7NZ");
 
-            newOutcome.VerifyOutcome("You should speak to your GP practice within the next 6 hours");
+            newOutcome.VerifyOutcome("Speak to your GP practice today");
             newOutcome.VerifyCareAdvice(new[] {"Medication, next dose", "Medication, pain and/or fever", "Headache"});
 
 
@@ -125,7 +125,7 @@ namespace NHS111.SmokeTests
 
             outcomePage.EnterPostCodeAndSubmit("LS17 7NZ");
 
-            outcomePage.VerifyOutcome("You should speak to your GP practice within the next 6 hours");
+            outcomePage.VerifyOutcome("Speak to your GP practice today");
 
 
             TestScenerios.LaunchTriageScenerio(Driver, "Headache", "Female", 50);
@@ -144,7 +144,7 @@ namespace NHS111.SmokeTests
             outcomePage.EnterPostCodeAndSubmit("LS17 7NZ");
 
 
-            outcomePage.VerifyOutcome("You should speak to your GP practice within the next 2 hours");
+            outcomePage.VerifyOutcome("Speak to your GP practice urgently");
         }
 
     }
