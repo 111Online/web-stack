@@ -9,32 +9,27 @@ using OpenQA.Selenium.Support.PageObjects;
 
 namespace NHS111.SmokeTest.Utils
 {
-    public class GenderPage
+    public class GenderPage : LayoutPage
     {
-        private readonly IWebDriver _driver;
-
         private string _headerText = "Tell us about you, or the person you're asking about";
 
         [FindsBy(How = How.CssSelector, Using = "h1")]
-        public IWebElement Header { get; set; }
-
+        private IWebElement Header { get; set; }
 
         [FindsBy(How = How.CssSelector, Using = "[for='Male']")]
-        public IWebElement MaleButton { get; set; }
+        private IWebElement MaleButton { get; set; }
 
         [FindsBy(How = How.CssSelector, Using = "[for='Female']")]
-        public IWebElement FemaleButton { get; set; }
+        private IWebElement FemaleButton { get; set; }
 
         [FindsBy(How = How.Id, Using = "UserInfo_Demography_Age")]
-        public IWebElement AgeInput { get; set; }
+        private IWebElement AgeInput { get; set; }
 
         [FindsBy(How = How.ClassName, Using = "button--next")]
-        public IWebElement NextButton { get; set; }
+        private IWebElement NextButton { get; set; }
 
-        public GenderPage(IWebDriver driver)
+        public GenderPage(IWebDriver driver) : base(driver)
         {
-            _driver = driver;
-            PageFactory.InitElements(_driver, this);
         }
 
         public void SelectGenderAndAge(string gender, int age)
@@ -65,7 +60,7 @@ namespace NHS111.SmokeTest.Utils
         public SearchPage NextPage()
         {
             NextButton.Submit();
-            return new SearchPage(_driver);
+            return new SearchPage(Driver);
         }
 
 
