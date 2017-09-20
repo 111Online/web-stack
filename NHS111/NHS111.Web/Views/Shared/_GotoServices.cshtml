@@ -35,20 +35,20 @@
                     <p class="card__details">@WebUtility.HtmlDecode(service.ServiceOpeningTimesMessage)</p>
                     @using (Html.BeginForm("GetDirections", "Outcome", FormMethod.Post))
                     {
-                    @Html.HiddenFor(m => m.SessionId)
-                    @Html.HiddenFor(m => m.JourneyId)
-                    @Html.HiddenFor(m => m.JourneyJson)
-                    @Html.HiddenFor(m => m.Id)
-                    @Html.Hidden("SelectedServiceId", @service.Id)
-                    @Html.Hidden("SelectedServiceName", @service.Name)
-                    @Html.Hidden("SelectedServiceAddress", @service.Address)
-                    <hr />
-                    <p>You don't need to call this service, you can go there during the times shown above.</p>
-                    @if (Model.Id == "Dx08" && Model.UserInfo.CurrentAddress.IsPostcodeFirst)
-                    {
-                    <p>If you see a different GP, tell them about your medicines</p>
-                    }
-                    <button class="button button--link" type="submit">Get directions</button>
+                        @Html.HiddenFor(m => m.SessionId)
+                        @Html.HiddenFor(m => m.JourneyId)
+                        @Html.HiddenFor(m => m.JourneyJson)
+                        @Html.HiddenFor(m => m.Id)
+                        @Html.Hidden("SelectedServiceId", @service.Id)
+                        @Html.Hidden("SelectedServiceName", @service.Name)
+                        @Html.Hidden("SelectedServiceAddress", @service.Address)
+                        <hr />
+                        <p>You don't need to call this service, you can go there during the times shown above.</p>
+                        if (Model.Id == "Dx08" && Model.UserInfo.CurrentAddress.IsPostcodeFirst)
+                        {
+                        <p>If you see a different GP, tell them about your medicines</p>
+                        }
+                        <button class="button button--link" type="submit">Get directions</button>
                     }
                 </div>
             }
