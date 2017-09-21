@@ -78,6 +78,11 @@
                 @Html.HiddenFor(m => m.TitleWithoutBullets)
             </legend>
             @Html.ValidationMessageFor(m => m.SelectedAnswer, "Please select an answer", new { @class = "error-message" })
+            @if (!String.IsNullOrWhiteSpace(Model.Rationale)) {
+                <div class="callout callout--info">
+                    <p>@Html.Raw(@Model.RationaleHtml)</p>
+                </div>
+            }
             @for(var i=0;i < Model.OrderedAnswers().Count; i++)
             {
                 var answer = Model.OrderedAnswers()[i];
