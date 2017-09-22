@@ -11,7 +11,7 @@ namespace NHS111.SmokeTests
         {
             var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Skin Problems", TestScenerioGender.Female, TestScenerioAgeGroups.Adult);
 
-            questionPage.ValidateQuestion("What is the main problem?");
+            questionPage.VerifyQuestion("What is the main problem?");
             var outcomePage =  questionPage
                 .Answer(1)
                 .AnswerSuccessiveByOrder(1,2)
@@ -25,7 +25,7 @@ namespace NHS111.SmokeTests
         {
             var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Eye or Eyelid Problems", TestScenerioGender.Male, TestScenerioAgeGroups.Adult);
 
-            questionPage.ValidateQuestion("What is the main problem?");
+            questionPage.VerifyQuestion("What is the main problem?");
             var outcomePage = questionPage
                 .Answer(3)
                 .Answer(3)
@@ -46,7 +46,7 @@ namespace NHS111.SmokeTests
         {
             var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Cold or Flu (Declared)", TestScenerioGender.Female, TestScenerioAgeGroups.Adult);
 
-            questionPage.ValidateQuestion("Do you feel so ill that you can't think of anything else?");
+            questionPage.VerifyQuestion("Do you feel so ill that you can't think of anything else?");
             var outcomePage = questionPage
                 .Answer(3)
                 .Answer(4)
@@ -69,7 +69,7 @@ namespace NHS111.SmokeTests
         {
             var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Dental Problems", TestScenerioGender.Female, TestScenerioAgeGroups.Adult);
 
-            questionPage.ValidateQuestion("Do you have dental bleeding, toothache or a different dental problem?");
+            questionPage.VerifyQuestion("Do you have dental bleeding, toothache or a different dental problem?");
             var postcodeFirstPage = questionPage
                 .Answer(2)
                 .Answer(4)
@@ -89,7 +89,7 @@ namespace NHS111.SmokeTests
         {
             var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Dental Problems", TestScenerioGender.Female, TestScenerioAgeGroups.Adult);
 
-            questionPage.ValidateQuestion("Do you have dental bleeding, toothache or a different dental problem?");
+            questionPage.VerifyQuestion("Do you have dental bleeding, toothache or a different dental problem?");
             var outcomePage = questionPage
                 .Answer(1)
                 .Answer(3)
@@ -110,7 +110,7 @@ namespace NHS111.SmokeTests
         {
             var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Headache", TestScenerioGender.Male, TestScenerioAgeGroups.Adult);
 
-            questionPage.ValidateQuestion("Have you hurt or banged your head in the last 7 days?");
+            questionPage.VerifyQuestion("Have you hurt or banged your head in the last 7 days?");
             var outcomePage = questionPage
                 .AnswerSuccessiveByOrder(3,3)
                 .Answer(5)
@@ -131,7 +131,7 @@ namespace NHS111.SmokeTests
         {
             var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Eye or Eyelid Problems", TestScenerioGender.Female, TestScenerioAgeGroups.Child);
 
-            questionPage.ValidateQuestion("What is the main problem?");
+            questionPage.VerifyQuestion("What is the main problem?");
             var outcomePage = questionPage
                 .Answer(5)
                 .Answer(3)
@@ -159,7 +159,7 @@ namespace NHS111.SmokeTests
         {
             var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Diarrhoea and Vomiting", TestScenerioGender.Male, TestScenerioAgeGroups.Child);
 
-            questionPage.ValidateQuestion("Have you had any blood in your sick (vomit)?");
+            questionPage.VerifyQuestion("Have you had any blood in your sick (vomit)?");
             var outcomePage = questionPage
                 .Answer(4)
                 .AnswerSuccessiveByOrder(3,2)
@@ -184,7 +184,7 @@ namespace NHS111.SmokeTests
         {
             var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Tiredness (Fatigue)", TestScenerioGender.Male, TestScenerioAgeGroups.Adult);
 
-            questionPage.ValidateQuestion("Have you got a raised temperature now or have you had one at any time since the tiredness started?");
+            questionPage.VerifyQuestion("Have you got a raised temperature now or have you had one at any time since the tiredness started?");
             var outcomePage = questionPage
                 .AnswerSuccessiveByOrder(3,4)
                .AnswerSuccessiveByOrder(4, 2)
@@ -205,7 +205,7 @@ namespace NHS111.SmokeTests
         {
             var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Headache", TestScenerioGender.Male, TestScenerioAgeGroups.Adult);
 
-            questionPage.ValidateQuestion("Have you hurt or banged your head in the last 7 days?");
+            questionPage.VerifyQuestion("Have you hurt or banged your head in the last 7 days?");
             var outcomePage = questionPage
                 .AnswerSuccessiveByOrder(3, 3)
                 .Answer(5)
@@ -229,7 +229,7 @@ namespace NHS111.SmokeTests
         {
             var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Headache", TestScenerioGender.Female, TestScenerioAgeGroups.Adult);
 
-            questionPage.ValidateQuestion("Is there a chance you are pregnant?");
+            questionPage.VerifyQuestion("Is there a chance you are pregnant?");
             var outcomePage = questionPage
                 .Answer(3)
                 .Answer(1)
