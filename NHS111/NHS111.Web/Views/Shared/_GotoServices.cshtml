@@ -3,6 +3,7 @@
 
 @{
     var services = Model.DosCheckCapacitySummaryResult.Success.Services;
+    var serviceCount = 0;
 }
 
 @if (services.Any(s => !s.CallbackEnabled && string.IsNullOrEmpty(s.ContactDetails)))
@@ -14,13 +15,21 @@
     }
     else
     {
-        var serviceCount = services.Count(s => !s.CallbackEnabled && string.IsNullOrEmpty(s.ContactDetails));
+        serviceCount = services.Count(s => !s.CallbackEnabled && string.IsNullOrEmpty(s.ContactDetails));
         title = serviceCount > 1 ? "There are " + serviceCount + " places you can visit" : "There is 1 place you can visit";
     }
     <details>
         <summary>
-            <span>@title</span>
+            <span>Visit a service</span>
         </summary>
+        @if (Model.Id == "Dx08" && Model.UserInfo.CurrentAddress.IsPostcodeFirst)
+        {
+        <section class="callout callout--info">
+            <div class="reading-width">
+                <p>You may not see your usual GP. Make sure you tell them about any medicines you take.</p>
+            </div>
+        </section> 
+        }
         <div class="cards">
             @foreach (var service in services.Where(s => !s.CallbackEnabled && string.IsNullOrEmpty(s.ContactDetails)))
             {
@@ -42,12 +51,8 @@
                         @Html.Hidden("SelectedServiceId", @service.Id)
                         @Html.Hidden("SelectedServiceName", @service.Name)
                         @Html.Hidden("SelectedServiceAddress", @service.Address)
-                        <hr />
-                        <p>You don't need to call this service, you can go there during the times shown above.</p>
-                        if (Model.Id == "Dx08" && Model.UserInfo.CurrentAddress.IsPostcodeFirst)
-                        {
-                        <p>If you see a different GP, tell them about your medicines</p>
-                        }
+                        <hr/>
+                        <p>Walk-in services don't require an appointment</p>
                         <button class="button button--link" type="submit">Get directions</button>
                     }
                 </div>
