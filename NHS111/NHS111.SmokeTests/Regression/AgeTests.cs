@@ -18,11 +18,11 @@ namespace NHS111.SmokeTests.Regression
 
             var outcomePage = questionPage
                 .AnswerSuccessiveByOrder(1, 2)
-                .AnswerAndValidateQuestion(5, "Do you feel the worst you've ever felt in your life and have a new rash under your skin?")
-                .AnswerAndValidateQuestion(3, "Is there a chance you are pregnant?")
-                .AnswerAndValidateQuestion(3, "Have you had any blood in your sick (vomit)?")
-                .AnswerAndValidateQuestion(4, "Does your poo look black and tarry or red or maroon in colour?")
-                .AnswerAndValidateQuestion(4, "Do you have to stay completely still because of the pain?")
+                .AnswerAndVerifyQuestion(5, "Do you feel the worst you've ever felt in your life and have a new rash under your skin?")
+                .AnswerAndVerifyQuestion(3, "Is there a chance you are pregnant?")
+                .AnswerAndVerifyQuestion(3, "Have you had any blood in your sick (vomit)?")
+                .AnswerAndVerifyQuestion(4, "Does your poo look black and tarry or red or maroon in colour?")
+                .AnswerAndVerifyQuestion(4, "Do you have to stay completely still because of the pain?")
                 .AnswerForDispostion<OutcomePage>("Yes");
 
             outcomePage.VerifyOutcome("Your answers suggest you should dial 999 now for an ambulance");
@@ -34,16 +34,15 @@ namespace NHS111.SmokeTests.Regression
         {
             var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Rectal Bleeding", TestScenerioGender.Female, 56);
 
-            var outcomePage = questionPage
-                .ValidateQuestion("Do you have any pain in your tummy (abdomen) as well as bleeding from your bottom (rectal bleeding)?")
-                .AnswerAndValidateQuestion(1, "How bad is your pain?")
-                .AnswerAndValidateQuestion(1, "Have you got a sudden, intense ripping or tearing pain in your chest, tummy or back?")
-                .AnswerAndValidateQuestion(3, "Has a doctor diagnosed you with an aortic aneurysm or Marfan's syndrome?")
-                .AnswerAndValidateQuestion(4, "Have you got any of the symptoms of a heart attack?")
-                .AnswerAndValidateQuestion(5, "Do you feel the worst you've ever felt in your life and have a new rash under your skin?")
-                .AnswerAndValidateQuestion(3, "Have you had any blood in your sick (vomit)?")
-                .AnswerAndValidateQuestion(4, "Does your poo look black and tarry or red or maroon in colour?")
-                .AnswerAndValidateQuestion(4, "Do you have to stay completely still because of the pain?")
+            questionPage.VerifyQuestion("Do you have any pain in your tummy (abdomen) as well as bleeding from your bottom (rectal bleeding)?");
+            var outcomePage = questionPage.AnswerAndVerifyQuestion(1, "How bad is your pain?")
+                .AnswerAndVerifyQuestion(1, "Have you got a sudden, intense ripping or tearing pain in your chest, tummy or back?")
+                .AnswerAndVerifyQuestion(3, "Has a doctor diagnosed you with an aortic aneurysm or Marfan's syndrome?")
+                .AnswerAndVerifyQuestion(4, "Have you got any of the symptoms of a heart attack?")
+                .AnswerAndVerifyQuestion(5, "Do you feel the worst you've ever felt in your life and have a new rash under your skin?")
+                .AnswerAndVerifyQuestion(3, "Have you had any blood in your sick (vomit)?")
+                .AnswerAndVerifyQuestion(4, "Does your poo look black and tarry or red or maroon in colour?")
+                .AnswerAndVerifyQuestion(4, "Do you have to stay completely still because of the pain?")
                 .AnswerForDispostion<OutcomePage>("Yes");
 
             outcomePage.VerifyOutcome("Your answers suggest you should dial 999 now for an ambulance");
@@ -57,10 +56,10 @@ namespace NHS111.SmokeTests.Regression
 
             var outcomePage = questionPage
                 .AnswerSuccessiveByOrder(1, 2)
-                .AnswerAndValidateQuestion(5, "Do you feel the worst you've ever felt in your life and have a new rash under your skin?")
-                .AnswerAndValidateQuestion(3, "Have you had any blood in your sick (vomit)?")
-                .AnswerAndValidateQuestion(4, "Does your poo look black and tarry or red or maroon in colour?")
-                .AnswerAndValidateQuestion(4, "Do you have to stay completely still because of the pain?")
+                .AnswerAndVerifyQuestion(5, "Do you feel the worst you've ever felt in your life and have a new rash under your skin?")
+                .AnswerAndVerifyQuestion(3, "Have you had any blood in your sick (vomit)?")
+                .AnswerAndVerifyQuestion(4, "Does your poo look black and tarry or red or maroon in colour?")
+                .AnswerAndVerifyQuestion(4, "Do you have to stay completely still because of the pain?")
                 .AnswerForDispostion<OutcomePage>("Yes");
 
             outcomePage.VerifyOutcome("Your answers suggest you should dial 999 now for an ambulance");

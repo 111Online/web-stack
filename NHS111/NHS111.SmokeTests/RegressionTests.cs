@@ -13,7 +13,7 @@ namespace NHS111.SmokeTests
                 "Wound Problems, Plaster Casts, Tubes and Metal Appliances", TestScenerioGender.Male,
                 TestScenerioAgeGroups.Adult);
 
-            questionPage.ValidateQuestion("Is the problem to do with any of these?");
+            questionPage.VerifyQuestion("Is the problem to do with any of these?");
             var outcomePage = questionPage
 
                 .AnswerForDispostion<OutcomePage>("A tube or drain");
@@ -26,8 +26,9 @@ namespace NHS111.SmokeTests
         public void SplitQuestionNavigateBackDisplaysCorrectCareAdvice()
         {
             var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Headache", "Female", 49);
-            var outcomePage = questionPage.ValidateQuestion("Is there a chance you are pregnant?")
-                .AnswerSuccessiveByOrder(3, 4)
+
+            questionPage.VerifyQuestion("Is there a chance you are pregnant?");
+            var outcomePage = questionPage.AnswerSuccessiveByOrder(3, 4)
                 .Answer(1)
                 .Answer(3)
                 .Answer(5)
@@ -58,7 +59,7 @@ namespace NHS111.SmokeTests
         public void SplitQuestionJourneyThroughEachRoute()
         {
             var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Headache", TestScenerioGender.Male, TestScenerioAgeGroups.Adult);
-            questionPage.ValidateQuestion("Have you hurt or banged your head in the last 7 days?");
+            questionPage.VerifyQuestion("Have you hurt or banged your head in the last 7 days?");
             var outcomePage = questionPage
                 .Answer(3)
                 .Answer(3)
@@ -68,8 +69,9 @@ namespace NHS111.SmokeTests
             outcomePage.VerifyOutcome("Your answers suggest you should dial 999 now for an ambulance");
 
             TestScenerios.LaunchTriageScenerio(Driver, "Headache", "Female", 49);
-            var postcodeFirstPage = questionPage.ValidateQuestion("Is there a chance you are pregnant?")
-                .AnswerSuccessiveByOrder(3, 4)
+
+            questionPage.VerifyQuestion("Is there a chance you are pregnant?");
+            var postcodeFirstPage = questionPage.AnswerSuccessiveByOrder(3, 4)
                 .Answer(1)
                 .Answer(3)
                 .Answer(5)
@@ -92,8 +94,9 @@ namespace NHS111.SmokeTests
             postcodeFirstPage.VerifyOutcome("Speak to your GP practice today");
 
             TestScenerios.LaunchTriageScenerio(Driver, "Headache", "Female", 50);
-            postcodeFirstPage = questionPage.ValidateQuestion("Is there a chance you are pregnant?")
-                .AnswerSuccessiveByOrder(3, 5)
+
+            questionPage.VerifyQuestion("Is there a chance you are pregnant?");
+            postcodeFirstPage = questionPage.AnswerSuccessiveByOrder(3, 5)
                 .Answer(5)
                 .Answer(3)
                 .Answer(4)
@@ -106,6 +109,14 @@ namespace NHS111.SmokeTests
             postcodeFirstPage.VerifyOutcome("Speak to your GP practice urgently");
         }
 
+        [Test]
+        public void QuestionDisplaysRationale()
+        {
+            var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Headache", TestScenerioGender.Female, TestScenerioAgeGroups.Adult);
+
+            questionPage.VerifyQuestion("Is there a chance you are pregnant?");
+            questionPage.VerifyRationale();
+        }
     }
 }
 
