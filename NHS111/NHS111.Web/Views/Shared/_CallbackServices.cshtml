@@ -7,32 +7,36 @@
 {
     <details>
         <summary>
-            <span class="summary">@string.Format("{0}", ViewData.Keys.Contains("CallbackTitle") ? ViewData["CallbackTitle"] : "We can arrange for someone to phone you")</span>
+            <span class="summary">@string.Format("{0}", ViewData.Keys.Contains("CallbackTitle") ? ViewData["CallbackTitle"] : "Arrange for someone to phone you")</span>
         </summary>
-        <div>
-            <div class="cards">
-                @foreach (var callbackService in services.Where(s => s.CallbackEnabled))
-                {
-                    <div class="card">
-                        <h3>@WebUtility.HtmlDecode(callbackService.Name)</h3>
-
-                        @if (!callbackService.IsOpen)
+        <section class="callout callout--info">
+            <div class="reading-width">
+                <p>They will check through the answers you have entered and give you advice on what to do next</p>
+            </div>
+        </section>
+                <div>
+                    <div class="cards">
+                        @foreach (var callbackService in services.Where(s => s.CallbackEnabled))
                         {
-                            <p class="card__details service-status">@WebUtility.HtmlDecode(callbackService.ServiceOpeningTimesMessage)</p>
-                        }
+                            <div class="card">
+                                <h3>@WebUtility.HtmlDecode(callbackService.Name)</h3>
 
-                        @using (Html.BeginForm("PersonalDetails", "Outcome", FormMethod.Post))
-                        {
-                            @Html.Partial("_CommonHiddenFieldsOutcomeViewModel", Model)
-                            @Html.Partial("_CommonHiddenFieldsCareAdviceViewModel", Model)
-                            @Html.Hidden("SelectedServiceId", @callbackService.Id)
-                            <hr />
-                            <p>They will check through the answers you have entered and give you advice on what to do next</p>
-                            <button type="submit" name="PersonalDetails" value="Book a call">Book a call</button>
+                                @if (!callbackService.IsOpen)
+                                {
+                                    <p class="card__details service-status">@WebUtility.HtmlDecode(callbackService.ServiceOpeningTimesMessage)</p>
+                                }
+
+                                @using (Html.BeginForm("PersonalDetails", "Outcome", FormMethod.Post))
+                                {
+                                    @Html.Partial("_CommonHiddenFieldsOutcomeViewModel", Model)
+                                    @Html.Partial("_CommonHiddenFieldsCareAdviceViewModel", Model)
+                                    @Html.Hidden("SelectedServiceId", @callbackService.Id)
+                                    <hr />
+                                    <button type="submit" name="PersonalDetails" value="Book a call">Book a call</button>
+                                }
+                            </div>
                         }
                     </div>
-                }
-            </div>
-        </div>
+                </div>
     </details>
 }

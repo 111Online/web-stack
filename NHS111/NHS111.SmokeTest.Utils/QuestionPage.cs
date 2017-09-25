@@ -18,8 +18,9 @@ namespace NHS111.SmokeTest.Utils
         [FindsBy(How = How.CssSelector, Using = "h1")]
         private IWebElement Header { get; set; }
 
-        [FindsBy(How = How.ClassName, Using = "button--previous")]
-        private IWebElement PreviousButton { get; set; }
+        [FindsBy(How = How.ClassName, Using = "callout")]
+        [FindsBy(How = How.ClassName, Using = "callout--info")]
+        private IWebElement Rationale { get; set; }
 
         [FindsBy(How = How.CssSelector, Using = "[for='Yes']")]
         private IWebElement AnswerYesButton { get; set; }
@@ -31,13 +32,18 @@ namespace NHS111.SmokeTest.Utils
         {
         }
 
-        public QuestionPage ValidateQuestion(string expectedQuestion)
+        public void VerifyQuestion(string expectedQuestion)
         {
+            Assert.IsTrue(Header.Displayed);
             Assert.AreEqual(expectedQuestion, Header.Text);
-            return this;
         }
 
-        public QuestionPage AnswerAndValidateQuestion(int answerOrder, string expectedQuestion, bool requireButtonAwait = true)
+        public void VerifyRationale()
+        {
+            Assert.IsTrue(Rationale.Displayed);
+        }
+
+        public QuestionPage AnswerAndVerifyQuestion(int answerOrder, string expectedQuestion, bool requireButtonAwait = true)
         {
             Driver.FindElement(By.XPath("(//label[contains(@class, 'multiple-choice--radio')])[" + answerOrder + "]")).Click();
             NextButton.Click();

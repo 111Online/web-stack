@@ -57,14 +57,13 @@
             else if (!string.IsNullOrEmpty(@recommendedService.ContactDetails))
             {
                 <p>Phone: <a href="tel: @recommendedService.ContactDetails">@recommendedService.ContactDetails</a> for advice</p>
-                <p>@WebUtility.HtmlDecode(recommendedService.ServiceOpeningTimesMessage)</p>
-                <p>You can phone this service for advice during the times shown above.</p>        
+                <p>@WebUtility.HtmlDecode(recommendedService.ServiceOpeningTimesMessage)</p>     
             }
             else
             {
                 <p>@WebUtility.HtmlDecode(recommendedService.Address)</p>
                 <p>@WebUtility.HtmlDecode(recommendedService.ServiceOpeningTimesMessage)</p>
-                <p>You don't need to call this service, you can go there during the times shown above.</p>
+                <p>Walk-in services don't require an appointment.</p>
             }
         </div>
     </div>
