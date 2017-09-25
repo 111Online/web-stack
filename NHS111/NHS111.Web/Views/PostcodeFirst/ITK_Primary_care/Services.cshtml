@@ -51,6 +51,11 @@
                 <br/>
                 <p>They will check through the answers you have entered and give you advice on what to do next</p>
             }
+            else if (!string.IsNullOrEmpty(@recommendedService.ContactDetails))
+            {
+                <p>Phone: <a href="tel: @recommendedService.ContactDetails">@recommendedService.ContactDetails</a> for advice</p>
+                <p>@WebUtility.HtmlDecode(recommendedService.ServiceOpeningTimesMessage)</p>
+            }
             else
             {
                 <p>@WebUtility.HtmlDecode(recommendedService.Address)</p>
@@ -75,7 +80,7 @@
             </div>
         }
     }
-    else
+    else if (string.IsNullOrEmpty(recommendedService.ContactDetails))
     {
         if (Model.Id == "Dx08")
         {
