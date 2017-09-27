@@ -48,6 +48,11 @@
                 return;
             }
 
+            // Allow tab
+            if (event.which == 9 || event.keyCode == 9) {
+                return;
+            }
+
             var maxLength = $(this).attr('maxlength');
             var key = e.key || String.fromCharCode(e.keyCode);
 
