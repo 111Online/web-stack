@@ -21,15 +21,15 @@
         <summary>
             <span>Phone a service</span>
         </summary>
-        @if (Model.Id == "Dx08" && Model.UserInfo.CurrentAddress.IsPostcodeFirst)
-        {
-            <section class="callout callout--info">
-                <div class="reading-width">
-                    <p>You may not speak to your usual GP. Make sure you tell them about any medicines you take.</p>
-                </div>
-            </section>
-        }
         <div>
+            @if (Model.Id == "Dx08" && Model.UserInfo.CurrentAddress.IsPostcodeFirst)
+            {
+                <section class="callout callout--info">
+                    <div class="reading-width">
+                        <p>You may not speak to your usual GP. Make sure you tell them about any medicines you take.</p>
+                    </div>
+                </section>
+            }
             <div class="cards">
                 @foreach (var service in services.Where(s => !s.CallbackEnabled && !string.IsNullOrEmpty(s.ContactDetails)))
                 {
