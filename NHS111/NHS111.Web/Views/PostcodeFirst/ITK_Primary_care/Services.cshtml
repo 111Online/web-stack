@@ -51,11 +51,16 @@
                 <br/>
                 <p>They will check through the answers you have entered and give you advice on what to do next</p>
             }
+            else if (!string.IsNullOrEmpty(@recommendedService.ContactDetails))
+            {
+                <p>Phone: <a href="tel: @recommendedService.ContactDetails">@recommendedService.ContactDetails</a> for advice</p>
+                <p>@WebUtility.HtmlDecode(recommendedService.ServiceOpeningTimesMessage)</p>
+            }
             else
             {
                 <p>@WebUtility.HtmlDecode(recommendedService.Address)</p>
                 <p>@WebUtility.HtmlDecode(recommendedService.ServiceOpeningTimesMessage)</p>
-                <p>You don't need to call this service, you can go there during the times shown above.</p>
+                <p>This service doesn't require an appointment.</p>
             }
         </div>
     </div>
@@ -75,11 +80,11 @@
             </div>
         }
     }
-    else
+    else if (string.IsNullOrEmpty(recommendedService.ContactDetails))
     {
         if (Model.Id == "Dx08")
         {
-            <ul><li>Your own GP should already know about any medicines you’re taking. If you see a different GP, tell them about your medicines</li></ul>
+            <ul><li>As you may not see your usual GP, let the service know which medicines you take.</li></ul>
         }
         using (Html.BeginForm("GetDirections", "Outcome", FormMethod.Post))
         {

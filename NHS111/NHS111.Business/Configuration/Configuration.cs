@@ -26,10 +26,10 @@ namespace NHS111.Business.Configuration
                 Replace("{questionId}", questionId);
         }
 
-        public string GetDomainApiNextQuestionUrl(string questionId)
+        public string GetDomainApiNextQuestionUrl(string questionId, string nodeLabel)
         {
             return GetDomainApiUrl("DomainApiNextQuestionUrl").
-                Replace("{questionId}", questionId);
+                Replace("{questionId}", questionId).Replace("{nodeLabel}", nodeLabel);
         }
 
         public string GetDomainApiFirstQuestionUrl(string pathwayId)
@@ -172,7 +172,7 @@ namespace NHS111.Business.Configuration
         /* Questions */
         string GetDomainApiQuestionUrl(string questionId);
         string GetDomainApiAnswersForQuestionUrl(string questionId);
-        string GetDomainApiNextQuestionUrl(string questionId);
+        string GetDomainApiNextQuestionUrl(string questionId, string nodeLabel);
         string GetDomainApiFirstQuestionUrl(string pathwayId);
         string GetDomainApiJustToBeSafeQuestionsFirstUrl(string pathwayId);
         string GetDomainApiJustToBeSafeQuestionsNextUrl(string pathwayId, IEnumerable<string> answeredQuestionIds, bool multipleChoice, string selectedQuestionId);

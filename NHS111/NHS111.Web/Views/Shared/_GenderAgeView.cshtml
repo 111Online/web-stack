@@ -25,7 +25,7 @@
     <fieldset class="age-content">
         @Html.LabelFor(m => m.UserInfo.Demography.Age, "Age in years", new { @class = "form-label" })
         @Html.ValidationMessageFor(m => m.UserInfo.Demography.Age, "", new { @class = "error-message" })
-        @Html.TextBoxFor(m => m.UserInfo.Demography.Age, new { @class = "form-textbox form-textbox--small js-validate-number", type = "number", size = 3, autocomplete = "off", maxlength = 3 })
+        @Html.TextBoxFor(m => m.UserInfo.Demography.Age, new { @class = "form-textbox form-textbox--small js-validate-number", type = "number", size = 3, autocomplete = "off", maxlength = 3, min = 0, max = 200 })
     </fieldset>
 </div>
 
@@ -33,7 +33,21 @@
 
     $(document).ready(function () {
 
-        $(".js-validate-number").on("keypress input", function (e) {
+        $(".js-validate-number").on("keypress keydown input", function (e) {
+            // If someone is holding up or down, some browsers will lag if we check each time, so ignore.
+            // Also allow left and right arrow to reposition cursor
+            if (event.which == 37 || event.keyCode == 37 ||
+                event.which == 38 || event.keyCode == 38 ||
+                event.which == 39 || event.keyCode == 39 ||
+                event.which == 40 || event.keyCode == 40) {
+                return;
+            }
+
+            // Allow backspace
+            if (event.which == 8 || event.keyCode == 8) {
+                return;
+            }
+
             var maxLength = $(this).attr('maxlength');
             var key = e.key || String.fromCharCode(e.keyCode);
 
@@ -41,7 +55,7 @@
             if (event.which == 13 || event.keyCode == 13) {
                 return;
             }
-
+            
             // Forces numbers-only (no scientific notation, which type=number allows) on keypress and paste
             if (/[^0-9]/g.test(key) || $(this).val().length >= maxLength) e.preventDefault();
             $(this).val($(this).val().replace(/[^0-9]/gi, '').slice(0, maxLength))
@@ -53,20 +67,20 @@
 @if (FilterPathwaysByAgeFeature.IsEnabled)
 {
     <script type="text/javascript">
+        jQuery(function () {
+            jQuery.validator.addMethod('age',
+                function (value, element, params) {
+                    return parseInt(value) >= 5;
+                });
 
-        jQuery.validator.addMethod('age',
-            function (value, element, params) {
-                return parseInt(value) >= 5;
-            });
-
-        jQuery.validator.unobtrusive.adapters.add('age',
-            ['prefixelement'],
-            function (options) {
-                options.rules['age'] = options.params;
-                if (options.message != null) {
-                    options.messages['age'] = options.message;
-                }
-            });
-
+            jQuery.validator.unobtrusive.adapters.add('age',
+                ['prefixelement'],
+                function (options) {
+                    options.rules['age'] = options.params;
+                    if (options.message != null) {
+                        options.messages['age'] = options.message;
+                    }
+                });
+        });
     </script>
 }

@@ -32,10 +32,10 @@ namespace NHS111.Domain.Api.Controllers
         }
 
         [HttpPost]
-        [Route("questions/{questionId}/answersNext")]
-        public async Task<HttpResponseMessage> GetNextQuestion(string questionId, [FromBody]string answer)
+        [Route("questions/{questionId}/{nodeLabel}/answersNext")]
+        public async Task<HttpResponseMessage> GetNextQuestion(string questionId, string nodeLabel, [FromBody]string answer)
         {
-            return await _questionRepository.GetNextQuestion(questionId, answer).AsJson().AsHttpResponse();
+            return await _questionRepository.GetNextQuestion(questionId, nodeLabel, answer).AsJson().AsHttpResponse();
         }
 
         [HttpGet]

@@ -11,6 +11,7 @@ using NHS111.Business.Services;
 using NHS111.Business.Transformers;
 using NHS111.Utils.Attributes;
 using NHS111.Models.Models.Domain;
+using NHS111.Models.Models.Web.Enums;
 using NHS111.Utils.Cache;
 using NHS111.Utils.Extensions;
 
@@ -33,8 +34,14 @@ namespace NHS111.Business.Api.Controllers
         }
 
         [HttpPost]
-        [Route("node/{pathwayId}/next_node/{nodeId}")] 
-        public async Task<HttpResponseMessage> GetNextNode(string pathwayId, string nodeId, string state, [FromBody]string answer, string cacheKey = null)
+        [Route("node/{pathwayId}/{currentNodeType}/next_node/{nodeId}")]
+        public async Task<HttpResponseMessage> GetNextNode(string pathwayId, NodeType currentNodeType, string nodeId,
+            string state, [FromBody] string answer)
+        {
+            return await GetNextNode(pathwayId, currentNodeType.ToString(), nodeId, state, answer);
+        }
+
+        public async Task<HttpResponseMessage> GetNextNode(string pathwayId, string nodeLabel, string nodeId, string state, [FromBody]string answer, string cacheKey = null)
         {
             #if !DEBUG
                 cacheKey = cacheKey ?? string.Format("{0}-{1}-{2}-{3}", pathwayId, nodeId, answer, state);
@@ -46,7 +53,7 @@ namespace NHS111.Business.Api.Controllers
                 }
             #endif
      
-            var next = JsonConvert.DeserializeObject<QuestionWithAnswers>(await (await _questionService.GetNextQuestion(nodeId, answer)).Content.ReadAsStringAsync());
+            var next = JsonConvert.DeserializeObject<QuestionWithAnswers>(await (await _questionService.GetNextQuestion(nodeId, nodeLabel, answer)).Content.ReadAsStringAsync());
             var stateDictionary = JsonConvert.DeserializeObject<IDictionary<string, string>>(HttpUtility.UrlDecode(state));
    
             var nextLabel = next.Labels.FirstOrDefault();
@@ -82,7 +89,7 @@ namespace NHS111.Business.Api.Controllers
                 var answered = next.Answers.First();
                 stateDictionary.Add(next.Question.Title, answered.Title);
                 var updatedState = JsonConvert.SerializeObject(stateDictionary);
-                var httpResponseMessage = await GetNextNode(pathwayId, next.Question.Id, updatedState, answered.Title, cacheKey);
+                var httpResponseMessage = await GetNextNode(pathwayId, nextLabel, next.Question.Id, updatedState, answered.Title, cacheKey);
                 var nextQuestion = JsonConvert.DeserializeObject<QuestionWithAnswers>(await httpResponseMessage.Content.ReadAsStringAsync());
               
                 nextQuestion.NonQuestionKeywords = answered.Keywords;
@@ -113,7 +120,7 @@ namespace NHS111.Business.Api.Controllers
                 var value = stateDictionary.ContainsKey(next.Question.Title) ? stateDictionary[next.Question.Title] : null;
                 var selected = _answersForNodeBuilder.SelectAnswer(next.Answers, value);
 
-                return await GetNextNode(pathwayId, next.Question.Id, JsonConvert.SerializeObject(stateDictionary), selected, cacheKey);
+                return await GetNextNode(pathwayId, nextLabel, next.Question.Id, JsonConvert.SerializeObject(stateDictionary), selected, cacheKey);
             }
 
             if (nextLabel == "CareAdvice")
@@ -195,14 +202,14 @@ namespace NHS111.Business.Api.Controllers
                 var answers = JsonConvert.DeserializeObject<IEnumerable<Answer>>(await _questionService.GetAnswersForQuestion(firstNode.Question.Id));
                 var value = stateDictionary.ContainsKey(firstNode.Question.Title) ? stateDictionary[firstNode.Question.Title] : null;
                 var selected = _answersForNodeBuilder.SelectAnswer(answers, value);
-                return await GetNextNode(pathwayId, firstNode.Question.Id, JsonConvert.SerializeObject(stateDictionary), selected);
+                return await GetNextNode(pathwayId, nextLabel, firstNode.Question.Id, JsonConvert.SerializeObject(stateDictionary), selected);
             }
             if (nextLabel == "Set")
             {
                 var answers = JsonConvert.DeserializeObject<IEnumerable<Answer>>(await _questionService.GetAnswersForQuestion(firstNode.Question.Id));
                 stateDictionary.Add(firstNode.Question.Title, answers.First().Title);
                 var updatedState = JsonConvert.SerializeObject(stateDictionary);
-                return await GetNextNode(pathwayId, firstNode.Question.Id, updatedState, answers.First().Title);
+                return await GetNextNode(pathwayId, nextLabel, firstNode.Question.Id, updatedState, answers.First().Title);
             }
 
             if (firstNode.State == null)

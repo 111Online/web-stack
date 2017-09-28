@@ -44,46 +44,48 @@
             Recommended service based on your answers
         </h1>
         <div class="local-header__intro"> 
-            @{
-                ServiceViewModel selectedService = null;
-                if (Model.DosCheckCapacitySummaryResult.Success != null)
-                {
-                    selectedService = Model.DosCheckCapacitySummaryResult.Success.Services.FirstOrDefault();
-                }
-            }
-            @if (selectedService != null)
+        @{
+            ServiceViewModel selectedService = null;
+            if (Model.DosCheckCapacitySummaryResult.Success != null)
             {
-                <p>@WebUtility.HtmlDecode(selectedService.Name)</p>
-                <p>@WebUtility.HtmlDecode(selectedService.Address)</p>
-                <p>@WebUtility.HtmlDecode(selectedService.CurrentStatus)</p>
-                @Html.Hidden("Id", selectedService.Id)
-                <div class="form-item-wrapper">
-                    <div class="form-group">
-                        @using (Html.BeginForm("PersonalDetails", "Outcome", FormMethod.Post))
-                        {
-                            @Html.Partial("_CommonHiddenFieldsOutcomeViewModel", Model)
-                            @Html.Partial("_CommonHiddenFieldsCareAdviceViewModel", Model)
-                            @Html.Hidden("SelectedServiceId", @selectedService.Id)
-
-                            if (selectedService.CallbackEnabled)
-                            {
-
-                                <p>This service can call you back to give you advice</p>
-                                <button class="button button--next" type="submit" name="PersonalDetails">Request a call back</button>
-                            }
-                            else if (!string.IsNullOrEmpty(@selectedService.ContactDetails))
-                            {
-                                <p>Please call this service for advice: @selectedService.ContactDetails</p>
-                            }
-                            else
-                            {
-                                <p>You don't need to call this service, you can go there during the times shown above.</p>
-                            }
-                        }
-                    </div>
-                </div>
+                selectedService = Model.DosCheckCapacitySummaryResult.Success.Services.FirstOrDefault();
             }
-        </div>
+        }
+        @if (selectedService != null)
+        {
+            <div class="form-item-wrapper">
+                <div class="form-group">
+                    @using (Html.BeginForm("PersonalDetails", "Outcome", FormMethod.Post))
+                    {
+                        @Html.Partial("_CommonHiddenFieldsOutcomeViewModel", Model)
+                        @Html.Partial("_CommonHiddenFieldsCareAdviceViewModel", Model)
+                        @Html.Hidden("SelectedServiceId", @selectedService.Id)
+                        @Html.HiddenFor(m => m.Id)
+
+                        <h3>@WebUtility.HtmlDecode(selectedService.Name)</h3>
+
+                        if (selectedService.CallbackEnabled)
+                        {
+                            <p>@WebUtility.HtmlDecode(selectedService.CurrentStatus)</p>
+                            <p>This service can call you back to give you advice</p>
+                                <button class="button button--next" type="submit" name="PersonalDetails">Request a call back</button>
+                        }
+                        else if (!string.IsNullOrEmpty(@selectedService.ContactDetails))
+                        {
+                            <p>@WebUtility.HtmlDecode(selectedService.CurrentStatus)</p>
+                            <p>Please call this service for advice: @selectedService.ContactDetails</p>
+                        }
+                        else
+                        {
+                            <p>@WebUtility.HtmlDecode(selectedService.Address)</p>
+                            <p>@WebUtility.HtmlDecode(selectedService.CurrentStatus)</p>
+                            <p>This service doesn't require an appointment.</p>
+                        }
+                    }
+                </div>
+            </div>
+        }
+    </div>
     </div>
 </section>
 
@@ -99,7 +101,6 @@
                 foreach (var service in Model.DosCheckCapacitySummaryResult.Success.Services.Skip(1))
                 {
                     <div class="service-list-content">
-                        @Html.Partial("_SelectedService", service)
                         <fieldset>
                             <div class="form-group">
                                 @using (Html.BeginForm("PersonalDetails", "Outcome", FormMethod.Post))
@@ -107,10 +108,13 @@
                                     @Html.Partial("_CommonHiddenFieldsOutcomeViewModel", Model)
                                     @Html.Partial("_CommonHiddenFieldsCareAdviceViewModel", Model)
                                     @Html.Hidden("SelectedServiceId", service.Id)
+                                    @Html.HiddenFor(m => m.Id)
+
+                                    <h3>@WebUtility.HtmlDecode(service.Name)</h3>
 
                                     if (service.CallbackEnabled)
                                     {
-
+                                        <p>@WebUtility.HtmlDecode(service.CurrentStatus)</p>
                                         <p>This service can call you back to give you advice</p>
 
                                         <div class="row">
@@ -119,14 +123,17 @@
                                     }
                                     else if (!string.IsNullOrEmpty(service.ContactDetails))
                                     {
+                                        <p>@WebUtility.HtmlDecode(service.CurrentStatus)</p>
                                         <div class="row">
                                             <p>Please call this service for advice: @service.ContactDetails</p>
                                         </div>
                                     }
                                     else
                                     {
+                                        <p>@WebUtility.HtmlDecode(service.Address)</p>
+                                        <p>@WebUtility.HtmlDecode(service.CurrentStatus)</p>
                                         <div class="row">
-                                            <p>You don't need to call this service, you can go there during the times shown above.</p>
+                                            <p>This service doesn't require an appointment.</p>
                                         </div>
                                     }
                                 }

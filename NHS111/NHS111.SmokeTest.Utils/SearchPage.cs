@@ -12,24 +12,21 @@ using OpenQA.Selenium.Support.UI;
 
 namespace NHS111.SmokeTest.Utils
 {
-    public class SearchPage
+    public class SearchPage : LayoutPage
     {
-        private readonly IWebDriver _driver;
         private const string _headerText = "Tell us the symptom you’re concerned about";
 
         [FindsBy(How = How.Id, Using = "SanitisedSearchTerm")]
-        public IWebElement SearchTxtBox { get; set; }
+        private IWebElement SearchTxtBox { get; set; }
 
         [FindsBy(How = How.ClassName, Using = "button--next")]
-        public IWebElement GoButton { get; set; }
+        private IWebElement GoButton { get; set; }
 
         [FindsBy(How = How.CssSelector, Using = ".form-group h1 label")]
-        public IWebElement Header { get; set; }
+        private IWebElement Header { get; set; }
 
-        public SearchPage(IWebDriver driver)
+        public SearchPage(IWebDriver driver) : base(driver)
         {
-            _driver = driver;
-            PageFactory.InitElements(_driver, this);
         }
 
         public void TypeSearchTextAndClickGo()
@@ -44,38 +41,26 @@ namespace NHS111.SmokeTest.Utils
             Assert.AreEqual(_headerText, Header.Text);
         }
 
-        public IWebElement FindPathwayInCathgryList(string title, string pathwayId)
-        {
-           return _driver.FindElement(By.XPath(String.Format("//a[@data-title= \"{0}\"][@data-pathway-number= '{1}']", title, pathwayId)));
-        }
-
-        public void SelectCategory(string categoryTitle)
-        {
-              new WebDriverWait(_driver, new TimeSpan(0, 0, 5))
-                  .Until(ExpectedConditions.VisibilityOfAllElementsLocatedBy((By.Id(categoryTitle))));
-             _driver.FindElement(By.Id(categoryTitle)).Click();
-        }
-
-        public void SelectPathway(string pathwayTitle)
-        {
-            new WebDriverWait(_driver, new TimeSpan(0, 0, 5))
-                .Until(ExpectedConditions.VisibilityOfAllElementsLocatedBy((By.XPath(String.Format("//a[@data-title= '{0}']", pathwayTitle)))));
-            _driver.FindElement(By.XPath(String.Format("//a[@data-title= '{0}']", pathwayTitle))).Click();
-        }
         public QuestionPage TypeSearchTextAndSelect(string pathway)
         {
             SearchTxtBox.Clear();
             SearchTxtBox.SendKeys(pathway);
             this.ClickGoButton();
-            new WebDriverWait(_driver, TimeSpan.FromSeconds(5)).Until(ExpectedConditions.ElementIsVisible(By.XPath("//ul[contains(@class, 'link-list') and contains(@class, 'link-list--results')]/li")));
-            _driver.FindElement(By.XPath("//ul[contains(@class, 'link-list') and contains(@class, 'link-list--results')]/li/a[@data-title='" + pathway + "']")).Click();
-            return new QuestionPage(_driver);
+            new WebDriverWait(Driver, TimeSpan.FromSeconds(5)).Until(ExpectedConditions.ElementIsVisible(By.XPath("//ul[contains(@class, 'link-list') and contains(@class, 'link-list--results')]/li")));
+            Driver.FindElement(By.XPath("//ul[contains(@class, 'link-list') and contains(@class, 'link-list--results')]/li/a[@data-title='" + pathway + "']")).Click();
+            return new QuestionPage(Driver);
+        }
+
+        public CategoryPage TypeInvalidSearch()
+        {
+            SearchByTerm("a");
+            return new CategoryPage(Driver);
         }
 
         public IEnumerable<IWebElement> GetHits()
         {
-            new WebDriverWait(_driver, TimeSpan.FromSeconds(5)).Until(ExpectedConditions.ElementIsVisible(By.XPath("//ul[contains(@class, 'link-list') and contains(@class, 'link-list--results')]/li")));
-            return _driver.FindElements(By.XPath("//ul[contains(@class, 'link-list') and contains(@class, 'link-list--results')]/li")); 
+            new WebDriverWait(Driver, TimeSpan.FromSeconds(5)).Until(ExpectedConditions.ElementIsVisible(By.XPath("//ul[contains(@class, 'link-list') and contains(@class, 'link-list--results')]/li")));
+            return Driver.FindElements(By.XPath("//ul[contains(@class, 'link-list') and contains(@class, 'link-list--results')]/li")); 
         }
 
         public void SearchByTerm(string term)
@@ -107,7 +92,7 @@ namespace NHS111.SmokeTest.Utils
         public QuestionPage ClickGoButton()
         {
             GoButton.Click();
-            return new QuestionPage(_driver);
+            return new QuestionPage(Driver);
         }
 
         
