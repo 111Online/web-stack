@@ -23,42 +23,42 @@
             <span>Visit a service</span>
         </summary>
         <div>
-            @if (Model.Id == "Dx08" && Model.UserInfo.CurrentAddress.IsPostcodeFirst)
-            {
-            <section class="callout callout--info">
-                <div class="reading-width">
-                    <p>You may not see your usual GP. Make sure you tell them about any medicines you take.</p>
-                </div>
-            </section> 
-            }
-            <div class="cards">
-                @foreach (var service in services.Where(s => !s.CallbackEnabled && string.IsNullOrEmpty(s.ContactDetails)))
-                {
-                    <div class="card">
-                        <h3>@WebUtility.HtmlDecode(service.Name)</h3>
-                        <p>
-                            @foreach (String address in service.AddressLines)
-                            {
-                                @WebUtility.HtmlDecode(address)<br />
-                            }
-                        </p>
-                        <p class="card__details">@WebUtility.HtmlDecode(service.ServiceOpeningTimesMessage)</p>
-                        @using (Html.BeginForm("GetDirections", "Outcome", FormMethod.Post))
-                        {
-                            @Html.HiddenFor(m => m.SessionId)
-                            @Html.HiddenFor(m => m.JourneyId)
-                            @Html.HiddenFor(m => m.JourneyJson)
-                            @Html.HiddenFor(m => m.Id)
-                            @Html.Hidden("SelectedServiceId", @service.Id)
-                            @Html.Hidden("SelectedServiceName", @service.Name)
-                            @Html.Hidden("SelectedServiceAddress", @service.Address)
-                            <hr/>
-                            <p>Walk-in services don't require an appointment</p>
-                            <button class="button button--link" type="submit">Get directions</button>
-                        }
-                    </div>
-                }
+        @if (Model.Id == "Dx08" && Model.UserInfo.CurrentAddress.IsPostcodeFirst)
+        {
+        <section class="callout callout--info">
+            <div class="reading-width">
+                    <p>As you may not see your usual GP, let the service know which medicines you take.</p>
             </div>
+        </section> 
+        }
+        <div class="cards">
+            @foreach (var service in services.Where(s => !s.CallbackEnabled && string.IsNullOrEmpty(s.ContactDetails)))
+            {
+                <div class="card">
+                    <h3>@WebUtility.HtmlDecode(service.Name)</h3>
+                    <p>
+                        @foreach (String address in service.AddressLines)
+                        {
+                            @WebUtility.HtmlDecode(address)<br />
+                        }
+                    </p>
+                    <p class="card__details">@WebUtility.HtmlDecode(service.ServiceOpeningTimesMessage)</p>
+                    @using (Html.BeginForm("GetDirections", "Outcome", FormMethod.Post))
+                    {
+                        @Html.HiddenFor(m => m.SessionId)
+                        @Html.HiddenFor(m => m.JourneyId)
+                        @Html.HiddenFor(m => m.JourneyJson)
+                        @Html.HiddenFor(m => m.Id)
+                        @Html.Hidden("SelectedServiceId", @service.Id)
+                        @Html.Hidden("SelectedServiceName", @service.Name)
+                        @Html.Hidden("SelectedServiceAddress", @service.Address)
+                        <hr/>
+                            <p>This service doesn't require an appointment</p>
+                        <button class="button button--link" type="submit">Get directions</button>
+                    }
+                </div>
+            }
+        </div>
         </div>
     </details>
 }

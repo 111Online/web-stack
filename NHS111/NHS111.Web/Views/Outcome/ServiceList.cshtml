@@ -79,7 +79,7 @@
                         {
                             <p>@WebUtility.HtmlDecode(selectedService.Address)</p>
                             <p>@WebUtility.HtmlDecode(selectedService.CurrentStatus)</p>
-                            <p>You don't need to call this service, you can go there during the times shown above.</p>
+                            <p>This service doesn't require an appointment.</p>
                         }
                     }
                 </div>
@@ -114,7 +114,7 @@
 
                                     if (service.CallbackEnabled)
                                     {
-                                        <p>@WebUtility.HtmlDecode(selectedService.CurrentStatus)</p>
+                                        <p>@WebUtility.HtmlDecode(service.CurrentStatus)</p>
                                         <p>This service can call you back to give you advice</p>
 
                                         <div class="row">
@@ -123,17 +123,17 @@
                                     }
                                     else if (!string.IsNullOrEmpty(service.ContactDetails))
                                     {
-                                        <p>@WebUtility.HtmlDecode(selectedService.CurrentStatus)</p>
+                                        <p>@WebUtility.HtmlDecode(service.CurrentStatus)</p>
                                         <div class="row">
                                             <p>Please call this service for advice: @service.ContactDetails</p>
                                         </div>
                                     }
                                     else
                                     {
-                                        <p>@WebUtility.HtmlDecode(selectedService.Address)</p>
-                                        <p>@WebUtility.HtmlDecode(selectedService.CurrentStatus)</p>
+                                        <p>@WebUtility.HtmlDecode(service.Address)</p>
+                                        <p>@WebUtility.HtmlDecode(service.CurrentStatus)</p>
                                         <div class="row">
-                                            <p>You don't need to call this service, you can go there during the times shown above.</p>
+                                            <p>This service doesn't require an appointment.</p>
                                         </div>
                                     }
                                 }
