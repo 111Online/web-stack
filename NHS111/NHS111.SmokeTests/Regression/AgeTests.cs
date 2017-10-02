@@ -20,7 +20,7 @@ namespace NHS111.SmokeTests.Regression
                 .AnswerSuccessiveByOrder(1, 2)
                 .AnswerAndVerifyQuestion(5, "Do you feel the worst you've ever felt in your life and have a new rash under your skin?")
                 .AnswerAndVerifyQuestion(3, "Is there a chance you are pregnant?")
-                .AnswerAndVerifyQuestion(3, "Have you had any blood in your sick (vomit)?")
+                .AnswerAndVerifyQuestion(3, "Have you had any blood in your sick?")
                 .AnswerAndVerifyQuestion(4, "Does your poo look black and tarry or red or maroon in colour?")
                 .AnswerAndVerifyQuestion(4, "Do you have to stay completely still because of the pain?")
                 .AnswerForDispostion<OutcomePage>("Yes");
@@ -40,7 +40,7 @@ namespace NHS111.SmokeTests.Regression
                 .AnswerAndVerifyQuestion(3, "Has a doctor diagnosed you with an aortic aneurysm or Marfan's syndrome?")
                 .AnswerAndVerifyQuestion(4, "Have you got any of the symptoms of a heart attack?")
                 .AnswerAndVerifyQuestion(5, "Do you feel the worst you've ever felt in your life and have a new rash under your skin?")
-                .AnswerAndVerifyQuestion(3, "Have you had any blood in your sick (vomit)?")
+                .AnswerAndVerifyQuestion(3, "Have you had any blood in your sick?")
                 .AnswerAndVerifyQuestion(4, "Does your poo look black and tarry or red or maroon in colour?")
                 .AnswerAndVerifyQuestion(4, "Do you have to stay completely still because of the pain?")
                 .AnswerForDispostion<OutcomePage>("Yes");
@@ -57,7 +57,7 @@ namespace NHS111.SmokeTests.Regression
             var outcomePage = questionPage
                 .AnswerSuccessiveByOrder(1, 2)
                 .AnswerAndVerifyQuestion(5, "Do you feel the worst you've ever felt in your life and have a new rash under your skin?")
-                .AnswerAndVerifyQuestion(3, "Have you had any blood in your sick (vomit)?")
+                .AnswerAndVerifyQuestion(3, "Have you had any blood in your sick?")
                 .AnswerAndVerifyQuestion(4, "Does your poo look black and tarry or red or maroon in colour?")
                 .AnswerAndVerifyQuestion(4, "Do you have to stay completely still because of the pain?")
                 .AnswerForDispostion<OutcomePage>("Yes");

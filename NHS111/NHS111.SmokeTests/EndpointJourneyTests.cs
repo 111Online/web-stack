@@ -159,7 +159,7 @@ namespace NHS111.SmokeTests
         {
             var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Diarrhoea and Vomiting", TestScenerioGender.Male, TestScenerioAgeGroups.Child);
 
-            questionPage.VerifyQuestion("Have you had any blood in your sick (vomit)?");
+            questionPage.VerifyQuestion("Have you had any blood in your sick?");
             var outcomePage = questionPage
                 .Answer(4)
                 .AnswerSuccessiveByOrder(3,2)
