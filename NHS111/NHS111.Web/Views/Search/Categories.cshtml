@@ -43,7 +43,7 @@
                 {
                     <details>
                         <summary>
-                            <span class="summary" id="@topLevelCategory.Category.Id">@topLevelCategory.Category.Title (@(topLevelCategory.SubCategories.SelectMany(s => s.Pathways).Count() + topLevelCategory.Pathways.Count()))</span>
+                            <span class="details__summary" id="@topLevelCategory.Category.Id">@topLevelCategory.Category.Title (@(topLevelCategory.SubCategories.SelectMany(s => s.Pathways).Count() + topLevelCategory.Pathways.Count()))</span>
                         </summary>
                         <div class="panel panel-border-narrow">
                             @if (topLevelCategory.SubCategories != null && topLevelCategory.SubCategories.Any())
@@ -56,7 +56,7 @@
                                     }
                                     <details>
                                         <summary>
-                                            <span class="summary" id="@subCategory.Category.Id">@subCategory.Category.Title (@subCategory.Pathways.Count())</span>
+                                            <span class="details__summary" id="@subCategory.Category.Id">@subCategory.Category.Title (@subCategory.Pathways.Count())</span>
                                         </summary>
                                         <div class="panel panel-border-narrow">
                                             <ul class="link-list">
