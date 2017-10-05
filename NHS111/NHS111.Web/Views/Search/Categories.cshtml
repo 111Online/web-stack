@@ -11,10 +11,6 @@
     @Html.Partial("_FeedbackDetails", new FeedbackViewModel() { UserId = Model.SessionId.ToString(), PageId = Request.Url.GetComponents(UriComponents.PathAndQuery, UriFormat.SafeUnescaped) })
 }
 
-@Html.Partial("_SearchBox", Model, ViewData)
-
-<hr/>
-
 <div id="categories">
     @{
         var bodyParts = new List<string> {"Head and neck", "Shoulder, arm and hand", "Chest and back", "Abdomen, groin and side of the body", "Bowel and urinary problems", "Genitals", "Leg and foot", "Skin and hair"};
@@ -89,6 +85,9 @@
         }
     </div>
 </div>
+
+<hr role="presentation" />
+@Html.Partial("_SearchBox", Model, ViewData)
 
 <script>
     if ($('.results-list').length > 0) $('#categories').hide();
