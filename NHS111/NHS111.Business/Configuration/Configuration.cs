@@ -123,12 +123,33 @@ namespace NHS111.Business.Configuration
 
         private static string GetDomainApiUrl(string key)
         {
-            return string.Format("{0}{1}", ConfigurationManager.AppSettings["DomainApiBaseUrl"], ConfigurationManager.AppSettings[key]).Replace("&amp;", "&");
+            return String.Format("{0}{1}", ConfigurationManager.AppSettings["DomainApiBaseUrl"], ConfigurationManager.AppSettings[key]).Replace("&amp;", "&");
         }
 
         public string GetRedisUrl()
         {
             return ConfigurationManager.AppSettings["RedisUrl"];
+        }
+
+
+        public string GetLocationPostcodebyGeoUrl(double longitude, double latitude)
+        {
+            return 
+                ConfigurationManager.AppSettings["LocationPostcodebyGeoUrl"]
+                    .Replace("{apiKey}", GetLocationApiKey())
+                    .Replace("{longitude}", longitude.ToString())
+                    .Replace("{latitude}", latitude.ToString())
+                    .Replace("&amp;", "&");
+        }
+
+        public string GetLocationBaseUrl()
+        {
+            return ConfigurationManager.AppSettings["LocationBaseUrl"];
+        }
+
+        public string GetLocationApiKey()
+        {
+            return ConfigurationManager.AppSettings["LocationApiKey"];
         }
 
 
@@ -205,6 +226,10 @@ namespace NHS111.Business.Configuration
         /*Pathways Search */
         ConnectionSettings GetElasticClientSettings();
         IElasticClient GetElasticClient();
+
+        /*Location*/
+        string GetLocationBaseUrl();
+        string GetLocationPostcodebyGeoUrl(double longitude, double latitude);
 
         /*Version*/
         string GetDomainApiVersionUrl();
