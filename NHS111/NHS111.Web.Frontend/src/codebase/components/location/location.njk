@@ -1,0 +1,50 @@
+<div class="page-section">
+  <script
+    src="https://code.jquery.com/jquery-3.2.1.min.js"
+    integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+    crossorigin="anonymous"></script>
+
+  <div id="options">
+    {% render '@button', { label: 'Find my location', class: ["js-find-location"] } %}
+    {% render '@button', { label: 'I want to type the location manually', mods: ['link','stacked'], class: ["js-manual-postcode"] } %}
+  </div>
+
+  <div id="postcode-form">
+    <label for="postcode">Postcode</label>
+    <input type="text" id="postcode">
+    <button type="button">Submit</button>
+    {% render '@button', { label: 'Find my location', mods: ['link', 'stacked'], class: ["js-find-location"] } %}
+  </div>
+
+  <p id="location"></p>
+  <script>
+    if (navigator.geolocation) {
+      $("#postcode-form").hide();
+
+      $(".js-manual-postcode").on("click", function() {
+          $("#options").hide();
+          $("#postcode-form").show();
+      })
+
+      $(".js-find-location").on("click", function() {
+        $("#postcode-form").show();
+        $("#options").hide();
+          navigator.geolocation.getCurrentPosition(function(pos) {
+            var coords = pos.coords;
+            console.log(coords);
+            $("#postcode").val(coords.longitude + "," + coords.latitude);
+          }, showError);
+      });
+
+      function showError () {
+          $("#postcode-form").show();
+      }
+    }
+    else {
+      $("#options").hide();
+      $("#postcode-form").show();
+      $(".js-find-location").hide();
+    }
+  </script>
+
+</div>
