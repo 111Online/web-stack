@@ -1,11 +1,14 @@
 ﻿using System.Collections.Generic;
+using System.Net;
 using Moq;
 using Newtonsoft.Json;
+using NHS111.Models.Models.Business.Location;
 using NHS111.Models.Models.Web.FromExternalServices;
 using NHS111.Utils.Helpers;
 using NHS111.Web.Presentation.Builders;
 using NHS111.Web.Presentation.Configuration;
 using NUnit.Framework;
+using RestSharp;
 
 namespace NHS111.Web.Presentation.Test.Builders
 {
@@ -13,35 +16,35 @@ namespace NHS111.Web.Presentation.Test.Builders
     public class LocationResultBuilderTests
     {
         private ILocationResultBuilder _locationResultBuilder;
-        private Mock<IRestfulHelper> _mockRestfulHelper;
+        private Mock<IRestClient> _mockRestclient;
         private Mock<IConfiguration> _mockConfiguration;
 
         [SetUp()]
         public void Setup()
         {
-            _mockRestfulHelper = new Mock<IRestfulHelper>();
+            _mockRestclient = new Mock<IRestClient>();
             _mockConfiguration = new Mock<IConfiguration>();
 
             _mockConfiguration.Setup(c => c.PostcodeSearchByIdApiUrl).Returns("/location/postcode/api");
             _mockConfiguration.Setup(c => c.PostcodeSubscriptionKey).Returns("xyz");
 
-            _locationResultBuilder = new LocationResultBuilder(_mockRestfulHelper.Object, _mockConfiguration.Object);
+            _locationResultBuilder = new LocationResultBuilder(_mockConfiguration.Object, _mockRestclient.Object);
         }
 
         [Test()]
         public async void AddressByPostCodeBuilder_With_Valid_String_Returns_Results()
         {
-            var results = new[]
+            var results = new List<AddressLocationResult>()
             {
-                new LocationResult() {Postcode = "SO30"},
-                new LocationResult() {Postcode = "SO31"},
+                new AddressLocationResult() {PostCode = "SO30"},
+                new AddressLocationResult() {PostCode = "SO31"},
             };
 
-            _mockRestfulHelper.Setup(r => r.GetAsync(It.IsAny<string>(), It.IsAny<Dictionary<string, string>>())).ReturnsAsync(JsonConvert.SerializeObject(results));
+            _mockRestclient.Setup(r => r.ExecuteTaskAsync<List<AddressLocationResult>>(It.IsAny<RestRequest>())).ReturnsAsync(new RestResponse<List<AddressLocationResult>>() { StatusCode = HttpStatusCode.OK, ResponseStatus = ResponseStatus.Completed, Data = results });
 
             var locationResults = await _locationResultBuilder.LocationResultByPostCodeBuilder("x");
 
-            Assert.IsInstanceOf(typeof(List<LocationResult>), locationResults);
+            Assert.IsInstanceOf(typeof(List<AddressLocationResult>), locationResults);
             Assert.AreEqual(locationResults.Count, 2);
         }
 
@@ -50,7 +53,7 @@ namespace NHS111.Web.Presentation.Test.Builders
         {
             var locationResults = await _locationResultBuilder.LocationResultByPostCodeBuilder(string.Empty);
 
-            Assert.IsInstanceOf(typeof(List<LocationResult>), locationResults);
+            Assert.IsInstanceOf(typeof(List<AddressLocationResult>), locationResults);
             Assert.AreEqual(locationResults.Count, 0);
         }
 
@@ -59,7 +62,7 @@ namespace NHS111.Web.Presentation.Test.Builders
         {
             var locationResults = await _locationResultBuilder.LocationResultByPostCodeBuilder(null);
 
-            Assert.IsInstanceOf(typeof(List<LocationResult>), locationResults);
+            Assert.IsInstanceOf(typeof(List<AddressLocationResult>), locationResults);
             Assert.AreEqual(locationResults.Count, 0);
         }
     }
