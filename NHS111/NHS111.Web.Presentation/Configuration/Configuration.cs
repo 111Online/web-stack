@@ -156,7 +156,20 @@ namespace NHS111.Web.Presentation.Configuration
             return GetBusinessApiUrlWithDomain("BusinessApiVersionUrl", pathOnly);
         }
 
-        private string GetBusinessApiUrlWithDomain(string endpointUrlkey, bool pathOnly=false)
+        public string GetBusinessApiGetAddressByPostcodeUrl(string postcode,bool pathOnly = false)
+        {
+            return string.Format(GetBusinessApiUrlWithDomain("BusinessApiLocationSearchGetAddressByPostcodeUrl", pathOnly), postcode);
+        }
+        public string GetBusinessApiGetAddressByGeoUrl(string latlong, bool pathOnly = false)
+        {
+            return string.Format(GetBusinessApiUrlWithDomain("BusinessApiLocationSearchGetAddressByGeoUrl", pathOnly), latlong);
+        }
+        public string GetBusinessApiGetPostcodeByGeoUrl(string latlong, bool pathOnly = false)
+        {
+            return string.Format(GetBusinessApiUrlWithDomain("BusinessApiLocationSearchGetPostcodeByGeoUrl", pathOnly), latlong);
+        }
+
+        private string GetBusinessApiUrlWithDomain(string endpointUrlkey, bool pathOnly = false)
         {
             var businessApiDomain = ConfigurationManager.AppSettings["BusinessApiProtocolandDomain"];
             var buinessEndpointconfigValue = ConfigurationManager.AppSettings[endpointUrlkey];
@@ -207,10 +220,14 @@ namespace NHS111.Web.Presentation.Configuration
         string GetBusinessApiGetPathwaysGenderAge(string gender, int age);
         string GetBusinessApiPathwaySearchUrl(string gender, string age, bool pathOnly=false);
         string GetBusinessApiVersionUrl(bool pathOnly = false);
+        string GetBusinessApiGetAddressByPostcodeUrl(string postcode, bool pathOnly = false);
+        string GetBusinessApiGetAddressByGeoUrl(string latlong, bool pathOnly = false);
+        string GetBusinessApiGetPostcodeByGeoUrl(string latlong, bool pathOnly = false);
 
         string BusinessDosCheckCapacitySummaryUrl { get; }
         string BusinessDosServicesByClinicalTermUrl { get; }
         string BusinessDosServiceDetailsByIdUrl { get; }
+
         string FeedbackAddFeedbackUrl { get; }
         string FeedbackDeleteFeedbackUrl { get; }
         string FeedbackAuthorization { get; }
