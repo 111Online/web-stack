@@ -142,6 +142,15 @@ namespace NHS111.Business.Configuration
                     .Replace("&amp;", "&");
         }
 
+        public string GetLocationByPostcodeUrl(string postcode)
+        {
+            return
+                ConfigurationManager.AppSettings["LocationByPostcodeUrl"]
+                    .Replace("{apiKey}", GetLocationApiKey())
+                    .Replace("{postcode}", postcode);
+
+        }
+
         public string GetLocationBaseUrl()
         {
             return ConfigurationManager.AppSettings["LocationBaseUrl"];
@@ -230,6 +239,7 @@ namespace NHS111.Business.Configuration
         /*Location*/
         string GetLocationBaseUrl();
         string GetLocationPostcodebyGeoUrl(double longitude, double latitude);
+        string GetLocationByPostcodeUrl(string postcode);
 
         /*Version*/
         string GetDomainApiVersionUrl();

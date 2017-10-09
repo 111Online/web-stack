@@ -5,7 +5,7 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Http;
-
+using System.Web.Http.Results;
 using System.Web.UI.WebControls;
 using Newtonsoft.Json;
 using NHS111.Business.Services;
@@ -25,16 +25,38 @@ namespace NHS111.Business.Api.Controllers
             _locatioService = locationService;
         }
 
-        [Route("postcodes/{longlat}")]
+        [Route("location/Geo/{longlat}")]
         [HttpGet]
-        public async Task<HttpResponseMessage> Get(string longlat)
+        public async Task<JsonResult<List<GeoLocationResult>>> GetPostcode(string longlat)
         {
-           var longlatArray = ParselonglatParam(longlat);
-            var geolocation =
-            ParselongLatArray(longlatArray);
-            var results = JsonConvert.SerializeObject(await _locatioService.FindPostcodes(geolocation.Item1, geolocation.Item2));
-            return
-                JsonConvert.SerializeObject(await _locatioService.FindPostcodes(geolocation.Item1, geolocation.Item2)).AsHttpResponse();
+            var geolocation = GetGeoLocationParams(longlat);
+            var results = await _locatioService.FindPostcodes(geolocation.Item1, geolocation.Item2);
+            return Json(results);
+        }
+
+        private Tuple<double, double> GetGeoLocationParams(string longlat)
+        {
+            var longlatArray = ParselonglatParam(longlat);
+            var geolocation = ParselongLatArray(longlatArray);
+            return geolocation;
+        }
+
+        [Route("location/{postcode}")]
+        [HttpGet]
+        public async Task<JsonResult<List<LocationResult>>> GetLocation(string postcode)
+        {
+         
+            var results = await _locatioService.FindAddresses(postcode);
+            return Json(results);
+        }
+
+        [Route("location/postcode/{longlat}")]
+        [HttpGet]
+        public async Task<JsonResult<List<LocationResult>>> GetLocationByGeo(string longlat)
+        {
+            var geolocation = GetGeoLocationParams(longlat);
+            var results = await _locatioService.FindAddresses(geolocation.Item1,geolocation.Item2);
+            return Json(results);
         }
 
         private Tuple<double, double> ParselongLatArray(string[] longlatParams)

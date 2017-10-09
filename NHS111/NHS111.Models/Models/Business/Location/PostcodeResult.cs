@@ -7,7 +7,7 @@ using Newtonsoft.Json;
 
 namespace NHS111.Models.Models.Business.Location
 {
-    public class PostcodeResult
+    public class LocationServiceResult<T>
     {
         [JsonProperty(PropertyName = "code")]
         public string ResponseCode { get; set; }
@@ -16,7 +16,7 @@ namespace NHS111.Models.Models.Business.Location
         public string Message { get; set; }
 
         [JsonProperty(PropertyName = "result")]
-        public IEnumerable<GeoLocationResult> Result { get; set; }
+        public IEnumerable<T> Result { get; set; }
     
 
     
@@ -41,5 +41,66 @@ namespace NHS111.Models.Models.Business.Location
 
         [JsonProperty(PropertyName = "distance")]
         public double Distance { get; set; }
+    }
+
+    public class LocationResult
+    {
+
+        [JsonProperty(PropertyName = "udprn")]
+        public string Udprn { get; set; }
+
+        [JsonProperty(PropertyName = "postcode")]
+        public string PostCode { get; set; }
+
+        [JsonProperty(PropertyName = "northings")]
+        public int Northings { get; set; }
+
+        [JsonProperty(PropertyName = "eastings")]
+        public int Eastings { get; set; }
+
+        [JsonProperty(PropertyName = "longitude")]
+        public double Longitude { get; set; }
+
+        [JsonProperty(PropertyName = "latitude")]
+        public double Latitude { get; set; }
+
+        [JsonProperty(PropertyName = "distance")]
+        public double Distance { get; set; }
+
+        [JsonProperty(PropertyName = "post_town")]
+        public string Town { get; set; }
+
+        [JsonProperty(PropertyName = "thoroughfare")]
+        public string Thoroughfare { get; set; }
+
+        [JsonProperty(PropertyName = "building_number")]
+        public string BuildingNumber { get; set; }
+
+        [JsonProperty(PropertyName = "building_name")]
+        public string BuildingName { get; set; }
+
+        [JsonProperty(PropertyName = "sub_building_name")]
+        public string SubBuildingName { get; set; }
+
+        [JsonProperty(PropertyName = "line_1")]
+        public string AddressLine1 { get; set; }
+
+        [JsonProperty(PropertyName = "line_2")]
+        public string AddressLine2 { get; set; }
+
+        [JsonProperty(PropertyName = "line_3")]
+        public string AddressLine3 { get; set; }
+
+        [JsonProperty(PropertyName = "country")]
+        public string Country { get; set; }
+
+        [JsonProperty(PropertyName = "county")]
+        public string County { get; set; }
+
+        [JsonProperty(PropertyName = "ward")]
+        public string Ward { get; set; }
+
+
+
     }
 }

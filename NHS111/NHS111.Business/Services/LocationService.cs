@@ -22,10 +22,27 @@ namespace NHS111.Business.Services
 
         public async Task<List<GeoLocationResult>> FindPostcodes(double longitude, double latitude)
         {
-            var response = await _restidealPostcodesApi.ExecuteTaskAsync<PostcodeResult>(
+            var response = await _restidealPostcodesApi.ExecuteTaskAsync<LocationServiceResult<GeoLocationResult>>(
                 new RestRequest(_configuration.GetLocationPostcodebyGeoUrl(longitude, latitude), Method.GET));
 
             if(response.ResponseStatus == ResponseStatus.Completed)
+                return response.Data.Result.ToList();
+            throw response.ErrorException;
+        }
+
+        public async Task<List<LocationResult>> FindAddresses(double longitude, double latitude)
+        {
+            var postcodes = await FindPostcodes(longitude, latitude);
+            if(postcodes.Count > 0)
+                return await FindAddresses(postcodes.First().PostCode);
+            return new List<LocationResult>();
+        }
+
+        public async Task<List<LocationResult>> FindAddresses(string postcode)
+        {
+            var response = await _restidealPostcodesApi.ExecuteTaskAsync<LocationServiceResult<LocationResult>>(
+                new RestRequest(_configuration.GetLocationByPostcodeUrl(postcode), Method.GET));
+            if (response.ResponseStatus == ResponseStatus.Completed)
                 return response.Data.Result.ToList();
             throw response.ErrorException;
         }
@@ -33,5 +50,7 @@ namespace NHS111.Business.Services
      public interface ILocationService
     {
          Task<List<GeoLocationResult>> FindPostcodes(double longitude, double latitude);
+         Task<List<LocationResult>> FindAddresses(double longitude, double latitude);
+         Task<List<LocationResult>> FindAddresses(string postcode);
     }
 }
