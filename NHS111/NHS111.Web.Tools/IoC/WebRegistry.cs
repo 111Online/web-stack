@@ -15,7 +15,7 @@ namespace NHS111.Web.IoC
         {
             IncludeRegistry<UtilsRegistry>();
             IncludeRegistry<ModelsRegistry>();
-            IncludeRegistry<WebPresentationRegistry>();
+            IncludeRegistry(new WebPresentationRegistry(configuration));
             For<ICacheManager<string, string>>().Use(new RedisManager(configuration.RedisConnectionString));
             For<INotifier<string>>().Use<Notifier>();
 
