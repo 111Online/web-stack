@@ -25,12 +25,30 @@ namespace NHS111.Business.Api.Controllers
             _locatioService = locationService;
         }
 
-        [Route("location/Geo/{longlat}")]
+        [Route("postcode/geo/{longlat}")]
         [HttpGet]
-        public async Task<JsonResult<List<GeoLocationResult>>> GetPostcode(string longlat)
+        public async Task<JsonResult<List<PostcodeLocationResult>>> GetPostcode(string longlat)
         {
             var geolocation = GetGeoLocationParams(longlat);
             var results = await _locatioService.FindPostcodes(geolocation.Item1, geolocation.Item2);
+            return Json(results);
+        }
+
+        [Route("address/postcode/{postcode}")]
+        [HttpGet]
+        public async Task<JsonResult<List<AddressLocationResult>>> GetLocation(string postcode)
+        {
+         
+            var results = await _locatioService.FindAddresses(postcode);
+            return Json(results);
+        }
+
+        [Route("address/geo/{longlat}")]
+        [HttpGet]
+        public async Task<JsonResult<List<AddressLocationResult>>> GetLocationByGeo(string longlat)
+        {
+            var geolocation = GetGeoLocationParams(longlat);
+            var results = await _locatioService.FindAddresses(geolocation.Item1,geolocation.Item2);
             return Json(results);
         }
 
@@ -41,23 +59,6 @@ namespace NHS111.Business.Api.Controllers
             return geolocation;
         }
 
-        [Route("location/{postcode}")]
-        [HttpGet]
-        public async Task<JsonResult<List<LocationResult>>> GetLocation(string postcode)
-        {
-         
-            var results = await _locatioService.FindAddresses(postcode);
-            return Json(results);
-        }
-
-        [Route("location/postcode/{longlat}")]
-        [HttpGet]
-        public async Task<JsonResult<List<LocationResult>>> GetLocationByGeo(string longlat)
-        {
-            var geolocation = GetGeoLocationParams(longlat);
-            var results = await _locatioService.FindAddresses(geolocation.Item1,geolocation.Item2);
-            return Json(results);
-        }
 
         private Tuple<double, double> ParselongLatArray(string[] longlatParams)
         {

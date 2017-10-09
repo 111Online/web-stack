@@ -22,7 +22,7 @@ namespace NHS111.Models.Models.Business.Location
     
     }
 
-    public class GeoLocationResult
+    public class PostcodeLocationResult
     {
         [JsonProperty(PropertyName = "postcode")]
         public string PostCode { get; set; }
@@ -43,7 +43,7 @@ namespace NHS111.Models.Models.Business.Location
         public double Distance { get; set; }
     }
 
-    public class LocationResult
+    public class AddressLocationResult
     {
 
         [JsonProperty(PropertyName = "udprn")]

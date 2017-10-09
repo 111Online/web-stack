@@ -20,9 +20,9 @@ namespace NHS111.Business.Services
             _configuration = configuration;
         }
 
-        public async Task<List<GeoLocationResult>> FindPostcodes(double longitude, double latitude)
+        public async Task<List<PostcodeLocationResult>> FindPostcodes(double longitude, double latitude)
         {
-            var response = await _restidealPostcodesApi.ExecuteTaskAsync<LocationServiceResult<GeoLocationResult>>(
+            var response = await _restidealPostcodesApi.ExecuteTaskAsync<LocationServiceResult<PostcodeLocationResult>>(
                 new RestRequest(_configuration.GetLocationPostcodebyGeoUrl(longitude, latitude), Method.GET));
 
             if(response.ResponseStatus == ResponseStatus.Completed)
@@ -30,17 +30,17 @@ namespace NHS111.Business.Services
             throw response.ErrorException;
         }
 
-        public async Task<List<LocationResult>> FindAddresses(double longitude, double latitude)
+        public async Task<List<AddressLocationResult>> FindAddresses(double longitude, double latitude)
         {
             var postcodes = await FindPostcodes(longitude, latitude);
             if(postcodes.Count > 0)
                 return await FindAddresses(postcodes.First().PostCode);
-            return new List<LocationResult>();
+            return new List<AddressLocationResult>();
         }
 
-        public async Task<List<LocationResult>> FindAddresses(string postcode)
+        public async Task<List<AddressLocationResult>> FindAddresses(string postcode)
         {
-            var response = await _restidealPostcodesApi.ExecuteTaskAsync<LocationServiceResult<LocationResult>>(
+            var response = await _restidealPostcodesApi.ExecuteTaskAsync<LocationServiceResult<AddressLocationResult>>(
                 new RestRequest(_configuration.GetLocationByPostcodeUrl(postcode), Method.GET));
             if (response.ResponseStatus == ResponseStatus.Completed)
                 return response.Data.Result.ToList();
@@ -49,8 +49,8 @@ namespace NHS111.Business.Services
     }
      public interface ILocationService
     {
-         Task<List<GeoLocationResult>> FindPostcodes(double longitude, double latitude);
-         Task<List<LocationResult>> FindAddresses(double longitude, double latitude);
-         Task<List<LocationResult>> FindAddresses(string postcode);
+         Task<List<PostcodeLocationResult>> FindPostcodes(double longitude, double latitude);
+         Task<List<AddressLocationResult>> FindAddresses(double longitude, double latitude);
+         Task<List<AddressLocationResult>> FindAddresses(string postcode);
     }
 }
