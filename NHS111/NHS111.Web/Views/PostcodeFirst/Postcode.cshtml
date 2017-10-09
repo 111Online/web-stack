@@ -106,16 +106,6 @@
                         <button class="js-manual-postcode button--link button--stacked" type="button">I'm not here, I want to type the location manually</button>
                         <button class="button--next" type="submit" name="DosResults" id="DosLookup">Next</button>
                     </div>
-                    <div id="confirm-location-error">
-                        @if (!Model.UserInfo.CurrentAddress.IsPostcodeFirst)
-                        {
-                            <h1>We were unable to find your location. please eneter your postcode and we can find services that can help you</h1>
-                        }
-                        @Html.ValidationMessageFor(m => m.UserInfo.CurrentAddress.Postcode)
-                        @(Model.UserInfo.CurrentAddress.IsPostcodeFirst ? Html.Raw("<label for=\"UserInfo_CurrentAddress_Postcode\">Enter your postcode for services that can help you <span class=\"de-emphasised\">(optional)<span></label>") : Html.Raw("<label for=\"UserInfo_CurrentAddress_Postcode\" class=\"alwayshidden\">Postcode required</label>"))
-                        @Html.TextBoxFor(m => m.UserInfo.CurrentAddress.Postcode)
-                        <button class="button button--next" type="submit" name="DosResults" id="DosLookup">Next</button>
-                    </div>
                     </div>
             </div>
         }
@@ -131,8 +121,7 @@
     if (navigator.geolocation) {
         $("#postcode-form").hide();
         $("#confirm-location-form").hide();
-        $("#confirm-location-error").hide();
-      
+
         $(".js-manual-postcode").on("click", function() {
             $("#options").hide();
             $("#confirm-location-form").hide();
@@ -149,22 +138,20 @@
                     data: { longlat: coords },
                     success: function (response) {
                         var addresses = response;
-                        if (addresses.length == 0) $("#confirm-location-error").show();
+                        if (addresses.length == 0) showError();
                         else {
                             var addreesstext = addresses[0].AddressLine3 + ' , ' + addresses[0].City + ' , ' + addresses[0].Postcode;
                             $("#@Html.IdFor(m => m.UserInfo.CurrentAddress.Postcode)").val(addresses[0].Postcode);
                             $(".location-address").text(addreesstext);
                             $("#confirm-location-form").show();
+                            $("#postcode-form").hide();
                         }
-                       
                     },
                     timeout: 5000,
                     error: function (XMLHttpRequest, textStatus, errorThrown) {
-                        $("#confirm-location-error").show();
-
+                        showError();
                     },
                     complete: function () {
-                        $("#postcode-form").hide();
                         $("#options").hide();
                     }
                 });
@@ -172,7 +159,9 @@
             }, showError);
         });
         function showError() {
+            $('label[for="@Html.IdFor(m => m.UserInfo.CurrentAddress.Postcode)"]').text("We were unable to find your location. Please eneter your postcode.");
             $("#postcode-form").show();
+            $("#options").hide();
         }
     }
     else {
