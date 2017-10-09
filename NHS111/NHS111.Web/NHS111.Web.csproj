@@ -280,7 +280,6 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Scripts\bootstrap.min.js" />
-    <Content Include="Scripts\custom.js" />
     <Content Include="Scripts\details.min.js" />
     <Content Include="Scripts\disclaimer-popup.js" />
     <Content Include="Scripts\geotools.js" />
@@ -460,6 +459,10 @@
     <Content Include="Views\Search\Categories.cshtml" />
     <Content Include="Views\Shared\_SearchBox.cshtml" />
     <Content Include="manifest.json" />
+    <None Include="Dockerfile" />
+    <None Include=".dockerignore">
+      <DependentUpon>Dockerfile</DependentUpon>
+    </None>
     <Content Include="Views\Shared\_CompatibilityBanner.cshtml" />
     <None Include="Web.Development.config">
       <DependentUpon>Web.config</DependentUpon>
