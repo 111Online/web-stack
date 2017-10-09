@@ -27,6 +27,7 @@
     <UseGlobalApplicationHostFile />
     <ApplicationInsightsResourceId>/subscriptions/66bf9d39-b598-433d-9273-0c27e559f37f/resourcegroups/Default-ApplicationInsights-EastUS/providers/microsoft.insights/components/NHS111.Web</ApplicationInsightsResourceId>
     <ApplicationInsightsAnnotationResourceId>/subscriptions/66bf9d39-b598-433d-9273-0c27e559f37f/resourcegroups/Default-ApplicationInsights-EastUS/providers/microsoft.insights/components/NHS111.Web</ApplicationInsightsAnnotationResourceId>
+    <Use64BitIISExpress />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -447,7 +448,6 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Scripts\bootstrap.min.js" />
-    <Content Include="Scripts\custom.js" />
     <Content Include="Scripts\details.min.js" />
     <Content Include="Scripts\disclaimer-popup.js" />
     <Content Include="Scripts\geotools.js" />
@@ -635,6 +635,10 @@
     <Content Include="Views\Search\Categories.cshtml" />
     <Content Include="Views\Shared\_SearchBox.cshtml" />
     <Content Include="manifest.json" />
+    <None Include="Dockerfile" />
+    <None Include=".dockerignore">
+      <DependentUpon>Dockerfile</DependentUpon>
+    </None>
     <None Include="Web.Development.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
