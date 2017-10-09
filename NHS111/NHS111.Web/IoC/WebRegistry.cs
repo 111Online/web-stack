@@ -19,20 +19,21 @@ namespace NHS111.Web.IoC {
 
     public class WebRegistry : Registry {
         public WebRegistry() {
-            Configure();
+            Configure(new Configuration());
         }
 
         public WebRegistry(IConfiguration configuration) {
             For<ICacheManager<string, string>>().Use(new RedisManager(configuration.RedisConnectionString));
             For<IRestClient>().Use(new LoggingRestClient(configuration.BusinessApiProtocolandDomain, LogManager.GetLogger("log"))).Named("restClientBusinessApi");
-            Configure();
+            Configure(configuration);
         }
 
-        private void Configure() {
+        private void Configure(IConfiguration configuration)
+        {
             IncludeRegistry<FeatureRegistry>();
             IncludeRegistry<UtilsRegistry>();
             IncludeRegistry<ModelsRegistry>();
-            IncludeRegistry<WebPresentationRegistry>();
+            IncludeRegistry(new WebPresentationRegistry(configuration));
             For<INotifier<string>>().Use<Notifier>();
 
             Scan(scan =>

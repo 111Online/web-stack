@@ -84,15 +84,29 @@
                         <p class="field-validation-error" id="NoDosResults">Sorry, no results were found for this postcode.</p>
                         <p class="field-validation-error">Please check you have entered the postcode correctly, then try again. <br /> If the search still gives no results, please call 111 for advice.</p>
                     }
-                    @if (!Model.UserInfo.CurrentAddress.IsPostcodeFirst)
-                    {
-                        <h1>If you enter your postcode now, we can find services that can help you</h1>
-                    }
-                    @Html.ValidationMessageFor(m => m.UserInfo.CurrentAddress.Postcode)
-                    @(Model.UserInfo.CurrentAddress.IsPostcodeFirst ? Html.Raw("<label for=\"UserInfo_CurrentAddress_Postcode\">Enter your postcode for services that can help you <span class=\"de-emphasised\">(optional)<span></label>") : Html.Raw("<label for=\"UserInfo_CurrentAddress_Postcode\" class=\"alwayshidden\">Postcode required</label>"))
-                    @Html.TextBoxFor(m => m.UserInfo.CurrentAddress.Postcode)
-                    <button class="button button--next" type="submit" name="DosResults" id="DosLookup">Next</button>
-                </div>
+                    <div id="postcode-form">
+                        @if (!Model.UserInfo.CurrentAddress.IsPostcodeFirst)
+                        {
+                            <h1>If you enter your postcode now, we can find services that can help you</h1>
+                        }
+                        @Html.ValidationMessageFor(m => m.UserInfo.CurrentAddress.Postcode)
+                        @(Model.UserInfo.CurrentAddress.IsPostcodeFirst ? Html.Raw("<label for=\"UserInfo_CurrentAddress_Postcode\">Enter your postcode for services that can help you <span class=\"de-emphasised\">(optional)<span></label>") : Html.Raw("<label for=\"UserInfo_CurrentAddress_Postcode\" class=\"alwayshidden\">Postcode required</label>"))
+                        @Html.TextBoxFor(m => m.UserInfo.CurrentAddress.Postcode)
+                        <button class="button button--next" type="submit" name="DosResults" id="DosLookup">Next</button>
+                        <button class="js-find-location button--link button--stacked"  type="button">Find my location</button>
+                        
+                    </div>
+                    <div id="options">
+                        <button class="js-find-location" type="button">Find my location</button>
+                        <button class="js-manual-postcode button--link button--stacked" type="button">I want to type the location manually</button>
+                    </div>
+                    <div id="confirm-location-form">
+                        <h3>Are you here?</h3>
+                        <p class="location-address">We were unable to find your location</p>
+                        <button class="js-manual-postcode button--link button--stacked" type="button">I'm not here, I want to type the location manually</button>
+                        <button class="button--next" type="submit" name="DosResults" id="DosLookup">Next</button>
+                    </div>
+                    </div>
             </div>
         }
 
@@ -100,6 +114,62 @@
 </section>
 
 @Html.Partial("_PageLoadingIndicator")
+
+
+<p id="location"></p>
+<script>
+    if (navigator.geolocation) {
+        $("#postcode-form").hide();
+        $("#confirm-location-form").hide();
+
+        $(".js-manual-postcode").on("click", function() {
+            $("#options").hide();
+            $("#confirm-location-form").hide();
+            $("#@Html.IdFor(m => m.UserInfo.CurrentAddress.Postcode)").val("");
+            $("#postcode-form").show();
+        });
+        $(".js-find-location").on("click", function () {
+            navigator.geolocation.getCurrentPosition(function (pos) {
+                var coords = pos.coords.longitude + "," + pos.coords.latitude;
+                console.log(coords);
+                $.ajax({
+                    type: "POST",
+                    url: "/Outcome/GeoLookup",
+                    data: { longlat: coords },
+                    success: function (response) {
+                        var addresses = response;
+                        if (addresses.length == 0) showError();
+                        else {
+                            var addreesstext = addresses[0].AddressLine3 + ' , ' + addresses[0].City + ' , ' + addresses[0].Postcode;
+                            $("#@Html.IdFor(m => m.UserInfo.CurrentAddress.Postcode)").val(addresses[0].Postcode);
+                            $(".location-address").text(addreesstext);
+                            $("#confirm-location-form").show();
+                            $("#postcode-form").hide();
+                        }
+                    },
+                    timeout: 5000,
+                    error: function (XMLHttpRequest, textStatus, errorThrown) {
+                        showError();
+                    },
+                    complete: function () {
+                        $("#options").hide();
+                    }
+                });
+                $("#postcode").val(coords.longitude + "," + coords.latitude);
+            }, showError);
+        });
+        function showError() {
+            $('label[for="@Html.IdFor(m => m.UserInfo.CurrentAddress.Postcode)"]').text("We were unable to find your location. Please enter your postcode.");
+            $("#postcode-form").show();
+            $("#options").hide();
+        }
+    }
+    else {
+        $("#options").hide();
+        $("#postcode-form").show();
+        $(".js-find-location").hide();
+    }
+</script>
 
 <script type="text/javascript">
     $(document).ready(function () {
