@@ -159,7 +159,7 @@
             }, showError);
         });
         function showError() {
-            $('label[for="@Html.IdFor(m => m.UserInfo.CurrentAddress.Postcode)"]').text("We were unable to find your location. Please eneter your postcode.");
+            $('label[for="@Html.IdFor(m => m.UserInfo.CurrentAddress.Postcode)"]').text("We were unable to find your location. Please enter your postcode.");
             $("#postcode-form").show();
             $("#options").hide();
         }
