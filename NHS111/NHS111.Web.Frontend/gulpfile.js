@@ -1,4 +1,4 @@
-/// <binding ProjectOpened='dev' />
+/// <binding ProjectOpened='build:fractal, dev' />
 const path = require('path'),
       gulp = require('gulp'),
       runSequence = require('run-sequence'),
@@ -14,7 +14,8 @@ const path = require('path'),
       stylelint = require('stylelint'),
       mocha = require('gulp-mocha'),
       babel = require('gulp-babel'),
-      jsdom = require('mocha-jsdom')
+      jsdom = require('mocha-jsdom'),
+      fractal = require('./fractal.config.js');
 
 
 // Paths
@@ -129,6 +130,17 @@ gulp.task('compile:styles:dist', () => {
     .pipe(gulp.dest(`${paths.distAssets}/css`))
     .pipe(gulp.dest(`${paths.distFractalAssets}/css`))
 })
+
+gulp.task('fractal:start', function () {
+    const server = fractal.web.server({
+        sync: true,
+        port: 4000
+    });
+    server.on('error', err => fractal.cli.console.error(err.message));
+    return server.start().then(() => {
+        fractal.cli.console.success(`Fractal server is now running at ${server.url}`);
+    });
+});
 
 gulp.task('build:fractal', cb => {
   runSequence('clean:fractal', 'compile:styles:fractal', cb)

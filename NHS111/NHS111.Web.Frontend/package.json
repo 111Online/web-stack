@@ -62,11 +62,6 @@
     "postinstall": "gulp build:dist",
     "lint-fix": "stylelint 'src/codebase/ **/*.scss' --fix --syntax scss"
   },
-  "-vs-binding": {
-    "ProjectOpened": [
-      "dev-fractal"
-    ]
-  },
   "fractal": {
     "main": "fractal.config.js"
   }

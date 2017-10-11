@@ -29,7 +29,6 @@
     <Compile Include="fractal\theme\index.js" />
     <Content Include="fractal\theme\assets\theme.css" />
     <Content Include="fractal\theme\assets\nhs-logotype-blue.svg" />
-    <Content Include="src\.DS_Store" />
     <Content Include="src\assets\images\apple-touch-icon.png" />
     <Content Include="src\assets\images\favicon.png" />
     <Content Include="src\assets\images\icons\arrow--blue.svg" />
