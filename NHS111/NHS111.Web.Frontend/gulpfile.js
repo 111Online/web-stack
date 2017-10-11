@@ -1,3 +1,4 @@
+/// <binding ProjectOpened='dev' />
 const path = require('path'),
       gulp = require('gulp'),
       runSequence = require('run-sequence'),
@@ -21,9 +22,12 @@ const paths = {
   src: `${__dirname}/src`,
   srcScss: `${__dirname}/src/codebase`,
   srcImages: `${__dirname}/src/assets/images`,
-  dist: `${__dirname}/dist`,
-  distAssets: `${__dirname}/dist/content`,
-  distScss: `${__dirname}/dist/codebase`,
+  dist: `${__dirname}/../NHS111.Web/Content/`,
+  distAssets: `${__dirname}/../NHS111.Web/Content/`,
+  distScss: `${__dirname}/../NHS111.Web/Content/codebase`,
+  distFractal: `${__dirname}/content/`,
+  distFractalAssets: `${__dirname}/content/`,
+  distFractalScss: `${__dirname}/content/codebase`,
   fractalScss: `${__dirname}/fractal/theme/scss`,
   fractalAssets: `${__dirname}/fractal/theme/assets`,
 }
@@ -33,11 +37,11 @@ gulp.task('clean', () => {
 })
 
 gulp.task('clean:dist', () => {
-  return del([`${paths.dist}/`])
+    return del([`${paths.dist}/`, `${paths.distFractal}/`], { force: true })
 })
 
 gulp.task('clean:fractal', () => {
-  return del([`${paths.fractalAssets}/*.css`])
+    return del([`${paths.fractalAssets}/*.css`], { force: true })
 })
 
 gulp.task('copy:styles:dist', () => {
@@ -45,19 +49,22 @@ gulp.task('copy:styles:dist', () => {
     `${paths.srcScss}/**/*.scss`,
     `!${paths.srcScss}/components/**/*.scss`
   ])
-    .pipe(gulp.dest(paths.distScss))
+  .pipe(gulp.dest(paths.distScss))
+  .pipe(gulp.dest(paths.distFractalScss))
 })
 
 gulp.task('copy:styles:components:dist', () => {
   return gulp.src(`${paths.srcScss}/components/**/*.scss`)
     .pipe(flatten())
     .pipe(gulp.dest(`${paths.distScss}/components`))
+    .pipe(gulp.dest(`${paths.distFractalScss}/components`))
 })
 
 // Copy images
 gulp.task('copy:images', () => {
   return gulp.src(`${paths.srcImages}/**/*`)
     .pipe(gulp.dest(`${paths.distAssets}/images`))
+    .pipe(gulp.dest(`${paths.distFractalAssets}/images`))
 })
 
 gulp.task('lint:styles', () => {
@@ -97,6 +104,7 @@ gulp.task('inject:styles:dist', () => {
       transform: (filePath) => `@import "${filePath}";`
     }))
     .pipe(gulp.dest(`${paths.distScss}/components`))
+    .pipe(gulp.dest(`${paths.distFractalScss}/components`))
 })
 
 gulp.task('compile:styles:fractal', () => {
@@ -119,6 +127,7 @@ gulp.task('compile:styles:dist', () => {
     }))
     .pipe(postcss([autoprefixer(), cssnano()]))
     .pipe(gulp.dest(`${paths.distAssets}/css`))
+    .pipe(gulp.dest(`${paths.distFractalAssets}/css`))
 })
 
 gulp.task('build:fractal', cb => {
@@ -127,7 +136,6 @@ gulp.task('build:fractal', cb => {
 
 gulp.task('build:dist', cb => {
   runSequence(
-    'clean:dist',
     ['copy:styles:dist', 'copy:styles:components:dist', 'copy:images'],
     'inject:styles:dist', 'compile:styles:dist',
     cb

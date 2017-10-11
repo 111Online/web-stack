@@ -1,0 +1,6 @@
+@import "./typography";
+
+$site-width: 960px;
+$gutter: $baseline-grid-unit * 8;
+$gutter-half: $gutter / 2;
+$gutter-two-thirds: $gutter * 0.6666;

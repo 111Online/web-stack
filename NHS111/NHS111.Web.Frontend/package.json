@@ -47,15 +47,6 @@
     "gulp-qunit": "^1.5.0",
     "gulp-stylelint": "^5.0.0",
     "gulp-watch": "^4.3.11",
-    "karma": "^1.7.1",
-    "karma-chrome-launcher": "^2.2.0",
-    "karma-cli": "^1.0.1",
-    "karma-fixture": "^0.2.6",
-    "karma-html2js-preprocessor": "^1.1.0",
-    "karma-nunit": "^0.1.2",
-    "karma-phantomjs-launcher": "^1.0.4",
-    "karma-qunit": "^1.2.1",
-    "karma-safari-launcher": "^1.0.0",
     "mocha-jsdom": "^1.1.0",
     "qunitjs": "^2.4.0",
     "stylelint": "^8.2.0",
@@ -64,10 +55,20 @@
   "scripts": {
     "build": "gulp build",
     "dev": "fractal start --sync --port 4000 & gulp dev",
-    "dev-win": ".\node_modules\\.bin\\fractal start --sync --port 4000 & gulp dev",
+    "dev-fractal": "fractal start --sync --port 4000",
+    "dev-gulp": "gulp dev",
     "build:docs": "NODE_ENV=production node ./node_modules/.bin/fractal build && node ./fractal/create-redirect.js",
     "deploy": "npm run build:docs && gh-pages --add -d 'build'",
     "postinstall": "gulp build:dist",
-    "lint-fix": "stylelint 'src/codebase/**/*.scss' --fix --syntax scss"
+    "lint-fix": "stylelint 'src/codebase/ **/*.scss' --fix --syntax scss"
+  },
+  "-vs-binding": {
+    "ProjectOpened": [
+      "dev-fractal"
+    ]
+  },
+  "fractal": {
+    "main": "fractal.config.js"
   }
+
 }
