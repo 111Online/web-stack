@@ -59,7 +59,7 @@ Import everything:
 Include the compiled css in the head of your page:
 
 ```html
-<link href="[your asset path]/nhsuk.css" media="screen" rel="stylesheet" type="text/css">
+<link href="[your asset path]/nhs-111.css" media="screen" rel="stylesheet" type="text/css">
 ```
 
 The package uses [node-sass-import-once](https://github.com/at-import/node-sass-import-once) module to enable `_index.scss` imports and remove duplicates. If you decide to include individual Sass files make sure your configure your Sass to use custom importer:
