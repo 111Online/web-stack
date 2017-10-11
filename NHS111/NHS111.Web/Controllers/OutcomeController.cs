@@ -59,14 +59,6 @@ namespace NHS111.Web.Controllers
             return Json((locationResults));
         }
 
-        [HttpPost]
-        public async Task<JsonResult> GeoLookup(string longlat)
-        {
-            var results = await _locationResultBuilder.LocationResultByGeouilder(longlat);
-            var locationResults = Mapper.Map<List<AddressInfoViewModel>>(results);
-            return Json((locationResults));
-        }
-
         private async Task<List<AddressInfoViewModel>> GetPostcodeResults(string postCode)
         {
             //TODO: Add timeout, so we don't wait too long!
