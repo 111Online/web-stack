@@ -51,6 +51,8 @@ namespace NHS111.Models.Mappers.WebMappings
                     AddressLine1 = addressLocationresult.AddressLine1,
                     AddressLine2 = addressLocationresult.AddressLine2,
                     AddressLine3 = addressLocationresult.AddressLine3,
+                    Thoroughfare = addressLocationresult.Thoroughfare,
+                    Ward = addressLocationresult.Ward,
                     City = addressLocationresult.Town,
                     UPRN = addressLocationresult.Udprn,
                     County = addressLocationresult.County,

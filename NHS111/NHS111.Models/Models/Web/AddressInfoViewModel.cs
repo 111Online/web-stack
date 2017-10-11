@@ -12,6 +12,8 @@ namespace NHS111.Models.Models.Web
         public string AddressLine1 { get; set; }
         public string AddressLine2 { get; set; }
         public string AddressLine3 { get; set; }
+        public string Thoroughfare { get; set; }
+        public string Ward { get; set; }
         public string City { get; set; }
         public string County { get; set; }
         public string UPRN { get; set; }
