@@ -24,7 +24,7 @@
 <div class="form-group @(@ViewData.ModelState.IsValidField("UserInfo.Demography.Age") ? "" : "form-group-error")">
     <fieldset class="age-content">
         @Html.LabelFor(m => m.UserInfo.Demography.Age, "Age in years", new { @class = "form-label" })
-        @Html.ValidationMessageFor(m => m.UserInfo.Demography.Age, "", new { @class = "error-message" })
+        @Html.ValidationMessageFor(m => m.UserInfo.Demography.Age, "Please enter a valid age", new { @class = "error-message" })
         @Html.TextBoxFor(m => m.UserInfo.Demography.Age, new { @class = "form-textbox form-textbox--small js-validate-number", type = "number", size = 3, autocomplete = "off", maxlength = 3, min = 0, max = 200 })
     </fieldset>
 </div>
