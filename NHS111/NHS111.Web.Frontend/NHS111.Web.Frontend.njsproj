@@ -154,6 +154,9 @@
     <Content Include="src\codebase\units\_quote.scss" />
     <Content Include="src\codebase\units\_table.scss" />
     <Content Include="src\docs\functions.md" />
+    <Content Include="src\docs\code-quality.md">
+      <SubType>Code</SubType>
+    </Content>
     <Content Include="src\docs\index.md" />
     <Content Include="src\docs\integration.md" />
     <Content Include="src\docs\mixins.md" />

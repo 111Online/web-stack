@@ -1,21 +1,23 @@
 /// <binding ProjectOpened='build:fractal, dev' />
 const path = require('path'),
-      gulp = require('gulp'),
-      runSequence = require('run-sequence'),
-      del = require('del'),
-      sass = require('gulp-sass'),
-      flatten = require('gulp-flatten'),
-      importOnce = require('node-sass-import-once'),
-      postcss = require('gulp-postcss'),
-      syntax_scss = require('postcss-scss'),
-      autoprefixer = require('autoprefixer'),
-      inject = require('gulp-inject'),
-      cssnano = require('cssnano'),
-      stylelint = require('stylelint'),
-      mocha = require('gulp-mocha'),
-      babel = require('gulp-babel'),
-      jsdom = require('mocha-jsdom'),
-      fractal = require('./fractal.config.js');
+    gulp = require('gulp'),
+    runSequence = require('run-sequence'),
+    del = require('del'),
+    sass = require('gulp-sass'),
+    flatten = require('gulp-flatten'),
+    importOnce = require('node-sass-import-once'),
+    postcss = require('gulp-postcss'),
+    syntax_scss = require('postcss-scss'),
+    autoprefixer = require('autoprefixer'),
+    inject = require('gulp-inject'),
+    cssnano = require('cssnano'),
+    stylelint = require('stylelint'),
+    mocha = require('gulp-mocha'),
+    babel = require('gulp-babel'),
+    jsdom = require('mocha-jsdom'),
+    fractal = require('./fractal.config.js'),
+    specificityGraph = require('specificity-graph'),
+    fs = require('fs');
 
 
 // Paths
@@ -79,6 +81,19 @@ gulp.task('lint:styles', () => {
     }))
 })
 
+gulp.task('lint:styles-graph', function () {
+    const file = fs.readFileSync("content/css/nhs-111.css", "utf8");
+
+    specificityGraph(`${__dirname}/src/codebase/components/_cssgraph/`, file, function (directory) {
+      // Add the contents of specificty.json to a variable in specificity.js 
+      fs.readFile(`${__dirname}/src/codebase/components/_cssgraph/specificity.json`, 'utf8', function (err, data) {
+        if (err) return console.log("ERROR: " + err)
+        var newData = "var embeddedJsonData = " + data;
+        fs.writeFile(`${__dirname}/src/codebase/components/_cssgraph/specificity.js`, newData)
+      })
+    })
+})
+
 gulp.task('test:scripts', function() {
   return gulp.src(['src/js/test-*.js'])
     .pipe(mocha({
@@ -86,12 +101,12 @@ gulp.task('test:scripts', function() {
       reporter: "spec"
     }))
     .once('error', () => {
-      process.exit(1);
+      process.exit(1)
     })
     .once('end', () => {
-      process.exit();
+      process.exit()
     })
-});
+})
 
 gulp.task('inject:styles:dist', () => {
   return gulp.src(`${paths.distScss}/components/_index.scss`)
@@ -149,7 +164,7 @@ gulp.task('build:fractal', cb => {
 gulp.task('build:dist', cb => {
   runSequence(
     ['copy:styles:dist', 'copy:styles:components:dist', 'copy:images'],
-    'inject:styles:dist', 'compile:styles:dist',
+    'inject:styles:dist', 'compile:styles:dist', 'lint:styles-graph',
     cb
   )
 })
