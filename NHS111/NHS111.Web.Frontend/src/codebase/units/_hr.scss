@@ -1,0 +1,18 @@
+@import "../environment/settings/colours";
+@import "../environment/settings/typography";
+
+hr {
+  background-color: $grey-4;
+  border: 0;
+  height: $baseline-grid-unit;
+  text-align: left;
+  width: 130px;
+
+  .callout--alert & {
+    background-color: $grey-3;
+  }
+
+  .callout--severe & {
+    background-color: $white;
+  }
+}

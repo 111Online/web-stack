@@ -1,0 +1,10 @@
+@import "../environment/tools/mixins/typography";
+
+p {
+  @include core-font(20);
+}
+
+.highlight-term  {
+  font-weight: normal;
+  font-style: normal;
+}

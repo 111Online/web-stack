@@ -199,3 +199,5 @@ FakesAssemblies/
 
 #logfiles
 log.*.txt
+/NHS111/NHS111.Web/Content
+/NHS111/NHS111.Web.Frontend/content
