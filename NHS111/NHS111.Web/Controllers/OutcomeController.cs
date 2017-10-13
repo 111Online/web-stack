@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Web.Http;
 using System.Web.Script.Serialization;
+using Microsoft.Ajax.Utilities;
 using NHS111.Features;
 using NHS111.Models.Models.Web.FromExternalServices;
 using NHS111.Models.Models.Web.Logging;
@@ -60,10 +61,18 @@ namespace NHS111.Web.Controllers
         }
 
         [HttpPost]
-        public async Task<JsonResult> GeoLookup(string longlat)
+        public async Task<JsonResult> GetAddressesGeoLookup(string longlat)
         {
             var results = await _locationResultBuilder.LocationResultByGeouilder(longlat);
             var locationResults = Mapper.Map<List<AddressInfoViewModel>>(results);
+            return Json((locationResults));
+        }
+
+        [HttpPost]
+        public async Task<JsonResult> GetUniqueAddrssesGeoLookup(string longlat)
+        {
+            var results = await _locationResultBuilder.LocationResultByGeouilder(longlat);
+            var locationResults = Mapper.Map<List<AddressInfoViewModel>>(results.DistinctBy(r => r.Thoroughfare));
             return Json((locationResults));
         }
 
