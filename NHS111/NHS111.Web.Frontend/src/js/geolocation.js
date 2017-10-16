@@ -21,14 +21,13 @@ export default {
                 jsonp: "callback",
                 dataType: "jsonp",
                 type: "POST",
-                url: baseUrl + "/Outcome/GeoLookup",
+                url: baseUrl + "/Outcome/GetUniqueAddrssesGeoLookup",
                 data: { longlat: coords.longitude + "," + coords.latitude },
                 success: function (addresses) {
                     console.log("SUCCESS")
                     if (addresses.length == 0) throw new Error("No addresses returned from address lookup")
                     else resolve(addresses)
                 },
-                timeout: 0,
                 error: function (XMLHttpRequest, textStatus, errorThrown) {
                     console.log(XMLHttpRequest.statusCode())
                   throw new Error(`ajax error - ${textStatus}`)
