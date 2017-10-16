@@ -126,7 +126,7 @@
                 console.log(coords);
                 $.ajax({
                     type: "POST",
-                    url: "/Outcome/GetUniqueAddrssesGeoLookup",
+                    url: "/Outcome/GetUniqueAddressesGeoLookup",
                     data: { longlat: coords },
                     success: function (response) {
                         var addresses = response;

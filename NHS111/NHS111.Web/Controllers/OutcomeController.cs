@@ -69,7 +69,7 @@ namespace NHS111.Web.Controllers
         }
 
         [HttpPost]
-        public async Task<JsonResult> GetUniqueAddrssesGeoLookup(string longlat)
+        public async Task<JsonResult> GetUniqueAddressesGeoLookup(string longlat)
         {
             var results = await _locationResultBuilder.LocationResultByGeouilder(longlat);
             var locationResults = Mapper.Map<List<AddressInfoViewModel>>(results.DistinctBy(r => r.Thoroughfare));

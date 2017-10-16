@@ -21,7 +21,7 @@ export default {
                 jsonp: "callback",
                 dataType: "jsonp",
                 type: "POST",
-                url: baseUrl + "/Outcome/GetUniqueAddrssesGeoLookup",
+                url: baseUrl + "/Outcome/GetUniqueAddressesGeoLookup",
                 data: { longlat: coords.longitude + "," + coords.latitude },
                 success: function (addresses) {
                     console.log("SUCCESS")
