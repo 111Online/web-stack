@@ -19,7 +19,9 @@
     <Compile Include="src\js\geolocation.js">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="src\js\test-geolocation.js" />
+    <Compile Include="src\js\test-geolocation.js">
+      <TestFramework>Mocha</TestFramework>
+    </Compile>
     <Compile Include="src\js\test-validation.js" />
     <Compile Include="src\js\validation.js" />
     <Content Include="LICENCE.txt" />

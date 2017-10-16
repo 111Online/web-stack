@@ -98,7 +98,8 @@ gulp.task('test:scripts', function() {
   return gulp.src(['src/js/test-*.js'])
     .pipe(mocha({
       compilers: "js:babel-core/register",
-      reporter: "spec"
+      reporter: "spec",
+      timeout: 20000
     }))
     .once('error', () => {
       process.exit(1)
