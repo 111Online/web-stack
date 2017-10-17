@@ -7,7 +7,7 @@ namespace NHS111.SmokeTests
     public class ModuleZeroTests : BaseTests
     {
         [Test]
-        public void ModuleZero_Displays()
+        public void ModuleZeroPage_Displays()
         {
             var homePage = TestScenarioPart.HomePage(Driver);
             var moduleZero = TestScenarioPart.ModuleZero(homePage);
@@ -15,7 +15,7 @@ namespace NHS111.SmokeTests
         }
 
         [Test]
-        public void ModuleZero_ExpandableLink()
+        public void ModuleZeroPage_ExpandableLink()
         {
             var homePage = TestScenarioPart.HomePage(Driver);
             var moduleZero = TestScenarioPart.ModuleZero(homePage);
