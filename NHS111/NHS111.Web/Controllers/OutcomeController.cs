@@ -27,6 +27,7 @@ namespace NHS111.Web.Controllers
     using Models.Models.Web.DosRequests;
 
     [LogHandleErrorForMVC]
+    [EnableCorsAppSettings("internal:origins")]
     public class OutcomeController : Controller {
         private readonly IOutcomeViewModelBuilder _outcomeViewModelBuilder;
         private readonly IDOSBuilder _dosBuilder;
@@ -69,6 +70,7 @@ namespace NHS111.Web.Controllers
         }
 
         [HttpPost]
+        [EnableCorsAppSettings("internal:origins")]
         public async Task<JsonResult> GetUniqueAddressesGeoLookup(string longlat)
         {
             var results = await _locationResultBuilder.LocationResultByGeouilder(longlat);
