@@ -17,7 +17,9 @@ const path = require('path'),
     jsdom = require('mocha-jsdom'),
     fractal = require('./fractal.config.js'),
     specificityGraph = require('specificity-graph'),
-    fs = require('fs');
+    fs = require('fs'),
+    concat = require('gulp-concat'),
+    sourcemaps = require('gulp-sourcemaps')
 
 
 // Paths
@@ -146,6 +148,19 @@ gulp.task('compile:styles:dist', () => {
     .pipe(gulp.dest(`${paths.distAssets}/css`))
     .pipe(gulp.dest(`${paths.distFractalAssets}/css`))
 })
+
+
+gulp.task('compile:scripts', () =>
+    gulp.src(['src/js/main.js'])
+        .pipe(sourcemaps.init())
+        .pipe(babel({
+            presets: ['env']
+        }))
+        .pipe(concat('script.js'))
+        .pipe(sourcemaps.write('.'))
+        .pipe(gulp.dest(`${paths.distAssets}/js`))
+        .pipe(gulp.dest(`${paths.distFractalAssets}/js`))
+);
 
 gulp.task('fractal:start', function () {
     const server = fractal.web.server({

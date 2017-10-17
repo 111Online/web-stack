@@ -19,6 +19,9 @@
     <Compile Include="src\js\geolocation.js">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="src\js\main.js">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="src\js\test-geolocation.js">
       <TestFramework>Mocha</TestFramework>
     </Compile>
