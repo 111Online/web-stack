@@ -65,6 +65,7 @@
   <ItemGroup>
     <Compile Include="BaseTests.cs" />
     <Compile Include="EndpointJourneyTests.cs" />
+    <Compile Include="HomePageTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RegressionTests.cs" />
     <Compile Include="Regression\AgeTests.cs" />
