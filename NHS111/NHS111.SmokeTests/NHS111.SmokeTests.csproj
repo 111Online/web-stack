@@ -64,6 +64,7 @@
   </Choose>
   <ItemGroup>
     <Compile Include="BaseTests.cs" />
+    <Compile Include="ModuleZeroPageTests.cs" />
     <Compile Include="EndpointJourneyTests.cs" />
     <Compile Include="HomePageTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

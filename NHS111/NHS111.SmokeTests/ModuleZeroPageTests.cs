@@ -4,13 +4,14 @@ using NHS111.SmokeTest.Utils;
 namespace NHS111.SmokeTests
 {
     [TestFixture]
-    public class HomePageTests : BaseTests
+    public class ModuleZeroTests : BaseTests
     {
         [Test]
-        public void HomePage_Displays()
+        public void ModuleZero_Displays()
         {
             var homePage = TestScenarioPart.HomePage(Driver);
-            homePage.Verify();
+            var moduleZero = TestScenarioPart.ModuleZero(homePage);
+            moduleZero.Verify();
         }
     }
 }

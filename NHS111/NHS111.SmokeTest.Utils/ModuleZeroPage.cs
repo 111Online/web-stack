@@ -24,10 +24,10 @@ namespace NHS111.SmokeTest.Utils
         {
         }
 
-        public GenderPage ClickNoneApplyButton()
+        public DemographicsPage ClickNoneApplyButton()
         {
             NoneApplyButton.Submit();
-            return new GenderPage(Driver);
+            return new DemographicsPage(Driver);
         }
         public void Verify()
         {

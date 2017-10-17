@@ -57,7 +57,7 @@
   <ItemGroup>
     <Compile Include="CategoryPage.cs" />
     <Compile Include="DispositionPage.cs" />
-    <Compile Include="GenderPage.cs" />
+    <Compile Include="DemographicsPage.cs" />
     <Compile Include="HomePage.cs" />
     <Compile Include="LayoutPage.cs" />
     <Compile Include="ModuleZeroPage.cs" />
