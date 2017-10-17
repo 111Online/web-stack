@@ -13,12 +13,19 @@ namespace NHS111.SmokeTest.Utils
     public class ModuleZeroPage : LayoutPage
     {
         private const string _headerText = "Do any of these apply?";
+        private const string _firstExpandableLinkHiddenText = "A feeling of crushing pressure like a heavy weight pushing down on your chest.";
 
         [FindsBy(How = How.ClassName, Using = "button--next")]
         private IWebElement NoneApplyButton { get; set; }
 
         [FindsBy(How = How.CssSelector, Using = "h1.heading-large")]
         private IWebElement Header { get; set; }
+
+        [FindsBy(How = How.XPath, Using = "//summary[1]")]
+        private IWebElement FirstExpandableLink { get; set; }
+
+        [FindsBy(How = How.Id, Using = "details-content-0")]
+        private IWebElement FirstExpandableLinkExpanded { get; set; }
 
         public ModuleZeroPage(IWebDriver driver) : base(driver)
         {
@@ -29,11 +36,18 @@ namespace NHS111.SmokeTest.Utils
             NoneApplyButton.Submit();
             return new DemographicsPage(Driver);
         }
-        public void Verify()
+
+        public void VerifyHeader()
         {
             Assert.IsTrue(Header.Displayed);
             Assert.AreEqual(_headerText, Header.Text);
         }
 
+        public void VerifyExpandableLink()
+        {
+            FirstExpandableLink.Click();
+            Assert.AreEqual(FirstExpandableLinkExpanded.Text, _firstExpandableLinkHiddenText);
+            Assert.IsTrue(FirstExpandableLinkExpanded.Displayed);
+        }
     }
 }
