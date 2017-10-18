@@ -166,6 +166,7 @@
   <ItemGroup>
     <Content Include="Global.asax" />
     <Content Include="IoC\readme.txt" />
+    <Content Include="replace_appsettings.ps1" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
