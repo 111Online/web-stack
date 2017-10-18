@@ -9,7 +9,7 @@ using OpenQA.Selenium.Support.PageObjects;
 
 namespace NHS111.SmokeTest.Utils
 {
-    public class GenderPage : LayoutPage
+    public class DemographicsPage : LayoutPage
     {
         private string _headerText = "Tell us about you, or the person you're asking about";
 
@@ -28,7 +28,7 @@ namespace NHS111.SmokeTest.Utils
         [FindsBy(How = How.ClassName, Using = "button--next")]
         private IWebElement NextButton { get; set; }
 
-        public GenderPage(IWebDriver driver) : base(driver)
+        public DemographicsPage(IWebDriver driver) : base(driver)
         {
         }
 
@@ -40,7 +40,7 @@ namespace NHS111.SmokeTest.Utils
 
         public void SelectGender(string gender)
         {
-            if (gender == GenderPage.Male)
+            if (gender == DemographicsPage.Male)
                 MaleButton.Click();
             else
                 FemaleButton.Click();

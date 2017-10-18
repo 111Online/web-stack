@@ -50,13 +50,13 @@ namespace NHS111.SmokeTest.Utils
             return new QuestionPage(Driver);
         }
 
-        public GenderPage NavigateBackToGenderPage()
+        public DemographicsPage NavigateBackToGenderPage()
         {
             while (Driver.Title != "NHS 111 Online - Tell us about you")
             {
                 Driver.Navigate().Back();
             }
-            return new GenderPage(Driver);
+            return new DemographicsPage(Driver);
         }
 
         public void VerifySubHeader(string subHeadertext)
