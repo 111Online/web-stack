@@ -172,6 +172,7 @@
     <None Include=".dockerignore">
       <DependentUpon>Dockerfile</DependentUpon>
     </None>
+    <Content Include="replace_appsettings.ps1" />
     <None Include="Service References\DOSService\configuration91.svcinfo" />
     <None Include="Service References\DOSService\configuration.svcinfo" />
     <Content Include="Service References\DOSService\NHS111.Integration.DOS.Api.DOSService.CheckCapacitySummaryResponse.datasource">
