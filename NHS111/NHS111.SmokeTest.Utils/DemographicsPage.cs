@@ -51,7 +51,7 @@ namespace NHS111.SmokeTest.Utils
             AgeInput.SendKeys(age.ToString());
         }
 
-        public void Verify()
+        public void VerifyHeader()
         {
             Assert.IsTrue(Header.Displayed);
             Assert.AreEqual(_headerText, Header.Text);
@@ -63,6 +63,15 @@ namespace NHS111.SmokeTest.Utils
             return new SearchPage(Driver);
         }
 
+        public void VerifyAgeInputBox(string gender, string age)
+        {
+            SelectGender(gender);
+            AgeInput.SendKeys(age);
+
+            NextButton.Submit();
+            var searchPage = new SearchPage(Driver);
+            searchPage.Verify();
+        }
 
         public static string Male = "Male";
         public static string Female = "Female";

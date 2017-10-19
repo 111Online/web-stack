@@ -847,7 +847,7 @@ namespace NHS111.SmokeTests.Regression
 
             var genderPage = outcomePage.NavigateBackToGenderPage();
 
-            genderPage.Verify();
+            genderPage.VerifyHeader();
             genderPage.SelectGenderAndAge(TestScenerioGender.Male, 14);
 
             var searchpage = genderPage.NextPage();
