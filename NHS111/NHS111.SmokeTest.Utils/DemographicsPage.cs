@@ -12,6 +12,8 @@ namespace NHS111.SmokeTest.Utils
     public class DemographicsPage : LayoutPage
     {
         private string _headerText = "Tell us about you, or the person you're asking about";
+        private string _ageValidationMessageTooOld = "Please enter a value less than or equal to 200.";
+        private string _ageValidationMessageTooYoung = "Sorry, this service is not available for children under 5 years of age, for medical advice please call 111.";
 
         [FindsBy(How = How.CssSelector, Using = "h1")]
         private IWebElement Header { get; set; }
@@ -24,6 +26,9 @@ namespace NHS111.SmokeTest.Utils
 
         [FindsBy(How = How.Id, Using = "UserInfo_Demography_Age")]
         private IWebElement AgeInput { get; set; }
+
+        [FindsBy(How = How.CssSelector, Using = "span[for='UserInfo_Demography_Age']")]
+        private IWebElement AgeValidationMessageElement { get; set; }
 
         [FindsBy(How = How.ClassName, Using = "button--next")]
         private IWebElement NextButton { get; set; }
@@ -67,10 +72,30 @@ namespace NHS111.SmokeTest.Utils
         {
             SelectGender(gender);
             AgeInput.SendKeys(age);
-
             NextButton.Submit();
+
             var searchPage = new SearchPage(Driver);
             searchPage.Verify();
+        }
+
+        public void VerifyTooOldAgeShowsValidation(string gender, int age)
+        {
+            SelectGender(gender);
+            SetAge(age);
+            NextButton.Submit();
+
+            Assert.IsTrue(AgeValidationMessageElement.Displayed);
+            Assert.AreEqual(AgeValidationMessageElement.Text, _ageValidationMessageTooOld);
+        }
+
+        public void VerifyTooYoungAgeShowsValidation(string gender, int age)
+        {
+            SelectGender(gender);
+            SetAge(age);
+            NextButton.Submit();
+
+            Assert.IsTrue(AgeValidationMessageElement.Displayed);
+            Assert.AreEqual(AgeValidationMessageElement.Text, _ageValidationMessageTooYoung);
         }
 
         public static string Male = "Male";

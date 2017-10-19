@@ -17,7 +17,19 @@ namespace NHS111.SmokeTests
         {
             GetDemographicsPage().VerifyAgeInputBox(TestScenerioGender.Male, "25INVALIDTEXT!£$%^&*()_+{}:@~>?</*-+");
         }
-        
+
+        [Test]
+        public void DemographicsPage_AgeTooOldShowsValidation()
+        {
+            GetDemographicsPage().VerifyTooOldAgeShowsValidation(TestScenerioGender.Male, 201);
+        }
+
+        [Test]
+        public void DemographicsPage_AgeTooYoungShowsValidation()
+        {
+            GetDemographicsPage().VerifyTooYoungAgeShowsValidation(TestScenerioGender.Male, 4);
+        }
+
         private DemographicsPage GetDemographicsPage()
         {
             var homePage = TestScenarioPart.HomePage(Driver);
