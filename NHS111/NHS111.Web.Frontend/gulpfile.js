@@ -19,8 +19,8 @@ const path = require('path'),
     specificityGraph = require('specificity-graph'),
     fs = require('fs'),
     concat = require('gulp-concat'),
-    sourcemaps = require('gulp-sourcemaps')
-
+    sourcemaps = require('gulp-sourcemaps'),
+    webpack = require('gulp-webpack')
 
 // Paths
 const paths = {
@@ -150,17 +150,11 @@ gulp.task('compile:styles:dist', () => {
 })
 
 
-gulp.task('compile:scripts', () =>
-    gulp.src(['src/js/main.js'])
-        .pipe(sourcemaps.init())
-        .pipe(babel({
-            presets: ['env']
-        }))
-        .pipe(concat('script.js'))
-        .pipe(sourcemaps.write('.'))
-        .pipe(gulp.dest(`${paths.distAssets}/js`))
-        .pipe(gulp.dest(`${paths.distFractalAssets}/js`))
-);
+gulp.task('compile:scripts', () => {
+    webpack(require('./webpack.config.js'))
+    return gulp.src([`${paths.distFractalAssets}/js/bundle.js`, `${paths.distFractalAssets}/js/polyfills.js`])
+        .pipe(gulp.dest(`${paths.distAssets}/js`));
+});
 
 gulp.task('fractal:start', function () {
     const server = fractal.web.server({

@@ -1,4 +1,4 @@
-export default {
+module.exports = {
     getCoordinates: (mockNavigator) => {
         return new Promise((resolve, reject) => {
             // Setup test environment
@@ -10,14 +10,10 @@ export default {
             })
         })
     },
-    getAddressLookup: (coords, mockDOM) => {
+    getAddressLookup: (coords) => {
         return new Promise((resolve, reject) => {
             const data = { "longlat": coords.longitude + "," + coords.latitude }
-
-            if (mockDOM) {
-
-            }
-            else $.ajax({
+            $.ajax({
                 dataType: "json",
                 type: "POST",
                 url: "/Outcome/GetUniqueAddressesGeoLookup",

@@ -22,11 +22,23 @@
     <Compile Include="src\js\main.js">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="src\js\polyfills.js">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="src\js\test-geolocation.js">
       <TestFramework>Mocha</TestFramework>
     </Compile>
     <Compile Include="src\js\test-validation.js" />
     <Compile Include="src\js\validation.js" />
+    <Compile Include="src\js\vendor\details.min.js">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="src\js\vendor\modernizr-custom.min.js">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="webpack.config.js">
+      <SubType>Code</SubType>
+    </Compile>
     <Content Include="LICENCE.txt" />
     <Content Include=".stylelintrc.json" />
     <Content Include="package-lock.json" />
@@ -209,6 +221,7 @@
     <Folder Include="src\codebase\units\" />
     <Folder Include="src\docs\" />
     <Folder Include="src\js\" />
+    <Folder Include="src\js\vendor\" />
     <Folder Include="src\templates\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.Common.targets" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />

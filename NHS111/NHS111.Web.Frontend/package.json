@@ -15,7 +15,7 @@
     "@frctl/nunjucks": "^1.0.3",
     "autoprefixer": "^6.7.2",
     "babel-polyfill": "^6.26.0",
-    "babel-preset-env": "^1.6.0",
+    "babel-preset-env": "^1.6.1",
     "btoa": "^1.1.2",
     "concat": "^1.0.3",
     "cssnano": "^3.10.0",
@@ -27,7 +27,7 @@
     "gulp-inject": "^4.3.0",
     "gulp-sass": "^3.1.0",
     "gulp-sourcemaps": "^2.6.1",
-    "jquery": "^1.12.4",
+    "jquery": "^3.2.1",
     "jquery-validation-unobtrusive": "^3.2.6",
     "jsdom": "^11.3.0",
     "lodash": "^4.17.4",
@@ -37,7 +37,9 @@
     "postcss-scss": "^1.0.2",
     "run-sequence": "^1.2.2",
     "specificity-graph": "^0.1.7",
-    "stylelint-scss": "^2.1.0"
+    "stylelint-scss": "^2.1.0",
+    "uglifyjs-webpack-plugin": "^1.0.0-beta.3",
+    "webpack": "^3.8.1"
   },
   "devDependencies": {
     "babel": "^6.23.0",
@@ -51,6 +53,7 @@
     "gulp-postcss": "^7.0.0",
     "gulp-stylelint": "^5.0.0",
     "gulp-watch": "^4.3.11",
+    "gulp-webpack": "^1.5.0",
     "mocha-jsdom": "^1.1.0",
     "stylelint": "^8.2.0",
     "stylelint-config-standard": "^17.0.0"
@@ -62,8 +65,7 @@
     "dev-gulp": "gulp dev",
     "build:docs": "NODE_ENV=production node ./node_modules/.bin/fractal build && node ./fractal/create-redirect.js",
     "deploy": "npm run build:docs && gh-pages --add -d 'build'",
-    "postinstall": "gulp build:dist",
-    "lint-fix": "stylelint 'src/codebase/ **/*.scss' --fix --syntax scss"
+    "postinstall": "gulp build:dist"
   },
   "fractal": {
     "main": "fractal.config.js"

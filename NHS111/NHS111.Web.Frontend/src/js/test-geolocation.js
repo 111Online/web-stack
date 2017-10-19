@@ -24,7 +24,7 @@ describe('Validation - geolocation', _ => {
         })
     })
 
-    /*
+    
     it('should return correct addresses', () => {
         const DOM = new JSDOM(`<!DOCTYPE html>`)
         const $ = require('jquery')(DOM.window)
@@ -32,7 +32,7 @@ describe('Validation - geolocation', _ => {
             console.log(addresses)
             assert.isNotNull(addresses)
         })
-    })*/
+    })
 
 
 

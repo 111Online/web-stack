@@ -1,4 +1,4 @@
-export default {
+module.exports =  {
   number: (input, min, max) => {
     // Strip all characters except numbers
     var result = input.replace(/[^0-9]/gi, '')
