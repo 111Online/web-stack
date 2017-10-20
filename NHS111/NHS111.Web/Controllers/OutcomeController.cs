@@ -127,7 +127,7 @@ namespace NHS111.Web.Controllers
                 return View("~\\Views\\Outcome\\ServiceList.cshtml", model);
             }
 
-            return View(Path.GetFileNameWithoutExtension(model.CurrentView), model);
+            return View(model.CurrentView, model);
         }
 
         private async Task<DosCheckCapacitySummaryResult> GetServiceAvailability(OutcomeViewModel model, DateTime? overrideDate, bool filterServices, DosEndpoint? endpoint)
