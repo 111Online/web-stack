@@ -13,7 +13,7 @@ namespace NHS111.SmokeTests.Regression
         [Test]
         public void Pt8JumpToDx35()
         {
-            var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Tiredness (Fatigue)", TestScenerioGender.Male, TestScenerioAgeGroups.Adult);
+            var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Tiredness (Fatigue)", TestScenerioSex.Male, TestScenerioAgeGroups.Adult);
 
             questionPage.VerifyQuestion("Have you got a raised temperature now or have you had one at any time since the tiredness started?");
             var outcomePage = questionPage
@@ -34,7 +34,7 @@ namespace NHS111.SmokeTests.Regression
         //PT8 via Behaviour Change Tx 140148 Tx221449 and Tx222008
         public void Pt8ViaBehaviourChangeTx140148Tx221449Tx222008()
         {
-            var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Behaviour Change", TestScenerioGender.Male, TestScenerioAgeGroups.Adult);
+            var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Behaviour Change", TestScenerioSex.Male, TestScenerioAgeGroups.Adult);
 
             var outcomePage = questionPage
                 .AnswerSuccessiveNo(3)
@@ -50,7 +50,7 @@ namespace NHS111.SmokeTests.Regression
         //PT8 via Behaviour Change Tx140148 and Tx222023 No Dx String
         public void Pt8ViaBehaviourChangeTx140148Tx222023NoDx()
         {
-            var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Behaviour Change", TestScenerioGender.Male, TestScenerioAgeGroups.Adult);
+            var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Behaviour Change", TestScenerioSex.Male, TestScenerioAgeGroups.Adult);
 
             var outcomePage = questionPage
                 .AnswerSuccessiveNo(3)
@@ -69,7 +69,7 @@ namespace NHS111.SmokeTests.Regression
         //PT8 via Behaviour Change Tx221449 and Tx222006
         public void Pt8ViaBehaviourChangeTx221449Tx222006()
         {
-            var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Behaviour Change", TestScenerioGender.Male, TestScenerioAgeGroups.Adult);
+            var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Behaviour Change", TestScenerioSex.Male, TestScenerioAgeGroups.Adult);
 
             var outcomePage = questionPage
                 .AnswerSuccessiveNo(3)
@@ -85,7 +85,7 @@ namespace NHS111.SmokeTests.Regression
         //PT8 via Behaviour Change Tx221449 and Tx222007
         public void Pt8ViaBehaviourChangeTx221449Tx222007()
         {
-            var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Behaviour Change", TestScenerioGender.Male, TestScenerioAgeGroups.Adult);
+            var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Behaviour Change", TestScenerioSex.Male, TestScenerioAgeGroups.Adult);
 
             var outcomePage = questionPage
                 .AnswerSuccessiveNo(3)
@@ -101,7 +101,7 @@ namespace NHS111.SmokeTests.Regression
         //PT8 via Behaviour Change Tx221449 and Tx222008
         public void Pt8ViaBehaviourChangeTx221449Tx222008()
         {
-            var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Behaviour Change", TestScenerioGender.Male, TestScenerioAgeGroups.Adult);
+            var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Behaviour Change", TestScenerioSex.Male, TestScenerioAgeGroups.Adult);
 
             var outcomePage = questionPage
                 .AnswerSuccessiveNo(3)
@@ -117,7 +117,7 @@ namespace NHS111.SmokeTests.Regression
         //PT8 via Behaviour Change Tx221449 and Tx222009
         public void Pt8ViaBehaviourChangeTx221449Tx222009()
         {
-            var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Behaviour Change", TestScenerioGender.Male, TestScenerioAgeGroups.Adult);
+            var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Behaviour Change", TestScenerioSex.Male, TestScenerioAgeGroups.Adult);
 
             var outcomePage = questionPage
                 .AnswerSuccessiveNo(3)
@@ -133,7 +133,7 @@ namespace NHS111.SmokeTests.Regression
         //PT8 via Behaviour Change Tx222023 and Tx222006
         public void Pt8ViaBehaviourChangeTx222023Tx222006()
         {
-            var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Behaviour Change", TestScenerioGender.Male, TestScenerioAgeGroups.Adult);
+            var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Behaviour Change", TestScenerioSex.Male, TestScenerioAgeGroups.Adult);
 
             var outcomePage = questionPage
                 .AnswerSuccessiveNo(3)
@@ -151,7 +151,7 @@ namespace NHS111.SmokeTests.Regression
         //PT8 via Behaviour Change Tx222023 and Tx222007
         public void Pt8ViaBehaviourChangeTx222023Tx222007()
         {
-            var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Behaviour Change", TestScenerioGender.Male, TestScenerioAgeGroups.Adult);
+            var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Behaviour Change", TestScenerioSex.Male, TestScenerioAgeGroups.Adult);
 
             var outcomePage = questionPage
                 .AnswerSuccessiveNo(3)
@@ -169,7 +169,7 @@ namespace NHS111.SmokeTests.Regression
         //PT8 via Behaviour Change Tx222023 and Tx222008
         public void Pt8ViaBehaviourChangeTx222023Tx222008()
         {
-            var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Behaviour Change", TestScenerioGender.Male, TestScenerioAgeGroups.Adult);
+            var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Behaviour Change", TestScenerioSex.Male, TestScenerioAgeGroups.Adult);
 
             var outcomePage = questionPage
                 .AnswerSuccessiveNo(3)
@@ -186,7 +186,7 @@ namespace NHS111.SmokeTests.Regression
         //PT8 via Behaviour Change Tx222024 and Tx222006
         public void Pt8ViaBehaviourChangeTx222024Tx222006()
         {
-            var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Behaviour Change", TestScenerioGender.Male, TestScenerioAgeGroups.Adult);
+            var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Behaviour Change", TestScenerioSex.Male, TestScenerioAgeGroups.Adult);
 
             var outcomePage = questionPage
                 .AnswerSuccessiveNo(3)
@@ -204,7 +204,7 @@ namespace NHS111.SmokeTests.Regression
         //PT8 via Behaviour Change Tx222024 and Tx222007
         public void Pt8ViaBehaviourChangeTx222024Tx222007()
         {
-            var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Behaviour Change", TestScenerioGender.Male, TestScenerioAgeGroups.Adult);
+            var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Behaviour Change", TestScenerioSex.Male, TestScenerioAgeGroups.Adult);
 
             var outcomePage = questionPage
                 .AnswerSuccessiveNo(3)
@@ -222,7 +222,7 @@ namespace NHS111.SmokeTests.Regression
         //PT8 via Behaviour Change Tx222024 and Tx222008
         public void Pt8ViaBehaviourChangeTx222024Tx222008()
         {
-            var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Behaviour Change", TestScenerioGender.Male, TestScenerioAgeGroups.Adult);
+            var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Behaviour Change", TestScenerioSex.Male, TestScenerioAgeGroups.Adult);
 
             var outcomePage = questionPage
                 .AnswerSuccessiveNo(3)
@@ -239,7 +239,7 @@ namespace NHS111.SmokeTests.Regression
         //PT8 via Behaviour Change Tx222025 and Tx222006
         public void Pt8ViaBehaviourChangeTx222025Tx222006()
         {
-            var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Behaviour Change", TestScenerioGender.Male, TestScenerioAgeGroups.Adult);
+            var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Behaviour Change", TestScenerioSex.Male, TestScenerioAgeGroups.Adult);
 
             var outcomePage = questionPage
                 .AnswerSuccessiveNo(3)
@@ -257,7 +257,7 @@ namespace NHS111.SmokeTests.Regression
         //PT8 via Behaviour Change Tx222025 and Tx222007
         public void Pt8ViaBehaviourChangeTx222025Tx222007()
         {
-            var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Behaviour Change", TestScenerioGender.Male, TestScenerioAgeGroups.Adult);
+            var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Behaviour Change", TestScenerioSex.Male, TestScenerioAgeGroups.Adult);
 
             var outcomePage = questionPage
                 .AnswerSuccessiveNo(3)
@@ -275,7 +275,7 @@ namespace NHS111.SmokeTests.Regression
         //PT8 via Behaviour Change Tx222025 and Tx222008
         public void Pt8ViaBehaviourChangeTx222025Tx222008()
         {
-            var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Behaviour Change", TestScenerioGender.Male, TestScenerioAgeGroups.Adult);
+            var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Behaviour Change", TestScenerioSex.Male, TestScenerioAgeGroups.Adult);
 
             var outcomePage = questionPage
                 .AnswerSuccessiveNo(3)
@@ -292,7 +292,7 @@ namespace NHS111.SmokeTests.Regression
         //PT8 via Behaviour Change Tx222026 and Tx222006
         public void Pt8ViaBehaviourChangeTx222026Tx222006()
         {
-            var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Behaviour Change", TestScenerioGender.Male, TestScenerioAgeGroups.Adult);
+            var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Behaviour Change", TestScenerioSex.Male, TestScenerioAgeGroups.Adult);
 
             var outcomePage = questionPage
                 .AnswerSuccessiveNo(3)
@@ -310,7 +310,7 @@ namespace NHS111.SmokeTests.Regression
         //PT8 via Behaviour Change Tx222026 and Tx222007
         public void Pt8ViaBehaviourChangeTx222026Tx222007()
         {
-            var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Behaviour Change", TestScenerioGender.Male, TestScenerioAgeGroups.Adult);
+            var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Behaviour Change", TestScenerioSex.Male, TestScenerioAgeGroups.Adult);
 
             var outcomePage = questionPage
                 .AnswerSuccessiveNo(3)
@@ -328,7 +328,7 @@ namespace NHS111.SmokeTests.Regression
         //PT8 via Behaviour Change Tx222026 and Tx222008
         public void Pt8ViaBehaviourChangeTx222026Tx222008()
         {
-            var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Behaviour Change", TestScenerioGender.Male, TestScenerioAgeGroups.Adult);
+            var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Behaviour Change", TestScenerioSex.Male, TestScenerioAgeGroups.Adult);
 
             var outcomePage = questionPage
                 .AnswerSuccessiveNo(3)
@@ -345,7 +345,7 @@ namespace NHS111.SmokeTests.Regression
         //PT8 via Behaviour Change Tx222027 and Tx222006
         public void Pt8ViaBehaviourChangeTx222027Tx222006()
         {
-            var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Behaviour Change", TestScenerioGender.Male, TestScenerioAgeGroups.Adult);
+            var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Behaviour Change", TestScenerioSex.Male, TestScenerioAgeGroups.Adult);
 
             var outcomePage = questionPage
                 .AnswerSuccessiveNo(3)
@@ -363,7 +363,7 @@ namespace NHS111.SmokeTests.Regression
         //PT8 via Behaviour Change Tx222027 and Tx222007
         public void Pt8ViaBehaviourChangeTx222027Tx222007()
         {
-            var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Behaviour Change", TestScenerioGender.Male, TestScenerioAgeGroups.Adult);
+            var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Behaviour Change", TestScenerioSex.Male, TestScenerioAgeGroups.Adult);
 
             var outcomePage = questionPage
                 .AnswerSuccessiveNo(3)
@@ -381,7 +381,7 @@ namespace NHS111.SmokeTests.Regression
         //PT8 via Behaviour Change Tx222027 and Tx222008
         public void Pt8ViaBehaviourChangeTx222027Tx222008()
         {
-            var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Behaviour Change", TestScenerioGender.Male, TestScenerioAgeGroups.Adult);
+            var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Behaviour Change", TestScenerioSex.Male, TestScenerioAgeGroups.Adult);
 
             var outcomePage = questionPage
                 .AnswerSuccessiveNo(3)
@@ -398,7 +398,7 @@ namespace NHS111.SmokeTests.Regression
         //PT8 via Behaviour Change Tx222028 and Tx222006
         public void Pt8ViaBehaviourChangeTx222028Tx222006()
         {
-            var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Behaviour Change", TestScenerioGender.Male, TestScenerioAgeGroups.Adult);
+            var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Behaviour Change", TestScenerioSex.Male, TestScenerioAgeGroups.Adult);
 
             var outcomePage = questionPage
                 .AnswerSuccessiveNo(3)
@@ -416,7 +416,7 @@ namespace NHS111.SmokeTests.Regression
         //PT8 via Behaviour Change Tx222027 and Tx222007
         public void Pt8ViaBehaviourChangeTx222028Tx222007()
         {
-            var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Behaviour Change", TestScenerioGender.Male, TestScenerioAgeGroups.Adult);
+            var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Behaviour Change", TestScenerioSex.Male, TestScenerioAgeGroups.Adult);
 
             var outcomePage = questionPage
                 .AnswerSuccessiveNo(3)
@@ -434,7 +434,7 @@ namespace NHS111.SmokeTests.Regression
         //PT8 via Behaviour Change Tx222027 and Tx222008
         public void Pt8ViaBehaviourChangeTx222028Tx222008()
         {
-            var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Behaviour Change", TestScenerioGender.Male, TestScenerioAgeGroups.Adult);
+            var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Behaviour Change", TestScenerioSex.Male, TestScenerioAgeGroups.Adult);
 
             var outcomePage = questionPage
                 .AnswerSuccessiveNo(3)
@@ -451,7 +451,7 @@ namespace NHS111.SmokeTests.Regression
         //PT8 via Behaviour Change Tx222031 and Tx222006
         public void Pt8ViaBehaviourChangeTx222031Tx222006()
         {
-            var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Behaviour Change", TestScenerioGender.Male, TestScenerioAgeGroups.Adult);
+            var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Behaviour Change", TestScenerioSex.Male, TestScenerioAgeGroups.Adult);
 
             var outcomePage = questionPage
                 .AnswerSuccessiveNo(3)
@@ -469,7 +469,7 @@ namespace NHS111.SmokeTests.Regression
         //PT8 via Behaviour Change Tx222031 and Tx222007
         public void Pt8ViaBehaviourChangeTx222031Tx222007()
         {
-            var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Behaviour Change", TestScenerioGender.Male, TestScenerioAgeGroups.Adult);
+            var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Behaviour Change", TestScenerioSex.Male, TestScenerioAgeGroups.Adult);
 
             var outcomePage = questionPage
                 .AnswerSuccessiveNo(3)
@@ -487,7 +487,7 @@ namespace NHS111.SmokeTests.Regression
         //PT8 via Behaviour Change Tx222031 and Tx222008
         public void Pt8ViaBehaviourChangeTx222031Tx222008()
         {
-            var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Behaviour Change", TestScenerioGender.Male, TestScenerioAgeGroups.Adult);
+            var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Behaviour Change", TestScenerioSex.Male, TestScenerioAgeGroups.Adult);
 
             var outcomePage = questionPage
                 .AnswerSuccessiveNo(3)
@@ -504,7 +504,7 @@ namespace NHS111.SmokeTests.Regression
         //PT8 via Behaviour Change Tx222048 and Tx222006
         public void Pt8ViaBehaviourChangeTx222048Tx222006()
         {
-            var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Behaviour Change", TestScenerioGender.Male, TestScenerioAgeGroups.Adult);
+            var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Behaviour Change", TestScenerioSex.Male, TestScenerioAgeGroups.Adult);
 
             var outcomePage = questionPage
                 .AnswerSuccessiveNo(3)
@@ -522,7 +522,7 @@ namespace NHS111.SmokeTests.Regression
         //PT8 via Behaviour Change Tx222048 and Tx222007
         public void Pt8ViaBehaviourChangeTx222048Tx222007()
         {
-            var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Behaviour Change", TestScenerioGender.Male, TestScenerioAgeGroups.Adult);
+            var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Behaviour Change", TestScenerioSex.Male, TestScenerioAgeGroups.Adult);
 
             var outcomePage = questionPage
                 .AnswerSuccessiveNo(3)
@@ -540,7 +540,7 @@ namespace NHS111.SmokeTests.Regression
         //PT8 via Behaviour Change Tx222048 and Tx222008
         public void Pt8ViaBehaviourChangeTx222048Tx222008()
         {
-            var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Behaviour Change", TestScenerioGender.Male, TestScenerioAgeGroups.Adult);
+            var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Behaviour Change", TestScenerioSex.Male, TestScenerioAgeGroups.Adult);
 
             var outcomePage = questionPage
                 .AnswerSuccessiveNo(3)
@@ -557,7 +557,7 @@ namespace NHS111.SmokeTests.Regression
         //PT8 via Behaviour Change Tx222049 and Tx222006
         public void Pt8ViaBehaviourChangeTx222049Tx222006()
         {
-            var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Behaviour Change", TestScenerioGender.Male, TestScenerioAgeGroups.Adult);
+            var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Behaviour Change", TestScenerioSex.Male, TestScenerioAgeGroups.Adult);
 
             var outcomePage = questionPage
                 .AnswerSuccessiveNo(3)
@@ -575,7 +575,7 @@ namespace NHS111.SmokeTests.Regression
         //PT8 via Behaviour Change Tx222049 and Tx222007
         public void Pt8ViaBehaviourChangeTx222049Tx222007()
         {
-            var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Behaviour Change", TestScenerioGender.Male, TestScenerioAgeGroups.Adult);
+            var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Behaviour Change", TestScenerioSex.Male, TestScenerioAgeGroups.Adult);
 
             var outcomePage = questionPage
                 .AnswerSuccessiveNo(3)
@@ -593,7 +593,7 @@ namespace NHS111.SmokeTests.Regression
         //PT8 via Behaviour Change Tx222049 and Tx222008
         public void Pt8ViaBehaviourChangeTx222049Tx222008()
         {
-            var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Behaviour Change", TestScenerioGender.Male, TestScenerioAgeGroups.Adult);
+            var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Behaviour Change", TestScenerioSex.Male, TestScenerioAgeGroups.Adult);
 
             var outcomePage = questionPage
                 .AnswerSuccessiveNo(3)
@@ -610,7 +610,7 @@ namespace NHS111.SmokeTests.Regression
         //PT8 via Headache Tx222027 and Tx222006 FA
         public void Pt8ViaHeadacheTx222027Tx222006Fa()
         {
-            var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Headache", TestScenerioGender.Female, TestScenerioAgeGroups.Adult);
+            var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Headache", TestScenerioSex.Female, TestScenerioAgeGroups.Adult);
 
             var outcomePage = questionPage
                 .AnswerYes()
@@ -636,7 +636,7 @@ namespace NHS111.SmokeTests.Regression
         //PT8 via Headache Tx222027 and Tx222006 MC
         public void Pt8ViaHeadacheTx222027Tx222006Mc()
         {
-            var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Headache", TestScenerioGender.Male, TestScenerioAgeGroups.Child);
+            var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Headache", TestScenerioSex.Male, TestScenerioAgeGroups.Child);
 
             var outcomePage = questionPage
                 .AnswerSuccessiveByOrder(3, 3)
@@ -660,7 +660,7 @@ namespace NHS111.SmokeTests.Regression
         //PT8 via Headache Tx222027 and Tx222006
         public void Pt8ViaHeadacheTx222027Tx222006()
         {
-            var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Headache", TestScenerioGender.Male, TestScenerioAgeGroups.Adult);
+            var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Headache", TestScenerioSex.Male, TestScenerioAgeGroups.Adult);
 
             var outcomePage = questionPage
                 .AnswerSuccessiveByOrder(3, 3)
@@ -685,7 +685,7 @@ namespace NHS111.SmokeTests.Regression
         //PT8 via Headache Tx222027 and Tx222007 FA
         public void Pt8ViaHeadacheTx222027Tx222007Fa()
         {
-            var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Headache", TestScenerioGender.Female, TestScenerioAgeGroups.Adult);
+            var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Headache", TestScenerioSex.Female, TestScenerioAgeGroups.Adult);
 
             var outcomePage = questionPage
                 .AnswerYes()
@@ -711,7 +711,7 @@ namespace NHS111.SmokeTests.Regression
         //PT8 via Headache Tx222027 and Tx222007 MC
         public void Pt8ViaHeadacheTx222027Tx222007Mc()
         {
-            var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Headache", TestScenerioGender.Male, TestScenerioAgeGroups.Child);
+            var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Headache", TestScenerioSex.Male, TestScenerioAgeGroups.Child);
 
             var outcomePage = questionPage
                 .AnswerSuccessiveByOrder(3, 3)
@@ -735,7 +735,7 @@ namespace NHS111.SmokeTests.Regression
         //PT8 via Headache Tx222027 and Tx222007
         public void Pt8ViaHeadacheTx222027Tx222007()
         {
-            var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Headache", TestScenerioGender.Male, TestScenerioAgeGroups.Adult);
+            var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Headache", TestScenerioSex.Male, TestScenerioAgeGroups.Adult);
 
             var outcomePage = questionPage
                 .AnswerSuccessiveByOrder(3, 3)
@@ -760,7 +760,7 @@ namespace NHS111.SmokeTests.Regression
         //PT8 via Headache Tx222031 and Tx222006 FA
         public void Pt8ViaHeadacheTx222031Tx222006Fa()
         {
-            var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Headache", TestScenerioGender.Female, TestScenerioAgeGroups.Adult);
+            var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Headache", TestScenerioSex.Female, TestScenerioAgeGroups.Adult);
 
             var outcomePage = questionPage
                 .AnswerYes()
@@ -786,7 +786,7 @@ namespace NHS111.SmokeTests.Regression
         //PT8 via Headache Tx222031 and Tx222006 MC
         public void Pt8ViaHeadacheTx222031Tx222006Mc()
         {
-            var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Headache", TestScenerioGender.Male, TestScenerioAgeGroups.Child);
+            var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Headache", TestScenerioSex.Male, TestScenerioAgeGroups.Child);
 
             var outcomePage = questionPage
                 .AnswerSuccessiveByOrder(3, 3)
@@ -810,7 +810,7 @@ namespace NHS111.SmokeTests.Regression
         //PT8 via Headache Tx222031 and Tx222006
         public void Pt8ViaHeadacheTx222031Tx222006()
         {
-            var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Headache", TestScenerioGender.Male, TestScenerioAgeGroups.Adult);
+            var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Headache", TestScenerioSex.Male, TestScenerioAgeGroups.Adult);
 
             var outcomePage = questionPage
                 .AnswerSuccessiveByOrder(3, 3)
@@ -835,7 +835,7 @@ namespace NHS111.SmokeTests.Regression
         //PT8 via Tremor via Age variable and 2 strings
         public void Pt8ViaTremorViaAgeVariable2Strings()
         {
-            var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Tremor", TestScenerioGender.Male, 13);
+            var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Tremor", TestScenerioSex.Male, 13);
 
             var outcomePage = questionPage
                 .AnswerNo()
@@ -848,7 +848,7 @@ namespace NHS111.SmokeTests.Regression
             var genderPage = outcomePage.NavigateBackToGenderPage();
 
             genderPage.VerifyHeader();
-            genderPage.SelectGenderAndAge(TestScenerioGender.Male, 14);
+            genderPage.SelectSexAndAge(TestScenerioSex.Male, 14);
 
             var searchpage = genderPage.NextPage();
             var newQuestionPage = searchpage.TypeSearchTextAndSelect("Tremor");

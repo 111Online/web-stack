@@ -31,7 +31,7 @@ namespace NHS111.SmokeTests
         {
             foreach (var testTerm in _testTerms)
             {
-                var searchPage = TestScenerios.LaunchSearchScenerio(Driver, TestScenerioGender.Male, 33);
+                var searchPage = TestScenerios.LaunchSearchScenerio(Driver, TestScenerioSex.Male, 33);
                 searchPage.SearchByTerm(testTerm.Item1);
                 searchPage.VerifyTermHits(testTerm.Item2, 3);
             } 

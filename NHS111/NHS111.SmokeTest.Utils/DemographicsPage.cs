@@ -38,15 +38,15 @@ namespace NHS111.SmokeTest.Utils
         {
         }
 
-        public void SelectGenderAndAge(string gender, int age)
+        public void SelectSexAndAge(string sex, int age)
         {
-            SelectGender(gender);
+            SelectSex(sex);
             SetAge(age);
         }
 
-        public void SelectGender(string gender)
+        public void SelectSex(string sex)
         {
-            if (gender == TestScenerioGender.Male)
+            if (sex == TestScenerioSex.Male)
                 MaleButton.Click();
             else
                 FemaleButton.Click();
@@ -69,9 +69,9 @@ namespace NHS111.SmokeTest.Utils
             return new SearchPage(Driver);
         }
 
-        public void VerifyAgeInputBox(string gender, string age)
+        public void VerifyAgeInputBox(string sex, string age)
         {
-            SelectGender(gender);
+            SelectSex(sex);
             AgeInput.SendKeys(age);
             NextButton.Submit();
 
@@ -90,16 +90,16 @@ namespace NHS111.SmokeTest.Utils
 
         public void VerifyNoAgeValidation(string sex)
         {
-            SelectGender(sex);
+            SelectSex(sex);
             NextButton.Submit();
 
             Assert.IsTrue(AgeValidationMessageElement.Displayed);
             Assert.AreEqual(_ageNotEnteredValidationMessage, AgeValidationMessageElement.Text);
         }
 
-        public void VerifyTooOldAgeShowsValidation(string gender, int age)
+        public void VerifyTooOldAgeShowsValidation(string sex, int age)
         {
-            SelectGender(gender);
+            SelectSex(sex);
             SetAge(age);
             NextButton.Submit();
 
@@ -107,9 +107,9 @@ namespace NHS111.SmokeTest.Utils
             Assert.AreEqual(_ageValidationMessageTooOld, AgeValidationMessageElement.Text);
         }
 
-        public void VerifyTooYoungAgeShowsValidation(string gender, int age)
+        public void VerifyTooYoungAgeShowsValidation(string sex, int age)
         {
-            SelectGender(gender);
+            SelectSex(sex);
             SetAge(age);
             NextButton.Submit();
 

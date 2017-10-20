@@ -46,7 +46,7 @@ namespace NHS111.SmokeTest.Utils
         public void VerifyExpandableLink()
         {
             FirstExpandableLink.Click();
-            Assert.AreEqual(FirstExpandableLinkExpanded.Text, _firstExpandableLinkHiddenText);
+            Assert.AreEqual(_firstExpandableLinkHiddenText, FirstExpandableLinkExpanded.Text);
             Assert.IsTrue(FirstExpandableLinkExpanded.Displayed);
         }
     }

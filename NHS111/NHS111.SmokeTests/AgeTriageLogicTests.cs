@@ -8,7 +8,7 @@ namespace NHS111.SmokeTests
         [Test]
         public void AgeTriageLogic_Over10()
         {
-            var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Rectal Bleeding", TestScenerioGender.Female, 11);
+            var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Rectal Bleeding", TestScenerioSex.Female, 11);
 
             var outcomePage = questionPage
                 .AnswerSuccessiveByOrder(1, 2)
@@ -25,7 +25,7 @@ namespace NHS111.SmokeTests
         [Test]
         public void AgeTriageLogic_Over55()
         {
-            var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Rectal Bleeding", TestScenerioGender.Female, 56);
+            var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Rectal Bleeding", TestScenerioSex.Female, 56);
 
             questionPage.VerifyQuestion("Do you have any pain in your tummy (abdomen) as well as bleeding from your bottom (rectal bleeding)?");
             var outcomePage = questionPage.AnswerAndVerifyQuestion(1, "How bad is your pain?")
@@ -44,7 +44,7 @@ namespace NHS111.SmokeTests
         [Test]
         public void AgeTriageLogic_Under11()
         {
-            var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Rectal Bleeding", TestScenerioGender.Female, 10);
+            var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Rectal Bleeding", TestScenerioSex.Female, 10);
 
             var outcomePage = questionPage
                 .AnswerSuccessiveByOrder(1, 2)
