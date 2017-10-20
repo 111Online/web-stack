@@ -1,18 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using NHS111.SmokeTest.Utils;
+﻿using NHS111.SmokeTest.Utils;
 using NUnit.Framework;
 
-namespace NHS111.SmokeTests.Regression
+namespace NHS111.SmokeTests
 {
-    public class AgeTests : BaseTests
+    public class AgeTriageLogicTests : BaseTests
     {
         [Test]
-        //age logic over 10 staging
-        public void AgeLogicOver10()
+        public void AgeTriageLogic_Over10()
         {
             var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Rectal Bleeding", TestScenerioGender.Female, 11);
 
@@ -29,8 +23,7 @@ namespace NHS111.SmokeTests.Regression
         }
 
         [Test]
-        //age logic over 55 staging
-        public void AgeLogicOver55()
+        public void AgeTriageLogic_Over55()
         {
             var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Rectal Bleeding", TestScenerioGender.Female, 56);
 
@@ -49,8 +42,7 @@ namespace NHS111.SmokeTests.Regression
         }
 
         [Test]
-        //age logic under 11 staging
-        public void AgeLogicUnder11()
+        public void AgeTriageLogic_Under11()
         {
             var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Rectal Bleeding", TestScenerioGender.Female, 10);
 
