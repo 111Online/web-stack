@@ -30,6 +30,18 @@ namespace NHS111.SmokeTests
             GetDemographicsPage().VerifyTooYoungAgeShowsValidation(TestScenerioGender.Male, 4);
         }
 
+        [Test]
+        public void DemographicsPage_NoSexSelectionShowsValidation()
+        {
+            GetDemographicsPage().VerifyNoSexValidation(20);
+        }
+
+        [Test]
+        public void DemographicsPage_NoAgeEnteredShowsValidation()
+        {
+            GetDemographicsPage().VerifyNoAgeValidation(TestScenerioGender.Male);
+        }
+
         private DemographicsPage GetDemographicsPage()
         {
             var homePage = TestScenarioPart.HomePage(Driver);

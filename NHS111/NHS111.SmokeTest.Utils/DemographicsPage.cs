@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿
 using NUnit.Framework;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.PageObjects;
@@ -14,6 +10,8 @@ namespace NHS111.SmokeTest.Utils
         private string _headerText = "Tell us about you, or the person you're asking about";
         private string _ageValidationMessageTooOld = "Please enter a value less than or equal to 200.";
         private string _ageValidationMessageTooYoung = "Sorry, this service is not available for children under 5 years of age, for medical advice please call 111.";
+        private string _sexValidationMessage = "Please select a sex";
+        private string _ageNotEnteredValidationMessage = "'Age' must not be empty.";
 
         [FindsBy(How = How.CssSelector, Using = "h1")]
         private IWebElement Header { get; set; }
@@ -30,6 +28,9 @@ namespace NHS111.SmokeTest.Utils
         [FindsBy(How = How.CssSelector, Using = "span[for='UserInfo_Demography_Age']")]
         private IWebElement AgeValidationMessageElement { get; set; }
 
+        [FindsBy(How = How.CssSelector, Using = "span[data-valmsg-for='UserInfo.Demography.Gender']")]
+        private IWebElement SexValidationMessageElement { get; set; }
+
         [FindsBy(How = How.ClassName, Using = "button--next")]
         private IWebElement NextButton { get; set; }
 
@@ -45,7 +46,7 @@ namespace NHS111.SmokeTest.Utils
 
         public void SelectGender(string gender)
         {
-            if (gender == DemographicsPage.Male)
+            if (gender == TestScenerioGender.Male)
                 MaleButton.Click();
             else
                 FemaleButton.Click();
@@ -78,6 +79,24 @@ namespace NHS111.SmokeTest.Utils
             searchPage.Verify();
         }
 
+        public void VerifyNoSexValidation(int age)
+        {
+            SetAge(age);
+            NextButton.Submit();
+
+            Assert.IsTrue(SexValidationMessageElement.Displayed);
+            Assert.AreEqual(_sexValidationMessage, SexValidationMessageElement.Text);
+        }
+
+        public void VerifyNoAgeValidation(string sex)
+        {
+            SelectGender(sex);
+            NextButton.Submit();
+
+            Assert.IsTrue(AgeValidationMessageElement.Displayed);
+            Assert.AreEqual(_ageNotEnteredValidationMessage, AgeValidationMessageElement.Text);
+        }
+
         public void VerifyTooOldAgeShowsValidation(string gender, int age)
         {
             SelectGender(gender);
@@ -85,7 +104,7 @@ namespace NHS111.SmokeTest.Utils
             NextButton.Submit();
 
             Assert.IsTrue(AgeValidationMessageElement.Displayed);
-            Assert.AreEqual(AgeValidationMessageElement.Text, _ageValidationMessageTooOld);
+            Assert.AreEqual(_ageValidationMessageTooOld, AgeValidationMessageElement.Text);
         }
 
         public void VerifyTooYoungAgeShowsValidation(string gender, int age)
@@ -95,10 +114,7 @@ namespace NHS111.SmokeTest.Utils
             NextButton.Submit();
 
             Assert.IsTrue(AgeValidationMessageElement.Displayed);
-            Assert.AreEqual(AgeValidationMessageElement.Text, _ageValidationMessageTooYoung);
+            Assert.AreEqual(_ageValidationMessageTooYoung, AgeValidationMessageElement.Text);
         }
-
-        public static string Male = "Male";
-        public static string Female = "Female";
     }
 }
