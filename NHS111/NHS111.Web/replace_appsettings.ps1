@@ -24,3 +24,5 @@ $xml.Save($configPath)
 (Get-Content $configPath).replace('#{AuthenticationExcludeContentVerb}', [Environment]::GetEnvironmentVariable('AuthenticationExcludeContentVerb')) | Set-Content $configPath
 (Get-Content $configPath).replace('#{AuthenticationExcludeScriptList}', [Environment]::GetEnvironmentVariable('AuthenticationExcludeScriptList')) | Set-Content $configPath
 (Get-Content $configPath).replace('#{AuthenticationExcludeScriptVerb}', [Environment]::GetEnvironmentVariable('AuthenticationExcludeScriptVerb')) | Set-Content $configPath
+
+$xml.Save($configPath)

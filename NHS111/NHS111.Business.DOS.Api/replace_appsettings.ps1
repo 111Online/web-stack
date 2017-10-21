@@ -17,3 +17,5 @@ ForEach($add in $xml.configuration.appSettings.add)
 		$add.value = $matchingEnvVar
 	}
 }
+
+$xml.Save($configPath)
