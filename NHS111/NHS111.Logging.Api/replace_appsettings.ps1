@@ -19,3 +19,9 @@ ForEach($add in $xml.configuration.appSettings.add)
 }
 
 $xml.Save($configPath)
+
+(Get-Content $configPath).replace('#{TableStorageAccountName}', [Environment]::GetEnvironmentVariable('AuthenticationExcludeContentList')) | Set-Content $configPath
+(Get-Content $configPath).replace('#{TableStorageAccountKey}', [Environment]::GetEnvironmentVariable('AuthenticationExcludeContentVerb')) | Set-Content $configPath
+(Get-Content $configPath).replace('#{TableStorageName}', [Environment]::GetEnvironmentVariable('AuthenticationExcludeScriptList')) | Set-Content $configPath
+
+$xml.Save($configPath)

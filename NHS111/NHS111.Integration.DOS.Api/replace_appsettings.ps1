@@ -21,3 +21,5 @@ ForEach($add in $xml.configuration.appSettings.add)
 $xml.Save($configPath)
 
 (Get-Content $configPath).replace('#{DOSServiceURI}', [Environment]::GetEnvironmentVariable('DOSServiceURI')) | Set-Content $configPath
+
+$xml.Save($configPath)

@@ -464,6 +464,7 @@
       <DependentUpon>Dockerfile</DependentUpon>
     </None>
     <Content Include="Views\Shared\_CompatibilityBanner.cshtml" />
+    <Content Include="replace_appsettings.ps1" />
     <None Include="Web.Development.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
