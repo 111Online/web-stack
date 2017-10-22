@@ -1,4 +1,4 @@
-/// <binding ProjectOpened='build:fractal, dev' />
+/// <binding ProjectOpened='build:fractal, dev, fractal:start' />
 const path = require('path'),
     gulp = require('gulp'),
     runSequence = require('run-sequence'),
@@ -20,7 +20,8 @@ const path = require('path'),
     fs = require('fs'),
     concat = require('gulp-concat'),
     sourcemaps = require('gulp-sourcemaps'),
-    webpack = require('gulp-webpack')
+    webpack = require('gulp-webpack'),
+    pipedWebpack = require('piped-webpack')
 
 // Paths
 const paths = {
@@ -151,9 +152,9 @@ gulp.task('compile:styles:dist', () => {
 
 
 gulp.task('compile:scripts', () => {
-    webpack(require('./webpack.config.js'))
-    return gulp.src([`${paths.distFractalAssets}/js/bundle.js`, `${paths.distFractalAssets}/js/polyfills.js`])
-        .pipe(gulp.dest(`${paths.distAssets}/js`));
+    return gulp.src([])
+               .pipe(pipedWebpack(require('./webpack.config.js')))
+               .pipe(gulp.dest(`${paths.distAssets}/js`)).pipe(gulp.dest(`${paths.distFractalAssets}/js`))
 });
 
 gulp.task('fractal:start', function () {
@@ -174,7 +175,7 @@ gulp.task('build:fractal', cb => {
 gulp.task('build:dist', cb => {
   runSequence(
     ['copy:styles:dist', 'copy:styles:components:dist', 'copy:images'],
-    'inject:styles:dist', 'compile:styles:dist', 'lint:styles-graph',
+      'inject:styles:dist', 'compile:styles:dist', 'compile:scripts', 'lint:styles-graph',
     cb
   )
 })
@@ -183,15 +184,16 @@ gulp.task('build', cb => {
   runSequence('build:fractal', 'build:dist', cb)
 })
 
-gulp.task('watch:styles', function () {
+gulp.task('watch', function () {
   return gulp.watch(
     [
       `${paths.srcScss}/**/*.scss`,
-      `${paths.fractalScss}/**/*.scss`
+      `${paths.fractalScss}/**/*.scss`,
+      `src/js/**/*.js`
     ],
     ['build']
   )
 })
 
 gulp.task('default', ['build'])
-gulp.task('dev', ['build','watch:styles'])
+gulp.task('dev', ['build','watch'])

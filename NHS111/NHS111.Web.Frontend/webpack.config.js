@@ -5,11 +5,11 @@ const path = require('path'),
 
 module.exports = {
     entry: {
-        'bundle': './src/js/main.js',
-        'polyfills': './src/js/polyfills.js'
+        'bundle-head': './src/js/entry-head.js',
+        'bundle': './src/js/entry-main.js',
+        'bundle-polyfills': './src/js/entry-polyfills.js'
     },
     output: {
-        path: path.resolve(__dirname, './content/js/'),
         filename: '[name].js'
     },
     plugins: [
