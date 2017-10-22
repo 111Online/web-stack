@@ -21,7 +21,8 @@ const path = require('path'),
     concat = require('gulp-concat'),
     sourcemaps = require('gulp-sourcemaps'),
     webpack = require('gulp-webpack'),
-    pipedWebpack = require('piped-webpack')
+    pipedWebpack = require('piped-webpack'),
+    eslint = require('gulp-eslint')
 
 // Paths
 const paths = {
@@ -82,6 +83,13 @@ gulp.task('lint:styles', () => {
         {formatter: 'string', console: true},
       ]
     }))
+})
+
+gulp.task('lint:scripts', () => {
+    return gulp.src([`${__dirname}/src/js/**/*.js`, `!${__dirname}/src/js/vendor/*.js`, '!node_modules/**'])
+        .pipe(eslint())
+        .pipe(eslint.format())
+        .pipe(eslint.failAfterError());
 })
 
 gulp.task('lint:styles-graph', function () {

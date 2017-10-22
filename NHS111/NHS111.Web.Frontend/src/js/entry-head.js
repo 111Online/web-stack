@@ -4,5 +4,5 @@
  * of page load. The rest go at the end, for performance.
  */
 
-$ = jQuery = require('jquery')
-Spinner = require('./vendor/spin.js')
+global.$ = global.jQuery = require('jquery')
+global.Spinner = require('./vendor/spin.js')
