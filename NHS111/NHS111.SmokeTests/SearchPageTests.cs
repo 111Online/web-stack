@@ -30,12 +30,20 @@ namespace NHS111.SmokeTests
         }
 
         [Test]
-        public void SearchPage_NoReultsValidation()
+        public void SearchPage_NoResultsValidation()
         {
             var searchPage = TestScenerios.LaunchSearchScenerio(Driver, TestScenerioSex.Male, 30);
             const string noResultsSearchTerm = "g0bb13dyg00k";
             searchPage.SearchByTerm(noResultsSearchTerm);
-            searchPage.VerifyNoResultsValidaion(noResultsSearchTerm);
+            searchPage.VerifyNoResultsValidation(noResultsSearchTerm);
+        }
+
+        [Test]
+        public void SearchPage_NoInputValidation()
+        {
+            var searchPage = TestScenerios.LaunchSearchScenerio(Driver, TestScenerioSex.Male, 30);
+            searchPage.SearchByTerm(string.Empty);
+            searchPage.VerifyNoInputValidation();
         }
     }
 }

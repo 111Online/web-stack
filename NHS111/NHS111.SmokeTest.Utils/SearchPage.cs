@@ -101,10 +101,15 @@ namespace NHS111.SmokeTest.Utils
             Assert.AreEqual(searchTerm.ToLower(), firstSearchResultLink.Text.ToLower());
         }
 
-        public void VerifyNoResultsValidaion(string searchTerm)
+        public void VerifyNoResultsValidation(string searchTerm)
         {
             var headerTwos = Driver.FindElements(By.CssSelector("h2"));
             Assert.AreEqual("Sorry, there are no results for '" + searchTerm + "'.", headerTwos[0].Text);
+        }
+
+        public void VerifyNoInputValidation()
+        {
+            
         }
 
         private QuestionPage ClickNextButton()
