@@ -37,25 +37,25 @@
 </div>
 <script>
 
-    var maxLength = @maxFeedbackLength;
-    $('.feedback-input').keyup(function () {
-        var length = $(this).val().length;
-        var length = maxLength - length;
-        $('#textdetailscounter').text(length + ' characters remaining (limit is ' + @maxFeedbackLength + ' characters)');
-    });
-
-    $('.feedback-container .icon-close').click(function () {
-        $('.feedback-wrapper').slideToggle();
-    });
-
-    $('.feedback-input').focus(function () {
-        $(this).animate({
-            //width: "70%",
-            //height: "70%"
+    jQuery(function () {
+        var maxLength = @maxFeedbackLength;
+        $('.feedback-input').keyup(function () {
+            var length = $(this).val().length;
+            var length = maxLength - length;
+            $('#textdetailscounter').text(length + ' characters remaining (limit is ' + @maxFeedbackLength + ' characters)');
         });
-    });
 
-    $(document).ready(function () {
+        $('.feedback-container .icon-close').click(function () {
+            $('.feedback-wrapper').slideToggle();
+        });
+
+        $('.feedback-input').focus(function () {
+            $(this).animate({
+                //width: "70%",
+                //height: "70%"
+            });
+        });
+
         $('.feedback-wrapper').show();
         $('.feedback-input').autogrow({ vertical: true, horizontal: false });
     });
