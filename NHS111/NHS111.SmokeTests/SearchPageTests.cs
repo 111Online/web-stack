@@ -14,11 +14,21 @@ namespace NHS111.SmokeTests
         }
 
         [Test]
+        public void SearchPage_SelectFirstResultStartsPathway()
+        {
+            var searchPage = TestScenerios.LaunchSearchScenerio(Driver, TestScenerioSex.Male, 30);
+            const string pathwayTitle = "Bites and Stings";
+            var questionPage = searchPage.TypeSearchTextAndSelect(pathwayTitle);
+            questionPage.VerifyQuestionPageLoaded();
+        }
+
+        [Test]
         public void SearchPage_TabbingOrder()
         {
             var searchPage = TestScenerios.LaunchSearchScenerio(Driver, TestScenerioSex.Male, 30);
-            searchPage.VerifyTabbingOrder("Headache and migraine");
+            searchPage.VerifyTabbingOrder("Bites and Stings");
         }
+
 
     }
 }

@@ -91,10 +91,14 @@ namespace NHS111.SmokeTest.Utils
             var searchTxtBox = Driver.SwitchTo().ActiveElement();
             searchTxtBox.SendKeys(searchTerm);
             searchTxtBox.SendKeys(Keys.Tab);
-            var nextButton = Driver.SwitchTo().ActiveElement();
-            nextButton.Submit();
+            var nextButtonElement = Driver.SwitchTo().ActiveElement();
+            nextButtonElement.Submit();
+            //Page Loads Results, so the above element has been recreated
+            //on the new page, so we must get it again.
+            NextButton.SendKeys(Keys.Tab);
+            var firstSearchResultLink = Driver.SwitchTo().ActiveElement();
 
-            VerifyTermHits(searchTerm, 1);
+            Assert.AreEqual(searchTerm.ToLower(), firstSearchResultLink.Text.ToLower());
         }
 
         private QuestionPage ClickNextButton()
