@@ -17,8 +17,7 @@ namespace NHS111.SmokeTests
         public void SearchPage_SelectFirstResultStartsPathway()
         {
             var searchPage = TestScenerios.LaunchSearchScenerio(Driver, TestScenerioSex.Male, 30);
-            const string pathwayTitle = "Bites and Stings";
-            var questionPage = searchPage.TypeSearchTextAndSelect(pathwayTitle);
+            var questionPage = searchPage.TypeSearchTextAndSelect("Bites and Stings");
             questionPage.VerifyQuestionPageLoaded();
         }
 
@@ -45,5 +44,14 @@ namespace NHS111.SmokeTests
             searchPage.SearchByTerm(string.Empty);
             searchPage.VerifyNoInputValidation();
         }
+
+        [Test]
+        public void SearchPage_ResultsEvenWithApostropheHyphenAndBrackets()
+        {
+            var searchPage = TestScenerios.LaunchSearchScenerio(Driver, TestScenerioSex.Male, 30);
+            searchPage.SearchByTerm("'-/)}]Headache[{(\\");
+            searchPage.VerifyTermHits("Headache and migraine", 1);
+        }
+
     }
 }

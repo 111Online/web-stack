@@ -127,7 +127,7 @@ namespace NHS111.SmokeTest.Utils
             ageInput.SendKeys(age.ToString());
             ageInput.SendKeys(Keys.Tab);
             var nextButton = Driver.SwitchTo().ActiveElement();
-            nextButton.Submit();
+            nextButton.SendKeys(Keys.Enter);
 
             var searchPage = new SearchPage(Driver);
             searchPage.Verify();

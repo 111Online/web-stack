@@ -96,7 +96,7 @@ namespace NHS111.SmokeTest.Utils
             searchTxtBox.SendKeys(searchTerm);
             searchTxtBox.SendKeys(Keys.Tab);
             var nextButtonElement = Driver.SwitchTo().ActiveElement();
-            nextButtonElement.Submit();
+            nextButtonElement.SendKeys(Keys.Enter);
             //Page Loads Results, so the above element has been recreated
             //on the new page, so we must get it again.
             NextButton.SendKeys(Keys.Tab);
