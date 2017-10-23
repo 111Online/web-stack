@@ -7,4 +7,6 @@ COPY ${source:-obj/Docker/publish/_PublishedWebsites/nhs111-domain-dos-api} .
 COPY ./start.ps1 .
 
 RUN Set-WebBinding 'Default Web Site' -BindingInformation "*:80:" -PropertyName "Port" -Value "85"
-CMD powershell ./start.ps1
+EXPOSE 85
+
+ENTRYPOINT powershell ./start.ps1
