@@ -1,4 +1,4 @@
 *
 !obj\Docker\publish\*
 !obj\Docker\empty\
-!replace_appsettings.ps1
+!start.ps1
