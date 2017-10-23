@@ -19,3 +19,6 @@ ForEach($add in $xml.configuration.appSettings.add)
 }
 
 $xml.Save($configPath)
+
+$command = "C:\\ServiceMonitor.exe w3svc"
+iex $command

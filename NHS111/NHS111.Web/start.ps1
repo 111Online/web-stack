@@ -26,3 +26,6 @@ $xml.Save($configPath)
 (Get-Content $configPath).replace('#{AuthenticationExcludeScriptVerb}', [Environment]::GetEnvironmentVariable('AuthenticationExcludeScriptVerb')) | Set-Content $configPath
 
 $xml.Save($configPath)
+
+$command = "C:\\ServiceMonitor.exe w3svc"
+iex $command
