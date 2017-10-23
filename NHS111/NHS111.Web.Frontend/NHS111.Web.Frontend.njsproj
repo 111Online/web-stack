@@ -80,6 +80,9 @@
     <Content Include="src\assets\images\icons\arrow--white.svg" />
     <Content Include="src\assets\images\icons\icon-button-next.svg" />
     <Content Include="src\assets\images\icons\icon-button-prev.svg" />
+    <Content Include="src\assets\images\icons\icon-close.svg">
+      <SubType>Code</SubType>
+    </Content>
     <Content Include="src\assets\images\icons\icon_info.png" />
     <Content Include="src\assets\images\icons\map-pointers\fac-map-1.png" />
     <Content Include="src\assets\images\icons\map-pointers\fac-map-10.png" />
