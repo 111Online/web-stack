@@ -6,5 +6,5 @@ ARG source
 COPY ./obj/Docker/publish/_PublishedWebsites/nhs111-web .
 COPY ./replace_appsettings.ps1 .
 
-RUN Set-WebBinding 'Default Web Site' -BindingInformation "*:80:" -PropertyName "Port" -Value "81"
-CMD powershell ./replace_appsettings.ps1
+# RUN Set-WebBinding 'Default Web Site' -BindingInformation "*:80:" -PropertyName "Port" -Value "81"
+CMD powershell ./start.ps1
