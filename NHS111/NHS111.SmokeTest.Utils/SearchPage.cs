@@ -12,6 +12,7 @@ namespace NHS111.SmokeTest.Utils
     public class SearchPage : LayoutPage
     {
         private const string _headerText = "Tell us the symptom you’re concerned about";
+        private const string _noInputValidationText = "Please enter the symptom you're concerned about";
 
         [FindsBy(How = How.Id, Using = "SanitisedSearchTerm")]
         private IWebElement SearchTxtBox { get; set; }
@@ -21,6 +22,9 @@ namespace NHS111.SmokeTest.Utils
 
         [FindsBy(How = How.CssSelector, Using = ".form-group h1 label")]
         private IWebElement Header { get; set; }
+
+        [FindsBy(How = How.CssSelector, Using = "span[data-valmsg-for='SanitisedSearchTerm']")]
+        private IWebElement SearchTxtBoxValidationMessage { get; set; }
 
         public SearchPage(IWebDriver driver) : base(driver)
         {
@@ -109,7 +113,8 @@ namespace NHS111.SmokeTest.Utils
 
         public void VerifyNoInputValidation()
         {
-            
+            Assert.IsTrue(SearchTxtBoxValidationMessage.Displayed);
+            Assert.AreEqual(_noInputValidationText, SearchTxtBoxValidationMessage.Text);
         }
 
         private QuestionPage ClickNextButton()
