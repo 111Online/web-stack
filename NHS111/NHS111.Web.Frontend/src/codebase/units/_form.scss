@@ -88,6 +88,7 @@ select  {
 }
 
 // Use .form-control-error to add a red border to .form-control
+.field-validation-error + input[type],
 .field-validation-error + .form-control,
 .form-control.input-validation-error,
 .form-control.form-control-error {

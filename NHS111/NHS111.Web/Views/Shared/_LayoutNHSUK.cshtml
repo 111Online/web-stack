@@ -141,10 +141,12 @@
     <script type="text/javascript">
         $.validator.setDefaults({
             highlight: function (element, errorClass, validClass) {
-                $(element).closest(".form-group").addClass("form-group-error");
+                $(element).attr("aria-invalid", "true");
+                $(element).closest(".form-group").addClass("form-group-error").attr("role", "alert");
             },
             unhighlight: function (element, errorClass, validClass) {
-                $(element).closest(".form-group").removeClass("form-group-error");
+                $(element).attr("aria-invalid", "false");
+                $(element).closest(".form-group").removeClass("form-group-error").removeAttr("role");
             }
         });
     </script>
