@@ -29,6 +29,13 @@ namespace NHS111.SmokeTests
             searchPage.VerifyTabbingOrder("Bites and Stings");
         }
 
-
+        [Test]
+        public void SearchPage_NoReultsValidation()
+        {
+            var searchPage = TestScenerios.LaunchSearchScenerio(Driver, TestScenerioSex.Male, 30);
+            const string noResultsSearchTerm = "g0bb13dyg00k";
+            searchPage.SearchByTerm(noResultsSearchTerm);
+            searchPage.VerifyNoResultsValidaion(noResultsSearchTerm);
+        }
     }
 }
