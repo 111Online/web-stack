@@ -27,63 +27,29 @@ namespace NHS111.SmokeTest.Utils
 
         public static SearchPage LaunchSearchScenerio(IWebDriver driver, string gender, int age)
         {
-            var homePage = new HomePage(driver);
-            homePage.Load();
-            homePage.Verify();
-
-
-            var moduleZeroPage = homePage.ClickNextButton();
-            moduleZeroPage.Verify();
-
-            var genderPage = moduleZeroPage.ClickNoneApplyButton();
-            genderPage.Verify();
-            genderPage.SelectGenderAndAge(gender, age);
-
-            var searchpage = genderPage.NextPage();
-            searchpage.Verify();
-            return searchpage;
-
+            var homePage = TestScenarioPart.HomePage(driver);
+            var moduleZeroPage = TestScenarioPart.ModuleZero(homePage);
+            var demographicsPage = TestScenarioPart.Demographics(moduleZeroPage);
+            return TestScenarioPart.Search(demographicsPage, gender, age);
         }
 
         public static CategoryPage LaunchCategoryScenerio(IWebDriver driver, string gender, int age)
         {
-            var homePage = new HomePage(driver);
-            homePage.Load();
-            homePage.Verify();
-
-            var moduleZeroPage = homePage.ClickNextButton();
-            moduleZeroPage.Verify();
-
-            var genderPage = moduleZeroPage.ClickNoneApplyButton();
-            genderPage.Verify();
-            genderPage.SelectGenderAndAge(gender, age);
-
-            var searchpage = genderPage.NextPage();
-            searchpage.Verify();
-
-            var categoryPage = searchpage.TypeInvalidSearch();
-            categoryPage.Verify();
-            return categoryPage;
-
+            var homePage = TestScenarioPart.HomePage(driver);
+            var moduleZeroPage = TestScenarioPart.ModuleZero(homePage);
+            var demographicsPage = TestScenarioPart.Demographics(moduleZeroPage);
+            var searchPage = TestScenarioPart.Search(demographicsPage, gender, age);
+            return TestScenarioPart.Category(searchPage);
         }
 
         public static QuestionPage LaunchTriageScenerio(IWebDriver driver, string pathwayTopic, string gender, int age)
         {
-            var homePage = new HomePage(driver);
-            homePage.Load();
-            homePage.Verify();
-
-
-            var moduleZeroPage = homePage.ClickNextButton();
-            moduleZeroPage.Verify();
-
-            var genderPage = moduleZeroPage.ClickNoneApplyButton();
-            genderPage.Verify();
-            genderPage.SelectGenderAndAge(gender, age);
-
-            var searchpage = genderPage.NextPage();
-            searchpage.Verify();
-            return searchpage.TypeSearchTextAndSelect(pathwayTopic);
+            var homePage = TestScenarioPart.HomePage(driver);
+            var moduleZeroPage = TestScenarioPart.ModuleZero(homePage);
+            var demographicsPage = TestScenarioPart.Demographics(moduleZeroPage);
+            var searchPage = TestScenarioPart.Search(demographicsPage, gender, age);
+            return TestScenarioPart.Question(searchPage, pathwayTopic);
         }
     }
 }
+

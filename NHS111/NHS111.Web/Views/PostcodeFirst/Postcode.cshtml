@@ -75,7 +75,7 @@
             if (Model.UserInfo.CurrentAddress.IsPostcodeFirst)
             {
                 <h1 id="strap-line">You've answered the questions</h1>
-                <h2 id="sub-header">Now we can tell you what to do next</h2>
+                <h2>Now we can tell you what to do next</h2>
             }
             <div>
                 <div class="@(@ViewData.ModelState.IsValidField("UserInfo.CurrentAddress.Postcode") ? "" : "form-group-error")">
@@ -84,24 +84,15 @@
                         <p class="field-validation-error" id="NoDosResults">Sorry, no results were found for this postcode.</p>
                         <p class="field-validation-error">Please check you have entered the postcode correctly, then try again. <br /> If the search still gives no results, please call 111 for advice.</p>
                     }
-                    <div id="postcode-form">
-                        @if (!Model.UserInfo.CurrentAddress.IsPostcodeFirst)
-                        {
-                            <h2>If you enter your postcode now, we can find services that can help you</h2>
-                        }
-                        @Html.ValidationMessageFor(m => m.UserInfo.CurrentAddress.Postcode)
-                        @(Model.UserInfo.CurrentAddress.IsPostcodeFirst ? Html.Raw("<label for=\"UserInfo_CurrentAddress_Postcode\">Enter your postcode for services that can help you <span class=\"de-emphasised\">(optional)<span></label>") : Html.Raw("<label for=\"UserInfo_CurrentAddress_Postcode\" class=\"alwayshidden\">Postcode required</label>"))
-                        @Html.TextBoxFor(m => m.UserInfo.CurrentAddress.Postcode)
-                        <button class="button button--next" type="submit" name="DosResults" id="DosLookup">Next</button>
-                        <button class="js-find-location button--link button--stacked"  type="button">Find my location</button>
-                    </div>
-                    <div id="confirm-location-form">
-                        <p>Knowing where you are helps us find the right care.</p>
-                        <div class="location-address"></div>
-                        <button class="button--next" type="submit" name="DosResults" id="DosLookup">Next</button>
-                        <button class="js-manual-postcode button--link button--stacked" type="button">No, I'll enter my postcode.</button>
-                    </div>
-                    </div>
+                    @if (!Model.UserInfo.CurrentAddress.IsPostcodeFirst)
+                    {
+                        <h1>If you enter your postcode now, we can find services that can help you</h1>
+                    }
+                    @Html.ValidationMessageFor(m => m.UserInfo.CurrentAddress.Postcode)
+                    @(Model.UserInfo.CurrentAddress.IsPostcodeFirst ? Html.Raw("<label for=\"UserInfo_CurrentAddress_Postcode\">Enter your postcode for services that can help you <span class=\"de-emphasised\">(optional)<span></label>") : Html.Raw("<label for=\"UserInfo_CurrentAddress_Postcode\" class=\"alwayshidden\">Postcode required</label>"))
+                    @Html.TextBoxFor(m => m.UserInfo.CurrentAddress.Postcode)
+                    <button class="button button--next" type="submit" name="DosResults" id="DosLookup">Next</button>
+                </div>
             </div>
         }
 
@@ -109,82 +100,6 @@
 </section>
 
 @Html.Partial("_PageLoadingIndicator")
-
-
-<p id="location"></p>
-<script>
-    if (navigator.geolocation) {
-        $("#confirm-location-form").hide();
-        $(".js-manual-postcode").on("click", function() {
-            $("#confirm-location-form").hide();
-            $("#@Html.IdFor(m => m.UserInfo.CurrentAddress.Postcode)").val("");
-            $("#postcode-form").show();
-        });
-        $(".js-find-location").on("click", function () {
-            navigator.geolocation.getCurrentPosition(function (pos) {
-                var coords = pos.coords.longitude + "," + pos.coords.latitude;
-                console.log(coords);
-                $.ajax({
-                    type: "POST",
-                    url: "/Outcome/GetUniqueAddressesGeoLookup",
-                    data: { longlat: coords },
-                    success: function (response) {
-                        var addresses = response;
-                        if (addresses.length == 0) showError();
-                        else {
-                            renderAddress(addresses);
-                            $("#@Html.IdFor(m => m.UserInfo.CurrentAddress.Postcode)").val(addresses[0].Postcode);
-                            $("#confirm-location-form").show();
-                            $("#postcode-form").hide();
-                        }
-                    },
-                    timeout: 5000,
-                    error: function (XMLHttpRequest, textStatus, errorThrown) {
-                        showError();
-                    },
-                    complete: function () {
-                        $("#options").hide();
-                    }
-                });
-                $("#postcode").val(coords.longitude + "," + coords.latitude);
-            }, showError);
-        });
-
-        function renderAddress(addresses) {
-            var htmltemplate = '<div class="multiple-choice">' +
-                                    '<input type="radio" id="address-{id}" name="address" value="{id}">' +
-                                    '<label for="address-{id}" class="multiple-choice--radio"><strong>{road}</strong>, {town}, {postcode}' +
-                                     '</label>' +
-                                '</div>';
-            var htmlresponse = '';
-            for (var i = 0; i < addresses.length; i++) {
-                htmlresponse += htmltemplate.replace(/{id}/g, i)
-                    .replace('{road}', addresses[i].Thoroughfare)
-                    .replace('{town}', addresses[i].City)
-                    .replace('{postcode}', addresses[i].Postcode);
-            }
-            $(".location-address").html(htmlresponse);
-            $("#sub-header").hide();
-           
-            if (addresses.length == 1) {
-                $("#strap-line").text("Are you here?");
-                $("#address-0").prop("checked", true);
-            }
-            if (addresses.length > 1) $("#strap-line").text("Where are you?");
-        }
-
-        function showError() {
-            $('label[for="@Html.IdFor(m => m.UserInfo.CurrentAddress.Postcode)"]').text("We were unable to find your location. Please enter your postcode.");
-            $("#postcode-form").show();
-            $("#options").hide();
-        }
-    }
-    else {
-        $("#options").hide();
-        $("#postcode-form").show();
-        $(".js-find-location").hide();
-    }
-</script>
 
 <script type="text/javascript">
     $(document).ready(function () {

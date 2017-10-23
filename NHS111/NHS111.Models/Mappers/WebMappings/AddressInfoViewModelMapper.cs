@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text.RegularExpressions;
 using AutoMapper;
-using NHS111.Models.Models.Business.Location;
 using NHS111.Models.Models.Web;
 using NHS111.Models.Models.Web.FromExternalServices;
 
@@ -15,7 +13,6 @@ namespace NHS111.Models.Mappers.WebMappings
         {
             Mapper.CreateMap<List<PAF>, List<AddressInfoViewModel>>().ConvertUsing<FromPafToAddressInfoConverter>();
             Mapper.CreateMap<LocationResult, AddressInfoViewModel>().ConvertUsing<FromLocationResultToAddressInfoConverter>();
-            Mapper.CreateMap<AddressLocationResult, AddressInfoViewModel>().ConvertUsing<FromPostcodeLocationResultToAddressInfoConverter>();
         }
 
         public class FromPafToAddressInfoConverter : ITypeConverter<List<PAF>, List<AddressInfoViewModel>>
@@ -38,28 +35,6 @@ namespace NHS111.Models.Mappers.WebMappings
                 }
 
                 return listAddressInfo;
-            }
-        }
-
-        public class FromPostcodeLocationResultToAddressInfoConverter : ITypeConverter<AddressLocationResult, AddressInfoViewModel>
-        {
-            public AddressInfoViewModel Convert(ResolutionContext context)
-            {
-                var addressLocationresult = (AddressLocationResult) context.SourceValue;
-                return new AddressInfoViewModel()
-                {
-                    AddressLine1 = addressLocationresult.AddressLine1,
-                    AddressLine2 = addressLocationresult.AddressLine2,
-                    AddressLine3 = addressLocationresult.AddressLine3,
-                    Thoroughfare = addressLocationresult.Thoroughfare,
-                    Ward = addressLocationresult.Ward,
-                    City = addressLocationresult.Town,
-                    UPRN = addressLocationresult.Udprn,
-                    County = addressLocationresult.County,
-                    HouseNumber = String.IsNullOrEmpty(addressLocationresult.BuildingNumber) ? addressLocationresult.BuildingName : addressLocationresult.BuildingNumber,
-                    Postcode = addressLocationresult.PostCode
-                    
-                };
             }
         }
 
