@@ -5,6 +5,7 @@ namespace NHS111.SmokeTests
 {
     public class AgeTriageLogicTests : BaseTests
     {
+        //TODO: Discuss actual question triggered by set / read nodes for age. Remove asserts for other questions, not impacted by read nodes.
         [Test]
         public void AgeTriageLogic_Over10()
         {

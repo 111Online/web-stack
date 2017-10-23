@@ -116,5 +116,21 @@ namespace NHS111.SmokeTest.Utils
             Assert.IsTrue(AgeValidationMessageElement.Displayed);
             Assert.AreEqual(_ageValidationMessageTooYoung, AgeValidationMessageElement.Text);
         }
+
+        public void VerifyTabbingOrder(int age)
+        {
+            HeaderLogo.SendKeys(Keys.Tab);
+            var maleButton = Driver.SwitchTo().ActiveElement();
+            maleButton.SendKeys(Keys.Space);
+            maleButton.SendKeys(Keys.Tab);
+            var ageInput = Driver.SwitchTo().ActiveElement();
+            ageInput.SendKeys(age.ToString());
+            ageInput.SendKeys(Keys.Tab);
+            var nextButton = Driver.SwitchTo().ActiveElement();
+            nextButton.Submit();
+
+            var searchPage = new SearchPage(Driver);
+            searchPage.Verify();
+        }
     }
 }

@@ -42,6 +42,12 @@ namespace NHS111.SmokeTests
             GetDemographicsPage().VerifyNoAgeValidation(TestScenerioSex.Male);
         }
 
+        [Test]
+        public void DemographicsPage_TabbingOrder()
+        {
+            GetDemographicsPage().VerifyTabbingOrder(40);
+        }
+
         private DemographicsPage GetDemographicsPage()
         {
             var homePage = TestScenarioPart.HomePage(Driver);
