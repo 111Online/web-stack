@@ -88,10 +88,8 @@ select  {
 }
 
 // Use .form-control-error to add a red border to .form-control
-.field-validation-error + input[type],
-.field-validation-error + .form-control,
-.form-control.input-validation-error,
-.form-control.form-control-error {
+[aria-invalid="true"][type="text"],
+[aria-invalid="true"][type="number"] {
   border: 4px solid $error-colour;
 }
 
