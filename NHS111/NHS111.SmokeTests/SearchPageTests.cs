@@ -12,5 +12,13 @@ namespace NHS111.SmokeTests
             var searchPage = TestScenerios.LaunchSearchScenerio(Driver, TestScenerioSex.Male, 30);
             searchPage.Verify();
         }
+
+        [Test]
+        public void SearchPage_TabbingOrder()
+        {
+            var searchPage = TestScenerios.LaunchSearchScenerio(Driver, TestScenerioSex.Male, 30);
+            searchPage.VerifyTabbingOrder("Headache and migraine");
+        }
+
     }
 }

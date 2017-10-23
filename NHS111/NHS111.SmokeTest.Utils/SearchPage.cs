@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using NUnit.Framework;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.PageObjects;
@@ -19,7 +17,7 @@ namespace NHS111.SmokeTest.Utils
         private IWebElement SearchTxtBox { get; set; }
 
         [FindsBy(How = How.ClassName, Using = "button--next")]
-        private IWebElement GoButton { get; set; }
+        private IWebElement NextButton { get; set; }
 
         [FindsBy(How = How.CssSelector, Using = ".form-group h1 label")]
         private IWebElement Header { get; set; }
@@ -31,7 +29,7 @@ namespace NHS111.SmokeTest.Utils
         public void TypeSearchTextAndClickGo()
         {
             TypeSearchTextAndSelect("Headache");
-            ClickGoButton();
+            ClickNextButton();
         }
 
         public void Verify()
@@ -44,7 +42,7 @@ namespace NHS111.SmokeTest.Utils
         {
             SearchTxtBox.Clear();
             SearchTxtBox.SendKeys(pathway);
-            this.ClickGoButton();
+            this.ClickNextButton();
             new WebDriverWait(Driver, TimeSpan.FromSeconds(5)).Until(ExpectedConditions.ElementIsVisible(By.XPath("//ul[contains(@class, 'link-list') and contains(@class, 'link-list--results')]/li")));
             Driver.FindElement(By.XPath("//ul[contains(@class, 'link-list') and contains(@class, 'link-list--results')]/li/a[@data-title='" + pathway + "']")).Click();
             return new QuestionPage(Driver);
@@ -64,9 +62,9 @@ namespace NHS111.SmokeTest.Utils
 
         public void SearchByTerm(string term)
         {
-            this.SearchTxtBox.Clear();
-            this.SearchTxtBox.SendKeys(term);
-            this.ClickGoButton();
+            SearchTxtBox.Clear();
+            SearchTxtBox.SendKeys(term);
+            ClickNextButton();
         }
         public void VerifyTermHits(string expectedHitTitle, int maxRank)
         {
@@ -87,15 +85,23 @@ namespace NHS111.SmokeTest.Utils
             Assert.IsTrue(rank <= maxRank);
         }
 
-
-        public QuestionPage ClickGoButton()
+        public void VerifyTabbingOrder(string searchTerm)
         {
-            GoButton.Click();
-            return new QuestionPage(Driver);
+            HeaderLogo.SendKeys(Keys.Tab);
+            var searchTxtBox = Driver.SwitchTo().ActiveElement();
+            searchTxtBox.SendKeys(searchTerm);
+            searchTxtBox.SendKeys(Keys.Tab);
+            var nextButton = Driver.SwitchTo().ActiveElement();
+            nextButton.Submit();
+
+            VerifyTermHits(searchTerm, 1);
         }
 
-        
-
+        private QuestionPage ClickNextButton()
+        {
+            NextButton.Click();
+            return new QuestionPage(Driver);
+        }        
     }
 
     public static class StringExtensionMethods

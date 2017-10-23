@@ -27,7 +27,7 @@ namespace NHS111.SmokeTests
         };
 
         [Test]
-        public void SearchTermYieldsHits()
+        public void SearchTermResults_CommonTermsReturnExpectedResult()
         {
             foreach (var testTerm in _testTerms)
             {
