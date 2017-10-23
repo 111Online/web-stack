@@ -174,7 +174,7 @@ dl {
 
 .list--numbered {
   counter-reset: numbered-list;
-  padding-left: 0;
+  padding-left: 60px;
 
   li {
     list-style: none;
@@ -187,11 +187,14 @@ dl {
     border: 3px solid $nhs-blue;
     border-radius: 50px;
     color: $nhs-blue;
-    display: inline-block;
+    display: block;
     font-weight: 700;
+    float: left;
     height: 40px;
     margin-right: 0.5em;
     text-align: center;
     width: 40px;
+    margin-left: -60px;
+    margin-top: -2px;
   }
 }
