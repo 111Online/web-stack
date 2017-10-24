@@ -102,9 +102,9 @@ namespace NHS111.SmokeTest.Utils
             searchTxtBox.SendKeys(Keys.Tab);
             var nextButtonElement = Driver.SwitchTo().ActiveElement();
             nextButtonElement.SendKeys(Keys.Enter);
-            //Page Loads Results, so the above element has been recreated
+            //Page Loads Results, so the elements have been recreated
             //on the new page, so we must get it again.
-            NextButton.SendKeys(Keys.Tab);
+            HeaderLogo.SendKeys(Keys.Tab);
             var firstSearchResultLink = Driver.SwitchTo().ActiveElement();
 
             Assert.AreEqual(searchTerm.ToLower(), firstSearchResultLink.Text.ToLower());

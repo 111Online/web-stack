@@ -1,14 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using NHS111.SmokeTest.Utils;
+﻿using NHS111.SmokeTest.Utils;
 using NUnit.Framework;
 
 namespace NHS111.SmokeTests.Regression
 {
-    [Ignore]
     public class JumpTests : BaseTests
     {
         [Test]

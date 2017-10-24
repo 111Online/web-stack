@@ -4,11 +4,11 @@ using OpenQA.Selenium;
 
 namespace NHS111.SmokeTests
 {
-    public class CategoryTests : BaseTests
+    public class CategoryPageAgeGenderTests : BaseTests
     {
         [Test]
         //alias and id check for categories age 5 Female with mental health
-        public void CategoriesPresentForFemaleChild()
+        public void CategoriesPage_PresentForFemaleChild()
         {
             var categoryPage = TestScenerios.LaunchCategoryScenerio(Driver, TestScenerioSex.Female, 5);
 
@@ -203,7 +203,7 @@ namespace NHS111.SmokeTests
 
         [Test]
         //alias and id check for categories age 40 female with mental health
-        public void CategoriesPresentForFemaleAdult()
+        public void CategoriesPage_PresentForFemaleAdult()
         {
             var categoryPage = TestScenerios.LaunchCategoryScenerio(Driver, TestScenerioSex.Female, 40);
 
@@ -398,7 +398,7 @@ namespace NHS111.SmokeTests
 
         [Test]
         //alias and id check for categories age 5 Male with mental health
-        public void CategoriespresentForMaleChild()
+        public void CategoriesPage_PresentForMaleChild()
         {
             var categoryPage = TestScenerios.LaunchCategoryScenerio(Driver, TestScenerioSex.Male, 5);
 
@@ -584,7 +584,7 @@ namespace NHS111.SmokeTests
 
         [Test]
         //alias and id check for categories age 40 Male with mental health
-        public void CategoriesPresentForMaleAdult()
+        public void CategoriesPage_PresentForMaleAdult()
         {
             var categoryPage = TestScenerios.LaunchCategoryScenerio(Driver, TestScenerioSex.Male, 40);
 

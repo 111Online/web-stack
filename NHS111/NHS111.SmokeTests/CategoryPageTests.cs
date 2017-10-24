@@ -20,5 +20,13 @@ namespace NHS111.SmokeTests
             var categoryPage = searchPage.TypeInvalidSearch();
             categoryPage.VerifyNoResultsMessage(searchPage._invalidSearchText);
         }
+
+        [Ignore]
+        [Test]
+        public void CategoryPage_TabbingOrder()
+        {
+            var categoryPage = TestScenerios.LaunchCategoryScenerio(Driver, "Male", 30);
+            //categoryPage.VerifyTabbingOrder();
+        }
     }
 }
