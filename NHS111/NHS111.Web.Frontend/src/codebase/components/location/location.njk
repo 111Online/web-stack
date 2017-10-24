@@ -1,50 +1,19 @@
 <div class="page-section">
-  <script
-    src="https://code.jquery.com/jquery-3.2.1.min.js"
-    integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
-    crossorigin="anonymous"></script>
-
-  <div id="options">
-    {% render '@button', { label: 'Find my location', class: ["js-find-location"] } %}
-    {% render '@button', { label: 'I want to type the location manually', mods: ['link','stacked'], class: ["js-manual-postcode"] } %}
-  </div>
 
   <div id="postcode-form">
-    <label for="postcode">Postcode</label>
-    <input type="text" id="postcode">
-    <button type="button">Submit</button>
-    {% render '@button', { label: 'Find my location', mods: ['link', 'stacked'], class: ["js-find-location"] } %}
+    <h2>If you enter your postcode now, we can find services that can help you</h2>
+
+    <label for="UserInfo_CurrentAddress_Postcode">
+      Enter your postcode for services that can help you <span class="de-emphasised">(optional)</span>
+    </label>
+    <input type="text" id="UserInfo_CurrentAddress_Postcode" />
+    <button class="button button--next" type="submit" name="DosResults" id="DosLookup">Next</button>
+    <button class="js-find-location button--link button--stacked"  type="button">Find my location</button>
   </div>
-
-  <p id="location"></p>
-  <script>
-    if (navigator.geolocation) {
-      $("#postcode-form").hide();
-
-      $(".js-manual-postcode").on("click", function() {
-          $("#options").hide();
-          $("#postcode-form").show();
-      })
-
-      $(".js-find-location").on("click", function() {
-        $("#postcode-form").show();
-        $("#options").hide();
-          navigator.geolocation.getCurrentPosition(function(pos) {
-            var coords = pos.coords;
-            console.log(coords);
-            $("#postcode").val(coords.longitude + "," + coords.latitude);
-          }, showError);
-      });
-
-      function showError () {
-          $("#postcode-form").show();
-      }
-    }
-    else {
-      $("#options").hide();
-      $("#postcode-form").show();
-      $(".js-find-location").hide();
-    }
-  </script>
-
+  <div id="confirm-location-form">
+    <p>Knowing where you are helps us find the right care.</p>
+    <div class="location-address"></div>
+    <button class="button--next" type="submit" name="DosResults" id="DosLookup">Next</button>
+    <button class="js-manual-postcode button--link button--stacked" type="button">No, I'll enter my postcode.</button>
+  </div>
 </div>

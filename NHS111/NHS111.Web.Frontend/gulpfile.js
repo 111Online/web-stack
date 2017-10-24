@@ -1,22 +1,28 @@
-/// <binding ProjectOpened='build:fractal, dev' />
+/// <binding ProjectOpened='build:fractal, dev, fractal:start' />
 const path = require('path'),
-      gulp = require('gulp'),
-      runSequence = require('run-sequence'),
-      del = require('del'),
-      sass = require('gulp-sass'),
-      flatten = require('gulp-flatten'),
-      importOnce = require('node-sass-import-once'),
-      postcss = require('gulp-postcss'),
-      syntax_scss = require('postcss-scss'),
-      autoprefixer = require('autoprefixer'),
-      inject = require('gulp-inject'),
-      cssnano = require('cssnano'),
-      stylelint = require('stylelint'),
-      mocha = require('gulp-mocha'),
-      babel = require('gulp-babel'),
-      jsdom = require('mocha-jsdom'),
-      fractal = require('./fractal.config.js');
-
+    gulp = require('gulp'),
+    runSequence = require('run-sequence'),
+    del = require('del'),
+    sass = require('gulp-sass'),
+    flatten = require('gulp-flatten'),
+    importOnce = require('node-sass-import-once'),
+    postcss = require('gulp-postcss'),
+    syntax_scss = require('postcss-scss'),
+    autoprefixer = require('autoprefixer'),
+    inject = require('gulp-inject'),
+    cssnano = require('cssnano'),
+    stylelint = require('stylelint'),
+    mocha = require('gulp-mocha'),
+    babel = require('gulp-babel'),
+    jsdom = require('mocha-jsdom'),
+    fractal = require('./fractal.config.js'),
+    specificityGraph = require('specificity-graph'),
+    fs = require('fs'),
+    concat = require('gulp-concat'),
+    sourcemaps = require('gulp-sourcemaps'),
+    webpack = require('gulp-webpack'),
+    pipedWebpack = require('piped-webpack'),
+    eslint = require('gulp-eslint')
 
 // Paths
 const paths = {
@@ -79,19 +85,40 @@ gulp.task('lint:styles', () => {
     }))
 })
 
+gulp.task('lint:scripts', () => {
+    return gulp.src([`${__dirname}/src/js/**/*.js`, `!${__dirname}/src/js/vendor/*.js`, '!node_modules/**'])
+        .pipe(eslint())
+        .pipe(eslint.format())
+        .pipe(eslint.failAfterError());
+})
+
+gulp.task('lint:styles-graph', function () {
+    const file = fs.readFileSync("content/css/nhs-111.css", "utf8");
+
+    specificityGraph(`${__dirname}/src/codebase/components/_cssgraph/`, file, function (directory) {
+      // Add the contents of specificty.json to a variable in specificity.js 
+      fs.readFile(`${__dirname}/src/codebase/components/_cssgraph/specificity.json`, 'utf8', function (err, data) {
+        if (err) return console.log("ERROR: " + err)
+        var newData = "var embeddedJsonData = " + data;
+        fs.writeFile(`${__dirname}/src/codebase/components/_cssgraph/specificity.js`, newData)
+      })
+    })
+})
+
 gulp.task('test:scripts', function() {
   return gulp.src(['src/js/test-*.js'])
     .pipe(mocha({
       compilers: "js:babel-core/register",
-      reporter: "spec"
+      reporter: "spec",
+      timeout: 20000
     }))
     .once('error', () => {
-      process.exit(1);
+      process.exit(1)
     })
     .once('end', () => {
-      process.exit();
+      process.exit()
     })
-});
+})
 
 gulp.task('inject:styles:dist', () => {
   return gulp.src(`${paths.distScss}/components/_index.scss`)
@@ -131,6 +158,13 @@ gulp.task('compile:styles:dist', () => {
     .pipe(gulp.dest(`${paths.distFractalAssets}/css`))
 })
 
+
+gulp.task('compile:scripts', () => {
+    return gulp.src([])
+               .pipe(pipedWebpack(require('./webpack.config.js')))
+               .pipe(gulp.dest(`${paths.distAssets}/js`)).pipe(gulp.dest(`${paths.distFractalAssets}/js`))
+});
+
 gulp.task('fractal:start', function () {
     const server = fractal.web.server({
         sync: true,
@@ -149,7 +183,7 @@ gulp.task('build:fractal', cb => {
 gulp.task('build:dist', cb => {
   runSequence(
     ['copy:styles:dist', 'copy:styles:components:dist', 'copy:images'],
-    'inject:styles:dist', 'compile:styles:dist',
+      'inject:styles:dist', 'compile:styles:dist', 'compile:scripts', 'lint:styles-graph',
     cb
   )
 })
@@ -158,15 +192,16 @@ gulp.task('build', cb => {
   runSequence('build:fractal', 'build:dist', cb)
 })
 
-gulp.task('watch:styles', function () {
+gulp.task('watch', function () {
   return gulp.watch(
     [
       `${paths.srcScss}/**/*.scss`,
-      `${paths.fractalScss}/**/*.scss`
+      `${paths.fractalScss}/**/*.scss`,
+      `src/js/**/*.js`
     ],
     ['build']
   )
 })
 
 gulp.task('default', ['build'])
-gulp.task('dev', ['build','watch:styles'])
+gulp.task('dev', ['build','watch'])

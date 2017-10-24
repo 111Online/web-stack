@@ -17,7 +17,7 @@ const nunjucks = require('@frctl/nunjucks')({
       return require('@frctl/nunjucks/src/filters/path')(fractal).bind(this)(filename)
     }
   },
-  paths: ['src/templates']
+  paths: ['src/docs', 'src/docs/graph','src/templates']
 })
 
 // Project config

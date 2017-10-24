@@ -56,7 +56,7 @@ summary::-moz-list-bullet {
   content: "▼";
 }
 
-[open] .details__arrow::before {
+[open] > summary > .details__arrow::before {
   content: "▲";
 }
 

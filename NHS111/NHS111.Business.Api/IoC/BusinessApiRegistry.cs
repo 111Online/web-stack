@@ -13,7 +13,7 @@ namespace NHS111.Business.Api.IoC
         public BusinessApiRegistry()
         {
             IncludeRegistry<ModelsRegistry>();
-            IncludeRegistry<BusinessRegistry>();
+            IncludeRegistry(new BusinessRegistry(new Configuration.Configuration()));
             IncludeRegistry<UtilsRegistry>();
             For<ICacheManager<string, string>>().Use(new RedisManager(new Configuration.Configuration().GetRedisUrl()));
           
