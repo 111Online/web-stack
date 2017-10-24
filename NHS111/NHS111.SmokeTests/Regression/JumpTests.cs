@@ -8,6 +8,7 @@ using NUnit.Framework;
 
 namespace NHS111.SmokeTests.Regression
 {
+    [Ignore]
     public class JumpTests : BaseTests
     {
         [Test]

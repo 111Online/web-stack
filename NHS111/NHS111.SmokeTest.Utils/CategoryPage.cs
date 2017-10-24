@@ -23,14 +23,18 @@ namespace NHS111.SmokeTest.Utils
         public CategoryPage(IWebDriver driver) : base(driver)
         {
         }
-
-        public void Verify()
+        public void VerifyHeader()
         {
-            Assert.IsTrue(NoResultsMessage.Displayed);
             Assert.IsTrue(TopicsMessage.Displayed);
             Assert.AreEqual(_topicsMessageText, TopicsMessage.Text);
         }
 
+        public void VerifyNoResultsMessage(string searchTerm)
+        {
+            Assert.IsTrue(NoResultsMessage.Displayed);
+            Assert.AreEqual("Sorry, there are no results for '" + searchTerm + "'.", NoResultsMessage.Text);
+        }
+        
         public void VerifyPathwayInCategoryList(string title, string pathwayId)
         {
             bool result = true;

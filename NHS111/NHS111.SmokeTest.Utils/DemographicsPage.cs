@@ -76,7 +76,7 @@ namespace NHS111.SmokeTest.Utils
             NextButton.Submit();
 
             var searchPage = new SearchPage(Driver);
-            searchPage.Verify();
+            searchPage.VerifyHeader();
         }
 
         public void VerifyNoSexValidation(int age)
@@ -130,7 +130,7 @@ namespace NHS111.SmokeTest.Utils
             nextButton.SendKeys(Keys.Enter);
 
             var searchPage = new SearchPage(Driver);
-            searchPage.Verify();
+            searchPage.VerifyHeader();
         }
     }
 }

@@ -23,7 +23,6 @@ namespace NHS111.SmokeTests
             new Tuple<string, string>("Chest and upper back pain", "Breathing problems"), //additional digital title for Chest pain PW559 MaleAdult
             new Tuple<string, string>("Breathing problems", "Breathing problems"), //additional digital title for Chest pain PW559 MaleAdult
             new Tuple<string, string>("Wheezing", "Wheezing and breathlessness"), //additional digital title for Chest pain PW559 MaleAdult
-
         };
 
         [Test]

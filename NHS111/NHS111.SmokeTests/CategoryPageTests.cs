@@ -10,7 +10,15 @@ namespace NHS111.SmokeTests
         public void CategoryPage_Displays()
         {
             var categoryPage = TestScenerios.LaunchCategoryScenerio(Driver, "Male", 30);
-            categoryPage.Verify();
+            categoryPage.VerifyHeader();
+        }
+
+        [Test]
+        public void CategoryPage_CategoriesShownWhenNoSearchResults()
+        {
+            var searchPage = TestScenerios.LaunchSearchScenerio(Driver, TestScenerioSex.Male, 30);
+            var categoryPage = searchPage.TypeInvalidSearch();
+            categoryPage.VerifyNoResultsMessage(searchPage._invalidSearchText);
         }
     }
 }

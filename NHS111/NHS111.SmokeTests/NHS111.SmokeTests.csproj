@@ -73,7 +73,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RegressionTests.cs" />
     <Compile Include="AgeTriageLogicTests.cs" />
-    <Compile Include="Regression\CategoryTests.cs" />
+    <Compile Include="CategoryTests.cs" />
     <Compile Include="Regression\DosLookupTests.cs" />
     <Compile Include="Regression\JumpTests.cs" />
     <Compile Include="SearchTermResultsTests.cs" />

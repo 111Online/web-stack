@@ -13,6 +13,8 @@ namespace NHS111.SmokeTest.Utils
     {
         private const string _headerText = "Tell us the symptom you’re concerned about";
         private const string _noInputValidationText = "Please enter the symptom you're concerned about";
+        private const string _categoriesLinkText = "searching by category";
+        public string _invalidSearchText = "a";
 
         [FindsBy(How = How.Id, Using = "SanitisedSearchTerm")]
         private IWebElement SearchTxtBox { get; set; }
@@ -26,6 +28,9 @@ namespace NHS111.SmokeTest.Utils
         [FindsBy(How = How.CssSelector, Using = "span[data-valmsg-for='SanitisedSearchTerm']")]
         private IWebElement SearchTxtBoxValidationMessage { get; set; }
 
+        [FindsBy(How = How.Id, Using = "show-categories")]
+        private IWebElement CategoriesLink { get; set; }
+
         public SearchPage(IWebDriver driver) : base(driver)
         {
         }
@@ -36,7 +41,7 @@ namespace NHS111.SmokeTest.Utils
             ClickNextButton();
         }
 
-        public void Verify()
+        public void VerifyHeader()
         {
             Assert.IsTrue(Header.Displayed);
             Assert.AreEqual(_headerText, Header.Text);
@@ -54,7 +59,7 @@ namespace NHS111.SmokeTest.Utils
 
         public CategoryPage TypeInvalidSearch()
         {
-            SearchByTerm("a");
+            SearchByTerm(_invalidSearchText);
             return new CategoryPage(Driver);
         }
 
@@ -104,17 +109,18 @@ namespace NHS111.SmokeTest.Utils
 
             Assert.AreEqual(searchTerm.ToLower(), firstSearchResultLink.Text.ToLower());
         }
-
-        public void VerifyNoResultsValidation(string searchTerm)
-        {
-            var headerTwos = Driver.FindElements(By.CssSelector("h2"));
-            Assert.AreEqual("Sorry, there are no results for '" + searchTerm + "'.", headerTwos[0].Text);
-        }
-
+        
         public void VerifyNoInputValidation()
         {
             Assert.IsTrue(SearchTxtBoxValidationMessage.Displayed);
             Assert.AreEqual(_noInputValidationText, SearchTxtBoxValidationMessage.Text);
+        }
+
+        public void VerifyCategoriesLinkPresent()
+        {
+            Assert.IsTrue(CategoriesLink.Displayed);
+            Assert.AreEqual(_categoriesLinkText, CategoriesLink.Text);
+
         }
 
         private QuestionPage ClickNextButton()

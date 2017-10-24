@@ -10,7 +10,7 @@ namespace NHS111.SmokeTests
         public void SearchPage_Displays()
         {
             var searchPage = TestScenerios.LaunchSearchScenerio(Driver, TestScenerioSex.Male, 30);
-            searchPage.Verify();
+            searchPage.VerifyHeader();
         }
 
         [Test]
@@ -29,15 +29,6 @@ namespace NHS111.SmokeTests
         }
 
         [Test]
-        public void SearchPage_NoResultsValidation()
-        {
-            var searchPage = TestScenerios.LaunchSearchScenerio(Driver, TestScenerioSex.Male, 30);
-            const string noResultsSearchTerm = "g0bb13dyg00k";
-            searchPage.SearchByTerm(noResultsSearchTerm);
-            searchPage.VerifyNoResultsValidation(noResultsSearchTerm);
-        }
-
-        [Test]
         public void SearchPage_NoInputValidation()
         {
             var searchPage = TestScenerios.LaunchSearchScenerio(Driver, TestScenerioSex.Male, 30);
@@ -46,12 +37,19 @@ namespace NHS111.SmokeTests
         }
 
         [Test]
-        public void SearchPage_ResultsEvenWithApostropheHyphenAndBrackets()
+        public void SearchPage_ResultsWithApostropheHyphenAndBrackets()
         {
             var searchPage = TestScenerios.LaunchSearchScenerio(Driver, TestScenerioSex.Male, 30);
             searchPage.SearchByTerm("'-/)}]Headache[{(\\");
             searchPage.VerifyTermHits("Headache and migraine", 1);
         }
 
+        [Test]
+        public void SearchPage_CategoryLinkShowsWithSearchResults()
+        {
+            var searchPage = TestScenerios.LaunchSearchScenerio(Driver, TestScenerioSex.Male, 30);
+            searchPage.SearchByTerm("Headache");
+            searchPage.VerifyCategoriesLinkPresent();
+        }
     }
 }

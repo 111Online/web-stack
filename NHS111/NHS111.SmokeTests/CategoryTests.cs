@@ -2,7 +2,7 @@
 using NUnit.Framework;
 using OpenQA.Selenium;
 
-namespace NHS111.SmokeTests.Regression
+namespace NHS111.SmokeTests
 {
     public class CategoryTests : BaseTests
     {
