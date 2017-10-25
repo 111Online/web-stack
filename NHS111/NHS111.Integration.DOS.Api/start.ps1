@@ -4,14 +4,11 @@ Function SetEnironmentVariableValue ($key)
 	
 	$matchingEnvVar = [Environment]::GetEnvironmentVariable($key)
     
-	if($matchingEnvVar)
-	{
-		Write-Output "Found matching environment variable for key: $($key)"
-        $substitueVar = '#{{{0}}}' -f $key
-        Write-Output "Replacing value $($substitueVar) with $matchingEnvVar"
+	Write-Output "Found matching environment variable for key: $($key)"
+    $substitueVar = '#{{{0}}}' -f $key
+    Write-Output "Replacing value $($substitueVar) with $matchingEnvVar"
 
-		(Get-Content $configPath).replace($substitueVar, $matchingEnvVar) | Set-Content $configPath
-	}
+    (Get-Content $configPath).replace($substitueVar, $matchingEnvVar) | Set-Content $configPath
 }
 
 $configPath = "$env:APPLICATION_PATH\web.config"
