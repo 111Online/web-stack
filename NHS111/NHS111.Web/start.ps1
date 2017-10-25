@@ -1,3 +1,19 @@
+Function SetEnironmentVariableValue ($key)
+{
+    Write-Output "Processing key $($key)"
+	
+	$matchingEnvVar = [Environment]::GetEnvironmentVariable($key)
+    
+	if($matchingEnvVar)
+	{
+		Write-Output "Found matching environment variable for key: $($key)"
+        $substitueVar = '#{{{0}}}' -f $key
+        Write-Output "Replacing value $($substitueVar) with $matchingEnvVar"
+
+		(Get-Content $configPath).replace($substitueVar, $matchingEnvVar) | Set-Content $configPath
+	}
+}
+
 $configPath = "$env:APPLICATION_PATH\web.config"
 
 Write-Output "Loading config file from $configPath"
@@ -20,12 +36,10 @@ ForEach($add in $xml.configuration.appSettings.add)
 
 $xml.Save($configPath)
 
-(Get-Content $configPath).replace('#{AuthenticationExcludeContentList}', [Environment]::GetEnvironmentVariable('AuthenticationExcludeContentList')) | Set-Content $configPath
-(Get-Content $configPath).replace('#{AuthenticationExcludeContentVerb}', [Environment]::GetEnvironmentVariable('AuthenticationExcludeContentVerb')) | Set-Content $configPath
-(Get-Content $configPath).replace('#{AuthenticationExcludeScriptList}', [Environment]::GetEnvironmentVariable('AuthenticationExcludeScriptList')) | Set-Content $configPath
-(Get-Content $configPath).replace('#{AuthenticationExcludeScriptVerb}', [Environment]::GetEnvironmentVariable('AuthenticationExcludeScriptVerb')) | Set-Content $configPath
-
-$xml.Save($configPath)
+SetEnironmentVariableValue -key "AuthenticationExcludeContentList"
+SetEnironmentVariableValue -key "AuthenticationExcludeContentVerb"
+SetEnironmentVariableValue -key "AuthenticationExcludeScriptList"
+SetEnironmentVariableValue -key "AuthenticationExcludeScriptVerb"
 
 $command = "C:\\ServiceMonitor.exe w3svc"
 iex $command
