@@ -1,4 +1,3 @@
 *
-!obj\Docker\publish\*
-!obj\Docker\empty\
+!obj\octopacked\*
 !start.ps1
