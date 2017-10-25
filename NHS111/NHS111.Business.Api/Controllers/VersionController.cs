@@ -23,20 +23,20 @@ namespace NHS111.Business.Api.Controllers
         [Route("version")]
         public async Task<HttpResponseMessage> Get(string cacheKey = null)
         {
-            #if !DEBUG
-                cacheKey = cacheKey ?? "version-info";
+            //#if !DEBUG
+            //    cacheKey = cacheKey ?? "version-info";
 
-                var cacheValue = await _cacheManager.Read(cacheKey);
-                if (cacheValue != null)
-                {
-                    return cacheValue.AsHttpResponse();
-                }
-            #endif
+            //    var cacheValue = await _cacheManager.Read(cacheKey);
+            //    if (cacheValue != null)
+            //    {
+            //        return cacheValue.AsHttpResponse();
+            //    }
+            //#endif
 
             var version = await _versionService.GetVersionInfo();
-            #if !DEBUG
-                _cacheManager.Set(cacheKey, version);
-            #endif
+            //#if !DEBUG
+            //    _cacheManager.Set(cacheKey, version);
+            //#endif
 
             return await _versionService.GetVersionInfo().AsHttpResponse();
         }
