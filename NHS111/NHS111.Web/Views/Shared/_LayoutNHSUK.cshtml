@@ -25,10 +25,7 @@
     <link rel="preload" as="font" type="font/woff2" crossorigin href="https://assets.nhs.uk/fonts/0811514e-6660-4043-92c1-23d0b8caaa2f.woff2" />
 
     <!-- css -->
-    <!--[if gt IE 8]><!--><link href="@NHS111.Web.Helpers.Versioning.GetVersionedUriRef("~/Content/css/nhs-111.css")" media="screen" rel="stylesheet" type="text/css"><!--<![endif]-->
-    <!--[if IE 6]><link href="@NHS111.Web.Helpers.Versioning.GetVersionedUriRef("~/Content/css/nhs-111-ie6.css")" media="screen" rel="stylesheet" type="text/css" /><![endif]-->
-    <!--[if IE 7]><link href= "@NHS111.Web.Helpers.Versioning.GetVersionedUriRef("~/Content/css/nhs-111-ie7.css")" media="screen" rel="stylesheet" type="text/css" /><![endif]-->
-    <!--[if IE 8]><link href= "@NHS111.Web.Helpers.Versioning.GetVersionedUriRef("~/Content/css/nhs-111-ie8.css")" media="screen" rel="stylesheet" type="text/css" /><![endif]-->
+    <link href="@NHS111.Web.Helpers.Versioning.GetVersionedUriRef("~/Content/css/nhs-111.css")" media="screen" rel="stylesheet" type="text/css">
     <link rel="preload" href="/content/images/nhs-logotype-blue.svg" as="image" />
 
     <script src="/content/js/bundle-head.js"></script>
@@ -53,9 +50,10 @@
 <body>
     @if (CookieBannerFeature.IsEnabled)
     {
-        <!-- toggle cookie banner -->
         @Html.Partial("_CookieBanner")
     }
+
+    @Html.Partial("_CompatibilityBanner")
 
     @RenderSection("SurveyBanner", false)
 
