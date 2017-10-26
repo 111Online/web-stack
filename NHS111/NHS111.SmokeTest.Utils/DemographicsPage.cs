@@ -14,10 +14,10 @@ namespace NHS111.SmokeTest.Utils
         [FindsBy(How = How.CssSelector, Using = "h1")]
         private IWebElement Header { get; set; }
 
-        [FindsBy(How = How.CssSelector, Using = "[for='Male']")]
+        [FindsBy(How = How.CssSelector, Using = "label[for='Male']")]
         private IWebElement MaleButton { get; set; }
 
-        [FindsBy(How = How.CssSelector, Using = "[for='Female']")]
+        [FindsBy(How = How.CssSelector, Using = "label[for='Female']")]
         private IWebElement FemaleButton { get; set; }
 
         [FindsBy(How = How.Id, Using = "UserInfo_Demography_Age")]
