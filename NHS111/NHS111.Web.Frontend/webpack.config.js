@@ -13,7 +13,7 @@ module.exports = {
         filename: '[name].js'
     },
     plugins: [
-        new UglifyJSPlugin({ sourceMap: true }),
+        //new UglifyJSPlugin({ sourceMap: true }),
         new Visualizer({
             filename: '../../src/codebase/components/_jschart/jschart.njk'
         })

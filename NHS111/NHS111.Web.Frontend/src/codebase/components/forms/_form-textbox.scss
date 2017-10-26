@@ -7,11 +7,14 @@ input[type="number"],
   display: block;
   max-width: 540px;
   padding: $baseline-grid-unit;
-  width: 100%;
 
   &:focus {
     outline: 3px solid $yellow;
   }
+}
+
+.form-textbox--small {
+  width: 4em;
 }
 
 .form-textbox[maxlength="1"] {
