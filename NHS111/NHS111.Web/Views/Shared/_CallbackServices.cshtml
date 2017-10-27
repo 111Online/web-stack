@@ -1,10 +1,10 @@
 ﻿@using NHS111.Models.Models.Web
+@using NHS111.Models.Models.Web.FromExternalServices
 @model  OutcomeViewModel
 @{
-    var services = Model.DosCheckCapacitySummaryResult.Success.Services;
+    var services = Model.GroupedDosServices.First(s => s.OnlineDOSServiceType == OnlineDOSServiceType.Callback).Services;
 }
-@if (services.Any(s => s.CallbackEnabled))
-{
+
     <details>
         <summary>
             <span class="details__arrow"></span>
@@ -17,7 +17,7 @@
                 </div>
             </section>
             <div class="cards">
-                @foreach (var callbackService in services.Where(s => s.CallbackEnabled))
+                @foreach (var callbackService in services)
                 {
                     <div class="card">
                         <h3>@WebUtility.HtmlDecode(callbackService.Name)</h3>
@@ -40,4 +40,4 @@
             </div>
         </div>
     </details>
-}
+
