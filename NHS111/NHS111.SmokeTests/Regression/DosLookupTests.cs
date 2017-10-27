@@ -10,6 +10,7 @@ namespace NHS111.SmokeTests.Regression
 {
     public class DosLookupTests : BaseTests
     {
+        [Ignore]
         [Test]
         //PT8 via Behaviour Change Tx222027 and Tx222006
         public void Pt8ViaBehaviourChangeTx222027Tx222006()

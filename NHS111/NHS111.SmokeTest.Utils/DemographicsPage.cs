@@ -7,9 +7,11 @@ namespace NHS111.SmokeTest.Utils
 {
     public class DemographicsPage : LayoutPage
     {
-        private string _headerText = "Tell us about you, or the person you're asking about";
-        private string _ageValidationMessage = "Please enter a valid age";
-        private string _sexValidationMessage = "Please select a sex";
+        private const string _headerText = "Tell us about you, or the person you're asking about";
+        private const string _sexValidationMessage = "Please select a sex";
+        private const string _ageEmptyValidationMessage = "'Age' must not be empty.";
+        private const string _ageTooLowValidation = "Sorry, this service is not available for children under 5 years of age, for medical advice please call 111.";
+        private const string _ageTooHighValidation = "Please enter a value less than or equal to 200.";
 
         [FindsBy(How = How.CssSelector, Using = "h1")]
         private IWebElement Header { get; set; }
@@ -92,7 +94,7 @@ namespace NHS111.SmokeTest.Utils
             NextButton.Submit();
 
             Assert.IsTrue(AgeValidationMessageElement.Displayed);
-            Assert.AreEqual(_ageValidationMessage, AgeValidationMessageElement.Text);
+            Assert.AreEqual(_ageEmptyValidationMessage, AgeValidationMessageElement.Text);
         }
 
         public void VerifyTooOldAgeShowsValidation(string sex, int age)
@@ -102,7 +104,7 @@ namespace NHS111.SmokeTest.Utils
             NextButton.Submit();
 
             Assert.IsTrue(AgeValidationMessageElement.Displayed);
-            Assert.AreEqual(_ageValidationMessage, AgeValidationMessageElement.Text);
+            Assert.AreEqual(_ageTooHighValidation, AgeValidationMessageElement.Text);
         }
 
         public void VerifyTooYoungAgeShowsValidation(string sex, int age)
@@ -112,7 +114,7 @@ namespace NHS111.SmokeTest.Utils
             NextButton.Submit();
 
             Assert.IsTrue(AgeValidationMessageElement.Displayed);
-            Assert.AreEqual(_ageValidationMessage, AgeValidationMessageElement.Text);
+            Assert.AreEqual(_ageTooLowValidation, AgeValidationMessageElement.Text);
         }
 
         public void VerifyTabbingOrder(int age)
