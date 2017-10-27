@@ -40,33 +40,35 @@
 </div>
 <script type="text/javascript">
 
-    jQuery.validator.addMethod('forename', function (value, element, params) {
-        if (!$("#Informant").is(":checked")) return true;
+    jQuery(function () {
+        jQuery.validator.addMethod('forename', function (value, element, params) {
+            if (!$("#Informant").is(":checked")) return true;
 
-        var firstname = $('#Informant_Forename').val();
+            var firstname = $('#Informant_Forename').val();
 
-        return firstname.trim();
-    });
+            return firstname.trim();
+        });
 
-    jQuery.validator.addMethod('surname', function (value, element, params) {
-        if (!$("#Informant").is(":checked")) return true;
+        jQuery.validator.addMethod('surname', function (value, element, params) {
+            if (!$("#Informant").is(":checked")) return true;
 
-        var lastname = $('#Informant_Forename').val();
+            var lastname = $('#Informant_Forename').val();
 
-        return lastname.trim();
-    });
+            return lastname.trim();
+        });
 
-    jQuery.validator.unobtrusive.adapters.add('forename', ['prefixelement'], function (options) {
-        options.rules['forename'] = options.params;
-        if (options.message != null) {
-            options.messages['forename'] = options.message;
-        }
-    });
-    jQuery.validator.unobtrusive.adapters.add('surname', ['prefixelement'], function (options) {
-        options.rules['surname'] = options.params;
-        if (options.message != null) {
-            options.messages['surname'] = options.message;
-        }
-    });
+        jQuery.validator.unobtrusive.adapters.add('forename', ['prefixelement'], function (options) {
+            options.rules['forename'] = options.params;
+            if (options.message != null) {
+                options.messages['forename'] = options.message;
+            }
+        });
+        jQuery.validator.unobtrusive.adapters.add('surname', ['prefixelement'], function (options) {
+            options.rules['surname'] = options.params;
+            if (options.message != null) {
+                options.messages['surname'] = options.message;
+            }
+        });
+    })
 
 </script>

@@ -202,3 +202,5 @@ log.*.txt
 /NHS111/NHS111.Web/Content
 /NHS111/NHS111.Web.Frontend/content
 /NHS111/NHS111.Web.Frontend/src/codebase/components/_cssgraph/specificity.js
+/NHS111/NHS111.Web.Frontend/src/codebase/components/_jschart/stats.js
+/NHS111/NHS111.Web.Frontend/stats.json

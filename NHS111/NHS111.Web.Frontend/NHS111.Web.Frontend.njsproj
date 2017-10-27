@@ -16,8 +16,53 @@
   <PropertyGroup Condition="'$(Configuration)' == 'Debug'" />
   <PropertyGroup Condition="'$(Configuration)' == 'Release'" />
   <ItemGroup>
+    <Compile Include="src\js\geolocation.js">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="src\js\entry-head.js">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="src\js\entry-main.js">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="src\js\entry-polyfills.js">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="src\js\test-geolocation.js">
+      <TestFramework>Mocha</TestFramework>
+    </Compile>
     <Compile Include="src\js\test-validation.js" />
     <Compile Include="src\js\validation.js" />
+    <Compile Include="src\js\vendor\details.min.js">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="src\js\vendor\jquery.cookie.js">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="src\js\vendor\jquery.ns-autogrow.js">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="src\js\vendor\jquery.unobtrusive-ajax.js">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="src\js\vendor\jquery.validate.js">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="src\js\vendor\jquery.validate.unobtrusive.js">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="src\js\vendor\modernizr-custom.min.js">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="src\js\vendor\spin.js">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="webpack.config.js">
+      <SubType>Code</SubType>
+    </Compile>
+    <Content Include=".eslintrc">
+      <SubType>Code</SubType>
+    </Content>
     <Content Include="LICENCE.txt" />
     <Content Include=".stylelintrc.json" />
     <Content Include="package-lock.json" />
@@ -35,6 +80,9 @@
     <Content Include="src\assets\images\icons\arrow--white.svg" />
     <Content Include="src\assets\images\icons\icon-button-next.svg" />
     <Content Include="src\assets\images\icons\icon-button-prev.svg" />
+    <Content Include="src\assets\images\icons\icon-close.svg">
+      <SubType>Code</SubType>
+    </Content>
     <Content Include="src\assets\images\icons\icon_info.png" />
     <Content Include="src\assets\images\icons\map-pointers\fac-map-1.png" />
     <Content Include="src\assets\images\icons\map-pointers\fac-map-10.png" />
@@ -200,6 +248,7 @@
     <Folder Include="src\codebase\units\" />
     <Folder Include="src\docs\" />
     <Folder Include="src\js\" />
+    <Folder Include="src\js\vendor\" />
     <Folder Include="src\templates\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.Common.targets" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />

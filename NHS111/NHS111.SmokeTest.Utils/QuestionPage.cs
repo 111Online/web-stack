@@ -153,5 +153,11 @@ namespace NHS111.SmokeTest.Utils
             Driver.Navigate().Back();
             return new QuestionPage(Driver);
         }
+
+        public void VerifyQuestionPageLoaded()
+        {
+            Assert.AreEqual("Next question", NextButton.Text);
+            Assert.IsTrue(NextButton.Displayed);
+        }
     }
 }

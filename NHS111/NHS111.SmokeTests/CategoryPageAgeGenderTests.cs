@@ -2,15 +2,15 @@
 using NUnit.Framework;
 using OpenQA.Selenium;
 
-namespace NHS111.SmokeTests.Regression
+namespace NHS111.SmokeTests
 {
-    public class CategoryTests : BaseTests
+    public class CategoryPageAgeGenderTests : BaseTests
     {
         [Test]
         //alias and id check for categories age 5 Female with mental health
-        public void CategoriesPresentForFemaleChild()
+        public void CategoriesPage_PresentForFemaleChild()
         {
-            var categoryPage = TestScenerios.LaunchCategoryScenerio(Driver, TestScenerioGender.Female, 5);
+            var categoryPage = TestScenerios.LaunchCategoryScenerio(Driver, TestScenerioSex.Female, 5);
 
             categoryPage.VerifyPathwayInCategoryList("Abdomen injury - skin not broken", "PW500FemaleChild");
             categoryPage.VerifyPathwayInCategoryList("Injury to the side of the body - skin not broken", "PW500FemaleChild");
@@ -203,9 +203,9 @@ namespace NHS111.SmokeTests.Regression
 
         [Test]
         //alias and id check for categories age 40 female with mental health
-        public void CategoriesPresentForFemaleAdult()
+        public void CategoriesPage_PresentForFemaleAdult()
         {
-            var categoryPage = TestScenerios.LaunchCategoryScenerio(Driver, TestScenerioGender.Female, 40);
+            var categoryPage = TestScenerios.LaunchCategoryScenerio(Driver, TestScenerioSex.Female, 40);
 
             categoryPage.VerifyPathwayInCategoryList("Can't feel baby moving as much", "PW1763FemaleAdult");
             categoryPage.VerifyPathwayInCategoryList("Abdomen injury - skin not broken", "PW500FemaleAdult");
@@ -398,9 +398,9 @@ namespace NHS111.SmokeTests.Regression
 
         [Test]
         //alias and id check for categories age 5 Male with mental health
-        public void CategoriespresentForMaleChild()
+        public void CategoriesPage_PresentForMaleChild()
         {
-            var categoryPage = TestScenerios.LaunchCategoryScenerio(Driver, TestScenerioGender.Male, 5);
+            var categoryPage = TestScenerios.LaunchCategoryScenerio(Driver, TestScenerioSex.Male, 5);
 
             categoryPage.VerifyPathwayInCategoryList("Abdomen injury - skin not broken", "PW503MaleChild");
             categoryPage.VerifyPathwayInCategoryList("Injury to the side of the body - skin not broken", "PW503MaleChild");
@@ -584,9 +584,9 @@ namespace NHS111.SmokeTests.Regression
 
         [Test]
         //alias and id check for categories age 40 Male with mental health
-        public void CategoriesPresentForMaleAdult()
+        public void CategoriesPage_PresentForMaleAdult()
         {
-            var categoryPage = TestScenerios.LaunchCategoryScenerio(Driver, TestScenerioGender.Male, 40);
+            var categoryPage = TestScenerios.LaunchCategoryScenerio(Driver, TestScenerioSex.Male, 40);
 
             categoryPage.VerifyPathwayInCategoryList("Abdomen injury - skin not broken", "PW503MaleAdult");
             categoryPage.VerifyPathwayInCategoryList("Injury to the side of the body - skin not broken", "PW503MaleAdult");
