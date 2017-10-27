@@ -23,6 +23,6 @@ namespace NHS111.Models.Models.Web.FromExternalServices
     {
         Callback,
         GoTo,
-        PublicePhone
+        PublicPhone
     }
 }

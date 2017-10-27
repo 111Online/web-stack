@@ -47,7 +47,7 @@ namespace NHS111.Models.Models.Web
                 if (this.CallbackEnabled) return OnlineDOSServiceType.Callback;
                 if (!this.CallbackEnabled && string.IsNullOrEmpty(this.ContactDetails))
                     return OnlineDOSServiceType.GoTo;
-                return OnlineDOSServiceType.PublicePhone;
+                return OnlineDOSServiceType.PublicPhone;
             }
         }
 

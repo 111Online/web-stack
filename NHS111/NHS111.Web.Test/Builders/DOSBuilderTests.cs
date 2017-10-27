@@ -140,7 +140,7 @@ namespace NHS111.Web.Presentation.Builders.Tests
             var groupedDosServices = _dosBuilder.FillGroupedDosServices(emptyServiceList);
             Assert.IsTrue(groupedDosServices.Count == 3);
             Assert.AreEqual(OnlineDOSServiceType.Callback, groupedDosServices[0].OnlineDOSServiceType);
-            Assert.AreEqual(OnlineDOSServiceType.PublicePhone, groupedDosServices[1].OnlineDOSServiceType);
+            Assert.AreEqual(OnlineDOSServiceType.PublicPhone, groupedDosServices[1].OnlineDOSServiceType);
             Assert.AreEqual(OnlineDOSServiceType.GoTo, groupedDosServices[2].OnlineDOSServiceType);
 
             Assert.AreEqual(2, groupedDosServices[0].Services.Count());
@@ -168,7 +168,7 @@ namespace NHS111.Web.Presentation.Builders.Tests
                 };
             var groupedDosServices = _dosBuilder.FillGroupedDosServices(emptyServiceList);
             Assert.IsTrue(groupedDosServices.Count == 3);
-            Assert.AreEqual(OnlineDOSServiceType.PublicePhone, groupedDosServices[0].OnlineDOSServiceType);
+            Assert.AreEqual(OnlineDOSServiceType.PublicPhone, groupedDosServices[0].OnlineDOSServiceType);
             Assert.AreEqual(OnlineDOSServiceType.Callback, groupedDosServices[1].OnlineDOSServiceType);
             Assert.AreEqual(OnlineDOSServiceType.GoTo, groupedDosServices[2].OnlineDOSServiceType);
 
