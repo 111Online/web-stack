@@ -40,6 +40,17 @@ namespace NHS111.Models.Models.Web
             }
         }
 
+        public OnlineDOSServiceType OnlineDOSServiceType
+        {
+            get
+            {
+                if (this.CallbackEnabled) return OnlineDOSServiceType.Callback;
+                if (!this.CallbackEnabled && string.IsNullOrEmpty(this.ContactDetails))
+                    return OnlineDOSServiceType.GoTo;
+                return OnlineDOSServiceType.PublicePhone;
+            }
+        }
+
         private static bool TimeBetween(TimeSpan timeNow, TimeSpan openingTime, TimeSpan closingTime)
         {
             return (timeNow >= openingTime && timeNow < closingTime);

@@ -1,12 +1,12 @@
 ﻿@using NHS111.Models.Models.Web
+@using NHS111.Models.Models.Web.FromExternalServices
 @model  OutcomeViewModel
 
 @{
-    var services = Model.DosCheckCapacitySummaryResult.Success.Services;
+    var services = Model.GroupedDosServices.FirstOrDefault(s => s.OnlineDOSServiceType == OnlineDOSServiceType.PublicePhone).Services;
 }
 
-@if (services.Any(s => !s.CallbackEnabled && !string.IsNullOrEmpty(s.ContactDetails)))
-{
+
     string title;
     if (ViewData.Keys.Contains("PhoneTitle"))
     {
@@ -44,5 +44,5 @@
             </div>
         </div>
     </details>
-}
+
 

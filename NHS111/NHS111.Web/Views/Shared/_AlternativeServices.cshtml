@@ -1,4 +1,5 @@
 ﻿@using NHS111.Models.Models.Web
+@using NHS111.Models.Models.Web.FromExternalServices
 @model  OutcomeViewModel
 
 <div class="alternative-care service-hidden">
@@ -11,22 +12,15 @@
         <p id="OutsidePilot">The postcode you entered is outside the Leeds trial area, so we can’t look up other services for you</p>
         <p>If you can’t @Html.Raw(Model.OutcomeGroup.Text), please call 111 for advice</p>
     }
-    else if (result != null && result.Success != null && result.Success.Services != null && result.Success.Services.Any())
+    else if (Model.GroupedDosServices.Any())
     {
         <h2>@Html.Raw((!ViewData.Keys.Contains("Title") ? "If you can't " + Model.OutcomeGroup.Text: ViewData["Title"]))</h2>
         <div id="availableServices">
-
-            @if (result.Success.Services.FirstOrDefault(s => s.CallbackEnabled) != null) //first service is a call back
-                {
-                @Html.Partial("_CallbackServices", Model, ViewData)
-                @Html.Partial("_GotoServices", Model, ViewData)
-                @Html.Partial("_PublicPhoneServices", Model, ViewData)
-                }
-            else
+            @foreach (var groupedServie in Model.GroupedDosServices)
             {
-                @Html.Partial("_GotoServices", Model, ViewData)
-                @Html.Partial("_PublicPhoneServices", Model, ViewData)
-                @Html.Partial("_CallbackServices", Model, ViewData)
+                if (groupedServie.OnlineDOSServiceType == OnlineDOSServiceType.Callback) { @Html.Partial("_CallbackServices", Model, ViewData)}
+                if (groupedServie.OnlineDOSServiceType == OnlineDOSServiceType.GoTo) { @Html.Partial("_GotoServices", Model, ViewData)}
+                if (groupedServie.OnlineDOSServiceType == OnlineDOSServiceType.PublicePhone) { @Html.Partial("_PublicPhoneServices", Model, ViewData)}
             }
         </div>
     }
