@@ -1,20 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using NHS111.SmokeTest.Utils;
+﻿using NHS111.SmokeTest.Utils;
 using NUnit.Framework;
 
-namespace NHS111.SmokeTests.Regression
+namespace NHS111.SmokeTests
 {
-    public class AgeTests : BaseTests
+    public class AgeTriageLogicTests : BaseTests
     {
+        //TODO: Discuss actual question triggered by set / read nodes for age. Remove asserts for other questions, not impacted by read nodes.
         [Test]
-        //age logic over 10 staging
-        public void AgeLogicOver10()
+        public void AgeTriageLogic_Over10()
         {
-            var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Rectal Bleeding", TestScenerioGender.Female, 11);
+            var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Rectal Bleeding", TestScenerioSex.Female, 11);
 
             var outcomePage = questionPage
                 .AnswerSuccessiveByOrder(1, 2)
@@ -29,10 +24,9 @@ namespace NHS111.SmokeTests.Regression
         }
 
         [Test]
-        //age logic over 55 staging
-        public void AgeLogicOver55()
+        public void AgeTriageLogic_Over55()
         {
-            var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Rectal Bleeding", TestScenerioGender.Female, 56);
+            var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Rectal Bleeding", TestScenerioSex.Female, 56);
 
             questionPage.VerifyQuestion("Do you have any pain in your tummy (abdomen) as well as bleeding from your bottom (rectal bleeding)?");
             var outcomePage = questionPage.AnswerAndVerifyQuestion(1, "How bad is your pain?")
@@ -49,10 +43,9 @@ namespace NHS111.SmokeTests.Regression
         }
 
         [Test]
-        //age logic under 11 staging
-        public void AgeLogicUnder11()
+        public void AgeTriageLogic_Under11()
         {
-            var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Rectal Bleeding", TestScenerioGender.Female, 10);
+            var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Rectal Bleeding", TestScenerioSex.Female, 10);
 
             var outcomePage = questionPage
                 .AnswerSuccessiveByOrder(1, 2)

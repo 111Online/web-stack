@@ -24,7 +24,7 @@ namespace NHS111.SmokeTest.Utils
 
         public static SearchPage Search(DemographicsPage page, string gender, int age)
         {
-            page.SelectGenderAndAge(gender, age);
+            page.SelectSexAndAge(gender, age);
 
             return page.NextPage();
         }
