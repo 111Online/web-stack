@@ -104,7 +104,7 @@
 
 <hr />
 @{
-    Model.DosCheckCapacitySummaryResult.Success.Services.RemoveAt(0);
+    Model.RemoveFirstDOSService();
 }
 @Html.Partial("_AlternativeServices", Model, new ViewDataDictionary { { "Title", "Other services" }, { "VisitTitle", "Places you can visit" }, { "CallbackTitle", "Places that can phone you" }, {"PhoneTitle", "Places you can phone" }})
 

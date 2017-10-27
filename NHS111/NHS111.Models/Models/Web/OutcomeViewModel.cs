@@ -46,6 +46,18 @@ namespace NHS111.Models.Models.Web
             }
         }
 
+        public ServiceViewModel RemoveFirstDOSService()
+        {
+            var service = this.DosCheckCapacitySummaryResult.Success.Services.FirstOrDefault();
+            if (GroupedDosServices.Any())
+            {
+                if(GroupedDosServices[0].Services.Count > 1)
+                    GroupedDosServices.First().Services.RemoveAt(0);
+                GroupedDosServices.RemoveAt(0);
+            }
+            return service;
+        }
+
         public bool DisplayWorseningCareAdvice
         {
             get
