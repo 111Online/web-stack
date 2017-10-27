@@ -16,11 +16,11 @@
     {
         <h2>@Html.Raw((!ViewData.Keys.Contains("Title") ? "If you can't " + Model.OutcomeGroup.Text: ViewData["Title"]))</h2>
         <div id="availableServices">
-            @foreach (var groupedServie in Model.GroupedDosServices)
+            @foreach (var groupedService in Model.GroupedDosServices)
             {
-                if (groupedServie.OnlineDOSServiceType == OnlineDOSServiceType.Callback) { @Html.Partial("_CallbackServices", Model, ViewData)}
-                if (groupedServie.OnlineDOSServiceType == OnlineDOSServiceType.GoTo) { @Html.Partial("_GotoServices", Model, ViewData)}
-                if (groupedServie.OnlineDOSServiceType == OnlineDOSServiceType.PublicePhone) { @Html.Partial("_PublicPhoneServices", Model, ViewData)}
+                if (groupedService.OnlineDOSServiceType == OnlineDOSServiceType.Callback) { @Html.Partial("_CallbackServices", Model, ViewData)}
+                if (groupedService.OnlineDOSServiceType == OnlineDOSServiceType.GoTo) { @Html.Partial("_GotoServices", Model, ViewData)}
+                if (groupedService.OnlineDOSServiceType == OnlineDOSServiceType.PublicePhone) { @Html.Partial("_PublicPhoneServices", Model, ViewData)}
             }
         </div>
     }
