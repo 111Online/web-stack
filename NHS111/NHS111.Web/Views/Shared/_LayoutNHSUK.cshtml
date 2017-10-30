@@ -25,11 +25,11 @@
     <link rel="preload" as="font" type="font/woff2" crossorigin href="https://assets.nhs.uk/fonts/0811514e-6660-4043-92c1-23d0b8caaa2f.woff2" />
 
     <!-- css -->
-    <!--[if gt IE 8]><!--><link href="@NHS111.Web.Helpers.Versioning.GetVersionedUriRef("~/Content/css/nhs-111.css")" media="screen" rel="stylesheet" type="text/css"><!--<![endif]-->
-    <!--[if IE 6]><link href="@NHS111.Web.Helpers.Versioning.GetVersionedUriRef("~/Content/css/nhs-111-ie6.css")" media="screen" rel="stylesheet" type="text/css" /><![endif]-->
-    <!--[if IE 7]><link href= "@NHS111.Web.Helpers.Versioning.GetVersionedUriRef("~/Content/css/nhs-111-ie7.css")" media="screen" rel="stylesheet" type="text/css" /><![endif]-->
-    <!--[if IE 8]><link href= "@NHS111.Web.Helpers.Versioning.GetVersionedUriRef("~/Content/css/nhs-111-ie8.css")" media="screen" rel="stylesheet" type="text/css" /><![endif]-->
+    <link href="@NHS111.Web.Helpers.Versioning.GetVersionedUriRef("~/Content/css/nhs-111.css")" media="screen" rel="stylesheet" type="text/css">
     <link rel="preload" href="/content/images/nhs-logotype-blue.svg" as="image" />
+
+    <script src="/content/js/bundle-head.js"></script>
+    <script>('Promise' in window) || document.write('<script src="/content/js/bundle-polyfills.js" defer><\/script>')</script>
 
     <!-- Javascript -->
     @if (UserZoomSurveyFeature.IsEnabled)
@@ -38,15 +38,6 @@
             (function (w) { w.uztracker = w.uztracker || function () { console.warn && console.warn('The uztracker() is not available.'); }; })(window);
         </script>
     }
-
-    <!--[if lt IE 9]>
-        <script src="https://code.jquery.com/jquery-1.12.4.min.js" integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ=" crossorigin="anonymous"></script>
-    <![endif]-->
-
-    <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
-    <script>(jQuery) || document.write('<script src="/scripts/jquery3.2.1.min.js"><\/script>');</script>
-
-    <script src="~/scripts/jquery.cookie.js" defer></script>
 
     @if (UserZoomSurveyFeature.IsEnabled)
     {
@@ -59,9 +50,10 @@
 <body>
     @if (CookieBannerFeature.IsEnabled)
     {
-        <!-- toggle cookie banner -->
         @Html.Partial("_CookieBanner")
     }
+
+    @Html.Partial("_CompatibilityBanner")
 
     @RenderSection("SurveyBanner", false)
 
@@ -125,18 +117,7 @@
 
     @{ Html.RenderAction("VersionInfo", "Version"); }
 
-    <script src="~/scripts/vendor/modernizr-custom.js" async></script>
-    <script src="https://ajax.aspnetcdn.com/ajax/jquery.validate/1.11.1/jquery.validate.min.js" integrity="sha384-B1miHxuCmAMGc0405Cm/zSXCc38EP5hNOy2bblqF6yiX01Svinm1mWMwJDdNDBGr" crossorigin="anonymous" ></script>
-    <script>(jQuery.validator) || document.write('<script src="/scripts/jquery.validate-1.11.1.min.js" defer><\/script>');</script>
-
-    <script src="https://ajax.aspnetcdn.com/ajax/mvc/5.2.3/jquery.validate.unobtrusive.min.js" integrity="sha384-mq7cJ2/0DBBpfwa9Ta1iT5TPlKf/YcfHkgfM9fpaAt1j8Lo2s1TM6UgIKB9+nfAS" crossorigin="anonymous"></script>
-    <script>(window.jQuery.validator.unobtrusive) || document.write('<script src="/scripts/jquery.validate.unobtrusive-5.2.3.min.js" defer><\/script>');</script>
-
-    <script src="~/scripts/jquery.unobtrusive-ajax.min.js" defer></script>
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.ns-autogrow/1.1.6/jquery.ns-autogrow.min.js" integrity="sha384-YkP6HTmTW2n1l3gZwUJI3k7lsRCIrThucnxbVSRNoeUM7ow2gj16EXZS6k2aO+L5" crossorigin="anonymous" defer></script>
-    <script>($().autogrow) || document.write('<script src="/scripts/jquery.ns-autogrow-1.1.6.min.js" defer><\/script>');</script>
-
+    <script src="/content/js/bundle.js"></script>
 
     <script type="text/javascript">
         $.validator.setDefaults({
@@ -152,6 +133,5 @@
     </script>
     <link rel="stylesheet" href="@NHS111.Web.Helpers.Versioning.GetVersionedUriRef("~/Content/css/nhs-111-print.css")" media="print" type="text/css">
 
-    <script src="~/scripts/details.min.js" defer></script>
 </body>
 </html>

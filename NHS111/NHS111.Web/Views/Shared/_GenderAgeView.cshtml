@@ -44,6 +44,14 @@
 
     $(document).ready(function () {
 
+        function getSelectedText() {
+            var selected = null;
+            if (window.getSelection) selected = window.getSelection();
+            else if (window.document.getSelection) selected = window.document.getSelection();
+            else if (window.document.selection) selected = window.document.selection.createRange().text;
+            return selected;
+        }
+
         $(".js-validate-number").on("keypress keydown input", function (e) {
             // If someone is holding up or down, some browsers will lag if we check each time, so ignore.
             // Also allow left and right arrow to reposition cursor
@@ -73,7 +81,9 @@
             }
             
             // Forces numbers-only (no scientific notation, which type=number allows) on keypress and paste
-            if (/[^0-9]/g.test(key) || $(this).val().length >= maxLength) e.preventDefault();
+            // also makes sure numbers can be overwritten
+            var isHighlighted = (getSelectedText().anchorNode == this.parentNode && getSelectedText().type == "Range");
+            if (/[^0-9]/g.test(key) || ($(this).val().length >= maxLength && !isHighlighted)) e.preventDefault();
             $(this).val($(this).val().replace(/[^0-9]/gi, '').slice(0, maxLength))
         });
     });
