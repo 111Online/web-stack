@@ -38,5 +38,9 @@ SetEnironmentVariableValue -key "AuthenticationExcludeContentVerb"
 SetEnironmentVariableValue -key "AuthenticationExcludeScriptList"
 SetEnironmentVariableValue -key "AuthenticationExcludeScriptVerb"
 
+$configPath = "$env:APPLICATION_PATH\ApplicationInsights.config"
+
+SetEnironmentVariableValue -key "InstrumentationKey"
+
 $command = "C:\\ServiceMonitor.exe w3svc"
 iex $command

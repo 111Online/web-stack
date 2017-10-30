@@ -35,5 +35,9 @@ $xml.Save($configPath)
 
 SetEnironmentVariableValue -key "DOSServiceURI"
 
+$configPath = "$env:APPLICATION_PATH\ApplicationInsights.config"
+
+SetEnironmentVariableValue -key "InstrumentationKey"
+
 $command = "C:\\ServiceMonitor.exe w3svc"
 iex $command
