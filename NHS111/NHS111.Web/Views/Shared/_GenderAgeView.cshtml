@@ -3,6 +3,21 @@
 
 @Html.ValidationSummary("There's a problem", new { @class = "callout callout--error", role = "alert"})
 
+<div class="@(Html.ViewData.ModelState.IsValid ? "validation-summary-valid" : "callout callout--error validation-summary-errors")"
+     data-valmsg-summary="true" role="alert">
+    <div class="panel-heading">
+        There's a problem
+    </div>
+    <div class="panel-body">
+        <ul>
+            @foreach(var modelError in Html.ViewData.ModelState.SelectMany(keyValuePair => keyValuePair.Value.Errors))
+            {
+                <li>@modelError.ErrorMessage</li>
+            }
+        </ul>
+    </div>
+</div>
+
 <h1 class="heading-large gender-heading">Tell us about you, or the person you're asking about</h1>
 
 <div class="form-group @(@ViewData.ModelState.IsValidField("UserInfo.Demography.Gender") ? "" : "form-group-error")">
