@@ -1,19 +1,13 @@
 ﻿@using NHS111.Models.Models.Domain
 @inherits NHS111.Web.Views.Shared.AgeValidationView<NHS111.Models.Models.Web.JourneyViewModel>
 
-@Html.ValidationSummary("There's a problem", new { @class = "callout callout--error", role = "alert"})
-
-<div class="@(Html.ViewData.ModelState.IsValid ? "validation-summary-valid" : "callout callout--error validation-summary-errors")"
-     data-valmsg-summary="true" role="alert">
-    <div class="panel-heading">
+<div class="callout callout--error @(Html.ViewData.ModelState.IsValid ? "validation-summary-valid" : "validation-summary-errors")"
+     data-valmsg-summary="true">
+    <h2>
         There's a problem
-    </div>
+    </h2>
     <div class="panel-body">
         <ul>
-            @foreach(var modelError in Html.ViewData.ModelState.SelectMany(keyValuePair => keyValuePair.Value.Errors))
-            {
-                <li>@modelError.ErrorMessage</li>
-            }
         </ul>
     </div>
 </div>
@@ -41,7 +35,7 @@
 <div class="form-group @(@ViewData.ModelState.IsValidField("UserInfo.Demography.Age") ? "" : "form-group-error")">
     <fieldset class="age-content">
         @Html.LabelFor(m => m.UserInfo.Demography.Age, "Age in years", new { @class = "form-label" })
-        @Html.ValidationMessageFor(m => m.UserInfo.Demography.Age, "Please enter a valid age", new { @class = "error-message" })
+        @Html.ValidationMessageFor(m => m.UserInfo.Demography.Age, null, new { @class = "error-message" })
         @Html.TextBoxFor(m => m.UserInfo.Demography.Age, new { @class = "form-textbox form-textbox--small js-validate-number", type = "number", size = 3, autocomplete = "off", maxlength = 3, min = 0, max = 200 })
     </fieldset>
 </div>

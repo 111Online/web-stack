@@ -61,11 +61,13 @@ select  {
 // Form validation
 // ==========================================================================
 
-.field-validation-valid  {
+.field-validation-valid,
+.field-summary-valid {
   display: none;
 }
 
-.field-validation-error {
+.field-validation-error,
+.validation-summary-error {
   display: block;
 }
 
