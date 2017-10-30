@@ -9,7 +9,7 @@ namespace NHS111.SmokeTests
         [Test]
         public void Call999EndpointJourney()
         {
-            var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Skin Problems", TestScenerioGender.Female, TestScenerioAgeGroups.Adult);
+            var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Skin Problems", TestScenerioSex.Female, TestScenerioAgeGroups.Adult);
 
             questionPage.VerifyQuestion("What is the main problem?");
             var outcomePage =  questionPage
@@ -23,7 +23,7 @@ namespace NHS111.SmokeTests
         [Test]
         public void PharmacyEndpointJourney()
         {
-            var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Eye or Eyelid Problems", TestScenerioGender.Male, TestScenerioAgeGroups.Adult);
+            var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Eye or Eyelid Problems", TestScenerioSex.Male, TestScenerioAgeGroups.Adult);
 
             questionPage.VerifyQuestion("What is the main problem?");
             var outcomePage = questionPage
@@ -44,7 +44,7 @@ namespace NHS111.SmokeTests
         [Test]
         public void HomeCareEndpointJourney()
         {
-            var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Cold or Flu (Declared)", TestScenerioGender.Female, TestScenerioAgeGroups.Adult);
+            var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Cold or Flu (Declared)", TestScenerioSex.Female, TestScenerioAgeGroups.Adult);
 
             questionPage.VerifyQuestion("Do you feel so ill that you can't think of anything else?");
             var outcomePage = questionPage
@@ -67,7 +67,7 @@ namespace NHS111.SmokeTests
         [Test]
         public void DentalEndpointJourney()
         {
-            var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Dental Problems", TestScenerioGender.Female, TestScenerioAgeGroups.Adult);
+            var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Dental Problems", TestScenerioSex.Female, TestScenerioAgeGroups.Adult);
 
             questionPage.VerifyQuestion("Do you have dental bleeding, toothache or a different dental problem?");
             var postcodeFirstPage = questionPage
@@ -87,7 +87,7 @@ namespace NHS111.SmokeTests
         [Test]
         public void EmergencyDentalEndpointJourney()
         {
-            var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Dental Problems", TestScenerioGender.Female, TestScenerioAgeGroups.Adult);
+            var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Dental Problems", TestScenerioSex.Female, TestScenerioAgeGroups.Adult);
 
             questionPage.VerifyQuestion("Do you have dental bleeding, toothache or a different dental problem?");
             var outcomePage = questionPage
@@ -108,7 +108,7 @@ namespace NHS111.SmokeTests
         [Test]
         public void AccidentAndEmergencyEndpointJourney()
         {
-            var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Headache", TestScenerioGender.Male, TestScenerioAgeGroups.Adult);
+            var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Headache", TestScenerioSex.Male, TestScenerioAgeGroups.Adult);
 
             questionPage.VerifyQuestion("Have you hurt or banged your head in the last 7 days?");
             var outcomePage = questionPage
@@ -129,7 +129,7 @@ namespace NHS111.SmokeTests
         [Test]
         public void OpticianEndpointJourney()
         {
-            var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Eye or Eyelid Problems", TestScenerioGender.Female, TestScenerioAgeGroups.Child);
+            var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Eye or Eyelid Problems", TestScenerioSex.Female, TestScenerioAgeGroups.Child);
 
             questionPage.VerifyQuestion("What is the main problem?");
             var outcomePage = questionPage
@@ -157,7 +157,7 @@ namespace NHS111.SmokeTests
         [Test]
         public void GPEndpointJourney()
         {
-            var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Diarrhoea and Vomiting", TestScenerioGender.Male, TestScenerioAgeGroups.Child);
+            var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Diarrhoea and Vomiting", TestScenerioSex.Male, TestScenerioAgeGroups.Child);
 
             questionPage.VerifyQuestion("Have you had any blood in your sick?");
             var outcomePage = questionPage
@@ -182,7 +182,7 @@ namespace NHS111.SmokeTests
         [Test]
         public void JumpToRemappedMentalHealthPathway()
         {
-            var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Tiredness (Fatigue)", TestScenerioGender.Male, TestScenerioAgeGroups.Adult);
+            var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Tiredness (Fatigue)", TestScenerioSex.Male, TestScenerioAgeGroups.Adult);
 
             questionPage.VerifyQuestion("Have you got a raised temperature now or have you had one at any time since the tiredness started?");
             var outcomePage = questionPage
@@ -203,7 +203,7 @@ namespace NHS111.SmokeTests
         [Test]
         public void GPOOHEndpointJourney()
         {
-            var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Headache", TestScenerioGender.Male, TestScenerioAgeGroups.Adult);
+            var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Headache", TestScenerioSex.Male, TestScenerioAgeGroups.Adult);
 
             questionPage.VerifyQuestion("Have you hurt or banged your head in the last 7 days?");
             var outcomePage = questionPage
@@ -227,7 +227,7 @@ namespace NHS111.SmokeTests
         [Test]
         public void MidwifeEndpointJourney()
         {
-            var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Headache", TestScenerioGender.Female, TestScenerioAgeGroups.Adult);
+            var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Headache", TestScenerioSex.Female, TestScenerioAgeGroups.Adult);
 
             questionPage.VerifyQuestion("Is there a chance you are pregnant?");
             var outcomePage = questionPage

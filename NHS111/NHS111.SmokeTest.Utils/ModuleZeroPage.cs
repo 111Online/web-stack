@@ -24,7 +24,7 @@ namespace NHS111.SmokeTest.Utils
         [FindsBy(How = How.XPath, Using = "//summary[1]")]
         private IWebElement FirstExpandableLink { get; set; }
 
-        [FindsBy(How = How.Id, Using = "details-content-0")]
+        [FindsBy(How = How.CssSelector, Using = "details p")]
         private IWebElement FirstExpandableLinkExpanded { get; set; }
 
         public ModuleZeroPage(IWebDriver driver) : base(driver)
@@ -46,7 +46,7 @@ namespace NHS111.SmokeTest.Utils
         public void VerifyExpandableLink()
         {
             FirstExpandableLink.Click();
-            Assert.AreEqual(FirstExpandableLinkExpanded.Text, _firstExpandableLinkHiddenText);
+            Assert.AreEqual(_firstExpandableLinkHiddenText, FirstExpandableLinkExpanded.Text);
             Assert.IsTrue(FirstExpandableLinkExpanded.Displayed);
         }
     }

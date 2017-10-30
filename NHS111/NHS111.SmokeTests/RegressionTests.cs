@@ -10,7 +10,7 @@ namespace NHS111.SmokeTests
         public void PathwayNotFound()
         {
             var questionPage = TestScenerios.LaunchTriageScenerio(Driver,
-                "Wound Problems, Plaster Casts, Tubes and Metal Appliances", TestScenerioGender.Male,
+                "Wound Problems, Plaster Casts, Tubes and Metal Appliances", TestScenerioSex.Male,
                 TestScenerioAgeGroups.Adult);
 
             questionPage.VerifyQuestion("Is the problem to do with any of these?");
@@ -58,7 +58,7 @@ namespace NHS111.SmokeTests
         [Test]
         public void SplitQuestionJourneyThroughEachRoute()
         {
-            var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Headache", TestScenerioGender.Male, TestScenerioAgeGroups.Adult);
+            var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Headache", TestScenerioSex.Male, TestScenerioAgeGroups.Adult);
             questionPage.VerifyQuestion("Have you hurt or banged your head in the last 7 days?");
             var outcomePage = questionPage
                 .Answer(3)
@@ -112,7 +112,7 @@ namespace NHS111.SmokeTests
         [Test]
         public void QuestionDisplaysRationale()
         {
-            var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Headache", TestScenerioGender.Female, TestScenerioAgeGroups.Adult);
+            var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Headache", TestScenerioSex.Female, TestScenerioAgeGroups.Adult);
 
             questionPage.VerifyQuestion("Is there a chance you are pregnant?");
             questionPage.VerifyRationale();

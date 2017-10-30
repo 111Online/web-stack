@@ -23,15 +23,14 @@ namespace NHS111.SmokeTests
             new Tuple<string, string>("Chest and upper back pain", "Breathing problems"), //additional digital title for Chest pain PW559 MaleAdult
             new Tuple<string, string>("Breathing problems", "Breathing problems"), //additional digital title for Chest pain PW559 MaleAdult
             new Tuple<string, string>("Wheezing", "Wheezing and breathlessness"), //additional digital title for Chest pain PW559 MaleAdult
-
         };
 
         [Test]
-        public void SearchTermYieldsHits()
+        public void SearchTermResults_CommonTermsReturnExpectedResult()
         {
             foreach (var testTerm in _testTerms)
             {
-                var searchPage = TestScenerios.LaunchSearchScenerio(Driver, TestScenerioGender.Male, 33);
+                var searchPage = TestScenerios.LaunchSearchScenerio(Driver, TestScenerioSex.Male, 33);
                 searchPage.SearchByTerm(testTerm.Item1);
                 searchPage.VerifyTermHits(testTerm.Item2, 3);
             } 

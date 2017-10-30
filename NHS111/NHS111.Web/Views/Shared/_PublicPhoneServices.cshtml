@@ -1,12 +1,12 @@
 ﻿@using NHS111.Models.Models.Web
+@using NHS111.Models.Models.Web.FromExternalServices
 @model  OutcomeViewModel
 
 @{
-    var services = Model.DosCheckCapacitySummaryResult.Success.Services;
-}
+    var services = Model.GroupedDosServices.FirstOrDefault(s => s.OnlineDOSServiceType == OnlineDOSServiceType.PublicPhone).Services;
 
-@if (services.Any(s => !s.CallbackEnabled && !string.IsNullOrEmpty(s.ContactDetails)))
-{
+
+
     string title;
     if (ViewData.Keys.Contains("PhoneTitle"))
     {
@@ -17,6 +17,7 @@
         var serviceCount = services.Count(s => !s.CallbackEnabled && !string.IsNullOrEmpty(s.ContactDetails));
         title = serviceCount > 1 ? "There are " + serviceCount + " places you can phone" : "There is 1 place you can phone";
     }
+}
     <details>
         <summary>
             <span class="details__arrow"></span>
@@ -44,5 +45,5 @@
             </div>
         </div>
     </details>
-}
+
 
