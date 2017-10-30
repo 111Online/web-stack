@@ -28,7 +28,7 @@
     <link href="@NHS111.Web.Helpers.Versioning.GetVersionedUriRef("~/Content/css/nhs-111.css")" media="screen" rel="stylesheet" type="text/css">
     <link rel="preload" href="/content/images/nhs-logotype-blue.svg" as="image" />
 
-    <script>('Promise' in window) || document.write('<script src="/content/js/bundle-polyfills.js" defer><\/script>')</script>
+    <script>('HTMLDetailsElement' in window) || document.write('<script src="/content/js/bundle-polyfills.js"><\/script>')</script>
     <script src="/content/js/bundle-head.js"></script>
     <!-- Javascript -->
     @if (UserZoomSurveyFeature.IsEnabled)
@@ -118,16 +118,6 @@
 
     <script src="/content/js/bundle.js"></script>
 
-    <script type="text/javascript">
-        $.validator.setDefaults({
-            highlight: function (element, errorClass, validClass) {
-                $(element).closest(".form-group").addClass("form-group-error");
-            },
-            unhighlight: function (element, errorClass, validClass) {
-                $(element).closest(".form-group").removeClass("form-group-error");
-            }
-        });
-    </script>
     <link rel="stylesheet" href="@NHS111.Web.Helpers.Versioning.GetVersionedUriRef("~/Content/css/nhs-111-print.css")" media="print" type="text/css">
 
 </body>
