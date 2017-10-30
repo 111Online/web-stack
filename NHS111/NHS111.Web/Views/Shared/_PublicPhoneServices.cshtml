@@ -4,7 +4,7 @@
 
 @{
     var services = Model.GroupedDosServices.FirstOrDefault(s => s.OnlineDOSServiceType == OnlineDOSServiceType.PublicPhone).Services;
-}
+
 
 
     string title;
@@ -17,6 +17,7 @@
         var serviceCount = services.Count(s => !s.CallbackEnabled && !string.IsNullOrEmpty(s.ContactDetails));
         title = serviceCount > 1 ? "There are " + serviceCount + " places you can phone" : "There is 1 place you can phone";
     }
+}
     <details>
         <summary>
             <span class="details__arrow"></span>
