@@ -22,7 +22,7 @@ namespace NHS111.Models.Models.Web
         public CareAdvice WorseningCareAdvice { get; set; }
         public SymptomDiscriminator SymptomDiscriminator { get; set; }
         public DosService UnavailableSelectedService { get; set; }
-        public List<GroupedDOSServices> GroupedDosServices { get; set; }
+        public List<GroupedDOSServices> GroupedDosServices { get; set; } = new List<GroupedDOSServices>();
         public string CurrentView { get; set; }
 
         public  SurveyLinkViewModel SurveyLink { get; set; }
