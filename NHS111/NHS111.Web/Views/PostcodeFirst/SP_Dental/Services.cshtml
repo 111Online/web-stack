@@ -112,6 +112,8 @@
 }
 @Html.Partial("_AlternativeServices", Model, new ViewDataDictionary { { "Title", "Other services" }, { "VisitTitle", "Places you can visit" }, { "CallbackTitle", "Places that can phone you" }, {"PhoneTitle", "Places you can phone" }})
 
+<p>If you're not registered with a dentist, read advice on <a href="https://www.nhs.uk/NHSEngland/AboutNHSservices/dentists/Pages/find-an-NHS-dentist.aspx">how to find an NHS dentist</a></p>
+
 @Html.Partial("_CareAdvice", Model.CareAdvices, new ViewDataDictionary { { "Title", "What you can do in the meantime" }, { "NoHR", true } })
 
 @Html.Partial("_WorseningAdviceWithTitle", Model)
