@@ -37,5 +37,9 @@ SetEnironmentVariableValue -key "TableStorageAccountName"
 SetEnironmentVariableValue -key "TableStorageAccountKey"
 SetEnironmentVariableValue -key "TableStorageName"
 
+$configPath = "$env:APPLICATION_PATH\ApplicationInsights.config"
+
+SetEnironmentVariableValue -key "InstrumentationKey"
+
 $command = "C:\\ServiceMonitor.exe w3svc"
 iex $command
