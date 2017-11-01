@@ -117,17 +117,6 @@
     @{ Html.RenderAction("VersionInfo", "Version"); }
 
     <script src="/content/js/bundle.js"></script>
-
-    <script type="text/javascript">
-        $.validator.setDefaults({
-            highlight: function (element, errorClass, validClass) {
-                $(element).closest(".form-group").addClass("form-group-error");
-            },
-            unhighlight: function (element, errorClass, validClass) {
-                $(element).closest(".form-group").removeClass("form-group-error");
-            }
-        });
-    </script>
     <link rel="stylesheet" href="@NHS111.Web.Helpers.Versioning.GetVersionedUriRef("~/Content/css/nhs-111-print.css")" media="print" type="text/css">
 
 </body>

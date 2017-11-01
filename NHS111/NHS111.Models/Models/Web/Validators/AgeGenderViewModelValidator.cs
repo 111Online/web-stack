@@ -12,10 +12,10 @@ namespace NHS111.Models.Models.Web.Validators
         public AgeGenderViewModelValidator() {
             RuleFor(p => p.Gender)
                 .NotEmpty()
-                .WithMessage("'Sex' must not be empty.");
+                .WithMessage("Please enter your sex");
             RuleFor(p => p.Age)
                 .NotEmpty()
-                .WithMessage("'Age' must not be empty.")
+                .WithMessage("Please enter your age")
                 .SetValidator(new AgeValidator<AgeGenderViewModel, int>(u => u.Age))
                 .WithMessage("Sorry, this service is not available for children under 5 years of age, for medical advice please call 111.")
                 .LessThan(201).WithMessage("The age you entered is incorrect")
