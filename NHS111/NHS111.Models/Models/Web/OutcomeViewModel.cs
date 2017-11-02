@@ -53,7 +53,8 @@ namespace NHS111.Models.Models.Web
             {
                 if(GroupedDosServices[0].Services.Count > 1)
                     GroupedDosServices.First().Services.RemoveAt(0);
-                GroupedDosServices.RemoveAt(0);
+                else
+                    GroupedDosServices.RemoveAt(0);
             }
             return service;
         }
