@@ -61,11 +61,13 @@ select  {
 // Form validation
 // ==========================================================================
 
-.field-validation-valid  {
+.field-validation-valid,
+.validation-summary-valid {
   display: none;
 }
 
-.field-validation-error {
+.field-validation-error,
+.validation-summary-error {
   display: block;
 }
 
@@ -88,9 +90,9 @@ select  {
 }
 
 // Use .form-control-error to add a red border to .form-control
-.field-validation-error + .form-control,
-.form-control.input-validation-error,
-.form-control.form-control-error {
+[aria-invalid="true"][type="text"],
+[aria-invalid="true"][type="number"],
+.input-validation-error[type] {
   border: 4px solid $error-colour;
 }
 
