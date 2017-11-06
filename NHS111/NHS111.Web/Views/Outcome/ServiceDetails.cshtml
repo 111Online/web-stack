@@ -46,11 +46,12 @@
 
 
 <section>
-    <h2>
-        @Html.Raw(Model.OutcomeGroup.Label) for @Model.UserInfo.CurrentAddress.Postcode
-    </h2>
+    @if (!string.IsNullOrEmpty(Model.UserInfo.CurrentAddress.Postcode))
+    {
+        @Html.Partial("_AlternativeServices", Model, new ViewDataDictionary { { "Title", Html.Raw(Model.OutcomeGroup.Label) + " for " + Model.UserInfo.CurrentAddress.Postcode } });
+    }
 </section>
-
+<!--
 <section>
     <div class="results-map">
         <div class="results-list">
@@ -182,7 +183,7 @@
         </script>
     </div>
 </section>
-
+    -->
 @Html.Partial("_WorseningAdvice", Model)
 
 @Html.Partial("_CareAdvice", Model.CareAdvices, new ViewDataDictionary { { "Title", "What you can do in the meantime" } })
