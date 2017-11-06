@@ -276,6 +276,26 @@ namespace NHS111.Business.DOS.Test.Service
         }
 
         [Test]
+        public async void Dental_No_Blacklited_Services_Returns_All_CheckCapacitySummaryResults()
+        {
+            _mockConfiguration.Setup(c => c.FilteredDentalDispositionCodes).Returns("");
+
+            var jObj = (JObject)JsonConvert.DeserializeObject(CheckCapacitySummaryResults);
+            var results = jObj["CheckCapacitySummaryResult"].ToObject<List<Models.Models.Web.FromExternalServices.DosService>>();
+
+            var fakeDoSFilteredCase = new DosFilteredCase() { PostCode = "So30 2Un", Disposition = 1017, DispositionTime = new DateTime(2016, 11, 23, 7, 31, 0), DispositionTimeFrameMinutes = 720 };
+
+            var sut = new ServiceAvailablityManager(_mockConfiguration.Object).FindServiceAvailability(fakeDoSFilteredCase);
+
+            //Act
+            var result = sut.Filter(results);
+
+            //Assert 
+
+            Assert.AreEqual(3, result.Count());
+        }
+
+        [Test]
         public async void Dental_out_of_hours_should_return_filtered_CheckCapacitySummaryResult()
         {
             var jObj = (JObject)JsonConvert.DeserializeObject(CheckCapacitySummaryResults);
