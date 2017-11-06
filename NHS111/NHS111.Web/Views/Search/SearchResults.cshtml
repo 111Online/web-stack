@@ -11,16 +11,12 @@
 @section FeedbackSection {
     @Html.Partial("_FeedbackDetails", new FeedbackViewModel() { UserId = Model.SessionId.ToString(), PageId = Request.Url.GetComponents(UriComponents.PathAndQuery, UriFormat.SafeUnescaped) })
 }
-
-@Html.Partial("_SearchBox", Model, ViewData)
-
-<hr />
-
 <div id="SearchResults">
-    <h2 id="search-results-heading">Which of the following best applies?</h2>
     @if (Model.Results.Any())
     {
         <div>
+            <div></div>
+            <h1 id="search-results-heading">Which of the following best applies?</h1>
             <ul class="link-list link-list--results">
                 @foreach (var result in Model.Results)
                 {
@@ -44,3 +40,6 @@
         </div>
     }
 </div>
+
+<hr role="presentation" />
+@Html.Partial("_SearchBox", Model, ViewData)

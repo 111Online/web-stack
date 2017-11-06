@@ -1,0 +1,29 @@
+.form-label,
+label {
+  @include bold-font(20);
+
+  display: block;
+}
+
+.form-label--large {
+  @include bold-font(32);
+}
+
+.form-label__hint {
+  color: $grey-1;
+  display: block;
+  font-weight: normal;
+  margin-top: $baseline-grid-unit * 2;
+
+  @include media(desktop) {
+    margin-top: $baseline-grid-unit * 4;
+  }
+}
+
+h1 label,
+h2 label
+h3 label
+h4 label {
+  font-size: inherit;
+  line-height: inherit;
+}

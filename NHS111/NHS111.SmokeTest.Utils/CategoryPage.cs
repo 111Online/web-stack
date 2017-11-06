@@ -23,14 +23,18 @@ namespace NHS111.SmokeTest.Utils
         public CategoryPage(IWebDriver driver) : base(driver)
         {
         }
-
-        public void Verify()
+        public void VerifyHeader()
         {
-            Assert.IsTrue(NoResultsMessage.Displayed);
             Assert.IsTrue(TopicsMessage.Displayed);
             Assert.AreEqual(_topicsMessageText, TopicsMessage.Text);
         }
 
+        public void VerifyNoResultsMessage(string searchTerm)
+        {
+            Assert.IsTrue(NoResultsMessage.Displayed);
+            Assert.AreEqual("Sorry, there are no results for '" + searchTerm + "'.", NoResultsMessage.Text);
+        }
+        
         public void VerifyPathwayInCategoryList(string title, string pathwayId)
         {
             bool result = true;
@@ -59,6 +63,27 @@ namespace NHS111.SmokeTest.Utils
                 result = true;
             }
             Assert.IsTrue(result, string.Format("VerifyPathwayNotInCategoryList : {0}", xpath));
+        }
+
+        public void VerifyTabbingOrder(string topicToSelect1, string topicToSelect2, string topicToSelect3)
+        {
+            HeaderLogo.SendKeys(Keys.Tab);
+            var topic1 = Driver.SwitchTo().ActiveElement();
+            Assert.IsTrue(topic1.Text.Contains(topicToSelect1));
+            topic1.SendKeys(Keys.Enter);
+            topic1 = Driver.SwitchTo().ActiveElement();
+            topic1.SendKeys(Keys.Tab);
+            var topic2 = Driver.SwitchTo().ActiveElement();
+            Assert.IsTrue(topic2.Text.Contains(topicToSelect2));
+            topic2.SendKeys(Keys.Enter);
+            topic2 = Driver.SwitchTo().ActiveElement();
+            topic2.SendKeys(Keys.Tab);
+            var topic3 = Driver.SwitchTo().ActiveElement();
+            Assert.IsTrue(topic3.Text.Contains(topicToSelect3));
+            topic3.SendKeys(Keys.Enter);
+            
+            QuestionPage questionPage = new QuestionPage(Driver);
+            questionPage.VerifyQuestionPageLoaded();
         }
 
         public void SelectCategory(string categoryTitle)

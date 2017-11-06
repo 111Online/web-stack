@@ -15,13 +15,13 @@ namespace NHS111.SmokeTest.Utils
         private const string _headerLogoTitle = "Go to the NHS 111 homepage";
 
         [FindsBy(How = How.CssSelector, Using = ".global-header")]
-        private IWebElement Header { get; set; }
+        internal IWebElement Header { get; set; }
 
         [FindsBy(How = How.CssSelector, Using = ".global-header__logo")]
-        private IWebElement HeaderLogo { get; set; }
+        internal IWebElement HeaderLogo { get; set; }
 
         [FindsBy(How = How.CssSelector, Using = ".global-footer")]
-        private IWebElement Footer { get; set; }
+        internal IWebElement Footer { get; set; }
 
         public LayoutPage(IWebDriver driver)
         {

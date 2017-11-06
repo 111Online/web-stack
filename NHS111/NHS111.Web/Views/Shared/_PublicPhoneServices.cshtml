@@ -1,12 +1,12 @@
 ﻿@using NHS111.Models.Models.Web
+@using NHS111.Models.Models.Web.FromExternalServices
 @model  OutcomeViewModel
 
 @{
-    var services = Model.DosCheckCapacitySummaryResult.Success.Services;
-}
+    var services = Model.GroupedDosServices.FirstOrDefault(s => s.OnlineDOSServiceType == OnlineDOSServiceType.PublicPhone).Services;
 
-@if (services.Any(s => !s.CallbackEnabled && !string.IsNullOrEmpty(s.ContactDetails)))
-{
+
+
     string title;
     if (ViewData.Keys.Contains("PhoneTitle"))
     {
@@ -17,19 +17,21 @@
         var serviceCount = services.Count(s => !s.CallbackEnabled && !string.IsNullOrEmpty(s.ContactDetails));
         title = serviceCount > 1 ? "There are " + serviceCount + " places you can phone" : "There is 1 place you can phone";
     }
+}
     <details>
         <summary>
-            <span>Phone a service</span>
+            <span class="details__arrow"></span>
+            <span class="summary">Phone a service</span>
         </summary>
         <div>
-            @if (Model.Id == "Dx08" && Model.UserInfo.CurrentAddress.IsPostcodeFirst)
-            {
-                <section class="callout callout--info">
-                    <div class="reading-width">
+        @if (Model.Id == "Dx08" && Model.UserInfo.CurrentAddress.IsPostcodeFirst)
+        {
+            <section class="callout callout--info">
+                <div class="reading-width">
                         <p>As you may not see your usual GP, let the service know which medicines you take.</p>
-                    </div>
-                </section>
-            }
+                </div>
+            </section>
+        }
             <div class="cards">
                 @foreach (var service in services.Where(s => !s.CallbackEnabled && !string.IsNullOrEmpty(s.ContactDetails)))
                 {
@@ -43,5 +45,5 @@
             </div>
         </div>
     </details>
-}
+
 

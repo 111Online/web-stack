@@ -27,6 +27,7 @@
     <UseGlobalApplicationHostFile />
     <ApplicationInsightsResourceId>/subscriptions/66bf9d39-b598-433d-9273-0c27e559f37f/resourcegroups/Default-ApplicationInsights-EastUS/providers/microsoft.insights/components/NHS111.Web</ApplicationInsightsResourceId>
     <ApplicationInsightsAnnotationResourceId>/subscriptions/66bf9d39-b598-433d-9273-0c27e559f37f/resourcegroups/Default-ApplicationInsights-EastUS/providers/microsoft.insights/components/NHS111.Web</ApplicationInsightsAnnotationResourceId>
+    <Use64BitIISExpress />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -153,6 +154,10 @@
       <HintPath>..\packages\System.Spatial.5.8.2\lib\net40\System.Spatial.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="System.Web.Cors, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.Cors.5.2.3\lib\net45\System.Web.Cors.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
@@ -165,6 +170,10 @@
     </Reference>
     <Reference Include="System.Web.Http, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNet.WebApi.Core.5.2.3\lib\net45\System.Web.Http.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.Http.Cors, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Cors.5.2.3\lib\net45\System.Web.Http.Cors.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System.Web.Http.WebHost, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
@@ -264,190 +273,13 @@
     <Compile Include="Views\Shared\SurveyLinkView.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Content\images\999-Body-Image.png" />
-    <Content Include="Content\images\bg\999Banner.png" />
-    <Content Include="Content\images\bg\activeSurgery.png" />
-    <Content Include="Content\images\bg\blueBG.png" />
-    <Content Include="Content\images\bg\footerBG.png" />
-    <Content Include="Content\images\bg\homeAddressBG.png" />
-    <Content Include="Content\images\bg\icon-telephone.svg" />
-    <Content Include="Content\images\bg\inactiveSurgery.png" />
-    <Content Include="Content\images\bg\lineShadowBG.png" />
-    <Content Include="Content\images\bg\minus.png" />
-    <Content Include="Content\images\bg\orangeBG.png" />
-    <Content Include="Content\images\bg\plus.png" />
-    <Content Include="Content\images\bg\redBG.png" />
-    <Content Include="Content\images\bg\searchGlassBG.png" />
-    <Content Include="Content\images\bg\searchGlassBlue.png" />
-    <Content Include="Content\images\bg\sliderH3.png" />
-    <Content Include="Content\images\bg\telephone.png" />
-    <Content Include="Content\images\bg\website.png" />
-    <Content Include="Content\images\blue-arrow-down.png" />
-    <Content Include="Content\images\blue-arrow-right.png" />
-    <Content Include="Content\images\headacheBanner.png" />
-    <Content Include="Content\images\homeBanner.png" />
-    <Content Include="Content\images\icon-button-next-black.png" />
-    <Content Include="Content\images\icon-button-prev.png" />
-    <Content Include="Content\images\icon-pointer.png" />
-    <Content Include="Content\images\icons\arrow--blue.svg" />
-    <Content Include="Content\images\icons\arrow--white.svg" />
-    <Content Include="Content\images\icons\blueArrow.png" />
-    <Content Include="Content\images\icons\breadcrumbOne.png" />
-    <Content Include="Content\images\icons\breadcrumbTwo.png" />
-    <Content Include="Content\images\icons\hospital.png" />
-    <Content Include="Content\images\icons\icon-button-next.svg" />
-    <Content Include="Content\images\icons\icon-button-prev.svg" />
-    <Content Include="Content\images\icons\icon-link-back.png" />
-    <Content Include="Content\images\icons\icon-link-go.png" />
-    <Content Include="Content\images\icons\icon_info.png" />
-    <Content Include="Content\images\icons\map-pointers\fac-map-1.png" />
-    <Content Include="Content\images\icons\map-pointers\fac-map-10.png" />
-    <Content Include="Content\images\icons\map-pointers\fac-map-2.png" />
-    <Content Include="Content\images\icons\map-pointers\fac-map-3.png" />
-    <Content Include="Content\images\icons\map-pointers\fac-map-4.png" />
-    <Content Include="Content\images\icons\map-pointers\fac-map-5.png" />
-    <Content Include="Content\images\icons\map-pointers\fac-map-6.png" />
-    <Content Include="Content\images\icons\map-pointers\fac-map-7.png" />
-    <Content Include="Content\images\icons\map-pointers\fac-map-8.png" />
-    <Content Include="Content\images\icons\map-pointers\fac-map-9.png" />
-    <Content Include="Content\images\icons\outcomeHeader.png" />
-    <Content Include="Content\images\icons\redArrow.png" />
-    <Content Include="Content\images\icons\redDownArrow.png" />
-    <Content Include="Content\images\icons\warning-blue.png" />
-    <Content Include="Content\images\icons\warning-white.png" />
-    <Content Include="Content\images\icons\warning.png" />
-    <Content Include="Content\images\nhs-logo.png" />
-    <Content Include="Content\images\nhs-logotype-blue.svg" />
-    <Content Include="Content\images\nhs-logotype-footer.svg" />
-    <Content Include="Content\images\nhs-rev-logotype.jpg" />
-    <Content Include="Content\images\nhs-rev-logotype.svg" />
-    <Content Include="Content\images\step-1.png" />
-    <Content Include="Content\images\step-2.png" />
-    <Content Include="Content\images\step-3.png" />
-    <Content Include="Content\images\warning-blue.png" />
-    <Content Include="Content\img\ambulance-in-map.png" />
-    <Content Include="Content\img\ambulance.png" />
-    <Content Include="Content\img\arrowActive_left.png" />
-    <Content Include="Content\img\arrowActive_right.png" />
-    <Content Include="Content\img\arrowInactive_left.png" />
-    <Content Include="Content\img\arrowInactive_right.png" />
-    <Content Include="Content\img\banner\about-yourself-off.png" />
-    <Content Include="Content\img\banner\about-yourself-white.png" />
-    <Content Include="Content\img\banner\arrow-small.png" />
-    <Content Include="Content\img\banner\arrow.png" />
-    <Content Include="Content\img\banner\get-help-off.png" />
-    <Content Include="Content\img\banner\get-help-white.png" />
-    <Content Include="Content\img\banner\Icons_LargeArrow.png" />
-    <Content Include="Content\img\banner\questions-off.png" />
-    <Content Include="Content\img\banner\questions-white.png" />
-    <Content Include="Content\img\banner\unwell-off.png" />
-    <Content Include="Content\img\banner\unwell-white.png" />
-    <Content Include="Content\img\bar1.png" />
-    <Content Include="Content\img\bar2.png" />
-    <Content Include="Content\img\barNew.png" />
-    <Content Include="Content\img\bg\accordion-default-bg.png" />
-    <Content Include="Content\img\bg\accordion-expanded-bg.png" />
-    <Content Include="Content\img\bg\arrow_down.png" />
-    <Content Include="Content\img\bg\arrow_up.png" />
-    <Content Include="Content\img\bg\blueBg.png" />
-    <Content Include="Content\img\bg\briefcase-icon.png" />
-    <Content Include="Content\img\bg\bullet-arrows.png" />
-    <Content Include="Content\img\bg\disclaimerBG.png" />
-    <Content Include="Content\img\bg\green-corner.png" />
-    <Content Include="Content\img\bg\homeDivider.png" />
-    <Content Include="Content\img\bg\jtbsBG.jpg" />
-    <Content Include="Content\img\bg\logStatusIcon.png" />
-    <Content Include="Content\img\bg\red-corner.png" />
-    <Content Include="Content\img\bg\redBubbleBg.png" />
-    <Content Include="Content\img\bg\search-go-btn.png" />
-    <Content Include="Content\img\bg\searchBody.jpg" />
-    <Content Include="Content\img\bg\searchGlass.jpg" />
-    <Content Include="Content\img\bg\searchGlass.png" />
-    <Content Include="Content\img\bg\titleBG.png" />
-    <Content Include="Content\img\bg\total-questions-bg.png" />
-    <Content Include="Content\img\bg\white-arrow-bg.jpg" />
-    <Content Include="Content\img\bg\whiteLinkArrow.png" />
-    <Content Include="Content\img\book-appointment.png" />
-    <Content Include="Content\img\bubbleArrow.png" />
-    <Content Include="Content\img\call_999.png" />
-    <Content Include="Content\img\case_image.png" />
-    <Content Include="Content\img\close.jpg" />
-    <Content Include="Content\img\close.png" />
-    <Content Include="Content\img\cust-service-icon.png" />
-    <Content Include="Content\img\favicon.ico" />
-    <Content Include="Content\img\bg\gender-bg.gif" />
-    <Content Include="Content\img\female.png" />
-    <Content Include="Content\img\female_sel.png" />
-    <Content Include="Content\img\gov-uk.gif" />
-    <Content Include="Content\img\gov.uk_logotype_crown.png" />
-    <Content Include="Content\img\greyArrow.png" />
-    <Content Include="Content\img\home.png" />
-    <Content Include="Content\img\home1.png" />
-    <Content Include="Content\img\home2.png" />
-    <Content Include="Content\img\home3.png" />
-    <Content Include="Content\img\homeLogo.png" />
-    <Content Include="Content\img\icon-button-cancel.svg" />
-    <Content Include="Content\img\icon-caret-down.png" />
-    <Content Include="Content\img\icon-caret-left.png" />
-    <Content Include="Content\img\icon-caret-right.png" />
-    <Content Include="Content\img\icon-external-hover.svg" />
-    <Content Include="Content\img\icon-external.png" />
-    <Content Include="Content\img\icon-external.svg" />
-    <Content Include="Content\img\icon-pointer-2x.png" />
-    <Content Include="Content\img\icon-pointer.png" />
-    <Content Include="Content\img\information-standards.gif" />
-    <Content Include="Content\img\80percent.png" />
-    <Content Include="Content\img\jtbsMainImage.png" />
-    <Content Include="Content\img\male.png" />
-    <Content Include="Content\img\male_sel.png" />
-    <Content Include="Content\img\map.jpg" />
-    <Content Include="Content\img\med-logo.png" />
-    <Content Include="Content\img\medicines.png" />
-    <Content Include="Content\img\mobile-site.png" />
-    <Content Include="Content\img\old_med-logo.png" />
-    <Content Include="Content\img\otherPageLogos.png" />
-    <Content Include="Content\img\pain.png" />
-    <Content Include="Content\img\pain1.png" />
-    <Content Include="Content\img\panic-msg.jpg" />
-    <Content Include="Content\img\panic-msg.png" />
-    <Content Include="Content\img\pink-home.jpg" />
-    <Content Include="Content\img\pink-tel.jpg" />
-    <Content Include="Content\img\pink-website.jpg" />
-    <Content Include="Content\img\radioActive.png" />
-    <Content Include="Content\img\radioInactive.png" />
-    <Content Include="Content\img\slider_button.png" />
-    <Content Include="Content\img\ui-bg_flat_75_ffffff_40x100.png" />
-    <Content Include="Content\img\ui-icons_222222_256x240.png" />
-    <Content Include="Content\img\user-icon.jpg" />
-    <Content Include="Content\img\user-icon.png" />
-    <Content Include="Content\img\walk-in-centre.png" />
-    <Content Include="Content\img\white-home.jpg" />
-    <Content Include="Content\img\white-Tel.jpg" />
-    <Content Include="Content\img\white-website.jpg" />
-    <Content Include="Content\img\worsening-fail.png" />
-    <Content Include="Content\img\worsening.png" />
-    <Content Include="Content\Js\site.js" />
-    <Content Include="Content\Js\vendor\html5shiv-printshiv.js" />
-    <Content Include="Content\Js\vendor\html5shiv.js" />
-    <Content Include="Content\Js\vendor\jquery-2.1.3.js" />
-    <Content Include="Content\Js\vendor\jquery-ui.js" />
-    <Content Include="Content\Js\vendor\jquery-ui.min.js" />
-    <Content Include="Content\Js\vendor\spin.min.js" />
-    <Content Include="Content\Js\vendor\jquery.nouislider.js" />
-    <Content Include="Content\Js\vendor\jquery.nouislider.all.min.js" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="IoC\readme.txt" />
-    <Content Include="nhs-online-ie6.css" />
-    <Content Include="nhs-online-ie7.css" />
-    <Content Include="nhs-online-ie8.css" />
-    <Content Include="nhs-online-print.css" />
-    <Content Include="nhs-online.css" />
     <Content Include="robots.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Scripts\bootstrap.min.js" />
-    <Content Include="Scripts\custom.js" />
     <Content Include="Scripts\details.min.js" />
     <Content Include="Scripts\disclaimer-popup.js" />
     <Content Include="Scripts\geotools.js" />
@@ -463,6 +295,7 @@
     <Content Include="Scripts\mobileScroller.js" />
     <Content Include="Scripts\spin.min.js" />
     <Content Include="Scripts\vendor\modernizr-custom.js" />
+    <Content Include="start.ps1" />
     <Content Include="Static\500.html" />
     <Content Include="Static\TempHTML\999Page.html" />
     <Content Include="Static\TempHTML\Confirmation.html" />
@@ -495,14 +328,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
-    <Content Include="Content\fonts\NTA-Bold-20130221.eot" />
-    <Content Include="Content\fonts\NTA-Bold-20130221.woff" />
-    <Content Include="Content\fonts\NTA-Light-20130221.eot" />
-    <Content Include="Content\fonts\NTA-Light-20130221.woff" />
-    <Content Include="Content\fonts\NTATabularNumbers-Bold.eot" />
-    <Content Include="Content\fonts\NTATabularNumbers-Bold.woff" />
-    <Content Include="Content\fonts\NTATabularNumbers-Light.eot" />
-    <Content Include="Content\fonts\NTATabularNumbers-Light.woff" />
     <ProjectReference Include="..\NHS111.Features\NHS111.Features.csproj">
       <Project>{BD9F2634-BADA-43E6-B16D-522BE17DA255}</Project>
       <Name>NHS111.Features</Name>
@@ -635,6 +460,13 @@
     <Content Include="Views\Search\Categories.cshtml" />
     <Content Include="Views\Shared\_SearchBox.cshtml" />
     <Content Include="manifest.json" />
+    <None Include="Dockerfile" />
+    <None Include=".dockerignore">
+      <DependentUpon>Dockerfile</DependentUpon>
+    </None>
+    <Content Include="Views\Shared\_CompatibilityBanner.cshtml" />
+    <Content Include="start.ps1" />
+    <Content Include="enabled-postcodes.csv" />
     <None Include="Web.Development.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -726,4 +558,9 @@
   </Target>
   <Target Name="AfterBuild">
   </Target> -->
+  <Target Name="BeforeBuild">
+    <ItemGroup>
+      <Content Include="$([System.IO.Directory]::GetFiles('$(ProjectDir)\Content\', '*', SearchOption.AllDirectories))" />
+    </ItemGroup>
+  </Target>
 </Project>

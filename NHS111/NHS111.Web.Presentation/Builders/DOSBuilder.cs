@@ -88,6 +88,27 @@ namespace NHS111.Web.Presentation.Builders
             return checkCapacitySummaryResult;
         }
 
+        public List<GroupedDOSServices> FillGroupedDosServices(List<ServiceViewModel> services)
+        {
+            var groupedServices = new List<GroupedDOSServices>();
+            if (services != null)
+            {
+                var ungroupedServices = new List<ServiceViewModel>(services);
+
+                while (ungroupedServices.Any())
+                {
+                    var topServiceType = ungroupedServices.First().OnlineDOSServiceType;
+                    groupedServices.Add(new GroupedDOSServices(topServiceType,
+                        ungroupedServices.Where(s => s.OnlineDOSServiceType == topServiceType).ToList()));
+                    ;
+                    ungroupedServices.RemoveAll(s => s.OnlineDOSServiceType == topServiceType);
+                }
+            }
+        return groupedServices;
+        }
+
+        
+
         public List<ServiceViewModel> DetermineCallbackEnabled(List<ServiceViewModel> services)
         {
             var whitelist = _configuration.DOSWhitelist.Split('|');
@@ -204,5 +225,6 @@ namespace NHS111.Web.Presentation.Builders
         Task<DosServicesByClinicalTermResult> FillDosServicesByClinicalTermResult(DosViewModel dosViewModel);
         Task<DosViewModel> FillServiceDetailsBuilder(DosViewModel model);
         HttpRequestMessage BuildRequestMessage(DosFilteredCase dosCase);
+        List<GroupedDOSServices> FillGroupedDosServices(List<ServiceViewModel> services);
     }
 }
