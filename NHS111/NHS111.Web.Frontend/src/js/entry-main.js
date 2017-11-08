@@ -15,16 +15,16 @@ jQuery.validator.setDefaults({
         // it adds links to the error fields
         var self = this
         var container = $(this.currentForm).find("[data-valmsg-summary=true]")
-        if (!container.length) return
+        if (!container.length) return this.defaultShowErrors()
 
-        var    list = container.find(".js-error-list-original").hide(),
+        var list = container.find(".js-error-list-original").hide(),
             elements = this.elements().toArray(),
             newList = container.find(".js-error-list").empty().show(),
             invalid = self.invalid
 
         container.hide()
 
-        container[0].removeAttribute("role")
+        container.removeAttr("role")
             
         elements.forEach((val) => {
             var containerID = val.id
