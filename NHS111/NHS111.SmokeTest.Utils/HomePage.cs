@@ -15,7 +15,7 @@ namespace NHS111.SmokeTest.Utils
     {
         private static string _baseUrl = ConfigurationManager.AppSettings["TestWebsiteUrl"];
 
-        private const string _headerText = "Getting care with 111 Online";
+        private const string _headerText = "Getting care with 1 1 1 online";
 
         [FindsBy(How = How.CssSelector, Using = "h1")]
         private IWebElement Header { get; set; }
