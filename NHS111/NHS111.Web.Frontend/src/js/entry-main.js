@@ -14,8 +14,10 @@ jQuery.validator.setDefaults({
         // This is a modified version of validate.unobtrusive's default error summary
         // it adds links to the error fields
         var self = this
-        var container = $(this.currentForm).find("[data-valmsg-summary=true]"),
-            list = container.find(".js-error-list-original").hide(),
+        var container = $(this.currentForm).find("[data-valmsg-summary=true]")
+        if (!container.length) return
+
+        var    list = container.find(".js-error-list-original").hide(),
             elements = this.elements().toArray(),
             newList = container.find(".js-error-list").empty().show(),
             invalid = self.invalid
