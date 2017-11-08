@@ -31,7 +31,7 @@
             </div>
         </section>
         }
-        @Html.Partial("_GoogleMap", null, new ViewDataDictionary { { "services", services } })
+        @Html.Partial("_GoogleMap")
         <div class="cards">
 
             @foreach (var service in services.Where(s => !s.CallbackEnabled && string.IsNullOrEmpty(s.ContactDetails)))

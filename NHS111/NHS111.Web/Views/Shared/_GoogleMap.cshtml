@@ -1,4 +1,8 @@
-﻿<div class="service-map" role="presentation"></div>
+﻿@using NHS111.Models.Models.Web
+@using NHS111.Models.Models.Web.FromExternalServices
+@{var services = Model.GroupedDosServices.FirstOrDefault(s => s.OnlineDOSServiceType == OnlineDOSServiceType.GoTo).Services }
+
+<div class="service-map" role="presentation"></div>
 
 <script src="https://maps.google.com/maps/api/js?key=AIzaSyCv3YwvmRoueyoLcW2iiSPjVeHecU18hmA "
         type="text/javascript"></script>
