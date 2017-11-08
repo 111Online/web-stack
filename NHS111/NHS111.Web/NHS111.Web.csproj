@@ -466,6 +466,8 @@
       <DependentUpon>Dockerfile</DependentUpon>
     </None>
     <Content Include="Views\Shared\_CompatibilityBanner.cshtml" />
+    <Content Include="start.ps1" />
+    <Content Include="enabled-postcodes.csv" />
     <None Include="Web.Development.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
