@@ -8,13 +8,42 @@
     }
     @if (Model.GroupedDosServices.Any())
     {
-        <h2>@Html.Raw((!ViewData.Keys.Contains("Title") ? "If you can't " + Model.OutcomeGroup.Text: ViewData["Title"]))</h2>
         <div id="availableServices">
             @foreach (var groupedService in Model.GroupedDosServices)
             {
-                if (groupedService.OnlineDOSServiceType == OnlineDOSServiceType.Callback) { @Html.Partial("_CallbackServices", Model, ViewData)}
-                if (groupedService.OnlineDOSServiceType == OnlineDOSServiceType.GoTo) { @Html.Partial("_GotoServices", Model, ViewData)}
-                if (groupedService.OnlineDOSServiceType == OnlineDOSServiceType.PublicPhone) { @Html.Partial("_PublicPhoneServices", Model, ViewData)}
+                var wording = "";
+                var partial = "";
+                if (groupedService.OnlineDOSServiceType == OnlineDOSServiceType.Callback)
+                {
+                    wording = string.Format("{0}", ViewData.Keys.Contains("CallbackTitle") ? ViewData["CallbackTitle"] : "Arrange for someone to phone you");
+                    partial = "_CallbackServices";
+                }
+                else if (groupedService.OnlineDOSServiceType == OnlineDOSServiceType.GoTo)
+                {
+                    wording = "Visit a service";
+                    partial = "_GotoServices";
+                }
+                else if (groupedService.OnlineDOSServiceType == OnlineDOSServiceType.PublicPhone)
+                {
+                    wording = "Phone a service";
+                    partial = "_PublicPhoneServices";
+                }
+
+                if (Model.GroupedDosServices.Count == 1) {
+                    @Html.Partial(partial, Model, ViewData);
+                }
+                else
+                {
+                    <details>
+                        <summary>
+                            <span class="details__arrow"></span>
+                            <span class="summary">@wording</span>
+                        </summary>
+                        <div>
+                            @Html.Partial(partial, Model, ViewData) 
+                        </div>
+                    </details>
+                }
             }
         </div>
     }

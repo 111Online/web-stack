@@ -1,6 +1,4 @@
-﻿@using NHS111.Models.Models.Web
-@using NHS111.Models.Models.Web.FromExternalServices
-@{var services = Model.GroupedDosServices.FirstOrDefault(s => s.OnlineDOSServiceType == OnlineDOSServiceType.GoTo).Services }
+﻿@{var services = Model.GroupedDosServices.FirstOrDefault(s => s.OnlineDOSServiceType == OnlineDOSServiceType.GoTo).Services }
 
 <div class="service-map" role="presentation"></div>
 

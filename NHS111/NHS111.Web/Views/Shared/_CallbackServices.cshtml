@@ -5,39 +5,30 @@
     var services = Model.GroupedDosServices.First(s => s.OnlineDOSServiceType == OnlineDOSServiceType.Callback).Services;
 }
 
-    <details>
-        <summary>
-            <span class="details__arrow"></span>
-            <span class="summary">@string.Format("{0}", ViewData.Keys.Contains("CallbackTitle") ? ViewData["CallbackTitle"] : "Arrange for someone to phone you")</span>
-        </summary>
-        <div>
-            <section class="callout callout--info">
-                <div class="reading-width">
-                    <p>They will check through the answers you have entered and give you advice on what to do next</p>
-                </div>
-            </section>
-            <div class="cards">
-                @foreach (var callbackService in services)
-                {
-                    <div class="card">
-                        <h3>@WebUtility.HtmlDecode(callbackService.Name)</h3>
+<section class="callout callout--info">
+    <div class="reading-width">
+        <p>They will check through the answers you have entered and give you advice on what to do next</p>
+    </div>
+</section>
+<div class="cards">
+    @foreach (var callbackService in services)
+    {
+        <div class="card">
+            <h3>@WebUtility.HtmlDecode(callbackService.Name)</h3>
 
-                        @if (!callbackService.IsOpen)
-                        {
-                            <p class="card__details service-status">@WebUtility.HtmlDecode(callbackService.ServiceOpeningTimesMessage)</p>
-                        }
+            @if (!callbackService.IsOpen)
+            {
+                <p class="card__details service-status">@WebUtility.HtmlDecode(callbackService.ServiceOpeningTimesMessage)</p>
+            }
 
-                        @using (Html.BeginForm("PersonalDetails", "Outcome", FormMethod.Post))
-                        {
-                            @Html.Partial("_CommonHiddenFieldsOutcomeViewModel", Model)
-                            @Html.Partial("_CommonHiddenFieldsCareAdviceViewModel", Model)
-                            @Html.Hidden("SelectedServiceId", @callbackService.Id)
-                            <hr />
-                            <button type="submit" name="PersonalDetails" value="Book a call">Book a call</button>
-                        }
-                    </div>
-                }
-            </div>
+            @using (Html.BeginForm("PersonalDetails", "Outcome", FormMethod.Post))
+            {
+                @Html.Partial("_CommonHiddenFieldsOutcomeViewModel", Model)
+                @Html.Partial("_CommonHiddenFieldsCareAdviceViewModel", Model)
+                @Html.Hidden("SelectedServiceId", @callbackService.Id)
+                <hr />
+                <button type="submit" name="PersonalDetails" value="Book a call">Book a call</button>
+            }
         </div>
-    </details>
-
+    }
+</div>
