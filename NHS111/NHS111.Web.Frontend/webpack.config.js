@@ -15,7 +15,7 @@ module.exports = {
     plugins: [
         new UglifyJSPlugin({ sourceMap: true }),
         new Visualizer({
-            filename: '../../src/codebase/components/_jschart/jschart.njk'
+            filename: './src/codebase/components/_jschart/jschart.njk'
         })
     ],
     module: {
@@ -26,7 +26,15 @@ module.exports = {
                 use: {
                     loader: 'babel-loader',
                     options: {
-                        presets: ['env'],
+                        babelrc: false,
+                        cacheDirectory: true,
+                        presets: [
+                            ['env', {
+                              "targets": {
+                                  "browsers": ["last 2 versions", "ie >= 9"]
+                                }
+                            }]
+                        ]
                     }
                 }
             }

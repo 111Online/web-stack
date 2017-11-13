@@ -434,6 +434,7 @@
     <Content Include="Views\Topic\Search.cshtml" />
     <Content Include="ApplicationInsights.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <SubType>Designer</SubType>
     </Content>
     <Content Include="Service References\Application Insights\ConnectedService.json" />
     <Content Include="Views\Shared\_PageLoadingIndicator.cshtml" />

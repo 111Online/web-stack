@@ -21,17 +21,17 @@
         @Html.HiddenFor(x => Model.FilterServices)
 
         <div class="header home">
-            <h1 class="heading-large">Getting care with 111 Online</h1>
+            <h1 class="heading-large">Getting care with <span class="util-digits">1 1 1</span> online</h1>
         </div>
 
         <p>Use this service when:
             <ul>
-                <li>you need medical help, but it's not a <span aria-label="9 9 9">999</span> emergency</li>
+                <li>you need medical help, but it's not a <span class="util-digits">9 9 9</span> emergency</li>
                 <li>you don't know who to contact, or your normal service isn't available</li>
             </ul>
         </p>
 
-        <h2 class="heading-medium">How does <span aria-label="1 1 1">111</span> work?</h2>
+        <h2 class="heading-medium">How does <span class="util-digits">1 1 1</span> work?</h2>
         <ol class="list--numbered">
             <li>
                 Answer a series of questions about your symptoms
@@ -47,12 +47,12 @@
 
 
             <div class="callout callout--attention">
-                <p><span aria-label="1 1 1">111</span> Online is being trialled in Leeds for patients aged 5 and over. This service is not a substitute for a medical consultation. See @Html.ActionLink("terms", "Terms", "Help", null, new { target = "_blank" }).</p>
+                <p><span class="util-digits">1 1 1</span> Online is being trialled in Leeds for patients aged 5 and over. This service is not a substitute for a medical consultation. See @Html.ActionLink("terms.", "Terms", "Help", null, new { target = "_blank" })</p>
             </div>
 
         <button type="submit" class="button--next go">Start now</button>
 
-        <p>If you're looking for NHS opening times or contact information, use <a href="http://www.nhs.uk">NHS Choices</a>.
+        <p>If you're looking for NHS opening times or contact information, use <a href="http://www.nhs.uk">NHS Choices.</a>
         </p>
     }
 </div>

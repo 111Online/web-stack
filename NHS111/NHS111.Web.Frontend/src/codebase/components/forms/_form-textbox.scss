@@ -6,12 +6,16 @@ input[type="number"],
   border: ($baseline-grid-unit / 2) solid $nhs-blue;
   display: block;
   max-width: 540px;
-  padding: $baseline-grid-unit;
   width: 100%;
+  padding: $baseline-grid-unit;
 
   &:focus {
     outline: 3px solid $yellow;
   }
+}
+
+.form-textbox--small[type] {
+  width: 4em;
 }
 
 .form-textbox[maxlength="1"] {

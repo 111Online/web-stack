@@ -8,3 +8,4 @@ src/codebase/components/_cssgraph/index.html
 src/codebase/components/_cssgraph/specificity.json
 src/codebase/components/_cssgraph/specificity-graph-standalone.js
 src/codebase/components/_cssgraph/specificity.js
+src/codebase/components/_jschart/*

@@ -51,7 +51,8 @@ else
         </div>
     }
 }
-
+<hr class="alternative-care-hr" />
+<p>If you're not registered with a dentist, read advice on <a href="https://www.nhs.uk/NHSEngland/AboutNHSservices/dentists/Pages/find-an-NHS-dentist.aspx">how to find an NHS dentist</a></p>
 @Html.Partial("_CareAdvice", Model.CareAdvices, new ViewDataDictionary { { "Title", "What you can do in the meantime" }, { "NoHR", true } })
 
 @Html.Partial("_WorseningAdviceWithTitle", Model)

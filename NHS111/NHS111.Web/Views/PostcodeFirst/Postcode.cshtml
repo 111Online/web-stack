@@ -91,8 +91,8 @@
                     {
                         <h1>If you enter your postcode now, we can find services that can help you</h1>
                     }
-                    @Html.ValidationMessageFor(m => m.UserInfo.CurrentAddress.Postcode)
                     @(Model.UserInfo.CurrentAddress.IsPostcodeFirst ? Html.Raw("<label for=\"UserInfo_CurrentAddress_Postcode\">Enter your postcode for services that can help you <span class=\"de-emphasised\">(optional)<span></label>") : Html.Raw("<label for=\"UserInfo_CurrentAddress_Postcode\" class=\"alwayshidden\">Postcode required</label>"))
+                    @Html.ValidationMessageFor(m => m.UserInfo.CurrentAddress.Postcode) 
                     @Html.TextBoxFor(m => m.UserInfo.CurrentAddress.Postcode)
                     <button class="button button--next" type="submit" name="DosResults" id="DosLookup">Next</button>
                 </div>
