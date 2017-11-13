@@ -22,7 +22,7 @@ namespace NHS111.Models.Models.Web
         public CareAdvice WorseningCareAdvice { get; set; }
         public SymptomDiscriminator SymptomDiscriminator { get; set; }
         public DosService UnavailableSelectedService { get; set; }
-        public List<GroupedDOSServices> GroupedDosServices { get; set; }
+        public List<GroupedDOSServices> GroupedDosServices { get; set; } 
         public string CurrentView { get; set; }
 
         public  SurveyLinkViewModel SurveyLink { get; set; }
@@ -53,7 +53,8 @@ namespace NHS111.Models.Models.Web
             {
                 if(GroupedDosServices[0].Services.Count > 1)
                     GroupedDosServices.First().Services.RemoveAt(0);
-                GroupedDosServices.RemoveAt(0);
+                else
+                    GroupedDosServices.RemoveAt(0);
             }
             return service;
         }
@@ -98,6 +99,7 @@ namespace NHS111.Models.Models.Web
             DosCheckCapacitySummaryResult = new DosCheckCapacitySummaryResult();
             SurveyLink = new SurveyLinkViewModel();
             Informant = new InformantViewModel();
+            GroupedDosServices = new List<GroupedDOSServices>();
         }
     }
 
