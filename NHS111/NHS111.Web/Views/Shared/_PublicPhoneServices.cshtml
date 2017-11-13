@@ -18,32 +18,26 @@
         title = serviceCount > 1 ? "There are " + serviceCount + " places you can phone" : "There is 1 place you can phone";
     }
 }
-    <details>
-        <summary>
-            <span class="details__arrow"></span>
-            <span class="summary">Phone a service</span>
-        </summary>
-        <div>
-        @if (Model.Id == "Dx08" && Model.UserInfo.CurrentAddress.IsPostcodeFirst)
-        {
-            <section class="callout callout--info">
-                <div class="reading-width">
-                        <p>As you may not see your usual GP, let the service know which medicines you take.</p>
-                </div>
-            </section>
-        }
-            <div class="cards">
-                @foreach (var service in services.Where(s => !s.CallbackEnabled && !string.IsNullOrEmpty(s.ContactDetails)))
-                {
-                    <div class="card">
-                        <h3>@WebUtility.HtmlDecode(service.Name)</h3>
-                        <p class="card__details">@WebUtility.HtmlDecode(service.ServiceOpeningTimesMessage)</p>
-                        <hr />
-                        <p><a href="tel: @service.ContactDetails">Phone @service.ContactDetails</a></p>
-                    </div>
-                }
-            </div>
+
+@if (Model.Id == "Dx08" && Model.UserInfo.CurrentAddress.IsPostcodeFirst)
+{
+    <section class="callout callout--info">
+        <div class="reading-width">
+            <p>As you may not see your usual GP, let the service know which medicines you take.</p>
         </div>
-    </details>
+    </section>
+}
+<div class="cards">
+    @foreach (var service in services.Where(s => !s.CallbackEnabled && !string.IsNullOrEmpty(s.ContactDetails)))
+    {
+        <div class="card">
+            <h3>@WebUtility.HtmlDecode(service.Name)</h3>
+            <p class="card__details">@WebUtility.HtmlDecode(service.ServiceOpeningTimesMessage)</p>
+            <hr />
+            <p><a href="tel: @service.ContactDetails">Phone @service.ContactDetails</a></p>
+        </div>
+    }
+</div>
+
 
 
