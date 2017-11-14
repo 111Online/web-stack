@@ -78,7 +78,7 @@
     <Compile Include="IoC\BusinessDosRegistry.cs" />
     <Compile Include="ServiceAvailability\DentalProfileHoursOfOperation.cs" />
     <Compile Include="ServiceAvailability\IProfileHoursOfOperation.cs" />
-    <Compile Include="ServiceAvailability\DentalServiceAvailibility.cs" />
+    <Compile Include="ServiceAvailability\DentalServiceAvailability.cs" />
     <Compile Include="ServiceAvailability\IServiceAvailability.cs" />
     <Compile Include="IServiceAvailabilityProfile.cs" />
     <Compile Include="IServiceAvailabilityProfileManager.cs" />
