@@ -38,7 +38,7 @@
     }
 }
 
-@Html.Partial("_OutcomeHeader", Model, new ViewDataDictionary { { "OutcomeHeader", Html.Raw(Model.OutcomeGroup.Label) + " for " + Model.UserInfo.CurrentAddress.Postcode.ToUpper() } })
+@Html.Partial("_OutcomeHeader", Model, new ViewDataDictionary { { "OutcomeHeader", "Services for " + Model.UserInfo.CurrentAddress.Postcode.ToUpper() } })
 
 
 <section>
