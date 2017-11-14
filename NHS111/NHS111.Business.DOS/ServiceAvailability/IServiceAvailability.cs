@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace NHS111.Business.DOS.ServiceAviliablility
+namespace NHS111.Business.DOS.ServiceAvailability
 {
     public interface IServiceAvailability
     {

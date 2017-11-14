@@ -1,7 +1,7 @@
 ﻿using System;
 using NHS111.Models.Models.Business;
 
-namespace NHS111.Business.DOS.ServiceAviliablility
+namespace NHS111.Business.DOS.ServiceAvailability
 {
     public interface IProfileHoursOfOperation
     {

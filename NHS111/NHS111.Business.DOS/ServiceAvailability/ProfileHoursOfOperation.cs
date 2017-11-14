@@ -1,13 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics.Eventing.Reader;
 using System.Linq;
-using NHS111.Business.DOS.Configuration;
 using NHS111.Models.Models.Business;
 using NHS111.Utils.Dates;
 using NodaTime;
 
-namespace NHS111.Business.DOS.ServiceAviliablility
+namespace NHS111.Business.DOS.ServiceAvailability
 {
     public class ProfileHoursOfOperation : IProfileHoursOfOperation
     {

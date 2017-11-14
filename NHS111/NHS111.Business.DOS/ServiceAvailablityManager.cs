@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using NHS111.Business.DOS.Configuration;
-using NHS111.Business.DOS.ServiceAviliablility;
+using NHS111.Business.DOS.ServiceAvailability;
 using NHS111.Models.Models.Web.DosRequests;
 using NodaTime;
 
@@ -24,7 +22,7 @@ namespace NHS111.Business.DOS
         {
             if (IsDentalDispoition(dosFilteredCase.Disposition)) return new DentalServiceAvailability(FindServiceAvailabilityProfile(dosFilteredCase.Disposition), dosFilteredCase.DispositionTime, dosFilteredCase.DispositionTimeFrameMinutes);
             if (IsPrimaryCareDispoition(dosFilteredCase.Disposition)) return new PrimaryCareServiceAvailability(FindServiceAvailabilityProfile(dosFilteredCase.Disposition), dosFilteredCase.DispositionTime, dosFilteredCase.DispositionTimeFrameMinutes);
-            return new ServiceAvailability(FindServiceAvailabilityProfile(dosFilteredCase.Disposition), dosFilteredCase.DispositionTime, dosFilteredCase.DispositionTimeFrameMinutes);
+            return new ServiceAvailability.ServiceAvailability(FindServiceAvailabilityProfile(dosFilteredCase.Disposition), dosFilteredCase.DispositionTime, dosFilteredCase.DispositionTimeFrameMinutes);
         }
 
         private IServiceAvailabilityProfile FindServiceAvailabilityProfile(int dxCode)

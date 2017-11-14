@@ -2,9 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using NHS111.Models.Models.Business.Enums;
-using NHS111.Models.Models.Web.DosRequests;
 
-namespace NHS111.Business.DOS.ServiceAviliablility
+namespace NHS111.Business.DOS.ServiceAvailability
 {
     public class ServiceAvailability : IServiceAvailability
     {
