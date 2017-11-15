@@ -8,8 +8,8 @@ namespace NHS111.SmokeTest.Utils
     public class DemographicsPage : LayoutPage
     {
         private const string _headerText = "Tell us about you, or the person you're asking about";
-        private const string _sexValidationMessage = "Please select a sex";
-        private const string _ageEmptyValidationMessage = "'Age' must not be empty.";
+        private const string _sexValidationMessage = "Please enter your sex";
+        private const string _ageEmptyValidationMessage = "Please enter your age";
         private const string _ageTooLowValidation = "Sorry, this service is not available for children under 5 years of age, for medical advice please call 111.";
         private const string _ageTooHighValidation = "Please enter a value less than or equal to 200.";
 

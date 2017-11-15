@@ -8,10 +8,6 @@
   .card {
     margin-top: 0;
   }
-
-  .card:nth-child(2) {
-    -ms-grid-column: 2;
-  }
 }
 
 .card {
@@ -44,4 +40,28 @@
 p.card__details {
   color: $black;
   font-weight: 600;
+}
+
+
+
+// IE 10 to Edge use the old grid that doesnt have auto placement
+.card:nth-child(2n) {
+  -ms-grid-column: 2;
+}
+  
+.card:nth-child(3),
+.card:nth-child(4) {
+  -ms-grid-row: 2;
+}
+
+  
+.card:nth-child(5),
+.card:nth-child(6) {
+  -ms-grid-row: 3;
+}
+  
+  
+.card:nth-child(7),
+.card:nth-child(8) {
+  -ms-grid-row: 4;
 }

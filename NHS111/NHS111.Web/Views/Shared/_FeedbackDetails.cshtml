@@ -17,7 +17,7 @@
     <div class="feedback-container feedback-container--open">
         <div class="page-section">
             <div id="feedback-details">
-                <span class="icon-close"></span>
+                <span class="icon-close" tabindex="0" role="button" aria-label="Close feedback box"></span>
                 @using (Ajax.BeginForm("SubmitFeedback", "Feedback", new AjaxOptions { InsertionMode = InsertionMode.Replace, UpdateTargetId = "feedback-details", LoadingElementId = "loader", HttpMethod = "POST", OnBegin = "$('#feedback-details').slideToggle(600);", OnSuccess = "$('#feedback-details').slideToggle(600);" }))
                 {
                     @Html.HiddenFor(m => m.UserId)

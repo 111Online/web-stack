@@ -64,6 +64,7 @@ namespace NHS111.Business.DOS
 
         private IEnumerable<int> ConvertPipeDeliminatedString(string pipedeliminatedString)
         {
+            if(String.IsNullOrWhiteSpace(pipedeliminatedString)) return new List<int>();
             return pipedeliminatedString.Split('|').Select(c => Convert.ToInt32(c)).ToList();
         }
     }
