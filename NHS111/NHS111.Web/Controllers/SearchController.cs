@@ -39,7 +39,11 @@ namespace NHS111.Web.Controllers
 
             var startOfJourney = new SearchJourneyViewModel
             {
-                UserInfo = new UserInfo { Demography = model.UserInfo.Demography },
+                UserInfo = new UserInfo
+                {
+                    Demography = model.UserInfo.Demography,
+                    CurrentAddress = model.UserInfo.CurrentAddress
+                },
                 FilterServices = model.FilterServices
             };
 
@@ -76,6 +80,7 @@ namespace NHS111.Web.Controllers
                     {
                         gender = model.UserInfo.Demography.Gender,
                         age = model.UserInfo.Demography.Age.ToString(),
+                        postcode = model.UserInfo.CurrentAddress.Postcode,
                         filterServices = model.FilterServices,
                         searchTerm = model.SanitisedSearchTerm.Trim()
                     });
@@ -85,13 +90,17 @@ namespace NHS111.Web.Controllers
 
         [HttpGet]
         [Route("{gender}/{age}/Topics", Name = "CatergoriesUrl")]
-        public async Task<ActionResult> Categories(string gender, int age, string searchTerm, bool filterServices)
+        public async Task<ActionResult> Categories(string gender, int age, string postcode, string searchTerm, bool filterServices)
         {
             var ageGenderViewModel = new AgeGenderViewModel { Gender = gender, Age = age };
             var topicsContainingStartingPathways = await GetAllTopics(ageGenderViewModel);
             var model = new SearchJourneyViewModel
             {
-                UserInfo = new UserInfo { Demography = ageGenderViewModel },
+                UserInfo = new UserInfo
+                {
+                    Demography = ageGenderViewModel,
+                    CurrentAddress = new FindServicesAddressViewModel() { Postcode = postcode }
+                },
                 AllTopics = topicsContainingStartingPathways,
                 FilterServices = filterServices,
                 SanitisedSearchTerm = searchTerm
