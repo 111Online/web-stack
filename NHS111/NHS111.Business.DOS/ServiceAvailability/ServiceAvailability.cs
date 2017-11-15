@@ -21,7 +21,7 @@ namespace NHS111.Business.DOS.ServiceAvailability
         {
         }
 
-        public virtual List<Models.Models.Web.FromExternalServices.DosService> Filter(List<Models.Models.Web.FromExternalServices.DosService> resultsToFilter)
+        public virtual List<Models.Models.Business.DosService> Filter(List<Models.Models.Business.DosService> resultsToFilter)
         {
             return !this.IsOutOfHours
                 ? resultsToFilter.Where(

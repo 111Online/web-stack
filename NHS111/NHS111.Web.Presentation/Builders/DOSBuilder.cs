@@ -14,6 +14,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using NHS111.Models.Models.Web;
 using NHS111.Models.Models.Web.DosRequests;
+using NHS111.Models.Models.Business;
 using NHS111.Models.Models.Web.FromExternalServices;
 using NHS111.Utils.Cache;
 using NHS111.Utils.Helpers;
@@ -21,6 +22,7 @@ using NHS111.Utils.Notifier;
 using NHS111.Web.Presentation.Models;
 using IConfiguration = NHS111.Web.Presentation.Configuration.IConfiguration;
 using NHS111.Features;
+using DosService = NHS111.Models.Models.Business.DosService;
 
 namespace NHS111.Web.Presentation.Builders
 {

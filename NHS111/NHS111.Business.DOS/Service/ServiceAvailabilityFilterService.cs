@@ -44,12 +44,16 @@ namespace NHS111.Business.DOS.Service
             var val = await response.Content.ReadAsStringAsync();
             var jObj = (JObject)JsonConvert.DeserializeObject(val);
             var services = jObj["CheckCapacitySummaryResult"];
-            var results = services.ToObject<List<Models.Models.Web.FromExternalServices.DosService>>();
+            var results = services.ToObject<List<Models.Models.Business.DosService>>();
 
             if (!_filterServicesFeature.IsEnabled && !filterServices) return BuildResponseMessage(results);
 
             var serviceAvailability = _serviceAvailabilityManager.FindServiceAvailability(dosFilteredCase);
-            return BuildResponseMessage(serviceAvailability.Filter(results));
+            var filteredResults = serviceAvailability.Filter(results);
+
+
+
+            return BuildResponseMessage(filteredResults);
         }
 
 

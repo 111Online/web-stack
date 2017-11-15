@@ -135,7 +135,7 @@ namespace NHS111.Business.DOS.Test.Service
         public async void non_filtered_disposition_should_return_unfiltered_CheckCapacitySummaryResult()
         {
             var jObj = (JObject)JsonConvert.DeserializeObject(CheckCapacitySummaryResults);
-            var results = jObj["CheckCapacitySummaryResult"].ToObject<List<Models.Models.Web.FromExternalServices.DosService>>();
+            var results = jObj["CheckCapacitySummaryResult"].ToObject<List<Models.Models.Business.DosService>>();
 
             var fakeDoSFilteredCase = new DosFilteredCase() { PostCode = "So30 2Un", Disposition = 1010 };
 
@@ -151,7 +151,7 @@ namespace NHS111.Business.DOS.Test.Service
         public async void in_hours_should_return_filtered_CheckCapacitySummaryResult()
         {
             var jObj = (JObject)JsonConvert.DeserializeObject(CheckCapacitySummaryResults);
-            var results = jObj["CheckCapacitySummaryResult"].ToObject<List<Models.Models.Web.FromExternalServices.DosService>>();
+            var results = jObj["CheckCapacitySummaryResult"].ToObject<List<Models.Models.Business.DosService>>();
 
             var fakeDoSFilteredCase = new DosFilteredCase() { PostCode = "So30 2Un", Disposition = 1008, DispositionTime = new DateTime(2016, 11, 23, 9, 30, 0), DispositionTimeFrameMinutes = 60 };
          
@@ -166,7 +166,7 @@ namespace NHS111.Business.DOS.Test.Service
         public async void out_of_hours_should_return_unfiltered_CheckCapacitySummaryResult()
         {
             var jObj = (JObject)JsonConvert.DeserializeObject(CheckCapacitySummaryResults);
-            var results = jObj["CheckCapacitySummaryResult"].ToObject<List<Models.Models.Web.FromExternalServices.DosService>>();
+            var results = jObj["CheckCapacitySummaryResult"].ToObject<List<Models.Models.Business.DosService>>();
 
 
             var fakeDoSFilteredCase = new DosFilteredCase() { PostCode = "So30 2Un", Disposition = 1008, DispositionTime = new DateTime(2016, 11, 23, 23, 30, 0), DispositionTimeFrameMinutes = 60 };
@@ -185,7 +185,7 @@ namespace NHS111.Business.DOS.Test.Service
         public async void in_hours_shoulder_should_return_filtered_CheckCapacitySummaryResult()
         {
             var jObj = (JObject)JsonConvert.DeserializeObject(CheckCapacitySummaryResults);
-            var results = jObj["CheckCapacitySummaryResult"].ToObject<List<Models.Models.Web.FromExternalServices.DosService>>();
+            var results = jObj["CheckCapacitySummaryResult"].ToObject<List<Models.Models.Business.DosService>>();
 
             var fakeDoSFilteredCase = new DosFilteredCase() { PostCode = "So30 2Un", Disposition = 1008, DispositionTime = new DateTime(2016, 11, 23, 8, 20, 0), DispositionTimeFrameMinutes = 720 };
 
@@ -203,7 +203,7 @@ namespace NHS111.Business.DOS.Test.Service
         public async void in_hours_shoulder_on_the_button_should_return_filtered_CheckCapacitySummaryResult()
         {
             var jObj = (JObject)JsonConvert.DeserializeObject(CheckCapacitySummaryResults);
-            var results = jObj["CheckCapacitySummaryResult"].ToObject<List<Models.Models.Web.FromExternalServices.DosService>>();
+            var results = jObj["CheckCapacitySummaryResult"].ToObject<List<Models.Models.Business.DosService>>();
 
 
             var fakeDoSFilteredCase = new DosFilteredCase() { PostCode = "So30 2Un", Disposition = 1008, DispositionTime = new DateTime(2016, 11, 23, 8, 0, 0), DispositionTimeFrameMinutes = 1440 };
@@ -223,7 +223,7 @@ namespace NHS111.Business.DOS.Test.Service
         public async void out_of_hours_traversing_in_hours_should_return_filtered_CheckCapacitySummaryResult()
         {
             var jObj = (JObject)JsonConvert.DeserializeObject(CheckCapacitySummaryResults);
-            var results = jObj["CheckCapacitySummaryResult"].ToObject<List<Models.Models.Web.FromExternalServices.DosService>>();
+            var results = jObj["CheckCapacitySummaryResult"].ToObject<List<Models.Models.Business.DosService>>();
 
             var fakeDoSFilteredCase = new DosFilteredCase() { PostCode = "So30 2Un", Disposition = 1008, DispositionTime = new DateTime(2016, 12, 1, 18, 1, 0), DispositionTimeFrameMinutes = 1440 };
 
@@ -242,7 +242,7 @@ namespace NHS111.Business.DOS.Test.Service
         public async void Dental_out_of_hours_traversing_in_hours_should_return_filtered_CheckCapacitySummaryResult()
         {
             var jObj = (JObject)JsonConvert.DeserializeObject(CheckCapacitySummaryResults);
-            var results = jObj["CheckCapacitySummaryResult"].ToObject<List<Models.Models.Web.FromExternalServices.DosService>>();
+            var results = jObj["CheckCapacitySummaryResult"].ToObject<List<Models.Models.Business.DosService>>();
 
             var fakeDoSFilteredCase = new DosFilteredCase() { PostCode = "So30 2Un", Disposition = 1017, DispositionTime = new DateTime(2016, 12, 1, 22, 1, 0), DispositionTimeFrameMinutes = 1440 };
 
@@ -261,7 +261,7 @@ namespace NHS111.Business.DOS.Test.Service
         public async void Dental_in_hours_shoulder_should_return_filtered_CheckCapacitySummaryResult()
         {
             var jObj = (JObject)JsonConvert.DeserializeObject(CheckCapacitySummaryResults);
-            var results = jObj["CheckCapacitySummaryResult"].ToObject<List<Models.Models.Web.FromExternalServices.DosService>>();
+            var results = jObj["CheckCapacitySummaryResult"].ToObject<List<Models.Models.Business.DosService>>();
 
             var fakeDoSFilteredCase = new DosFilteredCase() { PostCode = "So30 2Un", Disposition = 1017, DispositionTime = new DateTime(2016, 11, 23, 7, 31, 0), DispositionTimeFrameMinutes = 720 };
 
@@ -281,7 +281,7 @@ namespace NHS111.Business.DOS.Test.Service
             _mockConfiguration.Setup(c => c.FilteredDentalDispositionCodes).Returns("");
 
             var jObj = (JObject)JsonConvert.DeserializeObject(CheckCapacitySummaryResults);
-            var results = jObj["CheckCapacitySummaryResult"].ToObject<List<Models.Models.Web.FromExternalServices.DosService>>();
+            var results = jObj["CheckCapacitySummaryResult"].ToObject<List<Models.Models.Business.DosService>>();
 
             var fakeDoSFilteredCase = new DosFilteredCase() { PostCode = "So30 2Un", Disposition = 1017, DispositionTime = new DateTime(2016, 11, 23, 7, 31, 0), DispositionTimeFrameMinutes = 720 };
 
@@ -299,7 +299,7 @@ namespace NHS111.Business.DOS.Test.Service
         public async void Dental_out_of_hours_should_return_filtered_CheckCapacitySummaryResult()
         {
             var jObj = (JObject)JsonConvert.DeserializeObject(CheckCapacitySummaryResults);
-            var results = jObj["CheckCapacitySummaryResult"].ToObject<List<Models.Models.Web.FromExternalServices.DosService>>();
+            var results = jObj["CheckCapacitySummaryResult"].ToObject<List<Models.Models.Business.DosService>>();
 
 
             var fakeDoSFilteredCase = new DosFilteredCase() { PostCode = "So30 2Un", Disposition = 1017, DispositionTime = new DateTime(2016, 11, 23, 23, 30, 0), DispositionTimeFrameMinutes = 60 };

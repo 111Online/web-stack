@@ -6,7 +6,7 @@ namespace NHS111.Business.DOS.ServiceAvailability
     {
         bool IsOutOfHours { get; }
 
-        List<Models.Models.Web.FromExternalServices.DosService> Filter(
-            List<Models.Models.Web.FromExternalServices.DosService> resultsToFilter);
+        List<Models.Models.Business.DosService> Filter(
+            List<Models.Models.Business.DosService> resultsToFilter);
     }
 }

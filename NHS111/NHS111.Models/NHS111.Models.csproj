@@ -176,6 +176,7 @@
     <Compile Include="Models\Business\PathwaySearch\PathwayPhraseResult.cs" />
     <Compile Include="Models\Business\PathwaySearch\PathwaySearchResult.cs" />
     <Compile Include="Models\Business\ProfileServiceTimes.cs" />
+    <Compile Include="Models\Business\DosService.cs" />
     <Compile Include="Models\Business\Suggestion.cs" />
     <Compile Include="Models\Configuration\LivePathwaysCollection.cs" />
     <Compile Include="Models\Configuration\LivePathwaysElement.cs" />

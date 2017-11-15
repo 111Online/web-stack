@@ -49,6 +49,9 @@
       <HintPath>..\packages\NUnit.3.5.0\lib\net45\nunit.framework.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="RestSharp, Version=105.2.3.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\RestSharp.105.2.3\lib\net451\RestSharp.dll</HintPath>
+    </Reference>
     <Reference Include="StructureMap, Version=4.2.0.402, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\structuremap.4.2.0.402\lib\net40\StructureMap.dll</HintPath>
       <Private>True</Private>
@@ -77,6 +80,7 @@
     <Compile Include="Configuration\IConfiguration.cs" />
     <Compile Include="IoC\BusinessDosRegistry.cs" />
     <Compile Include="ServiceAvailability\DentalProfileHoursOfOperation.cs" />
+    <Compile Include="Service\ITKAvailabilityFilterService.cs" />
     <Compile Include="ServiceAvailability\IProfileHoursOfOperation.cs" />
     <Compile Include="ServiceAvailability\DentalServiceAvailability.cs" />
     <Compile Include="ServiceAvailability\IServiceAvailability.cs" />
