@@ -5,6 +5,7 @@
     {
         @Html.HiddenFor(m => Model.UserInfo.Demography.Age)
         @Html.HiddenFor(m => Model.UserInfo.Demography.Gender)
+        @Html.HiddenFor(m => Model.UserInfo.CurrentAddress.Postcode)
         @Html.HiddenFor(m => Model.FilterServices)
         <h1>
             @Html.LabelFor(m => m.SanitisedSearchTerm, "Tell us the symptom you’re concerned about")
