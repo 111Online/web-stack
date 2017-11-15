@@ -74,6 +74,9 @@
     <Compile Include="fractal\theme\index.js" />
     <Content Include="fractal\theme\assets\theme.css" />
     <Content Include="fractal\theme\assets\nhs-logotype-blue.svg" />
+    <Content Include="src\assets\images\app-panel\app_store_badge_US-UK_135x40.svg" />
+    <Content Include="src\assets\images\app-panel\google_play_badge.png" />
+    <Content Include="src\assets\images\app-panel\nhs_111_app_icon.png" />
     <Content Include="src\assets\images\apple-touch-icon.png" />
     <Content Include="src\assets\images\favicon.png" />
     <Content Include="src\assets\images\icons\arrow--blue.svg" />
@@ -101,6 +104,8 @@
     <Content Include="src\assets\images\nhs-logotype-footer.svg" />
     <Content Include="src\assets\images\nhs-rev-logotype.svg" />
     <Content Include="src\assets\images\opengraph-image.png" />
+    <Content Include="src\codebase\components\app-panel\app-panel.njk" />
+    <Content Include="src\codebase\components\app-panel\_app-panel.scss" />
     <Content Include="src\codebase\components\button\button.config.yaml" />
     <Content Include="src\codebase\components\button\button.njk" />
     <Content Include="src\codebase\components\button\_button.scss" />
@@ -220,10 +225,12 @@
     <Folder Include="src\" />
     <Folder Include="src\assets\" />
     <Folder Include="src\assets\images\" />
+    <Folder Include="src\assets\images\app-panel\" />
     <Folder Include="src\assets\images\icons\" />
     <Folder Include="src\assets\images\icons\map-pointers\" />
     <Folder Include="src\codebase\" />
     <Folder Include="src\codebase\components\" />
+    <Folder Include="src\codebase\components\app-panel\" />
     <Folder Include="src\codebase\components\button\" />
     <Folder Include="src\codebase\components\callout\" />
     <Folder Include="src\codebase\components\card\" />
