@@ -19,3 +19,7 @@
 .page-section--collapse-bottom {
   padding-bottom: 0;
 }
+
+.measure {
+  @include reading-width();
+}
