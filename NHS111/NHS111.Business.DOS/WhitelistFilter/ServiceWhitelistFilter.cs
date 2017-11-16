@@ -35,4 +35,5 @@ namespace NHS111.Business.DOS.WhitelistFilter
             return response.Data;
         }
     }
+    public interface IServiceWhitelistFilter : IWhitelistFilter { }
 }

@@ -6,7 +6,7 @@ using BusinessModels = NHS111.Models.Models.Business;
 
 namespace NHS111.Business.DOS.WhitelistFilter
 {
-    public class ITKWhitelistFilter : IServiceWhitelistFilter
+    public class ITKWhitelistFilter : IITKWhitelistFilter
     {
         private readonly IRestClient _restCCGApi;
         private readonly IConfiguration _configuration;
@@ -38,4 +38,6 @@ namespace NHS111.Business.DOS.WhitelistFilter
             return response.Data;
         }
     }
+
+    public interface IITKWhitelistFilter : IWhitelistFilter { }
 }

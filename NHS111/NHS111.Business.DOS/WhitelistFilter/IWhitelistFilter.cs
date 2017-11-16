@@ -4,8 +4,8 @@ using BusinessModels = NHS111.Models.Models.Business;
 
 namespace NHS111.Business.DOS.WhitelistFilter
 {
-    public interface IServiceWhitelistFilter
+    public interface IWhitelistFilter
     {
-    Task<List<BusinessModels.DosService>> Filter(List<BusinessModels.DosService> resultsToFilter, string postCode);
+        Task<List<BusinessModels.DosService>> Filter(List<BusinessModels.DosService> resultsToFilter, string postCode);
     }
 }

@@ -80,7 +80,7 @@
     <Compile Include="Configuration\IConfiguration.cs" />
     <Compile Include="IoC\BusinessDosRegistry.cs" />
     <Compile Include="ServiceAvailability\DentalProfileHoursOfOperation.cs" />
-    <Compile Include="WhitelistFilter\IServiceIdWhitelistFilter.cs" />
+    <Compile Include="WhitelistFilter\IWhitelistFilter.cs" />
     <Compile Include="WhitelistFilter\ITKWhitelistFilter.cs" />
     <Compile Include="ServiceAvailability\IProfileHoursOfOperation.cs" />
     <Compile Include="ServiceAvailability\DentalServiceAvailability.cs" />
