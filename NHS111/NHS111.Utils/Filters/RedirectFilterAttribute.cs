@@ -28,7 +28,7 @@ namespace NHS111.Utils.Filters
 
 
             if (string.IsNullOrEmpty(model.UserInfo.CurrentAddress.Postcode))
-                filterContext.Result = new RedirectResult(_redirectToStartFeature.RedirectUrl, true);
+                filterContext.Result = new RedirectResult(_redirectToStartFeature.RedirectUrl, false);
         }
     }
 }
