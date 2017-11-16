@@ -34,7 +34,10 @@ namespace NHS111.Business.DOS.Service
         public async Task<HttpResponseMessage> GetFilteredServices(HttpRequestMessage request, bool filterServices, DosEndpoint? endpoint)
         {
             var content = await request.Content.ReadAsStringAsync();
-            var dosCaseRequest = BuildRequestMessage(GetObjectFromRequest<DosCase>(content));
+            var dosCase = GetObjectFromRequest<DosCase>(content);
+            var dosCaseRequest = BuildRequestMessage(dosCase);
+            var originalPostcode = dosCase.PostCode;
+
             var response = await _dosService.GetServices(dosCaseRequest, endpoint);
 
             if (response.StatusCode != HttpStatusCode.OK) return response;
