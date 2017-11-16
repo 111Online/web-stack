@@ -108,26 +108,15 @@ namespace NHS111.Web.Presentation.Builders
             }
         return groupedServices;
         }
-
         
-
         public List<ServiceViewModel> DetermineCallbackEnabled(List<ServiceViewModel> services)
         {
-            var whitelist = _configuration.DOSWhitelist.Split('|');
-
-            var list = services.Select(s =>
-            {
-                s.CallbackEnabled = whitelist.Contains(s.Id.ToString());
-                return s;
-            }).ToList();
-
             if (_itkMessagingFeature.IsEnabled)
-            {
-                return list;
-            }
+                return services;
             
             //remove callback services from list, as these are disabled
-            return list.Where(s => s.CallbackEnabled == false).ToList();
+            services.RemoveAll(s => s.CallbackEnabled);
+            return services.ToList();
         }
 
         public async Task<DosServicesByClinicalTermResult> FillDosServicesByClinicalTermResult(DosViewModel dosViewModel)
