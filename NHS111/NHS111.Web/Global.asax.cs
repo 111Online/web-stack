@@ -1,5 +1,6 @@
 ﻿
 using FluentValidation.Mvc;
+using NHS111.Features;
 
 namespace NHS111.Web {
     using System;
@@ -28,6 +29,7 @@ namespace NHS111.Web {
             ModelBinders.Binders[typeof(PersonalDetailViewModel)] = new JourneyViewModelBinder();
             ModelBinders.Binders[typeof(QuestionViewModel)] = new JourneyViewModelBinder();
 
+            GlobalFilters.Filters.Add(new RedirectFilterAttribute(new RedirectToStartFeature()));
             GlobalFilters.Filters.Add(new LogJourneyFilterAttribute());
             GlobalFilters.Filters.Add(new SetSessionIdFilterAttribute());
             FluentValidationModelValidatorProvider.Configure();

@@ -47,7 +47,11 @@ namespace NHS111.Web.Controllers {
             var startOfJourney = new JourneyViewModel
             {
                 SessionId = Guid.Parse(Request.AnonymousID),
-                FilterServices = filterServices
+                FilterServices = filterServices,
+                UserInfo = new UserInfo
+                {
+                    CurrentAddress = new FindServicesAddressViewModel()
+                }
             };
 
             _userZoomDataBuilder.SetFieldsForHome(startOfJourney);
