@@ -80,8 +80,8 @@
     <Compile Include="Configuration\IConfiguration.cs" />
     <Compile Include="IoC\BusinessDosRegistry.cs" />
     <Compile Include="ServiceAvailability\DentalProfileHoursOfOperation.cs" />
-    <Compile Include="Service\IServiceIdWhitelistFilterService.cs" />
-    <Compile Include="Service\ITKAvailabilityFilterService.cs" />
+    <Compile Include="WhitelistFilter\IServiceIdWhitelistFilter.cs" />
+    <Compile Include="WhitelistFilter\ITKWhitelistFilter.cs" />
     <Compile Include="ServiceAvailability\IProfileHoursOfOperation.cs" />
     <Compile Include="ServiceAvailability\DentalServiceAvailability.cs" />
     <Compile Include="ServiceAvailability\IServiceAvailability.cs" />
@@ -96,6 +96,7 @@
     <Compile Include="ServiceAvailablityManager.cs" />
     <Compile Include="Service\DOSService.cs" />
     <Compile Include="Service\ServiceAvailabilityFilterService.cs" />
+    <Compile Include="WhitelistFilter\ServiceWhitelistFilter.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\NHS111.Features\NHS111.Features.csproj">

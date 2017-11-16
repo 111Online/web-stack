@@ -123,14 +123,5 @@ namespace NHS111.Business.DOS.Configuration
                     ConfigurationManager.AppSettings["CCGApiGetCCGByPostcodeUrl"]);
             }
         }
-
-        public string CCGApiGetServiceIdBlacklist
-        {
-            get
-            {
-                return string.Format("{0}{1}", ConfigurationManager.AppSettings["CCGApiBaseUrl"],
-                    ConfigurationManager.AppSettings["CCGApiGetServiceIdBlacklistUrl"]);
-            }
-        }
     }
 }

@@ -5,13 +5,13 @@ using System.Threading.Tasks;
 using Moq;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using NHS111.Business.DOS.Service;
+using NHS111.Business.DOS.WhitelistFilter;
 using NUnit.Framework;
 using RestSharp;
 
-namespace NHS111.Business.DOS.Test.Service
+namespace NHS111.Business.DOS.Test.Whitelist
 {
-    public class ITKAvailabilityFilterServiceTest
+    public class ITKWhitelistFilterTest
     {
         private Mock<Configuration.IConfiguration> _mockConfiguration;
         private Mock<IRestClient> _restClient;
@@ -61,7 +61,7 @@ namespace NHS111.Business.DOS.Test.Service
             var results = jObj["CheckCapacitySummaryResult"].ToObject<List<Models.Models.Business.DosService>>();
 
             //Act
-            var sut = new ITKAvailabilityFilterService(_restClient.Object, _mockConfiguration.Object);
+            var sut = new ITKWhitelistFilter(_restClient.Object, _mockConfiguration.Object);
             var result = await sut.Filter(results, postcode);
 
             Assert.AreEqual(3, result.Count());
@@ -81,7 +81,7 @@ namespace NHS111.Business.DOS.Test.Service
             var results = jObj["CheckCapacitySummaryResult"].ToObject<List<Models.Models.Business.DosService>>();
 
             //Act
-            var sut = new ITKAvailabilityFilterService(_restClient.Object, _mockConfiguration.Object);
+            var sut = new ITKWhitelistFilter(_restClient.Object, _mockConfiguration.Object);
             var result = await sut.Filter(results, postcode);
 
             Assert.AreEqual(3, result.Count());
@@ -101,7 +101,7 @@ namespace NHS111.Business.DOS.Test.Service
             var results = jObj["CheckCapacitySummaryResult"].ToObject<List<Models.Models.Business.DosService>>();
 
             //Act
-            var sut = new ITKAvailabilityFilterService(_restClient.Object, _mockConfiguration.Object);
+            var sut = new ITKWhitelistFilter(_restClient.Object, _mockConfiguration.Object);
             var result = await sut.Filter(results, postcode);
 
             Assert.AreEqual(3, result.Count());
