@@ -61,7 +61,7 @@
                                                 @foreach (var pathway in subCategory.Pathways.OrderBy(p => p.PathwayData.DigitalTitle))
                                                 {
                                                     <li>
-                                                        <a data-title="@pathway.PathwayData.DigitalTitle" data-pathway-number="@pathway.Pathway.Id" href="/@pathway.Pathway.PathwayNo/@Model.UserInfo.Demography.Gender/@Model.UserInfo.Demography.Age/start?age=@Model.UserInfo.Demography.Age&filterServices=@(Model.FilterServices.ToString())">@Html.Raw(pathway.PathwayData.DigitalTitle)</a>
+                                                        <a data-title="@pathway.PathwayData.DigitalTitle" data-pathway-number="@pathway.Pathway.Id" href="/@pathway.Pathway.PathwayNo/@Model.UserInfo.Demography.Gender/@Model.UserInfo.Demography.Age/start?age=@Model.UserInfo.Demography.Age&postcode=@Model.UserInfo.CurrentAddress.Postcode&filterServices=@(Model.FilterServices.ToString())">@Html.Raw(pathway.PathwayData.DigitalTitle)</a>
                                                     </li>
                                                 }
                                             </ul>
@@ -75,7 +75,7 @@
                                     @foreach (var pathway in topLevelCategory.Pathways.OrderBy(p => p.PathwayData.DigitalTitle))
                                     {
                                         <li>
-                                            <a data-title="@pathway.PathwayData.DigitalTitle" data-pathway-number="@pathway.Pathway.Id" href="/@pathway.Pathway.PathwayNo/@Model.UserInfo.Demography.Gender/@Model.UserInfo.Demography.Age/start?age=@Model.UserInfo.Demography.Age&filterServices=@(Model.FilterServices.ToString())">@Html.Raw(pathway.PathwayData.DigitalTitle)</a>
+                                            <a data-title="@pathway.PathwayData.DigitalTitle" data-pathway-number="@pathway.Pathway.Id" href="/@pathway.Pathway.PathwayNo/@Model.UserInfo.Demography.Gender/@Model.UserInfo.Demography.Age/start?age=@Model.UserInfo.Demography.Age&postcode=@Model.UserInfo.CurrentAddress.Postcode&filterServices=@(Model.FilterServices.ToString())">@Html.Raw(pathway.PathwayData.DigitalTitle)</a>
                                         </li>
                                     }
                                 </ul>

@@ -117,6 +117,10 @@ namespace NHS111.Web.Controllers
             if (model.DosCheckCapacitySummaryResult.Error == null &&
                 !model.DosCheckCapacitySummaryResult.ResultListEmpty)
             {
+
+                model.GroupedDosServices =
+                    _dosBuilder.FillGroupedDosServices(model.DosCheckCapacitySummaryResult.Success.Services);
+
                 if (model.OutcomeGroup.IsAutomaticSelectionOfItkResult())
                 {
                     AutoSelectFirstItkService(model);
@@ -159,6 +163,9 @@ namespace NHS111.Web.Controllers
             if (model.DosCheckCapacitySummaryResult.Error == null &&
                 !model.DosCheckCapacitySummaryResult.ResultListEmpty)
             {
+                model.GroupedDosServices =
+                    _dosBuilder.FillGroupedDosServices(model.DosCheckCapacitySummaryResult.Success.Services);
+
                 if (model.OutcomeGroup.IsAutomaticSelectionOfItkResult())
                 {
                     AutoSelectFirstItkService(model);

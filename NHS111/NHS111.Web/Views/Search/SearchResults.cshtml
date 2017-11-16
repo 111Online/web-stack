@@ -24,7 +24,7 @@
                     var title = result.DisplayTitle != null ? result.DisplayTitle.First() : result.Title.First();
                     var digitalTitle = PathwaySearchResult.StripHighlightMarkup(title);
                     <li>
-                        <a data-title="@result.PathwayTitle" data-pathway-number="@result.PathwayNo" href="/@result.PathwayNo/@Model.UserInfo.Demography.Gender/@Model.UserInfo.Demography.Age/start?age=@Model.UserInfo.Demography.Age&digitalTitle=@digitalTitle&entrySearchTerm=@Model.SanitisedSearchTerm&filterServices=@(Model.FilterServices.ToString())">@Html.Raw(title)</a>
+                        <a data-title="@result.PathwayTitle" data-pathway-number="@result.PathwayNo" href="/@result.PathwayNo/@Model.UserInfo.Demography.Gender/@Model.UserInfo.Demography.Age/start?age=@Model.UserInfo.Demography.Age&postcode=@Model.UserInfo.CurrentAddress.Postcode&digitalTitle=@digitalTitle&entrySearchTerm=@Model.SanitisedSearchTerm&filterServices=@(Model.FilterServices.ToString())">@Html.Raw(title)</a>
                         @if (additionalTopics.Any())
                         {
                             <p>Includes: @Html.Raw(string.Join(", ", additionalTopics))</p>
@@ -35,7 +35,7 @@
                 }
             </ul>
             <h3 id="category-option">
-                If you can't find what you're looking for, try <a id="show-categories" href="/@Model.UserInfo.Demography.Gender/@Model.UserInfo.Demography.Age/Topics?filterServices=@(Model.FilterServices.ToString())">searching by category</a> instead.
+                If you can't find what you're looking for, try <a id="show-categories" href="/@Model.UserInfo.Demography.Gender/@Model.UserInfo.Demography.Age/Topics?postcode=@Model.UserInfo.CurrentAddress.Postcode&filterServices=@(Model.FilterServices.ToString())">searching by category</a> instead.
             </h3>
         </div>
     }

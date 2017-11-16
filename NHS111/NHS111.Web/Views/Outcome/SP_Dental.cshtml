@@ -63,8 +63,6 @@
     </ul>
 </div>
 
-@Html.Partial("_WorseningAdvice", Model)
-
 <hr/>
 
 <div class="outcome-additional-info">
@@ -82,6 +80,7 @@
 
 @Html.Partial("_CareAdvice", Model.CareAdvices, new ViewDataDictionary { { "Title", "What you can do in the meantime" } })
 
+@Html.Partial("_WorseningAdviceWithTitle", Model)
 
 @using (Html.BeginForm("Navigation", "Question", FormMethod.Post))
 {

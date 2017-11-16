@@ -35,7 +35,7 @@ namespace NHS111.SmokeTests
                 .AnswerForDispostion<OutcomePage>("Yes");
  
             outcomePage.VerifyOutcome("Your answers suggest you should contact a pharmacist within 12 hours");
-            outcomePage.VerifyWorseningPanel(WorseningMessages.Call111);
+            outcomePage.VerifyWorseningPanel(WorseningMessages.Call111PostCodeFirst);
             outcomePage.VerifyFindService(FindServiceTypes.Pharmacy);
             outcomePage.VerifyCareAdviceHeader("What you can do in the meantime");
             outcomePage.VerifyCareAdvice(new[] { "Eye discharge" });
@@ -100,7 +100,7 @@ namespace NHS111.SmokeTests
 
             outcomePage.VerifyOutcome("Your answers suggest you need urgent attention for your dental problem within 4 hours");
             outcomePage.VerifyFindService(FindServiceTypes.EmergencyDental);
-            outcomePage.VerifyWorseningPanel(WorseningMessages.Call111);
+            outcomePage.VerifyWorseningPanel(WorseningMessages.Call111PostCodeFirst);
             outcomePage.VerifyCareAdviceHeader("What you can do in the meantime");
             outcomePage.VerifyCareAdvice(new string[] { "Tooth extraction" });
         }
@@ -120,7 +120,7 @@ namespace NHS111.SmokeTests
                 .AnswerForDispostion<OutcomePage>("Yes");
 
             outcomePage.VerifyOutcome("Your answers suggest you need urgent medical attention within 1 hour");
-            outcomePage.VerifyWorseningPanel(WorseningMessages.Call999);
+            outcomePage.VerifyWorseningPanel(WorseningMessages.Call111PostCodeFirst);
             outcomePage.VerifyFindService(FindServiceTypes.AccidentAndEmergency);
             outcomePage.VerifyCareAdviceHeader("What you can do in the meantime");
             outcomePage.VerifyCareAdvice(new string[] { "Headache", "Breathlessness", "Medication, pain and/or fever" });
@@ -148,7 +148,7 @@ namespace NHS111.SmokeTests
                 .AnswerForDispostion<OutcomePage>("No");
 
             outcomePage.VerifyOutcome("Your answers suggest you should see an optician within 3 days");
-            outcomePage.VerifyWorseningPanel(WorseningMessages.Call111);
+            outcomePage.VerifyWorseningPanel(WorseningMessages.Call111PostCodeFirst);
             outcomePage.VerifyFindService(FindServiceTypes.Optician);
             outcomePage.VerifyCareAdviceHeader("What you can do in the meantime");
             outcomePage.VerifyCareAdvice(new string[] {"Eye discharge", "Medication, pain and/or fever" });
@@ -174,7 +174,7 @@ namespace NHS111.SmokeTests
                 .AnswerForDispostion<OutcomePage>("Yes - 1 week or more");
 
             outcomePage.VerifyOutcome("Your answers suggest that you should talk to your own GP in 3 working days if you are not feeling better");
-            outcomePage.VerifyWorseningPanel(WorseningMessages.Call111);
+            outcomePage.VerifyWorseningPanel(WorseningMessages.Call111PostCodeFirst);
             outcomePage.VerifyCareAdviceHeader("What you can do in the meantime");
             outcomePage.VerifyCareAdvice(new string[] { "Diarrhoea & Vomiting" });
         }
@@ -242,7 +242,7 @@ namespace NHS111.SmokeTests
 
             outcomePage.VerifyFindService(FindServiceTypes.Midwife);
             outcomePage.VerifyOutcome("Your answers suggest you should speak to your midwife within 1 hour");
-            outcomePage.VerifyWorseningPanel(WorseningMessages.Call111);
+            outcomePage.VerifyWorseningPanel(WorseningMessages.Call111PostCodeFirst);
             outcomePage.VerifyCareAdviceHeader("What you can do in the meantime");
             outcomePage.VerifyCareAdvice(new string[] { "Medication, pain and/or fever", "Headache" });
         }

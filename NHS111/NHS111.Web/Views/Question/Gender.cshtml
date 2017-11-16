@@ -14,6 +14,7 @@
 {
     @Html.HiddenFor(x => Model.SessionId)
     @Html.HiddenFor(x => Model.FilterServices)
+    @Html.HiddenFor(x => Model.UserInfo.CurrentAddress.Postcode)
     @Html.Partial("_GenderAgeView", Model, new ViewDataDictionary(ViewData) { Model = null })
 
     <button class="button button--next" id="submitGender" type="submit" name="Slider">Next</button>

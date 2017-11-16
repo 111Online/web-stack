@@ -12,6 +12,7 @@
 {
     @Html.HiddenFor(x => Model.SessionId)
     @Html.HiddenFor(x => Model.FilterServices)
+    @Html.HiddenFor(x => Model.UserInfo.CurrentAddress.Postcode)
 
     <h1 class="heading-large">Do any of these apply?</h1>
     @Html.Partial("_Callout", new CalloutViewModel() { Details = new[] { "Before we ask about the symptoms, we need to check it's not an emergency.", "If any of these apply, <strong>call <span class='util-digits'>9 9 9</span> now</strong>" }, Modifiers = new[] { "info" } })
