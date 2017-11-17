@@ -46,7 +46,7 @@ namespace NHS111.Business.DOS
                 new ClinicianCallbackProfileHoursOfOperation(), clinicianCallbackServiceTypeIdBlackist);
 
             if (IsGenericDisposition(dxCode)) return new ServiceAvailabilityProfile(
-                new PrimaryCareProfileHoursOfOperation(_configuration.WorkingDayGenericInHoursStartTime, _configuration.WorkingDayGenericInHoursShoulderEndTime, _configuration.WorkingDayGenericInHoursEndTime), genericServiceTypeIdBlackList);
+                new GenericProfileHoursOfOperation(_configuration.WorkingDayGenericInHoursStartTime, _configuration.WorkingDayGenericInHoursShoulderEndTime, _configuration.WorkingDayGenericInHoursEndTime), genericServiceTypeIdBlackList);
 
             return new ServiceAvailabilityProfile(new ProfileHoursOfOperation(new LocalTime(0, 0), new LocalTime(0, 0), new LocalTime(0, 0)), new List<int>());
         }
