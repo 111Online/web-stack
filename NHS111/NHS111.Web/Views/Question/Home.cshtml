@@ -15,7 +15,7 @@
 }
 
 
-<div id="wrapper" class="home">
+<div id="wrapper" class="home measure">
     @using (Html.BeginForm("Home", "Question", FormMethod.Post)) {
         @Html.HiddenFor(x => Model.SessionId)
         @Html.HiddenFor(x => Model.FilterServices)

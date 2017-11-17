@@ -42,7 +42,7 @@
 }
 @Html.Partial("_FindService", Model, dataDictionary)
 
-<div class="outcome-additional-info">
+<div class="outcome-additional-info measure">
     <h3 class="outcome-additional-info-header">
         Advice before you go
     </h3>
@@ -55,7 +55,7 @@
 
 <hr/>
 
-<div class="outcome-additional-info">
+<div class="outcome-additional-info measure">
     <h3 class="outcome-additional-info-header">
         Did you know?
     </h3>
@@ -70,7 +70,7 @@
 
 @Html.Partial("_WorseningAdviceWithTitle", Model)
 
-@using (Html.BeginForm("Navigation", "Question", FormMethod.Post))
+@using (Html.BeginForm("Navigation", "Question", FormMethod.Post, new { @class = "measure" }))
 {
     @Html.Partial("_CommonHiddenFieldsOutcomeViewModel", Model)
     if (!Model.DisplayOutcomeReferenceOnly)

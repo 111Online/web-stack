@@ -10,7 +10,7 @@
     @Html.Partial("_FeedbackDetails", new FeedbackViewModel() { UserId = Model.SessionId.ToString(), PageId = Request.Url.GetComponents(UriComponents.PathAndQuery, UriFormat.SafeUnescaped) + "/demographics" })
 }
 
-@using (Html.BeginForm("Search", "Search", FormMethod.Post, new { @id = "outerContent" }))
+@using (Html.BeginForm("Search", "Search", FormMethod.Post, new { @id = "outerContent", @class = "measure" }))
 {
     @Html.HiddenFor(x => Model.SessionId)
     @Html.HiddenFor(x => Model.FilterServices)

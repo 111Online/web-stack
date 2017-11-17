@@ -54,7 +54,7 @@
 
 @Html.Partial("_OutcomeHeader", Model, dict)
 
-<section>
+<section class="measure">
     <h2 class="heading-medium">
         What if I'm not registered with a GP?
     </h2>
@@ -67,7 +67,7 @@
 
 @Html.Partial("_WorseningAdviceWithTitle", Model)
 
-@using (Html.BeginForm("Navigation", "Question", FormMethod.Post))
+@using (Html.BeginForm("Navigation", "Question", FormMethod.Post, new { @class = "measure" }))
 {
     @Html.Partial("_CommonHiddenFieldsOutcomeViewModel", Model)
     if (!Model.DisplayOutcomeReferenceOnly)

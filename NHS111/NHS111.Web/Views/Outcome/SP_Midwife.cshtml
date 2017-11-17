@@ -33,16 +33,14 @@
 
 @Html.Partial("_OutcomeHeader", Model)
 
-<section>
-    <div class="outcome-additional-info">
-        <ul>
-            <li>
-                You should contact your own midwife first.</li>
-            <li>
-                If you can’t contact your midwife or you don't have a midwife, you should search for another service below.
-            </li>
-        </ul>
-    </div>
+<section class="measure outcome-additional-info">
+    <ul>
+        <li>
+            You should contact your own midwife first.</li>
+        <li>
+            If you can’t contact your midwife or you don't have a midwife, you should search for another service below.
+        </li>
+    </ul>
 </section>
 
 @{
@@ -59,7 +57,7 @@
 
 @Html.Partial("_WorseningAdviceWithTitle", Model)
 
-@using (Html.BeginForm("Navigation", "Question", FormMethod.Post))
+@using (Html.BeginForm("Navigation", "Question", FormMethod.Post, new { @class = "measure" }))
 {
     @Html.Partial("_CommonHiddenFieldsOutcomeViewModel", Model)
     if (!Model.DisplayOutcomeReferenceOnly)
