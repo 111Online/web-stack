@@ -19,6 +19,7 @@
     @using (Html.BeginForm("Home", "Question", FormMethod.Post)) {
         @Html.HiddenFor(x => Model.SessionId)
         @Html.HiddenFor(x => Model.FilterServices)
+        @Html.HiddenFor(x => Model.UserInfo.CurrentAddress.Postcode)
 
         <div class="header home">
             <h1 class="heading-large">Getting care with <span class="util-digits">1 1 1</span> online</h1>

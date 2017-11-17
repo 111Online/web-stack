@@ -58,6 +58,26 @@ namespace NHS111.Web.Controllers {
             return View("Home", startOfJourney);
         }
 
+        [HttpGet]
+        [Route("seleniumtests/direct/{postcode}")]
+        public ActionResult Home(string postcode)
+        {
+            var startOfJourney = new JourneyViewModel
+            {
+                SessionId = Guid.Parse(Request.AnonymousID),
+                UserInfo = new UserInfo
+                {
+                    CurrentAddress = new FindServicesAddressViewModel()
+                    {
+                        Postcode = postcode
+                    }
+                }
+            };
+
+            _userZoomDataBuilder.SetFieldsForHome(startOfJourney);
+            return View("Home", startOfJourney);
+        }
+
         [HttpPost]
         public  ActionResult Home(JourneyViewModel model)
         {
