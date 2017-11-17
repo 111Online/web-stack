@@ -171,11 +171,13 @@
     <Compile Include="Mappers\WebMappings\FromOutcomeVIewModelToITKDispatchRequest.cs" />
     <Compile Include="Mappers\WebMappings\FromOutcomeViewModelToSubmitEncounterToServiceRequest.cs" />
     <Compile Include="Mappers\WebMappings\AddressInfoViewModelMapper.cs" />
+    <Compile Include="Models\Business\CheckCapacitySummaryResult.cs" />
     <Compile Include="Models\Business\Enums\DispositionTimePeriod.cs" />
     <Compile Include="Models\Business\Location\PostcodeResult.cs" />
     <Compile Include="Models\Business\PathwaySearch\PathwayPhraseResult.cs" />
     <Compile Include="Models\Business\PathwaySearch\PathwaySearchResult.cs" />
     <Compile Include="Models\Business\ProfileServiceTimes.cs" />
+    <Compile Include="Models\Business\DosService.cs" />
     <Compile Include="Models\Business\Suggestion.cs" />
     <Compile Include="Models\Configuration\LivePathwaysCollection.cs" />
     <Compile Include="Models\Configuration\LivePathwaysElement.cs" />
@@ -200,6 +202,9 @@
     <Compile Include="Models\Web\AgeGenderViewModel.cs" />
     <Compile Include="Models\Web\ButtonViewModel.cs" />
     <Compile Include="Models\Web\CalloutViewModel.cs" />
+    <Compile Include="Models\Web\CCG\CCGDetailsModel.cs" />
+    <Compile Include="Models\Web\CCG\CCGModel.cs" />
+    <Compile Include="Models\Web\CCG\ServiceListModel.cs" />
     <Compile Include="Models\Web\Clock\SystemClock.cs" />
     <Compile Include="Models\Web\Clock\IClock.cs" />
     <Compile Include="Models\Web\DosRequests\DosEndpoint.cs" />

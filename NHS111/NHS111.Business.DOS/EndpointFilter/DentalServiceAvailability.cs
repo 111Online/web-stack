@@ -1,13 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Configuration;
 using System.Linq;
-using System.Security.Policy;
-using System.Text;
-using System.Threading.Tasks;
-using NHS111.Models.Models.Web.FromExternalServices;
+using NHS111.Models.Models.Business;
 
-namespace NHS111.Business.DOS.ServiceAviliablility
+namespace NHS111.Business.DOS.EndpointFilter
 {
     public class DentalServiceAvailability : ServiceAvailability
     {

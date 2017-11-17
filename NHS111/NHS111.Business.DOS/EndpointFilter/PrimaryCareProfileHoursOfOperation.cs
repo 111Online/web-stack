@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using NodaTime;
+﻿using NodaTime;
 
-namespace NHS111.Business.DOS.ServiceAviliablility
+namespace NHS111.Business.DOS.EndpointFilter
 {
     public class PrimaryCareProfileHoursOfOperation : ProfileHoursOfOperation
     {

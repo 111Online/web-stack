@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using NHS111.Models.Models.Web.FromExternalServices;
+﻿using System.Configuration;
 using NodaTime;
 using NodaTime.Text;
 
@@ -143,6 +137,19 @@ namespace NHS111.Business.DOS.Configuration
         public LocalTime WorkingDayDentalInHoursShoulderEndTime
         {
             get { return Get(ConfigurationManager.AppSettings["WorkingDayDentalInHoursShoulderEndTime"]); }
+        }
+
+        public string CCGApiGetCCGByPostcode
+        {
+            get
+            {
+                return ConfigurationManager.AppSettings["CCGApiGetCCGByPostcodeUrl"];
+            }
+        }
+
+        public string CCGApiBaseUrl
+        {
+            get { return ConfigurationManager.AppSettings["CCGApiBaseUrl"]; }
         }
     }
 }

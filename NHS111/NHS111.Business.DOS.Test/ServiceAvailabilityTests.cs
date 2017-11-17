@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Moq;
-using NHS111.Business.DOS.ServiceAviliablility;
+using NHS111.Business.DOS.EndpointFilter;
 using NHS111.Models.Models.Business;
 using NHS111.Models.Models.Business.Enums;
 using NUnit.Framework;

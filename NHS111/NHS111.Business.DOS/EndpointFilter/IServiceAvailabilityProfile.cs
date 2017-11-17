@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using NHS111.Models.Models.Business.Enums;
 
-namespace NHS111.Business.DOS
+namespace NHS111.Business.DOS.EndpointFilter
 {
     public interface IServiceAvailabilityProfile
     {

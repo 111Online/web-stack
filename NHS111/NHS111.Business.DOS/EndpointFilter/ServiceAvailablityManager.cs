@@ -1,17 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using NHS111.Business.DOS.Configuration;
-using NHS111.Business.DOS.ServiceAviliablility;
 using NHS111.Models.Models.Web.DosRequests;
 using NodaTime;
+using NHS111.Models.Models.Business;
 
-namespace NHS111.Business.DOS
+namespace NHS111.Business.DOS.EndpointFilter
 {
-    using Models.Models.Business;
-
     public class ServiceAvailablityManager : IServiceAvailabilityManager
     {
         private IConfiguration _configuration;
