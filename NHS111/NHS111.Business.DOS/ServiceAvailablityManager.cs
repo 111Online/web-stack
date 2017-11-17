@@ -24,6 +24,7 @@ namespace NHS111.Business.DOS
         {
             if (IsDentalDispoition(dosFilteredCase.Disposition)) return new DentalServiceAvailability(FindServiceAvailabilityProfile(dosFilteredCase.Disposition), dosFilteredCase.DispositionTime, dosFilteredCase.DispositionTimeFrameMinutes);
             if (IsPrimaryCareDispoition(dosFilteredCase.Disposition)) return new PrimaryCareServiceAvailability(FindServiceAvailabilityProfile(dosFilteredCase.Disposition), dosFilteredCase.DispositionTime, dosFilteredCase.DispositionTimeFrameMinutes);
+            if (IsGenericDisposition(dosFilteredCase.Disposition)) return new GenericServiceAvailability(FindServiceAvailabilityProfile(dosFilteredCase.Disposition), dosFilteredCase.DispositionTime, dosFilteredCase.DispositionTimeFrameMinutes);
             return new ServiceAvailability(FindServiceAvailabilityProfile(dosFilteredCase.Disposition), dosFilteredCase.DispositionTime, dosFilteredCase.DispositionTimeFrameMinutes);
         }
 
@@ -33,6 +34,7 @@ namespace NHS111.Business.DOS
             var primaryCareServiceTypeIdBlackist = ConvertPipeDeliminatedString(_configuration.FilteredPrimaryCareDosServiceIds);
             var dentalServiceTypeIdBlackist = ConvertPipeDeliminatedString(_configuration.FilteredDentalDosServiceIds);
             var clinicianCallbackServiceTypeIdBlackist = ConvertPipeDeliminatedString(_configuration.FilteredClinicianCallbackDosServiceIds);
+            var genericServiceTypeIdBlackList = ConvertPipeDeliminatedString(_configuration.FilteredGenericDosServiceIds);
 
             if (IsPrimaryCareDispoition(dxCode)) return new ServiceAvailabilityProfile(
                 new PrimaryCareProfileHoursOfOperation(_configuration.WorkingDayPrimaryCareInHoursStartTime, _configuration.WorkingDayPrimaryCareInHoursShoulderEndTime, _configuration.WorkingDayPrimaryCareInHoursEndTime), primaryCareServiceTypeIdBlackist);
@@ -42,6 +44,9 @@ namespace NHS111.Business.DOS
 
             if (IsClinicianCallbackDispoition(dxCode)) return new ServiceAvailabilityProfile(
                 new ClinicianCallbackProfileHoursOfOperation(), clinicianCallbackServiceTypeIdBlackist);
+
+            if (IsGenericDisposition(dxCode)) return new ServiceAvailabilityProfile(
+                new PrimaryCareProfileHoursOfOperation(_configuration.WorkingDayGenericInHoursStartTime, _configuration.WorkingDayGenericInHoursShoulderEndTime, _configuration.WorkingDayGenericInHoursEndTime), genericServiceTypeIdBlackList);
 
             return new ServiceAvailabilityProfile(new ProfileHoursOfOperation(new LocalTime(0, 0), new LocalTime(0, 0), new LocalTime(0, 0)), new List<int>());
         }
@@ -61,6 +66,10 @@ namespace NHS111.Business.DOS
             return ConvertPipeDeliminatedString(_configuration.FilteredClinicianCallbackDispositionCodes).Contains(dxCode);
         }
 
+        private bool IsGenericDisposition(int dxCode)
+        {
+            return ConvertPipeDeliminatedString(_configuration.FilteredGenericDispositionCodes).Contains(dxCode);
+        }
 
         private IEnumerable<int> ConvertPipeDeliminatedString(string pipedeliminatedString)
         {
