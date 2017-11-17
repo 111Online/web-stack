@@ -119,9 +119,13 @@ namespace NHS111.Business.DOS.Configuration
         {
             get
             {
-                return string.Format("{0}{1}", ConfigurationManager.AppSettings["CCGApiBaseUrl"],
-                    ConfigurationManager.AppSettings["CCGApiGetCCGByPostcodeUrl"]);
+                return ConfigurationManager.AppSettings["CCGApiGetCCGByPostcodeUrl"];
             }
+        }
+
+        public string CCGApiBaseUrl
+        {
+            get { return ConfigurationManager.AppSettings["CCGApiBaseUrl"]; }
         }
     }
 }

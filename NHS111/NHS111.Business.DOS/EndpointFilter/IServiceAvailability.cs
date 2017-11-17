@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace NHS111.Business.DOS.ServiceAvailability
+namespace NHS111.Business.DOS.EndpointFilter
 {
     public interface IServiceAvailability
     {

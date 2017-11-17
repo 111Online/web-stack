@@ -1,6 +1,6 @@
 ﻿using NodaTime;
 
-namespace NHS111.Business.DOS.ServiceAvailability
+namespace NHS111.Business.DOS.EndpointFilter
 {
     public class PrimaryCareProfileHoursOfOperation : ProfileHoursOfOperation
     {

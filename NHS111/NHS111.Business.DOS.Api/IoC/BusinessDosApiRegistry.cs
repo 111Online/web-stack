@@ -1,4 +1,5 @@
-﻿using NHS111.Business.DOS.IoC;
+﻿using NHS111.Business.DOS.Configuration;
+using NHS111.Business.DOS.IoC;
 using NHS111.Models.IoC;
 using NHS111.Utils.Helpers;
 using NHS111.Utils.IoC;
@@ -10,10 +11,10 @@ namespace NHS111.Business.DOS.Api.IoC
 {
     public class BusinessDosApiRegistry : Registry
     {
-        public BusinessDosApiRegistry()
+        public BusinessDosApiRegistry(IConfiguration configuration)
         {
             IncludeRegistry<ModelsRegistry>();
-            IncludeRegistry<BusinessDosRegistry>();
+            IncludeRegistry(new BusinessDosRegistry(configuration));
             IncludeRegistry<UtilsRegistry>();
             Scan(scan =>
             {

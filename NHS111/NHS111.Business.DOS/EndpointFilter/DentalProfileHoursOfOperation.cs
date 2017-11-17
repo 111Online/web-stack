@@ -3,7 +3,7 @@ using System.Linq;
 using NHS111.Models.Models.Business;
 using NodaTime;
 
-namespace NHS111.Business.DOS.ServiceAvailability
+namespace NHS111.Business.DOS.EndpointFilter
 {
     public class DentalProfileHoursOfOperation : ProfileHoursOfOperation
     {

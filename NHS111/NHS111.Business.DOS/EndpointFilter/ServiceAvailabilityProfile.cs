@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using NHS111.Business.DOS.ServiceAvailability;
 using NHS111.Models.Models.Business;
 using NHS111.Models.Models.Business.Enums;
 
-namespace NHS111.Business.DOS
+namespace NHS111.Business.DOS.EndpointFilter
 {
     public class ServiceAvailabilityProfile : IServiceAvailabilityProfile
     {

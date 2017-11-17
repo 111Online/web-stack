@@ -8,8 +8,8 @@ using System.Threading.Tasks;
 using Moq;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using NHS111.Business.DOS.EndpointFilter;
 using NHS111.Business.DOS.Service;
-using NHS111.Business.DOS.ServiceAvailability;
 using NHS111.Business.DOS.WhitelistFilter;
 using NHS111.Models.Models.Web.DosRequests;
 using NodaTime;
@@ -119,7 +119,7 @@ namespace NHS111.Business.DOS.Test.Service
             _mockDosService.Setup(x => x.GetServices(It.IsAny<HttpRequestMessage>(), null)).Returns(Task<HttpResponseMessage>.Factory.StartNew(() => fakeResponse));
 
             _mockServiceAvailabilityProfileManager.Setup(c => c.FindServiceAvailability(fakeDoSFilteredCase))
-                .Returns(new ServiceAvailability.ServiceAvailability(_mockServiceAvailabliityProfileResponse, fakeDoSFilteredCase.DispositionTime, fakeDoSFilteredCase.DispositionTimeFrameMinutes));
+                .Returns(new ServiceAvailability(_mockServiceAvailabliityProfileResponse, fakeDoSFilteredCase.DispositionTime, fakeDoSFilteredCase.DispositionTimeFrameMinutes));
 
             _mockFilterServicesFeature.Setup(c => c.IsEnabled).Returns(true);
 

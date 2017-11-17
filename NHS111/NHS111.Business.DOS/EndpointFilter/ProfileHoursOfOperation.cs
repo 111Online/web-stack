@@ -5,7 +5,7 @@ using NHS111.Models.Models.Business;
 using NHS111.Utils.Dates;
 using NodaTime;
 
-namespace NHS111.Business.DOS.ServiceAvailability
+namespace NHS111.Business.DOS.EndpointFilter
 {
     public class ProfileHoursOfOperation : IProfileHoursOfOperation
     {

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace NHS111.Business.DOS.ServiceAvailability
+namespace NHS111.Business.DOS.EndpointFilter
 {
     public class PrimaryCareServiceAvailability : ServiceAvailability
     {
