@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using NHS111.Business.DOS.Configuration;
+using NHS111.Models.Models.Web.CCG;
 using RestSharp;
 using BusinessModels = NHS111.Models.Models.Business;
 
@@ -23,19 +24,18 @@ namespace NHS111.Business.DOS.WhitelistFilter
 
             foreach (var service in resultsToFilter)
             {
-                service.CallbackEnabled = localWhiteList.Contains(service.Id);
+                service.CallbackEnabled = localWhiteList.Contains(service.Id.ToString());
             }
 
             return resultsToFilter;
         }
 
-        private async Task<List<int>> PopulateLocalCCGITKServiceIdWhitelist(string postCode)
+        private async Task<ServiceListModel> PopulateLocalCCGITKServiceIdWhitelist(string postCode)
         {
-            var response = await _restCCGApi.ExecuteTaskAsync<List<int>>(
+            var response = await _restCCGApi.ExecuteTaskAsync<CCGDetailsModel> (
                 new RestRequest(string.Format(_configuration.CCGApiGetCCGByPostcode, postCode), Method.GET));
 
-            //TODO: Change to CCG object and extract whitelist from it
-            return response.Data;
+            return response.Data.ServiceIdWhitelist;
         }
     }
 

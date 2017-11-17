@@ -70,7 +70,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ServiceAvailabilityProfileTests.cs" />
     <Compile Include="ServiceAvailabilityTests.cs" />
-    <Compile Include="Whitelist\ServiceWhitelistFilter.cs" />
+    <Compile Include="Whitelist\ServiceWhitelistFilterTest.cs" />
     <Compile Include="Whitelist\ITKWhitelistFilterTest.cs" />
     <Compile Include="Service\ServiceAvailabilityFilterServiceTest.cs" />
   </ItemGroup>

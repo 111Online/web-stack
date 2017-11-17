@@ -201,6 +201,9 @@
     <Compile Include="Models\Web\AgeGenderViewModel.cs" />
     <Compile Include="Models\Web\ButtonViewModel.cs" />
     <Compile Include="Models\Web\CalloutViewModel.cs" />
+    <Compile Include="Models\Web\CCG\CCGDetailsModel.cs" />
+    <Compile Include="Models\Web\CCG\CCGModel.cs" />
+    <Compile Include="Models\Web\CCG\ServiceListModel.cs" />
     <Compile Include="Models\Web\Clock\SystemClock.cs" />
     <Compile Include="Models\Web\Clock\IClock.cs" />
     <Compile Include="Models\Web\DosRequests\DosEndpoint.cs" />

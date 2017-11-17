@@ -6,6 +6,7 @@ using Moq;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using NHS111.Business.DOS.WhitelistFilter;
+using NHS111.Models.Models.Web.CCG;
 using NUnit.Framework;
 using RestSharp;
 
@@ -54,8 +55,8 @@ namespace NHS111.Business.DOS.Test.Whitelist
         public async void ITKWhitelistFilter_CallbackEnabledForWhitelistedServiceId()
         {
             const string postcode = "SO302UN";
-            string whitelist = string.Format(_localServiceIdWhiteListUrl, postcode);
-            _restClient.Setup(r => r.ExecuteTaskAsync<List<int>>(It.Is<RestRequest>(req => req.Resource.Equals(whitelist)))).Returns(() => StartedTask((IRestResponse<List<int>>)new RestResponse<List<int>>() { ResponseStatus = ResponseStatus.Completed, Data = new List<int> { 123, 456, 789, 1419419102 } }));
+            string whitelistUrl = string.Format(_localServiceIdWhiteListUrl, postcode);
+            _restClient.Setup(r => r.ExecuteTaskAsync<CCGDetailsModel>(It.Is<RestRequest>(req => req.Resource.Equals(whitelistUrl)))).Returns(() => StartedTask((IRestResponse<CCGDetailsModel>)new RestResponse<CCGDetailsModel>() { ResponseStatus = ResponseStatus.Completed, Data = new CCGDetailsModel { ServiceIdWhitelist = new ServiceListModel { "123", "456", "789", "1419419102" } } }));
 
             var jObj = (JObject)JsonConvert.DeserializeObject(CheckCapacitySummaryResults);
             var results = jObj["CheckCapacitySummaryResult"].ToObject<List<Models.Models.Business.DosService>>();
@@ -74,8 +75,8 @@ namespace NHS111.Business.DOS.Test.Whitelist
         public async void ITKWhitelistFilter_EmptyWhitelist()
         {
             const string postcode = "SO302UN";
-            string whitelist = string.Format(_localServiceIdWhiteListUrl, postcode);
-            _restClient.Setup(r => r.ExecuteTaskAsync<List<int>>(It.Is<RestRequest>(req => req.Resource.Equals(whitelist)))).Returns(() => StartedTask((IRestResponse<List<int>>)new RestResponse<List<int>>() { ResponseStatus = ResponseStatus.Completed, Data = new List<int> { } }));
+            string whitelistUrl = string.Format(_localServiceIdWhiteListUrl, postcode);
+            _restClient.Setup(r => r.ExecuteTaskAsync<CCGDetailsModel>(It.Is<RestRequest>(req => req.Resource.Equals(whitelistUrl)))).Returns(() => StartedTask((IRestResponse<CCGDetailsModel>)new RestResponse<CCGDetailsModel>() { ResponseStatus = ResponseStatus.Completed, Data = new CCGDetailsModel { ServiceIdWhitelist = new ServiceListModel {  } } }));
 
             var jObj = (JObject)JsonConvert.DeserializeObject(CheckCapacitySummaryResults);
             var results = jObj["CheckCapacitySummaryResult"].ToObject<List<Models.Models.Business.DosService>>();
@@ -94,8 +95,8 @@ namespace NHS111.Business.DOS.Test.Whitelist
         public async void ITKWhitelistFilter_CallbackNotEnabledForNonWhitelistedServiceId()
         {
             const string postcode = "SO302UN";
-            string whitelist = string.Format(_localServiceIdWhiteListUrl, postcode);
-            _restClient.Setup(r => r.ExecuteTaskAsync<List<int>>(It.Is<RestRequest>(req => req.Resource.Equals(whitelist)))).Returns(() => StartedTask((IRestResponse<List<int>>)new RestResponse<List<int>>() { ResponseStatus = ResponseStatus.Completed, Data = new List<int> { 123, 456, 789 } }));
+            string whitelistUrl = string.Format(_localServiceIdWhiteListUrl, postcode);
+            _restClient.Setup(r => r.ExecuteTaskAsync<CCGDetailsModel>(It.Is<RestRequest>(req => req.Resource.Equals(whitelistUrl)))).Returns(() => StartedTask((IRestResponse<CCGDetailsModel>)new RestResponse<CCGDetailsModel>() { ResponseStatus = ResponseStatus.Completed, Data = new CCGDetailsModel { ServiceIdWhitelist = new ServiceListModel { "123", "456", "789" } } }));
 
             var jObj = (JObject)JsonConvert.DeserializeObject(CheckCapacitySummaryResults);
             var results = jObj["CheckCapacitySummaryResult"].ToObject<List<Models.Models.Business.DosService>>();
