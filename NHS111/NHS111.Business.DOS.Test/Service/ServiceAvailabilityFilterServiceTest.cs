@@ -10,8 +10,8 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using NHS111.Business.DOS.Service;
 using NHS111.Business.DOS.ServiceAvailability;
+using NHS111.Business.DOS.WhitelistFilter;
 using NHS111.Models.Models.Web.DosRequests;
-using NHS111.Models.Models.Web.FromExternalServices;
 using NodaTime;
 using NUnit.Framework;
 using NHS111.Features;
@@ -24,6 +24,9 @@ namespace NHS111.Business.DOS.Test.Service
         private Mock<IDosService> _mockDosService;
         private Mock<IServiceAvailabilityManager> _mockServiceAvailabilityProfileManager;
         private Mock<IFilterServicesFeature> _mockFilterServicesFeature;
+        private Mock<IITKWhitelistFilter> _mockITKWhitelistFilter;
+        private Mock<IServiceWhitelistFilter> _mockServiceWhitelistFilter;
+
         private const string DOS_USERNAME = "made_up_user";
         private const string DOS_PASSWORD = "made_up_password";
         private const string FILTERED_DISPOSITION_CODES = "1005|1006|1007|1008";
@@ -75,8 +78,10 @@ namespace NHS111.Business.DOS.Test.Service
             _mockDosService = new Mock<IDosService>();
             _mockServiceAvailabilityProfileManager = new Mock<IServiceAvailabilityManager>();
             _mockFilterServicesFeature = new Mock<IFilterServicesFeature>();
+            _mockITKWhitelistFilter = new Mock<IITKWhitelistFilter>();
+            _mockServiceWhitelistFilter = new Mock<IServiceWhitelistFilter>();
 
-            _mockConfiguration.Setup(c => c.DosUsername).Returns(DOS_USERNAME);
+        _mockConfiguration.Setup(c => c.DosUsername).Returns(DOS_USERNAME);
             _mockConfiguration.Setup(c => c.DosPassword).Returns(DOS_PASSWORD);
             _mockConfiguration.Setup(c => c.FilteredPrimaryCareDispositionCodes).Returns(FILTERED_DISPOSITION_CODES);
             _mockConfiguration.Setup(c => c.FilteredPrimaryCareDosServiceIds).Returns(FILTERED_DOS_SERVICE_IDS);
@@ -97,6 +102,7 @@ namespace NHS111.Business.DOS.Test.Service
                 .Returns(workingDayDentalInHoursShoulderEndTime);
             _mockConfiguration.Setup(c => c.WorkingDayDentalInHoursEndTime)
                 .Returns(workingDayDentalInHoursEndTime);
+            
         }
 
         [Test]
@@ -119,7 +125,7 @@ namespace NHS111.Business.DOS.Test.Service
 
             //var sut = new ServiceAvailablityManager(_mockConfiguration.Object);
 
-            var sut = new ServiceAvailabilityFilterService(_mockDosService.Object, _mockConfiguration.Object, _mockServiceAvailabilityProfileManager.Object, _mockFilterServicesFeature.Object);
+            var sut = new ServiceAvailabilityFilterService(_mockDosService.Object, _mockConfiguration.Object, _mockServiceAvailabilityProfileManager.Object, _mockFilterServicesFeature.Object, _mockServiceWhitelistFilter.Object, _mockITKWhitelistFilter.Object);
 
             //Act
             var result = await sut.GetFilteredServices(fakeRequest, true, null);

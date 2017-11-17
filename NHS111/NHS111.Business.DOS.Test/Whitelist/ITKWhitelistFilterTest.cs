@@ -51,7 +51,7 @@ namespace NHS111.Business.DOS.Test.Whitelist
         }
 
         [Test]
-        public async void ITKAvailabilityFilter_CallbackEnabledForWhitelistedServiceId()
+        public async void ITKWhitelistFilter_CallbackEnabledForWhitelistedServiceId()
         {
             const string postcode = "SO302UN";
             string whitelist = string.Format(_localServiceIdWhiteListUrl, postcode);
@@ -71,7 +71,7 @@ namespace NHS111.Business.DOS.Test.Whitelist
         }
 
         [Test]
-        public async void ITKAvailabilityFilter_EmptyWhitelist()
+        public async void ITKWhitelistFilter_EmptyWhitelist()
         {
             const string postcode = "SO302UN";
             string whitelist = string.Format(_localServiceIdWhiteListUrl, postcode);
@@ -91,7 +91,7 @@ namespace NHS111.Business.DOS.Test.Whitelist
         }
 
         [Test]
-        public async void ITKAvailabilityFilter_CallbackNotEnabledForNonWhitelistedServiceId()
+        public async void ITKWhitelistFilter_CallbackNotEnabledForNonWhitelistedServiceId()
         {
             const string postcode = "SO302UN";
             string whitelist = string.Format(_localServiceIdWhiteListUrl, postcode);

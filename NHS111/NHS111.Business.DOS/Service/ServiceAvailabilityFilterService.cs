@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using NHS111.Business.DOS.Configuration;
+using NHS111.Business.DOS.WhitelistFilter;
 using NHS111.Models.Mappers.WebMappings;
 using NHS111.Models.Models.Web.DosRequests;
 using NHS111.Models.Models.Web.FromExternalServices;
@@ -22,13 +23,17 @@ namespace NHS111.Business.DOS.Service
         private readonly IConfiguration _configuration;
         private readonly IServiceAvailabilityManager _serviceAvailabilityManager;
         private readonly IFilterServicesFeature _filterServicesFeature;
+        private readonly IServiceWhitelistFilter _serviceWhitelistFilter;
+        private readonly IITKWhitelistFilter _itkWhitelistFilter;
 
-        public ServiceAvailabilityFilterService(IDosService dosService, IConfiguration configuration, IServiceAvailabilityManager serviceAvailabilityManager, IFilterServicesFeature filterServicesFeature)
+        public ServiceAvailabilityFilterService(IDosService dosService, IConfiguration configuration, IServiceAvailabilityManager serviceAvailabilityManager, IFilterServicesFeature filterServicesFeature, IServiceWhitelistFilter serviceWhitelistFilter, IITKWhitelistFilter itkWhitelistFilter)
         {
             _dosService = dosService;
             _configuration = configuration;
             _serviceAvailabilityManager = serviceAvailabilityManager;
             _filterServicesFeature = filterServicesFeature;
+            _serviceWhitelistFilter = serviceWhitelistFilter;
+            _itkWhitelistFilter = itkWhitelistFilter;
         }
 
         public async Task<HttpResponseMessage> GetFilteredServices(HttpRequestMessage request, bool filterServices, DosEndpoint? endpoint)
@@ -52,11 +57,12 @@ namespace NHS111.Business.DOS.Service
             if (!_filterServicesFeature.IsEnabled && !filterServices) return BuildResponseMessage(results);
 
             var serviceAvailability = _serviceAvailabilityManager.FindServiceAvailability(dosFilteredCase);
-            var filteredResults = serviceAvailability.Filter(results);
+            var filteredByEndpointResults = serviceAvailability.Filter(results);
 
-
-
-            return BuildResponseMessage(filteredResults);
+            var filteredByServiceWhitelistResults = await _serviceWhitelistFilter.Filter(filteredByEndpointResults, originalPostcode);
+            var filteredByITKWhitelistResults = await _itkWhitelistFilter.Filter(filteredByServiceWhitelistResults, originalPostcode);
+            
+            return BuildResponseMessage(filteredByITKWhitelistResults);
         }
 
 
