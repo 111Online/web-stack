@@ -60,7 +60,7 @@ namespace NHS111.Web.Controllers {
 
         [HttpGet]
         [Route("seleniumtests/direct/{postcode}")]
-        public ActionResult Home(string postcode)
+        public ActionResult SeleniumTesting(string postcode)
         {
             var startOfJourney = new JourneyViewModel
             {
