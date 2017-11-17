@@ -35,7 +35,10 @@ namespace NHS111.Business.DOS.WhitelistFilter
             var response = await _restCCGApi.ExecuteTaskAsync<CCGDetailsModel> (
                 new RestRequest(string.Format(_configuration.CCGApiGetCCGByPostcode, postCode), Method.GET));
 
-            return response.Data.ServiceIdWhitelist;
+            if (response.Data != null && response.Data.ITKServiceIdWhitelist != null)
+                return response.Data.ITKServiceIdWhitelist;
+
+            return new ServiceListModel();
         }
     }
 

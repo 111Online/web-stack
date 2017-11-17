@@ -5,5 +5,7 @@
         public string STPName { get; set; }
 
         public ServiceListModel ServiceIdWhitelist { get; set; }
+
+        public ServiceListModel ITKServiceIdWhitelist { get; set; }
     }
 }

@@ -56,7 +56,7 @@ namespace NHS111.Business.DOS.Test.Whitelist
         {
             const string postcode = "SO302UN";
             string whitelistUrl = string.Format(_localServiceIdWhiteListUrl, postcode);
-            _restClient.Setup(r => r.ExecuteTaskAsync<CCGDetailsModel>(It.Is<RestRequest>(req => req.Resource.Equals(whitelistUrl)))).Returns(() => StartedTask((IRestResponse<CCGDetailsModel>)new RestResponse<CCGDetailsModel>() { ResponseStatus = ResponseStatus.Completed, Data = new CCGDetailsModel { ServiceIdWhitelist = new ServiceListModel { "123", "456", "789", "1419419102" } } }));
+            _restClient.Setup(r => r.ExecuteTaskAsync<CCGDetailsModel>(It.Is<RestRequest>(req => req.Resource.Equals(whitelistUrl)))).Returns(() => StartedTask((IRestResponse<CCGDetailsModel>)new RestResponse<CCGDetailsModel>() { ResponseStatus = ResponseStatus.Completed, Data = new CCGDetailsModel { ITKServiceIdWhitelist = new ServiceListModel { "123", "456", "789", "1419419102" } } }));
 
             var jObj = (JObject)JsonConvert.DeserializeObject(CheckCapacitySummaryResults);
             var results = jObj["CheckCapacitySummaryResult"].ToObject<List<Models.Models.Business.DosService>>();
@@ -76,7 +76,27 @@ namespace NHS111.Business.DOS.Test.Whitelist
         {
             const string postcode = "SO302UN";
             string whitelistUrl = string.Format(_localServiceIdWhiteListUrl, postcode);
-            _restClient.Setup(r => r.ExecuteTaskAsync<CCGDetailsModel>(It.Is<RestRequest>(req => req.Resource.Equals(whitelistUrl)))).Returns(() => StartedTask((IRestResponse<CCGDetailsModel>)new RestResponse<CCGDetailsModel>() { ResponseStatus = ResponseStatus.Completed, Data = new CCGDetailsModel { ServiceIdWhitelist = new ServiceListModel {  } } }));
+            _restClient.Setup(r => r.ExecuteTaskAsync<CCGDetailsModel>(It.Is<RestRequest>(req => req.Resource.Equals(whitelistUrl)))).Returns(() => StartedTask((IRestResponse<CCGDetailsModel>)new RestResponse<CCGDetailsModel>() { ResponseStatus = ResponseStatus.Completed, Data = new CCGDetailsModel { ITKServiceIdWhitelist = new ServiceListModel {  } } }));
+
+            var jObj = (JObject)JsonConvert.DeserializeObject(CheckCapacitySummaryResults);
+            var results = jObj["CheckCapacitySummaryResult"].ToObject<List<Models.Models.Business.DosService>>();
+
+            //Act
+            var sut = new ITKWhitelistFilter(_restClient.Object, _mockConfiguration.Object);
+            var result = await sut.Filter(results, postcode);
+
+            Assert.AreEqual(3, result.Count());
+            Assert.IsFalse(result[0].CallbackEnabled);
+            Assert.IsFalse(result[1].CallbackEnabled);
+            Assert.IsFalse(result[2].CallbackEnabled);
+        }
+
+        [Test]
+        public async void ITKWhitelistFilter_NullWhitelist()
+        {
+            const string postcode = "SO302UN";
+            string whitelistUrl = string.Format(_localServiceIdWhiteListUrl, postcode);
+            _restClient.Setup(r => r.ExecuteTaskAsync<CCGDetailsModel>(It.Is<RestRequest>(req => req.Resource.Equals(whitelistUrl)))).Returns(() => StartedTask((IRestResponse<CCGDetailsModel>)new RestResponse<CCGDetailsModel>() { ResponseStatus = ResponseStatus.Completed, Data = new CCGDetailsModel { } }));
 
             var jObj = (JObject)JsonConvert.DeserializeObject(CheckCapacitySummaryResults);
             var results = jObj["CheckCapacitySummaryResult"].ToObject<List<Models.Models.Business.DosService>>();
@@ -96,7 +116,7 @@ namespace NHS111.Business.DOS.Test.Whitelist
         {
             const string postcode = "SO302UN";
             string whitelistUrl = string.Format(_localServiceIdWhiteListUrl, postcode);
-            _restClient.Setup(r => r.ExecuteTaskAsync<CCGDetailsModel>(It.Is<RestRequest>(req => req.Resource.Equals(whitelistUrl)))).Returns(() => StartedTask((IRestResponse<CCGDetailsModel>)new RestResponse<CCGDetailsModel>() { ResponseStatus = ResponseStatus.Completed, Data = new CCGDetailsModel { ServiceIdWhitelist = new ServiceListModel { "123", "456", "789" } } }));
+            _restClient.Setup(r => r.ExecuteTaskAsync<CCGDetailsModel>(It.Is<RestRequest>(req => req.Resource.Equals(whitelistUrl)))).Returns(() => StartedTask((IRestResponse<CCGDetailsModel>)new RestResponse<CCGDetailsModel>() { ResponseStatus = ResponseStatus.Completed, Data = new CCGDetailsModel { ITKServiceIdWhitelist = new ServiceListModel { "123", "456", "789" } } }));
 
             var jObj = (JObject)JsonConvert.DeserializeObject(CheckCapacitySummaryResults);
             var results = jObj["CheckCapacitySummaryResult"].ToObject<List<Models.Models.Business.DosService>>();
@@ -110,7 +130,27 @@ namespace NHS111.Business.DOS.Test.Whitelist
             Assert.IsFalse(result[1].CallbackEnabled);
             Assert.IsFalse(result[2].CallbackEnabled);
         }
-        
+
+        [Test]
+        public async void ITKWhitelistFilter_EmptyDOSResult()
+        {
+            const string postcode = "SO302UN";
+            string whitelistUrl = string.Format(_localServiceIdWhiteListUrl, postcode);
+            _restClient.Setup(r => r.ExecuteTaskAsync<CCGDetailsModel>(It.Is<RestRequest>(req => req.Resource.Equals(whitelistUrl)))).Returns(() => StartedTask((IRestResponse<CCGDetailsModel>)new RestResponse<CCGDetailsModel>() { ResponseStatus = ResponseStatus.Completed, Data = new CCGDetailsModel { ITKServiceIdWhitelist = new ServiceListModel { "1419419101", "1419419102", "1419419103" } } }));
+
+            const string emptyCheckCapacityResults = @"{
+            ""CheckCapacitySummaryResult"": [
+            ]}";
+            var jObj = (JObject)JsonConvert.DeserializeObject(emptyCheckCapacityResults);
+            var results = jObj["CheckCapacitySummaryResult"].ToObject<List<Models.Models.Business.DosService>>();
+
+            //Act
+            var sut = new ITKWhitelistFilter(_restClient.Object, _mockConfiguration.Object);
+            var result = await sut.Filter(results, postcode);
+
+            Assert.AreEqual(0, result.Count);
+        }
+
         private static Task<T> StartedTask<T>(T taskResult)
         {
             return Task<T>.Factory.StartNew(() => taskResult);
