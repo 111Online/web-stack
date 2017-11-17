@@ -12,6 +12,20 @@ namespace NHS111.Business.DOS.Configuration
 {
     public class Configuration : IConfiguration
     {
+        public LocalTime WorkingDayGenericInHoursStartTime
+        {
+            get { return Get(ConfigurationManager.AppSettings["WorkingDayGenericInHoursStartTime"]); }
+        }
+
+        public LocalTime WorkingDayGenericInHoursEndTime
+        {
+            get { return Get(ConfigurationManager.AppSettings["WorkingDayGenericInHoursEndTime"]); }
+        }
+
+        public LocalTime WorkingDayGenericInHoursShoulderEndTime
+        {
+            get { return Get(ConfigurationManager.AppSettings["WorkingDayGenericInHoursShoulderEndTime"]); }
+        }
 
         public LocalTime WorkingDayPrimaryCareInHoursStartTime
         {
@@ -71,9 +85,19 @@ namespace NHS111.Business.DOS.Configuration
             }
         }
 
+        public string FilteredGenericDispositionCodes
+        {
+            get { return ConfigurationManager.AppSettings["FilteredGenericDispositionCodes"]; }
+        }
+
         public string FilteredPrimaryCareDispositionCodes
         {
             get { return ConfigurationManager.AppSettings["FilteredPrimaryCareDispositionCodes"]; }
+        }
+
+        public string FilteredGenericDosServiceIds
+        {
+            get { return ConfigurationManager.AppSettings["FilteredGenericDosServiceIds"]; }
         }
 
         public string FilteredPrimaryCareDosServiceIds
