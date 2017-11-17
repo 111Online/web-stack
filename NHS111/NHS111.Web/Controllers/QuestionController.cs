@@ -47,7 +47,11 @@ namespace NHS111.Web.Controllers {
             var startOfJourney = new JourneyViewModel
             {
                 SessionId = Guid.Parse(Request.AnonymousID),
-                FilterServices = filterServices
+                FilterServices = filterServices,
+                UserInfo = new UserInfo
+                {
+                    CurrentAddress = new FindServicesAddressViewModel()
+                }
             };
 
             _userZoomDataBuilder.SetFieldsForHome(startOfJourney);
@@ -121,8 +125,8 @@ namespace NHS111.Web.Controllers {
             await _auditLogger.Log(audit);
 
             ModelState.Clear();
-            model.UserInfo = new UserInfo();
-
+            model.UserInfo = new UserInfo() { CurrentAddress = new FindServicesAddressViewModel() { Postcode = model.UserInfo.CurrentAddress.Postcode } };
+            
             _userZoomDataBuilder.SetFieldsForDemographics(model);
             return View("Gender", model);
         }

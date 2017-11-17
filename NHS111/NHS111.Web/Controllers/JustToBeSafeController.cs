@@ -35,16 +35,22 @@ namespace NHS111.Web.Controllers
 
         [HttpGet]
         [Route("{pathwayNumber}/{gender}/{age}/start")]
-        public async Task<ActionResult> PathwayStart(string pathwayNumber, string gender, int age, string digitalTitle, string entrySearchTerm, bool? filterServices) {
+        public async Task<ActionResult> PathwayStart(string pathwayNumber, string gender, int age, string postcode, string digitalTitle, string entrySearchTerm, bool? filterServices) {
 
             var model = new JustToBeSafeViewModel {
                 PathwayNo = pathwayNumber,
                 DigitalTitle = digitalTitle,
                 EntrySearchTerm = entrySearchTerm,
-                UserInfo = new UserInfo {
-                    Demography = new AgeGenderViewModel {
+                UserInfo = new UserInfo
+                {
+                    Demography = new AgeGenderViewModel
+                    {
                         Age = age,
                         Gender = gender
+                    },
+                    CurrentAddress = new FindServicesAddressViewModel
+                    {
+                        Postcode= postcode
                     }
                 },
                 FilterServices = filterServices.HasValue ? filterServices.Value : true

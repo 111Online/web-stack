@@ -80,6 +80,8 @@
     <Compile Include="Configuration\IConfiguration.cs" />
     <Compile Include="IoC\BusinessDosRegistry.cs" />
     <Compile Include="EndpointFilter\DentalProfileHoursOfOperation.cs" />
+    <Compile Include="EndpointFilter\GenericProfileHoursOfOperation.cs" />
+    <Compile Include="EndpointFilter\GenericServiceAvailability.cs" />
     <Compile Include="WhitelistFilter\IWhitelistFilter.cs" />
     <Compile Include="WhitelistFilter\ITKWhitelistFilter.cs" />
     <Compile Include="EndpointFilter\IProfileHoursOfOperation.cs" />

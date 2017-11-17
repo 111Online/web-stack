@@ -1,5 +1,6 @@
 @import "../settings/colours";
 @import "../settings/typography";
+@import "../tools/mixins/_addons.scss";
 
 html,
 body,
@@ -18,4 +19,8 @@ html {
 body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+.clearfix {
+  @include clearfix();
 }
