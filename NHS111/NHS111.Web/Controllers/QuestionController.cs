@@ -60,11 +60,12 @@ namespace NHS111.Web.Controllers {
 
         [HttpGet]
         [Route("seleniumtests/direct/{postcode}")]
-        public ActionResult SeleniumTesting(string postcode)
+        public ActionResult SeleniumTesting(string postcode, bool filterServices = true)
         {
             var startOfJourney = new JourneyViewModel
             {
                 SessionId = Guid.Parse(Request.AnonymousID),
+                FilterServices = filterServices,
                 UserInfo = new UserInfo
                 {
                     CurrentAddress = new FindServicesAddressViewModel()
