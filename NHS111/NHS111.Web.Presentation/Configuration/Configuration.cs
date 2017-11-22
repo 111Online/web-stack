@@ -12,6 +12,8 @@ namespace NHS111.Web.Presentation.Configuration
         public string GPSearchByIdUrl { get { return ConfigurationManager.AppSettings["GPSearchByIdUrl"]; } }
         public string BusinessApiProtocolandDomain { get { return ConfigurationManager.AppSettings["BusinessApiProtocolandDomain"]; } }
 
+        public string CCGBusinessApiBaseProtocolandDomain { get { return ConfigurationManager.AppSettings["CCGBusinessApiBaseProtocolandDomain"]; } }
+
 
         public string BusinessDosCheckCapacitySummaryUrl { get { return ConfigurationManager.AppSettings["BusinessDosCheckCapacitySummaryUrl"]; } }
         public string BusinessDosServicesByClinicalTermUrl { get { return ConfigurationManager.AppSettings["BusinessDosServicesByClinicalTermUrl"]; } }
@@ -54,6 +56,11 @@ namespace NHS111.Web.Presentation.Configuration
         }
 
         public string LoggingServiceUrl { get { return ConfigurationManager.AppSettings["LoggingServiceUrl"]; } }
+
+        public string CCGBusinessApiGetCCGUrl(string postcode)
+        {
+            return String.Format(ConfigurationManager.AppSettings["CCGBusinessApiBaseGetCCGurl"], postcode);
+        }
 
         public string GetBusinessApiGetCategoriesWithPathways() { return GetBusinessApiUrlWithDomain("BusinessApiGetCategoriesWithPathways"); }
         public string GetBusinessApiPathwaySearchUrl(string gender, string age, bool pathOnly = false)
@@ -186,6 +193,10 @@ namespace NHS111.Web.Presentation.Configuration
         string GPSearchUrl { get; }
         string GPSearchApiUrl { get; }
         string GPSearchByIdUrl { get; }
+
+        string CCGBusinessApiBaseProtocolandDomain { get; }
+
+        string CCGBusinessApiGetCCGUrl(string postcode);
         string GetBusinessApiPathwayUrl(string pathwayId, bool pathOnly = false);
         string GetBusinessApiGroupedPathwaysUrl(string searchString);
         string GetBusinessApiGroupedPathwaysUrl(string searchString, string gender, int age, bool pathOnly = false);

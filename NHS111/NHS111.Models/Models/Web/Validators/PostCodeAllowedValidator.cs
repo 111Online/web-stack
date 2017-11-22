@@ -6,7 +6,7 @@ using NHS111.Models.Models.Web.FromExternalServices;
 
 namespace NHS111.Models.Models.Web.Validators
 {
-    public class PostCodeAllowedValidator: IPostCodeAllowedValidator
+    public class PostCodeAllowedValidator
     {
         private readonly IAllowedPostcodeFeature _allowedPostcodeFeature;
 

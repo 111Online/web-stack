@@ -2,9 +2,11 @@
 
 using log4net;
 using NHS111.Features.IoC;
+using NHS111.Models.Models.Web.Validators;
 using NHS111.Utils.Logging;
 using NHS111.Utils.RestTools;
 using NHS111.Web.Controllers;
+using NHS111.Web.Presentation.Builders;
 using RestSharp;
 
 namespace NHS111.Web.IoC {
@@ -19,16 +21,19 @@ namespace NHS111.Web.IoC {
 
     public class WebRegistry : Registry {
         public WebRegistry() {
-            Configure();
+            Configure(new Configuration());
         }
 
         public WebRegistry(IConfiguration configuration) {
             For<ICacheManager<string, string>>().Use(new RedisManager(configuration.RedisConnectionString));
             For<IRestClient>().Use(new LoggingRestClient(configuration.BusinessApiProtocolandDomain, LogManager.GetLogger("log"))).Named("restClientBusinessApi");
-            Configure();
+            For<ICCGApiRestClient>().Use(new LoggingCCGApiRestClient(configuration.CCGBusinessApiBaseProtocolandDomain, LogManager.GetLogger("log"))).Named("ccgServiceRestClient");
+
+            // For<IRestClient>().Use(new LoggingRestClient(configuration.CCGBusinessApiBaseProtocolandDomain, LogManager.GetLogger("log"))).Named("ccgServiceRestClient");
+            Configure(configuration);
         }
 
-        private void Configure() {
+        private void Configure(IConfiguration configuration) {
             IncludeRegistry<FeatureRegistry>();
             IncludeRegistry<UtilsRegistry>();
             IncludeRegistry<ModelsRegistry>();
