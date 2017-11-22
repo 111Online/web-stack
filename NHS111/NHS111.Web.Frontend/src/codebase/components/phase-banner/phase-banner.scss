@@ -1,0 +1,29 @@
+.phase-banner {
+  padding: 5px 0;
+  margin: 0;
+  font-size: 16px;
+  border-bottom: 1px solid #e6eff8;
+  
+  @include site-width-container;
+}
+
+.banner, .banner--alpha, .banner--beta {
+  display: inline-block;
+  padding: 4px;
+  font-size: 16px;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.banner--alpha {
+  background-color: #006747;
+}
+
+.banner--beta {
+  background-color: #ffb81c;
+}
+
+.phase-message {
+  color: #425563;
+  padding-left: 8px;
+}

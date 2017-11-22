@@ -141,6 +141,12 @@
     <Content Include="src\codebase\components\location\_location.scss" />
     <Content Include="src\codebase\components\map\map.njk" />
     <Content Include="src\codebase\components\map\_map.scss" />
+    <Content Include="src\codebase\components\phase-banner\phase-banner.njk">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="src\codebase\components\phase-banner\phase-banner.scss">
+      <SubType>Code</SubType>
+    </Content>
     <Content Include="src\codebase\components\reveal\reveal.config.yaml" />
     <Content Include="src\codebase\components\reveal\reveal.njk" />
     <Content Include="src\codebase\components\_global-footer.scss" />
@@ -242,6 +248,7 @@
     <Folder Include="src\codebase\components\local-header\" />
     <Folder Include="src\codebase\components\location\" />
     <Folder Include="src\codebase\components\map\" />
+    <Folder Include="src\codebase\components\phase-banner\" />
     <Folder Include="src\codebase\components\reveal\" />
     <Folder Include="src\codebase\environment\" />
     <Folder Include="src\codebase\environment\generic\" />
