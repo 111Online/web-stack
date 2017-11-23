@@ -75,15 +75,20 @@ namespace NHS111.Web.Controllers
                 .Select(r => Transform(r, model.SanitisedSearchTerm.Trim()));
 
             if (!model.Results.Any())
+            {
+                var encryptedTopicsQueryStringValues = new QueryStringEncryptor();
+                encryptedTopicsQueryStringValues["postcode"] = !string.IsNullOrEmpty(model.UserInfo.CurrentAddress.Postcode) ? model.UserInfo.CurrentAddress.Postcode : string.Empty;
+                encryptedTopicsQueryStringValues["searchTerm"] = model.SanitisedSearchTerm;
+                encryptedTopicsQueryStringValues["filterServices"] = model.FilterServices.ToString();
+
                 return RedirectToRoute("CatergoriesUrl",
                     new
                     {
                         gender = model.UserInfo.Demography.Gender,
                         age = model.UserInfo.Demography.Age.ToString(),
-                        postcode = model.UserInfo.CurrentAddress.Postcode,
-                        filterServices = model.FilterServices,
-                        searchTerm = model.SanitisedSearchTerm.Trim()
+                        args = encryptedTopicsQueryStringValues.ToString()
                     });
+            }
 
             return View(model);
         }
