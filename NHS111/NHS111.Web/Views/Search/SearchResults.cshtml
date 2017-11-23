@@ -1,6 +1,7 @@
 ﻿@using NHS111.Models.Models.Business.PathwaySearch
 @using NHS111.Models.Models.Domain
 @using NHS111.Models.Models.Web
+@using NHS111.Web.Helpers
 @model NHS111.Models.Models.Web.SearchJourneyViewModel
 @{
     Layout = "~/Views/Shared/_LayoutNhsUK.cshtml";
@@ -22,9 +23,14 @@
                 {
                     var additionalTopics = result.DisplayTitle != null ? result.DisplayTitle.Skip(1) : new List<string>();
                     var title = result.DisplayTitle != null ? result.DisplayTitle.First() : result.Title.First();
-                    var digitalTitle = PathwaySearchResult.StripHighlightMarkup(title);
+                    var encryptedJtbsQueryStringValues = new QueryStringEncryptor();
+                    encryptedJtbsQueryStringValues["postcode"] = !string.IsNullOrEmpty(Model.UserInfo.CurrentAddress.Postcode) ? Model.UserInfo.CurrentAddress.Postcode : string.Empty;
+                    encryptedJtbsQueryStringValues["digitalTitle"] = PathwaySearchResult.StripHighlightMarkup(title);
+                    encryptedJtbsQueryStringValues["filterServices"] = Model.FilterServices.ToString();
+                    encryptedJtbsQueryStringValues["entrySearchTerm"] = Model.SanitisedSearchTerm;
+
                     <li>
-                        <a data-title="@result.PathwayTitle" data-pathway-number="@result.PathwayNo" href="/@result.PathwayNo/@Model.UserInfo.Demography.Gender/@Model.UserInfo.Demography.Age/start?age=@Model.UserInfo.Demography.Age&postcode=@Model.UserInfo.CurrentAddress.Postcode&digitalTitle=@digitalTitle&entrySearchTerm=@Model.SanitisedSearchTerm&filterServices=@(Model.FilterServices.ToString())">@Html.Raw(title)</a>
+                        <a data-title="@result.PathwayTitle" data-pathway-number="@result.PathwayNo" href="/@result.PathwayNo/@Model.UserInfo.Demography.Gender/@Model.UserInfo.Demography.Age/start?args=@encryptedJtbsQueryStringValues.ToString()">@Html.Raw(title)</a>
                         @if (additionalTopics.Any())
                         {
                             <p>Includes: @Html.Raw(string.Join(", ", additionalTopics))</p>
@@ -35,7 +41,13 @@
                 }
             </ul>
             <h3 id="category-option">
-                If you can't find what you're looking for, try <a id="show-categories" href="/@Model.UserInfo.Demography.Gender/@Model.UserInfo.Demography.Age/Topics?postcode=@Model.UserInfo.CurrentAddress.Postcode&filterServices=@(Model.FilterServices.ToString())">searching by category</a> instead.
+                @{
+                    var encryptedTopicsQueryStringValues = new QueryStringEncryptor();
+                    encryptedTopicsQueryStringValues["postcode"] = !string.IsNullOrEmpty(Model.UserInfo.CurrentAddress.Postcode) ? Model.UserInfo.CurrentAddress.Postcode : string.Empty;
+                    encryptedTopicsQueryStringValues["searchTerm"] = Model.SanitisedSearchTerm;
+                    encryptedTopicsQueryStringValues["filterServices"] = Model.FilterServices.ToString();
+                }
+                If you can't find what you're looking for, try <a id="show-categories" href="/@Model.UserInfo.Demography.Gender/@Model.UserInfo.Demography.Age/Topics?args=@encryptedTopicsQueryStringValues.ToString()">searching by category</a> instead.
             </h3>
         </div>
     }

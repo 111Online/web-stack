@@ -90,8 +90,10 @@ namespace NHS111.Web.Controllers
 
         [HttpGet]
         [Route("{gender}/{age}/Topics", Name = "CatergoriesUrl")]
-        public async Task<ActionResult> Categories(string gender, int age, string postcode, string searchTerm, bool filterServices)
+        public async Task<ActionResult> Categories(string gender, int age, string args)
         {
+            var decryptedArgs = new QueryStringEncryptor(args);
+
             var ageGenderViewModel = new AgeGenderViewModel { Gender = gender, Age = age };
             var topicsContainingStartingPathways = await GetAllTopics(ageGenderViewModel);
             var model = new SearchJourneyViewModel
@@ -99,13 +101,13 @@ namespace NHS111.Web.Controllers
                 UserInfo = new UserInfo
                 {
                     Demography = ageGenderViewModel,
-                    CurrentAddress = new FindServicesAddressViewModel() { Postcode = postcode }
+                    CurrentAddress = new FindServicesAddressViewModel() { Postcode = decryptedArgs["postcode"] }
                 },
                 AllTopics = topicsContainingStartingPathways,
-                FilterServices = filterServices,
-                SanitisedSearchTerm = searchTerm
+                FilterServices = bool.Parse(decryptedArgs["filterServices"]),
+                SanitisedSearchTerm = decryptedArgs["searchTerm"]
             };
-            
+
             _userZoomDataBuilder.SetFieldsForSearchResults(model);
 
             return View(model);
