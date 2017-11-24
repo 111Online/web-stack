@@ -33,7 +33,7 @@
     }
 }
 
-<div class="itk-message">
+<div class="itk-message measure">
     <ul>
         <li>
             You should see your own dentist if possible.
@@ -54,7 +54,7 @@
 }
 @Html.Partial("_FindService", Model, dataDictionary)
 
-<div class="outcome-additional-info">
+<div class="outcome-additional-info measure">
     <h3 class="outcome-additional-info-header">
         Advice for getting dental treatment
     </h3>
@@ -65,7 +65,7 @@
 
 <hr/>
 
-<div class="outcome-additional-info">
+<div class="outcome-additional-info measure">
     <h3 class="care-advice-section-header">
         Did you know?
     </h3>
@@ -82,7 +82,7 @@
 
 @Html.Partial("_WorseningAdviceWithTitle", Model)
 
-@using (Html.BeginForm("Navigation", "Question", FormMethod.Post))
+@using (Html.BeginForm("Navigation", "Question", FormMethod.Post, new { @class = "measure" }))
 {
     @Html.Partial("_CommonHiddenFieldsOutcomeViewModel", Model)
     if (!Model.DisplayOutcomeReferenceOnly)

@@ -47,7 +47,7 @@
 
 @Html.Partial("_WorseningAdviceWithTitle", Model)
 
-@using (Html.BeginForm("Navigation", "Question", FormMethod.Post))
+@using (Html.BeginForm("Navigation", "Question", FormMethod.Post, new { @class = "measure" }))
 {
     @Html.Partial("_CommonHiddenFieldsOutcomeViewModel", Model)
     if (!Model.DisplayOutcomeReferenceOnly)

@@ -12,7 +12,7 @@
 @section FeedbackSection {
     @Html.Partial("_FeedbackDetails", new FeedbackViewModel() { UserId = Model.SessionId.ToString(), PageId = Request.Url.GetComponents(UriComponents.PathAndQuery, UriFormat.SafeUnescaped) })
 }
-<div id="SearchResults">
+<div id="SearchResults" class="measure">
     @if (Model.Results.Any())
     {
         <div>

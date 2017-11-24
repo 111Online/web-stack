@@ -20,7 +20,7 @@
     @Html.Partial("_FeedbackDetails", new FeedbackViewModel() { UserId = Model.SessionId.ToString(), PageId = Request.Url.GetComponents(UriComponents.PathAndQuery, UriFormat.SafeUnescaped) + Model.PathwayId })
 }
 
-@using (Html.BeginForm("Navigation", "Question", FormMethod.Post)) {
+@using (Html.BeginForm("Navigation", "Question", FormMethod.Post, new { @class = "measure" })) {
 
     @Html.Partial("_CommonHiddenFieldsNode", Model)
     <input name="SelectedAnswer" type="hidden" id="@Model.Answers.First().TitleWithoutSpaces" value="@Newtonsoft.Json.JsonConvert.SerializeObject(Model.Answers.First())" />

@@ -35,7 +35,7 @@
 
 @if (Grouping.Two.Contains(Model.Id))
 {
-    using (Html.BeginForm("ServiceDetails", "Outcome", FormMethod.Post))
+    using (Html.BeginForm("ServiceDetails", "Outcome", FormMethod.Post, new { @class = "measure" }))
     {
         @Html.HiddenFor(x => Model.Id)
         @Html.HiddenFor(x => Model.JourneyJson)

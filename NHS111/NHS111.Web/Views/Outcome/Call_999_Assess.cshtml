@@ -29,9 +29,6 @@
 @Html.Partial("_OutcomeHeader", Model, new ViewDataDictionary() { { "OutcomeHeader", Model.OutcomeGroup.GetDefaultTitle() } })
 
 <div id="wrapper">
-    <div>
-
-    </div> <!--/ContentWrapper-->
     @using (Html.BeginForm("Navigation", "Question", FormMethod.Post))
     {
 
