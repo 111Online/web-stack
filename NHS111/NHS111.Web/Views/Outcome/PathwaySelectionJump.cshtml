@@ -44,6 +44,7 @@
     @Html.HiddenFor(x => Model.QuestionNo)
     @Html.HiddenFor(x => Model.StateJson)
     @Html.HiddenFor(x => Model.FilterServices)
+    @Html.HiddenFor(x => Model.UserInfo.CurrentAddress.Postcode)
 
     <h2>@Model.TitleWithoutBullets</h2>
     <p>Your health assessment can’t be completed with the current online service.</p>

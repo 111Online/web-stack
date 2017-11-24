@@ -35,6 +35,9 @@ namespace NHS111.Web.Presentation.Configuration
         public string DosMobileUsername { get { return ConfigurationManager.AppSettings["dos_mobile_credential_user"]; } }
         public string DosMobilePassword { get { return ConfigurationManager.AppSettings["dos_mobile_credential_password"]; } }
 
+        public string QueryStringEncryptionKey { get { return ConfigurationManager.AppSettings["QueryStringEncryptionKey"]; } }
+        public string QueryStringEncryptionBytes { get { return ConfigurationManager.AppSettings["QueryStringEncryptionBytes"]; } }
+
         public bool IsPublic {
             get {
                 if (ConfigurationManager.AppSettings["IsPublic"] == null)
@@ -229,5 +232,8 @@ namespace NHS111.Web.Presentation.Configuration
         string DosMobileBaseUrl { get; }
         string DosMobileUsername { get; }
         string DosMobilePassword { get; }
+
+        string QueryStringEncryptionKey { get; }
+        string QueryStringEncryptionBytes { get; }
     }
 }
