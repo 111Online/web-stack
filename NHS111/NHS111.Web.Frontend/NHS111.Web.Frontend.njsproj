@@ -28,6 +28,9 @@
     <Compile Include="src\js\entry-polyfills.js">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="src\js\jquery-validation.js">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="src\js\test-geolocation.js">
       <TestFramework>Mocha</TestFramework>
     </Compile>
