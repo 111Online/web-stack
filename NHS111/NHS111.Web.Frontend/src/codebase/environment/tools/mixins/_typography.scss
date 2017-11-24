@@ -96,7 +96,7 @@
 ///     @include element-spacing;
 ///   }
 @mixin element-spacing($position: top) {
-  margin-#{$position}: $default-spacing-unit;
+  margin-#{$position}: $default-spacing-unit * 2;
 
   @include media(desktop) {
     margin-#{$position}: $default-spacing-unit * 2;
