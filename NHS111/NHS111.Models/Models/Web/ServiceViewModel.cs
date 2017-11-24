@@ -12,7 +12,7 @@ using TimeOfDay = NHS111.Models.Models.Web.FromExternalServices.TimeOfDay;
 
 namespace NHS111.Models.Models.Web
 {
-    public class ServiceViewModel : DosService
+    public class ServiceViewModel : Business.DosService
     {
         private readonly IClock _clock;
         private const string ServiceClosedMessage = "Closed";
@@ -103,8 +103,6 @@ namespace NHS111.Models.Models.Web
                 return daysOfWeek.ToDictionary(day => day, GetOpeningTimes);
             }
         }
-
-        public bool CallbackEnabled { get; set; }
 
         private string GetOpeningTimes(DayOfWeek day)
         {
