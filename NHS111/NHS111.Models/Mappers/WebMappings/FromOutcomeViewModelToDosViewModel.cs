@@ -38,7 +38,16 @@ namespace NHS111.Models.Mappers.WebMappings
                     opt => opt.ResolveUsing<GenderResolver>().FromMember(src => src.UserInfo.Demography.Gender))
                 .ForMember(dest => dest.Age, opt => opt.MapFrom(src => src.UserInfo.Demography.Age))
                 .ForMember(dest => dest.DispositionTime, opt => opt.MapFrom(src => src.DispositionTime))
-                .ForMember(dest => dest.DispositionTimeFrameMinutes, opt => opt.MapFrom(src => src.TimeFrameMinutes));
+                .ForMember(dest => dest.DispositionTimeFrameMinutes, opt => opt.MapFrom(src => src.TimeFrameMinutes))
+
+                .ForMember(dest => dest.DosServicesByClinicalTermResult, opt => opt.Ignore())
+                .ForMember(dest => dest.CheckCapacitySummaryResultListJson, opt => opt.Ignore())
+                .ForMember(dest => dest.SearchDistances, opt => opt.Ignore())
+                .ForMember(dest => dest.Dispositions, opt => opt.Ignore())
+                .ForMember(dest => dest.CaseRef, opt => opt.Ignore())
+                .ForMember(dest => dest.AgeFormat, opt => opt.Ignore())
+                .ForMember(dest => dest.SearchDistance, opt => opt.Ignore())
+                .ForMember(dest => dest.NumberPerType, opt => opt.Ignore());
         }
 
         public class DispositionResolver : ValueResolver<string, int>
@@ -48,8 +57,13 @@ namespace NHS111.Models.Mappers.WebMappings
                 if (!source.StartsWith("Dx")) throw new FormatException("Dx code does not have prefix \"Dx\". Cannot convert");
                 var code = source.Replace("Dx", "");
                 if (code.Length == 3)
-                    return Convert.ToInt32("11" + code);
-
+                {
+                    if (code.StartsWith("1"))
+                        return Convert.ToInt32("1" + code);
+                    else
+                        return Convert.ToInt32("11" + code);
+                }
+                
                 return Convert.ToInt32("10" + code);
             }
         }
