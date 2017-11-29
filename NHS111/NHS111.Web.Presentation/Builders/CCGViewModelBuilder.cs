@@ -13,11 +13,12 @@ namespace NHS111.Web.Presentation.Builders
 {
     public class CCGViewModelBuilder : ICCGModelBuilder
     {
-        private ICCGApiRestClient _ccgServiceRestClient;
+        private IRestClient _ccgServiceRestClient;
         private IConfiguration _configuration;
-        public CCGViewModelBuilder(ICCGApiRestClient ccgServiceRestClient, IConfiguration configuration)
+        public CCGViewModelBuilder(IRestClient ccgServiceRestClient, IConfiguration configuration)
         {
             _ccgServiceRestClient = ccgServiceRestClient;
+            _configuration = configuration;
         }
 
 
@@ -38,10 +39,10 @@ namespace NHS111.Web.Presentation.Builders
         Task<CCGModel> FillCCGModel(string postcode);
     }
 
-    public interface ICCGApiRestClient : IRestClient { }
+    //public interface ICCGApiRestClient : IRestClient { }
 
-    public class LoggingCCGApiRestClient : LoggingRestClient, ICCGApiRestClient
-    {
-        public LoggingCCGApiRestClient(string baseUrl, ILog logger) : base(baseUrl, logger) { }
-    }
+    //public class LoggingCCGApiRestClient : LoggingRestClient, ICCGApiRestClient
+    //{
+    //    public LoggingCCGApiRestClient(string baseUrl, ILog logger) : base(baseUrl, logger) { }
+    //}
  }

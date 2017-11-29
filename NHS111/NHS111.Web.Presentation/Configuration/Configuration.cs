@@ -12,7 +12,7 @@ namespace NHS111.Web.Presentation.Configuration
         public string GPSearchByIdUrl { get { return ConfigurationManager.AppSettings["GPSearchByIdUrl"]; } }
         public string BusinessApiProtocolandDomain { get { return ConfigurationManager.AppSettings["BusinessApiProtocolandDomain"]; } }
 
-        public string CCGBusinessApiBaseProtocolandDomain { get { return ConfigurationManager.AppSettings["CCGBusinessApiBaseProtocolandDomain"]; } }
+        public string CCGBusinessApiBaseProtocolandDomain { get { return ConfigurationManager.AppSettings["CCGApiBaseUrl"]; } }
 
 
         public string BusinessDosCheckCapacitySummaryUrl { get { return ConfigurationManager.AppSettings["BusinessDosCheckCapacitySummaryUrl"]; } }
@@ -59,7 +59,7 @@ namespace NHS111.Web.Presentation.Configuration
 
         public string CCGBusinessApiGetCCGUrl(string postcode)
         {
-            return String.Format(ConfigurationManager.AppSettings["CCGBusinessApiBaseGetCCGurl"], postcode);
+            return String.Format(ConfigurationManager.AppSettings["CCGApiGetCCGByPostcodeUrl"], postcode);
         }
 
         public string GetBusinessApiGetCategoriesWithPathways() { return GetBusinessApiUrlWithDomain("BusinessApiGetCategoriesWithPathways"); }
