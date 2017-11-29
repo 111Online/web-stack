@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
 using Newtonsoft.Json;
 using NHS111.Models.Mappers;
@@ -10,8 +9,6 @@ using NHS111.Models.Models.Web.FromExternalServices;
 
 namespace NHS111.Models.Models.Web
 {
-    using System.Collections;
-
     public class JourneyViewModel
     {
         public Guid SessionId { get; set; }
@@ -39,7 +36,7 @@ namespace NHS111.Models.Models.Web
         }
 
         public List<Answer> Answers { get; set; }
-        public string SelectedAnswer { get; set; }
+
         public NodeType NodeType { get; set; }
 
         public string JourneyJson { get; set; }
@@ -74,7 +71,7 @@ namespace NHS111.Models.Models.Web
         {
             get
             {
-                if (string.IsNullOrEmpty(OutcomeGroup.Text))
+                if (OutcomeGroup == null || string.IsNullOrEmpty(OutcomeGroup.Text))
                     return string.Empty;
                 // convert to char array of the string
                 char[] outcomeGroupArray = OutcomeGroup.Text.ToCharArray();
@@ -126,19 +123,6 @@ namespace NHS111.Models.Models.Web
             if (Journey == null)
                 return new List<int>();
             return Journey.Steps.Select(step => step.Answer.Order - 1);
-        }
-
-        public JourneyStep ToStep()
-        {
-            var answer = JsonConvert.DeserializeObject<Answer>(SelectedAnswer);
-            return new JourneyStep
-            {
-                QuestionNo = QuestionNo,
-                QuestionTitle = Title,
-                Answer = answer,
-                QuestionId = Id,
-                State = StateJson
-            };
         }
 
         public string UserZoomTitle { get; set; }

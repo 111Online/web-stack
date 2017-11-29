@@ -25,6 +25,7 @@
     <UseGlobalApplicationHostFile />
     <ApplicationInsightsResourceId>/subscriptions/66bf9d39-b598-433d-9273-0c27e559f37f/resourcegroups/111-staging/providers/microsoft.insights/components/111-s-ai</ApplicationInsightsResourceId>
     <ApplicationInsightsAnnotationResourceId>/subscriptions/66bf9d39-b598-433d-9273-0c27e559f37f/resourcegroups/111-staging/providers/microsoft.insights/components/111-s-ai</ApplicationInsightsAnnotationResourceId>
+    <Use64BitIISExpress />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -79,6 +80,10 @@
     <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <Private>True</Private>
       <HintPath>..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.WindowsAzure.Storage, Version=8.1.4.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\WindowsAzure.Storage.8.1.4\lib\net45\Microsoft.WindowsAzure.Storage.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.9.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
@@ -189,9 +194,14 @@
     <Content Include="ApplicationInsights.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <None Include="Dockerfile" />
+    <None Include=".dockerignore">
+      <DependentUpon>Dockerfile</DependentUpon>
+    </None>
     <None Include="Properties\PublishProfiles\nhs111-dos-domain-api-beta - FTP.pubxml" />
     <None Include="Properties\PublishProfiles\nhs111-dos-domain-api-beta - Web Deploy.pubxml" />
     <Content Include="Service References\Application Insights\ConnectedService.json" />
+    <Content Include="start.ps1" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Moq;
-using NHS111.Business.DOS.ServiceAviliablility;
+using NHS111.Business.DOS.EndpointFilter;
 using NHS111.Models.Models.Business;
 using NHS111.Models.Models.Business.Enums;
 using NodaTime;

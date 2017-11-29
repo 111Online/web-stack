@@ -1,0 +1,16 @@
+﻿@model NHS111.Models.Models.Web.HiddenTextViewModel
+
+<details>
+    <summary role="button">
+        <span class="details__arrow"></span>
+        <span class="summary">@Html.Raw(Model.Summary)</span>
+    </summary>
+    <div class="panel panel-border-narrow">
+        @foreach (var detail in @Model.Details)
+        {
+            <p>
+                @Html.Raw(detail)
+            </p>
+        }
+    </div>
+</details>

@@ -12,6 +12,7 @@ namespace NHS111.Web.Controllers
     using System.Web.Mvc;
     using AutoMapper;
     using Models.Models.Web;
+    using Models.Models.Web.DosRequests;
     using Presentation.Builders;
 
     public class PostcodeFirstController : Controller
@@ -20,18 +21,24 @@ namespace NHS111.Web.Controllers
         private readonly IAuditLogger _auditLogger;
         private readonly IPostCodeAllowedValidator _postCodeAllowedValidator;
         private readonly IViewRouter _viewRouter;
+        private readonly IPostcodePrefillFeature _postcodePrefillFeature;
 
-        public PostcodeFirstController(IDOSBuilder dosBuilder, IAuditLogger auditLogger, IPostCodeAllowedValidator postCodeAllowedValidator, IViewRouter viewRouter)
+        public PostcodeFirstController(IDOSBuilder dosBuilder, IAuditLogger auditLogger, IPostCodeAllowedValidator postCodeAllowedValidator, IViewRouter viewRouter, IPostcodePrefillFeature postcodePrefillFeature)
         {
             _dosBuilder = dosBuilder;
             _auditLogger = auditLogger;
             _postCodeAllowedValidator = postCodeAllowedValidator;
             _viewRouter = viewRouter;
+            _postcodePrefillFeature = postcodePrefillFeature;
         }
 
         [HttpPost]
-        public async Task<ActionResult> Postcode(OutcomeViewModel model)
-        {
+        public async Task<ActionResult> Postcode(OutcomeViewModel model) {
+            if (_postcodePrefillFeature.IsEnabled && _postcodePrefillFeature.RequestIncludesPostcode(Request)) {
+                model.UserInfo.CurrentAddress.Postcode = _postcodePrefillFeature.GetPostcode(Request);
+                return await Outcome(model, null, null, null);
+            }
+
             ModelState.Clear();
             model.UserInfo.CurrentAddress.IsPostcodeFirst = false;
             await _auditLogger.LogEventData(model, "User entered postcode on second request");
@@ -39,7 +46,7 @@ namespace NHS111.Web.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> Outcome(OutcomeViewModel model, [FromUri] DateTime? overrideDate, [FromUri] bool? overrideFilterServices)
+        public async Task<ActionResult> Outcome(OutcomeViewModel model, [FromUri] DateTime? overrideDate, [FromUri] bool? overrideFilterServices, DosEndpoint? endpoint)
         {
             const string outcomeView = "Outcome";
             const string servicesView = "Services";
@@ -65,8 +72,12 @@ namespace NHS111.Web.Controllers
             }
 
             await _auditLogger.LogDosRequest(model, dosViewModel);
-            model.DosCheckCapacitySummaryResult = await _dosBuilder.FillCheckCapacitySummaryResult(dosViewModel, overrideFilterServices.HasValue ? overrideFilterServices.Value : model.FilterServices);
+            model.DosCheckCapacitySummaryResult = await _dosBuilder.FillCheckCapacitySummaryResult(dosViewModel, overrideFilterServices.HasValue ? overrideFilterServices.Value : model.FilterServices, endpoint);
             model.DosCheckCapacitySummaryResult.ServicesUnavailable = model.DosCheckCapacitySummaryResult.ResultListEmpty;
+
+            if(!model.DosCheckCapacitySummaryResult.ResultListEmpty)
+                model.GroupedDosServices =_dosBuilder.FillGroupedDosServices(model.DosCheckCapacitySummaryResult.Success.Services);
+
             await _auditLogger.LogDosResponse(model);
 
             if (model.DosCheckCapacitySummaryResult.Error == null && !model.DosCheckCapacitySummaryResult.ResultListEmpty)

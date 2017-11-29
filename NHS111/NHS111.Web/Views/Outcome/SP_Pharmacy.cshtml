@@ -5,9 +5,6 @@
 }
 
 @section Title { NHS 111 - See a Pharmacist }
-<link href="@NHS111.Web.Helpers.Versioning.GetVersionedUriRef("~/Content/css_NhsUK/confirmation.css")" media="all" rel="stylesheet" type="text/css">
-<link href="@NHS111.Web.Helpers.Versioning.GetVersionedUriRef("~/Content/css_NhsUK/signposting-outcome.css")" media="all" rel="stylesheet" type="text/css" />
-<link href="@NHS111.Web.Helpers.Versioning.GetVersionedUriRef("~/Content/css_NhsUK/signposting-outcome-print.css")" media="print" rel="stylesheet" type="text/css"/>
 
 @Html.Partial("_OutcomeHeader", Model)
 
@@ -41,11 +38,12 @@
     dataDictionary.Add(new KeyValuePair<string, object>("Title", "Find a pharmacy"));
     dataDictionary.Add(new KeyValuePair<string, object>("ButtonText", "Find a pharmacy"));
     dataDictionary.Add(new KeyValuePair<string, object>("Label", "Pharmacies"));
+    dataDictionary.TemplateInfo = new TemplateInfo() { HtmlFieldPrefix = "FindService" };
 }
 @Html.Partial("_FindService", Model, dataDictionary)
 
 <div class="outcome-additional-info">
-    <h3 class="outcome-additional-info-header">Did you know?</h3>
+    <h2 class="heading-medium">Did you know?</h2>
     <p>In an emergency, some NHS pharmacies can supply prescription medicines outside normal opening hours.</p>
     <br/>
     <p>Find out more about:</p>
@@ -56,11 +54,10 @@
     <p>By going to a pharmacist rather than your GP, you could save the NHS around £50.</p>
 </div>
 
-@Html.Partial("_WorseningAdvice", Model)
-
 @Html.Partial("_CareAdvice", Model.CareAdvices, new ViewDataDictionary { { "Title", "What you can do in the meantime" } })
 
-<hr />
+
+@Html.Partial("_WorseningAdviceWithTitle", Model)
 
 @using (Html.BeginForm("Navigation", "Question", FormMethod.Post))
 {
@@ -68,7 +65,7 @@
     if (!Model.DisplayOutcomeReferenceOnly)
     {
         <div class="changeAnswers row">
-            <input class="button button-next button-link" type="submit" name="PreviousQuestion" value="Change my previous answer" />
+            <button id="PreviousQuestionFromOutcome" class="button button--previous button--link" type="submit" value="PreviousQuestion" name="PreviousQuestion" formnovalidate>Change my previous answer</button>
         </div>
     }
 }

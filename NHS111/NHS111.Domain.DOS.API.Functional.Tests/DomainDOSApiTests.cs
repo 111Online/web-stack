@@ -97,14 +97,14 @@ namespace NHS111.DOS.Domain.API.Functional.Tests
         public async void TestServicesByClinicalTerm()
         {
             var caseId = "0";
-            var postCode = "so302un";
+            var postCode = "LS17 7NZ";
             var searchDistance = "36";
             var gpPracticeId = "0";
             var age = "1";
             var gender = "F";
-            var dispo = "Dx06";
-            var sg = "1003";
-            var sd = "4003";
+            var dispo = "Dx02";
+            var sg = "1108";
+            var sd = "4009";
             var numberPerType = "1";
 
             var result = await _restfulHelper.PostAsync(DomainDOSApiServicesByClinicalTermUrl, RequestFormatting.CreateHTTPRequest(string.Format("{{\"caseId\":\"{0}\",\"postcode\":\"{1}\",\"searchDistance\":\"{2}\",\"gpPracticeId\":\"{3}\",\"age\":\"{4}\",\"gender\":\"{5}\",\"disposition\":\"{6}\",\"symptomGroupDiscriminatorCombos\":\"{7}={8}\",\"numberPerType\":\"{9}\" }}", caseId, postCode, searchDistance, gpPracticeId, age, gender, dispo, sg, sd, numberPerType),string.Empty));
@@ -112,7 +112,7 @@ namespace NHS111.DOS.Domain.API.Functional.Tests
             var resultContent = await result.Content.ReadAsStringAsync();
 
             Assert.IsTrue(result.IsSuccessStatusCode);
-            Assert.IsTrue(resultContent.Contains("Hedge"));
+            Assert.IsTrue(resultContent.Contains("Leeds"));
         }
     }
 }

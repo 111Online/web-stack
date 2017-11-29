@@ -10,77 +10,87 @@ using OpenQA.Selenium.Support.UI;
 
 namespace NHS111.SmokeTest.Utils
 {
-    public class QuestionPage
+    public class QuestionPage : LayoutPage
     {
-        private readonly IWebDriver _driver;
+        [FindsBy(How = How.ClassName, Using = "button--next")]
+        private IWebElement NextButton { get; set; }
 
-        [FindsBy(How = How.ClassName, Using = "button-next")]
-        public IWebElement NextButton { get; set; }
+        [FindsBy(How = How.CssSelector, Using = "h1")]
+        private IWebElement Header { get; set; }
 
-        [FindsBy(How = How.ClassName, Using = "heading-large")]
-        public IWebElement Header { get; set; }
+        [FindsBy(How = How.ClassName, Using = "callout")]
+        [FindsBy(How = How.ClassName, Using = "callout--info")]
+        private IWebElement Rationale { get; set; }
 
-        [FindsBy(How = How.ClassName, Using = "previous-question")]
-        public IWebElement PreviousButton { get; set; }
+        [FindsBy(How = How.CssSelector, Using = "[for='Yes']")]
+        private IWebElement AnswerYesButton { get; set; }
 
-        [FindsBy(How = How.Id, Using = "Yes")]
-        public IWebElement AnswerYesButton { get; set; }
+        [FindsBy(How = How.CssSelector, Using = "[for='No']")]
+        private IWebElement AnswerNoButton { get; set; }
 
-        [FindsBy(How = How.Id, Using = "No")]
-        public IWebElement AnswerNoButton { get; set; }
-
-
-        public QuestionPage(IWebDriver driver)
+        public QuestionPage(IWebDriver driver) : base(driver)
         {
-            _driver = driver;
-            PageFactory.InitElements(_driver, this);
         }
 
-        public QuestionPage ValidateQuestion(string expectedQuestion)
+        public void VerifyQuestion(string expectedQuestion)
         {
+            Assert.IsTrue(Header.Displayed);
             Assert.AreEqual(expectedQuestion, Header.Text);
-            return this;
+        }
+
+        public void VerifyRationale()
+        {
+            Assert.IsTrue(Rationale.Displayed);
+        }
+
+        public QuestionPage AnswerAndVerifyQuestion(int answerOrder, string expectedQuestion, bool requireButtonAwait = true)
+        {
+            Driver.FindElement(By.XPath("(//label[contains(@class, 'multiple-choice--radio')])[" + answerOrder + "]")).Click();
+            NextButton.Click();
+            AwaitNextQuestionPage(requireButtonAwait);
+            Assert.AreEqual(expectedQuestion, Header.Text);
+            return new QuestionPage(Driver);
         }
 
         public QuestionPage AnswerYes()
         {
-            if (!_driver.FindElements(By.Id("Yes")).Any())
-                throw new Exception("No answer with id 'Yes' could be found for question " + Header.Text);
+            if (!Driver.FindElements(By.CssSelector("[for='Yes']")).Any())
+                throw new Exception("No answer with label for 'Yes' could be found for question " + Header.Text);
 
             AnswerYesButton.Click();
             NextButton.Click();
             AwaitNextQuestionPage();
-            return new QuestionPage(_driver);
+            return new QuestionPage(Driver);
         }
 
         public QuestionPage Answer(string answerText)
         {
-            _driver.FindElement(By.XPath("//span[contains(@class, 'answer-text') and text() = \"" + answerText + "\"]/preceding-sibling::span[contains(@class, 'answer-radio')]")).Click();
+            Driver.FindElement(By.XPath("//label[contains(@class, 'multiple-choice--radio') and text() = \"" + answerText + "\"]")).Click();
             NextButton.Click();
             AwaitNextQuestionPage();
-            return new QuestionPage(_driver);
+            return new QuestionPage(Driver);
         }
 
         public QuestionPage Answer(int answerOrder, bool requireButtonAwait = true)
         {
-            _driver.FindElement(By.XPath("(//span[contains(@class, 'answer-radio')])[" + answerOrder + "]")).Click();
+            Driver.FindElement(By.XPath("(//label[contains(@class, 'multiple-choice--radio')])[" + answerOrder + "]")).Click();
             NextButton.Click();
             AwaitNextQuestionPage(requireButtonAwait);
-            return new QuestionPage(_driver);
+            return new QuestionPage(Driver);
         }
 
-        public DispositionPage AnswerForDispostion(string answerText)
+        public T AnswerForDispostion<T>(string answerText) where T : DispositionPage<T>
         {
-            _driver.FindElement(By.XPath("//span[contains(@class, 'answer-text') and text() = \"" + answerText + "\"]/preceding-sibling::span[contains(@class, 'answer-radio')]")).Click();
+            Driver.FindElement(By.XPath("//label[contains(@class, 'multiple-choice--radio') and text() = \"" + answerText + "\"]")).Click();
             NextButton.Click();
-            return new DispositionPage(_driver);
+            return (T) Activator.CreateInstance(typeof(T), Driver);
         }
 
-        public DispositionPage AnswerForDispostion(int answerOrder)
+        public T AnswerForDispostion<T>(int answerOrder) where T : DispositionPage<T>
         {
-            _driver.FindElement(By.XPath("(//span[contains(@class, 'answer-radio')])[" + answerOrder + "]")).Click();
+            Driver.FindElement(By.XPath("(//label[contains(@class, 'multiple-choice--radio')])[" + answerOrder + "]")).Click();
             NextButton.Click();
-            return new DispositionPage(_driver);
+            return (T)Activator.CreateInstance(typeof(T), Driver);
         }
 
         public QuestionPage AnswerSuccessiveByOrder(int answerOrder, int numberOfTimes)
@@ -121,27 +131,33 @@ namespace NHS111.SmokeTest.Utils
 
         public QuestionPage AnswerNo(bool requireButtonAwait = true)
         {
-            if (!_driver.FindElements(By.Id("No")).Any())
+            if (!Driver.FindElements(By.Id("No")).Any())
                 throw new Exception("No answer with id 'No' could be found for question " + Header.Text);
 
             AnswerNoButton.Click();
             NextButton.Click();
             AwaitNextQuestionPage(requireButtonAwait);
-            return new QuestionPage(_driver);
+            return new QuestionPage(Driver);
         }
 
         private void AwaitNextQuestionPage(bool requireButtonAwait = true)
         {
             if(requireButtonAwait)
-                new WebDriverWait(_driver, TimeSpan.FromSeconds(20)).Until(
-                ExpectedConditions.ElementExists(By.CssSelector(".button-next:disabled")));
-            new WebDriverWait(_driver, TimeSpan.FromSeconds(1));
+                new WebDriverWait(Driver, TimeSpan.FromSeconds(20)).Until(
+                ExpectedConditions.ElementExists(By.CssSelector(".multiple-choice--radio")));
+            new WebDriverWait(Driver, TimeSpan.FromSeconds(1));
         }
 
         public QuestionPage NavigateBack()
         {
-            _driver.Navigate().Back();
-            return new QuestionPage(_driver);
+            Driver.Navigate().Back();
+            return new QuestionPage(Driver);
+        }
+
+        public void VerifyQuestionPageLoaded()
+        {
+            Assert.AreEqual("Next question", NextButton.Text);
+            Assert.IsTrue(NextButton.Displayed);
         }
     }
 }

@@ -1,0 +1,67 @@
+@media (min-width: 600px) {
+  .cards {
+    display: grid;
+    grid-gap: 25px;
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .card {
+    margin-top: 0;
+  }
+}
+
+.card {
+  background: #fff;
+  border: 2px solid #f0f3f5;
+  border-left: 8px solid #f0f3f5;
+  padding: 20px 10px;
+  margin: 0;
+  margin-top: 10px;
+
+  h3 {
+    @include bold-font(20);
+  }
+
+  p {
+    @include core-font(16);
+
+    color: $grey-1;
+  }
+
+  a {
+    @include core-font(20);
+  }
+
+  * + * {
+    margin-top: 16px;
+  }
+}
+
+p.card__details {
+  color: $black;
+  font-weight: 600;
+}
+
+
+
+// IE 10 to Edge use the old grid that doesnt have auto placement
+.card:nth-child(2n) {
+  -ms-grid-column: 2;
+}
+  
+.card:nth-child(3),
+.card:nth-child(4) {
+  -ms-grid-row: 2;
+}
+
+  
+.card:nth-child(5),
+.card:nth-child(6) {
+  -ms-grid-row: 3;
+}
+  
+  
+.card:nth-child(7),
+.card:nth-child(8) {
+  -ms-grid-row: 4;
+}

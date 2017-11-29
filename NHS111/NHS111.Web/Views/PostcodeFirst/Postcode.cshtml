@@ -18,8 +18,6 @@
 }
 
 @section Title { NHS 111 - Tell us your postcode }
-<link href="@NHS111.Web.Helpers.Versioning.GetVersionedUriRef("~/Content/css_NhsUK/signposting-outcome.css")" media="all" rel="stylesheet" type="text/css" />
-<link href="@NHS111.Web.Helpers.Versioning.GetVersionedUriRef("~/Content/css_NhsUK/signposting-outcome-print.css")" media="print" rel="stylesheet" type="text/css" />
 
 @section SurveyBanner{
     @if (!Model.UserInfo.CurrentAddress.IsPostcodeFirst) { 
@@ -41,7 +39,7 @@
     var error = Model.DosCheckCapacitySummaryResult.ResultListEmpty;
 }
 <section>
-    <div class="postcode-first">
+    <div>
 
         @using (Html.BeginForm("Outcome", "PostcodeFirst", FormMethod.Post, new { id = "findServicesForm" }))
         {
@@ -50,6 +48,9 @@
             @Html.HiddenFor(x => Model.PathwayId)
             @Html.HiddenFor(x => Model.JourneyId)
             @Html.HiddenFor(x => Model.PathwayNo)
+            @Html.HiddenFor(x => Model.PathwayTitle)
+            @Html.HiddenFor(x => Model.EntrySearchTerm)
+            @Html.HiddenFor(x => Model.DigitalTitle)
             @Html.HiddenFor(x => Model.SymptomGroup)
             @Html.HiddenFor(x => Model.FilterServices)
             @Html.HiddenFor(x => Model.UserInfo.Demography.Age)
@@ -76,20 +77,20 @@
 
             if (Model.UserInfo.CurrentAddress.IsPostcodeFirst)
             {
-                <h2 id="strap-line">You've answered the questions</h2>
-                <h3>Now we can tell you what to do next</h3>
+                <h1 id="strap-line">Where are you?</h1>
+                <p>Knowing where you are helps us find services in your area.</p>
             }
-            <div class="symptoms-find-container">
-                <div class="symptoms-search">
+            <div>
+                <div class="@(@ViewData.ModelState.IsValidField("UserInfo.CurrentAddress.Postcode") ? "" : "form-group-error")">
                     @if (error)
                     {
                         <p class="field-validation-error" id="NoDosResults">Sorry, no results were found for this postcode.</p>
                         <p class="field-validation-error">Please check you have entered the postcode correctly, then try again. <br /> If the search still gives no results, please call 111 for advice.</p>
                     }
-                    @Html.ValidationMessageFor(m => m.UserInfo.CurrentAddress.Postcode)
-                    <label for="UserInfo_CurrentAddress_Postcode">@(Model.UserInfo.CurrentAddress.IsPostcodeFirst ? Html.Raw("Enter your postcode for services that can help you <span class=\"de-emphasised\">(optional)<span>") : Html.Raw("If you enter your postcode now, we can find services that can help you"))</label>
-                    @Html.TextBoxFor(m => m.UserInfo.CurrentAddress.Postcode, new { @class = "form-control " + (error ? "error" : "") })
-                    <button class="button button-next" type="submit" name="DosResults" id="DosLookup">Next</button>
+                    <label for="UserInfo_CurrentAddress_Postcode" class="alwayshidden">Postcode</label>
+                    @Html.ValidationMessageFor(m => m.UserInfo.CurrentAddress.Postcode) 
+                    @Html.TextBoxFor(m => m.UserInfo.CurrentAddress.Postcode)
+                    <button class="button button--next" type="submit" name="DosResults" id="DosLookup">Next</button>
                 </div>
             </div>
         }

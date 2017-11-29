@@ -2,8 +2,6 @@
 @inherits NHS111.Web.Views.Shared.SurveyLinkView<OutcomeViewModel>
 @{ Layout = "~/Views/Shared/_LayoutNhsUk.cshtml"; }
 
-<link href="@NHS111.Web.Helpers.Versioning.GetVersionedUriRef("~/content/css_NhsUk/question.css")" media="screen" rel="stylesheet" type="text/css" />
-
 @section Title {NHS 111 Online - @Model.TitleWithoutBullets}
 @section SurveyBanner{
     @Html.Partial("_SurveyLink", Model.SurveyLink)
@@ -36,14 +34,16 @@
     @Html.HiddenFor(x => Model.QuestionNo)
     @Html.HiddenFor(x => Model.StateJson)
     @Html.HiddenFor(x => Model.FilterServices)
+    @Html.HiddenFor(x => Model.UserInfo.CurrentAddress.Postcode)
 
-    <h1 class="question-header dead-end-jump">@Model.TitleWithoutBullets</h1>
+    <h1>@Model.TitleWithoutBullets</h1>
     <p>Your health assessment can’t be completed with the current online service.</p>
-    <p>Please call 111 now for help and advice. Calls to NHS 111 are free.</p>
+    <p>Please call <span class="util-digits">1 1 1</span> now for help and advice. Calls to NHS <span class="util-digits">1 1 1</span> are free.</p>
     <hr />
+
     if (!Model.IsFirstStep)
     {
-        <input class="button previous-question" id="previousScreen" type="submit" name="PreviousQuestion" value="Previous question" />
+        <button id="PreviousQuestionFromOutcome" class="button--previous button--link" id="previousScreen" type="submit" value="PreviousQuestion" name="PreviousQuestion" formnovalidate>Change my previous answer</button>
     }
 }
 <script type="text/javascript">

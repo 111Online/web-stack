@@ -11,35 +11,51 @@ using OpenQA.Selenium.Support.PageObjects;
 
 namespace NHS111.SmokeTest.Utils
 {
-    public class HomePage
+    public class HomePage : LayoutPage
     {
-        private readonly IWebDriver _driver;
-        private static string _baseUrl = ConfigurationManager.AppSettings["TestWebsiteUrl"].ToString();
+        private static string _baseUrl = ConfigurationManager.AppSettings["TestWebsiteUrl"];
 
-        private const string _headerText = "Getting care with 111 Online";
+        private const string _headerText = "Getting care with 1 1 1 online";
 
-        [FindsBy(How = How.CssSelector, Using = "h1.discHead")]
-        public IWebElement Header { get; set; }
+        [FindsBy(How = How.CssSelector, Using = "h1")]
+        private IWebElement Header { get; set; }
 
-        [FindsBy(How = How.ClassName, Using = "button-get-started")]
-        public IWebElement NextButton { get; set; }
-
-
-        public HomePage(IWebDriver driver) 
+        [FindsBy(How = How.ClassName, Using = "button--next")]
+        private IWebElement NextButton { get; set; }
+        
+        public HomePage(IWebDriver driver) : base(driver)
         {
-            _driver = driver;
-            PageFactory.InitElements(_driver, this);
         }
 
         public void Load()
         {
-            _driver.Navigate().GoToUrl(_baseUrl);
-            _driver.Manage().Window.Maximize();
+            Driver.Navigate().GoToUrl(_baseUrl);
+            if (UrlContainsCredentials())
+            {
+                Driver.Navigate().GoToUrl(GetUrlWithoutCredentials());
+            }
+            Driver.Manage().Window.Maximize();
         }
+
+        private string GetUrlWithoutCredentials()
+        {
+            if (UrlContainsCredentials())
+            {
+                return Driver.Url.Remove(_baseUrl.IndexOf("://") + 3,
+                    _baseUrl.LastIndexOf("@") - (_baseUrl.IndexOf("://") + 3));
+            }
+            return _baseUrl;
+        }
+
+        private static bool UrlContainsCredentials()
+        {
+            return _baseUrl.Contains("@");
+        }
+
         public ModuleZeroPage ClickNextButton()
         {
             NextButton.Click();
-            return new ModuleZeroPage(_driver);
+            return new ModuleZeroPage(Driver);
         }
         public void Verify()
         {

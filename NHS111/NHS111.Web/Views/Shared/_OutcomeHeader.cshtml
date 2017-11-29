@@ -3,8 +3,6 @@
 @{
     var outcomeHeader = ViewData.ContainsKey("OutcomeHeader") ? ViewData["OutcomeHeader"] : (!string.IsNullOrEmpty(Model.DispositionText) ? Model.DispositionText : Model.OutcomeGroup.GetDefaultTitle());
 }
-<section>
-    <div class="outcome-header">
-        <h2 class="heading-large">@Html.Raw(outcomeHeader)</h2>
-    </div>
+<section class="local-header">
+    <h1 class="local-header__title">@Html.Raw(outcomeHeader)</h1>
 </section>

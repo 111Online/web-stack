@@ -2,6 +2,7 @@
 using System.Web.Mvc;
 using NHS111.Models.Models.Web;
 using NHS111.Utils.Attributes;
+using NHS111.Web.Helpers;
 using NHS111.Web.Presentation.Builders;
 
 namespace NHS111.Web.Controllers
@@ -35,19 +36,28 @@ namespace NHS111.Web.Controllers
 
         [HttpGet]
         [Route("{pathwayNumber}/{gender}/{age}/start")]
-        public async Task<ActionResult> PathwayStart(string pathwayNumber, string gender, int age, string digitalTitle, string entrySearchTerm, bool? filterServices) {
+        public async Task<ActionResult> PathwayStart(string pathwayNumber, string gender, int age, string args)
+        {
+            var decryptedArgs = new QueryStringEncryptor(args);
+            var decryptedFilterServices = string.IsNullOrEmpty(decryptedArgs["filterServices"]) || bool.Parse(decryptedArgs["filterServices"]);
 
             var model = new JustToBeSafeViewModel {
                 PathwayNo = pathwayNumber,
-                DigitalTitle = digitalTitle,
-                EntrySearchTerm = entrySearchTerm,
-                UserInfo = new UserInfo {
-                    Demography = new AgeGenderViewModel {
+                DigitalTitle = decryptedArgs["digitalTitle"],
+                EntrySearchTerm = decryptedArgs["entrySearchTerm"],
+                UserInfo = new UserInfo
+                {
+                    Demography = new AgeGenderViewModel
+                    {
                         Age = age,
                         Gender = gender
+                    },
+                    CurrentAddress = new FindServicesAddressViewModel
+                    {
+                        Postcode = decryptedArgs["postcode"]
                     }
                 },
-                FilterServices = filterServices.HasValue ? filterServices.Value : true
+                FilterServices = decryptedFilterServices
             };
 
             return await JustToBeSafeFirst(model);

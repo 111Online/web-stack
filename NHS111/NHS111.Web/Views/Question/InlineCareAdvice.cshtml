@@ -3,8 +3,6 @@
 
 @{ Layout = "~/Views/Shared/_LayoutNhsUk.cshtml"; }
 
-<link href="@NHS111.Web.Helpers.Versioning.GetVersionedUriRef("~/content/css_NhsUk/question.css")" media="screen" rel="stylesheet" type="text/css" />
-
 @section Title  {NHS 111 Online - @Model.TitleWithoutBullets}
 
 
@@ -44,8 +42,8 @@
         </ul>
     </div>
 
-    <button class="button button-next" id="nextScreen" type="submit" name="Question" value="Question">Next question</button>
+    <button class="button--next" id="nextScreen" type="submit" name="Question" value="Question">Next question</button>
     if (!Model.IsFirstStep) {
-        <input class="button previous-question" id="previousScreen" type="submit" name="PreviousQuestion" value="Previous question" />
+        <button class="button--stacked button--previous button--link" id="previousScreen" type="submit" value="PreviousQuestion" name="PreviousQuestion" formnovalidate>Previous question</button>
     }
 }

@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using NHS111.Models.Models.Web.FromExternalServices;
+﻿using System.Configuration;
 using NodaTime;
 using NodaTime.Text;
 
@@ -12,6 +6,20 @@ namespace NHS111.Business.DOS.Configuration
 {
     public class Configuration : IConfiguration
     {
+        public LocalTime WorkingDayGenericInHoursStartTime
+        {
+            get { return Get(ConfigurationManager.AppSettings["WorkingDayGenericInHoursStartTime"]); }
+        }
+
+        public LocalTime WorkingDayGenericInHoursEndTime
+        {
+            get { return Get(ConfigurationManager.AppSettings["WorkingDayGenericInHoursEndTime"]); }
+        }
+
+        public LocalTime WorkingDayGenericInHoursShoulderEndTime
+        {
+            get { return Get(ConfigurationManager.AppSettings["WorkingDayGenericInHoursShoulderEndTime"]); }
+        }
 
         public LocalTime WorkingDayPrimaryCareInHoursStartTime
         {
@@ -71,9 +79,19 @@ namespace NHS111.Business.DOS.Configuration
             }
         }
 
+        public string FilteredGenericDispositionCodes
+        {
+            get { return ConfigurationManager.AppSettings["FilteredGenericDispositionCodes"]; }
+        }
+
         public string FilteredPrimaryCareDispositionCodes
         {
             get { return ConfigurationManager.AppSettings["FilteredPrimaryCareDispositionCodes"]; }
+        }
+
+        public string FilteredGenericDosServiceIds
+        {
+            get { return ConfigurationManager.AppSettings["FilteredGenericDosServiceIds"]; }
         }
 
         public string FilteredPrimaryCareDosServiceIds
@@ -119,6 +137,19 @@ namespace NHS111.Business.DOS.Configuration
         public LocalTime WorkingDayDentalInHoursShoulderEndTime
         {
             get { return Get(ConfigurationManager.AppSettings["WorkingDayDentalInHoursShoulderEndTime"]); }
+        }
+
+        public string CCGApiGetCCGByPostcode
+        {
+            get
+            {
+                return ConfigurationManager.AppSettings["CCGApiGetCCGByPostcodeUrl"];
+            }
+        }
+
+        public string CCGApiBaseUrl
+        {
+            get { return ConfigurationManager.AppSettings["CCGApiBaseUrl"]; }
         }
     }
 }

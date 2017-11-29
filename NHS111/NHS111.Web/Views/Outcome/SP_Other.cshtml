@@ -6,9 +6,6 @@
 }
 @section Title { Outcome }
 
-
-<link href="@NHS111.Web.Helpers.Versioning.GetVersionedUriRef("~/Content/css_NhsUK/a-and-e.css")" media="screen" rel="stylesheet" type="text/css" />
-
 @Html.Partial("_OutcomeHeader", Model, new ViewDataDictionary() { { "OutcomeHeader", string.Format("From your answers, we recommend you {0}", Model.Title) } })
 
 @section HeadTop {
@@ -56,11 +53,11 @@
         </label>
         <div class="inline-details">
             @Html.TextBoxFor(m => m.UserInfo.CurrentAddress.Postcode, new { @class = "form-control form-control-8-chars", placeholder = "eg. SE1" })
-            <input type="submit" class="button button-next" value="Find" />
+            <button type="submit" class="button button--next">Find</button>
         </div>
     }
     <div class="row">
-        <a class="button button-next button-link" href="#">I don't know my postcode</a>
+        <a class="button button--next button-link" href="#">I don't know my postcode</a>
     </div>
 }
 
@@ -68,6 +65,6 @@
 {
     @Html.Partial("_CommonHiddenFieldsOutcomeViewModel", Model)
     <div class="row">
-        <input class="button button-next button-link" type="submit" name="PreviousQuestion" value="Change my previous answer" />
+        <button id="PreviousQuestionFromOutcome" class="button button--previous button--link" type="submit" value="PreviousQuestion" name="PreviousQuestion" formnovalidate>Change my previous answer</button>
     </div>
 } 

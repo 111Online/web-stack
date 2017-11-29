@@ -55,13 +55,18 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CategoryPage.cs" />
     <Compile Include="DispositionPage.cs" />
-    <Compile Include="GenderPage.cs" />
+    <Compile Include="DemographicsPage.cs" />
     <Compile Include="HomePage.cs" />
+    <Compile Include="LayoutPage.cs" />
     <Compile Include="ModuleZeroPage.cs" />
+    <Compile Include="OutcomePage.cs" />
+    <Compile Include="PostcodeFirstPage.cs" />
     <Compile Include="QuestionPage.cs" />
     <Compile Include="SearchPage.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TestScenarioPart.cs" />
     <Compile Include="TestScenerios.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -8,11 +8,11 @@ using System.Threading.Tasks;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using NHS111.Business.DOS.Configuration;
-using NHS111.Models.Mappers.WebMappings;
+using NHS111.Business.DOS.EndpointFilter;
+using NHS111.Business.DOS.WhitelistFilter;
 using NHS111.Models.Models.Web.DosRequests;
-using NHS111.Models.Models.Web.FromExternalServices;
-using NHS111.Web.Presentation.Models;
 using NHS111.Features;
+using NHS111.Models.Models.Business;
 
 namespace NHS111.Business.DOS.Service
 {
@@ -22,20 +22,27 @@ namespace NHS111.Business.DOS.Service
         private readonly IConfiguration _configuration;
         private readonly IServiceAvailabilityManager _serviceAvailabilityManager;
         private readonly IFilterServicesFeature _filterServicesFeature;
+        private readonly IServiceWhitelistFilter _serviceWhitelistFilter;
+        private readonly IITKWhitelistFilter _itkWhitelistFilter;
 
-        public ServiceAvailabilityFilterService(IDosService dosService, IConfiguration configuration, IServiceAvailabilityManager serviceAvailabilityManager, IFilterServicesFeature filterServicesFeature)
+        public ServiceAvailabilityFilterService(IDosService dosService, IConfiguration configuration, IServiceAvailabilityManager serviceAvailabilityManager, IFilterServicesFeature filterServicesFeature, IServiceWhitelistFilter serviceWhitelistFilter, IITKWhitelistFilter itkWhitelistFilter)
         {
             _dosService = dosService;
             _configuration = configuration;
             _serviceAvailabilityManager = serviceAvailabilityManager;
             _filterServicesFeature = filterServicesFeature;
+            _serviceWhitelistFilter = serviceWhitelistFilter;
+            _itkWhitelistFilter = itkWhitelistFilter;
         }
 
-        public async Task<HttpResponseMessage> GetFilteredServices(HttpRequestMessage request, bool filterServices)
+        public async Task<HttpResponseMessage> GetFilteredServices(HttpRequestMessage request, bool filterServices, DosEndpoint? endpoint)
         {
             var content = await request.Content.ReadAsStringAsync();
-            var dosCaseRequest = BuildRequestMessage(GetObjectFromRequest<DosCase>(content));
-            var response = await _dosService.GetServices(dosCaseRequest);
+            var dosCase = GetObjectFromRequest<DosCase>(content);
+            var dosCaseRequest = BuildRequestMessage(dosCase);
+            var originalPostcode = dosCase.PostCode;
+
+            var response = await _dosService.GetServices(dosCaseRequest, endpoint);
 
             if (response.StatusCode != HttpStatusCode.OK) return response;
 
@@ -44,12 +51,18 @@ namespace NHS111.Business.DOS.Service
             var val = await response.Content.ReadAsStringAsync();
             var jObj = (JObject)JsonConvert.DeserializeObject(val);
             var services = jObj["CheckCapacitySummaryResult"];
-            var results = services.ToObject<List<Models.Models.Web.FromExternalServices.DosService>>();
+            var results = services.ToObject<List<Models.Models.Business.DosService>>();
 
-            if (!_filterServicesFeature.IsEnabled && !filterServices) return BuildResponseMessage(results);
+            var filteredByServiceWhitelistResults = await _serviceWhitelistFilter.Filter(results, originalPostcode);
+            var filteredByITKWhitelistResults = await _itkWhitelistFilter.Filter(filteredByServiceWhitelistResults, originalPostcode);
+            
+            if (!_filterServicesFeature.IsEnabled && !filterServices)
+            {
+                return BuildResponseMessage(filteredByITKWhitelistResults);
+            }
 
             var serviceAvailability = _serviceAvailabilityManager.FindServiceAvailability(dosFilteredCase);
-            return BuildResponseMessage(serviceAvailability.Filter(results));
+            return BuildResponseMessage(serviceAvailability.Filter(filteredByITKWhitelistResults));
         }
 
 
@@ -59,7 +72,7 @@ namespace NHS111.Business.DOS.Service
             return new HttpRequestMessage { Content = new StringContent(JsonConvert.SerializeObject(dosCheckCapacitySummaryRequest), Encoding.UTF8, "application/json") };
         }
 
-        public HttpResponseMessage BuildResponseMessage(IEnumerable<Models.Models.Web.FromExternalServices.DosService> results)
+        public HttpResponseMessage BuildResponseMessage(IEnumerable<Models.Models.Business.DosService> results)
         {
             var result = new JsonCheckCapacitySummaryResult(results);
             return new HttpResponseMessage { Content = new StringContent(JsonConvert.SerializeObject(result), Encoding.UTF8, "application/json") };
@@ -73,14 +86,14 @@ namespace NHS111.Business.DOS.Service
 
     public interface IServiceAvailabilityFilterService
     {
-        Task<HttpResponseMessage> GetFilteredServices(HttpRequestMessage request, bool filterServices);
+        Task<HttpResponseMessage> GetFilteredServices(HttpRequestMessage request, bool filterServices, DosEndpoint? endpoint);
     }
 
     public class JsonCheckCapacitySummaryResult
     {
         private readonly CheckCapacitySummaryResult[] _checkCapacitySummaryResults;
 
-        public JsonCheckCapacitySummaryResult(IEnumerable<Models.Models.Web.FromExternalServices.DosService> dosServices)
+        public JsonCheckCapacitySummaryResult(IEnumerable<Models.Models.Business.DosService> dosServices)
         {
             var serialisedServices = JsonConvert.SerializeObject(dosServices);
             _checkCapacitySummaryResults = JsonConvert.DeserializeObject<CheckCapacitySummaryResult[]>(serialisedServices);

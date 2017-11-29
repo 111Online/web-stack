@@ -7,19 +7,15 @@
 @section Title { NHS 111 Online - Tell us about you }
 
 @section FeedbackSection {
-    @Html.Partial("_FeedbackDetails", new FeedbackViewModel() { UserId = Model.SessionId.ToString(), PageId = Request.Url.GetComponents(UriComponents.PathAndQuery, UriFormat.SafeUnescaped) })
+    @Html.Partial("_FeedbackDetails", new FeedbackViewModel() { UserId = Model.SessionId.ToString(), PageId = Request.Url.GetComponents(UriComponents.PathAndQuery, UriFormat.SafeUnescaped) + "/demographics" })
 }
 
-<link href="@NHS111.Web.Helpers.Versioning.GetVersionedUriRef("~/Content/css_NhsUK/gender.css")" media="screen" rel="stylesheet" type="text/css" />
-<link href="@NHS111.Web.Helpers.Versioning.GetVersionedUriRef("~/content/css_NhsUk/question.css")" media="screen" rel="stylesheet" type="text/css" />
-
-@using (Html.BeginForm("Search", "Question", FormMethod.Post, new { @id = "outerContent" }))
+@using (Html.BeginForm("Search", "Search", FormMethod.Post, new { @id = "outerContent" }))
 {
     @Html.HiddenFor(x => Model.SessionId)
     @Html.HiddenFor(x => Model.FilterServices)
+    @Html.HiddenFor(x => Model.UserInfo.CurrentAddress.Postcode)
     @Html.Partial("_GenderAgeView", Model, new ViewDataDictionary(ViewData) { Model = null })
 
-    <hr />
-
-    <input class="button button-next" id="submitGender" type="submit" name="Slider" value="Next" />
+    <button class="button button--next" id="submitGender" type="submit" name="Slider">Next</button>
 }

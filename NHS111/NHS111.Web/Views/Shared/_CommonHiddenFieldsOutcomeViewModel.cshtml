@@ -5,7 +5,6 @@
 @Html.HiddenFor(x => Model.Id)
 @Html.HiddenFor(x => Model.JourneyJson)
 @Html.HiddenFor(x => Model.PathwayId)
-@Html.HiddenFor(x => Model.JourneyId)
 @Html.HiddenFor(x => Model.PathwayNo)
 @Html.HiddenFor(x => Model.PathwayTitle)
 @Html.HiddenFor(x => Model.EntrySearchTerm)
@@ -33,12 +32,13 @@
 @Html.HiddenFor(x => x.SurveyLink.DispositionCode)
 @Html.HiddenFor(x => x.SurveyLink.JourneyId)
 @Html.HiddenFor(x => x.SurveyLink.DispositionDateTime)
+@Html.HiddenFor(x => x.SelectedService.Id)
 @if (Model.DosCheckCapacitySummaryResult.Success != null)
 {
     for (var i = 0; i < Model.DosCheckCapacitySummaryResult.Success.Services.Count(); ++i)
-    {
+    {    @Html.Hidden(string.Format("DosCheckCapacitySummaryResult.Success.Services[{0}].Name", i), @WebUtility.HtmlDecode(Model.DosCheckCapacitySummaryResult.Success.Services[i].Name))
         @Html.HiddenFor(m => Model.DosCheckCapacitySummaryResult.Success.Services[i].Id)
-        @Html.Hidden(string.Format("DosCheckCapacitySummaryResult.Success.Services[{0}].Name", i), @WebUtility.HtmlDecode(Model.DosCheckCapacitySummaryResult.Success.Services[i].Name))
+    
         @Html.Hidden(string.Format("DosCheckCapacitySummaryResult.Success.Services[{0}].Address", i), @WebUtility.HtmlDecode(Model.DosCheckCapacitySummaryResult.Success.Services[i].Address))
         @Html.HiddenFor(m => Model.DosCheckCapacitySummaryResult.Success.Services[i].OdsCode)
         @Html.HiddenFor(m => Model.DosCheckCapacitySummaryResult.Success.Services[i].PostCode)

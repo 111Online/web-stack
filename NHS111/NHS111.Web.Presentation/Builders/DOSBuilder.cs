@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -13,6 +14,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using NHS111.Models.Models.Web;
 using NHS111.Models.Models.Web.DosRequests;
+using NHS111.Models.Models.Business;
 using NHS111.Models.Models.Web.FromExternalServices;
 using NHS111.Utils.Cache;
 using NHS111.Utils.Helpers;
@@ -20,6 +22,7 @@ using NHS111.Utils.Notifier;
 using NHS111.Web.Presentation.Models;
 using IConfiguration = NHS111.Web.Presentation.Configuration.IConfiguration;
 using NHS111.Features;
+using DosService = NHS111.Models.Models.Business.DosService;
 
 namespace NHS111.Web.Presentation.Builders
 {
@@ -51,14 +54,14 @@ namespace NHS111.Web.Presentation.Builders
 
         }
 
-        public async Task<DosCheckCapacitySummaryResult> FillCheckCapacitySummaryResult(DosViewModel dosViewModel, bool filterServices) {
+        public async Task<DosCheckCapacitySummaryResult> FillCheckCapacitySummaryResult(DosViewModel dosViewModel, bool filterServices, DosEndpoint? endpoint) {
             const int PHARMACY = 13;
             const int PHARMACY_EXT_HOURS = 116;
 
             var request = BuildRequestMessage(dosViewModel);
             var body = await request.Content.ReadAsStringAsync();
 
-            string checkCapacitySummaryUrl = string.Format("{0}?filterServices={1}", _configuration.BusinessDosCheckCapacitySummaryUrl, filterServices);
+            string checkCapacitySummaryUrl = string.Format("{0}?filterServices={1}&endpoint={2}", _configuration.BusinessDosCheckCapacitySummaryUrl, filterServices, endpoint);
            
             _logger.Debug(string.Format("DOSBuilder.FillCheckCapacitySummaryResult(): URL: {0} BODY: {1}", checkCapacitySummaryUrl, body));
             var response = await _restfulHelper.PostAsync(checkCapacitySummaryUrl, request);
@@ -87,23 +90,33 @@ namespace NHS111.Web.Presentation.Builders
             return checkCapacitySummaryResult;
         }
 
+        public List<GroupedDOSServices> FillGroupedDosServices(List<ServiceViewModel> services)
+        {
+            var groupedServices = new List<GroupedDOSServices>();
+            if (services != null)
+            {
+                var ungroupedServices = new List<ServiceViewModel>(services);
+
+                while (ungroupedServices.Any())
+                {
+                    var topServiceType = ungroupedServices.First().OnlineDOSServiceType;
+                    groupedServices.Add(new GroupedDOSServices(topServiceType,
+                        ungroupedServices.Where(s => s.OnlineDOSServiceType == topServiceType).ToList()));
+                    ;
+                    ungroupedServices.RemoveAll(s => s.OnlineDOSServiceType == topServiceType);
+                }
+            }
+        return groupedServices;
+        }
+        
         public List<ServiceViewModel> DetermineCallbackEnabled(List<ServiceViewModel> services)
         {
-            var whitelist = _configuration.DOSWhitelist.Split('|');
-
-            var list = services.Select(s =>
-            {
-                s.CallbackEnabled = whitelist.Contains(s.Id.ToString());
-                return s;
-            }).ToList();
-
             if (_itkMessagingFeature.IsEnabled)
-            {
-                return list;
-            }
+                return services;
             
             //remove callback services from list, as these are disabled
-            return list.Where(s => s.CallbackEnabled == false).ToList();
+            services.RemoveAll(s => s.CallbackEnabled);
+            return services.ToList();
         }
 
         public async Task<DosServicesByClinicalTermResult> FillDosServicesByClinicalTermResult(DosViewModel dosViewModel)
@@ -199,9 +212,10 @@ namespace NHS111.Web.Presentation.Builders
 
     public interface IDOSBuilder
     {
-        Task<DosCheckCapacitySummaryResult> FillCheckCapacitySummaryResult(DosViewModel dosViewModel, bool filterServices);
+        Task<DosCheckCapacitySummaryResult> FillCheckCapacitySummaryResult(DosViewModel dosViewModel, bool filterServices, DosEndpoint? endpoint);
         Task<DosServicesByClinicalTermResult> FillDosServicesByClinicalTermResult(DosViewModel dosViewModel);
         Task<DosViewModel> FillServiceDetailsBuilder(DosViewModel model);
         HttpRequestMessage BuildRequestMessage(DosFilteredCase dosCase);
+        List<GroupedDOSServices> FillGroupedDosServices(List<ServiceViewModel> services);
     }
 }

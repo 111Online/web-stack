@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using Moq;
 using NHS111.Business.DOS;
 using NHS111.Business.DOS.Configuration;
-using NHS111.Business.DOS.ServiceAviliablility;
+using NHS111.Business.DOS.EndpointFilter;
 using NHS111.Models.Models.Business;
 using NodaTime;
 using NUnit.Framework;

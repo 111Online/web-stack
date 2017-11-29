@@ -14,57 +14,61 @@
             <span class="informant-text">I was answering questions about someone else</span>
         </label>
     </div>
-    <h4 class="section-header">
+    <h2 class="heading-medium">
         Enter the contact details of the best person for us to call
-    </h4>
-    <h5 class="section-header">
+    </h2>
+    <h3 class="heading-small">
         Make sure they are able to talk about the answers given
-    </h5>
+    </h3>
     <div class="personal-details-content">
-        <div id="informant-details">
-            <label>
-                Full name
-            </label>
+        <fieldset id="informant-details">
+            <legend>Full name</legend>
             <div>
                 @Html.ValidationMessageFor(m => m.Forename, "Please enter your first name")
+            </div>
+            <div>
                 @Html.ValidationMessageFor(m => m.Surname, "Please enter your last name")
             </div>
             <div class="inline-details">
+                @Html.LabelFor(m => m.Forename, new { @class = "hidden" })
                 @Html.TextBoxFor(m => m.Forename, new { @class = "form-control form-control-10-chars", placeholder = "First name" })
+                @Html.LabelFor(m => m.Surname, new { @class = "hidden" })
                 @Html.TextBoxFor(m => m.Surname, new { @class = "form-control form-control-10-chars", placeholder = "Last name" })
             </div>
-        </div>
+        </fieldset>
     </div>
 </div>
 <script type="text/javascript">
 
-    jQuery.validator.addMethod('forename', function (value, element, params) {
-        if (!$("#Informant").is(":checked")) return true;
+    jQuery(function () {
+        jQuery.validator.addMethod('forename', function (value, element, params) {
+            if (!$("#Informant").is(":checked")) return true;
 
-        var firstname = $('#Informant_Forename').val();
+            var firstname = $('#Informant_Forename').val();
 
-        return firstname.trim();
-    });
+            return firstname.trim();
+        });
 
-    jQuery.validator.addMethod('surname', function (value, element, params) {
-        if (!$("#Informant").is(":checked")) return true;
+        jQuery.validator.addMethod('surname', function (value, element, params) {
+            if (!$("#Informant").is(":checked")) return true;
 
-        var lastname = $('#Informant_Forename').val();
+            var lastname = $('#Informant_Forename').val();
 
-        return lastname.trim();
-    });
+            return lastname.trim();
+        });
 
-    jQuery.validator.unobtrusive.adapters.add('forename', ['prefixelement'], function (options) {
-        options.rules['forename'] = options.params;
-        if (options.message != null) {
-            options.messages['forename'] = options.message;
-        }
-    });
-    jQuery.validator.unobtrusive.adapters.add('surname', ['prefixelement'], function (options) {
-        options.rules['surname'] = options.params;
-        if (options.message != null) {
-            options.messages['surname'] = options.message;
-        }
-    });
+        jQuery.validator.unobtrusive.adapters.add('forename', ['prefixelement'], function (options) {
+            options.rules['forename'] = options.params;
+            if (options.message != null) {
+                options.messages['forename'] = options.message;
+            }
+        });
+        jQuery.validator.unobtrusive.adapters.add('surname', ['prefixelement'], function (options) {
+            options.rules['surname'] = options.params;
+            if (options.message != null) {
+                options.messages['surname'] = options.message;
+            }
+        });
+    })
 
 </script>

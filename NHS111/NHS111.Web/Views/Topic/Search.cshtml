@@ -7,23 +7,13 @@
 
 @section Title { NHS 111 Digital }
 
-@section Scripts {
-    <script src="~/scripts/jquery1.11.2-ui.min.js"></script>
-    <script src="~/scripts/jquery.blockUI.js"></script>
-    <script src="~/scripts/custom.js"></script>
-    <script src="~/scripts/disclaimer.js"></script>
-}
-
 @{
     if (DisclaimerPopupFeature.IsEnabled)
     {
         <!-- toggle disclaimer popup -->
-        <link rel="stylesheet" href="~/Content/css_NhsUK/modal.css">
         <script src="~/scripts/disclaimer-popup.js"></script>
     }
 }
-
-<link href="~/Content/css_NhsUK/search.css" media="screen" rel="stylesheet" type="text/css" />
 
 @section FeedbackSection {
     @Html.Partial("_FeedbackDetails", new FeedbackViewModel() { PageId = Request.Url.GetComponents(UriComponents.PathAndQuery, UriFormat.SafeUnescaped) })
@@ -40,7 +30,7 @@
                     <label for="searchTags">
                         <input type="text" class="input-symptoms ui-autocomplete-input" id="searchTags" name="q" autocomplete="off" />
                     </label>
-                    <input type="submit" class="button button-get-started" value="Search" id="searchButton" />
+                    <button type="submit" class="button button--next" id="searchButton">Search</button>
                 </div>
             </form>
 
@@ -51,7 +41,7 @@
 
                     <ul></ul>
                 </div>
-                <p id="category-option">If you can't find a topic you can try <a href="#" id="show-categories">searching by category</a>.</p>
+                <p id="category-option">If you can't find a topic you can try <a href="#" id="show-categories">searching by category.</a></p>
             </div>
 
             <div id="categories" class="all-symptoms">

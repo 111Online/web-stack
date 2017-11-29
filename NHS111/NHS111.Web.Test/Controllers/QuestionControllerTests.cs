@@ -19,7 +19,7 @@ namespace NHS111.Web.Presentation.Test.Controllers {
     using Utils.Helpers;
     using Web.Controllers;
     using IConfiguration = Configuration.IConfiguration;
-    using AwfulIdea = System.Tuple<string, NHS111.Models.Models.Web.JourneyViewModel>;
+    using AwfulIdea = System.Tuple<string, NHS111.Models.Models.Web.QuestionViewModel>;
 
     [TestFixture]
     public class QuestionControllerTests {
@@ -35,6 +35,8 @@ namespace NHS111.Web.Presentation.Test.Controllers {
         private Mock<IUserZoomDataBuilder> _mockUserZoomDataBuilder;
         private Mock<IRestClient> _mockRestClient;
         private Mock<IViewRouter> _mockViewRouter;
+        private Mock<IPostcodePrefillFeature> _mockPostCodePrefillFeature;
+        private Mock<IDosEndpointFeature> _mockDosEndpointFeature;
 
         [SetUp]
         public void Setup() {
@@ -48,6 +50,8 @@ namespace NHS111.Web.Presentation.Test.Controllers {
             _mockUserZoomDataBuilder = new Mock<IUserZoomDataBuilder>();
             _mockRestClient = new Mock<IRestClient>();
             _mockViewRouter = new Mock<IViewRouter>();
+            _mockPostCodePrefillFeature = new Mock<IPostcodePrefillFeature>();
+            _mockDosEndpointFeature = new Mock<IDosEndpointFeature>();
 
             _mockFeature.Setup(m => m.IsEnabled).Returns(true);
             _mockRestClient.Setup(r => r.ExecuteTaskAsync<Pathway>(It.IsAny<RestRequest>())).Returns(() => StartedTask((IRestResponse<Pathway>)new RestResponse<Pathway>() { ResponseStatus = ResponseStatus.Completed, Data = new Pathway { Gender = "Male" } }));
@@ -68,12 +72,12 @@ namespace NHS111.Web.Presentation.Test.Controllers {
         public void Direct_WithNoAnswers_ReturnsFirstQuestionOfPathway() {
 
             _mockJtbsBuilderMock.Setup(j => j.JustToBeSafeFirstBuilder(It.IsAny<JustToBeSafeViewModel>()))
-                .Returns(StartedTask(new AwfulIdea("", new JourneyViewModel())));
+                .Returns(StartedTask(new AwfulIdea("", new QuestionViewModel())));
 
             _mockViewRouter.Setup(v => v.GetViewName(It.IsAny<JourneyViewModel>(), It.IsAny<ControllerContext>())).Returns(() => "../Question/Question");
 
             var sut = new QuestionController(_mockJourneyViewModelBuilder.Object,
-                _mockConfiguration.Object, _mockJtbsBuilderMock.Object, _mockFeature.Object, _mockAuditLogger.Object, _mockUserZoomDataBuilder.Object, _mockRestClient.Object, _mockViewRouter.Object);
+                _mockConfiguration.Object, _mockJtbsBuilderMock.Object, _mockFeature.Object, _mockAuditLogger.Object, _mockUserZoomDataBuilder.Object, _mockRestClient.Object, _mockViewRouter.Object, _mockPostCodePrefillFeature.Object, _mockDosEndpointFeature.Object);
 
             var result = sut.Direct(_pathwayId, _age, _pathwayTitle, null, true);
 
@@ -84,7 +88,7 @@ namespace NHS111.Web.Presentation.Test.Controllers {
 
         [Test]
         public async void Direct_WithAnswer_BuildsModelWithCorrectAnswer() {
-            var mockJourney = new JourneyViewModel {
+            var mockQuestion = new QuestionViewModel {
                 Answers = new List<Answer> {
                     new Answer {
                         Order = 2,
@@ -98,20 +102,20 @@ namespace NHS111.Web.Presentation.Test.Controllers {
             };
 
             _mockJtbsBuilderMock.Setup(j => j.JustToBeSafeFirstBuilder(It.IsAny<JustToBeSafeViewModel>()))
-                .Returns(StartedTask(new AwfulIdea("", mockJourney)));
+                .Returns(StartedTask(new AwfulIdea("", mockQuestion)));
 
-            _mockRestClient.Setup(r => r.ExecuteTaskAsync<QuestionWithAnswers>(It.IsAny<RestRequest>())).Returns(() => StartedTask((IRestResponse<QuestionWithAnswers>)new RestResponse<QuestionWithAnswers>() {ResponseStatus  = ResponseStatus.Completed , Data = new QuestionWithAnswers() { Answers = mockJourney.Answers } }));
+            _mockRestClient.Setup(r => r.ExecuteTaskAsync<QuestionWithAnswers>(It.IsAny<RestRequest>())).Returns(() => StartedTask((IRestResponse<QuestionWithAnswers>)new RestResponse<QuestionWithAnswers>() {ResponseStatus  = ResponseStatus.Completed , Data = new QuestionWithAnswers() { Answers = mockQuestion.Answers } }));
            
-            _mockJourneyViewModelBuilder.Setup(j => j.Build(It.IsAny<JourneyViewModel>(), It.IsAny<QuestionWithAnswers>()))
-                .Returns(() => StartedTask(mockJourney));
+            _mockJourneyViewModelBuilder.Setup(j => j.Build(It.IsAny<QuestionViewModel>(), It.IsAny<QuestionWithAnswers>()))
+                .Returns(() => StartedTask((JourneyViewModel)mockQuestion));
 
             var sut = new QuestionController(_mockJourneyViewModelBuilder.Object,
-                _mockConfiguration.Object, _mockJtbsBuilderMock.Object, _mockFeature.Object, _mockAuditLogger.Object, _mockUserZoomDataBuilder.Object, _mockRestClient.Object, _mockViewRouter.Object);
+                _mockConfiguration.Object, _mockJtbsBuilderMock.Object, _mockFeature.Object, _mockAuditLogger.Object, _mockUserZoomDataBuilder.Object, _mockRestClient.Object, _mockViewRouter.Object, _mockPostCodePrefillFeature.Object, _mockDosEndpointFeature.Object);
 
             var result = (ViewResult) await sut.Direct(_pathwayId, _age, _pathwayTitle, new[] {0}, true);
-            var model = (JourneyViewModel) result.Model;
+            var model = (QuestionViewModel) result.Model;
 
-            Assert.IsTrue(model.SelectedAnswer.Contains(mockJourney.Answers[1].Title));
+            Assert.IsTrue(model.SelectedAnswer.Contains(mockQuestion.Answers[1].Title));
 
         }
 
@@ -123,7 +127,7 @@ namespace NHS111.Web.Presentation.Test.Controllers {
         public void Direct_WithAnswers_ProvidesAnswersToBuilder()
         {
             //var mockQuestionViewModelBuilder = new Mock<IQuestionViewModelBuilder>();
-            var mockJourney = new JourneyViewModel {
+            var mockQuestion = new QuestionViewModel {
                 Answers = new List<Answer> {
                     new Answer {
                         Order = 1,
@@ -140,25 +144,25 @@ namespace NHS111.Web.Presentation.Test.Controllers {
                 }
             };
 
-            _mockJourneyViewModelBuilder.Setup(q => q.Build(It.IsAny<JourneyViewModel>(), It.IsAny<QuestionWithAnswers>()))
-                .Returns(() => StartedTask(mockJourney));
+            _mockJourneyViewModelBuilder.Setup(q => q.Build(It.IsAny<QuestionViewModel>(), It.IsAny<QuestionWithAnswers>()))
+                .Returns(() => StartedTask((JourneyViewModel)mockQuestion));
 
             var sequence = new MockSequence();
 
             _mockJourneyViewModelBuilder.InSequence(sequence)
-                .Setup(x => x.Build(It.Is<JourneyViewModel>(j => j.SelectedAnswer == "1"), It.IsAny<QuestionWithAnswers>()));
+                .Setup(x => x.Build(It.Is<QuestionViewModel>(j => j.SelectedAnswer == "1"), It.IsAny<QuestionWithAnswers>()));
             _mockJourneyViewModelBuilder.InSequence(sequence)
-                .Setup(x => x.Build(It.Is<JourneyViewModel>(j => j.SelectedAnswer == "2"), It.IsAny<QuestionWithAnswers>()));
+                .Setup(x => x.Build(It.Is<QuestionViewModel>(j => j.SelectedAnswer == "2"), It.IsAny<QuestionWithAnswers>()));
             _mockJourneyViewModelBuilder.InSequence(sequence)
-                .Setup(x => x.Build(It.Is<JourneyViewModel>(j => j.SelectedAnswer == "3"), It.IsAny<QuestionWithAnswers>()));
+                .Setup(x => x.Build(It.Is<QuestionViewModel>(j => j.SelectedAnswer == "3"), It.IsAny<QuestionWithAnswers>()));
 
             _mockJtbsBuilderMock.Setup(j => j.JustToBeSafeFirstBuilder(It.IsAny<JustToBeSafeViewModel>()))
-                .Returns(StartedTask(new AwfulIdea("", mockJourney)));
+                .Returns(StartedTask(new AwfulIdea("", mockQuestion)));
 
             _mockViewRouter.Setup(v => v.GetViewName(It.IsAny<JourneyViewModel>(), It.IsAny<ControllerContext>())).Returns(() => "../Question/Question");
 
             var sut = new QuestionController(_mockJourneyViewModelBuilder.Object,
-                _mockConfiguration.Object, _mockJtbsBuilderMock.Object, _mockFeature.Object, _mockAuditLogger.Object, _mockUserZoomDataBuilder.Object, _mockRestClient.Object, _mockViewRouter.Object);
+                _mockConfiguration.Object, _mockJtbsBuilderMock.Object, _mockFeature.Object, _mockAuditLogger.Object, _mockUserZoomDataBuilder.Object, _mockRestClient.Object, _mockViewRouter.Object, _mockPostCodePrefillFeature.Object, _mockDosEndpointFeature.Object);
 
             var pathwayId = "PW755MaleAdult";
             var age = 35;
@@ -178,7 +182,7 @@ namespace NHS111.Web.Presentation.Test.Controllers {
             _mockFeature.Setup(c => c.IsEnabled).Returns(false);
 
             var sut = new QuestionController(_mockJourneyViewModelBuilder.Object,
-                _mockConfiguration.Object, _mockJtbsBuilderMock.Object, _mockFeature.Object, _mockAuditLogger.Object, _mockUserZoomDataBuilder.Object, _mockRestClient.Object, _mockViewRouter.Object);
+                _mockConfiguration.Object, _mockJtbsBuilderMock.Object, _mockFeature.Object, _mockAuditLogger.Object, _mockUserZoomDataBuilder.Object, _mockRestClient.Object, _mockViewRouter.Object, _mockPostCodePrefillFeature.Object, _mockDosEndpointFeature.Object);
 
             var result = sut.Direct(null, 0, null, null, null);
 

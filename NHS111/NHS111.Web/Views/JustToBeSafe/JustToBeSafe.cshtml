@@ -6,15 +6,6 @@
 
 @section Scripts {
 
-    <!--<script src="~/scripts/jquery2.1.1.min.js"></script> included on layout page -->
-    <script src="~/scripts/jquery1.11.2-ui.min.js"></script>
-    <script src="~/scripts/jquery.blockUI.js"></script>
-
-    <!--Custom form elements styles-->
-    <script src="~/scripts/icheck.js"></script>
-
-    <script src="~/scripts/custom.js"></script>
-
     <script>
         var pageId = '@Model.Id';
         dataLayer = [
@@ -52,7 +43,7 @@
         </header>
         <div class="content-container">
 
-            <div id="content">
+            <div>
                 @using (Html.BeginForm("JustToBeSafeNext", "JustToBeSafe", FormMethod.Post, new { @id = "jtbsForm" }))
                 {
                     @Html.HiddenFor(x => Model.SessionId)
@@ -105,7 +96,7 @@
                         </div>
                     </div> <!--/jtbsQuestion-->
 
-                    <input type="submit" class="button" id="nextScreen" value="Next"/>
+                    <button type="submit" class="button" id="nextScreen">Next</button>
                 }
 
             </div>

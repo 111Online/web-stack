@@ -6,10 +6,6 @@
 }
 @section Title { NHS 111 - Speak to a midwife }
 
-<link href="@NHS111.Web.Helpers.Versioning.GetVersionedUriRef("~/Content/css_NhsUK/confirmation.css")" media="all" rel="stylesheet" type="text/css">
-<link href="@NHS111.Web.Helpers.Versioning.GetVersionedUriRef("~/Content/css_NhsUK/signposting-outcome.css")" media="all" rel="stylesheet" type="text/css" />
-<link href="@NHS111.Web.Helpers.Versioning.GetVersionedUriRef("~/Content/css_NhsUK/signposting-outcome-print.css")" media="print" rel="stylesheet" type="text/css" />
-
 @section HeadTop {
 @{ var url = string.Format("/outcome/{0}/{1}/{2}/disposition/", Url.Encode(Model.PathwayNo), Url.Encode(Model.OutcomeGroup.Text), Url.Encode(Model.Id)); }
     <script>
@@ -55,14 +51,13 @@
     dataDictionary.Add(new KeyValuePair<string, object>("ButtonText", "Find a service"));
     dataDictionary.Add(new KeyValuePair<string, object>("Label", "Antenatal services"));
     dataDictionary.Add(new KeyValuePair<string, object>("ITK", true));
+    dataDictionary.TemplateInfo = new TemplateInfo() { HtmlFieldPrefix = "FindService" };
 }
 @Html.Partial("_FindService", Model, dataDictionary)
 
-@Html.Partial("_WorseningAdvice", Model)
-
 @Html.Partial("_CareAdvice", Model.CareAdvices, new ViewDataDictionary { { "Title", "What you can do in the meantime" } })
 
-<hr/>
+@Html.Partial("_WorseningAdviceWithTitle", Model)
 
 @using (Html.BeginForm("Navigation", "Question", FormMethod.Post))
 {
@@ -70,7 +65,7 @@
     if (!Model.DisplayOutcomeReferenceOnly)
     {
         <div class="changeAnswers row">
-            <input class="button button-next button-link" type="submit" name="PreviousQuestion" value="Change my previous answer" />
+            <button id="PreviousQuestionFromOutcome" class="button button--previous button--link" type="submit" value="PreviousQuestion" name="PreviousQuestion" formnovalidate>Change my previous answer</button>
         </div>
     }
 }

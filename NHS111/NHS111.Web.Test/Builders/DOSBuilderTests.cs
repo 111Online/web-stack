@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using AutoMapper;
 using Moq;
 using NHS111.Features;
@@ -100,10 +101,90 @@ namespace NHS111.Web.Presentation.Builders.Tests
                     }
                 } 
             };
-            await _dosBuilder.FillCheckCapacitySummaryResult(model, true);
+            await _dosBuilder.FillCheckCapacitySummaryResult(model, true, null);
 
             _mockRestfulHelper.Verify(r => r.PostAsync(It.IsAny<string>(), It.Is<HttpRequestMessage>(h => AssertIsMetric(h, model.SearchDistance))));
         }
+
+        [Test]
+        public void FillGroupedDosServices_WithEmptyList_ReturnsEmptyList()
+        {
+            var emptyServiceList = new List<ServiceViewModel>();
+            var groupedDosServices = _dosBuilder.FillGroupedDosServices(emptyServiceList);
+            Assert.IsEmpty(groupedDosServices);
+        }
+
+        [Test]
+        public void FillGroupedDosServices_WithSingleService_ReturnsIteminList()
+        {
+            var emptyServiceList =
+                new List<ServiceViewModel>() {new ServiceViewModel() {CallbackEnabled = true, Id = 1}};
+            var groupedDosServices = _dosBuilder.FillGroupedDosServices(emptyServiceList);
+            Assert.IsTrue(groupedDosServices.Count == 1);
+            Assert.AreEqual(OnlineDOSServiceType.Callback, groupedDosServices.FirstOrDefault().OnlineDOSServiceType);
+            Assert.IsTrue(groupedDosServices.FirstOrDefault().Services.Count() ==1);
+            Assert.AreEqual(1, groupedDosServices.FirstOrDefault().Services.FirstOrDefault().Id);
+        }
+
+        [Test]
+        public void FillGroupedDosServices_WithMixedServices_ReturnsGroupedItemsinList()
+        {
+            var emptyServiceList =
+                new List<ServiceViewModel>()
+                {
+                    new ServiceViewModel() { CallbackEnabled = true, Id = 1 },
+                    new ServiceViewModel() { CallbackEnabled = true, Id = 2 },
+                    new ServiceViewModel() { CallbackEnabled = false, Id = 3, ContactDetails = "02380123456"},
+                    new ServiceViewModel() { CallbackEnabled = false, Id = 4, }
+                };
+            var groupedDosServices = _dosBuilder.FillGroupedDosServices(emptyServiceList);
+            Assert.IsTrue(groupedDosServices.Count == 3);
+            Assert.AreEqual(OnlineDOSServiceType.Callback, groupedDosServices[0].OnlineDOSServiceType);
+            Assert.AreEqual(OnlineDOSServiceType.PublicPhone, groupedDosServices[1].OnlineDOSServiceType);
+            Assert.AreEqual(OnlineDOSServiceType.GoTo, groupedDosServices[2].OnlineDOSServiceType);
+
+            Assert.AreEqual(2, groupedDosServices[0].Services.Count());
+            Assert.AreEqual(1, groupedDosServices[1].Services.Count());
+            Assert.AreEqual(1, groupedDosServices[2].Services.Count());
+
+            Assert.IsTrue(groupedDosServices[0].Services.Any(s => s.Id == 2));
+            Assert.IsTrue(groupedDosServices[1].Services.All(s => s.Id == 3));
+            Assert.IsTrue(groupedDosServices[2].Services.All(s => s.Id == 4));
+        }
+
+        [Test]
+        public void FillGroupedDosServices_WithOrderedMixedServices_ReturnsGroupedItemsinCorrectOrder()
+        {
+            var emptyServiceList =
+                new List<ServiceViewModel>()
+                {
+                    new ServiceViewModel() { CallbackEnabled = false, Id = 1, ContactDetails = "02380123456"},
+                    new ServiceViewModel() { CallbackEnabled = true, Id = 2 },
+                    new ServiceViewModel() { CallbackEnabled = true, Id = 3 },
+                    new ServiceViewModel() { CallbackEnabled = false, Id = 4, ContactDetails = "02380123456"},
+                    new ServiceViewModel() { CallbackEnabled = false, Id = 5, },
+                    new ServiceViewModel() { CallbackEnabled = true, Id = 6 },
+                    new ServiceViewModel() { CallbackEnabled = false, Id = 7, }
+                };
+            var groupedDosServices = _dosBuilder.FillGroupedDosServices(emptyServiceList);
+            Assert.IsTrue(groupedDosServices.Count == 3);
+            Assert.AreEqual(OnlineDOSServiceType.PublicPhone, groupedDosServices[0].OnlineDOSServiceType);
+            Assert.AreEqual(OnlineDOSServiceType.Callback, groupedDosServices[1].OnlineDOSServiceType);
+            Assert.AreEqual(OnlineDOSServiceType.GoTo, groupedDosServices[2].OnlineDOSServiceType);
+
+            Assert.AreEqual(2, groupedDosServices[0].Services.Count());
+            Assert.AreEqual(3, groupedDosServices[1].Services.Count());
+            Assert.AreEqual(2, groupedDosServices[2].Services.Count());
+
+            Assert.AreEqual(1, groupedDosServices[0].Services.ToList()[0].Id);
+            Assert.AreEqual(4, groupedDosServices[0].Services.ToList()[1].Id);
+            Assert.AreEqual(2, groupedDosServices[1].Services.ToList()[0].Id);
+            Assert.AreEqual(3, groupedDosServices[1].Services.ToList()[1].Id);
+            Assert.AreEqual(6, groupedDosServices[1].Services.ToList()[2].Id);
+            Assert.AreEqual(5, groupedDosServices[2].Services.ToList()[0].Id);
+            Assert.AreEqual(7, groupedDosServices[2].Services.ToList()[1].Id);
+        }
+
 
         private bool AssertIsMetric(HttpRequestMessage request, int original) {
             var content = request.Content.ReadAsStringAsync().Result;

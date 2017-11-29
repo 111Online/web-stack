@@ -18,14 +18,6 @@
 }
 
 
-@section Scripts {
-    <!--<script src="~/scripts/jquery2.1.1.min.js"></script> included on layout page -->
-    <script src="~/scripts/jquery1.11.2-ui.min.js"></script>
-    <script src="~/scripts/jquery.blockUI.js"></script>
-    <script src="@NHS111.Web.Helpers.Versioning.GetVersionedUriRef("~/scripts/custom.js")"></script>
-    <link href="@NHS111.Web.Helpers.Versioning.GetVersionedUriRef("~/Content/css_NhsUK/signposting-outcome.css")" media="all" rel="stylesheet" type="text/css" />
-}
-
 @section SurveyBanner {
     @Html.Partial("_SurveyLink", Model.SurveyLink, new ViewDataDictionary() { { "999Survey", "true" } })
 }
@@ -45,7 +37,7 @@
 
         @Html.Partial("_CommonHiddenFieldsOutcomeViewModel", Model)
         <div class="changeAnswers row">
-            <input class="button button-next button-link" type="submit" name="PreviousQuestion" value="Change my previous answer" />
+            <button id="PreviousQuestionFromOutcome" class="button--previous button--link" type="submit" value="PreviousQuestion" name="PreviousQuestion" formnovalidate>Change my previous answer</button>
         </div>
 
     }

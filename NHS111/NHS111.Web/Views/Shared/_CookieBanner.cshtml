@@ -1,14 +1,9 @@
-﻿<link href="~/Content/css_NhsUK/banner.css" media="screen" rel="stylesheet" type="text/css" />
-<div class="notification-banner notification-banner__hidden" id="global-cookies-banner" role="alert">
+﻿<div class="notification-banner notification-banner__hidden" id="global-cookies-banner" role="alert">
     <p class="notification-banner--inner">
         <span id="cookie-message">
             NHS 111 uses cookies to make the site simpler. @Html.ActionLink("Find out more about cookies", "Cookies", "Help", null, new { target = "_blank", @id = "cookie-link" })
-            <i class="icon icon-close"></i>
-        </span> 
-        <!--[if lt IE 9]>
-            <br/><strong>This site is not optimised for your current browser please upgrade for the best experience.</strong> 
-        <![endif]-->
-    
+        </span>
+        <i class="icon icon-close"></i>    
     </p>
 </div>
 <script>
@@ -30,7 +25,7 @@
     });
 </script>
 
-<!--[if lt IE 9]>
+<!--[if lte IE 9]>
  <script>
 
         $('#global-cookies-banner').css({ display: "block" });

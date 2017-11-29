@@ -25,6 +25,7 @@
     <UseGlobalApplicationHostFile />
     <ApplicationInsightsResourceId>/subscriptions/66bf9d39-b598-433d-9273-0c27e559f37f/resourcegroups/111-staging/providers/microsoft.insights/components/111-s-ai</ApplicationInsightsResourceId>
     <ApplicationInsightsAnnotationResourceId>/subscriptions/66bf9d39-b598-433d-9273-0c27e559f37f/resourcegroups/111-staging/providers/microsoft.insights/components/111-s-ai</ApplicationInsightsAnnotationResourceId>
+    <Use64BitIISExpress />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -167,6 +168,11 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Service References\Application Insights\ConnectedService.json" />
+    <None Include="Dockerfile" />
+    <None Include=".dockerignore">
+      <DependentUpon>Dockerfile</DependentUpon>
+    </None>
+    <Content Include="start.ps1" />
     <None Include="Service References\DOSService\configuration91.svcinfo" />
     <None Include="Service References\DOSService\configuration.svcinfo" />
     <Content Include="Service References\DOSService\NHS111.Integration.DOS.Api.DOSService.CheckCapacitySummaryResponse.datasource">
@@ -231,6 +237,7 @@
     <Compile Include="IoC\StructureMapScopeModule.cs" />
     <Compile Include="IoC\StructuremapWebApi.cs" />
     <Compile Include="Monitoring\Monitor.cs" />
+    <Compile Include="PathwayServiceSoapFactory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Service References\DOSService\Reference.cs">
       <AutoGen>True</AutoGen>

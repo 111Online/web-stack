@@ -1,0 +1,26 @@
+@import "../settings/colours";
+@import "../settings/typography";
+@import "../tools/mixins/_addons.scss";
+
+html,
+body,
+button,
+input,
+table,
+td,
+th {
+  font-family: $nhs-font-stack;
+}
+
+html {
+  color: $black;
+}
+
+body {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.clearfix {
+  @include clearfix();
+}

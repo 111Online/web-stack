@@ -10,34 +10,44 @@ using OpenQA.Selenium.Support.PageObjects;
 
 namespace NHS111.SmokeTest.Utils
 {
-    public class ModuleZeroPage 
+    public class ModuleZeroPage : LayoutPage
     {
-        private readonly IWebDriver _driver;
         private const string _headerText = "Do any of these apply?";
+        private const string _firstExpandableLinkHiddenText = "A feeling of crushing pressure like a heavy weight pushing down on your chest.";
 
-        [FindsBy(How = How.ClassName, Using = "button-next")]
-        public IWebElement NoneApplyButton { get; set; }
+        [FindsBy(How = How.ClassName, Using = "button--next")]
+        private IWebElement NoneApplyButton { get; set; }
 
         [FindsBy(How = How.CssSelector, Using = "h1.heading-large")]
-        public IWebElement Header { get; set; }
+        private IWebElement Header { get; set; }
 
+        [FindsBy(How = How.XPath, Using = "//summary[1]")]
+        private IWebElement FirstExpandableLink { get; set; }
 
-        public ModuleZeroPage(IWebDriver driver) 
+        [FindsBy(How = How.CssSelector, Using = "details p")]
+        private IWebElement FirstExpandableLinkExpanded { get; set; }
+
+        public ModuleZeroPage(IWebDriver driver) : base(driver)
         {
-            _driver = driver;
-            PageFactory.InitElements(_driver, this);
         }
 
-        public GenderPage ClickNoneApplyButton()
+        public DemographicsPage ClickNoneApplyButton()
         {
             NoneApplyButton.Submit();
-            return new GenderPage(_driver);
+            return new DemographicsPage(Driver);
         }
-        public void Verify()
+
+        public void VerifyHeader()
         {
             Assert.IsTrue(Header.Displayed);
             Assert.AreEqual(_headerText, Header.Text);
         }
 
+        public void VerifyExpandableLink()
+        {
+            FirstExpandableLink.Click();
+            Assert.AreEqual(_firstExpandableLinkHiddenText, FirstExpandableLinkExpanded.Text);
+            Assert.IsTrue(FirstExpandableLinkExpanded.Displayed);
+        }
     }
 }

@@ -9,68 +9,55 @@
     </style>
 <![endif]-->
 
+@{
+    const int maxFeedbackLength = 1200;
+}
+
 <div class="feedback-wrapper">
     <div class="feedback-container feedback-container--open">
-        <div class="feedback-banner">
-            <span class="feedback-dismiss"></span>
-            <form id="FeedbackForm" action="@Url.Action("SubmitFeedback", "Feedback")">
-                <div id="FeedbackDetails">
-        
-                    <p class="feedback-message">
+        <div class="page-section">
+            <div id="feedback-details">
+                <span class="icon-close" tabindex="0" role="button" aria-label="Close feedback box"></span>
+                @using (Ajax.BeginForm("SubmitFeedback", "Feedback", new AjaxOptions { InsertionMode = InsertionMode.Replace, UpdateTargetId = "feedback-details", LoadingElementId = "loader", HttpMethod = "POST", OnBegin = "$('#feedback-details').slideToggle(600);", OnSuccess = "$('#feedback-details').slideToggle(600);" }))
+                {
+                    @Html.HiddenFor(m => m.UserId)
+                    @Html.HiddenFor(m => m.PageId)
+                    <h2>
                         @Html.LabelFor(m => m.Text, "Tell us if this page isn't clear")
-                    </p>
-                    <div class="feedback-form">
-                        @Html.TextAreaFor(m => m.Text, new { @placeholder = "Feedback", @Value = "", @class = "feedback-input", @maxlength = "8000" })
-                        <button type="button" class="feedback-btn feedback-submit button-next" id="btnFeedback" onclick="SubmitFeedback(this);" tabindex="0">Send feedback</button>
+                    </h2>
+                    <div>
+                        <p>Don’t include any personal information, such as your name, date of birth, address or NHS number.<br><span id="textdetailscounter">(Limit is 1200 characters)</span></p>
+                        @Html.TextAreaFor(m => m.Text, new { @placeholder = "Feedback", @Value = "", @class = "feedback-input", @maxlength = maxFeedbackLength })
+                        <button class="button button--next button--secondary" id="btnFeedback">Send feedback</button>
                     </div>
-                </div>
-                @Html.HiddenFor(m => m.UserId)
-                @Html.HiddenFor(m => m.PageId)
-            </form>
+                }
+            </div>
         </div>
     </div>
 </div>
 <script>
 
-    $('.feedback-dismiss').click(function () {
-        $('.feedback-wrapper').slideToggle();
-    });
-
-    $('.feedback-input').focus(function () {
-        $(this).animate({
-            //width: "70%",
-            //height: "70%"
+    jQuery(function () {
+        var maxLength = @maxFeedbackLength;
+        $('.feedback-input').keyup(function () {
+            var length = $(this).val().length;
+            var length = maxLength - length;
+            $('#textdetailscounter').text(length + ' characters remaining (limit is ' + @maxFeedbackLength + ' characters)');
         });
-    });
 
-    $(document).ready(function () {
+        $('.feedback-container .icon-close').click(function () {
+            $('.feedback-wrapper').slideToggle();
+        });
+
+        $('.feedback-input').focus(function () {
+            $(this).animate({
+                //width: "70%",
+                //height: "70%"
+            });
+        });
+
+        $('.feedback-wrapper').show();
         $('.feedback-input').autogrow({ vertical: true, horizontal: false });
     });
-
-
-    function SubmitFeedback(btnClicked) {
-        if ($("#Text").val() !== "") {
-            var $form = $(btnClicked).parents("form");
-            $form[0][0].value = $('<div/>').text($form[0][0].value).html();
-            var detailsDiv = $("#FeedbackDetails");
-            $(detailsDiv).slideToggle(600);
-            $.ajax({
-                type: "POST",
-                url: $form.attr("action"),
-                data: $form.serialize(),
-                error: function (xhr, status, error) {
-                    alert(error);
-                    $(detailsDiv).slideToggle(600);
-                    //do something about the error
-                },
-                success: function (response) {
-                    $(detailsDiv).html('<p>' + response.Message + '</p>');
-                    $(detailsDiv).slideToggle(600);
-                }
-            });
-            return false;
-        }
-    }
-
    
 </script>

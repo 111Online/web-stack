@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Xml;
 using AutoMapper;
 using Newtonsoft.Json;
 using NHS111.Models.Models.Domain;
@@ -74,7 +75,7 @@ namespace NHS111.Web.Presentation.Builders
             if (!questions.Any())
             {
                 journey.Steps = journey.Steps.Where(step => step.QuestionId != model.SelectedQuestionId).ToList();
-                var journeyViewModel = new JourneyViewModel
+                var questionViewModel = new QuestionViewModel
                 {
                     PathwayId = model.PathwayId,
                     PathwayNo = model.PathwayNo,
@@ -85,10 +86,10 @@ namespace NHS111.Web.Presentation.Builders
                     SelectedAnswer = JsonConvert.SerializeObject(selectedAnswer),
                 };
 
-                _mappingEngine.Mapper.Map(selectedQuestion, journeyViewModel);
-                journeyViewModel = _mappingEngine.Mapper.Map(selectedAnswer, journeyViewModel);
-                var nextNode = await GetNextNode(journeyViewModel);
-                return  new Tuple<string, JourneyViewModel>("TODO NOT USED?", await _journeyViewModelBuilder.Build(journeyViewModel, nextNode));
+                _mappingEngine.Mapper.Map(selectedQuestion, questionViewModel);
+                questionViewModel = _mappingEngine.Mapper.Map(selectedAnswer, questionViewModel);
+                var nextNode = await GetNextNode(questionViewModel);
+                return  new Tuple<string, JourneyViewModel>("TODO NOT USED?", await _journeyViewModelBuilder.Build(questionViewModel, nextNode));
             }
 
             if (questions.Count() == 1)
@@ -125,14 +126,14 @@ namespace NHS111.Web.Presentation.Builders
 
         }
 
-        private async Task<QuestionWithAnswers> GetNextNode(JourneyViewModel model) {
+        private async Task<QuestionWithAnswers> GetNextNode(QuestionViewModel model) {
             var answer = JsonConvert.DeserializeObject<Answer>(model.SelectedAnswer);
             var request = new HttpRequestMessage {
                 Content =
                     new StringContent(JsonConvert.SerializeObject(answer.Title), Encoding.UTF8, "application/json")
             };
             var serialisedState = HttpUtility.UrlEncode(JsonConvert.SerializeObject(model.State));
-            var businessApiNextNodeUrl = _configuration.GetBusinessApiNextNodeUrl(model.PathwayId, model.Id,
+            var businessApiNextNodeUrl = _configuration.GetBusinessApiNextNodeUrl(model.PathwayId, model.NodeType, model.Id,
                 serialisedState);
             var response = await _restfulHelper.PostAsync(businessApiNextNodeUrl, request);
             return JsonConvert.DeserializeObject<QuestionWithAnswers>(await response.Content.ReadAsStringAsync());

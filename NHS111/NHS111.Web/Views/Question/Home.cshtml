@@ -7,18 +7,9 @@
 
 @section Title {NHS 111 Online}
 
-@section Scripts {
-    <script src="~/scripts/jquery1.11.2-ui.min.js"></script>
-    <script src="~/scripts/jquery.blockUI.js"></script>
-    <script src="~/scripts/custom.js"></script>
-    <script src="@NHS111.Web.Helpers.Versioning.GetVersionedUriRef("~/scripts/disclaimer.js")"></script>
-    <link rel="stylesheet" href="@NHS111.Web.Helpers.Versioning.GetVersionedUriRef("~/Content/css_NhsUK/home.css")">
-}
-
 @{
     if (DisclaimerPopupFeature.IsEnabled) {
         <!-- toggle disclaimer popup -->
-    <link rel="stylesheet" href="@NHS111.Web.Helpers.Versioning.GetVersionedUriRef("~/Content/css_NhsUK/modal.css")">
     <script src="@NHS111.Web.Helpers.Versioning.GetVersionedUriRef("~/scripts/disclaimer-popup.js")"></script>
     }
 }
@@ -28,44 +19,45 @@
     @using (Html.BeginForm("Home", "Question", FormMethod.Post)) {
         @Html.HiddenFor(x => Model.SessionId)
         @Html.HiddenFor(x => Model.FilterServices)
+        @Html.HiddenFor(x => Model.UserInfo.CurrentAddress.Postcode)
 
         <div class="header home">
-            <h1 class="discHead">Getting care with 111 Online</h1>
+            <h1 class="heading-large">Getting care with <span class="util-digits">1 1 1</span> online</h1>
         </div>
 
         <p>Use this service when:
             <ul>
-                <li>you need medical help, but it's not a 999 emergency</li>
+                <li>you need medical help, but it's not a <span class="util-digits">9 9 9</span> emergency</li>
                 <li>you don't know who to contact, or your normal service isn't available</li>
             </ul>
         </p>
 
-        <h2>How does 111 work?</h2>
-        <ol>
-            <li class="step-1">
+        <h2 class="heading-medium">How does <span class="util-digits">1 1 1</span> work?</h2>
+        <ol class="list--numbered">
+            <li>
                 Answer a series of questions about your symptoms
             </li>
-            <li class="step-2">
+            <li>
                 You'll get advice on who you need to see, and how urgently
             </li>
-            <li class="step-3">
+            <li>
                 We'll connect you to the right healthcare for your medical needs
             </li>
         </ol>
         <p>The service doesn't diagnose specific conditions.</p>
 
 
-            <div class="trial">
-                <p>111 Online is being trialled in Leeds for patients aged 5 and over. This service is not a substitute for a medical consultation. See @Html.ActionLink("terms", "Terms", "Help", null, new { target = "_blank" }).</p>
+            <div class="callout callout--attention">
+                <p><span class="util-digits">1 1 1</span> Online is being trialled in your area for patients aged 5 and over. This service is not a substitute for a medical consultation. See @Html.ActionLink("terms.", "Terms", "Help", null, new { target = "_blank" })</p>
             </div>
 
-        <button type="submit" class="button button-get-started go">Start now</button>
+        <button type="submit" class="button--next go">Start now</button>
 
-        <p>If you're looking for NHS opening times or contact information, use <a href="http://www.nhs.uk">NHS Choices</a>.
+        <p>If you're looking for NHS opening times or contact information, use <a href="http://www.nhs.uk">NHS Choices.</a>
         </p>
     }
 </div>
 
 @section FeedbackSection {
-    @Html.Partial("_FeedbackDetails", new FeedbackViewModel() { UserId = Model.SessionId.ToString(), PageId = Request.Url.GetComponents(UriComponents.PathAndQuery, UriFormat.SafeUnescaped) })
+    @Html.Partial("_FeedbackDetails", new FeedbackViewModel() { UserId = Model.SessionId.ToString(), PageId = Request.Url.GetComponents(UriComponents.PathAndQuery, UriFormat.SafeUnescaped) + "home" })
 }

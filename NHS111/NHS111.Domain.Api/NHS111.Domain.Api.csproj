@@ -25,6 +25,7 @@
     <UseGlobalApplicationHostFile />
     <ApplicationInsightsResourceId>/subscriptions/66bf9d39-b598-433d-9273-0c27e559f37f/resourcegroups/111-staging/providers/microsoft.insights/components/111-s-ai</ApplicationInsightsResourceId>
     <ApplicationInsightsAnnotationResourceId>/subscriptions/66bf9d39-b598-433d-9273-0c27e559f37f/resourcegroups/111-staging/providers/microsoft.insights/components/111-s-ai</ApplicationInsightsAnnotationResourceId>
+    <Use64BitIISExpress />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -165,11 +166,16 @@
     <Content Include="ApplicationInsights.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <None Include="Dockerfile" />
+    <None Include=".dockerignore">
+      <DependentUpon>Dockerfile</DependentUpon>
+    </None>
     <None Include="IoC\readme.txt" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
     <Content Include="Service References\Application Insights\ConnectedService.json" />
+    <Content Include="start.ps1" />
     <None Include="Web.Development.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -189,6 +195,7 @@
     <Compile Include="Controllers\CareAdviceController.cs" />
     <Compile Include="Controllers\QuestionController.cs" />
     <Compile Include="Controllers\SymptomDiscriminatorController.cs" />
+    <Compile Include="Controllers\VersionController.cs" />
     <Compile Include="ErrorHandler\AiHandleErrorAttribute.cs" />
     <Compile Include="FilterConfig.cs" />
     <Compile Include="Global.asax.cs">

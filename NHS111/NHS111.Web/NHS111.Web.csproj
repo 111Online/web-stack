@@ -18,8 +18,8 @@
     <MvcBuildViews>false</MvcBuildViews>
     <UseIISExpress>true</UseIISExpress>
     <IISExpressSSLPort />
-    <IISExpressAnonymousAuthentication />
-    <IISExpressWindowsAuthentication />
+    <IISExpressAnonymousAuthentication>enabled</IISExpressAnonymousAuthentication>
+    <IISExpressWindowsAuthentication>disabled</IISExpressWindowsAuthentication>
     <IISExpressUseClassicPipelineMode />
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
     <RestorePackages>true</RestorePackages>
@@ -27,6 +27,7 @@
     <UseGlobalApplicationHostFile />
     <ApplicationInsightsResourceId>/subscriptions/66bf9d39-b598-433d-9273-0c27e559f37f/resourcegroups/Default-ApplicationInsights-EastUS/providers/microsoft.insights/components/NHS111.Web</ApplicationInsightsResourceId>
     <ApplicationInsightsAnnotationResourceId>/subscriptions/66bf9d39-b598-433d-9273-0c27e559f37f/resourcegroups/Default-ApplicationInsights-EastUS/providers/microsoft.insights/components/NHS111.Web</ApplicationInsightsAnnotationResourceId>
+    <Use64BitIISExpress />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -98,23 +99,23 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
-    <Reference Include="Microsoft.Data.Edm, Version=5.6.4.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.Data.Edm.5.6.4\lib\net40\Microsoft.Data.Edm.dll</HintPath>
+    <Reference Include="Microsoft.Data.Edm, Version=5.8.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Data.Edm.5.8.2\lib\net40\Microsoft.Data.Edm.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Microsoft.Data.OData, Version=5.6.4.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.Data.OData.5.6.4\lib\net40\Microsoft.Data.OData.dll</HintPath>
+    <Reference Include="Microsoft.Data.OData, Version=5.8.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Data.OData.5.8.2\lib\net40\Microsoft.Data.OData.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Microsoft.Data.Services.Client, Version=5.6.4.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.Data.Services.Client.5.6.4\lib\net40\Microsoft.Data.Services.Client.dll</HintPath>
+    <Reference Include="Microsoft.Data.Services.Client, Version=5.8.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Data.Services.Client.5.8.2\lib\net40\Microsoft.Data.Services.Client.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.Practices.ServiceLocation">
       <HintPath>..\packages\CommonServiceLocator.1.3\lib\portable-net4+sl5+netcore45+wpa81+wp8\Microsoft.Practices.ServiceLocation.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.WindowsAzure.Storage, Version=7.2.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\WindowsAzure.Storage.7.2.0\lib\net40\Microsoft.WindowsAzure.Storage.dll</HintPath>
+    <Reference Include="Microsoft.WindowsAzure.Storage, Version=8.1.4.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\WindowsAzure.Storage.8.1.4\lib\net45\Microsoft.WindowsAzure.Storage.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
@@ -149,8 +150,12 @@
       <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.5.2.3\lib\net45\System.Net.Http.Formatting.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="System.Spatial, Version=5.6.4.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Spatial.5.6.4\lib\net40\System.Spatial.dll</HintPath>
+    <Reference Include="System.Spatial, Version=5.8.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Spatial.5.8.2\lib\net40\System.Spatial.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.Cors, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.Cors.5.2.3\lib\net45\System.Web.Cors.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System.Web.DynamicData" />
@@ -165,6 +170,10 @@
     </Reference>
     <Reference Include="System.Web.Http, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNet.WebApi.Core.5.2.3\lib\net45\System.Web.Http.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.Http.Cors, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Cors.5.2.3\lib\net45\System.Web.Http.Cors.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System.Web.Http.WebHost, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
@@ -224,11 +233,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Content\styles\ie\" />
-    <Folder Include="Content\styles\mobile\" />
-    <Folder Include="Content\styles\print\" />
     <Folder Include="Models\" />
     <Folder Include="Views\Auditing\" />
+    <Folder Include="Views\Version\" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\BundleConfig.cs" />
@@ -244,11 +251,14 @@
     <Compile Include="Controllers\PostcodeFirstController.cs" />
     <Compile Include="Controllers\QuestionController.cs" />
     <Compile Include="Controllers\JustToBeSafeController.cs" />
+    <Compile Include="Controllers\SearchController.cs" />
     <Compile Include="Controllers\TopicController.cs" />
+    <Compile Include="Controllers\VersionController.cs" />
     <Compile Include="ErrorHandler\AiHandleErrorAttribute.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Helpers\QueryStringEncryptor.cs" />
     <Compile Include="Helpers\Versioning.cs" />
     <Compile Include="Helpers\ViewDeterminer.cs" />
     <Compile Include="IoC\WebRegistry.cs" />
@@ -264,329 +274,6 @@
     <Compile Include="Views\Shared\SurveyLinkView.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Content\css\custom.css" />
-    <Content Include="Content\css\font-awesome\css\font-awesome.min.css" />
-    <Content Include="Content\css\font-awesome\fonts\fontawesome-webfont.svg" />
-    <Content Include="Content\css\fonts-ie8.css" />
-    <Content Include="Content\css\fonts.css" />
-    <Content Include="Content\css\jquery-ui.css" />
-    <Content Include="Content\css\main-ie8.css" />
-    <Content Include="Content\css\main.css" />
-    <Content Include="Content\css\responsive.css" />
-    <Content Include="Content\css\skins\flat\aero%402x.png" />
-    <Content Include="Content\css\skins\flat\aero.css" />
-    <Content Include="Content\css\skins\flat\aero.png" />
-    <Content Include="Content\css\skins\flat\blue%402x.png" />
-    <Content Include="Content\css\skins\flat\blue.css" />
-    <Content Include="Content\css\skins\flat\blue.png" />
-    <Content Include="Content\css\skins\flat\flat%402x.png" />
-    <Content Include="Content\css\skins\flat\flat.css" />
-    <Content Include="Content\css\skins\flat\flat.png" />
-    <Content Include="Content\css\skins\flat\green%402x.png" />
-    <Content Include="Content\css\skins\flat\green.css" />
-    <Content Include="Content\css\skins\flat\green.png" />
-    <Content Include="Content\css\skins\flat\grey%402x.png" />
-    <Content Include="Content\css\skins\flat\grey.css" />
-    <Content Include="Content\css\skins\flat\grey.png" />
-    <Content Include="Content\css\skins\flat\orange%402x.png" />
-    <Content Include="Content\css\skins\flat\orange.css" />
-    <Content Include="Content\css\skins\flat\orange.png" />
-    <Content Include="Content\css\skins\flat\pink%402x.png" />
-    <Content Include="Content\css\skins\flat\pink.css" />
-    <Content Include="Content\css\skins\flat\pink.png" />
-    <Content Include="Content\css\skins\flat\purple%402x.png" />
-    <Content Include="Content\css\skins\flat\purple.css" />
-    <Content Include="Content\css\skins\flat\purple.png" />
-    <Content Include="Content\css\skins\flat\red%402x.png" />
-    <Content Include="Content\css\skins\flat\red.css" />
-    <Content Include="Content\css\skins\flat\red.png" />
-    <Content Include="Content\css\skins\flat\yellowOption.png" />
-    <Content Include="Content\css\skins\flat\yellow.css" />
-    <Content Include="Content\css\skins\flat\yellow.png" />
-    <Content Include="Content\css\skins\flat\_all.css" />
-    <Content Include="Content\css_NhsUK\govuk-template.css" />
-    <Content Include="Content\css_NhsUK\home.css" />
-    <Content Include="Content\css_NhsUK\loading-indicator.css" />
-    <Content Include="Content\css_NhsUK\signposting-outcome-print.css" />
-    <Content Include="Content\css_NhsUK\signposting-outcome.css" />
-    <Content Include="Content\css_NhsUK\application.css" />
-    <Content Include="Content\css_NhsUK\banner.css" />
-    <Content Include="Content\css_NhsUK\confirmation.css" />
-    <Content Include="Content\css_NhsUK\emergency.css" />
-    <Content Include="Content\css_NhsUK\gender.css" />
-    <Content Include="Content\css_NhsUK\disposition.css" />
-    <Content Include="Content\css_NhsUK\modal.css" />
-    <Content Include="Content\css_NhsUK\personaldetails.css" />
-    <Content Include="Content\css_NhsUK\phase-banner.css" />
-    <Content Include="Content\css_NhsUK\question.css" />
-    <Content Include="Content\css_NhsUK\search.css" />
-    <Content Include="Content\css_NhsUK\servicedetails.css" />
-    <Content Include="Content\css_NhsUK\servicelist.css" />
-    <Content Include="Content\css_NhsUK\slider.css" />
-    <Content Include="Content\css_NhsUK\service.css" />
-    <Content Include="Content\css_NhsUK\help.css" />
-    <Content Include="Content\images\999-Body-Image.png" />
-    <Content Include="Content\images\bg\999Banner.png" />
-    <Content Include="Content\images\bg\activeSurgery.png" />
-    <Content Include="Content\images\bg\blueBG.png" />
-    <Content Include="Content\images\bg\footerBG.png" />
-    <Content Include="Content\images\bg\homeAddressBG.png" />
-    <Content Include="Content\images\bg\icon-telephone.svg" />
-    <Content Include="Content\images\bg\inactiveSurgery.png" />
-    <Content Include="Content\images\bg\lineShadowBG.png" />
-    <Content Include="Content\images\bg\minus.png" />
-    <Content Include="Content\images\bg\orangeBG.png" />
-    <Content Include="Content\images\bg\plus.png" />
-    <Content Include="Content\images\bg\redBG.png" />
-    <Content Include="Content\images\bg\searchGlassBG.png" />
-    <Content Include="Content\images\bg\searchGlassBlue.png" />
-    <Content Include="Content\images\bg\sliderH3.png" />
-    <Content Include="Content\images\bg\telephone.png" />
-    <Content Include="Content\images\bg\website.png" />
-    <Content Include="Content\images\blue-arrow-down.png" />
-    <Content Include="Content\images\blue-arrow-right.png" />
-    <Content Include="Content\images\headacheBanner.png" />
-    <Content Include="Content\images\homeBanner.png" />
-    <Content Include="Content\images\icon-button-next-black.png" />
-    <Content Include="Content\images\icon-button-prev.png" />
-    <Content Include="Content\images\icons\blueArrow.png" />
-    <Content Include="Content\images\icons\breadcrumbOne.png" />
-    <Content Include="Content\images\icons\breadcrumbTwo.png" />
-    <Content Include="Content\images\icons\hospital.png" />
-    <Content Include="Content\images\icons\icon-button-next.svg" />
-    <Content Include="Content\images\icons\icon-button-prev.svg" />
-    <Content Include="Content\images\icons\icon-link-back.png" />
-    <Content Include="Content\images\icons\icon-link-go.png" />
-    <Content Include="Content\images\icons\icon_info.png" />
-    <Content Include="Content\images\icons\map-pointers\fac-map-1.png" />
-    <Content Include="Content\images\icons\map-pointers\fac-map-10.png" />
-    <Content Include="Content\images\icons\map-pointers\fac-map-2.png" />
-    <Content Include="Content\images\icons\map-pointers\fac-map-3.png" />
-    <Content Include="Content\images\icons\map-pointers\fac-map-4.png" />
-    <Content Include="Content\images\icons\map-pointers\fac-map-5.png" />
-    <Content Include="Content\images\icons\map-pointers\fac-map-6.png" />
-    <Content Include="Content\images\icons\map-pointers\fac-map-7.png" />
-    <Content Include="Content\images\icons\map-pointers\fac-map-8.png" />
-    <Content Include="Content\images\icons\map-pointers\fac-map-9.png" />
-    <Content Include="Content\images\icons\outcomeHeader.png" />
-    <Content Include="Content\images\icons\redArrow.png" />
-    <Content Include="Content\images\icons\redDownArrow.png" />
-    <Content Include="Content\images\icons\warning-blue.png" />
-    <Content Include="Content\images\icons\warning-white.png" />
-    <Content Include="Content\images\icons\warning.png" />
-    <Content Include="Content\images\nhs-logo.png" />
-    <Content Include="Content\images\nhs-rev-logotype.jpg" />
-    <Content Include="Content\images\nhs-rev-logotype.svg" />
-    <Content Include="Content\images\step-1.png" />
-    <Content Include="Content\images\step-2.png" />
-    <Content Include="Content\images\step-3.png" />
-    <Content Include="Content\images\warning-blue.png" />
-    <Content Include="Content\img\ambulance-in-map.png" />
-    <Content Include="Content\img\ambulance.png" />
-    <Content Include="Content\img\arrowActive_left.png" />
-    <Content Include="Content\img\arrowActive_right.png" />
-    <Content Include="Content\img\arrowInactive_left.png" />
-    <Content Include="Content\img\arrowInactive_right.png" />
-    <Content Include="Content\img\banner\about-yourself-off.png" />
-    <Content Include="Content\img\banner\about-yourself-white.png" />
-    <Content Include="Content\img\banner\arrow-small.png" />
-    <Content Include="Content\img\banner\arrow.png" />
-    <Content Include="Content\img\banner\get-help-off.png" />
-    <Content Include="Content\img\banner\get-help-white.png" />
-    <Content Include="Content\img\banner\Icons_LargeArrow.png" />
-    <Content Include="Content\img\banner\questions-off.png" />
-    <Content Include="Content\img\banner\questions-white.png" />
-    <Content Include="Content\img\banner\unwell-off.png" />
-    <Content Include="Content\img\banner\unwell-white.png" />
-    <Content Include="Content\img\bar1.png" />
-    <Content Include="Content\img\bar2.png" />
-    <Content Include="Content\img\barNew.png" />
-    <Content Include="Content\img\bg\accordion-default-bg.png" />
-    <Content Include="Content\img\bg\accordion-expanded-bg.png" />
-    <Content Include="Content\img\bg\arrow_down.png" />
-    <Content Include="Content\img\bg\arrow_up.png" />
-    <Content Include="Content\img\bg\blueBg.png" />
-    <Content Include="Content\img\bg\briefcase-icon.png" />
-    <Content Include="Content\img\bg\bullet-arrows.png" />
-    <Content Include="Content\img\bg\disclaimerBG.png" />
-    <Content Include="Content\img\bg\green-corner.png" />
-    <Content Include="Content\img\bg\homeDivider.png" />
-    <Content Include="Content\img\bg\jtbsBG.jpg" />
-    <Content Include="Content\img\bg\logStatusIcon.png" />
-    <Content Include="Content\img\bg\red-corner.png" />
-    <Content Include="Content\img\bg\redBubbleBg.png" />
-    <Content Include="Content\img\bg\search-go-btn.png" />
-    <Content Include="Content\img\bg\searchBody.jpg" />
-    <Content Include="Content\img\bg\searchGlass.jpg" />
-    <Content Include="Content\img\bg\searchGlass.png" />
-    <Content Include="Content\img\bg\titleBG.png" />
-    <Content Include="Content\img\bg\total-questions-bg.png" />
-    <Content Include="Content\img\bg\white-arrow-bg.jpg" />
-    <Content Include="Content\img\bg\whiteLinkArrow.png" />
-    <Content Include="Content\img\book-appointment.png" />
-    <Content Include="Content\img\bubbleArrow.png" />
-    <Content Include="Content\img\call_999.png" />
-    <Content Include="Content\img\case_image.png" />
-    <Content Include="Content\img\close.jpg" />
-    <Content Include="Content\img\close.png" />
-    <Content Include="Content\img\cust-service-icon.png" />
-    <Content Include="Content\img\favicon.ico" />
-    <Content Include="Content\img\bg\gender-bg.gif" />
-    <Content Include="Content\img\female.png" />
-    <Content Include="Content\img\female_sel.png" />
-    <Content Include="Content\img\gov-uk.gif" />
-    <Content Include="Content\img\gov.uk_logotype_crown.png" />
-    <Content Include="Content\img\greyArrow.png" />
-    <Content Include="Content\img\home.png" />
-    <Content Include="Content\img\home1.png" />
-    <Content Include="Content\img\home2.png" />
-    <Content Include="Content\img\home3.png" />
-    <Content Include="Content\img\homeLogo.png" />
-    <Content Include="Content\img\icon-button-cancel.svg" />
-    <Content Include="Content\img\icon-caret-down.png" />
-    <Content Include="Content\img\icon-caret-left.png" />
-    <Content Include="Content\img\icon-caret-right.png" />
-    <Content Include="Content\img\icon-external-hover.svg" />
-    <Content Include="Content\img\icon-external.png" />
-    <Content Include="Content\img\icon-external.svg" />
-    <Content Include="Content\img\icon-pointer-2x.png" />
-    <Content Include="Content\img\icon-pointer.png" />
-    <Content Include="Content\img\information-standards.gif" />
-    <Content Include="Content\img\80percent.png" />
-    <Content Include="Content\img\jtbsMainImage.png" />
-    <Content Include="Content\img\male.png" />
-    <Content Include="Content\img\male_sel.png" />
-    <Content Include="Content\img\map.jpg" />
-    <Content Include="Content\img\med-logo.png" />
-    <Content Include="Content\img\medicines.png" />
-    <Content Include="Content\img\mobile-site.png" />
-    <Content Include="Content\img\old_med-logo.png" />
-    <Content Include="Content\img\otherPageLogos.png" />
-    <Content Include="Content\img\pain.png" />
-    <Content Include="Content\img\pain1.png" />
-    <Content Include="Content\img\panic-msg.jpg" />
-    <Content Include="Content\img\panic-msg.png" />
-    <Content Include="Content\img\pink-home.jpg" />
-    <Content Include="Content\img\pink-tel.jpg" />
-    <Content Include="Content\img\pink-website.jpg" />
-    <Content Include="Content\img\radioActive.png" />
-    <Content Include="Content\img\radioInactive.png" />
-    <Content Include="Content\img\slider_button.png" />
-    <Content Include="Content\img\ui-bg_flat_75_ffffff_40x100.png" />
-    <Content Include="Content\img\ui-icons_222222_256x240.png" />
-    <Content Include="Content\img\user-icon.jpg" />
-    <Content Include="Content\img\user-icon.png" />
-    <Content Include="Content\img\walk-in-centre.png" />
-    <Content Include="Content\img\white-home.jpg" />
-    <Content Include="Content\img\white-Tel.jpg" />
-    <Content Include="Content\img\white-website.jpg" />
-    <Content Include="Content\img\worsening-fail.png" />
-    <Content Include="Content\img\worsening.png" />
-    <Content Include="Content\Js\site.js" />
-    <Content Include="Content\Js\vendor\html5shiv-printshiv.js" />
-    <Content Include="Content\Js\vendor\html5shiv.js" />
-    <Content Include="Content\Js\vendor\jquery-2.1.3.js" />
-    <Content Include="Content\Js\vendor\jquery-ui.js" />
-    <Content Include="Content\Js\vendor\jquery-ui.min.js" />
-    <Content Include="Content\Js\vendor\spin.min.js" />
-    <Content Include="Content\styles\layout.css" />
-    <Content Include="Content\styles\responsive.css" />
-    <Content Include="Content\styles\site.css" />
-    <Content Include="Content\styles\vendor\bootstrap-theme.min.css" />
-    <Content Include="Content\styles\vendor\bootstrap.min.css" />
-    <Content Include="Content\styles\vendor\jquery-ui.css" />
-    <Content Include="Content\Js\vendor\jquery.nouislider.js" />
-    <Content Include="Content\Js\vendor\jquery.nouislider.all.min.js" />
-    <Content Include="Content\styles\vendor\jquery.nouislider.css" />
-    <Content Include="Content\styles\vendor\normalize-legacy.css" />
-    <Content Include="Content\styles\vendor\normalize.css" />
-    <Content Include="Content\_assets\css\font-awesome\css\font-awesome.min.css" />
-    <Content Include="Content\_assets\css\font-awesome\fonts\fontawesome-webfont.svg" />
-    <Content Include="Content\_assets\css\fonts-ie8.css" />
-    <Content Include="Content\_assets\css\fonts.css" />
-    <Content Include="Content\_assets\css\main-ie8.css" />
-    <Content Include="Content\_assets\css\main.css" />
-    <Content Include="Content\_assets\img\bg-pattern.png" />
-    <Content Include="Content\_assets\img\countdownbg-ie8.png" />
-    <Content Include="Content\_assets\img\exclamation_blue.png" />
-    <Content Include="Content\_assets\img\favicon.ico" />
-    <Content Include="Content\_assets\img\icon-address.png" />
-    <Content Include="Content\_assets\img\icon-blue-search.png" />
-    <Content Include="Content\_assets\img\icon-blue-surgery-off.png" />
-    <Content Include="Content\_assets\img\icon-blue-surgery-on.png" />
-    <Content Include="Content\_assets\img\icon-body-female.png" />
-    <Content Include="Content\_assets\img\icon-external-hover.svg" />
-    <Content Include="Content\_assets\img\icon-external.png" />
-    <Content Include="Content\_assets\img\icon-external.svg" />
-    <Content Include="Content\_assets\img\icon-fuschia-search.png" />
-    <Content Include="Content\_assets\img\icon-fuschia-surgery-off.png" />
-    <Content Include="Content\_assets\img\icon-fuschia-surgery-on.png" />
-    <Content Include="Content\_assets\img\icon-location-selected.png" />
-    <Content Include="Content\_assets\img\icon-location-selected.svg" />
-    <Content Include="Content\_assets\img\icon-location.png" />
-    <Content Include="Content\_assets\img\icon-location.svg" />
-    <Content Include="Content\_assets\img\icon-minus-blue.png" />
-    <Content Include="Content\_assets\img\icon-phone.png" />
-    <Content Include="Content\_assets\img\icon-plus-blue.png" />
-    <Content Include="Content\_assets\img\icon-plus-fuschia.png" />
-    <Content Include="Content\_assets\img\icon-pointer-2x.png" />
-    <Content Include="Content\_assets\img\icon-pointer.png" />
-    <Content Include="Content\_assets\img\icon-services-house-blue.png" />
-    <Content Include="Content\_assets\img\icon-services-house-fuschia.png" />
-    <Content Include="Content\_assets\img\icon-services-phone-blue.png" />
-    <Content Include="Content\_assets\img\icon-services-tel-fuschia.png" />
-    <Content Include="Content\_assets\img\icon-services-web-blue.png" />
-    <Content Include="Content\_assets\img\icon-services-web-fuschia.png" />
-    <Content Include="Content\_assets\img\icon-web.png" />
-    <Content Include="Content\_assets\img\icon-white-surgery-on.png" />
-    <Content Include="Content\_assets\img\iicon-minus-fuschia.png" />
-    <Content Include="Content\_assets\img\img-outcome-ae-left.png" />
-    <Content Include="Content\_assets\img\img-outcome-primary-left.png" />
-    <Content Include="Content\_assets\img\img-outcome-priority-left.png" />
-    <Content Include="Content\_assets\img\img-outcome-priority-right.png" />
-    <Content Include="Content\_assets\img\img-outcome-selfcare-left.png" />
-    <Content Include="Content\_assets\img\img-outcome-selfcare-right.png" />
-    <Content Include="Content\_assets\img\magnifying-glass.png" />
-    <Content Include="Content\_assets\img\med-logo.png" />
-    <Content Include="Content\_assets\img\open-government-licence.png" />
-    <Content Include="Content\_assets\img\open-government-licence_2x.png" />
-    <Content Include="Content\_assets\img\Outcome_pages_v2_A&amp;E_findGP.htm" />
-    <Content Include="Content\_assets\img\performance-icon-2x.png" />
-    <Content Include="Content\_assets\img\performance-icon.png" />
-    <Content Include="Content\_assets\img\pie-pieces\pie-pieces-assets\pie-01-2x.png" />
-    <Content Include="Content\_assets\img\pie-pieces\pie-pieces-assets\pie-01.png" />
-    <Content Include="Content\_assets\img\pie-pieces\pie-pieces-assets\pie-02-2x.png" />
-    <Content Include="Content\_assets\img\pie-pieces\pie-pieces-assets\pie-02.png" />
-    <Content Include="Content\_assets\img\pie-pieces\pie-pieces-assets\pie-03-2x.png" />
-    <Content Include="Content\_assets\img\pie-pieces\pie-pieces-assets\pie-03.png" />
-    <Content Include="Content\_assets\img\pie-pieces\pie-pieces-assets\pie-04-2x.png" />
-    <Content Include="Content\_assets\img\pie-pieces\pie-pieces-assets\pie-04.png" />
-    <Content Include="Content\_assets\img\pie-pieces\pie-pieces-assets\pie-05-2x.png" />
-    <Content Include="Content\_assets\img\pie-pieces\pie-pieces-assets\pie-05.png" />
-    <Content Include="Content\_assets\img\pie-pieces\pie-pieces-assets\pie-06-2x.png" />
-    <Content Include="Content\_assets\img\pie-pieces\pie-pieces-assets\pie-06.png" />
-    <Content Include="Content\_assets\img\pie-pieces\pie-pieces-assets\pie-07-2x.png" />
-    <Content Include="Content\_assets\img\pie-pieces\pie-pieces-assets\pie-07.png" />
-    <Content Include="Content\_assets\img\pie-pieces\pie-pieces-assets\pie-08-2x.png" />
-    <Content Include="Content\_assets\img\pie-pieces\pie-pieces-assets\pie-08.png" />
-    <Content Include="Content\_assets\img\pie-pieces\pie-pieces-assets\pie-09-2x.png" />
-    <Content Include="Content\_assets\img\pie-pieces\pie-pieces-assets\pie-09.png" />
-    <Content Include="Content\_assets\img\pin-fuschia.png" />
-    <Content Include="Content\_assets\img\radio-ie8.png" />
-    <Content Include="Content\_assets\img\radioselected-ie8.png" />
-    <Content Include="Content\_assets\img\spacer.gif" />
-    <Content Include="Content\_assets\js\interactions.js" />
-    <Content Include="Content\_assets\js\old-browsers.js" />
-    <Content Include="Content\_assets\js\scripts.js" />
-    <Content Include="Content\_assets\js\scripts.min.js" />
-    <Content Include="Content\_assets\js\vendor\fastclick.js" />
-    <Content Include="Content\_assets\js\vendor\goog\webfont-debug.js" />
-    <Content Include="Content\_assets\js\vendor\jquery-1.11.1.min.js" />
-    <Content Include="Content\_assets\js\vendor\jquery-ui-1.10.4.custom.min.js" />
-    <Content Include="Content\_assets\js\vendor\jquery.cookie.js" />
-    <Content Include="Content\_assets\js\vendor\jstorage.js" />
-    <Content Include="Content\_assets\js\vendor\modernizr-2.7.1.js" />
-    <Content Include="Content\_assets\js\vendor\modernizr-custom.js" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="IoC\readme.txt" />
@@ -594,18 +281,22 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Scripts\bootstrap.min.js" />
-    <Content Include="Scripts\custom.js" />
+    <Content Include="Scripts\details.min.js" />
     <Content Include="Scripts\disclaimer-popup.js" />
-    <Content Include="Scripts\disclaimer.js" />
     <Content Include="Scripts\geotools.js" />
     <Content Include="Scripts\icheck.js" />
     <Content Include="Scripts\jquery.blockUI.js" />
     <Content Include="Scripts\jquery.cookie.js" />
-    <Content Include="Scripts\jquery1.11.2-ui.min.js" />
-    <Content Include="Scripts\jquery2.1.1.min.js" />
+    <Content Include="Scripts\jquery.ns-autogrow-1.1.6.min.js" />
+    <Content Include="Scripts\jquery.unobtrusive-ajax.js" />
+    <Content Include="Scripts\jquery.unobtrusive-ajax.min.js" />
+    <Content Include="Scripts\jquery.validate-1.11.1.min.js" />
+    <Content Include="Scripts\jquery.validate.unobtrusive-5.2.3.min.js" />
+    <Content Include="Scripts\jquery3.2.1.min.js" />
     <Content Include="Scripts\mobileScroller.js" />
     <Content Include="Scripts\spin.min.js" />
     <Content Include="Scripts\vendor\modernizr-custom.js" />
+    <Content Include="start.ps1" />
     <Content Include="Static\500.html" />
     <Content Include="Static\TempHTML\999Page.html" />
     <Content Include="Static\TempHTML\Confirmation.html" />
@@ -634,22 +325,10 @@
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
-    <Content Include="Views\Question\Search.cshtml" />
+    <Content Include="Views\Search\Search.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
-    <Content Include="Content\css\font-awesome\fonts\fontawesome-webfont.eot" />
-    <Content Include="Content\css\font-awesome\fonts\fontawesome-webfont.ttf" />
-    <Content Include="Content\css\font-awesome\fonts\fontawesome-webfont.woff" />
-    <Content Include="Content\css\font-awesome\fonts\FontAwesome.otf" />
-    <Content Include="Content\fonts\NTA-Bold-20130221.eot" />
-    <Content Include="Content\fonts\NTA-Bold-20130221.woff" />
-    <Content Include="Content\fonts\NTA-Light-20130221.eot" />
-    <Content Include="Content\fonts\NTA-Light-20130221.woff" />
-    <Content Include="Content\fonts\NTATabularNumbers-Bold.eot" />
-    <Content Include="Content\fonts\NTATabularNumbers-Bold.woff" />
-    <Content Include="Content\fonts\NTATabularNumbers-Light.eot" />
-    <Content Include="Content\fonts\NTATabularNumbers-Light.woff" />
     <ProjectReference Include="..\NHS111.Features\NHS111.Features.csproj">
       <Project>{BD9F2634-BADA-43E6-B16D-522BE17DA255}</Project>
       <Name>NHS111.Features</Name>
@@ -677,68 +356,7 @@
     <Content Include="Views\Question\Question.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Content\_assets\css\font-awesome\fonts\fontawesome-webfont.eot" />
-    <Content Include="Content\_assets\css\font-awesome\fonts\fontawesome-webfont.ttf" />
-    <Content Include="Content\_assets\css\font-awesome\fonts\fontawesome-webfont.woff" />
-    <Content Include="Content\_assets\css\font-awesome\fonts\FontAwesome.otf" />
-    <Content Include="Content\_assets\css\main-ie8.css.map" />
-    <Content Include="Content\_assets\css\main.css.map" />
-    <Content Include="Content\_assets\fonts\NTA-Bold-20130221.eot" />
-    <Content Include="Content\_assets\fonts\NTA-Bold-20130221.woff" />
-    <Content Include="Content\_assets\fonts\NTA-Light-20130221.eot" />
-    <Content Include="Content\_assets\fonts\NTA-Light-20130221.woff" />
-    <Content Include="Content\_assets\fonts\NTATabularNumbers-Bold.eot" />
-    <Content Include="Content\_assets\fonts\NTATabularNumbers-Bold.woff" />
-    <Content Include="Content\_assets\fonts\NTATabularNumbers-Light.eot" />
-    <Content Include="Content\_assets\fonts\NTATabularNumbers-Light.woff" />
-    <Content Include="Content\_assets\img\pie-pieces\pie-pieces.psd" />
-    <Content Include="Content\_assets\scss\base\mixins\_buttons.scss" />
-    <Content Include="Content\_assets\scss\base\mixins\_conditionals.scss" />
-    <Content Include="Content\_assets\scss\base\mixins\_css3.scss" />
-    <Content Include="Content\_assets\scss\base\mixins\_device-pixels.scss" />
-    <Content Include="Content\_assets\scss\base\mixins\_grid.scss" />
-    <Content Include="Content\_assets\scss\base\mixins\_media-player.scss" />
-    <Content Include="Content\_assets\scss\base\mixins\_typography.scss" />
-    <Content Include="Content\_assets\scss\base\variables\_colours.scss" />
-    <Content Include="Content\_assets\scss\base\variables\_font-stack.scss" />
-    <Content Include="Content\_assets\scss\base\variables\_measurements.scss" />
-    <Content Include="Content\_assets\scss\base\_extends.scss" />
-    <Content Include="Content\_assets\scss\base\_mixins.scss" />
-    <Content Include="Content\_assets\scss\base\_reset.scss" />
-    <Content Include="Content\_assets\scss\base\_variables.scss" />
-    <Content Include="Content\_assets\scss\components\forms\_form-chunky-labels.scss" />
-    <Content Include="Content\_assets\scss\components\forms\_form-validation.scss" />
-    <Content Include="Content\_assets\scss\components\_accessibility.scss" />
-    <Content Include="Content\_assets\scss\components\_buttons.scss" />
-    <Content Include="Content\_assets\scss\components\_forms.scss" />
-    <Content Include="Content\_assets\scss\components\_grid.scss" />
-    <Content Include="Content\_assets\scss\components\_images.scss" />
-    <Content Include="Content\_assets\scss\components\_lists.scss" />
-    <Content Include="Content\_assets\scss\components\_margins.scss" />
-    <Content Include="Content\_assets\scss\components\_misc.scss" />
-    <Content Include="Content\_assets\scss\components\_modifiers.scss" />
-    <Content Include="Content\_assets\scss\components\_navigation.scss" />
-    <Content Include="Content\_assets\scss\components\_padding.scss" />
-    <Content Include="Content\_assets\scss\components\_panels.scss" />
-    <Content Include="Content\_assets\scss\components\_progress-indicator.scss" />
-    <Content Include="Content\_assets\scss\components\_tables.scss" />
-    <Content Include="Content\_assets\scss\components\_typography.scss" />
-    <Content Include="Content\_assets\scss\components\_video.scss" />
-    <Content Include="Content\_assets\scss\main-ie8.scss" />
-    <Content Include="Content\_assets\scss\main.scss" />
-    <Content Include="Content\_assets\scss\modules\_footer.scss" />
-    <Content Include="Content\_assets\scss\modules\_header.scss" />
-    <Content Include="Content\_assets\scss\modules\_main-content.scss" />
-    <Content Include="Content\_assets\scss\modules\_search-results.scss" />
-    <Content Include="Content\_assets\scss\_base.scss" />
-    <Content Include="Content\_assets\scss\_components.scss" />
-    <Content Include="Content\_assets\scss\_modules.scss" />
-  </ItemGroup>
-  <ItemGroup>
     <Content Include="Views\Outcome\Call_999.cshtml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Views\DOS\Confirmation.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Outcome\ITK_Clinician_call_back.cshtml" />
@@ -759,9 +377,6 @@
     <Content Include="Views\Shared\_GpSearch.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Views\DOS\DosResults.cshtml" />
-  </ItemGroup>
-  <ItemGroup>
     <Content Include="Views\Shared\_GoogleMap.cshtml" />
   </ItemGroup>
   <ItemGroup>
@@ -777,7 +392,6 @@
     <Content Include="Views\Shared\_FeedbackDetails.cshtml" />
     <Content Include="Views\Shared\_LayoutNhsUK.cshtml" />
     <Content Include="Views\Outcome\PersonalDetails.cshtml" />
-    <Content Include="Views\Shared\_SelectedService.cshtml" />
     <Content Include="Views\Shared\_CommonHiddenFieldsDosViewModel.cshtml" />
     <Content Include="Views\Shared\_CommonHiddenFieldsAddressInfoViewModel.cshtml" />
     <Content Include="Views\Outcome\Confirmation.cshtml" />
@@ -821,6 +435,7 @@
     <Content Include="Views\Topic\Search.cshtml" />
     <Content Include="ApplicationInsights.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <SubType>Designer</SubType>
     </Content>
     <Content Include="Service References\Application Insights\ConnectedService.json" />
     <Content Include="Views\Shared\_PageLoadingIndicator.cshtml" />
@@ -839,6 +454,21 @@
     <Content Include="Views\Shared\_PublicPhoneServices.cshtml" />
     <Content Include="Views\Shared\_OutcomeHeaderTwoTitles.cshtml" />
     <Content Include="Views\Shared\_WorseningAdviceWithTitle.cshtml" />
+    <Content Include="Views\Shared\Elements\_HiddenText.cshtml" />
+    <Content Include="Views\Shared\Elements\_Callout.cshtml" />
+    <Content Include="Views\Shared\Elements\_Button.cshtml" />
+    <Content Include="Views\Shared\_VersionInfo.cshtml" />
+    <Content Include="Views\Search\SearchResults.cshtml" />
+    <Content Include="Views\Search\Categories.cshtml" />
+    <Content Include="Views\Shared\_SearchBox.cshtml" />
+    <Content Include="manifest.json" />
+    <None Include="Dockerfile" />
+    <None Include=".dockerignore">
+      <DependentUpon>Dockerfile</DependentUpon>
+    </None>
+    <Content Include="Views\Shared\_CompatibilityBanner.cshtml" />
+    <Content Include="start.ps1" />
+    <Content Include="enabled-postcodes.csv" />
     <None Include="Web.Development.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -930,4 +560,9 @@
   </Target>
   <Target Name="AfterBuild">
   </Target> -->
+  <Target Name="BeforeBuild">
+    <ItemGroup>
+      <Content Include="$([System.IO.Directory]::GetFiles('$(ProjectDir)\Content\', '*', SearchOption.AllDirectories))" />
+    </ItemGroup>
+  </Target>
 </Project>

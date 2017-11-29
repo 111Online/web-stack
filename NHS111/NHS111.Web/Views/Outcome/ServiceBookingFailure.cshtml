@@ -18,10 +18,6 @@
         }];
     </script>
 }
-<link href="@NHS111.Web.Helpers.Versioning.GetVersionedUriRef("~/Content/css_NhsUK/confirmation.css")" media="all" rel="stylesheet" type="text/css">
-<link href="@NHS111.Web.Helpers.Versioning.GetVersionedUriRef("~/Content/css_NhsUK/signposting-outcome.css")" media="all" rel="stylesheet" type="text/css" />
-<link href="@NHS111.Web.Helpers.Versioning.GetVersionedUriRef("~/Content/css_NhsUK/signposting-outcome-print.css")" media="print" rel="stylesheet" type="text/css" />
-<link href="@NHS111.Web.Helpers.Versioning.GetVersionedUriRef("~/content/css_NhsUk/service.css")" media="screen" rel="stylesheet" type="text/css" />
 
 @{
     var dataDictionary = ViewContext.ViewData;
@@ -42,10 +38,10 @@
 }
 
 <section>
-    <div class="outcome-header fail">
-        <h2 class="heading-large">Sorry, your request for a callback has not been successful.</h2>
-        <h3 class="heading-medium">The problem has been reported and we're working to fix it.</h3>
-        <h3 class="heading-medium">Please call NHS 111 now for advice.  We may ask for your details again so that we can help you.</h3>
+    <div class="callout callout--warning">
+        <h1>Sorry, your request for a callback has not been successful.</h1>
+        <p>The problem has been reported and we're working to fix it.</p>
+        <p>Please call NHS 111 now for advice.  We may ask for your details again so that we can help you.</p>
     </div>
 </section>
 

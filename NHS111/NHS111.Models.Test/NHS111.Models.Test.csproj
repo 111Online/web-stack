@@ -55,24 +55,25 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
-    <Reference Include="Microsoft.Data.Edm, Version=5.6.4.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.Data.Edm.5.6.4\lib\net40\Microsoft.Data.Edm.dll</HintPath>
+    <Reference Include="Microsoft.Data.Edm, Version=5.8.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Data.Edm.5.8.2\lib\net40\Microsoft.Data.Edm.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Microsoft.Data.OData, Version=5.6.4.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.Data.OData.5.6.4\lib\net40\Microsoft.Data.OData.dll</HintPath>
+    <Reference Include="Microsoft.Data.OData, Version=5.8.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Data.OData.5.8.2\lib\net40\Microsoft.Data.OData.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Microsoft.Data.Services.Client, Version=5.6.4.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.Data.Services.Client.5.6.4\lib\net40\Microsoft.Data.Services.Client.dll</HintPath>
+    <Reference Include="Microsoft.Data.Services.Client, Version=5.8.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Data.Services.Client.5.8.2\lib\net40\Microsoft.Data.Services.Client.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
     <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Microsoft.WindowsAzure.Storage, Version=7.2.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\WindowsAzure.Storage.7.2.0\lib\net40\Microsoft.WindowsAzure.Storage.dll</HintPath>
+    <Reference Include="Microsoft.WindowsAzure.Storage, Version=8.1.4.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\WindowsAzure.Storage.8.1.4\lib\net45\Microsoft.WindowsAzure.Storage.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Moq, Version=4.5.28.0, Culture=neutral, PublicKeyToken=69f491c39445e920, processorArchitecture=MSIL">
@@ -89,8 +90,8 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
-    <Reference Include="System.Spatial, Version=5.6.4.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Spatial.5.6.4\lib\net40\System.Spatial.dll</HintPath>
+    <Reference Include="System.Spatial, Version=5.8.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Spatial.5.8.2\lib\net40\System.Spatial.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System.Web.Helpers, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
@@ -133,6 +134,7 @@
     <Compile Include="Mappers\StaticTextToHtmlTests.cs" />
     <Compile Include="Mappers\WebMappings\AddressInfoViewModelMapperTests.cs" />
     <Compile Include="Mappers\WebMappings\FromDosCaseToDosServicesByClinicalTermRequestTests.cs" />
+    <Compile Include="Mappers\WebMappings\FromOutcomeViewModelToDosViewModel.cs" />
     <Compile Include="Mappers\WebMappings\FromOutcomeViewModelToSubmitEncounterToServiceRequest.cs" />
     <Compile Include="Mappers\WebMappings\JourneyViewModelMapperTests.cs" />
     <Compile Include="Mappers\WebMappings\StaticTextToHtmlTests.cs" />
@@ -142,7 +144,12 @@
     <Compile Include="Models\Web\JourneyViewModelTests.cs" />
     <Compile Include="Models\Web\Logging\AuditedDosRequestTests.cs" />
     <Compile Include="Models\Web\Logging\AuditedDosResponseTest.cs" />
-    <Compile Include="Models\Web\ServiceViewModelTests.cs" />
+    <Compile Include="Models\Web\ServiceViewModelTests\CurrentStatusTests.cs" />
+    <Compile Include="Models\Web\ServiceViewModelTests\IsOpenTests.cs" />
+    <Compile Include="Models\Web\ServiceViewModelTests\OpeningTimesTests.cs" />
+    <Compile Include="Models\Web\ServiceViewModelTests\OpeningTimesMessageTests.cs" />
+    <Compile Include="Models\Web\ServiceViewModelTests\ServiceViewModelTestHelper.cs" />
+    <Compile Include="Models\Web\ServiceViewModelTests\AddressParsingTests..cs" />
     <Compile Include="Models\Web\Validators\AgeValidatorTests.cs" />
     <Compile Include="Models\Web\Validators\PostCodeAllowedValidatorTests.cs" />
     <Compile Include="Models\Web\Validators\PostCodeFormatValidatorTests.cs" />

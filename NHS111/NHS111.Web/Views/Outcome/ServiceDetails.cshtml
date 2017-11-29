@@ -1,10 +1,6 @@
 ﻿@using NHS111.Models.Models.Web
 @inherits NHS111.Web.Views.Shared.SurveyLinkView<OutcomeViewModel>
-<script src="https://maps.google.com/maps/api/js?key=AIzaSyCv3YwvmRoueyoLcW2iiSPjVeHecU18hmA "
-        type="text/javascript"></script>
 
-<script src="/Scripts/geotools.js"
-        type="text/javascript"></script>
 @{
     Layout = "~/Views/Shared/_LayoutNhsUk.cshtml";
 }
@@ -13,7 +9,7 @@
     Service details
 }
 @section HeadTop {
-@{ var url = string.Format("/outcome/{0}/{1}/{2}/servicelist/{3}/", Url.Encode(Model.PathwayNo), Url.Encode(Model.OutcomeGroup.Text), Url.Encode(Model.Id), Url.Encode(Model.UserInfo.CurrentAddress.Postcode)); }
+    @{ var url = string.Format("/outcome/{0}/{1}/{2}/servicelist/{3}/", Url.Encode(Model.PathwayNo), Url.Encode(Model.OutcomeGroup.Text), Url.Encode(Model.Id), Url.Encode(Model.UserInfo.CurrentAddress.Postcode)); }
     <script>
         var pageId = '@Model.Id';
         dataLayer = [
@@ -42,165 +38,16 @@
     }
 }
 
-@Html.Partial("_OutcomeHeader", Model)
+@Html.Partial("_OutcomeHeader", Model, new ViewDataDictionary { { "OutcomeHeader", "Services for " + Model.UserInfo.CurrentAddress.Postcode.ToUpper() } })
 
-
-<link href="@NHS111.Web.Helpers.Versioning.GetVersionedUriRef("~/Content/css_NhsUK/confirmation.css")" media="all" rel="stylesheet" type="text/css" />
-<link href="@NHS111.Web.Helpers.Versioning.GetVersionedUriRef("~/content/css_NhsUk/servicelist.css")" media="screen" rel="stylesheet" type="text/css" />
-<link href="@NHS111.Web.Helpers.Versioning.GetVersionedUriRef("~/content/css_NhsUk/service.css")" media="screen" rel="stylesheet" type="text/css" />
 
 <section>
-    <div class="service-list-header">
-        <h2>
-            @Html.Raw(Model.OutcomeGroup.Label) for @Model.UserInfo.CurrentAddress.Postcode
-        </h2>
-    </div>
+    @if (!string.IsNullOrEmpty(Model.UserInfo.CurrentAddress.Postcode))
+    {
+        @Html.Partial("_AlternativeServices", Model);
+    }
 </section>
-
-<section>
-    <div class="results-map">
-        <div class="results-list">
-            @using (Html.BeginForm("GetDirections", "Outcome", FormMethod.Post))
-        {
-
-                <div class="results-service-recommended section-item">
-                    <h3 class="section-header">
-                        Recommended service based on your answers
-                    </h3>
-                    @{
-                    ServiceViewModel selectedService = null;
-                    if (Model.DosCheckCapacitySummaryResult.Success != null)
-                    {
-                        selectedService = Model.DosCheckCapacitySummaryResult.Success.Services.FirstOrDefault();
-                    }
-                    }
-                    @if (selectedService != null)
-                {
-                        <div class="service-list-content">
-
-                            <div class="form-item-wrapper">
-                                <fieldset>
-                                    <div class="form-group">
-
-                                        <div class="service-name">
-                                            <img src="/content/images/icons/map-pointers/fac-map-1.png" />
-                                            @WebUtility.HtmlDecode(selectedService.Name)
-                                        </div>
-                                        <div class="service-address">
-                                            @WebUtility.HtmlDecode(selectedService.Address)
-                                        </div>
-                                        <div class="service-status">
-                                            @WebUtility.HtmlDecode(selectedService.CurrentStatus)
-                                        </div>
-
-                                        @Html.HiddenFor(m => m.SessionId)
-                                        @Html.HiddenFor(m => m.JourneyJson)
-                                        @Html.HiddenFor(m => m.Id)
-                                        @Html.Hidden("SelectedServiceId", @selectedService.Id)
-                                        @Html.Hidden("SelectedServiceName", @selectedService.Name)
-                                        @Html.Hidden("SelectedServiceAddress", @selectedService.Address)
-                                        <button type="submit" class="button button-next">Open in Google Maps</button>
-                                    </div>
-                                </fieldset>
-                            </div>
-                        </div>
-                }
-                </div>
-        }
-
-            <div class="section-item last">
-
-                @if (Model.DosCheckCapacitySummaryResult.Success != null)
-            {
-                var pointerNo = 1;
-                foreach (var service in Model.DosCheckCapacitySummaryResult.Success.Services.Skip(1))
-                {
-                    using (Html.BeginForm("GetDirections", "Outcome", FormMethod.Post))
-                    {
-                        pointerNo++;
-                        var pointerimageSrc = "/content/images/icons/map-pointers/fac-map-" + pointerNo.ToString() + ".png";
-                            <div class="service-list-content">
-                                <fieldset>
-                                    <div class="service-name">
-                                        <img src="@pointerimageSrc" />
-                                        @WebUtility.HtmlDecode(service.Name)
-                                    </div>
-                                    <div class="service-address">
-                                        @WebUtility.HtmlDecode(service.Address)
-                                    </div>
-
-                                    <div class="service-status secondary">
-                                        @WebUtility.HtmlDecode(service.CurrentStatus)
-                                    </div>
-
-                                    @Html.HiddenFor(m => m.SessionId)
-                                    @Html.HiddenFor(m => m.JourneyJson)
-                                    @Html.HiddenFor(m => m.Id)
-                                    @Html.Hidden("SelectedServiceId", @service.Id)
-                                    @Html.Hidden("SelectedServiceName", @service.Name)
-                                    @Html.Hidden("SelectedServiceAddress", @service.Address)
-                                    <button type="submit" class="button-link directions">Open in Google Maps</button>
-                                </fieldset>
-                            </div>
-                    }
-                }
-            }
-            </div>
-
-            <script type="text/javascript">
-
-            var locations = [
-                @{ int i = 0; }
-                @if (Model.DosCheckCapacitySummaryResult.Success != null)
-                {
-                    foreach (var service in Model.DosCheckCapacitySummaryResult.Success.Services)
-                    {
-
-
-                        @Html.Raw("['" + service.Name + "',OsGridRef.osGridToLatLon(new OsGridRef(" + service.Eastings + ", " + service.Northings + "), LatLon.datum.OSGB36).lat, OsGridRef.osGridToLatLon(new OsGridRef(" + service.Eastings + ", " + service.Northings + "), LatLon.datum.OSGB36).lon, " + i + "],")
-                        i++;
-                    }
-                }
-            ];
-            </script>
-
-        </div>
-        <div class="service-map"></div>
-
-        <script type="text/javascript">
-
-        var map = new google.maps.Map($('.service-map')[0],
-        {
-            zoom: 10,
-            center: new google.maps.LatLng(locations[0][1], locations[0][2]),
-            mapTypeId: google.maps.MapTypeId.ROADMAP
-        });
-
-        var infowindow = new google.maps.InfoWindow();
-
-        var marker, i;
-
-        for (i = 0; i < locations.length; i++) {
-            var pointerNo = i + 1;
-            marker = new google.maps.Marker({
-                position: new google.maps.LatLng(locations[i][1], locations[i][2]),
-                map: map,
-                icon: "/content/images/icons/map-pointers/fac-map-" + pointerNo + ".png"
-            });
-
-            google.maps.event.addListener(marker,
-                'click',
-                (function(marker, i) {
-                    return function() {
-                        infowindow.setContent(locations[i][0]);
-                        infowindow.open(map, marker);
-                    }
-                })(marker, i));
-        }
-        </script>
-    </div>
-</section>
-
-@Html.Partial("_WorseningAdvice", Model)
 
 @Html.Partial("_CareAdvice", Model.CareAdvices, new ViewDataDictionary { { "Title", "What you can do in the meantime" } })
+
+@Html.Partial("_WorseningAdviceWithTitle", Model)

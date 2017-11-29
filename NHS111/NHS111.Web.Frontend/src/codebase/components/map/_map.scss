@@ -1,0 +1,27 @@
+.service-map {  
+  border: 2px solid #f0f3f5;
+  height: 300px;
+  width: 100%;
+}
+
+
+.service-map *,
+.service-map *::before,
+.service-map *::after,
+.service-map * + *  {
+  // For old browsers, set basic styles
+  border: none;
+  margin: 0;
+  font-size: 16px;
+  padding: 0;
+  box-shadow: none;
+  outline: none;
+
+  // For newer browsers, match defaults
+  border: initial;
+  margin: initial;
+  font-size: initial;
+  padding: initial;
+  box-shadow: initial;
+  outline: initial;
+}

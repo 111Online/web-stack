@@ -13,6 +13,6 @@ namespace NHS111.Models.Models.Web
     {
         public string Forename { get; set; }
         public string Surname { get; set; }
-        public bool IsInformant { get; set; }
+        public bool IsInformantForPatient { get; set; }
     }
 }

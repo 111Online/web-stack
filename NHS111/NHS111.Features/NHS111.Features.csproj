@@ -50,6 +50,7 @@
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Web" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -58,6 +59,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DosEndpointFeature.cs" />
     <Compile Include="AllowedPostcodeFeature.cs" />
     <Compile Include="BaseFeature.cs" />
     <Compile Include="CookieBannerFeature.cs" />
@@ -66,6 +68,8 @@
     <Compile Include="Defaults\FilteredAgesDefaultStrategy.cs" />
     <Compile Include="Defaults\IDefaultSettingStrategy.cs" />
     <Compile Include="Defaults\PostcodeFilePathDefaultSettingStrategy.cs" />
+    <Compile Include="DeleteFeedbackFeature.cs" />
+    <Compile Include="PostcodePrefillFeature.cs" />
     <Compile Include="DirectLinkingFeature.cs" />
     <Compile Include="DisclaimerBannerFeature.cs" />
     <Compile Include="DisclaimerPopupFeature.cs" />
@@ -79,6 +83,7 @@
     <Compile Include="Providers\AppSettingValueProvider.cs" />
     <Compile Include="Providers\IFeatureSettingValueProvider.cs" />
     <Compile Include="Providers\MissingSettingException.cs" />
+    <Compile Include="RedirectToStartFeature.cs" />
     <Compile Include="SurveyLinkFeature.cs" />
     <Compile Include="UserZoomSurveyFeature.cs" />
     <Compile Include="Values\IFeatureValue.cs" />

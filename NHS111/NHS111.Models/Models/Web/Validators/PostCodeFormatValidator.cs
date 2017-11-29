@@ -8,11 +8,14 @@ using NHS111.Features;
 
 namespace NHS111.Models.Models.Web.Validators
 {
+    public static class PostCodeFormatValidator
+    {
+        public static string PostcodeRegex = @"^([Gg][Ii][Rr] 0[Aa]{2})|((([A-Za-z][0-9]{1,2})|(([A-Za-z][A-Ha-hJ-Yj-y][0-9]{1,2})|(([A-Za-z][0-9][A-Za-z])|([A-Za-z][A-Ha-hJ-Yj-y][0-9]?[A-Za-z]))))[0-9][A-Za-z]{2})$";
+
+    }
     public class PostCodeFormatValidator<TModel, TProperty> : PropertyValidator, IClientValidatable
     {
         private readonly string _dependencyElement;
-        private const string PostcodeRegex = @"^([Gg][Ii][Rr] 0[Aa]{2})|((([A-Za-z][0-9]{1,2})|(([A-Za-z][A-Ha-hJ-Yj-y][0-9]{1,2})|(([A-Za-z][0-9][A-Za-z])|([A-Za-z][A-Ha-hJ-Yj-y][0-9]?[A-Za-z]))))[0-9][A-Za-z]{2})$";
-
 
         public PostCodeFormatValidator(Expression<Func<TModel, TProperty>> expression) : base("Incorrect postcode format")
         {
@@ -29,7 +32,7 @@ namespace NHS111.Models.Models.Web.Validators
 
         public static bool IsAValidPostcode(string postcode)
         {
-            return !string.IsNullOrEmpty(postcode) && Regex.IsMatch(postcode.Replace(" ", string.Empty).ToLower(), PostcodeRegex);
+            return !string.IsNullOrEmpty(postcode) && Regex.IsMatch(postcode.Replace(" ", string.Empty).ToLower(), PostCodeFormatValidator.PostcodeRegex);
         }
 
         public IEnumerable<ModelClientValidationRule> GetClientValidationRules(ModelMetadata metadata, ControllerContext context)

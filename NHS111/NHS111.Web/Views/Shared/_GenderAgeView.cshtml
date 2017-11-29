@@ -1,83 +1,60 @@
 ﻿@using NHS111.Models.Models.Domain
 @inherits NHS111.Web.Views.Shared.AgeValidationView<NHS111.Models.Models.Web.JourneyViewModel>
 
-<h1 class="heading-large gender-heading">Tell us about you, or the person you're asking about</h1>
-
-<fieldset>
-    <legend class="heading-small">
-        Sex
-    </legend>
-    <div id="answers">
-    
-        <label for="Male" class="answer answer-label">
-            <span class="answer-radio">
-                @Html.RadioButtonFor(m => m.UserInfo.Demography.Gender, GenderEnum.Male, new { @id = "Male" })
-            </span>
-            <span class="answer-text">Male</span>
-        </label>
-        <label for="Female" class="answer answer-label">
-            <span class="answer-radio">
-                @Html.RadioButtonFor(m => m.UserInfo.Demography.Gender, GenderEnum.Female, new { @id = "Female" })
-            </span>
-            <span class="answer-text">Female</span>
-        </label>
-    </div>
-</fieldset>
-
-<div class="age-content">
-    <h2 class="heading-small">@Html.LabelFor(m => m.UserInfo.Demography.Age, "Age in years")</h2>
-    <div>
-        @Html.ValidationMessageFor(m => m.UserInfo.Demography.Age)
-    </div>
-    <div class="age">
-        <span id="errmsg"></span>
-        @Html.TextBoxFor(m => m.UserInfo.Demography.Age, new {@class = "form-control input-age", type = "number", size = 3, maxlength = 3})
+<div class="callout callout--error @(Html.ViewData.ModelState.IsValid ? "validation-summary-valid" : "validation-summary-errors")"
+     data-valmsg-summary="true">
+    <h2>
+        There's a problem with the following
+    </h2>
+    <div class="panel-body">
+        <ul class="js-error-list-original"></ul>
+        <ul class="js-error-list"></ul>
     </div>
 </div>
 
+<h1 class="heading-large gender-heading">Tell us about you, or the person you're asking about</h1>
 
+<div class="form-group @(@ViewData.ModelState.IsValidField("UserInfo.Demography.Gender") ? "" : "form-group-error")">
+    <fieldset id="container_@Html.IdFor(m => m.UserInfo.Demography.Gender)">
+        <legend class="form-label">
+            Sex
+        </legend>
+        @Html.ValidationMessageFor(m => m.UserInfo.Demography.Gender, null, new { @class = "error-message" })
+        <div class="multiple-choice">
+            @Html.RadioButtonFor(m => m.UserInfo.Demography.Gender, GenderEnum.Male, new { @id = "Male" })
+            @Html.LabelFor(m => m.UserInfo.Demography.Gender, "Male", new { @for = "Male", @class = "multiple-choice--radio", required = "true" })
+        </div>
+
+        <div class="multiple-choice">
+            @Html.RadioButtonFor(m => m.UserInfo.Demography.Gender, GenderEnum.Female, new { @id = "Female" })
+            @Html.LabelFor(m => m.UserInfo.Demography.Gender, "Female", new { @for = "Female", @class = "multiple-choice--radio", required = "true" })
+        </div>
+    </fieldset>
+</div>
+
+<div class="form-group @(@ViewData.ModelState.IsValidField("UserInfo.Demography.Age") ? "" : "form-group-error")">
+    <fieldset class="age-content" id="container_@Html.IdFor(m => m.UserInfo.Demography.Age)">
+        @Html.LabelFor(m => m.UserInfo.Demography.Age, "Age in years", new { @class = "form-label" })
+        @Html.ValidationMessageFor(m => m.UserInfo.Demography.Age, null, new { @class = "error-message" })
+        @Html.TextBoxFor(m => m.UserInfo.Demography.Age, new { @class = "form-textbox form-textbox--small js-validate-number", type = "number", size = 3, autocomplete = "off", min = 0, max = 200 })
+    </fieldset>
+</div>
 
 <script type="text/javascript">
 
-    // copyright 1999 Idocs, Inc. http://www.idocs.com
-    // Distribute this script freely but keep this notice in place
-    function numbersonly(myfield, e, dec) {
-        var key;
-        var keychar;
-
-        if (window.event)
-            key = window.event.keyCode;
-        else if (e)
-            key = e.which;
-        else
-            return true;
-        keychar = String.fromCharCode(key);
-
-        // control keys
-        if ((key == null) || (key == 0) || (key == 8) ||
-        (key == 9) || (key == 13) || (key == 27))
-            return true;
-// numbers
-        else if ((("0123456789").indexOf(keychar) > -1))
-            return true;
-// decimal point jump
-        else if (dec && (keychar == ".")) {
-            myfield.form.elements[dec].focus();
-            return false;
-        } else
-            return false;
-    }
-
     $(document).ready(function () {
-        $('.help-text-link-message').hide();
-        $('.help-text-link').click(function () {
-            var $this = $(this);
-            //$this.preventDefault();
+        var lastKey = null;
+        $(".js-validate-number").on("keydown", function (event) {
+            var key = event.key || String.fromCharCode(event.keyCode);
+            // When a key is down, it checks that you aren't typing a letter. This allows numbers and tab/delete etc
+            if (lastKey == "Meta" || lastKey == "Control") return lastKey = key;
+            else if (/^[a-zA-Z\D]$/.test(key)) event.preventDefault();
+            return lastKey = key;
+        })
 
-            var $helpTextLinkMessage = $this.parent().parent().next('.help-text-link-message');
-            $helpTextLinkMessage.slideToggle("fast");
-            return false;
-        });
+        $(".js-validate-number").on("keyup", function (event) {
+            if (lastKey == "Meta" || lastKey == "Control") return lastKey = null;
+        })
     });
 
 </script>
@@ -85,20 +62,20 @@
 @if (FilterPathwaysByAgeFeature.IsEnabled)
 {
     <script type="text/javascript">
+        jQuery(function () {
+            jQuery.validator.addMethod('age',
+                function (value, element, params) {
+                    return parseInt(value) >= 5;
+                });
 
-        jQuery.validator.addMethod('age',
-            function(value, element, params) {
-                return numbersonly(element, event) && parseInt(value) >= 5;
-            });
-
-        jQuery.validator.unobtrusive.adapters.add('age',
-            ['prefixelement'],
-            function(options) {
-                options.rules['age'] = options.params;
-                if (options.message != null) {
-                    options.messages['age'] = options.message;
-                }
-            });
-
+            jQuery.validator.unobtrusive.adapters.add('age',
+                ['prefixelement'],
+                function (options) {
+                    options.rules['age'] = options.params;
+                    if (options.message != null) {
+                        options.messages['age'] = options.message;
+                    }
+                });
+        });
     </script>
 }

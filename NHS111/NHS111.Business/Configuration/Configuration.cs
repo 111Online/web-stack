@@ -26,10 +26,10 @@ namespace NHS111.Business.Configuration
                 Replace("{questionId}", questionId);
         }
 
-        public string GetDomainApiNextQuestionUrl(string questionId)
+        public string GetDomainApiNextQuestionUrl(string questionId, string nodeLabel)
         {
             return GetDomainApiUrl("DomainApiNextQuestionUrl").
-                Replace("{questionId}", questionId);
+                Replace("{questionId}", questionId).Replace("{nodeLabel}", nodeLabel);
         }
 
         public string GetDomainApiFirstQuestionUrl(string pathwayId)
@@ -123,12 +123,42 @@ namespace NHS111.Business.Configuration
 
         private static string GetDomainApiUrl(string key)
         {
-            return string.Format("{0}{1}", ConfigurationManager.AppSettings["DomainApiBaseUrl"], ConfigurationManager.AppSettings[key]).Replace("&amp;", "&");
+            return String.Format("{0}{1}", ConfigurationManager.AppSettings["DomainApiBaseUrl"], ConfigurationManager.AppSettings[key]).Replace("&amp;", "&");
         }
 
         public string GetRedisUrl()
         {
             return ConfigurationManager.AppSettings["RedisUrl"];
+        }
+
+
+        public string GetLocationPostcodebyGeoUrl(double longitude, double latitude)
+        {
+            return 
+                ConfigurationManager.AppSettings["LocationPostcodebyGeoUrl"]
+                    .Replace("{apiKey}", GetLocationApiKey())
+                    .Replace("{longitude}", longitude.ToString())
+                    .Replace("{latitude}", latitude.ToString())
+                    .Replace("&amp;", "&");
+        }
+
+        public string GetLocationByPostcodeUrl(string postcode)
+        {
+            return
+                ConfigurationManager.AppSettings["LocationByPostcodeUrl"]
+                    .Replace("{apiKey}", GetLocationApiKey())
+                    .Replace("{postcode}", postcode);
+
+        }
+
+        public string GetLocationBaseUrl()
+        {
+            return ConfigurationManager.AppSettings["LocationBaseUrl"];
+        }
+
+        public string GetLocationApiKey()
+        {
+            return ConfigurationManager.AppSettings["LocationApiKey"];
         }
 
 
@@ -158,6 +188,11 @@ namespace NHS111.Business.Configuration
         {
             return new ElasticClient(GetElasticClientSettings().DisableDirectStreaming());
         }
+
+        public string GetDomainApiVersionUrl()
+        {
+            return GetDomainApiUrl("DomainApiGetVersionUrl");
+        }
     }
 
     public interface IConfiguration
@@ -167,7 +202,7 @@ namespace NHS111.Business.Configuration
         /* Questions */
         string GetDomainApiQuestionUrl(string questionId);
         string GetDomainApiAnswersForQuestionUrl(string questionId);
-        string GetDomainApiNextQuestionUrl(string questionId);
+        string GetDomainApiNextQuestionUrl(string questionId, string nodeLabel);
         string GetDomainApiFirstQuestionUrl(string pathwayId);
         string GetDomainApiJustToBeSafeQuestionsFirstUrl(string pathwayId);
         string GetDomainApiJustToBeSafeQuestionsNextUrl(string pathwayId, IEnumerable<string> answeredQuestionIds, bool multipleChoice, string selectedQuestionId);
@@ -198,8 +233,15 @@ namespace NHS111.Business.Configuration
         string GetCategoriesWithPathwaysUrl(string gender, int age);
 
         /*Pathways Search */
-
         ConnectionSettings GetElasticClientSettings();
         IElasticClient GetElasticClient();
+
+        /*Location*/
+        string GetLocationBaseUrl();
+        string GetLocationPostcodebyGeoUrl(double longitude, double latitude);
+        string GetLocationByPostcodeUrl(string postcode);
+
+        /*Version*/
+        string GetDomainApiVersionUrl();
     }
 }

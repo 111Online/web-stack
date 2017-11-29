@@ -6,6 +6,7 @@ using NHS111.Features;
 using NHS111.Models.Models.Web.FromExternalServices;
 using NHS111.Models.Models.Web.Logging;
 using NHS111.Models.Models.Web.Validators;
+using DayOfWeek = System.DayOfWeek;
 
 namespace NHS111.Web.Controllers
 {
@@ -22,6 +23,7 @@ namespace NHS111.Web.Controllers
     using Utils.Attributes;
     using Utils.Filters;
     using System.Web;
+    using Models.Models.Web.DosRequests;
 
     [LogHandleErrorForMVC]
     public class OutcomeController : Controller {
@@ -89,68 +91,110 @@ namespace NHS111.Web.Controllers
             return View(model);
         }
 
-        [HttpPost]
-        public async Task<ActionResult> ServiceList(OutcomeViewModel model,  [FromUri] DateTime? overrideDate, [FromUri] bool? overrideFilterServices)
+        public void AutoSelectFirstItkService(OutcomeViewModel model)
         {
-            if (!ModelState.IsValidField("UserInfo.CurrentAddress.PostCode")) return View(Path.GetFileNameWithoutExtension(model.CurrentView), model);
+            var service = model.DosCheckCapacitySummaryResult.Success.Services.FirstOrDefault(s => s.CallbackEnabled);
             
-            if (!_postCodeAllowedValidator.IsAllowedPostcode(model.UserInfo.CurrentAddress.Postcode))
-            {
-                ModelState.AddModelError("UserInfo.CurrentAddress.Postcode", "Sorry, this service is not currently available in your area.  Please call NHS 111 for advice now");
-                return View(Path.GetFileNameWithoutExtension(model.CurrentView), model);
-            }
-
-            model.DosCheckCapacitySummaryResult = await GetServiceAvailability(model, overrideDate, overrideFilterServices.HasValue ? overrideFilterServices.Value : model.FilterServices);
-            await _auditLogger.LogDosResponse(model);
-
-            if (model.DosCheckCapacitySummaryResult.Error == null && !model.DosCheckCapacitySummaryResult.ResultListEmpty)
-                return View("ServiceList", model);
-
-            return View(Path.GetFileNameWithoutExtension(model.CurrentView), model);
+            if (service != null)
+                model.SelectedServiceId = service.Id.ToString();
         }
 
-        private async Task<DosCheckCapacitySummaryResult> GetServiceAvailability(OutcomeViewModel model, DateTime? overrideDate, bool filterServices)
+        [HttpPost]
+        public async Task<ActionResult> ServiceList([Bind(Prefix = "FindService")]OutcomeViewModel model,  [FromUri] DateTime? overrideDate, [FromUri] bool? overrideFilterServices, DosEndpoint? endpoint)
+        {
+            if (!ModelState.IsValidField("FindService.UserInfo.CurrentAddress.PostCode"))
+                return View(model.CurrentView, model);
+
+            model.UserInfo.CurrentAddress.IsInPilotArea = _postCodeAllowedValidator.IsAllowedPostcode(model.UserInfo.CurrentAddress.Postcode);
+
+            if (!model.UserInfo.CurrentAddress.IsInPilotArea)
+            {
+                ModelState.AddModelError("FindService.UserInfo.CurrentAddress.Postcode", "Sorry, this service is not currently available in your area.  Please call NHS 111 for advice now");
+                return View(model.CurrentView, model);
+            }
+
+            model.DosCheckCapacitySummaryResult = await GetServiceAvailability(model, overrideDate, overrideFilterServices.HasValue ? overrideFilterServices.Value : model.FilterServices, endpoint);
+            await _auditLogger.LogDosResponse(model);
+
+            if (model.DosCheckCapacitySummaryResult.Error == null &&
+                !model.DosCheckCapacitySummaryResult.ResultListEmpty)
+            {
+
+                model.GroupedDosServices =
+                    _dosBuilder.FillGroupedDosServices(model.DosCheckCapacitySummaryResult.Success.Services);
+
+                if (model.OutcomeGroup.IsAutomaticSelectionOfItkResult())
+                {
+                    AutoSelectFirstItkService(model);
+                    if (model.SelectedService != null)
+                        return await PersonalDetails(Mapper.Map<PersonalDetailViewModel>(model));
+                }
+                
+                return View("~\\Views\\Outcome\\ServiceList.cshtml", model);
+            }
+
+            return View(model.CurrentView, model);
+        }
+
+        private async Task<DosCheckCapacitySummaryResult> GetServiceAvailability(OutcomeViewModel model, DateTime? overrideDate, bool filterServices, DosEndpoint? endpoint)
         {
             var dosViewModel = Mapper.Map<DosViewModel>(model);
                 if (overrideDate.HasValue) dosViewModel.DispositionTime = overrideDate.Value;
 
            await _auditLogger.LogDosRequest(model, dosViewModel);
-           return await _dosBuilder.FillCheckCapacitySummaryResult(dosViewModel, filterServices);
+           return await _dosBuilder.FillCheckCapacitySummaryResult(dosViewModel, filterServices, endpoint);
         }
 
         [HttpPost]
-        public async Task<ActionResult> ServiceDetails(OutcomeViewModel model, [FromUri] bool? overrideFilterServices) {
+        public async Task<ActionResult> ServiceDetails([Bind(Prefix = "FindService")]OutcomeViewModel model, [FromUri] bool? overrideFilterServices, DosEndpoint? endpoint) {
 
-            if (!ModelState.IsValidField("UserInfo.CurrentAddress.Postcode")) return View(Path.GetFileNameWithoutExtension(model.CurrentView), model);
-            
-            if (!_postCodeAllowedValidator.IsAllowedPostcode(model.UserInfo.CurrentAddress.Postcode))
+            if (!ModelState.IsValidField("FindService.UserInfo.CurrentAddress.Postcode"))
+                return View(model.CurrentView, model);
+
+            model.UserInfo.CurrentAddress.IsInPilotArea = _postCodeAllowedValidator.IsAllowedPostcode(model.UserInfo.CurrentAddress.Postcode);
+
+            if (!model.UserInfo.CurrentAddress.IsInPilotArea)
             {
-                ModelState.AddModelError("UserInfo.CurrentAddress.Postcode", "Sorry, this service is not currently available in your area.  Please call NHS 111 for advice now");
-                return View(Path.GetFileNameWithoutExtension(model.CurrentView), model);
+                ModelState.AddModelError("FindService.UserInfo.CurrentAddress.Postcode", "Sorry, this service is not currently available in your area.  Please call NHS 111 for advice now");
+                return View(model.CurrentView, model);
             }
 
             var dosCase = Mapper.Map<DosViewModel>(model);
             await _auditLogger.LogDosRequest(model, dosCase);
-            model.DosCheckCapacitySummaryResult = await _dosBuilder.FillCheckCapacitySummaryResult(dosCase, overrideFilterServices.HasValue ? overrideFilterServices.Value : model.FilterServices);
+            model.DosCheckCapacitySummaryResult = await _dosBuilder.FillCheckCapacitySummaryResult(dosCase, overrideFilterServices.HasValue ? overrideFilterServices.Value : model.FilterServices, endpoint);
             await _auditLogger.LogDosResponse(model);
 
-            if (model.DosCheckCapacitySummaryResult.Error == null)
-                return View("ServiceDetails", model);
+            if (model.DosCheckCapacitySummaryResult.Error == null &&
+                !model.DosCheckCapacitySummaryResult.ResultListEmpty)
+            {
+                model.GroupedDosServices =
+                    _dosBuilder.FillGroupedDosServices(model.DosCheckCapacitySummaryResult.Success.Services);
+
+                if (model.OutcomeGroup.IsAutomaticSelectionOfItkResult())
+                {
+                    AutoSelectFirstItkService(model);
+                    if (model.SelectedService != null)
+                        return await PersonalDetails(Mapper.Map<PersonalDetailViewModel>(model));
+                }
+                    return View("~\\Views\\Outcome\\ServiceDetails.cshtml", model);
+                    //explicit path to view because, when direct-linking, the route is no longer /outcome causing convention based view lookup to fail    
+            }
 
             return View(Path.GetFileNameWithoutExtension(model.CurrentView), model);
         }
 
         [HttpPost]
-        public async Task<ActionResult> PersonalDetails(OutcomeViewModel model) {
+        public async Task<ActionResult> PersonalDetails(PersonalDetailViewModel model)
+        {
             ModelState.Clear();
             await _auditLogger.LogSelectedService(model);
 
             model = await PopulateAddressPickerFields(model);
 
-            return View("PersonalDetails", model);
+            return View("~\\Views\\Outcome\\PersonalDetails.cshtml", model);
         }
 
-        private async Task<OutcomeViewModel> PopulateAddressPickerFields(OutcomeViewModel model)
+        private async Task<PersonalDetailViewModel> PopulateAddressPickerFields(PersonalDetailViewModel model)
         {
             //map postcode to field to submit to ITK (preventing multiple entries of same data)
             model.AddressInfoViewModel.PreviouslyEnteredPostcode = model.UserInfo.CurrentAddress.Postcode;
@@ -158,7 +202,7 @@ namespace NHS111.Web.Controllers
             //pre-populate picker fields from postcode lookup service
             var postcodes = await GetPostcodeResults(model.AddressInfoViewModel.PreviouslyEnteredPostcode);
             var firstSelectItemText = postcodes.Count + " addresses found. Please choose...";
-            var items = new List<SelectListItem> { new SelectListItem { Text = firstSelectItemText, Value = "0", Selected = true } };
+            var items = new List<SelectListItem> { new SelectListItem { Text = firstSelectItemText, Value = "", Selected = true } };
             items.AddRange(postcodes.Select(postcode => new SelectListItem { Text = postcode.AddressLine1, Value = postcode.UPRN }).ToList());
             model.AddressInfoViewModel.AddressPicker = items;
 
@@ -168,28 +212,52 @@ namespace NHS111.Web.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> Confirmation(OutcomeViewModel model, [FromUri] bool? overrideFilterServices) {
+        public async Task<ActionResult> Confirmation(PersonalDetailViewModel model, [FromUri] bool? overrideFilterServices)
+        {
             if (!ModelState.IsValid)
             {
                 //populate address picker fields
                 model = await PopulateAddressPickerFields(model);
                 return View("PersonalDetails", model);
             }
-            var availableServices = await GetServiceAvailability(model, DateTime.Now, overrideFilterServices.HasValue ? overrideFilterServices.Value : model.FilterServices);
+            var availableServices = await GetServiceAvailability(model, DateTime.Now, overrideFilterServices.HasValue ? overrideFilterServices.Value : model.FilterServices, null);
             _auditLogger.LogDosResponse(model);
             if (SelectedServiceExits(model.SelectedService.Id, availableServices))
             {
-                model = await _outcomeViewModelBuilder.ItkResponseBuilder(model);
-                if (model.ItkSendSuccess.HasValue && model.ItkSendSuccess.Value)
-                    return View(model);
-                return model.ItkDuplicate.HasValue && model.ItkDuplicate.Value ? View("DuplicateBookingFailure", model) : View("ServiceBookingFailure", model);
+               var outcomeViewModel  = ConvertPatientInformantDateToUserinfo(model.PatientInformantDetails, model);
+               outcomeViewModel = await _outcomeViewModelBuilder.ItkResponseBuilder(outcomeViewModel);
+               if (outcomeViewModel.ItkSendSuccess.HasValue && outcomeViewModel.ItkSendSuccess.Value)
+                   return View(outcomeViewModel);
+               return outcomeViewModel.ItkDuplicate.HasValue && outcomeViewModel.ItkDuplicate.Value ? View("DuplicateBookingFailure", outcomeViewModel) : View("ServiceBookingFailure", outcomeViewModel);
             }
+
             model.UnavailableSelectedService = model.SelectedService;
             model.DosCheckCapacitySummaryResult = availableServices;
             model.DosCheckCapacitySummaryResult.ServicesUnavailable = availableServices.ResultListEmpty;
             model.UserInfo.CurrentAddress.IsInPilotArea = _postCodeAllowedValidator.IsAllowedPostcode(model.UserInfo.CurrentAddress.Postcode);
             
             return View("ServiceBookingUnavailable", model);
+        }
+
+        private OutcomeViewModel ConvertPatientInformantDateToUserinfo(PatientInformantViewModel patientInformantModel, OutcomeViewModel model)
+        {
+            if (patientInformantModel.Informant == InformantType.Self)
+            {
+                model.UserInfo.FirstName = patientInformantModel.SelfName.Forename;
+                model.UserInfo.LastName = patientInformantModel.SelfName.Surname;
+                model.Informant.IsInformantForPatient = false;
+            }
+
+            if (patientInformantModel.Informant == InformantType.ThirdParty)
+            {
+                model.UserInfo.FirstName = patientInformantModel.PatientName.Forename;
+                model.UserInfo.LastName = patientInformantModel.PatientName.Surname;
+
+                model.Informant.Forename = patientInformantModel.InformantName.Forename;
+                model.Informant.Surname = patientInformantModel.InformantName.Surname;
+                model.Informant.IsInformantForPatient = true;
+            }
+            return model;
         }
 
         private bool SelectedServiceExits(int selectedServiceId, DosCheckCapacitySummaryResult availableServices)

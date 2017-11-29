@@ -10,59 +10,53 @@ using OpenQA.Selenium.Support.PageObjects;
 
 namespace NHS111.SmokeTest.Utils
 {
-    public class DispositionPage
+    public abstract class DispositionPage<T> : LayoutPage
     {
-        private readonly IWebDriver _driver;
-
         private const string PATHWAY_NOT_FOUND__EXPECTED_TEXT = "This health assessment can't be completed online";
 
-        [FindsBy(How = How.CssSelector, Using = ".outcome-header h2")]
-        public IWebElement Header { get; set; }
+        [FindsBy(How = How.CssSelector, Using = ".local-header h1")]
+        private IWebElement Header { get; set; }
 
-        [FindsBy(How = How.CssSelector, Using = ".question-header")]
-        public IWebElement PathwayNotFoundHeader { get; set; }
-
-
-        [FindsBy(How = How.CssSelector, Using = ".outcome-header h3")]
-        public IWebElement SubHeader { get; set; }
+        [FindsBy(How = How.XPath, Using = "//h1")]
+        private IWebElement PathwayNotFoundHeader { get; set; }
+        
+        [FindsBy(How = How.CssSelector, Using = ".local-header h3")]
+        private IWebElement SubHeader { get; set; }
 
         [FindsBy(How = How.CssSelector, Using = ".sub-header p")]
-        public IWebElement HeaderOtherInfo { get; set; }
+        private IWebElement HeaderOtherInfo { get; set; }
 
-        [FindsBy(How = How.ClassName, Using = "worsening-advice-icon")]
-        public IWebElement WhatIfFeelWorsePanel { get; set; }
+        [FindsBy(How = How.CssSelector, Using = ".callout--attention")]
+        private IWebElement WhatIfFeelWorsePanel { get; set; }
 
-        [FindsBy(How = How.ClassName, Using = "self-care-title")]
-        public IWebElement CareAdviceTitleElement { get; set; }
+        [FindsBy(How = How.CssSelector, Using = ".care-advice .heading-medium")]
+        private IWebElement CareAdviceTitleElement { get; set; }
 
-
-        [FindsBy(How = How.ClassName, Using = "findservice")]
-        public IWebElement FindServicePanel { get; set; }
-
-        [FindsBy(How = How.Id, Using = "UserInfo_CurrentAddress_Postcode")]
-        public IWebElement PostcodeField { get; set; }
+        [FindsBy(How = How.ClassName, Using = "findservice-form")]
+        private IWebElement FindServicePanel { get; set; }
 
         [FindsBy(How = How.Id, Using = "DosLookup")]
         public IWebElement PostcodeSubmitButton { get; set; }
 
-
-        public DispositionPage EnterPostCodeAndSubmit(string postcode)
+        protected DispositionPage(IWebDriver driver) : base(driver)
         {
-            this.PostcodeField.SendKeys(postcode);
-            this.PostcodeSubmitButton.Click();
-            return new DispositionPage(_driver);
         }
+
+        public abstract T EnterPostCodeAndSubmit(string postcode);
 
         public QuestionPage NavigateBack()
         {
-            _driver.Navigate().Back();
-            return new QuestionPage(_driver);
+            Driver.Navigate().Back();
+            return new QuestionPage(Driver);
         }
 
-        public DispositionPage(IWebDriver driver)
+        public DemographicsPage NavigateBackToGenderPage()
         {
-            _driver = driver;
-            PageFactory.InitElements(_driver, this);
+            while (Driver.Title != "NHS 111 Online - Tell us about you")
+            {
+                Driver.Navigate().Back();
+            }
+            return new DemographicsPage(Driver);
         }
 
         public void VerifySubHeader(string subHeadertext)
@@ -83,6 +77,23 @@ namespace NHS111.SmokeTest.Utils
             Assert.AreEqual(outcomeHeadertext, Header.Text);
         }
 
+        public void VerifyDispositionCode(string dispositionCode)
+        {
+            bool result = true;
+            var xpath = string.Format("//input[@value = \"{0}\"]", dispositionCode);
+            IWebElement dispostionCodeField = null;
+            try
+            {
+                dispostionCodeField = Driver.FindElement(By.XPath(xpath));
+            }
+            catch (NoSuchElementException)
+            {
+                result = false;
+            }
+            Assert.IsTrue(result, string.Format("VerifyDispositionCode : {0}", xpath));
+            Assert.AreEqual(dispositionCode, dispostionCodeField.GetAttribute("value"));
+        }
+
         public void VerifyPathwayNotFound()
         {
             Assert.IsTrue(PathwayNotFoundHeader.Displayed);
@@ -98,7 +109,7 @@ namespace NHS111.SmokeTest.Utils
         public void VerifyFindService(FindServiceType serviceType)
         {
             Assert.IsTrue(FindServicePanel.Displayed);
-            Assert.AreEqual(serviceType.Headertext, FindServicePanel.FindElement(By.TagName("h3")).Text);
+            Assert.AreEqual(serviceType.Headertext, FindServicePanel.FindElement(By.TagName("h2")).Text);
         }
 
         public void VerifyCareAdviceHeader(string careAdciceTitle)
@@ -109,7 +120,7 @@ namespace NHS111.SmokeTest.Utils
 
         public void VerifyCareAdvice(string[] expectedAdviceItems)
         {
-            var foundItems = _driver.FindElements(By.CssSelector(".care-advice div h4.self-care-title"));
+            var foundItems = Driver.FindElements(By.CssSelector(".care-advice div h3"));
             Assert.AreEqual(expectedAdviceItems.Count(), foundItems.Count);
 
             foreach (var item in foundItems)
@@ -148,6 +159,7 @@ namespace NHS111.SmokeTest.Utils
         public static FindServiceType EmergencyDental = new FindServiceType("Find an emergency dental service that can see you");
         public static FindServiceType Optician = new FindServiceType("Find an optician");
         public static FindServiceType Dental = new FindServiceType("Find a dental service");
+        public static FindServiceType Midwife = new FindServiceType("Find a service that can help you");
     }
 
 

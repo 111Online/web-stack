@@ -1,44 +1,47 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using NUnit.Framework;
-using OpenQA.Selenium;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.PageObjects;
 using OpenQA.Selenium.Support.UI;
 
 namespace NHS111.SmokeTest.Utils
 {
-    public class SearchPage
+    public class SearchPage : LayoutPage
     {
-        private readonly IWebDriver _driver;
-        private const string _headerText = "Search by symptom";
+        private const string _headerText = "Tell us the symptom you’re concerned about";
+        private const string _noInputValidationText = "Please enter the symptom you're concerned about";
+        private const string _categoriesLinkText = "searching by category";
+        public string _invalidSearchText = "a";
 
-        [FindsBy(How = How.Id, Using = "searchTags")]
-        public IWebElement SearchTxtBox { get; set; }
+        [FindsBy(How = How.Id, Using = "SanitisedSearchTerm")]
+        private IWebElement SearchTxtBox { get; set; }
 
-        [FindsBy(How = How.ClassName, Using = "button-get-started")]
-        public IWebElement GoButton { get; set; }
+        [FindsBy(How = How.ClassName, Using = "button--next")]
+        private IWebElement NextButton { get; set; }
 
-        [FindsBy(How = How.CssSelector, Using = ".content-container h1")]
-        public IWebElement Header { get; set; }
+        [FindsBy(How = How.CssSelector, Using = ".form-group h1 label")]
+        private IWebElement Header { get; set; }
 
-        public SearchPage(IWebDriver driver)
+        [FindsBy(How = How.CssSelector, Using = "span[data-valmsg-for='SanitisedSearchTerm']")]
+        private IWebElement SearchTxtBoxValidationMessage { get; set; }
+
+        [FindsBy(How = How.Id, Using = "show-categories")]
+        private IWebElement CategoriesLink { get; set; }
+
+        public SearchPage(IWebDriver driver) : base(driver)
         {
-            _driver = driver;
-            PageFactory.InitElements(_driver, this);
         }
 
         public void TypeSearchTextAndClickGo()
         {
             TypeSearchTextAndSelect("Headache");
-            ClickGoButton();
+            ClickNextButton();
         }
 
-        public void Verify()
+        public void VerifyHeader()
         {
             Assert.IsTrue(Header.Displayed);
             Assert.AreEqual(_headerText, Header.Text);
@@ -48,23 +51,29 @@ namespace NHS111.SmokeTest.Utils
         {
             SearchTxtBox.Clear();
             SearchTxtBox.SendKeys(pathway);
-            this.ClickGoButton();
-            new WebDriverWait(_driver, TimeSpan.FromSeconds(5)).Until(ExpectedConditions.ElementIsVisible(By.XPath("//div[@class='results-list']/ul/li")));
-            _driver.FindElement(By.XPath("//div[@class='results-list']/ul/li/a[@data-title='" + pathway + "']")).Click();
-            return new QuestionPage(_driver);
+            this.ClickNextButton();
+            new WebDriverWait(Driver, TimeSpan.FromSeconds(5)).Until(ExpectedConditions.ElementIsVisible(By.XPath("//ul[contains(@class, 'link-list') and contains(@class, 'link-list--results')]/li")));
+            Driver.FindElement(By.XPath("//ul[contains(@class, 'link-list') and contains(@class, 'link-list--results')]/li/a[@data-title='" + pathway + "']")).Click();
+            return new QuestionPage(Driver);
+        }
+
+        public CategoryPage TypeInvalidSearch()
+        {
+            SearchByTerm(_invalidSearchText);
+            return new CategoryPage(Driver);
         }
 
         public IEnumerable<IWebElement> GetHits()
         {
-            new WebDriverWait(_driver, TimeSpan.FromSeconds(5)).Until(ExpectedConditions.ElementIsVisible(By.XPath("//div[@class='results-list']/ul/li")));
-            return _driver.FindElements(By.XPath("//div[@class='results-list']/ul/li")); 
+            new WebDriverWait(Driver, TimeSpan.FromSeconds(5)).Until(ExpectedConditions.ElementIsVisible(By.XPath("//ul[contains(@class, 'link-list') and contains(@class, 'link-list--results')]/li")));
+            return Driver.FindElements(By.XPath("//ul[contains(@class, 'link-list') and contains(@class, 'link-list--results')]/li")); 
         }
 
         public void SearchByTerm(string term)
         {
-            this.SearchTxtBox.Clear();
-            this.SearchTxtBox.SendKeys(term);
-            this.ClickGoButton();
+            SearchTxtBox.Clear();
+            SearchTxtBox.SendKeys(term);
+            ClickNextButton();
         }
         public void VerifyTermHits(string expectedHitTitle, int maxRank)
         {
@@ -85,15 +94,40 @@ namespace NHS111.SmokeTest.Utils
             Assert.IsTrue(rank <= maxRank);
         }
 
-
-        public QuestionPage ClickGoButton()
+        public void VerifyTabbingOrder(string searchTerm)
         {
-            GoButton.Click();
-            return new QuestionPage(_driver);
+            HeaderLogo.SendKeys(Keys.Tab);
+            var searchTxtBox = Driver.SwitchTo().ActiveElement();
+            searchTxtBox.SendKeys(searchTerm);
+            searchTxtBox.SendKeys(Keys.Tab);
+            var nextButtonElement = Driver.SwitchTo().ActiveElement();
+            nextButtonElement.SendKeys(Keys.Enter);
+            //Page Loads Results, so the elements have been recreated
+            //on the new page, so we must get it again.
+            HeaderLogo.SendKeys(Keys.Tab);
+            var firstSearchResultLink = Driver.SwitchTo().ActiveElement();
+
+            Assert.AreEqual(searchTerm.ToLower(), firstSearchResultLink.Text.ToLower());
+        }
+        
+        public void VerifyNoInputValidation()
+        {
+            Assert.IsTrue(SearchTxtBoxValidationMessage.Displayed);
+            Assert.AreEqual(_noInputValidationText, SearchTxtBoxValidationMessage.Text);
         }
 
-        
+        public void VerifyCategoriesLinkPresent()
+        {
+            Assert.IsTrue(CategoriesLink.Displayed);
+            Assert.AreEqual(_categoriesLinkText, CategoriesLink.Text);
 
+        }
+
+        private QuestionPage ClickNextButton()
+        {
+            NextButton.Click();
+            return new QuestionPage(Driver);
+        }        
     }
 
     public static class StringExtensionMethods
