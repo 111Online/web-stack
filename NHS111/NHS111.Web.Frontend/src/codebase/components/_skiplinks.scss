@@ -2,7 +2,7 @@
 
 .skiplinks {
   background-color: $blue-10;
-
+  line-height: 0;
   @if $is-print {
     display: none;
   }
@@ -12,17 +12,20 @@
   @include site-width-container;
 }
 
-.skiplinks__link {
+a.skiplinks__link {
   color: $white;
-  display: inline-block;
-  left: -999em;
   padding: ($baseline-grid-unit * 2);
-  position: absolute;
+  -moz-user-select: none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 
   &:focus {
-    background-color: $blue-10;
-    border: 3px solid $yellow;
-    outline: none;
-    position: static;
+    color: $blue;
+    line-height: 50px;
+    -moz-user-select: initial;
+    -webkit-user-select: initial;
+    -ms-user-select: initial;
+    user-select: initial;
   }
 }

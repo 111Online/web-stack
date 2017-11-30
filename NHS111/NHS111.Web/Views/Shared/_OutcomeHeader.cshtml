@@ -4,5 +4,7 @@
     var outcomeHeader = ViewData.ContainsKey("OutcomeHeader") ? ViewData["OutcomeHeader"] : (!string.IsNullOrEmpty(Model.DispositionText) ? Model.DispositionText : Model.OutcomeGroup.GetDefaultTitle());
 }
 <section class="local-header">
-    <h1 class="local-header__title">@Html.Raw(outcomeHeader)</h1>
+    <div class="measure">
+        <h1 class="local-header__title">@Html.Raw(outcomeHeader)</h1>
+    </div>
 </section>

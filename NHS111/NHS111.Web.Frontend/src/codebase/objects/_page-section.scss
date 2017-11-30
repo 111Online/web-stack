@@ -14,6 +14,13 @@
   * + * {
     @include element-spacing;
   }
+
+  // In some cases the element spacing on lobo owl should be removed
+  [type=hidden] + *,
+  .validation-summary-valid + *,
+  [style="display: none;"] + *  {
+    margin-top: 0;
+  }
 }
 
 .page-section--collapse-bottom {

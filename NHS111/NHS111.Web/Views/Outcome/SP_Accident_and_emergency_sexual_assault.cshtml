@@ -42,17 +42,15 @@
 }
 @Html.Partial("_FindService", Model, dataDictionary)
 
-<section>
-    <div class="outcome-additional-info">
-        <h2 class="heading-medium">
-            Advice before you go
-        </h2>
-        <ul>
-            <li>don't drive yourself, get someone else to take you</li>
-            <li>take all your current medicines with you</li>
-            <li>don’t wash yourself or change your clothes until you have been seen by a doctor or specialist nurse. This is to avoid destroying important evidence should you wish to report the assault to the police.</li>
-        </ul>
-    </div>
+<section class="outcome-additional-info measure">
+    <h2 class="heading-medium">
+        Advice before you go
+    </h2>
+    <ul>
+        <li>don't drive yourself, get someone else to take you</li>
+        <li>take all your current medicines with you</li>
+        <li>don’t wash yourself or change your clothes until you have been seen by a doctor or specialist nurse. This is to avoid destroying important evidence should you wish to report the assault to the police.</li>
+    </ul>
 </section>
 
 
@@ -60,7 +58,7 @@
 
 @Html.Partial("_WorseningAdviceWithTitle", Model)
 
-@using (Html.BeginForm("Navigation", "Question", FormMethod.Post))
+@using (Html.BeginForm("Navigation", "Question", FormMethod.Post, new { @class = "measure" }))
 {
     @Html.Partial("_CommonHiddenFieldsOutcomeViewModel", Model)
     if (!Model.DisplayOutcomeReferenceOnly)

@@ -72,7 +72,7 @@
         @Html.HiddenFor(model => Model.CollectedKeywords.ExcludeKeywords[i].Value)
         @Html.HiddenFor(model => Model.CollectedKeywords.ExcludeKeywords[i].IsFromAnswer)
     }
-    <div class="form-group @(@ViewData.ModelState.IsValidField("SelectedAnswer") ? "" : "form-group-error")">
+    <div class="form-group measure @(@ViewData.ModelState.IsValidField("SelectedAnswer") ? "" : "form-group-error")">
         <fieldset>
             <legend>
                 <h1>@Model.TitleWithoutBullets</h1>

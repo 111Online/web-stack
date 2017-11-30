@@ -24,6 +24,7 @@ input[type="checkbox"]  {
 @if ($is-ie == false) or ($ie-version >= 9) {
   .multiple-choice {
     margin: 0;
+    position: relative;
   }
 
   input[type="radio"] + label,
@@ -52,12 +53,12 @@ input[type="checkbox"]  {
     height: $_element-size;
     left: 0;
     margin: 0;
+    margin-left: 10px;
     opacity: 0;
     position: absolute;
-    position: fixed;
     pointer-events: none;
-    top: 0;
     width: $_element-size;
+    z-index: 1;
   }
 
   input[type="radio"] + label {
