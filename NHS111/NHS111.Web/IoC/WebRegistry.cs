@@ -21,18 +21,17 @@ namespace NHS111.Web.IoC {
 
     public class WebRegistry : Registry {
         public WebRegistry() {
-            Configure(new Configuration());
+            Configure();
         }
 
         public WebRegistry(IConfiguration configuration) {
             For<ICacheManager<string, string>>().Use(new RedisManager(configuration.RedisConnectionString));
             For<IRestClient>().Use(new LoggingRestClient(configuration.BusinessApiProtocolandDomain, LogManager.GetLogger("log"))).Named("restClientBusinessApi");
             For<ICCGModelBuilder>().Use<CCGViewModelBuilder>().Ctor<IRestClient>("ccgServiceRestClient").Is(new LoggingRestClient(configuration.CCGBusinessApiBaseProtocolandDomain, LogManager.GetLogger("log")));
-            // For<IRestClient>().Use(new LoggingRestClient(configuration.CCGBusinessApiBaseProtocolandDomain, LogManager.GetLogger("log"))).Named("ccgServiceRestClient");
-            Configure(configuration);
+            Configure();
         }
 
-        private void Configure(IConfiguration configuration) {
+        private void Configure() {
             IncludeRegistry<FeatureRegistry>();
             IncludeRegistry<UtilsRegistry>();
             IncludeRegistry<ModelsRegistry>();
