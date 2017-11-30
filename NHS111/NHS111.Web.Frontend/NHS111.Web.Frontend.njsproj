@@ -78,6 +78,7 @@
     <Content Include="fractal\theme\assets\theme.css" />
     <Content Include="fractal\theme\assets\nhs-logotype-blue.svg" />
     <Content Include="src\assets\images\app-panel\app_store_badge_US-UK_135x40.svg" />
+    <Content Include="src\assets\images\app-panel\ask_nhs_app_icon.png" />
     <Content Include="src\assets\images\app-panel\google_play_badge.png" />
     <Content Include="src\assets\images\app-panel\nhs_111_app_icon.png" />
     <Content Include="src\assets\images\apple-touch-icon.png" />
