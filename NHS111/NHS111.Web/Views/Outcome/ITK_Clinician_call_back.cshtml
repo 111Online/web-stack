@@ -32,8 +32,8 @@
     }
 }
 
-<section>
-    <div class="local-header">
+<section class="local-header">
+    <div class="measure">
         <h1 class="local-header__title">A nurse from 111 will phone you</h1>
         <div class="local-header__intro">
             <p>Enter a postcode so we can find a suitable local service</p>
@@ -41,7 +41,7 @@
     </div>
 </section>
 
-<div class="itk-message">
+<div class="itk-message measure">
     <p>The 111 nurse will aim to phone you in @Html.Raw(Model.WaitTimeText) or less.</p>
     <br />
     <p>The 111 nurse will:</p>
@@ -74,7 +74,7 @@
 
 <hr />
 
-<details>
+<details class="measure">
     <summary>
         <span class="details__arrow"></span>
         <span class="summary">If you don't want to book a call from this service, please read the following advice</span>

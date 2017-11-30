@@ -3,7 +3,7 @@
     var error = Model.DosCheckCapacitySummaryResult.ResultListEmpty;
     var addressInfoMessage = ViewData.ContainsKey("AddressInfoMessage") ? ViewData["AddressInfoMessage"].ToString() : string.Empty;
 }
-<section>
+<section class="measure">
     <div class="findservice-form">
 
         @using (Html.BeginForm(Model.OutcomeGroup.SearchDestination, "Outcome", FormMethod.Post, new { id = "findServicesForm" }))

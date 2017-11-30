@@ -77,8 +77,8 @@
 
             if (Model.UserInfo.CurrentAddress.IsPostcodeFirst)
             {
-                <h1 id="strap-line">You've answered the questions</h1>
-                <h2>Now we can tell you what to do next</h2>
+                <h1 id="strap-line">Where are you?</h1>
+                <p>Knowing where you are helps us find services in your area.</p>
             }
             <div>
                 <div class="@(@ViewData.ModelState.IsValidField("UserInfo.CurrentAddress.Postcode") ? "" : "form-group-error")">
@@ -87,11 +87,7 @@
                         <p class="field-validation-error" id="NoDosResults">Sorry, no results were found for this postcode.</p>
                         <p class="field-validation-error">Please check you have entered the postcode correctly, then try again. <br /> If the search still gives no results, please call 111 for advice.</p>
                     }
-                    @if (!Model.UserInfo.CurrentAddress.IsPostcodeFirst)
-                    {
-                        <h1>If you enter your postcode now, we can find services that can help you</h1>
-                    }
-                    @(Model.UserInfo.CurrentAddress.IsPostcodeFirst ? Html.Raw("<label for=\"UserInfo_CurrentAddress_Postcode\">Enter your postcode for services that can help you <span class=\"de-emphasised\">(optional)<span></label>") : Html.Raw("<label for=\"UserInfo_CurrentAddress_Postcode\" class=\"alwayshidden\">Postcode required</label>"))
+                    <label for="UserInfo_CurrentAddress_Postcode" class="alwayshidden">Postcode</label>
                     @Html.ValidationMessageFor(m => m.UserInfo.CurrentAddress.Postcode) 
                     @Html.TextBoxFor(m => m.UserInfo.CurrentAddress.Postcode)
                     <button class="button button--next" type="submit" name="DosResults" id="DosLookup">Next</button>

@@ -8,7 +8,7 @@
     @Html.Partial("_FeedbackDetails", new FeedbackViewModel() { UserId = Model.SessionId.ToString(), PageId = Request.Url.GetComponents(UriComponents.PathAndQuery, UriFormat.SafeUnescaped) + "module zero" })
 }
 
-@using (Html.BeginForm("InitialQuestion", "Question", FormMethod.Post))
+@using (Html.BeginForm("InitialQuestion", "Question", FormMethod.Post, new { @class = "measure" }))
 {
     @Html.HiddenFor(x => Model.SessionId)
     @Html.HiddenFor(x => Model.FilterServices)

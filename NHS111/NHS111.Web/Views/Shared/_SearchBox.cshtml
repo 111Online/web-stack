@@ -1,6 +1,6 @@
 ﻿@model NHS111.Models.Models.Web.SearchJourneyViewModel
 
-<div class="form-group @(@ViewData.ModelState.IsValidField("SanitisedSearchTerm") ? "" : "form-group-error")">
+<div class="form-group measure @(@ViewData.ModelState.IsValidField("SanitisedSearchTerm") ? "" : "form-group-error")">
     @using (Html.BeginForm("SearchResults", "Search", FormMethod.Post))
     {
         @Html.HiddenFor(m => Model.UserInfo.Demography.Age)
