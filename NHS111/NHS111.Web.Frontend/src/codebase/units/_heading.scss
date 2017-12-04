@@ -1,4 +1,5 @@
 @import "../environment/tools/mixins/typography";
+@import "../environment/settings/_colours.scss";
 
 h1 {
   @include bold-font(38);
@@ -22,4 +23,8 @@ h5 {
 
 h6 {
   @include core-font(16);
+}
+
+.heading--alert {
+  color: $red;
 }
