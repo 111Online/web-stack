@@ -1,4 +1,4 @@
-/// <binding ProjectOpened='build:fractal, dev, fractal:start' />
+/// <binding />
 const path = require('path'),
     gulp = require('gulp'),
     runSequence = require('run-sequence'),
@@ -38,6 +38,18 @@ const paths = {
   fractalScss: `${__dirname}/fractal/theme/scss`,
   fractalAssets: `${__dirname}/fractal/theme/assets`,
 }
+
+gulp.task('build-if-missing', () => {
+    return fs.readdir(paths.dist, function (err, files) {
+        if (err) {
+            // some sort of error
+        } else {
+            if (!files.length) {
+                return runSequence('build:dist')
+            }
+        }
+    })
+})
 
 gulp.task('clean', () => {
   return runSequence('clean:dist', 'clean:fractal')

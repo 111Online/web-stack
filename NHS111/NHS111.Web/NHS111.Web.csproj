@@ -554,4 +554,9 @@
       <Content Include="$([System.IO.Directory]::GetFiles('$(ProjectDir)\Content\', '*', SearchOption.AllDirectories))" />
     </ItemGroup>
   </Target>
+  <PropertyGroup>
+    <PreBuildEvent>chdir $(SolutionDir)NHS111.Web.Frontend\
+npm install
+chdir $(ProjectDir)</PreBuildEvent>
+  </PropertyGroup>
 </Project>
