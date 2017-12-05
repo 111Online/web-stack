@@ -204,6 +204,7 @@
     <Compile Include="Models\Web\CalloutViewModel.cs" />
     <Compile Include="Models\Web\CCG\CCGDetailsModel.cs" />
     <Compile Include="Models\Web\CCG\CCGModel.cs" />
+    <Compile Include="Models\Web\CCG\DUCTriageApp.cs" />
     <Compile Include="Models\Web\CCG\ServiceListModel.cs" />
     <Compile Include="Models\Web\Clock\SystemClock.cs" />
     <Compile Include="Models\Web\Clock\IClock.cs" />
@@ -287,6 +288,7 @@
     <Compile Include="Models\Web\Validators\InformantForenameValidator.cs" />
     <Compile Include="Models\Web\Validators\InformantSurnameValidator.cs" />
     <Compile Include="Models\Web\Validators\InformantViewModelValidator.cs" />
+    <Compile Include="Models\Web\Validators\IPostcodeAllowedValidator.cs" />
     <Compile Include="Models\Web\Validators\PatientInformantViewModelValidator.cs" />
     <Compile Include="Models\Web\Validators\PersonNameValidator.cs" />
     <Compile Include="Models\Web\Validators\QuestionViewModelValidator.cs" />
@@ -299,7 +301,6 @@
     <Compile Include="Models\Web\Validators\AgeValidator.cs" />
     <Compile Include="Models\Web\Validators\DateOfBirthValidator.cs" />
     <Compile Include="Models\Web\Validators\PersonalInfoAddressViewModelValidator.cs" />
-    <Compile Include="Models\Web\Validators\PostCodeAllowedValidator.cs" />
     <Compile Include="Models\Web\Validators\PostCodeFormatValidator.cs" />
     <Compile Include="Models\Web\Validators\SearchJourneyViewModelValidator.cs" />
     <Compile Include="Models\Web\Validators\UserInfoValidator.cs" />

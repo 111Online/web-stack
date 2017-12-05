@@ -172,6 +172,10 @@
       <Project>{4ccf3abd-92c4-4999-8520-c4aa7b36f48c}</Project>
       <Name>NHS111.Models</Name>
     </ProjectReference>
+    <ProjectReference Include="..\NHS111.Web.Presentation\NHS111.Web.Presentation.csproj">
+      <Project>{9ff5d172-1e47-4e30-8778-3de65c209438}</Project>
+      <Name>NHS111.Web.Presentation</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup />
   <Choose>
