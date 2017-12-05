@@ -9,21 +9,19 @@ using NHS111.Models.Models.Domain;
 
 namespace NHS111.Models.Models.Web.Validators
 {
-    public class AgeValidator<TModel, TProperty> : PropertyValidator, IClientValidatable
+    public class AgeMaximumValidator<TModel, TProperty> : PropertyValidator, IClientValidatable
     {
 
         private readonly string _dependencyElement;
-        private readonly IFilterPathwaysByAgeFeature _filterPathwaysByAgeFeature;
 
-        public AgeValidator(Expression<Func<TModel, TProperty>> expression) : this(expression, new FilterPathwaysByAgeFeature())
+        public AgeMaximumValidator(Expression<Func<TModel, TProperty>> expression) : this(expression, new FilterPathwaysByAgeFeature())
         {
 
         }
 
-        public AgeValidator(Expression<Func<TModel, TProperty>> expression, IFilterPathwaysByAgeFeature filterPathwaysByAgeFeature) : base("Age restriction violated")
+        public AgeMaximumValidator(Expression<Func<TModel, TProperty>> expression, IFilterPathwaysByAgeFeature filterPathwaysByAgeFeature) : base("Age restriction violated")
         {
             _dependencyElement = (expression.Body as MemberExpression).Member.Name;
-            _filterPathwaysByAgeFeature = filterPathwaysByAgeFeature;
         }
 
         protected override bool IsValid(PropertyValidatorContext context)
@@ -34,10 +32,7 @@ namespace NHS111.Models.Models.Web.Validators
 
         public bool IsAValidAge(int age)
         {
-            if (!_filterPathwaysByAgeFeature.IsEnabled) return true;
-
-            var ageCategories = _filterPathwaysByAgeFeature.FilteredAgeCategories.Select(a => new AgeCategory(a));
-            return !ageCategories.Any(a => age >= a.MinimumAge && age <= a.MaximumAge);
+            return (age <= AgeCategory.Adult.MaximumAge);
         }
 
         public IEnumerable<ModelClientValidationRule> GetClientValidationRules(ModelMetadata metadata, ControllerContext context)
@@ -45,7 +40,7 @@ namespace NHS111.Models.Models.Web.Validators
             var rule = new ModelClientValidationRule
             {
                 ErrorMessage = this.ErrorMessageSource.GetString(), // default error message
-                ValidationType = "age" // name of the validatoin which will be used inside unobtrusive library
+                ValidationType = "agemaximum" // name of the validatoin which will be used inside unobtrusive library
             };
 
             rule.ValidationParameters["prefixelement"] = _dependencyElement;
