@@ -103,13 +103,7 @@ namespace NHS111.Web.Controllers {
                 JsonConvert.SerializeObject(
                     pathways.Select(pathway => new {label = pathway.Group, value = pathway.PathwayNumbers}));
         }
-
-        [HttpPost]
-        public ActionResult Gender(JourneyViewModel model) {
-            return View(model);
-        }
-
-
+        
         [HttpPost]
         [ActionName("Navigation")]
         [MultiSubmit(ButtonName = "Question")]

@@ -34,7 +34,7 @@ namespace NHS111.Web.Controllers
             if (!ModelState.IsValidField("UserInfo.Demography.Gender") || !ModelState.IsValidField("UserInfo.Demography.Age"))
             {
                 _userZoomDataBuilder.SetFieldsForDemographics(model);
-                return RedirectToAction("Gender", "Question", model);
+                return View("~\\Views\\Question\\Gender.cshtml", model);
             }
 
             var startOfJourney = new SearchJourneyViewModel

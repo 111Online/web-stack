@@ -280,6 +280,7 @@
     <Compile Include="Models\Web\SearchJourneyViewModel.cs" />
     <Compile Include="Models\Web\SearchResultViewModel.cs" />
     <Compile Include="Models\Web\SurveyLinkViewModel.cs" />
+    <Compile Include="Models\Web\Validators\AgeMaximumValidator.cs" />
     <Compile Include="Models\Web\Validators\DateOfBirthDayValidator.cs" />
     <Compile Include="Models\Web\Validators\DateOfBirthMonthValidator.cs" />
     <Compile Include="Models\Web\Validators\DateOfBirthYearValidator.cs" />
@@ -296,7 +297,7 @@
     <Compile Include="Models\Web\UserInfo.cs" />
     <Compile Include="Models\Web\Users.cs" />
     <Compile Include="Models\Web\Validators\AgeGenderViewModelValidator.cs" />
-    <Compile Include="Models\Web\Validators\AgeValidator.cs" />
+    <Compile Include="Models\Web\Validators\AgeMinimumValidator.cs" />
     <Compile Include="Models\Web\Validators\DateOfBirthValidator.cs" />
     <Compile Include="Models\Web\Validators\PersonalInfoAddressViewModelValidator.cs" />
     <Compile Include="Models\Web\Validators\PostCodeAllowedValidator.cs" />
