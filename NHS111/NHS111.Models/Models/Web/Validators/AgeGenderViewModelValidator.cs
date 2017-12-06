@@ -19,7 +19,7 @@ namespace NHS111.Models.Models.Web.Validators
                 .SetValidator(new AgeMinimumValidator<AgeGenderViewModel, int>(u => u.Age))
                 .WithMessage("Sorry, this service is not available for children under 5 years of age, for medical advice please call 111.")
                 .SetValidator(new AgeMaximumValidator<AgeGenderViewModel, int>(u => u.Age))
-                .WithMessage("The age you entered is incorrect");
+                .WithMessage("Please enter a valid age");
         }
     }
 }
