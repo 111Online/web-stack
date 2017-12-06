@@ -30,6 +30,10 @@
 
     <h1 class="heading-large gender-heading">Tell us about you, or the person you're asking about</h1>
 
+    <div class="callout callout--info">
+        <p>Call 111 if you're asking about someone under 5</p>
+    </div>
+
     <div class="form-group @(@ViewData.ModelState.IsValidField("UserInfo.Demography.Gender") ? "" : "form-group-error")">
         <fieldset id="container_@Html.IdFor(m => m.UserInfo.Demography.Gender)">
             <legend class="form-label">
