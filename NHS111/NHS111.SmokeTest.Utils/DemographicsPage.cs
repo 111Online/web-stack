@@ -11,7 +11,7 @@ namespace NHS111.SmokeTest.Utils
         private const string _sexValidationMessage = "Please enter your sex";
         private const string _ageEmptyValidationMessage = "Please enter your age";
         private const string _ageTooLowValidation = "Sorry, this service is not available for children under 5 years of age, for medical advice please call 111.";
-        private const string _ageTooHighValidation = "The age you entered is incorrect";
+        private const string _ageTooHighValidation = "Please enter a valid age";
 
         [FindsBy(How = How.CssSelector, Using = "h1")]
         private IWebElement Header { get; set; }
