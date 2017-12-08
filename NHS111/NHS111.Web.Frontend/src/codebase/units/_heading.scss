@@ -1,6 +1,16 @@
 @import "../environment/tools/mixins/typography";
 @import "../environment/settings/_colours.scss";
 
+h1.heading--large {
+  @include bold-font(52);
+  font-weight: 700;
+}
+
+h2.heading--large  {
+  @include bold-font(36);
+  font-weight: 700;
+}
+
 h1 {
   @include bold-font(38);
 }
