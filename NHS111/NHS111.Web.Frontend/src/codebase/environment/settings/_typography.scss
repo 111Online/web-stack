@@ -22,12 +22,26 @@ $measure: 40em; // comfy reading width of ~ 55-65 characters
   font-style: normal;
 }
 
+@font-face{
+  font-family:"Frutiger W01";
+  src:url("https://assets.nhs.uk/fonts/eb06b4c3-c0fd-4cd0-a9d9-a2954f6839a7.eot?#iefix");
+  src:url("https://assets.nhs.uk/fonts/eb06b4c3-c0fd-4cd0-a9d9-a2954f6839a7.eot?#iefix") format("eot"),
+      url("https://assets.nhs.uk/fonts/8c92eb68-ce37-4962-a9f4-5b47d336bd1c.woff2") format("woff2"),
+      url("https://assets.nhs.uk/fonts/9bdfdcac-bbd4-46a9-9280-056c9a4438a2.woff") format("woff"),
+      url("https://assets.nhs.uk/fonts/5dae3a6e-9b07-4c2f-aed2-1f5b8951261b.ttf") format("truetype"),
+      url("https://assets.nhs.uk/fonts/eae74276-dd78-47e4-9b27-dac81c3411ca.svg") format("svg");
+  font-weight: 700;
+  font-style: normal;
+}
+
 $type-settings-map: (
   16: -1,
   20: 0,
   24: 1,
   32: 2,
+  36: 5,
   38: 3,
+  52: 4
 );
 
 /* stylelint-disable */
@@ -112,6 +126,40 @@ $type-settings: (
     small: (
       font-size: 32px,
       line-height: $baseline-grid-unit * 10, // 40px
+    ),
+    print: (
+      font-size: 20pt,
+    ),
+  ),
+  4: (  // used for h1.heading--large
+    large: (
+      font-size: 52px,
+      line-height: $baseline-grid-unit * 15, // 48px
+    ),
+    medium: (
+      font-size: 44px,
+      line-height: $baseline-grid-unit * 14, // 48px
+    ),
+    small: (
+      font-size: 40px,
+      line-height: $baseline-grid-unit * 12, // 40px
+    ),
+    print: (
+      font-size: 20pt,
+    ),
+  ),
+  5: (  // used for h2.heading--large
+    large: (
+      font-size: 36px,
+      line-height: $baseline-grid-unit * 15, // 48px
+    ),
+    medium: (
+      font-size: 32px,
+      line-height: $baseline-grid-unit * 14, // 48px
+    ),
+    small: (
+      font-size: 28px,
+      line-height: $baseline-grid-unit * 12, // 40px
     ),
     print: (
       font-size: 20pt,
