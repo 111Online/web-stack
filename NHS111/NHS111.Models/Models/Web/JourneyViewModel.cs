@@ -137,7 +137,7 @@ namespace NHS111.Models.Models.Web
             State = new Dictionary<string, string>();
             SymptomDiscriminatorCode = String.Empty;
             CollectedKeywords = new KeywordBag();
-
+            FilterServices = true;
         }
 
         public List<Answer> OrderedAnswers()

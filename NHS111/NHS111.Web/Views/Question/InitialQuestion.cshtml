@@ -12,7 +12,7 @@
 {
     @Html.HiddenFor(x => Model.SessionId)
     @Html.HiddenFor(x => Model.FilterServices)
-    @Html.HiddenFor(x => Model.UserInfo.CurrentAddress.Postcode)
+    <input id="UserInfo_CurrentAddress_Postcode" name="UserInfo.CurrentAddress.Postcode" type="hidden" value="@Model.UserInfo.CurrentAddress.Postcode">
     <h1 class="heading--alert heading--large">Check it’s not an emergency</h1>
     <div class="callout callout--alert measure">
         <h2 class="heading--large">Call 999 now if you have:</h2>
