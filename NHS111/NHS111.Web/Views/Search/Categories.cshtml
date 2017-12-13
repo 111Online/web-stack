@@ -9,6 +9,15 @@
 
 @section Title  {NHS 111 Online - Categories}
 
+@section HeadTop {
+    <script>
+        dataLayer = [
+            {
+                'virtualPageUrl': document.location.pathname + '?q=@Model.SanitisedSearchTerm'
+            }];
+    </script>
+}
+
 @section FeedbackSection {
     @Html.Partial("_FeedbackDetails", new FeedbackViewModel() { UserId = Model.SessionId.ToString(), PageId = Request.Url.GetComponents(UriComponents.PathAndQuery, UriFormat.SafeUnescaped) })
 }
