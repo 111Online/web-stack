@@ -42,20 +42,13 @@ namespace NHS111.Web.Controllers {
         }
 
         [HttpGet]
-        public ActionResult Home(bool filterServices = true)
+        public ActionResult Home(JourneyViewModel model)
         {
-            var startOfJourney = new JourneyViewModel
-            {
-                SessionId = Guid.Parse(Request.AnonymousID),
-                FilterServices = filterServices,
-                UserInfo = new UserInfo
-                {
-                    CurrentAddress = new FindServicesAddressViewModel()
-                }
-            };
+            var decryptedFields = new QueryStringEncryptor(model.UserInfo.CurrentAddress.Postcode);
+            model.UserInfo.CurrentAddress.Postcode = decryptedFields["postcode"];
 
-            _userZoomDataBuilder.SetFieldsForHome(startOfJourney);
-            return View("Home", startOfJourney);
+            _userZoomDataBuilder.SetFieldsForInitialQuestion(model);
+            return View("InitialQuestion", model);
         }
 
         [HttpGet]
@@ -79,12 +72,12 @@ namespace NHS111.Web.Controllers {
             return View("Home", startOfJourney);
         }
 
-        [HttpPost]
-        public  ActionResult Home(JourneyViewModel model)
-        {
-            _userZoomDataBuilder.SetFieldsForInitialQuestion(model);
-            return View("InitialQuestion", model);
-        }
+        //[HttpPost]
+        //public  ActionResult Home(JourneyViewModel model)
+        //{
+        //    _userZoomDataBuilder.SetFieldsForInitialQuestion(model);
+        //    return View("InitialQuestion", model);
+        //}
 
         [HttpPost]
         public async Task<JsonResult> AutosuggestPathways(string input, string gender, int age)
