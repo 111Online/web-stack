@@ -46,6 +46,7 @@ namespace NHS111.Web.Controllers {
         {
             var decryptedFields = new QueryStringEncryptor(model.UserInfo.CurrentAddress.Postcode);
             model.UserInfo.CurrentAddress.Postcode = decryptedFields["postcode"];
+            model.SessionId = Guid.Parse(Request.AnonymousID);
 
             _userZoomDataBuilder.SetFieldsForInitialQuestion(model);
             return View("InitialQuestion", model);
@@ -71,13 +72,6 @@ namespace NHS111.Web.Controllers {
             _userZoomDataBuilder.SetFieldsForHome(startOfJourney);
             return View("Home", startOfJourney);
         }
-
-        //[HttpPost]
-        //public  ActionResult Home(JourneyViewModel model)
-        //{
-        //    _userZoomDataBuilder.SetFieldsForInitialQuestion(model);
-        //    return View("InitialQuestion", model);
-        //}
 
         [HttpPost]
         public async Task<JsonResult> AutosuggestPathways(string input, string gender, int age)

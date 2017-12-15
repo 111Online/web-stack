@@ -16,17 +16,9 @@ namespace NHS111.Utils.Filters {
             if (model == null) 
                 return;
 
-            var sessionIdCookie = filterContext.RequestContext.HttpContext.Request.Cookies["nhs111-session-id"];
-            if (sessionIdCookie == null)
-            {
-                sessionIdCookie = new HttpCookie("nhs111-session-id")
-                {
-                    Value = filterContext.RequestContext.HttpContext.Request.AnonymousID,
-                    Expires = DateTime.Now.AddHours(72)
-                };
-                filterContext.RequestContext.HttpContext.Response.Cookies.Add(sessionIdCookie);
-            }
-            model.SessionId = Guid.Parse(sessionIdCookie.Value);
+            if (!model.SessionId.Equals(Guid.Empty)) return;
+
+            model.SessionId = Guid.Parse(filterContext.RequestContext.HttpContext.Request.AnonymousID);
         }
     }
 }
