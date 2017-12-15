@@ -42,11 +42,14 @@ namespace NHS111.Web.Controllers {
         }
 
         [HttpGet]
-        public ActionResult Home(JourneyViewModel model)
+        public ActionResult Home(JourneyViewModel model, string args)
         {
-            var decryptedFields = new QueryStringEncryptor(model.UserInfo.CurrentAddress.Postcode);
-            model.UserInfo.CurrentAddress.Postcode = decryptedFields["postcode"];
-            model.SessionId = Guid.Parse(Request.AnonymousID);
+            if (!string.IsNullOrEmpty(args))
+            {
+                var decryptedFields = new QueryStringEncryptor(args);
+                model.UserInfo.CurrentAddress.Postcode = decryptedFields["postcode"];
+                model.SessionId = Guid.Parse(decryptedFields["sessionId"]);
+            }
 
             _userZoomDataBuilder.SetFieldsForInitialQuestion(model);
             return View("InitialQuestion", model);

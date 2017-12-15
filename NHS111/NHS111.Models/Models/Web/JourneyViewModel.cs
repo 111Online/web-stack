@@ -98,7 +98,7 @@ namespace NHS111.Models.Models.Web
         {
             get
             {
-                var age = UserInfo != null ? UserInfo.Demography.Age : 0;
+                var age = UserInfo.Demography != null ? UserInfo.Demography.Age : 0;
                 return string.Format("/question/direct/{0}/{1}/{2}/?answers={3}", PathwayId, age, PathwayTitle,
                     string.Join(",", GetPreviousAnswers()));
             }
@@ -138,6 +138,7 @@ namespace NHS111.Models.Models.Web
             SymptomDiscriminatorCode = String.Empty;
             CollectedKeywords = new KeywordBag();
             FilterServices = true;
+            UserInfo = new UserInfo { CurrentAddress = new FindServicesAddressViewModel() };
         }
 
         public List<Answer> OrderedAnswers()
