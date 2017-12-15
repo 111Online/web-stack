@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
+using System.Web;
 using NHS111.Business.DOS.Configuration;
 using NHS111.Models.Models.Web.CCG;
 using RestSharp;
@@ -34,6 +36,9 @@ namespace NHS111.Business.DOS.WhitelistFilter
 
             if (response.Data != null && response.Data.ServiceIdWhitelist != null)
                 return response.Data.ServiceIdWhitelist;
+
+            if (response.StatusCode != HttpStatusCode.OK)
+                throw new HttpException("CCG Service Error Response");
 
             return new ServiceListModel();
         }
