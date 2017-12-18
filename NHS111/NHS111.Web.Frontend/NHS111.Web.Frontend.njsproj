@@ -28,6 +28,9 @@
     <Compile Include="src\js\entry-polyfills.js">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="src\js\jquery-feedback.js">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="src\js\jquery-validation.js">
       <SubType>Code</SubType>
     </Compile>
@@ -40,9 +43,6 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="src\js\vendor\jquery.cookie.js">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="src\js\vendor\jquery.ns-autogrow.js">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="src\js\vendor\jquery.unobtrusive-ajax.js">
