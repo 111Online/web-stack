@@ -32,6 +32,7 @@
                     var additionalTopics = result.DisplayTitle != null ? result.DisplayTitle.Skip(1) : new List<string>();
                     var title = result.DisplayTitle != null ? result.DisplayTitle.First() : result.Title.First();
                     var encryptedJtbsQueryStringValues = new QueryStringEncryptor();
+                    encryptedJtbsQueryStringValues["sessionId"] = Model.SessionId.ToString();
                     encryptedJtbsQueryStringValues["postcode"] = !string.IsNullOrEmpty(Model.UserInfo.CurrentAddress.Postcode) ? Model.UserInfo.CurrentAddress.Postcode : string.Empty;
                     encryptedJtbsQueryStringValues["digitalTitle"] = PathwaySearchResult.StripHighlightMarkup(title);
                     encryptedJtbsQueryStringValues["filterServices"] = Model.FilterServices.ToString();
@@ -51,6 +52,7 @@
             <h3 id="category-option">
                 @{
                     var encryptedTopicsQueryStringValues = new QueryStringEncryptor();
+                    encryptedTopicsQueryStringValues["sessionId"] = Model.SessionId.ToString();
                     encryptedTopicsQueryStringValues["postcode"] = !string.IsNullOrEmpty(Model.UserInfo.CurrentAddress.Postcode) ? Model.UserInfo.CurrentAddress.Postcode : string.Empty;
                     encryptedTopicsQueryStringValues["searchTerm"] = Model.SanitisedSearchTerm;
                     encryptedTopicsQueryStringValues["filterServices"] = Model.FilterServices.ToString();

@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using System.Web.Mvc;
 using NHS111.Models.Models.Web;
 using NHS111.Utils.Attributes;
@@ -42,6 +43,7 @@ namespace NHS111.Web.Controllers
             var decryptedFilterServices = string.IsNullOrEmpty(decryptedArgs["filterServices"]) || bool.Parse(decryptedArgs["filterServices"]);
 
             var model = new JustToBeSafeViewModel {
+                SessionId = Guid.Parse(decryptedArgs["sessionId"]),
                 PathwayNo = pathwayNumber,
                 DigitalTitle = decryptedArgs["digitalTitle"],
                 EntrySearchTerm = decryptedArgs["entrySearchTerm"],
