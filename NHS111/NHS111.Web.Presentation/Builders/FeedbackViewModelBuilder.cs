@@ -36,12 +36,12 @@ namespace NHS111.Web.Presentation.Builders
 
             if (response.StatusCode == HttpStatusCode.OK || response.StatusCode == HttpStatusCode.Created)
             {
-                model.Message = "Thank you for helping to improve our service";
+                model.Message = "Thank you for helping to improve our service.<br>There's a short survey after the symptom questions if you'd like to send more detailed feedback.";
                 model.Success = true;
             }
             else
             {
-                model.Message = "Feedback did not submit, please try again later";
+                model.Message = "Sorry, there is a technical problem. Try again in a few moments.";
                 model.Success = false;
             }
 

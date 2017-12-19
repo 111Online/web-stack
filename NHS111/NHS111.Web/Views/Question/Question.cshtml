@@ -25,9 +25,9 @@
 @Html.Partial("_FeedbackDetails", new FeedbackViewModel() {
     UserId = Model.SessionId.ToString(),
     PageId = Request.Url.GetComponents(UriComponents.PathAndQuery, UriFormat.SafeUnescaped) + "/" + Model.Id,
-    //Summary = "Tell us if this page isn't clear"
-    //Heading = "Help us to improve this page",
-    //Paragraph = "Don’t include any personal information, such as your name, date of birth, address or NHS number."
+    Summary = "Tell us if this question isn’t clear"
+    //Heading = "",
+    //Paragraph = ""
 })
 }
 

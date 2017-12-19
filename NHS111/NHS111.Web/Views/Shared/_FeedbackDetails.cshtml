@@ -1,28 +1,20 @@
 ﻿@model NHS111.Models.Models.Web.FeedbackViewModel
 @{ Model.DateAdded = DateTime.Now; }
-<!--[if lte IE 8]>
-    <style>
-        .feedback-container {
-            color: black;
-        }
-
-    </style>
-<![endif]-->
-
 @{
     const int maxFeedbackLength = 1200;
 }
 
 <section class="feedback page-section" id="feedback">
     <details class="measure">
-        <summary><span class="details__arrow"></span>@(String.IsNullOrEmpty(Model.Summary) ? "Tell us if this page isn't clear" : Model.Summary)</summary>
+        <summary><span class="details__arrow"></span>@(String.IsNullOrEmpty(Model.Summary) ? "Tell us what you think of this page" : Model.Summary)</summary>
         <div>
             @using (Ajax.BeginForm("SubmitFeedback", "Feedback", new AjaxOptions { InsertionMode = InsertionMode.Replace, UpdateTargetId = "feedback-details", LoadingElementId = "loader", HttpMethod = "POST", OnBegin = "$('.feedback form').fadeOut(600);", OnSuccess = "$('#feedback-details').fadeIn(600);" }))
         {
                 @Html.HiddenFor(m => m.UserId)
                 @Html.HiddenFor(m => m.PageId)
-                <label for="@Html.IdFor(m => m.Text)"><h2 class='heading--large'>@(String.IsNullOrEmpty(Model.Heading) ? "Help us to improve this page" : Model.Heading)</h2></label>
-                <p>@(String.IsNullOrEmpty(Model.Paragraph) ? "Don’t include any personal information, such as your name, date of birth, address or NHS number." : Model.Paragraph)</p>
+                <label for="@Html.IdFor(m => m.Text)"><h2 class='heading--large'>@(String.IsNullOrEmpty(Model.Heading) ? "Help us improve" : Model.Heading)</h2></label>
+                <p>@(String.IsNullOrEmpty(Model.Paragraph) ? "Your comments, suggestions or ideas about this page will help us improve." : Model.Paragraph)</p>
+                <p>Don't include any medical or personal information like your name or email.</p>
                 @Html.TextAreaFor(m => m.Text, new { @placeholder = "Feedback", @Value = "", @class = "feedback__input", @maxlength = maxFeedbackLength })
                 <div id="textdetailscounter" class="feedback__counter">@(maxFeedbackLength) character limit</div>
                 <button class="button button--next button--secondary" id="btnFeedback">Send feedback</button>
