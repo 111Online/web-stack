@@ -34,12 +34,12 @@ namespace NHS111.Business.DOS.WhitelistFilter
             var response = await _restCCGApi.ExecuteTaskAsync<CCGDetailsModel>(
                 new RestRequest(string.Format(_configuration.CCGApiGetCCGByPostcode, postCode), Method.GET));
 
-            if (response.Data != null && response.Data.ServiceIdWhitelist != null)
-                return response.Data.ServiceIdWhitelist;
-
             if (response.StatusCode != HttpStatusCode.OK)
                 throw new HttpException("CCG Service Error Response");
 
+            if (response.Data != null && response.Data.ServiceIdWhitelist != null)
+                return response.Data.ServiceIdWhitelist;
+            
             return new ServiceListModel();
         }
     }
