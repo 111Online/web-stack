@@ -13,8 +13,7 @@
                 @Html.HiddenFor(m => m.UserId)
                 @Html.HiddenFor(m => m.PageId)
                 <label for="@Html.IdFor(m => m.Text)"><h2 class='heading--large'>@(String.IsNullOrEmpty(Model.Heading) ? "Help us improve" : Model.Heading)</h2></label>
-                <p>@(String.IsNullOrEmpty(Model.Paragraph) ? "Your comments, suggestions or ideas about this page will help us improve." : Model.Paragraph)</p>
-                <p>Don't include any medical or personal information like your name or email.</p>
+                <p>@(String.IsNullOrEmpty(Model.Paragraph) ? "Your comments will help us make the service better." : Model.Paragraph) Don't include any medical or personal information like your name or email.</p>
                 @Html.TextAreaFor(m => m.Text, new { @placeholder = "Feedback", @Value = "", @class = "feedback__input", @maxlength = maxFeedbackLength })
                 <div id="textdetailscounter" class="feedback__counter">@(maxFeedbackLength) character limit</div>
                 <button class="button button--next button--secondary" id="btnFeedback">Send feedback</button>
