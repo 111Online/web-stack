@@ -36,7 +36,7 @@ namespace NHS111.Web.Presentation.Builders
 
             if (response.StatusCode == HttpStatusCode.OK || response.StatusCode == HttpStatusCode.Created)
             {
-                model.Message = "Thank you for helping to improve our service. We read all feedback, but aren’t able to respond. There's a short survey after the symptom questions if you'd like to send more detailed feedback.";
+                model.Message = "Thank you.<br>We use feedback to improve the service, but can't reply to any comments.<br>There’s a survey after the symptom questions, where you can give more detailed feedback if you like.";
                 model.Success = true;
             }
             else
