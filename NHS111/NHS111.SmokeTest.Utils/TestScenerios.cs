@@ -20,16 +20,14 @@ namespace NHS111.SmokeTest.Utils
     {
         public static SearchPage LaunchSearchScenerio(IWebDriver driver, string sex, int age)
         {
-            var homePage = TestScenarioPart.HomePage(driver);
-            var moduleZeroPage = TestScenarioPart.ModuleZero(homePage);
+            var moduleZeroPage = TestScenarioPart.ModuleZero(driver);
             var demographicsPage = TestScenarioPart.Demographics(moduleZeroPage);
             return TestScenarioPart.Search(demographicsPage, sex, age);
         }
 
         public static CategoryPage LaunchCategoryScenerio(IWebDriver driver, string sex, int age)
         {
-            var homePage = TestScenarioPart.HomePage(driver);
-            var moduleZeroPage = TestScenarioPart.ModuleZero(homePage);
+            var moduleZeroPage = TestScenarioPart.ModuleZero(driver);
             var demographicsPage = TestScenarioPart.Demographics(moduleZeroPage);
             var searchPage = TestScenarioPart.Search(demographicsPage, sex, age);
             return TestScenarioPart.Category(searchPage);
@@ -37,8 +35,7 @@ namespace NHS111.SmokeTest.Utils
 
         public static QuestionPage LaunchTriageScenerio(IWebDriver driver, string pathwayTopic, string sex, int age)
         {
-            var homePage = TestScenarioPart.HomePage(driver);
-            var moduleZeroPage = TestScenarioPart.ModuleZero(homePage);
+            var moduleZeroPage = TestScenarioPart.ModuleZero(driver);
             var demographicsPage = TestScenarioPart.Demographics(moduleZeroPage);
             var searchPage = TestScenarioPart.Search(demographicsPage, sex, age);
             return TestScenarioPart.Question(searchPage, pathwayTopic);
