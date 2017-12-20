@@ -50,8 +50,7 @@ namespace NHS111.SmokeTests
 
         private DemographicsPage GetDemographicsPage()
         {
-            var homePage = TestScenarioPart.HomePage(Driver);
-            var moduleZero = TestScenarioPart.ModuleZero(homePage);
+            var moduleZero = TestScenarioPart.ModuleZero(Driver);
             return TestScenarioPart.Demographics(moduleZero);
         }
     }

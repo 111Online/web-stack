@@ -7,6 +7,7 @@ namespace NHS111.SmokeTests
     public class HomePageTests : BaseTests
     {
         [Test]
+        [Ignore]
         public void HomePage_Displays()
         {
             var homePage = TestScenarioPart.HomePage(Driver);
