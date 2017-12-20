@@ -72,6 +72,7 @@
                                                 @foreach (var pathway in subCategory.Pathways.OrderBy(p => p.PathwayData.DigitalTitle))
                                                 {
                                                     var encryptedSubCategoryQueryStringValues = new QueryStringEncryptor();
+                                                    encryptedSubCategoryQueryStringValues["sessionId"] = Model.SessionId.ToString();
                                                     encryptedSubCategoryQueryStringValues["postcode"] = !string.IsNullOrEmpty(Model.UserInfo.CurrentAddress.Postcode) ? Model.UserInfo.CurrentAddress.Postcode : string.Empty;
                                                     encryptedSubCategoryQueryStringValues["digitalTitle"] = PathwaySearchResult.StripHighlightMarkup(pathway.PathwayData.DigitalTitle);
                                                     encryptedSubCategoryQueryStringValues["filterServices"] = Model.FilterServices.ToString();
@@ -91,6 +92,7 @@
                                     @foreach (var pathway in topLevelCategory.Pathways.OrderBy(p => p.PathwayData.DigitalTitle))
                                     {
                                         var encryptedCategoryQueryStringValues = new QueryStringEncryptor();
+                                        encryptedCategoryQueryStringValues["sessionId"] = Model.SessionId.ToString();
                                         encryptedCategoryQueryStringValues["postcode"] = !string.IsNullOrEmpty(Model.UserInfo.CurrentAddress.Postcode) ? Model.UserInfo.CurrentAddress.Postcode : string.Empty;
                                         encryptedCategoryQueryStringValues["digitalTitle"] = PathwaySearchResult.StripHighlightMarkup(pathway.PathwayData.DigitalTitle);
                                         encryptedCategoryQueryStringValues["filterServices"] = Model.FilterServices.ToString();

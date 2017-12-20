@@ -1,6 +1,7 @@
 ﻿@using System.Configuration
 @using System.Reflection
 @using NHS111.Web.Presentation.Analytics
+@using Configuration = NHS111.Web.Presentation.Configuration.Configuration
 @inherits NHS111.Web.Views.Shared.LayoutView
 
 <!DOCTYPE html>
@@ -66,7 +67,7 @@
     </div>
     <header role="banner" class="global-header">
         <div class="global-header__inner">
-            <a href="/" class="global-header__logo" title="Go to the NHS 111 homepage">
+            <a href="@ConfigurationManager.AppSettings["RedirectToStartFeatureRedirectUrl"]" class="global-header__logo" title="Go to the NHS 111 homepage">
                 <img src="/content/images/nhs-logotype-blue.svg" width="79" height="32" alt="NHS"> <span class="global-header__text util-digits">1 1 1</span> <span class="global-header__text">online</span>
             </a>
         </div>
