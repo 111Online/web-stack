@@ -74,7 +74,7 @@
     <div class="phase-banner" role="banner">
         <span class="banner--beta">beta</span>
         <span class="phase-message">
-            This is the first version of a new service
+            This is a new service, your <a href="#feedback" class="js-open-feedback">feedback</a> will help improve it.
         </span>
     </div>
     
@@ -92,7 +92,7 @@
     }
     @RenderBody()
 </main>
-    <section class="feedback-section">@RenderSection("FeedbackSection", false)</section>
+    @RenderSection("FeedbackSection", false)
     <footer role="contentinfo" class="global-footer">
         <div class="global-footer__inner">
             <nav>

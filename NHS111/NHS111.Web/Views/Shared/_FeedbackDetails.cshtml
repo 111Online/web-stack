@@ -1,63 +1,24 @@
 ﻿@model NHS111.Models.Models.Web.FeedbackViewModel
 @{ Model.DateAdded = DateTime.Now; }
-<!--[if lte IE 8]>
-    <style>
-        .feedback-container {
-            color: black;
-        }
-
-    </style>
-<![endif]-->
-
 @{
     const int maxFeedbackLength = 1200;
 }
 
-<div class="feedback-wrapper">
-    <div class="feedback-container feedback-container--open">
-        <div class="page-section">
-            <div id="feedback-details" class="measure">
-                <span class="icon-close" tabindex="0" role="button" title="Close feedback box"></span>
-                @using (Ajax.BeginForm("SubmitFeedback", "Feedback", new AjaxOptions { InsertionMode = InsertionMode.Replace, UpdateTargetId = "feedback-details", LoadingElementId = "loader", HttpMethod = "POST", OnBegin = "$('#feedback-details').slideToggle(600);", OnSuccess = "$('#feedback-details').slideToggle(600);" }))
-                {
-                    @Html.HiddenFor(m => m.UserId)
-                    @Html.HiddenFor(m => m.PageId)
-                    <h2>
-                        @Html.LabelFor(m => m.Text, "Tell us if this page isn't clear")
-                    </h2>
-                    <div>
-                        <p>Don’t include any personal information, such as your name, date of birth, address or NHS number.<br><span id="textdetailscounter">(Limit is 1200 characters)</span></p>
-                        @Html.TextAreaFor(m => m.Text, new { @placeholder = "Feedback", @Value = "", @class = "feedback-input", @maxlength = maxFeedbackLength })
-                        <button class="button button--next button--secondary" id="btnFeedback">Send feedback</button>
-                    </div>
-                }
-            </div>
+<section class="feedback page-section" id="feedback">
+    <details class="measure">
+        <summary><span class="details__arrow"></span>@(String.IsNullOrEmpty(Model.Summary) ? "Tell us what you think of this page" : Model.Summary)</summary>
+        <div>
+            @using (Ajax.BeginForm("SubmitFeedback", "Feedback", new AjaxOptions { InsertionMode = InsertionMode.Replace, UpdateTargetId = "feedback-details", LoadingElementId = "loader", HttpMethod = "POST", OnBegin = "$('.feedback form').fadeOut(600);", OnSuccess = "$('#feedback-details').fadeIn(600);" }))
+        {
+                @Html.HiddenFor(m => m.UserId)
+                @Html.HiddenFor(m => m.PageId)
+                <label for="@Html.IdFor(m => m.Text)">@(String.IsNullOrEmpty(Model.Heading) ? "Help us improve" : Model.Heading)</label>
+                <p>@(String.IsNullOrEmpty(Model.Paragraph) ? "Your comments will help us make the service better." : Model.Paragraph) Don't include any medical or personal information like your name or email.</p>
+                @Html.TextAreaFor(m => m.Text, new { @placeholder = "Feedback", @Value = "", @class = "feedback__input", @maxlength = maxFeedbackLength })
+                <div id="textdetailscounter" class="feedback__counter">@(maxFeedbackLength) character limit</div>
+                <button class="button button--next button--secondary" id="btnFeedback">Send feedback</button>
+            }
+            <div id="feedback-details"></div>
         </div>
-    </div>
-</div>
-<script>
-
-    jQuery(function () {
-        var maxLength = @maxFeedbackLength;
-        $('.feedback-input').keyup(function () {
-            var length = $(this).val().length;
-            var length = maxLength - length;
-            $('#textdetailscounter').text(length + ' characters remaining (limit is ' + @maxFeedbackLength + ' characters)');
-        });
-
-        $('.feedback-container .icon-close').click(function () {
-            $('.feedback-wrapper').slideToggle();
-        });
-
-        $('.feedback-input').focus(function () {
-            $(this).animate({
-                //width: "70%",
-                //height: "70%"
-            });
-        });
-
-        $('.feedback-wrapper').show();
-        $('.feedback-input').autogrow({ vertical: true, horizontal: false });
-    });
-   
-</script>
+    </details>
+</section>

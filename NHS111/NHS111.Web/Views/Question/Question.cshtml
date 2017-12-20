@@ -22,7 +22,13 @@
 }
 
 @section FeedbackSection {
-    @Html.Partial("_FeedbackDetails", new FeedbackViewModel() { UserId = Model.SessionId.ToString(), PageId = Request.Url.GetComponents(UriComponents.PathAndQuery, UriFormat.SafeUnescaped) + "/" + Model.Id })
+@Html.Partial("_FeedbackDetails", new FeedbackViewModel() {
+    UserId = Model.SessionId.ToString(),
+    PageId = Request.Url.GetComponents(UriComponents.PathAndQuery, UriFormat.SafeUnescaped) + "/" + Model.Id,
+    Summary = "Tell us if this question isn’t clear",
+    Heading = "Help us improve this question",
+    Paragraph = "For example, do you need more help with medical terms? Is it easy to answer the question?"
+})
 }
 
 @functions {
