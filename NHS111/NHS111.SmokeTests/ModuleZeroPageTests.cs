@@ -15,11 +15,11 @@ namespace NHS111.SmokeTests
         }
 
         [Test]
-        public void ModuleZeroPage_ExpandableLink()
+        public void ModuleZeroPage_List()
         {
             var homePage = TestScenarioPart.HomePage(Driver);
             var moduleZero = TestScenarioPart.ModuleZero(homePage);
-            moduleZero.VerifyExpandableLink();
+            moduleZero.VerifyList();
         }
 
 

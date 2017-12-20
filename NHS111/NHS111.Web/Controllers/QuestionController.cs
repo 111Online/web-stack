@@ -42,20 +42,17 @@ namespace NHS111.Web.Controllers {
         }
 
         [HttpGet]
-        public ActionResult Home(bool filterServices = true)
+        public ActionResult Home(JourneyViewModel model, string args)
         {
-            var startOfJourney = new JourneyViewModel
+            if (!string.IsNullOrEmpty(args))
             {
-                SessionId = Guid.Parse(Request.AnonymousID),
-                FilterServices = filterServices,
-                UserInfo = new UserInfo
-                {
-                    CurrentAddress = new FindServicesAddressViewModel()
-                }
-            };
+                var decryptedFields = new QueryStringEncryptor(args);
+                model.UserInfo.CurrentAddress.Postcode = decryptedFields["postcode"];
+                model.SessionId = Guid.Parse(decryptedFields["sessionId"]);
+            }
 
-            _userZoomDataBuilder.SetFieldsForHome(startOfJourney);
-            return View("Home", startOfJourney);
+            _userZoomDataBuilder.SetFieldsForInitialQuestion(model);
+            return View("InitialQuestion", model);
         }
 
         [HttpGet]
@@ -80,13 +77,6 @@ namespace NHS111.Web.Controllers {
         }
 
         [HttpPost]
-        public  ActionResult Home(JourneyViewModel model)
-        {
-            _userZoomDataBuilder.SetFieldsForInitialQuestion(model);
-            return View("InitialQuestion", model);
-        }
-
-        [HttpPost]
         public async Task<JsonResult> AutosuggestPathways(string input, string gender, int age)
         {
  
@@ -103,13 +93,7 @@ namespace NHS111.Web.Controllers {
                 JsonConvert.SerializeObject(
                     pathways.Select(pathway => new {label = pathway.Group, value = pathway.PathwayNumbers}));
         }
-
-        [HttpPost]
-        public ActionResult Gender(JourneyViewModel model) {
-            return View(model);
-        }
-
-
+        
         [HttpPost]
         [ActionName("Navigation")]
         [MultiSubmit(ButtonName = "Question")]

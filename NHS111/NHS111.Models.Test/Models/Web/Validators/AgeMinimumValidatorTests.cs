@@ -8,7 +8,7 @@ using NUnit.Framework;
 namespace NHS111.Models.Test.Models.Web.Validators
 {
     [TestFixture]
-    public class AgeValidatorTests
+    public class AgeMinimumValidatorTests
     {
         [Test]
         public void Feature_not_enabled_returns_is_valid_true()
@@ -16,7 +16,7 @@ namespace NHS111.Models.Test.Models.Web.Validators
             var mockFeature = new Mock<IFilterPathwaysByAgeFeature>();
             mockFeature.Setup(f => f.IsEnabled).Returns(false);
 
-            var sut = new AgeValidator<AgeGenderViewModel, int>(u => u.Age, mockFeature.Object);
+            var sut = new AgeMinimumValidator<AgeGenderViewModel, int>(u => u.Age, mockFeature.Object);
             Assert.IsTrue(sut.IsAValidAge(24));
         }
 
@@ -27,7 +27,7 @@ namespace NHS111.Models.Test.Models.Web.Validators
             mockFeature.Setup(f => f.IsEnabled).Returns(true);
             mockFeature.Setup(f => f.FilteredAgeCategories).Returns(new string[0]);
 
-            var sut = new AgeValidator<AgeGenderViewModel, int>(u => u.Age, mockFeature.Object);
+            var sut = new AgeMinimumValidator<AgeGenderViewModel, int>(u => u.Age, mockFeature.Object);
             Assert.IsTrue(sut.IsAValidAge(24));
         }
 
@@ -38,7 +38,7 @@ namespace NHS111.Models.Test.Models.Web.Validators
             mockFeature.Setup(f => f.IsEnabled).Returns(true);
             mockFeature.Setup(f => f.FilteredAgeCategories).Returns(new[] { "infant", "toddler" });
 
-            var sut = new AgeValidator<AgeGenderViewModel, int>(u => u.Age, mockFeature.Object);
+            var sut = new AgeMinimumValidator<AgeGenderViewModel, int>(u => u.Age, mockFeature.Object);
             Assert.IsFalse(sut.IsAValidAge(4));
         }
 
@@ -49,7 +49,7 @@ namespace NHS111.Models.Test.Models.Web.Validators
             mockFeature.Setup(f => f.IsEnabled).Returns(true);
             mockFeature.Setup(f => f.FilteredAgeCategories).Returns(new[] { "infant", "toddler" });
 
-            var sut = new AgeValidator<AgeGenderViewModel, int>(u => u.Age, mockFeature.Object);
+            var sut = new AgeMinimumValidator<AgeGenderViewModel, int>(u => u.Age, mockFeature.Object);
             Assert.IsFalse(sut.IsAValidAge(1));
         }
 
@@ -60,7 +60,7 @@ namespace NHS111.Models.Test.Models.Web.Validators
             mockFeature.Setup(f => f.IsEnabled).Returns(true);
             mockFeature.Setup(f => f.FilteredAgeCategories).Returns(new[] { "infant", "toddler" });
 
-            var sut = new AgeValidator<AgeGenderViewModel, int>(u => u.Age, mockFeature.Object);
+            var sut = new AgeMinimumValidator<AgeGenderViewModel, int>(u => u.Age, mockFeature.Object);
             Assert.IsFalse(sut.IsAValidAge(0));
         }
 
@@ -71,7 +71,7 @@ namespace NHS111.Models.Test.Models.Web.Validators
             mockFeature.Setup(f => f.IsEnabled).Returns(true);
             mockFeature.Setup(f => f.FilteredAgeCategories).Returns(new[] { "infant", "toddler" });
 
-            var sut = new AgeValidator<AgeGenderViewModel, int>(u => u.Age, mockFeature.Object);
+            var sut = new AgeMinimumValidator<AgeGenderViewModel, int>(u => u.Age, mockFeature.Object);
             Assert.IsTrue(sut.IsAValidAge(5));
         }
 
@@ -83,7 +83,7 @@ namespace NHS111.Models.Test.Models.Web.Validators
             mockFeature.Setup(f => f.IsEnabled).Returns(true);
             mockFeature.Setup(f => f.FilteredAgeCategories).Returns(new[] { "x", "toddler" });
 
-            var sut = new AgeValidator<AgeGenderViewModel, int>(u => u.Age, mockFeature.Object);
+            var sut = new AgeMinimumValidator<AgeGenderViewModel, int>(u => u.Age, mockFeature.Object);
             Assert.IsTrue(sut.IsAValidAge(5));
         }
     }

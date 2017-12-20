@@ -12,18 +12,19 @@
 {
     @Html.HiddenFor(x => Model.SessionId)
     @Html.HiddenFor(x => Model.FilterServices)
-    @Html.HiddenFor(x => Model.UserInfo.CurrentAddress.Postcode)
+    <input id="UserInfo_CurrentAddress_Postcode" name="UserInfo.CurrentAddress.Postcode" type="hidden" value="@Model.UserInfo.CurrentAddress.Postcode">
+    <h1 class="heading--alert heading--large">Check it’s not an emergency</h1>
+    <div class="callout callout--alert measure">
+        <h2 class="heading--large">Call 999 now if you have:</h2>
+        <ul>
+            <li><span class="emphasis">signs of a heart attack - </span>pain like a very tight band, heavy weight or squeezing in the centre of your chest</li>
+            <li><span class="emphasis">signs of a stroke - </span>face drooping on one side, can’t hold both arms up, difficulty speaking</li>
+            <li><span class="emphasis">severe difficulty breathing - </span>gasping, not being able to get words out, choking or lips turning blue</li>
+            <li><span class="emphasis">heavy bleeding - </span>that won’t stop</li>
+            <li><span class="emphasis">severe injuries - </span>or deep cuts after a serious accident</li>
+            <li><span class="emphasis">seizure (fit) - </span>someone is shaking or jerking because of a fit, or is unconscious (can’t be woken up)</li>
+        </ul>
 
-    <h1 class="heading-large">Do any of these apply?</h1>
-    @Html.Partial("_Callout", new CalloutViewModel() { Details = new[] { "Before we ask about the symptoms, we need to check it's not an emergency.", "If any of these apply, <strong>call <span class='util-digits'>9 9 9</span> now</strong>" }, Modifiers = new[] { "info" } })
-
-    @Html.Partial("_HiddenText", new HiddenTextViewModel() { Summary = "Central crushing chest pain", Details = new[] { "A feeling of crushing pressure like a heavy weight pushing down on your chest." } })
-    @Html.Partial("_HiddenText", new HiddenTextViewModel() { Summary = "You think it's a stroke", Details = new[] { "Signs of a stroke include being unable to raise both arms and keep them there, difficulty speaking or a lopsided face." } })
-    @Html.Partial("_HiddenText", new HiddenTextViewModel() { Summary = "Severe difficulty breathing, choking or turning blue", Details = new[] { "This means you are unable to finish a sentence without stopping several times to take a breath. You may be gasping, wheezing or putting a lot of effort into breathing." } })
-    @Html.Partial("_HiddenText", new HiddenTextViewModel() {Summary = "Bleeding very heavily", Details = new[] {"This means heavy bleeding that is continuing despite attempts to stop it."}})
-    @Html.Partial("_HiddenText", new HiddenTextViewModel() { Summary = "A severe injury", Details = new[] { "This includes deep wounds, or injuries caused by falls, assault or road traffic accidents and will require an immediate medical assessment." } })
-    @Html.Partial("_HiddenText", new HiddenTextViewModel() { Summary = "The person you are enquiring about is unconscious or having a seizure (fit)", Details = new[] { "Unconscious - Not awake and totally unaware of what is going on around you. As if you are asleep, but with no response if someone tries to wake you.", "Seizure - Uncontrolled electrical activity in the brain, which can lead to loss of consciousness and/or loss of bladder and bowel control. Seizures are often known as fits." } })
-
-    <p>If none of these apply, click next to continue</p>
-    @Html.Partial("_Button", new ButtonViewModel() { Text = "Next", Type = "submit", Modifiers = new[] { "next" } })
+    </div>
+    @Html.Partial("_Button", new ButtonViewModel() { Text = "I have none of these", Type = "submit", Modifiers = new[] { "next" } })
 }

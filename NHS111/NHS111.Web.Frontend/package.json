@@ -71,7 +71,7 @@
     "dev-gulp": "gulp dev",
     "build:docs": "NODE_ENV=production node ./node_modules/.bin/fractal build && node ./fractal/create-redirect.js",
     "deploy": "npm run build:docs && gh-pages --add -d 'build'",
-    "postinstall": "gulp build:dist"
+    "postinstall": "gulp build-if-missing"
   },
   "fractal": {
     "main": "fractal.config.js"

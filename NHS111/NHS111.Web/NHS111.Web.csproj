@@ -426,7 +426,6 @@
     <Content Include="Views\Outcome\Call_999_Assess.cshtml" />
     <Content Include="Views\Question\InlineCareAdvice.cshtml" />
     <Content Include="Views\Shared\_CommonHiddenFieldsNode.cshtml" />
-    <Content Include="Views\Shared\_GenderAgeView.cshtml" />
     <Content Include="leeds-postcodes.csv" />
     <Content Include="Views\Shared\_CommonHiddenFieldsCareAdviceViewModel.cshtml" />
     <Content Include="Views\Outcome\PathwaySelectionJump.cshtml" />
@@ -554,4 +553,9 @@
       <Content Include="$([System.IO.Directory]::GetFiles('$(ProjectDir)\Content\', '*', SearchOption.AllDirectories))" />
     </ItemGroup>
   </Target>
+  <PropertyGroup>
+    <PreBuildEvent>chdir $(SolutionDir)NHS111.Web.Frontend\
+npm install
+chdir $(ProjectDir)</PreBuildEvent>
+  </PropertyGroup>
 </Project>

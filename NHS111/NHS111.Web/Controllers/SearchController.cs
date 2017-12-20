@@ -34,11 +34,12 @@ namespace NHS111.Web.Controllers
             if (!ModelState.IsValidField("UserInfo.Demography.Gender") || !ModelState.IsValidField("UserInfo.Demography.Age"))
             {
                 _userZoomDataBuilder.SetFieldsForDemographics(model);
-                return RedirectToAction("Gender", "Question", model);
+                return View("~\\Views\\Question\\Gender.cshtml", model);
             }
 
             var startOfJourney = new SearchJourneyViewModel
             {
+                SessionId = model.SessionId,
                 UserInfo = new UserInfo
                 {
                     Demography = model.UserInfo.Demography,
@@ -77,6 +78,7 @@ namespace NHS111.Web.Controllers
             if (!model.Results.Any())
             {
                 var encryptedTopicsQueryStringValues = new QueryStringEncryptor();
+                encryptedTopicsQueryStringValues["sessionId"] = model.SessionId.ToString();
                 encryptedTopicsQueryStringValues["postcode"] = !string.IsNullOrEmpty(model.UserInfo.CurrentAddress.Postcode) ? model.UserInfo.CurrentAddress.Postcode : string.Empty;
                 encryptedTopicsQueryStringValues["searchTerm"] = model.SanitisedSearchTerm;
                 encryptedTopicsQueryStringValues["filterServices"] = model.FilterServices.ToString();
@@ -103,6 +105,7 @@ namespace NHS111.Web.Controllers
             var topicsContainingStartingPathways = await GetAllTopics(ageGenderViewModel);
             var model = new SearchJourneyViewModel
             {
+                SessionId = Guid.Parse(decryptedArgs["sessionId"]),
                 UserInfo = new UserInfo
                 {
                     Demography = ageGenderViewModel,

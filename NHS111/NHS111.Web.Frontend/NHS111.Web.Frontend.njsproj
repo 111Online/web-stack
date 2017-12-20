@@ -192,9 +192,6 @@
     <Content Include="src\codebase\layouts\example pages\search-symptom.njk" />
     <Content Include="src\codebase\layouts\example pages\speak-to-your-gp.njk" />
     <Content Include="src\codebase\layouts\_preview.njk" />
-    <Content Include="src\codebase\nhs-111-ie6.scss" />
-    <Content Include="src\codebase\nhs-111-ie7.scss" />
-    <Content Include="src\codebase\nhs-111-ie8.scss" />
     <Content Include="src\codebase\nhs-111-print.scss" />
     <Content Include="src\codebase\nhs-111.scss" />
     <Content Include="src\codebase\objects\_grid.scss" />
