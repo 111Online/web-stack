@@ -97,6 +97,8 @@ namespace NHS111.SmokeTest.Utils
         public void VerifyTabbingOrder(string searchTerm)
         {
             HeaderLogo.SendKeys(Keys.Tab);
+            var feedbackLink = Driver.SwitchTo().ActiveElement();
+            feedbackLink.SendKeys(Keys.Tab);
             var searchTxtBox = Driver.SwitchTo().ActiveElement();
             searchTxtBox.SendKeys(searchTerm);
             searchTxtBox.SendKeys(Keys.Tab);
@@ -105,6 +107,8 @@ namespace NHS111.SmokeTest.Utils
             //Page Loads Results, so the elements have been recreated
             //on the new page, so we must get it again.
             HeaderLogo.SendKeys(Keys.Tab);
+            var feedbackLink2 = Driver.SwitchTo().ActiveElement();
+            feedbackLink2.SendKeys(Keys.Tab);
             var firstSearchResultLink = Driver.SwitchTo().ActiveElement();
 
             Assert.AreEqual(searchTerm.ToLower(), firstSearchResultLink.Text.ToLower());
