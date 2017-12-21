@@ -16,6 +16,9 @@
 @Html.HiddenFor(x => Model.SymptomDiscriminatorCode)
 @Html.HiddenFor(x => Model.QuestionNo)
 @Html.HiddenFor(x => Model.StateJson)
+@Html.HiddenFor(x => Model.Campaign)
+@Html.HiddenFor(x => Model.Source)
+    
 @for (int i = 0; i < Model.CollectedKeywords.Keywords.Count; i++)
 {
     @Html.HiddenFor(model => Model.CollectedKeywords.Keywords[i])

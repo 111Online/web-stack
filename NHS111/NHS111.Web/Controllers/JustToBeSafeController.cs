@@ -46,7 +46,7 @@ namespace NHS111.Web.Controllers
                 SessionId = Guid.Parse(decryptedArgs["sessionId"]),
                 PathwayNo = pathwayNumber,
                 DigitalTitle = decryptedArgs["digitalTitle"],
-                EntrySearchTerm = decryptedArgs["entrySearchTerm"],
+                EntrySearchTerm = decryptedArgs["searchTerm"],
                 UserInfo = new UserInfo
                 {
                     Demography = new AgeGenderViewModel
@@ -59,7 +59,9 @@ namespace NHS111.Web.Controllers
                         Postcode = decryptedArgs["postcode"]
                     }
                 },
-                FilterServices = decryptedFilterServices
+                FilterServices = decryptedFilterServices,
+                Campaign = decryptedArgs["campaign"],
+                Source = decryptedArgs["source"]
             };
 
             return await JustToBeSafeFirst(model);
