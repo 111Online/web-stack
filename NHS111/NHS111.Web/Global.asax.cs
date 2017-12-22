@@ -31,7 +31,6 @@ namespace NHS111.Web {
 
             GlobalFilters.Filters.Add(new RedirectFilterAttribute(new RedirectToStartFeature()));
             GlobalFilters.Filters.Add(new LogJourneyFilterAttribute());
-            GlobalFilters.Filters.Add(new SetSessionIdFilterAttribute());
             FluentValidationModelValidatorProvider.Configure();
 
             var razorEngine = ViewEngines.Engines.OfType<RazorViewEngine>().FirstOrDefault();

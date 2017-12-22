@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
+using System.Net;
 using System.Threading.Tasks;
+using System.Web;
 using NHS111.Business.DOS.Configuration;
 using NHS111.Models.Models.Web.CCG;
 using RestSharp;
@@ -34,6 +36,9 @@ namespace NHS111.Business.DOS.WhitelistFilter
         {
             var response = await _restCCGApi.ExecuteTaskAsync<CCGDetailsModel> (
                 new RestRequest(string.Format(_configuration.CCGApiGetCCGByPostcode, postCode), Method.GET));
+
+            if (response.StatusCode != HttpStatusCode.OK)
+                throw new HttpException("CCG Service Error Response");
 
             if (response.Data != null && response.Data.ItkServiceIdWhitelist != null)
                 return response.Data.ItkServiceIdWhitelist;

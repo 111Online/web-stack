@@ -53,11 +53,11 @@ summary::-moz-list-bullet {
 }
 
 .details__arrow::before {
-  content: "▼";
+  content: "►";
 }
 
 [open] > summary > .details__arrow::before {
-  content: "▲";
+  content: "▼";
 }
 
 // The polyfill adds arrows but we will use ::before instead where possible

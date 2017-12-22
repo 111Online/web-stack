@@ -27,7 +27,7 @@ namespace NHS111.SmokeTests
         {
             var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Headache", "Female", 49);
 
-            questionPage.VerifyQuestion("Is there a chance you are pregnant?");
+            questionPage.VerifyQuestion("Could you be pregnant?");
             var outcomePage = questionPage.AnswerSuccessiveByOrder(3, 4)
                 .Answer(1)
                 .Answer(3)
@@ -70,7 +70,7 @@ namespace NHS111.SmokeTests
 
             TestScenerios.LaunchTriageScenerio(Driver, "Headache", "Female", 49);
 
-            questionPage.VerifyQuestion("Is there a chance you are pregnant?");
+            questionPage.VerifyQuestion("Could you be pregnant?");
             var postcodeFirstPage = questionPage.AnswerSuccessiveByOrder(3, 4)
                 .Answer(1)
                 .Answer(3)
@@ -95,7 +95,7 @@ namespace NHS111.SmokeTests
 
             TestScenerios.LaunchTriageScenerio(Driver, "Headache", "Female", 50);
 
-            questionPage.VerifyQuestion("Is there a chance you are pregnant?");
+            questionPage.VerifyQuestion("Could you be pregnant?");
             postcodeFirstPage = questionPage.AnswerSuccessiveByOrder(3, 5)
                 .Answer(5)
                 .Answer(3)
@@ -114,7 +114,7 @@ namespace NHS111.SmokeTests
         {
             var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Headache", TestScenerioSex.Female, TestScenerioAgeGroups.Adult);
 
-            questionPage.VerifyQuestion("Is there a chance you are pregnant?");
+            questionPage.VerifyQuestion("Could you be pregnant?");
             questionPage.VerifyRationale();
         }
     }

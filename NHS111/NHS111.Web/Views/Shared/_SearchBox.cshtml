@@ -3,6 +3,7 @@
 <div class="form-group measure @(@ViewData.ModelState.IsValidField("SanitisedSearchTerm") ? "" : "form-group-error")">
     @using (Html.BeginForm("SearchResults", "Search", FormMethod.Post))
     {
+        @Html.HiddenFor(m => Model.SessionId)
         @Html.HiddenFor(m => Model.UserInfo.Demography.Age)
         @Html.HiddenFor(m => Model.UserInfo.Demography.Gender)
         @Html.HiddenFor(m => Model.UserInfo.CurrentAddress.Postcode)
