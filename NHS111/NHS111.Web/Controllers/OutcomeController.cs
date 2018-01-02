@@ -145,6 +145,14 @@ namespace NHS111.Web.Controllers
            return await _dosBuilder.FillCheckCapacitySummaryResult(dosViewModel, filterServices, endpoint);
         }
 
+
+        [HttpGet]
+        [Route("map/")]
+        public ActionResult ServiceMap()
+        {
+            return View("~\\Views\\Shared\\_GoogleMap.cshtml");
+        }
+
         [HttpPost]
         public async Task<ActionResult> ServiceDetails([Bind(Prefix = "FindService")]OutcomeViewModel model, [FromUri] bool? overrideFilterServices, DosEndpoint? endpoint) {
 

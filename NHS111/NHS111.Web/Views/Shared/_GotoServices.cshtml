@@ -26,33 +26,59 @@
         </div>
     </section>
 }
-@Html.Partial("_GoogleMap", new ViewDataDictionary { { "services", services } })
-<div class="cards">
 
-    @foreach (var service in services.Where(s => !s.CallbackEnabled && string.IsNullOrEmpty(s.ContactDetails)))
-{
-        <div class="card">
-            <h3>@WebUtility.HtmlDecode(service.Name)</h3>
-            <p>
-                @foreach (String address in service.AddressLines)
-                {
-                    @WebUtility.HtmlDecode(address)<br />
-                }
-            </p>
-            <p class="card__details">@WebUtility.HtmlDecode(service.ServiceOpeningTimesMessage)</p>
-            @using (Html.BeginForm("GetDirections", "Outcome", FormMethod.Post))
-            {
-                @Html.HiddenFor(m => m.SessionId)
-                @Html.HiddenFor(m => m.JourneyId)
-                @Html.HiddenFor(m => m.JourneyJson)
-                @Html.HiddenFor(m => m.Id)
-                @Html.Hidden("SelectedServiceId", @service.Id)
-                @Html.Hidden("SelectedServiceName", @service.Name)
-                @Html.Hidden("SelectedServiceAddress", @service.Address)
-                <hr />
-                <p>This service doesn't require an appointment</p>
-                <button class="button button--link" type="submit">Get directions</button>
-            }
-        </div>
+@{
+    IEnumerable<ServiceViewModel> serviceList = services.Where(s => !s.CallbackEnabled && string.IsNullOrEmpty(s.ContactDetails));
+    String mapServices = "[";
+    for (var i = 0; i < serviceList.Count(); i++)
+    {
+        ServiceViewModel service = serviceList.ElementAt(i);
+        mapServices += "{";
+        mapServices += "\"Northings\": \"" + service.Northings + "\",";
+        mapServices += "\"Eastings\": \"" + service.Eastings + "\",";
+        mapServices += "\"Name\": \"" + service.Name + "\"";
+        mapServices += "}";
+        if (i < serviceList.Count() - 1)
+        {
+            mapServices += ",";
+        }
     }
+    mapServices += "]";
+}
+
+<div class="cards cards--goto">
+
+@foreach (var service in serviceList)
+{
+    <div class="card">
+        <h3>@WebUtility.HtmlDecode(service.Name)</h3>
+        <p>
+            @foreach (String address in service.AddressLines)
+            {
+                @WebUtility.HtmlDecode(address)<br />
+            }
+        </p>
+        <p class="card__details">@WebUtility.HtmlDecode(service.ServiceOpeningTimesMessage)</p>
+        @using (Html.BeginForm("GetDirections", "Outcome", FormMethod.Post))
+        {
+            @Html.HiddenFor(m => m.SessionId)
+            @Html.HiddenFor(m => m.JourneyId)
+            @Html.HiddenFor(m => m.JourneyJson)
+            @Html.HiddenFor(m => m.Id)
+            @Html.Hidden("SelectedServiceId", @service.Id)
+            @Html.Hidden("SelectedServiceName", @service.Name)
+            @Html.Hidden("SelectedServiceAddress", @service.Address)
+            <hr />
+            <p>This service doesn't require an appointment</p>
+            <button class="button button--link" type="submit">Get directions</button>
+        }
+    </div>
+}
 </div>
+
+<script>
+    // This ensures the map loads properly and that JS is enabled
+    $("details:not([open])").has(".cards--goto").one("click", function () {
+        $('.cards--goto').parent().prepend(`<iframe src='/map/?services=@Html.Raw(mapServices)' role="presentation" style="width: 100%; height: 250px; border: none;"></iframe>`)
+    })
+</script>
