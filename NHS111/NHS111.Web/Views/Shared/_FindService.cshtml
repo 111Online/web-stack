@@ -41,6 +41,8 @@
             @Html.HiddenFor(x => x.SurveyLink.JourneyId)
             @Html.HiddenFor(x => x.SurveyLink.DispositionDateTime)
             @Html.Partial("_CommonHiddenFieldsCareAdviceViewModel", Model)
+            @Html.HiddenFor(x => Model.Campaign)
+            @Html.HiddenFor(x => Model.Source)
 
             <div class="find-service">
                 <h2 class="heading-medium">@Html.Raw((!ViewData.Keys.Contains("Title") ? null : string.Format("{0}", ViewData["Title"])))</h2>

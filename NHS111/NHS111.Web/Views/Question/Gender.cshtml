@@ -15,6 +15,8 @@
 {
     @Html.HiddenFor(x => Model.SessionId)
     @Html.HiddenFor(x => Model.FilterServices)
+    @Html.HiddenFor(x => Model.Campaign)
+    @Html.HiddenFor(x => Model.Source)
     @Html.HiddenFor(x => Model.UserInfo.CurrentAddress.Postcode)
 
     <div class="callout callout--error @(Html.ViewData.ModelState.IsValid ? "validation-summary-valid" : "validation-summary-errors")"

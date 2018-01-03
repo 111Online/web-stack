@@ -41,26 +41,16 @@ namespace NHS111.Utils.Filters
                 controller.Equals("Question") && result.ViewName == "../PostcodeFirst/Postcode") // don't log when hitting postcode first page
                 return; //we don't want to audit where audit has already been manually triggered in code
 
-            var campaign = filterContext.RequestContext.HttpContext.Request.Params["utm_campaign"];
-            if (!string.IsNullOrEmpty(campaign))
-            {
-                if (filterContext.RequestContext.HttpContext.Session != null)
-                {
-                    filterContext.RequestContext.HttpContext.Session["utm_campaign"] = campaign;
-                    filterContext.RequestContext.HttpContext.Session["utm_source"] = filterContext.RequestContext.HttpContext.Request.Params["utm_source"];
-                }
-            }
-
-            LogAudit(model, filterContext.RequestContext.HttpContext.Session);
+            LogAudit(model);
         }
 
-        private static void LogAudit(JourneyViewModel model, HttpSessionStateBase session)
+        private static void LogAudit(JourneyViewModel model)
         {
             var url = ConfigurationManager.AppSettings["LoggingServiceUrl"];
             var rest = new RestfulHelper();
             var httpRequestMessage = new HttpRequestMessage(HttpMethod.Post, new Uri(url))
             {
-                Content = new StringContent(JsonConvert.SerializeObject(model.ToAuditEntry(session)))
+                Content = new StringContent(JsonConvert.SerializeObject(model.ToAuditEntry()))
             };
             rest.PostAsync(url, httpRequestMessage);
         }
@@ -72,13 +62,13 @@ namespace NHS111.Utils.Filters
         private static readonly string CampaignTestingId = "NHS111Testing";
         private static readonly Guid CampaignTestingJourneyId = new Guid("11111111111111111111111111111111");
 
-        public static AuditEntry ToAuditEntry(this JourneyViewModel model, HttpSessionStateBase session)
+        public static AuditEntry ToAuditEntry(this JourneyViewModel model)
         {
             var audit = new AuditEntry {
-                SessionId = GetSessionId(session["utm_campaign"] as string, model.SessionId),
+                SessionId = GetSessionId(model.Campaign, model.SessionId),
                 JourneyId = model.JourneyId != Guid.Empty ? model.JourneyId.ToString() : null,
-                Campaign = session["utm_campaign"] as string,
-                CampaignSource = session["utm_source"] as string,
+                Campaign = model.Campaign,
+                CampaignSource = model.Source,
                 Journey = model.JourneyJson,
                 PathwayId = model.PathwayId,
                 PathwayTitle = model.PathwayTitle,

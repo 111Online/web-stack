@@ -77,18 +77,15 @@ namespace NHS111.Web.Controllers
 
             if (!model.Results.Any())
             {
-                var encryptedTopicsQueryStringValues = new QueryStringEncryptor();
-                encryptedTopicsQueryStringValues["sessionId"] = model.SessionId.ToString();
-                encryptedTopicsQueryStringValues["postcode"] = !string.IsNullOrEmpty(model.UserInfo.CurrentAddress.Postcode) ? model.UserInfo.CurrentAddress.Postcode : string.Empty;
-                encryptedTopicsQueryStringValues["searchTerm"] = model.SanitisedSearchTerm;
-                encryptedTopicsQueryStringValues["filterServices"] = model.FilterServices.ToString();
 
+                var encryptedTopicsQueryStringValues = KeyValueEncryptor.EncryptedKeys(model);
+                    
                 return RedirectToRoute("CatergoriesUrl",
                     new
                     {
                         gender = model.UserInfo.Demography.Gender,
                         age = model.UserInfo.Demography.Age.ToString(),
-                        args = encryptedTopicsQueryStringValues.ToString()
+                        args = encryptedTopicsQueryStringValues
                     });
             }
 
@@ -113,7 +110,9 @@ namespace NHS111.Web.Controllers
                 },
                 AllTopics = topicsContainingStartingPathways,
                 FilterServices = bool.Parse(decryptedArgs["filterServices"]),
-                SanitisedSearchTerm = decryptedArgs["searchTerm"]
+                SanitisedSearchTerm = decryptedArgs["searchTerm"],
+                Campaign = decryptedArgs["campaign"],
+                Source = decryptedArgs["source"]
             };
 
             _userZoomDataBuilder.SetFieldsForSearchResults(model);
