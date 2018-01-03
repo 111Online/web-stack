@@ -81,4 +81,9 @@
     $("details:not([open])").has(".cards--goto").one("click", function () {
         $('.cards--goto').parent().prepend(`<iframe src='/map/?services=@Html.Raw(mapServices)' role="presentation" style="width: 100%; height: 250px; border: none;"></iframe>`)
     })
+
+    function setActive(index) {
+        $('.cards--goto .card').attr('style', '');
+        $($('.cards--goto .card')[index]).attr('style', 'background:red');
+    }
 </script>
