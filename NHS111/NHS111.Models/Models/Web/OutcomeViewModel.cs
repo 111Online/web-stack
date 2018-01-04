@@ -19,7 +19,7 @@ namespace NHS111.Models.Models.Web
         public PersonalDetailsAddressViewModel AddressInfoViewModel { get; set; }
         public bool? ItkSendSuccess { get; set; }
         public bool? ItkDuplicate { get; set; }
-        public CareAdvice WorseningCareAdvice { get; set; }
+        public CareAdvice WorseningCareAdvice { get; set; } = new CareAdvice(new List<CareAdviceText>());
         public SymptomDiscriminator SymptomDiscriminator { get; set; }
         public DosService UnavailableSelectedService { get; set; }
         public List<GroupedDOSServices> GroupedDosServices { get; set; } 
