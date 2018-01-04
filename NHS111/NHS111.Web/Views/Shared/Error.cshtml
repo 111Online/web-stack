@@ -7,9 +7,13 @@
 @section Scripts {}
 
 @section FeedbackSection {
-    @Html.Partial("_FeedbackDetails", new FeedbackViewModel() { PageId = Request.Url.GetComponents(UriComponents.PathAndQuery, UriFormat.SafeUnescaped)  })
+    @{
+        var feedbackDictionary = ViewContext.ViewData;
+        feedbackDictionary.TemplateInfo = new TemplateInfo() { HtmlFieldPrefix = "Feedback" };
+    }
+    @Html.Partial("_FeedbackDetails", new FeedbackViewModel() { UserId = Model.SessionId.ToString(), PageData = Model.PageData }, feedbackDictionary)
+    ;
 }
-
 
 <h2 class="heading-large">Sorry, there has been a problem.</h2>
 <p>This hasn't been caused by you, and we've been told about the problem.</p>

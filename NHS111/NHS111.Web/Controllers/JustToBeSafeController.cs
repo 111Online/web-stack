@@ -13,11 +13,13 @@ namespace NHS111.Web.Controllers
     {
         private readonly IJustToBeSafeFirstViewModelBuilder _justToBeSafeFirstViewModelBuilder;
         private readonly IJustToBeSafeViewModelBuilder _justToBeSafeViewModelBuilder;
+        private readonly IPageDataViewModelBuilder _pageDataViewModelBuilder;
 
-        public JustToBeSafeController(IJustToBeSafeFirstViewModelBuilder justToBeSafeFirstViewModelBuilder, IJustToBeSafeViewModelBuilder justToBeSafeViewModelBuilder)
+        public JustToBeSafeController(IJustToBeSafeFirstViewModelBuilder justToBeSafeFirstViewModelBuilder, IJustToBeSafeViewModelBuilder justToBeSafeViewModelBuilder, IPageDataViewModelBuilder pageDataViewModelBuilder)
         {
             _justToBeSafeFirstViewModelBuilder = justToBeSafeFirstViewModelBuilder;
             _justToBeSafeViewModelBuilder = justToBeSafeViewModelBuilder;
+            _pageDataViewModelBuilder = pageDataViewModelBuilder;
         }
 
         [HttpPost]
@@ -60,9 +62,9 @@ namespace NHS111.Web.Controllers
                     }
                 },
                 FilterServices = decryptedFilterServices,
-                Campaign = decryptedArgs["campaign"],
-                Source = decryptedArgs["source"]
             };
+
+            model.PageData = await _pageDataViewModelBuilder.PageDataBuilder(model, decryptedArgs["campaign"], decryptedArgs["source"]);
 
             return await JustToBeSafeFirst(model);
         }

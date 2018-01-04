@@ -17,7 +17,12 @@
 }
 
 @section FeedbackSection {
-    @Html.Partial("_FeedbackDetails", new FeedbackViewModel() { UserId = Model.SessionId.ToString(), PageId = Request.Url.GetComponents(UriComponents.PathAndQuery, UriFormat.SafeUnescaped) + Model.PathwayId })
+    @{
+        var feedbackDictionary = ViewContext.ViewData;
+        feedbackDictionary.TemplateInfo = new TemplateInfo() {HtmlFieldPrefix = "Feedback"};
+        @Html.Partial("_FeedbackDetails", new FeedbackViewModel() {UserId = Model.SessionId.ToString(), PageData = Model.PageData}, feedbackDictionary)
+        ;
+    }
 }
 
 @using (Html.BeginForm("Navigation", "Question", FormMethod.Post, new { @class = "measure" })) {

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -27,6 +28,10 @@ namespace NHS111.Web.Presentation.Builders
 
         public async Task<FeedbackConfirmation> FeedbackBuilder(FeedbackViewModel feedback)
         {
+            feedback.DateAdded = DateTime.Now;
+            feedback.PageData.Date = feedback.DateAdded.Date.ToShortDateString();
+            feedback.PageData.Time = feedback.DateAdded.ToShortTimeString();
+            feedback.PageId = feedback.PageData.ToString();
             try {
                 var request = new HttpRequestMessage {
                     Content = new StringContent(JsonConvert.SerializeObject(feedback), Encoding.UTF8, "application/json")

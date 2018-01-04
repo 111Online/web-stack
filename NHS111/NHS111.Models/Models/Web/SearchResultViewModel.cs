@@ -3,7 +3,8 @@
 namespace NHS111.Models.Models.Web {
     using System.Collections.Generic;
 
-    public class SearchResultViewModel {
+    public class SearchResultViewModel
+    {
         public string PathwayTitle { get; set; }
         public List<string> Title { get; set; }
         public List<string> DisplayTitle { get; set; }

@@ -14,6 +14,11 @@ namespace NHS111.Models.Models.Web
     [Validator(typeof(QuestionViewModelValidator))]
     public class QuestionViewModel : JourneyViewModel
     {
+        public QuestionViewModel()
+        {
+            PageData.Page = PageDataViewModel.PageType.Question;
+        }
+
         public string SelectedAnswer { get; set; }
 
         public JourneyStep ToStep()
