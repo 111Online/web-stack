@@ -17,6 +17,11 @@ details {
     position: relative;
     width: 100%;
 
+    label {
+      @include core-font(20);
+      display: inline;
+    }
+
     &:hover {
       color: $link-hover-colour;
     }
@@ -78,6 +83,7 @@ details .summary {
 .details__arrow {
   font-style: normal;
   margin-right: .35em;
+  margin-left: 3px;
 
   .details--inline & {
     display: none;
