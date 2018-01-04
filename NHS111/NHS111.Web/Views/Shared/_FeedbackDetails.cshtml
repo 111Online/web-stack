@@ -8,13 +8,14 @@
     <details class="measure">
         <summary><span class="details__arrow"></span>@(String.IsNullOrEmpty(Model.Summary) ? "Tell us what you think of this page" : Model.Summary)</summary>
         <div>
-            @using (Ajax.BeginForm("SubmitFeedback", "Feedback", new AjaxOptions { InsertionMode = InsertionMode.Replace, UpdateTargetId = "feedback-details", LoadingElementId = "loader", HttpMethod = "POST", OnBegin = "$('.feedback form').fadeOut(600);", OnSuccess = "$('#feedback-details').fadeIn(600);" }))
-        {
+            @using (Ajax.BeginForm("SubmitFeedback", "Feedback", new AjaxOptions {InsertionMode = InsertionMode.Replace, UpdateTargetId = "feedback-details", LoadingElementId = "loader", HttpMethod = "POST", OnBegin = "$('.feedback form').fadeOut(600);", OnSuccess = "$('#feedback-details').fadeIn(600);"}))
+            {
                 @Html.HiddenFor(m => m.UserId)
-                @Html.HiddenFor(m => m.PageId)
+
+                @Html.Partial("_CommonHiddenFieldsPageDataViewModel", Model.PageData, new ViewDataDictionary() { TemplateInfo = new TemplateInfo() { HtmlFieldPrefix = "PageData" } })
                 <label for="@Html.IdFor(m => m.Text)">@(String.IsNullOrEmpty(Model.Heading) ? "Help us improve" : Model.Heading)</label>
                 <p>@(String.IsNullOrEmpty(Model.Paragraph) ? "Your comments will help us make the service better." : Model.Paragraph) Don't include any medical or personal information like your name or email.</p>
-                @Html.TextAreaFor(m => m.Text, new { @placeholder = "Feedback", @Value = "", @class = "feedback__input", @maxlength = maxFeedbackLength })
+                @Html.TextAreaFor(m => m.Text, new {@placeholder = "Feedback", @Value = "", @class = "feedback__input", @maxlength = maxFeedbackLength})
                 <div id="textdetailscounter" class="feedback__counter">@(maxFeedbackLength) character limit</div>
                 <button class="button button--next button--secondary" id="btnFeedback">Send feedback</button>
             }

@@ -12,6 +12,8 @@ namespace NHS111.Models.Models.Web
     {
         public FeedbackViewModel()
         {
+            PageData = new PageDataViewModel();
+
             var now = DateTime.UtcNow;
             PartitionKey = string.Format("{0:yyyy-MM}", now);
             RowKey = string.Format("{0:dd HH-mm-ss-fff}-{1}", now, Guid.NewGuid());
@@ -37,5 +39,7 @@ namespace NHS111.Models.Models.Web
 
         [JsonProperty(PropertyName = "pageId")]
         public string PageId { get; set; }
+
+        public PageDataViewModel PageData { get; set; }
     }
 }

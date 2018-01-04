@@ -26,8 +26,11 @@
 }
 
 @section FeedbackSection {
-    @if (Model.UserInfo.CurrentAddress.IsPostcodeFirst) {
-        @Html.Partial("_FeedbackDetails", new FeedbackViewModel() { UserId = Model.SessionId.ToString(), PageId = Model.Id });
+    @if (Model.UserInfo.CurrentAddress.IsPostcodeFirst)
+    {
+        var feedbackDictionary = ViewContext.ViewData;
+        feedbackDictionary.TemplateInfo = new TemplateInfo() { HtmlFieldPrefix = "Feedback" };
+        @Html.Partial("_FeedbackDetails", new FeedbackViewModel() { UserId = Model.SessionId.ToString(), PageData = Model.PageData }, feedbackDictionary);
     }
     else
     {

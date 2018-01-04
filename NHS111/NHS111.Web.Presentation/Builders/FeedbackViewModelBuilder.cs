@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -27,13 +28,17 @@ namespace NHS111.Web.Presentation.Builders
 
         public async Task<FeedbackConfirmation> FeedbackBuilder(FeedbackViewModel feedback)
         {
-            var model = new FeedbackConfirmation();
+            feedback.DateAdded = DateTime.Now;
+            feedback.PageData.Date = feedback.DateAdded.Date.ToShortDateString();
+            feedback.PageData.Time = feedback.DateAdded.ToShortTimeString();
+            feedback.PageId = feedback.PageData.ToString();
 
             var request = new HttpRequestMessage { Content = new StringContent(JsonConvert.SerializeObject(feedback), Encoding.UTF8, "application/json") };
             var httpHeaders = new Dictionary<string, string>();
             httpHeaders.Add("Authorization", _configuration.FeedbackAuthorization);
             var response = await _restfulHelper.PostAsync(_configuration.FeedbackAddFeedbackUrl, request, httpHeaders);
 
+            var model = new FeedbackConfirmation();
             if (response.StatusCode == HttpStatusCode.OK || response.StatusCode == HttpStatusCode.Created)
             {
                 model.Message = "Thank you.<br>We use feedback to improve the service, but can't reply to any comments.<br>There’s a survey after the symptom questions, where you can give more detailed feedback if you like.";

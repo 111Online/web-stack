@@ -40,6 +40,7 @@ namespace NHS111.Web.Presentation.Builders
             var questionsWithAnswers = JsonConvert.DeserializeObject<List<QuestionWithAnswers>>(questionsJson);
             if (!questionsWithAnswers.Any())
             {
+                model.PageData.Page = PageDataViewModel.PageType.Question;
                 var questionViewModel = new QuestionViewModel
                 {
                     PathwayId = identifiedModel.PathwayId,
@@ -55,9 +56,9 @@ namespace NHS111.Web.Presentation.Builders
                     SessionId = model.SessionId,
                     JourneyId = Guid.NewGuid(),
                     FilterServices = model.FilterServices,
-                    Campaign = model.Campaign,
-                    Source = model.Source
+                    PageData = identifiedModel.PageData
                 };
+
                 var question = JsonConvert.DeserializeObject<QuestionWithAnswers>(await _restfulHelper.GetAsync(_configuration.GetBusinessApiFirstQuestionUrl(identifiedModel.PathwayId, identifiedModel.StateJson)));
                 _mappingEngine.Mapper.Map(question, questionViewModel);
 
@@ -94,8 +95,7 @@ namespace NHS111.Web.Presentation.Builders
                 State = JourneyViewModelStateBuilder.BuildState(pathway.Gender, derivedAge),
                 SessionId = model.SessionId,
                 FilterServices = model.FilterServices,
-                Campaign = model.Campaign,
-                Source = model.Source
+                PageData = model.PageData
             };
 
             newModel.StateJson = JourneyViewModelStateBuilder.BuildStateJson(newModel.State);
@@ -115,6 +115,7 @@ namespace NHS111.Web.Presentation.Builders
             model.State = JourneyViewModelStateBuilder.BuildState(model.UserInfo.Demography.Gender,model.UserInfo.Demography.Age, model.State);
             model.StateJson = JourneyViewModelStateBuilder.BuildStateJson(model.State);
             model.CollectedKeywords = new KeywordBag(_keywordCollector.ParseKeywords(pathway.Keywords, false).ToList(), _keywordCollector.ParseKeywords(pathway.ExcludeKeywords, false).ToList());
+            model.PageData = model.PageData;
             return model;
         }
     }

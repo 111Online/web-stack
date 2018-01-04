@@ -19,7 +19,6 @@ namespace NHS111.Web.Controllers
         [HttpPost]
         public async Task<ActionResult> SubmitFeedback(FeedbackViewModel feedbackData)
         {
-            feedbackData.DateAdded = DateTime.Now; //this is when the feedback is added
             var model = await _feedbackViewModelBuilder.FeedbackBuilder(feedbackData);
             return Content("<p>" + model.Message + "</p>", "text/html");
         }
