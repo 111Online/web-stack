@@ -40,6 +40,7 @@ namespace NHS111.Web.Presentation.Builders
                     currentPathway = JsonConvert.DeserializeObject<Pathway>(response);
                 }
             }
+            model.PathwayNo = (currentPathway != null) ? currentPathway.PathwayNo : string.Empty;
             model.PathwayTitle = (currentPathway != null) ? currentPathway.Title : string.Empty;
 
             return model;
