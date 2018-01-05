@@ -33,7 +33,8 @@
 @Html.HiddenFor(x => x.SurveyLink.JourneyId)
 @Html.HiddenFor(x => x.SurveyLink.DispositionDateTime)
 @Html.HiddenFor(x => x.SelectedService.Id)
-@Html.Partial("_CommonHiddenFieldsPageDataViewModel", Model.PageData)
+@Html.HiddenFor(x => Model.Campaign)
+@Html.HiddenFor(x => Model.Source)
     
 @if (Model.DosCheckCapacitySummaryResult.Success != null)
 {

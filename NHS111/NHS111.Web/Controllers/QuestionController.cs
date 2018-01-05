@@ -13,8 +13,6 @@ namespace NHS111.Web.Controllers {
     using System.Collections.Generic;
     using System.Linq;
     using System.Web;
-    using AutoMapper;
-    using Models.Models.Business.PathwaySearch;
     using Models.Models.Domain;
     using Models.Models.Web.DosRequests;
     using Newtonsoft.Json;
@@ -29,7 +27,7 @@ namespace NHS111.Web.Controllers {
         public QuestionController(IJourneyViewModelBuilder journeyViewModelBuilder,
             IConfiguration configuration, IJustToBeSafeFirstViewModelBuilder justToBeSafeFirstViewModelBuilder, IDirectLinkingFeature directLinkingFeature,
             IAuditLogger auditLogger, IUserZoomDataBuilder userZoomDataBuilder, IRestClient restClientBusinessApi, IViewRouter viewRouter, IPostcodePrefillFeature postcodePrefillFeature, 
-            IDosEndpointFeature dosEndpointFeature, IPageDataViewModelBuilder pageDataViewModelBuilder) {
+            IDosEndpointFeature dosEndpointFeature) {
             _journeyViewModelBuilder = journeyViewModelBuilder;
             _configuration = configuration;
             _justToBeSafeFirstViewModelBuilder = justToBeSafeFirstViewModelBuilder;
@@ -40,19 +38,16 @@ namespace NHS111.Web.Controllers {
             _viewRouter = viewRouter;
             _postcodePrefillFeature = postcodePrefillFeature;
             _dosEndpointFeature = dosEndpointFeature;
-            _pageDataViewModelBuilder = pageDataViewModelBuilder;
         }
 
         [HttpGet, PersistCampaignDataFilter]
         public async Task<ActionResult> Home(JourneyViewModel model, string args)
         {
-            model.PageData.Page = PageDataViewModel.PageType.ModuleZero;
             if (!string.IsNullOrEmpty(args))
             {
                 var decryptedFields = new QueryStringEncryptor(args);
                 model.UserInfo.CurrentAddress.Postcode = decryptedFields["postcode"];
                 model.SessionId = Guid.Parse(decryptedFields["sessionId"]);
-                model.PageData = await _pageDataViewModelBuilder.PageDataBuilder(model, decryptedFields["campaign"], decryptedFields["source"]);
             }
 
             _userZoomDataBuilder.SetFieldsForInitialQuestion(model);
@@ -122,7 +117,6 @@ namespace NHS111.Web.Controllers {
             await _auditLogger.Log(audit);
 
             model.UserInfo = new UserInfo();
-            model.PageData.Page = PageDataViewModel.PageType.Demographics;
             _userZoomDataBuilder.SetFieldsForDemographics(model);
             return View("Gender", model);
         }
@@ -136,7 +130,6 @@ namespace NHS111.Web.Controllers {
 
             ModelState.Clear();
             model.UserInfo = new UserInfo() { CurrentAddress = new FindServicesAddressViewModel() { Postcode = model.UserInfo.CurrentAddress.Postcode } };
-            model.PageData.Page = PageDataViewModel.PageType.Demographics;
             
             _userZoomDataBuilder.SetFieldsForDemographics(model);
             return View("Gender", model);
@@ -349,6 +342,5 @@ namespace NHS111.Web.Controllers {
         private readonly IViewRouter _viewRouter;
         private readonly IPostcodePrefillFeature _postcodePrefillFeature;
         private readonly IDosEndpointFeature _dosEndpointFeature;
-        private readonly IPageDataViewModelBuilder _pageDataViewModelBuilder;
     }
 }

@@ -8,7 +8,8 @@
         @Html.HiddenFor(m => Model.UserInfo.Demography.Gender)
         @Html.HiddenFor(m => Model.UserInfo.CurrentAddress.Postcode)
         @Html.HiddenFor(m => Model.FilterServices)
-        @Html.Partial("_CommonHiddenFieldsPageDataViewModel", Model.PageData)
+        @Html.HiddenFor(x => Model.Campaign)
+        @Html.HiddenFor(x => Model.Source)
         <h1>
             @Html.LabelFor(m => m.SanitisedSearchTerm, "Tell us the symptom you’re concerned about")
             <span class="form-hint">For example, headache, swollen knee or rash</span>

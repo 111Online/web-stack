@@ -2,10 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Web;
 using System.Web.Mvc;
-using log4net.Util;
-using NHS111.Features;
 using NHS111.Models.Models.Business.PathwaySearch;
 using NHS111.Models.Models.Domain;
 using NHS111.Models.Models.Web;
@@ -13,7 +10,6 @@ using NHS111.Web.Helpers;
 using RestSharp;
 using NHS111.Web.Presentation.Builders;
 using NHS111.Web.Presentation.Configuration;
-using NHS111.Web.Presentation.Logging;
 
 namespace NHS111.Web.Controllers
 {
@@ -21,12 +17,11 @@ namespace NHS111.Web.Controllers
     {
         public const int MAX_SEARCH_RESULTS = 10;
 
-        public SearchController(IConfiguration configuration, IUserZoomDataBuilder userZoomDataBuilder, IRestClient restClientBusinessApi, IPageDataViewModelBuilder pageDataViewModelBuilder)
+        public SearchController(IConfiguration configuration, IUserZoomDataBuilder userZoomDataBuilder, IRestClient restClientBusinessApi)
         {
             _configuration = configuration;
             _userZoomDataBuilder = userZoomDataBuilder;
             _restClientBusinessApi = restClientBusinessApi;
-            _pageDataViewModelBuilder = pageDataViewModelBuilder;
         }
 
         [HttpPost]
@@ -48,8 +43,6 @@ namespace NHS111.Web.Controllers
                 },
                 FilterServices = model.FilterServices
             };
-
-            startOfJourney.PageData = await _pageDataViewModelBuilder.PageDataBuilder(model, model.PageData.Campaign, model.PageData.Source);
 
             _userZoomDataBuilder.SetFieldsForSearch(startOfJourney);
 
@@ -92,8 +85,6 @@ namespace NHS111.Web.Controllers
                     });
             }
 
-            model.PageData.Page = PageDataViewModel.PageType.SearchResults;
-
             return View(model);
         }
 
@@ -117,8 +108,6 @@ namespace NHS111.Web.Controllers
                 FilterServices = bool.Parse(decryptedArgs["filterServices"]),
                 SanitisedSearchTerm = decryptedArgs["searchTerm"]
             };
-            model.PageData.Page = PageDataViewModel.PageType.Categories;
-            model.PageData = await _pageDataViewModelBuilder.PageDataBuilder(model, decryptedArgs["campaign"], decryptedArgs["source"]);
 
             _userZoomDataBuilder.SetFieldsForSearchResults(model);
 
@@ -180,6 +169,5 @@ namespace NHS111.Web.Controllers
         private readonly IConfiguration _configuration;
         private readonly IUserZoomDataBuilder _userZoomDataBuilder;
         private readonly IRestClient _restClientBusinessApi;
-        private readonly IPageDataViewModelBuilder _pageDataViewModelBuilder;
     }
 }

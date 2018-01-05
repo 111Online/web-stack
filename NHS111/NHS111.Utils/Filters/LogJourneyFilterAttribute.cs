@@ -65,10 +65,10 @@ namespace NHS111.Utils.Filters
         public static AuditEntry ToAuditEntry(this JourneyViewModel model)
         {
             var audit = new AuditEntry {
-                SessionId = GetSessionId(model.PageData.Campaign, model.SessionId),
+                SessionId = GetSessionId(model.Campaign, model.SessionId),
                 JourneyId = model.JourneyId != Guid.Empty ? model.JourneyId.ToString() : null,
-                Campaign = model.PageData.Campaign,
-                CampaignSource = model.PageData.Source,
+                Campaign = model.Campaign,
+                CampaignSource = model.Source,
                 Journey = model.JourneyJson,
                 PathwayId = model.PathwayId,
                 PathwayTitle = model.PathwayTitle,

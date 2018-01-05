@@ -127,9 +127,9 @@ namespace NHS111.Models.Models.Web
 
         public string UserZoomTitle { get; set; }
         public string UserZoomUrl { get; set; }
-        //public string Campaign { get; set; }
-        //public string Source { get; set; }
-        public PageDataViewModel PageData { get; set; }
+        public string Campaign { get; set; }
+        public string Source { get; set; }
+        //public PageDataViewModel PageData { get; set; }
 
         public JourneyViewModel()
         {
@@ -141,7 +141,7 @@ namespace NHS111.Models.Models.Web
             CollectedKeywords = new KeywordBag();
             FilterServices = true;
             UserInfo = new UserInfo { CurrentAddress = new FindServicesAddressViewModel() };
-            PageData = new PageDataViewModel();
+            //PageData = new PageDataViewModel();
         }
 
         public List<Answer> OrderedAnswers()

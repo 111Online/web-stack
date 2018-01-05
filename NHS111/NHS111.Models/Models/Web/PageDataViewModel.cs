@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
+using NHS111.Models.Models.Domain;
 
 namespace NHS111.Models.Models.Web
 {
@@ -14,7 +15,43 @@ namespace NHS111.Models.Models.Web
             SearchResults,
             Categories,
             FirstQuestion,
-            Question
+            Question,
+            InlineCareAdvice,
+            PostcodeFirst,
+            Outcome,
+            ServiceDetails,
+            ServiceList,
+            PersonalDetails,
+            Confirmation,
+            DuplicateBooking,
+            BookingFailure,
+            BookingUnavailable
+        }
+
+        public PageDataViewModel()
+        {
+            Page = PageType.ModuleZero;
+        }
+        public PageDataViewModel(PageType page, string campaign, string source)
+        {
+            Page = page;
+            Campaign = campaign;
+            Source = source;
+        }
+
+        public PageDataViewModel(PageType page, JourneyViewModel journey)
+        {
+            Page = page;
+            Campaign = journey.Campaign;
+            Source = journey.Source;
+            Gender = journey.UserInfo.Demography.Gender;
+            Age = new AgeCategory(journey.UserInfo.Demography.Age).Value;
+            SearchString = journey.EntrySearchTerm;
+            QuestionId = journey.OutcomeGroup == null ? journey.Id : null;
+            TxNumber = journey.OutcomeGroup == null ? journey.QuestionNo : null;
+            StartingPathwayNo = journey.PathwayNo;
+            StartingPathwayTitle = journey.PathwayTitle;
+            DxCode = journey.OutcomeGroup != null ? journey.Id : null;
         }
 
         public PageType Page { get; set; }

@@ -40,7 +40,8 @@
             @Html.HiddenFor(x => x.SurveyLink.DispositionCode)
             @Html.HiddenFor(x => x.SurveyLink.JourneyId)
             @Html.HiddenFor(x => x.SurveyLink.DispositionDateTime)
-            @Html.Partial("_CommonHiddenFieldsPageDataViewModel", Model.PageData)
+            @Html.HiddenFor(x => Model.Campaign)
+            @Html.HiddenFor(x => Model.Source)
             @Html.Partial("_CommonHiddenFieldsCareAdviceViewModel", Model)
 
             <div class="find-service">

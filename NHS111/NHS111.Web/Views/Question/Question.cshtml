@@ -1,4 +1,5 @@
-﻿@using NHS111.Models.Models.Web
+﻿@using NHS111.Models.Models.Domain
+@using NHS111.Models.Models.Web
 @{ Layout = "~/Views/Shared/_LayoutNhsUk.cshtml"; }
 @inherits NHS111.Web.Views.Shared.DirectLinkingView<QuestionViewModel>
 
@@ -22,17 +23,13 @@
 }
 
 @section FeedbackSection {
-    @{
-        var feedbackDictionary = ViewContext.ViewData;
-        feedbackDictionary.TemplateInfo = new TemplateInfo() {HtmlFieldPrefix = "Feedback"};
-    }
     @Html.Partial("_FeedbackDetails", new FeedbackViewModel() {
         UserId = Model.SessionId.ToString(),
-        PageData = Model.PageData,
+        PageData = new PageDataViewModel(Model.IsFirstStep ? PageDataViewModel.PageType.FirstQuestion : PageDataViewModel.PageType.Question, Model),
         Summary = "Tell us if this question isn’t clear",
         Heading = "Help us improve this question",
         Paragraph = "For example, do you need more help with medical terms? Is it easy to answer the question?"
-    }, feedbackDictionary)
+    })
 }
 
 @functions {
@@ -68,7 +65,8 @@
     @Html.HiddenFor(x => Model.QuestionNo)
     @Html.HiddenFor(x => Model.StateJson)
     @Html.HiddenFor(x => Model.FilterServices)
-    @Html.Partial("_CommonHiddenFieldsPageDataViewModel", Model.PageData)
+    @Html.HiddenFor(x => Model.Campaign)
+    @Html.HiddenFor(x => Model.Source)
 
     @Html.Raw(WriteDirectLink(Model))
 
