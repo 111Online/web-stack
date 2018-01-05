@@ -25,7 +25,7 @@ namespace NHS111.Web.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> Search(JourneyViewModel model)
+        public ActionResult Search(JourneyViewModel model)
         {
             if (!ModelState.IsValidField("UserInfo.Demography.Gender") || !ModelState.IsValidField("UserInfo.Demography.Age"))
             {
@@ -106,7 +106,9 @@ namespace NHS111.Web.Controllers
                 },
                 AllTopics = topicsContainingStartingPathways,
                 FilterServices = bool.Parse(decryptedArgs["filterServices"]),
-                SanitisedSearchTerm = decryptedArgs["searchTerm"]
+                SanitisedSearchTerm = decryptedArgs["searchTerm"],
+                Campaign = decryptedArgs["campaign"],
+                Source = decryptedArgs["source"]
             };
 
             _userZoomDataBuilder.SetFieldsForSearchResults(model);

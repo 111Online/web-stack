@@ -60,6 +60,8 @@ namespace NHS111.Web.Controllers
                     }
                 },
                 FilterServices = decryptedFilterServices,
+                Campaign = decryptedArgs["campaign"],
+                Source = decryptedArgs["source"]
             };
 
             return await JustToBeSafeFirst(model);

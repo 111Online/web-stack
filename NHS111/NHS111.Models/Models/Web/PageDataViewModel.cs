@@ -25,7 +25,8 @@ namespace NHS111.Models.Models.Web
             Confirmation,
             DuplicateBooking,
             BookingFailure,
-            BookingUnavailable
+            BookingUnavailable,
+            Error
         }
 
         public PageDataViewModel()

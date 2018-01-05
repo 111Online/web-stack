@@ -55,6 +55,8 @@ namespace NHS111.Web.Presentation.Builders
                     SessionId = model.SessionId,
                     JourneyId = Guid.NewGuid(),
                     FilterServices = model.FilterServices,
+                    Campaign = model.Campaign,
+                    Source = model.Source,
                     EntrySearchTerm = model.EntrySearchTerm
                 };
 
@@ -93,6 +95,8 @@ namespace NHS111.Web.Presentation.Builders
                 SymptomDiscriminatorCode = model.SymptomDiscriminatorCode,
                 State = JourneyViewModelStateBuilder.BuildState(pathway.Gender, derivedAge),
                 SessionId = model.SessionId,
+                Campaign = model.Campaign,
+                Source = model.Source,
                 FilterServices = model.FilterServices
             };
 

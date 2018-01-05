@@ -26,8 +26,7 @@ namespace NHS111.Web.Controllers {
 
         public QuestionController(IJourneyViewModelBuilder journeyViewModelBuilder,
             IConfiguration configuration, IJustToBeSafeFirstViewModelBuilder justToBeSafeFirstViewModelBuilder, IDirectLinkingFeature directLinkingFeature,
-            IAuditLogger auditLogger, IUserZoomDataBuilder userZoomDataBuilder, IRestClient restClientBusinessApi, IViewRouter viewRouter, IPostcodePrefillFeature postcodePrefillFeature, 
-            IDosEndpointFeature dosEndpointFeature) {
+            IAuditLogger auditLogger, IUserZoomDataBuilder userZoomDataBuilder, IRestClient restClientBusinessApi, IViewRouter viewRouter, IPostcodePrefillFeature postcodePrefillFeature, IDosEndpointFeature dosEndpointFeature) {
             _journeyViewModelBuilder = journeyViewModelBuilder;
             _configuration = configuration;
             _justToBeSafeFirstViewModelBuilder = justToBeSafeFirstViewModelBuilder;
@@ -41,7 +40,7 @@ namespace NHS111.Web.Controllers {
         }
 
         [HttpGet, PersistCampaignDataFilter]
-        public async Task<ActionResult> Home(JourneyViewModel model, string args)
+        public ActionResult Home(JourneyViewModel model, string args)
         {
             if (!string.IsNullOrEmpty(args))
             {
