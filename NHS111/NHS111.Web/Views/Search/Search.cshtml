@@ -1,4 +1,5 @@
-﻿@using NHS111.Models.Models.Web
+﻿@using NHS111.Models.Models.Domain
+@using NHS111.Models.Models.Web
 @model SearchJourneyViewModel
 @{
     Layout = "~/Views/Shared/_LayoutNhsUK.cshtml";
@@ -8,12 +9,7 @@
 
 
 @section FeedbackSection {
-    @{
-        var feedbackDictionary = ViewContext.ViewData;
-        feedbackDictionary.TemplateInfo = new TemplateInfo() {HtmlFieldPrefix = "Feedback"};
-    }
-    @Html.Partial("_FeedbackDetails", new FeedbackViewModel() {UserId = Model.SessionId.ToString(), PageData = Model.PageData}, feedbackDictionary)
-    ;
+    @Html.Partial("_FeedbackDetails", new FeedbackViewModel() {UserId = Model.SessionId.ToString(), PageData = new PageDataViewModel(PageDataViewModel.PageType.Search, Model) });
 }
 
 @Html.Partial("_SearchBox", Model, ViewData)

@@ -6,11 +6,6 @@ namespace NHS111.Models.Models.Web
 {
     public class JustToBeSafeViewModel: QuestionViewModel
     {
-        public JustToBeSafeViewModel()
-        {
-            PageData.Page = PageDataViewModel.PageType.FirstQuestion;
-        }
-
         public int Part { get; set; }
         public List<QuestionWithAnswers> Questions { get; set; }
         public string QuestionsJson { get; set; }

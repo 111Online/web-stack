@@ -29,9 +29,7 @@
 @section FeedbackSection {
     @if (!SurveyLinkFeature.IsEnabled)
     {
-        var feedbackDictionary = ViewContext.ViewData;
-        feedbackDictionary.TemplateInfo = new TemplateInfo() { HtmlFieldPrefix = "Feedback" };
-        @Html.Partial("_FeedbackDetails", new FeedbackViewModel() { UserId = Model.SessionId.ToString(), PageData = Model.PageData }, feedbackDictionary);
+        @Html.Partial("_FeedbackDetails", new FeedbackViewModel() { UserId = Model.SessionId.ToString(), PageData = new PageDataViewModel(PageDataViewModel.PageType.DuplicateBooking, Model) })
     }
     else
     {

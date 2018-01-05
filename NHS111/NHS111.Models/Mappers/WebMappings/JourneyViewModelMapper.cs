@@ -62,7 +62,9 @@ namespace NHS111.Models.Mappers.WebMappings
                 .ForMember(dest => dest.DosRequest, opt => opt.Ignore())
                 .ForMember(dest => dest.DosResponse, opt => opt.Ignore())
                 .ForMember(dest => dest.ItkRequest, opt => opt.Ignore())
-                .ForMember(dest => dest.ItkResponse, opt => opt.Ignore());
+                .ForMember(dest => dest.ItkResponse, opt => opt.Ignore())
+                .ForMember(dest => dest.CampaignSource, opt => opt.Ignore())
+                .ForMember(dest => dest.Campaign, opt => opt.Ignore());
         }
 
         public class FromAnswerToJourneyViewModelConverter : ITypeConverter<Answer, JourneyViewModel>

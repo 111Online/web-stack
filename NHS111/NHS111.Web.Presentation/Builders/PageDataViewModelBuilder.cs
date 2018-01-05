@@ -23,38 +23,31 @@ namespace NHS111.Web.Presentation.Builders
             _configuration = configuration;
         }
 
-        public async Task<PageDataViewModel> PageDataBuilder(JourneyViewModel model, string campaign, string source)
+        public async Task<PageDataViewModel> PageDataBuilder(PageDataViewModel model)
         {
+            model.Date = DateTime.Now.Date.ToShortDateString();
+            model.Time = DateTime.Now.ToShortTimeString();
+            
             Pathway currentPathway = null;
-            if (!string.IsNullOrEmpty(model.Id) && model.Id.Contains("."))
+            if (!string.IsNullOrEmpty(model.QuestionId) && model.QuestionId.Contains("."))
             {
-                var currentPathwayNo = model.Id.Split('.')[0];
-                var businessApiPathwayUrl = _configuration.GetBusinessApiPathwayIdUrl(currentPathwayNo, model.UserInfo.Demography.Gender, model.UserInfo.Demography.Age);
-                var response = await _restfulHelper.GetAsync(businessApiPathwayUrl);
-                currentPathway = JsonConvert.DeserializeObject<Pathway>(response);
+                var currentPathwayNo = model.QuestionId.Split('.')[0];
+                if (!currentPathwayNo.Equals(model.StartingPathwayNo))
+                {
+                    var businessApiPathwayUrl =
+                        _configuration.GetBusinessApiPathwayIdUrl(currentPathwayNo, model.Gender, new AgeCategory(model.Age).MinimumAge);
+                    var response = await _restfulHelper.GetAsync(businessApiPathwayUrl);
+                    currentPathway = JsonConvert.DeserializeObject<Pathway>(response);
+                }
             }
+            model.PathwayTitle = (currentPathway != null) ? currentPathway.Title : string.Empty;
 
-            return new PageDataViewModel()
-            {
-                Page = model.PageData.Page,
-                Campaign = campaign,
-                Source = source,
-                QuestionId = model.Id,
-                TxNumber = model.QuestionNo,
-                StartingPathwayNo = model.PathwayNo,
-                StartingPathwayTitle = model.PathwayTitle,
-                PathwayNo = (currentPathway != null) ? currentPathway.PathwayNo : string.Empty,
-                PathwayTitle = (currentPathway != null) ? currentPathway.Title : string.Empty,
-                Gender = model.UserInfo.Demography.Gender,
-                Age = new AgeCategory(model.UserInfo.Demography.Age).Value,
-                SearchString = model.EntrySearchTerm,
-                DxCode = model.Id
-            };
+            return model;
         }
     }
 
     public interface IPageDataViewModelBuilder
     {
-        Task<PageDataViewModel> PageDataBuilder(JourneyViewModel model, string campaign, string source);
+        Task<PageDataViewModel> PageDataBuilder(PageDataViewModel model);
     }
 }

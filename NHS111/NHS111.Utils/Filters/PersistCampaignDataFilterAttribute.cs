@@ -20,8 +20,8 @@ namespace NHS111.Utils.Filters
             var campaign = filterContext.RequestContext.HttpContext.Request.Params["utm_campaign"];
             if (string.IsNullOrEmpty(campaign)) return;
             
-            model.PageData.Campaign = campaign;
-            model.PageData.Source = filterContext.RequestContext.HttpContext.Request.Params["utm_source"];
+            model.Campaign = campaign;
+            model.Source = filterContext.RequestContext.HttpContext.Request.Params["utm_source"];
         }
     }
 }
