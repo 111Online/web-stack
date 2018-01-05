@@ -77,6 +77,7 @@
             @Html.HiddenFor(x => x.SurveyLink.DispositionDateTime)
             @Html.HiddenFor(x => Model.Campaign)
             @Html.HiddenFor(x => Model.Source)
+            @Html.Partial("_CommonHiddenFieldsCareAdviceViewModel", Model)
 
             if (Model.UserInfo.CurrentAddress.IsPostcodeFirst)
             {
