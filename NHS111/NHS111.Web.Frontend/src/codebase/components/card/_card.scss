@@ -1,3 +1,5 @@
+@import "../environment/settings/colours";
+
 @media (min-width: 600px) {
   .cards {
     display: grid;
@@ -64,4 +66,26 @@ p.card__details {
 .card:nth-child(7),
 .card:nth-child(8) {
   -ms-grid-row: 4;
+}
+
+.cards--numbered .card__marker-link {
+  display: none;
+}
+
+.js-enabled .cards--numbered .card__marker-link {
+  border: 3px solid #e3423a;
+  background: #f6544c;
+  cursor: pointer;
+  color: #000;
+  box-shadow: none;
+  border-radius: 50px;
+  display: block;
+  font-weight: 700;
+  float: right;
+  height: 40px;
+  margin-left: 15px;
+  margin-right: .5em;
+  padding: 0;
+  text-align: center;
+  width: 40px;
 }

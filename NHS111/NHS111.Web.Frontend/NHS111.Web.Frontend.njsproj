@@ -31,6 +31,9 @@
     <Compile Include="src\js\jquery-feedback.js">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="src\js\entry-map.js">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="src\js\jquery-validation.js">
       <SubType>Code</SubType>
     </Compile>
@@ -55,6 +58,9 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="src\js\vendor\modernizr-custom.min.js">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="src\js\vendor\ospoint.js">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="src\js\vendor\spin.js">

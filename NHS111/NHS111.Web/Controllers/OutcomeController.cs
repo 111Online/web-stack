@@ -277,7 +277,7 @@ namespace NHS111.Web.Controllers
         public ActionResult GetDirections(OutcomeViewModel model, int selectedServiceId, string selectedServiceName, string selectedServiceAddress)
         {
             _auditLogger.LogEventData(model, string.Format("User selected service '{0}' ({1})", selectedServiceName, selectedServiceId));
-            return Redirect(string.Format(_configuration.MapsApiUrl, selectedServiceName, selectedServiceAddress));
+            return Redirect(string.Format(_configuration.MapsApiUrl, model.UserInfo.CurrentAddress.Postcode, selectedServiceAddress));
         }
 
         [HttpPost]
