@@ -13,7 +13,7 @@ jQuery(function () {
   $('.feedback__input').on('keyup input', function () {
     var length = $(this).val().length
     var length = maxLength - length
-    if (length > 0) {
+    if (length >= 0) {
         $('.feedback__counter').removeClass('feedback__counter--error').text(length + ' characters remaining')
         $('.feedback__submit').removeAttr('disabled')
     }
