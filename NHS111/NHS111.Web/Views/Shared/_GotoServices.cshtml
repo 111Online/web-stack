@@ -102,7 +102,7 @@
 
         $(iframe).one('load', function () {
             $(iframe).show()
-
+            $(".cards--goto .card, .cards--goto .card__marker-link").css('display', 'block')
             $(".cards--goto .card, .cards--goto .card__marker-link").on("click", function () {
                 var index = $(this).data('index')
                 if (index == undefined) index = $(this).parent().data('index')
