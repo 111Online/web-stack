@@ -2,10 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Web;
 using System.Web.Mvc;
-using log4net.Util;
-using NHS111.Features;
 using NHS111.Models.Models.Business.PathwaySearch;
 using NHS111.Models.Models.Domain;
 using NHS111.Models.Models.Web;
@@ -13,7 +10,6 @@ using NHS111.Web.Helpers;
 using RestSharp;
 using NHS111.Web.Presentation.Builders;
 using NHS111.Web.Presentation.Configuration;
-using NHS111.Web.Presentation.Logging;
 
 namespace NHS111.Web.Controllers
 {
