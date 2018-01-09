@@ -18,7 +18,7 @@
                 @(String.IsNullOrEmpty(Model.Paragraph) ? null : Html.Raw("<p>" + Model.Paragraph + "</p>")) <p>We use feedback to make the service better but can't reply to any comments. Don't include any medical or personal information like your name or email.</p>
                 @Html.TextAreaFor(m => m.Text, new { @placeholder = "Feedback", @Value = "", @class = "feedback__input", @maxlength = maxFeedbackLength })
                 <div id="textdetailscounter" class="feedback__counter">@(maxFeedbackLength) character limit</div>
-                <button class="button button--next button--secondary" id="btnFeedback">Send feedback</button>
+                <button class="feedback__submit button--next button--secondary" id="btnFeedback">Send feedback</button>
             }
             <div id="feedback-details"></div>
         </div>
