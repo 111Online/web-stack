@@ -273,6 +273,12 @@ namespace NHS111.Web.Controllers
         }
 
         [HttpPost]
+        public void LogSelectedService(OutcomeViewModel model, int selectedServiceId, string selectedServiceName, string selectedServiceAddress)
+        {
+             _auditLogger.LogEventData(model, string.Format("User selected service '{0}' ({1})", selectedServiceName, selectedServiceId));
+        }
+
+        [HttpPost]
         public ActionResult Emergency() {
             return View();
         }
