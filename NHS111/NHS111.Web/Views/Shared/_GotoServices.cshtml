@@ -85,55 +85,13 @@
                 @Html.Hidden("SelectedServiceAddress", @service.Address)
                 <hr />
                 <p>This service doesn't require an appointment</p>
-                <p><a class="card__directions" href="@string.Format("https://www.google.com/maps/dir/?api=1&origin={0}&destination={1}", Model.UserInfo.CurrentAddress.Postcode, service.Address)">Get directions</a></p>
+                <button class="button--link card__directions--fallback" type="submit">Get directions</button>
+                <p><a class="card__directions" style="display: none;" target="_blank" href="@string.Format("https://www.google.com/maps/dir/?api=1&origin={0}&destination={1}", Model.UserInfo.CurrentAddress.Postcode, service.Address)">Get directions</a></p>
             }
         </div>
     }
 </div>
 
 <script>
-    // This ensures the map loads properly and that JS is enabled
-    $("details:not([open])").has(".cards--goto").one("click", function () {
-        var iframe = document.createElement('iframe')
-        iframe.src = '/map/?services=@Html.Raw(mapServices)'
-        iframe.role = 'presentation'
-        iframe.style = 'width: 100%; height: 250px; border: none; display: none'
-        $('.cards--goto').parent().prepend(iframe)
-
-        $(iframe).one('load', function () {
-            $(iframe).show()
-            $(".cards--goto .card, .cards--goto .card__marker-link").css('display', 'block')
-            $(".cards--goto .card, .cards--goto .card__marker-link").on("click", function () {
-                var index = $(this).data('index')
-                if (index == undefined) index = $(this).parent().data('index')
-                setActive(index)
-                $('iframe')[0].contentWindow.frames.setActive(index)
-            })
-        })
-
-    })
-
-    function viewMaps(index) {
-        $('.card[data-index=' + index + '] form').submit()
-    }
-
-    function setActive(index) {
-        $('.cards--goto .card').attr('style', '');
-        $($('.cards--goto .card')[index]).attr('style', 'border-color: #005eb8;');
-    }
-
-    $('.card__directions').on('click', function (e) {
-        var form = $(this).parents('form')
-        var arr = form.serializeArray()
-        var data = {}
-        arr.map((val, index) => {
-            data[val.name] = val.value
-        })
-
-        $.ajax({
-            url: location.origin + '/Outcome/LogSelectedService',
-            data: data,
-            method: 'POST'
-        })
-    })
+window.mapServices = @Html.Raw(mapServices)
 </script>

@@ -93,7 +93,7 @@ function addMarker(index, map) {
       content += value + "<br>"
   })
   content += "</div>"*/
-  content += "<a href='/' class='button--maps' onclick='window.parent.viewMaps(" + index + "); return false;'>View on google maps</a>"
+  content += "<a class='button--maps' target='_blank' href='https://www.google.com/maps/dir/?api=1&origin=" + services[index].CurrentPostcode + "&destination=" + Array.prototype.concat.apply([], services[index].Address) + "' onclick='window.parent.getDirections(" + index + ");'>View on google maps</a>"
 
   infowindow[index] = new google.maps.InfoWindow({
     content: content

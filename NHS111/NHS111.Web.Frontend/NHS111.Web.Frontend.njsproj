@@ -34,6 +34,9 @@
     <Compile Include="src\js\entry-map.js">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="src\js\jquery-cards.js">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="src\js\jquery-validation.js">
       <SubType>Code</SubType>
     </Compile>
