@@ -10,7 +10,7 @@ jQuery(function () {
     $("details:not([open])").has(".cards--goto").one("click", function () {
         var iframe = document.createElement('iframe')
         iframe.src = '/map/?services=' + JSON.stringify(mapServices)
-        iframe.role = 'presentation'
+        iframe.setAttribute('role', 'presentation')
         iframe.className += ' service-map'
         $('.cards--goto').parent().prepend(iframe)
 
