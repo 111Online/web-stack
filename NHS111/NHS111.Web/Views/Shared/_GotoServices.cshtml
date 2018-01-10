@@ -26,12 +26,46 @@
         </div>
     </section>
 }
-@*Html.Partial("_GoogleMap")*@
-<div class="cards">
 
-    @foreach (var service in services.Where(s => !s.CallbackEnabled && string.IsNullOrEmpty(s.ContactDetails)))
-{
-        <div class="card">
+@{
+    IEnumerable<ServiceViewModel> serviceList = services.Where(s => !s.CallbackEnabled && string.IsNullOrEmpty(s.ContactDetails));
+    String mapServices = "[";
+    for (var i = 0; i < serviceList.Count(); i++)
+    {
+        ServiceViewModel service = serviceList.ElementAt(i);
+        mapServices += "{";
+        mapServices += "\"Northings\": \"" + service.Northings + "\",";
+        mapServices += "\"Eastings\": \"" + service.Eastings + "\",";
+        mapServices += "\"Name\": \"" + service.Name + "\",";
+        mapServices += "\"CurrentPostcode\": \"" + Model.UserInfo.CurrentAddress.Postcode + "\",";
+        mapServices += "\"Address\": [";
+
+        for (var j = 0; j < service.AddressLines.Count(); j++)
+        {
+            String address = service.AddressLines[j];
+            mapServices += "\"" + address + "\"";
+            if (j < service.AddressLines.Count() - 1)
+            {
+                mapServices += ",";
+            }
+        }
+
+        mapServices += "]}";
+        if (i < serviceList.Count() - 1)
+        {
+            mapServices += ",";
+        }
+    }
+    mapServices += "]";
+}
+
+<div class="cards cards--numbered cards--goto">
+
+    @for (var i = 0; i < serviceList.Count(); i++)
+    {
+        var service = serviceList.ElementAt(i);
+        <div class="card" data-index="@Html.Raw(i)">
+            <button class="card__marker-link" role="presentation">@Html.Raw(i + 1)</button>
             <h3>@WebUtility.HtmlDecode(service.Name)</h3>
             <p>
                 @foreach (String address in service.AddressLines)
@@ -47,8 +81,8 @@
                 @Html.HiddenFor(m => m.JourneyJson)
                 @Html.HiddenFor(m => m.Id)
                 @Html.Hidden("SelectedServiceId", @service.Id)
-                @Html.Hidden("SelectedServiceName", Html.Encode(service.Name))
-                @Html.Hidden("SelectedServiceAddress", Html.Encode(service.Address))
+                @Html.Hidden("SelectedServiceName", @service.Name)
+                @Html.Hidden("SelectedServiceAddress", @service.Address)
                 <hr />
                 <p>This service doesn't require an appointment</p>
                 <button class="button button--link" type="submit">Get directions</button>
@@ -56,3 +90,35 @@
         </div>
     }
 </div>
+
+<script>
+    // This ensures the map loads properly and that JS is enabled
+    $("details:not([open])").has(".cards--goto").one("click", function () {
+        var iframe = document.createElement('iframe')
+        iframe.src = '/map/?services=@Html.Raw(mapServices)'
+        iframe.role = 'presentation'
+        iframe.style = 'width: 100%; height: 250px; border: none; display: none'
+        $('.cards--goto').parent().prepend(iframe)
+
+        $(iframe).one('load', function () {
+            $(iframe).show()
+            $(".cards--goto .card, .cards--goto .card__marker-link").css('display', 'block')
+            $(".cards--goto .card, .cards--goto .card__marker-link").on("click", function () {
+                var index = $(this).data('index')
+                if (index == undefined) index = $(this).parent().data('index')
+                setActive(index)
+                $('iframe')[0].contentWindow.frames.setActive(index)
+            })
+        })
+
+    })
+
+    function viewMaps(index) {
+        $('.card[data-index=' + index + '] form').submit()
+    }
+
+    function setActive(index) {
+        $('.cards--goto .card').attr('style', '');
+        $($('.cards--goto .card')[index]).attr('style', 'border-color: #005eb8;');
+    }
+</script>
