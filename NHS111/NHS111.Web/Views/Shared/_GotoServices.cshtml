@@ -85,7 +85,7 @@
                 @Html.Hidden("SelectedServiceAddress", @service.Address)
                 <hr />
                 <p>This service doesn't require an appointment</p>
-                <button class="button button--link" type="submit">Get directions</button>
+                <p><a class="card__directions" href="@string.Format("https://www.google.com/maps/dir/?api=1&origin={0}&destination={1}", Model.UserInfo.CurrentAddress.Postcode, service.Address)">Get directions</a></p>
             }
         </div>
     }
@@ -121,4 +121,19 @@
         $('.cards--goto .card').attr('style', '');
         $($('.cards--goto .card')[index]).attr('style', 'border-color: #005eb8;');
     }
+
+    $('.card__directions').on('click', function (e) {
+        var form = $(this).parents('form')
+        var arr = form.serializeArray()
+        var data = {}
+        arr.map((val, index) => {
+            data[val.name] = val.value
+        })
+
+        $.ajax({
+            url: location.origin + '/Outcome/LogSelectedService',
+            data: data,
+            method: 'POST'
+        })
+    })
 </script>
