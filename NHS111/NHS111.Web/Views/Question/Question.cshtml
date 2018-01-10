@@ -25,9 +25,8 @@
 @Html.Partial("_FeedbackDetails", new FeedbackViewModel() {
     UserId = Model.SessionId.ToString(),
     PageId = Request.Url.GetComponents(UriComponents.PathAndQuery, UriFormat.SafeUnescaped) + "/" + Model.Id,
-    Summary = "Tell us if this question isn’t clear",
     Heading = "Help us improve this question",
-    Paragraph = "For example, do you need more help with medical terms? Is it easy to answer the question?"
+    Paragraph = "Does it make sense? Do you understand all the words?"
 })
 }
 
@@ -64,6 +63,8 @@
     @Html.HiddenFor(x => Model.QuestionNo)
     @Html.HiddenFor(x => Model.StateJson)
     @Html.HiddenFor(x => Model.FilterServices)
+    @Html.HiddenFor(x => Model.Campaign)
+    @Html.HiddenFor(x => Model.Source)
 
     @Html.Raw(WriteDirectLink(Model))
 

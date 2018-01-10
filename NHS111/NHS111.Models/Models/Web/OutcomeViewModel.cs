@@ -100,6 +100,7 @@ namespace NHS111.Models.Models.Web
             SurveyLink = new SurveyLinkViewModel();
             Informant = new InformantViewModel();
             GroupedDosServices = new List<GroupedDOSServices>();
+            WorseningCareAdvice = new CareAdvice(new List<CareAdviceText>());
         }
     }
 

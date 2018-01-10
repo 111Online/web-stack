@@ -44,7 +44,7 @@ namespace NHS111.Web.Presentation.Logging {
 
         public async Task LogDosRequest(OutcomeViewModel model, DosViewModel dosViewModel)
         {
-            var audit = model.ToAuditEntry(new HttpSessionStateWrapper(HttpContext.Current.Session));
+            var audit = model.ToAuditEntry();
             var auditedDosViewModel = Mapper.Map<AuditedDosRequest>(dosViewModel);
             audit.DosRequest = JsonConvert.SerializeObject(auditedDosViewModel);
             await Log(audit);
@@ -52,7 +52,7 @@ namespace NHS111.Web.Presentation.Logging {
 
         public async Task LogDosResponse(OutcomeViewModel model)
         {
-            var audit = model.ToAuditEntry(new HttpSessionStateWrapper(HttpContext.Current.Session));
+            var audit = model.ToAuditEntry();
             var auditedDosResponse = Mapper.Map<AuditedDosResponse>(model.DosCheckCapacitySummaryResult);
             audit.DosResponse = JsonConvert.SerializeObject(auditedDosResponse);
             await Log(audit);
@@ -65,14 +65,14 @@ namespace NHS111.Web.Presentation.Logging {
 
         public async Task LogEventData(JourneyViewModel model, string eventData)
         {
-            var audit = model.ToAuditEntry(new HttpSessionStateWrapper(System.Web.HttpContext.Current.Session));
+            var audit = model.ToAuditEntry();
             audit.EventData = eventData;
             await Log(audit);
         }
 
         public async Task LogItkRequest(OutcomeViewModel model, ITKDispatchRequest itkRequest)
         {
-            var audit = model.ToAuditEntry(new HttpSessionStateWrapper(HttpContext.Current.Session));
+            var audit = model.ToAuditEntry();
             var auditedItkRequest = Mapper.Map<AuditedItkRequest>(itkRequest);
             audit.ItkRequest = JsonConvert.SerializeObject(auditedItkRequest);
             await Log(audit);
@@ -80,7 +80,7 @@ namespace NHS111.Web.Presentation.Logging {
 
         public async Task LogItkResponse(OutcomeViewModel model, HttpResponseMessage response)
         {
-            var audit = model.ToAuditEntry(new HttpSessionStateWrapper(HttpContext.Current.Session));
+            var audit = model.ToAuditEntry();
             var auditedItkResponse = Mapper.Map<AuditedItkResponse>(response);
             audit.ItkResponse = JsonConvert.SerializeObject(auditedItkResponse);
             await Log(audit);
