@@ -41,7 +41,9 @@ namespace NHS111.Web.Controllers
                     Demography = model.UserInfo.Demography,
                     CurrentAddress = model.UserInfo.CurrentAddress
                 },
-                FilterServices = model.FilterServices
+                FilterServices = model.FilterServices,
+                Campaign = model.Campaign,
+                Source = model.Source
             };
 
             _userZoomDataBuilder.SetFieldsForSearch(startOfJourney);
