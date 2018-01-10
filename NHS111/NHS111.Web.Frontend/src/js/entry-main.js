@@ -8,3 +8,4 @@ import './vendor/jquery.unobtrusive-ajax.js'
 
 import './jquery-validation.js'
 import './jquery-feedback.js'
+import './jquery-cards.js'
