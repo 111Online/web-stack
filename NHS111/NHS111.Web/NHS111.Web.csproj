@@ -258,7 +258,6 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Helpers\KeyValueEncryptor.cs" />
     <Compile Include="Helpers\QueryStringEncryptor.cs" />
     <Compile Include="Helpers\Versioning.cs" />
     <Compile Include="Helpers\ViewDeterminer.cs" />
@@ -469,6 +468,8 @@
     <Content Include="Views\Shared\_CompatibilityBanner.cshtml" />
     <Content Include="start.ps1" />
     <Content Include="enabled-postcodes.csv" />
+    <Content Include="Views\PostcodeFirst\ChangePostcode.cshtml" />
+    <Content Include="Views\Shared\_ServiceOpeningTimes.cshtml" />
     <None Include="Web.Development.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

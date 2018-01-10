@@ -25,7 +25,7 @@ namespace NHS111.Models.Test.Models.Web.ServiceViewModelTests
                     _serviceViewModelTestHelper.SUNDAY_SESSION
                 }
             };
-
+            Assert.AreEqual("Opens tomorrow:", service.NextOpeningTimePrefixMessage);
             Assert.AreEqual("Opens tomorrow: 09:30 until 17:00", service.ServiceOpeningTimesMessage);
         }
 
@@ -42,7 +42,7 @@ namespace NHS111.Models.Test.Models.Web.ServiceViewModelTests
                     _serviceViewModelTestHelper.TUESDAY_SESSION
                 }
             };
-
+            Assert.AreEqual("Opens Tuesday:", service.NextOpeningTimePrefixMessage);
             Assert.AreEqual("Opens Tuesday: 09:30 until 17:00", service.ServiceOpeningTimesMessage);
         }
 
@@ -59,7 +59,7 @@ namespace NHS111.Models.Test.Models.Web.ServiceViewModelTests
                     _serviceViewModelTestHelper.THURSDAY_MORNING_SESSION
                 }
             };
-
+            Assert.AreEqual("Opens Thursday:", service.NextOpeningTimePrefixMessage);
             Assert.AreEqual("Opens Thursday: 08:30 until 11:00", service.ServiceOpeningTimesMessage);
         }
 
@@ -80,6 +80,7 @@ namespace NHS111.Models.Test.Models.Web.ServiceViewModelTests
                 }
             };
 
+            Assert.AreEqual("Opens tomorrow:", service.NextOpeningTimePrefixMessage);
             Assert.AreEqual("Opens tomorrow: 09:30 until 17:00", service.ServiceOpeningTimesMessage);
         }
 
@@ -100,6 +101,7 @@ namespace NHS111.Models.Test.Models.Web.ServiceViewModelTests
                 }
             };
 
+            Assert.AreEqual("Opens Monday:", service.NextOpeningTimePrefixMessage);
             Assert.AreEqual("Opens Monday: 09:30 until 17:00", service.ServiceOpeningTimesMessage);
         }
 
@@ -111,7 +113,7 @@ namespace NHS111.Models.Test.Models.Web.ServiceViewModelTests
                 OpenAllHours = true,
             };
 
-            Assert.AreEqual("Open today: 24 hours", service.CurrentStatus);
+            Assert.AreEqual("", service.NextOpeningTimePrefixMessage);
             Assert.AreEqual("Open today: 24 hours", service.ServiceOpeningTimesMessage);
         }
         [Test]
@@ -122,7 +124,7 @@ namespace NHS111.Models.Test.Models.Web.ServiceViewModelTests
                 OpenAllHours = false,
             };
 
-            Assert.AreEqual("Closed", service.CurrentStatus);
+            Assert.AreEqual("", service.NextOpeningTimePrefixMessage);
             Assert.AreEqual("Closed", service.ServiceOpeningTimesMessage);
         }
     }
