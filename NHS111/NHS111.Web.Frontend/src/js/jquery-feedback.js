@@ -18,5 +18,6 @@ jQuery(function () {
 
   $('.js-open-feedback').on('click', function(e) {
       $('.feedback details').attr('open', true)
+      $('.feedback summary + div').show()
   })
 })
