@@ -120,6 +120,8 @@ namespace NHS111.SmokeTest.Utils
         public void VerifyTabbingOrder(int age)
         {
             HeaderLogo.SendKeys(Keys.Tab);
+            var feedbackLink = Driver.SwitchTo().ActiveElement();
+            feedbackLink.SendKeys(Keys.Tab);
             var maleButton = Driver.SwitchTo().ActiveElement();
             maleButton.SendKeys(Keys.Space);
             maleButton.SendKeys(Keys.Tab);

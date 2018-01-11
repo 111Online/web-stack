@@ -2,10 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Web;
 using System.Web.Mvc;
-using log4net.Util;
-using NHS111.Features;
 using NHS111.Models.Models.Business.PathwaySearch;
 using NHS111.Models.Models.Domain;
 using NHS111.Models.Models.Web;
@@ -13,7 +10,6 @@ using NHS111.Web.Helpers;
 using RestSharp;
 using NHS111.Web.Presentation.Builders;
 using NHS111.Web.Presentation.Configuration;
-using NHS111.Web.Presentation.Logging;
 
 namespace NHS111.Web.Controllers
 {
@@ -45,7 +41,9 @@ namespace NHS111.Web.Controllers
                     Demography = model.UserInfo.Demography,
                     CurrentAddress = model.UserInfo.CurrentAddress
                 },
-                FilterServices = model.FilterServices
+                FilterServices = model.FilterServices,
+                Campaign = model.Campaign,
+                Source = model.Source
             };
 
             _userZoomDataBuilder.SetFieldsForSearch(startOfJourney);
@@ -77,18 +75,15 @@ namespace NHS111.Web.Controllers
 
             if (!model.Results.Any())
             {
-                var encryptedTopicsQueryStringValues = new QueryStringEncryptor();
-                encryptedTopicsQueryStringValues["sessionId"] = model.SessionId.ToString();
-                encryptedTopicsQueryStringValues["postcode"] = !string.IsNullOrEmpty(model.UserInfo.CurrentAddress.Postcode) ? model.UserInfo.CurrentAddress.Postcode : string.Empty;
-                encryptedTopicsQueryStringValues["searchTerm"] = model.SanitisedSearchTerm;
-                encryptedTopicsQueryStringValues["filterServices"] = model.FilterServices.ToString();
 
+                var encryptedTopicsQueryStringValues = KeyValueEncryptor.EncryptedKeys(model);
+                    
                 return RedirectToRoute("CatergoriesUrl",
                     new
                     {
                         gender = model.UserInfo.Demography.Gender,
                         age = model.UserInfo.Demography.Age.ToString(),
-                        args = encryptedTopicsQueryStringValues.ToString()
+                        args = encryptedTopicsQueryStringValues
                     });
             }
 
@@ -113,7 +108,9 @@ namespace NHS111.Web.Controllers
                 },
                 AllTopics = topicsContainingStartingPathways,
                 FilterServices = bool.Parse(decryptedArgs["filterServices"]),
-                SanitisedSearchTerm = decryptedArgs["searchTerm"]
+                SanitisedSearchTerm = decryptedArgs["searchTerm"],
+                Campaign = decryptedArgs["campaign"],
+                Source = decryptedArgs["source"]
             };
 
             _userZoomDataBuilder.SetFieldsForSearchResults(model);

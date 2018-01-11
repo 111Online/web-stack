@@ -19,7 +19,11 @@
 }
 
 @section FeedbackSection {
-    @Html.Partial("_FeedbackDetails", new FeedbackViewModel() { UserId = Model.SessionId.ToString(), PageId = Request.Url.GetComponents(UriComponents.PathAndQuery, UriFormat.SafeUnescaped) })
+    @Html.Partial("_FeedbackDetails", new FeedbackViewModel()
+    {
+        UserId = Model.SessionId.ToString(),
+        PageData = new PageDataViewModel(PageDataViewModel.PageType.SearchResults, Model)
+    });
 }
 <div id="SearchResults" class="measure">
     @if (Model.Results.Any())
@@ -31,13 +35,9 @@
                 {
                     var additionalTopics = result.DisplayTitle != null ? result.DisplayTitle.Skip(1) : new List<string>();
                     var title = result.DisplayTitle != null ? result.DisplayTitle.First() : result.Title.First();
-                    var encryptedJtbsQueryStringValues = new QueryStringEncryptor();
-                    encryptedJtbsQueryStringValues["sessionId"] = Model.SessionId.ToString();
-                    encryptedJtbsQueryStringValues["postcode"] = !string.IsNullOrEmpty(Model.UserInfo.CurrentAddress.Postcode) ? Model.UserInfo.CurrentAddress.Postcode : string.Empty;
-                    encryptedJtbsQueryStringValues["digitalTitle"] = PathwaySearchResult.StripHighlightMarkup(title);
-                    encryptedJtbsQueryStringValues["filterServices"] = Model.FilterServices.ToString();
-                    encryptedJtbsQueryStringValues["entrySearchTerm"] = Model.SanitisedSearchTerm;
-
+                    Model.DigitalTitle = PathwaySearchResult.StripHighlightMarkup(title);
+                    var encryptedJtbsQueryStringValues = KeyValueEncryptor.EncryptedKeys(Model);
+                    
                     <li>
                         <a data-title="@result.PathwayTitle" data-pathway-number="@result.PathwayNo" href="/@result.PathwayNo/@Model.UserInfo.Demography.Gender/@Model.UserInfo.Demography.Age/start?args=@encryptedJtbsQueryStringValues.ToString()">@Html.Raw(title)</a>
                         @if (additionalTopics.Any())
@@ -46,18 +46,13 @@
                         }
                         <p>@Html.Raw(result.Description)</p>
                     </li>
-
                 }
             </ul>
             <h3 id="category-option">
                 @{
-                    var encryptedTopicsQueryStringValues = new QueryStringEncryptor();
-                    encryptedTopicsQueryStringValues["sessionId"] = Model.SessionId.ToString();
-                    encryptedTopicsQueryStringValues["postcode"] = !string.IsNullOrEmpty(Model.UserInfo.CurrentAddress.Postcode) ? Model.UserInfo.CurrentAddress.Postcode : string.Empty;
-                    encryptedTopicsQueryStringValues["searchTerm"] = Model.SanitisedSearchTerm;
-                    encryptedTopicsQueryStringValues["filterServices"] = Model.FilterServices.ToString();
+                    var encryptedTopicsQueryStringValues = KeyValueEncryptor.EncryptedKeys(Model);
                 }
-                If you can't find what you're looking for, try <a id="show-categories" href="/@Model.UserInfo.Demography.Gender/@Model.UserInfo.Demography.Age/Topics?args=@encryptedTopicsQueryStringValues.ToString()">searching by category</a> instead.
+                If you can't find what you're looking for, try <a id="show-categories" href="/@Model.UserInfo.Demography.Gender/@Model.UserInfo.Demography.Age/Topics?args=@encryptedTopicsQueryStringValues">searching by category</a> instead.
             </h3>
         </div>
     }

@@ -26,8 +26,11 @@ namespace NHS111.SmokeTest.Utils
         [FindsBy(How = How.CssSelector, Using = ".sub-header p")]
         private IWebElement HeaderOtherInfo { get; set; }
 
-        [FindsBy(How = How.CssSelector, Using = ".callout--attention")]
+        [FindsBy(How = How.CssSelector, Using = ".callout--attention p")]
         private IWebElement WhatIfFeelWorsePanel { get; set; }
+
+        [FindsBy(How = How.CssSelector, Using = ".callout--attention h2")]
+        private IWebElement WhatIfFeelWorseHeader { get; set; }
 
         [FindsBy(How = How.CssSelector, Using = ".care-advice .heading-medium")]
         private IWebElement CareAdviceTitleElement { get; set; }
@@ -68,6 +71,7 @@ namespace NHS111.SmokeTest.Utils
         public void VerifyWorseningPanel(WorseningMessageType messageType)
         {
             Assert.IsTrue(WhatIfFeelWorsePanel.Displayed);
+            if(!String.IsNullOrWhiteSpace(messageType.HeaderText)) Assert.AreEqual(messageType.HeaderText, WhatIfFeelWorseHeader.Text);
             Assert.AreEqual(messageType.Value, WhatIfFeelWorsePanel.Text);
         }
 
@@ -132,20 +136,23 @@ namespace NHS111.SmokeTest.Utils
 
     public static class WorseningMessages
     {
-        public static WorseningMessageType Call999 = new WorseningMessageType("If there are any new symptoms, or if the condition gets worse, changes or you have any other concerns, call NHS 111 for advice. Calls to 111 are free.");
+        public static WorseningMessageType Call999 = new WorseningMessageType("If there are any new symptoms, or if the condition gets worse, call 111 for advice.");
 
-        public static WorseningMessageType Call111 = new WorseningMessageType("If there are any new symptoms, or if the condition gets worse, changes or you have any other concerns, call NHS 111 for advice. Calls to 111 are free.");
-        public static WorseningMessageType Call111PostCodeFirst = new WorseningMessageType("Call 111 if your symptoms get worse\r\nIf there are any new symptoms, or if the condition gets worse, changes or you have any other concerns, call NHS 111 for advice. Calls to 111 are free.");
+        public static WorseningMessageType Call111 = new WorseningMessageType("If there are any new symptoms, or if the condition gets worse, call 111 for advice.");
+        public static WorseningMessageType Call111PostCodeFirst = new WorseningMessageType("If there are any new symptoms, or if the condition gets worse, call 111 for advice.", "Call 111 if your symptoms get worse");
     }
 
     public class WorseningMessageType
     {
-        public WorseningMessageType(string worseningText)
+        public WorseningMessageType(string worseningText, string headerText="")
         {
             _worseningText = worseningText;
+            _headerText = headerText;
         }
         private string _worseningText;
+        private string _headerText;
         public string Value{ get { return _worseningText; }}
+        public string HeaderText { get { return _headerText; } }
     }
 
  

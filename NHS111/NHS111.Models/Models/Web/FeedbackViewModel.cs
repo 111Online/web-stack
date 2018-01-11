@@ -23,10 +23,21 @@ namespace NHS111.Models.Models.Web
         [JsonProperty(PropertyName = "text")]
         public string Text { get; set; }
 
+        [JsonProperty(PropertyName = "summary")]
+        public string Summary { get; set; }
+
+        [JsonProperty(PropertyName = "heading")]
+        public string Heading { get; set; }
+
+        [JsonProperty(PropertyName = "paragraph")]
+        public string Paragraph { get; set; }
+
         [JsonProperty(PropertyName = "dateAdded")]
         public DateTime DateAdded { get; set; }
 
         [JsonProperty(PropertyName = "pageId")]
         public string PageId { get; set; }
+
+        public PageDataViewModel PageData { get; set; }
     }
 }

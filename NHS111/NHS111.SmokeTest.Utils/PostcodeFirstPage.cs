@@ -19,6 +19,7 @@ namespace NHS111.SmokeTest.Utils
 
         public override PostcodeFirstPage EnterPostCodeAndSubmit(string postcode)
         {
+            PostcodeField.Clear();
             PostcodeField.SendKeys(postcode);
             PostcodeSubmitButton.Click();
             return new PostcodeFirstPage(Driver);

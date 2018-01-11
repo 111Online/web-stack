@@ -159,7 +159,7 @@ namespace NHS111.SmokeTests
         {
             var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Diarrhoea and Vomiting", TestScenerioSex.Male, TestScenerioAgeGroups.Child);
 
-            questionPage.VerifyQuestion("Have you had any blood in your sick?");
+            questionPage.VerifyQuestion("Have you brought up either of the following?");
             var outcomePage = questionPage
                 .Answer(4)
                 .AnswerSuccessiveByOrder(3,2)
@@ -229,7 +229,7 @@ namespace NHS111.SmokeTests
         {
             var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Headache", TestScenerioSex.Female, TestScenerioAgeGroups.Adult);
 
-            questionPage.VerifyQuestion("Is there a chance you are pregnant?");
+            questionPage.VerifyQuestion("Could you be pregnant?");
             var outcomePage = questionPage
                 .Answer(3)
                 .Answer(1)

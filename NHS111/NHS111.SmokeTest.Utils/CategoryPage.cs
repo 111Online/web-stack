@@ -68,6 +68,8 @@ namespace NHS111.SmokeTest.Utils
         public void VerifyTabbingOrder(string topicToSelect1, string topicToSelect2, string topicToSelect3)
         {
             HeaderLogo.SendKeys(Keys.Tab);
+            var feedbackLink = Driver.SwitchTo().ActiveElement();
+            feedbackLink.SendKeys(Keys.Tab);
             var topic1 = Driver.SwitchTo().ActiveElement();
             Assert.IsTrue(topic1.Text.Contains(topicToSelect1));
             topic1.SendKeys(Keys.Enter);

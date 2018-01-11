@@ -148,10 +148,7 @@
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
-    <Reference Include="System.Xml.Linq, Version=3.5.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Xml.Linq.3.5.21022.801\lib\net20\System.Xml.Linq.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
+    <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Analytics\AnalyticsTagPrinter.cs" />
@@ -159,6 +156,7 @@
     <Compile Include="Builders\CCGViewModelBuilder.cs" />
     <Compile Include="Builders\JourneyViewModelBuilder.cs" />
     <Compile Include="Builders\LocationResultBuilder.cs" />
+    <Compile Include="Builders\PageDataViewModelBuilder.cs" />
     <Compile Include="Builders\SurveyLinkViewModelBuilder.cs" />
     <Compile Include="Builders\SymptomDiscriminatorCollector.cs" />
     <Compile Include="Builders\JourneyHistoryWrangler.cs" />

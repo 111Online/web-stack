@@ -13,8 +13,6 @@ namespace NHS111.Web.Controllers {
     using System.Collections.Generic;
     using System.Linq;
     using System.Web;
-    using AutoMapper;
-    using Models.Models.Business.PathwaySearch;
     using Models.Models.Domain;
     using Models.Models.Web.DosRequests;
     using Newtonsoft.Json;
@@ -41,7 +39,7 @@ namespace NHS111.Web.Controllers {
             _dosEndpointFeature = dosEndpointFeature;
         }
 
-        [HttpGet]
+        [HttpGet, PersistCampaignDataFilter]
         public ActionResult Home(JourneyViewModel model, string args)
         {
             if (!string.IsNullOrEmpty(args))
@@ -113,7 +111,7 @@ namespace NHS111.Web.Controllers {
         public async Task<ActionResult> InitialQuestion()
         {
             var model = new JourneyViewModel();
-            var audit = model.ToAuditEntry(new HttpSessionStateWrapper(System.Web.HttpContext.Current.Session));
+            var audit = model.ToAuditEntry();
             audit.EventData = "User directed from duplicate submission page";
             await _auditLogger.Log(audit);
 
@@ -125,7 +123,7 @@ namespace NHS111.Web.Controllers {
         [HttpPost]
         public async Task<ActionResult> InitialQuestion(JourneyViewModel model)
         {
-            var audit = model.ToAuditEntry(new HttpSessionStateWrapper(System.Web.HttpContext.Current.Session));
+            var audit = model.ToAuditEntry();
             audit.EventData = "User accepted module zero.";
             await _auditLogger.Log(audit);
 

@@ -8,7 +8,7 @@
 @section Title { NHS 111 Online - Tell us about you }
 
 @section FeedbackSection {
-    @Html.Partial("_FeedbackDetails", new FeedbackViewModel() { UserId = Model.SessionId.ToString(), PageId = Request.Url.GetComponents(UriComponents.PathAndQuery, UriFormat.SafeUnescaped) + "/demographics" })
+    @Html.Partial("_FeedbackDetails", new FeedbackViewModel() { UserId = Model.SessionId.ToString(), PageData = new PageDataViewModel(PageDataViewModel.PageType.Demographics, Model.Campaign, Model.Source) })
 }
 
 @using (Html.BeginForm("Search", "Search", FormMethod.Post, new { @id = "outerContent", @class = "measure" }))
@@ -16,6 +16,8 @@
     @Html.HiddenFor(x => Model.SessionId)
     @Html.HiddenFor(x => Model.FilterServices)
     @Html.HiddenFor(x => Model.UserInfo.CurrentAddress.Postcode)
+    @Html.HiddenFor(x => Model.Campaign)
+    @Html.HiddenFor(x => Model.Source)
 
     <div class="callout callout--error @(Html.ViewData.ModelState.IsValid ? "validation-summary-valid" : "validation-summary-errors")"
          data-valmsg-summary="true">

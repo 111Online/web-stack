@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -18,34 +19,34 @@ namespace NHS111.Web.Presentation.Builders
     {
         private IRestfulHelper _restfulHelper;
         private readonly IConfiguration _configuration;
+        private readonly IPageDataViewModelBuilder _pageDateViewModelBuilder;
 
-        public FeedbackViewModelBuilder(IRestfulHelper restfulHelper, IConfiguration configuration)
+        public FeedbackViewModelBuilder(IRestfulHelper restfulHelper, IConfiguration configuration, IPageDataViewModelBuilder pageDataViewModelBuilder)
         {
             _restfulHelper = restfulHelper;
             _configuration = configuration;
+            _pageDateViewModelBuilder = pageDataViewModelBuilder;
         }
 
         public async Task<FeedbackConfirmation> FeedbackBuilder(FeedbackViewModel feedback)
         {
-            var model = new FeedbackConfirmation();
+            feedback.DateAdded = DateTime.Now;
+            feedback.PageData = await _pageDateViewModelBuilder.PageDataBuilder(feedback.PageData);
+            feedback.PageId = feedback.PageData.ToString();
+            try {
+                var request = new HttpRequestMessage {
+                    Content = new StringContent(JsonConvert.SerializeObject(feedback), Encoding.UTF8, "application/json")
+                };
+                var httpHeaders = new Dictionary<string, string> {{"Authorization", _configuration.FeedbackAuthorization}};
+                var response = await _restfulHelper.PostAsync(_configuration.FeedbackAddFeedbackUrl, request, httpHeaders);
 
-            var request = new HttpRequestMessage { Content = new StringContent(JsonConvert.SerializeObject(feedback), Encoding.UTF8, "application/json") };
-            var httpHeaders = new Dictionary<string, string>();
-            httpHeaders.Add("Authorization", _configuration.FeedbackAuthorization);
-            var response = await _restfulHelper.PostAsync(_configuration.FeedbackAddFeedbackUrl, request, httpHeaders);
-
-            if (response.StatusCode == HttpStatusCode.OK || response.StatusCode == HttpStatusCode.Created)
-            {
-                model.Message = "Thank you for your time in helping to improve our service.";
-                model.Success = true;
+                if (response.StatusCode == HttpStatusCode.OK || response.StatusCode == HttpStatusCode.Created) {
+                    return FeedbackConfirmation.Success;
+                }
+            } catch {
+                return FeedbackConfirmation.Error;
             }
-            else
-            {
-                model.Message = "Feedback did not submit, please try again later";
-                model.Success = false;
-            }
-
-            return model;
+            return FeedbackConfirmation.Error;
         }
 
         public async Task<IEnumerable<FeedbackViewModel>> ViewFeedbackBuilder(int pageNumber = 0, int pageSize = 1000)
