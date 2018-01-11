@@ -258,6 +258,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Helpers\KeyValueEncryptor.cs" />
     <Compile Include="Helpers\QueryStringEncryptor.cs" />
     <Compile Include="Helpers\Versioning.cs" />
     <Compile Include="Helpers\ViewDeterminer.cs" />
