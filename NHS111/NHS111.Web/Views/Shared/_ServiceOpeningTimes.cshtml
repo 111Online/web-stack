@@ -10,10 +10,11 @@
 }
 else
 {
-    <p class="card__details"><span>@WebUtility.HtmlDecode(Model.NextOpeningTimePrefixMessage)</span>
+    <span class="card__details">@WebUtility.HtmlDecode(Model.NextOpeningTimePrefixMessage)</span>
+    <div class="card__details--times">
         @foreach (var session in Model.NextOpenDayRotaSessions)
         {
             <span>@session.OpeningTime.ToString("hh\\:mm") until @session.ClosingTime.ToString("hh\\:mm")</span>
         }
-    </p>
+    </div>
 }
