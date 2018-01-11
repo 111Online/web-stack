@@ -7,12 +7,16 @@ jQuery(function () {
     $('.card__directions').show()
 
     // This ensures the map loads properly and that JS is enabled
-    $("details:not([open])").has(".cards--goto").one("click", function () {
+    var gotoDetails = $("details:not([open])").has(".cards--goto")
+    if (gotoDetails.length) gotoDetails.one("click", loadMap)
+    else if ($(".cards--goto").length) loadMap()
+
+    function loadMap() {
         var iframe = document.createElement('iframe')
         iframe.src = '/map/?services=' + JSON.stringify(mapServices)
         iframe.setAttribute('role', 'presentation')
         iframe.className += ' service-map'
-        $('.cards--goto').parent().prepend(iframe)
+        $(iframe).insertBefore('.cards--goto')
 
         $(iframe).one('load', function () {
             $(".cards--goto .card, .cards--goto .card__marker-link").css('display', 'block')
@@ -24,8 +28,7 @@ jQuery(function () {
             })
             $(iframe).show()
         })
-
-    })
+    }
 
     // These functions below are exposed globally so that the map inside iframe
     // is able to interact with the cards.
