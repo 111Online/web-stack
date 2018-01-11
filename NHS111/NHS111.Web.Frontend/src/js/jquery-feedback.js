@@ -17,7 +17,7 @@ jQuery(function () {
   autosize($('.feedback__input'))
 
   $('.js-open-feedback').on('click', function(e) {
-      $('.feedback details').attr('open', true)
-      $('.feedback summary + div').show()
+      var isOpen = $('.feedback details[open]').length
+      if (!isOpen) $('.feedback summary').click()
   })
 })
