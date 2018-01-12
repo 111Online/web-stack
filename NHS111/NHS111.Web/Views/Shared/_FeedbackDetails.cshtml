@@ -14,11 +14,11 @@
             @using (Ajax.BeginForm("SubmitFeedback", "Feedback", new AjaxOptions { InsertionMode = InsertionMode.Replace, UpdateTargetId = "feedback-details", LoadingElementId = "loader", HttpMethod = "POST", OnBegin = "$('.feedback form').fadeOut(600);", OnSuccess = "$('#feedback-details').fadeIn(600);" }))
             {
                 @Html.HiddenFor(m => m.UserId)
-                @Html.HiddenFor(m => m.PageId)
+                @Html.Partial("_CommonHiddenFieldsPageDataViewModel", Model.PageData, new ViewDataDictionary() { TemplateInfo = new TemplateInfo() { HtmlFieldPrefix = "PageData" } })
                 @(String.IsNullOrEmpty(Model.Paragraph) ? null : Html.Raw("<p>" + Model.Paragraph + "</p>")) <p>We use feedback to make the service better but can't reply to any comments. Don't include any medical or personal information like your name or email.</p>
                 @Html.TextAreaFor(m => m.Text, new { @placeholder = "Feedback", @Value = "", @class = "feedback__input", @maxlength = maxFeedbackLength, @aria_labelledby = "feedback__summary" })
                 <div id="textdetailscounter" class="feedback__counter">@(maxFeedbackLength) character limit</div>
-                <button class="button button--next button--secondary" id="btnFeedback">Send feedback</button>
+                <button class="feedback__submit button--next button--secondary" id="btnFeedback">Send feedback</button>
             }
             <div id="feedback-details"></div>
         </div>

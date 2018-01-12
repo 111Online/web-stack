@@ -20,14 +20,16 @@
 @section Title { NHS 111 - Tell us your postcode }
 
 @section SurveyBanner{
-    @if (!Model.UserInfo.CurrentAddress.IsPostcodeFirst) { 
-        @Html.Partial("_SurveyLink", Model.SurveyLink) 
+    @if (!Model.UserInfo.CurrentAddress.IsPostcodeFirst)
+    {
+        @Html.Partial("_SurveyLink", Model.SurveyLink)
     }
 }
 
 @section FeedbackSection {
-    @if (Model.UserInfo.CurrentAddress.IsPostcodeFirst) {
-        @Html.Partial("_FeedbackDetails", new FeedbackViewModel() { UserId = Model.SessionId.ToString(), PageId = Model.Id });
+    @if (Model.UserInfo.CurrentAddress.IsPostcodeFirst)
+    {
+        @Html.Partial("_FeedbackDetails", new FeedbackViewModel() { UserId = Model.SessionId.ToString(), PageData = new PageDataViewModel(PageDataViewModel.PageType.PostcodeFirst, Model) })
     }
     else
     {
@@ -36,7 +38,7 @@
 }
 
 @{
-    var error = Model.DosCheckCapacitySummaryResult.ResultListEmpty;
+            var error = Model.DosCheckCapacitySummaryResult.ResultListEmpty;
 }
 <section>
     <div>
@@ -73,6 +75,8 @@
             @Html.HiddenFor(x => x.SurveyLink.DispositionCode)
             @Html.HiddenFor(x => x.SurveyLink.JourneyId)
             @Html.HiddenFor(x => x.SurveyLink.DispositionDateTime)
+            @Html.HiddenFor(x => Model.Campaign)
+            @Html.HiddenFor(x => Model.Source)
             @Html.Partial("_CommonHiddenFieldsCareAdviceViewModel", Model)
 
             if (Model.UserInfo.CurrentAddress.IsPostcodeFirst)
@@ -88,7 +92,7 @@
                         <p class="field-validation-error">Please check you have entered the postcode correctly, then try again. <br /> If the search still gives no results, please call 111 for advice.</p>
                     }
                     <label for="UserInfo_CurrentAddress_Postcode" class="alwayshidden">Postcode</label>
-                    @Html.ValidationMessageFor(m => m.UserInfo.CurrentAddress.Postcode) 
+                    @Html.ValidationMessageFor(m => m.UserInfo.CurrentAddress.Postcode)
                     @Html.TextBoxFor(m => m.UserInfo.CurrentAddress.Postcode)
                     <button class="button button--next" type="submit" name="DosResults" id="DosLookup">Next</button>
                 </div>
@@ -101,19 +105,19 @@
 @Html.Partial("_PageLoadingIndicator")
 
 <script type="text/javascript">
-    $(document).ready(function () {
-        stopPageLoadingIndicator();
-    });
+        $(document).ready(function () {
+            stopPageLoadingIndicator();
+        });
 
-    $('#DosLookup').css('cursor', 'pointer');
-    $(document).on('click', '#DosLookup', function (event) {
-        var $postcode = $('#UserInfo_CurrentAddress_Postcode').val();
-        if ($("#findServicesForm").valid() && !!$postcode) {
-            startPageLoadingIndicator('Searching for services near to ' + $postcode + '...');
-        }
-    });
+        $('#DosLookup').css('cursor', 'pointer');
+        $(document).on('click', '#DosLookup', function (event) {
+            var $postcode = $('#UserInfo_CurrentAddress_Postcode').val();
+            if ($("#findServicesForm").valid() && !!$postcode) {
+                startPageLoadingIndicator('Searching for services near to ' + $postcode + '...');
+            }
+        });
 
-    window.onpageshow = function (event) {
-        stopPageLoadingIndicator();
-    };
+        window.onpageshow = function (event) {
+            stopPageLoadingIndicator();
+        };
 </script>

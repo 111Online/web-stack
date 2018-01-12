@@ -37,5 +37,7 @@ namespace NHS111.Models.Models.Web
 
         [JsonProperty(PropertyName = "pageId")]
         public string PageId { get; set; }
+
+        public PageDataViewModel PageData { get; set; }
     }
 }

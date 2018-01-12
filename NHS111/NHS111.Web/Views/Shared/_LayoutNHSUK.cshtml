@@ -1,5 +1,6 @@
 ﻿@using System.Configuration
 @using System.Reflection
+@using NHS111.Models.Models.Web
 @using NHS111.Web.Presentation.Analytics
 @using Configuration = NHS111.Web.Presentation.Configuration.Configuration
 @inherits NHS111.Web.Views.Shared.LayoutView
@@ -75,7 +76,11 @@
     <div class="phase-banner" role="banner">
         <span class="banner--beta">beta</span>
         <span class="phase-message">
-            This is a new service, your <a href="#feedback" class="js-open-feedback">feedback</a> will help improve it.
+            @if (Model is OutcomeViewModel) {
+                <text>This is the first version of a new service.</text>
+            } else { 
+                <text>This is a new service, your <a href="#feedback" class="js-open-feedback">feedback</a> will help improve it.</text>
+            }
         </span>
     </div>
     

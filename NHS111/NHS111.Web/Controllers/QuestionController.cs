@@ -13,8 +13,6 @@ namespace NHS111.Web.Controllers {
     using System.Collections.Generic;
     using System.Linq;
     using System.Web;
-    using AutoMapper;
-    using Models.Models.Business.PathwaySearch;
     using Models.Models.Domain;
     using Models.Models.Web.DosRequests;
     using Newtonsoft.Json;
