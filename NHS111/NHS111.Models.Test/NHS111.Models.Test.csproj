@@ -146,6 +146,7 @@
     <Compile Include="Models\Web\Logging\AuditedDosResponseTest.cs" />
     <Compile Include="Models\Web\ServiceViewModelTests\CurrentStatusTests.cs" />
     <Compile Include="Models\Web\ServiceViewModelTests\IsOpenTests.cs" />
+    <Compile Include="Models\Web\ServiceViewModelTests\OnlineDOSServiceTypeTests.cs" />
     <Compile Include="Models\Web\ServiceViewModelTests\OpeningTimesTests.cs" />
     <Compile Include="Models\Web\ServiceViewModelTests\OpeningTimesMessageTests.cs" />
     <Compile Include="Models\Web\ServiceViewModelTests\ServiceViewModelTestHelper.cs" />

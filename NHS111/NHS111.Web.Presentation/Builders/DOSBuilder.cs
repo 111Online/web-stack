@@ -78,7 +78,7 @@ namespace NHS111.Web.Presentation.Builders
                 Success = new SuccessObject<ServiceViewModel>()
                 {
                     Code = (int)response.StatusCode,
-                    Services = DetermineCallbackEnabled(services)
+                    Services = FilterCallbackEnabled(services)
                 }
             };
 
@@ -109,13 +109,13 @@ namespace NHS111.Web.Presentation.Builders
         return groupedServices;
         }
         
-        public List<ServiceViewModel> DetermineCallbackEnabled(List<ServiceViewModel> services)
+        public List<ServiceViewModel> FilterCallbackEnabled(List<ServiceViewModel> services)
         {
             if (_itkMessagingFeature.IsEnabled)
                 return services;
             
             //remove callback services from list, as these are disabled
-            services.RemoveAll(s => s.CallbackEnabled);
+            services.RemoveAll(s => s.OnlineDOSServiceType == OnlineDOSServiceType.Callback);
             return services.ToList();
         }
 
