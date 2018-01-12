@@ -18,7 +18,7 @@
 
             @if (!callbackService.IsOpen)
             {
-                <p class="card__details service-status">@WebUtility.HtmlDecode(callbackService.ServiceOpeningTimesMessage)</p>
+                @Html.Partial("_ServiceOpeningTimes", callbackService, ViewData) 
             }
 
             @using (Html.BeginForm("PersonalDetails", "Outcome", FormMethod.Post))

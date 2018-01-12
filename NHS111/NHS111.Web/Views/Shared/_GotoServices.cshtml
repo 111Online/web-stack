@@ -73,7 +73,7 @@
                     @WebUtility.HtmlDecode(address)<br />
                 }
             </p>
-            <p class="card__details">@WebUtility.HtmlDecode(service.ServiceOpeningTimesMessage)</p>
+            @Html.Partial("_ServiceOpeningTimes", service, ViewData) 
             @using (Html.BeginForm("GetDirections", "Outcome", FormMethod.Post))
             {
                 @Html.HiddenFor(m => m.SessionId)

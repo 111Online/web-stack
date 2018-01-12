@@ -468,6 +468,7 @@
     <Content Include="Views\Shared\_CompatibilityBanner.cshtml" />
     <Content Include="start.ps1" />
     <Content Include="enabled-postcodes.csv" />
+    <Content Include="Views\Shared\_ServiceOpeningTimes.cshtml" />
     <Content Include="Views\Shared\_CommonHiddenFieldsPageDataViewModel.cshtml" />
     <None Include="Web.Development.config">
       <DependentUpon>Web.config</DependentUpon>
