@@ -1,4 +1,5 @@
-﻿@using NHS111.Models.Models.Web
+﻿@using NHS111.Models.Models.Domain
+@using NHS111.Models.Models.Web
 @{ Layout = "~/Views/Shared/_LayoutNhsUk.cshtml"; }
 @inherits NHS111.Web.Views.Shared.DirectLinkingView<QuestionViewModel>
 
@@ -24,7 +25,7 @@
 @section FeedbackSection {
 @Html.Partial("_FeedbackDetails", new FeedbackViewModel() {
     UserId = Model.SessionId.ToString(),
-    PageId = Request.Url.GetComponents(UriComponents.PathAndQuery, UriFormat.SafeUnescaped) + "/" + Model.Id,
+    PageData = new PageDataViewModel(Model.IsFirstStep ? PageDataViewModel.PageType.FirstQuestion : PageDataViewModel.PageType.Question, Model),
     Heading = "Help us improve this question",
     Paragraph = "Does it make sense? Do you understand all the words?"
 })

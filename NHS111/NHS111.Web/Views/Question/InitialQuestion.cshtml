@@ -5,7 +5,8 @@
 @section Title { NHS 111 Online - Is it an emergency? }
 
 @section FeedbackSection {
-    @Html.Partial("_FeedbackDetails", new FeedbackViewModel() { UserId = Model.SessionId.ToString(), PageId = Request.Url.GetComponents(UriComponents.PathAndQuery, UriFormat.SafeUnescaped) + "module zero" })
+
+    @Html.Partial("_FeedbackDetails", new FeedbackViewModel() {UserId = Model.SessionId.ToString(), PageData = new PageDataViewModel(PageDataViewModel.PageType.ModuleZero, Model.Campaign, Model.Source) })
 }
 
 @using (Html.BeginForm("InitialQuestion", "Question", FormMethod.Post, new { @class = "measure" }))
@@ -14,6 +15,7 @@
     @Html.HiddenFor(x => Model.FilterServices)
     @Html.HiddenFor(x => Model.Campaign)
     @Html.HiddenFor(x => Model.Source)
+
     <input id="UserInfo_CurrentAddress_Postcode" name="UserInfo.CurrentAddress.Postcode" type="hidden" value="@Model.UserInfo.CurrentAddress.Postcode">
     <h1 class="heading--alert heading--large">Check it’s not an emergency</h1>
     <div class="callout callout--alert measure">
