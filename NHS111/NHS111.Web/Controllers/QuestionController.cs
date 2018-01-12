@@ -13,8 +13,6 @@ namespace NHS111.Web.Controllers {
     using System.Collections.Generic;
     using System.Linq;
     using System.Web;
-    using AutoMapper;
-    using Models.Models.Business.PathwaySearch;
     using Models.Models.Domain;
     using Models.Models.Web.DosRequests;
     using Newtonsoft.Json;
@@ -73,7 +71,7 @@ namespace NHS111.Web.Controllers {
             };
 
             _userZoomDataBuilder.SetFieldsForHome(startOfJourney);
-            return View("Home", startOfJourney);
+            return View("InitialQuestion", startOfJourney);
         }
 
         [HttpPost]

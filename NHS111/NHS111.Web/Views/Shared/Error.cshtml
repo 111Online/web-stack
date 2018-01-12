@@ -7,9 +7,9 @@
 @section Scripts {}
 
 @section FeedbackSection {
-    @Html.Partial("_FeedbackDetails", new FeedbackViewModel() { PageId = Request.Url.GetComponents(UriComponents.PathAndQuery, UriFormat.SafeUnescaped)  })
+    @Html.Partial("_FeedbackDetails", new FeedbackViewModel() { UserId = Model.SessionId.ToString(), PageData = new PageDataViewModel(PageDataViewModel.PageType.Error, Model.Campaign, Model.Source) })
+    ;
 }
-
 
 <h2 class="heading-large">Sorry, there has been a problem.</h2>
 <p>This hasn't been caused by you, and we've been told about the problem.</p>

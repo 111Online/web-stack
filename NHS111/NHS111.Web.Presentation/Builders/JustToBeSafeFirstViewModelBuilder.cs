@@ -56,8 +56,10 @@ namespace NHS111.Web.Presentation.Builders
                     JourneyId = Guid.NewGuid(),
                     FilterServices = model.FilterServices,
                     Campaign = model.Campaign,
-                    Source = model.Source
+                    Source = model.Source,
+                    EntrySearchTerm = model.EntrySearchTerm
                 };
+
                 var question = JsonConvert.DeserializeObject<QuestionWithAnswers>(await _restfulHelper.GetAsync(_configuration.GetBusinessApiFirstQuestionUrl(identifiedModel.PathwayId, identifiedModel.StateJson)));
                 _mappingEngine.Mapper.Map(question, questionViewModel);
 
@@ -93,9 +95,9 @@ namespace NHS111.Web.Presentation.Builders
                 SymptomDiscriminatorCode = model.SymptomDiscriminatorCode,
                 State = JourneyViewModelStateBuilder.BuildState(pathway.Gender, derivedAge),
                 SessionId = model.SessionId,
-                FilterServices = model.FilterServices,
                 Campaign = model.Campaign,
-                Source = model.Source
+                Source = model.Source,
+                FilterServices = model.FilterServices
             };
 
             newModel.StateJson = JourneyViewModelStateBuilder.BuildStateJson(newModel.State);

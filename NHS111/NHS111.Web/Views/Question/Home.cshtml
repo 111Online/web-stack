@@ -1,5 +1,4 @@
-﻿@using System.Configuration
-@using NHS111.Models.Models.Web
+﻿@using NHS111.Models.Models.Web
 @{
     Layout = "~/Views/Shared/_LayoutNhsUK.cshtml";
 }
@@ -59,5 +58,5 @@
 </div>
 
 @section FeedbackSection {
-    @Html.Partial("_FeedbackDetails", new FeedbackViewModel() { UserId = Model.SessionId.ToString(), PageId = Request.Url.GetComponents(UriComponents.PathAndQuery, UriFormat.SafeUnescaped) + "home" })
+    @Html.Partial("_FeedbackDetails", new FeedbackViewModel() { UserId = Model.SessionId.ToString(), PageData = new PageDataViewModel() });
 }
