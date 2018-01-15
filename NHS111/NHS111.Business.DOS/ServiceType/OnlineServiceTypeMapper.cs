@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Net;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Web;
 using NHS111.Business.DOS.Configuration;
@@ -33,12 +35,15 @@ namespace NHS111.Business.DOS.Service
                     service.OnlineDOSServiceType = OnlineDOSServiceType.Callback;
                 else if (string.IsNullOrEmpty(service.ReferralText))
                     service.OnlineDOSServiceType = OnlineDOSServiceType.Unknown;
-                else if (service.ReferralText.Contains(phoneText))
-                    service.OnlineDOSServiceType = OnlineDOSServiceType.PublicPhone;
-                else if (service.ReferralText.Contains(goToText))
-                    service.OnlineDOSServiceType = OnlineDOSServiceType.GoTo;
                 else
-                    service.OnlineDOSServiceType = OnlineDOSServiceType.Unknown;
+                {
+                    if (service.ReferralText.RemovePunctuationAndWhitespace().Contains(phoneText.RemovePunctuationAndWhitespace()))
+                        service.OnlineDOSServiceType = OnlineDOSServiceType.PublicPhone;
+                    else if (service.ReferralText.RemovePunctuationAndWhitespace().Contains(goToText.RemovePunctuationAndWhitespace()))
+                        service.OnlineDOSServiceType = OnlineDOSServiceType.GoTo;
+                    else
+                        service.OnlineDOSServiceType = OnlineDOSServiceType.Unknown;
+                }
             }
 
             return resultsToMap;
@@ -57,7 +62,14 @@ namespace NHS111.Business.DOS.Service
 
             return new ServiceListModel();
         }
+    }
 
+    public static class ReferralStringExtension
+    {
+        public static string RemovePunctuationAndWhitespace(this string str)
+        {
+            return new string(str.ToCharArray().Where(c => !char.IsPunctuation(c) && !char.IsWhiteSpace(c)).ToArray()).ToLower();
+        }
     }
 
     public interface IOnlineServiceTypeMapper

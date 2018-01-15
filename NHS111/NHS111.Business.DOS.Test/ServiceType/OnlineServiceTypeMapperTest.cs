@@ -119,6 +119,33 @@ namespace NHS111.Business.DOS.Test.ServiceType
                     ""referralText"": ""telephone this service""
                 }
             ]}";
+
+        private static readonly string CheckCapacitySummaryResultsGoToPhoneGoToReferralTextCasingAndPunctuation = @"{
+            ""CheckCapacitySummaryResult"": [{
+                    ""idField"": 1419419101,
+                    ""nameField"": ""Test Service 1"",
+                    ""serviceTypeField"": {
+                        ""idField"": 100,
+                    },
+                    ""referralText"": ""You can G.O. straight to this service. You do not need to telephone beforehand""
+                },
+                {
+                    ""idField"": 1419419102,
+                    ""nameField"": ""Test Service 2"",
+                    ""serviceTypeField"": {
+                        ""idField"": 25,
+                    },
+                    ""referralText"": ""You M.U.s.T, telephone this service before attending""
+                },
+                {
+                    ""idField"": 1419419103,
+                    ""nameField"": ""Test Service 3"",
+                    ""serviceTypeField"": {
+                        ""idField"": 46,
+                    },
+                    ""referralText"": ""You can go        straight to this service. You do not need to telephone beforehand""
+                },
+            ]}";
         #endregion
 
         [SetUp]
@@ -367,6 +394,25 @@ namespace NHS111.Business.DOS.Test.ServiceType
 
             Assert.AreEqual(1, result.Count);
             Assert.AreEqual(OnlineDOSServiceType.PublicPhone, result[0].OnlineDOSServiceType);
+        }
+
+        [Test]
+        public async void OnlineServiceTypeMapper_PhoneTextAndGoToTextCaseAndPunctuationInsensitive()
+        {
+            string whitelistUrl = string.Format(_localServiceIdWhiteListUrl, _postcode);
+            _restClient.Setup(r => r.ExecuteTaskAsync<CCGDetailsModel>(It.Is<RestRequest>(req => req.Resource.Equals(whitelistUrl)))).Returns(() => StartedTask((IRestResponse<CCGDetailsModel>)new RestResponse<CCGDetailsModel>() { StatusCode = HttpStatusCode.OK, ResponseStatus = ResponseStatus.Completed, Data = new CCGDetailsModel { ItkServiceIdWhitelist = new ServiceListModel { "123", "456", "789" } } }));
+
+            var jObj = (JObject)JsonConvert.DeserializeObject(CheckCapacitySummaryResultsGoToPhoneGoToReferralTextCasingAndPunctuation);
+            var results = jObj["CheckCapacitySummaryResult"].ToObject<List<Models.Models.Business.DosService>>();
+
+            //Act
+            var sut = new OnlineServiceTypeMapper(_restClient.Object, _mockConfiguration.Object);
+            var result = await sut.Map(results, _postcode);
+
+            Assert.AreEqual(3, result.Count);
+            Assert.AreEqual(OnlineDOSServiceType.GoTo, result[0].OnlineDOSServiceType);
+            Assert.AreEqual(OnlineDOSServiceType.PublicPhone, result[1].OnlineDOSServiceType);
+            Assert.AreEqual(OnlineDOSServiceType.GoTo, result[2].OnlineDOSServiceType);
         }
 
         private static Task<T> StartedTask<T>(T taskResult)
