@@ -78,6 +78,12 @@ namespace NHS111.Models.Test.Models.Web.ServiceViewModelTests
             StartTime = new TimeOfDay() { Hours = 13, Minutes = 00 },
             EndTime = new TimeOfDay() { Hours = 18, Minutes = 0 }
         };
+
+        public bool IsSameTime(TimeSpan timespan, TimeOfDay rotaSessionTimeOfDay)
+        {
+            return timespan.Hours == rotaSessionTimeOfDay.Hours 
+                && timespan.Minutes == rotaSessionTimeOfDay.Minutes;
+        }
     }
     
     public class StaticClock : IClock

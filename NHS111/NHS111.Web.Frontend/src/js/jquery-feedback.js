@@ -1,22 +1,39 @@
 const autosize = require('autosize')
 
 jQuery(function () {
-  var maxLength = $('.feedback__input').attr('maxlength')
+  var maxLength = parseInt($('.feedback__input').attr('maxlength'))
+  $('.feedback__submit').prop('disabled', 'true')
 
   // If JS is not enabled, maxlength ensures the length of the text
-  // but if JS is enabled then we remove it so the user can type as many
+  // but if JS is enabled then we adjust it so the user can type as many
   // characters as they wish and then edit to be less than maximum.
-  $('.feedback__input').removeAttr('maxlength')
+  // There is still a max length for typing but much higher than the length for
+  // submitting.
+  $('.feedback__input').attr('maxlength', maxLength * 1.5)
   $('.feedback__input').on('keyup input', function () {
     var length = $(this).val().length
     var length = maxLength - length
-    if (length >= 0) $('.feedback__counter').removeClass('feedback__counter--error').text(length + ' characters remaining')
-    else $('.feedback__counter').addClass('feedback__counter--error').text(Math.abs(length) + ' characters too many')
+    if (length >= 0) {
+        $('.feedback__counter').removeClass('feedback__counter--error').text(length + ' characters remaining')
+        $('.feedback__submit').removeAttr('disabled')
+    }
+    else {
+        $('.feedback__counter').addClass('feedback__counter--error').text(Math.abs(length) + ' characters too many')
+        $('.feedback__submit').prop('disabled', 'true')
+    }
+    if (length == maxLength) $('.feedback__submit').prop('disabled', 'true')
   })
-  console.log($('.feedback__input').autogrow)
   autosize($('.feedback__input'))
+    
+  $('.feedback__submit').on('click', function (e) {
+    var el = $('.feedback__input')
+    var length = parseInt(el.val().length)
+    if (length <= 0) e.preventDefault()
+    if (length > maxLength) e.preventDefault()
+  })
 
   $('.js-open-feedback').on('click', function(e) {
-      $('.feedback details').attr('open', true)
+      var isOpen = $('.feedback details[open]').length
+      if (!isOpen) $('.feedback summary').click()
   })
 })

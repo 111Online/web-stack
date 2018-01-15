@@ -212,6 +212,7 @@
     <Compile Include="Models\Web\DosRequests\DosFilteredCase.cs" />
     <Compile Include="Models\Web\DosRequests\DosServicesByClinicalTermRequest.cs" />
     <Compile Include="Models\Web\FeedbackViewModel.cs" />
+    <Compile Include="Models\Web\PageDataViewModel.cs" />
     <Compile Include="Models\Web\FromExternalServices\DosCheckCapacitySummaryResult.cs" />
     <Compile Include="Models\Web\FromExternalServices\DosService.cs" />
     <Compile Include="Models\Web\FromExternalServices\DosServicesByClinicalTermResult.cs" />

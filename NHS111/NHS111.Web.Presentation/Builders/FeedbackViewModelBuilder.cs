@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -18,15 +19,20 @@ namespace NHS111.Web.Presentation.Builders
     {
         private IRestfulHelper _restfulHelper;
         private readonly IConfiguration _configuration;
+        private readonly IPageDataViewModelBuilder _pageDateViewModelBuilder;
 
-        public FeedbackViewModelBuilder(IRestfulHelper restfulHelper, IConfiguration configuration)
+        public FeedbackViewModelBuilder(IRestfulHelper restfulHelper, IConfiguration configuration, IPageDataViewModelBuilder pageDataViewModelBuilder)
         {
             _restfulHelper = restfulHelper;
             _configuration = configuration;
+            _pageDateViewModelBuilder = pageDataViewModelBuilder;
         }
 
         public async Task<FeedbackConfirmation> FeedbackBuilder(FeedbackViewModel feedback)
         {
+            feedback.DateAdded = DateTime.Now;
+            feedback.PageData = await _pageDateViewModelBuilder.PageDataBuilder(feedback.PageData);
+            feedback.PageId = feedback.PageData.ToString();
             try {
                 var request = new HttpRequestMessage {
                     Content = new StringContent(JsonConvert.SerializeObject(feedback), Encoding.UTF8, "application/json")
