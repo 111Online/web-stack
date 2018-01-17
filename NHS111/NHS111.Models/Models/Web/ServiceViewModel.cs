@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using System.Net;
 using System.Text.RegularExpressions;
 using Nest;
 using NHS111.Models.Models.Web.Clock;
@@ -59,7 +60,7 @@ namespace NHS111.Models.Models.Web
 
         public List<string> AddressLines
         {
-            get { return _addressLines ?? (_addressLines = BuildFormattedAddressLines(this.Address)); }
+            get { return _addressLines ?? (_addressLines = BuildFormattedAddressLines(WebUtility.HtmlDecode(this.Address))); }
         }
 
         private List<string> BuildFormattedAddressLines(string unformattedAddress)

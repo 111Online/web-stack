@@ -45,5 +45,14 @@ namespace NHS111.Models.Test.Models.Web.ServiceViewModelTests
             var testService = new ServiceViewModel();
             Assert.AreEqual(0, testService.AddressLines.Count);
         }
+
+        [Test]
+        public void Service_MultipleAddressLines_Html_Encoding_in_Lines()
+        {
+            string testAdderess = "Test&#39;s Building, 11 Some Street, A street,The City, TS16 7TH";
+            var testService = new ServiceViewModel() { Address = testAdderess };
+            Assert.AreEqual("Test's Building", testService.AddressLines[0]);
+        }
+
     }
 }
