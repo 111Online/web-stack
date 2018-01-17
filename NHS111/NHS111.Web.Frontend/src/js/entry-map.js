@@ -50,33 +50,64 @@ function initialise() {
     addMarker(i, map)
   }
 
-  console.log(services)
-
   geocoder.geocode({ "address": services[0].CurrentPostcode }, (data) => {
 
-      geo = new google.maps.Marker({
-        position: data[0].geometry.location,
-        label: "",
-        map: map,
-        icon: 'data:image/svg+xml;charset=UTF-8,' + encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"><ellipse cx="8" cy="8" fill="#005eb8" stroke-width="1" rx="7" ry="7"/></svg>')
-      })
+    geo = new google.maps.Marker({
+      position: data[0].geometry.location,
+      label: "",
+      map: map,
+      optimized: false,
+      icon: {
+          url: '/content/images/icons/map-postcode-marker.svg',
+          scaledSize: new google.maps.Size(16, 16)
+      }
+    })
 
-      geoinfo = new google.maps.InfoWindow({
-          content: "<p>" + services[0].CurrentPostcode.toUpperCase() + "</p>"
-      })
+    geoinfo = new google.maps.InfoWindow({
+        content: "<p>" + services[0].CurrentPostcode.toUpperCase() + "</p>"
+    })
       
-      geo.addListener('click', function () {
-          geoinfo.open(map, geo)
-      })
+    geo.addListener('click', function () {
+        geoinfo.open(map, geo)
+    })
 
-      bounds.extend(data[0].geometry.location)
-      map.fitBounds(bounds)
-      map.panToBounds(bounds)
-      map.setZoom(12)
+    bounds.extend(data[0].geometry.location)
+    map.fitBounds(bounds, 50)
+    map.panToBounds(bounds)
+    map.setZoom(getZoomByBounds(map, bounds))
+    geoinfo.open(map, geo)
 
-      geoinfo.open(map, geo)
   })
 
+}
+
+/**
+* Returns the zoom level at which the given rectangular region fits in the map view. 
+* The zoom level is computed for the currently selected map type.
+* Source: https://stackoverflow.com/a/9982152
+* @param {google.maps.Map} map
+* @param {google.maps.LatLngBounds} bounds 
+* @return {Number} zoom level
+**/
+function getZoomByBounds(map, bounds) {
+  var MAX_ZOOM = map.mapTypes.get(map.getMapTypeId()).maxZoom || 21;
+  var MIN_ZOOM = map.mapTypes.get(map.getMapTypeId()).minZoom || 0;
+
+  var ne = map.getProjection().fromLatLngToPoint(bounds.getNorthEast());
+  var sw = map.getProjection().fromLatLngToPoint(bounds.getSouthWest());
+
+  var worldCoordWidth = Math.abs(ne.x - sw.x);
+  var worldCoordHeight = Math.abs(ne.y - sw.y);
+
+  //Fit padding in pixels 
+  var FIT_PAD = 100;
+
+  for (var zoom = MAX_ZOOM; zoom >= MIN_ZOOM; --zoom) {
+      if (worldCoordWidth * (1 << zoom) + 2 * FIT_PAD < map.getDiv().offsetWidth &&
+          worldCoordHeight * (1 << zoom) + 2 * FIT_PAD < map.getDiv().offsetHeight)
+          return zoom;
+  }
+  return 0;
 }
 
 // Adds a marker to the map.
