@@ -16,6 +16,9 @@
   <PropertyGroup Condition="'$(Configuration)' == 'Debug'" />
   <PropertyGroup Condition="'$(Configuration)' == 'Release'" />
   <ItemGroup>
+    <Compile Include="src\assets\images\icons\map-postcode-marker.svg">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="src\js\geolocation.js">
       <SubType>Code</SubType>
     </Compile>
@@ -29,6 +32,12 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="src\js\jquery-feedback.js">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="src\js\entry-map.js">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="src\js\jquery-cards.js">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="src\js\jquery-validation.js">
@@ -55,6 +64,9 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="src\js\vendor\modernizr-custom.min.js">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="src\js\vendor\ospoint.js">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="src\js\vendor\spin.js">

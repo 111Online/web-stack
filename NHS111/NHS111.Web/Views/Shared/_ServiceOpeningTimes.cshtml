@@ -1,0 +1,20 @@
+﻿@using NHS111.Models.Models.Web
+@using NHS111.Models.Models.Web.FromExternalServices
+@model  ServiceViewModel
+    
+
+
+@if (Model.ServiceClosed || Model.OpenAllHours)
+{
+    <p class="card__details">@WebUtility.HtmlDecode(Model.CurrentStatus)</p>
+}
+else
+{
+    <span class="card__details">@WebUtility.HtmlDecode(Model.NextOpeningTimePrefixMessage)</span>
+    <div class="card__details--times">
+        @foreach (var session in Model.NextOpenDayRotaSessions)
+        {
+            <span>@session.OpeningTime.ToString("hh\\:mm") until @session.ClosingTime.ToString("hh\\:mm")</span>
+        }
+    </div>
+}

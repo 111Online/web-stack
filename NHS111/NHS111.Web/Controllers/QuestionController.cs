@@ -71,7 +71,7 @@ namespace NHS111.Web.Controllers {
             };
 
             _userZoomDataBuilder.SetFieldsForHome(startOfJourney);
-            return View("Home", startOfJourney);
+            return View("InitialQuestion", startOfJourney);
         }
 
         [HttpPost]

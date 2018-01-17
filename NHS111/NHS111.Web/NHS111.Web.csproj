@@ -284,7 +284,6 @@
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Scripts\details.min.js" />
     <Content Include="Scripts\disclaimer-popup.js" />
-    <Content Include="Scripts\geotools.js" />
     <Content Include="Scripts\icheck.js" />
     <Content Include="Scripts\jquery.blockUI.js" />
     <Content Include="Scripts\jquery.cookie.js" />
@@ -469,6 +468,7 @@
     <Content Include="Views\Shared\_CompatibilityBanner.cshtml" />
     <Content Include="start.ps1" />
     <Content Include="enabled-postcodes.csv" />
+    <Content Include="Views\Shared\_ServiceOpeningTimes.cshtml" />
     <Content Include="Views\Shared\_CommonHiddenFieldsPageDataViewModel.cshtml" />
     <None Include="Web.Development.config">
       <DependentUpon>Web.config</DependentUpon>

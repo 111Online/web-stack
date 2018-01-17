@@ -7,7 +7,8 @@ module.exports = {
     entry: {
         'bundle-head': './src/js/entry-head.js',
         'bundle': './src/js/entry-main.js',
-        'bundle-polyfills': './src/js/entry-polyfills.js'
+        'bundle-polyfills': './src/js/entry-polyfills.js',
+        'bundle-map': './src/js/entry-map.js'
     },
     output: {
         filename: '[name].js'

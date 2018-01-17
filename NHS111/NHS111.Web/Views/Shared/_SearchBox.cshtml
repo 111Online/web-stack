@@ -16,7 +16,7 @@
         </h1>
         @Html.ValidationMessageFor(m => m.SanitisedSearchTerm, "Please enter the symptom you're concerned about", new { @class = "error-message" })
         <div>
-            @Html.TextBoxFor(m => m.SanitisedSearchTerm, new { @autocomplete = "off", @class = "form-textbox" })
+            @Html.TextBoxFor(m => m.SanitisedSearchTerm, new { @autocomplete = "off", @class = "form-textbox", @maxlength = "150" })
             <button type="submit" class="button button--next" value="Search" id="searchButton">Next</button>
         </div>
     }
