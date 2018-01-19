@@ -14,7 +14,7 @@
     }
     else
     {
-        var serviceCount = services.Count(s => !s.CallbackEnabled && !string.IsNullOrEmpty(s.ContactDetails));
+        var serviceCount = services.Count(s => !string.IsNullOrEmpty(s.ContactDetails));
         title = serviceCount > 1 ? "There are " + serviceCount + " places you can phone" : "There is 1 place you can phone";
     }
 }
@@ -28,7 +28,7 @@
     </section>
 }
 <div class="cards">
-    @foreach (var service in services.Where(s => !s.CallbackEnabled && !string.IsNullOrEmpty(s.ContactDetails)))
+    @foreach (var service in services.Where(s => !string.IsNullOrEmpty(s.ContactDetails)))
     {
         <div class="card">
             <h3>@WebUtility.HtmlDecode(service.Name)</h3>
