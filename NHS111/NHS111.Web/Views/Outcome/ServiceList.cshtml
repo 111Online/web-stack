@@ -28,14 +28,13 @@
     @Html.Partial("_SurveyLink", Model.SurveyLink, dataDictionary)
 }
 @section FeedbackSection {
-    @if (!SurveyLinkFeature.IsEnabled)
-    {
+    @if (!SurveyLinkFeature.IsEnabled) {
         @Html.Partial("_FeedbackDetails", new FeedbackViewModel() { UserId = Model.SessionId.ToString(), PageData = new PageDataViewModel(PageDataViewModel.PageType.ServiceList, Model) })
-    else
-    {
-        @Html.Partial("_SurveyLink", Model.SurveyLink)
+        }
+        else {
+            @Html.Partial("_SurveyLink", Model.SurveyLink)
+        }
     }
-}
 
 @Html.Partial("_OutcomeHeader", Model, new ViewDataDictionary { { "OutcomeHeader", "Services for " + Model.UserInfo.CurrentAddress.Postcode.ToUpper() } })
 
