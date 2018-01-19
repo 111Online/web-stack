@@ -36,14 +36,14 @@
         mapServices += "{";
         mapServices += "\"Northings\": \"" + service.Northings + "\",";
         mapServices += "\"Eastings\": \"" + service.Eastings + "\",";
-        mapServices += "\"Name\": \"" + service.Name + "\",";
+        mapServices += "\"Name\": \"" + Uri.EscapeDataString(service.Name) + "\",";
         mapServices += "\"CurrentPostcode\": \"" + Model.UserInfo.CurrentAddress.Postcode + "\",";
         mapServices += "\"Address\": [";
 
         for (var j = 0; j < service.AddressLines.Count(); j++)
         {
             String address = service.AddressLines[j];
-            mapServices += "\"" + address + "\"";
+            mapServices += "\"" + Uri.EscapeDataString(address) + "\"";
             if (j < service.AddressLines.Count() - 1)
             {
                 mapServices += ",";
