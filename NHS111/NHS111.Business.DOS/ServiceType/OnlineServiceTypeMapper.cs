@@ -37,7 +37,8 @@ namespace NHS111.Business.DOS.Service
                     service.OnlineDOSServiceType = OnlineDOSServiceType.Unknown;
                 else
                 {
-                    if (service.ReferralText.RemovePunctuationAndWhitespace().Contains(phoneText.RemovePunctuationAndWhitespace()))
+                    if (service.ReferralText.RemovePunctuationAndWhitespace().Contains(phoneText.RemovePunctuationAndWhitespace()) 
+                        && !string.IsNullOrEmpty(service.ContactDetails))
                         service.OnlineDOSServiceType = OnlineDOSServiceType.PublicPhone;
                     else if (service.ReferralText.RemovePunctuationAndWhitespace().Contains(goToText.RemovePunctuationAndWhitespace()))
                         service.OnlineDOSServiceType = OnlineDOSServiceType.GoTo;

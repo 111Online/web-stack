@@ -32,7 +32,7 @@ namespace NHS111.Models.Models.Web.FromExternalServices
         public string NonPublicTelephoneNo { get; set; }
         [JsonProperty(PropertyName = "fax")]
         public string Fax { get; set; }
-        [JsonProperty(PropertyName = "referralText")]
+        [JsonProperty(PropertyName = "referralTextField")]
         public string ReferralText { get; set; }
         [JsonProperty(PropertyName = "distance")]
         public string Distance { get; set; }

@@ -8,6 +8,7 @@ using Newtonsoft.Json.Linq;
 using NHS111.Business.DOS.Service;
 using NHS111.Models.Models.Web.CCG;
 using NHS111.Models.Models.Web.FromExternalServices;
+using NHS111.Models.Models.Web.ITK;
 using NUnit.Framework;
 using RestSharp;
 
@@ -45,7 +46,7 @@ namespace NHS111.Business.DOS.Test.ServiceType
                     ""serviceTypeField"": {
                         ""idField"": 46,
                     },
-                    ""referralText"": """"
+                    ""referralTextField"": """"
                 },
             ]}";
 
@@ -56,7 +57,7 @@ namespace NHS111.Business.DOS.Test.ServiceType
                     ""serviceTypeField"": {
                         ""idField"": 100,
                     },
-                    ""referralText"": ""You can go straight to this service. You do not need to telephone beforehand""
+                    ""referralTextField"": ""You can go straight to this service. You do not need to telephone beforehand""
                 },
                 {
                     ""idField"": 1419419102,
@@ -64,7 +65,8 @@ namespace NHS111.Business.DOS.Test.ServiceType
                     ""serviceTypeField"": {
                         ""idField"": 25,
                     },
-                    ""referralText"": ""You must telephone this service before attending""
+                    ""referralTextField"": ""You must telephone this service before attending"",
+                    ""contactDetailsField"": ""02355 444777""
                 },
                 {
                     ""idField"": 1419419103,
@@ -72,7 +74,7 @@ namespace NHS111.Business.DOS.Test.ServiceType
                     ""serviceTypeField"": {
                         ""idField"": 46,
                     },
-                    ""referralText"": ""You can go straight to this service. You do not need to telephone beforehand""
+                    ""referralTextField"": ""You can go straight to this service. You do not need to telephone beforehand""
                 },
             ]}";
 
@@ -83,7 +85,7 @@ namespace NHS111.Business.DOS.Test.ServiceType
                     ""serviceTypeField"": {
                         ""idField"": 100,
                     },
-                    ""referralText"": ""You can go straight to this service. You do not need to telephone beforehand""
+                    ""referralTextField"": ""You can go straight to this service. You do not need to telephone beforehand""
                 }
             ]}";
 
@@ -94,7 +96,8 @@ namespace NHS111.Business.DOS.Test.ServiceType
                     ""serviceTypeField"": {
                         ""idField"": 100,
                     },
-                    ""referralText"": ""You must telephone this service before attending""
+                    ""referralTextField"": ""You must telephone this service before attending"",
+                    ""contactDetailsField"": ""02355 444777""
                 }
             ]}";
 
@@ -105,7 +108,8 @@ namespace NHS111.Business.DOS.Test.ServiceType
                     ""serviceTypeField"": {
                         ""idField"": 100,
                     },
-                    ""referralText"": ""Some other text is here. You must telephone this service before attending. Some different text is also here.""
+                    ""referralTextField"": ""Some other text is here. You must telephone this service before attending. Some different text is also here."",
+                    ""contactDetailsField"": ""02355 444777""
                 }
             ]}";
 
@@ -116,7 +120,8 @@ namespace NHS111.Business.DOS.Test.ServiceType
                     ""serviceTypeField"": {
                         ""idField"": 100,
                     },
-                    ""referralText"": ""telephone this service""
+                    ""referralTextField"": ""telephone this service"",
+                    ""contactDetailsField"": ""02355 444777""
                 }
             ]}";
 
@@ -127,7 +132,7 @@ namespace NHS111.Business.DOS.Test.ServiceType
                     ""serviceTypeField"": {
                         ""idField"": 100,
                     },
-                    ""referralText"": ""You can G.O. straight to this service. You do not need to telephone beforehand""
+                    ""referralTextField"": ""You can G.O. straight to this service. You do not need to telephone beforehand""
                 },
                 {
                     ""idField"": 1419419102,
@@ -135,7 +140,8 @@ namespace NHS111.Business.DOS.Test.ServiceType
                     ""serviceTypeField"": {
                         ""idField"": 25,
                     },
-                    ""referralText"": ""You M.U.s.T, telephone this service before attending""
+                    ""referralTextField"": ""You M.U.s.T, telephone this service before attending"",
+                    ""contactDetailsField"": ""02355 444777""
                 },
                 {
                     ""idField"": 1419419103,
@@ -143,8 +149,20 @@ namespace NHS111.Business.DOS.Test.ServiceType
                     ""serviceTypeField"": {
                         ""idField"": 46,
                     },
-                    ""referralText"": ""You can go        straight to this service. You do not need to telephone beforehand""
+                    ""referralTextField"": ""You can go        straight to this service. You do not need to telephone beforehand""
                 },
+            ]}";
+
+        private static readonly string CheckCapacitySummaryResultsSinglePhoneReferralTextNoContactDetails = @"{
+            ""CheckCapacitySummaryResult"": [{
+                    ""idField"": 1419419101,
+                    ""nameField"": ""Test Service 1"",
+                    ""serviceTypeField"": {
+                        ""idField"": 100,
+                    },
+                    ""referralTextField"": ""You must telephone this service before attending"",
+                    ""contactDetailsField"": """"
+                }
             ]}";
         #endregion
 
@@ -413,6 +431,23 @@ namespace NHS111.Business.DOS.Test.ServiceType
             Assert.AreEqual(OnlineDOSServiceType.GoTo, result[0].OnlineDOSServiceType);
             Assert.AreEqual(OnlineDOSServiceType.PublicPhone, result[1].OnlineDOSServiceType);
             Assert.AreEqual(OnlineDOSServiceType.GoTo, result[2].OnlineDOSServiceType);
+        }
+
+        [Test]
+        public async void OnlineDOSServiceType_PhoneTextCallbackFalseNoContactDetails_ReturnsUnknown()
+        {
+            string whitelistUrl = string.Format(_localServiceIdWhiteListUrl, _postcode);
+            _restClient.Setup(r => r.ExecuteTaskAsync<CCGDetailsModel>(It.Is<RestRequest>(req => req.Resource.Equals(whitelistUrl)))).Returns(() => StartedTask((IRestResponse<CCGDetailsModel>)new RestResponse<CCGDetailsModel>() { StatusCode = HttpStatusCode.OK, ResponseStatus = ResponseStatus.Completed, Data = new CCGDetailsModel { ItkServiceIdWhitelist = new ServiceListModel { "123", "456", "789", "1419419102" } } }));
+
+            var jObj = (JObject)JsonConvert.DeserializeObject(CheckCapacitySummaryResultsSinglePhoneReferralTextNoContactDetails);
+            var results = jObj["CheckCapacitySummaryResult"].ToObject<List<Models.Models.Business.DosService>>();
+
+            //Act
+            var sut = new OnlineServiceTypeMapper(_restClient.Object, _mockConfiguration.Object);
+            var result = await sut.Map(results, _postcode);
+
+            Assert.AreEqual(1, result.Count);
+            Assert.AreEqual(OnlineDOSServiceType.Unknown, result[0].OnlineDOSServiceType);
         }
 
         private static Task<T> StartedTask<T>(T taskResult)
