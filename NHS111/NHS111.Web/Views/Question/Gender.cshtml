@@ -43,13 +43,12 @@
             </legend>
             @Html.ValidationMessageFor(m => m.UserInfo.Demography.Gender, null, new { @class = "error-message" })
             <div class="multiple-choice">
-                @Html.RadioButtonFor(m => m.UserInfo.Demography.Gender, GenderEnum.Male, new { @id = "Male" })
-                @Html.LabelFor(m => m.UserInfo.Demography.Gender, "Male", new { @for = "Male", @class = "multiple-choice--radio", required = "true" })
-            </div>
-
-            <div class="multiple-choice">
                 @Html.RadioButtonFor(m => m.UserInfo.Demography.Gender, GenderEnum.Female, new { @id = "Female" })
                 @Html.LabelFor(m => m.UserInfo.Demography.Gender, "Female", new { @for = "Female", @class = "multiple-choice--radio", required = "true" })
+            </div>
+            <div class="multiple-choice">
+                @Html.RadioButtonFor(m => m.UserInfo.Demography.Gender, GenderEnum.Male, new { @id = "Male" })
+                @Html.LabelFor(m => m.UserInfo.Demography.Gender, "Male", new { @for = "Male", @class = "multiple-choice--radio", required = "true" })
             </div>
         </fieldset>
         <details role="group">
