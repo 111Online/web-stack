@@ -108,7 +108,7 @@ namespace NHS111.Models.Models.Web
         {
             if (RotaSessions == null) return ServiceClosedMessage;
 
-            var rotaSession = RotaSessions.FirstOrDefault(rs => (int) rs.StartDayOfWeek == (int) day);
+            var rotaSession = RotaSessions.FirstOrDefault(rs => (int)rs.StartDayOfWeek == (int)day);
             return rotaSession != null
                 ? string.Format("{0} - {1}", GetTime(rotaSession.StartTime), GetTime(rotaSession.EndTime))
                 : ServiceClosedMessage;
@@ -116,11 +116,11 @@ namespace NHS111.Models.Models.Web
 
         private IEnumerable<RotaSession> GetRotaSessions(DayOfWeek day)
         {
-            return RotaSessions.Where(rs => (int) rs.StartDayOfWeek == (int) day).Select(rs => new RotaSession()
+            return RotaSessions.Where(rs => (int)rs.StartDayOfWeek == (int)day).Select(rs => new RotaSession()
             {
                 OpeningTime = new TimeSpan(rs.StartTime.Hours, rs.StartTime.Minutes, 0),
                 ClosingTime = new TimeSpan(rs.EndTime.Hours, rs.EndTime.Minutes, 0),
-                Day = (DayOfWeek) rs.StartDayOfWeek,
+                Day = (DayOfWeek)rs.StartDayOfWeek,
             });
         }
 
@@ -175,7 +175,7 @@ namespace NHS111.Models.Models.Web
         {
             if (_clock.Now.DayOfWeek == day) return "today";
             if (_clock.Now.AddDays(1).DayOfWeek == day) return "tomorrow";
-            return CultureInfo.CurrentCulture.DateTimeFormat.DayNames[(int) day];
+            return CultureInfo.CurrentCulture.DateTimeFormat.DayNames[(int)day];
         }
 
 
@@ -193,13 +193,15 @@ namespace NHS111.Models.Models.Web
             }
         }
 
+        
+
         private IEnumerable<ServiceCareItemRotaSession> TodaysServiceCareItemRotaSessions
         {
             get
             {
                 return RotaSessions != null &&
-                       RotaSessions.Any(rs => (int) rs.StartDayOfWeek == (int) _clock.Now.DayOfWeek)
-                    ? RotaSessions.Where(rs => (int) rs.StartDayOfWeek == (int) _clock.Now.DayOfWeek)
+                       RotaSessions.Any(rs => (int)rs.StartDayOfWeek == (int)_clock.Now.DayOfWeek)
+                    ? RotaSessions.Where(rs => (int)rs.StartDayOfWeek == (int)_clock.Now.DayOfWeek)
                     : new List<ServiceCareItemRotaSession>();
             }
         }
@@ -215,7 +217,7 @@ namespace NHS111.Models.Models.Web
                             {
                                 OpeningTime = new TimeSpan(rs.StartTime.Hours, rs.StartTime.Minutes, 0),
                                 ClosingTime = new TimeSpan(rs.EndTime.Hours, rs.EndTime.Minutes, 0),
-                                Day = (DayOfWeek) rs.StartDayOfWeek,
+                                Day = (DayOfWeek)rs.StartDayOfWeek,
                             })
                     : new List<RotaSession>();
             }
@@ -225,7 +227,7 @@ namespace NHS111.Models.Models.Web
         {
             get
             {
-                if(OpenAllHours || ServiceClosed) return new List<RotaSession>();
+                if (OpenAllHours || ServiceClosed) return new List<RotaSession>();
                 return GetRotaSessions(NextRotaSession.Day).ToList();
             }
         }
@@ -266,7 +268,7 @@ namespace NHS111.Models.Models.Web
                 daysCounted++;
             }
             while (daysCounted < 7);
-            
+
             return new ServiceCareItemRotaSession();
         }
 
