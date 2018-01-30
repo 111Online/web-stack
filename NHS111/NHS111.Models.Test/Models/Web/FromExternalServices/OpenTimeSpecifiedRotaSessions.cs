@@ -8,7 +8,7 @@ using NUnit.Framework;
 namespace NHS111.Models.Test.Models.Web.FromExternalServices
 {
     [TestFixture]
-    public class RotaSessions
+    public class RotaSessionsAndSpecifiedSessions
     {
         private Mock<IClock> _IClock;
         private const string _status = "Open";
@@ -53,7 +53,7 @@ namespace NHS111.Models.Test.Models.Web.FromExternalServices
             };
 
             //act
-            var result = sut.RotaSessions;
+            var result = sut.RotaSessionsAndSpecifiedSessions;
 
             Assert.AreEqual(2, result.Length);
 
@@ -107,7 +107,7 @@ namespace NHS111.Models.Test.Models.Web.FromExternalServices
             };
 
             //act
-            var result = sut.RotaSessions;
+            var result = sut.RotaSessionsAndSpecifiedSessions;
 
             Assert.AreEqual(2, result.Length);
 
@@ -149,7 +149,7 @@ namespace NHS111.Models.Test.Models.Web.FromExternalServices
             };
 
             //act
-            var result = sut.RotaSessions;
+            var result = sut.RotaSessionsAndSpecifiedSessions;
 
             Assert.AreEqual(1, result.Length);
             Assert.IsTrue(NHS111.Models.Models.Web.FromExternalServices.DayOfWeek.Friday.Equals(result[0].StartDayOfWeek));
@@ -187,7 +187,7 @@ namespace NHS111.Models.Test.Models.Web.FromExternalServices
             };
 
             //act
-            var result = sut.RotaSessions;
+            var result = sut.RotaSessionsAndSpecifiedSessions;
 
             Assert.AreEqual(1, result.Length);
             Assert.IsTrue(NHS111.Models.Models.Web.FromExternalServices.DayOfWeek.Friday.Equals(result[0].StartDayOfWeek));
@@ -231,7 +231,7 @@ namespace NHS111.Models.Test.Models.Web.FromExternalServices
             };
 
             //act
-            var result = sut.RotaSessions;
+            var result = sut.RotaSessionsAndSpecifiedSessions;
 
             Assert.AreEqual(1, result.Length);
             Assert.IsTrue(NHS111.Models.Models.Web.FromExternalServices.DayOfWeek.Friday.Equals(result[0].StartDayOfWeek));
@@ -302,7 +302,7 @@ namespace NHS111.Models.Test.Models.Web.FromExternalServices
             };
 
             //act
-            var result = sut.RotaSessions;
+            var result = sut.RotaSessionsAndSpecifiedSessions;
 
             Assert.AreEqual(5, result.Length);
             Assert.IsTrue(NHS111.Models.Models.Web.FromExternalServices.DayOfWeek.Friday.Equals(result[1].StartDayOfWeek));
@@ -358,7 +358,7 @@ namespace NHS111.Models.Test.Models.Web.FromExternalServices
             };
 
             //act
-            var result = sut.RotaSessions;
+            var result = sut.RotaSessionsAndSpecifiedSessions;
 
             Assert.AreEqual(0, result.Length);
         }
@@ -377,7 +377,7 @@ namespace NHS111.Models.Test.Models.Web.FromExternalServices
             };
 
             //act
-            var result = sut.RotaSessions;
+            var result = sut.RotaSessionsAndSpecifiedSessions;
 
             Assert.AreEqual(2, result.Length);
             Assert.IsTrue(NHS111.Models.Models.Web.FromExternalServices.DayOfWeek.Friday.Equals(result[0].StartDayOfWeek));
@@ -426,7 +426,7 @@ namespace NHS111.Models.Test.Models.Web.FromExternalServices
             };
 
             //act
-            var result = sut.RotaSessions;
+            var result = sut.RotaSessionsAndSpecifiedSessions;
 
             Assert.AreEqual(2, result.Length);
 
@@ -468,7 +468,7 @@ namespace NHS111.Models.Test.Models.Web.FromExternalServices
             };
 
             //act
-            var result = sut.RotaSessions;
+            var result = sut.RotaSessionsAndSpecifiedSessions;
 
             Assert.AreEqual(1, result.Length);
             Assert.IsTrue(NHS111.Models.Models.Web.FromExternalServices.DayOfWeek.Friday.Equals(result[0].StartDayOfWeek));
@@ -502,7 +502,7 @@ namespace NHS111.Models.Test.Models.Web.FromExternalServices
             };
 
             //act
-            var result = sut.RotaSessions;
+            var result = sut.RotaSessionsAndSpecifiedSessions;
 
             Assert.AreEqual(1, result.Length);
             Assert.IsTrue(NHS111.Models.Models.Web.FromExternalServices.DayOfWeek.Friday.Equals(result[0].StartDayOfWeek));

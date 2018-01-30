@@ -72,21 +72,30 @@ namespace NHS111.Models.Models.Web.FromExternalServices
         public bool OpenAllHours { get; set; }
 
         private ServiceCareItemRotaSession[] _rotaSessions = new ServiceCareItemRotaSession[0];
-        private ServiceCareItemRotaSession[] _rotaSessionsAndSpecifiedSessions = new ServiceCareItemRotaSession[0];
-
+        
         [JsonProperty(PropertyName = "rotaSessionsField")]
         public ServiceCareItemRotaSession[] RotaSessions {
             get
             {
-                if (_rotaSessionsAndSpecifiedSessions != null && _rotaSessionsAndSpecifiedSessions.Length != 0)
-                    return _rotaSessionsAndSpecifiedSessions;
-
                 return _rotaSessions;
             }
             set
             {
                 _rotaSessionsAndSpecifiedSessions = CombineRotaSessionsAndSpecifiedSessions(value, _openTimeSpecifiedSessions);
                 _rotaSessions = value;
+            }
+        }
+
+        private ServiceCareItemRotaSession[] _rotaSessionsAndSpecifiedSessions = new ServiceCareItemRotaSession[0];
+
+        public ServiceCareItemRotaSession[] RotaSessionsAndSpecifiedSessions
+        {
+            get
+            {
+                if (_rotaSessionsAndSpecifiedSessions != null && _rotaSessionsAndSpecifiedSessions.Length != 0)
+                    return _rotaSessionsAndSpecifiedSessions;
+
+                return _rotaSessions;
             }
         }
 
