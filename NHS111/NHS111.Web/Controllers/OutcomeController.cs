@@ -6,6 +6,7 @@ using NHS111.Features;
 using NHS111.Models.Models.Web.FromExternalServices;
 using NHS111.Models.Models.Web.Logging;
 using NHS111.Models.Models.Web.Validators;
+using NHS111.Web.Helpers;
 using DayOfWeek = System.DayOfWeek;
 
 namespace NHS111.Web.Controllers
@@ -34,9 +35,10 @@ namespace NHS111.Web.Controllers
         private readonly IAuditLogger _auditLogger;
         private readonly Presentation.Configuration.IConfiguration _configuration;
         private readonly IPostCodeAllowedValidator _postCodeAllowedValidator;
+        private readonly IViewRouter _viewRouter;
 
         public OutcomeController(IOutcomeViewModelBuilder outcomeViewModelBuilder, IDOSBuilder dosBuilder,
-            ISurgeryBuilder surgeryBuilder, ILocationResultBuilder locationResultBuilder, IAuditLogger auditLogger, Presentation.Configuration.IConfiguration configuration, IPostCodeAllowedValidator postCodeAllowedValidator)
+            ISurgeryBuilder surgeryBuilder, ILocationResultBuilder locationResultBuilder, IAuditLogger auditLogger, Presentation.Configuration.IConfiguration configuration, IPostCodeAllowedValidator postCodeAllowedValidator, IViewRouter viewRouter)
         {
             _outcomeViewModelBuilder = outcomeViewModelBuilder;
             _dosBuilder = dosBuilder;
@@ -45,11 +47,28 @@ namespace NHS111.Web.Controllers
             _auditLogger = auditLogger;
             _configuration = configuration;
             _postCodeAllowedValidator = postCodeAllowedValidator;
+            _viewRouter = viewRouter;
         }
 
         [HttpPost]
         public async Task<JsonResult> SearchSurgery(string input) {
             return Json((await _surgeryBuilder.SearchSurgeryBuilder(input)));
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> ChangePostcode(OutcomeViewModel model)
+        {
+            ModelState.Clear();
+            await _auditLogger.LogEventData(model, "User elected to change postcode.");
+            return View(model); ;
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> UpdatedServices(OutcomeViewModel model)
+        {
+           var outcomeModel = await _outcomeViewModelBuilder.DispositionBuilder(model);
+           var viewName = _viewRouter.GetViewName(model, ControllerContext);
+           return View(viewName, outcomeModel);
         }
 
         [HttpPost]

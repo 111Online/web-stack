@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using NHS111.Models.Models.Web.Validators;
 
 namespace NHS111.Web.Presentation.Builders
 {
@@ -16,13 +17,14 @@ namespace NHS111.Web.Presentation.Builders
 
         public JourneyViewModelBuilder(IOutcomeViewModelBuilder outcomeViewModelBuilder, IMappingEngine mappingEngine,
             ISymptomDiscriminatorCollector symptomDiscriminatorCollector, IKeywordCollector keywordCollector,
-            IJustToBeSafeFirstViewModelBuilder justToBeSafeFirstViewModelBuilder)
+            IJustToBeSafeFirstViewModelBuilder justToBeSafeFirstViewModelBuilder, IPostCodeAllowedValidator postCodeAllowedValidator)
         {
             _outcomeViewModelBuilder = outcomeViewModelBuilder;
             _mappingEngine = mappingEngine;
             _symptomDiscriminatorCollector = symptomDiscriminatorCollector;
             _keywordCollector = keywordCollector;
             _justToBeSafeFirstViewModelBuilder = justToBeSafeFirstViewModelBuilder;
+            _postCodeAllowedValidator = postCodeAllowedValidator;
         }
 
         public async Task<JourneyViewModel> Build(QuestionViewModel model, QuestionWithAnswers nextNode)
@@ -53,6 +55,7 @@ namespace NHS111.Web.Presentation.Builders
             {
                 case NodeType.Outcome:
                     var outcome = _mappingEngine.Mapper.Map<OutcomeViewModel>(journeyViewModel);
+                    outcome.UserInfo.CurrentAddress.IsInPilotArea = _postCodeAllowedValidator.IsAllowedPostcode(model.UserInfo.CurrentAddress.Postcode);
                     return await _outcomeViewModelBuilder.DispositionBuilder(outcome);
                 case NodeType.Pathway:
                     var jtbs = _mappingEngine.Mapper.Map<JustToBeSafeViewModel>(journeyViewModel);
@@ -85,6 +88,7 @@ namespace NHS111.Web.Presentation.Builders
         private readonly IKeywordCollector _keywordCollector;
         private readonly IJustToBeSafeFirstViewModelBuilder _justToBeSafeFirstViewModelBuilder;
         private readonly IConfiguration _configuration;
+        private readonly IPostCodeAllowedValidator _postCodeAllowedValidator;
     }
 
     public interface IJourneyViewModelBuilder
