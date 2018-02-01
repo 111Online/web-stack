@@ -18,6 +18,7 @@
         public System.DateTime UpdateTimeField { get; set; }
         public bool OpenAllHoursField { get; set; }
         public ServiceCareItemRotaSession[] RotaSessionsField { get; set; }
+        public string[] OpenTimeSpecifiedSessionsField { get; set; }
         public ServiceDetails ServiceTypeField { get; set; }
         public string OdsCodeField { get; set; }
         public ServiceDetails RootParentField { get; set; }
