@@ -125,6 +125,8 @@ namespace NHS111.SmokeTest.Utils
             var maleButton = Driver.SwitchTo().ActiveElement();
             maleButton.SendKeys(Keys.Space);
             maleButton.SendKeys(Keys.Tab);
+            var transgenderReveal = Driver.SwitchTo().ActiveElement();
+            transgenderReveal.SendKeys(Keys.Tab);
             var ageInput = Driver.SwitchTo().ActiveElement();
             ageInput.SendKeys(age.ToString());
             ageInput.SendKeys(Keys.Tab);
