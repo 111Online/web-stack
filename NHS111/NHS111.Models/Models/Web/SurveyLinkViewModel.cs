@@ -21,5 +21,9 @@ namespace NHS111.Models.Models.Web
         public string DispositionCode { get; set; }
 
         public DateTime DispositionDateTime { get; set; }
+
+        public string Campaign { get; set; }
+
+        public string CampaignSource { get; set; }
     }
 }
