@@ -46,7 +46,7 @@ namespace NHS111.Models.Models.Web
             Campaign = journey.Campaign;
             Source = journey.Source;
             Gender = journey.UserInfo.Demography.Gender;
-            Age = new AgeCategory(journey.UserInfo.Demography.Age).Value;
+            Age = journey.UserInfo.Demography.Age.ToString();
             SearchString = journey.EntrySearchTerm;
             QuestionId = journey.OutcomeGroup == null ? journey.Id : null;
             TxNumber = journey.OutcomeGroup == null ? journey.QuestionNo : null;
