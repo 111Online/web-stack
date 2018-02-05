@@ -10,6 +10,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using NHS111.Business.DOS.WhitelistFilter;
 using NHS111.Models.Models.Web.CCG;
+using NHS111.Models.Models.Web.FromExternalServices;
 using NUnit.Framework;
 using RestSharp;
 
@@ -149,9 +150,9 @@ namespace NHS111.Business.DOS.Test.Whitelist
             var result = await sut.Filter(results, postcode);
 
             Assert.AreEqual(3, result.Count());
-            Assert.IsFalse(result[0].CallbackEnabled);
-            Assert.IsFalse(result[1].CallbackEnabled);
-            Assert.IsFalse(result[2].CallbackEnabled);
+            Assert.AreEqual(OnlineDOSServiceType.Unknown, result[0].OnlineDOSServiceType);
+            Assert.AreEqual(OnlineDOSServiceType.Unknown, result[1].OnlineDOSServiceType);
+            Assert.AreEqual(OnlineDOSServiceType.Unknown, result[2].OnlineDOSServiceType);
         }
 
         [Test]
@@ -171,7 +172,7 @@ namespace NHS111.Business.DOS.Test.Whitelist
                 var result = await sut.Filter(results, postcode);
                 Assert.Fail();
             }
-            catch (HttpException e)
+            catch (HttpException)
             {
                 Assert.Pass();
             }

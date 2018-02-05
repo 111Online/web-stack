@@ -20,7 +20,7 @@ namespace NHS111.Models.Test.Models.Web.Logging
                     {
                         new ServiceViewModel()
                         {
-                            CallbackEnabled= true
+                            OnlineDOSServiceType = OnlineDOSServiceType.Callback
                         }
                     }
                 }
@@ -39,7 +39,7 @@ namespace NHS111.Models.Test.Models.Web.Logging
                     {
                         new ServiceViewModel()
                         {
-                            CallbackEnabled = false
+                            OnlineDOSServiceType = OnlineDOSServiceType.GoTo
                         }
                     }
                 }
@@ -58,15 +58,15 @@ namespace NHS111.Models.Test.Models.Web.Logging
                     {
                         new ServiceViewModel()
                         {
-                            CallbackEnabled = false
+                            OnlineDOSServiceType = OnlineDOSServiceType.GoTo
                         },
                         new ServiceViewModel()
                         {
-                            CallbackEnabled = true
+                            OnlineDOSServiceType = OnlineDOSServiceType.Callback
                         },
                         new ServiceViewModel()
                         {
-                            CallbackEnabled = false
+                            OnlineDOSServiceType = OnlineDOSServiceType.PublicPhone
                         }
                     }
                 }
@@ -85,15 +85,15 @@ namespace NHS111.Models.Test.Models.Web.Logging
                     {
                         new ServiceViewModel()
                         {
-                            CallbackEnabled = true
+                            OnlineDOSServiceType = OnlineDOSServiceType.Callback
                         },
                         new ServiceViewModel()
                         {
-                            CallbackEnabled = true
+                            OnlineDOSServiceType = OnlineDOSServiceType.Callback
                         },
                         new ServiceViewModel()
                         {
-                            CallbackEnabled = false
+                            OnlineDOSServiceType = OnlineDOSServiceType.PublicPhone
                         }
                     }
                 }
@@ -112,15 +112,15 @@ namespace NHS111.Models.Test.Models.Web.Logging
                     {
                         new ServiceViewModel()
                         {
-                            CallbackEnabled = false
+                            OnlineDOSServiceType = OnlineDOSServiceType.PublicPhone
                         },
                         new ServiceViewModel()
                         {
-                            CallbackEnabled = false
+                            OnlineDOSServiceType = OnlineDOSServiceType.GoTo
                         },
                         new ServiceViewModel()
                         {
-                            CallbackEnabled = false
+                            OnlineDOSServiceType = OnlineDOSServiceType.PublicPhone
                         }
                     }
                 }

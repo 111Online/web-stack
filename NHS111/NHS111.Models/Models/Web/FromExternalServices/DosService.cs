@@ -58,8 +58,7 @@ namespace NHS111.Models.Models.Web.FromExternalServices
 
         [JsonProperty(PropertyName = "fax")]
         public string Fax { get; set; }
-
-        [JsonProperty(PropertyName = "referralText")]
+        [JsonProperty(PropertyName = "referralTextField")]
         public string ReferralText { get; set; }
 
         [JsonProperty(PropertyName = "distance")]

@@ -17,12 +17,4 @@ namespace NHS111.Models.Models.Web.FromExternalServices
         public OnlineDOSServiceType OnlineDOSServiceType { get; private set; }
         public List<ServiceViewModel> Services { get; private set; }
     }
-
-
-    public enum OnlineDOSServiceType
-    {
-        Callback,
-        GoTo,
-        PublicPhone
-    }
 }
