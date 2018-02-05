@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using NHS111.Models.Models.Business.Enums;
+using NHS111.Models.Models.Web.FromExternalServices;
 
 namespace NHS111.Business.DOS.EndpointFilter
 {
@@ -23,10 +24,15 @@ namespace NHS111.Business.DOS.EndpointFilter
 
         public virtual List<Models.Models.Business.DosService> Filter(List<Models.Models.Business.DosService> resultsToFilter)
         {
-            return !this.IsOutOfHours
+            var itkservicestoRetain =
+                resultsToFilter.Where(r => (r.OnlineDOSServiceType == OnlineDOSServiceType.Callback) && r.IsOpen);
+
+            var fileteredServices = !this.IsOutOfHours
                 ? resultsToFilter.Where(
                     s => !_serviceAvailabilityProfile.ServiceTypeIdBlacklist.Contains((int) s.ServiceType.Id)).ToList()
                 : resultsToFilter;
+            fileteredServices.AddRange(itkservicestoRetain);
+            return fileteredServices;
         }
 
         public ServiceAvailability(IServiceAvailabilityProfile serviceAvailabilityProfile, DateTime dispositionDateTime, int timeFrameMinutes)
