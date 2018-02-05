@@ -38,7 +38,9 @@ namespace NHS111.Web.Presentation.Builders
                 EndPathwayTitle = (pathway != null) ? pathway.Title : string.Empty,
                 JourneyId = model.JourneyId.ToString(),
                 PathwayNo = model.PathwayNo,
-                DigitalTitle = model.DigitalTitle
+                DigitalTitle = model.DigitalTitle,
+                Campaign = model.Campaign,
+                CampaignSource = model.Source
             };
         }
     }
