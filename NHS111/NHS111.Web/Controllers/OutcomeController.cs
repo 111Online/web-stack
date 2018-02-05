@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Web.Http;
 using System.Web.Script.Serialization;
+using Microsoft.Ajax.Utilities;
 using NHS111.Features;
 using NHS111.Models.Models.Web.FromExternalServices;
 using NHS111.Models.Models.Web.Logging;
@@ -264,6 +265,14 @@ namespace NHS111.Web.Controllers
             model.UserInfo.CurrentAddress.IsInPilotArea = _postCodeAllowedValidator.IsAllowedPostcode(model.UserInfo.CurrentAddress.Postcode);
             
             return View("ServiceBookingUnavailable", model);
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> ConfirmAddress(string longlat, ConfirmLocationViewModel model)
+        {
+            var results = await _locationResultBuilder.LocationResultByGeouilder(longlat);
+            var locationResults = Mapper.Map<List<AddressInfoViewModel>>(results.DistinctBy(r => r.Thoroughfare));
+            return View("ConfirmLocation", new ConfirmLocationViewModel() { FoundLocations = locationResults });
         }
 
         private OutcomeViewModel ConvertPatientInformantDateToUserinfo(PatientInformantViewModel patientInformantModel, OutcomeViewModel model)

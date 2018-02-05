@@ -4,6 +4,7 @@ using System.Text.RegularExpressions;
 using AutoMapper;
 using NHS111.Models.Models.Web;
 using NHS111.Models.Models.Web.FromExternalServices;
+using NHS111.Models.Models.Web.FromExternalServices.IdealPostcodes;
 
 namespace NHS111.Models.Mappers.WebMappings
 {
@@ -13,6 +14,7 @@ namespace NHS111.Models.Mappers.WebMappings
         {
             Mapper.CreateMap<List<PAF>, List<AddressInfoViewModel>>().ConvertUsing<FromPafToAddressInfoConverter>();
             Mapper.CreateMap<LocationResult, AddressInfoViewModel>().ConvertUsing<FromLocationResultToAddressInfoConverter>();
+            Mapper.CreateMap<AddressLocationResult, AddressInfoViewModel>();
         }
 
         public class FromPafToAddressInfoConverter : ITypeConverter<List<PAF>, List<AddressInfoViewModel>>

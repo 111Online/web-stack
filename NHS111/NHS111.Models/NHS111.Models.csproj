@@ -208,10 +208,12 @@
     <Compile Include="Models\Web\CCG\ServiceListModel.cs" />
     <Compile Include="Models\Web\Clock\SystemClock.cs" />
     <Compile Include="Models\Web\Clock\IClock.cs" />
+    <Compile Include="Models\Web\ConfirmLocationViewModel.cs" />
     <Compile Include="Models\Web\DosRequests\DosEndpoint.cs" />
     <Compile Include="Models\Web\DosRequests\DosFilteredCase.cs" />
     <Compile Include="Models\Web\DosRequests\DosServicesByClinicalTermRequest.cs" />
     <Compile Include="Models\Web\FeedbackViewModel.cs" />
+    <Compile Include="Models\Web\FromExternalServices\AddressLocationResult.cs" />
     <Compile Include="Models\Web\PageDataViewModel.cs" />
     <Compile Include="Models\Web\FromExternalServices\DosCheckCapacitySummaryResult.cs" />
     <Compile Include="Models\Web\FromExternalServices\DosService.cs" />

@@ -94,7 +94,9 @@
                     <label for="UserInfo_CurrentAddress_Postcode" class="alwayshidden">Postcode</label>
                     @Html.ValidationMessageFor(m => m.UserInfo.CurrentAddress.Postcode)
                     @Html.TextBoxFor(m => m.UserInfo.CurrentAddress.Postcode, new { Value = "" })
+                    <button class="js-find-location button--link" type="button" style="display: none">Use current location</button>
                     <button class="button button--next" type="submit" id="postcode"  name="Question">Next</button>
+      
                 </div>
             </div>
         }
@@ -102,19 +104,57 @@
 </section>
 @Html.Partial("_PageLoadingIndicator")
 <script type="text/javascript">
-        $(document).ready(function () {
-            stopPageLoadingIndicator();
-        });
+    $(document).ready(function () {
+        stopPageLoadingIndicator();
+        if (navigator.geolocation) $('.js-find-location').css('display', 'inline-block');
+    });
 
-        $('#DosLookup').css('cursor', 'pointer');
-        $(document).on('click', '#DosLookup', function (event) {
-            var $postcode = $('#UserInfo_CurrentAddress_Postcode').val();
-            if ($("#findServicesForm").valid() && !!$postcode) {
-                startPageLoadingIndicator('Searching for services near to ' + $postcode + '...');
+    $('#DosLookup').css('cursor', 'pointer');
+    $(document).on('click', '#DosLookup', function (event) {
+        var $postcode = $('#UserInfo_CurrentAddress_Postcode').val();
+        if ($("#findServicesForm").valid() && !!$postcode) {
+            startPageLoadingIndicator('Searching for services near to ' + $postcode + '...');
+        }
+    });
+
+    window.onpageshow = function (event) {
+        stopPageLoadingIndicator();
+    };
+
+    $(".js-find-location").on("click", function () {
+        navigator.geolocation.getCurrentPosition(function (pos) {
+            var coords = pos.coords.longitude + "," + pos.coords.latitude;
+
+            var params = new Array();
+            $("input:hidden").each(params.add({this.id:this.value}));
+            params.add("longlat", coords);
+            post('/outcome/ConfirmAddress',params);
+        }, showError);
+    });
+
+    function showError() {
+        if ($(".js-location-error").length == 0) $(".js-find-location").after('<p class="error-message js-location-error">We were unable to find your location. Please enter your postcode.</p>');
+    }
+
+    function post(path, params, method) {
+        method = method || "post"; 
+        var form = document.createElement("form");
+        form.setAttribute("method", method);
+        form.setAttribute("action", path);
+
+        for(var key in params) {
+            if(params.hasOwnProperty(key)) {
+                var hiddenField = document.createElement("input");
+                hiddenField.setAttribute("type", "hidden");
+                hiddenField.setAttribute("name", key);
+                hiddenField.setAttribute("value", params[key]);
+
+                form.appendChild(hiddenField);
             }
-        });
+        }
 
-        window.onpageshow = function (event) {
-            stopPageLoadingIndicator();
-        };
+        document.body.appendChild(form);
+        form.submit();
+    }
+
 </script>
