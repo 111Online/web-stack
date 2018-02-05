@@ -31,7 +31,21 @@ namespace NHS111.Models.Models.Web
             _clock = clock;
         }
 
-     
+        public bool IsOpen
+        {
+            get
+            {
+
+                if (OpenAllHours) return true;
+                if (TodaysRotaSessions == null || !TodaysRotaSessions.Any()) return false;
+                return TodaysRotaSessions.Any(c => TimeBetween(_clock.Now.TimeOfDay, c.OpeningTime, c.ClosingTime));
+            }
+        }
+
+        private static bool TimeBetween(TimeSpan timeNow, TimeSpan openingTime, TimeSpan closingTime)
+        {
+            return (timeNow >= openingTime && timeNow < closingTime);
+        }
 
         public List<string> AddressLines
         {
@@ -170,8 +184,33 @@ namespace NHS111.Models.Models.Web
 
         
 
+        private IEnumerable<ServiceCareItemRotaSession> TodaysServiceCareItemRotaSessions
+        {
+            get
+            {
+                return RotaSessionsAndSpecifiedSessions != null &&
+                       RotaSessionsAndSpecifiedSessions.Any(rs => (int)rs.StartDayOfWeek == (int)_clock.Now.DayOfWeek)
+                    ? RotaSessionsAndSpecifiedSessions.Where(rs => (int)rs.StartDayOfWeek == (int)_clock.Now.DayOfWeek)
+                    : new List<ServiceCareItemRotaSession>();
+            }
+        }
 
-      
+        private IEnumerable<RotaSession> TodaysRotaSessions
+        {
+            get
+            {
+                return TodaysServiceCareItemRotaSessions.Any()
+                    ? TodaysServiceCareItemRotaSessions.Select(
+                        rs =>
+                            new RotaSession
+                            {
+                                OpeningTime = new TimeSpan(rs.StartTime.Hours, rs.StartTime.Minutes, 0),
+                                ClosingTime = new TimeSpan(rs.EndTime.Hours, rs.EndTime.Minutes, 0),
+                                Day = (DayOfWeek)rs.StartDayOfWeek,
+                            })
+                    : new List<RotaSession>();
+            }
+        }
 
         public IEnumerable<RotaSession> NextOpenDayRotaSessions
         {
