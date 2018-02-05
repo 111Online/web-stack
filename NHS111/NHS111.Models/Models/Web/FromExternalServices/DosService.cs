@@ -158,6 +158,9 @@ namespace NHS111.Models.Models.Web.FromExternalServices
 
             var nextWeeksDates = GetWeeksDates(_clock.Now);
 
+            var specifiedSessionsToAdd = new List<ServiceCareItemRotaSession>();
+            var daysOfWeekToRemove = new List<DayOfWeek>();
+
             foreach (var session in openTimeSpecifiedSessions)
             {
                 if (session.Length != 22)
@@ -168,7 +171,7 @@ namespace NHS111.Models.Models.Web.FromExternalServices
                     continue;
                 
                 var dayOfWeek = Mapper.Map<DayOfWeek>(date.DayOfWeek);
-
+                
                 short startTimeHours;
                 short startTimeMinutes;
 
@@ -206,9 +209,16 @@ namespace NHS111.Models.Models.Web.FromExternalServices
                         Status = "Open"
                     };
 
-                sessionsList.RemoveAll(s => s.StartDayOfWeek.Equals(dayOfWeek));
-                sessionsList.Add(rotaSession);
+                daysOfWeekToRemove.Add(dayOfWeek);
+                specifiedSessionsToAdd.Add(rotaSession);
             }
+
+            foreach (var day in daysOfWeekToRemove)
+            {
+                sessionsList.RemoveAll(s => s.StartDayOfWeek.Equals(day));
+            }
+
+            sessionsList.AddRange(specifiedSessionsToAdd);
 
             return sessionsList.ToArray();
         }

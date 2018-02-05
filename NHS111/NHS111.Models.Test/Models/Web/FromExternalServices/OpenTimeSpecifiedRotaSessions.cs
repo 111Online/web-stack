@@ -162,14 +162,14 @@ namespace NHS111.Models.Test.Models.Web.FromExternalServices
         }
 
         [Test]
-        public void OpenTimeSpecifiedSessions_MultipleSpecifiedSessionsOnSameDay_ShowsLastSessionInListForThatDay()
+        public void OpenTimeSpecifiedSessions_MultipleSpecifiedSessionsOnSameDay_OverrideExistingAndShowsAllSpecifiedSessionsInList()
         {
             //arrange
             DosService sut = new DosService(_IClock.Object)
             {
                 OpenTimeSpecifiedSessions = new[]
                 {
-                    "26-01-2018-20:10-22:02",
+                    "26-01-2018-21:10-22:02",
                     "26-01-2018-14:18-21:07",
                     "26-01-2018-08:05-13:30",
                 },
@@ -189,14 +189,30 @@ namespace NHS111.Models.Test.Models.Web.FromExternalServices
             //act
             var result = sut.RotaSessionsAndSpecifiedSessions;
 
-            Assert.AreEqual(1, result.Length);
+            Assert.AreEqual(3, result.Length);
             Assert.IsTrue(NHS111.Models.Models.Web.FromExternalServices.DayOfWeek.Friday.Equals(result[0].StartDayOfWeek));
             Assert.IsTrue(NHS111.Models.Models.Web.FromExternalServices.DayOfWeek.Friday.Equals(result[0].EndDayOfWeek));
-            Assert.AreEqual(8, result[0].StartTime.Hours);
-            Assert.AreEqual(5, result[0].StartTime.Minutes);
-            Assert.AreEqual(13, result[0].EndTime.Hours);
-            Assert.AreEqual(30, result[0].EndTime.Minutes);
+            Assert.AreEqual(21, result[0].StartTime.Hours);
+            Assert.AreEqual(10, result[0].StartTime.Minutes);
+            Assert.AreEqual(22, result[0].EndTime.Hours);
+            Assert.AreEqual(2, result[0].EndTime.Minutes);
             Assert.AreEqual(_status, result[0].Status);
+
+            Assert.IsTrue(NHS111.Models.Models.Web.FromExternalServices.DayOfWeek.Friday.Equals(result[1].StartDayOfWeek));
+            Assert.IsTrue(NHS111.Models.Models.Web.FromExternalServices.DayOfWeek.Friday.Equals(result[1].EndDayOfWeek));
+            Assert.AreEqual(14, result[1].StartTime.Hours);
+            Assert.AreEqual(18, result[1].StartTime.Minutes);
+            Assert.AreEqual(21, result[1].EndTime.Hours);
+            Assert.AreEqual(7, result[1].EndTime.Minutes);
+            Assert.AreEqual(_status, result[1].Status);
+
+            Assert.IsTrue(NHS111.Models.Models.Web.FromExternalServices.DayOfWeek.Friday.Equals(result[2].StartDayOfWeek));
+            Assert.IsTrue(NHS111.Models.Models.Web.FromExternalServices.DayOfWeek.Friday.Equals(result[2].EndDayOfWeek));
+            Assert.AreEqual(8, result[2].StartTime.Hours);
+            Assert.AreEqual(5, result[2].StartTime.Minutes);
+            Assert.AreEqual(13, result[2].EndTime.Hours);
+            Assert.AreEqual(30, result[2].EndTime.Minutes);
+            Assert.AreEqual(_status, result[2].Status);
         }
 
         [Test]
