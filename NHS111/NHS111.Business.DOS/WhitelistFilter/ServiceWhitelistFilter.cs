@@ -43,5 +43,9 @@ namespace NHS111.Business.DOS.WhitelistFilter
             return new ServiceListModel();
         }
     }
-    public interface IServiceWhitelistFilter : IWhitelistFilter { }
+
+    public interface IServiceWhitelistFilter
+    {
+        Task<List<BusinessModels.DosService>> Filter(List<BusinessModels.DosService> resultsToFilter, string postCode);
+    }
 }

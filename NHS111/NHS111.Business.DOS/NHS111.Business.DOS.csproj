@@ -82,8 +82,8 @@
     <Compile Include="EndpointFilter\DentalProfileHoursOfOperation.cs" />
     <Compile Include="EndpointFilter\GenericProfileHoursOfOperation.cs" />
     <Compile Include="EndpointFilter\GenericServiceAvailability.cs" />
-    <Compile Include="WhitelistFilter\IWhitelistFilter.cs" />
-    <Compile Include="WhitelistFilter\ITKWhitelistFilter.cs" />
+    <Compile Include="ServiceType\OnlineServiceTypeFilter.cs" />
+    <Compile Include="ServiceType\OnlineServiceTypeMapper.cs" />
     <Compile Include="EndpointFilter\IProfileHoursOfOperation.cs" />
     <Compile Include="EndpointFilter\DentalServiceAvailability.cs" />
     <Compile Include="EndpointFilter\IServiceAvailability.cs" />
@@ -118,6 +118,7 @@
     <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

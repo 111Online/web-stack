@@ -5,7 +5,7 @@ namespace NHS111.Models.Models.Business
 {
     public class CheckCapacitySummaryResult : FromExternalServices.CheckCapacitySummaryResult
     {
-        [JsonProperty(PropertyName = "callbackEnabled")]
-        public bool CallbackEnabled { get; set; }
+        [JsonProperty(PropertyName = "onlineDosServiceType")]
+        public FromExternalServices.OnlineDOSServiceType OnlineDOSServiceType { get; set; }
     }
 }

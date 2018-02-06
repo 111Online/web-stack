@@ -56,7 +56,7 @@ namespace NHS111.Web.Presentation.Test.Controllers {
             model.DosCheckCapacitySummaryResult = new DosCheckCapacitySummaryResult();
             model.DosCheckCapacitySummaryResult.Success = new SuccessObject<ServiceViewModel>();
             model.DosCheckCapacitySummaryResult.Success.Services = new List<ServiceViewModel>();
-            ServiceViewModel svm = new ServiceViewModel {Id = 123456, CallbackEnabled = false};
+            ServiceViewModel svm = new ServiceViewModel {Id = 123456, OnlineDOSServiceType = OnlineDOSServiceType.PublicPhone};
             model.DosCheckCapacitySummaryResult.Success.Services.Add(svm);
 
             _outcomeController.AutoSelectFirstItkService(model);
@@ -70,7 +70,7 @@ namespace NHS111.Web.Presentation.Test.Controllers {
             model.DosCheckCapacitySummaryResult = new DosCheckCapacitySummaryResult();
             model.DosCheckCapacitySummaryResult.Success = new SuccessObject<ServiceViewModel>();
             model.DosCheckCapacitySummaryResult.Success.Services = new List<ServiceViewModel>();
-            ServiceViewModel svm = new ServiceViewModel { Id = 123456, CallbackEnabled = true };
+            ServiceViewModel svm = new ServiceViewModel { Id = 123456, OnlineDOSServiceType = OnlineDOSServiceType.Callback };
             model.DosCheckCapacitySummaryResult.Success.Services.Add(svm);
 
             _outcomeController.AutoSelectFirstItkService(model);
@@ -84,8 +84,8 @@ namespace NHS111.Web.Presentation.Test.Controllers {
             model.DosCheckCapacitySummaryResult = new DosCheckCapacitySummaryResult();
             model.DosCheckCapacitySummaryResult.Success = new SuccessObject<ServiceViewModel>();
             model.DosCheckCapacitySummaryResult.Success.Services = new List<ServiceViewModel>();
-            ServiceViewModel svm1 = new ServiceViewModel { Id = 987654, CallbackEnabled = false };
-            ServiceViewModel svm2 = new ServiceViewModel { Id = 123456, CallbackEnabled = true };
+            ServiceViewModel svm1 = new ServiceViewModel { Id = 987654, OnlineDOSServiceType = OnlineDOSServiceType.PublicPhone };
+            ServiceViewModel svm2 = new ServiceViewModel { Id = 123456, OnlineDOSServiceType = OnlineDOSServiceType.Callback };
             model.DosCheckCapacitySummaryResult.Success.Services.Add(svm1);
             model.DosCheckCapacitySummaryResult.Success.Services.Add(svm2);
 
@@ -100,8 +100,8 @@ namespace NHS111.Web.Presentation.Test.Controllers {
             model.DosCheckCapacitySummaryResult = new DosCheckCapacitySummaryResult();
             model.DosCheckCapacitySummaryResult.Success = new SuccessObject<ServiceViewModel>();
             model.DosCheckCapacitySummaryResult.Success.Services = new List<ServiceViewModel>();
-            ServiceViewModel svm1 = new ServiceViewModel { Id = 987654, CallbackEnabled = true };
-            ServiceViewModel svm2 = new ServiceViewModel { Id = 123456, CallbackEnabled = true };
+            ServiceViewModel svm1 = new ServiceViewModel { Id = 987654, OnlineDOSServiceType = OnlineDOSServiceType.Callback };
+            ServiceViewModel svm2 = new ServiceViewModel { Id = 123456, OnlineDOSServiceType = OnlineDOSServiceType.Callback };
             model.DosCheckCapacitySummaryResult.Success.Services.Add(svm1);
             model.DosCheckCapacitySummaryResult.Success.Services.Add(svm2);
 

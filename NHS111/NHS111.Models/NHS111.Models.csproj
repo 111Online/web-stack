@@ -171,6 +171,7 @@
     <Compile Include="Mappers\WebMappings\FromOutcomeVIewModelToITKDispatchRequest.cs" />
     <Compile Include="Mappers\WebMappings\FromOutcomeViewModelToSubmitEncounterToServiceRequest.cs" />
     <Compile Include="Mappers\WebMappings\AddressInfoViewModelMapper.cs" />
+    <Compile Include="Mappers\WebMappings\FromSystemDayOfWeekToDosDayOfWeek.cs" />
     <Compile Include="Models\Business\CheckCapacitySummaryResult.cs" />
     <Compile Include="Models\Business\Enums\DispositionTimePeriod.cs" />
     <Compile Include="Models\Business\Location\PostcodeResult.cs" />
@@ -273,6 +274,7 @@
     <Compile Include="Models\Web\Logging\AuditEntry.cs" />
     <Compile Include="Models\Web\Logging\AuditViewModel.cs" />
     <Compile Include="Models\Web\Logging\LogEntry.cs" />
+    <Compile Include="Models\Web\OnlineDOSServiceType.cs" />
     <Compile Include="Models\Web\OutcomeViewModel.cs" />
     <Compile Include="Models\Web\JourneyViewModel.cs" />
     <Compile Include="Models\Web\FromExternalServices\Surgery.cs" />

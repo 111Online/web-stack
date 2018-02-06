@@ -118,7 +118,7 @@ namespace NHS111.Web.Presentation.Builders.Tests
         public void FillGroupedDosServices_WithSingleService_ReturnsIteminList()
         {
             var emptyServiceList =
-                new List<ServiceViewModel>() {new ServiceViewModel() {CallbackEnabled = true, Id = 1}};
+                new List<ServiceViewModel>() {new ServiceViewModel() { OnlineDOSServiceType = OnlineDOSServiceType.Callback, Id = 1}};
             var groupedDosServices = _dosBuilder.FillGroupedDosServices(emptyServiceList);
             Assert.IsTrue(groupedDosServices.Count == 1);
             Assert.AreEqual(OnlineDOSServiceType.Callback, groupedDosServices.FirstOrDefault().OnlineDOSServiceType);
@@ -132,10 +132,10 @@ namespace NHS111.Web.Presentation.Builders.Tests
             var emptyServiceList =
                 new List<ServiceViewModel>()
                 {
-                    new ServiceViewModel() { CallbackEnabled = true, Id = 1 },
-                    new ServiceViewModel() { CallbackEnabled = true, Id = 2 },
-                    new ServiceViewModel() { CallbackEnabled = false, Id = 3, ContactDetails = "02380123456"},
-                    new ServiceViewModel() { CallbackEnabled = false, Id = 4, }
+                    new ServiceViewModel() { OnlineDOSServiceType = OnlineDOSServiceType.Callback, Id = 1 },
+                    new ServiceViewModel() { OnlineDOSServiceType = OnlineDOSServiceType.Callback, Id = 2 },
+                    new ServiceViewModel() { OnlineDOSServiceType = OnlineDOSServiceType.PublicPhone, Id = 3, ContactDetails = "02380123456"},
+                    new ServiceViewModel() { OnlineDOSServiceType = OnlineDOSServiceType.GoTo, Id = 4, }
                 };
             var groupedDosServices = _dosBuilder.FillGroupedDosServices(emptyServiceList);
             Assert.IsTrue(groupedDosServices.Count == 3);
@@ -158,13 +158,13 @@ namespace NHS111.Web.Presentation.Builders.Tests
             var emptyServiceList =
                 new List<ServiceViewModel>()
                 {
-                    new ServiceViewModel() { CallbackEnabled = false, Id = 1, ContactDetails = "02380123456"},
-                    new ServiceViewModel() { CallbackEnabled = true, Id = 2 },
-                    new ServiceViewModel() { CallbackEnabled = true, Id = 3 },
-                    new ServiceViewModel() { CallbackEnabled = false, Id = 4, ContactDetails = "02380123456"},
-                    new ServiceViewModel() { CallbackEnabled = false, Id = 5, },
-                    new ServiceViewModel() { CallbackEnabled = true, Id = 6 },
-                    new ServiceViewModel() { CallbackEnabled = false, Id = 7, }
+                    new ServiceViewModel() { OnlineDOSServiceType = OnlineDOSServiceType.PublicPhone, Id = 1, ContactDetails = "02380123456"},
+                    new ServiceViewModel() { OnlineDOSServiceType = OnlineDOSServiceType.Callback, Id = 2 },
+                    new ServiceViewModel() { OnlineDOSServiceType = OnlineDOSServiceType.Callback, Id = 3 },
+                    new ServiceViewModel() { OnlineDOSServiceType = OnlineDOSServiceType.PublicPhone, Id = 4, ContactDetails = "02380123456"},
+                    new ServiceViewModel() { OnlineDOSServiceType = OnlineDOSServiceType.GoTo, Id = 5, },
+                    new ServiceViewModel() { OnlineDOSServiceType = OnlineDOSServiceType.Callback, Id = 6 },
+                    new ServiceViewModel() { OnlineDOSServiceType = OnlineDOSServiceType.GoTo, Id = 7, }
                 };
             var groupedDosServices = _dosBuilder.FillGroupedDosServices(emptyServiceList);
             Assert.IsTrue(groupedDosServices.Count == 3);

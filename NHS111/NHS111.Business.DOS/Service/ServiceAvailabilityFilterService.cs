@@ -23,16 +23,18 @@ namespace NHS111.Business.DOS.Service
         private readonly IServiceAvailabilityManager _serviceAvailabilityManager;
         private readonly IFilterServicesFeature _filterServicesFeature;
         private readonly IServiceWhitelistFilter _serviceWhitelistFilter;
-        private readonly IITKWhitelistFilter _itkWhitelistFilter;
+        private readonly IOnlineServiceTypeMapper _serviceTypeMapper;
+        private readonly IOnlineServiceTypeFilter _serviceTypeFilter;
 
-        public ServiceAvailabilityFilterService(IDosService dosService, IConfiguration configuration, IServiceAvailabilityManager serviceAvailabilityManager, IFilterServicesFeature filterServicesFeature, IServiceWhitelistFilter serviceWhitelistFilter, IITKWhitelistFilter itkWhitelistFilter)
+        public ServiceAvailabilityFilterService(IDosService dosService, IConfiguration configuration, IServiceAvailabilityManager serviceAvailabilityManager, IFilterServicesFeature filterServicesFeature, IServiceWhitelistFilter serviceWhitelistFilter, IOnlineServiceTypeMapper serviceTypeMapper, IOnlineServiceTypeFilter serviceTypeFilter)
         {
             _dosService = dosService;
             _configuration = configuration;
             _serviceAvailabilityManager = serviceAvailabilityManager;
             _filterServicesFeature = filterServicesFeature;
             _serviceWhitelistFilter = serviceWhitelistFilter;
-            _itkWhitelistFilter = itkWhitelistFilter;
+            _serviceTypeMapper = serviceTypeMapper;
+            _serviceTypeFilter = serviceTypeFilter;
         }
 
         public async Task<HttpResponseMessage> GetFilteredServices(HttpRequestMessage request, bool filterServices, DosEndpoint? endpoint)
@@ -53,16 +55,18 @@ namespace NHS111.Business.DOS.Service
             var services = jObj["CheckCapacitySummaryResult"];
             var results = services.ToObject<List<Models.Models.Business.DosService>>();
 
+
             var filteredByServiceWhitelistResults = await _serviceWhitelistFilter.Filter(results, originalPostcode);
-            var filteredByITKWhitelistResults = await _itkWhitelistFilter.Filter(filteredByServiceWhitelistResults, originalPostcode);
+            var mappedByServiceTypeResults = await _serviceTypeMapper.Map(filteredByServiceWhitelistResults, originalPostcode);
+            var filteredByServiceTypeResults = _serviceTypeFilter.Filter(mappedByServiceTypeResults);
             
             if (!_filterServicesFeature.IsEnabled && !filterServices)
             {
-                return BuildResponseMessage(filteredByITKWhitelistResults);
+                return BuildResponseMessage(filteredByServiceTypeResults);
             }
 
             var serviceAvailability = _serviceAvailabilityManager.FindServiceAvailability(dosFilteredCase);
-            return BuildResponseMessage(serviceAvailability.Filter(filteredByITKWhitelistResults));
+            return BuildResponseMessage(serviceAvailability.Filter(filteredByServiceTypeResults));
         }
 
 
