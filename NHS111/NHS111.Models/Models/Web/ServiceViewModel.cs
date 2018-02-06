@@ -26,7 +26,7 @@ namespace NHS111.Models.Models.Web
         {
         }
 
-        public ServiceViewModel(IClock clock)
+        public ServiceViewModel(IClock clock) : base(clock)
         {
             _clock = clock;
         }
