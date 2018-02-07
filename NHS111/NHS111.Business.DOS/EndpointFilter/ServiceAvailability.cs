@@ -1,4 +1,4 @@
-﻿using System;
+﻿rusing System;
 using System.Collections.Generic;
 using System.Linq;
 using NHS111.Models.Models.Business.Enums;
@@ -22,19 +22,31 @@ namespace NHS111.Business.DOS.EndpointFilter
         {
         }
 
+
+        public virtual List<Models.Models.Business.DosService> Filter(
+            List<Models.Models.Business.DosService> resultsToFilter, Func<Models.Models.Business.DosService, bool> filterExcptionRule)
+        {
+            var serviceToExcludeFromFilter = resultsToFilter.Where(filterExcptionRule);
+            var filterResults = Filter(resultsToFilter);
+            filterResults.AddRange(serviceToExcludeFromFilter);
+            return filterResults;
+        }
+
         public virtual List<Models.Models.Business.DosService> Filter(List<Models.Models.Business.DosService> resultsToFilter)
         {
-            var itkservicestoRetain =
-                resultsToFilter.Where(r => (r.OnlineDOSServiceType == OnlineDOSServiceType.Callback) && r.IsOpen);
-
+            var itkservicestoRetain = GetSpecifiedOpenITKServices(resultsToFilter);
             var fileteredServices = !this.IsOutOfHours
                 ? resultsToFilter.Where(
                     s => !_serviceAvailabilityProfile.ServiceTypeIdBlacklist.Contains((int)s.ServiceType.Id)).ToList()
                 : resultsToFilter;
-            fileteredServices.AddRange(itkservicestoRetain);
+            fileteredServices.AddRange(itkservicestoRetain); 
             return fileteredServices;
+        }
 
 
+        protected List<Models.Models.Business.DosService> GetSpecifiedOpenITKServices(List<Models.Models.Business.DosService> dosServices)
+        {
+            return dosServices.Where(r => (r.OnlineDOSServiceType == OnlineDOSServiceType.Callback) && r.IsOpenForSpecifiedTimes).ToList(); ;
         }
 
         public ServiceAvailability(IServiceAvailabilityProfile serviceAvailabilityProfile, DateTime dispositionDateTime, int timeFrameMinutes)
