@@ -24,15 +24,6 @@ namespace NHS111.Business.DOS.EndpointFilter
         }
 
 
-        public virtual List<Models.Models.Business.DosService> Filter(
-            List<Models.Models.Business.DosService> resultsToFilter, Func<Models.Models.Business.DosService, bool> filterExcptionRule)
-        {
-            var serviceToExcludeFromFilter = resultsToFilter.Where(filterExcptionRule);
-            var filterResults = Filter(resultsToFilter);
-            filterResults.AddRange(serviceToExcludeFromFilter);
-            return filterResults;
-        }
-
         public virtual List<Models.Models.Business.DosService> Filter(List<Models.Models.Business.DosService> resultsToFilter)
         {
             var itkservicestoRetain = GetSpecifiedOpenITKServices(resultsToFilter);
