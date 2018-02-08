@@ -41,7 +41,7 @@
                 await
                     _restfulHelper.PostAsync(BusinessDosCheckCapacitySummaryUrl,
                         RequestFormatting.CreateHTTPRequest(
-                            "{\"PostCode\":\"LS17 7NZ\", \"Age\":22, \"Gender\":\"M\"}", string.Empty));
+                            "{\"PostCode\":\"HP21 8AL\", \"Age\":22, \"Gender\":\"M\"}", string.Empty));
 
             var resultContent = await result.Content.ReadAsStringAsync();
             dynamic jsonResult = Newtonsoft.Json.Linq.JObject.Parse(resultContent);
