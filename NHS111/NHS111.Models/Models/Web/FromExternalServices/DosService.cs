@@ -123,7 +123,7 @@ namespace NHS111.Models.Models.Web.FromExternalServices
         {
             get
             {
-                return DateFallsWithingSpecifiedOpeningTimes(OpenTimeSpecifiedSessions, _clock.Now);
+                return DateFallsWithinSpecifiedOpeningTimes(OpenTimeSpecifiedSessions, _clock.Now);
             }
         }
 
@@ -271,7 +271,7 @@ namespace NHS111.Models.Models.Web.FromExternalServices
             return sessionsList.ToArray();
         }
 
-        public bool DateFallsWithingSpecifiedOpeningTimes(string[] openTimeSpecifiedSessions, DateTime dateToFind)
+        public bool DateFallsWithinSpecifiedOpeningTimes(string[] openTimeSpecifiedSessions, DateTime dateToFind)
         {
             foreach (var session in openTimeSpecifiedSessions)
             {

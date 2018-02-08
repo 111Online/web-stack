@@ -20,7 +20,7 @@ namespace NHS111.Business.DOS.EndpointFilter
             var itkservicestoRetain = GetSpecifiedOpenITKServices(resultsToFilter);
             var filteredResults = resultsToFilter.Where(
                 s => !_serviceAvailabilityProfile.ServiceTypeIdBlacklist.Contains((int) s.ServiceType.Id)).ToList();
-            filteredResults.AddRange(itkservicestoRetain);
+            filteredResults.AddRange(itkservicestoRetain.Where(NotDuplicateMessage(filteredResults)));
             return filteredResults;
         }
     }

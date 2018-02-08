@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using NHS111.Models.Models.Business.Enums;
 using NHS111.Models.Models.Web.FromExternalServices;
+using DosService = NHS111.Models.Models.Business.DosService;
 
 namespace NHS111.Business.DOS.EndpointFilter
 {
@@ -39,8 +40,13 @@ namespace NHS111.Business.DOS.EndpointFilter
                 ? resultsToFilter.Where(
                     s => !_serviceAvailabilityProfile.ServiceTypeIdBlacklist.Contains((int)s.ServiceType.Id)).ToList()
                 : resultsToFilter;
-            fileteredServices.AddRange(itkservicestoRetain); 
+            fileteredServices.AddRange(itkservicestoRetain.Where(NotDuplicateMessage(fileteredServices))); 
             return fileteredServices;
+        }
+
+        protected  Func<DosService, bool> NotDuplicateMessage(List<DosService> fileteredServices)
+        {
+            return s => !fileteredServices.Any(f => f.Id == s.Id);
         }
 
 
