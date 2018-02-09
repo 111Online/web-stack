@@ -18,7 +18,7 @@ namespace NHS111.SmokeTests
                 .AnswerAndVerifyQuestion(3, "Could you be pregnant?")
                 .AnswerAndVerifyQuestion(3, "Have you vomited up either of the following?")
                 .AnswerAndVerifyQuestion(4, "What does your poo look like?")
-                .AnswerAndVerifyQuestion(4, "Is the pain so bad, you need to keep completely still?")
+                .AnswerAndVerifyQuestion(4, "Is the pain so bad you need to keep completely still?")
                 .AnswerForDispostion<OutcomePage>("Yes");
 
             outcomePage.VerifyOutcome("Your answers suggest you should dial 999 now for an ambulance");
@@ -37,7 +37,7 @@ namespace NHS111.SmokeTests
                 .AnswerAndVerifyQuestion(5, "Do you have a new rash that won't go away when you press a glass on it, and you also feel severely ill?")
                 .AnswerAndVerifyQuestion(3, "Have you vomited up either of the following?")
                 .AnswerAndVerifyQuestion(4, "What does your poo look like?")
-                .AnswerAndVerifyQuestion(4, "Is the pain so bad, you need to keep completely still?")
+                .AnswerAndVerifyQuestion(4, "Is the pain so bad you need to keep completely still?")
                 .AnswerForDispostion<OutcomePage>("Yes");
 
             outcomePage.VerifyOutcome("Your answers suggest you should dial 999 now for an ambulance");
@@ -54,7 +54,7 @@ namespace NHS111.SmokeTests
                 .AnswerAndVerifyQuestion(5, "Do you have a new rash that won't go away when you press a glass on it, and you also feel severely ill?")
                 .AnswerAndVerifyQuestion(3, "Have you vomited up either of the following?")
                 .AnswerAndVerifyQuestion(4, "What does your poo look like?")
-                .AnswerAndVerifyQuestion(4, "Is the pain so bad, you need to keep completely still?")
+                .AnswerAndVerifyQuestion(4, "Is the pain so bad you need to keep completely still?")
                 .AnswerForDispostion<OutcomePage>("Yes");
 
             outcomePage.VerifyOutcome("Your answers suggest you should dial 999 now for an ambulance");
