@@ -28,7 +28,8 @@ namespace NHS111.Web.Controllers
     using Models.Models.Web.DosRequests;
 
     [LogHandleErrorForMVC]
-    public class OutcomeController : Controller {
+    public class OutcomeController : Controller
+    {
         private readonly IOutcomeViewModelBuilder _outcomeViewModelBuilder;
         private readonly IDOSBuilder _dosBuilder;
         private readonly ISurgeryBuilder _surgeryBuilder;
@@ -52,7 +53,8 @@ namespace NHS111.Web.Controllers
         }
 
         [HttpPost]
-        public async Task<JsonResult> SearchSurgery(string input) {
+        public async Task<JsonResult> SearchSurgery(string input)
+        {
             return Json((await _surgeryBuilder.SearchSurgeryBuilder(input)));
         }
 
@@ -67,9 +69,23 @@ namespace NHS111.Web.Controllers
         [HttpPost]
         public async Task<ActionResult> UpdatedServices(OutcomeViewModel model)
         {
-           var outcomeModel = await _outcomeViewModelBuilder.DispositionBuilder(model);
-           var viewName = _viewRouter.GetViewName(model, ControllerContext);
-           return View(viewName, outcomeModel);
+            model.UserInfo.CurrentAddress.IsInPilotArea = _postCodeAllowedValidator.IsAllowedPostcode(model.UserInfo.CurrentAddress.Postcode);
+            
+            if (!model.UserInfo.CurrentAddress.IsInPilotArea)
+            {
+                return View("OutOfArea", model);
+            }
+
+            var outcomeModel = await _outcomeViewModelBuilder.DispositionBuilder(model);
+            var viewName = _viewRouter.GetViewName(model, ControllerContext);
+            return View(viewName, outcomeModel);
+        }
+
+        [HttpPost]
+        public ActionResult OutcomeWithoutResults(OutcomeViewModel outcomeModel)
+        {
+            var viewName = _viewRouter.GetViewName(outcomeModel, ControllerContext);
+            return View(viewName, outcomeModel);
         }
 
         [HttpPost]
@@ -84,21 +100,23 @@ namespace NHS111.Web.Controllers
             //TODO: Add timeout, so we don't wait too long!
             var results = await _locationResultBuilder.LocationResultByPostCodeBuilder(postCode);
             return Mapper.Map<List<AddressInfoViewModel>>(results);
-        } 
+        }
 
         [HttpGet]
         [Route("outcome/disposition/{age?}/{gender?}/{dxCode?}/{symptomGroup?}/{symptomDiscriminator?}")]
         public ActionResult Disposition(int? age, string gender, string dxCode, string symptomGroup,
-            string symptomDiscriminator) {
+            string symptomDiscriminator)
+        {
             var DxCode = new DispositionCode(dxCode ?? "Dx38");
             var Gender = new Gender(gender ?? "Male");
 
-            var model = new OutcomeViewModel() {
+            var model = new OutcomeViewModel()
+            {
                 Id = DxCode.Value,
                 UserInfo = new UserInfo
                 {
                     Demography = new AgeGenderViewModel
-                    { 
+                    {
                         Age = age ?? 38,
                         Gender = Gender.Value
                     }
@@ -114,13 +132,13 @@ namespace NHS111.Web.Controllers
         public void AutoSelectFirstItkService(OutcomeViewModel model)
         {
             var service = model.DosCheckCapacitySummaryResult.Success.Services.FirstOrDefault(s => s.CallbackEnabled);
-            
+
             if (service != null)
                 model.SelectedServiceId = service.Id.ToString();
         }
 
         [HttpPost]
-        public async Task<ActionResult> ServiceList([Bind(Prefix = "FindService")]OutcomeViewModel model,  [FromUri] DateTime? overrideDate, [FromUri] bool? overrideFilterServices, DosEndpoint? endpoint)
+        public async Task<ActionResult> ServiceList([Bind(Prefix = "FindService")]OutcomeViewModel model, [FromUri] DateTime? overrideDate, [FromUri] bool? overrideFilterServices, DosEndpoint? endpoint)
         {
             if (!ModelState.IsValidField("FindService.UserInfo.CurrentAddress.PostCode"))
                 return View(model.CurrentView, model);
@@ -149,7 +167,7 @@ namespace NHS111.Web.Controllers
                     if (model.SelectedService != null)
                         return await PersonalDetails(Mapper.Map<PersonalDetailViewModel>(model));
                 }
-                
+
                 return View("~\\Views\\Outcome\\ServiceList.cshtml", model);
             }
 
@@ -159,10 +177,10 @@ namespace NHS111.Web.Controllers
         private async Task<DosCheckCapacitySummaryResult> GetServiceAvailability(OutcomeViewModel model, DateTime? overrideDate, bool filterServices, DosEndpoint? endpoint)
         {
             var dosViewModel = Mapper.Map<DosViewModel>(model);
-                if (overrideDate.HasValue) dosViewModel.DispositionTime = overrideDate.Value;
+            if (overrideDate.HasValue) dosViewModel.DispositionTime = overrideDate.Value;
 
-           await _auditLogger.LogDosRequest(model, dosViewModel);
-           return await _dosBuilder.FillCheckCapacitySummaryResult(dosViewModel, filterServices, endpoint);
+            await _auditLogger.LogDosRequest(model, dosViewModel);
+            return await _dosBuilder.FillCheckCapacitySummaryResult(dosViewModel, filterServices, endpoint);
         }
 
 
@@ -174,7 +192,8 @@ namespace NHS111.Web.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> ServiceDetails([Bind(Prefix = "FindService")]OutcomeViewModel model, [FromUri] bool? overrideFilterServices, DosEndpoint? endpoint) {
+        public async Task<ActionResult> ServiceDetails([Bind(Prefix = "FindService")]OutcomeViewModel model, [FromUri] bool? overrideFilterServices, DosEndpoint? endpoint)
+        {
 
             if (!ModelState.IsValidField("FindService.UserInfo.CurrentAddress.Postcode"))
                 return View(model.CurrentView, model);
@@ -204,8 +223,8 @@ namespace NHS111.Web.Controllers
                     if (model.SelectedService != null)
                         return await PersonalDetails(Mapper.Map<PersonalDetailViewModel>(model));
                 }
-                    return View("~\\Views\\Outcome\\ServiceDetails.cshtml", model);
-                    //explicit path to view because, when direct-linking, the route is no longer /outcome causing convention based view lookup to fail    
+                return View("~\\Views\\Outcome\\ServiceDetails.cshtml", model);
+                //explicit path to view because, when direct-linking, the route is no longer /outcome causing convention based view lookup to fail    
             }
 
             return View(Path.GetFileNameWithoutExtension(model.CurrentView), model);
@@ -252,18 +271,18 @@ namespace NHS111.Web.Controllers
             _auditLogger.LogDosResponse(model);
             if (SelectedServiceExits(model.SelectedService.Id, availableServices))
             {
-               var outcomeViewModel  = ConvertPatientInformantDateToUserinfo(model.PatientInformantDetails, model);
-               outcomeViewModel = await _outcomeViewModelBuilder.ItkResponseBuilder(outcomeViewModel);
-               if (outcomeViewModel.ItkSendSuccess.HasValue && outcomeViewModel.ItkSendSuccess.Value)
-                   return View(outcomeViewModel);
-               return outcomeViewModel.ItkDuplicate.HasValue && outcomeViewModel.ItkDuplicate.Value ? View("DuplicateBookingFailure", outcomeViewModel) : View("ServiceBookingFailure", outcomeViewModel);
+                var outcomeViewModel = ConvertPatientInformantDateToUserinfo(model.PatientInformantDetails, model);
+                outcomeViewModel = await _outcomeViewModelBuilder.ItkResponseBuilder(outcomeViewModel);
+                if (outcomeViewModel.ItkSendSuccess.HasValue && outcomeViewModel.ItkSendSuccess.Value)
+                    return View(outcomeViewModel);
+                return outcomeViewModel.ItkDuplicate.HasValue && outcomeViewModel.ItkDuplicate.Value ? View("DuplicateBookingFailure", outcomeViewModel) : View("ServiceBookingFailure", outcomeViewModel);
             }
 
             model.UnavailableSelectedService = model.SelectedService;
             model.DosCheckCapacitySummaryResult = availableServices;
             model.DosCheckCapacitySummaryResult.ServicesUnavailable = availableServices.ResultListEmpty;
             model.UserInfo.CurrentAddress.IsInPilotArea = _postCodeAllowedValidator.IsAllowedPostcode(model.UserInfo.CurrentAddress.Postcode);
-            
+
             return View("ServiceBookingUnavailable", model);
         }
 
@@ -311,11 +330,12 @@ namespace NHS111.Web.Controllers
         [HttpPost]
         public void LogSelectedService(OutcomeViewModel model, int selectedServiceId, string selectedServiceName, string selectedServiceAddress)
         {
-             _auditLogger.LogEventData(model, string.Format("User selected service '{0}' ({1})", selectedServiceName, selectedServiceId));
+            _auditLogger.LogEventData(model, string.Format("User selected service '{0}' ({1})", selectedServiceName, selectedServiceId));
         }
 
         [HttpPost]
-        public ActionResult Emergency() {
+        public ActionResult Emergency()
+        {
             return View();
         }
     }
