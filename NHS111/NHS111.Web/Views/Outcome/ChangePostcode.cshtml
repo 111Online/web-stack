@@ -125,12 +125,15 @@
         navigator.geolocation.getCurrentPosition(function (pos) {
             var coords = pos.coords.longitude + "," + pos.coords.latitude;
 
-            var params = new Array();
-            $("input:hidden").each(params.add({this.id:this.value}));
-            params.add("longlat", coords);
+            var params = [];
+         
+            $("input:hidden").each(function () {params.push({key:this.id,value:this.value})});
+            params.push({key:"longlat", value:coords});
             post('/outcome/ConfirmAddress',params);
         }, showError);
     });
+
+   
 
     function showError() {
         if ($(".js-location-error").length == 0) $(".js-find-location").after('<p class="error-message js-location-error">We were unable to find your location. Please enter your postcode.</p>');
@@ -142,12 +145,12 @@
         form.setAttribute("method", method);
         form.setAttribute("action", path);
 
-        for(var key in params) {
-            if(params.hasOwnProperty(key)) {
+        for(var i in params) {
+            if(params.hasOwnProperty(i)) {
                 var hiddenField = document.createElement("input");
                 hiddenField.setAttribute("type", "hidden");
-                hiddenField.setAttribute("name", key);
-                hiddenField.setAttribute("value", params[key]);
+                hiddenField.setAttribute("name", params[i].key);
+                hiddenField.setAttribute("value", params[i].value);
 
                 form.appendChild(hiddenField);
             }
