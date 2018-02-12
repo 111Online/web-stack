@@ -14,7 +14,7 @@ namespace NHS111.Models.Mappers.WebMappings
         {
             Mapper.CreateMap<List<PAF>, List<AddressInfoViewModel>>().ConvertUsing<FromPafToAddressInfoConverter>();
             Mapper.CreateMap<LocationResult, AddressInfoViewModel>().ConvertUsing<FromLocationResultToAddressInfoConverter>();
-            Mapper.CreateMap<AddressLocationResult, AddressInfoViewModel>();
+            Mapper.CreateMap<AddressLocationResult, AddressInfoViewModel>().ConvertUsing<FromPostcodeLocationResultToAddressInfoConverter>();
         }
 
         public class FromPafToAddressInfoConverter : ITypeConverter<List<PAF>, List<AddressInfoViewModel>>
@@ -107,6 +107,28 @@ namespace NHS111.Models.Mappers.WebMappings
                 };
 
                 return addressInfo;
+            }
+        }
+
+        public class FromPostcodeLocationResultToAddressInfoConverter : ITypeConverter<AddressLocationResult, AddressInfoViewModel>
+        {
+            public AddressInfoViewModel Convert(ResolutionContext context)
+            {
+                var source = (AddressLocationResult)context.SourceValue;
+
+                return new AddressInfoViewModel()
+                {
+                    AddressLine1 = source.AddressLine1,
+                    AddressLine2 = source.AddressLine2,
+                    AddressLine3 = source.AddressLine3,
+                    Thoroughfare = source.Thoroughfare,
+                    Ward = source.Ward,
+                    City = source.Town,
+                    UPRN = source.Udprn,
+                    County = source.County,
+                    HouseNumber = String.IsNullOrEmpty(source.BuildingNumber) ? source.BuildingName : source.BuildingNumber,
+                    Postcode = source.PostCode
+                };
             }
         }
     }
