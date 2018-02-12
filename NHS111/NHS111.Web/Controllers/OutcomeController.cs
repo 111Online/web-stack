@@ -67,9 +67,10 @@ namespace NHS111.Web.Controllers
         [HttpPost]
         public async Task<ActionResult> UpdatedServices(OutcomeViewModel model, string submitAction)
         {
+            var viewName = "ChangePostcode";
+            if (submitAction == "manualpostcode") return View(viewName, model);
             var outcomeModel = await _outcomeViewModelBuilder.DispositionBuilder(model);
-            var viewName = "ChanePostcode";
-            if (submitAction == "next") viewName = _viewRouter.GetViewName(model, ControllerContext);
+            viewName = _viewRouter.GetViewName(model, ControllerContext);
           
             return View(viewName, outcomeModel);
         }
