@@ -472,6 +472,7 @@
     <Content Include="Views\Shared\_CommonHiddenFieldsPageDataViewModel.cshtml" />
     <Content Include="Views\Outcome\ChangePostcode.cshtml" />
     <Content Include="Views\Outcome\ConfirmLocation.cshtml" />
+    <Content Include="Views\Outcome\OutOfArea.cshtml" />
     <None Include="Web.Development.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

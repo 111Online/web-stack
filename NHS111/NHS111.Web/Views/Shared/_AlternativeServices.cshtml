@@ -9,7 +9,7 @@
     }
     @if (!Model.UserInfo.CurrentAddress.IsInPilotArea)
     {
-        <p id="OutsidePilot">The postcode you entered is outside the trial area, so we can’t look up other services for you</p>
+        <p>There are no other services currently available near @Html.Raw(Model.UserInfo.CurrentAddress.FormattedPostcode)</p>
         <p>If you can’t @Html.Raw(Model.OutcomeGroup.Text), please call 111 for advice</p>
     }
     else if (Model.GroupedDosServices.Any())
@@ -35,8 +35,9 @@
                     partial = "_PublicPhoneServices";
                 }
 
-                if (!(Model.OutcomeGroup.Equals(OutcomeGroup.Dental) || Model.OutcomeGroup.Equals(OutcomeGroup.ItkPrimaryCare)) && 
-                    Model.GroupedDosServices.Count == 1) {
+                if (!(Model.OutcomeGroup.Equals(OutcomeGroup.Dental) || Model.OutcomeGroup.Equals(OutcomeGroup.ItkPrimaryCare)) &&
+                    Model.GroupedDosServices.Count == 1)
+                {
                     <h3>@wording</h3>
                     @Html.Partial(partial, Model, ViewData);
                 }
@@ -48,7 +49,7 @@
                             <span class="summary">@wording</span>
                         </summary>
                         <div>
-                            @Html.Partial(partial, Model, ViewData) 
+                            @Html.Partial(partial, Model, ViewData)
                         </div>
                     </details>
                 }
@@ -57,7 +58,7 @@
     }
     else if (result != null && result.ServicesUnavailable)
     {
-        <p id="NoDosResults">Sorry, no other services are currently available for the postcode you entered</p>
+        <p id="NoDosResults">There are no other services currently available near @Html.Raw(Model.UserInfo.CurrentAddress.FormattedPostcode)</p>
         <p>If you can’t @Html.Raw(Model.OutcomeGroup.Text), you should call 111 for advice</p>
     }
 </div>
