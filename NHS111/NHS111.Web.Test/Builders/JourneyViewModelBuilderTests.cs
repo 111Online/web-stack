@@ -28,6 +28,7 @@ namespace NHS111.Web.Presentation.Test.Builders
             _justToBeSafeFirstViewModelBuilder = new Mock<IJustToBeSafeFirstViewModelBuilder>();
             _mappingEngine = new Mock<IMappingEngine>();
             _symptomDicriminatorCollector = new Mock<ISymptomDiscriminatorCollector>();
+            _postCodeAllowedValidator = new Mock<IPostCodeAllowedValidator>();
             _sut = new JourneyViewModelBuilder(_outcomeViewModelBuilder.Object,
                 _mappingEngine.Object, _symptomDicriminatorCollector.Object, new KeywordCollector(), _justToBeSafeFirstViewModelBuilder.Object, _postCodeAllowedValidator.Object);
         }
