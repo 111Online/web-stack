@@ -14,7 +14,12 @@ namespace NHS111.Models.Mappers.WebMappings
         {
             Mapper.CreateMap<List<PAF>, List<AddressInfoViewModel>>().ConvertUsing<FromPafToAddressInfoConverter>();
             Mapper.CreateMap<LocationResult, AddressInfoViewModel>().ConvertUsing<FromLocationResultToAddressInfoConverter>();
-            Mapper.CreateMap<AddressLocationResult, AddressInfoViewModel>();
+            Mapper.CreateMap<AddressLocationResult, AddressInfoViewModel>()
+                .ForMember(m => m.HouseNumber, opt => opt.Ignore())
+                .ForMember(m => m.City, opt => opt.Ignore())
+                .ForMember(m => m.UPRN, opt => opt.Ignore())
+                .ForMember(m => m.IsPostcodeFirst, opt => opt.Ignore())
+                .ForMember(m => m.IsInPilotArea, opt => opt.Ignore());
         }
 
         public class FromPafToAddressInfoConverter : ITypeConverter<List<PAF>, List<AddressInfoViewModel>>

@@ -52,6 +52,7 @@ namespace NHS111.Models.Test.Models.Web
         [Test]
         public void FormattedPostcode_NULL_returns_NULL()
         {
+            _addressInfoViewModel.Postcode = null;
             Assert.IsNull(_addressInfoViewModel.FormattedPostcode);
         }
 
