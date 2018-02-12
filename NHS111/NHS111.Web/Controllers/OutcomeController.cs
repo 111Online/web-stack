@@ -69,15 +69,16 @@ namespace NHS111.Web.Controllers
         [HttpPost]
         public async Task<ActionResult> UpdatedServices(OutcomeViewModel model, string submitAction)
         {
+            if (!ModelState.IsValidField("UserInfo.CurrentAddress.PostCode")) return View("ChangePostcode", model);
             model.UserInfo.CurrentAddress.IsInPilotArea = _postCodeAllowedValidator.IsAllowedPostcode(model.UserInfo.CurrentAddress.Postcode);
-
+            var viewName = "ChangePostcode";
+            if (submitAction == "manualpostcode") return View(viewName, model);
             if (!model.UserInfo.CurrentAddress.IsInPilotArea)
             {
                 return View("OutOfArea", model);
             }
-            var viewName = "ChangePostcode";
-            if (submitAction == "manualpostcode") return View(viewName, model);
-            var outcomeModel = await _outcomeViewModelBuilder.DispositionBuilder(model);
+
+            var outcomeModel = await _outcomeViewModelBuilder.PopulateGroupedDosResults(model, null, null, null);
             viewName = _viewRouter.GetViewName(model, ControllerContext);
 
             return View(viewName, outcomeModel);
