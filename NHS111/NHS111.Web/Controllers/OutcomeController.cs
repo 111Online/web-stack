@@ -75,9 +75,10 @@ namespace NHS111.Web.Controllers
             {
                 return View("OutOfArea", model);
             }
-            var outcomeModel = await _outcomeViewModelBuilder.DispositionBuilder(model);
             var viewName = "ChangePostcode";
-            if (submitAction == "next") viewName = _viewRouter.GetViewName(model, ControllerContext);
+            if (submitAction == "manualpostcode") return View(viewName, model);
+            var outcomeModel = await _outcomeViewModelBuilder.DispositionBuilder(model);
+            viewName = _viewRouter.GetViewName(model, ControllerContext);
 
             return View(viewName, outcomeModel);
         }

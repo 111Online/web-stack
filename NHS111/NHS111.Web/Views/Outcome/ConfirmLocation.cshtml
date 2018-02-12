@@ -71,7 +71,8 @@
                             @foreach (var location in Model.FoundLocations)
                             {
                                 var placename = String.IsNullOrWhiteSpace(location.Thoroughfare) ? location.Ward : location.Thoroughfare;
-                                <input data-val="true" data-val-required="Required field" id="address-@i" name="SelectedPostcode" type="radio" value="@location.Postcode" @checkedParam>
+                                
+                                <input data-val="true" data-val-required="Required field" id="address-@i" name="@Html.NameFor(m => m.UserInfo.CurrentAddress.Postcode)" type="radio" value="@location.Postcode" @checkedParam>
                                 <label for="address-@i" class="multiple-choice--radio"><strong>@placename</strong>, @location.City, @location.Postcode</label>
                                 i++;
                             }

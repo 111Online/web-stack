@@ -34,9 +34,6 @@
         @Html.Partial("_SurveyLink", Model.SurveyLink)
     }
 }
-@{
-            var error = Model.DosCheckCapacitySummaryResult.ResultListEmpty;
-}
 <section>
     <div>
         @using (Html.BeginForm("UpdatedServices", "Outcome"))
@@ -86,11 +83,6 @@
             }
             <div>
                 <div class="@(@ViewData.ModelState.IsValidField("UserInfo.CurrentAddress.Postcode") ? "" : "form-group-error")">
-                    @if (error)
-                    {
-                        <p class="field-validation-error" id="NoDosResults">Sorry, no results were found for this postcode.</p>
-                        <p class="field-validation-error">Please check you have entered the postcode correctly, then try again. <br /> If the search still gives no results, please call 111 for advice.</p>
-                    }
                     <label for="UserInfo_CurrentAddress_Postcode" class="alwayshidden">Postcode</label>
                     @Html.ValidationMessageFor(m => m.UserInfo.CurrentAddress.Postcode)
                     @Html.TextBoxFor(m => m.UserInfo.CurrentAddress.Postcode, new { Value = "" })
@@ -127,7 +119,7 @@
 
             var params = [];
          
-            $("input:hidden").each(function () {params.push({key:this.id,value:this.value})});
+            $("input:hidden").each(function () {params.push({key:this.name,value:this.value})});
             params.push({key:"longlat", value:coords});
             post('/outcome/ConfirmAddress',params);
         }, showError);
