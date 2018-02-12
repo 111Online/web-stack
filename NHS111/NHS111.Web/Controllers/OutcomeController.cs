@@ -294,7 +294,8 @@ namespace NHS111.Web.Controllers
         {
             var results = await _locationResultBuilder.LocationResultByGeouilder(longlat);
             var locationResults = Mapper.Map<List<AddressInfoViewModel>>(results.DistinctBy(r => r.Thoroughfare));
-            return View("ConfirmLocation", new ConfirmLocationViewModel() { FoundLocations = locationResults });
+            model.FoundLocations = locationResults;
+            return View("ConfirmLocation", model);
         }
 
         private OutcomeViewModel ConvertPatientInformantDateToUserinfo(PatientInformantViewModel patientInformantModel, OutcomeViewModel model)
