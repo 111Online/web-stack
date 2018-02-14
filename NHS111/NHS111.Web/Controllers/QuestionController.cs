@@ -107,6 +107,21 @@ namespace NHS111.Web.Controllers {
             return View(viewName, nextModel);
         }
 
+        [HttpPost]
+        [ActionName("NextNodeDetails")]
+        public async Task<JsonResult> GetNextNodeDetails(QuestionViewModel model)
+        {
+            var nodeDetails = new NodeDetailsViewModel() { NodeType = NodeType.Question };
+            if (ModelState.IsValidField("SelectedAnswer"))
+            {
+                var nextNode = await GetNextNode(model);
+                nodeDetails = _journeyViewModelBuilder.BuildNodeDetails(nextNode);
+            }
+
+            return Json(nodeDetails);
+        }
+
+
         [HttpGet]
         public async Task<ActionResult> InitialQuestion()
         {
