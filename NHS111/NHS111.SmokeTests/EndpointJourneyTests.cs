@@ -159,7 +159,7 @@ namespace NHS111.SmokeTests
         {
             var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Diarrhoea and Vomiting", TestScenerioSex.Male, TestScenerioAgeGroups.Child);
 
-            questionPage.VerifyQuestion("Have you brought up either of the following?");
+            questionPage.VerifyQuestion("Have you vomited up either of the following?");
             var outcomePage = questionPage
                 .Answer(4)
                 .AnswerSuccessiveByOrder(3,2)

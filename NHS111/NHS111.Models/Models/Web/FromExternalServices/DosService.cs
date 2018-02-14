@@ -110,6 +110,55 @@ namespace NHS111.Models.Models.Web.FromExternalServices
                 _openTimeSpecifiedSessions = value;
             }
         }
+        public bool IsOpen
+        {
+            get
+            {
+                if (OpenAllHours) return true;
+                if (TodaysRotaSessions == null || !TodaysRotaSessions.Any()) return false;
+                return TodaysRotaSessions.Any(c => TimeBetween(_clock.Now.TimeOfDay, c.OpeningTime, c.ClosingTime));
+            }
+        }
+        public bool IsOpenForSpecifiedTimes
+        {
+            get
+            {
+                return DateFallsWithinSpecifiedOpeningTimes(OpenTimeSpecifiedSessions, _clock.Now);
+            }
+        }
+
+        protected IEnumerable<RotaSession> TodaysRotaSessions
+        {
+            get
+            {
+                return TodaysServiceCareItemRotaSessions.Any()
+                    ? TodaysServiceCareItemRotaSessions.Select(
+                        rs =>
+                            new RotaSession
+                            {
+                                OpeningTime = new TimeSpan(rs.StartTime.Hours, rs.StartTime.Minutes, 0),
+                                ClosingTime = new TimeSpan(rs.EndTime.Hours, rs.EndTime.Minutes, 0),
+                                Day = (System.DayOfWeek)rs.StartDayOfWeek,
+                            })
+                    : new List<RotaSession>();
+            }
+        }
+
+        private IEnumerable<ServiceCareItemRotaSession> TodaysServiceCareItemRotaSessions
+        {
+            get
+            {
+                return RotaSessionsAndSpecifiedSessions != null &&
+                       RotaSessionsAndSpecifiedSessions.Any(rs => (int)rs.StartDayOfWeek == (int)_clock.Now.DayOfWeek)
+                    ? RotaSessionsAndSpecifiedSessions.Where(rs => (int)rs.StartDayOfWeek == (int)_clock.Now.DayOfWeek)
+                    : new List<ServiceCareItemRotaSession>();
+            }
+        }
+        private static bool TimeBetween(TimeSpan timeNow, TimeSpan openingTime, TimeSpan closingTime)
+        {
+            return (timeNow >= openingTime && timeNow < closingTime);
+        }
+
 
         private List<DateTime> GetWeeksDates(DateTime startDate)
         {
@@ -221,7 +270,46 @@ namespace NHS111.Models.Models.Web.FromExternalServices
 
             return sessionsList.ToArray();
         }
+
+        public bool DateFallsWithinSpecifiedOpeningTimes(string[] openTimeSpecifiedSessions, DateTime dateToFind)
+        {
+            foreach (var session in openTimeSpecifiedSessions)
+            {
+                if (session.Length != 22)
+                    continue;
+                var date = ConvertOpenTimeSpecifiedSessionToDate(session);
+                if(dateToFind.Date != date.Date)
+                    continue;
+
+                int startTimeHours;
+                int startTimeMinutes;
+
+                int endTimeHours;
+                int endTimeMinutes;
+
+                try
+                {
+                    startTimeHours = int.Parse(session.Substring(11, 2));
+                    startTimeMinutes = int.Parse(session.Substring(14, 2));
+
+                    endTimeHours = int.Parse(session.Substring(17, 2));
+                    endTimeMinutes = int.Parse(session.Substring(20, 2));
+                }
+                catch (FormatException)
+                {
+                    continue;
+                }
+
+                if (TimeBetween(dateToFind.TimeOfDay, new TimeSpan(startTimeHours, startTimeMinutes, 0), new TimeSpan(endTimeHours, endTimeMinutes, 0)))
+                    return true;
+
+            }
+            return false;
+        }
     }
+
+   
+    
 
     public enum DosCapacity
     {
