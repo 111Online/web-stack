@@ -148,7 +148,7 @@
                     if (data.NodeType == @((int)NodeType.Outcome) &&
                         data.OutcomeGroup &&
                         data.OutcomeGroup.Id == "SP_Dental") {
-                        startPageLoadingIndicator();
+                        startPageLoadingIndicator('Searching for services near to  @Model.UserInfo.CurrentAddress.Postcode ...');
                     }
                 });
         });
