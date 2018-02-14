@@ -69,16 +69,17 @@ namespace NHS111.Web.Controllers
         [HttpPost]
         public async Task<ActionResult> UpdatedServices(OutcomeViewModel model, string submitAction)
         {
+            if (!ModelState.IsValidField("UserInfo.CurrentAddress.PostCode")) return View("ChangePostcode", model);
             model.UserInfo.CurrentAddress.IsInPilotArea = _postCodeAllowedValidator.IsAllowedPostcode(model.UserInfo.CurrentAddress.Postcode);
-
+            var viewName = "ChangePostcode";
+            if (submitAction == "manualpostcode") return View(viewName, model);
             if (!model.UserInfo.CurrentAddress.IsInPilotArea)
             {
                 return View("OutOfArea", model);
             }
-            
-            if (submitAction == "manualpostcode") return View("ChangePostcode", model);
-            var outcomeModel = await _outcomeViewModelBuilder.DispositionBuilder(model);
-            var viewName = _viewRouter.GetViewName(model, ControllerContext);
+
+            var outcomeModel = await _outcomeViewModelBuilder.PopulateGroupedDosResults(model, null, null, null);
+            viewName = _viewRouter.GetViewName(model, ControllerContext);
 
             return View(viewName, outcomeModel);
         }
@@ -293,7 +294,8 @@ namespace NHS111.Web.Controllers
         {
             var results = await _locationResultBuilder.LocationResultByGeouilder(longlat);
             var locationResults = Mapper.Map<List<AddressInfoViewModel>>(results.DistinctBy(r => r.Thoroughfare));
-            return View("ConfirmLocation", new ConfirmLocationViewModel() { FoundLocations = locationResults });
+            model.FoundLocations = locationResults;
+            return View("ConfirmLocation", model);
         }
 
         private OutcomeViewModel ConvertPatientInformantDateToUserinfo(PatientInformantViewModel patientInformantModel, OutcomeViewModel model)

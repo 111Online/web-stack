@@ -224,5 +224,7 @@ namespace NHS111.Web.Presentation.Builders
         Task<OutcomeViewModel> ItkResponseBuilder(OutcomeViewModel model);
         Task<OutcomeViewModel> DeadEndJumpBuilder(OutcomeViewModel model);
         Task<OutcomeViewModel> PathwaySelectionJumpBuilder(OutcomeViewModel model);
+        Task<OutcomeViewModel> PopulateGroupedDosResults(OutcomeViewModel model, DateTime? overrideDate,
+            bool? overrideFilterServices, DosEndpoint? endpoint);
     }
 }
