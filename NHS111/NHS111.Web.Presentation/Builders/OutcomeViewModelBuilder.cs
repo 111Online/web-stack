@@ -91,8 +91,7 @@ namespace NHS111.Web.Presentation.Builders
                 model.SymptomGroup = "1206";
             }
 
-            if (OutcomeGroup.Dental.Equals(model.OutcomeGroup) ||
-                OutcomeGroup.ItkPrimaryCare.Equals(model.OutcomeGroup))
+            if (OutcomeGroup.PrePopulatedDosResultsOutcomeGroups.Contains(model.OutcomeGroup))
             {
                 model = await PopulateGroupedDosResults(model, null, null, endpoint);
             }

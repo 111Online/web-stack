@@ -175,14 +175,17 @@ namespace NHS111.Models.Mappers.WebMappings
         }
         private static OutcomeGroup BuildOutcomeGroup(QuestionWithAnswers questionWithAnswers)
         {
-            var outcomeGroup = new OutcomeGroup();
+            var mappedOutcomeGroup = new OutcomeGroup();
             if (questionWithAnswers.Group != null)
             {
-                outcomeGroup = OutcomeGroup.OutcomeGroups[questionWithAnswers.Group.Id];
-                outcomeGroup.Label = outcomeGroup.Label;
-                outcomeGroup.ITK = outcomeGroup.ITK;
+                mappedOutcomeGroup = questionWithAnswers.Group;
+                //this needs to be mapped better, ultimately this should be data driven from data layers so the above line is all that's needed.
+                var outcomeGroup = OutcomeGroup.OutcomeGroups[questionWithAnswers.Group.Id];
+                mappedOutcomeGroup.Label = outcomeGroup.Label;
+                mappedOutcomeGroup.ITK = outcomeGroup.ITK;
+
             }
-            return outcomeGroup;
+            return mappedOutcomeGroup;
         }
     }
 

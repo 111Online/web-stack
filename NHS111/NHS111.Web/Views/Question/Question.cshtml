@@ -127,7 +127,8 @@
 
     const formToJSON = elements => [].reduce.call(elements, (data, element) => {
 
-        data[element.name] = element.value;
+        if (element.type != "radio") data[element.name] = element.value;
+        else if (element.checked) data[element.name] = element.value;
         return data;
 
         }, {});
@@ -135,10 +136,9 @@
     const form = $('form')[0];
 
     $(".button--next").on("click",
-        function() {
-            var params = [];
-            $("input:hidden").each(function() { params.push({ key: this.name, value: this.value }) });
+        function () {
 
+            var prePopulatedDosResultsOutcomeGroups = [@(Html.Raw(String.Join(",",OutcomeGroup.PrePopulatedDosResultsOutcomeGroups.Select(og => "\"" + og.Id + "\"").ToList())))];
             $.ajax({
                     method: "POST",
                     url: "/question/NextNodeDetails",
@@ -146,9 +146,8 @@
                 })
                 .done(function(data) {
                     if (data.NodeType == @((int)NodeType.Outcome) &&
-                        data.OutcomeGroup &&
-                        data.OutcomeGroup.Id == "SP_Dental") {
-                        startPageLoadingIndicator('Searching for services near to  @Model.UserInfo.CurrentAddress.Postcode ...');
+                        prePopulatedDosResultsOutcomeGroups.indexOf(data.OutcomeGroup.Id) > -1) {
+                        startPageLoadingIndicator('Searching for services near to  @Model.UserInfo.CurrentAddress.FormattedPostcode ...');
                     }
                 });
         });

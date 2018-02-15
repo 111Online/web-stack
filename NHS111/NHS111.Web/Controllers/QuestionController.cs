@@ -192,14 +192,7 @@ namespace NHS111.Web.Controllers {
                     if (shouldPrefillPostcode) {
                         resultingModel.UserInfo.CurrentAddress.Postcode = _postcodePrefillFeature.GetPostcode(Request);
                         outcomeModel.CurrentView = _viewRouter.GetViewName(resultingModel, ControllerContext);
-                        //defaulting the label to 'services' because this is normally handled by the specific outcome view
-                        if (outcomeModel.OutcomeGroup.IsPostcodeFirst()) {
-                            var controller = DependencyResolver.Current.GetService<PostcodeFirstController>();
-                            controller.ControllerContext = new ControllerContext(ControllerContext.RequestContext,
-                                controller);
-                            return await controller.Outcome(outcomeModel, null, null, endpoint);
-                        }
-                        else {
+                    
                             var controller = DependencyResolver.Current.GetService<OutcomeController>();
                             controller.ControllerContext = new ControllerContext(ControllerContext.RequestContext,
                                 controller);
@@ -207,7 +200,7 @@ namespace NHS111.Web.Controllers {
                                 return await controller.ServiceDetails(outcomeModel, null, endpoint);
                             if (outcomeModel.OutcomeGroup.SearchDestination == "ServiceList")
                                 return await controller.ServiceList(outcomeModel, null, null, endpoint);
-                        }
+                        
                     }
                 }
             }
