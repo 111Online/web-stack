@@ -76,7 +76,7 @@ namespace NHS111.SmokeTests
                 .AnswerSuccessiveByOrder(3, 5)
                 .AnswerForDispostion<PostcodeFirstPage>("No - I've not taken any painkillers");
 
-            postcodeFirstPage.EnterPostCodeAndSubmit("LS17 7NZ");
+            //postcodeFirstPage.EnterPostCodeAndSubmit("LS17 7NZ");
 
             postcodeFirstPage.VerifyOutcome("See a dentist in the next few days");
             postcodeFirstPage.VerifyWorseningPanel(WorseningMessages.Call111PostCodeFirst);
@@ -216,7 +216,7 @@ namespace NHS111.SmokeTests
                 .AnswerSuccessiveByOrder(1,2)
                 .AnswerForDispostion<PostcodeFirstPage>("Yes");
            
-            outcomePage.EnterPostCodeAndSubmit("LS17 7NZ");
+            //outcomePage.EnterPostCodeAndSubmit("LS17 7NZ");
 
             outcomePage.VerifyOutcome("Speak to your GP practice urgently");
             outcomePage.VerifyWorseningPanel(WorseningMessages.Call111PostCodeFirst);

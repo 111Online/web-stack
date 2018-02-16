@@ -145,7 +145,7 @@
                     data: formToJSON(form.elements)
                 })
                 .done(function(data) {
-                    if (data.NodeType == @((int)NodeType.Outcome) &&
+                    if (data.NodeType == @((int)NodeType.Outcome) && '@Model.UserInfo.CurrentAddress.Postcode' != '' &&
                         prePopulatedDosResultsOutcomeGroups.indexOf(data.OutcomeGroup.Id) > -1) {
                         startPageLoadingIndicator('Searching for services near to  @Model.UserInfo.CurrentAddress.FormattedPostcode ...');
                     }
