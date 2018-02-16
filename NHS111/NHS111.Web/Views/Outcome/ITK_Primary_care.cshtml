@@ -39,7 +39,7 @@
 else
 {
     <p>@Html.Raw(string.Format("If you can't {0}, we can find another service that can help you", Model.OutcomeGroup.Text))</p>
-    using (Html.BeginForm("Postcode", "PostcodeFirst", FormMethod.Post))
+    using (Html.BeginForm("ChangePostcode", "Outcome", FormMethod.Post))
     {
         @Html.Partial("_CommonHiddenFieldsOutcomeViewModel", Model)
         @Html.Partial("_CommonHiddenFieldsCareAdviceViewModel", Model)
