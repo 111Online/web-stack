@@ -33,14 +33,9 @@
 @if (!string.IsNullOrEmpty(Model.UserInfo.CurrentAddress.Postcode))
 {
     <h2>@Html.Raw(string.Format("What to do if you can't see a {0}", Model.OutcomeGroup.Text))</h2>
-    using (Html.BeginForm("ChangePostcode", "Outcome", FormMethod.Post))
-    {
-        @Html.Partial("_CommonHiddenFieldsOutcomeViewModel", Model)
-        @Html.Partial("_CommonHiddenFieldsCareAdviceViewModel", Model)
-        <p>@String.Format("Other services that can help you near {0}", Model.UserInfo.CurrentAddress.FormattedPostcode) [<button class="button--link" type="submit">Change postcode</button>]</p>
-    }
+    
 
-    @Html.Partial("_AlternativeServices", Model, new ViewDataDictionary { { "Title", string.Format("What to do if you can't see a {0}", Model.OutcomeGroup.Text) } });
+    @Html.Partial("_AlternativeServicesWithChangePostcode", Model, new ViewDataDictionary { { "Title", string.Format("What to do if you can't see a {0}", Model.OutcomeGroup.Text) } });
 }
 else
 {
