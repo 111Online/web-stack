@@ -5,6 +5,7 @@ using Newtonsoft.Json;
 using NHS111.Models.Models.Domain;
 using NHS111.Models.Models.Web;
 using NHS111.Models.Models.Web.FromExternalServices;
+using NHS111.Models.Models.Web.Validators;
 using NHS111.Web.Presentation.Builders;
 using NUnit.Framework;
 
@@ -17,6 +18,7 @@ namespace NHS111.Web.Presentation.Test.Builders
         Mock<IJustToBeSafeFirstViewModelBuilder> _justToBeSafeFirstViewModelBuilder;
         Mock<IMappingEngine> _mappingEngine;
         Mock<ISymptomDiscriminatorCollector> _symptomDicriminatorCollector;
+        Mock<IPostCodeAllowedValidator> _postCodeAllowedValidator;
         private JourneyViewModelBuilder _sut;
 
         [SetUp]
@@ -26,8 +28,9 @@ namespace NHS111.Web.Presentation.Test.Builders
             _justToBeSafeFirstViewModelBuilder = new Mock<IJustToBeSafeFirstViewModelBuilder>();
             _mappingEngine = new Mock<IMappingEngine>();
             _symptomDicriminatorCollector = new Mock<ISymptomDiscriminatorCollector>();
+            _postCodeAllowedValidator = new Mock<IPostCodeAllowedValidator>();
             _sut = new JourneyViewModelBuilder(_outcomeViewModelBuilder.Object,
-                _mappingEngine.Object, _symptomDicriminatorCollector.Object, new KeywordCollector(), _justToBeSafeFirstViewModelBuilder.Object);
+                _mappingEngine.Object, _symptomDicriminatorCollector.Object, new KeywordCollector(), _justToBeSafeFirstViewModelBuilder.Object, _postCodeAllowedValidator.Object);
         }
         /*
                 [Test]

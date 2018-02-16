@@ -1,0 +1,153 @@
+﻿@using NHS111.Models.Models.Web
+@inherits NHS111.Web.Views.Shared.SurveyLinkView<OutcomeViewModel>
+@{
+    ViewBag.Title = "Postcode";
+    Layout = "~/Views/Shared/_LayoutNhsUK.cshtml";
+}
+@section HeadTop {
+    @{ var url = string.Format("/outcome/{0}/{1}/{2}/", Url.Encode(Model.PathwayNo), Url.Encode(Model.OutcomeGroup.Text), Model.UserInfo.CurrentAddress.IsPostcodeFirst ? "postcode-first" : "postcode"); }
+    <script>
+        var pageId = '@Model.Id';
+        dataLayer = [
+        {
+            'virtualPageUrl': '@url',
+            'virtualPageTitle': '@Model.OutcomeGroup.Text'
+        }];
+    </script>
+}
+@section Title { NHS 111 - Where do you want help? }
+
+<h1>Where do you want help?</h1>
+@section SurveyBanner{
+    @if (!Model.UserInfo.CurrentAddress.IsPostcodeFirst)
+    {
+        @Html.Partial("_SurveyLink", Model.SurveyLink)
+    }
+}
+@section FeedbackSection {
+    @if (Model.UserInfo.CurrentAddress.IsPostcodeFirst)
+    {
+        @Html.Partial("_FeedbackDetails", new FeedbackViewModel() { UserId = Model.SessionId.ToString(), PageData = new PageDataViewModel(PageDataViewModel.PageType.PostcodeFirst, Model) })
+    }
+    else
+    {
+        @Html.Partial("_SurveyLink", Model.SurveyLink)
+    }
+}
+<section>
+    <div>
+        @using (Html.BeginForm("UpdatedServices", "Outcome"))
+        {
+            @Html.HiddenFor(x => Model.SessionId)
+            @Html.HiddenFor(x => Model.JourneyId)
+            @Html.HiddenFor(x => Model.Id)
+            @Html.HiddenFor(x => Model.JourneyJson)
+            @Html.HiddenFor(x => Model.PathwayId)
+            @Html.HiddenFor(x => Model.PathwayNo)
+            @Html.HiddenFor(x => Model.PathwayTitle)
+            @Html.HiddenFor(x => Model.EntrySearchTerm)
+            @Html.HiddenFor(x => Model.DigitalTitle)
+            @Html.HiddenFor(x => Model.SymptomGroup)
+            @Html.HiddenFor(x => Model.FilterServices)
+            @Html.HiddenFor(x => Model.UserInfo.Demography.Age)
+            @Html.HiddenFor(x => Model.UserInfo.Demography.Gender)
+            @Html.HiddenFor(x => Model.SymptomDiscriminatorCode)
+            @Html.HiddenFor(x => Model.Title)
+            @Html.HiddenFor(x => Model.StateJson)
+            @Html.HiddenFor(x => Model.TimeFrameText)
+            @Html.HiddenFor(x => Model.DispositionUrgencyText)
+            @Html.HiddenFor(x => Model.SymptomDiscriminator.ReasoningText)
+            @Html.HiddenFor(x => Model.OutcomeGroup.Id)
+            @Html.HiddenFor(x => Model.OutcomeGroup.Text)
+            @Html.HiddenFor(x => x.TimeFrameMinutes)
+            @Html.HiddenFor(x => x.WaitTimeText)
+            @Html.HiddenFor(x => x.DispositionTime)
+            @Html.HiddenFor(x => x.SurveyLink.PathwayNo)
+            @Html.HiddenFor(x => x.SurveyLink.EndPathwayNo)
+            @Html.HiddenFor(x => x.SurveyLink.EndPathwayTitle)
+            @Html.HiddenFor(x => x.SurveyLink.DigitalTitle)
+            @Html.HiddenFor(x => x.SurveyLink.DispositionCode)
+            @Html.HiddenFor(x => x.SurveyLink.JourneyId)
+            @Html.HiddenFor(x => x.SurveyLink.DispositionDateTime)
+            @Html.HiddenFor(x => x.SelectedService.Id)
+            @Html.HiddenFor(x => Model.Campaign)
+            @Html.HiddenFor(x => Model.Source)
+            @Html.HiddenFor(x => Model.NodeType)
+
+            @Html.Partial("_CommonHiddenFieldsCareAdviceViewModel", Model)
+
+            if (Model.UserInfo.CurrentAddress.IsPostcodeFirst)
+            {
+                <h1 id="strap-line">Where are you?</h1>
+                <p>Knowing where you are helps us find services in your area.</p>
+            }
+            <div>
+                <div class="@(@ViewData.ModelState.IsValidField("UserInfo.CurrentAddress.Postcode") ? "" : "form-group-error")">
+                    <label for="UserInfo_CurrentAddress_Postcode" class="alwayshidden">Postcode</label>
+                    @Html.ValidationMessageFor(m => m.UserInfo.CurrentAddress.Postcode)
+                    @Html.TextBoxFor(m => m.UserInfo.CurrentAddress.Postcode, new { Value = "", style = "width: 8em; display: inline-block; margin-right: 10px;" })
+                    <button class="js-find-location button--link" type="button" style="display: none">Use current location</button>
+                </div>
+                <button class="button button--next" type="submit" id="postcode"  name="Question">Next</button>
+            </div>
+        }
+    </div>
+</section>
+@Html.Partial("_PageLoadingIndicator")
+<script type="text/javascript">
+    $(document).ready(function () {
+        stopPageLoadingIndicator();
+        if (navigator.geolocation) $('.js-find-location').css('display', 'inline-block');
+    });
+
+    $('#DosLookup').css('cursor', 'pointer');
+    $(document).on('click', '.button--next', function (event) {
+        var $postcode = $('#UserInfo_CurrentAddress_Postcode').val();
+        if ($("form").valid() && !!$postcode) {
+            startPageLoadingIndicator('Searching for services near to ' + $postcode + '...');
+        }
+    });
+
+    window.onpageshow = function (event) {
+        stopPageLoadingIndicator();
+    };
+
+    $(".js-find-location").on("click", function () {
+        navigator.geolocation.getCurrentPosition(function (pos) {
+            var coords = pos.coords.longitude + "," + pos.coords.latitude;
+            var params = [];
+         
+            $("input:hidden").each(function () {params.push({key:this.name,value:this.value})});
+            params.push({key:"longlat", value:coords});
+            post('/outcome/ConfirmAddress',params);
+        }, showError);
+    });
+
+   
+
+    function showError() {
+        if ($(".js-location-error").length == 0) $(".js-find-location").after('<p class="error-message js-location-error">We were unable to find your location. Please enter your postcode.</p>');
+    }
+
+    function post(path, params, method) {
+        method = method || "post"; 
+        var form = document.createElement("form");
+        form.setAttribute("method", method);
+        form.setAttribute("action", path);
+
+        for(var i in params) {
+            if(params.hasOwnProperty(i)) {
+                var hiddenField = document.createElement("input");
+                hiddenField.setAttribute("type", "hidden");
+                hiddenField.setAttribute("name", params[i].key);
+                hiddenField.setAttribute("value", params[i].value);
+
+                form.appendChild(hiddenField);
+            }
+        }
+
+        document.body.appendChild(form);
+        form.submit();
+    }
+
+</script>

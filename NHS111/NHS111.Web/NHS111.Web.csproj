@@ -248,7 +248,6 @@
     <Compile Include="Controllers\FeedbackController.cs" />
     <Compile Include="Controllers\HelpController.cs" />
     <Compile Include="Controllers\OutcomeController.cs" />
-    <Compile Include="Controllers\PostcodeFirstController.cs" />
     <Compile Include="Controllers\QuestionController.cs" />
     <Compile Include="Controllers\JustToBeSafeController.cs" />
     <Compile Include="Controllers\SearchController.cs" />
@@ -470,6 +469,10 @@
     <Content Include="enabled-postcodes.csv" />
     <Content Include="Views\Shared\_ServiceOpeningTimes.cshtml" />
     <Content Include="Views\Shared\_CommonHiddenFieldsPageDataViewModel.cshtml" />
+    <Content Include="Views\Outcome\ChangePostcode.cshtml" />
+    <Content Include="Views\Outcome\ConfirmLocation.cshtml" />
+    <Content Include="Views\Outcome\OutOfArea.cshtml" />
+    <Content Include="Views\Shared\_AlternativeServicesWithChangePostcode.cshtml" />
     <None Include="Web.Development.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

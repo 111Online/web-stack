@@ -4,6 +4,7 @@ using NHS111.Models.Models.Web;
 using NHS111.Models.Models.Web.FromExternalServices;
 using NHS111.Models.Models.Web.Validators;
 using NHS111.Web.Controllers;
+using NHS111.Web.Helpers;
 using NHS111.Web.Presentation.Builders;
 using NHS111.Web.Presentation.Logging;
 using NUnit.Framework;
@@ -22,6 +23,7 @@ namespace NHS111.Web.Presentation.Test.Controllers {
         private Mock<IAuditLogger> _auditLogger;
         private Mock<Configuration.IConfiguration> _configuration;
         private Mock<IPostCodeAllowedValidator> _postCodeAllowedValidator;
+        private Mock<IViewRouter> _viewRouter;
 
         [SetUp]
         public void Setup()
@@ -33,8 +35,8 @@ namespace NHS111.Web.Presentation.Test.Controllers {
             _auditLogger = new Mock<IAuditLogger>();
             _configuration = new Mock<Configuration.IConfiguration>();
             _postCodeAllowedValidator = new Mock<IPostCodeAllowedValidator>();
-
-            _outcomeController = new OutcomeController(_outcomeViewModelBuilder.Object, _dosBuilder.Object, _surgeryBuilder.Object, _locationResultBuilder.Object, _auditLogger.Object, _configuration.Object, _postCodeAllowedValidator.Object);
+            _viewRouter = new Mock<IViewRouter>();
+            _outcomeController = new OutcomeController(_outcomeViewModelBuilder.Object, _dosBuilder.Object, _surgeryBuilder.Object, _locationResultBuilder.Object, _auditLogger.Object, _configuration.Object, _postCodeAllowedValidator.Object, _viewRouter.Object);
         }
 
         [Test]

@@ -40,13 +40,13 @@ namespace NHS111.Web.Helpers
             {
                 case NodeType.Outcome:
                     var viewFilePath = "../Outcome/" + model.OutcomeGroup.Id;
-                    if (model.OutcomeGroup.IsPostcodeFirst())
-                    {
-                        model.UserInfo.CurrentAddress.IsPostcodeFirst = true;
-                        _auditLogger.LogEventData(model, "Postcode first journey started");
+                    //if (model.OutcomeGroup.IsPostcodeFirst())
+                    //{
+                    //    model.UserInfo.CurrentAddress.IsPostcodeFirst = true;
+                    //    _auditLogger.LogEventData(model, "Postcode first journey started");
 
-                        viewFilePath = "../PostcodeFirst/Postcode";
-                    }
+                    //    viewFilePath = "../PostcodeFirst/Postcode";
+                   // }
 
                     if (ViewExists(viewFilePath, context))
                     {
