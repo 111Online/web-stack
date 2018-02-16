@@ -110,7 +110,7 @@ namespace NHS111.SmokeTests
         {
             var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Headache", TestScenerioSex.Male, TestScenerioAgeGroups.Adult);
 
-            questionPage.VerifyQuestion("Have you hurt or banged your head in the last 7 days?");
+            questionPage.VerifyQuestion("Have you hurt your head in the last 7 days?");
             var outcomePage = questionPage
                 .AnswerSuccessiveByOrder(3,3)
                 .Answer(5)
@@ -159,7 +159,7 @@ namespace NHS111.SmokeTests
         {
             var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Diarrhoea and Vomiting", TestScenerioSex.Male, TestScenerioAgeGroups.Child);
 
-            questionPage.VerifyQuestion("Have you brought up either of the following?");
+            questionPage.VerifyQuestion("Have you vomited up either of the following?");
             var outcomePage = questionPage
                 .Answer(4)
                 .AnswerSuccessiveByOrder(3,2)
@@ -205,7 +205,7 @@ namespace NHS111.SmokeTests
         {
             var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Headache", TestScenerioSex.Male, TestScenerioAgeGroups.Adult);
 
-            questionPage.VerifyQuestion("Have you hurt or banged your head in the last 7 days?");
+            questionPage.VerifyQuestion("Have you hurt your head in the last 7 days?");
             var outcomePage = questionPage
                 .AnswerSuccessiveByOrder(3, 3)
                 .Answer(5)

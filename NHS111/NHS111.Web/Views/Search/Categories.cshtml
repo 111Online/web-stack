@@ -23,7 +23,7 @@
     {
         UserId = Model.SessionId.ToString(),
         PageData = new PageDataViewModel(PageDataViewModel.PageType.Categories, Model)
-    });
+    })
 }
 
 <div id="categories">
@@ -36,7 +36,7 @@
 
     @if (!string.IsNullOrEmpty(Model.SanitisedSearchTerm))
     {
-        <h2>@string.Format("Sorry, there are no results for '{0}'.", Model.SanitisedSearchTerm.Trim())</h2>
+        <h2 class="util-wrap">@string.Format("Sorry, there are no results for '{0}'.", Model.SanitisedSearchTerm.Trim())</h2>
         <h2>Try finding your symptoms by topic instead.  If you can't find what you need, please call 111 now.</h2>
     }
         else

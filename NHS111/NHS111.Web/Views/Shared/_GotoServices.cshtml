@@ -13,7 +13,7 @@
     }
     else
     {
-        serviceCount = services.Count(s => !s.CallbackEnabled && string.IsNullOrEmpty(s.ContactDetails));
+        serviceCount = services.Count();
         title = serviceCount > 1 ? "There are " + serviceCount + " places you can visit" : "There is 1 place you can visit";
     }
 }
@@ -28,11 +28,10 @@
 }
 
 @{
-    IEnumerable<ServiceViewModel> serviceList = services.Where(s => !s.CallbackEnabled && string.IsNullOrEmpty(s.ContactDetails));
     String mapServices = "[";
-    for (var i = 0; i < serviceList.Count(); i++)
+    for (var i = 0; i < services.Count(); i++)
     {
-        ServiceViewModel service = serviceList.ElementAt(i);
+        ServiceViewModel service = services.ElementAt(i);
         mapServices += "{";
         mapServices += "\"Northings\": \"" + service.Northings + "\",";
         mapServices += "\"Eastings\": \"" + service.Eastings + "\",";
@@ -51,7 +50,7 @@
         }
 
         mapServices += "]}";
-        if (i < serviceList.Count() - 1)
+        if (i < services.Count() - 1)
         {
             mapServices += ",";
         }
@@ -61,9 +60,9 @@
 
 <div class="cards cards--numbered cards--goto">
 
-    @for (var i = 0; i < serviceList.Count(); i++)
+    @for (var i = 0; i < services.Count(); i++)
     {
-        var service = serviceList.ElementAt(i);
+        var service = services.ElementAt(i);
         <div class="card" data-index="@Html.Raw(i)">
             <button class="card__marker-link" role="presentation">@Html.Raw(i + 1)</button>
             <h3>@WebUtility.HtmlDecode(service.Name)</h3>
