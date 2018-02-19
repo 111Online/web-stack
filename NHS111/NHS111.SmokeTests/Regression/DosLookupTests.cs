@@ -10,6 +10,25 @@ namespace NHS111.SmokeTests.Regression
 {
     public class DosLookupTests : BaseTests
     {
+
+        [Test]
+        //PT8 via Behaviour Change Tx222027 and Tx222006
+        public void Dental_Disposition_Renders_DOSServices()
+        {
+            var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Dental Problems", TestScenerioSex.Male, TestScenerioAgeGroups.Adult);
+
+            var outcomePage = questionPage
+                .Answer(2)
+                .AnswerNo()
+                .AnswerSuccessiveYes(3)
+                .AnswerNo()
+                .AnswerForDispostion<OutcomePage>("No - I've not taken any painkillers");
+
+            outcomePage.VerifyOutcome("See a dentist today");
+            outcomePage.VerifyPageContainsDOSResults();
+            outcomePage.VerifyDOSResultGroupExists("Arrange for someone to phone you");
+        }
+
         [Test]
         //PT8 via Behaviour Change Tx222027 and Tx222006
         public void Pt8ViaBehaviourChangeTx222027Tx222006()
