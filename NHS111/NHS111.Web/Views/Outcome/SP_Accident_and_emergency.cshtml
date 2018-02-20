@@ -34,12 +34,12 @@
 {
     <h2>@Html.Raw(string.Format("What to do if you can't {0}", Model.OutcomeGroup.Text))</h2>
 
-    @Html.Partial("_AlternativeServicesWithChangePostcode", Model, new ViewDataDictionary { { "Title", string.Format("What to do if you can't see a {0}", Model.OutcomeGroup.Text) } });
+    @Html.Partial("_AlternativeServices", Model, new ViewDataDictionary { { "ChangePostcode" , true }});
 }
 else
 {
     <p>@Html.Raw(string.Format("If you can't {0}, we can find another service that can help you", Model.OutcomeGroup.Text))</p>
-    using (Html.BeginForm("Postcode", "PostcodeFirst", FormMethod.Post))
+    using (Html.BeginForm("ChangePostcode", "Outcome", FormMethod.Post))
     {
         @Html.Partial("_CommonHiddenFieldsOutcomeViewModel", Model)
         @Html.Partial("_CommonHiddenFieldsCareAdviceViewModel", Model)
