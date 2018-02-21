@@ -20,8 +20,8 @@ namespace NHS111.SmokeTests
         {
             try
             {
-               // Driver.Quit();
-               // Driver.Dispose();
+                Driver.Quit();
+                Driver.Dispose();
             }
             catch (Exception)
             {
