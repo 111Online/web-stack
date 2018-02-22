@@ -10,6 +10,7 @@ using AutoMapper;
 using Newtonsoft.Json;
 using NHS111.Models.Models.Domain;
 using NHS111.Models.Models.Web;
+using NHS111.Models.Models.Web.DosRequests;
 using NHS111.Models.Models.Web.FromExternalServices;
 using NHS111.Models.Models.Web.ITK;
 using NHS111.Models.Models.Web.Logging;
@@ -34,8 +35,9 @@ namespace NHS111.Web.Presentation.Builders
         private readonly IAuditLogger _auditLogger;
 
 
+
         public OutcomeViewModelBuilder(ICareAdviceBuilder careAdviceBuilder, IRestfulHelper restfulHelper, IConfiguration configuration, IMappingEngine mappingEngine, IKeywordCollector keywordCollector,
-            IJourneyHistoryWrangler journeyHistoryWrangler, ISurveyLinkViewModelBuilder surveyLinkViewModelBuilder, IAuditLogger auditLogger)
+            IJourneyHistoryWrangler journeyHistoryWrangler, ISurveyLinkViewModelBuilder surveyLinkViewModelBuilder, IAuditLogger auditLogger, IDOSBuilder dosBuilder)
         {
             _careAdviceBuilder = careAdviceBuilder;
             _restfulHelper = restfulHelper;
@@ -45,6 +47,7 @@ namespace NHS111.Web.Presentation.Builders
             _journeyHistoryWrangler = journeyHistoryWrangler;
             _surveyLinkViewModelBuilder = surveyLinkViewModelBuilder;
             _auditLogger = auditLogger;
+            _dosBuilder = dosBuilder;
         }
 
         public async Task<List<AddressInfoViewModel>> SearchPostcodeBuilder(string input)
@@ -55,6 +58,10 @@ namespace NHS111.Web.Presentation.Builders
         }
 
         public async Task<OutcomeViewModel> DispositionBuilder(OutcomeViewModel model)
+        {
+            return await DispositionBuilder(model, null);
+        }
+        public async Task<OutcomeViewModel> DispositionBuilder(OutcomeViewModel model, DosEndpoint? endpoint)
         {
             model.DispositionTime = DateTime.Now;
 
@@ -82,6 +89,11 @@ namespace NHS111.Web.Presentation.Builders
 
                 model.SymptomDiscriminatorCode = "4193";
                 model.SymptomGroup = "1206";
+            }
+
+            if (OutcomeGroup.PrePopulatedDosResultsOutcomeGroups.Contains(model.OutcomeGroup) && !String.IsNullOrEmpty(model.UserInfo.CurrentAddress.Postcode))
+            {
+                model = await PopulateGroupedDosResults(model, null, null, endpoint);
             }
 
             model.WorseningCareAdvice = await _careAdviceBuilder.FillWorseningCareAdvice(model.UserInfo.Demography.Age,
@@ -143,6 +155,22 @@ namespace NHS111.Web.Presentation.Builders
             return model;
         }
 
+        public async Task<OutcomeViewModel> PopulateGroupedDosResults(OutcomeViewModel model, DateTime? overrideDate, bool? overrideFilterServices, DosEndpoint? endpoint)
+        {
+            var dosViewModel = Mapper.Map<DosViewModel>(model);
+            if (overrideDate.HasValue) dosViewModel.DispositionTime = overrideDate.Value;
+            var _ = _auditLogger.LogDosRequest(model, dosViewModel);
+            model.DosCheckCapacitySummaryResult = await _dosBuilder.FillCheckCapacitySummaryResult(dosViewModel, overrideFilterServices.HasValue ? overrideFilterServices.Value : model.FilterServices, endpoint);
+            model.DosCheckCapacitySummaryResult.ServicesUnavailable = model.DosCheckCapacitySummaryResult.ResultListEmpty;
+
+            if (!model.DosCheckCapacitySummaryResult.ResultListEmpty)
+                model.GroupedDosServices = _dosBuilder.FillGroupedDosServices(model.DosCheckCapacitySummaryResult.Success.Services);
+
+             _ = _auditLogger.LogDosResponse(model);
+     
+            return model;
+        }
+
         public async Task<OutcomeViewModel> DeadEndJumpBuilder(OutcomeViewModel model)
         {
             model.DispositionTime = DateTime.Now;
@@ -190,9 +218,12 @@ namespace NHS111.Web.Presentation.Builders
     {
         Task<List<AddressInfoViewModel>> SearchPostcodeBuilder(string input);
         Task<OutcomeViewModel> DispositionBuilder(OutcomeViewModel model);
+        Task<OutcomeViewModel> DispositionBuilder(OutcomeViewModel model,DosEndpoint? endpoint);
         Task<OutcomeViewModel> PersonalDetailsBuilder(OutcomeViewModel model);
         Task<OutcomeViewModel> ItkResponseBuilder(OutcomeViewModel model);
         Task<OutcomeViewModel> DeadEndJumpBuilder(OutcomeViewModel model);
         Task<OutcomeViewModel> PathwaySelectionJumpBuilder(OutcomeViewModel model);
+        Task<OutcomeViewModel> PopulateGroupedDosResults(OutcomeViewModel model, DateTime? overrideDate,
+            bool? overrideFilterServices, DosEndpoint? endpoint);
     }
 }

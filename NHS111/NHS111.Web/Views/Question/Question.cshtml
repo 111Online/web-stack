@@ -1,5 +1,6 @@
 ﻿@using NHS111.Models.Models.Domain
 @using NHS111.Models.Models.Web
+@using NHS111.Models.Models.Web.Enums
 @{ Layout = "~/Views/Shared/_LayoutNhsUk.cshtml"; }
 @inherits NHS111.Web.Views.Shared.DirectLinkingView<QuestionViewModel>
 
@@ -15,10 +16,10 @@
     <script>
         var pageId = '@Model.PathwayId';
         dataLayer = [
-        {
-            'virtualPageUrl': document.location.pathname + '@url',
-            'virtualPageTitle': '@Model.TitleWithoutBullets'
-        }];
+            {
+                'virtualPageUrl': document.location.pathname + '@url',
+                'virtualPageTitle': '@Model.TitleWithoutBullets'
+            }];
     </script>
 }
 
@@ -121,3 +122,40 @@
         <button class="button--stacked button--previous button--link" id="previousScreen" type="submit" value="PreviousQuestion" name="PreviousQuestion" formnovalidate>Change my previous answer</button>
     }
 }
+@Html.Partial("_PageLoadingIndicator")
+<script type="text/javascript">
+
+    const formToJSON = elements => [].reduce.call(elements, (data, element) => {
+
+        if (element.type != "radio") data[element.name] = element.value;
+        else if (element.checked) data[element.name] = element.value;
+        return data;
+
+        }, {});
+
+    const form = $('form')[0];
+
+    $(".button--next").on("click",
+        function () {
+
+            var prePopulatedDosResultsOutcomeGroups = [@(Html.Raw(String.Join(",",OutcomeGroup.PrePopulatedDosResultsOutcomeGroups.Select(og => "\"" + og.Id + "\"").ToList())))];
+            $.ajax({
+                    method: "POST",
+                    url: "/question/NextNodeDetails",
+                    data: formToJSON(form.elements)
+                })
+                .done(function(data) {
+                    if (data.NodeType == @((int)NodeType.Outcome) && '@Model.UserInfo.CurrentAddress.Postcode' != '' &&
+                        prePopulatedDosResultsOutcomeGroups.indexOf(data.OutcomeGroup.Id) > -1) {
+                        startPageLoadingIndicator('Searching for services near to  @Model.UserInfo.CurrentAddress.FormattedPostcode ...');
+                    }
+                });
+        });
+
+
+
+
+
+
+
+</script>

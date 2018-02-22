@@ -6,6 +6,7 @@ using NHS111.Utils.Helpers;
 using NHS111.Web.Presentation.Builders;
 using NHS111.Web.Presentation.Configuration;
 using NUnit.Framework;
+using RestSharp;
 
 namespace NHS111.Web.Presentation.Test.Builders
 {
@@ -15,17 +16,19 @@ namespace NHS111.Web.Presentation.Test.Builders
         private ILocationResultBuilder _locationResultBuilder;
         private Mock<IRestfulHelper> _mockRestfulHelper;
         private Mock<IConfiguration> _mockConfiguration;
+        private Mock<IRestClient> _mockRestClient;
 
         [SetUp()]
         public void Setup()
         {
             _mockRestfulHelper = new Mock<IRestfulHelper>();
+            _mockRestClient= new Mock<IRestClient>();
             _mockConfiguration = new Mock<IConfiguration>();
 
             _mockConfiguration.Setup(c => c.PostcodeSearchByIdApiUrl).Returns("/location/postcode/api");
             _mockConfiguration.Setup(c => c.PostcodeSubscriptionKey).Returns("xyz");
 
-            _locationResultBuilder = new LocationResultBuilder(_mockRestfulHelper.Object, _mockConfiguration.Object);
+            _locationResultBuilder = new LocationResultBuilder(_mockRestfulHelper.Object, _mockRestClient.Object, _mockConfiguration.Object);
         }
 
         [Test()]

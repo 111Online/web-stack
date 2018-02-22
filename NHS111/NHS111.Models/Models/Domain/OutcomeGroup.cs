@@ -54,6 +54,7 @@ namespace NHS111.Models.Models.Domain {
 
         public static OutcomeGroup GP = new OutcomeGroup { Id = "SP_GP", Text = "SP_GP", DefaultTitle = "Based on your answers, we recommend you speak to a healthcare service", Label = "Healthcare services" };
 
+        public static OutcomeGroup[] PrePopulatedDosResultsOutcomeGroups = new OutcomeGroup[] {Dental, ItkPrimaryCare};
         public static OutcomeGroup[] SignpostingOutcomesGroups = new OutcomeGroup[] { AccidentAndEmergency, AccidentAndEmergencySexualAssault, Optician, Pharmacy, GumClinic, Dental, EmergencyDental, Midwife, GP };
         public static OutcomeGroup[] DosSearchOutcomesGroups = new OutcomeGroup[] { AccidentAndEmergency, AccidentAndEmergencySexualAssault, Optician, Pharmacy, GumClinic, Dental, EmergencyDental, Midwife, ItkPrimaryCare, ClinicianCallBack, GP };
      
@@ -98,12 +99,6 @@ namespace NHS111.Models.Models.Domain {
         public string GetDefaultTitle()
         {
             return OutcomeGroups.ContainsKey(Id) ? OutcomeGroups[Id].DefaultTitle : "Search results";
-        }
-
-        public bool IsPostcodeFirst()
-        {
-            if (Id == null) return false;
-            return OutcomeGroups.ContainsKey(Id) && OutcomeGroups[Id].PostcodeFirst;
         }
 
         public bool IsAutomaticSelectionOfItkResult()

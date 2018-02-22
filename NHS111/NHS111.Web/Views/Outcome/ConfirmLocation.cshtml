@@ -1,0 +1,93 @@
+﻿@using System.Reflection.Emit
+@model NHS111.Models.Models.Web.ConfirmLocationViewModel
+@{    
+    ViewBag.Title = "Confirm location";
+    Layout = "~/Views/Shared/_LayoutNhsUK.cshtml";}
+@section Title { NHS 111 - Where are you? }
+@section HeadTop {
+    <script>
+        dataLayer = [
+            {
+                'virtualPageUrl': 'Confirm Location',
+                'virtualPageTitle': 'Confirm Location'
+            }];
+    </script>
+}
+@if (Model.FoundLocations.Any())
+{
+    using (Html.BeginForm("UpdatedServices", "Outcome", FormMethod.Post))
+    {
+        @Html.HiddenFor(x => Model.SessionId)
+        @Html.HiddenFor(x => Model.JourneyId)
+        @Html.HiddenFor(x => Model.Id)
+        @Html.HiddenFor(x => Model.JourneyJson)
+        @Html.HiddenFor(x => Model.PathwayId)
+        @Html.HiddenFor(x => Model.PathwayNo)
+        @Html.HiddenFor(x => Model.PathwayTitle)
+        @Html.HiddenFor(x => Model.EntrySearchTerm)
+        @Html.HiddenFor(x => Model.DigitalTitle)
+        @Html.HiddenFor(x => Model.SymptomGroup)
+        @Html.HiddenFor(x => Model.FilterServices)
+        @Html.HiddenFor(x => Model.UserInfo.Demography.Age)
+        @Html.HiddenFor(x => Model.UserInfo.Demography.Gender)
+        @Html.HiddenFor(x => Model.SymptomDiscriminatorCode)
+        @Html.HiddenFor(x => Model.Title)
+        @Html.HiddenFor(x => Model.StateJson)
+        @Html.HiddenFor(x => Model.TimeFrameText)
+        @Html.HiddenFor(x => Model.DispositionUrgencyText)
+        @Html.HiddenFor(x => Model.SymptomDiscriminator.ReasoningText)
+        @Html.HiddenFor(x => Model.OutcomeGroup.Id)
+        @Html.HiddenFor(x => Model.OutcomeGroup.Text)
+        @Html.HiddenFor(x => x.TimeFrameMinutes)
+        @Html.HiddenFor(x => x.WaitTimeText)
+        @Html.HiddenFor(x => x.DispositionTime)
+        @Html.HiddenFor(x => x.SurveyLink.PathwayNo)
+        @Html.HiddenFor(x => x.SurveyLink.EndPathwayNo)
+        @Html.HiddenFor(x => x.SurveyLink.EndPathwayTitle)
+        @Html.HiddenFor(x => x.SurveyLink.DigitalTitle)
+        @Html.HiddenFor(x => x.SurveyLink.DispositionCode)
+        @Html.HiddenFor(x => x.SurveyLink.JourneyId)
+        @Html.HiddenFor(x => x.SurveyLink.DispositionDateTime)
+        @Html.HiddenFor(x => x.SelectedService.Id)
+        @Html.HiddenFor(x => Model.Campaign)
+        @Html.HiddenFor(x => Model.Source)
+        @Html.HiddenFor(x => Model.NodeType)
+
+        @Html.Partial("_CommonHiddenFieldsCareAdviceViewModel", Model)
+        <div>
+            @{
+                var i = 0;
+                var checkedParam = Model.FoundLocations.Count == 1 ? "checked" : "";
+                var heading = Model.FoundLocations.Count == 1 ? "Are you here?" : "Where are you?";
+            }
+            <h1 id="strap-line">@heading</h1>
+            <h2 id="sub-header" style="display: none;">Now we can tell you what to do next</h2>
+            <div class="form-group">
+                <div id="confirm-location-form" style="">
+                    <p>Knowing where you are helps us find the right care.</p>
+                    @Html.ValidationMessageFor(m => m.SelectedPostcode, "Please select your location", new { @class = "error-message" })
+                    <div class="location-address">
+                        <div class="multiple-choice">
+                            @foreach (var location in Model.FoundLocations)
+                            {
+                                var placename = String.IsNullOrWhiteSpace(location.Thoroughfare) ? location.Ward : location.Thoroughfare;
+                                
+                                <input data-val="true" data-val-required="Required field" id="address-@i" name="@Html.NameFor(m => m.UserInfo.CurrentAddress.Postcode)" type="radio" value="@location.Postcode" @checkedParam>
+                                <label for="address-@i" class="multiple-choice--radio"><strong>@placename</strong>, @location.City, @location.Postcode</label>
+                                i++;
+                            }
+                        </div>
+                    </div>
+
+                    <p><button type="submit" name="submitAction" id="changePostcode" value="manualpostcode" class="js-manual-postcode button--link button--stacked">No, I'll enter my postcode.</button></p>
+                    <button class="button--next" type="submit" name="submitAction" value="next" id="DosLookup">Next</button>
+                </div>
+            </div>
+        </div>
+        }
+    }
+    else
+    {
+        <h1 id="strap-line">We were unable to find your location</h1>
+        <a href="/" class="js-manual-postcode button--link button--stacked">Enter my postcode.</a>
+    }

@@ -40,6 +40,11 @@ namespace NHS111.Web.Presentation.Configuration
         public string QueryStringEncryptionKey { get { return ConfigurationManager.AppSettings["QueryStringEncryptionKey"]; } }
         public string QueryStringEncryptionBytes { get { return ConfigurationManager.AppSettings["QueryStringEncryptionBytes"]; } }
 
+        public string BusinessApiLocationSearchGetAddressByGeoUrl { get{ return ConfigurationManager.AppSettings["BusinessApiLocationSearchGetAddressByGeoUrl"];} }
+        public string GetBusinessApiGetAddressByGeoUrl(string latlong)
+        {
+            return string.Format(BusinessApiLocationSearchGetAddressByGeoUrl, latlong);
+        }
         public bool IsPublic {
             get {
                 if (ConfigurationManager.AppSettings["IsPublic"] == null)
@@ -221,7 +226,7 @@ namespace NHS111.Web.Presentation.Configuration
         string GetBusinessApiGetPathwaysGenderAge(string gender, int age);
         string GetBusinessApiPathwaySearchUrl(string gender, string age, bool pathOnly=false);
         string GetBusinessApiVersionUrl(bool pathOnly = false);
-
+        string GetBusinessApiGetAddressByGeoUrl(string latlong);
         string BusinessDosCheckCapacitySummaryUrl { get; }
         string BusinessDosServicesByClinicalTermUrl { get; }
         string BusinessDosServiceDetailsByIdUrl { get; }

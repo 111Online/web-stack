@@ -47,9 +47,8 @@ namespace NHS111.SmokeTests
             var newOutcome = outcomePage.NavigateBack()
                 .Answer(3, false)
                 .Answer(1)
-                .AnswerForDispostion<PostcodeFirstPage>("Within the next 6 hours");
+                .AnswerForDispostion<OutcomePage>("Within the next 6 hours");
 
-            newOutcome.EnterPostCodeAndSubmit("LS17 7NZ");
 
             newOutcome.VerifyOutcome("Speak to your GP practice today");
             newOutcome.VerifyCareAdvice(new[] {"Medication, next dose", "Medication, pain and/or fever", "Headache"});
@@ -59,7 +58,7 @@ namespace NHS111.SmokeTests
         public void SplitQuestionJourneyThroughEachRoute()
         {
             var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Headache", TestScenerioSex.Male, TestScenerioAgeGroups.Adult);
-            questionPage.VerifyQuestion("Have you hurt or banged your head in the last 7 days?");
+            questionPage.VerifyQuestion("Have you hurt your head in the last 7 days?");
             var outcomePage = questionPage
                 .Answer(3)
                 .Answer(3)
@@ -71,7 +70,7 @@ namespace NHS111.SmokeTests
             TestScenerios.LaunchTriageScenerio(Driver, "Headache", "Female", 49);
 
             questionPage.VerifyQuestion("Could you be pregnant?");
-            var postcodeFirstPage = questionPage.AnswerSuccessiveByOrder(3, 4)
+            outcomePage = questionPage.AnswerSuccessiveByOrder(3, 4)
                 .Answer(1)
                 .Answer(3)
                 .Answer(5)
@@ -87,26 +86,24 @@ namespace NHS111.SmokeTests
                 .Answer(4)
                 .Answer(3)
                 .Answer(1)
-                .AnswerForDispostion<PostcodeFirstPage>("Within the next 6 hours");
+                .AnswerForDispostion<OutcomePage>("Within the next 6 hours");
 
-            postcodeFirstPage.EnterPostCodeAndSubmit("LS17 7NZ");
             
-            postcodeFirstPage.VerifyOutcome("Speak to your GP practice today");
+            outcomePage.VerifyOutcome("Speak to your GP practice today");
 
             TestScenerios.LaunchTriageScenerio(Driver, "Headache", "Female", 50);
 
             questionPage.VerifyQuestion("Could you be pregnant?");
-            postcodeFirstPage = questionPage.AnswerSuccessiveByOrder(3, 5)
+            outcomePage = questionPage.AnswerSuccessiveByOrder(3, 5)
                 .Answer(5)
                 .Answer(3)
                 .Answer(4)
                 .Answer(2)
                 .AnswerSuccessiveByOrder(3, 3)
-                .AnswerForDispostion<PostcodeFirstPage>("Yes");
+                .AnswerForDispostion<OutcomePage>("Yes");
 
-            postcodeFirstPage.EnterPostCodeAndSubmit("LS17 7NZ");
 
-            postcodeFirstPage.VerifyOutcome("Speak to your GP practice urgently");
+            outcomePage.VerifyOutcome("Speak to your GP practice urgently");
         }
 
         [Test]

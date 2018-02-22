@@ -23,7 +23,7 @@
     {
         UserId = Model.SessionId.ToString(),
         PageData = new PageDataViewModel(PageDataViewModel.PageType.SearchResults, Model)
-    });
+    })
 }
 <div id="SearchResults" class="measure">
     @if (Model.Results.Any())

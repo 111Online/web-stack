@@ -22,6 +22,14 @@ namespace NHS111.Models.Mappers.WebMappings
             Mapper.CreateMap<QuestionWithAnswers, JourneyViewModel>()
                .ConvertUsing<FromQuestionWithAnswersToJourneyViewModelConverter>();
 
+
+            Mapper.CreateMap<QuestionWithAnswers, OutcomeGroup>()
+                .ConvertUsing<FromQuestionWithAnswersToOutcomeGroupModelConverter>();
+
+            Mapper.CreateMap<QuestionWithAnswers, NodeType>()
+                .ConvertUsing<FromQuestionWithAnswersToNodeTypeModelConverter>();
+
+
             Mapper.CreateMap<JourneyViewModel, OutcomeViewModel>()
                 .ForMember(s => s.SelectedServiceId, o => o.Ignore())
                 .ForMember(s => s.DosCheckCapacitySummaryResult, o => o.Ignore())
@@ -108,6 +116,25 @@ namespace NHS111.Models.Mappers.WebMappings
             }
         }
 
+        public class FromQuestionWithAnswersToOutcomeGroupModelConverter : ITypeConverter<QuestionWithAnswers, OutcomeGroup>
+        {
+            public OutcomeGroup Convert(ResolutionContext context)
+            {
+                var questionWithAnswers = (QuestionWithAnswers)context.SourceValue;
+                return BuildOutcomeGroup(questionWithAnswers);
+            }
+        }
+
+
+        public class FromQuestionWithAnswersToNodeTypeModelConverter : ITypeConverter<QuestionWithAnswers, NodeType>
+        {
+            public NodeType Convert(ResolutionContext context)
+            {
+                var questionWithAnswers = (QuestionWithAnswers)context.SourceValue;
+                return BuildNodeType(questionWithAnswers);
+            }
+        }
+
         private static JourneyViewModel BuildJourneyViewModel(JourneyViewModel modelToPopulate, QuestionWithAnswers questionWithAnswers)
         {
             var journeyViewModel = modelToPopulate;
@@ -128,18 +155,11 @@ namespace NHS111.Models.Mappers.WebMappings
             journeyViewModel.Bullets = questionAndBullets.Item2;
 
             journeyViewModel.Answers = questionWithAnswers.Answers ?? Enumerable.Empty<Answer>().ToList();
-            journeyViewModel.NodeType = (NodeType)Enum.Parse(typeof(NodeType), questionWithAnswers.Labels.FirstOrDefault());
+            journeyViewModel.NodeType = BuildNodeType(questionWithAnswers);
             journeyViewModel.QuestionNo = questionWithAnswers.Question.QuestionNo;
             journeyViewModel.Rationale = questionWithAnswers.Question.Rationale;
 
-            if (questionWithAnswers.Group != null)
-            {
-                journeyViewModel.OutcomeGroup = questionWithAnswers.Group;
-                //this needs to be mapped better, ultimately this should be data driven from data layers so the above line is all that's needed.
-                var outcomeGroup = OutcomeGroup.OutcomeGroups[questionWithAnswers.Group.Id];
-                journeyViewModel.OutcomeGroup.Label = outcomeGroup.Label;
-                journeyViewModel.OutcomeGroup.ITK = outcomeGroup.ITK;
-            }
+            journeyViewModel.OutcomeGroup = BuildOutcomeGroup(questionWithAnswers);
 
             if (questionWithAnswers.State != null)
             {
@@ -147,6 +167,25 @@ namespace NHS111.Models.Mappers.WebMappings
                 journeyViewModel.StateJson = JsonConvert.SerializeObject(questionWithAnswers.State);
             }
             return journeyViewModel;
+        }
+
+        private static NodeType BuildNodeType(QuestionWithAnswers questionWithAnswers)
+        {
+            return (NodeType)Enum.Parse(typeof(NodeType), questionWithAnswers.Labels.FirstOrDefault());
+        }
+        private static OutcomeGroup BuildOutcomeGroup(QuestionWithAnswers questionWithAnswers)
+        {
+            var mappedOutcomeGroup = new OutcomeGroup();
+            if (questionWithAnswers.Group != null)
+            {
+                mappedOutcomeGroup = questionWithAnswers.Group;
+                //this needs to be mapped better, ultimately this should be data driven from data layers so the above line is all that's needed.
+                var outcomeGroup = OutcomeGroup.OutcomeGroups[questionWithAnswers.Group.Id];
+                mappedOutcomeGroup.Label = outcomeGroup.Label;
+                mappedOutcomeGroup.ITK = outcomeGroup.ITK;
+
+            }
+            return mappedOutcomeGroup;
         }
     }
 

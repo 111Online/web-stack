@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using NHS111.Models.Models.Web.Validators;
 
 namespace NHS111.Web.Presentation.Builders
 {
@@ -16,18 +17,54 @@ namespace NHS111.Web.Presentation.Builders
 
         public JourneyViewModelBuilder(IOutcomeViewModelBuilder outcomeViewModelBuilder, IMappingEngine mappingEngine,
             ISymptomDiscriminatorCollector symptomDiscriminatorCollector, IKeywordCollector keywordCollector,
-            IJustToBeSafeFirstViewModelBuilder justToBeSafeFirstViewModelBuilder)
+            IJustToBeSafeFirstViewModelBuilder justToBeSafeFirstViewModelBuilder,
+            IPostCodeAllowedValidator postCodeAllowedValidator)
         {
             _outcomeViewModelBuilder = outcomeViewModelBuilder;
             _mappingEngine = mappingEngine;
             _symptomDiscriminatorCollector = symptomDiscriminatorCollector;
             _keywordCollector = keywordCollector;
             _justToBeSafeFirstViewModelBuilder = justToBeSafeFirstViewModelBuilder;
+            _postCodeAllowedValidator = postCodeAllowedValidator;
         }
+
+        public NodeDetailsViewModel BuildNodeDetails(QuestionWithAnswers nextNode)
+        {
+            var outcomeGroup = _mappingEngine.Mapper.Map<OutcomeGroup>(nextNode);
+            var nodeType = _mappingEngine.Mapper.Map<NodeType>(nextNode);
+            return new NodeDetailsViewModel() {OutcomeGroup = outcomeGroup, NodeType = nodeType};
+        }
+
 
         public async Task<JourneyViewModel> Build(QuestionViewModel model, QuestionWithAnswers nextNode)
         {
 
+            var journeyViewModel = MapJourneyViewModel(model, nextNode);
+
+            switch (journeyViewModel.NodeType)
+            {
+                case NodeType.Outcome:
+                    var outcome = _mappingEngine.Mapper.Map<OutcomeViewModel>(journeyViewModel);
+                    outcome.UserInfo.CurrentAddress.IsInPilotArea =
+                        _postCodeAllowedValidator.IsAllowedPostcode(model.UserInfo.CurrentAddress.Postcode);
+                    return await _outcomeViewModelBuilder.DispositionBuilder(outcome);
+                case NodeType.Pathway:
+                    var jtbs = _mappingEngine.Mapper.Map<JustToBeSafeViewModel>(journeyViewModel);
+                    return (await _justToBeSafeFirstViewModelBuilder.JustToBeSafeFirstBuilder(jtbs))
+                        .Item2; //todo refactor tuple away
+                case NodeType.DeadEndJump:
+                    var deadEndJump = _mappingEngine.Mapper.Map<OutcomeViewModel>(journeyViewModel);
+                    return await _outcomeViewModelBuilder.DeadEndJumpBuilder(deadEndJump);
+                case NodeType.PathwaySelectionJump:
+                    var pathwaySelectionJump = _mappingEngine.Mapper.Map<OutcomeViewModel>(journeyViewModel);
+                    return await _outcomeViewModelBuilder.PathwaySelectionJumpBuilder(pathwaySelectionJump);
+            }
+
+            return model;
+        }
+
+        public JourneyViewModel MapJourneyViewModel(QuestionViewModel model, QuestionWithAnswers nextNode)
+        {
             model.ProgressState();
 
             model.Journey.Steps.Add(model.ToStep());
@@ -48,24 +85,7 @@ namespace NHS111.Web.Presentation.Builders
             var journeyViewModel = _keywordCollector.Collect(answer, model);
 
             journeyViewModel = _mappingEngine.Mapper.Map(nextNode, journeyViewModel);
-
-            switch (journeyViewModel.NodeType)
-            {
-                case NodeType.Outcome:
-                    var outcome = _mappingEngine.Mapper.Map<OutcomeViewModel>(journeyViewModel);
-                    return await _outcomeViewModelBuilder.DispositionBuilder(outcome);
-                case NodeType.Pathway:
-                    var jtbs = _mappingEngine.Mapper.Map<JustToBeSafeViewModel>(journeyViewModel);
-                    return (await _justToBeSafeFirstViewModelBuilder.JustToBeSafeFirstBuilder(jtbs)).Item2; //todo refactor tuple away
-                case NodeType.DeadEndJump:
-                    var deadEndJump = _mappingEngine.Mapper.Map<OutcomeViewModel>(journeyViewModel);
-                    return await _outcomeViewModelBuilder.DeadEndJumpBuilder(deadEndJump);
-                case NodeType.PathwaySelectionJump:
-                    var pathwaySelectionJump = _mappingEngine.Mapper.Map<OutcomeViewModel>(journeyViewModel);
-                    return await _outcomeViewModelBuilder.PathwaySelectionJumpBuilder(pathwaySelectionJump);
-            }
-
-            return model;
+            return journeyViewModel;
         }
 
         public JourneyViewModel BuildPreviousQuestion(QuestionWithAnswers lastStep, QuestionViewModel model)
@@ -85,11 +105,13 @@ namespace NHS111.Web.Presentation.Builders
         private readonly IKeywordCollector _keywordCollector;
         private readonly IJustToBeSafeFirstViewModelBuilder _justToBeSafeFirstViewModelBuilder;
         private readonly IConfiguration _configuration;
+        private readonly IPostCodeAllowedValidator _postCodeAllowedValidator;
     }
 
     public interface IJourneyViewModelBuilder
     {
         Task<JourneyViewModel> Build(QuestionViewModel model, QuestionWithAnswers nextNode);
         JourneyViewModel BuildPreviousQuestion(QuestionWithAnswers lastStep, QuestionViewModel model);
+        NodeDetailsViewModel BuildNodeDetails(QuestionWithAnswers nextNode);
     }
 }
