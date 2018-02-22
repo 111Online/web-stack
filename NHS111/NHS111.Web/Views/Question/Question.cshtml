@@ -115,7 +115,7 @@
                     }
 
 
-                    @if (Model.QuestionNo == "TX1054" && answer.Order < 3)
+                    @if (Model.QuestionNo == "TX1039" && answer.Order < 3)
                     {
                         <div class="interrupt--mini callout--warning" style="margin-top: 17px;">
                             This means you’ll be asked to call 999
@@ -125,14 +125,14 @@
             }
         </fieldset>
     </div>
-        <button class="button--next" id="nextScreen" type="submit" name="Question" value="Question">Next question</button>
+    <button class="button--next" id="nextScreen" type="submit" name="Question" value="Question">Next question</button>
     if (!Model.IsFirstStep)
     {
         <button class="button--stacked button--previous button--link" id="previousScreen" type="submit" value="PreviousQuestion" name="PreviousQuestion" formnovalidate>Change my previous answer</button>
     }
 }
 
-@if (Model.QuestionNo == "TX1054")
+@if (Model.QuestionNo == "TX1039")
 {
 
     <style>
