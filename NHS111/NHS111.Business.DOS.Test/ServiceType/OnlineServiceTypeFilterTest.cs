@@ -28,7 +28,7 @@ namespace NHS111.Business.DOS.Test.ServiceType
             
             //Act
             var sut = new OnlineServiceTypeFilter();
-            var result = sut.Filter(dosResultsList);
+            var result = sut.FilterUnknownTypes(dosResultsList);
 
             Assert.AreEqual(3, result.Count);
             Assert.AreEqual(OnlineDOSServiceType.PublicPhone, result[0].OnlineDOSServiceType);
@@ -60,7 +60,7 @@ namespace NHS111.Business.DOS.Test.ServiceType
 
             //Act
             var sut = new OnlineServiceTypeFilter();
-            var result = sut.Filter(dosResultsList);
+            var result = sut.FilterUnknownTypes(dosResultsList);
 
             Assert.AreEqual(3, result.Count);
             Assert.AreEqual(OnlineDOSServiceType.PublicPhone, result[0].OnlineDOSServiceType);
@@ -75,7 +75,7 @@ namespace NHS111.Business.DOS.Test.ServiceType
 
             //Act
             var sut = new OnlineServiceTypeFilter();
-            var result = sut.Filter(dosResultsList);
+            var result = sut.FilterUnknownTypes(dosResultsList);
 
             Assert.AreEqual(0, result.Count);
         }
