@@ -26,8 +26,10 @@
                 @Html.Partial("_CommonHiddenFieldsOutcomeViewModel", Model)
                 @Html.Partial("_CommonHiddenFieldsCareAdviceViewModel", Model)
                 @Html.Hidden("SelectedServiceId", @callbackService.Id)
+               
                 <hr />
                 <button type="submit" name="PersonalDetails" value="Book a call">Book a call</button>
+                
             }
         </div>
     }

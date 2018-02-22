@@ -7,15 +7,22 @@ namespace NHS111.Business.DOS.Service
 {
     public class OnlineServiceTypeFilter : IOnlineServiceTypeFilter
     {
-        public List<BusinessModels.DosService> Filter(List<BusinessModels.DosService> resultsToMap)
+        public List<BusinessModels.DosService> FilterUnknownTypes(List<BusinessModels.DosService> resultsToMap)
         {
             resultsToMap.RemoveAll(s => s.OnlineDOSServiceType == OnlineDOSServiceType.Unknown);
+            return resultsToMap.ToList();
+        }
+
+        public List<BusinessModels.DosService> FilterClosedCallbackServices(List<BusinessModels.DosService> resultsToMap)
+        {
+            resultsToMap.RemoveAll(s => s.OnlineDOSServiceType == OnlineDOSServiceType.Callback && !s.IsOpen);
             return resultsToMap.ToList();
         }
     }
 
     public interface IOnlineServiceTypeFilter
     {
-        List<BusinessModels.DosService> Filter(List<BusinessModels.DosService> resultsToMap);
+        List<BusinessModels.DosService> FilterUnknownTypes(List<BusinessModels.DosService> resultsToMap);
+        List<BusinessModels.DosService> FilterClosedCallbackServices(List<BusinessModels.DosService> resultsToMap);
     }
 }
