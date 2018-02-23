@@ -2,71 +2,114 @@
 @using NHS111.Models.Models.Web
 @model  PersonalDetailsAddressViewModel
 
-
-
-
 <fieldset>
     <legend>
-        <h2>Current location</h2>
+        <h2>Location</h2>
     </legend>
-
+    <h3>Current location</h3>
     <p class="form-info">We need this in case the person needing care requires emergency help.</p>
-        <div class="find-address-panel">
-            <div class="form-group ">
-                <div>
-                    <label for="@Html.IdFor(m => m.PreviouslyEnteredPostcode)">Postcode</label>
-                    <div class="inline-details">
-                        <p id="postcode-readonly">@Html.ValueFor(m => m.PreviouslyEnteredPostcode)</p>
-                        @Html.TextBoxFor(m => m.PreviouslyEnteredPostcode, new {@class = "form-control form-control-8-chars", @readonly = "readonly", @type = "hidden"})
-                        <button class="button--next button--link" id="postcode-change-link" type="button">Change this postcode</button>
-                        <button style="display: none" type="button" class="button--next button--secondary find-address" id="findMyAddress">Find address</button>
-                    </div>
-                </div>
-                <p style="color:red; display: none;" id="no-results-message">Sorry, we couldn't find an address using that postcode.<br/>Please enter your address below or try a different postcode.</p>
+
+    <div class="form-group address-section">
+        <div class="address-choose-postcode find-address-panel form-group">
+            <label for="@Html.IdFor(m => m.PreviouslyEnteredPostcode)">Postcode</label>
+            @Html.TextBoxFor(m => m.PreviouslyEnteredPostcode, new { @class = "form-control form-control-8-chars", })
+            <button type="button" class="button--next button--secondary find-address" id="findMyAddress">Find address</button>
+            <p style="display: none;" id="no-results-message">Sorry, we couldn't find an address using that postcode.<br />Please enter your address below or try a different postcode.</p>
+        </div>
+
+        <div class="address-list" style="display: none;">
+            <label for="@Html.IdFor(m => m.SelectedAddressFromPicker)">What is the address?</label>
+            <div class="form-group @(@ViewData.ModelState.IsValidField("AddressInfoViewModel.AddressPicker") ? "" : "form-group-error")">
+                @Html.ValidationMessageFor(m => m.AddressPicker, "Please select the address")
+                @Html.DropDownListFor(m => m.SelectedAddressFromPicker, Model.AddressPicker, new { @class = "select-address" })
+                @Html.HiddenFor(m => m.AddressOptions)
             </div>
         </div>
 
-        <div class="form-group">
-            <div id="AddressList" style="display: none;">
-                <label for="@Html.IdFor(m => m.SelectedAddressFromPicker)">What is the address?</label>
-                <div class="form-group @(@ViewData.ModelState.IsValidField("AddressInfoViewModel.AddressPicker") ? "" : "form-group-error")">
-                    @Html.ValidationMessageFor(m => m.AddressPicker, "Please select the address")
-                    @Html.DropDownListFor(m => m.SelectedAddressFromPicker, Model.AddressPicker, new { @class = "select-address" })
-                    @Html.HiddenFor(m => m.AddressOptions)
-                </div>
+        <div class="address-display-info" style="display: none;">
+            <p class="address-info"></p>
+            <button class="button--link address-change" style="margin-top: 0px;">Change address</button>
+        </div>
 
-            </div>
-            <div id="addressPanel" class="address-panel">
-                <h2 class="heading-medium" id="manual-entry-title">Enter address</h2>
-                <fieldset>
-                    <legend class="form-label">Street</legend>
-                    <div class="form-group inline-details @(@ViewData.ModelState.IsValidField("AddressInfoViewModel.AddressLine1") ? "" : "form-group-error")">
-                        @Html.LabelFor(m => m.AddressLine1, "Address line 1", new { @class = "util-visuallyhidden" })
-                        @Html.ValidationMessageFor(m => m.AddressLine1, "Please enter the first line of the address")
-                        @Html.TextBoxFor(m => m.AddressLine1, new { @class = "form-control" })
-                    </div>
-                    <div class="inline-details">
-                        @Html.LabelFor(m => m.AddressLine2, "Address line 2", new { @class = "util-visuallyhidden" })
-                        @Html.TextBoxFor(m => m.AddressLine2, new { @class = "form-control" })
-                    </div>
-                </fieldset>
-                <div class="form-group inline-details @(@ViewData.ModelState.IsValidField("AddressInfoViewModel.City") ? "" : "form-group-error")">
-                    @Html.LabelFor(m => m.City)
-                    @Html.ValidationMessageFor(m => m.City, "Please enter a city")
-                    @Html.TextBoxFor(m => m.City, new { @class = "form-control" })
+        <div id="addressPanel" class="address-panel" style="display: none;">
+            <fieldset>
+                <legend class="form-label">Building and street</legend>
+                <div class="form-group inline-details @(@ViewData.ModelState.IsValidField("AddressInfoViewModel.AddressLine1") ? "" : "form-group-error")">
+                    @Html.LabelFor(m => m.AddressLine1, "Address line 1", new { @class = "util-visuallyhidden" })
+                    @Html.ValidationMessageFor(m => m.AddressLine1, "Please enter the first line of the address")
+                    @Html.TextBoxFor(m => m.AddressLine1, new { @class = "form-control address-line-1" })
                 </div>
                 <div class="inline-details">
-                    @Html.LabelFor(m => m.County)
-                    @Html.TextBoxFor(m => m.County, new { @class = "form-control" })
+                    @Html.LabelFor(m => m.AddressLine2, "Address line 2", new { @class = "util-visuallyhidden" })
+                    @Html.TextBoxFor(m => m.AddressLine2, new { @class = "form-control address-line-2" })
                 </div>
-                <div class="form-group inline-details @(@ViewData.ModelState.IsValidField("AddressInfoViewModel.Postcode") ? "" : "form-group-error")">
-                    @Html.LabelFor(m => m.Postcode)
-                    @Html.ValidationMessageFor(m => m.Postcode)
-                    @Html.TextBoxFor(m => m.Postcode, new { @class = "form-control" })
-                </div>
+            </fieldset>
+            <div class="form-group inline-details @(@ViewData.ModelState.IsValidField("AddressInfoViewModel.City") ? "" : "form-group-error")">
+                @Html.LabelFor(m => m.City, "Town or city")
+                @Html.ValidationMessageFor(m => m.City, "Please enter a city")
+                @Html.TextBoxFor(m => m.City, new { @class = "form-control address-city" })
             </div>
-            <button class="button--next button--link" style="display: none;" id="manual-entry-link" type="button">I can't find the address in the list</button>
+            <div class="form-group inline-details @(@ViewData.ModelState.IsValidField("AddressInfoViewModel.Postcode") ? "" : "form-group-error")">
+                @Html.LabelFor(m => m.Postcode)
+                @Html.ValidationMessageFor(m => m.Postcode)
+                @Html.TextBoxFor(m => m.Postcode, new { @class = "form-control address-postcode" })
+            </div>
         </div>
+            
+    </div>
+
+
+    <h3>Home address</h3>
+    <p>This is the home address of the person needing care. It’s used to check who they are and links to their NHS record.</p>
+
+    <div class="form-group address-section">
+        <div class="address-choose-postcode find-address-panel form-group">
+            <label for="@Html.IdFor(m => m.PreviouslyEnteredPostcode)">Postcode</label>
+            @Html.TextBoxFor(m => m.PreviouslyEnteredPostcode, new { @class = "form-control form-control-8-chars", })
+            <button type="button" class="button--next button--secondary find-address" id="findMyAddress">Find address</button>
+            <p style="display: none;" id="no-results-message">Sorry, we couldn't find an address using that postcode.<br />Please enter your address below or try a different postcode.</p>
+        </div>
+
+        <div class="address-list" style="display: none;">
+            <label for="@Html.IdFor(m => m.SelectedAddressFromPicker)">What is the address?</label>
+            <div class="form-group @(@ViewData.ModelState.IsValidField("AddressInfoViewModel.AddressPicker") ? "" : "form-group-error")">
+                @Html.ValidationMessageFor(m => m.AddressPicker, "Please select the address")
+                @Html.DropDownListFor(m => m.SelectedAddressFromPicker, Model.AddressPicker, new { @class = "select-address" })
+                @Html.HiddenFor(m => m.AddressOptions)
+            </div>
+        </div>
+
+        <div class="address-display-info" style="display: none;">
+            <p class="address-info"></p>
+            <button class="button--link address-change" style="margin-top: 0px;">Change address</button>
+        </div>
+
+        <div id="addressPanel" class="address-panel" style="display: none;">
+            <fieldset>
+                <legend class="form-label">Building and street</legend>
+                <div class="form-group inline-details @(@ViewData.ModelState.IsValidField("AddressInfoViewModel.AddressLine1") ? "" : "form-group-error")">
+                    @Html.LabelFor(m => m.AddressLine1, "Address line 1", new { @class = "util-visuallyhidden" })
+                    @Html.ValidationMessageFor(m => m.AddressLine1, "Please enter the first line of the address")
+                    @Html.TextBoxFor(m => m.AddressLine1, new { @class = "form-control address-line-1" })
+                </div>
+                <div class="inline-details">
+                    @Html.LabelFor(m => m.AddressLine2, "Address line 2", new { @class = "util-visuallyhidden" })
+                    @Html.TextBoxFor(m => m.AddressLine2, new { @class = "form-control address-line-2" })
+                </div>
+            </fieldset>
+            <div class="form-group inline-details @(@ViewData.ModelState.IsValidField("AddressInfoViewModel.City") ? "" : "form-group-error")">
+                @Html.LabelFor(m => m.City, "Town or city")
+                @Html.ValidationMessageFor(m => m.City, "Please enter a city")
+                @Html.TextBoxFor(m => m.City, new { @class = "form-control address-city" })
+            </div>
+            <div class="form-group inline-details @(@ViewData.ModelState.IsValidField("AddressInfoViewModel.Postcode") ? "" : "form-group-error")">
+                @Html.LabelFor(m => m.Postcode)
+                @Html.ValidationMessageFor(m => m.Postcode)
+                @Html.TextBoxFor(m => m.Postcode, new { @class = "form-control address-postcode" })
+            </div>
+        </div>
+
+    </div>
 
 </fieldset>
 
@@ -74,130 +117,75 @@
 
 
 <script type="text/javascript">
-    var addressList = $.parseJSON($("#AddressInfoViewModel_AddressOptions").val());
-    $(".find-address-panel").show();
-    $(".address-panel").hide();
+    var foundAddresses = {}
 
-    $(function () {
-        var select = $("#AddressInfoViewModel_SelectedAddressFromPicker");
-        var selectOptions = $("#AddressInfoViewModel_SelectedAddressFromPicker option");
-        if (selectOptions.length > 1) {
-            $("#AddressList").show();
-            $("#manual-entry-link").show();
-        } else {
-            $("#manual-entry-link").hide();
-            $("#AddressList").hide();
-            $(".address-panel").show();
-            $("#no-results-message").show();
-        }
-
-        if ($("#AddressInfoViewModel_AddressLine1").hasClass("input-validation-error")) {
-            $("#AddressInfoViewModel_SelectedAddressFromPicker").addClass("input-validation-error");
-        }
-    });
-
-
-
-    $("#AddressInfoViewModel_SelectedAddressFromPicker").change(function () {
-        var selectedAddress = $("#AddressInfoViewModel_SelectedAddressFromPicker option:selected").attr("value");
-        if (selectedAddress === "")
-            return;
-        var result = $.grep(addressList, function (e) { return e.UPRN === selectedAddress; });
-        if (result.length < 1) {
-            console.error("Address selected with id " + selectedAddress + " which isn't in list of addresses.");
-            return;
-        }
-        
-        setFields(result[0]);
-
-        $("#AddressInfoViewModel_SelectedAddressFromPicker").removeClass("input-validation-error");
-        runAddressValidation();
-
-        $("#manual-entry-link").hide();
-        $("#AddressList").hide();
-        $(".address-panel").show();
-    });
-
-    $(function () {
-        var addresses = [];
-        $('#findMyAddress').css('cursor', 'pointer');
-        $(document).on('click', '#findMyAddress', function (event) {
-            $("#manual-entry-link").show();
-            $("#postcode-readonly").html($("#AddressInfoViewModel_PreviouslyEnteredPostcode").val());
-            postcodeChangeLink("show");
-            resetElements();
-            var $postCode = $("#AddressInfoViewModel_PreviouslyEnteredPostcode").val();
-            if (!valid_postcode($postCode)) {
-                invalidatePostCode();
-                return;
+    function findAddresses (postcode, element) {
+        startPageLoadingIndicator('Searching for addresses matching ' + postcode + '...')
+        $.ajax({
+            type: "POST",
+            url: "/Outcome/PostcodeLookup",
+            data: { postCode: postcode },
+            success: function (response) {
+                showAddresses(response, element)
+            },
+            timeout: 5000,
+            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                console.log(textStatus)
+            },
+            complete: function () {
+                stopPageLoadingIndicator();
             }
-            startPageLoadingIndicator('Searching for addresses matching ' + $postCode + '...')
-            $.ajax({
-                type: "POST",
-                url: "@Url.Action("PostcodeLookup", "Outcome")",
-                data: { postCode: $postCode },
-                success: function (response) {
-                    addresses = response;
-                    var select = $("#AddressInfoViewModel_SelectedAddressFromPicker");
-                    if (addresses.length > 0) {
-                        select.empty();
-                        select.append($("<option />").val(0).text(addresses.length + " addresses found. Please choose..."));
-                        $.each(addresses, function() {
-                            select.append($("<option />").val(this.UPRN).text(this.AddressLine1));
-                        });
-                        $("#no-results-message").hide();
-                        $("#AddressList").show();
-                        $("#manual-entry-link").show();
-                    } else {
-                        $("#manual-entry-link").hide();
-                        $("#AddressList").hide();
-                        $(".address-panel").show();
-                        $("#no-results-message").show();
-                    }
-                    addressList = addresses;
-                },
-                timeout: 5000,
-                error: function (XMLHttpRequest, textStatus, errorThrown) {
-                    $("#manual-entry-link").hide();
-                    $("#AddressList").hide();
-                    $(".address-panel").show();
-                    $("#no-results-message").show();
-                },
-                complete: function () {
-                    stopPageLoadingIndicator();
-                }
-            });
         });
-
-        $("#manual-entry-link").click(function () {
-            $(".address-panel").show();
-            $("#AddressList").hide();
-            $(this).hide();
-        });
-    });
-
-    $("#postcode-change-link").click(function () {
-        postcodeChangeLink("hide");
-    });
-
-    function postcodeChangeLink(flag) {
-        if (flag === "hide") {
-            $("#findMyAddress").show();
-            $("#AddressInfoViewModel_PreviouslyEnteredPostcode").attr('type', 'text');
-            $("#AddressInfoViewModel_PreviouslyEnteredPostcode").removeAttr('readonly');
-            $("#manual-entry-link").hide();
-            $("#AddressList").hide();
-
-            $("#postcode-readonly").hide();
-            $("#postcode-change-link").hide();
-        } else if (flag === "show") {
-            $("#findMyAddress").hide();
-            $("#postcode-change-link").show();
-            $("#postcode-readonly").show();
-            $("#AddressInfoViewModel_PreviouslyEnteredPostcode").attr('type', 'hidden');
-            $("#AddressInfoViewModel_PreviouslyEnteredPostcode").attr('readonly', true);
-        }
     }
+
+
+    function showAddresses (addresses, element) {
+        $('#AddressInfoViewModel_AddressOptions').val(JSON.stringify(addresses))
+
+        var options = '';
+        $.each(addresses, function (key, value) {
+            foundAddresses[value.UPRN] = value
+            options += '<option value=' + value.UPRN + '>' + value.AddressLine1 + '</option>';
+        })
+        $('.select-address', element).empty().append(options)
+        $('.address-choose-postcode', element).hide()
+        $('.address-list', element).show()
+    }
+
+    function showAddressInfo (address, element) {
+        $('.address-list', element).hide()
+        $('.address-info', element).html(`${address.AddressLine1}<br>${address.AddressLine2}<br>${address.City}<br>${address.Postcode}`).show()
+        $('.address-display-info', element).show()
+    }
+
+    function setAddress(address, element) {
+        $('.address-line-1', element).val(address.AddressLine1)
+        $('.address-line-2', element).val(address.AddressLine2)
+        $('.address-city', element).val(address.City)
+        $('.address-postcode', element).val(address.Postcode)
+    }
+
+    $('.find-address').click(function (e) {
+        var parent = $(this).parents('.address-section')
+        var postcode = $(this).siblings('input').val()
+        if (valid_postcode(postcode)) findAddresses(postcode, parent)
+        else console.log("Invalid postcode: " + postcode)
+    })
+
+    $('.select-address').change(function (e) {
+        var parent = $(this).parents('.address-section')
+        showAddressInfo(foundAddresses[$(this).val()], parent)
+        setAddress(foundAddresses[$(this).val()], parent)
+    })
+
+    $('.address-change').click(function (e) {
+        var parent = $(this).parents('.address-section')
+        $('.address-list', parent).hide()
+        $('.address-display-info', parent).hide()
+        $('.address-panel', parent).show()
+
+    })
+
 
     function runAddressValidation() {
         $("#AddressInfoViewModel_AddressLine1").valid();
@@ -218,6 +206,8 @@
         $("#AddressInfoViewModel_Postcode").removeClass("input-validation-error");
         setFields("@JsonConvert.SerializeObject(new AddressInfoViewModel())");
     }
+
+
 
     function setFields(result) {
         $("#AddressInfoViewModel_HouseNumber").val(result.HouseNumber);
