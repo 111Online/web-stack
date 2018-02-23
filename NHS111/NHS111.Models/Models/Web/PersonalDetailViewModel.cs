@@ -10,6 +10,8 @@ namespace NHS111.Models.Models.Web
     {
         public PatientInformantViewModel PatientInformantDetails { get; set; }
 
+        public PersonalInfoAddressViewModel PatientHomeAddress { get; set; }
+
         public PersonalDetailViewModel() 
         {
             PatientInformantDetails = new PatientInformantViewModel();
