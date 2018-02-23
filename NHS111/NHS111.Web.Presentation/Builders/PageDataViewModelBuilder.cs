@@ -26,7 +26,7 @@ namespace NHS111.Web.Presentation.Builders
         public async Task<PageDataViewModel> PageDataBuilder(PageDataViewModel model)
         {
             model.Date = DateTime.Now.Date.ToShortDateString();
-            model.Time = DateTime.Now.ToShortTimeString();
+            model.Time = DateTime.Now.ToString("HH:mm:ss");
             
             Pathway currentPathway = null;
             if (!string.IsNullOrEmpty(model.QuestionId) && model.QuestionId.Contains("."))
