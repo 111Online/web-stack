@@ -34,7 +34,7 @@
         lists.Add(Model.AllTopics.Where(t => !bodyParts.Contains(t.Category.Title)).OrderBy(x => x.Category.OrderNo));
     }
 
-    @if (!string.IsNullOrEmpty(Model.SanitisedSearchTerm))
+    @if (!Model.HasResults)
     {
         <h2 class="util-wrap">@string.Format("Sorry, there are no results for '{0}'.", Model.SanitisedSearchTerm.Trim())</h2>
         <h2>Try finding your symptoms by topic instead.  If you can't find what you need, please call 111 now.</h2>
