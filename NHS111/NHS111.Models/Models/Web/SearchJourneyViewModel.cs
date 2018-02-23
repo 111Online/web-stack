@@ -1,4 +1,5 @@
-﻿using FluentValidation.Attributes;
+﻿using System.Linq;
+using FluentValidation.Attributes;
 using NHS111.Models.Models.Web.Validators;
 
 namespace NHS111.Models.Models.Web {
@@ -11,6 +12,7 @@ namespace NHS111.Models.Models.Web {
         public string SanitisedSearchTerm { get; set; }
         public IEnumerable<SearchResultViewModel> Results { get; set; }
         public IEnumerable<CategoryWithPathways> AllTopics { get; set; }
+        public bool HasResults { get; set; }
 
         public SearchJourneyViewModel() {
             Results = new List<SearchResultViewModel>();
