@@ -17,7 +17,7 @@
                 @Html.Partial("_CommonHiddenFieldsOutcomeViewModel", Model)
                 @Html.Partial("_CommonHiddenFieldsCareAdviceViewModel", Model)
                 <p>
-                    There are no other services currently available near @Html.Raw(Model.UserInfo.CurrentAddress.FormattedPostcode) [<button class="button--link" type="submit">Change postcode</button>]
+                    There are no other services currently available near @Html.Raw(Model.UserInfo.CurrentAddress.FormattedPostcode) @Html.Partial("_ChangePostcodeLink")
                 </p>
                 <p>If you can’t @Html.Raw(Model.OutcomeGroup.Text), please call 111 for advice</p>
             }
@@ -39,11 +39,11 @@
 
                 if (Model.OutcomeGroup.CanPatientsRegister())
                 {
-                    <p>@String.Format("Other services that can help you near {0}", Model.UserInfo.CurrentAddress.FormattedPostcode) [<button class="button--link" type="submit">Change postcode</button>]</p>
+                    <p>@String.Format("Other services that can help you near {0}", Model.UserInfo.CurrentAddress.FormattedPostcode) @Html.Partial("_ChangePostcodeLink")</p>
                 }
                 else
                 {
-                    <h3>@String.Format("Services that can help you near {0}", Model.UserInfo.CurrentAddress.FormattedPostcode) [<button class="button--link" type="submit">Change postcode</button>]</h3>
+                    <h3>@String.Format("Services that can help you near {0}", Model.UserInfo.CurrentAddress.FormattedPostcode) @Html.Partial("_ChangePostcodeLink")</h3>
                 }
             }
         }
@@ -80,7 +80,10 @@
                     partial = "_PublicPhoneServices";
                 }
 
-                <details>
+                var open = (Model.OutcomeGroup.Equals(OutcomeGroup.AccidentAndEmergency) &&
+                            Model.GroupedDosServices.Count == 1);
+
+                <details @(open ? Html.Raw("open") : Html.Raw("") )>
                     <summary>
                         <span class="details__arrow"></span>
                         <span class="summary">@wording</span>
@@ -89,7 +92,6 @@
                         @Html.Partial(partial, Model, ViewData)
                     </div>
                 </details>
-
             }
         </div>
     }
@@ -102,15 +104,15 @@
                 @Html.Partial("_CommonHiddenFieldsOutcomeViewModel", Model)
                 @Html.Partial("_CommonHiddenFieldsCareAdviceViewModel", Model)
                 <p id="NoDosResults">
-                    There are no other services currently available near @Html.Raw(Model.UserInfo.CurrentAddress.FormattedPostcode) [<button class="button--link" type="submit">Change postcode</button>]
+                    There are no other services currently available near @Html.Raw(Model.UserInfo.CurrentAddress.FormattedPostcode) @Html.Partial("_ChangePostcodeLink")
                 </p>
-                <p>If you can’t @Html.Raw(Model.OutcomeGroup.Text), please call 111 for advice</p>
+                            <p>If you can’t @Html.Raw(Model.OutcomeGroup.Text), please call 111 for advice</p>
             }
         }
         else
         {
             <p id="NoDosResults">There are no other services currently available near @Html.Raw(Model.UserInfo.CurrentAddress.FormattedPostcode)</p>
-            <p>If you can’t @Html.Raw(Model.OutcomeGroup.Text), please call 111 for advice</p>
+                        <p>If you can’t @Html.Raw(Model.OutcomeGroup.Text), please call 111 for advice</p>
         }
     }
 </div>
