@@ -41,18 +41,23 @@ namespace NHS111.Utils.Filters
                 controller.Equals("Question") && result.ViewName == "../PostcodeFirst/Postcode") // don't log when hitting postcode first page
                 return; //we don't want to audit where audit has already been manually triggered in code
 
-            LogAudit(model);
+            var eventData = result.ViewName;
+
+            LogAudit(model, eventData);
         }
 
-        private static void LogAudit(JourneyViewModel model)
+        private static async void LogAudit(JourneyViewModel model, string eventData)
         {
+            var auditEntry = model.ToAuditEntry();
+            auditEntry.EventData = eventData;
+
             var url = ConfigurationManager.AppSettings["LoggingServiceUrl"];
             var rest = new RestfulHelper();
             var httpRequestMessage = new HttpRequestMessage(HttpMethod.Post, new Uri(url))
             {
-                Content = new StringContent(JsonConvert.SerializeObject(model.ToAuditEntry()))
+                Content = new StringContent(JsonConvert.SerializeObject(auditEntry))
             };
-            rest.PostAsync(url, httpRequestMessage);
+            await rest.PostAsync(url, httpRequestMessage);
         }
     }
 
