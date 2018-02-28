@@ -83,9 +83,9 @@
             }
             <div>
                 <div class="@(@ViewData.ModelState.IsValidField("UserInfo.CurrentAddress.Postcode") ? "" : "form-group-error")">
-                    <label for="UserInfo_CurrentAddress_Postcode" class="alwayshidden">Postcode</label>
-                    @Html.ValidationMessageFor(m => m.UserInfo.CurrentAddress.Postcode)
-                    @Html.TextBoxFor(m => m.UserInfo.CurrentAddress.Postcode, new { Value = "", style = "width: 8em; display: inline-block; margin-right: 10px;" })
+                    <label for="CurrentPostcode" class="alwayshidden">Postcode</label>
+                    @Html.ValidationMessageFor(m => m.CurrentPostcode)
+                    @Html.TextBoxFor(m => m.CurrentPostcode, new { Value = "", style = "width: 8em; display: inline-block; margin-right: 10px;" })
                     <button class="js-find-location button--link" type="button" style="display: none">Use current location</button>
                 </div>
                 <button class="button button--next" type="submit" id="postcode"  name="Question">Next</button>

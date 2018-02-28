@@ -14,7 +14,7 @@
             @Html.Partial("_CommonHiddenFieldsOutcomeViewModel", Model)
             @Html.Partial("_CommonHiddenFieldsCareAdviceViewModel", Model)
             <p>
-                There are no other services currently available near @Html.Raw(Model.UserInfo.CurrentAddress.FormattedPostcode) [<button class="button--link" type="submit">Change postcode</button>]
+                There are no other services currently available near @Html.Raw(Model.FormattedCurrentPostcode) [<button class="button--link" type="submit">Change postcode</button>]
             </p>
             <p>If you can’t @Html.Raw(Model.OutcomeGroup.Text), please call 111 for advice</p>
         }
@@ -25,7 +25,7 @@
         {
             @Html.Partial("_CommonHiddenFieldsOutcomeViewModel", Model)
             @Html.Partial("_CommonHiddenFieldsCareAdviceViewModel", Model)
-            <p>@String.Format("Other services that can help you near {0}", Model.UserInfo.CurrentAddress.FormattedPostcode) [<button class="button--link" type="submit">Change postcode</button>]</p>
+            <p>@String.Format("Other services that can help you near {0}", Model.FormattedCurrentPostcode) [<button class="button--link" type="submit">Change postcode</button>]</p>
         }
 
         <div id="availableServices">
@@ -77,7 +77,7 @@
             @Html.Partial("_CommonHiddenFieldsOutcomeViewModel", Model)
             @Html.Partial("_CommonHiddenFieldsCareAdviceViewModel", Model)
             <p>
-                There are no other services currently available near @Html.Raw(Model.UserInfo.CurrentAddress.FormattedPostcode) [<button class="button--link" type="submit">Change postcode</button>]
+                There are no other services currently available near @Html.Raw(Model.FormattedCurrentPostcode) [<button class="button--link" type="submit">Change postcode</button>]
             </p>
             <p>If you can’t @Html.Raw(Model.OutcomeGroup.Text), please call 111 for advice</p>
         }

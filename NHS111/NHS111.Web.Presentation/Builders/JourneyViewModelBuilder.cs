@@ -46,7 +46,7 @@ namespace NHS111.Web.Presentation.Builders
                 case NodeType.Outcome:
                     var outcome = _mappingEngine.Mapper.Map<OutcomeViewModel>(journeyViewModel);
                     outcome.UserInfo.CurrentAddress.IsInPilotArea =
-                        _postCodeAllowedValidator.IsAllowedPostcode(model.UserInfo.CurrentAddress.Postcode);
+                        _postCodeAllowedValidator.IsAllowedPostcode(model.CurrentPostcode);
                     return await _outcomeViewModelBuilder.DispositionBuilder(outcome);
                 case NodeType.Pathway:
                     var jtbs = _mappingEngine.Mapper.Map<JustToBeSafeViewModel>(journeyViewModel);
