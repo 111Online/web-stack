@@ -20,16 +20,16 @@ namespace NHS111.Models.Models.Web
         public bool IsPostcodeFirst { get; set; }
         public bool IsInPilotArea { get; set; }
 
-        public string FormattedPostcode
-        {
-            get
-            {
-                if (Postcode == null) return null;
-                var normalisedPostcode = Postcode.Trim().Replace(" ", "").ToUpper();
-                if (normalisedPostcode.Length < 4) return normalisedPostcode;
-                return normalisedPostcode.Insert(normalisedPostcode.Length - 3, " ");
-            }
-        }
+        //public string FormattedPostcode
+        //{
+        //    get
+        //    {
+        //        if (Postcode == null) return null;
+        //        var normalisedPostcode = Postcode.Trim().Replace(" ", "").ToUpper();
+        //        if (normalisedPostcode.Length < 4) return normalisedPostcode;
+        //        return normalisedPostcode.Insert(normalisedPostcode.Length - 3, " ");
+        //    }
+        //}
     }
 
     [Validator(typeof(PersonalInfoAddressViewModelValidator))]

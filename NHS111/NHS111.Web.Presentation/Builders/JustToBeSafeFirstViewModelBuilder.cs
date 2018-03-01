@@ -57,6 +57,7 @@ namespace NHS111.Web.Presentation.Builders
                     FilterServices = model.FilterServices,
                     Campaign = model.Campaign,
                     Source = model.Source,
+                    CurrentPostcode = model.CurrentPostcode,
                     EntrySearchTerm = model.EntrySearchTerm
                 };
 

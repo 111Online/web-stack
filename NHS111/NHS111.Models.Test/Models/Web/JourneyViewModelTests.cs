@@ -10,7 +10,7 @@ namespace NHS111.Models.Test.Models.Web {
 
     [TestFixture]
     public class JourneyViewModelTests {
-
+        private NHS111.Models.Models.Web.JourneyViewModel _journeyViewModel= new JourneyViewModel();
         [Test]
         public void StepLink_WithAnswersInJourney_ReturnsCorrectAnswersInLink() {
             var sut = new JourneyViewModel();
@@ -24,6 +24,56 @@ namespace NHS111.Models.Test.Models.Web {
                 var expectedIndex = sut.Journey.Steps[i].Answer.Order - 1;
                 Assert.AreEqual(expectedIndex.ToString(), answers[i]); //tests for presence as well as order
             }
+        }
+
+        [Test]
+        public void FormattedPostcode_5char_code_returns_Valid_Format()
+        {
+            var testPostcode = "W11ft";
+            _journeyViewModel.CurrentPostcode = testPostcode;
+
+            Assert.AreEqual("W1 1FT", _journeyViewModel.FormattedCurrentPostcode);
+        }
+        [Test]
+        public void FormattedPostcode_6char_code_returns_Valid_Format()
+        {
+            var testPostcode = "Ab11th";
+            _journeyViewModel.CurrentPostcode = testPostcode;
+
+            Assert.AreEqual("AB1 1TH", _journeyViewModel.FormattedCurrentPostcode);
+        }
+
+        [Test]
+        public void FormattedPostcode_7char_code_returns_Valid_Format()
+        {
+            var testPostcode = "Ab131th";
+            _journeyViewModel.CurrentPostcode = testPostcode;
+
+            Assert.AreEqual("AB13 1TH", _journeyViewModel.FormattedCurrentPostcode);
+        }
+
+        [Test]
+        public void FormattedPostcode_7char_code_with_spaces_returns_Valid_Format()
+        {
+            var testPostcode = "Ab  131th";
+            _journeyViewModel.CurrentPostcode = testPostcode;
+
+            Assert.AreEqual("AB13 1TH", _journeyViewModel.FormattedCurrentPostcode);
+        }
+
+        [Test]
+        public void FormattedPostcode_NULL_returns_NULL()
+        {
+            _journeyViewModel.CurrentPostcode = null;
+            Assert.IsNull(_journeyViewModel.FormattedCurrentPostcode);
+        }
+
+        [Test]
+        public void FormattedPostcode_empty_returns_Valid_Format()
+        {
+            var testPostcode = "";
+            _journeyViewModel.CurrentPostcode = testPostcode;
+            Assert.AreEqual("", _journeyViewModel.FormattedCurrentPostcode);
         }
 
         //will move this to a test helper library at some point

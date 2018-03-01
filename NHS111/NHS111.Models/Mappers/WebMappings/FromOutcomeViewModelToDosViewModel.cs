@@ -26,8 +26,7 @@ namespace NHS111.Models.Mappers.WebMappings
                 .ForMember(dest => dest.SymptomDiscriminator, opt => opt.MapFrom(src => src.SymptomDiscriminatorCode))
                 .ForMember(dest => dest.SymptomGroup, opt => opt.MapFrom(src => src.SymptomGroup))
                 .ForMember(dest => dest.UserId, opt => opt.MapFrom(src => src.SessionId))
-                .ForMember(dest => dest.PostCode,
-                    opt => opt.ResolveUsing<PostcodeResolver>().FromMember(src => src.UserInfo))
+                .ForMember(dest => dest.PostCode, opt => opt.MapFrom(src => src.CurrentPostcode))
                 .ForMember(dest => dest.Disposition,
                     opt => opt.ResolveUsing<DispositionResolver>().FromMember(src => src.Id))
                 .ForMember(dest => dest.SymptomDiscriminatorList,

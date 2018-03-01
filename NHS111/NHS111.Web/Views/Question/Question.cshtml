@@ -59,7 +59,7 @@
     @Html.HiddenFor(x => Model.DigitalTitle)
     @Html.HiddenFor(x => Model.UserInfo.Demography.Age)
     @Html.HiddenFor(x => Model.UserInfo.Demography.Gender)
-    @Html.HiddenFor(x => Model.UserInfo.CurrentAddress.Postcode)
+    @Html.HiddenFor(x => Model.CurrentPostcode)
     @Html.HiddenFor(x => Model.Title)
     @Html.HiddenFor(x => Model.SymptomDiscriminatorCode)
     @Html.HiddenFor(x => Model.QuestionNo)
@@ -145,9 +145,9 @@
                     data: formToJSON(form.elements)
                 })
                 .done(function(data) {
-                    if (data.NodeType == @((int)NodeType.Outcome) && '@Model.UserInfo.CurrentAddress.Postcode' != '' &&
+                    if (data.NodeType == @((int)NodeType.Outcome) && '@Model.CurrentPostcode' != '' &&
                         prePopulatedDosResultsOutcomeGroups.indexOf(data.OutcomeGroup.Id) > -1) {
-                        startPageLoadingIndicator('Searching for services near to  @Model.UserInfo.CurrentAddress.FormattedPostcode ...');
+                        startPageLoadingIndicator('Searching for services near to  @Model.FormattedCurrentPostcode ...');
                     }
                 });
         });
