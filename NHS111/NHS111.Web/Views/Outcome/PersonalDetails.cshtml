@@ -302,7 +302,7 @@
             @{
                 dataDictionary.TemplateInfo = new TemplateInfo { HtmlFieldPrefix = "AddressInfoViewModel" };
             }
-            @Html.Partial("_PersonalPostCodeSearch", Model.AddressInfoViewModel, dataDictionary)
+            @Html.Partial("_PersonalPostCodeSearch", Model.AddressInformation.PatientCurrentAddress, dataDictionary)
 
             <hr />
 

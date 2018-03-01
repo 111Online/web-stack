@@ -70,7 +70,7 @@ namespace NHS111.Web.Controllers
         public async Task<ActionResult> UpdatedServices(OutcomeViewModel model, string submitAction)
         {
             if (!ModelState.IsValidField("UserInfo.CurrentAddress.PostCode")) return View("ChangePostcode", model);
-            model.UserInfo.CurrentAddress.IsInPilotArea = _postCodeAllowedValidator.IsAllowedPostcode(model.UserInfo.CurrentAddress.Postcode);
+            model.UserInfo.CurrentAddress.IsInPilotArea = _postCodeAllowedValidator.IsAllowedPostcode(model.CurrentPostcode);
             var viewName = "ChangePostcode";
             if (submitAction == "manualpostcode") return View(viewName, model);
             if (!model.UserInfo.CurrentAddress.IsInPilotArea)
@@ -126,7 +126,7 @@ namespace NHS111.Web.Controllers
                 },
                 SymptomGroup = symptomGroup ?? "1203",
                 SymptomDiscriminatorCode = symptomDiscriminator ?? "4003",
-                AddressInfoViewModel = new PersonalDetailsAddressViewModel()
+                AddressInformation = new LocationInfoViewModel()
             };
 
             return View(model);
@@ -146,7 +146,7 @@ namespace NHS111.Web.Controllers
             if (!ModelState.IsValidField("FindService.UserInfo.CurrentAddress.PostCode"))
                 return View(model.CurrentView, model);
 
-            model.UserInfo.CurrentAddress.IsInPilotArea = _postCodeAllowedValidator.IsAllowedPostcode(model.UserInfo.CurrentAddress.Postcode);
+            model.UserInfo.CurrentAddress.IsInPilotArea = _postCodeAllowedValidator.IsAllowedPostcode(model.CurrentPostcode);
 
             if (!model.UserInfo.CurrentAddress.IsInPilotArea)
             {
@@ -201,7 +201,7 @@ namespace NHS111.Web.Controllers
             if (!ModelState.IsValidField("FindService.UserInfo.CurrentAddress.Postcode"))
                 return View(model.CurrentView, model);
 
-            model.UserInfo.CurrentAddress.IsInPilotArea = _postCodeAllowedValidator.IsAllowedPostcode(model.UserInfo.CurrentAddress.Postcode);
+            model.UserInfo.CurrentAddress.IsInPilotArea = _postCodeAllowedValidator.IsAllowedPostcode(model.CurrentPostcode);
 
             if (!model.UserInfo.CurrentAddress.IsInPilotArea)
             {
@@ -247,16 +247,16 @@ namespace NHS111.Web.Controllers
         private async Task<PersonalDetailViewModel> PopulateAddressPickerFields(PersonalDetailViewModel model)
         {
             //map postcode to field to submit to ITK (preventing multiple entries of same data)
-            model.AddressInfoViewModel.PreviouslyEnteredPostcode = model.UserInfo.CurrentAddress.Postcode;
+            model.AddressInformation.PatientCurrentAddress.PreviouslyEnteredPostcode = model.CurrentPostcode;
 
             //pre-populate picker fields from postcode lookup service
-            var postcodes = await GetPostcodeResults(model.AddressInfoViewModel.PreviouslyEnteredPostcode);
+            var postcodes = await GetPostcodeResults(model.AddressInformation.PatientCurrentAddress.PreviouslyEnteredPostcode);
             var firstSelectItemText = postcodes.Count + " addresses found. Please choose...";
             var items = new List<SelectListItem> { new SelectListItem { Text = firstSelectItemText, Value = "", Selected = true } };
             items.AddRange(postcodes.Select(postcode => new SelectListItem { Text = postcode.AddressLine1, Value = postcode.UPRN }).ToList());
-            model.AddressInfoViewModel.AddressPicker = items;
+            model.AddressInformation.PatientCurrentAddress.AddressPicker = items;
 
-            model.AddressInfoViewModel.AddressOptions = new JavaScriptSerializer().Serialize(Json(postcodes).Data);
+            model.AddressInformation.PatientCurrentAddress.AddressOptions = new JavaScriptSerializer().Serialize(Json(postcodes).Data);
 
             return model;
         }
@@ -284,7 +284,7 @@ namespace NHS111.Web.Controllers
             model.UnavailableSelectedService = model.SelectedService;
             model.DosCheckCapacitySummaryResult = availableServices;
             model.DosCheckCapacitySummaryResult.ServicesUnavailable = availableServices.ResultListEmpty;
-            model.UserInfo.CurrentAddress.IsInPilotArea = _postCodeAllowedValidator.IsAllowedPostcode(model.UserInfo.CurrentAddress.Postcode);
+            model.UserInfo.CurrentAddress.IsInPilotArea = _postCodeAllowedValidator.IsAllowedPostcode(model.CurrentPostcode);
 
             return View("ServiceBookingUnavailable", model);
         }
@@ -328,7 +328,7 @@ namespace NHS111.Web.Controllers
         public ActionResult GetDirections(OutcomeViewModel model, int selectedServiceId, string selectedServiceName, string selectedServiceAddress)
         {
             _auditLogger.LogEventData(model, string.Format("User selected service '{0}' ({1})", selectedServiceName, selectedServiceId));
-            return Redirect(string.Format(_configuration.MapsApiUrl, model.UserInfo.CurrentAddress.Postcode, selectedServiceAddress));
+            return Redirect(string.Format(_configuration.MapsApiUrl, model.CurrentPostcode, selectedServiceAddress));
         }
 
         [HttpPost]
