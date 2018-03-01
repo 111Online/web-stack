@@ -29,7 +29,7 @@ namespace NHS111.Utils.Filters
             if (model == null)
                 return;
 
-           var pageName = !string.IsNullOrEmpty(result.ViewName) ? result.ViewName : $"{filterContext.ActionDescriptor.ControllerDescriptor.ControllerName}/{filterContext.ActionDescriptor.ActionName}";
+           var pageName = !string.IsNullOrEmpty(result.ViewName) ? result.ViewName : string.Format("{0}/{1}", filterContext.ActionDescriptor.ControllerDescriptor.ControllerName, filterContext.ActionDescriptor.ActionName);
 
             LogAudit(model, pageName);
         }
