@@ -67,8 +67,8 @@ namespace NHS111.Utils.Filters
                 PathwayTitle = model.PathwayTitle,
                 State = model.StateJson,
                 DxCode = model is OutcomeViewModel ? model.Id : "",
-                Age = model.UserInfo.Demography?.Age,
-                Gender = model.UserInfo.Demography?.Gender,
+                Age = model.UserInfo.Demography != null ? model.UserInfo.Demography.Age : (int?)null,
+                Gender = model.UserInfo.Demography != null ? model.UserInfo.Demography.Gender : string.Empty,
                 Search = model.EntrySearchTerm
             };
             AddLatestJourneyStepToAuditEntry(model.Journey, audit);
