@@ -125,8 +125,7 @@ namespace NHS111.Web.Controllers
                     }
                 },
                 SymptomGroup = symptomGroup ?? "1203",
-                SymptomDiscriminatorCode = symptomDiscriminator ?? "4003",
-                AddressInformation = new LocationInfoViewModel()
+                SymptomDiscriminatorCode = symptomDiscriminator ?? "4003"
             };
 
             return View(model);

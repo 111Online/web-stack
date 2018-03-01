@@ -19,8 +19,8 @@ namespace NHS111.Models.Mappers.WebMappings
             Mapper.CreateMap<OutcomeViewModel, CaseDetails>()
                 .ConvertUsing<FromOutcomeViewModelToCaseDetailsConverter>();
 
-            Mapper.CreateMap<OutcomeViewModel, PatientDetails>()
-                .ConvertUsing<FromOutcomeViewModelToPatientDetailsConverter>();
+            Mapper.CreateMap<PersonalDetailViewModel, PatientDetails>()
+                .ConvertUsing<FromPersonalDetailViewModelToPatientDetailsConverter>();
 
             Mapper.CreateMap<OutcomeViewModel, ServiceDetails>()
                 .ConvertUsing<FromOutcomeViewModelToServiceDetailsConverter>();
@@ -57,41 +57,41 @@ namespace NHS111.Models.Mappers.WebMappings
         }
     }
 
-    public class FromOutcomeViewModelToPatientDetailsConverter : ITypeConverter<OutcomeViewModel, PatientDetails>
+    public class FromPersonalDetailViewModelToPatientDetailsConverter : ITypeConverter<PersonalDetailViewModel, PatientDetails>
     {
         public PatientDetails Convert(ResolutionContext context)
         {
-            var outcome = (OutcomeViewModel)context.SourceValue;
+            var personalDetailViewModel = (PersonalDetailViewModel)context.SourceValue;
             var patientDetails = (PatientDetails)context.DestinationValue ?? new PatientDetails();
 
-            patientDetails.Forename = outcome.UserInfo.FirstName;
-            patientDetails.Surname = outcome.UserInfo.LastName;
-            patientDetails.ServiceAddressPostcode = outcome.SelectedService.PostCode;
-            patientDetails.TelephoneNumber = outcome.UserInfo.TelephoneNumber;
+            patientDetails.Forename = personalDetailViewModel.UserInfo.FirstName;
+            patientDetails.Surname = personalDetailViewModel.UserInfo.LastName;
+            patientDetails.ServiceAddressPostcode = personalDetailViewModel.SelectedService.PostCode;
+            patientDetails.TelephoneNumber = personalDetailViewModel.UserInfo.TelephoneNumber;
             patientDetails.CurrentAddress = new Address()
             {
-                PostalCode = string.IsNullOrEmpty(outcome.CurrentPostcode) ? null : outcome.CurrentPostcode,
+                PostalCode = string.IsNullOrEmpty(personalDetailViewModel.CurrentPostcode) ? null : personalDetailViewModel.CurrentPostcode,
                 StreetAddressLine1 =
-                    !string.IsNullOrEmpty(outcome.AddressInformation.PatientCurrentAddress.HouseNumber)
-                        ? string.Format("{0} {1}", outcome.AddressInformation.PatientCurrentAddress.HouseNumber, outcome.AddressInformation.PatientCurrentAddress.AddressLine1)
-                        : outcome.AddressInformation.PatientCurrentAddress.AddressLine1,
-                StreetAddressLine2 = outcome.AddressInformation.PatientCurrentAddress.AddressLine2,
-                StreetAddressLine3 = outcome.AddressInformation.PatientCurrentAddress.City,
-                StreetAddressLine4 = outcome.AddressInformation.PatientCurrentAddress.County,
-                StreetAddressLine5 = outcome.CurrentPostcode
+                    !string.IsNullOrEmpty(personalDetailViewModel.AddressInformation.PatientCurrentAddress.HouseNumber)
+                        ? string.Format("{0} {1}", personalDetailViewModel.AddressInformation.PatientCurrentAddress.HouseNumber, personalDetailViewModel.AddressInformation.PatientCurrentAddress.AddressLine1)
+                        : personalDetailViewModel.AddressInformation.PatientCurrentAddress.AddressLine1,
+                StreetAddressLine2 = personalDetailViewModel.AddressInformation.PatientCurrentAddress.AddressLine2,
+                StreetAddressLine3 = personalDetailViewModel.AddressInformation.PatientCurrentAddress.City,
+                StreetAddressLine4 = personalDetailViewModel.AddressInformation.PatientCurrentAddress.County,
+                StreetAddressLine5 = personalDetailViewModel.CurrentPostcode
             };
-            if (outcome.UserInfo.Year != null && outcome.UserInfo.Month != null && outcome.UserInfo.Day != null)
+            if (personalDetailViewModel.UserInfo.Year != null && personalDetailViewModel.UserInfo.Month != null && personalDetailViewModel.UserInfo.Day != null)
                 patientDetails.DateOfBirth =
-                    new DateTime(outcome.UserInfo.Year.Value, outcome.UserInfo.Month.Value, outcome.UserInfo.Day.Value);
+                    new DateTime(personalDetailViewModel.UserInfo.Year.Value, personalDetailViewModel.UserInfo.Month.Value, personalDetailViewModel.UserInfo.Day.Value);
 
-            patientDetails.Gender = outcome.UserInfo.Demography.Gender;
+            patientDetails.Gender = personalDetailViewModel.UserInfo.Demography.Gender;
             
             patientDetails.Informant = new InformantDetails()
             {
-                Forename = outcome.Informant.Forename,
-                Surname = outcome.Informant.Surname,
-                TelephoneNumber = outcome.UserInfo.TelephoneNumber,
-                Type = outcome.Informant.IsInformantForPatient ? NHS111.Models.Models.Web.ITK.InformantType.NotSpecified : NHS111.Models.Models.Web.ITK.InformantType.Self
+                Forename = personalDetailViewModel.Informant.Forename,
+                Surname = personalDetailViewModel.Informant.Surname,
+                TelephoneNumber = personalDetailViewModel.UserInfo.TelephoneNumber,
+                Type = personalDetailViewModel.Informant.IsInformantForPatient ? NHS111.Models.Models.Web.ITK.InformantType.NotSpecified : NHS111.Models.Models.Web.ITK.InformantType.Self
             };           
             
             return patientDetails;
