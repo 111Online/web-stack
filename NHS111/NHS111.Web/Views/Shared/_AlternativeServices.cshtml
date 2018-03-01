@@ -9,7 +9,7 @@
     }
     @if (!Model.UserInfo.CurrentAddress.IsInPilotArea)
     {
-        <p>There are no other services currently available near @Html.Raw(Model.UserInfo.CurrentAddress.FormattedPostcode)</p>
+        <p>There are no other services currently available near @Html.Raw(Model.FormattedCurrentPostcode)</p>
         <p>If you can’t @Html.Raw(Model.OutcomeGroup.Text), please call 111 for advice</p>
     }
     else if (Model.GroupedDosServices.Any())
@@ -58,7 +58,7 @@
     }
     else if (result != null && result.ServicesUnavailable)
     {
-        <p id="NoDosResults">There are no other services currently available near @Html.Raw(Model.UserInfo.CurrentAddress.FormattedPostcode)</p>
+        <p id="NoDosResults">There are no other services currently available near @Html.Raw(Model.FormattedCurrentPostcode)</p>
         <p>If you can’t @Html.Raw(Model.OutcomeGroup.Text), you should call 111 for advice</p>
     }
 </div>

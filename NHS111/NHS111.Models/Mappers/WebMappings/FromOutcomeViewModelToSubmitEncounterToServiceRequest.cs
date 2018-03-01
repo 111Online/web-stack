@@ -72,12 +72,12 @@ namespace NHS111.Models.Mappers.WebMappings
             {
                 PostalCode = string.IsNullOrEmpty(outcome.CurrentPostcode) ? null : outcome.CurrentPostcode,
                 StreetAddressLine1 =
-                    !string.IsNullOrEmpty(outcome.AddressInfoViewModel.HouseNumber)
-                        ? string.Format("{0} {1}", outcome.AddressInfoViewModel.HouseNumber, outcome.AddressInfoViewModel.AddressLine1)
-                        : outcome.AddressInfoViewModel.AddressLine1,
-                StreetAddressLine2 = outcome.AddressInfoViewModel.AddressLine2,
-                StreetAddressLine3 = outcome.AddressInfoViewModel.City,
-                StreetAddressLine4 = outcome.AddressInfoViewModel.County,
+                    !string.IsNullOrEmpty(outcome.AddressInformation.PatientCurrentAddress.HouseNumber)
+                        ? string.Format("{0} {1}", outcome.AddressInformation.PatientCurrentAddress.HouseNumber, outcome.AddressInformation.PatientCurrentAddress.AddressLine1)
+                        : outcome.AddressInformation.PatientCurrentAddress.AddressLine1,
+                StreetAddressLine2 = outcome.AddressInformation.PatientCurrentAddress.AddressLine2,
+                StreetAddressLine3 = outcome.AddressInformation.PatientCurrentAddress.City,
+                StreetAddressLine4 = outcome.AddressInformation.PatientCurrentAddress.County,
                 StreetAddressLine5 = outcome.CurrentPostcode
             };
             if (outcome.UserInfo.Year != null && outcome.UserInfo.Month != null && outcome.UserInfo.Day != null)

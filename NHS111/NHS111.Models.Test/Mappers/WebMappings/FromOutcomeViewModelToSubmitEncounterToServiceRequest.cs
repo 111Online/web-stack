@@ -50,14 +50,17 @@ namespace NHS111.Models.Test.Mappers.WebMappings
                     }
                 },
                 SelectedServiceId = "1",
-                AddressInfoViewModel = new PersonalDetailsAddressViewModel()
+                AddressInformation = new LocationInfoViewModel()
                 {
-                    AddressLine1 = "address 1",
-                    AddressLine2 = "address 2",
-                    City = "Testity",
-                    County = "Tesux",
-                    HouseNumber = "1",
-                    Postcode = "111 111",
+                    PatientCurrentAddress = new PersonalDetailsAddressViewModel()
+                    {
+                        AddressLine1 = "address 1",
+                        AddressLine2 = "address 2",
+                        City = "Testity",
+                        County = "Tesux",
+                        HouseNumber = "1",
+                        Postcode = "111 111",
+                    }
                 },
 
             };
@@ -91,7 +94,8 @@ namespace NHS111.Models.Test.Mappers.WebMappings
                     }
                 },
                 SelectedServiceId = "1",
-                AddressInfoViewModel = new PersonalDetailsAddressViewModel()
+                AddressInformation = new LocationInfoViewModel() { 
+                    PatientCurrentAddress = new PersonalDetailsAddressViewModel()
                 {
                     AddressLine1 = "address 1",
                     AddressLine2 = "address 2",
@@ -99,7 +103,7 @@ namespace NHS111.Models.Test.Mappers.WebMappings
                     County = "Tesux",
                     HouseNumber = "1",
                     Postcode = "111 111",
-                },
+                }},
                 Informant = new InformantViewModel()
                 {
                     IsInformantForPatient = false
@@ -135,15 +139,17 @@ namespace NHS111.Models.Test.Mappers.WebMappings
                     }
                 },
                 SelectedServiceId = "1",
-                AddressInfoViewModel = new PersonalDetailsAddressViewModel()
+                AddressInformation = new LocationInfoViewModel()
                 {
+                    PatientCurrentAddress = new PersonalDetailsAddressViewModel()
+                    {
                     AddressLine1 = "address 1",
                     AddressLine2 = "address 2",
                     City = "Testity",
                     County = "Tesux",
                     HouseNumber = "1",
                     Postcode = "111 111",
-                },
+                }},
                 Informant = new InformantViewModel()
                 {
                     Forename = "Informer",

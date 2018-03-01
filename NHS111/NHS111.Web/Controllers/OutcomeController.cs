@@ -126,7 +126,7 @@ namespace NHS111.Web.Controllers
                 },
                 SymptomGroup = symptomGroup ?? "1203",
                 SymptomDiscriminatorCode = symptomDiscriminator ?? "4003",
-                AddressInfoViewModel = new PersonalDetailsAddressViewModel()
+                AddressInformation = new LocationInfoViewModel()
             };
 
             return View(model);
@@ -247,16 +247,16 @@ namespace NHS111.Web.Controllers
         private async Task<PersonalDetailViewModel> PopulateAddressPickerFields(PersonalDetailViewModel model)
         {
             //map postcode to field to submit to ITK (preventing multiple entries of same data)
-            model.AddressInfoViewModel.PreviouslyEnteredPostcode = model.CurrentPostcode;
+            model.AddressInformation.PatientCurrentAddress.PreviouslyEnteredPostcode = model.CurrentPostcode;
 
             //pre-populate picker fields from postcode lookup service
-            var postcodes = await GetPostcodeResults(model.AddressInfoViewModel.PreviouslyEnteredPostcode);
+            var postcodes = await GetPostcodeResults(model.AddressInformation.PatientCurrentAddress.PreviouslyEnteredPostcode);
             var firstSelectItemText = postcodes.Count + " addresses found. Please choose...";
             var items = new List<SelectListItem> { new SelectListItem { Text = firstSelectItemText, Value = "", Selected = true } };
             items.AddRange(postcodes.Select(postcode => new SelectListItem { Text = postcode.AddressLine1, Value = postcode.UPRN }).ToList());
-            model.AddressInfoViewModel.AddressPicker = items;
+            model.AddressInformation.PatientCurrentAddress.AddressPicker = items;
 
-            model.AddressInfoViewModel.AddressOptions = new JavaScriptSerializer().Serialize(Json(postcodes).Data);
+            model.AddressInformation.PatientCurrentAddress.AddressOptions = new JavaScriptSerializer().Serialize(Json(postcodes).Data);
 
             return model;
         }

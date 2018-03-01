@@ -10,7 +10,15 @@ namespace NHS111.Models.Models.Web
     {
 
         public PersonalDetailsAddressViewModel PatientCurrentAddress { get; set; }
-        public string PatientHomeAddreess { get; set; }
-        public bool HomeAddressSameAsCurrent { get; set; }
+        public PersonalDetailsAddressViewModel PatientHomeAddreess { get; set; }
+        public bool? HomeAddressSameAsCurrent { get; set; }
+
+
+        public LocationInfoViewModel()
+        {
+            PatientCurrentAddress = new PersonalDetailsAddressViewModel();
+            PatientHomeAddreess = new PersonalDetailsAddressViewModel();
+        }
     }
+
 }
