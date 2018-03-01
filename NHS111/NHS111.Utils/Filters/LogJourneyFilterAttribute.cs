@@ -19,12 +19,6 @@ namespace NHS111.Utils.Filters
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method, Inherited = true, AllowMultiple = true)]
     public class LogJourneyFilterAttribute : ActionFilterAttribute
     {
-        private readonly Dictionary<string, List<string>> _manuallyTriggeredAuditList = new Dictionary<string, List<string>>
-        {
-            { "Outcome", new List<string> { "ServiceDetails", "ServiceList", "PersonalDetails", "Confirmation" } },
-            { "PostcodeFirst", new List<string> { "Outcome", "Postcode" } }
-        };
-
         public override void OnActionExecuted(ActionExecutedContext filterContext)
         {
             var result = filterContext.Result as ViewResultBase;
@@ -35,21 +29,15 @@ namespace NHS111.Utils.Filters
             if (model == null)
                 return;
 
-            var controller = filterContext.RouteData.Values["controller"] as string;
-            var action = filterContext.RouteData.Values["action"] as string;
-            if (_manuallyTriggeredAuditList.ContainsKey(controller) && _manuallyTriggeredAuditList[controller].Contains(action) || 
-                controller.Equals("Question") && result.ViewName == "../PostcodeFirst/Postcode") // don't log when hitting postcode first page
-                return; //we don't want to audit where audit has already been manually triggered in code
+           var pageName = !string.IsNullOrEmpty(result.ViewName) ? result.ViewName : $"{filterContext.ActionDescriptor.ControllerDescriptor.ControllerName}/{filterContext.ActionDescriptor.ActionName}";
 
-            var eventData = result.ViewName;
-
-            LogAudit(model, eventData);
+            LogAudit(model, pageName);
         }
 
-        private static async void LogAudit(JourneyViewModel model, string eventData)
+        private static void LogAudit(JourneyViewModel model, string pageName)
         {
             var auditEntry = model.ToAuditEntry();
-            auditEntry.EventData = eventData;
+            auditEntry.Page = pageName;
 
             var url = ConfigurationManager.AppSettings["LoggingServiceUrl"];
             var rest = new RestfulHelper();
@@ -57,7 +45,7 @@ namespace NHS111.Utils.Filters
             {
                 Content = new StringContent(JsonConvert.SerializeObject(auditEntry))
             };
-            await rest.PostAsync(url, httpRequestMessage);
+            rest.PostAsync(url, httpRequestMessage);
         }
     }
 
@@ -78,7 +66,10 @@ namespace NHS111.Utils.Filters
                 PathwayId = model.PathwayId,
                 PathwayTitle = model.PathwayTitle,
                 State = model.StateJson,
-                DxCode = model is OutcomeViewModel ? model.Id : ""
+                DxCode = model is OutcomeViewModel ? model.Id : "",
+                Age = model.UserInfo.Demography?.Age,
+                Gender = model.UserInfo.Demography?.Gender,
+                Search = model.EntrySearchTerm
             };
             AddLatestJourneyStepToAuditEntry(model.Journey, audit);
 
