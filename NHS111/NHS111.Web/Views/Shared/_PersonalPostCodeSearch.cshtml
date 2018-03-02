@@ -76,7 +76,7 @@
             <div class="form-group address-section toggle-content panel">
                 <div class="address-choose-postcode find-address-panel form-group" style="display: none;">
                     <label for="@Html.IdFor(m => m.PatientHomeAddreess.PreviouslyEnteredPostcode)">Postcode</label>
-                    <span style="display: none;" class="address-no-results">Sorry, we couldn't find an address using that postcode.<br />Please try a different postcode or <button class="button--link address-change" style="margin-top: 0;  display: inline; width: inherit;">enter address</button>.</span>
+                    <span style="display: none;" class="address-no-results">Sorry, we couldn't find an address using that postcode.<br />Please try a different postcode or <button type="button" class="button--link address-change" style="margin-top: 0;  display: inline; width: inherit;">enter address</button>.</span>
                     @Html.TextBoxFor(m => m.PatientHomeAddreess.PreviouslyEnteredPostcode, new { @class = "form-control form-control-8-chars", })
                     <button type="button" class="button--next button--secondary find-address" id="findMyAddress">Find address</button>
                 </div>
@@ -86,13 +86,13 @@
                     <div class="form-group @(@ViewData.ModelState.IsValidField("AddressInfoViewModel.AddressPicker") ? "" : "form-group-error")">
                         @Html.ValidationMessageFor(m => m.PatientHomeAddreess.AddressPicker, "Please select the address")
                         <select class="select-address" id="home-address-picker"></select>
-                        <button class="button--link address-change" style="margin-top: 5px;">Change address</button>
+                        <button type="button" class="button--link address-change" style="margin-top: 5px;">Change address</button>
                     </div>
                 </div>
 
                 <div class="address-display-info" style="display: none;">
                     <p class="address-info"></p>
-                    <button class="button--link address-change" style="margin-top: 0px;">Change address</button>
+                    <button type="button" class="button--link address-change" style="margin-top: 0px;">Change address</button>
                 </div>
 
                 <div id="addressPanel" class="address-panel">
@@ -118,7 +118,7 @@
                         @Html.ValidationMessageFor(m => m.PatientHomeAddreess.Postcode)
                         @Html.TextBoxFor(m => m.PatientHomeAddreess.Postcode, new { @class = "form-control address-postcode" })
                     </div>
-                    <button class="button--secondary address-confirm" style="display: none;">Confirm address</button>
+                    <button type="button" class="button--secondary address-confirm" style="display: none;">Confirm address</button>
                 </div>
 
             </div>
