@@ -1,5 +1,5 @@
 ﻿@using NHS111.Models.Models.Web
-@model OutcomeViewModel
+@model PersonalDetailViewModel
 
 <div class="personal-details-content">
 
@@ -7,7 +7,7 @@
         var dataDictionary = ViewContext.ViewData;
         dataDictionary.TemplateInfo = new TemplateInfo {HtmlFieldPrefix = "AddressInfoViewModel"};
     }
-    @Html.Partial("_PersonalPostCodeSearch", Model.AddressInfoViewModel, dataDictionary)
+    @Html.Partial("_PersonalPostCodeSearch", Model.AddressInformation, dataDictionary)
 </div>
 <script type="text/javascript">
 

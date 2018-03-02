@@ -1,6 +1,5 @@
-﻿@using Newtonsoft.Json
-@using NHS111.Models.Models.Web
-@model  PersonalDetailsAddressViewModel
+﻿@using NHS111.Models.Models.Web
+@model  LocationInfoViewModel
 
 <fieldset>
     <legend>
@@ -11,17 +10,17 @@
 
     <div class="form-group address-section">
         <div class="address-choose-postcode find-address-panel form-group" style="display: none;">
-            <label for="@Html.IdFor(m => m.PreviouslyEnteredPostcode)">Postcode</label>
+            <label for="@Html.IdFor(m => m.PatientCurrentAddress.PreviouslyEnteredPostcode)">Postcode</label>
             <span style="display: none;" class="address-no-results">Sorry, we couldn't find an address using that postcode.<br />Please try a different postcode or <button class="button--link address-change" style="margin-top: 0; display: inline; width: inherit;">enter address</button>.</span>
-            @Html.TextBoxFor(m => m.PreviouslyEnteredPostcode, new { @class = "form-control form-control-8-chars", })
+            @Html.TextBoxFor(m => m.PatientCurrentAddress.PreviouslyEnteredPostcode, new { @class = "form-control form-control-8-chars", })
             <button type="button" class="button--next button--secondary find-address" id="findMyAddress">Find address</button>
         </div>
 
         <div class="address-list" style="display: none;">
-            <label for="@Html.IdFor(m => m.SelectedAddressFromPicker)">What is the address?</label>
-            <div class="form-group @(@ViewData.ModelState.IsValidField("AddressInfoViewModel.AddressPicker") ? "" : "form-group-error")">
-                @Html.ValidationMessageFor(m => m.AddressPicker, "Please select the address")
-                @Html.DropDownListFor(m => m.SelectedAddressFromPicker, Model.AddressPicker, new { @class = "select-address" })
+            <label for="@Html.IdFor(m => m.PatientCurrentAddress.SelectedAddressFromPicker)">What is the address?</label>
+            <div class="form-group @(@ViewData.ModelState.IsValidField("PatientCurrentAddress.AddressInfoViewModel.AddressPicker") ? "" : "form-group-error")">
+                @Html.ValidationMessageFor(m => m.PatientCurrentAddress.AddressPicker, "Please select the address")
+                @Html.DropDownListFor(m => m.PatientCurrentAddress.SelectedAddressFromPicker, Model.PatientCurrentAddress.AddressPicker, new { @class = "select-address" })
             </div>
             <button class="button--link address-change" style="margin-top: 5px;">Change address</button>
         </div>
@@ -35,24 +34,24 @@
             <fieldset>
                 <legend class="form-label">Building and street</legend>
                 <div class="form-group inline-details @(@ViewData.ModelState.IsValidField("AddressInfoViewModel.AddressLine1") ? "" : "form-group-error")">
-                    @Html.LabelFor(m => m.AddressLine1, "Address line 1", new { @class = "util-visuallyhidden" })
-                    @Html.ValidationMessageFor(m => m.AddressLine1, "Please enter the first line of the address")
-                    @Html.TextBoxFor(m => m.AddressLine1, new { @class = "form-control address-line-1" })
+                    @Html.LabelFor(m => m.PatientCurrentAddress.AddressLine1, "Address line 1", new { @class = "util-visuallyhidden" })
+                    @Html.ValidationMessageFor(m => m.PatientCurrentAddress.AddressLine1, "Please enter the first line of the address")
+                    @Html.TextBoxFor(m => m.PatientCurrentAddress.AddressLine1, new { @class = "form-control address-line-1" })
                 </div>
                 <div class="inline-details">
-                    @Html.LabelFor(m => m.AddressLine2, "Address line 2", new { @class = "util-visuallyhidden" })
-                    @Html.TextBoxFor(m => m.AddressLine2, new { @class = "form-control address-line-2" })
+                    @Html.LabelFor(m => m.PatientCurrentAddress.AddressLine2, "Address line 2", new { @class = "util-visuallyhidden" })
+                    @Html.TextBoxFor(m => m.PatientCurrentAddress.AddressLine2, new { @class = "form-control address-line-2" })
                 </div>
             </fieldset>
             <div class="form-group inline-details @(@ViewData.ModelState.IsValidField("AddressInfoViewModel.City") ? "" : "form-group-error")">
-                @Html.LabelFor(m => m.City, "Town or city")
-                @Html.ValidationMessageFor(m => m.City, "Please enter a city")
-                @Html.TextBoxFor(m => m.City, new { @class = "form-control address-city" })
+                @Html.LabelFor(m => m.PatientCurrentAddress.City, "Town or city")
+                @Html.ValidationMessageFor(m => m.PatientCurrentAddress.City, "Please enter a city")
+                @Html.TextBoxFor(m => m.PatientCurrentAddress.City, new { @class = "form-control address-city" })
             </div>
             <div class="form-group inline-details @(@ViewData.ModelState.IsValidField("AddressInfoViewModel.Postcode") ? "" : "form-group-error")">
-                @Html.LabelFor(m => m.Postcode)
-                @Html.ValidationMessageFor(m => m.Postcode)
-                @Html.TextBoxFor(m => m.Postcode, new { @class = "form-control address-postcode" })
+                @Html.LabelFor(m => m.PatientCurrentAddress.Postcode)
+                @Html.ValidationMessageFor(m => m.PatientCurrentAddress.Postcode)
+                @Html.TextBoxFor(m => m.PatientCurrentAddress.Postcode, new { @class = "form-control address-postcode" })
             </div>
             <button class="button--secondary address-confirm" style="display: none;">Confirm address</button>
         </div>
@@ -66,27 +65,27 @@
 
     <fieldset class="form-group" style="margin-top: 0">
         <div>
-            <input type="radio" class="multiple-choice__input" name="home-address" id="home-address-same" />
+            @Html.RadioButtonFor(m => m.HomeAddressSameAsCurrent, true, new { id = "home-address-same", name = "home-address", @class = "multiple-choice__input" })
             <label for="home-address-same" class="multiple-choice--radio">Same as current location</label>
         </div>
 
         <div>
-            <input type="radio" class="multiple-choice__input" name="home-address" id="home-address-different" />
+            @Html.RadioButtonFor(m => m.HomeAddressSameAsCurrent, false, new { id = "home-address-different", name = "home-address", @class = "multiple-choice__input" })
             <label for="home-address-different" class="multiple-choice--radio">Enter different address</label>
 
             <div class="form-group address-section toggle-content panel">
                 <div class="address-choose-postcode find-address-panel form-group" style="display: none;">
-                    <label for="@Html.IdFor(m => m.PreviouslyEnteredPostcode)">Postcode</label>
+                    <label for="@Html.IdFor(m => m.PatientHomeAddreess.PreviouslyEnteredPostcode)">Postcode</label>
                     <span style="display: none;" class="address-no-results">Sorry, we couldn't find an address using that postcode.<br />Please try a different postcode or <button class="button--link address-change" style="margin-top: 0;  display: inline; width: inherit;">enter address</button>.</span>
-                    @Html.TextBoxFor(m => m.PreviouslyEnteredPostcode, new { @class = "form-control form-control-8-chars", })
+                    @Html.TextBoxFor(m => m.PatientHomeAddreess.PreviouslyEnteredPostcode, new { @class = "form-control form-control-8-chars", })
                     <button type="button" class="button--next button--secondary find-address" id="findMyAddress">Find address</button>
                 </div>
 
                 <div class="address-list" style="display: none;">
-                    <label for="@Html.IdFor(m => m.SelectedAddressFromPicker)">What is the address?</label>
+                    <label for="home-address-picker">What is the address?</label>
                     <div class="form-group @(@ViewData.ModelState.IsValidField("AddressInfoViewModel.AddressPicker") ? "" : "form-group-error")">
-                        @Html.ValidationMessageFor(m => m.AddressPicker, "Please select the address")
-                        @Html.DropDownListFor(m => m.SelectedAddressFromPicker, Model.AddressPicker, new { @class = "select-address" })
+                        @Html.ValidationMessageFor(m => m.PatientHomeAddreess.AddressPicker, "Please select the address")
+                        <select class="select-address" id="home-address-picker"></select>
                         <button class="button--link address-change" style="margin-top: 5px;">Change address</button>
                     </div>
                 </div>
@@ -100,24 +99,24 @@
                     <fieldset>
                         <legend class="form-label">Building and street</legend>
                         <div class="form-group inline-details @(@ViewData.ModelState.IsValidField("AddressInfoViewModel.AddressLine1") ? "" : "form-group-error")">
-                            @Html.LabelFor(m => m.AddressLine1, "Address line 1", new { @class = "util-visuallyhidden" })
-                            @Html.ValidationMessageFor(m => m.AddressLine1, "Please enter the first line of the address")
-                            @Html.TextBoxFor(m => m.AddressLine1, new { @class = "form-control address-line-1" })
+                            @Html.LabelFor(m => m.PatientHomeAddreess.AddressLine1, "Address line 1", new { @class = "util-visuallyhidden" })
+                            @Html.ValidationMessageFor(m => m.PatientHomeAddreess.AddressLine1, "Please enter the first line of the address")
+                            @Html.TextBoxFor(m => m.PatientHomeAddreess.AddressLine1, new { @class = "form-control address-line-1" })
                         </div>
                         <div class="inline-details">
-                            @Html.LabelFor(m => m.AddressLine2, "Address line 2", new { @class = "util-visuallyhidden" })
-                            @Html.TextBoxFor(m => m.AddressLine2, new { @class = "form-control address-line-2" })
+                            @Html.LabelFor(m => m.PatientHomeAddreess.AddressLine2, "Address line 2", new { @class = "util-visuallyhidden" })
+                            @Html.TextBoxFor(m => m.PatientHomeAddreess.AddressLine2, new { @class = "form-control address-line-2" })
                         </div>
                     </fieldset>
                     <div class="form-group inline-details @(@ViewData.ModelState.IsValidField("AddressInfoViewModel.City") ? "" : "form-group-error")">
-                        @Html.LabelFor(m => m.City, "Town or city")
-                        @Html.ValidationMessageFor(m => m.City, "Please enter a city")
-                        @Html.TextBoxFor(m => m.City, new { @class = "form-control address-city" })
+                        @Html.LabelFor(m => m.PatientHomeAddreess.City, "Town or city")
+                        @Html.ValidationMessageFor(m => m.PatientHomeAddreess.City, "Please enter a city")
+                        @Html.TextBoxFor(m => m.PatientHomeAddreess.City, new { @class = "form-control address-city" })
                     </div>
                     <div class="form-group inline-details @(@ViewData.ModelState.IsValidField("AddressInfoViewModel.Postcode") ? "" : "form-group-error")">
-                        @Html.LabelFor(m => m.Postcode)
-                        @Html.ValidationMessageFor(m => m.Postcode)
-                        @Html.TextBoxFor(m => m.Postcode, new { @class = "form-control address-postcode" })
+                        @Html.LabelFor(m => m.PatientHomeAddreess.Postcode)
+                        @Html.ValidationMessageFor(m => m.PatientHomeAddreess.Postcode)
+                        @Html.TextBoxFor(m => m.PatientHomeAddreess.Postcode, new { @class = "form-control address-postcode" })
                     </div>
                     <button class="button--secondary address-confirm" style="display: none;">Confirm address</button>
                 </div>
