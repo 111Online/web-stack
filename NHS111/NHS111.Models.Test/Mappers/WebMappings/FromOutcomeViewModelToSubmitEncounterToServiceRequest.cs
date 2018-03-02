@@ -27,9 +27,9 @@ namespace NHS111.Models.Test.Mappers.WebMappings
         }
 
         [Test]
-        public void FromOutcomeViewModelToPatientDetailsConverter_Informant_null_test()
+        public void FromPersonalDetailViewModelToPatientDetailsConverter_Informant_null_test()
         {
-            var outcome = new OutcomeViewModel()
+            var outcome = new PersonalDetailViewModel()
             {
                 UserInfo = new UserInfo()
                 {
@@ -65,15 +65,15 @@ namespace NHS111.Models.Test.Mappers.WebMappings
 
             };
 
-            var result = Mapper.Map<OutcomeViewModel, PatientDetails>(outcome);
+            var result = Mapper.Map<PersonalDetailViewModel, PatientDetails>(outcome);
             Assert.AreEqual("111", result.Informant.TelephoneNumber);
             Assert.AreEqual(NHS111.Models.Models.Web.ITK.InformantType.Self, result.Informant.Type);
         }
 
         [Test]
-        public void FromOutcomeViewModelToPatientDetailsConverter_Informant_false_test()
+        public void FromPersonalDetailViewModelToPatientDetailsConverter_Informant_false_test()
         {
-            var outcome = new OutcomeViewModel()
+            var outcome = new PersonalDetailViewModel()
             {
                 UserInfo = new UserInfo()
                 {
@@ -116,9 +116,9 @@ namespace NHS111.Models.Test.Mappers.WebMappings
         }
 
         [Test]
-        public void FromOutcomeViewModelToPatientDetailsConverter_Informant_true_test()
+        public void FromPersonalDetailViewModelToPatientDetailsConverter_Informant_true_test()
         {
-            var outcome = new OutcomeViewModel()
+            var outcome = new PersonalDetailViewModel()
             {
                 UserInfo = new UserInfo()
                 {
