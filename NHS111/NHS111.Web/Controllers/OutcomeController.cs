@@ -142,14 +142,14 @@ namespace NHS111.Web.Controllers
         [HttpPost]
         public async Task<ActionResult> ServiceList([Bind(Prefix = "FindService")]OutcomeViewModel model, [FromUri] DateTime? overrideDate, [FromUri] bool? overrideFilterServices, DosEndpoint? endpoint)
         {
-            if (!ModelState.IsValidField("FindService.UserInfo.CurrentAddress.PostCode"))
+            if (!ModelState.IsValidField("FindService.CurrentPostcode"))
                 return View(model.CurrentView, model);
 
             model.UserInfo.CurrentAddress.IsInPilotArea = _postCodeAllowedValidator.IsAllowedPostcode(model.CurrentPostcode);
 
             if (!model.UserInfo.CurrentAddress.IsInPilotArea)
             {
-                ModelState.AddModelError("FindService.UserInfo.CurrentAddress.Postcode", "Sorry, this service is not currently available in your area.  Please call NHS 111 for advice now");
+                ModelState.AddModelError("FindService.CurrentPostcode", "Sorry, this service is not currently available in your area.  Please call NHS 111 for advice now");
                 return View(model.CurrentView, model);
             }
 

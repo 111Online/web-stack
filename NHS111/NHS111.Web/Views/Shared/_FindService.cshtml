@@ -47,7 +47,7 @@
             <div class="find-service">
                 <h2 class="heading-medium">@Html.Raw((!ViewData.Keys.Contains("Title") ? null : string.Format("{0}", ViewData["Title"])))</h2>
                 <div class="form-group @(ViewData.ModelState.IsValidField("FindService.UserInfo.CurrentAddress.Postcode") ? "" : "form-group-error")">
-                    @Html.LabelFor(m => m.UserInfo.CurrentAddress.Postcode, "Postcode")
+                    @Html.LabelFor(m => m.CurrentPostcode, "Postcode")
                     @if (!String.IsNullOrEmpty(addressInfoMessage))
                     {
                         <div class="callout callout--info">
@@ -55,13 +55,13 @@
                         </div>
                     }
 
-                    @Html.ValidationMessageFor(m => m.UserInfo.CurrentAddress.Postcode)
+                    @Html.ValidationMessageFor(m => m.CurrentPostcode)
                     @if (error) {
                         <p class="error-message">Sorry, no results were found for this postcode.</p>
                         <p>Please check you have entered the postcode correctly, then try again.</p>
                         <p>If the search still gives no results, please call 111 for advice.</p>
                     }
-                    @Html.TextBoxFor(m => m.UserInfo.CurrentAddress.Postcode, new {  @class = "form-control " + (error ? "error" : "") })
+                    @Html.TextBoxFor(m => m.CurrentPostcode, new {  @class = "form-control " + (error ? "error" : "") })
                     <button class="button--next" type="submit" name="DosResults" id="DosLookup">@Html.Raw(ViewData["ButtonText"])</button>
 
                 </div>
@@ -81,7 +81,7 @@
     $('#DosLookup').css('cursor', 'pointer');
     $(document).on('click', '#DosLookup', function (event) {
         if ($("#findServicesForm").valid()) {
-            var $postcode = $('#FindService_UserInfo_CurrentAddress_Postcode').val();
+            var $postcode = $('#FindService_CurrentPostcode').val();
             startPageLoadingIndicator('Searching for services near to ' + $postcode + '...');
         }
     });
