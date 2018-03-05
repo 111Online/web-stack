@@ -18,7 +18,7 @@
 
         <div class="address-list" style="display: none;">
             <label for="@Html.IdFor(m => m.PatientCurrentAddress.SelectedAddressFromPicker)">What is the address?</label>
-            <div class="form-group @(@ViewData.ModelState.IsValidField("PatientCurrentAddress.AddressInfoViewModel.AddressPicker") ? "" : "form-group-error")">
+            <div class="form-group @(@ViewData.ModelState.IsValidField(Html.NameFor(m => m.PatientCurrentAddress.AddressPicker).ToString()) ? "" : "form-group-error")">
                 @Html.ValidationMessageFor(m => m.PatientCurrentAddress.AddressPicker, "Please select the address")
                 @Html.DropDownListFor(m => m.PatientCurrentAddress.SelectedAddressFromPicker, Model.PatientCurrentAddress.AddressPicker, new { @class = "select-address" })
             </div>
@@ -33,7 +33,7 @@
         <div id="addressPanel" class="address-panel">
             <fieldset>
                 <legend class="form-label">Building and street</legend>
-                <div class="form-group inline-details @(@ViewData.ModelState.IsValidField("AddressInfoViewModel.AddressLine1") ? "" : "form-group-error")">
+                <div class="form-group inline-details @(@ViewData.ModelState.IsValidField(Html.NameFor(m => m.PatientCurrentAddress.AddressLine1).ToString()) ? "" : "form-group-error")">
                     @Html.LabelFor(m => m.PatientCurrentAddress.AddressLine1, "Address line 1", new { @class = "util-visuallyhidden" })
                     @Html.ValidationMessageFor(m => m.PatientCurrentAddress.AddressLine1, "Please enter the first line of the address")
                     @Html.TextBoxFor(m => m.PatientCurrentAddress.AddressLine1, new { @class = "form-control address-line-1" })
@@ -43,12 +43,12 @@
                     @Html.TextBoxFor(m => m.PatientCurrentAddress.AddressLine2, new { @class = "form-control address-line-2" })
                 </div>
             </fieldset>
-            <div class="form-group inline-details @(@ViewData.ModelState.IsValidField("AddressInfoViewModel.City") ? "" : "form-group-error")">
+            <div class="form-group inline-details @(@ViewData.ModelState.IsValidField(Html.NameFor(m => m.PatientCurrentAddress.City).ToString()) ? "" : "form-group-error")">
                 @Html.LabelFor(m => m.PatientCurrentAddress.City, "Town or city")
                 @Html.ValidationMessageFor(m => m.PatientCurrentAddress.City, "Please enter a city")
                 @Html.TextBoxFor(m => m.PatientCurrentAddress.City, new { @class = "form-control address-city" })
             </div>
-            <div class="form-group inline-details @(@ViewData.ModelState.IsValidField("AddressInfoViewModel.Postcode") ? "" : "form-group-error")">
+            <div class="form-group inline-details @(@ViewData.ModelState.IsValidField(Html.NameFor(m => m.PatientCurrentAddress.Postcode).ToString()) ? "" : "form-group-error")">
                 @Html.LabelFor(m => m.PatientCurrentAddress.Postcode)
                 @Html.ValidationMessageFor(m => m.PatientCurrentAddress.Postcode)
                 @Html.TextBoxFor(m => m.PatientCurrentAddress.Postcode, new { @class = "form-control address-postcode" })
@@ -83,7 +83,7 @@
 
                 <div class="address-list" style="display: none;">
                     <label for="home-address-picker">What is the address?</label>
-                    <div class="form-group @(@ViewData.ModelState.IsValidField("AddressInfoViewModel.AddressPicker") ? "" : "form-group-error")">
+                    <div class="form-group @(@ViewData.ModelState.IsValidField(Html.NameFor(m => m.PatientHomeAddreess.AddressPicker).ToString()) ? "" : "form-group-error")">
                         @Html.ValidationMessageFor(m => m.PatientHomeAddreess.AddressPicker, "Please select the address")
                         <select class="select-address" id="home-address-picker"></select>
                         <button type="button" class="button--link address-change" style="margin-top: 5px;">Change address</button>
@@ -98,7 +98,7 @@
                 <div id="addressPanel" class="address-panel">
                     <fieldset>
                         <legend class="form-label">Building and street</legend>
-                        <div class="form-group inline-details @(@ViewData.ModelState.IsValidField("AddressInfoViewModel.AddressLine1") ? "" : "form-group-error")">
+                        <div class="form-group inline-details @(@ViewData.ModelState.IsValidField(Html.NameFor(m => m.PatientHomeAddreess.AddressLine1).ToString()) ? "" : "form-group-error")">
                             @Html.LabelFor(m => m.PatientHomeAddreess.AddressLine1, "Address line 1", new { @class = "util-visuallyhidden" })
                             @Html.ValidationMessageFor(m => m.PatientHomeAddreess.AddressLine1, "Please enter the first line of the address")
                             @Html.TextBoxFor(m => m.PatientHomeAddreess.AddressLine1, new { @class = "form-control address-line-1" })
@@ -108,12 +108,12 @@
                             @Html.TextBoxFor(m => m.PatientHomeAddreess.AddressLine2, new { @class = "form-control address-line-2" })
                         </div>
                     </fieldset>
-                    <div class="form-group inline-details @(@ViewData.ModelState.IsValidField("AddressInfoViewModel.City") ? "" : "form-group-error")">
+                    <div class="form-group inline-details @(@ViewData.ModelState.IsValidField(Html.NameFor(m => m.PatientHomeAddreess.City).ToString()) ? "" : "form-group-error")">
                         @Html.LabelFor(m => m.PatientHomeAddreess.City, "Town or city")
                         @Html.ValidationMessageFor(m => m.PatientHomeAddreess.City, "Please enter a city")
                         @Html.TextBoxFor(m => m.PatientHomeAddreess.City, new { @class = "form-control address-city" })
                     </div>
-                    <div class="form-group inline-details @(@ViewData.ModelState.IsValidField("AddressInfoViewModel.Postcode") ? "" : "form-group-error")">
+                    <div class="form-group inline-details @(@ViewData.ModelState.IsValidField(Html.NameFor(m => m.PatientHomeAddreess.Postcode).ToString()) ? "" : "form-group-error")">
                         @Html.LabelFor(m => m.PatientHomeAddreess.Postcode)
                         @Html.ValidationMessageFor(m => m.PatientHomeAddreess.Postcode)
                         @Html.TextBoxFor(m => m.PatientHomeAddreess.Postcode, new { @class = "form-control address-postcode" })
