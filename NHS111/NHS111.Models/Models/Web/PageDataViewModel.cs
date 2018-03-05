@@ -48,11 +48,11 @@ namespace NHS111.Models.Models.Web
             Gender = journey.UserInfo.Demography.Gender;
             Age = journey.UserInfo.Demography.Age.ToString();
             SearchString = journey.EntrySearchTerm;
-            QuestionId = journey.OutcomeGroup == null ? journey.Id : null;
-            TxNumber = journey.OutcomeGroup == null ? journey.QuestionNo : null;
+            QuestionId = journey.Id;
+            TxNumber = !string.IsNullOrEmpty(journey.QuestionNo) && journey.QuestionNo.ToLower().StartsWith("tx") ? journey.QuestionNo : null;
             StartingPathwayNo = journey.PathwayNo;
             StartingPathwayTitle = journey.PathwayTitle;
-            DxCode = journey.OutcomeGroup != null ? journey.Id : null;
+            DxCode = !string.IsNullOrEmpty(journey.Id) && journey.Id.ToLower().StartsWith("dx") ? journey.Id : null;
         }
 
         public PageType Page { get; set; }
