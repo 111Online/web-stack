@@ -13,7 +13,7 @@
             <label for="@Html.IdFor(m => m.PatientCurrentAddress.PreviouslyEnteredPostcode)">Postcode</label>
             <span style="display: none;" class="address-no-results">Sorry, we couldn't find an address using that postcode.<br />Please try a different postcode or <button class="button--link address-change" style="margin-top: 0; display: inline; width: inherit;">enter address</button>.</span>
             @Html.TextBoxFor(m => m.PatientCurrentAddress.PreviouslyEnteredPostcode, new { @class = "form-control form-control-8-chars", })
-            <button type="button" class="button--next button--secondary find-address" id="findMyAddress">Find address</button>
+            <button type="button" class="button--next button--secondary find-address">Find address</button>
         </div>
 
         <div class="address-list" style="display: none;">
@@ -78,7 +78,7 @@
                     <label for="@Html.IdFor(m => m.PatientHomeAddreess.PreviouslyEnteredPostcode)">Postcode</label>
                     <span style="display: none;" class="address-no-results">Sorry, we couldn't find an address using that postcode.<br />Please try a different postcode or <button type="button" class="button--link address-change" style="margin-top: 0;  display: inline; width: inherit;">enter address</button>.</span>
                     @Html.TextBoxFor(m => m.PatientHomeAddreess.PreviouslyEnteredPostcode, new { @class = "form-control form-control-8-chars", })
-                    <button type="button" class="button--next button--secondary find-address" id="findMyAddress">Find address</button>
+                    <button type="button" class="button--next button--secondary find-address">Find address</button>
                 </div>
 
                 <div class="address-list" style="display: none;">
