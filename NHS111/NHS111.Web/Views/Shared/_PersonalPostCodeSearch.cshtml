@@ -64,6 +64,7 @@
 
 
     <fieldset class="form-group" style="margin-top: 0">
+        @Html.ValidationMessageFor(m => m.HomeAddressSameAsCurrent, "Home address of the person needing care")
         <div>
             @Html.RadioButtonFor(m => m.HomeAddressSameAsCurrent, true, new { id = "home-address-same", name = "home-address", @class = "multiple-choice__input" })
             <label for="home-address-same" class="multiple-choice--radio">Same as current location</label>

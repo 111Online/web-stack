@@ -51,7 +51,16 @@
     </div>
     <section class="measure">
         <div class="section-item last">
-
+            <div class="callout callout--error @(Html.ViewData.ModelState.IsValid ? "validation-summary-valid" : "validation-summary-errors")"
+                 data-valmsg-summary="true">
+                <h2>
+                    There's a problem with the following
+                </h2>
+                <div class="panel-body">
+                    <ul class="js-error-list-original"></ul>
+                    <ul class="js-error-list"></ul>
+                </div>
+            </div>
 
             <fieldset class="form-group @(@ViewData.ModelState.IsValidField("PatientInformantDetails.Informant") ? "" : "form-group-error")">
                 <legend>
