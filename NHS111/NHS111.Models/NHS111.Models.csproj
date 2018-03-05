@@ -297,6 +297,7 @@
     <Compile Include="Models\Web\Validators\InformantSurnameValidator.cs" />
     <Compile Include="Models\Web\Validators\InformantViewModelValidator.cs" />
     <Compile Include="Models\Web\Validators\IPostcodeAllowedValidator.cs" />
+    <Compile Include="Models\Web\Validators\LocationInfoViewModelValidator.cs" />
     <Compile Include="Models\Web\Validators\PatientInformantViewModelValidator.cs" />
     <Compile Include="Models\Web\Validators\PersonNameValidator.cs" />
     <Compile Include="Models\Web\Validators\QuestionViewModelValidator.cs" />
