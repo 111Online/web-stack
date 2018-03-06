@@ -29,6 +29,12 @@ namespace NHS111.Models.Models.Web
     {
     }
 
+    [Validator(typeof(PersonalInfoAddressViewModelValidator))]
+    public class CurrentAddressViewModel : PersonalDetailsAddressViewModel
+    {
+        
+    }
+
 
     public class PersonalDetailsAddressViewModel : AddressInfoViewModel
     {
