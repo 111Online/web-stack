@@ -63,7 +63,7 @@
     <p>This is the home address of the person needing care. It’s used to check who they are and links to their NHS record.</p>
 
 
-    <fieldset class="form-group" style="margin-top: 0">
+    <fieldset class="form-group @(@ViewData.ModelState.IsValidField(Html.NameFor(m => m.HomeAddressSameAsCurrent).ToString()) ? "" : "form-group-error")" style="margin-top: 0">
         @Html.ValidationMessageFor(m => m.HomeAddressSameAsCurrent, "Home address of the person needing care")
         <div>
             @Html.RadioButtonFor(m => m.HomeAddressSameAsCurrent, true, new { id = "home-address-same", name = "home-address", @class = "multiple-choice__input" })
@@ -134,6 +134,17 @@
 
 
 <script type="text/javascript">
+
+    jQuery(function () {
+        
+        jQuery.validator.unobtrusive.adapters.add('homeaddresssameascurrentspecified', ['prefixelement'], function (options) {
+            options.rules['homeaddresssameascurrentspecified'] = options.params;
+        });
+        jQuery.validator.addMethod('homeaddresssameascurrentspecified', function (value, element, params) {
+                return value != null;
+        });
+    });
+
     var foundAddresses = {}
 
     // JavaScript is enabled so we can show the whole flow
