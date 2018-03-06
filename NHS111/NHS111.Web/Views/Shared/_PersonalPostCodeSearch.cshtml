@@ -161,8 +161,8 @@
     }
 
 
-    function showAddresses (addresses, element) {
-        var options = '';
+    function showAddresses(addresses, element) {
+        var options = '<option value="">' + addresses.length + ' addresses found</option>';
         $.each(addresses, function (key, value) {
             foundAddresses[value.UPRN] = value
             options += '<option value=' + value.UPRN + '>' + value.AddressLine1 + '</option>';
@@ -246,5 +246,4 @@
         var regex = /^[A-Z]{1,2}[0-9]{1,2} ?[0-9][A-Z]{2}$/i;
         return regex.test(postcode);
     }
-
 </script>
