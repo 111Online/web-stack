@@ -15,6 +15,7 @@ namespace NHS111.Models.Models.Web.Validators
             RuleFor(a => a.Postcode).NotEmpty();
             RuleFor(a => a.AddressLine1).NotEmpty();
             RuleFor(a => a.City).NotEmpty();
+            RuleFor(a => a.PreviouslyEnteredPostcode).NotEmpty();
             RuleFor(a => a.AddressPicker).NotEmpty().When(a => 
                    string.IsNullOrWhiteSpace(a.AddressLine1) 
                 || string.IsNullOrWhiteSpace(a.City)
