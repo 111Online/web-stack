@@ -16,6 +16,10 @@ namespace NHS111.Models.Models.Web.Logging
         private string _questionId = string.Empty;
         private string _dxCode = string.Empty;
         private string _eventData = string.Empty;
+        private string _page = string.Empty;
+        private int? _age;
+        private string _gender = string.Empty;
+        private string _search = string.Empty;
         private string _dosRequest = string.Empty;
         private string _dosResponse = string.Empty;
         private string _itkRequest = string.Empty;
@@ -65,6 +69,18 @@ namespace NHS111.Models.Models.Web.Logging
 
         [JsonProperty(PropertyName = "eventData")]
         public string EventData { get { return _eventData; } set { _eventData = value; } }
+
+        [JsonProperty(PropertyName = "page")]
+        public string Page { get { return _page; } set { _page = value; } }
+
+        [JsonProperty(PropertyName = "age")]
+        public int? Age { get { return _age; } set { _age = value; } }
+
+        [JsonProperty(PropertyName = "gender")]
+        public string Gender { get { return _gender; } set { _gender = value; } }
+
+        [JsonProperty(PropertyName = "search")]
+        public string Search { get { return _search; } set { _search = value; } }
 
         [JsonProperty(PropertyName = "dosRequest")]
         public string DosRequest { get { return _dosRequest; } set { _dosRequest = value; } }

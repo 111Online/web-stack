@@ -30,9 +30,9 @@ namespace NHS111.SmokeTests
             var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Rectal Bleeding", TestScenerioSex.Female, 56);
 
             questionPage.VerifyQuestion("Do you have any pain in your tummy (abdomen) as well as bleeding from your bottom (rectal bleeding)?");
-            var outcomePage = questionPage.AnswerAndVerifyQuestion(1, "How bad is your pain?")
+            var outcomePage = questionPage.AnswerAndVerifyQuestion(1, "How bad is the pain?")
                 .AnswerAndVerifyQuestion(1, "Have you got a severe ripping or tearing pain in your chest or back that came on suddenly?")
-                .AnswerAndVerifyQuestion(3, "Has a doctor diagnosed you with an aortic aneurysm or Marfan's syndrome?")
+                .AnswerAndVerifyQuestion(3, "Has a doctor told you that you have either of the following?")
                 .AnswerAndVerifyQuestion(4, "Do you have any of the symptoms of a heart attack?")
                 .AnswerAndVerifyQuestion(5, "Do you have a new rash that won't go away when you press a glass on it, and you also feel severely ill?")
                 .AnswerAndVerifyQuestion(3, "Have you vomited up either of the following?")
