@@ -12,6 +12,7 @@
         <div class="address-choose-postcode find-address-panel form-group" style="display: none;">
             <label for="@Html.IdFor(m => m.PatientCurrentAddress.PreviouslyEnteredPostcode)">Postcode</label>
             <span style="display: none;" class="address-no-results">We couldn't find an address using that postcode.<br />Try a different postcode or <button class="button--link address-change" style="margin-top: 0; display: inline; width: inherit;">enter address</button>.</span>
+            @Html.ValidationMessageFor(m => m.PatientCurrentAddress.Postcode, "Select the address")
             @Html.TextBoxFor(m => m.PatientCurrentAddress.PreviouslyEnteredPostcode, new { @class = "form-control form-control-8-chars", })
             <button type="button" class="button--next button--secondary find-address">Find address</button>
         </div>
@@ -33,7 +34,7 @@
         <div id="addressPanel" class="address-panel">
             <fieldset>
                 <legend class="form-label">Building and street</legend>
-                <div class="form-group inline-details @(@ViewData.ModelState.IsValidField(Html.NameFor(m => m.PatientCurrentAddress.AddressLine1).ToString()) ? "" : "form-group-error")">
+                <div class="inline-details @(@ViewData.ModelState.IsValidField(Html.NameFor(m => m.PatientCurrentAddress.AddressLine1).ToString()) ? "" : "form-group-error")">
                     @Html.LabelFor(m => m.PatientCurrentAddress.AddressLine1, "Address line 1", new { @class = "util-visuallyhidden" })
                     @Html.ValidationMessageFor(m => m.PatientCurrentAddress.AddressLine1, "Enter the first line of the address")
                     @Html.TextBoxFor(m => m.PatientCurrentAddress.AddressLine1, new { @class = "form-control address-line-1" })
@@ -43,12 +44,12 @@
                     @Html.TextBoxFor(m => m.PatientCurrentAddress.AddressLine2, new { @class = "form-control address-line-2" })
                 </div>
             </fieldset>
-            <div class="form-group inline-details @(@ViewData.ModelState.IsValidField(Html.NameFor(m => m.PatientCurrentAddress.City).ToString()) ? "" : "form-group-error")">
+            <div class="inline-details @(@ViewData.ModelState.IsValidField(Html.NameFor(m => m.PatientCurrentAddress.City).ToString()) ? "" : "form-group-error")">
                 @Html.LabelFor(m => m.PatientCurrentAddress.City, "Town or city")
                 @Html.ValidationMessageFor(m => m.PatientCurrentAddress.City, "Enter a city")
                 @Html.TextBoxFor(m => m.PatientCurrentAddress.City, new { @class = "form-control address-city" })
             </div>
-            <div class="form-group inline-details @(@ViewData.ModelState.IsValidField(Html.NameFor(m => m.PatientCurrentAddress.Postcode).ToString()) ? "" : "form-group-error")">
+            <div class="inline-details @(@ViewData.ModelState.IsValidField(Html.NameFor(m => m.PatientCurrentAddress.Postcode).ToString()) ? "" : "form-group-error")">
                 @Html.LabelFor(m => m.PatientCurrentAddress.Postcode)
                 @Html.ValidationMessageFor(m => m.PatientCurrentAddress.Postcode, "Enter a valid postcode")
                 @Html.TextBoxFor(m => m.PatientCurrentAddress.Postcode, new { @class = "form-control address-postcode" })
@@ -136,13 +137,13 @@
 <script type="text/javascript">
 
     jQuery(function () {
-        
         jQuery.validator.unobtrusive.adapters.add('homeaddresssameascurrentspecified', ['prefixelement'], function (options) {
             options.rules['homeaddresssameascurrentspecified'] = options.params;
         });
         jQuery.validator.addMethod('homeaddresssameascurrentspecified', function (value, element, params) {
                 return value != null;
         });
+        
     });
 
     var foundAddresses = {}
@@ -151,6 +152,7 @@
     $('.address-choose-postcode').show()
     $('.address-panel').hide()
     $('.address-confirm').show()
+    
 
     function findAddresses (postcode, element) {
         startPageLoadingIndicator('Searching for addresses matching ' + postcode + '...')
@@ -222,18 +224,29 @@
 
     $('.select-address').change(function (e) {
         var parent = $(this).parents('.address-section')
-        showAddressInfo(foundAddresses[$(this).val()], parent)
         setAddress(foundAddresses[$(this).val()], parent)
+        isValid(this)
     })
 
     $('.address-change').click(function (e) {
+
         var parent = $(this).parents('.address-section')
         changeAddress(parent)
     })
 
     $('.address-confirm').click(function (e) {
-        var parent = $(this).parents('.address-section')
-        if ($('input', $(this).parents('.address-panel')).valid()) {
+        isValid(this)
+    })
+
+    function isValid(el) {
+        var parent = $(el).parents('.address-section')
+        var inputs = $('.address-panel input', parent)
+        var valid = true
+        for (var i = 0; i < inputs.length; i++) {
+            if (!$(inputs[i]).valid()) valid = false
+        }
+
+        if (valid) {
             showAddressInfo({
                 "AddressLine1": $('.address-line-1', parent).val(),
                 "AddressLine2": $('.address-line-2', parent).val(),
@@ -241,7 +254,8 @@
                 "Postcode": $('.address-postcode', parent).val()
             }, parent)
         }
-    })
+        else changeAddress(parent)
+    }
     
     function setFields(result) {
         $("#AddressInfoViewModel_HouseNumber").val(result.HouseNumber);

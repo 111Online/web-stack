@@ -51,7 +51,7 @@
     </div>
     <section class="measure">
         <div class="section-item last">
-            <div class="callout callout--error @(Html.ViewData.ModelState.IsValid ? "validation-summary-valid" : "validation-summary-errors")"
+            <!-- <div class="callout callout--error @(Html.ViewData.ModelState.IsValid ? "validation-summary-valid" : "validation-summary-errors")"
                  data-valmsg-summary="true">
                 <h2>
                     There's a problem with the following
@@ -60,7 +60,7 @@
                     <ul class="js-error-list-original"></ul>
                     <ul class="js-error-list"></ul>
                 </div>
-            </div>
+            </div> -->
 
             <fieldset class="form-group @(@ViewData.ModelState.IsValidField("PatientInformantDetails.Informant") ? "" : "form-group-error")">
                 <legend>
@@ -68,25 +68,25 @@
                 </legend>
                 @Html.ValidationMessageFor(m => m.PatientInformantDetails.Informant, "Tell us who needs help")
                 <div>
-                    @Html.RadioButtonFor(m => m.PatientInformantDetails.Informant, NHS111.Models.Models.Web.InformantType.Self, new {id = "PatientInformantDetails_Informant_Self", name = "PatientInformantDetails_Informant", @class = "multiple-choice__input"})
+                    @Html.RadioButtonFor(m => m.PatientInformantDetails.Informant, NHS111.Models.Models.Web.InformantType.Self, new { id = "PatientInformantDetails_Informant_Self", name = "PatientInformantDetails_Informant", @class = "multiple-choice__input" })
                     <label for="PatientInformantDetails_Informant_Self" class="multiple-choice--radio" name="PatientInformantDetails_Informant" data-target="self-data">Me</label>
                 
                     <div class="toggle-content panel">
                         <div class="form-group @(@ViewData.ModelState.IsValidField("PatientInformantDetails.SelfName.Forename") ? "" : "form-group-error")">
                             <label for="@Html.IdFor(m => m.PatientInformantDetails.SelfName.Forename)">First name</label>
                             @Html.ValidationMessageFor(m => m.PatientInformantDetails.SelfName.Forename, "Enter your first name")
-                            @Html.TextBoxFor(m => m.PatientInformantDetails.SelfName.Forename, new {@class = "form-control form-control-15-chars"})
+                            @Html.TextBoxFor(m => m.PatientInformantDetails.SelfName.Forename, new { @class = "form-control form-control-15-chars" })
                         </div>
                         <div class="form-group @(@ViewData.ModelState.IsValidField("PatientInformantDetails.SelfName.Surname") ? "" : "form-group-error")">
                             <label for="@Html.IdFor(m => m.PatientInformantDetails.SelfName.Surname)">Last name</label>
                             @Html.ValidationMessageFor(m => m.PatientInformantDetails.SelfName.Surname, "Enter your last name")
-                            @Html.TextBoxFor(m => m.PatientInformantDetails.SelfName.Surname, new {@class = "form-control form-control-15-chars"})
+                            @Html.TextBoxFor(m => m.PatientInformantDetails.SelfName.Surname, new { @class = "form-control form-control-15-chars" })
                         </div>
                     </div>
                 </div>
 
                 <div>
-                    @Html.RadioButtonFor(m => m.PatientInformantDetails.Informant, NHS111.Models.Models.Web.InformantType.ThirdParty, new {id = "PatientInformantDetails_Informant_ThirdParty", name = "PatientInformantDetails_Informant", @class = "multiple-choice__input"})
+                    @Html.RadioButtonFor(m => m.PatientInformantDetails.Informant, NHS111.Models.Models.Web.InformantType.ThirdParty, new { id = "PatientInformantDetails_Informant_ThirdParty", name = "PatientInformantDetails_Informant", @class = "multiple-choice__input" })
                     <label for="PatientInformantDetails_Informant_ThirdParty" class="multiple-choice--radio" name="PatientInformantDetails_Informant"  data-target="other-data">Someone else</label>
 
                     <div class="toggle-content panel">
@@ -94,12 +94,12 @@
                         <div class="form-group @(@ViewData.ModelState.IsValidField("PatientInformantDetails.PatientName.Forename") ? "" : "form-group-error")">
                             <label for="@Html.IdFor(m => m.PatientInformantDetails.PatientName.Forename)">First name</label>
                             @Html.ValidationMessageFor(m => m.PatientInformantDetails.PatientName.Forename, "Enter the first name of the person needing care")
-                            @Html.TextBoxFor(m => m.PatientInformantDetails.PatientName.Forename, new {@class = "form-control form-control-15-chars"})
+                            @Html.TextBoxFor(m => m.PatientInformantDetails.PatientName.Forename, new { @class = "form-control form-control-15-chars" })
                         </div>
                         <div class="form-group @(@ViewData.ModelState.IsValidField("PatientInformantDetails.PatientName.Surname") ? "" : "form-group-error")">
                             <label for="@Html.IdFor(m => m.PatientInformantDetails.PatientName.Surname)">Last name</label>
                             @Html.ValidationMessageFor(m => m.PatientInformantDetails.PatientName.Surname, "Enter the last name of the person needing care")
-                            @Html.TextBoxFor(m => m.PatientInformantDetails.PatientName.Surname, new {@class = "form-control form-control-15-chars"})
+                            @Html.TextBoxFor(m => m.PatientInformantDetails.PatientName.Surname, new { @class = "form-control form-control-15-chars" })
                         </div>
 
                         <hr/>
@@ -110,12 +110,12 @@
                             <div class="form-group @(@ViewData.ModelState.IsValidField("PatientInformantDetails.InformantName.Forename") ? "" : "form-group-error")">
                                 <label for="@Html.IdFor(m => m.PatientInformantDetails.InformantName.Forename)">First name</label>
                                 @Html.ValidationMessageFor(m => m.PatientInformantDetails.InformantName.Forename, "Enter your first name")
-                                @Html.TextBoxFor(m => m.PatientInformantDetails.InformantName.Forename, new {@class = "form-control form-control-15-chars"})
+                                @Html.TextBoxFor(m => m.PatientInformantDetails.InformantName.Forename, new { @class = "form-control form-control-15-chars" })
                             </div>
                             <div class="form-group @(@ViewData.ModelState.IsValidField("PatientInformantDetails.InformantName.Surname") ? "" : "form-group-error")">
                                 <label for="@Html.IdFor(m => m.PatientInformantDetails.InformantName.Surname)">Last name</label>
                                 @Html.ValidationMessageFor(m => m.PatientInformantDetails.InformantName.Surname, "Enter your last name")
-                                @Html.TextBoxFor(m => m.PatientInformantDetails.InformantName.Surname, new {@class = "form-control form-control-15-chars"})
+                                @Html.TextBoxFor(m => m.PatientInformantDetails.InformantName.Surname, new { @class = "form-control form-control-15-chars" })
                             </div>
                         </div>
                     </div>
@@ -150,7 +150,7 @@
             <p>This is the date of birth of the person needing care.</p>
             <p class="form-hint">For example, 31 / 12 / 1980</p>
             @{ var validDate = @ViewData.ModelState.IsValidField("UserInfo.DoB") && @ViewData.ModelState.IsValidField("UserInfo.Day") &&
-                               @ViewData.ModelState.IsValidField("UserInfo.Month") && @ViewData.ModelState.IsValidField("UserInfo.Year"); }
+                 @ViewData.ModelState.IsValidField("UserInfo.Month") && @ViewData.ModelState.IsValidField("UserInfo.Year"); }
             <div class="form-group @(validDate ? "" : "form-group-error")">
                 @Html.ValidationMessageFor(m => m.UserInfo.DoB, "Enter a valid date")
                 @Html.ValidationMessageFor(m => m.UserInfo.Day, "Enter a valid day")
@@ -328,67 +328,8 @@
         </div>
     </section>
 
-    @Html.Partial("_PageLoadingIndicator")                    }
-
-<script type="text/javascript">
-    $(document).ready(function () {
-
-
-       /* if ($('.form-group').length > 0) {
-
-            // Add/remove selected class
-            $('.block-label').find('input[type=radio], input[type=checkbox]').click(function () {
-
-                $('input:not(:checked)').parent().parent().removeClass('selected');
-                $('input:checked').parent().parent().addClass('selected');
-
-                $('.toggle-content').hide();
-
-                var target = $('input:checked').parent().parent().attr('data-target');
-                var $target = $('#' + target);
-
-                $target.css('display', 'inline-block');
-                $target.attr('aria-expanded', true);
-
-
-            });
-
-            // For pre-checked inputs, show toggled content
-            var target = $('input:checked').parent().parent().attr('data-target');
-            $('#' + target).css('display', 'inline-block');
-
-        }*/
-
-
-        stopPageLoadingIndicator();
-        toggleInformant($('#Informant'));
-    });
-
-    $(document).on('click', '#submitDetails', function (event) {
-        if ($("#personalDetailForm").valid()) startPageLoadingIndicator('Contacting your selected service...');
-    });
-
-    $(document).on('click', '#Informant', function () {
-        toggleInformant($(this));
-    });
-
-    window.onpageshow = function (event) {
-        stopPageLoadingIndicator();
-    };
-
-  
-
-    function toggleInformant($informantCheckbox) {
-        if ($informantCheckbox.is(':checked')) {
-            $('#informant-details').show();
-        }
-        else {
-            $('#informant-details').hide();
-            $('#Informant_Forename').val('');
-            $('#Informant_Surname').val('');
-        }
-    }
-</script>
+    @Html.Partial("_PageLoadingIndicator")
+}
 
 <style>
     /* Fixes for vertical rhythm */
