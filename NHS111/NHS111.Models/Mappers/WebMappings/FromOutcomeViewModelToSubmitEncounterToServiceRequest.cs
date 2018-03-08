@@ -68,18 +68,17 @@ namespace NHS111.Models.Mappers.WebMappings
             patientDetails.Surname = personalDetailViewModel.UserInfo.LastName;
             patientDetails.ServiceAddressPostcode = personalDetailViewModel.SelectedService.PostCode;
             patientDetails.TelephoneNumber = personalDetailViewModel.UserInfo.TelephoneNumber;
-            patientDetails.CurrentAddress = new Address()
+            patientDetails.CurrentAddress = MapAddress(personalDetailViewModel.AddressInformation.PatientCurrentAddress);
+            if (personalDetailViewModel.AddressInformation.HomeAddressSameAsCurrent.HasValue &&
+                personalDetailViewModel.AddressInformation.HomeAddressSameAsCurrent.Value)
             {
-                PostalCode = string.IsNullOrEmpty(personalDetailViewModel.CurrentPostcode) ? null : personalDetailViewModel.CurrentPostcode,
-                StreetAddressLine1 =
-                    !string.IsNullOrEmpty(personalDetailViewModel.AddressInformation.PatientCurrentAddress.HouseNumber)
-                        ? string.Format("{0} {1}", personalDetailViewModel.AddressInformation.PatientCurrentAddress.HouseNumber, personalDetailViewModel.AddressInformation.PatientCurrentAddress.AddressLine1)
-                        : personalDetailViewModel.AddressInformation.PatientCurrentAddress.AddressLine1,
-                StreetAddressLine2 = personalDetailViewModel.AddressInformation.PatientCurrentAddress.AddressLine2,
-                StreetAddressLine3 = personalDetailViewModel.AddressInformation.PatientCurrentAddress.City,
-                StreetAddressLine4 = personalDetailViewModel.AddressInformation.PatientCurrentAddress.County,
-                StreetAddressLine5 = personalDetailViewModel.CurrentPostcode
-            };
+                patientDetails.HomeAddress =
+                    MapAddress(personalDetailViewModel.AddressInformation.PatientCurrentAddress);
+            }
+            else
+            {
+                patientDetails.HomeAddress = MapAddress(personalDetailViewModel.AddressInformation.PatientHomeAddreess);
+            }
             if (personalDetailViewModel.UserInfo.Year != null && personalDetailViewModel.UserInfo.Month != null && personalDetailViewModel.UserInfo.Day != null)
                 patientDetails.DateOfBirth =
                     new DateTime(personalDetailViewModel.UserInfo.Year.Value, personalDetailViewModel.UserInfo.Month.Value, personalDetailViewModel.UserInfo.Day.Value);
@@ -95,6 +94,22 @@ namespace NHS111.Models.Mappers.WebMappings
             };           
             
             return patientDetails;
+        }
+
+        private Address MapAddress(PersonalDetailsAddressViewModel addressViewModel)
+        {
+            return new Address()
+            {
+                PostalCode = addressViewModel.Postcode,
+                StreetAddressLine1 =
+                    !string.IsNullOrEmpty(addressViewModel.HouseNumber)
+                        ? string.Format("{0} {1}", addressViewModel.HouseNumber, addressViewModel.AddressLine1)
+                        : addressViewModel.AddressLine1,
+                StreetAddressLine2 = addressViewModel.AddressLine2,
+                StreetAddressLine3 = addressViewModel.City,
+                StreetAddressLine4 = addressViewModel.County,
+                StreetAddressLine5 = addressViewModel.Postcode
+            };
         }
     }
 
