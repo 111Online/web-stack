@@ -52,7 +52,7 @@ namespace NHS111.Models.Test.Mappers.WebMappings
                 SelectedServiceId = "1",
                 AddressInformation = new LocationInfoViewModel()
                 {
-                    PatientCurrentAddress = new PersonalDetailsAddressViewModel()
+                    PatientCurrentAddress = new CurrentAddressViewModel()
                     {
                         AddressLine1 = "address 1",
                         AddressLine2 = "address 2",
@@ -95,7 +95,7 @@ namespace NHS111.Models.Test.Mappers.WebMappings
                 },
                 SelectedServiceId = "1",
                 AddressInformation = new LocationInfoViewModel() { 
-                    PatientCurrentAddress = new PersonalDetailsAddressViewModel()
+                    PatientCurrentAddress = new CurrentAddressViewModel()
                 {
                     AddressLine1 = "address 1",
                     AddressLine2 = "address 2",
@@ -141,7 +141,7 @@ namespace NHS111.Models.Test.Mappers.WebMappings
                 SelectedServiceId = "1",
                 AddressInformation = new LocationInfoViewModel()
                 {
-                    PatientCurrentAddress = new PersonalDetailsAddressViewModel()
+                    PatientCurrentAddress = new CurrentAddressViewModel()
                     {
                     AddressLine1 = "address 1",
                     AddressLine2 = "address 2",
