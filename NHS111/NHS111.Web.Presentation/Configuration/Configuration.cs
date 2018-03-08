@@ -41,9 +41,15 @@ namespace NHS111.Web.Presentation.Configuration
         public string QueryStringEncryptionBytes { get { return ConfigurationManager.AppSettings["QueryStringEncryptionBytes"]; } }
 
         public string BusinessApiLocationSearchGetAddressByGeoUrl { get{ return ConfigurationManager.AppSettings["BusinessApiLocationSearchGetAddressByGeoUrl"];} }
+        public string BusinessApiLocationSearchGetAddressByPostcodeUrl { get { return ConfigurationManager.AppSettings["BusinessApiLocationSearchGetAddressByPostcodeUrl"]; } }
         public string GetBusinessApiGetAddressByGeoUrl(string latlong)
         {
             return string.Format(BusinessApiLocationSearchGetAddressByGeoUrl, latlong);
+        }
+
+        public string GetBusinessApiGetAddressByPostcodeUrl(string postcode)
+        {
+            return string.Format(BusinessApiLocationSearchGetAddressByPostcodeUrl, postcode);
         }
         public bool IsPublic {
             get {
@@ -227,6 +233,7 @@ namespace NHS111.Web.Presentation.Configuration
         string GetBusinessApiPathwaySearchUrl(string gender, string age, bool pathOnly=false);
         string GetBusinessApiVersionUrl(bool pathOnly = false);
         string GetBusinessApiGetAddressByGeoUrl(string latlong);
+        string GetBusinessApiGetAddressByPostcodeUrl(string postcode);
         string BusinessDosCheckCapacitySummaryUrl { get; }
         string BusinessDosServicesByClinicalTermUrl { get; }
         string BusinessDosServiceDetailsByIdUrl { get; }

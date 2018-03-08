@@ -253,7 +253,7 @@ namespace NHS111.Web.Controllers
             var postcodes = await GetPostcodeResults(model.AddressInfoViewModel.PreviouslyEnteredPostcode);
             var firstSelectItemText = postcodes.Count + " addresses found. Please choose...";
             var items = new List<SelectListItem> { new SelectListItem { Text = firstSelectItemText, Value = "", Selected = true } };
-            items.AddRange(postcodes.Select(postcode => new SelectListItem { Text = postcode.AddressLine1, Value = postcode.UPRN }).ToList());
+            items.AddRange(postcodes.Select(postcode => new SelectListItem { Text = postcode.FormattedAddress, Value = postcode.UPRN }).ToList());
             model.AddressInfoViewModel.AddressPicker = items;
 
             model.AddressInfoViewModel.AddressOptions = new JavaScriptSerializer().Serialize(Json(postcodes).Data);
