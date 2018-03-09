@@ -147,7 +147,7 @@
                     Date of birth
                 </h2>
             </legend>
-            <p>This is the date of birth of the person needing care.</p>
+            <p class="form-info">This is the date of birth of the person needing care.</p>
             <p class="form-hint">For example, 31 / 12 / 1980</p>
             @{ var validDate = @ViewData.ModelState.IsValidField("UserInfo.DoB") && @ViewData.ModelState.IsValidField("UserInfo.Day") &&
                  @ViewData.ModelState.IsValidField("UserInfo.Month") && @ViewData.ModelState.IsValidField("UserInfo.Year"); }
@@ -334,7 +334,10 @@
 <style>
     /* Fixes for vertical rhythm */
     label + input,
-    label + span + input {
+    label + span + input,
+    label + span + span + input,
+    .form-info,
+    .form-hint {
         margin-top: 10px !important;
     }
 
