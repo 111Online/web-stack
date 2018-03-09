@@ -69,15 +69,20 @@ namespace NHS111.Models.Mappers.WebMappings
             patientDetails.ServiceAddressPostcode = personalDetailViewModel.SelectedService.PostCode;
             patientDetails.TelephoneNumber = personalDetailViewModel.UserInfo.TelephoneNumber;
             patientDetails.CurrentAddress = MapAddress(personalDetailViewModel.AddressInformation.PatientCurrentAddress);
-            if (personalDetailViewModel.AddressInformation.HomeAddressSameAsCurrent.HasValue &&
-                personalDetailViewModel.AddressInformation.HomeAddressSameAsCurrent.Value)
+            if (personalDetailViewModel.AddressInformation.HomeAddressSameAsCurrent.HasValue)
             {
-                patientDetails.HomeAddress =
-                    MapAddress(personalDetailViewModel.AddressInformation.PatientCurrentAddress);
-            }
-            else
-            {
-                patientDetails.HomeAddress = MapAddress(personalDetailViewModel.AddressInformation.PatientHomeAddreess);
+                if (personalDetailViewModel.AddressInformation.HomeAddressSameAsCurrent.Value ==
+                    HomeAddressSameAsCurrent.Yes)
+                {
+                    patientDetails.HomeAddress =
+                        MapAddress(personalDetailViewModel.AddressInformation.PatientCurrentAddress);
+                }
+                else if (personalDetailViewModel.AddressInformation.HomeAddressSameAsCurrent.Value ==
+                         HomeAddressSameAsCurrent.No)
+                {
+                    patientDetails.HomeAddress =
+                        MapAddress(personalDetailViewModel.AddressInformation.PatientHomeAddreess);
+                }
             }
             if (personalDetailViewModel.UserInfo.Year != null && personalDetailViewModel.UserInfo.Month != null && personalDetailViewModel.UserInfo.Day != null)
                 patientDetails.DateOfBirth =
