@@ -11,7 +11,10 @@ namespace NHS111.Models.Models.Web.Validators
     {
         public LocationInfoViewModelValidator()
         {
-            RuleFor(m => m.HomeAddressSameAsCurrent).SetValidator(new HomeAddressSameAsCurrentValidator<LocationInfoViewModel, bool?>(m => m.HomeAddressSameAsCurrent));
+            RuleFor(m => m.HomeAddressSameAsCurrent).SetValidator(new HomeAddressSameAsCurrentValidator<LocationInfoViewModel, HomeAddressSameAsCurrent?>(m => m.HomeAddressSameAsCurrent));
+            RuleFor(m => m.PatientHomeAddreess).SetValidator(new PersonalInfoAddressViewModelValidator()).When(m =>
+                m.HomeAddressSameAsCurrent.HasValue &&
+                m.HomeAddressSameAsCurrent.Value == HomeAddressSameAsCurrent.No);
         }
     }
 }

@@ -14,7 +14,7 @@ namespace NHS111.Models.Models.Web
 
         public CurrentAddressViewModel PatientCurrentAddress { get; set; }
         public PersonalDetailsAddressViewModel PatientHomeAddreess { get; set; }
-        public bool? HomeAddressSameAsCurrent { get; set; }
+        public HomeAddressSameAsCurrent? HomeAddressSameAsCurrent { get; set; }
 
 
         public LocationInfoViewModel()
@@ -22,6 +22,13 @@ namespace NHS111.Models.Models.Web
             PatientCurrentAddress = new CurrentAddressViewModel();
             PatientHomeAddreess = new PersonalDetailsAddressViewModel();
         }
+    }
+
+    public enum HomeAddressSameAsCurrent
+    {
+        Yes,
+        No,
+        DontKnow
     }
 
 }

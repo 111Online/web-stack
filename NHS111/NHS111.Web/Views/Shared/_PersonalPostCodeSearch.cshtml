@@ -6,7 +6,7 @@
         <h2>Location</h2>
     </legend>
     <h3>Current location</h3>
-    <p class="form-info">We need this in case the person needing care requires emergency help.</p>
+    <p class="form-info">We need this in case emergency help is required.</p>
 
     <div class="form-group address-section">
         <div class="address-choose-postcode find-address-panel form-group" style="display: none;">
@@ -60,25 +60,26 @@
     </div>
 
 
-    <h3>Home address</h3>
-    <p class="form-info">This is the home address of the person needing care. It’s used to check who they are and links to their NHS record.</p>
+    <h3>Is this the home address of the person needing care?</h3>
+    <p>We need a home address to find the right NHS record.</p>
 
 
     <fieldset class="form-group @(@ViewData.ModelState.IsValidField(Html.NameFor(m => m.HomeAddressSameAsCurrent).ToString()) ? "" : "form-group-error")" style="margin-top: 0">
         @Html.ValidationMessageFor(m => m.HomeAddressSameAsCurrent, "Home address of the person needing care")
         <div>
-            @Html.RadioButtonFor(m => m.HomeAddressSameAsCurrent, true, new { id = "home-address-same", name = "home-address", @class = "multiple-choice__input" })
-            <label for="home-address-same" class="multiple-choice--radio">Same as current location</label>
+            @Html.RadioButtonFor(m => m.HomeAddressSameAsCurrent, HomeAddressSameAsCurrent.Yes, new { id = "home-address-same", name = "home-address", @class = "multiple-choice__input" })
+            <label for="home-address-same" class="multiple-choice--radio">Yes</label>
         </div>
 
         <div>
-            @Html.RadioButtonFor(m => m.HomeAddressSameAsCurrent, false, new { id = "home-address-different", name = "home-address", @class = "multiple-choice__input" })
-            <label for="home-address-different" class="multiple-choice--radio">Enter different address</label>
+            @Html.RadioButtonFor(m => m.HomeAddressSameAsCurrent, HomeAddressSameAsCurrent.No, new { id = "home-address-different", name = "home-address", @class = "multiple-choice__input" })
+            <label for="home-address-different" class="multiple-choice--radio">No</label>
 
             <div class="form-group address-section toggle-content panel">
                 <div class="address-choose-postcode find-address-panel form-group" style="display: none;">
-                    <label for="@Html.IdFor(m => m.PatientHomeAddreess.PreviouslyEnteredPostcode)">Postcode (optional)</label>
+                    <label for="@Html.IdFor(m => m.PatientHomeAddreess.PreviouslyEnteredPostcode)">Postcode</label>
                     <span style="display: none;" class="address-no-results">We couldn't find an address using that postcode.<br />Try a different postcode or <button type="button" class="button--link address-change" style="margin-top: 0;  display: inline; width: inherit;">enter address</button>.</span>
+                    @Html.ValidationMessageFor(m => m.PatientHomeAddreess.Postcode, "Select the address")
                     @Html.TextBoxFor(m => m.PatientHomeAddreess.PreviouslyEnteredPostcode, new { @class = "form-control form-control-8-chars", })
                     <button type="button" class="button--next button--secondary find-address">Find address</button>
                 </div>
@@ -125,6 +126,11 @@
 
             </div>
 
+        </div>
+        
+        <div>
+            @Html.RadioButtonFor(m => m.HomeAddressSameAsCurrent, HomeAddressSameAsCurrent.DontKnow, new { id = "home-address-dont-know", name = "home-address", @class = "multiple-choice__input" })
+            <label for="home-address-dont-know" class="multiple-choice--radio">I don’t know the home address</label>
         </div>
 
     </fieldset>
