@@ -19,7 +19,7 @@ namespace NHS111.Models.Models.Web.Validators
 
         protected override bool IsValid(PropertyValidatorContext context)
         {
-            var homeAddressSameAsCurrent = context.Instance as bool?;
+            var homeAddressSameAsCurrent = context.PropertyValue as bool?;
             return homeAddressSameAsCurrent.HasValue;
         }
 

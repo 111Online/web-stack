@@ -175,14 +175,20 @@
 
 
     function showAddresses(addresses, element) {
-        var options = '<option value="">' + addresses.length + ' addresses found</option>';
-        $.each(addresses, function (key, value) {
-            foundAddresses[value.UPRN] = value
-            options += '<option value=' + value.UPRN + '>' + value.AddressLine1 + '</option>';
-        })
-        $('.select-address', element).empty().append(options)
-        $('.address-choose-postcode', element).hide()
-        $('.address-list', element).show()
+        if (addresses.length == 0) {
+            $('.address-no-results').addClass('field-validation-error').show();
+        }
+        else
+        {
+            var options = '<option value="">' + addresses.length + ' addresses found</option>';
+            $.each(addresses, function (key, value) {
+                foundAddresses[value.UPRN] = value
+                options += '<option value=' + value.UPRN + '>' + value.AddressLine1 + '</option>';
+            })
+            $('.select-address', element).empty().append(options)
+            $('.address-choose-postcode', element).hide()
+            $('.address-list', element).show()
+        }
     }
 
     function showAddressInfo(address, element) {
@@ -268,7 +274,6 @@
 
     function valid_postcode(postcode) {
         postcode = postcode.replace(/\s/g, "");
-        var regex = /^[A-Z]{1,2}[0-9]{1,2} ?[0-9][A-Z]{2}$/i;
-        return regex.test(postcode);
+        return postcode != "";
     }
 </script>
