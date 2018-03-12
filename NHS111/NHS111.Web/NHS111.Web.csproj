@@ -466,7 +466,7 @@
     <Content Include="Views\Outcome\ChangePostcode.cshtml" />
     <Content Include="Views\Outcome\ConfirmLocation.cshtml" />
     <Content Include="Views\Outcome\OutOfArea.cshtml" />
-    <Content Include="Views\Shared\_AlternativeServicesWithChangePostcode.cshtml" />
+    <Content Include="Views\Shared\Elements\_ChangePostcodeLink.cshtml" />
     <None Include="Web.Development.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

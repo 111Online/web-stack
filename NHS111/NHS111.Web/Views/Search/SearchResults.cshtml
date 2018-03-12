@@ -52,7 +52,7 @@
                 @{
                     var encryptedTopicsQueryStringValues = KeyValueEncryptor.EncryptedKeys(Model);
                 }
-                If you can't find what you're looking for, try <a id="show-categories" href="/@Model.UserInfo.Demography.Gender/@Model.UserInfo.Demography.Age/Topics?args=@encryptedTopicsQueryStringValues">searching by category</a> instead.
+                If you can't find what you're looking for, try <a id="show-categories" href="/@Model.UserInfo.Demography.Gender/@Model.UserInfo.Demography.Age/Topics?args=@encryptedTopicsQueryStringValues&hasResults=true">searching by category</a> instead.
             </h3>
         </div>
     }

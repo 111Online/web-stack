@@ -6,14 +6,59 @@
 <div class="alternative-care service-hidden">
     @{
         var result = Model.DosCheckCapacitySummaryResult;
+        var changePostcode = ViewData.Keys.Contains("ChangePostcode") ? (bool)ViewData["ChangePostcode"] : false;
     }
     @if (!Model.UserInfo.CurrentAddress.IsInPilotArea)
     {
-        <p>There are no other services currently available near @Html.Raw(Model.FormattedCurrentPostcode)</p>
-        <p>If you can’t @Html.Raw(Model.OutcomeGroup.Text), please call 111 for advice</p>
+        if (changePostcode)
+        {
+            using (Html.BeginForm("ChangePostcode", "Outcome", FormMethod.Post))
+            {
+                @Html.Partial("_CommonHiddenFieldsOutcomeViewModel", Model)
+                @Html.Partial("_CommonHiddenFieldsCareAdviceViewModel", Model)
+                <p>
+                    There are no other services currently available near @Html.Raw(Model.UserInfo.CurrentAddress.FormattedPostcode) @Html.Partial("_ChangePostcodeLink")
+                </p>
+                <p>If you can’t @Html.Raw(Model.OutcomeGroup.Text), please call 111 for advice</p>
+            }
+        }
+        else
+        {
+            <p>There are no other services currently available near @Html.Raw(Model.UserInfo.CurrentAddress.FormattedPostcode)</p>
+            <p>If you can’t @Html.Raw(Model.OutcomeGroup.Text), please call 111 for advice</p>
+        }
     }
     else if (Model.GroupedDosServices.Any())
     {
+        if (changePostcode)
+        {
+            using (Html.BeginForm("ChangePostcode", "Outcome", FormMethod.Post))
+            {
+                @Html.Partial("_CommonHiddenFieldsOutcomeViewModel", Model)
+                @Html.Partial("_CommonHiddenFieldsCareAdviceViewModel", Model)
+
+                if (Model.OutcomeGroup.CanPatientsRegister())
+                {
+                    <p>@String.Format("Other services that can help you near {0}", Model.UserInfo.CurrentAddress.FormattedPostcode) @Html.Partial("_ChangePostcodeLink")</p>
+                }
+                else
+                {
+                    <h3>@String.Format("Services that can help you near {0}", Model.UserInfo.CurrentAddress.FormattedPostcode) @Html.Partial("_ChangePostcodeLink")</h3>
+                }
+            }
+        }
+        else
+        {
+            if (Model.OutcomeGroup.CanPatientsRegister())
+            {
+                <p>@String.Format("Other services that can help you near {0}", Model.UserInfo.CurrentAddress.FormattedPostcode)</p>
+            }
+            else
+            {
+                <h3>@String.Format("Services that can help you near {0}", Model.UserInfo.CurrentAddress.FormattedPostcode)</h3>
+            }
+        }
+
         <div id="availableServices">
             @foreach (var groupedService in Model.GroupedDosServices)
             {
@@ -35,30 +80,39 @@
                     partial = "_PublicPhoneServices";
                 }
 
-                if (!(Model.OutcomeGroup.Equals(OutcomeGroup.Dental) || Model.OutcomeGroup.Equals(OutcomeGroup.ItkPrimaryCare)) &&
-                    Model.GroupedDosServices.Count == 1)
-                {
-                    <h3>@wording</h3>
-                    @Html.Partial(partial, Model, ViewData);
-                }
-                else
-                {
-                    <details>
-                        <summary>
-                            <span class="details__arrow"></span>
-                            <span class="summary">@wording</span>
-                        </summary>
-                        <div>
-                            @Html.Partial(partial, Model, ViewData)
-                        </div>
-                    </details>
-                }
+                var open = (Model.OutcomeGroup.Equals(OutcomeGroup.AccidentAndEmergency) &&
+                            Model.GroupedDosServices.Count == 1);
+
+                <details @(open ? Html.Raw("open") : Html.Raw("") )>
+                    <summary>
+                        <span class="details__arrow"></span>
+                        <span class="summary">@wording</span>
+                    </summary>
+                    <div>
+                        @Html.Partial(partial, Model, ViewData)
+                    </div>
+                </details>
             }
         </div>
     }
-    else if (result != null && result.ServicesUnavailable)
+    else
     {
-        <p id="NoDosResults">There are no other services currently available near @Html.Raw(Model.FormattedCurrentPostcode)</p>
-        <p>If you can’t @Html.Raw(Model.OutcomeGroup.Text), you should call 111 for advice</p>
+        if (changePostcode)
+        {
+            using (Html.BeginForm("ChangePostcode", "Outcome", FormMethod.Post))
+            {
+                @Html.Partial("_CommonHiddenFieldsOutcomeViewModel", Model)
+                @Html.Partial("_CommonHiddenFieldsCareAdviceViewModel", Model)
+                <p id="NoDosResults">
+                    There are no other services currently available near @Html.Raw(Model.UserInfo.CurrentAddress.FormattedPostcode) @Html.Partial("_ChangePostcodeLink")
+                </p>
+                            <p>If you can’t @Html.Raw(Model.OutcomeGroup.Text), please call 111 for advice</p>
+            }
+        }
+        else
+        {
+            <p id="NoDosResults">There are no other services currently available near @Html.Raw(Model.UserInfo.CurrentAddress.FormattedPostcode)</p>
+                        <p>If you can’t @Html.Raw(Model.OutcomeGroup.Text), please call 111 for advice</p>
+        }
     }
 </div>

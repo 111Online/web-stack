@@ -1,6 +1,6 @@
 ﻿@using System.Reflection.Emit
 @model NHS111.Models.Models.Web.ConfirmLocationViewModel
-@{    
+@{
     ViewBag.Title = "Confirm location";
     Layout = "~/Views/Shared/_LayoutNhsUK.cshtml";}
 @section Title { NHS 111 - Where are you? }
@@ -48,6 +48,8 @@
         @Html.HiddenFor(x => x.SurveyLink.DispositionCode)
         @Html.HiddenFor(x => x.SurveyLink.JourneyId)
         @Html.HiddenFor(x => x.SurveyLink.DispositionDateTime)
+        @Html.HiddenFor(x => x.SurveyLink.Campaign)
+        @Html.HiddenFor(x => x.SurveyLink.CampaignSource)
         @Html.HiddenFor(x => x.SelectedService.Id)
         @Html.HiddenFor(x => Model.Campaign)
         @Html.HiddenFor(x => Model.Source)
@@ -71,7 +73,7 @@
                             @foreach (var location in Model.FoundLocations)
                             {
                                 var placename = String.IsNullOrWhiteSpace(location.Thoroughfare) ? location.Ward : location.Thoroughfare;
-                                
+
                                 <input data-val="true" data-val-required="Required field" id="address-@i" name="@Html.NameFor(m => m.UserInfo.CurrentAddress.Postcode)" type="radio" value="@location.Postcode" @checkedParam>
                                 <label for="address-@i" class="multiple-choice--radio"><strong>@placename</strong>, @location.City, @location.Postcode</label>
                                 i++;
@@ -84,10 +86,10 @@
                 </div>
             </div>
         </div>
-        }
     }
-    else
-    {
-        <h1 id="strap-line">We were unable to find your location</h1>
-        <a href="/" class="js-manual-postcode button--link button--stacked">Enter my postcode.</a>
-    }
+}
+else
+{
+    <h1 id="strap-line">We were unable to find your location</h1>
+    <a href="/" class="js-manual-postcode button--link button--stacked">Enter my postcode.</a>
+}

@@ -23,13 +23,17 @@ namespace NHS111.Web.Presentation.Builders
             _restLocationService = restLocationService;
         }
 
-        public async Task<List<LocationResult>> LocationResultByPostCodeBuilder(string postCode)
+        public async Task<List<AddressLocationResult>> LocationResultByPostCodeBuilder(string postCode)
         {
-            if (string.IsNullOrEmpty(postCode)) return new List<LocationResult>();
-            var headers = new Dictionary<string, string>() {{ SubscriptionKey, _configuration.PostcodeSubscriptionKey} };
-            var locationResults = JsonConvert.DeserializeObject<List<LocationResult>>(await _restfulHelper.GetAsync(string.Format(_configuration.PostcodeSearchByIdApiUrl, postCode), headers));
-            return locationResults;
+            if (string.IsNullOrEmpty(postCode)) return new List<AddressLocationResult>();
+            var response = await _restLocationService.ExecuteTaskAsync<List<AddressLocationResult>>(
+                new RestRequest(_configuration.GetBusinessApiGetAddressByPostcodeUrl(postCode), Method.GET));
+
+            if (response.ResponseStatus == ResponseStatus.Completed)
+                return JsonConvert.DeserializeObject<List<AddressLocationResult>>(response.Content);
+            throw response.ErrorException;
         }
+
         public async Task<List<AddressLocationResult>> LocationResultByGeouilder(string longlat)
         {
             if (string.IsNullOrEmpty(longlat)) return new List<AddressLocationResult>();
@@ -44,7 +48,7 @@ namespace NHS111.Web.Presentation.Builders
 
     public interface ILocationResultBuilder
     {
-        Task<List<LocationResult>> LocationResultByPostCodeBuilder(string postCode);
+        Task<List<AddressLocationResult>> LocationResultByPostCodeBuilder(string postCode);
         Task<List<AddressLocationResult>> LocationResultByGeouilder(string longlat);
     }
 }

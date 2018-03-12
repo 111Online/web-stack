@@ -92,7 +92,7 @@ namespace NHS111.Web.Controllers
 
         [HttpGet]
         [Route("{gender}/{age}/Topics", Name = "CatergoriesUrl")]
-        public async Task<ActionResult> Categories(string gender, int age, string args)
+        public async Task<ActionResult> Categories(string gender, int age, string args, bool hasResults = false)
         {
             var decryptedArgs = new QueryStringEncryptor(args);
 
@@ -109,8 +109,10 @@ namespace NHS111.Web.Controllers
                 AllTopics = topicsContainingStartingPathways,
                 FilterServices = bool.Parse(decryptedArgs["filterServices"]),
                 SanitisedSearchTerm = decryptedArgs["searchTerm"],
+                EntrySearchTerm = decryptedArgs["searchTerm"],
                 Campaign = decryptedArgs["campaign"],
-                Source = decryptedArgs["source"]
+                Source = decryptedArgs["source"],
+                HasResults = hasResults
             };
 
             _userZoomDataBuilder.SetFieldsForSearchResults(model);

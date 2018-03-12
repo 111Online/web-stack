@@ -27,11 +27,9 @@
                 @Html.Partial("_CommonHiddenFieldsCareAdviceViewModel", Model)
                 @Html.Hidden("SelectedServiceId", @callbackService.Id)
                
-                if (callbackService.IsOpen)
-                {
-                    <hr />
-                    <button type="submit" name="PersonalDetails" value="Book a call">Book a call</button>
-                }
+                <hr />
+                <button type="submit" name="PersonalDetails" value="Book a call">Book a call</button>
+                
             }
         </div>
     }

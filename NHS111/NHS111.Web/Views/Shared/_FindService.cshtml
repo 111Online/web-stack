@@ -7,42 +7,44 @@
     <div class="findservice-form">
 
         @using (Html.BeginForm(Model.OutcomeGroup.SearchDestination, "Outcome", FormMethod.Post, new { id = "findServicesForm" }))
-        {
-            @Html.HiddenFor(x => Model.Id)
-            @Html.HiddenFor(x => Model.JourneyJson)
-            @Html.HiddenFor(x => Model.PathwayId)
-            @Html.HiddenFor(x => Model.JourneyId)
-            @Html.HiddenFor(x => Model.PathwayNo)
-            @Html.HiddenFor(x => Model.SymptomGroup)
-            @Html.HiddenFor(x => Model.FilterServices)
-            @Html.HiddenFor(x=>Model.DigitalTitle)
-            @Html.HiddenFor(x => Model.UserInfo.Demography.Age)
-            @Html.HiddenFor(x => Model.UserInfo.Demography.Gender)
-            @Html.HiddenFor(x => Model.SymptomDiscriminatorCode)
-            @Html.HiddenFor(x => Model.Title)
-            @Html.HiddenFor(x => Model.PathwayTitle)
-            @Html.HiddenFor(x => Model.EntrySearchTerm)
-            @Html.HiddenFor(x => Model.SessionId)
-            @Html.HiddenFor(x => Model.TimeFrameText)
-            @Html.HiddenFor(x => Model.SymptomDiscriminator.ReasoningText)
-            @Html.HiddenFor(x => Model.OutcomeGroup.Id)
-            @Html.HiddenFor(x => Model.OutcomeGroup.Text)
-            @Html.HiddenFor(x => Model.OutcomeGroup.Label)
-            @Html.HiddenFor(x => Model.OutcomeGroup.ITK)
-            @Html.Hidden("CurrentView", ((RazorView)ViewContext.View).ViewPath)
-            @Html.HiddenFor(x => x.DispositionTime)
-            @Html.HiddenFor(x => x.TimeFrameMinutes)
-            @Html.HiddenFor(x => x.WaitTimeText)
-            @Html.HiddenFor(x => x.SurveyLink.PathwayNo)
-            @Html.HiddenFor(x => x.SurveyLink.EndPathwayNo)
-            @Html.HiddenFor(x => x.SurveyLink.EndPathwayTitle)
-            @Html.HiddenFor(x => x.SurveyLink.DigitalTitle)
-            @Html.HiddenFor(x => x.SurveyLink.DispositionCode)
-            @Html.HiddenFor(x => x.SurveyLink.JourneyId)
-            @Html.HiddenFor(x => x.SurveyLink.DispositionDateTime)
-            @Html.HiddenFor(x => Model.Campaign)
-            @Html.HiddenFor(x => Model.Source)
-            @Html.Partial("_CommonHiddenFieldsCareAdviceViewModel", Model)
+    {
+        @Html.HiddenFor(x => Model.Id)
+        @Html.HiddenFor(x => Model.JourneyJson)
+        @Html.HiddenFor(x => Model.PathwayId)
+        @Html.HiddenFor(x => Model.JourneyId)
+        @Html.HiddenFor(x => Model.PathwayNo)
+        @Html.HiddenFor(x => Model.SymptomGroup)
+        @Html.HiddenFor(x => Model.FilterServices)
+        @Html.HiddenFor(x => Model.DigitalTitle)
+        @Html.HiddenFor(x => Model.UserInfo.Demography.Age)
+        @Html.HiddenFor(x => Model.UserInfo.Demography.Gender)
+        @Html.HiddenFor(x => Model.SymptomDiscriminatorCode)
+        @Html.HiddenFor(x => Model.Title)
+        @Html.HiddenFor(x => Model.PathwayTitle)
+        @Html.HiddenFor(x => Model.EntrySearchTerm)
+        @Html.HiddenFor(x => Model.SessionId)
+        @Html.HiddenFor(x => Model.TimeFrameText)
+        @Html.HiddenFor(x => Model.SymptomDiscriminator.ReasoningText)
+        @Html.HiddenFor(x => Model.OutcomeGroup.Id)
+        @Html.HiddenFor(x => Model.OutcomeGroup.Text)
+        @Html.HiddenFor(x => Model.OutcomeGroup.Label)
+        @Html.HiddenFor(x => Model.OutcomeGroup.ITK)
+        @Html.Hidden("CurrentView", ((RazorView)ViewContext.View).ViewPath)
+        @Html.HiddenFor(x => x.DispositionTime)
+        @Html.HiddenFor(x => x.TimeFrameMinutes)
+        @Html.HiddenFor(x => x.WaitTimeText)
+        @Html.HiddenFor(x => x.SurveyLink.PathwayNo)
+        @Html.HiddenFor(x => x.SurveyLink.EndPathwayNo)
+        @Html.HiddenFor(x => x.SurveyLink.EndPathwayTitle)
+        @Html.HiddenFor(x => x.SurveyLink.DigitalTitle)
+        @Html.HiddenFor(x => x.SurveyLink.DispositionCode)
+        @Html.HiddenFor(x => x.SurveyLink.JourneyId)
+        @Html.HiddenFor(x => x.SurveyLink.DispositionDateTime)
+        @Html.HiddenFor(x => x.SurveyLink.Campaign)
+        @Html.HiddenFor(x => x.SurveyLink.CampaignSource)
+        @Html.HiddenFor(x => Model.Campaign)
+        @Html.HiddenFor(x => Model.Source)
+        @Html.Partial("_CommonHiddenFieldsCareAdviceViewModel", Model)
 
             <div class="find-service">
                 <h2 class="heading-medium">@Html.Raw((!ViewData.Keys.Contains("Title") ? null : string.Format("{0}", ViewData["Title"])))</h2>
@@ -64,9 +66,9 @@
                     @Html.TextBoxFor(m => m.CurrentPostcode, new {  @class = "form-control " + (error ? "error" : "") })
                     <button class="button--next" type="submit" name="DosResults" id="DosLookup">@Html.Raw(ViewData["ButtonText"])</button>
 
-                </div>
             </div>
-        }
+        </div>
+}
 
     </div>
 </section>

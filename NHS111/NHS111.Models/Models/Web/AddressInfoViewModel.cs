@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Web.Mvc;
 using FluentValidation.Attributes;
 using NHS111.Models.Models.Web.Validators;
@@ -19,6 +20,32 @@ namespace NHS111.Models.Models.Web
         public string UPRN { get; set; }
         public bool IsPostcodeFirst { get; set; }
         public bool IsInPilotArea { get; set; }
+
+
+        public string FormattedAddress
+        {
+            get
+            {
+                var firstPart = String.IsNullOrWhiteSpace(this.HouseNumber) ? "" : this.HouseNumber;
+                var secondPart = String.IsNullOrWhiteSpace(this.Thoroughfare) ? this.Ward : this.Thoroughfare;
+         
+                var addressString = (!String.IsNullOrEmpty(firstPart) ? firstPart + " " : "") + secondPart;
+                if (!String.IsNullOrWhiteSpace(AddressLine1) && addressString.ToLower() != AddressLine1.ToLower())
+                    addressString = AddressLine1 + ", " + addressString;
+                return addressString;
+            }
+        }
+
+        public string FormattedPostcode
+        {
+            get
+            {
+                if (Postcode == null) return null;
+                var normalisedPostcode = Postcode.Trim().Replace(" ", "").ToUpper();
+                if (normalisedPostcode.Length < 4) return normalisedPostcode;
+                return normalisedPostcode.Insert(normalisedPostcode.Length - 3, " ");
+            }
+        }
     }
 
     public class PersonalInfoAddressViewModel : AddressInfoViewModel

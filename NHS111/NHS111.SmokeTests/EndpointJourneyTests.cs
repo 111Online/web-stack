@@ -119,9 +119,8 @@ namespace NHS111.SmokeTests
                 .Answer(3)
                 .AnswerForDispostion<OutcomePage>("Yes");
 
-            outcomePage.VerifyOutcome("Your answers suggest you need urgent medical attention within 1 hour");
+            outcomePage.VerifyOutcome("Go to an emergency treatment centre urgently");
             outcomePage.VerifyWorseningPanel(WorseningMessages.Call111PostCodeFirst);
-            outcomePage.VerifyFindService(FindServiceTypes.AccidentAndEmergency);
             outcomePage.VerifyCareAdviceHeader("What you can do in the meantime");
             outcomePage.VerifyCareAdvice(new string[] { "Headache", "Breathlessness", "Medication, pain and/or fever" });
         }

@@ -58,15 +58,15 @@ namespace NHS111.Business.DOS.Service
 
             var filteredByServiceWhitelistResults = await _serviceWhitelistFilter.Filter(results, originalPostcode);
             var mappedByServiceTypeResults = await _serviceTypeMapper.Map(filteredByServiceWhitelistResults, originalPostcode);
-            var filteredByServiceTypeResults = _serviceTypeFilter.Filter(mappedByServiceTypeResults);
-            
+            var filteredByUnknownTypeResults = _serviceTypeFilter.FilterUnknownTypes(mappedByServiceTypeResults);
+        
             if (!_filterServicesFeature.IsEnabled && !filterServices)
             {
-                return BuildResponseMessage(filteredByServiceTypeResults);
+                return BuildResponseMessage(filteredByUnknownTypeResults);
             }
-
+            var filteredByclosedCallbackTypeResults = _serviceTypeFilter.FilterClosedCallbackServices(filteredByUnknownTypeResults);
             var serviceAvailability = _serviceAvailabilityManager.FindServiceAvailability(dosFilteredCase);
-            return BuildResponseMessage(serviceAvailability.Filter(filteredByServiceTypeResults));
+            return BuildResponseMessage(serviceAvailability.Filter(filteredByclosedCallbackTypeResults));
         }
 
 

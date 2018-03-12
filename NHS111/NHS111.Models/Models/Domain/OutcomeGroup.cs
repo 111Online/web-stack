@@ -24,9 +24,11 @@ namespace NHS111.Models.Models.Domain {
 
         public bool ITK { get; set; }
 
+        public bool CanPatientsRegisterWithService { get; set; }
+
         public static OutcomeGroup ClinicianCallBack = new OutcomeGroup() { Id = "ITK_Clinician_call_back", Text = "ITK_Clinician_call_back", AutomaticSelectionOfItkResult = true, DefaultTitle = "Based on your answers, we recommend that you speak to a clinician", Label = "Healthcare services", ITK = true };
 
-        public static OutcomeGroup ItkPrimaryCare = new OutcomeGroup() { Id = "ITK_Primary_care", Text = "ITK_Primary_care", PostcodeFirst = true, DefaultTitle = "Based on your answers, we recommend you speak to a healthcare service" };
+        public static OutcomeGroup ItkPrimaryCare = new OutcomeGroup() { Id = "ITK_Primary_care", Text = "ITK_Primary_care", PostcodeFirst = true, CanPatientsRegisterWithService = true, DefaultTitle = "Based on your answers, we recommend you speak to a healthcare service" };
 
         public static OutcomeGroup Call999Police = new OutcomeGroup { Id = "Call_999_police", Text = "Call_999_police", DefaultTitle = "Your answers suggest you should dial 999 now for the police" };
 
@@ -46,7 +48,7 @@ namespace NHS111.Models.Models.Domain {
 
         public static OutcomeGroup Optician = new OutcomeGroup { Id = "SP_Optician", Text = "Optician", DefaultTitle = "Your answers suggest you should see an optician", Label = "Opticians", ITK = false };
 
-        public static OutcomeGroup Dental = new OutcomeGroup { Id = "SP_Dental", Text = "Dental treatment centre", PostcodeFirst = true, DefaultTitle = "Your answers suggest you should get dental treatment" };
+        public static OutcomeGroup Dental = new OutcomeGroup { Id = "SP_Dental", Text = "Dental treatment centre", PostcodeFirst = true, CanPatientsRegisterWithService = true, DefaultTitle = "Your answers suggest you should get dental treatment" };
 
         public static OutcomeGroup EmergencyDental = new OutcomeGroup { Id = "SP_Emergency_dental", Text = "Emergency dental treatment centre", DefaultTitle = "Your answers suggest you should get emergency dental treatment", Label = "Emergency dental treatment centres", ITK = false };
 
@@ -54,7 +56,7 @@ namespace NHS111.Models.Models.Domain {
 
         public static OutcomeGroup GP = new OutcomeGroup { Id = "SP_GP", Text = "SP_GP", DefaultTitle = "Based on your answers, we recommend you speak to a healthcare service", Label = "Healthcare services" };
 
-        public static OutcomeGroup[] PrePopulatedDosResultsOutcomeGroups = new OutcomeGroup[] {Dental, ItkPrimaryCare};
+        public static OutcomeGroup[] PrePopulatedDosResultsOutcomeGroups = new OutcomeGroup[] {Dental, ItkPrimaryCare, AccidentAndEmergency};
         public static OutcomeGroup[] SignpostingOutcomesGroups = new OutcomeGroup[] { AccidentAndEmergency, AccidentAndEmergencySexualAssault, Optician, Pharmacy, GumClinic, Dental, EmergencyDental, Midwife, GP };
         public static OutcomeGroup[] DosSearchOutcomesGroups = new OutcomeGroup[] { AccidentAndEmergency, AccidentAndEmergencySexualAssault, Optician, Pharmacy, GumClinic, Dental, EmergencyDental, Midwife, ItkPrimaryCare, ClinicianCallBack, GP };
      
@@ -105,6 +107,12 @@ namespace NHS111.Models.Models.Domain {
         {
             if (Id == null) return false;
             return OutcomeGroups.ContainsKey(Id) && OutcomeGroups[Id].AutomaticSelectionOfItkResult;
+        }
+
+        public bool CanPatientsRegister()
+        {
+            if (Id == null) return false;
+            return OutcomeGroups.ContainsKey(Id) && OutcomeGroups[Id].CanPatientsRegisterWithService;
         }
 
         private bool PostcodeFirst { get; set; }
