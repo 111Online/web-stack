@@ -17,4 +17,19 @@ namespace NHS111.Models.Models.Web.Validators
                 m.HomeAddressSameAsCurrent.Value == HomeAddressSameAsCurrent.No);
         }
     }
+
+
+    public class HomeAddressModelValidatior : AbstractValidator<PersonalDetailsAddressViewModel>
+    {
+        public HomeAddressModelValidatior()
+        {
+            RuleFor(m => m.AddressLine1)
+                .SetValidator(new HomeAddressValidator<PersonalDetailsAddressViewModel, string> (a=> a.AddressLine1));
+            RuleFor(m => m.City)
+                .SetValidator(new HomeAddressValidator<PersonalDetailsAddressViewModel, string>(a => a.City));
+            RuleFor(m => m.Postcode)
+                .SetValidator(new HomeAddressValidator<PersonalDetailsAddressViewModel, string>(a => a.Postcode));
+
+        }
+    }
 }
