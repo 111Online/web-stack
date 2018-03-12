@@ -143,7 +143,7 @@
                         select.empty();
                         select.append($("<option />").val(0).text(addresses.length + " addresses found. Please choose..."));
                         $.each(addresses, function() {
-                            select.append($("<option />").val(this.UPRN).text(this.AddressLine1));
+                            select.append($("<option />").val(this.UPRN).text(this.FormattedAddress));
                         });
                         $("#no-results-message").hide();
                         $("#AddressList").show();
