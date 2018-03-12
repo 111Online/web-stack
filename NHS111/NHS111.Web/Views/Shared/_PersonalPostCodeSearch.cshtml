@@ -149,6 +149,22 @@
         jQuery.validator.addMethod('homeaddresssameascurrentspecified', function (value, element, params) {
                 return value != null;
         });
+
+        jQuery.validator.unobtrusive.adapters.add('homeaddress', ['prefixelement'], function (options) {
+            options.rules['homeaddress'] = options.params;
+            if (options.message != null) {
+                options.messages['homeaddress'] = options.message;
+            }
+        });
+        jQuery.validator.addMethod('homeaddress', function (value, element, params) {
+            var addressElement = $(element);
+            if ($('input[name="@Html.NameFor(m => m.HomeAddressSameAsCurrent)"]:checked').val() == "No" &&
+                addressElement.attr('name').startsWith("AddressInformation.PatientHomeAddreess")) {
+                return (value) !== "";
+            }
+            return true;
+
+        });
         
     });
 
