@@ -45,7 +45,7 @@ namespace NHS111.Web.Controllers {
             if (!string.IsNullOrEmpty(args))
             {
                 var decryptedFields = new QueryStringEncryptor(args);
-                model.UserInfo.CurrentAddress.Postcode = decryptedFields["postcode"];
+                model.CurrentPostcode = decryptedFields["postcode"];
                 model.SessionId = Guid.Parse(decryptedFields["sessionId"]);
             }
 

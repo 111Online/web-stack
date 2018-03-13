@@ -129,7 +129,18 @@ namespace NHS111.Models.Models.Web
         public string UserZoomUrl { get; set; }
         public string Campaign { get; set; }
         public string Source { get; set; }
+        public string CurrentPostcode { get; set; }
 
+        public string FormattedCurrentPostcode
+        {
+            get
+            {
+                if (CurrentPostcode == null) return null;
+                var normalisedPostcode = CurrentPostcode.Trim().Replace(" ", "").ToUpper();
+                if (normalisedPostcode.Length < 4) return normalisedPostcode;
+                return normalisedPostcode.Insert(normalisedPostcode.Length - 3, " ");
+            }
+        }
         public JourneyViewModel()
         {
             Answers = new List<Answer>();

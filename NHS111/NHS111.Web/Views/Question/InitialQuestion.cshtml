@@ -16,7 +16,7 @@
     @Html.HiddenFor(x => Model.Campaign)
     @Html.HiddenFor(x => Model.Source)
 
-    <input id="UserInfo_CurrentAddress_Postcode" name="UserInfo.CurrentAddress.Postcode" type="hidden" value="@Model.UserInfo.CurrentAddress.Postcode">
+    @Html.HiddenFor(m => m.CurrentPostcode)
     <h1 class="heading--alert heading--large">Check it’s not an emergency</h1>
     <div class="callout callout--alert measure">
         <h2 class="heading--large">Call 999 now if you have:</h2>

@@ -48,18 +48,22 @@ namespace NHS111.Models.Models.Web
         }
     }
 
-    [Validator(typeof(PersonalInfoAddressViewModelValidator))]
     public class PersonalInfoAddressViewModel : AddressInfoViewModel
     {  
     }
 
-    [Validator(typeof(FindServicesAddressViewModelValidator))]
     public class FindServicesAddressViewModel : AddressInfoViewModel
     {
     }
 
     [Validator(typeof(PersonalInfoAddressViewModelValidator))]
-    public class PersonalDetailsAddressViewModel : PersonalInfoAddressViewModel
+    public class CurrentAddressViewModel : PersonalDetailsAddressViewModel
+    {
+        
+    }
+
+    [Validator(typeof(HomeAddressModelValidatior))]
+    public class PersonalDetailsAddressViewModel : AddressInfoViewModel
     {
         public List<SelectListItem> AddressPicker { get; set; }
         public string SelectedAddressFromPicker { get; set; }

@@ -47,16 +47,13 @@ namespace NHS111.Web.Controllers
                 PathwayNo = pathwayNumber,
                 DigitalTitle = decryptedArgs["digitalTitle"],
                 EntrySearchTerm = decryptedArgs["searchTerm"],
+                CurrentPostcode = decryptedArgs["postcode"],
                 UserInfo = new UserInfo
                 {
                     Demography = new AgeGenderViewModel
                     {
                         Age = age,
                         Gender = gender
-                    },
-                    CurrentAddress = new FindServicesAddressViewModel
-                    {
-                        Postcode = decryptedArgs["postcode"]
                     }
                 },
                 FilterServices = decryptedFilterServices,

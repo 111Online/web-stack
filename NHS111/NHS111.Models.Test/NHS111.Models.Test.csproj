@@ -141,7 +141,6 @@
     <Compile Include="Models\Domain\AgeCategoryTests.cs" />
     <Compile Include="Models\Domain\DispositionCodeTests.cs" />
     <Compile Include="Models\Domain\GenderTests.cs" />
-    <Compile Include="Models\Web\AddressInfoViewModelTests.cs" />
     <Compile Include="Models\Web\JourneyViewModelTests.cs" />
     <Compile Include="Models\Web\Logging\AuditedDosRequestTests.cs" />
     <Compile Include="Models\Web\Logging\AuditedDosResponseTest.cs" />

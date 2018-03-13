@@ -23,8 +23,8 @@ namespace NHS111.Models.Mappers.WebMappings
             Mapper.CreateMap<OutcomeViewModel, CaseDetails>()
               .ConvertUsing<FromOutcomeViewModelToCaseDetailsConverter>();
 
-            Mapper.CreateMap<OutcomeViewModel, PatientDetails>()
-                .ConvertUsing<FromOutcomeViewModelToPatientDetailsConverter>();
+            Mapper.CreateMap<PersonalDetailViewModel, PatientDetails>()
+                .ConvertUsing<FromPersonalDetailViewModelToPatientDetailsConverter>();
 
             Mapper.CreateMap<OutcomeViewModel, ServiceDetails>()
                 .ConvertUsing<FromOutcomeViewModelToServiceDetailsConverter>();

@@ -27,9 +27,9 @@ namespace NHS111.Models.Test.Mappers.WebMappings
         }
 
         [Test]
-        public void FromOutcomeViewModelToPatientDetailsConverter_Informant_null_test()
+        public void FromPersonalDetailViewModelToPatientDetailsConverter_Informant_null_test()
         {
-            var outcome = new OutcomeViewModel()
+            var outcome = new PersonalDetailViewModel()
             {
                 UserInfo = new UserInfo()
                 {
@@ -50,27 +50,30 @@ namespace NHS111.Models.Test.Mappers.WebMappings
                     }
                 },
                 SelectedServiceId = "1",
-                AddressInfoViewModel = new PersonalDetailsAddressViewModel()
+                AddressInformation = new LocationInfoViewModel()
                 {
-                    AddressLine1 = "address 1",
-                    AddressLine2 = "address 2",
-                    City = "Testity",
-                    County = "Tesux",
-                    HouseNumber = "1",
-                    Postcode = "111 111",
+                    PatientCurrentAddress = new CurrentAddressViewModel()
+                    {
+                        AddressLine1 = "address 1",
+                        AddressLine2 = "address 2",
+                        City = "Testity",
+                        County = "Tesux",
+                        HouseNumber = "1",
+                        Postcode = "111 111",
+                    }
                 },
 
             };
 
-            var result = Mapper.Map<OutcomeViewModel, PatientDetails>(outcome);
+            var result = Mapper.Map<PersonalDetailViewModel, PatientDetails>(outcome);
             Assert.AreEqual("111", result.Informant.TelephoneNumber);
             Assert.AreEqual(NHS111.Models.Models.Web.ITK.InformantType.Self, result.Informant.Type);
         }
 
         [Test]
-        public void FromOutcomeViewModelToPatientDetailsConverter_Informant_false_test()
+        public void FromPersonalDetailViewModelToPatientDetailsConverter_Informant_false_test()
         {
-            var outcome = new OutcomeViewModel()
+            var outcome = new PersonalDetailViewModel()
             {
                 UserInfo = new UserInfo()
                 {
@@ -91,7 +94,8 @@ namespace NHS111.Models.Test.Mappers.WebMappings
                     }
                 },
                 SelectedServiceId = "1",
-                AddressInfoViewModel = new PersonalDetailsAddressViewModel()
+                AddressInformation = new LocationInfoViewModel() { 
+                    PatientCurrentAddress = new CurrentAddressViewModel()
                 {
                     AddressLine1 = "address 1",
                     AddressLine2 = "address 2",
@@ -99,7 +103,7 @@ namespace NHS111.Models.Test.Mappers.WebMappings
                     County = "Tesux",
                     HouseNumber = "1",
                     Postcode = "111 111",
-                },
+                }},
                 Informant = new InformantViewModel()
                 {
                     IsInformantForPatient = false
@@ -112,9 +116,9 @@ namespace NHS111.Models.Test.Mappers.WebMappings
         }
 
         [Test]
-        public void FromOutcomeViewModelToPatientDetailsConverter_Informant_true_test()
+        public void FromPersonalDetailViewModelToPatientDetailsConverter_Informant_true_test()
         {
-            var outcome = new OutcomeViewModel()
+            var outcome = new PersonalDetailViewModel()
             {
                 UserInfo = new UserInfo()
                 {
@@ -135,15 +139,17 @@ namespace NHS111.Models.Test.Mappers.WebMappings
                     }
                 },
                 SelectedServiceId = "1",
-                AddressInfoViewModel = new PersonalDetailsAddressViewModel()
+                AddressInformation = new LocationInfoViewModel()
                 {
+                    PatientCurrentAddress = new CurrentAddressViewModel()
+                    {
                     AddressLine1 = "address 1",
                     AddressLine2 = "address 2",
                     City = "Testity",
                     County = "Tesux",
                     HouseNumber = "1",
                     Postcode = "111 111",
-                },
+                }},
                 Informant = new InformantViewModel()
                 {
                     Forename = "Informer",
