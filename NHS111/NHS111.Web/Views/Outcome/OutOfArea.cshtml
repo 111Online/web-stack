@@ -17,7 +17,7 @@
 }
 @section Title { NHS 111 }
 
-<p>There are no other services currently available near @Html.Raw(Model.UserInfo.CurrentAddress.FormattedPostcode)</p>
+<p>There are no other services currently available near @Html.Raw(Model.FormattedCurrentPostcode)</p>
 
 @section FeedbackSection {
     @if (Model.UserInfo.CurrentAddress.IsPostcodeFirst)
