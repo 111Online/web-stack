@@ -1,11 +1,13 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
+using NHS111.Models.Models.Business.Location;
 using NHS111.Models.Models.Web.FromExternalServices;
-using NHS111.Models.Models.Web.FromExternalServices.IdealPostcodes;
 using NHS111.Utils.Helpers;
 using NHS111.Web.Presentation.Configuration;
 using RestSharp;
+using AddressLocationResult = NHS111.Models.Models.Web.FromExternalServices.IdealPostcodes.AddressLocationResult;
 
 namespace NHS111.Web.Presentation.Builders
 {
@@ -29,8 +31,20 @@ namespace NHS111.Web.Presentation.Builders
             var response = await _restLocationService.ExecuteTaskAsync<List<AddressLocationResult>>(
                 new RestRequest(_configuration.GetBusinessApiGetAddressByPostcodeUrl(postCode), Method.GET));
 
-            if (response.ResponseStatus == ResponseStatus.Completed)
+            if (response.ResponseStatus == ResponseStatus.Completed )
                 return JsonConvert.DeserializeObject<List<AddressLocationResult>>(response.Content);
+            throw response.ErrorException;
+        }
+
+
+        public async Task<LocationServiceResult<AddressLocationResult>> LocationResultValidatedByPostCodeBuilder(string postCode)
+        {
+            if (string.IsNullOrEmpty(postCode)) return new LocationServiceResult<AddressLocationResult>();
+            var response = await _restLocationService.ExecuteTaskAsync<LocationServiceResult<AddressLocationResult>>(
+                new RestRequest(Uri.EscapeDataString(_configuration.GetBusinessApiGetValidatedAddressByPostcodeUrl(postCode)), Method.GET));
+
+            if (response.ResponseStatus == ResponseStatus.Completed)
+                return response.Data;
             throw response.ErrorException;
         }
 
@@ -49,6 +63,7 @@ namespace NHS111.Web.Presentation.Builders
     public interface ILocationResultBuilder
     {
         Task<List<AddressLocationResult>> LocationResultByPostCodeBuilder(string postCode);
+        Task<LocationServiceResult<AddressLocationResult>> LocationResultValidatedByPostCodeBuilder(string postCode);
         Task<List<AddressLocationResult>> LocationResultByGeouilder(string longlat);
     }
 }

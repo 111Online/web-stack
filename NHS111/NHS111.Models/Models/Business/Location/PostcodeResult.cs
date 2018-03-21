@@ -9,8 +9,7 @@ namespace NHS111.Models.Models.Business.Location
 {
     public class LocationServiceResult<T>
     {
-        [JsonProperty(PropertyName = "code")]
-        public string ResponseCode { get; set; }
+        public string Code { get; set; }
 
         [JsonProperty(PropertyName = "message")]
         public string Message { get; set; }

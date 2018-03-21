@@ -69,7 +69,13 @@ namespace NHS111.Web.Controllers
         [HttpPost]
         public async Task<ActionResult> UpdatedServices(OutcomeViewModel model, string submitAction)
         {
-            if (!ModelState.IsValidField("CurrentPostcode")) return View("ChangePostcode", model);
+            var postcodeResults =  await _locationResultBuilder.LocationResultValidatedByPostCodeBuilder(model.CurrentPostcode);
+
+            if (postcodeResults.Code == "4040")
+            {
+                ModelState.AddModelError("CurrentPostcode", "please provide a valid postcode");
+                return View("ChangePostcode", model);
+            }
             model.UserInfo.CurrentAddress.IsInPilotArea = _postCodeAllowedValidator.IsAllowedPostcode(model.CurrentPostcode);
             var viewName = "ChangePostcode";
             if (submitAction == "manualpostcode") return View(viewName, model);
