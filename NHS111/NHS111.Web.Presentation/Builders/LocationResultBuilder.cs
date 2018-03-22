@@ -41,10 +41,10 @@ namespace NHS111.Web.Presentation.Builders
         {
             if (string.IsNullOrEmpty(postCode)) return new LocationServiceResult<AddressLocationResult>();
             var response = await _restLocationService.ExecuteTaskAsync<LocationServiceResult<AddressLocationResult>>(
-                new RestRequest(Uri.EscapeDataString(_configuration.GetBusinessApiGetValidatedAddressByPostcodeUrl(postCode)), Method.GET));
+                new RestRequest(_configuration.GetBusinessApiGetValidatedAddressByPostcodeUrl(postCode), Method.GET));
 
             if (response.ResponseStatus == ResponseStatus.Completed)
-                return response.Data;
+                      return JsonConvert.DeserializeObject<LocationServiceResult<AddressLocationResult>>(response.Content);
             throw response.ErrorException;
         }
 

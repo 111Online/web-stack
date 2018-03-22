@@ -9,10 +9,11 @@
     <p class="form-info">We need this in case emergency help is required.</p>
 
     <div class="form-group address-section">
+        <span style="display: none;" class="address-invalid-syntax">Enter a valid postcode.</span>
+        <span style="display: none;" class="address-no-results">We couldn't find an address using that postcode.<br />Try a different postcode or <button class="button--link address-change" style="margin-top: 0; display: inline; width: inherit;">enter address</button>.</span>
+        @Html.ValidationMessageFor(m => m.PatientCurrentAddress.Postcode, "Select the address")
         <div class="address-choose-postcode find-address-panel" style="display: none;">
             <label for="@Html.IdFor(m => m.PatientCurrentAddress.PreviouslyEnteredPostcode)">Postcode</label>
-            <span style="display: none;" class="address-no-results">We couldn't find an address using that postcode.<br />Try a different postcode or <button class="button--link address-change" style="margin-top: 0; display: inline; width: inherit;">enter address</button>.</span>
-            @Html.ValidationMessageFor(m => m.PatientCurrentAddress.Postcode, "Select the address")
             @Html.TextBoxFor(m => m.PatientCurrentAddress.PreviouslyEnteredPostcode, new { @class = "form-control form-control-8-chars", })
             <button type="button" class="button--next button--secondary find-address">Find address</button>
         </div>
@@ -77,13 +78,14 @@
 
             <div class="address-section toggle-content panel">
                 <div class="form-group">
+                    <span style="display: none;" class="address-invalid-syntax">Enter a valid postcode.</span>
+                    <span style="display: none;" class="address-no-results">We couldn't find an address using that postcode.<br />Try a different postcode or <button type="button" class="button--link address-change" style="margin-top: 0; display: inline; width: inherit;">enter address</button>.</span>
+                    @Html.ValidationMessageFor(m => m.PatientHomeAddreess.Postcode, "Select the address")
                     <div class="address-choose-postcode find-address-panel" style="display: none;">
                         <label for="@Html.IdFor(m => m.PatientHomeAddreess.PreviouslyEnteredPostcode)">Postcode</label>
-                        <span style="display: none;" class="address-no-results">We couldn't find an address using that postcode.<br/>Try a different postcode or <button type="button" class="button--link address-change" style="margin-top: 0; display: inline; width: inherit;">enter address</button>.</span>
-                        @Html.ValidationMessageFor(m => m.PatientHomeAddreess.Postcode, "Select the address")
-                        @Html.TextBoxFor(m => m.PatientHomeAddreess.PreviouslyEnteredPostcode, new {@class = "form-control form-control-8-chars",})
-                        <button type="button" class="button--next button--secondary find-address">Find address</button>
-                    </div>
+                            @Html.TextBoxFor(m => m.PatientHomeAddreess.PreviouslyEnteredPostcode, new { @class = "form-control form-control-8-chars", })
+                            <button type="button" class="button--next button--secondary find-address">Find address</button>
+</div>
 
                     <div class="address-list" style="display: none;">
                         <label for="home-address-picker">What is the address?</label>
@@ -166,7 +168,7 @@
             return true;
 
         });
-        
+
     });
 
     var foundAddresses = {}
@@ -175,7 +177,7 @@
     $('.address-choose-postcode').show()
     $('.address-panel').hide()
     $('.address-confirm').show()
-    
+
 
     function findAddresses (postcode, element) {
         startPageLoadingIndicator('Searching for addresses matching ' + postcode + '...')
@@ -197,14 +199,28 @@
     }
 
 
-    function showAddresses(addresses, element) {
-        if (addresses.length == 0) {
-            $('.address-no-results').addClass('field-validation-error').show();
+    function showAddresses(addressResponse, element) {
+
+        if (addressResponse.ValidatedPostcodeResponse != (@((int)NHS111.Models.Models.Web.Validators.PostcodeValidatorResponse.ValidPostcodePathwaysAreaUndefined) )) {
+            $(element).find('.field-validation-error').hide();
+            $(element).addClass("form-group form-group-error");
+            $(element).find('.form-group').addClass("form-group form-group-error");
+            $(element).find('input').addClass('.field-validation-error');
+          
+
+           if(addressResponse.ValidatedPostcodeResponse == @((int)NHS111.Models.Models.Web.Validators.PostcodeValidatorResponse.PostcodeNotFound) )
+                $(element).find('.address-no-results').addClass('field-validation-error').show();
+           if(addressResponse.ValidatedPostcodeResponse == @((int)NHS111.Models.Models.Web.Validators.PostcodeValidatorResponse.InvalidSyntax) )
+                $(element).find('.address-invalid-syntax').addClass('field-validation-error').show();
+
         }
         else
         {
-            var options = '<option value="">' + addresses.length + ' addresses found</option>';
-            $.each(addresses, function (key, value) {
+            $(element).find('.field-validation-error').hide();
+            $(element).find('.form-group').removeClass("form-group form-group-error");
+            $(element).find('input').removeClass('.field-validation-error');
+            var options = '<option value="">' + addressResponse.Addresses.length + ' addresses found</option>';
+            $.each(addressResponse.Addresses, function (key, value) {
                 foundAddresses[value.UPRN] = value
                 options += '<option value=' + value.UPRN + '>' + value.FormattedAddress + '</option>';
             })
@@ -285,7 +301,7 @@
         }
         else changeAddress(parent)
     }
-    
+
     function setFields(result) {
         $("#AddressInfoViewModel_HouseNumber").val(result.HouseNumber);
         $("#AddressInfoViewModel_AddressLine1").val(result.AddressLine1);

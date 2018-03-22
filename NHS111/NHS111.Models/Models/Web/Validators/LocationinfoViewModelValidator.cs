@@ -29,6 +29,7 @@ namespace NHS111.Models.Models.Web.Validators
                 .SetValidator(new HomeAddressValidator<PersonalDetailsAddressViewModel, string>(a => a.City));
             RuleFor(m => m.Postcode)
                 .SetValidator(new HomeAddressValidator<PersonalDetailsAddressViewModel, string>(a => a.Postcode));
+        
 
         }
     }
