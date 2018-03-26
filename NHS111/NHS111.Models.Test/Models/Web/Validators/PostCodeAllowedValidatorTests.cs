@@ -23,12 +23,25 @@ namespace NHS111.Models.Test.Models.Web.Validators
       
         public void SetupMockCCGResultWithApp()
         {
-            mockCCGBuilder.Setup(f => f.FillCCGModel(It.IsAny<string>())).ReturnsAsync(new CCGModel() { App = "Pathways" });
+            mockCCGBuilder.Setup(f => f.FillCCGModel(It.IsAny<string>())).ReturnsAsync(new CCGModel() { App = "Pathways", Postcode = "TS19 7TG"});
         }
 
         public void SetupMockCCGResultWithoutApp()
         {
-            mockCCGBuilder.Setup(f => f.FillCCGModel(It.IsAny<string>())).ReturnsAsync(new CCGModel());
+            mockCCGBuilder.Setup(f => f.FillCCGModel(It.IsAny<string>())).ReturnsAsync(new CCGModel() { Postcode = "TS19 7TG" });
+        }
+
+
+        public void SetupMockCCGResultWithoutValidPostcode()
+        {
+            mockCCGBuilder.Setup(f => f.FillCCGModel(It.IsAny<string>())).ReturnsAsync(new CCGModel() );
+        }
+
+
+
+        public void SetupMockCCGResultWithAppOutOfArea()
+        {
+            mockCCGBuilder.Setup(f => f.FillCCGModel(It.IsAny<string>())).ReturnsAsync(new CCGModel() { App = "Other", Postcode = "TS19 7TG" });
         }
         [Test]
         public void Feature_not_enabled_returns_is_valid_true()
@@ -48,19 +61,17 @@ namespace NHS111.Models.Test.Models.Web.Validators
             SetupMockCCGResultWithoutApp();
 
             var sut = new PostCodeAllowedValidator(mockFeature.Object, mockCCGBuilder.Object);
-            Assert.AreEqual(PostcodeValidatorResponse.InPathwaysArea, sut.IsAllowedPostcode("SO30 2UN"));
+            Assert.AreEqual(PostcodeValidatorResponse.OutsidePathwaysArea, sut.IsAllowedPostcode("SO30 2UN"));
         }
 
         [Test]
         public void Feature_enabled_empty_postcode_list_returns_false()
         {
-            var mockPostcodeList = @"Postcode";
-
             var mockFeature = new Mock<IAllowedPostcodeFeature>();
             mockFeature.Setup(f => f.IsEnabled).Returns(true);
-            SetupMockCCGResultWithoutApp();
+            SetupMockCCGResultWithoutValidPostcode();
             var sut = new PostCodeAllowedValidator(mockFeature.Object, mockCCGBuilder.Object);
-            Assert.AreEqual(PostcodeValidatorResponse.InPathwaysArea, sut.IsAllowedPostcode("SO30 2UN"));
+            Assert.AreEqual(PostcodeValidatorResponse.PostcodeNotFound, sut.IsAllowedPostcode("SO30 2UN"));
         }
 
         [Test]

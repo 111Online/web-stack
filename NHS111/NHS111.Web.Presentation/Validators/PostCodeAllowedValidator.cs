@@ -26,10 +26,9 @@ namespace NHS111.Web.Presentation.Validators
             Regex regex = new Regex(@"^[a-zA-Z0-9]+$");
             if(!regex.IsMatch(postcode.Replace(" ", ""))) return PostcodeValidatorResponse.InvalidSyntax;
             Task<CCGModel> ccgModelBuildertask = Task.Run<CCGModel>(async () => await _ccgModelBuilder.FillCCGModel(postcode));
+            if (!_allowedPostcodeFeature.IsEnabled) return PostcodeValidatorResponse.InPathwaysArea;
             var ccg = ccgModelBuildertask.Result;
             if (ccg.Postcode == null) return PostcodeValidatorResponse.PostcodeNotFound;
-            if (!_allowedPostcodeFeature.IsEnabled) return PostcodeValidatorResponse.InPathwaysArea;
-
             if (!DUCTriageApp.IsPathways(ccg.App)) return PostcodeValidatorResponse.OutsidePathwaysArea;
             else return PostcodeValidatorResponse.InPathwaysArea;
         }
