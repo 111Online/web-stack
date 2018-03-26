@@ -9,27 +9,24 @@
     <p class="form-info">We need this in case emergency help is required.</p>
 
     <div class="form-group address-section">
-        <span style="display: none;" class="address-invalid-syntax custom-error">Enter a valid postcode.</span>
-        <span style="display: none;" class="address-no-results  custom-error">We couldn't find an address using that postcode.<br />Try a different postcode or <button class="button--link address-change" style="margin-top: 0; display: inline; width: inherit;">enter address</button>.</span>
-        @Html.ValidationMessageFor(m => m.PatientCurrentAddress.Postcode, "Select the address")
         <div class="address-choose-postcode find-address-panel" style="display: none;">
             <label for="@Html.IdFor(m => m.PatientCurrentAddress.PreviouslyEnteredPostcode)">Postcode</label>
+            <span style="display: none;" class="address-no-results custom-error" data-invalidpostcode="current">We can't find an address with this postcode.<br />Check the postcode is correct or <button class="button--link address-change" style="margin-top: 0; display: inline; width: inherit;">enter address</button>.</span>
+            @Html.ValidationMessageFor(m => m.PatientCurrentAddress.Postcode, "Enter the postcode")
             @Html.TextBoxFor(m => m.PatientCurrentAddress.PreviouslyEnteredPostcode, new { @class = "form-control form-control-8-chars", })
             <button type="button" class="button--next button--secondary find-address">Find address</button>
         </div>
 
         <div class="address-list" style="display: none;">
             <label for="@Html.IdFor(m => m.PatientCurrentAddress.SelectedAddressFromPicker)">What is the address?</label>
-            <div class="@(@ViewData.ModelState.IsValidField("PatientCurrentAddress.AddressInfoViewModel.AddressPicker") ? "" : "form-group-error")">
-                @Html.ValidationMessageFor(m => m.PatientCurrentAddress.SelectedAddressFromPicker, "Select the address")
-                @Html.DropDownListFor(m => m.PatientCurrentAddress.SelectedAddressFromPicker, Model.PatientCurrentAddress.AddressPicker, new { @class = "select-address" })
-            </div>
-            <button type="button" class="button--link address-change" style="margin-top: 5px;">Change address</button>
+            @Html.ValidationMessageFor(m => m.PatientCurrentAddress.Postcode, "Select the address")
+            @Html.DropDownListFor(m => m.PatientCurrentAddress.SelectedAddressFromPicker, Model.PatientCurrentAddress.AddressPicker, new { @class = "select-address", style = "margin-top: 15px;" })
+            <button type="button" class="button--link address-change" data-changeaddress="current" style="margin-top: 5px;">Change address</button>
         </div>
 
         <div class="address-display-info" style="display: none;">
             <p class="address-info"></p>
-            <button type="button" class="button--link address-change" style="margin-top: 0px;">Change address</button>
+            <button type="button" class="button--link address-change" data-changeaddress="current" style="margin-top: 0px;">Change address</button>
         </div>
 
         <div id="addressPanel" class="address-panel">
@@ -78,27 +75,25 @@
 
             <div class="toggle-content panel">
                 <div class="address-section form-group">
-                    <span style="display: none;" class="address-invalid-syntax custom-error">Enter a valid postcode.</span>
-                    <span style="display: none;" class="address-no-results custom-error">We couldn't find an address using that postcode.<br />Try a different postcode or <button type="button" class="button--link address-change" style="margin-top: 0; display: inline; width: inherit;">enter address</button>.</span>
-                    @Html.ValidationMessageFor(m => m.PatientHomeAddreess.SelectedAddressFromPicker, "Select the address")
                     <div class="address-choose-postcode find-address-panel" style="display: none;">
                         <label for="@Html.IdFor(m => m.PatientHomeAddreess.PreviouslyEnteredPostcode)">Postcode</label>
-                            @Html.TextBoxFor(m => m.PatientHomeAddreess.PreviouslyEnteredPostcode, new { @class = "form-control form-control-8-chars", })
-                            <button type="button" class="button--next button--secondary find-address">Find address</button>
+                        <span style="display: none;" class="address-no-results custom-error" data-invalidpostcode="home">We can't find an address with this postcode.<br />Check the postcode is correct or <button type="button" class="button--link address-change" style="margin-top: 0; display: inline; width: inherit;">enter address</button>.</span>
+                        @Html.ValidationMessageFor(m => m.PatientHomeAddreess.Postcode, "Enter the postcode")
+                        @Html.TextBoxFor(m => m.PatientHomeAddreess.PreviouslyEnteredPostcode, new {@class = "form-control form-control-8-chars",})
+                        <button type="button" class="button--next button--secondary find-address">Find address</button>
                     </div>
 
                     <div class="address-list" style="display: none;">
                        
                         <label for="@Html.IdFor(m => m.PatientHomeAddreess.SelectedAddressFromPicker)">What is the address?</label>
-                        <div class="@(@ViewData.ModelState.IsValidField("PatientHomeAddreess.AddressInfoViewModel.AddressPicker") ? "" : "form-group-error")">
-                            @Html.DropDownListFor(m => m.PatientHomeAddreess.SelectedAddressFromPicker, Model.PatientHomeAddreess.AddressPicker, new { id = "home-address-picker", @class = "select-address" })
-                            <button type="button" class="button--link address-change" style="margin-top: 5px;">Change address</button>
-                        </div>
+                        @Html.ValidationMessageFor(m => m.PatientCurrentAddress.Postcode, "Select the address")
+                        @Html.DropDownListFor(m => m.PatientHomeAddreess.SelectedAddressFromPicker, Model.PatientHomeAddreess.AddressPicker, new {id = "home-address-picker", @class = "select-address", style = "margin-top: 15px;"})
+                        <button type="button" class="button--link address-change" data-changeaddress="home" style="margin-top: 5px;">Change address</button>
                     </div>
 
                     <div class="address-display-info" style="display: none;">
                         <p class="address-info"></p>
-                        <button type="button" class="button--link address-change" style="margin-top: 0px;">Change address</button>
+                        <button type="button" class="button--link address-change" data-changeaddress="home" style="margin-top: 0px;">Change address</button>
                     </div>
 
                     <div id="addressPanel" class="address-panel">
@@ -193,40 +188,36 @@
                 console.log(textStatus)
             },
             complete: function () {
-                stopPageLoadingIndicator();
+                stopPageLoadingIndicator()
             }
         });
     }
 
 
     function showAddresses(addressResponse, element) {
-        $(element).find('.custom-error').hide();
-        if (addressResponse.ValidatedPostcodeResponse != (@((int)NHS111.Models.Models.Web.Validators.PostcodeValidatorResponse.ValidPostcodePathwaysAreaUndefined) )) {
-           // $(element).find('.field-validation-error').hide();
-            $(element).addClass("form-group form-group-error");
-            $(element).find('.form-group').addClass("form-group form-group-error");
-            $(element).find('input').addClass('.field-validation-error');
-          
+        $(element).find('.custom-error').hide()
+        if (addressResponse.ValidatedPostcodeResponse !== (@((int)NHS111.Models.Models.Web.Validators.PostcodeValidatorResponse.ValidPostcodePathwaysAreaUndefined) )) {
+           // $(element).find('.field-validation-error').hide()
+            $(element).find('.form-group').addClass("form-group form-group-error")
+            $(element).find('.form-control').addClass('.field-validation-error').attr('aria-invalid', 'true')
+            $(element).find('.field-validation-error').removeClass('.field-validation-error')
 
-           if(addressResponse.ValidatedPostcodeResponse == @((int)NHS111.Models.Models.Web.Validators.PostcodeValidatorResponse.PostcodeNotFound) )
-                $(element).find('.address-no-results').addClass('field-validation-error').show();
-           if(addressResponse.ValidatedPostcodeResponse == @((int)NHS111.Models.Models.Web.Validators.PostcodeValidatorResponse.InvalidSyntax) )
-                $(element).find('.address-invalid-syntax').addClass('field-validation-error').show();
-
+            $(element).find('.address-no-results').addClass('field-validation-error').show()
+            $(element).addClass("form-group form-group-error")
         }
         else
         {
-
-          //  $(element).find('.form-group').removeClass("form-group form-group-error");
-            $(element).find('input').removeClass('.field-validation-error');
-            var options = '<option value="">' + addressResponse.Addresses.length + ' addresses found</option>';
+            var options = '<option value="">' + addressResponse.Addresses.length + ' addresses found</option>'
             $.each(addressResponse.Addresses, function (key, value) {
                 foundAddresses[value.UPRN] = value
-                options += '<option value=' + value.UPRN + '>' + value.FormattedAddress + '</option>';
+                options += '<option value=' + value.UPRN + '>' + value.FormattedAddress + '</option>'
             })
             $('.select-address', element).empty().append(options)
             $('.address-choose-postcode', element).hide()
+            $(element).find('[aria-invalid]').removeAttr('aria-invalid')
+            $(element).find('.field-validation-error').removeClass('field-validation-error').addClass('field-validation-valid')
             $('.address-list', element).show()
+            $(element).removeClass("form-group-error")
         }
     }
 
@@ -252,19 +243,25 @@
     }
 
     function changeAddress(parent) {
+        $(parent).removeClass("form-group-error")
         $('.address-no-results', parent).removeClass('field-validation-error').hide()
         $('.address-choose-postcode', parent).hide()
         $('.address-list', parent).hide()
         $('.address-display-info', parent).hide()
         $('.address-panel', parent).show()
         $('.address-line-1', parent).focus()
+
     }
 
     $('.find-address').click(function (e) {
         var parent = $(this).parents('.address-section')
         var postcode = $(this).siblings('input').val()
         if (valid_postcode(postcode)) findAddresses(postcode, parent)
-        else $('.address-no-results', parent).addClass('field-validation-error').show()
+        else {
+            $('.address-no-results', parent).addClass('field-validation-error').show()
+            $('.address-no-results', parent).siblings('.form-control').attr('aria-invalid', 'true')
+            $(parent).addClass("form-group form-group-error")
+        }
     })
 
     $('.select-address').change(function (e) {
