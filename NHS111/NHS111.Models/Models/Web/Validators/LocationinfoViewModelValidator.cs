@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using FluentValidation;
+using System.Web.Mvc;
 
 namespace NHS111.Models.Models.Web.Validators
 {
@@ -29,7 +30,9 @@ namespace NHS111.Models.Models.Web.Validators
                 .SetValidator(new HomeAddressValidator<PersonalDetailsAddressViewModel, string>(a => a.City));
             RuleFor(m => m.Postcode)
                 .SetValidator(new HomeAddressValidator<PersonalDetailsAddressViewModel, string>(a => a.Postcode));
-        
+            RuleFor(m => m.SelectedAddressFromPicker)
+                .SetValidator(new HomeAddressValidator<PersonalDetailsAddressViewModel, string>(a => a.SelectedAddressFromPicker));
+
 
         }
     }

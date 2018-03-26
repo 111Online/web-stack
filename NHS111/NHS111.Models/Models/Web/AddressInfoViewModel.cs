@@ -68,6 +68,11 @@ namespace NHS111.Models.Models.Web
         public string SelectedAddressFromPicker { get; set; }
         public string PreviouslyEnteredPostcode { get; set; }
         public string AddressOptions { get; set; }
+
+        public PersonalDetailsAddressViewModel()
+        {
+            AddressPicker = new List<SelectListItem>();
+        }
     }
 
     public class AddressInfoCollectionViewModel
