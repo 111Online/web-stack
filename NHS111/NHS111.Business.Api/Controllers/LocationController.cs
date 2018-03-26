@@ -43,6 +43,15 @@ namespace NHS111.Business.Api.Controllers
             return Json(results);
         }
 
+        [Route("address/validatepostcode/{postcode}")]
+        [HttpGet]
+        public async Task<JsonResult<LocationServiceResult<AddressLocationResult>>> GetLocationAndValidate(string postcode)
+        {
+
+            var results = await _locatioService.ValidateAndFindAddresses(postcode);
+            return Json(results);
+        }
+
         [Route("address/geo/{longlat}")]
         [HttpGet]
         public async Task<JsonResult<List<AddressLocationResult>>> GetLocationByGeo(string longlat)

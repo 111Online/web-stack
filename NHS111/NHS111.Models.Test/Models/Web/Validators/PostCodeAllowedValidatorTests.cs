@@ -10,7 +10,9 @@ using NHS111.Models.Models.Web;
 using NHS111.Web.Presentation.Builders;
 using NHS111.Web.Presentation.Validators;
 using NUnit.Framework;
-using  NHS111.Models.Models.Web.CCG;
+using NHS111.Models.Models.Web.CCG;
+using NHS111.Models.Models.Web.Validators;
+
 namespace NHS111.Models.Test.Models.Web.Validators
 {
     [TestFixture]
@@ -35,7 +37,7 @@ namespace NHS111.Models.Test.Models.Web.Validators
             mockFeature.Setup(f => f.IsEnabled).Returns(false);
             SetupMockCCGResultWithApp();
             var sut = new PostCodeAllowedValidator(mockFeature.Object, mockCCGBuilder.Object);
-            Assert.IsTrue(sut.IsAllowedPostcode("SO30 2UN"));
+            Assert.AreEqual(PostcodeValidatorResponse.InPathwaysArea, sut.IsAllowedPostcode("SO30 2UN"));
         }
 
         [Test]
@@ -46,7 +48,7 @@ namespace NHS111.Models.Test.Models.Web.Validators
             SetupMockCCGResultWithoutApp();
 
             var sut = new PostCodeAllowedValidator(mockFeature.Object, mockCCGBuilder.Object);
-            Assert.IsFalse(sut.IsAllowedPostcode("SO30 2UN"));
+            Assert.AreEqual(PostcodeValidatorResponse.InPathwaysArea, sut.IsAllowedPostcode("SO30 2UN"));
         }
 
         [Test]
@@ -58,7 +60,7 @@ namespace NHS111.Models.Test.Models.Web.Validators
             mockFeature.Setup(f => f.IsEnabled).Returns(true);
             SetupMockCCGResultWithoutApp();
             var sut = new PostCodeAllowedValidator(mockFeature.Object, mockCCGBuilder.Object);
-            Assert.IsFalse(sut.IsAllowedPostcode("SO30 2UN"));
+            Assert.AreEqual(PostcodeValidatorResponse.InPathwaysArea, sut.IsAllowedPostcode("SO30 2UN"));
         }
 
         [Test]
@@ -71,7 +73,7 @@ namespace NHS111.Models.Test.Models.Web.Validators
             mockFeature.Setup(f => f.PostcodeFile).Returns(new StringReader(string.Join(Environment.NewLine, mockPostcodeList)));
 
             var sut = new PostCodeAllowedValidator(mockFeature.Object, mockCCGBuilder.Object);
-            Assert.IsTrue(sut.IsAllowedPostcode("SO30 2UN"));
+            Assert.AreEqual(PostcodeValidatorResponse.InPathwaysArea, sut.IsAllowedPostcode("SO30 2UN"));
         }
 
         [Test]
@@ -84,7 +86,7 @@ namespace NHS111.Models.Test.Models.Web.Validators
             mockFeature.Setup(f => f.PostcodeFile).Returns(new StringReader(string.Join(Environment.NewLine, mockPostcodeList)));
 
             var sut = new PostCodeAllowedValidator(mockFeature.Object, mockCCGBuilder.Object);
-            Assert.IsTrue(sut.IsAllowedPostcode("SO302UN"));
+            Assert.AreEqual(PostcodeValidatorResponse.InPathwaysArea, sut.IsAllowedPostcode("SO302UN"));
         }
 
         [Test]
@@ -97,7 +99,7 @@ namespace NHS111.Models.Test.Models.Web.Validators
             mockFeature.Setup(f => f.PostcodeFile).Returns(new StringReader(string.Join(Environment.NewLine, mockPostcodeList)));
 
             var sut = new PostCodeAllowedValidator(mockFeature.Object, mockCCGBuilder.Object);
-            Assert.IsTrue(sut.IsAllowedPostcode("So30 2uN"));
+            Assert.AreEqual(PostcodeValidatorResponse.InPathwaysArea, sut.IsAllowedPostcode("So30 2uN"));
         }
 
         [Test]
@@ -110,7 +112,7 @@ namespace NHS111.Models.Test.Models.Web.Validators
             mockFeature.Setup(f => f.PostcodeFile).Returns(new StringReader(string.Join(Environment.NewLine, mockPostcodeList)));
 
             var sut = new PostCodeAllowedValidator(mockFeature.Object, mockCCGBuilder.Object);
-            Assert.IsFalse(sut.IsAllowedPostcode("Ls1 6Xy"));
+            Assert.AreEqual(PostcodeValidatorResponse.OutsidePathwaysArea, sut.IsAllowedPostcode("Ls1 6Xy"));
         }
     }
 }
