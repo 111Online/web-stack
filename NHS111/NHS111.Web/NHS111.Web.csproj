@@ -553,8 +553,7 @@
     </ItemGroup>
   </Target>
   <PropertyGroup>
-    <PreBuildEvent>chdir $(SolutionDir)NHS111.Web.Frontend\
-npm install
-chdir $(ProjectDir)</PreBuildEvent>
+    <PreBuildEvent>
+    </PreBuildEvent>
   </PropertyGroup>
 </Project>
