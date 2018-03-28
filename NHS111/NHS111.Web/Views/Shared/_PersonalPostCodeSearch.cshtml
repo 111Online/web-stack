@@ -12,7 +12,7 @@
         <div class="address-choose-postcode find-address-panel" style="display: none;">
             <label for="@Html.IdFor(m => m.PatientCurrentAddress.PreviouslyEnteredPostcode)">Postcode</label>
             <span style="display: none;" class="address-no-results custom-error" data-invalidpostcode="current">We can't find an address with this postcode.<br />Check the postcode is correct or <button class="button--link address-change" style="margin-top: 0; display: inline; width: inherit;">enter address</button>.</span>
-            @Html.ValidationMessageFor(m => m.PatientCurrentAddress.Postcode, "Enter the postcode")
+            @Html.ValidationMessageFor(m => m.PatientCurrentAddress.Postcode, "Enter the postcode and click find address")
             @Html.TextBoxFor(m => m.PatientCurrentAddress.PreviouslyEnteredPostcode, new { @class = "form-control form-control-8-chars", })
             <button type="button" class="button--next button--secondary find-address">Find address</button>
         </div>
@@ -78,7 +78,7 @@
                     <div class="address-choose-postcode find-address-panel" style="display: none;">
                         <label for="@Html.IdFor(m => m.PatientHomeAddreess.PreviouslyEnteredPostcode)">Postcode</label>
                         <span style="display: none;" class="address-no-results custom-error" data-invalidpostcode="home">We can't find an address with this postcode.<br />Check the postcode is correct or <button type="button" class="button--link address-change" style="margin-top: 0; display: inline; width: inherit;">enter address</button>.</span>
-                        @Html.ValidationMessageFor(m => m.PatientHomeAddreess.Postcode, "Enter the postcode")
+                        @Html.ValidationMessageFor(m => m.PatientHomeAddreess.Postcode, "Enter the postcode and click find address")
                         @Html.TextBoxFor(m => m.PatientHomeAddreess.PreviouslyEnteredPostcode, new {@class = "form-control form-control-8-chars",})
                         <button type="button" class="button--next button--secondary find-address">Find address</button>
                     </div>
