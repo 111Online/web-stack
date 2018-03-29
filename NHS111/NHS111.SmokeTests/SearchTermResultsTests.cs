@@ -22,9 +22,8 @@ namespace NHS111.SmokeTests
             new Tuple<string, string>("lumps", "Rashes, itchy skin, spots and blisters"), //Appears in digital description only
             new Tuple<string, string>("Chest and upper back pain", "Breathing problems"), //additional digital title for Chest pain PW559 MaleAdult
             new Tuple<string, string>("Breathing problems", "Breathing problems"), //additional digital title for Chest pain PW559 MaleAdult
-            //new Tuple<string, string>("Wheezing", "Wheezing and breathlessness"), //additional digital title for Chest pain PW559 MaleAdult
-
-            //following content updates to improve search for bleeding and asthma
+            
+            //following content updates to improve search for bleeding, pregnancy and asthma
             new Tuple<string, string>("Wheezing", "Breathing problems"),
             new Tuple<string, string>("Bleeding", "Bleeding from the bottom"),
             new Tuple<string, string>("Bleeding", "Toothache, swelling and other dental problems"),
