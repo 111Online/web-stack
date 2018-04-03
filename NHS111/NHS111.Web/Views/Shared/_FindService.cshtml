@@ -48,7 +48,7 @@
 
             <div class="find-service">
                 <h2 class="heading-medium">@Html.Raw((!ViewData.Keys.Contains("Title") ? null : string.Format("{0}", ViewData["Title"])))</h2>
-                <div class="form-group @(ViewData.ModelState.IsValidField("FindService.UserInfo.CurrentAddress.Postcode") ? "" : "form-group-error")">
+                <div class="form-group @(ViewData.ModelState.IsValidField(Html.NameFor(m => m.CurrentPostcode).ToString()) ? "" : "form-group-error")">
                     @Html.LabelFor(m => m.CurrentPostcode, "Postcode")
                     @if (!String.IsNullOrEmpty(addressInfoMessage))
                     {

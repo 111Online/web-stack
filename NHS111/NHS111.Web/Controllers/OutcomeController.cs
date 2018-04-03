@@ -215,14 +215,22 @@ namespace NHS111.Web.Controllers
         public async Task<ActionResult> ServiceDetails([Bind(Prefix = "FindService")]OutcomeViewModel model, [FromUri] bool? overrideFilterServices, DosEndpoint? endpoint)
         {
 
-            if (!ModelState.IsValidField("FindService.UserInfo.CurrentAddress.Postcode"))
+            if (!ModelState.IsValidField("FindService.CurrentPostcode"))
                 return View(model.CurrentView, model);
 
-            model.UserInfo.CurrentAddress.IsInPilotArea = _postCodeAllowedValidator.IsAllowedPostcode(model.CurrentPostcode) == PostcodeValidatorResponse.InPathwaysArea;
+            var postcodeValidator = _postCodeAllowedValidator.IsAllowedPostcode(model.CurrentPostcode);
 
+            model.UserInfo.CurrentAddress.IsInPilotArea = postcodeValidator == PostcodeValidatorResponse.InPathwaysArea;
+
+            if (postcodeValidator == PostcodeValidatorResponse.InvalidSyntax)
+            {
+                ModelState.AddModelError("FindService.CurrentPostcode", "Enter a valid postcode.");
+                return View(model.CurrentView, model);
+
+            }
             if (!model.UserInfo.CurrentAddress.IsInPilotArea)
             {
-                ModelState.AddModelError("FindService.UserInfo.CurrentAddress.Postcode", "Sorry, this service is not currently available in your area.  Please call NHS 111 for advice now");
+                ModelState.AddModelError("FindService.CurrentPostcode", "Sorry, this service is not currently available in your area.  Please call NHS 111 for advice now");
                 return View(model.CurrentView, model);
             }
 
