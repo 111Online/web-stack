@@ -36,7 +36,7 @@
         mapServices += "\"Northings\": \"" + service.Northings + "\",";
         mapServices += "\"Eastings\": \"" + service.Eastings + "\",";
         mapServices += "\"Name\": \"" + Uri.EscapeDataString(service.Name) + "\",";
-        mapServices += "\"CurrentPostcode\": \"" + Model.UserInfo.CurrentAddress.Postcode + "\",";
+        mapServices += "\"CurrentPostcode\": \"" + Model.CurrentPostcode + "\",";
         mapServices += "\"Address\": [";
 
         for (var j = 0; j < service.AddressLines.Count(); j++)
