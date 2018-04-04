@@ -262,8 +262,9 @@
         }
     }
 
-    $('.find-address-input').on('keypress', function (e) {
+    $('.find-address-input').on('keydown', function (e) {
         if (e.which !== 13) return
+        e.preventDefault()
         var parent = $(this).parents('.address-section')
         var postcode = $(this).val()
         findAddressTrigger(parent, postcode)
@@ -293,6 +294,7 @@
     
     $('.address-input').on('keypress', function (e) {
         if (e.which !== 13) return
+        e.preventDefault()
         var parent = $(this).parents('.address-panel')
         var el = $('.address-confirm', parent)
         isValid(el)
