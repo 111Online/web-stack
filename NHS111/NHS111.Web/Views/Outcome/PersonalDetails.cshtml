@@ -305,6 +305,10 @@
                 }
             })
 
+            $(document).on('submit', '#personalDetailForm', function () {
+                if ($("#personalDetailForm").valid()) startPageLoadingIndicator('Contacting your selected service...')
+            })
+
         </script>
 
    
