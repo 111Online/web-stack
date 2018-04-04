@@ -212,13 +212,8 @@
       <HintPath>..\packages\WebGrease.1.5.2\lib\WebGrease.dll</HintPath>
     </Reference>
   </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
-    <Folder Include="Models\" />
-    <Folder Include="Views\Auditing\" />
-    <Folder Include="Views\Version\" />
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
@@ -260,37 +255,7 @@
     <Content Include="robots.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Scripts\bootstrap.min.js" />
-    <Content Include="Scripts\details.min.js" />
-    <Content Include="Scripts\disclaimer-popup.js" />
-    <Content Include="Scripts\icheck.js" />
-    <Content Include="Scripts\jquery.blockUI.js" />
-    <Content Include="Scripts\jquery.cookie.js" />
-    <Content Include="Scripts\jquery.ns-autogrow-1.1.6.min.js" />
-    <Content Include="Scripts\jquery.unobtrusive-ajax.js" />
-    <Content Include="Scripts\jquery.unobtrusive-ajax.min.js" />
-    <Content Include="Scripts\jquery.validate-1.11.1.min.js" />
-    <Content Include="Scripts\jquery.validate.unobtrusive-5.2.3.min.js" />
-    <Content Include="Scripts\jquery3.2.1.min.js" />
-    <Content Include="Scripts\mobileScroller.js" />
-    <Content Include="Scripts\spin.min.js" />
-    <Content Include="Scripts\vendor\modernizr-custom.js" />
     <Content Include="start.ps1" />
-    <Content Include="Static\500.html" />
-    <Content Include="Static\TempHTML\999Page.html" />
-    <Content Include="Static\TempHTML\Confirmation.html" />
-    <Content Include="Static\TempHTML\GpSearch.html" />
-    <Content Include="Static\TempHTML\outcomeFive.html" />
-    <Content Include="Static\TempHTML\outcomeFour.html" />
-    <Content Include="Static\TempHTML\outcomeOne.html" />
-    <Content Include="Static\TempHTML\outcomeThree.html" />
-    <Content Include="Static\TempHTML\outcomeTwo.html" />
-    <Content Include="Static\TempHTML\NoOutcome.html" />
-    <Content Include="Static\TempHTML\PersonalDetails.html" />
-    <Content Include="Static\TempHTML\SelectSurgery.html" />
-    <Content Include="Static\500.aspx" />
-    <Content Include="Static\404.html" />
-    <Content Include="Static\404.aspx" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -301,9 +266,7 @@
       <DependentUpon>Web.config</DependentUpon>
     </Content>
     <Content Include="Views\Web.config" />
-    <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
-    <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Search\Search.cshtml" />
   </ItemGroup>
   <ItemGroup>
@@ -329,9 +292,6 @@
     <Content Include="Views\Question\Gender.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Views\JustToBeSafe\JustToBeSafe.cshtml" />
-  </ItemGroup>
-  <ItemGroup>
     <Content Include="Views\Question\Question.cshtml" />
   </ItemGroup>
   <ItemGroup>
@@ -342,9 +302,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Shared\_SurgeryDetails.cshtml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Views\Shared\_LayoutOutcome.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Shared\_AreYouAtHome.cshtml" />
@@ -410,7 +367,6 @@
     <Content Include="Views\Outcome\PathwaySelectionJump.cshtml" />
     <Content Include="Views\Help\Terms.cshtml" />
     <Content Include="Views\Shared\_SurveyLink.cshtml" />
-    <Content Include="Views\Topic\Search.cshtml" />
     <Content Include="ApplicationInsights.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <SubType>Designer</SubType>
