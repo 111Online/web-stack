@@ -247,6 +247,7 @@
     <Content Include="robots.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="manifest.json" />
     <Content Include="start.ps1" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
@@ -381,9 +382,6 @@
     <Content Include="Views\Search\SearchResults.cshtml" />
     <Content Include="Views\Search\Categories.cshtml" />
     <Content Include="Views\Shared\_SearchBox.cshtml" />
-    <Content Include="manifest.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
     <None Include="Dockerfile" />
     <None Include=".dockerignore">
       <DependentUpon>Dockerfile</DependentUpon>
