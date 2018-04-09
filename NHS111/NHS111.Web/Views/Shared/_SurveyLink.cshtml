@@ -18,9 +18,7 @@
         Model.DigitalTitle.ToLower(),
         Model.EndPathwayTitle,
         Model.DispositionDateTime.Date.ToString("dddd, dd MMMM yyyy"),
-        Model.DispositionDateTime.ToString("HH:mm:ss"),
-        Model.Campaign,
-        Model.CampaignSource);
+        Model.DispositionDateTime.ToString("HH:mm:ss"));
 
     <div class="notification-banner notification-banner--hiviz">
         <p class="notification-banner--inner">
@@ -39,7 +37,8 @@
 
         $("#AgreeButton")
             .click(function () {
-                $.cookie("nhs111-survey-link-banner", "survey-link-yes", { path: '/', secure: true });
+                var isSecure = window.location.protocol.toLowerCase() == 'https:';
+                $.cookie("nhs111-survey-link-banner", "survey-link-yes", { path: '/', secure: isSecure });
                 $(".survey-banner-wrap").hide();
             });
 
@@ -48,4 +47,4 @@
                 $(".survey-banner-wrap").hide();
             });
     </script>
-    }
+}
