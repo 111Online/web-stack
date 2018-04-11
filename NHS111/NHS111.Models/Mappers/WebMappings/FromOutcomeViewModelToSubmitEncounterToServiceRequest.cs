@@ -19,8 +19,8 @@ namespace NHS111.Models.Mappers.WebMappings
             Mapper.CreateMap<OutcomeViewModel, CaseDetails>()
                 .ConvertUsing<FromOutcomeViewModelToCaseDetailsConverter>();
 
-            Mapper.CreateMap<OutcomeViewModel, PatientDetails>()
-                .ConvertUsing<FromOutcomeViewModelToPatientDetailsConverter>();
+            Mapper.CreateMap<PersonalDetailViewModel, PatientDetails>()
+                .ConvertUsing<FromPersonalDetailViewModelToPatientDetailsConverter>();
 
             Mapper.CreateMap<OutcomeViewModel, ServiceDetails>()
                 .ConvertUsing<FromOutcomeViewModelToServiceDetailsConverter>();
@@ -57,44 +57,64 @@ namespace NHS111.Models.Mappers.WebMappings
         }
     }
 
-    public class FromOutcomeViewModelToPatientDetailsConverter : ITypeConverter<OutcomeViewModel, PatientDetails>
+    public class FromPersonalDetailViewModelToPatientDetailsConverter : ITypeConverter<PersonalDetailViewModel, PatientDetails>
     {
         public PatientDetails Convert(ResolutionContext context)
         {
-            var outcome = (OutcomeViewModel)context.SourceValue;
+            var personalDetailViewModel = (PersonalDetailViewModel)context.SourceValue;
             var patientDetails = (PatientDetails)context.DestinationValue ?? new PatientDetails();
 
-            patientDetails.Forename = outcome.UserInfo.FirstName;
-            patientDetails.Surname = outcome.UserInfo.LastName;
-            patientDetails.ServiceAddressPostcode = outcome.SelectedService.PostCode;
-            patientDetails.TelephoneNumber = outcome.UserInfo.TelephoneNumber;
-            patientDetails.CurrentAddress = new Address()
+            patientDetails.Forename = personalDetailViewModel.UserInfo.FirstName;
+            patientDetails.Surname = personalDetailViewModel.UserInfo.LastName;
+            patientDetails.ServiceAddressPostcode = personalDetailViewModel.SelectedService.PostCode;
+            patientDetails.TelephoneNumber = personalDetailViewModel.UserInfo.TelephoneNumber;
+            patientDetails.CurrentAddress = MapAddress(personalDetailViewModel.AddressInformation.PatientCurrentAddress);
+            if (personalDetailViewModel.AddressInformation.HomeAddressSameAsCurrent.HasValue)
             {
-                PostalCode = string.IsNullOrEmpty(outcome.AddressInfoViewModel.Postcode) ? null : outcome.AddressInfoViewModel.Postcode,
-                StreetAddressLine1 =
-                    !string.IsNullOrEmpty(outcome.AddressInfoViewModel.HouseNumber)
-                        ? string.Format("{0} {1}", outcome.AddressInfoViewModel.HouseNumber, outcome.AddressInfoViewModel.AddressLine1)
-                        : outcome.AddressInfoViewModel.AddressLine1,
-                StreetAddressLine2 = outcome.AddressInfoViewModel.AddressLine2,
-                StreetAddressLine3 = outcome.AddressInfoViewModel.City,
-                StreetAddressLine4 = outcome.AddressInfoViewModel.County,
-                StreetAddressLine5 = outcome.AddressInfoViewModel.Postcode
-            };
-            if (outcome.UserInfo.Year != null && outcome.UserInfo.Month != null && outcome.UserInfo.Day != null)
+                if (personalDetailViewModel.AddressInformation.HomeAddressSameAsCurrent.Value ==
+                    HomeAddressSameAsCurrent.Yes)
+                {
+                    patientDetails.HomeAddress =
+                        MapAddress(personalDetailViewModel.AddressInformation.PatientCurrentAddress);
+                }
+                else if (personalDetailViewModel.AddressInformation.HomeAddressSameAsCurrent.Value ==
+                         HomeAddressSameAsCurrent.No)
+                {
+                    patientDetails.HomeAddress =
+                        MapAddress(personalDetailViewModel.AddressInformation.PatientHomeAddreess);
+                }
+            }
+            if (personalDetailViewModel.UserInfo.Year != null && personalDetailViewModel.UserInfo.Month != null && personalDetailViewModel.UserInfo.Day != null)
                 patientDetails.DateOfBirth =
-                    new DateTime(outcome.UserInfo.Year.Value, outcome.UserInfo.Month.Value, outcome.UserInfo.Day.Value);
+                    new DateTime(personalDetailViewModel.UserInfo.Year.Value, personalDetailViewModel.UserInfo.Month.Value, personalDetailViewModel.UserInfo.Day.Value);
 
-            patientDetails.Gender = outcome.UserInfo.Demography.Gender;
+            patientDetails.Gender = personalDetailViewModel.UserInfo.Demography.Gender;
             
             patientDetails.Informant = new InformantDetails()
             {
-                Forename = outcome.Informant.Forename,
-                Surname = outcome.Informant.Surname,
-                TelephoneNumber = outcome.UserInfo.TelephoneNumber,
-                Type = outcome.Informant.IsInformantForPatient ? NHS111.Models.Models.Web.ITK.InformantType.NotSpecified : NHS111.Models.Models.Web.ITK.InformantType.Self
+                Forename = personalDetailViewModel.Informant.Forename,
+                Surname = personalDetailViewModel.Informant.Surname,
+                TelephoneNumber = personalDetailViewModel.UserInfo.TelephoneNumber,
+                Type = personalDetailViewModel.Informant.IsInformantForPatient ? NHS111.Models.Models.Web.ITK.InformantType.NotSpecified : NHS111.Models.Models.Web.ITK.InformantType.Self
             };           
             
             return patientDetails;
+        }
+
+        private Address MapAddress(PersonalDetailsAddressViewModel addressViewModel)
+        {
+            return new Address()
+            {
+                PostalCode = addressViewModel.Postcode,
+                StreetAddressLine1 =
+                    !string.IsNullOrEmpty(addressViewModel.HouseNumber)
+                        ? string.Format("{0} {1}", addressViewModel.HouseNumber, addressViewModel.AddressLine1)
+                        : addressViewModel.AddressLine1,
+                StreetAddressLine2 = addressViewModel.AddressLine2,
+                StreetAddressLine3 = addressViewModel.City,
+                StreetAddressLine4 = addressViewModel.County,
+                StreetAddressLine5 = addressViewModel.Postcode
+            };
         }
     }
 

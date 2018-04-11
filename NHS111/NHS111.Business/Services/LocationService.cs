@@ -38,6 +38,14 @@ namespace NHS111.Business.Services
             return new List<AddressLocationResult>();
         }
 
+        public async Task<LocationServiceResult<AddressLocationResult>> ValidateAndFindAddresses(string postcode)
+        {
+            var response = await _restidealPostcodesApi.ExecuteTaskAsync<LocationServiceResult<AddressLocationResult>>(
+                new RestRequest(_configuration.GetLocationByPostcodeUrl(postcode), Method.GET));
+            if (response.ResponseStatus == ResponseStatus.Completed)
+                return response.Data;
+            throw response.ErrorException;
+        }
         public async Task<List<AddressLocationResult>> FindAddresses(string postcode)
         {
             var response = await _restidealPostcodesApi.ExecuteTaskAsync<LocationServiceResult<AddressLocationResult>>(
@@ -52,5 +60,6 @@ namespace NHS111.Business.Services
          Task<List<PostcodeLocationResult>> FindPostcodes(double longitude, double latitude);
          Task<List<AddressLocationResult>> FindAddresses(double longitude, double latitude);
          Task<List<AddressLocationResult>> FindAddresses(string postcode);
+        Task<LocationServiceResult<AddressLocationResult>> ValidateAndFindAddresses(string postcode);
     }
 }

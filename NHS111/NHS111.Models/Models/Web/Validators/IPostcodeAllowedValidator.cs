@@ -8,6 +8,16 @@ namespace NHS111.Models.Models.Web.Validators
 {
     public interface IPostCodeAllowedValidator
     {
-        bool IsAllowedPostcode(string postcode);
+        PostcodeValidatorResponse IsAllowedPostcode(string postcode);
+    }
+
+
+    public enum PostcodeValidatorResponse
+    {
+        ValidPostcodePathwaysAreaUndefined,
+        InPathwaysArea,
+        PostcodeNotFound,
+        OutsidePathwaysArea,
+        InvalidSyntax
     }
 }

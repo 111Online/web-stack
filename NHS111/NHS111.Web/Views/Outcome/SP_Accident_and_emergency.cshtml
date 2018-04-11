@@ -30,7 +30,7 @@
     }
 }
 @Html.Partial("_OutcomeHeaderTwoTitles", Model, new ViewDataDictionary() { { "OutcomeHeader", string.Format("You should go within the next {0}", Model.TimeFrameText) } })
-@if (!string.IsNullOrEmpty(Model.UserInfo.CurrentAddress.Postcode))
+@if (!string.IsNullOrEmpty(Model.CurrentPostcode))
 {
     @Html.Partial("_AlternativeServices", Model, new ViewDataDictionary { { "ChangePostcode" , true }});
 }

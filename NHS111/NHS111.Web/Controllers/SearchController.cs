@@ -36,6 +36,7 @@ namespace NHS111.Web.Controllers
             var startOfJourney = new SearchJourneyViewModel
             {
                 SessionId = model.SessionId,
+                CurrentPostcode = model.CurrentPostcode,
                 UserInfo = new UserInfo
                 {
                     Demography = model.UserInfo.Demography,
@@ -101,10 +102,10 @@ namespace NHS111.Web.Controllers
             var model = new SearchJourneyViewModel
             {
                 SessionId = Guid.Parse(decryptedArgs["sessionId"]),
+                CurrentPostcode = decryptedArgs["postcode"] ,
                 UserInfo = new UserInfo
                 {
                     Demography = ageGenderViewModel,
-                    CurrentAddress = new FindServicesAddressViewModel() { Postcode = decryptedArgs["postcode"] }
                 },
                 AllTopics = topicsContainingStartingPathways,
                 FilterServices = bool.Parse(decryptedArgs["filterServices"]),

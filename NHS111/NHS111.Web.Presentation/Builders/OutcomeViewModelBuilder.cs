@@ -91,7 +91,7 @@ namespace NHS111.Web.Presentation.Builders
                 model.SymptomGroup = "1206";
             }
 
-            if (OutcomeGroup.PrePopulatedDosResultsOutcomeGroups.Contains(model.OutcomeGroup) && !String.IsNullOrEmpty(model.UserInfo.CurrentAddress.Postcode))
+            if (OutcomeGroup.PrePopulatedDosResultsOutcomeGroups.Contains(model.OutcomeGroup) && !String.IsNullOrEmpty(model.CurrentPostcode))
             {
                 model = await PopulateGroupedDosResults(model, null, null, endpoint);
             }

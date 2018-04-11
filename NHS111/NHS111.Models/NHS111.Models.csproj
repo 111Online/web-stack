@@ -215,6 +215,7 @@
     <Compile Include="Models\Web\DosRequests\DosServicesByClinicalTermRequest.cs" />
     <Compile Include="Models\Web\FeedbackViewModel.cs" />
     <Compile Include="Models\Web\FromExternalServices\AddressLocationResult.cs" />
+    <Compile Include="Models\Web\LocationInfoViewModel.cs" />
     <Compile Include="Models\Web\NodeDetailsViewModel.cs" />
     <Compile Include="Models\Web\PageDataViewModel.cs" />
     <Compile Include="Models\Web\FromExternalServices\DosCheckCapacitySummaryResult.cs" />
@@ -292,10 +293,14 @@
     <Compile Include="Models\Web\Validators\DateOfBirthMonthValidator.cs" />
     <Compile Include="Models\Web\Validators\DateOfBirthYearValidator.cs" />
     <Compile Include="Models\Web\Validators\FindServicesAddressViewModelValidator.cs" />
+    <Compile Include="Models\Web\Validators\HomeAddressSameAsCurrentValidator.cs" />
+    <Compile Include="Models\Web\Validators\HomeAddressValidator.cs" />
     <Compile Include="Models\Web\Validators\InformantForenameValidator.cs" />
     <Compile Include="Models\Web\Validators\InformantSurnameValidator.cs" />
     <Compile Include="Models\Web\Validators\InformantViewModelValidator.cs" />
     <Compile Include="Models\Web\Validators\IPostcodeAllowedValidator.cs" />
+    <Compile Include="Models\Web\Validators\JourneyViewModelValidator.cs" />
+    <Compile Include="Models\Web\Validators\LocationInfoViewModelValidator.cs" />
     <Compile Include="Models\Web\Validators\PatientInformantViewModelValidator.cs" />
     <Compile Include="Models\Web\Validators\PersonNameValidator.cs" />
     <Compile Include="Models\Web\Validators\QuestionViewModelValidator.cs" />
