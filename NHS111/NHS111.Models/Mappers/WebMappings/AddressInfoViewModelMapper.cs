@@ -6,6 +6,7 @@ using NHS111.Models.Models.Web;
 using NHS111.Models.Models.Web.FromExternalServices;
 using NHS111.Models.Models.Web.FromExternalServices.IdealPostcodes;
 
+
 namespace NHS111.Models.Mappers.WebMappings
 {
     public class AddressInfoViewModelMapper : Profile
@@ -15,6 +16,8 @@ namespace NHS111.Models.Mappers.WebMappings
             Mapper.CreateMap<List<PAF>, List<AddressInfoViewModel>>().ConvertUsing<FromPafToAddressInfoConverter>();
             Mapper.CreateMap<LocationResult, AddressInfoViewModel>().ConvertUsing<FromLocationResultToAddressInfoConverter>();
             Mapper.CreateMap<AddressLocationResult, AddressInfoViewModel>().ConvertUsing<FromPostcodeLocationResultToAddressInfoConverter>();
+            Mapper.CreateMap<Models.Business.Location.LocationServiceResult<AddressLocationResult>, AddressInfoCollectionViewModel>().ConvertUsing<FromLocationServiceResultToAddressInfoCollectionConverter>();
+            
         }
 
         public class FromPafToAddressInfoConverter : ITypeConverter<List<PAF>, List<AddressInfoViewModel>>
@@ -107,6 +110,23 @@ namespace NHS111.Models.Mappers.WebMappings
                 };
 
                 return addressInfo;
+            }
+        }
+
+        public class FromLocationServiceResultToAddressInfoCollectionConverter : ITypeConverter<Models.Business.Location.LocationServiceResult<AddressLocationResult>, AddressInfoCollectionViewModel>
+        {
+            public AddressInfoCollectionViewModel Convert(ResolutionContext context)
+            {
+                var source = (Models.Business.Location.LocationServiceResult<AddressLocationResult>)context.SourceValue;
+                var validatedResponse = Models.Web.Validators.PostcodeValidatorResponse.ValidPostcodePathwaysAreaUndefined;
+                if (source.Code == "4000" || source.Code == "4001") validatedResponse = Models.Web.Validators.PostcodeValidatorResponse.InvalidSyntax;
+                if (source.Code == "4040") validatedResponse = Models.Web.Validators.PostcodeValidatorResponse.PostcodeNotFound;
+
+                return new AddressInfoCollectionViewModel() {
+                    Addresses = Mapper.Map<List<AddressInfoViewModel>>(source.Result),
+                    ValidatedPostcodeResponse = validatedResponse
+                    };
+               
             }
         }
 

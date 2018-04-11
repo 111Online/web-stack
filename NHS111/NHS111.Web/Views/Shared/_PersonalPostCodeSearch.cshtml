@@ -11,24 +11,22 @@
     <div class="form-group address-section">
         <div class="address-choose-postcode find-address-panel" style="display: none;">
             <label for="@Html.IdFor(m => m.PatientCurrentAddress.PreviouslyEnteredPostcode)">Postcode</label>
-            <span style="display: none;" class="address-no-results">We couldn't find an address using that postcode.<br />Try a different postcode or <button class="button--link address-change" style="margin-top: 0; display: inline; width: inherit;">enter address</button>.</span>
-            @Html.ValidationMessageFor(m => m.PatientCurrentAddress.Postcode, "Select the address")
-            @Html.TextBoxFor(m => m.PatientCurrentAddress.PreviouslyEnteredPostcode, new { @class = "form-control form-control-8-chars", })
+            <span style="display: none;" class="address-no-results custom-error" data-invalidpostcode="current">We can't find an address with this postcode.<br />Check the postcode is correct or <button class="button--link address-change" style="margin-top: 0; display: inline; width: inherit;">enter address</button>.</span>
+            @Html.ValidationMessageFor(m => m.PatientCurrentAddress.Postcode, "Enter the postcode and click find address")
+            @Html.TextBoxFor(m => m.PatientCurrentAddress.PreviouslyEnteredPostcode, new { @class = "form-control form-control-8-chars find-address-input", })
             <button type="button" class="button--next button--secondary find-address">Find address</button>
         </div>
 
         <div class="address-list" style="display: none;">
             <label for="@Html.IdFor(m => m.PatientCurrentAddress.SelectedAddressFromPicker)">What is the address?</label>
-            <div class="@(@ViewData.ModelState.IsValidField("PatientCurrentAddress.AddressInfoViewModel.AddressPicker") ? "" : "form-group-error")">
-                @Html.ValidationMessageFor(m => m.PatientCurrentAddress.AddressPicker, "Select the address")
-                @Html.DropDownListFor(m => m.PatientCurrentAddress.SelectedAddressFromPicker, Model.PatientCurrentAddress.AddressPicker, new { @class = "select-address" })
-            </div>
-            <button type="button" class="button--link address-change" style="margin-top: 5px;">Change address</button>
+            @Html.ValidationMessageFor(m => m.PatientCurrentAddress.Postcode, "Select the address")
+            @Html.DropDownListFor(m => m.PatientCurrentAddress.SelectedAddressFromPicker, Model.PatientCurrentAddress.AddressPicker, new { @class = "select-address", style = "margin-top: 15px;" })
+            <button type="button" class="button--link address-change" data-changeaddress="current" style="margin-top: 5px;">Change address</button>
         </div>
 
         <div class="address-display-info" style="display: none;">
             <p class="address-info"></p>
-            <button type="button" class="button--link address-change" style="margin-top: 0px;">Change address</button>
+            <button type="button" class="button--link address-change" data-changeaddress="current" style="margin-top: 0px;">Change address</button>
         </div>
 
         <div id="addressPanel" class="address-panel">
@@ -37,22 +35,22 @@
                 <div class="inline-details @(@ViewData.ModelState.IsValidField(Html.NameFor(m => m.PatientCurrentAddress.AddressLine1).ToString()) ? "" : "form-group-error")">
                     @Html.LabelFor(m => m.PatientCurrentAddress.AddressLine1, "Address line 1", new { @class = "util-visuallyhidden" })
                     @Html.ValidationMessageFor(m => m.PatientCurrentAddress.AddressLine1, "Enter the first line of the address")
-                    @Html.TextBoxFor(m => m.PatientCurrentAddress.AddressLine1, new { @class = "form-control address-line-1" })
+                    @Html.TextBoxFor(m => m.PatientCurrentAddress.AddressLine1, new { @class = "form-control address-input address-line-1" })
                 </div>
                 <div class="inline-details">
                     @Html.LabelFor(m => m.PatientCurrentAddress.AddressLine2, "Address line 2", new { @class = "util-visuallyhidden" })
-                    @Html.TextBoxFor(m => m.PatientCurrentAddress.AddressLine2, new { @class = "form-control address-line-2" })
+                    @Html.TextBoxFor(m => m.PatientCurrentAddress.AddressLine2, new { @class = "form-control address-input address-line-2" })
                 </div>
             </fieldset>
             <div class="inline-details @(@ViewData.ModelState.IsValidField(Html.NameFor(m => m.PatientCurrentAddress.City).ToString()) ? "" : "form-group-error")">
                 @Html.LabelFor(m => m.PatientCurrentAddress.City, "Town or city")
                 @Html.ValidationMessageFor(m => m.PatientCurrentAddress.City, "Enter a city")
-                @Html.TextBoxFor(m => m.PatientCurrentAddress.City, new { @class = "form-control address-city" })
+                @Html.TextBoxFor(m => m.PatientCurrentAddress.City, new { @class = "form-control address-input address-city" })
             </div>
             <div class="inline-details @(@ViewData.ModelState.IsValidField(Html.NameFor(m => m.PatientCurrentAddress.Postcode).ToString()) ? "" : "form-group-error")">
                 @Html.LabelFor(m => m.PatientCurrentAddress.Postcode)
                 @Html.ValidationMessageFor(m => m.PatientCurrentAddress.Postcode, "Enter a valid postcode")
-                @Html.TextBoxFor(m => m.PatientCurrentAddress.Postcode, new { @class = "form-control address-postcode" })
+                @Html.TextBoxFor(m => m.PatientCurrentAddress.Postcode, new { @class = "form-control address-input address-postcode" })
             </div>
             <button type="button" class="button--secondary address-confirm" style="display: none;">Confirm address</button>
         </div>
@@ -75,28 +73,27 @@
             @Html.RadioButtonFor(m => m.HomeAddressSameAsCurrent, HomeAddressSameAsCurrent.No, new { id = "home-address-different", name = "home-address", @class = "multiple-choice__input" })
             <label for="home-address-different" class="multiple-choice--radio">No</label>
 
-            <div class="address-section toggle-content panel">
-                <div class="form-group">
+            <div class="toggle-content panel">
+                <div class="address-section form-group">
                     <div class="address-choose-postcode find-address-panel" style="display: none;">
                         <label for="@Html.IdFor(m => m.PatientHomeAddreess.PreviouslyEnteredPostcode)">Postcode</label>
-                        <span style="display: none;" class="address-no-results">We couldn't find an address using that postcode.<br/>Try a different postcode or <button type="button" class="button--link address-change" style="margin-top: 0; display: inline; width: inherit;">enter address</button>.</span>
-                        @Html.ValidationMessageFor(m => m.PatientHomeAddreess.Postcode, "Select the address")
-                        @Html.TextBoxFor(m => m.PatientHomeAddreess.PreviouslyEnteredPostcode, new {@class = "form-control form-control-8-chars",})
+                        <span style="display: none;" class="address-no-results custom-error" data-invalidpostcode="home">We can't find an address with this postcode.<br />Check the postcode is correct or <button type="button" class="button--link address-change" style="margin-top: 0; display: inline; width: inherit;">enter address</button>.</span>
+                        @Html.ValidationMessageFor(m => m.PatientHomeAddreess.Postcode, "Enter the postcode and click find address")
+                        @Html.TextBoxFor(m => m.PatientHomeAddreess.PreviouslyEnteredPostcode, new {@class = "form-control form-control-8-chars find-address-input",})
                         <button type="button" class="button--next button--secondary find-address">Find address</button>
                     </div>
 
                     <div class="address-list" style="display: none;">
-                        <label for="home-address-picker">What is the address?</label>
-                        <div class="@(@ViewData.ModelState.IsValidField("AddressInfoViewModel.AddressPicker") ? "" : "form-group-error")">
-                            @Html.ValidationMessageFor(m => m.PatientHomeAddreess.AddressPicker, "Select the address")
-                            <select class="select-address" id="home-address-picker"></select>
-                            <button type="button" class="button--link address-change" style="margin-top: 5px;">Change address</button>
-                        </div>
+                       
+                        <label for="@Html.IdFor(m => m.PatientHomeAddreess.SelectedAddressFromPicker)">What is the address?</label>
+                        @Html.ValidationMessageFor(m => m.PatientCurrentAddress.Postcode, "Select the address")
+                        @Html.DropDownListFor(m => m.PatientHomeAddreess.SelectedAddressFromPicker, Model.PatientHomeAddreess.AddressPicker, new {id = "home-address-picker", @class = "select-address", style = "margin-top: 15px;"})
+                        <button type="button" class="button--link address-change" data-changeaddress="home" style="margin-top: 5px;">Change address</button>
                     </div>
 
                     <div class="address-display-info" style="display: none;">
                         <p class="address-info"></p>
-                        <button type="button" class="button--link address-change" style="margin-top: 0px;">Change address</button>
+                        <button type="button" class="button--link address-change" data-changeaddress="home" style="margin-top: 0px;">Change address</button>
                     </div>
 
                     <div id="addressPanel" class="address-panel">
@@ -105,22 +102,22 @@
                             <div class="inline-details @(@ViewData.ModelState.IsValidField(Html.NameFor(m => m.PatientHomeAddreess.AddressLine1).ToString()) ? "" : "form-group-error")">
                                 @Html.LabelFor(m => m.PatientHomeAddreess.AddressLine1, "Address line 1", new {@class = "util-visuallyhidden"})
                                 @Html.ValidationMessageFor(m => m.PatientHomeAddreess.AddressLine1, "Enter the first line of the address")
-                                @Html.TextBoxFor(m => m.PatientHomeAddreess.AddressLine1, new {@class = "form-control address-line-1"})
+                                @Html.TextBoxFor(m => m.PatientHomeAddreess.AddressLine1, new {@class = "form-control address-line-1 address-input" })
                             </div>
                             <div class="inline-details">
                                 @Html.LabelFor(m => m.PatientHomeAddreess.AddressLine2, "Address line 2", new {@class = "util-visuallyhidden"})
-                                @Html.TextBoxFor(m => m.PatientHomeAddreess.AddressLine2, new {@class = "form-control address-line-2"})
+                                @Html.TextBoxFor(m => m.PatientHomeAddreess.AddressLine2, new {@class = "form-control address-line-2 address-input" })
                             </div>
                         </fieldset>
                         <div class="inline-details @(@ViewData.ModelState.IsValidField(Html.NameFor(m => m.PatientHomeAddreess.City).ToString()) ? "" : "form-group-error")">
                             @Html.LabelFor(m => m.PatientHomeAddreess.City, "Town or city")
                             @Html.ValidationMessageFor(m => m.PatientHomeAddreess.City, "Enter a city")
-                            @Html.TextBoxFor(m => m.PatientHomeAddreess.City, new {@class = "form-control address-city"})
+                            @Html.TextBoxFor(m => m.PatientHomeAddreess.City, new {@class = "form-control address-city address-input" })
                         </div>
                         <div class="inline-details @(@ViewData.ModelState.IsValidField(Html.NameFor(m => m.PatientHomeAddreess.Postcode).ToString()) ? "" : "form-group-error")">
                             @Html.LabelFor(m => m.PatientHomeAddreess.Postcode)
                             @Html.ValidationMessageFor(m => m.PatientHomeAddreess.Postcode, "Enter a valid postcode")
-                            @Html.TextBoxFor(m => m.PatientHomeAddreess.Postcode, new {@class = "form-control address-postcode"})
+                            @Html.TextBoxFor(m => m.PatientHomeAddreess.Postcode, new {@class = "form-control address-postcode address-input" })
                         </div>
                         <button type="button" class="button--secondary address-confirm" style="display: none;">Confirm address</button>
                     </div>
@@ -161,12 +158,12 @@
             var addressElement = $(element);
             if ($('input[name="@Html.NameFor(m => m.HomeAddressSameAsCurrent)"]:checked').val() == "No" &&
                 addressElement.attr('name').startsWith("AddressInformation.PatientHomeAddreess")) {
-                return (value) !== "";
+                return value != null &&  (value) !== "";
             }
             return true;
 
         });
-        
+
     });
 
     var foundAddresses = {}
@@ -175,7 +172,7 @@
     $('.address-choose-postcode').show()
     $('.address-panel').hide()
     $('.address-confirm').show()
-    
+
 
     function findAddresses (postcode, element) {
         startPageLoadingIndicator('Searching for addresses matching ' + postcode + '...')
@@ -191,26 +188,36 @@
                 console.log(textStatus)
             },
             complete: function () {
-                stopPageLoadingIndicator();
+                stopPageLoadingIndicator()
             }
         });
     }
 
 
-    function showAddresses(addresses, element) {
-        if (addresses.length == 0) {
-            $('.address-no-results').addClass('field-validation-error').show();
+    function showAddresses(addressResponse, element) {
+        $(element).find('.custom-error').hide()
+        if (addressResponse.ValidatedPostcodeResponse !== (@((int)NHS111.Models.Models.Web.Validators.PostcodeValidatorResponse.ValidPostcodePathwaysAreaUndefined) )) {
+           // $(element).find('.field-validation-error').hide()
+            $(element).find('.form-group').addClass("form-group form-group-error")
+            $(element).find('.form-control').addClass('.field-validation-error').attr('aria-invalid', 'true')
+            $(element).find('.field-validation-error').removeClass('.field-validation-error')
+
+            $(element).find('.address-no-results').addClass('field-validation-error').show()
+            $(element).addClass("form-group form-group-error")
         }
         else
         {
-            var options = '<option value="">' + addresses.length + ' addresses found</option>';
-            $.each(addresses, function (key, value) {
+            var options = '<option value="">' + addressResponse.Addresses.length + ' addresses found</option>'
+            $.each(addressResponse.Addresses, function (key, value) {
                 foundAddresses[value.UPRN] = value
-                options += '<option value=' + value.UPRN + '>' + value.FormattedAddress + '</option>';
+                options += '<option value=' + value.UPRN + '>' + value.FormattedAddress + '</option>'
             })
             $('.select-address', element).empty().append(options)
             $('.address-choose-postcode', element).hide()
+            $(element).find('[aria-invalid]').removeAttr('aria-invalid')
+            $(element).find('.field-validation-error').removeClass('field-validation-error').addClass('field-validation-valid')
             $('.address-list', element).show()
+            $(element).removeClass("form-group-error")
         }
     }
 
@@ -236,35 +243,61 @@
     }
 
     function changeAddress(parent) {
+        $(parent).removeClass("form-group-error")
         $('.address-no-results', parent).removeClass('field-validation-error').hide()
         $('.address-choose-postcode', parent).hide()
         $('.address-list', parent).hide()
         $('.address-display-info', parent).hide()
         $('.address-panel', parent).show()
         $('.address-line-1', parent).focus()
+
     }
 
-    $('.find-address').click(function (e) {
-        var parent = $(this).parents('.address-section')
-        var postcode = $(this).siblings('input').val()
+    function findAddressTrigger(parent, postcode) {
         if (valid_postcode(postcode)) findAddresses(postcode, parent)
-        else $('.address-no-results', parent).addClass('field-validation-error').show()
+        else {
+            $('.address-no-results', parent).addClass('field-validation-error').show()
+            $('.address-no-results', parent).siblings('.form-control').attr('aria-invalid', 'true')
+            $(parent).addClass("form-group form-group-error")
+        }
+    }
+
+    $('.find-address-input').on('keydown', function (e) {
+        if (e.which !== 13) return
+        e.preventDefault()
+        var parent = $(this).parents('.address-section')
+        var postcode = $(this).val()
+        findAddressTrigger(parent, postcode)
     })
 
-    $('.select-address').change(function (e) {
+    $('.find-address').click(function () {
+        var parent = $(this).parents('.address-section')
+        var postcode = $(this).siblings('input').val()
+        findAddressTrigger(parent, postcode)
+    })
+
+    $('.select-address').change(function () {
         var parent = $(this).parents('.address-section')
         setAddress(foundAddresses[$(this).val()], parent)
         isValid(this)
     })
 
-    $('.address-change').click(function (e) {
-
+    $('.address-change').click(function () {
         var parent = $(this).parents('.address-section')
         changeAddress(parent)
     })
 
-    $('.address-confirm').click(function (e) {
+    $('.address-confirm').click(function () {
         isValid(this)
+    })
+
+    
+    $('.address-input').on('keypress', function (e) {
+        if (e.which !== 13) return
+        e.preventDefault()
+        var parent = $(this).parents('.address-panel')
+        var el = $('.address-confirm', parent)
+        isValid(el)
     })
 
     function isValid(el) {
@@ -285,7 +318,7 @@
         }
         else changeAddress(parent)
     }
-    
+
     function setFields(result) {
         $("#AddressInfoViewModel_HouseNumber").val(result.HouseNumber);
         $("#AddressInfoViewModel_AddressLine1").val(result.AddressLine1);
