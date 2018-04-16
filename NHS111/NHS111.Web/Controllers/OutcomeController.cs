@@ -255,7 +255,7 @@ namespace NHS111.Web.Controllers
                 //explicit path to view because, when direct-linking, the route is no longer /outcome causing convention based view lookup to fail    
             }
 
-            return View(Path.GetFileNameWithoutExtension(model.CurrentView), model);
+            return View(model.CurrentView, model);
         }
 
         [HttpPost]

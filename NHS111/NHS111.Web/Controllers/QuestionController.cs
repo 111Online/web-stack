@@ -190,7 +190,7 @@ namespace NHS111.Web.Controllers {
                     DosEndpoint? endpoint = SetEndpoint();
 
                     if (shouldPrefillPostcode) {
-                        resultingModel.UserInfo.CurrentAddress.Postcode = _postcodePrefillFeature.GetPostcode(Request);
+                        resultingModel.CurrentPostcode = _postcodePrefillFeature.GetPostcode(Request);
                         outcomeModel.CurrentView = _viewRouter.GetViewName(resultingModel, ControllerContext);
                     
                             var controller = DependencyResolver.Current.GetService<OutcomeController>();
