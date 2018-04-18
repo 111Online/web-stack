@@ -192,15 +192,11 @@ namespace NHS111.Web.Controllers {
                     if (shouldPrefillPostcode) {
                         resultingModel.CurrentPostcode = _postcodePrefillFeature.GetPostcode(Request);
                         outcomeModel.CurrentView = _viewRouter.GetViewName(resultingModel, ControllerContext);
-                    
-                            var controller = DependencyResolver.Current.GetService<OutcomeController>();
+
+                        var controller = DependencyResolver.Current.GetService<OutcomeController>();
                             controller.ControllerContext = new ControllerContext(ControllerContext.RequestContext,
                                 controller);
-                            if (outcomeModel.OutcomeGroup.SearchDestination == "ServiceDetails")
-                                return await controller.ServiceDetails(outcomeModel, null, endpoint);
-                            if (outcomeModel.OutcomeGroup.SearchDestination == "ServiceList")
-                                return await controller.ServiceList(outcomeModel, null, null, endpoint);
-                        
+                        return await controller.DispositionWithServices(outcomeModel, "");
                     }
                 }
             }
