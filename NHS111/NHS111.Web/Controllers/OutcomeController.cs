@@ -68,7 +68,7 @@ namespace NHS111.Web.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> DispositionWithServices(OutcomeViewModel model, string submitAction)
+        public async Task<ActionResult> DispositionWithServices(OutcomeViewModel model, string submitAction, DosEndpoint? endpoint = null)
         {
 
             var postcodeValidatorResponse = _postCodeAllowedValidator.IsAllowedPostcode(model.CurrentPostcode);
@@ -92,7 +92,7 @@ namespace NHS111.Web.Controllers
                 return View("OutOfArea", model);
             }
 
-            var outcomeModel = await _outcomeViewModelBuilder.PopulateGroupedDosResults(model, null, null, null);
+            var outcomeModel = await _outcomeViewModelBuilder.PopulateGroupedDosResults(model, null, null, endpoint);
             viewName = _viewRouter.GetViewName(model, ControllerContext);
 
             return View(viewName, outcomeModel);
