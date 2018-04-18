@@ -196,7 +196,11 @@ namespace NHS111.Web.Controllers {
                         var controller = DependencyResolver.Current.GetService<OutcomeController>();
                             controller.ControllerContext = new ControllerContext(ControllerContext.RequestContext,
                                 controller);
-                        return await controller.DispositionWithServices(outcomeModel, "", endpoint);
+                        if (OutcomeGroup.PrePopulatedDosResultsOutcomeGroups.Contains(outcomeModel.OutcomeGroup))
+                            return await controller.DispositionWithServices(outcomeModel, "", endpoint);
+                
+                        return await controller.ServiceList(outcomeModel, null, null, endpoint);
+                        
                     }
                 }
             }
