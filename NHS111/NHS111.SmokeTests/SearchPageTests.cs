@@ -25,7 +25,7 @@ namespace NHS111.SmokeTests
         public void SearchPage_TabbingOrder()
         {
             var searchPage = TestScenerios.LaunchSearchScenerio(Driver, TestScenerioSex.Male, 30);
-            searchPage.VerifyTabbingOrder("Bites and Stings");
+            searchPage.VerifyTabbingOrder("Bites or Stings");
         }
 
         [Test]
@@ -41,7 +41,7 @@ namespace NHS111.SmokeTests
         {
             var searchPage = TestScenerios.LaunchSearchScenerio(Driver, TestScenerioSex.Male, 30);
             searchPage.SearchByTerm("'-/)}]Headache[{(\\");
-            searchPage.VerifyTermHits("Headache and migraine", 1);
+            searchPage.VerifyTermHits("Headache or migraine", 1);
         }
 
         [Test]
