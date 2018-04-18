@@ -68,9 +68,8 @@ namespace NHS111.Web.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> UpdatedServices(OutcomeViewModel model, string submitAction)
+        public async Task<ActionResult> DispositionWithServices(OutcomeViewModel model, string submitAction)
         {
-            //var postcodeResults =  await _locationResultBuilder.LocationResultValidatedByPostCodeBuilder(model.CurrentPostcode);
 
             var postcodeValidatorResponse = _postCodeAllowedValidator.IsAllowedPostcode(model.CurrentPostcode);
 
