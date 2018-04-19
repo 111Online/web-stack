@@ -19,12 +19,12 @@ namespace NHS111.SmokeTests.Regression
 
             var outcomePage = questionPage
                 .Answer(2)
-                .AnswerNo()
-                .AnswerSuccessiveYes(3)
-                .AnswerNo()
+                .Answer(4)
+                .AnswerSuccessiveYes(2)
+                .Answer(3)
                 .AnswerForDispostion<OutcomePage>("No - I've not taken any painkillers");
 
-            outcomePage.VerifyOutcome("See a dentist today");
+            outcomePage.VerifyOutcome("See a dentist urgently");
             outcomePage.VerifyPageContainsDOSResults();
             outcomePage.VerifyDOSResultGroupExists("Arrange for someone to phone you");
         }
