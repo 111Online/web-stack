@@ -29,7 +29,7 @@ namespace NHS111.SmokeTests
         {
             var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Rectal Bleeding", TestScenerioSex.Female, 56);
 
-            questionPage.VerifyQuestion("Do you have any pain in your tummy (abdomen) as well as bleeding from your bottom (rectal bleeding)?");
+            questionPage.VerifyQuestion("Have you got pain in your tummy as well as bleeding from your bottom?");
             var outcomePage = questionPage.AnswerAndVerifyQuestion(1, "How bad is the pain?")
                 .AnswerAndVerifyQuestion(1, "Have you got a severe ripping or tearing pain in your chest or back that came on suddenly?")
                 .AnswerAndVerifyQuestion(3, "Has a doctor told you that you have either of the following?")

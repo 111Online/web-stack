@@ -36,6 +36,7 @@ namespace NHS111.Web.Controllers
             var startOfJourney = new SearchJourneyViewModel
             {
                 SessionId = model.SessionId,
+                CurrentPostcode = model.CurrentPostcode,
                 UserInfo = new UserInfo
                 {
                     Demography = model.UserInfo.Demography,

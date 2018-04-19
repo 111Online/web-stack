@@ -21,7 +21,6 @@ namespace NHS111.Models.Models.Web
         public bool IsPostcodeFirst { get; set; }
         public bool IsInPilotArea { get; set; }
 
-
         public string FormattedAddress
         {
             get
@@ -69,5 +68,18 @@ namespace NHS111.Models.Models.Web
         public string SelectedAddressFromPicker { get; set; }
         public string PreviouslyEnteredPostcode { get; set; }
         public string AddressOptions { get; set; }
+
+        public PersonalDetailsAddressViewModel()
+        {
+            AddressPicker = new List<SelectListItem>();
+        }
+    }
+
+    public class AddressInfoCollectionViewModel
+    {
+        public IEnumerable<AddressInfoViewModel> Addresses { get; set; }
+        public PostcodeValidatorResponse ValidatedPostcodeResponse { get; set; }
+
+        public static AddressInfoCollectionViewModel InvalidSyntaxResponse = new AddressInfoCollectionViewModel { ValidatedPostcodeResponse = PostcodeValidatorResponse.InvalidSyntax, Addresses = new List<AddressInfoViewModel>() };
     }
 }

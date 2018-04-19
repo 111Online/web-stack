@@ -27,7 +27,7 @@ namespace NHS111.Utils.Filters
                 return;
 
 
-            if (string.IsNullOrEmpty(model.UserInfo.CurrentAddress.Postcode) && model.OutcomeGroup == null)
+            if (string.IsNullOrEmpty(model.CurrentPostcode) && model.OutcomeGroup == null)
                 filterContext.Result = new RedirectResult(_redirectToStartFeature.RedirectUrl, false);
         }
     }

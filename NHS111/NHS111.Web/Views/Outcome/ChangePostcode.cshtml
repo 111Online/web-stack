@@ -36,7 +36,7 @@
 }
 <section>
     <div>
-        @using (Html.BeginForm("UpdatedServices", "Outcome"))
+        @using (Html.BeginForm("DispositionWithServices", "Outcome"))
         {
             @Html.HiddenFor(x => Model.SessionId)
             @Html.HiddenFor(x => Model.JourneyId)
@@ -84,7 +84,7 @@
                 <p>Knowing where you are helps us find services in your area.</p>
             }
             <div>
-                <div class="@(@ViewData.ModelState.IsValidField("UserInfo.CurrentAddress.Postcode") ? "" : "form-group-error")">
+                <div class="@(@ViewData.ModelState.IsValidField(Html.NameFor(m => m.CurrentPostcode).ToString()) ? "" : "form-group-error")">
                     <label for="CurrentPostcode" class="alwayshidden">Postcode</label>
                     @Html.ValidationMessageFor(m => m.CurrentPostcode)
                     @Html.TextBoxFor(m => m.CurrentPostcode, new { Value = "", style = "width: 8em; display: inline-block; margin-right: 10px;" })
@@ -104,7 +104,7 @@
 
     $('#DosLookup').css('cursor', 'pointer');
     $(document).on('click', '.button--next', function (event) {
-        var $postcode = $('#UserInfo_CurrentAddress_Postcode').val();
+        var $postcode = $('#@Html.IdFor(m => m.CurrentPostcode).ToString()').val();
         if ($("form").valid() && !!$postcode) {
             startPageLoadingIndicator('Searching for services near to ' + $postcode + '...');
         }

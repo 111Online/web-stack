@@ -15,7 +15,7 @@
         dataLayer = [
         {
             'virtualPageUrl': '@url',
-            'virtualPageTitle': '@Model.TitleWithoutBullets'
+            'virtualPageTitle': 'Services Found'
         }];
     </script>
 }
@@ -38,11 +38,11 @@
     }
 }
 
-@Html.Partial("_OutcomeHeader", Model, new ViewDataDictionary { { "OutcomeHeader", "Services for " + Model.UserInfo.CurrentAddress.Postcode.ToUpper() } })
+@Html.Partial("_OutcomeHeader", Model, new ViewDataDictionary { { "OutcomeHeader", "Services for " + Model.FormattedCurrentPostcode } })
 
 
 <section>
-    @if (!string.IsNullOrEmpty(Model.UserInfo.CurrentAddress.Postcode))
+    @if (!string.IsNullOrEmpty(Model.CurrentPostcode))
     {
         @Html.Partial("_AlternativeServices", Model);
     }

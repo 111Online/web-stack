@@ -16,7 +16,7 @@
         dataLayer = [
         {
             'virtualPageUrl': '@url',
-            'virtualPageTitle': '@Model.TitleWithoutBullets'
+            'virtualPageTitle': 'Personal Details'
         }];
     </script>
 }
@@ -303,6 +303,10 @@
                         return false;
                     }
                 }
+            })
+
+            $(document).on('submit', '#personalDetailForm', function () {
+                if ($("#personalDetailForm").valid()) startPageLoadingIndicator('Contacting your selected service...')
             })
 
         </script>
