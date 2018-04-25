@@ -22,6 +22,7 @@
         Model.Campaign,
         Model.CampaignSource);
 
+
     <div class="notification-banner notification-banner--hiviz">
         <p class="notification-banner--inner">
             When you’ve finished, help us improve by taking a <a href="@url" target="_blank">short survey</a>
@@ -39,7 +40,8 @@
 
         $("#AgreeButton")
             .click(function () {
-                $.cookie("nhs111-survey-link-banner", "survey-link-yes", { path: '/', secure: true });
+                var isSecure = window.location.protocol.toLowerCase() == 'https:';
+                $.cookie("nhs111-survey-link-banner", "survey-link-yes", { path: '/', secure: isSecure });
                 $(".survey-banner-wrap").hide();
             });
 
@@ -48,4 +50,4 @@
                 $(".survey-banner-wrap").hide();
             });
     </script>
-    }
+}

@@ -68,9 +68,8 @@ namespace NHS111.Web.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> UpdatedServices(OutcomeViewModel model, string submitAction)
+        public async Task<ActionResult> DispositionWithServices(OutcomeViewModel model, string submitAction, DosEndpoint? endpoint = null)
         {
-            //var postcodeResults =  await _locationResultBuilder.LocationResultValidatedByPostCodeBuilder(model.CurrentPostcode);
 
             var postcodeValidatorResponse = _postCodeAllowedValidator.IsAllowedPostcode(model.CurrentPostcode);
 
@@ -93,7 +92,7 @@ namespace NHS111.Web.Controllers
                 return View("OutOfArea", model);
             }
 
-            var outcomeModel = await _outcomeViewModelBuilder.PopulateGroupedDosResults(model, null, null, null);
+            var outcomeModel = await _outcomeViewModelBuilder.PopulateGroupedDosResults(model, null, null, endpoint);
             viewName = _viewRouter.GetViewName(model, ControllerContext);
 
             return View(viewName, outcomeModel);
@@ -255,7 +254,7 @@ namespace NHS111.Web.Controllers
                 //explicit path to view because, when direct-linking, the route is no longer /outcome causing convention based view lookup to fail    
             }
 
-            return View(Path.GetFileNameWithoutExtension(model.CurrentView), model);
+            return View(model.CurrentView, model);
         }
 
         [HttpPost]

@@ -8,13 +8,17 @@
 @section Title { NHS 111 - Speak to a clinician }
 
 @section HeadTop {
-    @{ var url = string.Format("/outcome/{0}/{1}/{2}/disposition/", Url.Encode(Model.PathwayNo), Url.Encode(Model.OutcomeGroup.Text), Url.Encode(Model.Id)); }
+    @{
+        var url = string.Format("/outcome/{0}/{1}/{2}/disposition/", Url.Encode(Model.PathwayNo), Url.Encode(Model.OutcomeGroup.Text), Url.Encode(Model.Id));
+        var title = Model.TitleWithoutBullets;
+        if (title == null) { title = "ITK Clinician callback - no results"; }
+    }
     <script>
         var pageId = '@Model.Id';
         dataLayer = [
         {
             'virtualPageUrl': '@url',
-            'virtualPageTitle': '@Model.TitleWithoutBullets'
+            'virtualPageTitle': '@title'
         }];
     </script>
 }

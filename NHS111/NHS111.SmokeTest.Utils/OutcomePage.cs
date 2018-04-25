@@ -11,7 +11,7 @@ namespace NHS111.SmokeTest.Utils
 {
     public class OutcomePage : DispositionPage<OutcomePage>
     {
-        [FindsBy(How = How.Id, Using = "FindService_UserInfo_CurrentAddress_Postcode")]
+        [FindsBy(How = How.Id, Using = "FindService_CurrentPostcode")]
         private IWebElement PostcodeField { get; set; }
 
         //[FindsBy(How = How.Id, Using = "availableServices")]
