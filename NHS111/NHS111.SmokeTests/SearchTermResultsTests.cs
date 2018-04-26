@@ -20,15 +20,15 @@ namespace NHS111.SmokeTests
             new Tuple<string, string>("toothache", "Toothache, swelling and other dental problems"), //Appears in digital title only not description
             new Tuple<string, string>("swallowing", "Difficulty swallowing"), //Appears in description only not title
             new Tuple<string, string>("Choking", "Swallowed or breathed in an object"), //Appears in digital description only
-            new Tuple<string, string>("Chest and upper back pain", "Breathing problems"), //additional digital title for Chest pain PW559 MaleAdult
-            new Tuple<string, string>("Breathing problems", "Breathing problems"), //additional digital title for Chest pain PW559 MaleAdult
+            new Tuple<string, string>("Chest and upper back pain", "Breathing problems or chest pain"), //additional digital title for Chest pain PW559 MaleAdult
+            new Tuple<string, string>("Breathing problems", "Breathing problems or chest pain"), //additional digital title for Chest pain PW559 MaleAdult
             
             //following content updates to improve search for bleeding, pregnancy and asthma
-            new Tuple<string, string>("Wheezing", "Breathing problems"),
+            new Tuple<string, string>("Wheezing", "Breathing problems or chest pain"),
             new Tuple<string, string>("Bleeding", "Bleeding from the bottom"),
             new Tuple<string, string>("Bleeding", "Toothache, swelling and other dental problems"),
             new Tuple<string, string>("Bleeding", "Nosebleed"),
-            new Tuple<string, string>("asthma", "Breathing problems")
+            new Tuple<string, string>("asthma", "Breathing problems or chest pain")
         };
 
         [Test]
