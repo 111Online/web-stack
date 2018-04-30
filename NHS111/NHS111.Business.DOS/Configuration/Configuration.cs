@@ -151,5 +151,10 @@ namespace NHS111.Business.DOS.Configuration
         {
             get { return ConfigurationManager.AppSettings["CCGApiBaseUrl"]; }
         }
+
+        public double DoSSearchDistance
+        {
+            get { return double.TryParse(ConfigurationManager.AppSettings["DoSSearchDistance"], out var dosSearchDistance) ? dosSearchDistance : 37.5; }
+        }
     }
 }

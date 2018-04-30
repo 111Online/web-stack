@@ -44,7 +44,7 @@ namespace NHS111.Models.Test.Mappers.WebMappings
             {
                 CaseId = "xyz",
                 PostCode = "xy1 z23",
-                SearchDistance = 10,
+                SearchDistance = 10.5,
                 Age = "5",
                 Gender = "F",
                 Disposition = 10013,
@@ -61,7 +61,7 @@ namespace NHS111.Models.Test.Mappers.WebMappings
         {
             Assert.AreEqual("xyz", result.CaseId);
             Assert.AreEqual("xy1 z23", result.Postcode);
-            Assert.AreEqual("10", result.SearchDistance);
+            Assert.AreEqual("10.5", result.SearchDistance);
             Assert.AreEqual("0", result.GpPracticeId);
             Assert.AreEqual("2", result.Age);
             Assert.AreEqual("F", result.Gender);
