@@ -22,7 +22,6 @@ namespace NHS111.Web {
             AreaRegistration.RegisterAllAreas();
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
-            BundleConfig.RegisterBundles(BundleTable.Bundles);
 
             ModelBinders.Binders[typeof (JourneyViewModel)] = new JourneyViewModelBinder();
             ModelBinders.Binders[typeof(OutcomeViewModel)] = new JourneyViewModelBinder();
