@@ -154,7 +154,11 @@ namespace NHS111.Business.DOS.Configuration
 
         public double DoSSearchDistance
         {
-            get { return double.TryParse(ConfigurationManager.AppSettings["DoSSearchDistance"], out var dosSearchDistance) ? dosSearchDistance : 37.5; }
+            get
+            {
+                double dosSearchDistance;
+                return double.TryParse(ConfigurationManager.AppSettings["DoSSearchDistance"], out dosSearchDistance) ? dosSearchDistance : 37.5;
+            }
         }
     }
 }
