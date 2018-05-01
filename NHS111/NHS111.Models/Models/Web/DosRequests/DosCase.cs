@@ -18,7 +18,7 @@
         public int SymptomGroup { get; set; }
         public int[] SymptomDiscriminatorList { get; set; }
         public int SymptomDiscriminator { get; set; }
-        public double SearchDistance { get; set; }
+        public int SearchDistance { get; set; }
         public bool SearchDistanceSpecified { get { return SearchDistance > 0; } }
         public string Gender { get; set; }
         public int NumberPerType { get; set; }
