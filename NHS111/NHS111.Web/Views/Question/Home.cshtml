@@ -6,14 +6,6 @@
 
 @section Title {NHS 111 Online}
 
-@{
-    if (DisclaimerPopupFeature.IsEnabled) {
-        <!-- toggle disclaimer popup -->
-    <script src="@NHS111.Web.Helpers.Versioning.GetVersionedUriRef("~/scripts/disclaimer-popup.js")"></script>
-    }
-}
-
-
 <div id="wrapper" class="home measure">
     @using (Html.BeginForm("Home", "Question", FormMethod.Post)) {
         @Html.HiddenFor(x => Model.SessionId)
