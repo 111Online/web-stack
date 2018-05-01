@@ -25,6 +25,7 @@ namespace NHS111.Integration.DOS.Api.Controllers
             var jsonString = await request.Content.ReadAsStringAsync();
             var checkCapacitySummaryRequest = JsonConvert.DeserializeObject<CheckCapacitySummaryRequest>(jsonString);
             var client = _pathWayServiceFactory.Create(request);
+            
             return await client.CheckCapacitySummaryAsync(checkCapacitySummaryRequest);
         }
 
