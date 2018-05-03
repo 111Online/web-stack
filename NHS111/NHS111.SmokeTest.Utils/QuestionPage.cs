@@ -79,6 +79,12 @@ namespace NHS111.SmokeTest.Utils
             return new QuestionPage(Driver);
         }
 
+        public T AnswerForDeadEnd<T>(string answerText) where T : LayoutPage {
+            Driver.FindElement(By.XPath("//label[contains(@class, 'multiple-choice--radio') and text() = \"" + answerText + "\"]")).Click();
+            NextButton.Click();
+            return (T)Activator.CreateInstance(typeof(T), Driver);
+        }
+
         public T AnswerForDispostion<T>(string answerText) where T : DispositionPage<T>
         {
             Driver.FindElement(By.XPath("//label[contains(@class, 'multiple-choice--radio') and text() = \"" + answerText + "\"]")).Click();
