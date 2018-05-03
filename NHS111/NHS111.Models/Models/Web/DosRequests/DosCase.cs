@@ -6,7 +6,6 @@
         {
             AgeFormat = AgeFormatType.Years;
             NumberPerType = 2;
-            SearchDistance = 32;
         }
 
         public string CaseRef { get; set; }
