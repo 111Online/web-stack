@@ -1,4 +1,5 @@
-﻿@using NHS111.Models.Models.Web
+﻿@using Microsoft.Ajax.Utilities
+@using NHS111.Models.Models.Web
 @inherits NHS111.Web.Views.Shared.SurveyLinkView<OutcomeViewModel>
 @{
     Layout = "~/Views/Shared/_LayoutNhsUk.cshtml";
@@ -38,56 +39,63 @@
 
 <section class="local-header">
     <div class="measure">
-        <h1 class="local-header__title">A nurse from 111 will phone you</h1>
-        <div class="local-header__intro">
-            <p>Enter a postcode so we can find a suitable local service</p>
-        </div>
+        <h1 class="local-header__title">Book a call with a 111 nurse now</h1>
     </div>
 </section>
 
 <div class="itk-message measure">
-    <p>The 111 nurse will aim to phone you in @Html.Raw(Model.WaitTimeText) or less.</p>
+    <p>We’ve gone as far as we can online, and we need to speak to you to finish your health assessment.</p>
     <br />
     <p>The 111 nurse will:</p>
     <ul>
         <li>
-            have your answers
+            know what you’ve answered so far
         </li>
         <li>
-            advise you what to do
+            ask you some more questions
         </li>
         <li>
-            book an appointment, if needed, with an NHS service
+            book an appointment for you if you need one
+        </li>
+        <li>
+            advise you what to do next
         </li>
     </ul>
+    
+    @if (Model.CurrentPostcode == null)
+    {
+        var dataDictionary = ViewContext.ViewData;
+        dataDictionary.Add(new KeyValuePair<string, object>("Title", ""));
+        dataDictionary.Add(new KeyValuePair<string, object>("ButtonText", "Next"));
+        dataDictionary.Add(new KeyValuePair<string, object>("Label", ""));
+        dataDictionary.Add(new KeyValuePair<string, object>("ITK", true));
+        dataDictionary.TemplateInfo = new TemplateInfo() {HtmlFieldPrefix = "FindService"};
+
+        @Html.Partial("_FindService", Model, dataDictionary)
+    }
+    else
+    {
+        <button>Book a nurse call</button>
+    }
+
+    <div class="callout callout--info">
+        <p>You should get a call within @Html.Raw(Model.WaitTimeText). It’s important that you wait to speak to the nurse.</p>
+    </div>
 </div>
 
-@{
-    var dataDictionary = ViewContext.ViewData;
-    dataDictionary.Add(new KeyValuePair<string, object>("Title", ""));
-    dataDictionary.Add(new KeyValuePair<string, object>("ButtonText", "Next"));
-    dataDictionary.Add(new KeyValuePair<string, object>("Label", ""));
-    dataDictionary.Add(new KeyValuePair<string, object>("ITK", true));
-    dataDictionary.Add(new KeyValuePair<string, object>("AddressInfoMessage", "This postcode finds the nearest 111 service to phone you.<br/>It is usually your home postcode."));
-    dataDictionary.TemplateInfo = new TemplateInfo() { HtmlFieldPrefix = "FindService" };
-
-}
-
-@Html.Partial("_FindService", Model, dataDictionary)
-
-
-<hr />
-
-<details class="measure">
-    <summary>
-        <span class="details__arrow"></span>
-        <span class="summary">If you don't want to book a call from this service, please read the following advice</span>
-    </summary>
-    <div class="panel panel-border-narrow">
-        @if (Model.CareAdvices != null && Model.CareAdvices.Any())
-        {
+@if (Model.CareAdvices != null && Model.CareAdvices.Any())
+{
+    <details class="measure">
+        <summary>
+            <span class="details__arrow"></span>
+            <span class="summary">I don't want to book a call right now</span>
+        </summary>
+        <div class="panel panel-border-narrow">
             @Html.Partial("_CareAdvice", Model.CareAdvices, new ViewDataDictionary {{"Title", ""}, {"NoHR", "true"}})
-        }
-        @Html.Partial("_WorseningAdvice", Model)
-    </div>
-</details>
+        </div>
+    </details>
+}
+else
+{
+    @Html.Partial("_WorseningAdvice", Model)
+}
