@@ -12,11 +12,7 @@ namespace NHS111.SmokeTest.Utils
 {
     public abstract class DispositionPage<T> : LayoutPage
     {
-<<<<<<< HEAD
         private const string PATHWAY_NOT_FOUND__EXPECTED_TEXT = "Call 111 to speak to an adviser now";
-=======
-        private const string PATHWAY_NOT_FOUND__EXPECTED_TEXT = "Call 111 to speak to an advisor now";
->>>>>>> 00f61ac2... Amends text for pathway not found
 
         [FindsBy(How = How.CssSelector, Using = ".local-header h1")]
         private IWebElement Header { get; set; }
