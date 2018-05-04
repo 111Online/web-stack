@@ -12,7 +12,7 @@ namespace NHS111.SmokeTest.Utils
 {
     public abstract class DispositionPage<T> : LayoutPage
     {
-        private const string PATHWAY_NOT_FOUND__EXPECTED_TEXT = "This health assessment can't be completed online";
+        private const string PATHWAY_NOT_FOUND__EXPECTED_TEXT = "Call 111 to speak to an advisor now";
 
         [FindsBy(How = How.CssSelector, Using = ".local-header h1")]
         private IWebElement Header { get; set; }
