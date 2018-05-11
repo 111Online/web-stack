@@ -75,10 +75,11 @@ namespace NHS111.SmokeTest.Utils
             SearchTxtBox.SendKeys(term);
             ClickNextButton();
         }
-        public void VerifyTermHits(string expectedHitTitle, int maxRank)
-        {
+        public void VerifyTermHits(string expectedHitTitle, int maxRank) {
+            expectedHitTitle = expectedHitTitle.ToLower();
             var rank = 0;
             var linkText = "";
+            var hits = new List<string>();
             foreach (var hit in this.GetHits().ToList())
             {
                 rank++;
@@ -86,12 +87,14 @@ namespace NHS111.SmokeTest.Utils
                 if (linkElements.Count > 0)
                 {
                     linkText = linkElements.FirstOrDefault().Text.StripHTML().ToLower();
-                    if(linkText == expectedHitTitle.ToLower()) break;
+                    hits.Add(linkText);
+                    if (linkText == expectedHitTitle) break;
                 }
             }
 
-            Assert.AreEqual(expectedHitTitle.ToLower(), linkText);
-            Assert.IsTrue(rank <= maxRank);
+            var found = expectedHitTitle == linkText && rank <= maxRank;
+
+            Assert.IsTrue(found, string.Format("Unable to find '{0}' within the top {1} search results. Results were {2}", expectedHitTitle, maxRank, string.Join(", ", hits.Select(x => "'" + x + "'"))));
         }
 
         public void VerifyTabbingOrder(string searchTerm)
