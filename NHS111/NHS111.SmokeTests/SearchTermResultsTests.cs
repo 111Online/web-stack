@@ -8,38 +8,29 @@ namespace NHS111.SmokeTests
     [TestFixture]
     public class SearchTermResultsTests : BaseTests
     {
-        private readonly List<Tuple<string, string>> _testTerms = new List<Tuple<string, string>>()
+        [TestCase("tummy pain", "Stomach Pain")] //abdo pain
+        [TestCase("pain in my tooth", "Toothache, swelling and other dental problems")] //dental
+        [TestCase("diorea", "Diarrhoea and vomiting")] // mispelling
+        [TestCase("stomach ache", "Stomach Pain")] //synonym
+        [TestCase("Head ache", "Headache or migraine")] //synonym
+        [TestCase("diarhoea", "Diarrhoea")] //misspelling not on list
+        [TestCase("vomitting", "Vomiting or nausea")] //misspelling
+        [TestCase("toothache", "Toothache, swelling and other dental problems")] //Appears in digital title only not description
+        [TestCase("swallowing", "Difficulty swallowing")] //Appears in description only not title
+        [TestCase("Choking", "Swallowed or breathed in an object")] //Appears in digital description only
+        [TestCase("Chest and upper back pain", "Breathing problems or chest pain")] //additional digital title for Chest pain PW559 MaleAdult
+        [TestCase("Breathing problems", "Breathing problems or chest pain")] //additional digital title for Chest pain PW559 MaleAdult
+        //following content updates to improve search for bleeding, pregnancy and asthma
+        [TestCase("Wheezing", "Breathing problems or chest pain")]
+        [TestCase("Bleeding", "Bleeding from the bottom")]
+        [TestCase("Bleeding", "Toothache, swelling and other dental problems")]
+        [TestCase("Bleeding", "Nosebleed")]
+        [TestCase("asthma", "Breathing problems or chest pain")]
+        public void SearchTermResults_CommonTermsReturnExpectedResult(string term, string result)
         {
-            new Tuple<string, string>("tummy pain", "Stomach Pain"), //abdo pain
-            new Tuple<string, string>("pain in my tooth", "Toothache, swelling and other dental problems"), //dental
-            new Tuple<string, string>("diorea", "Diarrhoea and vomiting"), // mispelling
-            new Tuple<string, string>("stomach ache", "Stomach Pain"), //synonym
-            new Tuple<string, string>("Head ache", "Headache or migraine"), //synonym
-            new Tuple<string, string>("diarhoea", "Diarrhoea"), //misspelling not on list
-            new Tuple<string, string>("vomitting", "Vomiting or nausea"), //misspelling
-            new Tuple<string, string>("toothache", "Toothache, swelling and other dental problems"), //Appears in digital title only not description
-            new Tuple<string, string>("swallowing", "Difficulty swallowing"), //Appears in description only not title
-            new Tuple<string, string>("Choking", "Swallowed or breathed in an object"), //Appears in digital description only
-            new Tuple<string, string>("Chest and upper back pain", "Breathing problems or chest pain"), //additional digital title for Chest pain PW559 MaleAdult
-            new Tuple<string, string>("Breathing problems", "Breathing problems or chest pain"), //additional digital title for Chest pain PW559 MaleAdult
-            
-            //following content updates to improve search for bleeding, pregnancy and asthma
-            new Tuple<string, string>("Wheezing", "Breathing problems or chest pain"),
-            new Tuple<string, string>("Bleeding", "Bleeding from the bottom"),
-            new Tuple<string, string>("Bleeding", "Toothache, swelling and other dental problems"),
-            new Tuple<string, string>("Bleeding", "Nosebleed"),
-            new Tuple<string, string>("asthma", "Breathing problems or chest pain")
-        };
-
-        [Test]
-        public void SearchTermResults_CommonTermsReturnExpectedResult()
-        {
-            foreach (var testTerm in _testTerms)
-            {
-                var searchPage = TestScenerios.LaunchSearchScenerio(Driver, TestScenerioSex.Male, 33);
-                searchPage.SearchByTerm(testTerm.Item1);
-                searchPage.VerifyTermHits(testTerm.Item2, 5);
-            } 
+            var searchPage = TestScenerios.LaunchSearchScenerio(Driver, TestScenerioSex.Male, 33);
+            searchPage.SearchByTerm(term);
+            searchPage.VerifyTermHits(result, 5);
         }
     }
 }
