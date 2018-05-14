@@ -196,7 +196,7 @@ namespace NHS111.SmokeTests
                .Answer(1)
                .AnswerForDispostion<OutcomePage>("No");
 
-            outcomePage.VerifyOutcome("A nurse from 111 will phone you");
+            outcomePage.VerifyOutcome(OutcomePage.BookCallBackText);
         }
 
         [Test]
