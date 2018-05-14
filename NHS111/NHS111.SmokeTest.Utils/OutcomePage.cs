@@ -11,6 +11,8 @@ namespace NHS111.SmokeTest.Utils
 {
     public class OutcomePage : DispositionPage<OutcomePage>
     {
+        public const string BookCallBackText = "Book a call with a 111 nurse now";
+
         [FindsBy(How = How.Id, Using = "FindService_CurrentPostcode")]
         private IWebElement PostcodeField { get; set; }
 

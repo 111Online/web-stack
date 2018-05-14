@@ -43,7 +43,7 @@ namespace NHS111.SmokeTests.Regression
                 .AnswerNo()
                 .AnswerForDispostion<OutcomePage>("No");
 
-            outcomePage.VerifyOutcome("A nurse from 111 will phone you");
+            outcomePage.VerifyOutcome(OutcomePage.BookCallBackText);
             outcomePage.VerifyDispositionCode("Dx35");
 
             outcomePage.EnterPostCodeAndSubmit("LS17 7NZ");
@@ -65,7 +65,7 @@ namespace NHS111.SmokeTests.Regression
                 .AnswerNo()
                 .AnswerForDispostion<OutcomePage>("Yes");
 
-            outcomePage.VerifyOutcome("A nurse from 111 will phone you");
+            outcomePage.VerifyOutcome(OutcomePage.BookCallBackText);
             outcomePage.VerifyDispositionCode("Dx35");
 
             outcomePage.EnterPostCodeAndSubmit("LS17 7NZ");
@@ -86,7 +86,7 @@ namespace NHS111.SmokeTests.Regression
                 .AnswerYes()
                 .AnswerForDispostion<OutcomePage>("Yes");
 
-            outcomePage.VerifyOutcome("A nurse from 111 will phone you");
+            outcomePage.VerifyOutcome(OutcomePage.BookCallBackText);
             outcomePage.VerifyDispositionCode("Dx35");
 
             outcomePage.EnterPostCodeAndSubmit("LS17 7NZ");
@@ -108,7 +108,7 @@ namespace NHS111.SmokeTests.Regression
                 .AnswerNo()
                 .AnswerForDispostion<OutcomePage>("No");
 
-            outcomePage.VerifyOutcome("A nurse from 111 will phone you");
+            outcomePage.VerifyOutcome(OutcomePage.BookCallBackText);
             outcomePage.VerifyDispositionCode("Dx35");
 
             outcomePage.EnterPostCodeAndSubmit("LS17 7NZ");
@@ -130,7 +130,7 @@ namespace NHS111.SmokeTests.Regression
                 .AnswerNo()
                 .AnswerForDispostion<OutcomePage>("Yes");
 
-            outcomePage.VerifyOutcome("A nurse from 111 will phone you");
+            outcomePage.VerifyOutcome(OutcomePage.BookCallBackText);
             outcomePage.VerifyDispositionCode("Dx35");
 
             outcomePage.EnterPostCodeAndSubmit("LS17 7NZ");
@@ -151,7 +151,7 @@ namespace NHS111.SmokeTests.Regression
                 .AnswerYes()
                 .AnswerForDispostion<OutcomePage>("Yes");
 
-            outcomePage.VerifyOutcome("A nurse from 111 will phone you");
+            outcomePage.VerifyOutcome(OutcomePage.BookCallBackText);
             outcomePage.VerifyDispositionCode("Dx35");
 
             outcomePage.EnterPostCodeAndSubmit("LS17 7NZ");
@@ -173,7 +173,7 @@ namespace NHS111.SmokeTests.Regression
                 .AnswerNo()
                 .AnswerForDispostion<OutcomePage>("No");
 
-            outcomePage.VerifyOutcome("A nurse from 111 will phone you");
+            outcomePage.VerifyOutcome(OutcomePage.BookCallBackText);
             outcomePage.VerifyDispositionCode("Dx35");
 
             outcomePage.EnterPostCodeAndSubmit("LS17 7NZ");
@@ -195,7 +195,7 @@ namespace NHS111.SmokeTests.Regression
                 .AnswerNo()
                 .AnswerForDispostion<OutcomePage>("Yes");
 
-            outcomePage.VerifyOutcome("A nurse from 111 will phone you");
+            outcomePage.VerifyOutcome(OutcomePage.BookCallBackText);
             outcomePage.VerifyDispositionCode("Dx35");
 
             outcomePage.EnterPostCodeAndSubmit("LS17 7NZ");
@@ -216,7 +216,7 @@ namespace NHS111.SmokeTests.Regression
                 .AnswerYes()
                 .AnswerForDispostion<OutcomePage>("Yes");
 
-            outcomePage.VerifyOutcome("A nurse from 111 will phone you");
+            outcomePage.VerifyOutcome(OutcomePage.BookCallBackText);
             outcomePage.VerifyDispositionCode("Dx35");
 
             outcomePage.EnterPostCodeAndSubmit("LS17 7NZ");
@@ -246,7 +246,7 @@ namespace NHS111.SmokeTests.Regression
                 .Answer(3)
                 .AnswerForDispostion<OutcomePage>("Yes");
 
-            outcomePage.VerifyOutcome("A nurse from 111 will phone you");
+            outcomePage.VerifyOutcome(OutcomePage.BookCallBackText);
             outcomePage.VerifyDispositionCode("Dx35");
 
             outcomePage.EnterPostCodeAndSubmit("ls17 7nz");
@@ -274,7 +274,7 @@ namespace NHS111.SmokeTests.Regression
                 .Answer(3)
                 .AnswerForDispostion<OutcomePage>("Yes");
 
-            outcomePage.VerifyOutcome("A nurse from 111 will phone you");
+            outcomePage.VerifyOutcome(OutcomePage.BookCallBackText);
             outcomePage.VerifyDispositionCode("Dx35");
 
             outcomePage.EnterPostCodeAndSubmit("ls17 7nz");
@@ -303,7 +303,7 @@ namespace NHS111.SmokeTests.Regression
                 .Answer(3)
                 .AnswerForDispostion<OutcomePage>("Yes");
 
-            outcomePage.VerifyOutcome("A nurse from 111 will phone you");
+            outcomePage.VerifyOutcome(OutcomePage.BookCallBackText);
             outcomePage.VerifyDispositionCode("Dx35");
 
             outcomePage.EnterPostCodeAndSubmit("ls17 7nz");
@@ -334,7 +334,7 @@ namespace NHS111.SmokeTests.Regression
                 .Answer(1)
                 .AnswerForDispostion<OutcomePage>("Yes");
 
-            outcomePage.VerifyOutcome("A nurse from 111 will phone you");
+            outcomePage.VerifyOutcome(OutcomePage.BookCallBackText);
             outcomePage.VerifyDispositionCode("Dx35");
 
             outcomePage.EnterPostCodeAndSubmit("ls17 7nz");
@@ -354,7 +354,7 @@ namespace NHS111.SmokeTests.Regression
                 .AnswerSuccessiveNo(12)
                 .AnswerForDispostion<OutcomePage>("Less than 2 weeks");
 
-            outcomePage.VerifyOutcome("A nurse from 111 will phone you");
+            outcomePage.VerifyOutcome(OutcomePage.BookCallBackText);
             outcomePage.VerifyDispositionCode("Dx35");
 
             outcomePage.EnterPostCodeAndSubmit("ls17 7nz");
@@ -375,7 +375,7 @@ namespace NHS111.SmokeTests.Regression
                 .AnswerSuccessiveNo(2)
                 .AnswerForDispostion<OutcomePage>("Specialist help");
 
-            outcomePage.VerifyOutcome("A nurse from 111 will phone you");
+            outcomePage.VerifyOutcome(OutcomePage.BookCallBackText);
             outcomePage.VerifyDispositionCode("Dx35");
 
             outcomePage.EnterPostCodeAndSubmit("ls17 7nz");
@@ -396,7 +396,7 @@ namespace NHS111.SmokeTests.Regression
                 .AnswerNo()
                 .AnswerForDispostion<OutcomePage>("Information only");
 
-            outcomePage.VerifyOutcome("A nurse from 111 will phone you");
+            outcomePage.VerifyOutcome(OutcomePage.BookCallBackText);
             outcomePage.VerifyDispositionCode("Dx35");
 
             outcomePage.EnterPostCodeAndSubmit("ls17 7nz");
@@ -418,7 +418,7 @@ namespace NHS111.SmokeTests.Regression
                 .AnswerSuccessiveNo(3)
                 .AnswerForDispostion<OutcomePage>("I've stopped taking a medicine");
 
-            outcomePage.VerifyOutcome("A nurse from 111 will phone you");
+            outcomePage.VerifyOutcome(OutcomePage.BookCallBackText);
             outcomePage.VerifyDispositionCode("Dx35");
 
             outcomePage.EnterPostCodeAndSubmit("ls17 7nz");
@@ -449,7 +449,7 @@ namespace NHS111.SmokeTests.Regression
                 .Answer(1)
                 .AnswerForDispostion<OutcomePage>("Yes");
 
-            outcomePage.VerifyOutcome("A nurse from 111 will phone you");
+            outcomePage.VerifyOutcome(OutcomePage.BookCallBackText);
             outcomePage.VerifyDispositionCode("Dx35");
 
             outcomePage.EnterPostCodeAndSubmit("ls17 7nz");
@@ -470,7 +470,7 @@ namespace NHS111.SmokeTests.Regression
                 .AnswerSuccessiveNo(10)
                 .AnswerForDispostion<OutcomePage>("Drugs");
 
-            outcomePage.VerifyOutcome("A nurse from 111 will phone you");
+            outcomePage.VerifyOutcome(OutcomePage.BookCallBackText);
             outcomePage.VerifyDispositionCode("Dx35");
 
             outcomePage.EnterPostCodeAndSubmit("ls17 7nz");
@@ -492,7 +492,7 @@ namespace NHS111.SmokeTests.Regression
                 .Answer(3)
                 .AnswerForDispostion<OutcomePage>("No");
 
-            outcomePage.VerifyOutcome("A nurse from 111 will phone you");
+            outcomePage.VerifyOutcome(OutcomePage.BookCallBackText);
             outcomePage.VerifyDispositionCode("Dx35");
 
             outcomePage.EnterPostCodeAndSubmit("ls17 7nz");
