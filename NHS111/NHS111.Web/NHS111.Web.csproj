@@ -245,7 +245,6 @@
   <ItemGroup>
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
-    <Content Include="IoC\readme.txt" />
     <Content Include="robots.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -357,7 +356,6 @@
     <Content Include="Views\Outcome\Call_999_Assess.cshtml" />
     <Content Include="Views\Question\InlineCareAdvice.cshtml" />
     <Content Include="Views\Shared\_CommonHiddenFieldsNode.cshtml" />
-    <Content Include="leeds-postcodes.csv" />
     <Content Include="Views\Shared\_CommonHiddenFieldsCareAdviceViewModel.cshtml" />
     <Content Include="Views\Outcome\PathwaySelectionJump.cshtml" />
     <Content Include="Views\Help\Terms.cshtml" />
@@ -390,7 +388,6 @@
     </None>
     <Content Include="Views\Shared\_CompatibilityBanner.cshtml" />
     <Content Include="start.ps1" />
-    <Content Include="enabled-postcodes.csv" />
     <Content Include="Views\Shared\_ServiceOpeningTimes.cshtml" />
     <Content Include="Views\Shared\_CommonHiddenFieldsPageDataViewModel.cshtml" />
     <Content Include="Views\Outcome\ChangePostcode.cshtml" />
