@@ -1,4 +1,5 @@
-﻿using System.Configuration;
+﻿using System;
+using System.Configuration;
 using NodaTime;
 using NodaTime.Text;
 
@@ -158,6 +159,22 @@ namespace NHS111.Business.DOS.Configuration
             {
                 int dosSearchDistance;
                 return int.TryParse(ConfigurationManager.AppSettings["DoSSearchDistance"], out dosSearchDistance) ? dosSearchDistance : 37;
+            }
+        }
+
+        public Uri PublicHolidaysServiceUri
+        {
+            get
+            {
+                return new Uri(ConfigurationManager.AppSettings["PublicHolidaySeviceUri"]);
+            }
+        }
+
+        public string TestPublicHolidayDates
+        {
+            get
+            {
+                return ConfigurationManager.AppSettings["TestPublicHolidayDates"];
             }
         }
     }

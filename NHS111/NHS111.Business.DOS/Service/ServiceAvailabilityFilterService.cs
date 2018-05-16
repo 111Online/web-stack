@@ -25,8 +25,9 @@ namespace NHS111.Business.DOS.Service
         private readonly IServiceWhitelistFilter _serviceWhitelistFilter;
         private readonly IOnlineServiceTypeMapper _serviceTypeMapper;
         private readonly IOnlineServiceTypeFilter _serviceTypeFilter;
+        private readonly IPublicHolidayService _publicHolidayService;
 
-        public ServiceAvailabilityFilterService(IDosService dosService, IConfiguration configuration, IServiceAvailabilityManager serviceAvailabilityManager, IFilterServicesFeature filterServicesFeature, IServiceWhitelistFilter serviceWhitelistFilter, IOnlineServiceTypeMapper serviceTypeMapper, IOnlineServiceTypeFilter serviceTypeFilter)
+        public ServiceAvailabilityFilterService(IDosService dosService, IConfiguration configuration, IServiceAvailabilityManager serviceAvailabilityManager, IFilterServicesFeature filterServicesFeature, IServiceWhitelistFilter serviceWhitelistFilter, IOnlineServiceTypeMapper serviceTypeMapper, IOnlineServiceTypeFilter serviceTypeFilter, IPublicHolidayService publicHolidayService)
         {
             _dosService = dosService;
             _configuration = configuration;
@@ -35,6 +36,7 @@ namespace NHS111.Business.DOS.Service
             _serviceWhitelistFilter = serviceWhitelistFilter;
             _serviceTypeMapper = serviceTypeMapper;
             _serviceTypeFilter = serviceTypeFilter;
+            _publicHolidayService = publicHolidayService;
         }
 
         public async Task<HttpResponseMessage> GetFilteredServices(HttpRequestMessage request, bool filterServices, DosEndpoint? endpoint)
@@ -58,8 +60,10 @@ namespace NHS111.Business.DOS.Service
             var services = jObj["CheckCapacitySummaryResult"];
             var results = services.ToObject<List<Models.Models.Business.DosService>>();
 
+            var publicHolidayAjustedResults =
+                _publicHolidayService.AdjustServiceRotaSessionOpeningForPublicHoliday(results);
 
-            var filteredByServiceWhitelistResults = await _serviceWhitelistFilter.Filter(results, originalPostcode);
+            var filteredByServiceWhitelistResults = await _serviceWhitelistFilter.Filter(publicHolidayAjustedResults.ToList(), originalPostcode);
             var mappedByServiceTypeResults = await _serviceTypeMapper.Map(filteredByServiceWhitelistResults, originalPostcode);
             var filteredByUnknownTypeResults = _serviceTypeFilter.FilterUnknownTypes(mappedByServiceTypeResults);
         

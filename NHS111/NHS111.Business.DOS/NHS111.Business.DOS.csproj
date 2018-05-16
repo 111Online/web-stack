@@ -37,6 +37,10 @@
       <HintPath>..\packages\AutoMapper.4.2.1\lib\net45\AutoMapper.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="log4net, Version=2.0.8.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
+      <HintPath>..\packages\log4net.2.0.8\lib\net45-full\log4net.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.9.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
@@ -98,6 +102,8 @@
     <Compile Include="EndpointFilter\ServiceAvailabilityProfile.cs" />
     <Compile Include="EndpointFilter\ServiceAvailablityManager.cs" />
     <Compile Include="Service\DOSService.cs" />
+    <Compile Include="Service\PublicHolidaysDataService.cs" />
+    <Compile Include="Service\PublicHolidayService.cs" />
     <Compile Include="Service\ServiceAvailabilityFilterService.cs" />
     <Compile Include="WhitelistFilter\ServiceWhitelistFilter.cs" />
   </ItemGroup>
