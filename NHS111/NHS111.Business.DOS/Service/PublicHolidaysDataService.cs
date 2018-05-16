@@ -31,7 +31,7 @@ namespace NHS111.Business.DOS.Service
             {
                 JObject jsonData = JObject.Parse(response.Content);
                 var holidays = jsonData["england-and-wales"]["events"].ToObject<List<PublicHoliday>>();
-                holidays.AddRange(LoadTestHoldiays(configuration));
+                holidays.AddRange(LoadTestHolidays(configuration));
                 _holidays = new PublicHolidaysData(holidays);
 
             }
@@ -39,7 +39,7 @@ namespace NHS111.Business.DOS.Service
             return _holidays;
         }
 
-        private static List<PublicHoliday> LoadTestHoldiays(IConfiguration configuration)
+        private static List<PublicHoliday> LoadTestHolidays(IConfiguration configuration)
         {
             var testHolidays = new List<PublicHoliday>();
             if (configuration.TestPublicHolidayDates.Length > 0)
