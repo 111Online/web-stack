@@ -29,17 +29,17 @@ namespace NHS111.Business.DOS.Service
 
         public IEnumerable<NHS111.Models.Models.Business.DosService> AdjustServiceRotaSessionOpeningForPublicHoliday(IEnumerable<NHS111.Models.Models.Business.DosService> services)
         {
-            if(ContainsBankHolidaySessions(services)) return services;
+            if(!ContainsBankHolidaySessions(services)) return services;
 
-            var ajustedServices = new List<NHS111.Models.Models.Business.DosService>();
+            var adjustedServices = new List<NHS111.Models.Models.Business.DosService>();
             foreach (var service in services)
             {
-                var bankHoldaySession = service.RotaSessions.FirstOrDefault(s => s.StartDayOfWeek == DayOfWeek.BankHoliday);
-                var ajustedSessions = new List<ServiceCareItemRotaSession>();
+                var bankHolidaySession = service.RotaSessions.FirstOrDefault(s => s.StartDayOfWeek == DayOfWeek.BankHoliday);
+                var adjustedSessions = new List<ServiceCareItemRotaSession>();
                     foreach (var session in service.RotaSessions)
                     {
                         var ajsutedSession = session;
-                        if (bankHoldaySession !=null)
+                        if (bankHolidaySession !=null)
                         {
                             DateTime sessionDate =
                                 _clock.Now.AddDays(NumberOfDaysBetweenWeekdays(session.StartDayOfWeek, _clock.Now.DayOfWeek));
@@ -49,22 +49,22 @@ namespace NHS111.Business.DOS.Service
                                 ajsutedSession = new ServiceCareItemRotaSession()
                                 {
                                     StartDayOfWeek = session.StartDayOfWeek,
-                                    StartTime = bankHoldaySession.StartTime,
+                                    StartTime = bankHolidaySession.StartTime,
                                     EndDayOfWeek = session.EndDayOfWeek,
-                                    EndTime = bankHoldaySession.EndTime,
-                                    Status = bankHoldaySession.Status
+                                    EndTime = bankHolidaySession.EndTime,
+                                    Status = bankHolidaySession.Status
                                 };
                             }
                              
                         }
-                        ajustedSessions.Add(ajsutedSession);
+                        adjustedSessions.Add(ajsutedSession);
                     }
 
-                service.RotaSessions = ajustedSessions.ToArray();
-                ajustedServices.Add(service);
+                service.RotaSessions = adjustedSessions.ToArray();
+                adjustedServices.Add(service);
             }
 
-            return ajustedServices;
+            return adjustedServices;
         }
 
         private int NumberOfDaysBetweenWeekdays(DayOfWeek futureDay, System.DayOfWeek startDay)
@@ -75,7 +75,7 @@ namespace NHS111.Business.DOS.Service
         private bool ContainsBankHolidaySessions(IEnumerable<Models.Models.Business.DosService> services)
         {
 
-            return !services.Any(s => s.RotaSessions.Any(rs => rs.StartDayOfWeek == DayOfWeek.BankHoliday || rs.EndDayOfWeek == DayOfWeek.BankHoliday));
+            return services.Any(s => s.RotaSessions.Any(rs => rs.StartDayOfWeek == DayOfWeek.BankHoliday || rs.EndDayOfWeek == DayOfWeek.BankHoliday));
         }
     }
 
