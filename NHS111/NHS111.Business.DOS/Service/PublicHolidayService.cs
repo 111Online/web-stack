@@ -38,7 +38,7 @@ namespace NHS111.Business.DOS.Service
                 var adjustedSessions = new List<ServiceCareItemRotaSession>();
                     foreach (var session in service.RotaSessions)
                     {
-                        var ajsutedSession = session;
+                        var adjustedSession = session;
                         if (bankHolidaySession !=null)
                         {
                             DateTime sessionDate =
@@ -46,7 +46,7 @@ namespace NHS111.Business.DOS.Service
                             if (_publicHolidayData != null && _publicHolidayData.PublicHolidays.Any(h => h.Date.Date == sessionDate.Date))
                             {
                                 
-                                ajsutedSession = new ServiceCareItemRotaSession()
+                                adjustedSession = new ServiceCareItemRotaSession()
                                 {
                                     StartDayOfWeek = session.StartDayOfWeek,
                                     StartTime = bankHolidaySession.StartTime,
@@ -57,7 +57,7 @@ namespace NHS111.Business.DOS.Service
                             }
                              
                         }
-                        adjustedSessions.Add(ajsutedSession);
+                        adjustedSessions.Add(adjustedSession);
                     }
 
                 service.RotaSessions = adjustedSessions.ToArray();
