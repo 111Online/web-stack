@@ -351,6 +351,8 @@ namespace NHS111.Models.Models.Web.FromExternalServices
         Friday,
         /// <remarks/>
         Saturday,
+
+        BankHoliday
     }
 
     public class TimeOfDay

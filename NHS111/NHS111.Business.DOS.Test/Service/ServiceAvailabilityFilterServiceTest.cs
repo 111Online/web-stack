@@ -27,6 +27,7 @@ namespace NHS111.Business.DOS.Test.Service
         private Mock<IOnlineServiceTypeFilter> _mockServiceTypeFilter;
         private Mock<IOnlineServiceTypeMapper> _mockServiceTypeMapper;
         private Mock<IServiceWhitelistFilter> _mockServiceWhitelistFilter;
+        private Mock<IPublicHolidayService> _mockPublicHolidayService;
 
         private const string DOS_USERNAME = "made_up_user";
         private const string DOS_PASSWORD = "made_up_password";
@@ -83,7 +84,9 @@ namespace NHS111.Business.DOS.Test.Service
             _mockServiceTypeMapper = new Mock<IOnlineServiceTypeMapper>();
             _mockServiceWhitelistFilter = new Mock<IServiceWhitelistFilter>();
 
-        _mockConfiguration.Setup(c => c.DosUsername).Returns(DOS_USERNAME);
+            _mockPublicHolidayService = new Mock<IPublicHolidayService>();
+
+            _mockConfiguration.Setup(c => c.DosUsername).Returns(DOS_USERNAME);
             _mockConfiguration.Setup(c => c.DosPassword).Returns(DOS_PASSWORD);
             _mockConfiguration.Setup(c => c.FilteredPrimaryCareDispositionCodes).Returns(FILTERED_DISPOSITION_CODES);
             _mockConfiguration.Setup(c => c.FilteredPrimaryCareDosServiceIds).Returns(FILTERED_DOS_SERVICE_IDS);
@@ -127,7 +130,7 @@ namespace NHS111.Business.DOS.Test.Service
 
             //var sut = new ServiceAvailablityManager(_mockConfiguration.Object);
 
-            var sut = new ServiceAvailabilityFilterService(_mockDosService.Object, _mockConfiguration.Object, _mockServiceAvailabilityProfileManager.Object, _mockFilterServicesFeature.Object, _mockServiceWhitelistFilter.Object, _mockServiceTypeMapper.Object, _mockServiceTypeFilter.Object);
+            var sut = new ServiceAvailabilityFilterService(_mockDosService.Object, _mockConfiguration.Object, _mockServiceAvailabilityProfileManager.Object, _mockFilterServicesFeature.Object, _mockServiceWhitelistFilter.Object, _mockServiceTypeMapper.Object, _mockServiceTypeFilter.Object, _mockPublicHolidayService.Object);
 
             //Act
             var result = await sut.GetFilteredServices(fakeRequest, true, null);
