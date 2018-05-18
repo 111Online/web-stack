@@ -3,7 +3,7 @@
     margin-bottom: $baseline-grid-unit;
   }
 
-  .button {
+  button {
     margin: $baseline-grid-unit*2 0;
 
     @include media(tablet) {
