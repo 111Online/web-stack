@@ -12,7 +12,13 @@ namespace NHS111.Models.Models.Web.FromExternalServices
         public ErrorObject Error { get; set; }
 
         public bool ResultListEmpty {
-            get { return Error != null || (Success != null && Success.Services.Count <= 0); }
+            get {
+                if (Error == null)
+                    return true;
+                if (Success == null)
+                    return true;
+                return Success.Services != null && Success.Services.Count <= 0;
+            }
         }
 
         public bool ServicesUnavailable { get; set; }
