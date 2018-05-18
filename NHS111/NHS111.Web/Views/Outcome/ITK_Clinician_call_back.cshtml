@@ -1,9 +1,11 @@
 ﻿@using Microsoft.Ajax.Utilities
 @using NHS111.Models.Models.Web
+@using NHS111.Models.Models.Web.FromExternalServices
 @inherits NHS111.Web.Views.Shared.SurveyLinkView<OutcomeViewModel>
 @{
     Layout = "~/Views/Shared/_LayoutNhsUk.cshtml";
     var error = Model.DosCheckCapacitySummaryResult.ResultListEmpty;
+    var anyITKServicesAreAvailable = Model.DosCheckCapacitySummaryResult.Success.Services.Any(s => s.OnlineDOSServiceType == OnlineDOSServiceType.Callback);
 }
 
 @section Title { NHS 111 - Speak to a clinician }
@@ -38,7 +40,7 @@
 }
 
 
-@if (Model.DosCheckCapacitySummaryResult.ResultListEmpty)
+@if (Model.DosCheckCapacitySummaryResult.ResultListEmpty || anyITKServicesAreAvailable)
 {
     <section class="local-header">
         <div class="measure">
