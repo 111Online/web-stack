@@ -5,7 +5,7 @@
 @{
     Layout = "~/Views/Shared/_LayoutNhsUk.cshtml";
     var error = Model.DosCheckCapacitySummaryResult.ResultListEmpty;
-    var anyITKServicesAreAvailable = Model.DosCheckCapacitySummaryResult.Success.Services.Any(s => s.OnlineDOSServiceType == OnlineDOSServiceType.Callback);
+    var noITKServicesAreAvailable = Model.DosCheckCapacitySummaryResult.Success.Services.All(s => s.OnlineDOSServiceType != OnlineDOSServiceType.Callback);
 }
 
 @section Title { NHS 111 - Speak to a clinician }
@@ -40,7 +40,7 @@
 }
 
 
-@if (Model.DosCheckCapacitySummaryResult.ResultListEmpty || anyITKServicesAreAvailable)
+@if (noITKServicesAreAvailable)
 {
     <section class="local-header">
         <div class="measure">
