@@ -167,6 +167,7 @@
     </Content>
     <Content Include="src\codebase\components\reveal\reveal.config.yaml" />
     <Content Include="src\codebase\components\reveal\reveal.njk" />
+    <Content Include="src\codebase\components\_cookie-banner.scss" />
     <Content Include="src\codebase\components\_global-footer.scss" />
     <Content Include="src\codebase\components\_global-header.scss" />
     <Content Include="src\codebase\components\_index.scss" />
