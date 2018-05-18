@@ -116,9 +116,9 @@ else
             {
                     @Html.Partial("_CommonHiddenFieldsOutcomeViewModel", Model)
                     @Html.Partial("_CommonHiddenFieldsCareAdviceViewModel", Model)
-                    @Html.Hidden("SelectedServiceId", Model.DosCheckCapacitySummaryResult.Success.Services[0].Id)
-               
-                    <hr />
+                @Html.Hidden("SelectedServiceId", Model.DosCheckCapacitySummaryResult.Success.Services.First(s => s.OnlineDOSServiceType == OnlineDOSServiceType.Callback).Id)
+
+                <hr />
                     <button type="submit" name="PersonalDetails" value="Book a call">Book a nurse call</button>
             }
         }
