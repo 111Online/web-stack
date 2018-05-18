@@ -1,123 +1,187 @@
-﻿@{
+﻿﻿@{
     Layout = "~/Views/Shared/_LayoutNhsUK.cshtml";
 }
 @section Title {Cookies}
 <div class="help cookies measure">
-
     <h1 class="heading-large">Cookies</h1>
-
     <p>
-        NHS 111 Online puts small files (known as ‘cookies’) onto your computer to collect information about how you browse the site.
+        NHS 111 online puts small files (known as ‘cookies’) onto your computer
+        to collect information about how you browse the site.
     </p>
-
     <p>
         Cookies are used to:
     </p>
-
     <ul>
-        <li>measure how you use the website so it can be updated and improved based on your needs</li>
-        <li>remember the notifications you’ve seen so that we don’t show them to you again</li>
+        <li>
+            measure how you use the website so it can be updated and improved
+            based on your needs
+        </li>
+        <li>
+            remember the notifications you’ve seen so that we don’t show them to
+            you again
+        </li>
     </ul>
-
-    <h3 class="heading-small">NHS 111 Online cookies aren’t used to identify you personally.</h3>
-
+    <div class="callout callout--info">
+        <p>
+            NHS 111 online cookies aren’t used to identify you personally
+        </p>
+    </div>
+    <h2>Cookies we use to make the site work better</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Purpose</th>
+                <th>Expires</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>nhs111-session-id</td>
+                <td>Tracks your journey through the site</td>
+                <td>When you close the browser</td>
+            </tr>
+            <tr>
+                <td>AspNetCore.Antiforgery</td>
+                <td>Helps protect the site from attacks</td>
+                <td>When you close the browser</td>
+            </tr>
+            <tr>
+                <td>ASPXANONYMOUS</td>
+                <td>Tracks your journey through the site</td>
+                <td>2 months</td>
+            </tr>
+            <tr>
+                <td>ARRAffinity</td>
+                <td>Used by servers to make sure a session stays in the same environment</td>
+                <td>When you close the browser</td>
+            </tr>
+            <tr>
+                <td>nhs111_seen_cookie_message</td>
+                <td>Tells you we’ve stored cookies on your first visit</td>
+                <td>1 month</td>
+            </tr>
+        </tbody>
+    </table>
+    <h2 class="heading-medium">Cookies to measure website use (Google Analytics)</h2>
     <p>
-        You’ll normally see a message on the site before we store a cookie on your computer.
+        We use Google Analytics software to collect information about how you use
+        NHS 111 online. We do this to help make sure the site is meeting the needs
+        of its users and to help us make improvements. We have opted to make
+        everything we send to Google anonymous &mdash; this means you can’t be
+        identified.
     </p>
-
-    <p>
-        Find out more about <a href="http://www.aboutcookies.org/">how to manage and control cookies.</a>
-    </p>
-
-    <hr/>
-
-    <h2 class="heading-medium">How cookies are used on NHS 111 Online</h2>
-
-    <h3 class="heading-small">Measuring website usage (Google Analytics)</h3>
-
-    <p>
-        We use Google Analytics software to collect information about how you use NHS 111 Online. We do this to help make sure the site is meeting the needs of its users and to help us make improvements, for example, improving user journeys.
-    </p>
-
-    <p>
-        Google Analytics stores information about:
-    </p>
-
+    <p>Google Analytics stores information about:</p>
     <ul>
-        <li>the pages you visit on NHS 111 Online</li>
-        <li>how long you spend on each NHS 111 Online page</li>
+        <li>the pages you visit on NHS 111 online</li>
+        <li>how long you spend on each NHS 111 online page</li>
         <li>how you got to the site</li>
-        <li>what you click on while you’re visiting the site</li>
+        <li>what you click on while you’re using the site</li>
     </ul>
-
-    <p>
-        We don’t collect or store your personal information (such as your name or address) so this information can’t be used to identify who you are.
-    </p>
-
-    <h3 class="heading-small">We don’t allow Google to use or share our analytics data.</h3>
-
-    <p>
-        Google Analytics sets the following cookies:
-    </p>
-
+    <div class="callout callout--info">
+        <p>We don’t allow Google to use or share our analytics data.</p>
+    </div>
+    <p>Google Analytics sets the following cookies:</p>
     <table>
         <thead>
-        <tr>
-            <th>Name</th>
-            <th>Purpose</th>
-            <th>Expires</th>
-        </tr>
+            <tr>
+                <th>Name</th>
+                <th>Purpose</th>
+                <th>Expires</th>
+            </tr>
         </thead>
         <tbody>
-        <tr>
-            <td>_ga</td>
-            <td>This helps us count how many people visit NHS 111 Online by tracking if you’ve visited before</td>
-            <td>2 years</td>
-        </tr>
-        <tr>
-            <td>_gat</td>
-            <td>Used to manage the rate at which page view requests are made</td>
-            <td>10 minutes</td>
-        </tr>
+            <tr>
+                <td>_ga and _gid</td>
+                <td>These help us count how many people visit NHS 111 online by tracking if you’ve visited before</td>
+                <td>2 years</td>
+            </tr>
+            <tr>
+                <td>_gat</td>
+                <td>Used to manage the rate at which page view requests are made</td>
+                <td>10 minutes</td>
+            </tr>
         </tbody>
     </table>
-
     <p>
-        You can <a href="https://tools.google.com/dlpage/gaoptout">opt out of Google Analytics cookies.</a>
+        If you browse the web without using javascript, Google Analytics will use
+        something called a pixel gif graphic instead of a cookie. This collects
+        information about your device and behaviour.
     </p>
-
-    <h2 class="heading-medium">Our survey</h2>
-
     <p>
-        You may see a message asking if you would like to take part in a survey for NHS 111 Online. If you take part, we’ll store a cookie so that your computer knows you’ve seen it and knows not to show it again during your current session.
+        You can <a href="https://tools.google.com/dlpage/gaoptout">
+            opt out of
+            Google Analytics cookies
+        </a>.
     </p>
-
+    <h2 class="heading-medium">Cookies in our survey</h2>
+    <p>
+        You may see a message asking if you would like to take part in a survey
+        for NHS 111 online. If you take part, we’ll store cookies so that your
+        computer knows you’ve seen it and knows not to show it again during your
+        current session.
+    </p>
     <table>
         <thead>
-        <tr>
-            <th>Name</th>
-            <th>Purpose</th>
-            <th>Expires</th>
-        </tr>
+            <tr>
+                <th>Name</th>
+                <th>Purpose</th>
+                <th>Expires</th>
+            </tr>
         </thead>
         <tbody>
-        <tr>
-            <td>nhs111-survey-link-banner</td>
-            <td>Saves a message to let us know that you’ve taken part in our survey</td>
-            <td>when you close your browser</td>
-        </tr>
-        <tr>
-            <td>nhs111_seen_cookie_message</td>
-            <td>Saves a message to let us know that you've seen our cookie message</td>
-            <td>28 days</td>
-        </tr>
+            <tr>
+                <td>JSESSIONID and ASP.NET_SessionId</td>
+                <td>Helps the survey work properly in the session</td>
+                <td>When you close the browser</td>
+            </tr>
         </tbody>
     </table>
-
-    <hr/>
-
+    <h2 class="heading-medium">How to change your cookie settings</h2>
     <p>
-        If you need to contact us about the use of cookies, please use the following email: <a href="mailto:enquiries@nhsdigital.nhs.uk?subject=111 online enquiry">enquiries@nhsdigital.nhs.uk</a>
+        Most web browsers allow some control of most cookies through the browser
+        settings. To find out more about cookies, including how to see what
+        cookies have been set, visit <a href="https://www.aboutcookies.org/">
+            www.aboutcookies.org
+        </a> or <a href="http://www.allaboutcookies.org/">
+            www.allaboutcookies.org.
+        </a>
+    </p>
+    <p>Find out how to manage cookies on:</p>
+    <ul>
+        <li>
+            <a href="https://support.apple.com/kb/ph21411?locale=en_US">
+                Apple Safari
+            </a>
+        </li>
+        <li>
+            <a href="https://support.google.com/accounts/answer/61416?co=GENIE.Platform%3DDesktop&hl=en">
+                Google Chrome
+            </a>
+        </li>
+        <li>
+            <a href="https://privacy.microsoft.com/en-us/windows-10-microsoft-edge-and-privacy">
+                Microsoft Edge
+            </a>
+        </li>
+        <li>
+            <a href="https://support.microsoft.com/en-gb/help/17442/windows-internet-explorer-delete-manage-cookies">
+                Microsoft Internet Explorer
+            </a>
+        </li>
+        <li>
+            <a href="https://support.mozilla.org/en-US/kb/enable-and-disable-cookies-website-preferences">
+                Mozilla Firefox
+            </a>
+        </li>
+        <li>
+            <a href="https://www.opera.com/help/tutorials/security/privacy/">
+                Opera
+            </a>
+        </li>
+    </ul>
+    <p>
+        If you need to contact us about the use of cookies email:
+        <a href="mailto:enquiries@nhsdigital.nhs.uk">enquiries@nhsdigital.nhs.uk</a>
     </p>
 </div>
-

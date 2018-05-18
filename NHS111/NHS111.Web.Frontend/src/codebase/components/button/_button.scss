@@ -34,6 +34,11 @@ button,
   background: $focus-colour;
 }
 
+.button--compact {
+  width: auto;
+  padding: $baseline-grid-unit ($baseline-grid-unit * 3);
+}
+
 /*
  Uncomment these lines to enabled button arrows
 
