@@ -13,11 +13,11 @@ namespace NHS111.Models.Models.Web.FromExternalServices
 
         public bool ResultListEmpty {
             get {
-                if (Error == null)
+                if (Error != null)
                     return true;
                 if (Success == null)
                     return true;
-                return Success.Services != null && Success.Services.Count <= 0;
+                return Success.Services == null || Success.Services.Count <= 0;
             }
         }
 

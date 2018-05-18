@@ -1,14 +1,12 @@
 ﻿
-namespace NHS111.Models.Test.Models.Web.FromExternalServices
-{
+namespace NHS111.Models.Test.Models.Web.FromExternalServices {
     using System.Collections.Generic;
     using NHS111.Models.Models.Web;
     using NHS111.Models.Models.Web.FromExternalServices;
     using NUnit.Framework;
 
     [TestFixture]
-    public class DosCheckCapacitySummaryResultTests
-    {
+    public class DosCheckCapacitySummaryResultTests {
         [Test]
         public void ResultListEmpty_WithoutErrorOrSuccess_ReturnsTrue() {
             var sut = new DosCheckCapacitySummaryResult();
@@ -41,6 +39,16 @@ namespace NHS111.Models.Test.Models.Web.FromExternalServices
             Assert.True(sut.ResultListEmpty);
         }
 
-
+        [Test]
+        public void ResultListEmpty_WithResultsAndNoError_ReturnsFalse() {
+            var sut = new DosCheckCapacitySummaryResult {
+                Success = new SuccessObject<ServiceViewModel>() {
+                    Services = new List<ServiceViewModel> {
+                        new ServiceViewModel()
+                    }
+                }
+            };
+            Assert.False(sut.ResultListEmpty);
+        }
     }
 }
