@@ -1,0 +1,13 @@
+.global-cookies-banner {
+  p {
+    margin-bottom: $baseline-grid-unit;
+  }
+
+  button {
+    margin: $baseline-grid-unit*2 0;
+
+    @include media(tablet) {
+      margin-bottom: 0;
+    }
+  }
+}

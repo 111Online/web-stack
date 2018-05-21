@@ -1,11 +1,19 @@
-﻿<div class="notification-banner notification-banner__hidden" id="global-cookies-banner" role="alert">
-    <p class="notification-banner--inner">
-        <span id="cookie-message">
-            NHS 111 uses cookies to make the site simpler. @Html.ActionLink("Find out more about cookies", "Cookies", "Help", null, new { target = "_blank", @id = "cookie-link" })
-        </span>
-        <i class="icon icon-close"></i>    
-    </p>
+﻿<div class="global-cookies-banner notification-banner notification-banner__hidden" id="global-cookies-banner" role="alert">
+    <div class="notification-banner--inner">
+        <div class="grid-row">
+            <div class="column--two-thirds">
+                <p>
+                    We've placed cookies on your device to help make this website better.<br>
+                    You can @Html.ActionLink("change your cookie settings.", "Cookies", "Help", null, new { target = "_blank", @id = "cookie-link" })
+                </p>
+            </div>
+            <div class="column--one-third">
+                <button type="button" class="button--secondary button--compact" id="dismiss-banner">I understand</button>
+            </div>
+        </div>
+    </div>
 </div>
+
 <script>
     $(function() {
         var seenCookieMessage = $.cookie("nhs111_seen_cookie_message");
@@ -13,7 +21,7 @@
         $('#cookie-link').click(function() {
             dismissCookieBanner();
         });
-        $('.icon-close').click(function() {
+        $('#dismiss-banner').click(function() {
             dismissCookieBanner();
         });
 
@@ -26,18 +34,17 @@
 </script>
 
 <!--[if lte IE 9]>
- <script>
+    <script>
 
         $('#global-cookies-banner').css({ display: "block" });
         var seenCookieMessage = $.cookie("nhs111_seen_cookie_message");
 
         if (seenCookieMessage) dismissCookieBanner();
-      
+
 
         function dismissCookieBanner() {
-            $('#cookie-message').hide();
+            $('#global-cookies-banner').hide();
         }
 
- </script>
+    </script>
 <![endif]-->
-
