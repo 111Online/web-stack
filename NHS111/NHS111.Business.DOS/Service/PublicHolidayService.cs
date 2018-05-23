@@ -37,39 +37,60 @@ namespace NHS111.Business.DOS.Service
             {
                 var bankHolidaySessions = service.RotaSessions.Where(s => s.StartDayOfWeek == DayOfWeek.BankHoliday);
                 var adjustedSessions = new List<ServiceCareItemRotaSession>();
-                    foreach (var session in service.RotaSessions)
-                    {
-                        if (bankHolidaySessions.Any())
-                        {
-                            DateTime sessionDate =
-                                _clock.Now.AddDays(NumberOfDaysBetweenWeekdays(session.StartDayOfWeek, _clock.Now.DayOfWeek));
-                            if (_publicHolidayData != null && _publicHolidayData.PublicHolidays.Any(h => h.Date.Date == sessionDate.Date))
-                            {
-                            bankHolidaySessions.Each(s => adjustedSessions.Add(
-                                                        new ServiceCareItemRotaSession()
-                                                        {
-                                                            StartDayOfWeek = session.StartDayOfWeek,
-                                                            StartTime = s.StartTime,
-                                                            EndDayOfWeek = session.EndDayOfWeek,
-                                                            EndTime = s.EndTime,
-                                                            Status = s.Status
-                                                        }
-                                                      )
-                                                    );
-            
-                            }
-                             
-                        }
-                        else
-                            adjustedSessions.Add(session);
-                    }
 
+                adjustedSessions = GetAdjustedPublicHolidaySessions(service);
                 service.RotaSessions = adjustedSessions.ToArray();
                 adjustedServices.Add(service);
             }
 
             return adjustedServices;
         }
+
+
+        private List<ServiceCareItemRotaSession> GetAdjustedPublicHolidaySessions(Models.Models.Business.DosService service)
+        {
+            var adjustedSessions = new List<ServiceCareItemRotaSession>();
+            var bankHolidaySessions = service.RotaSessions.Where(s => s.StartDayOfWeek == DayOfWeek.BankHoliday);
+            if (bankHolidaySessions.Any())
+            {
+                foreach (DayOfWeek dayOfWeek in Enum.GetValues(typeof(DayOfWeek)))
+                {
+                    if(dayOfWeek == DayOfWeek.BankHoliday) continue;
+                        var standardScheduledRotaSessions = service.RotaSessions.Where(s => s.StartDayOfWeek == dayOfWeek);
+   
+                        DateTime dayOfWeekDate = _clock.Now.AddDays(NumberOfDaysBetweenWeekdays(dayOfWeek, _clock.Now.DayOfWeek));
+
+                        if ((_publicHolidayData != null &&
+                            _publicHolidayData.PublicHolidays.Any(h => h.Date.Date == dayOfWeekDate.Date)))
+                        {
+                            bankHolidaySessions.Each(s => adjustedSessions.Add(
+                                    new ServiceCareItemRotaSession()
+                                    {
+                                        StartDayOfWeek = dayOfWeek,
+                                        StartTime = s.StartTime,
+                                        EndDayOfWeek = dayOfWeek,
+                                        EndTime = s.EndTime,
+                                        Status = s.Status
+                                    }
+                                )
+                            );
+
+                        }
+                        else
+                        {
+                            adjustedSessions.AddRange(standardScheduledRotaSessions);
+                        }
+                    
+                }
+            }
+            else
+            {
+                return service.RotaSessions.ToList();
+            }
+
+            return adjustedSessions;
+        }
+
 
         private int NumberOfDaysBetweenWeekdays(DayOfWeek futureDay, System.DayOfWeek startDay)
         {

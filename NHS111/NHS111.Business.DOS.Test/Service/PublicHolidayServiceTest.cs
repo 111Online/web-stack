@@ -79,6 +79,24 @@ namespace NHS111.Business.DOS.Test.Service
                                 ""statusField"": ""Open"",
                                 ""PropertyChanged"": null
                             },
+ {
+                                ""startDayOfWeekField"": 7,
+                                ""startTimeField"": 
+                                {
+                                    ""hoursField"": 7,
+                                    ""minutesField"": 0,
+                                    ""PropertyChanged"": null
+                                },
+                                ""endDayOfWeekField"": 7,
+                                ""endTimeField"": 
+                                {
+                                    ""hoursField"": 12,
+                                    ""minutesField"": 30,
+                                    ""PropertyChanged"": null
+                                },
+                                ""statusField"": ""Open"",
+                                ""PropertyChanged"": null
+                            },
                             {
                                 ""startDayOfWeekField"": 2,
                                 ""startTimeField"": 
@@ -166,7 +184,96 @@ namespace NHS111.Business.DOS.Test.Service
             var sut = new PublicHolidayService(null, _mockClock.Object);
             var result = sut.AdjustServiceRotaSessionOpeningForPublicHoliday(results);
             Assert.AreEqual(3, result.Count());
-            Assert.AreEqual(4, result.First().RotaSessions.Count());
+            Assert.AreEqual(3, result.First().RotaSessions.Count());
+        }
+
+        [Test]
+        public void BankHoliday_rotasessions_adjusted_for_publicHolidays_split_session()
+        {
+
+            var jObj = (JObject)JsonConvert.DeserializeObject(CheckCapacitySummaryResults);
+            var results = jObj["CheckCapacitySummaryResult"].ToObject<List<Models.Models.Business.DosService>>();
+
+
+            var sut = new PublicHolidayService(_mockPublicHolidayData.Object, _mockClock.Object);
+            var result = sut.AdjustServiceRotaSessionOpeningForPublicHoliday(results);
+            Assert.AreEqual(3, result.Count());
+            Assert.AreEqual(2, result.First().RotaSessions.Where(s => s.StartDayOfWeek == DayOfWeek.Monday).Count());
+        }
+
+        [Test]
+        public void BankHoliday_rotasessions_adjusted_for_open_when_usually_closed()
+        {
+            string checkCapacitySummaryResults = @"{
+            ""CheckCapacitySummaryResult"": [{
+                    ""idField"": 1419419101,
+                    ""nameField"": ""Test Service 1"",
+                    ""serviceTypeField"": {
+                        ""idField"": 100,
+                    },
+                       ""rotaSessionsField"": [
+                            {
+                                ""startDayOfWeekField"": 0,
+                                ""startTimeField"": {
+                                    ""hoursField"": 10,
+                                    ""minutesField"": 0,
+                                    ""PropertyChanged"": null
+                                },
+                                ""endDayOfWeekField"": 0,
+                                ""endTimeField"": 
+                                {
+                                    ""hoursField"": 17,
+                                    ""minutesField"": 0,
+                                    ""PropertyChanged"": null
+                                },
+                                ""statusField"": ""Open"",
+                                ""PropertyChanged"": null
+                            },
+ {
+                                ""startDayOfWeekField"": 7,
+                                ""startTimeField"": 
+                                {
+                                    ""hoursField"": 7,
+                                    ""minutesField"": 0,
+                                    ""PropertyChanged"": null
+                                },
+                                ""endDayOfWeekField"": 7,
+                                ""endTimeField"": 
+                                {
+                                    ""hoursField"": 12,
+                                    ""minutesField"": 30,
+                                    ""PropertyChanged"": null
+                                },
+                                ""statusField"": ""Open"",
+                                ""PropertyChanged"": null
+                            }
+                          ]
+                },
+                {
+                    ""idField"": 1419419101,
+                    ""nameField"": ""Test Service 2"",
+                    ""serviceTypeField"": {
+                        ""idField"": 25,
+                    }
+                },
+                {
+                    ""idField"": 1419419101,
+                    ""nameField"": ""Test Service 3"",
+                    ""serviceTypeField"": {
+                        ""idField"": 46,
+                    }
+                },
+            ]}";
+            var jObj = (JObject)JsonConvert.DeserializeObject(checkCapacitySummaryResults);
+            var results = jObj["CheckCapacitySummaryResult"].ToObject<List<Models.Models.Business.DosService>>();
+
+
+            var sut = new PublicHolidayService(_mockPublicHolidayData.Object, _mockClock.Object);
+            var result = sut.AdjustServiceRotaSessionOpeningForPublicHoliday(results);
+            Assert.AreEqual(3, result.Count());
+            Assert.AreEqual(1, result.First().RotaSessions.Where(s => s.StartDayOfWeek == DayOfWeek.Monday).Count());
+
+
         }
     }
 }
