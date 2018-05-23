@@ -4,8 +4,7 @@
 @inherits NHS111.Web.Views.Shared.SurveyLinkView<OutcomeViewModel>
 @{
     Layout = "~/Views/Shared/_LayoutNhsUk.cshtml";
-    var error = Model.DosCheckCapacitySummaryResult.ResultListEmpty;
-    var noITKServicesAreAvailable = !error && Model.DosCheckCapacitySummaryResult.Success.Services.All(s => s.OnlineDOSServiceType != OnlineDOSServiceType.Callback);
+    var noITKServicesAreAvailable = !Model.DosCheckCapacitySummaryResult.ResultListEmpty && Model.DosCheckCapacitySummaryResult.Success.Services.All(s => s.OnlineDOSServiceType != OnlineDOSServiceType.Callback);
 }
 
 @section Title { NHS 111 - Speak to a clinician }
