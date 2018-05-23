@@ -81,6 +81,12 @@ namespace NHS111.SmokeTest.Utils
             Assert.AreEqual(outcomeHeadertext, Header.Text);
         }
 
+        public void VerifyOutcome(string outcomeHeadertext1, string outcomeHeadertext2) {
+            Assert.IsTrue(Header.Displayed);
+            Assert.IsTrue(Header.Text == outcomeHeadertext1 || Header.Text == outcomeHeadertext2);
+
+        }
+
         public void VerifyDispositionCode(string dispositionCode)
         {
             bool result = true;
