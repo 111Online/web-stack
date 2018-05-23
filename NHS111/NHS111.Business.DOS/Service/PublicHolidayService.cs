@@ -4,6 +4,7 @@ using System.Dynamic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using AutoMapper.Internal;
 using NHS111.Models.Models.Business;
 using NHS111.Models.Models.Web.Clock;
 using NHS111.Models.Models.Web.FromExternalServices;
@@ -34,30 +35,33 @@ namespace NHS111.Business.DOS.Service
             var adjustedServices = new List<NHS111.Models.Models.Business.DosService>();
             foreach (var service in services)
             {
-                var bankHolidaySession = service.RotaSessions.FirstOrDefault(s => s.StartDayOfWeek == DayOfWeek.BankHoliday);
+                var bankHolidaySessions = service.RotaSessions.Where(s => s.StartDayOfWeek == DayOfWeek.BankHoliday);
                 var adjustedSessions = new List<ServiceCareItemRotaSession>();
                     foreach (var session in service.RotaSessions)
                     {
-                        var adjustedSession = session;
-                        if (bankHolidaySession !=null)
+                        if (bankHolidaySessions.Any())
                         {
                             DateTime sessionDate =
                                 _clock.Now.AddDays(NumberOfDaysBetweenWeekdays(session.StartDayOfWeek, _clock.Now.DayOfWeek));
                             if (_publicHolidayData != null && _publicHolidayData.PublicHolidays.Any(h => h.Date.Date == sessionDate.Date))
                             {
-                                
-                                adjustedSession = new ServiceCareItemRotaSession()
-                                {
-                                    StartDayOfWeek = session.StartDayOfWeek,
-                                    StartTime = bankHolidaySession.StartTime,
-                                    EndDayOfWeek = session.EndDayOfWeek,
-                                    EndTime = bankHolidaySession.EndTime,
-                                    Status = bankHolidaySession.Status
-                                };
+                            bankHolidaySessions.Each(s => adjustedSessions.Add(
+                                                        new ServiceCareItemRotaSession()
+                                                        {
+                                                            StartDayOfWeek = session.StartDayOfWeek,
+                                                            StartTime = s.StartTime,
+                                                            EndDayOfWeek = session.EndDayOfWeek,
+                                                            EndTime = s.EndTime,
+                                                            Status = s.Status
+                                                        }
+                                                      )
+                                                    );
+            
                             }
                              
                         }
-                        adjustedSessions.Add(adjustedSession);
+                        else
+                            adjustedSessions.Add(session);
                     }
 
                 service.RotaSessions = adjustedSessions.ToArray();
