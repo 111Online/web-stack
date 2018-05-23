@@ -184,7 +184,7 @@ namespace NHS111.Business.DOS.Test.Service
             var sut = new PublicHolidayService(null, _mockClock.Object);
             var result = sut.AdjustServiceRotaSessionOpeningForPublicHoliday(results);
             Assert.AreEqual(3, result.Count());
-            Assert.AreEqual(4, result.First().RotaSessions.Count());
+            Assert.AreEqual(3, result.First().RotaSessions.Count());
         }
 
         [Test]
