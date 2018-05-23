@@ -5,7 +5,7 @@
 @{
     Layout = "~/Views/Shared/_LayoutNhsUk.cshtml";
     var error = Model.DosCheckCapacitySummaryResult.ResultListEmpty;
-    var noITKServicesAreAvailable = Model.DosCheckCapacitySummaryResult.Success.Services.All(s => s.OnlineDOSServiceType != OnlineDOSServiceType.Callback);
+    var noITKServicesAreAvailable = !error && Model.DosCheckCapacitySummaryResult.Success.Services.All(s => s.OnlineDOSServiceType != OnlineDOSServiceType.Callback);
 }
 
 @section Title { NHS 111 - Speak to a clinician }
