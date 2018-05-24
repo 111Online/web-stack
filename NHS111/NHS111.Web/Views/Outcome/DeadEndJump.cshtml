@@ -1,7 +1,17 @@
 ﻿@using NHS111.Models.Models.Web
 @inherits NHS111.Web.Views.Shared.SurveyLinkView<OutcomeViewModel>
 @{ Layout = "~/Views/Shared/_LayoutNhsUk.cshtml"; }
-
+@section HeadTop {
+    @{ var url = string.Format("/outcome/{0}/{1}/{2}/disposition/", Url.Encode(Model.PathwayNo), Url.Encode(Model.OutcomeGroup.Text), Url.Encode(Model.Id)); }
+    <script>
+        var pageId = '@Model.Id';
+        dataLayer = [
+            {
+                'virtualPageUrl': '@url',
+                'virtualPageTitle': 'Dead end jump'
+            }];
+    </script>
+}
 @section Title {NHS 111 Online - @Model.TitleWithoutBullets}
 @section SurveyBanner{
     @Html.Partial("_SurveyLink", Model.SurveyLink)
@@ -34,35 +44,31 @@
     @Html.HiddenFor(x => Model.StateJson)
     @Html.HiddenFor(x => Model.FilterServices)
     @Html.HiddenFor(x => Model.UserInfo.CurrentAddress.Postcode)
+    
+    <div class="callout callout--attention">
+        <h1>@Model.TitleWithoutBullets</h1>
+        <p>A health adviser needs to speak to you as we can’t help you with this problem online.</p>
+    </div>
 
-    <h1>@Model.TitleWithoutBullets</h1>
-    <p>Your health assessment can’t be completed with the current online service.</p>
-    <p>Please call <span class="util-digits">1 1 1</span> now for help and advice. Calls to NHS <span class="util-digits">1 1 1</span> are free.</p>
-    <hr />
+    <ul>
+        <li>You can tell the adviser that we haven’t been able to finish your assessment online.</li>
+        <li>They will ask you to repeat some of your answers, but will be able to get you the right care.</li>
+    </ul>
 
-    if (!Model.IsFirstStep)
-    {
-        <button id="PreviousQuestionFromOutcome" class="button--previous button--link" id="previousScreen" type="submit" value="PreviousQuestion" name="PreviousQuestion" formnovalidate>Change my previous answer</button>
-    }
+    <div class="content-block">
+        <p>
+            @if (!Model.IsFirstStep) {
+                <button id="PreviousQuestionFromOutcome" class="button--previous button--link" id="previousScreen" type="submit" value="PreviousQuestion" name="PreviousQuestion" formnovalidate>Change my previous answer</button>
+            }
+        </p>
+    </div>
+
+    <hr>
+    
+    <details class="measure">
+        <summary><span class="details__arrow" role="presentation"></span>Why can’t I do this online?</summary>
+        <div class="callout callout--info">
+            <p>At the moment, the online service doesn’t cover everything the phone service does. For example, mixed symptoms that are harder to check online or a diagnosed condition.</p>
+        </div>
+    </details>
 }
-<script type="text/javascript">
-
-
-    $(document).ready(function() {
-
-        //enable disable submit button
-        $("#nextScreen[type=submit]").attr('disabled', 'disabled');
-
-        $("form label").click(function() {
-            $("button[type=submit]").removeAttr('disabled');
-        });
-
-        $("form input[type=radio]").click(function() {
-            $("button[type=submit]").removeAttr('disabled');
-        });
-
-
-    });
-
-
-</script>

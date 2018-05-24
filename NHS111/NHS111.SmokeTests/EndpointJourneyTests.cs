@@ -196,7 +196,7 @@ namespace NHS111.SmokeTests
                .Answer(1)
                .AnswerForDispostion<OutcomePage>("No");
 
-            outcomePage.VerifyOutcome("A nurse from 111 will phone you");
+            outcomePage.VerifyOutcome(OutcomePage.BookCallBackText);
         }
 
         [Test]
@@ -244,6 +244,22 @@ namespace NHS111.SmokeTests
             outcomePage.VerifyWorseningPanel(WorseningMessages.Call111PostCodeFirst);
             outcomePage.VerifyCareAdviceHeader("What you can do in the meantime");
             outcomePage.VerifyCareAdvice(new string[] { "Medication, pain and/or fever", "Headache" });
+        }
+
+        [Test]
+        public void DeadEndJourney()
+        {
+            var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Mental Health Problems", TestScenerioSex.Male, TestScenerioAgeGroups.Adult);
+
+            questionPage.VerifyQuestion("Do you have a diagnosed mental health condition that's got worse?");
+            var outcomePage = questionPage
+                .Answer(1)
+                .Answer(5)
+                .Answer(3)
+                .Answer(5)
+                .AnswerForDeadEnd<DeadEndPage>("Yes");
+
+            outcomePage.VerifyOutcome("Call 111 to speak to an adviser now");
         }
 
 
