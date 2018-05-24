@@ -30,8 +30,6 @@ namespace NHS111.Business.DOS.Service
 
         public IEnumerable<NHS111.Models.Models.Business.DosService> AdjustServiceRotaSessionOpeningForPublicHoliday(IEnumerable<NHS111.Models.Models.Business.DosService> services)
         {
-            if(!ContainsBankHolidaySessions(services)) return services;
-
             var adjustedServices = new List<NHS111.Models.Models.Business.DosService>();
             foreach (var service in services)
             {
@@ -76,7 +74,7 @@ namespace NHS111.Business.DOS.Service
                             );
 
                         }
-                        else
+                        else 
                         {
                             adjustedSessions.AddRange(standardScheduledRotaSessions);
                         }
@@ -85,10 +83,17 @@ namespace NHS111.Business.DOS.Service
             }
             else
             {
-                return service.RotaSessions.ToList();
+                return RemovePublicHolidaySessions(service.RotaSessions).ToList();
             }
 
             return adjustedSessions;
+        }
+
+
+        private IEnumerable<ServiceCareItemRotaSession> RemovePublicHolidaySessions(IEnumerable<ServiceCareItemRotaSession> sessions)
+        {
+           return sessions.Where(s => !_publicHolidayData.PublicHolidays.Any(ph =>
+                ph.Date == _clock.Now.AddDays(NumberOfDaysBetweenWeekdays(s.StartDayOfWeek, _clock.Now.DayOfWeek)).Date));
         }
 
 
