@@ -4,7 +4,7 @@
 @inherits NHS111.Web.Views.Shared.SurveyLinkView<OutcomeViewModel>
 @{
     Layout = "~/Views/Shared/_LayoutNhsUk.cshtml";
-    var noITKServicesAreAvailable = !Model.DosCheckCapacitySummaryResult.ResultListEmpty && Model.DosCheckCapacitySummaryResult.Success.Services.All(s => s.OnlineDOSServiceType != OnlineDOSServiceType.Callback);
+    var noITKServicesAreAvailable = Model.DosCheckCapacitySummaryResult.ResultListEmpty || Model.DosCheckCapacitySummaryResult.Success.Services.All(s => s.OnlineDOSServiceType != OnlineDOSServiceType.Callback);
 }
 
 @section Title { NHS 111 - Speak to a clinician }
@@ -39,7 +39,7 @@
 }
 
 
-@if (noITKServicesAreAvailable)
+@if (noITKServicesAreAvailable && Model.CurrentPostcode != null)
 {
     <section class="local-header">
         <div class="measure">
@@ -113,8 +113,8 @@ else
         {
             using (Html.BeginForm("PersonalDetails", "Outcome", FormMethod.Post))
             {
-                    @Html.Partial("_CommonHiddenFieldsOutcomeViewModel", Model)
-                    @Html.Partial("_CommonHiddenFieldsCareAdviceViewModel", Model)
+                @Html.Partial("_CommonHiddenFieldsOutcomeViewModel", Model)
+                @Html.Partial("_CommonHiddenFieldsCareAdviceViewModel", Model)
                 @Html.Hidden("SelectedServiceId", Model.DosCheckCapacitySummaryResult.Success.Services.First(s => s.OnlineDOSServiceType == OnlineDOSServiceType.Callback).Id)
 
                 <hr />
