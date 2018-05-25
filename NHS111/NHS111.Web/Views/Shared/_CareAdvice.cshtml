@@ -6,18 +6,23 @@
     }
     <div class="care-advice measure">
 
-        <h2 class="heading-medium">@Html.Raw((!ViewData.Keys.Contains("Title") ? "Looking after yourself" : ViewData["Title"]))</h2>
-        <div>
-            @foreach (var careAdvice in Model) {
-                if (careAdvice.Items != null && careAdvice.Items.Any()) {
-                    <h3 id="Advice_@careAdvice.Id" class="heading-small">@careAdvice.Keyword</h3>
-                    @Html.Hidden(careAdvice.Id)
+        <h3 class="heading-medium">@Html.Raw((!ViewData.Keys.Contains("Title") ? "Looking after yourself" : ViewData["Title"]))</h3>
+        @foreach (var careAdvice in Model)
+        {
+            if (careAdvice.Items != null && careAdvice.Items.Any())
+            {
+                <div>
+                    <h4 id="Advice_@careAdvice.Id" class="heading-small">@careAdvice.Keyword</h4>
                     <ul>
-                        @foreach (var parent in careAdvice.Items) {
-                            <li>@parent.Text
-                                @if (parent.Items != null && parent.Items.Any()) {
+                        @foreach (var parent in careAdvice.Items)
+                        {
+                            <li>
+                                @parent.Text
+                                @if (parent.Items != null && parent.Items.Any())
+                                {
                                     <ul>
-                                        @foreach (var child in parent.Items) {
+                                        @foreach (var child in parent.Items)
+                                        {
                                             <li>@child.Text</li>
                                         }
                                     </ul>
@@ -26,8 +31,10 @@
 
                         }
                     </ul>
-                }
+                    
+                    @Html.Hidden(careAdvice.Id)
+                </div>
             }
-        </div>
+        }
     </div>
 }
