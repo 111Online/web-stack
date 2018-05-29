@@ -33,18 +33,18 @@ namespace NHS111.Business.DOS.EndpointFilter
             var genericServiceTypeIdBlackList = ConvertPipeDeliminatedString(_configuration.FilteredGenericDosServiceIds);
 
             if (IsPrimaryCareDispoition(dxCode)) return new ServiceAvailabilityProfile(
-                new PrimaryCareProfileHoursOfOperation(_configuration.WorkingDayPrimaryCareInHoursStartTime, _configuration.WorkingDayPrimaryCareInHoursShoulderEndTime, _configuration.WorkingDayPrimaryCareInHoursEndTime), primaryCareServiceTypeIdBlackist);
+                new PrimaryCareProfileHoursOfOperation(_configuration.WorkingDayPrimaryCareInHoursStartTime, _configuration.WorkingDayPrimaryCareInHoursShoulderEndTime, _configuration.WorkingDayPrimaryCareInHoursEndTime, _configuration), primaryCareServiceTypeIdBlackist);
 
             if (IsDentalDispoition(dxCode)) return new ServiceAvailabilityProfile(
-                new DentalProfileHoursOfOperation(_configuration.WorkingDayDentalInHoursStartTime, _configuration.WorkingDayDentalInHoursShoulderEndTime, _configuration.WorkingDayDentalInHoursEndTime), dentalServiceTypeIdBlackist);
+                new DentalProfileHoursOfOperation(_configuration.WorkingDayDentalInHoursStartTime, _configuration.WorkingDayDentalInHoursShoulderEndTime, _configuration.WorkingDayDentalInHoursEndTime, _configuration), dentalServiceTypeIdBlackist);
 
             if (IsClinicianCallbackDispoition(dxCode)) return new ServiceAvailabilityProfile(
                 new ClinicianCallbackProfileHoursOfOperation(), clinicianCallbackServiceTypeIdBlackist);
 
             if (IsGenericDisposition(dxCode)) return new ServiceAvailabilityProfile(
-                new GenericProfileHoursOfOperation(_configuration.WorkingDayGenericInHoursStartTime, _configuration.WorkingDayGenericInHoursShoulderEndTime, _configuration.WorkingDayGenericInHoursEndTime), genericServiceTypeIdBlackList);
+                new GenericProfileHoursOfOperation(_configuration.WorkingDayGenericInHoursStartTime, _configuration.WorkingDayGenericInHoursShoulderEndTime, _configuration.WorkingDayGenericInHoursEndTime, _configuration), genericServiceTypeIdBlackList);
 
-            return new ServiceAvailabilityProfile(new ProfileHoursOfOperation(new LocalTime(0, 0), new LocalTime(0, 0), new LocalTime(0, 0)), new List<int>());
+            return new ServiceAvailabilityProfile(new ProfileHoursOfOperation(new LocalTime(0, 0), new LocalTime(0, 0), new LocalTime(0, 0), _configuration), new List<int>());
         }
 
         private bool IsDentalDispoition(int dxCode)

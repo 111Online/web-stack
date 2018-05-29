@@ -162,14 +162,6 @@ namespace NHS111.Business.DOS.Configuration
             }
         }
 
-        public Uri PublicHolidaysServiceUri
-        {
-            get
-            {
-                return new Uri(ConfigurationManager.AppSettings["PublicHolidaySeviceUri"]);
-            }
-        }
-
         public string TestPublicHolidayDates
         {
             get

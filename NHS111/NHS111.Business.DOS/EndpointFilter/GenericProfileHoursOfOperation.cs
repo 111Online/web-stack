@@ -1,4 +1,5 @@
-﻿using NodaTime;
+﻿using NHS111.Business.DOS.Configuration;
+using NodaTime;
 
 namespace NHS111.Business.DOS.EndpointFilter
 {
@@ -6,8 +7,8 @@ namespace NHS111.Business.DOS.EndpointFilter
     {
         public GenericProfileHoursOfOperation(LocalTime workingDayInHoursStartTime,
             LocalTime workingDayInHoursShoulderEndTime,
-            LocalTime workingDayInHoursEndTime)
-            : base(workingDayInHoursStartTime, workingDayInHoursShoulderEndTime, workingDayInHoursEndTime)
+            LocalTime workingDayInHoursEndTime, IConfiguration configuration)
+            : base(workingDayInHoursStartTime, workingDayInHoursShoulderEndTime, workingDayInHoursEndTime, configuration)
         {
         }
     }

@@ -21,8 +21,6 @@ namespace NHS111.Business.DOS.Configuration
         LocalTime WorkingDayDentalInHoursEndTime { get; }
         LocalTime WorkingDayDentalInHoursShoulderEndTime { get; }
 
-        Uri PublicHolidaysServiceUri { get; }
-
         string TestPublicHolidayDates { get; }
 
         string DomainDosApiBaseUrl { get; }
