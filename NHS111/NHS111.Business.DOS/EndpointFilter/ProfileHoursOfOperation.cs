@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using NHS111.Business.DOS.Configuration;
+using NHS111.Business.DOS.Service;
 using NHS111.Models.Models.Business;
 using NHS111.Utils.Dates;
 using NodaTime;
@@ -13,14 +15,16 @@ namespace NHS111.Business.DOS.EndpointFilter
         private LocalTime _workingDayInHoursStartTime;
         private LocalTime _workingDayInHoursShoulderEndTime;
         private LocalTime _workingDayInHoursEndTime;
-
+        private IConfiguration _configuration;
+        private List<DateTime> _testHolidayDates;
    
         public ProfileHoursOfOperation(LocalTime workingDayInHoursStartTime, LocalTime workingDayInHoursShoulderEndTime,
-            LocalTime workingDayInHoursEndTime)
+            LocalTime workingDayInHoursEndTime, IConfiguration configuration)
         {
             _workingDayInHoursStartTime = workingDayInHoursStartTime;
             _workingDayInHoursShoulderEndTime = workingDayInHoursShoulderEndTime;
             _workingDayInHoursEndTime = workingDayInHoursEndTime;
+            _configuration = configuration;
         }
 
         public virtual ProfileServiceTimes GetServiceTime(DateTime date)
@@ -63,10 +67,14 @@ namespace NHS111.Business.DOS.EndpointFilter
             return days;
         }
 
-        protected static bool IsNonWorkingDay(DateTime date)
+        protected  bool IsNonWorkingDay(DateTime date)
         {
             var dt = date.Date;
-            return NonWorkingDays.IsWeekend(dt) || NonWorkingDays.IsBankHoliday(dt);
+            if (_testHolidayDates == null)
+                _testHolidayDates = PublicHolidaysDataService.LoadTestHolidays(_configuration).Select(h => h.Date)
+                    .ToList();
+            return NonWorkingDays.IsWeekend(dt) || NonWorkingDays.IsBankHoliday(dt) ||
+                   _testHolidayDates.Any(d => d.Date == dt.Date);
         }
 
         protected DateTime GetInHoursStartDateTime(DateTime date)

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using NHS111.Business.DOS.Configuration;
 using NHS111.Models.Models.Business;
 using NodaTime;
 
@@ -12,8 +13,8 @@ namespace NHS111.Business.DOS.EndpointFilter
         private LocalTime _workingDayInHoursEndTime;
         public DentalProfileHoursOfOperation(LocalTime workingDayInHoursStartTime,
             LocalTime workingDayInHoursShoulderEndTime,
-            LocalTime workingDayInHoursEndTime)
-            : base(workingDayInHoursStartTime, workingDayInHoursShoulderEndTime, workingDayInHoursEndTime)
+            LocalTime workingDayInHoursEndTime, IConfiguration configuration)
+            : base(workingDayInHoursStartTime, workingDayInHoursShoulderEndTime, workingDayInHoursEndTime, configuration)
         {
             _workingDayInHoursStartTime = workingDayInHoursStartTime;
             _workingDayInHoursShoulderEndTime = workingDayInHoursShoulderEndTime;
