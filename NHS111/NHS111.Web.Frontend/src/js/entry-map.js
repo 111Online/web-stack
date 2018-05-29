@@ -50,7 +50,7 @@ function initialise() {
     addMarker(i, map)
   }
 
-  geocoder.geocode({ "address": services[0].CurrentPostcode }, (data) => {
+  geocoder.geocode({ "address": services[0].CurrentPostcode + ", United Kingdom" }, (data) => {
 
     geo = new google.maps.Marker({
       position: data[0].geometry.location,
