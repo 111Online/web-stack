@@ -130,7 +130,7 @@ namespace NHS111.SmokeTest.Utils
 
         public void VerifyCareAdvice(string[] expectedAdviceItems)
         {
-            var foundItems = Driver.FindElements(By.CssSelector(".care-advice div h3"));
+            var foundItems = Driver.FindElements(By.CssSelector(".care-advice div h4"));
             Assert.AreEqual(expectedAdviceItems.Count(), foundItems.Count);
 
             foreach (var item in foundItems)
