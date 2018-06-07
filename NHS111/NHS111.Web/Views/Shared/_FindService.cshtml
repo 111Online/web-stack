@@ -1,6 +1,7 @@
-﻿@model  NHS111.Models.Models.Web.OutcomeViewModel
+﻿@using NHS111.Models.Models.Domain
+@model  NHS111.Models.Models.Web.OutcomeViewModel
 @{
-    var error = Model.DosCheckCapacitySummaryResult.ResultListEmpty;
+    var error = Model.DosCheckCapacitySummaryResult.ResultListEmpty && OutcomeGroup.PrePopulatedDosResultsOutcomeGroups.Contains(Model.OutcomeGroup) && !string.IsNullOrEmpty(Model.CurrentPostcode);
     var addressInfoMessage = ViewData.ContainsKey("AddressInfoMessage") ? ViewData["AddressInfoMessage"].ToString() : string.Empty;
 }
 <section class="measure">
