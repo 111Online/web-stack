@@ -70,6 +70,19 @@
             <p>Your answers mean it’s important that you speak to a health adviser. Call 111 now.</p>
         </div>
     </div>
+
+    if (Model.CareAdvices != null && Model.CareAdvices.Any())
+    {
+        <details class="measure">
+            <summary>
+                <span class="details__arrow"></span>
+                <span class="summary">I don't want to book a call right now</span>
+            </summary>
+            <div class="panel panel-border-narrow">
+                @Html.Partial("_CareAdvice", Model.CareAdvices, new ViewDataDictionary { { "Title", "Things you can do yourself" }, { "NoHR", "true" } })
+            </div>
+        </details>
+    }
 }
 else
 {
@@ -118,7 +131,7 @@ else
                 @Html.Hidden("SelectedServiceId", Model.DosCheckCapacitySummaryResult.Success.Services.First(s => s.OnlineDOSServiceType == OnlineDOSServiceType.Callback).Id)
 
                 <hr />
-                    <button type="submit" name="PersonalDetails" value="Book a call">Book a nurse call</button>
+                <button type="submit" name="PersonalDetails" value="Book a call">Book a nurse call</button>
             }
         }
 
@@ -126,21 +139,22 @@ else
             <p>You should get a call within @Html.Raw(Model.WaitTimeText). It’s important that you wait to speak to the nurse.</p>
         </div>
     </div>
-}
 
-@if (Model.CareAdvices != null && Model.CareAdvices.Any())
-{
-    <details class="measure">
-        <summary>
-            <span class="details__arrow"></span>
-            <span class="summary">I don't want to book a call right now</span>
-        </summary>
-        <div class="panel panel-border-narrow">
-            @Html.Partial("_CareAdvice", Model.CareAdvices, new ViewDataDictionary { { "Title", "" }, { "NoHR", "true" } })
-        </div>
-    </details>
-}
-else
-{
-    @Html.Partial("_WorseningAdvice", Model)
+    if (Model.CareAdvices != null && Model.CareAdvices.Any())
+    {
+        <details class="measure">
+            <summary>
+                <span class="details__arrow"></span>
+                <span class="summary">I don't want to book a call right now</span>
+            </summary>
+            <div class="panel panel-border-narrow">
+                @Html.Partial("_CareAdvice", Model.CareAdvices, new ViewDataDictionary { { "Title", "Things you can do yourself" }, { "NoHR", "true" } })
+                @Html.Partial("_WorseningAdvice", Model)
+            </div>
+        </details>
+    }
+    else
+    {
+        @Html.Partial("_WorseningAdvice", Model)
+    }
 }

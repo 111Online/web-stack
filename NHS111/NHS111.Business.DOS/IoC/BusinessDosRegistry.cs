@@ -23,7 +23,7 @@ namespace NHS111.Business.DOS.IoC
             For<IServiceAvailabilityManager>().Use<ServiceAvailablityManager>();
             For<IRestClient>().Use(new RestClient(configuration.CCGApiBaseUrl));
             For<IPublicHolidayService>().Use(new PublicHolidayService(
-                PublicHolidaysDataService.GetPublicHolidays(configuration, logger),
+                PublicHolidaysDataService.GetPublicHolidays(configuration),
                 new SystemClock()));
             For<IFilterServicesFeature>().Use<FilterServicesFeature>();
             Scan(scan =>

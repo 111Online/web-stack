@@ -102,11 +102,6 @@ namespace NHS111.Business.DOS.Service
             return (7 + (int)futureDay - (int)startDay) % 7;
         }
 
-        private bool ContainsBankHolidaySessions(IEnumerable<Models.Models.Business.DosService> services)
-        {
-
-            return services.Any(s => s.RotaSessions.Any(rs => rs.StartDayOfWeek == DayOfWeek.BankHoliday || rs.EndDayOfWeek == DayOfWeek.BankHoliday));
-        }
     }
 
     public interface IPublicHolidayData

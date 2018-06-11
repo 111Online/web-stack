@@ -18,18 +18,19 @@ namespace NHS111.Business.DOS.Tests
         private readonly Mock<IConfiguration> _mockConfiguration = new Mock<IConfiguration>();
         private ProfileHoursOfOperation _profileHoursOfOperation;
         private DentalProfileHoursOfOperation _dentalProfileHoursOfOperation;
+
         [SetUp]
         public void SetupConfig()
         {
             var workingDayPrimaryCareInHoursEndTime = new LocalTime(18, 0);
             var workingDayPrimaryCareInHoursShoulderEndTime = new LocalTime(9, 0);
             var workingDayPrimaryCareInHoursStartTime = new LocalTime(8, 0);
-            _profileHoursOfOperation = new ProfileHoursOfOperation(workingDayPrimaryCareInHoursStartTime, workingDayPrimaryCareInHoursShoulderEndTime, workingDayPrimaryCareInHoursEndTime);
+            _profileHoursOfOperation = new ProfileHoursOfOperation(workingDayPrimaryCareInHoursStartTime, workingDayPrimaryCareInHoursShoulderEndTime, workingDayPrimaryCareInHoursEndTime, _mockConfiguration.Object);
 
             var workingDayDentalInHoursEndTime = new LocalTime(22, 0);
             var workingDayDentalInHoursShoulderEndTime = new LocalTime(7, 30);
             var workingDayDentalInHoursStartTime = new LocalTime(7, 30);
-            _dentalProfileHoursOfOperation = new DentalProfileHoursOfOperation(workingDayDentalInHoursStartTime, workingDayDentalInHoursShoulderEndTime, workingDayDentalInHoursEndTime);
+            _dentalProfileHoursOfOperation = new DentalProfileHoursOfOperation(workingDayDentalInHoursStartTime, workingDayDentalInHoursShoulderEndTime, workingDayDentalInHoursEndTime, _mockConfiguration.Object);
         }
 
         [Test()]
@@ -205,6 +206,15 @@ namespace NHS111.Business.DOS.Tests
         public void GetServiceTime_Dental_Weekend_Out_Of_Hours_Test()
         {
             var result = _dentalProfileHoursOfOperation.GetServiceTime(new DateTime(2016, 11, 19, 07, 29, 59));
+            Assert.AreEqual(ProfileServiceTimes.OutOfHours, result);
+        }
+
+
+        [Test()]
+        public void GetServiceTime_Test_BankHoliday_Out_Of_Hours_Limit_Test()
+        {
+            _mockConfiguration.Setup(s => s.TestPublicHolidayDates).Returns("29-05-2018");
+            var result = _profileHoursOfOperation.GetServiceTime(new DateTime(2018, 05, 29, 11, 00, 00));
             Assert.AreEqual(ProfileServiceTimes.OutOfHours, result);
         }
     }

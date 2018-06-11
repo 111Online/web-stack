@@ -9,6 +9,7 @@ using Newtonsoft.Json.Linq;
 using NHS111.Business.DOS.Configuration;
 using RestSharp;
 using NHS111.Models.Models.Business;
+using NHS111.Utils.Dates;
 using NHS111.Utils.RestTools;
 using NUnit.Framework.Internal;
 using SimpleJson;
@@ -21,28 +22,24 @@ namespace NHS111.Business.DOS.Service
     {
         private static PublicHolidaysData _holidays;
         private static IRestClient _publicHolidaysServiceRestClient;
-        public static PublicHolidaysData GetPublicHolidays(IConfiguration configuration, ILog logger)
+        public static PublicHolidaysData GetPublicHolidays(IConfiguration configuration)
         {
             if (_holidays != null) return _holidays;
-            var restclient =  new LoggingRestClient(configuration.PublicHolidaysServiceUri.GetLeftPart(UriPartial.Authority), logger);
-            var response =
-                restclient.Execute(new RestRequest(configuration.PublicHolidaysServiceUri.PathAndQuery, Method.GET));
-            if (response.IsSuccessful)
-            {
-                JObject jsonData = JObject.Parse(response.Content);
-                var holidays = jsonData["england-and-wales"]["events"].ToObject<List<PublicHoliday>>();
-                holidays.AddRange(LoadTestHolidays(configuration));
-                _holidays = new PublicHolidaysData(holidays);
 
-            }
+            var holidays = NonWorkingDays.BankHolidayNames(DateTime.Now.Year)
+                .Select(h => new PublicHoliday() {Date = h.Key.Date, Title = h.Value}).ToList();
+
+            holidays.Add(new PublicHoliday() {Date = NonWorkingDays.NewYear(DateTime.Now.Year +1), Title = "New Years Day"});
+            holidays.AddRange(LoadTestHolidays(configuration));
+           _holidays = new PublicHolidaysData(holidays);
 
             return _holidays;
         }
 
-        private static List<PublicHoliday> LoadTestHolidays(IConfiguration configuration)
+        public static List<PublicHoliday> LoadTestHolidays(IConfiguration configuration)
         {
             var testHolidays = new List<PublicHoliday>();
-            if (configuration.TestPublicHolidayDates.Length > 0)
+            if (configuration.TestPublicHolidayDates!= null && configuration.TestPublicHolidayDates.Length > 0)
             {
                 try
                 {
