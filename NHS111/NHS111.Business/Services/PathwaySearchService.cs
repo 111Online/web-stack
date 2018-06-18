@@ -36,8 +36,10 @@ namespace NHS111.Business.Services
 
         public async Task<List<PathwaySearchResult>> FindResults(string query, bool highlight, bool score)
         {
+            var bodytagsResponse = await _elastic.SearchAsync<BodytagResult>(s => BuildBodytagsQuery(s.Index("bodytags"), Uri.UnescapeDataString(query)));
+
             var res = await _elastic.SearchAsync<PathwaySearchResult>(s =>
-                    BuildPathwaysTextQuery(s.Index("pathways"), Uri.UnescapeDataString(query))
+                    BuildPathwaysTextQuery(s.Index("pathways"), Uri.UnescapeDataString(query), bodytagsResponse.Hits)
                 );
 
             var highlightedResults = BuildHighlights(res.Hits, highlight);
@@ -47,13 +49,17 @@ namespace NHS111.Business.Services
 
         public async Task<List<PathwaySearchResult>> FindResults(string query, string gender, string ageGroup, bool highlight, bool score)
         {
+            
+            var bodytagsResponse = await _elastic.SearchAsync<BodytagResult>(s => BuildBodytagsQuery(s.Index("bodytags"), Uri.UnescapeDataString(query)));
+
             var res = await _elastic.SearchAsync<PathwaySearchResult>(s =>
-                AddAgeGenderFilters(BuildPathwaysTextQuery(s.Index("pathways"), Uri.UnescapeDataString(query)), gender, ageGroup));
+                AddAgeGenderFilters(BuildPathwaysTextQuery(s.Index("pathways"), Uri.UnescapeDataString(query), bodytagsResponse.Hits), gender, ageGroup));
 
             var highlightedResults = BuildHighlights(res.Hits, highlight);
             
             return BuildScoredResults(highlightedResults, res.Hits, score).ToList();
         }
+
 
         private IEnumerable<PathwaySearchResult> BuildScoredResults(IEnumerable<PathwaySearchResult> results, IReadOnlyCollection<IHit<PathwaySearchResult>> hits, bool includeScores)
         {
@@ -101,8 +107,21 @@ namespace NHS111.Business.Services
             return highlightedTitle != null ? highlightedTitle : title;
         }
 
+        private SearchDescriptor<BodytagResult> BuildBodytagsQuery(
+            SearchDescriptor<BodytagResult> searchDescriptor, string query)
+        {
+            var bodytagQuery = searchDescriptor.Query(q => q
+                .MultiMatch(m => 
+                    m.Query(query)
+                    .Fields(f => f.Field("tag"))
+                ));
+
+            return bodytagQuery;
+        }
+
+
         private SearchDescriptor<PathwaySearchResult> BuildPathwaysTextQuery(
-            SearchDescriptor<PathwaySearchResult> searchDescriptor, string query)
+            SearchDescriptor<PathwaySearchResult> searchDescriptor, string query, IReadOnlyCollection<IHit<BodytagResult>> bodytags)
         {
             // boost exact matches on parent and child documents
             // then fuzzy match
@@ -111,6 +130,10 @@ namespace NHS111.Business.Services
                         .Boosting(qb => qb
                             .Positive(pos => pos
                             .Bool(b => b
+                                .Must
+                                    (
+                                        AddBodytags(query, bodytags)
+                                    )
                                 .Should
                                     (
                                         AddTitleAndDerscriptionMatchingQuery(query, 10),
@@ -233,6 +256,24 @@ namespace NHS111.Business.Services
                     .Boost(boostScore)
                     .Query(query)
                 );
+        }
+        
+        private Func<QueryContainerDescriptor<PathwaySearchResult>, QueryContainer> AddBodytags(string query, IReadOnlyCollection<IHit<BodytagResult>> bodytags)
+        {
+            if (bodytags.Count() > 0)
+            {
+                return s => s.MultiMatch(m =>
+                    m.Fields(f => f
+                            .Field(p => p.Title)
+                            .Field(p => p.Description)
+                        )
+                        .Operator(Operator.Or)
+                        .Type(TextQueryType.MostFields)
+                        .Query(string.Join(" ", bodytags.Select(b => b.Source.Tag)))
+                );
+            }
+            return s => null;
+
         }
 
         private SearchDescriptor<PathwaySearchResult> AddAgeGenderFilters(

@@ -177,6 +177,7 @@
     <Compile Include="Models\Business\Enums\DispositionTimePeriod.cs" />
     <Compile Include="Models\Business\Location\PostcodeResult.cs" />
     <Compile Include="Models\Business\PathwaySearch\PathwayPhraseResult.cs" />
+    <Compile Include="Models\Business\PathwaySearch\BodytagResult.cs" />
     <Compile Include="Models\Business\PathwaySearch\PathwaySearchResult.cs" />
     <Compile Include="Models\Business\ProfileServiceTimes.cs" />
     <Compile Include="Models\Business\DosService.cs" />
