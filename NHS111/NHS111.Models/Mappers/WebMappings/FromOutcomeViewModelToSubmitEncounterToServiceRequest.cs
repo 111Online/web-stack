@@ -111,9 +111,9 @@ namespace NHS111.Models.Mappers.WebMappings
                         ? string.Format("{0} {1}", addressViewModel.HouseNumber, addressViewModel.AddressLine1)
                         : addressViewModel.AddressLine1,
                 StreetAddressLine2 = addressViewModel.AddressLine2,
-                StreetAddressLine3 = addressViewModel.City,
-                StreetAddressLine4 = addressViewModel.County,
-                StreetAddressLine5 = addressViewModel.Postcode
+                StreetAddressLine3 = addressViewModel.AddressLine3,
+                StreetAddressLine4 = addressViewModel.City,
+                StreetAddressLine5 = addressViewModel.County
             };
         }
     }
