@@ -18,14 +18,14 @@ namespace NHS111.SmokeTests
         [TestCase("toothache", "Toothache, swelling and other dental problems")] //Appears in digital title only not description
         [TestCase("swallowing", "Difficulty swallowing")] //Appears in description only not title
         [TestCase("Choking", "Swallowed or breathed in an object")] //Appears in digital description only
-        [TestCase("Chest and upper back pain", "Breathing problems or chest pain")] //additional digital title for Chest pain PW559 MaleAdult
-        [TestCase("Breathing problems", "Breathing problems or chest pain")] //additional digital title for Chest pain PW559 MaleAdult
+        [TestCase("Chest and upper back pain", "Chest pain or breathing problems")] //additional digital title for Chest pain PW559 MaleAdult
+        [TestCase("Breathing problems", "Chest pain or breathing problems")] //additional digital title for Chest pain PW559 MaleAdult
         //following content updates to improve search for bleeding, pregnancy and asthma
-        [TestCase("Wheezing", "Breathing problems or chest pain")]
+        [TestCase("Wheezing", "Chest pain or breathing problems")]
         [TestCase("Bleeding", "Bleeding from the bottom")]
         [TestCase("Bleeding", "Toothache, swelling and other dental problems")]
         [TestCase("Bleeding", "Nosebleed")]
-        [TestCase("asthma", "Breathing problems or chest pain")]
+        [TestCase("asthma", "Chest pain or breathing problems")]
         public void SearchTermResults_CommonTermsReturnExpectedResult(string term, string result)
         {
             var searchPage = TestScenerios.LaunchSearchScenerio(Driver, TestScenerioSex.Male, 33);
