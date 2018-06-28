@@ -94,7 +94,7 @@ namespace NHS111.SmokeTest.Utils
 
             var found = expectedHitTitle == linkText && rank <= maxRank;
 
-            Assert.IsTrue(found, string.Format("Unable to find '{0}' within the top {1} search results. Results were {2}", expectedHitTitle, maxRank, string.Join(", ", hits.Select(x => "'" + x + "'"))));
+            Assert.IsTrue(found, string.Format("Unable to find topic '{0}' within the top {1} search results. Results were {2}", expectedHitTitle, maxRank, string.Join(", ", hits.Select(x => "'" + x + "'"))));
         }
 
         public void VerifyTabbingOrder(string searchTerm)
