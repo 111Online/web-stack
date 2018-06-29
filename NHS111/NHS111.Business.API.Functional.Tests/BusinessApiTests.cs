@@ -127,7 +127,9 @@ namespace NHS111.Business.API.Functional.Tests
             Assert.IsTrue(result.Contains("\"pathwayNo\":\"PW756"));
             Assert.IsTrue(result.Contains("\"pathwayNo\":\"PW752"));
             Assert.IsTrue(result.Contains("\"pathwayNo\":\"PW755"));
-            Assert.IsTrue(result.Contains("\"pathwayNo\":\"PW754"));
+            // Infant pathway so not in SearchData.csv and no [:isDescribedAs] relationship
+            // so no longer returned
+            // Assert.IsTrue(result.Contains("\"pathwayNo\":\"PW754"));
         }
 
         [Test]
