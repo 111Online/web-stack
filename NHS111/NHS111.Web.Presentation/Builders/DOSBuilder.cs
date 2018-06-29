@@ -55,8 +55,6 @@ namespace NHS111.Web.Presentation.Builders
         }
 
         public async Task<DosCheckCapacitySummaryResult> FillCheckCapacitySummaryResult(DosViewModel dosViewModel, bool filterServices, DosEndpoint? endpoint) {
-            const int PHARMACY = 13;
-            const int PHARMACY_EXT_HOURS = 116;
 
             var request = BuildRequestMessage(dosViewModel);
             var body = await request.Content.ReadAsStringAsync();
@@ -81,12 +79,7 @@ namespace NHS111.Web.Presentation.Builders
                     Services = FilterCallbackEnabled(services)
                 }
             };
-
-            var isPharmacy = new Func<DosService, bool>(s => s.ServiceType != null && (s.ServiceType.Id == PHARMACY || s.ServiceType.Id == PHARMACY_EXT_HOURS));
-
-            if (checkCapacitySummaryResult.Success.Services.Any(isPharmacy))
-                checkCapacitySummaryResult.Success.Services = checkCapacitySummaryResult.Success.Services.Take(6).ToList();
-
+     
             return checkCapacitySummaryResult;
         }
 
