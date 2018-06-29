@@ -88,7 +88,7 @@ namespace NHS111.SmokeTests
             categoryPage.VerifyPathwayInCategoryList("Stomach or side injury without a cut or wound", "PW500FemaleChild");
             categoryPage.VerifyPathwayInCategoryList("Injury to the stomach or side of body with a cut or wound", "PW508FemaleChild");
             categoryPage.VerifyPathwayInCategoryList("Stomach pain", "PW517FemaleChild");
-            categoryPage.VerifyPathwayInCategoryList("Chest pain or breathing problems", "PW557FemaleChild");
+            categoryPage.VerifyPathwayInCategoryList("Chest pain", "PW557FemaleChild");
             categoryPage.VerifyPathwayInCategoryList("Chemical burns", "PW564FemaleChild");
             categoryPage.VerifyPathwayInCategoryList("Toothache after an injury", "PW572FemaleChild");
             categoryPage.VerifyPathwayInCategoryList("Burns from heat", "PW580FemaleChild");
@@ -172,12 +172,12 @@ namespace NHS111.SmokeTests
             categoryPage.VerifyPathwayInCategoryList("Something in the ear", "PW1528FemaleAdult");
             categoryPage.VerifyPathwayInCategoryList("Something stuck in the nose", "PW1529FemaleAdult");
             categoryPage.VerifyPathwayInCategoryList("Something stuck in the bottom", "PW1531FemaleAdult");
-            //categoryPage.VerifyPathwayInCategoryList("Something stuck in the vagina", "PW1532FemaleAdult");
+            categoryPage.VerifyPathwayInCategoryList("Something stuck in the vagina", "PW1532FemaleAdult");
             categoryPage.VerifyPathwayInCategoryList("Self-harm", "PW1543FemaleAdult");
             categoryPage.VerifyPathwayInCategoryList("Swollen or painful face or neck", "PW1544FemaleAdult");
             categoryPage.VerifyPathwayInCategoryList("Drunk too much alcohol", "PW1551FemaleAdult");
             categoryPage.VerifyPathwayInCategoryList("Diarrhoea and vomiting", "PW1553FemaleAdult");
-            //categoryPage.VerifyPathwayInCategoryList("Itchy vagina", "PW1559FemaleAdult");
+            categoryPage.VerifyPathwayInCategoryList("Itchy vagina", "PW1559FemaleAdult");
             categoryPage.VerifyPathwayInCategoryList("Catheter problems", "PW1567FemaleAdult");
             categoryPage.VerifyPathwayInCategoryList("Fingernail injury", "PW1570FemaleAdult");
             categoryPage.VerifyPathwayInCategoryList("Bites or stings", "PW1575FemaleAdult");
@@ -214,7 +214,7 @@ namespace NHS111.SmokeTests
             categoryPage.VerifyPathwayInCategoryList("Stomach or side injury without a cut or wound", "PW500FemaleAdult");
             categoryPage.VerifyPathwayInCategoryList("Injury to the stomach or side of body with a cut or wound", "PW508FemaleAdult");
             categoryPage.VerifyPathwayInCategoryList("Stomach pain", "PW516FemaleAdult");
-            categoryPage.VerifyPathwayInCategoryList("Chest pain or breathing problems", "PW556FemaleAdult");
+            categoryPage.VerifyPathwayInCategoryList("Chest pain", "PW556FemaleAdult");
             categoryPage.VerifyPathwayInCategoryList("Chemical burns", "PW564FemaleAdult");
             categoryPage.VerifyPathwayInCategoryList("Toothache after an injury", "PW572FemaleAdult");
             categoryPage.VerifyPathwayInCategoryList("Burns from heat", "PW580FemaleAdult");
@@ -245,8 +245,8 @@ namespace NHS111.SmokeTests
             categoryPage.VerifyPathwayInCategoryList("Difficulty weeing", "PW886FemaleAdult");
             categoryPage.VerifyPathwayInCategoryList("Arm injury without a cut or wound", "PW894FemaleAdult");
             categoryPage.VerifyPathwayInCategoryList("Arm injury with a cut or wound", "PW902FemaleAdult");
-            //categoryPage.VerifyPathwayInCategoryList("Bleeding from the vagina", "PW910FemaleAdult");
-            //categoryPage.VerifyPathwayInCategoryList("Discharge from the vagina", "PW915FemaleAdult");
+            categoryPage.VerifyPathwayInCategoryList("Bleeding from the vagina", "PW910FemaleAdult");
+            categoryPage.VerifyPathwayInCategoryList("Discharge from the vagina", "PW915FemaleAdult");
             categoryPage.VerifyPathwayInCategoryList("Vomiting or nausea", "PW936FemaleAdult");
             categoryPage.VerifyPathwayInCategoryList("Blood in wee (urine)", "PW961FemaleAdult");
             categoryPage.VerifyPathwayInCategoryList("Cough", "PW975FemaleAdult");
@@ -339,7 +339,7 @@ namespace NHS111.SmokeTests
             categoryPage.VerifyPathwayInCategoryList("Stomach or side injury without a cut or wound", "PW503MaleChild");
             categoryPage.VerifyPathwayInCategoryList("Injury to the stomach or side of body with a cut or wound", "PW511MaleChild");
             categoryPage.VerifyPathwayInCategoryList("Stomach pain", "PW520MaleChild");
-            categoryPage.VerifyPathwayInCategoryList("Chest pain or breathing problems", "PW560MaleChild");
+            categoryPage.VerifyPathwayInCategoryList("Chest pain", "PW560MaleChild");
             categoryPage.VerifyPathwayInCategoryList("Chemical burns", "PW564MaleChild");
             categoryPage.VerifyPathwayInCategoryList("Toothache after an injury", "PW572MaleChild");
             categoryPage.VerifyPathwayInCategoryList("Burns from heat", "PW580MaleChild");
@@ -459,7 +459,7 @@ namespace NHS111.SmokeTests
             categoryPage.VerifyPathwayInCategoryList("Stomach or side injury without a cut or wound", "PW503MaleAdult");
             categoryPage.VerifyPathwayInCategoryList("Injury to the stomach or side of body with a cut or wound", "PW511MaleAdult");
             categoryPage.VerifyPathwayInCategoryList("Stomach pain", "PW519MaleAdult");
-            categoryPage.VerifyPathwayInCategoryList("Chest pain or breathing problems", "PW559MaleAdult");
+            categoryPage.VerifyPathwayInCategoryList("Chest pain", "PW559MaleAdult");
             categoryPage.VerifyPathwayInCategoryList("Chemical burns", "PW564MaleAdult");
             categoryPage.VerifyPathwayInCategoryList("Toothache after an injury", "PW572MaleAdult");
             categoryPage.VerifyPathwayInCategoryList("Burns from heat", "PW580MaleAdult");
