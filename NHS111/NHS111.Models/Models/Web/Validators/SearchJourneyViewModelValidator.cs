@@ -11,9 +11,7 @@ namespace NHS111.Models.Models.Web.Validators
     {
         public SearchJourneyViewModelValidator()
         {
-            RuleFor(p => p.SanitisedSearchTerm)
-                .NotEmpty()
-                .WithMessage("Please enter the symptom you're concerned about");
+
         }
     }
 }
