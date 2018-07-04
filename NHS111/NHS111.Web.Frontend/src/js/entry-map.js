@@ -5,26 +5,17 @@
 
 const OSPoint = require('./vendor/ospoint.js')
 
-
-function getQueryString() {
-  var result = {}, queryString = location.search.slice(1),
-    re = /([^&=]+)=([^&]*)/g, m;
-
-  while (m = re.exec(queryString)) {
-    result[decodeURIComponent(m[1])] = decodeURIComponent(m[2]);
-  }
-
-  return result;
-}
-
 var map;
-var services = JSON.parse(getQueryString()['services'])
+var services = []
 var infowindow = []
 var markers = []
 var geo;
 var geoinfo;
 
-function initialise() {
+// The initialise function will be called by the page that is showing
+// the iframe. The data parameter is an array of the services to be shown.
+window.initialise = function (data) {
+  services = data
   var geocoder = new google.maps.Geocoder
   var bounds = new google.maps.LatLngBounds()
 
@@ -119,11 +110,6 @@ function addMarker(index, map) {
   })
 
   var content = "<div style='font-weight: 500; margin-bottom: 5px; font-size: 14px; max-width: 20em;' data-index='" + index + "'>" + services[index].Name + "</div>"
-  /*content += "<div>"
-  services[index].Address.forEach((value, index) => {
-      content += value + "<br>"
-  })
-  content += "</div>"*/
   content += "<a class='button--maps' target='_blank' href='https://www.google.com/maps/dir/?api=1&origin=" + services[index].CurrentPostcode + "&destination=" + Array.prototype.concat.apply([], services[index].Address) + "' onclick='window.parent.getDirections(" + index + ");'>View on google maps</a>"
 
   infowindow[index] = new google.maps.InfoWindow({
@@ -143,6 +129,3 @@ window.setActive = function(index) {
   geoinfo.close()
   infowindow[index].open(map, markers[index])
 }
-
-google.maps.event.addDomListener(window, 'load', initialise)
-
