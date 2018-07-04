@@ -1,5 +1,6 @@
 ﻿@using NHS111.Models.Models.Web
 @using NHS111.Models.Models.Web.FromExternalServices
+@using Newtonsoft.Json
 @model  OutcomeViewModel
 @{
     var services = Model.GroupedDosServices.FirstOrDefault(s => s.OnlineDOSServiceType == OnlineDOSServiceType.GoTo).Services;
@@ -28,34 +29,7 @@
 }
 
 @{
-    String mapServices = "[";
-    for (var i = 0; i < services.Count(); i++)
-    {
-        ServiceViewModel service = services.ElementAt(i);
-        mapServices += "{";
-        mapServices += "\"Northings\": \"" + service.Northings + "\",";
-        mapServices += "\"Eastings\": \"" + service.Eastings + "\",";
-        mapServices += "\"Name\": \"" + Uri.EscapeDataString(service.Name) + "\",";
-        mapServices += "\"CurrentPostcode\": \"" + Model.CurrentPostcode + "\",";
-        mapServices += "\"Address\": [";
-
-        for (var j = 0; j < service.AddressLines.Count(); j++)
-        {
-            String address = service.AddressLines[j];
-            mapServices += "\"" + Uri.EscapeDataString(address) + "\"";
-            if (j < service.AddressLines.Count() - 1)
-            {
-                mapServices += ",";
-            }
-        }
-
-        mapServices += "]}";
-        if (i < services.Count() - 1)
-        {
-            mapServices += ",";
-        }
-    }
-    mapServices += "]";
+    String mapServices = JsonConvert.SerializeObject(services);
 }
 
 <div class="cards cards--numbered cards--goto">
@@ -72,7 +46,7 @@
                     @WebUtility.HtmlDecode(address)<br />
                 }
             </p>
-            @Html.Partial("_ServiceOpeningTimes", service, ViewData) 
+            @Html.Partial("_ServiceOpeningTimes", service, ViewData)
             @using (Html.BeginForm("GetDirections", "Outcome", FormMethod.Post))
             {
                 @Html.HiddenFor(m => m.SessionId)
@@ -93,4 +67,5 @@
 
 <script>
 window.mapServices = @Html.Raw(mapServices)
+window.currentPostcode = "@Html.Raw(ViewData.Model.CurrentPostcode)"
 </script>

@@ -27,7 +27,7 @@ jQuery(function () {
                 $('iframe')[0].contentWindow.frames.setActive(index)
             })
             $(iframe).show()
-            $(iframe)[0].contentWindow.frames.initialise(mapServices)
+            $(iframe)[0].contentWindow.frames.initialise(mapServices, currentPostcode)
         })
     }
 
