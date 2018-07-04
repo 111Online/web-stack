@@ -1,0 +1,52 @@
+@import "../environment/settings/colours";
+
+.highlight-term {
+  padding-left: 2px;
+  padding-right: 2px;
+  background-color: #fdf2d5;
+  font-style: inherit;
+  font-weight: inherit;
+}
+
+.link-list--results a {
+  display: block;
+  text-decoration: none;
+}
+
+
+.search__topic-title {
+  display: block;
+  font-weight: 700;
+  text-decoration: underline;
+}
+
+.search__topic-description {
+  color: $black;
+}
+
+.button--search {
+  background-color: $blue;
+  box-shadow: none;
+  border: 2px solid $blue;
+}
+
+.search__searchbox input {
+  width: 100%;
+}
+
+.search__searchbox button {
+  margin-top: 1rem;
+  width: 100%;
+}
+
+@media (min-width: 500px) {
+  .search__searchbox {
+    grid-template-columns: 3fr 1fr;
+    display: grid;
+  }
+
+  .search__searchbox button {
+    -ms-grid-column: 2;
+    margin-top: 0;
+  }
+}

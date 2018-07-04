@@ -66,8 +66,8 @@ namespace NHS111.Web.Controllers
             var requestPath = _configuration.GetBusinessApiPathwaySearchUrl(model.UserInfo.Demography.Gender, ageGroup.Value, true);
 
             var request = new RestRequest(requestPath, Method.POST);
-            request.AddJsonBody(Uri.EscapeDataString(model.SanitisedSearchTerm.Trim()));
-
+            if (model.SanitisedSearchTerm != String.Empty) request.AddJsonBody(Uri.EscapeDataString(model.SanitisedSearchTerm.Trim()));
+            
             var response = await _restClientBusinessApi.ExecuteTaskAsync<List<SearchResultViewModel>>(request);
 
             model.Results = response.Data
