@@ -39,6 +39,7 @@ namespace NHS111.Business.DOS.Configuration
         string DosUsername { get; }
         string DosPassword { get; }
         string CCGApiGetCCGByPostcode { get; }
+        string CCGApiGetCCGDetailsByPostcode { get; }
         string CCGApiBaseUrl { get; }
         int DoSSearchDistance { get; }
     }

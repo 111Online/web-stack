@@ -26,8 +26,9 @@ namespace NHS111.Business.DOS.Service
         private readonly IOnlineServiceTypeMapper _serviceTypeMapper;
         private readonly IOnlineServiceTypeFilter _serviceTypeFilter;
         private readonly IPublicHolidayService _publicHolidayService;
+        private readonly ISearchDistanceService _searchDistanceService;
 
-        public ServiceAvailabilityFilterService(IDosService dosService, IConfiguration configuration, IServiceAvailabilityManager serviceAvailabilityManager, IFilterServicesFeature filterServicesFeature, IServiceWhitelistFilter serviceWhitelistFilter, IOnlineServiceTypeMapper serviceTypeMapper, IOnlineServiceTypeFilter serviceTypeFilter, IPublicHolidayService publicHolidayService)
+        public ServiceAvailabilityFilterService(IDosService dosService, IConfiguration configuration, IServiceAvailabilityManager serviceAvailabilityManager, IFilterServicesFeature filterServicesFeature, IServiceWhitelistFilter serviceWhitelistFilter, IOnlineServiceTypeMapper serviceTypeMapper, IOnlineServiceTypeFilter serviceTypeFilter, IPublicHolidayService publicHolidayService, ISearchDistanceService searchDistanceService)
         {
             _dosService = dosService;
             _configuration = configuration;
@@ -37,6 +38,7 @@ namespace NHS111.Business.DOS.Service
             _serviceTypeMapper = serviceTypeMapper;
             _serviceTypeFilter = serviceTypeFilter;
             _publicHolidayService = publicHolidayService;
+            _searchDistanceService = searchDistanceService;
         }
 
         public async Task<HttpResponseMessage> GetFilteredServices(HttpRequestMessage request, bool filterServices, DosEndpoint? endpoint)
@@ -44,7 +46,7 @@ namespace NHS111.Business.DOS.Service
             var content = await request.Content.ReadAsStringAsync();
 
             var dosCase = GetObjectFromRequest<DosCase>(content);
-            dosCase.SearchDistance = _configuration.DoSSearchDistance;
+            dosCase.SearchDistance = await _searchDistanceService.GetSearchDistanceByPostcode(dosCase.PostCode);
 
             var dosCaseRequest = BuildRequestMessage(dosCase);
             var originalPostcode = dosCase.PostCode;
