@@ -32,7 +32,7 @@ namespace NHS111.Business.DOS.WhitelistFilter
         private async Task<ServiceListModel> PopulateLocalCCGServiceIdWhitelist(string postCode)
         {
             var response = await _restCCGApi.ExecuteTaskAsync<CCGDetailsModel>(
-                new RestRequest(string.Format(_configuration.CCGApiGetCCGByPostcode, postCode), Method.GET));
+                new RestRequest(string.Format(_configuration.CCGApiGetCCGDetailsByPostcode, postCode), Method.GET));
 
             if (response.StatusCode != HttpStatusCode.OK)
                 throw new HttpException("CCG Service Error Response");

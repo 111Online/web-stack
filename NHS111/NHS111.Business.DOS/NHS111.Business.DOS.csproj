@@ -104,6 +104,7 @@
     <Compile Include="Service\DOSService.cs" />
     <Compile Include="Service\PublicHolidaysDataService.cs" />
     <Compile Include="Service\PublicHolidayService.cs" />
+    <Compile Include="Service\SearchDistanceService.cs" />
     <Compile Include="Service\ServiceAvailabilityFilterService.cs" />
     <Compile Include="WhitelistFilter\ServiceWhitelistFilter.cs" />
   </ItemGroup>

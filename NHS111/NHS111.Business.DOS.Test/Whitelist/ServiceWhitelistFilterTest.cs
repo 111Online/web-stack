@@ -52,7 +52,7 @@ namespace NHS111.Business.DOS.Test.Whitelist
             _mockConfiguration = new Mock<Configuration.IConfiguration>();
             _restClient = new Mock<IRestClient>();
 
-            _mockConfiguration.Setup(c => c.CCGApiGetCCGByPostcode).Returns(_localServiceIdWhiteListUrl);
+            _mockConfiguration.Setup(c => c.CCGApiGetCCGDetailsByPostcode).Returns(_localServiceIdWhiteListUrl);
         }
 
         [Test]
