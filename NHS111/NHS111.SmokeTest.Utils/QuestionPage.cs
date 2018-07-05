@@ -10,6 +10,8 @@ using OpenQA.Selenium.Support.UI;
 
 namespace NHS111.SmokeTest.Utils
 {
+    using Newtonsoft.Json.Linq;
+
     public class QuestionPage : LayoutPage
     {
         [FindsBy(How = How.ClassName, Using = "button--next")]
@@ -28,142 +30,137 @@ namespace NHS111.SmokeTest.Utils
         [FindsBy(How = How.CssSelector, Using = "[for='No']")]
         private IWebElement AnswerNoButton { get; set; }
 
-        public QuestionPage(IWebDriver driver) : base(driver)
-        {
-        }
+        private const string _containsRadioButton = "contains(@class, 'multiple-choice--radio')";
 
-        public void VerifyQuestion(string expectedQuestion)
-        {
-            Assert.IsTrue(Header.Displayed);
-            Assert.AreEqual(expectedQuestion, Header.Text);
-        }
+        public QuestionPage(IWebDriver driver)
+            : base(driver) { }
 
-        public void VerifyRationale()
-        {
-            Assert.IsTrue(Rationale.Displayed);
-        }
-
-        public QuestionPage AnswerAndVerifyQuestion(int answerOrder, string expectedQuestion, bool requireButtonAwait = true)
-        {
-            Driver.FindElement(By.XPath("(//label[contains(@class, 'multiple-choice--radio')])[" + answerOrder + "]")).Click();
-            NextButton.Click();
-            AwaitNextQuestionPage(requireButtonAwait);
-            Assert.AreEqual(expectedQuestion, Header.Text);
+        public QuestionPage AnswerAndVerifyNextQuestion(int answerOrder, string expectedQuestion, bool requireButtonAwait = true) {
+            var byOrder = ByOrder(answerOrder);
+            SelectAnswerAndSubmit(byOrder, requireButtonAwait);
+            VerifyQuestion(expectedQuestion);
             return new QuestionPage(Driver);
         }
 
-        public QuestionPage AnswerYes()
-        {
-            if (!Driver.FindElements(By.CssSelector("[for='Yes']")).Any())
-                throw new Exception("No answer with label for 'Yes' could be found for question " + Header.Text);
-
-            AnswerYesButton.Click();
-            NextButton.Click();
-            AwaitNextQuestionPage();
-            return new QuestionPage(Driver);
+        public QuestionPage AnswerYes(bool requireButtonAwait = true) {
+            var byForAttribute = By.CssSelector("[for='Yes']");
+            return SelectAnswerAndSubmit(byForAttribute, requireButtonAwait);
         }
 
-        public QuestionPage Answer(string answerText)
-        {
-            Driver.FindElement(By.XPath("//label[contains(@class, 'multiple-choice--radio') and text() = \"" + answerText + "\"]")).Click();
-            NextButton.Click();
-            AwaitNextQuestionPage();
-            return new QuestionPage(Driver);
+        public QuestionPage AnswerNo(bool requireButtonAwait = true) {
+            var byId = By.Id("No");
+            return SelectAnswerAndSubmit(byId, requireButtonAwait);
         }
 
-        public QuestionPage Answer(int answerOrder, bool requireButtonAwait = true)
-        {
-            Driver.FindElement(By.XPath("(//label[contains(@class, 'multiple-choice--radio')])[" + answerOrder + "]")).Click();
-            NextButton.Click();
-            AwaitNextQuestionPage(requireButtonAwait);
-            return new QuestionPage(Driver);
+        public QuestionPage Answer(string answerText, bool requireButtonAwait = true) {
+            var byAnswerText = ByAnswerText(answerText);
+            return SelectAnswerAndSubmit(byAnswerText, requireButtonAwait);
+        }
+
+        public QuestionPage Answer(int answerOrder, bool requireButtonAwait = true) {
+            var byOrder = ByOrder(answerOrder);
+            return SelectAnswerAndSubmit(byOrder, requireButtonAwait);
         }
 
         public T AnswerForDeadEnd<T>(string answerText) where T : LayoutPage {
-            Driver.FindElement(By.XPath("//label[contains(@class, 'multiple-choice--radio') and text() = \"" + answerText + "\"]")).Click();
-            NextButton.Click();
+            var byAnswerText = ByAnswerText(answerText);
+            SelectAnswerAndSubmit(byAnswerText, false);
             return (T)Activator.CreateInstance(typeof(T), Driver);
         }
 
-        public T AnswerForDispostion<T>(string answerText) where T : DispositionPage<T>
-        {
-            Driver.FindElement(By.XPath("//label[contains(@class, 'multiple-choice--radio') and text() = \"" + answerText + "\"]")).Click();
-            NextButton.Click();
+        public T AnswerForDispostion<T>(string answerText) where T : DispositionPage<T> {
+            var byAnswerText = ByAnswerText(answerText);
+            SelectAnswerAndSubmit(byAnswerText, false);
             return (T) Activator.CreateInstance(typeof(T), Driver);
         }
 
-        public T AnswerForDispostion<T>(int answerOrder) where T : DispositionPage<T>
-        {
-            Driver.FindElement(By.XPath("(//label[contains(@class, 'multiple-choice--radio')])[" + answerOrder + "]")).Click();
-            NextButton.Click();
+        public T AnswerForDispostion<T>(int answerOrder) where T : DispositionPage<T> {
+            var byOrder = ByOrder(answerOrder);
+            SelectAnswerAndSubmit(byOrder, false);
             return (T)Activator.CreateInstance(typeof(T), Driver);
         }
 
-        public QuestionPage AnswerSuccessiveByOrder(int answerOrder, int numberOfTimes)
-        {
-            int i = 0;
+        public QuestionPage AnswerSuccessiveByOrder(int answerOrder, int numberOfTimes) {
             var questionPage = this;
-            while (i < numberOfTimes)
-            {
+            while (numberOfTimes-- > 0)
                 questionPage = questionPage.Answer(answerOrder);
-                i++;
-            }
             return questionPage;
         }
 
-        public QuestionPage AnswerSuccessiveNo(int numberOfTimes)
-        {
-            int i = 0;
+        public QuestionPage AnswerSuccessiveNo(int numberOfTimes) {
             var questionPage = this;
-            while (i < numberOfTimes)
-            {
+            while (numberOfTimes-- > 0)
                 questionPage = questionPage.AnswerNo();
-                i++;
-            }
             return questionPage;
         }
 
-        public QuestionPage AnswerSuccessiveYes(int numberOfTimes)
-        {
-            int i = 0;
+        public QuestionPage AnswerSuccessiveYes(int numberOfTimes) {
             var questionPage = this;
-            while (i < numberOfTimes)
-            {
+            while (numberOfTimes-- > 0)
                 questionPage = questionPage.AnswerYes();
-                i++;
-            }
             return questionPage;
         }
 
-        public QuestionPage AnswerNo(bool requireButtonAwait = true)
-        {
-            if (!Driver.FindElements(By.Id("No")).Any())
-                throw new Exception("No answer with id 'No' could be found for question " + Header.Text);
-
-            AnswerNoButton.Click();
+        public QuestionPage SelectAnswerAndSubmit(By by, bool expectQuestionPage = true) {
+            SelectAnswerBy(by);
             NextButton.Click();
-            AwaitNextQuestionPage(requireButtonAwait);
+            AwaitNextPage(expectQuestionPage);
             return new QuestionPage(Driver);
         }
 
-        private void AwaitNextQuestionPage(bool requireButtonAwait = true)
-        {
-            if(requireButtonAwait)
-                new WebDriverWait(Driver, TimeSpan.FromSeconds(20)).Until(
-                ExpectedConditions.ElementExists(By.CssSelector(".multiple-choice--radio")));
-            new WebDriverWait(Driver, TimeSpan.FromSeconds(1));
-        }
-
-        public QuestionPage NavigateBack()
-        {
+        public QuestionPage NavigateBack() {
             Driver.Navigate().Back();
             return new QuestionPage(Driver);
+        }
+
+        public void VerifyQuestion(string expectedQuestion) {
+            Assert.IsTrue(Header.Displayed);
+            Assert.AreEqual(expectedQuestion, Header.Text, string.Format("Unexpected question title. Expected '{0}' but was '{1}'.", expectedQuestion, Header.Text));
+        }
+
+        public void VerifyRationale() {
+            Assert.IsTrue(Rationale.Displayed);
         }
 
         public void VerifyQuestionPageLoaded()
         {
             Assert.AreEqual("Next question", NextButton.Text);
             Assert.IsTrue(NextButton.Displayed);
+        }
+
+        private static By ByOrder(int answerOrder) {
+            return By.XPath(string.Format("(//label[{0}])[{1}]", _containsRadioButton, answerOrder));
+        }
+
+        private static By ByAnswerText(string answerText) {
+            return By.XPath(string.Format("//label[{0} and text() = \"{1}\"]", _containsRadioButton, answerText));
+        }
+
+        private void AwaitNextPage(bool expectQuestionPage = true) {
+            var timeout = TimeSpan.FromSeconds(20);
+            try {
+                if (expectQuestionPage) {
+                    new WebDriverWait(Driver, timeout).Until(ExpectedConditions.ElementExists(By.CssSelector(".multiple-choice--radio")));
+                }
+            } catch (WebDriverTimeoutException) {
+                Assert.Fail(string.Format("The next question page didn't load in the awaited time ({0}s). Current page title is '{1}'.", timeout.Seconds, Header.Text));
+            }
+            new WebDriverWait(Driver, TimeSpan.FromSeconds(1));
+        }
+
+        private IEnumerable<string> GetAnswersText() {
+            var answers = Driver.FindElements(By.CssSelector("[type='radio']")).ToList().Select(r => r.GetAttribute("value"));
+            answers = answers.Select(a => {
+                dynamic j = JObject.Parse(a);
+                return "'" + (string) j.title.ToString() + "'";
+            });
+            return answers;
+        }
+
+        private void SelectAnswerBy(By by) {
+            var availableAnswers = GetAnswersText();
+            Assert.IsTrue(Driver.ElementExists(by), string.Format("Expected answer couldn't be found for question '{0}'. Tried to find answer {1}. Available answers were:\n{2}", Header.Text, by, string.Join("\n", availableAnswers)));
+            Driver.FindElement(by).Click();
         }
     }
 }

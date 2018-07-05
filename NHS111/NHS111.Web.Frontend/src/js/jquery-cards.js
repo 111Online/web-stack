@@ -13,7 +13,7 @@ jQuery(function () {
 
     function loadMap() {
         var iframe = document.createElement('iframe')
-        iframe.src = '/map/?services=' + JSON.stringify(mapServices)
+        iframe.src = '/map/'
         iframe.setAttribute('role', 'presentation')
         iframe.className += ' service-map'
         $(iframe).insertBefore('.cards--goto')
@@ -27,6 +27,7 @@ jQuery(function () {
                 $('iframe')[0].contentWindow.frames.setActive(index)
             })
             $(iframe).show()
+            $(iframe)[0].contentWindow.frames.initialise(mapServices, currentPostcode)
         })
     }
 

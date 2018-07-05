@@ -63,7 +63,7 @@ namespace NHS111.SmokeTests
                 .Answer(3)
                 .Answer(3)
                 .Answer(1)
-                .AnswerForDispostion<OutcomePage>("Yes");
+                .AnswerForDispostion<OutcomePage>("Yes - the rash doesn't go away under the glass");
 
             outcomePage.VerifyOutcome("Your answers suggest you should dial 999 now for an ambulance");
 

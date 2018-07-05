@@ -34,11 +34,11 @@ namespace NHS111.SmokeTest.Utils
 
         public void VerifyPageContainsDOSResults()
         {
-            Assert.IsTrue(DOSGroups.Count() > 0);
+            Assert.IsTrue(DOSGroups.Count() > 0, "No DoS result groupings found on page.");
             Assert.IsTrue(DosResults.Displayed);
             var results = DosResults.FindElements(By.ClassName("card"));
 
-            Assert.IsTrue(results.Count > 0);
+            Assert.IsTrue(results.Count > 0, "No DoS results found on page.");
         }
 
         public void VerifyDOSResultGroupExists(string groupText)

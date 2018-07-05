@@ -77,14 +77,13 @@ namespace NHS111.SmokeTest.Utils
 
         public void VerifyOutcome(string outcomeHeadertext)
         {
-            Assert.IsTrue(Header.Displayed);
-            Assert.AreEqual(outcomeHeadertext, Header.Text);
+            Assert.IsTrue(Driver.ElementExists(By.CssSelector(".local-header h1")), "Possible unexpected triage outcome. Expected header to exist but it doesn't.");
+            Assert.AreEqual(outcomeHeadertext, Header.Text, string.Format("Possible unexpected triage outcome. Expected header text of '{0}' but was '{1}'.", outcomeHeadertext, Header.Text));
         }
 
         public void VerifyOutcome(string outcomeHeadertext1, string outcomeHeadertext2) {
-            Assert.IsTrue(Header.Displayed);
-            Assert.IsTrue(Header.Text == outcomeHeadertext1 || Header.Text == outcomeHeadertext2);
-
+            Assert.IsTrue(Driver.ElementExists(By.CssSelector(".local-header h1")), "Possible unexpected triage outcome. Expected header to exist but it doesn't.");
+            Assert.IsTrue(Header.Text == outcomeHeadertext1 || Header.Text == outcomeHeadertext2, string.Format("Possible unexpected triage outcome. Expected header text of either '{0}' or '{1}' but was '{2}'.", outcomeHeadertext1, outcomeHeadertext2, Header.Text));
         }
 
         public void VerifyDispositionCode(string dispositionCode)
@@ -131,7 +130,7 @@ namespace NHS111.SmokeTest.Utils
         public void VerifyCareAdvice(string[] expectedAdviceItems)
         {
             var foundItems = Driver.FindElements(By.CssSelector(".care-advice div h4"));
-            Assert.AreEqual(expectedAdviceItems.Count(), foundItems.Count);
+            Assert.AreEqual(expectedAdviceItems.Count(), foundItems.Count, string.Format("Incorrect number of care advice on disposition '{0}'. Found items were: {1}", Header.Text, foundItems.Select(cx => "'" + cx.Text + "'\n")));
 
             foreach (var item in foundItems)
             {
