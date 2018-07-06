@@ -18,7 +18,7 @@ namespace NHS111.Business.DOS.Test.ServiceType
     {
         private Mock<Configuration.IConfiguration> _mockConfiguration;
         private Mock<IRestClient> _restClient;
-        private readonly string _localServiceIdWhiteListUrl = "http://localhost/whitelist/{0}";
+        private readonly string _localServiceIdWhiteListUrl = "http://localhost/api/ccg/details/{0}";
         private readonly string _postcode = "SO312IN";
 
         #region CheckCapacitySummary Result Examples
@@ -172,7 +172,7 @@ namespace NHS111.Business.DOS.Test.ServiceType
             _mockConfiguration = new Mock<Configuration.IConfiguration>();
             _restClient = new Mock<IRestClient>();
 
-            _mockConfiguration.Setup(c => c.CCGApiGetCCGByPostcode).Returns(_localServiceIdWhiteListUrl);
+            _mockConfiguration.Setup(c => c.CCGApiGetCCGDetailsByPostcode).Returns(_localServiceIdWhiteListUrl);
         }
 
         [Test]
