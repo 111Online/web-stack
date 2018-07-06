@@ -5,32 +5,25 @@
 
 const OSPoint = require('./vendor/ospoint.js')
 
-
-function getQueryString() {
-  var result = {}, queryString = location.search.slice(1),
-    re = /([^&=]+)=([^&]*)/g, m;
-
-  while (m = re.exec(queryString)) {
-    result[decodeURIComponent(m[1])] = decodeURIComponent(m[2]);
-  }
-
-  return result;
-}
-
 var map;
-var services = JSON.parse(getQueryString()['services'])
+var services = []
+var currentPostcode
 var infowindow = []
 var markers = []
 var geo;
 var geoinfo;
 
-function initialise() {
+// The initialise function will be called by the page that is showing
+// the iframe. The data parameter is an array of the services to be shown.
+window.initialise = function (data, postcode) {
+  services = data
+  currentPostcode = postcode
   var geocoder = new google.maps.Geocoder
   var bounds = new google.maps.LatLngBounds()
 
   for (var i = 0; i < services.length; i++) {
     var service = services[i]
-    var point = new OSPoint(service.Northings, service.Eastings).toWGS84()
+    var point = new OSPoint(service.northingsField, service.eastingsField).toWGS84()
     service.lat = point.latitude
     service.lng = point.longitude
     bounds.extend(new google.maps.LatLng(service.lat, service.lng))
@@ -50,7 +43,7 @@ function initialise() {
     addMarker(i, map)
   }
 
-  geocoder.geocode({ "address": services[0].CurrentPostcode, "componentRestrictions": { "country" : "GB" } }, (data) => {
+  geocoder.geocode({ "address": currentPostcode, "componentRestrictions": { "country" : "GB" } }, (data) => {
 
     geo = new google.maps.Marker({
       position: data[0].geometry.location,
@@ -64,7 +57,7 @@ function initialise() {
     })
 
     geoinfo = new google.maps.InfoWindow({
-        content: "<p>" + services[0].CurrentPostcode.toUpperCase() + "</p>"
+        content: "<p>" + currentPostcode.toUpperCase() + "</p>"
     })
       
     geo.addListener('click', function () {
@@ -118,13 +111,8 @@ function addMarker(index, map) {
     map: map
   })
 
-  var content = "<div style='font-weight: 500; margin-bottom: 5px; font-size: 14px; max-width: 20em;' data-index='" + index + "'>" + services[index].Name + "</div>"
-  /*content += "<div>"
-  services[index].Address.forEach((value, index) => {
-      content += value + "<br>"
-  })
-  content += "</div>"*/
-  content += "<a class='button--maps' target='_blank' href='https://www.google.com/maps/dir/?api=1&origin=" + services[index].CurrentPostcode + "&destination=" + Array.prototype.concat.apply([], services[index].Address) + "' onclick='window.parent.getDirections(" + index + ");'>View on google maps</a>"
+  var content = "<div style='font-weight: 500; margin-bottom: 5px; font-size: 14px; max-width: 20em;' data-index='" + index + "'>" + services[index].nameField + "</div>"
+  content += "<a class='button--maps' target='_blank' href='https://www.google.com/maps/dir/?api=1&origin=" + currentPostcode + "&destination=" + services[index].AddressLines.join(',') + "' onclick='window.parent.getDirections(" + index + ");'>View on google maps</a>"
 
   infowindow[index] = new google.maps.InfoWindow({
     content: content
@@ -143,6 +131,3 @@ window.setActive = function(index) {
   geoinfo.close()
   infowindow[index].open(map, markers[index])
 }
-
-google.maps.event.addDomListener(window, 'load', initialise)
-
