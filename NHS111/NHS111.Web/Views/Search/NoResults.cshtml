@@ -1,0 +1,51 @@
+﻿@using NHS111.Models.Models.Business.PathwaySearch
+@using NHS111.Models.Models.Domain
+@using NHS111.Models.Models.Web
+@using NHS111.Web.Helpers
+@model NHS111.Models.Models.Web.SearchJourneyViewModel
+@{
+    Layout = "~/Views/Shared/_LayoutNhsUK.cshtml";
+}
+
+@section Title  {NHS 111 Online - Best applies}
+
+@section HeadTop {
+    <script>
+        dataLayer = [
+            {
+                'virtualPageUrl': document.location.pathname + '?q=@Model.SanitisedSearchTerm',
+                'virtualPageTitle': 'Search - No Results'
+            }];
+    </script>
+}
+
+@section FeedbackSection {
+    @Html.Partial("_FeedbackDetails", new FeedbackViewModel()
+    {
+        UserId = Model.SessionId.ToString(),
+        PageData = new PageDataViewModel(PageDataViewModel.PageType.SearchResults, Model)
+    })
+}
+    <div id="SearchResults" class="measure">
+
+        @{
+            var searchTerm = Model.SanitisedSearchTerm;
+            if (searchTerm == null)
+            {
+                searchTerm = "";
+            }
+
+            var encryptedQueryStringValues = KeyValueEncryptor.EncryptedKeys(Model);
+        }
+
+        <h2 class="util-wrap">@string.Format("Sorry, no topics have been found for '{0}'.", searchTerm.Trim())</h2>
+        <p>You can <a href="#" onclick="document.getElementById('SanitisedSearchTerm').focus()">search again</a>, or browse <a id="show-categories" href="/@Model.UserInfo.Demography.Gender/@Model.UserInfo.Demography.Age/Categories?args=@encryptedQueryStringValues">topics by category.</a></p>
+        @Html.Partial("_SearchBox", Model, ViewData)
+        @Html.Partial("_ExternalInformation")
+
+        <p>
+            If you don’t know what to look for you can <a href="@Model.OtherProblemsURL(Model.UserInfo)?args=@encryptedQueryStringValues">rule out serious conditions.</a>
+        </p>
+    </div>
+
+<hr />

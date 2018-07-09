@@ -28,22 +28,12 @@
 
 <div id="categories">
     @{
-        var bodyParts = new List<string> {"Head and neck", "Shoulder, arm and hand", "Chest and back", "Abdomen, groin and side of the body", "Bowel and urinary problems", "Genitals", "Leg and foot", "Skin and hair"};
+        var bodyParts = new List<string> { "Head and neck", "Shoulder, arm and hand", "Chest and back", "Abdomen, groin and side of the body", "Bowel and urinary problems", "Genitals", "Leg and foot", "Skin and hair" };
         var lists = new List<IEnumerable<CategoryWithPathways>>(2);
-        lists.Add(Model.AllTopics.Where(t => bodyParts.Contains(t.Category.Title)).OrderBy(x => x.Category.OrderNo));
-        lists.Add(Model.AllTopics.Where(t => !bodyParts.Contains(t.Category.Title)).OrderBy(x => x.Category.OrderNo));
+        lists.Add(Model.AllCategories.Where(t => bodyParts.Contains(t.Category.Title)).OrderBy(x => x.Category.OrderNo));
+        lists.Add(Model.AllCategories.Where(t => !bodyParts.Contains(t.Category.Title)).OrderBy(x => x.Category.OrderNo));
     }
 
-    @if (!Model.HasResults)
-    {
-        <h2 class="util-wrap">@string.Format("Sorry, there are no results for '{0}'.", Model.SanitisedSearchTerm.Trim())</h2>
-        <h2>Try finding your symptoms by topic instead.  If you can't find what you need, please call 111 now.</h2>
-    }
-        else
-        {
-        <h2>Find your symptoms from the topic list.  If you can't find what you need, please call 111 now.</h2>
-    }
-    
     <div class="grid-row">
 
         @for (int i = 0; i < lists.Count; ++i)
@@ -107,8 +97,17 @@
     </div>
 </div>
 
+@{
+    var encryptedQueryStringValues = KeyValueEncryptor.EncryptedKeys(Model);
+}
+
+<div class="measure">
+    <p>You can <a href="/search">search</a> or <a id="show-categories" href="/@Model.UserInfo.Demography.Gender/@Model.UserInfo.Demography.Age/Pathways?args=@encryptedQueryStringValues">browse the full list of 116 topics.</a></p>
+    @Html.Partial("_ExternalInformation")
+    <p>If you don’t know what to look for you can <a href="@Model.OtherProblemsURL(Model.UserInfo)?args=@encryptedQueryStringValues">rule out serious conditions.</a></p>
+</div>
+
 <hr role="presentation" />
-@Html.Partial("_SearchBox", Model, ViewData)
 
 <script>
     if ($('.results-list').length > 0) $('#categories').hide();
