@@ -25,7 +25,7 @@
         PageData = new PageDataViewModel(PageDataViewModel.PageType.SearchResults, Model)
     })
 }
-<div id="SearchResults" class="measure">
+<div id="SearchResults" class="measure search-typography">
     <div>
         @{
             var encryptedQueryStringValues = KeyValueEncryptor.EncryptedKeys(Model);
@@ -41,7 +41,7 @@
 
                 <li>
 
-                    <a data-title="@result.PathwayTitle" data-pathway-number="@result.PathwayNo" href="/@result.PathwayNo/@Model.UserInfo.Demography.Gender/@Model.UserInfo.Demography.Age/start?args=@encryptedQueryStringValues.ToString()">
+                    <a class="search__topic" data-title="@result.PathwayTitle" data-pathway-number="@result.PathwayNo" href="/@result.PathwayNo/@Model.UserInfo.Demography.Gender/@Model.UserInfo.Demography.Age/start?args=@encryptedQueryStringValues.ToString()">
                         <span class="search__topic-title">@Html.Raw(title)</span>
                         @if (additionalTopics.Any())
                         {

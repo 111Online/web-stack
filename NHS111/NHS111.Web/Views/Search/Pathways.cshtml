@@ -31,9 +31,10 @@
     var encryptedQueryStringValues = KeyValueEncryptor.EncryptedKeys(Model);
 }
 
-<div id="categories">
-    <h1>All Topics</h1>
-
+<div id="categories" class="search-typography">
+    <a class="search__button--back" href="/@Model.UserInfo.Demography.Gender/@Model.UserInfo.Demography.Age/Categories?args=@encryptedQueryStringValues"">Back to categories</a>
+    <h1 class="heading--large">All Topics</h1>
+    <p class="form-hint">@Model.AllPathways.Count() topics</p>
     <ul class="measure link-list link-list--results">
         @{
             var allPathways = Model.AllPathways.OrderBy(p => p.Title);
@@ -44,7 +45,7 @@
                 @{
                     var result = allPathways.ElementAt(i);
                 }
-                <a data-title="@result.Title" data-pathway-number="@result.PathwayNo" href="/@result.PathwayNo/@Model.UserInfo.Demography.Gender/@Model.UserInfo.Demography.Age/start?args=@encryptedQueryStringValues.ToString()">
+                <a class="search__topic" data-title="@result.Title" data-pathway-number="@result.PathwayNo" href="/@result.PathwayNo/@Model.UserInfo.Demography.Gender/@Model.UserInfo.Demography.Age/start?args=@encryptedQueryStringValues.ToString()">
                     <span class="search__topic-title">@Html.Raw(result.Title)</span>
                     <!--<p class="search__topic-description">DESCRIPTION GOES HERE</p>-->
                 </a>
@@ -53,11 +54,14 @@
     </ul>
 </div>
 
-<div class="measure">
-    <p>You can try <a href="/search">searching again</a> or <a id="show-categories" href="/@Model.UserInfo.Demography.Gender/@Model.UserInfo.Demography.Age/Categories?args=@encryptedQueryStringValues">browsing topics by category.</a></p>
-    @Html.Partial("_ExternalInformation")
-    <p>If you don’t know what to look for you can <a href="@Model.OtherProblemsURL(Model.UserInfo)?args=@encryptedQueryStringValues">rule out serious conditions.</a></p>
-</div>
+<details class="measure">
+    <summary><span class="details__arrow" role="presentation"></span> I can’t find the right topic</summary>
+    <div>
+        <p>You can try <a href="/@Model.UserInfo.Demography.Gender/@Model.UserInfo.Demography.Age/Search?args=@encryptedQueryStringValues">searching again</a> or <a id="show-categories" href="/@Model.UserInfo.Demography.Gender/@Model.UserInfo.Demography.Age/Categories?args=@encryptedQueryStringValues">browsing topics by category.</a></p>
+        @Html.Partial("_ExternalInformation")
+        <p>If you don’t know what to look for you can <a href="@Model.OtherProblemsURL(Model.UserInfo)?args=@encryptedQueryStringValues">rule out serious conditions.</a></p>
+    </div>
+</details>
 
 <hr role="presentation" />
 

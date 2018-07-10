@@ -1,4 +1,5 @@
 @import "../environment/settings/colours";
+@import "../environment/settings/mixins";
 
 .highlight-term {
   padding-left: 2px;
@@ -8,11 +9,66 @@
   font-weight: inherit;
 }
 
-.link-list--results a {
+/**
+  search-typography is being used to test out new typography styles.
+   once rolled out further, the namespacing should be removed
+*/
+
+.search-typography {
+  font-size: 19px;
+  line-height: 32px;
+}
+
+.search-typography.measure,
+.search-typography .measure {
+  max-width: 34em;
+}
+
+.search-typography .form-hint {
+  color: $grey-1;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 24px;
+}
+
+.search__button--back {
+  color: $black;
+  font-weight: 400;
+  font-size: 16px;
+  text-decoration: underline;
+  display: inline-block;
+  padding: 0 12px 0 0;
+}
+
+.search__button--back:link, .search__button--back:visited, .search__button--back:active {
+  color: $grey-1;
+}
+
+.search__button--back::before {
+  content: "";
+  display: inline-block;
+  margin-right: 8px;
+  width: 0;
+  height: 0;
+  border-top: 5px solid transparent;
+  border-bottom: 5px solid transparent;
+  border-right: 5px solid #425563;
+}
+
+/*
+.page-section .search-typography * + * {
+  margin-top: 16px;
+}*/
+
+.search-typography .link-list--results li {
+  margin: 0;
+  margin-bottom: 24px;
+}
+
+.search__topic {
   display: block;
   text-decoration: none;
 }
-
 
 .search__topic-title {
   display: block;
@@ -20,8 +76,11 @@
   text-decoration: underline;
 }
 
-.search__topic-description {
+.link-list--results .search__topic-description {
   color: $black;
+  margin: 0;
+  font-size: 19px;
+  line-height: 32px;
 }
 
 .button--search {
@@ -31,33 +90,41 @@
 }
 
 .search__searchbox input {
+  padding: 8px;
+  max-width: none;
   width: 100%;
 }
 
 .search__searchbox button {
+  @include button($blue);
+  box-shadow: none;
   margin-top: 1rem;
   width: 100%;
 }
 
 @media (min-width: 500px) {
 
-  .search__searchbox button {
-    // IE and Edge don't have autoplacement of grid, so this makes sure button is in right place
-    -ms-grid-column: 2;
+    .search__searchbox button {
+      // IE and Edge don't have autoplacement of grid, so this makes sure button is in right place
+      -ms-grid-column: 2;
+      // Browsers that don't support grid will show the button underneath at a normal size
+      width: initial;
+    }
+    // Browsers that do support grid and autoplacement will have the search button next to the input field
+    .search__searchbox {
+      grid-template-columns: 3fr 1fr;
+      display: grid;
+    }
 
-    // Browsers that don't support grid will show the button underneath at a normal size
-    width: initial;
+    @supports (display: grid) {
+      .search__searchbox button {
+        margin-top: 0;
+      }
+    }
+    // IE 10 and 11 support grid but don't support @supports. So this targets them to remove the margin
+    @media (-ms-high-contrast: none) {
+      .search__searchbox button {
+        margin-top: 0;
+      }
+    }
   }
-
-  // Browsers that do support grid and autoplacement will have the search button next to the input field
-  .search__searchbox {
-    grid-template-columns: 3fr 1fr;
-    display: grid;
-  }
-
-  @supports (display: grid) { .search__searchbox button { margin-top: 0; } }
-
-  // IE 10 and 11 support grid but don't support @supports. So this targets them to remove the margin
-  @media (-ms-high-contrast: none) { .search__searchbox button { margin-top: 0; } }
-
-}

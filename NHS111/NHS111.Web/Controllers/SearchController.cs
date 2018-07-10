@@ -53,6 +53,32 @@ namespace NHS111.Web.Controllers
 
         }
 
+        
+        [HttpGet]
+        [Route("{gender}/{age}/Search", Name = "SearchUrl")]
+        public ActionResult SearchDirect(string gender, int age, string args)
+        {            
+            var decryptedArgs = new QueryStringEncryptor(args);
+            var ageGenderViewModel = new AgeGenderViewModel { Gender = gender, Age = age };
+            var startOfJourney = new SearchJourneyViewModel
+            {
+                SessionId = Guid.Parse(decryptedArgs["sessionId"]),
+                CurrentPostcode = decryptedArgs["postcode"] ,
+                UserInfo = new UserInfo
+                {
+                    Demography = ageGenderViewModel,
+                },
+                FilterServices = bool.Parse(decryptedArgs["filterServices"]),
+                Campaign = decryptedArgs["campaign"],
+                Source = decryptedArgs["source"]
+            };
+
+            _userZoomDataBuilder.SetFieldsForSearch(startOfJourney);
+
+            return View("~\\Views\\Search\\Search.cshtml", startOfJourney);
+
+        }
+
         [HttpPost]
         public async Task<ActionResult> SearchResults(SearchJourneyViewModel model)
         {
