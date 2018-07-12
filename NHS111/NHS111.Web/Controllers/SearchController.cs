@@ -156,7 +156,7 @@ namespace NHS111.Web.Controllers
                 {
                     Demography = ageGenderViewModel,
                 },
-                AllPathways = allPathways,
+                Pathways = allPathways,
                 FilterServices = bool.Parse(decryptedArgs["filterServices"]),
                 SanitisedSearchTerm = decryptedArgs["searchTerm"],
                 EntrySearchTerm = decryptedArgs["searchTerm"],
@@ -194,8 +194,7 @@ namespace NHS111.Web.Controllers
             var url = _configuration.GetBusinessApiGetPathwaysGenderAge(model.Gender, model.Age);
             var response = await _restClientBusinessApi.ExecuteTaskAsync<List<Pathway>>(CreateJsonRequest(url, Method.GET));
 
-            var allPathways = response.Data;
-            return allPathways;
+            return response.Data;
         }
 
         private SearchResultViewModel Transform(SearchResultViewModel result, string searchTerm)

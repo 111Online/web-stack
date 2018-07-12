@@ -34,10 +34,10 @@
 <div id="categories" class="search-typography">
     <a class="search__button--back" href="/@Model.UserInfo.Demography.Gender/@Model.UserInfo.Demography.Age/Categories?args=@encryptedQueryStringValues"">Back to categories</a>
     <h1 class="heading--large">All Topics</h1>
-    <p class="form-hint">@Model.AllPathways.Count() topics</p>
+    <p class="form-hint">@Model.Pathways.Count() topics</p>
     <ul class="measure link-list link-list--results">
         @{
-            var allPathways = Model.AllPathways.OrderBy(p => p.Title);
+            var allPathways = Model.Pathways.OrderBy(p => p.Title);
         }
         @for (int i = 0; i < allPathways.Count(); ++i)
         {
@@ -54,7 +54,7 @@
     </ul>
 </div>
 
-<details class="measure">
+<details class="measure search-typography">
     <summary><span class="details__arrow" role="presentation"></span> I can’t find the right topic</summary>
     <div>
         <p>You can try <a href="/@Model.UserInfo.Demography.Gender/@Model.UserInfo.Demography.Age/Search?args=@encryptedQueryStringValues">searching again</a> or <a id="show-categories" href="/@Model.UserInfo.Demography.Gender/@Model.UserInfo.Demography.Age/Categories?args=@encryptedQueryStringValues">browsing topics by category.</a></p>
@@ -64,11 +64,3 @@
 </details>
 
 <hr role="presentation" />
-
-<script>
-    if ($('.results-list').length > 0) $('#categories').hide();
-    $('#show-categories').on('click', function () {
-        $('#SearchResults').hide();
-        $('#categories').show().scrollTop();
-    });
-</script>

@@ -38,7 +38,7 @@
             var encryptedQueryStringValues = KeyValueEncryptor.EncryptedKeys(Model);
         }
 
-        <h2 class="util-wrap">@string.Format("Sorry, no topics have been found for '{0}'.", searchTerm.Trim())</h2>
+        <h1 class="util-wrap heading--body">@string.Format("Sorry, no topics have been found for '{0}'.", searchTerm.Trim())</h1>
         <p>You can <a href="#" onclick="document.getElementById('SanitisedSearchTerm').focus()">search again</a>, or browse <a id="show-categories" href="/@Model.UserInfo.Demography.Gender/@Model.UserInfo.Demography.Age/Categories?args=@encryptedQueryStringValues">topics by category.</a></p>
         @Html.Partial("_SearchBox", Model, ViewData)
         @Html.Partial("_ExternalInformation")
