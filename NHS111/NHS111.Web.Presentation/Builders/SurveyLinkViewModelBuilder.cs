@@ -40,7 +40,8 @@ namespace NHS111.Web.Presentation.Builders
                 PathwayNo = model.PathwayNo,
                 DigitalTitle = model.DigitalTitle,
                 Campaign = model.Campaign,
-                CampaignSource = model.Source
+                CampaignSource = model.Source,
+                OfferedServices = model.GroupedDosServices
             };
         }
     }

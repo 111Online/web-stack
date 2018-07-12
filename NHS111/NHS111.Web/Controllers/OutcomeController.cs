@@ -93,6 +93,7 @@ namespace NHS111.Web.Controllers
             }
 
             var outcomeModel = await _outcomeViewModelBuilder.PopulateGroupedDosResults(model, null, null, endpoint);
+            outcomeModel.SurveyLink.OfferedServices = outcomeModel.GroupedDosServices;
             viewName = _viewRouter.GetViewName(model, ControllerContext);
 
             return View(viewName, outcomeModel);

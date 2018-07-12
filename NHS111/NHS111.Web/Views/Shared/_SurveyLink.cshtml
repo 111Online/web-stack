@@ -1,7 +1,10 @@
-﻿@inherits NHS111.Web.Views.Shared.SurveyLinkView<NHS111.Models.Models.Web.SurveyLinkViewModel>
+﻿@using NHS111.Models.Models.Web
+@using NHS111.Models.Models.Web.FromExternalServices
+@inherits NHS111.Web.Views.Shared.SurveyLinkView<NHS111.Models.Models.Web.SurveyLinkViewModel>
 
 @{
     var launchPage = ViewData.ContainsKey("LaunchPage") ? ViewData["LaunchPage"] : "outcome";
+    var itkOffered = Model.OfferedServices != null && Model.OfferedServices.SelectMany(g => g.Services).Any(s => s.OnlineDOSServiceType == OnlineDOSServiceType.Callback);
 }
 
 @if (SurveyLinkFeature.IsEnabled)
@@ -20,7 +23,9 @@
         Model.DispositionDateTime.Date.ToString("dddd, dd MMMM yyyy"),
         Model.DispositionDateTime.ToString("HH:mm:ss"),
         Model.Campaign,
-        Model.CampaignSource);
+        Model.CampaignSource,
+        itkOffered
+        );
 
 
     <div class="notification-banner notification-banner--hiviz">
