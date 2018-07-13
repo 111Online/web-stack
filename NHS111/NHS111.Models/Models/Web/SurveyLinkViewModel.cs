@@ -28,6 +28,8 @@ namespace NHS111.Models.Models.Web
 
         public string CampaignSource { get; set; }
 
-        public List<GroupedDOSServices> OfferedServices { get; set; }
+        public int ServiceCount { get; set; }
+
+        public string ServiceOptions { get; set; }
     }
 }

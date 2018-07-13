@@ -166,6 +166,8 @@ namespace NHS111.Web.Presentation.Builders
             if (!model.DosCheckCapacitySummaryResult.ResultListEmpty)
                 model.GroupedDosServices = _dosBuilder.FillGroupedDosServices(model.DosCheckCapacitySummaryResult.Success.Services);
 
+            _surveyLinkViewModelBuilder.AddServiceInformation(model, model.SurveyLink);
+
              _ = _auditLogger.LogDosResponse(model);
      
             return model;
