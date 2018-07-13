@@ -12,6 +12,9 @@ using NHS111.Web.Presentation.Configuration;
 
 namespace NHS111.Web.Presentation.Builders
 {
+    using NHS111.Models.Models.Web.FromExternalServices;
+    using StructureMap.Query;
+
     public class SurveyLinkViewModelBuilder : ISurveyLinkViewModelBuilder
     {
         private readonly IRestfulHelper _restfulHelper;
@@ -30,7 +33,7 @@ namespace NHS111.Web.Presentation.Builders
             var response = await _restfulHelper.GetAsync(businessApiPathwayUrl);
             var pathway = JsonConvert.DeserializeObject<Pathway>(response);
 
-            return new SurveyLinkViewModel()
+            var result = new SurveyLinkViewModel()
             {
                 DispositionCode = model.Id,
                 DispositionDateTime = model.DispositionTime,
@@ -42,11 +45,29 @@ namespace NHS111.Web.Presentation.Builders
                 Campaign = model.Campaign,
                 CampaignSource = model.Source
             };
+
+            AddServiceInformation(model, result);
+
+            return result;
+        }
+
+        public void AddServiceInformation(OutcomeViewModel model, SurveyLinkViewModel surveyLinkViewModel) {
+            var serviceOptions = new List<OnlineDOSServiceType>();
+            var services = new List<ServiceViewModel>();
+            if (model.GroupedDosServices != null)
+            {
+                services = model.GroupedDosServices.SelectMany(g => g.Services).ToList();
+                serviceOptions = services.GroupBy(s => s.OnlineDOSServiceType).Select(s => s.Key).ToList();
+            }
+
+            surveyLinkViewModel.ServiceCount = services.Count;
+            surveyLinkViewModel.ServiceOptions = string.Join(",", serviceOptions);
         }
     }
 
     public interface ISurveyLinkViewModelBuilder
     {
         Task<SurveyLinkViewModel> SurveyLinkBuilder(OutcomeViewModel model);
+        void AddServiceInformation(OutcomeViewModel model, SurveyLinkViewModel surveyLinkViewModel);
     }
 }
