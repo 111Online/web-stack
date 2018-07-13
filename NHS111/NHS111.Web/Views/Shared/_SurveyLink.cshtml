@@ -1,10 +1,18 @@
-﻿@using NHS111.Models.Models.Web
+﻿@using Microsoft.Ajax.Utilities
+@using NHS111.Models.Models.Web
 @using NHS111.Models.Models.Web.FromExternalServices
 @inherits NHS111.Web.Views.Shared.SurveyLinkView<NHS111.Models.Models.Web.SurveyLinkViewModel>
 
 @{
     var launchPage = ViewData.ContainsKey("LaunchPage") ? ViewData["LaunchPage"] : "outcome";
-    var itkOffered = Model.OfferedServices != null && Model.OfferedServices.SelectMany(g => g.Services).Any(s => s.OnlineDOSServiceType == OnlineDOSServiceType.Callback);
+    var itkOffered = false;
+    var serviceOptions = new List<OnlineDOSServiceType>();
+    var services = new List<ServiceViewModel>();
+    if (Model.OfferedServices != null) {
+        services = Model.OfferedServices.SelectMany(g => g.Services).ToList();
+        itkOffered = services.Any(s => s.OnlineDOSServiceType == OnlineDOSServiceType.Callback);
+        serviceOptions = services.DistinctBy(s => s.OnlineDOSServiceType).Select(s => s.OnlineDOSServiceType).ToList();
+    }
 }
 
 @if (SurveyLinkFeature.IsEnabled)
@@ -24,7 +32,8 @@
         Model.DispositionDateTime.ToString("HH:mm:ss"),
         Model.Campaign,
         Model.CampaignSource,
-        itkOffered
+        services.Count,
+        string.Join(",", serviceOptions)
         );
 
 
