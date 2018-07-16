@@ -20,5 +20,6 @@ namespace NHS111.Models.Models.Domain
 
         [JsonProperty(PropertyName = "parentId")]
         public string ParentId { get; set; }
+
     }
 }

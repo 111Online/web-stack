@@ -139,7 +139,38 @@ namespace NHS111.Web.Controllers
             return View(model);
 
         }
-        
+
+        [HttpGet]
+        [Route("{gender}/{age}/Category/{category}", Name = "CatergoryUrl")]
+        public async Task<ActionResult> Category(string gender, int age, string category, string args,
+            bool hasResults = false) {
+            var decryptedArgs = new QueryStringEncryptor(args);
+
+            var ageGenderViewModel = new AgeGenderViewModel { Gender = gender, Age = age };
+            var categoriesContainingStartingPathways = await GetAllCategories(ageGenderViewModel);
+            var model = new SearchJourneyViewModel
+            {
+                SessionId = Guid.Parse(decryptedArgs["sessionId"]),
+                CurrentPostcode = decryptedArgs["postcode"],
+                UserInfo = new UserInfo
+                {
+                    Demography = ageGenderViewModel,
+                },
+                AllCategories = categoriesContainingStartingPathways.Where(c => c.Category.Title == category),
+                Pathways = new List<Pathway>(),
+                FilterServices = bool.Parse(decryptedArgs["filterServices"]),
+                SanitisedSearchTerm = decryptedArgs["searchTerm"],
+                EntrySearchTerm = decryptedArgs["searchTerm"],
+                Campaign = decryptedArgs["campaign"],
+                Source = decryptedArgs["source"],
+                HasResults = hasResults
+            };
+
+            _userZoomDataBuilder.SetFieldsForSearchResults(model);
+
+            return View("Pathways", model);
+        }
+
         [HttpGet]
         [Route("{gender}/{age}/Pathways", Name = "PathwaysUrl")]
         public async Task<ActionResult> Pathways(string gender, int age, string args, bool hasResults = false)

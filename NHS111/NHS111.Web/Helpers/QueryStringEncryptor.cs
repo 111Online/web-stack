@@ -43,6 +43,9 @@ namespace NHS111.Web.Helpers
         /// <param name="encryptedData"></param>
         public QueryStringEncryptor(string encryptedData) : this(new Configuration())
         {
+            if (string.IsNullOrEmpty(encryptedData))
+                throw new ArgumentException("Can't decrypt a null or empty string.");
+
             // Descrypt string
             var data = Decrypt(encryptedData);
 
