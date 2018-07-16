@@ -35,7 +35,7 @@
     <div class="search__categories">
         @foreach (var topLevelCategory in Model.AllCategories.OrderBy(p => p.Category.Title))
         {
-            <a class="search__category" href="#">@topLevelCategory.Category.Title</a>
+            <a class="search__category" href="/@Model.UserInfo.Demography.Gender/@Model.UserInfo.Demography.Age/Category/@topLevelCategory.Category.Title/?args=@encryptedQueryStringValues">@topLevelCategory.Category.Title</a>
         }
     </div>
 </div>
