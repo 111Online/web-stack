@@ -13,7 +13,7 @@ namespace NHS111.Web.Helpers
             var encryptor = new QueryStringEncryptor();
             encryptor["sessionId"] = model.SessionId.ToString();
             encryptor["postcode"] = !string.IsNullOrEmpty(model.CurrentPostcode) ? model.CurrentPostcode: string.Empty;
-            encryptor["searchTerm"] = model.SanitisedSearchTerm;
+            encryptor["searchTerm"] =  !string.IsNullOrEmpty(model.SanitisedSearchTerm) ? model.SanitisedSearchTerm: string.Empty;
             encryptor["filterServices"] = model.FilterServices.ToString();
             encryptor["campaign"] = !string.IsNullOrEmpty(model.Campaign) ? model.Campaign : string.Empty;
             encryptor["source"] = !string.IsNullOrEmpty(model.Source) ? model.Source : string.Empty;

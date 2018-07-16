@@ -1,5 +1,6 @@
 ﻿@using NHS111.Models.Models.Domain
 @using NHS111.Models.Models.Web
+@using NHS111.Web.Helpers
 @model SearchJourneyViewModel
 @{
     Layout = "~/Views/Shared/_LayoutNhsUK.cshtml";
@@ -9,7 +10,20 @@
 
 
 @section FeedbackSection {
-    @Html.Partial("_FeedbackDetails", new FeedbackViewModel() {UserId = Model.SessionId.ToString(), PageData = new PageDataViewModel(PageDataViewModel.PageType.Search, Model) })
+    @Html.Partial("_FeedbackDetails", new FeedbackViewModel() { UserId = Model.SessionId.ToString(), PageData = new PageDataViewModel(PageDataViewModel.PageType.Search, Model) })
 }
 
-@Html.Partial("_SearchBox", Model, ViewData)
+<div class="measure search-typography">
+    <h1 class="heading--large">@Html.LabelFor(m => m.SanitisedSearchTerm, "Find the right topic")</h1>
+    <p>If you have more than 1 symptom, choose the one that's bothering you most today.</p>
+    <p>Use keywords like 'rash' or 'feeling sick' or body parts like 'stomach ache' or 'broken tooth'</p>
+    @Html.Partial("_SearchBox", Model, ViewData)
+
+    @{
+        var encryptedTopicsQueryStringValues = KeyValueEncryptor.EncryptedKeys(Model);
+    }
+
+    <p>You can also <a id="show-categories" href="/@Model.UserInfo.Demography.Gender/@Model.UserInfo.Demography.Age/Categories?args=@encryptedTopicsQueryStringValues">browse topics by category.</a></p>
+</div>
+
+<hr />
