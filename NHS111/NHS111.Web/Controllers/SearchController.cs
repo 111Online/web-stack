@@ -179,7 +179,7 @@ namespace NHS111.Web.Controllers
             var ageGenderViewModel = new AgeGenderViewModel { Gender = gender, Age = age };
             var categoriesContainingStartingPathways = await GetAllCategories(ageGenderViewModel);
             var rootCategory = new CategoryWithPathways {
-                Category = new Category {Title = "All Topics"},
+                Category = new Category {Title = "All topics"},
                 Pathways = FlattenCategories(categoriesContainingStartingPathways)
             };
             var model = new SearchJourneyViewModel
