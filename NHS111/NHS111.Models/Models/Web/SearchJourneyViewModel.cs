@@ -13,8 +13,7 @@ namespace NHS111.Models.Models.Web {
     {
         public string SanitisedSearchTerm { get; set; }
         public IEnumerable<SearchResultViewModel> Results { get; set; }
-        public IEnumerable<CategoryWithPathways> AllCategories { get; set; }
-        public IEnumerable<Pathway> Pathways { get; set; }
+        public IEnumerable<CategoryWithPathways> Categories { get; set; }
         public bool HasResults { get; set; }
 
         public SearchJourneyViewModel() {
