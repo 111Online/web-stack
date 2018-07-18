@@ -31,7 +31,7 @@
         var encryptedQueryStringValues = KeyValueEncryptor.EncryptedKeys(Model);
     }
     <a class="search__button--back" href="/@Model.UserInfo.Demography.Gender/@Model.UserInfo.Demography.Age/Search?args=@encryptedQueryStringValues">Back to search</a>
-    <h1 class="heading--large">Browse topics</h1>
+    <h1 class="heading--large">Topics by category</h1>
     <div class="search__categories">
         @foreach (var topLevelCategory in Model.Categories.OrderBy(p => p.Category.Title))
         {
