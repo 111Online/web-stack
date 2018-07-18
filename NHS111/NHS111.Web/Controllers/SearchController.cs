@@ -125,7 +125,7 @@ namespace NHS111.Web.Controllers
                 {
                     Demography = ageGenderViewModel,
                 },
-                AllCategories = categoriesContainingStartingPathways,
+                Categories = categoriesContainingStartingPathways,
                 FilterServices = bool.Parse(decryptedArgs["filterServices"]),
                 SanitisedSearchTerm = decryptedArgs["searchTerm"],
                 EntrySearchTerm = decryptedArgs["searchTerm"],
@@ -156,8 +156,7 @@ namespace NHS111.Web.Controllers
                 {
                     Demography = ageGenderViewModel,
                 },
-                AllCategories = categoriesContainingStartingPathways.Where(c => c.Category.Title == category),
-                Pathways = new List<Pathway>(),
+                Categories = categoriesContainingStartingPathways.Where(c => c.Category.Title == category),
                 FilterServices = bool.Parse(decryptedArgs["filterServices"]),
                 SanitisedSearchTerm = decryptedArgs["searchTerm"],
                 EntrySearchTerm = decryptedArgs["searchTerm"],
@@ -178,7 +177,11 @@ namespace NHS111.Web.Controllers
             var decryptedArgs = new QueryStringEncryptor(args);
 
             var ageGenderViewModel = new AgeGenderViewModel { Gender = gender, Age = age };
-            var allPathways = await GetAllPathways(ageGenderViewModel);
+            var categoriesContainingStartingPathways = await GetAllCategories(ageGenderViewModel);
+            var rootCategory = new CategoryWithPathways {
+                Category = new Category {Title = "All Topics"},
+                Pathways = FlattenCategories(categoriesContainingStartingPathways)
+            };
             var model = new SearchJourneyViewModel
             {
                 SessionId = Guid.Parse(decryptedArgs["sessionId"]),
@@ -187,7 +190,7 @@ namespace NHS111.Web.Controllers
                 {
                     Demography = ageGenderViewModel,
                 },
-                Pathways = allPathways,
+                Categories = new List<CategoryWithPathways> { rootCategory },
                 FilterServices = bool.Parse(decryptedArgs["filterServices"]),
                 SanitisedSearchTerm = decryptedArgs["searchTerm"],
                 EntrySearchTerm = decryptedArgs["searchTerm"],
@@ -200,6 +203,21 @@ namespace NHS111.Web.Controllers
 
             return View(model);
 
+        }
+
+        private IEnumerable<PathwayWithDescription> FlattenCategories(IEnumerable<CategoryWithPathways> categories, List<PathwayWithDescription> results = null) {
+            if (results == null)
+                results = new List<PathwayWithDescription>();
+
+            if (categories == null)
+                return results;
+
+            foreach (var category in categories) {
+                results.AddRange(category.Pathways.Where(p => results.All(r => r.Pathway.Title != p.Pathway.Title)));
+                FlattenCategories(category.SubCategories, results);
+            }
+
+            return results;
         }
 
         private async Task<IEnumerable<CategoryWithPathways>> GetAllCategories(AgeGenderViewModel model)
