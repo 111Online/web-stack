@@ -161,6 +161,19 @@
   margin-top: 0;
 }
 
+.search__nested-category summary {
+  text-indent: 0;
+  padding: 0;
+}
+
+.search__nested-category .details__arrow {
+  width: 24px;
+  display: inline-block;
+  margin: 0;
+  padding: 0;
+  text-indent: 0;
+}
+
 .search__nested-category .details__arrow::before {
   content: "+";
 }
@@ -170,7 +183,7 @@
 }
 
 .search__nested-category ul {
-  padding-left: 1rem;
+  padding-left: 24px;
 }
 
 .search__category {
