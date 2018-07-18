@@ -1,9 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using NHS111.Business.Configuration;
+using NHS111.Models.Models.Web.FromExternalServices;
 using NHS111.Utils.Helpers;
 
 namespace NHS111.Business.Services
@@ -46,6 +48,14 @@ namespace NHS111.Business.Services
             return await _restfulHelper.GetAsync(_configuration.GetDomainApiJustToBeSafeQuestionsFirstUrl(pathwayId));
         }
 
+
+        public async Task<HttpResponseMessage> GetFullPathwayJourney(JourneyStep[] steps)
+        {
+            var request = new HttpRequestMessage { Content = new StringContent(JsonConvert.SerializeObject(steps), Encoding.UTF8, "application/json") };
+            var response = await _restfulHelper.PostAsync(_configuration.GetDomainApiFullPathwayJourneyUrl(), request).ConfigureAwait(false);
+            return response;
+        }
+
         public async Task<string> GetJustToBeSafeQuestionsNext(string pathwayId, IEnumerable<string> answeredQuestionIds, bool multipleChoice, string selectedQuestionId)
         {
             return await _restfulHelper.GetAsync(_configuration.GetDomainApiJustToBeSafeQuestionsNextUrl(pathwayId, answeredQuestionIds, multipleChoice, selectedQuestionId));
@@ -54,6 +64,7 @@ namespace NHS111.Business.Services
 
     public interface IQuestionService
     {
+        Task<HttpResponseMessage> GetFullPathwayJourney(JourneyStep[] steps);
         Task<string> GetQuestion(string id);
         Task<string> GetAnswersForQuestion(string id);
         Task<HttpResponseMessage> GetNextQuestion(string id, string nodeLabel,  string answer);

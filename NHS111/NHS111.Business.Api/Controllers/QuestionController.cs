@@ -12,6 +12,7 @@ using NHS111.Business.Transformers;
 using NHS111.Utils.Attributes;
 using NHS111.Models.Models.Domain;
 using NHS111.Models.Models.Web.Enums;
+using NHS111.Models.Models.Web.FromExternalServices;
 using NHS111.Utils.Cache;
 using NHS111.Utils.Extensions;
 
@@ -40,6 +41,15 @@ namespace NHS111.Business.Api.Controllers
         {
             return await GetNextNode(pathwayId, currentNodeType.ToString(), nodeId, state, answer);
         }
+
+        [HttpPost]
+        [Route("questions/FullPathwaysJourney")]
+        public async Task<HttpResponseMessage> GetNextQuestion([FromBody]JourneyStep[] steps)
+        {
+            var response = await _questionService.GetFullPathwayJourney(steps);
+            return response;
+        }
+
 
         public async Task<HttpResponseMessage> GetNextNode(string pathwayId, string nodeLabel, string nodeId, string state, [FromBody]string answer, string cacheKey = null)
         {
