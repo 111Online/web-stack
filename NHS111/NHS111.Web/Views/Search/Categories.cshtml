@@ -31,7 +31,7 @@
         var encryptedQueryStringValues = KeyValueEncryptor.EncryptedKeys(Model);
     }
     <a class="search__button--back" href="/@Model.UserInfo.Demography.Gender/@Model.UserInfo.Demography.Age/Search?args=@encryptedQueryStringValues">Back to search</a>
-    <h1 class="heading--large">Browse topics</h1>
+    <h1 class="heading--large">Topics by category</h1>
     <div class="search__categories">
         @foreach (var topLevelCategory in Model.Categories.OrderBy(p => p.Category.Title))
         {
@@ -43,7 +43,7 @@
 <details class="measure search-typography">
     <summary><span class="details__arrow" role="presentation"></span> I can’t find the right topic</summary>
     <div>
-        <p>You can <a href="/@Model.UserInfo.Demography.Gender/@Model.UserInfo.Demography.Age/Search?args=@encryptedQueryStringValues">search</a> or <a id="show-categories" href="/@Model.UserInfo.Demography.Gender/@Model.UserInfo.Demography.Age/Pathways?args=@encryptedQueryStringValues">browse the full list of 116 topics.</a></p>
+        <p>You can <a href="/@Model.UserInfo.Demography.Gender/@Model.UserInfo.Demography.Age/Search?args=@encryptedQueryStringValues">search</a> or <a id="show-categories" href="/@Model.UserInfo.Demography.Gender/@Model.UserInfo.Demography.Age/Pathways?args=@encryptedQueryStringValues">browse the full list of topics.</a></p>
         @Html.Partial("_ExternalInformation")
         <p>If you don’t know what to look for you can <a href="@Model.OtherProblemsURL(Model.UserInfo)?args=@encryptedQueryStringValues">rule out serious conditions.</a></p>
     </div>
