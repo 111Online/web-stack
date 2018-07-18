@@ -221,7 +221,7 @@ namespace NHS111.Business.API.Functional.Tests
                 {
                     new JourneyStep { QuestionId = "PW975.10600", Answer = new Answer { Order = 3 } },
                     new JourneyStep { QuestionId = "PW975.100", Answer = new Answer { Order = 1 } }
-                }, 3, 2, 0, 1).SetName("contains multiple sets");
+                }, 3, 2, 0, 1).SetName("contains multiple reads");
                 yield return new TestCaseData(new List<JourneyStep>
                 {
                     new JourneyStep { QuestionId = "PW516.0", Answer = new Answer { Order = 7 } },
