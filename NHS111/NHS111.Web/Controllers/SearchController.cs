@@ -213,7 +213,7 @@ namespace NHS111.Web.Controllers
                 return results;
 
             foreach (var category in categories) {
-                results.AddRange(category.Pathways.Where(p => results.All(r => r.Pathway.Title != p.Pathway.Title)));
+                results.AddRange(category.Pathways.Where(p => results.All(r => r.PathwayData.DigitalTitle != p.PathwayData.DigitalTitle)));
                 FlattenCategories(category.SubCategories, results);
             }
 
