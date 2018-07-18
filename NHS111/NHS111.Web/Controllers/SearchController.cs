@@ -179,6 +179,7 @@ namespace NHS111.Web.Controllers
 
             var ageGenderViewModel = new AgeGenderViewModel { Gender = gender, Age = age };
             var allPathways = await GetAllPathways(ageGenderViewModel);
+            var categoriesContainingStartingPathways = await GetAllCategories(ageGenderViewModel);
             var model = new SearchJourneyViewModel
             {
                 SessionId = Guid.Parse(decryptedArgs["sessionId"]),
@@ -187,6 +188,7 @@ namespace NHS111.Web.Controllers
                 {
                     Demography = ageGenderViewModel,
                 },
+                AllCategories = categoriesContainingStartingPathways,
                 Pathways = allPathways,
                 FilterServices = bool.Parse(decryptedArgs["filterServices"]),
                 SanitisedSearchTerm = decryptedArgs["searchTerm"],
