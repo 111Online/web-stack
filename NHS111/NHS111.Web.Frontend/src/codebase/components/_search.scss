@@ -161,6 +161,18 @@
   margin-top: 0;
 }
 
+.search__nested-category .details__arrow::before {
+  content: "+";
+}
+
+.search__nested-category[open] .details__arrow::before {
+  content: "-";
+}
+
+.search__nested-category ul {
+  padding-left: 1rem;
+}
+
 .search__category {
   cursor: pointer;
   font-size: 17px;
@@ -243,5 +255,9 @@
   .link-list--results .search__topic-description {
     font-size: 19px;
     line-height: 32px;
+  }
+
+  .search__nested-category summary {
+    font-size: 24px;
   }
 }
