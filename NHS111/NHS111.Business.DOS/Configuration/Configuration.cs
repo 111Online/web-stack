@@ -148,6 +148,14 @@ namespace NHS111.Business.DOS.Configuration
             }
         }
 
+        public string CCGApiGetCCGDetailsByPostcode
+        {
+            get
+            {
+                return ConfigurationManager.AppSettings["CCGApiGetCCGDetailsByPostcodeUrl"];
+            }
+        }
+
         public string CCGApiBaseUrl
         {
             get { return ConfigurationManager.AppSettings["CCGApiBaseUrl"]; }
@@ -158,7 +166,7 @@ namespace NHS111.Business.DOS.Configuration
             get
             {
                 int dosSearchDistance;
-                return int.TryParse(ConfigurationManager.AppSettings["DoSSearchDistance"], out dosSearchDistance) ? dosSearchDistance : 37;
+                return int.TryParse(ConfigurationManager.AppSettings["DoSSearchDistance"], out dosSearchDistance) ? dosSearchDistance : 60;
             }
         }
 

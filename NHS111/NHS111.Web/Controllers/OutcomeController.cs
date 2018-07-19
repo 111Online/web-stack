@@ -275,12 +275,19 @@ namespace NHS111.Web.Controllers
 
             //pre-populate picker fields from postcode lookup service
             var postcodes = await GetPostcodeResults(model.AddressInformation.PatientCurrentAddress.PreviouslyEnteredPostcode);
+            if (postcodes.ValidatedPostcodeResponse == PostcodeValidatorResponse.PostcodeNotFound) return model;
+
             var firstSelectItemText = postcodes.Addresses.Count() + " addresses found. Please choose...";
-            var items = new List<SelectListItem> { new SelectListItem { Text = firstSelectItemText, Value = "", Selected = true } };
-            items.AddRange(postcodes.Addresses.Select(postcode => new SelectListItem { Text = postcode.FormattedAddress, Value = postcode.UPRN }).ToList());
+            var items = new List<SelectListItem>
+            {
+                new SelectListItem {Text = firstSelectItemText, Value = "", Selected = true}
+            };
+            items.AddRange(postcodes.Addresses.Select(postcode =>
+                new SelectListItem {Text = postcode.FormattedAddress, Value = postcode.UPRN}).ToList());
             model.AddressInformation.PatientCurrentAddress.AddressPicker = items;
 
-            model.AddressInformation.PatientCurrentAddress.AddressOptions = new JavaScriptSerializer().Serialize(Json(postcodes).Data);
+            model.AddressInformation.PatientCurrentAddress.AddressOptions =
+                new JavaScriptSerializer().Serialize(Json(postcodes).Data);
 
             return model;
         }
