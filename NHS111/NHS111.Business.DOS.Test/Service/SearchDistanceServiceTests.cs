@@ -36,7 +36,7 @@ namespace NHS111.Business.DOS.Test.Service
         {
             const string postcode = "SO302UN";
             var ccgUrl = string.Format(_localCCGServiceUrl, postcode);
-            _restClient.Setup(r => r.ExecuteTaskAsync<CCGModel>(It.Is<RestRequest>(req => req.Resource.Equals(ccgUrl)))).Returns(() => StartedTask((IRestResponse<CCGModel>)new RestResponse<CCGModel>() { StatusCode = HttpStatusCode.OK, ResponseStatus = ResponseStatus.Completed, Data = null }));
+            _restClient.Setup(r => r.ExecuteTaskAsync(It.Is<RestRequest>(req => req.Resource.Equals(ccgUrl)))).Returns(() => StartedTask((IRestResponse)new RestResponse() { StatusCode = HttpStatusCode.OK, ResponseStatus = ResponseStatus.Completed, Content = null }));
 
             var sut = new SearchDistanceService(_restClient.Object, _mockConfiguration.Object);
             var result = await sut.GetSearchDistanceByPostcode(postcode);
@@ -49,7 +49,7 @@ namespace NHS111.Business.DOS.Test.Service
         {
             const string postcode = "SO302UN";
             var ccgUrl = string.Format(_localCCGServiceUrl, postcode);
-            _restClient.Setup(r => r.ExecuteTaskAsync<CCGModel>(It.Is<RestRequest>(req => req.Resource.Equals(ccgUrl)))).Returns(() => StartedTask((IRestResponse<CCGModel>)new RestResponse<CCGModel>() { StatusCode = HttpStatusCode.OK, ResponseStatus = ResponseStatus.Completed, Data = new CCGModel { SearchDistance = string.Empty } }));
+            _restClient.Setup(r => r.ExecuteTaskAsync(It.Is<RestRequest>(req => req.Resource.Equals(ccgUrl)))).Returns(() => StartedTask((IRestResponse)new RestResponse() { StatusCode = HttpStatusCode.OK, ResponseStatus = ResponseStatus.Completed, Content = JsonConvert.SerializeObject(new CCGModel { SearchDistance = string.Empty }) }));
 
             var sut = new SearchDistanceService(_restClient.Object, _mockConfiguration.Object);
             var result = await sut.GetSearchDistanceByPostcode(postcode);
@@ -62,7 +62,7 @@ namespace NHS111.Business.DOS.Test.Service
         {
             const string postcode = "SO302UN";
             var ccgUrl = string.Format(_localCCGServiceUrl, postcode);
-            _restClient.Setup(r => r.ExecuteTaskAsync<CCGModel>(It.Is<RestRequest>(req => req.Resource.Equals(ccgUrl)))).Returns(() => StartedTask((IRestResponse<CCGModel>)new RestResponse<CCGModel>() { StatusCode = HttpStatusCode.OK, ResponseStatus = ResponseStatus.Completed, Data = new CCGModel { SearchDistance = "100" } }));
+            _restClient.Setup(r => r.ExecuteTaskAsync(It.Is<RestRequest>(req => req.Resource.Equals(ccgUrl)))).Returns(() => StartedTask((IRestResponse)new RestResponse() { StatusCode = HttpStatusCode.OK, ResponseStatus = ResponseStatus.Completed, Content = JsonConvert.SerializeObject(new CCGModel { SearchDistance = "100" }) }));
 
             var sut = new SearchDistanceService(_restClient.Object, _mockConfiguration.Object);
             var result = await sut.GetSearchDistanceByPostcode(postcode);
