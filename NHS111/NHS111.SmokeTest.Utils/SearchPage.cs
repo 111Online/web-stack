@@ -11,9 +11,9 @@ namespace NHS111.SmokeTest.Utils
 {
     public class SearchPage : LayoutPage
     {
-        private const string _headerText = "Tell us the symptom you’re concerned about";
+        private const string _headerText = "Find the right topic";
         private const string _noInputValidationText = "Please enter the symptom you're concerned about";
-        private const string _categoriesLinkText = "searching by category";
+        private const string _categoriesLinkText = "topics by category.";
         public string _invalidSearchText = "a";
 
         [FindsBy(How = How.Id, Using = "SanitisedSearchTerm")]
@@ -22,7 +22,7 @@ namespace NHS111.SmokeTest.Utils
         [FindsBy(How = How.ClassName, Using = "button--next")]
         private IWebElement NextButton { get; set; }
 
-        [FindsBy(How = How.CssSelector, Using = ".form-group h1 label")]
+        [FindsBy(How = How.CssSelector, Using = "main h1 label")]
         private IWebElement Header { get; set; }
 
         [FindsBy(How = How.CssSelector, Using = "span[data-valmsg-for='SanitisedSearchTerm']")]
@@ -83,7 +83,7 @@ namespace NHS111.SmokeTest.Utils
             foreach (var hit in this.GetHits().ToList())
             {
                 rank++;
-                var linkElements = hit.FindElements(By.TagName("a"));
+                var linkElements = hit.FindElements(By.ClassName("search__topic-title"));
                 if (linkElements.Count > 0)
                 {
                     linkText = linkElements.FirstOrDefault().Text.StripHTML().ToLower();
@@ -99,22 +99,20 @@ namespace NHS111.SmokeTest.Utils
 
         public void VerifyTabbingOrder(string searchTerm)
         {
-            HeaderLogo.SendKeys(Keys.Tab);
-            var feedbackLink = Driver.SwitchTo().ActiveElement();
-            feedbackLink.SendKeys(Keys.Tab);
-            var searchTxtBox = Driver.SwitchTo().ActiveElement();
+            var feedbackLink = Driver.TabFrom(HeaderLogo);
+            var searchTxtBox = Driver.TabFrom(feedbackLink);
             searchTxtBox.SendKeys(searchTerm);
-            searchTxtBox.SendKeys(Keys.Tab);
-            var nextButtonElement = Driver.SwitchTo().ActiveElement();
+            var nextButtonElement = Driver.TabFrom(searchTxtBox);
             nextButtonElement.SendKeys(Keys.Enter);
             //Page Loads Results, so the elements have been recreated
             //on the new page, so we must get it again.
-            HeaderLogo.SendKeys(Keys.Tab);
-            var feedbackLink2 = Driver.SwitchTo().ActiveElement();
-            feedbackLink2.SendKeys(Keys.Tab);
-            var firstSearchResultLink = Driver.SwitchTo().ActiveElement();
+            feedbackLink = Driver.TabFrom(HeaderLogo);
+            searchTxtBox = Driver.TabFrom(feedbackLink);
+            searchTxtBox.SendKeys(searchTerm);
+            nextButtonElement = Driver.TabFrom(searchTxtBox);
+            var firstSearchResultLink = Driver.TabFrom(nextButtonElement);
 
-            Assert.AreEqual(searchTerm.ToLower(), firstSearchResultLink.Text.ToLower());
+            Assert.IsTrue(firstSearchResultLink.Text.ToLower().StartsWith(searchTerm.ToLower()));
         }
         
         public void VerifyNoInputValidation()
@@ -123,10 +121,11 @@ namespace NHS111.SmokeTest.Utils
             Assert.AreEqual(_noInputValidationText, SearchTxtBoxValidationMessage.Text);
         }
 
-        public void VerifyCategoriesLinkPresent()
-        {
-            Assert.IsTrue(CategoriesLink.Displayed);
-            Assert.AreEqual(_categoriesLinkText, CategoriesLink.Text);
+        public void VerifyCategoriesLinkPresent() {
+            Driver.FindElement(By.Id("details-summary-0")).Click();
+            var link = Driver.FindElement(By.Id("show-categories"));
+            Assert.IsTrue(link.Displayed);
+            Assert.AreEqual(_categoriesLinkText, link.Text);
 
         }
 
@@ -134,7 +133,13 @@ namespace NHS111.SmokeTest.Utils
         {
             NextButton.Click();
             return new QuestionPage(Driver);
-        }        
+        }
+
+        public CategoryPage ClickCategoryLink() {
+            Driver.IfElementExists(By.Id("details-summary-0"), e => e.Click());
+            Driver.FindElement(By.Id("show-categories")).Click();
+            return new CategoryPage(Driver);
+        }
     }
 
     public static class StringExtensionMethods
