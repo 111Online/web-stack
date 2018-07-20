@@ -33,7 +33,7 @@
 }
 
 <div id="categories" class="measure search-typography">
-    <a class="search__button--back" href="/@Model.UserInfo.Demography.Gender/@Model.UserInfo.Demography.Age/Categories?args=@encryptedQueryStringValues" ">Back to categories</a>
+    <a class="search__button--back" href="/@Model.UserInfo.Demography.Gender/@Model.UserInfo.Demography.Age/Categories?args=@encryptedQueryStringValues">Back to categories</a>
 
     <h1 class="heading--large">@topLevelCategory.Category.Title</h1>
             @if (topLevelCategory.SubCategories != null && topLevelCategory.SubCategories.Any()) {
@@ -50,7 +50,7 @@
                                 @foreach (var pathway in subCategory.Pathways.OrderBy(p => p.PathwayData.DigitalTitle))
                                 {
                                     <li>
-                                        <a class="search__topic" data-title="@pathway.PathwayData.DigitalTitle" data-pathway-number="@pathway.Pathway.PathwayNo" href="/@pathway.Pathway.PathwayNo/@Model.UserInfo.Demography.Gender/@Model.UserInfo.Demography.Age/start?args=@encryptedQueryStringValues.ToString()">
+                                        <a class="search__topic" data-title="@pathway.PathwayData.DigitalTitle" data-pathway-number="@pathway.Pathway.Id" href="/@pathway.Pathway.PathwayNo/@Model.UserInfo.Demography.Gender/@Model.UserInfo.Demography.Age/start?args=@encryptedQueryStringValues.ToString()">
                                             <span class="search__topic-title">@Html.Raw(pathway.PathwayData.DigitalTitle)</span>
                                             <p class="search__topic-description">@Html.Raw(pathway.PathwayData.DigitalDescription)</p>
                                         </a>
@@ -65,7 +65,7 @@
                 <ul class="link-list link-list--results">
                     @foreach (var pathway in topLevelCategory.Pathways.OrderBy(p => p.PathwayData.DigitalTitle)) {
                         <li>
-                            <a class="search__topic" data-title="@pathway.PathwayData.DigitalTitle" data-pathway-number="@pathway.Pathway.PathwayNo" href="/@pathway.Pathway.PathwayNo/@Model.UserInfo.Demography.Gender/@Model.UserInfo.Demography.Age/start?args=@encryptedQueryStringValues.ToString()">
+                            <a class="search__topic" data-title="@pathway.PathwayData.DigitalTitle" data-pathway-number="@pathway.Pathway.Id" href="/@pathway.Pathway.PathwayNo/@Model.UserInfo.Demography.Gender/@Model.UserInfo.Demography.Age/start?args=@encryptedQueryStringValues.ToString()">
                                 <span class="search__topic-title">@Html.Raw(pathway.PathwayData.DigitalTitle)</span>
                                 <p class="search__topic-description">@Html.Raw(pathway.PathwayData.DigitalDescription)</p>
                             </a>
@@ -82,7 +82,7 @@
     <div>
         <p>You can try <a href="/@Model.UserInfo.Demography.Gender/@Model.UserInfo.Demography.Age/Search?args=@encryptedQueryStringValues">searching again</a> or <a id="show-categories" href="/@Model.UserInfo.Demography.Gender/@Model.UserInfo.Demography.Age/Categories?args=@encryptedQueryStringValues">browsing topics by category.</a></p>
         @Html.Partial("_ExternalInformation")
-        <p>If you don’t know what to look for you can <a href="@Model.OtherProblemsURL(Model.UserInfo)?args=@encryptedQueryStringValues">rule out serious conditions.</a></p>
+        <p>If you don’t know what to look for you can <a data-pathway-number="@Model.GetOtherProblemsPathway(Model.UserInfo).PathwayNo" href="/@Model.GetOtherProblemsPathway(Model.UserInfo).PathwayNo/@Model.UserInfo.Demography.Gender/@Model.UserInfo.Demography.Age/start?args=@encryptedQueryStringValues">rule out serious conditions.</a></p>
     </div>
 </details>
 

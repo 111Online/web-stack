@@ -36,7 +36,6 @@ namespace NHS111.SmokeTests
             categoryPage.VerifyPathwayInCategoryList("Toe injury without a cut or wound", "PW1282FemaleChild");
             categoryPage.VerifyPathwayInCategoryList("Glue on the skin", "PW1301FemaleChild");
             categoryPage.VerifyPathwayInCategoryList("Mouth ulcers", "PW1323FemaleChild");
-            categoryPage.VerifyPathwayInCategoryList("Can't find what you're looking for?", "PW1348FemaleChild");
             categoryPage.VerifyPathwayInCategoryList("Difficulty swallowing", "PW1496FemaleChild");
             categoryPage.VerifyPathwayInCategoryList("Ankle or foot injury without a cut or wound", "PW1512FemaleChild");
             categoryPage.VerifyPathwayInCategoryList("Ankle or foot injury with a cut or wound", "PW1518FemaleChild");
@@ -127,8 +126,10 @@ namespace NHS111.SmokeTests
             categoryPage.VerifyPathwayInCategoryList("Sunburn", "PW987FemaleChild");
             categoryPage.VerifyPathwayInCategoryList("Heatstroke", "PW998FemaleChild");
 
-            categoryPage.SelectCategory("bowel-and-urinary-problems");
-            categoryPage.SelectCategory("bowel-and-urinary-problems-bowel-problems");
+            categoryPage.VerifyOtherProblems("PW1348");
+
+            //categoryPage.SelectCategory("bowel-and-urinary-problems");
+            //categoryPage.SelectCategory("bowel-and-urinary-problems-bowel-problems");
             categoryPage.SelectPathway("Something stuck in the bottom");
 
             Driver.FindElement(By.XPath("//input[@value = 'PW1531FemaleChild']"));
@@ -164,7 +165,6 @@ namespace NHS111.SmokeTests
             categoryPage.VerifyPathwayInCategoryList("Toe injury without a cut or wound", "PW1282FemaleAdult");
             categoryPage.VerifyPathwayInCategoryList("Glue on the skin", "PW1301FemaleAdult");
             categoryPage.VerifyPathwayInCategoryList("Mouth ulcers", "PW1323FemaleAdult");
-            categoryPage.VerifyPathwayInCategoryList("Can't find what you're looking for?", "PW1345FemaleAdult");
             categoryPage.VerifyPathwayInCategoryList("Difficulty swallowing", "PW1496FemaleAdult");
             categoryPage.VerifyPathwayInCategoryList("Ankle or foot injury without a cut or wound", "PW1512FemaleAdult");
             categoryPage.VerifyPathwayInCategoryList("Ankle or foot injury with a cut or wound", "PW1518FemaleAdult");
@@ -254,8 +254,10 @@ namespace NHS111.SmokeTests
             categoryPage.VerifyPathwayInCategoryList("Sunburn", "PW987FemaleAdult");
             categoryPage.VerifyPathwayInCategoryList("Heatstroke", "PW998FemaleAdult");
 
-            categoryPage.SelectCategory("bowel-and-urinary-problems");
-            categoryPage.SelectCategory("bowel-and-urinary-problems-bowel-problems");
+            categoryPage.VerifyOtherProblems("PW1345");
+
+            //categoryPage.SelectCategory("bowel-and-urinary-problems");
+            //categoryPage.SelectCategory("bowel-and-urinary-problems-bowel-problems");
             categoryPage.SelectPathway("Something stuck in the bottom");
 
             Driver.FindElement(By.XPath("//input[@value = 'PW1531FemaleAdult']"));
@@ -287,7 +289,6 @@ namespace NHS111.SmokeTests
             categoryPage.VerifyPathwayInCategoryList("Toe injury without a cut or wound", "PW1282MaleChild");
             categoryPage.VerifyPathwayInCategoryList("Glue on the skin", "PW1301MaleChild");
             categoryPage.VerifyPathwayInCategoryList("Mouth ulcers", "PW1323MaleChild");
-            categoryPage.VerifyPathwayInCategoryList("Can't find what you're looking for?", "PW1349MaleChild");
             categoryPage.VerifyPathwayInCategoryList("Difficulty swallowing", "PW1496MaleChild");
             categoryPage.VerifyPathwayInCategoryList("Ankle or foot injury without a cut or wound", "PW1512MaleChild");
             categoryPage.VerifyPathwayInCategoryList("Ankle or foot injury with a cut or wound", "PW1518MaleChild");
@@ -376,8 +377,10 @@ namespace NHS111.SmokeTests
             categoryPage.VerifyPathwayInCategoryList("Sunburn", "PW987MaleChild");
             categoryPage.VerifyPathwayInCategoryList("Heatstroke", "PW998MaleChild");
 
-            categoryPage.SelectCategory("bowel-and-urinary-problems");
-            categoryPage.SelectCategory("bowel-and-urinary-problems-bowel-problems");
+            categoryPage.VerifyOtherProblems("PW1349");
+
+            //categoryPage.SelectCategory("bowel-and-urinary-problems");
+            //categoryPage.SelectCategory("bowel-and-urinary-problems-bowel-problems");
             categoryPage.SelectPathway("Something stuck in the bottom");
 
             Driver.FindElement(By.XPath("//input[@value = 'PW1531MaleChild']"));
@@ -410,7 +413,6 @@ namespace NHS111.SmokeTests
             categoryPage.VerifyPathwayInCategoryList("Toe injury without a cut or wound", "PW1282MaleAdult");
             categoryPage.VerifyPathwayInCategoryList("Glue on the skin", "PW1301MaleAdult");
             categoryPage.VerifyPathwayInCategoryList("Mouth ulcers", "PW1323MaleAdult");
-            categoryPage.VerifyPathwayInCategoryList("Can't find what you're looking for?", "PW1346MaleAdult");
             categoryPage.VerifyPathwayInCategoryList("Difficulty swallowing", "PW1496MaleAdult");
             categoryPage.VerifyPathwayInCategoryList("Ankle or foot injury without a cut or wound", "PW1512MaleAdult");
             categoryPage.VerifyPathwayInCategoryList("Ankle or foot injury with a cut or wound", "PW1518MaleAdult");
@@ -497,9 +499,10 @@ namespace NHS111.SmokeTests
             categoryPage.VerifyPathwayInCategoryList("Sunburn", "PW987MaleAdult");
             categoryPage.VerifyPathwayInCategoryList("Heatstroke", "PW998MaleAdult");
 
+            categoryPage.VerifyOtherProblems("PW1346");
 
-            categoryPage.SelectCategory("bowel-and-urinary-problems");
-            categoryPage.SelectCategory("bowel-and-urinary-problems-bowel-problems");
+            //categoryPage.SelectCategory("bowel-and-urinary-problems");
+            //categoryPage.SelectCategory("bowel-and-urinary-problems-bowel-problems");
             categoryPage.SelectPathway("Something stuck in the bottom");
 
             Driver.FindElement(By.XPath("//input[@value = 'PW1531MaleAdult']"));
