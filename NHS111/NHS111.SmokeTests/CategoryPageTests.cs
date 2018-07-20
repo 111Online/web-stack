@@ -25,7 +25,7 @@ namespace NHS111.SmokeTests
         public void CategoryPage_TabbingOrder()
         {
             var categoryPage = TestScenerios.LaunchCategoryScenerio(Driver, "Male", 30);
-            categoryPage.VerifyTabbingOrder("Head and neck", "Ear", "Earache");
+            categoryPage.VerifyTabbingOrder("Accidental overdose or taking something harmful");
         }
     }
 }

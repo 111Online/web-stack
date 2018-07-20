@@ -1,12 +1,9 @@
-﻿using System.Linq;
-using FluentValidation.Attributes;
-using NHS111.Models.Models.Web.Validators;
-
+﻿
 namespace NHS111.Models.Models.Web {
     using System.Collections.Generic;
     using Domain;
-    using NHS111.Web;
-    using NHS111.Models.Models.Web;
+    using FluentValidation.Attributes;
+    using Validators;
 
     [Validator(typeof(SearchJourneyViewModelValidator))]
     public class SearchJourneyViewModel : JourneyViewModel
@@ -20,26 +17,22 @@ namespace NHS111.Models.Models.Web {
             Results = new List<SearchResultViewModel>();
         }
 
-        public string OtherProblemsURL(UserInfo model)
-        {
-            var PWID = "";
-            if (model.Demography.Gender == "Male")
-            {
-                if (model.Demography.Age >= 16)
-                    PWID = "PW1346";
-                else
-                    PWID = "PW1349";
+        public Pathway GetOtherProblemsPathway(UserInfo model) {
+            const string OtherProblemsMaleAdultPathwayNumber = "PW1346";
+            const string OtherProblemsMaleChildPathwayNumber = "PW1349";
+            const string OtherProblemsFemaleAdultPathwayNumber = "PW1345";
+            const string OtherProblemsFemaleChildPathwayNumber = "PW1348";
+
+            var pathway = new Pathway();
+            if (model.Demography.Gender == "Male") {
+                pathway.PathwayNo = model.Demography.Age >= 16 ? OtherProblemsMaleAdultPathwayNumber : OtherProblemsMaleChildPathwayNumber;
             }
 
-            if (model.Demography.Gender == "Female")
-            {
-                if (model.Demography.Age >= 16)
-                    PWID = "PW1345";
-                else
-                    PWID = "PW1348";
+            if (model.Demography.Gender == "Female") {
+                pathway.PathwayNo = model.Demography.Age >= 16 ? OtherProblemsFemaleAdultPathwayNumber : OtherProblemsFemaleChildPathwayNumber;
             }
 
-            return "/" + PWID + "/" + model.Demography.Gender + "/" + model.Demography.Age + "/start";
+            return pathway;
         }
     }
 }
