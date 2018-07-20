@@ -43,8 +43,8 @@ namespace NHS111.Business.Api.Controllers
         }
 
         [HttpPost]
-        [Route("questions/FullPathwaysJourney")]
-        public async Task<HttpResponseMessage> GetNextQuestion([FromBody]JourneyStep[] steps)
+        [Route("questions/fullPathwaysJourney")]
+        public async Task<HttpResponseMessage> GetFullPathwayJourney([FromBody]JourneyStep[] steps)
         {
             var response = await _questionService.GetFullPathwayJourney(steps);
             return response;

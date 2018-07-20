@@ -17,5 +17,9 @@ namespace NHS111.Models.Models.Domain
 
         [JsonProperty(PropertyName = "digitalDescription")]
         public string DigitalTitle { get; set; }
+
+        [JsonProperty(PropertyName = "digitalText")]
+        public string DigitalDescription { get; set; }
+
     }
 }

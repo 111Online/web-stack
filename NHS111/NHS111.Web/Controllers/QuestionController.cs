@@ -103,7 +103,6 @@ namespace NHS111.Web.Controllers {
             var nextModel = await GetNextJourneyViewModel(model);
 
             var viewName = _viewRouter.GetViewName(nextModel, ControllerContext);
-            //var test =  await GetFullJourney(model);
             return View(viewName, nextModel);
         }
 

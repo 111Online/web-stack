@@ -43,6 +43,8 @@
         @Html.HiddenFor(x => x.SurveyLink.DispositionDateTime)
         @Html.HiddenFor(x => x.SurveyLink.Campaign)
         @Html.HiddenFor(x => x.SurveyLink.CampaignSource)
+        @Html.HiddenFor(x => x.SurveyLink.ServiceCount)
+        @Html.HiddenFor(x => x.SurveyLink.ServiceOptions)
         @Html.HiddenFor(x => Model.Campaign)
         @Html.HiddenFor(x => Model.Source)
         @Html.Partial("_CommonHiddenFieldsCareAdviceViewModel", Model)
