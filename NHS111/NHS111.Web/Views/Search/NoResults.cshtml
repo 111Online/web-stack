@@ -29,13 +29,13 @@
     <div id="SearchResults" class="measure search-typography">
 
         @{
-            var searchTerm = Model.SanitisedSearchTerm;
-            if (searchTerm == null)
-            {
-                searchTerm = "";
-            }
+        var searchTerm = Model.SanitisedSearchTerm;
+        if (searchTerm == null)
+        {
+            searchTerm = "";
+        }
 
-            var encryptedQueryStringValues = KeyValueEncryptor.EncryptedKeys(Model);
+        var encryptedQueryStringValues = KeyValueEncryptor.EncryptedKeys(Model);
         }
 
         <h1 class="util-wrap heading--body">@string.Format("Sorry, no topics have been found for '{0}'.", searchTerm.Trim())</h1>
@@ -43,9 +43,7 @@
         @Html.Partial("_SearchBox", Model, ViewData)
         @Html.Partial("_ExternalInformation")
 
-        <p>
-            If you don’t know what to look for you can <a href="@Model.OtherProblemsURL(Model.UserInfo)?args=@encryptedQueryStringValues">rule out serious conditions.</a>
-        </p>
+        <p>If you don’t know what to look for you can <a data-pathway-number="@Model.GetOtherProblemsPathway(Model.UserInfo).PathwayNo" href="/@Model.GetOtherProblemsPathway(Model.UserInfo).PathwayNo/@Model.UserInfo.Demography.Gender/@Model.UserInfo.Demography.Age/start?args=@encryptedQueryStringValues">rule out serious conditions.</a></p>
     </div>
 
 <hr />

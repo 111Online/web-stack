@@ -37,9 +37,9 @@ namespace NHS111.SmokeTest.Utils
             return page.NextPage();
         }
 
-        public static CategoryPage Category(SearchPage page)
-        {
-            return page.TypeInvalidSearch();
+        public static CategoryPage Category(SearchPage page) {
+            page.ClickCategoryLink();
+            return page.ClickCategoryLink();
         }
 
         public static QuestionPage Question(SearchPage page, string pathwayTopic)
