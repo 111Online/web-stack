@@ -82,7 +82,7 @@ namespace NHS111.Domain.Repository
 
         public async Task<IEnumerable<QuestionWithAnswers>> GetFullPathwaysJourney(List<JourneyStep> steps)
         {
-            ICypherFluentQuery query = AddMatchesForSteps(_graphRepository.Client.Cypher, steps);
+            ICypherFluentQuery query = AddMatchesForSteps2(_graphRepository.Client.Cypher, steps);
             query = query
                 .With("rows.question as question, rows.answer as answer")
                 .OrderBy("rows.step")
@@ -113,6 +113,43 @@ namespace NHS111.Domain.Repository
                     modifiedQuery.With(String.Format("collect({{question:q, answer:a, step:{0}}})as rows, n,b", index)) : 
                     modifiedQuery.With(String.Format("rows + collect({{question:q, answer:a, step:{0}}})as rows, n,b", index))).
                     With(String.Format("rows + collect({{question:n, answer:b, step:{0}}}) as allrows", index + 0.1)).Unwind("allrows", "rows");
+            }
+            return modifiedQuery;
+        }
+
+
+        public ICypherFluentQuery AddMatchesForSteps2(ICypherFluentQuery query, List<JourneyStep> steps)
+        {
+            var modifiedQuery = query;
+            for (int index = 0; index < steps.Count; ++index)
+            {
+                modifiedQuery = modifiedQuery.Match(String.Format("(q:Question{{id:'{0}'}})-[a:Answer{{order:{1}}}]->(n)", steps[index].QuestionId, steps[index].Answer.Order));
+                modifiedQuery = index == 0
+                    ?  modifiedQuery.With(String.Format("collect({{question:q, answer:a, step:{0}}}) as rows", index))
+                    :  modifiedQuery.With(String.Format("rows + collect({{question:q, answer:a, step:{0}}}) as rows",
+                    index));
+                if (index != steps.Count - 1)
+                {
+                    modifiedQuery = modifiedQuery.OptionalMatch(String.Format(
+                        "p = (:Question{{id:'{0}'}})-[:Answer*0..3]-(t)-[:Answer]->(:Question{{id:'{1}'}})",
+                        steps[index].QuestionId,
+                        steps[index + 1].QuestionId));
+
+                    modifiedQuery = modifiedQuery.Where("t:Set OR t:Read");
+                    modifiedQuery = modifiedQuery.OptionalMatch("(x)-[v]->(y)")
+                        .Where(String.Format("x.id <> '{0}' and x IN nodes(p) AND v IN rels(p)",
+                            steps[index].QuestionId));
+                    modifiedQuery =
+                        modifiedQuery.With(
+                            String.Format("rows + collect({{question:x, answer:v, step:{0}}}) as allrows",
+                                index + 0.1));
+                }
+
+                modifiedQuery = (index != steps.Count - 1)
+                    ?  modifiedQuery.Unwind("allrows", "rows")
+                    : modifiedQuery.With("rows as allrows").Unwind("allrows", "rows");
+
+
             }
             return modifiedQuery;
         }
