@@ -13,7 +13,7 @@ namespace NHS111.Models.Models.Web.CCG
         [JsonProperty(PropertyName = "app")]
         public string App { get; set; }
 
-        [JsonProperty(PropertyName = "dossearchdistance")]
+        [JsonProperty(PropertyName = "dosSearchDistance")]
         public string SearchDistance { get; set; }
     }
 }
