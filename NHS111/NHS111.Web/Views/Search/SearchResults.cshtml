@@ -25,38 +25,48 @@
         PageData = new PageDataViewModel(PageDataViewModel.PageType.SearchResults, Model)
     })
 }
-<div id="SearchResults" class="measure">
-    @if (Model.Results.Any())
-    {
-        <div>
-            <h1 id="search-results-heading">Which of the following best applies?</h1>
-            <ul class="link-list link-list--results">
-                @foreach (var result in Model.Results)
-                {
-                    var additionalTopics = result.DisplayTitle != null ? result.DisplayTitle.Skip(1) : new List<string>();
-                    var title = result.DisplayTitle != null ? result.DisplayTitle.First() : result.Title.First();
-                    Model.DigitalTitle = PathwaySearchResult.StripHighlightMarkup(title);
-                    var encryptedJtbsQueryStringValues = KeyValueEncryptor.EncryptedKeys(Model);
-                    
-                    <li>
-                        <a data-title="@result.PathwayTitle" data-pathway-number="@result.PathwayNo" href="/@result.PathwayNo/@Model.UserInfo.Demography.Gender/@Model.UserInfo.Demography.Age/start?args=@encryptedJtbsQueryStringValues.ToString()">@Html.Raw(title)</a>
+<div id="SearchResults" class="measure search-typography">
+    <div>
+        @{
+            var encryptedQueryStringValues = KeyValueEncryptor.EncryptedKeys(Model);
+        }
+        @Html.Partial("_SearchBox", Model, ViewData)
+        <p class="form-hint">@Model.Results.Count() topics found. If you have more than 1 symptom, pick the topic for the one that’s bothering you most today.</p>
+        <ul class="link-list link-list--results">
+            @foreach (var result in Model.Results)
+            {
+                var additionalTopics = result.DisplayTitle != null ? result.DisplayTitle.Skip(1) : new List<string>();
+                var title = result.DisplayTitle != null ? result.DisplayTitle.First() : result.Title.First();
+                Model.DigitalTitle = PathwaySearchResult.StripHighlightMarkup(title);
+
+                <li>
+
+                    <a class="search__topic" data-title="@result.PathwayTitle" data-pathway-number="@result.PathwayNo" href="/@result.PathwayNo/@Model.UserInfo.Demography.Gender/@Model.UserInfo.Demography.Age/start?args=@encryptedQueryStringValues.ToString()">
+                        <span class="search__topic-title">@Html.Raw(title)</span>
                         @if (additionalTopics.Any())
                         {
                             <p>Includes: @Html.Raw(string.Join(", ", additionalTopics))</p>
                         }
-                        <p>@Html.Raw(result.Description)</p>
-                    </li>
-                }
-            </ul>
-            <h3 id="category-option">
-                @{
-                    var encryptedTopicsQueryStringValues = KeyValueEncryptor.EncryptedKeys(Model);
-                }
-                If you can't find what you're looking for, try <a id="show-categories" href="/@Model.UserInfo.Demography.Gender/@Model.UserInfo.Demography.Age/Topics?args=@encryptedTopicsQueryStringValues&hasResults=true">searching by category</a> instead.
-            </h3>
-        </div>
-    }
+                        <p class="search__topic-description">@Html.Raw(result.Description)</p>
+                    </a>
+                </li>
+            }
+        </ul>
+        
+        <details>
+            <summary><span class="details__arrow" role="presentation"></span> I can’t find the right topic</summary>
+            <div>
+                <p>
+                    You can browse <a id="show-categories" href="/@Model.UserInfo.Demography.Gender/@Model.UserInfo.Demography.Age/Categories?args=@encryptedQueryStringValues">topics by category.</a>
+                </p>
+
+                @Html.Partial("_ExternalInformation")
+
+                <p>If you don’t know what to look for you can <a data-pathway-number="@Model.GetOtherProblemsPathway(Model.UserInfo).PathwayNo" href="/@Model.GetOtherProblemsPathway(Model.UserInfo).PathwayNo/@Model.UserInfo.Demography.Gender/@Model.UserInfo.Demography.Age/start?args=@encryptedQueryStringValues">rule out serious conditions.</a></p>
+
+            </div>
+        </details>
+    </div>
 </div>
 
-<hr role="presentation" />
-@Html.Partial("_SearchBox", Model, ViewData)
+<hr />

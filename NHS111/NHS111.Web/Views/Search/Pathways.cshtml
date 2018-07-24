@@ -1,0 +1,89 @@
+﻿@using NHS111.Models.Models.Business.PathwaySearch
+@using NHS111.Models.Models.Domain
+@using NHS111.Models.Models.Web
+@using NHS111.Web.Helpers
+@model SearchJourneyViewModel
+@{
+    Layout = "~/Views/Shared/_LayoutNhsUK.cshtml";
+}
+
+@section Title  {NHS 111 Online - Categories}
+
+@section HeadTop {
+    <script>
+        dataLayer = [
+            {
+                'virtualPageUrl': document.location.pathname + '?q=@Model.SanitisedSearchTerm'
+            }];
+    </script>
+}
+
+@section FeedbackSection {
+    @Html.Partial("_FeedbackDetails", new FeedbackViewModel()
+    {
+        UserId = Model.SessionId.ToString(),
+        PageData = new PageDataViewModel(PageDataViewModel.PageType.Categories, Model)
+    })
+}
+
+
+@{
+    var encryptedQueryStringValues = KeyValueEncryptor.EncryptedKeys(Model);
+    var topLevelCategory = Model.Categories.First();
+}
+
+<div id="categories" class="measure search-typography">
+    <a class="search__button--back" href="/@Model.UserInfo.Demography.Gender/@Model.UserInfo.Demography.Age/Categories?args=@encryptedQueryStringValues">Back to categories</a>
+
+    <h1 class="heading--large">@topLevelCategory.Category.Title</h1>
+            @if (topLevelCategory.SubCategories != null && topLevelCategory.SubCategories.Any()) {
+                foreach (var subCategory in topLevelCategory.SubCategories.OrderBy(x => x.Category.Title)) {
+                    if (!subCategory.Pathways.Any()) {
+                        continue;
+                    }
+                    <details class="search__nested-category">
+                        <summary>
+                            <span class="details__arrow"></span><span class="summary" id="@subCategory.Category.Id">@subCategory.Category.Title</span>
+                        </summary>
+                        <div>
+                            <ul class="link-list link-list--results">
+                                @foreach (var pathway in subCategory.Pathways.OrderBy(p => p.PathwayData.DigitalTitle))
+                                {
+                                    <li>
+                                        <a class="search__topic" data-title="@pathway.PathwayData.DigitalTitle" data-pathway-number="@pathway.Pathway.Id" href="/@pathway.Pathway.PathwayNo/@Model.UserInfo.Demography.Gender/@Model.UserInfo.Demography.Age/start?args=@encryptedQueryStringValues.ToString()">
+                                            <span class="search__topic-title">@Html.Raw(pathway.PathwayData.DigitalTitle)</span>
+                                            <p class="search__topic-description">@Html.Raw(pathway.PathwayData.DigitalDescription)</p>
+                                        </a>
+                                    </li>
+                                }
+                            </ul>
+                        </div>
+                    </details>
+                }
+            }
+            @if (topLevelCategory.Pathways != null && topLevelCategory.Pathways.Any()) {
+                <ul class="link-list link-list--results">
+                    @foreach (var pathway in topLevelCategory.Pathways.OrderBy(p => p.PathwayData.DigitalTitle)) {
+                        <li>
+                            <a class="search__topic" data-title="@pathway.PathwayData.DigitalTitle" data-pathway-number="@pathway.Pathway.Id" href="/@pathway.Pathway.PathwayNo/@Model.UserInfo.Demography.Gender/@Model.UserInfo.Demography.Age/start?args=@encryptedQueryStringValues.ToString()">
+                                <span class="search__topic-title">@Html.Raw(pathway.PathwayData.DigitalTitle)</span>
+                                <p class="search__topic-description">@Html.Raw(pathway.PathwayData.DigitalDescription)</p>
+                            </a>
+                        </li>
+                    }
+                </ul>
+            }
+</div>
+
+<hr />
+
+<details class="measure search-typography">
+    <summary><span class="details__arrow" role="presentation"></span> I can’t find the right topic</summary>
+    <div>
+        <p>You can try <a href="/@Model.UserInfo.Demography.Gender/@Model.UserInfo.Demography.Age/Search?args=@encryptedQueryStringValues">searching again</a> or <a id="show-categories" href="/@Model.UserInfo.Demography.Gender/@Model.UserInfo.Demography.Age/Categories?args=@encryptedQueryStringValues">browsing topics by category.</a></p>
+        @Html.Partial("_ExternalInformation")
+        <p>If you don’t know what to look for you can <a data-pathway-number="@Model.GetOtherProblemsPathway(Model.UserInfo).PathwayNo" href="/@Model.GetOtherProblemsPathway(Model.UserInfo).PathwayNo/@Model.UserInfo.Demography.Gender/@Model.UserInfo.Demography.Age/start?args=@encryptedQueryStringValues">rule out serious conditions.</a></p>
+    </div>
+</details>
+
+<hr role="presentation" />

@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 
 namespace NHS111.Models.Models.Web
 {
+    using FromExternalServices;
+
     public class SurveyLinkViewModel
     {
         public string JourneyId { get; set; }
@@ -25,5 +27,9 @@ namespace NHS111.Models.Models.Web
         public string Campaign { get; set; }
 
         public string CampaignSource { get; set; }
+
+        public int ServiceCount { get; set; }
+
+        public string ServiceOptions { get; set; }
     }
 }

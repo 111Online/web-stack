@@ -10,14 +10,9 @@
         @Html.HiddenFor(m => Model.FilterServices)
         @Html.HiddenFor(x => Model.Campaign)
         @Html.HiddenFor(x => Model.Source)
-        <h1>
-            @Html.LabelFor(m => m.SanitisedSearchTerm, "Tell us the symptom you’re concerned about")
-            <span class="form-hint">For example, headache, swollen knee or rash</span>
-        </h1>
-        @Html.ValidationMessageFor(m => m.SanitisedSearchTerm, "Please enter the symptom you're concerned about", new { @class = "error-message" })
-        <div>
+        <div class="search__searchbox">
             @Html.TextBoxFor(m => m.SanitisedSearchTerm, new { @autocomplete = "off", @class = "form-textbox", @maxlength = "150" })
-            <button type="submit" class="button button--next" value="Search" id="searchButton">Next</button>
+            <button type="submit" class="button button--next button--search" value="Search" id="searchButton">Search</button>
         </div>
     }
 </div>
