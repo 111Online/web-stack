@@ -166,11 +166,12 @@ namespace NHS111.Business.API.Functional.Tests
 
         //Tests to show full journey returned given list of answered questions
         [TestCaseSource("FullJourneyTestCases")]
-        public async void GetFullPathwayJourney_returns_expected_journey(List<JourneyStep> journey, int totalJourneyLength, int totalQuestions, int totalReads, int totalSets)
+        public async void GetFullPathwayJourney_returns_expected_journey(List<JourneyStep> journey, int totalJourneyLength, int totalQuestions, int totalReads, int totalSets, string startingpPathwayId)
         {
             var journeyJson = JsonConvert.SerializeObject(journey);
             var request = RequestFormatting.CreateHTTPRequest(journeyJson, string.Empty);
-            var result = await _restfulHelper.PostAsync(BusinessApiFullJourneyUrl, request);
+            var result = String.IsNullOrEmpty(startingpPathwayId) ? await _restfulHelper.PostAsync(BusinessApiFullJourneyUrl, request) 
+                : await _restfulHelper.PostAsync(BusinessApiFullJourneyUrl + "/" + startingpPathwayId, request);
 
             //this checks a response is returned
             Assert.IsNotNull(result);
@@ -193,35 +194,35 @@ namespace NHS111.Business.API.Functional.Tests
                 {
                     new JourneyStep { QuestionId = "PW1618.0", Answer = new Answer { Order = 3 } },
                     new JourneyStep { QuestionId = "PW1618.300", Answer = new Answer { Order = 1 } }
-                }, 2, 2, 0, 0).SetName("Starts with question and no set/read nodes");
+                }, 3, 2, 0, 0, null).SetName("Starts with question and no set/read nodes");
                 yield return new TestCaseData(new List<JourneyStep>
                 {
                     new JourneyStep { QuestionId = "PW1618.0", Answer = new Answer { Order = 3 } },
                     new JourneyStep { QuestionId = "PW1618.300", Answer = new Answer { Order = 3 } },
                     new JourneyStep { QuestionId = "PW1618.700", Answer = new Answer { Order = 1 } }
-                }, 4, 3, 1, 0).SetName("Starts with question ends with read");
+                }, 4, 3, 1, 0, null).SetName("Starts with question ends with read");
                 yield return new TestCaseData(new List<JourneyStep>
                 {
                     new JourneyStep { QuestionId = "PW711.100", Answer = new Answer { Order = 1 } },
                     new JourneyStep { QuestionId = "PW998.0", Answer = new Answer { Order = 3 } },
                     new JourneyStep { QuestionId = "PW998.800", Answer = new Answer { Order = 1 } }
-                }, 5, 3, 1, 1).SetName("Starts with set then read");
+                }, 7, 3, 1, 1, "PW711MaleAdult").SetName("Starts with set then read");
                 yield return new TestCaseData(new List<JourneyStep>
                 {
                     new JourneyStep { QuestionId = "PW1555.6", Answer = new Answer { Order = 3 } },
                     new JourneyStep { QuestionId = "PW1555.200", Answer = new Answer { Order = 3 } },
                     new JourneyStep { QuestionId = "PW1555.100", Answer = new Answer { Order = 1 } }
-                }, 4, 3, 1, 0).SetName("Starts with read");
+                }, 6, 3, 1, 0, "PW1555MaleAdult").SetName("Starts with read");
                 yield return new TestCaseData(new List<JourneyStep>
                 {
                     new JourneyStep { QuestionId = "PW558.3400", Answer = new Answer { Order = 3 } },
                     new JourneyStep { QuestionId = "PW558.100", Answer = new Answer { Order = 1 } }
-                }, 3, 2, 0, 1).SetName("Starts with set");
+                }, 5, 2, 0, 1, "PW558FemaleToddler").SetName("Starts with set");
                 yield return new TestCaseData(new List<JourneyStep>
                 {
                     new JourneyStep { QuestionId = "PW975.10600", Answer = new Answer { Order = 3 } },
                     new JourneyStep { QuestionId = "PW975.100", Answer = new Answer { Order = 1 } }
-                }, 3, 2, 0, 1).SetName("contains multiple reads");
+                }, 6, 2, 2, 0, "PW975FemaleAdult").SetName("contains multiple reads");
                 yield return new TestCaseData(new List<JourneyStep>
                 {
                     new JourneyStep { QuestionId = "PW516.0", Answer = new Answer { Order = 7 } },
@@ -230,7 +231,7 @@ namespace NHS111.Business.API.Functional.Tests
                     new JourneyStep { QuestionId = "PW516.1200", Answer = new Answer { Order = 4 } },
                     new JourneyStep { QuestionId = "PW516.33200", Answer = new Answer { Order = 3 } },
                     new JourneyStep { QuestionId = "PW516.2100", Answer = new Answer { Order = 2 } }
-                }, 10, 6, 4, 0).SetName("contains multiple reads consecutively");
+                }, 12, 6, 4, 0, "PW516FemaleAdult").SetName("contains multiple reads consecutively");
             }
         }
     }
