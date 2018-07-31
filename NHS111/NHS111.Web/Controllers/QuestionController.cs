@@ -103,7 +103,6 @@ namespace NHS111.Web.Controllers {
             var nextModel = await GetNextJourneyViewModel(model);
 
             var viewName = _viewRouter.GetViewName(nextModel, ControllerContext);
-           
             return View(viewName, nextModel);
         }
 
@@ -117,7 +116,7 @@ namespace NHS111.Web.Controllers {
                 var nextNode = await GetNextNode(model);
                 nodeDetails = _journeyViewModelBuilder.BuildNodeDetails(nextNode);
             }
-
+            
             return Json(nodeDetails);
         }
 
@@ -294,6 +293,14 @@ namespace NHS111.Web.Controllers {
             var request = CreateJsonRequest(_configuration.GetBusinessApiNextNodeUrl(model.PathwayId, model.NodeType, model.Id, serialisedState, true), Method.POST);
             request.AddJsonBody(answer.Title);
             var response = await _restClientBusinessApi.ExecuteTaskAsync<QuestionWithAnswers>(request);
+            return response.Data;
+        }
+
+        private async Task<List<QuestionWithAnswers>> GetFullJourney(QuestionViewModel model)
+        {
+            var request = CreateJsonRequest(_configuration.BusinessApiGetFullPathwayJourneyUrl, Method.POST);
+            request.AddJsonBody(model.Journey.Steps.ToArray());
+            var response = await _restClientBusinessApi.ExecuteTaskAsync<List<QuestionWithAnswers>>(request);
             return response.Data;
         }
 
