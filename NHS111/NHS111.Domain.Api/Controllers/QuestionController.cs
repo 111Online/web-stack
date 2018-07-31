@@ -1,7 +1,9 @@
-﻿using System.Net.Http;
+﻿using System.Linq;
+using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
 using NHS111.Domain.Repository;
+using NHS111.Models.Models.Web.FromExternalServices;
 using NHS111.Utils.Attributes;
 using NHS111.Utils.Extensions;
 
@@ -36,6 +38,15 @@ namespace NHS111.Domain.Api.Controllers
         public async Task<HttpResponseMessage> GetNextQuestion(string questionId, string nodeLabel, [FromBody]string answer)
         {
             return await _questionRepository.GetNextQuestion(questionId, nodeLabel, answer).AsJson().AsHttpResponse();
+        }
+
+
+        [HttpPost]
+        [Route("questions/fullPathwaysJourney/{startingPathwayId}")]
+        public async Task<HttpResponseMessage> GetFullPathwayJourney([FromBody]JourneyStep[] steps, string startingPathwayId)
+        {
+            var response = await _questionRepository.GetFullPathwaysJourney(steps.ToList(), startingPathwayId).AsJson().AsHttpResponse();
+            return response;
         }
 
         [HttpGet]

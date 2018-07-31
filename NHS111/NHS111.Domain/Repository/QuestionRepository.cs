@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Web;
 using Neo4jClient.Cypher;
 using NHS111.Models.Models.Domain;
+using NHS111.Models.Models.Web.FromExternalServices;
 using NHS111.Utils.Extensions;
 
 namespace NHS111.Domain.Repository
@@ -79,6 +80,115 @@ namespace NHS111.Domain.Repository
             return await GetJustToBeSafeQuestions(string.Format("{0}-{1}", pathwayId, justToBeSafePart));
         }
 
+        public async Task<IEnumerable<QuestionWithAnswers>> GetFullPathwaysJourney(List<JourneyStep> steps)
+        {
+            ICypherFluentQuery query = AddMatchesForSteps(_graphRepository.Client.Cypher, steps, false);
+            query = query
+                .With("rows.question as question, rows.answer as answer")
+                .OrderBy("rows.step")
+                .Where("answer is not null");
+
+            var resultquery = query.ReturnDistinct(question => new QuestionWithAnswers()
+                {
+                    Answered = Return.As<Answer>("answer"),
+                    Question = Return.As<Question>("question"),
+                    Labels = question.Labels()
+                }
+            );
+            var questionWithAnswerses = await resultquery.ResultsAsync;
+            return questionWithAnswerses;
+
+        }
+
+        public async Task<IEnumerable<QuestionWithAnswers>> GetFullPathwaysJourney(List<JourneyStep> steps, string startingPathwayId)
+        {
+            var startingPathwayQuery = AddMatchesForStartingPathway(_graphRepository.Client.Cypher, steps.First(), startingPathwayId);
+            ICypherFluentQuery query = AddMatchesForSteps(startingPathwayQuery, steps, true);
+            query = query
+                .With("rows.question as question, rows.answer as answer")
+                .OrderBy("rows.step")
+                .Where("answer is not null");
+
+            var resultquery = query.ReturnDistinct(question => new QuestionWithAnswers()
+                {
+                    Answered = Return.As<Answer>("answer"),
+                    Question = Return.As<Question>("question"),
+                    Labels = question.Labels()
+                }
+            );
+            var questionWithAnswerses = await resultquery.ResultsAsync;
+            return questionWithAnswerses;
+
+        }
+
+        public ICypherFluentQuery AddMatchesForSteps(ICypherFluentQuery query, List<JourneyStep> steps)
+        {
+            var modifiedQuery = query;
+            for (int index = 0; index < steps.Count; ++index)
+            {
+                 modifiedQuery = modifiedQuery.Match(String.Format("(q:Question{{id:'{0}'}})-[a:Answer{{order:{1}}}]->(n)", steps[index].QuestionId,steps[index].Answer.Order));
+                modifiedQuery = index == steps.Count - 1 ? 
+                    modifiedQuery.OptionalMatch("(n)-[b:Answer]->(r)") : 
+                    modifiedQuery.OptionalMatch(String.Format("(n)-[b:Answer]->(r:Question{{id:'{0}'}})", steps[index + 1].QuestionId));
+                modifiedQuery = (index <= 0 ? 
+                    modifiedQuery.With(String.Format("collect({{question:q, answer:a, step:{0}}})as rows, n,b", index)) : 
+                    modifiedQuery.With(String.Format("rows + collect({{question:q, answer:a, step:{0}}})as rows, n,b", index))).
+                    With(String.Format("rows + collect({{question:n, answer:b, step:{0}}}) as allrows", index + 0.1)).Unwind("allrows", "rows");
+            }
+            return modifiedQuery;
+        }
+
+        public ICypherFluentQuery AddMatchesForStartingPathway(ICypherFluentQuery query, JourneyStep firstQuestionStep, string startingPathwayId)
+        {
+            var modifiedQuery = query.Match(String.Format("(q:Pathway{{id:'{0}'}})-[:BeginsWith]-(n)", startingPathwayId))
+                .OptionalMatch(String.Format("(q:Pathway{{id:'{0}'}})-[:BeginsWith]-(n)-[a:Answer]->()",
+                    startingPathwayId))
+                .Where("a.title ='default' or a.title = '\"present\"'")
+                .With("collect({question:q, answer:{}, step:-1.2}) + collect({question:n, answer:a, step:-1.1}) as rows,n")
+                .OptionalMatch(String.Format("p = (n)-[a:Answer*0..3]->(t)-[:Answer]->(:Question{{id:'{0}'}})",
+                    firstQuestionStep.QuestionId)).Where("all(rel in a where rel.name in ['default','\"present\"']) and t:Set OR t:Read")
+                .OptionalMatch("(x)-[v:Answer]->(y)")
+                .Where(String.Format("x.id <> '{0}' and x IN nodes(p) AND v IN rels(p)", startingPathwayId))
+                .With("rows + collect({question:x, answer:v, step:-1}) as allrows").Unwind("allrows", "rows");
+            return modifiedQuery;
+        }
+
+        public ICypherFluentQuery AddMatchesForSteps(ICypherFluentQuery query, List<JourneyStep> steps, bool containsExistingRows)
+        {
+            var modifiedQuery = query;
+            for (int index = 0; index < steps.Count; ++index)
+            {
+                modifiedQuery = modifiedQuery.Match(String.Format("(q:Question{{id:'{0}'}})-[a:Answer{{order:{1}}}]->(n)", steps[index].QuestionId, steps[index].Answer.Order));
+                modifiedQuery = index == 0 && !containsExistingRows
+                    ?  modifiedQuery.With(String.Format("collect({{question:q, answer:a, step:{0}}}) as rows", index))
+                    : (index != steps.Count - 1 ) ? modifiedQuery.With(String.Format("rows + collect({{question:q, answer:a, step:{0}}}) as rows" ,index)) 
+                        : modifiedQuery.With(String.Format("rows + collect({{question:q, answer:a, step:{0}}}) + collect({{question:n, answer:{{}}, step:{0}.1}}) as rows", index));
+                if (index != steps.Count - 1)
+                {
+                    modifiedQuery = modifiedQuery.OptionalMatch(String.Format(
+                        "p = (:Question{{id:'{0}'}})-[:Answer*0..3]->(t)-[:Answer]->(:Question{{id:'{1}'}})",
+                        steps[index].QuestionId,
+                        steps[index + 1].QuestionId));
+
+                    modifiedQuery = modifiedQuery.Where("t:Set OR t:Read");
+                    modifiedQuery = modifiedQuery.OptionalMatch("(x)-[v:Answer]->(y)")
+                        .Where(String.Format("x.id <> '{0}' and x IN nodes(p) AND v IN rels(p)",
+                            steps[index].QuestionId));
+                    modifiedQuery =
+                        modifiedQuery.With(
+                            String.Format("rows + collect({{question:x, answer:v, step:{0}}}) as allrows",
+                                index + 0.1));
+                }
+
+                modifiedQuery = (index != steps.Count - 1)
+                    ?  modifiedQuery.Unwind("allrows", "rows")
+                    : modifiedQuery.With("rows as allrows").Unwind("allrows", "rows");
+
+
+            }
+            return modifiedQuery;
+        }
+
         private async Task<IEnumerable<QuestionWithAnswers>> GetJustToBeSafeQuestions(string justToBeSafePart)
         {
             return await _graphRepository.Client.Cypher.
@@ -135,6 +245,10 @@ namespace NHS111.Domain.Repository
     {
         Task<QuestionWithAnswers> GetQuestion(string id);
         Task<IEnumerable<Answer>> GetAnswersForQuestion(string id);
+      //  Task<IEnumerable<QuestionWithAnswers>> GetFullPathwaysJourney(List<JourneyStep> steps);
+
+        Task<IEnumerable<QuestionWithAnswers>>
+            GetFullPathwaysJourney(List<JourneyStep> steps, string startingPathwayId);
         Task<QuestionWithAnswers> GetNextQuestion(string id, string nodeLabel, string answer);
         Task<QuestionWithAnswers> GetFirstQuestion(string pathwayId);
         Task<IEnumerable<QuestionWithAnswers>> GetJustToBeSafeQuestions(string pathwayId, string justToBeSafePart);
