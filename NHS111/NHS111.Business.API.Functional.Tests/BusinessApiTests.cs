@@ -194,13 +194,13 @@ namespace NHS111.Business.API.Functional.Tests
                 {
                     new JourneyStep { QuestionId = "PW1618.0", Answer = new Answer { Order = 3 } },
                     new JourneyStep { QuestionId = "PW1618.300", Answer = new Answer { Order = 1 } }
-                }, 3, 2, 0, 0, null).SetName("Starts with question and no set/read nodes");
+                }, 4, 2, 0, 0, "PW1618MaleAdult").SetName("Starts with question and no set/read nodes");
                 yield return new TestCaseData(new List<JourneyStep>
                 {
                     new JourneyStep { QuestionId = "PW1618.0", Answer = new Answer { Order = 3 } },
                     new JourneyStep { QuestionId = "PW1618.300", Answer = new Answer { Order = 3 } },
                     new JourneyStep { QuestionId = "PW1618.700", Answer = new Answer { Order = 1 } }
-                }, 4, 3, 1, 0, null).SetName("Starts with question ends with read");
+                }, 5, 3, 1, 0, "PW1618MaleAdult").SetName("Starts with question ends with read");
                 yield return new TestCaseData(new List<JourneyStep>
                 {
                     new JourneyStep { QuestionId = "PW711.100", Answer = new Answer { Order = 1 } },

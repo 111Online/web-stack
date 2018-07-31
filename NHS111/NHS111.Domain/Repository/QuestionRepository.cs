@@ -82,7 +82,7 @@ namespace NHS111.Domain.Repository
 
         public async Task<IEnumerable<QuestionWithAnswers>> GetFullPathwaysJourney(List<JourneyStep> steps)
         {
-            ICypherFluentQuery query = AddMatchesForSteps2(_graphRepository.Client.Cypher, steps, false);
+            ICypherFluentQuery query = AddMatchesForSteps(_graphRepository.Client.Cypher, steps, false);
             query = query
                 .With("rows.question as question, rows.answer as answer")
                 .OrderBy("rows.step")
@@ -103,7 +103,7 @@ namespace NHS111.Domain.Repository
         public async Task<IEnumerable<QuestionWithAnswers>> GetFullPathwaysJourney(List<JourneyStep> steps, string startingPathwayId)
         {
             var startingPathwayQuery = AddMatchesForStartingPathway(_graphRepository.Client.Cypher, steps.First(), startingPathwayId);
-            ICypherFluentQuery query = AddMatchesForSteps2(startingPathwayQuery, steps, true);
+            ICypherFluentQuery query = AddMatchesForSteps(startingPathwayQuery, steps, true);
             query = query
                 .With("rows.question as question, rows.answer as answer")
                 .OrderBy("rows.step")
@@ -153,7 +153,7 @@ namespace NHS111.Domain.Repository
             return modifiedQuery;
         }
 
-        public ICypherFluentQuery AddMatchesForSteps2(ICypherFluentQuery query, List<JourneyStep> steps, bool containsExistingRows)
+        public ICypherFluentQuery AddMatchesForSteps(ICypherFluentQuery query, List<JourneyStep> steps, bool containsExistingRows)
         {
             var modifiedQuery = query;
             for (int index = 0; index < steps.Count; ++index)
