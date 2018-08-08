@@ -150,9 +150,10 @@ namespace NHS111.Business.Services
                                    
                                    .Term(t => t
                                        .Field(f => f.Title).Value("pain")
+                                       .Field(f => f.Description).Value("pain")
                                        )
                                        )
-                                       .NegativeBoost(0.2)
+                                       .NegativeBoost(0.7)
                                )
                                
                                )
