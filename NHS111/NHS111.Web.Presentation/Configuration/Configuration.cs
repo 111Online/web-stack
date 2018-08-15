@@ -78,6 +78,11 @@ namespace NHS111.Web.Presentation.Configuration
 
         public string LoggingServiceUrl { get { return ConfigurationManager.AppSettings["LoggingServiceUrl"]; } }
 
+        public string BusinessApiGetFullPathwayJourneyUrl
+        {
+            get { return ConfigurationManager.AppSettings["BusinessApiGetFullPathwayJourneyUrl"]; }
+        }
+
         public string CCGBusinessApiGetCCGUrl(string postcode)
         {
             return String.Format(ConfigurationManager.AppSettings["CCGApiGetCCGByPostcodeUrl"], postcode);
@@ -255,6 +260,7 @@ namespace NHS111.Web.Presentation.Configuration
        string DOSWhitelist { get; }
 
         string BusinessApiListOutcomesUrl { get; }
+        string BusinessApiGetFullPathwayJourneyUrl { get; }
         string GoogleAnalyticsContainerId { get; }
         string MapsApiUrl { get; }
 
@@ -266,5 +272,7 @@ namespace NHS111.Web.Presentation.Configuration
 
         string QueryStringEncryptionKey { get; }
         string QueryStringEncryptionBytes { get; }
+
+
     }
 }
