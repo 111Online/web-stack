@@ -46,7 +46,8 @@ namespace NHS111.Models.Mappers.WebMappings
                 .ForMember(dest => dest.CaseRef, opt => opt.Ignore())
                 .ForMember(dest => dest.AgeFormat, opt => opt.Ignore())
                 .ForMember(dest => dest.SearchDistance, opt => opt.Ignore())
-                .ForMember(dest => dest.NumberPerType, opt => opt.Ignore());
+                .ForMember(dest => dest.NumberPerType, opt => opt.Ignore())
+                .ForMember(dest => dest.SearchDateTime, opt => opt.Ignore() );
         }
 
         public class DispositionResolver : ValueResolver<string, int>
