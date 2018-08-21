@@ -53,7 +53,7 @@ namespace NHS111.Business.Api.Controllers
 
         public async Task<HttpResponseMessage> GetNextNode(string pathwayId, string nodeLabel, string nodeId, string state, [FromBody]string answer, string cacheKey = null)
         {
-            #if !DEBUG
+#if !DEBUG
                 cacheKey = cacheKey ?? string.Format("{0}-{1}-{2}-{3}", pathwayId, nodeId, answer, state);
 
                 var cacheValue = await _cacheManager.Read(cacheKey);
@@ -61,11 +61,11 @@ namespace NHS111.Business.Api.Controllers
                 {
                     return cacheValue.AsHttpResponse();
                 }
-            #endif
-     
+#endif
+
             var next = JsonConvert.DeserializeObject<QuestionWithAnswers>(await (await _questionService.GetNextQuestion(nodeId, nodeLabel, answer)).Content.ReadAsStringAsync());
             var stateDictionary = JsonConvert.DeserializeObject<IDictionary<string, string>>(HttpUtility.UrlDecode(state));
-   
+
             var nextLabel = next.Labels.FirstOrDefault();
 
             if (nextLabel == "Question" || nextLabel == "Outcome")
@@ -73,10 +73,10 @@ namespace NHS111.Business.Api.Controllers
                 next.State = stateDictionary;
                 var result = _questionTransformer.AsQuestionWithAnswers(JsonConvert.SerializeObject(next));
 
-                #if !DEBUG
+#if !DEBUG
                     _cacheManager.Set(cacheKey, result);
-                #endif
-                
+#endif
+
                 return result.AsHttpResponse();
             }
 
@@ -94,43 +94,45 @@ namespace NHS111.Business.Api.Controllers
                 return result.AsHttpResponse();
             }
 
-            if (nextLabel == "Set")
+            if (nextLabel == "Set" || nextLabel == "Read")
             {
-                var answered = next.Answers.First();
-                stateDictionary.Add(next.Question.Title, answered.Title);
+                var computedAnswer = next.Answers.First();
+                if (nextLabel == "Read")
+                {
+                    var value = stateDictionary.ContainsKey(next.Question.Title)
+                        ? stateDictionary[next.Question.Title]
+                        : null;
+                    computedAnswer = _answersForNodeBuilder.SelectAnswer(next.Answers, value);
+                }
+                else
+                {
+                    if (!stateDictionary.ContainsKey(next.Question.Title))
+                        stateDictionary.Add(next.Question.Title, computedAnswer.Title);
+                }
                 var updatedState = JsonConvert.SerializeObject(stateDictionary);
-                var httpResponseMessage = await GetNextNode(pathwayId, nextLabel, next.Question.Id, updatedState, answered.Title, cacheKey);
+                var httpResponseMessage = await GetNextNode(pathwayId, nextLabel, next.Question.Id, updatedState, computedAnswer.Title, cacheKey);
                 var nextQuestion = JsonConvert.DeserializeObject<QuestionWithAnswers>(await httpResponseMessage.Content.ReadAsStringAsync());
-              
-                nextQuestion.NonQuestionKeywords = answered.Keywords;
-                nextQuestion.NonQuestionExcludeKeywords = answered.ExcludeKeywords;
+
+                nextQuestion.NonQuestionKeywords = computedAnswer.Keywords;
+                nextQuestion.NonQuestionExcludeKeywords = computedAnswer.ExcludeKeywords;
                 if (nextQuestion.Answers != null)
                 {
                     foreach (var nextAnswer in nextQuestion.Answers)
                     {
-                        nextAnswer.Keywords += "|" + answered.Keywords;
-                        nextAnswer.ExcludeKeywords += "|" + answered.ExcludeKeywords;
+                        nextAnswer.Keywords += "|" + computedAnswer.Keywords;
+                        nextAnswer.ExcludeKeywords += "|" + computedAnswer.ExcludeKeywords;
                     }
                 }
 
                 // have to add the node to the cache so thats its not missed when going back
                 // to collect keywords 
                 var result = JsonConvert.SerializeObject(nextQuestion);
-                
-                #if !DEBUG
+
+#if !DEBUG
  	                _cacheManager.Set(cacheKey, result);
- 	            #endif
+#endif
 
- 	            return result.AsHttpResponse();
-            }
-
-            if (nextLabel == "Read")
-            {
-
-                var value = stateDictionary.ContainsKey(next.Question.Title) ? stateDictionary[next.Question.Title] : null;
-                var selected = _answersForNodeBuilder.SelectAnswer(next.Answers, value);
-
-                return await GetNextNode(pathwayId, nextLabel, next.Question.Id, JsonConvert.SerializeObject(stateDictionary), selected, cacheKey);
+                return result.AsHttpResponse();
             }
 
             if (nextLabel == "CareAdvice")
@@ -202,7 +204,7 @@ namespace NHS111.Business.Api.Controllers
         {
             var firstNodeJson = _questionTransformer.AsQuestionWithAnswers(await (await _questionService.GetFirstQuestion(pathwayId).AsHttpResponse()).Content.ReadAsStringAsync());
             var firstNode = JsonConvert.DeserializeObject<QuestionWithAnswers>(firstNodeJson);
-            
+
             var stateDictionary = JsonConvert.DeserializeObject<IDictionary<string, string>>(HttpUtility.UrlDecode(state));
             stateDictionary.Add("SYSTEM_ONLINE", "online");//turn on online question flows
             var nextLabel = firstNode.Labels.FirstOrDefault();
@@ -212,7 +214,7 @@ namespace NHS111.Business.Api.Controllers
                 var answers = JsonConvert.DeserializeObject<IEnumerable<Answer>>(await _questionService.GetAnswersForQuestion(firstNode.Question.Id));
                 var value = stateDictionary.ContainsKey(firstNode.Question.Title) ? stateDictionary[firstNode.Question.Title] : null;
                 var selected = _answersForNodeBuilder.SelectAnswer(answers, value);
-                return await GetNextNode(pathwayId, nextLabel, firstNode.Question.Id, JsonConvert.SerializeObject(stateDictionary), selected);
+                return await GetNextNode(pathwayId, nextLabel, firstNode.Question.Id, JsonConvert.SerializeObject(stateDictionary), selected.Title);
             }
             if (nextLabel == "Set")
             {
