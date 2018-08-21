@@ -32,16 +32,9 @@
     <link rel="preload" href="/content/images/nhs-logotype-blue.svg" as="image" />
 
     @{
-        <!-- nhs app -->
-        if (Request.QueryString["utm_medium"] != null && Request.QueryString["utm_medium"] == "NHS App")
-        {
-            HttpCookie cookie = new HttpCookie("referrer");
-            cookie.Value = "nhsapp";
-            cookie.Expires = DateTime.MaxValue;
-            Response.Cookies.Add(cookie);
-        }
+      
 
-        if (Request.Cookies["referrer"] != null && Request.Cookies["referrer"].Value == "nhsapp")
+        if (ViewBag.Medium == ApplicationMediums.NhsApp)
         {
             <style>
                 .skiplinks, .global-header, .phase-banner, .feedback, main > hr:last-child {
