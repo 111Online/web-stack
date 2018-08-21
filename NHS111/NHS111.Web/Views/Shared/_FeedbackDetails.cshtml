@@ -8,7 +8,7 @@
     <details class="measure">
         <summary id="feedback__summary">
             <span class="details__arrow" role="presentation"></span>
-            @(String.IsNullOrEmpty(Model.Heading) ? "Help us improve" : Model.Heading)
+            @(String.IsNullOrEmpty(Model.Heading) ? "Help us improve this page" : Model.Heading)
         </summary>
         <div>
             @using (Ajax.BeginForm("SubmitFeedback", "Feedback", new AjaxOptions { InsertionMode = InsertionMode.Replace, UpdateTargetId = "feedback-details", LoadingElementId = "loader", HttpMethod = "POST", OnBegin = "$('.feedback form').fadeOut(600);", OnSuccess = "$('#feedback-details').fadeIn(600);" }))
