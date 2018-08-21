@@ -193,22 +193,9 @@ namespace NHS111.Web.Controllers
             return View(model.CurrentView, model);
         }
 
-        private DosViewModel BuildDosViewModel(OutcomeViewModel model, DateTime? overrideDate)
-        {
-            var dosViewModel = Mapper.Map<DosViewModel>(model);
-            if (overrideDate.HasValue)
-            {
-                dosViewModel.DispositionTime = overrideDate.Value;
-                dosViewModel.SpecifySpecificSearchDate(overrideDate.Value);
-            }
-
-            return dosViewModel;
-        }
-
-
         private async Task<DosCheckCapacitySummaryResult> GetServiceAvailability(OutcomeViewModel model, DateTime? overrideDate, bool filterServices, DosEndpoint? endpoint)
         {
-            var dosViewModel = BuildDosViewModel(model, overrideDate);
+            var dosViewModel = _dosBuilder.BuildDosViewModel(model, overrideDate);
             await _auditLogger.LogDosRequest(model, dosViewModel);
             return await _dosBuilder.FillCheckCapacitySummaryResult(dosViewModel, filterServices, endpoint);
         }
@@ -312,7 +299,7 @@ namespace NHS111.Web.Controllers
                 model = await PopulateAddressPickerFields(model);
                 return View("PersonalDetails", model);
             }
-            var availableServices = await GetServiceAvailability(model, DateTime.Now, overrideFilterServices.HasValue ? overrideFilterServices.Value : model.FilterServices, null);
+            var availableServices = await GetServiceAvailability(model, null, overrideFilterServices.HasValue ? overrideFilterServices.Value : model.FilterServices, null);
             _auditLogger.LogDosResponse(model);
             if (SelectedServiceExits(model.SelectedService.Id, availableServices))
             {

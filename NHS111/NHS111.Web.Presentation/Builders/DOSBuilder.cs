@@ -177,6 +177,23 @@ namespace NHS111.Web.Presentation.Builders
             return new HttpRequestMessage { Content = new StringContent(JsonConvert.SerializeObject(dosCase), Encoding.UTF8, "application/json") };
         }
 
+
+
+        public DosViewModel BuildDosViewModel(OutcomeViewModel model, DateTime? overrideDate)
+        {
+            var dosViewModel = Mapper.Map<DosViewModel>(model);
+            if (!overrideDate.HasValue)
+            {
+                dosViewModel.DispositionTime = DateTime.Now;
+            }
+            else
+            {
+                dosViewModel.DispositionTime = overrideDate.Value;
+                dosViewModel.SpecifySpecificSearchDate(overrideDate.Value);
+            }
+            return dosViewModel;
+        }
+
         private async Task<string> GetPracticeIdFromSurgeryId(string surgeryId)
         {
             var services = await GetMobileDoSResponse<DosServicesByClinicalTermResult>("services/byOdsCode/{0}", surgeryId);
@@ -210,5 +227,6 @@ namespace NHS111.Web.Presentation.Builders
         Task<DosViewModel> FillServiceDetailsBuilder(DosViewModel model);
         HttpRequestMessage BuildRequestMessage(DosFilteredCase dosCase);
         List<GroupedDOSServices> FillGroupedDosServices(List<ServiceViewModel> services);
+        DosViewModel BuildDosViewModel(OutcomeViewModel model, DateTime? overrideDate);
     }
 }
