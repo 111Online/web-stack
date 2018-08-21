@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<wsdl:definitions xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="https://nww.pathwaysdos.nhs.uk/app/api/webservices" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" targetNamespace="https://nww.pathwaysdos.nhs.uk/app/api/webservices" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+<wsdl:definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:tns="https://nww.pathwaysdos.nhs.uk/app/api/webservices" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" targetNamespace="https://nww.pathwaysdos.nhs.uk/app/api/webservices" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
   <wsdl:types>
     <s:schema elementFormDefault="qualified" targetNamespace="https://nww.pathwaysdos.nhs.uk/app/api/webservices">
       <s:element name="ServiceDetailsById">
@@ -97,6 +97,7 @@
           <s:element minOccurs="1" maxOccurs="1" name="symptomDiscriminatorList" type="tns:ArrayOfInt" />
           <s:element minOccurs="0" maxOccurs="1" name="searchDistance" type="s:int" />
           <s:element minOccurs="1" maxOccurs="1" name="gender" type="tns:genderType" />
+          <s:element minOccurs="0" maxOccurs="1" name="searchDateTime" type="s:string" />
         </s:sequence>
       </s:complexType>
       <s:complexType name="SACase">
@@ -173,6 +174,7 @@
           <s:element minOccurs="1" maxOccurs="1" name="id" type="s:int" />
           <s:element minOccurs="1" maxOccurs="1" name="capacity" type="tns:Capacity" />
           <s:element minOccurs="0" maxOccurs="1" name="name" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="publicName" type="s:string" />
           <s:element minOccurs="0" maxOccurs="1" name="contactDetails" type="s:string" />
           <s:element minOccurs="0" maxOccurs="1" name="address" type="s:string" />
           <s:element minOccurs="0" maxOccurs="1" name="postcode" type="s:string" />
@@ -345,45 +347,27 @@
   </wsdl:message>
   <wsdl:portType name="PathWayServiceSoap">
     <wsdl:operation name="ServiceDetailsById">
-      <wsdl:documentation>This service returns attributes for a given
-                service id, this currently returns the following attributes
-                - contactdetails: This attribute contain any contact details for the
-                specified service id.
-                - tag: a short tag for the contact detail. E.g. itk, telno, faxno,
-                dts
-                - name: the friendly name of the contact detail. E.g. 111 routing,
-                Telephone No, Fax No, DTS
-                - priority: The priority of the contact detail for the service.
-                - value: The actual contact detail value.
-            </wsdl:documentation>
+      <wsdl:documentation>This service returns attributes for a given service id, this currently returns the following attributes - contactdetails: This attribute contain any contact details for the specified service id. - tag: a short tag for the contact detail. E.g. itk, telno, faxno, dts - name: the friendly name of the contact detail. E.g. 111 routing, Telephone No, Fax No, DTS - priority: The priority of the contact detail for the service. - value: The actual contact detail value. </wsdl:documentation>
       <wsdl:input message="tns:ServiceDetailsByIdRequest" />
       <wsdl:output message="tns:ServiceDetailsByIdResponse" />
     </wsdl:operation>
     <wsdl:operation name="GetHospitalScores">
-      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns the OHA score 
-                for all Emergency Departments
-            </wsdl:documentation>
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns the OHA score for all Emergency Departments </wsdl:documentation>
       <wsdl:input message="tns:GetHospitalScoresSoapIn" />
       <wsdl:output message="tns:GetHospitalScoresSoapOut" />
     </wsdl:operation>
     <wsdl:operation name="CheckCapacitySummary">
-      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns an ordered
-                list of Service Care items with an integrated ServiceCare record
-            </wsdl:documentation>
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns an ordered list of Service Care items with an integrated ServiceCare record </wsdl:documentation>
       <wsdl:input message="tns:CheckCapacitySummarySoapIn" />
       <wsdl:output message="tns:CheckCapacitySummarySoapOut" />
     </wsdl:operation>
     <wsdl:operation name="ServiceAnalysis">
-      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns an ordered
-                list of services that are clinically appropriate
-            </wsdl:documentation>
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns an ordered list of services that are clinically appropriate </wsdl:documentation>
       <wsdl:input message="tns:ServiceAnalysisSoapIn" />
       <wsdl:output message="tns:ServiceAnalysisSoapOut" />
     </wsdl:operation>
     <wsdl:operation name="ExceptionCapture">
-      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns all the
-                ExceptionCapture items for a particular user
-            </wsdl:documentation>
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns all the ExceptionCapture items for a particular user </wsdl:documentation>
       <wsdl:input message="tns:ExceptionCaptureSoapIn" />
       <wsdl:output message="tns:ExceptionCaptureSoapOut" />
     </wsdl:operation>

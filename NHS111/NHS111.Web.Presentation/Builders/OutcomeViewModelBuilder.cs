@@ -157,8 +157,7 @@ namespace NHS111.Web.Presentation.Builders
 
         public async Task<OutcomeViewModel> PopulateGroupedDosResults(OutcomeViewModel model, DateTime? overrideDate, bool? overrideFilterServices, DosEndpoint? endpoint)
         {
-            var dosViewModel = Mapper.Map<DosViewModel>(model);
-            if (overrideDate.HasValue) dosViewModel.DispositionTime = overrideDate.Value;
+            var dosViewModel = BuildDosViewModel(model, overrideDate);
             var _ = _auditLogger.LogDosRequest(model, dosViewModel);
             model.DosCheckCapacitySummaryResult = await _dosBuilder.FillCheckCapacitySummaryResult(dosViewModel, overrideFilterServices.HasValue ? overrideFilterServices.Value : model.FilterServices, endpoint);
             model.DosCheckCapacitySummaryResult.ServicesUnavailable = model.DosCheckCapacitySummaryResult.ResultListEmpty;
@@ -171,6 +170,18 @@ namespace NHS111.Web.Presentation.Builders
              _ = _auditLogger.LogDosResponse(model);
      
             return model;
+        }
+
+        private DosViewModel BuildDosViewModel(OutcomeViewModel model, DateTime? overrideDate)
+        {
+            var dosViewModel = Mapper.Map<DosViewModel>(model);
+            if (overrideDate.HasValue)
+            {
+                dosViewModel.DispositionTime = overrideDate.Value;
+                dosViewModel.SpecifySpecificSearchDate(overrideDate.Value);
+            }
+
+            return dosViewModel;
         }
 
         public async Task<OutcomeViewModel> DeadEndJumpBuilder(OutcomeViewModel model)

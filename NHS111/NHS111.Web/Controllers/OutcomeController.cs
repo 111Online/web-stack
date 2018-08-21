@@ -68,7 +68,7 @@ namespace NHS111.Web.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> DispositionWithServices(OutcomeViewModel model, string submitAction, DosEndpoint? endpoint = null)
+        public async Task<ActionResult> DispositionWithServices(OutcomeViewModel model, string submitAction, DosEndpoint? endpoint = null, DateTime? dosSearchTime = null)
         {
 
             var postcodeValidatorResponse = _postCodeAllowedValidator.IsAllowedPostcode(model.CurrentPostcode);
@@ -92,7 +92,7 @@ namespace NHS111.Web.Controllers
                 return View("OutOfArea", model);
             }
 
-            var outcomeModel = await _outcomeViewModelBuilder.PopulateGroupedDosResults(model, null, null, endpoint);
+            var outcomeModel = await _outcomeViewModelBuilder.PopulateGroupedDosResults(model, dosSearchTime, null, endpoint);
             viewName = _viewRouter.GetViewName(model, ControllerContext);
 
             return View(viewName, outcomeModel);
@@ -193,11 +193,22 @@ namespace NHS111.Web.Controllers
             return View(model.CurrentView, model);
         }
 
-        private async Task<DosCheckCapacitySummaryResult> GetServiceAvailability(OutcomeViewModel model, DateTime? overrideDate, bool filterServices, DosEndpoint? endpoint)
+        private DosViewModel BuildDosViewModel(OutcomeViewModel model, DateTime? overrideDate)
         {
             var dosViewModel = Mapper.Map<DosViewModel>(model);
-            if (overrideDate.HasValue) dosViewModel.DispositionTime = overrideDate.Value;
+            if (overrideDate.HasValue)
+            {
+                dosViewModel.DispositionTime = overrideDate.Value;
+                dosViewModel.SpecifySpecificSearchDate(overrideDate.Value);
+            }
 
+            return dosViewModel;
+        }
+
+
+        private async Task<DosCheckCapacitySummaryResult> GetServiceAvailability(OutcomeViewModel model, DateTime? overrideDate, bool filterServices, DosEndpoint? endpoint)
+        {
+            var dosViewModel = BuildDosViewModel(model, overrideDate);
             await _auditLogger.LogDosRequest(model, dosViewModel);
             return await _dosBuilder.FillCheckCapacitySummaryResult(dosViewModel, filterServices, endpoint);
         }

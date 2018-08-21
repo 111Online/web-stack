@@ -945,6 +945,8 @@ namespace NHS111.Integration.DOS.Api.DOSService {
         
         private string nameField;
         
+        private string publicNameField;
+        
         private string contactDetailsField;
         
         private string addressField;
@@ -1019,6 +1021,18 @@ namespace NHS111.Integration.DOS.Api.DOSService {
         
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute(Order=3)]
+        public string publicName {
+            get {
+                return this.publicNameField;
+            }
+            set {
+                this.publicNameField = value;
+                this.RaisePropertyChanged("publicName");
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=4)]
         public string contactDetails {
             get {
                 return this.contactDetailsField;
@@ -1030,7 +1044,7 @@ namespace NHS111.Integration.DOS.Api.DOSService {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=4)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=5)]
         public string address {
             get {
                 return this.addressField;
@@ -1042,7 +1056,7 @@ namespace NHS111.Integration.DOS.Api.DOSService {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=5)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=6)]
         public string postcode {
             get {
                 return this.postcodeField;
@@ -1054,7 +1068,7 @@ namespace NHS111.Integration.DOS.Api.DOSService {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=6)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=7)]
         public int northings {
             get {
                 return this.northingsField;
@@ -1078,7 +1092,7 @@ namespace NHS111.Integration.DOS.Api.DOSService {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=7)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=8)]
         public int eastings {
             get {
                 return this.eastingsField;
@@ -1102,7 +1116,7 @@ namespace NHS111.Integration.DOS.Api.DOSService {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=8)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=9)]
         public string url {
             get {
                 return this.urlField;
@@ -1114,7 +1128,7 @@ namespace NHS111.Integration.DOS.Api.DOSService {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=9)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=10)]
         public serviceDetails serviceType {
             get {
                 return this.serviceTypeField;
@@ -1126,7 +1140,7 @@ namespace NHS111.Integration.DOS.Api.DOSService {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=10)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=11)]
         public string odsCode {
             get {
                 return this.odsCodeField;
@@ -1138,7 +1152,7 @@ namespace NHS111.Integration.DOS.Api.DOSService {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=11)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=12)]
         public string nonPublicTelephoneNo {
             get {
                 return this.nonPublicTelephoneNoField;
@@ -1150,7 +1164,7 @@ namespace NHS111.Integration.DOS.Api.DOSService {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=12)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=13)]
         public string fax {
             get {
                 return this.faxField;
@@ -1162,7 +1176,7 @@ namespace NHS111.Integration.DOS.Api.DOSService {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=13)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=14)]
         public string referralText {
             get {
                 return this.referralTextField;
@@ -1174,7 +1188,7 @@ namespace NHS111.Integration.DOS.Api.DOSService {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=14)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=15)]
         public string distance {
             get {
                 return this.distanceField;
@@ -1186,7 +1200,7 @@ namespace NHS111.Integration.DOS.Api.DOSService {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=15)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=16)]
         public string notes {
             get {
                 return this.notesField;
@@ -1198,7 +1212,7 @@ namespace NHS111.Integration.DOS.Api.DOSService {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=16)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=17)]
         public bool openAllHours {
             get {
                 return this.openAllHoursField;
@@ -1210,7 +1224,7 @@ namespace NHS111.Integration.DOS.Api.DOSService {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlArrayAttribute(Order=17)]
+        [System.Xml.Serialization.XmlArrayAttribute(Order=18)]
         public ServiceCareItemRotaSession[] rotaSessions {
             get {
                 return this.rotaSessionsField;
@@ -1222,7 +1236,7 @@ namespace NHS111.Integration.DOS.Api.DOSService {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlArrayAttribute(Order=18)]
+        [System.Xml.Serialization.XmlArrayAttribute(Order=19)]
         [System.Xml.Serialization.XmlArrayItemAttribute("openTimeSpecified")]
         public string[] openTimeSpecifiedSessions {
             get {
@@ -1275,6 +1289,8 @@ namespace NHS111.Integration.DOS.Api.DOSService {
         private bool searchDistanceFieldSpecified;
         
         private genderType genderField;
+        
+        private string searchDateTimeField;
         
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute(Order=0)]
@@ -1417,6 +1433,18 @@ namespace NHS111.Integration.DOS.Api.DOSService {
             set {
                 this.genderField = value;
                 this.RaisePropertyChanged("gender");
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=11)]
+        public string searchDateTime {
+            get {
+                return this.searchDateTimeField;
+            }
+            set {
+                this.searchDateTimeField = value;
+                this.RaisePropertyChanged("searchDateTime");
             }
         }
         

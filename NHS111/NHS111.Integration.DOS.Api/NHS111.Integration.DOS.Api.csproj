@@ -173,6 +173,7 @@
       <DependentUpon>Dockerfile</DependentUpon>
     </None>
     <Content Include="start.ps1" />
+    <None Include="Service References\DOSService\CMSPathWayService_1.wsdl" />
     <None Include="Service References\DOSService\configuration91.svcinfo" />
     <None Include="Service References\DOSService\configuration.svcinfo" />
     <Content Include="Service References\DOSService\NHS111.Integration.DOS.Api.DOSService.CheckCapacitySummaryResponse.datasource">
@@ -210,7 +211,6 @@
       <LastGenOutput>Reference.cs</LastGenOutput>
     </None>
     <Content Include="Web.config" />
-    <None Include="Service References\DOSService\webservices1.wsdl" />
     <None Include="Web.Development.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
