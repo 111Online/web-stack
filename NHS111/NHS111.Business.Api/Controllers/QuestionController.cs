@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -21,6 +22,9 @@ namespace NHS111.Business.Api.Controllers
     [LogHandleErrorForApi]
     public class QuestionController : ApiController
     {
+        private const string SectionName = "pathwaysSystemVariables";
+        private readonly Dictionary<string, string> _systemVariables;
+
         private readonly IQuestionService _questionService;
         private readonly IQuestionTransformer _questionTransformer;
         private readonly IAnswersForNodeBuilder _answersForNodeBuilder;
@@ -32,6 +36,14 @@ namespace NHS111.Business.Api.Controllers
             _questionTransformer = questionTransformer;
             _answersForNodeBuilder = answersForNodeBuilder;
             _cacheManager = cacheManager;
+
+            var section = ConfigurationManager.GetSection(SectionName) as System.Collections.Hashtable;
+            if (section == null)
+                throw new InvalidOperationException(string.Format("Missing section name {0}", SectionName));
+
+            _systemVariables = section
+                .Cast<System.Collections.DictionaryEntry>()
+                .ToDictionary(n => n.Key.ToString(), n => n.Value.ToString());
         }
 
         [HttpPost]
@@ -206,7 +218,11 @@ namespace NHS111.Business.Api.Controllers
             var firstNode = JsonConvert.DeserializeObject<QuestionWithAnswers>(firstNodeJson);
 
             var stateDictionary = JsonConvert.DeserializeObject<IDictionary<string, string>>(HttpUtility.UrlDecode(state));
-            stateDictionary.Add("SYSTEM_ONLINE", "online");//turn on online question flows
+
+            // set the system variables relevant to online
+            foreach (var systemVariable in _systemVariables)
+                stateDictionary.Add(systemVariable.Key, systemVariable.Value);
+
             var nextLabel = firstNode.Labels.FirstOrDefault();
 
             if (nextLabel == "Read")
@@ -227,7 +243,11 @@ namespace NHS111.Business.Api.Controllers
             if (firstNode.State == null)
                 firstNode.State = stateDictionary;
             else
-                firstNode.State.Add("SYSTEM_ONLINE", "online");//turn on online question flows
+            {
+                // add the system variables relevant to online
+                foreach (var systemVariable in _systemVariables)
+                    firstNode.State.Add(systemVariable.Key, systemVariable.Value);
+            }
 
             return JsonConvert.SerializeObject(firstNode).AsHttpResponse();
         }
