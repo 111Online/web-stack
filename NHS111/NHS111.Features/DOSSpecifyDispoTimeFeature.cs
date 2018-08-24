@@ -16,12 +16,23 @@ namespace NHS111.Features
             DefaultIsEnabledSettingStrategy = new DisabledByDefaultSettingStrategy();
         }
 
+        public bool HasDate(HttpRequestBase request)
+        {
+            if (string.IsNullOrEmpty(request.QueryString[_dosSearchDateTimeKeyname])) return false;
+
+            var dateTimestring = request.QueryString[_dosSearchDateTimeKeyname];
+            DateTime parsedDateTime;
+            if (!DateTime.TryParseExact(dateTimestring, "yyyy-MM-dd HH:mm", null, DateTimeStyles.AssumeLocal, out parsedDateTime))
+                throw new ArgumentException(_dosSearchDateTimeKeyname + " cannot be parsed. Date time must be in the format yyyy-MM-dd HH:mm");
+
+            return true;
+        }
+
         public DateTime GetDosSearchDateTime(HttpRequestBase request)
         {
-           var dateTimestring = request.QueryString[_dosSearchDateTimeKeyname];
+            var dateTimestring = request.QueryString[_dosSearchDateTimeKeyname];
             DateTime parsedDateTime;
-            if (!DateTime.TryParseExact(dateTimestring, "yyyy-MM-dd HH:mm", null, DateTimeStyles.AssumeLocal,
-                out parsedDateTime)) throw new ArgumentException(_dosSearchDateTimeKeyname + " cannot be parsed. Date time must be in the format yyyy-MM-dd HH:mm");
+            DateTime.TryParseExact(dateTimestring, "yyyy-MM-dd HH:mm", null, DateTimeStyles.AssumeLocal, out parsedDateTime);
             return parsedDateTime;
         }
 
@@ -32,6 +43,7 @@ namespace NHS111.Features
     public interface IDOSSpecifyDispoTimeFeature
         : IFeature
     {
+        bool HasDate(HttpRequestBase request);
 
         DateTime GetDosSearchDateTime(HttpRequestBase request);
     }

@@ -57,7 +57,7 @@ namespace NHS111.Integration.DOS.Api.DOSService {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.2612.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.3056.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
@@ -103,7 +103,7 @@ namespace NHS111.Integration.DOS.Api.DOSService {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.2612.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.3056.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
@@ -149,7 +149,7 @@ namespace NHS111.Integration.DOS.Api.DOSService {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.2612.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.3056.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
@@ -462,7 +462,7 @@ namespace NHS111.Integration.DOS.Api.DOSService {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.2612.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.3056.0")]
     [System.SerializableAttribute()]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="https://nww.pathwaysdos.nhs.uk/app/api/webservices")]
     public enum Capacity {
@@ -478,7 +478,7 @@ namespace NHS111.Integration.DOS.Api.DOSService {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.2612.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.3056.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
@@ -524,7 +524,7 @@ namespace NHS111.Integration.DOS.Api.DOSService {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.2612.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.3056.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
@@ -612,7 +612,7 @@ namespace NHS111.Integration.DOS.Api.DOSService {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.2612.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.3056.0")]
     [System.SerializableAttribute()]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="https://nww.pathwaysdos.nhs.uk/app/api/webservices")]
     public enum DayOfWeek {
@@ -643,7 +643,7 @@ namespace NHS111.Integration.DOS.Api.DOSService {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.2612.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.3056.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
@@ -689,7 +689,7 @@ namespace NHS111.Integration.DOS.Api.DOSService {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.2612.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.3056.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
@@ -903,7 +903,7 @@ namespace NHS111.Integration.DOS.Api.DOSService {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.2612.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.3056.0")]
     [System.SerializableAttribute()]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="https://nww.pathwaysdos.nhs.uk/app/api/webservices")]
     public enum ageFormatType {
@@ -916,7 +916,7 @@ namespace NHS111.Integration.DOS.Api.DOSService {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.2612.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.3056.0")]
     [System.SerializableAttribute()]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="https://nww.pathwaysdos.nhs.uk/app/api/webservices")]
     public enum genderType {
@@ -932,7 +932,81 @@ namespace NHS111.Integration.DOS.Api.DOSService {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.2612.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.3056.0")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="https://nww.pathwaysdos.nhs.uk/app/api/webservices")]
+    public partial class WaitTimesType : object, System.ComponentModel.INotifyPropertyChanged {
+        
+        private string currentWaitTimeField;
+        
+        private string patientsInDepartmentField;
+        
+        private string patientsBeingSeenField;
+        
+        private string notesField;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=0)]
+        public string currentWaitTime {
+            get {
+                return this.currentWaitTimeField;
+            }
+            set {
+                this.currentWaitTimeField = value;
+                this.RaisePropertyChanged("currentWaitTime");
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=1)]
+        public string patientsInDepartment {
+            get {
+                return this.patientsInDepartmentField;
+            }
+            set {
+                this.patientsInDepartmentField = value;
+                this.RaisePropertyChanged("patientsInDepartment");
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=2)]
+        public string patientsBeingSeen {
+            get {
+                return this.patientsBeingSeenField;
+            }
+            set {
+                this.patientsBeingSeenField = value;
+                this.RaisePropertyChanged("patientsBeingSeen");
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=3)]
+        public string notes {
+            get {
+                return this.notesField;
+            }
+            set {
+                this.notesField = value;
+                this.RaisePropertyChanged("notes");
+            }
+        }
+        
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+        
+        protected void RaisePropertyChanged(string propertyName) {
+            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
+            if ((propertyChanged != null)) {
+                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.3056.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
@@ -978,6 +1052,8 @@ namespace NHS111.Integration.DOS.Api.DOSService {
         private string notesField;
         
         private bool openAllHoursField;
+        
+        private WaitTimesType waitTimesField;
         
         private ServiceCareItemRotaSession[] rotaSessionsField;
         
@@ -1224,7 +1300,19 @@ namespace NHS111.Integration.DOS.Api.DOSService {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlArrayAttribute(Order=18)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=18)]
+        public WaitTimesType waitTimes {
+            get {
+                return this.waitTimesField;
+            }
+            set {
+                this.waitTimesField = value;
+                this.RaisePropertyChanged("waitTimes");
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlArrayAttribute(Order=19)]
         public ServiceCareItemRotaSession[] rotaSessions {
             get {
                 return this.rotaSessionsField;
@@ -1236,7 +1324,7 @@ namespace NHS111.Integration.DOS.Api.DOSService {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlArrayAttribute(Order=19)]
+        [System.Xml.Serialization.XmlArrayAttribute(Order=20)]
         [System.Xml.Serialization.XmlArrayItemAttribute("openTimeSpecified")]
         public string[] openTimeSpecifiedSessions {
             get {
@@ -1259,7 +1347,7 @@ namespace NHS111.Integration.DOS.Api.DOSService {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.2612.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.3056.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
@@ -1459,7 +1547,7 @@ namespace NHS111.Integration.DOS.Api.DOSService {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.2612.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.3056.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
@@ -1533,7 +1621,7 @@ namespace NHS111.Integration.DOS.Api.DOSService {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.2612.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.3056.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
@@ -1607,7 +1695,7 @@ namespace NHS111.Integration.DOS.Api.DOSService {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.2612.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.3056.0")]
     [System.SerializableAttribute()]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="https://nww.pathwaysdos.nhs.uk/app/api/webservices")]
     public enum contactType {
@@ -1629,7 +1717,7 @@ namespace NHS111.Integration.DOS.Api.DOSService {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.2612.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.3056.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
@@ -1803,13 +1891,21 @@ namespace NHS111.Integration.DOS.Api.DOSService {
         public string TransactionId;
         
         [System.ServiceModel.MessageBodyMemberAttribute(Namespace="https://nww.pathwaysdos.nhs.uk/app/api/webservices", Order=1)]
+        public string RequestedAtDateTime;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="https://nww.pathwaysdos.nhs.uk/app/api/webservices", Order=2)]
+        public string SearchDateTime;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="https://nww.pathwaysdos.nhs.uk/app/api/webservices", Order=3)]
         public NHS111.Integration.DOS.Api.DOSService.ServiceCareSummaryDestination[] CheckCapacitySummaryResult;
         
         public CheckCapacitySummaryResponse() {
         }
         
-        public CheckCapacitySummaryResponse(string TransactionId, NHS111.Integration.DOS.Api.DOSService.ServiceCareSummaryDestination[] CheckCapacitySummaryResult) {
+        public CheckCapacitySummaryResponse(string TransactionId, string RequestedAtDateTime, string SearchDateTime, NHS111.Integration.DOS.Api.DOSService.ServiceCareSummaryDestination[] CheckCapacitySummaryResult) {
             this.TransactionId = TransactionId;
+            this.RequestedAtDateTime = RequestedAtDateTime;
+            this.SearchDateTime = SearchDateTime;
             this.CheckCapacitySummaryResult = CheckCapacitySummaryResult;
         }
     }
@@ -1980,12 +2076,14 @@ namespace NHS111.Integration.DOS.Api.DOSService {
             return base.Channel.CheckCapacitySummary(request);
         }
         
-        public string CheckCapacitySummary(string serviceVersion, NHS111.Integration.DOS.Api.DOSService.UserInfo userInfo, NHS111.Integration.DOS.Api.DOSService.Case c, out NHS111.Integration.DOS.Api.DOSService.ServiceCareSummaryDestination[] CheckCapacitySummaryResult) {
+        public string CheckCapacitySummary(string serviceVersion, NHS111.Integration.DOS.Api.DOSService.UserInfo userInfo, NHS111.Integration.DOS.Api.DOSService.Case c, out string RequestedAtDateTime, out string SearchDateTime, out NHS111.Integration.DOS.Api.DOSService.ServiceCareSummaryDestination[] CheckCapacitySummaryResult) {
             NHS111.Integration.DOS.Api.DOSService.CheckCapacitySummaryRequest inValue = new NHS111.Integration.DOS.Api.DOSService.CheckCapacitySummaryRequest();
             inValue.serviceVersion = serviceVersion;
             inValue.userInfo = userInfo;
             inValue.c = c;
             NHS111.Integration.DOS.Api.DOSService.CheckCapacitySummaryResponse retVal = ((NHS111.Integration.DOS.Api.DOSService.PathWayServiceSoap)(this)).CheckCapacitySummary(inValue);
+            RequestedAtDateTime = retVal.RequestedAtDateTime;
+            SearchDateTime = retVal.SearchDateTime;
             CheckCapacitySummaryResult = retVal.CheckCapacitySummaryResult;
             return retVal.TransactionId;
         }

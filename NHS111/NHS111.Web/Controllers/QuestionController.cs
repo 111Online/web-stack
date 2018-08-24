@@ -189,7 +189,7 @@ namespace NHS111.Web.Controllers {
 
                     DosEndpoint? endpoint = SetEndpoint();
                     DateTime? dosSearchTime = null;
-                    if (_dosSpecifyDispoTimeFeature.IsEnabled)
+                    if (_dosSpecifyDispoTimeFeature.IsEnabled && _dosSpecifyDispoTimeFeature.HasDate(Request))
                         dosSearchTime = _dosSpecifyDispoTimeFeature.GetDosSearchDateTime(Request);
 
                     if (shouldPrefillPostcode) {
