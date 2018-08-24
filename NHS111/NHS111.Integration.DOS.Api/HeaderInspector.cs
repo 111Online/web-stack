@@ -23,7 +23,7 @@ namespace NHS111.Integration.DOS.Api {
         public object BeforeSendRequest(ref Message request, IClientChannel channel) {
             request.Headers.RemoveAll("serviceVersion", "https://nww.pathwaysdos.nhs.uk/app/api/webservices");
             var header = new MessageHeader<string>("1.4");
-            var untyped = header.GetUntypedHeader("serviceVersion", "h");
+            var untyped = header.GetUntypedHeader("serviceVersion", string.Empty);
             request.Headers.Add(untyped);
             return null;
         }
