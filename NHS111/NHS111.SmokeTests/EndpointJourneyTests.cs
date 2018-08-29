@@ -50,6 +50,7 @@ namespace NHS111.SmokeTests
             var outcomePage = questionPage
                 .Answer(3)
                 .Answer(4)
+                .Answer(3) //mers
                 .Answer(3)
                 .Answer(3)
                 .Answer(3)
@@ -78,7 +79,7 @@ namespace NHS111.SmokeTests
 
             //postcodeFirstPage.EnterPostCodeAndSubmit("LS17 7NZ");
 
-            postcodeFirstPage.VerifyOutcome("See a dentist in the next few days");
+            postcodeFirstPage.VerifyOutcome("See your dentist in the next few days");
             postcodeFirstPage.VerifyWorseningPanel(WorseningMessages.Call111PostCodeFirst);
             postcodeFirstPage.VerifyCareAdviceHeader("What you can do in the meantime");
             postcodeFirstPage.VerifyCareAdvice(new string[] { "Toothache", "Medication, pain and/or fever" });
