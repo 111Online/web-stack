@@ -24,7 +24,7 @@ namespace NHS111.SmokeTests.Regression
                 .Answer(3)
                 .AnswerForDispostion<OutcomePage>("No - I've not taken any painkillers");
 
-            outcomePage.VerifyOutcome("See a dentist urgently");
+            outcomePage.VerifyOutcome("See your dentist urgently");
             outcomePage.VerifyPageContainsDOSResults();
             outcomePage.VerifyDOSResultGroupExists("Arrange for someone to phone you");
         }
