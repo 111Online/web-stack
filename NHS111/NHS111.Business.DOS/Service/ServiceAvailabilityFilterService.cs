@@ -168,10 +168,16 @@ namespace NHS111.Business.DOS.Service
 
     public class SearchDateTimeClock : IClock
     {
+        private readonly DateTime _searchDatetime;
+
         public SearchDateTimeClock(DateTime searchDatetime)
         {
-            Now = searchDatetime;
+            _searchDatetime = searchDatetime;
         }
-        public DateTime Now { get; }
+
+        public DateTime Now
+        {
+            get { return _searchDatetime; }
+        }
     }
 }
