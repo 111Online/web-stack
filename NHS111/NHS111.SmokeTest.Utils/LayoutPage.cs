@@ -12,7 +12,9 @@ namespace NHS111.SmokeTest.Utils
     public class LayoutPage
     {
         public readonly IWebDriver Driver;
-        private const string _headerLogoTitle = "Go to the NHS 111 homepage";
+        internal const string _headerLogoTitle = "Go to the NHS 111 homepage";
+
+        internal const string _headerText = "1 1 1 online";
 
         [FindsBy(How = How.CssSelector, Using = ".global-header")]
         internal IWebElement Header { get; set; }
@@ -35,6 +37,18 @@ namespace NHS111.SmokeTest.Utils
             Assert.IsTrue(HeaderLogo.Displayed);
             Assert.AreEqual(_headerLogoTitle, HeaderLogo.GetAttribute("title"));
             Assert.IsTrue(Footer.Displayed);
+        }
+
+
+        public void VerifyHeaderBannerDisplayed()
+        {
+            Assert.IsTrue(Header.Displayed);
+        }
+
+
+        public void VerifyHeaderBannerHidden()
+        {
+            Assert.IsFalse(Header.Displayed);
         }
     }
 }
