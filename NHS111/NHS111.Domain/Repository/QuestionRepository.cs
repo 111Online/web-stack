@@ -147,9 +147,13 @@ namespace NHS111.Domain.Repository
                 .With("collect({question:q, answer:{}, step:-1.2}) + collect({question:n, answer:a, step:-1.1}) as rows,n")
                 .OptionalMatch(String.Format("p = (n)-[a:Answer*0..3]->(t)-[:Answer]->(:Question{{id:'{0}'}})",
                     firstQuestionStep.QuestionId)).Where("all(rel in a where rel.name in ['default','\"present\"']) and t:Set OR t:Read")
-                .OptionalMatch("(x)-[v:Answer]->(y)")
-                .Where(String.Format("x.id <> '{0}' and x IN nodes(p) AND v IN rels(p)", startingPathwayId))
-                .With("rows + collect({question:x, answer:v, step:-1}) as allrows").Unwind("allrows", "rows");
+
+                .With("nodes(p)AS nds, rels(p) AS rls, rows")
+                    .Unwind("case when nds is null then 0 else range(1, length(nds)) end", "i")
+                    .With("rows + collect({question:nds[i], answer:rls[i], step:-1}) as allrows")
+                .Unwind("allrows", "rows");
+
+             
             return modifiedQuery;
         }
 
@@ -171,12 +175,9 @@ namespace NHS111.Domain.Repository
                         steps[index + 1].QuestionId));
 
                     modifiedQuery = modifiedQuery.Where("t:Set OR t:Read");
-                    modifiedQuery = modifiedQuery.OptionalMatch("(x)-[v:Answer]->(y)")
-                        .Where(String.Format("x.id <> '{0}' and x IN nodes(p) AND v IN rels(p)",
-                            steps[index].QuestionId));
-                    modifiedQuery =
-                        modifiedQuery.With(
-                            String.Format("rows + collect({{question:x, answer:v, step:{0}}}) as allrows",
+                    modifiedQuery = modifiedQuery.With("nodes(p)AS nds, rels(p) AS rls, rows")
+                    .Unwind("case when nds is null then 0 else range(1, length(nds) - 2) end", "i")
+                    .With(String.Format("rows + collect({{question:nds[i], answer:rls[i], step:{0}}}) as allrows",
                                 index + 0.1));
                 }
 

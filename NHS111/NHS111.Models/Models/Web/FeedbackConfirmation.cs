@@ -4,7 +4,7 @@ namespace NHS111.Models.Models.Web
 {
   public class FeedbackConfirmation
   {
-        private static string _successMessage = @"<p>Thank you.<br />If you want to give more detailed feedback, there’s a survey after the symptom questions.</p>";
+        private static string _successMessage = @"<p>Thank you.</p><p>We cannot reply to any comments or pass them on to other NHS services.</p><p>To get medical help you should carry on answering the questions or call 111.</p><p>If you'd like to give more feedback about using 111 online, there's a survey at the end of the questions.</p>";
         private static string _errorMessage = "Sorry, there is a technical problem. Try again in a few moments.";
 
         [JsonProperty(PropertyName = "message")]

@@ -24,13 +24,19 @@ jQuery(function () {
     if (length == maxLength) $('.feedback__submit').prop('disabled', 'true')
   })
   autosize($('.feedback__input'))
-    
-  $('.feedback__submit').on('click', function (e) {
-    var el = $('.feedback__input')
-    var length = parseInt(el.val().length)
-    if (length <= 0) e.preventDefault()
-    if (length > maxLength) e.preventDefault()
-  })
+
+  function addHandler() {
+    $('.feedback__submit').one('click', function (e) {
+      var el = $('.feedback__input')
+      var length = parseInt(el.val().length)
+      if (length <= 0 || length > maxLength) {
+        addHandler()
+        return e.preventDefault()
+      }
+    })
+  }
+
+  addHandler()
 
   $('.js-open-feedback').on('click', function(e) {
       var isOpen = $('.feedback details[open]').length

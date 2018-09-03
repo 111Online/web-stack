@@ -25,3 +25,7 @@
 .feedback__counter--error  {
   color: $error-colour;
 }
+
+.feedback.page-section * + * {
+  margin-top: 16px;
+}

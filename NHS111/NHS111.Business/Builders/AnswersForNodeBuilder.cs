@@ -7,36 +7,36 @@ namespace NHS111.Business.Builders
 {
     public class AnswersForNodeBuilder : IAnswersForNodeBuilder
     {
-        public string SelectAnswer(IEnumerable<Answer> answers, string value)
+        public Answer SelectAnswer(IEnumerable<Answer> answers, string value)
         {
-            var selected = answers.OrderBy(a => a.Order).Select(a => a.Title).First(option =>
+            var selected = answers.OrderBy(a => a.Order).First(option =>
             {
-                if (option.PrepareTextForComparison() == "default")
+                if (option.Title.PrepareTextForComparison() == "default")
                     return true;
                 if (value == null)
                     return false;
 
-                if (option.StartsWith("=="))
+                if (option.Title.StartsWith("=="))
                 {
-                    return (option.NormaliseAnswerText()).Equals(value.PrepareTextForComparison());
+                    return (option.Title.NormaliseAnswerText()).Equals(value.PrepareTextForComparison());
                 }
 
-                if (option.StartsWith(">="))
+                if (option.Title.StartsWith(">="))
                 {
-                    return Convert.ToInt32(value) >= Convert.ToInt32(option.Substring(2));
+                    return Convert.ToInt32(value) >= Convert.ToInt32(option.Title.Substring(2));
                 }
-                if (option.StartsWith("<="))
+                if (option.Title.StartsWith("<="))
                 {
-                    return Convert.ToInt32(value) <= Convert.ToInt32(option.Substring(2));
+                    return Convert.ToInt32(value) <= Convert.ToInt32(option.Title.Substring(2));
                 }
 
-                if (option.StartsWith(">"))
+                if (option.Title.StartsWith(">"))
                 {
-                    return Convert.ToInt32(value) > Convert.ToInt32(option.Substring(1));
+                    return Convert.ToInt32(value) > Convert.ToInt32(option.Title.Substring(1));
                 }
-                if (option.StartsWith("<"))
+                if (option.Title.StartsWith("<"))
                 {
-                    return Convert.ToInt32(value) < Convert.ToInt32(option.Substring(1));
+                    return Convert.ToInt32(value) < Convert.ToInt32(option.Title.Substring(1));
                 }
 
                 throw new Exception(string.Format("No logic implemented for option '{0}'", option));
@@ -71,6 +71,6 @@ namespace NHS111.Business.Builders
 
     public interface IAnswersForNodeBuilder
     {
-        string SelectAnswer(IEnumerable<Answer> answers, string value);
+        Answer SelectAnswer(IEnumerable<Answer> answers, string value);
     }
 }

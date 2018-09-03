@@ -80,7 +80,10 @@ namespace NHS111.Web.Presentation.Builders
             model.JourneyJson = JsonConvert.SerializeObject(model.Journey);
 
             var answer = JsonConvert.DeserializeObject<Answer>(model.SelectedAnswer);
-
+            if (nextNode.Labels.First() == "Outcome") {
+                answer.Keywords += "|" + nextNode.NonQuestionKeywords;
+                answer.ExcludeKeywords += "|" + nextNode.NonQuestionExcludeKeywords;
+            }
             _symptomDiscriminatorCollector.Collect(nextNode, model);
             var journeyViewModel = _keywordCollector.Collect(answer, model);
 

@@ -22,7 +22,7 @@ namespace NHS111.Business.Test.Builders
             List<Answer> answerList = new List<Answer> { a1, a2, a3, a4, a5, a6 };
 
             var result = sut.SelectAnswer(answerList, "toddler");
-            Assert.AreEqual("==\"TODDLER\"", result);
+            Assert.AreEqual("==\"TODDLER\"", result.Title);
         }
 
         [Test]
@@ -39,7 +39,7 @@ namespace NHS111.Business.Test.Builders
             List<Answer> answerList = new List<Answer> { a1, a2, a3, a4, a5, a6 };
 
             var result = sut.SelectAnswer(answerList, "notananswer");
-            Assert.AreEqual("default", result);
+            Assert.AreEqual("default", result.Title);
         }
 
         [Test]
@@ -49,17 +49,17 @@ namespace NHS111.Business.Test.Builders
             Answer a1 = new Answer { Title = "==\"present\"", Order = 1 };
             Answer a2 = new Answer { Title = "default", Order = 2 };
 
-            List<Answer> answerList = new List<Answer> { a1, a2};
+            List<Answer> answerList = new List<Answer> { a1, a2 };
 
             var result = sut.SelectAnswer(answerList, "\"present\"");
-            Assert.AreEqual("==\"present\"", result);
+            Assert.AreEqual("==\"present\"", result.Title);
         }
 
         [Test]
         public void SelectAnswer_Evaluates_correct_order()
         {
             AnswersForNodeBuilder sut = new AnswersForNodeBuilder();
-        
+
             Answer a2 = new Answer { Title = "<=35", Order = 3 };
             Answer a3 = new Answer { Title = "<=77", Order = 2 };
             Answer a1 = new Answer { Title = "<=10", Order = 1 };
@@ -69,10 +69,10 @@ namespace NHS111.Business.Test.Builders
             List<Answer> answerList = new List<Answer> { a1, a2, a3, a4, a5 };
 
             var under10result = sut.SelectAnswer(answerList, "9");
-            Assert.AreEqual("<=10", under10result);
+            Assert.AreEqual("<=10", under10result.Title);
 
             var under77result = sut.SelectAnswer(answerList, "36");
-            Assert.AreEqual("<=77", under77result);
+            Assert.AreEqual("<=77", under77result.Title);
         }
     }
 }
