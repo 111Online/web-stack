@@ -7,7 +7,6 @@ using Neo4jClient.Cypher;
 using Newtonsoft.Json;
 using NHS111.Features;
 using NHS111.Models.Models.Domain;
-using NHS111.Utils.Configuration;
 using NHS111.Utils.Extensions;
 using NHS111.Utils.Parser;
 
@@ -16,25 +15,18 @@ namespace NHS111.Domain.Repository
     public class PathwayRepository : IPathwayRepository
     {
         private readonly IGraphRepository _graphRepository;
-        private readonly IPathwaysConfigurationManager _pathwaysConfigurationManager;
         private readonly IPathwaysWhiteListFeature _pathwaysWhiteListFeature;
 
-        public PathwayRepository(IGraphRepository graphRepository, IPathwaysConfigurationManager pathwaysConfigurationManager, IPathwaysWhiteListFeature pathwaysWhiteListFeature )
+        public PathwayRepository(IGraphRepository graphRepository, IPathwaysWhiteListFeature pathwaysWhiteListFeature )
         {
             _graphRepository = graphRepository;
-            _pathwaysConfigurationManager = pathwaysConfigurationManager;
             _pathwaysWhiteListFeature = pathwaysWhiteListFeature;
-        }
-
-        private bool UseWhitelist
-        {
-            get { return _pathwaysWhiteListFeature.IsEnabled && _pathwaysConfigurationManager.UseLivePathways; }
         }
 
         public async Task<Pathway> GetPathway(string id)
         {
             return await _graphRepository.Client.Cypher
-                .Match(UseWhitelist, string.Format("(p:Pathway {{ id: \"{0}\" }})", id))
+                .Match(string.Format("(p:Pathway {{ id: \"{0}\" }})", id))
                 .Return(p => p.As<Pathway>())
                 .ResultsAsync
                 .FirstOrDefault();
@@ -47,12 +39,9 @@ namespace NHS111.Domain.Repository
             var ageIsBelowMaximum = new Func<int, string>(a => string.Format("(p.maximumAgeExclusive is null or p.maximumAgeExclusive = \"\" or {0} < p.maximumAgeExclusive)", a));
             var pathwayNumberIn = new Func<IEnumerable<string>, string>(p => string.Format("p.pathwayNo in {0}", JsonConvert.SerializeObject(p)));
 
-            var jumptToPathways = PathwaysConfigurationManager.GetJumpToPathwaysElements().Select(e => e.Id);
-            var pathwayIdIn = new Func<IEnumerable<string>, string>(p => string.Format("not p.id in {0}", JsonConvert.SerializeObject(p)));
-
             var pathway = await _graphRepository.Client.Cypher
                 .Match("(p:Pathway)")
-                .Where(string.Join(" and ", new List<string> { genderIs(gender), ageIsAboveMinimum(age), ageIsBelowMaximum(age), pathwayNumberIn(pathwayNumbers), pathwayIdIn(jumptToPathways) }), UseWhitelist)
+                .Where(string.Join(" and ", new List<string> { genderIs(gender), ageIsAboveMinimum(age), ageIsBelowMaximum(age), pathwayNumberIn(pathwayNumbers) }))
                 .Return(p => Return.As<Pathway>("p"))
                 .ResultsAsync
                 .FirstOrDefault();
@@ -64,12 +53,9 @@ namespace NHS111.Domain.Repository
         {
             var pathwayTitleEquals = string.Format("p.title = {0}", JsonConvert.SerializeObject(pathwayTitle));
 
-            var jumptToPathways = PathwaysConfigurationManager.GetJumpToPathwaysElements().Select(e => e.Id);
-            var pathwayIdIn = new Func<IEnumerable<string>, string>(p => string.Format("not p.id in {0}", JsonConvert.SerializeObject(p)));
-
             var pathway = await _graphRepository.Client.Cypher
                 .Match("(p:Pathway)")
-                .Where(string.Join(" and ", new List<string> { GenderIs(gender), AgeIsAboveMinimum(age), AgeIsBelowMaximum(age), pathwayIdIn(jumptToPathways), pathwayTitleEquals }), UseWhitelist)
+                .Where(string.Join(" and ", new List<string> { GenderIs(gender), AgeIsAboveMinimum(age), AgeIsBelowMaximum(age), pathwayTitleEquals }))
                 .Return(p => Return.As<Pathway>("p"))
                 .ResultsAsync
                 .FirstOrDefault();
@@ -111,7 +97,7 @@ namespace NHS111.Domain.Repository
         private ICypherFluentQuery GetPathwayQuery(bool startingOnly)
         {
             var pathwayQuery = _graphRepository.Client.Cypher
-               .Match(UseWhitelist, "(p:Pathway)-[:isDescribedAs]->(m:PathwayMetaData)");
+               .Match("(p:Pathway)-[:isDescribedAs]->(m:PathwayMetaData)");
 
             return startingOnly ? pathwayQuery.Where("p.startingPathway = true") : pathwayQuery;
         }
@@ -120,7 +106,7 @@ namespace NHS111.Domain.Repository
         {
             var symptomGroups = await _graphRepository.Client.Cypher
                 .Match("(p:Pathway)")
-                .Where(string.Format("p.pathwayNo in [{0}]", string.Join(", ", pathwayNos.Select(p => "\"" + p + "\""))), UseWhitelist)
+                .Where(string.Format("p.pathwayNo in [{0}]", string.Join(", ", pathwayNos.Select(p => "\"" + p + "\""))))
                 .Return(p => new SymptomGroup { PathwayNo = Return.As<string>("p.pathwayNo"), Code = Return.As<string>("collect(distinct(p.symptomGroup))[0]")})
                 .ResultsAsync;
 
@@ -135,7 +121,7 @@ namespace NHS111.Domain.Repository
         {
             var pathwayNumberList = await _graphRepository.Client.Cypher
                 .Match("(p:Pathway)")
-                .Where(string.Format("p.title =~ \"(?i){0}\"", PathwayTitleUriParser.EscapeSymbols(pathwayTitle)), UseWhitelist)  //case-insensitive query
+                .Where(string.Format("p.title =~ \"(?i){0}\"", PathwayTitleUriParser.EscapeSymbols(pathwayTitle)))  //case-insensitive query
                 .Return(p => Return.As<string>("p.pathwayNo"))
                 .ResultsAsync;
 
