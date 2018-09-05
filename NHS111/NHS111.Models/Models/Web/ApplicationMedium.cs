@@ -15,8 +15,8 @@ namespace NHS111.Models.Models.Web
             new ApplicationMedium("webdirect", "direct")
         };
 
-        public static ApplicationMedium NhsApp = _applicationMediums.Find(m => m.ToString() == "nhsapp");
-        public static ApplicationMedium WebDirect = _applicationMediums.Find(m => m.ToString() == "webdirect");
+        public static ApplicationMedium NhsApp = _applicationMediums.Find(m => m.ValueEquals("nhsapp"));
+        public static ApplicationMedium WebDirect = _applicationMediums.Find(m => m.ValueEquals("webdirect"));
 
         public static ApplicationMedium GetFromRequest(HttpRequestBase request)
         {
@@ -32,7 +32,7 @@ namespace NHS111.Models.Models.Web
             {
                 var httpContext = filterContext.RequestContext.HttpContext;
 
-                if (httpContext.Request.QueryString["utm_medium"] != null && medium.Equals(httpContext.Request.QueryString["utm_medium"]))
+                if (httpContext.Request.QueryString["utm_medium"] != null && medium.QueryStringEquals(httpContext.Request.QueryString["utm_medium"]))
                 {
                     if (httpContext.Response.Cookies[_referralCookieName] != null)
                     {
@@ -63,12 +63,12 @@ namespace NHS111.Models.Models.Web
             _querystringValue = querystringValue;
         }
 
-        public override string ToString()
+        public bool ValueEquals(string value)
         {
-            return _value;
+            return _value.ToLower().Equals(value.ToLower());
         }
-        
-        public bool Equals(string queryStringValue)
+
+        public bool QueryStringEquals(string queryStringValue)
         {
             return _querystringValue.ToLower().Equals(queryStringValue.ToLower());
         }
@@ -77,4 +77,3 @@ namespace NHS111.Models.Models.Web
         private readonly string _querystringValue;
     }
 }
-
