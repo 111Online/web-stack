@@ -15,10 +15,6 @@ namespace NHS111.SmokeTest.Utils
     {
         private static string _baseUrl = ConfigurationManager.AppSettings["TestWebsiteUrl"];
 
-        private const string _headerText = "Getting care with 1 1 1 online";
-
-        [FindsBy(How = How.CssSelector, Using = "h1")]
-        private IWebElement Header { get; set; }
 
         [FindsBy(How = How.ClassName, Using = "button--next")]
         private IWebElement NextButton { get; set; }
@@ -33,6 +29,20 @@ namespace NHS111.SmokeTest.Utils
             if (UrlContainsCredentials())
             {
                 Driver.Navigate().GoToUrl(GetUrlWithoutCredentials());
+            }
+            Driver.Manage().Window.Maximize();
+        }
+
+
+        public void Load(string mediumQuerystring)
+        {
+            Driver.Navigate().GoToUrl(_baseUrl);
+            if (UrlContainsCredentials())
+            {
+                if(_baseUrl.Contains("?"))
+                    Driver.Navigate().GoToUrl(GetUrlWithoutCredentials() + "&utm_medium=" + mediumQuerystring);
+                else
+                    Driver.Navigate().GoToUrl(GetUrlWithoutCredentials() + "?utm_medium=" + mediumQuerystring);
             }
             Driver.Manage().Window.Maximize();
         }
@@ -52,11 +62,14 @@ namespace NHS111.SmokeTest.Utils
             return _baseUrl.Contains("@");
         }
 
-        public ModuleZeroPage ClickNextButton()
+        public DemographicsPage ClickNextButton()
         {
             NextButton.Click();
-            return new ModuleZeroPage(Driver);
+            return new DemographicsPage(Driver);
         }
+
+
+
         public void Verify()
         {
             Assert.IsTrue(Header.Displayed);

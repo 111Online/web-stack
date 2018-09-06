@@ -2,15 +2,13 @@
 using NHS111.Domain.Repository;
 using NHS111.Features;
 using NHS111.Models.Models.Domain;
-using NHS111.Utils.Configuration;
 
 namespace NHS111.Domain.Integration.Test.Repository
 {
     public class RepositoryTestBase
     {
         protected readonly IGraphRepository GraphRepository;
-        protected readonly Mock<IPathwaysConfigurationManager> MockPathwaysConfigurationManager = new Mock<IPathwaysConfigurationManager>();
-
+        
         protected readonly Mock<IPathwaysWhiteListFeature> MockPathwaysWhiteListFeature = new Mock<IPathwaysWhiteListFeature>();
 
         protected readonly Pathway[] Pathways =

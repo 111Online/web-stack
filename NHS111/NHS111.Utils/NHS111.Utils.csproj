@@ -204,10 +204,8 @@
     <Compile Include="Attributes\LogHandleErrorForMVCAttribute.cs" />
     <Compile Include="Attributes\MultiSubmitAttribute.cs" />
     <Compile Include="Comparer\KeywordComparer.cs" />
-    <Compile Include="Configuration\PathwaysConfigurationManager.cs" />
     <Compile Include="Converters\DosServiceConverter.cs" />
     <Compile Include="Dates\NonWorkingDays.cs" />
-    <Compile Include="Extensions\CypherFluentQueryExtension.cs" />
     <Compile Include="Filters\PersistCampaignDataFilterAttribute.cs" />
     <Compile Include="Filters\RedirectFilterAttribute.cs" />
     <Compile Include="Filters\LogJourneyFilterAttribute.cs" />

@@ -132,6 +132,7 @@
       <HintPath>..\packages\System.Spatial.5.8.2\lib\net40\System.Spatial.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="System.Web" />
     <Reference Include="System.Web.Helpers, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.0\lib\net45\System.Web.Helpers.dll</HintPath>
       <Private>True</Private>
@@ -204,6 +205,7 @@
     <Compile Include="Models\Domain\SymptomDiscriminator.cs" />
     <Compile Include="Models\Domain\VersionInfo.cs" />
     <Compile Include="Models\Web\AgeGenderViewModel.cs" />
+    <Compile Include="Models\Web\ApplicationMedium.cs" />
     <Compile Include="Models\Web\ButtonViewModel.cs" />
     <Compile Include="Models\Web\CalloutViewModel.cs" />
     <Compile Include="Models\Web\CCG\CCGDetailsModel.cs" />

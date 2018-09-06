@@ -12,9 +12,12 @@ namespace NHS111.SmokeTest.Utils
             return homepage;
         }
 
-        public static ModuleZeroPage ModuleZero(HomePage page)
+
+        public static HomePage HomePage(IWebDriver driver, string medium)
         {
-            return page.ClickNextButton();
+            var homepage = new HomePage(driver);
+            homepage.Load(medium);
+            return homepage;
         }
 
 
