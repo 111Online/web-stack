@@ -92,13 +92,13 @@
     <div class="phase-banner" role="banner">
         <span class="banner--beta">beta</span>
         <span class="phase-message">
-            @if (Model is OutcomeViewModel)
+            @if (IsSectionDefined("FeedbackSection") && !(Model is OutcomeViewModel))
             {
-                <text>This is the first version of a new service.</text>
+                <text>This is a new service, your <a href="#feedback" class="js-open-feedback">feedback</a> will help improve it.</text>
             }
             else
             {
-                <text>This is a new service, your <a href="#feedback" class="js-open-feedback">feedback</a> will help improve it.</text>
+                <text>This is the first version of a new service.</text>
             }
         </span>
     </div>
