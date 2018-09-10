@@ -271,7 +271,7 @@ namespace NHS111.SmokeTests.Regression
 
             var outcomePage = questionPage
                 .AnswerSuccessiveNo(2)
-                .AnswerYes()
+                .Answer("I feel so ill I've stopped doing everything I usually do")
                 .Answer(3)
                 .AnswerSuccessiveNo(3)
                 .Answer(3)

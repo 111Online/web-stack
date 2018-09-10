@@ -14,7 +14,7 @@ namespace NHS111.SmokeTests
             var outcomePage = questionPage
                 .AnswerYes()
                 .AnswerAndVerifyNextQuestion(1, "Do you have any of the symptoms of a heart attack?")
-                .AnswerAndVerifyNextQuestion(5, "Do you have a new rash that won't go away when you press a glass on it, and you also feel severely ill?")
+                .AnswerAndVerifyNextQuestion(5, "Are you so ill you've stopped doing your usual daily activities?")
                 .AnswerAndVerifyNextQuestion(3, "Could you be pregnant?")
                 .AnswerAndVerifyNextQuestion(3, "Have you vomited up either of the following?")
                 .AnswerAndVerifyNextQuestion(4, "What does your poo look like?")
@@ -34,7 +34,7 @@ namespace NHS111.SmokeTests
                 .AnswerAndVerifyNextQuestion(1, "Have you got a severe ripping or tearing pain in your chest or back that came on suddenly?")
                 .AnswerAndVerifyNextQuestion(3, "Has a doctor told you that you have either of the following?")
                 .AnswerAndVerifyNextQuestion(4, "Do you have any of the symptoms of a heart attack?")
-                .AnswerAndVerifyNextQuestion(5, "Do you have a new rash that won't go away when you press a glass on it, and you also feel severely ill?")
+                .AnswerAndVerifyNextQuestion(5, "Are you so ill you've stopped doing your usual daily activities?")
                 .AnswerAndVerifyNextQuestion(3, "Have you vomited up either of the following?")
                 .AnswerAndVerifyNextQuestion(4, "What does your poo look like?")
                 .AnswerAndVerifyNextQuestion(4, "Is the pain so unbearable you can't move at all?")
@@ -51,7 +51,7 @@ namespace NHS111.SmokeTests
             var outcomePage = questionPage
                 .AnswerYes()
                 .AnswerAndVerifyNextQuestion(1, "Do you have any of the symptoms of a heart attack?")
-                .AnswerAndVerifyNextQuestion(5, "Do you have a new rash that won't go away when you press a glass on it, and you also feel severely ill?")
+                .AnswerAndVerifyNextQuestion(5, "Are you so ill you've stopped doing your usual daily activities?")
                 .AnswerAndVerifyNextQuestion(3, "Have you vomited up either of the following?")
                 .AnswerAndVerifyNextQuestion(4, "What does your poo look like?")
                 .AnswerAndVerifyNextQuestion(4, "Is the pain so unbearable you can't move at all?")

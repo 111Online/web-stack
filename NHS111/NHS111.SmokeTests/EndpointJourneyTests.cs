@@ -46,10 +46,10 @@ namespace NHS111.SmokeTests
         {
             var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Cold or Flu (Declared)", TestScenerioSex.Female, TestScenerioAgeGroups.Adult);
 
-            questionPage.VerifyQuestion("Do you feel so ill that you can't think of anything else?");
+            questionPage.VerifyQuestion("Are you so ill you've stopped doing your usual daily activities?");
             var outcomePage = questionPage
                 .Answer(3)
-                .Answer(4)
+                .Answer(3) //mers
                 .Answer(3)
                 .Answer(3)
                 .Answer(3)
@@ -78,7 +78,7 @@ namespace NHS111.SmokeTests
 
             //postcodeFirstPage.EnterPostCodeAndSubmit("LS17 7NZ");
 
-            postcodeFirstPage.VerifyOutcome("See a dentist in the next few days");
+            postcodeFirstPage.VerifyOutcome("See your dentist in the next few days");
             postcodeFirstPage.VerifyWorseningPanel(WorseningMessages.Call111PostCodeFirst);
             postcodeFirstPage.VerifyCareAdviceHeader("What you can do in the meantime");
             postcodeFirstPage.VerifyCareAdvice(new string[] { "Toothache", "Medication, pain and/or fever" });
@@ -115,7 +115,7 @@ namespace NHS111.SmokeTests
                 .AnswerSuccessiveByOrder(3,3)
                 .Answer(5)
                 .Answer(3)
-                .Answer(4)
+                .Answer(3)
                 .Answer(3)
                 .AnswerForDispostion<OutcomePage>("Yes");
 
@@ -135,7 +135,7 @@ namespace NHS111.SmokeTests
                 .Answer(5)
                 .Answer(3)
                 .Answer(1)
-                .Answer(5)
+                .Answer(3)
                 .Answer(3)
                 .Answer(2)
                 .Answer(4)
@@ -158,13 +158,12 @@ namespace NHS111.SmokeTests
         {
             var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Diarrhoea and Vomiting", TestScenerioSex.Male, TestScenerioAgeGroups.Child);
 
-            questionPage.VerifyQuestion("Have you vomited up either of the following?");
+            questionPage.VerifyQuestion("Do any of these apply to your sick (vomit)?");
             var outcomePage = questionPage
-                .Answer(4)
-                .AnswerSuccessiveByOrder(3,2)
                 .Answer(5)
+                .AnswerSuccessiveByOrder(3,2)
                 .Answer(4)
-                .AnswerSuccessiveByOrder(3,4)
+                .AnswerSuccessiveByOrder(3,5)
                 .AnswerSuccessiveByOrder(4,2)
                 .AnswerSuccessiveByOrder(3,3)
                 .Answer(5)
@@ -210,9 +209,9 @@ namespace NHS111.SmokeTests
                 .Answer(5)
                 .Answer(1)
                 .Answer(3)
-                .Answer(4)
-                .AnswerSuccessiveByOrder(3, 2)
-                .AnswerSuccessiveByOrder(1,2)
+                .Answer(1)
+                .AnswerSuccessiveByOrder(3, 4)
+                //.AnswerSuccessiveByOrder(1,2)
                 .AnswerForDispostion<PostcodeFirstPage>("Yes");
            
             //outcomePage.EnterPostCodeAndSubmit("LS17 7NZ");
@@ -235,7 +234,7 @@ namespace NHS111.SmokeTests
                 .AnswerSuccessiveByOrder(3, 3)
                 .Answer(5)
                 .Answer(3)
-                .Answer(4)
+                .Answer(3)
                 .AnswerSuccessiveByOrder(3, 4)
                 .AnswerForDispostion<OutcomePage>("No");
 
