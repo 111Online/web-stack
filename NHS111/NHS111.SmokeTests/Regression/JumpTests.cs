@@ -121,7 +121,7 @@ namespace NHS111.SmokeTests.Regression
             var outcomePage = questionPage
                 .AnswerSuccessiveNo(3)
                 .Answer(3)
-                .AnswerSuccessiveNo(3)
+                .AnswerSuccessiveNo(4)
                 .AnswerForDispostion<OutcomePage>("I've stopped taking a medicine");
 
             outcomePage.VerifyOutcome(OutcomePage.BookCallBackText);
