@@ -1,4 +1,6 @@
-﻿namespace NHS111.Models.Models.Web.DosRequests
+﻿using System;
+
+namespace NHS111.Models.Models.Web.DosRequests
 {
     public class DosCase
     {
@@ -22,6 +24,12 @@
         public bool SearchDistanceSpecified { get { return SearchDistance > 0; } }
         public string Gender { get; set; }
         public int NumberPerType { get; set; }
+        public string SearchDateTime { get;  set; }
+
+        public void SpecifySpecificSearchDate(DateTime searchDateTime)
+        {
+            SearchDateTime = searchDateTime.ToUniversalTime().ToString("yyyy-MM-ddTHH:mm:ss+00:00");
+        }
     }
 
     public enum AgeFormatType

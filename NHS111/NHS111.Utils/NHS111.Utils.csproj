@@ -204,6 +204,7 @@
     <Compile Include="Attributes\LogHandleErrorForMVCAttribute.cs" />
     <Compile Include="Attributes\MultiSubmitAttribute.cs" />
     <Compile Include="Comparer\KeywordComparer.cs" />
+    <Compile Include="Converters\DosServiceConverter.cs" />
     <Compile Include="Dates\NonWorkingDays.cs" />
     <Compile Include="Filters\PersistCampaignDataFilterAttribute.cs" />
     <Compile Include="Filters\RedirectFilterAttribute.cs" />

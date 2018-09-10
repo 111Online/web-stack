@@ -212,6 +212,7 @@
     <Compile Include="Models\Web\CCG\CCGModel.cs" />
     <Compile Include="Models\Web\CCG\DUCTriageApp.cs" />
     <Compile Include="Models\Web\CCG\ServiceListModel.cs" />
+    <Compile Include="Models\Web\Clock\SearchDateTimeClock.cs" />
     <Compile Include="Models\Web\Clock\SystemClock.cs" />
     <Compile Include="Models\Web\Clock\IClock.cs" />
     <Compile Include="Models\Web\ConfirmLocationViewModel.cs" />

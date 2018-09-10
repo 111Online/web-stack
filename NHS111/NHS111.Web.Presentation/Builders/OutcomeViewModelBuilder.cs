@@ -157,8 +157,7 @@ namespace NHS111.Web.Presentation.Builders
 
         public async Task<OutcomeViewModel> PopulateGroupedDosResults(OutcomeViewModel model, DateTime? overrideDate, bool? overrideFilterServices, DosEndpoint? endpoint)
         {
-            var dosViewModel = Mapper.Map<DosViewModel>(model);
-            if (overrideDate.HasValue) dosViewModel.DispositionTime = overrideDate.Value;
+            var dosViewModel = _dosBuilder.BuildDosViewModel(model, overrideDate);
             var _ = _auditLogger.LogDosRequest(model, dosViewModel);
             model.DosCheckCapacitySummaryResult = await _dosBuilder.FillCheckCapacitySummaryResult(dosViewModel, overrideFilterServices.HasValue ? overrideFilterServices.Value : model.FilterServices, endpoint);
             model.DosCheckCapacitySummaryResult.ServicesUnavailable = model.DosCheckCapacitySummaryResult.ResultListEmpty;
@@ -225,7 +224,6 @@ namespace NHS111.Web.Presentation.Builders
         Task<OutcomeViewModel> ItkResponseBuilder(OutcomeViewModel model);
         Task<OutcomeViewModel> DeadEndJumpBuilder(OutcomeViewModel model);
         Task<OutcomeViewModel> PathwaySelectionJumpBuilder(OutcomeViewModel model);
-        Task<OutcomeViewModel> PopulateGroupedDosResults(OutcomeViewModel model, DateTime? overrideDate,
-            bool? overrideFilterServices, DosEndpoint? endpoint);
+        Task<OutcomeViewModel> PopulateGroupedDosResults(OutcomeViewModel model, DateTime? overrideDate, bool? overrideFilterServices, DosEndpoint? endpoint);
     }
 }
