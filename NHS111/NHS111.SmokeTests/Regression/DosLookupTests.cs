@@ -264,6 +264,7 @@ namespace NHS111.SmokeTests.Regression
         }
 
         [Test]
+        [Ignore("v15")]
         //PT8 via Headache via Digital split question Tx1054
         public void Pt8ViaHeadacheViaDigitalSplitQuestionTx1054()
         {
@@ -359,6 +360,7 @@ namespace NHS111.SmokeTests.Regression
         }
 
         [Test]
+        [Ignore("v15")]
         //PT8 via MHP PW752 headache jump to PW755 Headache then via Digital split question Tx1054
         public void Pt8ViaMhpPw752HeadacheJumpPw755HeadacheViaDigitalSplitQuestionTx1054()
         {
