@@ -10,5 +10,6 @@ namespace NHS111.Models.Models.Web.ITK
         public string DispositionName { get; set; }
         public List<string> ReportItems { get; set; }
         public List<string> ConsultationSummaryItems { get; set; }
+        public IEnumerable<StepItem> CaseSteps { get; set; }
     }
 }

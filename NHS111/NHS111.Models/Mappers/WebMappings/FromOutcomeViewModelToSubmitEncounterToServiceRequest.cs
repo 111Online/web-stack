@@ -44,6 +44,7 @@ namespace NHS111.Models.Mappers.WebMappings
             caseDetails.Source = outcome.PathwayTitle;
             caseDetails.ReportItems = Mapper.Map<List<JourneyStep>, List<string>>(outcome.Journey.Steps);
             caseDetails.ConsultationSummaryItems = outcome.Journey.Steps.Where(s => !string.IsNullOrEmpty(s.Answer.DispositionDisplayText)).Select(s => s.Answer.ReportText).Distinct().ToList();
+            caseDetails.CaseSteps = outcome.Journey.Steps.Select(s => new StepItem() {QuestionId = s.QuestionId, AnswerOrder = s.Answer.Order});
             return caseDetails;
         }
     }

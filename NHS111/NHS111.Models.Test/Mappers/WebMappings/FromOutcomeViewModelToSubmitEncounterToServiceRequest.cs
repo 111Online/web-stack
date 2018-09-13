@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using AutoMapper;
+using NHS111.Models.Models.Domain;
 using NHS111.Models.Models.Web;
 using NHS111.Models.Models.Web.FromExternalServices;
 using NHS111.Models.Models.Web.ITK;
@@ -163,6 +164,55 @@ namespace NHS111.Models.Test.Mappers.WebMappings
             Assert.AreEqual("bormer", result.Informant.Surname);
             Assert.AreEqual("111", result.Informant.TelephoneNumber);
             Assert.AreEqual(NHS111.Models.Models.Web.ITK.InformantType.NotSpecified, result.Informant.Type);
+        }
+
+        [Test]
+        public void FromOutcomeViewModelToCaseStepsConverter_test()
+        {
+            var outcome = new OutcomeViewModel()
+            {
+                UserInfo = new UserInfo()
+                {
+                    FirstName = "Test",
+                    LastName = "User",
+                    Demography = new AgeGenderViewModel()
+                    {
+                        Age = 35,
+                        Gender = "Male"
+                    },
+                    TelephoneNumber = "111",
+                },
+                Journey = new Journey
+                {
+                    Steps = new List<JourneyStep>
+                    {
+                        new JourneyStep
+                        {
+                            QuestionId = "Tx12345",
+                            Answer = new Answer { Order = 0 }
+                        },
+                        new JourneyStep
+                        {
+                            QuestionId = "Tx678910",
+                            Answer = new Answer { Order = 3 }
+                        },
+                        new JourneyStep
+                        {
+                            QuestionId = "Tx111111",
+                            Answer = new Answer { Order = 2 }
+                        },
+                    }
+                }
+            };
+
+            var result = Mapper.Map<OutcomeViewModel, CaseDetails>(outcome);
+            Assert.AreEqual(3, result.CaseSteps.Count());
+            Assert.AreEqual("Tx12345", result.CaseSteps.First().QuestionId);
+            Assert.AreEqual(0, result.CaseSteps.First().AnswerOrder);
+            Assert.AreEqual("Tx678910", result.CaseSteps.Skip(1).First().QuestionId);
+            Assert.AreEqual(3, result.CaseSteps.Skip(1).First().AnswerOrder);
+            Assert.AreEqual("Tx111111", result.CaseSteps.Skip(2).First().QuestionId);
+            Assert.AreEqual(2, result.CaseSteps.Skip(2).First().AnswerOrder);
         }
     }
 }
