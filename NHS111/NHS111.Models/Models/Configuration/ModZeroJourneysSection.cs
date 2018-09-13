@@ -4,7 +4,7 @@ namespace NHS111.Models.Models.Configuration
 {
     public class ModZeroJourneysSection : ConfigurationSection
     {
-        private const string ModZeroJourneyCollectionName = "moduleZeroJourneys";
+        private const string ModZeroJourneyCollectionName = "moduleZeroJourney";
 
         [ConfigurationProperty(ModZeroJourneyCollectionName)]
         [ConfigurationCollection(typeof(ModZeroJourneyCollection), AddItemName = "moduleZeroJourney")]
