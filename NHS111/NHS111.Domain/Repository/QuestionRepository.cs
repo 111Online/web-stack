@@ -80,27 +80,7 @@ namespace NHS111.Domain.Repository
             return await GetJustToBeSafeQuestions(string.Format("{0}-{1}", pathwayId, justToBeSafePart));
         }
 
-        public async Task<IEnumerable<QuestionWithAnswers>> GetFullPathwaysJourney(List<JourneyStep> steps)
-        {
-            ICypherFluentQuery query = AddMatchesForSteps(_graphRepository.Client.Cypher, steps, false);
-            query = query
-                .With("rows.question as question, rows.answer as answer")
-                .OrderBy("rows.step")
-                .Where("answer is not null");
-
-            var resultquery = query.ReturnDistinct(question => new QuestionWithAnswers()
-                {
-                    Answered = Return.As<Answer>("answer"),
-                    Question = Return.As<Question>("question"),
-                    Labels = question.Labels()
-                }
-            );
-            var questionWithAnswerses = await resultquery.ResultsAsync;
-            return questionWithAnswerses;
-
-        }
-
-        public async Task<IEnumerable<QuestionWithAnswers>> GetFullPathwaysJourney(List<JourneyStep> steps, string startingPathwayId)
+        public async Task<IEnumerable<QuestionWithAnswers>> GetPathwaysJourney(List<JourneyStep> steps, string startingPathwayId)
         {
             var startingPathwayQuery = AddMatchesForStartingPathway(_graphRepository.Client.Cypher, steps.First(), startingPathwayId);
             ICypherFluentQuery query = AddMatchesForSteps(startingPathwayQuery, steps, true);
@@ -116,26 +96,8 @@ namespace NHS111.Domain.Repository
                     Labels = question.Labels()
                 }
             );
-            var questionWithAnswerses = await resultquery.ResultsAsync;
-            return questionWithAnswerses;
-
-        }
-
-        public ICypherFluentQuery AddMatchesForSteps(ICypherFluentQuery query, List<JourneyStep> steps)
-        {
-            var modifiedQuery = query;
-            for (int index = 0; index < steps.Count; ++index)
-            {
-                 modifiedQuery = modifiedQuery.Match(String.Format("(q:Question{{id:'{0}'}})-[a:Answer{{order:{1}}}]->(n)", steps[index].QuestionId,steps[index].Answer.Order));
-                modifiedQuery = index == steps.Count - 1 ? 
-                    modifiedQuery.OptionalMatch("(n)-[b:Answer]->(r)") : 
-                    modifiedQuery.OptionalMatch(String.Format("(n)-[b:Answer]->(r:Question{{id:'{0}'}})", steps[index + 1].QuestionId));
-                modifiedQuery = (index <= 0 ? 
-                    modifiedQuery.With(String.Format("collect({{question:q, answer:a, step:{0}}})as rows, n,b", index)) : 
-                    modifiedQuery.With(String.Format("rows + collect({{question:q, answer:a, step:{0}}})as rows, n,b", index))).
-                    With(String.Format("rows + collect({{question:n, answer:b, step:{0}}}) as allrows", index + 0.1)).Unwind("allrows", "rows");
-            }
-            return modifiedQuery;
+            var questionsWithAnswers = await resultquery.ResultsAsync;
+            return questionsWithAnswers;
         }
 
         public ICypherFluentQuery AddMatchesForStartingPathway(ICypherFluentQuery query, JourneyStep firstQuestionStep, string startingPathwayId)
@@ -246,10 +208,7 @@ namespace NHS111.Domain.Repository
     {
         Task<QuestionWithAnswers> GetQuestion(string id);
         Task<IEnumerable<Answer>> GetAnswersForQuestion(string id);
-      //  Task<IEnumerable<QuestionWithAnswers>> GetFullPathwaysJourney(List<JourneyStep> steps);
-
-        Task<IEnumerable<QuestionWithAnswers>>
-            GetFullPathwaysJourney(List<JourneyStep> steps, string startingPathwayId);
+        Task<IEnumerable<QuestionWithAnswers>>GetPathwaysJourney(List<JourneyStep> steps, string startingPathwayId);
         Task<QuestionWithAnswers> GetNextQuestion(string id, string nodeLabel, string answer);
         Task<QuestionWithAnswers> GetFirstQuestion(string pathwayId);
         Task<IEnumerable<QuestionWithAnswers>> GetJustToBeSafeQuestions(string pathwayId, string justToBeSafePart);

@@ -1,10 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
+using System.Linq;
+using System.Net;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using NHS111.Business.Configuration;
+using NHS111.Models.Models.Configuration;
+using NHS111.Models.Models.Domain;
 using NHS111.Models.Models.Web.FromExternalServices;
 using NHS111.Utils.Helpers;
 
@@ -48,19 +53,38 @@ namespace NHS111.Business.Services
             return await _restfulHelper.GetAsync(_configuration.GetDomainApiJustToBeSafeQuestionsFirstUrl(pathwayId));
         }
 
-
-        public async Task<HttpResponseMessage> GetFullPathwayJourney(JourneyStep[] steps)
+        public async Task<HttpResponseMessage> GetFullPathwayJourney(JourneyStep[] steps, string startingPathwayId)
         {
-            var request = new HttpRequestMessage { Content = new StringContent(JsonConvert.SerializeObject(steps), Encoding.UTF8, "application/json") };
-            var response = await _restfulHelper.PostAsync(_configuration.GetDomainApiFullPathwayJourneyUrl(), request).ConfigureAwait(false);
-            return response;
+            var moduleZeroJourney = await GetModuleZeroJourney();
+            var pathwaysJourney = await GetPathwaysJourney(steps, startingPathwayId);
+            var content = new StringContent(JsonConvert.SerializeObject(moduleZeroJourney.Concat(pathwaysJourney)), Encoding.UTF8, "application/json");
+            return new HttpResponseMessage(HttpStatusCode.OK) { Content = content };
         }
 
-        public async Task<HttpResponseMessage> GetFullPathwayJourney(JourneyStep[] steps, string startingPathwayId)
+        private async Task<IEnumerable<QuestionWithAnswers>> GetModuleZeroJourney()
+        {
+            //determine starting pathway and journey steps from config
+            var steps = new JourneyStep[1];
+            var startingPathwayId = string.Empty;
+
+            var section = (ModZeroJourneysSection)ConfigurationManager.GetSection("moduleZeroTriage");
+            if (section == null)
+                throw new InvalidOperationException(string.Format("Missing section name {0}", "moduleZeroTriage"));
+
+            //_systemVariables = section
+            //    .Cast<System.Collections.DictionaryEntry>()
+            //    .ToDictionary(n => n.Key.ToString(), n => n.Value.ToString());
+
+            var request = new HttpRequestMessage { Content = new StringContent(JsonConvert.SerializeObject(steps), Encoding.UTF8, "application/json") };
+            var response = await _restfulHelper.PostAsync(_configuration.GetDomainApiFullPathwayJourneyUrl(startingPathwayId), request).ConfigureAwait(false);
+            return JsonConvert.DeserializeObject<IEnumerable<QuestionWithAnswers>>(await response.Content.ReadAsStringAsync());
+        }
+
+        private async Task<IEnumerable<QuestionWithAnswers>> GetPathwaysJourney(JourneyStep[] steps, string startingPathwayId)
         {
             var request = new HttpRequestMessage { Content = new StringContent(JsonConvert.SerializeObject(steps), Encoding.UTF8, "application/json") };
             var response = await _restfulHelper.PostAsync(_configuration.GetDomainApiFullPathwayJourneyUrl(startingPathwayId), request).ConfigureAwait(false);
-            return response;
+            return JsonConvert.DeserializeObject<IEnumerable<QuestionWithAnswers>>(await response.Content.ReadAsStringAsync());
         }
 
         public async Task<string> GetJustToBeSafeQuestionsNext(string pathwayId, IEnumerable<string> answeredQuestionIds, bool multipleChoice, string selectedQuestionId)
@@ -71,7 +95,6 @@ namespace NHS111.Business.Services
 
     public interface IQuestionService
     {
-        Task<HttpResponseMessage> GetFullPathwayJourney(JourneyStep[] steps);
         Task<HttpResponseMessage> GetFullPathwayJourney(JourneyStep[] steps, string startingPathwayId);
         Task<string> GetQuestion(string id);
         Task<string> GetAnswersForQuestion(string id);

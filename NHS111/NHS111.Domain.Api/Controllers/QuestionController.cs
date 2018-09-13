@@ -45,7 +45,7 @@ namespace NHS111.Domain.Api.Controllers
         [Route("questions/fullPathwaysJourney/{startingPathwayId}")]
         public async Task<HttpResponseMessage> GetFullPathwayJourney([FromBody]JourneyStep[] steps, string startingPathwayId)
         {
-            var response = await _questionRepository.GetFullPathwaysJourney(steps.ToList(), startingPathwayId).AsJson().AsHttpResponse();
+            var response = await _questionRepository.GetPathwaysJourney(steps.ToList(), startingPathwayId).AsJson().AsHttpResponse();
             return response;
         }
 

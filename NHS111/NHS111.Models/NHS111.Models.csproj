@@ -184,8 +184,11 @@
     <Compile Include="Models\Business\DosService.cs" />
     <Compile Include="Models\Business\PublicHolidays.cs" />
     <Compile Include="Models\Business\Suggestion.cs" />
+    <Compile Include="Models\Configuration\JourneyStepElement.cs" />
     <Compile Include="Models\Configuration\LivePathwaysCollection.cs" />
     <Compile Include="Models\Configuration\LivePathwaysElement.cs" />
+    <Compile Include="Models\Configuration\ModZeroJourneyCollection.cs" />
+    <Compile Include="Models\Configuration\ModZeroJourneysSection.cs" />
     <Compile Include="Models\Configuration\PathwaysSection.cs" />
     <Compile Include="Models\Configuration\JumpToPathwaysCollection.cs" />
     <Compile Include="Models\Configuration\JumpToPathwaysElement.cs" />
