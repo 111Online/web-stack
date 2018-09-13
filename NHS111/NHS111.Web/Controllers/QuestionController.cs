@@ -26,7 +26,7 @@ namespace NHS111.Web.Controllers {
 
         public QuestionController(IJourneyViewModelBuilder journeyViewModelBuilder,
             IConfiguration configuration, IJustToBeSafeFirstViewModelBuilder justToBeSafeFirstViewModelBuilder, IDirectLinkingFeature directLinkingFeature,
-            IAuditLogger auditLogger, IUserZoomDataBuilder userZoomDataBuilder, IRestClient restClientBusinessApi, IViewRouter viewRouter, IPostcodePrefillFeature postcodePrefillFeature, IDosEndpointFeature dosEndpointFeature) {
+            IAuditLogger auditLogger, IUserZoomDataBuilder userZoomDataBuilder, IRestClient restClientBusinessApi, IViewRouter viewRouter, IPostcodePrefillFeature postcodePrefillFeature, IDosEndpointFeature dosEndpointFeature, IDOSSpecifyDispoTimeFeature dosSpecifyDispoTimeFeature) {
             _journeyViewModelBuilder = journeyViewModelBuilder;
             _configuration = configuration;
             _justToBeSafeFirstViewModelBuilder = justToBeSafeFirstViewModelBuilder;
@@ -37,6 +37,7 @@ namespace NHS111.Web.Controllers {
             _viewRouter = viewRouter;
             _postcodePrefillFeature = postcodePrefillFeature;
             _dosEndpointFeature = dosEndpointFeature;
+            _dosSpecifyDispoTimeFeature = dosSpecifyDispoTimeFeature;
         }
 
         [HttpGet, PersistCampaignDataFilter]
@@ -187,6 +188,9 @@ namespace NHS111.Web.Controllers {
                                                  _postcodePrefillFeature.RequestIncludesPostcode(Request);
 
                     DosEndpoint? endpoint = SetEndpoint();
+                    DateTime? dosSearchTime = null;
+                    if (_dosSpecifyDispoTimeFeature.IsEnabled && _dosSpecifyDispoTimeFeature.HasDate(Request))
+                        dosSearchTime = _dosSpecifyDispoTimeFeature.GetDosSearchDateTime(Request);
 
                     if (shouldPrefillPostcode) {
                         resultingModel.CurrentPostcode = _postcodePrefillFeature.GetPostcode(Request);
@@ -196,9 +200,9 @@ namespace NHS111.Web.Controllers {
                             controller.ControllerContext = new ControllerContext(ControllerContext.RequestContext,
                                 controller);
                         if (OutcomeGroup.PrePopulatedDosResultsOutcomeGroups.Contains(outcomeModel.OutcomeGroup))
-                            return await controller.DispositionWithServices(outcomeModel, "", endpoint);
+                            return await controller.DispositionWithServices(outcomeModel, "", endpoint, dosSearchTime);
                 
-                        return await controller.ServiceList(outcomeModel, null, null, endpoint);
+                        return await controller.ServiceList(outcomeModel, dosSearchTime, null, endpoint);
                         
                     }
                 }
@@ -356,5 +360,6 @@ namespace NHS111.Web.Controllers {
         private readonly IViewRouter _viewRouter;
         private readonly IPostcodePrefillFeature _postcodePrefillFeature;
         private readonly IDosEndpointFeature _dosEndpointFeature;
+        private readonly IDOSSpecifyDispoTimeFeature _dosSpecifyDispoTimeFeature;
     }
 }

@@ -11,6 +11,9 @@ using OpenQA.Selenium.Support.PageObjects;
 
 namespace NHS111.SmokeTest.Utils
 {
+    using System.Collections.Specialized;
+    using System.Web;
+
     public class HomePage : LayoutPage
     {
         private static string _baseUrl = ConfigurationManager.AppSettings["TestWebsiteUrl"];
@@ -37,12 +40,11 @@ namespace NHS111.SmokeTest.Utils
         public void Load(string mediumQuerystring)
         {
             Driver.Navigate().GoToUrl(_baseUrl);
-            if (UrlContainsCredentials())
-            {
-                if(_baseUrl.Contains("?"))
-                    Driver.Navigate().GoToUrl(GetUrlWithoutCredentials() + "&utm_medium=" + mediumQuerystring);
-                else
-                    Driver.Navigate().GoToUrl(GetUrlWithoutCredentials() + "?utm_medium=" + mediumQuerystring);
+            if (UrlContainsCredentials()) {
+                Uri uri = new Uri(GetUrlWithoutCredentials());
+                uri = uri.AddOrReplaceQuery("utm_medium", mediumQuerystring);
+
+                Driver.Navigate().GoToUrl(uri);
             }
             Driver.Manage().Window.Maximize();
         }
@@ -74,6 +76,16 @@ namespace NHS111.SmokeTest.Utils
         {
             Assert.IsTrue(Header.Displayed);
             Assert.AreEqual(_headerText, Header.Text);
+        }
+    }
+
+    public static class UriExtensions {
+        public static Uri AddOrReplaceQuery(this Uri operand, string key, string value) {
+            var uriBuilder = new UriBuilder(operand);
+            var query = HttpUtility.ParseQueryString(uriBuilder.Query);
+            query[key] = value;
+            uriBuilder.Query = query.ToString();
+            return uriBuilder.Uri;
         }
     }
 }

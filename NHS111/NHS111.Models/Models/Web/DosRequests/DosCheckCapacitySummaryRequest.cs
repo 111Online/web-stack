@@ -12,7 +12,7 @@ namespace NHS111.Models.Models.Web.DosRequests
             this.Case = dosCase;
         }
 
-        public string ServiceVersion { get { return "1.3"; } }
+        public string ServiceVersion { get { return "1.4"; } }
 
         public DosUserInfo UserInfo { get; private set; }
 
