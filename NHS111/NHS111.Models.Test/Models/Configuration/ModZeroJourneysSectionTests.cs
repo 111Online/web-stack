@@ -77,13 +77,13 @@ namespace NHS111.Models.Test.Models.Configuration
         public void GetModZeroJourneyElementReturnsCorrectModZeroJourneyElement()
         {
             var section = ConfigurationManager.GetSection(Section) as ModZeroJourneysSection;
-            var modZeroJourneyElement = section.ModuleZeroJourneys.GetModZeroJourneyElement("Child", "Male", true);
+            var modZeroJourneyElement = section.ModuleZeroJourneys.GetModZeroJourneyElement("Male", "Child", true);
             Assert.AreEqual("PA125", modZeroJourneyElement.Id);
 
-            modZeroJourneyElement = section.ModuleZeroJourneys.GetModZeroJourneyElement("Adult", "Male", false);
+            modZeroJourneyElement = section.ModuleZeroJourneys.GetModZeroJourneyElement("Male", "Adult", false);
             Assert.AreEqual("PA118", modZeroJourneyElement.Id);
 
-            modZeroJourneyElement = section.ModuleZeroJourneys.GetModZeroJourneyElement("Adult", "Female", true);
+            modZeroJourneyElement = section.ModuleZeroJourneys.GetModZeroJourneyElement("Female", "Adult", true);
             Assert.AreEqual("PA113", modZeroJourneyElement.Id);
         }
     }

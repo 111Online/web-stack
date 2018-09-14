@@ -70,7 +70,7 @@ namespace NHS111.Business.Services
             if (section == null)
                 throw new InvalidOperationException(string.Format("Missing section name {0}", "moduleZeroTriage"));
 
-            var modZeroJourney = section.ModuleZeroJourneys.GetModZeroJourneyElement(age, gender, isTrauma);
+            var modZeroJourney = section.ModuleZeroJourneys.GetModZeroJourneyElement(gender, age, isTrauma);
             var steps = modZeroJourney.JourneySteps.Select(j => new JourneyStep {QuestionId = j.Id, Answer = new Answer {Order = j.Order}});
 
             var request = new HttpRequestMessage { Content = new StringContent(JsonConvert.SerializeObject(steps), Encoding.UTF8, "application/json") };
