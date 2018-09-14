@@ -1,36 +1,41 @@
-﻿using System.Configuration;
+﻿using System.Collections.Generic;
+using System.Configuration;
 
 namespace NHS111.Models.Models.Configuration
 {
-    public class JourneyStepCollection : ConfigurationElementCollection
+    public class JourneyStepCollection : ConfigurationElementCollection, IEnumerable<JourneyStepElement>
     {
-        [ConfigurationProperty("id", IsRequired = true)]
-        public string Id
+        public JourneyStepElement this[object key]
         {
-            get { return (string)this["id"]; }
-            set { this["id"] = value; }
+            get
+            {
+                return base.BaseGet(key) as JourneyStepElement;
+            }
         }
 
-        [ConfigurationProperty("age", IsRequired = true)]
-        public int Age
+        public override ConfigurationElementCollectionType CollectionType
         {
-            get { return (int)this["age"]; }
-            set { this["age"] = value; }
+            get
+            {
+                return ConfigurationElementCollectionType.BasicMap;
+            }
         }
 
-        [ConfigurationProperty("gender", IsRequired = true)]
-        public string Gender
+        protected override string ElementName
         {
-            get { return (string)this["gender"]; }
-            set { this["gender"] = value; }
+            get
+            {
+                return "journeyStep";
+            }
         }
 
-        ////[ConfigurationProperty("type", IsRequired = true)]
-        ////public string Type
-        ////{
-        ////    get { return (string)this["type"]; }
-        ////    set { this["type"] = value; }
-        ////}
+        protected override bool IsElementName(string elementName)
+        {
+            var isName = false;
+            if (!string.IsNullOrEmpty(elementName))
+                isName = elementName.Equals("journeyStep");
+            return isName;
+        }
 
         protected override ConfigurationElement CreateNewElement()
         {
@@ -41,5 +46,15 @@ namespace NHS111.Models.Models.Configuration
         {
             return ((JourneyStepElement)element).Id;
         }
+
+        public new IEnumerator<JourneyStepElement> GetEnumerator()
+        {
+            var count = base.Count;
+            for (var i = 0; i < count; i++)
+            {
+                yield return base.BaseGet(i) as JourneyStepElement;
+            }
+        }
     }
 }
+

@@ -17,6 +17,8 @@ namespace NHS111.Business.Services
 {
     public class QuestionService : IQuestionService
     {
+        private const string Section = "moduleZeroJourneys";
+
         private readonly IConfiguration _configuration;
         private readonly IRestfulHelper _restfulHelper;
 
@@ -53,30 +55,26 @@ namespace NHS111.Business.Services
             return await _restfulHelper.GetAsync(_configuration.GetDomainApiJustToBeSafeQuestionsFirstUrl(pathwayId));
         }
 
-        public async Task<HttpResponseMessage> GetFullPathwayJourney(JourneyStep[] steps, string startingPathwayId)
+        public async Task<HttpResponseMessage> GetFullPathwayJourney(string gender, string age, bool isTrauma, JourneyStep[] steps, string startingPathwayId)
         {
-            var moduleZeroJourney = await GetModuleZeroJourney();
+            var moduleZeroJourney = await GetModuleZeroJourney(gender, age, isTrauma);
             var pathwaysJourney = await GetPathwaysJourney(steps, startingPathwayId);
+
             var content = new StringContent(JsonConvert.SerializeObject(moduleZeroJourney.Concat(pathwaysJourney)), Encoding.UTF8, "application/json");
             return new HttpResponseMessage(HttpStatusCode.OK) { Content = content };
         }
 
-        private async Task<IEnumerable<QuestionWithAnswers>> GetModuleZeroJourney()
+        private async Task<IEnumerable<QuestionWithAnswers>> GetModuleZeroJourney(string gender, string age, bool isTrauma)
         {
-            //determine starting pathway and journey steps from config
-            var steps = new JourneyStep[1];
-            var startingPathwayId = string.Empty;
-
-            var section = (ModZeroJourneysSection)ConfigurationManager.GetSection("moduleZeroTriage");
+            var section = ConfigurationManager.GetSection(Section) as ModZeroJourneysSection;
             if (section == null)
                 throw new InvalidOperationException(string.Format("Missing section name {0}", "moduleZeroTriage"));
 
-            //_systemVariables = section
-            //    .Cast<System.Collections.DictionaryEntry>()
-            //    .ToDictionary(n => n.Key.ToString(), n => n.Value.ToString());
+            var modZeroJourney = section.ModuleZeroJourneys.GetModZeroJourneyElement(age, gender, isTrauma);
+            var steps = modZeroJourney.JourneySteps.Select(j => new JourneyStep {QuestionId = j.Id, Answer = new Answer {Order = j.Order}});
 
             var request = new HttpRequestMessage { Content = new StringContent(JsonConvert.SerializeObject(steps), Encoding.UTF8, "application/json") };
-            var response = await _restfulHelper.PostAsync(_configuration.GetDomainApiFullPathwayJourneyUrl(startingPathwayId), request).ConfigureAwait(false);
+            var response = await _restfulHelper.PostAsync(_configuration.GetDomainApiFullPathwayJourneyUrl(modZeroJourney.Id), request).ConfigureAwait(false);
             return JsonConvert.DeserializeObject<IEnumerable<QuestionWithAnswers>>(await response.Content.ReadAsStringAsync());
         }
 
@@ -95,7 +93,7 @@ namespace NHS111.Business.Services
 
     public interface IQuestionService
     {
-        Task<HttpResponseMessage> GetFullPathwayJourney(JourneyStep[] steps, string startingPathwayId);
+        Task<HttpResponseMessage> GetFullPathwayJourney(string gender, string age, bool isTrauma, JourneyStep[] steps, string startingPathwayId);
         Task<string> GetQuestion(string id);
         Task<string> GetAnswersForQuestion(string id);
         Task<HttpResponseMessage> GetNextQuestion(string id, string nodeLabel,  string answer);

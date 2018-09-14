@@ -14,8 +14,8 @@ namespace NHS111.Models.Models.Configuration
         [ConfigurationProperty("questionId", IsRequired = true)]
         public string Id
         {
-            get { return (string)this["answerOrder"]; }
-            set { this["answerOrder"] = value; }
+            get { return (string)this["questionId"]; }
+            set { this["questionId"] = value; }
         }
     }
 }
