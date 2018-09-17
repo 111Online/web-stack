@@ -17,7 +17,8 @@ namespace NHS111.SmokeTests
         public void SearchPage_SelectFirstResultStartsPathway()
         {
             var searchPage = TestScenerios.LaunchSearchScenerio(Driver, TestScenerioSex.Male, 30);
-            var questionPage = searchPage.TypeSearchTextAndSelect("Bites and Stings");
+            var questionInfoPage = searchPage.TypeSearchTextAndSelect("Bites and Stings");
+            var questionPage = questionInfoPage.ClickIUnderstand();
             questionPage.VerifyQuestionPageLoaded();
         }
 

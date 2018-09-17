@@ -38,7 +38,8 @@ namespace NHS111.SmokeTest.Utils
             var moduleZeroPage = TestScenarioPart.ModuleZero(driver);
             var demographicsPage = TestScenarioPart.Demographics(moduleZeroPage);
             var searchPage = TestScenarioPart.Search(demographicsPage, sex, age);
-            return TestScenarioPart.Question(searchPage, pathwayTopic);
+            var questionInfoPage = TestScenarioPart.QuestionInfo(searchPage, pathwayTopic);
+            return TestScenarioPart.Question(questionInfoPage);
         }
     }
 }

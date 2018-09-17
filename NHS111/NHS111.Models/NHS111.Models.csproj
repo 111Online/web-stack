@@ -290,6 +290,7 @@
     <Compile Include="Models\Web\FromExternalServices\Surgery.cs" />
     <Compile Include="Models\Web\PatientInformantViewModel.cs" />
     <Compile Include="Models\Web\PersonalDetailViewModel.cs" />
+    <Compile Include="Models\Web\QuestionInfoViewModel.cs" />
     <Compile Include="Models\Web\QuestionViewModel.cs" />
     <Compile Include="Models\Web\SearchJourneyViewModel.cs" />
     <Compile Include="Models\Web\SearchResultViewModel.cs" />

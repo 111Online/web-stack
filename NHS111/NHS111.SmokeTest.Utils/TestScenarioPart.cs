@@ -45,8 +45,11 @@ namespace NHS111.SmokeTest.Utils
             return page.ClickCategoryLink();
         }
 
-        public static QuestionPage Question(SearchPage page, string pathwayTopic)
-        {
+        public static QuestionPage Question(QuestionInfoPage page) {
+            return page.ClickIUnderstand();
+        }
+
+        public static QuestionInfoPage QuestionInfo(SearchPage page, string pathwayTopic) {
             return page.TypeSearchTextAndSelect(pathwayTopic);
         }
     }
