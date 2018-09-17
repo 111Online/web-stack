@@ -45,6 +45,7 @@ namespace NHS111.Web.Presentation.Builders
                     PathwayId = identifiedModel.PathwayId,
                     PathwayNo = identifiedModel.PathwayNo,
                     PathwayTitle = identifiedModel.PathwayTitle,
+                    PathwayTraumaType = identifiedModel.PathwayTraumaType,
                     DigitalTitle = string.IsNullOrEmpty(identifiedModel.DigitalTitle) ? identifiedModel.PathwayTitle : identifiedModel.DigitalTitle,
                     UserInfo = identifiedModel.UserInfo,
                     JourneyJson = identifiedModel.JourneyJson,
@@ -90,6 +91,7 @@ namespace NHS111.Web.Presentation.Builders
                 PathwayId = pathway.Id,
                 PathwayNo = pathway.PathwayNo,
                 PathwayTitle = pathway.Title,
+                PathwayTraumaType = pathway.TraumaType,
                 DigitalTitle = string.IsNullOrEmpty(model.DigitalTitle) ? pathway.Title : model.DigitalTitle,
                 UserInfo = new UserInfo { Demography = new AgeGenderViewModel { Age = derivedAge, Gender = pathway.Gender } },
                 JourneyJson = model.JourneyJson,
@@ -115,6 +117,7 @@ namespace NHS111.Web.Presentation.Builders
             model.PathwayId = pathway.Id;
             model.PathwayTitle = pathway.Title;
             model.PathwayNo = pathway.PathwayNo;
+            model.PathwayTraumaType = pathway.TraumaType;
             model.State = JourneyViewModelStateBuilder.BuildState(model.UserInfo.Demography.Gender,model.UserInfo.Demography.Age, model.State);
             model.StateJson = JourneyViewModelStateBuilder.BuildStateJson(model.State);
             model.CollectedKeywords = new KeywordBag(_keywordCollector.ParseKeywords(pathway.Keywords, false).ToList(), _keywordCollector.ParseKeywords(pathway.ExcludeKeywords, false).ToList());

@@ -42,6 +42,8 @@ namespace NHS111.Models.Mappers.WebMappings
             caseDetails.DispositionCode = outcome.Id;
             caseDetails.DispositionName = outcome.Title;
             caseDetails.Source = outcome.PathwayTitle;
+            caseDetails.StartingPathwayId = outcome.PathwayId;
+            caseDetails.IsStartingPathwayTrauma = outcome.IsTraumaPathway;
             caseDetails.ReportItems = Mapper.Map<List<JourneyStep>, List<string>>(outcome.Journey.Steps);
             caseDetails.ConsultationSummaryItems = outcome.Journey.Steps.Where(s => !string.IsNullOrEmpty(s.Answer.DispositionDisplayText)).Select(s => s.Answer.ReportText).Distinct().ToList();
             return caseDetails;
