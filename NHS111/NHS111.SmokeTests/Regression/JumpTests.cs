@@ -863,8 +863,9 @@ namespace NHS111.SmokeTests.Regression
             genderPage.SelectSexAndAge(TestScenerioSex.Male, 14);
 
             var searchpage = genderPage.NextPage();
-            var newQuestionPage = searchpage.TypeSearchTextAndSelect("Tremor");
-
+            var questionInfoPage = searchpage.TypeSearchTextAndSelect("Tremor");
+            var newQuestionPage = questionInfoPage.ClickIUnderstand();
+            
             var newOutcomePage = newQuestionPage
                 .AnswerNo()
                 .Answer(3)

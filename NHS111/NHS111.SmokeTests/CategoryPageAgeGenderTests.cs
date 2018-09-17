@@ -131,8 +131,8 @@ namespace NHS111.SmokeTests
 
             //categoryPage.SelectCategory("bowel-and-urinary-problems");
             //categoryPage.SelectCategory("bowel-and-urinary-problems-bowel-problems");
-            categoryPage.SelectPathway("Something stuck in the bottom");
-
+            var questionInfoPage = categoryPage.SelectPathway("Something stuck in the bottom");
+            questionInfoPage.ClickIUnderstand();
             Driver.FindElement(By.XPath("//input[@value = 'PW1531FemaleChild']"));
         }
 
@@ -260,8 +260,8 @@ namespace NHS111.SmokeTests
 
             //categoryPage.SelectCategory("bowel-and-urinary-problems");
             //categoryPage.SelectCategory("bowel-and-urinary-problems-bowel-problems");
-            categoryPage.SelectPathway("Something stuck in the bottom");
-
+            var questionInfoPage = categoryPage.SelectPathway("Something stuck in the bottom");
+            questionInfoPage.ClickIUnderstand();
             Driver.FindElement(By.XPath("//input[@value = 'PW1531FemaleAdult']"));
         }
 
@@ -384,7 +384,8 @@ namespace NHS111.SmokeTests
 
             //categoryPage.SelectCategory("bowel-and-urinary-problems");
             //categoryPage.SelectCategory("bowel-and-urinary-problems-bowel-problems");
-            categoryPage.SelectPathway("Something stuck in the bottom");
+            var questionInfoPage = categoryPage.SelectPathway("Something stuck in the bottom");
+            questionInfoPage.ClickIUnderstand();
 
             Driver.FindElement(By.XPath("//input[@value = 'PW1531MaleChild']"));
         }
@@ -507,7 +508,8 @@ namespace NHS111.SmokeTests
 
             //categoryPage.SelectCategory("bowel-and-urinary-problems");
             //categoryPage.SelectCategory("bowel-and-urinary-problems-bowel-problems");
-            categoryPage.SelectPathway("Something stuck in the bottom");
+            var questionInfoPage = categoryPage.SelectPathway("Something stuck in the bottom");
+            questionInfoPage.ClickIUnderstand();
 
             Driver.FindElement(By.XPath("//input[@value = 'PW1531MaleAdult']"));
         }
