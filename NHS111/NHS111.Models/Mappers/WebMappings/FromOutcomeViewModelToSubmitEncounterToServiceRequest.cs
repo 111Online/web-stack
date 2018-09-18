@@ -25,7 +25,7 @@ namespace NHS111.Models.Mappers.WebMappings
             Mapper.CreateMap<OutcomeViewModel, ServiceDetails>()
                 .ConvertUsing<FromOutcomeViewModelToServiceDetailsConverter>();
 
-            Mapper.CreateMap<List<JourneyStep>, List<String>>()
+            Mapper.CreateMap<List<JourneyStep>, List<ReportItem>>()
               .ConvertUsing<FromJourneySetpsToReportTextStrings>();
 
         }
@@ -44,19 +44,19 @@ namespace NHS111.Models.Mappers.WebMappings
             caseDetails.Source = outcome.PathwayTitle;
             caseDetails.StartingPathwayId = outcome.PathwayId;
             caseDetails.IsStartingPathwayTrauma = outcome.IsTraumaPathway;
-            caseDetails.ReportItems = Mapper.Map<List<JourneyStep>, List<string>>(outcome.Journey.Steps);
+            caseDetails.ReportItems = Mapper.Map<List<JourneyStep>, List<ReportItem>>(outcome.Journey.Steps);
             caseDetails.ConsultationSummaryItems = outcome.Journey.Steps.Where(s => !string.IsNullOrEmpty(s.Answer.DispositionDisplayText)).Select(s => s.Answer.ReportText).Distinct().ToList();
             caseDetails.CaseSteps = outcome.Journey.Steps.Select(s => new StepItem() {QuestionId = s.QuestionId, AnswerOrder = s.Answer.Order});
             return caseDetails;
         }
     }
 
-    public class FromJourneySetpsToReportTextStrings : ITypeConverter<List<JourneyStep>, List<string>>
+    public class FromJourneySetpsToReportTextStrings : ITypeConverter<List<JourneyStep>, List<ReportItem>>
     {
-        public List<string> Convert(ResolutionContext context)
+        public List<ReportItem> Convert(ResolutionContext context)
         {
             var steps = (List<JourneyStep>)context.SourceValue;
-            return steps.Where(s => !string.IsNullOrEmpty(s.Answer.ReportText)).Select(s => s.Answer.ReportText).ToList();
+            return steps.Where(s => !string.IsNullOrEmpty(s.Answer.ReportText)).Select(s => new ReportItem { Text = s.Answer.ReportText, Positive = s.Answer.IsPositive }).ToList();
         }
     }
 
