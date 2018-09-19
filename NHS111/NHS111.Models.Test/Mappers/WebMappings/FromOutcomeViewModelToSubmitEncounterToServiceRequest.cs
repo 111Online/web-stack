@@ -214,5 +214,151 @@ namespace NHS111.Models.Test.Mappers.WebMappings
             Assert.AreEqual("Tx111111", result.CaseSteps.Skip(2).First().QuestionId);
             Assert.AreEqual(2, result.CaseSteps.Skip(2).First().AnswerOrder);
         }
+
+        [Test]
+        public void FromPersonalDetailViewModelToPatientDetailsConverter_AgeGroup_Adult_test()
+        {
+            var outcome = new PersonalDetailViewModel()
+            {
+                UserInfo = new UserInfo()
+                {
+                    FirstName = "Test",
+                    LastName = "User",
+                    Demography = new AgeGenderViewModel()
+                    {
+                        Age = 35,
+                        Gender = "Male"
+                    },
+                    TelephoneNumber = "111",
+                },
+                DosCheckCapacitySummaryResult = new DosCheckCapacitySummaryResult()
+                {
+                    Success = new SuccessObject<ServiceViewModel>()
+                    {
+                        Services = new List<ServiceViewModel>() { new ServiceViewModel() { Id = 1, PostCode = "So30 2un" } }
+                    }
+                },
+                SelectedServiceId = "1",
+                AddressInformation = new LocationInfoViewModel()
+                {
+                    PatientCurrentAddress = new CurrentAddressViewModel()
+                    {
+                        AddressLine1 = "address 1",
+                        AddressLine2 = "address 2",
+                        City = "Testity",
+                        County = "Tesux",
+                        HouseNumber = "1",
+                        Postcode = "111 111",
+                    }
+                },
+                Informant = new InformantViewModel()
+                {
+                    Forename = "Informer",
+                    Surname = "bormer",
+                    IsInformantForPatient = true
+                }
+            };
+
+            var result = Mapper.Map<PersonalDetailViewModel, PatientDetails>(outcome);
+            Assert.AreEqual("Adult", result.AgeGroup);
+        }
+
+        [Test]
+        public void FromPersonalDetailViewModelToPatientDetailsConverter_AgeGroup_Child_test()
+        {
+            var outcome = new PersonalDetailViewModel()
+            {
+                UserInfo = new UserInfo()
+                {
+                    FirstName = "Test",
+                    LastName = "User",
+                    Demography = new AgeGenderViewModel()
+                    {
+                        Age = 15,
+                        Gender = "Male"
+                    },
+                    TelephoneNumber = "111",
+                },
+                DosCheckCapacitySummaryResult = new DosCheckCapacitySummaryResult()
+                {
+                    Success = new SuccessObject<ServiceViewModel>()
+                    {
+                        Services = new List<ServiceViewModel>() { new ServiceViewModel() { Id = 1, PostCode = "So30 2un" } }
+                    }
+                },
+                SelectedServiceId = "1",
+                AddressInformation = new LocationInfoViewModel()
+                {
+                    PatientCurrentAddress = new CurrentAddressViewModel()
+                    {
+                        AddressLine1 = "address 1",
+                        AddressLine2 = "address 2",
+                        City = "Testity",
+                        County = "Tesux",
+                        HouseNumber = "1",
+                        Postcode = "111 111",
+                    }
+                },
+                Informant = new InformantViewModel()
+                {
+                    Forename = "Informer",
+                    Surname = "bormer",
+                    IsInformantForPatient = true
+                }
+            };
+
+            var result = Mapper.Map<PersonalDetailViewModel, PatientDetails>(outcome);
+            Assert.AreEqual("Child", result.AgeGroup);
+        }
+
+        [Test]
+        public void FromOutcomeViewModelToCaseDetailsConverter_Trauma_Condition_test()
+        {
+            var outcome = new PersonalDetailViewModel()
+            {
+                PathwayId = "PW123MaleChild",
+                PathwayTraumaType = "Trauma",
+                Journey = new Journey
+                {
+                    Steps = new List<JourneyStep>
+                    {
+                        new JourneyStep
+                        {
+                            QuestionId = "Tx12345",
+                            Answer = new Answer { Order = 0 }
+                        },
+                    }
+                }
+            };
+
+            var result = Mapper.Map<OutcomeViewModel, CaseDetails>(outcome);
+            Assert.AreEqual("PW123MaleChild", result.StartingPathwayId);
+            Assert.IsTrue(result.IsStartingPathwayTrauma);
+        }
+
+        [Test]
+        public void FromOutcomeViewModelToCaseDetailsConverter_Non_Trauma_Condition_test()
+        {
+            var outcome = new PersonalDetailViewModel()
+            {
+                PathwayId = "PW123MaleChild",
+                PathwayTraumaType = "Non-Trauma",
+                Journey = new Journey
+                {
+                    Steps = new List<JourneyStep>
+                    {
+                        new JourneyStep
+                        {
+                            QuestionId = "Tx12345",
+                            Answer = new Answer { Order = 0 }
+                        },
+                    }
+                }
+            };
+
+            var result = Mapper.Map<OutcomeViewModel, CaseDetails>(outcome);
+            Assert.AreEqual("PW123MaleChild", result.StartingPathwayId);
+            Assert.IsFalse(result.IsStartingPathwayTrauma);
+        }
     }
 }

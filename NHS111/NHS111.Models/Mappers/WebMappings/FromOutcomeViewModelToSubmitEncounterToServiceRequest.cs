@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using AutoMapper;
 using CsvHelper.TypeConversion;
+using NHS111.Models.Models.Domain;
 using NHS111.Models.Models.Web;
 using NHS111.Models.Models.Web.FromExternalServices;
 using NHS111.Models.Models.Web.ITK;
@@ -92,7 +93,9 @@ namespace NHS111.Models.Mappers.WebMappings
                     new DateTime(personalDetailViewModel.UserInfo.Year.Value, personalDetailViewModel.UserInfo.Month.Value, personalDetailViewModel.UserInfo.Day.Value);
 
             patientDetails.Gender = personalDetailViewModel.UserInfo.Demography.Gender;
-            
+            var ageGroup = new AgeCategory(personalDetailViewModel.UserInfo.Demography.Age);
+            patientDetails.AgeGroup = ageGroup.Value;
+
             patientDetails.Informant = new InformantDetails()
             {
                 Forename = personalDetailViewModel.Informant.Forename,
