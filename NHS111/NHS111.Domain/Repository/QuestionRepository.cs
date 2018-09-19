@@ -187,7 +187,7 @@ namespace NHS111.Domain.Repository
                         : modifiedQuery
                             .OptionalMatch(String.Format("(q:Question{{id:'{0}'}})-[a:Answer]->()", steps[index].QuestionId))
                             .With(String.Format(
-                                "q, COLLECT(distinct a) as answers, filter(x IN COLLECT(distinct a) WHERE x.order= {0})[0]  as answered",
+                                "rows,q, COLLECT(distinct a) as answers, filter(x IN COLLECT(distinct a) WHERE x.order= {0})[0]  as answered",
                                 steps[index].Answer.Order))
                             .With(String.Format(
                                 "rows + collect({{question:q, answer:answered, answers:answers, step:{0}}}) as rows", index))
