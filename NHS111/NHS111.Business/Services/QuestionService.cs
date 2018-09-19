@@ -56,10 +56,10 @@ namespace NHS111.Business.Services
             return response;
         }
 
-        public async Task<HttpResponseMessage> GetFullPathwayJourney(JourneyStep[] steps, string startingPathwayId)
+        public async Task<HttpResponseMessage> GetFullPathwayJourney(JourneyStep[] steps, string startingPathwayId, string dispositionCode)
         {
             var request = new HttpRequestMessage { Content = new StringContent(JsonConvert.SerializeObject(steps), Encoding.UTF8, "application/json") };
-            var response = await _restfulHelper.PostAsync(_configuration.GetDomainApiFullPathwayJourneyUrl(startingPathwayId), request).ConfigureAwait(false);
+            var response = await _restfulHelper.PostAsync(_configuration.GetDomainApiFullPathwayJourneyUrl(startingPathwayId, dispositionCode), request).ConfigureAwait(false);
             return response;
         }
 
@@ -72,7 +72,7 @@ namespace NHS111.Business.Services
     public interface IQuestionService
     {
         Task<HttpResponseMessage> GetFullPathwayJourney(JourneyStep[] steps);
-        Task<HttpResponseMessage> GetFullPathwayJourney(JourneyStep[] steps, string startingPathwayId);
+        Task<HttpResponseMessage> GetFullPathwayJourney(JourneyStep[] steps, string startingPathwayId, string dispositionCode);
         Task<string> GetQuestion(string id);
         Task<string> GetAnswersForQuestion(string id);
         Task<HttpResponseMessage> GetNextQuestion(string id, string nodeLabel,  string answer);

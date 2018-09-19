@@ -55,10 +55,11 @@ namespace NHS111.Business.Api.Controllers
         }
 
         [HttpPost]
-        [Route("questions/fullPathwaysJourney/{startingPathwayId}")]
-        public async Task<HttpResponseMessage> GetFullPathwayJourney([FromBody]JourneyStep[] steps, string startingPathwayId)
+        [Route("questions/fullPathwaysJourney/{startingPathwayId}/{dispositionCode}")]
+        public async Task<HttpResponseMessage> GetFullPathwayJourney([FromBody]JourneyStep[] steps, string startingPathwayId, string dispositionCode)
         {
-            var response = await _questionService.GetFullPathwayJourney(steps, startingPathwayId);
+            //var state = JsonConvert.DeserializeObject<Dictionary<string, string>>(steps.Last().State);
+            var response = await _questionService.GetFullPathwayJourney(steps, startingPathwayId, dispositionCode);
             return response;
         }
 

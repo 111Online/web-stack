@@ -82,7 +82,7 @@ namespace NHS111.Domain.Repository
 
         public async Task<IEnumerable<QuestionWithAnswers>> GetFullPathwaysJourney(List<JourneyStep> steps)
         {
-            ICypherFluentQuery query = AddMatchesForSteps(_graphRepository.Client.Cypher, steps, false);
+            ICypherFluentQuery query = AddMatchesForSteps(_graphRepository.Client.Cypher, steps, false, "");
             query = query
                 .With("rows.question as question, rows.answer as answer")
                 .OrderBy("rows.step")
@@ -100,20 +100,22 @@ namespace NHS111.Domain.Repository
 
         }
 
-        public async Task<IEnumerable<QuestionWithAnswers>> GetFullPathwaysJourney(List<JourneyStep> steps, string startingPathwayId)
+        public async Task<IEnumerable<QuestionWithRelatedAnswers>> GetFullPathwaysJourney(List<JourneyStep> steps, string startingPathwayId, string dispositionCode)
         {
             var startingPathwayQuery = AddMatchesForStartingPathway(_graphRepository.Client.Cypher, steps.First(), startingPathwayId);
-            ICypherFluentQuery query = AddMatchesForSteps(startingPathwayQuery, steps, true);
+            ICypherFluentQuery query = AddMatchesForSteps(startingPathwayQuery, steps, true, dispositionCode);
             query = query
-                .With("rows.question as question, rows.answer as answer")
+                .With("rows.question as question, rows.answer as answer, rows.leadingAnswer as leadingAnswer, rows.answers as answers")
                 .OrderBy("rows.step")
-                .Where("answer is not null");
+                .Where("answer is not null and  labels(question) is not null");
 
-            var resultquery = query.ReturnDistinct(question => new QuestionWithAnswers()
+            var resultquery = query.ReturnDistinct(question => new QuestionWithRelatedAnswers()
                 {
                     Answered = Return.As<Answer>("answer"),
+                    LeadingAnswer = Return.As<Answer>("leadingAnswer"),
                     Question = Return.As<Question>("question"),
-                    Labels = question.Labels()
+                    Answers = Return.As<List<Answer>>("answers"),
+                Labels = question.Labels()
                 }
             );
             var questionWithAnswerses = await resultquery.ResultsAsync;
@@ -157,37 +159,102 @@ namespace NHS111.Domain.Repository
             return modifiedQuery;
         }
 
-        public ICypherFluentQuery AddMatchesForSteps(ICypherFluentQuery query, List<JourneyStep> steps, bool containsExistingRows)
+        public ICypherFluentQuery AddMatchesForSteps(ICypherFluentQuery query, List<JourneyStep> steps, bool containsExistingRows, string dispositionCode)
         {
             var modifiedQuery = query;
             for (int index = 0; index < steps.Count; ++index)
             {
-                modifiedQuery = modifiedQuery.Match(String.Format("(q:Question{{id:'{0}'}})-[a:Answer{{order:{1}}}]->(n)", steps[index].QuestionId, steps[index].Answer.Order));
+                if (!IsLastStep(steps, index))
+                    modifiedQuery = modifiedQuery.Match(String.Format("(q:Question{{id:'{0}'}})-[a:Answer]->(n)",
+                        steps[index].QuestionId));
+
                 modifiedQuery = index == 0 && !containsExistingRows
-                    ?  modifiedQuery.With(String.Format("collect({{question:q, answer:a, step:{0}}}) as rows", index))
-                    : (index != steps.Count - 1 ) ? modifiedQuery.With(String.Format("rows + collect({{question:q, answer:a, step:{0}}}) as rows" ,index)) 
-                        : modifiedQuery.With(String.Format("rows + collect({{question:q, answer:a, step:{0}}}) + collect({{question:n, answer:{{}}, step:{0}.1}}) as rows", index));
-                if (index != steps.Count - 1)
+                    ? modifiedQuery
+                        .With(String.Format(
+                            "q, COLLECT(distinct a) as answers, filter(x IN COLLECT(distinct a) WHERE x.order= {0})[0]  as answered",
+                            steps[index].Answer.Order))
+                        .With(String.Format(
+                            "collect({{question:q, answer:answered, answers:answers, step:{0}}}) as rows", index))
+
+                    : (!IsLastStep(steps, index))
+                        ? modifiedQuery
+                            .With(String.Format(
+                                "rows,q, COLLECT(distinct a) as answers, filter(x IN COLLECT(distinct a) WHERE x.order= {0})[0]  as answered",
+                                steps[index].Answer.Order))
+                            .With(String.Format(
+                                "rows + collect({{question:q, answer:answered, answers:answers, step:{0}}}) as rows",
+                                index))
+                        : modifiedQuery
+                            .OptionalMatch(String.Format("(q:Question{{id:'{0}'}})-[a:Answer]->()", steps[index].QuestionId))
+                            .With(String.Format(
+                                "q, COLLECT(distinct a) as answers, filter(x IN COLLECT(distinct a) WHERE x.order= {0})[0]  as answered",
+                                steps[index].Answer.Order))
+                            .With(String.Format(
+                                "rows + collect({{question:q, answer:answered, answers:answers, step:{0}}}) as rows", index))
+                            .OptionalMatch(String.Format("(q:Question{{id:'{0}'}})-[a:Answer]->(n:Outcome{{id:'{1}'}})",
+                                steps[index].QuestionId, dispositionCode))
+                            .With(String.Format("rows + collect({{question:n, answer:{{}}, step:{0}}}) as allrows", index))
+                            .Unwind("allrows", "rows")
+
+                            .OptionalMatch(String.Format(
+                                "p = (:Question{{id:'{0}'}})-[:Answer*0..3]->(t)-[:Answer]->(n:Outcome{{id:'{1}'}})",steps[index].QuestionId, dispositionCode))
+                            .Where("(t:Set OR t:Read)")
+                            .With("nodes(p)AS nds, rels(p) AS rls, rows, n")
+                            .Unwind("case when nds is null then 0 else range(1, length(nds) - 2) end", "i")
+                            .With(String.Format(
+                                "rows + collect({{question:nds[i], answer:rls[i], leadingAnswer:rls[i-1], step:{0}.2}}) + collect({{question:n, answer:{{}}, step:{0}.3}}) as newrows",
+                                index));
+
+                if (!IsLastStep(steps, index))
                 {
                     modifiedQuery = modifiedQuery.OptionalMatch(String.Format(
-                        "p = (:Question{{id:'{0}'}})-[:Answer*0..3]->(t)-[:Answer]->(:Question{{id:'{1}'}})",
+                        "p = (:Question{{id:'{0}'}})-[a:Answer{{order:{1}}}]-()-[:Answer*0..3]->(t)-[:Answer]->(:Question{{id:'{2}'}})",
                         steps[index].QuestionId,
+                        steps[index].Answer.Order,
                         steps[index + 1].QuestionId));
 
-                    modifiedQuery = modifiedQuery.Where("t:Set OR t:Read");
+                    modifiedQuery = modifiedQuery.Where("(t:Set OR t:Read)");
                     modifiedQuery = modifiedQuery.With("nodes(p)AS nds, rels(p) AS rls, rows")
-                    .Unwind("case when nds is null then 0 else range(1, length(nds) - 2) end", "i")
-                    .With(String.Format("rows + collect({{question:nds[i], answer:rls[i], step:{0}}}) as allrows",
-                                index + 0.1));
+                        .Unwind("case when nds is null then 0 else range(1, length(nds) - 2) end", "i")
+                        .With(String.Format(
+                            "rows + collect({{question:nds[i], answer:rls[i], leadingAnswer:rls[i-1], step:{0}}}) as newrows",
+                            index + 0.1));
+                       // .Unwind(BuildStateFilterStatement(systemState), "filteredRows")
+                        //.With("rows + filteredRows as newrows");
+                    // .Unwind("newrows", "rows");
                 }
 
-                modifiedQuery = (index != steps.Count - 1)
-                    ?  modifiedQuery.Unwind("allrows", "rows")
-                    : modifiedQuery.With("rows as allrows").Unwind("allrows", "rows");
+                modifiedQuery = modifiedQuery.Unwind("newrows", "rows");
+
 
 
             }
             return modifiedQuery;
+        }
+
+        private bool IsLastStep(List<JourneyStep> steps, int index)
+        {
+            return index == steps.Count - 1;
+        }
+
+        private string BuildStateFilterStatement(Dictionary<string, string> systemState)
+        {
+            var filterString = "filter(x IN interrows WHERE ";
+            int i = 0;
+            foreach (var key in systemState.Keys)
+            {
+                i++;
+                filterString += $"(x.question.title in (['{key}']) and x.answer.title in (['{systemState[key]}']))";
+               if(i < systemState.Count)  filterString += " OR ";
+            }
+
+            if (i > 0) filterString += " OR ";
+                filterString += $"(NOT x.question.title in (['{String.Join("', '", systemState.Keys)}']) and x.answer.title in (['default']))";
+            if (systemState.Keys.Count > 0)
+                filterString += $" OR (x.leadingAnswer.title in (['{String.Join("', '", systemState.Values)}']))";
+
+            filterString += ")";
+            return filterString;
         }
 
         private async Task<IEnumerable<QuestionWithAnswers>> GetJustToBeSafeQuestions(string justToBeSafePart)
@@ -248,8 +315,8 @@ namespace NHS111.Domain.Repository
         Task<IEnumerable<Answer>> GetAnswersForQuestion(string id);
       //  Task<IEnumerable<QuestionWithAnswers>> GetFullPathwaysJourney(List<JourneyStep> steps);
 
-        Task<IEnumerable<QuestionWithAnswers>>
-            GetFullPathwaysJourney(List<JourneyStep> steps, string startingPathwayId);
+        Task<IEnumerable<QuestionWithRelatedAnswers>>
+            GetFullPathwaysJourney(List<JourneyStep> steps, string startingPathwayId, string dispositionCode);
         Task<QuestionWithAnswers> GetNextQuestion(string id, string nodeLabel, string answer);
         Task<QuestionWithAnswers> GetFirstQuestion(string pathwayId);
         Task<IEnumerable<QuestionWithAnswers>> GetJustToBeSafeQuestions(string pathwayId, string justToBeSafePart);
