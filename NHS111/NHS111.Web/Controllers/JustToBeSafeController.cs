@@ -37,12 +37,30 @@ namespace NHS111.Web.Controllers
 
         [HttpGet]
         [Route("{pathwayNumber}/{gender}/{age}/start")]
-        public async Task<ActionResult> PathwayStart(string pathwayNumber, string gender, int age, string args)
-        {
-            var decryptedArgs = new QueryStringEncryptor(args);
-            var decryptedFilterServices = string.IsNullOrEmpty(decryptedArgs["filterServices"]) || bool.Parse(decryptedArgs["filterServices"]);
+        public ActionResult PathwayStart(string pathwayNumber, string gender, int age, string args) {
+            var model = new QuestionInfoViewModel {
+                PathwayNo = pathwayNumber,
+                UserInfo = new UserInfo {
+                    Demography = new AgeGenderViewModel {
+                        Age = age,
+                        Gender = gender
+                    }
+                },
+                Args = args
+            };
 
-            var model = new JustToBeSafeViewModel {
+            return View("~/Views/Question/Info.cshtml", model);
+        }
+
+        [HttpPost]
+        [Route("{pathwayNumber}/{gender}/{age}/first")]
+        public async Task<ActionResult> FirstQuestion(string pathwayNumber, string gender, int age, string args) {
+            var decryptedArgs = new QueryStringEncryptor(args);
+            var decryptedFilterServices = string.IsNullOrEmpty(decryptedArgs["filterServices"]) ||
+                                          bool.Parse(decryptedArgs["filterServices"]);
+
+            var model = new JustToBeSafeViewModel
+            {
                 SessionId = Guid.Parse(decryptedArgs["sessionId"]),
                 PathwayNo = pathwayNumber,
                 DigitalTitle = decryptedArgs["digitalTitle"],
@@ -60,7 +78,6 @@ namespace NHS111.Web.Controllers
                 Campaign = decryptedArgs["campaign"],
                 Source = decryptedArgs["source"]
             };
-
             return await JustToBeSafeFirst(model);
         }
     }

@@ -47,14 +47,14 @@ namespace NHS111.SmokeTest.Utils
             Assert.AreEqual(_headerText, Header.Text);
         }
 
-        public QuestionPage TypeSearchTextAndSelect(string pathway)
+        public QuestionInfoPage TypeSearchTextAndSelect(string pathway)
         {
             SearchTxtBox.Clear();
             SearchTxtBox.SendKeys(pathway);
             this.ClickNextButton();
             new WebDriverWait(Driver, TimeSpan.FromSeconds(5)).Until(ExpectedConditions.ElementIsVisible(By.XPath("//ul[contains(@class, 'link-list') and contains(@class, 'link-list--results')]/li")));
             Driver.FindElement(By.XPath("//ul[contains(@class, 'link-list') and contains(@class, 'link-list--results')]/li/a[@data-title='" + pathway + "']")).Click();
-            return new QuestionPage(Driver);
+            return new QuestionInfoPage(Driver);
         }
 
         public CategoryPage TypeInvalidSearch()
