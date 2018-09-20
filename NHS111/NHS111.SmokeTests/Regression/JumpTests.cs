@@ -26,6 +26,7 @@ namespace NHS111.SmokeTests.Regression
         }
 
         [Test]
+        [Ignore("v15")]
         //PT8 via Behaviour Change Tx 140148 Tx221449 and Tx222008
         public void Pt8ViaBehaviourChangeTx140148Tx221449Tx222008()
         {
@@ -42,6 +43,7 @@ namespace NHS111.SmokeTests.Regression
         }
 
         [Test]
+        [Ignore("v15")]
         //PT8 via Behaviour Change Tx140148 and Tx222023 No Dx String
         public void Pt8ViaBehaviourChangeTx140148Tx222023NoDx()
         {
@@ -61,6 +63,7 @@ namespace NHS111.SmokeTests.Regression
         }
 
         [Test]
+        [Ignore("v15")]
         //PT8 via Behaviour Change Tx221449 and Tx222006
         public void Pt8ViaBehaviourChangeTx221449Tx222006()
         {
@@ -93,6 +96,7 @@ namespace NHS111.SmokeTests.Regression
         }
 
         [Test]
+        [Ignore("v15")]
         //PT8 via Behaviour Change Tx221449 and Tx222008
         public void Pt8ViaBehaviourChangeTx221449Tx222008()
         {
@@ -117,7 +121,7 @@ namespace NHS111.SmokeTests.Regression
             var outcomePage = questionPage
                 .AnswerSuccessiveNo(3)
                 .Answer(3)
-                .AnswerSuccessiveNo(3)
+                .AnswerSuccessiveNo(4)
                 .AnswerForDispostion<OutcomePage>("I've stopped taking a medicine");
 
             outcomePage.VerifyOutcome(OutcomePage.BookCallBackText);
@@ -125,6 +129,7 @@ namespace NHS111.SmokeTests.Regression
         }
 
         [Test]
+        [Ignore("v15")]
         //PT8 via Behaviour Change Tx222023 and Tx222006
         public void Pt8ViaBehaviourChangeTx222023Tx222006()
         {
@@ -143,6 +148,7 @@ namespace NHS111.SmokeTests.Regression
         }
 
         [Test]
+        [Ignore("v15")]
         //PT8 via Behaviour Change Tx222023 and Tx222007
         public void Pt8ViaBehaviourChangeTx222023Tx222007()
         {
@@ -161,6 +167,7 @@ namespace NHS111.SmokeTests.Regression
         }
 
         [Test]
+        [Ignore("v15")]
         //PT8 via Behaviour Change Tx222023 and Tx222008
         public void Pt8ViaBehaviourChangeTx222023Tx222008()
         {
@@ -178,6 +185,7 @@ namespace NHS111.SmokeTests.Regression
         }
 
         [Test]
+        [Ignore("v15")]
         //PT8 via Behaviour Change Tx222024 and Tx222006
         public void Pt8ViaBehaviourChangeTx222024Tx222006()
         {
@@ -214,6 +222,7 @@ namespace NHS111.SmokeTests.Regression
         }
 
         [Test]
+        [Ignore("v15")]
         //PT8 via Behaviour Change Tx222024 and Tx222008
         public void Pt8ViaBehaviourChangeTx222024Tx222008()
         {
@@ -231,6 +240,7 @@ namespace NHS111.SmokeTests.Regression
         }
 
         [Test]
+        [Ignore("v15")]
         //PT8 via Behaviour Change Tx222025 and Tx222006
         public void Pt8ViaBehaviourChangeTx222025Tx222006()
         {
@@ -249,6 +259,7 @@ namespace NHS111.SmokeTests.Regression
         }
 
         [Test]
+        [Ignore("v15")]
         //PT8 via Behaviour Change Tx222025 and Tx222007
         public void Pt8ViaBehaviourChangeTx222025Tx222007()
         {
@@ -267,6 +278,7 @@ namespace NHS111.SmokeTests.Regression
         }
 
         [Test]
+        [Ignore("v15")]
         //PT8 via Behaviour Change Tx222025 and Tx222008
         public void Pt8ViaBehaviourChangeTx222025Tx222008()
         {
@@ -284,6 +296,7 @@ namespace NHS111.SmokeTests.Regression
         }
 
         [Test]
+        [Ignore("v15")]
         //PT8 via Behaviour Change Tx222026 and Tx222006
         public void Pt8ViaBehaviourChangeTx222026Tx222006()
         {
@@ -302,6 +315,7 @@ namespace NHS111.SmokeTests.Regression
         }
 
         [Test]
+        [Ignore("v15")]
         //PT8 via Behaviour Change Tx222026 and Tx222007
         public void Pt8ViaBehaviourChangeTx222026Tx222007()
         {
@@ -320,6 +334,7 @@ namespace NHS111.SmokeTests.Regression
         }
 
         [Test]
+        [Ignore("v15")]
         //PT8 via Behaviour Change Tx222026 and Tx222008
         public void Pt8ViaBehaviourChangeTx222026Tx222008()
         {
@@ -496,6 +511,7 @@ namespace NHS111.SmokeTests.Regression
         }
 
         [Test]
+        [Ignore("v15")]
         //PT8 via Behaviour Change Tx222048 and Tx222006
         public void Pt8ViaBehaviourChangeTx222048Tx222006()
         {
@@ -532,6 +548,7 @@ namespace NHS111.SmokeTests.Regression
         }
 
         [Test]
+        [Ignore("v15")]
         //PT8 via Behaviour Change Tx222048 and Tx222008
         public void Pt8ViaBehaviourChangeTx222048Tx222008()
         {

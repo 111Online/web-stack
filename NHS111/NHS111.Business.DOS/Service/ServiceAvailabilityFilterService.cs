@@ -13,6 +13,8 @@ using NHS111.Business.DOS.WhitelistFilter;
 using NHS111.Models.Models.Web.DosRequests;
 using NHS111.Features;
 using NHS111.Models.Models.Business;
+using NHS111.Models.Models.Web.Clock;
+using NHS111.Utils.Converters;
 
 namespace NHS111.Business.DOS.Service
 {
@@ -60,7 +62,16 @@ namespace NHS111.Business.DOS.Service
             var val = await response.Content.ReadAsStringAsync();
             var jObj = (JObject)JsonConvert.DeserializeObject(val);
             var services = jObj["CheckCapacitySummaryResult"];
-            var results = services.ToObject<List<Models.Models.Business.DosService>>();
+            
+            // get the search datetime if one has been set, if not set to now
+            DateTime searchDateTime;
+            if (!DateTime.TryParse(dosCase.SearchDateTime, out searchDateTime)) 
+                searchDateTime = DateTime.Now;
+
+            // use dosserviceconvertor to specify the time to use for each dos service object
+            var settings = new JsonSerializer();
+            settings.Converters.Add(new DosServiceConverter(new SearchDateTimeClock(searchDateTime)));
+            var results = services.ToObject<IList<Models.Models.Business.DosService>>(settings);
 
             var publicHolidayAjustedResults =
                 _publicHolidayService.AdjustServiceRotaSessionOpeningForPublicHoliday(results);

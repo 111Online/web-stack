@@ -11,14 +11,13 @@ using OpenQA.Selenium.Support.PageObjects;
 
 namespace NHS111.SmokeTest.Utils
 {
+    using System.Collections.Specialized;
+    using System.Web;
+
     public class HomePage : LayoutPage
     {
         private static string _baseUrl = ConfigurationManager.AppSettings["TestWebsiteUrl"];
 
-        private const string _headerText = "Getting care with 1 1 1 online";
-
-        [FindsBy(How = How.CssSelector, Using = "h1")]
-        private IWebElement Header { get; set; }
 
         [FindsBy(How = How.ClassName, Using = "button--next")]
         private IWebElement NextButton { get; set; }
@@ -33,6 +32,19 @@ namespace NHS111.SmokeTest.Utils
             if (UrlContainsCredentials())
             {
                 Driver.Navigate().GoToUrl(GetUrlWithoutCredentials());
+            }
+            Driver.Manage().Window.Maximize();
+        }
+
+
+        public void Load(string mediumQuerystring)
+        {
+            Driver.Navigate().GoToUrl(_baseUrl);
+            if (UrlContainsCredentials()) {
+                Uri uri = new Uri(GetUrlWithoutCredentials());
+                uri = uri.AddOrReplaceQuery("utm_medium", mediumQuerystring);
+
+                Driver.Navigate().GoToUrl(uri);
             }
             Driver.Manage().Window.Maximize();
         }
@@ -52,15 +64,28 @@ namespace NHS111.SmokeTest.Utils
             return _baseUrl.Contains("@");
         }
 
-        public ModuleZeroPage ClickNextButton()
+        public DemographicsPage ClickNextButton()
         {
             NextButton.Click();
-            return new ModuleZeroPage(Driver);
+            return new DemographicsPage(Driver);
         }
+
+
+
         public void Verify()
         {
             Assert.IsTrue(Header.Displayed);
             Assert.AreEqual(_headerText, Header.Text);
+        }
+    }
+
+    public static class UriExtensions {
+        public static Uri AddOrReplaceQuery(this Uri operand, string key, string value) {
+            var uriBuilder = new UriBuilder(operand);
+            var query = HttpUtility.ParseQueryString(uriBuilder.Query);
+            query[key] = value;
+            uriBuilder.Query = query.ToString();
+            return uriBuilder.Uri;
         }
     }
 }

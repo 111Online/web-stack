@@ -68,7 +68,7 @@ namespace NHS111.Web.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> DispositionWithServices(OutcomeViewModel model, string submitAction, DosEndpoint? endpoint = null)
+        public async Task<ActionResult> DispositionWithServices(OutcomeViewModel model, string submitAction, DosEndpoint? endpoint = null, DateTime? dosSearchTime = null)
         {
 
             var postcodeValidatorResponse = _postCodeAllowedValidator.IsAllowedPostcode(model.CurrentPostcode);
@@ -92,7 +92,7 @@ namespace NHS111.Web.Controllers
                 return View("OutOfArea", model);
             }
 
-            var outcomeModel = await _outcomeViewModelBuilder.PopulateGroupedDosResults(model, null, null, endpoint);
+            var outcomeModel = await _outcomeViewModelBuilder.PopulateGroupedDosResults(model, dosSearchTime, null, endpoint);
             viewName = _viewRouter.GetViewName(model, ControllerContext);
 
             return View(viewName, outcomeModel);
@@ -195,9 +195,7 @@ namespace NHS111.Web.Controllers
 
         private async Task<DosCheckCapacitySummaryResult> GetServiceAvailability(OutcomeViewModel model, DateTime? overrideDate, bool filterServices, DosEndpoint? endpoint)
         {
-            var dosViewModel = Mapper.Map<DosViewModel>(model);
-            if (overrideDate.HasValue) dosViewModel.DispositionTime = overrideDate.Value;
-
+            var dosViewModel = _dosBuilder.BuildDosViewModel(model, overrideDate);
             await _auditLogger.LogDosRequest(model, dosViewModel);
             return await _dosBuilder.FillCheckCapacitySummaryResult(dosViewModel, filterServices, endpoint);
         }
@@ -301,7 +299,7 @@ namespace NHS111.Web.Controllers
                 model = await PopulateAddressPickerFields(model);
                 return View("PersonalDetails", model);
             }
-            var availableServices = await GetServiceAvailability(model, DateTime.Now, overrideFilterServices.HasValue ? overrideFilterServices.Value : model.FilterServices, null);
+            var availableServices = await GetServiceAvailability(model, null, overrideFilterServices.HasValue ? overrideFilterServices.Value : model.FilterServices, null);
             _auditLogger.LogDosResponse(model);
             if (SelectedServiceExits(model.SelectedService.Id, availableServices))
             {

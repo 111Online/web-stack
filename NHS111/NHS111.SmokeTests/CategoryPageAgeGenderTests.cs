@@ -87,7 +87,7 @@ namespace NHS111.SmokeTests
             categoryPage.VerifyPathwayInCategoryList("Stomach or side injury", "PW500FemaleChild");
             categoryPage.VerifyPathwayInCategoryList("Stomach or side injury with a cut or wound", "PW508FemaleChild");
             categoryPage.VerifyPathwayInCategoryList("Stomach pain", "PW517FemaleChild");
-            categoryPage.VerifyPathwayInCategoryList("Chest pain", "PW557FemaleChild");
+            categoryPage.VerifyPathwayInCategoryList("Chest pain", "PA21FemaleChild");
             categoryPage.VerifyPathwayInCategoryList("Chemical burns", "PW564FemaleChild");
             categoryPage.VerifyPathwayInCategoryList("Toothache after an injury", "PW572FemaleChild");
             categoryPage.VerifyPathwayInCategoryList("Burns from heat", "PW580FemaleChild");
@@ -125,6 +125,7 @@ namespace NHS111.SmokeTests
             categoryPage.VerifyPathwayInCategoryList("Blocked or stuffy nose", "PW984FemaleChild");
             categoryPage.VerifyPathwayInCategoryList("Sunburn", "PW987FemaleChild");
             categoryPage.VerifyPathwayInCategoryList("Heatstroke", "PW998FemaleChild");
+            categoryPage.VerifyPathwayInCategoryList("Breathing problems", "PW557FemaleChild");
 
             categoryPage.VerifyOtherProblems("PW1348");
 
@@ -214,7 +215,7 @@ namespace NHS111.SmokeTests
             categoryPage.VerifyPathwayInCategoryList("Stomach or side injury", "PW500FemaleAdult");
             categoryPage.VerifyPathwayInCategoryList("Stomach or side injury with a cut or wound", "PW508FemaleAdult");
             categoryPage.VerifyPathwayInCategoryList("Stomach pain", "PW516FemaleAdult");
-            categoryPage.VerifyPathwayInCategoryList("Chest pain", "PW556FemaleAdult");
+            categoryPage.VerifyPathwayInCategoryList("Chest pain", "PA21FemaleAdult");
             categoryPage.VerifyPathwayInCategoryList("Chemical burns", "PW564FemaleAdult");
             categoryPage.VerifyPathwayInCategoryList("Toothache after an injury", "PW572FemaleAdult");
             categoryPage.VerifyPathwayInCategoryList("Burns from heat", "PW580FemaleAdult");
@@ -253,6 +254,7 @@ namespace NHS111.SmokeTests
             categoryPage.VerifyPathwayInCategoryList("Blocked or stuffy nose", "PW981FemaleAdult");
             categoryPage.VerifyPathwayInCategoryList("Sunburn", "PW987FemaleAdult");
             categoryPage.VerifyPathwayInCategoryList("Heatstroke", "PW998FemaleAdult");
+            categoryPage.VerifyPathwayInCategoryList("Breathing problems", "PW556FemaleAdult");
 
             categoryPage.VerifyOtherProblems("PW1345");
 
@@ -340,7 +342,7 @@ namespace NHS111.SmokeTests
             categoryPage.VerifyPathwayInCategoryList("Stomach or side injury", "PW503MaleChild");
             categoryPage.VerifyPathwayInCategoryList("Stomach or side injury with a cut or wound", "PW511MaleChild");
             categoryPage.VerifyPathwayInCategoryList("Stomach pain", "PW520MaleChild");
-            categoryPage.VerifyPathwayInCategoryList("Chest pain", "PW560MaleChild");
+            categoryPage.VerifyPathwayInCategoryList("Chest pain", "PA21MaleChild");
             categoryPage.VerifyPathwayInCategoryList("Chemical burns", "PW564MaleChild");
             categoryPage.VerifyPathwayInCategoryList("Toothache after an injury", "PW572MaleChild");
             categoryPage.VerifyPathwayInCategoryList("Burns from heat", "PW580MaleChild");
@@ -376,6 +378,7 @@ namespace NHS111.SmokeTests
             categoryPage.VerifyPathwayInCategoryList("Blocked or stuffy nose", "PW984MaleChild");
             categoryPage.VerifyPathwayInCategoryList("Sunburn", "PW987MaleChild");
             categoryPage.VerifyPathwayInCategoryList("Heatstroke", "PW998MaleChild");
+            categoryPage.VerifyPathwayInCategoryList("Breathing problems", "PW560MaleChild");
 
             categoryPage.VerifyOtherProblems("PW1349");
 
@@ -461,7 +464,7 @@ namespace NHS111.SmokeTests
             categoryPage.VerifyPathwayInCategoryList("Stomach or side injury", "PW503MaleAdult");
             categoryPage.VerifyPathwayInCategoryList("Stomach or side injury with a cut or wound", "PW511MaleAdult");
             categoryPage.VerifyPathwayInCategoryList("Stomach pain", "PW519MaleAdult");
-            categoryPage.VerifyPathwayInCategoryList("Chest pain", "PW559MaleAdult");
+            categoryPage.VerifyPathwayInCategoryList("Chest pain", "PA21MaleAdult");
             categoryPage.VerifyPathwayInCategoryList("Chemical burns", "PW564MaleAdult");
             categoryPage.VerifyPathwayInCategoryList("Toothache after an injury", "PW572MaleAdult");
             categoryPage.VerifyPathwayInCategoryList("Burns from heat", "PW580MaleAdult");
@@ -498,6 +501,7 @@ namespace NHS111.SmokeTests
             categoryPage.VerifyPathwayInCategoryList("Blocked or stuffy nose", "PW981MaleAdult");
             categoryPage.VerifyPathwayInCategoryList("Sunburn", "PW987MaleAdult");
             categoryPage.VerifyPathwayInCategoryList("Heatstroke", "PW998MaleAdult");
+            categoryPage.VerifyPathwayInCategoryList("Breathing problems", "PW559MaleAdult");
 
             categoryPage.VerifyOtherProblems("PW1346");
 
