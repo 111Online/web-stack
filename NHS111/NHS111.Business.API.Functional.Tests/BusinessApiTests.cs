@@ -192,9 +192,10 @@ namespace NHS111.Business.API.Functional.Tests
             {
                 yield return new TestCaseData(new List<JourneyStep>
                 {
-                    new JourneyStep { QuestionId = "PW1622.0", Answer = new Answer { Order = 1 } },
-                    new JourneyStep { QuestionId = "PW1622.100", Answer = new Answer { Order = 1 } }
-                }, 4, 2, 0, 0, "PW1622FemaleToddler", "Dx32").SetName("Starts with question and no set/read nodes");
+                    new JourneyStep { QuestionId = "PW1772.0", Answer = new Answer { Order = 3 } },
+                    new JourneyStep { QuestionId = "PW1621.0", Answer = new Answer { Order = 3 } },
+                    new JourneyStep { QuestionId = "PW1621.1000", Answer = new Answer { Order = 1 }, State = "{\"PATIENT_AGE\":\"5\",\"PATIENT_GENDER\":\"\\\"F\\\"\",\"PATIENT_PARTY\":\"1\",\"PATIENT_AGEGROUP\":\"Child\",\"SYSTEM_MERS\":\"mers\",\"SYSTEM_ONLINE\":\"online\"}"}
+                }, 5, 3, 0, 0, "PW1772FemaleChild", "Dx32").SetName("Starts with question and no set/read nodes");
                 yield return new TestCaseData(new List<JourneyStep>
                 {
                     new JourneyStep { QuestionId = "PW1719.0", Answer = new Answer { Order = 2 } },
@@ -205,19 +206,19 @@ namespace NHS111.Business.API.Functional.Tests
                 {
                     new JourneyStep { QuestionId = "PW711.100", Answer = new Answer { Order = 1 } },
                     new JourneyStep { QuestionId = "PW998.0", Answer = new Answer { Order = 3 } },
-                    new JourneyStep { QuestionId = "PW998.800", Answer = new Answer { Order = 1 } }
+                    new JourneyStep { QuestionId = "PW998.800", Answer = new Answer { Order = 1 }, State = "{\"PATIENT_AGE\":\"33\",\"PATIENT_GENDER\":\"\\\"M\\\"\",\"PATIENT_PARTY\":\"1\",\"PATIENT_AGEGROUP\":\"Adult\",\"SYSTEM_MERS\":\"mers\",\"SYSTEM_ONLINE\":\"online\",\"Fever\":\"\\\"present\\\"\"}"}
                 }, 7, 3, 1, 1, "PW711MaleAdult", "Dx0121").SetName("Starts with set then read");
                 yield return new TestCaseData(new List<JourneyStep>
                 {
                     new JourneyStep { QuestionId = "PW1543.20", Answer = new Answer { Order = 1 } },
                     new JourneyStep { QuestionId = "PW1543.50", Answer = new Answer { Order = 2 } },
-                    new JourneyStep { QuestionId = "PW1543.200", Answer = new Answer { Order = 1 } }
+                    new JourneyStep { QuestionId = "PW1543.200", Answer = new Answer { Order = 1 }, State = "{\"PATIENT_AGE\":\"33\",\"PATIENT_GENDER\":\"\\\"M\\\"\",\"PATIENT_PARTY\":\"1\",\"PATIENT_AGEGROUP\":\"Adult\",\"SYSTEM_MERS\":\"mers\",\"SYSTEM_ONLINE\":\"online\"}"}
                 }, 6, 3, 1, 0, "PW1543MaleAdult", "Dx012").SetName("Starts with read");
                 yield return new TestCaseData(new List<JourneyStep>
                 {
                     new JourneyStep { QuestionId = "PW711.100", Answer = new Answer { Order = 1 } },
                     new JourneyStep { QuestionId = "PW998.0", Answer = new Answer { Order = 3 } },
-                    new JourneyStep { QuestionId = "PW998.800", Answer = new Answer { Order = 2 } }
+                    new JourneyStep { QuestionId = "PW998.800", Answer = new Answer { Order = 2 }, State = "{\"PATIENT_AGE\":\"33\",\"PATIENT_GENDER\":\"\\\"M\\\"\",\"PATIENT_PARTY\":\"1\",\"PATIENT_AGEGROUP\":\"Adult\",\"SYSTEM_MERS\":\"mers\",\"SYSTEM_ONLINE\":\"online\",\"Fever\":\"\\\"present\\\"\"}" }
                 }, 7, 3, 1, 1, "PW711MaleAdult", "Dx0121").SetName("Starts with set");
                 yield return new TestCaseData(new List<JourneyStep>
                 {
@@ -225,16 +226,16 @@ namespace NHS111.Business.API.Functional.Tests
                     new JourneyStep { QuestionId = "PW556.6800", Answer = new Answer { Order = 3 } },
                     new JourneyStep { QuestionId = "PW556.100", Answer = new Answer { Order = 3 } },
                     new JourneyStep { QuestionId = "PW556.300", Answer = new Answer { Order = 3 } },
-                    new JourneyStep { QuestionId = "PW556.14700", Answer = new Answer { Order = 3 } },
+                    new JourneyStep { QuestionId = "PW556.14800", Answer = new Answer { Order = 3 } },
                     new JourneyStep { QuestionId = "PW556.700", Answer = new Answer { Order = 1 }, State = "{\"PATIENT_AGE\":\"33\",\"PATIENT_GENDER\":\"\\\"F\\\"\",\"PATIENT_PARTY\":\"1\",\"PATIENT_AGEGROUP\":\"Adult\",\"SYSTEM_MERS\":\"mers\",\"SYSTEM_ONLINE\":\"online\",\"MERSSymptom\":\"\\\"present\\\"\"}"},
 
-                }, 11, 6, 3, 0, "PW975FemaleAdult", "Dx0121").SetName("contains multiple reads");
+                }, 12, 6, 3, 1, "PW975FemaleAdult", "Dx0121").SetName("contains multiple reads");
                 yield return new TestCaseData(new List<JourneyStep>
                 {
                     new JourneyStep { QuestionId = "PW1496.0", Answer = new Answer { Order = 4 } },
                     new JourneyStep { QuestionId = "PW1496.200", Answer = new Answer { Order = 1 } },
                     new JourneyStep { QuestionId = "PW1034.0", Answer = new Answer { Order = 1 } },
-                    new JourneyStep { QuestionId = "PW1034.100", Answer = new Answer { Order = 1 } }
+                    new JourneyStep { QuestionId = "PW1034.100", Answer = new Answer { Order = 1 }, State = "{\"PATIENT_AGE\":\"33\",\"PATIENT_GENDER\":\"\\\"M\\\"\",\"PATIENT_PARTY\":\"1\",\"PATIENT_AGEGROUP\":\"Adult\",\"SYSTEM_MERS\":\"mers\",\"SYSTEM_ONLINE\":\"online\"}"}
 
                 }, 8, 4, 2, 0, "PW1496MaleAdult", "Dx012").SetName("contains multiple reads consecutively");
             }

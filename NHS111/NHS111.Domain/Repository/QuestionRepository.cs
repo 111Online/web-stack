@@ -197,8 +197,8 @@ namespace NHS111.Domain.Repository
                             .Unwind("allrows", "rows")
 
                             .OptionalMatch(String.Format(
-                                "p = (:Question{{id:'{0}'}})-[a:Answer{{order:{1}}}]->(t)-[:Answer*0..3]->(t)-[:Answer]->(n:Outcome{{id:'{2}'}})", steps[index].QuestionId, steps[index].Answer.Order, dispositionCode))
-                            .Where("(t:Set OR t:Read)")
+                                "p = (:Question{{id:'{0}'}})-[a:Answer{{order:{1}}}]->(f)-[:Answer*0..3]->(t)-[:Answer]->(n:Outcome{{id:'{2}'}})", steps[index].QuestionId, steps[index].Answer.Order, dispositionCode))
+                            .Where("(t:Set OR t:Read) and (f:Set OR f:Read)")
                             .With("nodes(p)AS nds, rels(p) AS rls, rows, n")
                             .Unwind("case when nds is null then 0 else range(1, length(nds) - 2) end", "i")
                             .With(String.Format(
@@ -208,12 +208,12 @@ namespace NHS111.Domain.Repository
                 if (!IsLastStep(steps, index))
                 {
                     modifiedQuery = modifiedQuery.OptionalMatch(String.Format(
-                        "p = (:Question{{id:'{0}'}})-[a:Answer{{order:{1}}}]-(t)-[:Answer*0..3]->(t)-[:Answer]->(:Question{{id:'{2}'}})",
+                        "p = (:Question{{id:'{0}'}})-[a:Answer{{order:{1}}}]-(f)-[:Answer*0..3]->(t)-[:Answer]->(:Question{{id:'{2}'}})",
                         steps[index].QuestionId,
                         steps[index].Answer.Order,
                         steps[index + 1].QuestionId));
 
-                    modifiedQuery = modifiedQuery.Where("(t:Set OR t:Read)");
+                    modifiedQuery = modifiedQuery.Where("(t:Set OR t:Read) and (f:Set OR f:Read)");
                     modifiedQuery = modifiedQuery.With("nodes(p)AS nds, rels(p) AS rls, rows")
                         .Unwind("case when nds is null then 0 else range(1, length(nds) - 2) end", "i")
                         .With(String.Format(
