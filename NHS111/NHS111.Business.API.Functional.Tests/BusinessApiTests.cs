@@ -166,12 +166,12 @@ namespace NHS111.Business.API.Functional.Tests
 
         //Tests to show full journey returned given list of answered questions
         [TestCaseSource("FullJourneyTestCases")]
-        public async void GetFullPathwayJourney_returns_expected_journey(List<JourneyStep> journey, int totalJourneyLength, int totalQuestions, int totalReads, int totalSets, string startingpPathwayId, string dispositionCode)
+        public async void GetFullPathwayJourney_returns_expected_journey(List<JourneyStep> journey, int totalJourneyLength, int totalQuestions, int totalReads, int totalSets, string startingpPathwayId, string dispositionCode, bool isTrauma)
         {
             var journeyJson = JsonConvert.SerializeObject(journey);
             var request = RequestFormatting.CreateHTTPRequest(journeyJson, string.Empty);
             var result = String.IsNullOrEmpty(startingpPathwayId) ? await _restfulHelper.PostAsync(BusinessApiFullJourneyUrl, request) 
-                : await _restfulHelper.PostAsync(BusinessApiFullJourneyUrl + "/" + startingpPathwayId + "/" + dispositionCode, request);
+                : await _restfulHelper.PostAsync(BusinessApiFullJourneyUrl + "/" + startingpPathwayId + "/" + dispositionCode + "?isTrauma=" + isTrauma, request );
 
             //this checks a response is returned
             Assert.IsNotNull(result);
@@ -195,7 +195,7 @@ namespace NHS111.Business.API.Functional.Tests
                     new JourneyStep { QuestionId = "PW1772.0", Answer = new Answer { Order = 3 } },
                     new JourneyStep { QuestionId = "PW1621.0", Answer = new Answer { Order = 3 } },
                     new JourneyStep { QuestionId = "PW1621.1000", Answer = new Answer { Order = 1 }, State = "{\"PATIENT_AGE\":\"5\",\"PATIENT_GENDER\":\"\\\"F\\\"\",\"PATIENT_PARTY\":\"1\",\"PATIENT_AGEGROUP\":\"Child\",\"SYSTEM_MERS\":\"mers\",\"SYSTEM_ONLINE\":\"online\"}"}
-                }, 5, 3, 0, 0, "PW1772FemaleChild", "Dx32").SetName("Starts with question and no set/read nodes");
+                }, 11, 7, 1, 1, "PW1772FemaleChild", "Dx32", false).SetName("Starts with question and no set/read nodes");
                 yield return new TestCaseData(new List<JourneyStep>
                 {
                     new JourneyStep { QuestionId = "PW1719.0", Answer = new Answer { Order = 2 } },

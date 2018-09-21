@@ -58,46 +58,11 @@ namespace NHS111.Business.Api.Controllers
 
         [HttpPost]
         [Route("questions/fullPathwaysJourney/{startingPathwayId}/{dispositionCode}")]
-        public async Task<HttpResponseMessage> GetFullPathwayJourney([FromBody]JourneyStep[] steps, string startingPathwayId, string dispositionCode)
+        public async Task<HttpResponseMessage> GetFullPathwayJourney([FromBody]JourneyStep[] steps, string startingPathwayId, string dispositionCode, [FromUri]bool isTrauma)
         {
-            //var state = JsonConvert.DeserializeObject<Dictionary<string, string>>(steps.Last().State);
-            var response = await _questionService.GetFullPathwayJourney(steps, startingPathwayId, dispositionCode);
-
+            var response = await _questionService.GetFullPathwayJourney(isTrauma, steps, startingPathwayId, dispositionCode);
             var journey =  JsonConvert.DeserializeObject<List<QuestionWithRelatedAnswers>>(await response.Content.ReadAsStringAsync());
-            var stateDictionary = JsonConvert.DeserializeObject<IDictionary<string, string>>(HttpUtility.UrlDecode(steps.Last().State));
-            var filteredJorneySteps = NavigateReadNodeLogic(journey, stateDictionary);
-            
-            return JsonConvert.SerializeObject(filteredJorneySteps).AsHttpResponse();
-        }
-
-        private List<QuestionWithRelatedAnswers> NavigateReadNodeLogic(List<QuestionWithRelatedAnswers> journey, IDictionary<string, string> state)
-        {
-            var filteredJourney = new List<QuestionWithRelatedAnswers>();
-
-            var groupledRead = journey.Where(s => s.Labels.Contains("Read")).GroupBy(s => s.Question.Id, s => s.Answered,
-                (key, g ) => new {Node = key,  Answers = g.ToList().Distinct()});
-
-            var pathNavigationAnswers = new List<Answer>();
-            foreach (var step in journey)
-            {
-                if(!step.Labels.Contains("Read")) filteredJourney.Add(step);
-
-                else
-                {
-                    var answers = groupledRead.First(s => s.Node == step.Question.Id).Answers;
-                    var value = state.ContainsKey(step.Question.Title)
-                        ? state[step.Question.Title]
-                        : null;
-                    var answer =  _answersForNodeBuilder.SelectAnswer(answers, value);
-                    if (answer != default(Answer) && step.Answered.Title == answer.Title)
-                    {
-                        filteredJourney.Add(step);
-                        pathNavigationAnswers.Add(answer);
-                    }
-                }
-            }
-
-            return filteredJourney;
+            return JsonConvert.SerializeObject(journey).AsHttpResponse();
         }
 
 
