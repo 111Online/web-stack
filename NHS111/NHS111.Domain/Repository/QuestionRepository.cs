@@ -80,7 +80,7 @@ namespace NHS111.Domain.Repository
             return await GetJustToBeSafeQuestions(string.Format("{0}-{1}", pathwayId, justToBeSafePart));
         }
 
-        public async Task<IEnumerable<QuestionWithAnswers>> GetFullPathwaysJourney(List<JourneyStep> steps)
+        public async Task<IEnumerable<QuestionWithAnswers>> GetPathwaysJourney(List<JourneyStep> steps)
         {
             ICypherFluentQuery query = AddMatchesForSteps(_graphRepository.Client.Cypher, steps, false, "");
             query = query
@@ -294,10 +294,9 @@ namespace NHS111.Domain.Repository
     {
         Task<QuestionWithAnswers> GetQuestion(string id);
         Task<IEnumerable<Answer>> GetAnswersForQuestion(string id);
-      //  Task<IEnumerable<QuestionWithAnswers>> GetFullPathwaysJourney(List<JourneyStep> steps);
 
-        Task<IEnumerable<QuestionWithRelatedAnswers>>
-            GetFullPathwaysJourney(List<JourneyStep> steps, string startingPathwayId, string dispositionCode);
+        Task<IEnumerable<QuestionWithAnswers>>
+            GetPathwaysJourney(List<JourneyStep> steps, string startingPathwayId);
         Task<QuestionWithAnswers> GetNextQuestion(string id, string nodeLabel, string answer);
         Task<QuestionWithAnswers> GetFirstQuestion(string pathwayId);
         Task<IEnumerable<QuestionWithAnswers>> GetJustToBeSafeQuestions(string pathwayId, string justToBeSafePart);
