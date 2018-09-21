@@ -237,26 +237,7 @@ namespace NHS111.Domain.Repository
             return index == steps.Count - 1;
         }
 
-        private string BuildStateFilterStatement(Dictionary<string, string> systemState)
-        {
-            var filterString = "filter(x IN interrows WHERE ";
-            int i = 0;
-            foreach (var key in systemState.Keys)
-            {
-                i++;
-                filterString += $"(x.question.title in (['{key}']) and x.answer.title in (['{systemState[key]}']))";
-               if(i < systemState.Count)  filterString += " OR ";
-            }
-
-            if (i > 0) filterString += " OR ";
-                filterString += $"(NOT x.question.title in (['{String.Join("', '", systemState.Keys)}']) and x.answer.title in (['default']))";
-            if (systemState.Keys.Count > 0)
-                filterString += $" OR (x.leadingAnswer.title in (['{String.Join("', '", systemState.Values)}']))";
-
-            filterString += ")";
-            return filterString;
-        }
-
+      
         private async Task<IEnumerable<QuestionWithAnswers>> GetJustToBeSafeQuestions(string justToBeSafePart)
         {
             return await _graphRepository.Client.Cypher.
