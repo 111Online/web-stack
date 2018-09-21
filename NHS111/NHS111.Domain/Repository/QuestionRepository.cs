@@ -191,13 +191,13 @@ namespace NHS111.Domain.Repository
                                 steps[index].Answer.Order))
                             .With(String.Format(
                                 "rows + collect({{question:q, answer:answered, answers:answers, step:{0}}}) as rows", index))
-                            .OptionalMatch(String.Format("(q:Question{{id:'{0}'}})-[a:Answer]->(n:Outcome{{id:'{1}'}})",
-                                steps[index].QuestionId, dispositionCode))
+                            .OptionalMatch(String.Format("(q:Question{{id:'{0}'}})-[a:Answer{{order:{1}}}]->(n:Outcome{{id:'{2}'}})",
+                                steps[index].QuestionId, steps[index].Answer.Order, dispositionCode))
                             .With(String.Format("rows + collect({{question:n, answer:{{}}, step:{0}}}) as allrows", index))
                             .Unwind("allrows", "rows")
 
                             .OptionalMatch(String.Format(
-                                "p = (:Question{{id:'{0}'}})-[:Answer*0..3]->(t)-[:Answer]->(n:Outcome{{id:'{1}'}})",steps[index].QuestionId, dispositionCode))
+                                "p = (:Question{{id:'{0}'}})-[a:Answer{{order:{1}}}]->()-[:Answer*0..3]->(t)-[:Answer]->(n:Outcome{{id:'{2}'}})", steps[index].QuestionId, steps[index].Answer.Order, dispositionCode))
                             .Where("(t:Set OR t:Read)")
                             .With("nodes(p)AS nds, rels(p) AS rls, rows, n")
                             .Unwind("case when nds is null then 0 else range(1, length(nds) - 2) end", "i")

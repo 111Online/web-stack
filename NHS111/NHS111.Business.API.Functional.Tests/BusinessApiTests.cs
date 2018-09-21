@@ -199,8 +199,8 @@ namespace NHS111.Business.API.Functional.Tests
                 {
                     new JourneyStep { QuestionId = "PW1719.0", Answer = new Answer { Order = 2 } },
                     new JourneyStep { QuestionId = "PW1719.1000", Answer = new Answer { Order = 3 } },
-                    new JourneyStep { QuestionId = "PW1719.1300", Answer = new Answer { Order = 2 } },
-                }, 5, 3, 1, 0, "PW1719MaleAdult", "Dx06").SetName("Starts with question ends with read");
+                    new JourneyStep { QuestionId = "PW1719.1300", Answer = new Answer { Order = 2 }, State = "{\"PATIENT_AGE\":\"18\",\"PATIENT_GENDER\":\"\\\"F\\\"\",\"PATIENT_PARTY\":\"1\",\"PATIENT_AGEGROUP\":\"Adult\",\"SYSTEM_ONLINE\":\"online\",\"EndingLifeAsked\":\"\\\"present\\\"\"}"},
+                }, 6, 3, 1, 0, "PW1719MaleAdult", "Dx06").SetName("Starts with question ends with read");
                 yield return new TestCaseData(new List<JourneyStep>
                 {
                     new JourneyStep { QuestionId = "PW711.100", Answer = new Answer { Order = 1 } },
@@ -226,7 +226,7 @@ namespace NHS111.Business.API.Functional.Tests
                     new JourneyStep { QuestionId = "PW556.100", Answer = new Answer { Order = 3 } },
                     new JourneyStep { QuestionId = "PW556.300", Answer = new Answer { Order = 3 } },
                     new JourneyStep { QuestionId = "PW556.14700", Answer = new Answer { Order = 3 } },
-                    new JourneyStep { QuestionId = "PW556.700", Answer = new Answer { Order = 1 } },
+                    new JourneyStep { QuestionId = "PW556.700", Answer = new Answer { Order = 1 }, State = "{\"PATIENT_AGE\":\"33\",\"PATIENT_GENDER\":\"\\\"F\\\"\",\"PATIENT_PARTY\":\"1\",\"PATIENT_AGEGROUP\":\"Adult\",\"SYSTEM_MERS\":\"mers\",\"SYSTEM_ONLINE\":\"online\",\"MERSSymptom\":\"\\\"present\\\"\"}"},
 
                 }, 11, 6, 3, 0, "PW975FemaleAdult", "Dx0121").SetName("contains multiple reads");
                 yield return new TestCaseData(new List<JourneyStep>

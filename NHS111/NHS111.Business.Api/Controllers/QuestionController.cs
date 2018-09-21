@@ -2,9 +2,11 @@ using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
+using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web;
+using System.Web.Helpers;
 using System.Web.Http;
 using Newtonsoft.Json;
 using NHS111.Business.Builders;
@@ -60,7 +62,42 @@ namespace NHS111.Business.Api.Controllers
         {
             //var state = JsonConvert.DeserializeObject<Dictionary<string, string>>(steps.Last().State);
             var response = await _questionService.GetFullPathwayJourney(steps, startingPathwayId, dispositionCode);
-            return response;
+
+            var journey =  JsonConvert.DeserializeObject<List<QuestionWithRelatedAnswers>>(await response.Content.ReadAsStringAsync());
+            var stateDictionary = JsonConvert.DeserializeObject<IDictionary<string, string>>(HttpUtility.UrlDecode(steps.Last().State));
+            var filteredJorneySteps = NavigateReadNodeLogic(journey, stateDictionary);
+            
+            return JsonConvert.SerializeObject(filteredJorneySteps).AsHttpResponse();
+        }
+
+        private List<QuestionWithRelatedAnswers> NavigateReadNodeLogic(List<QuestionWithRelatedAnswers> journey, IDictionary<string, string> state)
+        {
+            var filteredJourney = new List<QuestionWithRelatedAnswers>();
+
+            var groupledRead = journey.Where(s => s.Labels.Contains("Read")).GroupBy(s => s.Question.Id, s => s.Answered,
+                (key, g ) => new {Node = key,  Answers = g.ToList().Distinct()});
+
+            var pathNavigationAnswers = new List<Answer>();
+            foreach (var step in journey)
+            {
+                if(!step.Labels.Contains("Read")) filteredJourney.Add(step);
+
+                else
+                {
+                    var answers = groupledRead.First(s => s.Node == step.Question.Id).Answers;
+                    var value = state.ContainsKey(step.Question.Title)
+                        ? state[step.Question.Title]
+                        : null;
+                    var answer =  _answersForNodeBuilder.SelectAnswer(answers, value);
+                    if (answer != default(Answer) && step.Answered.Title == answer.Title)
+                    {
+                        filteredJourney.Add(step);
+                        pathNavigationAnswers.Add(answer);
+                    }
+                }
+            }
+
+            return filteredJourney;
         }
 
 
