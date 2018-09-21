@@ -43,6 +43,7 @@ namespace NHS111.Models.Test.Models.Configuration
             Assert.AreEqual("Adult", modZeroJourneyElement.Age);
             Assert.AreEqual("Female", modZeroJourneyElement.Gender);
             Assert.AreEqual("Trauma", modZeroJourneyElement.Type);
+            Assert.AreEqual("PX1234", modZeroJourneyElement.DispositionId);
         }
 
         [Test]

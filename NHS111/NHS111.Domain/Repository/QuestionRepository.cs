@@ -88,7 +88,7 @@ namespace NHS111.Domain.Repository
             query = query
                 .With("rows.question as question, rows.answer as answer, rows.leadingAnswer as leadingAnswer, rows.answers as answers")
                 .OrderBy("rows.step")
-                .Where("answer is not null and  labels(question) is not null");
+                .Where("answer is not null and  labels(question) is not null and NOT \"PathwaySelectionJump\" IN labels(question)");
 
             var resultquery = query.ReturnDistinct(question => new QuestionWithRelatedAnswers()
                 {
@@ -172,19 +172,29 @@ namespace NHS111.Domain.Repository
                                 steps[index].Answer.Order))
                             .With(String.Format(
                                 "rows + collect({{question:q, answer:answered, answers:answers, step:{0}}}) as rows", index))
-                            .OptionalMatch(String.Format("(q:Question{{id:'{0}'}})-[a:Answer{{order:{1}}}]->(n:Outcome{{id:'{2}'}})",
+                            .OptionalMatch(String.Format("(q:Question{{id:'{0}'}})-[a:Answer{{order:{1}}}]->(n{{id:'{2}'}})",
                                 steps[index].QuestionId, steps[index].Answer.Order, dispositionCode))
                             .With(String.Format("rows + collect({{question:n, answer:{{}}, step:{0}.1}}) as allrows", index))
                             .Unwind("allrows", "rows")
 
                             .OptionalMatch(String.Format(
-                                "p = (:Question{{id:'{0}'}})-[a:Answer{{order:{1}}}]->(f)-[:Answer*0..3]->(t)-[:Answer]->(n:Outcome{{id:'{2}'}})", steps[index].QuestionId, steps[index].Answer.Order, dispositionCode))
+                                "p = (:Question{{id:'{0}'}})-[a:Answer{{order:{1}}}]->(f)-[:Answer*0..3]->(t)-[:Answer]->(n{{id:'{2}'}})", steps[index].QuestionId, steps[index].Answer.Order, dispositionCode))
                             .Where("(t:Set OR t:Read) and (f:Set OR f:Read)")
                             .With("nodes(p)AS nds, rels(p) AS rls, rows, n")
+
+                            //.Match("(n1)-[a:Answer]->()")
+                            //.Where("n1 in nds AND (n1:Set OR n1:Read)")
+                            //.With("nds, rls, rows, n, n1, {leadingnode:n1, nodeanswers:COLLECT(DISTINCT a)} as node")
+
+
                             .Unwind("case when nds is null then 0 else range(1, length(nds) - 2) end", "i")
+
                             .With(String.Format(
                                 "rows + collect({{question:nds[i], answer:rls[i], leadingAnswer:rls[i-1], step:{0}.2}}) + collect({{question:n, answer:{{}}, step:{0}.3}}) as newrows",
                                 index));
+                            //.With(String.Format(
+                            //    "rows + collect({{question:nds[i], answer:rls[i], answers:CASE WHEN nds[i] = node.leadingnode THEN node.nodeanswers ELSE null END, leadingAnswer:rls[i-1], step:{0}.2}}) + collect({{question:n, answer:{{}}, step:{0}.3}}) as newrows",
+                            //    index));
 
                 if (!IsLastStep(steps, index))
                 {
@@ -196,13 +206,19 @@ namespace NHS111.Domain.Repository
 
                     modifiedQuery = modifiedQuery.Where("(t:Set OR t:Read) and (f:Set OR f:Read)");
                     modifiedQuery = modifiedQuery.With("nodes(p)AS nds, rels(p) AS rls, rows")
+
+                        //.Match("(n1)-[a:Answer]->()")
+                        //.Where("n1 in nds AND (n1:Set OR n1:Read)")
+                        //.With("nds, rls, rows, n1, {leadingnode:n1, nodeanswers:COLLECT(DISTINCT a)} as node")
+
                         .Unwind("case when nds is null then 0 else range(1, length(nds) - 2) end", "i")
+
                         .With(String.Format(
                             "rows + collect({{question:nds[i], answer:rls[i], leadingAnswer:rls[i-1], step:{0}}}) as newrows",
                             index + 0.1));
-                       // .Unwind(BuildStateFilterStatement(systemState), "filteredRows")
-                        //.With("rows + filteredRows as newrows");
-                    // .Unwind("newrows", "rows");
+                        //.With(String.Format(
+                        //    "rows + collect({{question:nds[i], answer:rls[i], answers:CASE WHEN nds[i] = node.leadingnode THEN node.nodeanswers ELSE null END, leadingAnswer:rls[i-1], step:{0}}}) as newrows",
+                        //    index + 0.1));
                 }
 
                 modifiedQuery = modifiedQuery.Unwind("newrows", "rows");

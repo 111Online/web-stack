@@ -195,7 +195,7 @@ namespace NHS111.Business.API.Functional.Tests
                     new JourneyStep { QuestionId = "PW1772.0", Answer = new Answer { Order = 3 } },
                     new JourneyStep { QuestionId = "PW1621.0", Answer = new Answer { Order = 3 } },
                     new JourneyStep { QuestionId = "PW1621.1000", Answer = new Answer { Order = 1 }, State = "{\"PATIENT_AGE\":\"5\",\"PATIENT_GENDER\":\"\\\"F\\\"\",\"PATIENT_PARTY\":\"1\",\"PATIENT_AGEGROUP\":\"Child\",\"SYSTEM_MERS\":\"mers\",\"SYSTEM_ONLINE\":\"online\"}"}
-                }, 11, 7, 1, 1, "PW1772FemaleChild", "Dx32", false).SetName("Starts with question and no set/read nodes");
+                }, 12, 7, 1, 1, "PW1772FemaleChild", "Dx32", false).SetName("Starts with question and no set/read nodes");
                 yield return new TestCaseData(new List<JourneyStep>
                 {
                     new JourneyStep { QuestionId = "PW1719.0", Answer = new Answer { Order = 2 } },

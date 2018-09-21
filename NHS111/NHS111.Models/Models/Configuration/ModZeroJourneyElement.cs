@@ -34,6 +34,13 @@ namespace NHS111.Models.Models.Configuration
             set { this["type"] = value; }
         }
 
+        [ConfigurationProperty("dispositionId", IsRequired = true)]
+        public string DispositionId
+        {
+            get { return (string)this["dispositionId"]; }
+            set { this["dispositionId"] = value; }
+        }
+
         [ConfigurationProperty(JourneyStepCollectionName, IsDefaultCollection = false)]
         public JourneyStepCollection JourneySteps
         {
