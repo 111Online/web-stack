@@ -193,11 +193,11 @@ namespace NHS111.Domain.Repository
                                 "rows + collect({{question:q, answer:answered, answers:answers, step:{0}}}) as rows", index))
                             .OptionalMatch(String.Format("(q:Question{{id:'{0}'}})-[a:Answer{{order:{1}}}]->(n:Outcome{{id:'{2}'}})",
                                 steps[index].QuestionId, steps[index].Answer.Order, dispositionCode))
-                            .With(String.Format("rows + collect({{question:n, answer:{{}}, step:{0}}}) as allrows", index))
+                            .With(String.Format("rows + collect({{question:n, answer:{{}}, step:{0}.1}}) as allrows", index))
                             .Unwind("allrows", "rows")
 
                             .OptionalMatch(String.Format(
-                                "p = (:Question{{id:'{0}'}})-[a:Answer{{order:{1}}}]->()-[:Answer*0..3]->(t)-[:Answer]->(n:Outcome{{id:'{2}'}})", steps[index].QuestionId, steps[index].Answer.Order, dispositionCode))
+                                "p = (:Question{{id:'{0}'}})-[a:Answer{{order:{1}}}]->(t)-[:Answer*0..3]->(t)-[:Answer]->(n:Outcome{{id:'{2}'}})", steps[index].QuestionId, steps[index].Answer.Order, dispositionCode))
                             .Where("(t:Set OR t:Read)")
                             .With("nodes(p)AS nds, rels(p) AS rls, rows, n")
                             .Unwind("case when nds is null then 0 else range(1, length(nds) - 2) end", "i")
@@ -208,7 +208,7 @@ namespace NHS111.Domain.Repository
                 if (!IsLastStep(steps, index))
                 {
                     modifiedQuery = modifiedQuery.OptionalMatch(String.Format(
-                        "p = (:Question{{id:'{0}'}})-[a:Answer{{order:{1}}}]-()-[:Answer*0..3]->(t)-[:Answer]->(:Question{{id:'{2}'}})",
+                        "p = (:Question{{id:'{0}'}})-[a:Answer{{order:{1}}}]-(t)-[:Answer*0..3]->(t)-[:Answer]->(:Question{{id:'{2}'}})",
                         steps[index].QuestionId,
                         steps[index].Answer.Order,
                         steps[index + 1].QuestionId));
