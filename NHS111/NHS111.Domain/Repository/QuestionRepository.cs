@@ -88,7 +88,7 @@ namespace NHS111.Domain.Repository
             query = query
                 .With("rows.question as question, rows.answer as answer, rows.leadingAnswer as leadingAnswer, rows.answers as answers")
                 .OrderBy("rows.step")
-                .Where("answer is not null and  labels(question) is not null and NOT \"PathwaySelectionJump\" IN labels(question)");
+                .Where("answer is not null and  labels(question) is not null");
 
             var resultquery = query.ReturnDistinct(question => new QuestionWithRelatedAnswers()
                 {
