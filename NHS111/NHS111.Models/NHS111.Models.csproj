@@ -183,6 +183,7 @@
     <Compile Include="Models\Business\ProfileServiceTimes.cs" />
     <Compile Include="Models\Business\DosService.cs" />
     <Compile Include="Models\Business\PublicHolidays.cs" />
+    <Compile Include="Models\Business\Question\FullPathwayJourney.cs" />
     <Compile Include="Models\Business\Suggestion.cs" />
     <Compile Include="Models\Configuration\JourneyStepCollection.cs" />
     <Compile Include="Models\Configuration\JourneyStepElement.cs" />

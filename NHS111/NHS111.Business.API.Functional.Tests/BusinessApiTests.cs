@@ -7,6 +7,7 @@ using System.Linq;
 using System.Web;
 using Newtonsoft.Json;
 using NHS111.Functional.Tests.Tools;
+using NHS111.Models.Models.Business.Question;
 using NHS111.Models.Models.Domain;
 using NHS111.Models.Models.Web.FromExternalServices;
 using NHS111.Utils.Helpers;
@@ -166,12 +167,19 @@ namespace NHS111.Business.API.Functional.Tests
 
         //Tests to show full journey returned given list of answered questions
         [TestCaseSource("FullJourneyTestCases")]
-        public async void GetFullPathwayJourney_returns_expected_journey(List<JourneyStep> journey, int totalJourneyLength, int totalQuestions, int totalReads, int totalSets, string startingpPathwayId, string dispositionCode, bool isTrauma)
+        public async void GetFullPathwayJourney_returns_expected_journey(IEnumerable<JourneyStep> journey, int totalJourneyLength, int totalQuestions, int totalReads, int totalSets, string startingpPathwayId, string dispositionCode, bool isTrauma, IDictionary<string, string> state)
         {
-            var journeyJson = JsonConvert.SerializeObject(journey);
-            var request = RequestFormatting.CreateHTTPRequest(journeyJson, string.Empty);
-            var result = String.IsNullOrEmpty(startingpPathwayId) ? await _restfulHelper.PostAsync(BusinessApiFullJourneyUrl, request) 
-                : await _restfulHelper.PostAsync(BusinessApiFullJourneyUrl + "/" + startingpPathwayId + "/" + dispositionCode + "?isTrauma=" + isTrauma, request );
+            var fullPathwayJourney = new FullPathwayJourney
+            {
+                JourneySteps = journey,
+                StartingPathwayId = startingpPathwayId,
+                DispostionCode = dispositionCode,
+                IsTrauma = isTrauma,
+                State = state
+            };
+            var pathwayJson = JsonConvert.SerializeObject(fullPathwayJourney);
+            var request = RequestFormatting.CreateHTTPRequest(pathwayJson, string.Empty);
+            var result = await _restfulHelper.PostAsync(BusinessApiFullJourneyUrl, request);
 
             //this checks a response is returned
             Assert.IsNotNull(result);
@@ -194,32 +202,32 @@ namespace NHS111.Business.API.Functional.Tests
                 {
                     new JourneyStep { QuestionId = "PW1772.0", Answer = new Answer { Order = 3 } },
                     new JourneyStep { QuestionId = "PW1621.0", Answer = new Answer { Order = 3 } },
-                    new JourneyStep { QuestionId = "PW1621.1000", Answer = new Answer { Order = 1 }, State = "{\"PATIENT_AGE\":\"5\",\"PATIENT_GENDER\":\"\\\"F\\\"\",\"PATIENT_PARTY\":\"1\",\"PATIENT_AGEGROUP\":\"Child\",\"SYSTEM_MERS\":\"mers\",\"SYSTEM_ONLINE\":\"online\"}"}
-                }, 12, 7, 1, 1, "PW1772FemaleChild", "Dx32", false).SetName("Starts with question and no set/read nodes");
+                    new JourneyStep { QuestionId = "PW1621.1000", Answer = new Answer { Order = 1 } }
+                }, 13, 7, 1, 1, "PW1772FemaleChild", "Dx32", false, new Dictionary<string, string> { { "PATIENT_AGE", "18" }, { "PATIENT_GENDER", "\"F\"" }, { "PATIENT_PARTY", "1" }, { "PATIENT_AGEGROUP", "Adult" }, { "SYSTEM_ONLINE", "online" }, { "SYSTEM_MERS", "mers" } }).SetName("Starts with question and no set/read nodes");
                 yield return new TestCaseData(new List<JourneyStep>
                 {
                     new JourneyStep { QuestionId = "PW1719.0", Answer = new Answer { Order = 2 } },
                     new JourneyStep { QuestionId = "PW1719.1000", Answer = new Answer { Order = 3 } },
-                    new JourneyStep { QuestionId = "PW1719.1300", Answer = new Answer { Order = 2 }, State = "{\"PATIENT_AGE\":\"18\",\"PATIENT_GENDER\":\"\\\"F\\\"\",\"PATIENT_PARTY\":\"1\",\"PATIENT_AGEGROUP\":\"Adult\",\"SYSTEM_ONLINE\":\"online\",\"EndingLifeAsked\":\"\\\"present\\\"\"}"},
-                }, 6, 3, 1, 0, "PW1719MaleAdult", "Dx06").SetName("Starts with question ends with read");
+                    new JourneyStep { QuestionId = "PW1719.1300", Answer = new Answer { Order = 2 } }
+                }, 14, 7, 2, 1, "PW1719MaleAdult", "Dx06", false, new Dictionary<string, string> { { "PATIENT_AGE", "18" }, { "PATIENT_GENDER", "\"F\"" }, { "PATIENT_PARTY", "1" }, { "PATIENT_AGEGROUP", "Adult" }, { "SYSTEM_ONLINE", "online" }, { "EndingLifeAsked", "\"present\"" } }).SetName("Starts with question ends with read");
                 yield return new TestCaseData(new List<JourneyStep>
                 {
                     new JourneyStep { QuestionId = "PW711.100", Answer = new Answer { Order = 1 } },
                     new JourneyStep { QuestionId = "PW998.0", Answer = new Answer { Order = 3 } },
-                    new JourneyStep { QuestionId = "PW998.800", Answer = new Answer { Order = 1 }, State = "{\"PATIENT_AGE\":\"33\",\"PATIENT_GENDER\":\"\\\"M\\\"\",\"PATIENT_PARTY\":\"1\",\"PATIENT_AGEGROUP\":\"Adult\",\"SYSTEM_MERS\":\"mers\",\"SYSTEM_ONLINE\":\"online\",\"Fever\":\"\\\"present\\\"\"}"}
-                }, 7, 3, 1, 1, "PW711MaleAdult", "Dx0121").SetName("Starts with set then read");
+                    new JourneyStep { QuestionId = "PW998.800", Answer = new Answer { Order = 1 } }
+                }, 15, 7, 2, 2, "PW711MaleAdult", "Dx0121", false, new Dictionary<string, string> { { "PATIENT_AGE", "18" }, { "PATIENT_GENDER", "\"F\"" }, { "PATIENT_PARTY", "1" }, { "PATIENT_AGEGROUP", "Adult" }, { "SYSTEM_ONLINE", "online" }, { "Fever", "\"present\"" }, { "SYSTEM_MERS", "mers" } }).SetName("Starts with set then read");
                 yield return new TestCaseData(new List<JourneyStep>
                 {
                     new JourneyStep { QuestionId = "PW1543.20", Answer = new Answer { Order = 1 } },
                     new JourneyStep { QuestionId = "PW1543.50", Answer = new Answer { Order = 2 } },
-                    new JourneyStep { QuestionId = "PW1543.200", Answer = new Answer { Order = 1 }, State = "{\"PATIENT_AGE\":\"33\",\"PATIENT_GENDER\":\"\\\"M\\\"\",\"PATIENT_PARTY\":\"1\",\"PATIENT_AGEGROUP\":\"Adult\",\"SYSTEM_MERS\":\"mers\",\"SYSTEM_ONLINE\":\"online\"}"}
-                }, 6, 3, 1, 0, "PW1543MaleAdult", "Dx012").SetName("Starts with read");
+                    new JourneyStep { QuestionId = "PW1543.200", Answer = new Answer { Order = 1 } }
+                }, 14, 7, 2, 1, "PW1543MaleAdult", "Dx012", false, new Dictionary<string, string> { { "PATIENT_AGE", "18" }, { "PATIENT_GENDER", "\"F\"" }, { "PATIENT_PARTY", "1" }, { "PATIENT_AGEGROUP", "Adult" }, { "SYSTEM_ONLINE", "online" }, { "SYSTEM_MERS", "mers" } }).SetName("Starts with read");
                 yield return new TestCaseData(new List<JourneyStep>
                 {
                     new JourneyStep { QuestionId = "PW711.100", Answer = new Answer { Order = 1 } },
                     new JourneyStep { QuestionId = "PW998.0", Answer = new Answer { Order = 3 } },
-                    new JourneyStep { QuestionId = "PW998.800", Answer = new Answer { Order = 2 }, State = "{\"PATIENT_AGE\":\"33\",\"PATIENT_GENDER\":\"\\\"M\\\"\",\"PATIENT_PARTY\":\"1\",\"PATIENT_AGEGROUP\":\"Adult\",\"SYSTEM_MERS\":\"mers\",\"SYSTEM_ONLINE\":\"online\",\"Fever\":\"\\\"present\\\"\"}" }
-                }, 7, 3, 1, 1, "PW711MaleAdult", "Dx0121").SetName("Starts with set");
+                    new JourneyStep { QuestionId = "PW998.800", Answer = new Answer { Order = 2 } }
+                }, 15, 7, 2, 2, "PW711MaleAdult", "Dx0121", false, new Dictionary<string, string> { { "PATIENT_AGE", "18" }, { "PATIENT_GENDER", "\"F\"" }, { "PATIENT_PARTY", "1" }, { "PATIENT_AGEGROUP", "Adult" }, { "SYSTEM_ONLINE", "online" }, { "EndingLifeAsked", "\"present\"" }, { "SYSTEM_MERS", "mers" } }).SetName("Starts with set");
                 yield return new TestCaseData(new List<JourneyStep>
                 {
                     new JourneyStep { QuestionId = "PW975.10600", Answer = new Answer { Order = 1 } },
@@ -227,17 +235,16 @@ namespace NHS111.Business.API.Functional.Tests
                     new JourneyStep { QuestionId = "PW556.100", Answer = new Answer { Order = 3 } },
                     new JourneyStep { QuestionId = "PW556.300", Answer = new Answer { Order = 3 } },
                     new JourneyStep { QuestionId = "PW556.14800", Answer = new Answer { Order = 3 } },
-                    new JourneyStep { QuestionId = "PW556.700", Answer = new Answer { Order = 1 }, State = "{\"PATIENT_AGE\":\"33\",\"PATIENT_GENDER\":\"\\\"F\\\"\",\"PATIENT_PARTY\":\"1\",\"PATIENT_AGEGROUP\":\"Adult\",\"SYSTEM_MERS\":\"mers\",\"SYSTEM_ONLINE\":\"online\",\"MERSSymptom\":\"\\\"present\\\"\"}"},
-
-                }, 12, 6, 3, 1, "PW975FemaleAdult", "Dx0121").SetName("contains multiple reads");
+                    new JourneyStep { QuestionId = "PW556.700", Answer = new Answer { Order = 1 } }
+                }, 20, 10, 4, 2, "PW975FemaleAdult", "Dx0121", false, new Dictionary<string, string> { { "PATIENT_AGE", "18" }, { "PATIENT_GENDER", "\"F\"" }, { "PATIENT_PARTY", "1" }, { "PATIENT_AGEGROUP", "Adult" }, { "SYSTEM_ONLINE", "online" }, { "SYSTEM_MERS", "mers" }, { "MERSSymptom", "present" } }).SetName("contains multiple reads");
                 yield return new TestCaseData(new List<JourneyStep>
                 {
                     new JourneyStep { QuestionId = "PW1496.0", Answer = new Answer { Order = 4 } },
                     new JourneyStep { QuestionId = "PW1496.200", Answer = new Answer { Order = 1 } },
                     new JourneyStep { QuestionId = "PW1034.0", Answer = new Answer { Order = 1 } },
-                    new JourneyStep { QuestionId = "PW1034.100", Answer = new Answer { Order = 1 }, State = "{\"PATIENT_AGE\":\"33\",\"PATIENT_GENDER\":\"\\\"M\\\"\",\"PATIENT_PARTY\":\"1\",\"PATIENT_AGEGROUP\":\"Adult\",\"SYSTEM_MERS\":\"mers\",\"SYSTEM_ONLINE\":\"online\"}"}
+                    new JourneyStep { QuestionId = "PW1034.100", Answer = new Answer { Order = 1 } }
 
-                }, 8, 4, 2, 0, "PW1496MaleAdult", "Dx012").SetName("contains multiple reads consecutively");
+                }, 16, 8, 3, 1, "PW1496MaleAdult", "Dx012", false, new Dictionary<string, string> { { "PATIENT_AGE", "18" }, { "PATIENT_GENDER", "\"F\"" }, { "PATIENT_PARTY", "1" }, { "PATIENT_AGEGROUP", "Adult" }, { "SYSTEM_ONLINE", "online" }, { "SYSTEM_MERS", "mers" } }).SetName("contains multiple reads consecutively");
             }
         }
     }
