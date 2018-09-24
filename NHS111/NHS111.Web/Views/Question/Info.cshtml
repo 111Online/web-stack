@@ -27,6 +27,7 @@
 @using (Html.BeginForm("FirstQuestion", "JustToBeSafe", FormMethod.Post, new { @class = "measure" }))
 {
     @Html.HiddenFor(x => Model.PathwayNo)
+    @Html.HiddenFor(x => Model.CurrentPostcode)
     @Html.HiddenFor(x => Model.Args)
     @Html.HiddenFor(x => Model.UserInfo.Demography.Age)
     @Html.HiddenFor(x => Model.UserInfo.Demography.Gender)
