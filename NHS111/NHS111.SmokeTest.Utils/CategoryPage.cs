@@ -72,7 +72,8 @@ namespace NHS111.SmokeTest.Utils
             Assert.IsTrue(topic.Text.Contains(topicToSelect));
             topic.SendKeys(Keys.Enter);
             
-            QuestionPage questionPage = new QuestionPage(Driver);
+            var questionInfoPage = new QuestionInfoPage(Driver);
+            var questionPage = questionInfoPage.ClickIUnderstand();
             questionPage.VerifyQuestionPageLoaded();
         }
 
@@ -83,11 +84,12 @@ namespace NHS111.SmokeTest.Utils
             Driver.FindElement(By.Id(categoryTitle)).Click();
         }
 
-        public void SelectPathway(string pathwayTitle)
+        public QuestionInfoPage SelectPathway(string pathwayTitle)
         {
             new WebDriverWait(Driver, new TimeSpan(0, 0, 5))
                 .Until(ExpectedConditions.VisibilityOfAllElementsLocatedBy((By.XPath(String.Format("//a[@data-title= '{0}']", pathwayTitle)))));
             Driver.FindElement(By.XPath(String.Format("//a[@data-title= '{0}']", pathwayTitle))).Click();
+            return new QuestionInfoPage(Driver);
         }
 
         public void VerifyOtherProblems(string pathwayNumber) {

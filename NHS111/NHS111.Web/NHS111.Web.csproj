@@ -398,6 +398,7 @@
     <Content Include="Views\Search\NoResults.cshtml" />
     <Content Include="Views\Shared\_ExternalInformation.cshtml" />
     <Content Include="Views\Search\Pathways.cshtml" />
+    <Content Include="Views\Question\Info.cshtml" />
     <None Include="Web.Development.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
