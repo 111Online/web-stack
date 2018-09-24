@@ -39,10 +39,11 @@ namespace NHS111.Models.Test.Models.Configuration
         {
             var section = ConfigurationManager.GetSection(Section) as ModZeroJourneysSection;
             var modZeroJourneyElement = section.ModuleZeroJourneys.First();
-            Assert.AreEqual("PA113", modZeroJourneyElement.Id);
+            Assert.AreEqual("1", modZeroJourneyElement.Id);
             Assert.AreEqual("Adult", modZeroJourneyElement.Age);
             Assert.AreEqual("Female", modZeroJourneyElement.Gender);
             Assert.AreEqual("Trauma", modZeroJourneyElement.Type);
+            Assert.AreEqual("PA113", modZeroJourneyElement.PathwayId);
             Assert.AreEqual("PX1234", modZeroJourneyElement.DispositionId);
         }
 
@@ -52,7 +53,7 @@ namespace NHS111.Models.Test.Models.Configuration
             var section = ConfigurationManager.GetSection(Section) as ModZeroJourneysSection;
             var modZeroJourneyElement = section.ModuleZeroJourneys.First();
             Assert.IsTrue(modZeroJourneyElement.IsTraumaJourney);
-            Assert.IsFalse(section.ModuleZeroJourneys.First(j => j.Id.Equals("PA118")).IsTraumaJourney);
+            Assert.IsFalse(section.ModuleZeroJourneys.First(j => j.PathwayId.Equals("PA118")).IsTraumaJourney);
         }
 
         [Test]
@@ -79,13 +80,13 @@ namespace NHS111.Models.Test.Models.Configuration
         {
             var section = ConfigurationManager.GetSection(Section) as ModZeroJourneysSection;
             var modZeroJourneyElement = section.ModuleZeroJourneys.GetModZeroJourneyElement("Male", "Child", true);
-            Assert.AreEqual("PA125", modZeroJourneyElement.Id);
+            Assert.AreEqual("PA125", modZeroJourneyElement.PathwayId);
 
             modZeroJourneyElement = section.ModuleZeroJourneys.GetModZeroJourneyElement("Male", "Adult", false);
-            Assert.AreEqual("PA118", modZeroJourneyElement.Id);
+            Assert.AreEqual("PA118", modZeroJourneyElement.PathwayId);
 
             modZeroJourneyElement = section.ModuleZeroJourneys.GetModZeroJourneyElement("Female", "Adult", true);
-            Assert.AreEqual("PA113", modZeroJourneyElement.Id);
+            Assert.AreEqual("PA113", modZeroJourneyElement.PathwayId);
         }
     }
 }
