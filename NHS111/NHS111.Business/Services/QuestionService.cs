@@ -120,7 +120,7 @@ namespace NHS111.Business.Services
             var steps = modZeroJourney.JourneySteps.Select(j => new JourneyStep {QuestionId = j.Id, Answer = new Answer {Order = j.Order}});
 
             var request = new HttpRequestMessage { Content = new StringContent(JsonConvert.SerializeObject(steps), Encoding.UTF8, "application/json") };
-            var response = await _restfulHelper.PostAsync(_configuration.GetDomainApiPathwayJourneyUrl(modZeroJourney.Id, modZeroJourney.DispositionId), request).ConfigureAwait(false);
+            var response = await _restfulHelper.PostAsync(_configuration.GetDomainApiPathwayJourneyUrl(modZeroJourney.PathwayId, modZeroJourney.DispositionId), request).ConfigureAwait(false);
             return JsonConvert.DeserializeObject<IEnumerable<QuestionWithAnswers>>(await response.Content.ReadAsStringAsync());
         }
 

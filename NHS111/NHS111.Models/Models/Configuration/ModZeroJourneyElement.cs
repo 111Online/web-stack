@@ -34,6 +34,13 @@ namespace NHS111.Models.Models.Configuration
             set { this["type"] = value; }
         }
 
+        [ConfigurationProperty("pathwayId", IsRequired = true)]
+        public string PathwayId
+        {
+            get { return (string)this["pathwayId"]; }
+            set { this["pathwayId"] = value; }
+        }
+
         [ConfigurationProperty("dispositionId", IsRequired = true)]
         public string DispositionId
         {
