@@ -1,6 +1,6 @@
 ﻿namespace NHS111.Models.Models.Web {
     public class QuestionInfoViewModel
-        : QuestionViewModel {
+        : JustToBeSafeViewModel {
         public string Args { get; set; }
     }
 }
