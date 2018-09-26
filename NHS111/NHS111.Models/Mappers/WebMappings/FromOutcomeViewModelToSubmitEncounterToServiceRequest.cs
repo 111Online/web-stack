@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using AutoMapper;
 using CsvHelper.TypeConversion;
+using Newtonsoft.Json;
 using NHS111.Models.Models.Domain;
 using NHS111.Models.Models.Web;
 using NHS111.Models.Models.Web.FromExternalServices;
@@ -42,12 +43,15 @@ namespace NHS111.Models.Mappers.WebMappings
             caseDetails.ExternalReference = outcome.JourneyId.ToString();
             caseDetails.DispositionCode = outcome.Id;
             caseDetails.DispositionName = outcome.Title;
-            caseDetails.Source = outcome.PathwayTitle;
+            caseDetails.StartingPathwayTitle = outcome.PathwayTitle;
             caseDetails.StartingPathwayId = outcome.PathwayId;
-            caseDetails.IsStartingPathwayTrauma = outcome.IsTraumaPathway;
+            caseDetails.StartingPathwayType = outcome.PathwayTraumaType;
             caseDetails.ReportItems = Mapper.Map<List<JourneyStep>, List<ReportItem>>(outcome.Journey.Steps);
             caseDetails.ConsultationSummaryItems = outcome.Journey.Steps.Where(s => !string.IsNullOrEmpty(s.Answer.DispositionDisplayText)).Select(s => s.Answer.ReportText).Distinct().ToList();
             caseDetails.CaseSteps = outcome.Journey.Steps.Select(s => new StepItem() {QuestionId = s.QuestionId, AnswerOrder = s.Answer.Order});
+
+            var state = outcome.Journey.GetLastState();
+            caseDetails.SetVariables = !string.IsNullOrEmpty(state) ? JsonConvert.DeserializeObject<IDictionary<string, string>>(outcome.Journey.GetLastState()) : new Dictionary<string, string>();
             return caseDetails;
         }
     }

@@ -312,10 +312,11 @@ namespace NHS111.Models.Test.Mappers.WebMappings
         }
 
         [Test]
-        public void FromOutcomeViewModelToCaseDetailsConverter_Trauma_Condition_test()
+        public void FromOutcomeViewModelToCaseDetailsConverter_Condition_test()
         {
             var outcome = new PersonalDetailViewModel()
             {
+                PathwayTitle = "Skin Problems",
                 PathwayId = "PW123MaleChild",
                 PathwayTraumaType = "Trauma",
                 Journey = new Journey
@@ -332,17 +333,16 @@ namespace NHS111.Models.Test.Mappers.WebMappings
             };
 
             var result = Mapper.Map<OutcomeViewModel, CaseDetails>(outcome);
+            Assert.AreEqual("Skin Problems", result.StartingPathwayTitle);
             Assert.AreEqual("PW123MaleChild", result.StartingPathwayId);
-            Assert.IsTrue(result.IsStartingPathwayTrauma);
+            Assert.AreEqual("Trauma", result.StartingPathwayType);
         }
 
         [Test]
-        public void FromOutcomeViewModelToCaseDetailsConverter_Non_Trauma_Condition_test()
+        public void FromOutcomeViewModelToCaseDetailsConverter_Set_Variables_test()
         {
             var outcome = new PersonalDetailViewModel()
             {
-                PathwayId = "PW123MaleChild",
-                PathwayTraumaType = "Non-Trauma",
                 Journey = new Journey
                 {
                     Steps = new List<JourneyStep>
@@ -350,15 +350,17 @@ namespace NHS111.Models.Test.Mappers.WebMappings
                         new JourneyStep
                         {
                             QuestionId = "Tx12345",
-                            Answer = new Answer { Order = 0 }
+                            Answer = new Answer { Order = 0 },
+                            State = "{\"PATIENT_AGE\":\"42\",\"PATIENT_GENDER\":\"\\\"M\\\"\",\"PATIENT_PARTY\":\"1\",\"PATIENT_AGEGROUP\":\"Adult\",\"SYSTEM_MERS\":\"mers\",\"SYSTEM_ONLINE\":\"online\"}"
                         },
                     }
                 }
             };
 
             var result = Mapper.Map<OutcomeViewModel, CaseDetails>(outcome);
-            Assert.AreEqual("PW123MaleChild", result.StartingPathwayId);
-            Assert.IsFalse(result.IsStartingPathwayTrauma);
+            Assert.AreEqual(6, result.SetVariables.Count);
+            Assert.IsTrue(result.SetVariables.ContainsKey("PATIENT_AGEGROUP"));
+            Assert.AreEqual("Adult", result.SetVariables["PATIENT_AGEGROUP"]);
         }
     }
 }
