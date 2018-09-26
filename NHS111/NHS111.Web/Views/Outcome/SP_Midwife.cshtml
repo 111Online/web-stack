@@ -7,7 +7,7 @@
 @section Title { NHS 111 - Speak to a midwife }
 
 @section HeadTop {
-@{ var url = string.Format("/outcome/{0}/{1}/{2}/disposition/", Url.Encode(Model.PathwayNo), Url.Encode(Model.OutcomeGroup.Text), Url.Encode(Model.Id)); }
+    @{ var url = string.Format("/outcome/{0}/{1}/{2}/disposition/", Url.Encode(Model.PathwayNo), Url.Encode(Model.OutcomeGroup.Text), Url.Encode(Model.Id)); }
     <script>
         var pageId = '@Model.Id';
         dataLayer = [
@@ -30,13 +30,19 @@
         @Html.Partial("_SurveyLink", Model.SurveyLink)
     }
 }
-
-@Html.Partial("_OutcomeHeader", Model)
+@{
+    var viewdata = new ViewDataDictionary();
+    if (Model.Id == "Dx30") {
+        viewdata["OutcomeHeader"] = "Your answers suggest you should speak to your midwife within 1 hour";
+    }
+}
+@Html.Partial("_OutcomeHeader", Model, viewdata)
 
 <section class="measure outcome-additional-info">
     <ul>
         <li>
-            You should contact your own midwife first.</li>
+            You should contact your own midwife first.
+        </li>
         <li>
             If you can’t contact your midwife or you don't have a midwife, you should search for another service below.
         </li>
