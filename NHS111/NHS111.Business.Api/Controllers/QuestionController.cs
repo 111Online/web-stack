@@ -2,14 +2,17 @@ using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
+using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web;
+using System.Web.Helpers;
 using System.Web.Http;
 using Newtonsoft.Json;
 using NHS111.Business.Builders;
 using NHS111.Business.Services;
 using NHS111.Business.Transformers;
+using NHS111.Models.Models.Business.Question;
 using NHS111.Utils.Attributes;
 using NHS111.Models.Models.Domain;
 using NHS111.Models.Models.Web.Enums;
@@ -55,11 +58,12 @@ namespace NHS111.Business.Api.Controllers
         }
 
         [HttpPost]
-        [Route("questions/fullPathwaysJourney/{startingPathwayId}")]
-        public async Task<HttpResponseMessage> GetFullPathwayJourney([FromBody]JourneyStep[] steps, string startingPathwayId)
+        [Route("questions/fullPathwayJourney")]
+        public async Task<HttpResponseMessage> GetFullPathwayJourney([FromBody]FullPathwayJourney fullPathwayJourney)
         {
-            var response = await _questionService.GetFullPathwayJourney(steps, startingPathwayId);
-            return response;
+            var response = await _questionService.GetFullPathwayJourney(fullPathwayJourney.IsTrauma, fullPathwayJourney.JourneySteps.ToArray(), fullPathwayJourney.StartingPathwayId, fullPathwayJourney.DispostionCode, fullPathwayJourney.State);
+            var journey =  JsonConvert.DeserializeObject<List<QuestionWithRelatedAnswers>>(await response.Content.ReadAsStringAsync());
+            return JsonConvert.SerializeObject(journey).AsHttpResponse();
         }
 
 
