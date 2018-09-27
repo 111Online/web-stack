@@ -54,13 +54,13 @@ namespace NHS111.Business.Api.Controllers
         public async Task<HttpResponseMessage> GetAll(string gender, int age)
         {
             var cacheKey = String.Format("PathwayGetAll-{0}-{1}", gender, age);
-              #if !DEBUG
+#if !DEBUG
                 var cacheValue = await _cacheManager.Read(cacheKey);
-                if (cacheValue != null)
+                if (!string.IsNullOrEmpty(cacheValue))
                 {
                     return cacheValue.AsHttpResponse();
                 }
-            #endif
+#endif
 
             var result = await _pathwayService.GetPathways(false, false, gender, age);
             #if !DEBUG

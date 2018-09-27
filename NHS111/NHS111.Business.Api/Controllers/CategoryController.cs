@@ -30,13 +30,13 @@ namespace NHS111.Business.Api.Controllers {
         public async Task<HttpResponseMessage> GetCategoriesWithPathways(string gender, int age)
         {
             var cacheKey = String.Format("GetCategoriesWithPathways-{0}-{1}", gender, age);
-            #if !DEBUG
+#if !DEBUG
                 var cacheValue = await _cacheManager.Read(cacheKey);
-                if (cacheValue != null)
+                if (!string.IsNullOrEmpty(cacheValue))
                 {
                     return cacheValue.AsHttpResponse();
                 }
-            #endif
+#endif
 
             var result = await _categoryService.GetCategoriesWithPathways(gender, age);
             #if !DEBUG
