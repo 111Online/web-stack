@@ -70,9 +70,9 @@ namespace NHS111.Business.Services
             return new HttpResponseMessage(HttpStatusCode.OK) { Content = content };
         }
 
-        private List<QuestionWithRelatedAnswers> NavigateReadNodeLogic(List<QuestionWithRelatedAnswers> journey, IDictionary<string, string> state)
+        private IEnumerable<QuestionWithAnswers> NavigateReadNodeLogic(List<QuestionWithAnswers> journey, IDictionary<string, string> state)
         {
-            var filteredJourney = new List<QuestionWithRelatedAnswers>();
+            var filteredJourney = new List<QuestionWithAnswers>();
 
             var groupledRead = journey.Where(s => s.Labels.Contains("Read")).GroupBy(s => s.Question.Id, s => s.Answered,
                 (key, g) => new { Node = key, Answers = g.ToList().Distinct() });
@@ -98,7 +98,7 @@ namespace NHS111.Business.Services
             return filteredJourney;
         }
 
-        private string FindStateValue(IDictionary<string, string> state, QuestionWithRelatedAnswers step)
+        private string FindStateValue(IDictionary<string, string> state, QuestionWithAnswers step)
         {
             return FindStateValue(state, step.Question.Title);
         }
@@ -124,11 +124,11 @@ namespace NHS111.Business.Services
             return JsonConvert.DeserializeObject<IEnumerable<QuestionWithAnswers>>(await response.Content.ReadAsStringAsync());
         }
 
-        public async Task<IEnumerable<QuestionWithRelatedAnswers>> GetPathwayJourney(JourneyStep[] steps, string startingPathwayId, string dispositionCode)
+        public async Task<IEnumerable<QuestionWithAnswers>> GetPathwayJourney(JourneyStep[] steps, string startingPathwayId, string dispositionCode)
         {
             var request = new HttpRequestMessage { Content = new StringContent(JsonConvert.SerializeObject(steps), Encoding.UTF8, "application/json") };
             var response = await _restfulHelper.PostAsync(_configuration.GetDomainApiPathwayJourneyUrl(startingPathwayId, dispositionCode), request).ConfigureAwait(false);
-            return JsonConvert.DeserializeObject<IEnumerable<QuestionWithRelatedAnswers>>(await response.Content.ReadAsStringAsync());
+            return JsonConvert.DeserializeObject<IEnumerable<QuestionWithAnswers>>(await response.Content.ReadAsStringAsync());
         }
 
         public async Task<string> GetJustToBeSafeQuestionsNext(string pathwayId, IEnumerable<string> answeredQuestionIds, bool multipleChoice, string selectedQuestionId)
@@ -139,7 +139,7 @@ namespace NHS111.Business.Services
 
     public interface IQuestionService
     {
-        Task<IEnumerable<QuestionWithRelatedAnswers>> GetPathwayJourney(JourneyStep[] steps, string startingPathwayId, string dispositionCode);
+        Task<IEnumerable<QuestionWithAnswers>> GetPathwayJourney(JourneyStep[] steps, string startingPathwayId, string dispositionCode);
         Task<HttpResponseMessage> GetFullPathwayJourney(bool isTrauma, JourneyStep[] steps, string startingPathwayId, string dispositionCode, IDictionary<string, string> state);
         Task<string> GetQuestion(string id);
         Task<string> GetAnswersForQuestion(string id);
