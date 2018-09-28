@@ -153,6 +153,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Builders\AnswersForNodeBuilder.cs" />
+    <Compile Include="Builders\ModZeroJourneyStepsBuilder.cs" />
     <Compile Include="Monitoring\Monitor.cs" />
     <Compile Include="Services\CategoryService.cs" />
     <Compile Include="Services\LocationService.cs" />
