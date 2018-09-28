@@ -37,7 +37,7 @@
         [Test]
         public async void TestCheckDosIntegrationCapacitySumary()
         {
-            var result = await _restfulHelper.PostAsync(DOSIntegrationCheckCapacitySummaryUrl, RequestFormatting.CreateHTTPRequest("{\"ServiceVersion\":\"1.3\",\"UserInfo\":{\"Username\":\"" + DOSApiUsername + "\",\"Password\":\"" + DOSApiPassword + "\"},\"c\":{\"Postcode\":\"HP21 8AL\"}}", string.Empty));
+            var result = await _restfulHelper.PostAsync(DOSIntegrationCheckCapacitySummaryUrl, RequestFormatting.CreateHTTPRequest("{\"ServiceVersion\":\"1.4\",\"UserInfo\":{\"Username\":\"" + DOSApiUsername + "\",\"Password\":\"" + DOSApiPassword + "\"},\"c\":{\"Postcode\":\"HP21 8AL\"}}", string.Empty));
 
             var resultContent = await result.Content.ReadAsStringAsync();
             dynamic jsonResult = Newtonsoft.Json.Linq.JObject.Parse(resultContent);
@@ -81,7 +81,7 @@
         [Test]
         public async void TestCheckDosIntegrationServiceDetailsById()
         {
-            var result = await _restfulHelper.PostAsync(DOSIntegrationServiceDetailsByIdUrl, RequestFormatting.CreateHTTPRequest("{\"ServiceVersion\":\"1.3\",\"UserInfo\":{\"Username\":\"" + DOSApiUsername + "\",\"Password\":\"" + DOSApiPassword + "\"},\"serviceId\":1315835856}", string.Empty));
+            var result = await _restfulHelper.PostAsync(DOSIntegrationServiceDetailsByIdUrl, RequestFormatting.CreateHTTPRequest("{\"ServiceVersion\":\"1.4\",\"UserInfo\":{\"Username\":\"" + DOSApiUsername + "\",\"Password\":\"" + DOSApiPassword + "\"},\"serviceId\":1315835856}", string.Empty));
 
             var resultContent = await result.Content.ReadAsStringAsync();
 
