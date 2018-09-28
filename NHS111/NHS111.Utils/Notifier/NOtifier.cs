@@ -7,12 +7,10 @@ namespace NHS111.Utils.Notifier
 {
     public class Notifier : INotifier<string>
     {
-        private readonly ICacheManager<string, string> _cacheManager;
         private readonly IRestfulHelper _restfulHelper;
 
-        public Notifier(ICacheManager<string, string> cacheManager, IRestfulHelper restfulHelper)
+        public Notifier(IRestfulHelper restfulHelper)
         {
-            _cacheManager = cacheManager;
             _restfulHelper = restfulHelper;
         }
 
