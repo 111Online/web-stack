@@ -62,7 +62,7 @@ namespace NHS111.Business.Api.Controllers
         public async Task<HttpResponseMessage> GetFullPathwayJourney([FromBody]FullPathwayJourney fullPathwayJourney)
         {
             var response = await _questionService.GetFullPathwayJourney(fullPathwayJourney.IsTrauma, fullPathwayJourney.JourneySteps.ToArray(), fullPathwayJourney.StartingPathwayId, fullPathwayJourney.DispostionCode, fullPathwayJourney.State);
-            var journey =  JsonConvert.DeserializeObject<List<QuestionWithRelatedAnswers>>(await response.Content.ReadAsStringAsync());
+            var journey =  JsonConvert.DeserializeObject<List<QuestionWithAnswers>>(await response.Content.ReadAsStringAsync());
             return JsonConvert.SerializeObject(journey).AsHttpResponse();
         }
 

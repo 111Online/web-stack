@@ -81,19 +81,18 @@ namespace NHS111.Domain.Repository
         }
 
 
-        public async Task<IEnumerable<QuestionWithRelatedAnswers>> GetPathwaysJourney(List<JourneyStep> steps, string startingPathwayId, string dispositionCode)
+        public async Task<IEnumerable<QuestionWithAnswers>> GetPathwaysJourney(List<JourneyStep> steps, string startingPathwayId, string dispositionCode)
         {
             var startingPathwayQuery = AddMatchesForStartingPathway(_graphRepository.Client.Cypher, steps.First(), startingPathwayId);
             ICypherFluentQuery query = AddMatchesForSteps(startingPathwayQuery, steps, true, dispositionCode);
             query = query
-                .With("rows.question as question, rows.answer as answer, rows.leadingAnswer as leadingAnswer, rows.answers as answers")
+                .With("rows.question as question, rows.answer as answer, rows.answers as answers")
                 .OrderBy("rows.step")
                 .Where("answer is not null and  labels(question) is not null");
 
-            var resultquery = query.ReturnDistinct(question => new QuestionWithRelatedAnswers()
+            var resultquery = query.ReturnDistinct(question => new QuestionWithAnswers()
                 {
                     Answered = Return.As<Answer>("answer"),
-                    LeadingAnswer = Return.As<Answer>("leadingAnswer"),
                     Question = Return.As<Question>("question"),
                     Answers = Return.As<List<Answer>>("answers"),
                 Labels = question.Labels()
@@ -190,7 +189,7 @@ namespace NHS111.Domain.Repository
                             .Unwind("case when nds is null then 0 else range(1, length(nds) - 2) end", "i")
 
                             .With(String.Format(
-                                "rows + collect({{question:nds[i], answer:rls[i], leadingAnswer:rls[i-1], step:{0}.2}}) + collect({{question:n, answer:{{}}, step:{0}.3}}) as newrows",
+                                "rows + collect({{question:nds[i], answer:rls[i], step:{0}.2}}) + collect({{question:n, answer:{{}}, step:{0}.3}}) as newrows",
                                 index));
                             //.With(String.Format(
                             //    "rows + collect({{question:nds[i], answer:rls[i], answers:CASE WHEN nds[i] = node.leadingnode THEN node.nodeanswers ELSE null END, leadingAnswer:rls[i-1], step:{0}.2}}) + collect({{question:n, answer:{{}}, step:{0}.3}}) as newrows",
@@ -214,7 +213,7 @@ namespace NHS111.Domain.Repository
                         .Unwind("case when nds is null then 0 else range(1, length(nds) - 2) end", "i")
 
                         .With(String.Format(
-                            "rows + collect({{question:nds[i], answer:rls[i], leadingAnswer:rls[i-1], step:{0}}}) as newrows",
+                            "rows + collect({{question:nds[i], answer:rls[i], step:{0}}}) as newrows",
                             index + 0.1));
                         //.With(String.Format(
                         //    "rows + collect({{question:nds[i], answer:rls[i], answers:CASE WHEN nds[i] = node.leadingnode THEN node.nodeanswers ELSE null END, leadingAnswer:rls[i-1], step:{0}}}) as newrows",
@@ -292,7 +291,7 @@ namespace NHS111.Domain.Repository
         Task<QuestionWithAnswers> GetQuestion(string id);
         Task<IEnumerable<Answer>> GetAnswersForQuestion(string id);
 
-        Task<IEnumerable<QuestionWithRelatedAnswers>>
+        Task<IEnumerable<QuestionWithAnswers>>
             GetPathwaysJourney(List<JourneyStep> steps, string startingPathwayId, string dispositionCode);
         Task<QuestionWithAnswers> GetNextQuestion(string id, string nodeLabel, string answer);
         Task<QuestionWithAnswers> GetFirstQuestion(string pathwayId);
