@@ -1,4 +1,7 @@
-﻿namespace NHS111.Integration.DOS.Api.Functional.Tests
+﻿using Newtonsoft.Json;
+using NHS111.Models.Models.Web.DosRequests;
+
+namespace NHS111.Integration.DOS.Api.Functional.Tests
 {
     using Utils.Helpers;
     using NUnit.Framework;
@@ -37,7 +40,8 @@
         [Test]
         public async void TestCheckDosIntegrationCapacitySumary()
         {
-            var result = await _restfulHelper.PostAsync(DOSIntegrationCheckCapacitySummaryUrl, RequestFormatting.CreateHTTPRequest("{\"ServiceVersion\":\"1.4\",\"UserInfo\":{\"Username\":\"" + DOSApiUsername + "\",\"Password\":\"" + DOSApiPassword + "\"},\"c\":{\"Postcode\":\"HP21 8AL\"}}", string.Empty));
+            var checkCapacitySummaryRequest = new DosCheckCapacitySummaryRequest(DOSApiUsername, DOSApiPassword, new DosCase { Age = "22", Gender = "F", PostCode = "HP21 8AL" });
+            var result = await _restfulHelper.PostAsync(DOSIntegrationCheckCapacitySummaryUrl, RequestFormatting.CreateHTTPRequest(JsonConvert.SerializeObject(checkCapacitySummaryRequest), string.Empty));
 
             var resultContent = await result.Content.ReadAsStringAsync();
             dynamic jsonResult = Newtonsoft.Json.Linq.JObject.Parse(resultContent);
@@ -81,7 +85,8 @@
         [Test]
         public async void TestCheckDosIntegrationServiceDetailsById()
         {
-            var result = await _restfulHelper.PostAsync(DOSIntegrationServiceDetailsByIdUrl, RequestFormatting.CreateHTTPRequest("{\"ServiceVersion\":\"1.4\",\"UserInfo\":{\"Username\":\"" + DOSApiUsername + "\",\"Password\":\"" + DOSApiPassword + "\"},\"serviceId\":1315835856}", string.Empty));
+            var serviceDetailsByIdRequest = new DosServiceDetailsByIdRequest(DOSApiUsername, DOSApiPassword, "1315835856");
+            var result = await _restfulHelper.PostAsync(DOSIntegrationServiceDetailsByIdUrl, RequestFormatting.CreateHTTPRequest(JsonConvert.SerializeObject(serviceDetailsByIdRequest), string.Empty));
 
             var resultContent = await result.Content.ReadAsStringAsync();
 
