@@ -1,37 +1,44 @@
 ﻿using System;
 using System.Configuration;
 using System.Linq;
+using NHS111.Models.Models.Azure;
 using NHS111.Models.Models.Business.Question;
 using NHS111.Models.Models.Configuration;
 using NHS111.Models.Models.Domain;
 using NHS111.Models.Models.Web.FromExternalServices;
+using NHS111.Utils.Storage;
 
 namespace NHS111.Business.Builders
 {
     public class ModZeroJourneyStepsBuilder : IModZeroJourneyStepsBuilder
     {
-        private const string Section = "moduleZeroJourneys";
+        private readonly IStorageService _storageService;
 
-        public ModZeroJourney GetModZeroJourney(string gender, int age, string pathwayType)
+        public ModZeroJourneyStepsBuilder(IStorageService storageService)
         {
-            var section = ConfigurationManager.GetSection(Section) as ModZeroJourneysSection;
-            if (section == null)
-                throw new InvalidOperationException(string.Format("Missing section name {0}", "moduleZeroTriage"));
+            _storageService = storageService;
+        }
 
-            var modZeroJourneyElement = section.ModuleZeroJourneys.GetModZeroJourneyElement(gender, new AgeCategory(age).Value, pathwayType == "Trauma");
+        public PathwayJourney GetModZeroJourney(string gender, int age, string pathwayType)
+        {
+            var modZeroJourneyEntity = _storageService.GetEntity<ModZeroJourney>(e => e.PartitionKey == "ModZeroJourney" && e.Gender == gender && age >= e.MinimumAge && age < e.MaximumAge && e.Type == pathwayType && e.Party == 1);
+            if (modZeroJourneyEntity == null)
+                throw new InvalidOperationException(string.Format("Missing mod zero config for {0} {1} of type {2} and party {3}", gender, new AgeCategory(age).Value, pathwayType, 1));
 
-            return new ModZeroJourney
+            var modZeroJourneyStepEntities = _storageService.GetAllEntities<ModZeroJourneyStep>(e => e.PartitionKey == modZeroJourneyEntity.RowKey);
+
+            return new PathwayJourney()
             {
-                PathwayId = modZeroJourneyElement.PathwayId,
-                DispositionId = modZeroJourneyElement.DispositionId,
-                Steps = modZeroJourneyElement.JourneySteps.Select(j =>
-                    new JourneyStep {QuestionId = j.Id, Answer = new Answer {Order = j.Order}})
+                PathwayId = modZeroJourneyEntity.PathwayId,
+                DispositionId = modZeroJourneyEntity.DispositionId,
+                Steps = modZeroJourneyStepEntities.OrderBy(e => e.RowKey).Select(e =>
+                    new JourneyStep { QuestionId = e.QuestionId, Answer = new Answer { Order = e.AnswerOrder }})
             };
         }
     }
 
     public interface IModZeroJourneyStepsBuilder
     {
-        ModZeroJourney GetModZeroJourney(string gender, int age, string pathwayType);
+        PathwayJourney GetModZeroJourney(string gender, int age, string pathwayType);
     }
 }

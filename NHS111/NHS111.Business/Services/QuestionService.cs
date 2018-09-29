@@ -112,12 +112,11 @@ namespace NHS111.Business.Services
 
         private async Task<IEnumerable<QuestionWithAnswers>> GetModuleZeroJourney(string gender, int age, string traumaType)
         {
-
-            var modZeroJourney = _modZeroJourneyStepsBuilder.GetModZeroJourney(gender, age, traumaType);
-            var steps = modZeroJourney.Steps; 
+            var pathwayJourney = _modZeroJourneyStepsBuilder.GetModZeroJourney(gender, age, traumaType);
+            var steps = pathwayJourney.Steps; 
 
             var request = new HttpRequestMessage { Content = new StringContent(JsonConvert.SerializeObject(steps), Encoding.UTF8, "application/json") };
-            var response = await _restfulHelper.PostAsync(_configuration.GetDomainApiPathwayJourneyUrl(modZeroJourney.PathwayId, modZeroJourney.DispositionId), request).ConfigureAwait(false);
+            var response = await _restfulHelper.PostAsync(_configuration.GetDomainApiPathwayJourneyUrl(pathwayJourney.PathwayId, pathwayJourney.DispositionId), request).ConfigureAwait(false);
             return JsonConvert.DeserializeObject<IEnumerable<QuestionWithAnswers>>(await response.Content.ReadAsStringAsync());
         }
 

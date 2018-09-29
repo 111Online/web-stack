@@ -184,8 +184,9 @@
     <Compile Include="Models\Business\DosService.cs" />
     <Compile Include="Models\Business\PublicHolidays.cs" />
     <Compile Include="Models\Business\Question\FullPathwayJourney.cs" />
-    <Compile Include="Models\Business\Question\ModZeroJourney.cs" />
-    <Compile Include="Models\Business\Question\ModZeroJourneyStep.cs" />
+    <Compile Include="Models\Azure\ModZeroJourney.cs" />
+    <Compile Include="Models\Azure\ModZeroJourneyStep.cs" />
+    <Compile Include="Models\Business\Question\PathwayJourney.cs" />
     <Compile Include="Models\Business\Suggestion.cs" />
     <Compile Include="Models\Configuration\JourneyStepCollection.cs" />
     <Compile Include="Models\Configuration\JourneyStepElement.cs" />
