@@ -60,15 +60,8 @@ namespace NHS111.Business.Services
 
         public async Task<HttpResponseMessage> GetFullPathwayJourney(string traumaType, JourneyStep[] steps, string startingPathwayId, string dispositionCode, IDictionary<string, string> state)
         {
-            var age = 0;
-            if (!int.TryParse(FindStateValue(state, "PATIENT_AGE"), out age))
-            {
-                var ageGroup = FindStateValue(state, "PATIENT_AGEGROUP");
-                age = new AgeCategory(ageGroup).MinimumAge;
-            }
-
-            var gender = FindStateValue(state, "PATIENT_GENDER") == "\"F\"" ? "Female" : "Male";
-  
+            var age = GetAgeFromState(state);
+            var gender = GetGenderFromState(state);
             var moduleZeroJourney = await GetModuleZeroJourney(gender, age, traumaType);
             
             var pathwaysJourney = await GetPathwayJourney(steps, startingPathwayId, dispositionCode);
@@ -76,6 +69,25 @@ namespace NHS111.Business.Services
 
             var content = new StringContent(JsonConvert.SerializeObject(moduleZeroJourney.Concat(filteredJourneySteps)), Encoding.UTF8, "application/json");
             return new HttpResponseMessage(HttpStatusCode.OK) { Content = content };
+        }
+
+        private int GetAgeFromState(IDictionary<string, string> state)
+        {
+            int age;
+            if (!int.TryParse(FindStateValue(state, "PATIENT_AGE"), out age))
+                throw new ArgumentException("State value for key 'PATIENT_AGE' must be an integer.");
+            return age;
+        }
+
+        private string GetGenderFromState(IDictionary<string, string> state)
+        {
+            var genderStateValue = FindStateValue(state, "PATIENT_GENDER");
+
+            if (genderStateValue != "\"F\"" || genderStateValue != "\"M\"")
+                throw new ArgumentException("State value for key 'PATIENT_GENDER' must be of value \"F\" or \"M\"");
+
+            var gender = genderStateValue == "\"F\"" ? "Female" : "Male";
+            return gender;
         }
 
         private IEnumerable<QuestionWithAnswers> NavigateReadNodeLogic(JourneyStep[] answeredQuestions, IEnumerable<QuestionWithAnswers> journey, IDictionary<string, string> state)
