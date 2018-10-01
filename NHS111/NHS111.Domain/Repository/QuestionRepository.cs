@@ -103,23 +103,6 @@ namespace NHS111.Domain.Repository
 
         }
 
-        public ICypherFluentQuery AddMatchesForSteps(ICypherFluentQuery query, List<JourneyStep> steps)
-        {
-            var modifiedQuery = query;
-            for (int index = 0; index < steps.Count; ++index)
-            {
-                 modifiedQuery = modifiedQuery.Match(String.Format("(q:Question{{id:'{0}'}})-[a:Answer{{order:{1}}}]->(n)", steps[index].QuestionId,steps[index].Answer.Order));
-                modifiedQuery = index == steps.Count - 1 ? 
-                    modifiedQuery.OptionalMatch("(n)-[b:Answer]->(r)") : 
-                    modifiedQuery.OptionalMatch(String.Format("(n)-[b:Answer]->(r:Question{{id:'{0}'}})", steps[index + 1].QuestionId));
-                modifiedQuery = (index <= 0 ? 
-                    modifiedQuery.With(String.Format("collect({{question:q, answer:a, step:{0}}})as rows, n,b", index)) : 
-                    modifiedQuery.With(String.Format("rows + collect({{question:q, answer:a, step:{0}}})as rows, n,b", index))).
-                    With(String.Format("rows + collect({{question:n, answer:b, step:{0}}}) as allrows", index + 0.1)).Unwind("allrows", "rows");
-            }
-            return modifiedQuery;
-        }
-
         public ICypherFluentQuery AddMatchesForStartingPathway(ICypherFluentQuery query, JourneyStep firstQuestionStep, string startingPathwayId)
         {
             var modifiedQuery = query.Match(String.Format("(q:Pathway{{id:'{0}'}})-[:BeginsWith]-(n)", startingPathwayId))
@@ -213,7 +196,7 @@ namespace NHS111.Domain.Repository
                         .Unwind("case when nds is null then 0 else range(1, length(nds) - 2) end", "i")
 
                         .With(String.Format(
-                            "rows + collect({{question:nds[i], answer:rls[i], step:{0}}}) as newrows",
+                            "rows + collect({{question:nds[i], answer:rls[i], step:{0}+toFloat(i)/10}}) as newrows",
                             index + 0.1));
                         //.With(String.Format(
                         //    "rows + collect({{question:nds[i], answer:rls[i], answers:CASE WHEN nds[i] = node.leadingnode THEN node.nodeanswers ELSE null END, leadingAnswer:rls[i-1], step:{0}}}) as newrows",
