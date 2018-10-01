@@ -24,5 +24,7 @@ namespace NHS111.Models.Models.Azure
         public string DispositionId { get; set; }
         [JsonProperty(PropertyName = "party")]
         public int Party { get; set; }
+        [JsonProperty(PropertyName = "state")]
+        public string State { get; set; }
     }
 }

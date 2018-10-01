@@ -64,13 +64,15 @@ namespace NHS111.Business.Services
             var gender = FindStateValue(state, "PATIENT_GENDER") == "\"F\"" ? "Female" : "Male";
   
             var moduleZeroJourney = await GetModuleZeroJourney(gender, age, traumaType);
+            
             var pathwaysJourney = await GetPathwayJourney(steps, startingPathwayId, dispositionCode);
-            var filteredJorneySteps = NavigateReadNodeLogic(pathwaysJourney.ToList(), state);
-            var content = new StringContent(JsonConvert.SerializeObject(moduleZeroJourney.Concat(filteredJorneySteps)), Encoding.UTF8, "application/json");
+            var filteredJourneySteps = NavigateReadNodeLogic(steps, pathwaysJourney.ToList(), state);
+
+            var content = new StringContent(JsonConvert.SerializeObject(moduleZeroJourney.Concat(filteredJourneySteps)), Encoding.UTF8, "application/json");
             return new HttpResponseMessage(HttpStatusCode.OK) { Content = content };
         }
 
-        private IEnumerable<QuestionWithAnswers> NavigateReadNodeLogic(List<QuestionWithAnswers> journey, IDictionary<string, string> state)
+        private IEnumerable<QuestionWithAnswers> NavigateReadNodeLogic(JourneyStep[] answeredQuestions, IEnumerable<QuestionWithAnswers> journey, IDictionary<string, string> state)
         {
             var filteredJourney = new List<QuestionWithAnswers>();
 
@@ -80,8 +82,11 @@ namespace NHS111.Business.Services
             var pathNavigationAnswers = new List<Answer>();
             foreach (var step in journey)
             {
-                if (!step.Labels.Contains("Read")) filteredJourney.Add(step);
-
+                if (!step.Labels.Contains("Read"))
+                {
+                    if(!step.Labels.Contains("Question") || (step.Labels.Contains("Question") && answeredQuestions.Any(q => q.QuestionId == step.Question.Id)))
+                        filteredJourney.Add(step);
+                }
                 else
                 {
                     var answers = groupledRead.First(s => s.Node == step.Question.Id).Answers;
@@ -96,6 +101,18 @@ namespace NHS111.Business.Services
             }
 
             return filteredJourney;
+        }
+
+        private static IDictionary<string, string> BuildState(string gender, int age, IDictionary<string, string> state)
+        {
+            var ageCategory = new AgeCategory(age);
+
+            state.Add("PATIENT_AGE", age.ToString());
+            state.Add("PATIENT_GENDER", string.Format("\"{0}\"", gender.First().ToString().ToUpper()));
+            state.Add("PATIENT_PARTY", "1");
+            state.Add("PATIENT_AGEGROUP", ageCategory.Value);
+
+            return state;
         }
 
         private string FindStateValue(IDictionary<string, string> state, QuestionWithAnswers step)
@@ -113,11 +130,16 @@ namespace NHS111.Business.Services
         private async Task<IEnumerable<QuestionWithAnswers>> GetModuleZeroJourney(string gender, int age, string traumaType)
         {
             var pathwayJourney = _modZeroJourneyStepsBuilder.GetModZeroJourney(gender, age, traumaType);
-            var steps = pathwayJourney.Steps; 
+            var steps = pathwayJourney.Steps;
 
             var request = new HttpRequestMessage { Content = new StringContent(JsonConvert.SerializeObject(steps), Encoding.UTF8, "application/json") };
             var response = await _restfulHelper.PostAsync(_configuration.GetDomainApiPathwayJourneyUrl(pathwayJourney.PathwayId, pathwayJourney.DispositionId), request).ConfigureAwait(false);
-            return JsonConvert.DeserializeObject<IEnumerable<QuestionWithAnswers>>(await response.Content.ReadAsStringAsync());
+
+            var moduleZeroJourney = JsonConvert.DeserializeObject<IEnumerable<QuestionWithAnswers>>(await response.Content.ReadAsStringAsync());
+            var state = BuildState(gender, age, pathwayJourney.State);
+            var filteredModZeroJourney = NavigateReadNodeLogic(steps.ToArray(), moduleZeroJourney.ToList(), state);
+
+            return filteredModZeroJourney;
         }
 
         public async Task<IEnumerable<QuestionWithAnswers>> GetPathwayJourney(JourneyStep[] steps, string startingPathwayId, string dispositionCode)

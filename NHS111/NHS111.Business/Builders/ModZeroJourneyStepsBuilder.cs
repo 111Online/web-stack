@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
+using Newtonsoft.Json;
 using NHS111.Models.Models.Azure;
 using NHS111.Models.Models.Business.Question;
 using NHS111.Models.Models.Configuration;
@@ -31,8 +33,9 @@ namespace NHS111.Business.Builders
             {
                 PathwayId = modZeroJourneyEntity.PathwayId,
                 DispositionId = modZeroJourneyEntity.DispositionId,
-                Steps = modZeroJourneyStepEntities.OrderBy(e => e.RowKey).Select(e =>
-                    new JourneyStep { QuestionId = e.QuestionId, Answer = new Answer { Order = e.AnswerOrder }})
+                Steps = modZeroJourneyStepEntities.OrderBy(e => int.Parse(e.RowKey)).Select(e =>
+                    new JourneyStep { QuestionId = e.QuestionId, Answer = new Answer { Order = e.AnswerOrder }}),
+                State = JsonConvert.DeserializeObject<IDictionary<string, string>>(modZeroJourneyEntity.State)
             };
         }
     }
