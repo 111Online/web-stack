@@ -60,7 +60,13 @@ namespace NHS111.Business.Services
 
         public async Task<HttpResponseMessage> GetFullPathwayJourney(string traumaType, JourneyStep[] steps, string startingPathwayId, string dispositionCode, IDictionary<string, string> state)
         {
-            var age = Convert.ToInt32(FindStateValue(state, "PATIENT_AGE"));
+            var age = 0;
+            if (!int.TryParse(FindStateValue(state, "PATIENT_AGE"), out age))
+            {
+                var ageGroup = FindStateValue(state, "PATIENT_AGEGROUP");
+                age = new AgeCategory(ageGroup).MinimumAge;
+            }
+
             var gender = FindStateValue(state, "PATIENT_GENDER") == "\"F\"" ? "Female" : "Male";
   
             var moduleZeroJourney = await GetModuleZeroJourney(gender, age, traumaType);
