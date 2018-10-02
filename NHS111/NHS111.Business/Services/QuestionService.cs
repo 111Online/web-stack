@@ -83,7 +83,7 @@ namespace NHS111.Business.Services
         {
             var genderStateValue = FindStateValue(state, "PATIENT_GENDER");
 
-            if (genderStateValue != "\"F\"" || genderStateValue != "\"M\"")
+            if (!(genderStateValue == "\"F\"" || genderStateValue == "\"M\""))
                 throw new ArgumentException("State value for key 'PATIENT_GENDER' must be of value \"F\" or \"M\"");
 
             var gender = genderStateValue == "\"F\"" ? "Female" : "Male";
