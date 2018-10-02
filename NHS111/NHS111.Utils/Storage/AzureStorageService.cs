@@ -19,7 +19,7 @@ namespace NHS111.Utils.Storage
             // Create the table client.
             var tableClient = storageAccount.CreateCloudTableClient();
             // Retrieve a reference to the table.
-            _table = tableClient.GetTableReference(CloudConfigurationManager.GetSetting("StorageTableReference"));
+            _table = tableClient.GetTableReference(CloudConfigurationManager.GetSetting("StorageModuleZeroJourneysTableReference"));
             // Create the table if it doesn't exist.
             _table.CreateIfNotExists();
         }
