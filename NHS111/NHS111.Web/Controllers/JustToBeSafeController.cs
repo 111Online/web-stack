@@ -37,21 +37,32 @@ namespace NHS111.Web.Controllers
 
         [HttpGet]
         [Route("{pathwayNumber}/{gender}/{age}/start")]
-        public async Task<ActionResult> PathwayStart(string pathwayNumber, string gender, int age, string args)
-        {
-            var decryptedArgs = new QueryStringEncryptor(args);
-            var decryptedFilterServices = string.IsNullOrEmpty(decryptedArgs["filterServices"]) || bool.Parse(decryptedArgs["filterServices"]);
+        public ActionResult PathwayStart(string pathwayNumber, string gender, int age, string args) {
+            var model = BuildModel(pathwayNumber, gender, age, args);
+            model.Args = args;
+            return View("~/Views/Question/Info.cshtml", model);
+        }
 
-            var model = new JustToBeSafeViewModel {
+        [HttpPost]
+        [Route("{pathwayNumber}/{gender}/{age}/first")]
+        public async Task<ActionResult> FirstQuestion(string pathwayNumber, string gender, int age, string args) {
+            var model = BuildModel(pathwayNumber, gender, age, args);
+            return await JustToBeSafeFirst(model);
+        }
+
+        private static QuestionInfoViewModel BuildModel(string pathwayNumber, string gender, int age, string args) {
+            var decryptedArgs = new QueryStringEncryptor(args);
+            var decryptedFilterServices = string.IsNullOrEmpty(decryptedArgs["filterServices"]) ||
+                                          bool.Parse(decryptedArgs["filterServices"]);
+
+            var model = new QuestionInfoViewModel {
                 SessionId = Guid.Parse(decryptedArgs["sessionId"]),
                 PathwayNo = pathwayNumber,
                 DigitalTitle = decryptedArgs["digitalTitle"],
                 EntrySearchTerm = decryptedArgs["searchTerm"],
                 CurrentPostcode = decryptedArgs["postcode"],
-                UserInfo = new UserInfo
-                {
-                    Demography = new AgeGenderViewModel
-                    {
+                UserInfo = new UserInfo {
+                    Demography = new AgeGenderViewModel {
                         Age = age,
                         Gender = gender
                     }
@@ -60,8 +71,7 @@ namespace NHS111.Web.Controllers
                 Campaign = decryptedArgs["campaign"],
                 Source = decryptedArgs["source"]
             };
-
-            return await JustToBeSafeFirst(model);
+            return model;
         }
     }
 }

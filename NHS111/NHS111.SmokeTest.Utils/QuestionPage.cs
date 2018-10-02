@@ -12,6 +12,22 @@ namespace NHS111.SmokeTest.Utils
 {
     using Newtonsoft.Json.Linq;
 
+    public class QuestionInfoPage
+        : LayoutPage {
+
+        [FindsBy(How = How.ClassName, Using = "button--next")]
+        private IWebElement IUnderstandButton { get; set; }
+
+        public QuestionInfoPage(IWebDriver driver)
+            : base(driver) { }
+
+        public QuestionPage ClickIUnderstand() {
+            IUnderstandButton.Click();
+            return new QuestionPage(Driver);
+        }
+
+    }
+
     public class QuestionPage : LayoutPage
     {
         [FindsBy(How = How.ClassName, Using = "button--next")]
