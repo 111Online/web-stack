@@ -7,9 +7,13 @@ using NHS111.Web.Presentation.Logging;
 
 namespace NHS111.Web.Helpers
 {
+    using System.Collections.Generic;
+    using System.Configuration;
+    using System.Linq;
     using Controllers;
     using Features;
     using Newtonsoft.Json;
+    using Presentation.Configuration;
 
     public class ViewRouter : IViewRouter
     {
@@ -48,9 +52,7 @@ namespace NHS111.Web.Helpers
 
                     //    viewFilePath = "../PostcodeFirst/Postcode";
                    // }
-                    var comparer = new JourneyViewModelEqualityComparer();
-                    var testjourney = new JourneyViewModel(); //todo drive from config
-                    if (comparer.Equals(model, testjourney))
+                    if (IsTestJourney(model))
                         return "../Outcome/Call_999_CheckAnswer";
 
                     if (ViewExists(viewFilePath, context))
@@ -73,6 +75,31 @@ namespace NHS111.Web.Helpers
                     _userZoomDataBuilder.SetFieldsForQuestion(model);
                     return "../Question/Question";
             }
+        }
+
+        private bool IsTestJourney(JourneyViewModel model) {
+            var testJourneys = ReadTestJourneys();
+
+            //var json = "{\"PathwayNo\":\"PW755\", \"UserInfo\":{ \"Demography\":{ \"Gender\":\"Male\",\"Age\":22}},\"Journey\":{\"Steps\":[{\"questionId\":\"Tx123\",\"answer\":{ \"title\":\"Yes\" }}, {\"questionId\":\"Tx123\",\"answer\":{ \"title\":\"Yes\" }}]}}";
+            var comparer = new JourneyViewModelEqualityComparer();
+            foreach (var testJourney in testJourneys) {
+                var result = JsonConvert.DeserializeObject<JourneyViewModel>(testJourney);
+                if (comparer.Equals(model, result))
+                    return true;
+            }
+
+            return false;
+        }
+
+        private static IEnumerable<string> ReadTestJourneys() {
+            var section = ConfigurationManager.GetSection("testJourneySection");
+            if (!(section is TestJourneysConfigurationSection))
+                return new List<string>();
+
+            return (section as TestJourneysConfigurationSection)
+                .TestJourneys
+                .Cast<TestJourneyElement>()
+                .Select(e => e.Json);
         }
 
         private bool ViewExists(string name, ControllerContext context)
