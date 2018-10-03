@@ -15,19 +15,18 @@ namespace NHS111.Models.Models.Web
         public bool ComparePathwayId { get; set; }
         public bool CompareAge { get; set; }
         public bool CompareSex { get; set; }
-        public bool CompareQuestionIds { get; set; }
+        public bool CompareQuestionNos { get; set; }
         public bool CompareAnswers { get; set; }
 
         public JourneyViewModelEqualityComparer() {
             ComparePathwayId = true;
-            CompareAge = true;
-            CompareSex = true;
-            CompareQuestionIds = true;
+            CompareAge = false;
+            CompareSex = false;
+            CompareQuestionNos = true;
             CompareAnswers = true;
         }
 
         public bool Equals(JourneyViewModel x, JourneyViewModel y) {
-            return true;
             //a lot of these checks can be pulled out into their respective types
             if (x == null && y == null)
                 return true;
@@ -44,7 +43,7 @@ namespace NHS111.Models.Models.Web
             if (CompareSex && !SexEquals(x.UserInfo, y.UserInfo))
                 return false;
 
-            if ((!CompareQuestionIds && !CompareAnswers))
+            if ((!CompareQuestionNos && !CompareAnswers))
                 return true; //we're done
 
             return JourneysEquals(x.Journey, y.Journey);
@@ -73,7 +72,7 @@ namespace NHS111.Models.Models.Web
                 if (x.Steps[i] == null || y.Steps[i] == null)
                     return false;
 
-                if (CompareQuestionIds && x.Steps[i].QuestionId != y.Steps[i].QuestionId)
+                if (CompareQuestionNos && x.Steps[i].QuestionNo != y.Steps[i].QuestionNo)
                     return false;
 
                 if (!CompareAnswers)
