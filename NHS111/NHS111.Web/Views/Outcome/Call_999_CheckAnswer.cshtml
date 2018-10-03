@@ -1,0 +1,141 @@
+﻿@using NHS111.Models.Models.Domain
+@using NHS111.Models.Models.Web
+@using NHS111.Models.Models.Web.Enums
+@{ Layout = "~/Views/Shared/_LayoutNhsUk.cshtml"; }
+@inherits NHS111.Web.Views.Shared.DirectLinkingView<OutcomeViewModel>
+
+
+@section Title  {NHS 111 Online - Check your answer}
+
+
+@section HeadTop {
+    @{
+        var url = string.Format("/{0}/{1}/{2}/check-answer", Url.Encode(Model.PathwayId), Url.Encode(Model.PathwayTitle), Url.Encode(Model.QuestionNo));
+    }
+
+    <script>
+        var pageId = '@Model.PathwayId';
+        dataLayer = [
+            {
+                'virtualPageUrl': document.location.pathname + '@url',
+                'virtualPageTitle': 'Check answer'
+            }];
+    </script>
+}
+
+@section FeedbackSection {
+@Html.Partial("_FeedbackDetails", new FeedbackViewModel() {
+    UserId = Model.SessionId.ToString(),
+    PageData = new PageDataViewModel(Model.IsFirstStep ? PageDataViewModel.PageType.FirstQuestion : PageDataViewModel.PageType.Question, Model),
+    Heading = "Help us improve this question",
+    Paragraph = "Does it make sense? Do you understand all the words?"
+})
+}
+
+@functions {
+
+    string WriteDirectLink(JourneyViewModel model)
+    {
+        if (DirectLinkingFeature.IsEnabled)
+        {
+            return "<!-- DIRECT LINK: " + model.StepLink + " -->";
+        }
+
+        return "";
+    }
+
+}
+
+@using (Html.BeginForm("Navigation", "Question", FormMethod.Post))
+{
+    @Html.HiddenFor(x => Model.SessionId)
+    @Html.HiddenFor(x => Model.JourneyId)
+    @Html.HiddenFor(x => Model.Id)
+    @Html.HiddenFor(x => Model.JourneyJson)
+    @Html.HiddenFor(x => Model.PathwayId)
+    @Html.HiddenFor(x => Model.PathwayNo)
+    @Html.HiddenFor(x => Model.PathwayTitle)
+    @Html.HiddenFor(x => Model.EntrySearchTerm)
+    @Html.HiddenFor(x => Model.DigitalTitle)
+    @Html.HiddenFor(x => Model.UserInfo.Demography.Age)
+    @Html.HiddenFor(x => Model.UserInfo.Demography.Gender)
+    @Html.HiddenFor(x => Model.CurrentPostcode)
+    @Html.HiddenFor(x => Model.Title)
+    @Html.HiddenFor(x => Model.SymptomDiscriminatorCode)
+    @Html.HiddenFor(x => Model.QuestionNo)
+    @Html.HiddenFor(x => Model.StateJson)
+    @Html.HiddenFor(x => Model.FilterServices)
+    @Html.HiddenFor(x => Model.Campaign)
+    @Html.HiddenFor(x => Model.Source)
+
+    @Html.Raw(WriteDirectLink(Model))
+
+    for (int i = 0; i < Model.CollectedKeywords.Keywords.Count; i++)
+    {
+        @Html.HiddenFor(model => Model.CollectedKeywords.Keywords[i].Value)
+        @Html.HiddenFor(model => Model.CollectedKeywords.Keywords[i].IsFromAnswer)
+    }
+
+    for (int i = 0; i < Model.CollectedKeywords.ExcludeKeywords.Count; i++)
+    {
+        @Html.HiddenFor(model => Model.CollectedKeywords.ExcludeKeywords[i].Value)
+        @Html.HiddenFor(model => Model.CollectedKeywords.ExcludeKeywords[i].IsFromAnswer)
+    }
+    <div class="form-group measure @(@ViewData.ModelState.IsValidField("SelectedAnswer") ? "" : "form-group-error")">
+        <fieldset>
+            <legend>
+                <h1>Have you answered this question correctly?</h1>
+            </legend>
+            
+            <p>Stuff and things</p>
+
+            <div class="multiple-choice">
+                <input name="SelectedAnswer" data-val="true" data-val-required="'SelectedAnswer' should not be empty." type="radio" class="multiple-choice__input" id="Yes" value="Yes" />
+                <label for="Yes" class="multiple-choice--radio">Yes</label>
+            </div>
+            <div class="multiple-choice">
+                <input name="SelectedAnswer" data-val="true" data-val-required="'SelectedAnswer' should not be empty." type="radio" class="multiple-choice__input" id="No" value="No" />
+                <label for="No" class="multiple-choice--radio">No</label>
+            </div>
+        </fieldset>
+    </div>
+    <button class="button--next" id="nextScreen" type="submit" name="Question" value="Question">Next</button>
+}
+
+@Html.Partial("_PageLoadingIndicator")
+<script type="text/javascript">
+
+    const formToJSON = elements => [].reduce.call(elements, (data, element) => {
+
+        if (element.type != "radio") data[element.name] = element.value;
+        else if (element.checked) data[element.name] = element.value;
+        return data;
+
+        }, {});
+
+    const form = $('form')[0];
+
+    $(".button--next").on("click",
+        function () {
+
+            var prePopulatedDosResultsOutcomeGroups = [@(Html.Raw(String.Join(",",OutcomeGroup.PrePopulatedDosResultsOutcomeGroups.Select(og => "\"" + og.Id + "\"").ToList())))];
+            $.ajax({
+                    method: "POST",
+                    url: "/question/NextNodeDetails",
+                    data: formToJSON(form.elements)
+                })
+                .done(function(data) {
+                    if (data.NodeType == @((int)NodeType.Outcome) && '@Model.CurrentPostcode' != '' &&
+                        prePopulatedDosResultsOutcomeGroups.indexOf(data.OutcomeGroup.Id) > -1) {
+                        startPageLoadingIndicator('Searching for services near to  @Model.FormattedCurrentPostcode ...');
+                    }
+                });
+        });
+
+
+
+
+
+
+
+</script>

@@ -9,6 +9,7 @@ namespace NHS111.Web.Helpers
 {
     using Controllers;
     using Features;
+    using Newtonsoft.Json;
 
     public class ViewRouter : IViewRouter
     {
@@ -47,6 +48,10 @@ namespace NHS111.Web.Helpers
 
                     //    viewFilePath = "../PostcodeFirst/Postcode";
                    // }
+                    var comparer = new JourneyViewModelEqualityComparer();
+                    var testjourney = new JourneyViewModel(); //todo drive from config
+                    if (comparer.Equals(model, testjourney))
+                        return "../Outcome/Call_999_CheckAnswer";
 
                     if (ViewExists(viewFilePath, context))
                     {
