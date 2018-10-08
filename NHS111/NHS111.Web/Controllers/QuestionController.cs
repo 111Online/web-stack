@@ -206,7 +206,7 @@ namespace NHS111.Web.Controllers {
             bool? filterServices, string selectedAnswer) {
 
             if (selectedAnswer.ToLower() == "no") {
-                return Question(model);
+                return null;//Question(model);
             }
 
             var result = await DirectInternal(model.PathwayId, null, model.PathwayTitle, answers, filterServices);
