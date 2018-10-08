@@ -52,7 +52,7 @@ namespace NHS111.Web.Helpers
 
                     //    viewFilePath = "../PostcodeFirst/Postcode";
                    // }
-                    if (IsTestJourney(model))
+                    if (IsTestJourney(model as OutcomeViewModel))
                         return "../Outcome/Call_999_CheckAnswer";
 
                     if (ViewExists(viewFilePath, context))
@@ -77,29 +77,30 @@ namespace NHS111.Web.Helpers
             }
         }
 
-        private bool IsTestJourney(JourneyViewModel model) {
+        private bool IsTestJourney(OutcomeViewModel model) {
             var testJourneys = ReadTestJourneys();
 
             //var json = "{\"PathwayNo\":\"PW755\", \"UserInfo\":{ \"Demography\":{ \"Gender\":\"Male\",\"Age\":22}},\"Journey\":{\"Steps\":[{\"questionId\":\"Tx123\",\"answer\":{ \"title\":\"Yes\" }}, {\"questionId\":\"Tx123\",\"answer\":{ \"title\":\"Yes\" }}]}}";
             var comparer = new JourneyViewModelEqualityComparer();
             foreach (var testJourney in testJourneys) {
-                var result = JsonConvert.DeserializeObject<JourneyViewModel>(testJourney);
-                if (comparer.Equals(model, result))
+                var result = JsonConvert.DeserializeObject<OutcomeViewModel>(testJourney.Json);
+                if (comparer.Equals(model, result)) {
+                    model.TriggerQuestionNo = testJourney.TriggerQuestionNo;
                     return true;
+                }
             }
 
             return false;
         }
 
-        private static IEnumerable<string> ReadTestJourneys() {
+        private static IEnumerable<TestJourneyElement> ReadTestJourneys() {
             var section = ConfigurationManager.GetSection("testJourneySection");
             if (!(section is TestJourneysConfigurationSection))
-                return new List<string>();
+                return new List<TestJourneyElement>();
 
             return (section as TestJourneysConfigurationSection)
                 .TestJourneys
-                .Cast<TestJourneyElement>()
-                .Select(e => e.Json);
+                .Cast<TestJourneyElement>();
         }
 
         private bool ViewExists(string name, ControllerContext context)

@@ -51,6 +51,14 @@ using System.Xml;
     }
 
     public class TestJourneyElement : ConfigurationElement {
+
+        [ConfigurationProperty("triggerQuestionNo", IsRequired = false)]
+        public string TriggerQuestionNo
+        {
+            get { return (string)base["triggerQuestionNo"]; }
+            set { base["triggerQuestionNo"] = value; }
+        }
+
         [ConfigurationProperty("json", IsKey = true)]
         public string Json
         {
@@ -60,6 +68,7 @@ using System.Xml;
 
         protected override void DeserializeElement(XmlReader reader,
             bool serializeCollectionKey) {
+            TriggerQuestionNo = reader["triggerQuestionNo"];
             Json = reader.ReadElementContentAsString();
         }
     }

@@ -76,6 +76,25 @@ namespace NHS111.Models.Mappers.WebMappings
                 .ForMember(dest => dest.Age, opt => opt.Ignore())
                 .ForMember(dest => dest.Gender, opt => opt.Ignore())
                 .ForMember(dest => dest.Search, opt => opt.Ignore());
+
+            Mapper.CreateMap<JourneyViewModel, OutcomeViewModel>()
+                .ForMember(s => s.SelectedServiceId, o => o.Ignore())
+                .ForMember(s => s.DosCheckCapacitySummaryResult, o => o.Ignore())
+                .ForMember(s => s.SurgeryViewModel, o => o.Ignore())
+                .ForMember(s => s.CareAdviceMarkers, o => o.Ignore())
+                .ForMember(s => s.CareAdvices, o => o.Ignore())
+                .ForMember(s => s.SymptomGroup, o => o.Ignore())
+                .ForMember(s => s.Urgency, o => o.Ignore())
+                .ForMember(s => s.ItkSendSuccess, o => o.Ignore())
+                .ForMember(s => s.ItkDuplicate, o => o.Ignore())
+                .ForMember(s => s.WorseningCareAdvice, o => o.Ignore())
+                .ForMember(s => s.SymptomDiscriminator, o => o.Ignore())
+                .ForMember(s => s.CurrentView, o => o.Ignore())
+                .ForMember(s => s.SurveyLink, o => o.Ignore())
+                .ForMember(s => s.Informant, opt => opt.Ignore())
+                .ForMember(s => s.UnavailableSelectedService, o => o.Ignore())
+                .ForMember(s => s.GroupedDosServices, o => o.Ignore());
+
         }
 
         public class FromAnswerToJourneyViewModelConverter : ITypeConverter<Answer, JourneyViewModel>

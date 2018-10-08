@@ -66,13 +66,14 @@ namespace NHS111.Models.Models.Web
                 return true;
 
             for (var i = 0; i < x.Steps.Count; i++) {
+
                 if (x.Steps[i] == null && y.Steps[i] == null)
                     continue; //no need to compare these two any further
 
                 if (x.Steps[i] == null || y.Steps[i] == null)
                     return false;
 
-                if (CompareQuestionNos && x.Steps[i].QuestionNo != y.Steps[i].QuestionNo)
+                if (CompareQuestionNos && !string.Equals(x.Steps[i].QuestionNo, y.Steps[i].QuestionNo, StringComparison.CurrentCultureIgnoreCase))
                     return false;
 
                 if (!CompareAnswers)
@@ -85,7 +86,7 @@ namespace NHS111.Models.Models.Web
                 if (x.Steps[i].Answer == null || y.Steps[i].Answer == null)
                     return false;
 
-                if (x.Steps[i].Answer.Title != y.Steps[i].Answer.Title)
+                if (x.Steps[i].Answer.Title.ToLower() != y.Steps[i].Answer.Title.ToLower())
                     return false;
             }
 
@@ -137,6 +138,7 @@ namespace NHS111.Models.Models.Web
         public string DigitalTitle { get; set; }
         public string Id { get; set; }
         public string EntrySearchTerm { get; set; }
+        public string TriggerQuestionNo { get; set; }
 
         private string _title;
         public string Title
