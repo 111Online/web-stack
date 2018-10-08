@@ -96,15 +96,15 @@
     <div class="form-group measure @(@ViewData.ModelState.IsValidField("SelectedAnswer") ? "" : "form-group-error")">
         <fieldset>
             <legend>
-                <h1>Have you answered this question correctly?</h1>
+                <h1>Check your answer</h1>
             </legend>
-
+            <p>You answered "@Model.Journey.Steps.First(a => a.QuestionNo == Model.TriggerQuestionNo).Answer.Title" to this question:</p>
             <div class="callout callout--attention">
                 <p>@Model.Journey.Steps.First(a => a.QuestionNo == Model.TriggerQuestionNo).QuestionTitle</p>
 
             </div>
-            <p>You said "@Model.Journey.Steps.First(a => a.QuestionNo == Model.TriggerQuestionNo).Answer.Title" which means you may need urgent help.</p>
-            <p><b>Do you want to look at this question again?</b></p>
+            <p>This means you may need urgent help.</p>
+            <p class="emphasis">Do you want to look at this question again?</p>
             <div class="multiple-choice">
                 <input name="SelectedAnswer" data-val="true" data-val-required="'SelectedAnswer' should not be empty." type="radio" class="multiple-choice__input" id="Yes" value="Yes"/>
                 <label for="Yes" class="multiple-choice--radio">Yes</label>
