@@ -102,7 +102,7 @@
                     <input name="SelectedAnswer" data-val="true" data-val-required="'SelectedAnswer' should not be empty." type="radio" class="multiple-choice__input" id="@answer.TitleWithoutSpaces" value="@Newtonsoft.Json.JsonConvert.SerializeObject(answer)" checked="@isTrigger" />
                     <label for="@answer.TitleWithoutSpaces" class="multiple-choice--radio">@answer.Title
                     @if (isTrigger) {
-                        <span style="background-color:#fdf2d5">- this means we can't rule out a serious condition</span>
+                        <span class="highlight-term">&mdash; this means we can't rule out a serious condition</span>
                     }</label>
                     @Html.Hidden(string.Format("Answers[{0}].Title", i), answer.Title)
                     @Html.Hidden(string.Format("Answers[{0}].TitleWithoutSpaces", i), answer.TitleWithoutSpaces)
