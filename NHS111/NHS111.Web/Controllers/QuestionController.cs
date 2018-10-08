@@ -204,17 +204,14 @@ namespace NHS111.Web.Controllers {
         [ActionName("Navigation")]
         [MultiSubmit(ButtonName = "CheckAnswer")]
         //[Route("question/revisit/{questionNo}/")]
-        public async Task<ActionResult> Revisit(QuestionViewModel model, 
+        public async Task<ActionResult> Revisit(OutcomeViewModel model, 
             [ModelBinder(typeof(IntArrayModelBinder))] int[] answers,
             bool? filterServices, string selectedAnswer) {
 
             if (selectedAnswer.ToLower() == "no") {
-                var lastStep = model.Journey.Steps.Last();
-                model.SelectedAnswer = JsonConvert.SerializeObject(lastStep.Answer);
-                model.Id = lastStep.QuestionId;
-                model.State = JsonConvert.DeserializeObject<Dictionary<string, string>>(model.StateJson);
-                model.NodeType = NodeType.CareAdvice;
-                return await Question(model);
+                var viewName = _viewRouter.GetViewName(model, ControllerContext);
+                model.SurveyLink = await _surveyBuilder.SurveyLinkBuilder(model);
+                return View(viewName, model);
             }
 
             var result = await DirectInternal(model.PathwayId, null, model.PathwayTitle, answers, filterServices);

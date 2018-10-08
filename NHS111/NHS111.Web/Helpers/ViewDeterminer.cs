@@ -78,6 +78,8 @@ namespace NHS111.Web.Helpers
         }
 
         private bool IsTestJourney(OutcomeViewModel model) {
+            if (!string.IsNullOrEmpty(model.TriggerQuestionNo))
+                return false; //temp hack
             var testJourneys = ReadTestJourneys();
 
             //var json = "{\"PathwayNo\":\"PW755\", \"UserInfo\":{ \"Demography\":{ \"Gender\":\"Male\",\"Age\":22}},\"Journey\":{\"Steps\":[{\"questionId\":\"Tx123\",\"answer\":{ \"title\":\"Yes\" }}, {\"questionId\":\"Tx123\",\"answer\":{ \"title\":\"Yes\" }}]}}";
