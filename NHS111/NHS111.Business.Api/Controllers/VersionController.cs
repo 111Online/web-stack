@@ -27,7 +27,7 @@ namespace NHS111.Business.Api.Controllers
                 cacheKey = cacheKey ?? "version-info";
 
                 var cacheValue = await _cacheManager.Read(cacheKey);
-                if (cacheValue != null)
+                if (!string.IsNullOrEmpty(cacheValue))
                 {
                     return cacheValue.AsHttpResponse();
                 }
