@@ -398,6 +398,7 @@
     <Content Include="Views\Shared\_ExternalInformation.cshtml" />
     <Content Include="Views\Search\Pathways.cshtml" />
     <Content Include="Views\Question\Info.cshtml" />
+    <Content Include="Views\Outcome\Call_999_CheckAnswer.cshtml" />
     <None Include="Web.Development.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
