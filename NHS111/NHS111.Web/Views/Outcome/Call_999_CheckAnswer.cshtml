@@ -59,7 +59,8 @@
 
 }
 
-@using (Html.BeginForm("Navigation", "Question", FormMethod.Post)) {
+@using (Html.BeginForm("Navigation", "Question", FormMethod.Post))
+{
     @Html.HiddenFor(x => Model.SessionId)
     @Html.HiddenFor(x => Model.JourneyId)
     @Html.HiddenFor(x => Model.Id)
@@ -79,17 +80,20 @@
     @Html.HiddenFor(x => Model.Campaign)
     @Html.HiddenFor(x => Model.Source)
     @Html.HiddenFor(x => Model.TriggerQuestionNo)
-    @Html.HiddenFor(x => Model.TriggerQuestionNo)
-    <input type="hidden" name="Answers" value="@WriteAnswers(Model.TriggerQuestionNo)"/>
+    @Html.HiddenFor(x => Model.NodeType)
+    @Html.HiddenFor(x => Model.OutcomeGroup.Id)
+    <input type="hidden" name="Answers" value="@WriteAnswers(Model.TriggerQuestionNo)" />
 
     @Html.Raw(WriteDirectLink(Model))
 
-    for (int i = 0; i < Model.CollectedKeywords.Keywords.Count; i++) {
+    for (int i = 0; i < Model.CollectedKeywords.Keywords.Count; i++)
+    {
         @Html.HiddenFor(model => Model.CollectedKeywords.Keywords[i].Value)
         @Html.HiddenFor(model => Model.CollectedKeywords.Keywords[i].IsFromAnswer)
     }
 
-    for (int i = 0; i < Model.CollectedKeywords.ExcludeKeywords.Count; i++) {
+    for (int i = 0; i < Model.CollectedKeywords.ExcludeKeywords.Count; i++)
+    {
         @Html.HiddenFor(model => Model.CollectedKeywords.ExcludeKeywords[i].Value)
         @Html.HiddenFor(model => Model.CollectedKeywords.ExcludeKeywords[i].IsFromAnswer)
     }
@@ -106,11 +110,11 @@
             <p>You said "@Model.Journey.Steps.First(a => a.QuestionNo == Model.TriggerQuestionNo).Answer.Title" which means you may need urgent help.</p>
             <p><b>Do you want to look at it again?</b></p>
             <div class="multiple-choice">
-                <input name="SelectedAnswer" data-val="true" data-val-required="'SelectedAnswer' should not be empty." type="radio" class="multiple-choice__input" id="Yes" value="Yes"/>
+                <input name="SelectedAnswer" data-val="true" data-val-required="'SelectedAnswer' should not be empty." type="radio" class="multiple-choice__input" id="Yes" value="Yes" />
                 <label for="Yes" class="multiple-choice--radio">Yes</label>
             </div>
             <div class="multiple-choice">
-                <input name="SelectedAnswer" data-val="true" data-val-required="'SelectedAnswer' should not be empty." type="radio" class="multiple-choice__input" id="No" value="No"/>
+                <input name="SelectedAnswer" data-val="true" data-val-required="'SelectedAnswer' should not be empty." type="radio" class="multiple-choice__input" id="No" value="No" />
                 <label for="No" class="multiple-choice--radio">No</label>
             </div>
         </fieldset>

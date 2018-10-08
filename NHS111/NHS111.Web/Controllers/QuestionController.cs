@@ -14,6 +14,7 @@ namespace NHS111.Web.Controllers {
     using System.Configuration;
     using System.Linq;
     using System.Web;
+    using AutoMapper;
     using Models.Models.Domain;
     using Models.Models.Web.DosRequests;
     using Newtonsoft.Json;
@@ -28,7 +29,8 @@ namespace NHS111.Web.Controllers {
 
         public QuestionController(IJourneyViewModelBuilder journeyViewModelBuilder,
             IConfiguration configuration, IJustToBeSafeFirstViewModelBuilder justToBeSafeFirstViewModelBuilder, IDirectLinkingFeature directLinkingFeature,
-            IAuditLogger auditLogger, IUserZoomDataBuilder userZoomDataBuilder, IRestClient restClientBusinessApi, IViewRouter viewRouter, IPostcodePrefillFeature postcodePrefillFeature, IDosEndpointFeature dosEndpointFeature, IDOSSpecifyDispoTimeFeature dosSpecifyDispoTimeFeature) {
+            IAuditLogger auditLogger, IUserZoomDataBuilder userZoomDataBuilder, IRestClient restClientBusinessApi, IViewRouter viewRouter, IPostcodePrefillFeature postcodePrefillFeature, IDosEndpointFeature dosEndpointFeature, IDOSSpecifyDispoTimeFeature dosSpecifyDispoTimeFeature,
+            ISurveyLinkViewModelBuilder surveyBuilder) {
             _journeyViewModelBuilder = journeyViewModelBuilder;
             _configuration = configuration;
             _justToBeSafeFirstViewModelBuilder = justToBeSafeFirstViewModelBuilder;
@@ -40,6 +42,7 @@ namespace NHS111.Web.Controllers {
             _postcodePrefillFeature = postcodePrefillFeature;
             _dosEndpointFeature = dosEndpointFeature;
             _dosSpecifyDispoTimeFeature = dosSpecifyDispoTimeFeature;
+            _surveyBuilder = surveyBuilder;
         }
 
         [HttpGet, PersistCampaignDataFilter]
@@ -201,12 +204,17 @@ namespace NHS111.Web.Controllers {
         [ActionName("Navigation")]
         [MultiSubmit(ButtonName = "CheckAnswer")]
         //[Route("question/revisit/{questionNo}/")]
-        public async Task<ActionResult> Revisit(OutcomeViewModel model, 
+        public async Task<ActionResult> Revisit(QuestionViewModel model, 
             [ModelBinder(typeof(IntArrayModelBinder))] int[] answers,
             bool? filterServices, string selectedAnswer) {
 
             if (selectedAnswer.ToLower() == "no") {
-                return null;//Question(model);
+                var lastStep = model.Journey.Steps.Last();
+                model.SelectedAnswer = JsonConvert.SerializeObject(lastStep.Answer);
+                model.Id = lastStep.QuestionId;
+                model.State = JsonConvert.DeserializeObject<Dictionary<string, string>>(model.StateJson);
+                model.NodeType = NodeType.CareAdvice;
+                return await Question(model);
             }
 
             var result = await DirectInternal(model.PathwayId, null, model.PathwayTitle, answers, filterServices);
@@ -419,5 +427,6 @@ namespace NHS111.Web.Controllers {
         private readonly IPostcodePrefillFeature _postcodePrefillFeature;
         private readonly IDosEndpointFeature _dosEndpointFeature;
         private readonly IDOSSpecifyDispoTimeFeature _dosSpecifyDispoTimeFeature;
+        private readonly ISurveyLinkViewModelBuilder _surveyBuilder;
     }
 }
