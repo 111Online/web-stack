@@ -216,7 +216,6 @@
     <Compile Include="Helpers\AzureHelper.cs" />
     <Compile Include="Helpers\EnumHelper.cs" />
     <Compile Include="Helpers\HttpClientFactory.cs" />
-    <Compile Include="Cache\CacheManager.cs" />
     <Compile Include="Cache\ICacheManager.cs" />
     <Compile Include="Cache\RedisManager.cs" />
     <Compile Include="Comparer\PathwaysComparer.cs" />

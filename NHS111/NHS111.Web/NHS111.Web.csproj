@@ -214,7 +214,6 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Authentication\BasicAuthenticationModule.cs" />
     <Compile Include="Controllers\AuditingController.cs" />
-    <Compile Include="Controllers\DOSController.cs" />
     <Compile Include="Controllers\FeedbackController.cs" />
     <Compile Include="Controllers\HelpController.cs" />
     <Compile Include="Controllers\OutcomeController.cs" />
