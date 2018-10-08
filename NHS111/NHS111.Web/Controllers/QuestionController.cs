@@ -29,8 +29,7 @@ namespace NHS111.Web.Controllers {
 
         public QuestionController(IJourneyViewModelBuilder journeyViewModelBuilder,
             IConfiguration configuration, IJustToBeSafeFirstViewModelBuilder justToBeSafeFirstViewModelBuilder, IDirectLinkingFeature directLinkingFeature,
-            IAuditLogger auditLogger, IUserZoomDataBuilder userZoomDataBuilder, IRestClient restClientBusinessApi, IViewRouter viewRouter, IPostcodePrefillFeature postcodePrefillFeature, IDosEndpointFeature dosEndpointFeature, IDOSSpecifyDispoTimeFeature dosSpecifyDispoTimeFeature,
-            ISurveyLinkViewModelBuilder surveyBuilder) {
+            IAuditLogger auditLogger, IUserZoomDataBuilder userZoomDataBuilder, IRestClient restClientBusinessApi, IViewRouter viewRouter, IPostcodePrefillFeature postcodePrefillFeature, IDosEndpointFeature dosEndpointFeature, IDOSSpecifyDispoTimeFeature dosSpecifyDispoTimeFeature) {
             _journeyViewModelBuilder = journeyViewModelBuilder;
             _configuration = configuration;
             _justToBeSafeFirstViewModelBuilder = justToBeSafeFirstViewModelBuilder;
@@ -42,7 +41,6 @@ namespace NHS111.Web.Controllers {
             _postcodePrefillFeature = postcodePrefillFeature;
             _dosEndpointFeature = dosEndpointFeature;
             _dosSpecifyDispoTimeFeature = dosSpecifyDispoTimeFeature;
-            _surveyBuilder = surveyBuilder;
         }
 
         [HttpGet, PersistCampaignDataFilter]
@@ -210,7 +208,6 @@ namespace NHS111.Web.Controllers {
 
             if (selectedAnswer.ToLower() == "no") {
                 var viewName = _viewRouter.GetViewName(model, ControllerContext);
-                model.SurveyLink = await _surveyBuilder.SurveyLinkBuilder(model);
                 return View(viewName, model);
             }
 
@@ -424,6 +421,5 @@ namespace NHS111.Web.Controllers {
         private readonly IPostcodePrefillFeature _postcodePrefillFeature;
         private readonly IDosEndpointFeature _dosEndpointFeature;
         private readonly IDOSSpecifyDispoTimeFeature _dosSpecifyDispoTimeFeature;
-        private readonly ISurveyLinkViewModelBuilder _surveyBuilder;
     }
 }
