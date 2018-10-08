@@ -76,34 +76,6 @@ namespace NHS111.Models.Mappers.WebMappings
                 .ForMember(dest => dest.Age, opt => opt.Ignore())
                 .ForMember(dest => dest.Gender, opt => opt.Ignore())
                 .ForMember(dest => dest.Search, opt => opt.Ignore());
-
-            Mapper.CreateMap<JourneyViewModel, QuestionViewModel>()
-                .ForMember(dest => dest.UserInfo, opt => opt.MapFrom(src => src.UserInfo))
-                .ForMember(dest => dest.CollectedKeywords, opt => opt.MapFrom(src => src.CollectedKeywords))
-                .ForMember(dest => dest.CurrentPostcode, opt => opt.MapFrom(src => src.CurrentPostcode))
-                .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id))
-                .ForMember(dest => dest.JourneyJson, opt => opt.MapFrom(src => src.JourneyJson))
-                .ForMember(dest => dest.NodeType, opt => opt.MapFrom(src => src.NodeType))
-                .ForMember(dest => dest.PathwayNo, opt => opt.MapFrom(src => src.PathwayNo))
-                .ForMember(dest => dest.PathwayId, opt => opt.MapFrom(src => src.PathwayId))
-                .ForMember(dest => dest.PathwayTitle, opt => opt.MapFrom(src => src.PathwayTitle))
-                .ForMember(dest => dest.QuestionNo, opt => opt.MapFrom(src => src.QuestionNo))
-                .ForMember(dest => dest.SelectedAnswer,
-                    opt => opt.MapFrom(src => src.Journey.Steps.Last().Answer.Title))
-                .ForMember(dest => dest.State, opt => opt.MapFrom(src => src.State))
-                .ForMember(dest => dest.StateJson, opt => opt.MapFrom(src => JsonConvert.SerializeObject(src.State)))
-                .ForMember(dest => dest.Title, opt => opt.MapFrom(src => src.Title))
-                .ForMember(dest => dest.TimeFrameText, opt => opt.MapFrom(src => src.TimeFrameText))
-                .ForMember(dest => dest.TimeFrameMinutes, opt => opt.MapFrom(src => src.TimeFrameMinutes))
-                .ForMember(dest => dest.WaitTimeText, opt => opt.MapFrom(src => src.WaitTimeText))
-                .ForMember(dest => dest.DispositionUrgencyText, opt => opt.MapFrom(src => src.DispositionUrgencyText))
-                .ForMember(dest => dest.TitleWithoutBullets, opt => opt.MapFrom(src => src.TitleWithoutBullets))
-                .ForMember(dest => dest.Bullets, opt => opt.MapFrom(src => src.Bullets))
-                .ForMember(dest => dest.Answers, opt => opt.MapFrom(src => src.Answers))
-                .ForMember(dest => dest.Rationale, opt => opt.MapFrom(src => src.Rationale))
-                .ForMember(dest => dest.SessionId, opt => opt.MapFrom(src => src.SessionId))
-                .ForMember(dest => dest.SelectedAnswer,
-                    opt => opt.MapFrom(src => JsonConvert.SerializeObject(src.Journey.Steps.Last().Answer)));
         }
 
         public class FromAnswerToJourneyViewModelConverter : ITypeConverter<Answer, JourneyViewModel>
