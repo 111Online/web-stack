@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Configuration;
 using System.Linq;
+using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
@@ -13,11 +14,11 @@ namespace NHS111.Integration.DOS.Api.Monitoring
 
     public class Monitor : BaseMonitor
     {
-        private readonly PathWayServiceSoap _pathWayServiceSoap;
+        private readonly IPathwayServiceSoapFactory _pathWayServiceFactory;
 
-        public Monitor(PathWayServiceSoap pathWayServiceSoap)
+        public Monitor(IPathwayServiceSoapFactory pathWayServiceFactory)
         {
-            _pathWayServiceSoap = pathWayServiceSoap;
+            _pathWayServiceFactory = pathWayServiceFactory;
         }
 
         private static string DosUser
@@ -40,7 +41,7 @@ namespace NHS111.Integration.DOS.Api.Monitoring
             try
             {
                 var jsonString =
-                    new StringBuilder("{\"serviceVersion\":\"1.3\",\"userInfo\":{\"username\":\"" + DosUser + "\",\"password\":\"" + DosPassword + "\"},")
+                    new StringBuilder("{\"serviceVersion\":\"1.4\",\"userInfo\":{\"username\":\"" + DosUser + "\",\"password\":\"" + DosPassword + "\"},")
                         .Append("\"c\":{\"caseRef\":\"123\",\"caseId\":\"123\",\"postcode\":\"EC1A 4JQ\",\"surgery\":\"")
                         .Append("A83046\",\"age\":35,")
                         .Append("\"ageFormat\":0,\"disposition\":1002")
@@ -48,7 +49,8 @@ namespace NHS111.Integration.DOS.Api.Monitoring
                         .Append("\"searchDistanceSpecified\":false,\"gender\":\"M\"}}").ToString();
 
                 var checkCapacitySummaryRequest = JsonConvert.DeserializeObject<CheckCapacitySummaryRequest>(jsonString);
-                var result = await _pathWayServiceSoap.CheckCapacitySummaryAsync(checkCapacitySummaryRequest);
+                var client = _pathWayServiceFactory.Create(new HttpRequestMessage() {RequestUri = new Uri("http://healthcheck.co.uk")});
+                var result = await client.CheckCapacitySummaryAsync(checkCapacitySummaryRequest);
 
                 return result != null && result.CheckCapacitySummaryResult.Any();
             }
