@@ -23,8 +23,19 @@ namespace NHS111.Models.Models.Web.FromExternalServices
         [JsonProperty(PropertyName = "idField")]
         public int Id { get; set; }
 
+        private string _name;
+
         [JsonProperty(PropertyName = "nameField")]
         public string Name { get; set; }
+
+        private string _publicName;
+
+        [JsonProperty(PropertyName = "publicNameField")]
+        public string PublicName
+        {
+            get { return _publicName; }
+            set { _publicName = !string.IsNullOrEmpty(value) ? value : Name; }
+        }
 
         [JsonProperty(PropertyName = "postcodeField")]
         public string PostCode { get; set; }
