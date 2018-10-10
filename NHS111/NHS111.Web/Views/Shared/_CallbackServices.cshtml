@@ -14,7 +14,7 @@
     @foreach (var callbackService in services)
     {
         <div class="card">
-            <h3>@WebUtility.HtmlDecode(callbackService.Name)</h3>
+            <h3>@WebUtility.HtmlDecode(callbackService.PublicName)</h3>
 
             @if (!callbackService.IsOpen)
             {
