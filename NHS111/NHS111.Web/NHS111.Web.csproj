@@ -289,9 +289,6 @@
     <Content Include="Views\Question\Question.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Views\Outcome\Call_999.cshtml" />
-  </ItemGroup>
-  <ItemGroup>
     <Content Include="Views\Outcome\ITK_Clinician_call_back.cshtml" />
   </ItemGroup>
   <ItemGroup>
@@ -353,7 +350,6 @@
     <Content Include="Views\Outcome\Call_999_police.cshtml" />
     <Content Include="Views\Outcome\ITK_Primary_care.cshtml" />
     <Content Include="Views\Outcome\SP_Midwife.cshtml" />
-    <Content Include="Views\Outcome\Call_999_Assess.cshtml" />
     <Content Include="Views\Question\InlineCareAdvice.cshtml" />
     <Content Include="Views\Shared\_CommonHiddenFieldsNode.cshtml" />
     <Content Include="Views\Shared\_CommonHiddenFieldsCareAdviceViewModel.cshtml" />
@@ -398,6 +394,9 @@
     <Content Include="Views\Shared\_ExternalInformation.cshtml" />
     <Content Include="Views\Search\Pathways.cshtml" />
     <Content Include="Views\Question\Info.cshtml" />
+    <Content Include="Views\Outcome\Call_999_cat_2.cshtml" />
+    <Content Include="Views\Outcome\Call_999_cat_3.cshtml" />
+    <Content Include="Views\Outcome\Call_999_cat_4.cshtml" />
     <Content Include="Views\Outcome\Call_999_CheckAnswer.cshtml" />
     <None Include="Web.Development.config">
       <DependentUpon>Web.config</DependentUpon>

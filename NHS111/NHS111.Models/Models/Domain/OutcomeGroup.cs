@@ -32,9 +32,11 @@ namespace NHS111.Models.Models.Domain {
 
         public static OutcomeGroup Call999Police = new OutcomeGroup { Id = "Call_999_police", Text = "Call_999_police", DefaultTitle = "Your answers suggest you should dial 999 now for the police" };
 
-        public static OutcomeGroup Call999 = new OutcomeGroup { Id = "Call_999", Text = "Call_999", DefaultTitle = "Your answers suggest you need to dial 999 immediately and ask for an ambulance" };
+        public static OutcomeGroup Call999Cat2 = new OutcomeGroup { Id = "Call_999_cat_2", Text = "Phone 999 now for an ambulance" };
 
-        public static OutcomeGroup Call999Assess = new OutcomeGroup { Id = "Call_999_Assess", Text = "Call_999_Assess", DefaultTitle = "Based on your answers, we recommend you dial 999 for advice on what to do next" };
+        public static OutcomeGroup Call999Cat3 = new OutcomeGroup { Id = "Call_999_cat_3", Text = "Call_999_cat_3", DefaultTitle = "Phone 999 now for an ambulance" };
+    
+        public static OutcomeGroup Call999Cat4 = new OutcomeGroup { Id = "Call_999_cat_4", Text = "Call_999_cat_4", DefaultTitle = "Phone 999 for an ambulance" };
 
         public static OutcomeGroup AccidentAndEmergency = new OutcomeGroup { Id = "SP_Accident_and_emergency", DefaultTitle = "Your answers suggest you should go to an Accident and Emergency department", Label = "Urgent healthcare services", ITK = false };
 
@@ -64,8 +66,9 @@ namespace NHS111.Models.Models.Domain {
         {
             { ClinicianCallBack.Id, ClinicianCallBack},
             { ItkPrimaryCare.Id, ItkPrimaryCare},
-            { Call999.Id, Call999 },
-            { Call999Assess.Id, Call999Assess },
+            { Call999Cat2.Id, Call999Cat2 },
+            { Call999Cat3.Id, Call999Cat3 },
+            { Call999Cat4.Id, Call999Cat4 },
             { Call999Police.Id, Call999Police },
             { AccidentAndEmergency.Id, AccidentAndEmergency },
             { AccidentAndEmergencySexualAssault.Id, AccidentAndEmergencySexualAssault },
