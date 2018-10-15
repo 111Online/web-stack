@@ -394,13 +394,10 @@
     <Content Include="Views\Shared\_ExternalInformation.cshtml" />
     <Content Include="Views\Search\Pathways.cshtml" />
     <Content Include="Views\Question\Info.cshtml" />
-<<<<<<< NHS111/NHS111.Web/NHS111.Web.csproj
     <Content Include="Views\Outcome\Call_999_cat_2.cshtml" />
     <Content Include="Views\Outcome\Call_999_cat_3.cshtml" />
     <Content Include="Views\Outcome\Call_999_cat_4.cshtml" />
-=======
     <Content Include="Views\Outcome\Call_999_CheckAnswer.cshtml" />
->>>>>>> NHS111/NHS111.Web/NHS111.Web.csproj
     <None Include="Web.Development.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
