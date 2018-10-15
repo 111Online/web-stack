@@ -53,7 +53,7 @@ namespace NHS111.Web.Helpers
                     //    viewFilePath = "../PostcodeFirst/Postcode";
                    // }
                     var outcomeViewModel = model as OutcomeViewModel;
-                    if (IsTestJourney(outcomeViewModel) && outcomeViewModel.DosCheckCapacitySummaryResult.ResultListEmpty && !outcomeViewModel.DosCheckCapacitySummaryResult.ServicesUnavailable)
+                    if (IsTestJourney(outcomeViewModel) && outcomeViewModel.DosCheckCapacitySummaryResult.Error == null && outcomeViewModel.DosCheckCapacitySummaryResult.Success == null)
                         return "../Outcome/Call_999_CheckAnswer";
 
                     if (ViewExists(viewFilePath, context))
