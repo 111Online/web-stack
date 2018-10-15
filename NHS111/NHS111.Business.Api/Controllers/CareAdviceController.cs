@@ -25,15 +25,15 @@ namespace NHS111.Business.Api.Controllers
         [Route("pathways/care-advice/{age}/{gender}")]
         public async Task<HttpResponseMessage> GetCareAdvice(int age, string gender, [FromUri]string markers)
         {
-            #if !DEBUG
+#if !DEBUG
                 var cacheKey = string.Format("CareAdvice-{0}-{1}-{2}", age, gender, markers);
 
                 var cacheValue = await _cacheManager.Read(cacheKey);
-                if (cacheValue != null)
+                if (!string.IsNullOrEmpty(cacheValue))
                 {
                     return cacheValue.AsHttpResponse();
                 }
-            #endif
+#endif
 
             markers = markers ?? string.Empty;
             var response = await _careAdviceService.GetCareAdvice(age, gender, markers.Split(',')).AsHttpResponse();
@@ -48,15 +48,15 @@ namespace NHS111.Business.Api.Controllers
         [Route("pathways/care-advice/{dxCode}/{ageCategory}/{gender}")]
         public async Task<HttpResponseMessage> GetCareAdvice(string dxCode, string ageCategory, string gender, [FromBody]string keywords)
         {
-            #if !DEBUG
+#if !DEBUG
                 var cacheKey = string.Format("CareAdvice-{0}-{1}-{2}-{3}", dxCode, ageCategory, gender, keywords.Replace(' ', '_'));
 
                 var cacheValue = await _cacheManager.Read(cacheKey);
-                if (cacheValue != null)
+                if (!string.IsNullOrEmpty(cacheValue))
                 {
                     return cacheValue.AsHttpResponse();
                 }
-            #endif
+#endif
 
             keywords = keywords ?? string.Empty;
             var response = await _careAdviceService.GetCareAdvice(ageCategory, gender, keywords, dxCode).AsHttpResponse();

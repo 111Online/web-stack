@@ -35,18 +35,16 @@ namespace NHS111.Web.Presentation.Builders
         private readonly IRestfulHelper _restfulHelper;
         private readonly IConfiguration _configuration;
         private readonly IMappingEngine _mappingEngine;
-        private readonly ICacheManager<string, string> _cacheManager;
         private readonly INotifier<string> _notifier;
         private readonly IITKMessagingFeature _itkMessagingFeature;
         private static readonly ILog _logger = LogManager.GetLogger(typeof (DOSBuilder));
 
-        public DOSBuilder(ICareAdviceBuilder careAdviceBuilder, IRestfulHelper restfulHelper, IConfiguration configuration, IMappingEngine mappingEngine, ICacheManager<string, string> cacheManager, INotifier<string> notifier, IITKMessagingFeature itkMessagingFeature)
+        public DOSBuilder(ICareAdviceBuilder careAdviceBuilder, IRestfulHelper restfulHelper, IConfiguration configuration, IMappingEngine mappingEngine, INotifier<string> notifier, IITKMessagingFeature itkMessagingFeature)
         {
             _careAdviceBuilder = careAdviceBuilder;
             _restfulHelper = restfulHelper;
             _configuration = configuration;
             _mappingEngine = mappingEngine;
-            _cacheManager = cacheManager;
             _notifier = notifier;
             _itkMessagingFeature = itkMessagingFeature;
 
@@ -146,38 +144,10 @@ namespace NHS111.Web.Presentation.Builders
             //################################END################
         }
 
-        public async Task<DosViewModel> FillServiceDetailsBuilder(DosViewModel model)
-        {
-            var jObj = (JObject)JsonConvert.DeserializeObject(model.CheckCapacitySummaryResultListJson);
-            model.DosCheckCapacitySummaryResult = jObj["DosCheckCapacitySummaryResult"].ToObject<DosCheckCapacitySummaryResult>();
-            var selectedService = model.SelectedService;
-
-            var itkMessage = await _cacheManager.Read(model.UserId.ToString());
-            var document = XDocument.Parse(itkMessage);
-
-            var serviceDetials = document.Root.Descendants("ServiceDetails").FirstOrDefault();
-            serviceDetials.Element("id").SetValue(selectedService.Id.ToString());
-            serviceDetials.Element("name").SetValue(selectedService.Name);
-            serviceDetials.Element("odsCode").SetValue(selectedService.OdsCode);
-            serviceDetials.Element("contactDetails").SetValue(selectedService.ContactDetails ?? "");
-            serviceDetials.Element("address").SetValue(selectedService.Address);
-            serviceDetials.Element("postcode").SetValue(selectedService.PostCode);
-
-            _cacheManager.Set(model.UserId.ToString(), document.ToString());
-            _notifier.Notify(_configuration.IntegrationApiItkDispatcher, model.UserId.ToString());
-
-            model.DosCheckCapacitySummaryResult = new DosCheckCapacitySummaryResult { Success = new SuccessObject<ServiceViewModel>() { Services = new List<ServiceViewModel>() { selectedService } } };
-            model.CareAdvices = await _careAdviceBuilder.FillCareAdviceBuilder(Convert.ToInt32(model.Age), model.Gender.ToString(), model.CareAdviceMarkers.ToList());
-
-            return model;
-        }
-
         public HttpRequestMessage BuildRequestMessage(DosFilteredCase dosCase)
         {
             return new HttpRequestMessage { Content = new StringContent(JsonConvert.SerializeObject(dosCase), Encoding.UTF8, "application/json") };
         }
-
-
 
         public DosViewModel BuildDosViewModel(OutcomeViewModel model, DateTime? overrideDate)
         {
@@ -224,7 +194,6 @@ namespace NHS111.Web.Presentation.Builders
     {
         Task<DosCheckCapacitySummaryResult> FillCheckCapacitySummaryResult(DosViewModel dosViewModel, bool filterServices, DosEndpoint? endpoint);
         Task<DosServicesByClinicalTermResult> FillDosServicesByClinicalTermResult(DosViewModel dosViewModel);
-        Task<DosViewModel> FillServiceDetailsBuilder(DosViewModel model);
         HttpRequestMessage BuildRequestMessage(DosFilteredCase dosCase);
         List<GroupedDOSServices> FillGroupedDosServices(List<ServiceViewModel> services);
         DosViewModel BuildDosViewModel(OutcomeViewModel model, DateTime? overrideDate);

@@ -97,9 +97,13 @@
             @for(var i=0;i < Model.OrderedAnswers().Count; i++)
             {
                 var answer = Model.OrderedAnswers()[i];
+                var isTrigger = Model.QuestionNo == Model.TriggerQuestionNo && answer.Title == "Yes";
                 <div class="multiple-choice">
-                    <input name="SelectedAnswer" data-val="true" data-val-required="'SelectedAnswer' should not be empty." type="radio" class="multiple-choice__input" id="@answer.TitleWithoutSpaces" value="@Newtonsoft.Json.JsonConvert.SerializeObject(answer)" />
-                    <label for="@answer.TitleWithoutSpaces" class="multiple-choice--radio">@answer.Title</label>
+                    <input name="SelectedAnswer" data-val="true" data-val-required="'SelectedAnswer' should not be empty." type="radio" class="multiple-choice__input" id="@answer.TitleWithoutSpaces" value="@Newtonsoft.Json.JsonConvert.SerializeObject(answer)" checked="@isTrigger" />
+                    <label for="@answer.TitleWithoutSpaces" class="multiple-choice--radio">@answer.Title
+                    @if (isTrigger) {
+                        <span class="highlight-term">&mdash; this means we can't rule out a serious condition</span>
+                    }</label>
                     @Html.Hidden(string.Format("Answers[{0}].Title", i), answer.Title)
                     @Html.Hidden(string.Format("Answers[{0}].TitleWithoutSpaces", i), answer.TitleWithoutSpaces)
                     @Html.Hidden(string.Format("Answers[{0}].SymptomDiscriminator", i), answer.SymptomDiscriminator)
@@ -113,14 +117,6 @@
                     {
                         @Html.Partial("_HiddenText", new HiddenTextViewModel() {Summary = "What does this mean?", Details = new[] {Html.Encode(@Html.Raw(answer.SupportingInformationHtml))}})
                     }
-
-
-                    @if (Model.QuestionNo == "TX1039" && answer.Order < 3)
-                    {
-                        <div class="interrupt--mini callout--warning" style="margin-top: 17px;">
-                            This means you’ll be asked to call 999
-                        </div>
-                    }
                 </div>
             }
         </fieldset>
@@ -130,38 +126,6 @@
     {
         <button class="button--stacked button--previous button--link" id="previousScreen" type="submit" value="PreviousQuestion" name="PreviousQuestion" formnovalidate>Change my previous answer</button>
     }
-}
-
-@if (Model.QuestionNo == "TX1039")
-{
-
-    <style>
-        /* This is for the 999 callout experiment, should be moved to frontend kit or removed */
-        .interrupt--mini {
-            display: none;
-            position: relative;
-            clear: both;
-            margin: 12px 0 20px 0;
-            padding: 8px;
-            border-width: 4px;
-        }
-
-        input:checked ~ .interrupt--mini {
-            display: block;
-        }
-
-        .interrupt--mini:before {
-            content: ' ';
-            position: absolute;
-            left: 4px;
-            top: -16px;
-            width: 0;
-            height: 0;
-            border-style: solid;
-            border-width: 0 12px 16px 12px;
-            border-color: transparent transparent #fada8b transparent;
-        }
-    </style>
 }
 
 @Html.Partial("_PageLoadingIndicator")

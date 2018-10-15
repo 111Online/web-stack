@@ -28,7 +28,6 @@ namespace NHS111.Web.Presentation.Builders.Tests
         private Mock<ICareAdviceBuilder> _mockCareAdviceBuilder;
         private Mock<IRestfulHelper> _mockRestfulHelper;
         private Mock<Configuration.IConfiguration> _mockConfiguration;
-        private Mock<ICacheManager<string, string>> _mockCacheManager;
         private Mock<INotifier<string>> _mockNotifier;
         private DOSBuilder _dosBuilder;
         private Mock<ISurgeryBuilder> _mockSurgeryBuilder;
@@ -45,7 +44,6 @@ namespace NHS111.Web.Presentation.Builders.Tests
             _mockCareAdviceBuilder = new Mock<ICareAdviceBuilder>();
             _mockRestfulHelper = new Mock<IRestfulHelper>();
             _mockConfiguration = new Mock<Configuration.IConfiguration>();
-            _mockCacheManager = new Mock<ICacheManager<string, string>>();
             _mockNotifier = new Mock<INotifier<string>>();
             _mockItkMessagingFeature = new Mock<IITKMessagingFeature>();
 
@@ -56,7 +54,7 @@ namespace NHS111.Web.Presentation.Builders.Tests
             _dosBuilder = new DOSBuilder(_mockCareAdviceBuilder.Object, 
                 _mockRestfulHelper.Object, 
                 _mockConfiguration.Object, 
-                _mappingEngine.Object, _mockCacheManager.Object,
+                _mappingEngine.Object,
                 _mockNotifier.Object,
                 _mockItkMessagingFeature.Object);
         }

@@ -25,15 +25,15 @@ namespace NHS111.Business.Api.Controllers
        [Route("symptomdiscriminator/{symptomDisciminatorCode}")]
         public async Task<HttpResponseMessage> GetSymptomDisciminator(string symptomDisciminatorCode, string cacheKey = null)
         {
-            #if !DEBUG
+#if !DEBUG
                 cacheKey = cacheKey ?? string.Format("SymptomDisciminator-{0}", symptomDisciminatorCode);
 
                 var cacheValue = await _cacheManager.Read(cacheKey);
-                if (cacheValue != null)
+                if (!string.IsNullOrEmpty(cacheValue))
                 {
                     return cacheValue.AsHttpResponse();
                 }
-            #endif
+#endif
 
             return await _symptomDisciminatorService.GetSymptomDisciminator(symptomDisciminatorCode).AsHttpResponse();
         }
