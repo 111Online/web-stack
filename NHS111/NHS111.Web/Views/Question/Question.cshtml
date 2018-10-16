@@ -88,8 +88,10 @@
                 @Html.HiddenFor(m => m.TitleWithoutBullets)
             </legend>
             @Html.ValidationMessageFor(m => m.SelectedAnswer, "Please select an answer", new { @class = "error-message" })
-            @if (!String.IsNullOrWhiteSpace(Model.Rationale)) {
-                <div class="callout callout--info">
+            @if (!String.IsNullOrWhiteSpace(Model.Rationale))
+            {
+                var highlight = Model.QuestionNo == Model.TriggerQuestionNo ? "highlight-term" : "";
+                <div class="callout callout--info @highlight">
                     <p>@Html.Raw(@Model.RationaleHtml)</p>
                 </div>
             }
