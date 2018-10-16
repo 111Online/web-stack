@@ -39,7 +39,7 @@ namespace NHS111.Models.Models.Web {
             if (x == null || y == null)
                 return false;
 
-            if (ComparePathwayId && x.PathwayId != y.PathwayId)
+            if (ComparePathwayId && x.PathwayNo != y.PathwayNo)
                 return false;
 
             if (CompareAge && !AgeEquals(x.UserInfo, y.UserInfo))
