@@ -237,6 +237,7 @@ namespace NHS111.Web.Controllers {
         public async Task<ActionResult> DirectInternal(string pathwayId, int? age, string pathwayTitle,
             [ModelBinder(typeof(IntArrayModelBinder))] int[] answers, bool? filterServices) {
             var resultingModel = await DeriveJourneyView(pathwayId, age, pathwayTitle, answers);
+            resultingModel.TriggerQuestionNo = null;
             if (resultingModel != null) {
                 resultingModel.FilterServices = filterServices.HasValue ? filterServices.Value : true;
 

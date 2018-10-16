@@ -19,11 +19,13 @@ namespace NHS111.Web.Helpers
     {
         private readonly IAuditLogger _auditLogger;
         private readonly IUserZoomDataBuilder _userZoomDataBuilder;
+        private readonly IJourneyViewModelEqualityComparer _journeyViewModelComparer;
 
-        public ViewRouter(IAuditLogger auditLogger, IUserZoomDataBuilder userZoomDataBuilder)
+        public ViewRouter(IAuditLogger auditLogger, IUserZoomDataBuilder userZoomDataBuilder, IJourneyViewModelEqualityComparer journeyViewModelComparer)
         {
             _auditLogger = auditLogger;
             _userZoomDataBuilder = userZoomDataBuilder;
+            _journeyViewModelComparer = journeyViewModelComparer;
         }
 
         public string GetOutcomeViewPath(OutcomeViewModel model, ControllerContext context, string nextView)
@@ -53,7 +55,7 @@ namespace NHS111.Web.Helpers
                     //    viewFilePath = "../PostcodeFirst/Postcode";
                    // }
                     var outcomeViewModel = model as OutcomeViewModel;
-                    if (IsTestJourney(outcomeViewModel) && outcomeViewModel.DosCheckCapacitySummaryResult.Error == null && outcomeViewModel.DosCheckCapacitySummaryResult.Success == null)
+                    if (IsTestJourney(outcomeViewModel))
                         return "../Outcome/Call_999_CheckAnswer";
 
                     if (ViewExists(viewFilePath, context))
@@ -79,15 +81,13 @@ namespace NHS111.Web.Helpers
         }
 
         private bool IsTestJourney(OutcomeViewModel model) {
-            if (!string.IsNullOrEmpty(model.TriggerQuestionNo))
-                return false; //temp hack
+            if (!string.IsNullOrEmpty(model.TriggerQuestionNo)) //have we already seen the trigger question screen?
+                return false;
             var testJourneys = ReadTestJourneys();
 
-            //var json = "{\"PathwayNo\":\"PW755\", \"UserInfo\":{ \"Demography\":{ \"Gender\":\"Male\",\"Age\":22}},\"Journey\":{\"Steps\":[{\"questionId\":\"Tx123\",\"answer\":{ \"title\":\"Yes\" }}, {\"questionId\":\"Tx123\",\"answer\":{ \"title\":\"Yes\" }}]}}";
-            var comparer = new JourneyViewModelEqualityComparer();
             foreach (var testJourney in testJourneys) {
                 var result = JsonConvert.DeserializeObject<OutcomeViewModel>(testJourney.Json);
-                if (comparer.Equals(model, result)) {
+                if (_journeyViewModelComparer.Equals(model, result)) {
                     model.TriggerQuestionNo = testJourney.TriggerQuestionNo;
                     return true;
                 }
