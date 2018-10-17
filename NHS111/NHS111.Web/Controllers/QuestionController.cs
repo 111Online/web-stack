@@ -114,7 +114,6 @@ namespace NHS111.Web.Controllers {
         private JourneyViewModel GetMatchingTestJourney(OutcomeViewModel model) {
             var testJourneys = ReadTestJourneys();
 
-            //var json = "{\"PathwayNo\":\"PW755\", \"UserInfo\":{ \"Demography\":{ \"Gender\":\"Male\",\"Age\":22}},\"Journey\":{\"Steps\":[{\"questionId\":\"Tx123\",\"answer\":{ \"title\":\"Yes\" }}, {\"questionId\":\"Tx123\",\"answer\":{ \"title\":\"Yes\" }}]}}";
             var comparer = new JourneyViewModelEqualityComparer();
             foreach (var testJourney in testJourneys) {
                 var result = JsonConvert.DeserializeObject<JourneyViewModel>(testJourney.Json);
