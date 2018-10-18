@@ -32,7 +32,7 @@
     <link rel="preload" href="/content/images/nhs-logotype-blue.svg" as="image" />
 
     @{
-      
+
 
         if (ViewBag.Medium == ApplicationMediums.NhsApp)
         {
@@ -149,5 +149,11 @@
 
     <script src="@NHS111.Web.Helpers.Versioning.GetVersionedUriRef("~/Content/js/bundle.js")"></script>
     <link rel="stylesheet" href="@NHS111.Web.Helpers.Versioning.GetVersionedUriRef("~/Content/css/nhs-111-print.css")" media="print" type="text/css">
+
+    @if (AdobeAnalyticsFeature.IsEnabled)
+    {
+        <script src="@ConfigurationManager.AppSettings["AdobeAnalyticsURL"]" async></script>
+    }
+
 </body>
 </html>
