@@ -6,7 +6,7 @@ namespace NHS111.Models.Models.Web {
     using FromExternalServices;
 
     public interface IJourneyViewModelEqualityComparer : IEqualityComparer<JourneyViewModel> {
-        bool ComparePathwayId { get; set; }
+        bool ComparePathwayNo { get; set; }
         bool CompareAge { get; set; }
         bool CompareSex { get; set; }
         bool CompareQuestionNos { get; set; }
@@ -17,14 +17,14 @@ namespace NHS111.Models.Models.Web {
     public class JourneyViewModelEqualityComparer
         : IJourneyViewModelEqualityComparer {
 
-        public bool ComparePathwayId { get; set; }
+        public bool ComparePathwayNo { get; set; }
         public bool CompareAge { get; set; }
         public bool CompareSex { get; set; }
         public bool CompareQuestionNos { get; set; }
         public bool CompareAnswers { get; set; }
 
         public JourneyViewModelEqualityComparer() {
-            ComparePathwayId = true;
+            ComparePathwayNo = true;
             CompareAge = false;
             CompareSex = false;
             CompareQuestionNos = true;
@@ -39,7 +39,7 @@ namespace NHS111.Models.Models.Web {
             if (x == null || y == null)
                 return false;
 
-            if (ComparePathwayId && x.PathwayNo != y.PathwayNo)
+            if (ComparePathwayNo && x.PathwayNo != y.PathwayNo)
                 return false;
 
             if (CompareAge && !AgeEquals(x.UserInfo, y.UserInfo))
