@@ -227,7 +227,7 @@ namespace NHS111.SmokeTests
         {
             var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Headache", TestScenerioSex.Female, TestScenerioAgeGroups.Adult);
 
-            questionPage.VerifyQuestion("Could you be pregnant?");
+            questionPage.VerifyQuestion("Is there a chance you're pregnant?");
             var outcomePage = questionPage
                 .Answer(3)
                 .Answer(1)
