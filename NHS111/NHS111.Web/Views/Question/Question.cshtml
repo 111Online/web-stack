@@ -99,7 +99,7 @@
             @for(var i=0;i < Model.OrderedAnswers().Count; i++)
             {
                 var answer = Model.OrderedAnswers()[i];
-                var isTrigger = Model.QuestionNo == Model.TriggerQuestionNo && answer.Title == "Yes";
+                var isTrigger = Model.QuestionNo == Model.TriggerQuestionNo && answer.Title == Model.TriggerQuestionAnswer;
                 <div class="multiple-choice">
                     <input name="SelectedAnswer" data-val="true" data-val-required="'SelectedAnswer' should not be empty." type="radio" class="multiple-choice__input" id="@answer.TitleWithoutSpaces" value="@Newtonsoft.Json.JsonConvert.SerializeObject(answer)" checked="@isTrigger" />
                     <label for="@answer.TitleWithoutSpaces" class="multiple-choice--radio">@answer.Title

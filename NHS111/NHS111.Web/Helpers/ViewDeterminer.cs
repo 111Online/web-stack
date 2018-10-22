@@ -89,6 +89,8 @@ namespace NHS111.Web.Helpers
                 var result = JsonConvert.DeserializeObject<OutcomeViewModel>(testJourney.Json);
                 if (_journeyViewModelComparer.Equals(model, result)) {
                     model.TriggerQuestionNo = testJourney.TriggerQuestionNo;
+                    model.TriggerQuestionAnswer = model.Journey.Steps
+                        .First(a => a.QuestionNo == model.TriggerQuestionNo).Answer.Title;
                     return true;
                 }
             }

@@ -210,10 +210,11 @@ namespace NHS111.Web.Controllers {
                 return View(viewName, model);
             }
 
-            var result = await DirectInternal(model.PathwayId, null, model.PathwayTitle, answers, filterServices);
+            var result = await DirectInternal(model.PathwayId, model.UserInfo.Demography.Age, model.PathwayTitle, answers, filterServices);
 
             var journeyViewModel = (JourneyViewModel) ((ViewResult) result).Model;
             journeyViewModel.TriggerQuestionNo = model.TriggerQuestionNo;
+            journeyViewModel.TriggerQuestionAnswer = model.TriggerQuestionAnswer;
             journeyViewModel.JourneyId = model.JourneyId;
             journeyViewModel.SessionId = model.SessionId;
             ModelState.Clear();
