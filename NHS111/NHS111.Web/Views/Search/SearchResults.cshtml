@@ -39,9 +39,10 @@
                 var title = result.DisplayTitle != null ? result.DisplayTitle.First() : result.Title.First();
                 Model.DigitalTitle = PathwaySearchResult.StripHighlightMarkup(title);
 
+                var encryptedQueryStringValuesSearchResult = KeyValueEncryptor.EncryptedKeys(Model);
                 <li>
 
-                    <a class="search__topic" data-title="@result.PathwayTitle" data-pathway-number="@result.PathwayNo" href="/@result.PathwayNo/@Model.UserInfo.Demography.Gender/@Model.UserInfo.Demography.Age/start?args=@encryptedQueryStringValues.ToString()">
+                    <a class="search__topic" data-title="@result.PathwayTitle" data-pathway-number="@result.PathwayNo" href="/@result.PathwayNo/@Model.UserInfo.Demography.Gender/@Model.UserInfo.Demography.Age/start?args=@encryptedQueryStringValuesSearchResult.ToString()">
                         <span class="search__topic-title">@Html.Raw(title)</span>
                         @if (additionalTopics.Any())
                         {
@@ -52,7 +53,7 @@
                 </li>
             }
         </ul>
-        
+
         <details>
             <summary><span class="details__arrow" role="presentation"></span> I can’t find the right topic</summary>
             <div>
