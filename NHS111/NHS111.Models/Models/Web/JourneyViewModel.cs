@@ -9,6 +9,7 @@ using NHS111.Models.Models.Web.FromExternalServices;
 
 namespace NHS111.Models.Models.Web
 {
+
     public class JourneyViewModel
     {
         public Guid SessionId { get; set; }
@@ -19,6 +20,8 @@ namespace NHS111.Models.Models.Web
         public string DigitalTitle { get; set; }
         public string Id { get; set; }
         public string EntrySearchTerm { get; set; }
+        public string TriggerQuestionNo { get; set; }
+        public string TriggerQuestionAnswer { get; set; }
 
         private string _title;
         public string Title

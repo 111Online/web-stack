@@ -4,7 +4,7 @@
 .highlight-term {
   padding-left: 2px;
   padding-right: 2px;
-  background-color: #fdf2d5;
+  background-color: $yellow-10;
   font-style: inherit;
   font-weight: inherit;
 }
@@ -87,6 +87,15 @@
   text-decoration: underline;
   display: inline-block;
   padding: 0 12px 0 0;
+  background: inherit;
+  box-shadow: inherit;
+}
+
+.search__button--back:hover,
+.search__button--back:focus {
+  background: inherit;
+  box-shadow: inherit;
+  color: inherit;
 }
 
 .search__button--back:link, .search__button--back:visited, .search__button--back:active {
@@ -102,6 +111,7 @@
   border-top: 5px solid transparent;
   border-bottom: 5px solid transparent;
   border-right: 5px solid #425563;
+  position: inherit;
 }
 
 /*

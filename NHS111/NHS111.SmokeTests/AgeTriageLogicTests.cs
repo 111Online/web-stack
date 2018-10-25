@@ -15,13 +15,13 @@ namespace NHS111.SmokeTests
                 .AnswerYes()
                 .AnswerAndVerifyNextQuestion(1, "Do you have any of the symptoms of a heart attack?")
                 .AnswerAndVerifyNextQuestion(5, "Are you so ill you've stopped doing your usual daily activities?")
-                .AnswerAndVerifyNextQuestion(3, "Could you be pregnant?")
+                .AnswerAndVerifyNextQuestion(3, "Is there a chance you're pregnant?")
                 .AnswerAndVerifyNextQuestion(3, "Have you vomited up either of the following?")
                 .AnswerAndVerifyNextQuestion(4, "What does your poo look like?")
                 .AnswerAndVerifyNextQuestion(4, "Is the pain so unbearable you can't move at all?")
                 .AnswerForDispostion<OutcomePage>("Yes");
 
-            outcomePage.VerifyOutcome("Your answers suggest you should dial 999 now for an ambulance");
+            outcomePage.VerifyOutcome("Phone 999 now for an ambulance");
         }
 
         [Test]
@@ -29,7 +29,7 @@ namespace NHS111.SmokeTests
         {
             var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Rectal Bleeding", TestScenerioSex.Female, 56);
 
-            questionPage.VerifyQuestion("Have you got pain in your tummy as well as bleeding from your bottom?");
+            questionPage.VerifyQuestion("Have you got pain in your tummy as well as the bleeding from your bottom?");
             var outcomePage = questionPage.AnswerAndVerifyNextQuestion(1, "How bad is the pain?")
                 .AnswerAndVerifyNextQuestion(1, "Have you got a severe ripping or tearing pain in your chest or back that came on suddenly?")
                 .AnswerAndVerifyNextQuestion(3, "Has a doctor told you that you have either of the following?")
@@ -40,7 +40,7 @@ namespace NHS111.SmokeTests
                 .AnswerAndVerifyNextQuestion(4, "Is the pain so unbearable you can't move at all?")
                 .AnswerForDispostion<OutcomePage>("Yes");
 
-            outcomePage.VerifyOutcome("Your answers suggest you should dial 999 now for an ambulance");
+            outcomePage.VerifyOutcome("Phone 999 now for an ambulance");
         }
 
         [Test]
@@ -57,7 +57,7 @@ namespace NHS111.SmokeTests
                 .AnswerAndVerifyNextQuestion(4, "Is the pain so unbearable you can't move at all?")
                 .AnswerForDispostion<OutcomePage>("Yes");
 
-            outcomePage.VerifyOutcome("Your answers suggest you should dial 999 now for an ambulance");
+            outcomePage.VerifyOutcome("Phone 999 now for an ambulance");
         }
     }
 }

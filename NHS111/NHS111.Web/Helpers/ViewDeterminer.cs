@@ -7,18 +7,25 @@ using NHS111.Web.Presentation.Logging;
 
 namespace NHS111.Web.Helpers
 {
+    using System.Collections.Generic;
+    using System.Configuration;
+    using System.Linq;
     using Controllers;
     using Features;
+    using Newtonsoft.Json;
+    using Presentation.Configuration;
 
     public class ViewRouter : IViewRouter
     {
         private readonly IAuditLogger _auditLogger;
         private readonly IUserZoomDataBuilder _userZoomDataBuilder;
+        private readonly IJourneyViewModelEqualityComparer _journeyViewModelComparer;
 
-        public ViewRouter(IAuditLogger auditLogger, IUserZoomDataBuilder userZoomDataBuilder)
+        public ViewRouter(IAuditLogger auditLogger, IUserZoomDataBuilder userZoomDataBuilder, IJourneyViewModelEqualityComparer journeyViewModelComparer)
         {
             _auditLogger = auditLogger;
             _userZoomDataBuilder = userZoomDataBuilder;
+            _journeyViewModelComparer = journeyViewModelComparer;
         }
 
         public string GetOutcomeViewPath(OutcomeViewModel model, ControllerContext context, string nextView)
@@ -47,6 +54,9 @@ namespace NHS111.Web.Helpers
 
                     //    viewFilePath = "../PostcodeFirst/Postcode";
                    // }
+                    var outcomeViewModel = model as OutcomeViewModel;
+                    if (IsTestJourney(outcomeViewModel))
+                        return "../Outcome/Call_999_CheckAnswer";
 
                     if (ViewExists(viewFilePath, context))
                     {
@@ -68,6 +78,34 @@ namespace NHS111.Web.Helpers
                     _userZoomDataBuilder.SetFieldsForQuestion(model);
                     return "../Question/Question";
             }
+        }
+
+        private bool IsTestJourney(OutcomeViewModel model) {
+            if (!string.IsNullOrEmpty(model.TriggerQuestionNo)) //have we already seen the trigger question screen?
+                return false;
+            var testJourneys = ReadTestJourneys();
+
+            foreach (var testJourney in testJourneys) {
+                var result = JsonConvert.DeserializeObject<OutcomeViewModel>(testJourney.Json);
+                if (_journeyViewModelComparer.Equals(model, result)) {
+                    model.TriggerQuestionNo = testJourney.TriggerQuestionNo;
+                    model.TriggerQuestionAnswer = model.Journey.Steps
+                        .First(a => a.QuestionNo == model.TriggerQuestionNo).Answer.Title;
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        private static IEnumerable<TestJourneyElement> ReadTestJourneys() {
+            var section = ConfigurationManager.GetSection("testJourneySection");
+            if (!(section is TestJourneysConfigurationSection))
+                return new List<TestJourneyElement>();
+
+            return (section as TestJourneysConfigurationSection)
+                .TestJourneys
+                .Cast<TestJourneyElement>();
         }
 
         private bool ViewExists(string name, ControllerContext context)

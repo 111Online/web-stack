@@ -11,11 +11,14 @@ namespace NHS111.Web.Controllers {
     using Utils.Attributes;
     using Presentation.Builders;
     using System.Collections.Generic;
+    using System.Configuration;
     using System.Linq;
     using System.Web;
+    using AutoMapper;
     using Models.Models.Domain;
     using Models.Models.Web.DosRequests;
     using Newtonsoft.Json;
+    using Presentation.Configuration;
     using Presentation.Logging;
     using Presentation.ModelBinders;
     using Utils.Filters;
@@ -105,7 +108,34 @@ namespace NHS111.Web.Controllers {
 
             var viewName = _viewRouter.GetViewName(nextModel, ControllerContext);
             return View(viewName, nextModel);
+
         }
+
+        private JourneyViewModel GetMatchingTestJourney(OutcomeViewModel model) {
+            var testJourneys = ReadTestJourneys();
+
+            var comparer = new JourneyViewModelEqualityComparer();
+            foreach (var testJourney in testJourneys) {
+                var result = JsonConvert.DeserializeObject<JourneyViewModel>(testJourney.Json);
+                if (comparer.Equals(model, result)) {
+                    model.TriggerQuestionNo = testJourney.TriggerQuestionNo;
+                    return result;
+                }
+            }
+
+            return null;
+        }
+
+        private static IEnumerable<TestJourneyElement> ReadTestJourneys() {
+            var section = ConfigurationManager.GetSection("testJourneySection");
+            if (!(section is TestJourneysConfigurationSection))
+                return new List<TestJourneyElement>();
+
+            return (section as TestJourneysConfigurationSection)
+                .TestJourneys
+                .Cast<TestJourneyElement>();
+        }
+
 
         [HttpPost]
         [ActionName("NextNodeDetails")]
@@ -167,16 +197,47 @@ namespace NHS111.Web.Controllers {
             return await _journeyViewModelBuilder.Build(model, nextNode);
         }
 
+        [HttpPost]
+        [ActionName("Navigation")]
+        [MultiSubmit(ButtonName = "CheckAnswer")]
+        //[Route("question/revisit/{questionNo}/")]
+        public async Task<ActionResult> Revisit(OutcomeViewModel model, 
+            [ModelBinder(typeof(IntArrayModelBinder))] int[] answers,
+            bool? filterServices, string selectedAnswer) {
+
+            if (selectedAnswer.ToLower() == "no") {
+                var viewName = _viewRouter.GetViewName(model, ControllerContext);
+                return View(viewName, model);
+            }
+
+            var result = await DirectInternal(model.PathwayId, model.UserInfo.Demography.Age, model.PathwayTitle, answers, filterServices);
+
+            var journeyViewModel = (JourneyViewModel) ((ViewResult) result).Model;
+            journeyViewModel.TriggerQuestionNo = model.TriggerQuestionNo;
+            journeyViewModel.TriggerQuestionAnswer = model.TriggerQuestionAnswer;
+            journeyViewModel.JourneyId = model.JourneyId;
+            journeyViewModel.SessionId = model.SessionId;
+            ModelState.Clear();
+            return result;
+        }
+
         [HttpGet]
         [Route("question/direct/{pathwayId}/{age?}/{pathwayTitle}/{answers?}")]
         public async Task<ActionResult> Direct(string pathwayId, int? age, string pathwayTitle,
-            [ModelBinder(typeof (IntArrayModelBinder))] int[] answers, bool? filterServices) {
+            [ModelBinder(typeof(IntArrayModelBinder))]
+            int[] answers, bool? filterServices) {
 
             if (!_directLinkingFeature.IsEnabled) {
                 return HttpNotFound();
             }
 
+            return await DirectInternal(pathwayId, age, pathwayTitle, answers, filterServices);
+        }
+
+        public async Task<ActionResult> DirectInternal(string pathwayId, int? age, string pathwayTitle,
+            [ModelBinder(typeof(IntArrayModelBinder))] int[] answers, bool? filterServices) {
             var resultingModel = await DeriveJourneyView(pathwayId, age, pathwayTitle, answers);
+            resultingModel.TriggerQuestionNo = null;
             if (resultingModel != null) {
                 resultingModel.FilterServices = filterServices.HasValue ? filterServices.Value : true;
 
@@ -310,7 +371,7 @@ namespace NHS111.Web.Controllers {
 
         private async Task<JourneyViewModel> AnswerQuestions(QuestionViewModel model, int[] answers) {
             if (answers == null)
-                return null;
+                return model;
 
             var queue = new Queue<int>(answers);
             var journeyViewModel = new JourneyViewModel();

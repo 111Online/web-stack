@@ -163,6 +163,7 @@
     <Compile Include="Builders\SymptomDiscriminatorCollector.cs" />
     <Compile Include="Builders\JourneyHistoryWrangler.cs" />
     <Compile Include="Builders\UserZoomDataBuilder.cs" />
+    <Compile Include="Configuration\TestJourneysConfigurationSection.cs" />
     <Compile Include="Logging\AuditLogger.cs" />
     <Compile Include="ModelBinders\IntArrayModelBinder.cs" />
     <Compile Include="ModelBinders\JourneyBinder.cs" />

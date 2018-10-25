@@ -166,6 +166,7 @@ namespace NHS111.Business.API.Functional.Tests
 
         //Tests to show full journey returned given list of answered questions
         [TestCaseSource("FullJourneyTestCases")]
+        [Ignore("Waiting completion of rehydration work")]
         public async void GetFullPathwayJourney_returns_expected_journey(List<JourneyStep> journey, int totalJourneyLength, int totalQuestions, int totalReads, int totalSets, string startingpPathwayId)
         {
             var journeyJson = JsonConvert.SerializeObject(journey);
