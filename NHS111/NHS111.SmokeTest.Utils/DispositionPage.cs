@@ -14,7 +14,7 @@ namespace NHS111.SmokeTest.Utils
     {
         private const string PATHWAY_NOT_FOUND__EXPECTED_TEXT = "Call 111 to speak to an adviser now";
 
-        [FindsBy(How = How.CssSelector, Using = ".local-header h1")]
+        [FindsBy(How = How.CssSelector, Using = "h1")]
         private IWebElement Header { get; set; }
 
         [FindsBy(How = How.XPath, Using = "//h1")]
@@ -77,7 +77,7 @@ namespace NHS111.SmokeTest.Utils
 
         public void VerifyOutcome(string outcomeHeadertext)
         {
-            Assert.IsTrue(Driver.ElementExists(By.CssSelector(".local-header h1")), "Possible unexpected triage outcome. Expected header to exist but it doesn't.");
+            Assert.IsTrue(Driver.ElementExists(By.CssSelector("h1")), "Possible unexpected triage outcome. Expected header to exist but it doesn't.");
             Assert.AreEqual(outcomeHeadertext, Header.Text, string.Format("Possible unexpected triage outcome. Expected header text of '{0}' but was '{1}'.", outcomeHeadertext, Header.Text));
         }
 

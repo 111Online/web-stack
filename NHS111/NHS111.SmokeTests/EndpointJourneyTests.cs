@@ -17,7 +17,7 @@ namespace NHS111.SmokeTests
                 .AnswerSuccessiveByOrder(1,2)
                 .AnswerForDispostion<OutcomePage>("Yes");
 
-            outcomePage.VerifyOutcome("Your answers suggest you should dial 999 now for an ambulance");
+            outcomePage.VerifyOutcome("Phone 999 now for an ambulance");
         }
 
         [Test]
@@ -227,7 +227,7 @@ namespace NHS111.SmokeTests
         {
             var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Headache", TestScenerioSex.Female, TestScenerioAgeGroups.Adult);
 
-            questionPage.VerifyQuestion("Could you be pregnant?");
+            questionPage.VerifyQuestion("Is there a chance you're pregnant?");
             var outcomePage = questionPage
                 .Answer(3)
                 .Answer(1)
