@@ -14,6 +14,14 @@ namespace NHS111.Models.Test.Models.Web.FromExternalServices
     public class DosServiceTests
     {
         [Test]
+        public void Missing_PublicName_Returns_Name()
+        {
+            var json = "{\"nameField\":\"ED - Emergency Department Stoke Mandeville Hospital, Bucks (CATCH ALL)\"}";
+            var service = JsonConvert.DeserializeObject<DosService>(json);
+            Assert.AreEqual("ED - Emergency Department Stoke Mandeville Hospital, Bucks (CATCH ALL)", service.PublicName);
+        }
+
+        [Test]
         public void Null_PublicName_Returns_Name()
         {
             var json = "{\"nameField\":\"ED - Emergency Department Stoke Mandeville Hospital, Bucks (CATCH ALL)\",\"publicNameField\":null}";
