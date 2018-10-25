@@ -23,8 +23,6 @@ namespace NHS111.Models.Models.Web.FromExternalServices
         [JsonProperty(PropertyName = "idField")]
         public int Id { get; set; }
 
-        private string _name;
-
         [JsonProperty(PropertyName = "nameField")]
         public string Name { get; set; }
 
@@ -33,7 +31,7 @@ namespace NHS111.Models.Models.Web.FromExternalServices
         [JsonProperty(PropertyName = "publicNameField")]
         public string PublicName
         {
-            get { return _publicName; }
+            get { return string.IsNullOrEmpty(_publicName) ? Name: _publicName; }
             set { _publicName = !string.IsNullOrEmpty(value) ? value : Name; }
         }
 
