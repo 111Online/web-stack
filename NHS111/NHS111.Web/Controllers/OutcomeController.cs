@@ -122,6 +122,12 @@ namespace NHS111.Web.Controllers
             return Mapper.Map<AddressInfoCollectionViewModel>(results);
         }
 
+        [HttpPost]
+        [Route("Callback999")]
+        public ActionResult Callback999(OutcomeViewModel model) {
+            return View("PersonalDetails", Mapper.Map<PersonalDetailViewModel>(model));
+        }
+
         [HttpGet]
         [Route("outcome/disposition/{age?}/{gender?}/{dxCode?}/{symptomGroup?}/{symptomDiscriminator?}")]
         public ActionResult Disposition(int? age, string gender, string dxCode, string symptomGroup,
