@@ -64,6 +64,7 @@
   </Choose>
   <ItemGroup>
     <Compile Include="BaseTests.cs" />
+    <Compile Include="PrivacyStatementTests.cs" />
     <Compile Include="SearchPageTests.cs" />
     <Compile Include="CategoryPageTests.cs" />
     <Compile Include="DemographicsPageTests.cs" />
