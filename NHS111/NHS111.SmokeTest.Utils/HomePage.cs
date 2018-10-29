@@ -86,6 +86,19 @@ namespace NHS111.SmokeTest.Utils
             return new PrivacyStatementPage(Driver);
         }
 
+        public CookiesStatementPage ClickCookiesStatementLink()
+        {
+            CookiesLink.Click();
+
+            //link opens in new tab, grab the new tab
+            foreach (var winHandle in Driver.WindowHandles)
+            {
+                Driver.SwitchTo().Window(winHandle);
+            }
+
+            return new CookiesStatementPage(Driver);
+        }
+
         public void Verify()
         {
             Assert.IsTrue(Header.Displayed);
