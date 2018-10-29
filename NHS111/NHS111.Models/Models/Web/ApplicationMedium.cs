@@ -1,53 +1,53 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 
 namespace NHS111.Models.Models.Web
 {
-
     public static class ApplicationMediums
     {
-        private static List<ApplicationMedium> _applicationMediums = new List<ApplicationMedium>()
+        private const String _referralCookieName = "referrer";
+
+        private static readonly List<ApplicationMedium> _applicationMediums = new List<ApplicationMedium>()
         {
             new ApplicationMedium("nhsapp", "NHS App"),
             new ApplicationMedium("webdirect", "direct")
         };
 
-        public static ApplicationMedium NhsApp = _applicationMediums.Find(m => m.ToString() == "nhsapp");
-        public static ApplicationMedium WebDirect = _applicationMediums.Find(m => m.ToString() == "webdirect");
+        public static ApplicationMedium NhsApp = _applicationMediums.Find(m => m.ValueEquals("nhsapp"));
+        public static ApplicationMedium WebDirect = _applicationMediums.Find(m => m.ValueEquals("webdirect"));
 
         public static ApplicationMedium GetFromRequest(HttpRequestBase request)
         {
-            if (request.Cookies["referrer"] != null)
-                return _applicationMediums.Find(m => m.ToString() == request.Cookies["referrer"].Value);
-            else return WebDirect;
+            if (request.Cookies[_referralCookieName] != null)
+                return _applicationMediums.Find(m => m.ToString() == request.Cookies[_referralCookieName].Value);
+            else
+                return WebDirect;
         }
 
         public static void SetFromRequest(ResultExecutingContext filterContext)
         {
             foreach (ApplicationMedium medium in _applicationMediums)
             {
-                if (filterContext.RequestContext.HttpContext.Request.QueryString["utm_medium"] != null && filterContext.RequestContext.HttpContext.Request.QueryString["utm_medium"].ToLower() == medium._querystringValue.ToLower())
-                {
+                var httpContext = filterContext.RequestContext.HttpContext;
 
-                    if (filterContext.RequestContext.HttpContext.Response.Cookies["referrer"] != null)
+                if (httpContext.Request.QueryString["utm_medium"] != null && medium.QueryStringEquals(httpContext.Request.QueryString["utm_medium"]))
+                {
+                    if (httpContext.Response.Cookies[_referralCookieName] != null)
                     {
-                        filterContext.RequestContext.HttpContext.Request.Cookies["referrer"].Value =
-                            medium.ToString();
-                        filterContext.RequestContext.HttpContext.Response.Cookies["referrer"].Value =
-                            medium.ToString();
+                        httpContext.Response.Cookies[_referralCookieName].Value = medium.ToString();
+                        httpContext.Request.Cookies[_referralCookieName].Value = medium.ToString();
                     }
                     else
                     {
-                        HttpCookie cookie = new HttpCookie("referrer");
-                        cookie.Value = medium.ToString();
-                        cookie.Expires = DateTime.MinValue;
-                        filterContext.RequestContext.HttpContext.Response.Cookies.Add(cookie);
-                        filterContext.RequestContext.HttpContext.Request.Cookies.Add(cookie);
+                        HttpCookie cookie = new HttpCookie(_referralCookieName)
+                        {
+                            Value = medium.ToString(),
+                            Expires = DateTime.MinValue
+                        };
+                        httpContext.Response.Cookies.Add(cookie);
+                        httpContext.Request.Cookies.Add(cookie);
                     }
                 }
             }
@@ -63,13 +63,17 @@ namespace NHS111.Models.Models.Web
             _querystringValue = querystringValue;
         }
 
-        public override string ToString()
+        public bool ValueEquals(string value)
         {
-            return _value;
+            return _value.ToLower().Equals(value.ToLower());
+        }
+
+        public bool QueryStringEquals(string queryStringValue)
+        {
+            return _querystringValue.ToLower().Equals(queryStringValue.ToLower());
         }
 
         private readonly string _value;
-        public readonly string _querystringValue;
+        private readonly string _querystringValue;
     }
 }
-
