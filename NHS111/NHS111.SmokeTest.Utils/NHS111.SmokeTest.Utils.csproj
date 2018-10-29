@@ -64,6 +64,7 @@
     <Compile Include="DispositionPage.cs" />
     <Compile Include="DemographicsPage.cs" />
     <Compile Include="CookiesStatementPage.cs" />
+    <Compile Include="TermsAndConditionsPage.cs" />
     <Compile Include="PrivacyStatementPage.cs" />
     <Compile Include="HomePage.cs" />
     <Compile Include="IWebDriverExtensions.cs" />

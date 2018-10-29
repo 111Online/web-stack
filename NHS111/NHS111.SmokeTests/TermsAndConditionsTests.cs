@@ -4,14 +4,14 @@ using NHS111.SmokeTest.Utils;
 namespace NHS111.SmokeTests
 {
     [TestFixture]
-    public class CookiesStatementTests : BaseTests
+    public class TermsAndConditionsTests : BaseTests
     {
         [Test]
-        public void CookiesStatementPage_Displays()
+        public void TermsAndConditionsPage_Displays()
         {
             var homePage = TestScenarioPart.HomePage(Driver);
-            var cookiesPage = homePage.ClickCookiesStatementLink();
-            cookiesPage.Verify();
+            var termsPage = homePage.ClickTermsLink();
+            termsPage.Verify();
         }
     }
 }
