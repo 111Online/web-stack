@@ -26,6 +26,7 @@ using DosService = NHS111.Models.Models.Business.DosService;
 
 namespace NHS111.Web.Presentation.Builders
 {
+    using Converters;
     using log4net;
     using log4net.Config;
 
@@ -149,8 +150,7 @@ namespace NHS111.Web.Presentation.Builders
             return new HttpRequestMessage { Content = new StringContent(JsonConvert.SerializeObject(dosCase), Encoding.UTF8, "application/json") };
         }
 
-        public DosViewModel BuildDosViewModel(OutcomeViewModel model, DateTime? overrideDate)
-        {
+        public DosViewModel BuildDosViewModel(OutcomeViewModel model, DateTime? overrideDate) {
             var dosViewModel = Mapper.Map<DosViewModel>(model);
             if (!overrideDate.HasValue)
             {
