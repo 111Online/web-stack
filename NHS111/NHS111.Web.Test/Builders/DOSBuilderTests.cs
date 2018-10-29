@@ -16,6 +16,7 @@ namespace NHS111.Web.Presentation.Builders.Tests
     using System.Net;
     using System.Net.Http;
     using System.Threading.Tasks;
+    using Converters;
     using Models;
     using Newtonsoft.Json;
     using NHS111.Models.Mappers.WebMappings;
@@ -38,7 +39,7 @@ namespace NHS111.Web.Presentation.Builders.Tests
         private string _mockPathwayURL = "PW755";
 
         private string _expectedBusinessApiPathwaySymptomGroupUrl;
-    
+
         [SetUp()]
         public void Setup()
         {
@@ -176,6 +177,28 @@ namespace NHS111.Web.Presentation.Builders.Tests
             Assert.IsTrue(groupedDosServices[0].Services.Any(s => s.Id == 2));
             Assert.IsTrue(groupedDosServices[1].Services.All(s => s.Id == 3));
             Assert.IsTrue(groupedDosServices[2].Services.All(s => s.Id == 4));
+        }
+
+        [Test]
+        public void BuildDosViewModel_WithConfiguredDx_RemapsDxCode() {
+            Mapper.Initialize(m => m.AddProfile<FromOutcomeViewModelToDosViewModel>());
+            var model = new OutcomeViewModel {
+                Id = "Dx01121",
+                SymptomDiscriminatorCode = "1",
+                UserInfo = new UserInfo {
+                    Demography = new AgeGenderViewModel {
+                        Gender = "Male"
+                    }
+                }
+            };
+
+            ConfigurationManager.AppSettings["DxCodeMappingsForDx333"] = "Dx01121";
+            var dosModel = _dosBuilder.BuildDosViewModel(model, null);
+            Assert.AreEqual(11333, dosModel.Disposition);
+            ConfigurationManager.AppSettings["DxCodeMappingsForDx333"] = "";
+            ConfigurationManager.AppSettings["DxCodeMappingsForDx334"] = "Dx01121";
+            dosModel = _dosBuilder.BuildDosViewModel(model, null);
+            Assert.AreEqual(11334, dosModel.Disposition);
         }
 
         [Test]
