@@ -12,6 +12,7 @@ namespace NHS111.Web.Helpers
     using System.Linq;
     using Controllers;
     using Features;
+    using Models.Models.Domain;
     using Newtonsoft.Json;
     using Presentation.Configuration;
 
@@ -57,6 +58,10 @@ namespace NHS111.Web.Helpers
                     var outcomeViewModel = model as OutcomeViewModel;
                     if (IsTestJourney(outcomeViewModel))
                         return "../Outcome/Call_999_CheckAnswer";
+
+                    if ((outcomeViewModel.OutcomeGroup.Equals(OutcomeGroup.Call999Cat3) || outcomeViewModel.OutcomeGroup.Equals(OutcomeGroup.Call999Cat4))
+                        && outcomeViewModel.DosCheckCapacitySummaryResult.HasITKServices)
+                        return "../Outcome/Call_999_Callback";
 
                     if (ViewExists(viewFilePath, context))
                     {

@@ -21,7 +21,6 @@ namespace NHS111.Utils.Helpers {
         }
 
         public RestfulHelper() {
-            _webClient = new WebClient() { Encoding = Encoding.UTF8 };
             _httpClient = new HttpClient();
             _httpClientFactory = new HttpClientFactory();
         }
@@ -37,7 +36,9 @@ namespace NHS111.Utils.Helpers {
 
         public async Task<string> GetAsync(string url) {
             try {
-                return await _webClient.DownloadStringTaskAsync(new Uri(url));
+                var webClient = new WebClient() { Encoding = Encoding.UTF8 };
+
+                return await webClient.DownloadStringTaskAsync(new Uri(url));
             }
             catch (WebException e) {
                 using (var stream = new StreamReader(e.Response.GetResponseStream())) {
@@ -53,12 +54,14 @@ namespace NHS111.Utils.Helpers {
 
         public async Task<string> GetAsync(string url, Dictionary<string, string> headers) {
             try {
+                var webClient = new WebClient() { Encoding = Encoding.UTF8 };
+
                 foreach (var header in headers)
                 {
-                    _webClient.Headers.Add(header.Key, header.Value);
+                    webClient.Headers.Add(header.Key, header.Value);
                 }
 
-                return await _webClient.DownloadStringTaskAsync(new Uri(url));
+                return await webClient.DownloadStringTaskAsync(new Uri(url));
             }
             catch (WebException e) {
                 using (var stream = new StreamReader(e.Response.GetResponseStream())) {
@@ -94,7 +97,6 @@ namespace NHS111.Utils.Helpers {
             return httpRequestMessage;
         }
 
-        private readonly WebClient _webClient;
         private readonly HttpClient _httpClient;
         private readonly IHttpClientFactory _httpClientFactory;
     }
