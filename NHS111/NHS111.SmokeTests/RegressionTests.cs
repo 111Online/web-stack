@@ -21,41 +21,6 @@ namespace NHS111.SmokeTests
             outcomePage.VerifyPathwayNotFound();
         }
 
-
-        [Test]
-        public void SplitQuestionNavigateBackDisplaysCorrectCareAdvice()
-        {
-            //to discuss with Andria
-            //var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Headache", "Female", 49);
-
-            //questionPage.VerifyQuestion("Could you be pregnant?");
-            //var outcomePage = questionPage.AnswerSuccessiveByOrder(3, 4)
-            //    .Answer(1)
-            //    .Answer(3)
-            //    .Answer(5)
-            //    .Answer(3)
-            //    .Answer(4)
-            //    //3 sight
-            //    .Answer(2)
-            //    .Answer(3)
-            //    .Answer(3)
-            //    .Answer(3)
-            //    .Answer(4)
-            //    .Answer(1)
-            //    .Answer(3)
-            //    .Answer(4)
-            //    .AnswerForDispostion<OutcomePage>(1);
-
-            //var newOutcome = outcomePage.NavigateBack()
-            //    .Answer(3, false)
-            //    .Answer(1)
-            //    .AnswerForDispostion<OutcomePage>("Within the next 6 hours");
-
-
-            //newOutcome.VerifyOutcome("Speak to your GP practice today");
-            //newOutcome.VerifyCareAdvice(new[] {"Medication, next dose", "Medication, pain and/or fever", "Headache"});
-        }
-
         [Test]
         public void SplitQuestionJourneyThroughEachRoute()
         {

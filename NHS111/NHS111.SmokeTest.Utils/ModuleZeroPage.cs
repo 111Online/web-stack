@@ -13,7 +13,7 @@ namespace NHS111.SmokeTest.Utils
     public class ModuleZeroPage : LayoutPage
     {
         private const string _headerText = "Check it’s not an emergency";
-
+        
         [FindsBy(How = How.ClassName, Using = "button--next")]
         private IWebElement NoneApplyButton { get; set; }
 
