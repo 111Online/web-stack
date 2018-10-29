@@ -29,7 +29,9 @@ namespace NHS111.Web.Controllers {
 
         public QuestionController(IJourneyViewModelBuilder journeyViewModelBuilder,
             IConfiguration configuration, IJustToBeSafeFirstViewModelBuilder justToBeSafeFirstViewModelBuilder, IDirectLinkingFeature directLinkingFeature,
-            IAuditLogger auditLogger, IUserZoomDataBuilder userZoomDataBuilder, IRestClient restClientBusinessApi, IViewRouter viewRouter, IPostcodePrefillFeature postcodePrefillFeature, IDosEndpointFeature dosEndpointFeature, IDOSSpecifyDispoTimeFeature dosSpecifyDispoTimeFeature) {
+            IAuditLogger auditLogger, IUserZoomDataBuilder userZoomDataBuilder, IRestClient restClientBusinessApi, IViewRouter viewRouter,
+            IPostcodePrefillFeature postcodePrefillFeature, IDosEndpointFeature dosEndpointFeature, IDOSSpecifyDispoTimeFeature dosSpecifyDispoTimeFeature, IOutcomeViewModelBuilder outcomeViewModelBuilder) {
+
             _journeyViewModelBuilder = journeyViewModelBuilder;
             _configuration = configuration;
             _justToBeSafeFirstViewModelBuilder = justToBeSafeFirstViewModelBuilder;
@@ -41,6 +43,7 @@ namespace NHS111.Web.Controllers {
             _postcodePrefillFeature = postcodePrefillFeature;
             _dosEndpointFeature = dosEndpointFeature;
             _dosSpecifyDispoTimeFeature = dosSpecifyDispoTimeFeature;
+            _outcomeViewModelBuilder = outcomeViewModelBuilder;
         }
 
         [HttpGet, PersistCampaignDataFilter]
@@ -206,6 +209,10 @@ namespace NHS111.Web.Controllers {
             bool? filterServices, string selectedAnswer) {
 
             if (selectedAnswer.ToLower() == "no") {
+                model = await _outcomeViewModelBuilder.DispositionBuilder(model);
+                if (model.DosCheckCapacitySummaryResult.HasITKServices) {
+                    throw new NotImplementedException();
+                }
                 var viewName = _viewRouter.GetViewName(model, ControllerContext);
                 return View(viewName, model);
             }
@@ -421,5 +428,6 @@ namespace NHS111.Web.Controllers {
         private readonly IPostcodePrefillFeature _postcodePrefillFeature;
         private readonly IDosEndpointFeature _dosEndpointFeature;
         private readonly IDOSSpecifyDispoTimeFeature _dosSpecifyDispoTimeFeature;
+        private readonly IOutcomeViewModelBuilder _outcomeViewModelBuilder;
     }
 }

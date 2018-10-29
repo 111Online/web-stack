@@ -6,6 +6,7 @@ using NHS111.Models.Models.Web;
 
 namespace NHS111.Models.Mappers.WebMappings
 {
+    using System.Configuration;
     using System.Linq;
 
     public class FromOutcomeViewModelToDosViewModel : Profile
@@ -54,6 +55,8 @@ namespace NHS111.Models.Mappers.WebMappings
         {
             protected override int ResolveCore(string source)
             {
+                source = Remap(source);
+
                 if (!source.StartsWith("Dx")) throw new FormatException("Dx code does not have prefix \"Dx\". Cannot convert");
                 var code = source.Replace("Dx", "");
                 if (code.Length == 3)
@@ -66,6 +69,28 @@ namespace NHS111.Models.Mappers.WebMappings
                 
                 return Convert.ToInt32("10" + code);
             }
+
+            private static string Remap(string source)
+            {
+                var mappingsForDx333 = ConfigurationManager.AppSettings["DxCodeMappingsForDx333"];
+                if (mappingsForDx333 != null)
+                {
+                    var remapped333Codes = mappingsForDx333.Split(',');
+                    if (remapped333Codes.Contains(source))
+                        source = "Dx333";
+                }
+
+                var mappingsForDx334 = ConfigurationManager.AppSettings["DxCodeMappingsForDx334"];
+                if (mappingsForDx334 != null)
+                {
+                    var remapped334Codes = mappingsForDx334.Split(',');
+                    if (remapped334Codes.Contains(source))
+                        source = "Dx334";
+                }
+
+                return source;
+            }
+
         }
 
 

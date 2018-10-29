@@ -12,11 +12,13 @@ using NUnit.Framework;
 namespace NHS111.Web.Presentation.Builders.Tests
 {
     using System;
+    using System.Configuration;
     using System.Net;
     using System.Net.Http;
     using System.Threading.Tasks;
     using Models;
     using Newtonsoft.Json;
+    using NHS111.Models.Mappers.WebMappings;
     using NHS111.Models.Models.Web;
     using NHS111.Models.Models.Web.FromExternalServices;
 
@@ -27,7 +29,7 @@ namespace NHS111.Web.Presentation.Builders.Tests
         private Mock<IMappingEngine> _mappingEngine;
         private Mock<ICareAdviceBuilder> _mockCareAdviceBuilder;
         private Mock<IRestfulHelper> _mockRestfulHelper;
-        private Mock<Configuration.IConfiguration> _mockConfiguration;
+        private Mock<Presentation.Configuration.IConfiguration> _mockConfiguration;
         private Mock<INotifier<string>> _mockNotifier;
         private DOSBuilder _dosBuilder;
         private Mock<ISurgeryBuilder> _mockSurgeryBuilder;
@@ -43,7 +45,7 @@ namespace NHS111.Web.Presentation.Builders.Tests
             _mappingEngine = new Mock<IMappingEngine>();
             _mockCareAdviceBuilder = new Mock<ICareAdviceBuilder>();
             _mockRestfulHelper = new Mock<IRestfulHelper>();
-            _mockConfiguration = new Mock<Configuration.IConfiguration>();
+            _mockConfiguration = new Mock<Presentation.Configuration.IConfiguration>();
             _mockNotifier = new Mock<INotifier<string>>();
             _mockItkMessagingFeature = new Mock<IITKMessagingFeature>();
 
@@ -102,6 +104,32 @@ namespace NHS111.Web.Presentation.Builders.Tests
             await _dosBuilder.FillCheckCapacitySummaryResult(model, true, null);
 
             _mockRestfulHelper.Verify(r => r.PostAsync(It.IsAny<string>(), It.Is<HttpRequestMessage>(h => AssertIsMetric(h, model.SearchDistance))));
+        }
+
+        [Test]
+        public void BuildDosViewModel_WithConfiguredDx_RemapsDxCode()
+        {
+            Mapper.Initialize(m => m.AddProfile<FromOutcomeViewModelToDosViewModel>());
+            var model = new OutcomeViewModel
+            {
+                Id = "Dx01121",
+                SymptomDiscriminatorCode = "1",
+                UserInfo = new UserInfo
+                {
+                    Demography = new AgeGenderViewModel
+                    {
+                        Gender = "Male"
+                    }
+                }
+            };
+
+            ConfigurationManager.AppSettings["DxCodeMappingsForDx333"] = "Dx01121";
+            var dosModel = _dosBuilder.BuildDosViewModel(model, null);
+            Assert.AreEqual(11333, dosModel.Disposition);
+            ConfigurationManager.AppSettings["DxCodeMappingsForDx333"] = "";
+            ConfigurationManager.AppSettings["DxCodeMappingsForDx334"] = "Dx01121";
+            dosModel = _dosBuilder.BuildDosViewModel(model, null);
+            Assert.AreEqual(11334, dosModel.Disposition);
         }
 
         [Test]

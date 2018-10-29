@@ -50,5 +50,51 @@ namespace NHS111.Models.Test.Models.Web.FromExternalServices {
             };
             Assert.False(sut.ResultListEmpty);
         }
+
+        [Test]
+        public void HasITKServices_WithCallbackServiceTypes_ReturnsTrue() {
+            var sut = new DosCheckCapacitySummaryResult {
+                Success = new SuccessObject<ServiceViewModel> {
+                    Services = new List<ServiceViewModel> {
+                        new ServiceViewModel {OnlineDOSServiceType = OnlineDOSServiceType.Callback},
+                        new ServiceViewModel {OnlineDOSServiceType = OnlineDOSServiceType.Callback},
+                        new ServiceViewModel {OnlineDOSServiceType = OnlineDOSServiceType.GoTo}
+                }
+                }
+            };
+            Assert.True(sut.HasITKServices);
+        }
+
+        [Test]
+        public void HasITKServices_WithNoCallbackServiceTypes_ReturnsFalse() {
+            var sut = new DosCheckCapacitySummaryResult {
+                Success = new SuccessObject<ServiceViewModel> {
+                    Services = new List<ServiceViewModel> {
+                        new ServiceViewModel {OnlineDOSServiceType = OnlineDOSServiceType.PublicPhone}
+                    }
+                }
+            };
+            Assert.False(sut.HasITKServices);
+        }
+
+        [Test]
+        public void HasITKServices_WithError_ReturnsFalse() {
+            var sut = new DosCheckCapacitySummaryResult {
+                Error = new ErrorObject()
+            };
+            Assert.False(sut.HasITKServices);
+        }
+
+        [Test]
+        public void HasITKServices_WithNoServices_ReturnsFalse() {
+            var sut = new DosCheckCapacitySummaryResult {
+                Success = new SuccessObject<ServiceViewModel> {
+                    Services = new List<ServiceViewModel> {
+                        //empty list
+                    }
+                }
+            };
+            Assert.False(sut.HasITKServices);
+        }
     }
 }
