@@ -108,32 +108,6 @@ namespace NHS111.Web.Presentation.Builders.Tests
         }
 
         [Test]
-        public void BuildDosViewModel_WithConfiguredDx_RemapsDxCode()
-        {
-            Mapper.Initialize(m => m.AddProfile<FromOutcomeViewModelToDosViewModel>());
-            var model = new OutcomeViewModel
-            {
-                Id = "Dx01121",
-                SymptomDiscriminatorCode = "1",
-                UserInfo = new UserInfo
-                {
-                    Demography = new AgeGenderViewModel
-                    {
-                        Gender = "Male"
-                    }
-                }
-            };
-
-            ConfigurationManager.AppSettings["DxCodeMappingsForDx333"] = "Dx01121";
-            var dosModel = _dosBuilder.BuildDosViewModel(model, null);
-            Assert.AreEqual(11333, dosModel.Disposition);
-            ConfigurationManager.AppSettings["DxCodeMappingsForDx333"] = "";
-            ConfigurationManager.AppSettings["DxCodeMappingsForDx334"] = "Dx01121";
-            dosModel = _dosBuilder.BuildDosViewModel(model, null);
-            Assert.AreEqual(11334, dosModel.Disposition);
-        }
-
-        [Test]
         public void FillGroupedDosServices_WithEmptyList_ReturnsEmptyList()
         {
             var emptyServiceList = new List<ServiceViewModel>();
