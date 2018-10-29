@@ -3,6 +3,8 @@ using Newtonsoft.Json;
 
 namespace NHS111.Models.Models.Web.FromExternalServices
 {
+    using System.Linq;
+
     public class DosCheckCapacitySummaryResult
     {
         [JsonProperty(PropertyName = "success")]
@@ -18,5 +20,7 @@ namespace NHS111.Models.Models.Web.FromExternalServices
         }
 
         public bool ServicesUnavailable { get; set; }
+
+        public bool HasITKServices {  get { return !ResultListEmpty && Success.Services.Any(s => s.OnlineDOSServiceType == OnlineDOSServiceType.Callback); } }
     }
 }
