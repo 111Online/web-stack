@@ -10,6 +10,7 @@ using OpenQA.Selenium.Support.PageObjects;
 namespace NHS111.SmokeTest.Utils
 {
     public class OutcomePage : DispositionPage<OutcomePage> {
+        public const string Cat2999Text = "Phone 999 now for an ambulance";
         public const string Cat3999Text = "Phone 999 now for an ambulance";
         public const string Cat4999Text = "Phone 999 for an ambulance";
         public const string Call999CallbackText = "A nurse needs to phone you";
