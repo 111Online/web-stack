@@ -40,6 +40,12 @@ namespace NHS111.Web.Helpers
             throw new ArgumentOutOfRangeException(string.Format("Outcome group {0} for outcome {1} has no view configured", model.OutcomeGroup.ToString(), model.Id));
         }
 
+        public string GetCallbackConfirmationViewName(OutcomeViewModel outcomeViewModel) {
+            var is999Callback = outcomeViewModel.OutcomeGroup.Equals(OutcomeGroup.Call999Cat3) ||
+                                outcomeViewModel.OutcomeGroup.Equals(OutcomeGroup.Call999Cat4);
+            return is999Callback ? "Call_999_Callback_Confirmation" : "Confirmation";
+        }
+
         public string GetViewName(JourneyViewModel model, ControllerContext context)
         {
             if (model == null) return "../Question/Question";
@@ -124,5 +130,6 @@ namespace NHS111.Web.Helpers
     {
         string GetViewName(JourneyViewModel model, ControllerContext context);
         string GetOutcomeViewPath(OutcomeViewModel model, ControllerContext context, string nextView);
+        string GetCallbackConfirmationViewName(OutcomeViewModel outcomeViewModel);
     }
 }
