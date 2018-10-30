@@ -21,21 +21,6 @@ namespace NHS111.SmokeTests
         }
 
         [Test]
-        public void Call999_WithoutITKResult_DisplaysDispositionPage()
-        {
-            var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Headache", TestScenerioSex.Male, TestScenerioAgeGroups.Adult);
-            
-                var outcomePage = questionPage
-                                                   .Answer(1)
-                                .Answer(1)
-                                .Answer(3)
-                                .Answer(1)
-                                .AnswerForDeadEnd<OutcomePage>("Yes");
-            
-             outcomePage.VerifyOutcome("Phone 999 now for an ambulance");
-            }
-
-        [Test]
         public void PharmacyEndpointJourney()
         {
             var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Eye or Eyelid Problems", TestScenerioSex.Male, TestScenerioAgeGroups.Adult);
