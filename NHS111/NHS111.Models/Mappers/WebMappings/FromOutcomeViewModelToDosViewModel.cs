@@ -76,7 +76,7 @@ namespace NHS111.Models.Mappers.WebMappings
 
 <<<<<<< HEAD
             private static string Remap(string source) {
-                var mappingsForDx333 = ConfigurationManager.AppSettings["DxCodeMappingsForDx333"];
+                var mappingsForDx333 = ConfigurationManager.AppSettings["Cat3And4DxCodes"];
                 if (mappingsForDx333 != null) {
 =======
             private static string Remap(string source)
@@ -87,7 +87,7 @@ namespace NHS111.Models.Mappers.WebMappings
 >>>>>>> Adds callback and redirect (to perrsonal details) to 999
                     var remapped333Codes = mappingsForDx333.Split(',');
                     if (remapped333Codes.Contains(source))
-                        source = "Dx333";
+                        source = "Dx329"; //temporary until dos profile dx333
                 }
 
                 var mappingsForDx334 = ConfigurationManager.AppSettings["DxCodeMappingsForDx334"];
