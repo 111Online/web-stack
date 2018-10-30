@@ -61,6 +61,7 @@
     <Otherwise />
   </Choose>
   <ItemGroup>
+    <Compile Include="BaseTests.cs" />
     <Compile Include="CookiesStatementTests.cs" />
     <Compile Include="PageNotFoundTests.cs" />
     <Compile Include="QuestionPageTests.cs" />
