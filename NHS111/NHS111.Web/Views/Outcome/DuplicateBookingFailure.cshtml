@@ -14,7 +14,7 @@
         dataLayer = [
         {
             'virtualPageUrl': '@url',
-            'virtualPageTitle': '999 ITK Confirmation - Duplicate Booking'
+            'virtualPageTitle': 'ITK Confirmation - Duplicate Booking'
         }];
     </script>
 }
@@ -39,7 +39,10 @@
 
 <section>
     <div class="callout callout--warning">
-        <h1>Your call has already been booked</h1>
-        <p>If you did not get a call within 30 minutes, or you've got worse, call 999 </p>
+        <h1>A call has already been requested for you</h1>
+        <p>If you've already had a call, please close this page</p>
+        <p>If you haven't had a call within the time suggested, or the symptoms have got worse, you should @Html.ActionLink("start again", "InitialQuestion", "Question") or call 111</p>
     </div>
 </section>
+
+@Html.Partial("_CareAdvice", Model.CareAdvices, new ViewDataDictionary { { "Title", "What you can do in the meantime" } })
