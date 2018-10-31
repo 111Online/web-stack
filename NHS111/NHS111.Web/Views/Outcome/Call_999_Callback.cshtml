@@ -24,7 +24,12 @@
     </script>
 }
 
-@section FeedbackSection {}
+@section FeedbackSection {
+    @Html.Partial("_FeedbackDetails", new FeedbackViewModel() {
+        UserId = Model.SessionId.ToString(),
+        PageData = new PageDataViewModel(PageDataViewModel.PageType.Call999Callback, Model)
+    })
+}
 
 @functions {
 
