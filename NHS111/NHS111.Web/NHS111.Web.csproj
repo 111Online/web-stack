@@ -400,6 +400,8 @@
     <Content Include="Views\Outcome\Call_999_Callback.cshtml" />
     <Content Include="Views\Outcome\Call_999_CheckAnswer.cshtml" />
     <Content Include="Views\Outcome\Call_999_Callback_Confirmation.cshtml" />
+    <Content Include="Views\Outcome\Call999_ServiceBookingFailure.cshtml" />
+    <Content Include="Views\Outcome\Call999_DuplicateBookingFailure.cshtml" />
     <Content Include="Views\Outcome\Call999_ServiceBookingUnavailable.cshtml" />
     <None Include="Web.Development.config">
       <DependentUpon>Web.config</DependentUpon>
