@@ -53,12 +53,7 @@ namespace NHS111.Models.Mappers.WebMappings
 
         public class DispositionResolver : ValueResolver<string, int>
         {
-<<<<<<< HEAD
             protected override int ResolveCore(string source) {
-=======
-            protected override int ResolveCore(string source)
-            {
->>>>>>> Adds callback and redirect (to perrsonal details) to 999
                 source = Remap(source);
 
                 if (!source.StartsWith("Dx")) throw new FormatException("Dx code does not have prefix \"Dx\". Cannot convert");
@@ -74,29 +69,16 @@ namespace NHS111.Models.Mappers.WebMappings
                 return Convert.ToInt32("10" + code);
             }
 
-<<<<<<< HEAD
             private static string Remap(string source) {
                 var mappingsForDx333 = ConfigurationManager.AppSettings["Cat3And4DxCodes"];
                 if (mappingsForDx333 != null) {
-=======
-            private static string Remap(string source)
-            {
-                var mappingsForDx333 = ConfigurationManager.AppSettings["DxCodeMappingsForDx333"];
-                if (mappingsForDx333 != null)
-                {
->>>>>>> Adds callback and redirect (to perrsonal details) to 999
                     var remapped333Codes = mappingsForDx333.Split(',');
                     if (remapped333Codes.Contains(source))
                         source = "Dx329"; //temporary until dos profile dx333
                 }
 
                 var mappingsForDx334 = ConfigurationManager.AppSettings["DxCodeMappingsForDx334"];
-<<<<<<< HEAD
                 if (mappingsForDx334 != null) {
-=======
-                if (mappingsForDx334 != null)
-                {
->>>>>>> Adds callback and redirect (to perrsonal details) to 999
                     var remapped334Codes = mappingsForDx334.Split(',');
                     if (remapped334Codes.Contains(source))
                         source = "Dx334";
@@ -104,10 +86,6 @@ namespace NHS111.Models.Mappers.WebMappings
 
                 return source;
             }
-<<<<<<< HEAD
-=======
-
->>>>>>> Adds callback and redirect (to perrsonal details) to 999
         }
 
 
