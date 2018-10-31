@@ -55,24 +55,14 @@ using NUnit.Framework;
         }
 
         [Test]
-        public void FromOutcomeViewModelToDosViewModelConverter_WithCat3DxCode_RemapsToDx333() {
+        public void FromOutcomeViewModelToDosViewModelConverter_WithCat3DxCode_RemapsToDx333()
+        {
             _minimumViableOutcomeViewModel.Id = "Dx012";
             
             ConfigurationManager.AppSettings["Cat3And4DxCodes"] = "Dx012";
             var result = Mapper.Map<CaseDetails>(_minimumViableOutcomeViewModel);
 
-            Assert.AreEqual("Dx333", result.DispositionCode);
+            Assert.AreEqual("Dx329", result.DispositionCode);
         }
-
-        [Test]
-        public void FromOutcomeViewModelToDosViewModelConverter_WithEDDxCode_RemapsToDx334() {
-            _minimumViableOutcomeViewModel.Id = "Dx02";
-
-            ConfigurationManager.AppSettings["EDCallbackDxCodes"] = "Dx02";
-            var result = Mapper.Map<CaseDetails>(_minimumViableOutcomeViewModel);
-
-            Assert.AreEqual("Dx334", result.DispositionCode);
-        }
-
     }
 }
