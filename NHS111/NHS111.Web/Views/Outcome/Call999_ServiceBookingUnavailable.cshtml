@@ -1,0 +1,48 @@
+@using NHS111.Models.Models.Web
+@inherits NHS111.Web.Views.Shared.SurveyLinkView<OutcomeViewModel>
+@{
+    Layout = "~/Views/Shared/_LayoutNhsUk.cshtml";
+}
+
+@section Title {
+    Call NHS 111 - request for callback not completed
+}
+@section HeadTop {
+    @{ var url = string.Format("/outcome/{0}/{1}/{2}/itk/serviceUnavailable/{3}/{4}/", Url.Encode(Model.PathwayNo), Url.Encode(Model.OutcomeGroup.Text), Url.Encode(Model.Id), Url.Encode(Model.UnavailableSelectedService.Id.ToString()), Url.Encode(Model.UnavailableSelectedService.Name)); }
+    <script>
+        var pageId = '@Model.Id';
+        dataLayer = [
+        {
+            'virtualPageUrl': '@url',
+            'virtualPageTitle': '999 ITK Confirmation - Unavailable'
+        }];
+    </script>
+}
+
+@{
+    var dataDictionary = ViewContext.ViewData;
+    dataDictionary.Add(new KeyValuePair<string, object>("LaunchPage", "failure"));
+}
+@section SurveyBanner{
+    @Html.Partial("_SurveyLink", Model.SurveyLink, dataDictionary)
+}
+@section FeedbackSection {
+    @if (!SurveyLinkFeature.IsEnabled)
+    {
+        @Html.Partial("_FeedbackDetails", new FeedbackViewModel() { UserId = Model.SessionId.ToString(), PageData = new PageDataViewModel(PageDataViewModel.PageType.BookingUnavailable, Model) })
+    }
+    else
+    {
+        @Html.Partial("_SurveyLink", Model.SurveyLink)
+    }
+}
+
+<section>
+    <div class="callout callout--warning">
+        <h1>Sorry, there is a problem with the service</h1>
+    </div>
+    <div class="alternative-care service-hidden">
+        <p>We could not pass your details on to the nurse.</p>
+        <p>We think you might need urgent medical help, so please call 999 for advice on what to do next.</p>
+    </div>
+</section>
