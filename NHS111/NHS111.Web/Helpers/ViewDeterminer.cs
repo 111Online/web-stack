@@ -139,7 +139,6 @@ namespace NHS111.Web.Helpers
     {
         string GetViewName(JourneyViewModel model, ControllerContext context);
         string GetOutcomeViewPath(OutcomeViewModel model, ControllerContext context, string nextView);
-        string GetCallbackConfirmationViewName(OutcomeViewModel outcomeViewModel);
         string GetCallbackFailureViewName(OutcomeGroup outcomeGroup);
         string GetCallbackDuplicateViewName(OutcomeGroup outcomeGroup);
         string GetCallbackConfirmationViewName(OutcomeGroup outcomeGroup);
