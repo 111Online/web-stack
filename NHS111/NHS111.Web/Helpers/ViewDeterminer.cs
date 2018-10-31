@@ -40,10 +40,12 @@ namespace NHS111.Web.Helpers
             throw new ArgumentOutOfRangeException(string.Format("Outcome group {0} for outcome {1} has no view configured", model.OutcomeGroup.ToString(), model.Id));
         }
 
-        public string GetCallbackConfirmationViewName(OutcomeViewModel outcomeViewModel) {
-            var is999Callback = outcomeViewModel.OutcomeGroup.Equals(OutcomeGroup.Call999Cat3) ||
-                                outcomeViewModel.OutcomeGroup.Equals(OutcomeGroup.Call999Cat4);
-            return is999Callback ? "Call_999_Callback_Confirmation" : "Confirmation";
+        public string GetCallbackConfirmationViewName(OutcomeGroup outcomeGroup) {
+            return outcomeGroup.Is999Callback ? "Call_999_Callback_Confirmation" : "Confirmation";
+        }
+
+        public string GetServiceUnavailableViewName(OutcomeGroup outcomeGroup) {
+            return outcomeGroup.Is999Callback ? "Call999_ServiceBookingUnavailable" : "ServiceBookingUnavailable";
         }
 
         public string GetViewName(JourneyViewModel model, ControllerContext context)
@@ -130,6 +132,7 @@ namespace NHS111.Web.Helpers
     {
         string GetViewName(JourneyViewModel model, ControllerContext context);
         string GetOutcomeViewPath(OutcomeViewModel model, ControllerContext context, string nextView);
-        string GetCallbackConfirmationViewName(OutcomeViewModel outcomeViewModel);
+        string GetCallbackConfirmationViewName(OutcomeGroup outcomeGroup);
+        string GetServiceUnavailableViewName(OutcomeGroup outcomeGroup);
     }
 }
