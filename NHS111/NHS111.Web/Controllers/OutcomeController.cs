@@ -310,7 +310,15 @@ namespace NHS111.Web.Controllers
                     return View(confirmationViewname, outcomeViewModel);
                 }
 
-                return outcomeViewModel.ItkDuplicate.HasValue && outcomeViewModel.ItkDuplicate.Value ? View("DuplicateBookingFailure", outcomeViewModel) : View("ServiceBookingFailure", outcomeViewModel);
+                var isDuplicateSubmission = outcomeViewModel.ItkDuplicate.HasValue && outcomeViewModel.ItkDuplicate.Value;
+                if (isDuplicateSubmission) {
+                    var duplicateViewName = _viewRouter.GetCallbackDuplicateViewName(outcomeViewModel.OutcomeGroup);
+                    return View(duplicateViewName, outcomeViewModel);
+                }
+
+                var failureViewName = _viewRouter.GetCallbackFailureViewName(outcomeViewModel.OutcomeGroup);
+                return View(failureViewName, outcomeViewModel);
+                //View("DuplicateBookingFailure", outcomeViewModel) : View("ServiceBookingFailure", outcomeViewModel);
             }
 
             model.UnavailableSelectedService = model.SelectedService;

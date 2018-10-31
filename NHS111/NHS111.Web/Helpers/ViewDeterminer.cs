@@ -44,8 +44,15 @@ namespace NHS111.Web.Helpers
             return outcomeGroup.Is999Callback ? "Call_999_Callback_Confirmation" : "Confirmation";
         }
 
+        public string GetCallbackFailureViewName(OutcomeGroup outcomeGroup) {
+            return outcomeGroup.Is999Callback ? "Call999_ServiceBookingFailure" : "ServiceBookingFailure";
+        }
         public string GetServiceUnavailableViewName(OutcomeGroup outcomeGroup) {
             return outcomeGroup.Is999Callback ? "Call999_ServiceBookingUnavailable" : "ServiceBookingUnavailable";
+        }
+
+        public string GetCallbackDuplicateViewName(OutcomeGroup outcomeGroup) {
+            return outcomeGroup.Is999Callback ? "Call999_DuplicateBookingFailure" : "DuplicateBookingFailure";
         }
 
         public string GetViewName(JourneyViewModel model, ControllerContext context)
@@ -132,6 +139,8 @@ namespace NHS111.Web.Helpers
     {
         string GetViewName(JourneyViewModel model, ControllerContext context);
         string GetOutcomeViewPath(OutcomeViewModel model, ControllerContext context, string nextView);
+        string GetCallbackFailureViewName(OutcomeGroup outcomeGroup);
+        string GetCallbackDuplicateViewName(OutcomeGroup outcomeGroup);
         string GetCallbackConfirmationViewName(OutcomeGroup outcomeGroup);
         string GetServiceUnavailableViewName(OutcomeGroup outcomeGroup);
     }
