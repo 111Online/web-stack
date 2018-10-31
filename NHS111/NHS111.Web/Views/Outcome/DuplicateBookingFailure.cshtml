@@ -14,7 +14,7 @@
         dataLayer = [
         {
             'virtualPageUrl': '@url',
-            'virtualPageTitle': '999 ITK Confirmation - Duplicate Booking'
+            'virtualPageTitle': 'ITK Confirmation - Duplicate Booking'
         }];
     </script>
 }
@@ -44,3 +44,5 @@
         <p>If you haven't had a call within the time suggested, or the symptoms have got worse, you should @Html.ActionLink("start again", "InitialQuestion", "Question") or call 111</p>
     </div>
 </section>
+
+@Html.Partial("_CareAdvice", Model.CareAdvices, new ViewDataDictionary { { "Title", "What you can do in the meantime" } })
