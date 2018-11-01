@@ -62,7 +62,7 @@ using NUnit.Framework;
             ConfigurationManager.AppSettings["Cat3And4DxCodes"] = "Dx012";
             var result = Mapper.Map<CaseDetails>(_minimumViableOutcomeViewModel);
 
-            Assert.AreEqual("Dx329", result.DispositionCode);
+            Assert.AreEqual("Dx333", result.DispositionCode);
         }
     }
 }

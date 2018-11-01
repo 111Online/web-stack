@@ -109,11 +109,11 @@ namespace NHS111.Web.Presentation.Builders
             var ageGroup = new AgeCategory(model.UserInfo.Demography.Age).Value;
             var careAdviceKeywords = _keywordCollector.ConsolidateKeywords(model.CollectedKeywords).ToList();
             Task<IEnumerable<CareAdvice>> careAdvicesTask = _careAdviceBuilder.FillCareAdviceBuilder(model.Id, ageGroup, model.UserInfo.Demography.Gender, careAdviceKeywords);
-
-            Task<SurveyLinkViewModel> surveyTask = _surveyLinkViewModelBuilder.SurveyLinkBuilder(model);
             if (dosTask != null) {
                 model = await dosTask;
             }
+
+            Task<SurveyLinkViewModel> surveyTask = _surveyLinkViewModelBuilder.SurveyLinkBuilder(model);
             model.WorseningCareAdvice = await worseningTask;
             model.CareAdvices = await careAdvicesTask;
             model.SurveyLink = await surveyTask;
