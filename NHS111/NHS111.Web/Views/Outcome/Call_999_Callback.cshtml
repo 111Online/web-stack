@@ -67,9 +67,11 @@
     @Html.HiddenFor(x => x.TriggerQuestionNo)
     @Html.Partial("_CommonHiddenFieldsOutcomeViewModel", Model)
     @Html.Partial("_CommonHiddenFieldsCareAdviceViewModel", Model)
+    string selectedServiceId = "";
     if (Model.DosCheckCapacitySummaryResult.HasITKServices) {
-        Html.Hidden("SelectedServiceId", Model.DosCheckCapacitySummaryResult.Success.Services.First(s => s.OnlineDOSServiceType == OnlineDOSServiceType.Callback).Id);
+        selectedServiceId = Model.DosCheckCapacitySummaryResult.Success.Services.First(s => s.OnlineDOSServiceType == OnlineDOSServiceType.Callback).Id.ToString();
     }
+    @Html.Hidden("SelectedServiceId", selectedServiceId);
 
     @Html.Raw(WriteDirectLink(Model))
 
