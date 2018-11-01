@@ -57,12 +57,19 @@
     }
 
 }
-
-@using (Html.BeginForm("PersonalDetails", "Outcome", FormMethod.Post)) {
+@{
+    var action = "PersonalDetails";
+    if (Model.CurrentPostcode == null) {
+        action = "ServiceList";
+    }
+}
+@using (Html.BeginForm(action, "Outcome", FormMethod.Post)) {
     @Html.HiddenFor(x => x.TriggerQuestionNo)
     @Html.Partial("_CommonHiddenFieldsOutcomeViewModel", Model)
     @Html.Partial("_CommonHiddenFieldsCareAdviceViewModel", Model)
-    @Html.Hidden("SelectedServiceId", Model.DosCheckCapacitySummaryResult.Success.Services.First(s => s.OnlineDOSServiceType == OnlineDOSServiceType.Callback).Id)
+    if (Model.DosCheckCapacitySummaryResult.HasITKServices) {
+        Html.Hidden("SelectedServiceId", Model.DosCheckCapacitySummaryResult.Success.Services.First(s => s.OnlineDOSServiceType == OnlineDOSServiceType.Callback).Id);
+    }
 
     @Html.Raw(WriteDirectLink(Model))
 
@@ -86,7 +93,19 @@
             <p>If you need a translator you can ask for one when you start the call.</p>
         </fieldset>
     </div>
-    <button class="button--next" id="next" type="submit" name="Next" value="Next">Next</button>
+
+    if (Model.CurrentPostcode == null) {
+         var dataDictionary = ViewContext.ViewData;
+         dataDictionary.Add(new KeyValuePair<string, object>("Title", ""));
+         dataDictionary.Add(new KeyValuePair<string, object>("ButtonText", "Next"));
+         dataDictionary.Add(new KeyValuePair<string, object>("Label", ""));
+         dataDictionary.Add(new KeyValuePair<string, object>("ITK", true));
+         dataDictionary.TemplateInfo = new TemplateInfo() { HtmlFieldPrefix = "FindService" };
+
+         @Html.Partial("_FindService", Model, dataDictionary)
+    } else {
+         <button class="button--next" id="next" type="submit" name="Next" value="Next">Next</button>
+    }
 }
 
 @Html.Partial("_PageLoadingIndicator")

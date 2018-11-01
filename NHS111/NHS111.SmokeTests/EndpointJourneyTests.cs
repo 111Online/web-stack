@@ -3,6 +3,8 @@ using NUnit.Framework;
 
 namespace NHS111.SmokeTests
 {
+    using OpenQA.Selenium;
+
     [TestFixture]
     public class EndpointJourneyTests : BaseTests
     {
@@ -260,7 +262,5 @@ namespace NHS111.SmokeTests
 
             outcomePage.VerifyOutcome("Call 111 to speak to an adviser now");
         }
-
-
     }
 }
