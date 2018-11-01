@@ -34,9 +34,9 @@ namespace NHS111.Models.Models.Domain {
 
         public static OutcomeGroup Call999Cat2 = new OutcomeGroup { Id = "Call_999_cat_2", Text = "Phone 999 now for an ambulance" };
 
-        public static OutcomeGroup Call999Cat3 = new OutcomeGroup { Id = "Call_999_cat_3", Text = "Call_999_cat_3", DefaultTitle = "Phone 999 now for an ambulance" };
+        public static OutcomeGroup Call999Cat3 = new OutcomeGroup { Id = "Call_999_cat_3", Text = "Call_999_cat_3", DefaultTitle = "Phone 999 now for an ambulance", AutomaticSelectionOfItkResult = true };
     
-        public static OutcomeGroup Call999Cat4 = new OutcomeGroup { Id = "Call_999_cat_4", Text = "Call_999_cat_4", DefaultTitle = "Phone 999 for an ambulance" };
+        public static OutcomeGroup Call999Cat4 = new OutcomeGroup { Id = "Call_999_cat_4", Text = "Call_999_cat_4", DefaultTitle = "Phone 999 for an ambulance", AutomaticSelectionOfItkResult = true };
 
         public static OutcomeGroup AccidentAndEmergency = new OutcomeGroup { Id = "SP_Accident_and_emergency", DefaultTitle = "Your answers suggest you should go to an Accident and Emergency department", Label = "Urgent healthcare services", ITK = false };
 
