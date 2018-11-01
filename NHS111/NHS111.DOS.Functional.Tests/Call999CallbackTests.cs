@@ -1,6 +1,7 @@
 ﻿namespace NHS111.DOS.Functional.Tests {
     using System.Diagnostics;
     using NUnit.Framework;
+    using OpenQA.Selenium;
     using SmokeTest.Utils;
 
     [TestFixture()]
@@ -54,5 +55,22 @@
 
             outcomePage.VerifyOutcome(OutcomePage.Cat2999Text);
         }
+
+        [Test] //to be run without postcode
+        public void Cat3and4Call999_WithoutPostcode_AsksForPostcode()
+        {
+            var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Headache", TestScenerioSex.Male, TestScenerioAgeGroups.Adult);
+
+            var outcomePage = questionPage
+                .Answer(1)
+                .Answer(1)
+                .Answer(3)
+                .Answer(1)
+                .AnswerForDispostion<OutcomePage>("Yes");
+
+            outcomePage.VerifyOutcome(OutcomePage.Cat3999Text);
+            Assert.IsTrue(Driver.ElementExists(By.Id("FindService_CurrentPostcode")), "Expected postcode field when no gate.");
+        }
+
     }
 }
