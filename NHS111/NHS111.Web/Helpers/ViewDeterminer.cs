@@ -74,8 +74,8 @@ namespace NHS111.Web.Helpers
                     if (IsTestJourney(outcomeViewModel))
                         return "../Outcome/Call_999_CheckAnswer";
 
-                    if ((outcomeViewModel.OutcomeGroup.Equals(OutcomeGroup.Call999Cat3) || outcomeViewModel.OutcomeGroup.Equals(OutcomeGroup.Call999Cat4))
-                        && outcomeViewModel.DosCheckCapacitySummaryResult.HasITKServices)
+                    if (outcomeViewModel.OutcomeGroup.Is999Callback
+                        && (outcomeViewModel.DosCheckCapacitySummaryResult.HasITKServices || string.IsNullOrEmpty(outcomeViewModel.CurrentPostcode)))
                         return "../Outcome/Call_999_Callback";
 
                     if (ViewExists(viewFilePath, context))
