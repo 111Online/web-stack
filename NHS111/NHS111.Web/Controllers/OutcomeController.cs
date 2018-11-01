@@ -27,6 +27,7 @@ namespace NHS111.Web.Controllers
     using System.Web;
     using Models.Models.Web.DosRequests;
     using System.Text.RegularExpressions;
+    using Models.Models.Web.Enums;
 
     [LogHandleErrorForMVC]
     public class OutcomeController : Controller
@@ -173,9 +174,15 @@ namespace NHS111.Web.Controllers
             model.DosCheckCapacitySummaryResult = await GetServiceAvailability(model, overrideDate, overrideFilterServices.HasValue ? overrideFilterServices.Value : model.FilterServices, endpoint);
             await _auditLogger.LogDosResponse(model);
 
+            model.NodeType = NodeType.Outcome;
+
             if (model.DosCheckCapacitySummaryResult.Error == null &&
                 !model.DosCheckCapacitySummaryResult.ResultListEmpty)
             {
+                if (model.OutcomeGroup.Is999Callback && !model.DosCheckCapacitySummaryResult.HasITKServices) {
+                    model.CurrentView = _viewRouter.GetViewName(model, this.ControllerContext);
+                    return View(model.CurrentView, model);
+                }
 
                 model.GroupedDosServices =
                     _dosBuilder.FillGroupedDosServices(model.DosCheckCapacitySummaryResult.Success.Services);
@@ -188,6 +195,10 @@ namespace NHS111.Web.Controllers
                 }
 
                 return View("~\\Views\\Outcome\\ServiceList.cshtml", model);
+            }
+
+            if (model.OutcomeGroup.Is999Callback) {
+                model.CurrentView = _viewRouter.GetViewName(model, this.ControllerContext);
             }
 
             return View(model.CurrentView, model);
