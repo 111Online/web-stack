@@ -1,4 +1,5 @@
-﻿using System.Configuration;
+﻿using System;
+using System.Configuration;
 using System.Security;
 using NUnit.Framework;
 using OpenQA.Selenium;
@@ -8,12 +9,12 @@ namespace NHS111.SmokeTest.Utils
 {
     public class PageNotFound : LayoutPage
     {
-        private static string _errorUrl = ConfigurationManager.AppSettings["TestWebsiteUrl"] + "/this_should_not_exist";
+        private static string _baseUrl = ConfigurationManager.AppSettings["TestWebsiteUrl"];
 
         private static string _errorTitleCode = "Error 404";
         private static string _errorTitle = "Sorry, there is a problem.";
 
-        [FindsBy(How = How.CssSelector, Using = "main[id='content'] > h1")]
+        [FindsBy(How = How.CssSelector, Using = "main[id='content'] > div > h1")]
         private static IWebElement PageTitle { get; set; }
 
         public PageNotFound(IWebDriver driver) : base(driver)
@@ -22,7 +23,9 @@ namespace NHS111.SmokeTest.Utils
 
         public void Load()
         {
-            Driver.Navigate().GoToUrl(_errorUrl);
+            Uri uri = new Uri(Driver.Url);
+
+            Driver.Navigate().GoToUrl(uri.Scheme + "://" + uri.Host + "/this_doesnt_exist" + uri.Query);
         }
 
         public void Verify()
