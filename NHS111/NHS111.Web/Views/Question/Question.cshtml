@@ -55,6 +55,7 @@
     @Html.HiddenFor(x => Model.PathwayId)
     @Html.HiddenFor(x => Model.PathwayNo)
     @Html.HiddenFor(x => Model.PathwayTitle)
+    @Html.HiddenFor(x => Model.PathwayTraumaType)
     @Html.HiddenFor(x => Model.EntrySearchTerm)
     @Html.HiddenFor(x => Model.DigitalTitle)
     @Html.HiddenFor(x => Model.UserInfo.Demography.Age)
@@ -116,6 +117,7 @@
                     @Html.Hidden(string.Format("Answers[{0}].ReportText", i), answer.ReportText)
                     @Html.Hidden(string.Format("Answers[{0}].DispositionDisplayText", i), answer.DispositionDisplayText)
                     @Html.Hidden(string.Format("Answers[{0}].Order", i), answer.Order)
+                    @Html.Hidden(string.Format("Answers[{0}].IsPositive", i), answer.IsPositive)
                     @if (!String.IsNullOrWhiteSpace(answer.SupportingInformation))
                     {
                         @Html.Partial("_HiddenText", new HiddenTextViewModel() {Summary = "What does this mean?", Details = new[] {Html.Encode(@Html.Raw(answer.SupportingInformationHtml))}})

@@ -40,5 +40,7 @@ namespace NHS111.Models.Models.Domain
         [JsonProperty(PropertyName = "order")]
         public int Order { get; set; }
         
+        [JsonProperty(PropertyName = "isPositive")]
+        public bool IsPositive { get; set; }
     }
 }

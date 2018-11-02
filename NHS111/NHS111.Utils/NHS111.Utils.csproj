@@ -96,6 +96,9 @@
       <HintPath>..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Microsoft.WindowsAzure.Configuration, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.WindowsAzure.ConfigurationManager.3.2.3\lib\net40\Microsoft.WindowsAzure.Configuration.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.WindowsAzure.Storage, Version=8.1.4.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\WindowsAzure.Storage.8.1.4\lib\net45\Microsoft.WindowsAzure.Storage.dll</HintPath>
       <Private>True</Private>
@@ -203,6 +206,7 @@
     <Compile Include="Attributes\LogHandleErrorForApiAttribute.cs" />
     <Compile Include="Attributes\LogHandleErrorForMVCAttribute.cs" />
     <Compile Include="Attributes\MultiSubmitAttribute.cs" />
+    <Compile Include="Storage\AzureStorageService.cs" />
     <Compile Include="Comparer\KeywordComparer.cs" />
     <Compile Include="Converters\DosServiceConverter.cs" />
     <Compile Include="Dates\NonWorkingDays.cs" />
@@ -236,6 +240,7 @@
     <Compile Include="RestTools\IJsonSerializer.cs" />
     <Compile Include="RestTools\LoggingRestClient.cs" />
     <Compile Include="RestTools\NewtonsoftJsonSerializer.cs" />
+    <Compile Include="Storage\IStorageService.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config">
