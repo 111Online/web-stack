@@ -11,6 +11,7 @@ namespace NHS111.SmokeTests
         {
             TestScenarioPart.HomePage(Driver);
 
+
             var pageNotFound = TestScenarioPart.PageNotFound(Driver);
             
             pageNotFound.Verify();

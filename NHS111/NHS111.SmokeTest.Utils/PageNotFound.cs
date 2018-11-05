@@ -14,8 +14,8 @@ namespace NHS111.SmokeTest.Utils
         private static string _errorTitleCode = "Error 404";
         private static string _errorTitle = "Sorry, there is a problem.";
 
-        [FindsBy(How = How.CssSelector, Using = "main[id='content'] > div > h1")]
-        private static IWebElement PageTitle { get; set; }
+        [FindsBy(How = How.CssSelector, Using = "main[id='content'] > div.page-section > h1.question-header")]
+        internal static IWebElement PageTitle { get; set; }
 
         public PageNotFound(IWebDriver driver) : base(driver)
         {
