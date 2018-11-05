@@ -9,16 +9,15 @@ namespace NHS111.SmokeTest.Utils
 {
     public class PageNotFound : LayoutPage
     {
-        private static string _baseUrl = ConfigurationManager.AppSettings["TestWebsiteUrl"];
-
         private static string _errorTitleCode = "Error 404";
         private static string _errorTitle = "Sorry, there is a problem.";
 
         [FindsBy(How = How.CssSelector, Using = "main[id='content'] > div.page-section > h1.question-header")]
-        internal static IWebElement PageTitle { get; set; }
+        internal IWebElement PageTitle { get; set; }
 
         public PageNotFound(IWebDriver driver) : base(driver)
         {
+            Load();
         }
 
         public void Load()

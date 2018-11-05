@@ -59,7 +59,6 @@ namespace NHS111.SmokeTest.Utils
         public static PageNotFound PageNotFound(IWebDriver driver)
         {
             var pageNotFound = new PageNotFound(driver);
-            pageNotFound.Load();
 
             return pageNotFound;
         }
