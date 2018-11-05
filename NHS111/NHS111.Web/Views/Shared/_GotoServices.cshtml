@@ -39,7 +39,7 @@
         var service = services.ElementAt(i);
         <div class="card" data-index="@Html.Raw(i)">
             <button class="card__marker-link" role="presentation">@Html.Raw(i + 1)</button>
-            <h3>@WebUtility.HtmlDecode(service.Name)</h3>
+            <h3>@WebUtility.HtmlDecode(service.PublicName)</h3>
             <p>
                 @foreach (String address in service.AddressLines)
                 {
