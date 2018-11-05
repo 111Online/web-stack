@@ -143,7 +143,9 @@
     <Compile Include="Models\Domain\DispositionCodeTests.cs" />
     <Compile Include="Models\Domain\GenderTests.cs" />
     <Compile Include="Models\Configuration\ModZeroJourneysSectionTests.cs" />
+    <Compile Include="Models\Web\FromExternalServices\CheckCapacitySummaryResultTests.cs" />
     <Compile Include="Models\Web\FromExternalServices\DosCheckCapacitySummaryResultTests.cs" />
+    <Compile Include="Models\Web\FromExternalServices\DosServiceTests.cs" />
     <Compile Include="Models\Web\JourneyViewModelTests.cs" />
     <Compile Include="Models\Web\Logging\AuditedDosRequestTests.cs" />
     <Compile Include="Models\Web\Logging\AuditedDosResponseTest.cs" />

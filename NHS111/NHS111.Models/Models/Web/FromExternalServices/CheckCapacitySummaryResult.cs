@@ -5,6 +5,7 @@
         public int IdField { get; set; }
         public DosCapacity CapacityField { get; set; }
         public string NameField { get; set; }
+        public string PublicNameField { get; set; }
         public string ContactDetailsField { get; set; }
         public string AddressField { get; set; }
         public string PostcodeField { get; set; }

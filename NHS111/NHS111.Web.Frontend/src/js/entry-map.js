@@ -111,7 +111,7 @@ function addMarker(index, map) {
     map: map
   })
 
-  var content = "<div style='font-weight: 500; margin-bottom: 5px; font-size: 14px; max-width: 20em;' data-index='" + index + "'>" + services[index].nameField + "</div>"
+  var content = "<div style='font-weight: 500; margin-bottom: 5px; font-size: 14px; max-width: 20em;' data-index='" + index + "'>" + services[index].publicNameField + "</div>"
   content += "<a class='button--maps' target='_blank' href='https://www.google.com/maps/dir/?api=1&origin=" + currentPostcode + "&destination=" + services[index].AddressLines.join(',') + "' onclick='window.parent.getDirections(" + index + ");'>View on google maps</a>"
 
   infowindow[index] = new google.maps.InfoWindow({
