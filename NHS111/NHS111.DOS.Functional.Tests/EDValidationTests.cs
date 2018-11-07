@@ -1,6 +1,7 @@
 ﻿
 namespace NHS111.DOS.Functional.Tests {
     using NUnit.Framework;
+    using OpenQA.Selenium;
     using SmokeTest.Utils;
     using SmokeTests;
 
@@ -41,11 +42,11 @@ namespace NHS111.DOS.Functional.Tests {
             AssertIsPersonalDetailsPage(edOutcome);
         }
 
-        [Test]
+        [Test] //no postcode present
         public void EDOutcome_WhenNoPostcodePresent_ShowsPostcodePageAndThenPersonalDetailsPage() {
             var postcodePage = NavigateToRemappedEDOutcome();
             AssertIsPostcodePage(postcodePage);
-            var callbackAcceptancePage = EnterPostcode("LS17 7NZ", postcodePage);
+            var callbackAcceptancePage = EnterPostcode("CA2 7HY", postcodePage);
             AssertIsCallbackAcceptancePage(callbackAcceptancePage);
             var edOutcome = AcceptCallback(callbackAcceptancePage);
             AssertIsPersonalDetailsPage(edOutcome);
@@ -56,11 +57,16 @@ namespace NHS111.DOS.Functional.Tests {
         }
 
         private OutcomePage AcceptCallback(OutcomePage callbackAcceptancePage) {
-            throw new System.NotImplementedException();
+            Driver.FindElement(By.Id("Yes")).Click();
+            Driver.FindElement(By.Id("Next")).Click();
+            return new OutcomePage(Driver);
         }
 
         private OutcomePage EnterPostcode(string postcode, OutcomePage postcodePage) {
-            throw new System.NotImplementedException();
+            Driver.FindElement(By.Id("CurrentPostcode")).Clear();
+            Driver.FindElement(By.Id("CurrentPostcode")).SendKeys(postcode);
+            Driver.FindElement(By.Id("postcode")).Click();
+            return new OutcomePage(Driver);
         }
 
         private OutcomePage NavigateToNonRemappedEDOutcome() {
@@ -90,15 +96,15 @@ namespace NHS111.DOS.Functional.Tests {
         }
 
         private void AssertIsPersonalDetailsPage(OutcomePage edOutcome) {
-            Assert.True(false);
+            edOutcome.VerifyOutcome("Enter details");
         }
 
         private void AssertIsPostcodePage(OutcomePage edOutcome) {
-            Assert.True(false);
+            edOutcome.VerifyOutcome("Where do you want help?");
         }
 
         private void AssertIsCallbackAcceptancePage(OutcomePage edOutcome) {
-            Assert.True(false);
+            edOutcome.VerifyOutcome("Get a phone call from a nurse");
         }
     }
 }

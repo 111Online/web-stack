@@ -1,0 +1,111 @@
+﻿@using NHS111.Models.Models.Domain
+@using NHS111.Models.Models.Web
+@using NHS111.Models.Models.Web.Enums
+@{ Layout = "~/Views/Shared/_LayoutNhsUk.cshtml"; }
+@inherits NHS111.Web.Views.Shared.DirectLinkingView<OutcomeViewModel>
+
+
+@section Title  {NHS 111 Online - Get a phone call from a nurse}
+
+
+@section HeadTop {
+    @{
+        var url = string.Format("/{0}/{1}/{2}/ed-callback-acceptance", Url.Encode(Model.PathwayId), Url.Encode(Model.PathwayTitle), Url.Encode(Model.QuestionNo));
+    }
+
+    <script>
+        var pageId = '@Model.PathwayId';
+        dataLayer = [
+            {
+                'virtualPageUrl': document.location.pathname + '@url',
+                'virtualPageTitle': 'ED callback acceptance'
+            }];
+    </script>
+}
+
+@section FeedbackSection {
+    @Html.Partial("_FeedbackDetails", new FeedbackViewModel() {
+        UserId = Model.SessionId.ToString(),
+        PageData = new PageDataViewModel(Model.IsFirstStep ? PageDataViewModel.PageType.FirstQuestion : PageDataViewModel.PageType.Question, Model),
+        Heading = "Help us improve this question",
+        Paragraph = "Does it make sense? Do you understand all the words?"
+    })
+}
+
+@functions {
+
+    string WriteDirectLink(JourneyViewModel model)
+    {
+        if (DirectLinkingFeature.IsEnabled)
+        {
+            return "<!-- DIRECT LINK: " + model.StepLink + " -->";
+        }
+
+        return "";
+    }
+
+    string WriteAnswers(string triggerQuestionNo)
+    {
+        var answerQuery = "";
+        foreach (var question in Model.Journey.Steps)
+        {
+            if (string.Equals(question.QuestionNo, triggerQuestionNo, StringComparison.CurrentCultureIgnoreCase))
+                return answerQuery.Trim(',');
+            answerQuery += question.Answer.Order - 1 + ",";
+        }
+
+        return answerQuery.Trim(',');
+    }
+
+}
+
+@using (Html.BeginForm("EDCallbackAcceptance", "Outcome", FormMethod.Post))
+{
+    @Html.HiddenFor(x => x.TriggerQuestionNo)
+    @Html.HiddenFor(x => x.TriggerQuestionAnswer)
+    @Html.Partial("_CommonHiddenFieldsOutcomeViewModel", Model)
+    @Html.Partial("_CommonHiddenFieldsCareAdviceViewModel", Model)
+
+    <input type="hidden" name="Answers" value="@WriteAnswers(Model.TriggerQuestionNo)" />
+
+    @Html.Raw(WriteDirectLink(Model))
+
+    for (int i = 0; i < Model.CollectedKeywords.Keywords.Count; i++)
+    {
+        @Html.HiddenFor(model => Model.CollectedKeywords.Keywords[i].Value)
+        @Html.HiddenFor(model => Model.CollectedKeywords.Keywords[i].IsFromAnswer)
+    }
+
+    for (int i = 0; i < Model.CollectedKeywords.ExcludeKeywords.Count; i++)
+    {
+        @Html.HiddenFor(model => Model.CollectedKeywords.ExcludeKeywords[i].Value)
+        @Html.HiddenFor(model => Model.CollectedKeywords.ExcludeKeywords[i].IsFromAnswer)
+    }
+    <div class="form-group measure @(@ViewData.ModelState.IsValidField("SelectedAnswer") ? "" : "form-group-error")">
+        <fieldset>
+            <legend>
+                <h1>Get a phone call from a nurse</h1>
+            </legend>
+            <p>Based on what you've told us we think you need medical help. Speaking to a nurse can help you decide what to do next. The nurse will tell you:</p>
+            <ul>
+                <li>if you need help right now, or if it's safe to wait</li>
+                <li>where you might be seen quicker than going to A&E</li>
+            </ul>
+            <div class="callout callout--info">
+                <p>If you don’t want to book a call we'll show you places you can go instead. This might mean you have to wait longer to be seen.</p>
+            </div>
+            <p class="emphasis">Do you want to book a call?</p>
+            <div class="multiple-choice">
+                <input name="SelectedAnswer" data-val="true" data-val-required="'SelectedAnswer' should not be empty." type="radio" class="multiple-choice__input" id="Yes" value="Yes" />
+                <label for="Yes" class="multiple-choice--radio">Yes</label>
+            </div>
+            <div class="multiple-choice">
+                <input name="SelectedAnswer" data-val="true" data-val-required="'SelectedAnswer' should not be empty." type="radio" class="multiple-choice__input" id="No" value="No" />
+                <label for="No" class="multiple-choice--radio">No</label>
+            </div>
+        </fieldset>
+    </div>
+    <button class="button--next" id="Next" type="submit" name="CheckAnswer" value="CheckAnswer">Next</button>
+}
+
+@Html.Partial("_PageLoadingIndicator")
