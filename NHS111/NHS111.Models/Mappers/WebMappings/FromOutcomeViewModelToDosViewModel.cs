@@ -77,7 +77,7 @@ namespace NHS111.Models.Mappers.WebMappings
                         source = "Dx333";
                 }
 
-                var mappingsForDx334 = ConfigurationManager.AppSettings["DxCodeMappingsForDx334"];
+                var mappingsForDx334 = ConfigurationManager.AppSettings["EDCallbackDxCodes"];
                 if (mappingsForDx334 != null) {
                     var remapped334Codes = mappingsForDx334.Split(',');
                     if (remapped334Codes.Contains(source))

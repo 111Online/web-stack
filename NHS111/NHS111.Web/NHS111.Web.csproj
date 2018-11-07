@@ -403,6 +403,7 @@
     <Content Include="Views\Outcome\Call999_ServiceBookingFailure.cshtml" />
     <Content Include="Views\Outcome\Call999_DuplicateBookingFailure.cshtml" />
     <Content Include="Views\Outcome\Call999_ServiceBookingUnavailable.cshtml" />
+    <Content Include="Views\Outcome\SP_Accident_and_emergency_callback.cshtml" />
     <None Include="Web.Development.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
