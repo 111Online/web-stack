@@ -69,7 +69,7 @@ namespace NHS111.Models.Mappers.WebMappings
                 return Convert.ToInt32("10" + code);
             }
 
-            private static string Remap(string source) {
+            public static string Remap(string source) {
                 var mappingsForDx333 = ConfigurationManager.AppSettings["Cat3And4DxCodes"];
                 if (mappingsForDx333 != null) {
                     var remapped333Codes = mappingsForDx333.Split(',');

@@ -4,7 +4,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{2360426A-DFA8-443D-BD31-8CBBD2AAA559}</ProjectGuid>
+    <ProjectGuid>{74017923-6AA8-4419-AD41-1F4DE3833AA2}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>NHS111.DOS.Functional.Tests</RootNamespace>
