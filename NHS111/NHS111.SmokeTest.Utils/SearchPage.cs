@@ -14,7 +14,9 @@ namespace NHS111.SmokeTest.Utils
         private const string _headerText = "Find the right topic";
         private const string _noInputValidationText = "Please enter the symptom you're concerned about";
         private const string _categoriesLinkText = "topics by category.";
-        public string _invalidSearchText = "a";
+        public string InvalidSearchText => "a";
+
+        public const string _errorSearchText = "<a>";
 
         [FindsBy(How = How.Id, Using = "SanitisedSearchTerm")]
         private IWebElement SearchTxtBox { get; set; }
@@ -59,8 +61,14 @@ namespace NHS111.SmokeTest.Utils
 
         public CategoryPage TypeInvalidSearch()
         {
-            SearchByTerm(_invalidSearchText);
+            SearchByTerm(InvalidSearchText);
             return new CategoryPage(Driver);
+        }
+
+        public ServerErrorPage TypeErrorSearch()
+        {
+            SearchByTerm(_errorSearchText);
+            return new ServerErrorPage(Driver);
         }
 
         public IEnumerable<IWebElement> GetHits()
