@@ -39,7 +39,7 @@ namespace NHS111.Models.Mappers.WebMappings
             var caseDetails = (CaseDetails)context.DestinationValue ?? new CaseDetails();
 
             caseDetails.ExternalReference = outcome.JourneyId.ToString();
-            caseDetails.DispositionCode = outcome.Id;
+            caseDetails.DispositionCode = FromOutcomeViewModelToDosViewModel.DispositionResolver.Remap(outcome.Id);
             caseDetails.DispositionName = outcome.Title;
             caseDetails.Source = outcome.PathwayTitle;
             caseDetails.ReportItems = Mapper.Map<List<JourneyStep>, List<string>>(outcome.Journey.Steps);
