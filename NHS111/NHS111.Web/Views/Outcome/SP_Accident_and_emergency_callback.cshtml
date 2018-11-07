@@ -5,7 +5,7 @@
 @inherits NHS111.Web.Views.Shared.DirectLinkingView<OutcomeViewModel>
 
 
-@section Title  {NHS 111 Online - Get a phone call from a nurse}
+@section Title  {NHS 111 Online - Check your answer}
 
 
 @section HeadTop {
@@ -26,7 +26,9 @@
 @section FeedbackSection {
     @Html.Partial("_FeedbackDetails", new FeedbackViewModel() {
         UserId = Model.SessionId.ToString(),
-        PageData = new PageDataViewModel(PageDataViewModel.PageType.AccidentAndEmergencyCallback, Model)
+        PageData = new PageDataViewModel(Model.IsFirstStep ? PageDataViewModel.PageType.FirstQuestion : PageDataViewModel.PageType.Question, Model),
+        Heading = "Help us improve this question",
+        Paragraph = "Does it make sense? Do you understand all the words?"
     })
 }
 
