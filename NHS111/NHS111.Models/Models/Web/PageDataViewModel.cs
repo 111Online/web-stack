@@ -26,7 +26,8 @@ namespace NHS111.Models.Models.Web
             DuplicateBooking,
             BookingFailure,
             BookingUnavailable,
-            Error
+            Error,
+            Call999Callback
         }
 
         public PageDataViewModel()

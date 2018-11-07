@@ -88,8 +88,7 @@ namespace NHS111.SmokeTest.Utils
 
         public void VerifyDispositionCode(string dispositionCode)
         {
-            bool result = true;
-            var xpath = string.Format("//input[@value = \"{0}\"]", dispositionCode);
+            var xpath = "//input[@id='Id']";
             IWebElement dispostionCodeField = null;
             try
             {
@@ -97,10 +96,11 @@ namespace NHS111.SmokeTest.Utils
             }
             catch (NoSuchElementException)
             {
-                result = false;
+                Assert.Fail(string.Format("No dxcode element found on page. Looking for {0} using xpath {1}", dispostionCodeField, xpath));
             }
-            Assert.IsTrue(result, string.Format("VerifyDispositionCode : {0}", xpath));
-            Assert.AreEqual(dispositionCode, dispostionCodeField.GetAttribute("value"));
+
+            var actualDispoCode = dispostionCodeField.GetAttribute("value");
+            Assert.AreEqual(dispositionCode, actualDispoCode, string.Format("Expected DxCode {0} but was {1}", dispositionCode, actualDispoCode));
         }
 
         public void VerifyPathwayNotFound()

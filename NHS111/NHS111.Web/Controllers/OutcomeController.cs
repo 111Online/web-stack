@@ -27,6 +27,7 @@ namespace NHS111.Web.Controllers
     using System.Web;
     using Models.Models.Web.DosRequests;
     using System.Text.RegularExpressions;
+    using Models.Models.Web.Enums;
 
     [LogHandleErrorForMVC]
     public class OutcomeController : Controller
@@ -173,9 +174,15 @@ namespace NHS111.Web.Controllers
             model.DosCheckCapacitySummaryResult = await GetServiceAvailability(model, overrideDate, overrideFilterServices.HasValue ? overrideFilterServices.Value : model.FilterServices, endpoint);
             await _auditLogger.LogDosResponse(model);
 
+            model.NodeType = NodeType.Outcome;
+
             if (model.DosCheckCapacitySummaryResult.Error == null &&
                 !model.DosCheckCapacitySummaryResult.ResultListEmpty)
             {
+                if (model.OutcomeGroup.Is999Callback && !model.DosCheckCapacitySummaryResult.HasITKServices) {
+                    model.CurrentView = _viewRouter.GetViewName(model, this.ControllerContext);
+                    return View(model.CurrentView, model);
+                }
 
                 model.GroupedDosServices =
                     _dosBuilder.FillGroupedDosServices(model.DosCheckCapacitySummaryResult.Success.Services);
@@ -188,6 +195,10 @@ namespace NHS111.Web.Controllers
                 }
 
                 return View("~\\Views\\Outcome\\ServiceList.cshtml", model);
+            }
+
+            if (model.OutcomeGroup.Is999Callback) {
+                model.CurrentView = _viewRouter.GetViewName(model, this.ControllerContext);
             }
 
             return View(model.CurrentView, model);
@@ -305,17 +316,28 @@ namespace NHS111.Web.Controllers
             {
                 var outcomeViewModel = ConvertPatientInformantDateToUserinfo(model.PatientInformantDetails, model);
                 outcomeViewModel = await _outcomeViewModelBuilder.ItkResponseBuilder(outcomeViewModel);
-                if (outcomeViewModel.ItkSendSuccess.HasValue && outcomeViewModel.ItkSendSuccess.Value)
-                    return View(outcomeViewModel);
-                return outcomeViewModel.ItkDuplicate.HasValue && outcomeViewModel.ItkDuplicate.Value ? View("DuplicateBookingFailure", outcomeViewModel) : View("ServiceBookingFailure", outcomeViewModel);
+                if (outcomeViewModel.ItkSendSuccess.HasValue && outcomeViewModel.ItkSendSuccess.Value) {
+                    var confirmationViewname = _viewRouter.GetCallbackConfirmationViewName(outcomeViewModel.OutcomeGroup);
+                    return View(confirmationViewname, outcomeViewModel);
+                }
+
+                var isDuplicateSubmission = outcomeViewModel.ItkDuplicate.HasValue && outcomeViewModel.ItkDuplicate.Value;
+                if (isDuplicateSubmission) {
+                    var duplicateViewName = _viewRouter.GetCallbackDuplicateViewName(outcomeViewModel.OutcomeGroup);
+                    return View(duplicateViewName, outcomeViewModel);
+                }
+
+                var failureViewName = _viewRouter.GetCallbackFailureViewName(outcomeViewModel.OutcomeGroup);
+                return View(failureViewName, outcomeViewModel);
+                //View("DuplicateBookingFailure", outcomeViewModel) : View("ServiceBookingFailure", outcomeViewModel);
             }
 
             model.UnavailableSelectedService = model.SelectedService;
             model.DosCheckCapacitySummaryResult = availableServices;
             model.DosCheckCapacitySummaryResult.ServicesUnavailable = availableServices.ResultListEmpty;
             model.UserInfo.CurrentAddress.IsInPilotArea = _postCodeAllowedValidator.IsAllowedPostcode(model.CurrentPostcode) == PostcodeValidatorResponse.InPathwaysArea;
-
-            return View("ServiceBookingUnavailable", model);
+            var viewname = _viewRouter.GetServiceUnavailableViewName(model.OutcomeGroup);
+            return View(viewname, model);
         }
 
         [HttpPost]
