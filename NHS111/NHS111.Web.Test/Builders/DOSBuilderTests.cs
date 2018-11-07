@@ -170,7 +170,7 @@ namespace NHS111.Web.Presentation.Builders.Tests
             var dosModel = _dosBuilder.BuildDosViewModel(model, null);
             Assert.AreEqual(11333, dosModel.Disposition);
             ConfigurationManager.AppSettings["Cat3And4DxCodes"] = "";
-            ConfigurationManager.AppSettings["DxCodeMappingsForDx334"] = "Dx01121";
+            ConfigurationManager.AppSettings["EDCallbackDxCodes"] = "Dx01121";
             dosModel = _dosBuilder.BuildDosViewModel(model, null);
             Assert.AreEqual(11334, dosModel.Disposition);
         }
