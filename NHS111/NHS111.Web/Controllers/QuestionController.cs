@@ -211,7 +211,7 @@ namespace NHS111.Web.Controllers {
             if (selectedAnswer.ToLower() == "no") {
                 model = await _outcomeViewModelBuilder.DispositionBuilder(model);
                 if (model.DosCheckCapacitySummaryResult.HasITKServices) {
-                    throw new NotImplementedException();
+                    throw new NotImplementedException(); //no trigger question journeys currently offer callback
                 }
                 var viewName = _viewRouter.GetViewName(model, ControllerContext);
                 return View(viewName, model);
