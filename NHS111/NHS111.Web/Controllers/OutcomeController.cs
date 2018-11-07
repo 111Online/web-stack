@@ -393,5 +393,17 @@ namespace NHS111.Web.Controllers
         {
             return View();
         }
+
+        [HttpPost]
+        public async Task<ActionResult> EdCallbackAcceptance(PersonalDetailViewModel model, string selectedAnswer) {
+            if (selectedAnswer.ToLower() == "yes") {
+                AutoSelectFirstItkService(model);
+                if (model.SelectedService != null)
+                    return await PersonalDetails(Mapper.Map<PersonalDetailViewModel>(model));
+            }
+            throw new NotImplementedException("Needs to redirect to dos lookup");
+            return View();
+
+        }
     }
 }
