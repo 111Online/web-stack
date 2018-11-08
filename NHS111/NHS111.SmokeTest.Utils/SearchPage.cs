@@ -14,8 +14,10 @@ namespace NHS111.SmokeTest.Utils
         private const string _headerText = "Find the right topic";
         private const string _noInputValidationText = "Please enter the symptom you're concerned about";
         private const string _categoriesLinkText = "topics by category.";
-        public string InvalidSearchText => "a";
-
+        public string InvalidSearchText
+        {
+            get { return "a"; }
+        }
         public const string _errorSearchText = "<a>";
 
         [FindsBy(How = How.Id, Using = "SanitisedSearchTerm")]

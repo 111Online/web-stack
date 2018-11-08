@@ -64,6 +64,7 @@
     <Compile Include="BaseTests.cs" />
     <Compile Include="CookiesStatementTests.cs" />
     <Compile Include="PageNotFoundTests.cs" />
+    <Compile Include="QuestionPageTests.cs" />
     <Compile Include="ServerErrorPageTests.cs" />
     <Compile Include="TermsAndConditionsTests.cs" />
     <Compile Include="PrivacyStatementTests.cs" />

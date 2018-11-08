@@ -74,14 +74,7 @@ namespace NHS111.SmokeTests
             outcomePage.VerifyOutcome("Speak to your GP practice urgently");
         }
 
-        [Test]
-        public void QuestionDisplaysRationale()
-        {
-            var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Headache", TestScenerioSex.Female, TestScenerioAgeGroups.Adult);
 
-            questionPage.VerifyQuestion("Is there a chance you're pregnant?");
-            questionPage.VerifyRationale();
-        }
     }
 }
 
