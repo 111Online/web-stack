@@ -56,36 +56,54 @@ namespace NHS111.Models.Mappers.WebMappings
             protected override int ResolveCore(string source) {
                 source = Remap(source);
 
+                return ConvertToDosCode(source);
+            }
+
+            public static int ConvertToDosCode(string source) {
                 if (!source.StartsWith("Dx")) throw new FormatException("Dx code does not have prefix \"Dx\". Cannot convert");
                 var code = source.Replace("Dx", "");
-                if (code.Length == 3)
-                {
+                if (code.Length == 3) {
                     if (code.StartsWith("1"))
                         return Convert.ToInt32("1" + code);
                     else
                         return Convert.ToInt32("11" + code);
                 }
-                
+
                 return Convert.ToInt32("10" + code);
             }
 
             public static string Remap(string source) {
-                var mappingsForDx333 = ConfigurationManager.AppSettings["Cat3And4DxCodes"];
-                if (mappingsForDx333 != null) {
-                    var remapped333Codes = mappingsForDx333.Split(',');
-                    if (remapped333Codes.Contains(source))
-                        source = "Dx333";
-                }
+                if (IsRemappedToDx333(source))
+                    return "Dx333";
 
-                var mappingsForDx334 = ConfigurationManager.AppSettings["EDCallbackDxCodes"];
-                if (mappingsForDx334 != null) {
-                    var remapped334Codes = mappingsForDx334.Split(',');
-                    if (remapped334Codes.Contains(source))
-                        source = "Dx334";
-                }
+                if (IsRemappedToDx334(source))
+                    return "Dx334";
 
                 return source;
             }
+
+            public static bool IsRemappedToDx333(string dxCode) {
+                var mappingsForDx333 = ConfigurationManager.AppSettings["Cat3And4DxCodes"];
+                if (mappingsForDx333 != null) {
+                    var remapped333Codes = mappingsForDx333.Split(',');
+                    if (remapped333Codes.Contains(dxCode))
+                        return true;
+                }
+
+                return false;
+            }
+
+            public static bool IsRemappedToDx334(string dxCode) {
+                var mappingsForDx334 = ConfigurationManager.AppSettings["EDCallbackDxCodes"];
+                if (mappingsForDx334 != null) {
+                    var remapped334Codes = mappingsForDx334.Split(',');
+                    if (remapped334Codes.Contains(dxCode))
+                        return true;
+                }
+
+                return false;
+            }
+
         }
 
 

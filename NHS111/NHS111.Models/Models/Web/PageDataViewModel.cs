@@ -28,6 +28,7 @@ namespace NHS111.Models.Models.Web
             BookingUnavailable,
             Error,
             Call999Callback,
+            AccidentAndEmergencyCallback,
             CheckAnswer,
             QuestionInformation
         }
