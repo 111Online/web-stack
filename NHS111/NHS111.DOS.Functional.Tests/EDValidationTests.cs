@@ -52,8 +52,16 @@ namespace NHS111.DOS.Functional.Tests {
             AssertIsPersonalDetailsPage(edOutcome);
         }
 
+        [Test] //requires OX1 1DJ
+        public void Dx94_WithNoCallbackServices_ShowOriginalOutcome() {
+            var edOutcome = NavigateToDx94Outcome();
+            AssertIsOriginalOutcome(edOutcome, "Dx94");
+        }
+
         private OutcomePage RejectCallback(OutcomePage callbackAcceptancePage) {
-            throw new System.NotImplementedException();
+            Driver.FindElement(By.Id("No")).Click();
+            Driver.FindElement(By.Id("Next")).Click();
+            return new OutcomePage(Driver);
         }
 
         private OutcomePage AcceptCallback(OutcomePage callbackAcceptancePage) {
@@ -91,8 +99,15 @@ namespace NHS111.DOS.Functional.Tests {
                 .AnswerForDispostion<OutcomePage>("Yes");
         }
 
-        private void AssertIsOriginalOutcome(OutcomePage edOutcome) {
-            edOutcome.VerifyDispositionCode("Dx02");
+        private OutcomePage NavigateToDx94Outcome() {
+            var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Sexual or Menstrual Concerns", TestScenerioSex.Female,
+                TestScenerioAgeGroups.Adult);
+
+            return questionPage.AnswerForDispostion<OutcomePage>(1);
+        }
+
+        private void AssertIsOriginalOutcome(OutcomePage edOutcome, string expectedDisposition = "Dx02") {
+            edOutcome.VerifyDispositionCode(expectedDisposition);
         }
 
         private void AssertIsPersonalDetailsPage(OutcomePage edOutcome) {

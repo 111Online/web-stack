@@ -23,6 +23,7 @@ using IConfiguration = NHS111.Web.Presentation.Configuration.IConfiguration;
 namespace NHS111.Web.Presentation.Builders
 {
     using System.Diagnostics;
+    using NHS111.Models.Mappers.WebMappings;
 
     public class OutcomeViewModelBuilder : IOutcomeViewModelBuilder
     {
@@ -103,7 +104,12 @@ namespace NHS111.Web.Presentation.Builders
             Task<OutcomeViewModel> dosTask = null;
             if (OutcomeGroup.PrePopulatedDosResultsOutcomeGroups.Contains(model.OutcomeGroup) && !string.IsNullOrEmpty(model.CurrentPostcode)) {
                 dosTask = PopulateGroupedDosResults(model, null, null, endpoint);
+                if (await NeedToRequeryDos(dosTask, model)) {
+                    //revert to original dxcode
+                    dosTask = PopulateGroupedDosResults(model, null, null, endpoint);
+                }
             }
+
 
             Task<CareAdvice> worseningTask = _careAdviceBuilder.FillWorseningCareAdvice(model.UserInfo.Demography.Age, model.UserInfo.Demography.Gender);
             var ageGroup = new AgeCategory(model.UserInfo.Demography.Age).Value;
@@ -119,6 +125,12 @@ namespace NHS111.Web.Presentation.Builders
             model.SurveyLink = await surveyTask;
 
             return model;
+        }
+
+        private async Task<bool> NeedToRequeryDos(Task<OutcomeViewModel> dosTask, OutcomeViewModel model) {
+            return model.OutcomeGroup.Equals(OutcomeGroup.AccidentAndEmergency) &&
+                   FromOutcomeViewModelToDosViewModel.DispositionResolver.IsRemappedToDx334(model.Id) &&
+                   !(await dosTask).DosCheckCapacitySummaryResult.HasITKServices;
         }
 
         private async Task<SymptomDiscriminator> GetSymptomDiscriminator(string symptomDiscriminatorCode)
@@ -173,6 +185,9 @@ namespace NHS111.Web.Presentation.Builders
         public async Task<OutcomeViewModel> PopulateGroupedDosResults(OutcomeViewModel model, DateTime? overrideDate, bool? overrideFilterServices, DosEndpoint? endpoint)
         {
             var dosViewModel = _dosBuilder.BuildDosViewModel(model, overrideDate);
+            if (!model.DosCheckCapacitySummaryResult.HasITKServices) {
+                dosViewModel.Disposition = FromOutcomeViewModelToDosViewModel.DispositionResolver.ConvertToDosCode(model.Id);
+            }
             var _ = _auditLogger.LogDosRequest(model, dosViewModel);
             model.DosCheckCapacitySummaryResult = await _dosBuilder.FillCheckCapacitySummaryResult(dosViewModel, overrideFilterServices.HasValue ? overrideFilterServices.Value : model.FilterServices, endpoint);
             model.DosCheckCapacitySummaryResult.ServicesUnavailable = model.DosCheckCapacitySummaryResult.ResultListEmpty;
