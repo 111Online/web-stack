@@ -104,6 +104,10 @@ namespace NHS111.Web.Presentation.Builders
             Task<OutcomeViewModel> dosTask = null;
             if (OutcomeGroup.PrePopulatedDosResultsOutcomeGroups.Contains(model.OutcomeGroup) && !string.IsNullOrEmpty(model.CurrentPostcode)) {
                 dosTask = PopulateGroupedDosResults(model, null, null, endpoint);
+                if (await NeedToRequeryDos(dosTask, model)) {
+                    //revert to original dxcode
+                    dosTask = PopulateGroupedDosResults(model, null, null, endpoint);
+                }
             }
 
 
