@@ -64,6 +64,8 @@
     <Compile Include="BaseTests.cs" />
     <Compile Include="CookiesStatementTests.cs" />
     <Compile Include="PageNotFoundTests.cs" />
+    <Compile Include="QuestionPageTests.cs" />
+    <Compile Include="ServerErrorPageTests.cs" />
     <Compile Include="TermsAndConditionsTests.cs" />
     <Compile Include="PrivacyStatementTests.cs" />
     <Compile Include="SearchPageTests.cs" />
@@ -82,7 +84,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-    <None Include="packages.config" />
+    <None Include="packages.config">
+      <SubType>Designer</SubType>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\NHS111.SmokeTest.Utils\NHS111.SmokeTest.Utils.csproj">
