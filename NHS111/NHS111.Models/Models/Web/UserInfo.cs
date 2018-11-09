@@ -45,12 +45,22 @@ namespace NHS111.Models.Models.Web
 
                 _telephoneNumber = _telephoneNumber.Replace(" ", "");
 
-                if (_telephoneNumber.LastIndexOf("+44", StringComparison.Ordinal) == 0)
-                    _telephoneNumber = _telephoneNumber.Replace("+44", "0");
+                _telephoneNumber = RemoveValidInternationalPrefix(_telephoneNumber);
 
                 return _telephoneNumber;
             }
             set { _telephoneNumber = value; }
+        }
+
+        private String RemoveValidInternationalPrefix(string telephoneNumber)
+        {
+            if (telephoneNumber.LastIndexOf("00", StringComparison.Ordinal) == 0)
+                telephoneNumber = telephoneNumber.Replace("00", "+");
+
+            if (telephoneNumber.LastIndexOf("+44", StringComparison.Ordinal) == 0)
+                telephoneNumber = telephoneNumber.Replace("+44", "0");
+
+            return telephoneNumber;
         }
 
         public string Email { get; set; }
