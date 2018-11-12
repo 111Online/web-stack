@@ -53,7 +53,7 @@ namespace NHS111.Models.Models.Web
             QuestionId = journey.Id;
             TxNumber = !string.IsNullOrEmpty(journey.QuestionNo) && journey.QuestionNo.ToLower().StartsWith("tx") ? journey.QuestionNo : null;
             StartingPathwayNo = journey.PathwayNo;
-            StartingPathwayTitle = string.IsNullOrEmpty(journey.DigitalTitle) ? journey.DigitalTitle : journey.PathwayTitle;
+            StartingPathwayTitle = !string.IsNullOrEmpty(journey.DigitalTitle) ? journey.DigitalTitle : journey.PathwayTitle;
             DxCode = !string.IsNullOrEmpty(journey.Id) && journey.Id.ToLower().StartsWith("dx") ? journey.Id : null;
         }
 
