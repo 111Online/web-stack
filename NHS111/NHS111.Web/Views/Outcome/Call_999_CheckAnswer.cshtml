@@ -26,7 +26,7 @@
 @section FeedbackSection {
     @Html.Partial("_FeedbackDetails", new FeedbackViewModel() {
         UserId = Model.SessionId.ToString(),
-        PageData = new PageDataViewModel(Model.IsFirstStep ? PageDataViewModel.PageType.FirstQuestion : PageDataViewModel.PageType.Question, Model),
+        PageData = new PageDataViewModel(PageDataViewModel.PageType.CheckAnswer, Model),
         Heading = "Help us improve this question",
         Paragraph = "Does it make sense? Do you understand all the words?"
     })
