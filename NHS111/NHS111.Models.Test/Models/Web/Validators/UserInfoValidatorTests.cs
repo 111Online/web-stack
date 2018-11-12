@@ -1,7 +1,4 @@
-﻿using System;
-using Moq;
-using NHS111.Models.Models.Domain;
-using NHS111.Models.Models.Web;
+﻿using NHS111.Models.Models.Web;
 using NHS111.Models.Models.Web.Validators;
 using NUnit.Framework;
 
@@ -64,6 +61,13 @@ namespace NHS111.Models.Test.Models.Web.Validators
         }
 
         [Test]
+        public void UserInfoValidator_TelephoneNumber_HasPlusFourtyFourInMiddle_returns_false()
+        {
+            var sut = new UserInfoValidator();
+            Assert.IsFalse(sut.Validate(PopulateUserInfoTelephone("07855 +44666555")).IsValid);
+        }
+
+        [Test]
         public void UserInfoValidator_TelephoneNumber_BeginsWithPlusFourtyOne_USA_returns_false()
         {
             var sut = new UserInfoValidator();
@@ -85,17 +89,17 @@ namespace NHS111.Models.Test.Models.Web.Validators
         }
 
         [Test]
-        public void UserInfoValidator_TelephoneNumber_ZeroInternationalPrefixUK_returns_true()
+        public void UserInfoValidator_TelephoneNumber_ZeroInternationalPrefixUKWithZeroInMiddleOfNumber_returns_true()
         {
             var sut = new UserInfoValidator();
-            Assert.IsTrue(sut.Validate(PopulateUserInfoTelephone("004478888777")).IsValid);
+            Assert.IsTrue(sut.Validate(PopulateUserInfoTelephone("004478880077")).IsValid);
         }
 
         [Test]
         public void UserInfoValidator_TelephoneNumber_ZeroInternationalPrefixUS_returns_false()
         {
             var sut = new UserInfoValidator();
-            Assert.IsFalse(sut.Validate(PopulateUserInfoTelephone("004178888777")).IsValid);
+            Assert.IsFalse(sut.Validate(PopulateUserInfoTelephone("004178888007")).IsValid);
         }
 
         [Test]
