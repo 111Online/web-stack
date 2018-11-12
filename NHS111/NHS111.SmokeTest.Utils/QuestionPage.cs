@@ -33,6 +33,9 @@ namespace NHS111.SmokeTest.Utils
         [FindsBy(How = How.ClassName, Using = "button--next")]
         private IWebElement NextButton { get; set; }
 
+        [FindsBy(How = How.ClassName, Using = "button--previous")]
+        private IWebElement PreviousButton { get; set; }
+        
         [FindsBy(How = How.CssSelector, Using = "h1")]
         private IWebElement Header { get; set; }
 
@@ -45,6 +48,13 @@ namespace NHS111.SmokeTest.Utils
 
         [FindsBy(How = How.CssSelector, Using = "[for='No']")]
         private IWebElement AnswerNoButton { get; set; }
+
+        [FindsBy(How = How.CssSelector, Using = "summary[id='details-summary-0'] > span.summary")]
+        private IWebElement QuestionAdditionalInfoLink { get; set; }
+
+        [FindsBy(How = How.CssSelector, Using = "div[id='details-content-0'] > p")]
+        private IWebElement QuestionAdditionalInfo { get; set; }
+
 
         private const string _containsRadioButton = "contains(@class, 'multiple-choice--radio')";
 
@@ -129,6 +139,12 @@ namespace NHS111.SmokeTest.Utils
             return new QuestionPage(Driver);
         }
 
+        public void Verify()
+        {
+            Assert.IsTrue(Header.Displayed);
+            Assert.IsTrue(NextButton.Displayed);
+        }
+
         public void VerifyQuestion(string expectedQuestion) {
             Assert.IsTrue(Header.Displayed);
             Assert.AreEqual(expectedQuestion, Header.Text, string.Format("Unexpected question title. Expected '{0}' but was '{1}'.", expectedQuestion, Header.Text));
@@ -136,6 +152,24 @@ namespace NHS111.SmokeTest.Utils
 
         public void VerifyRationale() {
             Assert.IsTrue(Rationale.Displayed);
+        }
+
+        public void VerifyPreviousButton(bool firstQuestionInPathway = false)
+        {
+            if (firstQuestionInPathway)
+            {
+                var previousButtonBy = By.ClassName("button--previous");
+                Assert.IsFalse(Driver.ElementExists(previousButtonBy));
+            }
+            else
+                Assert.IsTrue(PreviousButton.Displayed);
+        }
+
+        public void VerifyAdditionalInfo()
+        {
+            Assert.IsTrue(QuestionAdditionalInfoLink.Displayed);
+            QuestionAdditionalInfoLink.Click();
+            Assert.IsTrue(QuestionAdditionalInfo.Displayed);
         }
 
         public void VerifyQuestionPageLoaded()

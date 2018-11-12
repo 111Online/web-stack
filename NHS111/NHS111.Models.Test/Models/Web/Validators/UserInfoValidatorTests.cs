@@ -64,6 +64,13 @@ namespace NHS111.Models.Test.Models.Web.Validators
         }
 
         [Test]
+        public void UserInfoValidator_TelephoneNumber_BeginsWithPlusFourtyOne_USA_returns_false()
+        {
+            var sut = new UserInfoValidator();
+            Assert.IsFalse(sut.Validate(PopulateUserInfoTelephone("+417855 666555")).IsValid);
+        }
+
+        [Test]
         public void UserInfoValidator_TelephoneNumber_BeginsWithFourtyOne_returns_false()
         {
             var sut = new UserInfoValidator();
@@ -75,6 +82,20 @@ namespace NHS111.Models.Test.Models.Web.Validators
         {
             var sut = new UserInfoValidator();
             Assert.IsFalse(sut.Validate(PopulateUserInfoTelephone("(020)78888777")).IsValid);
+        }
+
+        [Test]
+        public void UserInfoValidator_TelephoneNumber_ZeroInternationalPrefixUK_returns_true()
+        {
+            var sut = new UserInfoValidator();
+            Assert.IsTrue(sut.Validate(PopulateUserInfoTelephone("004478888777")).IsValid);
+        }
+
+        [Test]
+        public void UserInfoValidator_TelephoneNumber_ZeroInternationalPrefixUS_returns_false()
+        {
+            var sut = new UserInfoValidator();
+            Assert.IsFalse(sut.Validate(PopulateUserInfoTelephone("004178888777")).IsValid);
         }
 
         [Test]
