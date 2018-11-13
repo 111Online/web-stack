@@ -398,7 +398,7 @@ namespace NHS111.Web.Controllers
         public async Task<ActionResult> EdCallbackAcceptance(PersonalDetailViewModel model, string selectedAnswer) {
             model.HasAcceptedCallbackOffer = selectedAnswer.ToLower() == "yes";
 
-            if (model.HasAcceptedCallbackOffer) {
+            if (model.HasAcceptedCallbackOffer.Value) {
                 AutoSelectFirstItkService(model);
                 if (model.SelectedService != null)
                     return await PersonalDetails(Mapper.Map<PersonalDetailViewModel>(model));

@@ -95,7 +95,7 @@ namespace NHS111.Models.Models.Web
             }
         }
 
-        public bool HasAcceptedCallbackOffer { get; set; }
+        public bool? HasAcceptedCallbackOffer { get; set; }
 
         public OutcomeViewModel()
         {
