@@ -16,28 +16,28 @@ namespace NHS111.DOS.Functional.Tests {
             AssertIsOriginalOutcome(edOutcome);
         }
 
-        [Test] //requires NO callback services returned for this scenario
+        [Test]
         public void EDOutcome_MappedToDx334ButNoCallbackServicesReturned_ShowsOriginalOutcome() {
-            var edOutcome = NavigateToRemappedEDOutcome();
+            var edOutcome = NavigateToRemappedEDOutcome(_postcodeWithoutCallbacks);
             AssertIsOriginalOutcome(edOutcome);
         }
 
         [Test]
         public void EDOutcome_MappedToDx334AndReturnsCallbackServices_ShowsCallbackAcceptancePage() {
-            var callbackAcceptancePage = NavigateToRemappedEDOutcome();
+            var callbackAcceptancePage = NavigateToRemappedEDOutcome(_postcodeWithCallbacks);
             AssertIsCallbackAcceptancePage(callbackAcceptancePage);
         }
 
         [Test]
         public void EDOutcome_WhenUserRejectsCallbackOffer_ShowsOriginalOutcome() {
-            var callbackAcceptancePage = NavigateToRemappedEDOutcome();
+            var callbackAcceptancePage = NavigateToRemappedEDOutcome(_postcodeWithCallbacks);
             var edOutcome = RejectCallback(callbackAcceptancePage);
             AssertIsOriginalOutcome(edOutcome);
         }
 
         [Test]
         public void EDOutcome_WhenUserAcceptsCallbackOffer_ShowsPersonalDetailsPage() {
-            var callbackAcceptancePage = NavigateToRemappedEDOutcome();
+            var callbackAcceptancePage = NavigateToRemappedEDOutcome(_postcodeWithCallbacks);
             var edOutcome = AcceptCallback(callbackAcceptancePage);
             AssertIsPersonalDetailsPage(edOutcome);
         }
@@ -52,11 +52,17 @@ namespace NHS111.DOS.Functional.Tests {
             AssertIsPersonalDetailsPage(edOutcome);
         }
 
-        [Test] //requires OX1 1DJ
+        [Test]
         public void Dx94_WithNoCallbackServices_ShowOriginalOutcome() {
-            var edOutcome = NavigateToDx94Outcome();
+            var edOutcome = NavigateToDx94Outcome(_postcodeWithoutCallbacks);
             AssertIsOriginalOutcome(edOutcome, "Dx94");
         }
+
+        private string _postcodeWithoutCallbacks =
+            "432154ACCF327E1B5EC357976AD58C74959EEE81E2C8A4AB6EC9A4BE1857C53C0620D8228A87C3A7DCDAB01541DB0CE4AA11B719F7976904228B6FB10C844CC1D7846B30C9346C5A3170AE96564D2BEEDA2DF7608D8E695177D52817BB71A767";
+
+        private string _postcodeWithCallbacks =
+            "432154ACCF327E1B5EC357976AD58C74D6E91488AC242A8F2B1B7B59B04FE2028F2CF992BC570B07F73B97FC4001E4AEBABDBF2E9936E5AC9C15677471B88598E8224E931A957B174A1461F91150C30D48F1303460AB9044";
 
         private OutcomePage RejectCallback(OutcomePage callbackAcceptancePage) {
             Driver.FindElement(By.Id("No")).Click();
@@ -88,9 +94,9 @@ namespace NHS111.DOS.Functional.Tests {
                 .AnswerForDispostion<OutcomePage>("Yes");
         }
 
-        private OutcomePage NavigateToRemappedEDOutcome() {
+        private OutcomePage NavigateToRemappedEDOutcome(string args = null) {
             var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Headache", TestScenerioSex.Male,
-                TestScenerioAgeGroups.Adult);
+                TestScenerioAgeGroups.Adult, args);
 
             return questionPage
                 .AnswerSuccessiveByOrder(3, 3)
@@ -99,9 +105,9 @@ namespace NHS111.DOS.Functional.Tests {
                 .AnswerForDispostion<OutcomePage>("Yes");
         }
 
-        private OutcomePage NavigateToDx94Outcome() {
+        private OutcomePage NavigateToDx94Outcome(string args) {
             var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Sexual or Menstrual Concerns", TestScenerioSex.Female,
-                TestScenerioAgeGroups.Adult);
+                TestScenerioAgeGroups.Adult, args);
 
             return questionPage.AnswerForDispostion<OutcomePage>(1);
         }

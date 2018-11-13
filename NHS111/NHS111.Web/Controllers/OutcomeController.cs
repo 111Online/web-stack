@@ -396,13 +396,18 @@ namespace NHS111.Web.Controllers
 
         [HttpPost]
         public async Task<ActionResult> EdCallbackAcceptance(PersonalDetailViewModel model, string selectedAnswer) {
-            if (selectedAnswer.ToLower() == "yes") {
+            model.HasAcceptedCallbackOffer = selectedAnswer.ToLower() == "yes";
+
+            if (model.HasAcceptedCallbackOffer) {
                 AutoSelectFirstItkService(model);
                 if (model.SelectedService != null)
                     return await PersonalDetails(Mapper.Map<PersonalDetailViewModel>(model));
             }
-            throw new NotImplementedException("Needs to redirect to dos lookup");
-            return View();
+
+            var outcome = await _outcomeViewModelBuilder.DispositionBuilder(model);
+            var viewName = _viewRouter.GetViewName(outcome, ControllerContext);
+
+            return View(viewName, outcome);
 
         }
     }

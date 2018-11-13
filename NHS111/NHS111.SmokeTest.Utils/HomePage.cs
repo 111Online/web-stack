@@ -18,6 +18,17 @@ namespace NHS111.SmokeTest.Utils
     {
         private static string _baseUrl = ConfigurationManager.AppSettings["TestWebsiteUrl"];
 
+        public string ArgsQueryString {
+            set {
+                var uri = new Uri(_baseUrl);
+                var values = HttpUtility.ParseQueryString(uri.Query);
+                values["args"] = value;
+                if (!string.IsNullOrEmpty(uri.Query)) {
+                    _baseUrl = _baseUrl.Replace(uri.Query, "");
+                }
+                _baseUrl += "?" + values;
+            }
+        }
 
         [FindsBy(How = How.ClassName, Using = "button--next")]
         private IWebElement NextButton { get; set; }
