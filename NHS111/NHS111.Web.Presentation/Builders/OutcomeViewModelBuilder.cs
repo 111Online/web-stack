@@ -124,7 +124,8 @@ namespace NHS111.Web.Presentation.Builders
         }
 
         private bool NeedToRequeryDos(OutcomeViewModel model) {
-            return model.OutcomeGroup.Equals(OutcomeGroup.AccidentAndEmergency) &&
+            return model.HasAcceptedCallbackOffer && 
+                   model.OutcomeGroup.Equals(OutcomeGroup.AccidentAndEmergency) &&
                    FromOutcomeViewModelToDosViewModel.DispositionResolver.IsRemappedToDx334(model.Id) &&
                    !model.DosCheckCapacitySummaryResult.HasITKServices;
         }
@@ -183,9 +184,13 @@ namespace NHS111.Web.Presentation.Builders
             var dosViewModel = _dosBuilder.BuildDosViewModel(model, overrideDate);
 
             var _ = _auditLogger.LogDosRequest(model, dosViewModel);
+            if (!model.HasAcceptedCallbackOffer)
+                dosViewModel.Disposition = FromOutcomeViewModelToDosViewModel.DispositionResolver.ConvertToDosCode(originalDx);
             model.DosCheckCapacitySummaryResult = await _dosBuilder.FillCheckCapacitySummaryResult(dosViewModel, overrideFilterServices.HasValue ? overrideFilterServices.Value : model.FilterServices, endpoint);
             if (NeedToRequeryDos(model)) {
+                _auditLogger.LogDosResponse(model);
                 dosViewModel.Disposition = FromOutcomeViewModelToDosViewModel.DispositionResolver.ConvertToDosCode(originalDx);
+                _auditLogger.LogDosRequest(model, dosViewModel);
                 model.DosCheckCapacitySummaryResult = await _dosBuilder.FillCheckCapacitySummaryResult(dosViewModel, overrideFilterServices.HasValue ? overrideFilterServices.Value : model.FilterServices, endpoint);
             }
 
