@@ -152,6 +152,7 @@ namespace NHS111.Web.Presentation.Builders
 
         public DosViewModel BuildDosViewModel(OutcomeViewModel model, DateTime? overrideDate) {
             var dosViewModel = Mapper.Map<DosViewModel>(model);
+
             if (!overrideDate.HasValue)
             {
                 dosViewModel.DispositionTime = DateTime.Now;
