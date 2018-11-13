@@ -28,6 +28,14 @@ namespace NHS111.SmokeTest.Utils
             return new ModuleZeroPage(driver);
         }
 
+        public static ModuleZeroPage ModuleZeroWithArgs(IWebDriver driver, string args)
+        {
+            var homepage = new HomePage(driver);
+            homepage.ArgsQueryString = args;
+            homepage.Load();
+            return new ModuleZeroPage(driver);
+        }
+
         public static DemographicsPage Demographics(ModuleZeroPage page)
         {
             return page.ClickNoneApplyButton();

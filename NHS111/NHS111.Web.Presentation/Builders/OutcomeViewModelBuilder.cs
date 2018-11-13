@@ -104,10 +104,6 @@ namespace NHS111.Web.Presentation.Builders
             Task<OutcomeViewModel> dosTask = null;
             if (OutcomeGroup.PrePopulatedDosResultsOutcomeGroups.Contains(model.OutcomeGroup) && !string.IsNullOrEmpty(model.CurrentPostcode)) {
                 dosTask = PopulateGroupedDosResults(model, null, null, endpoint);
-                if (await NeedToRequeryDos(dosTask, model)) {
-                    //revert to original dxcode
-                    dosTask = PopulateGroupedDosResults(model, null, null, endpoint);
-                }
             }
 
 
@@ -127,10 +123,10 @@ namespace NHS111.Web.Presentation.Builders
             return model;
         }
 
-        private async Task<bool> NeedToRequeryDos(Task<OutcomeViewModel> dosTask, OutcomeViewModel model) {
+        private bool NeedToRequeryDos(OutcomeViewModel model) {
             return model.OutcomeGroup.Equals(OutcomeGroup.AccidentAndEmergency) &&
                    FromOutcomeViewModelToDosViewModel.DispositionResolver.IsRemappedToDx334(model.Id) &&
-                   !(await dosTask).DosCheckCapacitySummaryResult.HasITKServices;
+                   !model.DosCheckCapacitySummaryResult.HasITKServices;
         }
 
         private async Task<SymptomDiscriminator> GetSymptomDiscriminator(string symptomDiscriminatorCode)
@@ -182,12 +178,17 @@ namespace NHS111.Web.Presentation.Builders
             return model;
         }
 
-        public async Task<OutcomeViewModel> PopulateGroupedDosResults(OutcomeViewModel model, DateTime? overrideDate, bool? overrideFilterServices, DosEndpoint? endpoint)
-        {
+        public async Task<OutcomeViewModel> PopulateGroupedDosResults(OutcomeViewModel model, DateTime? overrideDate, bool? overrideFilterServices, DosEndpoint? endpoint) {
+            var originalDx = model.Id;
             var dosViewModel = _dosBuilder.BuildDosViewModel(model, overrideDate);
 
             var _ = _auditLogger.LogDosRequest(model, dosViewModel);
             model.DosCheckCapacitySummaryResult = await _dosBuilder.FillCheckCapacitySummaryResult(dosViewModel, overrideFilterServices.HasValue ? overrideFilterServices.Value : model.FilterServices, endpoint);
+            if (NeedToRequeryDos(model)) {
+                dosViewModel.Disposition = FromOutcomeViewModelToDosViewModel.DispositionResolver.ConvertToDosCode(originalDx);
+                model.DosCheckCapacitySummaryResult = await _dosBuilder.FillCheckCapacitySummaryResult(dosViewModel, overrideFilterServices.HasValue ? overrideFilterServices.Value : model.FilterServices, endpoint);
+            }
+
             model.DosCheckCapacitySummaryResult.ServicesUnavailable = model.DosCheckCapacitySummaryResult.ResultListEmpty;
 
             if (!model.DosCheckCapacitySummaryResult.ResultListEmpty)
