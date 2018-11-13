@@ -158,7 +158,7 @@
             _model.HasAcceptedCallbackOffer = false;
             var result = await _outcomeViewModelBuilder.PopulateGroupedDosResults(_model, null, null, null);
 
-            _mockDosBuilder.Verify(d => d.FillCheckCapacitySummaryResult(It.Is<DosViewModel>(x => x.Disposition == 1111), It.IsAny<bool>(),
+            _mockDosBuilder.Verify(d => d.FillCheckCapacitySummaryResult(It.Is<DosViewModel>(x => x.Disposition == 1002), It.IsAny<bool>(),
                 It.IsAny<DosEndpoint?>()), Times.Once);
         }
 
