@@ -82,7 +82,7 @@ namespace NHS111.Web.Helpers
                         if (string.IsNullOrEmpty(outcomeViewModel.CurrentPostcode))
                             return "../Outcome/ChangePostcode";
 
-                        if (outcomeViewModel.DosCheckCapacitySummaryResult.HasITKServices)
+                        if (outcomeViewModel.DosCheckCapacitySummaryResult.HasITKServices && !outcomeViewModel.HasAcceptedCallbackOffer.HasValue)
                             return "../Outcome/SP_Accident_and_emergency_callback";
                     }
                     if (ViewExists(viewFilePath, context))
