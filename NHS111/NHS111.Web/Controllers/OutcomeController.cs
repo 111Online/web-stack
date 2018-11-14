@@ -406,6 +406,7 @@ namespace NHS111.Web.Controllers
 
             var outcome = await _outcomeViewModelBuilder.DispositionBuilder(model);
             var viewName = _viewRouter.GetViewName(outcome, ControllerContext);
+            model.UserInfo.CurrentAddress.IsInPilotArea = _postCodeAllowedValidator.IsAllowedPostcode(model.CurrentPostcode) == PostcodeValidatorResponse.InPathwaysArea;
 
             return View(viewName, outcome);
 
