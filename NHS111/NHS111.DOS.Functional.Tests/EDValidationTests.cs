@@ -10,13 +10,6 @@ namespace NHS111.DOS.Functional.Tests {
         : BaseTests {
 
         [Test]
-        [Ignore("Currently all ED dxcodes are remapped")]
-        public void EDOutcome_NotMappedToDx334_ShowsOriginalOutcome() {
-            var edOutcome = NavigateToNonRemappedEDOutcome();
-            AssertIsOriginalOutcome(edOutcome);
-        }
-
-        [Test]
         public void EDOutcome_MappedToDx334ButNoCallbackServicesReturned_ShowsOriginalOutcome() {
             var edOutcome = NavigateToRemappedEDOutcome(_postcodeWithoutCallbacks);
             AssertIsOriginalOutcome(edOutcome);
@@ -56,6 +49,19 @@ namespace NHS111.DOS.Functional.Tests {
         public void Dx94_WithNoCallbackServices_ShowOriginalOutcome() {
             var edOutcome = NavigateToDx94Outcome(_postcodeWithoutCallbacks);
             AssertIsOriginalOutcome(edOutcome, "Dx94");
+        }
+
+        [Test]
+        public void SubmittingCallbackRequest_AfterRejectingDx334Callback_QueriesDosWithCorrectDxCodes()
+        {
+            var callbackAcceptancePage = NavigateToRemappedEDOutcome(_postcodeWithCallbacks);
+            var edOutcome = RejectCallback(callbackAcceptancePage);
+            AssertIsOriginalOutcome(edOutcome);
+            //request callback
+            AssertIsPersonalDetailsPage(edOutcome);
+            //fill out personal details page
+            //submit
+            //
         }
 
         private string _postcodeWithoutCallbacks =

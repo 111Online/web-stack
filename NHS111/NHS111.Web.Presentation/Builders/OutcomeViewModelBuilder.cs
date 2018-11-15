@@ -180,16 +180,13 @@ namespace NHS111.Web.Presentation.Builders
         }
 
         public async Task<OutcomeViewModel> PopulateGroupedDosResults(OutcomeViewModel model, DateTime? overrideDate, bool? overrideFilterServices, DosEndpoint? endpoint) {
-            var originalDx = model.Id;
             var dosViewModel = _dosBuilder.BuildDosViewModel(model, overrideDate);
 
             var _ = _auditLogger.LogDosRequest(model, dosViewModel);
-            if (model.HasAcceptedCallbackOffer.HasValue && !model.HasAcceptedCallbackOffer.Value)
-                dosViewModel.Disposition = FromOutcomeViewModelToDosViewModel.DispositionResolver.ConvertToDosCode(originalDx);
             model.DosCheckCapacitySummaryResult = await _dosBuilder.FillCheckCapacitySummaryResult(dosViewModel, overrideFilterServices.HasValue ? overrideFilterServices.Value : model.FilterServices, endpoint);
             if (NeedToRequeryDos(model)) {
                 _auditLogger.LogDosResponse(model);
-                dosViewModel.Disposition = FromOutcomeViewModelToDosViewModel.DispositionResolver.ConvertToDosCode(originalDx);
+                dosViewModel.Disposition = FromOutcomeViewModelToDosViewModel.DispositionResolver.ConvertToDosCode(model.Id);
                 _auditLogger.LogDosRequest(model, dosViewModel);
                 model.DosCheckCapacitySummaryResult = await _dosBuilder.FillCheckCapacitySummaryResult(dosViewModel, overrideFilterServices.HasValue ? overrideFilterServices.Value : model.FilterServices, endpoint);
             }
