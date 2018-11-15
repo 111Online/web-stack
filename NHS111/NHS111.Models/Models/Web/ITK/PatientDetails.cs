@@ -7,6 +7,7 @@ namespace NHS111.Models.Models.Web.ITK
         public string Forename { get; set; }
         public string Surname { get; set; }
         public DateTime DateOfBirth { get; set; }
+        public string AgeGroup { get; set; }
         public string Gender { get; set; }
         public string ServiceAddressPostcode { get; set; }
         public Address HomeAddress { get; set; }

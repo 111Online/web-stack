@@ -39,6 +39,9 @@ namespace NHS111.Models.Models.Domain
 
         [JsonProperty(PropertyName = "startingPathway")]
         public bool StartingPathway { get; set; }
+
+        [JsonProperty(PropertyName = "traumaType")]
+        public string TraumaType { get; set; }
     }
 
 }

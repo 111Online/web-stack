@@ -194,15 +194,15 @@ namespace NHS111.Business.Configuration
             return GetDomainApiUrl("DomainApiGetVersionUrl");
         }
 
-        public string GetDomainApiFullPathwayJourneyUrl()
+        public string GetDomainApiPathwayJourneyUrl()
         {
             return GetDomainApiUrl("FullPathwayJourneyUrl");
         }
 
 
-        public string GetDomainApiFullPathwayJourneyUrl(string startingPathwayUrl)
+        public string GetDomainApiPathwayJourneyUrl(string startingPathwayUrl, string dispositionCode)
         {
-            return GetDomainApiUrl("FullPathwayJourneyUrl") + "/" + startingPathwayUrl;
+            return GetDomainApiUrl("PathwayJourneyUrl") + "/" + startingPathwayUrl + "/" + dispositionCode;
         }
     }
 
@@ -218,8 +218,8 @@ namespace NHS111.Business.Configuration
         string GetDomainApiJustToBeSafeQuestionsFirstUrl(string pathwayId);
         string GetDomainApiJustToBeSafeQuestionsNextUrl(string pathwayId, IEnumerable<string> answeredQuestionIds, bool multipleChoice, string selectedQuestionId);
 
-        string GetDomainApiFullPathwayJourneyUrl();
-        string GetDomainApiFullPathwayJourneyUrl(string startingPathwayUrl);
+        string GetDomainApiPathwayJourneyUrl();
+        string GetDomainApiPathwayJourneyUrl(string startingPathwayUrl, string dispositionCode);
 
         /* Pathways */
         string GetDomainApiPathwaysUrl(bool grouped, bool startingOnly);
