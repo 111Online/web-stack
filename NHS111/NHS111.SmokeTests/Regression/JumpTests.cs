@@ -27,7 +27,7 @@ namespace NHS111.SmokeTests.Regression
 
         [Test]
         //PT8 via Behaviour Change Tx 140148 Tx221449 and Tx222008
-        public void Pt8ViaBehaviourChangeTx140148Tx221449Tx222008()
+        public void Pt8JumpViaBehaviourChangePathway()
         {
             var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Behaviour Change", TestScenerioSex.Male, TestScenerioAgeGroups.Adult);
 
@@ -43,7 +43,7 @@ namespace NHS111.SmokeTests.Regression
 
         [Test]
         //PT8 via Behaviour Change Tx140148 and Tx222023 No Dx String
-        public void Pt8ViaBehaviourChangeTx140148Tx222023NoDx()
+        public void Pt8JumpViaBehaviourChangePathwayNoDx()
         {
             var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Behaviour Change", TestScenerioSex.Male, TestScenerioAgeGroups.Adult);
 
@@ -62,7 +62,7 @@ namespace NHS111.SmokeTests.Regression
 
         [Test]
         //PT8 via Headache Tx222027 and Tx222006 FA
-        public void Pt8ViaHeadacheTx222027Tx222006Fa()
+        public void Pt8JumpViaHeadachePathwayFemaleAdult()
         {
             var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Headache", TestScenerioSex.Female, TestScenerioAgeGroups.Adult);
 
@@ -88,7 +88,7 @@ namespace NHS111.SmokeTests.Regression
 
         [Test]
         //PT8 via Headache Tx222027 and Tx222006 MC
-        public void Pt8ViaHeadacheTx222027Tx222006Mc()
+        public void Pt8JumpViaHeadachePathwayMaleChild()
         {
             var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Headache", TestScenerioSex.Male, TestScenerioAgeGroups.Child);
 
@@ -112,7 +112,7 @@ namespace NHS111.SmokeTests.Regression
 
         [Test]
         //PT8 via Tremor via Age variable and 2 strings Dx06 and Dx35
-        public void Pt8ViaTremorViaAgeVariable2Strings()
+        public void Pt8JumpViaTremorPathwayViaAgeVariableand2SetNodes()
         {
             var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Tremor", TestScenerioSex.Male, 13);
 
@@ -144,7 +144,7 @@ namespace NHS111.SmokeTests.Regression
 
         [Test]
         //PT8 New jump to Dx11 in V15
-        public void Pt8ViaTremorViaAgeVariabletoDx11()
+        public void Pt8JumpViaTremorPathwayViaAgeVariabletoDx11()
         {
             var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Behaviour Change", TestScenerioSex.Male, 24);
 
