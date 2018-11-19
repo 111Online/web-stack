@@ -5,6 +5,8 @@ using System.Text;
 using System.Threading.Tasks;
 using AutoMapper;
 using CsvHelper.TypeConversion;
+using Newtonsoft.Json;
+using NHS111.Models.Models.Domain;
 using NHS111.Models.Models.Web;
 using NHS111.Models.Models.Web.FromExternalServices;
 using NHS111.Models.Models.Web.ITK;
@@ -25,7 +27,7 @@ namespace NHS111.Models.Mappers.WebMappings
             Mapper.CreateMap<OutcomeViewModel, ServiceDetails>()
                 .ConvertUsing<FromOutcomeViewModelToServiceDetailsConverter>();
 
-            Mapper.CreateMap<List<JourneyStep>, List<String>>()
+            Mapper.CreateMap<List<JourneyStep>, List<ReportItem>>()
               .ConvertUsing<FromJourneySetpsToReportTextStrings>();
 
         }
@@ -41,19 +43,25 @@ namespace NHS111.Models.Mappers.WebMappings
             caseDetails.ExternalReference = outcome.JourneyId.ToString();
             caseDetails.DispositionCode = outcome.Id;
             caseDetails.DispositionName = outcome.Title;
-            caseDetails.Source = outcome.PathwayTitle;
-            caseDetails.ReportItems = Mapper.Map<List<JourneyStep>, List<string>>(outcome.Journey.Steps);
+            caseDetails.StartingPathwayTitle = outcome.PathwayTitle;
+            caseDetails.StartingPathwayId = outcome.PathwayId;
+            caseDetails.StartingPathwayType = outcome.PathwayTraumaType;
+            caseDetails.ReportItems = Mapper.Map<List<JourneyStep>, List<ReportItem>>(outcome.Journey.Steps);
             caseDetails.ConsultationSummaryItems = outcome.Journey.Steps.Where(s => !string.IsNullOrEmpty(s.Answer.DispositionDisplayText)).Select(s => s.Answer.ReportText).Distinct().ToList();
+            caseDetails.CaseSteps = outcome.Journey.Steps.Select(s => new StepItem() {QuestionId = s.QuestionId, AnswerOrder = s.Answer.Order});
+
+            var state = outcome.Journey.GetLastState();
+            caseDetails.SetVariables = !string.IsNullOrEmpty(state) ? JsonConvert.DeserializeObject<IDictionary<string, string>>(outcome.Journey.GetLastState()) : new Dictionary<string, string>();
             return caseDetails;
         }
     }
 
-    public class FromJourneySetpsToReportTextStrings : ITypeConverter<List<JourneyStep>, List<string>>
+    public class FromJourneySetpsToReportTextStrings : ITypeConverter<List<JourneyStep>, List<ReportItem>>
     {
-        public List<string> Convert(ResolutionContext context)
+        public List<ReportItem> Convert(ResolutionContext context)
         {
             var steps = (List<JourneyStep>)context.SourceValue;
-            return steps.Where(s => !string.IsNullOrEmpty(s.Answer.ReportText)).Select(s => s.Answer.ReportText).ToList();
+            return steps.Where(s => !string.IsNullOrEmpty(s.Answer.ReportText)).Select(s => new ReportItem { Text = s.Answer.ReportText, Positive = s.Answer.IsPositive }).ToList();
         }
     }
 
@@ -89,7 +97,9 @@ namespace NHS111.Models.Mappers.WebMappings
                     new DateTime(personalDetailViewModel.UserInfo.Year.Value, personalDetailViewModel.UserInfo.Month.Value, personalDetailViewModel.UserInfo.Day.Value);
 
             patientDetails.Gender = personalDetailViewModel.UserInfo.Demography.Gender;
-            
+            var ageGroup = new AgeCategory(personalDetailViewModel.UserInfo.Demography.Age);
+            patientDetails.AgeGroup = ageGroup.Value;
+
             patientDetails.Informant = new InformantDetails()
             {
                 Forename = personalDetailViewModel.Informant.Forename,

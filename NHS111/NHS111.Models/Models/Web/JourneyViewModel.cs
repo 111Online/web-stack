@@ -17,6 +17,11 @@ namespace NHS111.Models.Models.Web
         public string PathwayId { get; set; }
         public string PathwayNo { get; set; }
         public string PathwayTitle { get; set; }
+        public string PathwayTraumaType { get; set; }
+        public bool IsTraumaPathway
+        {
+            get { return !string.IsNullOrEmpty(PathwayTraumaType) && PathwayTraumaType.Equals("Trauma"); }
+        }
         public string DigitalTitle { get; set; }
         public string Id { get; set; }
         public string EntrySearchTerm { get; set; }
