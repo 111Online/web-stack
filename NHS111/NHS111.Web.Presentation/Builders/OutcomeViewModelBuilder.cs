@@ -189,6 +189,7 @@ namespace NHS111.Web.Presentation.Builders
                 dosViewModel.Disposition = FromOutcomeViewModelToDosViewModel.DispositionResolver.ConvertToDosCode(model.Id);
                 _auditLogger.LogDosRequest(model, dosViewModel);
                 model.DosCheckCapacitySummaryResult = await _dosBuilder.FillCheckCapacitySummaryResult(dosViewModel, overrideFilterServices.HasValue ? overrideFilterServices.Value : model.FilterServices, endpoint);
+                model.DosCheckCapacitySummaryResult.IsValidationRequery = true;
             }
 
             model.DosCheckCapacitySummaryResult.ServicesUnavailable = model.DosCheckCapacitySummaryResult.ResultListEmpty;

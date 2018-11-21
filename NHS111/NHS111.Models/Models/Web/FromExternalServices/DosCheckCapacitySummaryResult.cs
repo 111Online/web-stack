@@ -22,5 +22,7 @@ namespace NHS111.Models.Models.Web.FromExternalServices
         public bool ServicesUnavailable { get; set; }
 
         public bool HasITKServices {  get { return !ResultListEmpty && Success.Services.Any(s => s.OnlineDOSServiceType == OnlineDOSServiceType.Callback); } }
+
+        public bool IsValidationRequery { get; set; }
     }
 }
