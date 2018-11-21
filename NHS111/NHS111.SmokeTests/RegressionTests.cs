@@ -21,6 +21,41 @@ namespace NHS111.SmokeTests
             outcomePage.VerifyPathwayNotFound();
         }
 
+
+        [Test]
+        public void SplitQuestionNavigateBackDisplaysCorrectCareAdvice()
+        {
+            //to discuss with Andria
+            //var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Headache", "Female", 49);
+
+            //questionPage.VerifyQuestion("Could you be pregnant?");
+            //var outcomePage = questionPage.AnswerSuccessiveByOrder(3, 4)
+            //    .Answer(1)
+            //    .Answer(3)
+            //    .Answer(5)
+            //    .Answer(3)
+            //    .Answer(4)
+            //    //3 sight
+            //    .Answer(2)
+            //    .Answer(3)
+            //    .Answer(3)
+            //    .Answer(3)
+            //    .Answer(4)
+            //    .Answer(1)
+            //    .Answer(3)
+            //    .Answer(4)
+            //    .AnswerForDispostion<OutcomePage>(1);
+
+            //var newOutcome = outcomePage.NavigateBack()
+            //    .Answer(3, false)
+            //    .Answer(1)
+            //    .AnswerForDispostion<OutcomePage>("Within the next 6 hours");
+
+
+            //newOutcome.VerifyOutcome("Speak to your GP practice today");
+            //newOutcome.VerifyCareAdvice(new[] {"Medication, next dose", "Medication, pain and/or fever", "Headache"});
+        }
+
         [Test]
         public void SplitQuestionJourneyThroughEachRoute()
         {
@@ -32,7 +67,7 @@ namespace NHS111.SmokeTests
                 .Answer(1)
                 .AnswerForDispostion<OutcomePage>("Yes");
 
-            outcomePage.VerifyOutcome("Phone 999 now for an ambulance");
+            outcomePage.VerifyOutcome("Your answers suggest you should dial 999 now for an ambulance");
 
             TestScenerios.LaunchTriageScenerio(Driver, "Headache", "Female", 49);
 
@@ -74,7 +109,14 @@ namespace NHS111.SmokeTests
             outcomePage.VerifyOutcome("Speak to your GP practice urgently");
         }
 
+        [Test]
+        public void QuestionDisplaysRationale()
+        {
+            var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Headache", TestScenerioSex.Female, TestScenerioAgeGroups.Adult);
 
+            questionPage.VerifyQuestion("Is there a chance you're pregnant?");
+            questionPage.VerifyRationale();
+        }
     }
 }
 
