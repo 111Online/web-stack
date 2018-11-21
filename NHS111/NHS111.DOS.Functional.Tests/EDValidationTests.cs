@@ -93,7 +93,7 @@ namespace NHS111.DOS.Functional.Tests {
         }
 
         private void AssertReturnedServiceExists(string serviceName) {
-            Assert.IsTrue(Driver.ElementExists(By.XPath($"//H3[text()='{serviceName}']")));
+            Assert.IsTrue(Driver.ElementExists(By.XPath(string.Format("//H3[text()='{0}']", serviceName))));
         }
 
 
