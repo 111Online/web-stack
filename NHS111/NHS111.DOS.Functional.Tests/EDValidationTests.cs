@@ -42,7 +42,7 @@ namespace NHS111.DOS.Functional.Tests {
         public void EDOutcome_ThenEnteringPostcodeReturningCallback_ShowsCallbackThenPersonalDetailsPage() {
             var postcodePage = NavigateToRemappedEDOutcome();
             AssertIsPostcodePage(postcodePage);
-            var callbackAcceptancePage = EnterPostcode("CA2 7HY", postcodePage);
+            var callbackAcceptancePage = EnterPostcode("SO40 8UU", postcodePage);
             AssertIsCallbackAcceptancePage(callbackAcceptancePage);
             var edOutcome = AcceptCallback(callbackAcceptancePage);
             AssertIsPersonalDetailsPage(edOutcome);
@@ -67,7 +67,6 @@ namespace NHS111.DOS.Functional.Tests {
 
         [Test]
         public void SubmittingReferralRequest_AfterRejectingDx334Callback_SubmitsReferralWithCorrectDxCode() {
-            return;
             var callbackAcceptancePage = NavigateToRemappedEDOutcome(_ls177nz);
             AssertIsCallbackAcceptancePage(callbackAcceptancePage);
             var edOutcome = RejectCallback(callbackAcceptancePage);
@@ -77,6 +76,18 @@ namespace NHS111.DOS.Functional.Tests {
             var itkConfirmation = SubmitPersonalDetails(personalDetailsPage);
             AssertIsSuccessfulITK(itkConfirmation);
         }
+
+        [Test]
+        public void SubmittingReferralRequestForDx02Callback_WhenNoDx334Callbacks_SubmitsReferralWithCorrectDxCode()
+        {
+            var edOutcome = NavigateToRemappedEDOutcome(_ls117nz);
+            AssertIsOriginalOutcome(edOutcome);
+            var personalDetailsPage = ClickBookCallButton(edOutcome);
+            AssertIsPersonalDetailsPage(personalDetailsPage);
+            var itkConfirmation = SubmitPersonalDetails(personalDetailsPage);
+            AssertIsSuccessfulITK(itkConfirmation);
+        }
+
 
         [Test]
         public void EDOutcome_CallbacksOnlyForDx02_ShowsOriginalOutcomeWithCallbackOffer() {
@@ -139,6 +150,9 @@ namespace NHS111.DOS.Functional.Tests {
 
         private string _ls197nz =
             "432154ACCF327E1BAD3D41A2A33FFD27BF71802066E4B038446D6AE7DB1B2CF019BD92872FFC584271506172BC3D48C64B249CB8A3216AFC7401FF048DAEA38C0C5CBFF9CA58E64021801E5090C2E2C9";
+
+        private string _ls117nz =
+            "432154ACCF327E1B379AADDE14BE71A9AA81D59812F9D89161CA89EA4A905477BD196D61FF7E9542A9946AA21C614AF72790CCA95B5D35C9FDD1E38424E74B8DB2B4806242427365CB9D866A060F718E";
 
         private string _ls187nz =
             "432154ACCF327E1BA624A4940E239D6AE97BB59A5AAD2D51BF2EDD7C9B0A9247849B3D0FF55AA5FA8178A747609968A7783D3DBA645291D8AFF628DC8C4C6D160B4A72665FA896B508AEEE209CBA949A";
