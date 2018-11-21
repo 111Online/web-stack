@@ -73,6 +73,11 @@ namespace NHS111.Models.Models.Web
             return _querystringValue.ToLower().Equals(queryStringValue.ToLower());
         }
 
+        public override string ToString()
+        {
+            return _value;
+        }
+
         private readonly string _value;
         private readonly string _querystringValue;
     }
