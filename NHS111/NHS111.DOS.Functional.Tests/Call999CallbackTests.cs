@@ -4,7 +4,6 @@
     using OpenQA.Selenium;
     using SmokeTest.Utils;
 
-    [TestFixture()]
     public class Call999CallbackTests
     : BaseTests {
 
@@ -69,12 +68,12 @@
                 .AnswerForDispostion<OutcomePage>("Yes");
 
             outcomePage.VerifyOutcome(OutcomePage.Cat3999Text);
-            Assert.IsTrue(Driver.ElementExists(By.Id("FindService_CurrentPostcode")), "Expected postcode field when no gate.");
+            Assert.True(Driver.ElementExists(By.Id("FindService_CurrentPostcode")), "Expected postcode field when no gate.");
         }
 
         private OutcomePage SubmitPostcode(string postcode, OutcomePage postcodePage)
         {
-            Assert.IsTrue(Driver.ElementExists(By.Id("FindService_CurrentPostcode")), "Postcode field not available");
+            Assert.True(Driver.ElementExists(By.Id("FindService_CurrentPostcode")), "Postcode field not available");
             Driver.FindElement(By.Id("FindService_CurrentPostcode")).Clear();
             Driver.FindElement(By.Id("FindService_CurrentPostcode")).SendKeys(postcode);
             Driver.FindElement(By.Id("DosLookup")).Click();
