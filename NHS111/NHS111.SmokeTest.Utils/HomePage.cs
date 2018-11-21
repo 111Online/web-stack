@@ -1,23 +1,26 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Configuration;
-using System.Linq;
-using System.Runtime.Remoting.Messaging;
-using System.Text;
-using System.Threading.Tasks;
 using NUnit.Framework;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.PageObjects;
+using OpenQA.Selenium.Support.UI;
 
 namespace NHS111.SmokeTest.Utils
 {
-    using System.Collections.Specialized;
     using System.Web;
 
     public class HomePage : LayoutPage
     {
         private static string _baseUrl = ConfigurationManager.AppSettings["TestWebsiteUrl"];
 
+        [FindsBy(How = How.CssSelector, Using = "nav > ul > li:nth-child(1) > a")]
+        internal IWebElement TermsLink { get; set; }
+
+        [FindsBy(How = How.CssSelector, Using = "nav > ul > li:nth-child(2) > a")]
+        internal IWebElement PrivacyLink { get; set; }
+
+        [FindsBy(How = How.CssSelector, Using = "nav > ul > li:nth-child(3) > a")]
+        internal IWebElement CookiesLink { get; set; }
 
         [FindsBy(How = How.ClassName, Using = "button--next")]
         private IWebElement NextButton { get; set; }
@@ -70,11 +73,52 @@ namespace NHS111.SmokeTest.Utils
             return new DemographicsPage(Driver);
         }
 
+        public PrivacyStatementPage ClickPrivacyStatementLink()
+        {
+            PrivacyLink.Click();
 
+            //link opens in new tab, grab the new tab
+            foreach (var winHandle in Driver.WindowHandles)
+            {
+                Driver.SwitchTo().Window(winHandle);
+            }
+
+            return new PrivacyStatementPage(Driver);
+        }
+
+        public CookiesStatementPage ClickCookiesStatementLink()
+        {
+            CookiesLink.Click();
+
+            //link opens in new tab, grab the new tab
+            foreach (var winHandle in Driver.WindowHandles)
+            {
+                Driver.SwitchTo().Window(winHandle);
+            }
+
+            return new CookiesStatementPage(Driver);
+        }
+
+        public TermsAndConditionsPage ClickTermsLink()
+        {
+            TermsLink.Click();
+
+            //link opens in new tab, grab the new tab
+            foreach (var winHandle in Driver.WindowHandles)
+            {
+                Driver.SwitchTo().Window(winHandle);
+            }
+
+            return new TermsAndConditionsPage(Driver);
+        }
 
         public void Verify()
         {
             Assert.IsTrue(Header.Displayed);
+            Assert.IsTrue(TermsLink.Displayed);
+            Assert.IsTrue(PrivacyLink.Displayed);
+            Assert.IsTrue(CookiesLink.Displayed);
+
             Assert.AreEqual(_headerText, Header.Text);
         }
     }

@@ -63,6 +63,11 @@
     <Compile Include="DeadEndPage.cs" />
     <Compile Include="DispositionPage.cs" />
     <Compile Include="DemographicsPage.cs" />
+    <Compile Include="CookiesStatementPage.cs" />
+    <Compile Include="ServerErrorPage.cs" />
+    <Compile Include="PageNotFound.cs" />
+    <Compile Include="TermsAndConditionsPage.cs" />
+    <Compile Include="PrivacyStatementPage.cs" />
     <Compile Include="HomePage.cs" />
     <Compile Include="IWebDriverExtensions.cs" />
     <Compile Include="LayoutPage.cs" />
