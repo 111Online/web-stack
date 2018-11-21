@@ -47,28 +47,27 @@
 
 @if (Model.DosCheckCapacitySummaryResult.Success != null)
 {
-    for (var i = 0; i < Model.DosCheckCapacitySummaryResult.Success.Services.Count(); ++i)
-    {@Html.Hidden(string.Format("DosCheckCapacitySummaryResult.Success.Services[{0}].Name", i), @WebUtility.HtmlDecode(Model.DosCheckCapacitySummaryResult.Success.Services[i].Name))
-    @Html.HiddenFor(m => Model.DosCheckCapacitySummaryResult.Success.Services[i].Id)
+    for (var i = 0; i < Model.DosCheckCapacitySummaryResult.Success.Services.Count(); ++i) {
+        @Html.Hidden(string.Format("DosCheckCapacitySummaryResult.Success.Services[{0}].Name", i), @WebUtility.HtmlDecode(Model.DosCheckCapacitySummaryResult.Success.Services[i].Name))
+        @Html.HiddenFor(m => Model.DosCheckCapacitySummaryResult.Success.Services[i].Id)
 
-    @Html.Hidden(string.Format("DosCheckCapacitySummaryResult.Success.Services[{0}].Address", i), @WebUtility.HtmlDecode(Model.DosCheckCapacitySummaryResult.Success.Services[i].Address))
-    @Html.HiddenFor(m => Model.DosCheckCapacitySummaryResult.Success.Services[i].OdsCode)
-    @Html.HiddenFor(m => Model.DosCheckCapacitySummaryResult.Success.Services[i].PostCode)
-    @Html.HiddenFor(m => Model.DosCheckCapacitySummaryResult.Success.Services[i].OpenAllHours)
-    @Html.HiddenFor(m => Model.DosCheckCapacitySummaryResult.Success.Services[i].OnlineDOSServiceType)
-    if (Model.DosCheckCapacitySummaryResult.Success.Services[i].RotaSessionsAndSpecifiedSessions != null)
-    {
-        for (var j = 0; j < Model.DosCheckCapacitySummaryResult.Success.Services[i].RotaSessionsAndSpecifiedSessions.Length; j++)
-        {
-            @Html.HiddenFor(m => m.DosCheckCapacitySummaryResult.Success.Services[i].RotaSessionsAndSpecifiedSessions[j].StartDayOfWeek)
-            @Html.HiddenFor(m => m.DosCheckCapacitySummaryResult.Success.Services[i].RotaSessionsAndSpecifiedSessions[j].StartTime.Hours)
-            @Html.HiddenFor(m => m.DosCheckCapacitySummaryResult.Success.Services[i].RotaSessionsAndSpecifiedSessions[j].StartTime.Minutes)
-            @Html.HiddenFor(m => m.DosCheckCapacitySummaryResult.Success.Services[i].RotaSessionsAndSpecifiedSessions[j].EndDayOfWeek)
-            @Html.HiddenFor(m => m.DosCheckCapacitySummaryResult.Success.Services[i].RotaSessionsAndSpecifiedSessions[j].EndTime.Hours)
-            @Html.HiddenFor(m => m.DosCheckCapacitySummaryResult.Success.Services[i].RotaSessionsAndSpecifiedSessions[j].EndTime.Minutes)
+        @Html.Hidden(string.Format("DosCheckCapacitySummaryResult.Success.Services[{0}].Address", i), @WebUtility.HtmlDecode(Model.DosCheckCapacitySummaryResult.Success.Services[i].Address))
+        @Html.HiddenFor(m => Model.DosCheckCapacitySummaryResult.Success.Services[i].OdsCode)
+        @Html.HiddenFor(m => Model.DosCheckCapacitySummaryResult.Success.Services[i].PostCode)
+        @Html.HiddenFor(m => Model.DosCheckCapacitySummaryResult.Success.Services[i].OpenAllHours)
+        @Html.HiddenFor(m => Model.DosCheckCapacitySummaryResult.Success.Services[i].OnlineDOSServiceType)
+        if (Model.DosCheckCapacitySummaryResult.Success.Services[i].RotaSessionsAndSpecifiedSessions != null) {
+            for (var j = 0; j < Model.DosCheckCapacitySummaryResult.Success.Services[i].RotaSessionsAndSpecifiedSessions.Length; j++) {
+                @Html.HiddenFor(m => m.DosCheckCapacitySummaryResult.Success.Services[i].RotaSessionsAndSpecifiedSessions[j].StartDayOfWeek)
+                @Html.HiddenFor(m => m.DosCheckCapacitySummaryResult.Success.Services[i].RotaSessionsAndSpecifiedSessions[j].StartTime.Hours)
+                @Html.HiddenFor(m => m.DosCheckCapacitySummaryResult.Success.Services[i].RotaSessionsAndSpecifiedSessions[j].StartTime.Minutes)
+                @Html.HiddenFor(m => m.DosCheckCapacitySummaryResult.Success.Services[i].RotaSessionsAndSpecifiedSessions[j].EndDayOfWeek)
+                @Html.HiddenFor(m => m.DosCheckCapacitySummaryResult.Success.Services[i].RotaSessionsAndSpecifiedSessions[j].EndTime.Hours)
+                @Html.HiddenFor(m => m.DosCheckCapacitySummaryResult.Success.Services[i].RotaSessionsAndSpecifiedSessions[j].EndTime.Minutes)
+            }
         }
     }
-}
+    @Html.HiddenFor(m => m.DosCheckCapacitySummaryResult.IsValidationRequery)
 }
 @Html.HiddenFor(m => m.SurgeryViewModel.SelectedSurgery)
 

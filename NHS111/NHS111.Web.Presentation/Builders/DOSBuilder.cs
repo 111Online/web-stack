@@ -154,7 +154,7 @@ namespace NHS111.Web.Presentation.Builders
         public DosViewModel BuildDosViewModel(OutcomeViewModel model, DateTime? overrideDate) {
             var dosViewModel = Mapper.Map<DosViewModel>(model);
 
-            if (model.HasAcceptedCallbackOffer.HasValue && !model.HasAcceptedCallbackOffer.Value)
+            if (model.DosCheckCapacitySummaryResult.IsValidationRequery || (model.HasAcceptedCallbackOffer.HasValue && !model.HasAcceptedCallbackOffer.Value))
                 dosViewModel.Disposition = FromOutcomeViewModelToDosViewModel.DispositionResolver.ConvertToDosCode(model.Id);
 
             if (!overrideDate.HasValue)
