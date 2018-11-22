@@ -45,6 +45,12 @@ namespace NHS111.Models.Models.Domain
         [JsonProperty(PropertyName = "dispositionUrgencyText")]
         public string DispositionUrgencyText { get; set; }
 
+        [JsonProperty(PropertyName = "reportText")]
+        public string ReportText { get; set; }
+
+        [JsonProperty(PropertyName = "careAdviceId")]
+        public string CareAdviceId { get; set; }
+
         public bool IsJustToBeSafe()
         {
             return !(string.IsNullOrEmpty(Jtbs) || Jtbs.EndsWith("-"));
