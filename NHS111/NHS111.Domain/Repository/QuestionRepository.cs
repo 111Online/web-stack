@@ -156,23 +156,26 @@ namespace NHS111.Domain.Repository
                                 "rows + collect({{question:q, answer:answered, answers:answers, step:{0}}}) as rows", index))
                             .OptionalMatch(String.Format("(q:Question{{id:'{0}'}})-[a:Answer{{order:{1}}}]->(n{{id:'{2}'}})",
                                 steps[index].QuestionId, steps[index].Answer.Order, dispositionCode))
-                            .With(String.Format("rows + collect({{question:n, answer:{{}}, step:{0}.1}}) as allrows", index))
+                            .OptionalMatch("n-[i:Instruction]->(:OutcomeEnd)")
+                            .With("rows,n, collect(i) as instructions")
+                            .With(String.Format("rows + collect({{question:n, answer:{{}}, answers:instructions, step:{0}.1}}) as allrows", index))
                             .Unwind("allrows", "rows")
 
                             .OptionalMatch(String.Format(
                                 "p = (:Question{{id:'{0}'}})-[a:Answer{{order:{1}}}]->(f)-[:Answer*0..3]->(t)-[:Answer]->(n{{id:'{2}'}})", steps[index].QuestionId, steps[index].Answer.Order, dispositionCode))
                             .Where("(t:Set OR t:Read) and (f:Set OR f:Read)")
-                            .With("nodes(p)AS nds, rels(p) AS rls, rows, n")
+                            .OptionalMatch("n-[i:Instruction]->(:OutcomeEnd)")
+                            .With("nodes(p)AS nds, rels(p) AS rls, rows, n, collect(distinct i) as instructions")
 
                             //.Match("(n1)-[a:Answer]->()")
                             //.Where("n1 in nds AND (n1:Set OR n1:Read)")
                             //.With("nds, rls, rows, n, n1, {leadingnode:n1, nodeanswers:COLLECT(DISTINCT a)} as node")
 
 
-                            .Unwind("case when nds is null then 0 else range(1, length(nds) - 2) end", "i")
+                            .Unwind("case when nds is null then 0 else range(1, length(nds) - 2) end", "x")
 
                             .With(String.Format(
-                                "rows + collect({{question:nds[i], answer:rls[i], step:{0}.2}}) + collect({{question:n, answer:{{}}, step:{0}.3}}) as newrows",
+                                "rows + collect({{question:nds[x], answer:CASE WHEN type(rls[x]) = 'Answer' THEN rls[x] ELSE null END, step:{0}.2}}) + collect({{question:n, answer:{{}}, answers:instructions, step:{0}.3}}) as newrows",
                                 index));
                             //.With(String.Format(
                             //    "rows + collect({{question:nds[i], answer:rls[i], answers:CASE WHEN nds[i] = node.leadingnode THEN node.nodeanswers ELSE null END, leadingAnswer:rls[i-1], step:{0}.2}}) + collect({{question:n, answer:{{}}, step:{0}.3}}) as newrows",
