@@ -28,32 +28,9 @@
         Model.ServiceOptions
         );
 
-
-    <div class="notification-banner notification-banner--hiviz">
+    <div class="notification-banner survey-banner notification-banner--hiviz">
         <p class="notification-banner--inner">
             When you’ve finished, help us improve by taking a <a href="@url" target="_blank">short survey</a>
         </p>
     </div>
-
-    <script>
-
-        $(document)
-            .ready(function () {
-                if (!$.cookie("nhs111-survey-link-banner")) {
-                    $(".survey-banner-wrap").show();
-                }
-            });
-
-        $("#AgreeButton")
-            .click(function () {
-                var isSecure = window.location.protocol.toLowerCase() == 'https:';
-                $.cookie("nhs111-survey-link-banner", "survey-link-yes", { path: '/', secure: isSecure });
-                $(".survey-banner-wrap").hide();
-            });
-
-        $("#PostponeButton")
-            .click(function () {
-                $(".survey-banner-wrap").hide();
-            });
-    </script>
 }
