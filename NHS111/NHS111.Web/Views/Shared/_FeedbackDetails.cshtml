@@ -2,9 +2,14 @@
 @{ Model.DateAdded = DateTime.Now; }
 @{
     const int maxFeedbackLength = 1200;
+    string classes = "";
+    if (!Model.ShowOnNhsApp)
+    {
+        classes = "feedback-hidden";
+    }
 }
 
-<section class="feedback page-section" id="feedback">
+<section class="feedback page-section @classes" id="feedback">
     <details class="measure">
         <summary id="feedback__summary">
             <span class="details__arrow" role="presentation"></span>
