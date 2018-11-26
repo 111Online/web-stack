@@ -96,5 +96,44 @@ namespace NHS111.Models.Test.Models.Web.FromExternalServices {
             };
             Assert.False(sut.HasITKServices);
         }
+
+        [Test]
+        public void ContainsService_WithNull_ReturnsFalse() {
+            var sut = new DosCheckCapacitySummaryResult {
+                Success = new SuccessObject<ServiceViewModel> {
+                    Services = new List<ServiceViewModel> {
+                        new ServiceViewModel()
+                    }
+                }
+            };
+            Assert.False(sut.ContainsService(null));
+        }
+
+        
+        [Test]
+        public void ContainsService_WithEmptyList_ReturnFalse() {
+            var sut = new DosCheckCapacitySummaryResult {
+                Success = new SuccessObject<ServiceViewModel> {
+                    Services = new List<ServiceViewModel> {
+                        //empty
+                    }
+                }
+            };
+            Assert.False(sut.ContainsService(new ServiceViewModel()));
+        }
+
+        [Test]
+        public void ContainsService_WithServiceInList_ReturnTrue() {
+            var sut = new DosCheckCapacitySummaryResult {
+                Success = new SuccessObject<ServiceViewModel> {
+                    Services = new List<ServiceViewModel> {
+                        new ServiceViewModel { Id = 123}
+                    }
+                }
+            };
+            Assert.True(sut.ContainsService(new ServiceViewModel { Id = 123 }));
+        }
+
+
     }
 }

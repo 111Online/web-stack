@@ -11,9 +11,9 @@
     @RenderSection("HeadTop", false)
 
     @{
-        var data = new Dictionary<string, string> { { "ContainerID", ConfigurationManager.AppSettings["GoogleAnalyticsContainerId"] } };
+        var containerId = ConfigurationManager.AppSettings["GoogleAnalyticsContainerId"];
 
-        var tagPrinter = new GoogleTagManagerPrinter(data);
+        var tagPrinter = new GoogleTagManagerPrinter(containerId);
     }
 
     @tagPrinter.Print()

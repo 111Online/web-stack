@@ -10,10 +10,13 @@ using NHS111.Web.Presentation.Logging;
 using NUnit.Framework;
 
 namespace NHS111.Web.Presentation.Test.Controllers {
+    using System.Threading.Tasks;
+    using System.Web.Mvc;
+    using NHS111.Models.Models.Domain;
+    using NHS111.Models.Models.Web.DosRequests;
 
     [TestFixture]
-    public class OutcomeControllerTests
-    {
+    public class OutcomeControllerTests {
         private OutcomeController _outcomeController;
 
         private Mock<IOutcomeViewModelBuilder> _outcomeViewModelBuilder;
@@ -23,25 +26,33 @@ namespace NHS111.Web.Presentation.Test.Controllers {
         private Mock<IAuditLogger> _auditLogger;
         private Mock<Configuration.IConfiguration> _configuration;
         private Mock<IPostCodeAllowedValidator> _postCodeAllowedValidator;
-        private Mock<IViewRouter> _viewRouter;
+        private IViewRouter _viewRouter;
+        private DosCheckCapacitySummaryResult _successfulDosResponse = new DosCheckCapacitySummaryResult
+        {
+            Success = new SuccessObject<ServiceViewModel>
+                { Services = new List<ServiceViewModel> { new ServiceViewModel { Id = 123 } } }
+        };
 
         [SetUp]
-        public void Setup()
-        {
+        public void Setup() {
             _outcomeViewModelBuilder = new Mock<IOutcomeViewModelBuilder>();
             _dosBuilder = new Mock<IDOSBuilder>();
+            _dosBuilder.Setup(b => b.FillCheckCapacitySummaryResult(It.IsAny<DosViewModel>(), It.IsAny<bool>(), It.IsAny<DosEndpoint?>()))
+                .ReturnsAsync(_successfulDosResponse);
             _surgeryBuilder = new Mock<ISurgeryBuilder>();
             _locationResultBuilder = new Mock<ILocationResultBuilder>();
             _auditLogger = new Mock<IAuditLogger>();
             _configuration = new Mock<Configuration.IConfiguration>();
             _postCodeAllowedValidator = new Mock<IPostCodeAllowedValidator>();
-            _viewRouter = new Mock<IViewRouter>();
-            _outcomeController = new OutcomeController(_outcomeViewModelBuilder.Object, _dosBuilder.Object, _surgeryBuilder.Object, _locationResultBuilder.Object, _auditLogger.Object, _configuration.Object, _postCodeAllowedValidator.Object, _viewRouter.Object);
+            var referralResultBuilder = new ReferralResultBuilder(_postCodeAllowedValidator.Object);
+            _viewRouter = new ViewRouter(_auditLogger.Object, new Mock<IUserZoomDataBuilder>().Object, new Mock<IJourneyViewModelEqualityComparer>().Object);
+            _outcomeController = new OutcomeController(_outcomeViewModelBuilder.Object, _dosBuilder.Object,
+                _surgeryBuilder.Object, _locationResultBuilder.Object, _auditLogger.Object, _configuration.Object,
+                _postCodeAllowedValidator.Object, _viewRouter, referralResultBuilder);
         }
 
         [Test]
-        public void AutoSelectFirstItkService_NoServices_SelectedServiceNull()
-        {
+        public void AutoSelectFirstItkService_NoServices_SelectedServiceNull() {
             var model = new OutcomeViewModel();
             model.DosCheckCapacitySummaryResult = new DosCheckCapacitySummaryResult();
             model.DosCheckCapacitySummaryResult.Success = new SuccessObject<ServiceViewModel>();
@@ -52,13 +63,13 @@ namespace NHS111.Web.Presentation.Test.Controllers {
         }
 
         [Test]
-        public void AutoSelectFirstItkService_OneServicesNotITK_SelectedServiceNull()
-        {
+        public void AutoSelectFirstItkService_OneServicesNotITK_SelectedServiceNull() {
             var model = new OutcomeViewModel();
             model.DosCheckCapacitySummaryResult = new DosCheckCapacitySummaryResult();
             model.DosCheckCapacitySummaryResult.Success = new SuccessObject<ServiceViewModel>();
             model.DosCheckCapacitySummaryResult.Success.Services = new List<ServiceViewModel>();
-            ServiceViewModel svm = new ServiceViewModel {Id = 123456, OnlineDOSServiceType = OnlineDOSServiceType.PublicPhone};
+            ServiceViewModel svm = new ServiceViewModel
+                {Id = 123456, OnlineDOSServiceType = OnlineDOSServiceType.PublicPhone};
             model.DosCheckCapacitySummaryResult.Success.Services.Add(svm);
 
             _outcomeController.AutoSelectFirstItkService(model);
@@ -66,13 +77,13 @@ namespace NHS111.Web.Presentation.Test.Controllers {
         }
 
         [Test]
-        public void AutoSelectFirstItkService_OneServicesITK_SelectedServicePopulated()
-        {
+        public void AutoSelectFirstItkService_OneServicesITK_SelectedServicePopulated() {
             var model = new OutcomeViewModel();
             model.DosCheckCapacitySummaryResult = new DosCheckCapacitySummaryResult();
             model.DosCheckCapacitySummaryResult.Success = new SuccessObject<ServiceViewModel>();
             model.DosCheckCapacitySummaryResult.Success.Services = new List<ServiceViewModel>();
-            ServiceViewModel svm = new ServiceViewModel { Id = 123456, OnlineDOSServiceType = OnlineDOSServiceType.Callback };
+            ServiceViewModel svm = new ServiceViewModel
+                {Id = 123456, OnlineDOSServiceType = OnlineDOSServiceType.Callback};
             model.DosCheckCapacitySummaryResult.Success.Services.Add(svm);
 
             _outcomeController.AutoSelectFirstItkService(model);
@@ -80,14 +91,15 @@ namespace NHS111.Web.Presentation.Test.Controllers {
         }
 
         [Test]
-        public void AutoSelectFirstItkService_OneServiceNonITKOneServiceITK_SelectedServicePopulated()
-        {
+        public void AutoSelectFirstItkService_OneServiceNonITKOneServiceITK_SelectedServicePopulated() {
             var model = new OutcomeViewModel();
             model.DosCheckCapacitySummaryResult = new DosCheckCapacitySummaryResult();
             model.DosCheckCapacitySummaryResult.Success = new SuccessObject<ServiceViewModel>();
             model.DosCheckCapacitySummaryResult.Success.Services = new List<ServiceViewModel>();
-            ServiceViewModel svm1 = new ServiceViewModel { Id = 987654, OnlineDOSServiceType = OnlineDOSServiceType.PublicPhone };
-            ServiceViewModel svm2 = new ServiceViewModel { Id = 123456, OnlineDOSServiceType = OnlineDOSServiceType.Callback };
+            ServiceViewModel svm1 = new ServiceViewModel
+                {Id = 987654, OnlineDOSServiceType = OnlineDOSServiceType.PublicPhone};
+            ServiceViewModel svm2 = new ServiceViewModel
+                {Id = 123456, OnlineDOSServiceType = OnlineDOSServiceType.Callback};
             model.DosCheckCapacitySummaryResult.Success.Services.Add(svm1);
             model.DosCheckCapacitySummaryResult.Success.Services.Add(svm2);
 
@@ -96,19 +108,67 @@ namespace NHS111.Web.Presentation.Test.Controllers {
         }
 
         [Test]
-        public void AutoSelectFirstItkService_TwoServicesITK_SelectedServicePopulatedWithFirstService()
-        {
+        public void AutoSelectFirstItkService_TwoServicesITK_SelectedServicePopulatedWithFirstService() {
             var model = new OutcomeViewModel();
             model.DosCheckCapacitySummaryResult = new DosCheckCapacitySummaryResult();
             model.DosCheckCapacitySummaryResult.Success = new SuccessObject<ServiceViewModel>();
             model.DosCheckCapacitySummaryResult.Success.Services = new List<ServiceViewModel>();
-            ServiceViewModel svm1 = new ServiceViewModel { Id = 987654, OnlineDOSServiceType = OnlineDOSServiceType.Callback };
-            ServiceViewModel svm2 = new ServiceViewModel { Id = 123456, OnlineDOSServiceType = OnlineDOSServiceType.Callback };
+            ServiceViewModel svm1 = new ServiceViewModel
+                {Id = 987654, OnlineDOSServiceType = OnlineDOSServiceType.Callback};
+            ServiceViewModel svm2 = new ServiceViewModel
+                {Id = 123456, OnlineDOSServiceType = OnlineDOSServiceType.Callback};
             model.DosCheckCapacitySummaryResult.Success.Services.Add(svm1);
             model.DosCheckCapacitySummaryResult.Success.Services.Add(svm2);
 
             _outcomeController.AutoSelectFirstItkService(model);
             Assert.AreEqual(987654, model.SelectedService.Id);
         }
+
+        [Test]
+        public async Task Confirmation_WithNoServicesReturned_ReturnsServiceUnavailableView() {
+            var model = new PersonalDetailViewModel { SelectedServiceId = "123", OutcomeGroup = OutcomeGroup.GP, DosCheckCapacitySummaryResult = _successfulDosResponse, ItkSendSuccess = false, ItkDuplicate = false };
+            _dosBuilder.Setup(b =>
+                    b.FillCheckCapacitySummaryResult(It.IsAny<DosViewModel>(), It.IsAny<bool>(),
+                        It.IsAny<DosEndpoint?>()))
+                .ReturnsAsync(new DosCheckCapacitySummaryResult());
+            var result = await _outcomeController.Confirmation(model, null) as ViewResult;
+
+            Assert.NotNull(result);
+            Assert.AreEqual(new ServiceUnavailableReferralResultViewModel(null).ViewName, result.ViewName);
+        }
+
+        [Test]
+        public async Task Confirmation_WithSuccessfulReferral_ReturnsConfirmationView() {
+            var model = new PersonalDetailViewModel {SelectedServiceId = "123", OutcomeGroup = OutcomeGroup.GP, DosCheckCapacitySummaryResult = _successfulDosResponse, ItkSendSuccess = true, ItkDuplicate = false };
+            _outcomeViewModelBuilder.Setup(b => b.ItkResponseBuilder(It.IsAny<OutcomeViewModel>())).ReturnsAsync(model);
+            var result = await _outcomeController.Confirmation(model, null) as ViewResult;
+
+            Assert.NotNull(result);
+            Assert.AreEqual(new ReferralConfirmationResultViewModel(null).ViewName, result.ViewName);
+        }
+
+        [Test]
+        public async Task Confirmation_WithUnsuccessfulReferral_ReturnsFailureView()
+        {
+            var model = new PersonalDetailViewModel { SelectedServiceId = "123", OutcomeGroup = OutcomeGroup.GP, DosCheckCapacitySummaryResult = _successfulDosResponse, ItkSendSuccess = false, ItkDuplicate = false };
+            _outcomeViewModelBuilder.Setup(b => b.ItkResponseBuilder(It.IsAny<OutcomeViewModel>())).ReturnsAsync(model);
+            var result = await _outcomeController.Confirmation(model, null) as ViewResult;
+
+            Assert.NotNull(result);
+            Assert.AreEqual(new ReferralFailureResultViewModel(null).ViewName, result.ViewName);
+        }
+
+        [Test]
+        public async Task Confirmation_WithDuplicateReferral_ReturnsDuplicateView()
+        {
+            var model = new PersonalDetailViewModel { SelectedServiceId = "123", OutcomeGroup = OutcomeGroup.GP, DosCheckCapacitySummaryResult = _successfulDosResponse, ItkSendSuccess = false, ItkDuplicate = true };
+            _outcomeViewModelBuilder.Setup(b => b.ItkResponseBuilder(It.IsAny<OutcomeViewModel>())).ReturnsAsync(model);
+            var result = await _outcomeController.Confirmation(model, null) as ViewResult;
+
+            Assert.NotNull(result);
+            Assert.AreEqual(new DuplicateReferralResultViewModel(null).ViewName, result.ViewName);
+        }
+
+
     }
 }

@@ -40,9 +40,10 @@ namespace NHS111.Web.Controllers
         private readonly Presentation.Configuration.IConfiguration _configuration;
         private readonly IPostCodeAllowedValidator _postCodeAllowedValidator;
         private readonly IViewRouter _viewRouter;
+        private readonly IReferralResultBuilder _referralResultBuilder;
 
         public OutcomeController(IOutcomeViewModelBuilder outcomeViewModelBuilder, IDOSBuilder dosBuilder,
-            ISurgeryBuilder surgeryBuilder, ILocationResultBuilder locationResultBuilder, IAuditLogger auditLogger, Presentation.Configuration.IConfiguration configuration, IPostCodeAllowedValidator postCodeAllowedValidator, IViewRouter viewRouter)
+            ISurgeryBuilder surgeryBuilder, ILocationResultBuilder locationResultBuilder, IAuditLogger auditLogger, Presentation.Configuration.IConfiguration configuration, IPostCodeAllowedValidator postCodeAllowedValidator, IViewRouter viewRouter, IReferralResultBuilder referralResultBuilder)
         {
             _outcomeViewModelBuilder = outcomeViewModelBuilder;
             _dosBuilder = dosBuilder;
@@ -52,6 +53,7 @@ namespace NHS111.Web.Controllers
             _configuration = configuration;
             _postCodeAllowedValidator = postCodeAllowedValidator;
             _viewRouter = viewRouter;
+            _referralResultBuilder = referralResultBuilder;
         }
 
         [HttpPost]
@@ -312,32 +314,16 @@ namespace NHS111.Web.Controllers
             }
             var availableServices = await GetServiceAvailability(model, null, overrideFilterServices.HasValue ? overrideFilterServices.Value : model.FilterServices, null);
             _auditLogger.LogDosResponse(model);
-            if (SelectedServiceExits(model.SelectedService.Id, availableServices))
+            if (availableServices.ContainsService(model.SelectedService))
             {
                 var outcomeViewModel = ConvertPatientInformantDateToUserinfo(model.PatientInformantDetails, model);
                 outcomeViewModel = await _outcomeViewModelBuilder.ItkResponseBuilder(outcomeViewModel);
-                if (outcomeViewModel.ItkSendSuccess.HasValue && outcomeViewModel.ItkSendSuccess.Value) {
-                    var confirmationViewname = _viewRouter.GetCallbackConfirmationViewName(outcomeViewModel.OutcomeGroup);
-                    return View(confirmationViewname, outcomeViewModel);
-                }
-
-                var isDuplicateSubmission = outcomeViewModel.ItkDuplicate.HasValue && outcomeViewModel.ItkDuplicate.Value;
-                if (isDuplicateSubmission) {
-                    var duplicateViewName = _viewRouter.GetCallbackDuplicateViewName(outcomeViewModel.OutcomeGroup);
-                    return View(duplicateViewName, outcomeViewModel);
-                }
-
-                var failureViewName = _viewRouter.GetCallbackFailureViewName(outcomeViewModel.OutcomeGroup);
-                return View(failureViewName, outcomeViewModel);
-                //View("DuplicateBookingFailure", outcomeViewModel) : View("ServiceBookingFailure", outcomeViewModel);
+                var result = _referralResultBuilder.Build(outcomeViewModel);
+                return View(result.ViewName, result);
             }
 
-            model.UnavailableSelectedService = model.SelectedService;
-            model.DosCheckCapacitySummaryResult = availableServices;
-            model.DosCheckCapacitySummaryResult.ServicesUnavailable = availableServices.ResultListEmpty;
-            model.UserInfo.CurrentAddress.IsInPilotArea = _postCodeAllowedValidator.IsAllowedPostcode(model.CurrentPostcode) == PostcodeValidatorResponse.InPathwaysArea;
-            var viewname = _viewRouter.GetServiceUnavailableViewName(model.OutcomeGroup);
-            return View(viewname, model);
+            var unavailableResult = _referralResultBuilder.BuildServiceUnavailableResult(model, availableServices);
+            return View(unavailableResult.ViewName, unavailableResult);
         }
 
         [HttpPost]
@@ -368,11 +354,6 @@ namespace NHS111.Web.Controllers
                 model.Informant.IsInformantForPatient = true;
             }
             return model;
-        }
-
-        private bool SelectedServiceExits(int selectedServiceId, DosCheckCapacitySummaryResult availableServices)
-        {
-            return !availableServices.ResultListEmpty && availableServices.Success.Services.Exists(s => s.Id == selectedServiceId);
         }
 
         [HttpPost]
