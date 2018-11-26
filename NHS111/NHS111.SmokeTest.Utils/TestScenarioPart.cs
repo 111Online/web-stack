@@ -48,17 +48,27 @@ namespace NHS111.SmokeTest.Utils
             return page.NextPage();
         }
 
-        public static CategoryPage Category(SearchPage page) {
+        public static CategoryPage Category(SearchPage page)
+        {
             page.ClickCategoryLink();
             return page.ClickCategoryLink();
         }
 
-        public static QuestionPage Question(QuestionInfoPage page) {
+        public static QuestionPage Question(QuestionInfoPage page)
+        {
             return page.ClickIUnderstand();
         }
 
-        public static QuestionInfoPage QuestionInfo(SearchPage page, string pathwayTopic) {
+        public static QuestionInfoPage QuestionInfo(SearchPage page, string pathwayTopic)
+        {
             return page.TypeSearchTextAndSelect(pathwayTopic);
+        }
+
+        public static PageNotFound PageNotFound(IWebDriver driver)
+        {
+            var pageNotFound = new PageNotFound(driver);
+
+            return pageNotFound;
         }
     }
 }
