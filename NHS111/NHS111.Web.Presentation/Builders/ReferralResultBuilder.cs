@@ -19,12 +19,14 @@ namespace NHS111.Web.Presentation.Builders
         : IReferralResultBuilder {
 
         public ReferralResultBuilder(IPostCodeAllowedValidator postCodeAllowedValidator) {
-            _postCodeAllowedValidator = postCodeAllowedValidator ?? throw new ArgumentNullException(nameof(postCodeAllowedValidator));
+            if (postCodeAllowedValidator == null)
+                throw new ArgumentNullException("postCodeAllowedValidator");
+            _postCodeAllowedValidator = postCodeAllowedValidator;
         }
 
         public ReferralResultViewModel Build(OutcomeViewModel outcomeModel) {
             if (outcomeModel == null)
-                throw new ArgumentNullException(nameof(outcomeModel));
+                throw new ArgumentNullException("outcomeModel");
 
             if (outcomeModel.ItkSendSuccess.HasValue && outcomeModel.ItkSendSuccess.Value) {
                 return BuildConfirmationResult(outcomeModel);
@@ -39,7 +41,7 @@ namespace NHS111.Web.Presentation.Builders
 
         public ReferralResultViewModel BuildFailureResult(OutcomeViewModel outcomeModel) {
             if (outcomeModel == null)
-                throw new ArgumentNullException(nameof(outcomeModel));
+                throw new ArgumentNullException("outcomeModel");
 
             if (outcomeModel.OutcomeGroup != null) {
                 if (outcomeModel.OutcomeGroup.Is999Callback)
@@ -54,7 +56,7 @@ namespace NHS111.Web.Presentation.Builders
 
         public ReferralResultViewModel BuildDuplicateResult(OutcomeViewModel outcomeModel) {
             if (outcomeModel == null)
-                throw new ArgumentNullException(nameof(outcomeModel));
+                throw new ArgumentNullException("outcomeModel");
 
             if (outcomeModel.OutcomeGroup != null) {
                 if (outcomeModel.OutcomeGroup.Is999Callback)
@@ -69,7 +71,7 @@ namespace NHS111.Web.Presentation.Builders
 
         public ReferralResultViewModel BuildConfirmationResult(OutcomeViewModel outcomeModel) {
             if (outcomeModel == null)
-                throw new ArgumentNullException(nameof(outcomeModel));
+                throw new ArgumentNullException("outcomeModel");
 
             if (outcomeModel.OutcomeGroup != null) {
                 if (outcomeModel.OutcomeGroup.Is999Callback)
@@ -84,7 +86,7 @@ namespace NHS111.Web.Presentation.Builders
 
         public ServiceUnavailableReferralResultViewModel BuildServiceUnavailableResult(OutcomeViewModel outcomeModel, DosCheckCapacitySummaryResult dosResult) {
             if (outcomeModel == null)
-                throw new ArgumentNullException(nameof(outcomeModel));
+                throw new ArgumentNullException("outcomeModel");
 
             var result = new ServiceUnavailableReferralResultViewModel(outcomeModel);
             if (outcomeModel.OutcomeGroup != null) {
