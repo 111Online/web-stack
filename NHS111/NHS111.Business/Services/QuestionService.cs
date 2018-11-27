@@ -10,10 +10,13 @@ using System.Web;
 using Newtonsoft.Json;
 using NHS111.Business.Builders;
 using NHS111.Business.Configuration;
+using NHS111.Business.Transformers;
 using NHS111.Models.Models.Configuration;
 using NHS111.Models.Models.Domain;
+using NHS111.Models.Models.Web;
 using NHS111.Models.Models.Web.FromExternalServices;
 using NHS111.Utils.Helpers;
+using NHS111.Utils.Parser;
 
 namespace NHS111.Business.Services
 {
@@ -23,12 +26,18 @@ namespace NHS111.Business.Services
         private readonly IRestfulHelper _restfulHelper;
         private readonly IAnswersForNodeBuilder _answersForNodeBuilder;
         private readonly IModZeroJourneyStepsBuilder _modZeroJourneyStepsBuilder;
-        public QuestionService(IConfiguration configuration, IRestfulHelper restfulHelper, IAnswersForNodeBuilder answersForNodeBuilder, IModZeroJourneyStepsBuilder modZeroJourneyStepsBuilder)
+        private readonly IKeywordCollector _keywordCollector;
+        private readonly ICareAdviceService _careAdviceService;
+        private readonly ICareAdviceTransformer _careAdviceTransformer;
+        public QuestionService(IConfiguration configuration, IRestfulHelper restfulHelper, IAnswersForNodeBuilder answersForNodeBuilder, IModZeroJourneyStepsBuilder modZeroJourneyStepsBuilder, IKeywordCollector keywordcollector, ICareAdviceService careAdviceService, ICareAdviceTransformer careAdviceTransformer)
         {
             _configuration = configuration;
             _restfulHelper = restfulHelper;
             _answersForNodeBuilder = answersForNodeBuilder;
             _modZeroJourneyStepsBuilder = modZeroJourneyStepsBuilder;
+            _keywordCollector = keywordcollector;
+            _careAdviceService = careAdviceService;
+            _careAdviceTransformer = careAdviceTransformer;
         }
 
         public async Task<string> GetQuestion(string id)
@@ -50,7 +59,6 @@ namespace NHS111.Business.Services
         public async Task<string> GetFirstQuestion(string pathwayId)
         {
             return await _restfulHelper.GetAsync(_configuration.GetDomainApiFirstQuestionUrl(pathwayId));
-
         }
 
         public async Task<string> GetJustToBeSafeQuestionsFirst(string pathwayId)
@@ -67,7 +75,22 @@ namespace NHS111.Business.Services
             var pathwaysJourney = await GetPathwayJourney(steps, startingPathwayId, dispositionCode);
             var filteredJourneySteps = NavigateReadNodeLogic(steps, pathwaysJourney.ToList(), state);
 
-            var content = new StringContent(JsonConvert.SerializeObject(moduleZeroJourney.Concat(filteredJourneySteps)), Encoding.UTF8, "application/json");
+            //keywords from pathways
+            var pathwayKeywords = filteredJourneySteps.Where(q => q.Labels.Contains("Pathway")).Select(q => q.Question.Keywords);
+            var pathwayExcludeKeywords = filteredJourneySteps.Where(q => q.Labels.Contains("Pathway")).Select(q => q.Question.ExcludeKeywords);
+            var keywords = _keywordCollector.CollectKeywords(pathwayKeywords, pathwayExcludeKeywords);
+            
+            // keywords from answers
+            var journeySteps = filteredJourneySteps.Where(q => q.Answered != null).Select(q => new JourneyStep {Answer = q.Answered}).ToList();
+            keywords = _keywordCollector.CollectKeywordsFromPreviousQuestion(keywords, journeySteps);
+            
+            var careAdvice = await _careAdviceService.GetCareAdvice(new AgeCategory(age).Value, gender,
+                _keywordCollector.ConsolidateKeywords(keywords).Aggregate((i, j) => i + '|' + j), dispositionCode);
+
+            var careAdviceAsQuestionWithAnswersListString = _careAdviceTransformer.AsQuestionWithAnswersList(careAdvice);
+            var careAdviceAsQuestionWithAnswers = JsonConvert.DeserializeObject<List<QuestionWithAnswers>>(careAdviceAsQuestionWithAnswersListString);
+
+            var content = new StringContent(JsonConvert.SerializeObject(moduleZeroJourney.Concat(filteredJourneySteps).Concat(careAdviceAsQuestionWithAnswers)), Encoding.UTF8, "application/json");
             return new HttpResponseMessage(HttpStatusCode.OK) { Content = content };
         }
 

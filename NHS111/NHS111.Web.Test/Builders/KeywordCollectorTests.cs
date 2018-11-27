@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using NHS111.Models.Models.Domain;
 using NHS111.Models.Models.Web;
 using NHS111.Models.Models.Web.FromExternalServices;
+using NHS111.Utils.Parser;
 using NHS111.Web.Presentation.Builders;
 using NUnit.Framework;
 namespace NHS111.Web.Presentation.Builders.Tests

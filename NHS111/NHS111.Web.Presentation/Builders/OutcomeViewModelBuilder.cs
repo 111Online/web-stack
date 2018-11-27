@@ -17,6 +17,7 @@ using NHS111.Models.Models.Web.Logging;
 using NHS111.Utils.Filters;
 using NHS111.Utils.Helpers;
 using NHS111.Utils.Logging;
+using NHS111.Utils.Parser;
 using NHS111.Web.Presentation.Logging;
 using IConfiguration = NHS111.Web.Presentation.Configuration.IConfiguration;
 

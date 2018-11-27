@@ -51,6 +51,12 @@ namespace NHS111.Models.Models.Domain
         [JsonProperty(PropertyName = "careAdviceId")]
         public string CareAdviceId { get; set; }
 
+        [JsonProperty(PropertyName = "keywords")]
+        public string Keywords { get; set; }
+
+        [JsonProperty(PropertyName = "excludeKeywords")]
+        public string ExcludeKeywords { get; set; }
+
         public bool IsJustToBeSafe()
         {
             return !(string.IsNullOrEmpty(Jtbs) || Jtbs.EndsWith("-"));

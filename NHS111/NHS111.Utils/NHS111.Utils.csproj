@@ -206,6 +206,7 @@
     <Compile Include="Attributes\LogHandleErrorForApiAttribute.cs" />
     <Compile Include="Attributes\LogHandleErrorForMVCAttribute.cs" />
     <Compile Include="Attributes\MultiSubmitAttribute.cs" />
+    <Compile Include="Parser\KeywordCollector.cs" />
     <Compile Include="Storage\AzureStorageService.cs" />
     <Compile Include="Comparer\KeywordComparer.cs" />
     <Compile Include="Converters\DosServiceConverter.cs" />
