@@ -32,12 +32,10 @@
     <link rel="preload" href="/content/images/nhs-logotype-blue.svg" as="image" />
 
     @{
-      
-
         if (ViewBag.Medium == ApplicationMediums.NhsApp)
         {
             <style>
-                .skiplinks, .global-header, .phase-banner, .feedback, main > hr:last-child {
+                .skiplinks, .global-header, .phase-banner, .feedback-hidden, .survey-banner, main > hr:last-child {
                     display: none;
                 }
             </style>
