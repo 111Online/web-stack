@@ -13,7 +13,7 @@ namespace NHS111.Web.Presentation.Analytics {
         }
 
         public HtmlString Print(GoogleAnalyticsDataLayerContainer dataLayer) {
-            var values = string.Join(",\n", dataLayer.Select(i => $"'{i.Key}': '{i.Value}'"));
+            var values = string.Join(",\n", dataLayer.Select(i => string.Format("'{0}': '{1}'", i.Key, i.Value)));
             var dataLayerScript = string.Format("{0} = [{{\n{1}\n}}];", DataLayerVariableName, values);
             return new HtmlString(dataLayerScript);
         }
