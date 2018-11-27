@@ -1,14 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using NHS111.Models.Models.Domain;
 using NHS111.Models.Models.Web;
 using NHS111.Models.Models.Web.FromExternalServices;
 using NHS111.Utils.Comparer;
 
-namespace NHS111.Web.Presentation.Builders
+namespace NHS111.Utils.Parser
 {
     public interface IKeywordCollector
     {
@@ -17,6 +14,7 @@ namespace NHS111.Web.Presentation.Builders
         IEnumerable<Keyword> ParseKeywords(string keywordsString, bool isFromAnswer);
         KeywordBag CollectKeywordsFromPreviousQuestion(KeywordBag keywordBag, List<JourneyStep> journeySteps);
         IEnumerable<string> ConsolidateKeywords(KeywordBag keywordBag);
+        KeywordBag CollectKeywords(IEnumerable<string> keywords, IEnumerable<string> excludeKeywords);
     }
 
     public class KeywordCollector : IKeywordCollector
@@ -37,7 +35,7 @@ namespace NHS111.Web.Presentation.Builders
                     journeyViewModel.CollectedKeywords.ExcludeKeywords =
                         journeyViewModel.CollectedKeywords.ExcludeKeywords.Union(excludeKeywordsToAdd, new KeywordComparer()).ToList();
                 }
-                
+
             }
             return journeyViewModel;
         }
@@ -47,7 +45,8 @@ namespace NHS111.Web.Presentation.Builders
             return ParseKeywords(keywordsString, true);
         }
 
-        public IEnumerable<Keyword> ParseKeywords(string keywordsString, bool isFromAnswer) {
+        public IEnumerable<Keyword> ParseKeywords(string keywordsString, bool isFromAnswer)
+        {
             if (string.IsNullOrEmpty(keywordsString))
                 return new List<Keyword>();
 
@@ -58,6 +57,22 @@ namespace NHS111.Web.Presentation.Builders
                 .ToList();
 
             return keywordsList;
+        }
+
+        public KeywordBag CollectKeywords(IEnumerable<string> keywords, IEnumerable<string> excludeKeywords)
+        {
+            var bag = new KeywordBag();
+
+            var kw = keywords
+                .SelectMany(a => ParseKeywords(a, false)).Distinct(new KeywordComparer()).ToList();
+
+            var exKw = excludeKeywords
+                .SelectMany(a => ParseKeywords(a, false)).Distinct(new KeywordComparer()).ToList();
+
+            bag.Keywords = bag.Keywords.Union(kw, new KeywordComparer()).ToList();
+            bag.ExcludeKeywords = bag.ExcludeKeywords.Union(exKw, new KeywordComparer()).ToList();
+
+            return bag;
         }
 
         public KeywordBag CollectKeywordsFromPreviousQuestion(KeywordBag keywordBag, List<JourneyStep> journeySteps)
