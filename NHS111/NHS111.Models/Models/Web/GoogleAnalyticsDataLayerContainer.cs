@@ -22,11 +22,15 @@ namespace NHS111.Models.Models.Web {
         protected abstract string VirtualUrlPageName { get; }
 
         private string FormatUrl(ReferralResultViewModel viewModel) {
-            var pathwayNo = HttpUtility.UrlEncode(viewModel?.OutcomeModel?.PathwayNo);
-            var outcomeGroup = HttpUtility.UrlEncode(viewModel?.OutcomeModel?.OutcomeGroup?.Text);
-            var dxCode = HttpUtility.UrlEncode(viewModel?.OutcomeModel?.Id);
-            var selectedServiceId = HttpUtility.UrlEncode(viewModel?.OutcomeModel?.SelectedServiceId);
-            var selectedServiceName = HttpUtility.UrlEncode(viewModel?.OutcomeModel?.SelectedService?.Name);
+            if (viewModel == null || viewModel.OutcomeModel == null ||
+                viewModel.OutcomeModel.OutcomeGroup == null || viewModel.OutcomeModel.SelectedService == null)
+                return "";
+
+            var pathwayNo = HttpUtility.UrlEncode(viewModel.OutcomeModel.PathwayNo);
+            var outcomeGroup = HttpUtility.UrlEncode(viewModel.OutcomeModel.OutcomeGroup.Text);
+            var dxCode = HttpUtility.UrlEncode(viewModel.OutcomeModel.Id);
+            var selectedServiceId = HttpUtility.UrlEncode(viewModel.OutcomeModel.SelectedServiceId);
+            var selectedServiceName = HttpUtility.UrlEncode(viewModel.OutcomeModel.SelectedService.Name);
             return string.Format("/outcome/{0}/{1}/{2}/itk/{3}/{4}/{5}/", pathwayNo, outcomeGroup, dxCode,
                 VirtualUrlPageName, selectedServiceId, selectedServiceName);
         }
