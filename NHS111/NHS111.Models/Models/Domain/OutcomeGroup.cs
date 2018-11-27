@@ -128,7 +128,7 @@ namespace NHS111.Models.Models.Domain {
             }
         }
 
-        public bool IsEDCAllback {
+        public bool IsEDCallback {
             get { return this.Equals(OutcomeGroup.AccidentAndEmergency); }
         }
     }

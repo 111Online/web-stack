@@ -23,6 +23,9 @@ namespace NHS111.Web.Presentation.Builders
         }
 
         public ReferralResultViewModel Build(OutcomeViewModel outcomeModel) {
+            if (outcomeModel == null)
+                throw new ArgumentNullException(nameof(outcomeModel));
+
             if (outcomeModel.ItkSendSuccess.HasValue && outcomeModel.ItkSendSuccess.Value) {
                 return BuildConfirmationResult(outcomeModel);
             }
@@ -35,41 +38,61 @@ namespace NHS111.Web.Presentation.Builders
         }
 
         public ReferralResultViewModel BuildFailureResult(OutcomeViewModel outcomeModel) {
-            if (outcomeModel.OutcomeGroup.Is999Callback)
-                return new Call999ReferralFailureResultViewModel(outcomeModel);
+            if (outcomeModel == null)
+                throw new ArgumentNullException(nameof(outcomeModel));
 
-            if (outcomeModel.OutcomeGroup.IsEDCAllback)
-                return new AccidentAndEmergencyReferralFailureResultViewModel(outcomeModel);
+            if (outcomeModel.OutcomeGroup != null) {
+                if (outcomeModel.OutcomeGroup.Is999Callback)
+                    return new Call999ReferralFailureResultViewModel(outcomeModel);
+
+                if (outcomeModel.OutcomeGroup.IsEDCallback)
+                    return new AccidentAndEmergencyReferralFailureResultViewModel(outcomeModel);
+            }
 
             return new ReferralFailureResultViewModel(outcomeModel);
         }
 
         public ReferralResultViewModel BuildDuplicateResult(OutcomeViewModel outcomeModel) {
-            if (outcomeModel.OutcomeGroup.Is999Callback)
-                return new Call999DuplicateReferralResultViewModel(outcomeModel);
+            if (outcomeModel == null)
+                throw new ArgumentNullException(nameof(outcomeModel));
 
-            if (outcomeModel.OutcomeGroup.IsEDCAllback)
-                return new AccidentAndEmergencyDuplicateReferralResultViewModel(outcomeModel);
+            if (outcomeModel.OutcomeGroup != null) {
+                if (outcomeModel.OutcomeGroup.Is999Callback)
+                    return new Call999DuplicateReferralResultViewModel(outcomeModel);
+
+                if (outcomeModel.OutcomeGroup.IsEDCallback)
+                    return new AccidentAndEmergencyDuplicateReferralResultViewModel(outcomeModel);
+            }
 
             return new DuplicateReferralResultViewModel(outcomeModel);
         }
 
         public ReferralResultViewModel BuildConfirmationResult(OutcomeViewModel outcomeModel) {
-            if (outcomeModel.OutcomeGroup.Is999Callback)
-                return new Call999ReferralConfirmationResultViewModel(outcomeModel);
+            if (outcomeModel == null)
+                throw new ArgumentNullException(nameof(outcomeModel));
 
-            if (outcomeModel.OutcomeGroup.IsEDCAllback)
-                return new AccidentAndEmergencyReferralConfirmationResultViewModel(outcomeModel);
+            if (outcomeModel.OutcomeGroup != null) {
+                if (outcomeModel.OutcomeGroup.Is999Callback)
+                    return new Call999ReferralConfirmationResultViewModel(outcomeModel);
+
+                if (outcomeModel.OutcomeGroup.IsEDCallback)
+                    return new AccidentAndEmergencyReferralConfirmationResultViewModel(outcomeModel);
+            }
 
             return new ReferralConfirmationResultViewModel(outcomeModel);
         }
 
         public ServiceUnavailableReferralResultViewModel BuildServiceUnavailableResult(OutcomeViewModel outcomeModel, DosCheckCapacitySummaryResult dosResult) {
+            if (outcomeModel == null)
+                throw new ArgumentNullException(nameof(outcomeModel));
+
             var result = new ServiceUnavailableReferralResultViewModel(outcomeModel);
-            if (outcomeModel.OutcomeGroup.Is999Callback)
-                result = new Call999ServiceUnavailableReferralResultViewModel(outcomeModel);
-            if (outcomeModel.OutcomeGroup.IsEDCAllback)
-                result = new AccidentAndEmergencyServiceUnavailableReferralResultViewModel(outcomeModel);
+            if (outcomeModel.OutcomeGroup != null) {
+                if (outcomeModel.OutcomeGroup.Is999Callback)
+                    result = new Call999ServiceUnavailableReferralResultViewModel(outcomeModel);
+                if (outcomeModel.OutcomeGroup.IsEDCallback)
+                    result = new AccidentAndEmergencyServiceUnavailableReferralResultViewModel(outcomeModel);
+            }
 
             result.OutcomeModel = outcomeModel;
             outcomeModel.UnavailableSelectedService = outcomeModel.SelectedService;
