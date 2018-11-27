@@ -35,8 +35,9 @@ namespace NHS111.Models.Models.Web {
     public class ReferralConfirmationResultGoogleAnalyticsDataLayer
         : ReferralResultGoogleAnalyticsDataLayer {
 
-        protected override string VirtualPageTitle => "ITK Confirmation - Success";
-        protected override string VirtualUrlPageName => "confirmation";
+        protected override string VirtualPageTitle { get { return "ITK Confirmation - Success"; } }
+
+        protected override string VirtualUrlPageName { get { return "confirmation"; } }
 
         public ReferralConfirmationResultGoogleAnalyticsDataLayer(ReferralResultViewModel viewModel)
             : base(viewModel) { }
@@ -45,7 +46,7 @@ namespace NHS111.Models.Models.Web {
     public class Call999ReferralConfirmationGoogleAnalyticsDataLayer
         : ReferralConfirmationResultGoogleAnalyticsDataLayer {
 
-        protected override string VirtualPageTitle => "999 ITK Confirmation - Success";
+        protected override string VirtualPageTitle { get { return "999 ITK Confirmation - Success"; } }
 
         public Call999ReferralConfirmationGoogleAnalyticsDataLayer(ReferralResultViewModel viewModel)
             : base(viewModel) { }
@@ -54,7 +55,7 @@ namespace NHS111.Models.Models.Web {
     public class AccidentAndEmergencyReferralConfirmationGoogleAnalyticsDataLayer
         : ReferralConfirmationResultGoogleAnalyticsDataLayer {
 
-        protected override string VirtualPageTitle => "A&E ITK Confirmation - Success";
+        protected override string VirtualPageTitle { get { return "A&E ITK Confirmation - Success"; } }
 
         public AccidentAndEmergencyReferralConfirmationGoogleAnalyticsDataLayer(ReferralResultViewModel viewModel)
             : base(viewModel) { }
@@ -63,8 +64,9 @@ namespace NHS111.Models.Models.Web {
     public class ReferralFailureResultGoogleAnalyticsDataLayer
         : ReferralResultGoogleAnalyticsDataLayer {
 
-        protected override string VirtualPageTitle => "ITK Confirmation - Failure";
-        protected override string VirtualUrlPageName => "failure";
+        protected override string VirtualPageTitle { get { return "ITK Confirmation - Failure"; } }
+
+        protected override string VirtualUrlPageName { get { return "failure"; } }
 
         public ReferralFailureResultGoogleAnalyticsDataLayer(ReferralResultViewModel viewModel)
             : base(viewModel) { }
@@ -73,7 +75,7 @@ namespace NHS111.Models.Models.Web {
     public class AccidentAndEmergencyReferralFailureGoogleAnalyticsDataLayer
         : ReferralFailureResultGoogleAnalyticsDataLayer {
 
-        protected override string VirtualPageTitle => "A&E ITK Confirmation - Failure";
+        protected override string VirtualPageTitle { get { return "A&E ITK Confirmation - Failure"; } }
 
         public AccidentAndEmergencyReferralFailureGoogleAnalyticsDataLayer(ReferralResultViewModel viewModel)
             : base(viewModel) { }
@@ -82,7 +84,7 @@ namespace NHS111.Models.Models.Web {
     public class Call999ReferralFailureGoogleAnalyticsDataLayer
         : ReferralFailureResultGoogleAnalyticsDataLayer {
 
-        protected override string VirtualPageTitle => "999 ITK Confirmation - Failure";
+        protected override string VirtualPageTitle { get { return "999 ITK Confirmation - Failure"; } }
 
         public Call999ReferralFailureGoogleAnalyticsDataLayer(ReferralResultViewModel viewModel)
             : base(viewModel) { }
@@ -91,8 +93,9 @@ namespace NHS111.Models.Models.Web {
     public class DuplicateReferralResultGoogleAnalyticsDataLayer
         : ReferralResultGoogleAnalyticsDataLayer {
 
-        protected override string VirtualPageTitle => "ITK Confirmation - Duplicate Booking";
-        protected override string VirtualUrlPageName => "failure";
+        protected override string VirtualPageTitle { get { return "ITK Confirmation - Duplicate Booking"; } }
+
+        protected override string VirtualUrlPageName { get { return "failure"; } }
 
         public DuplicateReferralResultGoogleAnalyticsDataLayer(ReferralResultViewModel viewModel)
             : base(viewModel) { }
@@ -101,7 +104,7 @@ namespace NHS111.Models.Models.Web {
     public class AccidentAndEmergencyDuplicateReferralGoogleAnalyticsDataLayer
         : DuplicateReferralResultGoogleAnalyticsDataLayer {
 
-        protected override string VirtualPageTitle => "A&E ITK Confirmation - Duplicate Booking";
+        protected override string VirtualPageTitle { get { return "A&E ITK Confirmation - Duplicate Booking"; } }
 
         public AccidentAndEmergencyDuplicateReferralGoogleAnalyticsDataLayer(ReferralResultViewModel viewModel)
             : base(viewModel) { }
@@ -110,7 +113,7 @@ namespace NHS111.Models.Models.Web {
     public class Call999DuplicateReferralGoogleAnalyticsDataLayer
         : DuplicateReferralResultGoogleAnalyticsDataLayer {
 
-        protected override string VirtualPageTitle => "999 ITK Confirmation - Duplicate Booking";
+        protected override string VirtualPageTitle { get { return "999 ITK Confirmation - Duplicate Booking"; } }
 
         public Call999DuplicateReferralGoogleAnalyticsDataLayer(ReferralResultViewModel viewModel)
             : base(viewModel) { }
@@ -119,8 +122,9 @@ namespace NHS111.Models.Models.Web {
     public class ServiceUnavailableReferralGoogleAnalyticsDataLayer
         : ReferralResultGoogleAnalyticsDataLayer {
 
-        protected override string VirtualPageTitle => "ITK Confirmation - Unavailable";
-        protected override string VirtualUrlPageName => "serviceUnavailable";
+        protected override string VirtualPageTitle { get { return "ITK Confirmation - Unavailable"; } }
+
+        protected override string VirtualUrlPageName { get { return "serviceUnavailable"; } }
 
         public ServiceUnavailableReferralGoogleAnalyticsDataLayer(ReferralResultViewModel viewModel)
             : base(viewModel) { }
@@ -129,7 +133,7 @@ namespace NHS111.Models.Models.Web {
     public class AccidentAndEmergencyServiceUnavailableReferralGoogleAnalyticsDataLayer
         : ServiceUnavailableReferralGoogleAnalyticsDataLayer {
 
-        protected override string VirtualPageTitle => "A&E ITK Confirmation - Unavailable";
+        protected override string VirtualPageTitle { get { return "A&E ITK Confirmation - Unavailable"; } }
 
         public AccidentAndEmergencyServiceUnavailableReferralGoogleAnalyticsDataLayer(ReferralResultViewModel viewModel)
             : base(viewModel) { }
@@ -138,7 +142,7 @@ namespace NHS111.Models.Models.Web {
     public class Call999ServiceUnavailableReferralGoogleAnalyticsDataLayer
         : ServiceUnavailableReferralGoogleAnalyticsDataLayer {
 
-        protected override string VirtualPageTitle => "999 ITK Confirmation - Unavailable";
+        protected override string VirtualPageTitle { get { return "999 ITK Confirmation - Unavailable"; } }
 
         public Call999ServiceUnavailableReferralGoogleAnalyticsDataLayer(ReferralResultViewModel viewModel)
             : base(viewModel) { }
