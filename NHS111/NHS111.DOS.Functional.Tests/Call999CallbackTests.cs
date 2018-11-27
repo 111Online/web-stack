@@ -67,7 +67,7 @@
                 .Answer(1)
                 .AnswerForDispostion<OutcomePage>("Yes");
 
-            outcomePage.VerifyOutcome(OutcomePage.Cat3999Text);
+            outcomePage.VerifyOutcome("A nurse needs to phone you");
             Assert.True(Driver.ElementExists(By.Id("FindService_CurrentPostcode")), "Expected postcode field when no gate.");
         }
 

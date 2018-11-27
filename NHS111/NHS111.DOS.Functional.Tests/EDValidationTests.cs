@@ -42,7 +42,7 @@ namespace NHS111.DOS.Functional.Tests {
         public void EDOutcome_ThenEnteringPostcodeReturningCallback_ShowsCallbackThenPersonalDetailsPage() {
             var postcodePage = NavigateToRemappedEDOutcome();
             AssertIsPostcodePage(postcodePage);
-            var callbackAcceptancePage = EnterPostcode("SO40 8UU", postcodePage);
+            var callbackAcceptancePage = EnterPostcode("CA27HY", postcodePage);
             AssertIsCallbackAcceptancePage(callbackAcceptancePage);
             var edOutcome = AcceptCallback(callbackAcceptancePage);
             AssertIsPersonalDetailsPage(edOutcome);
@@ -74,7 +74,7 @@ namespace NHS111.DOS.Functional.Tests {
             var personalDetailsPage = ClickBookCallButton(edOutcome);
             AssertIsPersonalDetailsPage(personalDetailsPage);
             var itkConfirmation = SubmitPersonalDetails(personalDetailsPage);
-            AssertIsSuccessfulITK(itkConfirmation);
+            AssertIsSuccessfulReferral(itkConfirmation);
         }
 
         [Test]
@@ -85,7 +85,7 @@ namespace NHS111.DOS.Functional.Tests {
             var personalDetailsPage = ClickBookCallButton(edOutcome);
             AssertIsPersonalDetailsPage(personalDetailsPage);
             var itkConfirmation = SubmitPersonalDetails(personalDetailsPage);
-            AssertIsSuccessfulITK(itkConfirmation);
+            AssertIsSuccessfulReferral(itkConfirmation);
         }
 
 
@@ -107,22 +107,66 @@ namespace NHS111.DOS.Functional.Tests {
         public void SubmittingReferralRequest_WithSuccessfulReferral_ShowConfirmationPage() {
             var callbackAcceptancePage = NavigateToRemappedEDOutcome(_ls177nz);
             AssertIsCallbackAcceptancePage(callbackAcceptancePage);
-            var edOutcome = RejectCallback(callbackAcceptancePage);
-            AssertIsOriginalOutcome(edOutcome);
-            var personalDetailsPage = ClickBookCallButton(edOutcome);
+            var personalDetailsPage = AcceptCallback(callbackAcceptancePage);
             AssertIsPersonalDetailsPage(personalDetailsPage);
             var itkConfirmation = SubmitPersonalDetails(personalDetailsPage);
-            AssertIsSuccessfulITK(itkConfirmation);
+            AssertIsSuccessfulReferral(itkConfirmation);
+            SaveScreenAsPNG("ed-reval-successful-referral");
         }
 
+        [Test]
+        public void SubmittingReferralRequest_WithUnsuccessfulReferral_ShowUnsuccessfulPage() {
+            var callbackAcceptancePage = NavigateToRemappedEDOutcome(_ls176nz);
+            AssertIsCallbackAcceptancePage(callbackAcceptancePage);
+            var personalDetailsPage = AcceptCallback(callbackAcceptancePage);
+            AssertIsPersonalDetailsPage(personalDetailsPage);
+            var itkConfirmation = SubmitPersonalDetails(personalDetailsPage);
+            AssertIsUnsuccessfulReferral(itkConfirmation);
+            SaveScreenAsPNG("ed-reval-unsuccessful-referral");
+        } 
+
+        [Test]
+        public void SubmittingReferralRequest_WithDuplicateReferral_ShowDuplicatePage() {
+            var callbackAcceptancePage = NavigateToRemappedEDOutcome(_ls175nz);
+            AssertIsCallbackAcceptancePage(callbackAcceptancePage);
+            var personalDetailsPage = AcceptCallback(callbackAcceptancePage);
+            AssertIsPersonalDetailsPage(personalDetailsPage);
+            var itkConfirmation = SubmitPersonalDetails(personalDetailsPage);
+            AssertIsDuplicateReferral(itkConfirmation);
+            SaveScreenAsPNG("ed-reval-duplicate-referral");
+        }
+
+        [Test]
+        public void SubmittingReferralRequest_WithUnavailableService_ShowServiceUnavailablePage() {
+            var callbackAcceptancePage = NavigateToRemappedEDOutcome(_ls178nz);
+            AssertIsCallbackAcceptancePage(callbackAcceptancePage);
+            var personalDetailsPage = AcceptCallback(callbackAcceptancePage);
+            AssertIsPersonalDetailsPage(personalDetailsPage);
+            var itkConfirmation = SubmitPersonalDetails(personalDetailsPage);
+            AssertIsServiceUnavailableReferral(itkConfirmation);
+            SaveScreenAsPNG("ed-reval-unavailable-referral");
+        }
 
         private void AssertReturnedServiceExists(string serviceName) {
             Assert.IsTrue(Driver.ElementExists(By.XPath(string.Format("//H3[text()='{0}']", serviceName))));
         }
 
+        private void AssertIsSuccessfulReferral(OutcomePage itkConfirmation) {
+            Assert.IsTrue(Driver.ElementExists(By.CssSelector("h1")), "Possible unexpected triage outcome. Expected header to exist but it doesn't.");
+            var header = Driver.FindElement(By.CssSelector("h1"));
+            Assert.IsTrue(header.Text.StartsWith("You should get a call within"), string.Format("Possible unexpected triage outcome. Expected header text of 'You should get a call within' but was '{0}'.", header.Text));
+        }
 
-        private void AssertIsSuccessfulITK(OutcomePage itkConfirmation) {
-            itkConfirmation.VerifyOutcome("Your call is confirmed");
+        private void AssertIsUnsuccessfulReferral(OutcomePage itkConfirmation) {
+            itkConfirmation.VerifyOutcome("Sorry, there's a problem with the service");
+        }
+
+        private void AssertIsDuplicateReferral(OutcomePage itkConfirmation) {
+            itkConfirmation.VerifyOutcome("Your call has already been booked");
+        }
+
+        private void AssertIsServiceUnavailableReferral(OutcomePage itkConfirmation) {
+            //itkConfirmation.VerifyOutcome("Your call has already been booked");
         }
 
         private OutcomePage SubmitPersonalDetails(OutcomePage personalDetailsPage) {
@@ -151,6 +195,15 @@ namespace NHS111.DOS.Functional.Tests {
             Driver.FindElement(By.Name("PersonalDetails")).Click();
             return new OutcomePage(Driver);
         }
+
+        private string _ls178nz =
+            "432154ACCF327E1B33F2CAF16477B5DE51F21E9EE0FC493336004EBCC4A6F79A5BDEE2A693EA50B53575D0236420A6C8FCBA09869C8DC938AC89A3167330D11DCA7827BC6FDB657F3AADC6E0AC1811F8";
+
+        private string _ls175nz =
+            "432154ACCF327E1B9CCAE6B735F499354EA8958F65B25EC02592817F14E0A774A05FFA8BF5C38180064F61ED1C62CF507B70F20486FC370F1B130DC659C5EDE81BBF58C9E930EFBB82358AA273D3994E";
+
+        private string _ls176nz =
+            "432154ACCF327E1BB5660DC198F768436E2338AE511174BA5D5FA142FAA872FD019DC7B4A0A126612AECBC82241FFD0C740434C61A8CE64A5B8387909D0175AC8DCF26D31F79C9D0B51B0FC52E9801E4";
 
         private string _ls167nz = 
             "432154ACCF327E1B2F6D2D6D5E30F42F2C250BCF6C6498AC8A5889976FB129C03298B5E56A926CA17093D3116C20348C56D773CE5ABC419C3A5B60CFFA1A69168328C4D32793E5BC18B61B22FC5F9519";

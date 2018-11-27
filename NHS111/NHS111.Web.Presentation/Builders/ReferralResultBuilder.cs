@@ -28,6 +28,9 @@ namespace NHS111.Web.Presentation.Builders
             if (outcomeModel == null)
                 throw new ArgumentNullException("outcomeModel");
 
+            if (outcomeModel.HasAcceptedCallbackOffer.HasValue && outcomeModel.HasAcceptedCallbackOffer.Value)
+                outcomeModel.WaitTimeText = _dx334WaitTimeText;
+
             if (outcomeModel.ItkSendSuccess.HasValue && outcomeModel.ItkSendSuccess.Value) {
                 return BuildConfirmationResult(outcomeModel);
             }
@@ -105,5 +108,6 @@ namespace NHS111.Web.Presentation.Builders
         }
 
         private readonly IPostCodeAllowedValidator _postCodeAllowedValidator;
+        private readonly string _dx334WaitTimeText = "30 minutes";
     }
 }
