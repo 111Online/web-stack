@@ -1,21 +1,18 @@
-﻿@using NHS111.Models.Models.Web
-@inherits NHS111.Web.Views.Shared.SurveyLinkView<OutcomeViewModel>
+﻿@using System.Web.Mvc.Html
+@using NHS111.Models.Models.Web
+@using NHS111.Web.Presentation.Analytics
+@inherits NHS111.Web.Views.Shared.SurveyLinkView<DuplicateReferralResultViewModel>
 @{
     Layout = "~/Views/Shared/_LayoutNhsUk.cshtml";
+    var tagPrinter = new GoogleTagManagerPrinter(null);
 }
 
 @section Title {
-    Call NHS 111 - duplicate request for callback
+    @Model.PageTitle
 }
 @section HeadTop {
-    @{ var url = string.Format("/outcome/{0}/{1}/{2}/itk/failure/{3}/{4}/", Url.Encode(Model.PathwayNo), Url.Encode(Model.OutcomeGroup.Text), Url.Encode(Model.Id), Url.Encode(Model.SelectedServiceId), Url.Encode(Model.SelectedService.Name)); }
     <script>
-        var pageId = '@Model.Id';
-        dataLayer = [
-        {
-            'virtualPageUrl': '@url',
-            'virtualPageTitle': 'ITK Confirmation - Duplicate Booking'
-        }];
+        @tagPrinter.Print(Model.GoogleAnalyticsDataLayer)
     </script>
 }
 
@@ -24,25 +21,23 @@
     dataDictionary.Add(new KeyValuePair<string, object>("LaunchPage", "duplicate"));
 }
 @section SurveyBanner{
-    @Html.Partial("_SurveyLink", Model.SurveyLink, dataDictionary)
+    @Html.Partial("_SurveyLink", Model.OutcomeModel.SurveyLink, dataDictionary)
 }
 @section FeedbackSection {
     @if (!SurveyLinkFeature.IsEnabled)
     {
-        @Html.Partial("_FeedbackDetails", new FeedbackViewModel() { UserId = Model.SessionId.ToString(), PageData = new PageDataViewModel(PageDataViewModel.PageType.DuplicateBooking, Model) })
+        @Html.Partial("_FeedbackDetails", new FeedbackViewModel() { UserId = Model.OutcomeModel.SessionId.ToString(), PageData = new PageDataViewModel(PageDataViewModel.PageType.DuplicateBooking, Model.OutcomeModel) })
     }
     else
     {
-        @Html.Partial("_SurveyLink", Model.SurveyLink)
+        @Html.Partial("_SurveyLink", Model.OutcomeModel.SurveyLink)
     }
 }
 
 <section>
     <div class="callout callout--warning">
-        <h1>A call has already been requested for you</h1>
-        <p>If you've already had a call, please close this page</p>
-        <p>If you haven't had a call within the time suggested, or the symptoms have got worse, you should @Html.ActionLink("start again", "InitialQuestion", "Question") or call 111</p>
+        @Html.Partial(Model.PartialViewName, Model)
     </div>
 </section>
 
-@Html.Partial("_CareAdvice", Model.CareAdvices, new ViewDataDictionary { { "Title", "What you can do in the meantime" } })
+@Html.Partial("_CareAdvice", Model.OutcomeModel.CareAdvices, new ViewDataDictionary { { "Title", "What you can do in the meantime" } })

@@ -5,7 +5,7 @@ using NHS111.Models.Models.Web;
 namespace NHS111.Web.Views.Shared
 {
     public class LayoutView
-        : WebViewPage<JourneyViewModel>
+        : WebViewPage
     {
         public IDisclaimerBannerFeature DisclaimerBannerFeature { get; set; }
         public IDisclaimerPopupFeature DisclaimerPopupFeature { get; set; }

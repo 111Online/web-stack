@@ -103,6 +103,19 @@ namespace NHS111.DOS.Functional.Tests {
             AssertReturnedServiceExists("Test service returned from second lookup");
         }
 
+        [Test]
+        public void SubmittingReferralRequest_WithSuccessfulReferral_ShowConfirmationPage() {
+            var callbackAcceptancePage = NavigateToRemappedEDOutcome(_ls177nz);
+            AssertIsCallbackAcceptancePage(callbackAcceptancePage);
+            var edOutcome = RejectCallback(callbackAcceptancePage);
+            AssertIsOriginalOutcome(edOutcome);
+            var personalDetailsPage = ClickBookCallButton(edOutcome);
+            AssertIsPersonalDetailsPage(personalDetailsPage);
+            var itkConfirmation = SubmitPersonalDetails(personalDetailsPage);
+            AssertIsSuccessfulITK(itkConfirmation);
+        }
+
+
         private void AssertReturnedServiceExists(string serviceName) {
             Assert.IsTrue(Driver.ElementExists(By.XPath(string.Format("//H3[text()='{0}']", serviceName))));
         }

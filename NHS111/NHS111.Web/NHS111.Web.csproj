@@ -38,6 +38,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <LangVersion>5</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -399,11 +400,20 @@
     <Content Include="Views\Outcome\Call_999_cat_4.cshtml" />
     <Content Include="Views\Outcome\Call_999_Callback.cshtml" />
     <Content Include="Views\Outcome\Call_999_CheckAnswer.cshtml" />
-    <Content Include="Views\Outcome\Call_999_Callback_Confirmation.cshtml" />
-    <Content Include="Views\Outcome\Call999_ServiceBookingFailure.cshtml" />
-    <Content Include="Views\Outcome\Call999_DuplicateBookingFailure.cshtml" />
     <Content Include="Views\Outcome\Call999_ServiceBookingUnavailable.cshtml" />
     <Content Include="Views\Outcome\SP_Accident_and_emergency_callback.cshtml" />
+    <Content Include="Views\Shared\_ReferralConfirmation.cshtml" />
+    <Content Include="Views\Shared\_Call999ReferralConfirmation.cshtml" />
+    <Content Include="Views\Shared\_AccidentAndEmergencyReferralConfirmation.cshtml" />
+    <Content Include="Views\Shared\_ReferralFailure.cshtml" />
+    <Content Include="Views\Shared\_AccidentAndEmergencyReferralFailure.cshtml" />
+    <Content Include="Views\Shared\_Call999ReferralFailure.cshtml" />
+    <Content Include="Views\Shared\_DuplicateReferral.cshtml" />
+    <Content Include="Views\Shared\_AccidentAndEmergencyDuplicateReferral.cshtml" />
+    <Content Include="Views\Shared\_Call999DuplicateReferral.cshtml" />
+    <Content Include="Views\Shared\_ServiceUnavailable.cshtml" />
+    <Content Include="Views\Shared\_AccidentAndEmergencyServiceUnavailableReferral.cshtml" />
+    <Content Include="Views\Shared\_Call999ServiceUnavailableReferral.cshtml" />
     <None Include="Web.Development.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

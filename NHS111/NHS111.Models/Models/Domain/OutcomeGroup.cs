@@ -127,5 +127,9 @@ namespace NHS111.Models.Models.Domain {
                        this.Equals(OutcomeGroup.Call999Cat4);
             }
         }
+
+        public bool IsEDCallback {
+            get { return this.Equals(OutcomeGroup.AccidentAndEmergency); }
+        }
     }
 }
