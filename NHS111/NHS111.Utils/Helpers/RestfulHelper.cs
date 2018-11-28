@@ -39,15 +39,23 @@ namespace NHS111.Utils.Helpers {
             try {
                 return await _webClient.DownloadStringTaskAsync(new Uri(url));
             }
-            catch (WebException e) {
-                using (var stream = new StreamReader(e.Response.GetResponseStream())) {
-                    string result = stream.ReadToEnd();
-                    if (e.Response.ContentType == "application/json") {
-                        var obj = JsonConvert.DeserializeObject(result);
-                        result = JsonConvert.SerializeObject(obj, Formatting.Indented);
+            catch (WebException e)
+            {
+                string result = "";
+                if (e.Response != null)
+                {
+                    using (var stream = new StreamReader(e.Response.GetResponseStream()))
+                    {
+                        result = stream.ReadToEnd();
+                        if (e.Response.ContentType == "application/json")
+                        {
+                            var obj = JsonConvert.DeserializeObject(result);
+                            result = JsonConvert.SerializeObject(obj, Formatting.Indented);
+                        }
                     }
-                    throw new WebException(string.Format("There was a problem requesting '{0}'; {1}", url, result), e);
                 }
+
+                throw new WebException(string.Format("There was a problem requesting '{0}'; {1}", url, result), e);
             }
         }
 
@@ -61,11 +69,17 @@ namespace NHS111.Utils.Helpers {
                 return await _webClient.DownloadStringTaskAsync(new Uri(url));
             }
             catch (WebException e) {
-                using (var stream = new StreamReader(e.Response.GetResponseStream())) {
-                    var obj = JsonConvert.DeserializeObject(stream.ReadToEnd());
-                    var formatted = JsonConvert.SerializeObject(obj, Formatting.Indented);
-                    throw new WebException(string.Format("There was a problem requesting '{0}'; {1}", url, formatted), e);
+                string result = "";
+                if (e.Response != null)
+                {
+                    using (var stream = new StreamReader(e.Response.GetResponseStream()))
+                    {
+                        var obj = JsonConvert.DeserializeObject(stream.ReadToEnd());
+                        result = JsonConvert.SerializeObject(obj, Formatting.Indented);
+                 
+                    }
                 }
+                throw new WebException(string.Format("There was a problem requesting '{0}'; {1}", url, result), e);
             }
         }
 
