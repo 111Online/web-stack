@@ -101,21 +101,24 @@ namespace NHS111.Web.Presentation.Builders
                 }
             }
 
-            Task<OutcomeViewModel> dosTask = null;
+            var dosTask = Task.FromResult(model);
             if (OutcomeGroup.PrePopulatedDosResultsOutcomeGroups.Contains(model.OutcomeGroup) && !string.IsNullOrEmpty(model.CurrentPostcode)) {
                 dosTask = PopulateGroupedDosResults(model, null, null, endpoint);
             }
 
-
-            Task<CareAdvice> worseningTask = _careAdviceBuilder.FillWorseningCareAdvice(model.UserInfo.Demography.Age, model.UserInfo.Demography.Gender);
-            var ageGroup = new AgeCategory(model.UserInfo.Demography.Age).Value;
-            var careAdviceKeywords = _keywordCollector.ConsolidateKeywords(model.CollectedKeywords).ToList();
-            Task<IEnumerable<CareAdvice>> careAdvicesTask = _careAdviceBuilder.FillCareAdviceBuilder(model.Id, ageGroup, model.UserInfo.Demography.Gender, careAdviceKeywords);
-            if (dosTask != null) {
-                model = await dosTask;
+            var worseningTask = Task.FromResult(model.WorseningCareAdvice);
+            if (!model.WorseningCareAdvice.Items.Any())
+                worseningTask = _careAdviceBuilder.FillWorseningCareAdvice(model.UserInfo.Demography.Age, model.UserInfo.Demography.Gender);
+            var careAdvicesTask = Task.FromResult(model.CareAdvices);
+            if (!model.CareAdvices.Any()) {
+                var ageGroup = new AgeCategory(model.UserInfo.Demography.Age).Value;
+                var careAdviceKeywords = _keywordCollector.ConsolidateKeywords(model.CollectedKeywords).ToList();
+                careAdvicesTask = _careAdviceBuilder.FillCareAdviceBuilder(model.Id, ageGroup, model.UserInfo.Demography.Gender, careAdviceKeywords);
             }
 
-            Task<SurveyLinkViewModel> surveyTask = _surveyLinkViewModelBuilder.SurveyLinkBuilder(model);
+            model = await dosTask;
+
+            var surveyTask = _surveyLinkViewModelBuilder.SurveyLinkBuilder(model);
             model.WorseningCareAdvice = await worseningTask;
             model.CareAdvices = await careAdvicesTask;
             model.SurveyLink = await surveyTask;

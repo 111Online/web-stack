@@ -29,7 +29,7 @@ namespace NHS111.Web.Presentation.Builders
                 throw new ArgumentNullException("outcomeModel");
 
             if (outcomeModel.HasAcceptedCallbackOffer.HasValue && outcomeModel.HasAcceptedCallbackOffer.Value)
-                outcomeModel.WaitTimeText = _dx334WaitTimeText;
+                outcomeModel.WaitTimeText = _dx334WaitTimeText; //todo data drive the 334 outcome
 
             if (outcomeModel.ItkSendSuccess.HasValue && outcomeModel.ItkSendSuccess.Value) {
                 return BuildConfirmationResult(outcomeModel);
