@@ -23,6 +23,11 @@ namespace NHS111.Models.Models.Web.FromExternalServices
         [JsonProperty(PropertyName = "state")]
         public string State { get; set; }
 
+        public string NodeLabel
+        {
+            get { return string.IsNullOrEmpty(QuestionNo) || QuestionNo.StartsWith("TX") ? "Question" : "CareAdvice"; }
+        }
+
         public JourneyStep()
         {
             IsJustToBeSafe = false;
