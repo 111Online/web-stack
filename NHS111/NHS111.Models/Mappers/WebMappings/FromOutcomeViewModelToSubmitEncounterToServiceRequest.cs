@@ -41,7 +41,10 @@ namespace NHS111.Models.Mappers.WebMappings
             var caseDetails = (CaseDetails)context.DestinationValue ?? new CaseDetails();
 
             caseDetails.ExternalReference = outcome.JourneyId.ToString();
-            caseDetails.DispositionCode = FromOutcomeViewModelToDosViewModel.DispositionResolver.Remap(outcome.Id);
+            if (outcome.HasAcceptedCallbackOffer.HasValue && !outcome.HasAcceptedCallbackOffer.Value)
+                caseDetails.DispositionCode = outcome.Id;
+            else
+                caseDetails.DispositionCode = FromOutcomeViewModelToDosViewModel.DispositionResolver.Remap(outcome.Id);
             caseDetails.DispositionName = outcome.Title;
             caseDetails.StartingPathwayTitle = outcome.PathwayTitle;
             caseDetails.StartingPathwayId = outcome.PathwayId;

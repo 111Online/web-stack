@@ -1,14 +1,172 @@
-﻿
+﻿namespace NHS111.Dos.TestBench.Api {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using Models.Models.Business;
+    using Models.Models.Domain;
+    using Models.Models.Web.DosRequests;
+
+        public class DosTestScenario
+        {
+            public string Postcode { get; set; }
+            public string Description { get; set; }
+
+            public List<DosTestScenarioRequest> Requests { get; set; }
+
+            public bool Matches(Postcode postcode)
+            {
+                return new Postcode(this.Postcode).Equals(postcode);
+            }
+
+            public DosTestScenario() {
+                Requests = new List<DosTestScenarioRequest>();
+            }
+        }
+
+        public class DosTestScenarioRequest
+        {
+            public DosFilteredCase InboundDosFilteredCase { get; set; }
+            public DosFilteredCase OutboundDosFilteredCase { get; set; }
+            public List<IDosTestScenarioTransformer> MatchSequence { get; set; }
+
+            /// <summary>
+            /// A mismatch is when the inbound postcode matches but the rest of the InboundDosFilteredCase does not.
+            /// </summary>
+            public List<IDosTestScenarioTransformer> MismatchSequence { get; set; }
+
+            public DosTestScenarioRequest() {
+                MatchSequence = new List<IDosTestScenarioTransformer>();
+                MismatchSequence = new List<IDosTestScenarioTransformer>();
+            }
+        }
+
+    public interface IDosTestScenarioTransformer {
+        string Name { get; }
+        object[] Arguments { get; }
+    }
+    public class DosTestScenarioTransformer
+        {
+            public string Name { get; set; }
+            public object[] Arguments { get; set; }
+        }
+
+    public interface IDosScenarioSetup {
+        IDosCallSetup ExpectingCall(ToEndpoint.IDosEndpoint endpoint);
+    }
+
+
+    public interface IDosCallSetup {
+        IDosCallSetup Matching(DosFilteredCase dosCase);
+        IDosCallSetup Returns(params IDosTestScenarioTransformer[] transformers);
+        IDosCallSetup OtherwiseReturns(params IDosTestScenarioTransformer[] mismatchTransformers);
+        IDosScenarioSetup Then();
+        Postcode Begin();
+    }
+
+    public class DosTestBenchSetup
+
+        : IDosScenarioSetup, IDosCallSetup
+    {
+        public IDosCallSetup ExpectingCall(ToEndpoint.IDosEndpoint endpoint) {
+            _currentRequest = new DosTestScenarioRequest();
+            return this;
+        }
+
+        public IDosCallSetup Matching(DosFilteredCase dosCase) {
+            _currentRequest.InboundDosFilteredCase = dosCase;
+            return this;
+        }
+
+        public IDosCallSetup Returns(params IDosTestScenarioTransformer[] transformers) {
+            _currentRequest.MatchSequence.AddRange(transformers);
+            return this;
+        }
+
+        public IDosCallSetup OtherwiseReturns(params IDosTestScenarioTransformer[] mismatchTransformers) {
+            _currentRequest.MismatchSequence.AddRange(mismatchTransformers);
+            return this;
+        }
+
+        public IDosScenarioSetup Then() {
+            _scenario.Requests.Add(_currentRequest);
+            _currentRequest = null;
+            return this;
+        }
+
+        public Postcode Begin() {
+            throw new NotImplementedException();
+        }
+
+        private DosTestScenarioRequest _currentRequest = null;
+        private DosTestScenario _scenario = new DosTestScenario();
+    }
+
+    public class TestBenchApi {
+        public IDosScenarioSetup SetupDosScenario() { return new DosTestBenchSetup(); }
+
+        public void Verify(Postcode scenarioPostcode) {
+            throw new NotImplementedException();
+        }
+    }
+
+    public static class For {
+        public static DosFilteredCase DxCode(DispositionCode dispositionCode) {
+            return new DosFilteredCase {
+                Disposition = dispositionCode.DosCode
+            };
+        }
+    }
+
+    public interface IServiceListTransformer { }
+
+    public static class ToEndpoint {
+        public interface IDosEndpoint { }
+
+        public static IDosEndpoint CheckCapacitySummary { get; set; }
+    }
+
+    public static class DosCase {
+        public static DosFilteredCase WithDxCode(DispositionCode dispositionCode) {
+            return new DosFilteredCase {
+                Disposition = dispositionCode.DosCode
+            };
+        }
+    }
+
+    public interface IDosCallMismatchResult
+    {
+
+    }
+
+    public static class DosCallMismatchResult
+    {
+        public static IDosTestScenarioTransformer ServerError { get; set; }
+    }
+
+    public static class ServicesTransformedTo {
+        public static IDosTestScenarioTransformer AtLeastOneCallback { get; set; }
+    }
+
+}
+
 namespace NHS111.DOS.Functional.Tests {
     using System;
+    using Dos.TestBench.Api;
+    using Models.Models.Domain;
     using NUnit.Framework;
     using OpenQA.Selenium;
     using OpenQA.Selenium.Support.UI;
     using SmokeTest.Utils;
 
+
     /// Tests the callback/validation flow for Emergency Department outcomes.
     public class EDValidationTests
         : BaseTests {
+
+        [SetUp]
+        public void Setup() {
+            _testBench = new TestBenchApi();
+        }
 
         [Test]
         public void EDOutcome_MappedToDx334ButNoCallbackServicesReturned_ShowsOriginalOutcome() {
@@ -226,6 +384,8 @@ namespace NHS111.DOS.Functional.Tests {
         private string _ls177nz =
             "432154ACCF327E1B1981ECC806F6DB26C3509A25B124244621230791B02C1A16C654ABEFAE5F6530CB181FE154D22542D0ECB21E31F3B2FE823BE54F9231B0049CB68E60523855E263AC816174402971";
 
+        private TestBenchApi _testBench;
+
 
         private OutcomePage RejectCallback(OutcomePage callbackAcceptancePage) {
             Driver.FindElement(By.Id("No")).Click();
@@ -289,7 +449,7 @@ namespace NHS111.DOS.Functional.Tests {
         }
 
         private void AssertIsCallbackAcceptancePage(OutcomePage edOutcome) {
-            edOutcome.VerifyOutcome("Get a phone call from a nurse");
+            edOutcome.VerifyOutcome(OutcomePage.GetCallBackText);
         }
     }
 }
