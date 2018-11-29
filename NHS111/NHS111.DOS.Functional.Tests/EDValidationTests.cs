@@ -122,7 +122,7 @@
     public static class ToEndpoint {
         public interface IDosEndpoint { }
 
-        public static IDosEndpoint CheckCapacitySummary { get; }
+        public static IDosEndpoint CheckCapacitySummary { get; set; }
     }
 
     public static class DosCase {
@@ -140,11 +140,11 @@
 
     public static class DosCallMismatchResult
     {
-        public static IDosTestScenarioTransformer ServerError { get; }
+        public static IDosTestScenarioTransformer ServerError { get; set; }
     }
 
     public static class ServicesTransformedTo {
-        public static IDosTestScenarioTransformer AtLeastOneCallback { get; }
+        public static IDosTestScenarioTransformer AtLeastOneCallback { get; set; }
     }
 
 }
