@@ -71,6 +71,7 @@ namespace NHS111.Web.Presentation.Builders
             if (OutcomeGroup.Call999Cat2.Equals(model.OutcomeGroup) || OutcomeGroup.Call999Cat3.Equals(model.OutcomeGroup))
             {
                 model.CareAdviceMarkers = model.State.Keys.Where(key => key.StartsWith("Cx"));
+                model.HasAcceptedCallbackOffer = true;
             }
 
             Task<SymptomDiscriminator> discriminatorTask = null;

@@ -2,6 +2,7 @@
 namespace NHS111.Models.Models.Web {
     using System.Collections.Generic;
     using System.Web;
+    using Mappers.WebMappings;
 
     public abstract class GoogleAnalyticsDataLayerContainer
         : Dictionary<string, string> {
@@ -31,8 +32,12 @@ namespace NHS111.Models.Models.Web {
             var dxCode = HttpUtility.UrlEncode(viewModel.OutcomeModel.Id);
             var selectedServiceId = HttpUtility.UrlEncode(viewModel.OutcomeModel.SelectedServiceId);
             var selectedServiceName = HttpUtility.UrlEncode(viewModel.OutcomeModel.SelectedService.Name);
-            return string.Format("/outcome/{0}/{1}/{2}/itk/{3}/{4}/{5}/", pathwayNo, outcomeGroup, dxCode,
+            
+            var url = string.Format("/outcome/{0}/{1}/{2}/itk/{3}/{4}/{5}/", pathwayNo, outcomeGroup, dxCode,
                 VirtualUrlPageName, selectedServiceId, selectedServiceName);
+            if (viewModel.OutcomeModel.HasAcceptedCallbackOffer.HasValue && viewModel.OutcomeModel.HasAcceptedCallbackOffer.Value)
+                url += FromOutcomeViewModelToDosViewModel.DispositionResolver.Remap(viewModel.OutcomeModel.Id) + "/";
+            return url;
         }
     }
 
