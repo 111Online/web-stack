@@ -15,6 +15,7 @@ namespace NHS111.Models.Models.Web
             var now = DateTime.UtcNow;
             PartitionKey = string.Format("{0:yyyy-MM}", now);
             RowKey = string.Format("{0:dd HH-mm-ss-fff}-{1}", now, Guid.NewGuid());
+            ShowOnNhsApp = false;
         }
 
         [JsonProperty(PropertyName = "userId")]
@@ -37,6 +38,9 @@ namespace NHS111.Models.Models.Web
 
         [JsonProperty(PropertyName = "pageId")]
         public string PageId { get; set; }
+
+        [JsonProperty(PropertyName = "showOnNhsApp")]
+        public Boolean ShowOnNhsApp { get; set; }
 
         public PageDataViewModel PageData { get; set; }
     }
