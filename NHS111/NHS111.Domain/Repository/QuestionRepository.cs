@@ -168,12 +168,12 @@ namespace NHS111.Domain.Repository
 
                             .Unwind("coalesce(nds, [null])", "n1")
                             .OptionalMatch("(n1)-[a:Answer]->()")
-                            .With("nds, rls, rows, n, n1, {leadingnode:n1, nodeanswers:COLLECT(DISTINCT a)} as node")
+                            .With("nds, rls, rows, n, {leadingnode:n1, nodeanswers:COLLECT(DISTINCT a)} as node, instructions")
 
                             .Unwind("case when nds is null then 0 else range(1, length(nds) - 2) end", "x")
                             
                             .With(String.Format(
-                                "rows + collect({{question:nds[x], answer:CASE WHEN nds[x] = node.leadingnode THEN CASE WHEN type(rls[x]) = 'Answer' THEN rls[x] ELSE null END ELSE null END, answers:node.nodeanswers, step:{0}.2}}) + collect({{question:n, answer:{{}}, step:{0}.3}}) as newrows",
+                                "rows + collect({{question:nds[x], answer:CASE WHEN nds[x] = node.leadingnode THEN CASE WHEN type(rls[x]) = 'Answer' THEN rls[x] ELSE null END ELSE null END, answers:node.nodeanswers, step:{0}.2}}) + collect({{question:n, answer:{{}}, answers:instructions, step:{0}.3}}) as newrows",
                                 index));
 
                 if (!IsLastStep(steps, index))
