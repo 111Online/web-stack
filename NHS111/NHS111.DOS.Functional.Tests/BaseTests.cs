@@ -1,9 +1,9 @@
-﻿namespace NHS111.DOS.Functional.Tests {
+﻿namespace NHS111.DOS.Functional.Tests
+{
     using System;
-    using System.Drawing;
-    using System.Drawing.Imaging;
+    using System.Collections.Generic;
+    using System.Configuration;
     using System.IO;
-    using System.Threading.Tasks;
     using OpenQA.Selenium;
     using OpenQA.Selenium.Chrome;
 
@@ -29,5 +29,20 @@
             var screenshot = screenshotDriver.GetScreenshot();
             screenshot.SaveAsFile(Path.Combine("C:\\", filename + ".png"));
         }
+
+        protected string EncryptArgs(Dictionary<string, string> args)
+        {
+            var key = ConfigurationManager.AppSettings["QueryStringEncryptionKey"];
+            var bytes = ConfigurationManager.AppSettings["QueryStringEncryptionBytes"];
+
+            var encryptor = new QueryStringEncryptor(key, bytes);
+            foreach (var arg in args)
+            {
+                encryptor.Add(arg.Key, arg.Value);
+            }
+
+            return encryptor.ToString();
+        }
     }
+
 }
