@@ -43,9 +43,13 @@
     <Reference Include="nunit.framework, Version=2.6.4.14350, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL">
       <HintPath>..\packages\NUnit.2.6.4\lib\nunit.framework.dll</HintPath>
     </Reference>
+    <Reference Include="RestSharp, Version=106.5.4.0, Culture=neutral, PublicKeyToken=598062e77f915f75, processorArchitecture=MSIL">
+      <HintPath>..\packages\RestSharp.106.5.4\lib\net452\RestSharp.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Web" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -64,6 +68,25 @@
     <Compile Include="Call999CallbackTests.cs" />
     <Compile Include="EDValidationTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="QueryStringEncryptor.cs" />
+    <Compile Include="TestBenchApi\BlankDosCase.cs" />
+    <Compile Include="TestBenchApi\DosRequestAuditRecord.cs" />
+    <Compile Include="TestBenchApi\DosTestScenarioSetup.cs" />
+    <Compile Include="TestBenchApi\EsbEndpoint.cs" />
+    <Compile Include="TestBenchApi\EsbStatusCode.cs" />
+    <Compile Include="TestBenchApi\EsbTestScenario.cs" />
+    <Compile Include="TestBenchApi\EsbTestScenarioSetup.cs" />
+    <Compile Include="TestBenchApi\PostDosTestScenarioRequest.cs" />
+    <Compile Include="TestBenchApi\PostEsbTestScenarioRequest.cs" />
+    <Compile Include="TestBenchApi\ServicesTransformedTo.cs" />
+    <Compile Include="TestBenchApi\DosEndpoint.cs" />
+    <Compile Include="TestBenchApi\DosTestScenario.cs" />
+    <Compile Include="TestBenchApi\DosTestScenarioRequest.cs" />
+    <Compile Include="TestBenchApi\DosTestScenarioTransformer.cs" />
+    <Compile Include="TestBenchApi\TestBench.cs" />
+    <Compile Include="TestBenchApi\VerificationResult.cs" />
+    <Compile Include="TestBenchApi\VerifyDosTestScenarioPostRequest.cs" />
+    <Compile Include="TestBenchApi\VerifyEsbTestScenarioPostRequest.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="chromedriver.exe">
