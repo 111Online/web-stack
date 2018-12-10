@@ -75,13 +75,9 @@
       <Project>{4CCF3ABD-92C4-4999-8520-C4AA7B36F48C}</Project>
       <Name>NHS111.Models</Name>
     </ProjectReference>
-    <ProjectReference Include="..\NHS111.SmokeTest.Utils\NHS111.SmokeTest.Utils.csproj">
-      <Project>{6F80D500-DDA4-4A48-BAF1-276C8E48AF5C}</Project>
-      <Name>NHS111.SmokeTest.Utils</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\NHS111.SmokeTests\NHS111.SmokeTests.csproj">
-      <Project>{4EE75651-425E-46C5-9A07-179A94ECF2EA}</Project>
-      <Name>NHS111.SmokeTests</Name>
+    <ProjectReference Include="..\NHS111.Web.Functional.Utils\NHS111.Web.Functional.Utils.csproj">
+      <Project>{6f80d500-dda4-4a48-baf1-276c8e48af5c}</Project>
+      <Name>NHS111.Web.Functional.Utils</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

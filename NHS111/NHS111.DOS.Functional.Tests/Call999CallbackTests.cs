@@ -4,7 +4,7 @@
     using NUnit.Framework;
     using OpenQA.Selenium;
     using OpenQA.Selenium.Support.UI;
-    using SmokeTest.Utils;
+    using Web.Functional.Utils;
 
     public class Call999CallbackTests
     : BaseTests {

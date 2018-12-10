@@ -156,7 +156,7 @@ namespace NHS111.DOS.Functional.Tests {
     using NUnit.Framework;
     using OpenQA.Selenium;
     using OpenQA.Selenium.Support.UI;
-    using SmokeTest.Utils;
+    using Web.Functional.Utils;
 
 
     /// Tests the callback/validation flow for Emergency Department outcomes.
