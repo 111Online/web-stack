@@ -1,12 +1,12 @@
-namespace NHS111.DOS.Functional.Tests.TestBenchApi {
+﻿namespace NHS111.DOS.Functional.Tests.TestBenchApi {
+    using Models.Models.Business;
     using RestSharp;
 
     public class VerifyDosTestScenarioPostRequest
-        : RestRequest
-    {
-        public VerifyDosTestScenarioPostRequest(ITestScenario scenario)
+        : RestRequest {
+        public VerifyDosTestScenarioPostRequest(Postcode postcode)
             : base("dostestscenario/verify", Method.POST, DataFormat.Json) {
-            AddJsonBody(scenario.Postcode);
+            AddJsonBody(postcode.NormalisedValue);
         }
     }
 }

@@ -3,7 +3,7 @@
     using Models.Models.Web.ITK;
 
     public interface IEsbTestScenario
-        : ITestScenario<ITKDispatchRequest> {
+        : ITestScenario<EsbTestScenarioRequest> {
         ITKDispatchRequest IncomingITKDispatchRequest { get; set; }
         int MatchStatusCode { get; set; }
         int MismatchStatusCode { get; set; }
@@ -23,6 +23,12 @@
             }
         }
 
-        public ICollection<ITKDispatchRequest> Requests { get { return new[] {IncomingITKDispatchRequest}; } }
+        public ICollection<EsbTestScenarioRequest> Requests { get; set; }
+    }
+
+    public class EsbTestScenarioRequest {
+        public ITKDispatchRequest InboundITKDispatchRequest { get; set; }
+
+        public bool Expected { get; set; }
     }
 }

@@ -43,7 +43,7 @@ namespace NHS111.DOS.Functional.Tests.TestBenchApi {
                     throw new NotSupportedException(string.Format("Dos scenario verification returned a status code that isn't currently supported: {0}", response.StatusCode));
             }
 
-            Assert.Fail(result.FailureReason);
+            Assert.Fail("Dos scenario failed: " + result.FailureReason);
             return result;
         }
 
@@ -68,7 +68,7 @@ namespace NHS111.DOS.Functional.Tests.TestBenchApi {
                     throw new NotSupportedException(string.Format("ESB scenario verification returned a status code that isn't currently supported: {0}", response.StatusCode));
             }
 
-            Assert.Fail(result.FailureReason);
+            Assert.Fail("Esb scenario failed: " + result.FailureReason);
             return result;
         }
 

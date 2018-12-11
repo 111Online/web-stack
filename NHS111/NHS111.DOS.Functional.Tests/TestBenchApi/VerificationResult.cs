@@ -46,7 +46,7 @@
             get {
                 return
                     string.Format("The scenario for {0} expected {1} requests but it received {2} requests.",
-                        Postcode, ExpectedRequests.Count(), RequestAudit.Count());
+                        Postcode.NormalisedValue, ExpectedRequests.Count(), RequestAudit.Count());
             }
         }
 

@@ -1,5 +1,7 @@
 ﻿namespace NHS111.DOS.Functional.Tests {
     using System;
+    using System.Collections.Generic;
+    using System.Configuration;
     using System.Drawing;
     using System.Drawing.Imaging;
     using System.IO;
@@ -28,6 +30,18 @@
             var screenshotDriver = Driver as ITakesScreenshot;
             var screenshot = screenshotDriver.GetScreenshot();
             screenshot.SaveAsFile(Path.Combine("C:\\", filename + ".png"));
+        }
+
+        protected string EncryptArgs(Dictionary<string, string> args) {
+            var key = ConfigurationManager.AppSettings["QueryStringEncryptionKey"];
+            var bytes = ConfigurationManager.AppSettings["QueryStringEncryptionBytes"];
+
+            var encryptor = new QueryStringEncryptor(key, bytes);
+            foreach (var arg in args) {
+                encryptor.Add(arg.Key, arg.Value);
+            }
+
+            return encryptor.ToString();
         }
     }
 }

@@ -65,7 +65,7 @@
             FinaliseCurrentRequest();
             var request = new PostDosTestScenarioRequest(_scenario);
             var response = await _client.ExecutePostTaskAsync<string>(request);
-            Assert.True(response.IsSuccessful);
+            Assert.True(response.IsSuccessful, response.ErrorMessage);
             _scenario.Postcode = response.Data;
             return _scenario;
         }

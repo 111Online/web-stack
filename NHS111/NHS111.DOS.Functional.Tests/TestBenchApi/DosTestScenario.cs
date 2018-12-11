@@ -8,7 +8,7 @@
 
     public interface ITestScenario<T>
         : ITestScenario {
-        ICollection<T> Requests { get; }
+        ICollection<T> Requests { get; set;  }
     }
 
     public interface IDosTestScenario

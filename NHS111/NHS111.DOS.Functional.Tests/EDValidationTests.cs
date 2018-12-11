@@ -9,6 +9,7 @@
     using OpenQA.Selenium;
     using OpenQA.Selenium.Support.UI;
     using TestBenchApi;
+    using Web.Functional.Utils;
 
     /// Tests the callback/validation flow for Emergency Department outcomes.
     public class EDValidationTests
@@ -38,7 +39,7 @@
                 .OtherwiseReturns(DosRequestMismatchResult.ServerError)
                 .BeginAsync();
 
-            await _testBench.SetupEsbScenario()
+            var esbScenario = await _testBench.SetupEsbScenario()
                 .ExpectingRequestTo(EsbEndpoint.SendItkMessage)
                 .Matching(new ITKDispatchRequest {CaseDetails = new CaseDetails { DispositionCode = DispositionCode.Dx02.Value }, PatientDetails = new PatientDetails{CurrentAddress = new Address{PostalCode = dosScenario.Postcode}}})
                 .Returns(EsbStatusCode.Success200)
@@ -53,8 +54,8 @@
             AssertIsSuccessfulReferral(itkConfirmation);
             SaveScreenAsPNG("ed-reval-successful-referral");
 
-            var result = await _testBench.Verify(dosScenario);
-            Assert.IsInstanceOf<SuccessfulVerificationResult>(result);
+            var dosResult = await _testBench.Verify(dosScenario);
+            var esbResult = await _testBench.Verify(esbScenario);
         }
 
         [Test]
@@ -87,7 +88,6 @@
             AssertIsSuccessfulReferral(itkConfirmation);
 
             var result = await _testBench.Verify(dosScenario);
-            Assert.IsInstanceOf<SuccessfulVerificationResult>(result);
         }
 
         [Test] //no postcode present
@@ -107,7 +107,6 @@
             AssertIsPersonalDetailsPage(edOutcome);
 
             var result = await _testBench.Verify(dosScenario);
-            Assert.IsInstanceOf<SuccessfulVerificationResult>(result);
         }
 
         [Test]
@@ -120,7 +119,6 @@
             AssertIsOriginalOutcome(edOutcome, "Dx94", "Your answers suggest you should go to A&E within 1 hour");
 
             var result = await _testBench.Verify(dosScenario);
-            Assert.IsInstanceOf<SuccessfulVerificationResult>(result);
         }
 
         [Test]
@@ -142,7 +140,7 @@
                 .OtherwiseReturns(DosRequestMismatchResult.ServerError)
                 .BeginAsync();
 
-            await _testBench.SetupEsbScenario()
+            var esbScenario = await _testBench.SetupEsbScenario()
                 .ExpectingRequestTo(EsbEndpoint.SendItkMessage)
                 .Matching(new ITKDispatchRequest { CaseDetails = new CaseDetails { DispositionCode = DispositionCode.Dx02.Value }, PatientDetails = new PatientDetails { CurrentAddress = new Address { PostalCode = dosScenario.Postcode } } })
                 .Returns(EsbStatusCode.Success200)
@@ -158,8 +156,8 @@
             var itkConfirmation = SubmitPersonalDetails(personalDetailsPage);
             AssertIsSuccessfulReferral(itkConfirmation);
 
-            var result = await _testBench.Verify(dosScenario);
-            Assert.IsInstanceOf<SuccessfulVerificationResult>(result);
+            var dosResult = await _testBench.Verify(dosScenario);
+            var esbResult = await _testBench.Verify(esbScenario);
         }
 
         [Test]
@@ -181,7 +179,6 @@
             Assert.True(Driver.ElementExists(By.Name("PersonalDetails")));
 
             var result = await _testBench.Verify(dosScenario);
-            Assert.IsInstanceOf<SuccessfulVerificationResult>(result);
         }
 
         [Test]
@@ -216,8 +213,8 @@
             AssertIsUnsuccessfulReferral(itkConfirmation);
             SaveScreenAsPNG("ed-reval-unsuccessful-referral");
 
-            var result = await _testBench.Verify(dosScenario);
-            Assert.IsInstanceOf<SuccessfulVerificationResult>(result);
+            var dosResult = await _testBench.Verify(dosScenario);
+            var esbResult = await _testBench.Verify(esbScenario);
         }
 
         [Test]
@@ -234,7 +231,7 @@
                 .OtherwiseReturns(DosRequestMismatchResult.ServerError)
                 .BeginAsync();
 
-            await _testBench.SetupEsbScenario()
+            var esbScenario = await _testBench.SetupEsbScenario()
                 .ExpectingRequestTo(EsbEndpoint.SendItkMessage)
                 .Matching(new ITKDispatchRequest { CaseDetails = new CaseDetails { DispositionCode = DispositionCode.Dx334.Value }, PatientDetails = new PatientDetails { CurrentAddress = new Address { PostalCode = dosScenario.Postcode } } })
                 .Returns(EsbStatusCode.Duplicate409)
@@ -249,8 +246,8 @@
             AssertIsDuplicateReferral(itkConfirmation);
             SaveScreenAsPNG("ed-reval-duplicate-referral");
 
-            var result = await _testBench.Verify(dosScenario);
-            Assert.IsInstanceOf<SuccessfulVerificationResult>(result);
+            var dosRsult = await _testBench.Verify(dosScenario);
+            var esbResult = await _testBench.Verify(esbScenario);
         }
 
         [Test]
@@ -267,6 +264,16 @@
                 .OtherwiseReturns(DosRequestMismatchResult.ServerError)
                 .BeginAsync();
 
+            var esbScenario = await _testBench.SetupEsbScenario()
+                .ExpectingNoRequestTo(EsbEndpoint.SendItkMessage)
+                .Matching(new ITKDispatchRequest
+                {
+                    CaseDetails = new CaseDetails { DispositionCode = DispositionCode.Dx334.Value },
+                    PatientDetails = new PatientDetails
+                        { CurrentAddress = new Address { PostalCode = dosScenario.Postcode } }
+                })
+                .BeginAsync();
+
             var callbackAcceptancePage = NavigateToRemappedEDOutcome(dosScenario.Postcode);
             AssertIsCallbackAcceptancePage(callbackAcceptancePage);
             var personalDetailsPage = AcceptCallback(callbackAcceptancePage);
@@ -275,8 +282,8 @@
             AssertIsServiceUnavailableReferral(itkConfirmation);
             SaveScreenAsPNG("ed-reval-unavailable-referral");
 
-            var result = await _testBench.Verify(dosScenario);
-            Assert.IsInstanceOf<SuccessfulVerificationResult>(result);
+            var dosResult = await _testBench.Verify(dosScenario);
+            var esbResult = await _testBench.Verify(esbScenario);
         }
 
         private TestBench _testBench;
@@ -392,3 +399,5 @@
         }
     }
 }
+
+

@@ -1,7 +1,9 @@
 ﻿namespace NHS111.DOS.Functional.Tests {
     using System;
+    using System.Collections.Generic;
     using System.Diagnostics;
     using System.Threading.Tasks;
+    using Models.Models.Business;
     using Models.Models.Domain;
     using Models.Models.Web.ITK;
     using NUnit.Framework;
@@ -13,12 +15,8 @@
     public class Call999CallbackTests
         : BaseTests {
 
-        //hook up esb verification backend
-        //add verification for no calls expected to esb
-        //verify esb in each test
         //fix test bench service to support running all tests at once
         //refactor test code to reduce duplication
-        //double check contraction tests
         //itk dispatch request factory
 
         [SetUp]
@@ -27,16 +25,32 @@
         }
 
         [Test]
-        public void Call999Cat3_WithoutCallbackReturned_DisplaysOriginalDispo() {
-            var outcome = NavigateTo999Cat3(_ls11ns);
+        public async Task Call999Cat3_WithoutCallbackReturned_DisplaysOriginalDispo() {
+            var dosScenario = await _testBench.SetupDosScenario()
+                .ExpectingRequestTo(DosEndpoint.CheckCapacitySummary)
+                .Matching(BlankDosCase.WithDxCode(DispositionCode.Dx333))
+                .Returns(ServicesTransformedTo.EmptyServiceList)
+                .OtherwiseReturns(DosRequestMismatchResult.ServerError)
+                .BeginAsync();
+
+            var outcome = NavigateTo999Cat3(dosScenario.Postcode);
+
             outcome.VerifyOutcome(OutcomePage.Cat3999Text);
 
             var result = await _testBench.Verify(dosScenario);
         }
 
         [Test]
-        public void Call999Cat4_WithCallbackReturned_DisplaysPersonalDetailsPage() {
-            var callbackPage = NavigateTo999Cat4(_ls11az);
+        public async Task Call999Cat4_WithCallbackReturned_DisplaysPersonalDetailsPage() {
+            var dosScenario = await _testBench.SetupDosScenario()
+                .ExpectingRequestTo(DosEndpoint.CheckCapacitySummary)
+                .Matching(BlankDosCase.WithDxCode(DispositionCode.Dx333))
+                .Returns(ServicesTransformedTo.OnlyOneCallback)
+                .OtherwiseReturns(DosRequestMismatchResult.ServerError)
+                .BeginAsync();
+
+            var callbackPage = NavigateTo999Cat4(dosScenario.Postcode);
+
             AssertIsCallbackAcceptancePage(callbackPage);
             var personalDetailsPage = AcceptCallback();
             AssertIsPersonalDetailsPage(personalDetailsPage);
@@ -45,8 +59,16 @@
         }
 
         [Test]
-        public void Call999Cat4_WithoutCallbackReturned_DisplaysOriginalDispo() {
-            var outcome = NavigateTo999Cat4(_ls11ns);
+        public async Task Call999Cat4_WithoutCallbackReturned_DisplaysOriginalOutcome() {
+            var dosScenario = await _testBench.SetupDosScenario()
+                .ExpectingRequestTo(DosEndpoint.CheckCapacitySummary)
+                .Matching(BlankDosCase.WithDxCode(DispositionCode.Dx333))
+                .Returns(ServicesTransformedTo.EmptyServiceList)
+                .OtherwiseReturns(DosRequestMismatchResult.ServerError)
+                .BeginAsync();
+
+            var outcome = NavigateTo999Cat4(dosScenario.Postcode);
+
             outcome.VerifyOutcome(OutcomePage.Cat4999Text);
 
             var result = await _testBench.Verify(dosScenario);
@@ -64,13 +86,21 @@
             var result = await _testBench.Verify(dosScenario);
         }
 
-        [Test] //to be run without postcode
-        public void Call999Cat3_WithoutPostcode_AsksForPostcode() {
-            var postcodePage = NavigateTo999Cat3();
+        [Test]
+        public async Task Call999Cat3_TypingPostcodeWithCallbacks_RedirectsToPersonalDetails() {
+            var dosScenario = await _testBench.SetupDosScenario()
+                .ExpectingRequestTo(DosEndpoint.CheckCapacitySummary)
+                .Matching(BlankDosCase.WithDxCode(DispositionCode.Dx333))
+                .Returns(ServicesTransformedTo.OnlyOneCallback)
+                .OtherwiseReturns(DosRequestMismatchResult.ServerError)
+                .BeginAsync();
+
+            var postcodePage = NavigateTo999Cat3(null);
+
             AssertIsCallbackAcceptancePage(postcodePage);
             Assert.True(Driver.ElementExists(By.Id("FindService_CurrentPostcode")),
                 "Expected postcode field when no gate.");
-            var personalDetailsPage = SubmitPostcode("ls11az", postcodePage);
+            var personalDetailsPage = SubmitPostcode(dosScenario.Postcode, postcodePage);
             AssertIsPersonalDetailsPage(personalDetailsPage);
 
             var result = await _testBench.Verify(dosScenario);
@@ -133,7 +163,30 @@
 
         [Test]
         public async Task SubmittingReferralForCat3_WhenUnsuccessful_ShowsFailureScreen() {
-            var callbackPage = NavigateTo999Cat3(_ls11rf);
+            var dosScenario = await _testBench.SetupDosScenario()
+                .ExpectingRequestTo(DosEndpoint.CheckCapacitySummary)
+                .Matching(BlankDosCase.WithDxCode(DispositionCode.Dx333))
+                .Returns(ServicesTransformedTo.OnlyOneCallback)
+                .OtherwiseReturns(DosRequestMismatchResult.ServerError)
+                .Then()
+                .ExpectingRequestTo(DosEndpoint.CheckCapacitySummary)
+                .Matching(BlankDosCase.WithDxCode(DispositionCode.Dx333))
+                .Returns(ServicesTransformedTo.OnlyOneCallback)
+                .OtherwiseReturns(DosRequestMismatchResult.ServerError)
+                .BeginAsync();
+
+            var esbScenario = await _testBench.SetupEsbScenario()
+                .ExpectingRequestTo(EsbEndpoint.SendItkMessage)
+                .Matching(new ITKDispatchRequest {
+                    CaseDetails = new CaseDetails {DispositionCode = DispositionCode.Dx333.Value},
+                    PatientDetails = new PatientDetails
+                        {CurrentAddress = new Address {PostalCode = dosScenario.Postcode}}
+                })
+                .Returns(EsbStatusCode.Error500)
+                .OtherwiseReturns(EsbStatusCode.Success200)
+                .BeginAsync();
+
+            var callbackPage = NavigateTo999Cat3(dosScenario.Postcode);
             AssertIsCallbackAcceptancePage(callbackPage);
             var personalDetailsPage = AcceptCallback();
             AssertIsPersonalDetailsPage(personalDetailsPage);
@@ -160,6 +213,11 @@
 
             var esbScenario = await _testBench.SetupEsbScenario()
                 .ExpectingNoRequestTo(EsbEndpoint.SendItkMessage)
+                .Matching(new ITKDispatchRequest {
+                    CaseDetails = new CaseDetails { DispositionCode = DispositionCode.Dx333.Value },
+                    PatientDetails = new PatientDetails
+                        { CurrentAddress = new Address { PostalCode = dosScenario.Postcode } }
+                })
                 .BeginAsync();
 
             var callbackPage = NavigateTo999Cat3(dosScenario.Postcode);
@@ -218,7 +276,15 @@
             itkConfirmation.VerifyOutcome("Your call has already been booked");
         }
 
-        private OutcomePage NavigateTo999Cat4(string args) {
+        private OutcomePage NavigateTo999Cat4(Postcode postcode) {
+            var args = postcode != null
+                ? EncryptArgs(new Dictionary<string, string>
+                    {{"postcode", postcode.Value}, {"sessionId", Guid.NewGuid().ToString()}})
+                : null;
+            return NavigateTo999Cat4WithArgs(args);
+        }
+
+        private OutcomePage NavigateTo999Cat4WithArgs(string args) {
             var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Finger or Thumb Injury, Penetrating",
                 TestScenerioSex.Male, TestScenerioAgeGroups.Adult, args);
 
@@ -231,7 +297,15 @@
             return outcomePage;
         }
 
-        private OutcomePage NavigateTo999Cat3(string args = null) {
+        private OutcomePage NavigateTo999Cat3(Postcode postcode) {
+            var args = postcode != null
+                ? EncryptArgs(new Dictionary<string, string>
+                    {{"postcode", postcode.Value}, {"sessionId", Guid.NewGuid().ToString()}})
+                : null;
+            return NavigateTo999Cat3WithArgs(args);
+        }
+
+        private OutcomePage NavigateTo999Cat3WithArgs(string args) {
             var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Headache", TestScenerioSex.Male,
                 TestScenerioAgeGroups.Adult, args);
 
@@ -275,6 +349,10 @@
 
         private void AssertIsCallbackAcceptancePage(OutcomePage outcomePage) {
             outcomePage.VerifyOutcome("A nurse needs to phone you");
+        }
+
+        private void AssertIsServiceUnavailableReferral(OutcomePage itkConfirmation) {
+            itkConfirmation.VerifyOutcome("Sorry, there is a problem with the service");
         }
 
         private void AssertIsPersonalDetailsPage(OutcomePage personalDetailsPage) {
