@@ -2,10 +2,17 @@
     using System.Collections.Generic;
     using Models.Models.Business;
 
-    public interface IDosTestScenario {
+    public interface ITestScenario {
         string Postcode { get; }
-        string Description { get; }
-        List<DosTestScenarioRequest> Requests { get; }
+    }
+
+    public interface ITestScenario<T>
+        : ITestScenario {
+        ICollection<T> Requests { get; set;  }
+    }
+
+    public interface IDosTestScenario
+        : ITestScenario<DosTestScenarioRequest> {
         bool Matches(Postcode postcode);
     }
 
@@ -13,9 +20,8 @@
        : IDosTestScenario {
 
         public string Postcode { get; set; }
-        public string Description { get; set; }
 
-        public List<DosTestScenarioRequest> Requests { get; set; }
+        public ICollection<DosTestScenarioRequest> Requests { get; set; }
 
         public bool Matches(Postcode postcode) {
             return new Postcode(this.Postcode).Equals(postcode);

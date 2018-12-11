@@ -1,7 +1,9 @@
-﻿namespace NHS111.DOS.Functional.Tests.TestBenchApi {
+namespace NHS111.DOS.Functional.Tests.TestBenchApi {
     public interface IEsbEndpoint { }
 
-    public class EsbEndpoint {
-        public static IEsbEndpoint SendItkMessage { get; set; }
+    public class EsbEndpoint
+        : IEsbEndpoint
+    {
+        public static IEsbEndpoint SendItkMessage { get { return new EsbEndpoint(); } }
     }
 }

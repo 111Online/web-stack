@@ -30,14 +30,12 @@
             screenshot.SaveAsFile(Path.Combine("C:\\", filename + ".png"));
         }
 
-        protected string EncryptArgs(Dictionary<string, string> args)
-        {
+        protected string EncryptArgs(Dictionary<string, string> args) {
             var key = ConfigurationManager.AppSettings["QueryStringEncryptionKey"];
             var bytes = ConfigurationManager.AppSettings["QueryStringEncryptionBytes"];
 
             var encryptor = new QueryStringEncryptor(key, bytes);
-            foreach (var arg in args)
-            {
+            foreach (var arg in args) {
                 encryptor.Add(arg.Key, arg.Value);
             }
 

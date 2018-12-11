@@ -1,4 +1,6 @@
 ﻿namespace NHS111.DOS.Functional.Tests.TestBenchApi {
+    using System.Collections.Generic;
+    using System.Linq;
     using System.Net;
     using System.Threading.Tasks;
     using Models.Models.Web.ITK;
@@ -6,6 +8,7 @@
 
     public interface IEsbTestScenarioSetup {
         IEsbRequestSetup ExpectingRequestTo(IEsbEndpoint endpoint);
+        IEsbRequestSetup ExpectingNoRequestTo(IEsbEndpoint endpoint);
     }
 
     public interface IEsbRequestSetup {
@@ -23,12 +26,22 @@
         }
 
         public IEsbRequestSetup ExpectingRequestTo(IEsbEndpoint endpoint) {
-            _scenario = new EsbTestScenario();
+            _scenario = new EsbTestScenario {
+                Requests = new List<EsbTestScenarioRequest> { new EsbTestScenarioRequest { Expected = true } }
+            };
+            return this;
+        }
+
+        public IEsbRequestSetup ExpectingNoRequestTo(IEsbEndpoint endpoint) {
+            _scenario = new EsbTestScenario {
+                Requests = new List<EsbTestScenarioRequest> {new EsbTestScenarioRequest {Expected = false}}
+            };
             return this;
         }
 
         public IEsbRequestSetup Matching(ITKDispatchRequest itkDispatchRequest) {
             _scenario.IncomingITKDispatchRequest = itkDispatchRequest;
+            _scenario.Requests.First().InboundITKDispatchRequest = itkDispatchRequest;
             return this;
         }
 

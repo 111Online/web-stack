@@ -3,8 +3,11 @@ namespace NHS111.DOS.Functional.Tests.TestBenchApi {
     using System;
     using System.Net;
     using System.Threading.Tasks;
+    using Models.Models.Web.DosRequests;
+    using Models.Models.Web.ITK;
     using RestSharp;
     using Newtonsoft.Json;
+    using NUnit.Framework;
 
     public class TestBench {
 
@@ -20,31 +23,53 @@ namespace NHS111.DOS.Functional.Tests.TestBenchApi {
             return new EsbTestScenarioSetup();
         }
 
-        public async Task<DosVerificationResult> Verify(IDosTestScenario scenario) {
+        public async Task<VerificationResult> Verify(IDosTestScenario scenario) {
             var request = new VerifyDosTestScenarioPostRequest(scenario.Postcode);
             var response = await _client.ExecutePostTaskAsync(request);
+            VerificationResult result;
             switch (response.StatusCode) {
                 case HttpStatusCode.OK:
-                    return new SuccessfulDosVerificationResult();
-                case HttpStatusCode.NotFound: {
-                    return JsonConvert.DeserializeObject<NoMatchingScenarioDosVerificationResult>(response.Content);
-                }
-                case HttpStatusCode.Conflict: {
-                    return JsonConvert.DeserializeObject<IncorrectNumberOfRequestsDosVerificationResult>(response.Content);
-                }
-                case HttpStatusCode.BadRequest: {
-                    return JsonConvert.DeserializeObject<RequestMismatchDosVerificationResult>(response.Content);
-                }
+                    return JsonConvert.DeserializeObject<SuccessfulVerificationResult>(response.Content);
+                case HttpStatusCode.NotFound:
+                    result = JsonConvert.DeserializeObject<NoMatchingScenarioVerificationResult>(response.Content);
+                    break;
+                case HttpStatusCode.Conflict:
+                    result = JsonConvert.DeserializeObject<IncorrectNumberOfRequestsVerificationResult<DosFilteredCase>>(response.Content);
+                    break;
+                case HttpStatusCode.BadRequest:
+                    result = JsonConvert.DeserializeObject<RequestMismatchVerificationResult<DosFilteredCase>>(response.Content);
+                    break;
+                default:
+                    throw new NotSupportedException(string.Format("Dos scenario verification returned a status code that isn't currently supported: {0}", response.StatusCode));
             }
 
-            throw new NotSupportedException(string.Format("Verify returned a status code that isn't currently supported: {0}", response.StatusCode));
+            Assert.Fail("Dos scenario failed: " + result.FailureReason);
+            return result;
         }
 
-        public async Task Verify(IEsbTestScenario scenario) {
+        public async Task<VerificationResult> Verify(IEsbTestScenario scenario) {
             var request = new VerifyEsbTestScenarioPostRequest(scenario);
             var response = await _client.ExecutePostTaskAsync(request);
+            VerificationResult result;
+            switch (response.StatusCode)
+            {
+                case HttpStatusCode.OK:
+                    return JsonConvert.DeserializeObject<SuccessfulVerificationResult>(response.Content);
+                case HttpStatusCode.NotFound:
+                    result = JsonConvert.DeserializeObject<NoMatchingScenarioVerificationResult>(response.Content);
+                    break;
+                case HttpStatusCode.Conflict:
+                    result = JsonConvert.DeserializeObject<IncorrectNumberOfRequestsVerificationResult<ITKDispatchRequest>>(response.Content);
+                    break;
+                case HttpStatusCode.BadRequest:
+                    result = JsonConvert.DeserializeObject<RequestMismatchVerificationResult<ITKDispatchRequest>>(response.Content);
+                    break;
+                default:
+                    throw new NotSupportedException(string.Format("ESB scenario verification returned a status code that isn't currently supported: {0}", response.StatusCode));
+            }
 
-
+            Assert.Fail("Esb scenario failed: " + result.FailureReason);
+            return result;
         }
 
         private readonly IRestClient _client;

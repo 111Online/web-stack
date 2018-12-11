@@ -1,29 +1,29 @@
 ﻿namespace NHS111.DOS.Functional.Tests.TestBenchApi {
     using Models.Models.Web.DosRequests;
 
-    public class DosRequestAuditRecord {
+    public class RequestAuditRecord<T> {
         public bool Matched { get; set; }
-        public DosFilteredCase Request { get; set; }
+        public T Request { get; set; }
 
-        public DosRequestAuditRecord() { }
+        public RequestAuditRecord() { }
 
-        protected DosRequestAuditRecord(bool matched, DosFilteredCase request) {
+        protected RequestAuditRecord(bool matched, T request) {
             Matched = matched;
             Request = request;
         }
     }
 
-    public class MatchingDosRequestAuditRecord
-        : DosRequestAuditRecord {
+    public class MatchingRequestAuditRecord<T>
+        : RequestAuditRecord<T> {
 
-        public MatchingDosRequestAuditRecord(DosFilteredCase request)
+        public MatchingRequestAuditRecord(T request)
             : base(true, request) { }
     }
 
-    public class MismatchingDosRequestAuditRecord
-        : DosRequestAuditRecord {
+    public class MismatchingRequestAuditRecord<T>
+        : RequestAuditRecord<T> {
 
-        public MismatchingDosRequestAuditRecord(DosFilteredCase request)
+        public MismatchingRequestAuditRecord(T request)
             : base(false, request) { }
     }
 }

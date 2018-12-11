@@ -6,6 +6,7 @@
     using RestSharp;
 
     public interface IDosTestScenarioSetup {
+        IDosRequestSetup ExpectingNoRequestsTo(IDosEndpoint endpoint);
         IDosRequestSetup ExpectingRequestTo(IDosEndpoint endpoint);
     }
 
@@ -22,6 +23,10 @@
 
         public DosTestScenarioSetup() {
             _client = new RestClient("http://localhost:55954/");
+        }
+
+        public IDosRequestSetup ExpectingNoRequestsTo(IDosEndpoint endpoint) {
+            return this;
         }
 
         public IDosRequestSetup ExpectingRequestTo(IDosEndpoint endpoint) {
@@ -50,6 +55,8 @@
         }
 
         private void FinaliseCurrentRequest() {
+            if (_currentRequest == null)
+                return;
             _scenario.Requests.Add(_currentRequest);
             _currentRequest = null;
         }
@@ -58,7 +65,7 @@
             FinaliseCurrentRequest();
             var request = new PostDosTestScenarioRequest(_scenario);
             var response = await _client.ExecutePostTaskAsync<string>(request);
-            Assert.True(response.IsSuccessful);
+            Assert.True(response.IsSuccessful, response.ErrorMessage);
             _scenario.Postcode = response.Data;
             return _scenario;
         }

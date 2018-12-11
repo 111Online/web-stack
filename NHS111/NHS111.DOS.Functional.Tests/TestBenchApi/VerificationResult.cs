@@ -4,77 +4,81 @@
     using System.Net;
     using Models.Models.Business;
 
-    public abstract class DosVerificationResult {
+    public abstract class VerificationResult {
         public abstract HttpStatusCode StatusCode { get;  }
         public abstract string FailureReason { get; }
     }
 
-    public class SuccessfulDosVerificationResult
-        : DosVerificationResult {
+    public class SuccessfulVerificationResult
+        : VerificationResult {
         public override HttpStatusCode StatusCode { get { return HttpStatusCode.OK; } }
         public override string FailureReason { get { return null; } }
     }
 
-    public class NoMatchingScenarioDosVerificationResult
-        : DosVerificationResult {
+    public class NoMatchingScenarioVerificationResult
+        : VerificationResult {
         public override HttpStatusCode StatusCode { get { return HttpStatusCode.NotFound; } }
         public Postcode Postcode { get; private set; }
 
         public override string FailureReason {
             get {
+                if (Postcode == null)
+                    return "Cannot verify a scenario with no postcode.";
+
                 return string.Format("No scenario found matching {0}. Was the scenario successfully begun?",
                     Postcode.NormalisedValue);
             }
         }
 
-        public NoMatchingScenarioDosVerificationResult(Postcode postcode) {
+        public NoMatchingScenarioVerificationResult(Postcode postcode) {
             Postcode = postcode;
         }
     }
 
-    public class IncorrectNumberOfRequestsDosVerificationResult
-        : DosVerificationResult {
+    public class IncorrectNumberOfRequestsVerificationResult<T>
+        : VerificationResult {
         public override HttpStatusCode StatusCode { get { return HttpStatusCode.Conflict; } }
-        public DosTestScenario Scenario { get; private set; }
-        public IEnumerable<DosRequestAuditRecord> RequestAudit { get; private set; }
+        public Postcode Postcode { get; private set; }
+        public IEnumerable<T> ExpectedRequests { get; private set; }
+        public IEnumerable<RequestAuditRecord<T>> RequestAudit { get; private set; }
 
         public override string FailureReason {
             get {
                 return
                     string.Format("The scenario for {0} expected {1} requests but it received {2} requests.",
-                        Scenario.Postcode, Scenario.Requests.Count, RequestAudit.Count());
+                        Postcode.NormalisedValue, ExpectedRequests.Count(), RequestAudit.Count());
             }
         }
 
-        public IncorrectNumberOfRequestsDosVerificationResult(DosTestScenario scenario, IEnumerable<DosRequestAuditRecord> requestAudit) {
-            Scenario = scenario;
+        public IncorrectNumberOfRequestsVerificationResult(Postcode postcode, IEnumerable<T> expectedRequests, IEnumerable<RequestAuditRecord<T>> requestAudit) {
+            ExpectedRequests = expectedRequests;
+            Postcode = postcode;
             RequestAudit = requestAudit;
         }
     }
 
-    public class RequestMismatchDosVerificationResult
-        : DosVerificationResult {
+    public class RequestMismatchVerificationResult<T>
+        : VerificationResult {
         public override HttpStatusCode StatusCode { get { return HttpStatusCode.BadRequest; } }
-        public DosTestScenario Scenario { get; private set; }
-        public IEnumerable<DosRequestAuditRecord> RequestAudit { get; private set; }
+        public Postcode Postcode { get; private set; }
+        public IEnumerable<RequestAuditRecord<T>> RequestAudit { get; private set; }
 
-        public IEnumerable<DosRequestAuditRecord> GetMismatchingRequests() {
+        public IEnumerable<RequestAuditRecord<T>> GetMismatchingRequests() {
             return RequestAudit.Where(r => !r.Matched);
         }
 
-        public DosRequestAuditRecord FirstMismatchingRequest() {
+        public RequestAuditRecord<T> GetFirstMismatchingRequest() {
             return RequestAudit.First(r => !r.Matched);
         }
 
         public override string FailureReason {
             get {
-                return string.Format("One or more unexpected requests were made to scenario {0}.", Scenario.Postcode);
+                return string.Format("One or more unexpected requests were made to scenario {0}.", Postcode);
             }
         }
 
-        public RequestMismatchDosVerificationResult(DosTestScenario scenario,
-            IEnumerable<DosRequestAuditRecord> requestAudit) {
-            Scenario = scenario;
+        public RequestMismatchVerificationResult(Postcode postcode, IEnumerable<RequestAuditRecord<T>> requestAudit) {
+            Postcode = postcode;
             RequestAudit = requestAudit;
         }
     }

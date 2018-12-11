@@ -8,18 +8,15 @@
     using NUnit.Framework;
     using OpenQA.Selenium;
     using OpenQA.Selenium.Support.UI;
-    using SmokeTest.Utils;
     using TestBenchApi;
+    using Web.Functional.Utils;
 
     public class Call999CallbackTests
         : BaseTests {
 
-        //add verification for no calls expected to esb
-        //hook up esb verification backend
-        //verify esb in each test
-        //refactor test code to reduce duplication
         //fix test bench service to support running all tests at once
-        //double check contraction tests
+        //refactor test code to reduce duplication
+        //itk dispatch request factory
 
         [SetUp]
         public void Setup() {
@@ -27,7 +24,7 @@
         }
 
         [Test]
-        public async Task Call999Cat3_WithoutCallbackReturned_DisplaysOriginalOutcome() {
+        public async Task Call999Cat3_WithoutCallbackReturned_DisplaysOriginalDispo() {
             var dosScenario = await _testBench.SetupDosScenario()
                 .ExpectingRequestTo(DosEndpoint.CheckCapacitySummary)
                 .Matching(BlankDosCase.WithDxCode(DispositionCode.Dx333))
@@ -36,10 +33,10 @@
                 .BeginAsync();
 
             var outcome = NavigateTo999Cat3(dosScenario.Postcode);
+
             outcome.VerifyOutcome(OutcomePage.Cat3999Text);
 
             var result = await _testBench.Verify(dosScenario);
-            Assert.IsInstanceOf<SuccessfulDosVerificationResult>(result);
         }
 
         [Test]
@@ -52,12 +49,12 @@
                 .BeginAsync();
 
             var callbackPage = NavigateTo999Cat4(dosScenario.Postcode);
+
             AssertIsCallbackAcceptancePage(callbackPage);
             var personalDetailsPage = AcceptCallback();
             AssertIsPersonalDetailsPage(personalDetailsPage);
 
             var result = await _testBench.Verify(dosScenario);
-            Assert.IsInstanceOf<SuccessfulDosVerificationResult>(result);
         }
 
         [Test]
@@ -70,19 +67,22 @@
                 .BeginAsync();
 
             var outcome = NavigateTo999Cat4(dosScenario.Postcode);
+
             outcome.VerifyOutcome(OutcomePage.Cat4999Text);
 
             var result = await _testBench.Verify(dosScenario);
-            Assert.IsInstanceOf<SuccessfulDosVerificationResult>(result);
         }
 
         [Test]
-        public void Call999Cat2_Never_OffersCallback() {
-            var outcomePage = NavigateTo999Cat2();
+        public async Task Call999Cat2_Never_OffersCallback() {
+            var dosScenario = await _testBench.SetupDosScenario()
+                .ExpectingNoRequestsTo(DosEndpoint.CheckCapacitySummary)
+                .BeginAsync();
 
+            var outcomePage = NavigateTo999Cat2();
             outcomePage.VerifyOutcome(OutcomePage.Cat2999Text);
 
-            //verify dos wasn't called
+            var result = await _testBench.Verify(dosScenario);
         }
 
         [Test]
@@ -95,6 +95,7 @@
                 .BeginAsync();
 
             var postcodePage = NavigateTo999Cat3(null);
+
             AssertIsCallbackAcceptancePage(postcodePage);
             Assert.True(Driver.ElementExists(By.Id("FindService_CurrentPostcode")),
                 "Expected postcode field when no gate.");
@@ -102,7 +103,6 @@
             AssertIsPersonalDetailsPage(personalDetailsPage);
 
             var result = await _testBench.Verify(dosScenario);
-            Assert.IsInstanceOf<SuccessfulDosVerificationResult>(result);
         }
 
         [Test]
@@ -122,7 +122,6 @@
             outcome.VerifyOutcome(OutcomePage.Cat3999Text);
 
             var result = await _testBench.Verify(dosScenario);
-            Assert.IsInstanceOf<SuccessfulDosVerificationResult>(result);
         }
 
         [Test]
@@ -141,7 +140,11 @@
 
             var esbScenario = await _testBench.SetupEsbScenario()
                 .ExpectingRequestTo(EsbEndpoint.SendItkMessage)
-                .Matching(new ITKDispatchRequest { CaseDetails = new CaseDetails { DispositionCode = DispositionCode.Dx333.Value }, PatientDetails = new PatientDetails { CurrentAddress = new Address { PostalCode = dosScenario.Postcode } } })
+                .Matching(new ITKDispatchRequest {
+                    CaseDetails = new CaseDetails {DispositionCode = DispositionCode.Dx333.Value},
+                    PatientDetails = new PatientDetails
+                        {CurrentAddress = new Address {PostalCode = dosScenario.Postcode}}
+                })
                 .Returns(EsbStatusCode.Success200)
                 .OtherwiseReturns(EsbStatusCode.Error500)
                 .BeginAsync();
@@ -153,8 +156,8 @@
             var itkConfirmation = SubmitPersonalDetails(personalDetailsPage);
             AssertIsSuccessfulReferral(itkConfirmation);
 
-            var result = await _testBench.Verify(dosScenario);
-            Assert.IsInstanceOf<SuccessfulDosVerificationResult>(result);
+            var dosVerifyResult = await _testBench.Verify(dosScenario);
+            var esbVerifyResult = await _testBench.Verify(esbScenario);
         }
 
         [Test]
@@ -173,7 +176,11 @@
 
             var esbScenario = await _testBench.SetupEsbScenario()
                 .ExpectingRequestTo(EsbEndpoint.SendItkMessage)
-                .Matching(new ITKDispatchRequest { CaseDetails = new CaseDetails { DispositionCode = DispositionCode.Dx333.Value }, PatientDetails = new PatientDetails { CurrentAddress = new Address { PostalCode = dosScenario.Postcode } } })
+                .Matching(new ITKDispatchRequest {
+                    CaseDetails = new CaseDetails {DispositionCode = DispositionCode.Dx333.Value},
+                    PatientDetails = new PatientDetails
+                        {CurrentAddress = new Address {PostalCode = dosScenario.Postcode}}
+                })
                 .Returns(EsbStatusCode.Error500)
                 .OtherwiseReturns(EsbStatusCode.Success200)
                 .BeginAsync();
@@ -186,39 +193,7 @@
             AssertIsUnsuccessfulReferral(itkConfirmation);
 
             var result = await _testBench.Verify(dosScenario);
-            Assert.IsInstanceOf<SuccessfulDosVerificationResult>(result);
-        }
-
-        [Test]
-        public async Task SubmittingReferralForCat3_WhenDuplicateReferral_ShowsDuplicateScreen() {
-            var dosScenario = await _testBench.SetupDosScenario()
-                .ExpectingRequestTo(DosEndpoint.CheckCapacitySummary)
-                .Matching(BlankDosCase.WithDxCode(DispositionCode.Dx333))
-                .Returns(ServicesTransformedTo.OnlyOneCallback)
-                .OtherwiseReturns(DosRequestMismatchResult.ServerError)
-                .Then()
-                .ExpectingRequestTo(DosEndpoint.CheckCapacitySummary)
-                .Matching(BlankDosCase.WithDxCode(DispositionCode.Dx333))
-                .Returns(ServicesTransformedTo.OnlyOneCallback)
-                .OtherwiseReturns(DosRequestMismatchResult.ServerError)
-                .BeginAsync();
-
-            var esbScenario = await _testBench.SetupEsbScenario()
-                .ExpectingRequestTo(EsbEndpoint.SendItkMessage)
-                .Matching(new ITKDispatchRequest { CaseDetails = new CaseDetails { DispositionCode = DispositionCode.Dx333.Value }, PatientDetails = new PatientDetails { CurrentAddress = new Address { PostalCode = dosScenario.Postcode } } })
-                .Returns(EsbStatusCode.Duplicate409)
-                .OtherwiseReturns(EsbStatusCode.Error500)
-                .BeginAsync();
-
-            var callbackPage = NavigateTo999Cat3(dosScenario.Postcode);
-            AssertIsCallbackAcceptancePage(callbackPage);
-            var personalDetailsPage = AcceptCallback();
-            AssertIsPersonalDetailsPage(personalDetailsPage);
-            var itkConfirmation = SubmitPersonalDetails(personalDetailsPage);
-            AssertIsDuplicateReferral(itkConfirmation);
-
-            var result = await _testBench.Verify(dosScenario);
-            Assert.IsInstanceOf<SuccessfulDosVerificationResult>(result);
+            var esbVerifyResult = await _testBench.Verify(esbScenario);
         }
 
         [Test]
@@ -235,6 +210,15 @@
                 .OtherwiseReturns(DosRequestMismatchResult.ServerError)
                 .BeginAsync();
 
+            var esbScenario = await _testBench.SetupEsbScenario()
+                .ExpectingNoRequestTo(EsbEndpoint.SendItkMessage)
+                .Matching(new ITKDispatchRequest {
+                    CaseDetails = new CaseDetails { DispositionCode = DispositionCode.Dx333.Value },
+                    PatientDetails = new PatientDetails
+                        { CurrentAddress = new Address { PostalCode = dosScenario.Postcode } }
+                })
+                .BeginAsync();
+
             var callbackPage = NavigateTo999Cat3(dosScenario.Postcode);
             AssertIsCallbackAcceptancePage(callbackPage);
             var personalDetailsPage = AcceptCallback();
@@ -243,8 +227,7 @@
             AssertIsServiceUnavailableReferral(itkConfirmation);
 
             var result = await _testBench.Verify(dosScenario);
-            Assert.IsInstanceOf<SuccessfulDosVerificationResult>(result);
-            //verify no esb request
+            var esbVerifyResult = await _testBench.Verify(esbScenario);
         }
 
         private TestBench _testBench;
@@ -376,4 +359,5 @@
         }
 
     }
+
 }

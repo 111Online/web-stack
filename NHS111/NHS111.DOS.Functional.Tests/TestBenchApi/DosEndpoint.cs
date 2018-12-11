@@ -1,7 +1,9 @@
-﻿namespace NHS111.DOS.Functional.Tests.TestBenchApi {
+namespace NHS111.DOS.Functional.Tests.TestBenchApi {
     public interface IDosEndpoint { }
 
-    public static class DosEndpoint {
-        public static IDosEndpoint CheckCapacitySummary { get; set; }
+    public class DosEndpoint
+        : IDosEndpoint
+    {
+        public static IDosEndpoint CheckCapacitySummary { get { return new DosEndpoint(); } }
     }
 }

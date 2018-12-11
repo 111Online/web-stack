@@ -40,8 +40,8 @@
     <Reference Include="Moq, Version=4.5.28.0, Culture=neutral, PublicKeyToken=69f491c39445e920, processorArchitecture=MSIL">
       <HintPath>..\packages\Moq.4.5.28\lib\net45\Moq.dll</HintPath>
     </Reference>
-    <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.9.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+    <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.12.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="nunit.framework, Version=2.6.4.14350, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL">
       <HintPath>..\packages\NUnit.2.6.4\lib\nunit.framework.dll</HintPath>
@@ -76,12 +76,12 @@
     <Compile Include="QueryStringEncryptor.cs" />
     <Compile Include="TestBenchApi\BlankDosCase.cs" />
     <Compile Include="TestBenchApi\DosRequestAuditRecord.cs" />
+    <Compile Include="TestBenchApi\DosRequestMismatchResult.cs" />
     <Compile Include="TestBenchApi\DosTestScenarioSetup.cs" />
     <Compile Include="TestBenchApi\EsbEndpoint.cs" />
     <Compile Include="TestBenchApi\EsbStatusCode.cs" />
     <Compile Include="TestBenchApi\EsbTestScenario.cs" />
     <Compile Include="TestBenchApi\EsbTestScenarioSetup.cs" />
-    <Compile Include="TestBenchApi\EsbVerificationResult.cs" />
     <Compile Include="TestBenchApi\PostDosTestScenarioRequest.cs" />
     <Compile Include="TestBenchApi\PostEsbTestScenarioRequest.cs" />
     <Compile Include="TestBenchApi\ServicesTransformedTo.cs" />
@@ -104,13 +104,9 @@
       <Project>{4CCF3ABD-92C4-4999-8520-C4AA7B36F48C}</Project>
       <Name>NHS111.Models</Name>
     </ProjectReference>
-    <ProjectReference Include="..\NHS111.SmokeTest.Utils\NHS111.SmokeTest.Utils.csproj">
-      <Project>{6F80D500-DDA4-4A48-BAF1-276C8E48AF5C}</Project>
-      <Name>NHS111.SmokeTest.Utils</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\NHS111.SmokeTests\NHS111.SmokeTests.csproj">
-      <Project>{4EE75651-425E-46C5-9A07-179A94ECF2EA}</Project>
-      <Name>NHS111.SmokeTests</Name>
+    <ProjectReference Include="..\NHS111.Web.Functional.Utils\NHS111.Web.Functional.Utils.csproj">
+      <Project>{6f80d500-dda4-4a48-baf1-276c8e48af5c}</Project>
+      <Name>NHS111.Web.Functional.Utils</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

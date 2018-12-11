@@ -3,9 +3,9 @@
 
     public class VerifyEsbTestScenarioPostRequest
         : RestRequest {
-        public VerifyEsbTestScenarioPostRequest(IEsbTestScenario scenario)
+        public VerifyEsbTestScenarioPostRequest(ITestScenario scenario)
             : base("esbtestscenario/verify", Method.POST, DataFormat.Json) {
-            AddJsonBody(scenario.IncomingITKDispatchRequest.PatientDetails.CurrentAddress.PostalCode);
+            AddJsonBody(scenario.Postcode);
         }
     }
 }
