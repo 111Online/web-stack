@@ -25,8 +25,6 @@ namespace NHS111.Models.Models.Web
         public List<GroupedDOSServices> GroupedDosServices { get; set; } 
         public string CurrentView { get; set; }
 
-        public string MapsApiKey { get; set; }
-
         public  SurveyLinkViewModel SurveyLink { get; set; }
 
         public InformantViewModel Informant { get; set; }

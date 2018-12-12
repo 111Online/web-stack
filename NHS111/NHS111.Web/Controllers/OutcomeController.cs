@@ -205,11 +205,7 @@ namespace NHS111.Web.Controllers
         [Route("map/")]
         public ActionResult ServiceMap()
         {
-            var model = new OutcomeViewModel()
-            {
-                MapsApiKey = _configuration.MapsApiKey
-            };
-            return View("~\\Views\\Shared\\_GoogleMap.cshtml", model);
+            return View("~\\Views\\Shared\\_GoogleMap.cshtml");
         }
 
         [HttpPost]
