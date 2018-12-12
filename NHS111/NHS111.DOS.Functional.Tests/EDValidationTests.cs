@@ -7,7 +7,6 @@
     using Models.Models.Web.ITK;
     using NUnit.Framework;
     using OpenQA.Selenium;
-    using OpenQA.Selenium.Support.UI;
     using TestBenchApi;
     using Web.Functional.Utils;
 
@@ -41,7 +40,11 @@
 
             var esbScenario = await _testBench.SetupEsbScenario()
                 .ExpectingRequestTo(EsbEndpoint.SendItkMessage)
-                .Matching(new ITKDispatchRequest {CaseDetails = new CaseDetails { DispositionCode = DispositionCode.Dx02.Value }, PatientDetails = new PatientDetails{CurrentAddress = new Address{PostalCode = dosScenario.Postcode}}})
+                .Matching(new ITKDispatchRequest {
+                    CaseDetails = new CaseDetails {DispositionCode = DispositionCode.Dx02.Value},
+                    PatientDetails = new PatientDetails
+                        {CurrentAddress = new Address {PostalCode = dosScenario.Postcode}}
+                })
                 .Returns(EsbStatusCode.Success200)
                 .OtherwiseReturns(EsbStatusCode.Error500)
                 .BeginAsync();
@@ -49,9 +52,10 @@
             var edOutcome = NavigateToRemappedEDOutcome(dosScenario.Postcode);
             AssertIsOriginalOutcome(edOutcome);
             var personalDetailsPage = ClickBookCallButton(edOutcome);
-            AssertIsPersonalDetailsPage(personalDetailsPage);
-            var itkConfirmation = SubmitPersonalDetails(personalDetailsPage);
-            AssertIsSuccessfulReferral(itkConfirmation);
+            personalDetailsPage.VerifyIsPersonalDetailsPage();
+            var referralConfirmation =
+                personalDetailsPage.SubmitPersonalDetails("Test", "Tester", "02380555555", "01", "01", "1982");
+            referralConfirmation.VerifyIsSuccessfulReferral();
             SaveScreenAsPNG("ed-reval-successful-referral");
 
             var dosResult = await _testBench.Verify(dosScenario);
@@ -59,8 +63,7 @@
         }
 
         [Test]
-        public async Task SubmitReferralForDx334_Always_SendsDx334ToESB()
-        {
+        public async Task SubmitReferralForDx334_Always_SendsDx334ToESB() {
             var dosScenario = await _testBench.SetupDosScenario()
                 .ExpectingRequestTo(DosEndpoint.CheckCapacitySummary)
                 .Matching(BlankDosCase.WithDxCode(DispositionCode.Dx334))
@@ -75,17 +78,22 @@
 
             await _testBench.SetupEsbScenario()
                 .ExpectingRequestTo(EsbEndpoint.SendItkMessage)
-                .Matching(new ITKDispatchRequest { CaseDetails = new CaseDetails { DispositionCode = DispositionCode.Dx334.Value }, PatientDetails = new PatientDetails { CurrentAddress = new Address { PostalCode = dosScenario.Postcode } } })
+                .Matching(new ITKDispatchRequest {
+                    CaseDetails = new CaseDetails {DispositionCode = DispositionCode.Dx334.Value},
+                    PatientDetails = new PatientDetails
+                        {CurrentAddress = new Address {PostalCode = dosScenario.Postcode}}
+                })
                 .Returns(EsbStatusCode.Success200)
                 .OtherwiseReturns(EsbStatusCode.Error500)
                 .BeginAsync();
 
             var callbackAcceptancePage = NavigateToRemappedEDOutcome(dosScenario.Postcode);
-            AssertIsCallbackAcceptancePage(callbackAcceptancePage);
-            var personalDetailsPage = AcceptCallback(callbackAcceptancePage);
-            AssertIsPersonalDetailsPage(personalDetailsPage);
-            var itkConfirmation = SubmitPersonalDetails(personalDetailsPage);
-            AssertIsSuccessfulReferral(itkConfirmation);
+            callbackAcceptancePage.VerifyIsCallbackAcceptancePage();
+            var personalDetailsPage = callbackAcceptancePage.AcceptCallback();
+            personalDetailsPage.VerifyIsPersonalDetailsPage();
+            var referralConfirmation =
+                personalDetailsPage.SubmitPersonalDetails("Test", "Tester", "02380555555", "01", "01", "1982");
+            referralConfirmation.VerifyIsSuccessfulReferral();
 
             var result = await _testBench.Verify(dosScenario);
         }
@@ -101,10 +109,10 @@
 
             var postcodePage = NavigateToRemappedEDOutcomeWithArgs(null);
             AssertIsPostcodePage(postcodePage);
-            var callbackAcceptancePage = EnterPostcode(dosScenario.Postcode, postcodePage);
-            AssertIsCallbackAcceptancePage(callbackAcceptancePage);
-            var edOutcome = AcceptCallback(callbackAcceptancePage);
-            AssertIsPersonalDetailsPage(edOutcome);
+            var callbackAcceptancePage = EnterPostCodeAndSubmit(dosScenario.Postcode);
+            callbackAcceptancePage.VerifyIsCallbackAcceptancePage();
+            var personalDetailsPage = callbackAcceptancePage.AcceptCallback();
+            personalDetailsPage.VerifyIsPersonalDetailsPage();
 
             var result = await _testBench.Verify(dosScenario);
         }
@@ -114,7 +122,7 @@
             var dosScenario = await _testBench.SetupDosScenario()
                 .ExpectingNoRequestsTo(DosEndpoint.CheckCapacitySummary)
                 .BeginAsync();
-            
+
             var edOutcome = NavigateToDx94Outcome();
             AssertIsOriginalOutcome(edOutcome, "Dx94", "Your answers suggest you should go to A&E within 1 hour");
 
@@ -142,19 +150,24 @@
 
             var esbScenario = await _testBench.SetupEsbScenario()
                 .ExpectingRequestTo(EsbEndpoint.SendItkMessage)
-                .Matching(new ITKDispatchRequest { CaseDetails = new CaseDetails { DispositionCode = DispositionCode.Dx02.Value }, PatientDetails = new PatientDetails { CurrentAddress = new Address { PostalCode = dosScenario.Postcode } } })
+                .Matching(new ITKDispatchRequest {
+                    CaseDetails = new CaseDetails {DispositionCode = DispositionCode.Dx02.Value},
+                    PatientDetails = new PatientDetails
+                        {CurrentAddress = new Address {PostalCode = dosScenario.Postcode}}
+                })
                 .Returns(EsbStatusCode.Success200)
                 .OtherwiseReturns(EsbStatusCode.Error500)
                 .BeginAsync();
 
             var callbackAcceptancePage = NavigateToRemappedEDOutcome(dosScenario.Postcode);
-            AssertIsCallbackAcceptancePage(callbackAcceptancePage);
+            callbackAcceptancePage.VerifyIsCallbackAcceptancePage();
             var edOutcome = RejectCallback(callbackAcceptancePage);
             AssertIsOriginalOutcome(edOutcome);
             var personalDetailsPage = ClickBookCallButton(edOutcome);
-            AssertIsPersonalDetailsPage(personalDetailsPage);
-            var itkConfirmation = SubmitPersonalDetails(personalDetailsPage);
-            AssertIsSuccessfulReferral(itkConfirmation);
+            personalDetailsPage.VerifyIsPersonalDetailsPage();
+            var referralConfirmation =
+                personalDetailsPage.SubmitPersonalDetails("Test", "Tester", "02380555555", "01", "01", "1982");
+            referralConfirmation.VerifyIsSuccessfulReferral();
 
             var dosResult = await _testBench.Verify(dosScenario);
             var esbResult = await _testBench.Verify(esbScenario);
@@ -197,7 +210,11 @@
 
             var esbScenario = await _testBench.SetupEsbScenario()
                 .ExpectingRequestTo(EsbEndpoint.SendItkMessage)
-                .Matching(new ITKDispatchRequest { CaseDetails = new CaseDetails { DispositionCode = DispositionCode.Dx334.Value }, PatientDetails = new PatientDetails { CurrentAddress = new Address { PostalCode = dosScenario.Postcode } } })
+                .Matching(new ITKDispatchRequest {
+                    CaseDetails = new CaseDetails {DispositionCode = DispositionCode.Dx334.Value},
+                    PatientDetails = new PatientDetails
+                        {CurrentAddress = new Address {PostalCode = dosScenario.Postcode}}
+                })
                 .Returns(EsbStatusCode.Error500)
                 .OtherwiseReturns(EsbStatusCode.Success200)
                 .BeginAsync();
@@ -206,11 +223,12 @@
             //TestContext.CurrentContext.Test.Properties.Add("esbScenario ", esbScenario);
 
             var callbackAcceptancePage = NavigateToRemappedEDOutcome(dosScenario.Postcode);
-            AssertIsCallbackAcceptancePage(callbackAcceptancePage);
-            var personalDetailsPage = AcceptCallback(callbackAcceptancePage);
-            AssertIsPersonalDetailsPage(personalDetailsPage);
-            var itkConfirmation = SubmitPersonalDetails(personalDetailsPage);
-            AssertIsUnsuccessfulReferral(itkConfirmation);
+            callbackAcceptancePage.VerifyIsCallbackAcceptancePage();
+            var personalDetailsPage = callbackAcceptancePage.AcceptCallback();
+            personalDetailsPage.VerifyIsPersonalDetailsPage();
+            var referralConfirmation =
+                personalDetailsPage.SubmitPersonalDetails("Test", "Tester", "02380555555", "01", "01", "1982");
+            referralConfirmation.VerifyIsUnsuccessfulReferral();
             SaveScreenAsPNG("ed-reval-unsuccessful-referral");
 
             var dosResult = await _testBench.Verify(dosScenario);
@@ -233,17 +251,22 @@
 
             var esbScenario = await _testBench.SetupEsbScenario()
                 .ExpectingRequestTo(EsbEndpoint.SendItkMessage)
-                .Matching(new ITKDispatchRequest { CaseDetails = new CaseDetails { DispositionCode = DispositionCode.Dx334.Value }, PatientDetails = new PatientDetails { CurrentAddress = new Address { PostalCode = dosScenario.Postcode } } })
+                .Matching(new ITKDispatchRequest {
+                    CaseDetails = new CaseDetails {DispositionCode = DispositionCode.Dx334.Value},
+                    PatientDetails = new PatientDetails
+                        {CurrentAddress = new Address {PostalCode = dosScenario.Postcode}}
+                })
                 .Returns(EsbStatusCode.Duplicate409)
                 .OtherwiseReturns(EsbStatusCode.Success200)
                 .BeginAsync();
 
             var callbackAcceptancePage = NavigateToRemappedEDOutcome(dosScenario.Postcode);
-            AssertIsCallbackAcceptancePage(callbackAcceptancePage);
-            var personalDetailsPage = AcceptCallback(callbackAcceptancePage);
-            AssertIsPersonalDetailsPage(personalDetailsPage);
-            var itkConfirmation = SubmitPersonalDetails(personalDetailsPage);
-            AssertIsDuplicateReferral(itkConfirmation);
+            callbackAcceptancePage.VerifyIsCallbackAcceptancePage();
+            var personalDetailsPage = callbackAcceptancePage.AcceptCallback();
+            personalDetailsPage.VerifyIsPersonalDetailsPage();
+            var referralConfirmation =
+                personalDetailsPage.SubmitPersonalDetails("Test", "Tester", "02380555555", "01", "01", "1982");
+            referralConfirmation.VerifyIsDuplicateReferral();
             SaveScreenAsPNG("ed-reval-duplicate-referral");
 
             var dosRsult = await _testBench.Verify(dosScenario);
@@ -266,20 +289,20 @@
 
             var esbScenario = await _testBench.SetupEsbScenario()
                 .ExpectingNoRequestTo(EsbEndpoint.SendItkMessage)
-                .Matching(new ITKDispatchRequest
-                {
-                    CaseDetails = new CaseDetails { DispositionCode = DispositionCode.Dx334.Value },
+                .Matching(new ITKDispatchRequest {
+                    CaseDetails = new CaseDetails {DispositionCode = DispositionCode.Dx334.Value},
                     PatientDetails = new PatientDetails
-                        { CurrentAddress = new Address { PostalCode = dosScenario.Postcode } }
+                        {CurrentAddress = new Address {PostalCode = dosScenario.Postcode}}
                 })
                 .BeginAsync();
 
             var callbackAcceptancePage = NavigateToRemappedEDOutcome(dosScenario.Postcode);
-            AssertIsCallbackAcceptancePage(callbackAcceptancePage);
-            var personalDetailsPage = AcceptCallback(callbackAcceptancePage);
-            AssertIsPersonalDetailsPage(personalDetailsPage);
-            var itkConfirmation = SubmitPersonalDetails(personalDetailsPage);
-            AssertIsServiceUnavailableReferral(itkConfirmation);
+            callbackAcceptancePage.VerifyIsCallbackAcceptancePage();
+            var personalDetailsPage = callbackAcceptancePage.AcceptCallback();
+            personalDetailsPage.VerifyIsPersonalDetailsPage();
+            var referralConfirmation =
+                personalDetailsPage.SubmitPersonalDetails("Test", "Tester", "02380555555", "01", "01", "1982");
+            referralConfirmation.VerifyIsServiceUnavailableReferral();
             SaveScreenAsPNG("ed-reval-unavailable-referral");
 
             var dosResult = await _testBench.Verify(dosScenario);
@@ -292,61 +315,14 @@
             Assert.IsTrue(Driver.ElementExists(By.XPath(string.Format("//H3[text()='{0}']", serviceName))));
         }
 
-        private void AssertIsSuccessfulReferral(OutcomePage itkConfirmation) {
-            Assert.IsTrue(Driver.ElementExists(By.CssSelector("h1")), "Possible unexpected triage outcome. Expected header to exist but it doesn't.");
-            var header = Driver.FindElement(By.CssSelector("h1"));
-            Assert.IsTrue(header.Text.StartsWith("You should get a call within"), string.Format("Possible unexpected triage outcome. Expected header text of 'You should get a call within' but was '{0}'.", header.Text));
-        }
-
-        private void AssertIsUnsuccessfulReferral(OutcomePage itkConfirmation) {
-            itkConfirmation.VerifyOutcome("Sorry, there is a problem with the service");
-        }
-
-        private void AssertIsDuplicateReferral(OutcomePage itkConfirmation) {
-            itkConfirmation.VerifyOutcome("Your call has already been booked");
-        }
-
-        private void AssertIsServiceUnavailableReferral(OutcomePage itkConfirmation) {
-            itkConfirmation.VerifyOutcome("Sorry, there is a problem with the service");
-        }
-
-        private void AssertIsOriginalOutcome(OutcomePage edOutcome, string expectedDispositionCode = "Dx02", string dispositionText = "Go to an emergency treatment centre urgently") {
+        private void AssertIsOriginalOutcome(OutcomePage edOutcome, string expectedDispositionCode = "Dx02",
+            string dispositionText = "Go to an emergency treatment centre urgently") {
             edOutcome.VerifyOutcome(dispositionText);
             edOutcome.VerifyDispositionCode(expectedDispositionCode);
         }
 
-        private void AssertIsPersonalDetailsPage(OutcomePage personalDetailsPage) {
-            personalDetailsPage.VerifyOutcome("Enter details");
-        }
-
         private void AssertIsPostcodePage(OutcomePage edOutcome) {
             edOutcome.VerifyOutcome("Where do you want help?");
-        }
-
-        private void AssertIsCallbackAcceptancePage(OutcomePage edOutcome) {
-            edOutcome.VerifyOutcome(OutcomePage.GetCallBackText);
-        }
-
-        private OutcomePage SubmitPersonalDetails(OutcomePage personalDetailsPage) {
-            Driver.FindElement(By.Id("PatientInformantDetails_Informant_Self")).Click();
-            var wait = new WebDriverWait(Driver, TimeSpan.FromSeconds(5));
-            var forename = wait.Until(ExpectedConditions.ElementIsVisible(By.Id("PatientInformantDetails_SelfName_Forename")));
-            forename.SendKeys("Adam Test");
-            Driver.FindElement(By.Id("PatientInformantDetails_SelfName_Surname")).SendKeys("Adam Test");
-            Driver.FindElement(By.Id("UserInfo_TelephoneNumber")).SendKeys("07780555555");
-            Driver.FindElement(By.Id("UserInfo_Day")).SendKeys("01");
-            Driver.FindElement(By.Id("UserInfo_Month")).SendKeys("01");
-            Driver.FindElement(By.Id("UserInfo_Year")).SendKeys("1980");
-            Driver.FindElement(By.CssSelector(".button--next.button--secondary.find-address")).Click();
-            wait = new WebDriverWait(Driver, TimeSpan.FromSeconds(5));
-            var addressPicker = wait.Until(ExpectedConditions.ElementIsVisible(By.Id("AddressInformation_PatientCurrentAddress_SelectedAddressFromPicker")));
-            var selectElement = new SelectElement(addressPicker);
-            var address = selectElement.Options[1].Text;
-            selectElement.SelectByText(address);
-            Driver.FindElement(By.Id("home-address-dont-know")).Click();
-            Driver.FindElement(By.Id("submitDetails")).Click();
-
-            return new OutcomePage(Driver);
         }
 
         private OutcomePage ClickBookCallButton(OutcomePage edOutcome) {
@@ -356,20 +332,7 @@
 
         private OutcomePage RejectCallback(OutcomePage callbackAcceptancePage) {
             Driver.FindElement(By.Id("No")).Click();
-            Driver.FindElement(By.Id("Next")).Click();
-            return new OutcomePage(Driver);
-        }
-
-        private OutcomePage AcceptCallback(OutcomePage callbackAcceptancePage) {
-            Driver.FindElement(By.Id("Yes")).Click();
-            Driver.FindElement(By.Id("Next")).Click();
-            return new OutcomePage(Driver);
-        }
-
-        private OutcomePage EnterPostcode(string postcode, OutcomePage postcodePage) {
-            Driver.FindElement(By.Id("CurrentPostcode")).Clear();
-            Driver.FindElement(By.Id("CurrentPostcode")).SendKeys(postcode);
-            Driver.FindElement(By.Id("postcode")).Click();
+            Driver.FindElement(By.Id("next")).Click();
             return new OutcomePage(Driver);
         }
 
@@ -382,7 +345,8 @@
         }
 
         private OutcomePage NavigateToRemappedEDOutcomeWithArgs(string args) {
-            var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Headache", TestScenerioSex.Male, TestScenerioAgeGroups.Adult, args);
+            var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Headache", TestScenerioSex.Male,
+                TestScenerioAgeGroups.Adult, args);
 
             return questionPage
                 .AnswerSuccessiveByOrder(3, 3)
@@ -392,10 +356,19 @@
         }
 
         private OutcomePage NavigateToDx94Outcome() {
-            var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Sexual or Menstrual Concerns", TestScenerioSex.Female,
+            var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Sexual or Menstrual Concerns",
+                TestScenerioSex.Female,
                 TestScenerioAgeGroups.Adult);
 
             return questionPage.AnswerForDispostion<OutcomePage>(1);
+        }
+
+        private OutcomePage EnterPostCodeAndSubmit(string postcode) {
+            var postcodeField = Driver.FindElement(By.Id("CurrentPostcode"));
+            postcodeField.Clear();
+            postcodeField.SendKeys(postcode);
+            Driver.FindElement(By.Id("postcode")).Click();
+            return new OutcomePage(Driver);
         }
     }
 }

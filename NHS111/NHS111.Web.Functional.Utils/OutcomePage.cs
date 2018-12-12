@@ -54,5 +54,19 @@ namespace NHS111.Web.Functional.Utils
             PostcodeSubmitButton.Click();
             return new OutcomePage(Driver);
         }
+
+        public void VerifyIsCallbackAcceptancePage() {
+            VerifyOutcome("A nurse needs to phone you", "Get a phone call from a nurse");
+        }
+
+        public OutcomePage AcceptCallback() {
+            Driver.IfElementExists(By.Id("Yes"), element => element.Click());
+            Driver.FindElement(By.Id("next")).Click();
+            return new OutcomePage(Driver);
+        }
+
+        public void VerifyIsPersonalDetailsPage() {
+            VerifyOutcome("Enter details");
+        }
     }
 }

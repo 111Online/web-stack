@@ -7,7 +7,6 @@
     using Models.Models.Web.ITK;
     using NUnit.Framework;
     using OpenQA.Selenium;
-    using OpenQA.Selenium.Support.UI;
     using TestBenchApi;
     using Web.Functional.Utils;
 
@@ -15,7 +14,6 @@
         : BaseTests {
 
         //fix test bench service to support running all tests at once
-        //refactor test code to reduce duplication
         //itk dispatch request factory
 
         [SetUp]
@@ -49,10 +47,9 @@
                 .BeginAsync();
 
             var callbackPage = NavigateTo999Cat4(dosScenario.Postcode);
-
-            AssertIsCallbackAcceptancePage(callbackPage);
-            var personalDetailsPage = AcceptCallback();
-            AssertIsPersonalDetailsPage(personalDetailsPage);
+            callbackPage.VerifyIsCallbackAcceptancePage();
+            var personalDetailsPage = callbackPage.AcceptCallback();
+            personalDetailsPage.VerifyIsPersonalDetailsPage();
 
             var result = await _testBench.Verify(dosScenario);
         }
@@ -96,11 +93,11 @@
 
             var postcodePage = NavigateTo999Cat3(null);
 
-            AssertIsCallbackAcceptancePage(postcodePage);
+            postcodePage.VerifyIsCallbackAcceptancePage();
             Assert.True(Driver.ElementExists(By.Id("FindService_CurrentPostcode")),
                 "Expected postcode field when no gate.");
-            var personalDetailsPage = SubmitPostcode(dosScenario.Postcode, postcodePage);
-            AssertIsPersonalDetailsPage(personalDetailsPage);
+            var personalDetailsPage = postcodePage.EnterPostCodeAndSubmit(dosScenario.Postcode);
+            personalDetailsPage.VerifyIsPersonalDetailsPage();
 
             var result = await _testBench.Verify(dosScenario);
         }
@@ -115,10 +112,10 @@
                 .BeginAsync();
 
             var postcodePage = NavigateTo999Cat3(null);
-            AssertIsCallbackAcceptancePage(postcodePage);
+            postcodePage.VerifyIsCallbackAcceptancePage();
             Assert.True(Driver.ElementExists(By.Id("FindService_CurrentPostcode")),
                 "Expected postcode field when no gate.");
-            var outcome = SubmitPostcode(dosScenario.Postcode, postcodePage);
+            var outcome = postcodePage.EnterPostCodeAndSubmit(dosScenario.Postcode);
             outcome.VerifyOutcome(OutcomePage.Cat3999Text);
 
             var result = await _testBench.Verify(dosScenario);
@@ -150,11 +147,11 @@
                 .BeginAsync();
 
             var callbackPage = NavigateTo999Cat3(dosScenario.Postcode);
-            AssertIsCallbackAcceptancePage(callbackPage);
-            var personalDetailsPage = AcceptCallback();
-            AssertIsPersonalDetailsPage(personalDetailsPage);
-            var itkConfirmation = SubmitPersonalDetails(personalDetailsPage);
-            AssertIsSuccessfulReferral(itkConfirmation);
+            callbackPage.VerifyIsCallbackAcceptancePage();
+            var personalDetailsPage = callbackPage.AcceptCallback();
+            personalDetailsPage.VerifyIsPersonalDetailsPage();
+            var referralConfirmation = personalDetailsPage.SubmitPersonalDetails("Test", "Tester", "02380555555", "01", "01", "1982");
+            referralConfirmation.VerifyIsSuccessfulReferral();
 
             var dosVerifyResult = await _testBench.Verify(dosScenario);
             var esbVerifyResult = await _testBench.Verify(esbScenario);
@@ -186,11 +183,11 @@
                 .BeginAsync();
 
             var callbackPage = NavigateTo999Cat3(dosScenario.Postcode);
-            AssertIsCallbackAcceptancePage(callbackPage);
-            var personalDetailsPage = AcceptCallback();
-            AssertIsPersonalDetailsPage(personalDetailsPage);
-            var itkConfirmation = SubmitPersonalDetails(personalDetailsPage);
-            AssertIsUnsuccessfulReferral(itkConfirmation);
+            callbackPage.VerifyIsCallbackAcceptancePage();
+            var personalDetailsPage = callbackPage.AcceptCallback();
+            personalDetailsPage.VerifyIsPersonalDetailsPage();
+            var referralConfirmation = personalDetailsPage.SubmitPersonalDetails("Test", "Tester", "02380555555", "01", "01", "1982");
+            referralConfirmation.VerifyIsUnsuccessfulReferral();
 
             var result = await _testBench.Verify(dosScenario);
             var esbVerifyResult = await _testBench.Verify(esbScenario);
@@ -220,42 +217,17 @@
                 .BeginAsync();
 
             var callbackPage = NavigateTo999Cat3(dosScenario.Postcode);
-            AssertIsCallbackAcceptancePage(callbackPage);
-            var personalDetailsPage = AcceptCallback();
-            AssertIsPersonalDetailsPage(personalDetailsPage);
-            var itkConfirmation = SubmitPersonalDetails(personalDetailsPage);
-            AssertIsServiceUnavailableReferral(itkConfirmation);
+            callbackPage.VerifyIsCallbackAcceptancePage();
+            var personalDetailsPage = callbackPage.AcceptCallback();
+            personalDetailsPage.VerifyIsPersonalDetailsPage();
+            var referralConfirmation = personalDetailsPage.SubmitPersonalDetails("Test", "Tester", "02380555555", "01", "01", "1982");
+            referralConfirmation.VerifyIsServiceUnavailableReferral();
 
             var result = await _testBench.Verify(dosScenario);
             var esbVerifyResult = await _testBench.Verify(esbScenario);
         }
 
         private TestBench _testBench;
-
-        private OutcomePage SubmitPersonalDetails(OutcomePage personalDetailsPage) {
-            Driver.FindElement(By.Id("PatientInformantDetails_Informant_Self")).Click();
-            var wait = new WebDriverWait(Driver, TimeSpan.FromSeconds(5));
-            var forename =
-                wait.Until(ExpectedConditions.ElementIsVisible(By.Id("PatientInformantDetails_SelfName_Forename")));
-            forename.SendKeys("Adam Test");
-            Driver.FindElement(By.Id("PatientInformantDetails_SelfName_Surname")).SendKeys("Adam Test");
-            Driver.FindElement(By.Id("UserInfo_TelephoneNumber")).SendKeys("07780555555");
-            Driver.FindElement(By.Id("UserInfo_Day")).SendKeys("01");
-            Driver.FindElement(By.Id("UserInfo_Month")).SendKeys("01");
-            Driver.FindElement(By.Id("UserInfo_Year")).SendKeys("1980");
-            Driver.FindElement(By.CssSelector(".button--next.button--secondary.find-address")).Click();
-            wait = new WebDriverWait(Driver, TimeSpan.FromSeconds(5));
-            var addressPicker =
-                wait.Until(ExpectedConditions.ElementIsVisible(
-                    By.Id("AddressInformation_PatientCurrentAddress_SelectedAddressFromPicker")));
-            var selectElement = new SelectElement(addressPicker);
-            var address = selectElement.Options[1].Text;
-            selectElement.SelectByText(address);
-            Driver.FindElement(By.Id("home-address-dont-know")).Click();
-            Driver.FindElement(By.Id("submitDetails")).Click();
-
-            return new OutcomePage(Driver);
-        }
 
         private OutcomePage NavigateTo999Cat4(Postcode postcode) {
             var args = postcode != null
@@ -269,13 +241,12 @@
             var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Finger or Thumb Injury, Penetrating",
                 TestScenerioSex.Male, TestScenerioAgeGroups.Adult, args);
 
-            var outcomePage = questionPage
+            return questionPage
                 .Answer(1)
                 .Answer(3)
                 .Answer(1)
                 .AnswerSuccessiveByOrder(3, 5)
                 .AnswerForDispostion<OutcomePage>("No");
-            return outcomePage;
         }
 
         private OutcomePage NavigateTo999Cat3(Postcode postcode) {
@@ -290,13 +261,12 @@
             var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Headache", TestScenerioSex.Male,
                 TestScenerioAgeGroups.Adult, args);
 
-            var outcomePage = questionPage
+            return questionPage
                 .Answer(1)
                 .Answer(1)
                 .Answer(3)
                 .Answer(1)
                 .AnswerForDispostion<OutcomePage>("Yes");
-            return outcomePage;
         }
 
         private OutcomePage NavigateTo999Cat2() {
@@ -304,7 +274,7 @@
                 "Breathing Problems, Breathlessness or Wheeze",
                 TestScenerioSex.Male, TestScenerioAgeGroups.Child);
 
-            var outcomePage = questionPage
+            return questionPage
                 .Answer(3)
                 .Answer(1)
                 .Answer(4)
@@ -312,52 +282,7 @@
                 .Answer(3)
                 .Answer(3)
                 .AnswerForDispostion<OutcomePage>("Yes");
-            return outcomePage;
         }
-
-        private OutcomePage SubmitPostcode(string postcode, OutcomePage postcodePage) {
-            Assert.True(Driver.ElementExists(By.Id("FindService_CurrentPostcode")), "Postcode field not available");
-            Driver.FindElement(By.Id("FindService_CurrentPostcode")).Clear();
-            Driver.FindElement(By.Id("FindService_CurrentPostcode")).SendKeys(postcode);
-            Driver.FindElement(By.Id("DosLookup")).Click();
-            return new OutcomePage(Driver);
-        }
-
-        private OutcomePage AcceptCallback() {
-            Driver.FindElement(By.Id("next")).Click();
-            return new OutcomePage(Driver);
-        }
-
-        private void AssertIsCallbackAcceptancePage(OutcomePage outcomePage) {
-            outcomePage.VerifyOutcome("A nurse needs to phone you");
-        }
-
-        private void AssertIsPersonalDetailsPage(OutcomePage personalDetailsPage) {
-            personalDetailsPage.VerifyOutcome("Enter details");
-        }
-
-        private void AssertIsSuccessfulReferral(OutcomePage itkConfirmation) {
-            Assert.IsTrue(Driver.ElementExists(By.CssSelector("h1")),
-                "Possible unexpected triage outcome. Expected header to exist but it doesn't.");
-            var header = Driver.FindElement(By.CssSelector("h1"));
-            Assert.IsTrue(header.Text.StartsWith("You should get a call within"),
-                string.Format(
-                    "Possible unexpected triage outcome. Expected header text of 'You should get a call within' but was '{0}'.",
-                    header.Text));
-        }
-
-        private void AssertIsUnsuccessfulReferral(OutcomePage itkConfirmation) {
-            itkConfirmation.VerifyOutcome("Sorry, there is a problem with the service");
-        }
-
-        private void AssertIsServiceUnavailableReferral(OutcomePage itkConfirmation) {
-            itkConfirmation.VerifyOutcome("Sorry, there is a problem with the service");
-        }
-
-        private void AssertIsDuplicateReferral(OutcomePage itkConfirmation) {
-            itkConfirmation.VerifyOutcome("Your call has already been booked");
-        }
-
     }
 
 }
