@@ -95,11 +95,6 @@
     <Compile Include="TestBenchApi\VerifyEsbTestScenarioPostRequest.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="chromedriver.exe">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\NHS111.Models\NHS111.Models.csproj">
       <Project>{4CCF3ABD-92C4-4999-8520-C4AA7B36F48C}</Project>
       <Name>NHS111.Models</Name>
@@ -114,6 +109,11 @@
     <None Include="packages.config">
       <SubType>Designer</SubType>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="chromedriver.exe">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -65,6 +65,13 @@ namespace NHS111.Web.Functional.Utils
             return new OutcomePage(Driver);
         }
 
+        public OutcomePage RejectCallback() {
+            Driver.FindElement(By.Id("No")).Click();
+            Driver.FindElement(By.Id("next")).Click();
+            return new OutcomePage(Driver);
+        }
+
+
         public void VerifyIsPersonalDetailsPage() {
             VerifyOutcome("Enter details");
         }

@@ -141,6 +141,7 @@ namespace NHS111.Web.Functional.Tests
                 .Answer(3)
                 .AnswerForDispostion<OutcomePage>("Yes");
 
+            outcomePage.RejectCallback();
             outcomePage.VerifyOutcome("Go to an emergency treatment centre urgently");
             outcomePage.VerifyWorseningPanel(WorseningMessages.Call111PostCodeFirst);
             outcomePage.VerifyCareAdviceHeader("What you can do in the meantime");

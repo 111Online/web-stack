@@ -22,6 +22,7 @@
         }
 
         [Test]
+        [Ignore]
         public async Task Call999Cat3_WithoutCallbackReturned_DisplaysOriginalDispo() {
             var dosScenario = await _testBench.SetupDosScenario()
                 .ExpectingRequestTo(DosEndpoint.CheckCapacitySummary)
@@ -38,6 +39,7 @@
         }
 
         [Test]
+        [Ignore]
         public async Task Call999Cat4_WithCallbackReturned_DisplaysPersonalDetailsPage() {
             var dosScenario = await _testBench.SetupDosScenario()
                 .ExpectingRequestTo(DosEndpoint.CheckCapacitySummary)
@@ -55,6 +57,7 @@
         }
 
         [Test]
+        [Ignore]
         public async Task Call999Cat4_WithoutCallbackReturned_DisplaysOriginalOutcome() {
             var dosScenario = await _testBench.SetupDosScenario()
                 .ExpectingRequestTo(DosEndpoint.CheckCapacitySummary)
@@ -71,6 +74,7 @@
         }
 
         [Test]
+        [Ignore]
         public async Task Call999Cat2_Never_OffersCallback() {
             var dosScenario = await _testBench.SetupDosScenario()
                 .ExpectingNoRequestsTo(DosEndpoint.CheckCapacitySummary)
@@ -83,6 +87,7 @@
         }
 
         [Test]
+        [Ignore]
         public async Task Call999Cat3_TypingPostcodeWithCallbacks_RedirectsToPersonalDetails() {
             var dosScenario = await _testBench.SetupDosScenario()
                 .ExpectingRequestTo(DosEndpoint.CheckCapacitySummary)
@@ -103,6 +108,7 @@
         }
 
         [Test]
+        [Ignore]
         public async Task Call999Cat3_TypingPostcodeWithoutCallbacks_RedirectsToOriginalOutcome() {
             var dosScenario = await _testBench.SetupDosScenario()
                 .ExpectingRequestTo(DosEndpoint.CheckCapacitySummary)
@@ -122,6 +128,7 @@
         }
 
         [Test]
+        [Ignore]
         public async Task SubmittingReferralForCat3_WhenSuccessful_ShowsConfirmationScreen() {
             var dosScenario = await _testBench.SetupDosScenario()
                 .ExpectingRequestTo(DosEndpoint.CheckCapacitySummary)
@@ -158,6 +165,7 @@
         }
 
         [Test]
+        [Ignore]
         public async Task SubmittingReferralForCat3_WhenUnsuccessful_ShowsFailureScreen() {
             var dosScenario = await _testBench.SetupDosScenario()
                 .ExpectingRequestTo(DosEndpoint.CheckCapacitySummary)
@@ -194,6 +202,7 @@
         }
 
         [Test]
+        [Ignore]
         public async Task SubmittingReferralForCat3_WhenServiceUnavailable_ShowsUnavailableScreen() {
             var dosScenario = await _testBench.SetupDosScenario()
                 .ExpectingRequestTo(DosEndpoint.CheckCapacitySummary)
