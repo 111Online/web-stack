@@ -180,6 +180,22 @@
 
         [Test]
         [Ignore]
+        public async Task EDOutcome_WhenDosIsUnavailable_ShowsCorrectScreen() {
+            var dosScenario = await _testBench.SetupDosScenario()
+                .ExpectingRequestTo(DosEndpoint.CheckCapacitySummary)
+                .Matching(BlankDosCase.WithDxCode(DispositionCode.Dx334))
+                .Returns(ServicesTransformedTo.ServerError)
+                .OtherwiseReturns(DosRequestMismatchResult.ServerError)
+                .BeginAsync();
+
+            var edOutcome = NavigateToRemappedEDOutcome(dosScenario.Postcode);
+            AssertIsOriginalOutcome(edOutcome);
+
+            var result = await _testBench.Verify(dosScenario);
+        }
+
+        [Test]
+        [Ignore]
         public async Task EDOutcome_WithDosErrorForFirstQuery_ReturnsResultsForSecondQuery() {
             var dosScenario = await _testBench.SetupDosScenario()
                 .ExpectingRequestTo(DosEndpoint.CheckCapacitySummary)

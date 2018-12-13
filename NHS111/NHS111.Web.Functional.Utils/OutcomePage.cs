@@ -55,6 +55,12 @@ namespace NHS111.Web.Functional.Utils
             return new OutcomePage(Driver);
         }
 
+        public bool IsCallbackAcceptancePage() {
+            Assert.IsTrue(Driver.ElementExists(By.CssSelector("h1")),
+                "Possible unexpected triage outcome. Expected header to exist but it doesn't.");
+            return Header.Text == "A nurse needs to phone you" || Header.Text == "Get a phone call from a nurse";
+        }
+
         public void VerifyIsCallbackAcceptancePage() {
             VerifyOutcome("A nurse needs to phone you", "Get a phone call from a nurse");
         }
