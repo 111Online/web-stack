@@ -18,7 +18,7 @@ namespace NHS111.Utils.Filters
         {
             if (!_redirectToStartFeature.IsEnabled) return;
 
-            var result = filterContext.Result as ViewResultBase;
+           var result = filterContext.Result as ViewResultBase;
             if (result == null)
                 return;
 
@@ -26,6 +26,8 @@ namespace NHS111.Utils.Filters
             if (model == null)
                 return;
 
+            if (result.Model.GetType() == typeof(OutcomeMapViewModel))
+                return;
 
             if (string.IsNullOrEmpty(model.CurrentPostcode) && model.OutcomeGroup == null)
                 filterContext.Result = new RedirectResult(_redirectToStartFeature.RedirectUrl, false);

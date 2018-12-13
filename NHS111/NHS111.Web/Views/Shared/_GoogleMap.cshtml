@@ -1,5 +1,4 @@
-﻿@using NHS111.Web.Presentation.Configuration
-@inherits NHS111.Web.Views.Shared.SurveyLinkView<NHS111.Models.Models.Web.OutcomeViewModel>
+﻿@model NHS111.Models.Models.Web.OutcomeMapViewModel
 @{
     Layout = null;
     var apiUrl = "https://maps.googleapis.com/maps/api/js?key=" + Model.MapsApiKey;
