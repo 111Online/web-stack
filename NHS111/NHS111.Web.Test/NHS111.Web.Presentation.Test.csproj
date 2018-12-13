@@ -96,6 +96,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Builders\OutcomeViewModelBuilderTests.cs" />
     <Compile Include="Builders\LocationResultBuilderTests.cs" />
     <Compile Include="Builders\CareAdviceBuilderTests.cs" />
     <Compile Include="Builders\DOSBuilderTests.cs" />
@@ -103,6 +104,7 @@
     <Compile Include="Builders\JustToBeSafeFirstViewModelBuilderTests.cs" />
     <Compile Include="Builders\KeywordCollectorTests.cs" />
     <Compile Include="Builders\JourneyViewModelBuilderTests.cs" />
+    <Compile Include="Builders\ReferralResultBuilderTests.cs" />
     <Compile Include="Builders\SurgeryBuilderTests.cs" />
     <Compile Include="Builders\SymptomDicriminatorCollectorTests.cs" />
     <Compile Include="Builders\JourneyHistoryWranglerTests.cs" />
@@ -143,6 +145,7 @@
   <ItemGroup>
     <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

@@ -1,0 +1,121 @@
+﻿@using NHS111.Models.Models.Domain
+@using NHS111.Models.Models.Web
+@using NHS111.Models.Models.Web.Enums
+@using NHS111.Models.Models.Web.FromExternalServices
+@{ Layout = "~/Views/Shared/_LayoutNhsUk.cshtml"; }
+@inherits NHS111.Web.Views.Shared.DirectLinkingView<OutcomeViewModel>
+
+
+@section Title  {NHS 111 Online - Callback}
+
+
+@section HeadTop {
+    @{
+        var url = string.Format("/{0}/{1}/{2}/callback", Url.Encode(Model.PathwayId), Url.Encode(Model.PathwayTitle), Url.Encode(Model.Id));
+    }
+
+    <script>
+        var pageId = '@Model.PathwayId';
+        dataLayer = [
+            {
+                'virtualPageUrl': document.location.pathname + '@url',
+                'virtualPageTitle': '999 callback'
+            }];
+    </script>
+}
+
+@section FeedbackSection {
+    @Html.Partial("_FeedbackDetails", new FeedbackViewModel() {
+        UserId = Model.SessionId.ToString(),
+        PageData = new PageDataViewModel(PageDataViewModel.PageType.Call999Callback, Model)
+    })
+}
+
+@functions {
+
+    string WriteDirectLink(JourneyViewModel model)
+    {
+        if (DirectLinkingFeature.IsEnabled)
+        {
+            return "<!-- DIRECT LINK: " + model.StepLink + " -->";
+        }
+
+        return "";
+    }
+
+    string WriteAnswers(string triggerQuestionNo)
+    {
+        var answerQuery = "";
+        foreach (var question in Model.Journey.Steps)
+        {
+            if (string.Equals(question.QuestionNo, triggerQuestionNo, StringComparison.CurrentCultureIgnoreCase))
+                return answerQuery.Trim(',');
+            answerQuery += question.Answer.Order - 1 + ",";
+        }
+
+        return answerQuery.Trim(',');
+    }
+
+}
+@{
+    var action = "PersonalDetails";
+    if (Model.CurrentPostcode == null)
+    {
+        action = "ServiceList";
+    }
+}
+@using (Html.BeginForm(action, "Outcome", FormMethod.Post))
+{
+    @Html.HiddenFor(x => x.TriggerQuestionNo)
+    @Html.Partial("_CommonHiddenFieldsOutcomeViewModel", Model)
+    @Html.Partial("_CommonHiddenFieldsCareAdviceViewModel", Model)
+    string selectedServiceId = "";
+    if (Model.DosCheckCapacitySummaryResult.HasITKServices)
+    {
+        selectedServiceId = Model.DosCheckCapacitySummaryResult.Success.Services.First(s => s.OnlineDOSServiceType == OnlineDOSServiceType.Callback).Id.ToString();
+    }
+    @Html.Hidden("SelectedServiceId", selectedServiceId);
+
+    @Html.Raw(WriteDirectLink(Model))
+
+    for (int i = 0; i < Model.CollectedKeywords.Keywords.Count; i++)
+    {
+        @Html.HiddenFor(model => Model.CollectedKeywords.Keywords[i].Value)
+        @Html.HiddenFor(model => Model.CollectedKeywords.Keywords[i].IsFromAnswer)
+    }
+
+    for (int i = 0; i < Model.CollectedKeywords.ExcludeKeywords.Count; i++)
+    {
+        @Html.HiddenFor(model => Model.CollectedKeywords.ExcludeKeywords[i].Value)
+        @Html.HiddenFor(model => Model.CollectedKeywords.ExcludeKeywords[i].IsFromAnswer)
+    }
+    <div class="form-group measure @(@ViewData.ModelState.IsValidField("SelectedAnswer") ? "" : "form-group-error")">
+        <fieldset>
+            <legend>
+                <h1>A nurse needs to phone you</h1>
+            </legend>
+            <p>We think you might need urgent medical help.</p>
+            <p>A nurse will phone you within 30 minutes and tell you what to do next.</p>
+            <p>If we can't contact you within that time emergency services may be sent to check you're ok.</p>
+            <p>If you need a translator you can ask for one when you start the call.</p>
+        </fieldset>
+    </div>
+
+    if (Model.CurrentPostcode == null)
+    {
+        var dataDictionary = ViewContext.ViewData;
+        dataDictionary.Add(new KeyValuePair<string, object>("Title", ""));
+        dataDictionary.Add(new KeyValuePair<string, object>("ButtonText", "Next"));
+        dataDictionary.Add(new KeyValuePair<string, object>("Label", ""));
+        dataDictionary.Add(new KeyValuePair<string, object>("ITK", true));
+        dataDictionary.TemplateInfo = new TemplateInfo() { HtmlFieldPrefix = "FindService" };
+
+        @Html.Partial("_FindService", Model, dataDictionary)
+    }
+    else
+    {
+        <button class="button--next" id="next" type="submit" name="Next" value="Next">Next</button>
+    }
+}
+
+@Html.Partial("_PageLoadingIndicator")

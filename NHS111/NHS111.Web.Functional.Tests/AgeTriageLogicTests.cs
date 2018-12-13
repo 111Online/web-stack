@@ -21,7 +21,7 @@ namespace NHS111.Web.Functional.Tests
                 .AnswerAndVerifyNextQuestion(4, "Is the pain so unbearable you can't move at all?")
                 .AnswerForDispostion<OutcomePage>("Yes");
 
-            outcomePage.VerifyOutcome("Phone 999 now for an ambulance");
+            outcomePage.VerifyOutcome(OutcomePage.ValidationCallbackText, OutcomePage.Cat3999Text);
         }
 
         [Test]
@@ -40,7 +40,7 @@ namespace NHS111.Web.Functional.Tests
                 .AnswerAndVerifyNextQuestion(4, "Is the pain so unbearable you can't move at all?")
                 .AnswerForDispostion<OutcomePage>("Yes");
 
-            outcomePage.VerifyOutcome("Phone 999 now for an ambulance");
+            outcomePage.VerifyOutcome(OutcomePage.ValidationCallbackText, OutcomePage.Cat3999Text);
         }
 
         [Test]
@@ -57,7 +57,7 @@ namespace NHS111.Web.Functional.Tests
                 .AnswerAndVerifyNextQuestion(4, "Is the pain so unbearable you can't move at all?")
                 .AnswerForDispostion<OutcomePage>("Yes");
 
-            outcomePage.VerifyOutcome("Phone 999 now for an ambulance");
+            outcomePage.VerifyOutcome(OutcomePage.ValidationCallbackText, OutcomePage.Cat3999Text);
         }
     }
 }
