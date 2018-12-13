@@ -203,6 +203,23 @@
 
         [Test]
         [Ignore]
+        public async Task EDOutcome_WhenDosIsUnavailable_ShowsCorrectScreen() {
+            var dosScenario = await _testBench.SetupDosScenario()
+                .ExpectingRequestTo(DosEndpoint.CheckCapacitySummary)
+                .Matching(BlankDosCase.WithDxCode(DispositionCode.Dx333))
+                .Returns(ServicesTransformedTo.ServerError)
+                .OtherwiseReturns(DosRequestMismatchResult.ServerError)
+                .BeginAsync();
+
+            var outcome = NavigateTo999Cat3(dosScenario.Postcode);
+            outcome.VerifyOutcome(OutcomePage.Cat3999Text);
+
+            var result = await _testBench.Verify(dosScenario);
+        }
+
+
+        [Test]
+        [Ignore]
         public async Task SubmittingReferralForCat3_WhenServiceUnavailable_ShowsUnavailableScreen() {
             var dosScenario = await _testBench.SetupDosScenario()
                 .ExpectingRequestTo(DosEndpoint.CheckCapacitySummary)
