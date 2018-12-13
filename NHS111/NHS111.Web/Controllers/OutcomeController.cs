@@ -205,7 +205,7 @@ namespace NHS111.Web.Controllers
         [Route("map/")]
         public ActionResult ServiceMap()
         {
-            var model = new OutcomeViewModel()
+            var model = new OutcomeMapViewModel()
             {
                 MapsApiKey = _configuration.MapsApiKey
             };
