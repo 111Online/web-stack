@@ -12,6 +12,7 @@ namespace NHS111.Web.Helpers
     using System.Linq;
     using Controllers;
     using Features;
+    using Models.Models.Domain;
     using Newtonsoft.Json;
     using Presentation.Configuration;
 
@@ -39,6 +40,21 @@ namespace NHS111.Web.Helpers
             throw new ArgumentOutOfRangeException(string.Format("Outcome group {0} for outcome {1} has no view configured", model.OutcomeGroup.ToString(), model.Id));
         }
 
+        public string GetCallbackConfirmationViewName(OutcomeGroup outcomeGroup) {
+            return outcomeGroup.Is999Callback ? "Call_999_Callback_Confirmation" : "Confirmation";
+        }
+
+        public string GetCallbackFailureViewName(OutcomeGroup outcomeGroup) {
+            return outcomeGroup.Is999Callback ? "Call999_ServiceBookingFailure" : "ServiceBookingFailure";
+        }
+        public string GetServiceUnavailableViewName(OutcomeGroup outcomeGroup) {
+            return outcomeGroup.Is999Callback ? "Call999_ServiceBookingUnavailable" : "ServiceBookingUnavailable";
+        }
+
+        public string GetCallbackDuplicateViewName(OutcomeGroup outcomeGroup) {
+            return outcomeGroup.Is999Callback ? "Call999_DuplicateBookingFailure" : "DuplicateBookingFailure";
+        }
+
         public string GetViewName(JourneyViewModel model, ControllerContext context)
         {
             if (model == null) return "../Question/Question";
@@ -58,6 +74,17 @@ namespace NHS111.Web.Helpers
                     if (IsTestJourney(outcomeViewModel))
                         return "../Outcome/Call_999_CheckAnswer";
 
+                    if (outcomeViewModel.OutcomeGroup.Is999Callback
+                        && (outcomeViewModel.DosCheckCapacitySummaryResult.HasITKServices || string.IsNullOrEmpty(outcomeViewModel.CurrentPostcode)))
+                        return "../Outcome/Call_999_Callback";
+
+                    if (outcomeViewModel.OutcomeGroup.Equals(OutcomeGroup.AccidentAndEmergency)) {
+                        if (string.IsNullOrEmpty(outcomeViewModel.CurrentPostcode))
+                            return "../Outcome/ChangePostcode";
+
+                        if (!outcomeViewModel.DosCheckCapacitySummaryResult.IsValidationRequery && outcomeViewModel.DosCheckCapacitySummaryResult.HasITKServices && !outcomeViewModel.HasAcceptedCallbackOffer.HasValue)
+                            return "../Outcome/SP_Accident_and_emergency_callback";
+                    }
                     if (ViewExists(viewFilePath, context))
                     {
                         _userZoomDataBuilder.SetFieldsForOutcome(model);
@@ -119,5 +146,9 @@ namespace NHS111.Web.Helpers
     {
         string GetViewName(JourneyViewModel model, ControllerContext context);
         string GetOutcomeViewPath(OutcomeViewModel model, ControllerContext context, string nextView);
+        string GetCallbackFailureViewName(OutcomeGroup outcomeGroup);
+        string GetCallbackDuplicateViewName(OutcomeGroup outcomeGroup);
+        string GetCallbackConfirmationViewName(OutcomeGroup outcomeGroup);
+        string GetServiceUnavailableViewName(OutcomeGroup outcomeGroup);
     }
 }

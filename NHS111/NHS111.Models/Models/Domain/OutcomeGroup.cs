@@ -34,9 +34,9 @@ namespace NHS111.Models.Models.Domain {
 
         public static OutcomeGroup Call999Cat2 = new OutcomeGroup { Id = "Call_999_cat_2", Text = "Phone 999 now for an ambulance" };
 
-        public static OutcomeGroup Call999Cat3 = new OutcomeGroup { Id = "Call_999_cat_3", Text = "Call_999_cat_3", DefaultTitle = "Phone 999 now for an ambulance" };
+        public static OutcomeGroup Call999Cat3 = new OutcomeGroup { Id = "Call_999_cat_3", Text = "Call_999_cat_3", DefaultTitle = "Phone 999 now for an ambulance", AutomaticSelectionOfItkResult = true };
     
-        public static OutcomeGroup Call999Cat4 = new OutcomeGroup { Id = "Call_999_cat_4", Text = "Call_999_cat_4", DefaultTitle = "Phone 999 for an ambulance" };
+        public static OutcomeGroup Call999Cat4 = new OutcomeGroup { Id = "Call_999_cat_4", Text = "Call_999_cat_4", DefaultTitle = "Phone 999 for an ambulance", AutomaticSelectionOfItkResult = true };
 
         public static OutcomeGroup AccidentAndEmergency = new OutcomeGroup { Id = "SP_Accident_and_emergency", DefaultTitle = "Your answers suggest you should go to an Accident and Emergency department", Label = "Urgent healthcare services", ITK = false };
 
@@ -58,7 +58,7 @@ namespace NHS111.Models.Models.Domain {
 
         public static OutcomeGroup GP = new OutcomeGroup { Id = "SP_GP", Text = "SP_GP", DefaultTitle = "Based on your answers, we recommend you speak to a healthcare service", Label = "Healthcare services" };
 
-        public static OutcomeGroup[] PrePopulatedDosResultsOutcomeGroups = new OutcomeGroup[] {Dental, ItkPrimaryCare, AccidentAndEmergency, ClinicianCallBack};
+        public static OutcomeGroup[] PrePopulatedDosResultsOutcomeGroups = new OutcomeGroup[] {Dental, ItkPrimaryCare, AccidentAndEmergency, ClinicianCallBack, Call999Cat3, Call999Cat4};
         public static OutcomeGroup[] SignpostingOutcomesGroups = new OutcomeGroup[] { AccidentAndEmergency, AccidentAndEmergencySexualAssault, Optician, Pharmacy, GumClinic, Dental, EmergencyDental, Midwife, GP };
         public static OutcomeGroup[] DosSearchOutcomesGroups = new OutcomeGroup[] { AccidentAndEmergency, AccidentAndEmergencySexualAssault, Optician, Pharmacy, GumClinic, Dental, EmergencyDental, Midwife, ItkPrimaryCare, ClinicianCallBack, GP };
      
@@ -120,5 +120,16 @@ namespace NHS111.Models.Models.Domain {
 
         private bool PostcodeFirst { get; set; }
         private bool AutomaticSelectionOfItkResult { get; set; }
+
+        public bool Is999Callback {
+            get {
+                return this.Equals(OutcomeGroup.Call999Cat3) ||
+                       this.Equals(OutcomeGroup.Call999Cat4);
+            }
+        }
+
+        public bool IsEDCallback {
+            get { return this.Equals(OutcomeGroup.AccidentAndEmergency); }
+        }
     }
 }

@@ -95,6 +95,8 @@ namespace NHS111.Models.Models.Web
             }
         }
 
+        public bool? HasAcceptedCallbackOffer { get; set; }
+
         public OutcomeViewModel()
         {
             SurgeryViewModel = new SurgeryViewModel();
