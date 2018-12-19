@@ -154,7 +154,7 @@ namespace NHS111.Web.Controllers
         public void AutoSelectFirstItkService(OutcomeViewModel model)
         {
             var service = model.DosCheckCapacitySummaryResult.Success.Services.FirstOrDefault(s => s.OnlineDOSServiceType == OnlineDOSServiceType.Callback);
-            
+
             if (service != null)
                 model.SelectedServiceId = service.Id.ToString();
         }
@@ -218,7 +218,11 @@ namespace NHS111.Web.Controllers
         [Route("map/")]
         public ActionResult ServiceMap()
         {
-            return View("~\\Views\\Shared\\_GoogleMap.cshtml");
+            var model = new OutcomeMapViewModel()
+            {
+                MapsApiKey = _configuration.MapsApiKey
+            };
+            return View("~\\Views\\Shared\\_GoogleMap.cshtml", model);
         }
 
         [HttpPost]
@@ -262,7 +266,7 @@ namespace NHS111.Web.Controllers
                         return await PersonalDetails(Mapper.Map<PersonalDetailViewModel>(model));
                 }
                 return View("~\\Views\\Outcome\\ServiceDetails.cshtml", model);
-                //explicit path to view because, when direct-linking, the route is no longer /outcome causing convention based view lookup to fail    
+                //explicit path to view because, when direct-linking, the route is no longer /outcome causing convention based view lookup to fail
             }
 
             return View(model.CurrentView, model);
