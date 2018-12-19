@@ -68,7 +68,7 @@ namespace NHS111.Web.Functional.Tests
         {
             var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Cold or Flu (Declared)", TestScenerioSex.Female, TestScenerioAgeGroups.Adult);
 
-            questionPage.VerifyQuestion("Are you so ill you've stopped doing your usual daily activities?");
+            questionPage.VerifyQuestion("Are you so ill that you've stopped doing all of your usual daily activities?");
             var outcomePage = questionPage
                 .Answer(3)
                 .Answer(3) //mers
@@ -91,7 +91,7 @@ namespace NHS111.Web.Functional.Tests
         {
             var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Dental Problems", TestScenerioSex.Female, TestScenerioAgeGroups.Adult);
 
-            questionPage.VerifyQuestion("Do you have dental bleeding, toothache or a different dental problem?");
+            questionPage.VerifyQuestion("What is the problem that's bothering you most?");
             var postcodeFirstPage = questionPage
                 .Answer(2)
                 .Answer(4)
@@ -111,7 +111,7 @@ namespace NHS111.Web.Functional.Tests
         {
             var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Dental Problems", TestScenerioSex.Female, TestScenerioAgeGroups.Adult);
 
-            questionPage.VerifyQuestion("Do you have dental bleeding, toothache or a different dental problem?");
+            questionPage.VerifyQuestion("What is the problem that's bothering you most?");
             var outcomePage = questionPage
                 .Answer(1)
                 .Answer(3)
