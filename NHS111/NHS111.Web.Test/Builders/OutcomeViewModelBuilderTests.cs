@@ -1,4 +1,6 @@
-﻿namespace NHS111.Web.Presentation.Builders.Tests
+﻿using NHS111.Utils.Parser;
+
+namespace NHS111.Web.Presentation.Builders.Tests
 {
     using System;
     using System.Configuration;
