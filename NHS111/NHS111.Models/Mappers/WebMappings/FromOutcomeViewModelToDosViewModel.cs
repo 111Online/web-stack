@@ -6,6 +6,7 @@ using NHS111.Models.Models.Web;
 
 namespace NHS111.Models.Mappers.WebMappings
 {
+    using System.Configuration;
     using System.Linq;
 
     public class FromOutcomeViewModelToDosViewModel : Profile
@@ -28,7 +29,7 @@ namespace NHS111.Models.Mappers.WebMappings
                 .ForMember(dest => dest.UserId, opt => opt.MapFrom(src => src.SessionId))
                 .ForMember(dest => dest.PostCode, opt => opt.MapFrom(src => src.CurrentPostcode))
                 .ForMember(dest => dest.Disposition,
-                    opt => opt.ResolveUsing<DispositionResolver>().FromMember(src => src.Id))
+                            opt => opt.ResolveUsing<DispositionResolver>().FromMember(src => src.Id))
                 .ForMember(dest => dest.SymptomDiscriminatorList,
                     opt =>
                         opt.ResolveUsing<SymptomDiscriminatorListResolver>()
@@ -52,20 +53,57 @@ namespace NHS111.Models.Mappers.WebMappings
 
         public class DispositionResolver : ValueResolver<string, int>
         {
-            protected override int ResolveCore(string source)
-            {
+            protected override int ResolveCore(string source) {
+                source = Remap(source);
+
+                return ConvertToDosCode(source);
+            }
+
+            public static int ConvertToDosCode(string source) {
                 if (!source.StartsWith("Dx")) throw new FormatException("Dx code does not have prefix \"Dx\". Cannot convert");
                 var code = source.Replace("Dx", "");
-                if (code.Length == 3)
-                {
+                if (code.Length == 3) {
                     if (code.StartsWith("1"))
                         return Convert.ToInt32("1" + code);
                     else
                         return Convert.ToInt32("11" + code);
                 }
-                
+
                 return Convert.ToInt32("10" + code);
             }
+
+            public static string Remap(string source) {
+                if (IsRemappedToDx333(source))
+                    return "Dx333";
+
+                if (IsRemappedToDx334(source))
+                    return "Dx334";
+
+                return source;
+            }
+
+            public static bool IsRemappedToDx333(string dxCode) {
+                var mappingsForDx333 = ConfigurationManager.AppSettings["Cat3And4DxCodes"];
+                if (mappingsForDx333 != null) {
+                    var remapped333Codes = mappingsForDx333.Split(',');
+                    if (remapped333Codes.Contains(dxCode))
+                        return true;
+                }
+
+                return false;
+            }
+
+            public static bool IsRemappedToDx334(string dxCode) {
+                var mappingsForDx334 = ConfigurationManager.AppSettings["EDCallbackDxCodes"];
+                if (mappingsForDx334 != null) {
+                    var remapped334Codes = mappingsForDx334.Split(',');
+                    if (remapped334Codes.Contains(dxCode))
+                        return true;
+                }
+
+                return false;
+            }
+
         }
 
 

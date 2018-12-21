@@ -26,8 +26,10 @@ using DosService = NHS111.Models.Models.Business.DosService;
 
 namespace NHS111.Web.Presentation.Builders
 {
+    using Converters;
     using log4net;
     using log4net.Config;
+    using NHS111.Models.Mappers.WebMappings;
 
     public class DOSBuilder : IDOSBuilder
     {
@@ -149,9 +151,12 @@ namespace NHS111.Web.Presentation.Builders
             return new HttpRequestMessage { Content = new StringContent(JsonConvert.SerializeObject(dosCase), Encoding.UTF8, "application/json") };
         }
 
-        public DosViewModel BuildDosViewModel(OutcomeViewModel model, DateTime? overrideDate)
-        {
+        public DosViewModel BuildDosViewModel(OutcomeViewModel model, DateTime? overrideDate) {
             var dosViewModel = Mapper.Map<DosViewModel>(model);
+
+            if (model.DosCheckCapacitySummaryResult.IsValidationRequery || (model.HasAcceptedCallbackOffer.HasValue && !model.HasAcceptedCallbackOffer.Value))
+                dosViewModel.Disposition = FromOutcomeViewModelToDosViewModel.DispositionResolver.ConvertToDosCode(model.Id);
+
             if (!overrideDate.HasValue)
             {
                 dosViewModel.DispositionTime = DateTime.Now;

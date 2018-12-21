@@ -32,7 +32,7 @@ namespace NHS111.Web.Presentation.Configuration
 
         public string GoogleAnalyticsContainerId { get {return ConfigurationManager.AppSettings["GoogleAnalyticsContainerId "]; } }
         public string MapsApiUrl { get { return ConfigurationManager.AppSettings["MapsApiUrl"]; } }
-
+        public string MapsApiKey { get { return ConfigurationManager.AppSettings["MapsApiKey"]; } }
         public string DosMobileBaseUrl { get { return ConfigurationManager.AppSettings["DOSMobileBaseUrl"]; } }
         public string DosMobileUsername { get { return ConfigurationManager.AppSettings["dos_mobile_credential_user"]; } }
         public string DosMobilePassword { get { return ConfigurationManager.AppSettings["dos_mobile_credential_password"]; } }
@@ -263,7 +263,7 @@ namespace NHS111.Web.Presentation.Configuration
         string BusinessApiGetFullPathwayJourneyUrl { get; }
         string GoogleAnalyticsContainerId { get; }
         string MapsApiUrl { get; }
-
+        string MapsApiKey { get; }
         bool IsPublic { get; }
         string LoggingServiceUrl { get; }
         string DosMobileBaseUrl { get; }

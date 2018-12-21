@@ -11,9 +11,9 @@
     @RenderSection("HeadTop", false)
 
     @{
-        var data = new Dictionary<string, string> { { "ContainerID", ConfigurationManager.AppSettings["GoogleAnalyticsContainerId"] } };
+        var containerId = ConfigurationManager.AppSettings["GoogleAnalyticsContainerId"];
 
-        var tagPrinter = new GoogleTagManagerPrinter(data);
+        var tagPrinter = new GoogleTagManagerPrinter(containerId);
     }
 
     @tagPrinter.Print()
@@ -90,7 +90,7 @@
     <div class="phase-banner" role="banner">
         <span class="banner--beta">beta</span>
         <span class="phase-message">
-            @if (IsSectionDefined("FeedbackSection") && !(Model is OutcomeViewModel))
+            @if (IsSectionDefined("FeedbackSection") && !(Model is OutcomeViewModel || Model is ReferralResultViewModel))
             {
                 <text>This is a new service, your <a href="#feedback" class="js-open-feedback">feedback</a> will help improve it.</text>
             }
@@ -128,17 +128,18 @@
         </div>
     </footer>
 
-    <div id="global-app-error" class="app-error hidden"></div>
-    @if (UserZoomSurveyFeature.IsEnabled && Model != null && !string.IsNullOrEmpty(Model.UserZoomUrl) && !string.IsNullOrEmpty(Model.UserZoomTitle))
+<div id="global-app-error" class="app-error hidden"></div>
+    @{ var journeyModel = Model as JourneyViewModel;}
+    @if (UserZoomSurveyFeature.IsEnabled && journeyModel != null && !string.IsNullOrEmpty(journeyModel.UserZoomUrl) && !string.IsNullOrEmpty(journeyModel.UserZoomTitle))
     {
-        <script>
+<script>
             $(document).ready(function () {
                 uztracker('send', 'page', {
-                    'url': document.location.href + '/' + '@Model.UserZoomUrl',
-                        'title': '@Model.UserZoomTitle'
+                    'url': document.location.href + '/' + '@journeyModel.UserZoomUrl',
+                        'title': '@journeyModel.UserZoomTitle'
                     });
             });
-        </script>
+</script>
     }
 
 

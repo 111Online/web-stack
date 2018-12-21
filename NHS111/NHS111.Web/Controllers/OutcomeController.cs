@@ -27,6 +27,7 @@ namespace NHS111.Web.Controllers
     using System.Web;
     using Models.Models.Web.DosRequests;
     using System.Text.RegularExpressions;
+    using Models.Models.Web.Enums;
 
     [LogHandleErrorForMVC]
     public class OutcomeController : Controller
@@ -39,9 +40,10 @@ namespace NHS111.Web.Controllers
         private readonly Presentation.Configuration.IConfiguration _configuration;
         private readonly IPostCodeAllowedValidator _postCodeAllowedValidator;
         private readonly IViewRouter _viewRouter;
+        private readonly IReferralResultBuilder _referralResultBuilder;
 
         public OutcomeController(IOutcomeViewModelBuilder outcomeViewModelBuilder, IDOSBuilder dosBuilder,
-            ISurgeryBuilder surgeryBuilder, ILocationResultBuilder locationResultBuilder, IAuditLogger auditLogger, Presentation.Configuration.IConfiguration configuration, IPostCodeAllowedValidator postCodeAllowedValidator, IViewRouter viewRouter)
+            ISurgeryBuilder surgeryBuilder, ILocationResultBuilder locationResultBuilder, IAuditLogger auditLogger, Presentation.Configuration.IConfiguration configuration, IPostCodeAllowedValidator postCodeAllowedValidator, IViewRouter viewRouter, IReferralResultBuilder referralResultBuilder)
         {
             _outcomeViewModelBuilder = outcomeViewModelBuilder;
             _dosBuilder = dosBuilder;
@@ -51,6 +53,7 @@ namespace NHS111.Web.Controllers
             _configuration = configuration;
             _postCodeAllowedValidator = postCodeAllowedValidator;
             _viewRouter = viewRouter;
+            _referralResultBuilder = referralResultBuilder;
         }
 
         [HttpPost]
@@ -151,7 +154,7 @@ namespace NHS111.Web.Controllers
         public void AutoSelectFirstItkService(OutcomeViewModel model)
         {
             var service = model.DosCheckCapacitySummaryResult.Success.Services.FirstOrDefault(s => s.OnlineDOSServiceType == OnlineDOSServiceType.Callback);
-            
+
             if (service != null)
                 model.SelectedServiceId = service.Id.ToString();
         }
@@ -173,9 +176,15 @@ namespace NHS111.Web.Controllers
             model.DosCheckCapacitySummaryResult = await GetServiceAvailability(model, overrideDate, overrideFilterServices.HasValue ? overrideFilterServices.Value : model.FilterServices, endpoint);
             await _auditLogger.LogDosResponse(model);
 
+            model.NodeType = NodeType.Outcome;
+
             if (model.DosCheckCapacitySummaryResult.Error == null &&
                 !model.DosCheckCapacitySummaryResult.ResultListEmpty)
             {
+                if (model.OutcomeGroup.Is999Callback && !model.DosCheckCapacitySummaryResult.HasITKServices) {
+                    model.CurrentView = _viewRouter.GetViewName(model, this.ControllerContext);
+                    return View(model.CurrentView, model);
+                }
 
                 model.GroupedDosServices =
                     _dosBuilder.FillGroupedDosServices(model.DosCheckCapacitySummaryResult.Success.Services);
@@ -188,6 +197,10 @@ namespace NHS111.Web.Controllers
                 }
 
                 return View("~\\Views\\Outcome\\ServiceList.cshtml", model);
+            }
+
+            if (model.OutcomeGroup.Is999Callback) {
+                model.CurrentView = _viewRouter.GetViewName(model, this.ControllerContext);
             }
 
             return View(model.CurrentView, model);
@@ -205,7 +218,11 @@ namespace NHS111.Web.Controllers
         [Route("map/")]
         public ActionResult ServiceMap()
         {
-            return View("~\\Views\\Shared\\_GoogleMap.cshtml");
+            var model = new OutcomeMapViewModel()
+            {
+                MapsApiKey = _configuration.MapsApiKey
+            };
+            return View("~\\Views\\Shared\\_GoogleMap.cshtml", model);
         }
 
         [HttpPost]
@@ -249,7 +266,7 @@ namespace NHS111.Web.Controllers
                         return await PersonalDetails(Mapper.Map<PersonalDetailViewModel>(model));
                 }
                 return View("~\\Views\\Outcome\\ServiceDetails.cshtml", model);
-                //explicit path to view because, when direct-linking, the route is no longer /outcome causing convention based view lookup to fail    
+                //explicit path to view because, when direct-linking, the route is no longer /outcome causing convention based view lookup to fail
             }
 
             return View(model.CurrentView, model);
@@ -301,21 +318,16 @@ namespace NHS111.Web.Controllers
             }
             var availableServices = await GetServiceAvailability(model, null, overrideFilterServices.HasValue ? overrideFilterServices.Value : model.FilterServices, null);
             _auditLogger.LogDosResponse(model);
-            if (SelectedServiceExits(model.SelectedService.Id, availableServices))
+            if (availableServices.ContainsService(model.SelectedService))
             {
                 var outcomeViewModel = ConvertPatientInformantDateToUserinfo(model.PatientInformantDetails, model);
                 outcomeViewModel = await _outcomeViewModelBuilder.ItkResponseBuilder(outcomeViewModel);
-                if (outcomeViewModel.ItkSendSuccess.HasValue && outcomeViewModel.ItkSendSuccess.Value)
-                    return View(outcomeViewModel);
-                return outcomeViewModel.ItkDuplicate.HasValue && outcomeViewModel.ItkDuplicate.Value ? View("DuplicateBookingFailure", outcomeViewModel) : View("ServiceBookingFailure", outcomeViewModel);
+                var result = _referralResultBuilder.Build(outcomeViewModel);
+                return View(result.ViewName, result);
             }
 
-            model.UnavailableSelectedService = model.SelectedService;
-            model.DosCheckCapacitySummaryResult = availableServices;
-            model.DosCheckCapacitySummaryResult.ServicesUnavailable = availableServices.ResultListEmpty;
-            model.UserInfo.CurrentAddress.IsInPilotArea = _postCodeAllowedValidator.IsAllowedPostcode(model.CurrentPostcode) == PostcodeValidatorResponse.InPathwaysArea;
-
-            return View("ServiceBookingUnavailable", model);
+            var unavailableResult = _referralResultBuilder.BuildServiceUnavailableResult(model, availableServices);
+            return View(unavailableResult.ViewName, unavailableResult);
         }
 
         [HttpPost]
@@ -348,11 +360,6 @@ namespace NHS111.Web.Controllers
             return model;
         }
 
-        private bool SelectedServiceExits(int selectedServiceId, DosCheckCapacitySummaryResult availableServices)
-        {
-            return !availableServices.ResultListEmpty && availableServices.Success.Services.Exists(s => s.Id == selectedServiceId);
-        }
-
         [HttpPost]
         public ActionResult GetDirections(OutcomeViewModel model, int selectedServiceId, string selectedServiceName, string selectedServiceAddress)
         {
@@ -370,6 +377,24 @@ namespace NHS111.Web.Controllers
         public ActionResult Emergency()
         {
             return View();
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> EdCallbackAcceptance(PersonalDetailViewModel model, string selectedAnswer) {
+            model.HasAcceptedCallbackOffer = selectedAnswer.ToLower() == "yes";
+
+            if (model.HasAcceptedCallbackOffer.Value) {
+                AutoSelectFirstItkService(model);
+                if (model.SelectedService != null)
+                    return await PersonalDetails(Mapper.Map<PersonalDetailViewModel>(model));
+            }
+
+            var outcome = await _outcomeViewModelBuilder.DispositionBuilder(model);
+            var viewName = _viewRouter.GetViewName(outcome, ControllerContext);
+            model.UserInfo.CurrentAddress.IsInPilotArea = _postCodeAllowedValidator.IsAllowedPostcode(model.CurrentPostcode) == PostcodeValidatorResponse.InPathwaysArea;
+
+            return View(viewName, outcome);
+
         }
     }
 }

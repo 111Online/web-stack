@@ -23,6 +23,9 @@ using IConfiguration = NHS111.Web.Presentation.Configuration.IConfiguration;
 
 namespace NHS111.Web.Presentation.Builders
 {
+    using System.Diagnostics;
+    using NHS111.Models.Mappers.WebMappings;
+
     public class OutcomeViewModelBuilder : IOutcomeViewModelBuilder
     {
         private readonly IDOSBuilder _dosBuilder;
@@ -58,9 +61,9 @@ namespace NHS111.Web.Presentation.Builders
             return _mappingEngine.Mapper.Map<List<AddressInfoViewModel>>(listPaf);
         }
 
-        public async Task<OutcomeViewModel> DispositionBuilder(OutcomeViewModel model)
-        {
-            return await DispositionBuilder(model, null);
+        public async Task<OutcomeViewModel> DispositionBuilder(OutcomeViewModel model) {
+            var result = await DispositionBuilder(model, null);
+            return result;
         }
         public async Task<OutcomeViewModel> DispositionBuilder(OutcomeViewModel model, DosEndpoint? endpoint)
         {
@@ -69,20 +72,11 @@ namespace NHS111.Web.Presentation.Builders
             if (OutcomeGroup.Call999Cat2.Equals(model.OutcomeGroup) || OutcomeGroup.Call999Cat3.Equals(model.OutcomeGroup))
             {
                 model.CareAdviceMarkers = model.State.Keys.Where(key => key.StartsWith("Cx"));
+                model.HasAcceptedCallbackOffer = true;
             }
 
-            if (!String.IsNullOrEmpty(model.SymptomDiscriminatorCode))
-            {
-                model.SymptomDiscriminator = await GetSymptomDiscriminator(model.SymptomDiscriminatorCode);
-            }
-
-            var pathways = _journeyHistoryWrangler.GetPathwayNumbers(model.Journey.Steps);
-
-            if (pathways.Length > 0)
-            {
-                model.SymptomGroup = await GetSymptomGroup(pathways);
-            }
-
+            Task<SymptomDiscriminator> discriminatorTask = null;
+            Task<string> symptomGroupTask = null;
             if (OutcomeGroup.ClinicianCallBack.Equals(model.OutcomeGroup))
             {
                 //hard code SD and SG codes to fix DOS for Yorkshire region
@@ -90,21 +84,55 @@ namespace NHS111.Web.Presentation.Builders
 
                 model.SymptomDiscriminatorCode = "4193";
                 model.SymptomGroup = "1206";
+            } else {
+                if (!string.IsNullOrEmpty(model.SymptomDiscriminatorCode)) {
+                    discriminatorTask = GetSymptomDiscriminator(model.SymptomDiscriminatorCode);
+                }
+
+                var pathways = _journeyHistoryWrangler.GetPathwayNumbers(model.Journey.Steps);
+
+                if (pathways.Any()) {
+                    symptomGroupTask = GetSymptomGroup(pathways);
+                }                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  
+
+                if (discriminatorTask != null) {
+                    model.SymptomDiscriminator = await discriminatorTask;
+                }
+                if (symptomGroupTask != null) {
+                    model.SymptomGroup = await symptomGroupTask;
+                }
             }
 
-            if (OutcomeGroup.PrePopulatedDosResultsOutcomeGroups.Contains(model.OutcomeGroup) && !String.IsNullOrEmpty(model.CurrentPostcode))
-            {
-                model = await PopulateGroupedDosResults(model, null, null, endpoint);
+            var dosTask = Task.FromResult(model);
+            if (OutcomeGroup.PrePopulatedDosResultsOutcomeGroups.Contains(model.OutcomeGroup) && !string.IsNullOrEmpty(model.CurrentPostcode)) {
+                dosTask = PopulateGroupedDosResults(model, null, null, endpoint);
             }
 
-            model.WorseningCareAdvice = await _careAdviceBuilder.FillWorseningCareAdvice(model.UserInfo.Demography.Age,
-                model.UserInfo.Demography.Gender);
-            model.CareAdvices = await
-                    _careAdviceBuilder.FillCareAdviceBuilder(model.Id, new AgeCategory(model.UserInfo.Demography.Age).Value, model.UserInfo.Demography.Gender,
-                        _keywordCollector.ConsolidateKeywords(model.CollectedKeywords).ToList());
+            var worseningTask = Task.FromResult(model.WorseningCareAdvice);
+            if (!model.WorseningCareAdvice.Items.Any())
+                worseningTask = _careAdviceBuilder.FillWorseningCareAdvice(model.UserInfo.Demography.Age, model.UserInfo.Demography.Gender);
+            var careAdvicesTask = Task.FromResult(model.CareAdvices);
+            if (!model.CareAdvices.Any()) {
+                var ageGroup = new AgeCategory(model.UserInfo.Demography.Age).Value;
+                var careAdviceKeywords = _keywordCollector.ConsolidateKeywords(model.CollectedKeywords).ToList();
+                careAdvicesTask = _careAdviceBuilder.FillCareAdviceBuilder(model.Id, ageGroup, model.UserInfo.Demography.Gender, careAdviceKeywords);
+            }
 
-            model.SurveyLink = await _surveyLinkViewModelBuilder.SurveyLinkBuilder(model);
+            model = await dosTask;
+
+            var surveyTask = _surveyLinkViewModelBuilder.SurveyLinkBuilder(model);
+            model.WorseningCareAdvice = await worseningTask;
+            model.CareAdvices = await careAdvicesTask;
+            model.SurveyLink = await surveyTask;
+
             return model;
+        }
+
+        private bool NeedToRequeryDos(OutcomeViewModel model) {
+            return (!model.HasAcceptedCallbackOffer.HasValue || !model.HasAcceptedCallbackOffer.Value) && 
+                   model.OutcomeGroup.Equals(OutcomeGroup.AccidentAndEmergency) &&
+                   FromOutcomeViewModelToDosViewModel.DispositionResolver.IsRemappedToDx334(model.Id) &&
+                   !model.DosCheckCapacitySummaryResult.HasITKServices;
         }
 
         private async Task<SymptomDiscriminator> GetSymptomDiscriminator(string symptomDiscriminatorCode)
@@ -156,11 +184,19 @@ namespace NHS111.Web.Presentation.Builders
             return model;
         }
 
-        public async Task<OutcomeViewModel> PopulateGroupedDosResults(OutcomeViewModel model, DateTime? overrideDate, bool? overrideFilterServices, DosEndpoint? endpoint)
-        {
+        public async Task<OutcomeViewModel> PopulateGroupedDosResults(OutcomeViewModel model, DateTime? overrideDate, bool? overrideFilterServices, DosEndpoint? endpoint) {
             var dosViewModel = _dosBuilder.BuildDosViewModel(model, overrideDate);
+
             var _ = _auditLogger.LogDosRequest(model, dosViewModel);
             model.DosCheckCapacitySummaryResult = await _dosBuilder.FillCheckCapacitySummaryResult(dosViewModel, overrideFilterServices.HasValue ? overrideFilterServices.Value : model.FilterServices, endpoint);
+            if (NeedToRequeryDos(model)) {
+                _auditLogger.LogDosResponse(model);
+                dosViewModel.Disposition = FromOutcomeViewModelToDosViewModel.DispositionResolver.ConvertToDosCode(model.Id);
+                _auditLogger.LogDosRequest(model, dosViewModel);
+                model.DosCheckCapacitySummaryResult = await _dosBuilder.FillCheckCapacitySummaryResult(dosViewModel, overrideFilterServices.HasValue ? overrideFilterServices.Value : model.FilterServices, endpoint);
+                model.DosCheckCapacitySummaryResult.IsValidationRequery = true;
+            }
+
             model.DosCheckCapacitySummaryResult.ServicesUnavailable = model.DosCheckCapacitySummaryResult.ResultListEmpty;
 
             if (!model.DosCheckCapacitySummaryResult.ResultListEmpty)
