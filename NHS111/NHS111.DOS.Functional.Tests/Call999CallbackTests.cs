@@ -236,7 +236,7 @@
         }
 
         [Test]
-        public async Task EDOutcome_WhenDosIsUnavailable_ShowsCorrectScreen() {
+        public async Task SubmittingReferralForCat3_WithDuplicateReferral_ShowDuplicatePage() {
             var dosScenario = await _testBench.SetupDosScenario()
                 .ExpectingRequestTo(DosEndpoint.CheckCapacitySummary)
                 .Matching(BlankDosCase.WithDxCode(DispositionCode.Dx333))
