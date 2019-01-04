@@ -60,6 +60,10 @@ namespace NHS111.Web.Functional.Utils
             Assert.AreEqual(subHeadertext, SubHeader.Text);
         }
 
+        public void VerifyNoWorseningAdvice() {
+            Assert.IsFalse(Driver.ElementExists(By.CssSelector(".callout--attention p")));
+        }
+
         public void VerifyWorseningPanel(WorseningMessageType messageType) {
             Assert.IsTrue(WhatIfFeelWorsePanel.Displayed);
             if (!String.IsNullOrWhiteSpace(messageType.HeaderText))
@@ -118,6 +122,10 @@ namespace NHS111.Web.Functional.Utils
         public void VerifyCareAdviceHeader(string careAdciceTitle) {
             Assert.IsTrue(CareAdviceTitleElement.Displayed);
             Assert.AreEqual(careAdciceTitle, CareAdviceTitleElement.Text);
+        }
+
+        public void VerifyNoCareAdvice() {
+            Assert.IsFalse(Driver.ElementExists(By.CssSelector(".care-advice div h4")));
         }
 
         public void VerifyCareAdvice(string[] expectedAdviceItems) {
