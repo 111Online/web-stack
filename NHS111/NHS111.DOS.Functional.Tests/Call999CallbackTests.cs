@@ -22,7 +22,6 @@
         }
 
         [Test]
-        [Ignore]
         public async Task Call999Cat3_WithoutCallbackReturned_DisplaysOriginalDispo() {
             var dosScenario = await _testBench.SetupDosScenario()
                 .ExpectingRequestTo(DosEndpoint.CheckCapacitySummary)
@@ -39,7 +38,6 @@
         }
 
         [Test]
-        [Ignore]
         public async Task Call999Cat4_WithCallbackReturned_DisplaysPersonalDetailsPage() {
             var dosScenario = await _testBench.SetupDosScenario()
                 .ExpectingRequestTo(DosEndpoint.CheckCapacitySummary)
@@ -57,7 +55,6 @@
         }
 
         [Test]
-        [Ignore]
         public async Task Call999Cat4_WithoutCallbackReturned_DisplaysOriginalOutcome() {
             var dosScenario = await _testBench.SetupDosScenario()
                 .ExpectingRequestTo(DosEndpoint.CheckCapacitySummary)
@@ -74,7 +71,6 @@
         }
 
         [Test]
-        [Ignore]
         public async Task Call999Cat2_Never_OffersCallback() {
             var dosScenario = await _testBench.SetupDosScenario()
                 .ExpectingNoRequestsTo(DosEndpoint.CheckCapacitySummary)
@@ -87,7 +83,6 @@
         }
 
         [Test]
-        [Ignore]
         public async Task Call999Cat3_TypingPostcodeWithCallbacks_RedirectsToPersonalDetails() {
             var dosScenario = await _testBench.SetupDosScenario()
                 .ExpectingRequestTo(DosEndpoint.CheckCapacitySummary)
@@ -108,7 +103,6 @@
         }
 
         [Test]
-        [Ignore]
         public async Task Call999Cat3_TypingPostcodeWithoutCallbacks_RedirectsToOriginalOutcome() {
             var dosScenario = await _testBench.SetupDosScenario()
                 .ExpectingRequestTo(DosEndpoint.CheckCapacitySummary)
@@ -128,7 +122,6 @@
         }
 
         [Test]
-        [Ignore]
         public async Task SubmittingReferralForCat3_WhenSuccessful_ShowsConfirmationScreen() {
             var dosScenario = await _testBench.SetupDosScenario()
                 .ExpectingRequestTo(DosEndpoint.CheckCapacitySummary)
@@ -167,7 +160,44 @@
         }
 
         [Test]
-        [Ignore]
+        public async Task SubmittingReferralForCat3_WithoutPostcode_SendsDx333ToESB() {
+            var dosScenario = await _testBench.SetupDosScenario()
+                .ExpectingRequestTo(DosEndpoint.CheckCapacitySummary)
+                .Matching(BlankDosCase.WithDxCode(DispositionCode.Dx333))
+                .Returns(ServicesTransformedTo.OnlyOneCallback)
+                .OtherwiseReturns(DosRequestMismatchResult.ServerError)
+                .Then()
+                .ExpectingRequestTo(DosEndpoint.CheckCapacitySummary)
+                .Matching(BlankDosCase.WithDxCode(DispositionCode.Dx333))
+                .Returns(ServicesTransformedTo.OnlyOneCallback)
+                .OtherwiseReturns(DosRequestMismatchResult.ServerError)
+                .BeginAsync();
+
+            var esbScenario = await _testBench.SetupEsbScenario()
+                .ExpectingRequestTo(EsbEndpoint.SendItkMessage)
+                .Matching(new ITKDispatchRequest
+                {
+                    CaseDetails = new CaseDetails { DispositionCode = DispositionCode.Dx333.Value },
+                    PatientDetails = new PatientDetails
+                    { CurrentAddress = new Address { PostalCode = dosScenario.Postcode } }
+                })
+                .Returns(EsbStatusCode.Success200)
+                .OtherwiseReturns(EsbStatusCode.Error500)
+                .BeginAsync();
+
+            var callbackPage = NavigateTo999Cat3(null);
+            callbackPage.VerifyIsCallbackAcceptancePage();
+            var personalDetailsPage = EnterPostCodeAndSubmit(dosScenario.Postcode);
+            personalDetailsPage.VerifyIsPersonalDetailsPage();
+            var referralConfirmation = personalDetailsPage.SubmitPersonalDetails("Test", "Tester", "02380555555", "01", "01", "1982");
+            referralConfirmation.VerifyIsSuccessfulReferral();
+
+            var dosVerifyResult = await _testBench.Verify(dosScenario);
+            var esbVerifyResult = await _testBench.Verify(esbScenario);
+        }
+
+
+        [Test]
         public async Task SubmittingReferralForCat3_WhenUnsuccessful_ShowsFailureScreen() {
             var dosScenario = await _testBench.SetupDosScenario()
                 .ExpectingRequestTo(DosEndpoint.CheckCapacitySummary)
@@ -206,7 +236,6 @@
         }
 
         [Test]
-        [Ignore]
         public async Task SubmittingReferralForCat3_WithDuplicateReferral_ShowDuplicatePage() {
             var dosScenario = await _testBench.SetupDosScenario()
                 .ExpectingRequestTo(DosEndpoint.CheckCapacitySummary)
@@ -245,7 +274,6 @@
         }
 
         [Test]
-        [Ignore]
         public async Task SubmittingReferralForCat3_WhenServiceUnavailable_ShowsUnavailableScreen() {
             var dosScenario = await _testBench.SetupDosScenario()
                 .ExpectingRequestTo(DosEndpoint.CheckCapacitySummary)
@@ -353,6 +381,16 @@
                 .Answer(3)
                 .AnswerForDispostion<OutcomePage>("Yes");
         }
+
+        private OutcomePage EnterPostCodeAndSubmit(string postcode)
+        {
+            var postcodeField = Driver.FindElement(By.Id("FindService_CurrentPostcode"));
+            postcodeField.Clear();
+            postcodeField.SendKeys(postcode);
+            Driver.FindElement(By.Id("DosLookup")).Click();
+            return new OutcomePage(Driver);
+        }
+
     }
 
 }
