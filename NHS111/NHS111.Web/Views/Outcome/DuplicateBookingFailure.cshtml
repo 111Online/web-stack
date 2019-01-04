@@ -40,4 +40,6 @@
     </div>
 </section>
 
-@Html.Partial("_CareAdvice", Model.OutcomeModel.CareAdvices, new ViewDataDictionary { { "Title", "What you can do in the meantime" } })
+@if (!Model.OutcomeModel.OutcomeGroup.Is999Callback) {
+    @Html.Partial("_CareAdvice", Model.OutcomeModel.CareAdvices, new ViewDataDictionary {{"Title", "What you can do in the meantime"}})
+}
