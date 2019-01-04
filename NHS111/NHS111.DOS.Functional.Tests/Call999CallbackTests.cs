@@ -152,6 +152,8 @@
             personalDetailsPage.VerifyIsPersonalDetailsPage();
             var referralConfirmation = personalDetailsPage.SubmitPersonalDetails("Test", "Tester", "02380555555", "01", "01", "1982");
             referralConfirmation.VerifyIsSuccessfulReferral();
+            referralConfirmation.VerifyNoCareAdvice();
+            referralConfirmation.VerifyNoWorseningAdvice();
 
             var dosVerifyResult = await _testBench.Verify(dosScenario);
             var esbVerifyResult = await _testBench.Verify(esbScenario);
@@ -226,6 +228,8 @@
             personalDetailsPage.VerifyIsPersonalDetailsPage();
             var referralConfirmation = personalDetailsPage.SubmitPersonalDetails("Test", "Tester", "02380555555", "01", "01", "1982");
             referralConfirmation.VerifyIsUnsuccessfulReferral();
+            referralConfirmation.VerifyNoCareAdvice();
+            referralConfirmation.VerifyNoWorseningAdvice();
 
             var result = await _testBench.Verify(dosScenario);
             var esbVerifyResult = await _testBench.Verify(esbScenario);
@@ -236,16 +240,38 @@
             var dosScenario = await _testBench.SetupDosScenario()
                 .ExpectingRequestTo(DosEndpoint.CheckCapacitySummary)
                 .Matching(BlankDosCase.WithDxCode(DispositionCode.Dx333))
-                .Returns(ServicesTransformedTo.ServerError)
+                .Returns(ServicesTransformedTo.OnlyOneCallback)
+                .OtherwiseReturns(DosRequestMismatchResult.ServerError)
+                .Then()
+                .ExpectingRequestTo(DosEndpoint.CheckCapacitySummary)
+                .Matching(BlankDosCase.WithDxCode(DispositionCode.Dx333))
+                .Returns(ServicesTransformedTo.OnlyOneCallback)
                 .OtherwiseReturns(DosRequestMismatchResult.ServerError)
                 .BeginAsync();
 
-            var outcome = NavigateTo999Cat3(dosScenario.Postcode);
-            outcome.VerifyOutcome(OutcomePage.Cat3999Text);
+            var esbScenario = await _testBench.SetupEsbScenario()
+                .ExpectingRequestTo(EsbEndpoint.SendItkMessage)
+                .Matching(new ITKDispatchRequest {
+                    CaseDetails = new CaseDetails { DispositionCode = DispositionCode.Dx333.Value },
+                    PatientDetails = new PatientDetails
+                    { CurrentAddress = new Address { PostalCode = dosScenario.Postcode } }
+                })
+                .Returns(EsbStatusCode.Duplicate409)
+                .OtherwiseReturns(EsbStatusCode.Success200)
+                .BeginAsync();
 
-            var result = await _testBench.Verify(dosScenario);
+            var callbackPage = NavigateTo999Cat3(dosScenario.Postcode);
+            callbackPage.VerifyIsCallbackAcceptancePage();
+            var personalDetailsPage = callbackPage.AcceptCallback();
+            personalDetailsPage.VerifyIsPersonalDetailsPage();
+            var referralConfirmation = personalDetailsPage.SubmitPersonalDetails("Test", "Tester", "02380555555", "01", "01", "1982");
+            referralConfirmation.VerifyIsDuplicateReferral();
+            referralConfirmation.VerifyNoCareAdvice();
+            referralConfirmation.VerifyNoWorseningAdvice();
+
+            var dosRsult = await _testBench.Verify(dosScenario);
+            var esbResult = await _testBench.Verify(esbScenario);
         }
-
 
         [Test]
         public async Task SubmittingReferralForCat3_WhenServiceUnavailable_ShowsUnavailableScreen() {
@@ -276,9 +302,27 @@
             personalDetailsPage.VerifyIsPersonalDetailsPage();
             var referralConfirmation = personalDetailsPage.SubmitPersonalDetails("Test", "Tester", "02380555555", "01", "01", "1982");
             referralConfirmation.VerifyIsServiceUnavailableReferral();
+            referralConfirmation.VerifyNoCareAdvice();
+            referralConfirmation.VerifyNoWorseningAdvice();
 
             var result = await _testBench.Verify(dosScenario);
             var esbVerifyResult = await _testBench.Verify(esbScenario);
+        }
+
+        [Test]
+        [Ignore]
+        public async Task EDOutcome_WhenDosIsUnavailable_ShowsCorrectScreen() {
+            var dosScenario = await _testBench.SetupDosScenario()
+                .ExpectingRequestTo(DosEndpoint.CheckCapacitySummary)
+                .Matching(BlankDosCase.WithDxCode(DispositionCode.Dx333))
+                .Returns(ServicesTransformedTo.ServerError)
+                .OtherwiseReturns(DosRequestMismatchResult.ServerError)
+                .BeginAsync();
+
+            var outcome = NavigateTo999Cat3(dosScenario.Postcode);
+            outcome.VerifyOutcome(OutcomePage.Cat3999Text);
+
+            var result = await _testBench.Verify(dosScenario);
         }
 
         private TestBench _testBench;
