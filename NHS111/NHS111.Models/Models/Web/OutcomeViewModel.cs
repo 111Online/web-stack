@@ -51,6 +51,16 @@ namespace NHS111.Models.Models.Web
             }
         }
 
+        public bool Is999Callback
+        {
+            get
+            {
+                return (this.OutcomeGroup.Is999NonUrgent
+                       && (this.DosCheckCapacitySummaryResult.HasITKServices ||
+                           string.IsNullOrEmpty(this.CurrentPostcode)));
+            }
+        }
+
         public ServiceViewModel RemoveFirstDOSService()
         {
             var service = this.DosCheckCapacitySummaryResult.Success.Services.FirstOrDefault();

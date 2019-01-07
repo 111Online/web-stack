@@ -22,6 +22,9 @@
             }];
     </script>
 }
+@section SurveyBanner {
+    @Html.Partial("_SurveyLink", Model.SurveyLink, new ViewDataDictionary() { { "EDValidationSurvey", "true" } })
+}
 
 @section FeedbackSection {
     @Html.Partial("_FeedbackDetails", new FeedbackViewModel() {
