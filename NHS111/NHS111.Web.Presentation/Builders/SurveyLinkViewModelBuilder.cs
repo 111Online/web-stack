@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
+using NHS111.Models.Mappers.WebMappings;
 using NHS111.Models.Models.Domain;
 using NHS111.Models.Models.Web;
 using NHS111.Utils.Helpers;
@@ -32,7 +33,7 @@ namespace NHS111.Web.Presentation.Builders
             var businessApiPathwayUrl = _configuration.GetBusinessApiPathwayIdUrl(jsonParser.LastPathwayNo, model.UserInfo.Demography.Gender, model.UserInfo.Demography.Age);
             var response = await _restfulHelper.GetAsync(businessApiPathwayUrl);
             var pathway = JsonConvert.DeserializeObject<Pathway>(response);
-
+            var resultingDxCode = model.Is999Callback ? FromOutcomeViewModelToDosViewModel.DispositionResolver.Remap(model.Id) : model.Id;
             var result = new SurveyLinkViewModel()
             {
                 DispositionCode = model.Id,
@@ -43,7 +44,8 @@ namespace NHS111.Web.Presentation.Builders
                 PathwayNo = model.PathwayNo,
                 DigitalTitle = model.DigitalTitle,
                 Campaign = model.Campaign,
-                CampaignSource = model.Source
+                CampaignSource = model.Source,
+                ValidationCallbackOffered = model.Is999Callback
             };
 
             AddServiceInformation(model, result);

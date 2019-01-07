@@ -38,6 +38,7 @@
 @Html.HiddenFor(x => x.SurveyLink.CampaignSource)
 @Html.HiddenFor(x => x.SurveyLink.ServiceCount)
 @Html.HiddenFor(x => x.SurveyLink.ServiceOptions)
+@Html.HiddenFor(x => x.SurveyLink.ValidationCallbackOffered)
 @Html.HiddenFor(x => x.SelectedService.Id)
 @Html.HiddenFor(x => Model.Campaign)
 @Html.HiddenFor(x => Model.Source)
@@ -47,7 +48,8 @@
 
 @if (Model.DosCheckCapacitySummaryResult.Success != null)
 {
-    for (var i = 0; i < Model.DosCheckCapacitySummaryResult.Success.Services.Count(); ++i) {
+    for (var i = 0; i < Model.DosCheckCapacitySummaryResult.Success.Services.Count(); ++i)
+    {
         @Html.Hidden(string.Format("DosCheckCapacitySummaryResult.Success.Services[{0}].Name", i), @WebUtility.HtmlDecode(Model.DosCheckCapacitySummaryResult.Success.Services[i].Name))
         @Html.HiddenFor(m => Model.DosCheckCapacitySummaryResult.Success.Services[i].Id)
 
@@ -56,8 +58,10 @@
         @Html.HiddenFor(m => Model.DosCheckCapacitySummaryResult.Success.Services[i].PostCode)
         @Html.HiddenFor(m => Model.DosCheckCapacitySummaryResult.Success.Services[i].OpenAllHours)
         @Html.HiddenFor(m => Model.DosCheckCapacitySummaryResult.Success.Services[i].OnlineDOSServiceType)
-        if (Model.DosCheckCapacitySummaryResult.Success.Services[i].RotaSessionsAndSpecifiedSessions != null) {
-            for (var j = 0; j < Model.DosCheckCapacitySummaryResult.Success.Services[i].RotaSessionsAndSpecifiedSessions.Length; j++) {
+        if (Model.DosCheckCapacitySummaryResult.Success.Services[i].RotaSessionsAndSpecifiedSessions != null)
+        {
+            for (var j = 0; j < Model.DosCheckCapacitySummaryResult.Success.Services[i].RotaSessionsAndSpecifiedSessions.Length; j++)
+            {
                 @Html.HiddenFor(m => m.DosCheckCapacitySummaryResult.Success.Services[i].RotaSessionsAndSpecifiedSessions[j].StartDayOfWeek)
                 @Html.HiddenFor(m => m.DosCheckCapacitySummaryResult.Success.Services[i].RotaSessionsAndSpecifiedSessions[j].StartTime.Hours)
                 @Html.HiddenFor(m => m.DosCheckCapacitySummaryResult.Success.Services[i].RotaSessionsAndSpecifiedSessions[j].StartTime.Minutes)

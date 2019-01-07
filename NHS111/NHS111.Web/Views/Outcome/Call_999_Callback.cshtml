@@ -24,6 +24,10 @@
     </script>
 }
 
+@section SurveyBanner {
+    @Html.Partial("_SurveyLink", Model.SurveyLink, new ViewDataDictionary() { { "999ValidationSurvey", "true" } })
+}
+
 @section FeedbackSection {
     @Html.Partial("_FeedbackDetails", new FeedbackViewModel() {
         UserId = Model.SessionId.ToString(),
@@ -64,11 +68,16 @@
         action = "ServiceList";
     }
 }
+
 @using (Html.BeginForm(action, "Outcome", FormMethod.Post))
 {
     @Html.HiddenFor(x => x.TriggerQuestionNo)
     @Html.Partial("_CommonHiddenFieldsOutcomeViewModel", Model)
     @Html.Partial("_CommonHiddenFieldsCareAdviceViewModel", Model)
+
+
+
+
     string selectedServiceId = "";
     if (Model.DosCheckCapacitySummaryResult.HasITKServices)
     {

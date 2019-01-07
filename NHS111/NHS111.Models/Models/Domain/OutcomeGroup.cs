@@ -121,7 +121,7 @@ namespace NHS111.Models.Models.Domain {
         private bool PostcodeFirst { get; set; }
         private bool AutomaticSelectionOfItkResult { get; set; }
 
-        public bool Is999Callback {
+        public bool Is999NonUrgent {
             get {
                 return this.Equals(OutcomeGroup.Call999Cat3) ||
                        this.Equals(OutcomeGroup.Call999Cat4);

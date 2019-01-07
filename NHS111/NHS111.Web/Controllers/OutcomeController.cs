@@ -181,7 +181,7 @@ namespace NHS111.Web.Controllers
             if (model.DosCheckCapacitySummaryResult.Error == null &&
                 !model.DosCheckCapacitySummaryResult.ResultListEmpty)
             {
-                if (model.OutcomeGroup.Is999Callback && !model.DosCheckCapacitySummaryResult.HasITKServices) {
+                if (model.OutcomeGroup.Is999NonUrgent && !model.DosCheckCapacitySummaryResult.HasITKServices) {
                     model.CurrentView = _viewRouter.GetViewName(model, this.ControllerContext);
                     return View(model.CurrentView, model);
                 }
@@ -199,7 +199,7 @@ namespace NHS111.Web.Controllers
                 return View("~\\Views\\Outcome\\ServiceList.cshtml", model);
             }
 
-            if (model.OutcomeGroup.Is999Callback) {
+            if (model.OutcomeGroup.Is999NonUrgent) {
                 model.CurrentView = _viewRouter.GetViewName(model, this.ControllerContext);
             }
 

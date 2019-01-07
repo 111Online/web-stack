@@ -68,12 +68,6 @@ namespace NHS111.Web.Presentation.Builders
         {
             model.DispositionTime = DateTime.Now;
 
-            if (OutcomeGroup.Call999Cat2.Equals(model.OutcomeGroup) || OutcomeGroup.Call999Cat3.Equals(model.OutcomeGroup))
-            {
-                model.CareAdviceMarkers = model.State.Keys.Where(key => key.StartsWith("Cx"));
-                model.HasAcceptedCallbackOffer = true;
-            }
-
             Task<SymptomDiscriminator> discriminatorTask = null;
             Task<string> symptomGroupTask = null;
             if (OutcomeGroup.ClinicianCallBack.Equals(model.OutcomeGroup))
@@ -118,6 +112,12 @@ namespace NHS111.Web.Presentation.Builders
             }
 
             model = await dosTask;
+
+            if (OutcomeGroup.Call999Cat2.Equals(model.OutcomeGroup) || OutcomeGroup.Call999Cat3.Equals(model.OutcomeGroup))
+            {
+                model.CareAdviceMarkers = model.State.Keys.Where(key => key.StartsWith("Cx"));
+                if (model.Is999Callback) model.HasAcceptedCallbackOffer = true;
+            }
 
             var surveyTask = _surveyLinkViewModelBuilder.SurveyLinkBuilder(model);
             model.WorseningCareAdvice = await worseningTask;
@@ -195,7 +195,7 @@ namespace NHS111.Web.Presentation.Builders
                 model.DosCheckCapacitySummaryResult = await _dosBuilder.FillCheckCapacitySummaryResult(dosViewModel, overrideFilterServices.HasValue ? overrideFilterServices.Value : model.FilterServices, endpoint);
                 model.DosCheckCapacitySummaryResult.IsValidationRequery = true;
             }
-
+            
             model.DosCheckCapacitySummaryResult.ServicesUnavailable = model.DosCheckCapacitySummaryResult.ResultListEmpty;
 
             if (!model.DosCheckCapacitySummaryResult.ResultListEmpty)
