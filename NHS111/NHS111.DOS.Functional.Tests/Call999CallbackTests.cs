@@ -208,6 +208,7 @@
 
 
         [Test]
+        [Ignore]
         public async Task SubmittingReferralForCat3_WhenUnsuccessful_ShowsFailureScreen() {
             var dosScenario = await _testBench.SetupDosScenario()
                 .ExpectingRequestTo(DosEndpoint.CheckCapacitySummary)
