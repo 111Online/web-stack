@@ -284,6 +284,7 @@
         }
 
         [Test]
+        [Ignore]
         public async Task SubmittingReferralForCat3_WhenServiceUnavailable_ShowsUnavailableScreen() {
             var dosScenario = await _testBench.SetupDosScenario()
                 .ExpectingRequestTo(DosEndpoint.CheckCapacitySummary)
