@@ -77,7 +77,7 @@
                 .OtherwiseReturns(DosRequestMismatchResult.ServerError)
                 .BeginAsync();
 
-            await _testBench.SetupEsbScenario()
+            var esbScenario = await _testBench.SetupEsbScenario()
                 .ExpectingRequestTo(EsbEndpoint.SendItkMessage)
                 .Matching(new ITKDispatchRequest {
                     CaseDetails = new CaseDetails {DispositionCode = DispositionCode.Dx334.Value},
@@ -95,8 +95,11 @@
             var referralConfirmation =
                 personalDetailsPage.SubmitPersonalDetails("Test", "Tester", "02380555555", "01", "01", "1982");
             referralConfirmation.VerifyIsSuccessfulReferral();
+            referralConfirmation.VerifyCareAdviceHeader("What you can do in the meantime");
+            SaveScreenAsPNG("ed-reval-successful-referral");
 
-            var result = await _testBench.Verify(dosScenario);
+            var resultDos = await _testBench.Verify(dosScenario);
+            var resultEsb = await _testBench.Verify(esbScenario);
         }
 
         [Test] //no postcode present

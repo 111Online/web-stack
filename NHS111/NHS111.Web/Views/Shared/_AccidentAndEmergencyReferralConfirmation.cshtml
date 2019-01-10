@@ -1,6 +1,6 @@
 ﻿@model NHS111.Models.Models.Web.AccidentAndEmergencyReferralConfirmationResultViewModel
-    
-<h1 class="local-header__title">You should get a call within <strong>@WebUtility.HtmlDecode(Model.OutcomeModel.WaitTimeText)</strong>.</h1>
+
+<h1 class="local-header__title">You should get a call within <strong>@WebUtility.HtmlDecode(Model.OutcomeModel.WaitTimeText)</strong></h1>
 <div class="local-header__intro">
-    <p>If your symptoms get worse go to the nearest <a href="https://www.nhs.uk/Service-Search/Accident-and-emergency-services/LocationSearch/428">A&amp;E (accident and emergency department)</a>.</p>
+    <p>If you don't get a call within @WebUtility.HtmlDecode(Model.OutcomeModel.WaitTimeText) or your symptoms get worse, call 111</p>
 </div>
