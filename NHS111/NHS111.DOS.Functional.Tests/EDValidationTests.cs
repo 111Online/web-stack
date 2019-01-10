@@ -11,6 +11,7 @@
     using Web.Functional.Utils;
 
     /// Tests the callback/validation flow for Emergency Department outcomes.
+    [Category("Local")]
     public class EDValidationTests
         : BaseTests {
 
