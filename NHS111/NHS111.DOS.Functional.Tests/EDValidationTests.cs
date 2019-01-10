@@ -63,7 +63,6 @@
         }
 
         [Test]
-        [Ignore]
         public async Task SubmitReferralForDx334_Always_SendsDx334ToESB() {
             var dosScenario = await _testBench.SetupDosScenario()
                 .ExpectingRequestTo(DosEndpoint.CheckCapacitySummary)
@@ -100,7 +99,6 @@
         }
 
         [Test] //no postcode present
-        [Ignore]
         public async Task EDOutcome_ThenEnteringPostcodeReturningCallback_ShowsCallbackThenPersonalDetailsPage() {
             var dosScenario = await _testBench.SetupDosScenario()
                 .ExpectingRequestTo(DosEndpoint.CheckCapacitySummary)
@@ -120,7 +118,6 @@
         }
 
         [Test]
-        [Ignore]
         public async Task Dx94_WithNoCallbackServices_ShowOriginalOutcome() {
             var dosScenario = await _testBench.SetupDosScenario()
                 .ExpectingNoRequestsTo(DosEndpoint.CheckCapacitySummary)
@@ -133,7 +130,6 @@
         }
 
         [Test]
-        [Ignore]
         public async Task SubmittingReferralRequest_AfterRejectingDx334Callback_SubmitsReferralWithCorrectDxCode() {
             var dosScenario = await _testBench.SetupDosScenario()
                 .ExpectingRequestTo(DosEndpoint.CheckCapacitySummary)
@@ -178,7 +174,6 @@
         }
 
         [Test]
-        [Ignore]
         public async Task EDOutcome_WhenDosIsUnavailable_ShowsCorrectScreen() {
             var dosScenario = await _testBench.SetupDosScenario()
                 .ExpectingRequestTo(DosEndpoint.CheckCapacitySummary)
@@ -194,7 +189,6 @@
         }
 
         [Test]
-        [Ignore]
         public async Task EDOutcome_WithDosErrorForFirstQuery_ReturnsResultsForSecondQuery() {
             var dosScenario = await _testBench.SetupDosScenario()
                 .ExpectingRequestTo(DosEndpoint.CheckCapacitySummary)
@@ -216,7 +210,6 @@
         }
 
         [Test]
-        [Ignore]
         public async Task SubmittingReferralRequest_WithUnsuccessfulReferral_ShowUnsuccessfulPage() {
             var dosScenario = await _testBench.SetupDosScenario()
                 .ExpectingRequestTo(DosEndpoint.CheckCapacitySummary)
@@ -258,7 +251,6 @@
         }
 
         [Test]
-        [Ignore]
         public async Task SubmittingReferralRequest_WithDuplicateReferral_ShowDuplicatePage() {
             var dosScenario = await _testBench.SetupDosScenario()
                 .ExpectingRequestTo(DosEndpoint.CheckCapacitySummary)
@@ -297,7 +289,6 @@
         }
 
         [Test]
-        [Ignore]
         public async Task SubmittingReferralRequest_WithUnavailableService_ShowServiceUnavailablePage() {
             var dosScenario = await _testBench.SetupDosScenario()
                 .ExpectingRequestTo(DosEndpoint.CheckCapacitySummary)
