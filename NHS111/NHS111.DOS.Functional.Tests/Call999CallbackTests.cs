@@ -10,6 +10,7 @@
     using TestBenchApi;
     using Web.Functional.Utils;
 
+    [Category("Local")]
     public class Call999CallbackTests
         : BaseTests {
 
