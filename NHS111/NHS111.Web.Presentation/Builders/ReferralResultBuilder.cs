@@ -47,7 +47,7 @@ namespace NHS111.Web.Presentation.Builders
                 throw new ArgumentNullException("outcomeModel");
 
             if (outcomeModel.OutcomeGroup != null) {
-                if (outcomeModel.OutcomeGroup.Is999Callback)
+                if (outcomeModel.OutcomeGroup.Is999NonUrgent)
                     return new Call999ReferralFailureResultViewModel(outcomeModel);
 
                 if (outcomeModel.OutcomeGroup.IsEDCallback)
@@ -62,7 +62,7 @@ namespace NHS111.Web.Presentation.Builders
                 throw new ArgumentNullException("outcomeModel");
 
             if (outcomeModel.OutcomeGroup != null) {
-                if (outcomeModel.OutcomeGroup.Is999Callback)
+                if (outcomeModel.OutcomeGroup.Is999NonUrgent)
                     return new Call999DuplicateReferralResultViewModel(outcomeModel);
 
                 if (outcomeModel.OutcomeGroup.IsEDCallback)
@@ -77,7 +77,7 @@ namespace NHS111.Web.Presentation.Builders
                 throw new ArgumentNullException("outcomeModel");
 
             if (outcomeModel.OutcomeGroup != null) {
-                if (outcomeModel.OutcomeGroup.Is999Callback)
+                if (outcomeModel.OutcomeGroup.Is999NonUrgent)
                     return new Call999ReferralConfirmationResultViewModel(outcomeModel);
 
                 if (outcomeModel.OutcomeGroup.IsEDCallback)
@@ -93,7 +93,7 @@ namespace NHS111.Web.Presentation.Builders
 
             var result = new ServiceUnavailableReferralResultViewModel(outcomeModel);
             if (outcomeModel.OutcomeGroup != null) {
-                if (outcomeModel.OutcomeGroup.Is999Callback)
+                if (outcomeModel.OutcomeGroup.Is999NonUrgent)
                     result = new Call999ServiceUnavailableReferralResultViewModel(outcomeModel);
                 if (outcomeModel.OutcomeGroup.IsEDCallback)
                     result = new AccidentAndEmergencyServiceUnavailableReferralResultViewModel(outcomeModel);
