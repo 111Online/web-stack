@@ -41,18 +41,18 @@ namespace NHS111.Web.Helpers
         }
 
         public string GetCallbackConfirmationViewName(OutcomeGroup outcomeGroup) {
-            return outcomeGroup.Is999Callback ? "Call_999_Callback_Confirmation" : "Confirmation";
+            return outcomeGroup.Is999NonUrgent ? "Call_999_Callback_Confirmation" : "Confirmation";
         }
 
         public string GetCallbackFailureViewName(OutcomeGroup outcomeGroup) {
-            return outcomeGroup.Is999Callback ? "Call999_ServiceBookingFailure" : "ServiceBookingFailure";
+            return outcomeGroup.Is999NonUrgent ? "Call999_ServiceBookingFailure" : "ServiceBookingFailure";
         }
         public string GetServiceUnavailableViewName(OutcomeGroup outcomeGroup) {
-            return outcomeGroup.Is999Callback ? "Call999_ServiceBookingUnavailable" : "ServiceBookingUnavailable";
+            return outcomeGroup.Is999NonUrgent ? "Call999_ServiceBookingUnavailable" : "ServiceBookingUnavailable";
         }
 
         public string GetCallbackDuplicateViewName(OutcomeGroup outcomeGroup) {
-            return outcomeGroup.Is999Callback ? "Call999_DuplicateBookingFailure" : "DuplicateBookingFailure";
+            return outcomeGroup.Is999NonUrgent ? "Call999_DuplicateBookingFailure" : "DuplicateBookingFailure";
         }
 
         public string GetViewName(JourneyViewModel model, ControllerContext context)
@@ -74,8 +74,7 @@ namespace NHS111.Web.Helpers
                     if (IsTestJourney(outcomeViewModel))
                         return "../Outcome/Call_999_CheckAnswer";
 
-                    if (outcomeViewModel.OutcomeGroup.Is999Callback
-                        && (outcomeViewModel.DosCheckCapacitySummaryResult.HasITKServices || string.IsNullOrEmpty(outcomeViewModel.CurrentPostcode)))
+                    if (outcomeViewModel.Is999Callback)
                         return "../Outcome/Call_999_Callback";
 
                     if (outcomeViewModel.OutcomeGroup.Equals(OutcomeGroup.AccidentAndEmergency)) {

@@ -23,13 +23,15 @@
     var dataDictionary = ViewContext.ViewData;
     dataDictionary.Add(new KeyValuePair<string, object>("LaunchPage", "confirmation"));
 }
+
 @section SurveyBanner{
     @Html.Partial("_SurveyLink", Model.OutcomeModel.SurveyLink, dataDictionary)
 }
+
 @section FeedbackSection {
     @if (SurveyLinkFeature.IsEnabled)
     {
-        @Html.Partial("_SurveyLink", Model.OutcomeModel.SurveyLink)
+        @Html.Partial("_SurveyLink", Model.OutcomeModel.SurveyLink, dataDictionary)
     }
     else
     {

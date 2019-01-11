@@ -31,5 +31,7 @@ namespace NHS111.Models.Models.Web
         public int ServiceCount { get; set; }
 
         public string ServiceOptions { get; set; }
+
+        public bool ValidationCallbackOffered { get; set; }
     }
 }

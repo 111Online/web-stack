@@ -17,15 +17,17 @@
         Model.PathwayNo,
         Model.EndPathwayNo,
         Model.DispositionCode,
-        launchPage,
+        Model.DispositionDateTime.ToString("dddd"),
         Model.DigitalTitle.ToLower(),
         Model.EndPathwayTitle,
-        Model.DispositionDateTime.Date.ToString("dddd, dd MMMM yyyy"),
+        Model.DispositionDateTime.Date.ToString("yyyy-M-d"),
         Model.DispositionDateTime.ToString("HH:mm:ss"),
         Model.Campaign,
         Model.CampaignSource,
         Model.ServiceCount,
-        Model.ServiceOptions
+        Model.ServiceOptions,
+        launchPage,
+        Model.ValidationCallbackOffered.ToString().ToLower()
         );
 
     <div class="notification-banner survey-banner notification-banner--hiviz">
