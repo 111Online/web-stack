@@ -162,7 +162,6 @@
         }
 
         [Test]
-		[Ignore]
         public async Task SubmittingReferralForCat3_WithoutPostcode_SendsDx333ToESB() {
             var dosScenario = await _testBench.SetupDosScenario()
                 .ExpectingRequestTo(DosEndpoint.CheckCapacitySummary)
@@ -201,7 +200,6 @@
 
 
         [Test]
-		[Ignore]
         public async Task SubmittingReferralForCat3_WhenUnsuccessful_ShowsFailureScreen() {
             var dosScenario = await _testBench.SetupDosScenario()
                 .ExpectingRequestTo(DosEndpoint.CheckCapacitySummary)
