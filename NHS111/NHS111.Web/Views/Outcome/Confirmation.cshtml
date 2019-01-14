@@ -48,7 +48,6 @@
 @if (!Model.OutcomeModel.OutcomeGroup.Is999Callback) {
     @Html.Partial("_CareAdvice", Model.OutcomeModel.CareAdvices, new ViewDataDictionary {{"Title", "What you can do in the meantime"}, {"NoHR", true}})
 }
-@if (!Model.OutcomeModel.HasAcceptedCallbackOffer.HasValue || !Model.OutcomeModel.HasAcceptedCallbackOffer.Value)
-{
+@if (!Model.OutcomeModel.OutcomeGroup.Is999Callback && !Model.OutcomeModel.OutcomeGroup.Equals(OutcomeGroup.AccidentAndEmergency)) {
     @Html.Partial("_WorseningAdviceWithTitle", Model.OutcomeModel)
 }
