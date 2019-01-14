@@ -11,7 +11,7 @@ namespace NHS111.Features.Providers {
             var setting = ConfigurationManager.AppSettings[settingName];
 
             if (setting != null)
-                return new FeatureValue(setting.ToLower()); 
+                return new FeatureValue(setting); 
 
             if (defaultStrategy == null)
                 throw new MissingSettingException("Missing setting : " + settingName);
