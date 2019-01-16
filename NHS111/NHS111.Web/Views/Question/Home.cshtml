@@ -7,7 +7,7 @@
 @section Title {NHS 111 Online}
 
 <div id="wrapper" class="home measure">
-    @using (Html.BeginForm("ModuleZero", "Question", FormMethod.Post)) {
+    @using (Html.BeginForm("Home", "Question", FormMethod.Post)) {
         @Html.HiddenFor(x => Model.SessionId)
         @Html.HiddenFor(x => Model.FilterServices)
         @Html.HiddenFor(x => Model.CurrentPostcode)
