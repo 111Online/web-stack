@@ -207,7 +207,9 @@
       <HintPath>..\packages\WebGrease.1.5.2\lib\WebGrease.dll</HintPath>
     </Reference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Views\NewFolder1\" />
+  </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\ApplicationMediumActionFilter.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
@@ -217,6 +219,7 @@
     <Compile Include="Controllers\AuditingController.cs" />
     <Compile Include="Controllers\FeedbackController.cs" />
     <Compile Include="Controllers\HelpController.cs" />
+    <Compile Include="Controllers\LocationController.cs" />
     <Compile Include="Controllers\OutcomeController.cs" />
     <Compile Include="Controllers\QuestionController.cs" />
     <Compile Include="Controllers\JustToBeSafeController.cs" />
@@ -414,6 +417,11 @@
     <Content Include="Views\Shared\_ServiceUnavailable.cshtml" />
     <Content Include="Views\Shared\_AccidentAndEmergencyServiceUnavailableReferral.cshtml" />
     <Content Include="Views\Shared\_Call999ServiceUnavailableReferral.cshtml" />
+    <Content Include="Views\Location\Home.cshtml" />
+    <Content Include="Views\Location\OutOfArea.cshtml" />
+    <Content Include="Views\Location\ConfirmLocation.cshtml" />
+    <Content Include="Views\Location\AskNHS.cshtml" />
+    <Content Include="Views\Location\Babylon.cshtml" />
     <None Include="Web.Development.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
