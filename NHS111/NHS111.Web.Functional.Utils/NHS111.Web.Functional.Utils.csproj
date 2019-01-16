@@ -57,12 +57,17 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AppPage.cs" />
     <Compile Include="BaseTests.cs" />
     <Compile Include="CategoryPage.cs" />
     <Compile Include="DeadEndPage.cs" />
     <Compile Include="DispositionPage.cs" />
     <Compile Include="DemographicsPage.cs" />
     <Compile Include="CookiesStatementPage.cs" />
+    <Compile Include="Expert24Page.cs" />
+    <Compile Include="ISubmitPostcodeResult.cs" />
+    <Compile Include="OutOfAreaPage.cs" />
+    <Compile Include="PostcodeProvider.cs" />
     <Compile Include="ServerErrorPage.cs" />
     <Compile Include="PageNotFound.cs" />
     <Compile Include="TermsAndConditionsPage.cs" />
