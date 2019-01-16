@@ -15,8 +15,5 @@ namespace NHS111.Models.Models.Web.CCG
 
         [JsonProperty(PropertyName = "dosSearchDistance")]
         public string SearchDistance { get; set; }
-
-        [JsonProperty(PropertyName = "stpName")]
-        public string StpName { get; set; }
     }
 }

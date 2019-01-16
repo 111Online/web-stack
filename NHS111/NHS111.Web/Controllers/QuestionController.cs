@@ -46,9 +46,16 @@ namespace NHS111.Web.Controllers {
             _outcomeViewModelBuilder = outcomeViewModelBuilder;
         }
 
-        [HttpPost]
-        public ActionResult ModuleZero(JourneyViewModel model)
+        [HttpGet, PersistCampaignDataFilter]
+        public ActionResult Home(JourneyViewModel model, string args)
         {
+            if (!string.IsNullOrEmpty(args))
+            {
+                var decryptedFields = new QueryStringEncryptor(args);
+                model.CurrentPostcode = decryptedFields["postcode"];
+                model.SessionId = Guid.Parse(decryptedFields["sessionId"]);
+            }
+
             _userZoomDataBuilder.SetFieldsForInitialQuestion(model);
             return View("InitialQuestion", model);
         }
