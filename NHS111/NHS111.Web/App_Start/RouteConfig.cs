@@ -36,7 +36,7 @@ namespace NHS111.Web
             routes.MapRoute(
                 name: "Default",
                 url: "{controller}/{action}/{id}",
-                defaults: new { controller = "Question", action = "Home", id = UrlParameter.Optional }
+                defaults: new { controller = "Location", action = "Home", id = UrlParameter.Optional }
                 );
         }
     }
