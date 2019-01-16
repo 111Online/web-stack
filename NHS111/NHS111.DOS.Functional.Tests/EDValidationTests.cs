@@ -148,7 +148,7 @@
                 .Then()
                 .ExpectingRequestTo(DosEndpoint.CheckCapacitySummary)
                 .Matching(BlankDosCase.WithDxCode(DispositionCode.Dx02))
-                .Returns(ServicesTransformedTo.ServerError)
+                .Returns(ServicesTransformedTo.OnlyOneCallback)
                 .OtherwiseReturns(DosRequestMismatchResult.ServerError)
                 .BeginAsync();
 
