@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Configuration;
 using NUnit.Framework;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
@@ -28,5 +29,7 @@ namespace NHS111.Web.Functional.Utils
                 // Ignore errors if unable to close the browser
             }
         }
+        public PostcodeProvider Postcodes = new PostcodeProvider();
+        protected static readonly string BaseUrl = ConfigurationManager.AppSettings["TestWebsiteUrl"];
     }
 }

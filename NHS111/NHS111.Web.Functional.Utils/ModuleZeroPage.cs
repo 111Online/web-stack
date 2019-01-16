@@ -4,7 +4,7 @@ using OpenQA.Selenium.Support.PageObjects;
 
 namespace NHS111.Web.Functional.Utils
 {
-    public class ModuleZeroPage : LayoutPage
+    public class ModuleZeroPage : LayoutPage, ISubmitPostcodeResult
     {
         private const string _headerText = "Check it’s not an emergency";
         
@@ -36,6 +36,11 @@ namespace NHS111.Web.Functional.Utils
         public void VerifyList()
         {
             Assert.IsTrue(List.Displayed);
+        }
+
+        public bool ValidationVisible()
+        {
+            return false;
         }
     }
 }
