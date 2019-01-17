@@ -234,6 +234,7 @@
     <Compile Include="Models\Web\ITK\ReportItem.cs" />
     <Compile Include="Models\Web\ITK\StepItem.cs" />
     <Compile Include="Models\Web\LocationInfoViewModel.cs" />
+    <Compile Include="Models\Web\LocationViewModel.cs" />
     <Compile Include="Models\Web\NodeDetailsViewModel.cs" />
     <Compile Include="Models\Web\OutcomeMapViewModel.cs" />
     <Compile Include="Models\Web\PageDataViewModel.cs" />

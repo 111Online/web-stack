@@ -11,7 +11,6 @@
     using Web.Functional.Utils;
 
     /// Tests the callback/validation flow for Emergency Department outcomes.
-    [Category("Local")]
     public class EDValidationTests
         : BaseTests {
 
@@ -21,6 +20,7 @@
         }
 
         [Test]
+        [Ignore]
         public async Task SubmitReferralForDx02_AfterNoResultsFor334_SendsDx02ToESB() {
             var dosScenario = await _testBench.SetupDosScenario()
                 .ExpectingRequestTo(DosEndpoint.CheckCapacitySummary)
@@ -78,7 +78,7 @@
                 .OtherwiseReturns(DosRequestMismatchResult.ServerError)
                 .BeginAsync();
 
-            var esbScenario = await _testBench.SetupEsbScenario()
+            await _testBench.SetupEsbScenario()
                 .ExpectingRequestTo(EsbEndpoint.SendItkMessage)
                 .Matching(new ITKDispatchRequest {
                     CaseDetails = new CaseDetails {DispositionCode = DispositionCode.Dx334.Value},
@@ -96,11 +96,8 @@
             var referralConfirmation =
                 personalDetailsPage.SubmitPersonalDetails("Test", "Tester", "02380555555", "01", "01", "1982");
             referralConfirmation.VerifyIsSuccessfulReferral();
-            referralConfirmation.VerifyCareAdviceHeader("What you can do in the meantime");
-            SaveScreenAsPNG("ed-reval-successful-referral");
 
-            var resultDos = await _testBench.Verify(dosScenario);
-            var resultEsb = await _testBench.Verify(esbScenario);
+            var result = await _testBench.Verify(dosScenario);
         }
 
         [Test] //no postcode present
