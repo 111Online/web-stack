@@ -1,4 +1,5 @@
-﻿using NHS111.Web.Functional.Utils;
+﻿using System.Net;
+using NHS111.Web.Functional.Utils;
 using NUnit.Framework;
 
 namespace NHS111.Web.Functional.Tests
@@ -35,7 +36,7 @@ namespace NHS111.Web.Functional.Tests
         {
             var homePage = TestScenarioPart.HomePage(Driver, "nhs app");
             homePage.VerifyHeaderBannerHidden();
-            homePage.Load();
+            homePage.Visit();
             homePage.VerifyHeaderBannerHidden();
         }
 
@@ -45,19 +46,78 @@ namespace NHS111.Web.Functional.Tests
         {
             var homePage = TestScenarioPart.HomePage(Driver, "nhs app");
             homePage.VerifyHeaderBannerHidden();
-            homePage.Load("direct");
+            homePage.Visit("direct");
             homePage.VerifyHeaderBannerDisplayed();
         }
 
 
         [Test]
-        public void NextPage_Displays_without_Headers_following_request_using_app_urll()
+        public void NextPage_Displays_without_Headers_following_request_using_app_url()
         {
-            var homePage = TestScenarioPart.HomePage(Driver, "nhs app");
+            var homePage = HomePage.Start(Driver)
+                .Visit("nhs app");
             homePage.VerifyHeaderBannerHidden();
-            var demographicsPage = homePage.ClickNextButton();
-            demographicsPage.VerifyHeaderBannerHidden();
 
+            var moduleZeroPage = homePage.EnterPostcode(Postcodes.GetPathwaysPostcode())
+                .ClickNext() as ModuleZeroPage;
+            moduleZeroPage.VerifyHeaderBannerHidden();
+        }
+
+        [Test]
+        public void ClickingNext_WithoutPostcode_ShowsValidation()
+        {
+            var submitPostcodeResult = HomePage.Start(Driver)
+                .Visit()
+                .ClearPostcodeField()
+                .ClickNext();
+
+            Assert.True(submitPostcodeResult.ValidationVisible());
+        }
+
+        [Test]
+        public void ClickingNext_WithPostcode_Redirects()
+        {
+            var submitPostcodeResult = HomePage.Start(Driver)
+                .Visit()
+                .EnterPostcode(Postcodes.GetPathwaysPostcode())
+                .ClickNext();
+
+            Assert.IsAssignableFrom<ModuleZeroPage>(submitPostcodeResult);
+        }
+
+        [Test]
+        public void EnteringAskNHSPostcode_RedirectsToAskNHS()
+        {
+            var submitPostcodeResult = HomePage.Start(Driver)
+                .Visit()
+                .EnterPostcode(Postcodes.GetAskNHSPostcode())
+                .ClickNext();
+
+            Assert.IsAssignableFrom<AppPage>(submitPostcodeResult);
+            var appPage = submitPostcodeResult as AppPage;
+            Assert.AreEqual(appPage.AppName, "Ask NHS");
+        }
+
+        [Test]
+        public void EnteringOutOfAreaPostcode_RedirectsToOutOfArea()
+        {
+            var submitPostcodeResult = HomePage.Start(Driver)
+                .Visit()
+                .EnterPostcode(Postcodes.GetOutOfAreaPostcode())
+                .ClickNext();
+
+            Assert.IsAssignableFrom<OutOfAreaPage>(submitPostcodeResult);
+        }
+
+        [Test]
+        public void EnteringExpert24Postcode_RedirectsToExpert24()
+        {
+            var submitPostcodeResult = HomePage.Start(Driver)
+                .Visit()
+                .EnterPostcode(Postcodes.GetExpert24Postcode())
+                .ClickNext();
+
+            Assert.IsAssignableFrom<Expert24Page>(submitPostcodeResult);
         }
     }
 }

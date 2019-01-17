@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Configuration;
+using System.Linq;
 using System.Web;
 using NUnit.Framework;
 using OpenQA.Selenium;
@@ -7,21 +8,10 @@ using OpenQA.Selenium.Support.PageObjects;
 
 namespace NHS111.Web.Functional.Utils
 {
-    public class HomePage : LayoutPage
+    public class HomePage : LayoutPage, ISubmitPostcodeResult
     {
         private static string _baseUrl = ConfigurationManager.AppSettings["TestWebsiteUrl"];
 
-        public string ArgsQueryString {
-            set {
-                var uri = new Uri(_baseUrl);
-                var values = HttpUtility.ParseQueryString(uri.Query);
-                values["args"] = value;
-                if (!string.IsNullOrEmpty(uri.Query)) {
-                    _baseUrl = _baseUrl.Replace(uri.Query, "");
-                }
-                _baseUrl += "?" + values;
-            }
-        }
         [FindsBy(How = How.CssSelector, Using = "nav > ul > li:nth-child(1) > a")]
         internal IWebElement TermsLink { get; set; }
 
@@ -31,34 +21,50 @@ namespace NHS111.Web.Functional.Utils
         [FindsBy(How = How.CssSelector, Using = "nav > ul > li:nth-child(3) > a")]
         internal IWebElement CookiesLink { get; set; }
 
-        [FindsBy(How = How.ClassName, Using = "button--next")]
+        [FindsBy(How = How.Id, Using = "Postcode")]
+        private IWebElement PostcodeField { get; set; }
+
+        [FindsByAll]
+        [FindsBy(How = How.TagName, Using = "button", Priority = 0)]
+        [FindsBy(How = How.ClassName, Using = "button", Priority = 1)] //this is brittle, button needs an id really.
         private IWebElement NextButton { get; set; }
         
         public HomePage(IWebDriver driver) : base(driver)
         {
         }
 
-        public void Load()
+        public static HomePage Start(IWebDriver driver)
+        {
+            return new HomePage(driver);
+        }
+
+        public HomePage Visit()
+        {
+            Driver.Navigate().GoToUrl(_baseUrl);
+            if (UrlContainsCredentials())
+                Driver.Navigate().GoToUrl(GetUrlWithoutCredentials());
+            Driver.Manage().Window.Maximize();
+            return this;
+        }
+
+        public HomePage Visit(string mediumQuerystring)
         {
             Driver.Navigate().GoToUrl(_baseUrl);
             if (UrlContainsCredentials())
             {
-                Driver.Navigate().GoToUrl(GetUrlWithoutCredentials());
-            }
-            Driver.Manage().Window.Maximize();
-        }
-
-
-        public void Load(string mediumQuerystring)
-        {
-            Driver.Navigate().GoToUrl(_baseUrl);
-            if (UrlContainsCredentials()) {
                 Uri uri = new Uri(GetUrlWithoutCredentials());
                 uri = uri.AddOrReplaceQuery("utm_medium", mediumQuerystring);
 
                 Driver.Navigate().GoToUrl(uri);
             }
             Driver.Manage().Window.Maximize();
+            return this;
+        }
+
+        public HomePage ClearPostcodeField()
+        {
+            PostcodeField.Clear();
+            return this;
         }
 
         private string GetUrlWithoutCredentials()
@@ -76,10 +82,42 @@ namespace NHS111.Web.Functional.Utils
             return _baseUrl.Contains("@");
         }
 
-        public DemographicsPage ClickNextButton()
+        public ISubmitPostcodeResult ClickNext()
         {
             NextButton.Click();
-            return new DemographicsPage(Driver);
+            var currentUrl = HttpUtility.UrlDecode(Driver.Url.ToLower());
+            if (currentUrl.Contains("/location/find") && Driver.Title.Contains("Is it an emergency?"))
+                return new ModuleZeroPage(Driver);
+
+            if (currentUrl.Contains("/location/find") && Driver.Title.Contains("Out of area"))
+                return new OutOfAreaPage(Driver);
+
+            if (currentUrl.Contains("babylon") || currentUrl.Contains("ask nhs"))
+                return new AppPage(Driver);
+
+            if (currentUrl.Contains("111onlinesuffolk"))
+                return new Expert24Page(Driver);
+
+            return this;
+        }
+
+        public bool ValidationVisible()
+        {
+            var message = Driver.FindElements(By.CssSelector(".error-message.field-validation-error"));
+            if (!message.Any())
+                throw new AssertionException("Unable to find validation message on page.");
+            return message.First().Displayed;
+        }
+
+        public HomePage EnterPostcode(string postcode)
+        {
+            PostcodeField.SendKeys(postcode);
+            return this;
+        }
+
+        public bool Redirected()
+        {
+            return Driver.Url.ToLower().Replace(_baseUrl, "") != "";
         }
 
         public PrivacyStatementPage ClickPrivacyStatementLink()

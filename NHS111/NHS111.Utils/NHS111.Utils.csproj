@@ -203,10 +203,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Analytics\EventMeasurement.cs" />
+    <Compile Include="Analytics\GoogleAnalyticsApi.cs" />
+    <Compile Include="Analytics\MeasurementProtocol.cs" />
     <Compile Include="Attributes\EnableCorsFromAppSettings.cs" />
     <Compile Include="Attributes\LogHandleErrorForApiAttribute.cs" />
     <Compile Include="Attributes\LogHandleErrorForMVCAttribute.cs" />
     <Compile Include="Attributes\MultiSubmitAttribute.cs" />
+    <Compile Include="Filters\SetSessionIdFilterAttribute.cs" />
     <Compile Include="Storage\AzureStorageService.cs" />
     <Compile Include="Comparer\KeywordComparer.cs" />
     <Compile Include="Converters\DosServiceConverter.cs" />
