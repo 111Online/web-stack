@@ -54,19 +54,13 @@ namespace NHS111.Web.Functional.Tests
         [Test]
         public void NextPage_Displays_without_Headers_following_request_using_app_url()
         {
-            var homePage = TestScenarioPart.HomePage(Driver, "nhs app");
+            var homePage = HomePage.Start(Driver)
+                .Visit("nhs app");
             homePage.VerifyHeaderBannerHidden();
-            var moduleZeroPage = homePage.ClickNext() as ModuleZeroPage;
+
+            var moduleZeroPage = homePage.EnterPostcode(Postcodes.GetPathwaysPostcode())
+                .ClickNext() as ModuleZeroPage;
             moduleZeroPage.VerifyHeaderBannerHidden();
-
-        }
-
-        [Test]
-        public void Requesting_Returns200()
-        {
-            var request = WebRequest.Create(BaseUrl);
-            var response = request.GetResponse() as HttpWebResponse;
-            Assert.AreEqual(HttpStatusCode.OK, response.StatusCode);
         }
 
         [Test]
@@ -88,7 +82,7 @@ namespace NHS111.Web.Functional.Tests
                 .EnterPostcode(Postcodes.GetPathwaysPostcode())
                 .ClickNext();
 
-            Assert.IsAssignableFrom<HomePage>(submitPostcodeResult);
+            Assert.IsAssignableFrom<ModuleZeroPage>(submitPostcodeResult);
         }
 
         [Test]
@@ -102,19 +96,6 @@ namespace NHS111.Web.Functional.Tests
             Assert.IsAssignableFrom<AppPage>(submitPostcodeResult);
             var appPage = submitPostcodeResult as AppPage;
             Assert.AreEqual(appPage.AppName, "Ask NHS");
-        }
-
-        [Test]
-        public void EnteringBabylonPostcode_RedirectsToBabylon()
-        {
-            var submitPostcodeResult = HomePage.Start(Driver)
-                .Visit()
-                .EnterPostcode(Postcodes.GetBabylonPostcode())
-                .ClickNext();
-
-            Assert.IsAssignableFrom<AppPage>(submitPostcodeResult);
-            var appPage = submitPostcodeResult as AppPage;
-            Assert.AreEqual(appPage.AppName, "NHS 111 London");
         }
 
         [Test]
