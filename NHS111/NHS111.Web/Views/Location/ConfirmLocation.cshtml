@@ -1,0 +1,62 @@
+﻿@using NHS111.Models.Models.Web
+@using NHS111.Utils.Analytics
+@{
+    Layout = "~/Views/Shared/_LayoutNhsUK.cshtml";
+}
+@inherits NHS111.Web.Views.Shared.DirectLinkingView<ConfirmLocationViewModel>
+@section Title {NHS 111 Online - Confirm Location}
+@section HeadTop {
+    <script>
+        dataLayer = [
+            {
+                'virtualPageUrl': 'Confirm Location',
+                'virtualPageTitle': 'Confirm Location'
+            }];
+    </script>
+}
+@if (Model.FoundLocations.Any())
+{
+    using (Html.BeginForm("FindByAddress", "Location", FormMethod.Post))
+    {
+        @Html.HiddenFor(m => m.SessionId)
+        @Html.HiddenFor(m => m.Campaign)
+        <div>
+            @{
+                var i = 0;
+                var checkedParam = Model.FoundLocations.Count == 1 ? "checked" : "";
+                var heading = Model.FoundLocations.Count == 1 ? "Are you here?" : "Where are you?";
+            }
+            <h1 id="strap-line">@heading</h1>
+            <h2 id="sub-header" style="display: none;">Now we can tell you what to do next</h2>
+            <div class="form-group">
+                <div id="confirm-location-form" style="">
+                    <p>Knowing where you are helps us find the right care.</p>
+                    @Html.ValidationMessageFor(m => m.SelectedPostcode, "Please select your location", new { @class = "error-message" })
+                    <div class="location-address">
+                        <div class="multiple-choice">
+                            @foreach (var location in Model.FoundLocations)
+                            {
+                                var placename = String.IsNullOrWhiteSpace(location.Thoroughfare) ? location.Ward : location.Thoroughfare;
+                                <input data-val="true" data-val-required="Required field" id="address-@i" name="SelectedPostcode" type="radio" value="@location.Postcode" @checkedParam>
+                                <label for="address-@i" class="multiple-choice--radio"><strong>@placename</strong>, @location.City, @location.Postcode</label>
+                                i++;
+                            }
+                        </div>
+                    </div>
+
+
+                    <p><a href="/?SessionId=@Model.SessionId" class="js-manual-postcode button--link button--stacked">No, I'll enter my postcode.</a></p>
+                    <button class="button--next" type="submit" name="DosResults" id="DosLookup">Next</button>
+                </div>
+
+            </div>
+        </div>
+    }
+}
+else
+{
+    <h1 id="strap-line">We were unable to find your location</h1>
+    <a href="/" class="js-manual-postcode button--link button--stacked">Enter my postcode.</a>
+}
+
+
