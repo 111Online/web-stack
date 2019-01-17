@@ -9,7 +9,7 @@
 
         public string GetAskNHSPostcode()
         {
-            return "B111YA";
+            return "DY121LF";
         }
 
         public string GetBabylonPostcode()
@@ -24,7 +24,7 @@
 
         public string GetExpert24Postcode()
         {
-            return "CB88LH";
+            return "B54BU";
         }
     }
 }

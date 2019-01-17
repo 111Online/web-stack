@@ -86,10 +86,10 @@ namespace NHS111.Web.Functional.Utils
         {
             NextButton.Click();
             var currentUrl = HttpUtility.UrlDecode(Driver.Url.ToLower());
-            if (currentUrl.Contains("pathways"))
+            if (currentUrl.Contains("/location/find") && Driver.Title.Contains("Is it an emergency?"))
                 return new ModuleZeroPage(Driver);
 
-            if (currentUrl.Contains("/location/find"))
+            if (currentUrl.Contains("/location/find") && Driver.Title.Contains("Out of area"))
                 return new OutOfAreaPage(Driver);
 
             if (currentUrl.Contains("babylon") || currentUrl.Contains("ask nhs"))
