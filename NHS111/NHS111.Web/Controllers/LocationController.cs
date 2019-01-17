@@ -51,11 +51,11 @@ namespace NHS111.Web.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> ConfirmAddress(string longlat, string sessionId)
+        public async Task<ActionResult> ConfirmAddress(string longlat, ConfirmLocationViewModel model)
         {
             var results = await _locationResultBuilder.LocationResultByGeouilder(longlat);
             var locationResults = Mapper.Map<List<AddressInfoViewModel>>(results.DistinctBy(r => r.Thoroughfare));
-            return View("ConfirmLocation", new ConfirmLocationViewModel { FoundLocations = locationResults, SessionId = Guid.Parse(sessionId) });
+            return View("ConfirmLocation", new ConfirmLocationViewModel { FoundLocations = locationResults, SessionId = model.SessionId, Campaign = model.Campaign });
         }
 
         [HttpGet]
@@ -74,7 +74,14 @@ namespace NHS111.Web.Controllers
             switch (postcodeValidationRepsonse)
             {
                 case PostcodeValidatorResponse.InPathwaysArea:
-                    return View(moduleZeroViewName, new JourneyViewModel { SessionId = model.SessionId, CurrentPostcode = ccg.Postcode, Campaign = ccg.StpName, Source = ccg.CCG});
+                    return View(moduleZeroViewName, 
+                        new JourneyViewModel
+                        {
+                            SessionId = model.SessionId,
+                            CurrentPostcode = ccg.Postcode,
+                            Campaign = string.IsNullOrEmpty(model.Campaign) ? ccg.StpName : model.Campaign,
+                            Source = string.IsNullOrEmpty(model.Source) ? ccg.CCG : model.Source
+                        });
                 case PostcodeValidatorResponse.OutsidePathwaysArea:
                     return RedirectToRoute("ProviderRoute",
                         new

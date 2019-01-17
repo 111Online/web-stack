@@ -14,10 +14,7 @@ namespace NHS111.Web.Functional.Utils
 
         public string AppName
         {
-            get
-            {
-                return AppHeader.Text;
-            }
+            get { return AppHeader.Text; }
         }
 
         public bool ValidationVisible()
