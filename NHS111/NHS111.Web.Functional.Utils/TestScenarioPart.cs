@@ -7,7 +7,7 @@ namespace NHS111.Web.Functional.Utils
         public static HomePage HomePage(IWebDriver driver)
         {
             var homepage = new HomePage(driver);
-            homepage.Load();
+            homepage.Visit();
             return homepage;
         }
 
@@ -15,24 +15,15 @@ namespace NHS111.Web.Functional.Utils
         public static HomePage HomePage(IWebDriver driver, string medium)
         {
             var homepage = new HomePage(driver);
-            homepage.Load(medium);
+            homepage.Visit(medium);
             return homepage;
         }
 
 
-        public static ModuleZeroPage ModuleZero(IWebDriver driver)
+        public static ModuleZeroPage ModuleZero(HomePage page)
         {
-            var homepage = new HomePage(driver);
-            homepage.Load();
-            return new ModuleZeroPage(driver);
-        }
-
-        public static ModuleZeroPage ModuleZeroWithArgs(IWebDriver driver, string args)
-        {
-            var homepage = new HomePage(driver);
-            homepage.ArgsQueryString = args;
-            homepage.Load();
-            return new ModuleZeroPage(driver);
+            return page.EnterPostcode("LS177NZ")
+                .ClickNext() as ModuleZeroPage;
         }
 
         public static DemographicsPage Demographics(ModuleZeroPage page)
