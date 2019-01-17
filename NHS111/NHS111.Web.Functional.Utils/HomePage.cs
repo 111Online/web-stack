@@ -103,7 +103,7 @@ namespace NHS111.Web.Functional.Utils
 
         public bool ValidationVisible()
         {
-            var message = Driver.FindElements(By.CssSelector(".error-message.field-validation-error"));
+            var message = Driver.FindElements(By.CssSelector(".field-validation-error"));
             if (!message.Any())
                 throw new AssertionException("Unable to find validation message on page.");
             return message.First().Displayed;
