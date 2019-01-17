@@ -84,7 +84,7 @@ namespace NHS111.Web.Controllers
             var gaEvent = new EventMeasurement(_configuration.GoogleAnalyticsTrackingId, clientId.Value, "Gateway")
             {
                 UserId = userId.Value,
-                EventAction = "Redirect",
+                EventAction = "FoundLocation",
                 EventLabel = ccgModel.App
             };
             Task.Factory.StartNew(() => gaEvent.PostToAnalyticsAsync(_configuration.GoogleAnalyticsCollectorUrl));
