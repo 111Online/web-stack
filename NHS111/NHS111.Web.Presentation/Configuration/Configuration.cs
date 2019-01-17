@@ -40,6 +40,8 @@ namespace NHS111.Web.Presentation.Configuration
         public string QueryStringEncryptionKey { get { return ConfigurationManager.AppSettings["QueryStringEncryptionKey"]; } }
         public string QueryStringEncryptionBytes { get { return ConfigurationManager.AppSettings["QueryStringEncryptionBytes"]; } }
         public string Expert24Url { get { return ConfigurationManager.AppSettings["Expert24Url"]; } }
+        public string GoogleAnalyticsTrackingId { get { return ConfigurationManager.AppSettings["GoogleAnalyticsTrackingId"]; } }
+        public string GoogleAnalyticsCollectorUrl { get { return ConfigurationManager.AppSettings["GoogleAnalyticsCollectorUrl"]; } }
 
         public string BusinessApiLocationSearchGetAddressByGeoUrl { get{ return ConfigurationManager.AppSettings["BusinessApiLocationSearchGetAddressByGeoUrl"];} }
         public string BusinessApiLocationSearchGetAddressByPostcodeUrl { get { return ConfigurationManager.AppSettings["BusinessApiLocationSearchGetAddressByPostcodeUrl"]; } }
@@ -274,5 +276,7 @@ namespace NHS111.Web.Presentation.Configuration
         string QueryStringEncryptionKey { get; }
         string QueryStringEncryptionBytes { get; }
         string Expert24Url { get; }
+        string GoogleAnalyticsTrackingId { get; }
+        string GoogleAnalyticsCollectorUrl { get; }
     }
 }

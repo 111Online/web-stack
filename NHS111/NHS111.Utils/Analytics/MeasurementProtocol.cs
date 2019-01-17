@@ -2,9 +2,10 @@
 {
     public abstract class MeasurementProtocol
     {
-        protected MeasurementProtocol()
+        protected MeasurementProtocol(string trackingId)
         {
             Version = "1";
+            TrackingId = trackingId;
         }
 
         public string Version { get; set; }
