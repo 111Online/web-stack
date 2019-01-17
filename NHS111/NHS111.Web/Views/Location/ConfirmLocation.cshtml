@@ -19,6 +19,7 @@
     using (Html.BeginForm("FindByAddress", "Location", FormMethod.Post))
     {
         @Html.HiddenFor(m => m.SessionId)
+        @Html.HiddenFor(m => m.Campaign)
         <div>
             @{
                 var i = 0;
