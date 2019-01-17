@@ -87,4 +87,33 @@
         document.body.appendChild(form);
         form.submit();
     }
+
+    $(document).ready(function () {
+        $.validator.setDefaults({
+            showErrors: function() {
+                var valid = this.validElements()
+                $(valid).siblings(".field-validation-error").removeClass("field-validation-error")
+                    .addClass("field-validation-valid");
+                $(valid).parent().removeClass("form-group-error");
+                $(valid).removeAttr("aria-invalid").removeAttr("role");
+
+
+                var invalid = this.invalidElements();
+                $(invalid).siblings(".field-validation-valid").removeClass("field-validation-valid")
+                    .addClass("field-validation-error");
+                $(invalid).parent().addClass("form-group-error");
+                $(invalid).attr("aria-invalid", true).attr("role", "alert");
+            }
+        });
+
+        $("#Postcode").one("blur",
+            function(e) {
+                $(this).valid();
+            });
+
+        $("button[type='submit']").one("click",
+            function(e) {
+                $(this).valid();
+            });
+    })
 </script>
