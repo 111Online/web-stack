@@ -116,8 +116,11 @@ namespace NHS111.Web.Presentation.Builders
             if (OutcomeGroup.Call999Cat2.Equals(model.OutcomeGroup) || OutcomeGroup.Call999Cat3.Equals(model.OutcomeGroup))
             {
                 model.CareAdviceMarkers = model.State.Keys.Where(key => key.StartsWith("Cx"));
-                if (model.Is999Callback) model.HasAcceptedCallbackOffer = true;
+                
             }
+
+			if (model.Is999Callback)
+				model.HasAcceptedCallbackOffer = true;
 
             var surveyTask = _surveyLinkViewModelBuilder.SurveyLinkBuilder(model);
             model.WorseningCareAdvice = await worseningTask;
