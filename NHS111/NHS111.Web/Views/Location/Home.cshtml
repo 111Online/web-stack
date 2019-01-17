@@ -39,6 +39,7 @@
         <button class="js-find-location button--link" type="button" style="display: none">Use my current location</button>
 
         @Html.HiddenFor(m => m.SessionId)
+        @Html.HiddenFor(m => m.Campaign)
     </div>
 
     <button type="submit" class="button">Next</button>
@@ -58,7 +59,7 @@
         startPageLoadingIndicator('Searching for your current location ...');
         navigator.geolocation.getCurrentPosition(function (pos) {
             var coords = pos.coords.longitude + "," + pos.coords.latitude;
-            post('/location/ConfirmAddress', { "longlat": coords, "SessionId": "@Model.SessionId" });
+            post('/location/ConfirmAddress', { "longlat": coords, "SessionId": "@Model.SessionId", "Campaign": "@Model.Campaign" });
         }, showError);
     });
 

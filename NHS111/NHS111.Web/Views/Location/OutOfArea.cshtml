@@ -23,6 +23,7 @@
         @using (Html.BeginForm("Home", "Location", FormMethod.Get))
         {
             @Html.HiddenFor(m => m.SessionId)
+            @Html.HiddenFor(m => m.Campaign)
             <button type="submit" class="button button--link">Go back</button>
         }
     </div>
