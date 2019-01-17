@@ -37,7 +37,7 @@
 
     <h1 class="heading--large">@topLevelCategory.Category.Title</h1>
             @if (topLevelCategory.SubCategories != null && topLevelCategory.SubCategories.Any()) {
-                foreach (var subCategory in topLevelCategory.SubCategories.OrderBy(x => x.Category.Title)) {
+                foreach (var subCategory in topLevelCategory.SubCategories.OrderBy(x => x.Category.OrderNo)) {
                     if (!subCategory.Pathways.Any()) {
                         continue;
                     }
