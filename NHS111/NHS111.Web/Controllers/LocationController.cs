@@ -81,11 +81,12 @@ namespace NHS111.Web.Controllers
         {
             var clientId = Request.Cookies["_ga"];
             var userId = Request.Cookies["_gid"];
-            var gaEvent = new EventMeasurement(_configuration.GoogleAnalyticsTrackingId, clientId.Value, "Gateway")
+            var gaEvent = new EventMeasurement(_configuration.GoogleAnalyticsTrackingId, clientId.Value, HitType.PageView)
             {
                 UserId = userId.Value,
-                EventAction = "FoundLocation",
-                EventLabel = ccgModel.App
+                Campaign = ccgModel.StpName,
+                Source = ccgModel.CCG,
+                DocumentPath = Request.Path
             };
             Task.Factory.StartNew(() => gaEvent.PostToAnalyticsAsync(_configuration.GoogleAnalyticsCollectorUrl));
         }
