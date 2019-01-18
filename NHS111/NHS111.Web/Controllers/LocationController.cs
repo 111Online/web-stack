@@ -8,6 +8,7 @@ using Microsoft.Ajax.Utilities;
 using NHS111.Models.Models.Web;
 using NHS111.Models.Models.Web.CCG;
 using NHS111.Models.Models.Web.Validators;
+using NHS111.Utils.Analytics;
 using NHS111.Utils.Filters;
 using NHS111.Web.Presentation.Builders;
 using IConfiguration = NHS111.Web.Presentation.Configuration.IConfiguration;
@@ -40,6 +41,9 @@ namespace NHS111.Web.Controllers
             if (postcodeValidationRepsonse == PostcodeValidatorResponse.InvalidSyntax)
                 return View("Home", model);
 
+            if (_postCodeAllowedValidator.CcgModel != null)
+                SendCampaignAndSourceDataToGoogle(_postCodeAllowedValidator.CcgModel);
+
             return DeriveApplicationView(model, postcodeValidationRepsonse, _postCodeAllowedValidator.CcgModel);
         }
 
@@ -48,6 +52,9 @@ namespace NHS111.Web.Controllers
         {
             ModelState.Clear();
             var postcodeValidationRepsonse = _postCodeAllowedValidator.IsAllowedPostcode(model.SelectedPostcode);
+
+            if (_postCodeAllowedValidator.CcgModel != null)
+                SendCampaignAndSourceDataToGoogle(_postCodeAllowedValidator.CcgModel);
 
             return DeriveApplicationView(model, postcodeValidationRepsonse, _postCodeAllowedValidator.CcgModel);
         }
@@ -68,6 +75,21 @@ namespace NHS111.Web.Controllers
                 return Redirect(_configuration.Expert24Url);
 
             return View(providerName.Replace(" ", ""), model);
+        }
+
+        private void SendCampaignAndSourceDataToGoogle(CCGModel ccgModel)
+        {
+            var clientId = Request.Cookies["_ga"];
+            var userId = Request.Cookies["_gid"];
+            var gaEvent = new EventMeasurement(_configuration.GoogleAnalyticsTrackingId, clientId.Value, HitType.Event)
+            {
+                UserId = userId.Value,
+                EventCategory = "Location",
+                EventAction = ccgModel.StpName,
+                EventLabel = ccgModel.CCG,
+                DocumentPath = Request.Path
+            };
+            Task.Factory.StartNew(() => gaEvent.PostToAnalyticsAsync(_configuration.GoogleAnalyticsCollectorUrl));
         }
 
         private ActionResult DeriveApplicationView(JourneyViewModel model, PostcodeValidatorResponse postcodeValidationRepsonse, CCGModel ccg)
