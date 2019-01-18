@@ -90,7 +90,7 @@
         form.submit();
     }
 
-    $(document).ready(function () {
+    $(document).ready(function() {
         $.validator.setDefaults({
             showErrors: function() {
                 var valid = this.validElements()
@@ -108,14 +108,9 @@
             }
         });
 
-        $("#Postcode").one("blur",
-            function(e) {
-                $(this).valid();
-            });
-
         $("button[type='submit']").one("click",
             function(e) {
                 $(this).valid();
             });
-    })
+    });
 </script>

@@ -8,14 +8,6 @@ namespace NHS111.Web.Functional.Tests
     public class HomePageTests : BaseTests
     {
         [Test]
-        [Ignore]
-        public void HomePage_Displays()
-        {
-            var homePage = TestScenarioPart.HomePage(Driver);
-            homePage.Verify();
-        }
-
-        [Test]
         public void HomePage_Displays_with_Headers_using_default_url()
         {
             var homePage = TestScenarioPart.HomePage(Driver);
