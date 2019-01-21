@@ -8,7 +8,6 @@ namespace NHS111.Models.Models.Web
 {
     public class LocationViewModel : JourneyViewModel
     {
-        public string Postcode { get; set; }
     }
 
     public class ProviderViewModel : LocationViewModel
