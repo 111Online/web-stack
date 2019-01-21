@@ -37,7 +37,7 @@ namespace NHS111.Web.Controllers
         public ActionResult Find(LocationViewModel model)
         {
             ModelState.Clear();
-            var postcodeValidationRepsonse = _postCodeAllowedValidator.IsAllowedPostcode(model.Postcode);
+            var postcodeValidationRepsonse = _postCodeAllowedValidator.IsAllowedPostcode(model.CurrentPostcode);
             if (postcodeValidationRepsonse == PostcodeValidatorResponse.InvalidSyntax)
                 return View("Home", model);
 
