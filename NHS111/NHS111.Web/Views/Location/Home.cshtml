@@ -32,15 +32,16 @@
 
 @using (Html.BeginForm("Find", "Location", FormMethod.Post))
 {
-    <div class="form-group">
-        @Html.LabelFor(m => m.Postcode, "Postcode")
-        @Html.ValidationMessageFor(m => m.Postcode, "Please enter your current postcode")
-        @Html.TextBoxFor(m => m.Postcode, new { @required = true, style = "width: 8em; display: inline-block; margin-right: 10px;" })
-        <button class="js-find-location button--link" type="button" style="display: none">Use my current location</button>
+<div class="form-group">
+    @Html.LabelFor(m => m.Postcode, "Postcode")
+    @Html.ValidationMessageFor(m => m.Postcode, "Please enter your current postcode")
+    @Html.TextBoxFor(m => m.Postcode, new { @required = true, style = "width: 8em; display: inline-block; margin-right: 10px;" })
+    <button class="js-find-location button--link" type="button" style="display: none">Use my current location</button>
 
-        @Html.HiddenFor(m => m.SessionId)
-        @Html.HiddenFor(m => m.Campaign)
-    </div>
+    @Html.HiddenFor(m => m.SessionId)
+    @Html.HiddenFor(m => m.Campaign)
+    @Html.HiddenFor(m => m.FilterServices)
+</div>
 
     <button type="submit" class="button">Next</button>
 }
@@ -59,7 +60,7 @@
         startPageLoadingIndicator('Searching for your current location ...');
         navigator.geolocation.getCurrentPosition(function (pos) {
             var coords = pos.coords.longitude + "," + pos.coords.latitude;
-            post('/location/ConfirmAddress', { "longlat": coords, "SessionId": "@Model.SessionId", "Campaign": "@Model.Campaign" });
+            post('/location/ConfirmAddress', { "longlat": coords, "SessionId": "@Model.SessionId", "Campaign": "@Model.Campaign", "FilterServices": "@Model.FilterServices" });
         }, showError);
     });
 

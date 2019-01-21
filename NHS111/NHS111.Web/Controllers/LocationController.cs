@@ -64,7 +64,7 @@ namespace NHS111.Web.Controllers
         {
             var results = await _locationResultBuilder.LocationResultByGeouilder(longlat);
             var locationResults = Mapper.Map<List<AddressInfoViewModel>>(results.DistinctBy(r => r.Thoroughfare));
-            return View("ConfirmLocation", new ConfirmLocationViewModel { FoundLocations = locationResults, SessionId = model.SessionId, Campaign = model.Campaign });
+            return View("ConfirmLocation", new ConfirmLocationViewModel { FoundLocations = locationResults, SessionId = model.SessionId, Campaign = model.Campaign, FilterServices = model.FilterServices });
         }
 
         [HttpGet]
@@ -104,7 +104,8 @@ namespace NHS111.Web.Controllers
                             SessionId = model.SessionId,
                             CurrentPostcode = ccg.Postcode,
                             Campaign = string.IsNullOrEmpty(model.Campaign) ? ccg.StpName : model.Campaign,
-                            Source = string.IsNullOrEmpty(model.Source) ? ccg.CCG : model.Source
+                            Source = string.IsNullOrEmpty(model.Source) ? ccg.CCG : model.Source,
+                            FilterServices = model.FilterServices
                         });
                 case PostcodeValidatorResponse.OutsidePathwaysArea:
                     return RedirectToRoute("ProviderRoute",
@@ -116,7 +117,7 @@ namespace NHS111.Web.Controllers
                             Source = WebUtility.UrlEncode(ccg.CCG)
                         });
                 case PostcodeValidatorResponse.PostcodeNotFound:
-                    return View("OutOfArea", new OutOfAreaViewModel { SessionId = model.SessionId, Campaign = ccg.StpName, Source = ccg.CCG });
+                    return View("OutOfArea", new OutOfAreaViewModel { SessionId = model.SessionId, Campaign = ccg.StpName, Source = ccg.CCG, FilterServices = model.FilterServices });
                 default:
                     return View("Home");
             }
