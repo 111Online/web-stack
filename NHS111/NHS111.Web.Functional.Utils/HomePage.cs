@@ -21,7 +21,7 @@ namespace NHS111.Web.Functional.Utils
         [FindsBy(How = How.CssSelector, Using = "nav > ul > li:nth-child(3) > a")]
         internal IWebElement CookiesLink { get; set; }
 
-        [FindsBy(How = How.Id, Using = "Postcode")]
+        [FindsBy(How = How.Id, Using = "CurrentPostcode")]
         private IWebElement PostcodeField { get; set; }
 
         [FindsByAll]
