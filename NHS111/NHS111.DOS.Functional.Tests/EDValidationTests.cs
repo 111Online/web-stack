@@ -11,6 +11,7 @@
     using Web.Functional.Utils;
 
     /// Tests the callback/validation flow for Emergency Department outcomes.
+    [Category("Local")]
     public class EDValidationTests
         : BaseTests {
 
@@ -20,7 +21,6 @@
         }
 
         [Test]
-        [Ignore]
         public async Task SubmitReferralForDx02_AfterNoResultsFor334_SendsDx02ToESB() {
             var dosScenario = await _testBench.SetupDosScenario()
                 .ExpectingRequestTo(DosEndpoint.CheckCapacitySummary)
@@ -64,7 +64,6 @@
         }
 
         [Test]
-        [Ignore]
         public async Task SubmitReferralForDx334_Always_SendsDx334ToESB() {
             var dosScenario = await _testBench.SetupDosScenario()
                 .ExpectingRequestTo(DosEndpoint.CheckCapacitySummary)
@@ -78,7 +77,7 @@
                 .OtherwiseReturns(DosRequestMismatchResult.ServerError)
                 .BeginAsync();
 
-            await _testBench.SetupEsbScenario()
+            var esbScenario = await _testBench.SetupEsbScenario()
                 .ExpectingRequestTo(EsbEndpoint.SendItkMessage)
                 .Matching(new ITKDispatchRequest {
                     CaseDetails = new CaseDetails {DispositionCode = DispositionCode.Dx334.Value},
@@ -96,12 +95,14 @@
             var referralConfirmation =
                 personalDetailsPage.SubmitPersonalDetails("Test", "Tester", "02380555555", "01", "01", "1982");
             referralConfirmation.VerifyIsSuccessfulReferral();
+            referralConfirmation.VerifyCareAdviceHeader("What you can do in the meantime");
+            SaveScreenAsPNG("ed-reval-successful-referral");
 
-            var result = await _testBench.Verify(dosScenario);
+            var resultDos = await _testBench.Verify(dosScenario);
+            var resultEsb = await _testBench.Verify(esbScenario);
         }
 
         [Test] //no postcode present
-        [Ignore]
         public async Task EDOutcome_ThenEnteringPostcodeReturningCallback_ShowsCallbackThenPersonalDetailsPage() {
             var dosScenario = await _testBench.SetupDosScenario()
                 .ExpectingRequestTo(DosEndpoint.CheckCapacitySummary)
@@ -121,7 +122,6 @@
         }
 
         [Test]
-        [Ignore]
         public async Task Dx94_WithNoCallbackServices_ShowOriginalOutcome() {
             var dosScenario = await _testBench.SetupDosScenario()
                 .ExpectingNoRequestsTo(DosEndpoint.CheckCapacitySummary)
@@ -134,7 +134,6 @@
         }
 
         [Test]
-        [Ignore]
         public async Task SubmittingReferralRequest_AfterRejectingDx334Callback_SubmitsReferralWithCorrectDxCode() {
             var dosScenario = await _testBench.SetupDosScenario()
                 .ExpectingRequestTo(DosEndpoint.CheckCapacitySummary)
@@ -179,7 +178,6 @@
         }
 
         [Test]
-        [Ignore]
         public async Task EDOutcome_WhenDosIsUnavailable_ShowsCorrectScreen() {
             var dosScenario = await _testBench.SetupDosScenario()
                 .ExpectingRequestTo(DosEndpoint.CheckCapacitySummary)
@@ -195,7 +193,6 @@
         }
 
         [Test]
-        [Ignore]
         public async Task EDOutcome_WithDosErrorForFirstQuery_ReturnsResultsForSecondQuery() {
             var dosScenario = await _testBench.SetupDosScenario()
                 .ExpectingRequestTo(DosEndpoint.CheckCapacitySummary)
@@ -217,7 +214,6 @@
         }
 
         [Test]
-        [Ignore]
         public async Task SubmittingReferralRequest_WithUnsuccessfulReferral_ShowUnsuccessfulPage() {
             var dosScenario = await _testBench.SetupDosScenario()
                 .ExpectingRequestTo(DosEndpoint.CheckCapacitySummary)
@@ -259,7 +255,6 @@
         }
 
         [Test]
-        [Ignore]
         public async Task SubmittingReferralRequest_WithDuplicateReferral_ShowDuplicatePage() {
             var dosScenario = await _testBench.SetupDosScenario()
                 .ExpectingRequestTo(DosEndpoint.CheckCapacitySummary)
@@ -298,7 +293,6 @@
         }
 
         [Test]
-        [Ignore]
         public async Task SubmittingReferralRequest_WithUnavailableService_ShowServiceUnavailablePage() {
             var dosScenario = await _testBench.SetupDosScenario()
                 .ExpectingRequestTo(DosEndpoint.CheckCapacitySummary)
