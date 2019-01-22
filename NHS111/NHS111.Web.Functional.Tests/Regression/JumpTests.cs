@@ -6,6 +6,23 @@ namespace NHS111.Web.Functional.Tests.Regression
     public class JumpTests : BaseTests
     {
         [Test]
+        public void Pt8JumpToDx05()
+        {
+            var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Mental Health Problems", TestScenerioSex.Male, TestScenerioAgeGroups.Adult);
+
+            questionPage.VerifyQuestion("Do you have a diagnosed mental health condition that\'s got worse?");
+            var outcomePage = questionPage
+                .Answer(3)
+                .Answer(4)
+                .Answer(1)
+                .Answer(4)
+                .Answer(3)
+                .AnswerForDispostion<OutcomePage>("Yes");
+            
+            outcomePage.VerifyDispositionCode("Dx05");
+        }
+
+        [Test]
         public void Pt8JumpToDx35()
         {
             var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Tiredness (Fatigue)", TestScenerioSex.Male, TestScenerioAgeGroups.Adult);

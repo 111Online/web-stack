@@ -20,6 +20,9 @@ namespace NHS111.Web.Functional.Utils
         [FindsBy(How = How.CssSelector, Using = ".global-footer")]
         internal IWebElement Footer { get; set; }
 
+        [FindsBy(How = How.CssSelector, Using = ".feedback")]
+        internal IWebElement Feedback { get; set; }
+
         public LayoutPage(IWebDriver driver)
         {
             Driver = driver;
@@ -44,6 +47,11 @@ namespace NHS111.Web.Functional.Utils
         public void VerifyHeaderBannerHidden()
         {
             Assert.IsFalse(Header.Displayed);
+        }
+
+        public void VerifyFeedbackDisplayed()
+        {
+            Assert.IsTrue(Feedback.Displayed);
         }
     }
 }

@@ -4,18 +4,23 @@ using NUnit.Framework;
 namespace NHS111.Web.Functional.Tests
 {
     [TestFixture]
-    public class PageNotFoundTests : BaseTests
+    public class PathwayNotFoundTests : BaseTests
     {
         [Test]
-        [Category("PreLive")]
-        public void PageNotFound_Displays()
+        public void PathwayNotFound_Displays()
         {
-            TestScenarioPart.HomePage(Driver);
-
-
-            var pageNotFound = TestScenarioPart.PageNotFound(Driver);
             
-            pageNotFound.Verify();
+            var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Mental Health Problems", TestScenerioSex.Male, TestScenerioAgeGroups.Adult);
+
+            questionPage.Verify();
+            questionPage.VerifyRationale();
+
+            //TestScenarioPart.HomePage(Driver);
+
+
+            //var pageNotFound = TestScenarioPart.PageNotFound(Driver);
+            
+            //pageNotFound.Verify();
         }
     }
 }

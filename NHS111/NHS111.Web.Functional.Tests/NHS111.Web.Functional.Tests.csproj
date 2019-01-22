@@ -81,6 +81,7 @@
     <Compile Include="Regression\DosLookupTests.cs" />
     <Compile Include="Regression\JumpTests.cs" />
     <Compile Include="SearchTermResultsTests.cs" />
+    <Compile Include="FeedbackTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
