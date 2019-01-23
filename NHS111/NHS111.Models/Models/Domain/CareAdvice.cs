@@ -1,9 +1,11 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using Newtonsoft.Json;
 
 namespace NHS111.Models.Models.Domain
 {
+    using System.Diagnostics;
+
+    [DebuggerDisplay("{Id}: {Keyword} ({Items.Count})")]
     public class CareAdvice
     {
         public CareAdvice() { }
