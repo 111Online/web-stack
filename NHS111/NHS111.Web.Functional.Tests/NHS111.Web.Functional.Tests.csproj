@@ -62,6 +62,7 @@
   </Choose>
   <ItemGroup>
     <Compile Include="CookiesStatementTests.cs" />
+    <Compile Include="InlineCareAdvicePageTests.cs" />
     <Compile Include="PageNotFoundTests.cs" />
     <Compile Include="QuestionPageTests.cs" />
     <Compile Include="ServerErrorPageTests.cs" />
