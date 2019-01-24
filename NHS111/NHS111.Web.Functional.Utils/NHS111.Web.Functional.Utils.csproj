@@ -68,6 +68,7 @@
     <Compile Include="ISubmitPostcodeResult.cs" />
     <Compile Include="OutOfAreaPage.cs" />
     <Compile Include="PostcodeProvider.cs" />
+    <Compile Include="InlineCareAdvicePage.cs" />
     <Compile Include="ServerErrorPage.cs" />
     <Compile Include="PageNotFound.cs" />
     <Compile Include="TermsAndConditionsPage.cs" />
@@ -81,6 +82,7 @@
     <Compile Include="QuestionPage.cs" />
     <Compile Include="SearchPage.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="PageLoadAwaiter.cs" />
     <Compile Include="TestScenarioPart.cs" />
     <Compile Include="TestScenerios.cs" />
   </ItemGroup>

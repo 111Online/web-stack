@@ -365,7 +365,7 @@
                 .AnswerSuccessiveByOrder(3, 3)
                 .Answer(5)
                 .AnswerSuccessiveByOrder(3, 3)
-                .AnswerForDispostion<OutcomePage>("Yes");
+                .Answer<OutcomePage>("Yes");
         }
 
         private OutcomePage NavigateToDx94Outcome() {
@@ -373,7 +373,7 @@
                 TestScenerioSex.Female,
                 TestScenerioAgeGroups.Adult);
 
-            return questionPage.AnswerForDispostion<OutcomePage>(1);
+            return questionPage.Answer<OutcomePage>(1);
         }
 
         private OutcomePage EnterPostCodeAndSubmit(string postcode) {

@@ -52,11 +52,14 @@ namespace NHS111.Web.Functional.Utils
         [FindsBy(How = How.CssSelector, Using = "div[id='details-content-0'] > p")]
         private IWebElement QuestionAdditionalInfo { get; set; }
 
-
         private const string _containsRadioButton = "contains(@class, 'multiple-choice--radio')";
+        private PageLoadAwaiter _testAwaiter;
 
         public QuestionPage(IWebDriver driver)
-            : base(driver) { }
+            : base(driver)
+        {
+            _testAwaiter = new PageLoadAwaiter(driver);
+        }
 
         public QuestionPage AnswerAndVerifyNextQuestion(int answerOrder, string expectedQuestion, bool requireButtonAwait = true) {
             var byOrder = ByOrder(answerOrder);
@@ -85,13 +88,21 @@ namespace NHS111.Web.Functional.Utils
             return SelectAnswerAndSubmit(byOrder, requireButtonAwait);
         }
 
-        public T AnswerForDeadEnd<T>(string answerText) where T : LayoutPage {
+        public T Answer<T>(string answerText)
+        {
             var byAnswerText = ByAnswerText(answerText);
             SelectAnswerAndSubmit(byAnswerText, false);
             return (T)Activator.CreateInstance(typeof(T), Driver);
         }
 
-        public T AnswerForDispostion<T>(string answerText) where T : DispositionPage<T> {
+        public T Answer<T>(int answerOrder) 
+        {
+            var byOrder = ByOrder(answerOrder);
+            SelectAnswerAndSubmit(byOrder, false);
+            return (T)Activator.CreateInstance(typeof(T), Driver);
+        }
+
+        /*public T AnswerForDispostion<T>(string answerText) where T : DispositionPage<T> {
             var byAnswerText = ByAnswerText(answerText);
             SelectAnswerAndSubmit(byAnswerText, false);
             return (T) Activator.CreateInstance(typeof(T), Driver);
@@ -101,7 +112,7 @@ namespace NHS111.Web.Functional.Utils
             var byOrder = ByOrder(answerOrder);
             SelectAnswerAndSubmit(byOrder, false);
             return (T)Activator.CreateInstance(typeof(T), Driver);
-        }
+        }*/
 
         public QuestionPage AnswerSuccessiveByOrder(int answerOrder, int numberOfTimes) {
             var questionPage = this;
@@ -127,7 +138,7 @@ namespace NHS111.Web.Functional.Utils
         public QuestionPage SelectAnswerAndSubmit(By by, bool expectQuestionPage = true) {
             SelectAnswerBy(by);
             NextButton.Click();
-            AwaitNextPage(expectQuestionPage);
+            _testAwaiter.AwaitNextPage(Header, expectQuestionPage);
             return new QuestionPage(Driver);
         }
 
@@ -183,17 +194,7 @@ namespace NHS111.Web.Functional.Utils
             return By.XPath(string.Format("//label[{0} and text() = \"{1}\"]", _containsRadioButton, answerText));
         }
 
-        private void AwaitNextPage(bool expectQuestionPage = true) {
-            var timeout = TimeSpan.FromSeconds(20);
-            try {
-                if (expectQuestionPage) {
-                    new WebDriverWait(Driver, timeout).Until(ExpectedConditions.ElementExists(By.CssSelector(".multiple-choice--radio")));
-                }
-            } catch (WebDriverTimeoutException) {
-                Assert.Fail(string.Format("The next question page didn't load in the awaited time ({0}s). Current page title is '{1}'.", timeout.Seconds, Header.Text));
-            }
-            new WebDriverWait(Driver, TimeSpan.FromSeconds(1));
-        }
+
 
         private IEnumerable<string> GetAnswersText() {
             var answers = Driver.FindElements(By.CssSelector("[type='radio']")).ToList().Select(r => r.GetAttribute("value"));
