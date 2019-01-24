@@ -348,7 +348,7 @@
                 .Answer(3)
                 .Answer(1)
                 .AnswerSuccessiveByOrder(3, 5)
-                .AnswerForDispostion<OutcomePage>("No");
+                .Answer<OutcomePage>("No");
         }
 
         private OutcomePage NavigateTo999Cat3(Postcode postcode) {
@@ -368,7 +368,7 @@
                 .Answer(1)
                 .Answer(3)
                 .Answer(1)
-                .AnswerForDispostion<OutcomePage>("Yes");
+                .Answer<OutcomePage>("Yes");
         }
 
         private OutcomePage NavigateTo999Cat2() {
@@ -383,7 +383,7 @@
                 .Answer(3)
                 .Answer(3)
                 .Answer(3)
-                .AnswerForDispostion<OutcomePage>("Yes");
+                .Answer<OutcomePage>("Yes");
         }
 
         private OutcomePage EnterPostCodeAndSubmit(string postcode)

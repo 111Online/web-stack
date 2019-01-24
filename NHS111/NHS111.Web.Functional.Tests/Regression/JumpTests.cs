@@ -19,7 +19,7 @@ namespace NHS111.Web.Functional.Tests.Regression
                 .Answer(3)
                 .AnswerSuccessiveByOrder(5, 2)
                 .AnswerSuccessiveByOrder(3, 4)
-                .AnswerForDispostion<OutcomePage>("Alcohol");
+                .Answer<OutcomePage>("Alcohol");
 
             outcomePage.VerifyOutcome(OutcomePage.BookCallBackText);
             outcomePage.VerifyDispositionCode("Dx35");
@@ -35,7 +35,7 @@ namespace NHS111.Web.Functional.Tests.Regression
                 .AnswerSuccessiveNo(3)
                 .Answer(3)
                 .AnswerSuccessiveNo(12)
-                .AnswerForDispostion<OutcomePage>("Yes");
+                .Answer<OutcomePage>("Yes");
 
             outcomePage.VerifyOutcome(OutcomePage.BookCallBackText);
             outcomePage.VerifyDispositionCode("Dx35");
@@ -53,7 +53,7 @@ namespace NHS111.Web.Functional.Tests.Regression
                 .Answer(3)
                 .AnswerSuccessiveNo(16)
                 .Answer(1)
-                .AnswerForDispostion<OutcomePage>("No");
+                .Answer<OutcomePage>("No");
 
             outcomePage.VerifyOutcome(OutcomePage.BookCallBackText);
             outcomePage.VerifyDispositionCode("Dx35");
@@ -80,7 +80,7 @@ namespace NHS111.Web.Functional.Tests.Regression
                 .Answer(7)
                 .AnswerNo()
                 .Answer(2)
-                .AnswerForDispostion<OutcomePage>("No");
+                .Answer<OutcomePage>("No");
 
             outcomePage.VerifyOutcome(OutcomePage.BookCallBackText);
             outcomePage.VerifyDispositionCode("Dx35");
@@ -104,7 +104,7 @@ namespace NHS111.Web.Functional.Tests.Regression
                 .Answer(7)
                 .AnswerNo()
                 .Answer(1)
-                .AnswerForDispostion<OutcomePage>("No");
+                .Answer<OutcomePage>("No");
 
             outcomePage.VerifyOutcome(OutcomePage.BookCallBackText);
             outcomePage.VerifyDispositionCode("Dx35");
@@ -120,7 +120,7 @@ namespace NHS111.Web.Functional.Tests.Regression
                 .AnswerNo()
                 .Answer(3)
                 .AnswerSuccessiveNo(3)
-                .AnswerForDispostion<OutcomePage>("Yes");
+                .Answer<OutcomePage>("Yes");
 
             outcomePage.VerifyDispositionCode("Dx06");
 
@@ -137,7 +137,7 @@ namespace NHS111.Web.Functional.Tests.Regression
                 .AnswerNo()
                 .Answer(3)
                 .AnswerSuccessiveNo(3)
-                .AnswerForDispostion<OutcomePage>("Yes");
+                .Answer<OutcomePage>("Yes");
 
             newOutcomePage.VerifyDispositionCode("Dx35");
         }
@@ -153,7 +153,7 @@ namespace NHS111.Web.Functional.Tests.Regression
                 .Answer(1)
                 .Answer(3)
                 .AnswerSuccessiveNo(8)
-                .AnswerForDispostion<OutcomePage>("Yes");
+                .Answer<OutcomePage>("Yes");
 
             outcomePage.VerifyDispositionCode("Dx11");
         }

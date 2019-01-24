@@ -17,7 +17,7 @@ namespace NHS111.Web.Functional.Tests.Regression
                 .Answer(4)
                 .AnswerSuccessiveYes(2)
                 .Answer(3)
-                .AnswerForDispostion<OutcomePage>("No - I've not taken any painkillers");
+                .Answer<OutcomePage>("No - I've not taken any painkillers");
 
             outcomePage.VerifyOutcome("See your dentist urgently");
             outcomePage.VerifyPageContainsDOSResults();
@@ -34,7 +34,7 @@ namespace NHS111.Web.Functional.Tests.Regression
                 .AnswerSuccessiveNo(2)
                 .Answer(1)
                 .AnswerSuccessiveNo(12)
-                .AnswerForDispostion<OutcomePage>("Less than 2 weeks");
+                .Answer<OutcomePage>("Less than 2 weeks");
 
             outcomePage.VerifyOutcome(OutcomePage.BookCallBackText, OutcomePage.Call111Text);
             outcomePage.VerifyDispositionCode("Dx35");
@@ -51,7 +51,7 @@ namespace NHS111.Web.Functional.Tests.Regression
                 .Answer(4)
                 .Answer(2)
                 .AnswerSuccessiveNo(2)
-                .AnswerForDispostion<OutcomePage>("Specialist help");
+                .Answer<OutcomePage>("Specialist help");
 
             outcomePage.VerifyOutcome(OutcomePage.BookCallBackText, OutcomePage.Call111Text);
             outcomePage.VerifyDispositionCode("Dx35");

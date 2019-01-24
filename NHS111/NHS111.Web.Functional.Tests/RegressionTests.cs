@@ -16,7 +16,7 @@ namespace NHS111.Web.Functional.Tests
             questionPage.VerifyQuestion("Is the problem to do with any of these?");
             var outcomePage = questionPage
 
-                .AnswerForDispostion<OutcomePage>("A tube or drain");
+                .Answer<OutcomePage>("A tube or drain");
 
             outcomePage.VerifyPathwayNotFound();
         }
@@ -30,7 +30,7 @@ namespace NHS111.Web.Functional.Tests
                 .Answer(3)
                 .Answer(3)
                 .Answer(1)
-                .AnswerForDispostion<OutcomePage>("Yes");
+                .Answer<OutcomePage>("Yes");
 
             outcomePage.VerifyOutcome("Phone 999 now for an ambulance");
 
@@ -68,7 +68,7 @@ namespace NHS111.Web.Functional.Tests
                 .Answer(3)
                 .Answer(2)
                 .AnswerSuccessiveByOrder(3, 3)
-                .AnswerForDispostion<OutcomePage>("Yes");
+                .Answer<OutcomePage>("Yes");
 
 
             outcomePage.VerifyOutcome("Speak to your GP practice urgently");
