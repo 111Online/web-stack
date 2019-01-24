@@ -1,9 +1,7 @@
-﻿@using NHS111.Models.Models.Domain
-@using NHS111.Models.Models.Web
-@using NHS111.Models.Models.Web.Enums
+﻿@using NHS111.Models.Models.Web
 @using NHS111.Models.Models.Web.FromExternalServices
 @{ Layout = "~/Views/Shared/_LayoutNhsUk.cshtml"; }
-@inherits NHS111.Web.Views.Shared.DirectLinkingView<OutcomeViewModel>
+@inherits NHS111.Web.Views.Shared.OutcomeFeaturesView<OutcomeViewModel>
 
 
 @section Title  {NHS 111 Online - Callback}
@@ -24,15 +22,27 @@
     </script>
 }
 
+@{
+    var surveyDataDictionary = ViewContext.ViewData;
+    surveyDataDictionary.Add(new KeyValuePair<string, object>("999ValidationSurvey", "true"));
+}
+
 @section SurveyBanner {
-    @Html.Partial("_SurveyLink", Model.SurveyLink, new ViewDataDictionary() { { "999ValidationSurvey", "true" } })
+    @Html.Partial("_SurveyLink", Model.SurveyLink, surveyDataDictionary)
 }
 
 @section FeedbackSection {
-    @Html.Partial("_FeedbackDetails", new FeedbackViewModel() {
-        UserId = Model.SessionId.ToString(),
-        PageData = new PageDataViewModel(PageDataViewModel.PageType.Call999Callback, Model)
-    })
+    @if (SurveyLinkFeature.IsEnabled)
+    {
+        @Html.Partial("_SurveyLink", Model.SurveyLink, surveyDataDictionary)
+    }
+    else
+    {
+        @Html.Partial("_FeedbackDetails", new FeedbackViewModel() {
+            UserId = Model.SessionId.ToString(),
+            PageData = new PageDataViewModel(PageDataViewModel.PageType.Call999Callback, Model)
+        })
+    }
 }
 
 @functions {
@@ -112,14 +122,14 @@
 
     if (Model.CurrentPostcode == null)
     {
-        var dataDictionary = ViewContext.ViewData;
-        dataDictionary.Add(new KeyValuePair<string, object>("Title", ""));
-        dataDictionary.Add(new KeyValuePair<string, object>("ButtonText", "Next"));
-        dataDictionary.Add(new KeyValuePair<string, object>("Label", ""));
-        dataDictionary.Add(new KeyValuePair<string, object>("ITK", true));
-        dataDictionary.TemplateInfo = new TemplateInfo() { HtmlFieldPrefix = "FindService" };
+        var findServiceDataDictionary = ViewContext.ViewData;
+        findServiceDataDictionary.Add(new KeyValuePair<string, object>("Title", ""));
+        findServiceDataDictionary.Add(new KeyValuePair<string, object>("ButtonText", "Next"));
+        findServiceDataDictionary.Add(new KeyValuePair<string, object>("Label", ""));
+        findServiceDataDictionary.Add(new KeyValuePair<string, object>("ITK", true));
+        findServiceDataDictionary.TemplateInfo = new TemplateInfo() { HtmlFieldPrefix = "FindService" };
 
-        @Html.Partial("_FindService", Model, dataDictionary)
+        @Html.Partial("_FindService", Model, findServiceDataDictionary)
     }
     else
     {
