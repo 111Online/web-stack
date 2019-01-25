@@ -203,9 +203,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Analytics\EventMeasurement.cs" />
-    <Compile Include="Analytics\GoogleAnalyticsApi.cs" />
-    <Compile Include="Analytics\MeasurementProtocol.cs" />
     <Compile Include="Attributes\EnableCorsFromAppSettings.cs" />
     <Compile Include="Attributes\LogHandleErrorForApiAttribute.cs" />
     <Compile Include="Attributes\LogHandleErrorForMVCAttribute.cs" />
