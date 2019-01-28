@@ -18,7 +18,13 @@ namespace NHS111.Web.Functional.Utils
             homepage.Visit(medium);
             return homepage;
         }
-
+        
+        public static FeedbackSection FeedbackSection(IWebDriver driver)
+        {
+            var homepage = new HomePage(driver);
+            homepage.Load();
+            return new FeedbackSection(driver);
+        }
 
         public static ModuleZeroPage ModuleZero(HomePage page)
         {

@@ -69,6 +69,7 @@
     <Compile Include="OutOfAreaPage.cs" />
     <Compile Include="PostcodeProvider.cs" />
     <Compile Include="InlineCareAdvicePage.cs" />
+    <Compile Include="FeedbackSection.cs" />
     <Compile Include="ServerErrorPage.cs" />
     <Compile Include="PageNotFound.cs" />
     <Compile Include="TermsAndConditionsPage.cs" />
