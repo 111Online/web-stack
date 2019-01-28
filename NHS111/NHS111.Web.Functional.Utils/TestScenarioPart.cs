@@ -19,11 +19,9 @@ namespace NHS111.Web.Functional.Utils
             return homepage;
         }
         
-        public static FeedbackSection FeedbackSection(IWebDriver driver)
+        public static FeedbackSection FeedbackSection(ModuleZeroPage moduleZeroPage)
         {
-            var homepage = new HomePage(driver);
-            homepage.Load();
-            return new FeedbackSection(driver);
+            return new FeedbackSection(moduleZeroPage.Driver);
         }
 
         public static ModuleZeroPage ModuleZero(HomePage page)
