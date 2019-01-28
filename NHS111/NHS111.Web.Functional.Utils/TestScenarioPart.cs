@@ -19,9 +19,9 @@ namespace NHS111.Web.Functional.Utils
             return homepage;
         }
         
-        public static FeedbackSection FeedbackSection(ModuleZeroPage moduleZeroPage)
+        public static FeedbackSection FeedbackSection(LayoutPage page)
         {
-            return new FeedbackSection(moduleZeroPage.Driver);
+            return new FeedbackSection(page.Driver);
         }
 
         public static ModuleZeroPage ModuleZero(HomePage page)
