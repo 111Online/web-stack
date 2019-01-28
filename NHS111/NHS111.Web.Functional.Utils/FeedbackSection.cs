@@ -65,9 +65,15 @@ namespace NHS111.Web.Functional.Utils
         public void VerifySuccessTextDisplayed()
         {
             // Requires the smallest of delays just because it shows as displayed = false until animation is complete
-            var wait = new WebDriverWait(Driver, TimeSpan.FromSeconds(1));
-            wait.Until(drv => FeedbackSuccessText.Displayed);
+            WaitForElement(FeedbackSuccessText);
             Assert.IsTrue(FeedbackSuccessText.Displayed);
+        }
+        public void VerifySuccessTextCorrect()
+        {
+            WaitForElement(FeedbackSuccessText);
+            // This checks the content is correct because it is possible for VerifySuccessTextDisplayed to be true even though the actual text could be broken. 
+            var firstParagraph = FeedbackSuccessText.FindElement(By.CssSelector("p"));
+            Assert.IsTrue(firstParagraph.Text == "Thank you.");
         }
     }
 }

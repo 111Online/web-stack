@@ -64,5 +64,14 @@ namespace NHS111.Web.Functional.Tests
             feedbackSection.ClickSubmitButton();
             feedbackSection.VerifySuccessTextDisplayed();
         }
+
+        [Test]
+        public void Feedback_SuccessTextCorrect()
+        {
+            var feedbackSection = GetFeedbackSection();
+            feedbackSection.TypeInTextarea("test");
+            feedbackSection.ClickSubmitButton();
+            feedbackSection.VerifySuccessTextCorrect();
+        }
     }
 }
