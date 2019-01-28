@@ -284,5 +284,31 @@ namespace NHS111.Web.Functional.Tests
 
             outcomePage.VerifyOutcome("Call 111 to speak to an adviser now");
         }
+
+        
+        [Test]
+        public void ExcludedCareAdviceJourney()
+        {
+            var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Vomiting and/or Nausea", TestScenerioSex.Male, TestScenerioAgeGroups.Adult);
+            var outcomePage = questionPage
+                .Answer(1)
+                .Answer(3)
+                .Answer(1)
+                .Answer(3)
+                .Answer(4)
+                .Answer(2)
+                .Answer(2)
+                .Answer(5)
+                .Answer(4)
+                .Answer(3)
+                .Answer(3)
+                .Answer<OutcomePage>("No");
+           
+            outcomePage.VerifyOutcome("Speak to your GP practice urgently");
+            outcomePage.VerifyCareAdviceHeader("What you can do in the meantime");
+            outcomePage.VerifyCareAdvice(new string[] { "Vomiting blood" });
+            // Vomiting Blood should show in care advice but Vomiting on its own shouldn't
+            Assert.IsFalse(Driver.ElementExists(By.Id("Advice_CX221222-Adult-Male")));
+        }
     }
 }
