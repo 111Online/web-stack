@@ -60,7 +60,8 @@ namespace NHS111.Web.Presentation.Builders
             return _mappingEngine.Mapper.Map<List<AddressInfoViewModel>>(listPaf);
         }
 
-        public async Task<OutcomeViewModel> DispositionBuilder(OutcomeViewModel model) {
+        public async Task<OutcomeViewModel> DispositionBuilder(OutcomeViewModel model)
+        {
             var result = await DispositionBuilder(model, null);
             return result;
         }
@@ -77,27 +78,34 @@ namespace NHS111.Web.Presentation.Builders
 
                 model.SymptomDiscriminatorCode = "4193";
                 model.SymptomGroup = "1206";
-            } else {
-                if (!string.IsNullOrEmpty(model.SymptomDiscriminatorCode)) {
+            }
+            else
+            {
+                if (!string.IsNullOrEmpty(model.SymptomDiscriminatorCode))
+                {
                     discriminatorTask = GetSymptomDiscriminator(model.SymptomDiscriminatorCode);
                 }
 
                 var pathways = _journeyHistoryWrangler.GetPathwayNumbers(model.Journey.Steps);
 
-                if (pathways.Any()) {
+                if (pathways.Any())
+                {
                     symptomGroupTask = GetSymptomGroup(pathways);
-                }                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  
+                }
 
-                if (discriminatorTask != null) {
+                if (discriminatorTask != null)
+                {
                     model.SymptomDiscriminator = await discriminatorTask;
                 }
-                if (symptomGroupTask != null) {
+                if (symptomGroupTask != null)
+                {
                     model.SymptomGroup = await symptomGroupTask;
                 }
             }
 
             var dosTask = Task.FromResult(model);
-            if (OutcomeGroup.PrePopulatedDosResultsOutcomeGroups.Contains(model.OutcomeGroup) && !string.IsNullOrEmpty(model.CurrentPostcode)) {
+            if (OutcomeGroup.PrePopulatedDosResultsOutcomeGroups.Contains(model.OutcomeGroup) && !string.IsNullOrEmpty(model.CurrentPostcode))
+            {
                 dosTask = PopulateGroupedDosResults(model, null, null, endpoint);
             }
 
@@ -105,7 +113,8 @@ namespace NHS111.Web.Presentation.Builders
             if (!model.WorseningCareAdvice.Items.Any())
                 worseningTask = _careAdviceBuilder.FillWorseningCareAdvice(model.UserInfo.Demography.Age, model.UserInfo.Demography.Gender);
             var careAdvicesTask = Task.FromResult(model.CareAdvices);
-            if (!model.CareAdvices.Any()) {
+            if (!model.CareAdvices.Any())
+            {
                 var ageGroup = new AgeCategory(model.UserInfo.Demography.Age).Value;
                 var careAdviceKeywords = _keywordCollector.ConsolidateKeywords(model.CollectedKeywords).ToList();
                 careAdvicesTask = _careAdviceBuilder.FillCareAdviceBuilder(model.Id, ageGroup, model.UserInfo.Demography.Gender, careAdviceKeywords);
@@ -116,11 +125,11 @@ namespace NHS111.Web.Presentation.Builders
             if (OutcomeGroup.Call999Cat2.Equals(model.OutcomeGroup) || OutcomeGroup.Call999Cat3.Equals(model.OutcomeGroup))
             {
                 model.CareAdviceMarkers = model.State.Keys.Where(key => key.StartsWith("Cx"));
-                
+
             }
 
-			if (model.Is999Callback)
-				model.HasAcceptedCallbackOffer = true;
+            if (model.Is999Callback)
+                model.HasAcceptedCallbackOffer = true;
 
             var surveyTask = _surveyLinkViewModelBuilder.SurveyLinkBuilder(model);
             model.WorseningCareAdvice = await worseningTask;
@@ -130,8 +139,9 @@ namespace NHS111.Web.Presentation.Builders
             return model;
         }
 
-        private bool NeedToRequeryDos(OutcomeViewModel model) {
-            return (!model.HasAcceptedCallbackOffer.HasValue || !model.HasAcceptedCallbackOffer.Value) && 
+        private bool NeedToRequeryDos(OutcomeViewModel model)
+        {
+            return (!model.HasAcceptedCallbackOffer.HasValue || !model.HasAcceptedCallbackOffer.Value) &&
                    model.OutcomeGroup.Equals(OutcomeGroup.AccidentAndEmergency) &&
                    FromOutcomeViewModelToDosViewModel.DispositionResolver.IsRemappedToDx334(model.Id) &&
                    !model.DosCheckCapacitySummaryResult.HasITKServices;
@@ -148,7 +158,7 @@ namespace NHS111.Web.Presentation.Builders
                     _configuration.GetBusinessApiSymptomDiscriminatorUrl(symptomDiscriminatorCode),
                     await symptomDiscriminatorResponse.Content.ReadAsStringAsync()));
 
-            return 
+            return
                 JsonConvert.DeserializeObject<SymptomDiscriminator>(await symptomDiscriminatorResponse.Content.ReadAsStringAsync());
         }
 
@@ -186,19 +196,21 @@ namespace NHS111.Web.Presentation.Builders
             return model;
         }
 
-        public async Task<OutcomeViewModel> PopulateGroupedDosResults(OutcomeViewModel model, DateTime? overrideDate, bool? overrideFilterServices, DosEndpoint? endpoint) {
+        public async Task<OutcomeViewModel> PopulateGroupedDosResults(OutcomeViewModel model, DateTime? overrideDate, bool? overrideFilterServices, DosEndpoint? endpoint)
+        {
             var dosViewModel = _dosBuilder.BuildDosViewModel(model, overrideDate);
 
             var _ = _auditLogger.LogDosRequest(model, dosViewModel);
             model.DosCheckCapacitySummaryResult = await _dosBuilder.FillCheckCapacitySummaryResult(dosViewModel, overrideFilterServices.HasValue ? overrideFilterServices.Value : model.FilterServices, endpoint);
-            if (NeedToRequeryDos(model)) {
+            if (NeedToRequeryDos(model))
+            {
                 _auditLogger.LogDosResponse(model);
                 dosViewModel.Disposition = FromOutcomeViewModelToDosViewModel.DispositionResolver.ConvertToDosCode(model.Id);
                 _auditLogger.LogDosRequest(model, dosViewModel);
                 model.DosCheckCapacitySummaryResult = await _dosBuilder.FillCheckCapacitySummaryResult(dosViewModel, overrideFilterServices.HasValue ? overrideFilterServices.Value : model.FilterServices, endpoint);
                 model.DosCheckCapacitySummaryResult.IsValidationRequery = true;
             }
-            
+
             model.DosCheckCapacitySummaryResult.ServicesUnavailable = model.DosCheckCapacitySummaryResult.ResultListEmpty;
 
             if (!model.DosCheckCapacitySummaryResult.ResultListEmpty)
@@ -206,8 +218,8 @@ namespace NHS111.Web.Presentation.Builders
 
             _surveyLinkViewModelBuilder.AddServiceInformation(model, model.SurveyLink);
 
-             _ = _auditLogger.LogDosResponse(model);
-     
+            _ = _auditLogger.LogDosResponse(model);
+
             return model;
         }
 
@@ -258,7 +270,7 @@ namespace NHS111.Web.Presentation.Builders
     {
         Task<List<AddressInfoViewModel>> SearchPostcodeBuilder(string input);
         Task<OutcomeViewModel> DispositionBuilder(OutcomeViewModel model);
-        Task<OutcomeViewModel> DispositionBuilder(OutcomeViewModel model,DosEndpoint? endpoint);
+        Task<OutcomeViewModel> DispositionBuilder(OutcomeViewModel model, DosEndpoint? endpoint);
         Task<OutcomeViewModel> PersonalDetailsBuilder(OutcomeViewModel model);
         Task<OutcomeViewModel> ItkResponseBuilder(OutcomeViewModel model);
         Task<OutcomeViewModel> DeadEndJumpBuilder(OutcomeViewModel model);

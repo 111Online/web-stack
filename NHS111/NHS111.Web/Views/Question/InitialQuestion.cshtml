@@ -4,12 +4,23 @@
 
 @section Title { NHS 111 Online - Is it an emergency? }
 
-@section FeedbackSection {
-
-    @Html.Partial("_FeedbackDetails", new FeedbackViewModel() {UserId = Model.SessionId.ToString(), PageData = new PageDataViewModel(PageDataViewModel.PageType.ModuleZero, Model.Campaign, Model.Source) })
+@section HeadTop {
+    <script>
+        dataLayer = [
+            {
+                'virtualPageUrl': document.location.pathname + '/modulezero',
+                'virtualPageTitle': 'Module Zero'
+            }
+        ];
+    </script>
 }
 
-@using (Html.BeginForm("InitialQuestion", "Question", FormMethod.Post, new { @class = "measure" }))
+@section FeedbackSection {
+
+    @Html.Partial("_FeedbackDetails", new FeedbackViewModel() {UserId = Model.SessionId.ToString(), PageData = new PageDataViewModel(PageDataViewModel.PageType.ModuleZero, Model.Campaign, Model.Source)})
+}
+
+@using (Html.BeginForm("InitialQuestion", "Question", FormMethod.Post, new {@class = "measure"}))
 {
     @Html.HiddenFor(x => Model.SessionId)
     @Html.HiddenFor(x => Model.FilterServices)
@@ -30,5 +41,5 @@
         </ul>
 
     </div>
-    @Html.Partial("_Button", new ButtonViewModel() { Text = "I have none of these", Type = "submit", Modifiers = new[] { "next" } })
+    @Html.Partial("_Button", new ButtonViewModel() {Text = "I have none of these", Type = "submit", Modifiers = new[] {"next"}})
 }

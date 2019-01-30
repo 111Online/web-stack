@@ -1,0 +1,31 @@
+﻿@using NHS111.Models.Models.Web
+@{
+    Layout = "~/Views/Shared/_LayoutNhsUK.cshtml";
+}
+@inherits NHS111.Web.Views.Shared.DirectLinkingView<OutOfAreaViewModel>
+@section Title {NHS 111 Online - Out of area}
+
+@section HeadTop {
+    <script>
+        dataLayer = [
+            {
+                'virtualPageUrl': 'Out of area',
+                'virtualPageTitle': '@Model.Campaign/@Model.Source'
+            }];
+    </script>
+}
+
+<div class="measure">
+    <div class="content-block">
+        <h1 class="heading--large">111 online is not yet in this area</h1>
+        <p>It will be available in more places in England this year.</p>
+        <p>Call 111 if you need medical help.</p>
+        @using (Html.BeginForm("Home", "Location", FormMethod.Get))
+        {
+            @Html.HiddenFor(m => m.SessionId)
+            @Html.HiddenFor(m => m.Campaign)
+            @Html.HiddenFor(m => m.FilterServices)
+            <button type="submit" class="button button--link">Go back</button>
+        }
+    </div>
+</div>
