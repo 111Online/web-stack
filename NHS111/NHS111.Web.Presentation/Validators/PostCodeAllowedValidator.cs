@@ -12,8 +12,10 @@ namespace NHS111.Web.Presentation.Validators
 {
     public class PostCodeAllowedValidator : IPostCodeAllowedValidator
     {
-        private ICCGModelBuilder _ccgModelBuilder;
-        private IAllowedPostcodeFeature _allowedPostcodeFeature;
+        private readonly ICCGModelBuilder _ccgModelBuilder;
+        private readonly IAllowedPostcodeFeature _allowedPostcodeFeature;
+
+        private CCGModel _ccg;
         
         public PostCodeAllowedValidator(IAllowedPostcodeFeature allowedPostcodeFeature, ICCGModelBuilder ccgModelBuilder)
         {
@@ -27,10 +29,15 @@ namespace NHS111.Web.Presentation.Validators
             if(!regex.IsMatch(postcode.Replace(" ", ""))) return PostcodeValidatorResponse.InvalidSyntax;
             Task<CCGModel> ccgModelBuildertask = Task.Run<CCGModel>(async () => await _ccgModelBuilder.FillCCGModel(postcode));
             if (!_allowedPostcodeFeature.IsEnabled) return PostcodeValidatorResponse.InPathwaysArea;
-            var ccg = ccgModelBuildertask.Result;
-            if (ccg.Postcode == null) return PostcodeValidatorResponse.PostcodeNotFound;
-            if (!DUCTriageApp.IsPathways(ccg.App)) return PostcodeValidatorResponse.OutsidePathwaysArea;
+            _ccg = ccgModelBuildertask.Result;
+            if (_ccg.Postcode == null) return PostcodeValidatorResponse.PostcodeNotFound;
+            if (!DUCTriageApp.IsPathways(_ccg.App)) return PostcodeValidatorResponse.OutsidePathwaysArea;
             else return PostcodeValidatorResponse.InPathwaysArea;
+        }
+
+        public CCGModel CcgModel
+        {
+            get { return _ccg; }
         }
     }
 

@@ -20,14 +20,16 @@ namespace NHS111.Web.Functional.Utils
     {
         public static SearchPage LaunchSearchScenerio(IWebDriver driver, string sex, int age)
         {
-            var moduleZeroPage = TestScenarioPart.ModuleZero(driver);
+            var homePage = TestScenarioPart.HomePage(driver);
+            var moduleZeroPage = TestScenarioPart.ModuleZero(homePage);
             var demographicsPage = TestScenarioPart.Demographics(moduleZeroPage);
             return TestScenarioPart.Search(demographicsPage, sex, age);
         }
 
         public static CategoryPage LaunchCategoryScenerio(IWebDriver driver, string sex, int age)
         {
-            var moduleZeroPage = TestScenarioPart.ModuleZero(driver);
+            var homePage = TestScenarioPart.HomePage(driver);
+            var moduleZeroPage = TestScenarioPart.ModuleZero(homePage);
             var demographicsPage = TestScenarioPart.Demographics(moduleZeroPage);
             var searchPage = TestScenarioPart.Search(demographicsPage, sex, age);
             return TestScenarioPart.Category(searchPage);
@@ -35,7 +37,8 @@ namespace NHS111.Web.Functional.Utils
 
         public static QuestionPage LaunchTriageScenerio(IWebDriver driver, string pathwayTopic, string sex, int age)
         {
-            var moduleZeroPage = TestScenarioPart.ModuleZero(driver);
+            var homePage = TestScenarioPart.HomePage(driver);
+            var moduleZeroPage = TestScenarioPart.ModuleZero(homePage);
             var demographicsPage = TestScenarioPart.Demographics(moduleZeroPage);
             var searchPage = TestScenarioPart.Search(demographicsPage, sex, age);
             var questionInfoPage = TestScenarioPart.QuestionInfo(searchPage, pathwayTopic);
@@ -44,7 +47,8 @@ namespace NHS111.Web.Functional.Utils
 
         public static QuestionPage LaunchTriageScenerio(IWebDriver driver, string pathwayTopic, string sex, int age, string args)
         {
-            var moduleZeroPage = args == null ? TestScenarioPart.ModuleZero(driver) : TestScenarioPart.ModuleZeroWithArgs(driver, args);
+            var homePage = TestScenarioPart.HomePage(driver);
+            var moduleZeroPage = TestScenarioPart.ModuleZero(homePage);
             var demographicsPage = TestScenarioPart.Demographics(moduleZeroPage);
             var searchPage = TestScenarioPart.Search(demographicsPage, sex, age);
             var questionInfoPage = TestScenarioPart.QuestionInfo(searchPage, pathwayTopic);
