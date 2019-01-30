@@ -18,7 +18,11 @@ namespace NHS111.Web.Functional.Utils
             homepage.Visit(medium);
             return homepage;
         }
-
+        
+        public static FeedbackSection FeedbackSection(LayoutPage page)
+        {
+            return new FeedbackSection(page.Driver);
+        }
 
         public static ModuleZeroPage ModuleZero(HomePage page)
         {

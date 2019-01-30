@@ -1,6 +1,8 @@
-﻿using NUnit.Framework;
+﻿using System;
+using NUnit.Framework;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.PageObjects;
+using OpenQA.Selenium.Support.UI;
 
 namespace NHS111.Web.Functional.Utils
 {
@@ -45,5 +47,12 @@ namespace NHS111.Web.Functional.Utils
         {
             Assert.IsFalse(Header.Displayed);
         }
+
+        public void WaitForElement(IWebElement element)
+        {
+            var wait = new WebDriverWait(Driver, TimeSpan.FromSeconds(1));
+            wait.Until(drv => element.Displayed);
+        }
+
     }
 }
