@@ -213,7 +213,6 @@
     <Compile Include="Converters\DosServiceConverter.cs" />
     <Compile Include="Dates\NonWorkingDays.cs" />
     <Compile Include="Filters\PersistCampaignDataFilterAttribute.cs" />
-    <Compile Include="Filters\RedirectFilterAttribute.cs" />
     <Compile Include="Filters\LogJourneyFilterAttribute.cs" />
     <Compile Include="Helpers\AzureHelper.cs" />
     <Compile Include="Helpers\EnumHelper.cs" />
