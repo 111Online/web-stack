@@ -1,26 +1,21 @@
-﻿using NHS111.Web.Functional.Utils;
+using NHS111.Web.Functional.Utils;
 using NUnit.Framework;
 
 namespace NHS111.Web.Functional.Tests
 {
     [TestFixture]
-    public class PathwayNotFoundTests : BaseTests
+    public class PageNotFoundTests : BaseTests
     {
         [Test]
-        public void PathwayNotFound_Displays()
+        [Category("PreLive")]
+        public void PageNotFound_Displays()
         {
+            TestScenarioPart.HomePage(Driver);
+
+
+            var pageNotFound = TestScenarioPart.PageNotFound(Driver);
             
-            var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Mental Health Problems", TestScenerioSex.Male, TestScenerioAgeGroups.Adult);
-
-            questionPage.Verify();
-            questionPage.VerifyRationale();
-
-            //TestScenarioPart.HomePage(Driver);
-
-
-            //var pageNotFound = TestScenarioPart.PageNotFound(Driver);
-            
-            //pageNotFound.Verify();
+            pageNotFound.Verify();
         }
     }
 }
