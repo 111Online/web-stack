@@ -107,8 +107,7 @@ namespace NHS111.Models.Models.Web
             get
             {
                 var age = UserInfo.Demography != null ? UserInfo.Demography.Age : 0;
-                return string.Format("/question/direct/{0}/{1}/{2}/?answers={3}", PathwayId, age, PathwayTitle,
-                    string.Join(",", GetPreviousAnswers()));
+                return string.Format("/question/direct/{0}/{1}/{2}/{3}/?answers={4}", PathwayId, age, PathwayTitle, CurrentPostcode, string.Join(",", GetPreviousAnswers()));
             }
         }
 

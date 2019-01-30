@@ -1,4 +1,5 @@
 ﻿
+using System;
 using NHS111.Web.Helpers;
 using RestSharp;
 
@@ -35,7 +36,6 @@ namespace NHS111.Web.Presentation.Test.Controllers {
         private Mock<IUserZoomDataBuilder> _mockUserZoomDataBuilder;
         private Mock<IRestClient> _mockRestClient;
         private Mock<IViewRouter> _mockViewRouter;
-        private Mock<IPostcodePrefillFeature> _mockPostCodePrefillFeature;
         private Mock<IDosEndpointFeature> _mockDosEndpointFeature;
         private Mock<IDOSSpecifyDispoTimeFeature> _mockDOSSpecifyDispoTimeFeature;
         private Mock<IOutcomeViewModelBuilder> _mockOutcomeViewModelBuilder;
@@ -52,7 +52,6 @@ namespace NHS111.Web.Presentation.Test.Controllers {
             _mockUserZoomDataBuilder = new Mock<IUserZoomDataBuilder>();
             _mockRestClient = new Mock<IRestClient>();
             _mockViewRouter = new Mock<IViewRouter>();
-            _mockPostCodePrefillFeature = new Mock<IPostcodePrefillFeature>();
             _mockDosEndpointFeature = new Mock<IDosEndpointFeature>();
             _mockDOSSpecifyDispoTimeFeature = new Mock<IDOSSpecifyDispoTimeFeature>();
             _mockOutcomeViewModelBuilder = new Mock<IOutcomeViewModelBuilder>();
@@ -81,9 +80,9 @@ namespace NHS111.Web.Presentation.Test.Controllers {
             _mockViewRouter.Setup(v => v.GetViewName(It.IsAny<JourneyViewModel>(), It.IsAny<ControllerContext>())).Returns(() => "../Question/Question");
 
             var sut = new QuestionController(_mockJourneyViewModelBuilder.Object,
-                _mockConfiguration.Object, _mockJtbsBuilderMock.Object, _mockFeature.Object, _mockAuditLogger.Object, _mockUserZoomDataBuilder.Object, _mockRestClient.Object, _mockViewRouter.Object, _mockPostCodePrefillFeature.Object, _mockDosEndpointFeature.Object, _mockDOSSpecifyDispoTimeFeature.Object, _mockOutcomeViewModelBuilder.Object);
+                _mockConfiguration.Object, _mockJtbsBuilderMock.Object, _mockFeature.Object, _mockAuditLogger.Object, _mockUserZoomDataBuilder.Object, _mockRestClient.Object, _mockViewRouter.Object, _mockDosEndpointFeature.Object, _mockDOSSpecifyDispoTimeFeature.Object, _mockOutcomeViewModelBuilder.Object);
 
-            var result = sut.Direct(_pathwayId, _age, _pathwayTitle, null, true);
+            var result = sut.Direct(_pathwayId, _age, _pathwayTitle, "LS177NZ", null, true);
 
             Assert.IsInstanceOf<ViewResult>(result.Result);
             var viewResult = result.Result as ViewResult;
@@ -114,9 +113,9 @@ namespace NHS111.Web.Presentation.Test.Controllers {
                 .Returns(() => StartedTask((JourneyViewModel)mockQuestion));
 
             var sut = new QuestionController(_mockJourneyViewModelBuilder.Object,
-                _mockConfiguration.Object, _mockJtbsBuilderMock.Object, _mockFeature.Object, _mockAuditLogger.Object, _mockUserZoomDataBuilder.Object, _mockRestClient.Object, _mockViewRouter.Object, _mockPostCodePrefillFeature.Object, _mockDosEndpointFeature.Object, _mockDOSSpecifyDispoTimeFeature.Object, _mockOutcomeViewModelBuilder.Object);
+                _mockConfiguration.Object, _mockJtbsBuilderMock.Object, _mockFeature.Object, _mockAuditLogger.Object, _mockUserZoomDataBuilder.Object, _mockRestClient.Object, _mockViewRouter.Object, _mockDosEndpointFeature.Object, _mockDOSSpecifyDispoTimeFeature.Object, _mockOutcomeViewModelBuilder.Object);
 
-            var result = (ViewResult) await sut.Direct(_pathwayId, _age, _pathwayTitle, new[] {0}, true);
+            var result = (ViewResult) await sut.Direct(_pathwayId, _age, _pathwayTitle, "LS177NZ", new[] {0}, true);
             var model = (QuestionViewModel) result.Model;
 
             Assert.IsTrue(model.SelectedAnswer.Contains(mockQuestion.Answers[1].Title));
@@ -166,13 +165,13 @@ namespace NHS111.Web.Presentation.Test.Controllers {
             _mockViewRouter.Setup(v => v.GetViewName(It.IsAny<JourneyViewModel>(), It.IsAny<ControllerContext>())).Returns(() => "../Question/Question");
 
             var sut = new QuestionController(_mockJourneyViewModelBuilder.Object,
-                _mockConfiguration.Object, _mockJtbsBuilderMock.Object, _mockFeature.Object, _mockAuditLogger.Object, _mockUserZoomDataBuilder.Object, _mockRestClient.Object, _mockViewRouter.Object, _mockPostCodePrefillFeature.Object, _mockDosEndpointFeature.Object, _mockDOSSpecifyDispoTimeFeature.Object, _mockOutcomeViewModelBuilder.Object);
+                _mockConfiguration.Object, _mockJtbsBuilderMock.Object, _mockFeature.Object, _mockAuditLogger.Object, _mockUserZoomDataBuilder.Object, _mockRestClient.Object, _mockViewRouter.Object, _mockDosEndpointFeature.Object, _mockDOSSpecifyDispoTimeFeature.Object, _mockOutcomeViewModelBuilder.Object);
 
             var pathwayId = "PW755MaleAdult";
             var age = 35;
             var pathwayTitle = "Headache";
 
-            var result = sut.Direct(pathwayId, age, pathwayTitle, new[] { 0, 1, 2 }, true);
+            var result = sut.Direct(pathwayId, age, pathwayTitle, "LS177NZ", new[] { 0, 1, 2 }, true);
 
             Assert.IsInstanceOf<ViewResult>(result.Result);
             var viewResult = result.Result as ViewResult;
@@ -186,9 +185,9 @@ namespace NHS111.Web.Presentation.Test.Controllers {
             _mockFeature.Setup(c => c.IsEnabled).Returns(false);
 
             var sut = new QuestionController(_mockJourneyViewModelBuilder.Object,
-                _mockConfiguration.Object, _mockJtbsBuilderMock.Object, _mockFeature.Object, _mockAuditLogger.Object, _mockUserZoomDataBuilder.Object, _mockRestClient.Object, _mockViewRouter.Object, _mockPostCodePrefillFeature.Object, _mockDosEndpointFeature.Object, _mockDOSSpecifyDispoTimeFeature.Object, _mockOutcomeViewModelBuilder.Object);
+                _mockConfiguration.Object, _mockJtbsBuilderMock.Object, _mockFeature.Object, _mockAuditLogger.Object, _mockUserZoomDataBuilder.Object, _mockRestClient.Object, _mockViewRouter.Object, _mockDosEndpointFeature.Object, _mockDOSSpecifyDispoTimeFeature.Object, _mockOutcomeViewModelBuilder.Object);
 
-            var result = sut.Direct(null, 0, null, null, null);
+            var result = sut.Direct(null, 0, null, null, null, null);
 
             Assert.NotNull(result);
             Assert.IsInstanceOf<HttpNotFoundResult>(result.Result);
