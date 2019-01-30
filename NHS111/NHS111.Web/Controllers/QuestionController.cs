@@ -238,7 +238,8 @@ namespace NHS111.Web.Controllers {
             if (resultingModel != null) {
                 resultingModel.FilterServices = filterServices.HasValue ? filterServices.Value : true;
 
-                if (resultingModel.NodeType == NodeType.Outcome) {
+                if (resultingModel.NodeType == NodeType.Outcome)
+                {
                     var outcomeModel = resultingModel as OutcomeViewModel;
 
                     DosEndpoint? endpoint = SetEndpoint();
@@ -246,18 +247,16 @@ namespace NHS111.Web.Controllers {
                     if (_dosSpecifyDispoTimeFeature.IsEnabled && _dosSpecifyDispoTimeFeature.HasDate(Request))
                         dosSearchTime = _dosSpecifyDispoTimeFeature.GetDosSearchDateTime(Request);
 
-                    if (OutcomeGroup.DosSearchOutcomesGroups.Contains(outcomeModel.OutcomeGroup)) {
-                        outcomeModel.CurrentView = _viewRouter.GetViewName(resultingModel, ControllerContext);
+                    outcomeModel.CurrentView = _viewRouter.GetViewName(resultingModel, ControllerContext);
 
-                        var controller = DependencyResolver.Current.GetService<OutcomeController>();
-                            controller.ControllerContext = new ControllerContext(ControllerContext.RequestContext,
-                                controller);
-                        if (OutcomeGroup.PrePopulatedDosResultsOutcomeGroups.Contains(outcomeModel.OutcomeGroup))
-                            return await controller.DispositionWithServices(outcomeModel, "", endpoint, dosSearchTime);
-                
+                    var controller = DependencyResolver.Current.GetService<OutcomeController>();
+                    controller.ControllerContext = new ControllerContext(ControllerContext.RequestContext, controller);
+
+                    if (OutcomeGroup.PrePopulatedDosResultsOutcomeGroups.Contains(outcomeModel.OutcomeGroup))
+                        return await controller.DispositionWithServices(outcomeModel, "", endpoint, dosSearchTime);
+
+                    if (OutcomeGroup.DosSearchOutcomesGroups.Contains(outcomeModel.OutcomeGroup))
                         return await controller.ServiceList(outcomeModel, dosSearchTime, null, endpoint);
-                        
-                    }
                 }
             }
 
