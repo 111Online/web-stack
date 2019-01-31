@@ -34,7 +34,7 @@
 }
 
 @Html.Partial("_OutcomeHeader", Model, new ViewDataDictionary() { { "OutcomeHeader", "Based on your answers, you can look after yourself and don't need to see a healthcare professional" } })
-
+@Html.HiddenFor(x => Model.Id)
 <section>
     @if (Model.CareAdvices != null && Model.CareAdvices.Any())
     {
