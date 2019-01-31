@@ -42,10 +42,9 @@
 
 
 <section>
-    @if (!string.IsNullOrEmpty(Model.CurrentPostcode))
-    {
-        @Html.Partial("_AlternativeServices", Model);
-    }
+
+ @Html.Partial("_AlternativeServices", Model);
+
 </section>
 
 @Html.Partial("_CareAdvice", Model.CareAdvices, new ViewDataDictionary { { "Title", "What you can do in the meantime" } })
