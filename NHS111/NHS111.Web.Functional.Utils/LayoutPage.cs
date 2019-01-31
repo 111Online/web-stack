@@ -3,6 +3,7 @@ using NUnit.Framework;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.PageObjects;
 using System.Configuration;
+using OpenQA.Selenium.Support.UI;
 
 namespace NHS111.Web.Functional.Utils
 {
