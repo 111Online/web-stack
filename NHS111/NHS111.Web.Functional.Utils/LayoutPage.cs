@@ -50,7 +50,7 @@ namespace NHS111.Web.Functional.Utils
 
         public void WaitForElement(IWebElement element)
         {
-            var wait = new WebDriverWait(Driver, TimeSpan.FromSeconds(1));
+            var wait = new WebDriverWait(Driver, TimeSpan.FromSeconds(5));
             wait.Until(drv => element.Displayed);
         }
 
