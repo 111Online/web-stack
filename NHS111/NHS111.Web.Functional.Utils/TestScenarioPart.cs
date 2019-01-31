@@ -23,6 +23,14 @@ namespace NHS111.Web.Functional.Utils
         {
             return new FeedbackSection(page.Driver);
         }
+        
+        public static DirectLinking DirectLinking(IWebDriver driver, string path)
+        {
+            var directLink = new DirectLinking(driver);
+            directLink.Visit(path);
+            return directLink;
+        }
+
 
         public static ModuleZeroPage ModuleZero(HomePage page)
         {

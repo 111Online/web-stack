@@ -10,7 +10,6 @@ namespace NHS111.Web.Functional.Utils
 {
     public class HomePage : LayoutPage, ISubmitPostcodeResult
     {
-        private static string _baseUrl = ConfigurationManager.AppSettings["TestWebsiteUrl"];
 
         [FindsBy(How = How.CssSelector, Using = "nav > ul > li:nth-child(1) > a")]
         internal IWebElement TermsLink { get; set; }
@@ -43,7 +42,6 @@ namespace NHS111.Web.Functional.Utils
             Driver.Navigate().GoToUrl(_baseUrl);
             if (UrlContainsCredentials())
                 Driver.Navigate().GoToUrl(GetUrlWithoutCredentials());
-            Driver.Manage().Window.Maximize();
             return this;
         }
 
@@ -67,20 +65,6 @@ namespace NHS111.Web.Functional.Utils
             return this;
         }
 
-        private string GetUrlWithoutCredentials()
-        {
-            if (UrlContainsCredentials())
-            {
-                return Driver.Url.Remove(_baseUrl.IndexOf("://") + 3,
-                    _baseUrl.LastIndexOf("@") - (_baseUrl.IndexOf("://") + 3));
-            }
-            return _baseUrl;
-        }
-
-        private static bool UrlContainsCredentials()
-        {
-            return _baseUrl.Contains("@");
-        }
 
         public ISubmitPostcodeResult ClickNext()
         {
