@@ -1,4 +1,4 @@
-﻿using NHS111.Models.Models.Web.Clock;
+﻿using NHS111.Features.Clock;
 using StructureMap;
 using StructureMap.Graph;
 

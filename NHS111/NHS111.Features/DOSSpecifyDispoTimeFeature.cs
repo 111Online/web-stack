@@ -3,7 +3,6 @@ using System.Globalization;
 using System.Web;
 using NHS111.Features.Clock;
 using NHS111.Features.Defaults;
-using NHS111.Models.Models.Web.Clock;
 
 namespace NHS111.Features
 {
