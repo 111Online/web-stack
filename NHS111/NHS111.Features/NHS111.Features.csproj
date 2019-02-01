@@ -40,9 +40,6 @@
     <StartupObject />
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="NHS111.Models">
-      <HintPath>..\NHS111.Domain.Api\Bin\NHS111.Models.dll</HintPath>
-    </Reference>
     <Reference Include="StructureMap, Version=4.0.1.318, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\structuremap.4.0.1.318\lib\net40\StructureMap.dll</HintPath>
       <Private>True</Private>
@@ -63,6 +60,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Clock\IClock.cs" />
+    <Compile Include="Clock\SystemClock.cs" />
     <Compile Include="DosEndpointFeature.cs" />
     <Compile Include="AllowedPostcodeFeature.cs" />
     <Compile Include="BaseFeature.cs" />

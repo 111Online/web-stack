@@ -77,10 +77,6 @@
       <Project>{BD9F2634-BADA-43E6-B16D-522BE17DA255}</Project>
       <Name>NHS111.Features</Name>
     </ProjectReference>
-    <ProjectReference Include="..\NHS111.Models\NHS111.Models.csproj">
-      <Project>{4CCF3ABD-92C4-4999-8520-C4AA7B36F48C}</Project>
-      <Name>NHS111.Models</Name>
-    </ProjectReference>
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">

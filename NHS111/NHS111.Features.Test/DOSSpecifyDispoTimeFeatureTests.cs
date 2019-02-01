@@ -2,7 +2,7 @@
 using System.Collections.Specialized;
 using System.Web;
 using Moq;
-using NHS111.Models.Models.Web.Clock;
+using NHS111.Features.Clock;
 using NUnit.Framework;
 
 namespace NHS111.Features.Test
