@@ -60,6 +60,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Clock\IClock.cs" />
+    <Compile Include="Clock\SystemClock.cs" />
     <Compile Include="DosEndpointFeature.cs" />
     <Compile Include="AllowedPostcodeFeature.cs" />
     <Compile Include="BaseFeature.cs" />

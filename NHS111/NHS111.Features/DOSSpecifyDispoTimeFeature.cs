@@ -1,19 +1,23 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Globalization;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Web;
+using NHS111.Features.Clock;
 using NHS111.Features.Defaults;
 
 namespace NHS111.Features
 {
     public class DOSSpecifyDispoTimeFeature : BaseFeature, IDOSSpecifyDispoTimeFeature
     {
-        public DOSSpecifyDispoTimeFeature()
+        private readonly IClock _clock;
+
+        public DOSSpecifyDispoTimeFeature(): this(new SystemClock())
+        {
+        }
+        
+        public DOSSpecifyDispoTimeFeature(IClock clock)
         {
             DefaultIsEnabledSettingStrategy = new DisabledByDefaultSettingStrategy();
+            _clock = clock;
         }
 
         public bool HasDate(HttpRequestBase request)
@@ -33,6 +37,7 @@ namespace NHS111.Features
             var dateTimestring = request.QueryString[_dosSearchDateTimeKeyname];
             DateTime parsedDateTime;
             DateTime.TryParseExact(dateTimestring, "yyyy-MM-dd HH:mm", null, DateTimeStyles.AssumeLocal, out parsedDateTime);
+            if(parsedDateTime < _clock.Now.AddMinutes(-1) || parsedDateTime >= _clock.Now.AddYears(1)) return _clock.Now;
             return parsedDateTime;
         }
 
@@ -40,8 +45,7 @@ namespace NHS111.Features
     }
 
 
-    public interface IDOSSpecifyDispoTimeFeature
-        : IFeature
+    public interface IDOSSpecifyDispoTimeFeature : IFeature
     {
         bool HasDate(HttpRequestBase request);
 
