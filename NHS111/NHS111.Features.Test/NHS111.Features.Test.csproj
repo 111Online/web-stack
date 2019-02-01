@@ -52,6 +52,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
+    <Reference Include="System.Web" />
   </ItemGroup>
   <Choose>
     <When Condition="('$(VisualStudioVersion)' == '10.0' or '$(VisualStudioVersion)' == '') and '$(TargetFrameworkVersion)' == 'v3.5'">
@@ -64,6 +65,7 @@
   <ItemGroup>
     <Compile Include="AllowedPostcodeFeatureTests.cs" />
     <Compile Include="BaseFeatureTests.cs" />
+    <Compile Include="DOSSpecifyDispoTimeFeatureTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Providers\AppSettingValueProviderTests.cs" />
   </ItemGroup>
@@ -74,6 +76,10 @@
     <ProjectReference Include="..\NHS111.Features\NHS111.Features.csproj">
       <Project>{BD9F2634-BADA-43E6-B16D-522BE17DA255}</Project>
       <Name>NHS111.Features</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\NHS111.Models\NHS111.Models.csproj">
+      <Project>{4CCF3ABD-92C4-4999-8520-C4AA7B36F48C}</Project>
+      <Name>NHS111.Models</Name>
     </ProjectReference>
   </ItemGroup>
   <Choose>

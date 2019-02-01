@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using NHS111.Models.Models.Web.Clock;
 using StructureMap;
 using StructureMap.Graph;
 
@@ -12,6 +8,7 @@ namespace NHS111.Features.IoC
     {
         public FeatureRegistry()
         {
+            For<IDOSSpecifyDispoTimeFeature>().Use(new DOSSpecifyDispoTimeFeature(new SystemClock()));
             Scan(scan =>
             {
                 scan.TheCallingAssembly();
