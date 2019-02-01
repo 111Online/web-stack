@@ -37,7 +37,8 @@ namespace NHS111.Features
             var dateTimestring = request.QueryString[_dosSearchDateTimeKeyname];
             DateTime parsedDateTime;
             DateTime.TryParseExact(dateTimestring, "yyyy-MM-dd HH:mm", null, DateTimeStyles.AssumeLocal, out parsedDateTime);
-            if(parsedDateTime < _clock.Now.AddMinutes(-1) || parsedDateTime >= _clock.Now.AddYears(1)) return _clock.Now;
+            var zeroSecondsDateTime = new DateTime(_clock.Now.Year, _clock.Now.Month, _clock.Now.Day, _clock.Now.Hour, _clock.Now.Minute, 0);
+            if (parsedDateTime < zeroSecondsDateTime.AddMinutes(-1) || parsedDateTime > zeroSecondsDateTime.AddYears(1)) return _clock.Now;
             return parsedDateTime;
         }
 

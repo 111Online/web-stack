@@ -13,7 +13,7 @@ namespace NHS111.Features.Test
         private readonly Mock<HttpRequestBase> _mockRequest = new Mock<HttpRequestBase>();
         private Mock<IClock> _mockClock;
         private readonly string _dosSearchDateTimeKeyname = "dossearchdatetime";
-        private readonly DateTime _currentTime = new DateTime(2019, 1, 1, 12, 0, 0);
+        private readonly DateTime _currentTime = new DateTime(2019, 1, 1, 12, 15, 0);
 
         [SetUp]
         public void SetUp()
@@ -77,9 +77,9 @@ namespace NHS111.Features.Test
         }
 
         [Test]
-        public void Valid_datetime_returns_same_datetime()
+        public void Valid_datetime_past_returns_same_datetime()
         {
-            var date = _currentTime.AddDays(1).AddHours(1);
+            var date = _currentTime.AddMinutes(-1);
             _mockRequest.SetupGet(r => r.QueryString)
                 .Returns(new NameValueCollection() { { _dosSearchDateTimeKeyname, date.ToString("yyyy-MM-dd HH:mm") } });
             var sut = new DOSSpecifyDispoTimeFeature(_mockClock.Object);
@@ -94,6 +94,16 @@ namespace NHS111.Features.Test
                 .Returns(new NameValueCollection() { { _dosSearchDateTimeKeyname, date.ToString("yyyy-MM-dd HH:mm") } });
             var sut = new DOSSpecifyDispoTimeFeature(_mockClock.Object);
             Assert.AreEqual(_mockClock.Object.Now, sut.GetDosSearchDateTime(_mockRequest.Object));
+        }
+
+        [Test]
+        public void Valid_datetime_future_returns_same_datetime()
+        {
+            var date = _currentTime.AddYears(1);
+            _mockRequest.SetupGet(r => r.QueryString)
+                .Returns(new NameValueCollection() { { _dosSearchDateTimeKeyname, date.ToString("yyyy-MM-dd HH:mm") } });
+            var sut = new DOSSpecifyDispoTimeFeature(_mockClock.Object);
+            Assert.AreEqual(date, sut.GetDosSearchDateTime(_mockRequest.Object));
         }
 
         [Test]
