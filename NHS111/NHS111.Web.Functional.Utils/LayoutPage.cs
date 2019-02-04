@@ -2,12 +2,15 @@
 using NUnit.Framework;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.PageObjects;
+using System.Configuration;
 using OpenQA.Selenium.Support.UI;
 
 namespace NHS111.Web.Functional.Utils
 {
     public class LayoutPage
     {
+        public static string _baseUrl = ConfigurationManager.AppSettings["TestWebsiteUrl"];
+
         public readonly IWebDriver Driver;
         internal const string _headerLogoTitle = "Go to the NHS 111 homepage";
 
@@ -46,6 +49,21 @@ namespace NHS111.Web.Functional.Utils
         public void VerifyHeaderBannerHidden()
         {
             Assert.IsFalse(Header.Displayed);
+        }
+
+        public string GetUrlWithoutCredentials()
+        {
+            if (UrlContainsCredentials())
+            {
+                return Driver.Url.Remove(_baseUrl.IndexOf("://") + 3,
+                    _baseUrl.LastIndexOf("@") - (_baseUrl.IndexOf("://") + 3));
+            }
+            return _baseUrl;
+        }
+
+        public static bool UrlContainsCredentials()
+        {
+            return _baseUrl.Contains("@");
         }
 
         public void WaitForElement(IWebElement element)

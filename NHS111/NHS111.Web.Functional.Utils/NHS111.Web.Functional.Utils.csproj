@@ -65,6 +65,7 @@
     <Compile Include="DemographicsPage.cs" />
     <Compile Include="CookiesStatementPage.cs" />
     <Compile Include="Expert24Page.cs" />
+    <Compile Include="DirectLinking.cs" />
     <Compile Include="ISubmitPostcodeResult.cs" />
     <Compile Include="OutOfAreaPage.cs" />
     <Compile Include="PostcodeProvider.cs" />
