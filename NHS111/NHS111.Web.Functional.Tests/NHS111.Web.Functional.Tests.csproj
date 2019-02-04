@@ -61,6 +61,7 @@
     <Otherwise />
   </Choose>
   <ItemGroup>
+    <Compile Include="CareAdviceTests.cs" />
     <Compile Include="CookiesStatementTests.cs" />
     <Compile Include="DirectLinkingTests.cs" />
     <Compile Include="InlineCareAdvicePageTests.cs" />
