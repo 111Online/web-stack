@@ -40,7 +40,7 @@
 
 
 <section>
-    @Html.Partial("_AlternativeServices", Model, new ViewDataDictionary { { "Title", Html.Raw(Model.OutcomeGroup.Label) + " for " + Model.CurrentPostcode} });
+    @Html.Partial("_AlternativeServices", Model, new ViewDataDictionary { { "Title", Html.Raw(Model.OutcomeGroup.Label) + " for " + Model.CurrentPostcode} })
 </section>
 
 @Html.Partial("_CareAdvice", Model.CareAdvices, new ViewDataDictionary { { "Title", "What you can do in the meantime" } })

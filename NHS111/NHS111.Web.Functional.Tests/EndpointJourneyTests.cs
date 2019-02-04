@@ -38,7 +38,7 @@ namespace NHS111.Web.Functional.Tests
             var outcomePage =  questionPage
                 .Answer(1)
                 .AnswerSuccessiveByOrder(1,2)
-                .Answer<OutcomePage>("Yes");
+                .Answer<OutcomePage>(1);
 
             outcomePage.VerifyOutcome("Phone 999 now for an ambulance");
         }
@@ -55,7 +55,7 @@ namespace NHS111.Web.Functional.Tests
                 .Answer(3)
                 .AnswerSuccessiveByOrder(1, 1)
                 .AnswerSuccessiveByOrder(3, 6)
-                .Answer<OutcomePage>("Yes");
+                .Answer<OutcomePage>(1);
  
             outcomePage.VerifyOutcome("Your answers suggest you should contact a pharmacist within 12 hours");
             outcomePage.VerifyWorseningPanel(WorseningMessages.Call111PostCodeFirst);
@@ -97,7 +97,7 @@ namespace NHS111.Web.Functional.Tests
                 .Answer(2)
                 .Answer(4)
                 .AnswerSuccessiveByOrder(3, 5)
-                .Answer<PostcodeFirstPage>("No - I've not taken any painkillers");
+                .Answer<PostcodeFirstPage>(3);
 
             //postcodeFirstPage.EnterPostCodeAndSubmit("LS17 7NZ");
 
@@ -119,7 +119,7 @@ namespace NHS111.Web.Functional.Tests
                 .Answer(1)
                 .Answer(1)
                 .Answer(4)
-                .Answer<OutcomePage>("It's getting worse");
+                .Answer<OutcomePage>(1);
 
             outcomePage.VerifyOutcome("Your answers suggest you need urgent attention for your dental problem within 4 hours");
             outcomePage.VerifyFindService(FindServiceTypes.EmergencyDental);
@@ -140,7 +140,7 @@ namespace NHS111.Web.Functional.Tests
                 .Answer(3)
                 .Answer(3)
                 .Answer(3)
-                .Answer<OutcomePage>("Yes");
+                .Answer<OutcomePage>(1);
 
             if (outcomePage.IsCallbackAcceptancePage())
                 outcomePage.RejectCallback();
@@ -169,7 +169,7 @@ namespace NHS111.Web.Functional.Tests
                 .AnswerSuccessiveByOrder(3,2)
                 .Answer(4)
                 .AnswerSuccessiveByOrder(3,3)
-                .Answer<OutcomePage>("No");
+                .Answer<OutcomePage>(3);
 
             outcomePage.VerifyOutcome("Your answers suggest you should see an optician within 3 days");
             outcomePage.VerifyWorseningPanel(WorseningMessages.Call111PostCodeFirst);
@@ -194,7 +194,7 @@ namespace NHS111.Web.Functional.Tests
                 .Answer(5)
                 .AnswerSuccessiveByOrder(3, 2)
                 .Answer(5)
-                .Answer<OutcomePage>("Yes - 1 week or more");
+                .Answer<OutcomePage>(1);
 
             outcomePage.VerifyOutcome("Your answers suggest that you should talk to your own GP in 3 working days if you are not feeling better");
             outcomePage.VerifyWorseningPanel(WorseningMessages.Call111PostCodeFirst);
@@ -218,7 +218,7 @@ namespace NHS111.Web.Functional.Tests
                .AnswerSuccessiveByOrder(2,4)
                .Answer(3)
                .Answer(1)
-               .Answer<OutcomePage>("No");
+               .Answer<OutcomePage>(3);
 
             outcomePage.VerifyOutcome(OutcomePage.BookCallBackText);
         }
@@ -237,7 +237,7 @@ namespace NHS111.Web.Functional.Tests
                 .Answer(1)
                 .AnswerSuccessiveByOrder(3, 4)
                 //.AnswerSuccessiveByOrder(1,2)
-                .Answer<PostcodeFirstPage>("Yes");
+                .Answer<PostcodeFirstPage>(1);
            
             //outcomePage.EnterPostCodeAndSubmit("LS17 7NZ");
 
@@ -261,7 +261,7 @@ namespace NHS111.Web.Functional.Tests
                 .Answer(3)
                 .Answer(3)
                 .AnswerSuccessiveByOrder(3, 4)
-                .Answer<OutcomePage>("No");
+                .Answer<OutcomePage>(3);
 
             outcomePage.VerifyFindService(FindServiceTypes.Midwife);
             outcomePage.VerifyOutcome("Your answers suggest you should speak to your midwife within 1 hour");
@@ -281,7 +281,7 @@ namespace NHS111.Web.Functional.Tests
                 .Answer(5)
                 .Answer(3)
                 .Answer(5)
-                .Answer<DeadEndPage>("Yes");
+                .Answer<DeadEndPage>(1);
 
             outcomePage.VerifyOutcome("Call 111 to speak to an adviser now");
         }
@@ -303,7 +303,7 @@ namespace NHS111.Web.Functional.Tests
                 .Answer(4)
                 .Answer(3)
                 .Answer(3)
-                .Answer<OutcomePage>("No");
+                .Answer<OutcomePage>(3);
            
             outcomePage.VerifyOutcome("Speak to your GP practice urgently");
             outcomePage.VerifyCareAdviceHeader("What you can do in the meantime");
