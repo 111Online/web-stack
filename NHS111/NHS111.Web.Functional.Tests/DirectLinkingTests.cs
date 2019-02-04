@@ -9,6 +9,7 @@ namespace NHS111.Web.Functional.Tests
     using OpenQA.Selenium;
 
     [TestFixture]
+    [Category("NightlyOnly")]
     public class DirectLinkingTests : BaseTests
     {
         
