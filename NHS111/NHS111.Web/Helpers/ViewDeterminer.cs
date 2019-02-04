@@ -78,8 +78,6 @@ namespace NHS111.Web.Helpers
                         return "../Outcome/Call_999_Callback";
 
                     if (outcomeViewModel.OutcomeGroup.Equals(OutcomeGroup.AccidentAndEmergency)) {
-                        if (string.IsNullOrEmpty(outcomeViewModel.CurrentPostcode))
-                            return "../Outcome/ChangePostcode";
 
                         if (!outcomeViewModel.DosCheckCapacitySummaryResult.IsValidationRequery && outcomeViewModel.DosCheckCapacitySummaryResult.HasITKServices && !outcomeViewModel.HasAcceptedCallbackOffer.HasValue)
                             return "../Outcome/SP_Accident_and_emergency_callback";
