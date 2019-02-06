@@ -9,7 +9,7 @@ namespace NHS111.Models.Models.Web.Logging
         public LogEntry()
         {
             var now = DateTime.UtcNow;
-            PartitionKey = string.Format("{0:yyyy-MM}", now);
+            PartitionKey = string.Format("{0:yyyy-MM-dd}", now);
             RowKey = string.Format("{0:dd HH:mm:ss.fff}-{1}", now, Guid.NewGuid());
             TIMESTAMP = now;
         }
