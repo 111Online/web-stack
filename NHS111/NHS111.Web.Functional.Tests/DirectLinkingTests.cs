@@ -42,7 +42,7 @@ namespace NHS111.Web.Functional.Tests
             public void Correct999Service()
             {
                 // 999 Validation page shows with correct service
-                var directLink = TestScenarioPart.DirectLinking(Driver, "/question/direct/PW755MaleAdult/20/Headache/LS17 7NZ/?answers=0,0,2,0,0");
+                var directLink = TestScenarioPart.DirectLinking(Driver, "/question/direct/PW755MaleAdult/20/Headache/LS17 7NZ/?answers=0,0,2,0,0&dos=uat");
                 directLink.VerifyBookACall("2000011527");
             }
 
