@@ -44,7 +44,7 @@ namespace NHS111.Web.Functional.Tests
             categoryPage.VerifyPathwayInCategoryList("Something stuck in the nose", "PW1529FemaleChild");
             categoryPage.VerifyPathwayInCategoryList("Something stuck in the bottom", "PW1531FemaleChild");
             categoryPage.VerifyPathwayInCategoryList("Something stuck in the vagina", "PW1532FemaleChild");
-            categoryPage.VerifyPathwayInCategoryList("Self-harm", "PW1543FemaleChild");
+            categoryPage.VerifyPathwayInCategoryList("Self-harm or overdose", "PW1543FemaleChild");
             categoryPage.VerifyPathwayInCategoryList("Swollen or painful face or neck", "PW1548FemaleChild");
             categoryPage.VerifyPathwayInCategoryList("Drunk too much alcohol", "PW1552FemaleChild");
             categoryPage.VerifyPathwayInCategoryList("Diarrhoea and vomiting", "PW1554FemaleChild");
@@ -113,7 +113,7 @@ namespace NHS111.Web.Functional.Tests
             categoryPage.VerifyPathwayInCategoryList("Nosebleed", "PW819FemaleChild");
             categoryPage.VerifyPathwayInCategoryList("Bleeding from the bottom", "PW846FemaleChild");
             categoryPage.VerifyPathwayInCategoryList("Sore throat", "PW854FemaleChild");
-            categoryPage.VerifyPathwayInCategoryList("Accidental overdose or taking something harmful", "PW881FemaleChild");
+            categoryPage.VerifyPathwayInCategoryList("Accidentally taking something harmful", "PW881FemaleChild");
             categoryPage.VerifyPathwayInCategoryList("Difficulty weeing", "PW886FemaleChild");
             categoryPage.VerifyPathwayInCategoryList("Arm or shoulder injury", "PW895FemaleChild");
             categoryPage.VerifyPathwayInCategoryList("Arm or shoulder injury with a cut or wound", "PW902FemaleChild");
@@ -174,7 +174,7 @@ namespace NHS111.Web.Functional.Tests
             categoryPage.VerifyPathwayInCategoryList("Something stuck in the nose", "PW1529FemaleAdult");
             categoryPage.VerifyPathwayInCategoryList("Something stuck in the bottom", "PW1531FemaleAdult");
             categoryPage.VerifyPathwayInCategoryList("Something stuck in the vagina", "PW1532FemaleAdult");
-            categoryPage.VerifyPathwayInCategoryList("Self-harm", "PW1543FemaleAdult");
+            categoryPage.VerifyPathwayInCategoryList("Self-harm or overdose", "PW1543FemaleAdult");
             categoryPage.VerifyPathwayInCategoryList("Swollen or painful face or neck", "PW1544FemaleAdult");
             categoryPage.VerifyPathwayInCategoryList("Drunk too much alcohol", "PW1551FemaleAdult");
             categoryPage.VerifyPathwayInCategoryList("Diarrhoea and vomiting", "PW1553FemaleAdult");
@@ -242,7 +242,7 @@ namespace NHS111.Web.Functional.Tests
             categoryPage.VerifyPathwayInCategoryList("Nosebleed", "PW818FemaleAdult");
             categoryPage.VerifyPathwayInCategoryList("Bleeding from the bottom", "PW846FemaleAdult");
             categoryPage.VerifyPathwayInCategoryList("Sore throat", "PW854FemaleAdult");
-            categoryPage.VerifyPathwayInCategoryList("Accidental overdose or taking something harmful", "PW881FemaleAdult");
+            categoryPage.VerifyPathwayInCategoryList("Accidentally taking something harmful", "PW881FemaleAdult");
             categoryPage.VerifyPathwayInCategoryList("Difficulty weeing", "PW886FemaleAdult");
             categoryPage.VerifyPathwayInCategoryList("Arm or shoulder injury", "PW894FemaleAdult");
             categoryPage.VerifyPathwayInCategoryList("Arm or shoulder injury with a cut or wound", "PW902FemaleAdult");
@@ -299,7 +299,7 @@ namespace NHS111.Web.Functional.Tests
             categoryPage.VerifyPathwayInCategoryList("Something stuck in the nose", "PW1529MaleChild");
             categoryPage.VerifyPathwayInCategoryList("Something stuck in or around the penis", "PW1530MaleChild");
             categoryPage.VerifyPathwayInCategoryList("Something stuck in the bottom", "PW1531MaleChild");
-            categoryPage.VerifyPathwayInCategoryList("Self-harm", "PW1543MaleChild");
+            categoryPage.VerifyPathwayInCategoryList("Self-harm or overdose", "PW1543MaleChild");
             categoryPage.VerifyPathwayInCategoryList("Swollen or painful face or neck", "PW1549MaleChild");
             categoryPage.VerifyPathwayInCategoryList("Drunk too much alcohol", "PW1552MaleChild");
             categoryPage.VerifyPathwayInCategoryList("Diarrhoea and vomiting", "PW1556MaleChild");
@@ -368,7 +368,7 @@ namespace NHS111.Web.Functional.Tests
             categoryPage.VerifyPathwayInCategoryList("Nosebleed", "PW819MaleChild");
             categoryPage.VerifyPathwayInCategoryList("Bleeding from the bottom", "PW846MaleChild");
             categoryPage.VerifyPathwayInCategoryList("Sore throat", "PW854MaleChild");
-            categoryPage.VerifyPathwayInCategoryList("Accidental overdose or taking something harmful", "PW881MaleChild");
+            categoryPage.VerifyPathwayInCategoryList("Accidentally taking something harmful", "PW881MaleChild");
             categoryPage.VerifyPathwayInCategoryList("Difficulty weeing", "PW886MaleChild");
             categoryPage.VerifyPathwayInCategoryList("Arm or shoulder injury", "PW895MaleChild");
             categoryPage.VerifyPathwayInCategoryList("Arm or shoulder injury with a cut or wound", "PW902MaleChild");
@@ -425,7 +425,7 @@ namespace NHS111.Web.Functional.Tests
             categoryPage.VerifyPathwayInCategoryList("Something stuck in the nose", "PW1529MaleAdult");
             categoryPage.VerifyPathwayInCategoryList("Something stuck in or around the penis", "PW1530MaleAdult");
             categoryPage.VerifyPathwayInCategoryList("Something stuck in the bottom", "PW1531MaleAdult");
-            categoryPage.VerifyPathwayInCategoryList("Self-harm", "PW1543MaleAdult");
+            categoryPage.VerifyPathwayInCategoryList("Self-harm or overdose", "PW1543MaleAdult");
             categoryPage.VerifyPathwayInCategoryList("Swollen or painful face or neck", "PW1545MaleAdult");
             categoryPage.VerifyPathwayInCategoryList("Drunk too much alcohol", "PW1551MaleAdult");
             categoryPage.VerifyPathwayInCategoryList("Diarrhoea and vomiting", "PW1555MaleAdult");
@@ -492,7 +492,7 @@ namespace NHS111.Web.Functional.Tests
             categoryPage.VerifyPathwayInCategoryList("Nosebleed", "PW818MaleAdult");
             categoryPage.VerifyPathwayInCategoryList("Bleeding from the bottom", "PW846MaleAdult");
             categoryPage.VerifyPathwayInCategoryList("Sore throat", "PW854MaleAdult");
-            categoryPage.VerifyPathwayInCategoryList("Accidental overdose or taking something harmful", "PW881MaleAdult");
+            categoryPage.VerifyPathwayInCategoryList("Accidentally taking something harmful", "PW881MaleAdult");
             categoryPage.VerifyPathwayInCategoryList("Difficulty weeing", "PW886MaleAdult");
             categoryPage.VerifyPathwayInCategoryList("Arm or shoulder injury", "PW897MaleAdult");
             categoryPage.VerifyPathwayInCategoryList("Arm or shoulder injury with a cut or wound", "PW902MaleAdult");
