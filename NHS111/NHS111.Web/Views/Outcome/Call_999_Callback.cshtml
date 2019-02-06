@@ -71,15 +71,8 @@
     }
 
 }
-@{
-    var action = "PersonalDetails";
-    if (Model.CurrentPostcode == null)
-    {
-        action = "ServiceList";
-    }
-}
 
-@using (Html.BeginForm(action, "Outcome", FormMethod.Post))
+@using (Html.BeginForm("PersonalDetails", "Outcome", FormMethod.Post))
 {
     @Html.HiddenFor(x => x.TriggerQuestionNo)
     @Html.Partial("_CommonHiddenFieldsOutcomeViewModel", Model)
@@ -120,21 +113,8 @@
         </fieldset>
     </div>
 
-    if (Model.CurrentPostcode == null)
-    {
-        var findServiceDataDictionary = ViewContext.ViewData;
-        findServiceDataDictionary.Add(new KeyValuePair<string, object>("Title", ""));
-        findServiceDataDictionary.Add(new KeyValuePair<string, object>("ButtonText", "Next"));
-        findServiceDataDictionary.Add(new KeyValuePair<string, object>("Label", ""));
-        findServiceDataDictionary.Add(new KeyValuePair<string, object>("ITK", true));
-        findServiceDataDictionary.TemplateInfo = new TemplateInfo() { HtmlFieldPrefix = "FindService" };
-
-        @Html.Partial("_FindService", Model, findServiceDataDictionary)
-    }
-    else
-    {
-        <button class="button--next" id="next" type="submit" name="Next" value="Next">Next</button>
-    }
+    <button class="button--next" id="next" type="submit" name="Next" value="Next">Next</button>
+    
 }
 
 @Html.Partial("_PageLoadingIndicator")

@@ -61,7 +61,9 @@
     <Otherwise />
   </Choose>
   <ItemGroup>
+    <Compile Include="CareAdviceTests.cs" />
     <Compile Include="CookiesStatementTests.cs" />
+    <Compile Include="DirectLinkingTests.cs" />
     <Compile Include="InlineCareAdvicePageTests.cs" />
     <Compile Include="PageNotFoundTests.cs" />
     <Compile Include="QuestionPageTests.cs" />
@@ -81,6 +83,7 @@
     <Compile Include="Regression\DosLookupTests.cs" />
     <Compile Include="Regression\JumpTests.cs" />
     <Compile Include="SearchTermResultsTests.cs" />
+    <Compile Include="FeedbackTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

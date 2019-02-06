@@ -73,30 +73,29 @@ namespace NHS111.Web.Controllers
         [HttpPost]
         public async Task<ActionResult> DispositionWithServices(OutcomeViewModel model, string submitAction, DosEndpoint? endpoint = null, DateTime? dosSearchTime = null)
         {
-
+            if (submitAction == "manualpostcode") return View("ChangePostcode", model);
             var postcodeValidatorResponse = _postCodeAllowedValidator.IsAllowedPostcode(model.CurrentPostcode);
 
             model.UserInfo.CurrentAddress.IsInPilotArea = postcodeValidatorResponse == PostcodeValidatorResponse.InPathwaysArea;
             if(postcodeValidatorResponse == PostcodeValidatorResponse.InvalidSyntax)
             {
                 ModelState.AddModelError("CurrentPostcode", "Enter a valid postcode.");
-                return View("ChangePostcode", model);
+                return View("../Outcome/ChangePostcode", model);
             }
             if (postcodeValidatorResponse == PostcodeValidatorResponse.PostcodeNotFound)
             {
                 ModelState.AddModelError("CurrentPostcode", "We can't find any services in '" + model.CurrentPostcode +"'. Check the postcode is correct.");
-                return View("ChangePostcode", model);
+                return View("../Outcome/ChangePostcode", model);
             }
             model.UserInfo.CurrentAddress.IsInPilotArea = _postCodeAllowedValidator.IsAllowedPostcode(model.CurrentPostcode) == PostcodeValidatorResponse.InPathwaysArea;
-            var viewName = "ChangePostcode";
-            if (submitAction == "manualpostcode") return View(viewName, model);
+            
             if (!model.UserInfo.CurrentAddress.IsInPilotArea)
             {
-                return View("OutOfArea", model);
+                return View("../Outcome/OutOfArea", model);
             }
 
             var outcomeModel = await _outcomeViewModelBuilder.PopulateGroupedDosResults(model, dosSearchTime, null, endpoint);
-            viewName = _viewRouter.GetViewName(model, ControllerContext);
+            var viewName = _viewRouter.GetViewName(model, ControllerContext);
 
             return View(viewName, outcomeModel);
         }

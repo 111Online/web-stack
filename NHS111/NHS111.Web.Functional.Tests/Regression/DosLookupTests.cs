@@ -1,5 +1,6 @@
 ﻿using NHS111.Web.Functional.Utils;
 using NUnit.Framework;
+using OpenQA.Selenium;
 
 namespace NHS111.Web.Functional.Tests.Regression
 {
@@ -58,7 +59,26 @@ namespace NHS111.Web.Functional.Tests.Regression
         }
 
 
+        [Test]
+        public void DoSResults24HourService()
+        {
+            // This ensures a 24hour service gets shown properly
+            var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Sexual Concerns", TestScenerioSex.Male, TestScenerioAgeGroups.Adult);
 
+            var outcomePage = questionPage
+                .Answer(3)
+                .Answer(4)
+                .Answer(3)
+                .Answer(3)
+                .Answer(3)
+                .Answer(4)
+                .Answer(4)
+                .Answer(1)
+                .Answer(1)
+                .Answer<OutcomePage>(3);
+
+            Assert.IsTrue(outcomePage.Driver.FindElement(By.Id("DosCheckCapacitySummaryResult_Success_Services_0__Id")).GetAttribute("value") == "1333616736");
+        }
 
 
 

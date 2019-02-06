@@ -1,4 +1,4 @@
-﻿using NHS111.Web.Functional.Utils;
+using NHS111.Web.Functional.Utils;
 using NUnit.Framework;
 
 namespace NHS111.Web.Functional.Tests

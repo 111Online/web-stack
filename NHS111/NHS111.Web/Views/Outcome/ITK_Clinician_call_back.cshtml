@@ -111,29 +111,16 @@ else
             </li>
         </ul>
 
-        @if (Model.CurrentPostcode == null)
+        @using (Html.BeginForm("PersonalDetails", "Outcome", FormMethod.Post))
         {
-            var dataDictionary = ViewContext.ViewData;
-            dataDictionary.Add(new KeyValuePair<string, object>("Title", ""));
-            dataDictionary.Add(new KeyValuePair<string, object>("ButtonText", "Next"));
-            dataDictionary.Add(new KeyValuePair<string, object>("Label", ""));
-            dataDictionary.Add(new KeyValuePair<string, object>("ITK", true));
-            dataDictionary.TemplateInfo = new TemplateInfo() { HtmlFieldPrefix = "FindService" };
+            @Html.Partial("_CommonHiddenFieldsOutcomeViewModel", Model)
+            @Html.Partial("_CommonHiddenFieldsCareAdviceViewModel", Model)
+            @Html.Hidden("SelectedServiceId", Model.DosCheckCapacitySummaryResult.Success.Services.First(s => s.OnlineDOSServiceType == OnlineDOSServiceType.Callback).Id)
 
-            @Html.Partial("_FindService", Model, dataDictionary)
+            <hr />
+            <button type="submit" name="PersonalDetails" value="Book a call">Book a nurse call</button>
         }
-        else
-        {
-            using (Html.BeginForm("PersonalDetails", "Outcome", FormMethod.Post))
-            {
-                @Html.Partial("_CommonHiddenFieldsOutcomeViewModel", Model)
-                @Html.Partial("_CommonHiddenFieldsCareAdviceViewModel", Model)
-                @Html.Hidden("SelectedServiceId", Model.DosCheckCapacitySummaryResult.Success.Services.First(s => s.OnlineDOSServiceType == OnlineDOSServiceType.Callback).Id)
-
-                <hr />
-                <button type="submit" name="PersonalDetails" value="Book a call">Book a nurse call</button>
-            }
-        }
+        
 
         <div class="callout callout--info">
             <p>You should get a call within @Html.Raw(Model.WaitTimeText). It’s important that you wait to speak to the nurse.</p>

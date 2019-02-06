@@ -65,10 +65,12 @@
     <Compile Include="DemographicsPage.cs" />
     <Compile Include="CookiesStatementPage.cs" />
     <Compile Include="Expert24Page.cs" />
+    <Compile Include="DirectLinking.cs" />
     <Compile Include="ISubmitPostcodeResult.cs" />
     <Compile Include="OutOfAreaPage.cs" />
     <Compile Include="PostcodeProvider.cs" />
     <Compile Include="InlineCareAdvicePage.cs" />
+    <Compile Include="FeedbackSection.cs" />
     <Compile Include="ServerErrorPage.cs" />
     <Compile Include="PageNotFound.cs" />
     <Compile Include="TermsAndConditionsPage.cs" />

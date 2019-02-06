@@ -30,7 +30,7 @@ namespace NHS111.Web.Controllers {
         public QuestionController(IJourneyViewModelBuilder journeyViewModelBuilder,
             IConfiguration configuration, IJustToBeSafeFirstViewModelBuilder justToBeSafeFirstViewModelBuilder, IDirectLinkingFeature directLinkingFeature,
             IAuditLogger auditLogger, IUserZoomDataBuilder userZoomDataBuilder, IRestClient restClientBusinessApi, IViewRouter viewRouter,
-            IPostcodePrefillFeature postcodePrefillFeature, IDosEndpointFeature dosEndpointFeature, IDOSSpecifyDispoTimeFeature dosSpecifyDispoTimeFeature, IOutcomeViewModelBuilder outcomeViewModelBuilder) {
+            IDosEndpointFeature dosEndpointFeature, IDOSSpecifyDispoTimeFeature dosSpecifyDispoTimeFeature, IOutcomeViewModelBuilder outcomeViewModelBuilder) {
 
             _journeyViewModelBuilder = journeyViewModelBuilder;
             _configuration = configuration;
@@ -40,7 +40,6 @@ namespace NHS111.Web.Controllers {
             _userZoomDataBuilder = userZoomDataBuilder;
             _restClientBusinessApi = restClientBusinessApi;
             _viewRouter = viewRouter;
-            _postcodePrefillFeature = postcodePrefillFeature;
             _dosEndpointFeature = dosEndpointFeature;
             _dosSpecifyDispoTimeFeature = dosSpecifyDispoTimeFeature;
             _outcomeViewModelBuilder = outcomeViewModelBuilder;
@@ -210,7 +209,7 @@ namespace NHS111.Web.Controllers {
                 return View(viewName, model);
             }
 
-            var result = await DirectInternal(model.PathwayId, model.UserInfo.Demography.Age, model.PathwayTitle, answers, filterServices);
+            var result = await DirectInternal(model.PathwayId, model.UserInfo.Demography.Age, model.PathwayTitle, model.CurrentPostcode, answers, filterServices);
 
             var journeyViewModel = (JourneyViewModel) ((ViewResult) result).Model;
             journeyViewModel.TriggerQuestionNo = model.TriggerQuestionNo;
@@ -222,50 +221,42 @@ namespace NHS111.Web.Controllers {
         }
 
         [HttpGet]
-        [Route("question/direct/{pathwayId}/{age?}/{pathwayTitle}/{answers?}")]
-        public async Task<ActionResult> Direct(string pathwayId, int? age, string pathwayTitle,
-            [ModelBinder(typeof(IntArrayModelBinder))]
-            int[] answers, bool? filterServices) {
+        [Route("question/direct/{pathwayId}/{age?}/{pathwayTitle}/{postcode}/{answers?}")]
+        public async Task<ActionResult> Direct(string pathwayId, int? age, string pathwayTitle, string postcode, [ModelBinder(typeof(IntArrayModelBinder))]int[] answers, bool? filterServices) {
 
             if (!_directLinkingFeature.IsEnabled) {
                 return HttpNotFound();
             }
 
-            return await DirectInternal(pathwayId, age, pathwayTitle, answers, filterServices);
+            return await DirectInternal(pathwayId, age, pathwayTitle, postcode, answers, filterServices);
         }
 
-        public async Task<ActionResult> DirectInternal(string pathwayId, int? age, string pathwayTitle,
-            [ModelBinder(typeof(IntArrayModelBinder))] int[] answers, bool? filterServices) {
+        public async Task<ActionResult> DirectInternal(string pathwayId, int? age, string pathwayTitle, string postcode, [ModelBinder(typeof(IntArrayModelBinder))] int[] answers, bool? filterServices) {
             var resultingModel = await DeriveJourneyView(pathwayId, age, pathwayTitle, answers);
+            resultingModel.CurrentPostcode = postcode;
             resultingModel.TriggerQuestionNo = null;
             if (resultingModel != null) {
                 resultingModel.FilterServices = filterServices.HasValue ? filterServices.Value : true;
 
-                if (resultingModel.NodeType == NodeType.Outcome) {
+                if (resultingModel.NodeType == NodeType.Outcome)
+                {
                     var outcomeModel = resultingModel as OutcomeViewModel;
-
-                    bool shouldPrefillPostcode = _postcodePrefillFeature.IsEnabled &&
-                                                 OutcomeGroup.DosSearchOutcomesGroups.Contains(outcomeModel.OutcomeGroup) &&
-                                                 _postcodePrefillFeature.RequestIncludesPostcode(Request);
 
                     DosEndpoint? endpoint = SetEndpoint();
                     DateTime? dosSearchTime = null;
                     if (_dosSpecifyDispoTimeFeature.IsEnabled && _dosSpecifyDispoTimeFeature.HasDate(Request))
                         dosSearchTime = _dosSpecifyDispoTimeFeature.GetDosSearchDateTime(Request);
 
-                    if (shouldPrefillPostcode) {
-                        resultingModel.CurrentPostcode = _postcodePrefillFeature.GetPostcode(Request);
-                        outcomeModel.CurrentView = _viewRouter.GetViewName(resultingModel, ControllerContext);
+                    outcomeModel.CurrentView = _viewRouter.GetViewName(resultingModel, ControllerContext);
 
-                        var controller = DependencyResolver.Current.GetService<OutcomeController>();
-                            controller.ControllerContext = new ControllerContext(ControllerContext.RequestContext,
-                                controller);
-                        if (OutcomeGroup.PrePopulatedDosResultsOutcomeGroups.Contains(outcomeModel.OutcomeGroup))
-                            return await controller.DispositionWithServices(outcomeModel, "", endpoint, dosSearchTime);
-                
+                    var controller = DependencyResolver.Current.GetService<OutcomeController>();
+                    controller.ControllerContext = new ControllerContext(ControllerContext.RequestContext, controller);
+
+                    if (OutcomeGroup.PrePopulatedDosResultsOutcomeGroups.Contains(outcomeModel.OutcomeGroup))
+                        return await controller.DispositionWithServices(outcomeModel, "", endpoint, dosSearchTime);
+
+                    if (OutcomeGroup.DosSearchOutcomesGroups.Contains(outcomeModel.OutcomeGroup))
                         return await controller.ServiceList(outcomeModel, dosSearchTime, null, endpoint);
-                        
-                    }
                 }
             }
 
@@ -285,26 +276,6 @@ namespace NHS111.Web.Controllers {
                 default:
                     return null;
             }
-        }
-
-        [HttpGet]
-        [Route("question/outcomedetail/{pathwayId}/{age?}/{pathwayTitle}/{answers?}")]
-        public async Task<ActionResult> OutcomeDetail(string pathwayId, int? age, string pathwayTitle,
-            [ModelBinder(typeof(IntArrayModelBinder))] int[] answers, bool? filterServices)
-        {
-
-            var journeyViewModel = await DeriveJourneyView(pathwayId, age, pathwayTitle, answers);
-            if(journeyViewModel != null)
-                journeyViewModel.FilterServices = filterServices.HasValue ? filterServices.Value : true;
-
-            var viewName = _viewRouter.GetViewName(journeyViewModel, ControllerContext);
-            if (journeyViewModel.OutcomeGroup == null ||
-                !OutcomeGroup.SignpostingOutcomesGroups.Contains(journeyViewModel.OutcomeGroup))
-            {
-                return HttpNotFound();
-            }
-            journeyViewModel.DisplayOutcomeReferenceOnly = true;
-            return View(viewName, journeyViewModel);
         }
 
         private async Task<JourneyViewModel> DeriveJourneyView(string pathwayId, int? age, string pathwayTitle, int[] answers)
@@ -419,7 +390,6 @@ namespace NHS111.Web.Controllers {
         private readonly IUserZoomDataBuilder _userZoomDataBuilder;
         private readonly IRestClient _restClientBusinessApi;
         private readonly IViewRouter _viewRouter;
-        private readonly IPostcodePrefillFeature _postcodePrefillFeature;
         private readonly IDosEndpointFeature _dosEndpointFeature;
         private readonly IDOSSpecifyDispoTimeFeature _dosSpecifyDispoTimeFeature;
         private readonly IOutcomeViewModelBuilder _outcomeViewModelBuilder;
