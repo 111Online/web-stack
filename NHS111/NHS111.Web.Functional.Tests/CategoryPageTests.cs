@@ -25,7 +25,7 @@ namespace NHS111.Web.Functional.Tests
         public void CategoryPage_TabbingOrder()
         {
             var categoryPage = TestScenerios.LaunchCategoryScenerio(Driver, "Male", 30);
-            categoryPage.VerifyTabbingOrder("Accidental overdose or taking something harmful");
+            categoryPage.VerifyTabbingOrder("Accidentally taking something harmful");
         }
     }
 }
