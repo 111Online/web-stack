@@ -36,6 +36,7 @@ namespace NHS111.Web.Functional.Tests
         }
         
         [TestFixture]
+        [Category("NightlyOnly")]
         public class Validation : BaseTests
         {
             [Test]
