@@ -29,22 +29,9 @@
 
 @using (Html.BeginForm("Navigation", "Question", FormMethod.Post, new { @class = "measure" }))
 {
-    @Html.HiddenFor(x => Model.SessionId)
-    @Html.HiddenFor(x => Model.Id)
-    @Html.HiddenFor(x => Model.JourneyJson)
-    @Html.HiddenFor(x => Model.PathwayId)
-    @Html.HiddenFor(x => Model.PathwayNo)
-    @Html.HiddenFor(x => Model.PathwayTitle)
-    @Html.HiddenFor(x => Model.DigitalTitle)
-    @Html.HiddenFor(x => Model.UserInfo.Demography.Age)
-    @Html.HiddenFor(x => Model.UserInfo.Demography.Gender)
-    @Html.HiddenFor(x => Model.Title)
-    @Html.HiddenFor(x => Model.SymptomDiscriminatorCode)
+    @Html.Partial("_CommonHiddenFieldsOutcomeViewModel", Model)
     @Html.HiddenFor(x => Model.QuestionNo)
-    @Html.HiddenFor(x => Model.StateJson)
-    @Html.HiddenFor(x => Model.FilterServices)
-    @Html.HiddenFor(x => Model.UserInfo.CurrentAddress.Postcode)
-    
+
     <div class="callout callout--attention">
         <h1>@Model.TitleWithoutBullets</h1>
         <p>A health adviser needs to speak to you as we can’t help you with this problem online.</p>
@@ -57,14 +44,15 @@
 
     <div class="content-block">
         <p>
-            @if (!Model.IsFirstStep) {
+            @if (!Model.IsFirstStep)
+            {
                 <button id="PreviousQuestionFromOutcome" class="button--previous button--link" id="previousScreen" type="submit" value="PreviousQuestion" name="PreviousQuestion" formnovalidate>Change my previous answer</button>
             }
         </p>
     </div>
 
     <hr>
-    
+
     <details class="measure">
         <summary><span class="details__arrow" role="presentation"></span>Why can’t I do this online?</summary>
         <div class="callout callout--info">
