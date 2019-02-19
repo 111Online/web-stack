@@ -57,7 +57,7 @@ namespace NHS111.Web.Functional.Tests
         }
 
         [Test]
-        public void Feedback_SuccessTextShows()
+        public void Feedback_Submission_TextShows()
         {
             var feedbackSection = GetFeedbackSection();
             feedbackSection.TypeInTextarea("test");
@@ -66,7 +66,7 @@ namespace NHS111.Web.Functional.Tests
         }
 
         [Test]
-        public void Feedback_SuccessTextCorrect()
+        public void Feedback_Submission_Success()
         {
             var feedbackSection = GetFeedbackSection();
             feedbackSection.TypeInTextarea("test");

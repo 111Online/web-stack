@@ -183,7 +183,7 @@ namespace NHS111.Web.Functional.Tests
         {
             var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Diarrhoea and Vomiting", TestScenerioSex.Male, TestScenerioAgeGroups.Child);
 
-            questionPage.VerifyQuestion("Do any of these apply to your sick (vomit)?");
+            questionPage.VerifyQuestion("Do any of these apply to your sick?");
             var outcomePage = questionPage
                 .Answer(5)
                 .AnswerSuccessiveByOrder(3,2)
