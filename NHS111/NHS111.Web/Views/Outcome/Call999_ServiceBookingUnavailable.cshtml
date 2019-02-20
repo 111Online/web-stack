@@ -22,6 +22,8 @@
 @{
     var dataDictionary = ViewContext.ViewData;
     dataDictionary.Add(new KeyValuePair<string, object>("LaunchPage", "failure"));
+    dataDictionary.Add(new KeyValuePair<string, object>("ServiceOptions", ""));
+    dataDictionary.Add(new KeyValuePair<string, object>("ServiceCount", 0));
 }
 @section SurveyBanner{
     @Html.Partial("_SurveyLink", Model.SurveyLink, dataDictionary)
