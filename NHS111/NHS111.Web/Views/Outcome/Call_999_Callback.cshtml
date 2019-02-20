@@ -25,6 +25,8 @@
 @{
     var surveyDataDictionary = ViewContext.ViewData;
     surveyDataDictionary.Add(new KeyValuePair<string, object>("999ValidationSurvey", "true"));
+    surveyDataDictionary.Add(new KeyValuePair<string, object>("ServiceOptions", ""));
+    surveyDataDictionary.Add(new KeyValuePair<string, object>("ServiceCount", 0));
 }
 
 @section SurveyBanner {
