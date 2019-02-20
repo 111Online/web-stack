@@ -5,6 +5,8 @@
 
 @{
     var launchPage = ViewData.ContainsKey("LaunchPage") ? ViewData["LaunchPage"] : "outcome";
+    var serviceOptions = ViewData.ContainsKey("ServiceOptions") ? ViewData["ServiceOptions"] : Model.ServiceOptions;
+    var serviceCount = ViewData.ContainsKey("ServiceCount") ? ViewData["ServiceCount"] : Model.ServiceCount;
 }
 
 @if (SurveyLinkFeature.IsEnabled)
@@ -24,8 +26,8 @@
         Model.DispositionDateTime.ToString("HH:mm:ss"),
         Model.Campaign,
         Model.CampaignSource,
-        Model.ServiceCount,
-        Model.ServiceOptions,
+        serviceCount,
+        serviceOptions,
         launchPage,
         Model.ValidationCallbackOffered.ToString().ToLower()
         );

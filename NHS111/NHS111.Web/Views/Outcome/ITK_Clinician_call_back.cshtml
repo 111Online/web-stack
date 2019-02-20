@@ -24,8 +24,15 @@
         }];
     </script>
 }
+
+@{
+    var surveyDataDictionary = ViewContext.ViewData;
+    surveyDataDictionary.Add(new KeyValuePair<string, object>("ServiceOptions", ""));
+    surveyDataDictionary.Add(new KeyValuePair<string, object>("ServiceCount", 0));
+}
+
 @section SurveyBanner{
-    @Html.Partial("_SurveyLink", Model.SurveyLink)
+    @Html.Partial("_SurveyLink", Model.SurveyLink, surveyDataDictionary)
 }
 @section FeedbackSection {
     @if (!SurveyLinkFeature.IsEnabled)
@@ -34,7 +41,7 @@
     }
     else
     {
-        @Html.Partial("_SurveyLink", Model.SurveyLink)
+        @Html.Partial("_SurveyLink", Model.SurveyLink, surveyDataDictionary)
     }
 }
 
@@ -120,7 +127,7 @@ else
             <hr />
             <button type="submit" name="PersonalDetails" value="Book a call">Book a nurse call</button>
         }
-        
+
 
         <div class="callout callout--info">
             <p>You should get a call within @Html.Raw(Model.WaitTimeText). It’s important that you wait to speak to the nurse.</p>
