@@ -18,12 +18,19 @@
 </script>
 }
 
+@{
+    var surveyDataDictionary = ViewContext.ViewData;
+    surveyDataDictionary.Add(new KeyValuePair<string, object>("999Survey", "true"));
+    surveyDataDictionary.Add(new KeyValuePair<string, object>("ServiceOptions", ""));
+    surveyDataDictionary.Add(new KeyValuePair<string, object>("ServiceCount", 0));
+}
+
 @section SurveyBanner {
-    @Html.Partial("_SurveyLink", Model.SurveyLink, new ViewDataDictionary() { { "999Survey", "true" } })
+    @Html.Partial("_SurveyLink", Model.SurveyLink, surveyDataDictionary)
 }
 
 @section FeedbackSection {
-    @Html.Partial("_SurveyLink", Model.SurveyLink, new ViewDataDictionary() { { "999Survey", "true" } })
+    @Html.Partial("_SurveyLink", Model.SurveyLink, surveyDataDictionary)
 }
 
 <div id="wrapper" class="measure">
