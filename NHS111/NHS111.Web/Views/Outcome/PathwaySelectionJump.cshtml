@@ -4,7 +4,7 @@
 
 @section Title {}
 @section HeadTop {
-@{ var url = string.Format("/selectionjump/{0}/", Url.Encode(Model.PathwayNo)); }
+    @{ var url = string.Format("/selectionjump/{0}/", Url.Encode(Model.PathwayNo)); }
     <script>
         var pageId = '@Model.Id';
         dataLayer = [
@@ -30,21 +30,8 @@
 
 @using (Html.BeginForm("Navigation", "Question", FormMethod.Post, new { @class = "measure" }))
 {
-    @Html.HiddenFor(x => Model.SessionId)
-    @Html.HiddenFor(x => Model.Id)
-    @Html.HiddenFor(x => Model.JourneyJson)
-    @Html.HiddenFor(x => Model.PathwayId)
-    @Html.HiddenFor(x => Model.PathwayNo)
-    @Html.HiddenFor(x => Model.PathwayTitle)
-    @Html.HiddenFor(x => Model.DigitalTitle)
-    @Html.HiddenFor(x => Model.UserInfo.Demography.Age)
-    @Html.HiddenFor(x => Model.UserInfo.Demography.Gender)
-    @Html.HiddenFor(x => Model.Title)
-    @Html.HiddenFor(x => Model.SymptomDiscriminatorCode)
+    @Html.Partial("_CommonHiddenFieldsOutcomeViewModel", Model)
     @Html.HiddenFor(x => Model.QuestionNo)
-    @Html.HiddenFor(x => Model.StateJson)
-    @Html.HiddenFor(x => Model.FilterServices)
-    @Html.HiddenFor(x => Model.UserInfo.CurrentAddress.Postcode)
 
     <h2>@Model.TitleWithoutBullets</h2>
     <p>Your health assessment can’t be completed with the current online service.</p>
@@ -57,15 +44,15 @@
     }
 }
 <script type="text/javascript">
-    $(document).ready(function() {
+    $(document).ready(function () {
         //enable disable submit button
         $("#nextScreen[type=submit]").attr('disabled', 'disabled');
 
-        $("form label").click(function() {
+        $("form label").click(function () {
             $("button[type=submit]").removeAttr('disabled');
         });
 
-        $("form input[type=radio]").click(function() {
+        $("form input[type=radio]").click(function () {
             $("button[type=submit]").removeAttr('disabled');
         });
     });
