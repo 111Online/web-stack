@@ -281,6 +281,29 @@ namespace NHS111.Web.Functional.Tests
             outcomePage.VerifyOutcome("This health assessment can't be completed online");
         }
 
+        [Test]
+        public void GPEndpointJourneyViaDeadEndJump()
+        {
+            // This test checks that going to a disposition via a dead end jump
+            // doesn't break the POST data. That has been a regression found in the past.
+            var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Trauma Blisters", TestScenerioSex.Female, TestScenerioAgeGroups.Adult);
+            
+            var deadEndPage = questionPage
+                .Answer<DeadEndPage>(1);
+
+            // Got to the dead end jump
+            deadEndPage.VerifyOutcome("This health assessment can't be completed online");
+
+            questionPage = deadEndPage.ClickPrevious();
+            var outcomePage = questionPage.Answer(3)
+                .Answer(3)
+                .Answer(3)
+                .Answer<OutcomePage>(1);
+
+            //This needs to check that services have been given
+            //outcomePage.VerifyOutcome("Speak to your GP practice today or tomorrow");
+        }
+
         
         [Test]
         public void ExcludedCareAdviceJourney()

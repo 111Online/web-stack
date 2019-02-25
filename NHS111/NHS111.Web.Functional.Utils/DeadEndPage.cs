@@ -10,12 +10,21 @@ namespace NHS111.Web.Functional.Utils {
         [FindsBy(How = How.CssSelector, Using = "h2")]
         private IWebElement Header { get; set; }
 
+        [FindsBy(How = How.Id, Using = "previousScreen")]
+        private IWebElement PreviousAnswer { get; set; }
+
         public DeadEndPage(IWebDriver driver) : base(driver) { }
 
         public void VerifyOutcome(string outcomeHeadertext)
         {
             Assert.IsTrue(Header.Displayed);
             Assert.AreEqual(outcomeHeadertext, Header.Text);
+        }
+
+        public QuestionPage ClickPrevious()
+        {
+            PreviousAnswer.Click();
+            return new QuestionPage(Driver);
         }
 
     }
