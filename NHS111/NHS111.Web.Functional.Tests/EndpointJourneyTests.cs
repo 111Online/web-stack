@@ -273,17 +273,12 @@ namespace NHS111.Web.Functional.Tests
         [Test]
         public void DeadEndJourney()
         {
-            var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Mental Health Problems", TestScenerioSex.Male, TestScenerioAgeGroups.Adult);
-
-            questionPage.VerifyQuestion("Do you have a diagnosed mental health condition that's got worse?");
+            var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Trauma Blisters", TestScenerioSex.Male, TestScenerioAgeGroups.Adult);
+            
             var outcomePage = questionPage
-                .Answer(1)
-                .Answer(5)
-                .Answer(3)
-                .Answer(5)
                 .Answer<DeadEndPage>(1);
 
-            outcomePage.VerifyOutcome("Call 111 to speak to an adviser now");
+            outcomePage.VerifyOutcome("This health assessment can't be completed online");
         }
 
         

@@ -7,7 +7,7 @@ namespace NHS111.Web.Functional.Utils {
         : LayoutPage //currently the DispositionPage<T> markup doesn't match the Dead End page so can't inherit from that
     {
 
-        [FindsBy(How = How.CssSelector, Using = "h1")]
+        [FindsBy(How = How.CssSelector, Using = "h2")]
         private IWebElement Header { get; set; }
 
         public DeadEndPage(IWebDriver driver) : base(driver) { }
