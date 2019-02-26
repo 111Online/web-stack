@@ -295,15 +295,38 @@ namespace NHS111.Web.Functional.Tests
             deadEndPage.VerifyOutcome("This health assessment can't be completed online");
 
             questionPage = deadEndPage.ClickPrevious();
+            var outcomePage = questionPage.Answer(1)
+                .Answer(1)
+                .Answer(1)
+                .Answer(1)
+                .Answer(3)
+                .Answer<OutcomePage>(3);
+
+            outcomePage.VerifyPageContainsDOSResults();
+        }
+
+        
+        [Test]
+        public void EDEndpointJourneyViaPathwayNotFound()
+        {
+            // This test checks that going to a disposition via a pathway not found
+            // doesn't break the POST data. That has been a regression found in the past.
+            var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Wound Problems, Plaster Casts, Tubes and Metal Appliances", TestScenerioSex.Female, TestScenerioAgeGroups.Adult);
+            
+            var pathwayNotFound = questionPage
+                .Answer<OutcomePage>(2);
+            
+            // Got to pathway not found
+            pathwayNotFound.VerifyPathwayNotFound();
+
+            questionPage = pathwayNotFound.ClickPrevious();
             var outcomePage = questionPage.Answer(3)
                 .Answer(3)
                 .Answer(3)
                 .Answer<OutcomePage>(1);
 
-            //This needs to check that services have been given
-            //outcomePage.VerifyOutcome("Speak to your GP practice today or tomorrow");
+            outcomePage.VerifyPageContainsDOSResults();
         }
-
         
         [Test]
         public void ExcludedCareAdviceJourney()
