@@ -295,12 +295,10 @@ namespace NHS111.Web.Functional.Tests
             deadEndPage.VerifyOutcome("This health assessment can't be completed online");
 
             questionPage = deadEndPage.ClickPrevious();
-            var outcomePage = questionPage.Answer(1)
-                .Answer(1)
-                .Answer(1)
-                .Answer(1)
+            var outcomePage = questionPage.Answer(3)
                 .Answer(3)
-                .Answer<OutcomePage>(3);
+                .Answer(3)
+                .Answer<OutcomePage>(1);
 
             outcomePage.VerifyPageContainsDOSResults();
         }
@@ -320,10 +318,12 @@ namespace NHS111.Web.Functional.Tests
             pathwayNotFound.VerifyPathwayNotFound();
 
             questionPage = pathwayNotFound.ClickPrevious();
-            var outcomePage = questionPage.Answer(3)
+            var outcomePage = questionPage.Answer(1)
+                .Answer(1)
+                .Answer(1)
+                .Answer(1)
                 .Answer(3)
-                .Answer(3)
-                .Answer<OutcomePage>(1);
+                .Answer<OutcomePage>(3);
 
             outcomePage.VerifyPageContainsDOSResults();
         }
