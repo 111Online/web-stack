@@ -28,6 +28,9 @@ namespace NHS111.Web.Functional.Utils
         [FindsBy(How = How.ClassName, Using = "summary")]
         private IList<IWebElement> DOSGroups { get; set; }
 
+        
+        [FindsBy(How = How.Id, Using = "PreviousQuestionFromOutcome")]
+        private IWebElement PreviousAnswer { get; set; }
 
         public OutcomePage(IWebDriver driver) : base(driver)
         {
@@ -80,6 +83,11 @@ namespace NHS111.Web.Functional.Utils
 
         public void VerifyIsPersonalDetailsPage() {
             VerifyOutcome("Enter details");
+        }
+        public QuestionPage ClickPrevious()
+        {
+            PreviousAnswer.Click();
+            return new QuestionPage(Driver);
         }
     }
 }

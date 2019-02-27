@@ -273,19 +273,60 @@ namespace NHS111.Web.Functional.Tests
         [Test]
         public void DeadEndJourney()
         {
-            var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Mental Health Problems", TestScenerioSex.Male, TestScenerioAgeGroups.Adult);
-
-            questionPage.VerifyQuestion("Do you have a diagnosed mental health condition that's got worse?");
+            var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Trauma Blisters", TestScenerioSex.Male, TestScenerioAgeGroups.Adult);
+            
             var outcomePage = questionPage
-                .Answer(1)
-                .Answer(5)
-                .Answer(3)
-                .Answer(5)
                 .Answer<DeadEndPage>(1);
 
-            outcomePage.VerifyOutcome("Call 111 to speak to an adviser now");
+            outcomePage.VerifyOutcome("This health assessment can't be completed online");
         }
 
+        [Test]
+        public void GPEndpointJourneyViaDeadEndJump()
+        {
+            // This test checks that going to a disposition via a dead end jump
+            // doesn't break the POST data. That has been a regression found in the past.
+            var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Trauma Blisters", TestScenerioSex.Female, TestScenerioAgeGroups.Adult);
+            
+            var deadEndPage = questionPage
+                .Answer<DeadEndPage>(1);
+
+            // Got to the dead end jump
+            deadEndPage.VerifyOutcome("This health assessment can't be completed online");
+
+            questionPage = deadEndPage.ClickPrevious();
+            var outcomePage = questionPage.Answer(3)
+                .Answer(3)
+                .Answer(3)
+                .Answer<OutcomePage>(1);
+
+            outcomePage.VerifyPageContainsDOSResults();
+        }
+
+        
+        [Test]
+        public void EDEndpointJourneyViaPathwayNotFound()
+        {
+            // This test checks that going to a disposition via a pathway not found
+            // doesn't break the POST data. That has been a regression found in the past.
+            var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Wound Problems, Plaster Casts, Tubes and Metal Appliances", TestScenerioSex.Female, TestScenerioAgeGroups.Adult);
+            
+            var pathwayNotFound = questionPage
+                .Answer<OutcomePage>(2);
+            
+            // Got to pathway not found
+            pathwayNotFound.VerifyPathwayNotFound();
+
+            questionPage = pathwayNotFound.ClickPrevious();
+            var outcomePage = questionPage.Answer(1)
+                .Answer(1)
+                .Answer(1)
+                .Answer(1)
+                .Answer(3)
+                .Answer<OutcomePage>(3);
+
+            outcomePage.VerifyPageContainsDOSResults();
+        }
         
         [Test]
         public void ExcludedCareAdviceJourney()
