@@ -4,6 +4,7 @@ using System.Linq;
 using Newtonsoft.Json.Linq;
 using NUnit.Framework;
 using OpenQA.Selenium;
+using OpenQA.Selenium.Support.Extensions;
 using OpenQA.Selenium.Support.PageObjects;
 using OpenQA.Selenium.Support.UI;
 
@@ -25,7 +26,7 @@ namespace NHS111.Web.Functional.Utils
 
     }
 
-    public class QuestionPage : LayoutPage
+    public class QuestionPage : LayoutPage, IScreenshotMaker
     {
         [FindsBy(How = How.ClassName, Using = "button--next")]
         private IWebElement NextButton { get; set; }
@@ -210,5 +211,17 @@ namespace NHS111.Web.Functional.Utils
             Assert.IsTrue(Driver.ElementExists(by), string.Format("Expected answer couldn't be found for question '{0}'. Tried to find answer {1}. Available answers were:\n{2}", Header.Text, by, string.Join("\n", availableAnswers)));
             Driver.FindElement(by).Click();
         }
+
+        public QuestionPage MakeAndCompareScreenshot()
+        {
+            return base.MakeAndCompareScreenshot(this);
+
+        }
+
+        public QuestionPage CompareAndVerify()
+        {
+            return base.CompareAndVerify(this);
+        }
+
     }
 }

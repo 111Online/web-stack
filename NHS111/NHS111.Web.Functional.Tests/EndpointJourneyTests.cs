@@ -49,9 +49,9 @@ namespace NHS111.Web.Functional.Tests
             var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Eye or Eyelid Problems", TestScenerioSex.Male, TestScenerioAgeGroups.Adult);
 
             questionPage.VerifyQuestion("What is the main problem?");
-            var outcomePage = questionPage
-                .Answer(3)
-                .Answer(3)
+            questionPage = questionPage
+                .Answer(3).CompareAndVerify();
+            var outcomePage = questionPage.Answer(3)
                 .Answer(3)
                 .AnswerSuccessiveByOrder(1, 1)
                 .AnswerSuccessiveByOrder(3, 6)
