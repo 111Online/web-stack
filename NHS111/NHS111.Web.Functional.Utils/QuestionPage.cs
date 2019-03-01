@@ -4,6 +4,7 @@ using System.Linq;
 using Newtonsoft.Json.Linq;
 using NUnit.Framework;
 using OpenQA.Selenium;
+using OpenQA.Selenium.Support.Extensions;
 using OpenQA.Selenium.Support.PageObjects;
 using OpenQA.Selenium.Support.UI;
 
@@ -25,7 +26,7 @@ namespace NHS111.Web.Functional.Utils
 
     }
 
-    public class QuestionPage : LayoutPage
+    public class QuestionPage : LayoutPage, IScreenshotMaker
     {
         [FindsBy(How = How.ClassName, Using = "button--next")]
         private IWebElement NextButton { get; set; }
@@ -95,8 +96,9 @@ namespace NHS111.Web.Functional.Utils
             return (T)Activator.CreateInstance(typeof(T), Driver);
         }
 
-        public T Answer<T>(int answerOrder) 
+        public T Answer<T>(int answerOrder)
         {
+     
             var byOrder = ByOrder(answerOrder);
             SelectAnswerAndSubmit(byOrder, false);
             return (T)Activator.CreateInstance(typeof(T), Driver);
@@ -139,7 +141,7 @@ namespace NHS111.Web.Functional.Utils
             SelectAnswerBy(by);
             NextButton.Click();
             _testAwaiter.AwaitNextPage(Header, expectQuestionPage);
-            return new QuestionPage(Driver);
+                return new QuestionPage(Driver);
         }
 
         public QuestionPage NavigateBack() {
@@ -210,5 +212,17 @@ namespace NHS111.Web.Functional.Utils
             Assert.IsTrue(Driver.ElementExists(by), string.Format("Expected answer couldn't be found for question '{0}'. Tried to find answer {1}. Available answers were:\n{2}", Header.Text, by, string.Join("\n", availableAnswers)));
             Driver.FindElement(by).Click();
         }
+
+        public QuestionPage MakeAndCompareScreenshot(string uniqueName)
+        {
+            return base.MakeAndCompareScreenshot(this, uniqueName);
+
+        }
+
+        public QuestionPage CompareAndVerify(string uniqueName)
+        {
+            return base.CompareAndVerify(this, uniqueName);
+        }
+
     }
 }
