@@ -85,7 +85,7 @@ namespace NHS111.Web.Functional.Utils
 
         public T MakeScreenshot<T>(T page, string uniqueName) where T : IScreenshotMaker
         {
-            var screenshot = Driver.TakeScreenshot();
+            var screenshot = Driver.TakeEntireScreenshot();
             screenshot.SaveAsFile(CreateScreenshotFilepath(uniqueName),ScreenshotImageFormat.Png);
             return page;
         }
