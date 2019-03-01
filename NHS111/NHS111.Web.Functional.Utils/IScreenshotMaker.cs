@@ -8,19 +8,19 @@ namespace NHS111.Web.Functional.Utils
 {
     public interface IScreenshotMaker
     {
-        T MakeScreenshot<T>(T page) where T : IScreenshotMaker;
-        bool CompareScreenshot();
+        T MakeScreenshot<T>(T page, string uniqueName) where T : IScreenshotMaker;
+        bool CompareScreenshot(string uniqueName);
 
-        T MakeAndCompareScreenshot<T>(T page) where T : IScreenshotMaker;
+        T MakeAndCompareScreenshot<T>(T page, string uniqueName) where T : IScreenshotMaker;
 
         bool ScreenshotsEqual{ get; }
-        T CompareAndVerify<T>(SceenshotComparisonFailureAction action, T page) where T : IScreenshotMaker;
+        T CompareAndVerify<T>(SceenshotComparisonFailureAction action, T page, string uniqueName) where T : IScreenshotMaker;
     }
 
     public enum SceenshotComparisonFailureAction
     {
-        FailTest,
-        PassTest,
+        Fail,
+        Pass,
         Warn
     }
 }

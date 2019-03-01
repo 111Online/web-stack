@@ -96,8 +96,9 @@ namespace NHS111.Web.Functional.Utils
             return (T)Activator.CreateInstance(typeof(T), Driver);
         }
 
-        public T Answer<T>(int answerOrder) 
+        public T Answer<T>(int answerOrder)
         {
+     
             var byOrder = ByOrder(answerOrder);
             SelectAnswerAndSubmit(byOrder, false);
             return (T)Activator.CreateInstance(typeof(T), Driver);
@@ -140,7 +141,7 @@ namespace NHS111.Web.Functional.Utils
             SelectAnswerBy(by);
             NextButton.Click();
             _testAwaiter.AwaitNextPage(Header, expectQuestionPage);
-            return new QuestionPage(Driver);
+                return new QuestionPage(Driver);
         }
 
         public QuestionPage NavigateBack() {
@@ -212,15 +213,15 @@ namespace NHS111.Web.Functional.Utils
             Driver.FindElement(by).Click();
         }
 
-        public QuestionPage MakeAndCompareScreenshot()
+        public QuestionPage MakeAndCompareScreenshot(string uniqueName)
         {
-            return base.MakeAndCompareScreenshot(this);
+            return base.MakeAndCompareScreenshot(this, uniqueName);
 
         }
 
-        public QuestionPage CompareAndVerify()
+        public QuestionPage CompareAndVerify(string uniqueName)
         {
-            return base.CompareAndVerify(this);
+            return base.CompareAndVerify(this, uniqueName);
         }
 
     }
