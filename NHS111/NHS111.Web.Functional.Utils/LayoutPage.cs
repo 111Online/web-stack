@@ -34,7 +34,10 @@ namespace NHS111.Web.Functional.Utils
         [FindsBy(How = How.CssSelector, Using = ".global-footer")]
         internal IWebElement Footer { get; set; }
 
-        public bool ScreenshotsEqual => _screenshotsEqual;
+        public bool GetScreenshotsEqual()
+        {
+            return _screenshotsEqual;
+        }
 
         public LayoutPage(IWebDriver driver)
         {
@@ -166,10 +169,10 @@ namespace NHS111.Web.Functional.Utils
             }
 
             MakeAndCompareScreenshot(page, uniqueName);
-            if(action == ScreenshotComparisonFailureAction.Fail && !page.ScreenshotsEqual) Assert.Fail("Screenshot comparison shows not equal to baseline at step " + uniqueName);
+            if(action == ScreenshotComparisonFailureAction.Fail && !page.GetScreenshotsEqual()) Assert.Fail("Screenshot comparison shows not equal to baseline at step " + uniqueName);
             if (action == ScreenshotComparisonFailureAction.Warn)
             {
-                if(!page.ScreenshotsEqual) Assert.Inconclusive("Screenshot comparison shows not equal to baseline at step " + uniqueName);
+                if(!page.GetScreenshotsEqual()) Assert.Inconclusive("Screenshot comparison shows not equal to baseline at step " + uniqueName);
             }
 
             return page;
