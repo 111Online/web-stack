@@ -21,9 +21,15 @@ namespace NHS111.Web.Functional.Utils
 
             {
                 var delta = beforeImage.Compare(afterImage, ErrorMetric.Absolute, diffImage);
-                System.IO.Directory.CreateDirectory($"{workDirectory}\\diff\\");
-                diffImage.Write($"{workDirectory}\\diff\\{screenshotFilename}");
-                return delta  == 0d;
+                var isSame = delta == 0d;
+                if (!isSame)
+                {
+                    // Only write diff screenshot if something has changed
+                    // otherwise all files would need to be checked manually (making automated diffing pointless)
+                    System.IO.Directory.CreateDirectory($"{workDirectory}\\diff\\");
+                    diffImage.Write($"{workDirectory}\\diff\\{screenshotFilename}");
+                }
+                return isSame;
             }
         }
     }

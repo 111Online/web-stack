@@ -4,6 +4,7 @@ using OpenQA.Selenium;
 using OpenQA.Selenium.Support.PageObjects;
 using System.Configuration;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 using OpenQA.Selenium.Support.Extensions;
@@ -16,6 +17,7 @@ namespace NHS111.Web.Functional.Utils
         public static string _baseUrl = ConfigurationManager.AppSettings["TestWebsiteUrl"];
         public static string _baselineScreenshotsDir = ConfigurationManager.AppSettings["BaselineScreenshotsDir"];
         private static string _screenshotDir = $"{TestContext.CurrentContext.WorkDirectory}Screenshots\\";
+        private static string _screenshotUncomparedDir = $"{_screenshotDir}uncompared\\";
         private static string _ScreenshotComparisonFailureAction = ConfigurationManager.AppSettings["ScreenshotComparisonFailureAction"];
         public readonly IWebDriver Driver;
         internal const string _headerLogoTitle = "Go to the NHS 111 homepage";
@@ -83,16 +85,35 @@ namespace NHS111.Web.Functional.Utils
             wait.Until(drv => element.Displayed);
         }
 
-        public T MakeScreenshot<T>(T page, string uniqueName) where T : IScreenshotMaker
+        public T MakeScreenshot<T>(T page, string uniqueName, bool uncompared = false ) where T : IScreenshotMaker
         {
             var screenshot = Driver.TakeEntireScreenshot();
-            screenshot.SaveAsFile(CreateScreenshotFilepath(uniqueName),ScreenshotImageFormat.Png);
+            if (uncompared)
+            {
+                screenshot.SaveAsFile(CreateUncomparedScreenshotFilepath(uniqueName), ScreenshotImageFormat.Png);
+            }
+            else
+            {
+                screenshot.SaveAsFile(CreateScreenshotFilepath(uniqueName), ScreenshotImageFormat.Png);
+            }
             return page;
         }
 
         private string CreateScreenshotFilename(string uniqueName)
         {
             return $"{TestContext.CurrentContext.Test.FullName}-{uniqueName}.png";
+        }
+        
+        private string CreateUncomparedScreenshotFilepath(string uniqueName)
+        {
+            return $"{CreateUncomparedScreenshotDir()}{CreateScreenshotFilename(uniqueName)}";
+        }
+
+
+        private string CreateUncomparedScreenshotDir()
+        {
+            System.IO.Directory.CreateDirectory(_screenshotUncomparedDir);
+            return _screenshotUncomparedDir;
         }
 
         private string CreateScreenshotFilepath(string uniqueName)
@@ -130,9 +151,20 @@ namespace NHS111.Web.Functional.Utils
             return page;
         }
 
-        
+        public bool CheckBaselineExists<T>(T page, string uniqueName) where T : IScreenshotMaker
+        {
+            return File.Exists($"{_baselineScreenshotsDir}{CreateScreenshotFilename(uniqueName)}");
+        }
+       
         public T CompareAndVerify<T>(ScreenshotComparisonFailureAction action, T page, string uniqueName) where T : IScreenshotMaker
         {
+            if (!CheckBaselineExists(page, uniqueName))
+            {
+                MakeScreenshot(page, uniqueName, true);
+                Assert.Inconclusive($"Screenshot comparison baseline missing at step {uniqueName}");
+                return page;
+            }
+
             MakeAndCompareScreenshot(page, uniqueName);
             if(action == ScreenshotComparisonFailureAction.Fail && !page.ScreenshotsEqual) Assert.Fail($"Screenshot comparison shows not equal to baseline at step {uniqueName}");
             if (action == ScreenshotComparisonFailureAction.Warn)
