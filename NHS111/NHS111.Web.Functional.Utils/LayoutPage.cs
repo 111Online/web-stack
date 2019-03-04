@@ -16,7 +16,7 @@ namespace NHS111.Web.Functional.Utils
         public static string _baseUrl = ConfigurationManager.AppSettings["TestWebsiteUrl"];
         public static string _baselineScreenshotsDir = ConfigurationManager.AppSettings["BaselineScreenshotsDir"];
         private static string _screenshotDir = $"{TestContext.CurrentContext.WorkDirectory}Screenshots\\";
-        private static string _SceenshotComparisonFailureAction = ConfigurationManager.AppSettings["SceenshotComparisonFailureAction"];
+        private static string _ScreenshotComparisonFailureAction = ConfigurationManager.AppSettings["ScreenshotComparisonFailureAction"];
         public readonly IWebDriver Driver;
         internal const string _headerLogoTitle = "Go to the NHS 111 homepage";
 
@@ -125,17 +125,17 @@ namespace NHS111.Web.Functional.Utils
 
         public T CompareAndVerify<T>(T page, string uniqueName) where T : IScreenshotMaker
         {
-            var failureAction = (SceenshotComparisonFailureAction)Enum.Parse(typeof(SceenshotComparisonFailureAction), _SceenshotComparisonFailureAction);
+            var failureAction = (ScreenshotComparisonFailureAction)Enum.Parse(typeof(ScreenshotComparisonFailureAction), _ScreenshotComparisonFailureAction);
             CompareAndVerify(failureAction, page, uniqueName);
             return page;
         }
 
         
-        public T CompareAndVerify<T>(SceenshotComparisonFailureAction action, T page, string uniqueName) where T : IScreenshotMaker
+        public T CompareAndVerify<T>(ScreenshotComparisonFailureAction action, T page, string uniqueName) where T : IScreenshotMaker
         {
             MakeAndCompareScreenshot(page, uniqueName);
-            if(action == SceenshotComparisonFailureAction.Fail && !page.ScreenshotsEqual) Assert.Fail($"Screenshot comparison shows not equal to baseline at step {uniqueName}");
-            if (action == SceenshotComparisonFailureAction.Warn)
+            if(action == ScreenshotComparisonFailureAction.Fail && !page.ScreenshotsEqual) Assert.Fail($"Screenshot comparison shows not equal to baseline at step {uniqueName}");
+            if (action == ScreenshotComparisonFailureAction.Warn)
             {
                 if(!page.ScreenshotsEqual) Assert.Inconclusive($"Screenshot comparison shows not equal to baseline at step {uniqueName}");
             }

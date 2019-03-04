@@ -14,10 +14,10 @@ namespace NHS111.Web.Functional.Utils
         T MakeAndCompareScreenshot<T>(T page, string uniqueName) where T : IScreenshotMaker;
 
         bool ScreenshotsEqual{ get; }
-        T CompareAndVerify<T>(SceenshotComparisonFailureAction action, T page, string uniqueName) where T : IScreenshotMaker;
+        T CompareAndVerify<T>(ScreenshotComparisonFailureAction action, T page, string uniqueName) where T : IScreenshotMaker;
     }
 
-    public enum SceenshotComparisonFailureAction
+    public enum ScreenshotComparisonFailureAction
     {
         Fail,
         Pass,
