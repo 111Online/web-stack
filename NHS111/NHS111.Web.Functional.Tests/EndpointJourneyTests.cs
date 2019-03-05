@@ -6,8 +6,9 @@ namespace NHS111.Web.Functional.Tests
     using System.Linq;
     using NUnit.Framework;
     using OpenQA.Selenium;
-
+    
     [TestFixture]
+    [Category("Visual")]
     public class EndpointJourneyTests
         : BaseTests {
 
