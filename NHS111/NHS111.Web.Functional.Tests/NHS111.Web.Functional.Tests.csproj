@@ -96,6 +96,7 @@
     <Content Include="chromedriver.exe">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <None Include="Screenshots.nuspec" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\NHS111.Web.Functional.Utils\NHS111.Web.Functional.Utils.csproj">
