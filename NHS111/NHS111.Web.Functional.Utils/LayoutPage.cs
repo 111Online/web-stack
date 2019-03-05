@@ -179,7 +179,7 @@ namespace NHS111.Web.Functional.Utils
                 if(!page.GetScreenshotsEqual()) Assert.Inconclusive("Screenshot comparison shows not equal to baseline at step " + uniqueName);
             }
 
-            Assert.Fail("REMOVE ONCE DONE Passed but I'm setting it inconclusinve anyway to test meta data");
+            Assert.Inconclusive("REMOVE ONCE DONE Passed but I'm setting it inconclusinve anyway to test meta data");
 
             return page;
         }
