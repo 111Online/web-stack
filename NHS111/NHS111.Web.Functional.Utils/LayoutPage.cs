@@ -169,12 +169,15 @@ namespace NHS111.Web.Functional.Utils
             }
 
             MakeAndCompareScreenshot(page, uniqueName);
-            Console.WriteLine("##teamcity[testMetadata testName='{0}' type='image' value='{1}']", TestContext.CurrentContext.Test.Name, CreateUncomparedScreenshotFilepath(uniqueName));
+            Console.WriteLine("##teamcity[testMetadata testName='{0}' type='image' value='{1}']", TestContext.CurrentContext.Test.FullName, CreateUncomparedScreenshotFilepath(uniqueName));
             if (action == ScreenshotComparisonFailureAction.Fail && !page.GetScreenshotsEqual()) Assert.Fail("Screenshot comparison shows not equal to baseline at step " + uniqueName);
             if (action == ScreenshotComparisonFailureAction.Warn)
             {
                 if(!page.GetScreenshotsEqual()) Assert.Inconclusive("Screenshot comparison shows not equal to baseline at step " + uniqueName);
             }
+
+            Assert.Inconclusive("REMOVE ONCE DONE Passed but I'm setting it inconclusinve anyway to test meta data");
+
             return page;
         }
     }
