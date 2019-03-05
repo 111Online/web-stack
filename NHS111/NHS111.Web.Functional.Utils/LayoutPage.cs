@@ -172,14 +172,14 @@ namespace NHS111.Web.Functional.Utils
             Console.WriteLine("##teamcity[testMetadata testName='{0}' name='setUp time' type='number' value='434.5']", TestContext.CurrentContext.Test.FullName);
             Console.WriteLine("##teamcity[testMetadata testName='{0}' name='some key' value='some value']", TestContext.CurrentContext.Test.FullName);
             Console.WriteLine("##teamcity[testMetadata testName='{0}' type='artifact' value='{1}']", TestContext.CurrentContext.Test.FullName, CreateUncomparedScreenshotFilepath(uniqueName));
-            Console.WriteLine("##teamcity[testMetadata testName='{0}' type='image' value='{1}']", TestContext.CurrentContext.Test.FullName, CreateUncomparedScreenshotFilepath(uniqueName));
+            Console.WriteLine("##teamcity[testMetadata testName='{0}' type='image' value='Screenshots/uncompared/{1}']", TestContext.CurrentContext.Test.FullName, CreateScreenshotFilename(uniqueName));
             if (action == ScreenshotComparisonFailureAction.Fail && !page.GetScreenshotsEqual()) Assert.Fail("Screenshot comparison shows not equal to baseline at step " + uniqueName);
             if (action == ScreenshotComparisonFailureAction.Warn)
             {
                 if(!page.GetScreenshotsEqual()) Assert.Inconclusive("Screenshot comparison shows not equal to baseline at step " + uniqueName);
             }
 
-            //Assert.Inconclusive("REMOVE ONCE DONE Passed but I'm setting it inconclusinve anyway to test meta data");
+            Assert.Fail("REMOVE ONCE DONE Passed but I'm setting it inconclusinve anyway to test meta data");
 
             return page;
         }
