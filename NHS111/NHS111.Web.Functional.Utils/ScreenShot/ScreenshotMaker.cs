@@ -14,7 +14,7 @@ namespace NHS111.Web.Functional.Utils.ScreenShot
             _driver = driver;
         }
 
-        public string BaselineScreenShotDir { get { return ConfigurationManager.AppSettings["BaselineScreenshotsDir"]; } }
+        public string BaselineScreenShotDir { get { return TestContext.CurrentContext.WorkDirectory + ConfigurationManager.AppSettings["BaselineScreenShotFolder"]; } }
         public string ScreenShotDir { get { return TestContext.CurrentContext.WorkDirectory + "Screenshots\\"; } }
         public string ScreenShotUncomparedDir { get { return ScreenShotDir + "uncompared\\"; } }
 
