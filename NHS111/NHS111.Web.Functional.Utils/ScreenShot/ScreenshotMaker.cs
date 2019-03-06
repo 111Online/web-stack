@@ -22,12 +22,18 @@ namespace NHS111.Web.Functional.Utils.ScreenShot
         {
             var fileName = uncompared ? CreateUncomparedScreenShotFilepath(uniqueId) : CreateScreenShotFilepath(uniqueId);
             var screenshot = _driver.TakeEntireScreenshot();
+            _driver.SetCurrentImageUniqueId(uniqueId);
             screenshot.SaveAsFile(fileName, ScreenshotImageFormat.Png);
         }
 
         public bool CheckBaselineExists(int uniqueId)
         {
             return CheckFileExists(BaselineScreenShotDir + GetScreenShotFilename(uniqueId));
+        }
+
+        public bool CheckScreenShotExists(int uniqueId)
+        {
+            return CheckFileExists(ScreenShotDir + GetScreenShotFilename(uniqueId));
         }
 
         private bool CheckFileExists(string fileName)

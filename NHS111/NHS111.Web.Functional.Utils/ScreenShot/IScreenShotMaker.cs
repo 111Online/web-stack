@@ -7,6 +7,7 @@
         string ScreenShotUncomparedDir { get; }
         void MakeScreenShot(int uniqueId, bool uncompared = false);
         bool CheckBaselineExists(int uniqueId);
+        bool CheckScreenShotExists(int uniqueId);
         string GetScreenShotFilename(int uniqueId = 1);
     }
 }

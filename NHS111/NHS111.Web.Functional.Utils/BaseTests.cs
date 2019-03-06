@@ -41,9 +41,9 @@ namespace NHS111.Web.Functional.Utils
             if (TestContext.CurrentContext.Result.Status == TestStatus.Failed)
             {
                 //output the failed screenshot to results screen in Team City
-                var id = TestContext.CurrentContext.Test.GetHashCode();
-                ScreenShotMaker.MakeScreenShot(id);
-                Console.WriteLine("##teamcity[testMetadata testName='{0}' type='image' value='{1}']", TestContext.CurrentContext.Test.FullName, ScreenShotMaker.GetScreenShotFilename(id));
+                if(!ScreenShotMaker.CheckScreenShotExists(Driver.GetCurrentImageUniqueId()))
+                    ScreenShotMaker.MakeScreenShot(Driver.GetCurrentImageUniqueId());
+                Console.WriteLine("##teamcity[testMetadata testName='{0}' type='image' value='{1}']", TestContext.CurrentContext.Test.FullName, ScreenShotMaker.GetScreenShotFilename(Driver.GetCurrentImageUniqueId()));
             }
         }
 
