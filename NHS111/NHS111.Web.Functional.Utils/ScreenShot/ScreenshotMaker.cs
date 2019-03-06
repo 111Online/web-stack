@@ -20,8 +20,9 @@ namespace NHS111.Web.Functional.Utils.ScreenShot
 
         public void MakeScreenShot(int uniqueId, bool uncompared = false)
         {
+            var fileName = uncompared ? CreateUncomparedScreenShotFilepath(uniqueId) : CreateScreenShotFilepath(uniqueId);
             var screenshot = _driver.TakeEntireScreenshot();
-            screenshot.SaveAsFile(uncompared ? CreateUncomparedScreenShotFilepath(uniqueId) : CreateScreenShotFilepath(uniqueId), ScreenshotImageFormat.Png);
+            screenshot.SaveAsFile(fileName, ScreenshotImageFormat.Png);
         }
 
         public bool CheckBaselineExists(int uniqueId)
