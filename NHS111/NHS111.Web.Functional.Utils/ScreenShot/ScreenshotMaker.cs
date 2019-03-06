@@ -1,0 +1,65 @@
+﻿using System.Configuration;
+using System.IO;
+using NUnit.Framework;
+using OpenQA.Selenium;
+
+namespace NHS111.Web.Functional.Utils.ScreenShot
+{
+    public class ScreenShotMaker : IScreenShotMaker
+    {
+        private readonly IWebDriver _driver;
+        
+        public ScreenShotMaker(IWebDriver driver)
+        {
+            _driver = driver;
+        }
+
+        public string BaselineScreenShotDir { get { return ConfigurationManager.AppSettings["BaselineScreenshotsDir"]; } }
+        public string ScreenShotDir { get { return TestContext.CurrentContext.WorkDirectory + "Screenshots\\"; } }
+        public string ScreenShotUncomparedDir { get { return ScreenShotDir + "uncompared\\"; } }
+
+        public void MakeScreenShot(int uniqueId, bool uncompared = false)
+        {
+            var screenshot = _driver.TakeEntireScreenshot();
+            screenshot.SaveAsFile(uncompared ? CreateUncomparedScreenShotFilepath(uniqueId) : CreateScreenShotFilepath(uniqueId), ScreenshotImageFormat.Png);
+        }
+
+        public bool CheckBaselineExists(int uniqueId)
+        {
+            return CheckFileExists(BaselineScreenShotDir + GetScreenShotFilename(uniqueId));
+        }
+
+        private bool CheckFileExists(string fileName)
+        {
+            return File.Exists(fileName);
+        }
+
+        public string GetScreenShotFilename(int uniqueId = 1)
+        {
+            var fileName = string.Format("{0}-{1}.png", TestContext.CurrentContext.Test.FullName, uniqueId);
+            return fileName;
+        }
+
+        private string CreateUncomparedScreenShotFilepath(int uniqueId)
+        {
+            return CreateUncomparedScreenShotDir() + GetScreenShotFilename(uniqueId);
+        }
+
+        private string CreateUncomparedScreenShotDir()
+        {
+            Directory.CreateDirectory(ScreenShotUncomparedDir);
+            return ScreenShotUncomparedDir;
+        }
+
+        private string CreateScreenShotFilepath(int uniqueId)
+        {
+            return CreateScreenshotDir() + GetScreenShotFilename(uniqueId);
+        }
+
+        private string CreateScreenshotDir()
+        {
+            Directory.CreateDirectory(ScreenShotDir);
+            return ScreenShotDir;
+        }
+    }
+}

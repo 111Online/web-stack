@@ -1,4 +1,5 @@
 ﻿using NHS111.Web.Functional.Utils;
+using NHS111.Web.Functional.Utils.ScreenShot;
 using NUnit.Framework;
 
 namespace NHS111.Web.Functional.Tests
@@ -52,7 +53,7 @@ namespace NHS111.Web.Functional.Tests
 
             questionPage.VerifyQuestion("What is the main problem?");
             var outcomePage = questionPage
-                .Answer(3).CompareAndVerify("1")
+                .Answer(3).CompareAndVerify(1)
                 .Answer(3)
                 .Answer(3)
                 .AnswerSuccessiveByOrder(1, 1)

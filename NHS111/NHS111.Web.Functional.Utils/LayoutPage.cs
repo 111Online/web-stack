@@ -3,28 +3,20 @@ using NUnit.Framework;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.PageObjects;
 using System.Configuration;
-using System.Diagnostics;
 using System.IO;
-using System.Linq;
-using System.Reflection;
-using OpenQA.Selenium.Support.Extensions;
+using NHS111.Web.Functional.Utils.ScreenShot;
 using OpenQA.Selenium.Support.UI;
 
 namespace NHS111.Web.Functional.Utils
 {
-    public class LayoutPage : IScreenshotMaker
+    public class LayoutPage: IScreenShotPage
     {
         public static string _baseUrl = ConfigurationManager.AppSettings["TestWebsiteUrl"];
-        public static string _baselineScreenshotsDir = ConfigurationManager.AppSettings["BaselineScreenshotsDir"];
-        private static string _screenshotDir = TestContext.CurrentContext.WorkDirectory + "Screenshots\\";
-        private static string _screenshotUncomparedDir = _screenshotDir + "uncompared\\";
-        private static string _ScreenshotComparisonFailureAction = ConfigurationManager.AppSettings["ScreenshotComparisonFailureAction"];
         public readonly IWebDriver Driver;
         internal const string _headerLogoTitle = "Go to the NHS 111 homepage";
 
         internal const string _headerText = "1 1 1 online";
 
-        private bool _screenshotsEqual = false;
         [FindsBy(How = How.CssSelector, Using = ".global-header")]
         internal IWebElement Header { get; set; }
 
@@ -34,10 +26,7 @@ namespace NHS111.Web.Functional.Utils
         [FindsBy(How = How.CssSelector, Using = ".global-footer")]
         internal IWebElement Footer { get; set; }
 
-        public bool GetScreenshotsEqual()
-        {
-            return _screenshotsEqual;
-        }
+        private bool _screenShotsEqual = false;
 
         public LayoutPage(IWebDriver driver)
         {
@@ -52,8 +41,6 @@ namespace NHS111.Web.Functional.Utils
             Assert.AreEqual(_headerLogoTitle, HeaderLogo.GetAttribute("title"));
             Assert.IsTrue(Footer.Displayed);
         }
-
-
 
         public void VerifyHeaderBannerDisplayed()
         {
@@ -88,97 +75,39 @@ namespace NHS111.Web.Functional.Utils
             wait.Until(drv => element.Displayed);
         }
 
-        public T MakeScreenshot<T>(T page, string uniqueName, bool uncompared = false ) where T : IScreenshotMaker
+        public IScreenShotMaker ScreenShotMaker
         {
-            var screenshot = Driver.TakeEntireScreenshot();
-            if (uncompared)
-            {
-                screenshot.SaveAsFile(CreateUncomparedScreenshotFilepath(uniqueName), ScreenshotImageFormat.Png);
-            }
-            else
-            {
-                screenshot.SaveAsFile(CreateScreenshotFilepath(uniqueName), ScreenshotImageFormat.Png);
-            }
+            get { return new ScreenShotMaker(Driver); }
+        }
+
+        public bool GetScreenShotsEqual()
+        {
+            return _screenShotsEqual;
+        }
+
+        public void CompareScreenShot(int uniqueId)
+        {
+            _screenShotsEqual = ScreenShotComparer.Compare(ScreenShotMaker.GetScreenShotFilename(uniqueId), ScreenShotMaker.BaselineScreenShotDir, ScreenShotMaker.ScreenShotDir);
+        }
+
+        public T CompareScreenShot<T>(T page, int uniqueId) where T : IScreenShotPage
+        {
+            ScreenShotMaker.MakeScreenShot(uniqueId);
+            CompareScreenShot(uniqueId);
             return page;
         }
 
-        private string CreateScreenshotFilename(string uniqueName)
+        public T CompareAndVerify<T>(T page, int uniqueId) where T : IScreenShotPage
         {
-            return TestContext.CurrentContext.Test.FullName + "-" + uniqueName + ".png";
-        }
-        
-        private string CreateUncomparedScreenshotFilepath(string uniqueName)
-        {
-            return CreateUncomparedScreenshotDir() + CreateScreenshotFilename(uniqueName);
-        }
+            if (!ScreenShotMaker.CheckBaselineExists(uniqueId))
+                Assert.Fail("Screenshot comparison baseline missing at step " + ScreenShotMaker.GetScreenShotFilename(uniqueId));
 
-
-        private string CreateUncomparedScreenshotDir()
-        {
-            System.IO.Directory.CreateDirectory(_screenshotUncomparedDir);
-            return _screenshotUncomparedDir;
-        }
-
-        private string CreateScreenshotFilepath(string uniqueName)
-        {
-            return CreateScreenshotDir() + CreateScreenshotFilename(uniqueName);
-        }
-
-
-        private string CreateScreenshotDir()
-        {
-            System.IO.Directory.CreateDirectory(_screenshotDir);
-            return _screenshotDir;
-        }
-
-        public bool CompareScreenshot(string uniqueName)
-        {
-            _screenshotsEqual = ScreenshotComparer.Compare(CreateScreenshotFilename(uniqueName),
-                _baselineScreenshotsDir, _screenshotDir
-            );
-            return _screenshotsEqual;
-
-        }
-
-        public T MakeAndCompareScreenshot<T>(T page, string uniqueName) where T : IScreenshotMaker
-        {
-            page = MakeScreenshot(page, uniqueName);
-            page.CompareScreenshot(uniqueName);
-            return page;
-        }
-
-        public T CompareAndVerify<T>(T page, string uniqueName) where T : IScreenshotMaker
-        {
-            var failureAction = (ScreenshotComparisonFailureAction)Enum.Parse(typeof(ScreenshotComparisonFailureAction), _ScreenshotComparisonFailureAction);
-            CompareAndVerify(failureAction, page, uniqueName);
-            return page;
-        }
-
-        public bool CheckBaselineExists<T>(T page, string uniqueName) where T : IScreenshotMaker
-        {
-            return File.Exists(_baselineScreenshotsDir + CreateScreenshotFilename(uniqueName));
-        }
-       
-        public T CompareAndVerify<T>(ScreenshotComparisonFailureAction action, T page, string uniqueName) where T : IScreenshotMaker
-        {
-            if (!CheckBaselineExists(page, uniqueName))
+            page = CompareScreenShot(page, uniqueId);
+            if (!page.GetScreenShotsEqual())
             {
-                MakeScreenshot(page, uniqueName, true);
-                Assert.Inconclusive("Screenshot comparison baseline missing at step " + uniqueName);
-                return page;
+                Console.WriteLine("##teamcity[testMetadata testName='{0}' type='image' value='{1}']", TestContext.CurrentContext.Test.FullName, "diff\\" + ScreenShotMaker.GetScreenShotFilename(uniqueId));
+                Assert.Fail("Screenshot comparison shows not equal to baseline at step " + ScreenShotMaker.GetScreenShotFilename(uniqueId));
             }
-
-            MakeAndCompareScreenshot(page, uniqueName);
-            Console.WriteLine("##teamcity[testMetadata name='A artifact' testName='{0}' type='artifact' value='{1}']", TestContext.CurrentContext.Test.FullName, CreateScreenshotFilename(uniqueName));
-            Console.WriteLine("##teamcity[testMetadata name='a screen shot' testName='{0}' type='image' value='{1}']", TestContext.CurrentContext.Test.FullName, CreateScreenshotFilename(uniqueName));
-            if (action == ScreenshotComparisonFailureAction.Fail && !page.GetScreenshotsEqual()) Assert.Fail("Screenshot comparison shows not equal to baseline at step " + uniqueName);
-            if (action == ScreenshotComparisonFailureAction.Warn)
-            {
-                if(!page.GetScreenshotsEqual()) Assert.Inconclusive("Screenshot comparison shows not equal to baseline at step " + uniqueName);
-            }
-
-            Assert.Fail("REMOVE ONCE DONE Passed but I'm setting it inconclusinve anyway to test meta data");
-
             return page;
         }
     }
