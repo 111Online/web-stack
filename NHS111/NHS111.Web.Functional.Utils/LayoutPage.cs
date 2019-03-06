@@ -169,8 +169,8 @@ namespace NHS111.Web.Functional.Utils
             }
 
             MakeAndCompareScreenshot(page, uniqueName);
-            Console.WriteLine("##teamcity[testMetadata name='A artifact' testName='{0}' type='artifact' value='NHS111/NHS111.Web.Functional.Tests/bin/DebugScreenshots/{1}']", TestContext.CurrentContext.Test.FullName, CreateScreenshotFilename(uniqueName));
-            Console.WriteLine("##teamcity[testMetadata name='a screen shot' testName='{0}' type='image' value='NHS111/NHS111.Web.Functional.Tests/bin/DebugScreenshots/{1}']", TestContext.CurrentContext.Test.FullName, CreateScreenshotFilename(uniqueName));
+            Console.WriteLine("##teamcity[testMetadata name='A artifact' testName='{0}' type='artifact' value='{1}']", TestContext.CurrentContext.Test.FullName, CreateScreenshotFilename(uniqueName));
+            Console.WriteLine("##teamcity[testMetadata name='a screen shot' testName='{0}' type='image' value='{1}']", TestContext.CurrentContext.Test.FullName, CreateScreenshotFilename(uniqueName));
             if (action == ScreenshotComparisonFailureAction.Fail && !page.GetScreenshotsEqual()) Assert.Fail("Screenshot comparison shows not equal to baseline at step " + uniqueName);
             if (action == ScreenshotComparisonFailureAction.Warn)
             {
