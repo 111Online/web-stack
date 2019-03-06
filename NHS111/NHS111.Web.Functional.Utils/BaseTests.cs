@@ -43,7 +43,7 @@ namespace NHS111.Web.Functional.Utils
                 //output the failed screenshot to results screen in Team City
                 if(!ScreenShotMaker.CheckScreenShotExists(Driver.GetCurrentImageUniqueId()))
                     ScreenShotMaker.MakeScreenShot(Driver.GetCurrentImageUniqueId());
-                Console.WriteLine("##teamcity[testMetadata testName='{0}' type='image' value='{1}']", TestContext.CurrentContext.Test.FullName, ScreenShotMaker.GetScreenShotFilename(Driver.GetCurrentImageUniqueId()));
+                Console.WriteLine("##teamcity[testMetadata testName='{0}' name='Test screen' type='image' value='{1}']", TestContext.CurrentContext.Test.FullName, ScreenShotMaker.GetScreenShotFilename(Driver.GetCurrentImageUniqueId()));
             }
         }
 
