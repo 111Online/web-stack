@@ -1,24 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Drawing.Imaging;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using ImageMagick;
+﻿using ImageMagick;
 
-namespace NHS111.Web.Functional.Utils
+namespace NHS111.Web.Functional.Utils.ScreenShot
 {
-    public static class ScreenshotComparer
+    public static class ScreenShotComparer
     {
         public static bool Compare(string screenshotFilename, string baselineDirectory, string workDirectory)
         {
 
-            using (MagickImage beforeImage = new MagickImage(baselineDirectory + screenshotFilename))
-
-            using (MagickImage afterImage = new MagickImage(workDirectory + screenshotFilename))
-
-            using (MagickImage diffImage = new MagickImage())
-
+            using (var beforeImage = new MagickImage(baselineDirectory + screenshotFilename))
+            using (var afterImage = new MagickImage(workDirectory + screenshotFilename))
+            using (var diffImage = new MagickImage())
             {
                 var delta = beforeImage.Compare(afterImage, ErrorMetric.Absolute, diffImage);
                 var isSame = delta == 0d;
