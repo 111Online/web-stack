@@ -2,6 +2,7 @@
 using System.Web;
 using AutoMapper;
 using NHS111.Models.Models.Web;
+using NHS111.Models.Models.Web.FromExternalServices;
 using NHS111.Models.Models.Web.ITK;
 using NHS111.Utils.Filters;
 
@@ -18,7 +19,7 @@ namespace NHS111.Web.Presentation.Logging {
     {
         Task Log(AuditEntry auditEntry);
         Task LogDosRequest(OutcomeViewModel model, DosViewModel dosViewModel);
-        Task LogDosResponse(OutcomeViewModel model);
+        Task LogDosResponse(OutcomeViewModel model, DosCheckCapacitySummaryResult result);
         Task LogEventData(JourneyViewModel model, string eventData);
         Task LogSelectedService(OutcomeViewModel model);
         Task LogItkRequest(OutcomeViewModel model, ITKDispatchRequest itkRequest);
@@ -50,10 +51,10 @@ namespace NHS111.Web.Presentation.Logging {
             await Log(audit);
         }
 
-        public async Task LogDosResponse(OutcomeViewModel model)
+        public async Task LogDosResponse(OutcomeViewModel model, DosCheckCapacitySummaryResult result)
         {
             var audit = model.ToAuditEntry();
-            var auditedDosResponse = Mapper.Map<AuditedDosResponse>(model.DosCheckCapacitySummaryResult);
+            var auditedDosResponse = Mapper.Map<AuditedDosResponse>(result);
             audit.DosResponse = JsonConvert.SerializeObject(auditedDosResponse);
             await Log(audit);
         }
