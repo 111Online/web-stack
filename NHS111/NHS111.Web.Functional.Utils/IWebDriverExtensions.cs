@@ -9,11 +9,13 @@ using OpenQA.Selenium;
 using OpenQA.Selenium.Support.Extensions;
 
 namespace NHS111.Web.Functional.Utils {
-    public static class IWebDriverExtensions {
+    public static class IWebDriverExtensions
+    {
+        private static int _currentImageUniqueId = 1;
+
         public static bool ElementExists(this IWebDriver driver, By by) {
             return driver.FindElements(by).Any();
         }
-
 
         public static bool IfElementExists(this IWebDriver driver, By by, Action<IWebElement> action) {
             var elements = driver.FindElements(by);
@@ -30,11 +32,22 @@ namespace NHS111.Web.Functional.Utils {
             return driver.SwitchTo().ActiveElement();
         }
 
+        public static int GetCurrentImageUniqueId(this IWebDriver driver)
+        {
+            return _currentImageUniqueId;
+        }
+
+        public static void SetCurrentImageUniqueId(this IWebDriver driver, int uniqueId)
+        {
+            _currentImageUniqueId = uniqueId;
+        }
+
         public static Screenshot TakeEntireScreenshot(this IWebDriver driver)
         {
             // Get the total size of the page
             var totalWidth = (int)(long)((IJavaScriptExecutor)driver).ExecuteScript("return document.body.offsetWidth"); //documentElement.scrollWidth");
             var totalHeight = (int)(long)((IJavaScriptExecutor)driver).ExecuteScript("return  document.body.parentNode.scrollHeight");
+            
             // Get the size of the viewport
             var viewportWidth = (int)(long)((IJavaScriptExecutor)driver).ExecuteScript("return document.body.clientWidth"); //documentElement.scrollWidth");
             var viewportHeight = (int)(long)((IJavaScriptExecutor)driver).ExecuteScript("return window.innerHeight"); //documentElement.scrollWidth");

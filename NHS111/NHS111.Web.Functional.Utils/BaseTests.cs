@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Configuration;
+using NHS111.Web.Functional.Utils.ScreenShot;
 using System.Drawing;
 using NUnit.Framework;
 using OpenQA.Selenium;
@@ -12,7 +13,7 @@ namespace NHS111.Web.Functional.Utils
         public IWebDriver Driver;
 
         [TestFixtureSetUp]
-        public void InitTests()
+        public void InitTestFixture()
         {
             Driver = new ChromeDriver();
             // Ideally we could have multiple size screenshots
@@ -21,7 +22,7 @@ namespace NHS111.Web.Functional.Utils
         }
 
         [TestFixtureTearDown]
-        public void TeardownTest()
+        public void TearDownTestFixture()
         {
             try
             {
@@ -33,6 +34,24 @@ namespace NHS111.Web.Functional.Utils
                 // Ignore errors if unable to close the browser
             }
         }
+
+        [TearDown]
+        public void TearDownTest()
+        {
+            if (TestContext.CurrentContext.Result.Status == TestStatus.Failed)
+            {
+                //output the failed screenshot to results screen in Team City
+                if(!ScreenShotMaker.CheckScreenShotExists(Driver.GetCurrentImageUniqueId()))
+                    ScreenShotMaker.MakeScreenShot(Driver.GetCurrentImageUniqueId());
+                Console.WriteLine("##teamcity[testMetadata testName='{0}' name='Test screen' type='image' value='{1}']", TestContext.CurrentContext.Test.FullName, ScreenShotMaker.GetScreenShotFilename(Driver.GetCurrentImageUniqueId()));
+            }
+        }
+
+        public IScreenShotMaker ScreenShotMaker
+        {
+            get { return new ScreenShotMaker(Driver); }
+        }
+
         public PostcodeProvider Postcodes = new PostcodeProvider();
         protected static readonly string BaseUrl = ConfigurationManager.AppSettings["TestWebsiteUrl"];
     }

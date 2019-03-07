@@ -1,4 +1,5 @@
 ﻿using NHS111.Web.Functional.Utils;
+using NHS111.Web.Functional.Utils.ScreenShot;
 using NUnit.Framework;
 
 namespace NHS111.Web.Functional.Tests
@@ -8,7 +9,6 @@ namespace NHS111.Web.Functional.Tests
     using OpenQA.Selenium;
     
     [TestFixture]
-    [Category("Visual")]
     public class EndpointJourneyTests
         : BaseTests {
 
@@ -46,13 +46,14 @@ namespace NHS111.Web.Functional.Tests
 
         [Test]
         [ScreenShotComparison]
+        [Category("Visual")]
         public void PharmacyEndpointJourney()
         {
             var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Eye or Eyelid Problems", TestScenerioSex.Male, TestScenerioAgeGroups.Adult);
 
             questionPage.VerifyQuestion("What is the main problem?");
             var outcomePage = questionPage
-                .Answer(3).CompareAndVerify("1")
+                .Answer(3).CompareAndVerify(1)
                 .Answer(3)
                 .Answer(3)
                 .AnswerSuccessiveByOrder(1, 1)
