@@ -46,7 +46,6 @@ namespace NHS111.Web.Functional.Tests
 
         [Test]
         [ScreenShotComparison]
-        [Category("Visual")]
         public void PharmacyEndpointJourney()
         {
             var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Eye or Eyelid Problems", TestScenerioSex.Male, TestScenerioAgeGroups.Adult);
