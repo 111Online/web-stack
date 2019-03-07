@@ -19,12 +19,12 @@ namespace NHS111.Web.Functional.Utils.ScreenShot
             var baseDirectory = TestContext.CurrentContext.WorkDirectory;
             var directoryInfo = new DirectoryInfo(baseDirectory).Parent;
             if (directoryInfo == null)
-                return baseDirectory + "\\" + ConfigurationManager.AppSettings["BaselineScreenShotFolder"];
+                return baseDirectory + "\\" + ConfigurationManager.AppSettings["BaselineScreenShotFolder"] + "\\";
 
             if (directoryInfo.Parent != null)
                 baseDirectory = directoryInfo.Parent.FullName;
 
-            return baseDirectory + "\\" + ConfigurationManager.AppSettings["BaselineScreenShotFolder"];
+            return baseDirectory + "\\" + ConfigurationManager.AppSettings["BaselineScreenShotFolder"] + "\\";
         } }
         public string ScreenShotDir { get { return TestContext.CurrentContext.WorkDirectory + "\\Screenshots\\"; } }
         public string ScreenShotUncomparedDir { get { return ScreenShotDir + "uncompared\\"; } }
