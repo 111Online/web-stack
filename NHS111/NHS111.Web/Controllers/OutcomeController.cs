@@ -173,7 +173,7 @@ namespace NHS111.Web.Controllers
             }
 
             model.DosCheckCapacitySummaryResult = await GetServiceAvailability(model, overrideDate, overrideFilterServices.HasValue ? overrideFilterServices.Value : model.FilterServices, endpoint);
-            await _auditLogger.LogDosResponse(model);
+            await _auditLogger.LogDosResponse(model, model.DosCheckCapacitySummaryResult);
 
             model.NodeType = NodeType.Outcome;
 
@@ -250,7 +250,7 @@ namespace NHS111.Web.Controllers
             var dosCase = Mapper.Map<DosViewModel>(model);
             await _auditLogger.LogDosRequest(model, dosCase);
             model.DosCheckCapacitySummaryResult = await _dosBuilder.FillCheckCapacitySummaryResult(dosCase, overrideFilterServices.HasValue ? overrideFilterServices.Value : model.FilterServices, endpoint);
-            await _auditLogger.LogDosResponse(model);
+            await _auditLogger.LogDosResponse(model, model.DosCheckCapacitySummaryResult);
 
             if (model.DosCheckCapacitySummaryResult.Error == null &&
                 !model.DosCheckCapacitySummaryResult.ResultListEmpty)
@@ -316,7 +316,7 @@ namespace NHS111.Web.Controllers
                 return View("PersonalDetails", model);
             }
             var availableServices = await GetServiceAvailability(model, null, overrideFilterServices.HasValue ? overrideFilterServices.Value : model.FilterServices, null);
-            _auditLogger.LogDosResponse(model);
+            await _auditLogger.LogDosResponse(model, availableServices);
             if (availableServices.ContainsService(model.SelectedService))
             {
                 var outcomeViewModel = ConvertPatientInformantDateToUserinfo(model.PatientInformantDetails, model);
