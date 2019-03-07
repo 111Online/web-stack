@@ -20,7 +20,7 @@ namespace NHS111.Logging.Api.Unit.Test {
         public async Task Audit_Always_StoresAuditInAzureStorage() {
             await _logsController.Audit(_audit);
 
-            _mockLogServiceContext.Verify(c => c.Log(It.Is<AuditEntry>(a => a.SessionId == _audit.SessionId), "201803"));
+            _mockLogServiceContext.Verify(c => c.Log(It.Is<AuditEntry>(a => a.SessionId == _audit.SessionId)));
         }
 
         [Test]
@@ -55,8 +55,7 @@ namespace NHS111.Logging.Api.Unit.Test {
                 PathwayId = "PW118",
                 PathwayTitle = "Test",
                 Journey = "{ some: 'thing' }",
-                State = "{ someOther: 'thingy' }",
-                TIMESTAMP = new DateTime(2018,3,1)
+                State = "{ someOther: 'thingy' }"
             };
 
         }

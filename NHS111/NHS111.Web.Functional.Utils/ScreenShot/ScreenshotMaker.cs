@@ -1,0 +1,83 @@
+﻿using System.Configuration;
+using System.IO;
+using NUnit.Framework;
+using OpenQA.Selenium;
+
+namespace NHS111.Web.Functional.Utils.ScreenShot
+{
+    public class ScreenShotMaker : IScreenShotMaker
+    {
+        private readonly IWebDriver _driver;
+        
+        public ScreenShotMaker(IWebDriver driver)
+        {
+            _driver = driver;
+        }
+
+        public string BaselineScreenShotDir { get
+        {
+            var baseDirectory = TestContext.CurrentContext.WorkDirectory;
+            var directoryInfo = new DirectoryInfo(baseDirectory).Parent;
+            if (directoryInfo == null)
+                return baseDirectory + "\\" + ConfigurationManager.AppSettings["BaselineScreenShotFolder"] + "\\";
+
+            if (directoryInfo.Parent != null)
+                baseDirectory = directoryInfo.Parent.FullName;
+
+            return baseDirectory + "\\" + ConfigurationManager.AppSettings["BaselineScreenShotFolder"] + "\\";
+        } }
+        public string ScreenShotDir { get { return TestContext.CurrentContext.WorkDirectory + "\\Screenshots\\"; } }
+        public string ScreenShotUncomparedDir { get { return ScreenShotDir + "uncompared\\"; } }
+
+        public void MakeScreenShot(int uniqueId, bool uncompared = false)
+        {
+            var fileName = uncompared ? CreateUncomparedScreenShotFilepath(uniqueId) : CreateScreenShotFilepath(uniqueId);
+            var screenshot = _driver.TakeEntireScreenshot();
+            _driver.SetCurrentImageUniqueId(uniqueId);
+            screenshot.SaveAsFile(fileName, ScreenshotImageFormat.Png);
+        }
+
+        public bool CheckBaselineExists(int uniqueId)
+        {
+            return CheckFileExists(BaselineScreenShotDir + GetScreenShotFilename(uniqueId));
+        }
+
+        public bool CheckScreenShotExists(int uniqueId)
+        {
+            return CheckFileExists(ScreenShotDir + GetScreenShotFilename(uniqueId));
+        }
+
+        private bool CheckFileExists(string fileName)
+        {
+            return File.Exists(fileName);
+        }
+
+        public string GetScreenShotFilename(int uniqueId = 1)
+        {
+            var fileName = string.Format("{0}-{1}.png", TestContext.CurrentContext.Test.FullName, uniqueId);
+            return fileName;
+        }
+
+        private string CreateUncomparedScreenShotFilepath(int uniqueId)
+        {
+            return CreateUncomparedScreenShotDir() + GetScreenShotFilename(uniqueId);
+        }
+
+        private string CreateUncomparedScreenShotDir()
+        {
+            Directory.CreateDirectory(ScreenShotUncomparedDir);
+            return ScreenShotUncomparedDir;
+        }
+
+        private string CreateScreenShotFilepath(int uniqueId)
+        {
+            return CreateScreenshotDir() + GetScreenShotFilename(uniqueId);
+        }
+
+        private string CreateScreenshotDir()
+        {
+            Directory.CreateDirectory(ScreenShotDir);
+            return ScreenShotDir;
+        }
+    }
+}

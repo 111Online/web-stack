@@ -3,14 +3,15 @@ using NUnit.Framework;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.PageObjects;
 using System.Configuration;
+using System.IO;
+using NHS111.Web.Functional.Utils.ScreenShot;
 using OpenQA.Selenium.Support.UI;
 
 namespace NHS111.Web.Functional.Utils
 {
-    public class LayoutPage
+    public class LayoutPage: IScreenShotPage
     {
         public static string _baseUrl = ConfigurationManager.AppSettings["TestWebsiteUrl"];
-
         public readonly IWebDriver Driver;
         internal const string _headerLogoTitle = "Go to the NHS 111 homepage";
 
@@ -25,6 +26,8 @@ namespace NHS111.Web.Functional.Utils
         [FindsBy(How = How.CssSelector, Using = ".global-footer")]
         internal IWebElement Footer { get; set; }
 
+        private bool _screenShotsEqual = false;
+
         public LayoutPage(IWebDriver driver)
         {
             Driver = driver;
@@ -38,7 +41,6 @@ namespace NHS111.Web.Functional.Utils
             Assert.AreEqual(_headerLogoTitle, HeaderLogo.GetAttribute("title"));
             Assert.IsTrue(Footer.Displayed);
         }
-
 
         public void VerifyHeaderBannerDisplayed()
         {
@@ -58,6 +60,7 @@ namespace NHS111.Web.Functional.Utils
                 return Driver.Url.Remove(_baseUrl.IndexOf("://") + 3,
                     _baseUrl.LastIndexOf("@") - (_baseUrl.IndexOf("://") + 3));
             }
+
             return _baseUrl;
         }
 
@@ -72,5 +75,40 @@ namespace NHS111.Web.Functional.Utils
             wait.Until(drv => element.Displayed);
         }
 
+        public IScreenShotMaker ScreenShotMaker
+        {
+            get { return new ScreenShotMaker(Driver); }
+        }
+
+        public bool GetScreenShotsEqual()
+        {
+            return _screenShotsEqual;
+        }
+
+        public void CompareScreenShot(int uniqueId)
+        {
+            _screenShotsEqual = ScreenShotComparer.Compare(ScreenShotMaker.GetScreenShotFilename(uniqueId), ScreenShotMaker.BaselineScreenShotDir, ScreenShotMaker.ScreenShotDir);
+        }
+
+        public T CompareScreenShot<T>(T page, int uniqueId) where T : IScreenShotPage
+        {
+            ScreenShotMaker.MakeScreenShot(uniqueId);
+            CompareScreenShot(uniqueId);
+            return page;
+        }
+
+        public T CompareAndVerify<T>(T page, int uniqueId) where T : IScreenShotPage
+        {
+            if (!ScreenShotMaker.CheckBaselineExists(uniqueId))
+                Assert.Fail("Screenshot comparison baseline missing at step " + ScreenShotMaker.GetScreenShotFilename(uniqueId));
+
+            page = CompareScreenShot(page, uniqueId);
+            if (!page.GetScreenShotsEqual())
+            {
+                Console.WriteLine("##teamcity[testMetadata testName='{0}' name='Differences'  type='image' value='{1}']", TestContext.CurrentContext.Test.FullName, "diff\\" + ScreenShotMaker.GetScreenShotFilename(uniqueId));
+                Assert.Fail("Screenshot comparison shows not equal to baseline at step " + ScreenShotMaker.GetScreenShotFilename(uniqueId));
+            }
+            return page;
+        }
     }
 }

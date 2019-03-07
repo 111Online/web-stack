@@ -13,6 +13,8 @@
     <FileAlignment>512</FileAlignment>
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
     <RestorePackages>true</RestorePackages>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -32,6 +34,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Magick.NET-Q16-AnyCPU, Version=7.11.0.0, Culture=neutral, PublicKeyToken=2004825badfa91ec, processorArchitecture=MSIL">
+      <HintPath>..\packages\Magick.NET-Q16-AnyCPU.7.11.0\lib\net40\Magick.NET-Q16-AnyCPU.dll</HintPath>
+    </Reference>
     <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.9.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
@@ -66,11 +71,16 @@
     <Compile Include="CookiesStatementPage.cs" />
     <Compile Include="Expert24Page.cs" />
     <Compile Include="DirectLinking.cs" />
+    <Compile Include="ScreenShot\IScreenShotMaker.cs" />
+    <Compile Include="ScreenShot\IScreenShotPage.cs" />
     <Compile Include="ISubmitPostcodeResult.cs" />
     <Compile Include="OutOfAreaPage.cs" />
     <Compile Include="PostcodeProvider.cs" />
     <Compile Include="InlineCareAdvicePage.cs" />
     <Compile Include="FeedbackSection.cs" />
+    <Compile Include="ScreenShot\ScreenShotComparer.cs" />
+    <Compile Include="ScreenShot\ScreenShotComparisonAttribute.cs" />
+    <Compile Include="ScreenShot\ScreenShotMaker.cs" />
     <Compile Include="ServerErrorPage.cs" />
     <Compile Include="PageNotFound.cs" />
     <Compile Include="TermsAndConditionsPage.cs" />
