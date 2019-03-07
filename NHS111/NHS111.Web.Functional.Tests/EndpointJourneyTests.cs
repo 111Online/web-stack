@@ -9,8 +9,8 @@ namespace NHS111.Web.Functional.Tests
     using OpenQA.Selenium;
     
     [TestFixture]
-    public class EndpointJourneyTests
-        : BaseTests {
+    [ScreenShotComparison]
+    public class EndpointJourneyTests : BaseTests {
 
         [TestCase("Male", 22, "Headache", new[] {3, 3, 3, 5, 3, 3, 3, 1}, "Dx02", TestName = "Can reach Dx02")]
         [TestCase("Male", 24, "Sexual Concerns", new[] {3, 4, 3, 3, 3, 4, 4, 1, 1, 3}, "Dx03", TestName = "Can reach Dx03")]
@@ -45,7 +45,6 @@ namespace NHS111.Web.Functional.Tests
         }
 
         [Test]
-        [ScreenShotComparison]
         public void PharmacyEndpointJourney()
         {
             var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Eye or Eyelid Problems", TestScenerioSex.Male, TestScenerioAgeGroups.Adult);
