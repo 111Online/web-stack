@@ -4,6 +4,7 @@ namespace NHS111.Features
 {
     public interface IVisualRegressionTestingFeature : IFeature
     {
+        bool MakeBaselineScreenShotsOnly { get; }
     }
 
     public class VisualRegressionTestingFeature : BaseFeature, IVisualRegressionTestingFeature
@@ -11,6 +12,11 @@ namespace NHS111.Features
         public VisualRegressionTestingFeature()
         {
             DefaultIsEnabledSettingStrategy = new DisabledByDefaultSettingStrategy();
+        }
+
+        public bool MakeBaselineScreenShotsOnly
+        {
+            get { return bool.Parse(FeatureValue(new DisabledByDefaultSettingStrategy(), "MakeBaselineScreenShotsOnly").Value); }
         }
     }
 }

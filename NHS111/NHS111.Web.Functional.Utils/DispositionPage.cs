@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using NUnit.Framework;
 using OpenQA.Selenium;
@@ -37,6 +38,12 @@ namespace NHS111.Web.Functional.Utils
 
         [FindsBy(How = How.Id, Using = "DosLookup")]
         public IWebElement PostcodeSubmitButton { get; set; }
+
+        [FindsBy(How = How.ClassName, Using = "summary")]
+        private IList<IWebElement> DOSGroups { get; set; }
+
+        [FindsBy(How = How.ClassName, Using = "cards")]
+        private IWebElement DosResults { get; set; }
 
         protected DispositionPage(IWebDriver driver) : base(driver) { }
 
@@ -187,17 +194,36 @@ namespace NHS111.Web.Functional.Utils
             VerifyOutcome("Your call has already been booked");
         }
 
-        public DispositionPage<T> CompareScreenshot(int uniqueId)
+        public bool IsCallbackAcceptancePage()
         {
-            return base.CompareScreenShot(this, uniqueId);
-
+            Assert.IsTrue(Driver.ElementExists(By.CssSelector("h1")),
+                "Possible unexpected triage outcome. Expected header to exist but it doesn't.");
+            return Header.Text == "A nurse needs to phone you" || Header.Text == "Get a phone call from a nurse";
         }
-
-        public DispositionPage<T> CompareAndVerify(int uniqueId)
+        public OutcomePage AcceptCallback()
         {
-            return base.CompareAndVerify(this, uniqueId);
+            Driver.IfElementExists(By.Id("Yes"), element => element.Click());
+            Driver.FindElement(By.Id("next")).Click();
+            return new OutcomePage(Driver);
         }
+        public OutcomePage RejectCallback()
+        {
+            Driver.FindElement(By.Id("No")).Click();
+            Driver.FindElement(By.Id("next")).Click();
+            return new OutcomePage(Driver);
+        }
+        public void VerifyPageContainsDOSResults()
+        {
+            Assert.IsTrue(DOSGroups.Count() > 0, "No DoS result groupings found on page.");
+            Assert.IsTrue(DosResults.Displayed);
+            var results = DosResults.FindElements(By.ClassName("card"));
 
+            Assert.IsTrue(results.Count > 0, "No DoS results found on page.");
+        }
+        public void VerifyDOSResultGroupExists(string groupText)
+        {
+            Assert.IsTrue(DOSGroups.Any(g => g.Text == groupText));
+        }
     }
 
     public static class WorseningMessages

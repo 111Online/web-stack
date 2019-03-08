@@ -89,23 +89,23 @@ namespace NHS111.Web.Functional.Utils
             return _screenShotsEqual;
         }
 
-        public void CompareScreenShot(int uniqueId)
+        public void CompareScreenShot(string uniqueId)
         {
             _screenShotsEqual = ScreenShotComparer.Compare(ScreenShotMaker.GetScreenShotFilename(uniqueId), ScreenShotMaker.BaselineScreenShotDir, ScreenShotMaker.ScreenShotDir);
         }
 
-        public T CompareScreenShot<T>(T page, int uniqueId) where T : IScreenShotPage
+        public T CompareScreenShot<T>(T page, string uniqueId) where T : IScreenShotPage
         {
-            if (!_visualRegressionTestingFeature.IsEnabled) return page;
-
-            ScreenShotMaker.MakeScreenShot(uniqueId);
             CompareScreenShot(uniqueId);
             return page;
         }
 
-        public T CompareAndVerify<T>(T page, int uniqueId) where T : IScreenShotPage
+        public T CompareAndVerify<T>(T page, string uniqueId) where T : IScreenShotPage
         {
             if (!_visualRegressionTestingFeature.IsEnabled) return page;
+
+            ScreenShotMaker.MakeScreenShot(uniqueId);
+            if (_visualRegressionTestingFeature.MakeBaselineScreenShotsOnly) return page;
 
             if (!ScreenShotMaker.CheckBaselineExists(uniqueId))
                 Assert.Fail("Screenshot comparison baseline missing at step " + ScreenShotMaker.GetScreenShotFilename(uniqueId));
