@@ -11,7 +11,7 @@ using OpenQA.Selenium.Support.Extensions;
 namespace NHS111.Web.Functional.Utils {
     public static class IWebDriverExtensions
     {
-        private static int _currentImageUniqueId = 1;
+        private static string _currentImageUniqueId = "1";
 
         public static bool ElementExists(this IWebDriver driver, By by) {
             return driver.FindElements(by).Any();
@@ -32,12 +32,12 @@ namespace NHS111.Web.Functional.Utils {
             return driver.SwitchTo().ActiveElement();
         }
 
-        public static int GetCurrentImageUniqueId(this IWebDriver driver)
+        public static string GetCurrentImageUniqueId(this IWebDriver driver)
         {
             return _currentImageUniqueId;
         }
 
-        public static void SetCurrentImageUniqueId(this IWebDriver driver, int uniqueId)
+        public static void SetCurrentImageUniqueId(this IWebDriver driver, string uniqueId)
         {
             _currentImageUniqueId = uniqueId;
         }

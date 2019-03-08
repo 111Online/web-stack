@@ -211,16 +211,5 @@ namespace NHS111.Web.Functional.Utils
             Assert.IsTrue(Driver.ElementExists(by), string.Format("Expected answer couldn't be found for question '{0}'. Tried to find answer {1}. Available answers were:\n{2}", Header.Text, by, string.Join("\n", availableAnswers)));
             Driver.FindElement(by).Click();
         }
-
-        public QuestionPage CompareScreenshot(int uniqueId)
-        {
-            return base.CompareScreenShot(this, uniqueId);
-
-        }
-
-        public QuestionPage CompareAndVerify(int uniqueId)
-        {
-            return base.CompareAndVerify(this, uniqueId);
-        }
     }
 }

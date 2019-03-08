@@ -29,7 +29,7 @@ namespace NHS111.Web.Functional.Utils.ScreenShot
         public string ScreenShotDir { get { return TestContext.CurrentContext.WorkDirectory + "\\Screenshots\\"; } }
         public string ScreenShotUncomparedDir { get { return ScreenShotDir + "uncompared\\"; } }
 
-        public void MakeScreenShot(int uniqueId, bool uncompared = false)
+        public void MakeScreenShot(string uniqueId, bool uncompared = false)
         {
             var fileName = uncompared ? CreateUncomparedScreenShotFilepath(uniqueId) : CreateScreenShotFilepath(uniqueId);
             var screenshot = _driver.TakeEntireScreenshot();
@@ -37,12 +37,12 @@ namespace NHS111.Web.Functional.Utils.ScreenShot
             screenshot.SaveAsFile(fileName, ScreenshotImageFormat.Png);
         }
 
-        public bool CheckBaselineExists(int uniqueId)
+        public bool CheckBaselineExists(string uniqueId)
         {
             return CheckFileExists(BaselineScreenShotDir + GetScreenShotFilename(uniqueId));
         }
 
-        public bool CheckScreenShotExists(int uniqueId)
+        public bool CheckScreenShotExists(string uniqueId)
         {
             return CheckFileExists(ScreenShotDir + GetScreenShotFilename(uniqueId));
         }
@@ -52,13 +52,13 @@ namespace NHS111.Web.Functional.Utils.ScreenShot
             return File.Exists(fileName);
         }
 
-        public string GetScreenShotFilename(int uniqueId = 1)
+        public string GetScreenShotFilename(string uniqueId = "1")
         {
             var fileName = string.Format("{0}-{1}.png", TestContext.CurrentContext.Test.FullName, uniqueId);
             return fileName;
         }
 
-        private string CreateUncomparedScreenShotFilepath(int uniqueId)
+        private string CreateUncomparedScreenShotFilepath(string uniqueId)
         {
             return CreateUncomparedScreenShotDir() + GetScreenShotFilename(uniqueId);
         }
@@ -69,7 +69,7 @@ namespace NHS111.Web.Functional.Utils.ScreenShot
             return ScreenShotUncomparedDir;
         }
 
-        private string CreateScreenShotFilepath(int uniqueId)
+        private string CreateScreenShotFilepath(string uniqueId)
         {
             return CreateScreenshotDir() + GetScreenShotFilename(uniqueId);
         }
