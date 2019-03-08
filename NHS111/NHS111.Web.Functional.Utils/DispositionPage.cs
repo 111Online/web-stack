@@ -187,6 +187,17 @@ namespace NHS111.Web.Functional.Utils
             VerifyOutcome("Your call has already been booked");
         }
 
+        public DispositionPage<T> CompareScreenshot(int uniqueId)
+        {
+            return base.CompareScreenShot(this, uniqueId);
+
+        }
+
+        public DispositionPage<T> CompareAndVerify(int uniqueId)
+        {
+            return base.CompareAndVerify(this, uniqueId);
+        }
+
     }
 
     public static class WorseningMessages

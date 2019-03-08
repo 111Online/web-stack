@@ -51,12 +51,13 @@ namespace NHS111.Web.Functional.Tests
 
             questionPage.VerifyQuestion("What is the main problem?");
             var outcomePage = questionPage
-                .Answer(3).CompareAndVerify(1)
+                .Answer(3)
                 .Answer(3)
                 .Answer(3)
                 .AnswerSuccessiveByOrder(1, 1)
                 .AnswerSuccessiveByOrder(3, 6)
-                .Answer<OutcomePage>(1);
+                .Answer<OutcomePage>(1)
+                .CompareAndVerify(1);
  
             outcomePage.VerifyOutcome("Your answers suggest you should contact a pharmacist within 12 hours");
             outcomePage.VerifyWorseningPanel(WorseningMessages.Call111PostCodeFirst);

@@ -3,9 +3,9 @@ using NUnit.Framework;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.PageObjects;
 using System.Configuration;
-using System.IO;
 using NHS111.Web.Functional.Utils.ScreenShot;
 using OpenQA.Selenium.Support.UI;
+using NHS111.Features;
 
 namespace NHS111.Web.Functional.Utils
 {
@@ -13,8 +13,9 @@ namespace NHS111.Web.Functional.Utils
     {
         public static string _baseUrl = ConfigurationManager.AppSettings["TestWebsiteUrl"];
         public readonly IWebDriver Driver;
-        internal const string _headerLogoTitle = "Go to the NHS 111 homepage";
+        private readonly IVisualRegressionTestingFeature _visualRegressionTestingFeature;
 
+        internal const string _headerLogoTitle = "Go to the NHS 111 homepage";
         internal const string _headerText = "1 1 1 online";
 
         [FindsBy(How = How.CssSelector, Using = ".global-header")]
@@ -28,10 +29,13 @@ namespace NHS111.Web.Functional.Utils
 
         private bool _screenShotsEqual = false;
 
-        public LayoutPage(IWebDriver driver)
+        public LayoutPage(IWebDriver driver) : this(driver, new VisualRegressionTestingFeature()) {}
+
+        public LayoutPage(IWebDriver driver, IVisualRegressionTestingFeature visualRegressionTestingFeature)
         {
             Driver = driver;
             PageFactory.InitElements(Driver, this);
+            _visualRegressionTestingFeature = visualRegressionTestingFeature;
         }
 
         public void VerifyLayoutPagePresent()
@@ -92,6 +96,8 @@ namespace NHS111.Web.Functional.Utils
 
         public T CompareScreenShot<T>(T page, int uniqueId) where T : IScreenShotPage
         {
+            if (!_visualRegressionTestingFeature.IsEnabled) return page;
+
             ScreenShotMaker.MakeScreenShot(uniqueId);
             CompareScreenShot(uniqueId);
             return page;
@@ -99,6 +105,8 @@ namespace NHS111.Web.Functional.Utils
 
         public T CompareAndVerify<T>(T page, int uniqueId) where T : IScreenShotPage
         {
+            if (!_visualRegressionTestingFeature.IsEnabled) return page;
+
             if (!ScreenShotMaker.CheckBaselineExists(uniqueId))
                 Assert.Fail("Screenshot comparison baseline missing at step " + ScreenShotMaker.GetScreenShotFilename(uniqueId));
 
