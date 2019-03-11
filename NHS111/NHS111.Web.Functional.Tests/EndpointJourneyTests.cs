@@ -29,7 +29,7 @@ namespace NHS111.Web.Functional.Tests
                 .Answer<OutcomePage>(answers.Last());
 
             outcomePage.VerifyDispositionCode(expectedDxCode);
-            outcomePage.CompareAndVerify(outcomePage, "1");
+            outcomePage.CompareAndVerify("1");
         }
 
         [Test]
@@ -66,7 +66,7 @@ namespace NHS111.Web.Functional.Tests
             outcomePage.VerifyFindService(FindServiceTypes.Pharmacy);
             outcomePage.VerifyCareAdviceHeader("What you can do in the meantime");
             outcomePage.VerifyCareAdvice(new[] { "Eye discharge" });
-            outcomePage.CompareAndVerify(outcomePage, "1");
+            outcomePage.CompareAndVerify("1");
         }
 
         [Test]
@@ -88,7 +88,7 @@ namespace NHS111.Web.Functional.Tests
 
             outcomePage.VerifyOutcome("Based on your answers, you can look after yourself and don't need to see a healthcare professional");
             outcomePage.VerifyWorseningPanel(WorseningMessages.Call111);
-            outcomePage.CompareAndVerify(outcomePage, "1");
+            outcomePage.CompareAndVerify("1");
         }
 
         [Test]
@@ -107,7 +107,7 @@ namespace NHS111.Web.Functional.Tests
             postcodeFirstPage.VerifyWorseningPanel(WorseningMessages.Call111PostCodeFirst);
             postcodeFirstPage.VerifyCareAdviceHeader("What you can do in the meantime");
             postcodeFirstPage.VerifyCareAdvice(new string[] { "Toothache", "Medication, pain and/or fever" });
-            postcodeFirstPage.CompareAndVerify(postcodeFirstPage, "1");
+            postcodeFirstPage.CompareAndVerify("1");
         }
 
         [Test]
@@ -129,7 +129,7 @@ namespace NHS111.Web.Functional.Tests
             outcomePage.VerifyWorseningPanel(WorseningMessages.Call111PostCodeFirst);
             outcomePage.VerifyCareAdviceHeader("What you can do in the meantime");
             outcomePage.VerifyCareAdvice(new string[] { "Tooth extraction" });
-            outcomePage.CompareAndVerify(outcomePage, "1");
+            outcomePage.CompareAndVerify("1");
         }
 
         [Test]
@@ -152,7 +152,7 @@ namespace NHS111.Web.Functional.Tests
             outcomePage.VerifyWorseningPanel(WorseningMessages.Call111PostCodeFirst);
             outcomePage.VerifyCareAdviceHeader("What you can do in the meantime");
             outcomePage.VerifyCareAdvice(new string[] { "Headache", "Breathlessness", "Medication, pain and/or fever" });
-            outcomePage.CompareAndVerify(outcomePage, "1");
+            outcomePage.CompareAndVerify("1");
         }
 
         [Test]
@@ -181,7 +181,7 @@ namespace NHS111.Web.Functional.Tests
             outcomePage.VerifyFindService(FindServiceTypes.Optician);
             outcomePage.VerifyCareAdviceHeader("What you can do in the meantime");
             outcomePage.VerifyCareAdvice(new string[] {"Eye discharge", "Medication, pain and/or fever" });
-            outcomePage.CompareAndVerify(outcomePage, "1");
+            outcomePage.CompareAndVerify("1");
         }
 
         [Test]
@@ -206,7 +206,7 @@ namespace NHS111.Web.Functional.Tests
             outcomePage.VerifyWorseningPanel(WorseningMessages.Call111PostCodeFirst);
             outcomePage.VerifyCareAdviceHeader("What you can do in the meantime");
             outcomePage.VerifyCareAdvice(new string[] { "Diarrhoea & Vomiting" });
-            outcomePage.CompareAndVerify(outcomePage, "1");
+            outcomePage.CompareAndVerify("1");
         }
 
         [Test]
@@ -228,7 +228,7 @@ namespace NHS111.Web.Functional.Tests
                 .Answer<OutcomePage>(3);
 
             outcomePage.VerifyOutcome(OutcomePage.BookCallBackText);
-            outcomePage.CompareAndVerify(outcomePage, "1");
+            outcomePage.CompareAndVerify("1");
         }
 
         [Test]
@@ -274,7 +274,7 @@ namespace NHS111.Web.Functional.Tests
             outcomePage.VerifyWorseningPanel(WorseningMessages.Call111PostCodeFirst);
             outcomePage.VerifyCareAdviceHeader("What you can do in the meantime");
             outcomePage.VerifyCareAdvice(new string[] { "Medication, pain and/or fever", "Headache" });
-            outcomePage.CompareAndVerify(outcomePage, "1");
+            outcomePage.CompareAndVerify("1");
         }
 
         [Test]
@@ -285,7 +285,7 @@ namespace NHS111.Web.Functional.Tests
             var outcomePage = questionPage
                 .Answer<DeadEndPage>(1);
 
-            outcomePage.CompareAndVerify(outcomePage, "1");
+            outcomePage.CompareAndVerify("1");
             outcomePage.VerifyOutcome("This health assessment can't be completed online");
         }
 
@@ -309,7 +309,7 @@ namespace NHS111.Web.Functional.Tests
                 .Answer<OutcomePage>(1);
 
             outcomePage.VerifyPageContainsDOSResults();
-            outcomePage.CompareAndVerify(outcomePage, "1");
+            outcomePage.CompareAndVerify("1");
         }
 
         
@@ -335,7 +335,7 @@ namespace NHS111.Web.Functional.Tests
                 .Answer<OutcomePage>(3);
 
             outcomePage.VerifyPageContainsDOSResults();
-            outcomePage.CompareAndVerify(outcomePage, "1");
+            outcomePage.CompareAndVerify("1");
         }
         
         [Test]
@@ -363,7 +363,7 @@ namespace NHS111.Web.Functional.Tests
             // Vomiting Blood should show in care advice but Vomiting on its own shouldn't
             Assert.IsFalse(Driver.ElementExists(By.Id("Advice_CX221222-Adult-Male")));
 
-            outcomePage.CompareAndVerify(outcomePage, "1");
+            outcomePage.CompareAndVerify("1");
         }
     }
 }
