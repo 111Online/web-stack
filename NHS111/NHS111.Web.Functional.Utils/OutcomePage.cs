@@ -43,5 +43,10 @@ namespace NHS111.Web.Functional.Utils
             PreviousAnswer.Click();
             return new QuestionPage(Driver);
         }
+
+        public OutcomePage CompareAndVerify(string uniqueId)
+        {
+           return base.CompareAndVerify(this, uniqueId);
+        }
     }
 }

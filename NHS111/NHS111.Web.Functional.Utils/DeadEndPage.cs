@@ -26,5 +26,9 @@ namespace NHS111.Web.Functional.Utils {
             return new QuestionPage(Driver);
         }
 
+        public DeadEndPage CompareAndVerify(string uniqueId)
+        {
+            return base.CompareAndVerify(this, uniqueId);
+        }
     }
 }
