@@ -47,12 +47,12 @@ namespace NHS111.Web.Functional.Utils
 
         public HomePage Visit(string mediumQuerystring)
         {
-            Driver.Navigate().GoToUrl(_baseUrl);
+            var baseUri = new Uri(_baseUrl);
+            baseUri = baseUri.AddOrReplaceQuery("utm_medium", mediumQuerystring);
+            Driver.Navigate().GoToUrl(baseUri);
             if (UrlContainsCredentials())
             {
-                Uri uri = new Uri(GetUrlWithoutCredentials());
-                uri = uri.AddOrReplaceQuery("utm_medium", mediumQuerystring);
-
+                var uri = new Uri(GetUrlWithoutCredentials());
                 Driver.Navigate().GoToUrl(uri);
             }
             Driver.Manage().Window.Maximize();
