@@ -1,5 +1,4 @@
-﻿using System;
-using log4net.Core;
+﻿using log4net.Core;
 using Moq;
 using Newtonsoft.Json;
 using NHS111.Models.Models.Web.Logging;
@@ -24,16 +23,7 @@ namespace NHS111.Utils.Test.Logging
         {
             var appender = new AzureTableStorageAppender(_mockLogServiceContext.Object);
             appender.DoAppend(new LoggingEvent(new LoggingEventData() { Message = JsonConvert.SerializeObject(new AuditEntry()) }));
-            _mockLogServiceContext.Verify(x => x.Log(It.IsAny<AuditEntry>(), It.IsAny<string>()), Times.Once);
-        }
-
-
-        [Test]
-        public void Append_WithValidLogEntry_CallsLog_withCorrectTableName()
-        {
-            var appender = new AzureTableStorageAppender(_mockLogServiceContext.Object);
-            appender.DoAppend(new LoggingEvent(new LoggingEventData() { Message = JsonConvert.SerializeObject(new AuditEntry(){TIMESTAMP = new DateTime(2018,3,1)}) }));
-            _mockLogServiceContext.Verify(x => x.Log(It.IsAny<AuditEntry>(), "201803"), Times.Once);
+            _mockLogServiceContext.Verify(x => x.Log(It.IsAny<AuditEntry>()), Times.Once);
         }
 
         [Test]

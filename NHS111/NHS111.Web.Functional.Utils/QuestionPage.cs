@@ -2,21 +2,21 @@
 using System.Collections.Generic;
 using System.Linq;
 using Newtonsoft.Json.Linq;
+using NHS111.Web.Functional.Utils.ScreenShot;
 using NUnit.Framework;
 using OpenQA.Selenium;
+using OpenQA.Selenium.Support.Extensions;
 using OpenQA.Selenium.Support.PageObjects;
 using OpenQA.Selenium.Support.UI;
 
 namespace NHS111.Web.Functional.Utils
 {
-    public class QuestionInfoPage
-        : LayoutPage {
+    public class QuestionInfoPage: LayoutPage {
 
         [FindsBy(How = How.ClassName, Using = "button--next")]
         private IWebElement IUnderstandButton { get; set; }
 
-        public QuestionInfoPage(IWebDriver driver)
-            : base(driver) { }
+        public QuestionInfoPage(IWebDriver driver): base(driver) { }
 
         public QuestionPage ClickIUnderstand() {
             IUnderstandButton.Click();
@@ -25,7 +25,7 @@ namespace NHS111.Web.Functional.Utils
 
     }
 
-    public class QuestionPage : LayoutPage
+    public class QuestionPage: LayoutPage
     {
         [FindsBy(How = How.ClassName, Using = "button--next")]
         private IWebElement NextButton { get; set; }
@@ -95,8 +95,9 @@ namespace NHS111.Web.Functional.Utils
             return (T)Activator.CreateInstance(typeof(T), Driver);
         }
 
-        public T Answer<T>(int answerOrder) 
+        public T Answer<T>(int answerOrder)
         {
+     
             var byOrder = ByOrder(answerOrder);
             SelectAnswerAndSubmit(byOrder, false);
             return (T)Activator.CreateInstance(typeof(T), Driver);
@@ -139,7 +140,7 @@ namespace NHS111.Web.Functional.Utils
             SelectAnswerBy(by);
             NextButton.Click();
             _testAwaiter.AwaitNextPage(Header, expectQuestionPage);
-            return new QuestionPage(Driver);
+                return new QuestionPage(Driver);
         }
 
         public QuestionPage NavigateBack() {
