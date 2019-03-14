@@ -100,5 +100,16 @@ namespace NHS111.Web.Functional.Tests
 
             Assert.IsAssignableFrom<OutOfAreaPage>(submitPostcodeResult);
         }
+
+        [Test]
+        public void EnteringExpert24Postcode_RedirectsToExpert24()
+        {
+            var submitPostcodeResult = HomePage.Start(Driver)
+                .Visit()
+                .EnterPostcode(Postcodes.GetExpert24Postcode())
+                .ClickNext();
+
+            Assert.IsAssignableFrom<Expert24Page>(submitPostcodeResult);
+        }
     }
 }

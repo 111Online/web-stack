@@ -44,8 +44,9 @@ namespace NHS111.Utils.Logging
             try
             {
                 var auditEntry = JsonConvert.DeserializeObject<AuditEntry>(loggingEvent.RenderedMessage);
+                var tableName = TableStorageName + auditEntry.TIMESTAMP.ToString("yyyyMM");
                 if (auditEntry != null && typeof(AuditEntry) == auditEntry.GetType())
-                    _logServiceContext.Log(auditEntry);
+                    _logServiceContext.Log(auditEntry, tableName);
             }
             catch (DataServiceRequestException e)
             {
