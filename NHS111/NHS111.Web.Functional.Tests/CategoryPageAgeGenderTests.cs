@@ -1,5 +1,4 @@
 ﻿using NHS111.Web.Functional.Utils;
-using NHS111.Web.Functional.Utils.ScreenShot;
 using NUnit.Framework;
 using OpenQA.Selenium;
 
@@ -8,7 +7,6 @@ namespace NHS111.Web.Functional.Tests
     public class CategoryPageAgeGenderTests : BaseTests
     {
         [Test]
-        [ScreenShotComparison]
         //alias and id check for categories age 5 Female with mental health
         public void CategoriesPage_PresentForFemaleChild()
         {
@@ -128,9 +126,11 @@ namespace NHS111.Web.Functional.Tests
             categoryPage.VerifyPathwayInCategoryList("Sunburn", "PW987FemaleChild");
             categoryPage.VerifyPathwayInCategoryList("Heatstroke", "PW998FemaleChild");
             categoryPage.VerifyPathwayInCategoryList("Breathing problems", "PW557FemaleChild");
-            categoryPage.VerifyOtherProblems("PW1348");
-            categoryPage.CompareAndVerify(categoryPage, "1");
 
+            categoryPage.VerifyOtherProblems("PW1348");
+
+            //categoryPage.SelectCategory("bowel-and-urinary-problems");
+            //categoryPage.SelectCategory("bowel-and-urinary-problems-bowel-problems");
             var questionInfoPage = categoryPage.SelectPathway("Something stuck in the bottom");
             questionInfoPage.ClickIUnderstand();
             Driver.FindElement(By.XPath("//input[@value = 'PW1531FemaleChild']"));
@@ -255,9 +255,11 @@ namespace NHS111.Web.Functional.Tests
             categoryPage.VerifyPathwayInCategoryList("Sunburn", "PW987FemaleAdult");
             categoryPage.VerifyPathwayInCategoryList("Heatstroke", "PW998FemaleAdult");
             categoryPage.VerifyPathwayInCategoryList("Breathing problems", "PW556FemaleAdult");
-            categoryPage.VerifyOtherProblems("PW1345");
-            categoryPage.CompareAndVerify(categoryPage, "1");
 
+            categoryPage.VerifyOtherProblems("PW1345");
+
+            //categoryPage.SelectCategory("bowel-and-urinary-problems");
+            //categoryPage.SelectCategory("bowel-and-urinary-problems-bowel-problems");
             var questionInfoPage = categoryPage.SelectPathway("Something stuck in the bottom");
             questionInfoPage.ClickIUnderstand();
             Driver.FindElement(By.XPath("//input[@value = 'PW1531FemaleAdult']"));
@@ -377,9 +379,11 @@ namespace NHS111.Web.Functional.Tests
             categoryPage.VerifyPathwayInCategoryList("Sunburn", "PW987MaleChild");
             categoryPage.VerifyPathwayInCategoryList("Heatstroke", "PW998MaleChild");
             categoryPage.VerifyPathwayInCategoryList("Breathing problems", "PW560MaleChild");
-            categoryPage.VerifyOtherProblems("PW1349");
-            categoryPage.CompareAndVerify(categoryPage, "1");
 
+            categoryPage.VerifyOtherProblems("PW1349");
+
+            //categoryPage.SelectCategory("bowel-and-urinary-problems");
+            //categoryPage.SelectCategory("bowel-and-urinary-problems-bowel-problems");
             var questionInfoPage = categoryPage.SelectPathway("Something stuck in the bottom");
             questionInfoPage.ClickIUnderstand();
 
@@ -499,9 +503,11 @@ namespace NHS111.Web.Functional.Tests
             categoryPage.VerifyPathwayInCategoryList("Sunburn", "PW987MaleAdult");
             categoryPage.VerifyPathwayInCategoryList("Heatstroke", "PW998MaleAdult");
             categoryPage.VerifyPathwayInCategoryList("Breathing problems", "PW559MaleAdult");
-            categoryPage.VerifyOtherProblems("PW1346");
-            categoryPage.CompareAndVerify(categoryPage, "1");
 
+            categoryPage.VerifyOtherProblems("PW1346");
+
+            //categoryPage.SelectCategory("bowel-and-urinary-problems");
+            //categoryPage.SelectCategory("bowel-and-urinary-problems-bowel-problems");
             var questionInfoPage = categoryPage.SelectPathway("Something stuck in the bottom");
             questionInfoPage.ClickIUnderstand();
 

@@ -19,10 +19,5 @@ namespace NHS111.Web.Functional.Utils
             PostcodeSubmitButton.Click();
             return new PostcodeFirstPage(Driver);
         }
-
-        public PostcodeFirstPage CompareAndVerify(string uniqueId)
-        {
-            return base.CompareAndVerify(this, uniqueId);
-        }
     }
 }
