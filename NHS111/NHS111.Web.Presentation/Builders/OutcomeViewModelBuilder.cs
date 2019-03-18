@@ -204,7 +204,7 @@ namespace NHS111.Web.Presentation.Builders
             model.DosCheckCapacitySummaryResult = await _dosBuilder.FillCheckCapacitySummaryResult(dosViewModel, overrideFilterServices.HasValue ? overrideFilterServices.Value : model.FilterServices, endpoint);
             if (NeedToRequeryDos(model))
             {
-                _auditLogger.LogDosResponse(model);
+                _auditLogger.LogDosResponse(model, model.DosCheckCapacitySummaryResult);
                 dosViewModel.Disposition = FromOutcomeViewModelToDosViewModel.DispositionResolver.ConvertToDosCode(model.Id);
                 _auditLogger.LogDosRequest(model, dosViewModel);
                 model.DosCheckCapacitySummaryResult = await _dosBuilder.FillCheckCapacitySummaryResult(dosViewModel, overrideFilterServices.HasValue ? overrideFilterServices.Value : model.FilterServices, endpoint);
@@ -218,7 +218,7 @@ namespace NHS111.Web.Presentation.Builders
 
             _surveyLinkViewModelBuilder.AddServiceInformation(model, model.SurveyLink);
 
-            _ = _auditLogger.LogDosResponse(model);
+            _ = _auditLogger.LogDosResponse(model, model.DosCheckCapacitySummaryResult);
 
             return model;
         }
