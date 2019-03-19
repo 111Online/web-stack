@@ -83,7 +83,6 @@
     </Content>
     <Content Include="LICENCE.txt" />
     <Content Include=".stylelintrc.json" />
-    <Content Include="package-lock.json" />
     <Content Include="package.json" />
     <Content Include="README.md" />
     <Compile Include="fractal.config.js" />
