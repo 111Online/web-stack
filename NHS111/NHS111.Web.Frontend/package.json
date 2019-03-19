@@ -1,7 +1,7 @@
 {
-  "name": "nhsuk-frontend",
+  "name": "nhs-111",
   "version": "0.2.1",
-  "description": "A collection of front-end components for NHS sites",
+  "description": "NHS 111 online - forked from nhsuk-frontend 0.2.1",
   "main": "./src/components/index.js",
   "repository": {
     "type": "git",
@@ -32,6 +32,7 @@
     "jquery-validation-unobtrusive": "^3.2.6",
     "jsdom": "^11.3.0",
     "lodash": "^4.17.4",
+    "nhsuk-frontend": "^2.0.0",
     "node-sass": "^4.7.2",
     "node-sass-import-once": "^1.2.0",
     "nunjucks": "^3.0.0",
