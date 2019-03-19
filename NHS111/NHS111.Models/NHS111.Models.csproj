@@ -214,8 +214,9 @@
     <Compile Include="Models\Domain\VersionInfo.cs" />
     <Compile Include="Models\Web\AgeGenderViewModel.cs" />
     <Compile Include="Models\Web\ApplicationMedium.cs" />
-    <Compile Include="Models\Web\ButtonViewModel.cs" />
-    <Compile Include="Models\Web\CalloutViewModel.cs" />
+    <Compile Include="Models\Web\Elements\ActionLinkViewModel.cs" />
+    <Compile Include="Models\Web\Elements\ButtonViewModel.cs" />
+    <Compile Include="Models\Web\Elements\CalloutViewModel.cs" />
     <Compile Include="Models\Web\CCG\CCGDetailsModel.cs" />
     <Compile Include="Models\Web\CCG\CCGModel.cs" />
     <Compile Include="Models\Web\CCG\DUCTriageApp.cs" />
@@ -275,7 +276,7 @@
     <Compile Include="Models\Web\FromExternalServices\JourneyStep.cs" />
     <Compile Include="Models\Web\FromExternalServices\SuccessObject.cs" />
     <Compile Include="Models\Web\FromExternalServices\ValidPostCode.cs" />
-    <Compile Include="Models\Web\HiddenTextViewModel.cs" />
+    <Compile Include="Models\Web\Elements\HiddenTextViewModel.cs" />
     <Compile Include="Models\Web\InformantViewModel.cs" />
     <Compile Include="Models\Web\ITK\Address.cs" />
     <Compile Include="Models\Web\ITK\Authentication.cs" />
