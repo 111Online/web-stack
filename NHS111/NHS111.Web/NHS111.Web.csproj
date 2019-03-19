@@ -421,6 +421,10 @@
     <Content Include="Views\Location\ConfirmLocation.cshtml" />
     <Content Include="Views\Location\AskNHS.cshtml" />
     <Content Include="Views\Location\Babylon.cshtml" />
+    <Content Include="Views\Outcome\RecommendedService.cshtml" />
+    <Content Include="Views\Shared\_rs_OtherServices.cshtml" />
+    <Content Include="Views\Shared\_rs_CareAdvice.cshtml" />
+    <Content Include="Views\Shared\_rs_WorseningAdvice.cshtml" />
     <Content Include="Views\Shared\Elements\_ActionLink.cshtml" />
     <Content Include="Views\Shared\Elements\_ActionButton.cshtml" />
     <None Include="Web.Development.config">

@@ -1,0 +1,15 @@
+﻿@model  NHS111.Models.Models.Web.OutcomeViewModel
+
+@using (Html.BeginForm("ServiceList", "Outcome", FormMethod.Post, new { id = "other-services-form" }))
+{
+    @Html.Partial("_CommonHiddenFieldsOutcomeViewModel")
+    @Html.Partial("_CommonHiddenFieldsCareAdviceViewModel")
+    <div class="content-seperator content-seperator--equalvertspacing--large"></div>
+    <div class="measure">
+        <h2>Other services that can help</h2>
+        <p>
+            If you do not want to use the recommended service, see
+            <button class="button-stacked button--link" id="other-services" type="submit" value="OtherServices" name="OtherServices" formnovalidate>other things you can do</button>.
+        </p>
+    </div>
+}
