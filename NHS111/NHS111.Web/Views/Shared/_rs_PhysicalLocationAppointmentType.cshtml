@@ -48,14 +48,14 @@
                 <p><a class="card__directions" style="display: none;" target="_blank" href="@string.Format("https://www.google.com/maps/dir/?api=1&origin={0}&destination={1}", Model.CurrentPostcode, recommendedService.Address)">Get directions</a></p>
             }
                 </p>
-            <p>
-                @using (Html.BeginForm("ChangePostcode", "Outcome", FormMethod.Post))
-                {
-                    @Html.Partial("_CommonHiddenFieldsOutcomeViewModel", Model)
-                    @Html.Partial("_CommonHiddenFieldsCareAdviceViewModel", Model)
-                    @Html.Partial("_rs_ChangePostcodeLink")
-                }
-            </p>
+                <p>
+                    @using (Html.BeginForm("ChangePostcode", "Outcome", FormMethod.Post))
+                    {
+                        @Html.Partial("_CommonHiddenFieldsOutcomeViewModel", Model)
+                        @Html.Partial("_CommonHiddenFieldsCareAdviceViewModel", Model)
+                        @Html.Partial("_rs_ChangePostcodeLink")
+                    }
+                </p>
             </div>
         </div>
 
@@ -68,3 +68,4 @@
     window.mapServices = @Html.Raw(mapService);
     window.currentPostcode = "@Html.Raw(Model.CurrentPostcode)";
     </script>
+

@@ -8,7 +8,7 @@
 {
     var partial = "";
     if (Model.First().ServiceType.Id == 25) { partial = "_rs_service_callback";}
-    if (Model.First().ServiceType.Id == 13) { partial = "_rs_service_goTo"; }
+    if (Model.First().ServiceType.Id == 13) { partial = "_rs_PhysicalLocationAppointmentType"; }
     <div>
         @Html.Partial(partial, Model.First())
     </div>
