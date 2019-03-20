@@ -114,6 +114,7 @@ namespace NHS111.Web.Functional.Utils
             if (!page.GetScreenShotsEqual())
             {
                 Console.WriteLine("##teamcity[testMetadata testName='{0}' name='Differences'  type='image' value='{1}']", TestContext.CurrentContext.Test.FullName, "diff/" + ScreenShotMaker.GetScreenShotFilename(uniqueId));
+                Console.WriteLine("##teamcity[testMetadata testName='{0}' name='Baseline'  type='image' value='{1}']", TestContext.CurrentContext.Test.FullName,  ScreenShotMaker.BaselineScreenShotDir + ScreenShotMaker.GetScreenShotFilename(uniqueId));
                 Assert.Fail("Screenshot comparison shows not equal to baseline at step " + ScreenShotMaker.GetScreenShotFilename(uniqueId));
             }
             return page;
