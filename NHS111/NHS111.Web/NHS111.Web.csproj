@@ -427,6 +427,7 @@
     <Content Include="Views\Shared\_rs_WorseningAdvice.cshtml" />
     <Content Include="Views\Shared\Elements\_ActionLink.cshtml" />
     <Content Include="Views\Shared\Elements\_ActionButton.cshtml" />
+    <Content Include="Views\Shared\_rs_Recommeded_DOS_Service.cshtml" />
     <None Include="Web.Development.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
