@@ -30,13 +30,7 @@
     }
 }
 
-<div class="measure">
-    <h1>Where to get help</h1>
-</div>
-
-@**
-        Partial view(s) for service types here
-    **@
+@Html.Partial("_rs_Recommeded_DOS_Service", Model.DosCheckCapacitySummaryResult.Success.Services)
 
 @{
     var dataDictionary = ViewContext.ViewData;
