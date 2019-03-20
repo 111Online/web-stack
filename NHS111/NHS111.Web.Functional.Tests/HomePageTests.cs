@@ -77,18 +77,7 @@ namespace NHS111.Web.Functional.Tests
             Assert.IsAssignableFrom<ModuleZeroPage>(submitPostcodeResult);
         }
 
-        [Test]
-        public void EnteringAskNHSPostcode_RedirectsToAskNHS()
-        {
-            var submitPostcodeResult = HomePage.Start(Driver)
-                .Visit()
-                .EnterPostcode(Postcodes.GetAskNHSPostcode())
-                .ClickNext();
-
-            Assert.IsAssignableFrom<AppPage>(submitPostcodeResult);
-            var appPage = submitPostcodeResult as AppPage;
-            Assert.AreEqual(appPage.AppName, "Ask NHS");
-        }
+      
 
         [Test]
         public void EnteringOutOfAreaPostcode_RedirectsToOutOfArea()
