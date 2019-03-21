@@ -1,10 +1,9 @@
 ﻿@using NHS111.Models.Models.Web
 @model OutcomeViewModel
 
-    <div class="measure">
-        <h1>Where to get help</h1>
-
-    </div>
+<div class="measure">
+    <h1>Where to get help</h1>
+</div>
 @if (!Model.DosCheckCapacitySummaryResult.ResultListEmpty)
 {
     var recommendedService = Model.DosCheckCapacitySummaryResult.Success.RecommendedService;

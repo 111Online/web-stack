@@ -430,7 +430,8 @@
     <Content Include="Views\Shared\_rs_PhysicalLocationAppointment.cshtml" />
     <Content Include="Views\Shared\Elements\_rs_ChangePostcodeLink.cshtml" />
     <Content Include="Views\Shared\_rs_Recommeded_DOS_Service.cshtml" />
-    <Content Include="Views\Shared\_rs_PhysicalLocationAppointmentType.cshtml" />
+    <Content Include="Views\Shared\_rs_goto_type.cshtml" />
+    <Content Include="Views\Shared\_rs_phone_type.cshtml" />
     <None Include="Web.Development.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
