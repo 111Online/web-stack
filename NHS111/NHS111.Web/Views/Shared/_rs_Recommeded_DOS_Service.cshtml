@@ -8,11 +8,7 @@
 @if (!Model.DosCheckCapacitySummaryResult.ResultListEmpty)
 {
     var recommendedService = Model.DosCheckCapacitySummaryResult.Success.RecommendedService;
-    var partial = "";
-    if (recommendedService.ServiceType.Id == 25) { partial = "_rs_service_callback";}
-    if (recommendedService.ServiceType.Id == 13) { partial = "_rs_PhysicalLocationAppointmentType"; }
-    if (recommendedService.ServiceType.Id == 40) { partial = "_rs_PhysicalLocationAppointmentType"; }
-    <div>
-        @Html.Partial(partial, Model)
-    </div>
+<div>
+    @Html.Partial(new ServiceTypeMapping(recommendedService.OnlineDOSServiceType).TypeViewName, Model)
+</div>
 }
