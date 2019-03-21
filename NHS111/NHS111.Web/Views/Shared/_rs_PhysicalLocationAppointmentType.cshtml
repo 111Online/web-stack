@@ -34,7 +34,8 @@
     <div class="details-2 service-details cards--goto">
         <div class="unit directions">
             <p>
-                [TO DO] miles away<br>
+                @*is this in miles?*@
+                @recommendedService.Distance miles away<br>
                 @using (Html.BeginForm("GetDirections", "Outcome", FormMethod.Post))
                 {
                     @Html.HiddenFor(m => m.SessionId)
@@ -45,9 +46,9 @@
                     @Html.Hidden("SelectedServiceName", recommendedService.Name)
                     @Html.Hidden("SelectedServiceAddress", recommendedService.Address)
                     <button class="button--link card__directions--fallback" type="submit">Get directions</button>
-                <p><a class="card__directions" style="display: none;" target="_blank" href="@string.Format("https://www.google.com/maps/dir/?api=1&origin={0}&destination={1}", Model.CurrentPostcode, recommendedService.Address)">Get directions</a></p>
-            }
-                </p>
+                    <p><a class="card__directions" style="display: none;" target="_blank" href="@string.Format("https://www.google.com/maps/dir/?api=1&origin={0}&destination={1}", Model.CurrentPostcode, recommendedService.Address)">Get directions</a></p>
+                }
+            </p>
                 <p>
                     @using (Html.BeginForm("ChangePostcode", "Outcome", FormMethod.Post))
                     {
