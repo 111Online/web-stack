@@ -313,6 +313,7 @@
     <Compile Include="Models\Web\ReferralResultViewModel.cs" />
     <Compile Include="Models\Web\SearchJourneyViewModel.cs" />
     <Compile Include="Models\Web\SearchResultViewModel.cs" />
+    <Compile Include="Models\Web\ServiceTypeMapping.cs" />
     <Compile Include="Models\Web\SurveyLinkViewModel.cs" />
     <Compile Include="Models\Web\Validators\AgeMaximumValidator.cs" />
     <Compile Include="Models\Web\Validators\DateOfBirthDayValidator.cs" />
