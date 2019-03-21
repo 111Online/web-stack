@@ -44,7 +44,6 @@ namespace NHS111.Web.Functional.Utils
             if(!ScreenShotMaker.CheckScreenShotExists(Driver.GetCurrentImageUniqueId()))
                 ScreenShotMaker.MakeScreenShot(Driver.GetCurrentImageUniqueId());
             Console.WriteLine("##teamcity[testMetadata testName='{0}' name='Test screen' type='image' value='{1}']", TestContext.CurrentContext.Test.FullName, ScreenShotMaker.GetScreenShotFilename(Driver.GetCurrentImageUniqueId()));
-            Console.WriteLine("##teamcity[testMetadata testName='{0}' name='Baseline'  type='image' value='{1}']", TestContext.CurrentContext.Test.FullName,  ScreenShotMaker.BaselineScreenShotDir + ScreenShotMaker.GetScreenShotFilename(Driver.GetCurrentImageUniqueId()));
         }
 
         public IScreenShotMaker ScreenShotMaker
