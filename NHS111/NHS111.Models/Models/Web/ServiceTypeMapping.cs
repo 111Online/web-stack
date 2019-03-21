@@ -10,9 +10,9 @@ namespace NHS111.Models.Models.Web
 {
     public class ServiceTypeMapping
     {
-        private const string CALLBACK_VIEW_NAME = "_rs_service_callback";
-        private const string GOTO_VIEW_NAME = "_rs_PhysicalLocationAppointmentType";
-        private const string PUBLICPHONE_VIEW_NAME = "_rs_service_goTo";
+        private const string CALLBACK_VIEW_NAME = "_rs_callback_type";
+        private const string GOTO_VIEW_NAME = "_rs_goto_type";
+        private const string PUBLICPHONE_VIEW_NAME = "_rs_phone_type";
         public ServiceTypeMapping(OnlineDOSServiceType typeGroup)
         {
             _typeGroup = typeGroup;
