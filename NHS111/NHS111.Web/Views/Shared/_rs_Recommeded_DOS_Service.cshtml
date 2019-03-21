@@ -1,13 +1,14 @@
 ﻿@using NHS111.Models.Models.Web
-@model List<NHS111.Models.Models.Web.ServiceViewModel>
+@model OutcomeViewModel
 
-    <div class="measure">
-        <h1>Where to get help</h1>
+<div class="measure">
+    <h1>Where to get help</h1>
 
-    </div>
-@if (Model.Count > 0)
-{
-    <div>
-        @Html.Partial(new ServiceTypeMapping(Model.First().OnlineDOSServiceType).TypeViewName, Model.First())
-    </div>
+</div>
+@if (!Model.DosCheckCapacitySummaryResult.ResultListEmpty)
+{ 
+    var recommendedService = Model.DosCheckCapacitySummaryResult.Success.RecommendedService;
+<div>
+    @Html.Partial(new ServiceTypeMapping(recommendedService.OnlineDOSServiceType).TypeViewName, Model.First())
+</div>
 }

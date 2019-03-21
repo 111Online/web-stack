@@ -70,7 +70,7 @@ namespace NHS111.Models.Models.Web.FromExternalServices
         [JsonProperty(PropertyName = "referralTextField")]
         public string ReferralText { get; set; }
 
-        [JsonProperty(PropertyName = "distance")]
+        [JsonProperty(PropertyName = "distanceField")]
         public string Distance { get; set; }
 
         [JsonProperty(PropertyName = "notesField")]
