@@ -62,7 +62,11 @@ namespace NHS111.Web.Helpers
             switch (model.NodeType)
             {
                 case NodeType.Outcome:
-                    var viewFilePath = "../Outcome/" + model.OutcomeGroup.Id;
+                    var viewFilePath = "../Outcome/";
+                    if (OutcomeGroup.UsingRecommendedServiceJourney.Contains(model.OutcomeGroup))
+                        viewFilePath += "RecommendedService";
+                    else
+                        viewFilePath += model.OutcomeGroup.Id;
                     //if (model.OutcomeGroup.IsPostcodeFirst())
                     //{
                     //    model.UserInfo.CurrentAddress.IsPostcodeFirst = true;
