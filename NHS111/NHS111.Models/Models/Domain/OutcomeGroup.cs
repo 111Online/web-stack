@@ -58,9 +58,12 @@ namespace NHS111.Models.Models.Domain {
 
         public static OutcomeGroup GP = new OutcomeGroup { Id = "SP_GP", Text = "SP_GP", DefaultTitle = "Based on your answers, we recommend you speak to a healthcare service", Label = "Healthcare services" };
 
-        public static OutcomeGroup[] PrePopulatedDosResultsOutcomeGroups = new OutcomeGroup[] {Dental, ItkPrimaryCare, AccidentAndEmergency, ClinicianCallBack, Call999Cat3, Call999Cat4};
+        public static OutcomeGroup RepeatPrescription = new OutcomeGroup { Id = "Repeat_Prescription", Text = "Repeat_Prescription", DefaultTitle = "Where to go for help", Label = "Repeat Prescription", PostcodeFirst = true, ITK = true };
+
+        public static OutcomeGroup[] PrePopulatedDosResultsOutcomeGroups = new OutcomeGroup[] {Dental, ItkPrimaryCare, AccidentAndEmergency, ClinicianCallBack, Call999Cat3, Call999Cat4, RepeatPrescription };
         public static OutcomeGroup[] DosSearchOutcomesGroups = new OutcomeGroup[] { AccidentAndEmergency, AccidentAndEmergencySexualAssault, Optician, Pharmacy, GumClinic, Dental, EmergencyDental, Midwife, ItkPrimaryCare, ClinicianCallBack };
-     
+        public static OutcomeGroup[] UsingRecommendedServiceJourney = new[] { RepeatPrescription };
+
         public static readonly Dictionary<string, OutcomeGroup> OutcomeGroups = new Dictionary<string, OutcomeGroup>()
         {
             { ClinicianCallBack.Id, ClinicianCallBack},
@@ -78,7 +81,8 @@ namespace NHS111.Models.Models.Domain {
             { Dental.Id, Dental },
             { EmergencyDental.Id, EmergencyDental },
             { Midwife.Id, Midwife },
-            { GP.Id, GP }
+            { GP.Id, GP },
+            { RepeatPrescription.Id, RepeatPrescription }
         };
 
         public override bool Equals(object obj) {
