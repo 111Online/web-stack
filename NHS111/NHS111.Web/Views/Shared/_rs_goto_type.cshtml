@@ -1,13 +1,10 @@
-﻿@using Newtonsoft.Json
+@using Newtonsoft.Json
 @using NHS111.Models.Models.Web
 @model  OutcomeViewModel
-
 @{
     var recommendedService = Model.DosCheckCapacitySummaryResult.Success.RecommendedService;
 }
-
 <div class="service-details-container">
-
     <div class="details-1 service-details">
         <div class="unit address">
             <p>
@@ -24,7 +21,6 @@
             </p>
         </div>
     </div>
-
     @*
         If an appointment is required its a public phone type only
         This is a go to so no contact details
@@ -34,7 +30,6 @@
             </div>
         </div>
     *@
-
     <div class="details-2 service-details cards--goto">
         <div class="unit directions">
             <p>
@@ -63,9 +58,7 @@
                 </p>
             </div>
         </div>
-
     </div>
-
     @{
         var mapService = JsonConvert.SerializeObject(new[] { Model });
     }
@@ -73,4 +66,3 @@
     window.mapServices = @Html.Raw(mapService);
     window.currentPostcode = "@Html.Raw(Model.CurrentPostcode)";
     </script>
-
