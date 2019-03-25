@@ -9,20 +9,13 @@
     This service is available in @Model.FormattedCurrentPostcode — @Html.Partial("_rs_ChangePostcodeLink")
 </p>
 
-<div class="service-details --remote">
-    <div class="unit">
-        <p>
-            @recommendedService.Address
-        </p>
-    </div>
-    <div class="unit">
-        <p class="tel-cta">
-            Call @recommendedService.ContactDetails
-        </p>
-    </div>
-    <div class="unit">
-        <p>
-            @Html.Partial("_ServiceOpeningTimes", recommendedService, ViewData)
-        </p>
-    </div>
+<div class="service-details nhsuk-u-margin-bottom-6">
+    <p class="service-details__address">
+        @recommendedService.Address
+    </p>
+    <p class="service-details__phone">
+        Call @recommendedService.ContactDetails
+    </p>
+    
+    @Html.Partial("_ServiceOpeningTimes", recommendedService, ViewData)
 </div>

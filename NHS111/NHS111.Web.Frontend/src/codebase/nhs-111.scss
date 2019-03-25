@@ -20,7 +20,7 @@
   /* Our components that have nhsuk-frontend as a dependency */
   @import "components/service-details";
 
-  .button--link {
+  .button--link:not(.nhsuk-action-link) {
     @include nhsuk-font(19);
     @include nhsuk-link-style-default;
     width: auto;
