@@ -1,5 +1,6 @@
 @import "../environment/settings/colours";
 @import "node_modules/nhsuk-frontend/packages/core/tools/_spacing.scss";
+@import "node_modules/nhsuk-frontend/packages/core/tools/_typography.scss";
 
 .service-details {
   padding: 2px 0;
@@ -19,6 +20,10 @@
   height: 100%;
   min-height: 300px;
   width: 100%;
+}
+
+.service-details__phone {
+  @include nhsuk-font(48, 'bold');
 }
 
 
