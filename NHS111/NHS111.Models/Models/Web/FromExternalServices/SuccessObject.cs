@@ -19,7 +19,7 @@ namespace NHS111.Models.Models.Web.FromExternalServices
         [JsonProperty(PropertyName = "services")]
         public List<T> Services { get; set; }
 
-        public T RecommendedService
+        public T FirstService
         {
             get { return this.Services.FirstOrDefault(); }
         }

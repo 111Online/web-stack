@@ -177,6 +177,7 @@
     <Compile Include="Mappers\WebMappings\FromOutcomeVIewModelToITKDispatchRequest.cs" />
     <Compile Include="Mappers\WebMappings\FromOutcomeViewModelToSubmitEncounterToServiceRequest.cs" />
     <Compile Include="Mappers\WebMappings\AddressInfoViewModelMapper.cs" />
+    <Compile Include="Mappers\WebMappings\FromServiceViewModelToRecommendedServiceViewModelMapper.cs" />
     <Compile Include="Mappers\WebMappings\FromSystemDayOfWeekToDosDayOfWeek.cs" />
     <Compile Include="Models\Business\CheckCapacitySummaryResult.cs" />
     <Compile Include="Models\Business\Enums\DispositionTimePeriod.cs" />
@@ -214,6 +215,7 @@
     <Compile Include="Models\Domain\VersionInfo.cs" />
     <Compile Include="Models\Web\AgeGenderViewModel.cs" />
     <Compile Include="Models\Web\ApplicationMedium.cs" />
+    <Compile Include="Models\Web\DetailsViewModel.cs" />
     <Compile Include="Models\Web\Elements\ActionLinkViewModel.cs" />
     <Compile Include="Models\Web\Elements\ButtonViewModel.cs" />
     <Compile Include="Models\Web\Elements\CalloutViewModel.cs" />
@@ -310,6 +312,7 @@
     <Compile Include="Models\Web\PersonalDetailViewModel.cs" />
     <Compile Include="Models\Web\QuestionInfoViewModel.cs" />
     <Compile Include="Models\Web\QuestionViewModel.cs" />
+    <Compile Include="Models\Web\RecommendedServiceViewModel.cs" />
     <Compile Include="Models\Web\ReferralResultViewModel.cs" />
     <Compile Include="Models\Web\SearchJourneyViewModel.cs" />
     <Compile Include="Models\Web\SearchResultViewModel.cs" />
