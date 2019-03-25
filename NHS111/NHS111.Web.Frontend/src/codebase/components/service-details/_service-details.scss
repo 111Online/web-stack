@@ -1,0 +1,44 @@
+@import "../environment/settings/colours";
+@import "node_modules/nhsuk-frontend/packages/core/tools/_spacing.scss";
+
+.service-details {
+  padding: 2px 0;
+  border: 0;
+  background-color: $grey-5;
+  @include nhsuk-responsive-padding(4, 'top');
+  @include nhsuk-responsive-padding(4, 'bottom');
+  @include nhsuk-responsive-padding(3, 'left');
+  @include nhsuk-responsive-padding(3, 'right');
+}
+
+.service-details-container .service-map {
+  border: 0;
+  border-top: 4px solid #fff;
+  border-bottom: 4px solid #fff;
+  display: block;
+  height: 100%;
+  min-height: 300px;
+  width: 100%;
+}
+
+
+@media (min-width: 980px) {
+  .service-details-container {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .service-details {
+    border-left: 4px solid $grey-4;
+    grid-column: 1;
+  }
+
+  .service-details-container .service-map {
+    border: 0;
+    border-left: 4px solid #fff;
+    grid-column-end: 4;
+    grid-column-start: 2;
+    grid-row-start: 1;
+    grid-row-end: 3;
+  }
+}
