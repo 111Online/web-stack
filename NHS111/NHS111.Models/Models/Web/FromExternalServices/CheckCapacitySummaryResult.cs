@@ -9,6 +9,7 @@
         public string ContactDetailsField { get; set; }
         public string AddressField { get; set; }
         public string PostcodeField { get; set; }
+        public string DistanceField { get; set; }
         public int NorthingsField { get; set; }
         public bool NorthingsSpecifiedField { get; set; }
         public int EastingsField { get; set; }
