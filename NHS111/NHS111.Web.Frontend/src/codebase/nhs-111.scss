@@ -16,15 +16,17 @@
   }
   /* nhsuk-frontend components */
   @import "node_modules/nhsuk-frontend/packages/core/all";
-  @import "node_modules/nhsuk-frontend/packages/components/action-link/action-link";
-  /* Our components that have nhsuk-frontend as a dependency */
-  @import "components/service-details";
 
-  .button--link:not(.nhsuk-action-link) {
+
+  .button--link {
     @include nhsuk-font(19);
     @include nhsuk-link-style-default;
     width: auto;
   }
+  /* nhsuk-frontend components */
+  @import "node_modules/nhsuk-frontend/packages/components/action-link/action-link";
+  /* Our components that have nhsuk-frontend as a dependency */
+  @import "components/service-details";
 }
 
 @import "objects";
