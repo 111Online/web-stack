@@ -42,6 +42,17 @@ namespace NHS111.Models.Models.Domain
 
         [JsonProperty(PropertyName = "traumaType")]
         public string TraumaType { get; set; }
+
+        [JsonProperty(PropertyName = "majorVersion")]
+        public string MajorVersion { get; set; }
+
+        [JsonProperty(PropertyName = "minorVersion")]
+        public string MinorVersion { get; set; }
+
+        [JsonProperty(PropertyName = "subRevision")]
+        public string SubRevision { get; set; }
+
+
     }
 
 }
