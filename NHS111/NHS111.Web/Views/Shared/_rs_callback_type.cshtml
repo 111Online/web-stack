@@ -17,9 +17,11 @@
             <span class="details__arrow"></span>
             <span class="summary">@recommendedService.Details.Summary</span>
         </summary>
-        <p class="nhsuk-u-margin-top-4 nhsuk-u-margin-bottom-0">
-            @recommendedService.Details.Text
-        </p>
+        <div>
+            <p class="nhsuk-u-margin-top-4 nhsuk-u-margin-bottom-0">
+                @recommendedService.Details.Text
+            </p>
+        </div>
     </details>
 </div>
 
@@ -69,7 +71,7 @@
     </div>
 </div>
 @{
-    var mapService = JsonConvert.SerializeObject(new[] { Model });
+    var mapService = JsonConvert.SerializeObject(new[] { Model.RecommendedService });
 }
 <script>
     window.mapServices = @Html.Raw(mapService);
