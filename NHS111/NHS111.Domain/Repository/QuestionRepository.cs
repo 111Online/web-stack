@@ -85,7 +85,7 @@ namespace NHS111.Domain.Repository
             var startingPathwayQuery = AddMatchesForStartingPathway(_graphRepository.Client.Cypher, steps.First(), startingPathwayId);
             ICypherFluentQuery query = AddMatchesForSteps(startingPathwayQuery, steps, true, dispositionCode);
             query = query
-                .With("rows.question as question, rows.answer as answer, rows.answers as answers")
+                .With("rows.question as question, rows.answer as answer,rows.pathway as pathway, rows.answers as answers")
                 .OrderBy("rows.step")
                 .Where("answer is not null and  labels(question) is not null");
 
@@ -94,6 +94,7 @@ namespace NHS111.Domain.Repository
                     Answered = Return.As<Answer>("answer"),
                     Question = Return.As<Question>("question"),
                     Answers = Return.As<List<Answer>>("answers"),
+                    AssociatedPathway = Return.As<Pathway>("pathway"),
                 Labels = question.Labels()
                 }
             );
@@ -132,27 +133,30 @@ namespace NHS111.Domain.Repository
 
                 modifiedQuery = index == 0 && !containsExistingRows
                     ? modifiedQuery
+                        .OptionalMatch("q-[:ofPathway]->pw")
                         .With(String.Format(
-                            "q, COLLECT(distinct a) as answers, filter(x IN COLLECT(distinct a) WHERE x.order= {0})[0]  as answered",
+                            "q,pw, COLLECT(distinct a) as answers, filter(x IN COLLECT(distinct a) WHERE x.order= {0})[0]  as answered",
                             steps[index].Answer.Order))
                         .With(String.Format(
-                            "collect({{question:q, answer:answered, answers:answers, step:{0}}}) as rows", index))
+                            "collect({{question:q, answer:answered, answers:answers,pathway:pw, step:{0}}}) as rows", index))
 
                     : (!IsLastStep(steps, index))
                         ? modifiedQuery
+                            .OptionalMatch("q-[:ofPathway]->pw")
                             .With(String.Format(
-                                "rows,q, COLLECT(distinct a) as answers, filter(x IN COLLECT(distinct a) WHERE x.order= {0})[0]  as answered",
+                                "rows,q,pw, COLLECT(distinct a) as answers, filter(x IN COLLECT(distinct a) WHERE x.order= {0})[0]  as answered",
                                 steps[index].Answer.Order))
                             .With(String.Format(
-                                "rows + collect({{question:q, answer:answered, answers:answers, step:{0}}}) as rows",
+                                "rows + collect({{question:q, answer:answered, answers:answers,pathway:pw, step:{0}}}) as rows",
                                 index))
                         : modifiedQuery
                             .OptionalMatch(String.Format("(q:{0}{{id:'{1}'}})-[a:Answer]->()", steps[index].NodeLabel, steps[index].QuestionId))
+                            .OptionalMatch("q-[:ofPathway]->pw")
                             .With(String.Format(
-                                "rows,q, COLLECT(distinct a) as answers, filter(x IN COLLECT(distinct a) WHERE x.order= {0})[0]  as answered",
+                                "rows,q,pw, COLLECT(distinct a) as answers, filter(x IN COLLECT(distinct a) WHERE x.order= {0})[0]  as answered",
                                 steps[index].Answer.Order))
                             .With(String.Format(
-                                "rows + collect({{question:q, answer:answered, answers:answers, step:{0}}}) as rows", index))
+                                "rows + collect({{question:q, answer:answered, answers:answers,pathway:pw, step:{0}}}) as rows", index))
                             .OptionalMatch(String.Format("(q:{0}{{id:'{1}'}})-[a:Answer{{order:{2}}}]->(n{{id:'{3}'}})",
                                 steps[index].NodeLabel, steps[index].QuestionId, steps[index].Answer.Order, dispositionCode))
                             .OptionalMatch("n-[i:Instruction]->(:OutcomeEnd)")
@@ -162,6 +166,8 @@ namespace NHS111.Domain.Repository
 
                             .OptionalMatch(String.Format(
                                 "p = (:{0}{{id:'{1}'}})-[a:Answer{{order:{2}}}]->(f)-[:Answer*0..3]->(t)-[:Answer]->(n{{id:'{3}'}})", steps[index].NodeLabel, steps[index].QuestionId, steps[index].Answer.Order, dispositionCode))
+                            .OptionalMatch("t-[:ofPathway]->pw")
+                            .OptionalMatch("f-[:ofPathway]->pw")
                             .Where("(t:Set OR t:Read) and (f:Set OR f:Read)")
                             .OptionalMatch("n-[i:Instruction]->(:OutcomeEnd)")
                             .With("nodes(p)AS nds, rels(p) AS rls, rows, n, collect(distinct i) as instructions")
@@ -184,9 +190,10 @@ namespace NHS111.Domain.Repository
                         steps[index].QuestionId,
                         steps[index].Answer.Order,
                         steps[index + 1].NodeLabel,
-                        steps[index + 1].QuestionId));
+                        steps[index + 1].QuestionId)).OptionalMatch("t-[:ofPathway]->pw");
 
                     modifiedQuery = modifiedQuery.Where("(t:Set OR t:Read) and (f:Set OR f:Read)");
+
                     modifiedQuery = modifiedQuery.With("nodes(p)AS nds, rels(p) AS rls, rows")
 
                         .Unwind("coalesce(nds, [null])", "n1")
