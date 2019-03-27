@@ -26,24 +26,25 @@
   @include nhsuk-font(48, 'bold');
 }
 
+@supports (display: grid) {
+  @media (min-width: 980px) {
+    .service-details-container {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+    }
 
-@media (min-width: 980px) {
-  .service-details-container {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-  }
+    .service-details {
+      border-left: 4px solid $grey-4;
+      grid-column: 1;
+    }
 
-  .service-details {
-    border-left: 4px solid $grey-4;
-    grid-column: 1;
-  }
-
-  .service-details-container .service-map {
-    border: 0;
-    border-left: 4px solid #fff;
-    grid-column-end: 4;
-    grid-column-start: 2;
-    grid-row-start: 1;
-    grid-row-end: 3;
+    .service-details-container .service-map {
+      border: 0;
+      border-left: 4px solid #fff;
+      grid-column-end: 4;
+      grid-column-start: 2;
+      grid-row-start: 1;
+      grid-row-end: 3;
+    }
   }
 }
