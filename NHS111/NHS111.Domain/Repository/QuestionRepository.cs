@@ -33,7 +33,7 @@ namespace NHS111.Domain.Repository
         public async Task<IEnumerable<Answer>> GetAnswersForQuestion(string id)
         {
             var res =  await _graphRepository.Client.Cypher.
-                Match(string.Format("({{ id: \"{0}\" }})-[a]->()", id)).
+                Match(string.Format("({{ id: \"{0}\" }})-[a:Answer]->()", id)).
                 Return(a => Return.As<Answer>("a")).
                 ResultsAsync;
             return res;
@@ -44,8 +44,8 @@ namespace NHS111.Domain.Repository
             var query = _graphRepository.Client.Cypher.
                 Match(string.Format("(:{0}{{ id: \"{1}\" }})-[a:Answer]->(next)", nodeLabel, id)).
                 Where(string.Format("lower(a.title) = '{0}'", answer.Replace("'", "\\'").ToLower())).
-                OptionalMatch("next-[nextAnswer]->()").
-                OptionalMatch("next-[typeOf]->(g:OutcomeGroup)").
+                OptionalMatch("next-[nextAnswer:Answer]->()").
+                OptionalMatch("next-[:typeOf]->(g:OutcomeGroup)").
                 Return(next => new QuestionWithAnswers
                 {
                     Question = Return.As<Question>("next"),
