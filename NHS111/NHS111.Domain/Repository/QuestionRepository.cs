@@ -80,10 +80,10 @@ namespace NHS111.Domain.Repository
         }
 
 
-        public async Task<IEnumerable<QuestionWithAnswers>> GetPathwaysJourney(List<JourneyStep> steps, string startingPathwayId, string dispositionCode)
+        public async Task<IEnumerable<QuestionWithAnswers>> GetPathwaysJourney(List<JourneyStep> steps, string startingPathwayId, string dispositionCode, string gender, int age)
         {
             var startingPathwayQuery = AddMatchesForStartingPathway(_graphRepository.Client.Cypher, steps.First(), startingPathwayId);
-            ICypherFluentQuery query = AddMatchesForSteps(startingPathwayQuery, steps, true, dispositionCode);
+            ICypherFluentQuery query = AddMatchesForSteps(startingPathwayQuery, steps, true, dispositionCode,  gender,  age);
             query = query
                 .With("rows.question as question, rows.answer as answer,rows.pathway as pathway, rows.answers as answers")
                 .OrderBy("rows.step")
@@ -122,7 +122,7 @@ namespace NHS111.Domain.Repository
             return modifiedQuery;
         }
 
-        public ICypherFluentQuery AddMatchesForSteps(ICypherFluentQuery query, List<JourneyStep> steps, bool containsExistingRows, string dispositionCode)
+        public ICypherFluentQuery AddMatchesForSteps(ICypherFluentQuery query, List<JourneyStep> steps, bool containsExistingRows, string dispositionCode, string gender, int age)
         {
             var modifiedQuery = query;
             for (int index = 0; index < steps.Count; ++index)
@@ -133,7 +133,7 @@ namespace NHS111.Domain.Repository
 
                 modifiedQuery = index == 0 && !containsExistingRows
                     ? modifiedQuery
-                        .OptionalMatch("q-[:ofPathway]->pw")
+                        .OptionalMatch("q-[:ofPathway]->(pw:Pathway)").Where(string.Join(" and ", new List<string> { FilterStatements.GenderIs("pw", gender), FilterStatements.AgeIsAboveMinimum("pw", age), FilterStatements.AgeIsBelowMaximum("pw", age) }))
                         .With(String.Format(
                             "q,pw, COLLECT(distinct a) as answers, filter(x IN COLLECT(distinct a) WHERE x.order= {0})[0]  as answered",
                             steps[index].Answer.Order))
@@ -142,7 +142,7 @@ namespace NHS111.Domain.Repository
 
                     : (!IsLastStep(steps, index))
                         ? modifiedQuery
-                            .OptionalMatch("q-[:ofPathway]->pw")
+                            .OptionalMatch("q-[:ofPathway]->(pw:Pathway)").Where(string.Join(" and ", new List<string> { FilterStatements.GenderIs("pw", gender), FilterStatements.AgeIsAboveMinimum("pw", age), FilterStatements.AgeIsBelowMaximum("pw", age) }))
                             .With(String.Format(
                                 "rows,q,pw, COLLECT(distinct a) as answers, filter(x IN COLLECT(distinct a) WHERE x.order= {0})[0]  as answered",
                                 steps[index].Answer.Order))
@@ -151,7 +151,7 @@ namespace NHS111.Domain.Repository
                                 index))
                         : modifiedQuery
                             .OptionalMatch(String.Format("(q:{0}{{id:'{1}'}})-[a:Answer]->()", steps[index].NodeLabel, steps[index].QuestionId))
-                            .OptionalMatch("q-[:ofPathway]->pw")
+                            .OptionalMatch("q-[:ofPathway]->(pw:Pathway)").Where(string.Join(" and ", new List<string> { FilterStatements.GenderIs("pw", gender), FilterStatements.AgeIsAboveMinimum("pw", age), FilterStatements.AgeIsBelowMaximum("pw", age) }))
                             .With(String.Format(
                                 "rows,q,pw, COLLECT(distinct a) as answers, filter(x IN COLLECT(distinct a) WHERE x.order= {0})[0]  as answered",
                                 steps[index].Answer.Order))
@@ -172,7 +172,7 @@ namespace NHS111.Domain.Repository
 
                             .Unwind("coalesce(nds, [null])", "n1")
                             .OptionalMatch("(n1)-[a:Answer]->()")
-                            .OptionalMatch("(n1)-[:ofPathway]->pw")
+                            .OptionalMatch("(n1)-[:ofPathway]->(pw:Pathway)").Where(string.Join(" and ", new List<string> { FilterStatements.GenderIs("pw", gender), FilterStatements.AgeIsAboveMinimum("pw", age), FilterStatements.AgeIsBelowMaximum("pw", age) }))
                             .With("nds,pw, rls, rows, n, {leadingnode:n1, nodeanswers:COLLECT(DISTINCT a)} as node, instructions")
 
                             .Unwind("case when nds is null then 0 else range(1, length(nds) - 2) end", "x")
@@ -189,15 +189,15 @@ namespace NHS111.Domain.Repository
                         steps[index].QuestionId,
                         steps[index].Answer.Order,
                         steps[index + 1].NodeLabel,
-                        steps[index + 1].QuestionId)).OptionalMatch("t-[:ofPathway]->pw");
+                        steps[index + 1].QuestionId)).Where("(t:Set OR t:Read) and (f:Set OR f:Read)");
 
-                    modifiedQuery = modifiedQuery.Where("(t:Set OR t:Read) and (f:Set OR f:Read)");
+
 
                     modifiedQuery = modifiedQuery.With("nodes(p)AS nds, rels(p) AS rls, rows")
 
                         .Unwind("coalesce(nds, [null])", "n1")
                         .OptionalMatch("(n1)-[a:Answer]->()")
-                        .OptionalMatch("(n1)-[:ofPathway]->pw")
+                        .OptionalMatch("(n1)-[:ofPathway]->(pw:Pathway)").Where(string.Join(" and ", new List<string> { FilterStatements.GenderIs("pw", gender), FilterStatements.AgeIsAboveMinimum("pw", age), FilterStatements.AgeIsBelowMaximum("pw", age) }))
                         .With("nds,pw, rls, rows, n1, {leadingnode:n1, nodeanswers:COLLECT(DISTINCT a)} as node")
 
                         .Unwind("case when nds is null then 0 else range(1, length(nds) - 2) end", "i")
@@ -279,7 +279,8 @@ namespace NHS111.Domain.Repository
         Task<IEnumerable<Answer>> GetAnswersForQuestion(string id);
 
         Task<IEnumerable<QuestionWithAnswers>>
-            GetPathwaysJourney(List<JourneyStep> steps, string startingPathwayId, string dispositionCode);
+            GetPathwaysJourney(List<JourneyStep> steps, string startingPathwayId, string dispositionCode, string gender,
+                int age);
         Task<QuestionWithAnswers> GetNextQuestion(string id, string nodeLabel, string answer);
         Task<QuestionWithAnswers> GetFirstQuestion(string pathwayId);
         Task<IEnumerable<QuestionWithAnswers>> GetJustToBeSafeQuestions(string pathwayId, string justToBeSafePart);

@@ -72,7 +72,7 @@ namespace NHS111.Business.Services
             var gender = GetGenderFromState(state);
             var moduleZeroJourney = await GetModuleZeroJourney(gender, age, traumaType);
             
-            var pathwaysJourney = await GetPathwayJourney(steps, startingPathwayId, dispositionCode);
+            var pathwaysJourney = await GetPathwayJourney(steps, startingPathwayId, dispositionCode, gender, age);
             var filteredJourneySteps = NavigateReadNodeLogic(steps, pathwaysJourney.ToList(), state);
 
             //keywords from pathways
@@ -174,7 +174,7 @@ namespace NHS111.Business.Services
             var steps = pathwayJourney.Steps;
 
             var request = new HttpRequestMessage { Content = new StringContent(JsonConvert.SerializeObject(steps), Encoding.UTF8, "application/json") };
-            var response = await _restfulHelper.PostAsync(_configuration.GetDomainApiPathwayJourneyUrl(pathwayJourney.PathwayId, pathwayJourney.DispositionId), request).ConfigureAwait(false);
+            var response = await _restfulHelper.PostAsync(_configuration.GetDomainApiPathwayJourneyUrl(pathwayJourney.PathwayId, pathwayJourney.DispositionId, gender, age), request).ConfigureAwait(false);
 
             var moduleZeroJourney = JsonConvert.DeserializeObject<IEnumerable<QuestionWithAnswers>>(await response.Content.ReadAsStringAsync());
             var state = BuildState(gender, age, pathwayJourney.State);
@@ -183,10 +183,10 @@ namespace NHS111.Business.Services
             return filteredModZeroJourney;
         }
 
-        public async Task<IEnumerable<QuestionWithAnswers>> GetPathwayJourney(JourneyStep[] steps, string startingPathwayId, string dispositionCode)
+        public async Task<IEnumerable<QuestionWithAnswers>> GetPathwayJourney(JourneyStep[] steps, string startingPathwayId, string dispositionCode, string gender, int age)
         {
             var request = new HttpRequestMessage { Content = new StringContent(JsonConvert.SerializeObject(steps), Encoding.UTF8, "application/json") };
-            var response = await _restfulHelper.PostAsync(_configuration.GetDomainApiPathwayJourneyUrl(startingPathwayId, dispositionCode), request).ConfigureAwait(false);
+            var response = await _restfulHelper.PostAsync(_configuration.GetDomainApiPathwayJourneyUrl(startingPathwayId, dispositionCode, gender, age), request).ConfigureAwait(false);
             return JsonConvert.DeserializeObject<IEnumerable<QuestionWithAnswers>>(await response.Content.ReadAsStringAsync());
         }
 
@@ -198,7 +198,8 @@ namespace NHS111.Business.Services
 
     public interface IQuestionService
     {
-        Task<IEnumerable<QuestionWithAnswers>> GetPathwayJourney(JourneyStep[] steps, string startingPathwayId, string dispositionCode);
+        Task<IEnumerable<QuestionWithAnswers>> GetPathwayJourney(JourneyStep[] steps, string startingPathwayId,
+            string dispositionCode, string gender, int age);
         Task<HttpResponseMessage> GetFullPathwayJourney(string traumaType, JourneyStep[] steps, string startingPathwayId, string dispositionCode, IDictionary<string, string> state);
         Task<string> GetQuestion(string id);
         Task<string> GetAnswersForQuestion(string id);
