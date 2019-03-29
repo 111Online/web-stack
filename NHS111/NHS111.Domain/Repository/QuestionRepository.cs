@@ -189,16 +189,8 @@ namespace NHS111.Domain.Repository
                         steps[index].QuestionId,
                         steps[index].Answer.Order,
                         steps[index + 1].NodeLabel,
-                        steps[index + 1].QuestionId)).Where("(t:Set OR t:Read) and (f:Set OR f:Read)")
+                        steps[index + 1].QuestionId)).Where("(t:Set OR t:Read) and (f:Set OR f:Read)");
 
-                        .OptionalMatch("t-[:ofPathway]->(pw:Pathway)").Where(
-                        string.Join(" and ",
-                            new List<string>
-                            {
-                                FilterStatements.GenderIs("pw", gender),
-                                FilterStatements.AgeIsAboveMinimum("pw", age),
-                                FilterStatements.AgeIsBelowMaximum("pw", age)
-                            }));
 
 
                     modifiedQuery = modifiedQuery.With("nodes(p)AS nds, rels(p) AS rls, rows")
