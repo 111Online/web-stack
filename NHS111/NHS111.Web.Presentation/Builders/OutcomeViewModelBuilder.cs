@@ -133,7 +133,7 @@ namespace NHS111.Web.Presentation.Builders
             }
 
             model = await dosTask;
-            var recommendedServiceTask = _recommendedServiceBuilder.BuildRecommendedService(model.DosCheckCapacitySummaryResult.Success.FirstService);
+            //var recommendedServiceTask = _recommendedServiceBuilder.BuildRecommendedService(model.DosCheckCapacitySummaryResult.Success.FirstService);
 
             if (OutcomeGroup.Call999Cat2.Equals(model.OutcomeGroup) || OutcomeGroup.Call999Cat3.Equals(model.OutcomeGroup))
             {
@@ -147,7 +147,7 @@ namespace NHS111.Web.Presentation.Builders
             model.WorseningCareAdvice = await worseningTask;
             model.CareAdvices = await careAdvicesTask;
             model.SurveyLink = await surveyTask;
-            model.RecommendedService = await recommendedServiceTask;
+            //model.RecommendedService = await recommendedServiceTask;
 
             return model;
         }
@@ -223,7 +223,10 @@ namespace NHS111.Web.Presentation.Builders
             model.DosCheckCapacitySummaryResult.ServicesUnavailable = model.DosCheckCapacitySummaryResult.ResultListEmpty;
 
             if (!model.DosCheckCapacitySummaryResult.ResultListEmpty)
+            {
                 model.GroupedDosServices = _dosBuilder.FillGroupedDosServices(model.DosCheckCapacitySummaryResult.Success.Services);
+                model.RecommendedService = await _recommendedServiceBuilder.BuildRecommendedService(model.DosCheckCapacitySummaryResult.Success.FirstService);
+            }
 
             _surveyLinkViewModelBuilder.AddServiceInformation(model, model.SurveyLink);
 

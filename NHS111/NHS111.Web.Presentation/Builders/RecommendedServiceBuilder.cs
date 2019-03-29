@@ -16,6 +16,8 @@ namespace NHS111.Web.Presentation.Builders
             //will need to implement a proper solution to custom content if/when we introduce other
             //service types - maybe a new type/properties in neo4j?
             var recommendedService = Mapper.Map<RecommendedServiceViewModel>(firstService);
+            if (recommendedService == null) return await Task.FromResult((RecommendedServiceViewModel) null);
+
             recommendedService.ReasonText = "Tell us who you are to make sure you only pay NHS prescription charges.";
             recommendedService.Details = new DetailsViewModel
             {

@@ -8,10 +8,15 @@
 
 
 <div class="callout callout--attention measure nhsuk-u-margin-bottom-4">
+@using (Html.BeginForm("PersonalDetails", "Outcome", FormMethod.Post))
+{
+    @Html.Partial("_CommonHiddenFieldsOutcomeViewModel", Model)
+    @Html.Partial("_CommonHiddenFieldsCareAdviceViewModel", Model)
+    @Html.Hidden("SelectedServiceId", recommendedService.Id)
     <p>
         @recommendedService.ReasonText
     </p>
-    @Html.Partial("_ActionButton", new ActionLinkViewModel() { Text = "Enter my details" })
+    @Html.Partial("_ActionButton", new ActionLinkViewModel() {Text = "Enter my details"})
     <details>
         <summary role="button">
             <span class="details__arrow"></span>
@@ -23,6 +28,7 @@
             </p>
         </div>
     </details>
+}
 </div>
 
 
