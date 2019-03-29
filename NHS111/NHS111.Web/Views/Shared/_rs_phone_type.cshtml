@@ -5,9 +5,14 @@
     var recommendedService = Model.RecommendedService;
 }
 
-<p>
-    This service is available in @Model.FormattedCurrentPostcode — @Html.Partial("_rs_ChangePostcodeLink")
-</p>
+@using (Html.BeginForm("ChangePostcode", "Outcome", FormMethod.Post))
+{
+    @Html.Partial("_CommonHiddenFieldsOutcomeViewModel", Model)
+    @Html.Partial("_CommonHiddenFieldsCareAdviceViewModel", Model)
+    <p>
+        This service is available in @Model.FormattedCurrentPostcode — @Html.Partial("_rs_ChangePostcodeLink")
+    </p>
+}
 
 <div class="service-details nhsuk-u-margin-bottom-6">
     <p class="service-details__address">
