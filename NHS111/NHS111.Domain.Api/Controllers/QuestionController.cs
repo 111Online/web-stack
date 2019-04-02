@@ -3,8 +3,10 @@ using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
+using System.Web.Http.Results;
 using Newtonsoft.Json;
 using NHS111.Domain.Repository;
+using NHS111.Models.Models.Domain;
 using NHS111.Models.Models.Web.FromExternalServices;
 using NHS111.Utils.Attributes;
 using NHS111.Utils.Extensions;
@@ -23,53 +25,59 @@ namespace NHS111.Domain.Api.Controllers
 
         [HttpGet]
         [Route("questions/{questionId}")]
-        public async Task<HttpResponseMessage> GetQuestion(string questionId)
+        public async Task<JsonResult<QuestionWithAnswers>> GetQuestion(string questionId)
         {
-            return await _questionRepository.GetQuestion(questionId).AsJson().AsHttpResponse();
+            var questionWithAnswers = await _questionRepository.GetQuestion(questionId);
+            return Json(questionWithAnswers);
         }
 
         [HttpGet]
         [Route("questions/{questionId}/answers")]
-        public async Task<HttpResponseMessage> GetAnswersForQuestion(string questionId)
+        public async Task<JsonResult<IEnumerable<Answer>>> GetAnswersForQuestion(string questionId)
         {
-            return await _questionRepository.GetAnswersForQuestion(questionId).AsJson().AsHttpResponse();
+            var answers = await _questionRepository.GetAnswersForQuestion(questionId);
+            return Json(answers);
         }
 
         [HttpPost]
         [Route("questions/{questionId}/{nodeLabel}/answersNext")]
-        public async Task<HttpResponseMessage> GetNextQuestion(string questionId, string nodeLabel, [FromBody]string answer)
+        public async Task<JsonResult<QuestionWithAnswers>> GetNextQuestion(string questionId, string nodeLabel, [FromBody]string answer)
         {
-            return await _questionRepository.GetNextQuestion(questionId, nodeLabel, answer).AsJson().AsHttpResponse();
+            var questionWithAnswers = await _questionRepository.GetNextQuestion(questionId, nodeLabel, answer);
+            return Json(questionWithAnswers);
         }
 
 
         [HttpPost]
         [Route("questions/fullPathwayJourney/{startingPathwayId}/{dispositionCode}")]
-        public async Task<HttpResponseMessage> GetFullPathwayJourney([FromBody]JourneyStep[] steps, string startingPathwayId, string dispositionCode)
+        public async Task<JsonResult<IEnumerable<QuestionWithAnswers>>> GetFullPathwayJourney([FromBody]JourneyStep[] steps, string startingPathwayId, string dispositionCode)
         {
-            var response = await _questionRepository.GetPathwaysJourney(steps.ToList(), startingPathwayId, dispositionCode).AsJson().AsHttpResponse();
-            return response;
+            var questionsWithAnswers = await _questionRepository.GetPathwaysJourney(steps.ToList(), startingPathwayId, dispositionCode);
+            return Json(questionsWithAnswers);
         }
 
         [HttpGet]
         [Route("pathways/{pathwayId}/questions/first")]
-        public async Task<HttpResponseMessage> GetFirstQuestion(string pathwayId)
+        public async Task<JsonResult<QuestionWithAnswers>> GetFirstQuestion(string pathwayId)
         {
-            return await _questionRepository.GetFirstQuestion(pathwayId).AsJson().AsHttpResponse();
+            var questionWithAnswers = await _questionRepository.GetFirstQuestion(pathwayId);
+            return Json(questionWithAnswers);
         }
 
         [HttpGet]
         [Route("pathways/{pathwayId}/just-to-be-safe/first")]
-        public async Task<HttpResponseMessage> GetJustToBeSafeQuestionsFirst(string pathwayId)
+        public async Task<JsonResult<IEnumerable<QuestionWithAnswers>>> GetJustToBeSafeQuestionsFirst(string pathwayId)
         {
-            return await _questionRepository.GetJustToBeSafeQuestions(pathwayId, "1").AsJson().AsHttpResponse();
+            var questionsWithAnswers = await _questionRepository.GetJustToBeSafeQuestions(pathwayId, "1");
+            return Json(questionsWithAnswers);
         }
 
         [HttpGet]
         [Route("pathways/{pathwayId}/just-to-be-safe/next")]
-        public async Task<HttpResponseMessage> GetJustToBeSafeQuestionsNext(string pathwayId, [FromUri]string answeredQuestionIds, [FromUri]bool multipleChoice, [FromUri]string selectedQuestionId = "")
+        public async Task<JsonResult<IEnumerable<QuestionWithAnswers>>> GetJustToBeSafeQuestionsNext(string pathwayId, [FromUri]string answeredQuestionIds, [FromUri]bool multipleChoice, [FromUri]string selectedQuestionId = "")
         {
-            return await _questionRepository.GetJustToBeSafeQuestions(pathwayId, selectedQuestionId, multipleChoice, answeredQuestionIds).AsJson().AsHttpResponse();
+            var questionsWithAnswers = await _questionRepository.GetJustToBeSafeQuestions(pathwayId, selectedQuestionId, multipleChoice, answeredQuestionIds);
+            return Json(questionsWithAnswers);
         }
     }
 }
