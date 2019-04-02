@@ -1,10 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using NHS111.Business.Configuration;
-using NHS111.Utils.Helpers;
+using NHS111.Utils.RestTools;
+using RestSharp;
 
 namespace NHS111.Business.Services
 {
@@ -12,20 +10,20 @@ namespace NHS111.Business.Services
     public class SymptomDisciminatorService : ISymptomDisciminatorService
     {
         private readonly IConfiguration _configuration;
-        private readonly IRestfulHelper _restfulHelper;
+        private readonly IRestClient _restClient;
 
-        public SymptomDisciminatorService(IConfiguration configuration, IRestfulHelper restfulHelper)
+        public SymptomDisciminatorService(IConfiguration configuration, IRestClient restClientDomainApi)
         {
             _configuration = configuration;
-            _restfulHelper = restfulHelper;
+            _restClient = restClientDomainApi;
         }
 
         public async Task<string> GetSymptomDisciminator(string id)
         {
-            var response = await _restfulHelper.GetResponseAsync(_configuration.GetDomainApiSymptomDisciminatorUrl(id));
-            if (!response.IsSuccessStatusCode)
-                throw new Exception(string.Format("A problem occured requesting {0}. {1}", _configuration.GetDomainApiSymptomDisciminatorUrl(id), await response.Content.ReadAsStringAsync()));
-            return await response.Content.ReadAsStringAsync();
+            var symptomDiscriminators = await _restClient.ExecuteTaskAsync<string>(new JsonRestRequest(_configuration.GetDomainApiSymptomDisciminatorUrl(id), Method.GET));
+            if (!symptomDiscriminators.IsSuccessful)
+                throw new Exception(string.Format("A problem occured requesting {0}. {1}", _configuration.GetDomainApiSymptomDisciminatorUrl(id), symptomDiscriminators.ErrorMessage));
+            return symptomDiscriminators.Data;
         }
 
     }

@@ -79,7 +79,8 @@ namespace NHS111.Business.Api.Controllers
                 }
 #endif
 
-            var next = JsonConvert.DeserializeObject<QuestionWithAnswers>(await (await _questionService.GetNextQuestion(nodeId, nodeLabel, answer)).Content.ReadAsStringAsync());
+            var question = await _questionService.GetNextQuestion(nodeId, nodeLabel, answer);
+            var next = JsonConvert.DeserializeObject<QuestionWithAnswers>(question.Content);
             var stateDictionary = JsonConvert.DeserializeObject<IDictionary<string, string>>(HttpUtility.UrlDecode(state));
 
             var nextLabel = next.Labels.FirstOrDefault();

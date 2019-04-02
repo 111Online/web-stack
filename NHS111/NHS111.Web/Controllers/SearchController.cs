@@ -13,7 +13,7 @@ using NHS111.Web.Presentation.Configuration;
 
 namespace NHS111.Web.Controllers
 {
-    public class SearchController : Controller
+    public class SearchController : BaseConroller
     {
         public const int MAX_SEARCH_RESULTS = 10;
 
@@ -271,13 +271,6 @@ namespace NHS111.Web.Controllers
                 result.DisplayTitle.RemoveAt(i);
                 result.DisplayTitle.Insert(0, title);
             }
-        }
-
-        private RestRequest CreateJsonRequest(string url, Method method)
-        {
-            var request = new RestRequest(url, method);
-            request.OnBeforeDeserialization = resp => { resp.ContentType = "application/json"; };
-            return request;
         }
 
         private readonly IConfiguration _configuration;

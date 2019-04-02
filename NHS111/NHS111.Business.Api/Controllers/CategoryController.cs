@@ -1,13 +1,15 @@
 ﻿
 using System;
+using System.Collections.Generic;
+using System.Web.Http.Results;
+using Newtonsoft.Json;
+using NHS111.Models.Models.Domain;
 using NHS111.Utils.Cache;
 
 namespace NHS111.Business.Api.Controllers {
-    using System.Net.Http;
     using System.Threading.Tasks;
     using System.Web.Http;
     using Services;
-    using Utils.Extensions;
 
     public class CategoryController : ApiController {
         private readonly ICategoryService _categoryService;
@@ -21,28 +23,30 @@ namespace NHS111.Business.Api.Controllers {
 
         [HttpGet]
         [Route("categories/pathways")]
-        public async Task<HttpResponseMessage> GetCategoriesWithPathways() {
-            return await _categoryService.GetCategoriesWithPathways().AsHttpResponse();
+        public async Task<JsonResult<IEnumerable<CategoryWithPathways>>> GetCategoriesWithPathways()
+        {
+            var categoriesWithPathways = await _categoryService.GetCategoriesWithPathways();
+            return Json(categoriesWithPathways);
         }
 
         [HttpGet]
         [Route("categories/pathways/{gender}/{age}")]
-        public async Task<HttpResponseMessage> GetCategoriesWithPathways(string gender, int age)
+        public async Task<JsonResult<IEnumerable<CategoryWithPathways>>> GetCategoriesWithPathways(string gender, int age)
         {
             var cacheKey = String.Format("GetCategoriesWithPathways-{0}-{1}", gender, age);
 #if !DEBUG
                 var cacheValue = await _cacheManager.Read(cacheKey);
                 if (!string.IsNullOrEmpty(cacheValue))
                 {
-                    return cacheValue.AsHttpResponse();
+                    return Json(JsonConvert.DeserializeObject<IEnumerable<CategoryWithPathways>>(cacheValue));
                 }
 #endif
 
-            var result = await _categoryService.GetCategoriesWithPathways(gender, age);
-            #if !DEBUG
-              _cacheManager.Set(cacheKey, result);
-            #endif
-            return result.AsHttpResponse();
+            var categoriesWithPathways = await _categoryService.GetCategoriesWithPathways(gender, age);
+#if !DEBUG
+              _cacheManager.Set(cacheKey, JsonConvert.SerializeObject(categoriesWithPathways));
+#endif
+            return Json(categoriesWithPathways);
         }
     }
 }

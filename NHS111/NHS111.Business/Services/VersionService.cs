@@ -1,32 +1,32 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using NHS111.Business.Configuration;
-using NHS111.Utils.Helpers;
+using NHS111.Models.Models.Domain;
+using NHS111.Utils.RestTools;
+using RestSharp;
 
 namespace NHS111.Business.Services
 {
     public class VersionService : IVersionService
     {
         private readonly IConfiguration _configuration;
-        private readonly IRestfulHelper _restfulHelper;
+        private readonly IRestClient _restClient;
 
-        public VersionService(IConfiguration configuration, IRestfulHelper restfulHelper)
+        public VersionService(IConfiguration configuration, IRestClient restClientDomainApi)
         {
+
             _configuration = configuration;
-            _restfulHelper = restfulHelper;
+            _restClient = restClientDomainApi;
         }
 
-        public async Task<string> GetVersionInfo()
+        public async Task<VersionInfo> GetVersionInfo()
         {
-            return await _restfulHelper.GetAsync(_configuration.GetDomainApiVersionUrl());
+            var version = await _restClient.ExecuteTaskAsync<VersionInfo>(new JsonRestRequest(_configuration.GetDomainApiVersionUrl(), Method.GET));
+            return version.Data;
         }
     }
 
     public interface IVersionService
     {
-        Task<string> GetVersionInfo();
+        Task<VersionInfo> GetVersionInfo();
     }
 }

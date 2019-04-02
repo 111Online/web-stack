@@ -41,13 +41,12 @@ namespace NHS111.Web.Presentation.Builders
         private readonly IITKMessagingFeature _itkMessagingFeature;
         private static readonly ILog _logger = LogManager.GetLogger(typeof (DOSBuilder));
 
-        public DOSBuilder(ICareAdviceBuilder careAdviceBuilder, IRestfulHelper restfulHelper, IConfiguration configuration, IMappingEngine mappingEngine, INotifier<string> notifier, IITKMessagingFeature itkMessagingFeature)
+        public DOSBuilder(ICareAdviceBuilder careAdviceBuilder, IRestfulHelper restfulHelper, IConfiguration configuration, IMappingEngine mappingEngine, IITKMessagingFeature itkMessagingFeature)
         {
             _careAdviceBuilder = careAdviceBuilder;
             _restfulHelper = restfulHelper;
             _configuration = configuration;
             _mappingEngine = mappingEngine;
-            _notifier = notifier;
             _itkMessagingFeature = itkMessagingFeature;
 
             XmlConfigurator.Configure();

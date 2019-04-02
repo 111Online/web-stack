@@ -1,4 +1,6 @@
 ﻿
+using NHS111.Utils.RestTools;
+
 namespace NHS111.Web.Controllers {
     using Features;
     using Helpers;
@@ -282,8 +284,7 @@ namespace NHS111.Web.Controllers {
         {
             var questionViewModel = BuildQuestionViewModel(pathwayId, age, pathwayTitle);
             var response = await 
-                _restClientBusinessApi.ExecuteTaskAsync<Pathway>(
-                    CreateJsonRequest(_configuration.GetBusinessApiPathwayUrl(pathwayId, true), Method.GET));
+                _restClientBusinessApi.ExecuteTaskAsync<Pathway>(new JsonRestRequest(_configuration.GetBusinessApiPathwayUrl(pathwayId, true), Method.GET));
             var pathway = response.Data;
             if (pathway == null) return null;
 
@@ -314,7 +315,7 @@ namespace NHS111.Web.Controllers {
             ModelState.Clear();
 
             var url = _configuration.GetBusinessApiQuestionByIdUrl(model.PathwayId, model.Journey.Steps.Last().QuestionId, true);
-            var response = await _restClientBusinessApi.ExecuteTaskAsync<QuestionWithAnswers>(CreateJsonRequest(url, Method.GET));
+            var response = await _restClientBusinessApi.ExecuteTaskAsync<QuestionWithAnswers>(new JsonRestRequest(url, Method.GET));
             var questionWithAnswers = response.Data;
 
             var result = _journeyViewModelBuilder.BuildPreviousQuestion(questionWithAnswers, model);
@@ -326,7 +327,7 @@ namespace NHS111.Web.Controllers {
         private async Task<QuestionWithAnswers> GetNextNode(QuestionViewModel model) {
             var answer = JsonConvert.DeserializeObject<Answer>(model.SelectedAnswer);
             var serialisedState = HttpUtility.UrlEncode(model.StateJson);
-            var request = CreateJsonRequest(_configuration.GetBusinessApiNextNodeUrl(model.PathwayId, model.NodeType, model.Id, serialisedState, true), Method.POST);
+            var request = new JsonRestRequest(_configuration.GetBusinessApiNextNodeUrl(model.PathwayId, model.NodeType, model.Id, serialisedState, true), Method.POST);
             request.AddJsonBody(answer.Title);
             var response = await _restClientBusinessApi.ExecuteTaskAsync<QuestionWithAnswers>(request);
             return response.Data;
@@ -334,7 +335,7 @@ namespace NHS111.Web.Controllers {
 
         private async Task<List<QuestionWithAnswers>> GetFullJourney(QuestionViewModel model)
         {
-            var request = CreateJsonRequest(_configuration.BusinessApiGetFullPathwayJourneyUrl, Method.POST);
+            var request = new JsonRestRequest(_configuration.BusinessApiGetFullPathwayJourneyUrl, Method.POST);
             request.AddJsonBody(model.Journey.Steps.ToArray());
             var response = await _restClientBusinessApi.ExecuteTaskAsync<List<QuestionWithAnswers>>(request);
             return response.Data;
@@ -373,13 +374,6 @@ namespace NHS111.Web.Controllers {
                 PathwayTitle = pathwayTitle,
                 UserInfo = new UserInfo { Demography = new AgeGenderViewModel { Age = age ?? -1 }}
             };
-        }
-
-        private RestRequest CreateJsonRequest(string url, Method method)
-        {
-            var request =  new RestRequest(url, method);
-            request.OnBeforeDeserialization = resp => { resp.ContentType = "application/json"; };
-            return request;
         }
 
         private readonly IJourneyViewModelBuilder _journeyViewModelBuilder;
