@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using NHS111.Business.Configuration;
+using NHS111.Models.Models.Domain;
 using NHS111.Utils.RestTools;
 using RestSharp;
 
@@ -18,9 +19,9 @@ namespace NHS111.Business.Services
             _restClient = restClientDomainApi;
         }
 
-        public async Task<string> GetSymptomDisciminator(string id)
+        public async Task<SymptomDiscriminator> GetSymptomDisciminator(string id)
         {
-            var symptomDiscriminators = await _restClient.ExecuteTaskAsync<string>(new JsonRestRequest(_configuration.GetDomainApiSymptomDisciminatorUrl(id), Method.GET));
+            var symptomDiscriminators = await _restClient.ExecuteTaskAsync<SymptomDiscriminator>(new JsonRestRequest(_configuration.GetDomainApiSymptomDisciminatorUrl(id), Method.GET));
             if (!symptomDiscriminators.IsSuccessful)
                 throw new Exception(string.Format("A problem occured requesting {0}. {1}", _configuration.GetDomainApiSymptomDisciminatorUrl(id), symptomDiscriminators.ErrorMessage));
             return symptomDiscriminators.Data;
@@ -30,6 +31,6 @@ namespace NHS111.Business.Services
 
     public interface ISymptomDisciminatorService
     {
-        Task<string> GetSymptomDisciminator(string id);
+        Task<SymptomDiscriminator> GetSymptomDisciminator(string id);
     }
 }

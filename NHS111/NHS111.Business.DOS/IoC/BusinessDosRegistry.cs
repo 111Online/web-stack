@@ -21,7 +21,10 @@ namespace NHS111.Business.DOS.IoC
         {
             IncludeRegistry<UtilsRegistry>();
             For<IServiceAvailabilityManager>().Use<ServiceAvailablityManager>();
-            For<IRestClient>().Use(new RestClient(configuration.CCGApiBaseUrl));
+            For<IRestClient>().Singleton().Use<IRestClient>(new LoggingRestClient(configuration.DomainDosApiBaseUrl, logger));
+            For<ISearchDistanceService>().Use<SearchDistanceService>()
+                .Ctor<IRestClient>()
+                .Is(new LoggingRestClient(configuration.CCGApiBaseUrl, logger));
             For<IPublicHolidayService>().Use(new PublicHolidayService(
                 PublicHolidaysDataService.GetPublicHolidays(configuration),
                 new SystemClock()));

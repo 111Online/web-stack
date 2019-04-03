@@ -4,8 +4,12 @@ using System.Linq;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
 using NHS111.Business.DOS.Configuration;
+using NHS111.Models.Models.Web.FromExternalServices;
 using NHS111.Utils.Helpers;
+using NHS111.Utils.RestTools;
+using RestSharp;
 
 namespace NHS111.Business.DOS.Service
 {
@@ -15,40 +19,38 @@ namespace NHS111.Business.DOS.Service
     public class DosService : IDosService
     {
         private readonly IConfiguration _configuration;
-        private readonly IRestfulHelper _restfulHelper;
+        private readonly IRestClient _restClient;
 
-        public DosService(IConfiguration configuration, IRestfulHelper restfulHelper)
+        public DosService(IConfiguration configuration, IRestClient restClientDosDomainApi)
         {
             _configuration = configuration;
-            _restfulHelper = restfulHelper;
+            _restClient = restClientDosDomainApi;
         }
-        public async Task<HttpResponseMessage> GetServices(HttpRequestMessage request, DosEndpoint? endpoint) {
-            var url = _configuration.DomainDosApiCheckCapacitySummaryUrl;
-            if (!endpoint.HasValue)
-                return await _restfulHelper.PostAsync(url, request);
+        public async Task<IRestResponse<IEnumerable<CheckCapacitySummaryResult>>> GetServices(DosCheckCapacitySummaryRequest dosRequest, DosEndpoint? endpoint) {
 
-            var prefix = url.Contains("?") ? "&" : "?";
-            url = string.Format("{0}{1}{2}{3}", url, prefix, "endpoint=", endpoint);
-            return await _restfulHelper.PostAsync(url, request);
+            var url = string.Format("{0}?endpoint={1}", _configuration.DomainDosApiCheckCapacitySummaryUrl, !endpoint.HasValue ? DosEndpoint.Unspecified : endpoint.Value);
+            var request = new JsonRestRequest(url, Method.POST);
+            request.AddJsonBody(JsonConvert.SerializeObject(dosRequest));
+
+            return await _restClient.ExecuteTaskAsync<IEnumerable<CheckCapacitySummaryResult>>(request);
         }
 
-        public async Task<HttpResponseMessage> GetServiceById(HttpRequestMessage request)
+        public async Task<ServiceDetailsByIdResponse> GetServiceById(DosServiceDetailsByIdRequest serviceDetailsByIdRequest)
         {
-            return await _restfulHelper.PostAsync(_configuration.DomainDosApiServiceDetailsByIdUrl, request);
-        }
+            var request = new JsonRestRequest(_configuration.DomainDosApiServiceDetailsByIdUrl, Method.POST);
+            request.AddJsonBody(JsonConvert.SerializeObject(serviceDetailsByIdRequest));
 
-        public async Task<HttpResponseMessage> GetServicesByClinicalTerm(HttpRequestMessage request)
-        {
-            return await _restfulHelper.PostAsync(_configuration.DomainDosApiServicesByClinicalTermUrl, request);
+            var response = await _restClient.ExecuteTaskAsync<ServiceDetailsByIdResponse>(request);
+            if (response.ResponseStatus == ResponseStatus.Completed)
+                return response.Data;
+            throw response.ErrorException;
         }
     }
 
     public interface IDosService
     {
-        Task<HttpResponseMessage> GetServices(HttpRequestMessage request, DosEndpoint? endpoint);
+        Task<IRestResponse<IEnumerable<CheckCapacitySummaryResult>>> GetServices(DosCheckCapacitySummaryRequest dosRequest, DosEndpoint? endpoint);
 
-        Task<HttpResponseMessage> GetServiceById(HttpRequestMessage request);
-
-        Task<HttpResponseMessage> GetServicesByClinicalTerm(HttpRequestMessage request);
+        Task<ServiceDetailsByIdResponse> GetServiceById(DosServiceDetailsByIdRequest serviceDetailsByIdRequest);
     }
 }

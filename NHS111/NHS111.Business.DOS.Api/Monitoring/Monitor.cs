@@ -1,9 +1,12 @@
 ﻿using System;
 using System.Threading.Tasks;
+using System.Web.Http.Results;
 using Newtonsoft.Json;
 using NHS111.Business.DOS.Configuration;
 using NHS111.Utils.Helpers;
 using NHS111.Utils.Monitoring;
+using NHS111.Utils.RestTools;
+using RestSharp;
 
 namespace NHS111.Business.DOS.Api.Monitoring
 {
@@ -11,12 +14,12 @@ namespace NHS111.Business.DOS.Api.Monitoring
 
     public class Monitor : BaseMonitor
     {
-        private readonly IRestfulHelper _restfulHelper;
+        private readonly IRestClient _restClient;
         private readonly IConfiguration _configuration;
 
-        public Monitor(IRestfulHelper restfulHelper, IConfiguration configuration)
+        public Monitor(IRestClient restClient, IConfiguration configuration)
         {
-            _restfulHelper = restfulHelper;
+            _restClient = restClient;
             _configuration = configuration;
         }
 
@@ -29,7 +32,8 @@ namespace NHS111.Business.DOS.Api.Monitoring
         {
             try
             {
-                return JsonConvert.DeserializeObject<bool>(await _restfulHelper.GetAsync(_configuration.DomainDosApiMonitorHealthUrl));
+                var health = await _restClient.ExecuteTaskAsync<bool>(new JsonRestRequest(_configuration.DomainDosApiMonitorHealthUrl, Method.GET));
+                return health.Data;
             }
             catch (Exception ex)
             {

@@ -19,6 +19,7 @@ namespace NHS111.Utils.RestTools
 
         public JsonRestRequest(string resource, Method method) : base(resource, method)
         {
+            this.JsonSerializer = NewtonsoftJsonSerializer.Default;
             OnBeforeDeserialization = resp => { resp.ContentType = "application/json"; };
         }
 

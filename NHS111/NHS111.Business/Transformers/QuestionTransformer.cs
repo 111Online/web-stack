@@ -8,40 +8,37 @@ namespace NHS111.Business.Transformers
 {
     public class QuestionTransformer : IQuestionTransformer
     {
-        public string AsQuestionWithAnswersList(string s)
+        public IEnumerable<QuestionWithAnswers> AsQuestionWithAnswersList(IEnumerable<QuestionWithAnswers> questions)
         {
-            var questionWithAnswersList = JsonConvert.DeserializeObject<List<QuestionWithAnswers>>(s);
-            foreach (var questionWithAnswers in questionWithAnswersList)
+            foreach (var questionWithAnswers in questions)
             {
                 questionWithAnswers.Answers = TransformAnswers(questionWithAnswers.Answers);
             }
-
-            return JsonConvert.SerializeObject(questionWithAnswersList);
+            return questions;
         }
 
-        public string AsQuestionWithAnswers(string s)
+        public QuestionWithAnswers AsQuestionWithAnswers(QuestionWithAnswers question)
         {
-            var questionWithAnswers = JsonConvert.DeserializeObject<QuestionWithAnswers>(s);
-            questionWithAnswers.Answers = TransformAnswers(questionWithAnswers.Answers);
-            return JsonConvert.SerializeObject(questionWithAnswers);
+            question.Answers = TransformAnswers(question.Answers);
+            return question;
         }
 
-        public string AsQuestionWithDeadEnd(string s)
+        public QuestionWithDeadEnd AsQuestionWithDeadEnd(QuestionWithAnswers question)
         {
-            var questionWithDeadEnd = JsonConvert.DeserializeObject<QuestionWithDeadEnd>(s);
-            return JsonConvert.SerializeObject(questionWithDeadEnd);
+            var questionWithDeadEnd = JsonConvert.SerializeObject(question);
+            return JsonConvert.DeserializeObject<QuestionWithDeadEnd>(questionWithDeadEnd);
         }
 
-        public string AsQuestionWithPathwaySelection(string s)
+        public QuestionWithPathwaySelection AsQuestionWithPathwaySelection(QuestionWithAnswers question)
         {
-            var questionWithPathwaySelection = JsonConvert.DeserializeObject<QuestionWithPathwaySelection>(s);
-            return JsonConvert.SerializeObject(questionWithPathwaySelection);
+            var questionWithPathwaySelection = JsonConvert.SerializeObject(question);
+            return JsonConvert.DeserializeObject<QuestionWithPathwaySelection>(questionWithPathwaySelection);
         }
 
-        public string AsAnswers(string s)
+        public IEnumerable<Answer> AsAnswers(IEnumerable<Answer> answers)
         {
-            var answers = JsonConvert.DeserializeObject<List<Answer>>(s);
-            return JsonConvert.SerializeObject(TransformAnswers(answers));
+            answers = TransformAnswers(answers);
+            return answers;
         }
 
         private static List<Answer> TransformAnswers(IEnumerable<Answer> answers)
@@ -58,10 +55,10 @@ namespace NHS111.Business.Transformers
 
     public interface IQuestionTransformer
     {
-        string AsQuestionWithAnswersList(string s);
-        string AsQuestionWithAnswers(string s);
-        string AsAnswers(string s);
-        string AsQuestionWithDeadEnd(string s);
-        string AsQuestionWithPathwaySelection(string s);
+        IEnumerable<QuestionWithAnswers> AsQuestionWithAnswersList(IEnumerable<QuestionWithAnswers> questions);
+        QuestionWithAnswers AsQuestionWithAnswers(QuestionWithAnswers question);
+        IEnumerable<Answer> AsAnswers(IEnumerable<Answer> answers);
+        QuestionWithDeadEnd AsQuestionWithDeadEnd(QuestionWithAnswers question);
+        QuestionWithPathwaySelection AsQuestionWithPathwaySelection(QuestionWithAnswers question);
     }
 }
