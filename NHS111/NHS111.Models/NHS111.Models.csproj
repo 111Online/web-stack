@@ -207,7 +207,6 @@
     <Compile Include="Models\Domain\OutcomeGroup.cs" />
     <Compile Include="Models\Domain\PathwayMetaData.cs" />
     <Compile Include="Models\Domain\PathwayWithDescription.cs" />
-    <Compile Include="Models\Domain\QuestionWithPathwaySelection.cs" />
     <Compile Include="Models\Domain\SymptomDiscriminator.cs" />
     <Compile Include="Models\Domain\VersionInfo.cs" />
     <Compile Include="Models\Web\AgeGenderViewModel.cs" />
@@ -229,6 +228,8 @@
     <Compile Include="Models\Web\DosRequests\DosServicesByClinicalTermRequest.cs" />
     <Compile Include="Models\Web\FeedbackViewModel.cs" />
     <Compile Include="Models\Web\FromExternalServices\AddressLocationResult.cs" />
+    <Compile Include="Models\Web\FromExternalServices\CheckCapacitySummaryResponse.cs" />
+    <Compile Include="Models\Web\FromExternalServices\ContactDetails.cs" />
     <Compile Include="Models\Web\GoogleAnalyticsDataLayerContainer.cs" />
     <Compile Include="Models\Web\JourneyViewModelEqualityComparer.cs" />
     <Compile Include="Models\Web\ITK\ReportItem.cs" />
@@ -243,7 +244,6 @@
     <Compile Include="Models\Web\FromExternalServices\DosServicesByClinicalTermResult.cs" />
     <Compile Include="Models\Domain\Gender.cs" />
     <Compile Include="Models\Domain\GroupedPathways.cs" />
-    <Compile Include="Models\Domain\QuestionWithDeadEnd.cs" />
     <Compile Include="Models\Domain\SymptomGroup.cs" />
     <Compile Include="Models\Domain\Question.cs" />
     <Compile Include="Models\Domain\Outcome.cs" />
@@ -266,7 +266,7 @@
     <Compile Include="Models\Web\FromExternalServices\MobileDosService.cs" />
     <Compile Include="Models\Web\FromExternalServices\PAF.cs" />
     <Compile Include="Models\Web\FromExternalServices\ServiceDetails.cs" />
-    <Compile Include="Models\Web\FromExternalServices\ServiceDetailsByIdResult.cs" />
+    <Compile Include="Models\Web\FromExternalServices\ServiceDetailsByIdResponse.cs" />
     <Compile Include="Models\Web\FromExternalServices\CheckCapacitySummaryResult.cs" />
     <Compile Include="Models\Web\FromExternalServices\Journey.cs" />
     <Compile Include="Models\Web\FromExternalServices\JourneyStep.cs" />

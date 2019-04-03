@@ -12,9 +12,11 @@ using NHS111.Business.DOS.EndpointFilter;
 using NHS111.Business.DOS.WhitelistFilter;
 using NHS111.Models.Models.Web.DosRequests;
 using NHS111.Features;
-using NHS111.Models.Models.Business;
+using NHS111.Models.Models.Web;
 using NHS111.Models.Models.Web.Clock;
+using NHS111.Models.Models.Web.FromExternalServices;
 using NHS111.Utils.Converters;
+using CheckCapacitySummaryResult = NHS111.Models.Models.Business.CheckCapacitySummaryResult;
 
 namespace NHS111.Business.DOS.Service
 {
@@ -43,29 +45,23 @@ namespace NHS111.Business.DOS.Service
             _searchDistanceService = searchDistanceService;
         }
 
-        public async Task<HttpResponseMessage> GetFilteredServices(HttpRequestMessage request, bool filterServices, DosEndpoint? endpoint)
+        public async Task<DosCheckCapacitySummaryResult> GetFilteredServices(DosFilteredCase dosFilteredCase, bool filterServices, DosEndpoint? endpoint)
         {
-            var content = await request.Content.ReadAsStringAsync();
+            dosFilteredCase.SearchDistance = await _searchDistanceService.GetSearchDistanceByPostcode(dosFilteredCase.PostCode);
 
-            var dosCase = GetObjectFromRequest<DosCase>(content);
-            dosCase.SearchDistance = await _searchDistanceService.GetSearchDistanceByPostcode(dosCase.PostCode);
-
-            var dosCaseRequest = BuildRequestMessage(dosCase);
-            var originalPostcode = dosCase.PostCode;
-
+            var dosCaseRequest = BuildRequest(dosFilteredCase);
+            var originalPostcode = dosFilteredCase.PostCode;
             var response = await _dosService.GetServices(dosCaseRequest, endpoint);
 
-            if (response.StatusCode != HttpStatusCode.OK) return response;
+            if (response.StatusCode != HttpStatusCode.OK) return new DosCheckCapacitySummaryResult { Error = new ErrorObject() { Code = (int)response.StatusCode, Message = response.ErrorMessage } };
 
-            var dosFilteredCase = GetObjectFromRequest<DosFilteredCase>(content);
-
-            var val = await response.Content.ReadAsStringAsync();
+            var val = JsonConvert.SerializeObject(response.Data);
             var jObj = (JObject)JsonConvert.DeserializeObject(val);
             var services = jObj["CheckCapacitySummaryResult"];
             
             // get the search datetime if one has been set, if not set to now
             DateTime searchDateTime;
-            if (!DateTime.TryParse(dosCase.SearchDateTime, out searchDateTime)) 
+            if (!DateTime.TryParse(dosFilteredCase.SearchDateTime, out searchDateTime)) 
                 searchDateTime = DateTime.Now;
 
             // use dosserviceconvertor to specify the time to use for each dos service object
@@ -82,24 +78,31 @@ namespace NHS111.Business.DOS.Service
         
             if (!_filterServicesFeature.IsEnabled && !filterServices)
             {
-                return BuildResponseMessage(filteredByUnknownTypeResults);
+                return BuildResponseMessage(filteredByUnknownTypeResults, response.StatusCode);
             }
             var filteredByclosedCallbackTypeResults = _serviceTypeFilter.FilterClosedCallbackServices(filteredByUnknownTypeResults);
             var serviceAvailability = _serviceAvailabilityManager.FindServiceAvailability(dosFilteredCase);
-            return BuildResponseMessage(serviceAvailability.Filter(filteredByclosedCallbackTypeResults));
+            return BuildResponseMessage(serviceAvailability.Filter(filteredByclosedCallbackTypeResults), response.StatusCode);
         }
 
 
-        public HttpRequestMessage BuildRequestMessage(DosCase dosCase)
+        public DosCheckCapacitySummaryRequest BuildRequest(DosCase dosCase)
         {
             var dosCheckCapacitySummaryRequest = new DosCheckCapacitySummaryRequest(_configuration.DosUsername, _configuration.DosPassword, dosCase);
-            return new HttpRequestMessage { Content = new StringContent(JsonConvert.SerializeObject(dosCheckCapacitySummaryRequest), Encoding.UTF8, "application/json") };
+            return dosCheckCapacitySummaryRequest;
         }
 
-        public HttpResponseMessage BuildResponseMessage(IEnumerable<Models.Models.Business.DosService> results)
+        public DosCheckCapacitySummaryResult BuildResponseMessage(IEnumerable<Models.Models.Business.DosService> services, HttpStatusCode statusCode)
         {
-            var result = new JsonCheckCapacitySummaryResult(results);
-            return new HttpResponseMessage { Content = new StringContent(JsonConvert.SerializeObject(result), Encoding.UTF8, "application/json") };
+            //var result = new JsonCheckCapacitySummaryResult(services);
+            return new DosCheckCapacitySummaryResult()
+            {
+                Success = new SuccessObject<ServiceViewModel>()
+                {
+                    Code = (int)statusCode,
+                    Services = services.Select(s => (ServiceViewModel)s).ToList()
+                }
+            }; ;
         }
 
         public T GetObjectFromRequest<T>(string content)
@@ -110,7 +113,7 @@ namespace NHS111.Business.DOS.Service
 
     public interface IServiceAvailabilityFilterService
     {
-        Task<HttpResponseMessage> GetFilteredServices(HttpRequestMessage request, bool filterServices, DosEndpoint? endpoint);
+        Task<DosCheckCapacitySummaryResult> GetFilteredServices(DosFilteredCase dosCase, bool filterServices, DosEndpoint? endpoint);
     }
 
     public class JsonCheckCapacitySummaryResult

@@ -1,5 +1,7 @@
-﻿using System.IO;
+﻿using System.Data.Services.Client;
+using System.IO;
 using Newtonsoft.Json;
+using RestSharp.Serializers;
 
 namespace NHS111.Utils.RestTools
 {
@@ -58,6 +60,12 @@ namespace NHS111.Utils.RestTools
                     NullValueHandling = NullValueHandling.Ignore,
                 });
             }
+        }
+
+        string ISerializer.ContentType
+        {
+            get { return "application/json"; }
+            set { }
         }
     }
 }

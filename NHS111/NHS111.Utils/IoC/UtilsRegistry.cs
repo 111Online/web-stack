@@ -17,8 +17,6 @@ namespace NHS111.Utils.IoC
         public UtilsRegistry()
         {
             For<ILog>().Use(LogManager.GetLogger("log"));
-            For<IRestClient>().Singleton().Use<LoggingRestClient>()
-                .Ctor<string>("baseUrl").Is(ConfigurationManager.AppSettings["LoggingServiceUrl"]);
             For<IStorageService>().Use<AzureStorageService>().SelectConstructor(() => new AzureStorageService());
             Scan(scan =>
             {
