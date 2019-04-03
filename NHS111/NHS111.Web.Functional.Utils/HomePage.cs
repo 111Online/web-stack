@@ -55,7 +55,7 @@ namespace NHS111.Web.Functional.Utils
                 var uri = new Uri(GetUrlWithoutCredentials());
                 Driver.Navigate().GoToUrl(uri);
             }
-            Driver.Manage().Window.Maximize();
+            //Driver.Manage().Window.Maximize();
             return this;
         }
 
