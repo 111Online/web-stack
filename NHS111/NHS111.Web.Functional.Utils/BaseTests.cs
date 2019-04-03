@@ -15,11 +15,11 @@ namespace NHS111.Web.Functional.Utils
         [TestFixtureSetUp]
         public void InitTestFixture()
         {
-            Driver = new ChromeDriver();
             // Ideally we could have multiple size screenshots
             // for Visual Regression Test MVP this uses the same width as Andria's Selenium screenshots (1232px)
             var chromeOptions = new ChromeOptions();
-            chromeOptions.AddArgument("--window-size=1232,1000");
+            chromeOptions.AddArgument("--window-size=1232,1000"); // Ensure all screenshots are same size across build agents
+            chromeOptions.AddArguments("--disable-gpu"); // Workaround for renderer timeout https://stackoverflow.com/questions/48450594/selenium-timed-out-receiving-message-from-renderer
             Driver = new ChromeDriver(chromeOptions);
         }
 
