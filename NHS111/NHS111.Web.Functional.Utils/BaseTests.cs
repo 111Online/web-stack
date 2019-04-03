@@ -15,7 +15,6 @@ namespace NHS111.Web.Functional.Utils
         [TestFixtureSetUp]
         public void InitTestFixture()
         {
-            Driver = new ChromeDriver();
             // Ideally we could have multiple size screenshots
             // for Visual Regression Test MVP this uses the same width as Andria's Selenium screenshots (1232px)
             var chromeOptions = new ChromeOptions();
