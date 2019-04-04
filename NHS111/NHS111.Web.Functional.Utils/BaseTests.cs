@@ -18,16 +18,12 @@ namespace NHS111.Web.Functional.Utils
             // Ideally we could have multiple size screenshots
             // for Visual Regression Test MVP this uses the same width as Andria's Selenium screenshots (1232px)
             var chromeOptions = new ChromeOptions();
-            chromeOptions.AddArgument("enable-automation"); // https://stackoverflow.com/a/43840128/1689770
+            chromeOptions.AddArgument("--enable-automation"); // https://stackoverflow.com/a/43840128/1689770
             chromeOptions.AddArgument("--headless"); // only if you are ACTUALLY running headless
             chromeOptions.AddArgument("--no-sandbox"); //https://stackoverflow.com/a/50725918/1689770
-            chromeOptions.AddArgument("--disable-infobars"); //https://stackoverflow.com/a/43840128/1689770
-            chromeOptions.AddArgument("--disable-dev-shm-usage"); //https://stackoverflow.com/a/50725918/1689770
             chromeOptions.AddArgument("--disable-browser-side-navigation"); //https://stackoverflow.com/a/49123152/1689770
-            chromeOptions.AddArgument("--window-size=1232,1000"); // Ensure all screenshots are same size across build agents
             chromeOptions.AddArgument("--disable-gpu"); // Workaround for renderer timeout https://stackoverflow.com/questions/48450594/selenium-timed-out-receiving-message-from-renderer
-            chromeOptions.AddArgument("--verbose");
-            chromeOptions.AddArgument("--log-path=chromedriver.log");
+            chromeOptions.AddArgument("--window-size=1232,1000"); // Ensure all screenshots are same size across build agents
             Driver = new ChromeDriver(chromeOptions);
         }
 
