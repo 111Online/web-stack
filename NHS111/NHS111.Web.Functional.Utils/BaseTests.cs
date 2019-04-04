@@ -2,6 +2,7 @@
 using System.Configuration;
 using NHS111.Web.Functional.Utils.ScreenShot;
 using System.Drawing;
+using NHS111.Features;
 using NUnit.Framework;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
@@ -11,6 +12,7 @@ namespace NHS111.Web.Functional.Utils
     public class BaseTests
     {
         public IWebDriver Driver;
+        private readonly IHeadlessTestFeature _headlessTestFeature = new HeadlessTestFeature();
 
         [TestFixtureSetUp]
         public void InitTestFixture()
@@ -18,7 +20,7 @@ namespace NHS111.Web.Functional.Utils
             // Ideally we could have multiple size screenshots
             // for Visual Regression Test MVP this uses the same width as Andria's Selenium screenshots (1232px)
             var chromeOptions = new ChromeOptions();
-            if (ConfigurationManager.AppSettings["HeadlessTest"].Equals("true"))
+            if (_headlessTestFeature.IsEnabled)
             {
                 // Build agents should run headless, and this should fix renderer timeout issues
                 chromeOptions.AddArgument("--enable-automation"); // https://stackoverflow.com/a/43840128/1689770
