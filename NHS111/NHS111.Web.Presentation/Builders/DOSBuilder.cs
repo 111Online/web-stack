@@ -21,6 +21,8 @@ using NHS111.Utils.Helpers;
 using NHS111.Web.Presentation.Models;
 using IConfiguration = NHS111.Web.Presentation.Configuration.IConfiguration;
 using NHS111.Features;
+using NHS111.Utils.RestTools;
+using RestSharp;
 using DosService = NHS111.Models.Models.Business.DosService;
 
 namespace NHS111.Web.Presentation.Builders
@@ -33,16 +35,16 @@ namespace NHS111.Web.Presentation.Builders
     public class DOSBuilder : IDOSBuilder
     {
         private readonly ICareAdviceBuilder _careAdviceBuilder;
-        private readonly IRestfulHelper _restfulHelper;
+        private readonly IRestClient _restClient;
         private readonly IConfiguration _configuration;
         private readonly IMappingEngine _mappingEngine;
         private readonly IITKMessagingFeature _itkMessagingFeature;
         private static readonly ILog _logger = LogManager.GetLogger(typeof (DOSBuilder));
 
-        public DOSBuilder(ICareAdviceBuilder careAdviceBuilder, IRestfulHelper restfulHelper, IConfiguration configuration, IMappingEngine mappingEngine, IITKMessagingFeature itkMessagingFeature)
+        public DOSBuilder(ICareAdviceBuilder careAdviceBuilder, IRestClient restClient, IConfiguration configuration, IMappingEngine mappingEngine, IITKMessagingFeature itkMessagingFeature)
         {
             _careAdviceBuilder = careAdviceBuilder;
-            _restfulHelper = restfulHelper;
+            _restClient = restClient;
             _configuration = configuration;
             _mappingEngine = mappingEngine;
             _itkMessagingFeature = itkMessagingFeature;
@@ -53,20 +55,20 @@ namespace NHS111.Web.Presentation.Builders
 
         public async Task<DosCheckCapacitySummaryResult> FillCheckCapacitySummaryResult(DosViewModel dosViewModel, bool filterServices, DosEndpoint? endpoint) {
 
-            var request = BuildRequestMessage(dosViewModel);
-            var body = await request.Content.ReadAsStringAsync();
+            var checkCapacitySummaryUrl = string.Format("{0}?filterServices={1}&endpoint={2}", _configuration.BusinessDosCheckCapacitySummaryUrl, filterServices, endpoint);
+            var dosFilterdCase = dosViewModel as DosFilteredCase;
 
-            string checkCapacitySummaryUrl = string.Format("{0}?filterServices={1}&endpoint={2}", _configuration.BusinessDosCheckCapacitySummaryUrl, filterServices, endpoint);
-           
-            _logger.Debug(string.Format("DOSBuilder.FillCheckCapacitySummaryResult(): URL: {0} BODY: {1}", checkCapacitySummaryUrl, body));
-            var response = await _restfulHelper.PostAsync(checkCapacitySummaryUrl, request);
+            var request = new JsonRestRequest(checkCapacitySummaryUrl, Method.POST);
+            request.AddJsonBody(dosFilterdCase);
 
-            if (response.StatusCode != HttpStatusCode.OK) return new DosCheckCapacitySummaryResult { Error = new ErrorObject() { Code = (int) response.StatusCode, Message = response.ReasonPhrase } };
+            _logger.Debug(string.Format("DOSBuilder.FillCheckCapacitySummaryResult(): URL: {0} BODY: {1}", checkCapacitySummaryUrl, JsonConvert.SerializeObject(dosFilterdCase)));
+            var response = await _restClient.ExecuteTaskAsync<DosCheckCapacitySummaryResult>(request);
 
-            var val = await response.Content.ReadAsStringAsync();
-            var jObj = (JObject)JsonConvert.DeserializeObject(val);
-            var results = jObj["CheckCapacitySummaryResult"];
-            var services = results.ToObject<List<ServiceViewModel>>();
+            if (response.StatusCode != HttpStatusCode.OK) return response.Data;
+
+            var checkCapacitySummaryResults = JsonConvert.SerializeObject(response.Data.Success.Services);
+            var jArray = (JArray)JsonConvert.DeserializeObject(checkCapacitySummaryResults);
+            var services = jArray.ToObject<List<ServiceViewModel>>();
 
             var checkCapacitySummaryResult = new DosCheckCapacitySummaryResult()
             {
@@ -143,11 +145,6 @@ namespace NHS111.Web.Presentation.Builders
             //################################END################
         }
 
-        public HttpRequestMessage BuildRequestMessage(DosFilteredCase dosCase)
-        {
-            return new HttpRequestMessage { Content = new StringContent(JsonConvert.SerializeObject(dosCase), Encoding.UTF8, "application/json") };
-        }
-
         public DosViewModel BuildDosViewModel(OutcomeViewModel model, DateTime? overrideDate) {
             var dosViewModel = Mapper.Map<DosViewModel>(model);
 
@@ -196,7 +193,6 @@ namespace NHS111.Web.Presentation.Builders
     {
         Task<DosCheckCapacitySummaryResult> FillCheckCapacitySummaryResult(DosViewModel dosViewModel, bool filterServices, DosEndpoint? endpoint);
         Task<DosServicesByClinicalTermResult> FillDosServicesByClinicalTermResult(DosViewModel dosViewModel);
-        HttpRequestMessage BuildRequestMessage(DosFilteredCase dosCase);
         List<GroupedDOSServices> FillGroupedDosServices(List<ServiceViewModel> services);
         DosViewModel BuildDosViewModel(OutcomeViewModel model, DateTime? overrideDate);
     }

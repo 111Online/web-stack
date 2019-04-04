@@ -18,6 +18,7 @@ namespace NHS111.Web.Presentation.Configuration
         public string BusinessDosCheckCapacitySummaryUrl { get { return ConfigurationManager.AppSettings["BusinessDosCheckCapacitySummaryUrl"]; } }
         public string BusinessDosServicesByClinicalTermUrl { get { return ConfigurationManager.AppSettings["BusinessDosServicesByClinicalTermUrl"]; } }
         public string BusinessDosServiceDetailsByIdUrl { get { return ConfigurationManager.AppSettings["BusinessDosServiceDetailsByIdUrl"]; } }
+        public string FeedbackApiBaseUrl { get { return ConfigurationManager.AppSettings["FeedbackApiBaseUrl"]; } }
         public string FeedbackAddFeedbackUrl { get { return ConfigurationManager.AppSettings["FeedbackAddFeedbackUrl"]; } }
         public string FeedbackDeleteFeedbackUrl { get { return ConfigurationManager.AppSettings["FeedbackDeleteFeedbackUrl"]; } }
         public string FeedbackAuthorization { get { return ConfigurationManager.AppSettings["FeedbackAuthorization"]; } }
@@ -251,6 +252,7 @@ namespace NHS111.Web.Presentation.Configuration
         string BusinessDosCheckCapacitySummaryUrl { get; }
         string BusinessDosServicesByClinicalTermUrl { get; }
         string BusinessDosServiceDetailsByIdUrl { get; }
+        string FeedbackApiBaseUrl { get; }
         string FeedbackAddFeedbackUrl { get; }
         string FeedbackDeleteFeedbackUrl { get; }
         string FeedbackAuthorization { get; }

@@ -24,10 +24,10 @@ namespace NHS111.Web.IoC {
         public WebRegistry(IConfiguration configuration) {
             For<ICacheManager<string, string>>().Use(new RedisManager(configuration.RedisConnectionString));
             For<IRestClient>().Singleton().Use(new LoggingRestClient(configuration.BusinessApiProtocolandDomain, LogManager.GetLogger("log"))).Named("restClientBusinessApi");
-            For<ICCGModelBuilder>().Use<CCGViewModelBuilder>().Ctor<IRestClient>("ccgServiceRestClient").Is(new LoggingRestClient(configuration.CCGBusinessApiBaseProtocolandDomain, LogManager.GetLogger("log")));
-            For<ILocationResultBuilder>().Use(new LocationResultBuilder(
-                new RestfulHelper(),
-                new RestClient(configuration.BusinessApiProtocolandDomain), configuration));
+            For<ICCGModelBuilder>().Singleton()
+                .Use<CCGViewModelBuilder>()
+                .Ctor<IRestClient>()
+                .Is(new LoggingRestClient(configuration.CCGBusinessApiBaseProtocolandDomain, LogManager.GetLogger("log")));
             Configure();
         }
 

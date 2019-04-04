@@ -8,22 +8,24 @@ using NHS111.Models.Models.Domain;
 using NHS111.Models.Models.Web;
 using NHS111.Models.Models.Web.FromExternalServices;
 using NHS111.Utils.Helpers;
+using NHS111.Utils.RestTools;
+using RestSharp;
 using StructureMap.Query;
 using IConfiguration = NHS111.Web.Presentation.Configuration.IConfiguration;
 
 namespace NHS111.Web.Presentation.Builders
 {
-    public class JustToBeSafeFirstViewModelBuilder : IJustToBeSafeFirstViewModelBuilder
+    public class JustToBeSafeFirstViewModelBuilder : BaseBuilder, IJustToBeSafeFirstViewModelBuilder
     {
         private readonly IConfiguration _configuration;
         private readonly IMappingEngine _mappingEngine;
-        private readonly IRestfulHelper _restfulHelper;
+        private readonly IRestClient _restClient;
         private readonly IKeywordCollector _keywordCollector;
         private readonly IUserZoomDataBuilder _userZoomDataBuilder;
 
-        public JustToBeSafeFirstViewModelBuilder(IRestfulHelper restfulHelper, IConfiguration configuration, IMappingEngine mappingEngine, IKeywordCollector keywordCollector, IUserZoomDataBuilder userZoomDataBuilder)
+        public JustToBeSafeFirstViewModelBuilder(IRestClient restClient, IConfiguration configuration, IMappingEngine mappingEngine, IKeywordCollector keywordCollector, IUserZoomDataBuilder userZoomDataBuilder)
         {
-            _restfulHelper = restfulHelper;
+            _restClient = restClient;
             _configuration = configuration;
             _mappingEngine = mappingEngine;
             _keywordCollector = keywordCollector;
@@ -36,9 +38,11 @@ namespace NHS111.Web.Presentation.Builders
                 model = await DoWorkPreviouslyDoneInQuestionBuilder(model); //todo refactor away
 
             var identifiedModel = await BuildIdentifiedModel(model);
-            var questionsJson = await _restfulHelper.GetAsync(_configuration.GetBusinessApiJustToBeSafePartOneUrl(identifiedModel.PathwayId));
-            var questionsWithAnswers = JsonConvert.DeserializeObject<List<QuestionWithAnswers>>(questionsJson);
-            if (!questionsWithAnswers.Any())
+            var questionsWithAnswers = await _restClient.ExecuteTaskAsync<IEnumerable<QuestionWithAnswers>>(new JsonRestRequest(_configuration.GetBusinessApiJustToBeSafePartOneUrl(identifiedModel.PathwayId), Method.GET));
+
+            CheckResponse(questionsWithAnswers);
+
+            if (!questionsWithAnswers.Data.Any())
             {
                 var questionViewModel = new QuestionViewModel
                 {
@@ -62,8 +66,11 @@ namespace NHS111.Web.Presentation.Builders
                     EntrySearchTerm = model.EntrySearchTerm
                 };
 
-                var question = JsonConvert.DeserializeObject<QuestionWithAnswers>(await _restfulHelper.GetAsync(_configuration.GetBusinessApiFirstQuestionUrl(identifiedModel.PathwayId, identifiedModel.StateJson)));
-                _mappingEngine.Mapper.Map(question, questionViewModel);
+                var question = await _restClient.ExecuteTaskAsync<QuestionWithAnswers>(new JsonRestRequest(_configuration.GetBusinessApiFirstQuestionUrl(identifiedModel.PathwayId, identifiedModel.StateJson), Method.GET));
+
+                CheckResponse(question);
+
+                _mappingEngine.Mapper.Map(question.Data, questionViewModel);
 
                 _userZoomDataBuilder.SetFieldsForQuestion(questionViewModel);
 
@@ -71,8 +78,8 @@ namespace NHS111.Web.Presentation.Builders
             }
             identifiedModel.Part = 1;
             identifiedModel.JourneyId = Guid.NewGuid();
-            identifiedModel.Questions = questionsWithAnswers;
-            identifiedModel.QuestionsJson = questionsJson;
+            identifiedModel.Questions = questionsWithAnswers.Data.ToList();
+            identifiedModel.QuestionsJson = JsonConvert.SerializeObject(questionsWithAnswers.Data);
             identifiedModel.JourneyJson = string.IsNullOrEmpty(identifiedModel.JourneyJson) ? JsonConvert.SerializeObject(new Journey()) : identifiedModel.JourneyJson;
             identifiedModel.FilterServices = model.FilterServices;
             return new Tuple<string, QuestionViewModel>("../JustToBeSafe/JustToBeSafe", identifiedModel);
@@ -81,10 +88,13 @@ namespace NHS111.Web.Presentation.Builders
 
         private async Task<JustToBeSafeViewModel> DoWorkPreviouslyDoneInQuestionBuilder(JustToBeSafeViewModel model) {
             var businessApiPathwayUrl = _configuration.GetBusinessApiPathwayUrl(model.PathwayId);
-            var response = await _restfulHelper.GetAsync(businessApiPathwayUrl);
-            var pathway = JsonConvert.DeserializeObject<Pathway>(response);
-            if (pathway == null) return null;
+            var response = await _restClient.ExecuteTaskAsync<Pathway>(new JsonRestRequest(businessApiPathwayUrl, Method.GET));
 
+            CheckResponse(response);
+
+            if (response.Data == null) return null;
+
+            var pathway = response.Data;
             var derivedAge = model.UserInfo.Demography.Age == -1 ? pathway.MinimumAgeInclusive : model.UserInfo.Demography.Age;
             var newModel = new JustToBeSafeViewModel
             {
@@ -110,10 +120,13 @@ namespace NHS111.Web.Presentation.Builders
 
         private async Task<JustToBeSafeViewModel> BuildIdentifiedModel(JustToBeSafeViewModel model)
         {
-            var pathway = JsonConvert.DeserializeObject<Pathway>(await _restfulHelper.GetAsync(_configuration.GetBusinessApiPathwayIdUrl(model.PathwayNo, model.UserInfo.Demography.Gender, model.UserInfo.Demography.Age)));
+            var response = await _restClient.ExecuteTaskAsync<Pathway>(new JsonRestRequest(_configuration.GetBusinessApiPathwayIdUrl(model.PathwayNo, model.UserInfo.Demography.Gender, model.UserInfo.Demography.Age), Method.GET));
 
-            if (pathway == null) return null;
+            CheckResponse(response);
 
+            if (response.Data == null) return null;
+
+            var pathway = response.Data;
             model.PathwayId = pathway.Id;
             model.PathwayTitle = pathway.Title;
             model.PathwayNo = pathway.PathwayNo;

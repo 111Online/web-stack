@@ -23,13 +23,12 @@ namespace NHS111.Web.Presentation.Logging {
         Task LogEventData(JourneyViewModel model, string eventData);
         Task LogSelectedService(OutcomeViewModel model);
         Task LogItkRequest(OutcomeViewModel model, ITKDispatchRequest itkRequest);
-        Task LogItkResponse(OutcomeViewModel model, HttpResponseMessage response);
+        Task LogItkResponse(OutcomeViewModel model, ITKDispatchResponse response);
     }
 
     public class AuditLogger : IAuditLogger {
         
-        public AuditLogger(IRestfulHelper restfulHelper, IConfiguration configuration) {
-            _restfulHelper = restfulHelper;
+        public AuditLogger(IConfiguration configuration) {
             _configuration = configuration;
         }
 
@@ -79,7 +78,7 @@ namespace NHS111.Web.Presentation.Logging {
             await Log(audit);
         }
 
-        public async Task LogItkResponse(OutcomeViewModel model, HttpResponseMessage response)
+        public async Task LogItkResponse(OutcomeViewModel model, ITKDispatchResponse response)
         {
             var audit = model.ToAuditEntry();
             var auditedItkResponse = Mapper.Map<AuditedItkResponse>(response);
@@ -87,7 +86,6 @@ namespace NHS111.Web.Presentation.Logging {
             await Log(audit);
         }
 
-        private readonly IRestfulHelper _restfulHelper;
         private readonly IConfiguration _configuration;
     }
 }
