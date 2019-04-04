@@ -5,6 +5,8 @@ using NHS111.Models.Models.Web;
 using NHS111.Models.Models.Web.FromExternalServices;
 using NHS111.Models.Models.Web.ITK;
 using NHS111.Utils.Filters;
+using NHS111.Utils.RestTools;
+using RestSharp;
 
 namespace NHS111.Web.Presentation.Logging {
     using System;
@@ -28,19 +30,17 @@ namespace NHS111.Web.Presentation.Logging {
 
     public class AuditLogger : IAuditLogger {
         
-        public AuditLogger(IRestfulHelper restfulHelper, IConfiguration configuration) {
-            _restfulHelper = restfulHelper;
+        public AuditLogger(IRestClient restClient, IConfiguration configuration) {
+            _restClient = restClient;
             _configuration = configuration;
         }
 
         public async Task Log(AuditEntry auditEntry)
         {
-            var url = _configuration.LoggingServiceUrl;
-            var httpRequestMessage = new HttpRequestMessage(HttpMethod.Post, new Uri(url))
-            {
-                Content = new StringContent(JsonConvert.SerializeObject(auditEntry))
-            };
-            await _restfulHelper.PostAsync(url, httpRequestMessage);
+            var url = _configuration.LoggingServiceApiAuditUrl;
+            var request = new JsonRestRequest(url, Method.POST);
+            request.AddJsonBody(auditEntry);
+            await _restClient.ExecuteTaskAsync(request);
         }
 
         public async Task LogDosRequest(OutcomeViewModel model, DosViewModel dosViewModel)
@@ -87,7 +87,7 @@ namespace NHS111.Web.Presentation.Logging {
             await Log(audit);
         }
 
-        private readonly IRestfulHelper _restfulHelper;
+        private readonly IRestClient _restClient;
         private readonly IConfiguration _configuration;
     }
 }

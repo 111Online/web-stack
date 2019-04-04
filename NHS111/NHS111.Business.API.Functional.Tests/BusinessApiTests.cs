@@ -11,7 +11,9 @@ using NHS111.Models.Models.Business.Question;
 using NHS111.Models.Models.Domain;
 using NHS111.Models.Models.Web.FromExternalServices;
 using NHS111.Utils.Helpers;
+using NHS111.Utils.RestTools;
 using NUnit.Framework;
+using RestSharp;
 
 namespace NHS111.Business.API.Functional.Tests
 {
@@ -27,34 +29,35 @@ namespace NHS111.Business.API.Functional.Tests
         private string _testQuestionId2 = "PW628.9800";
   
 
-        private RestfulHelper _restfulHelper = new RestfulHelper();
+        private IRestClient _restClient = new RestClient(ConfigurationManager.AppSettings["BusinessApiProtocolandDomain"]);
 
         private static string BusinessApiPathwayUrl
         {
-            get { return string.Format("{0}{1}", ConfigurationManager.AppSettings["BusinessApiProtocolandDomain"], ConfigurationManager.AppSettings["BusinessApiPathwayUrl"]); }
+            get { return ConfigurationManager.AppSettings["BusinessApiPathwayUrl"]; }
         }
 
         private static string BusinessApiPathwaySymptomGroupUrl
         {
-            get { return string.Format("{0}{1}", ConfigurationManager.AppSettings["BusinessApiProtocolandDomain"], ConfigurationManager.AppSettings["BusinessApiPathwaySymptomGroupUrl"]); }
+            get { return ConfigurationManager.AppSettings["BusinessApiPathwaySymptomGroupUrl"]; }
         }
 
         private static string BusinessApiNextNodeUrl
         {
-            get { return string.Format("{0}{1}", ConfigurationManager.AppSettings["BusinessApiProtocolandDomain"], ConfigurationManager.AppSettings["BusinessApiNextNodeUrl"]); }
+            get { return ConfigurationManager.AppSettings["BusinessApiNextNodeUrl"]; }
         }
 
         private static string BusinessApiFullJourneyUrl
         {
-            get { return string.Format("{0}{1}", ConfigurationManager.AppSettings["BusinessApiProtocolandDomain"], ConfigurationManager.AppSettings["BusinessApiFullJourneyUrl"]); }
+            get { return ConfigurationManager.AppSettings["BusinessApiFullJourneyUrl"]; }
         }
 
         [Test]
         public async void BusinessApiTests_returns_valid_Pathway_Numbers()
         {
             var getQuestionEndpoint = "/Female/16";
-            var result = await _restfulHelper.GetAsync(String.Format(BusinessApiPathwayUrl + getQuestionEndpoint, _testPathwayNo2));
 
+            var response = await _restClient.ExecuteTaskAsync(new JsonRestRequest(string.Format(BusinessApiPathwayUrl + getQuestionEndpoint, _testPathwayNo2), Method.GET));
+            var result = response.Content;
             //this checks a responce is returned
             Assert.IsNotNull(result);
 
@@ -70,7 +73,8 @@ namespace NHS111.Business.API.Functional.Tests
         public async void BusinessApiTests_returns_valid_Pathway_Numbers_InvalidAge1()
         {
             var getQuestionEndpoint = "/Female/1";
-            var result = await _restfulHelper.GetAsync(String.Format(BusinessApiPathwayUrl + getQuestionEndpoint, _testPathwayNo2));
+            var response = await _restClient.ExecuteTaskAsync(new JsonRestRequest(string.Format(BusinessApiPathwayUrl + getQuestionEndpoint, _testPathwayNo2), Method.GET));
+            var result = response.Content;
 
             //this checks a responce is returned
             Assert.IsTrue(result.Contains("null"));
@@ -79,7 +83,8 @@ namespace NHS111.Business.API.Functional.Tests
         public async void BusinessApiTests_returns_valid_Pathway_Numbers_InvalidAge200()
         {
             var getQuestionEndpoint = "/Female/200";
-            var result = await _restfulHelper.GetAsync(String.Format(BusinessApiPathwayUrl + getQuestionEndpoint, _testPathwayNo2));
+            var response = await _restClient.ExecuteTaskAsync(new JsonRestRequest(string.Format(BusinessApiPathwayUrl + getQuestionEndpoint, _testPathwayNo2), Method.GET));
+            var result = response.Content;
 
             //this checks a responce is returned
             Assert.IsTrue(result.Contains("null"));
@@ -88,8 +93,8 @@ namespace NHS111.Business.API.Functional.Tests
         public async void BusinessApiTests_returns_valid_Pathway_Numbers_InvalidAge15()
         {
             var getQuestionEndpoint = "/Female/15";
-            var result = await _restfulHelper.GetAsync(String.Format(BusinessApiPathwayUrl + getQuestionEndpoint, _testPathwayNo2));
-
+            var response = await _restClient.ExecuteTaskAsync(new JsonRestRequest(string.Format(BusinessApiPathwayUrl + getQuestionEndpoint, _testPathwayNo2), Method.GET));
+            var result = response.Content;
             //this checks a responce is returned
             Assert.IsTrue(result.Contains("null"));
         }
@@ -97,7 +102,8 @@ namespace NHS111.Business.API.Functional.Tests
         public async void BusinessApiTests_returns_valid_Pathway_Numbers_InvalidGender()
         {
             var getQuestionEndpoint = "/Male/16";
-            var result = await _restfulHelper.GetAsync(String.Format(BusinessApiPathwayUrl + getQuestionEndpoint, _testPathwayNo2));
+            var response = await _restClient.ExecuteTaskAsync(new JsonRestRequest(string.Format(BusinessApiPathwayUrl + getQuestionEndpoint, _testPathwayNo2), Method.GET));
+            var result = response.Content;
 
             //this checks a responce is returned
             Assert.IsTrue(result.Contains("null"));
@@ -106,8 +112,8 @@ namespace NHS111.Business.API.Functional.Tests
         [Test]
         public async void BusinessApiTests_returns_valid_Pathway_Symptom_Group()
         {
-            var result = await _restfulHelper.GetAsync(String.Format(BusinessApiPathwaySymptomGroupUrl, _testPathwayNo));
-
+            var response = await _restClient.ExecuteTaskAsync(new JsonRestRequest(string.Format(BusinessApiPathwaySymptomGroupUrl, _testPathwayNo), Method.GET));
+            var result = response.Content;
             //this checks a responce is returned
             Assert.IsNotNull(result);
 
@@ -121,7 +127,8 @@ namespace NHS111.Business.API.Functional.Tests
         [Test]
         public async void BusinessApiTests_returns_valid_Pathway()
         {
-            var result = await _restfulHelper.GetAsync(String.Format(BusinessApiPathwayUrl, string.Empty));
+            var response = await _restClient.ExecuteTaskAsync(new JsonRestRequest(string.Format(BusinessApiPathwayUrl, string.Empty), Method.GET));
+            var result = response.Content;
 
             //this checks a responce is returned
             Assert.IsNotNull(result);
@@ -150,12 +157,15 @@ namespace NHS111.Business.API.Functional.Tests
             var NodeId = "PW628.10700";
             var state="{\"PATIENT_AGE\":\"50\",\"PATIENT_GENDER\":\"\\\"F\\\"\",\"PATIENT_PARTY\":\"1\",\"PATIENT_AGEGROUP\":\"Adult\"}";
             var requestUrl = string.Format(BusinessApiNextNodeUrl, _testPathwayNo3, "Question", NodeId,  HttpUtility.UrlEncode(state));
-            var result = await _restfulHelper.PostAsync(requestUrl, RequestFormatting.CreateHTTPRequest("No"));
 
+            var request = new JsonRestRequest(requestUrl, Method.POST);
+            request.AddJsonBody("No");
+            var response = await _restClient.ExecuteTaskAsync(request);
+            
             //this checks a responce is returned
-            Assert.IsNotNull(result);
+            Assert.IsNotNull(response);
 
-            var content = await result.Content.ReadAsStringAsync();
+            var content = response.Content;
 
             //these check the right fields are returned
             Assert.IsTrue(content.Contains("\"id\":\"" + expectedNexQuestionId + "\""));
@@ -177,15 +187,14 @@ namespace NHS111.Business.API.Functional.Tests
                 DispostionCode = dispositionCode,
                 State = state
             };
-            var pathwayJson = JsonConvert.SerializeObject(fullPathwayJourney);
-            var request = RequestFormatting.CreateHTTPRequest(pathwayJson, string.Empty);
-            var result = await _restfulHelper.PostAsync(BusinessApiFullJourneyUrl, request);
+            var request = new JsonRestRequest(BusinessApiFullJourneyUrl, Method.POST);
+            request.AddJsonBody(fullPathwayJourney);
+            var result = await _restClient.ExecuteTaskAsync<List<QuestionWithAnswers>>(request);
 
             //this checks a response is returned
             Assert.IsNotNull(result);
 
-            var content = await result.Content.ReadAsStringAsync();
-            var questions = JsonConvert.DeserializeObject<List<QuestionWithAnswers>>(content);
+            var questions = result.Data;
 
             //check correct journey length and make up of nodes returned
             Assert.AreEqual(totalJourneyLength, questions.Count);
