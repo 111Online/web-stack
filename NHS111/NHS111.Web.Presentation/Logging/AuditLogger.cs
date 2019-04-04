@@ -28,7 +28,8 @@ namespace NHS111.Web.Presentation.Logging {
 
     public class AuditLogger : IAuditLogger {
         
-        public AuditLogger(IConfiguration configuration) {
+        public AuditLogger(IRestfulHelper restfulHelper, IConfiguration configuration) {
+            _restfulHelper = restfulHelper;
             _configuration = configuration;
         }
 
@@ -86,6 +87,7 @@ namespace NHS111.Web.Presentation.Logging {
             await Log(audit);
         }
 
+        private readonly IRestfulHelper _restfulHelper;
         private readonly IConfiguration _configuration;
     }
 }
