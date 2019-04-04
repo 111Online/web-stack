@@ -48,8 +48,8 @@ namespace NHS111.Business.Test.Services
             //Assert 
             _configuration.Verify(x => x.GetDomainApiPathwaysUrl(unique, false), Times.Once);
             _restClient.Verify(x => x.ExecuteTaskAsync<IEnumerable<Pathway>>(It.IsAny<IRestRequest>()), Times.Once);
-            Assert.That(result.Count, Is.EqualTo(2));
-            Assert.That(result.First().Title, Is.EqualTo("pathway1"));
+            Assert.AreEqual(result.Count(), 2);
+            Assert.AreEqual(result.First().Title, "pathway1");
         }
 
         [Test]
@@ -76,7 +76,7 @@ namespace NHS111.Business.Test.Services
             //Assert 
             _configuration.Verify(x => x.GetDomainApiPathwayUrl(id), Times.Once);
             _restClient.Verify(x => x.ExecuteTaskAsync<Pathway>(It.IsAny<IRestRequest>()), Times.Once);
-            Assert.That(result.Title, Is.EqualTo("pathway1"));
+            Assert.AreEqual(result.Title, "pathway1");
         }
 
         [Test]
@@ -106,7 +106,7 @@ namespace NHS111.Business.Test.Services
             //Assert 
             _configuration.Verify(x => x.GetDomainApiIdentifiedPathwayUrl(pathwayNo, gender, age), Times.Once);
             _restClient.Verify(x => x.ExecuteTaskAsync<Pathway>(It.IsAny<IRestRequest>()), Times.Once);
-            Assert.That(result.Title, Is.EqualTo("identified pathway"));
+            Assert.AreEqual(result.Title, "identified pathway");
         }
     }
 }
