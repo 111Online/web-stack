@@ -15,7 +15,8 @@ namespace NHS111.Business.IoC
         public BusinessRegistry(IConfiguration configuration)
         {
             For<IRestClient>().Singleton().Use<IRestClient>(new LoggingRestClient(configuration.GetDomainApiBaseUrl(), LogManager.GetLogger("log")));
-            For<ILocationService>().Use<LocationService>()
+            For<ILocationService>().Singleton()
+                .Use<LocationService>()
                 .Ctor<IRestClient>()
                 .Is(new LoggingRestClient(configuration.GetLocationBaseUrl(), LogManager.GetLogger("log")));
             IncludeRegistry<UtilsRegistry>();

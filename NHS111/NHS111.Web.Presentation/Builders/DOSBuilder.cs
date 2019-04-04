@@ -18,7 +18,6 @@ using NHS111.Models.Models.Business;
 using NHS111.Models.Models.Web.FromExternalServices;
 using NHS111.Utils.Cache;
 using NHS111.Utils.Helpers;
-using NHS111.Utils.Notifier;
 using NHS111.Web.Presentation.Models;
 using IConfiguration = NHS111.Web.Presentation.Configuration.IConfiguration;
 using NHS111.Features;
@@ -37,7 +36,6 @@ namespace NHS111.Web.Presentation.Builders
         private readonly IRestfulHelper _restfulHelper;
         private readonly IConfiguration _configuration;
         private readonly IMappingEngine _mappingEngine;
-        private readonly INotifier<string> _notifier;
         private readonly IITKMessagingFeature _itkMessagingFeature;
         private static readonly ILog _logger = LogManager.GetLogger(typeof (DOSBuilder));
 

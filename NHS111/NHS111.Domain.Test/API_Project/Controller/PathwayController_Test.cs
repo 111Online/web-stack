@@ -24,24 +24,7 @@ namespace NHS111.Domain.Test.API_Project.Controller
         }
 
         [Test]
-        public async void should_return_unique_pathway_when_parameter_is_true()
-        {
-            //Arrange
-            IEnumerable<GroupedPathways> pathwayList = new List<GroupedPathways>();
-            _pathwayRepository.Setup(x => x.GetGroupedPathways(true)).Returns(Task.FromResult(pathwayList));
-
-            //Act
-            var result = await _sut.GetPathways(grouped:true,startingOnly:true);
-
-            //Assert
-            _pathwayRepository.Verify(x => x.GetGroupedPathways(true), Times.Once);
-            _pathwayRepository.Verify(x => x.GetAllPathways(true), Times.Never);
-            Assert.That(result.StatusCode, Is.EqualTo(HttpStatusCode.OK));
-
-        }
-
-        [Test]
-        public async void should_return_collection_of_pathway_when_parameter_is_false()
+        public async void should_return_collection_of_pathways()
         {
             //Arrange
             IEnumerable<Pathway> pathwayList = new List<Pathway>();
@@ -50,13 +33,12 @@ namespace NHS111.Domain.Test.API_Project.Controller
             var sut = new PathwayController(_pathwayRepository.Object);
 
             //Act
-            var result = await sut.GetPathways(grouped: false, startingOnly: true);
+            var result = await sut.GetPathways(startingOnly: true);
 
             //Assert
             _pathwayRepository.Verify(x => x.GetGroupedPathways(true), Times.Never);
             _pathwayRepository.Verify(x => x.GetAllPathways(true), Times.Once);
-            Assert.That(result.StatusCode, Is.EqualTo(HttpStatusCode.OK));
-
+            Assert.IsInstanceOf<IEnumerable<Pathway>>(result.Content);
         }
 
         [Test]
@@ -73,8 +55,7 @@ namespace NHS111.Domain.Test.API_Project.Controller
 
             //Assert
             _pathwayRepository.Verify(x => x.GetPathway(id), Times.Once);
-            Assert.That(result.StatusCode, Is.EqualTo(HttpStatusCode.OK));
-
+            Assert.IsInstanceOf<Pathway>(result.Content);
         }
 
         [Test]
@@ -93,8 +74,7 @@ namespace NHS111.Domain.Test.API_Project.Controller
 
             //Assert
             _pathwayRepository.Verify(x => x.GetIdentifiedPathway(pathwayNo, gender, age), Times.Once);
-            Assert.That(result.StatusCode, Is.EqualTo(HttpStatusCode.OK));
-
+            Assert.IsInstanceOf<Pathway>(result.Content);
         }
     }
 }

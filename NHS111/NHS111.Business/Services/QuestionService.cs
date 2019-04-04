@@ -36,16 +36,16 @@ namespace NHS111.Business.Services
             return questions.Data;
         }
 
-        public async Task<IEnumerable<Answer>> GetAnswersForQuestion(string id)
+        public async Task<Answer[]> GetAnswersForQuestion(string id)
         {
-            var questions = await _restClient.ExecuteTaskAsync<IEnumerable<Answer>>(new JsonRestRequest(_configuration.GetDomainApiAnswersForQuestionUrl(id), Method.GET));
+            var questions = await _restClient.ExecuteTaskAsync<Answer[]>(new JsonRestRequest(_configuration.GetDomainApiAnswersForQuestionUrl(id), Method.GET));
             return questions.Data;
         }
 
         public async Task<QuestionWithAnswers> GetNextQuestion(string id, string nodeLabel, string answer)
         {
             var request = new JsonRestRequest(_configuration.GetDomainApiAnswersForQuestionUrl(id), Method.POST);
-            request.AddJsonBody(JsonConvert.SerializeObject(answer));
+            request.AddJsonBody(answer);
             var questions = await _restClient.ExecuteTaskAsync<QuestionWithAnswers>(request);
             return questions.Data;
         }
@@ -154,7 +154,7 @@ namespace NHS111.Business.Services
             var steps = pathwayJourney.Steps;
 
             var request = new JsonRestRequest(_configuration.GetDomainApiPathwayJourneyUrl(pathwayJourney.PathwayId, pathwayJourney.DispositionId), Method.POST);
-            request.AddJsonBody(JsonConvert.SerializeObject(JsonConvert.SerializeObject(steps)));
+            request.AddJsonBody(steps);
             var moduleZeroJourney = await _restClient.ExecuteTaskAsync<IEnumerable<QuestionWithAnswers>>(request);
 
             var state = BuildState(gender, age, pathwayJourney.State);
@@ -166,7 +166,7 @@ namespace NHS111.Business.Services
         public async Task<IEnumerable<QuestionWithAnswers>> GetPathwayJourney(JourneyStep[] steps, string startingPathwayId, string dispositionCode)
         {
             var request = new JsonRestRequest(_configuration.GetDomainApiPathwayJourneyUrl(startingPathwayId, dispositionCode), Method.POST);
-            request.AddJsonBody(JsonConvert.SerializeObject(JsonConvert.SerializeObject(steps)));
+            request.AddJsonBody(steps);
             var pathwayJourney = await _restClient.ExecuteTaskAsync<IEnumerable<QuestionWithAnswers>>(request);
 
             return pathwayJourney.Data;
@@ -183,7 +183,7 @@ namespace NHS111.Business.Services
     {
         Task<IEnumerable<QuestionWithAnswers>> GetFullPathwayJourney(string traumaType, JourneyStep[] steps, string startingPathwayId, string dispositionCode, IDictionary<string, string> state);
         Task<QuestionWithAnswers> GetQuestion(string id);
-        Task<IEnumerable<Answer>> GetAnswersForQuestion(string id);
+        Task<Answer[]> GetAnswersForQuestion(string id);
         Task<QuestionWithAnswers> GetNextQuestion(string id, string nodeLabel,  string answer);
         Task<QuestionWithAnswers> GetFirstQuestion(string pathwayId);
         Task<IEnumerable<QuestionWithAnswers>> GetJustToBeSafeQuestionsFirst(string pathwayId);

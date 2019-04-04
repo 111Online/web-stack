@@ -1,10 +1,13 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using NHS111.Business.Services;
 using NHS111.Utils.Helpers;
 using NUnit.Framework;
 using Moq;
 using System.Threading.Tasks;
+using NHS111.Models.Models.Domain;
+using RestSharp;
 
 namespace NHS111.Business.Test.Services
 {
@@ -13,13 +16,13 @@ namespace NHS111.Business.Test.Services
     {
 
         private Mock<Configuration.IConfiguration> _configuration;
-        private Mock<IRestfulHelper> _restfulHelper;
+        private Mock<IRestClient> _restClient;
 
         [SetUp]
         public void SetUp()
         {
             _configuration = new Mock<Configuration.IConfiguration>();
-            _restfulHelper = new Mock<IRestfulHelper>();
+            _restClient = new Mock<IRestClient>();
         }
 
         [Test]
@@ -28,21 +31,25 @@ namespace NHS111.Business.Test.Services
             //Arrange
             var url = "http://mytest.com/";
             var unique = true;
-            var resultString = "pathway1, pathway2";
+            var pathways = new[] {new Pathway {Title = "pathway1"}, new Pathway {Title = "pathway2"},};
+
+            var response = new Mock<IRestResponse<IEnumerable<Pathway>>>();
+            response.Setup(_ => _.Data).Returns(pathways);
 
             _configuration.Setup(x => x.GetDomainApiPathwaysUrl(unique, false)).Returns(url);
-            _restfulHelper.Setup(x => x.GetAsync(url)).Returns(Task.FromResult(resultString));
+            _restClient.Setup(x => x.ExecuteTaskAsync<IEnumerable<Pathway>>(It.IsAny<IRestRequest>()))
+                .ReturnsAsync(response.Object);
 
-            var sut = new PathwayService(_configuration.Object, _restfulHelper.Object);
+            var sut = new PathwayService(_configuration.Object, _restClient.Object);
 
             //Act
             var result = await sut.GetPathways(unique, false);
 
             //Assert 
             _configuration.Verify(x => x.GetDomainApiPathwaysUrl(unique, false), Times.Once);
-            _restfulHelper.Verify(x => x.GetAsync(url), Times.Once);
-            Assert.That(result.Split(new string[] { "," }, StringSplitOptions.None).Count(), Is.EqualTo(2));
-            Assert.That(result, Is.EqualTo(resultString));
+            _restClient.Verify(x => x.ExecuteTaskAsync<IEnumerable<Pathway>>(It.IsAny<IRestRequest>()), Times.Once);
+            Assert.That(result.Count, Is.EqualTo(2));
+            Assert.That(result.First().Title, Is.EqualTo("pathway1"));
         }
 
         [Test]
@@ -52,21 +59,24 @@ namespace NHS111.Business.Test.Services
 
             var url = "http://mytest.com/";
             var id = "PW123";
-            var resultString = "pathway1";
+            var pathway = new Pathway { Title = "pathway1" };
+
+            var response = new Mock<IRestResponse<Pathway>>();
+            response.Setup(_ => _.Data).Returns(pathway);
 
             _configuration.Setup(x => x.GetDomainApiPathwayUrl(id)).Returns(url);
-            _restfulHelper.Setup(x => x.GetAsync(url)).Returns(Task.FromResult(resultString));
+            _restClient.Setup(x => x.ExecuteTaskAsync<Pathway>(It.IsAny<IRestRequest>()))
+                .ReturnsAsync(response.Object);
 
-            var sut = new PathwayService(_configuration.Object, _restfulHelper.Object);
+            var sut = new PathwayService(_configuration.Object, _restClient.Object);
 
             //Act
             var result = await sut.GetPathway(id);
 
             //Assert 
             _configuration.Verify(x => x.GetDomainApiPathwayUrl(id), Times.Once);
-            _restfulHelper.Verify(x => x.GetAsync(url), Times.Once);
-            Assert.That(result.Split(new string[] { "},{" }, StringSplitOptions.None).Count(), Is.EqualTo(1));
-            Assert.That(result, Is.EqualTo(resultString));
+            _restClient.Verify(x => x.ExecuteTaskAsync<Pathway>(It.IsAny<IRestRequest>()), Times.Once);
+            Assert.That(result.Title, Is.EqualTo("pathway1"));
         }
 
         [Test]
@@ -79,22 +89,24 @@ namespace NHS111.Business.Test.Services
             var pathwayNo = "PW755";
             var gender = "Male";
             var age = 35;
+            var pathway = new Pathway { Title = "identified pathway" };
 
-            var resultString = "identified pathway";
+            var response = new Mock<IRestResponse<Pathway>>();
+            response.Setup(_ => _.Data).Returns(pathway);
 
             _configuration.Setup(x => x.GetDomainApiIdentifiedPathwayUrl(pathwayNo, gender, age)).Returns(url);
-            _restfulHelper.Setup(x => x.GetAsync(url)).Returns(Task.FromResult(resultString));
+            _restClient.Setup(x => x.ExecuteTaskAsync<Pathway>(It.IsAny<IRestRequest>()))
+                .ReturnsAsync(response.Object);
 
-            var sut = new PathwayService(_configuration.Object, _restfulHelper.Object);
+            var sut = new PathwayService(_configuration.Object, _restClient.Object);
 
             //Act
             var result = await sut.GetIdentifiedPathway(pathwayNo, gender, age);
 
             //Assert 
             _configuration.Verify(x => x.GetDomainApiIdentifiedPathwayUrl(pathwayNo, gender, age), Times.Once);
-            _restfulHelper.Verify(x => x.GetAsync(url), Times.Once);
-
-            Assert.That(result, Is.EqualTo(resultString));
+            _restClient.Verify(x => x.ExecuteTaskAsync<Pathway>(It.IsAny<IRestRequest>()), Times.Once);
+            Assert.That(result.Title, Is.EqualTo("identified pathway"));
         }
     }
 }

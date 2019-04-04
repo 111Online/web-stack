@@ -18,7 +18,6 @@
     using NHS111.Models.Models.Domain;
     using NHS111.Models.Models.Web.DosRequests;
     using NHS111.Utils.Helpers;
-    using NHS111.Utils.Notifier;
     using NUnit.Framework;
 
     [TestFixture()]

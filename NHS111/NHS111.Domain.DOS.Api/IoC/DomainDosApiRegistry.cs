@@ -13,7 +13,8 @@ namespace NHS111.Domain.DOS.Api.IoC
     {
         public DomainDosApiRegistry()
         {
-            For<IRestClient>().Singleton().Use<IRestClient>(new LoggingRestClient(new Configuration.Configuration().DOSIntegrationBaseUrl, LogManager.GetLogger("log")));
+            For<IRestClient>().Singleton()
+                .Use<IRestClient>(new LoggingRestClient(new Configuration.Configuration().DOSIntegrationBaseUrl, LogManager.GetLogger("log")));
             IncludeRegistry<UtilsRegistry>();
             Scan(scan =>
             {

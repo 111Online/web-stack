@@ -1,7 +1,6 @@
 ﻿using NHS111.Models.IoC;
 using NHS111.Utils.Cache;
 using NHS111.Utils.IoC;
-using NHS111.Utils.Notifier;
 using NHS111.Web.Presentation.Configuration;
 using NHS111.Web.Presentation.IoC;
 using StructureMap;
@@ -17,8 +16,7 @@ namespace NHS111.Web.IoC
             IncludeRegistry<ModelsRegistry>();
             IncludeRegistry<WebPresentationRegistry>();
             For<ICacheManager<string, string>>().Use(new RedisManager(configuration.RedisConnectionString));
-            For<INotifier<string>>().Use<Notifier>();
-
+            
             Scan(scan =>
             {
                 scan.TheCallingAssembly();

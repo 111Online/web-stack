@@ -30,7 +30,7 @@ namespace NHS111.Business.Services {
         {
             var domainApiCareAdviceUrl = _configuration.GetDomainApiCareAdviceUrl(dxCode, ageCategory, gender);
             var request = new JsonRestRequest(domainApiCareAdviceUrl, Method.POST);
-            request.AddJsonBody(JsonConvert.SerializeObject(keywords));
+            request.AddJsonBody(keywords);
 
             var response = await _restClient.ExecuteTaskAsync<IEnumerable<CareAdvice>>(request);
             if (!response.IsSuccessful)
