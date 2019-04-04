@@ -47,7 +47,7 @@ namespace NHS111.Utils.Filters
             var url = ConfigurationManager.AppSettings["LoggingServiceUrl"];
             
             var request = new JsonRestRequest(url, Method.POST);
-            request.AddJsonBody(JsonConvert.SerializeObject(auditEntry));
+            request.AddJsonBody(auditEntry);
             _restClient.ExecutePostTaskAsync(request);
         }
     }

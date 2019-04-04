@@ -7,7 +7,6 @@ using NHS111.Models.Models.Domain;
 using NHS111.Models.Models.Web.DosRequests;
 using NHS111.Utils.Cache;
 using NHS111.Utils.Helpers;
-using NHS111.Utils.Notifier;
 using NUnit.Framework;
 namespace NHS111.Web.Presentation.Builders.Tests
 {
@@ -31,7 +30,6 @@ namespace NHS111.Web.Presentation.Builders.Tests
         private Mock<ICareAdviceBuilder> _mockCareAdviceBuilder;
         private Mock<IRestfulHelper> _mockRestfulHelper;
         private Mock<Presentation.Configuration.IConfiguration> _mockConfiguration;
-        private Mock<INotifier<string>> _mockNotifier;
         private DOSBuilder _dosBuilder;
         private Mock<ISurgeryBuilder> _mockSurgeryBuilder;
         private Mock<IITKMessagingFeature> _mockItkMessagingFeature;
@@ -47,7 +45,6 @@ namespace NHS111.Web.Presentation.Builders.Tests
             _mockCareAdviceBuilder = new Mock<ICareAdviceBuilder>();
             _mockRestfulHelper = new Mock<IRestfulHelper>();
             _mockConfiguration = new Mock<Presentation.Configuration.IConfiguration>();
-            _mockNotifier = new Mock<INotifier<string>>();
             _mockItkMessagingFeature = new Mock<IITKMessagingFeature>();
 
             SetupMockFillCareAdviceBuilder();
@@ -58,7 +55,6 @@ namespace NHS111.Web.Presentation.Builders.Tests
                 _mockRestfulHelper.Object, 
                 _mockConfiguration.Object, 
                 _mappingEngine.Object,
-                _mockNotifier.Object,
                 _mockItkMessagingFeature.Object);
         }
 

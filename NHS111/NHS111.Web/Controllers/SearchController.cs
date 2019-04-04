@@ -6,6 +6,7 @@ using System.Web.Mvc;
 using NHS111.Models.Models.Business.PathwaySearch;
 using NHS111.Models.Models.Domain;
 using NHS111.Models.Models.Web;
+using NHS111.Utils.RestTools;
 using NHS111.Web.Helpers;
 using RestSharp;
 using NHS111.Web.Presentation.Builders;
@@ -13,7 +14,7 @@ using NHS111.Web.Presentation.Configuration;
 
 namespace NHS111.Web.Controllers
 {
-    public class SearchController : BaseConroller
+    public class SearchController : Controller
     {
         public const int MAX_SEARCH_RESULTS = 10;
 
@@ -225,7 +226,7 @@ namespace NHS111.Web.Controllers
             var url = _configuration.GetBusinessApiGetCategoriesWithPathwaysGenderAge(model.Gender,
                 model.Age, true);
             var response = await
-                _restClientBusinessApi.ExecuteTaskAsync<List<CategoryWithPathways>>(CreateJsonRequest(url, Method.GET));
+                _restClientBusinessApi.ExecuteTaskAsync<List<CategoryWithPathways>>(new JsonRestRequest(url, Method.GET));
 
 
             var allCategories = response.Data;
@@ -241,7 +242,7 @@ namespace NHS111.Web.Controllers
         private async Task<IEnumerable<Pathway>> GetAllPathways(AgeGenderViewModel model)
         {
             var url = _configuration.GetBusinessApiGetPathwaysGenderAge(model.Gender, model.Age);
-            var response = await _restClientBusinessApi.ExecuteTaskAsync<List<Pathway>>(CreateJsonRequest(url, Method.GET));
+            var response = await _restClientBusinessApi.ExecuteTaskAsync<List<Pathway>>(new JsonRestRequest(url, Method.GET));
 
             return response.Data;
         }

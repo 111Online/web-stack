@@ -2,6 +2,7 @@
 
 using log4net;
 using NHS111.Features.IoC;
+using NHS111.Utils.Helpers;
 using NHS111.Utils.RestTools;
 using NHS111.Web.Presentation.Builders;
 using RestSharp;

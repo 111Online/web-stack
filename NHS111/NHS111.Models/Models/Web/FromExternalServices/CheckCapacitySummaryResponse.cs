@@ -14,6 +14,6 @@ namespace NHS111.Models.Models.Web.FromExternalServices
         public string SearchDateTime { get; set; }
 
         [JsonProperty(PropertyName = "CheckCapacitySummaryResult")]
-        public CheckCapacitySummaryResult[] CheckCapacitySummaryResult { get; set; }
+        public DosService[] CheckCapacitySummaryResult { get; set; }
     }
 }
