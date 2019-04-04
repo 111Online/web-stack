@@ -6,16 +6,19 @@ using System.Text;
 using System.Threading.Tasks;
 using Moq;
 using Newtonsoft.Json;
+using NHS111.Models.Models.Domain;
 using NHS111.Utils.Helpers;
 using NHS111.Web.Presentation.Builders;
 using NHS111.Web.Presentation.Configuration;
 using NUnit.Framework;
+using RestSharp;
+
 namespace NHS111.Web.Presentation.Builders.Tests
 {
     [TestFixture()]
     public class CareAdviceBuilderTests
     {
-        Mock<IRestfulHelper> _restfulHelper;
+        Mock<IRestClient> _restClient;
         Mock<IConfiguration> _configuration;
 
         private string MOCK_GetBusinessApiCareAdviceUrl = "http://GetBusinessApiCareAdviceUrl.com";
@@ -29,13 +32,11 @@ namespace NHS111.Web.Presentation.Builders.Tests
             "[{'text':'" + TEST_CAREADVICE_ITEM_FIRST + "'},{'text':'" + TEST_CAREADVICE_ITEM_SECOND + "'}]}," +
             "{'id':'Cx220986-Adult-Male','title':null,'excludeTitle':null,'items':[{'text':'Single care advice item'}]}]";
 
-        private HttpResponseMessage MOCK_response = new HttpResponseMessage() { Content = new StringContent(TEST_CONTENT, Encoding.UTF8, "application/json") };
-
         [SetUp()]
         public void SetUp()
         {
             _configuration = new Mock<IConfiguration>();
-            _restfulHelper = new Mock<IRestfulHelper>();
+            _restClient = new Mock<IRestClient>();
 
             _configuration.Setup(c => c.GetBusinessApiCareAdviceUrl(It.IsAny<int>(), It.IsAny<string>(), It.IsAny<string>()))
                 .Returns(MOCK_GetBusinessApiCareAdviceUrl);
@@ -43,15 +44,15 @@ namespace NHS111.Web.Presentation.Builders.Tests
             _configuration.Setup(c => c.GetBusinessApiInterimCareAdviceUrl(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>()))
                 .Returns(MOCK_GetBusinessApiInterimCareAdviceUrl);
 
-            _restfulHelper.Setup(r => r.GetAsync(MOCK_GetBusinessApiInterimCareAdviceUrl)).ReturnsAsync(TEST_CONTENT);
-            
-            _restfulHelper.Setup(r => r.PostAsync(MOCK_GetBusinessApiInterimCareAdviceUrl, It.IsAny<HttpRequestMessage>())).ReturnsAsync(MOCK_response);
+            _restClient.Setup(r => r.ExecuteTaskAsync<IEnumerable<CareAdvice>>(It.IsAny<RestRequest>())).ReturnsAsync(new RestResponse<IEnumerable<CareAdvice>>() { Content = TEST_CONTENT, Data = JsonConvert.DeserializeObject<IEnumerable<CareAdvice>>(TEST_CONTENT), ResponseStatus = ResponseStatus.Completed });
+
+            _restClient.Setup(r => r.ExecuteTaskAsync<IEnumerable<CareAdvice>>(It.IsAny<RestRequest>())).ReturnsAsync(new RestResponse<IEnumerable<CareAdvice>>() { Content = TEST_CONTENT, Data = JsonConvert.DeserializeObject<IEnumerable<CareAdvice>>(TEST_CONTENT), ResponseStatus = ResponseStatus.Completed });
         }
 
         [Test()]
         public async void FillCareAdviceBuilderTest_Passes_Correct_Keywords()
         {
-            var careAdviceBuilerToTest = new CareAdviceBuilder(_restfulHelper.Object, _configuration.Object);
+            var careAdviceBuilerToTest = new CareAdviceBuilder(_restClient.Object, _configuration.Object);
 
             await careAdviceBuilerToTest.FillCareAdviceBuilder("Dx11", "Adult", "Male",
                 new List<string>() {TEST_CAREADVICE_ITEM_FIRST, TEST_CAREADVICE_ITEM_SECOND});
@@ -67,7 +68,7 @@ namespace NHS111.Web.Presentation.Builders.Tests
         [Test()]
         public async void FillCareAdviceBuilderTest_Builds_expected_CareAdvice()
         {
-            var careAdviceBuilerToTest = new CareAdviceBuilder(_restfulHelper.Object, _configuration.Object);
+            var careAdviceBuilerToTest = new CareAdviceBuilder(_restClient.Object, _configuration.Object);
 
             var result = await careAdviceBuilerToTest.FillCareAdviceBuilder("Dx11", "Adult", "Male",
                 new List<string>() { TEST_CAREADVICE_ITEM_FIRST, TEST_CAREADVICE_ITEM_SECOND });
