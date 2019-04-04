@@ -1,5 +1,9 @@
 ﻿using Newtonsoft.Json;
+using NHS111.Models.Models.Web;
 using NHS111.Models.Models.Web.DosRequests;
+using NHS111.Models.Models.Web.FromExternalServices;
+using NHS111.Utils.RestTools;
+using RestSharp;
 
 namespace NHS111.Integration.DOS.Api.Functional.Tests
 {
@@ -24,15 +28,15 @@ namespace NHS111.Integration.DOS.Api.Functional.Tests
 
         private static string DOSIntegrationCheckCapacitySummaryUrl
         {
-            get { return ConfigurationManager.AppSettings["DOSIntegrationBaseUrl"] + ConfigurationManager.AppSettings["DOSIntegrationCheckCapacitySummaryUrl"]; }
+            get { return ConfigurationManager.AppSettings["DOSIntegrationCheckCapacitySummaryUrl"]; }
         }
 
         private static string DOSIntegrationServiceDetailsByIdUrl
         {
-            get { return ConfigurationManager.AppSettings["DOSIntegrationBaseUrl"] + ConfigurationManager.AppSettings["DOSIntegrationServiceDetailsByIdUrl"]; }
+            get { return  ConfigurationManager.AppSettings["DOSIntegrationServiceDetailsByIdUrl"]; }
         }
 
-        private RestfulHelper _restfulHelper = new RestfulHelper();
+        private IRestClient _restClient = new RestClient(ConfigurationManager.AppSettings["DOSIntegrationBaseUrl"]);
 
         /// <summary>
         /// Example test method for a HTTP POST
@@ -41,57 +45,49 @@ namespace NHS111.Integration.DOS.Api.Functional.Tests
         public async void TestCheckDosIntegrationCapacitySumary()
         {
             var checkCapacitySummaryRequest = new DosCheckCapacitySummaryRequest(DOSApiUsername, DOSApiPassword, new DosCase { Age = "22", Gender = "F", PostCode = "HP21 8AL" });
-            var result = await _restfulHelper.PostAsync(DOSIntegrationCheckCapacitySummaryUrl, RequestFormatting.CreateHTTPRequest(JsonConvert.SerializeObject(checkCapacitySummaryRequest), string.Empty));
+            var request = new JsonRestRequest(DOSIntegrationCheckCapacitySummaryUrl, Method.POST);
+            request.AddJsonBody(checkCapacitySummaryRequest);
+            var result = await _restClient.ExecuteTaskAsync<DosCheckCapacitySummaryResult>(request);
+            Assert.IsTrue(result.IsSuccessful);
 
-            var resultContent = await result.Content.ReadAsStringAsync();
-            dynamic jsonResult = Newtonsoft.Json.Linq.JObject.Parse(resultContent);
-            JArray summaryResult = jsonResult.CheckCapacitySummaryResult;
-            dynamic firstService = summaryResult[0];
-            dynamic serviceTypeField = firstService.serviceTypeField;
-
+            var firstService = result.Data.Success.Services[0];
             AssertResponse(firstService);
-            //Assert.IsNotNull(serviceTypeField.idField);
-            //Assert.AreEqual("40", (string)serviceTypeField.idField);
-            Assert.IsTrue(result.IsSuccessStatusCode);
-
         }
 
-        private void AssertResponse(dynamic response)
+        private void AssertResponse(ServiceViewModel response)
         {
-            dynamic serviceTypeField = response.serviceTypeField;
-            Assert.IsNotNull(serviceTypeField.idField);
-            Assert.IsNotNull(serviceTypeField.nameField);
+            var serviceTypeField = response.ServiceType;
+            Assert.IsNotNull(serviceTypeField.Id);
+            Assert.IsNotNull(serviceTypeField.ContactDetails[0].Name);
 
-            Assert.IsNotNull(response.idField);
-            Assert.IsNotNull(response.capacityField);
-            Assert.IsNotNull(response.nameField);
-            Assert.IsNotNull(response.contactDetailsField);
-            Assert.IsNotNull(response.addressField);
-            Assert.IsNotNull(response.postcodeField);
-            Assert.IsNotNull(response.northingsField);
-            Assert.IsNotNull(response.northingsFieldSpecified);
-            Assert.IsNotNull(response.eastingsField);
-            Assert.IsNotNull(response.eastingsFieldSpecified);
-            Assert.IsNotNull(response.urlField);
-            Assert.IsNotNull(response.notesField);
-
-            Assert.IsNotNull(response.openAllHoursField);
-            Assert.IsNotNull(response.rotaSessionsField);
-            Assert.IsNotNull(response.serviceTypeField);
-            Assert.IsNotNull(response.odsCodeField);
-
+            Assert.IsNotNull(response.Id);
+            Assert.IsNotNull(response.Capacity);
+            Assert.IsNotNull(response.Name);
+            Assert.IsNotNull(response.ContactDetails);
+            Assert.IsNotNull(response.Address);
+            Assert.IsNotNull(response.PostCode);
+            Assert.IsNotNull(response.Northings);
+            Assert.IsNotNull(response.Northings);
+            Assert.IsNotNull(response.Eastings);
+            Assert.IsNotNull(response.Eastings);
+            Assert.IsNotNull(response.Url);
+            Assert.IsNotNull(response.Notes);
+            Assert.IsNotNull(response.OpenAllHours);
+            Assert.IsNotNull(response.RotaSessions);
+            Assert.IsNotNull(response.ServiceType);
+            Assert.IsNotNull(response.OdsCode);
         }
 
         [Test]
         public async void TestCheckDosIntegrationServiceDetailsById()
         {
             var serviceDetailsByIdRequest = new DosServiceDetailsByIdRequest(DOSApiUsername, DOSApiPassword, "1315835856");
-            var result = await _restfulHelper.PostAsync(DOSIntegrationServiceDetailsByIdUrl, RequestFormatting.CreateHTTPRequest(JsonConvert.SerializeObject(serviceDetailsByIdRequest), string.Empty));
+            var request = new JsonRestRequest(DOSIntegrationServiceDetailsByIdUrl, Method.POST);
+            request.AddJsonBody(serviceDetailsByIdRequest);
+            var result = await _restClient.ExecuteTaskAsync<ServiceDetailsByIdResponse>(request);
 
-            var resultContent = await result.Content.ReadAsStringAsync();
-
-            Assert.IsTrue(result.IsSuccessStatusCode);
-            SchemaValidation.AssertValidResponseSchema(resultContent, SchemaValidation.ResponseSchemaType.CheckServiceDetailsById);
+            Assert.IsTrue(result.IsSuccessful);
+            SchemaValidation.AssertValidResponseSchema(result.Content, SchemaValidation.ResponseSchemaType.CheckServiceDetailsById);
         }
     }
 }

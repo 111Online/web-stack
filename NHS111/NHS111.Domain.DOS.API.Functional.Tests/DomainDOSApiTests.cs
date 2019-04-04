@@ -1,8 +1,13 @@
 ﻿using System.Configuration;
 using Newtonsoft.Json.Linq;
 using NHS111.Functional.Tests.Tools;
+using NHS111.Models.Models.Web;
+using NHS111.Models.Models.Web.DosRequests;
+using NHS111.Models.Models.Web.FromExternalServices;
 using NHS111.Utils.Helpers;
+using NHS111.Utils.RestTools;
 using NUnit.Framework;
+using RestSharp;
 
 namespace NHS111.DOS.Domain.API.Functional.Tests
 {
@@ -11,17 +16,17 @@ namespace NHS111.DOS.Domain.API.Functional.Tests
     {
         private static string DomainDOSApiCheckCapacitySummaryUrl
         {
-            get { return ConfigurationManager.AppSettings["DomainDOSApiBaseUrl"] + ConfigurationManager.AppSettings["DomainDOSApiCheckCapacitySummaryUrl"]; }
+            get { return ConfigurationManager.AppSettings["DomainDOSApiCheckCapacitySummaryUrl"]; }
         }
 
         private static string DomainDOSApiServiceDetailsByIdUrl
         {
-            get { return ConfigurationManager.AppSettings["DomainDOSApiBaseUrl"] + ConfigurationManager.AppSettings["DomainDOSApiServiceDetailsByIdUrl"]; }
+            get { return ConfigurationManager.AppSettings["DomainDOSApiServiceDetailsByIdUrl"]; }
         }
 
         private static string DomainDOSApiServicesByClinicalTermUrl
         {
-            get { return ConfigurationManager.AppSettings["DomainDOSApiBaseUrl"] + ConfigurationManager.AppSettings["DomainDOSApiServicesByClinicalTermUrl"]; }
+            get { return ConfigurationManager.AppSettings["DomainDOSApiServicesByClinicalTermUrl"]; }
         }
         
         private static string DOSApiUsername
@@ -34,7 +39,7 @@ namespace NHS111.DOS.Domain.API.Functional.Tests
             get { return ConfigurationManager.AppSettings["dos_credential_password"]; }
         }
 
-        private RestfulHelper _restfulHelper = new RestfulHelper();
+        private IRestClient _restClient = new RestClient(ConfigurationManager.AppSettings["DomainDOSApiBaseUrl"]);
 
         /// <summary>
         /// Example test method for a HTTP POST
@@ -42,77 +47,50 @@ namespace NHS111.DOS.Domain.API.Functional.Tests
         [Test]
         public async void TestCheckCapacitySumary()
         {
-            var result = await _restfulHelper.PostAsync(DomainDOSApiCheckCapacitySummaryUrl, RequestFormatting.CreateHTTPRequest("{\"ServiceVersion\":\"1.3\",\"UserInfo\":{\"Username\":\"" + DOSApiUsername + "\",\"Password\":\"" + DOSApiPassword + "\"},\"c\":{\"Postcode\":\"HP21 8AL\"}}",string.Empty));
+            var checkCapacitySummaryRequest = new DosCheckCapacitySummaryRequest(DOSApiUsername, DOSApiPassword, new DosCase { Age = "22", Gender = "F", PostCode = "HP21 8AL" });
+            var request = new JsonRestRequest(DomainDOSApiCheckCapacitySummaryUrl, Method.POST);
+            request.AddJsonBody(checkCapacitySummaryRequest);
+            var result = await _restClient.ExecuteTaskAsync<DosCheckCapacitySummaryResult>(request);
+            Assert.IsTrue(result.IsSuccessful);
 
-            var resultContent = await result.Content.ReadAsStringAsync();
-            dynamic jsonResult = Newtonsoft.Json.Linq.JObject.Parse(resultContent);
-            JArray summaryResult = jsonResult.CheckCapacitySummaryResult;
-            dynamic firstService = summaryResult[0];
-
+            var firstService = result.Data.Success.Services[0];
             AssertResponse(firstService);
-            //Assert.IsNotNull(serviceTypeField.idField);
-            //Assert.AreEqual("40", (string)serviceTypeField.idField);
-            Assert.IsTrue(result.IsSuccessStatusCode);
-
         }
 
-        private void AssertResponse(dynamic response)
+        private void AssertResponse(ServiceViewModel response)
         {
-            dynamic serviceTypeField = response.serviceTypeField;
-            Assert.IsNotNull(serviceTypeField.idField);
-            Assert.IsNotNull(serviceTypeField.nameField);
+            var serviceTypeField = response.ServiceType;
+            Assert.IsNotNull(serviceTypeField.Id);
+            Assert.IsNotNull(serviceTypeField.ContactDetails[0].Name);
 
-            Assert.IsNotNull(response.idField);
-            Assert.IsNotNull(response.capacityField);
-            Assert.IsNotNull(response.nameField);
-            Assert.IsNotNull(response.contactDetailsField);
-            Assert.IsNotNull(response.addressField);
-            Assert.IsNotNull(response.postcodeField);
-            Assert.IsNotNull(response.northingsField);
-            Assert.IsNotNull(response.northingsFieldSpecified);
-            Assert.IsNotNull(response.eastingsField);
-            Assert.IsNotNull(response.eastingsFieldSpecified);
-            Assert.IsNotNull(response.urlField);
-            Assert.IsNotNull(response.notesField);
-
-            Assert.IsNotNull(response.openAllHoursField);
-            Assert.IsNotNull(response.rotaSessionsField);
-            Assert.IsNotNull(response.serviceTypeField);
-            Assert.IsNotNull(response.odsCodeField);
-
+            Assert.IsNotNull(response.Id);
+            Assert.IsNotNull(response.Capacity);
+            Assert.IsNotNull(response.Name);
+            Assert.IsNotNull(response.ContactDetails);
+            Assert.IsNotNull(response.Address);
+            Assert.IsNotNull(response.PostCode);
+            Assert.IsNotNull(response.Northings);
+            Assert.IsNotNull(response.Northings);
+            Assert.IsNotNull(response.Eastings);
+            Assert.IsNotNull(response.Eastings);
+            Assert.IsNotNull(response.Url);
+            Assert.IsNotNull(response.Notes);
+            Assert.IsNotNull(response.OpenAllHours);
+            Assert.IsNotNull(response.RotaSessions);
+            Assert.IsNotNull(response.ServiceType);
+            Assert.IsNotNull(response.OdsCode);
         }
 
         [Test]
         public async void TestCheckServiceDetailsById()
         {
-            var result = await _restfulHelper.PostAsync(DomainDOSApiServiceDetailsByIdUrl, RequestFormatting.CreateHTTPRequest("{\"ServiceVersion\":\"1.3\",\"UserInfo\":{\"Username\":\"" + DOSApiUsername + "\",\"Password\":\"" + DOSApiPassword + "\"},\"serviceId\":1315835856}", string.Empty));
+            var serviceDetailsByIdRequest = new DosServiceDetailsByIdRequest(DOSApiUsername, DOSApiPassword, "1315835856");
+            var request = new JsonRestRequest(DomainDOSApiServiceDetailsByIdUrl, Method.POST);
+            request.AddJsonBody(serviceDetailsByIdRequest);
+            var result = await _restClient.ExecuteTaskAsync<ServiceDetailsByIdResponse>(request);
 
-            var resultContent = await result.Content.ReadAsStringAsync();
-
-            Assert.IsTrue(result.IsSuccessStatusCode);
-            SchemaValidation.AssertValidResponseSchema(resultContent, SchemaValidation.ResponseSchemaType.CheckServiceDetailsById);
-        }
-
-        [Test]
-        public async void TestServicesByClinicalTerm()
-        {
-            var caseId = "0";
-            var postCode = "LS17 7NZ";
-            var searchDistance = "36";
-            var gpPracticeId = "0";
-            var age = "1";
-            var gender = "F";
-            var dispo = "Dx02";
-            var sg = "1108";
-            var sd = "4009";
-            var numberPerType = "1";
-
-            var result = await _restfulHelper.PostAsync(DomainDOSApiServicesByClinicalTermUrl, RequestFormatting.CreateHTTPRequest(string.Format("{{\"caseId\":\"{0}\",\"postcode\":\"{1}\",\"searchDistance\":\"{2}\",\"gpPracticeId\":\"{3}\",\"age\":\"{4}\",\"gender\":\"{5}\",\"disposition\":\"{6}\",\"symptomGroupDiscriminatorCombos\":\"{7}={8}\",\"numberPerType\":\"{9}\" }}", caseId, postCode, searchDistance, gpPracticeId, age, gender, dispo, sg, sd, numberPerType),string.Empty));
-
-            var resultContent = await result.Content.ReadAsStringAsync();
-
-            Assert.IsTrue(result.IsSuccessStatusCode);
-            Assert.IsTrue(resultContent.Contains("Leeds"));
+            Assert.IsTrue(result.IsSuccessful);
+            SchemaValidation.AssertValidResponseSchema(result.Content, SchemaValidation.ResponseSchemaType.CheckServiceDetailsById);
         }
     }
 }

@@ -62,7 +62,7 @@ namespace NHS111.Web.Presentation.Builders
         public async Task<List<AddressInfoViewModel>> SearchPostcodeBuilder(string input)
         {
             input = HttpUtility.UrlDecode(input);
-            var url = string.Format(_configuration.PostcodeSearchByIdApiUrl, input);
+            var url = string.Format(_configuration.PostcodeSearchByIdUrl, input);
             var listPaf = await _restClientPostcodeApi.ExecuteTaskAsync<List<PAF>>(new JsonRestRequest(url, Method.GET));
 
             CheckResponse(listPaf);
@@ -245,7 +245,7 @@ namespace NHS111.Web.Presentation.Builders
 
         private async Task<IRestResponse<ITKDispatchResponse>> SendItkMessage(ITKDispatchRequest itkRequestData)
         {
-            var request = new JsonRestRequest(_configuration.ItkDispatchApiUrl, Method.POST);
+            var request = new JsonRestRequest(_configuration.ItkDispatcherApiSendItkMessageUrl, Method.POST);
             request.AddJsonBody(itkRequestData);
             var response = await _restClientItkDispatcherApi.ExecuteTaskAsync<ITKDispatchResponse>(request);
             return response;

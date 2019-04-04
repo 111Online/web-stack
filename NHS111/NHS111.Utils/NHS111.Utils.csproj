@@ -208,7 +208,6 @@
     <Compile Include="Attributes\LogHandleErrorForMVCAttribute.cs" />
     <Compile Include="Attributes\MultiSubmitAttribute.cs" />
     <Compile Include="Filters\SetSessionIdFilterAttribute.cs" />
-    <Compile Include="Helpers\RestfulHelper.cs" />
     <Compile Include="RestTools\JsonRestRequest.cs" />
     <Compile Include="Storage\AzureStorageService.cs" />
     <Compile Include="Comparer\KeywordComparer.cs" />
