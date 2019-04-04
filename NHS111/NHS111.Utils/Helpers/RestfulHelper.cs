@@ -9,21 +9,21 @@
     using System.Threading.Tasks;
     using Newtonsoft.Json;
 
-    public class RestfulHelper : IRestfulHelper
+    public class OffRestfulHelper : IOffRestfulHelper
     {
 
-        public RestfulHelper(HttpClient httpClient)
+        public OffRestfulHelper(HttpClient httpClient)
         {
             _httpClient = httpClient;
         }
 
-        public RestfulHelper(HttpClient httpClient, IHttpClientFactory httpClientFactory)
+        public OffRestfulHelper(HttpClient httpClient, IHttpClientFactory httpClientFactory)
         {
             _httpClient = httpClient;
             _httpClientFactory = httpClientFactory;
         }
 
-        public RestfulHelper()
+        public OffRestfulHelper()
         {
             _httpClient = new HttpClient();
             _httpClientFactory = new HttpClientFactory();
@@ -121,7 +121,7 @@
         private readonly IHttpClientFactory _httpClientFactory;
     }
 
-    public interface IRestfulHelper
+    public interface IOffRestfulHelper
     {
         Task<HttpResponseMessage> GetResponseAsync(string url);
         Task<HttpResponseMessage> GetResponseAsync(string url, string username, string password);

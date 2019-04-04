@@ -1,5 +1,8 @@
 ﻿
 
+using NHS111.Utils.RestTools;
+using RestSharp;
+
 namespace NHS111.Web.Presentation.Builders {
     using System.Collections.Generic;
     using System.Linq;
@@ -14,12 +17,12 @@ namespace NHS111.Web.Presentation.Builders {
     public class CareAdviceBuilder
         : BaseBuilder, ICareAdviceBuilder {
 
-        private readonly IRestfulHelper _restfulHelper;
+        private readonly IRestClient _restClient;
         private readonly IConfiguration _configuration;
         private const string WORSENING_CAREADVICE_ID = "CX1910";
 
-        public CareAdviceBuilder(IRestfulHelper restfulHelper, IConfiguration configuration) {
-            _restfulHelper = restfulHelper;
+        public CareAdviceBuilder(IRestClient restClient, IConfiguration configuration) {
+            _restClient = restClient;
             _configuration = configuration;
         }
 
@@ -27,38 +30,34 @@ namespace NHS111.Web.Presentation.Builders {
             if (!careAdviceMarkers.Any())
                 return Enumerable.Empty<CareAdvice>();
 
-            var businessApiCareAdviceUrl = _configuration.GetBusinessApiCareAdviceUrl(age, gender,
-                string.Join(",", careAdviceMarkers));
-            var response = await _restfulHelper.GetAsync(businessApiCareAdviceUrl);
-            var careAdvices = JsonConvert.DeserializeObject<List<CareAdvice>>(response);
+            var businessApiCareAdviceUrl = _configuration.GetBusinessApiCareAdviceUrl(age, gender, string.Join(",", careAdviceMarkers));
+            var careAdvices = await _restClient.ExecuteTaskAsync<IEnumerable<CareAdvice>>(new JsonRestRequest(businessApiCareAdviceUrl, Method.GET));
 
-            return careAdvices;
+            CheckResponse(careAdvices);
+
+            return careAdvices.Data;
         }
 
         public async Task<CareAdvice> FillWorseningCareAdvice(int age, string gender) {
-            var businessApiCareAdviceUrl = _configuration.GetBusinessApiCareAdviceUrl(age, gender,
-                WORSENING_CAREADVICE_ID);
-            var response = await _restfulHelper.GetAsync(businessApiCareAdviceUrl);
-            var careAdvices = JsonConvert.DeserializeObject<List<CareAdvice>>(response);
 
-            return careAdvices.FirstOrDefault();
+            var businessApiCareAdviceUrl = _configuration.GetBusinessApiCareAdviceUrl(age, gender, WORSENING_CAREADVICE_ID);
+            var careAdvices = await _restClient.ExecuteTaskAsync<IEnumerable<CareAdvice>>(new JsonRestRequest(businessApiCareAdviceUrl, Method.GET));
+
+            CheckResponse(careAdvices);
+
+            return careAdvices.Data.FirstOrDefault();
         }
 
         public async Task<IEnumerable<CareAdvice>> FillCareAdviceBuilder(string dxCode, string ageGroup, string gender, IList<string> careAdviceKeywords) {
             if (!careAdviceKeywords.Any())
                 return Enumerable.Empty<CareAdvice>();
 
-            var request = new HttpRequestMessage {
-                Content = new StringContent(JsonConvert.SerializeObject(GenerateKeywordsList(careAdviceKeywords)), Encoding.UTF8, "application/json")
-            };
-
             var businessApiInterimCareAdviceUrl = _configuration.GetBusinessApiInterimCareAdviceUrl(dxCode, ageGroup, gender);
-            var responseMessage = await _restfulHelper.PostAsync(businessApiInterimCareAdviceUrl, request);
+            var careAdvices = await _restClient.ExecuteTaskAsync<IEnumerable<CareAdvice>>(new JsonRestRequest(businessApiInterimCareAdviceUrl, Method.GET));
 
-            CheckResponse(responseMessage);
+            CheckResponse(careAdvices);
 
-            var response = await responseMessage.Content.ReadAsStringAsync();
-            return JsonConvert.DeserializeObject<List<CareAdvice>>(response);
+            return careAdvices.Data;
         }
 
         private string GenerateKeywordsList(IList<string> careAdviceKeywords) {

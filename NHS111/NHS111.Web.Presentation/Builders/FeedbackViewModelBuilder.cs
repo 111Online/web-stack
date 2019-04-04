@@ -11,19 +11,21 @@ using Microsoft.WindowsAzure.Storage.Table;
 using Newtonsoft.Json;
 using NHS111.Models.Models.Web;
 using NHS111.Utils.Helpers;
+using NHS111.Utils.RestTools;
+using RestSharp;
 using IConfiguration = NHS111.Web.Presentation.Configuration.IConfiguration;
 
 namespace NHS111.Web.Presentation.Builders
 {
     public class FeedbackViewModelBuilder : IFeedbackViewModelBuilder
     {
-        private IRestfulHelper _restfulHelper;
+        private IRestClient _restClient;
         private readonly IConfiguration _configuration;
         private readonly IPageDataViewModelBuilder _pageDateViewModelBuilder;
 
-        public FeedbackViewModelBuilder(IRestfulHelper restfulHelper, IConfiguration configuration, IPageDataViewModelBuilder pageDataViewModelBuilder)
+        public FeedbackViewModelBuilder(IRestClient restClient, IConfiguration configuration, IPageDataViewModelBuilder pageDataViewModelBuilder)
         {
-            _restfulHelper = restfulHelper;
+            _restClient = restClient;
             _configuration = configuration;
             _pageDateViewModelBuilder = pageDataViewModelBuilder;
         }
@@ -34,11 +36,10 @@ namespace NHS111.Web.Presentation.Builders
             feedback.PageData = await _pageDateViewModelBuilder.PageDataBuilder(feedback.PageData);
             feedback.PageId = feedback.PageData.ToString();
             try {
-                var request = new HttpRequestMessage {
-                    Content = new StringContent(JsonConvert.SerializeObject(feedback), Encoding.UTF8, "application/json")
-                };
-                var httpHeaders = new Dictionary<string, string> {{"Authorization", _configuration.FeedbackAuthorization}};
-                var response = await _restfulHelper.PostAsync(_configuration.FeedbackAddFeedbackUrl, request, httpHeaders);
+                var request = new JsonRestRequest(_configuration.FeedbackAddFeedbackUrl, Method.POST);
+                request.AddJsonBody(feedback);
+                request.AddHeader("Authorization", _configuration.FeedbackAuthorization);
+                var response = await _restClient.ExecuteTaskAsync(request);
 
                 if (response.StatusCode == HttpStatusCode.OK || response.StatusCode == HttpStatusCode.Created) {
                     return FeedbackConfirmation.Success;
