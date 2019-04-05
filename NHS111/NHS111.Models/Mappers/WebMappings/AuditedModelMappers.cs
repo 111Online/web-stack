@@ -3,7 +3,7 @@ using NHS111.Models.Models.Web;
 using NHS111.Models.Models.Web.FromExternalServices;
 using NHS111.Models.Models.Web.ITK;
 using NHS111.Models.Models.Web.Logging;
-using System.Net.Http;
+using RestSharp;
 
 namespace NHS111.Models.Mappers.WebMappings
 {
@@ -15,7 +15,9 @@ namespace NHS111.Models.Mappers.WebMappings
 
             Mapper.CreateMap<ITKDispatchRequest, AuditedItkRequest>();
 
-            Mapper.CreateMap<HttpResponseMessage, AuditedItkResponse>();
+            Mapper.CreateMap<IRestResponse, AuditedItkResponse>()
+                .ForMember(dest => dest.StatusCode, opt => opt.MapFrom(src => src.StatusCode))
+                .ForMember(dest => dest.IsSuccessStatusCode, opt => opt.MapFrom(src => src.IsSuccessful));
 
             Mapper.CreateMap<DosCheckCapacitySummaryResult, AuditedDosResponse>();
         }
