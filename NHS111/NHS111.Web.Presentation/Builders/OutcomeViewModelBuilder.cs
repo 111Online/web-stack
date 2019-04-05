@@ -186,7 +186,7 @@ namespace NHS111.Web.Presentation.Builders
             var itkRequestData = CreateItkDispatchRequest(model);
             await _auditLogger.LogItkRequest(model, itkRequestData);
             var response = await SendItkMessage(itkRequestData);
-            await _auditLogger.LogItkResponse(model, response.Content);
+            await _auditLogger.LogItkResponse(model, response);
             model.ItkDuplicate = response.StatusCode == System.Net.HttpStatusCode.Conflict;
             if (response.IsSuccessful)
             {
