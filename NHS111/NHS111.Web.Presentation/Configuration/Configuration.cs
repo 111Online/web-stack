@@ -197,14 +197,9 @@ namespace NHS111.Web.Presentation.Configuration
 
         private string GetBusinessApiUrlWithDomain(string endpointUrlkey, bool pathOnly=false)
         {
-            var businessApiDomain = ConfigurationManager.AppSettings["BusinessApiProtocolandDomain"];
             var buinessEndpointconfigValue = ConfigurationManager.AppSettings[endpointUrlkey];
             if (pathOnly) return "/" + buinessEndpointconfigValue;
-            if (IsAbsoluteUrl(buinessEndpointconfigValue))
-            {
-                return buinessEndpointconfigValue;
-            }
-            return businessApiDomain + buinessEndpointconfigValue;
+            return buinessEndpointconfigValue;
         }
 
 

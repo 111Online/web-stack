@@ -186,7 +186,7 @@ namespace NHS111.Web.Presentation.Builders
             var itkRequestData = CreateItkDispatchRequest(model);
             await _auditLogger.LogItkRequest(model, itkRequestData);
             var response = await SendItkMessage(itkRequestData);
-            await _auditLogger.LogItkResponse(model, response.Data);
+            await _auditLogger.LogItkResponse(model, response.Content);
             model.ItkDuplicate = response.StatusCode == System.Net.HttpStatusCode.Conflict;
             if (response.IsSuccessful)
             {
@@ -243,11 +243,11 @@ namespace NHS111.Web.Presentation.Builders
             return model;
         }
 
-        private async Task<IRestResponse<ITKDispatchResponse>> SendItkMessage(ITKDispatchRequest itkRequestData)
+        private async Task<IRestResponse> SendItkMessage(ITKDispatchRequest itkRequestData)
         {
             var request = new JsonRestRequest(_configuration.ItkDispatcherApiSendItkMessageUrl, Method.POST);
             request.AddJsonBody(itkRequestData);
-            var response = await _restClientItkDispatcherApi.ExecuteTaskAsync<ITKDispatchResponse>(request);
+            var response = await _restClientItkDispatcherApi.ExecuteTaskAsync(request);
             return response;
         }
 

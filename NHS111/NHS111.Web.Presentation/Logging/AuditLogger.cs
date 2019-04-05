@@ -25,7 +25,7 @@ namespace NHS111.Web.Presentation.Logging {
         Task LogEventData(JourneyViewModel model, string eventData);
         Task LogSelectedService(OutcomeViewModel model);
         Task LogItkRequest(OutcomeViewModel model, ITKDispatchRequest itkRequest);
-        Task LogItkResponse(OutcomeViewModel model, ITKDispatchResponse response);
+        Task LogItkResponse(OutcomeViewModel model, string response);
     }
 
     public class AuditLogger : IAuditLogger {
@@ -79,7 +79,7 @@ namespace NHS111.Web.Presentation.Logging {
             await Log(audit);
         }
 
-        public async Task LogItkResponse(OutcomeViewModel model, ITKDispatchResponse response)
+        public async Task LogItkResponse(OutcomeViewModel model, string response)
         {
             var audit = model.ToAuditEntry();
             var auditedItkResponse = Mapper.Map<AuditedItkResponse>(response);
