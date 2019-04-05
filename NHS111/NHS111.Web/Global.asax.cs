@@ -42,7 +42,7 @@ namespace NHS111.Web {
                     ConfigurationManager.AppSettings["login_credential_password"]));
             }
 
-            GlobalFilters.Filters.Add(new LogJourneyFilterAttribute(new LoggingRestClient(ConfigurationManager.AppSettings["LoggingServiceUrl"], LogManager.GetLogger("log"))));
+            GlobalFilters.Filters.Add(new LogJourneyFilterAttribute(new LoggingRestClient(ConfigurationManager.AppSettings["LoggingServiceApiBaseUrl"], LogManager.GetLogger("log"))));
             FluentValidationModelValidatorProvider.Configure();
 
             var razorEngine = ViewEngines.Engines.OfType<RazorViewEngine>().FirstOrDefault();

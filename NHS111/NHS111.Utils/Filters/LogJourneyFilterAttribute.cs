@@ -44,7 +44,7 @@ namespace NHS111.Utils.Filters
             var auditEntry = model.ToAuditEntry();
             auditEntry.Page = pageName;
 
-            var url = ConfigurationManager.AppSettings["LoggingServiceUrl"];
+            var url = ConfigurationManager.AppSettings["LoggingServiceApiAuditUrl"];
             
             var request = new JsonRestRequest(url, Method.POST);
             request.AddJsonBody(auditEntry);
