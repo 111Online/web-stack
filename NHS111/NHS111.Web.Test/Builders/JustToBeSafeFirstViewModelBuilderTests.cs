@@ -69,13 +69,21 @@ namespace NHS111.Web.Presentation.Builders.Tests
                     "'module':'1','symptomGroup':'1112','group':null," +
                     "'keywords':'" + testKeywords + "'}";
             var pathway = JsonConvert.DeserializeObject<Pathway>(pathwayJson);
+            var pathwayResponse = new Mock<IRestResponse<Pathway>>();
+            pathwayResponse.Setup(_ => _.IsSuccessful).Returns(true);
+            pathwayResponse.Setup(_ => _.Data).Returns(pathway);
+            pathwayResponse.Setup(_ => _.Content).Returns(pathwayJson);
             _restClient.Setup(r => r.ExecuteTaskAsync<Pathway>(It.Is<IRestRequest>(rq => rq.Resource == MOCK_BusinessApiPathwayIdUrl)))
-                .ReturnsAsync(new RestResponse<Pathway>() { Data = pathway });
-            
+                .ReturnsAsync(pathwayResponse.Object);
+
 
             var emptyQuestionList = JsonConvert.DeserializeObject<IEnumerable<QuestionWithAnswers>>("[]");
+            var emptyQuestionListResponse = new Mock<IRestResponse<IEnumerable<QuestionWithAnswers>>>();
+            emptyQuestionListResponse.Setup(_ => _.IsSuccessful).Returns(true);
+            emptyQuestionListResponse.Setup(_ => _.Data).Returns(emptyQuestionList);
+            emptyQuestionListResponse.Setup(_ => _.Content).Returns("[]");
             _restClient.Setup(r => r.ExecuteTaskAsync<IEnumerable<QuestionWithAnswers>>(It.Is<IRestRequest>(rq => rq.Resource == MOCK_GetBusinessApiJustToBeSafePartOneUrl)))
-                .ReturnsAsync(new RestResponse<IEnumerable<QuestionWithAnswers>>() { Data = emptyQuestionList });
+                .ReturnsAsync(emptyQuestionListResponse.Object);
 
 
             var questionWithAnswersJson = "{'Question':{'group':null,'order':null,'topic':null,'id':'" +
@@ -86,8 +94,12 @@ namespace NHS111.Web.Presentation.Builders.Tests
                                           "{'title':'No','titleWithoutSpaces':'No','symptomDiscriminator':'','supportingInfo':'','keywords':'','order':2}" +
                                           "],'Answered':null,'Labels':['Question'],'State':null}";
             var questionWithAnswers = JsonConvert.DeserializeObject<QuestionWithAnswers>(questionWithAnswersJson);
-            _restClient.Setup(r => r.ExecuteTaskAsync<QuestionWithAnswers>(It.Is<IRestRequest>(rq => rq.Resource == MOCK_BusinessApiPathwayIdUrl)))
-                .ReturnsAsync(new RestResponse<QuestionWithAnswers>() { Data = questionWithAnswers });
+            var emptyQuestionWithAnswersResponse = new Mock<IRestResponse<QuestionWithAnswers>>();
+            emptyQuestionWithAnswersResponse.Setup(_ => _.IsSuccessful).Returns(true);
+            emptyQuestionWithAnswersResponse.Setup(_ => _.Data).Returns(questionWithAnswers);
+            emptyQuestionWithAnswersResponse.Setup(_ => _.Content).Returns(questionWithAnswersJson);
+            _restClient.Setup(r => r.ExecuteTaskAsync<QuestionWithAnswers>(It.Is<IRestRequest>(rq => rq.Resource == MOCK_GetBusinessApiFirstQuestionUrl)))
+                .ReturnsAsync(emptyQuestionWithAnswersResponse.Object);
 
             _mappingEngine.Setup(m => m.Mapper).Returns(_mapper.Object);
 
