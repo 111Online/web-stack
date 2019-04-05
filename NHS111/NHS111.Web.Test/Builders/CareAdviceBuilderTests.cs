@@ -44,9 +44,14 @@ namespace NHS111.Web.Presentation.Builders.Tests
             _configuration.Setup(c => c.GetBusinessApiInterimCareAdviceUrl(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>()))
                 .Returns(MOCK_GetBusinessApiInterimCareAdviceUrl);
 
-            _restClient.Setup(r => r.ExecuteTaskAsync<IEnumerable<CareAdvice>>(It.IsAny<RestRequest>())).ReturnsAsync(new RestResponse<IEnumerable<CareAdvice>>() { Content = TEST_CONTENT, Data = JsonConvert.DeserializeObject<IEnumerable<CareAdvice>>(TEST_CONTENT), ResponseStatus = ResponseStatus.Completed });
+            var response = new Mock<IRestResponse<IEnumerable<CareAdvice>>>();
+            response.Setup(_ => _.IsSuccessful).Returns(true);
+            response.Setup(_ => _.Data).Returns(JsonConvert.DeserializeObject<IEnumerable<CareAdvice>>(TEST_CONTENT));
+            response.Setup(_ => _.Content).Returns(TEST_CONTENT);
 
-            _restClient.Setup(r => r.ExecuteTaskAsync<IEnumerable<CareAdvice>>(It.IsAny<RestRequest>())).ReturnsAsync(new RestResponse<IEnumerable<CareAdvice>>() { Content = TEST_CONTENT, Data = JsonConvert.DeserializeObject<IEnumerable<CareAdvice>>(TEST_CONTENT), ResponseStatus = ResponseStatus.Completed });
+            _restClient.Setup(r => r.ExecuteTaskAsync<IEnumerable<CareAdvice>>(It.IsAny<RestRequest>())).ReturnsAsync(response.Object);
+
+            _restClient.Setup(r => r.ExecuteTaskAsync<IEnumerable<CareAdvice>>(It.IsAny<RestRequest>())).ReturnsAsync(response.Object);
         }
 
         [Test()]
@@ -80,8 +85,6 @@ namespace NHS111.Web.Presentation.Builders.Tests
             Assert.AreEqual(2, result.First().Items.Count());
             Assert.AreEqual(TEST_CAREADVICE_ITEM_FIRST, result.First().Items.First().Text);
             Assert.AreEqual(TEST_CAREADVICE_ITEM_SECOND, result.First().Items.Last().Text);
-
-
         }
     }
 }

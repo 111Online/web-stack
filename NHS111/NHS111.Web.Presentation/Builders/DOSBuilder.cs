@@ -66,9 +66,13 @@ namespace NHS111.Web.Presentation.Builders
 
             if (response.StatusCode != HttpStatusCode.OK) return response.Data;
 
-            var checkCapacitySummaryResults = JsonConvert.SerializeObject(response.Data.Success.Services);
-            var jArray = (JArray)JsonConvert.DeserializeObject(checkCapacitySummaryResults);
-            var services = jArray.ToObject<List<ServiceViewModel>>();
+            var services = new List<ServiceViewModel>();
+            if (response.Data.Success != null)
+            {
+                var checkCapacitySummaryResults = JsonConvert.SerializeObject(response.Data.Success.Services);
+                var jArray = (JArray) JsonConvert.DeserializeObject(checkCapacitySummaryResults);
+                services = jArray.ToObject<List<ServiceViewModel>>();
+            }
 
             var checkCapacitySummaryResult = new DosCheckCapacitySummaryResult()
             {

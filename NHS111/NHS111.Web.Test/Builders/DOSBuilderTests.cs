@@ -85,11 +85,16 @@ namespace NHS111.Web.Presentation.Builders.Tests
         public async void FillCheckCapacitySummaryResult_WithDistanceInMetric_ConvertsToMiles()
         {
             var fakeContent = "{DosCheckCapacitySummaryResult: [{}]}";
-            _mockRestClient.Setup(r => r.ExecuteTaskAsync<DosCheckCapacitySummaryResult>(It.Is<IRestRequest>(rq => rq.Method == Method.POST)))
-                .ReturnsAsync(new RestResponse<DosCheckCapacitySummaryResult> { Content = fakeContent, Data = JsonConvert.DeserializeObject<DosCheckCapacitySummaryResult>(fakeContent), ResponseStatus = ResponseStatus.Completed });
-            _mockRestClient.Setup(r => r.ExecuteTaskAsync<DosCheckCapacitySummaryResult>(It.Is<IRestRequest>(rq => rq.Method == Method.GET)))
-                .ReturnsAsync(new RestResponse<DosCheckCapacitySummaryResult> { Content = "0", Data = JsonConvert.DeserializeObject<DosCheckCapacitySummaryResult>("0"), ResponseStatus = ResponseStatus.Completed });
+            
+            var response = new Mock<IRestResponse<DosCheckCapacitySummaryResult>>();
+            response.Setup(_ => _.IsSuccessful).Returns(true);
+            response.Setup(_ => _.StatusCode).Returns(HttpStatusCode.OK);
+            response.Setup(_ => _.Data).Returns(JsonConvert.DeserializeObject<DosCheckCapacitySummaryResult>(fakeContent));
+            response.Setup(_ => _.Content).Returns(fakeContent);
 
+            _mockRestClient.Setup(r => r.ExecuteTaskAsync<DosCheckCapacitySummaryResult>(It.Is<IRestRequest>(rq => rq.Method == Method.POST)))
+                .ReturnsAsync(response.Object);
+            
             var model = new DosViewModel {
                 SearchDistance = 1,
                 DosCheckCapacitySummaryResult = new DosCheckCapacitySummaryResult()
