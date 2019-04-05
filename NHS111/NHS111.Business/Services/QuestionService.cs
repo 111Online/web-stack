@@ -44,7 +44,7 @@ namespace NHS111.Business.Services
 
         public async Task<QuestionWithAnswers> GetNextQuestion(string id, string nodeLabel, string answer)
         {
-            var request = new JsonRestRequest(_configuration.GetDomainApiAnswersForQuestionUrl(id), Method.POST);
+            var request = new JsonRestRequest(_configuration.GetDomainApiNextQuestionUrl(id, nodeLabel), Method.POST);
             request.AddJsonBody(answer);
             var questions = await _restClient.ExecuteTaskAsync<QuestionWithAnswers>(request);
             return questions.Data;
