@@ -53,7 +53,9 @@ namespace NHS111.Web.Presentation.Builders {
                 return Enumerable.Empty<CareAdvice>();
 
             var businessApiInterimCareAdviceUrl = _configuration.GetBusinessApiInterimCareAdviceUrl(dxCode, ageGroup, gender);
-            var careAdvices = await _restClient.ExecuteTaskAsync<IEnumerable<CareAdvice>>(new JsonRestRequest(businessApiInterimCareAdviceUrl, Method.GET));
+            var request = new JsonRestRequest(businessApiInterimCareAdviceUrl, Method.POST);
+            request.AddJsonBody(GenerateKeywordsList(careAdviceKeywords));
+            var careAdvices = await _restClient.ExecuteTaskAsync<IEnumerable<CareAdvice>>(request);
 
             CheckResponse(careAdvices);
 
