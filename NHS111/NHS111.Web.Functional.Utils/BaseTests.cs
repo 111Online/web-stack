@@ -19,20 +19,21 @@ namespace NHS111.Web.Functional.Utils
         {
             // Ideally we could have multiple size screenshots
             // for Visual Regression Test MVP this uses the same width as Andria's Selenium screenshots (1232px)
-            var chromeOptions = new ChromeOptions();
-            if (_headlessTestFeature.IsEnabled)
-            {
-                // Build agents should run headless, and this should fix renderer timeout issues
-                chromeOptions.AddArgument("--enable-automation"); // https://stackoverflow.com/a/43840128/1689770
-                chromeOptions.AddArgument("--headless");
-                chromeOptions.AddArgument("--no-sandbox"); //https://stackoverflow.com/a/50725918/1689770
-                chromeOptions.AddArgument("--disable-infobars");
-                chromeOptions.AddArgument("--disable-dev-shm-usage");
-                chromeOptions.AddArgument("--disable-browser-side-navigation"); //https://stackoverflow.com/a/49123152/1689770
-                chromeOptions.AddArgument("--disable-gpu"); // Workaround for renderer timeout https://stackoverflow.com/questions/48450594/selenium-timed-out-receiving-message-from-renderer
-            }
-            chromeOptions.AddArgument("--window-size=1232,1000"); // Ensure all screenshots are same size across build agents
-            Driver = new ChromeDriver(chromeOptions);
+            //var chromeOptions = new ChromeOptions();
+            //if (_headlessTestFeature.IsEnabled)
+            //{
+            //    // Build agents should run headless, and this should fix renderer timeout issues
+            //    chromeOptions.AddArgument("--enable-automation"); // https://stackoverflow.com/a/43840128/1689770
+            //    chromeOptions.AddArgument("--headless");
+            //    chromeOptions.AddArgument("--no-sandbox"); //https://stackoverflow.com/a/50725918/1689770
+            //    chromeOptions.AddArgument("--disable-infobars");
+            //    chromeOptions.AddArgument("--disable-dev-shm-usage");
+            //    chromeOptions.AddArgument("--disable-browser-side-navigation"); //https://stackoverflow.com/a/49123152/1689770
+            //    chromeOptions.AddArgument("--disable-gpu"); // Workaround for renderer timeout https://stackoverflow.com/questions/48450594/selenium-timed-out-receiving-message-from-renderer
+            //}
+            //chromeOptions.AddArgument("--window-size=1232,1000"); // Ensure all screenshots are same size across build agents
+            Driver = new ChromeDriver();
+            Driver.Manage().Window.Maximize();
         }
 
         [TestFixtureTearDown]
