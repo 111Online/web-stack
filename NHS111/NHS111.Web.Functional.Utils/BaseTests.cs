@@ -26,6 +26,8 @@ namespace NHS111.Web.Functional.Utils
                 chromeOptions.AddArgument("--enable-automation"); // https://stackoverflow.com/a/43840128/1689770
                 chromeOptions.AddArgument("--headless");
                 chromeOptions.AddArgument("--no-sandbox"); //https://stackoverflow.com/a/50725918/1689770
+                chromeOptions.AddArgument("--disable-infobars");
+                chromeOptions.AddArgument("--disable-dev-shm-usage");
                 chromeOptions.AddArgument("--disable-browser-side-navigation"); //https://stackoverflow.com/a/49123152/1689770
                 chromeOptions.AddArgument("--disable-gpu"); // Workaround for renderer timeout https://stackoverflow.com/questions/48450594/selenium-timed-out-receiving-message-from-renderer
             }
