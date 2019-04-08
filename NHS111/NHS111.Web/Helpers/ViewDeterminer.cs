@@ -63,13 +63,7 @@ namespace NHS111.Web.Helpers
             {
                 case NodeType.Outcome:
                     var viewFilePath = "../Outcome/" + model.OutcomeGroup.Id;
-                    //if (model.OutcomeGroup.IsPostcodeFirst())
-                    //{
-                    //    model.UserInfo.CurrentAddress.IsPostcodeFirst = true;
-                    //    _auditLogger.LogEventData(model, "Postcode first journey started");
 
-                    //    viewFilePath = "../PostcodeFirst/Postcode";
-                   // }
                     var outcomeViewModel = model as OutcomeViewModel;
                     if (IsTestJourney(outcomeViewModel))
                         return "../Outcome/Call_999_CheckAnswer";
