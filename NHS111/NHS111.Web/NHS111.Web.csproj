@@ -433,6 +433,7 @@
     <Content Include="Views\Shared\_rs_goto_type.cshtml" />
     <Content Include="Views\Shared\_rs_phone_type.cshtml" />
     <Content Include="Views\Shared\_rs_callback_type.cshtml" />
+    <Content Include="Views\Outcome\GP_Pharmacy.cshtml" />
     <None Include="Web.Development.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
