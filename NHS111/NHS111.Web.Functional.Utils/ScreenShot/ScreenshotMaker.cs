@@ -92,7 +92,7 @@ namespace NHS111.Web.Functional.Utils.ScreenShot
         public void CopyBaseline(string filename)
         {
             CreateBaselineDir();
-            File.Copy(BaselineScreenShotDir + filename, ScreenShotBaselineDir + filename);
+            File.Copy(BaselineScreenShotDir + filename, ScreenShotBaselineDir + filename, overwrite: true);
         }
     }
 }
