@@ -28,7 +28,7 @@ namespace NHS111.Web.Functional.Tests
         [Test]
         public void QuestionPage_DisplaysQuestionAdditionalInfo()
         {
-            var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Male sexual problems", TestScenerioSex.Male,
+            var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Sexual Concerns", TestScenerioSex.Male,
                     TestScenerioAgeGroups.Adult)
                 .Answer(3);
             questionPage.VerifyAdditionalInfo();
