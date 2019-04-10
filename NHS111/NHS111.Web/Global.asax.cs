@@ -5,11 +5,13 @@ using NHS111.Features;
 namespace NHS111.Web {
     using System;
     using System.Collections;
+    using System.Configuration;
     using System.Linq;
     using System.Web;
     using System.Web.Mvc;
     using System.Web.Optimization;
     using System.Web.Routing;
+    using Authentication;
     using Models.Models.Web;
     using Presentation.ModelBinders;
     using Utils.Filters;
@@ -28,6 +30,7 @@ namespace NHS111.Web {
             ModelBinders.Binders[typeof(PersonalDetailViewModel)] = new JourneyViewModelBinder();
             ModelBinders.Binders[typeof(QuestionViewModel)] = new JourneyViewModelBinder();
 
+            GlobalFilters.Filters.Add(new BasicAuthenticationAttribute(ConfigurationManager.AppSettings["login_credential_user"], ConfigurationManager.AppSettings["login_credential_password"]));
             GlobalFilters.Filters.Add(new LogJourneyFilterAttribute());
             FluentValidationModelValidatorProvider.Configure();
 
