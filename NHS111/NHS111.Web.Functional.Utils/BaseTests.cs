@@ -25,6 +25,11 @@ namespace NHS111.Web.Functional.Utils
                 chromeOptions.AddArgument("--headless");
             }
             chromeOptions.AddArgument("--window-size=1232,1000"); // Ensure all screenshots are same size across build agents
+            chromeOptions.AddArgument("--no-sandbox"); //https://stackoverflow.com/a/50725918/1689770
+            chromeOptions.AddArgument("--disable-infobars"); //https://stackoverflow.com/a/43840128/1689770
+            chromeOptions.AddArgument("--disable-dev-shm-usage"); //https://stackoverflow.com/a/50725918/1689770
+            chromeOptions.AddArgument("--disable-browser-side-navigation"); //https://stackoverflow.com/a/49123152/1689770
+            chromeOptions.AddArgument("--disable-gpu"); //https://stackoverflow.com/questions/51959986/how-to-solve-selenium-chromedriver-timed-out-receiving-message-from-renderer-exc
             Driver = new ChromeDriver(chromeOptions);
         }
 
