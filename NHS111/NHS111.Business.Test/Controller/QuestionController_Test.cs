@@ -49,15 +49,15 @@ namespace NHS111.Business.Test.Controller
                 },
                 State = new Dictionary<string, string>()
             };
-            var json = JsonConvert.SerializeObject(question);
-            _questionService.Setup(x => x.GetNextQuestion(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>())).Returns(Task.FromResult(json.AsHttpResponse()));
+            _questionService.Setup(x => x.GetNextQuestion(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>())).Returns(Task.FromResult(question));
 
-            _questionTransformer.Setup(x => x.AsQuestionWithDeadEnd(It.IsAny<string>())).Returns(json);
+            //_questionTransformer.Setup(x => x.AsQuestionWithDeadEnd(It.IsAny<QuestionWithAnswers>())).Returns(question);
 
             var result = await _sut.GetNextNode("1", NodeType.Question, "2", "", "yes");
 
             _questionService.Verify(x => x.GetNextQuestion(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>()), Times.Once);
-            Assert.IsInstanceOf<QuestionWithDeadEnd>(JsonConvert.DeserializeObject<QuestionWithDeadEnd>(await result.Content.ReadAsStringAsync()));
+            //Assert.IsInstanceOf<QuestionWithDeadEnd>(JsonConvert.DeserializeObject<QuestionWithDeadEnd>(await result.Content.ReadAsStringAsync()));
+            Assert.IsTrue(result.Content.Labels.Contains("DeadEndJump"));
         }
 
         [Test]
@@ -72,15 +72,14 @@ namespace NHS111.Business.Test.Controller
                 },
                 State = new Dictionary<string, string>()
             };
-            var json = JsonConvert.SerializeObject(question);
-            _questionService.Setup(x => x.GetNextQuestion(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>())).Returns(Task.FromResult(json.AsHttpResponse()));
+            _questionService.Setup(x => x.GetNextQuestion(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>())).Returns(Task.FromResult(question));
 
-            _questionTransformer.Setup(x => x.AsQuestionWithAnswers(It.IsAny<string>())).Returns(json);
+            _questionTransformer.Setup(x => x.AsQuestionWithAnswers(It.IsAny<QuestionWithAnswers>())).Returns(question);
 
             var result = await _sut.GetNextNode("1", NodeType.Question, "2", "", "yes");
 
             _questionService.Verify(x => x.GetNextQuestion(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>()), Times.Once);
-            Assert.IsInstanceOf<QuestionWithAnswers>(JsonConvert.DeserializeObject<QuestionWithAnswers>(await result.Content.ReadAsStringAsync()));
+            Assert.IsInstanceOf<QuestionWithAnswers>(result.Content);
         }
 
         [Test]
@@ -97,7 +96,6 @@ namespace NHS111.Business.Test.Controller
                 },
                 State = new Dictionary<string, string>()
             };
-            var json1 = JsonConvert.SerializeObject(node1);
             var node2 = new QuestionWithAnswers
             {
                 Question = new Question { Title = "Read2" },
@@ -109,7 +107,6 @@ namespace NHS111.Business.Test.Controller
                 },
                 State = new Dictionary<string, string>()
             };
-            var json2 = JsonConvert.SerializeObject(node2);
             var node3 = new QuestionWithAnswers
             {
                 Question = new Question { Title = "Q1" },
@@ -121,18 +118,17 @@ namespace NHS111.Business.Test.Controller
                 },
                 State = new Dictionary<string, string>()
             };
-            var json3 = JsonConvert.SerializeObject(node3);
-
-            _questionTransformer.Setup(x => x.AsQuestionWithAnswers(It.IsAny<string>())).Returns(json3);
+            
+            _questionTransformer.Setup(x => x.AsQuestionWithAnswers(It.IsAny<QuestionWithAnswers>())).Returns(node3);
             _answersForNodeBuilder.Setup(x => x.SelectAnswer(It.IsAny<IEnumerable<Answer>>(), It.IsAny<string>()))
                 .Returns(new Answer { Keywords = "kw1", ExcludeKeywords = "exclude1" });
             _questionService.SetupSequence(x => x.GetNextQuestion(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>()))
-                .Returns(Task.FromResult(json1.AsHttpResponse()))
-                .Returns(Task.FromResult(json2.AsHttpResponse()))
-                .Returns(Task.FromResult(json3.AsHttpResponse()));
+                .Returns(Task.FromResult(node1))
+                .Returns(Task.FromResult(node2))
+                .Returns(Task.FromResult(node3));
 
             var result = await _sut.GetNextNode("1", NodeType.Question, "2", "{}", "yes");
-            var deserialisedResult = JsonConvert.DeserializeObject<QuestionWithAnswers>(await result.Content.ReadAsStringAsync());
+            var deserialisedResult = result.Content;
             Assert.IsTrue(deserialisedResult.Answers.First().Keywords.Contains("kw1"));
         }
 
@@ -147,12 +143,11 @@ namespace NHS111.Business.Test.Controller
                     "Question"
                 },
             };
-            var json = JsonConvert.SerializeObject(question);
-            _questionService.Setup(x => x.GetFirstQuestion(It.IsAny<string>())).Returns(json.AsHttpResponse().Content.ReadAsStringAsync());
-            _questionTransformer.Setup(x => x.AsQuestionWithAnswers(It.IsAny<string>())).Returns(json);
+            _questionService.Setup(x => x.GetFirstQuestion(It.IsAny<string>())).Returns(Task.FromResult(question));
+            _questionTransformer.Setup(x => x.AsQuestionWithAnswers(It.IsAny<QuestionWithAnswers>())).Returns(question);
 
             var result = await _sut.GetFirstQuestion(It.IsAny<string>(), "{\"PATIENT_AGE\":\"24\",\"PATIENT_GENDER\":\"M\"}");
-            var node = JsonConvert.DeserializeObject<QuestionWithAnswers>(await result.Content.ReadAsStringAsync());
+            var node = result.Content;
 
             Assert.IsTrue(node.State.ContainsKey("SYSTEM_ONLINE"));
             Assert.AreEqual(node.State["SYSTEM_ONLINE"], "online");
@@ -164,14 +159,12 @@ namespace NHS111.Business.Test.Controller
         {
             var set = new QuestionWithAnswers()
             {
-                Question = new Question { Title = "SET_STATE"},
+                Question = new Question { Title = "SET_STATE" },
                 Labels = new[]
                 {
                     "Set"
                 },
             };
-            var json = JsonConvert.SerializeObject(set);
-
             var question = new QuestionWithAnswers()
             {
                 Question = new Question(),
@@ -180,18 +173,15 @@ namespace NHS111.Business.Test.Controller
                     "Question"
                 },
             };
-            var json1 = JsonConvert.SerializeObject(question);
+            var answers = new [] { new Answer { Title = "setstate" }  };
 
-            var answers = new [] { new Answer() { Title = "setstate" },  };
-            var answerJson = JsonConvert.SerializeObject(answers);
-
-            _questionService.Setup(x => x.GetFirstQuestion(It.IsAny<string>())).Returns(json.AsHttpResponse().Content.ReadAsStringAsync());
-            _questionService.Setup(x => x.GetAnswersForQuestion(It.IsAny<string>())).Returns(answerJson.AsHttpResponse().Content.ReadAsStringAsync());
-            _questionService.Setup(x => x.GetNextQuestion(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>())).Returns(Task.FromResult(json1.AsHttpResponse()));
+            _questionService.Setup(x => x.GetFirstQuestion(It.IsAny<string>())).Returns(Task.FromResult(set));
+            _questionService.Setup(x => x.GetAnswersForQuestion(It.IsAny<string>())).Returns(Task.FromResult(answers));
+            _questionService.Setup(x => x.GetNextQuestion(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>())).Returns(Task.FromResult(question));
 
             _sut = new QuestionController(_questionService.Object, new QuestionTransformer(), _answersForNodeBuilder.Object, _cacheManager.Object);
             var result = await _sut.GetFirstQuestion(It.IsAny<string>(), "{\"PATIENT_AGE\":\"24\",\"PATIENT_GENDER\":\"M\"}");
-            var node = JsonConvert.DeserializeObject<QuestionWithAnswers>(await result.Content.ReadAsStringAsync());
+            var node = result.Content;
 
             Assert.IsTrue(node.State.ContainsKey("SET_STATE"));
             Assert.AreEqual(node.State["SET_STATE"], "setstate");
@@ -211,8 +201,6 @@ namespace NHS111.Business.Test.Controller
                     "Read"
                 },
             };
-            var json = JsonConvert.SerializeObject(set);
-
             var question = new QuestionWithAnswers()
             {
                 Question = new Question(),
@@ -221,19 +209,16 @@ namespace NHS111.Business.Test.Controller
                     "Question"
                 },
             };
-            var json1 = JsonConvert.SerializeObject(question);
-
             var answers = new [] { new Answer { Title = "readstate" }, };
-            var answerJson = JsonConvert.SerializeObject(answers);
-
-            _questionService.Setup(x => x.GetFirstQuestion(It.IsAny<string>())).Returns(json.AsHttpResponse().Content.ReadAsStringAsync());
-            _questionService.Setup(x => x.GetAnswersForQuestion(It.IsAny<string>())).Returns(answerJson.AsHttpResponse().Content.ReadAsStringAsync());
-            _questionService.Setup(x => x.GetNextQuestion(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>())).Returns(Task.FromResult(json1.AsHttpResponse()));
+            
+            _questionService.Setup(x => x.GetFirstQuestion(It.IsAny<string>())).Returns(Task.FromResult(set));
+            _questionService.Setup(x => x.GetAnswersForQuestion(It.IsAny<string>())).Returns(Task.FromResult(answers));
+            _questionService.Setup(x => x.GetNextQuestion(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>())).Returns(Task.FromResult(question));
             _answersForNodeBuilder.Setup(x => x.SelectAnswer(It.IsAny<IEnumerable<Answer>>(), It.IsAny<string>())).Returns(new Answer { Title = "readstate" });
 
             _sut = new QuestionController(_questionService.Object, new QuestionTransformer(), _answersForNodeBuilder.Object, _cacheManager.Object);
             var result = await _sut.GetFirstQuestion(It.IsAny<string>(), "{\"PATIENT_AGE\":\"24\",\"PATIENT_GENDER\":\"M\",\"READ_STATE\":\"readstate\"}");
-            var node = JsonConvert.DeserializeObject<QuestionWithAnswers>(await result.Content.ReadAsStringAsync());
+            var node = result.Content;
 
             Assert.IsTrue(node.State.ContainsKey("READ_STATE"));
             Assert.AreEqual(node.State["READ_STATE"], "readstate");

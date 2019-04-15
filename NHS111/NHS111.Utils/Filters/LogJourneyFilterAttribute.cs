@@ -1,6 +1,8 @@
 ﻿
 using System.Linq;
 using NHS111.Models.Models.Web.FromExternalServices;
+using NHS111.Utils.RestTools;
+using RestSharp;
 
 namespace NHS111.Utils.Filters
 {
@@ -8,17 +10,20 @@ namespace NHS111.Utils.Filters
     using System.Configuration;
     using System.Net.Http;
     using System.Web.Mvc;
-    using Helpers;
     using Models.Models.Web;
     using Models.Models.Web.Logging;
     using Newtonsoft.Json;
-    using System.Collections.Generic;
-    using System.Web;
-    using System.Web.SessionState;
 
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method, Inherited = true, AllowMultiple = true)]
     public class LogJourneyFilterAttribute : ActionFilterAttribute
     {
+        private static IRestClient _restClient;
+
+        public LogJourneyFilterAttribute(IRestClient restClientLogJourneyFilter)
+        {
+            _restClient = restClientLogJourneyFilter;
+        }
+
         public override void OnActionExecuted(ActionExecutedContext filterContext)
         {
             var result = filterContext.Result as ViewResultBase;
@@ -39,13 +44,11 @@ namespace NHS111.Utils.Filters
             var auditEntry = model.ToAuditEntry();
             auditEntry.Page = pageName;
 
-            var url = ConfigurationManager.AppSettings["LoggingServiceUrl"];
-            var rest = new RestfulHelper();
-            var httpRequestMessage = new HttpRequestMessage(HttpMethod.Post, new Uri(url))
-            {
-                Content = new StringContent(JsonConvert.SerializeObject(auditEntry))
-            };
-            rest.PostAsync(url, httpRequestMessage);
+            var url = ConfigurationManager.AppSettings["LoggingServiceApiAuditUrl"];
+            
+            var request = new JsonRestRequest(url, Method.POST);
+            request.AddJsonBody(auditEntry);
+            _restClient.ExecutePostTaskAsync(request);
         }
     }
 

@@ -6,7 +6,8 @@ namespace NHS111.Web.Presentation.Configuration
 {
     public class Configuration : IConfiguration
     {
-        public string ItkDispatchApiUrl { get { return ConfigurationManager.AppSettings["ItkDispatchApiUrl"]; } }
+        public string ItkDispatcherApiBaseUrl { get { return ConfigurationManager.AppSettings["ItkDispatcherApiBaseUrl"]; } }
+        public string ItkDispatcherApiSendItkMessageUrl { get { return ConfigurationManager.AppSettings["ItkDispatcherApiSendItkMessageUrl"]; } }
         public string GPSearchUrl { get { return ConfigurationManager.AppSettings["GPSearchUrl"]; } }
         public string GPSearchApiUrl { get { return ConfigurationManager.AppSettings["GPSearchApiUrl"]; } }
         public string GPSearchByIdUrl { get { return ConfigurationManager.AppSettings["GPSearchByIdUrl"]; } }
@@ -14,14 +15,17 @@ namespace NHS111.Web.Presentation.Configuration
 
         public string CCGBusinessApiBaseProtocolandDomain { get { return ConfigurationManager.AppSettings["CCGApiBaseUrl"]; } }
 
+        public string BusinessDosApiBaseUrl { get { return ConfigurationManager.AppSettings["BusinessDosApiBaseUrl"]; } }
+        public string BusinessDosApiCheckCapacitySummaryUrl { get { return ConfigurationManager.AppSettings["BusinessDosApiCheckCapacitySummaryUrl"]; } }
+        public string BusinessDosApiServicesByClinicalTermUrl { get { return ConfigurationManager.AppSettings["BusinessDosApiServicesByClinicalTermUrl"]; } }
+        public string BusinessDosApiServiceDetailsByIdUrl { get { return ConfigurationManager.AppSettings["BusinessDosApiServiceDetailsByIdUrl"]; } }
 
-        public string BusinessDosCheckCapacitySummaryUrl { get { return ConfigurationManager.AppSettings["BusinessDosCheckCapacitySummaryUrl"]; } }
-        public string BusinessDosServicesByClinicalTermUrl { get { return ConfigurationManager.AppSettings["BusinessDosServicesByClinicalTermUrl"]; } }
-        public string BusinessDosServiceDetailsByIdUrl { get { return ConfigurationManager.AppSettings["BusinessDosServiceDetailsByIdUrl"]; } }
+        public string FeedbackApiBaseUrl { get { return ConfigurationManager.AppSettings["FeedbackApiBaseUrl"]; } }
         public string FeedbackAddFeedbackUrl { get { return ConfigurationManager.AppSettings["FeedbackAddFeedbackUrl"]; } }
         public string FeedbackDeleteFeedbackUrl { get { return ConfigurationManager.AppSettings["FeedbackDeleteFeedbackUrl"]; } }
         public string FeedbackAuthorization { get { return ConfigurationManager.AppSettings["FeedbackAuthorization"]; } }
-        public string PostcodeSearchByIdApiUrl { get { return ConfigurationManager.AppSettings["PostcodeSearchByIdApiUrl"]; } }
+        public string PostcodeApiBaseUrl { get { return ConfigurationManager.AppSettings["PostcodeApiBaseUrl"]; } }
+        public string PostcodeSearchByIdUrl { get { return ConfigurationManager.AppSettings["PostcodeSearchByIdUrl"]; } }
         public string PostcodeSubscriptionKey { get { return ConfigurationManager.AppSettings["PostcodeSubscriptionKey"]; } }
 
         public string IntegrationApiItkDispatcher { get { return ConfigurationManager.AppSettings["IntegrationApiItkDispatcher"]; } }
@@ -77,7 +81,8 @@ namespace NHS111.Web.Presentation.Configuration
             }
         }
 
-        public string LoggingServiceUrl { get { return ConfigurationManager.AppSettings["LoggingServiceUrl"]; } }
+        public string LoggingServiceApiBaseUrl { get { return ConfigurationManager.AppSettings["LoggingServiceApiBaseUrl"]; } }
+        public string LoggingServiceApiAuditUrl { get { return ConfigurationManager.AppSettings["LoggingServiceApiAuditUrl"]; } }
 
         public string BusinessApiGetFullPathwayJourneyUrl
         {
@@ -192,14 +197,9 @@ namespace NHS111.Web.Presentation.Configuration
 
         private string GetBusinessApiUrlWithDomain(string endpointUrlkey, bool pathOnly=false)
         {
-            var businessApiDomain = ConfigurationManager.AppSettings["BusinessApiProtocolandDomain"];
             var buinessEndpointconfigValue = ConfigurationManager.AppSettings[endpointUrlkey];
             if (pathOnly) return "/" + buinessEndpointconfigValue;
-            if (IsAbsoluteUrl(buinessEndpointconfigValue))
-            {
-                return buinessEndpointconfigValue;
-            }
-            return businessApiDomain + buinessEndpointconfigValue;
+            return buinessEndpointconfigValue;
         }
 
 
@@ -216,7 +216,8 @@ namespace NHS111.Web.Presentation.Configuration
     public interface IConfiguration
     {
         string BusinessApiProtocolandDomain { get; }
-        string ItkDispatchApiUrl { get; }
+        string ItkDispatcherApiSendItkMessageUrl { get; }
+        string ItkDispatcherApiBaseUrl { get; }
         string GPSearchUrl { get; }
         string GPSearchApiUrl { get; }
         string GPSearchByIdUrl { get; }
@@ -248,13 +249,16 @@ namespace NHS111.Web.Presentation.Configuration
         string GetBusinessApiGetAddressByGeoUrl(string latlong);
         string GetBusinessApiGetAddressByPostcodeUrl(string postcode);
         string GetBusinessApiGetValidatedAddressByPostcodeUrl(string postcode);
-        string BusinessDosCheckCapacitySummaryUrl { get; }
-        string BusinessDosServicesByClinicalTermUrl { get; }
-        string BusinessDosServiceDetailsByIdUrl { get; }
+        string BusinessDosApiBaseUrl { get; }
+        string BusinessDosApiCheckCapacitySummaryUrl { get; }
+        string BusinessDosApiServicesByClinicalTermUrl { get; }
+        string BusinessDosApiServiceDetailsByIdUrl { get; }
+        string FeedbackApiBaseUrl { get; }
         string FeedbackAddFeedbackUrl { get; }
         string FeedbackDeleteFeedbackUrl { get; }
         string FeedbackAuthorization { get; }
-        string PostcodeSearchByIdApiUrl { get; }
+        string PostcodeApiBaseUrl { get; }
+        string PostcodeSearchByIdUrl { get; }
         string PostcodeSubscriptionKey { get; }
         string IntegrationApiItkDispatcher { get; }
         string RedisConnectionString { get; }
@@ -266,7 +270,8 @@ namespace NHS111.Web.Presentation.Configuration
         string MapsApiUrl { get; }
         string MapsApiKey { get; }
         bool IsPublic { get; }
-        string LoggingServiceUrl { get; }
+        string LoggingServiceApiBaseUrl { get; }
+        string LoggingServiceApiAuditUrl { get; }
         string DosMobileBaseUrl { get; }
         string DosMobileUsername { get; }
         string DosMobilePassword { get; }

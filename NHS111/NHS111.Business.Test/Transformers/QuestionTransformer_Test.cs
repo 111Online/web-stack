@@ -1,5 +1,6 @@
 ﻿using NUnit.Framework;
 using System.Collections.Generic;
+using System.Linq;
 using NHS111.Business.Transformers;
 using NHS111.Models.Models.Domain;
 using Newtonsoft.Json;
@@ -37,14 +38,11 @@ namespace NHS111.Business.Test.Transformers
 
              };
 
-            var json = JsonConvert.SerializeObject(questionWithAnswersList);
-
             //Act
-            var result = QuestionTransformer.AsQuestionWithAnswersList(json);
-            var resultQuestionWithAnswersList = JsonConvert.DeserializeObject<List<QuestionWithAnswers>>(result);
+            var resultQuestionWithAnswersList = QuestionTransformer.AsQuestionWithAnswersList(questionWithAnswersList);
 
             //Assert 
-            Assert.That(resultQuestionWithAnswersList[0].Answers[0].Title, Is.EqualTo("Title"));
+            Assert.That(resultQuestionWithAnswersList.ToList()[0].Answers[0].Title, Is.EqualTo("Title"));
         }
 
         [Test]
@@ -66,11 +64,8 @@ namespace NHS111.Business.Test.Transformers
                     Labels = new List<string>() { "Label1" }
                 };
 
-            var json = JsonConvert.SerializeObject(questionWithAnswers);
-
             //Act
-            var result = QuestionTransformer.AsQuestionWithAnswers(json);
-            var resultQuestionWithAnswers = JsonConvert.DeserializeObject<QuestionWithAnswers>(result);
+            var resultQuestionWithAnswers = QuestionTransformer.AsQuestionWithAnswers(questionWithAnswers);
 
             //Assert 
             Assert.That(resultQuestionWithAnswers.Answers[0].Title, Is.EqualTo("Title"));
@@ -89,14 +84,11 @@ namespace NHS111.Business.Test.Transformers
                             SymptomDiscriminator = "SymptomDiscriminatorCode"
                         }};
 
-            var json = JsonConvert.SerializeObject(answers);
-
             //Act
-            var result = QuestionTransformer.AsAnswers(json);
-            var resultAnswers = JsonConvert.DeserializeObject<List<Answer>>(result);
+            var resultAnswers = QuestionTransformer.AsAnswers(answers);
 
             //Assert 
-            Assert.That(resultAnswers[0].Title, Is.EqualTo("Title"));
+            Assert.That(resultAnswers.ToList()[0].Title, Is.EqualTo("Title"));
         }
 
         [Test]
@@ -112,14 +104,11 @@ namespace NHS111.Business.Test.Transformers
                     Labels = new List<string>() { "DeadEndJump" }
                 };
 
-            var json = JsonConvert.SerializeObject(questionWithAnswers);
-
             //Act
-            var result = QuestionTransformer.AsQuestionWithDeadEnd(json);
-            var resultQuestionWithDeadEnd = JsonConvert.DeserializeObject<QuestionWithDeadEnd>(result);
+            var resultQuestionWithDeadEnd = QuestionTransformer.AsQuestionWithDeadEnd(questionWithAnswers);
 
             //Assert 
-            Assert.IsInstanceOf<QuestionWithDeadEnd>(resultQuestionWithDeadEnd);
+            Assert.That(resultQuestionWithDeadEnd.Labels.First(), Is.EqualTo("DeadEndJump"));
         }
     }
 }

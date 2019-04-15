@@ -1,64 +1,68 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Configuration;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
-using System.Web;
+using System.Web.Http.Results;
 using Newtonsoft.Json;
 using NHS111.Business.Builders;
 using NHS111.Business.Configuration;
-using NHS111.Models.Models.Configuration;
 using NHS111.Models.Models.Domain;
 using NHS111.Models.Models.Web.FromExternalServices;
-using NHS111.Utils.Helpers;
+using NHS111.Utils.RestTools;
+using RestSharp;
 
 namespace NHS111.Business.Services
 {
     public class QuestionService : IQuestionService
     {
         private readonly IConfiguration _configuration;
-        private readonly IRestfulHelper _restfulHelper;
+        private readonly IRestClient _restClient;
         private readonly IAnswersForNodeBuilder _answersForNodeBuilder;
         private readonly IModZeroJourneyStepsBuilder _modZeroJourneyStepsBuilder;
-        public QuestionService(IConfiguration configuration, IRestfulHelper restfulHelper, IAnswersForNodeBuilder answersForNodeBuilder, IModZeroJourneyStepsBuilder modZeroJourneyStepsBuilder)
+        public QuestionService(IConfiguration configuration, IRestClient restClientDomainApi, IAnswersForNodeBuilder answersForNodeBuilder, IModZeroJourneyStepsBuilder modZeroJourneyStepsBuilder)
         {
             _configuration = configuration;
-            _restfulHelper = restfulHelper;
+            _restClient = restClientDomainApi;
             _answersForNodeBuilder = answersForNodeBuilder;
             _modZeroJourneyStepsBuilder = modZeroJourneyStepsBuilder;
         }
 
-        public async Task<string> GetQuestion(string id)
+        public async Task<QuestionWithAnswers> GetQuestion(string id)
         {
-            return await _restfulHelper.GetAsync(_configuration.GetDomainApiQuestionUrl(id));
+            var questions = await _restClient.ExecuteTaskAsync<QuestionWithAnswers>(new JsonRestRequest(_configuration.GetDomainApiQuestionUrl(id), Method.GET));
+            return questions.Data;
         }
 
-        public async Task<string> GetAnswersForQuestion(string id)
+        public async Task<Answer[]> GetAnswersForQuestion(string id)
         {
-            return await _restfulHelper.GetAsync(_configuration.GetDomainApiAnswersForQuestionUrl(id));
+            var questions = await _restClient.ExecuteTaskAsync<Answer[]>(new JsonRestRequest(_configuration.GetDomainApiAnswersForQuestionUrl(id), Method.GET));
+            return questions.Data;
         }
 
-        public async Task<HttpResponseMessage> GetNextQuestion(string id, string nodeLabel, string answer)
+        public async Task<QuestionWithAnswers> GetNextQuestion(string id, string nodeLabel, string answer)
         {
-            var request = new HttpRequestMessage { Content = new StringContent(JsonConvert.SerializeObject(answer), Encoding.UTF8, "application/json") };
-            return (await _restfulHelper.PostAsync(_configuration.GetDomainApiNextQuestionUrl(id, nodeLabel), request));
+            var request = new JsonRestRequest(_configuration.GetDomainApiNextQuestionUrl(id, nodeLabel), Method.POST);
+            request.AddJsonBody(answer);
+            var questions = await _restClient.ExecuteTaskAsync<QuestionWithAnswers>(request);
+            return questions.Data;
         }
 
-        public async Task<string> GetFirstQuestion(string pathwayId)
+        public async Task<QuestionWithAnswers> GetFirstQuestion(string pathwayId)
         {
-            return await _restfulHelper.GetAsync(_configuration.GetDomainApiFirstQuestionUrl(pathwayId));
-
+            var questions = await _restClient.ExecuteTaskAsync<QuestionWithAnswers>(new JsonRestRequest(_configuration.GetDomainApiFirstQuestionUrl(pathwayId), Method.GET));
+            return questions.Data;
         }
 
-        public async Task<string> GetJustToBeSafeQuestionsFirst(string pathwayId)
+        public async Task<IEnumerable<QuestionWithAnswers>> GetJustToBeSafeQuestionsFirst(string pathwayId)
         {
-            return await _restfulHelper.GetAsync(_configuration.GetDomainApiJustToBeSafeQuestionsFirstUrl(pathwayId));
+            var questions = await _restClient.ExecuteTaskAsync<IEnumerable<QuestionWithAnswers>>(new JsonRestRequest(_configuration.GetDomainApiJustToBeSafeQuestionsFirstUrl(pathwayId), Method.GET));
+            return questions.Data;
         }
 
-        public async Task<HttpResponseMessage> GetFullPathwayJourney(string traumaType, JourneyStep[] steps, string startingPathwayId, string dispositionCode, IDictionary<string, string> state)
+        public async Task<IEnumerable<QuestionWithAnswers>> GetFullPathwayJourney(string traumaType, JourneyStep[] steps, string startingPathwayId, string dispositionCode, IDictionary<string, string> state)
         {
             var age = GetAgeFromState(state);
             var gender = GetGenderFromState(state);
@@ -67,8 +71,7 @@ namespace NHS111.Business.Services
             var pathwaysJourney = await GetPathwayJourney(steps, startingPathwayId, dispositionCode);
             var filteredJourneySteps = NavigateReadNodeLogic(steps, pathwaysJourney.ToList(), state);
 
-            var content = new StringContent(JsonConvert.SerializeObject(moduleZeroJourney.Concat(filteredJourneySteps)), Encoding.UTF8, "application/json");
-            return new HttpResponseMessage(HttpStatusCode.OK) { Content = content };
+            return moduleZeroJourney.Concat(filteredJourneySteps);
         }
 
         private int GetAgeFromState(IDictionary<string, string> state)
@@ -150,38 +153,40 @@ namespace NHS111.Business.Services
             var pathwayJourney = _modZeroJourneyStepsBuilder.GetModZeroJourney(gender, age, traumaType);
             var steps = pathwayJourney.Steps;
 
-            var request = new HttpRequestMessage { Content = new StringContent(JsonConvert.SerializeObject(steps), Encoding.UTF8, "application/json") };
-            var response = await _restfulHelper.PostAsync(_configuration.GetDomainApiPathwayJourneyUrl(pathwayJourney.PathwayId, pathwayJourney.DispositionId), request).ConfigureAwait(false);
+            var request = new JsonRestRequest(_configuration.GetDomainApiPathwayJourneyUrl(pathwayJourney.PathwayId, pathwayJourney.DispositionId), Method.POST);
+            request.AddJsonBody(steps);
+            var moduleZeroJourney = await _restClient.ExecuteTaskAsync<IEnumerable<QuestionWithAnswers>>(request);
 
-            var moduleZeroJourney = JsonConvert.DeserializeObject<IEnumerable<QuestionWithAnswers>>(await response.Content.ReadAsStringAsync());
             var state = BuildState(gender, age, pathwayJourney.State);
-            var filteredModZeroJourney = NavigateReadNodeLogic(steps.ToArray(), moduleZeroJourney.ToList(), state);
+            var filteredModZeroJourney = NavigateReadNodeLogic(steps.ToArray(), moduleZeroJourney.Data.ToList(), state);
 
             return filteredModZeroJourney;
         }
 
         public async Task<IEnumerable<QuestionWithAnswers>> GetPathwayJourney(JourneyStep[] steps, string startingPathwayId, string dispositionCode)
         {
-            var request = new HttpRequestMessage { Content = new StringContent(JsonConvert.SerializeObject(steps), Encoding.UTF8, "application/json") };
-            var response = await _restfulHelper.PostAsync(_configuration.GetDomainApiPathwayJourneyUrl(startingPathwayId, dispositionCode), request).ConfigureAwait(false);
-            return JsonConvert.DeserializeObject<IEnumerable<QuestionWithAnswers>>(await response.Content.ReadAsStringAsync());
+            var request = new JsonRestRequest(_configuration.GetDomainApiPathwayJourneyUrl(startingPathwayId, dispositionCode), Method.POST);
+            request.AddJsonBody(steps);
+            var pathwayJourney = await _restClient.ExecuteTaskAsync<IEnumerable<QuestionWithAnswers>>(request);
+
+            return pathwayJourney.Data;
         }
 
-        public async Task<string> GetJustToBeSafeQuestionsNext(string pathwayId, IEnumerable<string> answeredQuestionIds, bool multipleChoice, string selectedQuestionId)
+        public async Task<IEnumerable<QuestionWithAnswers>> GetJustToBeSafeQuestionsNext(string pathwayId, IEnumerable<string> answeredQuestionIds, bool multipleChoice, string selectedQuestionId)
         {
-            return await _restfulHelper.GetAsync(_configuration.GetDomainApiJustToBeSafeQuestionsNextUrl(pathwayId, answeredQuestionIds, multipleChoice, selectedQuestionId));
+            var questions = await _restClient.ExecuteTaskAsync<IEnumerable<QuestionWithAnswers>>(new JsonRestRequest(_configuration.GetDomainApiJustToBeSafeQuestionsNextUrl(pathwayId, answeredQuestionIds, multipleChoice, selectedQuestionId), Method.GET));
+            return questions.Data;
         }
     }
 
     public interface IQuestionService
     {
-        Task<IEnumerable<QuestionWithAnswers>> GetPathwayJourney(JourneyStep[] steps, string startingPathwayId, string dispositionCode);
-        Task<HttpResponseMessage> GetFullPathwayJourney(string traumaType, JourneyStep[] steps, string startingPathwayId, string dispositionCode, IDictionary<string, string> state);
-        Task<string> GetQuestion(string id);
-        Task<string> GetAnswersForQuestion(string id);
-        Task<HttpResponseMessage> GetNextQuestion(string id, string nodeLabel,  string answer);
-        Task<string> GetFirstQuestion(string pathwayId);
-        Task<string> GetJustToBeSafeQuestionsFirst(string pathwayId);
-        Task<string> GetJustToBeSafeQuestionsNext(string pathwayId, IEnumerable<string> answeredQuestionIds, bool multipleChoice, string selectedQuestionId);
+        Task<IEnumerable<QuestionWithAnswers>> GetFullPathwayJourney(string traumaType, JourneyStep[] steps, string startingPathwayId, string dispositionCode, IDictionary<string, string> state);
+        Task<QuestionWithAnswers> GetQuestion(string id);
+        Task<Answer[]> GetAnswersForQuestion(string id);
+        Task<QuestionWithAnswers> GetNextQuestion(string id, string nodeLabel,  string answer);
+        Task<QuestionWithAnswers> GetFirstQuestion(string pathwayId);
+        Task<IEnumerable<QuestionWithAnswers>> GetJustToBeSafeQuestionsFirst(string pathwayId);
+        Task<IEnumerable<QuestionWithAnswers>> GetJustToBeSafeQuestionsNext(string pathwayId, IEnumerable<string> answeredQuestionIds, bool multipleChoice, string selectedQuestionId);
     }
 }

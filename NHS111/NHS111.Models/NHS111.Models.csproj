@@ -115,6 +115,9 @@
       <HintPath>..\packages\Newtonsoft.Json.9.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="RestSharp, Version=106.2.2.0, Culture=neutral, PublicKeyToken=598062e77f915f75, processorArchitecture=MSIL">
+      <HintPath>..\packages\RestSharp.106.2.2\lib\net452\RestSharp.dll</HintPath>
+    </Reference>
     <Reference Include="StructureMap, Version=4.0.1.318, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\structuremap.4.0.1.318\lib\net40\StructureMap.dll</HintPath>
       <Private>True</Private>
@@ -207,7 +210,6 @@
     <Compile Include="Models\Domain\OutcomeGroup.cs" />
     <Compile Include="Models\Domain\PathwayMetaData.cs" />
     <Compile Include="Models\Domain\PathwayWithDescription.cs" />
-    <Compile Include="Models\Domain\QuestionWithPathwaySelection.cs" />
     <Compile Include="Models\Domain\SymptomDiscriminator.cs" />
     <Compile Include="Models\Domain\VersionInfo.cs" />
     <Compile Include="Models\Web\AgeGenderViewModel.cs" />
@@ -229,6 +231,8 @@
     <Compile Include="Models\Web\DosRequests\DosServicesByClinicalTermRequest.cs" />
     <Compile Include="Models\Web\FeedbackViewModel.cs" />
     <Compile Include="Models\Web\FromExternalServices\AddressLocationResult.cs" />
+    <Compile Include="Models\Web\FromExternalServices\CheckCapacitySummaryResponse.cs" />
+    <Compile Include="Models\Web\FromExternalServices\ContactDetails.cs" />
     <Compile Include="Models\Web\GoogleAnalyticsDataLayerContainer.cs" />
     <Compile Include="Models\Web\JourneyViewModelEqualityComparer.cs" />
     <Compile Include="Models\Web\ITK\ReportItem.cs" />
@@ -243,7 +247,6 @@
     <Compile Include="Models\Web\FromExternalServices\DosServicesByClinicalTermResult.cs" />
     <Compile Include="Models\Domain\Gender.cs" />
     <Compile Include="Models\Domain\GroupedPathways.cs" />
-    <Compile Include="Models\Domain\QuestionWithDeadEnd.cs" />
     <Compile Include="Models\Domain\SymptomGroup.cs" />
     <Compile Include="Models\Domain\Question.cs" />
     <Compile Include="Models\Domain\Outcome.cs" />
@@ -266,7 +269,7 @@
     <Compile Include="Models\Web\FromExternalServices\MobileDosService.cs" />
     <Compile Include="Models\Web\FromExternalServices\PAF.cs" />
     <Compile Include="Models\Web\FromExternalServices\ServiceDetails.cs" />
-    <Compile Include="Models\Web\FromExternalServices\ServiceDetailsByIdResult.cs" />
+    <Compile Include="Models\Web\FromExternalServices\ServiceDetailsByIdResponse.cs" />
     <Compile Include="Models\Web\FromExternalServices\CheckCapacitySummaryResult.cs" />
     <Compile Include="Models\Web\FromExternalServices\Journey.cs" />
     <Compile Include="Models\Web\FromExternalServices\JourneyStep.cs" />

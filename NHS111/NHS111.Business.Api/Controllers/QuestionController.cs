@@ -8,6 +8,8 @@ using System.Threading.Tasks;
 using System.Web;
 using System.Web.Helpers;
 using System.Web.Http;
+using System.Web.Http.Results;
+using System.Web.Mvc;
 using Newtonsoft.Json;
 using NHS111.Business.Builders;
 using NHS111.Business.Services;
@@ -49,25 +51,24 @@ namespace NHS111.Business.Api.Controllers
                 .ToDictionary(n => n.Key.ToString(), n => n.Value.ToString());
         }
 
-        [HttpPost]
-        [Route("node/{pathwayId}/{currentNodeType}/next_node/{nodeId}")]
-        public async Task<HttpResponseMessage> GetNextNode(string pathwayId, NodeType currentNodeType, string nodeId,
+        [System.Web.Http.HttpPost]
+        [System.Web.Http.Route("node/{pathwayId}/{currentNodeType}/next_node/{nodeId}")]
+        public async Task<JsonResult<QuestionWithAnswers>> GetNextNode(string pathwayId, NodeType currentNodeType, string nodeId,
             string state, [FromBody] string answer)
         {
             return await GetNextNode(pathwayId, currentNodeType.ToString(), nodeId, state, answer);
         }
 
-        [HttpPost]
-        [Route("questions/fullPathwayJourney")]
-        public async Task<HttpResponseMessage> GetFullPathwayJourney([FromBody]FullPathwayJourney fullPathwayJourney)
+        [System.Web.Http.HttpPost]
+        [System.Web.Http.Route("questions/fullPathwayJourney")]
+        public async Task<JsonResult<IEnumerable<QuestionWithAnswers>>> GetFullPathwayJourney([FromBody]FullPathwayJourney fullPathwayJourney)
         {
-            var response = await _questionService.GetFullPathwayJourney(fullPathwayJourney.StartingPathwayType, fullPathwayJourney.JourneySteps.ToArray(), fullPathwayJourney.StartingPathwayId, fullPathwayJourney.DispostionCode, fullPathwayJourney.State);
-            var journey =  JsonConvert.DeserializeObject<List<QuestionWithAnswers>>(await response.Content.ReadAsStringAsync());
-            return JsonConvert.SerializeObject(journey).AsHttpResponse();
+            var journey = await _questionService.GetFullPathwayJourney(fullPathwayJourney.StartingPathwayType, fullPathwayJourney.JourneySteps.ToArray(), fullPathwayJourney.StartingPathwayId, fullPathwayJourney.DispostionCode, fullPathwayJourney.State);
+            return Json(journey);
         }
 
 
-        public async Task<HttpResponseMessage> GetNextNode(string pathwayId, string nodeLabel, string nodeId, string state, [FromBody]string answer, string cacheKey = null)
+        public async Task<JsonResult<QuestionWithAnswers>> GetNextNode(string pathwayId, string nodeLabel, string nodeId, string state, [FromBody]string answer, string cacheKey = null)
         {
 #if !DEBUG
                 cacheKey = cacheKey ?? string.Format("{0}-{1}-{2}-{3}", pathwayId, nodeId, answer, state);
@@ -75,60 +76,59 @@ namespace NHS111.Business.Api.Controllers
                 var cacheValue = await _cacheManager.Read(cacheKey);
                 if (!string.IsNullOrEmpty(cacheValue))
                 {
-                    return cacheValue.AsHttpResponse();
+                    return Json(JsonConvert.DeserializeObject<QuestionWithAnswers>(cacheValue));
                 }
 #endif
 
-            var next = JsonConvert.DeserializeObject<QuestionWithAnswers>(await (await _questionService.GetNextQuestion(nodeId, nodeLabel, answer)).Content.ReadAsStringAsync());
+            var question = await _questionService.GetNextQuestion(nodeId, nodeLabel, answer);
             var stateDictionary = JsonConvert.DeserializeObject<IDictionary<string, string>>(HttpUtility.UrlDecode(state));
 
-            var nextLabel = next.Labels.FirstOrDefault();
+            var nextLabel = question.Labels.FirstOrDefault();
 
             if (nextLabel == "Question" || nextLabel == "Outcome")
             {
-                next.State = stateDictionary;
-                var result = _questionTransformer.AsQuestionWithAnswers(JsonConvert.SerializeObject(next));
+                question.State = stateDictionary;
+                var result = _questionTransformer.AsQuestionWithAnswers(question);
 
 #if !DEBUG
-                    _cacheManager.Set(cacheKey, result);
+                    _cacheManager.Set(cacheKey, JsonConvert.SerializeObject(result));
 #endif
 
-                return result.AsHttpResponse();
+                return Json(result);
             }
 
             if (nextLabel == "DeadEndJump")
             {
-                next.State = stateDictionary;
-                var result = _questionTransformer.AsQuestionWithDeadEnd(JsonConvert.SerializeObject(next));
-                return result.AsHttpResponse();
+                question.State = stateDictionary;
+                //var result = _questionTransformer.AsQuestionWithDeadEnd(question);
+                return Json(question);
             }
 
             if (nextLabel == "PathwaySelectionJump")
             {
-                next.State = stateDictionary;
-                var result = _questionTransformer.AsQuestionWithDeadEnd(JsonConvert.SerializeObject(next));
-                return result.AsHttpResponse();
+                question.State = stateDictionary;
+                //var result = _questionTransformer.AsQuestionWithPathwaySelection(question);
+                return Json(question);
             }
 
             if (nextLabel == "Set" || nextLabel == "Read")
             {
-                var computedAnswer = next.Answers.First();
+                var computedAnswer = question.Answers.First();
                 if (nextLabel == "Read")
                 {
-                    var value = stateDictionary.ContainsKey(next.Question.Title)
-                        ? stateDictionary[next.Question.Title]
+                    var value = stateDictionary.ContainsKey(question.Question.Title)
+                        ? stateDictionary[question.Question.Title]
                         : null;
-                    computedAnswer = _answersForNodeBuilder.SelectAnswer(next.Answers, value);
+                    computedAnswer = _answersForNodeBuilder.SelectAnswer(question.Answers, value);
                 }
                 else
                 {
-                    if (!stateDictionary.ContainsKey(next.Question.Title))
-                        stateDictionary.Add(next.Question.Title, computedAnswer.Title);
+                    if (!stateDictionary.ContainsKey(question.Question.Title))
+                        stateDictionary.Add(question.Question.Title, computedAnswer.Title);
                 }
                 var updatedState = JsonConvert.SerializeObject(stateDictionary);
-                var httpResponseMessage = await GetNextNode(pathwayId, nextLabel, next.Question.Id, updatedState, computedAnswer.Title, cacheKey);
-                var nextQuestion = JsonConvert.DeserializeObject<QuestionWithAnswers>(await httpResponseMessage.Content.ReadAsStringAsync());
-
+                var nextQuestion = (await GetNextNode(pathwayId, nextLabel, question.Question.Id, updatedState, computedAnswer.Title, cacheKey)).Content;
+                
                 nextQuestion.NonQuestionKeywords = computedAnswer.Keywords;
                 nextQuestion.NonQuestionExcludeKeywords = computedAnswer.ExcludeKeywords;
                 if (nextQuestion.Answers != null)
@@ -148,36 +148,37 @@ namespace NHS111.Business.Api.Controllers
  	                _cacheManager.Set(cacheKey, result);
 #endif
 
-                return result.AsHttpResponse();
+                return Json(nextQuestion);
             }
 
             if (nextLabel == "CareAdvice")
             {
-                stateDictionary.Add(next.Question.QuestionNo, "");
-                next.State = stateDictionary;
+                stateDictionary.Add(question.Question.QuestionNo, "");
+                question.State = stateDictionary;
                 //next.Answers.First().Keywords += "|" + answered.Keywords;
                 //nextAnswer.ExcludeKeywords += "|" + answered.ExcludeKeywords;
 
-                var result = _questionTransformer.AsQuestionWithAnswers(JsonConvert.SerializeObject(next));
-                return result.AsHttpResponse();
+                var result = _questionTransformer.AsQuestionWithAnswers(question);
+                return Json(question);
             }
 
             if (nextLabel == "InlineDisposition")
             {
-                return await GetNextNode(pathwayId, next.Question.Id, state, next.Answers.First().Title, cacheKey);
+                return await GetNextNode(pathwayId, question.Question.Id, state, question.Answers.First().Title, cacheKey);
             }
 
             throw new Exception(string.Format("Unrecognized node of type '{0}'.", nextLabel));
         }
 
-        [Route("node/{pathwayId}/answers/{questionId}")]
-        public async Task<HttpResponseMessage> GetAnswers(string pathwayId, string questionId)
+        [System.Web.Http.Route("node/{pathwayId}/answers/{questionId}")]
+        public async Task<JsonResult<IEnumerable<Answer>>> GetAnswers(string pathwayId, string questionId)
         {
-            return _questionTransformer.AsAnswers(await _questionService.GetAnswersForQuestion(questionId)).AsHttpResponse();
+            var answers = await _questionService.GetAnswersForQuestion(questionId);
+            return Json(_questionTransformer.AsAnswers(answers));
         }
 
-        [Route("node/{pathwayId}/question/{questionId}")]
-        public async Task<HttpResponseMessage> GetQuestionById(string pathwayId, string questionId, string cacheKey = null)
+        [System.Web.Http.Route("node/{pathwayId}/question/{questionId}")]
+        public async Task<JsonResult<QuestionWithAnswers>> GetQuestionById(string pathwayId, string questionId, string cacheKey = null)
         {
 #if !DEBUG
                 cacheKey = cacheKey ?? string.Format("GetQuestionById-{0}-{1}", pathwayId, questionId);
@@ -185,41 +186,41 @@ namespace NHS111.Business.Api.Controllers
                 var cacheValue = await _cacheManager.Read(cacheKey);
                 if (!string.IsNullOrEmpty(cacheValue))
                 {
-                    return cacheValue.AsHttpResponse();
+                    return Json(JsonConvert.DeserializeObject<QuestionWithAnswers>(cacheValue));
                 }
 #endif
 
-            var node = JsonConvert.DeserializeObject<QuestionWithAnswers>(await _questionService.GetQuestion(questionId));
+            var node = await _questionService.GetQuestion(questionId);
 
             var nextLabel = node.Labels.FirstOrDefault();
 
             if (nextLabel == "Question" || nextLabel == "Outcome" || nextLabel == "CareAdvice")
             {
-                var result = _questionTransformer.AsQuestionWithAnswers(JsonConvert.SerializeObject(node));
+                var result = _questionTransformer.AsQuestionWithAnswers(node);
 
 #if !DEBUG
-                    _cacheManager.Set(cacheKey, result);
+                    _cacheManager.Set(cacheKey, JsonConvert.SerializeObject(result));
 #endif
 
-                return result.AsHttpResponse();
+                return Json(result);
             }
 
             if (nextLabel == "DeadEndJump")
             {
-                var result = _questionTransformer.AsQuestionWithDeadEnd(JsonConvert.SerializeObject(node));
-                return result.AsHttpResponse();
+                //var result = _questionTransformer.AsQuestionWithDeadEnd(JsonConvert.SerializeObject(node));
+                return Json(node);
             }
 
             throw new Exception(string.Format("Unrecognized node of type '{0}'.", nextLabel));
 
         }
 
-        [HttpGet]
-        [Route("node/{pathwayId}/questions/first")]
-        public async Task<HttpResponseMessage> GetFirstQuestion(string pathwayId, [FromUri]string state)
+        [System.Web.Http.HttpGet]
+        [System.Web.Http.Route("node/{pathwayId}/questions/first")]
+        public async Task<JsonResult<QuestionWithAnswers>> GetFirstQuestion(string pathwayId, [FromUri]string state)
         {
-            var firstNodeJson = _questionTransformer.AsQuestionWithAnswers(await (await _questionService.GetFirstQuestion(pathwayId).AsHttpResponse()).Content.ReadAsStringAsync());
-            var firstNode = JsonConvert.DeserializeObject<QuestionWithAnswers>(firstNodeJson);
+            var firstNodeJson = await _questionService.GetFirstQuestion(pathwayId);
+            var firstNode = _questionTransformer.AsQuestionWithAnswers(firstNodeJson);
 
             var stateDictionary = JsonConvert.DeserializeObject<IDictionary<string, string>>(HttpUtility.UrlDecode(state));
 
@@ -231,14 +232,14 @@ namespace NHS111.Business.Api.Controllers
 
             if (nextLabel == "Read")
             {
-                var answers = JsonConvert.DeserializeObject<IEnumerable<Answer>>(await _questionService.GetAnswersForQuestion(firstNode.Question.Id));
+                var answers = await _questionService.GetAnswersForQuestion(firstNode.Question.Id);
                 var value = stateDictionary.ContainsKey(firstNode.Question.Title) ? stateDictionary[firstNode.Question.Title] : null;
                 var selected = _answersForNodeBuilder.SelectAnswer(answers, value);
                 return await GetNextNode(pathwayId, nextLabel, firstNode.Question.Id, JsonConvert.SerializeObject(stateDictionary), selected.Title);
             }
             if (nextLabel == "Set")
             {
-                var answers = JsonConvert.DeserializeObject<IEnumerable<Answer>>(await _questionService.GetAnswersForQuestion(firstNode.Question.Id));
+                var answers = await _questionService.GetAnswersForQuestion(firstNode.Question.Id);
                 stateDictionary.Add(firstNode.Question.Title, answers.First().Title);
                 var updatedState = JsonConvert.SerializeObject(stateDictionary);
                 return await GetNextNode(pathwayId, nextLabel, firstNode.Question.Id, updatedState, answers.First().Title);
@@ -253,19 +254,21 @@ namespace NHS111.Business.Api.Controllers
                     firstNode.State.Add(systemVariable.Key, systemVariable.Value);
             }
 
-            return JsonConvert.SerializeObject(firstNode).AsHttpResponse();
+            return Json(firstNode);
         }
 
-        [Route("node/{pathwayId}/jtbs_first")]
-        public async Task<HttpResponseMessage> GetJustToBeSafePartOneNodes(string pathwayId)
+        [System.Web.Http.Route("node/{pathwayId}/jtbs_first")]
+        public async Task<JsonResult<IEnumerable<QuestionWithAnswers>>> GetJustToBeSafePartOneNodes(string pathwayId)
         {
-            return _questionTransformer.AsQuestionWithAnswersList(await _questionService.GetJustToBeSafeQuestionsFirst(pathwayId)).AsHttpResponse();
+            var questionsWithAnswers = await _questionService.GetJustToBeSafeQuestionsFirst(pathwayId);
+            return Json(_questionTransformer.AsQuestionWithAnswersList(questionsWithAnswers));
         }
 
-        [Route("node/{pathwayId}/jtbs/second/{answeredQuestionIds}/{multipleChoice}/{questionId?}")]
-        public async Task<HttpResponseMessage> GetJustToBeSafePartTwoNodes(string pathwayId, string answeredQuestionIds, bool multipleChoice, string questionId = "")
+        [System.Web.Http.Route("node/{pathwayId}/jtbs/second/{answeredQuestionIds}/{multipleChoice}/{questionId?}")]
+        public async Task<JsonResult<IEnumerable<QuestionWithAnswers>>> GetJustToBeSafePartTwoNodes(string pathwayId, string answeredQuestionIds, bool multipleChoice, string questionId = "")
         {
-            return _questionTransformer.AsQuestionWithAnswersList(await _questionService.GetJustToBeSafeQuestionsNext(pathwayId, answeredQuestionIds.Split(','), multipleChoice, questionId)).AsHttpResponse();
+            var questionsWithAnswers = await _questionService.GetJustToBeSafeQuestionsNext(pathwayId, answeredQuestionIds.Split(','), multipleChoice, questionId);
+            return Json(_questionTransformer.AsQuestionWithAnswersList(questionsWithAnswers));
         }
     }
 }

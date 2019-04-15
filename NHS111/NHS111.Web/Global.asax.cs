@@ -1,6 +1,10 @@
 ﻿
+using System.Configuration;
 using FluentValidation.Mvc;
+using log4net;
 using NHS111.Features;
+using NHS111.Utils.RestTools;
+using NHS111.Web.Presentation.Configuration;
 
 namespace NHS111.Web {
     using System;
@@ -28,7 +32,7 @@ namespace NHS111.Web {
             ModelBinders.Binders[typeof(PersonalDetailViewModel)] = new JourneyViewModelBinder();
             ModelBinders.Binders[typeof(QuestionViewModel)] = new JourneyViewModelBinder();
 
-            GlobalFilters.Filters.Add(new LogJourneyFilterAttribute());
+            GlobalFilters.Filters.Add(new LogJourneyFilterAttribute(new LoggingRestClient(ConfigurationManager.AppSettings["LoggingServiceApiBaseUrl"], LogManager.GetLogger("log"))));
             FluentValidationModelValidatorProvider.Configure();
 
             var razorEngine = ViewEngines.Engines.OfType<RazorViewEngine>().FirstOrDefault();

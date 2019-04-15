@@ -1,4 +1,6 @@
-﻿namespace NHS111.Web.Presentation.Builders.Tests
+﻿using RestSharp;
+
+namespace NHS111.Web.Presentation.Builders.Tests
 {
     using System;
     using System.Configuration;
@@ -18,7 +20,6 @@
     using NHS111.Models.Models.Domain;
     using NHS111.Models.Models.Web.DosRequests;
     using NHS111.Utils.Helpers;
-    using NHS111.Utils.Notifier;
     using NUnit.Framework;
 
     [TestFixture()]
@@ -27,7 +28,9 @@
 
         private Mock<IMappingEngine> _mappingEngine;
         private Mock<ICareAdviceBuilder> _mockCareAdviceBuilder;
-        private Mock<IRestfulHelper> _mockRestfulHelper;
+        private Mock<IRestClient> _mockRestClient;
+        private Mock<IRestClient> _mockRestPostcodeApiClient;
+        private Mock<IRestClient> _mockRestClientItkDispatcherApi;
         private Mock<Presentation.Configuration.IConfiguration> _mockConfiguration;
         private Mock<IKeywordCollector> _mockKeywordCollector;
         private Mock<IJourneyHistoryWrangler> _mockJourneyHistoryWrangler;
@@ -47,7 +50,9 @@
         {
             _mappingEngine = new Mock<IMappingEngine>();
             _mockCareAdviceBuilder = new Mock<ICareAdviceBuilder>();
-            _mockRestfulHelper = new Mock<IRestfulHelper>();
+            _mockRestClient = new Mock<IRestClient>();
+            _mockRestPostcodeApiClient = new Mock<IRestClient>();
+            _mockRestClientItkDispatcherApi = new Mock<IRestClient>();
             _mockConfiguration = new Mock<Presentation.Configuration.IConfiguration>();
             _mockJourneyHistoryWrangler = new Mock<IJourneyHistoryWrangler>();
             _mockKeywordCollector = new Mock<IKeywordCollector>();
@@ -58,8 +63,10 @@
 
             SetupMockConfiguration();
 
-            _outcomeViewModelBuilder = new OutcomeViewModelBuilder(_mockCareAdviceBuilder.Object, 
-                _mockRestfulHelper.Object, 
+            _outcomeViewModelBuilder = new OutcomeViewModelBuilder(_mockCareAdviceBuilder.Object,
+                _mockRestClient.Object,
+                _mockRestPostcodeApiClient.Object,
+                _mockRestClientItkDispatcherApi.Object,
                 _mockConfiguration.Object, 
                 _mappingEngine.Object,
                 _mockKeywordCollector.Object,

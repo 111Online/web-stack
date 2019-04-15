@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
+using System.Web.Http.Results;
 using Newtonsoft.Json;
 using NHS111.Business.Services;
 using NHS111.Models.Models.Domain;
@@ -27,91 +28,96 @@ namespace NHS111.Business.Api.Controllers
         }
 
         [Route("pathway/{id}")]
-        public async Task<HttpResponseMessage> Get(string id)
+        public async Task<JsonResult<Pathway>> Get(string id)
         {
-            return await _pathwayService.GetPathway(id).AsHttpResponse();
+            var pathway = await _pathwayService.GetPathway(id);
+            return Json(pathway);
         }
 
         [Route("pathway/{pathwayNumbers}/{gender}/{age}")]
-        public async Task<HttpResponseMessage> GetByDetails(string pathwayNumbers, string gender, int age)
+        public async Task<JsonResult<Pathway>> GetByDetails(string pathwayNumbers, string gender, int age)
         {
-            return await _pathwayService.GetIdentifiedPathway(pathwayNumbers, gender, age).AsHttpResponse();
+            var pathway = await _pathwayService.GetIdentifiedPathway(pathwayNumbers, gender, age);
+            return Json(pathway);
         }
 
         [Route("pathway/symptomGroup/{pathwayNumbers}/")]
-        public async Task<HttpResponseMessage> GetSymptomGroup(string pathwayNumbers)
+        public async Task<JsonResult<string>> GetSymptomGroup(string pathwayNumbers)
         {
-            return await _pathwayService.GetSymptomGroup(pathwayNumbers).AsHttpResponse();
+            var symptomGroup = await _pathwayService.GetSymptomGroup(pathwayNumbers);
+            return Json(symptomGroup);
         }
 
         [Route("pathway")]
-        public async Task<HttpResponseMessage> GetAll()
+        public async Task<JsonResult<IEnumerable<Pathway>>> GetAll()
         {
-            return await _pathwayService.GetPathways(false, false).AsHttpResponse();
+            var pathways = await _pathwayService.GetPathways(false, false);
+            return Json(pathways);
         }
 
         [Route("pathway/{gender}/{age}")]
-        public async Task<HttpResponseMessage> GetAll(string gender, int age)
+        public async Task<JsonResult<IEnumerable<Pathway>>> GetAll(string gender, int age)
         {
             var cacheKey = String.Format("PathwayGetAll-{0}-{1}", gender, age);
 #if !DEBUG
                 var cacheValue = await _cacheManager.Read(cacheKey);
                 if (!string.IsNullOrEmpty(cacheValue))
                 {
-                    return cacheValue.AsHttpResponse();
+                    return Json(JsonConvert.DeserializeObject<IEnumerable<Pathway>>(cacheValue));
                 }
 #endif
-
-            var result = await _pathwayService.GetPathways(false, false, gender, age);
-            #if !DEBUG
-            _cacheManager.Set(cacheKey, result);
-            #endif
-            return result.AsHttpResponse();
+            var pathways = await _pathwayService.GetPathways(false, false, gender, age);
+#if !DEBUG
+            _cacheManager.Set(cacheKey, JsonConvert.SerializeObject(pathways));
+#endif
+            return Json(pathways);
         }
 
         [Route("pathway_suggest/{name}/{startingOnly}")]
-        public async Task<HttpResponseMessage> GetSuggestedPathway(string name, bool startingOnly)
+        public async Task<JsonResult<IEnumerable<GroupedPathways>>> GetSuggestedPathway(string name, bool startingOnly)
         {
-            return await _searchCorrectionService.GetCorrection(name, startingOnly).AsHttpResponse();
+            var suggestedPathways = await _searchCorrectionService.GetCorrection(name, startingOnly);
+            return Json(suggestedPathways);
         }
 
         [Route("pathway_suggest/{name}/{startingOnly}/{gender}/{age}")]
-        public async Task<HttpResponseMessage> GetSuggestedPathway(string name, bool startingOnly, string gender, int age)
+        public async Task<JsonResult<IEnumerable<GroupedPathways>>> GetSuggestedPathway(string name, bool startingOnly, string gender, int age)
         {
 
             var cacheKey = String.Format("PathwayGetAllGrouped-{0}-{1}", gender, age);
-            #if !DEBUG
+#if !DEBUG
                 var cacheValue = await _cacheManager.Read(cacheKey);
                 if (cacheValue != null)
                 {
-                    return _searchCorrectionService.GetCorrection(JsonConvert.DeserializeObject<List<GroupedPathways>>(cacheValue), name).AsHttpResponse();
-
+                    return Json(_searchCorrectionService.GetCorrection(JsonConvert.DeserializeObject<List<GroupedPathways>>(cacheValue), name));
                 }
-            #endif
-
-            var result = await _pathwayService.GetPathways(true, false, gender, age);
-            #if !DEBUG
-            _cacheManager.Set(cacheKey, result);
-            #endif
-            return _searchCorrectionService.GetCorrection(JsonConvert.DeserializeObject<List<GroupedPathways>>(result), name).AsHttpResponse();
+#endif
+            var pathways = await _pathwayService.GetGroupedPathways(true, false);
+#if !DEBUG
+            _cacheManager.Set(cacheKey, JsonConvert.SerializeObject(pathways));
+#endif
+            return Json(_searchCorrectionService.GetCorrection(pathways, name));
         }
 
         [Route("pathway_direct/{pathwayTitle}")]
-        public async Task<HttpResponseMessage> GetPathwayNumbers(string pathwayTitle)
+        public async Task<JsonResult<string>> GetPathwayNumbers(string pathwayTitle)
         {
-            return await _pathwayService.GetPathwayNumbers(pathwayTitle).AsHttpResponse();
+            var pathwayNumbers = await _pathwayService.GetPathwayNumbers(pathwayTitle);
+            return Json(pathwayNumbers);
         }
 
         [Route("pathway_direct/identify/{pathwayTitle}/{gender}/{age}")]
-        public async Task<HttpResponseMessage> GetPathwayDetails(string pathwayTitle, string gender, int age)
+        public async Task<JsonResult<Pathway>> GetPathwayDetails(string pathwayTitle, string gender, int age)
         {
-            return await _pathwayService.GetIdentifiedPathwayFromTitle(pathwayTitle, gender, age).AsHttpResponse();
+            var pathway = await _pathwayService.GetIdentifiedPathwayFromTitle(pathwayTitle, gender, age);
+            return Json(pathway);
         }
 
         [Route("pathway_question/{name}/{gender}/{age}")]
-        public async Task<HttpResponseMessage> GetPathwayQuestion(string name, bool startingOnly)
+        public async Task<JsonResult<IEnumerable<GroupedPathways>>> GetPathwayQuestion(string name, bool startingOnly)
         {
-            return await _searchCorrectionService.GetCorrection(name, startingOnly).AsHttpResponse();
+            var pathways = await _searchCorrectionService.GetCorrection(name, startingOnly);
+            return Json(pathways);
         }
     }
 }

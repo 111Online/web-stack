@@ -25,7 +25,7 @@ namespace NHS111.Domain.Test.API_Project.Controller {
             var sut = new SymptomDiscriminatorController(_mockRepo.Object);
             var sd = await sut.Get(123);
 
-            Assert.AreEqual(123, sd.Id);
+            Assert.AreEqual(123, sd.Content.Id);
         }
 
         [Test]
@@ -36,7 +36,7 @@ namespace NHS111.Domain.Test.API_Project.Controller {
             var sut = new SymptomDiscriminatorController(_mockRepo.Object);
             var sd = await sut.Get(123);
 
-            Assert.IsNull(sd);
+            Assert.IsNull(sd.Content);
         }
 
     }

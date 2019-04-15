@@ -1,7 +1,10 @@
-﻿using System.Net.Http;
+﻿using System.Collections.Generic;
+using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
+using System.Web.Http.Results;
 using NHS111.Domain.Repository;
+using NHS111.Models.Models.Domain;
 using NHS111.Utils.Attributes;
 using NHS111.Utils.Extensions;
 
@@ -19,45 +22,51 @@ namespace NHS111.Domain.Api.Controllers
 
         [HttpGet]
         [Route("categories")]
-        public async Task<HttpResponseMessage> GetCategories()
+        public async Task<JsonResult<IEnumerable<Category>>> GetCategories()
         {
-            return await _categoryRepository.GetCategories().AsJson().AsHttpResponse();
+            var categories = await _categoryRepository.GetCategories();
+            return Json(categories);
         }
 
         [HttpGet]
         [Route("categories/{gender}/{age}")]
-        public async Task<HttpResponseMessage> GetCategories(string gender, int age)
+        public async Task<JsonResult<IEnumerable<Category>>> GetCategories(string gender, int age)
         {
-            return await _categoryRepository.GetCategories(gender, age).AsJson().AsHttpResponse();
+            var categories = await _categoryRepository.GetCategories(gender, age);
+            return Json(categories);
         }
 
         [HttpGet]
         [Route("categories/pathways")]
-        public async Task<HttpResponseMessage> GetCategoriesWithPathways()
+        public async Task<JsonResult<IEnumerable<CategoryWithPathways>>> GetCategoriesWithPathways()
         {
-            return await _categoryRepository.GetCategoriesWithPathways().AsJson().AsHttpResponse();
+            var categoriesWithPathways = await _categoryRepository.GetCategoriesWithPathways();
+            return Json(categoriesWithPathways);
         }
 
 
         [HttpGet]
         [Route("categories/pathways/{gender}/{age}")]
-        public async Task<HttpResponseMessage> GetCategoriesWithPathways(string gender, int age)
+        public async Task<JsonResult<IEnumerable<CategoryWithPathways>>> GetCategoriesWithPathways(string gender, int age)
         {
-            return await _categoryRepository.GetCategoriesWithPathways(gender,age).AsJson().AsHttpResponse();
+            var categoriesWithPathways = await _categoryRepository.GetCategoriesWithPathways(gender, age);
+            return Json(categoriesWithPathways);
         }
 
         [HttpGet]
         [Route("category/{category}/pathways")]
-        public async Task<HttpResponseMessage> GetCategoryWithPathways(string category)
+        public async Task<JsonResult<CategoryWithPathways>> GetCategoryWithPathways(string category)
         {
-            return await _categoryRepository.GetCategoryWithPathways(category).AsJson().AsHttpResponse();
+            var categoryWithPathways = await _categoryRepository.GetCategoryWithPathways(category);
+            return Json(categoryWithPathways);
         }
 
         [HttpGet]
         [Route("category/{category}/pathways/{gender}/{age}")]
-        public async Task<HttpResponseMessage> GetCategoryWithPathways(string category,string gender, int age)
+        public async Task<JsonResult<CategoryWithPathways>> GetCategoryWithPathways(string category,string gender, int age)
         {
-            return await _categoryRepository.GetCategoryWithPathways(category, gender,age).AsJson().AsHttpResponse();
+            var categoryWithPathways = await _categoryRepository.GetCategoryWithPathways(category, gender, age);
+            return Json(categoryWithPathways);
         }
     }
 }

@@ -2,7 +2,7 @@
 using NHS111.Business.DOS.Configuration;
 using NHS111.Business.DOS.EndpointFilter;
 using NHS111.Business.DOS.Service;
-
+using NHS111.Business.DOS.WhitelistFilter;
 using NHS111.Features;
 using NHS111.Models.Models.Business;
 using NHS111.Models.Models.Web.Clock;
@@ -21,7 +21,20 @@ namespace NHS111.Business.DOS.IoC
         {
             IncludeRegistry<UtilsRegistry>();
             For<IServiceAvailabilityManager>().Use<ServiceAvailablityManager>();
-            For<IRestClient>().Use(new RestClient(configuration.CCGApiBaseUrl));
+            For<IRestClient>().Singleton()
+                .Use<IRestClient>(new LoggingRestClient(configuration.DomainDosApiBaseUrl, logger));
+            For<ISearchDistanceService>().Singleton()
+                .Use<SearchDistanceService>()
+                .Ctor<IRestClient>()
+                .Is(new LoggingRestClient(configuration.CCGApiBaseUrl, logger));
+            For<IServiceWhitelistFilter>().Singleton()
+                .Use<ServiceWhitelistFilter>()
+                .Ctor<IRestClient>()
+                .Is(new LoggingRestClient(configuration.CCGApiBaseUrl, logger));
+            For<IOnlineServiceTypeMapper>().Singleton()
+                .Use<OnlineServiceTypeMapper>()
+                .Ctor<IRestClient>()
+                .Is(new LoggingRestClient(configuration.CCGApiBaseUrl, logger));
             For<IPublicHolidayService>().Use(new PublicHolidayService(
                 PublicHolidaysDataService.GetPublicHolidays(configuration),
                 new SystemClock()));
