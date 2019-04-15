@@ -46,7 +46,7 @@
                         <span class="search__topic-title">@Html.Raw(title)</span>
                         @if (additionalTopics.Any())
                         {
-                            <p>Includes: @Html.Raw(string.Join(", ", additionalTopics))</p>
+                            <p class="search__topic-covers">Covers: @Html.Raw(string.Join(", ", additionalTopics))</p>
                         }
                         <p class="search__topic-description">@Html.Raw(result.Description)</p>
                     </a>
