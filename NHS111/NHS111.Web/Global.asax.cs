@@ -30,7 +30,14 @@ namespace NHS111.Web {
             ModelBinders.Binders[typeof(PersonalDetailViewModel)] = new JourneyViewModelBinder();
             ModelBinders.Binders[typeof(QuestionViewModel)] = new JourneyViewModelBinder();
 
-            GlobalFilters.Filters.Add(new BasicAuthenticationAttribute(ConfigurationManager.AppSettings["login_credential_user"], ConfigurationManager.AppSettings["login_credential_password"]));
+            var basicAuthFeature = new BasicAuthFeature();
+            if (basicAuthFeature.IsEnabled)
+            {
+                GlobalFilters.Filters.Add(new BasicAuthenticationAttribute(
+                    ConfigurationManager.AppSettings["login_credential_user"],
+                    ConfigurationManager.AppSettings["login_credential_password"]));
+            }
+
             GlobalFilters.Filters.Add(new LogJourneyFilterAttribute());
             FluentValidationModelValidatorProvider.Configure();
 

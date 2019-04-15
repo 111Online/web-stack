@@ -13,7 +13,6 @@ namespace NHS111.Web.Functional.Tests
         public void CategoriesPage_PresentForFemaleChild()
         {
             var categoryPage = TestScenerios.LaunchCategoryScenerio(Driver, TestScenerioSex.Female, 5);
-
             categoryPage.VerifyPathwayInCategoryList("Stroke", "PA171FemaleChild");
             categoryPage.VerifyPathwayInCategoryList("Genital injury with cut or wound", "PW1010FemaleChild");
             categoryPage.VerifyPathwayInCategoryList("Palpitations", "PW1029FemaleChild");
@@ -130,7 +129,6 @@ namespace NHS111.Web.Functional.Tests
             categoryPage.VerifyPathwayInCategoryList("Breathing problems", "PW557FemaleChild");
             categoryPage.VerifyOtherProblems("PW1348");
             categoryPage.CompareAndVerify(categoryPage, "1");
-
             var questionInfoPage = categoryPage.SelectPathway("Something stuck in the bottom");
             questionInfoPage.ClickIUnderstand();
             Driver.FindElement(By.XPath("//input[@value = 'PW1531FemaleChild']"));
