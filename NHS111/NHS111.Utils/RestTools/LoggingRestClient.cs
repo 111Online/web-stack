@@ -11,6 +11,7 @@ namespace NHS111.Utils.RestTools
         private readonly ILog _logger;
         public LoggingRestClient(string baseUrl, ILog logger) : base(baseUrl)
         {
+            ServicePointManager.DefaultConnectionLimit = 5;
             _logger = logger;
             InitializeSerialisationHandlers();
         }
