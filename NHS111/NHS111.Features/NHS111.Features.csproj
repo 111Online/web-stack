@@ -60,6 +60,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BasicAuthFeature.cs" />
     <Compile Include="Clock\IClock.cs" />
     <Compile Include="Clock\SystemClock.cs" />
     <Compile Include="DosEndpointFeature.cs" />
