@@ -12,19 +12,18 @@ namespace NHS111.Web.Functional.Utils
     public class BaseTests
     {
         public IWebDriver Driver;
-        private readonly IHeadlessTestFeature _headlessTestFeature = new HeadlessTestFeature();
 
         [TestFixtureSetUp]
         public void InitTestFixture()
         {
-            // Ideally we could have multiple size screenshots
+            // Ideally we could have multiple size screenshots (mobile, tablet, desktop etc)
             // for Visual Regression Test MVP this uses the same width as Andria's Selenium screenshots (1232px)
             var chromeOptions = new ChromeOptions();
-            if (_headlessTestFeature.IsEnabled)
-            {
-                chromeOptions.AddArgument("--headless");
-            }
             chromeOptions.AddArgument("--window-size=1232,1000"); // Ensure all screenshots are same size across build agents
+
+            // Chrome occasionally causes renderer timeouts without the following options
+            // From SO: https://stackoverflow.com/a/52340526
+            // All of the options seem to be required, as timeouts occur when using some but not others
             chromeOptions.AddArgument("--no-sandbox"); //https://stackoverflow.com/a/50725918/1689770
             chromeOptions.AddArgument("--disable-infobars"); //https://stackoverflow.com/a/43840128/1689770
             chromeOptions.AddArgument("--disable-dev-shm-usage"); //https://stackoverflow.com/a/50725918/1689770

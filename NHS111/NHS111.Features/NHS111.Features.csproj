@@ -91,7 +91,6 @@
     <Compile Include="UserZoomSurveyFeature.cs" />
     <Compile Include="Values\IFeatureValue.cs" />
     <Compile Include="Values\FeatureValue.cs" />
-    <Compile Include="HeadlessTestFeature.cs" />
     <Compile Include="VisualRegressionTestingFeature.cs" />
   </ItemGroup>
   <ItemGroup>
