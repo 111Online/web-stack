@@ -28,6 +28,7 @@ namespace NHS111.Web.Functional.Utils.ScreenShot
         } }
         public string ScreenShotDir { get { return TestContext.CurrentContext.WorkDirectory + "\\Screenshots\\"; } }
         public string ScreenShotUncomparedDir { get { return ScreenShotDir + "uncompared\\"; } }
+        public string ScreenShotBaselineDir { get { return ScreenShotDir + "baselines\\"; } }
 
         public void MakeScreenShot(string uniqueId, bool uncompared = false)
         {
@@ -58,6 +59,12 @@ namespace NHS111.Web.Functional.Utils.ScreenShot
             return fileName;
         }
 
+        private string CreateBaselineDir()
+        {
+            Directory.CreateDirectory(ScreenShotBaselineDir);
+            return ScreenShotBaselineDir;
+        }
+
         private string CreateUncomparedScreenShotFilepath(string uniqueId)
         {
             return CreateUncomparedScreenShotDir() + GetScreenShotFilename(uniqueId);
@@ -78,6 +85,14 @@ namespace NHS111.Web.Functional.Utils.ScreenShot
         {
             Directory.CreateDirectory(ScreenShotDir);
             return ScreenShotDir;
+        }
+
+        // CopyBaseline copies from the baseline folder on another build to a 
+        // baseline folder in its own artifact folder so they are accessible on TeamCity
+        public void CopyBaseline(string filename)
+        {
+            CreateBaselineDir();
+            File.Copy(BaselineScreenShotDir + filename, ScreenShotBaselineDir + filename, overwrite: true);
         }
     }
 }
