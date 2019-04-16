@@ -324,10 +324,10 @@
     <Content Include="Views\Outcome\PersonalDetails.cshtml" />
     <Content Include="Views\Shared\_CommonHiddenFieldsDosViewModel.cshtml" />
     <Content Include="Views\Shared\_CommonHiddenFieldsAddressInfoViewModel.cshtml" />
-    <Content Include="Views\Outcome\Confirmation.cshtml" />
+    <Content Include="Views\Outcome\Confirmation\default\Confirmation.cshtml" />
     <Content Include="Views\Outcome\ServiceDetails.cshtml" />
     <Content Include="Views\Outcome\ServiceList.cshtml" />
-    <Content Include="Views\Outcome\ServiceBookingFailure.cshtml" />
+    <Content Include="Views\Outcome\Confirmation\default\ServiceBookingFailure.cshtml" />
     <Content Include="Views\Outcome\DeadEndJump.cshtml" />
     <Content Include="Views\Shared\_CareAdvice.cshtml" />
     <Content Include="Views\Outcome\Home_Care.cshtml" />
@@ -432,6 +432,8 @@
     <Content Include="Views\Shared\_rs_goto_type.cshtml" />
     <Content Include="Views\Shared\_rs_phone_type.cshtml" />
     <Content Include="Views\Shared\_rs_callback_type.cshtml" />
+    <Content Include="Views\Outcome\Confirmation\Repeat_Prescription\Confirmation.cshtml" />
+    <Content Include="Views\Outcome\Confirmation\Repeat_Prescription\ServiceBookingFailure.cshtml" />
     <None Include="Web.Development.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

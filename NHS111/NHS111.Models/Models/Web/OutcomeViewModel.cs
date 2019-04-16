@@ -43,7 +43,7 @@ namespace NHS111.Models.Models.Web
             }
         }
 
-        public DosService SelectedService
+        public ServiceViewModel SelectedService
         {
             get
             {
