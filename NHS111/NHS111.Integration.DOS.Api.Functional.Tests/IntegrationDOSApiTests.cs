@@ -58,7 +58,7 @@ namespace NHS111.Integration.DOS.Api.Functional.Tests
             var result = await _restClient.ExecuteTaskAsync<CheckCapacitySummaryResponse>(request);
             Assert.IsTrue(result.IsSuccessful);
 
-            var firstService = result.Data.CheckCapacitySummaryResult.First();
+            var firstService = result.Data.CheckCapacitySummaryResult[0];
             AssertResponse(firstService);
         }
 
