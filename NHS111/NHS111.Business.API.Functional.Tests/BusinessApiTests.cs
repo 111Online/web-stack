@@ -112,8 +112,8 @@ namespace NHS111.Business.API.Functional.Tests
         [Test]
         public async void BusinessApiTests_returns_valid_Pathway_Symptom_Group()
         {
-            var response = await _restClient.ExecuteTaskAsync(new JsonRestRequest(string.Format(BusinessApiPathwaySymptomGroupUrl, _testPathwayNo), Method.GET));
-            var result = response.Content;
+            var response = await _restClient.ExecuteTaskAsync<string>(new JsonRestRequest(string.Format(BusinessApiPathwaySymptomGroupUrl, _testPathwayNo), Method.GET));
+            var result = response.Data;
             //this checks a responce is returned
             Assert.IsNotNull(result);
 
