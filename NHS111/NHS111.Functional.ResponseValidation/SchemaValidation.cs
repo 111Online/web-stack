@@ -87,9 +87,9 @@ namespace NHS111.Functional.Tests.Tools
 
         private static void AssertValidCheckServiceDetailsByIdResponseSchema(string result)
         {
-            Assert.IsTrue(result.Contains("\"idField"));
-            Assert.IsTrue(result.Contains("\"odsCodeField"));
-            Assert.IsTrue(result.Contains("\"contactDetailsField"));
+            Assert.IsTrue(result.Contains("\"id"));
+            Assert.IsTrue(result.Contains("\"odsCode"));
+            Assert.IsTrue(result.Contains("\"contactDetails"));
         }
 
     }

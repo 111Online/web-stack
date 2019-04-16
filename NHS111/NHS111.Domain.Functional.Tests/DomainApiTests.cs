@@ -188,16 +188,18 @@ namespace NHS111.Domain.Functional.Tests
         public async void TestDomainApi_returns_valid_Pathway_Symptom_Group()
         {
             var getQuestionEndpoint = "pathways/symptomGroup/{0}";
-            var result = await _restClient.ExecuteTaskAsync(new JsonRestRequest(string.Format(getQuestionEndpoint, _testPathwayNo), Method.GET));
+            var result = await _restClient.ExecuteTaskAsync<string>(new JsonRestRequest(string.Format(getQuestionEndpoint, _testPathwayNo), Method.GET));
+
+            var response = result.Data;
 
             //this checks a responce is returned
-            Assert.IsNotNull(result);
+            Assert.IsNotNull(response);
 
             //these check the right fields are returned
-            Assert.IsTrue(result.Content.Contains("1055"));
+            Assert.IsTrue(response.Contains("1055"));
 
             //this checks only the SD code returns
-            Assert.AreEqual("", result.Content.Replace("1055", ""));
+            Assert.AreEqual("", response.Replace("1055", ""));
 
         }
         /// <summary>
@@ -210,7 +212,7 @@ namespace NHS111.Domain.Functional.Tests
             var expectedNextId = "PW756.300";
             var url = string.Format(getNextQuestionEndpoint, _testQuestionId);
 
-           var request = new JsonRestRequest(url, Method.GET);
+           var request = new JsonRestRequest(url, Method.POST);
             request.AddJsonBody("Yes");
             var result = await _restClient.ExecuteTaskAsync(request);
 
