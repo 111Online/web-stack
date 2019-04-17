@@ -20,8 +20,8 @@ namespace NHS111.Models.Models.Web {
 
         protected  string ResolveConfirmationViewByOutcome(OutcomeViewModel outcomeModel)
         {
-            if (outcomeModel.OutcomeGroup == Domain.OutcomeGroup.RepeatPrescription)
-                return outcomeModel.Id;
+            if (outcomeModel.OutcomeGroup.Equals(Domain.OutcomeGroup.RepeatPrescription))
+                return outcomeModel.OutcomeGroup.Id;
             return "default";
         }
     }
