@@ -8,10 +8,7 @@
 
         [JsonProperty(PropertyName = "odsCodeField")]
         public string OdsCode { get; set; }
-
-        [JsonProperty(PropertyName = "nameField")]
-        public string Name { get; set; }
-
+        
         [JsonProperty(PropertyName = "contactDetailsField")]
         public ContactDetails[] ContactDetails { get; set; }
     }

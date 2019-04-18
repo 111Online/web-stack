@@ -66,7 +66,6 @@ namespace NHS111.Integration.DOS.Api.Functional.Tests
         {
             var serviceTypeField = response.ServiceType;
             Assert.IsNotNull(serviceTypeField.Id);
-            Assert.IsNotNull(serviceTypeField.Name);
 
             Assert.IsNotNull(response.Id);
             Assert.IsNotNull(response.Capacity);
