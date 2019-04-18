@@ -76,12 +76,9 @@ namespace NHS111.Integration.DOS.Api.Functional.Tests
             Assert.IsNotNull(response.Capacity);
             Assert.IsNotNull(response.Name);
             Assert.IsNotNull(response.ContactDetails);
-            Assert.IsNotNull(response.ContactDetails);
             Assert.IsNotNull(response.Address);
             Assert.IsNotNull(response.PostCode);
             Assert.IsNotNull(response.Northings);
-            Assert.IsNotNull(response.Northings);
-            Assert.IsNotNull(response.Eastings);
             Assert.IsNotNull(response.Eastings);
             Assert.IsNotNull(response.Url);
             Assert.IsNotNull(response.Notes);
