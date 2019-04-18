@@ -1,6 +1,4 @@
-﻿﻿
-
-@using System.Web.Mvc.Html
+﻿@using System.Web.Mvc.Html
 @using NHS111.Models.Models.Domain
 @using NHS111.Models.Models.Web
 @using NHS111.Web.Presentation.Analytics
@@ -37,26 +35,22 @@
     }
 }
 <div class="nhsuk-core">
-    <section>
-        <div>
-            <div class="measure">
-                <h1>
+    <div class="measure">
+        <h1>
 
-                    Call the pharmacy before you go
+            Call the pharmacy before you go
 
-                </h1>
+        </h1>
 
-                <div class="callout callout--attention measure">
-                    <p>
-                        Call the pharmacy on <a href="tel:+44@Model.OutcomeModel.SelectedService.ContactDetails">@Model.OutcomeModel.SelectedService.ContactDetails</a> and
-                        give them this reference number:
-                    </p>
-                    <div class="reference-number">111-ONLINE-123456</div>
-                </div>
-
-            </div>
+        <div class="callout callout--attention measure nhsuk-u-margin-bottom-4">
+            <p>
+                Call the pharmacy on <a href="tel:+44@Model.OutcomeModel.SelectedService.ContactDetails">@Model.OutcomeModel.SelectedService.ContactDetails</a> and
+                give them this reference number:
+            </p>
+            <div class="reference-number">111-ONLINE-123456</div>
         </div>
-    </section>
+
+    </div>
     @{
         var recommendedService = Model.OutcomeModel.SelectedService;
     }
@@ -68,7 +62,10 @@
                     @WebUtility.HtmlDecode(recommendedService.PublicName)<br />
                     @foreach (var address in recommendedService.AddressLines)
                     {
-                        @WebUtility.HtmlDecode(address)<br />
+                         if (!address.IsEmpty())
+                         {
+                             @WebUtility.HtmlDecode(address)<br />
+                         }
                     }
                 </p>
             </div>
@@ -101,10 +98,11 @@
     </div>
 </div>
 @{
-    var mapService = JsonConvert.SerializeObject(new[] { Model.OutcomeModel });
+        var mapService = JsonConvert.SerializeObject(new[] { Model.OutcomeModel.SelectedService });
 }
 <script>
     window.mapServices = @Html.Raw(mapService);
+    window.mapServices[0].AddressLines = window.mapServices[0].AddressLines.filter(function (val) { return val !== "" })
     window.currentPostcode = "@Html.Raw(Model.OutcomeModel.CurrentPostcode)";
 </script>
 

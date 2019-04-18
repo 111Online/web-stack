@@ -22,6 +22,11 @@
   width: 100%;
 }
 
+.reference-number {
+  font-size: 28px;
+  font-family: monospace;
+}
+
 .service-details__phone {
   @include nhsuk-font(48, 'bold');
 }
