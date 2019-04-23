@@ -26,8 +26,15 @@ namespace NHS111.Web.Controllers
             _locationResultBuilder = locationResultBuilder;
             _configuration = configuration;
         }
+
         [HttpGet, SetSessionIdFilter]
         public ActionResult Home(LocationViewModel model)
+        {
+            return View(model);
+        }
+
+        [HttpPost]
+        public ActionResult Location(LocationViewModel model)
         {
             return View(model);
         }
@@ -97,7 +104,7 @@ namespace NHS111.Web.Controllers
                 case PostcodeValidatorResponse.PostcodeNotFound:
                     return View("OutOfArea", new OutOfAreaViewModel { SessionId = model.SessionId, Campaign = ccg.StpName, Source = ccg.CCG, FilterServices = model.FilterServices });
                 default:
-                    return View("Home");
+                    return View("Location");
             }
         }
     }
