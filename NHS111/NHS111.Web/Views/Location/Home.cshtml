@@ -32,7 +32,10 @@
     @Html.HiddenFor(m => m.SessionId)
     @Html.HiddenFor(m => m.Campaign)
     @Html.HiddenFor(m => m.FilterServices)
-    <button type="submit" class="button--next">Start</button>
+    @Html.HiddenFor(m => m.PathwayNo)
+</div>
+
+    <button type="submit" class="button">Next</button>
 }
 
 <hr />

@@ -11,6 +11,7 @@ using NHS111.Web.Helpers;
 using RestSharp;
 using NHS111.Web.Presentation.Builders;
 using NHS111.Web.Presentation.Configuration;
+using RestSharp.Extensions;
 
 namespace NHS111.Web.Controllers
 {
@@ -32,6 +33,20 @@ namespace NHS111.Web.Controllers
             {
                 _userZoomDataBuilder.SetFieldsForDemographics(model);
                 return View("~\\Views\\Question\\Gender.cshtml", model);
+            }
+
+            if (model.PathwayNo != null)
+            {
+                var questionInfo = new QuestionInfoViewModel {
+                    SessionId = model.SessionId,
+                    PathwayNo = model.PathwayNo,
+                    CurrentPostcode = model.CurrentPostcode,
+                    UserInfo = model.UserInfo,
+                    FilterServices = model.FilterServices,
+                    Campaign = model.Campaign,
+                    Source = model.Source
+                };
+                return View("~/Views/Question/Info.cshtml", questionInfo);
             }
 
             var startOfJourney = new SearchJourneyViewModel

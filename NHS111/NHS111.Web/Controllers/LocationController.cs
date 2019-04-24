@@ -89,7 +89,8 @@ namespace NHS111.Web.Controllers
                             CurrentPostcode = ccg.Postcode,
                             Campaign = string.IsNullOrEmpty(model.Campaign) ? ccg.StpName : model.Campaign,
                             Source = string.IsNullOrEmpty(model.Source) ? ccg.CCG : model.Source,
-                            FilterServices = model.FilterServices
+                            FilterServices = model.FilterServices,
+                            PathwayNo = model.PathwayNo // Used to deeplink to a pathway
                         });
                 case PostcodeValidatorResponse.PostcodeNotFound:
                     return View("OutOfArea", new OutOfAreaViewModel { SessionId = model.SessionId, Campaign = ccg.StpName, Source = ccg.CCG, FilterServices = model.FilterServices });
