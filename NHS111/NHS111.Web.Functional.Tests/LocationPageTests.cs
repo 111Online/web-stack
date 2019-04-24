@@ -9,6 +9,14 @@ namespace NHS111.Web.Functional.Tests
     {
        
         [Test]
+        public void LocationPage_Displays()
+        {
+            var locationPage = GetLocationPage();
+            locationPage.CompareAndVerify("1");
+            Assert.True(locationPage.PostcodeFieldVisible());
+        }
+        
+        [Test]
         public void ClickingNext_WithoutPostcode_ShowsValidation()
         {
             var submitPostcodeResult = GetLocationPage()

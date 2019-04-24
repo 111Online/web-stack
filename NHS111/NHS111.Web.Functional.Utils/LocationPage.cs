@@ -59,5 +59,15 @@ namespace NHS111.Web.Functional.Utils
         {
             return Driver.Url.ToLower().Replace(_baseUrl, "") != "";
         }
+
+        public bool PostcodeFieldVisible()
+        {
+            return PostcodeField.Displayed;
+        }
+
+        public LocationPage CompareAndVerify(string uniqueId)
+        {
+            return base.CompareAndVerify(this, uniqueId);
+        }
     }
 }
