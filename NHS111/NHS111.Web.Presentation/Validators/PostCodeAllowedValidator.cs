@@ -31,8 +31,7 @@ namespace NHS111.Web.Presentation.Validators
             if (!_allowedPostcodeFeature.IsEnabled) return PostcodeValidatorResponse.InPathwaysArea;
             _ccg = ccgModelBuildertask.Result;
             if (_ccg.Postcode == null) return PostcodeValidatorResponse.PostcodeNotFound;
-            if (!DUCTriageApp.IsPathways(_ccg.App)) return PostcodeValidatorResponse.OutsidePathwaysArea;
-            else return PostcodeValidatorResponse.InPathwaysArea;
+            return PostcodeValidatorResponse.InPathwaysArea;
         }
 
         public CCGModel CcgModel

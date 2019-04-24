@@ -419,8 +419,6 @@
     <Content Include="Views\Location\Location.cshtml" />
     <Content Include="Views\Location\OutOfArea.cshtml" />
     <Content Include="Views\Location\ConfirmLocation.cshtml" />
-    <Content Include="Views\Location\AskNHS.cshtml" />
-    <Content Include="Views\Location\Babylon.cshtml" />
     <Content Include="Views\Location\Home.cshtml" />
     <None Include="Web.Development.config">
       <DependentUpon>Web.config</DependentUpon>
