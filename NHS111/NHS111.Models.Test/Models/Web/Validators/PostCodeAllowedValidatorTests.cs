@@ -26,23 +26,11 @@ namespace NHS111.Models.Test.Models.Web.Validators
             mockCCGBuilder.Setup(f => f.FillCCGModel(It.IsAny<string>())).ReturnsAsync(new CCGModel() { App = "Pathways", Postcode = "TS19 7TG"});
         }
 
-        public void SetupMockCCGResultWithoutApp()
-        {
-            mockCCGBuilder.Setup(f => f.FillCCGModel(It.IsAny<string>())).ReturnsAsync(new CCGModel() { Postcode = "TS19 7TG" });
-        }
-
-
         public void SetupMockCCGResultWithoutValidPostcode()
         {
             mockCCGBuilder.Setup(f => f.FillCCGModel(It.IsAny<string>())).ReturnsAsync(new CCGModel() );
         }
 
-
-
-        public void SetupMockCCGResultWithAppOutOfArea()
-        {
-            mockCCGBuilder.Setup(f => f.FillCCGModel(It.IsAny<string>())).ReturnsAsync(new CCGModel() { App = "Other", Postcode = "TS19 7TG" });
-        }
         [Test]
         public void Feature_not_enabled_returns_is_valid_true()
         {
@@ -51,17 +39,6 @@ namespace NHS111.Models.Test.Models.Web.Validators
             SetupMockCCGResultWithApp();
             var sut = new PostCodeAllowedValidator(mockFeature.Object, mockCCGBuilder.Object);
             Assert.AreEqual(PostcodeValidatorResponse.InPathwaysArea, sut.IsAllowedPostcode("SO30 2UN"));
-        }
-
-        [Test]
-        public void Feature_enabled_missing_file_path_returns_false()
-        {
-            var mockFeature = new Mock<IAllowedPostcodeFeature>();
-            mockFeature.Setup(f => f.IsEnabled).Returns(true);
-            SetupMockCCGResultWithoutApp();
-
-            var sut = new PostCodeAllowedValidator(mockFeature.Object, mockCCGBuilder.Object);
-            Assert.AreEqual(PostcodeValidatorResponse.OutsidePathwaysArea, sut.IsAllowedPostcode("SO30 2UN"));
         }
 
         [Test]
@@ -111,19 +88,6 @@ namespace NHS111.Models.Test.Models.Web.Validators
 
             var sut = new PostCodeAllowedValidator(mockFeature.Object, mockCCGBuilder.Object);
             Assert.AreEqual(PostcodeValidatorResponse.InPathwaysArea, sut.IsAllowedPostcode("So30 2uN"));
-        }
-
-        [Test]
-        public void Feature_enabled_postcode_not_allowed_returns_false()
-        {
-            var mockPostcodeList = new[] { "Postcode", "SO30 2UN" };
-            SetupMockCCGResultWithoutApp();
-            var mockFeature = new Mock<IAllowedPostcodeFeature>();
-            mockFeature.Setup(f => f.IsEnabled).Returns(true);
-            mockFeature.Setup(f => f.PostcodeFile).Returns(new StringReader(string.Join(Environment.NewLine, mockPostcodeList)));
-
-            var sut = new PostCodeAllowedValidator(mockFeature.Object, mockCCGBuilder.Object);
-            Assert.AreEqual(PostcodeValidatorResponse.OutsidePathwaysArea, sut.IsAllowedPostcode("Ls1 6Xy"));
         }
     }
 }
