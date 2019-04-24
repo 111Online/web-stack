@@ -49,6 +49,13 @@ namespace NHS111.Web.Controllers
             ModelState.Clear();
             return await JustToBeSafeFirst(model);
         }
+        
+        [HttpPost]
+        [Route("Question/First")]
+        public async Task<ActionResult> FirstQuestionDeeplink(JustToBeSafeViewModel model) {
+            ModelState.Clear();
+            return await JustToBeSafeFirst(model);
+        }
 
         private static QuestionInfoViewModel BuildModel(string pathwayNumber, string gender, int age, string args) {
             var decryptedArgs = new QueryStringEncryptor(args);
