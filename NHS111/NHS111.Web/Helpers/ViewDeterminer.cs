@@ -62,9 +62,15 @@ namespace NHS111.Web.Helpers
             switch (model.NodeType)
             {
                 case NodeType.Outcome:
+                    var outcomeViewModel = model as OutcomeViewModel;
                     var viewFilePath = "../Outcome/";
                     if (OutcomeGroup.UsingRecommendedServiceJourney.Contains(model.OutcomeGroup))
-                        viewFilePath += "RecommendedService";
+                    {
+                        if(outcomeViewModel.RecommendedService != null)
+                            viewFilePath += "RecommendedService";
+                        else
+                            viewFilePath += "NoResults"; //TODO: Build this page
+                    }
                     else
                         viewFilePath += model.OutcomeGroup.Id;
                     //if (model.OutcomeGroup.IsPostcodeFirst())
@@ -72,7 +78,8 @@ namespace NHS111.Web.Helpers
                     //    model.UserInfo.CurrentAddress.IsPostcodeFirst = true;
                     //    _auditLogger.LogEventData(model, "Postcode first journey started");
 
-                    var outcomeViewModel = model as OutcomeViewModel;
+                    //    viewFilePath = "../PostcodeFirst/Postcode";
+                   // }
                     if (IsTestJourney(outcomeViewModel))
                         return "../Outcome/Call_999_CheckAnswer";
 
