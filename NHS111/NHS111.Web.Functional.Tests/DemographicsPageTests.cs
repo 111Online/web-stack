@@ -51,7 +51,8 @@ namespace NHS111.Web.Functional.Tests
         private DemographicsPage GetDemographicsPage()
         {
             var homePage = TestScenarioPart.HomePage(Driver);
-            var moduleZero = TestScenarioPart.ModuleZero(homePage);
+            var locationPage = TestScenarioPart.Location(homePage);
+            var moduleZero = TestScenarioPart.ModuleZero(locationPage);
             return TestScenarioPart.Demographics(moduleZero);
         }
     }

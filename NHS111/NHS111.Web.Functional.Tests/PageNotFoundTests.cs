@@ -10,9 +10,6 @@ namespace NHS111.Web.Functional.Tests
         [Category("PreLive")]
         public void PageNotFound_Displays()
         {
-            TestScenarioPart.HomePage(Driver);
-
-
             var pageNotFound = TestScenarioPart.PageNotFound(Driver);
             
             pageNotFound.Verify();
