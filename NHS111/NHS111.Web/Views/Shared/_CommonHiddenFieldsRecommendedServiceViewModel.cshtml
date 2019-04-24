@@ -1,7 +1,8 @@
 ﻿@model NHS111.Models.Models.Web.RecommendedServiceViewModel
 
 @Html.HiddenFor(x => Model.Id)
-@Html.HiddenFor(x => Model.Details)
+@Html.HiddenFor(x => Model.Details.Text)
+@Html.HiddenFor(x => Model.Details.Summary)
 @Html.HiddenFor(x => Model.ReasonText)
 @Html.HiddenFor(x => Model.Name)
 @Html.HiddenFor(x => Model.Address)
