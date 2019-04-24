@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Runtime.Remoting.Messaging;
 using System.Web.Mvc;
 using NHS111.Models.Models.Web;
 using NHS111.Models.Models.Web.Enums;
@@ -66,10 +67,12 @@ namespace NHS111.Web.Helpers
                     var viewFilePath = "../Outcome/";
                     if (OutcomeGroup.UsingRecommendedServiceJourney.Contains(model.OutcomeGroup))
                     {
-                        if(outcomeViewModel.RecommendedService != null)
-                            viewFilePath += "RecommendedService";
+                        if (outcomeViewModel.RecommendedService == null) viewFilePath += "NoResults"; //TODO: Build this page
+
+                        if (OutcomeGroup.RequiresOutcomePreamble.Contains(model.OutcomeGroup))
+                            viewFilePath += "Outcome_Preamble";
                         else
-                            viewFilePath += "NoResults"; //TODO: Build this page
+                            viewFilePath += "RecommendedService"; 
                     }
                     else
                         viewFilePath += model.OutcomeGroup.Id;
