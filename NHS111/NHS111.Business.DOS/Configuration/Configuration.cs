@@ -115,10 +115,20 @@ namespace NHS111.Business.DOS.Configuration
         {
             get { return ConfigurationManager.AppSettings["FilteredClinicianCallbackDispositionCodes"]; }
         }
-
+        
         public string FilteredClinicianCallbackDosServiceIds
         {
             get { return ConfigurationManager.AppSettings["FilteredClinicianCallbackServiceIds"]; }
+        }
+
+        public string FilteredRepeatPrescriptionDispositionCodes
+        {
+            get { return ConfigurationManager.AppSettings["FilteredRepeatPrescriptionDispositionCodes"]; }
+        }
+
+        public string FilteredRepeatPrescriptionDosServiceIds
+        {
+            get { return ConfigurationManager.AppSettings["FilteredRepeatPrescriptionDosServiceIds"]; }
         }
 
         public LocalTime WorkingDayDentalInHoursStartTime
