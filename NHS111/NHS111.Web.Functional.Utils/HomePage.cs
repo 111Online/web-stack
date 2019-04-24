@@ -110,6 +110,12 @@ namespace NHS111.Web.Functional.Utils
 
             Assert.AreEqual(_headerText, Header.Text);
         }
+
+        
+        public HomePage CompareAndVerify(string uniqueId)
+        {
+            return base.CompareAndVerify(this, uniqueId);
+        }
     }
 
     public static class UriExtensions {
