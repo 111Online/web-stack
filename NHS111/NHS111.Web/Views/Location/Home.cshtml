@@ -18,13 +18,13 @@
 
 <h1 class="heading--large">Get medical help near you</h1>
 <ol>
-    <li>Answer questions on this site about your main symptom.</li>
-    <li>Get advice on where and when to get help, or get a call from a nurse.</li>
-    <li>Find out what to do if you can’t see your usual doctor or dentist.</li>
+    <li>Answer questions about your main symptom.</li>
+    <li>Find out when and where to get help.</li>
+    <li>Get a call back from a nurse, if you need one.</li>
 </ol>
 
 <div class="callout callout--info measure">
-    <p>You can read general information on <a href="https://www.nhs.uk/conditions/">health problems</a> (like <a href="https://www.nhs.uk/conditions/high-blood-pressure-hypertension/">high blood pressure</a>), or about <a href="https://www.nhs.uk/live-well/healthy-body/out-of-hours-medicines/">emergency prescriptions</a> and <a href="https://www.nhs.uk/medicines/">medicines</a> on <a href="https://www.nhs.uk">NHS.UK</a>.</p>
+    <p>General information about <a href="https://www.nhs.uk/conditions/">health problems</a>, <a href="https://www.nhs.uk/medicines/">medicines</a> and how to get an <a href="https://www.nhs.uk/live-well/healthy-body/out-of-hours-medicines/">emergency prescription</a> is on <a href="https://www.nhs.uk">NHS.UK</a>.</p>
 </div>
 
 @using (Html.BeginForm("Location", "Location", FormMethod.Post))
@@ -37,4 +37,4 @@
 
 <hr />
 
-<p>Always follow any medical advice you’ve already been given by your doctor. See our @(Html.ActionLink("terms", "Terms", "Help", null, new { target = "_blank" })).</p>
+<p class="measure">Always follow any medical advice you’ve already been given by your doctor. See our @(Html.ActionLink("terms", "Terms", "Help", null, new { target = "_blank" })).</p>

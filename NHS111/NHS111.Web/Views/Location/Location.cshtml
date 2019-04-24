@@ -10,14 +10,16 @@
     <script>
         dataLayer = [
             {
-                'virtualPageUrl': 'Home',
-                'virtualPageTitle': 'Home'
+                'virtualPageUrl': 'Location',
+                'virtualPageTitle': 'Location'
             }];
     </script>
 }
 
 <h2 class="heading--large">Where are you now?</h2>
-<p>Tell us where you are to get help in that area.</p>
+<div class="callout callout--info measure">
+    <p>We need to know where you are so we can find services to help.</p>
+</div>
 
 @using (Html.BeginForm("Find", "Location", FormMethod.Post))
 {
