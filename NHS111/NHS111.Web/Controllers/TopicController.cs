@@ -1,4 +1,6 @@
 ﻿
+using RestSharp;
+
 namespace NHS111.Web.Controllers {
     using System.Collections.Generic;
     using System.Threading.Tasks;
@@ -9,22 +11,22 @@ namespace NHS111.Web.Controllers {
     using Presentation.Configuration;
     using Utils.Helpers;
 
-    public class TopicController
-        : Controller {
+    public class TopicController : Controller {
 
-        public TopicController(IRestfulHelper restfulHelper, IConfiguration configuration) {
-            _restfulHelper = restfulHelper;
+        public TopicController(IRestClient restClientBusinessApi, IConfiguration configuration) {
+            _restClientBusinessApi = restClientBusinessApi;
             _configuration = configuration;
         }
 
         public async Task<ActionResult> Search(string q, string gender, int age) {
             var ageGroup = new AgeCategory(age);
-            var response = await _restfulHelper.GetAsync(_configuration.GetBusinessApiPathwaySearchUrl(gender, ageGroup.Value));
-            var results = JsonConvert.DeserializeObject<List<SearchResultViewModel>>(response);
-            return View(new SearchJourneyViewModel { Results = results });
+            var url = _configuration.GetBusinessApiPathwaySearchUrl(gender, ageGroup.Value);
+            var response = await _restClientBusinessApi.ExecuteTaskAsync<List<SearchResultViewModel>>(new RestRequest(url, Method.GET));
+
+            return View(new SearchJourneyViewModel { Results = response.Data });
         }
 
-        private readonly IRestfulHelper _restfulHelper;
+        private readonly IRestClient _restClientBusinessApi;
         private readonly IConfiguration _configuration;
     }
 

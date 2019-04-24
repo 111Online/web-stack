@@ -1,46 +1,47 @@
 ﻿
+using NHS111.Models.Models.Domain;
+using NHS111.Utils.RestTools;
+using RestSharp;
+
 namespace NHS111.Business.Services {
     using System;
-    using System.Web.Http;
     using System.Collections.Generic;
-    using System.Net;
-    using System.Net.Http;
     using System.Threading.Tasks;
-    using NHS111.Business.Configuration;
-    using NHS111.Utils.Helpers;
+    using Configuration;
     using Newtonsoft.Json;
-    using System.Text;
 
     public class CareAdviceService
         : ICareAdviceService {
         private readonly IConfiguration _configuration;
-        private readonly IRestfulHelper _restfulHelper;
+        private readonly IRestClient _restClient;
 
-        public CareAdviceService(IConfiguration configuration, IRestfulHelper restfulHelper) {
+        public CareAdviceService(IConfiguration configuration, IRestClient restClientDomainApi) {
             _configuration = configuration;
-            _restfulHelper = restfulHelper;
+            _restClient = restClientDomainApi;
         }
 
-        public async Task<string> GetCareAdvice(int age, string gender, IEnumerable<string> markers) {
-            return await _restfulHelper.GetAsync(_configuration.GetDomainApiCareAdviceUrl(age, gender, markers));
+        public async Task<IEnumerable<CareAdvice>> GetCareAdvice(int age, string gender, IEnumerable<string> markers)
+        {
+            var careAdvice = await _restClient.ExecuteTaskAsync<IEnumerable<CareAdvice>>(new JsonRestRequest(_configuration.GetDomainApiCareAdviceUrl(age, gender, markers), Method.GET));
+            return careAdvice.Data;
         }
 
-        public async Task<string> GetCareAdvice(string ageCategory, string gender, string keywords, string dxCode) {
-            var request = new HttpRequestMessage {
-                Content = new StringContent(JsonConvert.SerializeObject(keywords), Encoding.UTF8, "application/json")
-            };
+        public async Task<IEnumerable<CareAdvice>> GetCareAdvice(string ageCategory, string gender, string keywords, string dxCode)
+        {
             var domainApiCareAdviceUrl = _configuration.GetDomainApiCareAdviceUrl(dxCode, ageCategory, gender);
-            var response = await _restfulHelper.PostAsync(domainApiCareAdviceUrl, request);
+            var request = new JsonRestRequest(domainApiCareAdviceUrl, Method.POST);
+            request.AddJsonBody(keywords);
 
-            if (!response.IsSuccessStatusCode)
-                throw new Exception(string.Format("A problem occured requesting {0}. {1}", domainApiCareAdviceUrl, await response.Content.ReadAsStringAsync()));
+            var response = await _restClient.ExecuteTaskAsync<IEnumerable<CareAdvice>>(request);
+            if (!response.IsSuccessful)
+                throw new Exception(string.Format("A problem occured requesting {0}. {1}", domainApiCareAdviceUrl, response.ErrorMessage));
 
-            return await response.Content.ReadAsStringAsync();
+            return response.Data;
         }
     }
 
     public interface ICareAdviceService {
-        Task<string> GetCareAdvice(int age, string gender, IEnumerable<string> markers);
-        Task<string> GetCareAdvice(string ageCategory, string gender, string keywords, string dxCode);
+        Task<IEnumerable<CareAdvice>> GetCareAdvice(int age, string gender, IEnumerable<string> markers);
+        Task<IEnumerable<CareAdvice>> GetCareAdvice(string ageCategory, string gender, string keywords, string dxCode);
     }
 }

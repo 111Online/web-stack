@@ -1,12 +1,13 @@
 ﻿
-namespace NHS111.Domain.Api.Controllers {
+using System.Collections.Generic;
+using System.Web.Http.Results;
+using NHS111.Models.Models.Domain;
 
-    using System.Net.Http;
+namespace NHS111.Domain.Api.Controllers {
     using System.Threading.Tasks;
     using System.Web.Http;
     using Repository;
     using Utils.Attributes;
-    using Utils.Extensions;
 
     [LogHandleErrorForApi]
     public class OutcomeController 
@@ -18,8 +19,10 @@ namespace NHS111.Domain.Api.Controllers {
 
         [HttpGet]
         [Route("outcomes/list")]
-        public async Task<HttpResponseMessage> ListOutcomes() {
-            return await _outcomeRepository.ListOutcomes().AsJson().AsHttpResponse();
+        public async Task<JsonResult<IEnumerable<Outcome>>> ListOutcomes()
+        {
+            var outcomes = await _outcomeRepository.ListOutcomes();
+            return Json(outcomes);
         }
 
         private readonly IOutcomeRepository _outcomeRepository;

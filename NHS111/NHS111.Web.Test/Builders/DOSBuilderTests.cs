@@ -7,8 +7,9 @@ using NHS111.Models.Models.Domain;
 using NHS111.Models.Models.Web.DosRequests;
 using NHS111.Utils.Cache;
 using NHS111.Utils.Helpers;
-using NHS111.Utils.Notifier;
 using NUnit.Framework;
+using RestSharp;
+
 namespace NHS111.Web.Presentation.Builders.Tests
 {
     using System;
@@ -29,9 +30,8 @@ namespace NHS111.Web.Presentation.Builders.Tests
 
         private Mock<IMappingEngine> _mappingEngine;
         private Mock<ICareAdviceBuilder> _mockCareAdviceBuilder;
-        private Mock<IRestfulHelper> _mockRestfulHelper;
+        private Mock<IRestClient> _mockRestClient;
         private Mock<Presentation.Configuration.IConfiguration> _mockConfiguration;
-        private Mock<INotifier<string>> _mockNotifier;
         private DOSBuilder _dosBuilder;
         private Mock<ISurgeryBuilder> _mockSurgeryBuilder;
         private Mock<IITKMessagingFeature> _mockItkMessagingFeature;
@@ -45,20 +45,18 @@ namespace NHS111.Web.Presentation.Builders.Tests
         {
             _mappingEngine = new Mock<IMappingEngine>();
             _mockCareAdviceBuilder = new Mock<ICareAdviceBuilder>();
-            _mockRestfulHelper = new Mock<IRestfulHelper>();
+            _mockRestClient = new Mock<IRestClient>();
             _mockConfiguration = new Mock<Presentation.Configuration.IConfiguration>();
-            _mockNotifier = new Mock<INotifier<string>>();
             _mockItkMessagingFeature = new Mock<IITKMessagingFeature>();
 
             SetupMockFillCareAdviceBuilder();
 
             SetupMockConfiguration();
 
-            _dosBuilder = new DOSBuilder(_mockCareAdviceBuilder.Object, 
-                _mockRestfulHelper.Object, 
+            _dosBuilder = new DOSBuilder(_mockCareAdviceBuilder.Object,
+                _mockRestClient.Object, 
                 _mockConfiguration.Object, 
                 _mappingEngine.Object,
-                _mockNotifier.Object,
                 _mockItkMessagingFeature.Object);
         }
 
@@ -84,14 +82,19 @@ namespace NHS111.Web.Presentation.Builders.Tests
         }
 
         [Test]
-        public async void FillCheckCapacitySummaryResult_WithDistanceInMetric_ConvertsToMiles() {
-            var fakeResponse = new HttpResponseMessage(HttpStatusCode.OK) {
-                Content = new StringContent("{CheckCapacitySummaryResult: [{}]}")
-            };
-            _mockRestfulHelper.Setup(r => r.PostAsync(It.IsAny<string>(), It.IsAny<HttpRequestMessage>()))
-                .Returns(Task<HttpResponseMessage>.Factory.StartNew(() => fakeResponse));
-            _mockRestfulHelper.Setup(r => r.GetAsync(It.IsAny<string>())).Returns(Task<string>.Factory.StartNew(() => "0"));
+        public async void FillCheckCapacitySummaryResult_WithDistanceInMetric_ConvertsToMiles()
+        {
+            var fakeContent = "{DosCheckCapacitySummaryResult: [{}]}";
+            
+            var response = new Mock<IRestResponse<DosCheckCapacitySummaryResult>>();
+            response.Setup(_ => _.IsSuccessful).Returns(true);
+            response.Setup(_ => _.StatusCode).Returns(HttpStatusCode.OK);
+            response.Setup(_ => _.Data).Returns(JsonConvert.DeserializeObject<DosCheckCapacitySummaryResult>(fakeContent));
+            response.Setup(_ => _.Content).Returns(fakeContent);
 
+            _mockRestClient.Setup(r => r.ExecuteTaskAsync<DosCheckCapacitySummaryResult>(It.Is<IRestRequest>(rq => rq.Method == Method.POST)))
+                .ReturnsAsync(response.Object);
+            
             var model = new DosViewModel {
                 SearchDistance = 1,
                 DosCheckCapacitySummaryResult = new DosCheckCapacitySummaryResult()
@@ -104,7 +107,7 @@ namespace NHS111.Web.Presentation.Builders.Tests
             };
             await _dosBuilder.FillCheckCapacitySummaryResult(model, true, null);
 
-            _mockRestfulHelper.Verify(r => r.PostAsync(It.IsAny<string>(), It.Is<HttpRequestMessage>(h => AssertIsMetric(h, model.SearchDistance))));
+            _mockRestClient.Verify(r => r.ExecuteTaskAsync<DosCheckCapacitySummaryResult>(It.Is<RestRequest>(h => AssertIsMetric(h, model.SearchDistance))));
         }
 
         [Test]
@@ -209,18 +212,13 @@ namespace NHS111.Web.Presentation.Builders.Tests
         }
 
 
-        private bool AssertIsMetric(HttpRequestMessage request, int original) {
-            var content = request.Content.ReadAsStringAsync().Result;
-            var payload = JsonConvert.DeserializeObject<DosCase>(content);
+        private bool AssertIsMetric(RestRequest request, int original)
+        {
+            var content = request.Parameters.First(p => p.Type == ParameterType.RequestBody).Value;
+            var payload = JsonConvert.DeserializeObject<DosCase>(content.ToString());
 
             const float MILES_PER_KM = 1.609344f;
             return payload.SearchDistance == (int)Math.Ceiling(original / MILES_PER_KM);
-        }
-
-        private void MockRestfulHelperWithExpectedUrl(string expectedSymptomGroup)
-        {
-            _mockRestfulHelper.Setup(r => r.GetAsync(_expectedBusinessApiPathwaySymptomGroupUrl)).ReturnsAsync(expectedSymptomGroup);
-        }
-
+        }    
     }
 }

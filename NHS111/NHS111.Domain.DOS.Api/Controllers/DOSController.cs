@@ -6,11 +6,16 @@ using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web.Http;
+using System.Web.Http.Results;
+using System.Web.Mvc;
 using Newtonsoft.Json;
 using NHS111.Domain.DOS.Api.Configuration;
 using NHS111.Models.Models.Web.DosRequests;
+using NHS111.Models.Models.Web.FromExternalServices;
 using NHS111.Utils.Attributes;
 using NHS111.Utils.Helpers;
+using NHS111.Utils.RestTools;
+using RestSharp;
 
 namespace NHS111.Domain.DOS.Api.Controllers
 {
@@ -20,49 +25,40 @@ namespace NHS111.Domain.DOS.Api.Controllers
     [LogHandleErrorForApi]
     public class DOSController : ApiController
     {
-        private readonly IRestfulHelper _restfulHelper;
+        private readonly IRestClient _restClient;
         private readonly IConfiguration _configuration;
 
-        public DOSController(IRestfulHelper restfulHelper, IConfiguration configuration)
+        public DOSController(IRestClient restClientDosProxyDomainApi, IConfiguration configuration)
         {
-            _restfulHelper = restfulHelper;
+            _restClient = restClientDosProxyDomainApi;
             _configuration = configuration;
         }
 
-        [HttpPost]
-        [Route("DOSapi/CheckCapacitySummary")]
-        public async Task<HttpResponseMessage> CheckCapacitySummary(HttpRequestMessage request)
+        [System.Web.Http.HttpPost]
+        [System.Web.Http.Route("DOSapi/CheckCapacitySummary")]
+        public async Task<JsonResult<CheckCapacitySummaryResponse>> CheckCapacitySummary([FromBody]DosCheckCapacitySummaryRequest dosRequest, [FromUri]string endpoint = "")
         {
-            var values = HttpUtility.ParseQueryString(request.RequestUri.Query);
-            var endpoint = _configuration.DOSIntegrationCheckCapacitySummaryUrl;
-            if (values["endpoint"] == null)
-                return await _restfulHelper.PostAsync(endpoint, request);
+            var url = string.Format("{0}?endpoint={1}", _configuration.DOSIntegrationCheckCapacitySummaryUrl, string.IsNullOrEmpty(endpoint) ? "Unspecified" : endpoint);
+            var request = new JsonRestRequest(url, Method.POST);
+            request.AddJsonBody(dosRequest);
 
-            var prefix = endpoint.Contains("?") ? "&" : "?";
-            endpoint = string.Format("{0}{1}{2}{3}", endpoint, prefix, "endpoint=", values["endpoint"]);
-            return await _restfulHelper.PostAsync(endpoint, request);
+            var response = await _restClient.ExecuteTaskAsync<CheckCapacitySummaryResponse>(request);
+            if (response.ResponseStatus == ResponseStatus.Completed)
+                return Json(response.Data);
+            throw response.ErrorException;
         }
 
-        [HttpPost]
-        [Route("DOSapi/ServiceDetailsById")]
-        public async Task<HttpResponseMessage> ServiceDetailsById(HttpRequestMessage request)
+        [System.Web.Http.HttpPost]
+        [System.Web.Http.Route("DOSapi/ServiceDetailsById")]
+        public async Task<JsonResult<ServiceDetailsByIdResponse>> ServiceDetailsById([FromBody]DosServiceDetailsByIdRequest dosRequest)
         {
-            return await _restfulHelper.PostAsync(_configuration.DOSIntegrationServiceDetailsByIdUrl, request);
-        }
+            var request = new JsonRestRequest(_configuration.DOSIntegrationServiceDetailsByIdUrl, Method.POST);
+            request.AddJsonBody(dosRequest);
 
-        [HttpPost]
-        [Route("DOSapi/ServicesByClinicalTerm")]
-        public async Task<HttpResponseMessage> ServicesByClinicalTerm(HttpRequestMessage request)
-        {
-            var requestObj = JsonConvert.DeserializeObject<DosServicesByClinicalTermRequest>(request.Content.ReadAsStringAsync().Result);
-
-            var urlWithRequest = string.Format(_configuration.DOSMobileServicesByClinicalTermUrl, requestObj.CaseId, requestObj.Postcode, requestObj.SearchDistance, requestObj.GpPracticeId, requestObj.Age, requestObj.Gender, requestObj.Disposition, requestObj.SymptomGroupDiscriminatorCombos, requestObj.NumberPerType);
-
-            var usernamePassword = Convert.ToBase64String(Encoding.ASCII.GetBytes(_configuration.DOSMobileUsername + ":" + _configuration.DOSMobilePassword));
-            var headers = new Dictionary<string, string>() { { HttpRequestHeader.Authorization.ToString(), string.Format("Basic {0}", usernamePassword) } };
-            var result = await _restfulHelper.GetAsync(urlWithRequest, headers);
-
-            return result.AsHttpResponse();
+            var response = await _restClient.ExecuteTaskAsync<ServiceDetailsByIdResponse>(request);
+            if (response.ResponseStatus == ResponseStatus.Completed)
+                return Json(response.Data);
+            throw response.ErrorException;
         }
     }
 }

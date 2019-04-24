@@ -21,8 +21,7 @@ namespace NHS111.Domain.DOS.Api.Configuration
         {
             get
             {
-                return string.Format("{0}{1}", ConfigurationManager.AppSettings["DOSIntegrationBaseUrl"],
-                  ConfigurationManager.AppSettings["DOSIntegrationCheckCapacitySummaryUrl"]);
+                return ConfigurationManager.AppSettings["DOSIntegrationCheckCapacitySummaryUrl"];
             }
         }
 
@@ -30,8 +29,7 @@ namespace NHS111.Domain.DOS.Api.Configuration
         {
             get
             {
-                return string.Format("{0}{1}", ConfigurationManager.AppSettings["DOSIntegrationBaseUrl"],
-                  ConfigurationManager.AppSettings["DOSIntegrationServiceDetailsByIdUrl"]);
+                return ConfigurationManager.AppSettings["DOSIntegrationServiceDetailsByIdUrl"];
 
             }
         }
@@ -40,8 +38,7 @@ namespace NHS111.Domain.DOS.Api.Configuration
         {
             get
             {
-                return string.Format("{0}{1}", ConfigurationManager.AppSettings["DOSIntegrationBaseUrl"],
-                  ConfigurationManager.AppSettings["DOSIntegrationMonitorHealthUrl"]);
+                return ConfigurationManager.AppSettings["DOSIntegrationMonitorHealthUrl"];
 
             }
         }
@@ -50,8 +47,7 @@ namespace NHS111.Domain.DOS.Api.Configuration
         {
             get
             {
-                return string.Format("{0}{1}", ConfigurationManager.AppSettings["DOSMobileBaseUrl"],
-                  ConfigurationManager.AppSettings["DOSMobileServicesByClinicalTermUrl"]);
+                return ConfigurationManager.AppSettings["DOSMobileServicesByClinicalTermUrl"];
             }
         }
     }

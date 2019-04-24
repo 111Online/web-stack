@@ -208,6 +208,7 @@
     <Compile Include="Attributes\LogHandleErrorForMVCAttribute.cs" />
     <Compile Include="Attributes\MultiSubmitAttribute.cs" />
     <Compile Include="Filters\SetSessionIdFilterAttribute.cs" />
+    <Compile Include="RestTools\JsonRestRequest.cs" />
     <Compile Include="Storage\AzureStorageService.cs" />
     <Compile Include="Comparer\KeywordComparer.cs" />
     <Compile Include="Converters\DosServiceConverter.cs" />
@@ -224,7 +225,6 @@
     <Compile Include="Extensions\ListExtension.cs" />
     <Compile Include="Extensions\StringExtension.cs" />
     <Compile Include="Extensions\TaskExtension.cs" />
-    <Compile Include="Helpers\RestfulHelper.cs" />
     <Compile Include="IoC\UtilsRegistry.cs" />
     <Compile Include="Kafka\KafkaClient.cs" />
     <Compile Include="Logging\AzureTableStorageAppender.cs" />
@@ -233,7 +233,6 @@
     <Compile Include="Logging\LogServiceContext.cs" />
     <Compile Include="Monitoring\BaseMonitor.cs" />
     <Compile Include="Monitoring\IMonitor.cs" />
-    <Compile Include="Notifier\Notifier.cs" />
     <Compile Include="Parser\JourneyJsonParser.cs" />
     <Compile Include="Parser\PathwayIdParser.cs" />
     <Compile Include="Parser\PathwayTitleUriParser.cs" />

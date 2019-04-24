@@ -36,7 +36,7 @@ namespace NHS111.Domain.Test.API_Project.Controller
 
             //Assert
             _questionRepository.Verify(x => x.GetQuestion(id), Times.Once);
-            Assert.That(result.StatusCode, Is.EqualTo(HttpStatusCode.OK));
+            Assert.IsInstanceOf<QuestionWithAnswers>(result.Content);
 
         }
 
@@ -56,8 +56,7 @@ namespace NHS111.Domain.Test.API_Project.Controller
 
             //Assert
             _questionRepository.Verify(x => x.GetAnswersForQuestion(id), Times.Once);
-            Assert.That(result.StatusCode, Is.EqualTo(HttpStatusCode.OK));
-
+            Assert.IsInstanceOf<IEnumerable<Answer>>(result.Content);
         }
 
         [Test]
@@ -78,12 +77,12 @@ namespace NHS111.Domain.Test.API_Project.Controller
 
             //Assert
             _questionRepository.Verify(x => x.GetNextQuestion(id, nodeLabel, answer), Times.Once);
-            Assert.That(result.StatusCode, Is.EqualTo(HttpStatusCode.OK));
+            Assert.IsInstanceOf<QuestionWithAnswers>(result.Content);
 
         }
 
         [Test]
-        public async void should_return_first_just_be_safe_question()
+        public async void should_return_first_just_be_safe_questions()
         {
             //Arrange
 
@@ -100,13 +99,13 @@ namespace NHS111.Domain.Test.API_Project.Controller
 
             //Assert
             _questionRepository.Verify(x => x.GetJustToBeSafeQuestions(pathwayId, justToBeSafePart), Times.Once);
-            Assert.That(result.StatusCode, Is.EqualTo(HttpStatusCode.OK));
+            Assert.IsInstanceOf<IEnumerable<QuestionWithAnswers>>(result.Content);
 
         }
 
 
         [Test]
-        public async void should_return_next_just_to_be_safe_question()
+        public async void should_return_next_just_to_be_safe_questions()
         {
             //Arrange
             var pathwayId = "PW755";
@@ -122,8 +121,7 @@ namespace NHS111.Domain.Test.API_Project.Controller
             var result = await _sut.GetJustToBeSafeQuestionsNext(pathwayId, selectedQuestionId, multipleChoice, answeredQuestionIds);
 
             //Assert
-            Assert.That(result.StatusCode, Is.EqualTo(HttpStatusCode.OK));
-
+            Assert.IsInstanceOf<IEnumerable<QuestionWithAnswers>>(result.Content);
         }
     }
 }

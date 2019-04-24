@@ -9,21 +9,23 @@ using NHS111.Models.Models.Domain;
 using NHS111.Models.Models.Web;
 using NHS111.Utils.Helpers;
 using NHS111.Utils.Parser;
+using NHS111.Utils.RestTools;
 using NHS111.Web.Presentation.Configuration;
+using RestSharp;
 
 namespace NHS111.Web.Presentation.Builders
 {
     using NHS111.Models.Models.Web.FromExternalServices;
     using StructureMap.Query;
 
-    public class SurveyLinkViewModelBuilder : ISurveyLinkViewModelBuilder
+    public class SurveyLinkViewModelBuilder : BaseBuilder, ISurveyLinkViewModelBuilder
     {
-        private readonly IRestfulHelper _restfulHelper;
+        private readonly IRestClient _restClient;
         private readonly IConfiguration _configuration;
 
-        public SurveyLinkViewModelBuilder(IRestfulHelper restfulHelper, IConfiguration configuration)
+        public SurveyLinkViewModelBuilder(IRestClient restClient, IConfiguration configuration)
         {
-            _restfulHelper = restfulHelper;
+            _restClient = restClient;
             _configuration = configuration;
         }
 
@@ -31,8 +33,11 @@ namespace NHS111.Web.Presentation.Builders
         {
             var jsonParser = new JourneyJsonParser(model.JourneyJson);
             var businessApiPathwayUrl = _configuration.GetBusinessApiPathwayIdUrl(jsonParser.LastPathwayNo, model.UserInfo.Demography.Gender, model.UserInfo.Demography.Age);
-            var response = await _restfulHelper.GetAsync(businessApiPathwayUrl);
-            var pathway = JsonConvert.DeserializeObject<Pathway>(response);
+            var response = await _restClient.ExecuteTaskAsync<Pathway>(new JsonRestRequest(businessApiPathwayUrl, Method.GET));
+
+            CheckResponse(response);
+
+            var pathway = response.Data;
             var resultingDxCode = model.Is999Callback ? FromOutcomeViewModelToDosViewModel.DispositionResolver.Remap(model.Id) : model.Id;
             var result = new SurveyLinkViewModel()
             {

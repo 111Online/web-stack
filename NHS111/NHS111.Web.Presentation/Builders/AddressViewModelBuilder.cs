@@ -13,7 +13,7 @@ namespace NHS111.Web.Presentation.Builders {
 
         public AddressSearchViewModel Build(OutcomeViewModel model) {
             return new AddressSearchViewModel {
-                PostcodeApiAddress = _configuration.PostcodeSearchByIdApiUrl,
+                PostcodeApiAddress = _configuration.PostcodeSearchByIdUrl,
                 PostcodeApiSubscriptionKey = _configuration.PostcodeSubscriptionKey
             };
         }
