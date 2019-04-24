@@ -5,7 +5,7 @@
     Layout = "~/Views/Shared/_LayoutNhsUK.cshtml";
 }
 @section HeadTop {
-    @{ var url = string.Format("/outcome/{0}/{1}/{2}/recommendedservice/", Url.Encode(Model.PathwayNo), Url.Encode(Model.OutcomeGroup.Text), Url.Encode(Model.Id)); }
+    @{ var url = string.Format("/outcome/{0}/{1}/{2}/recommendedservice/{3}", Url.Encode(Model.PathwayNo), Url.Encode(Model.OutcomeGroup.Text), Url.Encode(Model.Id), Url.Encode(Model.RecommendedService.Name)); }
     <script>
         var pageId = '@Model.Id';
         dataLayer = [
