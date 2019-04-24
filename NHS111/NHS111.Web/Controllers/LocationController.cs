@@ -67,16 +67,6 @@ namespace NHS111.Web.Controllers
             return View("ConfirmLocation", new ConfirmLocationViewModel { FoundLocations = locationResults, SessionId = model.SessionId, Campaign = model.Campaign, FilterServices = model.FilterServices });
         }
 
-        [HttpGet]
-        [Route("home/provider/{providerName}", Name = "ProviderRoute")]
-        public ActionResult Provider(ProviderViewModel model, string providerName)
-        {
-            if (providerName == DUCTriageApp.Expert24.Name)
-                return Redirect(_configuration.Expert24Url);
-
-            return View(providerName.Replace(" ", ""), model);
-        }
-
         private ActionResult DeriveApplicationView(JourneyViewModel model, PostcodeValidatorResponse postcodeValidationRepsonse, CCGModel ccg)
         {
             var moduleZeroViewName = "../Question/InitialQuestion";
@@ -91,15 +81,6 @@ namespace NHS111.Web.Controllers
                             Campaign = string.IsNullOrEmpty(model.Campaign) ? ccg.StpName : model.Campaign,
                             Source = string.IsNullOrEmpty(model.Source) ? ccg.CCG : model.Source,
                             FilterServices = model.FilterServices
-                        });
-                case PostcodeValidatorResponse.OutsidePathwaysArea:
-                    return RedirectToRoute("ProviderRoute",
-                        new
-                        {
-                            providerName = ccg.App,
-                            ccg.Postcode,
-                            Campaign = WebUtility.UrlEncode(ccg.StpName),
-                            Source = WebUtility.UrlEncode(ccg.CCG)
                         });
                 case PostcodeValidatorResponse.PostcodeNotFound:
                     return View("OutOfArea", new OutOfAreaViewModel { SessionId = model.SessionId, Campaign = ccg.StpName, Source = ccg.CCG, FilterServices = model.FilterServices });
