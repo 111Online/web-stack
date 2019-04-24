@@ -108,6 +108,12 @@ namespace NHS111.Web.Controllers
         }
 
         [HttpPost]
+        public ActionResult RecommendedService(OutcomeViewModel outcomeModel)
+        {
+            return View(outcomeModel);
+        }
+
+        [HttpPost]
         public async Task<JsonResult> PostcodeLookup(string postCode)
         {
             var locationResults = await GetPostcodeResults(postCode);
