@@ -36,11 +36,11 @@ namespace NHS111.Web.Presentation.Builders
         private readonly IJourneyHistoryWrangler _journeyHistoryWrangler;
         private readonly ISurveyLinkViewModelBuilder _surveyLinkViewModelBuilder;
         private readonly IAuditLogger _auditLogger;
-
+        private readonly IRecommendedServiceBuilder _recommendedServiceBuilder;
 
 
         public OutcomeViewModelBuilder(ICareAdviceBuilder careAdviceBuilder, IRestfulHelper restfulHelper, IConfiguration configuration, IMappingEngine mappingEngine, IKeywordCollector keywordCollector,
-            IJourneyHistoryWrangler journeyHistoryWrangler, ISurveyLinkViewModelBuilder surveyLinkViewModelBuilder, IAuditLogger auditLogger, IDOSBuilder dosBuilder)
+            IJourneyHistoryWrangler journeyHistoryWrangler, ISurveyLinkViewModelBuilder surveyLinkViewModelBuilder, IAuditLogger auditLogger, IDOSBuilder dosBuilder, IRecommendedServiceBuilder recommendedServiceBuilder)
         {
             _careAdviceBuilder = careAdviceBuilder;
             _restfulHelper = restfulHelper;
@@ -51,6 +51,7 @@ namespace NHS111.Web.Presentation.Builders
             _surveyLinkViewModelBuilder = surveyLinkViewModelBuilder;
             _auditLogger = auditLogger;
             _dosBuilder = dosBuilder;
+            _recommendedServiceBuilder = recommendedServiceBuilder;
         }
 
         public async Task<List<AddressInfoViewModel>> SearchPostcodeBuilder(string input)
@@ -121,11 +122,10 @@ namespace NHS111.Web.Presentation.Builders
             }
 
             model = await dosTask;
-
+            
             if (OutcomeGroup.Call999Cat2.Equals(model.OutcomeGroup) || OutcomeGroup.Call999Cat3.Equals(model.OutcomeGroup))
             {
                 model.CareAdviceMarkers = model.State.Keys.Where(key => key.StartsWith("Cx"));
-
             }
 
             if (model.Is999Callback)
@@ -135,7 +135,7 @@ namespace NHS111.Web.Presentation.Builders
             model.WorseningCareAdvice = await worseningTask;
             model.CareAdvices = await careAdvicesTask;
             model.SurveyLink = await surveyTask;
-
+            
             return model;
         }
 
@@ -214,7 +214,10 @@ namespace NHS111.Web.Presentation.Builders
             model.DosCheckCapacitySummaryResult.ServicesUnavailable = model.DosCheckCapacitySummaryResult.ResultListEmpty;
 
             if (!model.DosCheckCapacitySummaryResult.ResultListEmpty)
+            {
                 model.GroupedDosServices = _dosBuilder.FillGroupedDosServices(model.DosCheckCapacitySummaryResult.Success.Services);
+                model.RecommendedService = await _recommendedServiceBuilder.BuildRecommendedService(model.DosCheckCapacitySummaryResult.Success.FirstService);
+            }
 
             _surveyLinkViewModelBuilder.AddServiceInformation(model, model.SurveyLink);
 

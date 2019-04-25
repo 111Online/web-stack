@@ -1,0 +1,23 @@
+﻿@model NHS111.Models.Models.Web.RecommendedServiceViewModel
+
+@Html.HiddenFor(x => Model.Id)
+@Html.HiddenFor(x => Model.Details)
+@Html.HiddenFor(x => Model.ReasonText)
+@Html.HiddenFor(x => Model.Name)
+@Html.HiddenFor(x => Model.Address)
+@Html.HiddenFor(m => Model.OdsCode)
+@Html.HiddenFor(m => Model.PostCode)
+@Html.HiddenFor(m => Model.OpenAllHours)
+@Html.HiddenFor(m => Model.OnlineDOSServiceType)
+@if (Model.RotaSessionsAndSpecifiedSessions != null)
+{
+    for (var j = 0; j < Model.RotaSessionsAndSpecifiedSessions.Length; j++)
+    {
+        @Html.HiddenFor(m => m.RotaSessionsAndSpecifiedSessions[j].StartDayOfWeek)
+        @Html.HiddenFor(m => m.RotaSessionsAndSpecifiedSessions[j].StartTime.Hours)
+        @Html.HiddenFor(m => m.RotaSessionsAndSpecifiedSessions[j].StartTime.Minutes)
+        @Html.HiddenFor(m => m.RotaSessionsAndSpecifiedSessions[j].EndDayOfWeek)
+        @Html.HiddenFor(m => m.RotaSessionsAndSpecifiedSessions[j].EndTime.Hours)
+        @Html.HiddenFor(m => m.RotaSessionsAndSpecifiedSessions[j].EndTime.Minutes)
+    }
+}

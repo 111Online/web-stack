@@ -6,12 +6,9 @@ using System.Threading.Tasks;
 
 namespace NHS111.Models.Models.Web
 {
-    public class ButtonViewModel
+    public class DetailsViewModel
     {
+        public string Summary { get; set; }
         public string Text { get; set; }
-
-        public string Type { get; set; }
-
-        public IEnumerable<string> Modifiers { get; set; }
     }
 }

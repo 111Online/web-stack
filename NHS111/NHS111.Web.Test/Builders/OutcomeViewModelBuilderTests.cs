@@ -35,6 +35,7 @@
         private Mock<ISurveyLinkViewModelBuilder> _mockSurveyLinkViewModelBuilder;
         private Mock<IAuditLogger> _mockAuditLogger;
         private Mock<IDOSBuilder> _mockDosBuilder;
+        private Mock<IRecommendedServiceBuilder> _mockRecommendedServiceBuilder;
         private OutcomeViewModel _model;
 
         private string _mockPathwayURL = "PW755";
@@ -54,6 +55,7 @@
             _mockSurveyLinkViewModelBuilder = new Mock<ISurveyLinkViewModelBuilder>();
             _mockAuditLogger = new Mock<IAuditLogger>();
             _mockDosBuilder = new Mock<IDOSBuilder>();
+            _mockRecommendedServiceBuilder = new Mock<IRecommendedServiceBuilder>();
             SetupMockFillCareAdviceBuilder();
 
             SetupMockConfiguration();
@@ -66,7 +68,8 @@
                 _mockJourneyHistoryWrangler.Object,
                 _mockSurveyLinkViewModelBuilder.Object,
                 _mockAuditLogger.Object,
-                _mockDosBuilder.Object);
+                _mockDosBuilder.Object,
+                _mockRecommendedServiceBuilder.Object);
 
             _sentDispositions = new List<int>();
 
@@ -161,7 +164,5 @@
             _mockDosBuilder.Verify(d => d.FillCheckCapacitySummaryResult(It.Is<DosViewModel>(x => x.Disposition == 1111), It.IsAny<bool>(),
                 It.IsAny<DosEndpoint?>()), Times.Once);
         }
-
-
     }
 }

@@ -43,7 +43,7 @@ namespace NHS111.Models.Models.Web
             }
         }
 
-        public DosService SelectedService
+        public ServiceViewModel SelectedService
         {
             get
             {
@@ -117,6 +117,8 @@ namespace NHS111.Models.Models.Web
 
         public bool? HasAcceptedCallbackOffer { get; set; }
 
+        public RecommendedServiceViewModel RecommendedService { get; set; }
+
         public OutcomeViewModel()
         {
             SurgeryViewModel = new SurgeryViewModel();
@@ -127,6 +129,7 @@ namespace NHS111.Models.Models.Web
             Informant = new InformantViewModel();
             GroupedDosServices = new List<GroupedDOSServices>();
             WorseningCareAdvice = new CareAdvice(new List<CareAdviceText>());
+            RecommendedService = new RecommendedServiceViewModel();
         }
     }
 

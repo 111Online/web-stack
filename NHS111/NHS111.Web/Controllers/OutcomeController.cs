@@ -108,6 +108,12 @@ namespace NHS111.Web.Controllers
         }
 
         [HttpPost]
+        public ActionResult RecommendedService(OutcomeViewModel outcomeModel)
+        {
+            return View(outcomeModel);
+        }
+
+        [HttpPost]
         public async Task<JsonResult> PostcodeLookup(string postCode)
         {
             var locationResults = await GetPostcodeResults(postCode);
@@ -328,6 +334,7 @@ namespace NHS111.Web.Controllers
             var unavailableResult = _referralResultBuilder.BuildServiceUnavailableResult(model, availableServices);
             return View(unavailableResult.ViewName, unavailableResult);
         }
+
 
         [HttpPost]
         public async Task<ActionResult> ConfirmAddress(string longlat, ConfirmLocationViewModel model)
