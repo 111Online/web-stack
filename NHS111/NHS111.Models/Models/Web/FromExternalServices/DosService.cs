@@ -103,7 +103,7 @@ namespace NHS111.Models.Models.Web.FromExternalServices
                 if (_rotaSessionsAndSpecifiedSessions != null && _rotaSessionsAndSpecifiedSessions.Length != 0)
                     return _rotaSessionsAndSpecifiedSessions;
 
-                return _rotaSessions;
+                return new ServiceCareItemRotaSession[0];
             }
         }
 
