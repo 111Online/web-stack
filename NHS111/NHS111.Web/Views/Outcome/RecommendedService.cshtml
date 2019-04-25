@@ -22,12 +22,13 @@
 
 <div class="nhsuk-core">
     @Html.Partial("_rs_Recommeded_DOS_Service", Model)
-
-    @{
+    
+    @if (Model.DosCheckCapacitySummaryResult.Success.Services.Count > 1)
+    {
         var dataDictionary = ViewContext.ViewData;
-        dataDictionary.TemplateInfo = new TemplateInfo() { HtmlFieldPrefix = "FindService" };
+        dataDictionary.TemplateInfo = new TemplateInfo() {HtmlFieldPrefix = "FindService"};
+        @Html.Partial("_rs_OtherServices", Model, dataDictionary);
     }
-    @Html.Partial("_rs_OtherServices", Model, dataDictionary)
     @*@Html.Partial("_rs_CareAdvice", Model.CareAdvices)*@
     @*@Html.Partial("_rs_WorseningAdvice", Model)*@
 </div>
