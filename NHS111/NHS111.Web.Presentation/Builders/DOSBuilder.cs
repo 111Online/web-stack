@@ -108,7 +108,7 @@ namespace NHS111.Web.Presentation.Builders
                 return services;
             
             //remove callback services from list, as these are disabled
-            services.RemoveAll(s => s.OnlineDOSServiceType == OnlineDOSServiceType.Callback);
+            services.RemoveAll(s => s.OnlineDOSServiceType.IsReferral);
             return services.ToList();
         }
 
