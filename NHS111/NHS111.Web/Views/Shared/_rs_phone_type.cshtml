@@ -16,7 +16,7 @@
 
 <div class="service-details nhsuk-u-margin-bottom-6">
     <p class="service-details__address">
-        @recommendedService.Name, @recommendedService.Address
+        @WebUtility.HtmlDecode(recommendedService.PublicName), @WebUtility.HtmlDecode(recommendedService.Address)
     </p>
     <p class="service-details__phone">
         Call @recommendedService.ContactDetails

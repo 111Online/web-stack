@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Runtime.Remoting.Messaging;
 using System.Web.Mvc;
 using NHS111.Models.Models.Web;
 using NHS111.Models.Models.Web.Enums;
@@ -62,9 +63,17 @@ namespace NHS111.Web.Helpers
             switch (model.NodeType)
             {
                 case NodeType.Outcome:
+                    var outcomeViewModel = model as OutcomeViewModel;
                     var viewFilePath = "../Outcome/";
                     if (OutcomeGroup.UsingRecommendedServiceJourney.Contains(model.OutcomeGroup))
-                        viewFilePath += "RecommendedService";
+                    {
+                        if (outcomeViewModel.RecommendedService == null) viewFilePath += "NoResults"; //TODO: Build this page
+
+                        if (OutcomeGroup.RequiresOutcomePreamble.Contains(model.OutcomeGroup))
+                            viewFilePath += "Outcome_Preamble";
+                        else
+                            viewFilePath += "RecommendedService"; 
+                    }
                     else
                         viewFilePath += model.OutcomeGroup.Id;
                     //if (model.OutcomeGroup.IsPostcodeFirst())
@@ -74,7 +83,6 @@ namespace NHS111.Web.Helpers
 
                     //    viewFilePath = "../PostcodeFirst/Postcode";
                    // }
-                    var outcomeViewModel = model as OutcomeViewModel;
                     if (IsTestJourney(outcomeViewModel))
                         return "../Outcome/Call_999_CheckAnswer";
 

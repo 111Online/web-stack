@@ -434,6 +434,8 @@
     <Content Include="Views\Shared\_rs_callback_type.cshtml" />
     <Content Include="Views\Outcome\Confirmation\Repeat_Prescription\Confirmation.cshtml" />
     <Content Include="Views\Outcome\Confirmation\Repeat_Prescription\ServiceBookingFailure.cshtml" />
+    <Content Include="Views\Outcome\Outcome_Preamble.cshtml" />
+    <Content Include="Views\Shared\_CommonHiddenFieldsRecommendedServiceViewModel.cshtml" />
     <None Include="Web.Development.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
