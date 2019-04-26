@@ -20,6 +20,7 @@ namespace NHS111.Business.DOS.EndpointFilter
         {
             if (IsDentalDispoition(dosFilteredCase.Disposition)) return new DentalServiceAvailability(FindServiceAvailabilityProfile(dosFilteredCase.Disposition), dosFilteredCase.DispositionTime, dosFilteredCase.DispositionTimeFrameMinutes);
             if (IsPrimaryCareDispoition(dosFilteredCase.Disposition)) return new PrimaryCareServiceAvailability(FindServiceAvailabilityProfile(dosFilteredCase.Disposition), dosFilteredCase.DispositionTime, dosFilteredCase.DispositionTimeFrameMinutes);
+            if (IsRepeatPrescriptionDisposition(dosFilteredCase.Disposition)) return new RepeatPrescriptionServiceAvailability(FindServiceAvailabilityProfile(dosFilteredCase.Disposition), dosFilteredCase.DispositionTime, dosFilteredCase.DispositionTimeFrameMinutes);
             if (IsGenericDisposition(dosFilteredCase.Disposition)) return new GenericServiceAvailability(FindServiceAvailabilityProfile(dosFilteredCase.Disposition), dosFilteredCase.DispositionTime, dosFilteredCase.DispositionTimeFrameMinutes);
             return new ServiceAvailability(FindServiceAvailabilityProfile(dosFilteredCase.Disposition), dosFilteredCase.DispositionTime, dosFilteredCase.DispositionTimeFrameMinutes);
         }
@@ -30,6 +31,7 @@ namespace NHS111.Business.DOS.EndpointFilter
             var primaryCareServiceTypeIdBlackist = ConvertPipeDeliminatedString(_configuration.FilteredPrimaryCareDosServiceIds);
             var dentalServiceTypeIdBlackist = ConvertPipeDeliminatedString(_configuration.FilteredDentalDosServiceIds);
             var clinicianCallbackServiceTypeIdBlackist = ConvertPipeDeliminatedString(_configuration.FilteredClinicianCallbackDosServiceIds);
+            var repeatPrescriptionServiceTypeIdBlackist = ConvertPipeDeliminatedString(_configuration.FilteredRepeatPrescriptionDosServiceIds);
             var genericServiceTypeIdBlackList = ConvertPipeDeliminatedString(_configuration.FilteredGenericDosServiceIds);
 
             if (IsPrimaryCareDispoition(dxCode)) return new ServiceAvailabilityProfile(
@@ -40,6 +42,9 @@ namespace NHS111.Business.DOS.EndpointFilter
 
             if (IsClinicianCallbackDispoition(dxCode)) return new ServiceAvailabilityProfile(
                 new ClinicianCallbackProfileHoursOfOperation(), clinicianCallbackServiceTypeIdBlackist);
+
+            if (IsRepeatPrescriptionDisposition(dxCode)) return new ServiceAvailabilityProfile(
+                new RepeatPrescriptionProfileHoursOfOperation(), repeatPrescriptionServiceTypeIdBlackist);
 
             if (IsGenericDisposition(dxCode)) return new ServiceAvailabilityProfile(
                 new GenericProfileHoursOfOperation(_configuration.WorkingDayGenericInHoursStartTime, _configuration.WorkingDayGenericInHoursShoulderEndTime, _configuration.WorkingDayGenericInHoursEndTime, _configuration), genericServiceTypeIdBlackList);
@@ -62,6 +67,11 @@ namespace NHS111.Business.DOS.EndpointFilter
             return ConvertPipeDeliminatedString(_configuration.FilteredClinicianCallbackDispositionCodes).Contains(dxCode);
         }
 
+        private bool IsRepeatPrescriptionDisposition(int dxCode)
+        {
+            return ConvertPipeDeliminatedString(_configuration.FilteredRepeatPrescriptionDispositionCodes).Contains(dxCode);
+        }
+
         private bool IsGenericDisposition(int dxCode)
         {
             return ConvertPipeDeliminatedString(_configuration.FilteredGenericDispositionCodes).Contains(dxCode);
@@ -74,14 +84,30 @@ namespace NHS111.Business.DOS.EndpointFilter
         }
     }
 
-    public class ClinicianCallbackProfileHoursOfOperation
-        : IProfileHoursOfOperation {
-
-        public ProfileServiceTimes GetServiceTime(DateTime date) {
+    public class RepeatPrescriptionProfileHoursOfOperation : IProfileHoursOfOperation
+    {
+        public ProfileServiceTimes GetServiceTime(DateTime date)
+        {
             return ProfileServiceTimes.InHours;
         }
 
-        public bool ContainsInHoursPeriod(DateTime startDateTime, DateTime endDateTime) {
+        public bool ContainsInHoursPeriod(DateTime startDateTime, DateTime endDateTime)
+        {
+            return true;
+        }
+    }
+
+    public class ClinicianCallbackProfileHoursOfOperation
+        : IProfileHoursOfOperation
+    {
+
+        public ProfileServiceTimes GetServiceTime(DateTime date)
+        {
+            return ProfileServiceTimes.InHours;
+        }
+
+        public bool ContainsInHoursPeriod(DateTime startDateTime, DateTime endDateTime)
+        {
             return true;
         }
     }

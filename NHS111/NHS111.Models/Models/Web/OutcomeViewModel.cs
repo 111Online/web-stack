@@ -129,7 +129,6 @@ namespace NHS111.Models.Models.Web
             Informant = new InformantViewModel();
             GroupedDosServices = new List<GroupedDOSServices>();
             WorseningCareAdvice = new CareAdvice(new List<CareAdviceText>());
-            RecommendedService = new RecommendedServiceViewModel();
         }
     }
 

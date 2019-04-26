@@ -79,7 +79,7 @@ namespace NHS111.Models.Models.Web.FromExternalServices
         [JsonProperty(PropertyName = "openAllHoursField")]
         public bool OpenAllHours { get; set; }
 
-        private ServiceCareItemRotaSession[] _rotaSessions = new ServiceCareItemRotaSession[0];
+        private ServiceCareItemRotaSession[] _rotaSessions;// = new ServiceCareItemRotaSession[0];
         
         [JsonProperty(PropertyName = "rotaSessionsField")]
         public ServiceCareItemRotaSession[] RotaSessions {
@@ -103,11 +103,11 @@ namespace NHS111.Models.Models.Web.FromExternalServices
                 if (_rotaSessionsAndSpecifiedSessions != null && _rotaSessionsAndSpecifiedSessions.Length != 0)
                     return _rotaSessionsAndSpecifiedSessions;
 
-                return _rotaSessions;
+                return new ServiceCareItemRotaSession[0];
             }
         }
 
-        private string[] _openTimeSpecifiedSessions = new string[0];
+        private string[] _openTimeSpecifiedSessions;// = new string[0];
 
         [JsonProperty(PropertyName = "openTimeSpecifiedSessionsField")]
         public string[] OpenTimeSpecifiedSessions
@@ -282,6 +282,8 @@ namespace NHS111.Models.Models.Web.FromExternalServices
 
         public bool DateFallsWithinSpecifiedOpeningTimes(string[] openTimeSpecifiedSessions, DateTime dateToFind)
         {
+            if (openTimeSpecifiedSessions == null) return false;
+
             foreach (var session in openTimeSpecifiedSessions)
             {
                 if (session.Length != 22)
