@@ -46,9 +46,13 @@
     <Reference Include="nunit.framework">
       <HintPath>..\packages\NUnit.2.6.4\lib\nunit.framework.dll</HintPath>
     </Reference>
+    <Reference Include="RestSharp, Version=106.2.2.0, Culture=neutral, PublicKeyToken=598062e77f915f75, processorArchitecture=MSIL">
+      <HintPath>..\packages\RestSharp.106.2.2\lib\net452\RestSharp.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.configuration" />
     <Reference Include="System.Net.Http" />
+    <Reference Include="System.Web" />
   </ItemGroup>
   <Choose>
     <When Condition="('$(VisualStudioVersion)' == '10.0' or '$(VisualStudioVersion)' == '') and '$(TargetFrameworkVersion)' == 'v3.5'">
@@ -70,6 +74,10 @@
     <ProjectReference Include="..\NHS111.Functional.ResponseValidation\NHS111.Functional.Tests.Tools.csproj">
       <Project>{287a7a76-88a0-4cbe-ad54-2b6d32fed830}</Project>
       <Name>NHS111.Functional.Tests.Tools</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\NHS111.Models\NHS111.Models.csproj">
+      <Project>{4CCF3ABD-92C4-4999-8520-C4AA7B36F48C}</Project>
+      <Name>NHS111.Models</Name>
     </ProjectReference>
     <ProjectReference Include="..\NHS111.Utils\NHS111.Utils.csproj">
       <Project>{efc4426e-3564-4c5e-ac95-4de7a2c55876}</Project>

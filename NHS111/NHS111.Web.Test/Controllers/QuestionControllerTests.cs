@@ -28,7 +28,6 @@ namespace NHS111.Web.Presentation.Test.Controllers {
         private int _age = 35;
         private string _pathwayTitle = "Headache";
         private Mock<IJourneyViewModelBuilder> _mockJourneyViewModelBuilder;
-        private Mock<IRestfulHelper> _mockRestfulHelper;
         private Mock<IConfiguration> _mockConfiguration;
         private Mock<IDirectLinkingFeature> _mockFeature;
         private Mock<IJustToBeSafeFirstViewModelBuilder> _mockJtbsBuilderMock;
@@ -43,7 +42,6 @@ namespace NHS111.Web.Presentation.Test.Controllers {
         [SetUp]
         public void Setup() {
             _mockJourneyViewModelBuilder = new Mock<IJourneyViewModelBuilder>();
-            _mockRestfulHelper = new Mock<IRestfulHelper>();
             _mockConfiguration = new Mock<IConfiguration>();
             _mockFeature = new Mock<IDirectLinkingFeature>();
             _mockFeature.Setup(c => c.IsEnabled).Returns(true);
@@ -61,13 +59,6 @@ namespace NHS111.Web.Presentation.Test.Controllers {
 
             _mockRestClient.Setup(r => r.ExecuteTaskAsync<QuestionWithAnswers>(It.IsAny<RestRequest>())).Returns(() => StartedTask((IRestResponse<QuestionWithAnswers>)new RestResponse<QuestionWithAnswers>() { ResponseStatus = ResponseStatus.Completed, Data = new QuestionWithAnswers()}));
            
-
-            _mockRestfulHelper.Setup(r => r.GetAsync(It.IsAny<string>()))
-                .Returns(() => StartedTask(JsonConvert.SerializeObject(new Pathway { Gender = "Male" })));
-
-            _mockRestfulHelper.Setup(r => r.PostAsync(It.IsAny<string>(), It.IsAny<HttpRequestMessage>()))
-                .Returns(() => StartedTask(new HttpResponseMessage(HttpStatusCode.OK) { Content = new StringContent(JsonConvert.SerializeObject(new QuestionWithAnswers())) }));
-
             _mockConfiguration.Setup(c => c.IsPublic).Returns(false);
         }
 

@@ -15,6 +15,7 @@ using NHS111.Models.Models.Web.DosRequests;
 using NodaTime;
 using NUnit.Framework;
 using NHS111.Features;
+using NHS111.Models.Models.Web.FromExternalServices;
 
 namespace NHS111.Business.DOS.Test.Service
 {
@@ -116,33 +117,25 @@ namespace NHS111.Business.DOS.Test.Service
         [Test]
         public async void failed_request_should_return_empty_CheckCapacitySummaryResult()
         {
-            var fakeResponse = new HttpResponseMessage(HttpStatusCode.BadRequest)
-            {
-                Content = new StringContent("{CheckCapacitySummaryResult: [{}]}")
-            };
+            var fakeResponse = new DosCheckCapacitySummaryResult() { Error = new ErrorObject { Message = "Failed", Code = 500 }};
 
             var fakeDoSFilteredCase = new DosFilteredCase() { PostCode = "So30 2Un", Disposition = 1010 };
-            var fakeRequest = new HttpRequestMessage() { Content = new StringContent(JsonConvert.SerializeObject(fakeDoSFilteredCase)) };
-
-            _mockDosService.Setup(x => x.GetServices(It.IsAny<HttpRequestMessage>(), null)).Returns(Task<HttpResponseMessage>.Factory.StartNew(() => fakeResponse));
+            
+            _mockDosService.Setup(x => x.GetServices(It.IsAny<DosCheckCapacitySummaryRequest>(), null)).Returns(Task<DosCheckCapacitySummaryResult>.Factory.StartNew(() => fakeResponse));
 
             _mockServiceAvailabilityProfileManager.Setup(c => c.FindServiceAvailability(fakeDoSFilteredCase))
                 .Returns(new ServiceAvailability(_mockServiceAvailabliityProfileResponse, fakeDoSFilteredCase.DispositionTime, fakeDoSFilteredCase.DispositionTimeFrameMinutes));
 
             _mockFilterServicesFeature.Setup(c => c.IsEnabled).Returns(true);
 
-            //var sut = new ServiceAvailablityManager(_mockConfiguration.Object);
-
             var sut = new ServiceAvailabilityFilterService(_mockDosService.Object, _mockConfiguration.Object, _mockServiceAvailabilityProfileManager.Object, _mockFilterServicesFeature.Object, _mockServiceWhitelistFilter.Object, _mockServiceTypeMapper.Object, _mockServiceTypeFilter.Object, _mockPublicHolidayService.Object, _mocSearchDistanceService.Object);
 
             //Act
-            var result = await sut.GetFilteredServices(fakeRequest, true, null);
+            var result = await sut.GetFilteredServices(fakeDoSFilteredCase, true, null);
 
             //Assert 
-            _mockDosService.Verify(x => x.GetServices(It.IsAny<HttpRequestMessage>(), null), Times.Once);
-            var JObj = GetJObjectFromResponse(result);
-            var services = JObj["CheckCapacitySummaryResult"];
-            Assert.AreEqual("{CheckCapacitySummaryResult: [{}]}", result.Content.ReadAsStringAsync().Result);
+            _mockDosService.Verify(x => x.GetServices(It.IsAny<DosCheckCapacitySummaryRequest>(), null), Times.Once);
+            Assert.AreEqual(fakeResponse.Error.Code, result.Error.Code);
         }
 
         [Test]

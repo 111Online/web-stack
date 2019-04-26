@@ -47,7 +47,8 @@ namespace NHS111.Models.Mappers.WebMappings
                 .ForMember(s => s.Informant, opt => opt.Ignore())
                 .ForMember(s => s.UnavailableSelectedService, o => o.Ignore())
                 .ForMember(s => s.GroupedDosServices, o => o.Ignore())
-                .ForMember(s => s.HasAcceptedCallbackOffer, o => o.Ignore());
+                .ForMember(s => s.HasAcceptedCallbackOffer, o => o.Ignore())
+                .ForMember(s => s.RecommendedService, opt => opt.Ignore());
 
             Mapper.CreateMap<JourneyViewModel, AuditEntry>()
                 .ForMember(dest => dest.AnswerTitle, opt => opt.Ignore())

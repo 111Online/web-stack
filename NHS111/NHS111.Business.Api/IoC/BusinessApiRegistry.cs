@@ -13,10 +13,9 @@ namespace NHS111.Business.Api.IoC
         public BusinessApiRegistry()
         {
             IncludeRegistry<ModelsRegistry>();
-            IncludeRegistry(new BusinessRegistry(new Configuration.Configuration()));
             IncludeRegistry<UtilsRegistry>();
+            IncludeRegistry(new BusinessRegistry(new Configuration.Configuration()));
             For<ICacheManager<string, string>>().Use(new RedisManager(new Configuration.Configuration().GetRedisUrl()));
-          
             Scan(scan =>
             {
                 scan.TheCallingAssembly();

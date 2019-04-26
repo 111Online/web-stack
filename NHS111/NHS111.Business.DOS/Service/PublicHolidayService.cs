@@ -33,7 +33,7 @@ namespace NHS111.Business.DOS.Service
             var adjustedServices = new List<NHS111.Models.Models.Business.DosService>();
             foreach (var service in services)
             {
-                var bankHolidaySessions = service.RotaSessions.Where(s => s.StartDayOfWeek == DayOfWeek.BankHoliday);
+                var bankHolidaySessions = service.RotaSessions != null ? service.RotaSessions.Where(s => s.StartDayOfWeek == DayOfWeek.BankHoliday) : new List<ServiceCareItemRotaSession>();
                 var adjustedSessions = new List<ServiceCareItemRotaSession>();
 
                 adjustedSessions = GetAdjustedPublicHolidaySessions(service);
@@ -48,7 +48,7 @@ namespace NHS111.Business.DOS.Service
         private List<ServiceCareItemRotaSession> GetAdjustedPublicHolidaySessions(Models.Models.Business.DosService service)
         {
             var adjustedSessions = new List<ServiceCareItemRotaSession>();
-            var bankHolidaySessions = service.RotaSessions.Where(s => s.StartDayOfWeek == DayOfWeek.BankHoliday);
+            var bankHolidaySessions = service.RotaSessions != null ? service.RotaSessions.Where(s => s.StartDayOfWeek == DayOfWeek.BankHoliday) : new List<ServiceCareItemRotaSession>();
             if (bankHolidaySessions.Any())
             {
                 foreach (DayOfWeek dayOfWeek in Enum.GetValues(typeof(DayOfWeek)))
@@ -92,8 +92,8 @@ namespace NHS111.Business.DOS.Service
 
         private IEnumerable<ServiceCareItemRotaSession> RemovePublicHolidaySessions(IEnumerable<ServiceCareItemRotaSession> sessions)
         {
-           return sessions.Where(s => !_publicHolidayData.PublicHolidays.Any(ph =>
-                ph.Date == _clock.Now.AddDays(NumberOfDaysBetweenWeekdays(s.StartDayOfWeek, _clock.Now.DayOfWeek)).Date));
+           return sessions != null ? sessions.Where(s => !_publicHolidayData.PublicHolidays.Any(ph =>
+                ph.Date == _clock.Now.AddDays(NumberOfDaysBetweenWeekdays(s.StartDayOfWeek, _clock.Now.DayOfWeek)).Date)) : new List<ServiceCareItemRotaSession>();
         }
 
 

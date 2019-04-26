@@ -83,6 +83,7 @@
   <ItemGroup>
     <Compile Include="Configuration\Configuration.cs" />
     <Compile Include="Configuration\IConfiguration.cs" />
+    <Compile Include="EndpointFilter\RepeatPrescriptionServiceAvailability.cs" />
     <Compile Include="IoC\BusinessDosRegistry.cs" />
     <Compile Include="EndpointFilter\DentalProfileHoursOfOperation.cs" />
     <Compile Include="EndpointFilter\GenericProfileHoursOfOperation.cs" />

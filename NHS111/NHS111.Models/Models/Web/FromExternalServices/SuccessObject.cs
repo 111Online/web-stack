@@ -18,5 +18,10 @@ namespace NHS111.Models.Models.Web.FromExternalServices
         public int ServiceCount { get; set; }
         [JsonProperty(PropertyName = "services")]
         public List<T> Services { get; set; }
+
+        public T FirstService
+        {
+            get { return this.Services.FirstOrDefault(); }
+        }
     }
 }

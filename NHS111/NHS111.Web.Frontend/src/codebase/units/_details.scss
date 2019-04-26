@@ -10,12 +10,11 @@ details {
     @include core-font(20);
     color: $link-colour;
     cursor: pointer;
-    display: inline-block;
+    display: block;
     margin-bottom: em(5);
     padding-left: 1.4em;
     text-indent: -1.7em;
     position: relative;
-    width: 100%;
 
     label {
       @include core-font(20);

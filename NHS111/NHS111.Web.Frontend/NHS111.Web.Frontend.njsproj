@@ -83,7 +83,6 @@
     </Content>
     <Content Include="LICENCE.txt" />
     <Content Include=".stylelintrc.json" />
-    <Content Include="package-lock.json" />
     <Content Include="package.json" />
     <Content Include="README.md" />
     <Compile Include="fractal.config.js" />
@@ -131,6 +130,9 @@
     <Content Include="src\codebase\components\callout\callout.config.yaml" />
     <Content Include="src\codebase\components\callout\callout.njk" />
     <Content Include="src\codebase\components\callout\_callout.scss" />
+    <Content Include="src\codebase\components\service-details\service-details.config.yaml" />
+    <Content Include="src\codebase\components\service-details\service-details.njk" />
+    <Content Include="src\codebase\components\service-details\_service-details.scss" />
     <Content Include="src\codebase\components\card\card.config.yaml" />
     <Content Include="src\codebase\components\card\card.njk" />
     <Content Include="src\codebase\components\card\_card.scss" />
@@ -259,6 +261,7 @@
     <Folder Include="src\codebase\components\app-panel\" />
     <Folder Include="src\codebase\components\button\" />
     <Folder Include="src\codebase\components\callout\" />
+    <Folder Include="src\codebase\components\service-details\" />
     <Folder Include="src\codebase\components\card\" />
     <Folder Include="src\codebase\components\feedback\" />
     <Folder Include="src\codebase\components\forms\" />

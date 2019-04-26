@@ -17,12 +17,19 @@ namespace NHS111.Models.Models.Web {
         protected ReferralResultViewModel(OutcomeViewModel outcomeModel) {
             OutcomeModel = outcomeModel;
         }
+
+        protected  string ResolveConfirmationViewByOutcome(OutcomeViewModel outcomeModel)
+        {
+            if (outcomeModel != null && outcomeModel.OutcomeGroup != null && outcomeModel.OutcomeGroup.Equals(Domain.OutcomeGroup.RepeatPrescription))
+                return outcomeModel.OutcomeGroup.Id;
+            return "default";
+        }
     }
 
     public class ReferralConfirmationResultViewModel
         : ReferralResultViewModel {
         public override string PageTitle { get { return "Referral Confirmed"; } }
-        public override string ViewName { get { return "Confirmation"; } }
+        public override string ViewName { get { return string.Format("Confirmation/{0}/Confirmation", ResolveConfirmationViewByOutcome(this.OutcomeModel)); } }
         public override string PartialViewName { get { return "_ReferralConfirmation"; } }
 
         public ReferralConfirmationResultViewModel(OutcomeViewModel outcomeModel)
@@ -30,6 +37,7 @@ namespace NHS111.Models.Models.Web {
             GoogleAnalyticsDataLayer = new ReferralConfirmationResultGoogleAnalyticsDataLayer(this);
         }
     }
+
 
     public class Call999ReferralConfirmationResultViewModel
         : ReferralConfirmationResultViewModel {
@@ -54,7 +62,7 @@ namespace NHS111.Models.Models.Web {
     public class ReferralFailureResultViewModel
         : ReferralResultViewModel {
         public override string PageTitle { get { return "Call NHS 111 - request for callback not completed"; } }
-        public override string ViewName { get { return "ServiceBookingFailure"; } }
+        public override string ViewName { get { return string.Format("Confirmation/{0}/ServiceBookingFailure", ResolveConfirmationViewByOutcome(this.OutcomeModel)); } }
         public override string PartialViewName { get { return "_ReferralFailure"; } }
 
         public ReferralFailureResultViewModel(OutcomeViewModel outcomeModel)

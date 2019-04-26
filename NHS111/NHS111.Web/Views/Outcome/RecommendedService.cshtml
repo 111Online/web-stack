@@ -1,0 +1,34 @@
+﻿@using NHS111.Models.Models.Web
+@inherits NHS111.Web.Views.Shared.SurveyLinkView<OutcomeViewModel>
+@{
+    ViewBag.Title = "RecommendedService";
+    Layout = "~/Views/Shared/_LayoutNhsUK.cshtml";
+}
+@section HeadTop {
+    @{ var url = string.Format("/outcome/{0}/{1}/{2}/recommendedservice/{3}", Url.Encode(Model.PathwayNo), Url.Encode(Model.OutcomeGroup.Text), Url.Encode(Model.Id), Url.Encode(Model.RecommendedService.Name)); }
+    <script>
+        var pageId = '@Model.Id';
+        dataLayer = [
+            {
+                'virtualPageUrl': '@url',
+                'virtualPageTitle': 'Recommended service'
+            }];
+    </script>
+}
+@section Title { NHS 111 - Recommended Service }
+@section FeedbackSection {
+    @Html.Partial("_FeedbackDetails", new FeedbackViewModel() { UserId = Model.SessionId.ToString(), PageData = new PageDataViewModel(PageDataViewModel.PageType.Outcome, Model) })
+}
+
+<div class="nhsuk-core">
+    @Html.Partial("_rs_Recommeded_DOS_Service", Model)
+    
+    @if (Model.DosCheckCapacitySummaryResult.Success.Services.Count > 1)
+    {
+        var dataDictionary = ViewContext.ViewData;
+        dataDictionary.TemplateInfo = new TemplateInfo() {HtmlFieldPrefix = "FindService"};
+        @Html.Partial("_rs_OtherServices", Model, dataDictionary);
+    }
+    @*@Html.Partial("_rs_CareAdvice", Model.CareAdvices)*@
+    @*@Html.Partial("_rs_WorseningAdvice", Model)*@
+</div>

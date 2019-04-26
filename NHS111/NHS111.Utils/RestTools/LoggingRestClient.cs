@@ -1,19 +1,17 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net;
-using System.Text;
 using System.Threading.Tasks;
 using log4net;
 using RestSharp;
 
 namespace NHS111.Utils.RestTools
 {
-    public class LoggingRestClient : RestClient, IRestClient
+    public class LoggingRestClient : RestClient
     {
         private readonly ILog _logger;
         public LoggingRestClient(string baseUrl, ILog logger) : base(baseUrl)
         {
+            ServicePointManager.DefaultConnectionLimit = 5;
             _logger = logger;
             InitializeSerialisationHandlers();
         }
