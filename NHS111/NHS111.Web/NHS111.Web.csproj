@@ -421,6 +421,7 @@
     <Content Include="Views\Location\ConfirmLocation.cshtml" />
     <Content Include="Views\Location\AskNHS.cshtml" />
     <Content Include="Views\Location\Babylon.cshtml" />
+    <Content Include="Views\Outcome\GP_Pharmacy.cshtml" />
     <Content Include="Views\Outcome\RecommendedService.cshtml" />
     <Content Include="Views\Shared\_rs_OtherServices.cshtml" />
     <Content Include="Views\Shared\_rs_CareAdvice.cshtml" />

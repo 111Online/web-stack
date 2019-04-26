@@ -72,7 +72,7 @@ namespace NHS111.Web.Helpers
                         if (OutcomeGroup.RequiresOutcomePreamble.Contains(model.OutcomeGroup))
                             viewFilePath += "Outcome_Preamble";
                         else
-                            viewFilePath += "RecommendedService"; 
+                            viewFilePath += "RecommendedService";
                     }
                     else
                         viewFilePath += model.OutcomeGroup.Id;
