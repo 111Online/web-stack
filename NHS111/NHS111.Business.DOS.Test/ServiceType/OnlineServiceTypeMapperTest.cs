@@ -489,7 +489,7 @@ namespace NHS111.Business.DOS.Test.ServiceType
             var result = await sut.Map(results, _postcode);
 
             Assert.AreEqual(1, result.Count);
-            Assert.AreEqual(OnlineDOSServiceType.ReferAndRing, result[0].OnlineDOSServiceType);
+            Assert.AreEqual(OnlineDOSServiceType.ReferRingAndGo, result[0].OnlineDOSServiceType);
         }
 
         [Test]

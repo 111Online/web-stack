@@ -1,9 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Nest;
 using NHS111.Models.Models.Web.FromExternalServices;
 
 namespace NHS111.Models.Models.Web
@@ -13,6 +8,7 @@ namespace NHS111.Models.Models.Web
         private const string CALLBACK_VIEW_NAME = "_rs_callback_type";
         private const string GOTO_VIEW_NAME = "_rs_goto_type";
         private const string PUBLICPHONE_VIEW_NAME = "_rs_phone_type";
+        private const string REFERRINGANDGO_VIEW_NAME = "rs_refer_ring_and_go";
         public ServiceTypeMapping(OnlineDOSServiceType typeGroup)
         {
             _typeGroup = typeGroup;
@@ -30,7 +26,9 @@ namespace NHS111.Models.Models.Web
                 if (_typeGroup == OnlineDOSServiceType.Callback) return CALLBACK_VIEW_NAME;
                 if (_typeGroup == OnlineDOSServiceType.GoTo) return GOTO_VIEW_NAME;
                 if (_typeGroup == OnlineDOSServiceType.PublicPhone) return PUBLICPHONE_VIEW_NAME;
-                throw new InvalidOperationException("Unknown serivcetype with no mapped renderer specified.");
+                if (_typeGroup == OnlineDOSServiceType.ReferRingAndGo) return REFERRINGANDGO_VIEW_NAME;
+
+                throw new InvalidOperationException("Unknown servicetype with no mapped renderer specified.");
             }
         }
     }

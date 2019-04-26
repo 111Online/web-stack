@@ -1,0 +1,37 @@
+﻿@using NHS111.Models.Models.Web
+@model  OutcomeViewModel
+@{
+    var services = Model.GroupedDosServices.First(s => s.OnlineDOSServiceType.IsReferral).Services;
+}
+
+<div class="cards">
+    @foreach (var callbackService in services)
+    {
+        <div class="card">
+            <h3>@WebUtility.HtmlDecode(callbackService.PublicName)</h3>
+
+            <p>
+                @foreach (String address in callbackService.AddressLines)
+                {
+                    @WebUtility.HtmlDecode(address)<br />
+                }
+            </p>
+
+            <p>@WebUtility.HtmlDecode(callbackService.Distance) miles away</p>
+
+            @Html.Partial("_ServiceOpeningTimes", callbackService, ViewData)
+
+            @using (Html.BeginForm("PersonalDetails", "Outcome", FormMethod.Post))
+            {
+                @Html.Partial("_CommonHiddenFieldsOutcomeViewModel", Model)
+                @Html.Partial("_CommonHiddenFieldsCareAdviceViewModel", Model)
+                @Html.Hidden("SelectedServiceId", @callbackService.Id)
+
+                <p>This service needs some more details from you.</p>
+                <hr />
+                <button type="submit" name="PersonalDetails" value="Refer me to this service">Refer me to this service</button>
+                @Html.Partial("_rs_ChangePostcodeLink")
+            }
+        </div>
+    }
+</div>
