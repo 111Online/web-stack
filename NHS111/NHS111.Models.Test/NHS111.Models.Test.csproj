@@ -154,7 +154,7 @@
     <Compile Include="Models\Web\ServiceViewModelTests\IsOpenTests.cs" />
     <Compile Include="Models\Web\ServiceViewModelTests\OpeningTimesTests.cs" />
     <Compile Include="Models\Web\ServiceViewModelTests\OpeningTimesMessageTests.cs" />
-    <Compile Include="Models\Web\FromExternalServices\OpenTimeSpecifiedRotaSessions.cs" />
+    <Compile Include="Models\Web\FromExternalServices\OpenTimeSpecifiedRotaSessionsTests.cs" />
     <Compile Include="Models\Web\ServiceViewModelTests\ServiceViewModelTestHelper.cs" />
     <Compile Include="Models\Web\ServiceViewModelTests\AddressParsingTests..cs" />
     <Compile Include="Models\Web\Validators\UserInfoValidatorTests.cs" />
