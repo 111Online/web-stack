@@ -158,7 +158,7 @@ namespace NHS111.Web.Controllers
 
         public void AutoSelectFirstItkService(OutcomeViewModel model)
         {
-            var service = model.DosCheckCapacitySummaryResult.Success.Services.FirstOrDefault(s => s.OnlineDOSServiceType == OnlineDOSServiceType.Callback);
+            var service = model.DosCheckCapacitySummaryResult.Success.Services.FirstOrDefault(s => s.OnlineDOSServiceType.IsReferral);
 
             if (service != null)
                 model.SelectedServiceId = service.Id.ToString();

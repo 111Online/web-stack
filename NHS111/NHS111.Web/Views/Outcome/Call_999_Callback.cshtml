@@ -86,7 +86,7 @@
     string selectedServiceId = "";
     if (Model.DosCheckCapacitySummaryResult.HasITKServices)
     {
-        selectedServiceId = Model.DosCheckCapacitySummaryResult.Success.Services.First(s => s.OnlineDOSServiceType == OnlineDOSServiceType.Callback).Id.ToString();
+        selectedServiceId = Model.DosCheckCapacitySummaryResult.Success.Services.First(s => s.OnlineDOSServiceType.IsReferral).Id.ToString();
     }
     @Html.Hidden("SelectedServiceId", selectedServiceId);
 

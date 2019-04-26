@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Net;
-using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Web;
 using NHS111.Business.DOS.Configuration;
@@ -25,22 +24,20 @@ namespace NHS111.Business.DOS.Service
 
         public async Task<List<BusinessModels.DosService>> Map(List<BusinessModels.DosService> resultsToMap, string postCode)
         {
-            const string phoneText = "You must telephone this service before attending";
-            const string goToText = "You can go straight to this service. You do not need to telephone beforehand";
-            var localITKWhiteList = await PopulateLocalCCGITKServiceIdWhitelist(postCode);
+           var localisedReferralWhiteList = await PopulateCCGReferralServiceIdWhitelist(postCode);
 
             foreach (var service in resultsToMap)
             {
-                if (localITKWhiteList.Contains(service.Id.ToString()))
-                    service.OnlineDOSServiceType = OnlineDOSServiceType.Callback;
+                if (localisedReferralWhiteList.Contains(service.Id.ToString())) { 
+                    service.OnlineDOSServiceType = SetCallbackType(service.ReferralText, service.ContactDetails);
+                }
                 else if (string.IsNullOrEmpty(service.ReferralText))
                     service.OnlineDOSServiceType = OnlineDOSServiceType.Unknown;
                 else
                 {
-                    if (service.ReferralText.RemovePunctuationAndWhitespace().Contains(phoneText.RemovePunctuationAndWhitespace()) 
-                        && !string.IsNullOrEmpty(service.ContactDetails))
+                    if (ReferralTextIncluded(service.ReferralText, OnlineDOSServiceType.PublicPhone.ReferralText) && !string.IsNullOrEmpty(service.ContactDetails))
                         service.OnlineDOSServiceType = OnlineDOSServiceType.PublicPhone;
-                    else if (service.ReferralText.RemovePunctuationAndWhitespace().Contains(goToText.RemovePunctuationAndWhitespace()))
+                    else if (ReferralTextIncluded(service.ReferralText, OnlineDOSServiceType.GoTo.ReferralText))
                         service.OnlineDOSServiceType = OnlineDOSServiceType.GoTo;
                     else
                         service.OnlineDOSServiceType = OnlineDOSServiceType.Unknown;
@@ -50,7 +47,24 @@ namespace NHS111.Business.DOS.Service
             return resultsToMap;
         }
 
-        private async Task<ServiceListModel> PopulateLocalCCGITKServiceIdWhitelist(string postCode)
+        private OnlineDOSServiceType SetCallbackType(string serviceReferralText, string contactDetails)
+        {
+            if (ReferralTextIncluded(serviceReferralText, OnlineDOSServiceType.ReferAndRing.ReferralText))
+            {
+                return !string.IsNullOrEmpty(contactDetails) ? OnlineDOSServiceType.ReferAndRing : OnlineDOSServiceType.Unknown;
+            }
+            
+            return OnlineDOSServiceType.Callback;
+        }
+
+        private bool ReferralTextIncluded(string serviceText, string typeText)
+        {
+            if (string.IsNullOrEmpty(serviceText) || string.IsNullOrEmpty(typeText)) return false;
+
+            return serviceText.RemovePunctuationAndWhitespace().Contains(typeText.RemovePunctuationAndWhitespace());
+        }
+
+        private async Task<ServiceListModel> PopulateCCGReferralServiceIdWhitelist(string postCode)
         {
             var response = await _restCCGApi.ExecuteTaskAsync<CCGDetailsModel>(
                     new RestRequest(string.Format(_configuration.CCGApiGetCCGDetailsByPostcode, postCode), Method.GET));

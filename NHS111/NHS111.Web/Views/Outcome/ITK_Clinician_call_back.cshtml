@@ -4,7 +4,7 @@
 @inherits NHS111.Web.Views.Shared.SurveyLinkView<OutcomeViewModel>
 @{
     Layout = "~/Views/Shared/_LayoutNhsUk.cshtml";
-    var noITKServicesAreAvailable = Model.DosCheckCapacitySummaryResult.ResultListEmpty || Model.DosCheckCapacitySummaryResult.Success.Services.All(s => s.OnlineDOSServiceType != OnlineDOSServiceType.Callback);
+    var noITKServicesAreAvailable = Model.DosCheckCapacitySummaryResult.ResultListEmpty || Model.DosCheckCapacitySummaryResult.Success.Services.All(s => !s.OnlineDOSServiceType.IsReferral);
 }
 
 @section Title { NHS 111 - Speak to a clinician }
@@ -122,7 +122,7 @@ else
         {
             @Html.Partial("_CommonHiddenFieldsOutcomeViewModel", Model)
             @Html.Partial("_CommonHiddenFieldsCareAdviceViewModel", Model)
-            @Html.Hidden("SelectedServiceId", Model.DosCheckCapacitySummaryResult.Success.Services.First(s => s.OnlineDOSServiceType == OnlineDOSServiceType.Callback).Id)
+            @Html.Hidden("SelectedServiceId", Model.DosCheckCapacitySummaryResult.Success.Services.First(s => s.OnlineDOSServiceType.IsReferral).Id)
 
             <hr />
             <button type="submit" name="PersonalDetails" value="Book a call">Book a nurse call</button>

@@ -164,6 +164,31 @@ namespace NHS111.Business.DOS.Test.ServiceType
                     ""contactDetailsField"": """"
                 }
             ]}";
+
+
+        private static readonly string CheckCapacitySummaryResultsReferAndRingReferralText = @"{
+            ""CheckCapacitySummaryResult"": [{
+                    ""idField"": 1419419101,
+                    ""nameField"": ""Test Service 1"",
+                    ""serviceTypeField"": {
+                        ""idField"": 100,
+                    },
+                    ""referralTextField"": ""This service accepts electronic referrals. You should ring before you go there"",
+                    ""contactDetailsField"": ""02355 444777""
+                }
+            ]}";
+
+        private static readonly string CheckCapacitySummaryResultsReferAndRingReferralTextEmptyContactDetails = @"{
+            ""CheckCapacitySummaryResult"": [{
+                    ""idField"": 1419419101,
+                    ""nameField"": ""Test Service 1"",
+                    ""serviceTypeField"": {
+                        ""idField"": 100,
+                    },
+                    ""referralTextField"": ""This service accepts electronic referrals. You should ring before you go there"",
+                    ""contactDetailsField"": """"
+                }
+            ]}";
         #endregion
 
         [SetUp]
@@ -449,6 +474,58 @@ namespace NHS111.Business.DOS.Test.ServiceType
             Assert.AreEqual(1, result.Count);
             Assert.AreEqual(OnlineDOSServiceType.Unknown, result[0].OnlineDOSServiceType);
         }
+
+        [Test]
+        public async void OnlineServiceTypeMapper_ReferAndRingEnabledForWhitelistedServiceId()
+        {
+            string whitelistUrl = string.Format(_localServiceIdWhiteListUrl, _postcode);
+            _restClient.Setup(r => r.ExecuteTaskAsync<CCGDetailsModel>(It.Is<RestRequest>(req => req.Resource.Equals(whitelistUrl)))).Returns(() => StartedTask((IRestResponse<CCGDetailsModel>)new RestResponse<CCGDetailsModel>() { StatusCode = HttpStatusCode.OK, ResponseStatus = ResponseStatus.Completed, Data = new CCGDetailsModel { ItkServiceIdWhitelist = new ServiceListModel { "1419419101" } } }));
+
+            var jObj = (JObject)JsonConvert.DeserializeObject(CheckCapacitySummaryResultsReferAndRingReferralText);
+            var results = jObj["CheckCapacitySummaryResult"].ToObject<List<Models.Models.Business.DosService>>();
+
+            //Act
+            var sut = new OnlineServiceTypeMapper(_restClient.Object, _mockConfiguration.Object);
+            var result = await sut.Map(results, _postcode);
+
+            Assert.AreEqual(1, result.Count);
+            Assert.AreEqual(OnlineDOSServiceType.ReferAndRing, result[0].OnlineDOSServiceType);
+        }
+
+        [Test]
+        public async void OnlineServiceTypeMapper_ReferAndRingUnknownForNonWhitelistedServiceId()
+        {
+            string whitelistUrl = string.Format(_localServiceIdWhiteListUrl, _postcode);
+            _restClient.Setup(r => r.ExecuteTaskAsync<CCGDetailsModel>(It.Is<RestRequest>(req => req.Resource.Equals(whitelistUrl)))).Returns(() => StartedTask((IRestResponse<CCGDetailsModel>)new RestResponse<CCGDetailsModel>() { StatusCode = HttpStatusCode.OK, ResponseStatus = ResponseStatus.Completed, Data = new CCGDetailsModel { ItkServiceIdWhitelist = new ServiceListModel { "1234" } } }));
+
+            var jObj = (JObject)JsonConvert.DeserializeObject(CheckCapacitySummaryResultsReferAndRingReferralText);
+            var results = jObj["CheckCapacitySummaryResult"].ToObject<List<Models.Models.Business.DosService>>();
+
+            //Act
+            var sut = new OnlineServiceTypeMapper(_restClient.Object, _mockConfiguration.Object);
+            var result = await sut.Map(results, _postcode);
+
+            Assert.AreEqual(1, result.Count);
+            Assert.AreEqual(OnlineDOSServiceType.Unknown, result[0].OnlineDOSServiceType);
+        }
+
+        [Test]
+        public async void OnlineServiceTypeMapper_UnknownReturnedForReferAndRingWithNoContactDetails()
+        {
+            string whitelistUrl = string.Format(_localServiceIdWhiteListUrl, _postcode);
+            _restClient.Setup(r => r.ExecuteTaskAsync<CCGDetailsModel>(It.Is<RestRequest>(req => req.Resource.Equals(whitelistUrl)))).Returns(() => StartedTask((IRestResponse<CCGDetailsModel>)new RestResponse<CCGDetailsModel>() { StatusCode = HttpStatusCode.OK, ResponseStatus = ResponseStatus.Completed, Data = new CCGDetailsModel { ItkServiceIdWhitelist = new ServiceListModel { "1419419101" } } }));
+
+            var jObj = (JObject)JsonConvert.DeserializeObject(CheckCapacitySummaryResultsReferAndRingReferralTextEmptyContactDetails);
+            var results = jObj["CheckCapacitySummaryResult"].ToObject<List<Models.Models.Business.DosService>>();
+
+            //Act
+            var sut = new OnlineServiceTypeMapper(_restClient.Object, _mockConfiguration.Object);
+            var result = await sut.Map(results, _postcode);
+
+            Assert.AreEqual(1, result.Count);
+            Assert.AreEqual(OnlineDOSServiceType.Unknown, result[0].OnlineDOSServiceType);
+        }
+
 
         private static Task<T> StartedTask<T>(T taskResult)
         {
