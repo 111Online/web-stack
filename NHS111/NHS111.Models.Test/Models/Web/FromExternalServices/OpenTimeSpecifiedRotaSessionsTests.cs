@@ -4,11 +4,10 @@ using NHS111.Models.Models.Web.Clock;
 using NHS111.Models.Models.Web.FromExternalServices;
 using NUnit.Framework;
 
-
 namespace NHS111.Models.Test.Models.Web.FromExternalServices
 {
     [TestFixture]
-    public class RotaSessionsAndSpecifiedSessions
+    public class RotaSessionsAndSpecifiedSessionsTests
     {
         private Mock<IClock> _IClock;
         private const string _status = "Open";
@@ -85,7 +84,7 @@ namespace NHS111.Models.Test.Models.Web.FromExternalServices
                     "26-01-2018-10:07-22:10",
                     "27-01-2018-*8:05-13:30"
                 },
-                RotaSessions = new[] 
+                RotaSessions = new[]
                 {
                     new ServiceCareItemRotaSession
                     {
@@ -225,7 +224,7 @@ namespace NHS111.Models.Test.Models.Web.FromExternalServices
                 {
                     "26-01-2018-08:05-13:30"
                 },
-                RotaSessions = new[] 
+                RotaSessions = new[]
                 {
                     new ServiceCareItemRotaSession
                     {
@@ -272,7 +271,7 @@ namespace NHS111.Models.Test.Models.Web.FromExternalServices
                     "29-01-2018-11:15-14:45",
                     "30-01-2018-22:25-23:35",
                 },
-                RotaSessions = new[] 
+                RotaSessions = new[]
                 {
                     new ServiceCareItemRotaSession
                     {
@@ -370,7 +369,7 @@ namespace NHS111.Models.Test.Models.Web.FromExternalServices
             //arrange
             DosService sut = new DosService(_IClock.Object)
             {
-                
+
             };
 
             //act
@@ -526,6 +525,62 @@ namespace NHS111.Models.Test.Models.Web.FromExternalServices
             Assert.AreEqual(8, result[0].StartTime.Hours);
             Assert.AreEqual(5, result[0].StartTime.Minutes);
             Assert.AreEqual(13, result[0].EndTime.Hours);
+            Assert.AreEqual(30, result[0].EndTime.Minutes);
+            Assert.AreEqual(_status, result[0].Status);
+        }
+
+        [Test]
+        public void OpenTimeSpecifiedSessions_OnlyRotaWithoutSpecified_ShowsRotaAndOpen()
+        {
+            //arrange
+            DosService sut = new DosService(_IClock.Object)
+            {
+                RotaSessions = new[] { new ServiceCareItemRotaSession{
+                        StartTime = new TimeOfDay{Hours=1,Minutes=0},
+                        StartDayOfWeek = NHS111.Models.Models.Web.FromExternalServices.DayOfWeek.Thursday,
+                        EndDayOfWeek = NHS111.Models.Models.Web.FromExternalServices.DayOfWeek.Thursday,
+                        EndTime = new TimeOfDay{Hours=15,Minutes=30},
+                        Status = "Open"
+                    }
+                }
+            };
+
+            //act
+            var result = sut.RotaSessionsAndSpecifiedSessions;
+
+            Assert.IsTrue(sut.IsOpen);
+            Assert.AreEqual(1, result.Length);
+            Assert.IsTrue(NHS111.Models.Models.Web.FromExternalServices.DayOfWeek.Thursday.Equals(result[0].StartDayOfWeek));
+            Assert.IsTrue(NHS111.Models.Models.Web.FromExternalServices.DayOfWeek.Thursday.Equals(result[0].EndDayOfWeek));
+            Assert.AreEqual(1, result[0].StartTime.Hours);
+            Assert.AreEqual(0, result[0].StartTime.Minutes);
+            Assert.AreEqual(15, result[0].EndTime.Hours);
+            Assert.AreEqual(30, result[0].EndTime.Minutes);
+            Assert.AreEqual(_status, result[0].Status);
+        }
+
+        [Test]
+        public void OpenTimeSpecifiedSessions_OnlySpecifiedWithoutRota_ShowsSpecifiedSessionAndOpen()
+        {
+            //arrange
+            DosService sut = new DosService(_IClock.Object)
+            {
+                OpenTimeSpecifiedSessions = new[]
+                {
+                    "25-01-2018-01:00-15:30"
+                }
+            };
+
+            //act
+            var result = sut.RotaSessionsAndSpecifiedSessions;
+
+            Assert.IsTrue(sut.IsOpen);
+            Assert.AreEqual(1, result.Length);
+            Assert.IsTrue(NHS111.Models.Models.Web.FromExternalServices.DayOfWeek.Thursday.Equals(result[0].StartDayOfWeek));
+            Assert.IsTrue(NHS111.Models.Models.Web.FromExternalServices.DayOfWeek.Thursday.Equals(result[0].EndDayOfWeek));
+            Assert.AreEqual(1, result[0].StartTime.Hours);
+            Assert.AreEqual(0, result[0].StartTime.Minutes);
+            Assert.AreEqual(15, result[0].EndTime.Hours);
             Assert.AreEqual(30, result[0].EndTime.Minutes);
             Assert.AreEqual(_status, result[0].Status);
         }
