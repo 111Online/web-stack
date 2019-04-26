@@ -49,9 +49,9 @@ namespace NHS111.Business.DOS.Service
 
         private OnlineDOSServiceType SetCallbackType(string serviceReferralText, string contactDetails)
         {
-            if (ReferralTextIncluded(serviceReferralText, OnlineDOSServiceType.ReferAndRing.ReferralText))
+            if (ReferralTextIncluded(serviceReferralText, OnlineDOSServiceType.ReferRingAndGo.ReferralText))
             {
-                return !string.IsNullOrEmpty(contactDetails) ? OnlineDOSServiceType.ReferAndRing : OnlineDOSServiceType.Unknown;
+                return !string.IsNullOrEmpty(contactDetails) ? OnlineDOSServiceType.ReferRingAndGo : OnlineDOSServiceType.Unknown;
             }
             
             return OnlineDOSServiceType.Callback;
