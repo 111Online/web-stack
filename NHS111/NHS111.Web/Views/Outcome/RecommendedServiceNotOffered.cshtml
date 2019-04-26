@@ -20,6 +20,7 @@
     @Html.Partial("_FeedbackDetails", new FeedbackViewModel() { UserId = Model.SessionId.ToString(), PageData = new PageDataViewModel(PageDataViewModel.PageType.Outcome, Model) })
 }
 
-<div class="nhsuk-core">
-    Call 111
+<div class="callout callout--attention measure nhsuk-u-margin-bottom-4">
+    <p>There are no services currently available near @Html.Raw(Model.FormattedCurrentPostcode)</p>
+    <p>Please call 111 for advice</p>
 </div>
