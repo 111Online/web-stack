@@ -1,14 +1,39 @@
-﻿namespace NHS111.Models.Models.Web.FromExternalServices
+﻿using Newtonsoft.Json;
+
+namespace NHS111.Models.Models.Web.FromExternalServices
 {
     public class OnlineDOSServiceType
     {
-        public readonly bool IsReferral;
-        public readonly string ReferralText;
+        [JsonProperty(PropertyName = "isReferral")]
+        public bool IsReferral { get; private set;  }
+
+        [JsonProperty(PropertyName = "referralText")]
+        public string ReferralText { get; private set; }
 
         private OnlineDOSServiceType(string referralText, bool isReferral)
         {
             ReferralText = referralText;
             IsReferral = isReferral;
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (!(obj is OnlineDOSServiceType))
+                return false;
+
+            var other = (OnlineDOSServiceType) obj;
+
+            return IsReferral == other.IsReferral && ReferralText == other.ReferralText;
+        }
+
+        public static bool operator ==(OnlineDOSServiceType x, OnlineDOSServiceType y)
+        {
+            return x.Equals(y);
+        }
+
+        public static bool operator !=(OnlineDOSServiceType x, OnlineDOSServiceType y)
+        {
+            return !(x == y);
         }
 
         public static OnlineDOSServiceType Unknown = new OnlineDOSServiceType(string.Empty, false);
