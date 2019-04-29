@@ -33,11 +33,19 @@ namespace NHS111.Web.Controllers
             return View(model);
         }
         
+
         [Route("Location")]
         [HttpPost]
         public ActionResult Location(LocationViewModel model)
         {
             return View(model);
+        }
+        
+        [Route("Location/ChangePostcode")]
+        [HttpGet]
+        public ActionResult ChangePostcode(LocationViewModel model)
+        {
+            return View("Location", model);
         }
 
         [HttpPost]
