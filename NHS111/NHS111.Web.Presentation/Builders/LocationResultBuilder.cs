@@ -13,14 +13,12 @@ namespace NHS111.Web.Presentation.Builders
 {
     public class LocationResultBuilder : ILocationResultBuilder
     {
-        private readonly IRestfulHelper _restfulHelper;
         private readonly IRestClient _restLocationService;
         private readonly IConfiguration _configuration;
         private const string SubscriptionKey = "Ocp-Apim-Subscription-Key";
 
-        public LocationResultBuilder(IRestfulHelper restfulHelper, IRestClient restLocationService, IConfiguration configuration)
+        public LocationResultBuilder(IRestClient restLocationService, IConfiguration configuration)
         {
-            _restfulHelper = restfulHelper;
             _configuration = configuration;
             _restLocationService = restLocationService;
         }

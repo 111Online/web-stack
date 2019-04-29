@@ -47,8 +47,7 @@ namespace NHS111.Business.DOS.Configuration
         {
             get
             {
-                return string.Format("{0}{1}", ConfigurationManager.AppSettings["DomainDOSApiBaseUrl"],
-                  ConfigurationManager.AppSettings["DomainDOSApiCheckCapacitySummaryUrl"]);
+                return ConfigurationManager.AppSettings["DomainDOSApiCheckCapacitySummaryUrl"];
             }
         }
 
@@ -56,8 +55,7 @@ namespace NHS111.Business.DOS.Configuration
         {
             get
             {
-                return string.Format("{0}{1}", ConfigurationManager.AppSettings["DomainDOSApiBaseUrl"],
-                  ConfigurationManager.AppSettings["DomainDOSApiServiceDetailsByIdUrl"]);
+                return ConfigurationManager.AppSettings["DomainDOSApiServiceDetailsByIdUrl"];
             }
         }
 
@@ -65,8 +63,7 @@ namespace NHS111.Business.DOS.Configuration
         {
             get
             {
-                return string.Format("{0}{1}", ConfigurationManager.AppSettings["DomainDOSApiBaseUrl"],
-                  ConfigurationManager.AppSettings["DomainDOSApiMonitorHealthUrl"]);
+                return ConfigurationManager.AppSettings["DomainDOSApiMonitorHealthUrl"];
 
             }
         }
@@ -75,8 +72,7 @@ namespace NHS111.Business.DOS.Configuration
         {
             get
             {
-                return string.Format("{0}{1}", ConfigurationManager.AppSettings["DomainDOSApiBaseUrl"],
-                    ConfigurationManager.AppSettings["DomainDOSApiServicesByClinicalTermUrl"]);
+                return ConfigurationManager.AppSettings["DomainDOSApiServicesByClinicalTermUrl"];
             }
         }
 

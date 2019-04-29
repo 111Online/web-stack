@@ -1,7 +1,9 @@
 ﻿
-namespace NHS111.Business.Api.Controllers {
+using System.Collections.Generic;
+using System.Web.Http.Results;
+using NHS111.Models.Models.Domain;
 
-    using System.Net.Http;
+namespace NHS111.Business.Api.Controllers {
     using System.Threading.Tasks;
     using System.Web.Http;
     using Services;
@@ -18,8 +20,10 @@ namespace NHS111.Business.Api.Controllers {
 
         [HttpGet]
         [Route("outcome/list")]
-        public async Task<HttpResponseMessage> List() {
-            return await _outcomeService.List().AsHttpResponse();
+        public async Task<JsonResult<IEnumerable<Outcome>>> List()
+        {
+            var outcomes = await _outcomeService.List();
+            return Json(outcomes);
         }
 
         private readonly IOutcomeService _outcomeService;

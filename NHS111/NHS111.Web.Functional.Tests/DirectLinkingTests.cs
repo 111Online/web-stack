@@ -27,12 +27,12 @@ namespace NHS111.Web.Functional.Tests
         {
             // Before 22:30 Dental Emergency UAT - Leeds, West Yorkshire (Unplanned Booking Service) should show
             var firstTime = TestScenarioPart.DirectLinking(Driver, "/question/direct/PW620FemaleAdult/19/Dentalinjury/LS177NZ/?answers=2,4,0,0,0,2,0,0,2,0&dossearchdatetime=2020-02-01 20:30");
-            firstTime.VerifyBookACall("1362471653");
+            firstTime.VerifyBookACall("2000015238");
 
             
             // After 22:30 NHS111 Dental Callback - Leeds should show
             var secondTime = TestScenarioPart.DirectLinking(Driver, "/question/direct/PW620FemaleAdult/19/Dentalinjury/LS177NZ/?answers=2,4,0,0,0,2,0,0,2,0&dossearchdatetime=2020-02-01 00:00");
-            secondTime.VerifyBookACall("1479808152");
+            secondTime.VerifyBookACall("2000015239");
         }
         
         [TestFixture]
@@ -43,8 +43,8 @@ namespace NHS111.Web.Functional.Tests
             public void Correct999Service()
             {
                 // 999 Validation page shows with correct service
-                var directLink = TestScenarioPart.DirectLinking(Driver, "/question/direct/PW755MaleAdult/20/Headache/LS17 7NZ/?answers=0,0,2,0,0&dos=uat");
-                directLink.VerifyBookACall("2000011527");
+                var directLink = TestScenarioPart.DirectLinking(Driver, "/question/direct/PW755MaleAdult/20/Headache/AL7 4HL/?answers=0,0,2,0,0&dos=uat");
+                directLink.VerifyBookACall("2000011053");
             }
 
             [Test]

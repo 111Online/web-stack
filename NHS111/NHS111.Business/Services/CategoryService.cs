@@ -1,32 +1,38 @@
 ﻿
+using System.Collections.Generic;
+using NHS111.Models.Models.Domain;
+using NHS111.Utils.RestTools;
+using RestSharp;
+
 namespace NHS111.Business.Services {
     using System.Threading.Tasks;
     using Configuration;
-    using Utils.Helpers;
 
     public class CategoryService
         : ICategoryService {
-        private readonly IRestfulHelper _restfulHelper;
+        private readonly IRestClient _restClient;
         private readonly IConfiguration _configuration;
 
-        public CategoryService(IRestfulHelper restfulHelper, IConfiguration configuration) {
-            _restfulHelper = restfulHelper;
+        public CategoryService(IRestClient restClientDomainApi, IConfiguration configuration) {
+            _restClient = restClientDomainApi;
             _configuration = configuration;
         }
 
-        public async Task<string> GetCategoriesWithPathways() {
-            return await _restfulHelper.GetAsync(_configuration.GetCategoriesWithPathwaysUrl());
+        public async Task<IEnumerable<CategoryWithPathways>> GetCategoriesWithPathways() {
+            var categories = await _restClient.ExecuteTaskAsync<IEnumerable<CategoryWithPathways>>(new JsonRestRequest(_configuration.GetCategoriesWithPathwaysUrl(), Method.GET));
+            return categories.Data;
         }
 
-        public async Task<string> GetCategoriesWithPathways(string gender, int age)
+        public async Task<IEnumerable<CategoryWithPathways>> GetCategoriesWithPathways(string gender, int age)
         {
-            return await _restfulHelper.GetAsync(_configuration.GetCategoriesWithPathwaysUrl(gender, age));
+            var categories = await _restClient.ExecuteTaskAsync<IEnumerable<CategoryWithPathways>>(new JsonRestRequest(_configuration.GetCategoriesWithPathwaysUrl(gender, age), Method.GET));
+            return categories.Data;
         }
 
     }
 
     public interface ICategoryService {
-        Task<string> GetCategoriesWithPathways();
-        Task<string> GetCategoriesWithPathways(string gender, int age);
+        Task<IEnumerable<CategoryWithPathways>> GetCategoriesWithPathways();
+        Task<IEnumerable<CategoryWithPathways>> GetCategoriesWithPathways(string gender, int age);
     }
 }

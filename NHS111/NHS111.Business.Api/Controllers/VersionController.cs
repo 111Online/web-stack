@@ -1,10 +1,11 @@
-﻿using System.Net.Http;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using System.Web.Http;
+using System.Web.Http.Results;
+using Newtonsoft.Json;
 using NHS111.Business.Services;
+using NHS111.Models.Models.Domain;
 using NHS111.Utils.Attributes;
 using NHS111.Utils.Cache;
-using NHS111.Utils.Extensions;
 
 namespace NHS111.Business.Api.Controllers
 {
@@ -21,24 +22,25 @@ namespace NHS111.Business.Api.Controllers
         }
 
         [Route("version")]
-        public async Task<HttpResponseMessage> Get(string cacheKey = null)
+        public async Task<JsonResult<VersionInfo>> Get(string cacheKey = null)
         {
-            #if !DEBUG
+#if !DEBUG
                 cacheKey = cacheKey ?? "version-info";
 
                 var cacheValue = await _cacheManager.Read(cacheKey);
                 if (!string.IsNullOrEmpty(cacheValue))
                 {
-                    return cacheValue.AsHttpResponse();
+                    return Json(JsonConvert.DeserializeObject<VersionInfo>(cacheValue));
                 }
-            #endif
+#endif
 
             var version = await _versionService.GetVersionInfo();
-            #if !DEBUG
-                _cacheManager.Set(cacheKey, version);
-            #endif
+#if !DEBUG
+                _cacheManager.Set(cacheKey, JsonConvert.SerializeObject(version));
+#endif
 
-            return await _versionService.GetVersionInfo().AsHttpResponse();
+            var versionInfo = await _versionService.GetVersionInfo();
+            return Json(versionInfo);
         }
     }
 }

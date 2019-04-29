@@ -18,29 +18,29 @@ namespace NHS111.Business.Services
             _pathwayService = pathwayService;
         }
 
-        public async Task<string> GetCorrection(string input, bool startingOnly)
+        public async Task<IEnumerable<GroupedPathways>> GetCorrection(string input, bool startingOnly)
         {
             input = input.ToLower();
-            var pathways = JsonConvert.DeserializeObject<List<GroupedPathways>>(await _pathwayService.GetPathways(true, startingOnly));
+            var pathways = await _pathwayService.GetGroupedPathways(true, startingOnly);
 
            return GetCorrection(pathways, input);
         }
 
-        public string GetCorrection(IEnumerable<GroupedPathways> pathwaysToFilter, string input)
+        public IEnumerable<GroupedPathways> GetCorrection(IEnumerable<GroupedPathways> pathwaysToFilter, string input)
         {
 
             input = input.ToLower();
             var pathways = pathwaysToFilter;
             var pathwaysMatches = pathways.Where(x => x.Group.ToLower().Contains(input)).ToList();
             if (!pathwaysMatches.Any())
-                return JsonConvert.SerializeObject(pathways);
-            return JsonConvert.SerializeObject(pathwaysMatches.Distinct(new PathwaysComparer()).OrderByDescending(x => x.Group));
+                return pathways;
+            return pathwaysMatches.Distinct(new PathwaysComparer()).OrderByDescending(x => x.Group);
         }
     }
 
     public interface ISearchCorrectionService
     {
-        Task<string> GetCorrection(string input, bool startingOnly);
-        string GetCorrection(IEnumerable<GroupedPathways> pathwaysToFilter, string input);
+        Task<IEnumerable<GroupedPathways>> GetCorrection(string input, bool startingOnly);
+        IEnumerable<GroupedPathways> GetCorrection(IEnumerable<GroupedPathways> pathwaysToFilter, string input);
     }
 }

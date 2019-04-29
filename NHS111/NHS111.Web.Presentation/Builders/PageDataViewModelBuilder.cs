@@ -8,18 +8,20 @@ using NHS111.Models.Models.Domain;
 using NHS111.Models.Models.Web;
 using NHS111.Utils.Helpers;
 using NHS111.Utils.Parser;
+using NHS111.Utils.RestTools;
 using NHS111.Web.Presentation.Configuration;
+using RestSharp;
 
 namespace NHS111.Web.Presentation.Builders
 {
-    public class PageDataViewModelBuilder : IPageDataViewModelBuilder
+    public class PageDataViewModelBuilder : BaseBuilder, IPageDataViewModelBuilder
     {
-        private readonly IRestfulHelper _restfulHelper;
+        private readonly IRestClient _restClient;
         private readonly IConfiguration _configuration;
 
-        public PageDataViewModelBuilder(IRestfulHelper restfulHelper, IConfiguration configuration)
+        public PageDataViewModelBuilder(IRestClient restClient, IConfiguration configuration)
         {
-            _restfulHelper = restfulHelper;
+            _restClient = restClient;
             _configuration = configuration;
         }
 
@@ -34,10 +36,12 @@ namespace NHS111.Web.Presentation.Builders
                 var currentPathwayNo = model.QuestionId.Split('.')[0];
                 if (!currentPathwayNo.Equals(model.StartingPathwayNo))
                 {
-                    var businessApiPathwayUrl =
-                        _configuration.GetBusinessApiPathwayIdUrl(currentPathwayNo, model.Gender, new AgeCategory(model.Age).MinimumAge);
-                    var response = await _restfulHelper.GetAsync(businessApiPathwayUrl);
-                    currentPathway = JsonConvert.DeserializeObject<Pathway>(response);
+                    var businessApiPathwayUrl = _configuration.GetBusinessApiPathwayIdUrl(currentPathwayNo, model.Gender, new AgeCategory(model.Age).MinimumAge);
+                    var response = await _restClient.ExecuteTaskAsync<Pathway>(new JsonRestRequest(businessApiPathwayUrl, Method.GET));
+
+                    CheckResponse(response);
+
+                    currentPathway = response.Data;
                 }
             }
             model.PathwayNo = (currentPathway != null) ? currentPathway.PathwayNo : string.Empty;

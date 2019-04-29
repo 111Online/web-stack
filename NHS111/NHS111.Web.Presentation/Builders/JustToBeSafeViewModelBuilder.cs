@@ -9,6 +9,8 @@ using NHS111.Models.Models.Domain;
 using NHS111.Models.Models.Web;
 using NHS111.Models.Models.Web.FromExternalServices;
 using NHS111.Utils.Helpers;
+using NHS111.Utils.RestTools;
+using RestSharp;
 using IConfiguration = NHS111.Web.Presentation.Configuration.IConfiguration;
 
 namespace NHS111.Web.Presentation.Builders
@@ -17,18 +19,17 @@ namespace NHS111.Web.Presentation.Builders
     using System.Text;
     using System.Web;
 
-    public class JustToBeSafeViewModelBuilder : IJustToBeSafeViewModelBuilder
+    public class JustToBeSafeViewModelBuilder : BaseBuilder, IJustToBeSafeViewModelBuilder
     {
         private readonly IConfiguration _configuration;
         private readonly IMappingEngine _mappingEngine;
-        private readonly IRestfulHelper _restfulHelper;
+        private readonly IRestClient _restClient;
         private readonly IJourneyViewModelBuilder _journeyViewModelBuilder;
 
-        public JustToBeSafeViewModelBuilder(IJourneyViewModelBuilder journeyViewModelBuilder, IRestfulHelper restfulHelper,
-            IConfiguration configuration, IMappingEngine mappingEngine)
+        public JustToBeSafeViewModelBuilder(IJourneyViewModelBuilder journeyViewModelBuilder, IRestClient restClient, IConfiguration configuration, IMappingEngine mappingEngine)
         {
             _journeyViewModelBuilder = journeyViewModelBuilder;
-            _restfulHelper = restfulHelper;
+            _restClient = restClient;
             _configuration = configuration;
             _mappingEngine = mappingEngine;
         }
@@ -59,15 +60,18 @@ namespace NHS111.Web.Presentation.Builders
                         }).ToList()
                 });
 
-            var questionsJson = await _restfulHelper.GetAsync(_configuration.GetBusinessApiJustToBeSafePartTwoUrl(model.PathwayId,
-                model.SelectedQuestionId ?? "", String.Join(",", questionsWithAnswers.Select(question => question.Question.Id)), selectedQuestion != null && selectedQuestion.Answers.Count > 3));
+            var url = _configuration.GetBusinessApiJustToBeSafePartTwoUrl(model.PathwayId,
+                model.SelectedQuestionId ?? "",
+                String.Join(",", questionsWithAnswers.Select(question => question.Question.Id)),
+                selectedQuestion != null && selectedQuestion.Answers.Count > 3);
+            var response = await _restClient.ExecuteTaskAsync<IEnumerable<QuestionWithAnswers>>(new JsonRestRequest(url, Method.GET));
 
-            var questions = JsonConvert.DeserializeObject<List<QuestionWithAnswers>>(questionsJson);
+            CheckResponse(response);
+
+            var questions = response.Data.ToList();
             journey.Steps = journey.Steps.Where(step => !questions.Exists(question => question.Question.Id == step.QuestionId)).ToList();
 
-            return await BuildNextAction(questions, journey, model, selectedAnswer, selectedQuestion, questionsJson);
-
-
+            return await BuildNextAction(questions, journey, model, selectedAnswer, selectedQuestion, JsonConvert.SerializeObject(response.Data));
         }
 
         public async Task<Tuple<string, JourneyViewModel>> BuildNextAction(List<QuestionWithAnswers> questions, Journey journey, JustToBeSafeViewModel model, Answer selectedAnswer, QuestionWithAnswers selectedQuestion, string questionsJson)
@@ -128,15 +132,16 @@ namespace NHS111.Web.Presentation.Builders
 
         private async Task<QuestionWithAnswers> GetNextNode(QuestionViewModel model) {
             var answer = JsonConvert.DeserializeObject<Answer>(model.SelectedAnswer);
-            var request = new HttpRequestMessage {
-                Content =
-                    new StringContent(JsonConvert.SerializeObject(answer.Title), Encoding.UTF8, "application/json")
-            };
             var serialisedState = HttpUtility.UrlEncode(JsonConvert.SerializeObject(model.State));
-            var businessApiNextNodeUrl = _configuration.GetBusinessApiNextNodeUrl(model.PathwayId, model.NodeType, model.Id,
-                serialisedState);
-            var response = await _restfulHelper.PostAsync(businessApiNextNodeUrl, request);
-            return JsonConvert.DeserializeObject<QuestionWithAnswers>(await response.Content.ReadAsStringAsync());
+            var businessApiNextNodeUrl = _configuration.GetBusinessApiNextNodeUrl(model.PathwayId, model.NodeType, model.Id, serialisedState);
+
+            var request = new JsonRestRequest(businessApiNextNodeUrl, Method.POST);
+            request.AddJsonBody(answer.Title);
+            var response = await _restClient.ExecuteTaskAsync<QuestionWithAnswers>(request);
+
+            CheckResponse(response);
+
+            return response.Data;
         }
 
     }
