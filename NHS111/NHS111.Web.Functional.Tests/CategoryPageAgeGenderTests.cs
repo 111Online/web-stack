@@ -87,7 +87,7 @@ namespace NHS111.Web.Functional.Tests
             categoryPage.VerifyPathwayInCategoryList("Wound problems", "PW1776FemaleChild");
             categoryPage.VerifyPathwayInCategoryList("Stomach or side injury", "PW500FemaleChild");
             categoryPage.VerifyPathwayInCategoryList("Stomach or side injury with a cut or wound", "PW508FemaleChild");
-            categoryPage.VerifyPathwayInCategoryList("Stomach pain", "PW517FemaleChild");
+            categoryPage.VerifyPathwayInCategoryList("Stomach ache or pain", "PW517FemaleChild");
             categoryPage.VerifyPathwayInCategoryList("Chest pain", "PA21FemaleChild");
             categoryPage.VerifyPathwayInCategoryList("Chemical burns", "PW564FemaleChild");
             categoryPage.VerifyPathwayInCategoryList("Toothache after an injury", "PW572FemaleChild");
@@ -212,7 +212,7 @@ namespace NHS111.Web.Functional.Tests
             categoryPage.VerifyPathwayInCategoryList("Wound problems", "PW1776FemaleAdult");
             categoryPage.VerifyPathwayInCategoryList("Stomach or side injury", "PW500FemaleAdult");
             categoryPage.VerifyPathwayInCategoryList("Stomach or side injury with a cut or wound", "PW508FemaleAdult");
-            categoryPage.VerifyPathwayInCategoryList("Stomach pain", "PW516FemaleAdult");
+            categoryPage.VerifyPathwayInCategoryList("Stomach ache or pain", "PW516FemaleAdult");
             categoryPage.VerifyPathwayInCategoryList("Chest pain", "PA21FemaleAdult");
             categoryPage.VerifyPathwayInCategoryList("Chemical burns", "PW564FemaleAdult");
             categoryPage.VerifyPathwayInCategoryList("Toothache after an injury", "PW572FemaleAdult");
@@ -337,7 +337,7 @@ namespace NHS111.Web.Functional.Tests
             categoryPage.VerifyPathwayInCategoryList("Wound problems", "PW1776MaleChild");
             categoryPage.VerifyPathwayInCategoryList("Stomach or side injury", "PW503MaleChild");
             categoryPage.VerifyPathwayInCategoryList("Stomach or side injury with a cut or wound", "PW511MaleChild");
-            categoryPage.VerifyPathwayInCategoryList("Stomach pain", "PW520MaleChild");
+            categoryPage.VerifyPathwayInCategoryList("Stomach ache or pain", "PW520MaleChild");
             categoryPage.VerifyPathwayInCategoryList("Chest pain", "PA21MaleChild");
             categoryPage.VerifyPathwayInCategoryList("Chemical burns", "PW564MaleChild");
             categoryPage.VerifyPathwayInCategoryList("Toothache after an injury", "PW572MaleChild");
@@ -458,7 +458,7 @@ namespace NHS111.Web.Functional.Tests
             categoryPage.VerifyPathwayInCategoryList("Wound problems", "PW1776MaleAdult");
             categoryPage.VerifyPathwayInCategoryList("Stomach or side injury", "PW503MaleAdult");
             categoryPage.VerifyPathwayInCategoryList("Stomach or side injury with a cut or wound", "PW511MaleAdult");
-            categoryPage.VerifyPathwayInCategoryList("Stomach pain", "PW519MaleAdult");
+            categoryPage.VerifyPathwayInCategoryList("Stomach ache or pain", "PW519MaleAdult");
             categoryPage.VerifyPathwayInCategoryList("Chest pain", "PA21MaleAdult");
             categoryPage.VerifyPathwayInCategoryList("Chemical burns", "PW564MaleAdult");
             categoryPage.VerifyPathwayInCategoryList("Toothache after an injury", "PW572MaleAdult");
