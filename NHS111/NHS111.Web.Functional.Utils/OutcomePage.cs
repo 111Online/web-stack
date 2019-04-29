@@ -21,6 +21,8 @@ namespace NHS111.Web.Functional.Utils
 
         public OutcomePage(IWebDriver driver) : base(driver)
         {
+            // Opens all DOS groupings
+            ((IJavaScriptExecutor)driver).ExecuteScript("[...document.querySelectorAll('#availableServices details')].map((val) => val.setAttribute('open', true))");
         }
 
         public override OutcomePage EnterPostCodeAndSubmit(string postcode)
