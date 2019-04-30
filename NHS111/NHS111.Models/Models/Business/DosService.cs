@@ -11,13 +11,8 @@ namespace NHS111.Models.Models.Business
         public DosService(IClock clock) : base(clock)
         { }
 
-        private OnlineDOSServiceType _onlineDosServiceType = OnlineDOSServiceType.Unknown;
-
         [JsonProperty(PropertyName = "onlineDosServiceType")]
         public OnlineDOSServiceType OnlineDOSServiceType
-        {
-            get { return _onlineDosServiceType; }
-            set { _onlineDosServiceType = value; }
-        }
+        { get; set; }
     }
 }
