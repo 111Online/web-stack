@@ -15,9 +15,8 @@ namespace NHS111.Utils.Filters
             if (filterContext.HttpContext.Response.HeadersWritten)
                 return;
 
-            var param = filterContext.ActionParameters.Values.FirstOrDefault(p => p is LocationViewModel);
-
-            var model = param as JourneyViewModel;
+            var model = filterContext.ActionParameters.Values.OfType<JourneyViewModel>().First();
+            
             if (model == null)
                 return;
 
