@@ -14,10 +14,17 @@ namespace NHS111.Models.Models.Web.FromExternalServices
             get { return _id; }
             set
             {
-                OnlineDOSServiceType type;
-                TypeList.TryGetValue(value, out type);
+                if (string.IsNullOrEmpty(value))
+                {
+                    this = Unknown;
+                }
+                else
+                {
+                    OnlineDOSServiceType type;
+                    TypeList.TryGetValue(value, out type);
 
-                this = type;
+                    this = type;
+                }
             }
         }
 
@@ -48,7 +55,7 @@ namespace NHS111.Models.Models.Web.FromExternalServices
             return !(x.Equals(y));
         }
 
-        public static OnlineDOSServiceType Unknown = new OnlineDOSServiceType("Unknown", string.Empty, false);
+        public static OnlineDOSServiceType Unknown = new OnlineDOSServiceType();
         public static OnlineDOSServiceType Callback = new OnlineDOSServiceType("Callback", string.Empty, true);
         public static OnlineDOSServiceType GoTo = new OnlineDOSServiceType("GoTo","You can go straight to this service. You do not need to telephone beforehand", false);
         public static OnlineDOSServiceType PublicPhone = new OnlineDOSServiceType("PublicPhone","You must telephone this service before attending", false);
@@ -56,7 +63,6 @@ namespace NHS111.Models.Models.Web.FromExternalServices
 
         public static Dictionary<string, OnlineDOSServiceType> TypeList = new Dictionary<string, OnlineDOSServiceType>
         {
-            { Unknown.Id, Unknown },
             { Callback.Id, Callback },
             { GoTo.Id, GoTo },
             { PublicPhone.Id, PublicPhone },
