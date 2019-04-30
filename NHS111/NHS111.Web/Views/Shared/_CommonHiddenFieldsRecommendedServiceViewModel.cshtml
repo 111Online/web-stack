@@ -11,8 +11,8 @@
 @Html.HiddenFor(m => Model.OdsCode)
 @Html.HiddenFor(m => Model.PostCode)
 @Html.HiddenFor(m => Model.OpenAllHours)
-@Html.HiddenFor(m => Model.OnlineDOSServiceType.IsReferral)
-@Html.HiddenFor(m => Model.OnlineDOSServiceType.ReferralText)
+@Html.HiddenFor(m => Model.OnlineDOSServiceType.Id)
+
 @if (Model.RotaSessions != null)
 {
     for (var j = 0; j < Model.RotaSessions.Length; j++)
