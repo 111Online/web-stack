@@ -28,7 +28,7 @@ namespace NHS111.Web.Controllers
         }
 
         [HttpGet, SetSessionIdFilter]
-        public ActionResult Home(JourneyViewModel model)
+        public ActionResult Home(LocationViewModel model)
         {
             return View(model);
         }
