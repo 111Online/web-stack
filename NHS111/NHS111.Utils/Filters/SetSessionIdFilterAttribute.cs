@@ -15,7 +15,7 @@ namespace NHS111.Utils.Filters
             if (filterContext.HttpContext.Response.HeadersWritten)
                 return;
 
-            var model = filterContext.ActionParameters.Values.OfType<JourneyViewModel>().First();
+            var model = filterContext.ActionParameters.Values.OfType<JourneyViewModel>().FirstOrDefault();
             
             if (model == null)
                 return;
