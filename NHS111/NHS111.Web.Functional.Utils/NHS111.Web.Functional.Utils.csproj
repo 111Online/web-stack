@@ -72,6 +72,7 @@
     <Compile Include="CookiesStatementPage.cs" />
     <Compile Include="Expert24Page.cs" />
     <Compile Include="DirectLinking.cs" />
+    <Compile Include="LocationPage.cs" />
     <Compile Include="ScreenShot\IScreenShotMaker.cs" />
     <Compile Include="ScreenShot\IScreenShotPage.cs" />
     <Compile Include="ISubmitPostcodeResult.cs" />

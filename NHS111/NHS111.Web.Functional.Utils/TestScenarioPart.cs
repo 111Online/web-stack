@@ -30,12 +30,15 @@ namespace NHS111.Web.Functional.Utils
             directLink.Visit(path);
             return directLink;
         }
-
-
-        public static ModuleZeroPage ModuleZero(HomePage page)
+      
+        public static LocationPage Location(HomePage page)
         {
-            return page.EnterPostcode("LS177NZ")
-                .ClickNext() as ModuleZeroPage;
+            return page.ClickStart() as LocationPage;
+        }
+
+        public static ModuleZeroPage ModuleZero(LocationPage page)
+        {
+            return page.EnterPostcode("LS177NZ").ClickNext() as ModuleZeroPage;
         }
 
         public static DemographicsPage Demographics(ModuleZeroPage page)
