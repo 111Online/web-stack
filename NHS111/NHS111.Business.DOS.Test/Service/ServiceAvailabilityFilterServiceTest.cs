@@ -10,7 +10,6 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using NHS111.Business.DOS.EndpointFilter;
 using NHS111.Business.DOS.Service;
-using NHS111.Business.DOS.WhitelistFilter;
 using NHS111.Models.Models.Web.DosRequests;
 using NodaTime;
 using NUnit.Framework;
@@ -27,7 +26,6 @@ namespace NHS111.Business.DOS.Test.Service
         private Mock<IFilterServicesFeature> _mockFilterServicesFeature;
         private Mock<IOnlineServiceTypeFilter> _mockServiceTypeFilter;
         private Mock<IOnlineServiceTypeMapper> _mockServiceTypeMapper;
-        private Mock<IServiceWhitelistFilter> _mockServiceWhitelistFilter;
         private Mock<IPublicHolidayService> _mockPublicHolidayService;
         private Mock<ISearchDistanceService> _mocSearchDistanceService;
 
@@ -84,7 +82,6 @@ namespace NHS111.Business.DOS.Test.Service
             _mockFilterServicesFeature = new Mock<IFilterServicesFeature>();
             _mockServiceTypeFilter = new Mock<IOnlineServiceTypeFilter>();
             _mockServiceTypeMapper = new Mock<IOnlineServiceTypeMapper>();
-            _mockServiceWhitelistFilter = new Mock<IServiceWhitelistFilter>();
 
             _mockPublicHolidayService = new Mock<IPublicHolidayService>();
 
@@ -128,7 +125,7 @@ namespace NHS111.Business.DOS.Test.Service
 
             _mockFilterServicesFeature.Setup(c => c.IsEnabled).Returns(true);
 
-            var sut = new ServiceAvailabilityFilterService(_mockDosService.Object, _mockConfiguration.Object, _mockServiceAvailabilityProfileManager.Object, _mockFilterServicesFeature.Object, _mockServiceWhitelistFilter.Object, _mockServiceTypeMapper.Object, _mockServiceTypeFilter.Object, _mockPublicHolidayService.Object, _mocSearchDistanceService.Object);
+            var sut = new ServiceAvailabilityFilterService(_mockDosService.Object, _mockConfiguration.Object, _mockServiceAvailabilityProfileManager.Object, _mockFilterServicesFeature.Object, _mockServiceTypeMapper.Object, _mockServiceTypeFilter.Object, _mockPublicHolidayService.Object, _mocSearchDistanceService.Object);
 
             //Act
             var result = await sut.GetFilteredServices(fakeDoSFilteredCase, true, null);

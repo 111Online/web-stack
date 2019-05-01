@@ -8,7 +8,6 @@ using Moq;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using NHS111.Business.DOS.Service;
-using NHS111.Business.DOS.WhitelistFilter;
 using NHS111.Models.Models.Web.CCG;
 using NUnit.Framework;
 using RestSharp;
