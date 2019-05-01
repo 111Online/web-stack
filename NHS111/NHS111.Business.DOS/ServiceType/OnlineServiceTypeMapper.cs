@@ -4,6 +4,7 @@ using System.Net;
 using System.Threading.Tasks;
 using System.Web;
 using NHS111.Business.DOS.Configuration;
+using NHS111.Business.DOS.WhiteListPopulator;
 using NHS111.Models.Models.Web.CCG;
 using NHS111.Models.Models.Web.FromExternalServices;
 using RestSharp;
@@ -13,18 +14,16 @@ namespace NHS111.Business.DOS.Service
 {
     public class OnlineServiceTypeMapper : IOnlineServiceTypeMapper
     {
-        private readonly IRestClient _restCCGApi;
-        private readonly IConfiguration _configuration;
+        private readonly IWhiteListPopulator _whiteListPopulator;
 
-        public OnlineServiceTypeMapper(IRestClient restCCGApi, IConfiguration configuration)
+        public OnlineServiceTypeMapper(IWhiteListPopulator whiteListPopulator)
         {
-            _restCCGApi = restCCGApi;
-            _configuration = configuration;
+            _whiteListPopulator = whiteListPopulator;
         }
 
         public async Task<List<BusinessModels.DosService>> Map(List<BusinessModels.DosService> resultsToMap, string postCode)
         {
-           var localisedReferralWhiteList = await PopulateCCGReferralServiceIdWhitelist(postCode);
+           var localisedReferralWhiteList = await _whiteListPopulator.PopulateCCGWhitelist(postCode);
 
             foreach (var service in resultsToMap)
             {
@@ -62,20 +61,6 @@ namespace NHS111.Business.DOS.Service
             if (string.IsNullOrEmpty(serviceText) || string.IsNullOrEmpty(typeText)) return false;
 
             return serviceText.RemovePunctuationAndWhitespace().Contains(typeText.RemovePunctuationAndWhitespace());
-        }
-
-        private async Task<ServiceListModel> PopulateCCGReferralServiceIdWhitelist(string postCode)
-        {
-            var response = await _restCCGApi.ExecuteTaskAsync<CCGDetailsModel>(
-                    new RestRequest(string.Format(_configuration.CCGApiGetCCGDetailsByPostcode, postCode), Method.GET));
-
-                if (response.StatusCode != HttpStatusCode.OK)
-            throw new HttpException("CCG Service Error Response");
-
-                if (response.Data != null && response.Data.ReferralServiceIdWhitelist != null)
-            return response.Data.ReferralServiceIdWhitelist;
-
-            return new ServiceListModel();
         }
     }
 

@@ -107,6 +107,9 @@
     <Compile Include="Service\PublicHolidayService.cs" />
     <Compile Include="Service\SearchDistanceService.cs" />
     <Compile Include="Service\ServiceAvailabilityFilterService.cs" />
+    <Compile Include="WhiteListPopulator\IWhiteListPopulator.cs" />
+    <Compile Include="WhiteListPopulator\ReferralServicesWhiteListPopulator.cs" />
+    <Compile Include="WhiteListPopulator\WhiteListPopulatorManager.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\NHS111.Features\NHS111.Features.csproj">
