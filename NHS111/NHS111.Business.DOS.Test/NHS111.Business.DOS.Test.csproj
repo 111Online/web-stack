@@ -88,7 +88,6 @@
     <Compile Include="ServiceType\OnlineServiceTypeFilterTest.cs" />
     <Compile Include="Service\PublicHolidayServiceTest.cs" />
     <Compile Include="Service\SearchDistanceServiceTests.cs" />
-    <Compile Include="Whitelist\ServiceWhitelistFilterTest.cs" />
     <Compile Include="ServiceType\OnlineServiceTypeMapperTest.cs" />
     <Compile Include="Service\ServiceAvailabilityFilterServiceTest.cs" />
   </ItemGroup>
