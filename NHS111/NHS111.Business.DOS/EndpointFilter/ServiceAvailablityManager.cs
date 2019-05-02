@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using NHS111.Business.DOS.Configuration;
+using NHS111.Business.DOS.DispositionMapper;
 using NHS111.Models.Models.Web.DosRequests;
 using NodaTime;
 using NHS111.Models.Models.Business;
@@ -11,77 +12,80 @@ namespace NHS111.Business.DOS.EndpointFilter
     public class ServiceAvailablityManager : IServiceAvailabilityManager
     {
         private IConfiguration _configuration;
-        public ServiceAvailablityManager(IConfiguration configuration)
+        private IDispositionMapper _dispositionMapper;
+
+        public ServiceAvailablityManager(IConfiguration configuration, IDispositionMapper dispositionMapper)
         {
             _configuration = configuration;
+            _dispositionMapper = dispositionMapper;
         }
 
         public IServiceAvailability FindServiceAvailability(DosFilteredCase dosFilteredCase)
         {
-            if (IsDentalDispoition(dosFilteredCase.Disposition)) return new DentalServiceAvailability(FindServiceAvailabilityProfile(dosFilteredCase.Disposition), dosFilteredCase.DispositionTime, dosFilteredCase.DispositionTimeFrameMinutes);
-            if (IsPrimaryCareDispoition(dosFilteredCase.Disposition)) return new PrimaryCareServiceAvailability(FindServiceAvailabilityProfile(dosFilteredCase.Disposition), dosFilteredCase.DispositionTime, dosFilteredCase.DispositionTimeFrameMinutes);
-            if (IsRepeatPrescriptionDisposition(dosFilteredCase.Disposition)) return new RepeatPrescriptionServiceAvailability(FindServiceAvailabilityProfile(dosFilteredCase.Disposition), dosFilteredCase.DispositionTime, dosFilteredCase.DispositionTimeFrameMinutes);
-            if (IsGenericDisposition(dosFilteredCase.Disposition)) return new GenericServiceAvailability(FindServiceAvailabilityProfile(dosFilteredCase.Disposition), dosFilteredCase.DispositionTime, dosFilteredCase.DispositionTimeFrameMinutes);
+            if (_dispositionMapper.IsDentalDisposition(dosFilteredCase.Disposition)) return new DentalServiceAvailability(FindServiceAvailabilityProfile(dosFilteredCase.Disposition), dosFilteredCase.DispositionTime, dosFilteredCase.DispositionTimeFrameMinutes);
+            if (_dispositionMapper.IsPrimaryCareDisposition(dosFilteredCase.Disposition)) return new PrimaryCareServiceAvailability(FindServiceAvailabilityProfile(dosFilteredCase.Disposition), dosFilteredCase.DispositionTime, dosFilteredCase.DispositionTimeFrameMinutes);
+            if (_dispositionMapper.IsRepeatPrescriptionDisposition(dosFilteredCase.Disposition)) return new RepeatPrescriptionServiceAvailability(FindServiceAvailabilityProfile(dosFilteredCase.Disposition), dosFilteredCase.DispositionTime, dosFilteredCase.DispositionTimeFrameMinutes);
+            if (_dispositionMapper.IsGenericDisposition(dosFilteredCase.Disposition)) return new GenericServiceAvailability(FindServiceAvailabilityProfile(dosFilteredCase.Disposition), dosFilteredCase.DispositionTime, dosFilteredCase.DispositionTimeFrameMinutes);
             return new ServiceAvailability(FindServiceAvailabilityProfile(dosFilteredCase.Disposition), dosFilteredCase.DispositionTime, dosFilteredCase.DispositionTimeFrameMinutes);
         }
 
         private IServiceAvailabilityProfile FindServiceAvailabilityProfile(int dxCode)
         {
-           
-            var primaryCareServiceTypeIdBlackist = ConvertPipeDeliminatedString(_configuration.FilteredPrimaryCareDosServiceIds);
-            var dentalServiceTypeIdBlackist = ConvertPipeDeliminatedString(_configuration.FilteredDentalDosServiceIds);
-            var clinicianCallbackServiceTypeIdBlackist = ConvertPipeDeliminatedString(_configuration.FilteredClinicianCallbackDosServiceIds);
-            var repeatPrescriptionServiceTypeIdBlackist = ConvertPipeDeliminatedString(_configuration.FilteredRepeatPrescriptionDosServiceIds);
-            var genericServiceTypeIdBlackList = ConvertPipeDeliminatedString(_configuration.FilteredGenericDosServiceIds);
+            if (_dispositionMapper.IsPrimaryCareDisposition(dxCode))
+            {
+                var primaryCareServiceTypeIdBlackList = _dispositionMapper.ConvertDispositionString(_configuration.FilteredPrimaryCareDosServiceIds);
+                
+                return new ServiceAvailabilityProfile(
+                    new PrimaryCareProfileHoursOfOperation(_configuration.WorkingDayPrimaryCareInHoursStartTime,
+                        _configuration.WorkingDayPrimaryCareInHoursShoulderEndTime,
+                        _configuration.WorkingDayPrimaryCareInHoursEndTime, _configuration),
+                    primaryCareServiceTypeIdBlackList);
+            }
 
-            if (IsPrimaryCareDispoition(dxCode)) return new ServiceAvailabilityProfile(
-                new PrimaryCareProfileHoursOfOperation(_configuration.WorkingDayPrimaryCareInHoursStartTime, _configuration.WorkingDayPrimaryCareInHoursShoulderEndTime, _configuration.WorkingDayPrimaryCareInHoursEndTime, _configuration), primaryCareServiceTypeIdBlackist);
+            if (_dispositionMapper.IsDentalDisposition(dxCode))
+            {
+                var dentalServiceTypeIdBlackList =
+                    _dispositionMapper.ConvertDispositionString(_configuration.FilteredDentalDosServiceIds);
 
-            if (IsDentalDispoition(dxCode)) return new ServiceAvailabilityProfile(
-                new DentalProfileHoursOfOperation(_configuration.WorkingDayDentalInHoursStartTime, _configuration.WorkingDayDentalInHoursShoulderEndTime, _configuration.WorkingDayDentalInHoursEndTime, _configuration), dentalServiceTypeIdBlackist);
+                return new ServiceAvailabilityProfile(
+                    new DentalProfileHoursOfOperation(_configuration.WorkingDayDentalInHoursStartTime,
+                        _configuration.WorkingDayDentalInHoursShoulderEndTime,
+                        _configuration.WorkingDayDentalInHoursEndTime, _configuration), dentalServiceTypeIdBlackList);
+            }
 
-            if (IsClinicianCallbackDispoition(dxCode)) return new ServiceAvailabilityProfile(
-                new ClinicianCallbackProfileHoursOfOperation(), clinicianCallbackServiceTypeIdBlackist);
+            if (_dispositionMapper.IsClinicianCallbackDisposition(dxCode))
+            {
+                var clinicianCallbackServiceTypeIdBlackList =
+                    _dispositionMapper.ConvertDispositionString(_configuration.FilteredClinicianCallbackDosServiceIds);
 
-            if (IsRepeatPrescriptionDisposition(dxCode)) return new ServiceAvailabilityProfile(
-                new RepeatPrescriptionProfileHoursOfOperation(), repeatPrescriptionServiceTypeIdBlackist);
+                return new ServiceAvailabilityProfile(
+                    new ClinicianCallbackProfileHoursOfOperation(), clinicianCallbackServiceTypeIdBlackList);
+            }
 
-            if (IsGenericDisposition(dxCode)) return new ServiceAvailabilityProfile(
+            if (_dispositionMapper.IsRepeatPrescriptionDisposition(dxCode))
+            {
+                var repeatPrescriptionServiceTypeIdBlackList =
+                    _dispositionMapper.ConvertDispositionString(_configuration.FilteredRepeatPrescriptionDosServiceIds);
+
+                return new ServiceAvailabilityProfile(
+                    new RepeatPrescriptionProfileHoursOfOperation(), repeatPrescriptionServiceTypeIdBlackList);
+
+            }
+
+            if (_dispositionMapper.IsGenericDisposition(dxCode))
+            {
+                var genericServiceTypeIdBlackList =
+                    _dispositionMapper.ConvertDispositionString(_configuration.FilteredGenericDosServiceIds);
+
+                return new ServiceAvailabilityProfile(
                 new GenericProfileHoursOfOperation(_configuration.WorkingDayGenericInHoursStartTime, _configuration.WorkingDayGenericInHoursShoulderEndTime, _configuration.WorkingDayGenericInHoursEndTime, _configuration), genericServiceTypeIdBlackList);
+
+            }
 
             return new ServiceAvailabilityProfile(new ProfileHoursOfOperation(new LocalTime(0, 0), new LocalTime(0, 0), new LocalTime(0, 0), _configuration), new List<int>());
         }
 
-        private bool IsDentalDispoition(int dxCode)
-        {
-            return ConvertPipeDeliminatedString(_configuration.FilteredDentalDispositionCodes).Contains(dxCode);
-        }
 
-        private bool IsPrimaryCareDispoition(int dxCode)
-        {
-            return ConvertPipeDeliminatedString(_configuration.FilteredPrimaryCareDispositionCodes).Contains(dxCode);
-        }
-
-        private bool IsClinicianCallbackDispoition(int dxCode)
-        {
-            return ConvertPipeDeliminatedString(_configuration.FilteredClinicianCallbackDispositionCodes).Contains(dxCode);
-        }
-
-        private bool IsRepeatPrescriptionDisposition(int dxCode)
-        {
-            return ConvertPipeDeliminatedString(_configuration.FilteredRepeatPrescriptionDispositionCodes).Contains(dxCode);
-        }
-
-        private bool IsGenericDisposition(int dxCode)
-        {
-            return ConvertPipeDeliminatedString(_configuration.FilteredGenericDispositionCodes).Contains(dxCode);
-        }
-
-        private IEnumerable<int> ConvertPipeDeliminatedString(string pipedeliminatedString)
-        {
-            if(String.IsNullOrWhiteSpace(pipedeliminatedString)) return new List<int>();
-            return pipedeliminatedString.Split('|').Select(c => Convert.ToInt32(c)).ToList();
-        }
     }
 
     public class RepeatPrescriptionProfileHoursOfOperation : IProfileHoursOfOperation

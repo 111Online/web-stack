@@ -8,7 +8,9 @@ using System.Threading.Tasks;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using NHS111.Business.DOS.Configuration;
+using NHS111.Business.DOS.DispositionMapper;
 using NHS111.Business.DOS.EndpointFilter;
+using NHS111.Business.DOS.WhiteListPopulator;
 using NHS111.Models.Models.Web.DosRequests;
 using NHS111.Features;
 using NHS111.Models.Models.Web;
@@ -25,21 +27,21 @@ namespace NHS111.Business.DOS.Service
         private readonly IConfiguration _configuration;
         private readonly IServiceAvailabilityManager _serviceAvailabilityManager;
         private readonly IFilterServicesFeature _filterServicesFeature;
-        private readonly IOnlineServiceTypeMapper _serviceTypeMapper;
         private readonly IOnlineServiceTypeFilter _serviceTypeFilter;
         private readonly IPublicHolidayService _publicHolidayService;
         private readonly ISearchDistanceService _searchDistanceService;
+        private readonly IWhiteListManager _whiteListManager;
 
-        public ServiceAvailabilityFilterService(IDosService dosService, IConfiguration configuration, IServiceAvailabilityManager serviceAvailabilityManager, IFilterServicesFeature filterServicesFeature, IOnlineServiceTypeMapper serviceTypeMapper, IOnlineServiceTypeFilter serviceTypeFilter, IPublicHolidayService publicHolidayService, ISearchDistanceService searchDistanceService)
+        public ServiceAvailabilityFilterService(IDosService dosService, IConfiguration configuration, IServiceAvailabilityManager serviceAvailabilityManager, IFilterServicesFeature filterServicesFeature, IOnlineServiceTypeFilter serviceTypeFilter, IPublicHolidayService publicHolidayService, ISearchDistanceService searchDistanceService, IWhiteListManager whiteListManager)
         {
             _dosService = dosService;
             _configuration = configuration;
             _serviceAvailabilityManager = serviceAvailabilityManager;
             _filterServicesFeature = filterServicesFeature;
-            _serviceTypeMapper = serviceTypeMapper;
             _serviceTypeFilter = serviceTypeFilter;
             _publicHolidayService = publicHolidayService;
             _searchDistanceService = searchDistanceService;
+            _whiteListManager = whiteListManager;
         }
 
         public async Task<DosCheckCapacitySummaryResult> GetFilteredServices(DosFilteredCase dosFilteredCase, bool filterServices, DosEndpoint? endpoint)
@@ -54,10 +56,10 @@ namespace NHS111.Business.DOS.Service
 
             var checkCapacitySummaryResults = JsonConvert.SerializeObject(result.Success.Services);
             var jArray = (JArray)JsonConvert.DeserializeObject(checkCapacitySummaryResults);
-            
+
             // get the search datetime if one has been set, if not set to now
             DateTime searchDateTime;
-            if (!DateTime.TryParse(dosFilteredCase.SearchDateTime, out searchDateTime)) 
+            if (!DateTime.TryParse(dosFilteredCase.SearchDateTime, out searchDateTime))
                 searchDateTime = DateTime.Now;
 
             // use dosserviceconvertor to specify the time to use for each dos service object
@@ -68,9 +70,12 @@ namespace NHS111.Business.DOS.Service
             var publicHolidayAjustedResults =
                 _publicHolidayService.AdjustServiceRotaSessionOpeningForPublicHoliday(results);
 
-            var mappedByServiceTypeResults = await _serviceTypeMapper.Map(publicHolidayAjustedResults.ToList(), originalPostcode);
+            IWhiteListPopulator whiteListPopulator = _whiteListManager.GetWhiteListPopulator(dosFilteredCase.Disposition);
+            IOnlineServiceTypeMapper serviceTypeMapper = new OnlineServiceTypeMapper(whiteListPopulator);
+            
+            var mappedByServiceTypeResults = await serviceTypeMapper.Map(publicHolidayAjustedResults.ToList(), originalPostcode);
             var filteredByUnknownTypeResults = _serviceTypeFilter.FilterUnknownTypes(mappedByServiceTypeResults);
-        
+
             if (!_filterServicesFeature.IsEnabled && !filterServices)
             {
                 return _dosService.BuildDosCheckCapacitySummaryResult(filteredByUnknownTypeResults);
