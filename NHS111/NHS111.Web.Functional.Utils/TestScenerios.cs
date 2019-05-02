@@ -22,7 +22,8 @@ namespace NHS111.Web.Functional.Utils
         public static SearchPage LaunchSearchScenerio(IWebDriver driver, string sex, int age)
         {
             var homePage = TestScenarioPart.HomePage(driver);
-            var moduleZeroPage = TestScenarioPart.ModuleZero(homePage);
+            var locationPage = TestScenarioPart.Location(homePage);
+            var moduleZeroPage = TestScenarioPart.ModuleZero(locationPage);
             var demographicsPage = TestScenarioPart.Demographics(moduleZeroPage);
             return TestScenarioPart.Search(demographicsPage, sex, age);
         }
@@ -30,7 +31,8 @@ namespace NHS111.Web.Functional.Utils
         public static CategoryPage LaunchCategoryScenerio(IWebDriver driver, string sex, int age)
         {
             var homePage = TestScenarioPart.HomePage(driver);
-            var moduleZeroPage = TestScenarioPart.ModuleZero(homePage);
+            var locationPage = TestScenarioPart.Location(homePage);
+            var moduleZeroPage = TestScenarioPart.ModuleZero(locationPage);
             var demographicsPage = TestScenarioPart.Demographics(moduleZeroPage);
             var searchPage = TestScenarioPart.Search(demographicsPage, sex, age);
             return TestScenarioPart.Category(searchPage);
@@ -39,7 +41,8 @@ namespace NHS111.Web.Functional.Utils
         public static QuestionPage LaunchTriageScenerio(IWebDriver driver, string pathwayTopic, string sex, int age)
         {
             var homePage = TestScenarioPart.HomePage(driver);
-            var moduleZeroPage = TestScenarioPart.ModuleZero(homePage);
+            var locationPage = TestScenarioPart.Location(homePage);
+            var moduleZeroPage = TestScenarioPart.ModuleZero(locationPage);
             var demographicsPage = TestScenarioPart.Demographics(moduleZeroPage);
             var searchPage = TestScenarioPart.Search(demographicsPage, sex, age);
             var questionInfoPage = TestScenarioPart.QuestionInfo(searchPage, pathwayTopic);
@@ -49,7 +52,8 @@ namespace NHS111.Web.Functional.Utils
         public static QuestionPage LaunchTriageScenerio(IWebDriver driver, string pathwayTopic, string sex, int age, string args)
         {
             var homePage = TestScenarioPart.HomePage(driver);
-            var moduleZeroPage = TestScenarioPart.ModuleZero(homePage);
+            var locationPage = TestScenarioPart.Location(homePage);
+            var moduleZeroPage = TestScenarioPart.ModuleZero(locationPage);
             var demographicsPage = TestScenarioPart.Demographics(moduleZeroPage);
             var searchPage = TestScenarioPart.Search(demographicsPage, sex, age);
             var questionInfoPage = TestScenarioPart.QuestionInfo(searchPage, pathwayTopic);

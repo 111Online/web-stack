@@ -10,7 +10,8 @@ namespace NHS111.Web.Functional.Tests
         public void ModuleZeroPage_Displays()
         {
             var homePage = TestScenarioPart.HomePage(Driver);
-            var moduleZero = TestScenarioPart.ModuleZero(homePage);
+            var locationPage = TestScenarioPart.Location(homePage);
+            var moduleZero = TestScenarioPart.ModuleZero(locationPage);
             moduleZero.VerifyHeader();
         }
 
@@ -18,7 +19,8 @@ namespace NHS111.Web.Functional.Tests
         public void ModuleZeroPage_List()
         {
             var homePage = TestScenarioPart.HomePage(Driver);
-            var moduleZero = TestScenarioPart.ModuleZero(homePage);
+            var locationPage = TestScenarioPart.Location(homePage);
+            var moduleZero = TestScenarioPart.ModuleZero(locationPage);
             moduleZero.VerifyList();
         }
 

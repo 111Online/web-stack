@@ -45,7 +45,7 @@
                     </div>
 
 
-                    <p><a href="@string.Format("/?SessionId={0}&Campaign={1}&FilterServices={2}", Model.SessionId, Model.Campaign, Model.FilterServices)" class="js-manual-postcode button--link button--stacked">No, I'll enter my postcode.</a></p>
+                    <p><a href="@string.Format("/Location/ChangePostcode/?SessionId={0}&Campaign={1}&FilterServices={2}", Model.SessionId, Model.Campaign, Model.FilterServices)" class="js-manual-postcode button--link button--stacked">No, I'll enter my postcode.</a></p>
                     <button class="button--next" type="submit" name="DosResults" id="DosLookup">Next</button>
                 </div>
 

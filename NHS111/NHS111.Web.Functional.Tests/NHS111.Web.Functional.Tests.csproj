@@ -69,6 +69,7 @@
     <Compile Include="CareAdviceTests.cs" />
     <Compile Include="CookiesStatementTests.cs" />
     <Compile Include="DirectLinkingTests.cs" />
+    <Compile Include="LocationPageTests.cs" />
     <Compile Include="InlineCareAdvicePageTests.cs" />
     <Compile Include="PageNotFoundTests.cs" />
     <Compile Include="QuestionPageTests.cs" />
