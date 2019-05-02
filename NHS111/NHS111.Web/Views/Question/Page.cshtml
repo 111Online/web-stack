@@ -1,0 +1,47 @@
+﻿@using NHS111.Models.Models.Web
+@inherits NHS111.Web.Views.Shared.DirectLinkingView<JourneyViewModel>
+
+@{ Layout = "~/Views/Shared/_LayoutNhsUk.cshtml"; }
+
+@section Title  {NHS 111 Online - @Model.TitleWithoutBullets}
+
+
+@section HeadTop {
+    @{ var url = string.Format("/{0}/{1}/{2}/", Url.Encode(Model.PathwayId), Url.Encode(Model.PathwayTitle), Url.Encode(Model.QuestionNo)); }
+    <script>
+        dataLayer = [{
+            'virtualPageUrl': document.location.pathname + '@url',
+            'virtualPageTitle': '@Model.TitleWithoutBullets'
+        }];
+    </script>
+}
+
+@section FeedbackSection {
+    @{
+        @Html.Partial("_FeedbackDetails", new FeedbackViewModel() { UserId = Model.SessionId.ToString(), PageData = new PageDataViewModel(PageDataViewModel.PageType.InlineCareAdvice, Model) })
+    }
+}
+
+@using (Html.BeginForm("Navigation", "Question", FormMethod.Post, new { @class = "measure" }))
+{
+
+    @Html.Partial("_CommonHiddenFieldsNode", Model)
+    <input name="SelectedAnswer" type="hidden" id="@Model.Answers.First().TitleWithoutSpaces" value="@Newtonsoft.Json.JsonConvert.SerializeObject(Model.Answers.First())" />
+
+    if (DirectLinkingFeature.IsEnabled)
+    {
+        Html.Raw("<!-- DIRECT LINK: " + Model.StepLink + " -->");
+    }
+
+    <h1>@Model.TitleWithoutBullets</h1>
+
+    <div id="answers">
+       @Html.Raw(Model.Content)
+    </div>
+
+    <button class="button--next" id="nextScreen" type="submit" name="Question" value="Question">Next question</button>
+    if (!Model.IsFirstStep)
+    {
+        <button class="button--stacked button--previous button--link" id="previousScreen" type="submit" value="PreviousQuestion" name="PreviousQuestion" formnovalidate>Previous question</button>
+    }
+}

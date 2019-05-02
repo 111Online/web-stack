@@ -148,6 +148,9 @@ namespace NHS111.Models.Models.Web
                 return normalisedPostcode.Insert(normalisedPostcode.Length - 3, " ");
             }
         }
+
+        public string Content { get; set; }
+
         public JourneyViewModel()
         {
             Answers = new List<Answer>();
