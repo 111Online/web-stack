@@ -6,10 +6,10 @@ namespace NHS111.Web.Functional.Tests
     [TestFixture]
     public class SearchTermResultsTests : BaseTests
     {
-        [TestCase("tummy pain", "Stomach Pain")] //abdo pain
+        [TestCase("tummy pain", "Stomach ache or pain")] //abdo pain
         [TestCase("pain in my tooth", "Toothache, swelling and other dental problems")] //dental
         [TestCase("diorea", "Diarrhoea and vomiting")] // mispelling
-        [TestCase("stomach ache", "Stomach Pain")] //synonym
+        [TestCase("stomach ache", "Stomach ache or pain")] //synonym
         [TestCase("Head ache", "Headache or migraine")] //synonym
         [TestCase("diarhoea", "Diarrhoea")] //misspelling not on list
         [TestCase("vomitting", "Vomiting or nausea")] //misspelling

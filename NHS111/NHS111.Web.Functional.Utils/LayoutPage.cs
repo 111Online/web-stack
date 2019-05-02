@@ -73,10 +73,14 @@ namespace NHS111.Web.Functional.Utils
             return _baseUrl.Contains("@");
         }
 
+        public void WaitForElement(IWebElement element, int timeoutInSeconds)
+        {
+            var wait = new WebDriverWait(Driver, TimeSpan.FromSeconds(timeoutInSeconds));
+            wait.Until(drv => element.Displayed);
+        }
         public void WaitForElement(IWebElement element)
         {
-            var wait = new WebDriverWait(Driver, TimeSpan.FromSeconds(5));
-            wait.Until(drv => element.Displayed);
+            WaitForElement(element, 5);
         }
 
         public IScreenShotMaker ScreenShotMaker
