@@ -35,16 +35,9 @@ namespace NHS111.Web.Controllers
             return View(next.Item1, next.Item2);
         }
 
+
         [HttpGet]
         [Route("{pathwayNumber}/{gender}/{age}/start")]
-        public ActionResult PathwayStart(string pathwayNumber, string gender, int age, string args) {
-            var model = BuildModel(pathwayNumber, gender, age, args);
-            model.Args = args;
-            return View("~/Views/Question/Info.cshtml", model);
-        }
-
-        [HttpPost]
-        [Route("{pathwayNumber}/{gender}/{age}/first")]
         public async Task<ActionResult> FirstQuestion(string pathwayNumber, string gender, int age, string args) {
             var model = BuildModel(pathwayNumber, gender, age, args);
             return await JustToBeSafeFirst(model);
