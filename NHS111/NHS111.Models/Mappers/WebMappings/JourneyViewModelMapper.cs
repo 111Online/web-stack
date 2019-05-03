@@ -154,7 +154,8 @@ namespace NHS111.Models.Mappers.WebMappings
             journeyViewModel.TimeFrameMinutes = questionWithAnswers.Question.TimeFrame;
             journeyViewModel.WaitTimeText = questionWithAnswers.Question.WaitTimeText;
             journeyViewModel.DispositionUrgencyText = questionWithAnswers.Question.DispositionUrgencyText;
-
+            journeyViewModel.Content = questionWithAnswers.Question.Content;
+            journeyViewModel.NextButtonText = string.IsNullOrEmpty(questionWithAnswers.Question.NextButtonText) ? "Next question" : questionWithAnswers.Question.NextButtonText;
             var questionAndBullets = questionWithAnswers.Question.TitleWithBullets();
             journeyViewModel.TitleWithoutBullets = questionAndBullets.Item1;
             journeyViewModel.Bullets = questionAndBullets.Item2;

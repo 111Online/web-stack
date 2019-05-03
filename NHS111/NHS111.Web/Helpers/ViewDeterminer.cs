@@ -76,13 +76,6 @@ namespace NHS111.Web.Helpers
                     }
                     else
                         viewFilePath += model.OutcomeGroup.Id;
-                    //if (model.OutcomeGroup.IsPostcodeFirst())
-                    //{
-                    //    model.UserInfo.CurrentAddress.IsPostcodeFirst = true;
-                    //    _auditLogger.LogEventData(model, "Postcode first journey started");
-
-                    //    viewFilePath = "../PostcodeFirst/Postcode";
-                   // }
                     if (IsTestJourney(outcomeViewModel))
                         return "../Outcome/Call_999_CheckAnswer";
 
@@ -109,6 +102,8 @@ namespace NHS111.Web.Helpers
                 case NodeType.CareAdvice:
                     _userZoomDataBuilder.SetFieldsForCareAdvice(model);
                     return "../Question/InlineCareAdvice";
+                case NodeType.Page:
+                    return "../Question/Page";
                 case NodeType.Question:
                 default:
                     _userZoomDataBuilder.SetFieldsForQuestion(model);
