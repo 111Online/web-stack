@@ -254,8 +254,6 @@ namespace NHS111.Web.Controllers
             result.Description = result.Description.Replace(" . ", ". ");
             result.Description = result.Description.Replace("..", ".");
 
-            SortTitlesByRelevancy(result, searchTerm);
-
             return result;
         }
 

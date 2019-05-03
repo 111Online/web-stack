@@ -11,6 +11,7 @@ namespace NHS111.Web.Functional.Tests
         public void HomePage_Displays_with_Headers_using_default_url()
         {
             var homePage = TestScenarioPart.HomePage(Driver);
+            homePage.CompareAndVerify("1");
             homePage.Verify();
             homePage.VerifyHeaderBannerDisplayed();
         }
@@ -50,44 +51,9 @@ namespace NHS111.Web.Functional.Tests
                 .Visit("nhs app");
             homePage.VerifyHeaderBannerHidden();
 
-            var moduleZeroPage = homePage.EnterPostcode(Postcodes.GetPathwaysPostcode())
-                .ClickNext() as ModuleZeroPage;
-            moduleZeroPage.VerifyHeaderBannerHidden();
+            var locationPage = homePage.ClickStart() as LocationPage;
+            locationPage.VerifyHeaderBannerHidden();
         }
-
-        [Test]
-        public void ClickingNext_WithoutPostcode_ShowsValidation()
-        {
-            var submitPostcodeResult = HomePage.Start(Driver)
-                .Visit()
-                .ClearPostcodeField()
-                .ClickNext();
-
-            Assert.True(submitPostcodeResult.ValidationVisible());
-        }
-
-        [Test]
-        public void ClickingNext_WithPostcode_Redirects()
-        {
-            var submitPostcodeResult = HomePage.Start(Driver)
-                .Visit()
-                .EnterPostcode(Postcodes.GetPathwaysPostcode())
-                .ClickNext();
-
-            Assert.IsAssignableFrom<ModuleZeroPage>(submitPostcodeResult);
-        }
-
-      
-
-        [Test]
-        public void EnteringOutOfAreaPostcode_RedirectsToOutOfArea()
-        {
-            var submitPostcodeResult = HomePage.Start(Driver)
-                .Visit()
-                .EnterPostcode(Postcodes.GetOutOfAreaPostcode())
-                .ClickNext();
-
-            Assert.IsAssignableFrom<OutOfAreaPage>(submitPostcodeResult);
-        }
+        
     }
 }

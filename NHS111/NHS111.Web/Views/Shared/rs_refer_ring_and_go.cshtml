@@ -1,37 +1,34 @@
 ﻿@using NHS111.Models.Models.Web
+@using NHS111.Models.Models.Web.Elements
 @model  OutcomeViewModel
 @{
-    var services = Model.GroupedDosServices.First(s => s.OnlineDOSServiceType.IsReferral).Services;
+    var recommendedService = Model.RecommendedService;
 }
 
 <div class="cards">
-    @foreach (var callbackService in services)
-    {
-        <div class="card">
-            <h3>@WebUtility.HtmlDecode(callbackService.PublicName)</h3>
+    <div class="card">
+        <p>@WebUtility.HtmlDecode(recommendedService.PublicName)</p>
 
-            <p>
-                @foreach (String address in callbackService.AddressLines)
-                {
-                    @WebUtility.HtmlDecode(address)<br />
-                }
-            </p>
-
-            <p>@WebUtility.HtmlDecode(callbackService.Distance) miles away</p>
-
-            @Html.Partial("_ServiceOpeningTimes", callbackService, ViewData)
-
-            @using (Html.BeginForm("PersonalDetails", "Outcome", FormMethod.Post))
+        <p>
+            @foreach (String address in recommendedService.AddressLines)
             {
-                @Html.Partial("_CommonHiddenFieldsOutcomeViewModel", Model)
-                @Html.Partial("_CommonHiddenFieldsCareAdviceViewModel", Model)
-                @Html.Hidden("SelectedServiceId", @callbackService.Id)
-
-                <p>This service needs some more details from you.</p>
-                <hr />
-                <button type="submit" name="PersonalDetails" value="Refer me to this service">Refer me to this service</button>
-                @Html.Partial("_rs_ChangePostcodeLink")
+                @WebUtility.HtmlDecode(address)<br />
             }
-        </div>
-    }
+        </p>
+
+        @Html.Partial("_ServiceOpeningTimes", recommendedService, ViewData)
+
+        <p>@WebUtility.HtmlDecode(recommendedService.Distance) miles away</p>
+
+        @using (Html.BeginForm("PersonalDetails", "Outcome", FormMethod.Post))
+        {
+            @Html.Partial("_CommonHiddenFieldsOutcomeViewModel", Model)
+            @Html.Partial("_CommonHiddenFieldsCareAdviceViewModel", Model)
+            @Html.Hidden("SelectedServiceId", @recommendedService.Id)
+            <p>This service needs some more details from you.</p>
+            <hr />
+            @Html.Partial("_ActionButton", new ActionLinkViewModel() {Text = "Refer me to this service"})
+            @Html.Partial("_rs_ChangePostcodeLink")
+        }
+    </div>
 </div>

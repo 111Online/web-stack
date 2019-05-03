@@ -2,7 +2,7 @@
 @{
     Layout = "~/Views/Shared/_LayoutNhsUK.cshtml";
 }
-@inherits NHS111.Web.Views.Shared.DirectLinkingView<LocationViewModel>
+@inherits NHS111.Web.Views.Shared.DirectLinkingView<JourneyViewModel>
 @section Title {NHS 111 Online}
 
 @{ ViewBag.Description = "Answer questions about your main symptom on 111.nhs.uk and get NHS medical help near you."; }
@@ -18,99 +18,23 @@
 
 <h1 class="heading--large">Get medical help near you</h1>
 <ol>
-    <li>Answer questions on this site about your main symptom.</li>
-    <li>Get advice on where and when to get help, or get a call from a nurse.</li>
-    <li>Find out what to do if you can’t see your usual doctor or dentist.</li>
+    <li>Answer questions about your main symptom.</li>
+    <li>Find out when and where to get help.</li>
+    <li>Get a call back from a nurse, if you need one.</li>
 </ol>
 
 <div class="callout callout--info measure">
-    <p>You can read general information on <a href="https://www.nhs.uk/conditions/">health problems</a> (like <a href="https://www.nhs.uk/conditions/high-blood-pressure-hypertension/">high blood pressure</a>), or about <a href="https://www.nhs.uk/live-well/healthy-body/out-of-hours-medicines/">emergency prescriptions</a> and <a href="https://www.nhs.uk/medicines/">medicines</a> on <a href="https://www.nhs.uk">NHS.UK</a>.</p>
+    <p>General information about <a href="https://www.nhs.uk/conditions/">health problems</a>, <a href="https://www.nhs.uk/medicines/">medicines</a> and how to get an <a href="https://www.nhs.uk/live-well/healthy-body/out-of-hours-medicines/">emergency prescription</a> is on <a href="https://www.nhs.uk">NHS.UK</a>.</p>
 </div>
 
-<h2 class="heading--large">Where are you now?</h2>
-<p>Tell us where you are to get help in that area.</p>
-
-@using (Html.BeginForm("Find", "Location", FormMethod.Post))
+@using (Html.BeginForm("Location", "Location", FormMethod.Post))
 {
-<div class="form-group">
-    @Html.LabelFor(m => m.CurrentPostcode, "Postcode")
-    @Html.ValidationMessageFor(m => m.CurrentPostcode, "Please enter your current postcode")
-    @Html.TextBoxFor(m => m.CurrentPostcode, new { @required = true, style = "width: 8em; display: inline-block; margin-right: 10px;" })
-    <button class="js-find-location button--link" type="button" style="display: none">Use my current location</button>
-
     @Html.HiddenFor(m => m.SessionId)
     @Html.HiddenFor(m => m.Campaign)
     @Html.HiddenFor(m => m.FilterServices)
-</div>
-
-    <button type="submit" class="button">Next</button>
+    <button type="submit" class="button--next">Start</button>
 }
 
 <hr />
 
-<p>Always follow any medical advice you’ve already been given by your doctor. See our @(Html.ActionLink("terms", "Terms", "Help", null, new { target = "_blank" })).</p>
-
-@Html.Partial("_PageLoadingIndicator")
-<script type="text/javascript">
-    $(document).ready(function () {
-        if (navigator.geolocation) $('.js-find-location').css('display', 'inline-block');
-    })
-
-    $(".js-find-location").on("click", function () {
-        startPageLoadingIndicator('Searching for your current location ...');
-        navigator.geolocation.getCurrentPosition(function (pos) {
-            var coords = pos.coords.longitude + "," + pos.coords.latitude;
-            post('/Location/ConfirmAddress', { "longlat": coords, "SessionId": "@Model.SessionId", "Campaign": "@Model.Campaign", "FilterServices": "@Model.FilterServices" });
-        }, showError);
-    });
-
-    function showError() {
-        stopPageLoadingIndicator();
-        if ($(".js-location-error").length == 0) $(".js-find-location").after('<p class="error-message js-location-error">We were unable to find your location. Please enter your postcode.</p>');
-    }
-
-    function post(path, params, method) {
-        method = method || "post";
-        var form = document.createElement("form");
-        form.setAttribute("method", method);
-        form.setAttribute("action", path);
-
-        for(var key in params) {
-            if(params.hasOwnProperty(key)) {
-                var hiddenField = document.createElement("input");
-                hiddenField.setAttribute("type", "hidden");
-                hiddenField.setAttribute("name", key);
-                hiddenField.setAttribute("value", params[key]);
-
-                form.appendChild(hiddenField);
-            }
-        }
-
-        document.body.appendChild(form);
-        form.submit();
-    }
-
-    $(document).ready(function() {
-        $.validator.setDefaults({
-            showErrors: function() {
-                var valid = this.validElements()
-                $(valid).siblings(".field-validation-error").removeClass("field-validation-error")
-                    .addClass("field-validation-valid");
-                $(valid).parent().removeClass("form-group-error");
-                $(valid).removeAttr("aria-invalid").removeAttr("role");
-
-
-                var invalid = this.invalidElements();
-                $(invalid).siblings(".field-validation-valid").removeClass("field-validation-valid")
-                    .addClass("field-validation-error");
-                $(invalid).parent().addClass("form-group-error");
-                $(invalid).attr("aria-invalid", true).attr("role", "alert");
-            }
-        });
-
-        $("button[type='submit']").one("click",
-            function(e) {
-                $(this).valid();
-            });
-    });
-</script>
+<p class="measure">Always follow any medical advice you’ve already been given by your doctor. See our @(Html.ActionLink("terms", "Terms", "Help", null, new { target = "_blank" })).</p>
