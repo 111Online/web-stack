@@ -421,7 +421,6 @@
     <Content Include="Views\Location\ConfirmLocation.cshtml" />
     <Content Include="Views\Location\AskNHS.cshtml" />
     <Content Include="Views\Location\Babylon.cshtml" />
-    <Content Include="Views\Shared\ReferRingAndGoServices.cshtml" />
     <Content Include="Views\Outcome\RecommendedService.cshtml" />
     <Content Include="Views\Shared\_rs_OtherServices.cshtml" />
     <Content Include="Views\Shared\_rs_CareAdvice.cshtml" />
@@ -441,6 +440,7 @@
     <Content Include="Views\Shared\_CommonHiddenFieldsRecommendedServiceViewModel.cshtml" />
     <Content Include="Views\Outcome\RecommendedServiceNotOffered.cshtml" />
     <Content Include="Views\Location\Home.cshtml" />
+    <Content Include="Views\Shared\rs_refer_ring_and_go.cshtml" />
     <None Include="Web.Development.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

@@ -26,7 +26,7 @@ namespace NHS111.Business.DOS.WhiteListPopulator
             if (response.StatusCode != HttpStatusCode.OK)
                 throw new HttpException("CCG Service Error Response");
 
-            if (response.Data != null && response.Data.ReferralServiceIdWhitelist != null)
+            if (response.Data != null && response.Data.PharmacyReferralServiceIdWhitelist != null)
                 return response.Data.PharmacyReferralServiceIdWhitelist;
 
             return new ServiceListModel();
