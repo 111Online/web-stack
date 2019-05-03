@@ -44,10 +44,14 @@ namespace NHS111.Models.Models.Domain {
 
         }
 
-        public static DispositionCode Dx334 { get { return new DispositionCode("dx334"); } }
         public static DispositionCode Dx02 { get { return new DispositionCode("Dx02"); } }
         public static DispositionCode Dx94 { get { return new DispositionCode("Dx94"); } }
         public static DispositionCode Dx012 { get { return new DispositionCode("Dx012"); } }
+
+        public static DispositionCode Dx89 { get { return new DispositionCode("Dx89"); } }
+
+        public static DispositionCode Dx334 { get { return new DispositionCode("Dx334"); } }
         public static DispositionCode Dx333 { get { return new DispositionCode("Dx333"); } }
+
     }
 }

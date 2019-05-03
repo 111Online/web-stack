@@ -72,5 +72,14 @@ namespace NHS111.Web.Functional.Utils
 
             return pageNotFound;
         }
+
+        public static ModuleZeroPage ModuleZeroPage(IWebDriver driver, string postcode)
+        {
+            var homepage = new HomePage(driver);
+            homepage.Visit();
+            return homepage.EnterPostcode(postcode)
+                .ClickNext() as ModuleZeroPage;
+        }
+
     }
 }

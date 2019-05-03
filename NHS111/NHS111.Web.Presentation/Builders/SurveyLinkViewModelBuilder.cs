@@ -50,7 +50,7 @@ namespace NHS111.Web.Presentation.Builders
                 DigitalTitle = model.DigitalTitle,
                 Campaign = model.Campaign,
                 CampaignSource = model.Source,
-                ValidationCallbackOffered = model.Is999Callback || model.IsEDCallback
+                ValidationCallbackOffered = model.HasAcceptedCallbackOffer.HasValue
             };
 
             AddServiceInformation(model, result);
