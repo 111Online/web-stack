@@ -396,7 +396,6 @@
     <Content Include="Views\Search\NoResults.cshtml" />
     <Content Include="Views\Shared\_ExternalInformation.cshtml" />
     <Content Include="Views\Search\Pathways.cshtml" />
-    <Content Include="Views\Question\Info.cshtml" />
     <Content Include="Views\Outcome\Call_999_cat_2.cshtml" />
     <Content Include="Views\Outcome\Call_999_cat_3.cshtml" />
     <Content Include="Views\Outcome\Call_999_cat_4.cshtml" />
