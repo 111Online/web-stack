@@ -33,13 +33,11 @@
         Html.Raw("<!-- DIRECT LINK: " + Model.StepLink + " -->");
     }
 
-    <h1>@Model.TitleWithoutBullets</h1>
-
     <div id="answers">
        @Html.Raw(Model.Content)
     </div>
 
-    <button class="button--next" id="nextScreen" type="submit" name="Question" value="Question">Next question</button>
+    <button class="button--next" id="nextScreen" type="submit" name="Question" value="Question">@Model.NextButtonText</button>
     if (!Model.IsFirstStep)
     {
         <button class="button--stacked button--previous button--link" id="previousScreen" type="submit" value="PreviousQuestion" name="PreviousQuestion" formnovalidate>Previous question</button>

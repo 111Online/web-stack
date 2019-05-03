@@ -47,6 +47,8 @@ namespace NHS111.Models.Models.Domain
 
         [JsonProperty(PropertyName = "content")]
         public string Content { get; set; }
+        [JsonProperty(PropertyName = "buttonText")]
+        public string NextButtonText { get; set; }
 
         public bool IsJustToBeSafe()
         {

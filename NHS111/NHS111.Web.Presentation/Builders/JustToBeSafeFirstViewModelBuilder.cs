@@ -6,6 +6,7 @@ using AutoMapper;
 using Newtonsoft.Json;
 using NHS111.Models.Models.Domain;
 using NHS111.Models.Models.Web;
+using NHS111.Models.Models.Web.Enums;
 using NHS111.Models.Models.Web.FromExternalServices;
 using NHS111.Utils.Helpers;
 using NHS111.Utils.RestTools;
@@ -73,6 +74,8 @@ namespace NHS111.Web.Presentation.Builders
                 _mappingEngine.Mapper.Map(question.Data, questionViewModel);
 
                 _userZoomDataBuilder.SetFieldsForQuestion(questionViewModel);
+                if (questionViewModel.NodeType == NodeType.Page)
+                    return new Tuple<string, QuestionViewModel>("../Question/Page", questionViewModel);
 
                 return new Tuple<string, QuestionViewModel>("../Question/Question", questionViewModel);
             }

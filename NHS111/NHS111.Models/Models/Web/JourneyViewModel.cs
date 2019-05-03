@@ -151,6 +151,8 @@ namespace NHS111.Models.Models.Web
 
         public string Content { get; set; }
 
+        public string NextButtonText { get; set; }
+
         public JourneyViewModel()
         {
             Answers = new List<Answer>();
