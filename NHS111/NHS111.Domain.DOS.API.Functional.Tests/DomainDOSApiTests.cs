@@ -41,6 +41,12 @@ namespace NHS111.DOS.Domain.API.Functional.Tests
 
         private IRestClient _restClient = new RestClient(ConfigurationManager.AppSettings["DomainDOSApiBaseUrl"]);
 
+        [TestFixtureSetUp]
+        public void SetUp()
+        {
+            _restClient.AddHandler("application/json", NewtonsoftJsonSerializer.Default);
+        }
+
         /// <summary>
         /// Example test method for a HTTP POST
         /// </summary>
