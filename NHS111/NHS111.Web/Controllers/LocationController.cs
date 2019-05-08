@@ -90,13 +90,20 @@ namespace NHS111.Web.Controllers
                             Campaign = string.IsNullOrEmpty(model.Campaign) ? ccg.StpName : model.Campaign,
                             Source = string.IsNullOrEmpty(model.Source) ? ccg.CCG : model.Source,
                             FilterServices = model.FilterServices,
-                            PathwayNo = model.PathwayNo // Used to deeplink to a pathway
+                            PathwayNo = model.PathwayNo
                         });
                 case PostcodeValidatorResponse.PostcodeNotFound:
                     return View("OutOfArea", new OutOfAreaViewModel { SessionId = model.SessionId, Campaign = ccg.StpName, Source = ccg.CCG, FilterServices = model.FilterServices });
-                default:
-                    return View("Location");
+                case PostcodeValidatorResponse.InAreaWithPharmacyServices: {
+                    if (model.PathwayNo != EmergencyPrescriptionsPathwayNo) break;
+
+                    return View("../Pathway/EmergencyPrescriptionsHome", model);
+                }
             }
+            return View("Location");
         }
+
+        private static string EmergencyPrescriptionsPathwayNo = "PW1827";
     }
+
 }

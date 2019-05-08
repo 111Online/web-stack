@@ -19,11 +19,12 @@ namespace NHS111.Web.Controllers
     {
         public const int MAX_SEARCH_RESULTS = 10;
 
-        public SearchController(IConfiguration configuration, IUserZoomDataBuilder userZoomDataBuilder, IRestClient restClientBusinessApi)
+        public SearchController(IConfiguration configuration, IUserZoomDataBuilder userZoomDataBuilder, IRestClient restClientBusinessApi, IJustToBeSafeFirstViewModelBuilder jtbsViewModelBuilder)
         {
             _configuration = configuration;
             _userZoomDataBuilder = userZoomDataBuilder;
             _restClientBusinessApi = restClientBusinessApi;
+            _jtbsViewModelBuilder = jtbsViewModelBuilder;
         }
 
         [HttpPost]
@@ -46,6 +47,8 @@ namespace NHS111.Web.Controllers
                     Campaign = model.Campaign,
                     Source = model.Source
                 };
+                var result = _jtbsViewModelBuilder.JustToBeSafeFirstBuilder(questionInfo).Result;
+                questionInfo.PathwayId = result.Item2.PathwayId;
                 return View("~/Views/Question/Info.cshtml", questionInfo);
             }
 
@@ -293,5 +296,6 @@ namespace NHS111.Web.Controllers
         private readonly IConfiguration _configuration;
         private readonly IUserZoomDataBuilder _userZoomDataBuilder;
         private readonly IRestClient _restClientBusinessApi;
+        private readonly IJustToBeSafeFirstViewModelBuilder _jtbsViewModelBuilder;
     }
 }

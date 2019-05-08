@@ -29,6 +29,9 @@ namespace NHS111.Web.Presentation.Validators
             CcgModel = ccgModelBuilderTask.Result;
             if (CcgModel.Postcode == null)
                 return PostcodeValidatorResponse.PostcodeNotFound;
+            //if (CcgModel.PharmacyServicesAvailable)
+            if (true) //todo replace with above line once merged with change/145
+                return PostcodeValidatorResponse.InAreaWithPharmacyServices;
 
             return PostcodeValidatorResponse.InPathwaysArea;
         }
