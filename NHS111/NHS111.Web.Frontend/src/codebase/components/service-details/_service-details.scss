@@ -12,6 +12,19 @@
   @include nhsuk-responsive-padding(3, 'right');
 }
 
+.service-details .card__details {
+  font-weight: 400;
+}
+
+.service-details__hint {
+  @include nhsuk-font(16);
+  color: $grey-1;
+}
+
+.service-details__hours {
+  @include nhsuk-font(19);
+}
+
 .service-details-container .service-map {
   border: 0;
   border-top: 4px solid #fff;

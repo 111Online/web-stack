@@ -5,30 +5,39 @@
     var recommendedService = Model.RecommendedService;
 }
 
-<div class="cards">
-    <div class="card">
-        <p>@WebUtility.HtmlDecode(recommendedService.PublicName)</p>
-
+<div class="service-details nhsuk-u-margin-bottom-4">
+    <div class="service-details__address">
         <p>
+            @WebUtility.HtmlDecode(recommendedService.PublicName)<br />
             @foreach (String address in recommendedService.AddressLines)
             {
                 @WebUtility.HtmlDecode(address)<br />
             }
         </p>
+    </div>
 
+    <div class="service-details__hours nhsuk-u-margin-bottom-4">
         @Html.Partial("_ServiceOpeningTimes", recommendedService, ViewData)
+    </div>
 
+
+    <div class="service-details__distance">
         <p>@WebUtility.HtmlDecode(recommendedService.Distance) miles away</p>
+    </div>
+    
+    <div class="service-details__directions">
 
         @using (Html.BeginForm("PersonalDetails", "Outcome", FormMethod.Post))
         {
             @Html.Partial("_CommonHiddenFieldsOutcomeViewModel", Model)
             @Html.Partial("_CommonHiddenFieldsCareAdviceViewModel", Model)
             @Html.Hidden("SelectedServiceId", @recommendedService.Id)
-            <p>This service needs some more details from you.</p>
-            <hr />
-            @Html.Partial("_ActionButton", new ActionLinkViewModel() {Text = "Refer me to this service"})
-            @Html.Partial("_rs_ChangePostcodeLink")
+            <p class="service-details__hint">This service needs some more details from you.</p>
+
+            @Html.Partial("_ActionButton", new ActionLinkViewModel() { Text = "Refer me to this service" })
         }
     </div>
 </div>
+<p class="nhsuk-u-margin-bottom-6">
+    @Html.Partial("_rs_ChangePostcodeLink")
+</p>

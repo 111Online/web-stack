@@ -23,6 +23,7 @@
     @include nhsuk-link-style-default;
     width: auto;
   }
+
   /* nhsuk-frontend components */
   @import "node_modules/nhsuk-frontend/packages/components/action-link/action-link";
   /* Our components that have nhsuk-frontend as a dependency */
