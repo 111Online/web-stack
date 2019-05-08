@@ -60,7 +60,7 @@ namespace NHS111.Models.Models.Web.FromExternalServices
         public string Url { get; set; }
 
         [JsonProperty(PropertyName = "serviceTypeField")]
-        public ServiceDetails ServiceType { get; set; }
+        public ServiceType ServiceType { get; set; }
 
         [JsonProperty(PropertyName = "nonPublicTelephoneNo")]
         public string NonPublicTelephoneNo { get; set; }
