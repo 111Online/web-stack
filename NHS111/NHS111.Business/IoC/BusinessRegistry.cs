@@ -15,12 +15,12 @@ namespace NHS111.Business.IoC
         public BusinessRegistry(IConfiguration configuration)
         {
             For<IRestClient>().Singleton().Use<IRestClient>(new LoggingRestClient(configuration.GetDomainApiBaseUrl(), LogManager.GetLogger("log")));
-            For<ICCGService>().Singleton()
-                .Use<CCGService>()
+            For<ICCGDetailsService>().Singleton()
+                .Use<CCGDetailsService>()
                 .Ctor<IRestClient>()
                 .Is(new LoggingRestClient(configuration.GetCCGBaseUrl(), LogManager.GetLogger("log")));
 
-            For<ISearchResultFilter>().Use<EmergencyPrescriptionResultFilter>().Ctor<ICCGService>();
+            For<ISearchResultFilter>().Use<EmergencyPrescriptionResultFilter>().Ctor<ICCGDetailsService>();
 
             For<ILocationService>().Singleton()
                 .Use<LocationService>()

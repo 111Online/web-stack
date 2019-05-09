@@ -96,7 +96,7 @@ namespace NHS111.Web.Controllers
             if (model.SanitisedSearchTerm == null)
                 return View("~\\Views\\Search\\NoResults.cshtml", model);
                 
-            request.AddJsonBody(Uri.EscapeDataString(model.SanitisedSearchTerm.Trim()));
+            request.AddJsonBody(new { query = Uri.EscapeDataString(model.SanitisedSearchTerm.Trim()), postcode = Uri.EscapeDataString(model.CurrentPostcode) });
 
             var response = await _restClientBusinessApi.ExecuteTaskAsync<List<SearchResultViewModel>>(request);
 

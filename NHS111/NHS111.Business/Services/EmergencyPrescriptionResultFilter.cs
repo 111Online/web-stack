@@ -9,17 +9,26 @@ namespace NHS111.Business.Services
 {
     public class EmergencyPrescriptionResultFilter : ISearchResultFilter
     {
-        private ICCGService _ccgService;
-        public EmergencyPrescriptionResultFilter(ICCGService ccgService)
+        private ICCGDetailsService _ccgService;
+
+        public EmergencyPrescriptionResultFilter(ICCGDetailsService ccgService)
         {
             _ccgService = ccgService;
         }
-        public Task<IEnumerable<PathwaySearchResult>> Filter(IEnumerable<PathwaySearchResult> resultsToFilter, IDictionary<string, string> parameters)
+
+        public async Task<IEnumerable<PathwaySearchResult>> Filter(IEnumerable<PathwaySearchResult> resultsToFilter, IDictionary<string, string> parameters)
         {
             if(!parameters.ContainsKey("postcode")) throw new ArgumentException("Requires postcode key param");
-            //Implementation Here
-           // _ccgService.FillCCGModel()
-            throw new NotImplementedException();
+
+            var ccg = await _ccgService.FillCCGDetailsModel(parameters["postcode"]);
+            var results = resultsToFilter;
+            if (ccg.PharmacyServicesAvailable == false)
+            {
+                // If no pharmacy services available then area is not in EP pilot therefore filter out EP pathway
+                results = resultsToFilter.Where(result => result.PathwayNo != "PW1827");
+            }
+
+            return results;
         }
     }
 }

@@ -9,32 +9,32 @@ using RestSharp;
 
 namespace NHS111.Business.Services
 {
-    public class CCGService : ICCGService
+    public class CCGDetailsService : ICCGDetailsService
     {
         private IRestClient _ccgServiceRestClient;
         private IConfiguration _configuration;
 
-        public CCGService(IRestClient ccgServiceRestClient, IConfiguration configuration)
+        public CCGDetailsService(IRestClient ccgServiceRestClient, IConfiguration configuration)
         {
             _ccgServiceRestClient = ccgServiceRestClient;
             _configuration = configuration;
         }
 
 
-        public async Task<CCGModel> FillCCGModel(string postcode)
+        public async Task<CCGDetailsModel> FillCCGDetailsModel(string postcode)
         {
-            var response = await _ccgServiceRestClient.ExecuteTaskAsync<CCGModel>(
+            var response = await _ccgServiceRestClient.ExecuteTaskAsync<CCGDetailsModel>(
                 new RestRequest(_configuration.CCGBusinessApiGetCCGUrl(postcode), Method.GET));
 
             if (response.Data != null && response.Data != null)
                 return response.Data;
 
-            return new CCGModel();
+            return new CCGDetailsModel();
         }
     }
 
-    public interface ICCGService
+    public interface ICCGDetailsService
     {
-        Task<CCGModel> FillCCGModel(string postcode);
+        Task<CCGDetailsModel> FillCCGDetailsModel(string postcode);
     }
 }
