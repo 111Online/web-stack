@@ -23,7 +23,7 @@
 
 <div class="callout callout--attention measure nhsuk-u-margin-bottom-4">
     <h1 class="h2">
-        Find a pharmacy near you
+        Find a pharmacy in your area
     </h1>
     <p>
         We're not able to show you a recommended service.
@@ -32,6 +32,6 @@
         A pharmacist can help if you can't get in touch with your GP.
     </p>
     <p>
-        @Html.Partial("_ActionButton", new ActionLinkViewModel() { Text = "Find a pharmacy" })
+        @Html.Partial("_ActionLink", new ActionLinkViewModel() { Text = "Find a pharmacy", Url = "https://beta.nhs.uk/find-a-pharmacy/" })
     </p>
 </div>
