@@ -41,6 +41,12 @@ namespace NHS111.DOS.Domain.API.Functional.Tests
 
         private IRestClient _restClient = new RestClient(ConfigurationManager.AppSettings["DomainDOSApiBaseUrl"]);
 
+        [TestFixtureSetUp]
+        public void SetUp()
+        {
+            _restClient.AddHandler("application/json", NewtonsoftJsonSerializer.Default);
+        }
+
         /// <summary>
         /// Example test method for a HTTP POST
         /// </summary>
@@ -50,14 +56,14 @@ namespace NHS111.DOS.Domain.API.Functional.Tests
             var checkCapacitySummaryRequest = new DosCheckCapacitySummaryRequest(DOSApiUsername, DOSApiPassword, new DosCase { Age = "22", Gender = "F", PostCode = "HP21 8AL" });
             var request = new JsonRestRequest(DomainDOSApiCheckCapacitySummaryUrl, Method.POST);
             request.AddJsonBody(checkCapacitySummaryRequest);
-            var result = await _restClient.ExecuteTaskAsync<DosCheckCapacitySummaryResult>(request);
+            var result = await _restClient.ExecuteTaskAsync<CheckCapacitySummaryResponse>(request);
             Assert.IsTrue(result.IsSuccessful);
 
-            var firstService = result.Data.Success.Services[0];
+            var firstService = result.Data.CheckCapacitySummaryResult[0];
             AssertResponse(firstService);
         }
 
-        private void AssertResponse(ServiceViewModel response)
+        private void AssertResponse(DosService response)
         {
             var serviceTypeField = response.ServiceType;
             Assert.IsNotNull(serviceTypeField.Id);
