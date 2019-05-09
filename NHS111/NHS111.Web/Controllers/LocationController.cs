@@ -79,28 +79,33 @@ namespace NHS111.Web.Controllers
         private ActionResult DeriveApplicationView(JourneyViewModel model, PostcodeValidatorResponse postcodeValidationRepsonse, CCGModel ccg)
         {
             var moduleZeroViewName = "../Question/InitialQuestion";
-            switch (postcodeValidationRepsonse)
-            {
-                case PostcodeValidatorResponse.InPathwaysArea:
-                    return View(moduleZeroViewName, 
-                        new JourneyViewModel
-                        {
-                            SessionId = model.SessionId,
-                            CurrentPostcode = ccg.Postcode,
-                            Campaign = string.IsNullOrEmpty(model.Campaign) ? ccg.StpName : model.Campaign,
-                            Source = string.IsNullOrEmpty(model.Source) ? ccg.CCG : model.Source,
-                            FilterServices = model.FilterServices,
-                            PathwayNo = model.PathwayNo
-                        });
-                case PostcodeValidatorResponse.PostcodeNotFound:
-                    return View("OutOfArea", new OutOfAreaViewModel { SessionId = model.SessionId, Campaign = ccg.StpName, Source = ccg.CCG, FilterServices = model.FilterServices });
-                case PostcodeValidatorResponse.InAreaWithPharmacyServices: {
-                    if (model.PathwayNo != EmergencyPrescriptionsPathwayNo) break;
+            model.CurrentPostcode = ccg.Postcode;
+            model.Campaign = string.IsNullOrEmpty(model.Campaign) ? ccg.StpName : model.Campaign;
+            model.Source = string.IsNullOrEmpty(model.Source) ? ccg.CCG : model.Source;
 
-                    return View("../Pathway/EmergencyPrescriptionsHome", model);
-                }
+            switch (postcodeValidationRepsonse) {
+                case PostcodeValidatorResponse.InPathwaysArea:
+                    return View(moduleZeroViewName, model);
+                case PostcodeValidatorResponse.PostcodeNotFound:
+                    return View("OutOfArea",
+                        new OutOfAreaViewModel {
+                            SessionId = model.SessionId, Campaign = ccg.StpName, Source = ccg.CCG,
+                            FilterServices = model.FilterServices
+                        });
             }
+
+            if (IsRequestingPharmacyPathway(model.PathwayNo)) {
+                if (postcodeValidationRepsonse == PostcodeValidatorResponse.InAreaWithPharmacyServices)
+                    return View(moduleZeroViewName, model);
+
+                return View("../Pathway/EmergencyPrescriptionsOutOfArea", model);
+            }
+
             return View("Location");
+        }
+
+        private bool IsRequestingPharmacyPathway(string pathwayNo) {
+            return pathwayNo != null || pathwayNo.ToUpper() == EmergencyPrescriptionsPathwayNo;
         }
 
         private static string EmergencyPrescriptionsPathwayNo = "PW1827";

@@ -1,0 +1,53 @@
+﻿@using NHS111.Models.Models.Web
+@{
+    Layout = "~/Views/Shared/_LayoutNhsUK.cshtml";
+}
+@inherits NHS111.Web.Views.Shared.DirectLinkingView<JourneyViewModel>
+@section Title {NHS 111 Online - Emergency Prescriptions}
+
+@section HeadTop {
+    <script>
+        dataLayer = [
+            {
+                'virtualPageUrl': 'Emergency Prescriptions Home',
+                'virtualPageTitle': 'Emergency Prescriptions Home'
+            }];
+    </script>
+}
+
+<div class="callout callout--attention measure nhsuk-u-margin-bottom-4">
+    <h1 class="h2">
+        This service is not in your area
+    </h1>
+    <p>
+        The emergency prescription referral service is not yet available in your area.
+    </p>
+    <p>
+        A pharmacist can help if you can't get in touch with your GP.
+    </p>
+    <p>
+        
+
+    </p><div class="nhsuk-action-link">
+        <button class="nhsuk-action-link__link button--link">
+            <svg class="nhsuk-icon nhsuk-icon__arrow-right-circle" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M0 0h24v24H0z" fill="none"></path>
+                <path d="M12 2a10 10 0 0 0-9.95 9h11.64L9.74 7.05a1 1 0 0 1 1.41-1.41l5.66 5.65a1 1 0 0 1 0 1.42l-5.66 5.65a1 1 0 0 1-1.41 0 1 1 0 0 1 0-1.41L13.69 13H2.05A10 10 0 1 0 12 2z"></path>
+            </svg>
+            <span class="nhsuk-action-link__text">Find accident and emergency services</span>
+        </button>
+    </div>
+    <p></p>
+</div>
+
+@using (Html.BeginForm("Find", "Location", FormMethod.Post))
+{
+
+    @Html.HiddenFor(m => m.SessionId)
+    @Html.HiddenFor(m => m.Campaign)
+    @Html.HiddenFor(m => m.FilterServices)
+    @Html.HiddenFor(m => m.PathwayNo)
+    @Html.HiddenFor(m => m.CurrentPostcode)
+
+    <button type="submit" class="button--next">Start</button>
+}
