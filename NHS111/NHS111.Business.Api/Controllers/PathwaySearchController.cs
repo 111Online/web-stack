@@ -28,19 +28,32 @@ namespace NHS111.Business.Api.Controllers
         [Route("pathwaysearch/{query}")]
         public async Task<List<PathwaySearchResult>> Get(string query, [FromUri] bool highlight = false, [FromUri] bool score = false)
         {
-            var results =  await _pathwaySearchService.FindResults(query, highlight, score);
-            var filteredresults = await _searchResultFilter.Filter(results, new Dictionary<string, string>());
-            return filteredresults.ToList();
+            var results = await _pathwaySearchService.FindResults(query, highlight, score);
+            return results;
         }
 
         [Route("pathwaysearch/{gender}/{ageGroup}")]
         [HttpPost]
-        public async Task<List<PathwaySearchResult>> Get(string gender, string ageGroup, [FromBody] string query, [FromUri] bool highlight = false, [FromUri] bool score = false)
+        public async Task<List<PathwaySearchResult>> Get(string gender, string ageGroup, [FromBody] SearchRequest request, [FromUri] bool highlight = false, [FromUri] bool score = false)
         {
-            var results = await _pathwaySearchService.FindResults(query, gender, ageGroup, highlight, score);
-            var filteredresults = await _searchResultFilter.Filter(results, new Dictionary<string, string>());
-            return filteredresults.ToList();
+            var results = await _pathwaySearchService.FindResults(request.Query, gender, ageGroup, highlight, score);
+
+            if (request.Postcode != null)
+            {
+                var filteredresults = await _searchResultFilter.Filter(results, new Dictionary<string, string>(){{"postcode", request.Postcode}});
+                return filteredresults.ToList();
+            }
+
+            return results;
         }
+    }
+
+    // This is used as a model purely for the search POST as multiple [FromBody] do not work
+    public class SearchRequest
+    {
+        public string Query { get; set; }
+
+        public string Postcode { get; set; }
     }
 
   
