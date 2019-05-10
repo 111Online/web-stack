@@ -18,7 +18,7 @@ namespace NHS111.Web.Presentation.Builders
             var recommendedService = Mapper.Map<RecommendedServiceViewModel>(firstService);
             if (recommendedService == null) return await Task.FromResult((RecommendedServiceViewModel) null);
 
-            recommendedService.ReasonText = "Tell us who you are to make sure you only pay NHS prescription charges.";
+            recommendedService.ReasonText = "This service needs some more details from you. To use it, fill in the form and they’ll be in touch.";
             recommendedService.Details = new DetailsViewModel
             {
                 Summary = "Why should I give my details?",

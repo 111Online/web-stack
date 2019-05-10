@@ -7,76 +7,48 @@
 }
 
 
-<div class="callout callout--attention measure nhsuk-u-margin-bottom-4">
+
 @using (Html.BeginForm("PersonalDetails", "Outcome", FormMethod.Post))
 {
     @Html.Partial("_CommonHiddenFieldsOutcomeViewModel", Model)
     @Html.Partial("_CommonHiddenFieldsCareAdviceViewModel", Model)
     @Html.Hidden("SelectedServiceId", recommendedService.Id)
-    <p>
-        @recommendedService.ReasonText
-    </p>
-    @Html.Partial("_ActionButton", new ActionLinkViewModel() {Text = "Enter my details"})
-    <details>
-        <summary role="button">
-            <span class="details__arrow"></span>
-            <span class="summary">@recommendedService.Details.Summary</span>
-        </summary>
-        <div>
-            <p class="nhsuk-u-margin-top-4 nhsuk-u-margin-bottom-0">
-                @recommendedService.Details.Text
-            </p>
+
+    
+    
+        <div class="service-details --remote">
+            <div class="unit">
+                <p>
+                    @WebUtility.HtmlDecode(recommendedService.PublicName)
+                </p>
+            </div>
+            <div class="unit">
+                <p>
+                    @Html.Partial("_ServiceOpeningTimes", recommendedService, ViewData)
+                </p>
+            </div>
+            <div class="unit">
+                <div class="form-hint measure">
+                    <p>
+                        @recommendedService.ReasonText
+                    </p>
+                </div>
+                <p>
+                    <a href="#" class="action-link">
+        
+                        @Html.Partial("_ActionButton", new ActionLinkViewModel() {Text = "Use this service" })
+                    </a>
+                </p>
+            </div>
         </div>
-    </details>
+
+
+
 }
-</div>
 
 
-<div class="service-details-container nhsuk-u-margin-bottom-6">
 
-    <div class="service-details">
-        <div class="service-details__address">
-            <p>
-                @WebUtility.HtmlDecode(recommendedService.PublicName)<br />
-                @foreach (var address in recommendedService.AddressLines)
-                {
-                    @WebUtility.HtmlDecode(address)<br />
-                }
-            </p>
-        </div>
-        <div class="service-details__hours">
-            @Html.Partial("_ServiceOpeningTimes", recommendedService, ViewData)
 
-        </div>
-    </div>
-
-    <div class="service-details cards--goto">
-        <div class="service-details__directions">
-            <p>
-                @*is this in miles?*@
-                @recommendedService.Distance miles away
-            </p>
-            @using (Html.BeginForm("GetDirections", "Outcome", FormMethod.Post))
-            {
-                @Html.HiddenFor(m => m.SessionId)
-                @Html.HiddenFor(m => m.JourneyId)
-                @Html.HiddenFor(m => m.JourneyJson)
-                @Html.HiddenFor(m => m.Id)
-                @Html.Hidden("SelectedServiceId", recommendedService.Id)
-                @Html.Hidden("SelectedServiceName", recommendedService.Name)
-                @Html.Hidden("SelectedServiceAddress", recommendedService.Address)
-                <button class="button--link card__directions--fallback" type="submit">Get directions</button>
-                <p><a class="card__directions" style="display: none;" target="_blank" href="@string.Format("https://www.google.com/maps/dir/?api=1&origin={0}&destination={1}", Model.CurrentPostcode, recommendedService.Address)">Get directions <span class="nhsuk-u-font-size-16">(opens a new tab or window)</span></a></p>
-            }
-            @using (Html.BeginForm("ChangePostcode", "Outcome", FormMethod.Post))
-            {
-                @Html.Partial("_CommonHiddenFieldsOutcomeViewModel", Model)
-                @Html.Partial("_CommonHiddenFieldsCareAdviceViewModel", Model)
-                @Html.Partial("_rs_ChangePostcodeLink")
-            }
-        </div>
-    </div>
-</div>
 @{
     var mapService = JsonConvert.SerializeObject(new[] { Model.RecommendedService });
 }

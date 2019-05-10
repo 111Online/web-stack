@@ -225,7 +225,7 @@ namespace NHS111.Models.Models.Web
             return dayOfWeek + 1;
         }
 
-        private RotaSession CurrentRotaSession
+        public RotaSession CurrentRotaSession
         {
             get
             {
