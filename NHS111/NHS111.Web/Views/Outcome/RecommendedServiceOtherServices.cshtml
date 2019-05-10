@@ -1,0 +1,60 @@
+﻿@using NHS111.Models.Models.Web
+@inherits NHS111.Web.Views.Shared.SurveyLinkView<OtherServicesViewModel>
+@{
+    Layout = "~/Views/Shared/_LayoutNhsUk.cshtml";
+}
+
+@section Title {
+    NHS 111 - Other services
+}
+
+@section HeadTop {
+    @{ var url = string.Format("/outcome/{0}/{1}/{2}/recommendedservice/otherservices/{3}/", Url.Encode(Model.PathwayNo), Url.Encode(Model.OutcomeGroup.Text), Url.Encode(Model.Id), Url.Encode(Model.UserInfo.CurrentAddress.Postcode)); }
+    <script>
+        var pageId = '@Model.Id';
+        dataLayer = [
+        {
+            'virtualPageUrl': '@url',
+            'virtualPageTitle': 'Other Services Found'
+        }];
+    </script>
+}
+
+@{
+    var dataDictionary = ViewContext.ViewData;
+    dataDictionary.Add(new KeyValuePair<string, object>("LaunchPage", "service-list"));
+}
+@section SurveyBanner{
+    @Html.Partial("_SurveyLink", Model.SurveyLink, dataDictionary)
+}
+@section FeedbackSection {
+    @if (!SurveyLinkFeature.IsEnabled)
+    {
+        @Html.Partial("_FeedbackDetails", new FeedbackViewModel() { UserId = Model.SessionId.ToString(), PageData = new PageDataViewModel(PageDataViewModel.PageType.ServiceList, Model) })
+    }
+    else
+    {
+        @Html.Partial("_SurveyLink", Model.SurveyLink)
+    }
+}
+
+<div class="measure">
+    <h1>Other ways to get help</h1>
+</div>
+<div class="measure">
+    <div class="callout callout--warning">
+        <p>
+            Get help now
+        </p>
+    </div>
+</div>
+
+@foreach (var service in Model.OtherServices)
+{
+    Model.RecommendedService = service;
+    <div class="callout callout--info">
+        @Html.Partial(new ServiceTypeMapping(service.OnlineDOSServiceType).TypeViewName, Model)
+    </div>
+}
+
+@Html.Partial("_rs_WorseningAdvice", Model)

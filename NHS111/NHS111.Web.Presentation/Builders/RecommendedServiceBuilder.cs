@@ -26,9 +26,22 @@ namespace NHS111.Web.Presentation.Builders
             };
             return await Task.FromResult(recommendedService);
         }
+
+        public async Task<IEnumerable<RecommendedServiceViewModel>> BuildRecommendedServicesList(IEnumerable<ServiceViewModel> services)
+        {
+            var recommendedServices = new List<RecommendedServiceViewModel>();
+            foreach (var service in services)
+            {
+                var recommendedService = await BuildRecommendedService(service);
+                recommendedServices.Add(recommendedService);
+            }
+
+            return recommendedServices;
+        }
     }
     public interface IRecommendedServiceBuilder
     {
         Task<RecommendedServiceViewModel> BuildRecommendedService(ServiceViewModel firstService);
+        Task<IEnumerable<RecommendedServiceViewModel>> BuildRecommendedServicesList(IEnumerable<ServiceViewModel> services);
     }
 }

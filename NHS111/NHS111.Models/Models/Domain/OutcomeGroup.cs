@@ -1,6 +1,7 @@
 ﻿
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace NHS111.Models.Models.Domain {
     using Newtonsoft.Json;
@@ -134,6 +135,11 @@ namespace NHS111.Models.Models.Domain {
 
         public bool IsEDCallback {
             get { return this.Equals(OutcomeGroup.AccidentAndEmergency); }
+        }
+
+        public bool IsUsingRecommendedService
+        {
+            get { return UsingRecommendedServiceJourney.Contains(this); }
         }
     }
 }

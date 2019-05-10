@@ -65,7 +65,7 @@ namespace NHS111.Web.Helpers
                 case NodeType.Outcome:
                     var outcomeViewModel = model as OutcomeViewModel;
                     var viewFilePath = "../Outcome/";
-                    if (OutcomeGroup.UsingRecommendedServiceJourney.Contains(model.OutcomeGroup))
+                    if (model.OutcomeGroup.IsUsingRecommendedService)
                     {
                         if (outcomeViewModel.RecommendedService == null) return "../Outcome/RecommendedServiceNotOffered"; //TODO: Build this page
 
