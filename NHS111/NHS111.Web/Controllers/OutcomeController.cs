@@ -41,9 +41,12 @@ namespace NHS111.Web.Controllers
         private readonly IPostCodeAllowedValidator _postCodeAllowedValidator;
         private readonly IViewRouter _viewRouter;
         private readonly IReferralResultBuilder _referralResultBuilder;
+        private readonly IRecommendedServiceBuilder _recommendedServiceBuilder;
 
-        public OutcomeController(IOutcomeViewModelBuilder outcomeViewModelBuilder, IDOSBuilder dosBuilder,
-            ISurgeryBuilder surgeryBuilder, ILocationResultBuilder locationResultBuilder, IAuditLogger auditLogger, Presentation.Configuration.IConfiguration configuration, IPostCodeAllowedValidator postCodeAllowedValidator, IViewRouter viewRouter, IReferralResultBuilder referralResultBuilder)
+        public OutcomeController(IOutcomeViewModelBuilder outcomeViewModelBuilder, IDOSBuilder dosBuilder, ISurgeryBuilder surgeryBuilder, 
+            ILocationResultBuilder locationResultBuilder, IAuditLogger auditLogger, Presentation.Configuration.IConfiguration configuration, 
+            IPostCodeAllowedValidator postCodeAllowedValidator, IViewRouter viewRouter, IReferralResultBuilder referralResultBuilder,
+            IRecommendedServiceBuilder recommendedServiceBuilder)
         {
             _outcomeViewModelBuilder = outcomeViewModelBuilder;
             _dosBuilder = dosBuilder;
@@ -54,6 +57,7 @@ namespace NHS111.Web.Controllers
             _postCodeAllowedValidator = postCodeAllowedValidator;
             _viewRouter = viewRouter;
             _referralResultBuilder = referralResultBuilder;
+            _recommendedServiceBuilder = recommendedServiceBuilder;
         }
 
         [HttpPost]
@@ -201,6 +205,15 @@ namespace NHS111.Web.Controllers
                     AutoSelectFirstItkService(model);
                     if (model.SelectedService != null)
                         return await PersonalDetails(Mapper.Map<PersonalDetailViewModel>(model));
+                }
+
+                if(model.OutcomeGroup.IsUsingRecommendedService)
+                {
+                    var otherServices =
+                        await _recommendedServiceBuilder.BuildRecommendedServicesList(model.DosCheckCapacitySummaryResult.Success.Services);
+                    var otherServicesModel = Mapper.Map<OtherServicesViewModel>(model);
+                    otherServicesModel.OtherServices = otherServices.Skip(1);
+                    return View("~\\Views\\Outcome\\RecommendedServiceOtherServices.cshtml", otherServicesModel);
                 }
 
                 return View("~\\Views\\Outcome\\ServiceList.cshtml", model);

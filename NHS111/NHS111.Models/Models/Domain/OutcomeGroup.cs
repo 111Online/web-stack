@@ -1,6 +1,7 @@
 ﻿
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace NHS111.Models.Models.Domain {
     using Newtonsoft.Json;
