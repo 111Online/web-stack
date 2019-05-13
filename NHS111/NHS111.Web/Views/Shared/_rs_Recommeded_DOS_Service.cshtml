@@ -10,4 +10,12 @@
     <div>
         @Html.Partial(new ServiceTypeMapping(recommendedService.OnlineDOSServiceType).TypeViewName, Model)
     </div>
+    using (Html.BeginForm("ChangePostcode", "Outcome", FormMethod.Post))
+    {
+        @Html.Partial("_CommonHiddenFieldsOutcomeViewModel", Model)
+        @Html.Partial("_CommonHiddenFieldsCareAdviceViewModel", Model)
+        <p>
+            This service is available in @Model.FormattedCurrentPostcode — @Html.Partial("_rs_ChangePostcodeLink")
+        </p>
+    }
 }

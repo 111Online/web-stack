@@ -68,12 +68,6 @@
                 <button class="button--link card__directions--fallback" type="submit">Get directions</button>
                 <p><a class="card__directions" style="display: none;" target="_blank" href="@string.Format("https://www.google.com/maps/dir/?api=1&origin={0}&destination={1}", Model.CurrentPostcode, recommendedService.Address)">Get directions <span class="nhsuk-u-font-size-16">(opens a new tab or window)</span></a></p>
             }
-            @using (Html.BeginForm("ChangePostcode", "Outcome", FormMethod.Post))
-            {
-                @Html.Partial("_CommonHiddenFieldsOutcomeViewModel", Model)
-                @Html.Partial("_CommonHiddenFieldsCareAdviceViewModel", Model)
-                @Html.Partial("_rs_ChangePostcodeLink")
-            }
         </div>
     </div>
 </div>
