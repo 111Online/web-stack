@@ -42,14 +42,7 @@ namespace NHS111.Web.Controllers
             var model = BuildModel(pathwayNumber, gender, age, args);
             return await JustToBeSafeFirst(model);
         }
-        
-        [HttpPost]
-        [Route("Question/First")]
-        public async Task<ActionResult> FirstQuestionDeeplink(JustToBeSafeViewModel model) {
-            ModelState.Clear();
-            return await JustToBeSafeFirst(model);
-        }
-        
+
         [HttpPost]
         [Route("Question/First")]
         public async Task<ActionResult> FirstQuestionDeeplink(JustToBeSafeViewModel model) {

@@ -94,6 +94,11 @@ namespace NHS111.Web.Presentation.Configuration
             return String.Format(ConfigurationManager.AppSettings["CCGApiGetCCGByPostcodeUrl"], postcode);
         }
 
+        public string CCGApiGetCCGDetailsByPostcode(string postcode)
+        {
+            return string.Format(ConfigurationManager.AppSettings["CCGApiGetCCGDetailsByPostcode"], postcode);
+        }
+
         public string GetBusinessApiGetCategoriesWithPathways() { return GetBusinessApiUrlWithDomain("BusinessApiGetCategoriesWithPathways"); }
         public string GetBusinessApiPathwaySearchUrl(string gender, string age, bool pathOnly = false)
         {
@@ -225,6 +230,7 @@ namespace NHS111.Web.Presentation.Configuration
         string CCGBusinessApiBaseProtocolandDomain { get; }
 
         string CCGBusinessApiGetCCGUrl(string postcode);
+        string CCGApiGetCCGDetailsByPostcode(string postcode);
         string GetBusinessApiPathwayUrl(string pathwayId, bool pathOnly = false);
         string GetBusinessApiGroupedPathwaysUrl(string searchString);
         string GetBusinessApiGroupedPathwaysUrl(string searchString, string gender, int age, bool pathOnly = false);

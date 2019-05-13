@@ -1,16 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using log4net;
-using NHS111.Models.Models.Web.CCG;
-using NHS111.Utils.RestTools;
-using NHS111.Web.Presentation.Configuration;
-using RestSharp;
+﻿
 
 namespace NHS111.Web.Presentation.Builders
 {
+    using System.Net;
+    using System.Web;
+    using System.Threading.Tasks;
+    using NHS111.Models.Models.Web.CCG;
+    using Configuration;
+    using RestSharp;
+
     public class CCGViewModelBuilder : ICCGModelBuilder
     {
         private IRestClient _ccgServiceRestClient;
@@ -27,16 +25,32 @@ namespace NHS111.Web.Presentation.Builders
             var response = await _ccgServiceRestClient.ExecuteTaskAsync<CCGModel>(
                 new RestRequest(_configuration.CCGBusinessApiGetCCGUrl(postcode), Method.GET));
 
-            if (response.Data != null && response.Data != null)
+            if (response.Data != null)
                 return response.Data;
 
             return new CCGModel();
         }
+
+        public async Task<CCGDetailsModel> FillCCGDetailsModelAsync(string postCode)
+        {
+            var response = await _ccgServiceRestClient.ExecuteTaskAsync<CCGDetailsModel>(
+                new RestRequest(_configuration.CCGApiGetCCGDetailsByPostcode(postCode), Method.GET));
+
+            if (response.StatusCode != HttpStatusCode.OK)
+                throw new HttpException("CCG Service Error Response");
+
+            if (response.Data != null)
+                return response.Data;
+
+            return new CCGDetailsModel();
+        }
+
     }
 
     public interface ICCGModelBuilder
     {
         Task<CCGModel> FillCCGModel(string postcode);
+        Task<CCGDetailsModel> FillCCGDetailsModelAsync(string postCode);
     }
 
     //public interface ICCGApiRestClient : IRestClient { }
@@ -45,4 +59,4 @@ namespace NHS111.Web.Presentation.Builders
     //{
     //    public LoggingCCGApiRestClient(string baseUrl, ILog logger) : base(baseUrl, logger) { }
     //}
- }
+}
