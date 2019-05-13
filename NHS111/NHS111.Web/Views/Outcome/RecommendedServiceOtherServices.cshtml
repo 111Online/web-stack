@@ -38,6 +38,14 @@
     }
 }
 
+@using (Html.BeginForm("RecommendedService", "Outcome", FormMethod.Post))
+{
+    @Html.Partial("_CommonHiddenFieldsOutcomeViewModel", Model)
+    @Html.Partial("_CommonHiddenFieldsRecommendedServiceViewModel", Model.OtherServices.First(), new ViewDataDictionary() { TemplateInfo = new TemplateInfo() {HtmlFieldPrefix = "RecommendedService" } } )
+    @Html.Partial("_CommonHiddenFieldsCareAdviceViewModel", Model)
+    <button class="button--link">Back</button>
+}
+
 <div class="measure">
     <h1>Other ways to get help</h1>
 </div>
@@ -48,8 +56,15 @@
         </p>
     </div>
 </div>
-
-@foreach (var service in Model.OtherServices)
+@using (Html.BeginForm("ChangePostcode", "Outcome", FormMethod.Post))
+{
+    @Html.Partial("_CommonHiddenFieldsOutcomeViewModel", Model)
+    @Html.Partial("_CommonHiddenFieldsCareAdviceViewModel", Model)
+    <p>
+        These services are also available in @Model.FormattedCurrentPostcode — @Html.Partial("_rs_ChangePostcodeLink")
+    </p>
+}
+@foreach (var service in Model.OtherServices.Skip(1))
 {
     Model.RecommendedService = service;
     <div class="callout callout--info">

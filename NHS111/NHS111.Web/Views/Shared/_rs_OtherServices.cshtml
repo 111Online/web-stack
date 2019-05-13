@@ -3,6 +3,7 @@
 @using (Html.BeginForm("ServiceList", "Outcome", FormMethod.Post, new { id = "other-services-form" }))
 {
     @Html.Partial("_CommonHiddenFieldsOutcomeViewModel")
+    @Html.Partial("_CommonHiddenFieldsRecommendedServiceViewModel", Model.RecommendedService, new ViewDataDictionary() { TemplateInfo = new TemplateInfo() {HtmlFieldPrefix = "RecommendedService" } } )
     @Html.Partial("_CommonHiddenFieldsCareAdviceViewModel")
     <hr/>
     <div class="measure">
