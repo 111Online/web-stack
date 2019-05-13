@@ -90,6 +90,9 @@
     <Compile Include="Service\SearchDistanceServiceTests.cs" />
     <Compile Include="ServiceType\OnlineServiceTypeMapperTest.cs" />
     <Compile Include="Service\ServiceAvailabilityFilterServiceTest.cs" />
+    <Compile Include="WhiteListPopulator\ReferralServicesWhiteListPopulatorTests.cs" />
+    <Compile Include="WhiteListPopulator\PharmacyReferralServicesWhiteListPopulatorTests.cs" />
+    <Compile Include="WhiteListPopulator\WhiteListManagerTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
