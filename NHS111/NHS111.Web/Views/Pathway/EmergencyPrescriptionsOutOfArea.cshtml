@@ -3,14 +3,14 @@
     Layout = "~/Views/Shared/_LayoutNhsUK.cshtml";
 }
 @inherits NHS111.Web.Views.Shared.DirectLinkingView<JourneyViewModel>
-@section Title {NHS 111 Online - Emergency Prescriptions}
+@section Title {NHS 111 Online - Emergency Prescriptions not available}
 
 @section HeadTop {
     <script>
         dataLayer = [
             {
-                'virtualPageUrl': 'Emergency Prescriptions Home',
-                'virtualPageTitle': 'Emergency Prescriptions Home'
+                'virtualPageUrl': 'Emergency Prescriptions not available',
+                'virtualPageTitle': 'Emergency Prescriptions not available'
             }];
     </script>
 }
@@ -26,9 +26,11 @@
         A pharmacist can help if you can't get in touch with your GP.
     </p>
     <p>
-        
-
-    </p><div class="nhsuk-action-link">
+    @{
+        //Html.Partial("_ActionLink", new ActionLinkViewModel() { Text = "Find a pharmacy", Url = "https://www.nhs.uk/service-search/Pharmacy/LocationSearch/10", Target = "_blank" })
+    }
+    </p>
+    <div class="nhsuk-action-link">
         <button class="nhsuk-action-link__link button--link">
             <svg class="nhsuk-icon nhsuk-icon__arrow-right-circle" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true">
                 <path d="M0 0h24v24H0z" fill="none"></path>
@@ -39,15 +41,3 @@
     </div>
     <p></p>
 </div>
-
-@using (Html.BeginForm("Find", "Location", FormMethod.Post))
-{
-
-    @Html.HiddenFor(m => m.SessionId)
-    @Html.HiddenFor(m => m.Campaign)
-    @Html.HiddenFor(m => m.FilterServices)
-    @Html.HiddenFor(m => m.PathwayNo)
-    @Html.HiddenFor(m => m.CurrentPostcode)
-
-    <button type="submit" class="button--next">Start</button>
-}

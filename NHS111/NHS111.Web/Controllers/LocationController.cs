@@ -84,8 +84,15 @@ namespace NHS111.Web.Controllers
             model.Source = string.IsNullOrEmpty(model.Source) ? ccg.CCG : model.Source;
 
             switch (postcodeValidationRepsonse) {
-                case PostcodeValidatorResponse.InPathwaysArea:
+                case PostcodeValidatorResponse.InPathwaysArea: {
+                    if (IsRequestingPharmacyPathway(model.PathwayNo))
+                            return View("../Pathway/EmergencyPrescriptionsOutOfArea", model);
+
                     return View(moduleZeroViewName, model);
+                }
+                case PostcodeValidatorResponse.InAreaWithPharmacyServices: //postcode with pharmacy services but didn't request pharmacy pathway
+                    return View(moduleZeroViewName, model);
+
                 case PostcodeValidatorResponse.PostcodeNotFound:
                     return View("OutOfArea",
                         new OutOfAreaViewModel {
@@ -94,18 +101,11 @@ namespace NHS111.Web.Controllers
                         });
             }
 
-            if (IsRequestingPharmacyPathway(model.PathwayNo)) {
-                if (postcodeValidationRepsonse == PostcodeValidatorResponse.InAreaWithPharmacyServices)
-                    return View(moduleZeroViewName, model);
-
-                return View("../Pathway/EmergencyPrescriptionsOutOfArea", model);
-            }
-
             return View("Location");
         }
 
         private bool IsRequestingPharmacyPathway(string pathwayNo) {
-            return pathwayNo != null || pathwayNo.ToUpper() == EmergencyPrescriptionsPathwayNo;
+            return pathwayNo != null && pathwayNo.ToUpper() == EmergencyPrescriptionsPathwayNo;
         }
 
         private static string EmergencyPrescriptionsPathwayNo = "PW1827";
