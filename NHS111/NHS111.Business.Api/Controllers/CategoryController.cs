@@ -78,7 +78,7 @@ namespace NHS111.Business.Api.Controllers {
             }
 
 #if !DEBUG
-            if (!string.IsNullOrEmpty(cacheValue))
+            if (string.IsNullOrEmpty(cacheValue) && categoriesWithPathways.Any())
             {
                 _cacheManager.Set(cacheKey, JsonConvert.SerializeObject(categoriesWithPathways));
             }
