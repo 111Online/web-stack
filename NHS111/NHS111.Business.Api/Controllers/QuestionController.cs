@@ -194,7 +194,7 @@ namespace NHS111.Business.Api.Controllers
 
             var nextLabel = node.Labels.FirstOrDefault();
 
-            if (nextLabel == "Question" || nextLabel == "Outcome" || nextLabel == "CareAdvice")
+            if (nextLabel == "Question" || nextLabel == "Outcome" || nextLabel == "CareAdvice" || nextLabel == "Page")
             {
                 var result = _questionTransformer.AsQuestionWithAnswers(node);
 
