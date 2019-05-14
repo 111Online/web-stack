@@ -110,6 +110,8 @@ namespace NHS111.Web.Controllers
         [HttpPost]
         public ActionResult RecommendedService(OutcomeViewModel outcomeModel)
         {
+            ModelState.Clear();
+            outcomeModel.HasSeenPreamble = true;
             return View(outcomeModel);
         }
 

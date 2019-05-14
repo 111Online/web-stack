@@ -7,7 +7,7 @@
 @if (!Model.DosCheckCapacitySummaryResult.ResultListEmpty)
 {
     var recommendedService = Model.RecommendedService;
-    <div>
-        @Html.Partial(new ServiceTypeMapping(recommendedService.OnlineDOSServiceType).TypeViewName, Model)
-    </div>
+<div>
+    @Html.Partial(new ServiceTypeMapping(recommendedService.OnlineDOSServiceType).TypeViewName, Model)
+</div>
 }

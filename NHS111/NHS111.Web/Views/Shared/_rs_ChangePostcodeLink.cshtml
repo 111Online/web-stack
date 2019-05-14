@@ -1,0 +1,9 @@
+﻿@using NHS111.Models.Models.Web
+@model  OutcomeViewModel
+
+@using (Html.BeginForm("ChangePostcode", "Outcome", FormMethod.Post))
+{
+    @Html.Partial("_CommonHiddenFieldsOutcomeViewModel", Model)
+    @Html.Partial("_CommonHiddenFieldsCareAdviceViewModel", Model)
+    @*<span>This service is available in @Model.FormattedCurrentPostcode —*@ <button class="button--link">Change my location</button>@*</span>*@
+}
