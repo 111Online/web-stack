@@ -158,6 +158,7 @@
     <Compile Include="Services\CategoryService.cs" />
     <Compile Include="Services\CCGService.cs" />
     <Compile Include="Services\EmergencyPrescriptionResultFilter.cs" />
+    <Compile Include="Services\ICategoryFilter.cs" />
     <Compile Include="Services\ISearchResultFilter.cs" />
     <Compile Include="Services\LocationService.cs" />
     <Compile Include="Services\OutcomeService.cs" />

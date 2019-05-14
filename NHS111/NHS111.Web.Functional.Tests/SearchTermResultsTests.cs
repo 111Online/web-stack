@@ -27,5 +27,22 @@ namespace NHS111.Web.Functional.Tests
             searchPage.SearchByTerm(term);
             searchPage.VerifyTermHits(result, 5);
         }
+
+        /*
+         * This test will rely on services being in the Pharmacy Whitelist from CCG Service
+         */
+        [TestCase]
+        public void SearchTermResults_EmergencyPrescriptionsPilotArea()
+        {
+            // First check a postcode that should show EP does
+            var searchPagePilot = TestScenerios.LaunchSearchScenerio(Driver, TestScenerioSex.Male, 33, "LS17 7NZ");
+            searchPagePilot.SearchByTerm("emergency prescription");
+            searchPagePilot.VerifyTermHits("Emergency Prescription", 1);
+            
+            // Then check a postcode that shouldn't show EP doesn't
+            var searchPageNotPilot = TestScenerios.LaunchSearchScenerio(Driver, TestScenerioSex.Male, 33, "PO22 8PB");
+            searchPageNotPilot.SearchByTerm("emergency prescription");
+            searchPageNotPilot.VerifyTermNoHits("PW1827");
+        }
     }
 }
