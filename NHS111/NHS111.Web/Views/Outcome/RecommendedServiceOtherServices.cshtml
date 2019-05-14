@@ -64,7 +64,7 @@
         These services are also available in @Model.FormattedCurrentPostcode — @Html.Partial("_rs_ChangePostcodeLink")
     </p>
 }
-@foreach (var service in Model.OtherServices.Skip(1))
+@foreach (var service in Model.OtherServices)
 {
     Model.RecommendedService = service;
     <div class="callout callout--info">
