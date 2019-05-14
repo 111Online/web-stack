@@ -21,6 +21,7 @@ namespace NHS111.Business.IoC
                 .Is(new LoggingRestClient(configuration.GetCCGBaseUrl(), LogManager.GetLogger("log")));
 
             For<ISearchResultFilter>().Use<EmergencyPrescriptionResultFilter>().Ctor<ICCGDetailsService>();
+            For<ICategoryFilter>().Use<EmergencyPrescriptionResultFilter>().Ctor<ICCGDetailsService>();
 
             For<ILocationService>().Singleton()
                 .Use<LocationService>()

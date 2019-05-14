@@ -117,7 +117,7 @@ namespace NHS111.Web.Controllers
             var decryptedArgs = new QueryStringEncryptor(args);
 
             var ageGenderViewModel = new AgeGenderViewModel { Gender = gender, Age = age };
-            var categoriesContainingStartingPathways = await GetAllCategories(ageGenderViewModel);
+            var categoriesContainingStartingPathways = await GetAllCategories(ageGenderViewModel, decryptedArgs["postcode"]);
             var model = new SearchJourneyViewModel
             {
                 SessionId = Guid.Parse(decryptedArgs["sessionId"]),
@@ -148,7 +148,7 @@ namespace NHS111.Web.Controllers
             var decryptedArgs = new QueryStringEncryptor(args);
 
             var ageGenderViewModel = new AgeGenderViewModel { Gender = gender, Age = age };
-            var categoriesContainingStartingPathways = await GetAllCategories(ageGenderViewModel);
+            var categoriesContainingStartingPathways = await GetAllCategories(ageGenderViewModel, decryptedArgs["postcode"]);
             var model = new SearchJourneyViewModel
             {
                 SessionId = Guid.Parse(decryptedArgs["sessionId"]),
@@ -178,7 +178,7 @@ namespace NHS111.Web.Controllers
             var decryptedArgs = new QueryStringEncryptor(args);
 
             var ageGenderViewModel = new AgeGenderViewModel { Gender = gender, Age = age };
-            var categoriesContainingStartingPathways = await GetAllCategories(ageGenderViewModel);
+            var categoriesContainingStartingPathways = await GetAllCategories(ageGenderViewModel, decryptedArgs["postcode"]);
             var rootCategory = new CategoryWithPathways {
                 Category = new Category {Title = "All topics"},
                 Pathways = FlattenCategories(categoriesContainingStartingPathways)
@@ -221,12 +221,15 @@ namespace NHS111.Web.Controllers
             return results;
         }
 
-        private async Task<IEnumerable<CategoryWithPathways>> GetAllCategories(AgeGenderViewModel model)
+        private async Task<IEnumerable<CategoryWithPathways>> GetAllCategories(AgeGenderViewModel model, string postcode)
         {
-            var url = _configuration.GetBusinessApiGetCategoriesWithPathwaysGenderAge(model.Gender,
+            var requestPath = _configuration.GetBusinessApiGetCategoriesWithPathwaysGenderAge(model.Gender,
                 model.Age, true);
-            var response = await
-                _restClientBusinessApi.ExecuteTaskAsync<List<CategoryWithPathways>>(new JsonRestRequest(url, Method.GET));
+            
+            var request = new RestRequest(requestPath, Method.POST);
+            request.AddJsonBody(postcode);
+
+            var response = await _restClientBusinessApi.ExecuteTaskAsync<List<CategoryWithPathways>>(request);
 
 
             var allCategories = response.Data;

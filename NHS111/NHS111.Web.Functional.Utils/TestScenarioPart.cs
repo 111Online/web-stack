@@ -36,9 +36,9 @@ namespace NHS111.Web.Functional.Utils
             return page.ClickStart() as LocationPage;
         }
 
-        public static ModuleZeroPage ModuleZero(LocationPage page)
+        public static ModuleZeroPage ModuleZero(LocationPage page, string postcode = "LS177NZ")
         {
-            return page.EnterPostcode("LS177NZ").ClickNext() as ModuleZeroPage;
+            return page.EnterPostcode(postcode).ClickNext() as ModuleZeroPage;
         }
 
         public static DemographicsPage Demographics(ModuleZeroPage page)

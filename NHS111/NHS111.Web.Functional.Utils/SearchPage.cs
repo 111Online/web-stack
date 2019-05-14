@@ -85,6 +85,14 @@ namespace NHS111.Web.Functional.Utils
             SearchTxtBox.SendKeys(term);
             ClickNextButton();
         }
+
+        // VerifyTermNoHits is used to check filtering works as expected
+        public void VerifyTermNoHits(string pathwayNo)
+        {
+            var elements = Driver.FindElements(By.CssSelector("[data-pathway-number=" + pathwayNo + "]")); 
+            Assert.IsTrue(elements.Count == 0);
+        }
+
         public void VerifyTermHits(string expectedHitTitle, int maxRank) {
             expectedHitTitle = expectedHitTitle.ToLower();
             var rank = 0;
