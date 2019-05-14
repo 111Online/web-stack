@@ -68,7 +68,7 @@ namespace NHS111.Business.Api.Controllers {
             var cacheValue = await _cacheManager.Read(cacheKey);
             if (!string.IsNullOrEmpty(cacheValue))
             {
-                categoriesWithPathways = cacheValue;
+                categoriesWithPathways = JsonConvert.DeserializeObject<IEnumerable<CategoryWithPathways>>(cacheValue);
             }
 #endif
 
