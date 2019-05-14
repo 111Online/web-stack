@@ -439,8 +439,9 @@
     <Content Include="Views\Shared\_CommonHiddenFieldsRecommendedServiceViewModel.cshtml" />
     <Content Include="Views\Outcome\RecommendedServiceNotOffered.cshtml" />
     <Content Include="Views\Location\Home.cshtml" />
-    <Content Include="Views\Shared\rs_refer_ring_and_go.cshtml" />
+    <Content Include="Views\Shared\_rs_refer_ring_and_go.cshtml" />
     <Content Include="Views\Question\Page.cshtml" />
+    <Content Include="Views\Outcome\RecommendedServiceOtherServices.cshtml" />
     <None Include="Web.Development.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

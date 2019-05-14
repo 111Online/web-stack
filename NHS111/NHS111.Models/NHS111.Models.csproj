@@ -173,6 +173,7 @@
     <Compile Include="Mappers\WebMappings\AutoMapperWebConfiguration.cs" />
     <Compile Include="Mappers\WebMappings\FromDosCaseToDosServicesByClinicalTermRequest.cs" />
     <Compile Include="Mappers\WebMappings\FromOutcomeViewModelToDosViewModel.cs" />
+    <Compile Include="Mappers\WebMappings\FromOutcomeViewModelToOtherServicesViewModel.cs" />
     <Compile Include="Mappers\WebMappings\FromOutcomeViewModelToPersonalDetailViewModel.cs" />
     <Compile Include="Mappers\WebMappings\FromOutcomeVIewModelToITKDispatchRequest.cs" />
     <Compile Include="Mappers\WebMappings\FromOutcomeViewModelToSubmitEncounterToServiceRequest.cs" />
@@ -242,6 +243,7 @@
     <Compile Include="Models\Web\LocationInfoViewModel.cs" />
     <Compile Include="Models\Web\LocationViewModel.cs" />
     <Compile Include="Models\Web\NodeDetailsViewModel.cs" />
+    <Compile Include="Models\Web\OtherServicesViewModel.cs" />
     <Compile Include="Models\Web\OutcomeMapViewModel.cs" />
     <Compile Include="Models\Web\PageDataViewModel.cs" />
     <Compile Include="Models\Web\FromExternalServices\DosCheckCapacitySummaryResult.cs" />

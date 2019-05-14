@@ -1,0 +1,75 @@
+﻿@using NHS111.Models.Models.Web
+@inherits NHS111.Web.Views.Shared.SurveyLinkView<OtherServicesViewModel>
+@{
+    Layout = "~/Views/Shared/_LayoutNhsUk.cshtml";
+}
+
+@section Title {
+    NHS 111 - Other services
+}
+
+@section HeadTop {
+    @{ var url = string.Format("/outcome/{0}/{1}/{2}/recommendedservice/otherservices/{3}/", Url.Encode(Model.PathwayNo), Url.Encode(Model.OutcomeGroup.Text), Url.Encode(Model.Id), Url.Encode(Model.UserInfo.CurrentAddress.Postcode)); }
+    <script>
+        var pageId = '@Model.Id';
+        dataLayer = [
+        {
+            'virtualPageUrl': '@url',
+            'virtualPageTitle': 'Other Services Found'
+        }];
+    </script>
+}
+
+@{
+    var dataDictionary = ViewContext.ViewData;
+    dataDictionary.Add(new KeyValuePair<string, object>("LaunchPage", "service-list"));
+}
+@section SurveyBanner{
+    @Html.Partial("_SurveyLink", Model.SurveyLink, dataDictionary)
+}
+@section FeedbackSection {
+    @if (!SurveyLinkFeature.IsEnabled)
+    {
+        @Html.Partial("_FeedbackDetails", new FeedbackViewModel() { UserId = Model.SessionId.ToString(), PageData = new PageDataViewModel(PageDataViewModel.PageType.ServiceList, Model) })
+    }
+    else
+    {
+        @Html.Partial("_SurveyLink", Model.SurveyLink)
+    }
+}
+
+@using (Html.BeginForm("RecommendedService", "Outcome", FormMethod.Post))
+{
+    @Html.Partial("_CommonHiddenFieldsOutcomeViewModel", Model)
+    @Html.Partial("_CommonHiddenFieldsRecommendedServiceViewModel", Model.OtherServices.First(), new ViewDataDictionary() { TemplateInfo = new TemplateInfo() {HtmlFieldPrefix = "RecommendedService" } } )
+    @Html.Partial("_CommonHiddenFieldsCareAdviceViewModel", Model)
+    <button class="button--link">Back</button>
+}
+
+<div class="measure">
+    <h1>Other ways to get help</h1>
+</div>
+<div class="measure">
+    <div class="callout callout--warning">
+        <p>
+            Get help now
+        </p>
+    </div>
+</div>
+@using (Html.BeginForm("ChangePostcode", "Outcome", FormMethod.Post))
+{
+    @Html.Partial("_CommonHiddenFieldsOutcomeViewModel", Model)
+    @Html.Partial("_CommonHiddenFieldsCareAdviceViewModel", Model)
+    <p>
+        These services are also available in @Model.FormattedCurrentPostcode — @Html.Partial("_rs_ChangePostcodeLink")
+    </p>
+}
+@foreach (var service in Model.OtherServices.Skip(1))
+{
+    Model.RecommendedService = service;
+    <div class="callout callout--info">
+        @Html.Partial(new ServiceTypeMapping(service.OnlineDOSServiceType).TypeViewName, Model)
+    </div>
+}
+
+@Html.Partial("_rs_WorseningAdvice", Model)

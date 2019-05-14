@@ -27,6 +27,7 @@ namespace NHS111.Web.Presentation.Test.Controllers {
         private Mock<Configuration.IConfiguration> _configuration;
         private Mock<IPostCodeAllowedValidator> _postCodeAllowedValidator;
         private IViewRouter _viewRouter;
+        private Mock<IRecommendedServiceBuilder> _recommendedServiceBuilder;
         private DosCheckCapacitySummaryResult _successfulDosResponse = new DosCheckCapacitySummaryResult
         {
             Success = new SuccessObject<ServiceViewModel>
@@ -45,10 +46,11 @@ namespace NHS111.Web.Presentation.Test.Controllers {
             _configuration = new Mock<Configuration.IConfiguration>();
             _postCodeAllowedValidator = new Mock<IPostCodeAllowedValidator>();
             var referralResultBuilder = new ReferralResultBuilder(_postCodeAllowedValidator.Object);
+            _recommendedServiceBuilder = new Mock<IRecommendedServiceBuilder>();
             _viewRouter = new ViewRouter(_auditLogger.Object, new Mock<IUserZoomDataBuilder>().Object, new Mock<IJourneyViewModelEqualityComparer>().Object);
             _outcomeController = new OutcomeController(_outcomeViewModelBuilder.Object, _dosBuilder.Object,
                 _surgeryBuilder.Object, _locationResultBuilder.Object, _auditLogger.Object, _configuration.Object,
-                _postCodeAllowedValidator.Object, _viewRouter, referralResultBuilder);
+                _postCodeAllowedValidator.Object, _viewRouter, referralResultBuilder, _recommendedServiceBuilder.Object);
         }
 
         [Test]
