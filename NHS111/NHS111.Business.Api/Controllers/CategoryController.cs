@@ -61,7 +61,7 @@ namespace NHS111.Business.Api.Controllers {
         {
             
             var cacheKey = String.Format("GetCategoriesWithPathways-{0}-{1}", gender, age);
-            IEnumerable<CategoryWithPathways> categoriesWithPathways;
+            IEnumerable<CategoryWithPathways> categoriesWithPathways = new List<CategoryWithPathways>();
 
 #if !DEBUG
             // The cache should ignore any filtering, so that must be done after cache is read or set.
@@ -72,7 +72,10 @@ namespace NHS111.Business.Api.Controllers {
             }
 #endif
 
-            categoriesWithPathways = await _categoryService.GetCategoriesWithPathways(gender, age);
+            if (!categoriesWithPathways.Any())
+            {
+                categoriesWithPathways = await _categoryService.GetCategoriesWithPathways(gender, age);
+            }
 
 #if !DEBUG
             if (!string.IsNullOrEmpty(cacheValue))
