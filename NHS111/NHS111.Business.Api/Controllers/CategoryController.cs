@@ -5,6 +5,7 @@ using System.Linq;
 using System.Web.Http.Results;
 using Newtonsoft.Json;
 using NHS111.Models.Models.Domain;
+using NHS111.Models.Models.Web.FromExternalServices;
 using NHS111.Utils.Cache;
 
 namespace NHS111.Business.Api.Controllers {
@@ -37,19 +38,21 @@ namespace NHS111.Business.Api.Controllers {
         public async Task<JsonResult<IEnumerable<CategoryWithPathways>>> GetCategoriesWithPathways(string gender, int age)
         {
             var cacheKey = String.Format("GetCategoriesWithPathways-{0}-{1}", gender, age);
-            IEnumerable<CategoryWithPathways> categoriesWithPathways;
+#if !DEBUG
+            var cacheValue = await _cacheManager.Read(cacheKey);
+            if (!string.IsNullOrEmpty(cacheValue))
+            {
+                return Json(JsonConvert.DeserializeObject<IEnumerable<CategoryWithPathways>>(cacheValue));
+            }
+#endif
+
+            var categoriesWithPathways = await _categoryService.GetCategoriesWithPathways(gender, age);
 
 #if !DEBUG
-                var cacheValue = await _cacheManager.Read(cacheKey);
-                if (!string.IsNullOrEmpty(cacheValue))
-                {
-                    categoriesWithPathways = cacheValue;
-                }
-#else
-                categoriesWithPathways = await _categoryService.GetCategoriesWithPathways(gender, age);
-                _cacheManager.Set(cacheKey, JsonConvert.SerializeObject(categoriesWithPathways));
+            _cacheManager.Set(cacheKey, JsonConvert.SerializeObject(categoriesWithPathways));
 #endif
             return Json(categoriesWithPathways);
+
         }
 
         [Route("categories/pathways/{gender}/{age}")]
@@ -61,19 +64,24 @@ namespace NHS111.Business.Api.Controllers {
             IEnumerable<CategoryWithPathways> categoriesWithPathways;
 
 #if !DEBUG
-// The cache should ignore any filtering, so that must be done after cache is read or set.
-                var cacheValue = await _cacheManager.Read(cacheKey);
-                if (!string.IsNullOrEmpty(cacheValue))
-                {
-                    categoriesWithPathways = cacheValue;
-                }
-#else
-            categoriesWithPathways = await _categoryService.GetCategoriesWithPathways(gender, age);
-            _cacheManager.Set(cacheKey, JsonConvert.SerializeObject(categoriesWithPathways));
+            // The cache should ignore any filtering, so that must be done after cache is read or set.
+            var cacheValue = await _cacheManager.Read(cacheKey);
+            if (!string.IsNullOrEmpty(cacheValue))
+            {
+                categoriesWithPathways = cacheValue;
+            }
 #endif
 
+            categoriesWithPathways = await _categoryService.GetCategoriesWithPathways(gender, age);
 
-            if (postcode != null)
+#if !DEBUG
+            if (!string.IsNullOrEmpty(cacheValue))
+            {
+                _cacheManager.Set(cacheKey, JsonConvert.SerializeObject(categoriesWithPathways));
+            }
+#endif
+
+            if (!string.IsNullOrEmpty(postcode))
             {
                 categoriesWithPathways = await _categoryFilter.Filter(categoriesWithPathways, new Dictionary<string, string>(){{"postcode", postcode}});
             }
