@@ -137,6 +137,8 @@ namespace NHS111.Models.Models.Web
         public string Campaign { get; set; }
         public string Source { get; set; }
         public string CurrentPostcode { get; set; }
+        public bool HasSeenPreamble { get; set; }
+
 
         public string FormattedCurrentPostcode
         {

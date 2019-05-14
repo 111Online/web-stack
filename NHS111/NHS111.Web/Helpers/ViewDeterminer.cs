@@ -67,9 +67,9 @@ namespace NHS111.Web.Helpers
                     var viewFilePath = "../Outcome/";
                     if (OutcomeGroup.UsingRecommendedServiceJourney.Contains(model.OutcomeGroup))
                     {
-                        if (outcomeViewModel.RecommendedService == null) return "../Outcome/RecommendedServiceNotOffered"; //TODO: Build this page
+                        if (outcomeViewModel.RecommendedService == null) return "../Outcome/RecommendedServiceNotOffered";
 
-                        if (OutcomeGroup.RequiresOutcomePreamble.Contains(model.OutcomeGroup))
+                        if(model.OutcomeGroup.RequiresOutcomePreamble(outcomeViewModel.HasSeenPreamble))
                             viewFilePath += "Outcome_Preamble";
                         else
                             viewFilePath += "RecommendedService"; 

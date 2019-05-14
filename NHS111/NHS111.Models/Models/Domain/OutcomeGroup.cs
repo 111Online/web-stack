@@ -4,6 +4,7 @@ using System.Collections.Generic;
 
 namespace NHS111.Models.Models.Domain {
     using Newtonsoft.Json;
+    using System.Linq;
 
     public class OutcomeGroup : IEquatable<OutcomeGroup>
     {
@@ -63,7 +64,7 @@ namespace NHS111.Models.Models.Domain {
         public static OutcomeGroup[] PrePopulatedDosResultsOutcomeGroups = new OutcomeGroup[] {Dental, ItkPrimaryCare, AccidentAndEmergency, ClinicianCallBack, Call999Cat3, Call999Cat4, RepeatPrescription };
         public static OutcomeGroup[] DosSearchOutcomesGroups = new OutcomeGroup[] { AccidentAndEmergency, AccidentAndEmergencySexualAssault, Optician, Pharmacy, GumClinic, Dental, EmergencyDental, Midwife, ItkPrimaryCare, ClinicianCallBack };
         public static OutcomeGroup[] UsingRecommendedServiceJourney = new[] { RepeatPrescription };
-        public static OutcomeGroup[] RequiresOutcomePreamble = new[] { RepeatPrescription };
+        public static OutcomeGroup[] UsingOutcomePreamble = new[] { RepeatPrescription };
 
         public static readonly Dictionary<string, OutcomeGroup> OutcomeGroups = new Dictionary<string, OutcomeGroup>()
         {
@@ -134,6 +135,11 @@ namespace NHS111.Models.Models.Domain {
 
         public bool IsEDCallback {
             get { return this.Equals(OutcomeGroup.AccidentAndEmergency); }
+        }
+
+        public bool RequiresOutcomePreamble(bool hasViewed)
+        {
+            return UsingOutcomePreamble.Contains(this) && !hasViewed;
         }
     }
 }
