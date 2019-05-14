@@ -58,7 +58,7 @@ namespace NHS111.Models.Models.Web
             {
                 if (string.IsNullOrEmpty(JourneyJson))
                     return false;
-                return !JsonConvert.DeserializeObject<Journey>(JourneyJson).Steps.Any();
+                return  !(JsonConvert.DeserializeObject<Journey>(JourneyJson).Steps.Any(s => s.NodeType != NodeType.Page));
             }
         }
 
