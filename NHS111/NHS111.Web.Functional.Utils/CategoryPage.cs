@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using NUnit.Framework;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.PageObjects;
@@ -30,7 +31,17 @@ namespace NHS111.Web.Functional.Utils
             Assert.IsTrue(NoResultsMessage.Displayed);
             Assert.AreEqual("Sorry, no topics have been found for '" + searchTerm + "'.", NoResultsMessage.Text);
         }
-        
+
+        public void VerifyCategoryExists(string categoryName)
+        {
+            Assert.IsTrue(Driver.FindElements(By.ClassName("search__category")).Any(element => element.Text == categoryName));
+        }
+
+        public void VerifyCategoryNotExists(string categoryName)
+        {
+            Assert.IsFalse(Driver.FindElements(By.ClassName("search__category")).Any(element => element.Text == categoryName));
+        }
+
         public void VerifyPathwayInCategoryList(string title, string pathwayId)
         {
             bool result = true;
