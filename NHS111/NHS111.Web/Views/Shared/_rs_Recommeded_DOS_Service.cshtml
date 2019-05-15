@@ -14,8 +14,7 @@
     {
         @Html.Partial("_CommonHiddenFieldsOutcomeViewModel", Model)
         @Html.Partial("_CommonHiddenFieldsCareAdviceViewModel", Model)
-        <p>
-            This service is available in @Model.FormattedCurrentPostcode — @Html.Partial("_rs_ChangePostcodeLink")
-        </p>
+        
+        @Html.Partial("_rs_ChangePostcodeLink")
     }
 }
