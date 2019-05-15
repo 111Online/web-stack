@@ -1,5 +1,6 @@
 ﻿
 using NHS111.Models.Models.Web;
+using NHS111.Models.Models.Web.FromExternalServices;
 
 namespace NHS111.Models.Models.Web {
 
@@ -20,8 +21,16 @@ namespace NHS111.Models.Models.Web {
 
         protected  string ResolveConfirmationViewByOutcome(OutcomeViewModel outcomeModel)
         {
-            if (outcomeModel != null && outcomeModel.OutcomeGroup != null && outcomeModel.OutcomeGroup.Equals(Domain.OutcomeGroup.RepeatPrescription))
+            //todo:this needs a rethink with a combination of service type / outcome to route to correct page
+
+            if (outcomeModel != null 
+                && outcomeModel.OutcomeGroup != null
+                && outcomeModel.OutcomeGroup.Equals(Domain.OutcomeGroup.RepeatPrescription)
+                && outcomeModel.SelectedService.OnlineDOSServiceType.Equals(OnlineDOSServiceType.ReferRingAndGo))
+            {
                 return outcomeModel.OutcomeGroup.Id;
+            }
+
             return "default";
         }
     }
