@@ -200,14 +200,9 @@
     <Content Include="ApplicationInsights.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <None Include="Dockerfile" />
-    <None Include=".dockerignore">
-      <DependentUpon>Dockerfile</DependentUpon>
-    </None>
     <None Include="Properties\PublishProfiles\nhs111-dos-domain-api-beta - FTP.pubxml" />
     <None Include="Properties\PublishProfiles\nhs111-dos-domain-api-beta - Web Deploy.pubxml" />
     <Content Include="Service References\Application Insights\ConnectedService.json" />
-    <Content Include="start.ps1" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

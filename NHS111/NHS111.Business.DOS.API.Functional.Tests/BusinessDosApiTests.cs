@@ -19,12 +19,12 @@ namespace NHS111.Business.DOS.API.Functional.Tests
 
         private static string BusinessDosCheckCapacitySummaryUrl
         {
-            get { return ConfigurationManager.AppSettings["BusinessDosApiCheckCapacitySummaryUrl"]; }
+            get { return ConfigurationManager.AppSettings["BusinessDosCheckCapacitySummaryUrl"]; }
         }
 
         private static string BusinessDosServiceDetailsByIdUrl
         {
-            get { return ConfigurationManager.AppSettings["BusinessDosApiServiceDetailsByIdUrl"]; }
+            get { return ConfigurationManager.AppSettings["BusinessDosServiceDetailsByIdUrl"]; }
         }
         
         private static string DOSApiUsername
@@ -36,7 +36,14 @@ namespace NHS111.Business.DOS.API.Functional.Tests
         {
             get { return ConfigurationManager.AppSettings["dos_credential_password"]; }
         }
-        
+
+        [TestFixtureSetUp]
+        public void SetUp()
+        {
+            _restClient.AddHandler("application/json", NewtonsoftJsonSerializer.Default);
+        }
+
+
         /// <summary>
         /// Example test method for a HTTP POST
         /// </summary>
@@ -57,7 +64,7 @@ namespace NHS111.Business.DOS.API.Functional.Tests
         {
             var serviceTypeField = response.ServiceType;
             Assert.IsNotNull(serviceTypeField.Id);
-            Assert.IsNotNull(serviceTypeField.ContactDetails[0].Name);
+            Assert.IsNotNull(serviceTypeField.Name);
 
             Assert.IsNotNull(response.Id);
             Assert.IsNotNull(response.Capacity);
@@ -81,7 +88,7 @@ namespace NHS111.Business.DOS.API.Functional.Tests
         public async void TestCheckDosBusinessServiceDetailsById()
         {
             var dosServiceRequest = new DosServiceDetailsByIdRequest(DOSApiUsername, DOSApiPassword, "1315835856");
-            var request = new JsonRestRequest(BusinessDosCheckCapacitySummaryUrl, Method.POST);
+            var request = new JsonRestRequest(BusinessDosServiceDetailsByIdUrl, Method.POST);
             request.AddJsonBody(dosServiceRequest);
             var result = await _restClient.ExecuteTaskAsync<ServiceDetailsByIdResponse>(request);
             
