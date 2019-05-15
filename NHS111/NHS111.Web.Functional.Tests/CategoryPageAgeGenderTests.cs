@@ -69,7 +69,7 @@ namespace NHS111.Web.Functional.Tests
             categoryPage.VerifyPathwayInCategoryList("Sleep problems", "PW1697FemaleChild");
             categoryPage.VerifyPathwayInCategoryList("Sexual or period problems", "PW1699FemaleChild");
             categoryPage.VerifyPathwayInCategoryList("Fluid or wax coming from the ear with no loss of hearing", "PW1702FemaleChild");
-            categoryPage.VerifyPathwayInCategoryList("Problems with wounds, plaster casts or metal rods", "PW1709FemaleChild");
+            categoryPage.VerifyPathwayInCategoryList("Problems with wounds, drains, plaster casts or metal rods", "PW1709FemaleChild");
             categoryPage.VerifyPathwayInCategoryList("Locked or aching jaw", "PW1712FemaleChild");
             categoryPage.VerifyPathwayInCategoryList("Nosebleed after an injury", "PW1713FemaleChild");
             categoryPage.VerifyPathwayInCategoryList("Stoma problems", "PW1719FemaleChild");
@@ -194,7 +194,7 @@ namespace NHS111.Web.Functional.Tests
             categoryPage.VerifyPathwayInCategoryList("Sexual or period problems", "PW1684FemaleAdult");
             categoryPage.VerifyPathwayInCategoryList("Sleep problems", "PW1686FemaleAdult");
             categoryPage.VerifyPathwayInCategoryList("Fluid or wax coming from the ear with no loss of hearing", "PW1702FemaleAdult");
-            categoryPage.VerifyPathwayInCategoryList("Problems with wounds, plaster casts or metal rods", "PW1709FemaleAdult");
+            categoryPage.VerifyPathwayInCategoryList("Problems with wounds, drains, plaster casts or metal rods", "PW1709FemaleAdult");
             categoryPage.VerifyPathwayInCategoryList("Locked or aching jaw", "PW1712FemaleAdult");
             categoryPage.VerifyPathwayInCategoryList("Nosebleed after an injury", "PW1713FemaleAdult");
             categoryPage.VerifyPathwayInCategoryList("Stoma problems", "PW1719FemaleAdult");
@@ -319,7 +319,7 @@ namespace NHS111.Web.Functional.Tests
             categoryPage.VerifyPathwayInCategoryList("Sleep problems", "PW1697MaleChild");
             categoryPage.VerifyPathwayInCategoryList("Male sexual problems", "PW1698MaleChild");
             categoryPage.VerifyPathwayInCategoryList("Fluid or wax coming from the ear with no loss of hearing", "PW1702MaleChild");
-            categoryPage.VerifyPathwayInCategoryList("Problems with wounds, plaster casts or metal rods", "PW1709MaleChild");
+            categoryPage.VerifyPathwayInCategoryList("Problems with wounds, drains, plaster casts or metal rods", "PW1709MaleChild");
             categoryPage.VerifyPathwayInCategoryList("Locked or aching jaw", "PW1712MaleChild");
             categoryPage.VerifyPathwayInCategoryList("Nosebleed after an injury", "PW1713MaleChild");
             categoryPage.VerifyPathwayInCategoryList("Stoma problems", "PW1719MaleChild");
@@ -440,7 +440,7 @@ namespace NHS111.Web.Functional.Tests
             categoryPage.VerifyPathwayInCategoryList("Male sexual problems", "PW1685MaleAdult");
             categoryPage.VerifyPathwayInCategoryList("Sleep problems", "PW1686MaleAdult");
             categoryPage.VerifyPathwayInCategoryList("Fluid or wax coming from the ear with no loss of hearing", "PW1702MaleAdult");
-            categoryPage.VerifyPathwayInCategoryList("Problems with wounds, plaster casts or metal rods", "PW1709MaleAdult");
+            categoryPage.VerifyPathwayInCategoryList("Problems with wounds, drains, plaster casts or metal rods", "PW1709MaleAdult");
             categoryPage.VerifyPathwayInCategoryList("Locked or aching jaw", "PW1712MaleAdult");
             categoryPage.VerifyPathwayInCategoryList("Nosebleed after an injury", "PW1713MaleAdult");
             categoryPage.VerifyPathwayInCategoryList("Stoma problems", "PW1719MaleAdult");
