@@ -436,8 +436,8 @@
     <Content Include="Views\Shared\_rs_refer_ring_and_go.cshtml" />
     <Content Include="Views\Question\Page.cshtml" />
     <Content Include="Views\Outcome\RecommendedServiceOtherServices.cshtml" />
-    <Content Include="Views\Shared\_Refer_And_Go.cshtml" />
-    <Content Include="Views\Shared\_Refer_Only.cshtml" />
+    <Content Include="Views\Shared\Repeat_Prescription\_Refer_And_Go.cshtml" />
+    <Content Include="Views\Shared\Repeat_Prescription\_Refer_Only.cshtml" />
     <None Include="Web.Development.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
