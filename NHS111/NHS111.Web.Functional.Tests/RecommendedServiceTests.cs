@@ -9,18 +9,16 @@ namespace NHS111.Web.Functional.Tests
     public class RecommendedServiceTests : BaseTests
     {
         [Test]
-        public void NumsasPharmacistService()
+        public void ReferRingAndGoPharmacistService()
         {
-            var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Emergency Prescription", TestScenerioSex.Male, TestScenerioAgeGroups.Adult);
+            var questionPage = TestScenerios.LaunchRecommendedServiceScenerio(Driver, "Emergency Prescription 111 Online", TestScenerioSex.Male, TestScenerioAgeGroups.Adult, "L12SA");
 
             questionPage.VerifyQuestion("Can you get in touch with your GP or usual pharmacy?");
             var recommendedServicePage = questionPage
                 .Answer(2)
-                .Answer(2)
                 .Answer<OutcomePage>(1)
                 .ClickShowServices();
 
-            recommendedServicePage.VerifyCallout();
             recommendedServicePage.VerifyServiceDetails();
             recommendedServicePage.VerifyOtherServices();
             recommendedServicePage.CompareAndVerify("1");
