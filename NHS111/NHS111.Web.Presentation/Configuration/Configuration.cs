@@ -96,7 +96,7 @@ namespace NHS111.Web.Presentation.Configuration
 
         public string CCGApiGetCCGDetailsByPostcode(string postcode)
         {
-            return string.Format(ConfigurationManager.AppSettings["CCGApiGetCCGDetailsByPostcode"], postcode);
+            return string.Format(ConfigurationManager.AppSettings["CCGApiGetCCGDetailsByPostcodeUrl"], postcode);
         }
 
         public string GetBusinessApiGetCategoriesWithPathways() { return GetBusinessApiUrlWithDomain("BusinessApiGetCategoriesWithPathways"); }

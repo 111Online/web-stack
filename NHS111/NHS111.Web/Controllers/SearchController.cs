@@ -15,6 +15,8 @@ using RestSharp.Extensions;
 
 namespace NHS111.Web.Controllers
 {
+    using System.Web.Routing;
+
     public class SearchController : Controller
     {
         public const int MAX_SEARCH_RESULTS = 10;
@@ -36,20 +38,24 @@ namespace NHS111.Web.Controllers
                 return View("~\\Views\\Question\\Gender.cshtml", model);
             }
 
+
             if (model.PathwayNo != null)
             {
-                var questionInfo = new QuestionInfoViewModel {
+                var searchJourneyViewModel = new SearchJourneyViewModel() {
                     SessionId = model.SessionId,
-                    PathwayNo = model.PathwayNo,
+                    PathwayNo = model.PathwayNo.ToUpper(),
                     CurrentPostcode = model.CurrentPostcode,
                     UserInfo = model.UserInfo,
                     FilterServices = model.FilterServices,
                     Campaign = model.Campaign,
                     Source = model.Source
                 };
-                var result = _jtbsViewModelBuilder.JustToBeSafeFirstBuilder(questionInfo).Result;
-                questionInfo.PathwayId = result.Item2.PathwayId;
-                return View("~/Views/Question/Info.cshtml", questionInfo);
+
+                return RedirectToAction("FirstQuestion", "JustToBeSafe", new RouteValueDictionary {
+                    { "pathwayNumber", searchJourneyViewModel.PathwayNo },
+                    { "gender", searchJourneyViewModel.UserInfo.Demography.Gender},
+                    { "age", searchJourneyViewModel.UserInfo.Demography.Age},
+                    { "args", KeyValueEncryptor.EncryptedKeys(searchJourneyViewModel)} });
             }
 
             var startOfJourney = new SearchJourneyViewModel

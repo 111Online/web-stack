@@ -1,4 +1,4 @@
-﻿@using NHS111.Models.Models.Web
+﻿﻿@using NHS111.Models.Models.Web
 @{
     Layout = "~/Views/Shared/_LayoutNhsUK.cshtml";
 }
@@ -29,19 +29,10 @@
 
 @using (Html.BeginForm("Location", "Location", FormMethod.Post))
 {
-<div class="form-group">
-    @Html.LabelFor(m => m.CurrentPostcode, "Postcode")
-    @Html.ValidationMessageFor(m => m.CurrentPostcode, "Please enter your current postcode")
-    @Html.TextBoxFor(m => m.CurrentPostcode, new { @required = true, style = "width: 8em; display: inline-block; margin-right: 10px;" })
-    <button class="js-find-location button--link" type="button" style="display: none">Use my current location</button>
-
     @Html.HiddenFor(m => m.SessionId)
     @Html.HiddenFor(m => m.Campaign)
     @Html.HiddenFor(m => m.FilterServices)
-    @Html.HiddenFor(m => m.PathwayNo)
-</div>
-
-    <button type="submit" class="button">Next</button>
+    <button type="submit" class="button--next">Start</button>
 }
 
 <hr />

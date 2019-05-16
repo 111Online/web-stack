@@ -26,7 +26,7 @@ namespace NHS111.Web.Presentation.Validators
                 return PostcodeValidatorResponse.InvalidSyntax;
             if (!_allowedPostcodeFeature.IsEnabled)
                 return PostcodeValidatorResponse.InPathwaysArea;
-            var ccgModelBuilderTask = _ccgModelBuilder.FillCCGDetailsModelAsync(postcode);
+            var ccgModelBuilderTask = Task.Run(async () => await _ccgModelBuilder.FillCCGDetailsModelAsync(postcode));
             CcgModel = ccgModelBuilderTask.Result;
             if (CcgModel.Postcode == null)
                 return PostcodeValidatorResponse.PostcodeNotFound;
