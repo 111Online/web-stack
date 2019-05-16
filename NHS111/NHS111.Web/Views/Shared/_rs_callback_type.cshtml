@@ -13,30 +13,16 @@
         @Html.Partial("_CommonHiddenFieldsOutcomeViewModel", Model)
         @Html.Partial("_CommonHiddenFieldsCareAdviceViewModel", Model)
         @Html.Hidden("SelectedServiceId", recommendedService.Id)
-
-
-
-        <div class="service-details__address">
-            <p>
-                @WebUtility.HtmlDecode(recommendedService.PublicName)
-            </p>
-            <p>
-                @Html.Partial("_ServiceOpeningTimes", recommendedService, ViewData)
-            </p>
-            <div class="form-hint measure">
-                <p>
-                    @recommendedService.ReasonText
-                </p>
-            </div>
-            <p>
-                <a href="#" class="action-link">
-
-                    @Html.Partial("_ActionButton", new ActionLinkViewModel() { Text = "Use this service" })
-                </a>
-            </p>
-        </div>
-
-
-
+        
+        <p class="service-details__name">
+            @WebUtility.HtmlDecode(recommendedService.PublicName)
+        </p>
+        <p>
+            @Html.Partial("_ServiceOpeningTimes", recommendedService, ViewData)
+        </p>
+        <p class="service-details__hint measure">
+            @recommendedService.ReasonText
+        </p>
+        @Html.Partial("_ActionButton", new ActionLinkViewModel() { Text = "Use this service" })
     }
 </div>

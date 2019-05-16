@@ -24,6 +24,18 @@
     width: auto;
   }
 
+  /* Some specificity hacks are required so nhsuk doesn't override existing classes */
+  .search__button--back {
+    @extend .search__button--back;
+  }
+
+  .callout {
+    @include top-and-bottom();
+  }
+
+  .form-hint {
+    @extend .form-hint;
+  }
   /* nhsuk-frontend components */
   @import "node_modules/nhsuk-frontend/packages/components/action-link/action-link";
   /* Our components that have nhsuk-frontend as a dependency */

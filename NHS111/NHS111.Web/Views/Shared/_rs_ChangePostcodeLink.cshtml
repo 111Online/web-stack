@@ -10,5 +10,5 @@
     @Html.Partial("_CommonHiddenFieldsOutcomeViewModel", Model)
     @Html.Partial("_CommonHiddenFieldsCareAdviceViewModel", Model)
 
-    <p>@string.Format("{0} - {1} ", serviceText, Model.FormattedCurrentPostcode)<button class="button--link">Change my location</button></p>
+    <p>@string.Format("{0} {1} ", serviceText, Model.FormattedCurrentPostcode)<br/><button class="button--link">Change my location</button></p>
 }

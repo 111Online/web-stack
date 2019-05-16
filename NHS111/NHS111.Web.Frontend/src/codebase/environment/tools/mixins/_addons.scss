@@ -45,3 +45,10 @@
   position: absolute;
   width: 1px;
 }
+
+@mixin user-select($param) {
+  -moz-user-select: $param;
+  -webkit-user-select: $param;
+  -ms-user-select: $param;
+  user-select: $param;
+}

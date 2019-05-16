@@ -11,7 +11,10 @@
             @WebUtility.HtmlDecode(recommendedService.PublicName)<br />
             @foreach (String address in recommendedService.AddressLines)
             {
-                @WebUtility.HtmlDecode(address)<br />
+                if (address != "")
+                {
+                    @WebUtility.HtmlDecode(address)<br />
+                }
             }
         </p>
     </div>
@@ -19,7 +22,6 @@
     <div class="service-details__hours nhsuk-u-margin-bottom-4">
         @Html.Partial("_ServiceOpeningTimes", recommendedService, ViewData)
     </div>
-
 
     <div class="service-details__distance">
         <p>@WebUtility.HtmlDecode(recommendedService.Distance) miles away</p>

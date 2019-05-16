@@ -31,11 +31,10 @@
         .cards--goto is used by javascript to insert the map beforehand.
     *@
     <div class="service-details cards--goto">
+        <p class="service-details__distance">
+            @recommendedService.Distance miles away
+        </p>
         <div class="service-details__directions">
-            <p>
-                @*is this in miles?*@
-                @recommendedService.Distance miles away
-            </p>
             @using (Html.BeginForm("GetDirections", "Outcome", FormMethod.Post))
             {
                 @Html.HiddenFor(m => m.SessionId)
