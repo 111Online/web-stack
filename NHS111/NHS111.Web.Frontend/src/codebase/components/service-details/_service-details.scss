@@ -1,4 +1,5 @@
 @import "../environment/settings/colours";
+@import "../tools/mixins/_addons.scss";
 @import "node_modules/nhsuk-frontend/packages/core/tools/_spacing.scss";
 @import "node_modules/nhsuk-frontend/packages/core/tools/_typography.scss";
 
@@ -6,6 +7,7 @@
   padding: 2px 0;
   border: 0;
   background-color: $grey-5;
+  border-left: 0 solid $grey-4;
   @include nhsuk-responsive-padding(4, 'top');
   @include nhsuk-responsive-padding(4, 'bottom');
   @include nhsuk-responsive-padding(3, 'left');
@@ -19,6 +21,10 @@
 .service-details__hint {
   @include nhsuk-font(16);
   color: $grey-1;
+}
+
+.service-listing__info {
+  @include nhsuk-font(16);
 }
 
 .service-details__hours {
@@ -41,7 +47,7 @@
 }
 
 .service-details__phone {
-  @include nhsuk-font(48, 'bold');
+  @include nhsuk-font(32, 'bold');
 }
 
 @supports (display: grid) {
@@ -52,7 +58,7 @@
     }
 
     .service-details {
-      border-left: 4px solid $grey-4;
+      border-left-width: 4px;
       grid-column: 1;
     }
 
@@ -63,6 +69,63 @@
       grid-column-start: 2;
       grid-row-start: 1;
       grid-row-end: 3;
+    }
+  }
+}
+
+.service-listing__toggle--hide,
+.service-listing__toggle--show {
+  @include nhsuk-font(16);
+  @include nhsuk-link-style-default;
+  text-decoration: underline;
+  @include user-select(none);
+}
+
+.other-services {
+  .service-listing__name,
+  .service-listing__info {
+    @include nhsuk-responsive-margin(3, 'bottom');
+  }
+
+  .service-details__name, .cards--goto .service-details__distance {
+    display: none;
+  }
+
+  .service-listing .service-listing__toggle--hide,
+  .service-listing[open] .service-listing__toggle--show {
+    display: none;
+  }
+
+  .service-listing .service-listing__toggle--show,
+  .service-listing[open] .service-listing__toggle--hide {
+    display: initial;
+  }
+
+  .service-listing .measure {
+    max-width: 360px;
+  }
+
+  .service-listing summary {
+    @extend .service-details;
+    text-indent: 0;
+    border-left-width: 4px;
+  }
+
+  .service-listing[open] summary {
+    margin-bottom: 4px;
+  }
+
+  .service-listing {
+    margin-bottom: 24px;
+  }
+
+  .service-listing__name {
+    font-weight: 600;
+  }
+
+  @include media(desktop) {
+    .service-listing {
+      margin-bottom: 48px;
     }
   }
 }

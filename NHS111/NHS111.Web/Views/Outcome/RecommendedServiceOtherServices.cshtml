@@ -1,4 +1,5 @@
 ﻿@using NHS111.Models.Models.Web
+@using NHS111.Models.Models.Web.FromExternalServices
 @inherits NHS111.Web.Views.Shared.SurveyLinkView<OtherServicesViewModel>
 @{
     Layout = "~/Views/Shared/_LayoutNhsUk.cshtml";
@@ -42,31 +43,50 @@
     }
 }
 
-@using (Html.BeginForm("RecommendedService", "Outcome", FormMethod.Post))
-{
-    @Html.Partial("_CommonHiddenFieldsOutcomeViewModel", Model)
-    @Html.Partial("_CommonHiddenFieldsRecommendedServiceViewModel", recommendedService, new ViewDataDictionary() { TemplateInfo = new TemplateInfo() {HtmlFieldPrefix = "RecommendedService" } } )
-    @Html.Partial("_CommonHiddenFieldsCareAdviceViewModel", Model)
-    <button class="button--link">Back</button>
-}
+<div class="nhsuk-core">
+    @using (Html.BeginForm("RecommendedService", "Outcome", FormMethod.Post))
+    {
+        @Html.Partial("_CommonHiddenFieldsOutcomeViewModel", Model)
+        @Html.Partial("_CommonHiddenFieldsRecommendedServiceViewModel", recommendedService, new ViewDataDictionary() { TemplateInfo = new TemplateInfo() {HtmlFieldPrefix = "RecommendedService" } } )
+        @Html.Partial("_CommonHiddenFieldsCareAdviceViewModel", Model)
+        <button class="button--link search__button--back">Back</button>
+    }
 
-<div class="measure">
-    <h1>Other ways to get help</h1>
-</div>
-<div class="measure">
-    <div class="callout callout--warning">
-        <p>
-            Get help now
-        </p>
+    <div class="measure nhsuk-u-margin-top-2">
+        <h1>Other ways to get help</h1>
     </div>
-</div>
-@Html.Partial("_rs_ChangePostcodeLink", dataDictionary)
-@foreach (var service in Model.OtherServices)
-{
-    Model.RecommendedService = service;
-    <div class="callout callout--info">
-        @Html.Partial(new ServiceTypeMapping(service.OnlineDOSServiceType).TypeViewName, Model)
+    <div class="measure">
+        <div class="callout callout--lite callout--warning nhsuk-u-margin-bottom-4">
+            <p>
+                Get help now
+            </p>
+        </div>
     </div>
-}
+    <div class="other-services">
+        @Html.Partial("_rs_ChangePostcodeLink", dataDictionary)
+        @foreach (var service in Model.OtherServices)
+        {
+            Model.RecommendedService = service;
+            <details class="service-listing">
+                <summary>
+                    <p class="service-listing__name">@service.PublicName</p>
+                    @if (service.OnlineDOSServiceType.Equals(OnlineDOSServiceType.PublicPhone) || service.OnlineDOSServiceType.Equals(OnlineDOSServiceType.Callback))
+                    {
+                        <p class="service-listing__info">Telephone service</p>
+                    }
+                    else
+                    {
+                        <p class="service-listing__info">@WebUtility.HtmlDecode(service.Distance) miles away</p>
+                    }
+                    <span class="service-listing__toggle--hide">Hide</span>
+                    <span class="service-listing__toggle--show">More information</span>
+                </summary>
+                @Html.Partial(new ServiceTypeMapping(service.OnlineDOSServiceType).TypeViewName, Model)
+            </details>
+        }
+    </div>
+    
+    <hr/>
 
-@Html.Partial("_rs_WorseningAdvice", Model)
+    @Html.Partial("_rs_WorseningAdvice", Model)
+</div>
