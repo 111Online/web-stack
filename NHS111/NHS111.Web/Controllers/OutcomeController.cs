@@ -341,11 +341,11 @@ namespace NHS111.Web.Controllers
             if (availableServices.ContainsService(model.SelectedService))
             {
                 var outcomeViewModel = ConvertPatientInformantDateToUserinfo(model.PatientInformantDetails, model);
-                outcomeViewModel = await _outcomeViewModelBuilder.ItkResponseBuilder(outcomeViewModel);
-                var result = _referralResultBuilder.Build(outcomeViewModel);
+                var itkConfirmationViewModel = await _outcomeViewModelBuilder.ItkResponseBuilder(outcomeViewModel);
+                var result = _referralResultBuilder.Build(itkConfirmationViewModel);
                 return View(result.ViewName, result);
             }
-
+            
             var unavailableResult = _referralResultBuilder.BuildServiceUnavailableResult(model, availableServices);
             return View(unavailableResult.ViewName, unavailableResult);
         }

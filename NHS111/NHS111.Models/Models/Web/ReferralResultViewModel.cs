@@ -8,17 +8,28 @@ namespace NHS111.Models.Models.Web {
         public GoogleAnalyticsDataLayerContainer GoogleAnalyticsDataLayer { get; set; }
     }
 
-    public abstract class ReferralResultViewModel
-        : BaseViewModel {
+
+
+    public abstract class ReferralResultViewModel : BaseViewModel
+    {
         public abstract string ViewName { get; }
-        public OutcomeViewModel OutcomeModel { get; set; }
+        public ITKConfirmationViewModel ItkConfirmationModel { get; set; }
+        public OutcomeViewModel OutcomeModel;
         public abstract string PartialViewName { get; }
 
-        protected ReferralResultViewModel(OutcomeViewModel outcomeModel) {
-            OutcomeModel = outcomeModel;
+        protected ReferralResultViewModel(ITKConfirmationViewModel itkConfirmationViewModel)
+        {
+            ItkConfirmationModel = itkConfirmationViewModel;
+            OutcomeModel = itkConfirmationViewModel;
         }
 
-        protected  string ResolveConfirmationViewByOutcome(OutcomeViewModel outcomeModel)
+
+        protected ReferralResultViewModel(OutcomeViewModel outcomeViewModel)
+        {
+            OutcomeModel = outcomeViewModel;
+        }
+
+        protected string ResolveConfirmationViewByOutcome(OutcomeViewModel outcomeModel)
         {
             if (outcomeModel != null && outcomeModel.OutcomeGroup != null && outcomeModel.OutcomeGroup.Equals(Domain.OutcomeGroup.RepeatPrescription))
                 return outcomeModel.OutcomeGroup.Id;
@@ -26,14 +37,16 @@ namespace NHS111.Models.Models.Web {
         }
     }
 
+
     public class ReferralConfirmationResultViewModel
-        : ReferralResultViewModel {
+        : ReferralResultViewModel
+    {
         public override string PageTitle { get { return "Referral Confirmed"; } }
-        public override string ViewName { get { return string.Format("Confirmation/{0}/Confirmation", ResolveConfirmationViewByOutcome(this.OutcomeModel)); } }
+        public override string ViewName { get { return string.Format("Confirmation/{0}/Confirmation", ResolveConfirmationViewByOutcome(this.ItkConfirmationModel)); } }
         public override string PartialViewName { get { return "_ReferralConfirmation"; } }
 
-        public ReferralConfirmationResultViewModel(OutcomeViewModel outcomeModel)
-            : base(outcomeModel) {
+        public ReferralConfirmationResultViewModel(ITKConfirmationViewModel itkConfirmationViewModel)
+            : base(itkConfirmationViewModel) {
             GoogleAnalyticsDataLayer = new ReferralConfirmationResultGoogleAnalyticsDataLayer(this);
         }
     }
@@ -43,8 +56,8 @@ namespace NHS111.Models.Models.Web {
         : ReferralConfirmationResultViewModel {
         public override string PartialViewName { get { return "_Call999ReferralConfirmation"; } }
 
-            public Call999ReferralConfirmationResultViewModel(OutcomeViewModel outcomeModel)
-            : base(outcomeModel) {
+            public Call999ReferralConfirmationResultViewModel(ITKConfirmationViewModel itkConfirmationViewModel)
+            : base(itkConfirmationViewModel) {
             GoogleAnalyticsDataLayer = new Call999ReferralConfirmationGoogleAnalyticsDataLayer(this);
         }
     }
@@ -53,20 +66,21 @@ namespace NHS111.Models.Models.Web {
         : ReferralConfirmationResultViewModel {
         public override string PartialViewName { get { return "_AccidentAndEmergencyReferralConfirmation"; } }
 
-        public AccidentAndEmergencyReferralConfirmationResultViewModel(OutcomeViewModel outcomeModel)
-            : base(outcomeModel) {
+        public AccidentAndEmergencyReferralConfirmationResultViewModel(ITKConfirmationViewModel itkConfirmationViewModel)
+            : base(itkConfirmationViewModel) {
             GoogleAnalyticsDataLayer = new AccidentAndEmergencyReferralConfirmationGoogleAnalyticsDataLayer(this);
         }
     }
 
     public class ReferralFailureResultViewModel
-        : ReferralResultViewModel {
+        : ReferralResultViewModel
+    {
         public override string PageTitle { get { return "Call NHS 111 - request for callback not completed"; } }
-        public override string ViewName { get { return string.Format("Confirmation/{0}/ServiceBookingFailure", ResolveConfirmationViewByOutcome(this.OutcomeModel)); } }
+        public override string ViewName { get { return string.Format("Confirmation/{0}/ServiceBookingFailure", ResolveConfirmationViewByOutcome(this.ItkConfirmationModel)); } }
         public override string PartialViewName { get { return "_ReferralFailure"; } }
 
-        public ReferralFailureResultViewModel(OutcomeViewModel outcomeModel)
-            : base(outcomeModel) {
+        public ReferralFailureResultViewModel(ITKConfirmationViewModel itkConfirmationViewModel)
+            : base(itkConfirmationViewModel) {
             GoogleAnalyticsDataLayer = new ReferralFailureResultGoogleAnalyticsDataLayer(this);
         }
     }
@@ -75,8 +89,8 @@ namespace NHS111.Models.Models.Web {
         : ReferralFailureResultViewModel {
         public override string PartialViewName { get { return "_AccidentAndEmergencyReferralFailure"; } }
 
-        public AccidentAndEmergencyReferralFailureResultViewModel(OutcomeViewModel outcomeModel)
-            : base(outcomeModel) {
+        public AccidentAndEmergencyReferralFailureResultViewModel(ITKConfirmationViewModel itkConfirmationViewModel)
+            : base(itkConfirmationViewModel) {
             GoogleAnalyticsDataLayer = new AccidentAndEmergencyReferralFailureGoogleAnalyticsDataLayer(this);
         }
     }
@@ -85,20 +99,21 @@ namespace NHS111.Models.Models.Web {
         : ReferralFailureResultViewModel {
         public override string PartialViewName { get { return "_Call999ReferralFailure"; } }
 
-        public Call999ReferralFailureResultViewModel(OutcomeViewModel outcomeModel)
-            : base(outcomeModel) {
+        public Call999ReferralFailureResultViewModel(ITKConfirmationViewModel itkConfirmationViewModel)
+            : base(itkConfirmationViewModel) {
             GoogleAnalyticsDataLayer = new Call999ReferralFailureGoogleAnalyticsDataLayer(this);
         }
     }
 
     public class DuplicateReferralResultViewModel
-        : ReferralResultViewModel {
+        : ReferralResultViewModel
+    {
         public override string PageTitle { get { return "Call NHS 111 - duplicate request for callback"; } }
         public override string ViewName { get { return "DuplicateBookingFailure"; } }
         public override string PartialViewName { get { return "_DuplicateReferral"; } }
 
-        public DuplicateReferralResultViewModel(OutcomeViewModel outcomeModel)
-            : base(outcomeModel) {
+        public DuplicateReferralResultViewModel(ITKConfirmationViewModel itkConfirmationViewModel)
+            : base(itkConfirmationViewModel) {
             GoogleAnalyticsDataLayer = new DuplicateReferralResultGoogleAnalyticsDataLayer(this);
         }
     }
@@ -107,8 +122,8 @@ namespace NHS111.Models.Models.Web {
         : DuplicateReferralResultViewModel {
         public override string PartialViewName { get { return "_AccidentAndEmergencyDuplicateReferral"; } }
 
-        public AccidentAndEmergencyDuplicateReferralResultViewModel(OutcomeViewModel outcomeModel)
-            : base(outcomeModel) {
+        public AccidentAndEmergencyDuplicateReferralResultViewModel(ITKConfirmationViewModel itkConfirmationViewModel)
+            : base(itkConfirmationViewModel) {
             GoogleAnalyticsDataLayer = new AccidentAndEmergencyDuplicateReferralGoogleAnalyticsDataLayer(this);
         }
     }
@@ -117,8 +132,8 @@ namespace NHS111.Models.Models.Web {
         : DuplicateReferralResultViewModel {
         public override string PartialViewName { get { return "_Call999DuplicateReferral"; } }
 
-        public Call999DuplicateReferralResultViewModel(OutcomeViewModel outcomeModel)
-            : base(outcomeModel) {
+        public Call999DuplicateReferralResultViewModel(ITKConfirmationViewModel itkConfirmationViewModel)
+            : base(itkConfirmationViewModel) {
             GoogleAnalyticsDataLayer = new Call999DuplicateReferralGoogleAnalyticsDataLayer(this);
         }
     }
@@ -129,8 +144,8 @@ namespace NHS111.Models.Models.Web {
         public override string ViewName { get { return "ServiceBookingUnavailable"; } }
         public override string PartialViewName { get { return "_ServiceUnavailable"; } }
 
-        public ServiceUnavailableReferralResultViewModel(OutcomeViewModel outcomeModel)
-            : base(outcomeModel) {
+        public ServiceUnavailableReferralResultViewModel(OutcomeViewModel outcomeViewModel)
+            : base(outcomeViewModel) {
             GoogleAnalyticsDataLayer = new ServiceUnavailableReferralGoogleAnalyticsDataLayer(this);
         }
     }
@@ -140,8 +155,8 @@ namespace NHS111.Models.Models.Web {
     {
         public override string PartialViewName { get { return "_AccidentAndEmergencyServiceUnavailableReferral"; } }
 
-        public AccidentAndEmergencyServiceUnavailableReferralResultViewModel(OutcomeViewModel outcomeModel)
-            : base(outcomeModel) {
+        public AccidentAndEmergencyServiceUnavailableReferralResultViewModel(OutcomeViewModel outcomeViewModel)
+            : base(outcomeViewModel) {
             GoogleAnalyticsDataLayer = new AccidentAndEmergencyServiceUnavailableReferralGoogleAnalyticsDataLayer(this);
         }
     }
@@ -151,8 +166,8 @@ namespace NHS111.Models.Models.Web {
     {
         public override string PartialViewName { get { return "_Call999ServiceUnavailableReferral"; } }
 
-        public Call999ServiceUnavailableReferralResultViewModel(OutcomeViewModel outcomeModel)
-            : base(outcomeModel) {
+        public Call999ServiceUnavailableReferralResultViewModel(OutcomeViewModel outcomeViewModel)
+            : base(outcomeViewModel) {
             GoogleAnalyticsDataLayer = new Call999ServiceUnavailableReferralGoogleAnalyticsDataLayer(this);
         }
     }

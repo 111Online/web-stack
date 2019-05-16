@@ -128,7 +128,7 @@ namespace NHS111.Web.Presentation.Test.Controllers {
 
         [Test]
         public async Task Confirmation_WithNoServicesReturned_ReturnsServiceUnavailableView() {
-            var model = new PersonalDetailViewModel { SelectedServiceId = "123", OutcomeGroup = OutcomeGroup.GP, DosCheckCapacitySummaryResult = _successfulDosResponse, ItkSendSuccess = false, ItkDuplicate = false };
+            var model = new PersonalDetailViewModel { SelectedServiceId = "123", OutcomeGroup = OutcomeGroup.GP, DosCheckCapacitySummaryResult = _successfulDosResponse};
             _dosBuilder.Setup(b =>
                     b.FillCheckCapacitySummaryResult(It.IsAny<DosViewModel>(), It.IsAny<bool>(),
                         It.IsAny<DosEndpoint?>()))
@@ -141,8 +141,8 @@ namespace NHS111.Web.Presentation.Test.Controllers {
 
         [Test]
         public async Task Confirmation_WithSuccessfulReferral_ReturnsConfirmationView() {
-            var model = new PersonalDetailViewModel {SelectedServiceId = "123", OutcomeGroup = OutcomeGroup.GP, DosCheckCapacitySummaryResult = _successfulDosResponse, ItkSendSuccess = true, ItkDuplicate = false };
-            _outcomeViewModelBuilder.Setup(b => b.ItkResponseBuilder(It.IsAny<OutcomeViewModel>())).ReturnsAsync(model);
+            var model = new PersonalDetailViewModel() {SelectedServiceId = "123", OutcomeGroup = OutcomeGroup.GP, DosCheckCapacitySummaryResult = _successfulDosResponse};
+            _outcomeViewModelBuilder.Setup(b => b.ItkResponseBuilder(It.IsAny<OutcomeViewModel>())).ReturnsAsync(new ITKConfirmationViewModel(){ ItkSendSuccess = true, ItkDuplicate = false });
             var result = await _outcomeController.Confirmation(model, null) as ViewResult;
 
             Assert.NotNull(result);
@@ -152,8 +152,8 @@ namespace NHS111.Web.Presentation.Test.Controllers {
         [Test]
         public async Task Confirmation_WithUnsuccessfulReferral_ReturnsFailureView()
         {
-            var model = new PersonalDetailViewModel { SelectedServiceId = "123", OutcomeGroup = OutcomeGroup.GP, DosCheckCapacitySummaryResult = _successfulDosResponse, ItkSendSuccess = false, ItkDuplicate = false };
-            _outcomeViewModelBuilder.Setup(b => b.ItkResponseBuilder(It.IsAny<OutcomeViewModel>())).ReturnsAsync(model);
+            var model = new PersonalDetailViewModel { SelectedServiceId = "123", OutcomeGroup = OutcomeGroup.GP, DosCheckCapacitySummaryResult = _successfulDosResponse};
+            _outcomeViewModelBuilder.Setup(b => b.ItkResponseBuilder(It.IsAny<OutcomeViewModel>())).ReturnsAsync(new ITKConfirmationViewModel() { ItkSendSuccess = false, ItkDuplicate = false });
             var result = await _outcomeController.Confirmation(model, null) as ViewResult;
 
             Assert.NotNull(result);
@@ -163,8 +163,8 @@ namespace NHS111.Web.Presentation.Test.Controllers {
         [Test]
         public async Task Confirmation_WithDuplicateReferral_ReturnsDuplicateView()
         {
-            var model = new PersonalDetailViewModel { SelectedServiceId = "123", OutcomeGroup = OutcomeGroup.GP, DosCheckCapacitySummaryResult = _successfulDosResponse, ItkSendSuccess = false, ItkDuplicate = true };
-            _outcomeViewModelBuilder.Setup(b => b.ItkResponseBuilder(It.IsAny<OutcomeViewModel>())).ReturnsAsync(model);
+            var model = new PersonalDetailViewModel { SelectedServiceId = "123", OutcomeGroup = OutcomeGroup.GP, DosCheckCapacitySummaryResult = _successfulDosResponse  };
+            _outcomeViewModelBuilder.Setup(b => b.ItkResponseBuilder(It.IsAny<OutcomeViewModel>())).ReturnsAsync(new ITKConfirmationViewModel() { ItkSendSuccess = false, ItkDuplicate = true });
             var result = await _outcomeController.Confirmation(model, null) as ViewResult;
 
             Assert.NotNull(result);

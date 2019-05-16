@@ -5,7 +5,7 @@
 @inherits NHS111.Web.Views.Shared.SurveyLinkView<ReferralConfirmationResultViewModel>
 @{
     Layout = "~/Views/Shared/_LayoutNhsUk.cshtml";
-    Model.OutcomeModel.WorseningCareAdvice.Items.Add(new CareAdviceText { Text = "You don't need to send any further requests for a callback. However, if you feel worse whilst you are waiting, please call 111 now." });
+    Model.ItkConfirmationModel.WorseningCareAdvice.Items.Add(new CareAdviceText { Text = "You don't need to send any further requests for a callback. However, if you feel worse whilst you are waiting, please call 111 now." });
     var tagPrinter = new GoogleTagManagerPrinter(null); //todo this can eventually be moved back out into the layout view where it will always have the ctor param
 }
 @section Title {
@@ -21,16 +21,16 @@
     dataDictionary.Add(new KeyValuePair<string, object>("LaunchPage", "confirmation"));
 }
 @section SurveyBanner{
-    @Html.Partial("_SurveyLink", Model.OutcomeModel.SurveyLink, dataDictionary)
+    @Html.Partial("_SurveyLink", Model.ItkConfirmationModel.SurveyLink, dataDictionary)
 }
 @section FeedbackSection {
     @if (SurveyLinkFeature.IsEnabled)
     {
-        @Html.Partial("_SurveyLink", Model.OutcomeModel.SurveyLink, dataDictionary)
+        @Html.Partial("_SurveyLink", Model.ItkConfirmationModel.SurveyLink, dataDictionary)
     }
     else
     {
-        @Html.Partial("_FeedbackDetails", new FeedbackViewModel() { UserId = Model.OutcomeModel.SessionId.ToString(), PageData = new PageDataViewModel(PageDataViewModel.PageType.Confirmation, Model.OutcomeModel) })
+        @Html.Partial("_FeedbackDetails", new FeedbackViewModel() { UserId = Model.ItkConfirmationModel.SessionId.ToString(), PageData = new PageDataViewModel(PageDataViewModel.PageType.Confirmation, Model.ItkConfirmationModel) })
     }
 }
 <section>
@@ -40,11 +40,11 @@
         </div>
     </div>
 </section>
-@if (!Model.OutcomeModel.OutcomeGroup.Is999NonUrgent)
+@if (!Model.ItkConfirmationModel.OutcomeGroup.Is999NonUrgent)
 {
-    @Html.Partial("_CareAdvice", Model.OutcomeModel.CareAdvices, new ViewDataDictionary { { "Title", "What you can do in the meantime" }, { "NoHR", true } })
+    @Html.Partial("_CareAdvice", Model.ItkConfirmationModel.CareAdvices, new ViewDataDictionary { { "Title", "What you can do in the meantime" }, { "NoHR", true } })
 }
-@if (!Model.OutcomeModel.OutcomeGroup.Is999NonUrgent && !Model.OutcomeModel.OutcomeGroup.Equals(OutcomeGroup.AccidentAndEmergency))
+@if (!Model.ItkConfirmationModel.OutcomeGroup.Is999NonUrgent && !Model.ItkConfirmationModel.OutcomeGroup.Equals(OutcomeGroup.AccidentAndEmergency))
 {
-    @Html.Partial("_WorseningAdviceWithTitle", Model.OutcomeModel)
+    @Html.Partial("_WorseningAdviceWithTitle", Model.ItkConfirmationModel)
 }

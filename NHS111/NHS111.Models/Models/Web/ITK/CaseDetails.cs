@@ -14,5 +14,6 @@ namespace NHS111.Models.Models.Web.ITK
         public List<string> ConsultationSummaryItems { get; set; }
         public IEnumerable<StepItem> CaseSteps { get; set; }
         public IDictionary<string, string> SetVariables { get; set; }
+        public string PatientRef { get; set; }
     }
 }

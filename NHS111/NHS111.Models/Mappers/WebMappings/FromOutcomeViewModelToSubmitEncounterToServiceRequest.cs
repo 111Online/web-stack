@@ -30,6 +30,8 @@ namespace NHS111.Models.Mappers.WebMappings
             Mapper.CreateMap<List<JourneyStep>, List<ReportItem>>()
               .ConvertUsing<FromJourneySetpsToReportTextStrings>();
 
+            Mapper.CreateMap<OutcomeViewModel, ITKConfirmationViewModel>();
+
         }
     }
 
@@ -52,7 +54,6 @@ namespace NHS111.Models.Mappers.WebMappings
             caseDetails.ReportItems = Mapper.Map<List<JourneyStep>, List<ReportItem>>(outcome.Journey.Steps);
             caseDetails.ConsultationSummaryItems = outcome.Journey.Steps.Where(s => !string.IsNullOrEmpty(s.Answer.DispositionDisplayText)).Select(s => s.Answer.ReportText).Distinct().ToList();
             caseDetails.CaseSteps = outcome.Journey.Steps.Select(s => new StepItem() {QuestionId = s.QuestionId, AnswerOrder = s.Answer.Order});
-
             var state = outcome.Journey.GetLastState();
             caseDetails.SetVariables = !string.IsNullOrEmpty(state) ? JsonConvert.DeserializeObject<IDictionary<string, string>>(outcome.Journey.GetLastState()) : new Dictionary<string, string>();
             return caseDetails;

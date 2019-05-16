@@ -6,7 +6,7 @@
 @inherits NHS111.Web.Views.Shared.SurveyLinkView<ReferralConfirmationResultViewModel>
 @{
     Layout = "~/Views/Shared/_LayoutNhsUk.cshtml";
-    Model.OutcomeModel.WorseningCareAdvice.Items.Add(new CareAdviceText { Text = "You don't need to send any further requests for a callback. However, if you feel worse whilst you are waiting, please call 111 now." });
+    Model.ItkConfirmationModel.WorseningCareAdvice.Items.Add(new CareAdviceText { Text = "You don't need to send any further requests for a callback. However, if you feel worse whilst you are waiting, please call 111 now." });
     var tagPrinter = new GoogleTagManagerPrinter(null); //todo this can eventually be moved back out into the layout view where it will always have the ctor param
 }
 @section Title {
@@ -22,16 +22,16 @@
     dataDictionary.Add(new KeyValuePair<string, object>("LaunchPage", "confirmation"));
 }
 @section SurveyBanner{
-    @Html.Partial("_SurveyLink", Model.OutcomeModel.SurveyLink, dataDictionary)
+    @Html.Partial("_SurveyLink", Model.ItkConfirmationModel.SurveyLink, dataDictionary)
 }
 @section FeedbackSection {
     @if (SurveyLinkFeature.IsEnabled)
     {
-        @Html.Partial("_SurveyLink", Model.OutcomeModel.SurveyLink, dataDictionary)
+        @Html.Partial("_SurveyLink", Model.ItkConfirmationModel.SurveyLink, dataDictionary)
     }
     else
     {
-        @Html.Partial("_FeedbackDetails", new FeedbackViewModel() { UserId = Model.OutcomeModel.SessionId.ToString(), PageData = new PageDataViewModel(PageDataViewModel.PageType.Confirmation, Model.OutcomeModel) })
+        @Html.Partial("_FeedbackDetails", new FeedbackViewModel() { UserId = Model.ItkConfirmationModel.SessionId.ToString(), PageData = new PageDataViewModel(PageDataViewModel.PageType.Confirmation, Model.ItkConfirmationModel) })
     }
 }
 <div class="nhsuk-core">
@@ -44,15 +44,15 @@
 
         <div class="callout callout--attention measure nhsuk-u-margin-bottom-4">
             <p>
-                Call the pharmacy on <a href="tel:+44@Model.OutcomeModel.SelectedService.ContactDetails">@Model.OutcomeModel.SelectedService.ContactDetails</a> and
+                Call the pharmacy on <a href="tel:+44@Model.OutcomeModel.SelectedService.ContactDetails">@Model.ItkConfirmationModel.SelectedService.ContactDetails</a> and
                 give them this reference number:
             </p>
-            <div class="reference-number">111-ONLINE-123456</div>
+            <div class="reference-number">@Model.ItkConfirmationModel.PatientReference</div>
         </div>
 
     </div>
     @{
-        var recommendedService = Model.OutcomeModel.SelectedService;
+        var recommendedService = Model.ItkConfirmationModel.SelectedService;
     }
     <div class="service-details-container nhsuk-u-margin-bottom-6">
 
@@ -82,15 +82,15 @@
                 </p>
                 @using (Html.BeginForm("GetDirections", "Outcome", FormMethod.Post))
                 {
-                    @Html.HiddenFor(m => m.OutcomeModel.SessionId)
-                    @Html.HiddenFor(m => m.OutcomeModel.JourneyId)
-                    @Html.HiddenFor(m => m.OutcomeModel.JourneyJson)
-                    @Html.HiddenFor(m => m.OutcomeModel.Id)
+                    @Html.HiddenFor(m => m.ItkConfirmationModel.SessionId)
+                    @Html.HiddenFor(m => m.ItkConfirmationModel.JourneyId)
+                    @Html.HiddenFor(m => m.ItkConfirmationModel.JourneyJson)
+                    @Html.HiddenFor(m => m.ItkConfirmationModel.Id)
                     @Html.Hidden("SelectedServiceId", recommendedService.Id)
                     @Html.Hidden("SelectedServiceName", recommendedService.Name)
                     @Html.Hidden("SelectedServiceAddress", recommendedService.Address)
                     <button class="button--link card__directions--fallback" type="submit">Get directions</button>
-                    <p><a class="card__directions" style="display: none;" target="_blank" href="@string.Format("https://www.google.com/maps/dir/?api=1&origin={0}&destination={1}", Model.OutcomeModel.CurrentPostcode, recommendedService.Address)">Get directions <span class="nhsuk-u-font-size-16">(opens a new tab or window)</span></a></p>
+                    <p><a class="card__directions" style="display: none;" target="_blank" href="@string.Format("https://www.google.com/maps/dir/?api=1&origin={0}&destination={1}", Model.ItkConfirmationModel.CurrentPostcode, recommendedService.Address)">Get directions <span class="nhsuk-u-font-size-16">(opens a new tab or window)</span></a></p>
                 }
 
             </div>
@@ -98,19 +98,19 @@
     </div>
 </div>
 @{
-        var mapService = JsonConvert.SerializeObject(new[] { Model.OutcomeModel.SelectedService });
+        var mapService = JsonConvert.SerializeObject(new[] { Model.ItkConfirmationModel.SelectedService });
 }
 <script>
     window.mapServices = @Html.Raw(mapService);
     window.mapServices[0].AddressLines = window.mapServices[0].AddressLines.filter(function (val) { return val !== "" })
-    window.currentPostcode = "@Html.Raw(Model.OutcomeModel.CurrentPostcode)";
+    window.currentPostcode = "@Html.Raw(Model.ItkConfirmationModel.CurrentPostcode)";
 </script>
 
-@if (!Model.OutcomeModel.OutcomeGroup.Is999NonUrgent)
+@if (!Model.ItkConfirmationModel.OutcomeGroup.Is999NonUrgent)
 {
-    @Html.Partial("_CareAdvice", Model.OutcomeModel.CareAdvices, new ViewDataDictionary { { "Title", "What you can do in the meantime" }, { "NoHR", true } })
+    @Html.Partial("_CareAdvice", Model.ItkConfirmationModel.CareAdvices, new ViewDataDictionary { { "Title", "What you can do in the meantime" }, { "NoHR", true } })
 }
-@if (!Model.OutcomeModel.OutcomeGroup.Is999NonUrgent && !Model.OutcomeModel.OutcomeGroup.Equals(OutcomeGroup.AccidentAndEmergency))
+@if (!Model.ItkConfirmationModel.OutcomeGroup.Is999NonUrgent && !Model.ItkConfirmationModel.OutcomeGroup.Equals(OutcomeGroup.AccidentAndEmergency))
 {
-    @Html.Partial("_WorseningAdviceWithTitle", Model.OutcomeModel)
+    @Html.Partial("_WorseningAdviceWithTitle", Model.ItkConfirmationModel)
 }
