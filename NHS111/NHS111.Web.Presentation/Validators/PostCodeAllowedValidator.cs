@@ -17,23 +17,26 @@ namespace NHS111.Web.Presentation.Validators
             _allowedPostcodeFeature = allowedPostcodeFeature;
             _ccgModelBuilder= ccgModelBuilder;
         }
+
         public PostcodeValidatorResponse IsAllowedPostcode(string postcode)
         {
             if (string.IsNullOrWhiteSpace(postcode))
                return PostcodeValidatorResponse.InvalidSyntax;
-            if(!_alphanumericRegex.IsMatch(postcode.Replace(" ", "")))
+            if (!_alphanumericRegex.IsMatch(postcode.Replace(" ", "")))
                 return PostcodeValidatorResponse.InvalidSyntax;
-            var ccgModelBuilderTask = Task.Run<CCGModel>(async () => await _ccgModelBuilder.FillCCGModel(postcode));
             if (!_allowedPostcodeFeature.IsEnabled)
                 return PostcodeValidatorResponse.InPathwaysArea;
+            var ccgModelBuilderTask = Task.Run(async () => await _ccgModelBuilder.FillCCGDetailsModelAsync(postcode));
             CcgModel = ccgModelBuilderTask.Result;
             if (CcgModel.Postcode == null)
                 return PostcodeValidatorResponse.PostcodeNotFound;
+            if (CcgModel.PharmacyServicesAvailable)
+                return PostcodeValidatorResponse.InAreaWithPharmacyServices;
 
             return PostcodeValidatorResponse.InPathwaysArea;
         }
 
-        public CCGModel CcgModel { get; private set; }
+        public CCGDetailsModel CcgModel { get; private set; }
             
         private readonly Regex _alphanumericRegex = new Regex(@"^[a-zA-Z0-9]+$");
     }

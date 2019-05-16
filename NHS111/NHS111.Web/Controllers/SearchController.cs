@@ -11,18 +11,22 @@ using NHS111.Web.Helpers;
 using RestSharp;
 using NHS111.Web.Presentation.Builders;
 using NHS111.Web.Presentation.Configuration;
+using RestSharp.Extensions;
 
 namespace NHS111.Web.Controllers
 {
+    using System.Web.Routing;
+
     public class SearchController : Controller
     {
         public const int MAX_SEARCH_RESULTS = 10;
 
-        public SearchController(IConfiguration configuration, IUserZoomDataBuilder userZoomDataBuilder, IRestClient restClientBusinessApi)
+        public SearchController(IConfiguration configuration, IUserZoomDataBuilder userZoomDataBuilder, IRestClient restClientBusinessApi, IJustToBeSafeFirstViewModelBuilder jtbsViewModelBuilder)
         {
             _configuration = configuration;
             _userZoomDataBuilder = userZoomDataBuilder;
             _restClientBusinessApi = restClientBusinessApi;
+            _jtbsViewModelBuilder = jtbsViewModelBuilder;
         }
 
         [HttpPost]
@@ -32,6 +36,26 @@ namespace NHS111.Web.Controllers
             {
                 _userZoomDataBuilder.SetFieldsForDemographics(model);
                 return View("~\\Views\\Question\\Gender.cshtml", model);
+            }
+
+
+            if (model.PathwayNo != null)
+            {
+                var searchJourneyViewModel = new SearchJourneyViewModel() {
+                    SessionId = model.SessionId,
+                    PathwayNo = model.PathwayNo.ToUpper(),
+                    CurrentPostcode = model.CurrentPostcode,
+                    UserInfo = model.UserInfo,
+                    FilterServices = model.FilterServices,
+                    Campaign = model.Campaign,
+                    Source = model.Source
+                };
+
+                return RedirectToAction("FirstQuestion", "JustToBeSafe", new RouteValueDictionary {
+                    { "pathwayNumber", searchJourneyViewModel.PathwayNo },
+                    { "gender", searchJourneyViewModel.UserInfo.Demography.Gender},
+                    { "age", searchJourneyViewModel.UserInfo.Demography.Age},
+                    { "args", KeyValueEncryptor.EncryptedKeys(searchJourneyViewModel)} });
             }
 
             var startOfJourney = new SearchJourneyViewModel
@@ -278,5 +302,6 @@ namespace NHS111.Web.Controllers
         private readonly IConfiguration _configuration;
         private readonly IUserZoomDataBuilder _userZoomDataBuilder;
         private readonly IRestClient _restClientBusinessApi;
+        private readonly IJustToBeSafeFirstViewModelBuilder _jtbsViewModelBuilder;
     }
 }

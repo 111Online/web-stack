@@ -10,7 +10,7 @@ namespace NHS111.Models.Models.Web.Validators
     public interface IPostCodeAllowedValidator
     {
         PostcodeValidatorResponse IsAllowedPostcode(string postcode);
-        CCGModel CcgModel { get; }
+        CCGDetailsModel CcgModel { get; }
     }
 
 
@@ -20,6 +20,7 @@ namespace NHS111.Models.Models.Web.Validators
         InPathwaysArea,
         PostcodeNotFound,
         OutsidePathwaysArea,
-        InvalidSyntax
+        InvalidSyntax,
+        InAreaWithPharmacyServices
     }
 }
