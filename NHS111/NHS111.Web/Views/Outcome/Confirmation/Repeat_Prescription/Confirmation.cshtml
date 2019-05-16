@@ -1,8 +1,8 @@
 ﻿@using System.Web.Mvc.Html
 @using NHS111.Models.Models.Domain
 @using NHS111.Models.Models.Web
+@using NHS111.Models.Models.Web.FromExternalServices
 @using NHS111.Web.Presentation.Analytics
-@using Newtonsoft.Json
 @inherits NHS111.Web.Views.Shared.SurveyLinkView<ReferralConfirmationResultViewModel>
 @{
     Layout = "~/Views/Shared/_LayoutNhsUk.cshtml";
@@ -35,73 +35,12 @@
     }
 }
 <div class="nhsuk-core">
-    <div class="measure">
-        <h1>
-
-            Call the pharmacy before you go
-
-        </h1>
-
-        <div class="callout callout--attention measure nhsuk-u-margin-bottom-4">
-            <p>
-                Call the pharmacy on <a href="tel:+44@Model.OutcomeModel.SelectedService.ContactDetails">@Model.OutcomeModel.SelectedService.ContactDetails</a> and
-                give them this reference number:
-            </p>
-            <div class="reference-number">111-ONLINE-123456</div>
-        </div>
-
-    </div>
-    @{
-        var recommendedService = Model.OutcomeModel.SelectedService;
+    @if (Model.OutcomeModel.SelectedService.OnlineDOSServiceType.Equals(OnlineDOSServiceType.ReferRingAndGo))
+    {
+        @Html.Partial("_Refer_And_Go", Model.OutcomeModel)
     }
-    <div class="service-details-container nhsuk-u-margin-bottom-6">
-
-        <div class="service-details">
-            <div class="service-details__address">
-                <p>
-                    @WebUtility.HtmlDecode(recommendedService.PublicName)<br />
-                    @foreach (var address in recommendedService.AddressLines)
-                    {
-                         if (!address.IsEmpty())
-                         {
-                             @WebUtility.HtmlDecode(address)<br />
-                         }
-                    }
-                </p>
-            </div>
-            <div class="service-details__hours">
-                @Html.Partial("_ServiceOpeningTimes", recommendedService, ViewData)
-            </div>
-        </div>
-
-        <div class="service-details cards--goto">
-            <div class="service-details__directions">
-                <p>
-                    @*is this in miles?*@
-                    @recommendedService.Distance miles away
-                </p>
-                @using (Html.BeginForm("GetDirections", "Outcome", FormMethod.Post))
-                {
-                    @Html.HiddenFor(m => m.OutcomeModel.SessionId)
-                    @Html.HiddenFor(m => m.OutcomeModel.JourneyId)
-                    @Html.HiddenFor(m => m.OutcomeModel.JourneyJson)
-                    @Html.HiddenFor(m => m.OutcomeModel.Id)
-                    @Html.Hidden("SelectedServiceId", recommendedService.Id)
-                    @Html.Hidden("SelectedServiceName", recommendedService.Name)
-                    @Html.Hidden("SelectedServiceAddress", recommendedService.Address)
-                    <button class="button--link card__directions--fallback" type="submit">Get directions</button>
-                    <p><a class="card__directions" style="display: none;" target="_blank" href="@string.Format("https://www.google.com/maps/dir/?api=1&origin={0}&destination={1}", Model.OutcomeModel.CurrentPostcode, recommendedService.Address)">Get directions <span class="nhsuk-u-font-size-16">(opens a new tab or window)</span></a></p>
-                }
-
-            </div>
-        </div>
-    </div>
+    else
+    {
+        @Html.Partial("_Refer_only", Model.OutcomeModel)
+    }
 </div>
-@{
-        var mapService = JsonConvert.SerializeObject(new[] { Model.OutcomeModel.SelectedService });
-}
-<script>
-    window.mapServices = @Html.Raw(mapService);
-    window.mapServices[0].AddressLines = window.mapServices[0].AddressLines.filter(function (val) { return val !== "" })
-    window.currentPostcode = "@Html.Raw(Model.OutcomeModel.CurrentPostcode)";
-</script>

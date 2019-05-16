@@ -1,0 +1,23 @@
+﻿@using NHS111.Models.Models.Web
+@inherits NHS111.Web.Views.Shared.SurveyLinkView<OutcomeViewModel>
+
+<div class="measure">
+    <div class="callout callout--attention measure nhsuk-u-margin-bottom-4">
+        <p>
+            Your call is confirmed
+        </p>
+        <p style="margin: 0;">
+            If you haven't had a call within <strong>@WebUtility.HtmlDecode(Model.WaitTimeText)</strong>, please call 111
+        </p>
+    </div>
+</div>
+@{
+    var recommendedService = Model.SelectedService;
+}
+<div class="service-details nhsuk-u-margin-bottom">
+    <div class="service-details__address">
+        <p style="margin: 0;">
+            @WebUtility.HtmlDecode(recommendedService.PublicName)
+        </p>
+    </div>
+</div>

@@ -25,8 +25,7 @@ namespace NHS111.Models.Models.Web {
 
             if (outcomeModel != null 
                 && outcomeModel.OutcomeGroup != null
-                && outcomeModel.OutcomeGroup.Equals(Domain.OutcomeGroup.RepeatPrescription)
-                && outcomeModel.SelectedService.OnlineDOSServiceType.Equals(OnlineDOSServiceType.ReferRingAndGo))
+                && outcomeModel.OutcomeGroup.Equals(Domain.OutcomeGroup.RepeatPrescription))
             {
                 return outcomeModel.OutcomeGroup.Id;
             }
