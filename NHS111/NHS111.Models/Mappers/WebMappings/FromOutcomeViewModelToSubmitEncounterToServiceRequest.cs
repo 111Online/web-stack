@@ -30,7 +30,10 @@ namespace NHS111.Models.Mappers.WebMappings
             Mapper.CreateMap<List<JourneyStep>, List<ReportItem>>()
               .ConvertUsing<FromJourneySetpsToReportTextStrings>();
 
-            Mapper.CreateMap<OutcomeViewModel, ITKConfirmationViewModel>();
+            Mapper.CreateMap<OutcomeViewModel, ITKConfirmationViewModel>()
+                .ForMember(m => m.PatientReference, opt => opt.Ignore())
+                .ForMember(m => m.ItkDuplicate, opt => opt.Ignore())
+                .ForMember(m => m.ItkSendSuccess, opt => opt.Ignore());
 
         }
     }
@@ -59,6 +62,8 @@ namespace NHS111.Models.Mappers.WebMappings
             return caseDetails;
         }
     }
+
+  
 
     public class FromJourneySetpsToReportTextStrings : ITypeConverter<List<JourneyStep>, List<ReportItem>>
     {
