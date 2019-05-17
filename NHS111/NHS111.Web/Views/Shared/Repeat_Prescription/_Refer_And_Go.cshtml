@@ -1,17 +1,37 @@
+﻿@using NHS111.Models.Models.Web
+@inherits NHS111.Web.Views.Shared.SurveyLinkView<OutcomeViewModel>
 @using Newtonsoft.Json
-@using NHS111.Models.Models.Web
-@model  OutcomeViewModel
+<div class="measure">
+    <h1>
+
+        Call the pharmacy before you go
+
+    </h1>
+
+    <div class="callout callout--attention measure nhsuk-u-margin-bottom-4">
+        <p>
+            Call the pharmacy on <a href="tel:+44@Model.OutcomeModel.SelectedService.ContactDetails">@Model.SelectedService.ContactDetails</a> and
+            give them this reference number:
+        </p>
+        <div class="reference-number">111-ONLINE-123456</div>
+    </div>
+
+</div>
 @{
-    var recommendedService = Model.RecommendedService;
+    var recommendedService = Model.SelectedService;
 }
-<div class="service-details-container nhsuk-u-margin-bottom-4">
+<div class="service-details-container nhsuk-u-margin-bottom-6">
+
     <div class="service-details">
         <div class="service-details__address">
             <p>
                 @WebUtility.HtmlDecode(recommendedService.PublicName)<br />
                 @foreach (var address in recommendedService.AddressLines)
                 {
-                    @WebUtility.HtmlDecode(address)<br />
+                    if (!address.IsEmpty())
+                    {
+                        @WebUtility.HtmlDecode(address)<br />
+                    }
                 }
             </p>
         </div>
@@ -19,22 +39,13 @@
             @Html.Partial("_ServiceOpeningTimes", recommendedService, ViewData)
         </div>
     </div>
-    @*
-        If an appointment is required its a public phone type only
-        This is a go to so no contact details
-        <div class="subroutine measure">
-            <div class="callout callout--attention">
-                You must call <b>@recommendedService.ContactDetails</b> to make an appointment
-            </div>
-        </div>
-        
-        .cards--goto is used by javascript to insert the map beforehand.
-    *@
+
     <div class="service-details cards--goto">
-        <p class="service-details__distance">
-            @recommendedService.Distance miles away
-        </p>
         <div class="service-details__directions">
+            <p>
+                @*is this in miles?*@
+                @recommendedService.Distance miles away
+            </p>
             @using (Html.BeginForm("GetDirections", "Outcome", FormMethod.Post))
             {
                 @Html.HiddenFor(m => m.SessionId)
@@ -47,13 +58,15 @@
                 <button class="button--link card__directions--fallback" type="submit">Get directions</button>
                 <p><a class="card__directions" style="display: none;" target="_blank" href="@string.Format("https://www.google.com/maps/dir/?api=1&origin={0}&destination={1}", Model.CurrentPostcode, recommendedService.Address)">Get directions <span class="nhsuk-u-font-size-16">(opens a new tab or window)</span></a></p>
             }
+
         </div>
     </div>
-    </div>
-    @{
-        var mapService = JsonConvert.SerializeObject(new[] { Model });
-    }
-    <script>
+</div>
+@{
+    var mapService = JsonConvert.SerializeObject(new[] { Model.SelectedService });
+}
+<script>
     window.mapServices = @Html.Raw(mapService);
+    window.mapServices[0].AddressLines = window.mapServices[0].AddressLines.filter(function (val) { return val !== "" })
     window.currentPostcode = "@Html.Raw(Model.CurrentPostcode)";
-    </script>
+</script>

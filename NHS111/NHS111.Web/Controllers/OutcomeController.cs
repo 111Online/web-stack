@@ -80,7 +80,6 @@ namespace NHS111.Web.Controllers
             if (submitAction == "manualpostcode") return View("ChangePostcode", model);
             var postcodeValidatorResponse = _postCodeAllowedValidator.IsAllowedPostcode(model.CurrentPostcode);
 
-            model.UserInfo.CurrentAddress.IsInPilotArea = postcodeValidatorResponse == PostcodeValidatorResponse.InPathwaysArea;
             if(postcodeValidatorResponse == PostcodeValidatorResponse.InvalidSyntax)
             {
                 ModelState.AddModelError("CurrentPostcode", "Enter a valid postcode.");
@@ -91,10 +90,17 @@ namespace NHS111.Web.Controllers
                 ModelState.AddModelError("CurrentPostcode", "We can't find any services in '" + model.CurrentPostcode +"'. Check the postcode is correct.");
                 return View("../Outcome/ChangePostcode", model);
             }
-            model.UserInfo.CurrentAddress.IsInPilotArea = _postCodeAllowedValidator.IsAllowedPostcode(model.CurrentPostcode) == PostcodeValidatorResponse.InPathwaysArea;
-            
+
+            if (!model.OutcomeGroup.IsPharmacyGroup && postcodeValidatorResponse == PostcodeValidatorResponse.InPathwaysArea)
+                model.UserInfo.CurrentAddress.IsInPilotArea = true;
+            else if(model.OutcomeGroup.IsPharmacyGroup && postcodeValidatorResponse == PostcodeValidatorResponse.InAreaWithPharmacyServices)
+                model.UserInfo.CurrentAddress.IsInPilotArea = true;
+
             if (!model.UserInfo.CurrentAddress.IsInPilotArea)
             {
+                if (model.OutcomeGroup.IsPharmacyGroup)
+                    return View("../Pathway/EmergencyPrescriptionsOutOfArea", model);
+
                 return View("../Outcome/OutOfArea", model);
             }
 
@@ -176,7 +182,11 @@ namespace NHS111.Web.Controllers
             if (!ModelState.IsValidField("FindService.CurrentPostcode"))
                 return View(model.CurrentView, model);
 
-            model.UserInfo.CurrentAddress.IsInPilotArea = _postCodeAllowedValidator.IsAllowedPostcode(model.CurrentPostcode) == PostcodeValidatorResponse.InPathwaysArea;
+            var postcodeValidatorResponse = _postCodeAllowedValidator.IsAllowedPostcode(model.CurrentPostcode);
+            if (!model.OutcomeGroup.IsPharmacyGroup && postcodeValidatorResponse == PostcodeValidatorResponse.InPathwaysArea)
+                model.UserInfo.CurrentAddress.IsInPilotArea = true;
+            else if (model.OutcomeGroup.IsPharmacyGroup && postcodeValidatorResponse == PostcodeValidatorResponse.InAreaWithPharmacyServices)
+                model.UserInfo.CurrentAddress.IsInPilotArea = true;
 
             if (!model.UserInfo.CurrentAddress.IsInPilotArea)
             {

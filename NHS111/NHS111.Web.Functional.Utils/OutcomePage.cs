@@ -19,7 +19,7 @@ namespace NHS111.Web.Functional.Utils
         [FindsBy(How = How.Id, Using = "PreviousQuestionFromOutcome")]
         private IWebElement PreviousAnswer { get; set; }
 
-        [FindsBy(How = How.Id, Using = "ShowServices")]
+        [FindsBy(How = How.CssSelector, Using = "button[name='service']")]
         private IWebElement ShowServices { get; set; }
 
         public OutcomePage(IWebDriver driver) : base(driver)

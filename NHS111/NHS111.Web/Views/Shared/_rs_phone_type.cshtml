@@ -6,12 +6,14 @@
 }
 
 <div class="service-details nhsuk-u-margin-bottom-4">
-    <p class="service-details__address">
-        @WebUtility.HtmlDecode(recommendedService.PublicName), @WebUtility.HtmlDecode(recommendedService.Address)
+    <p class="service-details__name">
+        @WebUtility.HtmlDecode(recommendedService.PublicName)
     </p>
     <p class="service-details__phone">
-        Call @recommendedService.ContactDetails
+        <a href="tel:@recommendedService.ContactDetails">Call @recommendedService.ContactDetails</a>
     </p>
-    
-    @Html.Partial("_ServiceOpeningTimes", recommendedService, ViewData)
+
+    <div class="service-details__hours">
+        @Html.Partial("_ServiceOpeningTimes", recommendedService, ViewData)
+    </div>
 </div>

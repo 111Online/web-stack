@@ -138,6 +138,11 @@ namespace NHS111.Models.Models.Domain {
             get { return this.Equals(OutcomeGroup.AccidentAndEmergency); }
         }
 
+        public bool IsPharmacyGroup
+        {
+            get { return this.Equals(OutcomeGroup.RepeatPrescription); }
+        }
+
         public bool IsUsingRecommendedService
         {
             get { return UsingRecommendedServiceJourney.Contains(this); }

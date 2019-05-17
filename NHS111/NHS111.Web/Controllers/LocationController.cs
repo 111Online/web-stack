@@ -79,23 +79,36 @@ namespace NHS111.Web.Controllers
         private ActionResult DeriveApplicationView(JourneyViewModel model, PostcodeValidatorResponse postcodeValidationRepsonse, CCGModel ccg)
         {
             var moduleZeroViewName = "../Question/InitialQuestion";
-            switch (postcodeValidationRepsonse)
-            {
-                case PostcodeValidatorResponse.InPathwaysArea:
-                    return View(moduleZeroViewName, 
-                        new JourneyViewModel
-                        {
-                            SessionId = model.SessionId,
-                            CurrentPostcode = ccg.Postcode,
-                            Campaign = string.IsNullOrEmpty(model.Campaign) ? ccg.StpName : model.Campaign,
-                            Source = string.IsNullOrEmpty(model.Source) ? ccg.CCG : model.Source,
+            model.CurrentPostcode = ccg.Postcode;
+            model.Campaign = string.IsNullOrEmpty(model.Campaign) ? ccg.StpName : model.Campaign;
+            model.Source = string.IsNullOrEmpty(model.Source) ? ccg.CCG : model.Source;
+
+            switch (postcodeValidationRepsonse) {
+                case PostcodeValidatorResponse.InPathwaysArea: {
+                    if (IsRequestingPharmacyPathway(model.PathwayNo))
+                            return View("../Pathway/EmergencyPrescriptionsOutOfArea", model);
+
+                    return View(moduleZeroViewName, model);
+                }
+                case PostcodeValidatorResponse.InAreaWithPharmacyServices: //postcode with pharmacy services but didn't request pharmacy pathway
+                    return View(moduleZeroViewName, model);
+
+                case PostcodeValidatorResponse.PostcodeNotFound:
+                    return View("OutOfArea",
+                        new OutOfAreaViewModel {
+                            SessionId = model.SessionId, Campaign = ccg.StpName, Source = ccg.CCG,
                             FilterServices = model.FilterServices
                         });
-                case PostcodeValidatorResponse.PostcodeNotFound:
-                    return View("OutOfArea", new OutOfAreaViewModel { SessionId = model.SessionId, Campaign = ccg.StpName, Source = ccg.CCG, FilterServices = model.FilterServices });
-                default:
-                    return View("Location");
             }
+
+            return View("Location");
         }
+
+        private bool IsRequestingPharmacyPathway(string pathwayNo) {
+            return pathwayNo != null && pathwayNo.ToUpper() == EmergencyPrescriptionsPathwayNo;
+        }
+
+        private static string EmergencyPrescriptionsPathwayNo = "PW1827";
     }
+
 }

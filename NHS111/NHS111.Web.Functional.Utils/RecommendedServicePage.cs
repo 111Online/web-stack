@@ -57,7 +57,7 @@ namespace NHS111.Web.Functional.Utils
         public void VerifyOtherServices()
         {
             Assert.IsTrue(OtherServices.Displayed, "Possible unexpected service result. Expected other services to exist but it doesn't.");
-            Assert.AreEqual(OtherServices.Text, "", string.Format("Possible unexpected service result. Expected 'Other services that can help' but was instead '{0}'", OtherServices.Text));
+            Assert.AreEqual(OtherServices.Text, "Other services that can help", string.Format("Possible unexpected service result. Expected 'Other services that can help' but was instead '{0}'", OtherServices.Text));
         }
     }
 }

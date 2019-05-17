@@ -79,6 +79,16 @@ namespace NHS111.Web.Functional.Utils
             return TestScenarioPart.Question(questionInfoPage);
         }
 
+        public static QuestionPage LaunchRecommendedServiceScenerio(IWebDriver driver, string pathwayTopic, string sex, int age, string postcode)
+        {
+            var homePage = TestScenarioPart.HomePage(driver);
+            var locationPage = TestScenarioPart.Location(homePage);
+            var moduleZeroPage = TestScenarioPart.ModuleZero(locationPage, postcode);
+            var demographicsPage = TestScenarioPart.Demographics(moduleZeroPage);
+            var searchPage = TestScenarioPart.Search(demographicsPage, sex, age);
+            var questionInfoPage = TestScenarioPart.QuestionInfo(searchPage, pathwayTopic);
+            return TestScenarioPart.Question(questionInfoPage);
+        }
     }
 }
 

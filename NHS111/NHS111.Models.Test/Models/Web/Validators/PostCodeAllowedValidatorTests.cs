@@ -23,12 +23,12 @@ namespace NHS111.Models.Test.Models.Web.Validators
       
         public void SetupMockCCGResultWithApp()
         {
-            mockCCGBuilder.Setup(f => f.FillCCGModel(It.IsAny<string>())).ReturnsAsync(new CCGModel() { App = "Pathways", Postcode = "TS19 7TG"});
+            mockCCGBuilder.Setup(f => f.FillCCGDetailsModelAsync(It.IsAny<string>())).ReturnsAsync(new CCGDetailsModel() { App = "Pathways", Postcode = "TS19 7TG", PharmacyReferralServiceIdWhitelist = new ServiceListModel() });
         }
 
         public void SetupMockCCGResultWithoutValidPostcode()
         {
-            mockCCGBuilder.Setup(f => f.FillCCGModel(It.IsAny<string>())).ReturnsAsync(new CCGModel() );
+            mockCCGBuilder.Setup(f => f.FillCCGDetailsModelAsync(It.IsAny<string>())).ReturnsAsync(new CCGDetailsModel());
         }
 
         [Test]
