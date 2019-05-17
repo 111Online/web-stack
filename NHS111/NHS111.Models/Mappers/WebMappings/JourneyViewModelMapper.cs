@@ -38,8 +38,6 @@ namespace NHS111.Models.Mappers.WebMappings
                 .ForMember(s => s.CareAdvices, o => o.Ignore())
                 .ForMember(s => s.SymptomGroup, o => o.Ignore())
                 .ForMember(s => s.Urgency, o => o.Ignore())
-                .ForMember(s => s.ItkSendSuccess, o => o.Ignore())
-                .ForMember(s => s.ItkDuplicate, o => o.Ignore())
                 .ForMember(s => s.WorseningCareAdvice, o => o.Ignore())
                 .ForMember(s => s.SymptomDiscriminator, o => o.Ignore())
                 .ForMember(s => s.CurrentView, o => o.Ignore())

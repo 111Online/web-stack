@@ -8,11 +8,12 @@ namespace NHS111.Web.Presentation.Builders
     using NHS111.Models.Models.Web.Validators;
 
     public interface IReferralResultBuilder {
-        ReferralResultViewModel Build(OutcomeViewModel outcomeModel);
-        ReferralResultViewModel BuildFailureResult(OutcomeViewModel outcomeModel);
-        ReferralResultViewModel BuildDuplicateResult(OutcomeViewModel outcomeModel);
-        ReferralResultViewModel BuildConfirmationResult(OutcomeViewModel outcomeModel);
-        ServiceUnavailableReferralResultViewModel BuildServiceUnavailableResult(OutcomeViewModel outcomeModel, DosCheckCapacitySummaryResult dosResult);
+        ReferralResultViewModel Build(ITKConfirmationViewModel itkConfirmationViewModel);
+        ReferralResultViewModel BuildFailureResult(ITKConfirmationViewModel itkConfirmationViewModel);
+        ReferralResultViewModel BuildDuplicateResult(ITKConfirmationViewModel itkConfirmationViewModel);
+        ReferralResultViewModel BuildConfirmationResult(ITKConfirmationViewModel itkConfirmationViewModel);
+        ServiceUnavailableReferralResultViewModel BuildServiceUnavailableResult(OutcomeViewModel outcomeViewModel,
+            DosCheckCapacitySummaryResult dosResult);
     }
 
     public class ReferralResultBuilder
@@ -24,86 +25,87 @@ namespace NHS111.Web.Presentation.Builders
             _postCodeAllowedValidator = postCodeAllowedValidator;
         }
 
-        public ReferralResultViewModel Build(OutcomeViewModel outcomeModel) {
-            if (outcomeModel == null)
+        public ReferralResultViewModel Build(ITKConfirmationViewModel itkConfirmationViewModel) {
+            if (itkConfirmationViewModel == null)
                 throw new ArgumentNullException("outcomeModel");
 
-            if (outcomeModel.HasAcceptedCallbackOffer.HasValue && outcomeModel.HasAcceptedCallbackOffer.Value)
-                outcomeModel.WaitTimeText = _dx334WaitTimeText; //todo data drive the 334 outcome
+            if (itkConfirmationViewModel.HasAcceptedCallbackOffer.HasValue && itkConfirmationViewModel.HasAcceptedCallbackOffer.Value)
+                itkConfirmationViewModel.WaitTimeText = _dx334WaitTimeText; //todo data drive the 334 outcome
 
-            if (outcomeModel.ItkSendSuccess.HasValue && outcomeModel.ItkSendSuccess.Value) {
-                return BuildConfirmationResult(outcomeModel);
+            if (itkConfirmationViewModel.ItkSendSuccess.HasValue && itkConfirmationViewModel.ItkSendSuccess.Value) {
+                return BuildConfirmationResult(itkConfirmationViewModel);
             }
 
-            if (outcomeModel.ItkDuplicate.HasValue && outcomeModel.ItkDuplicate.Value) {
-                return BuildDuplicateResult(outcomeModel);
+            if (itkConfirmationViewModel.ItkDuplicate.HasValue && itkConfirmationViewModel.ItkDuplicate.Value) {
+                return BuildDuplicateResult(itkConfirmationViewModel);
             }
 
-            return BuildFailureResult(outcomeModel);
+            return BuildFailureResult(itkConfirmationViewModel);
         }
 
-        public ReferralResultViewModel BuildFailureResult(OutcomeViewModel outcomeModel) {
-            if (outcomeModel == null)
-                throw new ArgumentNullException("outcomeModel");
+        public ReferralResultViewModel BuildFailureResult(ITKConfirmationViewModel itkConfirmationViewModel) {
+            if (itkConfirmationViewModel == null)
+                throw new ArgumentNullException("itkConfirmationViewModel");
 
-            if (outcomeModel.OutcomeGroup != null) {
-                if (outcomeModel.OutcomeGroup.Is999NonUrgent)
-                    return new Call999ReferralFailureResultViewModel(outcomeModel);
+            if (itkConfirmationViewModel.OutcomeGroup != null) {
+                if (itkConfirmationViewModel.OutcomeGroup.Is999NonUrgent)
+                    return new Call999ReferralFailureResultViewModel(itkConfirmationViewModel);
 
-                if (outcomeModel.OutcomeGroup.IsEDCallback)
-                    return new AccidentAndEmergencyReferralFailureResultViewModel(outcomeModel);
+                if (itkConfirmationViewModel.OutcomeGroup.IsEDCallback)
+                    return new AccidentAndEmergencyReferralFailureResultViewModel(itkConfirmationViewModel);
             }
 
-            return new ReferralFailureResultViewModel(outcomeModel);
+            return new ReferralFailureResultViewModel(itkConfirmationViewModel);
         }
 
-        public ReferralResultViewModel BuildDuplicateResult(OutcomeViewModel outcomeModel) {
-            if (outcomeModel == null)
-                throw new ArgumentNullException("outcomeModel");
+        public ReferralResultViewModel BuildDuplicateResult(ITKConfirmationViewModel itkConfirmationViewModel)
+        {
+            if (itkConfirmationViewModel == null)
+                throw new ArgumentNullException("itkConfirmationViewModel");
 
-            if (outcomeModel.OutcomeGroup != null) {
-                if (outcomeModel.OutcomeGroup.Is999NonUrgent)
-                    return new Call999DuplicateReferralResultViewModel(outcomeModel);
+            if (itkConfirmationViewModel.OutcomeGroup != null) {
+                if (itkConfirmationViewModel.OutcomeGroup.Is999NonUrgent)
+                    return new Call999DuplicateReferralResultViewModel(itkConfirmationViewModel);
 
-                if (outcomeModel.OutcomeGroup.IsEDCallback)
-                    return new AccidentAndEmergencyDuplicateReferralResultViewModel(outcomeModel);
+                if (itkConfirmationViewModel.OutcomeGroup.IsEDCallback)
+                    return new AccidentAndEmergencyDuplicateReferralResultViewModel(itkConfirmationViewModel);
             }
 
-            return new DuplicateReferralResultViewModel(outcomeModel);
+            return new DuplicateReferralResultViewModel(itkConfirmationViewModel);
         }
 
-        public ReferralResultViewModel BuildConfirmationResult(OutcomeViewModel outcomeModel) {
-            if (outcomeModel == null)
-                throw new ArgumentNullException("outcomeModel");
+        public ReferralResultViewModel BuildConfirmationResult(ITKConfirmationViewModel itkConfirmationViewModel) {
+            if (itkConfirmationViewModel == null)
+                throw new ArgumentNullException("itkConfirmationViewModel");
 
-            if (outcomeModel.OutcomeGroup != null) {
-                if (outcomeModel.OutcomeGroup.Is999NonUrgent)
-                    return new Call999ReferralConfirmationResultViewModel(outcomeModel);
+            if (itkConfirmationViewModel.OutcomeGroup != null) {
+                if (itkConfirmationViewModel.OutcomeGroup.Is999NonUrgent)
+                    return new Call999ReferralConfirmationResultViewModel(itkConfirmationViewModel);
 
-                if (outcomeModel.OutcomeGroup.IsEDCallback)
-                    return new AccidentAndEmergencyReferralConfirmationResultViewModel(outcomeModel);
+                if (itkConfirmationViewModel.OutcomeGroup.IsEDCallback)
+                    return new AccidentAndEmergencyReferralConfirmationResultViewModel(itkConfirmationViewModel);
             }
 
-            return new ReferralConfirmationResultViewModel(outcomeModel);
+            return new ReferralConfirmationResultViewModel(itkConfirmationViewModel);
         }
 
-        public ServiceUnavailableReferralResultViewModel BuildServiceUnavailableResult(OutcomeViewModel outcomeModel, DosCheckCapacitySummaryResult dosResult) {
-            if (outcomeModel == null)
-                throw new ArgumentNullException("outcomeModel");
+        public ServiceUnavailableReferralResultViewModel BuildServiceUnavailableResult(OutcomeViewModel outcomeViewModel, DosCheckCapacitySummaryResult dosResult) {
+            if (outcomeViewModel == null)
+                throw new ArgumentNullException("outcomeViewModel");
 
-            var result = new ServiceUnavailableReferralResultViewModel(outcomeModel);
-            if (outcomeModel.OutcomeGroup != null) {
-                if (outcomeModel.OutcomeGroup.Is999NonUrgent)
-                    result = new Call999ServiceUnavailableReferralResultViewModel(outcomeModel);
-                if (outcomeModel.OutcomeGroup.IsEDCallback)
-                    result = new AccidentAndEmergencyServiceUnavailableReferralResultViewModel(outcomeModel);
+            var result = new ServiceUnavailableReferralResultViewModel(outcomeViewModel);
+            if (outcomeViewModel.OutcomeGroup != null) {
+                if (outcomeViewModel.OutcomeGroup.Is999NonUrgent)
+                    result = new Call999ServiceUnavailableReferralResultViewModel(outcomeViewModel);
+                if (outcomeViewModel.OutcomeGroup.IsEDCallback)
+                    result = new AccidentAndEmergencyServiceUnavailableReferralResultViewModel(outcomeViewModel);
             }
 
-            result.OutcomeModel = outcomeModel;
-            outcomeModel.UnavailableSelectedService = outcomeModel.SelectedService;
-            outcomeModel.DosCheckCapacitySummaryResult = dosResult;
-            outcomeModel.DosCheckCapacitySummaryResult.ServicesUnavailable = dosResult.ResultListEmpty;
-            outcomeModel.UserInfo.CurrentAddress.IsInPilotArea = _postCodeAllowedValidator.IsAllowedPostcode(outcomeModel.CurrentPostcode) == PostcodeValidatorResponse.InPathwaysArea;
+            result.OutcomeModel = outcomeViewModel;
+            outcomeViewModel.UnavailableSelectedService = outcomeViewModel.SelectedService;
+            outcomeViewModel.DosCheckCapacitySummaryResult = dosResult;
+            outcomeViewModel.DosCheckCapacitySummaryResult.ServicesUnavailable = dosResult.ResultListEmpty;
+            outcomeViewModel.UserInfo.CurrentAddress.IsInPilotArea = _postCodeAllowedValidator.IsAllowedPostcode(outcomeViewModel.CurrentPostcode) == PostcodeValidatorResponse.InPathwaysArea;
             return result;
         }
 
