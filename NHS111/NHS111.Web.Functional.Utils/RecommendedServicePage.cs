@@ -27,6 +27,15 @@ namespace NHS111.Web.Functional.Utils
         [FindsBy(How = How.CssSelector, Using = ".measure h2")]
         private IWebElement OtherServices { get; set; }
 
+        [FindsBy(How = How.ClassName, Using = "card__details--times")]
+        private IWebElement OpeningTimes { get; set; }
+
+        [FindsBy(How = How.ClassName, Using = "service-details__distance")]
+        private IWebElement Distance { get; set; }
+
+        [FindsBy(How = How.ClassName, Using = "nhsuk-action-link__text")]
+        private IWebElement ActionLink { get; set; }
+
         public RecommendedServicePage(IWebDriver driver) : base(driver)
         {
         }
@@ -57,7 +66,32 @@ namespace NHS111.Web.Functional.Utils
         public void VerifyOtherServices()
         {
             Assert.IsTrue(OtherServices.Displayed, "Possible unexpected service result. Expected other services to exist but it doesn't.");
-            Assert.AreEqual(OtherServices.Text, "Other services that can help", string.Format("Possible unexpected service result. Expected 'Other services that can help' but was instead '{0}'", OtherServices.Text));
+            Assert.AreEqual("Other services that can help", OtherServices.Text, string.Format("Possible unexpected service result. Expected 'Other services that can help' but was instead '{0}'", OtherServices.Text));
+        }
+
+        public void VerifyNoOtherServices()
+        {
+            Assert.IsFalse(OtherServices.Displayed, "Possible unexpected service result. Expected no other services to exist but it does.");
+        }
+
+        public void VerifyOpeningTimes()
+        {
+            Assert.IsTrue(OpeningTimes.Displayed, "Possible unexpected service result. Expected service details to exist but it doesn't.");
+        }
+
+        public void VerifyDistance()
+        {
+            Assert.IsTrue(Distance.Displayed, "Possible unexpected service result. Expected service details to exist but it doesn't.");
+        }
+
+        public void VerifyActionLink(string referText)
+        {
+            Assert.AreEqual(referText, ActionLink.Text, string.Format("Possible unexpected service result. Expected '{0}' but was instead '{1}'", referText, ActionLink.Text));
+        }
+
+        public void VerifyNoActionLink()
+        {
+            Assert.IsFalse(ActionLink.Displayed, "Possible unexpected service result. Expected service details to not exist but it does.");
         }
     }
 }
