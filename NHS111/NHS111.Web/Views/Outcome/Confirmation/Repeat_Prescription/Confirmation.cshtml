@@ -37,10 +37,10 @@
 <div class="nhsuk-core">
     @if (Model.OutcomeModel.SelectedService.OnlineDOSServiceType.Equals(OnlineDOSServiceType.ReferRingAndGo))
     {
-        @Html.Partial("_Refer_And_Go", Model.OutcomeModel)
+        @Html.Partial("_Refer_And_Go", Model.ItkConfirmationModel)
     }
     else
     {
-        @Html.Partial("_Refer_only", Model.OutcomeModel)
+        @Html.Partial("_Refer_only", Model.ItkConfirmationModel)
     }
 </div>
