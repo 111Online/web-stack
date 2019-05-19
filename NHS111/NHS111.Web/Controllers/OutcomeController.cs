@@ -91,11 +91,8 @@ namespace NHS111.Web.Controllers
                 return View("../Outcome/ChangePostcode", model);
             }
 
-            if (!model.OutcomeGroup.IsPharmacyGroup && postcodeValidatorResponse == PostcodeValidatorResponse.InPathwaysArea)
-                model.UserInfo.CurrentAddress.IsInPilotArea = true;
-            else if(model.OutcomeGroup.IsPharmacyGroup && postcodeValidatorResponse == PostcodeValidatorResponse.InAreaWithPharmacyServices)
-                model.UserInfo.CurrentAddress.IsInPilotArea = true;
-
+            model.UserInfo.CurrentAddress.IsInPilotArea = postcodeValidatorResponse.IsInPilotAreaForOutcome(model.OutcomeGroup);
+            
             if (!model.UserInfo.CurrentAddress.IsInPilotArea)
             {
                 if (model.OutcomeGroup.IsPharmacyGroup)
@@ -183,10 +180,7 @@ namespace NHS111.Web.Controllers
                 return View(model.CurrentView, model);
 
             var postcodeValidatorResponse = _postCodeAllowedValidator.IsAllowedPostcode(model.CurrentPostcode);
-            if (!model.OutcomeGroup.IsPharmacyGroup && postcodeValidatorResponse == PostcodeValidatorResponse.InPathwaysArea)
-                model.UserInfo.CurrentAddress.IsInPilotArea = true;
-            else if (model.OutcomeGroup.IsPharmacyGroup && postcodeValidatorResponse == PostcodeValidatorResponse.InAreaWithPharmacyServices)
-                model.UserInfo.CurrentAddress.IsInPilotArea = true;
+            model.UserInfo.CurrentAddress.IsInPilotArea = postcodeValidatorResponse.IsInPilotAreaForOutcome(model.OutcomeGroup);
 
             if (!model.UserInfo.CurrentAddress.IsInPilotArea)
             {
@@ -264,7 +258,7 @@ namespace NHS111.Web.Controllers
 
             var postcodeValidator = _postCodeAllowedValidator.IsAllowedPostcode(model.CurrentPostcode);
 
-            model.UserInfo.CurrentAddress.IsInPilotArea = postcodeValidator == PostcodeValidatorResponse.InPathwaysArea;
+            model.UserInfo.CurrentAddress.IsInPilotArea = postcodeValidator.IsInPilotAreaForOutcome(model.OutcomeGroup);
 
             if (postcodeValidator == PostcodeValidatorResponse.InvalidSyntax)
             {
@@ -422,7 +416,9 @@ namespace NHS111.Web.Controllers
 
             var outcome = await _outcomeViewModelBuilder.DispositionBuilder(model);
             var viewName = _viewRouter.GetViewName(outcome, ControllerContext);
-            model.UserInfo.CurrentAddress.IsInPilotArea = _postCodeAllowedValidator.IsAllowedPostcode(model.CurrentPostcode) == PostcodeValidatorResponse.InPathwaysArea;
+
+            var postcodeValidatorResponse = _postCodeAllowedValidator.IsAllowedPostcode(model.CurrentPostcode);
+            model.UserInfo.CurrentAddress.IsInPilotArea = postcodeValidatorResponse.IsInPilotAreaForOutcome(model.OutcomeGroup);
 
             return View(viewName, outcome);
 

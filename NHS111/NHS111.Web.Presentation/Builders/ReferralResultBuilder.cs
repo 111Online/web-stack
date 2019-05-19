@@ -105,7 +105,9 @@ namespace NHS111.Web.Presentation.Builders
             outcomeViewModel.UnavailableSelectedService = outcomeViewModel.SelectedService;
             outcomeViewModel.DosCheckCapacitySummaryResult = dosResult;
             outcomeViewModel.DosCheckCapacitySummaryResult.ServicesUnavailable = dosResult.ResultListEmpty;
-            outcomeViewModel.UserInfo.CurrentAddress.IsInPilotArea = _postCodeAllowedValidator.IsAllowedPostcode(outcomeViewModel.CurrentPostcode) == PostcodeValidatorResponse.InPathwaysArea;
+
+            var postcodeValidatorRepsonse =_postCodeAllowedValidator.IsAllowedPostcode(outcomeViewModel.CurrentPostcode);
+            outcomeViewModel.UserInfo.CurrentAddress.IsInPilotArea = postcodeValidatorRepsonse.IsInPilotAreaForOutcome(outcomeViewModel.OutcomeGroup);
             return result;
         }
 

@@ -84,13 +84,13 @@ namespace NHS111.Web.Controllers
             model.Source = string.IsNullOrEmpty(model.Source) ? ccg.CCG : model.Source;
 
             switch (postcodeValidationRepsonse) {
-                case PostcodeValidatorResponse.InPathwaysArea: {
+                case PostcodeValidatorResponse.InPathwaysAreaWithoutPharmacyServices: {
                     if (IsRequestingPharmacyPathway(model.PathwayNo))
                             return View("../Pathway/EmergencyPrescriptionsOutOfArea", model);
 
                     return View(moduleZeroViewName, model);
                 }
-                case PostcodeValidatorResponse.InAreaWithPharmacyServices: //postcode with pharmacy services but didn't request pharmacy pathway
+                case PostcodeValidatorResponse.InPathwaysAreaWithPharmacyServices: //postcode with pharmacy services but didn't request pharmacy pathway
                     return View(moduleZeroViewName, model);
 
                 case PostcodeValidatorResponse.PostcodeNotFound:
