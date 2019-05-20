@@ -69,7 +69,7 @@
             Model.RecommendedService = service;
             <details class="service-listing">
                 <summary>
-                    <p class="service-listing__name">@service.PublicName</p>
+                    <p class="service-listing__name">@WebUtility.HtmlDecode(@service.PublicName)</p>
                     @if (service.OnlineDOSServiceType.Equals(OnlineDOSServiceType.PublicPhone) || service.OnlineDOSServiceType.Equals(OnlineDOSServiceType.Callback))
                     {
                         <p class="service-listing__info">Telephone service</p>
