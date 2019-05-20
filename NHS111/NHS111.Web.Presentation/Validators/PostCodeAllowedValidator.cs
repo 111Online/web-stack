@@ -8,6 +8,8 @@ using NHS111.Models.Models.Domain;
 
 namespace NHS111.Web.Presentation.Validators
 {
+    using System;
+
     public class PostCodeAllowedValidator : IPostCodeAllowedValidator
     {
         private readonly ICCGModelBuilder _ccgModelBuilder;
@@ -21,14 +23,23 @@ namespace NHS111.Web.Presentation.Validators
 
         public PostcodeValidatorResponse IsAllowedPostcode(string postcode)
         {
+            var postcodeVlaidatorResponse = Task.Run(async () => await IsAllowedPostcodeAsync(postcode));
+            return postcodeVlaidatorResponse.Result;
+        }
+
+        public async Task<PostcodeValidatorResponse> IsAllowedPostcodeAsync(string postcode)
+        {
             if (string.IsNullOrWhiteSpace(postcode))
-               return PostcodeValidatorResponse.InvalidSyntax;
+                return PostcodeValidatorResponse.InvalidSyntax;
             if (!_alphanumericRegex.IsMatch(postcode.Replace(" ", "")))
                 return PostcodeValidatorResponse.InvalidSyntax;
             if (!_allowedPostcodeFeature.IsEnabled)
                 return PostcodeValidatorResponse.InPathwaysAreaWithPharmacyServices;
-            var ccgModelBuilderTask = Task.Run(async () => await _ccgModelBuilder.FillCCGDetailsModelAsync(postcode));
-            CcgModel = ccgModelBuilderTask.Result;
+            try {
+                CcgModel = await _ccgModelBuilder.FillCCGDetailsModelAsync(postcode);
+            } catch (ArgumentException) {
+                return PostcodeValidatorResponse.InvalidSyntax;
+            }
             if (CcgModel.Postcode == null)
                 return PostcodeValidatorResponse.PostcodeNotFound;
             if (!CcgModel.PharmacyServicesAvailable && !string.IsNullOrEmpty(CcgModel.Postcode))

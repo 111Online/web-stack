@@ -11,6 +11,7 @@ namespace NHS111.Models.Models.Web.Validators
     public interface IPostCodeAllowedValidator
     {
         PostcodeValidatorResponse IsAllowedPostcode(string postcode);
+        Task<PostcodeValidatorResponse> IsAllowedPostcodeAsync(string postcode);
         CCGDetailsModel CcgModel { get; }
     }
 
