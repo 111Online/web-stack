@@ -7,17 +7,7 @@
             Your call is confirmed
         </p>
         <p style="margin: 0;">
-            If you haven't had a call within <strong>@WebUtility.HtmlDecode(Model.WaitTimeText)</strong>, call 111
-        </p>
-    </div>
-</div>
-@{
-    var recommendedService = Model.SelectedService;
-}
-<div class="service-details nhsuk-u-margin-bottom">
-    <div class="service-details__address">
-        <p style="margin: 0;">
-            @WebUtility.HtmlDecode(recommendedService.PublicName)
+            If you haven't had a call within @WebUtility.HtmlDecode(Model.WaitTimeText), call 111.
         </p>
     </div>
 </div>
