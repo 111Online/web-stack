@@ -23,19 +23,8 @@ namespace NHS111.Web.Presentation.Validators
 
         public PostcodeValidatorResponse IsAllowedPostcode(string postcode)
         {
-            if (string.IsNullOrWhiteSpace(postcode))
-               return PostcodeValidatorResponse.InvalidSyntax;
-            if (!_alphanumericRegex.IsMatch(postcode.Replace(" ", "")))
-                return PostcodeValidatorResponse.InvalidSyntax;
-            if (!_allowedPostcodeFeature.IsEnabled)
-                return PostcodeValidatorResponse.InPathwaysAreaWithPharmacyServices;
-            var ccgModelBuilderTask = Task.Run(async () => await _ccgModelBuilder.FillCCGDetailsModelAsync(postcode));
-            CcgModel = ccgModelBuilderTask.Result;
-            if (CcgModel.Postcode == null)
-                return PostcodeValidatorResponse.PostcodeNotFound;
-            if (!CcgModel.PharmacyServicesAvailable && !string.IsNullOrEmpty(CcgModel.Postcode))
-                return PostcodeValidatorResponse.InPathwaysAreaWithoutPharmacyServices;
-            return PostcodeValidatorResponse.InPathwaysAreaWithPharmacyServices;
+            var postcodeVlaidatorResponse = Task.Run(async () => await IsAllowedPostcodeAsync(postcode));
+            return postcodeVlaidatorResponse.Result;
         }
 
         public async Task<PostcodeValidatorResponse> IsAllowedPostcodeAsync(string postcode)
@@ -45,19 +34,17 @@ namespace NHS111.Web.Presentation.Validators
             if (!_alphanumericRegex.IsMatch(postcode.Replace(" ", "")))
                 return PostcodeValidatorResponse.InvalidSyntax;
             if (!_allowedPostcodeFeature.IsEnabled)
-                return PostcodeValidatorResponse.InPathwaysArea;
+                return PostcodeValidatorResponse.InPathwaysAreaWithPharmacyServices;
             try {
                 CcgModel = await _ccgModelBuilder.FillCCGDetailsModelAsync(postcode);
             } catch (ArgumentException) {
                 return PostcodeValidatorResponse.InvalidSyntax;
             }
-
             if (CcgModel.Postcode == null)
                 return PostcodeValidatorResponse.PostcodeNotFound;
-            if (CcgModel.PharmacyServicesAvailable)
-                return PostcodeValidatorResponse.InAreaWithPharmacyServices;
-
-            return PostcodeValidatorResponse.InPathwaysArea;
+            if (!CcgModel.PharmacyServicesAvailable && !string.IsNullOrEmpty(CcgModel.Postcode))
+                return PostcodeValidatorResponse.InPathwaysAreaWithoutPharmacyServices;
+            return PostcodeValidatorResponse.InPathwaysAreaWithPharmacyServices;
         }
 
         public CCGDetailsModel CcgModel { get; private set; }
