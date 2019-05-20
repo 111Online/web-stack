@@ -30,7 +30,7 @@ namespace NHS111.Models.Models.Web.Validators
     {
         public static bool IsInPilotAreaForOutcome(this PostcodeValidatorResponse response, OutcomeGroup outcome)
         {
-            if (!outcome.IsPharmacyGroup && response == PostcodeValidatorResponse.InPathwaysAreaWithoutPharmacyServices)
+            if (!outcome.IsPharmacyGroup && (response == PostcodeValidatorResponse.InPathwaysAreaWithoutPharmacyServices || response == PostcodeValidatorResponse.InPathwaysAreaWithPharmacyServices))
                 return true;
 
             return outcome.IsPharmacyGroup && response == PostcodeValidatorResponse.InPathwaysAreaWithPharmacyServices;
