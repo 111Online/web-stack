@@ -10,11 +10,11 @@ namespace NHS111.Web.Presentation.Test.Builders {
     [TestFixture]
     public class ReferralResultBuilderTests {
         private readonly Mock<IPostCodeAllowedValidator> _mockPostcodeValidator = new Mock<IPostCodeAllowedValidator>();
-        private OutcomeViewModel _referralRequestResult;
+        private ITKConfirmationViewModel _referralRequestResult;
 
         [SetUp]
         public void Setup() {
-            _referralRequestResult = new OutcomeViewModel {
+            _referralRequestResult = new ITKConfirmationViewModel() {
                 OutcomeGroup = new OutcomeGroup()
             };
         }

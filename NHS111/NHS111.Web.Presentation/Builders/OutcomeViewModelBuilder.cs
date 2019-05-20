@@ -182,25 +182,27 @@ namespace NHS111.Web.Presentation.Builders
             return symptomGroupResponse.Data;
         }
 
-        public async Task<OutcomeViewModel> ItkResponseBuilder(OutcomeViewModel model)
+        public async Task<ITKConfirmationViewModel> ItkResponseBuilder(OutcomeViewModel model)
         {
             var itkRequestData = CreateItkDispatchRequest(model);
             await _auditLogger.LogItkRequest(model, itkRequestData);
             var response = await SendItkMessage(itkRequestData);
             await _auditLogger.LogItkResponse(model, response);
-            model.ItkDuplicate = response.StatusCode == System.Net.HttpStatusCode.Conflict;
+            var itkResponseModel = _mappingEngine.Mapper.Map<OutcomeViewModel, ITKConfirmationViewModel>(model);
+            itkResponseModel.ItkDuplicate = response.StatusCode == System.Net.HttpStatusCode.Conflict;
             if (response.IsSuccessful)
             {
-                model.ItkSendSuccess = true;
+                itkResponseModel.ItkSendSuccess = true;
+                itkResponseModel.PatientReference = response.Content;
                 var journey = JsonConvert.DeserializeObject<Journey>(model.JourneyJson);
             }
             else
             {
-                model.ItkSendSuccess = false;
+                itkResponseModel.ItkSendSuccess = false;
                 Log4Net.Error("Error sending ITK message : Status Code -" + response.StatusCode +
                               " Content -" + response.Content);
             }
-            return model;
+            return itkResponseModel;
         }
 
         public async Task<OutcomeViewModel> PopulateGroupedDosResults(OutcomeViewModel model, DateTime? overrideDate, bool? overrideFilterServices, DosEndpoint? endpoint)
@@ -280,7 +282,7 @@ namespace NHS111.Web.Presentation.Builders
         Task<OutcomeViewModel> DispositionBuilder(OutcomeViewModel model);
         Task<OutcomeViewModel> DispositionBuilder(OutcomeViewModel model, DosEndpoint? endpoint);
         Task<OutcomeViewModel> PersonalDetailsBuilder(OutcomeViewModel model);
-        Task<OutcomeViewModel> ItkResponseBuilder(OutcomeViewModel model);
+        Task<ITKConfirmationViewModel> ItkResponseBuilder(OutcomeViewModel model);
         Task<OutcomeViewModel> DeadEndJumpBuilder(OutcomeViewModel model);
         Task<OutcomeViewModel> PathwaySelectionJumpBuilder(OutcomeViewModel model);
         Task<OutcomeViewModel> PopulateGroupedDosResults(OutcomeViewModel model, DateTime? overrideDate, bool? overrideFilterServices, DosEndpoint? endpoint);

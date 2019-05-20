@@ -1,5 +1,5 @@
 ﻿@using NHS111.Models.Models.Web
-@inherits NHS111.Web.Views.Shared.SurveyLinkView<OutcomeViewModel>
+@inherits NHS111.Web.Views.Shared.SurveyLinkView<ITKConfirmationViewModel>
 @using Newtonsoft.Json
 <div class="measure">
     <h1>
@@ -13,7 +13,7 @@
             Call the pharmacy on <a href="tel:+44@Model.OutcomeModel.SelectedService.ContactDetails">@Model.SelectedService.ContactDetails</a> and
             give them this reference number:
         </p>
-        <div class="reference-number">111-ONLINE-123456</div>
+        <div class="reference-number">@Model.PatientReference</div>
     </div>
 
 </div>
