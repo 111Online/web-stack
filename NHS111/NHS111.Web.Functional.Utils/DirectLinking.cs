@@ -42,17 +42,5 @@ namespace NHS111.Web.Functional.Utils
         {
             Assert.IsTrue(IsDisplayed(Driver.FindElement(By.CssSelector("service-details"))));
         }
-
-        private bool IsDisplayed(IWebElement element)
-        {
-            try
-            {
-                return element.Displayed;
-            }
-            catch (NoSuchElementException)
-            {
-                return false;
-            }
-        }
     }
 }
