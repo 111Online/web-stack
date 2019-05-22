@@ -37,5 +37,22 @@ namespace NHS111.Web.Functional.Utils
         {
             Assert.IsTrue(Driver.FindElement(By.Id("SelectedServiceId")).GetAttribute("value") == serviceId);
         }
+
+        public void VerifyServiceDetails()
+        {
+            Assert.IsTrue(IsDisplayed(Driver.FindElement(By.CssSelector("service-details"))));
+        }
+
+        private bool IsDisplayed(IWebElement element)
+        {
+            try
+            {
+                return element.Displayed;
+            }
+            catch (NoSuchElementException)
+            {
+                return false;
+            }
+        }
     }
 }
