@@ -19,9 +19,6 @@ namespace NHS111.Web.Functional.Utils
         [FindsBy(How = How.Id, Using = "PreviousQuestionFromOutcome")]
         private IWebElement PreviousAnswer { get; set; }
 
-        [FindsBy(How = How.CssSelector, Using = "button[name='service']")]
-        private IWebElement ShowServices { get; set; }
-
         public OutcomePage(IWebDriver driver) : base(driver)
         {
             // Opens all DOS groupings
@@ -47,12 +44,6 @@ namespace NHS111.Web.Functional.Utils
         {
             PreviousAnswer.Click();
             return new QuestionPage(Driver);
-        }
-
-        public RecommendedServicePage ClickShowServices()
-        {
-            ShowServices.Click();
-            return new RecommendedServicePage(Driver);
         }
 
         public OutcomePage CompareAndVerify(string uniqueId)
