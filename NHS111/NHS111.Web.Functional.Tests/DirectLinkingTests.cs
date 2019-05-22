@@ -71,9 +71,26 @@ namespace NHS111.Web.Functional.Tests
             [Test]
             public void RecommendedServicePage()
             {
-                // skips pre outcome page
                 var directLink = TestScenarioPart.DirectLinking(Driver, "/question/direct/PW1827MaleAdult/33/Emergency%20Prescription%20111%20online/L12SA/?answers=0,1,1");
                 directLink.VerifyServiceDetails();
+            }
+
+            [Test]
+            public void OutOfAreaPage()
+            {
+                //to be done
+            }
+
+            [Test]
+            public void NoRecommendedServicesPage()
+            {
+                //to be done
+            }
+
+            [Test]
+            public void OtherServicesPage()
+            {
+                //to be done
             }
         }
     }
