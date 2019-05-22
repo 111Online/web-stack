@@ -64,5 +64,17 @@ namespace NHS111.Web.Functional.Tests
             }
         }
 
+        [TestFixture]
+        [Category("NightlyOnly")]
+        public class RecommendedService : BaseTests
+        {
+            [Test]
+            public void RecommendedServicePage()
+            {
+                // skips pre outcome page
+                var directLink = TestScenarioPart.DirectLinking(Driver, "/question/direct/PW1827MaleAdult/33/Emergency%20Prescription%20111%20online/L12SA/?answers=0,1,1");
+                directLink.VerifyServiceDetails();
+            }
+        }
     }
 }
