@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using NHS111.Features;
-using NUnit.Framework;
+﻿using NUnit.Framework;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.PageObjects;
 
@@ -71,7 +65,7 @@ namespace NHS111.Web.Functional.Utils
 
         public void VerifyNoOtherServices()
         {
-            Assert.IsFalse(OtherServices.Displayed, "Possible unexpected service result. Expected no other services to exist but it does.");
+            Assert.IsFalse(IsDisplayed(OtherServices), "Possible unexpected service result. Expected no other services to exist but it does.");
         }
 
         public void VerifyOpeningTimes()
@@ -91,7 +85,19 @@ namespace NHS111.Web.Functional.Utils
 
         public void VerifyNoActionLink()
         {
-            Assert.IsFalse(ActionLink.Displayed, "Possible unexpected service result. Expected service details to not exist but it does.");
+            Assert.IsFalse(IsDisplayed(ActionLink), "Possible unexpected service result. Expected service details to not exist but it does.");
+        }
+
+        private bool IsDisplayed(IWebElement element)
+        {
+            try
+            {
+                return element.Displayed;
+            }
+            catch (NoSuchElementException)
+            {
+                return false;
+            }
         }
     }
 }
