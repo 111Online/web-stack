@@ -45,7 +45,7 @@ namespace NHS111.Models.Mappers.WebMappings
             var outcome = (OutcomeViewModel)context.SourceValue;
             var caseDetails = (CaseDetails)context.DestinationValue ?? new CaseDetails();
 
-            caseDetails.ExternalReference = outcome.JourneyId.ToString();
+            caseDetails.JourneyId = outcome.JourneyId.ToString();
             if (!outcome.HasAcceptedCallbackOffer.HasValue || !outcome.HasAcceptedCallbackOffer.Value) //callback was never offered or it was rejected
                 caseDetails.DispositionCode = outcome.Id;
             else
