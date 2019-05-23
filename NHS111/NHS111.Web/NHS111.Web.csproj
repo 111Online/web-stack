@@ -440,6 +440,7 @@
     <Content Include="Views\Outcome\RecommendedServiceOtherServices.cshtml" />
     <Content Include="Views\Shared\Repeat_Prescription\_Refer_And_Go.cshtml" />
     <Content Include="Views\Shared\Repeat_Prescription\_Refer_Only.cshtml" />
+    <Content Include="Views\Outcome\Confirmation\Repeat_Prescription\DuplicateReferral.cshtml" />
     <None Include="Web.Development.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

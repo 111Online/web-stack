@@ -127,6 +127,13 @@ namespace NHS111.Models.Models.Web {
         public Call999DuplicateReferralGoogleAnalyticsDataLayer(ReferralResultViewModel viewModel)
             : base(viewModel) { }
     }
+    public class EmergencyPrescriptionDuplicateReferralGoogleAnalyticsDataLayer : DuplicateReferralResultGoogleAnalyticsDataLayer
+    {
+        protected override string VirtualPageTitle { get { return "Emergency prescription ITK Confirmation - Duplicate Booking"; } }
+
+        public EmergencyPrescriptionDuplicateReferralGoogleAnalyticsDataLayer(ReferralResultViewModel viewModel)
+            : base(viewModel) { }
+    }
 
     public class ServiceUnavailableReferralGoogleAnalyticsDataLayer
         : ReferralResultGoogleAnalyticsDataLayer {
