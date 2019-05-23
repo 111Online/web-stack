@@ -49,7 +49,7 @@
         startPageLoadingIndicator('Searching for your current location ...');
         navigator.geolocation.getCurrentPosition(function (pos) {
             var coords = pos.coords.longitude + "," + pos.coords.latitude;
-            post('/Location/ConfirmAddress', { "longlat": coords, "SessionId": "@Model.SessionId", "Campaign": "@Model.Campaign", "FilterServices": "@Model.FilterServices" });
+            post('/Location/ConfirmAddress', { "longlat": coords, "SessionId": "@Model.SessionId", "Campaign": "@Model.Campaign", "FilterServices": "@Model.FilterServices", "PathwayNo": "@Model.PathwayNo" });
         }, showError);
     });
 
