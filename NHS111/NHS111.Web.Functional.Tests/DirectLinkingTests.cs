@@ -78,19 +78,22 @@ namespace NHS111.Web.Functional.Tests
             [Test]
             public void OutOfAreaPage()
             {
-                //to be done
+                var directLink = TestScenarioPart.DirectLinking(Driver, "/question/direct/PW1827MaleAdult/33/Emergency%20Prescription%20111%20online/so302un/?answers=0,1,1");
+                directLink.VerifyOutOfArea();
             }
 
             [Test]
             public void NoRecommendedServicesPage()
             {
-                //to be done
+                var directLink = TestScenarioPart.DirectLinking(Driver, "/question/direct/PW1827MaleAdult/33/Emergency%20Prescription%20111%20online/L12SA/?answers=0,1,1&otherservices=true");
+                directLink.VerifyNoRecommendedServices();
             }
 
             [Test]
             public void OtherServicesPage()
             {
-                //to be done
+                var directLink = TestScenarioPart.DirectLinking(Driver, "/question/direct/PW1827MaleAdult/33/Emergency%20Prescription%20111%20online/L12SA/?answers=0,1,1&otherservices=true");
+                directLink.VerifyOtherServices();
             }
         }
     }
