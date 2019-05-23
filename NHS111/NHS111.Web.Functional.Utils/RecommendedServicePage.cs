@@ -87,17 +87,5 @@ namespace NHS111.Web.Functional.Utils
         {
             Assert.IsFalse(IsDisplayed(ActionLink), "Possible unexpected service result. Expected service details to not exist but it does.");
         }
-
-        private bool IsDisplayed(IWebElement element)
-        {
-            try
-            {
-                return element.Displayed;
-            }
-            catch (NoSuchElementException)
-            {
-                return false;
-            }
-        }
     }
 }

@@ -255,7 +255,7 @@ namespace NHS111.Web.Controllers {
                     controller.ControllerContext = new ControllerContext(ControllerContext.RequestContext, controller);
 
                     if (OutcomeGroup.PrePopulatedDosResultsOutcomeGroups.Contains(outcomeModel.OutcomeGroup))
-                        return await controller.DispositionWithServices(outcomeModel, "", endpoint, dosSearchTime);
+                        return await DeterminePrepopulatedResultsRoute(controller, outcomeModel, endpoint, dosSearchTime);
 
                     if (OutcomeGroup.DosSearchOutcomesGroups.Contains(outcomeModel.OutcomeGroup))
                         return await controller.ServiceList(outcomeModel, dosSearchTime, null, endpoint);
@@ -278,6 +278,41 @@ namespace NHS111.Web.Controllers {
                 default:
                     return null;
             }
+        }
+
+        private bool DirectToOtherServices
+        {
+            get
+            {
+                switch (Request.QueryString["otherservices"])
+                {
+                    case "true":
+                        return true;
+                    default:
+                        return false;
+                }
+            }
+        }
+
+        private async Task<ActionResult> DeterminePrepopulatedResultsRoute(OutcomeController controller, OutcomeViewModel outcomeViewModel, DosEndpoint? endpoint = null, DateTime? dosSearchTime = null)
+        {
+            var dispoWithServicesResult = await controller.DispositionWithServices(outcomeViewModel, "", endpoint, dosSearchTime);
+            if (!OutcomeGroup.UsingRecommendedServiceJourney.Contains(outcomeViewModel.OutcomeGroup))
+                return dispoWithServicesResult;
+
+            var dispoWithServicesView = dispoWithServicesResult as ViewResult;
+            if (dispoWithServicesView.ViewName != "../Outcome/Outcome_Preamble")
+                return View(dispoWithServicesView.ViewName, dispoWithServicesView.Model);
+
+            // need to do the first look up to determine if there are other services
+            var outcomeModel = dispoWithServicesView.Model as OutcomeViewModel;
+            if (!DirectToOtherServices)
+                return controller.RecommendedService(outcomeModel);
+
+            if(outcomeModel.DosCheckCapacitySummaryResult.Success.Services.Count > 1)
+                return await controller.ServiceList(outcomeViewModel, dosSearchTime, null, endpoint);
+
+            return View("../Outcome/RecommendedServiceNotOffered", outcomeModel);
         }
 
         private async Task<JourneyViewModel> DeriveJourneyView(string pathwayId, int? age, string pathwayTitle, int[] answers)

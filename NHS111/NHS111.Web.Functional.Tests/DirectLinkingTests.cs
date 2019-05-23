@@ -64,5 +64,37 @@ namespace NHS111.Web.Functional.Tests
             }
         }
 
+        [TestFixture]
+        [Category("NightlyOnly")]
+        public class RecommendedService : BaseTests
+        {
+            [Test]
+            public void RecommendedServicePage()
+            {
+                var directLink = TestScenarioPart.DirectLinking(Driver, "/question/direct/PW1827MaleAdult/33/Emergency%20Prescription%20111%20online/L12SA/?answers=0,1,1");
+                directLink.VerifyServiceDetails();
+            }
+
+            [Test]
+            public void OutOfAreaPage()
+            {
+                var directLink = TestScenarioPart.DirectLinking(Driver, "/question/direct/PW1827MaleAdult/33/Emergency%20Prescription%20111%20online/so302un/?answers=0,1,1");
+                directLink.VerifyOutOfArea();
+            }
+
+            [Test]
+            public void NoRecommendedServicesPage()
+            {
+                var directLink = TestScenarioPart.DirectLinking(Driver, "/question/direct/PW1827MaleAdult/33/Emergency%20Prescription%20111%20online/MK181EG/?answers=0,1,0");
+                directLink.VerifyNoRecommendedServices();
+            }
+
+            [Test]
+            public void OtherServicesPage()
+            {
+                var directLink = TestScenarioPart.DirectLinking(Driver, "/question/direct/PW1827MaleAdult/33/Emergency%20Prescription%20111%20online/L12SA/?answers=0,1,1&otherservices=true");
+                directLink.VerifyOtherServices();
+            }
+        }
     }
 }

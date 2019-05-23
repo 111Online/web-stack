@@ -119,7 +119,7 @@ namespace NHS111.Web.Controllers
         {
             ModelState.Clear();
             outcomeModel.HasSeenPreamble = true;
-            return View(outcomeModel);
+            return View("../Outcome/RecommendedService", outcomeModel);
         }
 
         [HttpPost]
