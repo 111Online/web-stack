@@ -254,16 +254,6 @@ namespace NHS111.Web.Controllers {
                     var controller = DependencyResolver.Current.GetService<OutcomeController>();
                     controller.ControllerContext = new ControllerContext(ControllerContext.RequestContext, controller);
 
-                    if (OutcomeGroup.UsingRecommendedServiceJourney.Contains(outcomeModel.OutcomeGroup))
-                    {
-                        var dispoWithServices = await controller.DispositionWithServices(outcomeModel, "", endpoint, dosSearchTime) as ViewResult;
-                        if (dispoWithServices.ViewName != "../Outcome/Outcome_Preamble")
-                            return View(dispoWithServices.ViewName, dispoWithServices.Model);
-
-                        outcomeModel.HasSeenPreamble = true;
-                        return View("../Outcome/RecommendedService", dispoWithServices.Model);
-                    }
-
                     if (OutcomeGroup.PrePopulatedDosResultsOutcomeGroups.Contains(outcomeModel.OutcomeGroup))
                         return await DeterminePrepopulatedResultsRoute(controller, outcomeModel, endpoint, dosSearchTime);
 
