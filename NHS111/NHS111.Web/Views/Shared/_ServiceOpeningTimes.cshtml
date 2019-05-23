@@ -18,7 +18,7 @@ else
     <div class="card__details--times">
         @foreach (var session in Model.NextOpenDayRotaSessions)
     {
-            <span>@session.OpeningTime.ToString("hh\\:mm") until @session.ClosingTime.ToString("hh\\:mm")</span>
-        }
+        <span>@DateTime.Today.Add(session.OpeningTime).ToString("h:mm tt").ToLower() until @DateTime.Today.Add(session.ClosingTime).ToString("h:mm tt").ToLower()</span>
+    }
     </div>
 }

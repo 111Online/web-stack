@@ -37,6 +37,22 @@
 <div class="nhsuk-core">
     @if (Model.OutcomeModel.SelectedService.OnlineDOSServiceType.Equals(OnlineDOSServiceType.ReferRingAndGo))
     {
+        <div class="measure">
+            <h1>
+
+                Call the pharmacy before you go
+
+            </h1>
+
+            <div class="callout callout--attention measure nhsuk-u-margin-bottom-4">
+                <p>
+                    Call the pharmacy on <a href="tel:+44@Model.OutcomeModel.SelectedService.ContactDetails">@Model.ItkConfirmationModel.SelectedService.ContactDetails</a> and
+                    give them this reference number:
+                </p>
+                <div class="reference-number">@Model.ItkConfirmationModel.PatientReference</div>
+            </div>
+
+        </div>
         @Html.Partial("_Refer_And_Go", Model.ItkConfirmationModel)
     }
     else
