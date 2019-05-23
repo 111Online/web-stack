@@ -34,8 +34,7 @@
     }
 }
 <div class="nhsuk-core">
-<section>
-    <div class="callout callout--attention  nhsuk-u-margin-bottom-4">
+    <div class="callout callout--attention measure nhsuk-u-margin-bottom-4">
 
         <h1 class="h2">
             Sorry, there’s a problem with the service
@@ -46,7 +45,7 @@
         @if (Model.OutcomeModel.SelectedService.OnlineDOSServiceType == OnlineDOSServiceType.ReferRingAndGo)
         {
             <p>You can still get help from the pharmacy if you call or visit.</p>
-           
+
         }
         else
         {
@@ -56,17 +55,16 @@
             </p>
         }
     </div>
-</section>
 
-@if (Model.OutcomeModel.SelectedService.OnlineDOSServiceType == OnlineDOSServiceType.ReferRingAndGo)
-{
+    @if (Model.OutcomeModel.SelectedService.OnlineDOSServiceType == OnlineDOSServiceType.ReferRingAndGo)
+    {
 
-    @Html.Partial("_Refer_And_Go", Model.ItkConfirmationModel)
-}
+        @Html.Partial("_Refer_And_Go", Model.ItkConfirmationModel)
+    }
 
-@if (!Model.OutcomeModel.OutcomeGroup.Is999NonUrgent)
-{
-    @Html.Partial("_CareAdvice", Model.OutcomeModel.CareAdvices, new ViewDataDictionary { { "Title", "What you can do in the meantime" } })
-}
+    @if (!Model.OutcomeModel.OutcomeGroup.Is999NonUrgent)
+    {
+        @Html.Partial("_CareAdvice", Model.OutcomeModel.CareAdvices, new ViewDataDictionary { { "Title", "What you can do in the meantime" } })
+    }
 
 </div>
