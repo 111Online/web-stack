@@ -191,5 +191,14 @@ namespace NHS111.Models.Models.Web {
         }
     }
 
+    public class EmergencyPrescriptionServiceUnavailableReferralResultViewModel : ServiceUnavailableReferralResultViewModel
+    {
+        public override string PartialViewName { get { return "ServiceUnavailable"; } }
+        public override string ViewName { get { return string.Format("Confirmation/{0}/ServiceUnavailable", ResolveConfirmationViewByOutcome(this.OutcomeModel)); } }
 
+        public EmergencyPrescriptionServiceUnavailableReferralResultViewModel(OutcomeViewModel outcomeViewModel) : base(outcomeViewModel)
+        {
+            GoogleAnalyticsDataLayer = new EmergencyPrescriptionServiceUnavailableReferralGoogleAnalyticsDataLayer(this);
+        }
+    }
 }

@@ -163,4 +163,11 @@ namespace NHS111.Models.Models.Web {
         public Call999ServiceUnavailableReferralGoogleAnalyticsDataLayer(ReferralResultViewModel viewModel)
             : base(viewModel) { }
     }
+
+    public class EmergencyPrescriptionServiceUnavailableReferralGoogleAnalyticsDataLayer : ServiceUnavailableReferralGoogleAnalyticsDataLayer
+    {
+        protected override string VirtualPageTitle { get { return "Emergency prescription ITK Confirmation - Unavailable"; } }
+
+        public EmergencyPrescriptionServiceUnavailableReferralGoogleAnalyticsDataLayer(ReferralResultViewModel viewModel) : base(viewModel) { }
+    }
 }
