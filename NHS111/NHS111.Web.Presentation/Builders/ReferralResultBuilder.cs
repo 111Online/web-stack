@@ -102,6 +102,8 @@ namespace NHS111.Web.Presentation.Builders
                     result = new Call999ServiceUnavailableReferralResultViewModel(outcomeViewModel);
                 if (outcomeViewModel.OutcomeGroup.IsEDCallback)
                     result = new AccidentAndEmergencyServiceUnavailableReferralResultViewModel(outcomeViewModel);
+                if (outcomeViewModel.OutcomeGroup.IsPharmacyGroup)
+                    result = new EmergencyPrescriptionServiceUnavailableReferralResultViewModel(outcomeViewModel);
             }
 
             result.OutcomeModel = outcomeViewModel;
