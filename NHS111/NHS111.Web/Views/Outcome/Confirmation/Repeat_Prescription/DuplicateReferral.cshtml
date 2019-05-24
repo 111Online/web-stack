@@ -3,10 +3,9 @@
 @using NHS111.Models.Models.Web
 @using NHS111.Models.Models.Web.FromExternalServices
 @using NHS111.Web.Presentation.Analytics
-@inherits NHS111.Web.Views.Shared.SurveyLinkView<ReferralConfirmationResultViewModel>
+@inherits NHS111.Web.Views.Shared.SurveyLinkView<EmergencyPrescriptionDuplicateReferralResultViewModel>
 @{
     Layout = "~/Views/Shared/_LayoutNhsUk.cshtml";
-    Model.ItkConfirmationModel.WorseningCareAdvice.Items.Add(new CareAdviceText { Text = "You don't need to send any further requests for a callback. However, if you feel worse whilst you are waiting, please call 111 now." });
     var tagPrinter = new GoogleTagManagerPrinter(null); //todo this can eventually be moved back out into the layout view where it will always have the ctor param
 }
 @section Title {
@@ -19,7 +18,7 @@
 }
 @{
     var dataDictionary = ViewContext.ViewData;
-    dataDictionary.Add(new KeyValuePair<string, object>("LaunchPage", "confirmation"));
+    dataDictionary.Add(new KeyValuePair<string, object>("LaunchPage", "duplicate"));
 }
 @section SurveyBanner{
     @Html.Partial("_SurveyLink", Model.ItkConfirmationModel.SurveyLink, dataDictionary)
@@ -35,25 +34,21 @@
     }
 }
 <div class="nhsuk-core">
+    
+        <div class="callout callout--attention measure nhsuk-u-margin-bottom-4">
+            <h1 class="h2" style="margin-bottom: 0;">
+                Your details have already been sent
+            </h1>
+        </div>
+    
     @if (Model.OutcomeModel.SelectedService.OnlineDOSServiceType.Equals(OnlineDOSServiceType.ReferRingAndGo))
     {
-        <h1>
-
-            Call the pharmacy before you go
-
-        </h1>
-
-        <div class="callout callout--attention measure nhsuk-u-margin-bottom-4">
-            <p>
-                Call the pharmacy on <a href="tel:+44@Model.OutcomeModel.SelectedService.ContactDetails">@Model.ItkConfirmationModel.SelectedService.ContactDetails</a> and
-                give them this reference number:
-            </p>
-            <div class="reference-number">@Model.ItkConfirmationModel.PatientReference</div>
-        </div>
         @Html.Partial("_Refer_And_Go", Model.ItkConfirmationModel)
     }
     else
     {
-        @Html.Partial("_Callback", Model.ItkConfirmationModel)
+        <p style="margin: 0;">
+            If you haven't had a call within @WebUtility.HtmlDecode(Model.ItkConfirmationModel.WaitTimeText), call 111.
+        </p>
     }
 </div>

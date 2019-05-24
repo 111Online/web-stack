@@ -146,6 +146,17 @@ namespace NHS111.Models.Models.Web {
         }
     }
 
+    public class EmergencyPrescriptionDuplicateReferralResultViewModel : DuplicateReferralResultViewModel
+    {
+        public override string PartialViewName { get { return "DuplicateReferral"; } }
+        public override string ViewName { get { return string.Format("Confirmation/{0}/DuplicateReferral", ResolveConfirmationViewByOutcome(this.ItkConfirmationModel)); } }
+
+        public EmergencyPrescriptionDuplicateReferralResultViewModel(ITKConfirmationViewModel itkConfirmationViewModel): base(itkConfirmationViewModel)
+        {
+            GoogleAnalyticsDataLayer = new EmergencyPrescriptionDuplicateReferralGoogleAnalyticsDataLayer(this);
+        }
+    }
+
     public class ServiceUnavailableReferralResultViewModel
         : ReferralResultViewModel {
         public override string PageTitle { get { return "Call NHS 111 - request for callback not completed"; } }
