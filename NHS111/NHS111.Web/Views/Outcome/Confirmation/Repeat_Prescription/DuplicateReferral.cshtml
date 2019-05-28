@@ -36,19 +36,19 @@
 <div class="nhsuk-core">
     
         <div class="callout callout--attention measure nhsuk-u-margin-bottom-4">
-            <h1 class="h2" style="margin-bottom: 0;">
+            <h1 class="h2">
                 Your details have already been sent
             </h1>
+            @if (Model.OutcomeModel.SelectedService.OnlineDOSServiceType.Equals(OnlineDOSServiceType.Callback))
+            {
+                <p style="margin: 0;">
+                    If you haven't had a call within @WebUtility.HtmlDecode(Model.ItkConfirmationModel.WaitTimeText), call 111.
+                </p>
+            }
         </div>
     
     @if (Model.OutcomeModel.SelectedService.OnlineDOSServiceType.Equals(OnlineDOSServiceType.ReferRingAndGo))
     {
         @Html.Partial("_Refer_And_Go", Model.ItkConfirmationModel)
-    }
-    else
-    {
-        <p style="margin: 0;">
-            If you haven't had a call within @WebUtility.HtmlDecode(Model.ItkConfirmationModel.WaitTimeText), call 111.
-        </p>
     }
 </div>
