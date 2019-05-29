@@ -2,7 +2,9 @@
 @using NHS111.Models.Models.Web
 @model  OutcomeViewModel
 @{
-    var recommendedService = Model.RecommendedService;
+                /**/
+
+                var recommendedService = Model.RecommendedService;
 }
 <div class="service-details-container nhsuk-u-margin-bottom-4">
     <div class="service-details">
@@ -27,13 +29,13 @@
                 You must call <b>@recommendedService.ContactDetails</b> to make an appointment
             </div>
         </div>
-        
+
         .cards--goto is used by javascript to insert the map beforehand.
     *@
     <div class="service-details cards--goto">
-        <p class="service-details__distance">
+        <div class="service-details__distance">
             @recommendedService.Distance miles away
-        </p>
+        </div>
         <div class="service-details__directions">
             @using (Html.BeginForm("GetDirections", "Outcome", FormMethod.Post))
             {
@@ -49,11 +51,11 @@
             }
         </div>
     </div>
-    </div>
-    @{
-        var mapService = JsonConvert.SerializeObject(new[] { Model });
-    }
-    <script>
+</div>
+@{
+    var mapService = JsonConvert.SerializeObject(new[] { Model });
+}
+<script>
     window.mapServices = @Html.Raw(mapService);
     window.currentPostcode = "@Html.Raw(Model.CurrentPostcode)";
-    </script>
+</script>
