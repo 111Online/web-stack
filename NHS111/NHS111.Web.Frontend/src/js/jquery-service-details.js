@@ -1,5 +1,5 @@
 /**
- * This file has the JavaScript for interacting with the map from service list goto cards.
+ * This file has the JavaScript for the other services page's maps.
  * entry-map.js is the file for the map itself
  */
 jQuery(function () {
