@@ -106,6 +106,7 @@
   }
 
   .service-listing summary {
+    cursor: pointer;
     @extend .service-details;
     text-indent: 0;
     border-left-width: 4px;

@@ -14,9 +14,14 @@
   * + * {
     margin-top: inherit !important;
   }
+
   /* nhsuk-frontend components */
   @import "node_modules/nhsuk-frontend/packages/core/all";
 
+  /* Reinstate border-box everywhere, nhsuk has it set as inherit */
+  *, *:after, *:before {
+    box-sizing: border-box;
+  }
 
   .button--link {
     @include nhsuk-font(19);
@@ -25,7 +30,6 @@
     position: inherit;
     width: auto;
   }
-
   /* Some specificity hacks are required so nhsuk doesn't override existing classes */
   .search__button--back {
     @extend .search__button--back;

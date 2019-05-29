@@ -27,10 +27,13 @@
                 You must call <b>@recommendedService.ContactDetails</b> to make an appointment
             </div>
         </div>
-        
-        .cards--goto is used by javascript to insert the map beforehand.
+
+        .service-details__map is used by javascript to replace with the map.
     *@
-    <div class="service-details cards--goto">
+
+    <div class="service-details__map" data-id="@recommendedService.Id"></div>
+    <div class="service-details">
+
         <p class="service-details__distance">
             @recommendedService.Distance miles away
         </p>
@@ -49,11 +52,14 @@
             }
         </div>
     </div>
-    </div>
+
+
     @{
-        var mapService = JsonConvert.SerializeObject(new[] { Model });
+        var mapService = JsonConvert.SerializeObject(new[] { recommendedService });
     }
     <script>
-    window.mapServices = @Html.Raw(mapService);
-    window.currentPostcode = "@Html.Raw(Model.CurrentPostcode)";
+        if (!window.mapServices) window.mapServices = {}
+        window.mapServices[@recommendedService.Id] = @Html.Raw(mapService);
+        window.currentPostcode = "@Html.Raw(Model.CurrentPostcode)";
     </script>
+</div>
