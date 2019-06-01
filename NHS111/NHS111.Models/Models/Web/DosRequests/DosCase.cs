@@ -34,7 +34,9 @@ namespace NHS111.Models.Models.Web.DosRequests
 
     public enum AgeFormatType
     {
+        Days,
+        Months,
         Years,
-        AgeGroup,
+        AgeGroup
     }
 }
