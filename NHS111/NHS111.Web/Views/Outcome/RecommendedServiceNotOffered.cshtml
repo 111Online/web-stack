@@ -20,7 +20,6 @@
 @section FeedbackSection {
     @Html.Partial("_FeedbackDetails", new FeedbackViewModel() { UserId = Model.SessionId.ToString(), PageData = new PageDataViewModel(PageDataViewModel.PageType.Outcome, Model) })
 }
-
 <div class="callout callout--attention measure nhsuk-u-margin-bottom-4">
     <h1 class="h2">
         Find a pharmacy near you

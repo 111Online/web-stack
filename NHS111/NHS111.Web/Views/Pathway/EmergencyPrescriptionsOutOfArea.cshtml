@@ -4,8 +4,6 @@
     Layout = "~/Views/Shared/_LayoutNhsUK.cshtml";
 }
 @inherits NHS111.Web.Views.Shared.DirectLinkingView<JourneyViewModel>
-@section Title {NHS 111 Online - Emergency Prescriptions not available}
-
 @section HeadTop {
     <script>
         dataLayer = [
@@ -15,7 +13,10 @@
             }];
     </script>
 }
-
+@section Title {NHS 111 Online - Emergency Prescriptions not available}
+@section FeedbackSection {
+    @Html.Partial("_FeedbackDetails", new FeedbackViewModel() { UserId = Model.SessionId.ToString(), PageData = new PageDataViewModel(PageDataViewModel.PageType.Outcome, Model) })
+}
 <div class="callout callout--attention measure nhsuk-u-margin-bottom-4">
     <h1 class="h2">
         This service is not in your area
