@@ -31,6 +31,11 @@
   @include nhsuk-font(19);
 }
 
+.service-details__distance,
+.service-details__directions p {
+  margin-bottom: 0;
+}
+
 .service-details-container .service-map {
   border: 0;
   border-top: 4px solid #fff;
@@ -87,7 +92,7 @@
     @include nhsuk-responsive-margin(3, 'bottom');
   }
 
-  .service-details__name, .cards--goto .service-details__distance {
+  .service-details__name, .service-details__distance {
     display: none;
   }
 

@@ -33,6 +33,9 @@
 
     <div class="service-details__map" data-id="@recommendedService.Id"></div>
     <div class="service-details">
+        <p class="service-details__distance">
+            @recommendedService.Distance miles away
+        </p>
 
         <div class="service-details__directions">
             @using (Html.BeginForm("GetDirections", "Outcome", FormMethod.Post))
