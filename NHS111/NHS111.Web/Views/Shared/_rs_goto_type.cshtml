@@ -33,6 +33,9 @@
 
     <div class="service-details__map" data-id="@recommendedService.Id"></div>
     <div class="service-details">
+        <p class="service-details__distance nhsuk-u-margin-bottom-0">
+            @recommendedService.Distance miles away
+        </p>
 
         <div class="service-details__directions">
             @using (Html.BeginForm("GetDirections", "Outcome", FormMethod.Post))
@@ -45,7 +48,7 @@
                 @Html.Hidden("SelectedServiceName", recommendedService.Name)
                 @Html.Hidden("SelectedServiceAddress", recommendedService.Address)
                 <button class="button--link card__directions--fallback" type="submit">Get directions</button>
-                <p><a class="card__directions" style="display: none;" target="_blank" href="@string.Format("https://www.google.com/maps/dir/?api=1&origin={0}&destination={1}", Model.CurrentPostcode, recommendedService.Address)">Get directions <span class="nhsuk-u-font-size-16">(opens a new tab or window)</span></a></p>
+                <p class="nhsuk-u-margin-bottom-0"><a class="card__directions" style="display: none;" target="_blank" href="@string.Format("https://www.google.com/maps/dir/?api=1&origin={0}&destination={1}", Model.CurrentPostcode, recommendedService.Address)">Get directions <span class="nhsuk-u-font-size-16">(opens a new tab or window)</span></a></p>
             }
         </div>
     </div>
