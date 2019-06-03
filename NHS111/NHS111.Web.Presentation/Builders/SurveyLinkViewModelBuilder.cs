@@ -15,6 +15,8 @@ using RestSharp;
 
 namespace NHS111.Web.Presentation.Builders
 {
+    using System.Configuration;
+    using Features;
     using NHS111.Models.Models.Web.FromExternalServices;
     using StructureMap.Query;
 
@@ -50,9 +52,12 @@ namespace NHS111.Web.Presentation.Builders
                 DigitalTitle = model.DigitalTitle,
                 Campaign = model.Campaign,
                 CampaignSource = model.Source,
-                ValidationCallbackOffered = model.Is999Callback || model.IsEDCallback
+                ValidationCallbackOffered = model.Is999Callback || model.IsEDCallback,
             };
 
+            var surveyLinkFeature = new SurveyLinkFeature();
+            var isPharmacyPage = ConfigurationManager.AppSettings["PharmacyDxCodes"].Split(',').Any(d => d == result.DispositionCode);
+            result.SurveyId = isPharmacyPage ? surveyLinkFeature.PharmacySurveyId : surveyLinkFeature.SurveyId;
             AddServiceInformation(model, result);
 
             return result;
@@ -69,6 +74,12 @@ namespace NHS111.Web.Presentation.Builders
 
             surveyLinkViewModel.ServiceCount = services.Count;
             surveyLinkViewModel.ServiceOptions = string.Join(",", serviceOptions);
+
+            var offeredServices = model.DosCheckCapacitySummaryResult.ResultListEmpty
+                ? new List<ServiceViewModel>()
+                : model.DosCheckCapacitySummaryResult.Success.Services;
+
+            surveyLinkViewModel.OfferedServices = offeredServices;
         }
     }
 

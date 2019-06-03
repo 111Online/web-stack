@@ -7,6 +7,9 @@
     var launchPage = ViewData.ContainsKey("LaunchPage") ? ViewData["LaunchPage"] : "outcome";
     var serviceOptions = ViewData.ContainsKey("ServiceOptions") ? ViewData["ServiceOptions"] : Model.ServiceOptions;
     var serviceCount = ViewData.ContainsKey("ServiceCount") ? ViewData["ServiceCount"] : Model.ServiceCount;
+
+    var recommendedService = Model.OfferedServices == null ? new ServiceViewModel() : Model.OfferedServices.First();
+    var surveyId = Model.DispositionCode;
 }
 
 @if (SurveyLinkFeature.IsEnabled)
@@ -14,7 +17,7 @@
     var baseUrl = SurveyLinkFeature.BaseUrl;
     var url = string.Format(
         baseUrl,
-        SurveyLinkFeature.SurveyId,
+        Model.SurveyId,
         Model.JourneyId,
         Model.PathwayNo,
         Model.EndPathwayNo,
@@ -29,7 +32,13 @@
         serviceCount,
         serviceOptions,
         launchPage,
-        Model.ValidationCallbackOffered.ToString().ToLower()
+        Model.ValidationCallbackOffered.ToString().ToLower(),
+        recommendedService.OnlineDOSServiceType,
+        recommendedService.Id,
+        recommendedService.PublicName,
+        string.Join(",", Model.OfferedServices.Select(s => s.OnlineDOSServiceType)),
+        string.Join(",", Model.OfferedServices.Select(s => s.Id)),
+        string.Join(",", Model.OfferedServices.Select(s => s.PublicName))
         );
 
     <div class="notification-banner survey-banner notification-banner--hiviz">
