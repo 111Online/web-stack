@@ -18,21 +18,9 @@
 @section Title { NHS 111 - Where do you want help? }
 
 <h1>Where do you want help?</h1>
-@section SurveyBanner{
-    @if (!Model.UserInfo.CurrentAddress.IsPostcodeFirst)
-    {
-        @Html.Partial("_SurveyLink", Model.SurveyLink)
-    }
-}
+
 @section FeedbackSection {
-    @if (Model.UserInfo.CurrentAddress.IsPostcodeFirst)
-    {
-        @Html.Partial("_FeedbackDetails", new FeedbackViewModel() { UserId = Model.SessionId.ToString(), PageData = new PageDataViewModel(PageDataViewModel.PageType.PostcodeFirst, Model) })
-    }
-    else
-    {
-        @Html.Partial("_SurveyLink", Model.SurveyLink)
-    }
+    @Html.Partial("_FeedbackDetails", new FeedbackViewModel() { UserId = Model.SessionId.ToString(), PageData = new PageDataViewModel(PageDataViewModel.PageType.PostcodeFirst, Model) })
 }
 <section>
     <div>
