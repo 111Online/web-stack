@@ -103,9 +103,8 @@ namespace NHS111.Web.Controllers {
             ModelState.Clear();
             var nextModel = await GetNextJourneyViewModel(model);
 
-            var viewName = _viewRouter.GetViewName(nextModel, ControllerContext);
-            return View(viewName, nextModel);
-
+            var viewRouter = _viewRouter.Build(nextModel, ControllerContext);
+            return View(viewRouter.ViewName, nextModel);
         }
 
         private JourneyViewModel GetMatchingTestJourney(OutcomeViewModel model) {
@@ -207,8 +206,8 @@ namespace NHS111.Web.Controllers {
                 if (model.DosCheckCapacitySummaryResult.HasITKServices) {
                     throw new NotImplementedException(); //no trigger question journeys currently offer callback
                 }
-                var viewName = _viewRouter.GetViewName(model, ControllerContext);
-                return View(viewName, model);
+                var viewRouter = _viewRouter.Build(model, ControllerContext);
+                return View(viewRouter.ViewName, model);
             }
 
             var result = await DirectInternal(model.PathwayId, model.UserInfo.Demography.Age, model.PathwayTitle, model.CurrentPostcode, answers, filterServices);
@@ -249,7 +248,7 @@ namespace NHS111.Web.Controllers {
                     if (_dosSpecifyDispoTimeFeature.IsEnabled && _dosSpecifyDispoTimeFeature.HasDate(Request))
                         dosSearchTime = _dosSpecifyDispoTimeFeature.GetDosSearchDateTime(Request);
 
-                    outcomeModel.CurrentView = _viewRouter.GetViewName(resultingModel, ControllerContext);
+                    outcomeModel.CurrentView = _viewRouter.Build(resultingModel, ControllerContext).ViewName;
 
                     var controller = DependencyResolver.Current.GetService<OutcomeController>();
                     controller.ControllerContext = new ControllerContext(ControllerContext.RequestContext, controller);
@@ -262,8 +261,8 @@ namespace NHS111.Web.Controllers {
                 }
             }
 
-            var viewName = _viewRouter.GetViewName(resultingModel, ControllerContext);
-            return View(viewName, resultingModel);
+            var viewRouter = _viewRouter.Build(resultingModel, ControllerContext);
+            return View(viewRouter.ViewName, resultingModel);
         }
 
         private DosEndpoint? SetEndpoint() {
@@ -354,9 +353,9 @@ namespace NHS111.Web.Controllers {
             var questionWithAnswers = response.Data;
 
             var result = _journeyViewModelBuilder.BuildPreviousQuestion(questionWithAnswers, model);
-            var viewName = _viewRouter.GetViewName(result, ControllerContext);
+            var viewRouter = _viewRouter.Build(result, ControllerContext);
 
-            return View(viewName, result);
+            return View(viewRouter.ViewName, result);
         }
 
         private async Task<QuestionWithAnswers> GetNextNode(QuestionViewModel model) {

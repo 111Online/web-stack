@@ -415,7 +415,7 @@
     <Content Include="Views\Location\ConfirmLocation.cshtml" />
     <Content Include="Views\Location\AskNHS.cshtml" />
     <Content Include="Views\Location\Babylon.cshtml" />
-    <Content Include="Views\Outcome\RecommendedService.cshtml" />
+    <Content Include="Views\Outcome\Repeat_Prescription\RecommendedService.cshtml" />
     <Content Include="Views\Shared\_rs_OtherServices.cshtml" />
     <Content Include="Views\Shared\_rs_CareAdvice.cshtml" />
     <Content Include="Views\Shared\_rs_WorseningAdvice.cshtml" />
@@ -430,18 +430,19 @@
     <Content Include="Views\Outcome\Confirmation\Repeat_Prescription\Confirmation.cshtml" />
     <Content Include="Views\Outcome\Confirmation\Repeat_Prescription\ServiceBookingFailure.cshtml" />
     <Content Include="Views\Outcome\GP_Pharmacy.cshtml" />
-    <Content Include="Views\Outcome\Outcome_Preamble.cshtml" />
+    <Content Include="Views\Outcome\Repeat_Prescription\Outcome_Preamble.cshtml" />
     <Content Include="Views\Shared\_CommonHiddenFieldsRecommendedServiceViewModel.cshtml" />
-    <Content Include="Views\Outcome\RecommendedServiceNotOffered.cshtml" />
+    <Content Include="Views\Outcome\Repeat_Prescription\RecommendedServiceNotOffered.cshtml" />
     <Content Include="Views\Location\Home.cshtml" />
     <Content Include="Views\Pathway\EmergencyPrescriptionsOutOfArea.cshtml" />
     <Content Include="Views\Shared\_rs_refer_ring_and_go.cshtml" />
     <Content Include="Views\Question\Page.cshtml" />
-    <Content Include="Views\Outcome\RecommendedServiceOtherServices.cshtml" />
+    <Content Include="Views\Outcome\Repeat_Prescription\RecommendedServiceOtherServices.cshtml" />
     <Content Include="Views\Shared\Repeat_Prescription\_Refer_And_Go.cshtml" />
     <Content Include="Views\Shared\Repeat_Prescription\_Callback.cshtml" />
     <Content Include="Views\Outcome\Confirmation\Repeat_Prescription\DuplicateReferral.cshtml" />
     <Content Include="Views\Outcome\Confirmation\Repeat_Prescription\ServiceUnavailable.cshtml" />
+    <Content Include="Views\Outcome\No_Further_Action.cshtml" />
     <None Include="Web.Development.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
