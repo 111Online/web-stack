@@ -15,6 +15,9 @@ using RestSharp;
 
 namespace NHS111.Web.Presentation.Builders
 {
+    using System.Configuration;
+    using System.Web;
+    using Features;
     using NHS111.Models.Models.Web.FromExternalServices;
     using StructureMap.Query;
 
@@ -50,25 +53,39 @@ namespace NHS111.Web.Presentation.Builders
                 DigitalTitle = model.DigitalTitle,
                 Campaign = model.Campaign,
                 CampaignSource = model.Source,
-                ValidationCallbackOffered = model.Is999Callback || model.IsEDCallback
+                ValidationCallbackOffered = model.Is999Callback || model.IsEDCallback,
             };
 
+            var surveyLinkFeature = new SurveyLinkFeature();
+            var isPharmacyPathway = result.EndPathwayNo == "PW1827";
+            result.SurveyId = isPharmacyPathway ? surveyLinkFeature.PharmacySurveyId : surveyLinkFeature.SurveyId;
             AddServiceInformation(model, result);
 
             return result;
         }
 
         public void AddServiceInformation(OutcomeViewModel model, SurveyLinkViewModel surveyLinkViewModel) {
-            var serviceOptions = new List<OnlineDOSServiceType>();
+            var serviceOptions = new List<string>();
             var services = new List<ServiceViewModel>();
             if (model.GroupedDosServices != null)
             {
                 services = model.GroupedDosServices.SelectMany(g => g.Services).ToList();
-                serviceOptions = services.GroupBy(s => s.OnlineDOSServiceType).Select(s => s.Key).ToList();
+                serviceOptions = services.GroupBy(s => s.OnlineDOSServiceType.Id).Select(s => s.Key).ToList();
             }
 
             surveyLinkViewModel.ServiceCount = services.Count;
             surveyLinkViewModel.ServiceOptions = string.Join(",", serviceOptions);
+
+            if (!model.DosCheckCapacitySummaryResult.ResultListEmpty) {
+                var recommendedService = model.DosCheckCapacitySummaryResult.Success.Services.First();
+                surveyLinkViewModel.RecommendedServiceId = recommendedService.Id;
+                surveyLinkViewModel.RecommendedServiceType = recommendedService.OnlineDOSServiceType.Id;
+                surveyLinkViewModel.RecommendedServiceName = HttpUtility.UrlEncode(recommendedService.PublicName);
+
+                surveyLinkViewModel.OfferedServiceIds = string.Join(",", model.DosCheckCapacitySummaryResult.Success.Services.Select(s => s.Id));
+                surveyLinkViewModel.OfferedServiceTypes = string.Join(",", model.DosCheckCapacitySummaryResult.Success.Services.Select(s => s.OnlineDOSServiceType.Id));
+                surveyLinkViewModel.OfferedServiceNames = HttpUtility.UrlEncode(string.Join(",", model.DosCheckCapacitySummaryResult.Success.Services.Select(s => s.PublicName)));
+            }
         }
     }
 

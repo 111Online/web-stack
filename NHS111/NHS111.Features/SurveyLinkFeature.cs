@@ -21,6 +21,12 @@ namespace NHS111.Features
         {
             get { return FeatureValue("SurveyId").Value; }
         }
+
+        public string PharmacySurveyId
+        {
+            get { return FeatureValue("PharmacySurveyId").Value; }
+        }
+
     }
 
     public interface ISurveyLinkFeature : IFeature
@@ -28,5 +34,6 @@ namespace NHS111.Features
         string BaseUrl { get; }
 
         string SurveyId { get; }
+        string PharmacySurveyId { get; } //todo consider refactoring this into a more flexible approach
     }
 }

@@ -10,6 +10,8 @@ namespace NHS111.Models.Models.Web
 
     public class SurveyLinkViewModel
     {
+        public string SurveyId { get; set; }
+
         public string JourneyId { get; set; }
 
         public string PathwayNo { get; set; }
@@ -33,5 +35,13 @@ namespace NHS111.Models.Models.Web
         public string ServiceOptions { get; set; }
 
         public bool ValidationCallbackOffered { get; set; }
+
+        public string RecommendedServiceType { get; set; }
+        public int RecommendedServiceId { get; set; }
+        public string RecommendedServiceName { get; set; }
+
+        public string OfferedServiceTypes { get; set; }
+        public string OfferedServiceIds { get; set; }
+        public string OfferedServiceNames { get; set; }
     }
 }
