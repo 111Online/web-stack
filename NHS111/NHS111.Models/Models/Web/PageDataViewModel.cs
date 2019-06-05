@@ -30,7 +30,12 @@ namespace NHS111.Models.Models.Web
             Call999Callback,
             AccidentAndEmergencyCallback,
             CheckAnswer,
-            QuestionInformation
+            QuestionInformation,
+            OutOfArea,
+            RepeatPrescriptionRecommendedService,
+            RepeatPrescriptionNotOffered,
+            RepeatPrescriptionOtherServices,
+            RepeatPrescriptionPreamble
         }
 
         public PageDataViewModel()
@@ -49,8 +54,10 @@ namespace NHS111.Models.Models.Web
             Page = page;
             Campaign = journey.Campaign;
             Source = journey.Source;
-            Gender = journey.UserInfo.Demography.Gender;
-            Age = journey.UserInfo.Demography.Age.ToString();
+            if (journey.UserInfo != null && journey.UserInfo.Demography != null) {
+                Gender = journey.UserInfo.Demography.Gender;
+                Age = journey.UserInfo.Demography.Age.ToString();
+            }
             SearchString = journey.EntrySearchTerm;
             QuestionId = journey.Id;
             TxNumber = !string.IsNullOrEmpty(journey.QuestionNo) && journey.QuestionNo.ToLower().StartsWith("tx") ? journey.QuestionNo : null;
