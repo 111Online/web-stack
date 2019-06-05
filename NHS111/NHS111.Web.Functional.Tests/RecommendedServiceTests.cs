@@ -13,7 +13,7 @@ namespace NHS111.Web.Functional.Tests
         {
             var questionPage = TestScenerios.LaunchRecommendedServiceScenerio(Driver, "Emergency Prescription 111 Online", TestScenerioSex.Male, TestScenerioAgeGroups.Adult, "L12SA");
 
-            questionPage.VerifyQuestion("Can you get in touch with your GP or usual pharmacy?");
+            questionPage.VerifyQuestion("Can you contact your GP or usual pharmacy?");
             var preOutcomePage = questionPage
                 .Answer(2)
                 .Answer<PreOutcomePage>(1);
@@ -29,7 +29,7 @@ namespace NHS111.Web.Functional.Tests
         {
             var questionPage = TestScenerios.LaunchRecommendedServiceScenerio(Driver, "Emergency Prescription 111 Online", TestScenerioSex.Male, TestScenerioAgeGroups.Adult, "L12SA");
 
-            questionPage.VerifyQuestion("Can you get in touch with your GP or usual pharmacy?");
+            questionPage.VerifyQuestion("Can you contact your GP or usual pharmacy?");
             var recommendedServicePage = questionPage
                 .Answer(2)
                 .Answer<PreOutcomePage>(1)
@@ -47,7 +47,7 @@ namespace NHS111.Web.Functional.Tests
         {
             var questionPage = TestScenerios.LaunchRecommendedServiceScenerio(Driver, "Emergency Prescription 111 Online", TestScenerioSex.Male, TestScenerioAgeGroups.Adult, "L12SD");
 
-            questionPage.VerifyQuestion("Can you get in touch with your GP or usual pharmacy?");
+            questionPage.VerifyQuestion("Can you contact your GP or usual pharmacy?");
             var recommendedServicePage = questionPage
                 .Answer(2)
                 .Answer<PreOutcomePage>(1)
@@ -64,7 +64,7 @@ namespace NHS111.Web.Functional.Tests
         {
             var questionPage = TestScenerios.LaunchRecommendedServiceScenerio(Driver, "Emergency Prescription 111 Online", TestScenerioSex.Male, TestScenerioAgeGroups.Adult, "L18BQ");
 
-            questionPage.VerifyQuestion("Can you get in touch with your GP or usual pharmacy?");
+            questionPage.VerifyQuestion("Can you contact your GP or usual pharmacy?");
             var recommendedServicePage = questionPage
                 .Answer(2)
                 .Answer<PreOutcomePage>(1)
@@ -82,7 +82,7 @@ namespace NHS111.Web.Functional.Tests
         {
             var questionPage = TestScenerios.LaunchRecommendedServiceScenerio(Driver, "Emergency Prescription 111 Online", TestScenerioSex.Male, TestScenerioAgeGroups.Adult, "L18BN");
 
-            questionPage.VerifyQuestion("Can you get in touch with your GP or usual pharmacy?");
+            questionPage.VerifyQuestion("Can you contact your GP or usual pharmacy?");
             var recommendedServicePage = questionPage
                 .Answer(2)
                 .Answer<PreOutcomePage>(1)
@@ -98,7 +98,7 @@ namespace NHS111.Web.Functional.Tests
         {
             var questionPage = TestScenerios.LaunchRecommendedServiceScenerio(Driver, "Emergency Prescription 111 Online", TestScenerioSex.Male, TestScenerioAgeGroups.Adult, "L12SA");
 
-            questionPage.VerifyQuestion("Can you get in touch with your GP or usual pharmacy?");
+            questionPage.VerifyQuestion("Can you contact your GP or usual pharmacy?");
             var recommendedServicePage = questionPage
                 .Answer(2)
                 .Answer<PreOutcomePage>(1)
@@ -113,7 +113,7 @@ namespace NHS111.Web.Functional.Tests
         {
             var questionPage = TestScenerios.LaunchRecommendedServiceScenerio(Driver, "Emergency Prescription 111 Online", TestScenerioSex.Male, TestScenerioAgeGroups.Adult, "LS175DT");
 
-            questionPage.VerifyQuestion("Can you get in touch with your GP or usual pharmacy?");
+            questionPage.VerifyQuestion("Can you contact your GP or usual pharmacy?");
             var recommendedServicePage = questionPage
                 .Answer(2)
                 .Answer<PreOutcomePage>(1)

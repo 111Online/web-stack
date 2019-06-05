@@ -98,7 +98,7 @@ namespace NHS111.Models.Models.Web
 
     public class PathwaySelectionJumpResultViewModel : JourneyResultViewModel
     {
-        public override string ViewName { get { return "../Question/PathwaySelectionJump"; } }
+        public override string ViewName { get { return "../Outcome/PathwaySelectionJump"; } }
 
         public PathwaySelectionJumpResultViewModel(JourneyViewModel journeyViewModel) : base(journeyViewModel)
         {
@@ -107,7 +107,7 @@ namespace NHS111.Models.Models.Web
 
     public class DeadEndJumpResultViewModel : JourneyResultViewModel
     {
-        public override string ViewName { get { return "../Question/DeadEndJump"; } }
+        public override string ViewName { get { return "../Outcome/DeadEndJump"; } }
 
         public DeadEndJumpResultViewModel(JourneyViewModel journeyViewModel) : base(journeyViewModel)
         {
