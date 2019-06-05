@@ -300,7 +300,7 @@ namespace NHS111.Web.Controllers {
                 return dispoWithServicesResult;
 
             var dispoWithServicesView = dispoWithServicesResult as ViewResult;
-            if (dispoWithServicesView.ViewName != "../Outcome/Outcome_Preamble")
+            if (dispoWithServicesView.ViewName != "../Outcome/Repeat_Prescription/Outcome_Preamble")
                 return View(dispoWithServicesView.ViewName, dispoWithServicesView.Model);
 
             // need to do the first look up to determine if there are other services
@@ -311,7 +311,7 @@ namespace NHS111.Web.Controllers {
             if(outcomeModel.DosCheckCapacitySummaryResult.Success.Services.Count > 1)
                 return await controller.ServiceList(outcomeViewModel, dosSearchTime, null, endpoint);
 
-            return View("../Outcome/RecommendedServiceNotOffered", outcomeModel);
+            return View("../Outcome/Repeat_Prescription/RecommendedServiceNotOffered", outcomeModel);
         }
 
         private async Task<JourneyViewModel> DeriveJourneyView(string pathwayId, int? age, string pathwayTitle, int[] answers)
