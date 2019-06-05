@@ -56,58 +56,37 @@ namespace NHS111.Web.Helpers
             return outcomeGroup.Is999NonUrgent ? "Call999_DuplicateBookingFailure" : "DuplicateBookingFailure";
         }
 
-        public string GetViewName(JourneyViewModel model, ControllerContext context)
+        public JourneyResultViewModel Build(JourneyViewModel journeyViewModel, ControllerContext context)
         {
-            if (model == null) return "../Question/Question";
+            if (journeyViewModel == null)
+                return new QuestionResultViewModel(journeyViewModel);
 
-            switch (model.NodeType)
+            switch (journeyViewModel.NodeType)
             {
                 case NodeType.Outcome:
-                    var outcomeViewModel = model as OutcomeViewModel;
-                    var viewFilePath = "../Outcome/";
-                    if (model.OutcomeGroup.IsUsingRecommendedService)
+                    var outcomeViewModel = journeyViewModel as OutcomeViewModel;
+                    var result = new OutcomeResultViewModel(outcomeViewModel, IsTestJourney(outcomeViewModel));
+                    if (ViewExists(result.ViewName, context))
                     {
-                        if (outcomeViewModel.RecommendedService == null) return "../Outcome/RecommendedServiceNotOffered";
-
-                        if(model.OutcomeGroup.RequiresOutcomePreamble(outcomeViewModel.HasSeenPreamble))
-                            viewFilePath += "Outcome_Preamble";
-                        else
-                            viewFilePath += "RecommendedService"; 
+                        _userZoomDataBuilder.SetFieldsForOutcome(journeyViewModel);
+                        return result;
                     }
-                    else
-                        viewFilePath += model.OutcomeGroup.Id;
-                    if (IsTestJourney(outcomeViewModel))
-                        return "../Outcome/Call_999_CheckAnswer";
-
-                    if (outcomeViewModel.Is999Callback)
-                        return "../Outcome/Call_999_Callback";
-
-                    if (outcomeViewModel.OutcomeGroup.Equals(OutcomeGroup.AccidentAndEmergency)) {
-
-                        if (!outcomeViewModel.DosCheckCapacitySummaryResult.IsValidationRequery && outcomeViewModel.DosCheckCapacitySummaryResult.HasITKServices && !outcomeViewModel.HasAcceptedCallbackOffer.HasValue)
-                            return "../Outcome/SP_Accident_and_emergency_callback";
-                    }
-                    if (ViewExists(viewFilePath, context))
-                    {
-                        _userZoomDataBuilder.SetFieldsForOutcome(model);
-                        return viewFilePath;
-                    }
-                    throw new ArgumentOutOfRangeException(string.Format("Outcome group {0} for outcome {1} has no view configured", model.OutcomeGroup.ToString(), model.Id));
+                    throw new ArgumentOutOfRangeException(string.Format("Outcome group {0} for outcome {1} has no view configured", outcomeViewModel.OutcomeGroup, outcomeViewModel.Id));
                 case NodeType.DeadEndJump:
-                    _userZoomDataBuilder.SetFieldsForOutcome(model);
-                    return "../Outcome/DeadEndJump";
+                    _userZoomDataBuilder.SetFieldsForOutcome(journeyViewModel);
+                    return new DeadEndJumpResultViewModel(journeyViewModel);
                 case NodeType.PathwaySelectionJump:
-                    _userZoomDataBuilder.SetFieldsForOutcome(model);
-                    return "../Outcome/PathwaySelectionJump";
+                    _userZoomDataBuilder.SetFieldsForOutcome(journeyViewModel);
+                    return new PathwaySelectionJumpResultViewModel(journeyViewModel);
                 case NodeType.CareAdvice:
-                    _userZoomDataBuilder.SetFieldsForCareAdvice(model);
-                    return "../Question/InlineCareAdvice";
+                    _userZoomDataBuilder.SetFieldsForCareAdvice(journeyViewModel);
+                    return new CareAdviceResultViewModel(journeyViewModel);
                 case NodeType.Page:
-                    return "../Question/Page";
+                    return new PageResultViewModel(journeyViewModel);
                 case NodeType.Question:
                 default:
-                    _userZoomDataBuilder.SetFieldsForQuestion(model);
-                    return "../Question/Question";
+                    _userZoomDataBuilder.SetFieldsForQuestion(journeyViewModel);
+                    return new QuestionResultViewModel(journeyViewModel);
             }
         }
 
@@ -148,7 +127,7 @@ namespace NHS111.Web.Helpers
 
     public interface IViewRouter
     {
-        string GetViewName(JourneyViewModel model, ControllerContext context);
+        JourneyResultViewModel Build(JourneyViewModel model, ControllerContext context);
         string GetOutcomeViewPath(OutcomeViewModel model, ControllerContext context, string nextView);
         string GetCallbackFailureViewName(OutcomeGroup outcomeGroup);
         string GetCallbackDuplicateViewName(OutcomeGroup outcomeGroup);

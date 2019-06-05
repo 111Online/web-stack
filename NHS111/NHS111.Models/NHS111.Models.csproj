@@ -239,6 +239,7 @@
     <Compile Include="Models\Web\FromExternalServices\ServiceType.cs" />
     <Compile Include="Models\Web\GoogleAnalyticsDataLayerContainer.cs" />
     <Compile Include="Models\Web\ITKConfirmationViewModel.cs" />
+    <Compile Include="Models\Web\JourneyResultViewModel.cs" />
     <Compile Include="Models\Web\JourneyViewModelEqualityComparer.cs" />
     <Compile Include="Models\Web\ITK\ReportItem.cs" />
     <Compile Include="Models\Web\ITK\StepItem.cs" />

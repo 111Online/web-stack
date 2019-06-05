@@ -102,16 +102,16 @@ namespace NHS111.Web.Controllers
             }
 
             var outcomeModel = await _outcomeViewModelBuilder.PopulateGroupedDosResults(model, dosSearchTime, null, endpoint);
-            var viewName = _viewRouter.GetViewName(model, ControllerContext);
+            var viewRouter = _viewRouter.Build(outcomeModel, ControllerContext);
 
-            return View(viewName, outcomeModel);
+            return View(viewRouter.ViewName, outcomeModel);
         }
 
         [HttpPost]
         public ActionResult OutcomeWithoutResults(OutcomeViewModel outcomeModel)
         {
-            var viewName = _viewRouter.GetViewName(outcomeModel, ControllerContext);
-            return View(viewName, outcomeModel);
+            var viewRouter = _viewRouter.Build(outcomeModel, ControllerContext);
+            return View(viewRouter.ViewName, outcomeModel);
         }
 
         [HttpPost]
@@ -119,7 +119,8 @@ namespace NHS111.Web.Controllers
         {
             ModelState.Clear();
             outcomeModel.HasSeenPreamble = true;
-            return View("../Outcome/RecommendedService", outcomeModel);
+            var viewRouter = _viewRouter.Build(outcomeModel, ControllerContext);
+            return View(viewRouter.ViewName, outcomeModel);
         }
 
         [HttpPost]
@@ -197,7 +198,7 @@ namespace NHS111.Web.Controllers
                 !model.DosCheckCapacitySummaryResult.ResultListEmpty)
             {
                 if (model.OutcomeGroup.Is999NonUrgent && !model.DosCheckCapacitySummaryResult.HasITKServices) {
-                    model.CurrentView = _viewRouter.GetViewName(model, this.ControllerContext);
+                    model.CurrentView = _viewRouter.Build(model, this.ControllerContext).ViewName;
                     return View(model.CurrentView, model);
                 }
 
@@ -217,14 +218,14 @@ namespace NHS111.Web.Controllers
                         await _recommendedServiceBuilder.BuildRecommendedServicesList(model.DosCheckCapacitySummaryResult.Success.Services);
                     var otherServicesModel = Mapper.Map<OtherServicesViewModel>(model);
                     otherServicesModel.OtherServices = otherServices.Skip(1);
-                    return View("~\\Views\\Outcome\\RecommendedServiceOtherServices.cshtml", otherServicesModel);
+                    return View("~\\Views\\Outcome\\Repeat_Prescription\\RecommendedServiceOtherServices.cshtml", otherServicesModel);
                 }
 
                 return View("~\\Views\\Outcome\\ServiceList.cshtml", model);
             }
 
             if (model.OutcomeGroup.Is999NonUrgent) {
-                model.CurrentView = _viewRouter.GetViewName(model, this.ControllerContext);
+                model.CurrentView = _viewRouter.Build(model, this.ControllerContext).ViewName;
             }
 
             return View(model.CurrentView, model);
@@ -415,12 +416,12 @@ namespace NHS111.Web.Controllers
             }
 
             var outcome = await _outcomeViewModelBuilder.DispositionBuilder(model);
-            var viewName = _viewRouter.GetViewName(outcome, ControllerContext);
+            var viewRouter = _viewRouter.Build(outcome, ControllerContext);
 
             var postcodeValidatorResponse = _postCodeAllowedValidator.IsAllowedPostcode(model.CurrentPostcode);
             model.UserInfo.CurrentAddress.IsInPilotArea = postcodeValidatorResponse.IsInPilotAreaForOutcome(model.OutcomeGroup);
 
-            return View(viewName, outcome);
+            return View(viewRouter.ViewName, outcome);
 
         }
     }
