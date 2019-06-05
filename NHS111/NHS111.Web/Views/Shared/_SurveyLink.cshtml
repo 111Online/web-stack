@@ -8,8 +8,6 @@
     var serviceOptions = ViewData.ContainsKey("ServiceOptions") ? ViewData["ServiceOptions"] : Model.ServiceOptions;
     var serviceCount = ViewData.ContainsKey("ServiceCount") ? ViewData["ServiceCount"] : Model.ServiceCount;
 
-    var recommendedService = Model.OfferedServices == null ? new ServiceViewModel() : Model.OfferedServices.First();
-    var surveyId = Model.DispositionCode;
 }
 
 @if (SurveyLinkFeature.IsEnabled)
@@ -33,12 +31,12 @@
         serviceOptions,
         launchPage,
         Model.ValidationCallbackOffered.ToString().ToLower(),
-        recommendedService.OnlineDOSServiceType,
-        recommendedService.Id,
-        recommendedService.PublicName,
-        string.Join(",", Model.OfferedServices.Select(s => s.OnlineDOSServiceType)),
-        string.Join(",", Model.OfferedServices.Select(s => s.Id)),
-        string.Join(",", Model.OfferedServices.Select(s => s.PublicName))
+        Model.RecommendedServiceType,
+        Model.RecommendedServiceId,
+        Model.RecommendedServiceName,
+        Model.OfferedServiceTypes,
+        Model.OfferedServiceIds,
+        Model.OfferedServiceNames
         );
 
     <div class="notification-banner survey-banner notification-banner--hiviz">

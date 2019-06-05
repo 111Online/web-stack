@@ -36,10 +36,12 @@ namespace NHS111.Models.Models.Web
 
         public bool ValidationCallbackOffered { get; set; }
 
-        public IEnumerable<ServiceViewModel> OfferedServices { get; set; }
+        public string RecommendedServiceType { get; set; }
+        public int RecommendedServiceId { get; set; }
+        public string RecommendedServiceName { get; set; }
 
-        public SurveyLinkViewModel() {
-            OfferedServices = new List<ServiceViewModel>();
-        }
+        public string OfferedServiceTypes { get; set; }
+        public string OfferedServiceIds { get; set; }
+        public string OfferedServiceNames { get; set; }
     }
 }
