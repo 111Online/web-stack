@@ -35,7 +35,7 @@
 @section FeedbackSection {
     @if (!SurveyLinkFeature.IsEnabled)
     {
-        @Html.Partial("_FeedbackDetails", new FeedbackViewModel() { UserId = Model.SessionId.ToString(), PageData = new PageDataViewModel(PageDataViewModel.PageType.ServiceList, Model) })
+        @Html.Partial("_FeedbackDetails", new FeedbackViewModel() { UserId = Model.SessionId.ToString(), PageData = new PageDataViewModel(PageDataViewModel.PageType.RepeatPrescriptionOtherServices, Model) })
     }
     else
     {
