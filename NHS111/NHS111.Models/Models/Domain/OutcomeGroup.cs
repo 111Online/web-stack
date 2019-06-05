@@ -62,7 +62,7 @@ namespace NHS111.Models.Models.Domain {
 
         public static OutcomeGroup RepeatPrescription = new OutcomeGroup { Id = "Repeat_Prescription", Text = "Repeat_Prescription", DefaultTitle = "Where to go for help", Label = "Repeat Prescription", PostcodeFirst = true, ITK = true };
 
-        public static OutcomeGroup NoFurtherAction = new OutcomeGroup { Id = "No_Further_Action", Text = "No_Further_Action", DefaultTitle = "No furhter action required", Label = "No further action", PostcodeFirst = true, ITK = false };
+        public static OutcomeGroup NoFurtherAction = new OutcomeGroup { Id = "No_Further_Action", Text = "No_Further_Action", DefaultTitle = "No further action required", Label = "No further action", PostcodeFirst = true, ITK = false };
 
         public static OutcomeGroup[] PrePopulatedDosResultsOutcomeGroups = new OutcomeGroup[] {Dental, ItkPrimaryCare, AccidentAndEmergency, ClinicianCallBack, Call999Cat3, Call999Cat4, RepeatPrescription };
         public static OutcomeGroup[] DosSearchOutcomesGroups = new OutcomeGroup[] { AccidentAndEmergency, AccidentAndEmergencySexualAssault, Optician, Pharmacy, GumClinic, Dental, EmergencyDental, Midwife, ItkPrimaryCare, ClinicianCallBack };
