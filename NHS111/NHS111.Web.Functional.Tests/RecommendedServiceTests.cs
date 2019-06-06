@@ -11,7 +11,7 @@ namespace NHS111.Web.Functional.Tests
         [Test]
         public void PreOutcomePageDisplayed()
         {
-            var questionPage = TestScenerios.LaunchRecommendedServiceScenerio(Driver, "Emergency Prescription 111 Online", TestScenerioSex.Male, TestScenerioAgeGroups.Adult, "L12SA");
+            var questionPage = TestScenerios.LaunchRecommendedServiceScenerio(Driver, "Emergency Prescription 111 online", TestScenerioSex.Male, TestScenerioAgeGroups.Adult, "L12SA");
 
             questionPage.VerifyQuestion("Can you contact your GP or usual pharmacy?");
             var preOutcomePage = questionPage
@@ -27,7 +27,7 @@ namespace NHS111.Web.Functional.Tests
         [Test]
         public void ReferRingAndGoService()
         {
-            var questionPage = TestScenerios.LaunchRecommendedServiceScenerio(Driver, "Emergency Prescription 111 Online", TestScenerioSex.Male, TestScenerioAgeGroups.Adult, "L12SA");
+            var questionPage = TestScenerios.LaunchRecommendedServiceScenerio(Driver, "Emergency Prescription 111 online", TestScenerioSex.Male, TestScenerioAgeGroups.Adult, "L12SA");
 
             questionPage.VerifyQuestion("Can you contact your GP or usual pharmacy?");
             var recommendedServicePage = questionPage
@@ -45,7 +45,7 @@ namespace NHS111.Web.Functional.Tests
         [Test]
         public void ReferOnlyService()
         {
-            var questionPage = TestScenerios.LaunchRecommendedServiceScenerio(Driver, "Emergency Prescription 111 Online", TestScenerioSex.Male, TestScenerioAgeGroups.Adult, "L12SD");
+            var questionPage = TestScenerios.LaunchRecommendedServiceScenerio(Driver, "Emergency Prescription 111 online", TestScenerioSex.Male, TestScenerioAgeGroups.Adult, "L12SD");
 
             questionPage.VerifyQuestion("Can you contact your GP or usual pharmacy?");
             var recommendedServicePage = questionPage
@@ -62,7 +62,7 @@ namespace NHS111.Web.Functional.Tests
         [Test]
         public void PlaceToVisitService()
         {
-            var questionPage = TestScenerios.LaunchRecommendedServiceScenerio(Driver, "Emergency Prescription 111 Online", TestScenerioSex.Male, TestScenerioAgeGroups.Adult, "L18BQ");
+            var questionPage = TestScenerios.LaunchRecommendedServiceScenerio(Driver, "Emergency Prescription 111 online", TestScenerioSex.Male, TestScenerioAgeGroups.Adult, "L18BQ");
 
             questionPage.VerifyQuestion("Can you contact your GP or usual pharmacy?");
             var recommendedServicePage = questionPage
@@ -80,7 +80,7 @@ namespace NHS111.Web.Functional.Tests
         [Test]
         public void PlaceToPhoneService()
         {
-            var questionPage = TestScenerios.LaunchRecommendedServiceScenerio(Driver, "Emergency Prescription 111 Online", TestScenerioSex.Male, TestScenerioAgeGroups.Adult, "L18BN");
+            var questionPage = TestScenerios.LaunchRecommendedServiceScenerio(Driver, "Emergency Prescription 111 online", TestScenerioSex.Male, TestScenerioAgeGroups.Adult, "L18BN");
 
             questionPage.VerifyQuestion("Can you contact your GP or usual pharmacy?");
             var recommendedServicePage = questionPage
@@ -96,7 +96,7 @@ namespace NHS111.Web.Functional.Tests
         [Test]
         public void OtherServicesMoreThanOneService()
         {
-            var questionPage = TestScenerios.LaunchRecommendedServiceScenerio(Driver, "Emergency Prescription 111 Online", TestScenerioSex.Male, TestScenerioAgeGroups.Adult, "L12SA");
+            var questionPage = TestScenerios.LaunchRecommendedServiceScenerio(Driver, "Emergency Prescription 111 online", TestScenerioSex.Male, TestScenerioAgeGroups.Adult, "L12SA");
 
             questionPage.VerifyQuestion("Can you contact your GP or usual pharmacy?");
             var recommendedServicePage = questionPage
@@ -111,7 +111,7 @@ namespace NHS111.Web.Functional.Tests
         [Test]
         public void OtherServicesNotShown()
         {
-            var questionPage = TestScenerios.LaunchRecommendedServiceScenerio(Driver, "Emergency Prescription 111 Online", TestScenerioSex.Male, TestScenerioAgeGroups.Adult, "LS175DT");
+            var questionPage = TestScenerios.LaunchRecommendedServiceScenerio(Driver, "Emergency Prescription 111 online", TestScenerioSex.Male, TestScenerioAgeGroups.Adult, "LS175DT");
 
             questionPage.VerifyQuestion("Can you contact your GP or usual pharmacy?");
             var recommendedServicePage = questionPage
