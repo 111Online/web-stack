@@ -19,7 +19,7 @@ jQuery(function () {
         iframe.src = '/map/'
         iframe.setAttribute('role', 'presentation')
         iframe.className += ' service-map'
-        el.replaceWith(iframe)
+        $(el).replaceWith(iframe)
 
         $(iframe).one('load', function () {
             $(iframe).show()
