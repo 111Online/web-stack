@@ -82,9 +82,10 @@ namespace NHS111.Web.Presentation.Builders
                 surveyLinkViewModel.RecommendedServiceType = recommendedService.OnlineDOSServiceType.Id;
                 surveyLinkViewModel.RecommendedServiceName = HttpUtility.UrlEncode(recommendedService.PublicName);
 
-                surveyLinkViewModel.OfferedServiceIds = string.Join(",", model.DosCheckCapacitySummaryResult.Success.Services.Select(s => s.Id));
-                surveyLinkViewModel.OfferedServiceTypes = string.Join(",", model.DosCheckCapacitySummaryResult.Success.Services.Select(s => s.OnlineDOSServiceType.Id));
-                surveyLinkViewModel.OfferedServiceNames = HttpUtility.UrlEncode(string.Join(",", model.DosCheckCapacitySummaryResult.Success.Services.Select(s => s.PublicName)));
+                var otherServices = model.DosCheckCapacitySummaryResult.Success.Services.Skip(1).ToList();
+                surveyLinkViewModel.OfferedServiceIds = string.Join(",", otherServices.Select(s => s.Id));
+                surveyLinkViewModel.OfferedServiceTypes = string.Join(",", otherServices.Select(s => s.OnlineDOSServiceType.Id));
+                surveyLinkViewModel.OfferedServiceNames = HttpUtility.UrlEncode(string.Join(",", otherServices.Select(s => s.PublicName)));
             }
         }
     }

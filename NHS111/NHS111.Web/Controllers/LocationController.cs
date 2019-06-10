@@ -78,7 +78,7 @@ namespace NHS111.Web.Controllers
             return View("ConfirmLocation", new ConfirmLocationViewModel { FoundLocations = locationResults, SessionId = model.SessionId, Campaign = model.Campaign, FilterServices = model.FilterServices, PathwayNo = model.PathwayNo});
         }
 
-        private ActionResult DeriveApplicationView(JourneyViewModel model, PostcodeValidatorResponse postcodeValidationRepsonse, CCGModel ccg)
+        private ActionResult DeriveApplicationView(JourneyViewModel model, PostcodeValidatorResponse postcodeValidationRepsonse, CCGDetailsModel ccg)
         {
             var moduleZeroViewName = "../Question/InitialQuestion";
             model.CurrentPostcode = ccg.Postcode;
