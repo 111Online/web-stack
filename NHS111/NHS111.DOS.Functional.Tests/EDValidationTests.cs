@@ -21,6 +21,42 @@
         }
 
         [Test]
+        public async Task SubmitReferralForNonValidationED_Always_SendsCorrectSurveyData() {
+            var dosScenario = await _testBench.SetupDosScenario()
+                .ExpectingRequestTo(DosEndpoint.CheckCapacitySummary)
+                .Matching(BlankDosCase.WithDxCode(DispositionCode.Dx334))
+                .Returns(ServicesTransformedTo.EmptyServiceList)
+                .OtherwiseReturns(DosRequestMismatchResult.ServerError)
+                .Then()
+                .ExpectingRequestTo(DosEndpoint.CheckCapacitySummary)
+                .Matching(BlankDosCase.WithDxCode(DispositionCode.Dx02))
+                .Returns(ServicesTransformedTo.OnlyOneCallback)
+                .OtherwiseReturns(DosRequestMismatchResult.ServerError)
+                .BeginAsync();
+
+            var outcomePage = NavigateToRemappedEDOutcome(dosScenario.Postcode);
+            var surveyUrl = outcomePage.SurveyLink.GetAttribute("href");
+            Assert.True(surveyUrl.Contains("validation_callback_offered=false"));
+            var dosResult = await _testBench.Verify(dosScenario);
+        }
+
+        [Test]
+        public async Task SubmitReferralForValidationED_Always_SendsCorrectSurveyData() {
+            var dosScenario = await _testBench.SetupDosScenario()
+                .ExpectingRequestTo(DosEndpoint.CheckCapacitySummary)
+                .Matching(BlankDosCase.WithDxCode(DispositionCode.Dx334))
+                .Returns(ServicesTransformedTo.OnlyOneCallback)
+                .OtherwiseReturns(DosRequestMismatchResult.ServerError)
+                .BeginAsync();
+
+            var outcomePage = NavigateToRemappedEDOutcome(dosScenario.Postcode);
+            var surveyUrl = outcomePage.SurveyLink.GetAttribute("href");
+            Assert.True(surveyUrl.Contains("validation_callback_offered=true"));
+            var dosResult = await _testBench.Verify(dosScenario);
+        }
+
+
+        [Test]
         public async Task SubmitReferralForDx02_AfterNoResultsFor334_SendsDx02ToESB() {
             var dosScenario = await _testBench.SetupDosScenario()
                 .ExpectingRequestTo(DosEndpoint.CheckCapacitySummary)
@@ -111,7 +147,7 @@
                 .OtherwiseReturns(DosRequestMismatchResult.ServerError)
                 .BeginAsync();
 
-            var postcodePage = NavigateToRemappedEDOutcomeWithArgs(null);
+            var postcodePage = NavigateToRemappedEDOutcome(null);
             AssertIsPostcodePage(postcodePage);
             var callbackAcceptancePage = EnterPostCodeAndSubmit(dosScenario.Postcode);
             callbackAcceptancePage.VerifyIsCallbackAcceptancePage();
@@ -350,16 +386,8 @@
         }
 
         private OutcomePage NavigateToRemappedEDOutcome(Postcode postcode) {
-            var args = postcode != null
-                ? EncryptArgs(new Dictionary<string, string>
-                    {{"postcode", postcode.Value}, {"sessionId", Guid.NewGuid().ToString()}})
-                : null;
-            return NavigateToRemappedEDOutcomeWithArgs(args);
-        }
-
-        private OutcomePage NavigateToRemappedEDOutcomeWithArgs(string args) {
             var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Headache", TestScenerioSex.Male,
-                TestScenerioAgeGroups.Adult, args);
+                TestScenerioAgeGroups.Adult, postcode.Value);
 
             return questionPage
                 .AnswerSuccessiveByOrder(3, 3)
