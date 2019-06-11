@@ -48,7 +48,9 @@
                 Call the pharmacy on <a href="tel:+44@Model.OutcomeModel.SelectedService.ContactDetails">@Model.ItkConfirmationModel.SelectedService.ContactDetails</a> and
                 give them this reference number:
             </p>
-            <div class="reference-number">@Model.ItkConfirmationModel.PatientReference</div>
+            <p class="reference-number">@Model.ItkConfirmationModel.PatientReference</p>
+
+            <p>You might be asked to show some identification when you get there.</p>
         </div>
         @Html.Partial("_Refer_And_Go", Model.ItkConfirmationModel)
     }
