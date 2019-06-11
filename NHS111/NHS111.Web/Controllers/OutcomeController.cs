@@ -66,7 +66,7 @@ namespace NHS111.Web.Controllers
         public async Task<ActionResult> ChangePostcode(OutcomeViewModel model)
         {
             ModelState.Clear();
-            await _auditLogger.LogEventData(model, "User elected to change postcode.");
+            _auditLogger.LogEventData(model, "User elected to change postcode.");
             return View(model); ;
         }
 
@@ -173,7 +173,7 @@ namespace NHS111.Web.Controllers
             }
 
             model.DosCheckCapacitySummaryResult = await GetServiceAvailability(model, overrideDate, overrideFilterServices.HasValue ? overrideFilterServices.Value : model.FilterServices, endpoint);
-            await _auditLogger.LogDosResponse(model, model.DosCheckCapacitySummaryResult);
+            _auditLogger.LogDosResponse(model, model.DosCheckCapacitySummaryResult);
 
             model.NodeType = NodeType.Outcome;
 
@@ -208,7 +208,7 @@ namespace NHS111.Web.Controllers
         private async Task<DosCheckCapacitySummaryResult> GetServiceAvailability(OutcomeViewModel model, DateTime? overrideDate, bool filterServices, DosEndpoint? endpoint)
         {
             var dosViewModel = _dosBuilder.BuildDosViewModel(model, overrideDate);
-            await _auditLogger.LogDosRequest(model, dosViewModel);
+            _auditLogger.LogDosRequest(model, dosViewModel);
             return await _dosBuilder.FillCheckCapacitySummaryResult(dosViewModel, filterServices, endpoint);
         }
 
@@ -248,9 +248,9 @@ namespace NHS111.Web.Controllers
             }
 
             var dosCase = Mapper.Map<DosViewModel>(model);
-            await _auditLogger.LogDosRequest(model, dosCase);
+            _auditLogger.LogDosRequest(model, dosCase);
             model.DosCheckCapacitySummaryResult = await _dosBuilder.FillCheckCapacitySummaryResult(dosCase, overrideFilterServices.HasValue ? overrideFilterServices.Value : model.FilterServices, endpoint);
-            await _auditLogger.LogDosResponse(model, model.DosCheckCapacitySummaryResult);
+            _auditLogger.LogDosResponse(model, model.DosCheckCapacitySummaryResult);
 
             if (model.DosCheckCapacitySummaryResult.Error == null &&
                 !model.DosCheckCapacitySummaryResult.ResultListEmpty)
@@ -275,7 +275,7 @@ namespace NHS111.Web.Controllers
         public async Task<ActionResult> PersonalDetails(PersonalDetailViewModel model)
         {
             ModelState.Clear();
-            await _auditLogger.LogSelectedService(model);
+            _auditLogger.LogSelectedService(model);
 
             model = await PopulateAddressPickerFields(model);
 
@@ -316,7 +316,7 @@ namespace NHS111.Web.Controllers
                 return View("PersonalDetails", model);
             }
             var availableServices = await GetServiceAvailability(model, null, overrideFilterServices.HasValue ? overrideFilterServices.Value : model.FilterServices, null);
-            await _auditLogger.LogDosResponse(model, availableServices);
+            _auditLogger.LogDosResponse(model, availableServices);
             if (availableServices.ContainsService(model.SelectedService))
             {
                 var outcomeViewModel = ConvertPatientInformantDateToUserinfo(model.PatientInformantDetails, model);

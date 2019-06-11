@@ -2,8 +2,8 @@
 using NHS111.Models.Models.Web;
 using NHS111.Models.Models.Web.FromExternalServices;
 using NHS111.Models.Models.Web.ITK;
-using NHS111.Utils.Filters;
 using NHS111.Utils.RestTools;
+using NHS111.Web.Presentation.Filters;
 using RestSharp;
 
 namespace NHS111.Web.Presentation.Logging {

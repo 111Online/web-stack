@@ -184,9 +184,9 @@ namespace NHS111.Web.Presentation.Builders
         public async Task<OutcomeViewModel> ItkResponseBuilder(OutcomeViewModel model)
         {
             var itkRequestData = CreateItkDispatchRequest(model);
-            await _auditLogger.LogItkRequest(model, itkRequestData);
+            _auditLogger.LogItkRequest(model, itkRequestData);
             var response = await SendItkMessage(itkRequestData);
-            await _auditLogger.LogItkResponse(model, response);
+            _auditLogger.LogItkResponse(model, response);
             model.ItkDuplicate = response.StatusCode == System.Net.HttpStatusCode.Conflict;
             if (response.IsSuccessful)
             {
@@ -206,7 +206,7 @@ namespace NHS111.Web.Presentation.Builders
         {
             var dosViewModel = _dosBuilder.BuildDosViewModel(model, overrideDate);
 
-            var _ = _auditLogger.LogDosRequest(model, dosViewModel);
+            _auditLogger.LogDosRequest(model, dosViewModel);
             model.DosCheckCapacitySummaryResult = await _dosBuilder.FillCheckCapacitySummaryResult(dosViewModel, overrideFilterServices.HasValue ? overrideFilterServices.Value : model.FilterServices, endpoint);
             if (NeedToRequeryDos(model))
             {
@@ -224,7 +224,7 @@ namespace NHS111.Web.Presentation.Builders
 
             _surveyLinkViewModelBuilder.AddServiceInformation(model, model.SurveyLink);
 
-            _ = _auditLogger.LogDosResponse(model, model.DosCheckCapacitySummaryResult);
+            _auditLogger.LogDosResponse(model, model.DosCheckCapacitySummaryResult);
 
             return model;
         }

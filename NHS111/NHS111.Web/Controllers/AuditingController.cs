@@ -5,7 +5,7 @@ namespace NHS111.Web.Controllers {
     using System.Net;
     using System.Web.Mvc;
     using Models.Models.Web.Logging;
-    using Presentation.Logging;
+    using NHS111.Web.Presentation.Logging;
 
     [LogHandleErrorForMVC]
     public class AuditingController
