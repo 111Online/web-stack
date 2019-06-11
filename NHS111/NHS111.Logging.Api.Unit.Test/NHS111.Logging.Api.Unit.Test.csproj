@@ -103,10 +103,6 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\NHS111.Logging.Api\NHS111.Logging.Api.csproj">
-      <Project>{ebc0822b-21ba-421c-a538-4fb4861b869e}</Project>
-      <Name>NHS111.Logging.Api</Name>
-    </ProjectReference>
     <ProjectReference Include="..\NHS111.Models\NHS111.Models.csproj">
       <Project>{4CCF3ABD-92C4-4999-8520-C4AA7B36F48C}</Project>
       <Name>NHS111.Models</Name>
