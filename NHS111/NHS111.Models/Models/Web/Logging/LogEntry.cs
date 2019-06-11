@@ -4,9 +4,9 @@ using Newtonsoft.Json;
 
 namespace NHS111.Models.Models.Web.Logging
 {
-    public class LogEntry : TableEntity
+    public class LogEntryxxx : TableEntity
     {
-        public LogEntry()
+        public LogEntryxxx()
         {
             var now = DateTime.UtcNow;
             PartitionKey = string.Format("{0:yyyy-MM-dd}", now);
