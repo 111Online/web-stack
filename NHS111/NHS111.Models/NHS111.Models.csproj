@@ -300,7 +300,6 @@
     <Compile Include="Models\Web\Logging\AuditedItkResponse.cs" />
     <Compile Include="Models\Web\Logging\AuditEntry.cs" />
     <Compile Include="Models\Web\Logging\AuditViewModel.cs" />
-    <Compile Include="Models\Web\Logging\LogEntry.cs" />
     <Compile Include="Models\Web\OnlineDOSServiceType.cs" />
     <Compile Include="Models\Web\OutcomeViewModel.cs" />
     <Compile Include="Models\Web\JourneyViewModel.cs" />
