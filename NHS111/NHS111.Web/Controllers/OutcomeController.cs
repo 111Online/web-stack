@@ -228,7 +228,7 @@ namespace NHS111.Web.Controllers
                 model.CurrentView = _viewRouter.Build(model, this.ControllerContext).ViewName;
             }
 
-            return View(model.CurrentView, model);
+            return View(model.OutcomeGroup.IsPharmacyGroup ? "~\\Views\\Outcome\\Repeat_Prescription\\RecommendedServiceNotOffered.cshtml" : model.CurrentView, model);
         }
 
         private async Task<DosCheckCapacitySummaryResult> GetServiceAvailability(OutcomeViewModel model, DateTime? overrideDate, bool filterServices, DosEndpoint? endpoint)
