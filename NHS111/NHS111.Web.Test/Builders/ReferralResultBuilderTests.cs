@@ -77,7 +77,9 @@ namespace NHS111.Web.Presentation.Test.Builders {
             var builder = new ReferralResultBuilder(_mockPostcodeValidator.Object);
             _referralRequestResult.ItkDuplicate = true;
             var result = builder.Build(_referralRequestResult);
-            Assert.IsInstanceOf<DuplicateReferralResultViewModel>(result);
+            //Temporarily removed until status of Dupe bug is known https://trello.com/c/5hqJVLDv
+            // Assert.IsInstanceOf<DuplicateReferralResultViewModel>(result);
+            Assert.IsInstanceOf<ReferralConfirmationResultViewModel>(result);
         }
 
         [Test]
