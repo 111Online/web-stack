@@ -70,11 +70,14 @@ namespace NHS111.Web.Presentation.Builders
                 if (itkConfirmationViewModel.OutcomeGroup.IsEDCallback)
                     return new AccidentAndEmergencyDuplicateReferralResultViewModel(itkConfirmationViewModel);
 
-                if(itkConfirmationViewModel.OutcomeGroup.IsPharmacyGroup)
-                    return new EmergencyPrescriptionDuplicateReferralResultViewModel(itkConfirmationViewModel);
+                if (itkConfirmationViewModel.OutcomeGroup.IsPharmacyGroup)
+                    //Temporarily removed until status of Dupe bug is known https://trello.com/c/5hqJVLDv
+                    // return new EmergencyPrescriptionDuplicateReferralResultViewModel(itkConfirmationViewModel); 
+                    return BuildConfirmationResult(itkConfirmationViewModel);
             }
-
-            return new DuplicateReferralResultViewModel(itkConfirmationViewModel);
+            //Temporarily removed until status of Dupe bug is known https://trello.com/c/5hqJVLDv
+            // return new DuplicateReferralResultViewModel(itkConfirmationViewModel); Temporarily removed until status of Dupe bug is known
+            return new ReferralConfirmationResultViewModel(itkConfirmationViewModel);
         }
 
         public ReferralResultViewModel BuildConfirmationResult(ITKConfirmationViewModel itkConfirmationViewModel) {
