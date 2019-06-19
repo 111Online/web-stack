@@ -189,13 +189,14 @@ namespace NHS111.Web.Presentation.Builders
             var response = await SendItkMessage(itkRequestData);
             await _auditLogger.LogItkResponse(model, response);
             var itkResponseModel = _mappingEngine.Mapper.Map<OutcomeViewModel, ITKConfirmationViewModel>(model);
-            itkResponseModel.ItkDuplicate = response.StatusCode == System.Net.HttpStatusCode.Conflict;
-            if (response.IsSuccessful)
+
+            itkResponseModel.ItkDuplicate = IsDuplicateResponse(response);
+            itkResponseModel.ItkSendSuccess = response.IsSuccessful;
+            if (response.IsSuccessful || IsDuplicateResponse(response))
             {
-                itkResponseModel.ItkSendSuccess = true;
-                itkResponseModel.PatientReference = response.Content;
-                var journey = JsonConvert.DeserializeObject<Journey>(model.JourneyJson);
+                itkResponseModel.PatientReference =  response.Content.Replace("\"","");
             }
+          
             else
             {
                 itkResponseModel.ItkSendSuccess = false;
@@ -203,6 +204,11 @@ namespace NHS111.Web.Presentation.Builders
                               " Content -" + response.Content);
             }
             return itkResponseModel;
+        }
+
+        private static bool IsDuplicateResponse(IRestResponse response)
+        {
+            return response.StatusCode == System.Net.HttpStatusCode.Conflict;
         }
 
         public async Task<OutcomeViewModel> PopulateGroupedDosResults(OutcomeViewModel model, DateTime? overrideDate, bool? overrideFilterServices, DosEndpoint? endpoint)
