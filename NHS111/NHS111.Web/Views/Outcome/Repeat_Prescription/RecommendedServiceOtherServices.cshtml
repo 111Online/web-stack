@@ -79,7 +79,11 @@
         }
     </div>
     
-    <hr/>
+    @* Emergency Prescription pathway is for non-symptomatic, so the worsening advice should not be offered *@
+    @if (Model.PathwayNo != "PW1827")
+    {
+        <hr/>
 
-    @Html.Partial("_rs_WorseningAdvice", Model)
+        @Html.Partial("_rs_WorseningAdvice", Model)
+    }
 </div>
