@@ -73,6 +73,7 @@
     <Compile Include="InlineCareAdvicePageTests.cs" />
     <Compile Include="PageNotFoundTests.cs" />
     <Compile Include="QuestionPageTests.cs" />
+    <Compile Include="RecommendedServiceTests.cs" />
     <Compile Include="ServerErrorPageTests.cs" />
     <Compile Include="TermsAndConditionsTests.cs" />
     <Compile Include="PrivacyStatementTests.cs" />

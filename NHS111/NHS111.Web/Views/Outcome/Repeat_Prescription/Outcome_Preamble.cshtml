@@ -1,0 +1,56 @@
+﻿@using NHS111.Models.Models.Web
+@inherits NHS111.Web.Views.Shared.SurveyLinkView<OutcomeViewModel>
+@{
+    ViewBag.Title = "Outcome_Preamble";
+    Layout = "~/Views/Shared/_LayoutNhsUK.cshtml";
+}
+@section HeadTop {
+    @{ var url = string.Format("/outcome/{0}/{1}/{2}/outcomepreamble/{3}", Url.Encode(Model.PathwayNo), Url.Encode(Model.OutcomeGroup.Text), Url.Encode(Model.Id), Url.Encode(Model.RecommendedService.Name)); }
+    <script>
+        var pageId = '@Model.Id';
+        dataLayer = [
+            {
+                'virtualPageUrl': '@url',
+                'virtualPageTitle': 'Outcome Preamble'
+            }];
+    </script>
+}
+@section Title { NHS 111 - Recommended Service }
+
+@section FeedbackSection {
+    @Html.Partial("_FeedbackDetails", new FeedbackViewModel() { UserId = Model.SessionId.ToString(), PageData = new PageDataViewModel(PageDataViewModel.PageType.RepeatPrescriptionPreamble, Model) })
+}
+
+<div class="nhsuk-core">
+    <div class="measure">
+        <h1>We’ve found services that can help</h1>
+        <p>
+            To help the pharmacist or nurse decide if it's safe to give you the
+            medicine they'll:
+        </p>
+        <ul>
+            <li>check your records to see what you're regularly prescribed</li>
+            <li>ask you some questions to make sure you're ok</li>
+        </ul>
+
+        <h2>Pay standard NHS charges with a referral</h2>
+        <p>
+            Some pharmacists are working with the NHS to charge standard prices for
+            emergency repeat prescriptions.
+        </p>
+        <p>
+            You can refer yourself if there’s one in your area.
+        </p>
+        <p>
+            Other places might ask you to pay for a private prescription,
+            even if you are usually exempt.
+        </p>
+        @using (Html.BeginForm("RecommendedService", "Outcome", FormMethod.Post))
+        {
+            @Html.Partial("_CommonHiddenFieldsOutcomeViewModel", Model)
+            @Html.Partial("_CommonHiddenFieldsRecommendedServiceViewModel", Model.RecommendedService, new ViewDataDictionary() { TemplateInfo = new TemplateInfo() {HtmlFieldPrefix = "RecommendedService" } } )
+            @Html.Partial("_CommonHiddenFieldsCareAdviceViewModel", Model)
+            <button type="submit" name="service" value="Show me services that can help">Show me services that can help</button>
+        }
+    </div>
+</div>

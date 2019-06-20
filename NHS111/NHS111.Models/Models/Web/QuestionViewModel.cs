@@ -25,7 +25,8 @@ namespace NHS111.Models.Models.Web
                 QuestionTitle = Title,
                 Answer = answer,
                 QuestionId = Id,
-                State = StateJson
+                State = StateJson,
+                NodeType = NodeType
             };
         }
     }

@@ -58,7 +58,7 @@ namespace NHS111.Models.Models.Web
             {
                 if (string.IsNullOrEmpty(JourneyJson))
                     return false;
-                return !JsonConvert.DeserializeObject<Journey>(JourneyJson).Steps.Any();
+                return  !(JsonConvert.DeserializeObject<Journey>(JourneyJson).Steps.Any(s => s.NodeType != NodeType.Page));
             }
         }
 
@@ -137,6 +137,8 @@ namespace NHS111.Models.Models.Web
         public string Campaign { get; set; }
         public string Source { get; set; }
         public string CurrentPostcode { get; set; }
+        public bool HasSeenPreamble { get; set; }
+
 
         public string FormattedCurrentPostcode
         {
@@ -148,6 +150,11 @@ namespace NHS111.Models.Models.Web
                 return normalisedPostcode.Insert(normalisedPostcode.Length - 3, " ");
             }
         }
+
+        public string Content { get; set; }
+
+        public string NextButtonText { get; set; }
+
         public JourneyViewModel()
         {
             Answers = new List<Answer>();

@@ -116,19 +116,6 @@
     }
   }
 
-  // making the click target bigger than the button
-  // (and fill the space made when the button moves)
-  &:before {
-    background: transparent;
-    content: "";
-    display: block;
-    height: 110%;
-    left: 0;
-    position: absolute;
-    top: 0;
-    width: 100%;
-  }
-
   &:active:before {
     height: 120%;
     top: -10%;

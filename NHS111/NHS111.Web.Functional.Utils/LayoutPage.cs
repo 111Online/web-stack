@@ -124,5 +124,17 @@ namespace NHS111.Web.Functional.Utils
             }
             return page;
         }
+        
+        public bool IsDisplayed(IWebElement element)
+        {
+            try
+            {
+                return element.Displayed;
+            }
+            catch (NoSuchElementException)
+            {
+                return false;
+            }
+        }
     }
 }

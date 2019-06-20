@@ -1,0 +1,71 @@
+﻿@using NHS111.Models.Models.Web
+@using NHS111.Models.Models.Web.Elements
+@using NHS111.Models.Models.Web.FromExternalServices
+@using NHS111.Web.Presentation.Analytics
+@inherits NHS111.Web.Views.Shared.SurveyLinkView<NHS111.Models.Models.Web.ReferralFailureResultViewModel>
+@{
+    Layout = "~/Views/Shared/_LayoutNhsUk.cshtml";
+    var tagPrinter = new GoogleTagManagerPrinter(null);
+}
+@section Title {
+    @Model.PageTitle
+}
+@section HeadTop {
+    <script>
+        @tagPrinter.Print(Model.GoogleAnalyticsDataLayer)
+    </script>
+}
+
+@{
+    var dataDictionary = ViewContext.ViewData;
+    dataDictionary.Add(new KeyValuePair<string, object>("LaunchPage", "failure"));
+}
+@section SurveyBanner{
+    @Html.Partial("_SurveyLink", Model.OutcomeModel.SurveyLink, dataDictionary)
+}
+@section FeedbackSection {
+    @if (!SurveyLinkFeature.IsEnabled)
+    {
+        @Html.Partial("_FeedbackDetails", new FeedbackViewModel() { UserId = Model.OutcomeModel.SessionId.ToString(), PageData = new PageDataViewModel(PageDataViewModel.PageType.BookingFailure, Model.OutcomeModel) })
+    }
+    else
+    {
+        @Html.Partial("_SurveyLink", Model.OutcomeModel.SurveyLink, dataDictionary)
+    }
+}
+<div class="nhsuk-core">
+    <div class="callout callout--attention measure nhsuk-u-margin-bottom-4">
+
+        <h1 class="h2">
+            Sorry, there’s a problem with the service
+        </h1>
+        <p>
+            We couldn’t send your details.
+        </p>
+        @if (Model.OutcomeModel.SelectedService.OnlineDOSServiceType == OnlineDOSServiceType.ReferRingAndGo)
+        {
+            <p>You can still get help from the pharmacy if you call or visit.</p>
+            <p>You might be asked to show some identification when you get there.</p>
+
+        }
+        else
+        {
+            <p>You can contact any open pharmacy near you for help.</p>
+            <p>
+                @Html.Partial("_ActionLink", new ActionLinkViewModel() { Text = "Find a pharmacy", Url = "https://www.nhs.uk/service-search/Pharmacy/LocationSearch/10" })
+            </p>
+        }
+    </div>
+
+    @if (Model.OutcomeModel.SelectedService.OnlineDOSServiceType == OnlineDOSServiceType.ReferRingAndGo)
+    {
+
+        @Html.Partial("_Refer_And_Go", Model.ItkConfirmationModel)
+    }
+
+    @if (!Model.OutcomeModel.OutcomeGroup.Is999NonUrgent)
+    {
+        @Html.Partial("_CareAdvice", Model.OutcomeModel.CareAdvices, new ViewDataDictionary { { "Title", "What you can do in the meantime" } })
+    }
+
+</div>

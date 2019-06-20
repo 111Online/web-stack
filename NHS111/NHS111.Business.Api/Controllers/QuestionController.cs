@@ -97,7 +97,7 @@ namespace NHS111.Business.Api.Controllers
                 return Json(result);
             }
 
-            if (nextLabel == "DeadEndJump")
+            if (nextLabel == "DeadEndJump" || nextLabel == "Page")
             {
                 question.State = stateDictionary;
                 //var result = _questionTransformer.AsQuestionWithDeadEnd(question);
@@ -158,7 +158,7 @@ namespace NHS111.Business.Api.Controllers
                 //next.Answers.First().Keywords += "|" + answered.Keywords;
                 //nextAnswer.ExcludeKeywords += "|" + answered.ExcludeKeywords;
 
-                var result = _questionTransformer.AsQuestionWithAnswers(question);
+                //var result = _questionTransformer.AsQuestionWithAnswers(question);
                 return Json(question);
             }
 
@@ -194,7 +194,7 @@ namespace NHS111.Business.Api.Controllers
 
             var nextLabel = node.Labels.FirstOrDefault();
 
-            if (nextLabel == "Question" || nextLabel == "Outcome" || nextLabel == "CareAdvice")
+            if (nextLabel == "Question" || nextLabel == "Outcome" || nextLabel == "CareAdvice" || nextLabel == "Page")
             {
                 var result = _questionTransformer.AsQuestionWithAnswers(node);
 

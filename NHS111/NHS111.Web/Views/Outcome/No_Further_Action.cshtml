@@ -1,0 +1,48 @@
+﻿@using NHS111.Models.Models.Web
+@inherits NHS111.Web.Views.Shared.SurveyLinkView<OutcomeViewModel>
+@{
+    /**/
+
+    ViewBag.Title = "RecommendedService";
+    Layout = "~/Views/Shared/_LayoutNhsUK.cshtml";
+}
+@section HeadTop {
+    @{ var url = string.Format("/outcome/{0}/{1}/{2}/nofurtheraction", Url.Encode(Model.PathwayNo), Url.Encode(Model.OutcomeGroup.Text), Url.Encode(Model.Id)); }
+    <script>
+        var pageId = '@Model.Id';
+        dataLayer = [
+            {
+                'virtualPageUrl': '@url',
+                'virtualPageTitle': 'No further action'
+            }];
+    </script>
+}
+@section Title { NHS 111 - Contact your GP or Pharmacy }
+@{
+    var dataDictionary = ViewContext.ViewData;
+    dataDictionary.Add(new KeyValuePair<string, object>("LaunchPage", "recommended-service"));
+}
+@section SurveyBanner{
+    @Html.Partial("_SurveyLink", Model.SurveyLink)
+}
+@section FeedbackSection {
+    @if (!SurveyLinkFeature.IsEnabled)
+    {
+        @Html.Partial("_FeedbackDetails", new FeedbackViewModel() { UserId = Model.SessionId.ToString(), PageData = new PageDataViewModel(PageDataViewModel.PageType.Outcome, Model) })
+    }
+    else
+    {
+        @Html.Partial("_SurveyLink", Model.SurveyLink)
+    }
+}
+<div class="nhsuk-core">
+    <div class="measure">
+        <h1 class="heading--large">Contact your GP surgery or usual pharmacy</h1>
+        <p>
+            This is often the best way to get an emergency supply of medicine.
+        </p>
+        <p>
+            They can organise a prescription to be sent to a nearby pharmacy.
+        </p>
+    </div>
+</div>
