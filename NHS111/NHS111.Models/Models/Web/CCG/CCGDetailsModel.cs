@@ -7,10 +7,18 @@ namespace NHS111.Models.Models.Web.CCG
         [JsonProperty(PropertyName = "stpName")]
         public string StpName { get; set; }
 
-        [JsonProperty(PropertyName = "serviceIdWhitelist")]
-        public ServiceListModel ServiceIdWhitelist { get; set; }
+        [JsonProperty(PropertyName = "referralServiceIdWhitelist")]
+        public ServiceListModel ReferralServiceIdWhitelist { get; set; }
 
-        [JsonProperty(PropertyName = "itkServiceIdWhitelist")]
-        public ServiceListModel ItkServiceIdWhitelist { get; set; }
+        [JsonProperty(PropertyName = "pharmacyReferralServiceIdWhitelist")]
+        public ServiceListModel PharmacyReferralServiceIdWhitelist { get; set; }
+
+        public bool PharmacyServicesAvailable
+        {
+            get
+            {
+                return (PharmacyReferralServiceIdWhitelist != null && PharmacyReferralServiceIdWhitelist.Count > 0);
+            }
+        }
     }
 }

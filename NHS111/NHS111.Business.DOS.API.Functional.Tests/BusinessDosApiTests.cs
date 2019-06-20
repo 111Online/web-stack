@@ -43,7 +43,6 @@ namespace NHS111.Business.DOS.API.Functional.Tests
             _restClient.AddHandler("application/json", NewtonsoftJsonSerializer.Default);
         }
 
-
         /// <summary>
         /// Example test method for a HTTP POST
         /// </summary>

@@ -1,8 +1,9 @@
 ﻿using log4net;
 using NHS111.Business.DOS.Configuration;
+using NHS111.Business.DOS.DispositionMapper;
 using NHS111.Business.DOS.EndpointFilter;
 using NHS111.Business.DOS.Service;
-using NHS111.Business.DOS.WhitelistFilter;
+using NHS111.Business.DOS.WhiteListPopulator;
 using NHS111.Features;
 using NHS111.Models.Models.Business;
 using NHS111.Models.Models.Web.Clock;
@@ -27,12 +28,8 @@ namespace NHS111.Business.DOS.IoC
                 .Use<SearchDistanceService>()
                 .Ctor<IRestClient>()
                 .Is(new LoggingRestClient(configuration.CCGApiBaseUrl, logger));
-            For<IServiceWhitelistFilter>().Singleton()
-                .Use<ServiceWhitelistFilter>()
-                .Ctor<IRestClient>()
-                .Is(new LoggingRestClient(configuration.CCGApiBaseUrl, logger));
-            For<IOnlineServiceTypeMapper>().Singleton()
-                .Use<OnlineServiceTypeMapper>()
+            For<IWhiteListManager>().Singleton()
+                .Use<WhiteListManager>()
                 .Ctor<IRestClient>()
                 .Is(new LoggingRestClient(configuration.CCGApiBaseUrl, logger));
             For<IPublicHolidayService>().Use(new PublicHolidayService(

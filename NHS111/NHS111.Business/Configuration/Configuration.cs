@@ -158,6 +158,18 @@ namespace NHS111.Business.Configuration
 
         }
 
+        public string GetCCGBaseUrl()
+        {
+            return
+                ConfigurationManager.AppSettings["CCGApiBaseUrl"];
+        }
+
+        public string CCGBusinessApiGetCCGUrl(string postcode)
+        {
+            return
+                ConfigurationManager.AppSettings["CCGApiGetCCGByPostcodeUrl"].Replace("{postcode}", postcode);
+        }
+
         public string GetLocationBaseUrl()
         {
             return ConfigurationManager.AppSettings["LocationBaseUrl"];
@@ -268,6 +280,10 @@ namespace NHS111.Business.Configuration
         string GetLocationBaseUrl();
         string GetLocationPostcodebyGeoUrl(double longitude, double latitude);
         string GetLocationByPostcodeUrl(string postcode);
+
+        /* CCG */
+        string GetCCGBaseUrl();
+        string CCGBusinessApiGetCCGUrl(string postcode);
 
         /*Version*/
         string GetDomainApiVersionUrl();

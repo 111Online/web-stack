@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using NHS111.Models.Models.Domain;
+using NHS111.Models.Models.Web.Enums;
 
 namespace NHS111.Models.Models.Web.FromExternalServices
 {
@@ -22,6 +23,9 @@ namespace NHS111.Models.Models.Web.FromExternalServices
 
         [JsonProperty(PropertyName = "state")]
         public string State { get; set; }
+
+        [JsonProperty(PropertyName = "stepType")]
+        public NodeType NodeType { get; set; }
 
         public JourneyStep()
         {

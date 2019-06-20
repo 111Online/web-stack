@@ -26,19 +26,8 @@
     dataDictionary.Add(new KeyValuePair<string, object>("LaunchPage", "personal-details"));
 }
 
-@section SurveyBanner{
-    @Html.Partial("_SurveyLink", Model.SurveyLink, dataDictionary)
-}
-
 @section FeedbackSection {
-    @if (!SurveyLinkFeature.IsEnabled)
-    {
-        @Html.Partial("_FeedbackDetails", new FeedbackViewModel() { UserId = Model.SessionId.ToString(), PageData = new PageDataViewModel(PageDataViewModel.PageType.PersonalDetails, Model) })
-    }
-    else
-    {
-        @Html.Partial("_SurveyLink", Model.SurveyLink, dataDictionary)
-    }
+    @Html.Partial("_FeedbackDetails", new FeedbackViewModel() { UserId = Model.SessionId.ToString(), PageData = new PageDataViewModel(PageDataViewModel.PageType.PersonalDetails, Model) })
 }
 
 @using (Html.BeginForm("Confirmation", "Outcome", FormMethod.Post, new { id = "personalDetailForm" }))

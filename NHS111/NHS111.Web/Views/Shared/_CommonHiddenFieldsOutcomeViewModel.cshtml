@@ -12,6 +12,7 @@
 @Html.HiddenFor(x => Model.DigitalTitle)
 @Html.HiddenFor(x => Model.SymptomGroup)
 @Html.HiddenFor(x => Model.FilterServices)
+@Html.HiddenFor(x => Model.HasSeenPreamble)
 @Html.HiddenFor(x => Model.UserInfo.Demography.Age)
 @Html.HiddenFor(x => Model.UserInfo.Demography.Gender)
 @Html.HiddenFor(x => Model.SymptomDiscriminatorCode)
@@ -27,6 +28,7 @@
 @Html.HiddenFor(x => x.TimeFrameMinutes)
 @Html.HiddenFor(x => x.WaitTimeText)
 @Html.HiddenFor(x => x.DispositionTime)
+@Html.HiddenFor(x => x.SurveyLink.SurveyId)
 @Html.HiddenFor(x => x.SurveyLink.PathwayNo)
 @Html.HiddenFor(x => x.SurveyLink.EndPathwayNo)
 @Html.HiddenFor(x => x.SurveyLink.EndPathwayTitle)
@@ -39,6 +41,12 @@
 @Html.HiddenFor(x => x.SurveyLink.ServiceCount)
 @Html.HiddenFor(x => x.SurveyLink.ServiceOptions)
 @Html.HiddenFor(x => x.SurveyLink.ValidationCallbackOffered)
+@Html.HiddenFor(x => x.SurveyLink.RecommendedServiceId)
+@Html.HiddenFor(x => x.SurveyLink.RecommendedServiceName)
+@Html.HiddenFor(x => x.SurveyLink.RecommendedServiceType)
+@Html.HiddenFor(x => x.SurveyLink.OfferedServiceIds)
+@Html.HiddenFor(x => x.SurveyLink.OfferedServiceNames)
+@Html.HiddenFor(x => x.SurveyLink.OfferedServiceTypes)
 @Html.HiddenFor(x => x.SelectedService.Id)
 @Html.HiddenFor(x => Model.Campaign)
 @Html.HiddenFor(x => Model.Source)
@@ -56,18 +64,28 @@
         @Html.Hidden(string.Format("DosCheckCapacitySummaryResult.Success.Services[{0}].Address", i), @WebUtility.HtmlDecode(Model.DosCheckCapacitySummaryResult.Success.Services[i].Address))
         @Html.HiddenFor(m => Model.DosCheckCapacitySummaryResult.Success.Services[i].OdsCode)
         @Html.HiddenFor(m => Model.DosCheckCapacitySummaryResult.Success.Services[i].PostCode)
+        @Html.Hidden(string.Format("DosCheckCapacitySummaryResult.Success.Services[{0}].PublicName", i), @WebUtility.HtmlDecode(Model.DosCheckCapacitySummaryResult.Success.Services[i].PublicName))
         @Html.HiddenFor(m => Model.DosCheckCapacitySummaryResult.Success.Services[i].OpenAllHours)
-        @Html.HiddenFor(m => Model.DosCheckCapacitySummaryResult.Success.Services[i].OnlineDOSServiceType)
-        if (Model.DosCheckCapacitySummaryResult.Success.Services[i].RotaSessionsAndSpecifiedSessions != null)
+        @Html.HiddenFor(m => Model.DosCheckCapacitySummaryResult.Success.Services[i].OnlineDOSServiceType.Id)
+        @Html.HiddenFor(m => Model.DosCheckCapacitySummaryResult.Success.Services[i].ContactDetails)
+        @Html.HiddenFor(m => Model.DosCheckCapacitySummaryResult.Success.Services[i].Distance)
+        if (Model.DosCheckCapacitySummaryResult.Success.Services[i].RotaSessions != null)
         {
-            for (var j = 0; j < Model.DosCheckCapacitySummaryResult.Success.Services[i].RotaSessionsAndSpecifiedSessions.Length; j++)
+            for (var j = 0; j < Model.DosCheckCapacitySummaryResult.Success.Services[i].RotaSessions.Length; j++)
             {
-                @Html.HiddenFor(m => m.DosCheckCapacitySummaryResult.Success.Services[i].RotaSessionsAndSpecifiedSessions[j].StartDayOfWeek)
-                @Html.HiddenFor(m => m.DosCheckCapacitySummaryResult.Success.Services[i].RotaSessionsAndSpecifiedSessions[j].StartTime.Hours)
-                @Html.HiddenFor(m => m.DosCheckCapacitySummaryResult.Success.Services[i].RotaSessionsAndSpecifiedSessions[j].StartTime.Minutes)
-                @Html.HiddenFor(m => m.DosCheckCapacitySummaryResult.Success.Services[i].RotaSessionsAndSpecifiedSessions[j].EndDayOfWeek)
-                @Html.HiddenFor(m => m.DosCheckCapacitySummaryResult.Success.Services[i].RotaSessionsAndSpecifiedSessions[j].EndTime.Hours)
-                @Html.HiddenFor(m => m.DosCheckCapacitySummaryResult.Success.Services[i].RotaSessionsAndSpecifiedSessions[j].EndTime.Minutes)
+                @Html.HiddenFor(m => m.DosCheckCapacitySummaryResult.Success.Services[i].RotaSessions[j].StartDayOfWeek)
+                @Html.HiddenFor(m => m.DosCheckCapacitySummaryResult.Success.Services[i].RotaSessions[j].StartTime.Hours)
+                @Html.HiddenFor(m => m.DosCheckCapacitySummaryResult.Success.Services[i].RotaSessions[j].StartTime.Minutes)
+                @Html.HiddenFor(m => m.DosCheckCapacitySummaryResult.Success.Services[i].RotaSessions[j].EndDayOfWeek)
+                @Html.HiddenFor(m => m.DosCheckCapacitySummaryResult.Success.Services[i].RotaSessions[j].EndTime.Hours)
+                @Html.HiddenFor(m => m.DosCheckCapacitySummaryResult.Success.Services[i].RotaSessions[j].EndTime.Minutes)
+            }
+        }
+        if (Model.DosCheckCapacitySummaryResult.Success.Services[i].OpenTimeSpecifiedSessions != null)
+        {
+            for (var k = 0; k < Model.DosCheckCapacitySummaryResult.Success.Services[i].OpenTimeSpecifiedSessions.Length; k++)
+            {
+                @Html.HiddenFor(m => m.DosCheckCapacitySummaryResult.Success.Services[i].OpenTimeSpecifiedSessions[k])
             }
         }
     }

@@ -103,9 +103,8 @@ namespace NHS111.Web.Controllers {
             ModelState.Clear();
             var nextModel = await GetNextJourneyViewModel(model);
 
-            var viewName = _viewRouter.GetViewName(nextModel, ControllerContext);
-            return View(viewName, nextModel);
-
+            var viewRouter = _viewRouter.Build(nextModel, ControllerContext);
+            return View(viewRouter.ViewName, nextModel);
         }
 
         private JourneyViewModel GetMatchingTestJourney(OutcomeViewModel model) {
@@ -207,8 +206,8 @@ namespace NHS111.Web.Controllers {
                 if (model.DosCheckCapacitySummaryResult.HasITKServices) {
                     throw new NotImplementedException(); //no trigger question journeys currently offer callback
                 }
-                var viewName = _viewRouter.GetViewName(model, ControllerContext);
-                return View(viewName, model);
+                var viewRouter = _viewRouter.Build(model, ControllerContext);
+                return View(viewRouter.ViewName, model);
             }
 
             var result = await DirectInternal(model.PathwayId, model.UserInfo.Demography.Age, model.PathwayTitle, model.CurrentPostcode, answers, filterServices);
@@ -249,21 +248,21 @@ namespace NHS111.Web.Controllers {
                     if (_dosSpecifyDispoTimeFeature.IsEnabled && _dosSpecifyDispoTimeFeature.HasDate(Request))
                         dosSearchTime = _dosSpecifyDispoTimeFeature.GetDosSearchDateTime(Request);
 
-                    outcomeModel.CurrentView = _viewRouter.GetViewName(resultingModel, ControllerContext);
+                    outcomeModel.CurrentView = _viewRouter.Build(resultingModel, ControllerContext).ViewName;
 
                     var controller = DependencyResolver.Current.GetService<OutcomeController>();
                     controller.ControllerContext = new ControllerContext(ControllerContext.RequestContext, controller);
 
                     if (OutcomeGroup.PrePopulatedDosResultsOutcomeGroups.Contains(outcomeModel.OutcomeGroup))
-                        return await controller.DispositionWithServices(outcomeModel, "", endpoint, dosSearchTime);
+                        return await DeterminePrepopulatedResultsRoute(controller, outcomeModel, endpoint, dosSearchTime);
 
                     if (OutcomeGroup.DosSearchOutcomesGroups.Contains(outcomeModel.OutcomeGroup))
                         return await controller.ServiceList(outcomeModel, dosSearchTime, null, endpoint);
                 }
             }
 
-            var viewName = _viewRouter.GetViewName(resultingModel, ControllerContext);
-            return View(viewName, resultingModel);
+            var viewRouter = _viewRouter.Build(resultingModel, ControllerContext);
+            return View(viewRouter.ViewName, resultingModel);
         }
 
         private DosEndpoint? SetEndpoint() {
@@ -278,6 +277,41 @@ namespace NHS111.Web.Controllers {
                 default:
                     return null;
             }
+        }
+
+        private bool DirectToOtherServices
+        {
+            get
+            {
+                switch (Request.QueryString["otherservices"])
+                {
+                    case "true":
+                        return true;
+                    default:
+                        return false;
+                }
+            }
+        }
+
+        private async Task<ActionResult> DeterminePrepopulatedResultsRoute(OutcomeController controller, OutcomeViewModel outcomeViewModel, DosEndpoint? endpoint = null, DateTime? dosSearchTime = null)
+        {
+            var dispoWithServicesResult = await controller.DispositionWithServices(outcomeViewModel, "", endpoint, dosSearchTime);
+            if (!OutcomeGroup.UsingRecommendedServiceJourney.Contains(outcomeViewModel.OutcomeGroup))
+                return dispoWithServicesResult;
+
+            var dispoWithServicesView = dispoWithServicesResult as ViewResult;
+            if (dispoWithServicesView.ViewName != "../Outcome/Repeat_Prescription/Outcome_Preamble")
+                return View(dispoWithServicesView.ViewName, dispoWithServicesView.Model);
+
+            // need to do the first look up to determine if there are other services
+            var outcomeModel = dispoWithServicesView.Model as OutcomeViewModel;
+            if (!DirectToOtherServices)
+                return controller.RecommendedService(outcomeModel);
+
+            if(outcomeModel.DosCheckCapacitySummaryResult.Success.Services.Count > 1)
+                return await controller.ServiceList(outcomeViewModel, dosSearchTime, null, endpoint);
+
+            return View("../Outcome/Repeat_Prescription/RecommendedServiceNotOffered", outcomeModel);
         }
 
         private async Task<JourneyViewModel> DeriveJourneyView(string pathwayId, int? age, string pathwayTitle, int[] answers)
@@ -319,9 +353,9 @@ namespace NHS111.Web.Controllers {
             var questionWithAnswers = response.Data;
 
             var result = _journeyViewModelBuilder.BuildPreviousQuestion(questionWithAnswers, model);
-            var viewName = _viewRouter.GetViewName(result, ControllerContext);
+            var viewRouter = _viewRouter.Build(result, ControllerContext);
 
-            return View(viewName, result);
+            return View(viewRouter.ViewName, result);
         }
 
         private async Task<QuestionWithAnswers> GetNextNode(QuestionViewModel model) {

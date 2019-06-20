@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Moq;
 using NHS111.Features;
+using NHS111.Models.Models.Domain;
 using NHS111.Models.Models.Web;
 using NHS111.Web.Presentation.Builders;
 using NHS111.Web.Presentation.Validators;
@@ -23,12 +24,12 @@ namespace NHS111.Models.Test.Models.Web.Validators
       
         public void SetupMockCCGResultWithApp()
         {
-            mockCCGBuilder.Setup(f => f.FillCCGModel(It.IsAny<string>())).ReturnsAsync(new CCGModel() { App = "Pathways", Postcode = "TS19 7TG"});
+            mockCCGBuilder.Setup(f => f.FillCCGDetailsModelAsync(It.IsAny<string>())).ReturnsAsync(new CCGDetailsModel() { App = "Pathways", Postcode = "TS19 7TG", PharmacyReferralServiceIdWhitelist = new ServiceListModel() });
         }
 
         public void SetupMockCCGResultWithoutValidPostcode()
         {
-            mockCCGBuilder.Setup(f => f.FillCCGModel(It.IsAny<string>())).ReturnsAsync(new CCGModel() );
+            mockCCGBuilder.Setup(f => f.FillCCGDetailsModelAsync(It.IsAny<string>())).ReturnsAsync(new CCGDetailsModel());
         }
 
         [Test]
@@ -38,7 +39,7 @@ namespace NHS111.Models.Test.Models.Web.Validators
             mockFeature.Setup(f => f.IsEnabled).Returns(false);
             SetupMockCCGResultWithApp();
             var sut = new PostCodeAllowedValidator(mockFeature.Object, mockCCGBuilder.Object);
-            Assert.AreEqual(PostcodeValidatorResponse.InPathwaysArea, sut.IsAllowedPostcode("SO30 2UN"));
+            Assert.AreEqual(PostcodeValidatorResponse.InPathwaysAreaWithPharmacyServices, sut.IsAllowedPostcode("SO30 2UN"));
         }
 
         [Test]
@@ -61,7 +62,7 @@ namespace NHS111.Models.Test.Models.Web.Validators
             mockFeature.Setup(f => f.PostcodeFile).Returns(new StringReader(string.Join(Environment.NewLine, mockPostcodeList)));
 
             var sut = new PostCodeAllowedValidator(mockFeature.Object, mockCCGBuilder.Object);
-            Assert.AreEqual(PostcodeValidatorResponse.InPathwaysArea, sut.IsAllowedPostcode("SO30 2UN"));
+            Assert.AreEqual(PostcodeValidatorResponse.InPathwaysAreaWithoutPharmacyServices, sut.IsAllowedPostcode("SO30 2UN"));
         }
 
         [Test]
@@ -74,7 +75,7 @@ namespace NHS111.Models.Test.Models.Web.Validators
             mockFeature.Setup(f => f.PostcodeFile).Returns(new StringReader(string.Join(Environment.NewLine, mockPostcodeList)));
 
             var sut = new PostCodeAllowedValidator(mockFeature.Object, mockCCGBuilder.Object);
-            Assert.AreEqual(PostcodeValidatorResponse.InPathwaysArea, sut.IsAllowedPostcode("SO302UN"));
+            Assert.AreEqual(PostcodeValidatorResponse.InPathwaysAreaWithoutPharmacyServices, sut.IsAllowedPostcode("SO302UN"));
         }
 
         [Test]
@@ -87,7 +88,44 @@ namespace NHS111.Models.Test.Models.Web.Validators
             mockFeature.Setup(f => f.PostcodeFile).Returns(new StringReader(string.Join(Environment.NewLine, mockPostcodeList)));
 
             var sut = new PostCodeAllowedValidator(mockFeature.Object, mockCCGBuilder.Object);
-            Assert.AreEqual(PostcodeValidatorResponse.InPathwaysArea, sut.IsAllowedPostcode("So30 2uN"));
+            Assert.AreEqual(PostcodeValidatorResponse.InPathwaysAreaWithoutPharmacyServices, sut.IsAllowedPostcode("So30 2uN"));
+        }
+
+        [Test]
+        public void EP_enabled_area_returns_pathway_with_pharmacy_area()
+        {
+            var mockPostcodeList = new[] { "Postcode", "SO30 2UN" };
+            mockCCGBuilder.Setup(f => f.FillCCGDetailsModelAsync(It.IsAny<string>())).ReturnsAsync(new CCGDetailsModel() { App = "Pathways", Postcode = "TS19 7TG", PharmacyReferralServiceIdWhitelist = new ServiceListModel("123|456") });
+            var mockFeature = new Mock<IAllowedPostcodeFeature>();
+            mockFeature.Setup(f => f.IsEnabled).Returns(true);
+            mockFeature.Setup(f => f.PostcodeFile).Returns(new StringReader(string.Join(Environment.NewLine, mockPostcodeList)));
+
+            var sut = new PostCodeAllowedValidator(mockFeature.Object, mockCCGBuilder.Object);
+            Assert.AreEqual(PostcodeValidatorResponse.InPathwaysAreaWithPharmacyServices, sut.IsAllowedPostcode("So30 2uN"));
+        }
+
+        [Test]
+        public void Outcome_pathway_with_pharmacy_area_outcome_returns_in_pilot_area_true()
+        {
+            Assert.IsTrue(PostcodeValidatorResponse.InPathwaysAreaWithPharmacyServices.IsInPilotAreaForOutcome(OutcomeGroup.AccidentAndEmergency));
+        }
+
+        [Test]
+        public void Outcome_pathway_without_pharmacy_area_outcome_returns_in_pilot_area_true()
+        {
+            Assert.IsTrue(PostcodeValidatorResponse.InPathwaysAreaWithoutPharmacyServices.IsInPilotAreaForOutcome(OutcomeGroup.Dental));
+        }
+
+        [Test]
+        public void EP_outcome_pathway_with_pharmacy_area_outcome_returns_in_pilot_area_true()
+        {
+            Assert.IsTrue(PostcodeValidatorResponse.InPathwaysAreaWithPharmacyServices.IsInPilotAreaForOutcome(OutcomeGroup.RepeatPrescription));
+        }
+
+        [Test]
+        public void EP_outcome_pathway_without_pharmacy_area_outcome_returns_in_pilot_area_false()
+        {
+            Assert.IsFalse(PostcodeValidatorResponse.InPathwaysAreaWithoutPharmacyServices.IsInPilotAreaForOutcome(OutcomeGroup.RepeatPrescription));
         }
     }
 }

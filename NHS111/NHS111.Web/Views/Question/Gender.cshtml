@@ -18,6 +18,7 @@
     @Html.HiddenFor(x => Model.CurrentPostcode)
     @Html.HiddenFor(x => Model.Campaign)
     @Html.HiddenFor(x => Model.Source)
+    @Html.HiddenFor(x => Model.PathwayNo)
 
     <div class="callout callout--error @(Html.ViewData.ModelState.IsValid ? "validation-summary-valid" : "validation-summary-errors")"
          data-valmsg-summary="true">

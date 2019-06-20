@@ -6,10 +6,9 @@ using System.Threading.Tasks;
 
 namespace NHS111.Models.Models.Web
 {
-    public class HiddenTextViewModel
+    public class RecommendedServiceViewModel : ServiceViewModel
     {
-        public string Summary { get; set; }
-
-        public IEnumerable<string> Details { get; set; }
+        public string ReasonText { get; set; }
+        public DetailsViewModel Details { get; set; }
     }
 }

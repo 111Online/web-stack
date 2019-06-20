@@ -22,7 +22,7 @@
 @section FeedbackSection {
     @if (Model.UserInfo.CurrentAddress.IsPostcodeFirst)
     {
-        @Html.Partial("_FeedbackDetails", new FeedbackViewModel() {UserId = Model.SessionId.ToString(), PageData = new PageDataViewModel(PageDataViewModel.PageType.PostcodeFirst, Model)})
+        @Html.Partial("_FeedbackDetails", new FeedbackViewModel() {UserId = Model.SessionId.ToString(), PageData = new PageDataViewModel(PageDataViewModel.PageType.OutOfArea, Model)})
     }
 }
 

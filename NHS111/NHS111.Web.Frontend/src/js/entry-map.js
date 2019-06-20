@@ -107,7 +107,7 @@ function getZoomByBounds(map, bounds) {
 function addMarker(index, map) {
   markers[index] = new google.maps.Marker({
     position: services[index],
-    label: (index + 1).toString(),
+    label: services.length == 1 ? "" : (index + 1).toString(),
     map: map
   })
 

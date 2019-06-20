@@ -15,7 +15,7 @@ namespace NHS111.Business.DOS.Service
 
         public List<BusinessModels.DosService> FilterClosedCallbackServices(List<BusinessModels.DosService> resultsToMap)
         {
-            resultsToMap.RemoveAll(s => s.OnlineDOSServiceType == OnlineDOSServiceType.Callback && !s.IsOpen);
+            resultsToMap.RemoveAll(s => s.OnlineDOSServiceType.IsReferral && !s.IsOpen);
             return resultsToMap.ToList();
         }
     }
