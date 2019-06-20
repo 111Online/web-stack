@@ -83,6 +83,8 @@
   <ItemGroup>
     <Compile Include="Configuration\Configuration.cs" />
     <Compile Include="Configuration\IConfiguration.cs" />
+    <Compile Include="DispositionMapper\DispositionMapper.cs" />
+    <Compile Include="EndpointFilter\RepeatPrescriptionServiceAvailability.cs" />
     <Compile Include="IoC\BusinessDosRegistry.cs" />
     <Compile Include="EndpointFilter\DentalProfileHoursOfOperation.cs" />
     <Compile Include="EndpointFilter\GenericProfileHoursOfOperation.cs" />
@@ -106,7 +108,10 @@
     <Compile Include="Service\PublicHolidayService.cs" />
     <Compile Include="Service\SearchDistanceService.cs" />
     <Compile Include="Service\ServiceAvailabilityFilterService.cs" />
-    <Compile Include="WhitelistFilter\ServiceWhitelistFilter.cs" />
+    <Compile Include="WhiteListPopulator\IWhiteListPopulator.cs" />
+    <Compile Include="WhiteListPopulator\PharmacyReferralServicesWhiteListPopulator.cs" />
+    <Compile Include="WhiteListPopulator\ReferralServicesWhiteListPopulator.cs" />
+    <Compile Include="WhiteListPopulator\WhiteListManager.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\NHS111.Features\NHS111.Features.csproj">

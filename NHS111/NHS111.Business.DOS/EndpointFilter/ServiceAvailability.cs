@@ -43,7 +43,7 @@ namespace NHS111.Business.DOS.EndpointFilter
 
         protected List<Models.Models.Business.DosService> GetSpecifiedOpenITKServices(List<Models.Models.Business.DosService> dosServices)
         {
-            return dosServices.Where(r => (r.OnlineDOSServiceType == OnlineDOSServiceType.Callback) && r.IsOpenForSpecifiedTimes).ToList(); ;
+            return dosServices.Where(r => (r.OnlineDOSServiceType.IsReferral) && r.IsOpenForSpecifiedTimes).ToList(); ;
         }
 
         public ServiceAvailability(IServiceAvailabilityProfile serviceAvailabilityProfile, DateTime dispositionDateTime, int timeFrameMinutes)

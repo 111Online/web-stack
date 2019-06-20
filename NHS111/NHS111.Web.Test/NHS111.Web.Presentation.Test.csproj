@@ -111,6 +111,7 @@
     <Compile Include="Controllers\OutcomeControllerTests.cs" />
     <Compile Include="Controllers\QuestionControllerTests.cs" />
     <Compile Include="Helpers\VersioningTests.cs" />
+    <Compile Include="Helpers\ViewDeterminerTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

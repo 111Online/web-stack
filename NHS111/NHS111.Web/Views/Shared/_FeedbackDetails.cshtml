@@ -10,6 +10,7 @@
 }
 
 <section class="feedback page-section @classes" id="feedback">
+    <hr />
     <details class="measure">
         <summary id="feedback__summary">
             <span class="details__arrow" role="presentation"></span>
@@ -20,7 +21,8 @@
             {
                 @Html.HiddenFor(m => m.UserId)
                 @Html.Partial("_CommonHiddenFieldsPageDataViewModel", Model.PageData, new ViewDataDictionary() { TemplateInfo = new TemplateInfo() { HtmlFieldPrefix = "PageData" } })
-                @(String.IsNullOrEmpty(Model.Paragraph) ? null : Html.Raw("<p>" + Model.Paragraph + "</p>")) <p>We use feedback to make these pages better. We don’t check feedback every day and cannot reply or pass comments on to other NHS services.</p><p>Do not include any medical or personal information like your name, email or phone number.</p>
+                @(String.IsNullOrEmpty(Model.Paragraph) ? null : Html.Raw("<p>" + Model.Paragraph + "</p>"))
+                <p>We use feedback to make these pages better. We don’t check feedback every day and cannot reply or pass comments on to other NHS services.</p><p>Do not include any medical or personal information like your name, email or phone number.</p>
                 @Html.TextAreaFor(m => m.Text, new { @placeholder = "Feedback", @Value = "", @class = "feedback__input", @maxlength = maxFeedbackLength, @aria_labelledby = "feedback__summary" })
                 <div id="textdetailscounter" class="feedback__counter">@(maxFeedbackLength) character limit</div>
                 <button class="feedback__submit button--next button--secondary" id="btnFeedback">Send feedback</button>

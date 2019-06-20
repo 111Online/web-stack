@@ -1,0 +1,20 @@
+﻿@using NHS111.Models.Models.Web
+@model OutcomeViewModel
+
+<div class="measure">
+    <h1>Where to get help</h1>
+</div>
+@if (!Model.DosCheckCapacitySummaryResult.ResultListEmpty)
+{
+    var recommendedService = Model.RecommendedService;
+    <div>
+        @Html.Partial(new ServiceTypeMapping(recommendedService.OnlineDOSServiceType).TypeViewName, Model)
+    </div>
+    using (Html.BeginForm("ChangePostcode", "Outcome", FormMethod.Post))
+    {
+        @Html.Partial("_CommonHiddenFieldsOutcomeViewModel", Model)
+        @Html.Partial("_CommonHiddenFieldsCareAdviceViewModel", Model)
+        
+        @Html.Partial("_rs_ChangePostcodeLink")
+    }
+}

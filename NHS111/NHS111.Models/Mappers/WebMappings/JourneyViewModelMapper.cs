@@ -38,8 +38,6 @@ namespace NHS111.Models.Mappers.WebMappings
                 .ForMember(s => s.CareAdvices, o => o.Ignore())
                 .ForMember(s => s.SymptomGroup, o => o.Ignore())
                 .ForMember(s => s.Urgency, o => o.Ignore())
-                .ForMember(s => s.ItkSendSuccess, o => o.Ignore())
-                .ForMember(s => s.ItkDuplicate, o => o.Ignore())
                 .ForMember(s => s.WorseningCareAdvice, o => o.Ignore())
                 .ForMember(s => s.SymptomDiscriminator, o => o.Ignore())
                 .ForMember(s => s.CurrentView, o => o.Ignore())
@@ -47,7 +45,8 @@ namespace NHS111.Models.Mappers.WebMappings
                 .ForMember(s => s.Informant, opt => opt.Ignore())
                 .ForMember(s => s.UnavailableSelectedService, o => o.Ignore())
                 .ForMember(s => s.GroupedDosServices, o => o.Ignore())
-                .ForMember(s => s.HasAcceptedCallbackOffer, o => o.Ignore());
+                .ForMember(s => s.HasAcceptedCallbackOffer, o => o.Ignore())
+                .ForMember(s => s.RecommendedService, opt => opt.Ignore());
 
             Mapper.CreateMap<JourneyViewModel, AuditEntry>()
                 .ForMember(dest => dest.AnswerTitle, opt => opt.Ignore())
@@ -153,7 +152,8 @@ namespace NHS111.Models.Mappers.WebMappings
             journeyViewModel.TimeFrameMinutes = questionWithAnswers.Question.TimeFrame;
             journeyViewModel.WaitTimeText = questionWithAnswers.Question.WaitTimeText;
             journeyViewModel.DispositionUrgencyText = questionWithAnswers.Question.DispositionUrgencyText;
-
+            journeyViewModel.Content = questionWithAnswers.Question.Content;
+            journeyViewModel.NextButtonText = string.IsNullOrEmpty(questionWithAnswers.Question.NextButtonText) ? "Next question" : questionWithAnswers.Question.NextButtonText;
             var questionAndBullets = questionWithAnswers.Question.TitleWithBullets();
             journeyViewModel.TitleWithoutBullets = questionAndBullets.Item1;
             journeyViewModel.Bullets = questionAndBullets.Item2;

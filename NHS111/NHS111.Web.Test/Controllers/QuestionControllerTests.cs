@@ -68,7 +68,7 @@ namespace NHS111.Web.Presentation.Test.Controllers {
             _mockJtbsBuilderMock.Setup(j => j.JustToBeSafeFirstBuilder(It.IsAny<JustToBeSafeViewModel>()))
                 .Returns(StartedTask(new AwfulIdea("", new QuestionViewModel())));
 
-            _mockViewRouter.Setup(v => v.GetViewName(It.IsAny<JourneyViewModel>(), It.IsAny<ControllerContext>())).Returns(() => "../Question/Question");
+            _mockViewRouter.Setup(v => v.Build(It.IsAny<JourneyViewModel>(), It.IsAny<ControllerContext>())).Returns(() => new QuestionResultViewModel(null));
 
             var sut = new QuestionController(_mockJourneyViewModelBuilder.Object,
                 _mockConfiguration.Object, _mockJtbsBuilderMock.Object, _mockFeature.Object, _mockAuditLogger.Object, _mockUserZoomDataBuilder.Object, _mockRestClient.Object, _mockViewRouter.Object, _mockDosEndpointFeature.Object, _mockDOSSpecifyDispoTimeFeature.Object, _mockOutcomeViewModelBuilder.Object);
@@ -102,6 +102,8 @@ namespace NHS111.Web.Presentation.Test.Controllers {
            
             _mockJourneyViewModelBuilder.Setup(j => j.Build(It.IsAny<QuestionViewModel>(), It.IsAny<QuestionWithAnswers>()))
                 .Returns(() => StartedTask((JourneyViewModel)mockQuestion));
+
+            _mockViewRouter.Setup(v => v.Build(It.IsAny<JourneyViewModel>(), It.IsAny<ControllerContext>())).Returns(() => new QuestionResultViewModel(null));
 
             var sut = new QuestionController(_mockJourneyViewModelBuilder.Object,
                 _mockConfiguration.Object, _mockJtbsBuilderMock.Object, _mockFeature.Object, _mockAuditLogger.Object, _mockUserZoomDataBuilder.Object, _mockRestClient.Object, _mockViewRouter.Object, _mockDosEndpointFeature.Object, _mockDOSSpecifyDispoTimeFeature.Object, _mockOutcomeViewModelBuilder.Object);
@@ -153,7 +155,7 @@ namespace NHS111.Web.Presentation.Test.Controllers {
             _mockJtbsBuilderMock.Setup(j => j.JustToBeSafeFirstBuilder(It.IsAny<JustToBeSafeViewModel>()))
                 .Returns(StartedTask(new AwfulIdea("", mockQuestion)));
 
-            _mockViewRouter.Setup(v => v.GetViewName(It.IsAny<JourneyViewModel>(), It.IsAny<ControllerContext>())).Returns(() => "../Question/Question");
+            _mockViewRouter.Setup(v => v.Build(It.IsAny<JourneyViewModel>(), It.IsAny<ControllerContext>())).Returns(() => new QuestionResultViewModel(null));
 
             var sut = new QuestionController(_mockJourneyViewModelBuilder.Object,
                 _mockConfiguration.Object, _mockJtbsBuilderMock.Object, _mockFeature.Object, _mockAuditLogger.Object, _mockUserZoomDataBuilder.Object, _mockRestClient.Object, _mockViewRouter.Object, _mockDosEndpointFeature.Object, _mockDOSSpecifyDispoTimeFeature.Object, _mockOutcomeViewModelBuilder.Object);

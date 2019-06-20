@@ -1,0 +1,134 @@
+@import "../environment/settings/colours";
+@import "../tools/mixins/_addons.scss";
+@import "node_modules/nhsuk-frontend/packages/core/tools/_spacing.scss";
+@import "node_modules/nhsuk-frontend/packages/core/tools/_typography.scss";
+
+.service-details {
+  padding: 2px 0;
+  border: 0;
+  background-color: $grey-5;
+  border-left: 0 solid $grey-4;
+  @include nhsuk-responsive-padding(4, 'top');
+  @include nhsuk-responsive-padding(4, 'bottom');
+  @include nhsuk-responsive-padding(3, 'left');
+  @include nhsuk-responsive-padding(3, 'right');
+}
+
+.service-details .card__details {
+  font-weight: 400;
+}
+
+.service-details__hint {
+  @include nhsuk-font(16);
+  color: $grey-1;
+}
+
+.service-listing__info {
+  @include nhsuk-font(16);
+}
+
+.service-details__hours {
+  @include nhsuk-font(19);
+}
+
+.service-details-container .service-map {
+  border: 0;
+  border-top: 4px solid #fff;
+  border-bottom: 4px solid #fff;
+  display: block;
+  height: 100%;
+  min-height: 300px;
+  width: 100%;
+}
+
+.reference-number {
+  font-size: 28px;
+  font-family: monospace;
+}
+
+.service-details__phone {
+  @include nhsuk-font(32, 'bold');
+}
+
+@supports (display: grid) {
+  @media (min-width: 980px) {
+    .service-details-container {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+    }
+
+    .service-details {
+      border-left-width: 4px;
+      grid-column: 1;
+    }
+
+    .service-details-container .service-map {
+      border: 0;
+      border-left: 4px solid #fff;
+      grid-column-end: 4;
+      grid-column-start: 2;
+      grid-row-start: 1;
+      grid-row-end: 3;
+    }
+  }
+}
+
+.service-listing__toggle--hide,
+.service-listing__toggle--show {
+  @include nhsuk-font(16);
+  @include nhsuk-link-style-default;
+  text-decoration: underline;
+  @include user-select(none);
+}
+
+.other-services {
+  .service-listing__name,
+  .service-listing__info {
+    @include nhsuk-responsive-margin(3, 'bottom');
+  }
+
+  .service-details__name, .service-details__distance {
+    display: none;
+  }
+
+  .service-listing .service-listing__toggle--hide,
+  .service-listing[open] .service-listing__toggle--show {
+    display: none;
+  }
+
+  .service-listing .service-listing__toggle--show,
+  .service-listing[open] .service-listing__toggle--hide {
+    display: inline;
+  }
+
+  .service-listing .measure {
+    max-width: 360px;
+  }
+
+  .service-listing summary {
+    cursor: pointer;
+    @extend .service-details;
+    display: block;
+    text-indent: 0;
+    border-left-width: 4px;
+  }
+
+  .service-listing[open] summary {
+    margin-bottom: 4px;
+  }
+
+  .service-listing {
+    display: block;
+    margin-bottom: 24px;
+  }
+
+  .service-listing__name {
+    font-weight: 600;
+  }
+
+  @include media(desktop) {
+    .service-listing {
+      margin-bottom: 48px;
+    }
+  }
+}

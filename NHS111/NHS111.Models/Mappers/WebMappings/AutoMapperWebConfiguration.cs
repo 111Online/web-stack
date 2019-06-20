@@ -19,6 +19,8 @@ namespace NHS111.Models.Mappers.WebMappings
                 cfg.AddProfile(new FromDosCaseToDosServicesByClinicalTermRequest());
                 cfg.AddProfile(new AuditedModelMappers());
                 cfg.AddProfile(new FromSystemDayOfWeekToDosDayOfWeek());
+                cfg.AddProfile(new FromServiceViewModelToRecommendedServiceViewModelMapper());
+                cfg.AddProfile(new FromOutcomeViewModelToOtherServicesViewModel());
             });
         }
     }
