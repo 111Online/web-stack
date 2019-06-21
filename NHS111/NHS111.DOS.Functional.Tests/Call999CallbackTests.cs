@@ -23,6 +23,39 @@
         }
 
         [Test]
+        public async Task SubmitReferralForNonValidation999_Always_SendsCorrectSurveyData()
+        {
+            var dosScenario = await _testBench.SetupDosScenario()
+                .ExpectingRequestTo(DosEndpoint.CheckCapacitySummary)
+                .Matching(BlankDosCase.WithDxCode(DispositionCode.Dx333))
+                .Returns(ServicesTransformedTo.EmptyServiceList)
+                .OtherwiseReturns(DosRequestMismatchResult.ServerError)
+
+                .BeginAsync();
+
+            var outcomePage = NavigateTo999Cat3(dosScenario.Postcode);
+            var surveyUrl = outcomePage.SurveyLink.GetAttribute("href");
+            Assert.True(surveyUrl.Contains("validation_callback_offered=false"));
+            var dosResult = await _testBench.Verify(dosScenario);
+        }
+
+        [Test]
+        public async Task SubmitReferralForValidation999_Always_SendsCorrectSurveyData()
+        {
+            var dosScenario = await _testBench.SetupDosScenario()
+                .ExpectingRequestTo(DosEndpoint.CheckCapacitySummary)
+                .Matching(BlankDosCase.WithDxCode(DispositionCode.Dx333))
+                .Returns(ServicesTransformedTo.OnlyOneCallback)
+                .OtherwiseReturns(DosRequestMismatchResult.ServerError)
+                .BeginAsync();
+
+            var outcomePage = NavigateTo999Cat3(dosScenario.Postcode);
+            var surveyUrl = outcomePage.SurveyLink.GetAttribute("href");
+            Assert.True(surveyUrl.Contains("validation_callback_offered=true"));
+            var dosResult = await _testBench.Verify(dosScenario);
+        }
+
+        [Test]
         public async Task Call999Cat3_WithoutCallbackReturned_DisplaysOriginalDispo() {
             var dosScenario = await _testBench.SetupDosScenario()
                 .ExpectingRequestTo(DosEndpoint.CheckCapacitySummary)
@@ -352,16 +385,8 @@
         }
 
         private OutcomePage NavigateTo999Cat3(Postcode postcode) {
-            var args = postcode != null
-                ? EncryptArgs(new Dictionary<string, string>
-                    {{"postcode", postcode.Value}, {"sessionId", Guid.NewGuid().ToString()}})
-                : null;
-            return NavigateTo999Cat3WithArgs(args);
-        }
-
-        private OutcomePage NavigateTo999Cat3WithArgs(string args) {
             var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Headache", TestScenerioSex.Male,
-                TestScenerioAgeGroups.Adult, args);
+                TestScenerioAgeGroups.Adult, postcode.Value);
 
             return questionPage
                 .Answer(1)

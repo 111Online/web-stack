@@ -1,4 +1,6 @@
 ﻿
+using NHS111.Utils.RestTools;
+
 namespace NHS111.Web.Controllers {
     using Features;
     using Helpers;
@@ -101,9 +103,8 @@ namespace NHS111.Web.Controllers {
             ModelState.Clear();
             var nextModel = await GetNextJourneyViewModel(model);
 
-            var viewName = _viewRouter.GetViewName(nextModel, ControllerContext);
-            return View(viewName, nextModel);
-
+            var viewRouter = _viewRouter.Build(nextModel, ControllerContext);
+            return View(viewRouter.ViewName, nextModel);
         }
 
         private JourneyViewModel GetMatchingTestJourney(OutcomeViewModel model) {
@@ -205,8 +206,8 @@ namespace NHS111.Web.Controllers {
                 if (model.DosCheckCapacitySummaryResult.HasITKServices) {
                     throw new NotImplementedException(); //no trigger question journeys currently offer callback
                 }
-                var viewName = _viewRouter.GetViewName(model, ControllerContext);
-                return View(viewName, model);
+                var viewRouter = _viewRouter.Build(model, ControllerContext);
+                return View(viewRouter.ViewName, model);
             }
 
             var result = await DirectInternal(model.PathwayId, model.UserInfo.Demography.Age, model.PathwayTitle, model.CurrentPostcode, answers, filterServices);
@@ -247,21 +248,21 @@ namespace NHS111.Web.Controllers {
                     if (_dosSpecifyDispoTimeFeature.IsEnabled && _dosSpecifyDispoTimeFeature.HasDate(Request))
                         dosSearchTime = _dosSpecifyDispoTimeFeature.GetDosSearchDateTime(Request);
 
-                    outcomeModel.CurrentView = _viewRouter.GetViewName(resultingModel, ControllerContext);
+                    outcomeModel.CurrentView = _viewRouter.Build(resultingModel, ControllerContext).ViewName;
 
                     var controller = DependencyResolver.Current.GetService<OutcomeController>();
                     controller.ControllerContext = new ControllerContext(ControllerContext.RequestContext, controller);
 
                     if (OutcomeGroup.PrePopulatedDosResultsOutcomeGroups.Contains(outcomeModel.OutcomeGroup))
-                        return await controller.DispositionWithServices(outcomeModel, "", endpoint, dosSearchTime);
+                        return await DeterminePrepopulatedResultsRoute(controller, outcomeModel, endpoint, dosSearchTime);
 
                     if (OutcomeGroup.DosSearchOutcomesGroups.Contains(outcomeModel.OutcomeGroup))
                         return await controller.ServiceList(outcomeModel, dosSearchTime, null, endpoint);
                 }
             }
 
-            var viewName = _viewRouter.GetViewName(resultingModel, ControllerContext);
-            return View(viewName, resultingModel);
+            var viewRouter = _viewRouter.Build(resultingModel, ControllerContext);
+            return View(viewRouter.ViewName, resultingModel);
         }
 
         private DosEndpoint? SetEndpoint() {
@@ -278,12 +279,46 @@ namespace NHS111.Web.Controllers {
             }
         }
 
+        private bool DirectToOtherServices
+        {
+            get
+            {
+                switch (Request.QueryString["otherservices"])
+                {
+                    case "true":
+                        return true;
+                    default:
+                        return false;
+                }
+            }
+        }
+
+        private async Task<ActionResult> DeterminePrepopulatedResultsRoute(OutcomeController controller, OutcomeViewModel outcomeViewModel, DosEndpoint? endpoint = null, DateTime? dosSearchTime = null)
+        {
+            var dispoWithServicesResult = await controller.DispositionWithServices(outcomeViewModel, "", endpoint, dosSearchTime);
+            if (!OutcomeGroup.UsingRecommendedServiceJourney.Contains(outcomeViewModel.OutcomeGroup))
+                return dispoWithServicesResult;
+
+            var dispoWithServicesView = dispoWithServicesResult as ViewResult;
+            if (dispoWithServicesView.ViewName != "../Outcome/Repeat_Prescription/Outcome_Preamble")
+                return View(dispoWithServicesView.ViewName, dispoWithServicesView.Model);
+
+            // need to do the first look up to determine if there are other services
+            var outcomeModel = dispoWithServicesView.Model as OutcomeViewModel;
+            if (!DirectToOtherServices)
+                return controller.RecommendedService(outcomeModel);
+
+            if(outcomeModel.DosCheckCapacitySummaryResult.Success.Services.Count > 1)
+                return await controller.ServiceList(outcomeViewModel, dosSearchTime, null, endpoint);
+
+            return View("../Outcome/Repeat_Prescription/RecommendedServiceNotOffered", outcomeModel);
+        }
+
         private async Task<JourneyViewModel> DeriveJourneyView(string pathwayId, int? age, string pathwayTitle, int[] answers)
         {
             var questionViewModel = BuildQuestionViewModel(pathwayId, age, pathwayTitle);
             var response = await 
-                _restClientBusinessApi.ExecuteTaskAsync<Pathway>(
-                    CreateJsonRequest(_configuration.GetBusinessApiPathwayUrl(pathwayId, true), Method.GET));
+                _restClientBusinessApi.ExecuteTaskAsync<Pathway>(new JsonRestRequest(_configuration.GetBusinessApiPathwayUrl(pathwayId, true), Method.GET));
             var pathway = response.Data;
             if (pathway == null) return null;
 
@@ -314,19 +349,19 @@ namespace NHS111.Web.Controllers {
             ModelState.Clear();
 
             var url = _configuration.GetBusinessApiQuestionByIdUrl(model.PathwayId, model.Journey.Steps.Last().QuestionId, true);
-            var response = await _restClientBusinessApi.ExecuteTaskAsync<QuestionWithAnswers>(CreateJsonRequest(url, Method.GET));
+            var response = await _restClientBusinessApi.ExecuteTaskAsync<QuestionWithAnswers>(new JsonRestRequest(url, Method.GET));
             var questionWithAnswers = response.Data;
 
             var result = _journeyViewModelBuilder.BuildPreviousQuestion(questionWithAnswers, model);
-            var viewName = _viewRouter.GetViewName(result, ControllerContext);
+            var viewRouter = _viewRouter.Build(result, ControllerContext);
 
-            return View(viewName, result);
+            return View(viewRouter.ViewName, result);
         }
 
         private async Task<QuestionWithAnswers> GetNextNode(QuestionViewModel model) {
             var answer = JsonConvert.DeserializeObject<Answer>(model.SelectedAnswer);
             var serialisedState = HttpUtility.UrlEncode(model.StateJson);
-            var request = CreateJsonRequest(_configuration.GetBusinessApiNextNodeUrl(model.PathwayId, model.NodeType, model.Id, serialisedState, true), Method.POST);
+            var request = new JsonRestRequest(_configuration.GetBusinessApiNextNodeUrl(model.PathwayId, model.NodeType, model.Id, serialisedState, true), Method.POST);
             request.AddJsonBody(answer.Title);
             var response = await _restClientBusinessApi.ExecuteTaskAsync<QuestionWithAnswers>(request);
             return response.Data;
@@ -334,7 +369,7 @@ namespace NHS111.Web.Controllers {
 
         private async Task<List<QuestionWithAnswers>> GetFullJourney(QuestionViewModel model)
         {
-            var request = CreateJsonRequest(_configuration.BusinessApiGetFullPathwayJourneyUrl, Method.POST);
+            var request = new JsonRestRequest(_configuration.BusinessApiGetFullPathwayJourneyUrl, Method.POST);
             request.AddJsonBody(model.Journey.Steps.ToArray());
             var response = await _restClientBusinessApi.ExecuteTaskAsync<List<QuestionWithAnswers>>(request);
             return response.Data;
@@ -373,13 +408,6 @@ namespace NHS111.Web.Controllers {
                 PathwayTitle = pathwayTitle,
                 UserInfo = new UserInfo { Demography = new AgeGenderViewModel { Age = age ?? -1 }}
             };
-        }
-
-        private RestRequest CreateJsonRequest(string url, Method method)
-        {
-            var request =  new RestRequest(url, method);
-            request.OnBeforeDeserialization = resp => { resp.ContentType = "application/json"; };
-            return request;
         }
 
         private readonly IJourneyViewModelBuilder _journeyViewModelBuilder;

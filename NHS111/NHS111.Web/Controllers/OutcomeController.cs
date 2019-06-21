@@ -41,9 +41,12 @@ namespace NHS111.Web.Controllers
         private readonly IPostCodeAllowedValidator _postCodeAllowedValidator;
         private readonly IViewRouter _viewRouter;
         private readonly IReferralResultBuilder _referralResultBuilder;
+        private readonly IRecommendedServiceBuilder _recommendedServiceBuilder;
 
-        public OutcomeController(IOutcomeViewModelBuilder outcomeViewModelBuilder, IDOSBuilder dosBuilder,
-            ISurgeryBuilder surgeryBuilder, ILocationResultBuilder locationResultBuilder, IAuditLogger auditLogger, Presentation.Configuration.IConfiguration configuration, IPostCodeAllowedValidator postCodeAllowedValidator, IViewRouter viewRouter, IReferralResultBuilder referralResultBuilder)
+        public OutcomeController(IOutcomeViewModelBuilder outcomeViewModelBuilder, IDOSBuilder dosBuilder, ISurgeryBuilder surgeryBuilder, 
+            ILocationResultBuilder locationResultBuilder, IAuditLogger auditLogger, Presentation.Configuration.IConfiguration configuration, 
+            IPostCodeAllowedValidator postCodeAllowedValidator, IViewRouter viewRouter, IReferralResultBuilder referralResultBuilder,
+            IRecommendedServiceBuilder recommendedServiceBuilder)
         {
             _outcomeViewModelBuilder = outcomeViewModelBuilder;
             _dosBuilder = dosBuilder;
@@ -54,6 +57,7 @@ namespace NHS111.Web.Controllers
             _postCodeAllowedValidator = postCodeAllowedValidator;
             _viewRouter = viewRouter;
             _referralResultBuilder = referralResultBuilder;
+            _recommendedServiceBuilder = recommendedServiceBuilder;
         }
 
         [HttpPost]
@@ -76,7 +80,6 @@ namespace NHS111.Web.Controllers
             if (submitAction == "manualpostcode") return View("ChangePostcode", model);
             var postcodeValidatorResponse = _postCodeAllowedValidator.IsAllowedPostcode(model.CurrentPostcode);
 
-            model.UserInfo.CurrentAddress.IsInPilotArea = postcodeValidatorResponse == PostcodeValidatorResponse.InPathwaysArea;
             if(postcodeValidatorResponse == PostcodeValidatorResponse.InvalidSyntax)
             {
                 ModelState.AddModelError("CurrentPostcode", "Enter a valid postcode.");
@@ -87,24 +90,37 @@ namespace NHS111.Web.Controllers
                 ModelState.AddModelError("CurrentPostcode", "We can't find any services in '" + model.CurrentPostcode +"'. Check the postcode is correct.");
                 return View("../Outcome/ChangePostcode", model);
             }
-            model.UserInfo.CurrentAddress.IsInPilotArea = _postCodeAllowedValidator.IsAllowedPostcode(model.CurrentPostcode) == PostcodeValidatorResponse.InPathwaysArea;
+
+            model.UserInfo.CurrentAddress.IsInPilotArea = postcodeValidatorResponse.IsInPilotAreaForOutcome(model.OutcomeGroup);
             
             if (!model.UserInfo.CurrentAddress.IsInPilotArea)
             {
+                if (model.OutcomeGroup.IsPharmacyGroup)
+                    return View("../Pathway/EmergencyPrescriptionsOutOfArea", model);
+
                 return View("../Outcome/OutOfArea", model);
             }
 
             var outcomeModel = await _outcomeViewModelBuilder.PopulateGroupedDosResults(model, dosSearchTime, null, endpoint);
-            var viewName = _viewRouter.GetViewName(model, ControllerContext);
+            var viewRouter = _viewRouter.Build(outcomeModel, ControllerContext);
 
-            return View(viewName, outcomeModel);
+            return View(viewRouter.ViewName, outcomeModel);
         }
 
         [HttpPost]
         public ActionResult OutcomeWithoutResults(OutcomeViewModel outcomeModel)
         {
-            var viewName = _viewRouter.GetViewName(outcomeModel, ControllerContext);
-            return View(viewName, outcomeModel);
+            var viewRouter = _viewRouter.Build(outcomeModel, ControllerContext);
+            return View(viewRouter.ViewName, outcomeModel);
+        }
+
+        [HttpPost]
+        public ActionResult RecommendedService(OutcomeViewModel outcomeModel)
+        {
+            ModelState.Clear();
+            outcomeModel.HasSeenPreamble = true;
+            var viewRouter = _viewRouter.Build(outcomeModel, ControllerContext);
+            return View(viewRouter.ViewName, outcomeModel);
         }
 
         [HttpPost]
@@ -152,7 +168,7 @@ namespace NHS111.Web.Controllers
 
         public void AutoSelectFirstItkService(OutcomeViewModel model)
         {
-            var service = model.DosCheckCapacitySummaryResult.Success.Services.FirstOrDefault(s => s.OnlineDOSServiceType == OnlineDOSServiceType.Callback);
+            var service = model.DosCheckCapacitySummaryResult.Success.Services.FirstOrDefault(s => s.OnlineDOSServiceType.IsReferral);
 
             if (service != null)
                 model.SelectedServiceId = service.Id.ToString();
@@ -164,7 +180,8 @@ namespace NHS111.Web.Controllers
             if (!ModelState.IsValidField("FindService.CurrentPostcode"))
                 return View(model.CurrentView, model);
 
-            model.UserInfo.CurrentAddress.IsInPilotArea = _postCodeAllowedValidator.IsAllowedPostcode(model.CurrentPostcode) == PostcodeValidatorResponse.InPathwaysArea;
+            var postcodeValidatorResponse = _postCodeAllowedValidator.IsAllowedPostcode(model.CurrentPostcode);
+            model.UserInfo.CurrentAddress.IsInPilotArea = postcodeValidatorResponse.IsInPilotAreaForOutcome(model.OutcomeGroup);
 
             if (!model.UserInfo.CurrentAddress.IsInPilotArea)
             {
@@ -181,7 +198,7 @@ namespace NHS111.Web.Controllers
                 !model.DosCheckCapacitySummaryResult.ResultListEmpty)
             {
                 if (model.OutcomeGroup.Is999NonUrgent && !model.DosCheckCapacitySummaryResult.HasITKServices) {
-                    model.CurrentView = _viewRouter.GetViewName(model, this.ControllerContext);
+                    model.CurrentView = _viewRouter.Build(model, this.ControllerContext).ViewName;
                     return View(model.CurrentView, model);
                 }
 
@@ -195,14 +212,23 @@ namespace NHS111.Web.Controllers
                         return await PersonalDetails(Mapper.Map<PersonalDetailViewModel>(model));
                 }
 
+                if(model.OutcomeGroup.IsUsingRecommendedService)
+                {
+                    var otherServices =
+                        await _recommendedServiceBuilder.BuildRecommendedServicesList(model.DosCheckCapacitySummaryResult.Success.Services);
+                    var otherServicesModel = Mapper.Map<OtherServicesViewModel>(model);
+                    otherServicesModel.OtherServices = otherServices.Skip(1);
+                    return View("~\\Views\\Outcome\\Repeat_Prescription\\RecommendedServiceOtherServices.cshtml", otherServicesModel);
+                }
+
                 return View("~\\Views\\Outcome\\ServiceList.cshtml", model);
             }
 
             if (model.OutcomeGroup.Is999NonUrgent) {
-                model.CurrentView = _viewRouter.GetViewName(model, this.ControllerContext);
+                model.CurrentView = _viewRouter.Build(model, this.ControllerContext).ViewName;
             }
 
-            return View(model.CurrentView, model);
+            return View(model.OutcomeGroup.IsPharmacyGroup ? "~\\Views\\Outcome\\Repeat_Prescription\\RecommendedServiceNotOffered.cshtml" : model.CurrentView, model);
         }
 
         private async Task<DosCheckCapacitySummaryResult> GetServiceAvailability(OutcomeViewModel model, DateTime? overrideDate, bool filterServices, DosEndpoint? endpoint)
@@ -233,7 +259,7 @@ namespace NHS111.Web.Controllers
 
             var postcodeValidator = _postCodeAllowedValidator.IsAllowedPostcode(model.CurrentPostcode);
 
-            model.UserInfo.CurrentAddress.IsInPilotArea = postcodeValidator == PostcodeValidatorResponse.InPathwaysArea;
+            model.UserInfo.CurrentAddress.IsInPilotArea = postcodeValidator.IsInPilotAreaForOutcome(model.OutcomeGroup);
 
             if (postcodeValidator == PostcodeValidatorResponse.InvalidSyntax)
             {
@@ -320,14 +346,15 @@ namespace NHS111.Web.Controllers
             if (availableServices.ContainsService(model.SelectedService))
             {
                 var outcomeViewModel = ConvertPatientInformantDateToUserinfo(model.PatientInformantDetails, model);
-                outcomeViewModel = await _outcomeViewModelBuilder.ItkResponseBuilder(outcomeViewModel);
-                var result = _referralResultBuilder.Build(outcomeViewModel);
+                var itkConfirmationViewModel = await _outcomeViewModelBuilder.ItkResponseBuilder(outcomeViewModel);
+                var result = _referralResultBuilder.Build(itkConfirmationViewModel);
                 return View(result.ViewName, result);
             }
-
+            
             var unavailableResult = _referralResultBuilder.BuildServiceUnavailableResult(model, availableServices);
             return View(unavailableResult.ViewName, unavailableResult);
         }
+
 
         [HttpPost]
         public async Task<ActionResult> ConfirmAddress(string longlat, ConfirmLocationViewModel model)
@@ -389,10 +416,12 @@ namespace NHS111.Web.Controllers
             }
 
             var outcome = await _outcomeViewModelBuilder.DispositionBuilder(model);
-            var viewName = _viewRouter.GetViewName(outcome, ControllerContext);
-            model.UserInfo.CurrentAddress.IsInPilotArea = _postCodeAllowedValidator.IsAllowedPostcode(model.CurrentPostcode) == PostcodeValidatorResponse.InPathwaysArea;
+            var viewRouter = _viewRouter.Build(outcome, ControllerContext);
 
-            return View(viewName, outcome);
+            var postcodeValidatorResponse = _postCodeAllowedValidator.IsAllowedPostcode(model.CurrentPostcode);
+            model.UserInfo.CurrentAddress.IsInPilotArea = postcodeValidatorResponse.IsInPilotAreaForOutcome(model.OutcomeGroup);
+
+            return View(viewRouter.ViewName, outcome);
 
         }
     }

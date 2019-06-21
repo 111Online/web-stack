@@ -10,11 +10,9 @@ namespace NHS111.Business.Transformers
 {
     public class CareAdviceTransformer : ICareAdviceTransformer
     {
-        public string AsQuestionWithAnswersList(string s)
+        public string AsQuestionWithAnswersList(IEnumerable<CareAdvice> careAdvices)
         {
-            var careAdvice = JsonConvert.DeserializeObject<IEnumerable<CareAdvice>>(s);
-
-            var questionWithAnswersList = careAdvice.Select(c => new QuestionWithAnswers()
+            var questionWithAnswersList = careAdvices.Select(c => new QuestionWithAnswers()
             {
                 Question = new Question
                 {
@@ -31,6 +29,6 @@ namespace NHS111.Business.Transformers
 
     public interface ICareAdviceTransformer
     {
-        string AsQuestionWithAnswersList(string s);
+        string AsQuestionWithAnswersList(IEnumerable<CareAdvice> careAdvices);
     }
 }

@@ -17,10 +17,9 @@
 
 <div class="measure">
     <div class="content-block">
-        <h1 class="heading--large">111 online is not yet in this area</h1>
-        <p>It will be available in more places in England this year.</p>
-        <p>Call 111 if you need medical help.</p>
-        @using (Html.BeginForm("Home", "Location", FormMethod.Get))
+        <h1 class="heading--large">111 online is not in this area</h1>
+        <p>It is only available in England.</p>
+        @using (Html.BeginForm("ChangePostcode", "Location", FormMethod.Get))
         {
             @Html.HiddenFor(m => m.SessionId)
             @Html.HiddenFor(m => m.Campaign)

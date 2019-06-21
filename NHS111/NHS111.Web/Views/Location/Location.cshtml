@@ -1,0 +1,105 @@
+﻿@using NHS111.Models.Models.Web
+@{
+    Layout = "~/Views/Shared/_LayoutNhsUK.cshtml";
+}
+@inherits NHS111.Web.Views.Shared.DirectLinkingView<LocationViewModel>
+@section Title {NHS 111 Online}
+
+@{ ViewBag.Description = "Answer questions about your main symptom on 111.nhs.uk and get NHS medical help near you."; }
+@section HeadTop {
+    <script>
+        dataLayer = [
+            {
+                'virtualPageUrl': 'Location',
+                'virtualPageTitle': 'Location'
+            }];
+    </script>
+}
+
+<h2 class="heading--large">Where are you now?</h2>
+<div class="callout callout--info measure">
+    <p>We need to know where you are so we can find services to help.</p>
+</div>
+
+@using (Html.BeginForm("Find", "Location", FormMethod.Post))
+{
+<div class="form-group">
+    @Html.LabelFor(m => m.CurrentPostcode, "Postcode")
+    @Html.ValidationMessageFor(m => m.CurrentPostcode, "Please enter your current postcode")
+    @Html.ValidationMessage("invalid-postcode")
+    @Html.TextBoxFor(m => m.CurrentPostcode, new { @required = true, style = "width: 8em; display: inline-block; margin-right: 10px;" })
+    <button class="js-find-location button--link" type="button" style="display: none">Use my current location</button>
+
+    @Html.HiddenFor(m => m.SessionId)
+    @Html.HiddenFor(m => m.Campaign)
+    @Html.HiddenFor(m => m.FilterServices)
+    @Html.HiddenFor(m => m.PathwayNo)
+</div>
+
+    <button type="submit" class="button--next">Next</button>
+}
+
+@Html.Partial("_PageLoadingIndicator")
+<script type="text/javascript">
+    $(document).ready(function () {
+        if (navigator.geolocation) $('.js-find-location').css('display', 'inline-block');
+    })
+
+    $(".js-find-location").on("click", function () {
+        startPageLoadingIndicator('Searching for your current location ...');
+        navigator.geolocation.getCurrentPosition(function (pos) {
+            var coords = pos.coords.longitude + "," + pos.coords.latitude;
+            post('/Location/ConfirmAddress', { "longlat": coords, "SessionId": "@Model.SessionId", "Campaign": "@Model.Campaign", "FilterServices": "@Model.FilterServices", "PathwayNo": "@Model.PathwayNo" });
+        }, showError);
+    });
+
+    function showError() {
+        stopPageLoadingIndicator();
+        if ($(".js-location-error").length == 0) $(".js-find-location").after('<p class="error-message js-location-error">We were unable to find your location. Please enter your postcode.</p>');
+    }
+
+    function post(path, params, method) {
+        method = method || "post";
+        var form = document.createElement("form");
+        form.setAttribute("method", method);
+        form.setAttribute("action", path);
+
+        for(var key in params) {
+            if(params.hasOwnProperty(key)) {
+                var hiddenField = document.createElement("input");
+                hiddenField.setAttribute("type", "hidden");
+                hiddenField.setAttribute("name", key);
+                hiddenField.setAttribute("value", params[key]);
+
+                form.appendChild(hiddenField);
+            }
+        }
+
+        document.body.appendChild(form);
+        form.submit();
+    }
+
+    $(document).ready(function() {
+        $.validator.setDefaults({
+            showErrors: function() {
+                var valid = this.validElements()
+                $(valid).siblings(".field-validation-error").removeClass("field-validation-error")
+                    .addClass("field-validation-valid");
+                $(valid).parent().removeClass("form-group-error");
+                $(valid).removeAttr("aria-invalid").removeAttr("role");
+
+
+                var invalid = this.invalidElements();
+                $(invalid).siblings(".field-validation-valid").removeClass("field-validation-valid")
+                    .addClass("field-validation-error");
+                $(invalid).parent().addClass("form-group-error");
+                $(invalid).attr("aria-invalid", true).attr("role", "alert");
+            }
+        });
+
+        $("button[type='submit']").one("click",
+            function(e) {
+                $(this).valid();
+            });
+    });
+</script>

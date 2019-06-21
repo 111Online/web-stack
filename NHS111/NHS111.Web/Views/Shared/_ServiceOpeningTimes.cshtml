@@ -6,15 +6,19 @@
 
 @if (Model.ServiceClosed || Model.OpenAllHours)
 {
-    <p class="card__details">@WebUtility.HtmlDecode(Model.CurrentStatus)</p>
+    <p class="card__details--times" style="padding-left: 0;">@WebUtility.HtmlDecode(Model.CurrentStatus)</p>
+}
+else if (Model.IsOpen && Model.OnlineDOSServiceType == OnlineDOSServiceType.Callback)
+{
+    <span class="card__details--times" style="padding-left: 0;">Open until @WebUtility.HtmlDecode(DateTime.Today.Add(Model.CurrentRotaSession.ClosingTime).ToString("h:mm tt").ToLower())</span>
 }
 else
 {
     <span class="card__details">@WebUtility.HtmlDecode(Model.NextOpeningTimePrefixMessage)</span>
     <div class="card__details--times">
         @foreach (var session in Model.NextOpenDayRotaSessions)
-        {
-            <span>@session.OpeningTime.ToString("hh\\:mm") until @session.ClosingTime.ToString("hh\\:mm")</span>
-        }
+    {
+       <span>@DateTime.Today.Add(session.OpeningTime).ToString("h:mmtt").ToLower() until @DateTime.Today.Add(session.ClosingTime).ToString("h:mmtt").ToLower()</span>
+    }
     </div>
 }

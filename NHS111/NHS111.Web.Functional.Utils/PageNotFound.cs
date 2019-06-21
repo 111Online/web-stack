@@ -20,9 +20,7 @@ namespace NHS111.Web.Functional.Utils
 
         public void Load()
         {
-            Uri uri = new Uri(Driver.Url);
-
-            Driver.Navigate().GoToUrl(uri.Scheme + "://" + uri.Host + "/this_doesnt_exist" + uri.Query);
+            Driver.Navigate().GoToUrl(_baseUrl + "/this_doesnt_exist");
         }
 
         public void Verify()

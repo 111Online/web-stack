@@ -1,13 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net.Http;
-using System.Threading.Tasks;
-using System.Web;
+﻿using System.Threading.Tasks;
 using System.Web.Http;
+using System.Web.Http.Results;
 using NHS111.Domain.Repository;
+using NHS111.Models.Models.Domain;
 using NHS111.Utils.Attributes;
-using NHS111.Utils.Extensions;
 
 namespace NHS111.Domain.Api.Controllers
 {
@@ -23,9 +19,10 @@ namespace NHS111.Domain.Api.Controllers
 
         [HttpGet]
         [Route("version/info")]
-        public async Task<HttpResponseMessage> GetVersionInfo()
+        public async Task<JsonResult<VersionInfo>> GetVersionInfo()
         {
-            return await _versionRepository.GetInfo().AsJson().AsHttpResponse();
+            var versionInfo = await _versionRepository.GetInfo();
+            return Json(versionInfo);
         }
     }
 }

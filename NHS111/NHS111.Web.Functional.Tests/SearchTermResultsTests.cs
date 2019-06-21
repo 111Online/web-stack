@@ -6,10 +6,10 @@ namespace NHS111.Web.Functional.Tests
     [TestFixture]
     public class SearchTermResultsTests : BaseTests
     {
-        [TestCase("tummy pain", "Stomach Pain")] //abdo pain
+        [TestCase("tummy pain", "Stomach ache or pain")] //abdo pain
         [TestCase("pain in my tooth", "Toothache, swelling and other dental problems")] //dental
         [TestCase("diorea", "Diarrhoea and vomiting")] // mispelling
-        [TestCase("stomach ache", "Stomach Pain")] //synonym
+        [TestCase("stomach ache", "Stomach ache or pain")] //synonym
         [TestCase("Head ache", "Headache or migraine")] //synonym
         [TestCase("diarhoea", "Diarrhoea")] //misspelling not on list
         [TestCase("vomitting", "Vomiting or nausea")] //misspelling
@@ -26,6 +26,23 @@ namespace NHS111.Web.Functional.Tests
             var searchPage = TestScenerios.LaunchSearchScenerio(Driver, TestScenerioSex.Male, 33);
             searchPage.SearchByTerm(term);
             searchPage.VerifyTermHits(result, 5);
+        }
+
+        /*
+         * This test will rely on services being in the Pharmacy Whitelist from CCG Service
+         */
+        [TestCase]
+        public void SearchTermResults_EmergencyPrescriptionsPilotArea()
+        {
+            // First check a postcode that should show EP does
+            var searchPagePilot = TestScenerios.LaunchSearchScenerio(Driver, TestScenerioSex.Male, 33, "LS17 7NZ");
+            searchPagePilot.SearchByTerm("emergency prescription");
+            searchPagePilot.VerifyTermHits("Emergency Prescription", 1);
+            
+            // Then check a postcode that shouldn't show EP doesn't
+            var searchPageNotPilot = TestScenerios.LaunchSearchScenerio(Driver, TestScenerioSex.Male, 33, "PO22 8PB");
+            searchPageNotPilot.SearchByTerm("emergency prescription");
+            searchPageNotPilot.VerifyTermNoHits("PW1827");
         }
     }
 }

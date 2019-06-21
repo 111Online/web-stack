@@ -219,6 +219,7 @@
     <Compile Include="Controllers\HelpController.cs" />
     <Compile Include="Controllers\LocationController.cs" />
     <Compile Include="Controllers\OutcomeController.cs" />
+    <Compile Include="Controllers\PathwayController.cs" />
     <Compile Include="Controllers\QuestionController.cs" />
     <Compile Include="Controllers\JustToBeSafeController.cs" />
     <Compile Include="Controllers\SearchController.cs" />
@@ -252,7 +253,6 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="manifest.json" />
-    <Content Include="start.ps1" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -324,10 +324,10 @@
     <Content Include="Views\Outcome\PersonalDetails.cshtml" />
     <Content Include="Views\Shared\_CommonHiddenFieldsDosViewModel.cshtml" />
     <Content Include="Views\Shared\_CommonHiddenFieldsAddressInfoViewModel.cshtml" />
-    <Content Include="Views\Outcome\Confirmation.cshtml" />
+    <Content Include="Views\Outcome\Confirmation\default\Confirmation.cshtml" />
     <Content Include="Views\Outcome\ServiceDetails.cshtml" />
     <Content Include="Views\Outcome\ServiceList.cshtml" />
-    <Content Include="Views\Outcome\ServiceBookingFailure.cshtml" />
+    <Content Include="Views\Outcome\Confirmation\default\ServiceBookingFailure.cshtml" />
     <Content Include="Views\Outcome\DeadEndJump.cshtml" />
     <Content Include="Views\Shared\_CareAdvice.cshtml" />
     <Content Include="Views\Outcome\Home_Care.cshtml" />
@@ -381,12 +381,7 @@
     <Content Include="Views\Search\SearchResults.cshtml" />
     <Content Include="Views\Search\Categories.cshtml" />
     <Content Include="Views\Shared\_SearchBox.cshtml" />
-    <None Include="Dockerfile" />
-    <None Include=".dockerignore">
-      <DependentUpon>Dockerfile</DependentUpon>
-    </None>
     <Content Include="Views\Shared\_CompatibilityBanner.cshtml" />
-    <Content Include="start.ps1" />
     <Content Include="Views\Shared\_ServiceOpeningTimes.cshtml" />
     <Content Include="Views\Shared\_CommonHiddenFieldsPageDataViewModel.cshtml" />
     <Content Include="Views\Outcome\ChangePostcode.cshtml" />
@@ -396,7 +391,6 @@
     <Content Include="Views\Search\NoResults.cshtml" />
     <Content Include="Views\Shared\_ExternalInformation.cshtml" />
     <Content Include="Views\Search\Pathways.cshtml" />
-    <Content Include="Views\Question\Info.cshtml" />
     <Content Include="Views\Outcome\Call_999_cat_2.cshtml" />
     <Content Include="Views\Outcome\Call_999_cat_3.cshtml" />
     <Content Include="Views\Outcome\Call_999_cat_4.cshtml" />
@@ -416,11 +410,39 @@
     <Content Include="Views\Shared\_ServiceUnavailable.cshtml" />
     <Content Include="Views\Shared\_AccidentAndEmergencyServiceUnavailableReferral.cshtml" />
     <Content Include="Views\Shared\_Call999ServiceUnavailableReferral.cshtml" />
-    <Content Include="Views\Location\Home.cshtml" />
+    <Content Include="Views\Location\Location.cshtml" />
     <Content Include="Views\Location\OutOfArea.cshtml" />
     <Content Include="Views\Location\ConfirmLocation.cshtml" />
     <Content Include="Views\Location\AskNHS.cshtml" />
     <Content Include="Views\Location\Babylon.cshtml" />
+    <Content Include="Views\Outcome\Repeat_Prescription\RecommendedService.cshtml" />
+    <Content Include="Views\Shared\_rs_OtherServices.cshtml" />
+    <Content Include="Views\Shared\_rs_CareAdvice.cshtml" />
+    <Content Include="Views\Shared\_rs_WorseningAdvice.cshtml" />
+    <Content Include="Views\Shared\Elements\_ActionLink.cshtml" />
+    <Content Include="Views\Shared\Elements\_ActionButton.cshtml" />
+    <Content Include="Views\Shared\_rs_PhysicalLocationAppointment.cshtml" />
+    <Content Include="Views\Shared\_rs_ChangePostcodeLink.cshtml" />
+    <Content Include="Views\Shared\_rs_Recommeded_DOS_Service.cshtml" />
+    <Content Include="Views\Shared\_rs_goto_type.cshtml" />
+    <Content Include="Views\Shared\_rs_phone_type.cshtml" />
+    <Content Include="Views\Shared\_rs_callback_type.cshtml" />
+    <Content Include="Views\Outcome\Confirmation\Repeat_Prescription\Confirmation.cshtml" />
+    <Content Include="Views\Outcome\Confirmation\Repeat_Prescription\ServiceBookingFailure.cshtml" />
+    <Content Include="Views\Outcome\GP_Pharmacy.cshtml" />
+    <Content Include="Views\Outcome\Repeat_Prescription\Outcome_Preamble.cshtml" />
+    <Content Include="Views\Shared\_CommonHiddenFieldsRecommendedServiceViewModel.cshtml" />
+    <Content Include="Views\Outcome\Repeat_Prescription\RecommendedServiceNotOffered.cshtml" />
+    <Content Include="Views\Location\Home.cshtml" />
+    <Content Include="Views\Pathway\EmergencyPrescriptionsOutOfArea.cshtml" />
+    <Content Include="Views\Shared\_rs_refer_ring_and_go.cshtml" />
+    <Content Include="Views\Question\Page.cshtml" />
+    <Content Include="Views\Outcome\Repeat_Prescription\RecommendedServiceOtherServices.cshtml" />
+    <Content Include="Views\Shared\Repeat_Prescription\_Refer_And_Go.cshtml" />
+    <Content Include="Views\Shared\Repeat_Prescription\_Callback.cshtml" />
+    <Content Include="Views\Outcome\Confirmation\Repeat_Prescription\DuplicateReferral.cshtml" />
+    <Content Include="Views\Outcome\Confirmation\Repeat_Prescription\ServiceUnavailable.cshtml" />
+    <Content Include="Views\Outcome\No_Further_Action.cshtml" />
     <None Include="Web.Development.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

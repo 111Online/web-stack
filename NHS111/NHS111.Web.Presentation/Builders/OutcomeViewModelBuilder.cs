@@ -2,49 +2,47 @@
 using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
-using System.Net.Http;
-using System.Text;
 using System.Threading.Tasks;
 using System.Web;
 using AutoMapper;
-using Newtonsoft.Json;
 using NHS111.Models.Models.Domain;
 using NHS111.Models.Models.Web;
 using NHS111.Models.Models.Web.DosRequests;
 using NHS111.Models.Models.Web.FromExternalServices;
 using NHS111.Models.Models.Web.ITK;
-using NHS111.Models.Models.Web.Logging;
-using NHS111.Utils.Filters;
-using NHS111.Utils.Helpers;
 using NHS111.Utils.Logging;
 using NHS111.Utils.Parser;
+using NHS111.Utils.RestTools;
 using NHS111.Web.Presentation.Logging;
+using RestSharp;
 using IConfiguration = NHS111.Web.Presentation.Configuration.IConfiguration;
 
 namespace NHS111.Web.Presentation.Builders
 {
-    using System.Diagnostics;
     using NHS111.Models.Mappers.WebMappings;
 
-    public class OutcomeViewModelBuilder : IOutcomeViewModelBuilder
+    public class OutcomeViewModelBuilder : BaseBuilder, IOutcomeViewModelBuilder
     {
         private readonly IDOSBuilder _dosBuilder;
         private readonly ICareAdviceBuilder _careAdviceBuilder;
-        private readonly IRestfulHelper _restfulHelper;
+        private readonly IRestClient _restClient;
+        private readonly IRestClient _restClientPostcodeApi;
+        private readonly IRestClient _restClientItkDispatcherApi;
         private readonly IConfiguration _configuration;
         private readonly IMappingEngine _mappingEngine;
         private readonly IKeywordCollector _keywordCollector;
         private readonly IJourneyHistoryWrangler _journeyHistoryWrangler;
         private readonly ISurveyLinkViewModelBuilder _surveyLinkViewModelBuilder;
         private readonly IAuditLogger _auditLogger;
+        private readonly IRecommendedServiceBuilder _recommendedServiceBuilder;
 
 
 
-        public OutcomeViewModelBuilder(ICareAdviceBuilder careAdviceBuilder, IRestfulHelper restfulHelper, IConfiguration configuration, IMappingEngine mappingEngine, IKeywordCollector keywordCollector,
-            IJourneyHistoryWrangler journeyHistoryWrangler, ISurveyLinkViewModelBuilder surveyLinkViewModelBuilder, IAuditLogger auditLogger, IDOSBuilder dosBuilder)
+        public OutcomeViewModelBuilder(ICareAdviceBuilder careAdviceBuilder, IRestClient restClient, IRestClient restClientPostcodeApi, IRestClient restClientItkDispatcherApi, IConfiguration configuration, IMappingEngine mappingEngine, IKeywordCollector keywordCollector,
+            IJourneyHistoryWrangler journeyHistoryWrangler, ISurveyLinkViewModelBuilder surveyLinkViewModelBuilder, IAuditLogger auditLogger, IDOSBuilder dosBuilder, IRecommendedServiceBuilder recommendedServiceBuilder)
         {
             _careAdviceBuilder = careAdviceBuilder;
-            _restfulHelper = restfulHelper;
+            _restClient = restClient;
             _configuration = configuration;
             _mappingEngine = mappingEngine;
             _keywordCollector = keywordCollector;
@@ -52,12 +50,19 @@ namespace NHS111.Web.Presentation.Builders
             _surveyLinkViewModelBuilder = surveyLinkViewModelBuilder;
             _auditLogger = auditLogger;
             _dosBuilder = dosBuilder;
+            _restClientPostcodeApi = restClientPostcodeApi;
+            _restClientItkDispatcherApi = restClientItkDispatcherApi;
+            _recommendedServiceBuilder = recommendedServiceBuilder;
         }
 
         public async Task<List<AddressInfoViewModel>> SearchPostcodeBuilder(string input)
         {
             input = HttpUtility.UrlDecode(input);
-            var listPaf = JsonConvert.DeserializeObject<List<PAF>>(await _restfulHelper.GetAsync(string.Format(_configuration.PostcodeSearchByIdApiUrl, input)));
+            var url = string.Format(_configuration.PostcodeSearchByIdUrl, input);
+            var listPaf = await _restClientPostcodeApi.ExecuteTaskAsync<List<PAF>>(new JsonRestRequest(url, Method.GET));
+
+            CheckResponse(listPaf);
+
             return _mappingEngine.Mapper.Map<List<AddressInfoViewModel>>(listPaf);
         }
 
@@ -122,11 +127,10 @@ namespace NHS111.Web.Presentation.Builders
             }
 
             model = await dosTask;
-
+            
             if (OutcomeGroup.Call999Cat2.Equals(model.OutcomeGroup) || OutcomeGroup.Call999Cat3.Equals(model.OutcomeGroup))
             {
                 model.CareAdviceMarkers = model.State.Keys.Where(key => key.StartsWith("Cx"));
-
             }
 
             if (model.Is999Callback)
@@ -136,7 +140,7 @@ namespace NHS111.Web.Presentation.Builders
             model.WorseningCareAdvice = await worseningTask;
             model.CareAdvices = await careAdvicesTask;
             model.SurveyLink = await surveyTask;
-
+            
             return model;
         }
 
@@ -150,51 +154,55 @@ namespace NHS111.Web.Presentation.Builders
 
         private async Task<SymptomDiscriminator> GetSymptomDiscriminator(string symptomDiscriminatorCode)
         {
-
-            var symptomDiscriminatorResponse = await
-                _restfulHelper.GetResponseAsync(
-                    string.Format(_configuration.GetBusinessApiSymptomDiscriminatorUrl(symptomDiscriminatorCode)));
-            if (!symptomDiscriminatorResponse.IsSuccessStatusCode)
+            var url = string.Format(_configuration.GetBusinessApiSymptomDiscriminatorUrl(symptomDiscriminatorCode));
+            var symptomDiscriminatorResponse = await _restClient.ExecuteTaskAsync<SymptomDiscriminator>(new JsonRestRequest(url, Method.GET));
+            
+            if (!symptomDiscriminatorResponse.IsSuccessful)
                 throw new Exception(string.Format("A problem occured getting the symptom discriminator at {0}. {1}",
                     _configuration.GetBusinessApiSymptomDiscriminatorUrl(symptomDiscriminatorCode),
-                    await symptomDiscriminatorResponse.Content.ReadAsStringAsync()));
+                    symptomDiscriminatorResponse.ErrorMessage));
 
-            return
-                JsonConvert.DeserializeObject<SymptomDiscriminator>(await symptomDiscriminatorResponse.Content.ReadAsStringAsync());
+            return symptomDiscriminatorResponse.Data;
         }
 
         private async Task<string> GetSymptomGroup(string pathways)
         {
-            RestfulHelper restfulHelper = new RestfulHelper();
+            var url = string.Format(_configuration.GetBusinessApiPathwaySymptomGroupUrl(pathways));
+            var symptomGroupResponse = await _restClient.ExecuteTaskAsync<string>(new JsonRestRequest(url, Method.GET));
 
-            var symptomGroupResponse = await
-                restfulHelper.GetResponseAsync(string.Format(_configuration.GetBusinessApiPathwaySymptomGroupUrl(pathways)));
-            if (!symptomGroupResponse.IsSuccessStatusCode)
+            if (!symptomGroupResponse.IsSuccessful)
                 throw new Exception(string.Format("A problem occured getting the symptom group for {0}.", pathways));
 
-            return
-                await symptomGroupResponse.Content.ReadAsStringAsync();
+            return symptomGroupResponse.Data;
         }
 
-        public async Task<OutcomeViewModel> ItkResponseBuilder(OutcomeViewModel model)
+        public async Task<ITKConfirmationViewModel> ItkResponseBuilder(OutcomeViewModel model)
         {
             var itkRequestData = CreateItkDispatchRequest(model);
             await _auditLogger.LogItkRequest(model, itkRequestData);
             var response = await SendItkMessage(itkRequestData);
             await _auditLogger.LogItkResponse(model, response);
-            model.ItkDuplicate = response.StatusCode == System.Net.HttpStatusCode.Conflict;
-            if (response.IsSuccessStatusCode)
+            var itkResponseModel = _mappingEngine.Mapper.Map<OutcomeViewModel, ITKConfirmationViewModel>(model);
+
+            itkResponseModel.ItkDuplicate = IsDuplicateResponse(response);
+            itkResponseModel.ItkSendSuccess = response.IsSuccessful;
+            if (response.IsSuccessful || IsDuplicateResponse(response))
             {
-                model.ItkSendSuccess = true;
-                var journey = JsonConvert.DeserializeObject<Journey>(model.JourneyJson);
+                itkResponseModel.PatientReference =  response.Content.Replace("\"","");
             }
+          
             else
             {
-                model.ItkSendSuccess = false;
-                Log4Net.Error("Error sending ITK message : Status Code -" + response.StatusCode.ToString() +
-                              " Content -" + response.Content.ReadAsStringAsync());
+                itkResponseModel.ItkSendSuccess = false;
+                Log4Net.Error("Error sending ITK message : Status Code -" + response.StatusCode +
+                              " Content -" + response.Content);
             }
-            return model;
+            return itkResponseModel;
+        }
+
+        private static bool IsDuplicateResponse(IRestResponse response)
+        {
+            return response.StatusCode == System.Net.HttpStatusCode.Conflict;
         }
 
         public async Task<OutcomeViewModel> PopulateGroupedDosResults(OutcomeViewModel model, DateTime? overrideDate, bool? overrideFilterServices, DosEndpoint? endpoint)
@@ -215,7 +223,10 @@ namespace NHS111.Web.Presentation.Builders
             model.DosCheckCapacitySummaryResult.ServicesUnavailable = model.DosCheckCapacitySummaryResult.ResultListEmpty;
 
             if (!model.DosCheckCapacitySummaryResult.ResultListEmpty)
+            {
                 model.GroupedDosServices = _dosBuilder.FillGroupedDosServices(model.DosCheckCapacitySummaryResult.Success.Services);
+                model.RecommendedService = await _recommendedServiceBuilder.BuildRecommendedService(model.DosCheckCapacitySummaryResult.Success.FirstService);
+            }
 
             _surveyLinkViewModelBuilder.AddServiceInformation(model, model.SurveyLink);
 
@@ -238,13 +249,11 @@ namespace NHS111.Web.Presentation.Builders
             return model;
         }
 
-        private async Task<HttpResponseMessage> SendItkMessage(ITKDispatchRequest itkRequestData)
+        private async Task<IRestResponse> SendItkMessage(ITKDispatchRequest itkRequestData)
         {
-            var request = new HttpRequestMessage
-            {
-                Content = new StringContent(JsonConvert.SerializeObject(itkRequestData), Encoding.UTF8, "application/json")
-            };
-            var response = await _restfulHelper.PostAsync(_configuration.ItkDispatchApiUrl, request);
+            var request = new JsonRestRequest(_configuration.ItkDispatcherApiSendItkMessageUrl, Method.POST);
+            request.AddJsonBody(itkRequestData);
+            var response = await _restClientItkDispatcherApi.ExecuteTaskAsync(request);
             return response;
         }
 
@@ -273,7 +282,7 @@ namespace NHS111.Web.Presentation.Builders
         Task<OutcomeViewModel> DispositionBuilder(OutcomeViewModel model);
         Task<OutcomeViewModel> DispositionBuilder(OutcomeViewModel model, DosEndpoint? endpoint);
         Task<OutcomeViewModel> PersonalDetailsBuilder(OutcomeViewModel model);
-        Task<OutcomeViewModel> ItkResponseBuilder(OutcomeViewModel model);
+        Task<ITKConfirmationViewModel> ItkResponseBuilder(OutcomeViewModel model);
         Task<OutcomeViewModel> DeadEndJumpBuilder(OutcomeViewModel model);
         Task<OutcomeViewModel> PathwaySelectionJumpBuilder(OutcomeViewModel model);
         Task<OutcomeViewModel> PopulateGroupedDosResults(OutcomeViewModel model, DateTime? overrideDate, bool? overrideFilterServices, DosEndpoint? endpoint);

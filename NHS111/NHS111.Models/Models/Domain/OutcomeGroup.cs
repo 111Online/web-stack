@@ -1,9 +1,11 @@
 ﻿
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace NHS111.Models.Models.Domain {
     using Newtonsoft.Json;
+    using System.Linq;
 
     public class OutcomeGroup : IEquatable<OutcomeGroup>
     {
@@ -58,9 +60,15 @@ namespace NHS111.Models.Models.Domain {
 
         public static OutcomeGroup GP = new OutcomeGroup { Id = "SP_GP", Text = "SP_GP", DefaultTitle = "Based on your answers, we recommend you speak to a healthcare service", Label = "Healthcare services" };
 
-        public static OutcomeGroup[] PrePopulatedDosResultsOutcomeGroups = new OutcomeGroup[] {Dental, ItkPrimaryCare, AccidentAndEmergency, ClinicianCallBack, Call999Cat3, Call999Cat4};
+        public static OutcomeGroup RepeatPrescription = new OutcomeGroup { Id = "Repeat_Prescription", Text = "Repeat_Prescription", DefaultTitle = "Where to go for help", Label = "Repeat Prescription", PostcodeFirst = true, ITK = true };
+
+        public static OutcomeGroup NoFurtherAction = new OutcomeGroup { Id = "No_Further_Action", Text = "No_Further_Action", DefaultTitle = "No further action required", Label = "No further action", PostcodeFirst = true, ITK = false };
+
+        public static OutcomeGroup[] PrePopulatedDosResultsOutcomeGroups = new OutcomeGroup[] {Dental, ItkPrimaryCare, AccidentAndEmergency, ClinicianCallBack, Call999Cat3, Call999Cat4, RepeatPrescription };
         public static OutcomeGroup[] DosSearchOutcomesGroups = new OutcomeGroup[] { AccidentAndEmergency, AccidentAndEmergencySexualAssault, Optician, Pharmacy, GumClinic, Dental, EmergencyDental, Midwife, ItkPrimaryCare, ClinicianCallBack };
-     
+        public static OutcomeGroup[] UsingRecommendedServiceJourney = new[] { RepeatPrescription };
+        public static OutcomeGroup[] UsingOutcomePreamble = new[] { RepeatPrescription };
+
         public static readonly Dictionary<string, OutcomeGroup> OutcomeGroups = new Dictionary<string, OutcomeGroup>()
         {
             { ClinicianCallBack.Id, ClinicianCallBack},
@@ -78,7 +86,9 @@ namespace NHS111.Models.Models.Domain {
             { Dental.Id, Dental },
             { EmergencyDental.Id, EmergencyDental },
             { Midwife.Id, Midwife },
-            { GP.Id, GP }
+            { GP.Id, GP },
+            { RepeatPrescription.Id, RepeatPrescription },
+            { NoFurtherAction.Id, NoFurtherAction }
         };
 
         public override bool Equals(object obj) {
@@ -129,6 +139,21 @@ namespace NHS111.Models.Models.Domain {
 
         public bool IsEDCallback {
             get { return this.Equals(OutcomeGroup.AccidentAndEmergency); }
+        }
+
+        public bool IsPharmacyGroup
+        {
+            get { return this.Equals(OutcomeGroup.RepeatPrescription); }
+        }
+
+        public bool IsUsingRecommendedService
+        {
+            get { return UsingRecommendedServiceJourney.Contains(this); }
+        }
+
+        public bool RequiresOutcomePreamble(bool hasViewed)
+        {
+            return UsingOutcomePreamble.Contains(this) && !hasViewed;
         }
     }
 }

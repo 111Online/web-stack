@@ -2,7 +2,7 @@
 @using NHS111.Models.Models.Web.FromExternalServices
 @model  OutcomeViewModel
 @{
-    var services = Model.GroupedDosServices.First(s => s.OnlineDOSServiceType == OnlineDOSServiceType.Callback).Services;
+    var services = Model.GroupedDosServices.First(s => s.OnlineDOSServiceType.IsReferral).Services;
 }
 
 <section class="callout callout--info">

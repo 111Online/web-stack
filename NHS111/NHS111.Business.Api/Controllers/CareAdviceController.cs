@@ -1,12 +1,12 @@
-﻿using System.Net.Http;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Web.Http;
+using System.Web.Http.Results;
 using Newtonsoft.Json;
 using NHS111.Business.Services;
 using NHS111.Models.Models.Domain;
 using NHS111.Utils.Attributes;
 using NHS111.Utils.Cache;
-using NHS111.Utils.Extensions;
 
 namespace NHS111.Business.Api.Controllers
 {
@@ -23,7 +23,7 @@ namespace NHS111.Business.Api.Controllers
 
         [HttpGet]
         [Route("pathways/care-advice/{age}/{gender}")]
-        public async Task<HttpResponseMessage> GetCareAdvice(int age, string gender, [FromUri]string markers)
+        public async Task<JsonResult<IEnumerable<CareAdvice>>> GetCareAdvice(int age, string gender, [FromUri]string markers)
         {
 #if !DEBUG
                 var cacheKey = string.Format("CareAdvice-{0}-{1}-{2}", age, gender, markers);
@@ -31,22 +31,22 @@ namespace NHS111.Business.Api.Controllers
                 var cacheValue = await _cacheManager.Read(cacheKey);
                 if (!string.IsNullOrEmpty(cacheValue))
                 {
-                    return cacheValue.AsHttpResponse();
+                    return Json(JsonConvert.DeserializeObject<IEnumerable<CareAdvice>>(cacheValue));
                 }
 #endif
 
             markers = markers ?? string.Empty;
-            var response = await _careAdviceService.GetCareAdvice(age, gender, markers.Split(',')).AsHttpResponse();
-          
-            #if !DEBUG  
-                _cacheManager.Set(cacheKey, response.Content.ReadAsStringAsync().Result);
+            var careAdvice = await _careAdviceService.GetCareAdvice(age, gender, markers.Split(','));
+            
+           #if !DEBUG  
+                _cacheManager.Set(cacheKey, JsonConvert.SerializeObject(careAdvice));
             #endif
-            return response;
+            return Json(careAdvice);
         }
 
         [HttpPost]
         [Route("pathways/care-advice/{dxCode}/{ageCategory}/{gender}")]
-        public async Task<HttpResponseMessage> GetCareAdvice(string dxCode, string ageCategory, string gender, [FromBody]string keywords)
+        public async Task<JsonResult<IEnumerable<CareAdvice>>> GetCareAdvice(string dxCode, string ageCategory, string gender, [FromBody]string keywords)
         {
 #if !DEBUG
                 var cacheKey = string.Format("CareAdvice-{0}-{1}-{2}-{3}", dxCode, ageCategory, gender, keywords.Replace(' ', '_'));
@@ -54,16 +54,16 @@ namespace NHS111.Business.Api.Controllers
                 var cacheValue = await _cacheManager.Read(cacheKey);
                 if (!string.IsNullOrEmpty(cacheValue))
                 {
-                    return cacheValue.AsHttpResponse();
+                    return Json(JsonConvert.DeserializeObject<IEnumerable<CareAdvice>>(cacheValue));
                 }
 #endif
 
             keywords = keywords ?? string.Empty;
-            var response = await _careAdviceService.GetCareAdvice(ageCategory, gender, keywords, dxCode).AsHttpResponse();
-            #if !DEBUG  
-            _cacheManager.Set(cacheKey, response.Content.ReadAsStringAsync().Result);
-            #endif
-            return response;
+            var careAdvice = await _careAdviceService.GetCareAdvice(ageCategory, gender, keywords, dxCode);
+#if !DEBUG
+            _cacheManager.Set(cacheKey, JsonConvert.SerializeObject(careAdvice));
+#endif
+            return Json(careAdvice);
         }
 
        

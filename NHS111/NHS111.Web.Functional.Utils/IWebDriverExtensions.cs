@@ -44,6 +44,9 @@ namespace NHS111.Web.Functional.Utils {
 
         public static Screenshot TakeEntireScreenshot(this IWebDriver driver)
         {
+            // Make sure every screenshot starts at the top of the page
+            ((IJavaScriptExecutor)driver).ExecuteScript("window.scrollTo(0,0)");
+
             // Get the total size of the page
             var totalWidth = (int)(long)((IJavaScriptExecutor)driver).ExecuteScript("return document.body.offsetWidth"); //documentElement.scrollWidth");
             var totalHeight = (int)(long)((IJavaScriptExecutor)driver).ExecuteScript("return  document.body.parentNode.scrollHeight");

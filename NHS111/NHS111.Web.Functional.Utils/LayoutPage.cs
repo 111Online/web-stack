@@ -73,10 +73,14 @@ namespace NHS111.Web.Functional.Utils
             return _baseUrl.Contains("@");
         }
 
+        public void WaitForElement(IWebElement element, int timeoutInSeconds)
+        {
+            var wait = new WebDriverWait(Driver, TimeSpan.FromSeconds(timeoutInSeconds));
+            wait.Until(drv => element.Displayed);
+        }
         public void WaitForElement(IWebElement element)
         {
-            var wait = new WebDriverWait(Driver, TimeSpan.FromSeconds(5));
-            wait.Until(drv => element.Displayed);
+            WaitForElement(element, 5);
         }
 
         public IScreenShotMaker ScreenShotMaker
@@ -113,10 +117,24 @@ namespace NHS111.Web.Functional.Utils
             page = CompareScreenShot(page, uniqueId);
             if (!page.GetScreenShotsEqual())
             {
+                ScreenShotMaker.CopyBaseline(ScreenShotMaker.GetScreenShotFilename(uniqueId));
                 Console.WriteLine("##teamcity[testMetadata testName='{0}' name='Differences'  type='image' value='{1}']", TestContext.CurrentContext.Test.FullName, "diff/" + ScreenShotMaker.GetScreenShotFilename(uniqueId));
+                Console.WriteLine("##teamcity[testMetadata testName='{0}' name='Test Baseline'  type='image' value='{1}']", TestContext.CurrentContext.Test.FullName,  "baselines/" + ScreenShotMaker.GetScreenShotFilename(uniqueId));
                 Assert.Fail("Screenshot comparison shows not equal to baseline at step " + ScreenShotMaker.GetScreenShotFilename(uniqueId));
             }
             return page;
+        }
+        
+        public bool IsDisplayed(IWebElement element)
+        {
+            try
+            {
+                return element.Displayed;
+            }
+            catch (NoSuchElementException)
+            {
+                return false;
+            }
         }
     }
 }

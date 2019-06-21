@@ -8,13 +8,15 @@ using System.Threading.Tasks;
 using Moq;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using NHS111.Business.DOS.DispositionMapper;
 using NHS111.Business.DOS.EndpointFilter;
 using NHS111.Business.DOS.Service;
-using NHS111.Business.DOS.WhitelistFilter;
+using NHS111.Business.DOS.WhiteListPopulator;
 using NHS111.Models.Models.Web.DosRequests;
 using NodaTime;
 using NUnit.Framework;
 using NHS111.Features;
+using NHS111.Models.Models.Web.FromExternalServices;
 
 namespace NHS111.Business.DOS.Test.Service
 {
@@ -25,10 +27,10 @@ namespace NHS111.Business.DOS.Test.Service
         private Mock<IServiceAvailabilityManager> _mockServiceAvailabilityProfileManager;
         private Mock<IFilterServicesFeature> _mockFilterServicesFeature;
         private Mock<IOnlineServiceTypeFilter> _mockServiceTypeFilter;
-        private Mock<IOnlineServiceTypeMapper> _mockServiceTypeMapper;
-        private Mock<IServiceWhitelistFilter> _mockServiceWhitelistFilter;
         private Mock<IPublicHolidayService> _mockPublicHolidayService;
         private Mock<ISearchDistanceService> _mocSearchDistanceService;
+        private Mock<IWhiteListManager> _mockWhiteListManager;
+        private IDispositionMapper _dispositionMapper;
 
         private const string DOS_USERNAME = "made_up_user";
         private const string DOS_PASSWORD = "made_up_password";
@@ -82,12 +84,15 @@ namespace NHS111.Business.DOS.Test.Service
             _mockServiceAvailabilityProfileManager = new Mock<IServiceAvailabilityManager>();
             _mockFilterServicesFeature = new Mock<IFilterServicesFeature>();
             _mockServiceTypeFilter = new Mock<IOnlineServiceTypeFilter>();
-            _mockServiceTypeMapper = new Mock<IOnlineServiceTypeMapper>();
-            _mockServiceWhitelistFilter = new Mock<IServiceWhitelistFilter>();
 
             _mockPublicHolidayService = new Mock<IPublicHolidayService>();
 
             _mocSearchDistanceService = new Mock<ISearchDistanceService>();
+
+            _mockWhiteListManager = new Mock<IWhiteListManager>();
+
+            _dispositionMapper = new DispositionMapper.DispositionMapper(_mockConfiguration.Object);
+
 
             _mockConfiguration.Setup(c => c.DosUsername).Returns(DOS_USERNAME);
             _mockConfiguration.Setup(c => c.DosPassword).Returns(DOS_PASSWORD);
@@ -110,51 +115,44 @@ namespace NHS111.Business.DOS.Test.Service
                 .Returns(workingDayDentalInHoursShoulderEndTime);
             _mockConfiguration.Setup(c => c.WorkingDayDentalInHoursEndTime)
                 .Returns(workingDayDentalInHoursEndTime);
-            
         }
 
         [Test]
         public async void failed_request_should_return_empty_CheckCapacitySummaryResult()
         {
-            var fakeResponse = new HttpResponseMessage(HttpStatusCode.BadRequest)
-            {
-                Content = new StringContent("{CheckCapacitySummaryResult: [{}]}")
-            };
+            var fakeResponse = new DosCheckCapacitySummaryResult() { Error = new ErrorObject { Message = "Failed", Code = 500 }};
 
             var fakeDoSFilteredCase = new DosFilteredCase() { PostCode = "So30 2Un", Disposition = 1010 };
-            var fakeRequest = new HttpRequestMessage() { Content = new StringContent(JsonConvert.SerializeObject(fakeDoSFilteredCase)) };
-
-            _mockDosService.Setup(x => x.GetServices(It.IsAny<HttpRequestMessage>(), null)).Returns(Task<HttpResponseMessage>.Factory.StartNew(() => fakeResponse));
+            
+            _mockDosService.Setup(x => x.GetServices(It.IsAny<DosCheckCapacitySummaryRequest>(), null)).Returns(Task<DosCheckCapacitySummaryResult>.Factory.StartNew(() => fakeResponse));
 
             _mockServiceAvailabilityProfileManager.Setup(c => c.FindServiceAvailability(fakeDoSFilteredCase))
                 .Returns(new ServiceAvailability(_mockServiceAvailabliityProfileResponse, fakeDoSFilteredCase.DispositionTime, fakeDoSFilteredCase.DispositionTimeFrameMinutes));
 
             _mockFilterServicesFeature.Setup(c => c.IsEnabled).Returns(true);
 
-            //var sut = new ServiceAvailablityManager(_mockConfiguration.Object);
-
-            var sut = new ServiceAvailabilityFilterService(_mockDosService.Object, _mockConfiguration.Object, _mockServiceAvailabilityProfileManager.Object, _mockFilterServicesFeature.Object, _mockServiceWhitelistFilter.Object, _mockServiceTypeMapper.Object, _mockServiceTypeFilter.Object, _mockPublicHolidayService.Object, _mocSearchDistanceService.Object);
+            var sut = new ServiceAvailabilityFilterService(_mockDosService.Object, _mockConfiguration.Object, _mockServiceAvailabilityProfileManager.Object, _mockFilterServicesFeature.Object, _mockServiceTypeFilter.Object, _mockPublicHolidayService.Object, _mocSearchDistanceService.Object, _mockWhiteListManager.Object);
 
             //Act
-            var result = await sut.GetFilteredServices(fakeRequest, true, null);
+            var result = await sut.GetFilteredServices(fakeDoSFilteredCase, true, null);
 
             //Assert 
-            _mockDosService.Verify(x => x.GetServices(It.IsAny<HttpRequestMessage>(), null), Times.Once);
-            var JObj = GetJObjectFromResponse(result);
-            var services = JObj["CheckCapacitySummaryResult"];
-            Assert.AreEqual("{CheckCapacitySummaryResult: [{}]}", result.Content.ReadAsStringAsync().Result);
+            _mockDosService.Verify(x => x.GetServices(It.IsAny<DosCheckCapacitySummaryRequest>(), null), Times.Once);
+            Assert.AreEqual(fakeResponse.Error.Code, result.Error.Code);
         }
 
         [Test]
         public async void non_filtered_disposition_should_return_unfiltered_CheckCapacitySummaryResult()
         {
+            var dispoCode = 1010;
+
             var jObj = (JObject)JsonConvert.DeserializeObject(CheckCapacitySummaryResults);
             var results = jObj["CheckCapacitySummaryResult"].ToObject<List<Models.Models.Business.DosService>>();
 
-            var fakeDoSFilteredCase = new DosFilteredCase() { PostCode = "So30 2Un", Disposition = 1010 };
+            var fakeDoSFilteredCase = new DosFilteredCase() { PostCode = "So30 2Un", Disposition = dispoCode };
 
             //Act
-            var sut = new ServiceAvailablityManager(_mockConfiguration.Object).FindServiceAvailability(fakeDoSFilteredCase);
+            var sut = new ServiceAvailablityManager(_mockConfiguration.Object, _dispositionMapper).FindServiceAvailability(fakeDoSFilteredCase);
             //Act
             var result = sut.Filter(results);
 
@@ -162,14 +160,16 @@ namespace NHS111.Business.DOS.Test.Service
         }
 
         [Test]
-        public async void in_hours_should_return_filtered_CheckCapacitySummaryResult()
+        public void in_hours_should_return_filtered_CheckCapacitySummaryResult()
         {
+            var dispoCode = 1008;
+
             var jObj = (JObject)JsonConvert.DeserializeObject(CheckCapacitySummaryResults);
             var results = jObj["CheckCapacitySummaryResult"].ToObject<List<Models.Models.Business.DosService>>();
 
-            var fakeDoSFilteredCase = new DosFilteredCase() { PostCode = "So30 2Un", Disposition = 1008, DispositionTime = new DateTime(2016, 11, 23, 9, 30, 0), DispositionTimeFrameMinutes = 60 };
+            var fakeDoSFilteredCase = new DosFilteredCase() { PostCode = "So30 2Un", Disposition = dispoCode, DispositionTime = new DateTime(2016, 11, 23, 9, 30, 0), DispositionTimeFrameMinutes = 60 };
          
-            var sut = new ServiceAvailablityManager(_mockConfiguration.Object).FindServiceAvailability(fakeDoSFilteredCase);
+            var sut = new ServiceAvailablityManager(_mockConfiguration.Object, _dispositionMapper).FindServiceAvailability(fakeDoSFilteredCase);
             //Act
             var result = sut.Filter(results);
 
@@ -179,14 +179,16 @@ namespace NHS111.Business.DOS.Test.Service
         [Test]
         public async void out_of_hours_should_return_unfiltered_CheckCapacitySummaryResult()
         {
+            var dispoCode = 1008;
+
             var jObj = (JObject)JsonConvert.DeserializeObject(CheckCapacitySummaryResults);
             var results = jObj["CheckCapacitySummaryResult"].ToObject<List<Models.Models.Business.DosService>>();
 
 
-            var fakeDoSFilteredCase = new DosFilteredCase() { PostCode = "So30 2Un", Disposition = 1008, DispositionTime = new DateTime(2016, 11, 23, 23, 30, 0), DispositionTimeFrameMinutes = 60 };
+            var fakeDoSFilteredCase = new DosFilteredCase() { PostCode = "So30 2Un", Disposition = dispoCode, DispositionTime = new DateTime(2016, 11, 23, 23, 30, 0), DispositionTimeFrameMinutes = 60 };
             
 
-            var sut = new ServiceAvailablityManager(_mockConfiguration.Object).FindServiceAvailability(fakeDoSFilteredCase);
+            var sut = new ServiceAvailablityManager(_mockConfiguration.Object, _dispositionMapper).FindServiceAvailability(fakeDoSFilteredCase);
             //Act
             var result = sut.Filter(results);
 
@@ -198,12 +200,14 @@ namespace NHS111.Business.DOS.Test.Service
         [Test]
         public async void in_hours_shoulder_should_return_filtered_CheckCapacitySummaryResult()
         {
+            var dispoCode = 1008;
+
             var jObj = (JObject)JsonConvert.DeserializeObject(CheckCapacitySummaryResults);
             var results = jObj["CheckCapacitySummaryResult"].ToObject<List<Models.Models.Business.DosService>>();
 
-            var fakeDoSFilteredCase = new DosFilteredCase() { PostCode = "So30 2Un", Disposition = 1008, DispositionTime = new DateTime(2016, 11, 23, 8, 20, 0), DispositionTimeFrameMinutes = 720 };
+            var fakeDoSFilteredCase = new DosFilteredCase() { PostCode = "So30 2Un", Disposition = dispoCode, DispositionTime = new DateTime(2016, 11, 23, 8, 20, 0), DispositionTimeFrameMinutes = 720 };
 
-            var sut = new ServiceAvailablityManager(_mockConfiguration.Object).FindServiceAvailability(fakeDoSFilteredCase);
+            var sut = new ServiceAvailablityManager(_mockConfiguration.Object, _dispositionMapper).FindServiceAvailability(fakeDoSFilteredCase);
             
             //Act
             var result = sut.Filter(results);
@@ -216,14 +220,16 @@ namespace NHS111.Business.DOS.Test.Service
         [Test]
         public async void in_hours_shoulder_on_the_button_should_return_filtered_CheckCapacitySummaryResult()
         {
+            var dispoCode = 1008;
+            
             var jObj = (JObject)JsonConvert.DeserializeObject(CheckCapacitySummaryResults);
             var results = jObj["CheckCapacitySummaryResult"].ToObject<List<Models.Models.Business.DosService>>();
 
 
-            var fakeDoSFilteredCase = new DosFilteredCase() { PostCode = "So30 2Un", Disposition = 1008, DispositionTime = new DateTime(2016, 11, 23, 8, 0, 0), DispositionTimeFrameMinutes = 1440 };
+            var fakeDoSFilteredCase = new DosFilteredCase() { PostCode = "So30 2Un", Disposition = dispoCode, DispositionTime = new DateTime(2016, 11, 23, 8, 0, 0), DispositionTimeFrameMinutes = 1440 };
 
 
-            var sut = new ServiceAvailablityManager(_mockConfiguration.Object).FindServiceAvailability(fakeDoSFilteredCase);
+            var sut = new ServiceAvailablityManager(_mockConfiguration.Object, _dispositionMapper).FindServiceAvailability(fakeDoSFilteredCase);
             
             //Act
             var result = sut.Filter(results);
@@ -236,13 +242,15 @@ namespace NHS111.Business.DOS.Test.Service
         [Test]
         public async void out_of_hours_traversing_in_hours_should_return_filtered_CheckCapacitySummaryResult()
         {
+            var dispoCode = 1008;
+
             var jObj = (JObject)JsonConvert.DeserializeObject(CheckCapacitySummaryResults);
             var results = jObj["CheckCapacitySummaryResult"].ToObject<List<Models.Models.Business.DosService>>();
 
-            var fakeDoSFilteredCase = new DosFilteredCase() { PostCode = "So30 2Un", Disposition = 1008, DispositionTime = new DateTime(2016, 12, 1, 18, 1, 0), DispositionTimeFrameMinutes = 1440 };
+            var fakeDoSFilteredCase = new DosFilteredCase() { PostCode = "So30 2Un", Disposition = dispoCode, DispositionTime = new DateTime(2016, 12, 1, 18, 1, 0), DispositionTimeFrameMinutes = 1440 };
 
 
-            var sut = new ServiceAvailablityManager(_mockConfiguration.Object).FindServiceAvailability(fakeDoSFilteredCase);
+            var sut = new ServiceAvailablityManager(_mockConfiguration.Object, _dispositionMapper).FindServiceAvailability(fakeDoSFilteredCase);
             
             //Act
             var result = sut.Filter(results);
@@ -255,13 +263,15 @@ namespace NHS111.Business.DOS.Test.Service
         [Test]
         public async void Dental_out_of_hours_traversing_in_hours_should_return_filtered_CheckCapacitySummaryResult()
         {
+            var dispoCode = 1017;
+
             var jObj = (JObject)JsonConvert.DeserializeObject(CheckCapacitySummaryResults);
             var results = jObj["CheckCapacitySummaryResult"].ToObject<List<Models.Models.Business.DosService>>();
 
-            var fakeDoSFilteredCase = new DosFilteredCase() { PostCode = "So30 2Un", Disposition = 1017, DispositionTime = new DateTime(2016, 12, 1, 22, 1, 0), DispositionTimeFrameMinutes = 1440 };
+            var fakeDoSFilteredCase = new DosFilteredCase() { PostCode = "So30 2Un", Disposition = dispoCode, DispositionTime = new DateTime(2016, 12, 1, 22, 1, 0), DispositionTimeFrameMinutes = 1440 };
 
 
-            var sut = new ServiceAvailablityManager(_mockConfiguration.Object).FindServiceAvailability(fakeDoSFilteredCase);
+            var sut = new ServiceAvailablityManager(_mockConfiguration.Object, _dispositionMapper).FindServiceAvailability(fakeDoSFilteredCase);
 
             //Act
             var result = sut.Filter(results);
@@ -274,12 +284,14 @@ namespace NHS111.Business.DOS.Test.Service
         [Test]
         public async void Dental_in_hours_shoulder_should_return_filtered_CheckCapacitySummaryResult()
         {
+            var dispoCode = 1017;
+
             var jObj = (JObject)JsonConvert.DeserializeObject(CheckCapacitySummaryResults);
             var results = jObj["CheckCapacitySummaryResult"].ToObject<List<Models.Models.Business.DosService>>();
 
-            var fakeDoSFilteredCase = new DosFilteredCase() { PostCode = "So30 2Un", Disposition = 1017, DispositionTime = new DateTime(2016, 11, 23, 7, 31, 0), DispositionTimeFrameMinutes = 720 };
+            var fakeDoSFilteredCase = new DosFilteredCase() { PostCode = "So30 2Un", Disposition = dispoCode, DispositionTime = new DateTime(2016, 11, 23, 7, 31, 0), DispositionTimeFrameMinutes = 720 };
 
-            var sut = new ServiceAvailablityManager(_mockConfiguration.Object).FindServiceAvailability(fakeDoSFilteredCase);
+            var sut = new ServiceAvailablityManager(_mockConfiguration.Object, _dispositionMapper).FindServiceAvailability(fakeDoSFilteredCase);
 
             //Act
             var result = sut.Filter(results);
@@ -294,12 +306,14 @@ namespace NHS111.Business.DOS.Test.Service
         {
             _mockConfiguration.Setup(c => c.FilteredDentalDispositionCodes).Returns("");
 
+            var dispoCode = 1017;
+
             var jObj = (JObject)JsonConvert.DeserializeObject(CheckCapacitySummaryResults);
             var results = jObj["CheckCapacitySummaryResult"].ToObject<List<Models.Models.Business.DosService>>();
 
-            var fakeDoSFilteredCase = new DosFilteredCase() { PostCode = "So30 2Un", Disposition = 1017, DispositionTime = new DateTime(2016, 11, 23, 7, 31, 0), DispositionTimeFrameMinutes = 720 };
+            var fakeDoSFilteredCase = new DosFilteredCase() { PostCode = "So30 2Un", Disposition = dispoCode, DispositionTime = new DateTime(2016, 11, 23, 7, 31, 0), DispositionTimeFrameMinutes = 720 };
 
-            var sut = new ServiceAvailablityManager(_mockConfiguration.Object).FindServiceAvailability(fakeDoSFilteredCase);
+            var sut = new ServiceAvailablityManager(_mockConfiguration.Object, _dispositionMapper).FindServiceAvailability(fakeDoSFilteredCase);
 
             //Act
             var result = sut.Filter(results);
@@ -312,26 +326,22 @@ namespace NHS111.Business.DOS.Test.Service
         [Test]
         public async void Dental_out_of_hours_should_return_filtered_CheckCapacitySummaryResult()
         {
+            var dispoCode = 1017;
+
             var jObj = (JObject)JsonConvert.DeserializeObject(CheckCapacitySummaryResults);
             var results = jObj["CheckCapacitySummaryResult"].ToObject<List<Models.Models.Business.DosService>>();
 
 
-            var fakeDoSFilteredCase = new DosFilteredCase() { PostCode = "So30 2Un", Disposition = 1017, DispositionTime = new DateTime(2016, 11, 23, 23, 30, 0), DispositionTimeFrameMinutes = 60 };
+            var fakeDoSFilteredCase = new DosFilteredCase() { PostCode = "So30 2Un", Disposition = dispoCode, DispositionTime = new DateTime(2016, 11, 23, 23, 30, 0), DispositionTimeFrameMinutes = 60 };
 
 
-            var sut = new ServiceAvailablityManager(_mockConfiguration.Object).FindServiceAvailability(fakeDoSFilteredCase);
+            var sut = new ServiceAvailablityManager(_mockConfiguration.Object, _dispositionMapper).FindServiceAvailability(fakeDoSFilteredCase);
             //Act
             var result = sut.Filter(results);
 
             //Assert 
 
             Assert.AreEqual(1, result.Count());
-        }
-
-        private static JObject GetJObjectFromResponse(HttpResponseMessage response)
-        {
-            var val = response.Content.ReadAsStringAsync().Result;
-            return (JObject)JsonConvert.DeserializeObject(val);
         }
     }
 }

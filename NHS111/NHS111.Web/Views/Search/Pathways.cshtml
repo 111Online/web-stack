@@ -49,9 +49,16 @@
                             <ul class="link-list link-list--results">
                                 @foreach (var pathway in subCategory.Pathways.OrderBy(p => p.PathwayData.DigitalTitle))
                                 {
+                                    var titles = pathway.PathwayData.DigitalTitle.Split('|');
+                                    var additionalTopics = titles.Length > 1 ? titles.Skip(1) : new List<string>();
+                                    var title = titles[0];
                                     <li>
-                                        <a class="search__topic" data-title="@pathway.PathwayData.DigitalTitle" data-pathway-number="@pathway.Pathway.Id" href="/@pathway.Pathway.PathwayNo/@Model.UserInfo.Demography.Gender/@Model.UserInfo.Demography.Age/start?args=@encryptedQueryStringValues.ToString()">
-                                            <span class="search__topic-title">@Html.Raw(pathway.PathwayData.DigitalTitle)</span>
+                                        <a class="search__topic" data-title="@title" data-pathway-number="@pathway.Pathway.Id" href="/@pathway.Pathway.PathwayNo/@Model.UserInfo.Demography.Gender/@Model.UserInfo.Demography.Age/start?args=@encryptedQueryStringValues.ToString()">
+                                            <span class="search__topic-title">@Html.Raw(title)</span>
+                                            @if (additionalTopics.Any())
+                                            {
+                                                <p class="search__topic-covers">Checks for things like: @Html.Raw(string.Join(", ", additionalTopics))</p>
+                                            }
                                             <p class="search__topic-description">@Html.Raw(pathway.PathwayData.DigitalDescription)</p>
                                         </a>
                                     </li>
@@ -64,9 +71,16 @@
             @if (topLevelCategory.Pathways != null && topLevelCategory.Pathways.Any()) {
                 <ul class="link-list link-list--results">
                     @foreach (var pathway in topLevelCategory.Pathways.OrderBy(p => p.PathwayData.DigitalTitle)) {
+                        var titles = pathway.PathwayData.DigitalTitle.Split('|');
+                        var additionalTopics = titles.Length > 1 ? titles.Skip(1) : new List<string>();
+                        var title = titles[0];
                         <li>
-                            <a class="search__topic" data-title="@pathway.PathwayData.DigitalTitle" data-pathway-number="@pathway.Pathway.Id" href="/@pathway.Pathway.PathwayNo/@Model.UserInfo.Demography.Gender/@Model.UserInfo.Demography.Age/start?args=@encryptedQueryStringValues.ToString()">
-                                <span class="search__topic-title">@Html.Raw(pathway.PathwayData.DigitalTitle)</span>
+                            <a class="search__topic" data-title="@title" data-pathway-number="@pathway.Pathway.Id" href="/@pathway.Pathway.PathwayNo/@Model.UserInfo.Demography.Gender/@Model.UserInfo.Demography.Age/start?args=@encryptedQueryStringValues.ToString()">
+                                <span class="search__topic-title">@Html.Raw(title)</span>
+                                @if (additionalTopics.Any())
+                                {
+                                    <p class="search__topic-covers">Checks for things like: @Html.Raw(string.Join(", ", additionalTopics))</p>
+                                }
                                 <p class="search__topic-description">@Html.Raw(pathway.PathwayData.DigitalDescription)</p>
                             </a>
                         </li>
@@ -86,4 +100,3 @@
     </div>
 </details>
 
-<hr role="presentation" />

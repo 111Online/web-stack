@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Configuration;
 using NHS111.Utils.Helpers;
+using NHS111.Utils.RestTools;
 using NUnit.Framework;
+using RestSharp;
 
 namespace NHS111.Domain.Functional.Tests
 {
@@ -23,7 +25,7 @@ namespace NHS111.Domain.Functional.Tests
         private string _testPathwayNo = "PW1708";
         private string _expectedNextId = "PW756.300";
 
-        private RestfulHelper _restfulHelper = new RestfulHelper();
+        private IRestClient _restClient = new RestClient(DomainApiBaseUrl);
         private string DxCode = "Dx12";
 
         /// <summary>
@@ -34,50 +36,49 @@ namespace NHS111.Domain.Functional.Tests
         public async void TestDomainApi_returns_valid_response()
         {
             var getQuestionEndpoint = "questions/{0}";
-            var result = await _restfulHelper.GetAsync(String.Format(DomainApiBaseUrl + getQuestionEndpoint, _testQuestionId));
-
+            var result = await _restClient.ExecuteTaskAsync(new JsonRestRequest(string.Format(getQuestionEndpoint, _testQuestionId), Method.GET));
 
             Assert.IsNotNull(result);
-            Assert.IsTrue(result.Contains("\"id\":\"" + _testQuestionId + "\""));
+            Assert.IsTrue(result.Content.Contains("\"id\":\"" + _testQuestionId + "\""));
         }
 
         [Test]
         public async void TestDomainApi_returns_valid_fields()
         {
             var getQuestionEndpoint = "questions/{0}";
-            var result = await _restfulHelper.GetAsync(String.Format(DomainApiBaseUrl + getQuestionEndpoint, _testQuestionId));
+            var result = await _restClient.ExecuteTaskAsync(new JsonRestRequest(string.Format(getQuestionEndpoint, _testQuestionId), Method.GET));
 
             //this checks a responce is returned.
             Assert.IsNotNull(result);
             //these check the right fields are returned.
-            Assert.IsTrue(result.Contains("\"id\":\"" + _testQuestionId + "\""));
-            SchemaValidation.AssertValidResponseSchema(result, SchemaValidation.ResponseSchemaType.Question);
+            Assert.IsTrue(result.Content.Contains("\"id\":\"" + _testQuestionId + "\""));
+            SchemaValidation.AssertValidResponseSchema(result.Content, SchemaValidation.ResponseSchemaType.Question);
 
             //this next one checks the right question has returned.
-            Assert.IsTrue(result.Contains("\"questionNo\":\"TX1506"));
+            Assert.IsTrue(result.Content.Contains("\"questionNo\":\"TX1506"));
         }
 
         [Test]
         public async void TestDomainApi_returns_valid_answers()
         {
             var getQuestionEndpoint = "questions/{0}/answers";
-            var result = await _restfulHelper.GetAsync(String.Format(DomainApiBaseUrl + getQuestionEndpoint, _testQuestionId));
+            var result = await _restClient.ExecuteTaskAsync(new JsonRestRequest(string.Format(getQuestionEndpoint, _testQuestionId), Method.GET));
 
             //this checks a responce is returned.
             Assert.IsNotNull(result);
 
             //these check the right fields are returned.
-            Assert.IsTrue(result.Contains("\"title"));
-            Assert.IsTrue(result.Contains("\"symptomDiscriminator"));
-            Assert.IsTrue(result.Contains("\"order"));
+            Assert.IsTrue(result.Content.Contains("\"title"));
+            Assert.IsTrue(result.Content.Contains("\"symptomDiscriminator"));
+            Assert.IsTrue(result.Content.Contains("\"order"));
 
             //these check the wrong fields are not returned.
-            SchemaValidation.AssertValidResponseSchema(result, SchemaValidation.ResponseSchemaType.Answer);
+            SchemaValidation.AssertValidResponseSchema(result.Content, SchemaValidation.ResponseSchemaType.Answer);
 
             //this next one checks the right answers have returned.
-            Assert.IsTrue(result.Contains("\"title\":\"Yes"));
-            Assert.IsTrue(result.Contains("\"title\":\"I'm not sure"));
-            Assert.IsTrue(result.Contains("\"title\":\"No"));
+            Assert.IsTrue(result.Content.Contains("\"title\":\"Yes"));
+            Assert.IsTrue(result.Content.Contains("\"title\":\"I'm not sure"));
+            Assert.IsTrue(result.Content.Contains("\"title\":\"No"));
         }
 
 
@@ -85,16 +86,16 @@ namespace NHS111.Domain.Functional.Tests
         public async void TestDomainApi_returns_valid_first_question()
         {
             var getQuestionEndpoint = "pathways/{0}/questions/first";
-            var result = await _restfulHelper.GetAsync(String.Format(DomainApiBaseUrl + getQuestionEndpoint, _testPathwayId));
+            var result = await _restClient.ExecuteTaskAsync(new JsonRestRequest(string.Format(getQuestionEndpoint, _testPathwayId), Method.GET));
 
             //this checks a responce is returned
             Assert.IsNotNull(result);
 
             //these check the right fields are returned
-            SchemaValidation.AssertValidResponseSchema(result, SchemaValidation.ResponseSchemaType.Question);
+            SchemaValidation.AssertValidResponseSchema(result.Content, SchemaValidation.ResponseSchemaType.Question);
 
             //this next one checks the right question has returned
-            Assert.IsTrue(result.Contains("\"questionNo\":\"TX1506"));
+            Assert.IsTrue(result.Content.Contains("\"id\":\"PX111.0.PW756"));
         }
 
         // Care Advice Controller tests
@@ -102,65 +103,65 @@ namespace NHS111.Domain.Functional.Tests
         public async void TestDomainApi_returns_valid_Pathway_Fields()
         {
             var getQuestionEndpoint = "pathways";
-            var result = await _restfulHelper.GetAsync(String.Format(DomainApiBaseUrl + getQuestionEndpoint));
+            var result = await _restClient.ExecuteTaskAsync(new JsonRestRequest(string.Format(getQuestionEndpoint), Method.GET));
 
             //this checks a responce is returned
             Assert.IsNotNull(result);
 
             //these check the right fields are returned
-            SchemaValidation.AssertValidResponseSchema(result, SchemaValidation.ResponseSchemaType.Pathway);
+            SchemaValidation.AssertValidResponseSchema(result.Content, SchemaValidation.ResponseSchemaType.Pathway);
 
             //this next one checks the right question has returned
-            Assert.IsTrue(result.Contains("\"title\":\"Chest or Upper Back Injury, Blunt"));
-            Assert.IsTrue(result.Contains("\"title\":\"Headache"));
-            Assert.IsFalse(result.Contains("\"title\":\"Blood in urine"));
+            Assert.IsTrue(result.Content.Contains("\"title\":\"Chest or Upper Back Injury, Blunt"));
+            Assert.IsTrue(result.Content.Contains("\"title\":\"Headache"));
+            Assert.IsFalse(result.Content.Contains("\"title\":\"Blood in urine"));
         }
 
         [Test]
         public async void TestDomainApi_returns_valid_Pathway_ID()
         {
             var getQuestionEndpoint = "pathways/{0}";
-            var result = await _restfulHelper.GetAsync(String.Format(DomainApiBaseUrl + getQuestionEndpoint, _testPathwayId));
+            var result = await _restClient.ExecuteTaskAsync(new JsonRestRequest(string.Format(getQuestionEndpoint, _testPathwayId), Method.GET));
 
             //this checks a responce is returned
             Assert.IsNotNull(result);
 
             //these check the right fields are returned
-            SchemaValidation.AssertValidResponseSchema(result, SchemaValidation.ResponseSchemaType.Pathway);
+            SchemaValidation.AssertValidResponseSchema(result.Content, SchemaValidation.ResponseSchemaType.Pathway);
 
             //this next one checks the right question has returned
-            Assert.IsTrue(result.Contains("\"title\":\"Headache"));
-            Assert.IsTrue(result.Contains("\"pathwayNo\":\"PW756"));
-            Assert.IsTrue(result.Contains("\"gender\":\"Male"));
-            Assert.IsFalse(result.Contains("\"title\":\"Abdominal Pain"));
+            Assert.IsTrue(result.Content.Contains("\"title\":\"Headache"));
+            Assert.IsTrue(result.Content.Contains("\"pathwayNo\":\"PW756"));
+            Assert.IsTrue(result.Content.Contains("\"gender\":\"Male"));
+            Assert.IsFalse(result.Content.Contains("\"title\":\"Abdominal Pain"));
         }
         [Test]
         public async void TestDomainApi_returns_valid_Pathway_Numbers()
         {
             var getQuestionEndpoint = "pathways/identify/{0}?age=0&gender=Male";
-            var result = await _restfulHelper.GetAsync(String.Format(DomainApiBaseUrl + getQuestionEndpoint, _testPathwayNo));
+            var result = await _restClient.ExecuteTaskAsync(new JsonRestRequest(string.Format(getQuestionEndpoint, _testPathwayNo), Method.GET));
 
             //this checks a responce is returned
             Assert.IsNotNull(result);
 
             //these check the right fields are returned
-            SchemaValidation.AssertValidResponseSchema(result, SchemaValidation.ResponseSchemaType.Pathway);
+            SchemaValidation.AssertValidResponseSchema(result.Content, SchemaValidation.ResponseSchemaType.Pathway);
 
             //this next one checks the right question has returned
-            Assert.IsTrue(result.Contains("\"title\":\"Diarrhoea and Vomiting"));
-            Assert.IsTrue(result.Contains("\"id\":\"PW1708MaleInfant"));
-            Assert.IsTrue(result.Contains("\"gender\":\"Male"));
-            Assert.IsTrue(result.Contains("\"pathwayNo\":\"PW1708"));
+            Assert.IsTrue(result.Content.Contains("\"title\":\"Diarrhoea and Vomiting"));
+            Assert.IsTrue(result.Content.Contains("\"id\":\"PW1708MaleInfant"));
+            Assert.IsTrue(result.Content.Contains("\"gender\":\"Male"));
+            Assert.IsTrue(result.Content.Contains("\"pathwayNo\":\"PW1708"));
 
         }
         [Test]
         public async void TestDomainApi_returns_valid_Pathway_Numbers_InvalidAge()
         {
             var getQuestionEndpoint = "pathways/identify/{0}?age=55&gender=Male";
-            var result = await _restfulHelper.GetAsync(String.Format(DomainApiBaseUrl + getQuestionEndpoint, _testPathwayNo));
+            var result = await _restClient.ExecuteTaskAsync(new JsonRestRequest(string.Format(getQuestionEndpoint, _testPathwayNo), Method.GET));
 
             //this checks a responce is returned
-            Assert.IsTrue(result.Contains("null"));
+            Assert.IsTrue(result.Content.Contains("null"));
 
 
         }
@@ -168,35 +169,37 @@ namespace NHS111.Domain.Functional.Tests
         public async void TestDomainApi_returns_valid_Pathway_Numbers_GenderChange()
         {
             var getQuestionEndpoint = "pathways/identify/{0}?age=0&gender=Female";
-            var result = await _restfulHelper.GetAsync(String.Format(DomainApiBaseUrl + getQuestionEndpoint, _testPathwayNo));
+            var result = await _restClient.ExecuteTaskAsync(new JsonRestRequest(string.Format(getQuestionEndpoint, _testPathwayNo), Method.GET));
 
             //this checks a responce is returned
             Assert.IsNotNull(result);
 
             //these check the right fields are returned
-            SchemaValidation.AssertValidResponseSchema(result, SchemaValidation.ResponseSchemaType.Pathway);
+            SchemaValidation.AssertValidResponseSchema(result.Content, SchemaValidation.ResponseSchemaType.Pathway);
 
             //this next one checks the right question has returned
-            Assert.IsTrue(result.Contains("\"title\":\"Diarrhoea and Vomiting"));
-            Assert.IsTrue(result.Contains("\"id\":\"PW1708FemaleInfant"));
-            Assert.IsTrue(result.Contains("\"gender\":\"Female"));
-            Assert.IsTrue(result.Contains("\"pathwayNo\":\"PW1708"));
+            Assert.IsTrue(result.Content.Contains("\"title\":\"Diarrhoea and Vomiting"));
+            Assert.IsTrue(result.Content.Contains("\"id\":\"PW1708FemaleInfant"));
+            Assert.IsTrue(result.Content.Contains("\"gender\":\"Female"));
+            Assert.IsTrue(result.Content.Contains("\"pathwayNo\":\"PW1708"));
 
         }
         [Test]
         public async void TestDomainApi_returns_valid_Pathway_Symptom_Group()
         {
             var getQuestionEndpoint = "pathways/symptomGroup/{0}";
-            var result = await _restfulHelper.GetAsync(String.Format(DomainApiBaseUrl + getQuestionEndpoint, _testPathwayNo));
+            var result = await _restClient.ExecuteTaskAsync<string>(new JsonRestRequest(string.Format(getQuestionEndpoint, _testPathwayNo), Method.GET));
+
+            var response = result.Data;
 
             //this checks a responce is returned
-            Assert.IsNotNull(result);
+            Assert.IsNotNull(response);
 
             //these check the right fields are returned
-            Assert.IsTrue(result.Contains("1055"));
+            Assert.IsTrue(response.Contains("1055"));
 
             //this checks only the SD code returns
-            Assert.AreEqual("", result.Replace("1055", ""));
+            Assert.AreEqual("", response.Replace("1055", ""));
 
         }
         /// <summary>
@@ -207,17 +210,17 @@ namespace NHS111.Domain.Functional.Tests
         {
             var getNextQuestionEndpoint = "questions/{0}/Question/answersNext";
             var expectedNextId = "PW756.300";
-            var address = String.Format(DomainApiBaseUrl + getNextQuestionEndpoint, _testQuestionId);
+            var url = string.Format(getNextQuestionEndpoint, _testQuestionId);
 
-            System.Net.ServicePointManager.Expect100Continue = false;
-            var result =
-                await _restfulHelper.PostAsync(address, RequestFormatting.CreateHTTPRequest("Yes"));
+           var request = new JsonRestRequest(url, Method.POST);
+            request.AddJsonBody("Yes");
+            var result = await _restClient.ExecuteTaskAsync(request);
 
-            var resultContent = await result.Content.ReadAsStringAsync();
+            var resultContent = result.Content;
 
             Assert.IsNotNull(result);
 
-            Assert.IsTrue(result.IsSuccessStatusCode);
+            Assert.IsTrue(result.IsSuccessful);
             Assert.IsTrue(resultContent.Contains("\"id\":\"" + expectedNextId + "\""));
             SchemaValidation.AssertValidResponseSchema(resultContent, SchemaValidation.ResponseSchemaType.Question);
 
@@ -232,17 +235,17 @@ namespace NHS111.Domain.Functional.Tests
         public async void TestDomainApi_returns_expected_Next_Question()
         {
             var getQuestionEndpoint = "questions/{0}";
-            var result = await _restfulHelper.GetAsync(String.Format(DomainApiBaseUrl + getQuestionEndpoint, _expectedNextId));
+            var result = await _restClient.ExecuteTaskAsync(new JsonRestRequest(string.Format(getQuestionEndpoint, _expectedNextId), Method.GET));
 
             //this checks a responce is returned
             Assert.IsNotNull(result);
 
             //these check the right fields are returned
-            Assert.IsTrue(result.Contains("\"id\":\"" + _expectedNextId + "\""));
-            SchemaValidation.AssertValidResponseSchema(result, SchemaValidation.ResponseSchemaType.Question);
+            Assert.IsTrue(result.Content.Contains("\"id\":\"" + _expectedNextId + "\""));
+            SchemaValidation.AssertValidResponseSchema(result.Content, SchemaValidation.ResponseSchemaType.Question);
 
             //this next one checks the right question has returned
-            Assert.IsTrue(result.Contains("\"questionNo\":\"TX1488"));
+            Assert.IsTrue(result.Content.Contains("\"questionNo\":\"TX1488"));
         }
     }
 }

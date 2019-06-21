@@ -6,22 +6,27 @@ using System.Web.Mvc;
 using NHS111.Models.Models.Business.PathwaySearch;
 using NHS111.Models.Models.Domain;
 using NHS111.Models.Models.Web;
+using NHS111.Utils.RestTools;
 using NHS111.Web.Helpers;
 using RestSharp;
 using NHS111.Web.Presentation.Builders;
 using NHS111.Web.Presentation.Configuration;
+using RestSharp.Extensions;
 
 namespace NHS111.Web.Controllers
 {
+    using System.Web.Routing;
+
     public class SearchController : Controller
     {
         public const int MAX_SEARCH_RESULTS = 10;
 
-        public SearchController(IConfiguration configuration, IUserZoomDataBuilder userZoomDataBuilder, IRestClient restClientBusinessApi)
+        public SearchController(IConfiguration configuration, IUserZoomDataBuilder userZoomDataBuilder, IRestClient restClientBusinessApi, IJustToBeSafeFirstViewModelBuilder jtbsViewModelBuilder)
         {
             _configuration = configuration;
             _userZoomDataBuilder = userZoomDataBuilder;
             _restClientBusinessApi = restClientBusinessApi;
+            _jtbsViewModelBuilder = jtbsViewModelBuilder;
         }
 
         [HttpPost]
@@ -31,6 +36,26 @@ namespace NHS111.Web.Controllers
             {
                 _userZoomDataBuilder.SetFieldsForDemographics(model);
                 return View("~\\Views\\Question\\Gender.cshtml", model);
+            }
+
+
+            if (model.PathwayNo != null)
+            {
+                var searchJourneyViewModel = new SearchJourneyViewModel() {
+                    SessionId = model.SessionId,
+                    PathwayNo = model.PathwayNo.ToUpper(),
+                    CurrentPostcode = model.CurrentPostcode,
+                    UserInfo = model.UserInfo,
+                    FilterServices = model.FilterServices,
+                    Campaign = model.Campaign,
+                    Source = model.Source
+                };
+
+                return RedirectToAction("FirstQuestion", "JustToBeSafe", new RouteValueDictionary {
+                    { "pathwayNumber", searchJourneyViewModel.PathwayNo },
+                    { "gender", searchJourneyViewModel.UserInfo.Demography.Gender},
+                    { "age", searchJourneyViewModel.UserInfo.Demography.Age},
+                    { "args", KeyValueEncryptor.EncryptedKeys(searchJourneyViewModel)} });
             }
 
             var startOfJourney = new SearchJourneyViewModel
@@ -95,7 +120,7 @@ namespace NHS111.Web.Controllers
             if (model.SanitisedSearchTerm == null)
                 return View("~\\Views\\Search\\NoResults.cshtml", model);
                 
-            request.AddJsonBody(Uri.EscapeDataString(model.SanitisedSearchTerm.Trim()));
+            request.AddJsonBody(new { query = Uri.EscapeDataString(model.SanitisedSearchTerm.Trim()), postcode = Uri.EscapeDataString(model.CurrentPostcode) });
 
             var response = await _restClientBusinessApi.ExecuteTaskAsync<List<SearchResultViewModel>>(request);
 
@@ -116,7 +141,7 @@ namespace NHS111.Web.Controllers
             var decryptedArgs = new QueryStringEncryptor(args);
 
             var ageGenderViewModel = new AgeGenderViewModel { Gender = gender, Age = age };
-            var categoriesContainingStartingPathways = await GetAllCategories(ageGenderViewModel);
+            var categoriesContainingStartingPathways = await GetAllCategories(ageGenderViewModel, decryptedArgs["postcode"]);
             var model = new SearchJourneyViewModel
             {
                 SessionId = Guid.Parse(decryptedArgs["sessionId"]),
@@ -147,7 +172,7 @@ namespace NHS111.Web.Controllers
             var decryptedArgs = new QueryStringEncryptor(args);
 
             var ageGenderViewModel = new AgeGenderViewModel { Gender = gender, Age = age };
-            var categoriesContainingStartingPathways = await GetAllCategories(ageGenderViewModel);
+            var categoriesContainingStartingPathways = await GetAllCategories(ageGenderViewModel, decryptedArgs["postcode"]);
             var model = new SearchJourneyViewModel
             {
                 SessionId = Guid.Parse(decryptedArgs["sessionId"]),
@@ -177,7 +202,7 @@ namespace NHS111.Web.Controllers
             var decryptedArgs = new QueryStringEncryptor(args);
 
             var ageGenderViewModel = new AgeGenderViewModel { Gender = gender, Age = age };
-            var categoriesContainingStartingPathways = await GetAllCategories(ageGenderViewModel);
+            var categoriesContainingStartingPathways = await GetAllCategories(ageGenderViewModel, decryptedArgs["postcode"]);
             var rootCategory = new CategoryWithPathways {
                 Category = new Category {Title = "All topics"},
                 Pathways = FlattenCategories(categoriesContainingStartingPathways)
@@ -220,12 +245,15 @@ namespace NHS111.Web.Controllers
             return results;
         }
 
-        private async Task<IEnumerable<CategoryWithPathways>> GetAllCategories(AgeGenderViewModel model)
+        private async Task<IEnumerable<CategoryWithPathways>> GetAllCategories(AgeGenderViewModel model, string postcode)
         {
-            var url = _configuration.GetBusinessApiGetCategoriesWithPathwaysGenderAge(model.Gender,
+            var requestPath = _configuration.GetBusinessApiGetCategoriesWithPathwaysGenderAge(model.Gender,
                 model.Age, true);
-            var response = await
-                _restClientBusinessApi.ExecuteTaskAsync<List<CategoryWithPathways>>(CreateJsonRequest(url, Method.GET));
+            
+            var request = new RestRequest(requestPath, Method.POST);
+            request.AddJsonBody(postcode);
+
+            var response = await _restClientBusinessApi.ExecuteTaskAsync<List<CategoryWithPathways>>(request);
 
 
             var allCategories = response.Data;
@@ -241,7 +269,7 @@ namespace NHS111.Web.Controllers
         private async Task<IEnumerable<Pathway>> GetAllPathways(AgeGenderViewModel model)
         {
             var url = _configuration.GetBusinessApiGetPathwaysGenderAge(model.Gender, model.Age);
-            var response = await _restClientBusinessApi.ExecuteTaskAsync<List<Pathway>>(CreateJsonRequest(url, Method.GET));
+            var response = await _restClientBusinessApi.ExecuteTaskAsync<List<Pathway>>(new JsonRestRequest(url, Method.GET));
 
             return response.Data;
         }
@@ -252,8 +280,6 @@ namespace NHS111.Web.Controllers
             result.Description = result.Description.Replace("\\n\\n", ". ");
             result.Description = result.Description.Replace(" . ", ". ");
             result.Description = result.Description.Replace("..", ".");
-
-            SortTitlesByRelevancy(result, searchTerm);
 
             return result;
         }
@@ -273,15 +299,9 @@ namespace NHS111.Web.Controllers
             }
         }
 
-        private RestRequest CreateJsonRequest(string url, Method method)
-        {
-            var request = new RestRequest(url, method);
-            request.OnBeforeDeserialization = resp => { resp.ContentType = "application/json"; };
-            return request;
-        }
-
         private readonly IConfiguration _configuration;
         private readonly IUserZoomDataBuilder _userZoomDataBuilder;
         private readonly IRestClient _restClientBusinessApi;
+        private readonly IJustToBeSafeFirstViewModelBuilder _jtbsViewModelBuilder;
     }
 }

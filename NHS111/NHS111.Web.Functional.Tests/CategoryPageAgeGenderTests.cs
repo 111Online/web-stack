@@ -13,7 +13,6 @@ namespace NHS111.Web.Functional.Tests
         public void CategoriesPage_PresentForFemaleChild()
         {
             var categoryPage = TestScenerios.LaunchCategoryScenerio(Driver, TestScenerioSex.Female, 5);
-
             categoryPage.VerifyPathwayInCategoryList("Stroke", "PA171FemaleChild");
             categoryPage.VerifyPathwayInCategoryList("Genital injury with cut or wound", "PW1010FemaleChild");
             categoryPage.VerifyPathwayInCategoryList("Palpitations", "PW1029FemaleChild");
@@ -70,7 +69,7 @@ namespace NHS111.Web.Functional.Tests
             categoryPage.VerifyPathwayInCategoryList("Sleep problems", "PW1697FemaleChild");
             categoryPage.VerifyPathwayInCategoryList("Sexual or period problems", "PW1699FemaleChild");
             categoryPage.VerifyPathwayInCategoryList("Fluid or wax coming from the ear with no loss of hearing", "PW1702FemaleChild");
-            categoryPage.VerifyPathwayInCategoryList("Problems with wounds, plaster casts or metal rods", "PW1709FemaleChild");
+            categoryPage.VerifyPathwayInCategoryList("Problems with wounds, drains, plaster casts or metal rods", "PW1709FemaleChild");
             categoryPage.VerifyPathwayInCategoryList("Locked or aching jaw", "PW1712FemaleChild");
             categoryPage.VerifyPathwayInCategoryList("Nosebleed after an injury", "PW1713FemaleChild");
             categoryPage.VerifyPathwayInCategoryList("Stoma problems", "PW1719FemaleChild");
@@ -88,7 +87,7 @@ namespace NHS111.Web.Functional.Tests
             categoryPage.VerifyPathwayInCategoryList("Wound problems", "PW1776FemaleChild");
             categoryPage.VerifyPathwayInCategoryList("Stomach or side injury", "PW500FemaleChild");
             categoryPage.VerifyPathwayInCategoryList("Stomach or side injury with a cut or wound", "PW508FemaleChild");
-            categoryPage.VerifyPathwayInCategoryList("Stomach pain", "PW517FemaleChild");
+            categoryPage.VerifyPathwayInCategoryList("Stomach ache or pain", "PW517FemaleChild");
             categoryPage.VerifyPathwayInCategoryList("Chest pain", "PA21FemaleChild");
             categoryPage.VerifyPathwayInCategoryList("Chemical burns", "PW564FemaleChild");
             categoryPage.VerifyPathwayInCategoryList("Toothache after an injury", "PW572FemaleChild");
@@ -130,7 +129,6 @@ namespace NHS111.Web.Functional.Tests
             categoryPage.VerifyPathwayInCategoryList("Breathing problems", "PW557FemaleChild");
             categoryPage.VerifyOtherProblems("PW1348");
             categoryPage.CompareAndVerify(categoryPage, "1");
-
             var questionInfoPage = categoryPage.SelectPathway("Something stuck in the bottom");
             questionInfoPage.ClickIUnderstand();
             Driver.FindElement(By.XPath("//input[@value = 'PW1531FemaleChild']"));
@@ -196,7 +194,7 @@ namespace NHS111.Web.Functional.Tests
             categoryPage.VerifyPathwayInCategoryList("Sexual or period problems", "PW1684FemaleAdult");
             categoryPage.VerifyPathwayInCategoryList("Sleep problems", "PW1686FemaleAdult");
             categoryPage.VerifyPathwayInCategoryList("Fluid or wax coming from the ear with no loss of hearing", "PW1702FemaleAdult");
-            categoryPage.VerifyPathwayInCategoryList("Problems with wounds, plaster casts or metal rods", "PW1709FemaleAdult");
+            categoryPage.VerifyPathwayInCategoryList("Problems with wounds, drains, plaster casts or metal rods", "PW1709FemaleAdult");
             categoryPage.VerifyPathwayInCategoryList("Locked or aching jaw", "PW1712FemaleAdult");
             categoryPage.VerifyPathwayInCategoryList("Nosebleed after an injury", "PW1713FemaleAdult");
             categoryPage.VerifyPathwayInCategoryList("Stoma problems", "PW1719FemaleAdult");
@@ -214,7 +212,7 @@ namespace NHS111.Web.Functional.Tests
             categoryPage.VerifyPathwayInCategoryList("Wound problems", "PW1776FemaleAdult");
             categoryPage.VerifyPathwayInCategoryList("Stomach or side injury", "PW500FemaleAdult");
             categoryPage.VerifyPathwayInCategoryList("Stomach or side injury with a cut or wound", "PW508FemaleAdult");
-            categoryPage.VerifyPathwayInCategoryList("Stomach pain", "PW516FemaleAdult");
+            categoryPage.VerifyPathwayInCategoryList("Stomach ache or pain", "PW516FemaleAdult");
             categoryPage.VerifyPathwayInCategoryList("Chest pain", "PA21FemaleAdult");
             categoryPage.VerifyPathwayInCategoryList("Chemical burns", "PW564FemaleAdult");
             categoryPage.VerifyPathwayInCategoryList("Toothache after an injury", "PW572FemaleAdult");
@@ -321,7 +319,7 @@ namespace NHS111.Web.Functional.Tests
             categoryPage.VerifyPathwayInCategoryList("Sleep problems", "PW1697MaleChild");
             categoryPage.VerifyPathwayInCategoryList("Male sexual problems", "PW1698MaleChild");
             categoryPage.VerifyPathwayInCategoryList("Fluid or wax coming from the ear with no loss of hearing", "PW1702MaleChild");
-            categoryPage.VerifyPathwayInCategoryList("Problems with wounds, plaster casts or metal rods", "PW1709MaleChild");
+            categoryPage.VerifyPathwayInCategoryList("Problems with wounds, drains, plaster casts or metal rods", "PW1709MaleChild");
             categoryPage.VerifyPathwayInCategoryList("Locked or aching jaw", "PW1712MaleChild");
             categoryPage.VerifyPathwayInCategoryList("Nosebleed after an injury", "PW1713MaleChild");
             categoryPage.VerifyPathwayInCategoryList("Stoma problems", "PW1719MaleChild");
@@ -339,7 +337,7 @@ namespace NHS111.Web.Functional.Tests
             categoryPage.VerifyPathwayInCategoryList("Wound problems", "PW1776MaleChild");
             categoryPage.VerifyPathwayInCategoryList("Stomach or side injury", "PW503MaleChild");
             categoryPage.VerifyPathwayInCategoryList("Stomach or side injury with a cut or wound", "PW511MaleChild");
-            categoryPage.VerifyPathwayInCategoryList("Stomach pain", "PW520MaleChild");
+            categoryPage.VerifyPathwayInCategoryList("Stomach ache or pain", "PW520MaleChild");
             categoryPage.VerifyPathwayInCategoryList("Chest pain", "PA21MaleChild");
             categoryPage.VerifyPathwayInCategoryList("Chemical burns", "PW564MaleChild");
             categoryPage.VerifyPathwayInCategoryList("Toothache after an injury", "PW572MaleChild");
@@ -442,7 +440,7 @@ namespace NHS111.Web.Functional.Tests
             categoryPage.VerifyPathwayInCategoryList("Male sexual problems", "PW1685MaleAdult");
             categoryPage.VerifyPathwayInCategoryList("Sleep problems", "PW1686MaleAdult");
             categoryPage.VerifyPathwayInCategoryList("Fluid or wax coming from the ear with no loss of hearing", "PW1702MaleAdult");
-            categoryPage.VerifyPathwayInCategoryList("Problems with wounds, plaster casts or metal rods", "PW1709MaleAdult");
+            categoryPage.VerifyPathwayInCategoryList("Problems with wounds, drains, plaster casts or metal rods", "PW1709MaleAdult");
             categoryPage.VerifyPathwayInCategoryList("Locked or aching jaw", "PW1712MaleAdult");
             categoryPage.VerifyPathwayInCategoryList("Nosebleed after an injury", "PW1713MaleAdult");
             categoryPage.VerifyPathwayInCategoryList("Stoma problems", "PW1719MaleAdult");
@@ -460,7 +458,7 @@ namespace NHS111.Web.Functional.Tests
             categoryPage.VerifyPathwayInCategoryList("Wound problems", "PW1776MaleAdult");
             categoryPage.VerifyPathwayInCategoryList("Stomach or side injury", "PW503MaleAdult");
             categoryPage.VerifyPathwayInCategoryList("Stomach or side injury with a cut or wound", "PW511MaleAdult");
-            categoryPage.VerifyPathwayInCategoryList("Stomach pain", "PW519MaleAdult");
+            categoryPage.VerifyPathwayInCategoryList("Stomach ache or pain", "PW519MaleAdult");
             categoryPage.VerifyPathwayInCategoryList("Chest pain", "PA21MaleAdult");
             categoryPage.VerifyPathwayInCategoryList("Chemical burns", "PW564MaleAdult");
             categoryPage.VerifyPathwayInCategoryList("Toothache after an injury", "PW572MaleAdult");

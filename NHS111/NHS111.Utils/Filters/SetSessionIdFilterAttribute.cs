@@ -11,11 +11,12 @@ namespace NHS111.Utils.Filters
     {
         private const string SessionCookieName = "nhs111-session-id";
 
-        public override void OnActionExecuting(ActionExecutingContext filterContext)
-        {
-            var param = filterContext.ActionParameters.Values.FirstOrDefault(p => p is LocationViewModel);
+        public override void OnActionExecuting(ActionExecutingContext filterContext) {
+            if (filterContext.HttpContext.Response.HeadersWritten)
+                return;
 
-            var model = param as JourneyViewModel;
+            var model = filterContext.ActionParameters.Values.OfType<JourneyViewModel>().FirstOrDefault();
+            
             if (model == null)
                 return;
 

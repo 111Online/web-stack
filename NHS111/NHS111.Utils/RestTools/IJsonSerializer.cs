@@ -1,5 +1,5 @@
-﻿using Neo4jClient.Serialization;
-using RestSharp.Deserializers;
+﻿using RestSharp.Deserializers;
+using RestSharp.Serializers;
 
 namespace NHS111.Utils.RestTools
 {

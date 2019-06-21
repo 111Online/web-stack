@@ -59,6 +59,13 @@ namespace NHS111.Business.Configuration
                 .Replace("{grouped}", grouped.ToString())
                 .Replace("{startingOnly}", startingOnly.ToString());
         }
+        
+        public string GetDomainApiGroupedPathwaysUrl(bool grouped, bool startingOnly)
+        {
+            return GetDomainApiUrl("DomainApiGroupedPathwaysUrl")
+                .Replace("{grouped}", grouped.ToString())
+                .Replace("{startingOnly}", startingOnly.ToString());
+        }
 
         public string GetDomainApiPathwaysUrl(bool grouped, bool startingOnly, string gender, int age)
         {
@@ -123,7 +130,7 @@ namespace NHS111.Business.Configuration
 
         private static string GetDomainApiUrl(string key)
         {
-            return String.Format("{0}{1}", ConfigurationManager.AppSettings["DomainApiBaseUrl"], ConfigurationManager.AppSettings[key]).Replace("&amp;", "&");
+            return ConfigurationManager.AppSettings[key].Replace("&amp;", "&");
         }
 
         public string GetRedisUrl()
@@ -151,9 +158,26 @@ namespace NHS111.Business.Configuration
 
         }
 
+        public string GetCCGBaseUrl()
+        {
+            return
+                ConfigurationManager.AppSettings["CCGApiBaseUrl"];
+        }
+
+        public string CCGBusinessApiGetCCGUrl(string postcode)
+        {
+            return
+                ConfigurationManager.AppSettings["CCGApiGetCCGByPostcodeUrl"].Replace("{postcode}", postcode);
+        }
+
         public string GetLocationBaseUrl()
         {
             return ConfigurationManager.AppSettings["LocationBaseUrl"];
+        }
+
+        public string GetDomainApiBaseUrl()
+        {
+            return ConfigurationManager.AppSettings["DomainApiBaseUrl"];
         }
 
         public string GetLocationApiKey()
@@ -208,6 +232,7 @@ namespace NHS111.Business.Configuration
 
     public interface IConfiguration
     {
+        string GetDomainApiBaseUrl();
         string GetDomainApiMonitorHealthUrl();
 
         /* Questions */
@@ -223,6 +248,7 @@ namespace NHS111.Business.Configuration
 
         /* Pathways */
         string GetDomainApiPathwaysUrl(bool grouped, bool startingOnly);
+        string GetDomainApiGroupedPathwaysUrl(bool grouped, bool startingOnly);
         string GetDomainApiPathwaysUrl(bool grouped, bool startingOnly, string gender, int age);
         string GetDomainApiPathwayUrl(string pathwayId);
         string GetDomainApiIdentifiedPathwayUrl(string pathwayNumbers, string gender, int age);
@@ -254,6 +280,10 @@ namespace NHS111.Business.Configuration
         string GetLocationBaseUrl();
         string GetLocationPostcodebyGeoUrl(double longitude, double latitude);
         string GetLocationByPostcodeUrl(string postcode);
+
+        /* CCG */
+        string GetCCGBaseUrl();
+        string CCGBusinessApiGetCCGUrl(string postcode);
 
         /*Version*/
         string GetDomainApiVersionUrl();

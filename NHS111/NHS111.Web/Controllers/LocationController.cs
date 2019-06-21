@@ -26,19 +26,37 @@ namespace NHS111.Web.Controllers
             _locationResultBuilder = locationResultBuilder;
             _configuration = configuration;
         }
+
         [HttpGet, SetSessionIdFilter]
-        public ActionResult Home(LocationViewModel model)
+        public ActionResult Home(JourneyViewModel model)
         {
             return View(model);
         }
+        
+
+        [Route("Location")]
+        [HttpPost]
+        public ActionResult Location(LocationViewModel model)
+        {
+            return View(model);
+        }
+        
+        [Route("Location/ChangePostcode")]
+        [HttpGet]
+        public ActionResult ChangePostcode(LocationViewModel model)
+        {
+            return View("Location", model);
+        }
 
         [HttpPost]
-        public ActionResult Find(LocationViewModel model)
+        public async Task<ActionResult> Find(LocationViewModel model)
         {
             ModelState.Clear();
-            var postcodeValidationRepsonse = _postCodeAllowedValidator.IsAllowedPostcode(model.CurrentPostcode);
-            if (postcodeValidationRepsonse == PostcodeValidatorResponse.InvalidSyntax)
-                return View("Home", model);
+            var postcodeValidationRepsonse = await _postCodeAllowedValidator.IsAllowedPostcodeAsync(model.CurrentPostcode);
+            if (postcodeValidationRepsonse == PostcodeValidatorResponse.InvalidSyntax) {
+                ModelState.AddModelError("invalid-postcode", "Please enter a valid postcode");
+                return View("location", model);
+            }
 
             return DeriveApplicationView(model, postcodeValidationRepsonse, _postCodeAllowedValidator.CcgModel);
         }
@@ -57,48 +75,42 @@ namespace NHS111.Web.Controllers
         {
             var results = await _locationResultBuilder.LocationResultByGeouilder(longlat);
             var locationResults = Mapper.Map<List<AddressInfoViewModel>>(results.DistinctBy(r => r.Thoroughfare));
-            return View("ConfirmLocation", new ConfirmLocationViewModel { FoundLocations = locationResults, SessionId = model.SessionId, Campaign = model.Campaign, FilterServices = model.FilterServices });
+            return View("ConfirmLocation", new ConfirmLocationViewModel { FoundLocations = locationResults, SessionId = model.SessionId, Campaign = model.Campaign, FilterServices = model.FilterServices, PathwayNo = model.PathwayNo});
         }
 
-        [HttpGet]
-        [Route("home/provider/{providerName}", Name = "ProviderRoute")]
-        public ActionResult Provider(ProviderViewModel model, string providerName)
-        {
-            if (providerName == DUCTriageApp.Expert24.Name)
-                return Redirect(_configuration.Expert24Url);
-
-            return View(providerName.Replace(" ", ""), model);
-        }
-
-        private ActionResult DeriveApplicationView(JourneyViewModel model, PostcodeValidatorResponse postcodeValidationRepsonse, CCGModel ccg)
+        private ActionResult DeriveApplicationView(JourneyViewModel model, PostcodeValidatorResponse postcodeValidationRepsonse, CCGDetailsModel ccg)
         {
             var moduleZeroViewName = "../Question/InitialQuestion";
-            switch (postcodeValidationRepsonse)
-            {
-                case PostcodeValidatorResponse.InPathwaysArea:
-                    return View(moduleZeroViewName, 
-                        new JourneyViewModel
-                        {
-                            SessionId = model.SessionId,
-                            CurrentPostcode = ccg.Postcode,
-                            Campaign = string.IsNullOrEmpty(model.Campaign) ? ccg.StpName : model.Campaign,
-                            Source = string.IsNullOrEmpty(model.Source) ? ccg.CCG : model.Source,
+            model.CurrentPostcode = ccg.Postcode;
+            model.Campaign = string.IsNullOrEmpty(model.Campaign) ? ccg.StpName : model.Campaign;
+            model.Source = string.IsNullOrEmpty(model.Source) ? ccg.CCG : model.Source;
+
+            switch (postcodeValidationRepsonse) {
+                case PostcodeValidatorResponse.InPathwaysAreaWithoutPharmacyServices: {
+                    if (IsRequestingPharmacyPathway(model.PathwayNo))
+                            return View("../Pathway/EmergencyPrescriptionsOutOfArea", model);
+
+                    return View(moduleZeroViewName, model);
+                }
+                case PostcodeValidatorResponse.InPathwaysAreaWithPharmacyServices: //postcode with pharmacy services but didn't request pharmacy pathway
+                    return View(moduleZeroViewName, model);
+
+                case PostcodeValidatorResponse.PostcodeNotFound:
+                    return View("OutOfArea",
+                        new OutOfAreaViewModel {
+                            SessionId = model.SessionId, Campaign = ccg.StpName, Source = ccg.CCG,
                             FilterServices = model.FilterServices
                         });
-                case PostcodeValidatorResponse.OutsidePathwaysArea:
-                    return RedirectToRoute("ProviderRoute",
-                        new
-                        {
-                            providerName = ccg.App,
-                            ccg.Postcode,
-                            Campaign = WebUtility.UrlEncode(ccg.StpName),
-                            Source = WebUtility.UrlEncode(ccg.CCG)
-                        });
-                case PostcodeValidatorResponse.PostcodeNotFound:
-                    return View("OutOfArea", new OutOfAreaViewModel { SessionId = model.SessionId, Campaign = ccg.StpName, Source = ccg.CCG, FilterServices = model.FilterServices });
-                default:
-                    return View("Home");
             }
+
+            return View("Location");
         }
+
+        private bool IsRequestingPharmacyPathway(string pathwayNo) {
+            return pathwayNo != null && pathwayNo.ToUpper() == EmergencyPrescriptionsPathwayNo;
+        }
+
+        private static string EmergencyPrescriptionsPathwayNo = "PW1827";
     }
+
 }

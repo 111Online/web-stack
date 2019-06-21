@@ -39,39 +39,6 @@ button,
   padding: $baseline-grid-unit ($baseline-grid-unit * 3);
 }
 
-/*
- Uncomment these lines to enabled button arrows
-
-.button--next {
-  padding-right: 35px;
-}
-
-.button--next::after,
-.button--previous::after {
-  background: url("/content/images/icons/arrow--white.svg") center no-repeat;
-  content: "";
-  position: absolute;
-  top: 3px;
-  right: 0;
-  width: 30px;
-  height: 100%;
-}
-
-.button--previous {
-  padding-left: 35px;
-}
-
-.button--previous::after {
-  left: 0;
-  transform: scaleX(-1);
-}
-
-.button--previous.button--link::after,
-.button--next.button--link::after {
-  background-image: url("/content/images/icons/arrow--blue.svg");
-}
-*/
-
 .button--stacked {
   display: block;
 }

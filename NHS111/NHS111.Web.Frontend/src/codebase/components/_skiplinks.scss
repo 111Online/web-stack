@@ -1,4 +1,5 @@
 @import "../environment/settings/colours";
+@import "../tools/mixins/_addons.scss";
 
 .skiplinks {
   background-color: $blue-10;
@@ -15,10 +16,7 @@
 a.skiplinks__link {
   color: transparent;
   padding: ($baseline-grid-unit * 2);
-  -moz-user-select: none;
-  -webkit-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
+  @include user-select(none);
 
   &:focus {
     color: $blue;

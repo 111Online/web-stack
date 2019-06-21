@@ -1,47 +1,54 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using NHS111.Models.Models.Web.Validators;
 using NHS111.Models.Models.Web.CCG;
 using NHS111.Web.Presentation.Builders;
 using System.Text.RegularExpressions;
 using NHS111.Features;
+using NHS111.Models.Models.Domain;
+
 namespace NHS111.Web.Presentation.Validators
 {
+    using System;
+
     public class PostCodeAllowedValidator : IPostCodeAllowedValidator
     {
         private readonly ICCGModelBuilder _ccgModelBuilder;
         private readonly IAllowedPostcodeFeature _allowedPostcodeFeature;
-
-        private CCGModel _ccg;
         
         public PostCodeAllowedValidator(IAllowedPostcodeFeature allowedPostcodeFeature, ICCGModelBuilder ccgModelBuilder)
         {
             _allowedPostcodeFeature = allowedPostcodeFeature;
             _ccgModelBuilder= ccgModelBuilder;
         }
+
         public PostcodeValidatorResponse IsAllowedPostcode(string postcode)
         {
-            if (string.IsNullOrWhiteSpace(postcode)) return PostcodeValidatorResponse.InvalidSyntax;
-            Regex regex = new Regex(@"^[a-zA-Z0-9]+$");
-            if(!regex.IsMatch(postcode.Replace(" ", ""))) return PostcodeValidatorResponse.InvalidSyntax;
-            Task<CCGModel> ccgModelBuildertask = Task.Run<CCGModel>(async () => await _ccgModelBuilder.FillCCGModel(postcode));
-            if (!_allowedPostcodeFeature.IsEnabled) return PostcodeValidatorResponse.InPathwaysArea;
-            _ccg = ccgModelBuildertask.Result;
-            if (_ccg.Postcode == null) return PostcodeValidatorResponse.PostcodeNotFound;
-            if (!DUCTriageApp.IsPathways(_ccg.App)) return PostcodeValidatorResponse.OutsidePathwaysArea;
-            else return PostcodeValidatorResponse.InPathwaysArea;
+            var postcodeVlaidatorResponse = Task.Run(async () => await IsAllowedPostcodeAsync(postcode));
+            return postcodeVlaidatorResponse.Result;
         }
 
-        public CCGModel CcgModel
+        public async Task<PostcodeValidatorResponse> IsAllowedPostcodeAsync(string postcode)
         {
-            get { return _ccg; }
+            if (string.IsNullOrWhiteSpace(postcode))
+                return PostcodeValidatorResponse.InvalidSyntax;
+            if (!_alphanumericRegex.IsMatch(postcode.Replace(" ", "")))
+                return PostcodeValidatorResponse.InvalidSyntax;
+            if (!_allowedPostcodeFeature.IsEnabled)
+                return PostcodeValidatorResponse.InPathwaysAreaWithPharmacyServices;
+            try {
+                CcgModel = await _ccgModelBuilder.FillCCGDetailsModelAsync(postcode);
+            } catch (ArgumentException) {
+                return PostcodeValidatorResponse.InvalidSyntax;
+            }
+            if (CcgModel.Postcode == null)
+                return PostcodeValidatorResponse.PostcodeNotFound;
+            if (!CcgModel.PharmacyServicesAvailable && !string.IsNullOrEmpty(CcgModel.Postcode))
+                return PostcodeValidatorResponse.InPathwaysAreaWithoutPharmacyServices;
+            return PostcodeValidatorResponse.InPathwaysAreaWithPharmacyServices;
         }
+
+        public CCGDetailsModel CcgModel { get; private set; }
+            
+        private readonly Regex _alphanumericRegex = new Regex(@"^[a-zA-Z0-9]+$");
     }
-
-
-   
-
 }

@@ -17,8 +17,6 @@ namespace NHS111.Models.Models.Web
         public Enums.Urgency Urgency { get; set; }
         public string SymptomGroup { get; set; }
       
-        public bool? ItkSendSuccess { get; set; }
-        public bool? ItkDuplicate { get; set; }
         public CareAdvice WorseningCareAdvice { get; set; }
         public SymptomDiscriminator SymptomDiscriminator { get; set; }
         public DosService UnavailableSelectedService { get; set; }
@@ -43,7 +41,7 @@ namespace NHS111.Models.Models.Web
             }
         }
 
-        public DosService SelectedService
+        public ServiceViewModel SelectedService
         {
             get
             {
@@ -116,6 +114,9 @@ namespace NHS111.Models.Models.Web
         }
 
         public bool? HasAcceptedCallbackOffer { get; set; }
+
+        public RecommendedServiceViewModel RecommendedService { get; set; }
+
 
         public OutcomeViewModel()
         {

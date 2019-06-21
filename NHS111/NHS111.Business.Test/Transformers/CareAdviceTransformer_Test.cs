@@ -40,10 +40,8 @@ namespace NHS111.Business.Test.Transformers
                 }
              };
 
-            var json = JsonConvert.SerializeObject(careAdviceList);
-
             //Act
-            var result = CareAdviceTransformer.AsQuestionWithAnswersList(json);
+            var result = CareAdviceTransformer.AsQuestionWithAnswersList(careAdviceList);
             var resultQuestionWithAnswersList = JsonConvert.DeserializeObject<List<QuestionWithAnswers>>(result);
 
             //Assert 
@@ -71,10 +69,8 @@ namespace NHS111.Business.Test.Transformers
                 }
             };
 
-            var json = JsonConvert.SerializeObject(careAdviceList);
-
             //Act
-            var result = CareAdviceTransformer.AsQuestionWithAnswersList(json);
+            var result = CareAdviceTransformer.AsQuestionWithAnswersList(careAdviceList);
             var resultQuestionWithAnswersList = JsonConvert.DeserializeObject<List<QuestionWithAnswers>>(result);
 
             //Assert 
@@ -107,10 +103,8 @@ namespace NHS111.Business.Test.Transformers
                 }
             };
 
-            var json = JsonConvert.SerializeObject(careAdviceList);
-
             //Act
-            var result = CareAdviceTransformer.AsQuestionWithAnswersList(json);
+            var result = CareAdviceTransformer.AsQuestionWithAnswersList(careAdviceList);
             var resultQuestionWithAnswersList = JsonConvert.DeserializeObject<List<QuestionWithAnswers>>(result);
 
             //Assert 
@@ -143,10 +137,8 @@ namespace NHS111.Business.Test.Transformers
                 }
             };
 
-            var json = JsonConvert.SerializeObject(careAdviceList);
-
             //Act
-            var result = CareAdviceTransformer.AsQuestionWithAnswersList(json);
+            var result = CareAdviceTransformer.AsQuestionWithAnswersList(careAdviceList);
             var resultQuestionWithAnswersList = JsonConvert.DeserializeObject<List<QuestionWithAnswers>>(result);
 
             //Assert 
@@ -179,10 +171,8 @@ namespace NHS111.Business.Test.Transformers
                 }
             };
 
-            var json = JsonConvert.SerializeObject(careAdviceList);
-
             //Act
-            var result = CareAdviceTransformer.AsQuestionWithAnswersList(json);
+            var result = CareAdviceTransformer.AsQuestionWithAnswersList(careAdviceList);
             var resultQuestionWithAnswersList = JsonConvert.DeserializeObject<List<QuestionWithAnswers>>(result);
 
             //Assert 
@@ -195,10 +185,8 @@ namespace NHS111.Business.Test.Transformers
             //Arrange
             var careAdviceList = new List<CareAdvice>();
 
-            var json = JsonConvert.SerializeObject(careAdviceList);
-
             //Act
-            var result = CareAdviceTransformer.AsQuestionWithAnswersList(json);
+            var result = CareAdviceTransformer.AsQuestionWithAnswersList(careAdviceList);
             var resultQuestionWithAnswersList = JsonConvert.DeserializeObject<List<QuestionWithAnswers>>(result);
 
             //Assert 
@@ -218,10 +206,8 @@ namespace NHS111.Business.Test.Transformers
                 }
             };
 
-            var json = JsonConvert.SerializeObject(careAdviceList);
-
             //Act
-            var result = CareAdviceTransformer.AsQuestionWithAnswersList(json);
+            var result = CareAdviceTransformer.AsQuestionWithAnswersList(careAdviceList);
             var resultQuestionWithAnswersList = JsonConvert.DeserializeObject<List<QuestionWithAnswers>>(result);
 
             //Assert 

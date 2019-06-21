@@ -10,7 +10,7 @@ namespace NHS111.Web.Functional.Tests.Regression
         {
             var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Mental Health Problems", TestScenerioSex.Male, TestScenerioAgeGroups.Adult);
 
-            questionPage.VerifyQuestion("Do you have a diagnosed mental health condition that\'s got worse?");
+            questionPage.VerifyQuestion("Do you have a diagnosed mental health problem that\'s got worse?");
             var outcomePage = questionPage
                 .Answer(3)
                 .Answer(4)

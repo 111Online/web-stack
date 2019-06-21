@@ -1,15 +1,21 @@
 ﻿
+using System.Configuration;
 using FluentValidation.Mvc;
+using log4net;
 using NHS111.Features;
+using NHS111.Utils.RestTools;
+using NHS111.Web.Presentation.Configuration;
 
 namespace NHS111.Web {
     using System;
     using System.Collections;
+    using System.Configuration;
     using System.Linq;
     using System.Web;
     using System.Web.Mvc;
     using System.Web.Optimization;
     using System.Web.Routing;
+    using Authentication;
     using Models.Models.Web;
     using Presentation.ModelBinders;
     using Utils.Filters;
@@ -28,7 +34,15 @@ namespace NHS111.Web {
             ModelBinders.Binders[typeof(PersonalDetailViewModel)] = new JourneyViewModelBinder();
             ModelBinders.Binders[typeof(QuestionViewModel)] = new JourneyViewModelBinder();
 
-            GlobalFilters.Filters.Add(new LogJourneyFilterAttribute());
+            var basicAuthFeature = new BasicAuthFeature();
+            if (basicAuthFeature.IsEnabled)
+            {
+                GlobalFilters.Filters.Add(new BasicAuthenticationAttribute(
+                    ConfigurationManager.AppSettings["login_credential_user"],
+                    ConfigurationManager.AppSettings["login_credential_password"]));
+            }
+
+            GlobalFilters.Filters.Add(new LogJourneyFilterAttribute(new LoggingRestClient(ConfigurationManager.AppSettings["LoggingServiceApiBaseUrl"], LogManager.GetLogger("log"))));
             FluentValidationModelValidatorProvider.Configure();
 
             var razorEngine = ViewEngines.Engines.OfType<RazorViewEngine>().FirstOrDefault();
@@ -36,7 +50,8 @@ namespace NHS111.Web {
             var newPartialViewFormats = new[]
             {
                 "~/Views/{1}/Elements/{0}.cshtml",
-                "~/Views/Shared/Elements/{0}.cshtml"
+                "~/Views/Shared/Elements/{0}.cshtml",
+                "~/Views/Shared/Repeat_Prescription/{0}.cshtml"
             };
 
             razorEngine.PartialViewLocationFormats = razorEngine.PartialViewLocationFormats.Union(newPartialViewFormats).ToArray();

@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using AutoMapper;
 using Moq;
+using Newtonsoft.Json;
 using NHS111.Models.Models.Domain;
 using NHS111.Models.Models.Web;
 using NHS111.Utils.Helpers;
@@ -12,6 +13,7 @@ using NHS111.Utils.Parser;
 using NHS111.Web.Presentation.Builders;
 using NHS111.Web.Presentation.Models;
 using NUnit.Framework;
+using RestSharp;
 using IConfiguration = NHS111.Web.Presentation.Configuration.IConfiguration;
 
 namespace NHS111.Web.Presentation.Builders.Tests
@@ -20,7 +22,7 @@ namespace NHS111.Web.Presentation.Builders.Tests
     public class JustToBeSafeFirstViewModelBuilderTests
     {
 
-        Mock<IRestfulHelper> _restfulHelper;
+        Mock<IRestClient> _restClient;
         Mock<IConfiguration> _configuration;
         Mock<IMappingEngine> _mappingEngine;
         Mock<IKeywordCollector> _keywordCollector;
@@ -47,7 +49,7 @@ namespace NHS111.Web.Presentation.Builders.Tests
         public void SetUp()
         {
 
-            _restfulHelper = new Mock<IRestfulHelper>();
+            _restClient = new Mock<IRestClient>();
             _configuration = new Mock<IConfiguration>();
             _mappingEngine = new Mock<IMappingEngine>();
             _keywordCollector = new Mock<IKeywordCollector>();
@@ -59,24 +61,46 @@ namespace NHS111.Web.Presentation.Builders.Tests
             _configuration.Setup(c => c.GetBusinessApiFirstQuestionUrl(It.IsAny<string>(),It.IsAny<string>())).Returns(MOCK_GetBusinessApiFirstQuestionUrl);
 
 
-            _restfulHelper.Setup(r => r.GetAsync(MOCK_BusinessApiPathwayIdUrl))
-                .ReturnsAsync(
+            var pathwayJson = 
                     "{'id':'" + testPathwayId + "'," +
                     "'title':'" + testPathwayTitle + "'," +
                     "'pathwayNo':'" + testPathwayNo + "'," +
                     "'gender':'" + testGender + "'," +
                     "'minimumAgeInclusive':16,'maximumAgeExclusive':200," +
                     "'module':'1','symptomGroup':'1112','group':null," +
-                    "'keywords':'" + testKeywords + "'}");
-            
+                    "'keywords':'" + testKeywords + "'}";
+            var pathway = JsonConvert.DeserializeObject<Pathway>(pathwayJson);
+            var pathwayResponse = new Mock<IRestResponse<Pathway>>();
+            pathwayResponse.Setup(_ => _.IsSuccessful).Returns(true);
+            pathwayResponse.Setup(_ => _.Data).Returns(pathway);
+            pathwayResponse.Setup(_ => _.Content).Returns(pathwayJson);
+            _restClient.Setup(r => r.ExecuteTaskAsync<Pathway>(It.Is<IRestRequest>(rq => rq.Resource == MOCK_BusinessApiPathwayIdUrl)))
+                .ReturnsAsync(pathwayResponse.Object);
 
-                         
-            _restfulHelper.Setup(r => r.GetAsync(MOCK_GetBusinessApiJustToBeSafePartOneUrl)).ReturnsAsync("[]");
-            _restfulHelper.Setup(r => r.GetAsync(MOCK_GetBusinessApiFirstQuestionUrl)).ReturnsAsync("{'Question':{'group':null,'order':null,'topic':null,'id':'"+testQuestionId+"','questionNo':'" + testQuestionNo + "','title':'" + testQuestionTitle + "','jtbs':'PW755-','jtbsText':null,'rationale':''}," +
-                                                                                                    "'Answers':[" +
-                                                                                                        "{'title':'Yes','titleWithoutSpaces':'Yes','symptomDiscriminator':'','supportingInfo':'','keywords':'','order':1}," +
-                                                                                                        "{'title':'No','titleWithoutSpaces':'No','symptomDiscriminator':'','supportingInfo':'','keywords':'','order':2}" +
-                                                                                                    "],'Answered':null,'Labels':['Question'],'State':null}");
+
+            var emptyQuestionList = JsonConvert.DeserializeObject<IEnumerable<QuestionWithAnswers>>("[]");
+            var emptyQuestionListResponse = new Mock<IRestResponse<IEnumerable<QuestionWithAnswers>>>();
+            emptyQuestionListResponse.Setup(_ => _.IsSuccessful).Returns(true);
+            emptyQuestionListResponse.Setup(_ => _.Data).Returns(emptyQuestionList);
+            emptyQuestionListResponse.Setup(_ => _.Content).Returns("[]");
+            _restClient.Setup(r => r.ExecuteTaskAsync<IEnumerable<QuestionWithAnswers>>(It.Is<IRestRequest>(rq => rq.Resource == MOCK_GetBusinessApiJustToBeSafePartOneUrl)))
+                .ReturnsAsync(emptyQuestionListResponse.Object);
+
+
+            var questionWithAnswersJson = "{'Question':{'group':null,'order':null,'topic':null,'id':'" +
+                                          testQuestionId + "','questionNo':'" + testQuestionNo + "','title':'" +
+                                          testQuestionTitle + "','jtbs':'PW755-','jtbsText':null,'rationale':''}," +
+                                          "'Answers':[" +
+                                          "{'title':'Yes','titleWithoutSpaces':'Yes','symptomDiscriminator':'','supportingInfo':'','keywords':'','order':1}," +
+                                          "{'title':'No','titleWithoutSpaces':'No','symptomDiscriminator':'','supportingInfo':'','keywords':'','order':2}" +
+                                          "],'Answered':null,'Labels':['Question'],'State':null}";
+            var questionWithAnswers = JsonConvert.DeserializeObject<QuestionWithAnswers>(questionWithAnswersJson);
+            var emptyQuestionWithAnswersResponse = new Mock<IRestResponse<QuestionWithAnswers>>();
+            emptyQuestionWithAnswersResponse.Setup(_ => _.IsSuccessful).Returns(true);
+            emptyQuestionWithAnswersResponse.Setup(_ => _.Data).Returns(questionWithAnswers);
+            emptyQuestionWithAnswersResponse.Setup(_ => _.Content).Returns(questionWithAnswersJson);
+            _restClient.Setup(r => r.ExecuteTaskAsync<QuestionWithAnswers>(It.Is<IRestRequest>(rq => rq.Resource == MOCK_GetBusinessApiFirstQuestionUrl)))
+                .ReturnsAsync(emptyQuestionWithAnswersResponse.Object);
 
             _mappingEngine.Setup(m => m.Mapper).Returns(_mapper.Object);
 
@@ -84,7 +108,7 @@ namespace NHS111.Web.Presentation.Builders.Tests
             _keywordCollector.Setup(k => k.ParseKeywords(testKeywords, false))
                 .Returns(testKeywordsCollection);
 
-            _testJustToBeSafeFirstViewModelBuilder = new JustToBeSafeFirstViewModelBuilder(_restfulHelper.Object, _configuration.Object, _mappingEngine.Object, _keywordCollector.Object, _userZoomDataBuilder.Object);
+            _testJustToBeSafeFirstViewModelBuilder = new JustToBeSafeFirstViewModelBuilder(_restClient.Object, _configuration.Object, _mappingEngine.Object, _keywordCollector.Object, _userZoomDataBuilder.Object);
             
 
         }

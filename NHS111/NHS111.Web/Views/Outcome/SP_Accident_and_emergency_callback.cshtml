@@ -1,5 +1,8 @@
 ﻿@using NHS111.Models.Models.Web
-@{ Layout = "~/Views/Shared/_LayoutNhsUk.cshtml"; }
+@{
+    Layout = "~/Views/Shared/_LayoutNhsUk.cshtml";
+    Model.SurveyLink.ValidationCallbackOffered = true;
+}
 @inherits NHS111.Web.Views.Shared.OutcomeFeaturesView<OutcomeViewModel>
 
 
