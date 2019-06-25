@@ -82,6 +82,12 @@ namespace NHS111.Business.Configuration
                 Replace("{pathwayId}", pathwayId);
         }
 
+        public string GetDomainApiPathwayMetadataUrl(string pathwayId)
+        {
+            return GetDomainApiUrl("DomainApiPathwayMetadataUrl").
+                Replace("{pathwayId}", pathwayId);
+        }
+
         public string GetDomainApiIdentifiedPathwayUrl(string pathwayNumbers, string gender, int age)
         {
             return GetDomainApiUrl("DomainApiIdentifiedPathwayUrl").
@@ -251,6 +257,7 @@ namespace NHS111.Business.Configuration
         string GetDomainApiGroupedPathwaysUrl(bool grouped, bool startingOnly);
         string GetDomainApiPathwaysUrl(bool grouped, bool startingOnly, string gender, int age);
         string GetDomainApiPathwayUrl(string pathwayId);
+        string GetDomainApiPathwayMetadataUrl(string pathwayId);
         string GetDomainApiIdentifiedPathwayUrl(string pathwayNumbers, string gender, int age);
         string GetDomainApiIdentifiedPathwayFromTitleUrl(string pathwayTitle, string gender, int age);
         string GetDomainApiPathwaySymptomGroup(string pathwayNumbers);

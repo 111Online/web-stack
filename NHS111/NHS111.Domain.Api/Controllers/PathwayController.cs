@@ -62,6 +62,14 @@ namespace NHS111.Domain.Api.Controllers
         }
 
         [HttpGet]
+        [Route("pathways/metadata/{pathwayId}")]
+        public async Task<JsonResult<PathwayMetaData>> GetPathwayMetadata(string pathwayId)
+        {
+            var pathway = await _pathwayRepository.GetPathwayMetadata(pathwayId);
+            return Json(pathway);
+        }
+
+        [HttpGet]
         [Route("pathways/identify/{pathwayNumbers}")]
         public async Task<JsonResult<Pathway>> GetIdentifiedPathway(string pathwayNumbers, [FromUri]string gender, [FromUri]int age)
         {
