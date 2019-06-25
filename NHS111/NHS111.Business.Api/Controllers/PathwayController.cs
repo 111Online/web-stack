@@ -34,6 +34,13 @@ namespace NHS111.Business.Api.Controllers
             return Json(pathway);
         }
 
+        [Route("pathway/metadata/{id}")]
+        public async Task<JsonResult<PathwayMetaData>> GetMetaData(string id)
+        {
+            var pathway = await _pathwayService.GetPathwayMetaData(id);
+            return Json(pathway);
+        }
+
         [Route("pathway/{pathwayNumbers}/{gender}/{age}")]
         public async Task<JsonResult<Pathway>> GetByDetails(string pathwayNumbers, string gender, int age)
         {

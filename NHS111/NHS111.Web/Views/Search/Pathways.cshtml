@@ -28,8 +28,8 @@
 
 
 @{
-    var encryptedQueryStringValues = KeyValueEncryptor.EncryptedKeys(Model);
     var topLevelCategory = Model.Categories.First();
+    var encryptedQueryStringValues = KeyValueEncryptor.EncryptedKeys(Model);
 }
 
 <div id="categories" class="measure search-typography">
@@ -52,6 +52,8 @@
                                     var titles = pathway.PathwayData.DigitalTitle.Split('|');
                                     var additionalTopics = titles.Length > 1 ? titles.Skip(1) : new List<string>();
                                     var title = titles[0];
+                                    Model.DigitalTitle = title;
+                                    encryptedQueryStringValues = KeyValueEncryptor.EncryptedKeys(Model);
                                     <li>
                                         <a class="search__topic" data-title="@title" data-pathway-number="@pathway.Pathway.Id" href="/@pathway.Pathway.PathwayNo/@Model.UserInfo.Demography.Gender/@Model.UserInfo.Demography.Age/start?args=@encryptedQueryStringValues.ToString()">
                                             <span class="search__topic-title">@Html.Raw(title)</span>
@@ -74,6 +76,8 @@
                         var titles = pathway.PathwayData.DigitalTitle.Split('|');
                         var additionalTopics = titles.Length > 1 ? titles.Skip(1) : new List<string>();
                         var title = titles[0];
+                        Model.DigitalTitle = title;
+                        encryptedQueryStringValues = KeyValueEncryptor.EncryptedKeys(Model);
                         <li>
                             <a class="search__topic" data-title="@title" data-pathway-number="@pathway.Pathway.Id" href="/@pathway.Pathway.PathwayNo/@Model.UserInfo.Demography.Gender/@Model.UserInfo.Demography.Age/start?args=@encryptedQueryStringValues.ToString()">
                                 <span class="search__topic-title">@Html.Raw(title)</span>

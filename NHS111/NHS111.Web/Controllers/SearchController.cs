@@ -30,7 +30,7 @@ namespace NHS111.Web.Controllers
         }
 
         [HttpPost]
-        public ActionResult Search(JourneyViewModel model)
+        public async Task<ActionResult> Search(JourneyViewModel model)
         {
             if (!ModelState.IsValidField("UserInfo.Demography.Gender") || !ModelState.IsValidField("UserInfo.Demography.Age"))
             {
@@ -41,9 +41,15 @@ namespace NHS111.Web.Controllers
 
             if (model.PathwayNo != null)
             {
+                var pathwayMetadata = await _restClientBusinessApi.ExecuteTaskAsync<PathwayMetaData>(
+                            new JsonRestRequest(_configuration.GetBusinessApiPathwayMetadataUrl( model.PathwayNo),
+                                Method.GET));
+                var digitalTitle = pathwayMetadata.Data.DigitalTitle;
+
                 var searchJourneyViewModel = new SearchJourneyViewModel() {
                     SessionId = model.SessionId,
                     PathwayNo = model.PathwayNo.ToUpper(),
+                    DigitalTitle = digitalTitle,
                     CurrentPostcode = model.CurrentPostcode,
                     UserInfo = model.UserInfo,
                     FilterServices = model.FilterServices,
