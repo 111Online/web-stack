@@ -2,7 +2,7 @@
 @import "../environment/settings/colours";
 @import "../environment/tools/mixins";
 
-details {
+details:not(.service-listing) {
   clear: both;
   display: block;
 
@@ -10,12 +10,11 @@ details {
     @include core-font(20);
     color: $link-colour;
     cursor: pointer;
-    display: inline-block;
+    display: block;
     margin-bottom: em(5);
     padding-left: 1.4em;
     text-indent: -1.7em;
     position: relative;
-    width: 100%;
 
     label {
       @include core-font(20);
@@ -29,7 +28,6 @@ details {
     &:focus {
       outline: 3px solid $focus-colour;
     }
-
     // Show the arrow on summary elements in Firefox - _details.scss
     // The current Firefox implementation uses display: list-item to show the arrow marker.
     // We want to use display: inline-block to shrink-wrap the focus outline around the text.

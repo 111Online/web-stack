@@ -1,4 +1,4 @@
-﻿@using NHS111.Models.Models.Web
+﻿﻿@using NHS111.Models.Models.Web
 @{
     Layout = "~/Views/Shared/_LayoutNhsUK.cshtml";
 }
@@ -20,11 +20,12 @@
 <ol>
     <li>Answer questions about your main symptom.</li>
     <li>Find out when and where to get help.</li>
-    <li>Get a call back from a nurse, if you need one.</li>
+    <li>Be contacted by a nurse, if needed.</li>
 </ol>
 
 <div class="callout callout--info measure">
-    <p>General information about <a href="https://www.nhs.uk/conditions/">health problems</a>, <a href="https://www.nhs.uk/medicines/">medicines</a> and how to get an <a href="https://www.nhs.uk/live-well/healthy-body/out-of-hours-medicines/">emergency prescription</a> is on <a href="https://www.nhs.uk">NHS.UK</a>.</p>
+    <p>If you’ve run out of your prescribed medicines, find out how to get an <a href="/emergency-prescription">emergency prescription</a>.</p>
+    <p>General information about <a href="https://www.nhs.uk/conditions/">health problems</a> and <a href="https://www.nhs.uk/medicines/">medicines</a> is on <a href="https://www.nhs.uk">NHS.UK</a>.</p>
 </div>
 
 @using (Html.BeginForm("Location", "Location", FormMethod.Post))

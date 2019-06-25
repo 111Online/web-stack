@@ -37,7 +37,7 @@ namespace NHS111.Web.Functional.Tests
         }
 
         [Test]
-        public void EnteringOutOfAreaPostcode_RedirectsToOutOfArea()
+        public void SubmitLocation_WithOutOfAreaPostcode_RedirectsToOutOfAreaPage()
         {
             var submitPostcodeResult = GetLocationPage()
                 .EnterPostcode(Postcodes.GetOutOfAreaPostcode())

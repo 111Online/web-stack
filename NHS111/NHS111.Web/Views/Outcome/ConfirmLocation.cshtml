@@ -54,6 +54,7 @@
     @Html.HiddenFor(x => Model.Campaign)
     @Html.HiddenFor(x => Model.Source)
     @Html.HiddenFor(x => Model.NodeType)
+    @Html.HiddenFor(x => Model.HasSeenPreamble)
 
     @Html.Partial("_CommonHiddenFieldsCareAdviceViewModel", Model)
     if (Model.FoundLocations.Any())

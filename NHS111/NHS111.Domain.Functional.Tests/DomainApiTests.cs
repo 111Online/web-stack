@@ -95,7 +95,7 @@ namespace NHS111.Domain.Functional.Tests
             SchemaValidation.AssertValidResponseSchema(result.Content, SchemaValidation.ResponseSchemaType.Question);
 
             //this next one checks the right question has returned
-            Assert.IsTrue(result.Content.Contains("\"questionNo\":\"TX1506"));
+            Assert.IsTrue(result.Content.Contains("\"id\":\"PX111.0.PW756"));
         }
 
         // Care Advice Controller tests

@@ -66,7 +66,7 @@
             {
                 var wording = "";
                 var partial = "";
-                if (groupedService.OnlineDOSServiceType == OnlineDOSServiceType.Callback)
+                if (groupedService.OnlineDOSServiceType.IsReferral)
                 {
                     wording = string.Format("{0}", ViewData.Keys.Contains("CallbackTitle") ? ViewData["CallbackTitle"] : "Arrange for someone to phone you");
                     partial = "_CallbackServices";

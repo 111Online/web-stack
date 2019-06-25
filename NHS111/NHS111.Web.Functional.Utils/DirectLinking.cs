@@ -37,5 +37,25 @@ namespace NHS111.Web.Functional.Utils
         {
             Assert.IsTrue(Driver.FindElement(By.Id("SelectedServiceId")).GetAttribute("value") == serviceId);
         }
+
+        public void VerifyServiceDetails()
+        {
+            Assert.IsTrue(IsDisplayed(Driver.FindElement(By.CssSelector(".service-details"))));
+        }
+
+        public void VerifyOtherServices()
+        {
+            Assert.AreEqual("Other ways to get help", Driver.FindElement(By.CssSelector("h1")).Text);
+        }
+
+        public void VerifyNoRecommendedServices()
+        {
+            Assert.AreEqual("Find a pharmacy near you", Driver.FindElement(By.CssSelector("h1")).Text);
+        }
+
+        public void VerifyOutOfArea()
+        {
+            Assert.AreEqual("This service is not in your area", Driver.FindElement(By.CssSelector("h1")).Text);
+        }
     }
 }

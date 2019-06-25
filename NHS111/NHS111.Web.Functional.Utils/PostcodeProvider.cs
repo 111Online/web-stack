@@ -9,7 +9,7 @@
 
         public string GetOutOfAreaPostcode()
         {
-            return "OUTOFAREA";
+            return "CF101BL"; //cardiff
         }
     }
 }
