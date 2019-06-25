@@ -55,13 +55,6 @@
     <div class="measure nhsuk-u-margin-top-2">
         <h1>Other ways to get help</h1>
     </div>
-    <div class="measure">
-        <div class="callout callout--lite callout--warning nhsuk-u-margin-bottom-4">
-            <p>
-                Get help now
-            </p>
-        </div>
-    </div>
     <div class="other-services">
         @Html.Partial("_rs_ChangePostcodeLink", dataDictionary)
         @foreach (var service in Model.OtherServices)
@@ -86,7 +79,11 @@
         }
     </div>
     
-    <hr/>
+    @* Emergency Prescription pathway is for non-symptomatic, so the worsening advice should not be offered *@
+    @if (Model.PathwayNo != "PW1827")
+    {
+        <hr/>
 
-    @Html.Partial("_rs_WorseningAdvice", Model)
+        @Html.Partial("_rs_WorseningAdvice", Model)
+    }
 </div>
