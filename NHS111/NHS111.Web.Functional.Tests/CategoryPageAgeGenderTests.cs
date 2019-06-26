@@ -92,7 +92,7 @@ namespace NHS111.Web.Functional.Tests
             categoryPage.VerifyPathwayInCategoryList("Chemical burns", "PW564FemaleChild");
             categoryPage.VerifyPathwayInCategoryList("Toothache after an injury", "PW572FemaleChild");
             categoryPage.VerifyPathwayInCategoryList("Burns from heat", "PW580FemaleChild");
-            categoryPage.VerifyPathwayInCategoryList("Chest or upper back injury without a cut or wound", "PW588FemaleChild");
+            categoryPage.VerifyPathwayInCategoryList("Chest or upper back injury", "PW588FemaleChild");
             categoryPage.VerifyPathwayInCategoryList("Chest or upper back injury with a cut or wound", "PW596FemaleChild");
             categoryPage.VerifyPathwayInCategoryList("Dental injuries", "PW620FemaleChild");
             categoryPage.VerifyPathwayInCategoryList("Diarrhoea", "PW629FemaleChild");
@@ -217,7 +217,7 @@ namespace NHS111.Web.Functional.Tests
             categoryPage.VerifyPathwayInCategoryList("Chemical burns", "PW564FemaleAdult");
             categoryPage.VerifyPathwayInCategoryList("Toothache after an injury", "PW572FemaleAdult");
             categoryPage.VerifyPathwayInCategoryList("Burns from heat", "PW580FemaleAdult");
-            categoryPage.VerifyPathwayInCategoryList("Chest or upper back injury without a cut or wound", "PW588FemaleAdult");
+            categoryPage.VerifyPathwayInCategoryList("Chest or upper back injury", "PW588FemaleAdult");
             categoryPage.VerifyPathwayInCategoryList("Chest or upper back injury with a cut or wound", "PW596FemaleAdult");
             categoryPage.VerifyPathwayInCategoryList("Dental injuries", "PW620FemaleAdult");
             categoryPage.VerifyPathwayInCategoryList("Diarrhoea", "PW628FemaleAdult");
@@ -342,7 +342,7 @@ namespace NHS111.Web.Functional.Tests
             categoryPage.VerifyPathwayInCategoryList("Chemical burns", "PW564MaleChild");
             categoryPage.VerifyPathwayInCategoryList("Toothache after an injury", "PW572MaleChild");
             categoryPage.VerifyPathwayInCategoryList("Burns from heat", "PW580MaleChild");
-            categoryPage.VerifyPathwayInCategoryList("Chest or upper back injury without a cut or wound", "PW588MaleChild");
+            categoryPage.VerifyPathwayInCategoryList("Chest or upper back injury", "PW588MaleChild");
             categoryPage.VerifyPathwayInCategoryList("Chest or upper back injury with a cut or wound", "PW596MaleChild");
             categoryPage.VerifyPathwayInCategoryList("Dental injuries", "PW620MaleChild");
             categoryPage.VerifyPathwayInCategoryList("Diarrhoea", "PW632MaleChild");
@@ -463,7 +463,7 @@ namespace NHS111.Web.Functional.Tests
             categoryPage.VerifyPathwayInCategoryList("Chemical burns", "PW564MaleAdult");
             categoryPage.VerifyPathwayInCategoryList("Toothache after an injury", "PW572MaleAdult");
             categoryPage.VerifyPathwayInCategoryList("Burns from heat", "PW580MaleAdult");
-            categoryPage.VerifyPathwayInCategoryList("Chest or upper back injury without a cut or wound", "PW588MaleAdult");
+            categoryPage.VerifyPathwayInCategoryList("Chest or upper back injury", "PW588MaleAdult");
             categoryPage.VerifyPathwayInCategoryList("Chest or upper back injury with a cut or wound", "PW596MaleAdult");
             categoryPage.VerifyPathwayInCategoryList("Dental injuries", "PW620MaleAdult");
             categoryPage.VerifyPathwayInCategoryList("Diarrhoea", "PW631MaleAdult");
