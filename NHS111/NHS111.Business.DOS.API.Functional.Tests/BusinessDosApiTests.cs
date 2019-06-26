@@ -49,7 +49,7 @@ namespace NHS111.Business.DOS.API.Functional.Tests
         [Test]
         public async void TestCheckDoSBusinessCapacitySumary()
         {
-            var dosFilteredCase = new DosFilteredCase {PostCode = "HP21 8AL", Age = "32", Gender = "M"};
+            var dosFilteredCase = new DosFilteredCase {PostCode = "HP21 8AL", Age = "32", Gender = "M", Disposition = 1005, SymptomDiscriminatorList = new []{4460}, SymptomGroup = 1064 };
             var request = new JsonRestRequest(BusinessDosCheckCapacitySummaryUrl, Method.POST);
             request.AddJsonBody(dosFilteredCase);
             var result = await _restClient.ExecuteTaskAsync<DosCheckCapacitySummaryResult>(request);

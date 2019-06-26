@@ -124,9 +124,9 @@
                 </legend>
 
                 <div class="form-group  @(@ViewData.ModelState.IsValidField("UserInfo.TelephoneNumber") ? "" : "form-group-error")">
-                    <label for="UserInfo_TelephoneNumber">Phone number</label>
+                    <label for="UserInfo_TelephoneNumber">Enter a mobile, landline or textphone number</label>
                     @Html.ValidationMessageFor(m => m.UserInfo.TelephoneNumber, "Enter a valid phone number")
-                    @Html.TextBoxFor(m => m.UserInfo.TelephoneNumber, new { @class = "form-control form-textbox form-control-16-chars", placeholder = "Landline or mobile number", type = "tel" })
+                    @Html.TextBoxFor(m => m.UserInfo.TelephoneNumber, new { @class = "form-control form-textbox form-control-16-chars", type = "tel" })
                 </div>
             </fieldset>
 
