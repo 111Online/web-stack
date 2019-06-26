@@ -64,7 +64,7 @@ namespace NHS111.Web.Presentation.Builders
             _logger.Debug(string.Format("DOSBuilder.FillCheckCapacitySummaryResult(): URL: {0} BODY: {1}", checkCapacitySummaryUrl, JsonConvert.SerializeObject(dosFilterdCase)));
             var response = await _restClient.ExecuteTaskAsync<DosCheckCapacitySummaryResult>(request);
 
-            if (response.StatusCode != HttpStatusCode.OK) return response.Data;
+            if (response.Data.Error != null) return response.Data;
 
             var services = new List<ServiceViewModel>();
             if (response.Data.Success != null)
