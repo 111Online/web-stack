@@ -58,6 +58,25 @@ namespace NHS111.Domain.Test.API_Project.Controller
             Assert.IsInstanceOf<Pathway>(result.Content);
         }
 
+        
+
+        [Test]
+        public async void should_return_a_single_pathway_metadata()
+        {
+            //Arrange
+             
+            var id = "PW1234";
+           
+            _pathwayRepository.Setup(x => x.GetPathwayMetadata(id)).Returns(Task.FromResult(new PathwayMetaData()));
+
+            //Act
+            var result = await _sut.GetPathwayMetadata(id);
+
+            //Assert
+            _pathwayRepository.Verify(x => x.GetPathwayMetadata(id), Times.Once);
+            Assert.IsInstanceOf<PathwayMetaData>(result.Content);
+        }
+
         [Test]
         public async void should_return_an_identified_pathway()
         {

@@ -26,6 +26,9 @@ namespace NHS111.Web.Functional.Utils
         [FindsBy(How = How.ClassName, Using = "button--next")]
         private IWebElement NextButton { get; set; }
         
+        [FindsBy(How = How.CssSelector, Using = "a[href='/emergency-prescription']")]
+        private IWebElement EPDeeplink { get; set; }
+
         public HomePage(IWebDriver driver) : base(driver)
         {
         }
@@ -54,6 +57,12 @@ namespace NHS111.Web.Functional.Utils
                 Driver.Navigate().GoToUrl(uri);
             }
             return this;
+        }
+
+        public LocationPage ClickEPDeeplink()
+        {
+            EPDeeplink.Click();
+            return new LocationPage(Driver);
         }
 
         public LocationPage ClickStart()
