@@ -42,7 +42,7 @@ namespace NHS111.Web.Controllers
             if (model.PathwayNo != null)
             {
                 var pathwayMetadata = await _restClientBusinessApi.ExecuteTaskAsync<PathwayMetaData>(
-                            new JsonRestRequest(_configuration.GetBusinessApiPathwayMetadataUrl( model.PathwayNo),
+                            new RestRequest(_configuration.GetBusinessApiPathwayMetadataUrl( model.PathwayNo),
                                 Method.GET));
                 var digitalTitle = pathwayMetadata.Data.DigitalTitle;
 
