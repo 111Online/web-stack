@@ -79,6 +79,35 @@ namespace NHS111.Business.Test.Services
             Assert.AreEqual(result.Title, "pathway1");
         }
 
+        
+
+        [Test]
+        public async void should_return_a_single_pathway_metadata_by_id()
+        {
+            //Arrange
+
+            var url = "http://mytest.com/";
+            var id = "PW123";
+            var pathway = new PathwayMetaData() { DigitalTitle = "pathway1" };
+
+            var response = new Mock<IRestResponse<PathwayMetaData>>();
+            response.Setup(_ => _.Data).Returns(pathway);
+
+            _configuration.Setup(x => x.GetDomainApiPathwayMetadataUrl(id)).Returns(url);
+            _restClient.Setup(x => x.ExecuteTaskAsync<PathwayMetaData>(It.IsAny<IRestRequest>()))
+                .ReturnsAsync(response.Object);
+
+            var sut = new PathwayService(_configuration.Object, _restClient.Object);
+
+            //Act
+            var result = await sut.GetPathwayMetaData(id);
+
+            //Assert 
+            _configuration.Verify(x => x.GetDomainApiPathwayMetadataUrl(id), Times.Once);
+            _restClient.Verify(x => x.ExecuteTaskAsync<PathwayMetaData>(It.IsAny<IRestRequest>()), Times.Once);
+            Assert.AreEqual(result.DigitalTitle, "pathway1");
+        }
+
         [Test]
         public async void should_return_an_identified_pathway()
         {

@@ -75,6 +75,7 @@
     <Compile Include="QuestionPageTests.cs" />
     <Compile Include="RecommendedServiceTests.cs" />
     <Compile Include="ServerErrorPageTests.cs" />
+    <Compile Include="SurveyTests.cs" />
     <Compile Include="TermsAndConditionsTests.cs" />
     <Compile Include="PrivacyStatementTests.cs" />
     <Compile Include="SearchPageTests.cs" />
