@@ -3,8 +3,13 @@ using Newtonsoft.Json;
 
 namespace NHS111.Models.Models.Web.Logging
 {
-    public class AuditEntry : LogEntry
+    public class AuditEntry
     {
+        public AuditEntry()
+        {
+            TIMESTAMP = DateTime.UtcNow;
+        }
+
         private string _pathwayId = string.Empty;
         private string _pathwayTitle = string.Empty;
         private string _state = string.Empty;
@@ -24,6 +29,9 @@ namespace NHS111.Models.Models.Web.Logging
         private string _dosResponse = string.Empty;
         private string _itkRequest = string.Empty;
         private string _itkResponse = string.Empty;
+
+        [JsonProperty(PropertyName = "TIMESTAMP")]
+        public DateTime TIMESTAMP { get; set; }
 
         [JsonProperty(PropertyName = "sessionId")]
         public Guid SessionId { get; set; }

@@ -209,13 +209,13 @@
     <Compile Include="Attributes\MultiSubmitAttribute.cs" />
     <Compile Include="Parser\KeywordCollector.cs" />
     <Compile Include="Filters\SetSessionIdFilterAttribute.cs" />
+    <Compile Include="Logging\Log4Net.cs" />
     <Compile Include="RestTools\JsonRestRequest.cs" />
     <Compile Include="Storage\AzureStorageService.cs" />
     <Compile Include="Comparer\KeywordComparer.cs" />
     <Compile Include="Converters\DosServiceConverter.cs" />
     <Compile Include="Dates\NonWorkingDays.cs" />
     <Compile Include="Filters\PersistCampaignDataFilterAttribute.cs" />
-    <Compile Include="Filters\LogJourneyFilterAttribute.cs" />
     <Compile Include="Helpers\AzureHelper.cs" />
     <Compile Include="Helpers\EnumHelper.cs" />
     <Compile Include="Helpers\HttpClientFactory.cs" />
@@ -228,10 +228,6 @@
     <Compile Include="Extensions\TaskExtension.cs" />
     <Compile Include="IoC\UtilsRegistry.cs" />
     <Compile Include="Kafka\KafkaClient.cs" />
-    <Compile Include="Logging\AzureTableStorageAppender.cs" />
-    <Compile Include="Logging\Log4Net.cs" />
-    <Compile Include="Logging\LogAudit.cs" />
-    <Compile Include="Logging\LogServiceContext.cs" />
     <Compile Include="Monitoring\BaseMonitor.cs" />
     <Compile Include="Monitoring\IMonitor.cs" />
     <Compile Include="Parser\JourneyJsonParser.cs" />

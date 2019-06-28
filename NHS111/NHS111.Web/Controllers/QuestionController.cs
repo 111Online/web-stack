@@ -1,5 +1,6 @@
 ﻿
 using NHS111.Utils.RestTools;
+using NHS111.Web.Presentation.Filters;
 
 namespace NHS111.Web.Controllers {
     using Features;
@@ -149,12 +150,12 @@ namespace NHS111.Web.Controllers {
 
 
         [HttpGet]
-        public async Task<ActionResult> InitialQuestion()
+        public ActionResult InitialQuestion()
         {
             var model = new JourneyViewModel();
             var audit = model.ToAuditEntry();
             audit.EventData = "User directed from duplicate submission page";
-            await _auditLogger.Log(audit);
+            _auditLogger.Log(audit);
 
             model.UserInfo = new UserInfo();
             _userZoomDataBuilder.SetFieldsForDemographics(model);
@@ -162,11 +163,11 @@ namespace NHS111.Web.Controllers {
         }
 
         [HttpPost]
-        public async Task<ActionResult> InitialQuestion(JourneyViewModel model)
+        public ActionResult InitialQuestion(JourneyViewModel model)
         {
             var audit = model.ToAuditEntry();
             audit.EventData = "User accepted module zero.";
-            await _auditLogger.Log(audit);
+            _auditLogger.Log(audit);
 
             ModelState.Clear();
             model.UserInfo = new UserInfo() { CurrentAddress = new FindServicesAddressViewModel() { Postcode = model.UserInfo.CurrentAddress.Postcode } };
