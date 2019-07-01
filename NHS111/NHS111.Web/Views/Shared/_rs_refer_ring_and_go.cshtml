@@ -1,4 +1,5 @@
-﻿@using NHS111.Models.Models.Web
+﻿@using NHS111.Models.Models.Domain
+@using NHS111.Models.Models.Web
 @using NHS111.Models.Models.Web.Elements
 @model  OutcomeViewModel
 @{
@@ -22,9 +23,12 @@
     </div>
     <p class="service-details__distance">@WebUtility.HtmlDecode(recommendedService.Distance) miles away</p>
     <div class="service-details__directions">
-
-        @using (Html.BeginForm("PersonalDetails", "Outcome", FormMethod.Post))
-        {
+        @{
+            var form = Model.OutcomeGroup.Equals(OutcomeGroup.RepeatPrescription)
+                ? Html.BeginForm("ReferralExplanation", "Outcome", FormMethod.Post)
+                : Html.BeginForm("PersonalDetails", "Outcome", FormMethod.Post);
+        }
+        @using (form) {
             @Html.Partial("_CommonHiddenFieldsOutcomeViewModel", Model)
             @Html.Partial("_CommonHiddenFieldsCareAdviceViewModel", Model)
             @Html.Hidden("SelectedServiceId", @recommendedService.Id)

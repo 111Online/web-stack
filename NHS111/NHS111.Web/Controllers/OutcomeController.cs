@@ -298,6 +298,13 @@ namespace NHS111.Web.Controllers
         }
 
         [HttpPost]
+        public async Task<ActionResult> ReferralExplanation(PersonalDetailViewModel model)
+        {
+            return View("~\\Views\\Outcome\\Repeat_Prescription\\ReferralExplanation.cshtml", model);
+        }
+
+
+        [HttpPost]
         public async Task<ActionResult> PersonalDetails(PersonalDetailViewModel model)
         {
             ModelState.Clear();
