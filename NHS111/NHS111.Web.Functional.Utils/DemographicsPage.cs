@@ -68,6 +68,11 @@ namespace NHS111.Web.Functional.Utils
             return new SearchPage(Driver);
         }
 
+        public QuestionInfoPage NextPageDeeplink()
+        {
+            NextButton.Submit();
+            return new QuestionInfoPage(Driver);
+        }
         public void VerifyAgeInputBox(string sex, string age)
         {
             SelectSex(sex);

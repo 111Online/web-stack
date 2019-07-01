@@ -72,10 +72,19 @@ namespace NHS111.Web.Functional.Utils
         {
             var homePage = TestScenarioPart.HomePage(driver);
             var locationPage = TestScenarioPart.Location(homePage);
-            var moduleZeroPage = TestScenarioPart.ModuleZero(locationPage);
+            var moduleZeroPage = TestScenarioPart.ModuleZero(locationPage, postcode);
             var demographicsPage = TestScenarioPart.Demographics(moduleZeroPage);
             var searchPage = TestScenarioPart.Search(demographicsPage, sex, age);
             var questionInfoPage = TestScenarioPart.QuestionInfo(searchPage, pathwayTopic);
+            return TestScenarioPart.Question(questionInfoPage);
+        }
+        public static QuestionPage LaunchDeeplinkScenerio(IWebDriver driver, string sex, int age, string postcode)
+        {
+            var homePage = TestScenarioPart.HomePage(driver);
+            var locationPage = TestScenarioPart.EPDeeplink(homePage);
+            var moduleZeroPage = TestScenarioPart.ModuleZero(locationPage, postcode);
+            var demographicsPage = TestScenarioPart.Demographics(moduleZeroPage);
+            var questionInfoPage = TestScenarioPart.QuestionInfo(demographicsPage, sex, age);
             return TestScenarioPart.Question(questionInfoPage);
         }
 
