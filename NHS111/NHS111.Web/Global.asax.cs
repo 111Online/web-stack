@@ -1,10 +1,9 @@
-﻿
-using System.Configuration;
-using FluentValidation.Mvc;
+﻿using FluentValidation.Mvc;
 using log4net;
 using NHS111.Features;
 using NHS111.Utils.RestTools;
-using NHS111.Web.Presentation.Configuration;
+using NHS111.Web.Presentation.Filters;
+using NHS111.Web.Presentation.Logging;
 
 namespace NHS111.Web {
     using System;
@@ -13,12 +12,10 @@ namespace NHS111.Web {
     using System.Linq;
     using System.Web;
     using System.Web.Mvc;
-    using System.Web.Optimization;
     using System.Web.Routing;
     using Authentication;
     using Models.Models.Web;
     using Presentation.ModelBinders;
-    using Utils.Filters;
     using Utils.Logging;
 
     public class MvcApplication
@@ -42,7 +39,10 @@ namespace NHS111.Web {
                     ConfigurationManager.AppSettings["login_credential_password"]));
             }
 
-            GlobalFilters.Filters.Add(new LogJourneyFilterAttribute(new LoggingRestClient(ConfigurationManager.AppSettings["LoggingServiceApiBaseUrl"], LogManager.GetLogger("log"))));
+            GlobalFilters.Filters.Add(new LogJourneyFilterAttribute(
+                    new AuditLogger(new LoggingRestClient(ConfigurationManager.AppSettings["LoggingServiceApiBaseUrl"], LogManager.GetLogger("log")), 
+                    new Presentation.Configuration.Configuration())));
+
             FluentValidationModelValidatorProvider.Configure();
 
             var razorEngine = ViewEngines.Engines.OfType<RazorViewEngine>().FirstOrDefault();

@@ -108,7 +108,6 @@
     <Compile Include="Extensions\ListExtension_Test.cs" />
     <Compile Include="Extensions\StringExtensionTest.cs" />
     <Compile Include="Extensions\TaskExtension_Test.cs" />
-    <Compile Include="Logging\AzureTableStorageAppenderTests.cs" />
     <Compile Include="Parser\PathwayIdParserTests.cs" />
     <Compile Include="Parser\PathwayTitleUriParserTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

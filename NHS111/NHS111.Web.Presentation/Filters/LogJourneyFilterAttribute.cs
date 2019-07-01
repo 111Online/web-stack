@@ -1,27 +1,21 @@
-﻿
+﻿using System;
 using System.Linq;
+using System.Web.Mvc;
+using NHS111.Models.Models.Web;
 using NHS111.Models.Models.Web.FromExternalServices;
-using NHS111.Utils.RestTools;
-using RestSharp;
+using NHS111.Models.Models.Web.Logging;
+using NHS111.Web.Presentation.Logging;
 
-namespace NHS111.Utils.Filters
+namespace NHS111.Web.Presentation.Filters
 {
-    using System;
-    using System.Configuration;
-    using System.Net.Http;
-    using System.Web.Mvc;
-    using Models.Models.Web;
-    using Models.Models.Web.Logging;
-    using Newtonsoft.Json;
-
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method, Inherited = true, AllowMultiple = true)]
     public class LogJourneyFilterAttribute : ActionFilterAttribute
     {
-        private static IRestClient _restClient;
+        private readonly IAuditLogger _auditLogger;
 
-        public LogJourneyFilterAttribute(IRestClient restClientLogJourneyFilter)
+        public LogJourneyFilterAttribute(IAuditLogger auditLogger)
         {
-            _restClient = restClientLogJourneyFilter;
+            _auditLogger = auditLogger;
         }
 
         public override void OnActionExecuted(ActionExecutedContext filterContext)
@@ -34,21 +28,19 @@ namespace NHS111.Utils.Filters
             if (model == null)
                 return;
 
-           var pageName = !string.IsNullOrEmpty(result.ViewName) ? result.ViewName : string.Format("{0}/{1}", filterContext.ActionDescriptor.ControllerDescriptor.ControllerName, filterContext.ActionDescriptor.ActionName);
+            var pageName = !string.IsNullOrEmpty(result.ViewName)
+                ? result.ViewName
+                : string.Format("{0}/{1}", filterContext.ActionDescriptor.ControllerDescriptor.ControllerName,
+                    filterContext.ActionDescriptor.ActionName);
 
             LogAudit(model, pageName);
         }
 
-        private static void LogAudit(JourneyViewModel model, string pageName)
+        private void LogAudit(JourneyViewModel model, string pageName)
         {
             var auditEntry = model.ToAuditEntry();
             auditEntry.Page = pageName;
-
-            var url = ConfigurationManager.AppSettings["LoggingServiceApiAuditUrl"];
-            
-            var request = new JsonRestRequest(url, Method.POST);
-            request.AddJsonBody(auditEntry);
-            _restClient.ExecutePostTaskAsync(request);
+            _auditLogger.Log(auditEntry);
         }
     }
 
@@ -60,7 +52,8 @@ namespace NHS111.Utils.Filters
 
         public static AuditEntry ToAuditEntry(this JourneyViewModel model)
         {
-            var audit = new AuditEntry {
+            var audit = new AuditEntry
+            {
                 SessionId = GetSessionId(model.Campaign, model.SessionId),
                 JourneyId = model.JourneyId != Guid.Empty ? model.JourneyId.ToString() : null,
                 Campaign = model.Campaign,
@@ -70,7 +63,7 @@ namespace NHS111.Utils.Filters
                 PathwayTitle = model.PathwayTitle,
                 State = model.StateJson,
                 DxCode = model is OutcomeViewModel ? model.Id : "",
-                Age = model.UserInfo.Demography != null ? model.UserInfo.Demography.Age : (int?)null,
+                Age = model.UserInfo.Demography != null ? model.UserInfo.Demography.Age : (int?) null,
                 Gender = model.UserInfo.Demography != null ? model.UserInfo.Demography.Gender : string.Empty,
                 Search = model.EntrySearchTerm
             };
