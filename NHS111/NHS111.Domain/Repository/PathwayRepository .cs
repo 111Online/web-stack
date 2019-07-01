@@ -32,6 +32,15 @@ namespace NHS111.Domain.Repository
                 .FirstOrDefault();
         }
 
+        public async Task<PathwayMetaData> GetPathwayMetadata(string id)
+        {
+            return await _graphRepository.Client.Cypher
+                .Match(string.Format("(p:PathwayMetaData {{ pathwayNo: \"{0}\" }})", id))
+                .Return(p => p.As<PathwayMetaData>())
+                .ResultsAsync
+                .FirstOrDefault();
+        }
+
         public async Task<Pathway> GetIdentifiedPathway(IEnumerable<string> pathwayNumbers, string gender, int age)
         {
             var genderIs = new Func<string, string>(g => string.Format("(p.gender is null or p.gender = \"\" or p.gender = \"{0}\")", g));
@@ -154,6 +163,7 @@ namespace NHS111.Domain.Repository
     public interface IPathwayRepository
     {
         Task<Pathway> GetPathway(string id);
+        Task<PathwayMetaData> GetPathwayMetadata(string id);
         Task<Pathway> GetIdentifiedPathway(IEnumerable<string> pathwayNumbers, string gender, int age);
         Task<Pathway> GetIdentifiedPathway(string pathwayTitle, string gender, int age);
         Task<IEnumerable<Pathway>> GetAllPathways(bool startingOnly);
