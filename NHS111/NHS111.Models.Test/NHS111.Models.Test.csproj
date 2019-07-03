@@ -137,6 +137,7 @@
     <Compile Include="Mappers\WebMappings\FromDosCaseToDosServicesByClinicalTermRequestTests.cs" />
     <Compile Include="Mappers\WebMappings\FromOutcomeViewModelToCaseDetailsConverterTests.cs" />
     <Compile Include="Mappers\WebMappings\FromOutcomeViewModelToDosViewModel.cs" />
+    <Compile Include="Mappers\WebMappings\FromOutcomeViewModelToOtherServicesViewModelTests.cs" />
     <Compile Include="Mappers\WebMappings\FromOutcomeViewModelToSubmitEncounterToServiceRequest.cs" />
     <Compile Include="Mappers\WebMappings\JourneyViewModelMapperTests.cs" />
     <Compile Include="Mappers\WebMappings\StaticTextToHtmlTests.cs" />
