@@ -8,7 +8,8 @@ namespace NHS111.Models.Mappers.WebMappings
     {
         protected override void Configure()
         {
-            Mapper.CreateMap<OutcomeViewModel, OtherServicesViewModel>().ForMember(o => o.OtherServices, opt => opt.Ignore());
+            Mapper.CreateMap<OutcomeViewModel, OtherServicesViewModel>()
+                .ForMember(o => o.OtherServices, opt => opt.Ignore());
         }
     }
 }
