@@ -217,6 +217,10 @@ namespace NHS111.Web.Controllers
                     var otherServices =
                         await _recommendedServiceBuilder.BuildRecommendedServicesList(model.DosCheckCapacitySummaryResult.Success.Services);
                     var otherServicesModel = Mapper.Map<OtherServicesViewModel>(model);
+                    //Very weird mapper issue ignoring this property for some reason
+                    //unit test specifically testing this passes fine so can really fathow what is going on
+                    //forcing it instead
+                    otherServicesModel.RecommendedService.ReasonText = model.RecommendedService.ReasonText;
                     otherServicesModel.OtherServices = otherServices.Skip(1);
                     return View("~\\Views\\Outcome\\Repeat_Prescription\\RecommendedServiceOtherServices.cshtml", otherServicesModel);
                 }
