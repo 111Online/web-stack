@@ -29,13 +29,26 @@ namespace NHS111.Models.Models.Web {
         {
             OutcomeModel = outcomeViewModel;
         }
+        protected string ResolveConfirmationViewByOutcome(OutcomeViewModel outcomeModel)
+        {
+            //todo:this needs a rethink with a combination of service type / outcome to route to correct page
+
+            if (outcomeModel != null
+                && outcomeModel.OutcomeGroup != null
+                && outcomeModel.OutcomeGroup.Equals(Domain.OutcomeGroup.RepeatPrescription))
+            {
+                return outcomeModel.OutcomeGroup.Id;
+            }
+
+            return "default";
+        }
     }
 
     public class ReferralConfirmationResultViewModel
         : ReferralResultViewModel
     {
         public override string PageTitle { get { return "Referral Confirmed"; } }
-        public override string ViewName { get { return "Confirmation/default/Confirmation"; } }
+        public override string ViewName { get { return string.Format("Confirmation/{0}/Confirmation", ResolveConfirmationViewByOutcome(this.ItkConfirmationModel)); } }
         public override string PartialViewName { get { return "_ReferralConfirmation"; } }
 
         public ReferralConfirmationResultViewModel(ITKConfirmationViewModel itkConfirmationViewModel)
@@ -76,7 +89,7 @@ namespace NHS111.Models.Models.Web {
         : ReferralResultViewModel
     {
         public override string PageTitle { get { return "Call NHS 111 - request for callback not completed"; } }
-        public override string ViewName { get { return "Confirmation/default/ServiceBookingFailure"; } }
+        public override string ViewName { get { return string.Format("Confirmation/{0}/ServiceBookingFailure", ResolveConfirmationViewByOutcome(this.ItkConfirmationModel)); } }
         public override string PartialViewName { get { return "_ReferralFailure"; } }
 
         public ReferralFailureResultViewModel(ITKConfirmationViewModel itkConfirmationViewModel)
@@ -198,7 +211,7 @@ namespace NHS111.Models.Models.Web {
     public class EmergencyPrescriptionServiceUnavailableReferralResultViewModel : ServiceUnavailableReferralResultViewModel
     {
         public override string PartialViewName { get { return "ServiceUnavailable"; } }
-        public override string ViewName { get { return string.Format("Confirmation/{0}/ServiceUnavailable", this.OutcomeModel.OutcomeGroup.Id); } }
+        public override string ViewName { get { return string.Format("Confirmation/{0}/ServiceUnavailable", ResolveConfirmationViewByOutcome(this.OutcomeModel)); } }
 
         public EmergencyPrescriptionServiceUnavailableReferralResultViewModel(OutcomeViewModel outcomeViewModel) : base(outcomeViewModel)
         {
