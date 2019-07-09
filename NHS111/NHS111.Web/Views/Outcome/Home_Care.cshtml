@@ -33,12 +33,12 @@
     }
 }
 
-@Html.Partial("_OutcomeHeader", Model, new ViewDataDictionary() { { "OutcomeHeader", "Based on your answers, you can look after yourself and don't need to see a healthcare professional" } })
+@Html.Partial("_OutcomeHeader", Model, new ViewDataDictionary() { { "OutcomeHeader", "It's safe to look after yourself" } })
 @Html.HiddenFor(x => Model.Id)
 <section>
     @if (Model.CareAdvices != null && Model.CareAdvices.Any())
     {
-        @Html.Partial("_CareAdvice", Model.CareAdvices)
+        @Html.Partial("_CareAdvice", Model.CareAdvices, new ViewDataDictionary() { { "Title", "Things to look out for" } })
     }
     else
     {

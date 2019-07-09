@@ -86,7 +86,7 @@ namespace NHS111.Web.Functional.Tests
                 .Answer(3)
                 .Answer<OutcomePage>(3);
 
-            outcomePage.VerifyOutcome("Based on your answers, you can look after yourself and don't need to see a healthcare professional");
+            outcomePage.VerifyOutcome("It's safe to look after yourself");
             outcomePage.VerifyWorseningPanel(WorseningMessages.Call111);
             outcomePage.CompareAndVerify("1");
         }
