@@ -38,7 +38,7 @@ namespace NHS111.Web.Functional.Tests
         [Test]
         public void DigitalTitleThroughDeeplink()
         {
-            var questionPage = TestScenerios.LaunchDeeplinkScenerio(Driver, TestScenerioSex.Male, TestScenerioAgeGroups.Adult, "LS175DT");
+            var questionPage = TestScenerios.LaunchDeeplinkScenerio(Driver, TestScenerioSex.Male, TestScenerioAgeGroups.Adult, "L1 2SA");
 
             questionPage.VerifyHiddenField("PathwayTitle", "Emergency Prescription 111 online");
             questionPage.VerifyHiddenField("DigitalTitle", "Emergency prescription");
