@@ -202,7 +202,7 @@ namespace NHS111.Web.Functional.Tests
                 .Answer(5)
                 .Answer<OutcomePage>(1);
 
-            outcomePage.VerifyOutcome("Your answers suggest that you should talk to your own GP in 3 working days if you are not feeling better");
+            outcomePage.VerifyOutcome("See a GP if you're not feeling better in a few days");
             outcomePage.VerifyWorseningPanel(WorseningMessages.Call111PostCodeFirst);
             outcomePage.VerifyCareAdviceHeader("What you can do in the meantime");
             outcomePage.VerifyCareAdvice(new string[] { "Diarrhoea & Vomiting" });
