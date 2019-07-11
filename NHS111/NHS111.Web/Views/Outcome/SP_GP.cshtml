@@ -12,16 +12,16 @@
     switch (Model.Id)
     {
         case "Dx09":
-            text = "Your answers suggest that you should see your own GP if you are not feeling better within a few days";
+            text = "See a GP if you don't feel better in a few days";
             break;
         case "Dx10":
-            text = "Your answers require that you must make a routine appointment to see your own GP";
+            text = "Make a non-urgent GP appointment";
             break;
         case "Dx16":
-            text = "Your answers suggest that you should talk to your own GP in 3 working days if you are not feeling better";
+            text = "See a GP if you're not feeling better in a few days";
             break;
         case "Dx75":
-            text = "Your answers require that you must make an appointment to see your own GP within 3 working days";
+            text = "See a GP within 3 days";
             break;
     }
     var dict = new ViewDataDictionary { { "OutcomeHeader", text } };
