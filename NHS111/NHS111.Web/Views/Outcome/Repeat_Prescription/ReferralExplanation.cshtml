@@ -1,8 +1,10 @@
 ﻿@using NHS111.Models.Models.Web
+@using NHS111.Models.Models.Web.Elements
 @inherits NHS111.Web.Views.Shared.SurveyLinkView<OutcomeViewModel>
 @{
     ViewBag.Title = "Referral explanation";
     Layout = "~/Views/Shared/_LayoutNhsUK.cshtml";
+
 }
 @section HeadTop {
     @{ var url = string.Format("/outcome/{0}/{1}/{2}/referralexplanation/{3}", Url.Encode(Model.PathwayNo), Url.Encode(Model.OutcomeGroup.Text), Url.Encode(Model.Id), Url.Encode(Model.SelectedService.Name)); }
@@ -17,7 +19,7 @@
 }
 @section Title { NHS 111 - Referral explanation }
 @section FeedbackSection {
-    @Html.Partial("_FeedbackDetails", new FeedbackViewModel() {UserId = Model.SessionId.ToString(), PageData = new PageDataViewModel(PageDataViewModel.PageType.RepeatPrescriptionRecommendedService, Model)})
+    @Html.Partial("_FeedbackDetails", new FeedbackViewModel() {UserId = Model.SessionId.ToString(), PageData = new PageDataViewModel(PageDataViewModel.PageType.RepeatPrescriptionReferralExplanation, Model)})
 }
 <div class="nhsuk-core">
     <div class="measure">
@@ -35,7 +37,8 @@
             </ul>
             <p>If you don't contact or go to the pharmacy they'll have to phone you to make sure you're OK.</p>
             <div class="content-block">
-                @using (Html.BeginForm("PersonalDetails", "Outcome", FormMethod.Post)) {
+                @using (Html.BeginForm("PersonalDetails", "Outcome", FormMethod.Post))
+                {
                     @Html.Partial("_CommonHiddenFieldsOutcomeViewModel", Model)
                     @Html.Partial("_CommonHiddenFieldsCareAdviceViewModel", Model)
                     @Html.Hidden("SelectedServiceId", Model.SelectedServiceId)
@@ -43,7 +46,13 @@
                     <button type="submit" value="Enter my details">Enter my details</button>
                 }
             </div>
-
+            <div class="content-block">
+                @using (Html.BeginForm("PersonalDetails", "Outcome", FormMethod.Post)) {
+                    @Html.Partial("_CommonHiddenFieldsOutcomeViewModel", Model)
+                    @Html.Partial("_CommonHiddenFieldsCareAdviceViewModel", Model)
+                    <button class="button--link">Cancel and go back</button>
+                }
+            </div>
         </div>
     </div>
 </div>
