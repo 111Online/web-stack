@@ -35,7 +35,8 @@ namespace NHS111.Models.Models.Web
             RepeatPrescriptionRecommendedService,
             RepeatPrescriptionNotOffered,
             RepeatPrescriptionOtherServices,
-            RepeatPrescriptionPreamble
+            RepeatPrescriptionPreamble,
+            RepeatPrescriptionReferralExplanation
         }
 
         public PageDataViewModel()
