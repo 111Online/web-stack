@@ -74,7 +74,7 @@
 
 }
 
-@using (Html.BeginForm("PersonalDetails", "Outcome", FormMethod.Post))
+@using (Html.BeginForm("PersonalDetails", "PersonalDetails", FormMethod.Post))
 {
     @Html.HiddenFor(x => x.TriggerQuestionNo)
     @Html.Partial("_CommonHiddenFieldsOutcomeViewModel", Model)

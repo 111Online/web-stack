@@ -43,7 +43,7 @@ namespace NHS111.Web.Controllers
         private readonly IReferralResultBuilder _referralResultBuilder;
         private readonly IRecommendedServiceBuilder _recommendedServiceBuilder;
 
-        public OutcomeController(IOutcomeViewModelBuilder outcomeViewModelBuilder, IDOSBuilder dosBuilder, ISurgeryBuilder surgeryBuilder, 
+        public OutcomeController(IOutcomeViewModelBuilder outcomeViewModelBuilder, IDOSBuilder dosBuilder, ISurgeryBuilder surgeryBuilder,
             ILocationResultBuilder locationResultBuilder, IAuditLogger auditLogger, Presentation.Configuration.IConfiguration configuration, 
             IPostCodeAllowedValidator postCodeAllowedValidator, IViewRouter viewRouter, IReferralResultBuilder referralResultBuilder,
             IRecommendedServiceBuilder recommendedServiceBuilder)
@@ -66,29 +66,23 @@ namespace NHS111.Web.Controllers
             return Json((await _surgeryBuilder.SearchSurgeryBuilder(input)));
         }
 
-        [HttpPost]
-        public async Task<ActionResult> ChangePostcode(OutcomeViewModel model)
-        {
-            ModelState.Clear();
-            _auditLogger.LogEventData(model, "User elected to change postcode.");
-            return View(model); ;
-        }
+ 
 
         [HttpPost]
         public async Task<ActionResult> DispositionWithServices(OutcomeViewModel model, string submitAction, DosEndpoint? endpoint = null, DateTime? dosSearchTime = null)
         {
-            if (submitAction == "manualpostcode") return View("ChangePostcode", model);
+            if (submitAction == "manualpostcode") return View("../PersonalDetails/ChangePostcode", model);
             var postcodeValidatorResponse = _postCodeAllowedValidator.IsAllowedPostcode(model.CurrentPostcode);
 
             if(postcodeValidatorResponse == PostcodeValidatorResponse.InvalidSyntax)
             {
                 ModelState.AddModelError("CurrentPostcode", "Enter a valid postcode.");
-                return View("../Outcome/ChangePostcode", model);
+                return View("../PersonalDetails/ChangePostcode", model);
             }
             if (postcodeValidatorResponse == PostcodeValidatorResponse.PostcodeNotFound)
             {
                 ModelState.AddModelError("CurrentPostcode", "We can't find any services in '" + model.CurrentPostcode +"'. Check the postcode is correct.");
-                return View("../Outcome/ChangePostcode", model);
+                return View("../PersonalDetails/ChangePostcode", model);
             }
 
             model.UserInfo.CurrentAddress.IsInPilotArea = postcodeValidatorResponse.IsInPilotAreaForOutcome(model.OutcomeGroup);
@@ -123,22 +117,7 @@ namespace NHS111.Web.Controllers
             return View(viewRouter.ViewName, outcomeModel);
         }
 
-        [HttpPost]
-        public async Task<JsonResult> PostcodeLookup(string postCode)
-        {
-            var locationResults = await GetPostcodeResults(postCode);
-            return Json((locationResults));
-        }
 
-        private async Task<AddressInfoCollectionViewModel> GetPostcodeResults(string postCode)
-        {
-            if (string.IsNullOrWhiteSpace(postCode)) return AddressInfoCollectionViewModel.InvalidSyntaxResponse;
-            Regex regex = new Regex(@"^[a-zA-Z0-9]+$");
-            if (!regex.IsMatch(postCode.Replace(" ", ""))) return AddressInfoCollectionViewModel.InvalidSyntaxResponse;
-
-            var results = await _locationResultBuilder.LocationResultValidatedByPostCodeBuilder(postCode);
-            return Mapper.Map<AddressInfoCollectionViewModel>(results);
-        }
 
         [HttpGet]
         [Route("outcome/disposition/{age?}/{gender?}/{dxCode?}/{symptomGroup?}/{symptomDiscriminator?}")]
@@ -209,7 +188,12 @@ namespace NHS111.Web.Controllers
                 {
                     AutoSelectFirstItkService(model);
                     if (model.SelectedService != null)
-                        return await PersonalDetails(Mapper.Map<PersonalDetailViewModel>(model));
+                    {
+                        var personalDetailsController = DependencyResolver.Current.GetService<PersonalDetailsController>();
+                        personalDetailsController.ControllerContext = new ControllerContext(ControllerContext.RequestContext, personalDetailsController);
+
+                        return await personalDetailsController.PersonalDetails(Mapper.Map<PersonalDetailViewModel>(model));
+                    }
                 }
 
                 if(model.OutcomeGroup.IsUsingRecommendedService)
@@ -292,7 +276,12 @@ namespace NHS111.Web.Controllers
                 {
                     AutoSelectFirstItkService(model);
                     if (model.SelectedService != null)
-                        return await PersonalDetails(Mapper.Map<PersonalDetailViewModel>(model));
+                    {
+                        var personalDetailsController = DependencyResolver.Current.GetService<PersonalDetailsController>();
+                        personalDetailsController.ControllerContext = new ControllerContext(ControllerContext.RequestContext, personalDetailsController);
+
+                        return await personalDetailsController.PersonalDetails(Mapper.Map<PersonalDetailViewModel>(model));
+                    }
                 }
                 return View("~\\Views\\Outcome\\ServiceDetails.cshtml", model);
                 //explicit path to view because, when direct-linking, the route is no longer /outcome causing convention based view lookup to fail
@@ -307,50 +296,13 @@ namespace NHS111.Web.Controllers
             return View("~\\Views\\Outcome\\Repeat_Prescription\\ReferralExplanation.cshtml", model);
         }
 
-
-        [HttpPost]
-        public async Task<ActionResult> PersonalDetails(PersonalDetailViewModel model)
-        {
-            ModelState.Clear();
-            _auditLogger.LogSelectedService(model);
-
-            model = await PopulateAddressPickerFields(model);
-
-            return View("~\\Views\\Outcome\\PersonalDetails.cshtml", model);
-        }
-
-        private async Task<PersonalDetailViewModel> PopulateAddressPickerFields(PersonalDetailViewModel model)
-        {
-            //map postcode to field to submit to ITK (preventing multiple entries of same data)
-            model.AddressInformation.PatientCurrentAddress.PreviouslyEnteredPostcode = model.CurrentPostcode;
-
-            //pre-populate picker fields from postcode lookup service
-            var postcodes = await GetPostcodeResults(model.AddressInformation.PatientCurrentAddress.PreviouslyEnteredPostcode);
-            if (postcodes.ValidatedPostcodeResponse == PostcodeValidatorResponse.PostcodeNotFound) return model;
-
-            var firstSelectItemText = postcodes.Addresses.Count() + " addresses found. Please choose...";
-            var items = new List<SelectListItem>
-            {
-                new SelectListItem {Text = firstSelectItemText, Value = "", Selected = true}
-            };
-            items.AddRange(postcodes.Addresses.Select(postcode =>
-                new SelectListItem {Text = postcode.FormattedAddress, Value = postcode.UPRN}).ToList());
-            model.AddressInformation.PatientCurrentAddress.AddressPicker = items;
-
-            model.AddressInformation.PatientCurrentAddress.AddressOptions =
-                new JavaScriptSerializer().Serialize(Json(postcodes).Data);
-
-            return model;
-        }
-
         [HttpPost]
         public async Task<ActionResult> Confirmation(PersonalDetailViewModel model, [FromUri] bool? overrideFilterServices)
         {
             if (!ModelState.IsValid)
             {
-                //populate address picker fields
-                model = await PopulateAddressPickerFields(model);
-                return View("PersonalDetails", model);
+                //TODO: Change this to go back to last page, which won't be personal details.
+                return View("~\\Views\\PersonalDetails\\PersonalDetails.cshtml", model);
             }
             var availableServices = await GetServiceAvailability(model, null, overrideFilterServices.HasValue ? overrideFilterServices.Value : model.FilterServices, null);
             _auditLogger.LogDosResponse(model, availableServices);
@@ -365,8 +317,7 @@ namespace NHS111.Web.Controllers
             var unavailableResult = _referralResultBuilder.BuildServiceUnavailableResult(model, availableServices);
             return View(unavailableResult.ViewName, unavailableResult);
         }
-
-
+        
         [HttpPost]
         public async Task<ActionResult> ConfirmAddress(string longlat, ConfirmLocationViewModel model)
         {
@@ -423,7 +374,12 @@ namespace NHS111.Web.Controllers
             if (model.HasAcceptedCallbackOffer.Value) {
                 AutoSelectFirstItkService(model);
                 if (model.SelectedService != null)
-                    return await PersonalDetails(Mapper.Map<PersonalDetailViewModel>(model));
+                {
+                    var personalDetailsController = DependencyResolver.Current.GetService<PersonalDetailsController>();
+                    personalDetailsController.ControllerContext = new ControllerContext(ControllerContext.RequestContext, personalDetailsController);
+
+                    return await personalDetailsController.PersonalDetails(Mapper.Map<PersonalDetailViewModel>(model));
+                }
             }
 
             var outcome = await _outcomeViewModelBuilder.DispositionBuilder(model);
