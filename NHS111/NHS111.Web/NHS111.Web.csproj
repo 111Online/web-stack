@@ -220,6 +220,7 @@
     <Compile Include="Controllers\LocationController.cs" />
     <Compile Include="Controllers\OutcomeController.cs" />
     <Compile Include="Controllers\PathwayController.cs" />
+    <Compile Include="Controllers\PersonalDetailsController.cs" />
     <Compile Include="Controllers\QuestionController.cs" />
     <Compile Include="Controllers\JustToBeSafeController.cs" />
     <Compile Include="Controllers\SearchController.cs" />
@@ -321,7 +322,7 @@
     <Content Include="Views\Shared\_PersonalPostCodeSearch.cshtml" />
     <Content Include="Views\Shared\_FeedbackDetails.cshtml" />
     <Content Include="Views\Shared\_LayoutNhsUK.cshtml" />
-    <Content Include="Views\Outcome\PersonalDetails.cshtml" />
+    <Content Include="Views\PersonalDetails\PersonalDetails.cshtml" />
     <Content Include="Views\Shared\_CommonHiddenFieldsDosViewModel.cshtml" />
     <Content Include="Views\Shared\_CommonHiddenFieldsAddressInfoViewModel.cshtml" />
     <Content Include="Views\Outcome\Confirmation\default\Confirmation.cshtml" />
@@ -384,7 +385,7 @@
     <Content Include="Views\Shared\_CompatibilityBanner.cshtml" />
     <Content Include="Views\Shared\_ServiceOpeningTimes.cshtml" />
     <Content Include="Views\Shared\_CommonHiddenFieldsPageDataViewModel.cshtml" />
-    <Content Include="Views\Outcome\ChangePostcode.cshtml" />
+    <Content Include="Views\PersonalDetails\ChangePostcode.cshtml" />
     <Content Include="Views\Outcome\ConfirmLocation.cshtml" />
     <Content Include="Views\Outcome\OutOfArea.cshtml" />
     <Content Include="Views\Shared\Elements\_ChangePostcodeLink.cshtml" />
@@ -444,6 +445,7 @@
     <Content Include="Views\Outcome\Confirmation\Repeat_Prescription\ServiceUnavailable.cshtml" />
     <Content Include="Views\Outcome\No_Further_Action.cshtml" />
     <Content Include="Views\Outcome\Repeat_Prescription\ReferralExplanation.cshtml" />
+    <Content Include="Views\PersonalDetails\CurrentAddress.cshtml" />
     <None Include="Web.Development.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
