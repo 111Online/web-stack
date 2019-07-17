@@ -6,7 +6,7 @@ using OpenQA.Selenium.Support.PageObjects;
 using OpenQA.Selenium.Support.UI;
 
 namespace NHS111.Web.Functional.Utils {
-    public class PersonalDetailsPage: DispositionPage<PersonalDetailsPage>
+    public class PersonalDetailsPage: LayoutPage
     {
 
         [FindsBy(How = How.Id, Using = "FindService_CurrentPostcode")]
@@ -20,15 +20,6 @@ namespace NHS111.Web.Functional.Utils {
         private IList<IWebElement> SectionHeadings { get; set; }
 
         public PersonalDetailsPage(IWebDriver driver) : base(driver) { }
-
-
-        public override PersonalDetailsPage EnterPostCodeAndSubmit(string postcode)
-        {
-            PostcodeField.Clear();
-            PostcodeField.SendKeys(postcode);
-            PostcodeSubmitButton.Click();
-            return new PersonalDetailsPage(Driver);
-        }
 
         public void VerifyHeading(string headertext)
         {
