@@ -19,6 +19,9 @@ namespace NHS111.Web.Functional.Utils
         [FindsBy(How = How.Id, Using = "PreviousQuestionFromOutcome")]
         private IWebElement PreviousAnswer { get; set; }
 
+        [FindsBy(How = How.Name, Using = "PersonalDetails")]
+        private IWebElement BookCallbackButton { get; set; }
+
         [FindsBy(How = How.CssSelector, Using = "div.survey-banner > p > a")]
         public IWebElement SurveyLink { get; set; }
 
@@ -28,25 +31,28 @@ namespace NHS111.Web.Functional.Utils
             ((IJavaScriptExecutor)driver).ExecuteScript("[...document.querySelectorAll('#availableServices details')].map((val) => val.setAttribute('open', true))");
         }
 
-        public override OutcomePage EnterPostCodeAndSubmit(string postcode)
+        public override PersonalDetailsPage EnterPostCodeAndSubmit(string postcode)
         {
             PostcodeField.Clear();
             PostcodeField.SendKeys(postcode);
             PostcodeSubmitButton.Click();
-            return new OutcomePage(Driver);
+            return new PersonalDetailsPage(Driver);
         }
 
         public void VerifyIsCallbackAcceptancePage() {
             VerifyOutcome("A nurse needs to phone you", "Get a phone call from a nurse");
         }
 
-        public void VerifyIsPersonalDetailsPage() {
-            VerifyOutcome("Enter details");
-        }
         public QuestionPage ClickPrevious()
         {
             PreviousAnswer.Click();
             return new QuestionPage(Driver);
+        }
+
+        public PersonalDetailsPage ClickBookCallback()
+        {
+            BookCallbackButton.Click();
+            return new PersonalDetailsPage(Driver);
         }
 
         public OutcomePage CompareAndVerify(string uniqueId)
