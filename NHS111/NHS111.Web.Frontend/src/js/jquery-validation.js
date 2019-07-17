@@ -47,16 +47,26 @@ jQuery.validator.setDefaults({
 })
 
 jQuery(document).ready(function () {
-    $("main form").on("submit", function (e) {
-        const container = $(".validation-summary-errors")
-        $("[role='alert']").removeAttr("role")
-        container.show()
-        if (container.length) { // if it isn't valid, make sure screenreaders get alerted to the box
-            setTimeout(() => {
-                $(".js-error-list li:first-child a").focus()
-                container.attr("role", "alert").attr("aria-live", "assertive")
-                $("[role='alert']").removeAttr("role").removeAttr("aria-live")
-            }, 100)
-        }
-    })
+  $("main form").on("submit", function (e) {
+    var firstError = document.querySelector("#personalDetailForm .field-validation-error, #personalDetailForm .form-group-error")
+    if (firstError) {
+      // This is scoped purely to the long personal details page, will work better on some browsers than others
+      firstError.scrollIntoView({
+        "behavior": "smooth",
+        "block": "center"
+      })
+    }
+    else {
+      const container = $(".validation-summary-errors")
+      $("[role='alert']").removeAttr("role")
+      container.show()
+      if (container.length) { // if it isn't valid, make sure screenreaders get alerted to the box
+        setTimeout(() => {
+          $(".js-error-list li:first-child a").focus()
+          container.attr("role", "alert").attr("aria-live", "assertive")
+          $("[role='alert']").removeAttr("role").removeAttr("aria-live")
+        }, 100)
+      }
+    }
+  })
 })
