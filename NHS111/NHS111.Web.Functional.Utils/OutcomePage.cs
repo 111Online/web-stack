@@ -31,12 +31,12 @@ namespace NHS111.Web.Functional.Utils
             ((IJavaScriptExecutor)driver).ExecuteScript("[...document.querySelectorAll('#availableServices details')].map((val) => val.setAttribute('open', true))");
         }
 
-        public override PersonalDetailsPage EnterPostCodeAndSubmit(string postcode)
+        public override OutcomePage EnterPostCodeAndSubmit(string postcode)
         {
             PostcodeField.Clear();
             PostcodeField.SendKeys(postcode);
             PostcodeSubmitButton.Click();
-            return new PersonalDetailsPage(Driver);
+            return new OutcomePage(Driver);
         }
 
         public void VerifyIsCallbackAcceptancePage() {

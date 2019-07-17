@@ -47,7 +47,7 @@ namespace NHS111.Web.Functional.Utils
 
         protected DispositionPage(IWebDriver driver) : base(driver) { }
 
-        public abstract LayoutPage EnterPostCodeAndSubmit(string postcode);
+        public abstract T EnterPostCodeAndSubmit(string postcode);
 
         public QuestionPage NavigateBack() {
             Driver.Navigate().Back();

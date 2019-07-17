@@ -6,8 +6,11 @@ using OpenQA.Selenium.Support.PageObjects;
 using OpenQA.Selenium.Support.UI;
 
 namespace NHS111.Web.Functional.Utils {
-    public class PersonalDetailsPage: LayoutPage
+    public class PersonalDetailsPage: DispositionPage<PersonalDetailsPage>
     {
+
+        [FindsBy(How = How.Id, Using = "FindService_CurrentPostcode")]
+        private IWebElement PostcodeField { get; set; }
 
         [FindsBy(How = How.CssSelector, Using = "h1")]
         private IWebElement Header { get; set; }
@@ -17,6 +20,15 @@ namespace NHS111.Web.Functional.Utils {
         private IList<IWebElement> SectionHeadings { get; set; }
 
         public PersonalDetailsPage(IWebDriver driver) : base(driver) { }
+
+
+        public override PersonalDetailsPage EnterPostCodeAndSubmit(string postcode)
+        {
+            PostcodeField.Clear();
+            PostcodeField.SendKeys(postcode);
+            PostcodeSubmitButton.Click();
+            return new PersonalDetailsPage(Driver);
+        }
 
         public void VerifyHeading(string headertext)
         {
@@ -51,7 +63,6 @@ namespace NHS111.Web.Functional.Utils {
             Assert.IsTrue(nameHeading.Displayed);
             Assert.IsTrue(nameHeading.Text == "What number should we call?");
         }
-
 
         public OutcomePage SubmitPersonalDetails(string forename, string surname, string telephoneNumber, string dobDay,
             string dobMonth, string dobYear)
