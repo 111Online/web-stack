@@ -85,6 +85,15 @@ namespace NHS111.Models.Models.Web {
         }
     }
 
+    public class EmergencyPrescriptionReferralConfirmationResultsViewModel
+        : ReferralConfirmationResultViewModel {
+
+        public EmergencyPrescriptionReferralConfirmationResultsViewModel(ITKConfirmationViewModel itkConfirmationViewModel)
+            : base(itkConfirmationViewModel) {
+            GoogleAnalyticsDataLayer = new EmergencyPrescriptionReferralConfirmationGoogleAnalyticsDataLayer(this);
+        }
+    }
+
     public class ReferralFailureResultViewModel
         : ReferralResultViewModel
     {
