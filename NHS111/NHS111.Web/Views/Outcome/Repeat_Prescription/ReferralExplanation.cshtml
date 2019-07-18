@@ -1,8 +1,12 @@
 ﻿@using NHS111.Models.Models.Web
+@using NHS111.Models.Models.Web.Elements
 @inherits NHS111.Web.Views.Shared.SurveyLinkView<OutcomeViewModel>
 @{
     ViewBag.Title = "Referral explanation";
     Layout = "~/Views/Shared/_LayoutNhsUK.cshtml";
+    var userSelectedRecommendedService = Model.SelectedService.Id == Model.SurveyLink.RecommendedServiceId;
+    //var previousController = userSelectedRecommendedService ? "Outcome" : "Question";
+    var previousAction = userSelectedRecommendedService ? "RecommendedService" : "ServiceListUnprefixed";
 }
 @section HeadTop {
     @{ var url = string.Format("/outcome/{0}/{1}/{2}/referralexplanation/{3}", Url.Encode(Model.PathwayNo), Url.Encode(Model.OutcomeGroup.Text), Url.Encode(Model.Id), Url.Encode(Model.SelectedService.Name)); }
@@ -17,33 +21,39 @@
 }
 @section Title { NHS 111 - Referral explanation }
 @section FeedbackSection {
-    @Html.Partial("_FeedbackDetails", new FeedbackViewModel() {UserId = Model.SessionId.ToString(), PageData = new PageDataViewModel(PageDataViewModel.PageType.RepeatPrescriptionRecommendedService, Model)})
+    @Html.Partial("_FeedbackDetails", new FeedbackViewModel() {UserId = Model.SessionId.ToString(), PageData = new PageDataViewModel(PageDataViewModel.PageType.RepeatPrescriptionReferralExplanation, Model)})
 }
 <div class="nhsuk-core">
     <div class="measure">
-        <div class="content-block">
-            <h1>Why we need your details</h1>
-            <p>Sending your phone number, name and home postcode helps the pharmacist find your NHS number.</p>
-            <p>As they'll know who you are you'll pay standard NHS charges. If you're exempt you won't pay.</p>
-            <p>You might be asked to show some identification when you get there.</p>
-            <h2>Contacting them before you go</h2>
-            <p>If you phone them before you go they'll tell you:</p>
-            <ul>
-                <li>if they're able to give you the medicine</li>
-                <li>if they have it in stock</li>
-                <li>what to do if they can't help</li>
-            </ul>
-            <p>If you don't contact or go to the pharmacy they'll have to phone you to make sure you're OK.</p>
-            <div class="content-block">
-                @using (Html.BeginForm("PersonalDetails", "Outcome", FormMethod.Post)) {
-                    @Html.Partial("_CommonHiddenFieldsOutcomeViewModel", Model)
-                    @Html.Partial("_CommonHiddenFieldsCareAdviceViewModel", Model)
-                    @Html.Hidden("SelectedServiceId", Model.SelectedServiceId)
+        <h1>Why we need your details</h1>
+        <p>Sending your phone number, name and home postcode helps the pharmacist find your NHS number.</p>
+        <p>As they'll know who you are you'll pay standard NHS charges. If you're exempt you won't pay.</p>
+        <p>You might be asked to show some identification when you get there.</p>
+        <h2>Contacting them before you go</h2>
+        <p>If you phone them before you go they'll tell you:</p>
+        <ul>
+            <li>if they're able to give you the medicine</li>
+            <li>if they have it in stock</li>
+            <li>what to do if they can't help</li>
+        </ul>
+        <p>If you don't contact or go to the pharmacy they'll have to phone you to make sure you're OK.</p>
 
-                    <button type="submit" value="Enter my details">Enter my details</button>
-                }
-            </div>
+        @using (Html.BeginForm("PersonalDetails", "Outcome", FormMethod.Post))
+        {
+            @Html.Partial("_CommonHiddenFieldsOutcomeViewModel", Model)
+            @Html.Partial("_CommonHiddenFieldsCareAdviceViewModel", Model)
+            @Html.Hidden("SelectedServiceId", Model.SelectedServiceId)
 
+            <button type="submit" value="Enter my details">Enter my details</button>
+        }
+
+        <div class="nhsuk-u-margin-top-5">
+            @using (Html.BeginForm(previousAction, "Outcome", FormMethod.Post)) {
+                @Html.Partial("_CommonHiddenFieldsOutcomeViewModel", Model)
+                @Html.Partial("_CommonHiddenFieldsRecommendedServiceViewModel", Model.RecommendedService, new ViewDataDictionary() {TemplateInfo = new TemplateInfo() {HtmlFieldPrefix = "RecommendedService"}})
+                @Html.Partial("_CommonHiddenFieldsCareAdviceViewModel", Model)
+                <button class="button--link">Cancel and go back</button>
+            }
         </div>
     </div>
 </div>

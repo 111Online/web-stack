@@ -2,6 +2,7 @@
 namespace NHS111.Models.Models.Web {
     using System.Collections.Generic;
     using System.Web;
+    using FromExternalServices;
     using Mappers.WebMappings;
 
     public abstract class GoogleAnalyticsDataLayerContainer
@@ -70,6 +71,18 @@ namespace NHS111.Models.Models.Web {
             : base(viewModel) { }
     }
 
+    public class EmergencyPrescriptionReferralConfirmationGoogleAnalyticsDataLayer
+        : ReferralConfirmationResultGoogleAnalyticsDataLayer
+    {
+
+        public EmergencyPrescriptionReferralConfirmationGoogleAnalyticsDataLayer(ReferralResultViewModel viewModel)
+            : base(viewModel) {
+            this[VirtualPageTitleKey] = string.Format("Emergency Prescription {0} ITK Confirmation - Success", viewModel.ItkConfirmationModel.SelectedService.OnlineDOSServiceType.Id);
+        }
+
+        private readonly OnlineDOSServiceType _serviceType;
+    }
+
     public class ReferralFailureResultGoogleAnalyticsDataLayer
         : ReferralResultGoogleAnalyticsDataLayer {
 
@@ -127,6 +140,7 @@ namespace NHS111.Models.Models.Web {
         public Call999DuplicateReferralGoogleAnalyticsDataLayer(ReferralResultViewModel viewModel)
             : base(viewModel) { }
     }
+
     public class EmergencyPrescriptionDuplicateReferralGoogleAnalyticsDataLayer : DuplicateReferralResultGoogleAnalyticsDataLayer
     {
         protected override string VirtualPageTitle { get { return "Emergency prescription ITK Confirmation - Duplicate Booking"; } }
