@@ -206,8 +206,9 @@
 
                     jQuery.validator.addMethod('dateofbirth', function (value, element, params) {
                         
-                        if (!jQuery("#UserInfo_Day").valid() || !jQuery("#UserInfo_Month").valid() || !jQuery("#UserInfo_Year").valid())
+                        if (!jQuery("#UserInfo_Day").valid() || !jQuery("#UserInfo_Month").valid() || !jQuery("#UserInfo_Year").valid()) {
                             return true;
+                        }
 
                         var day = $('#UserInfo_Day').val();
                         var month = $('#UserInfo_Month').val();
@@ -218,6 +219,16 @@
                         var result = (date.getFullYear() === parseInt(year) && (date.getMonth() + 1) === parseInt(month) && date.getDate() === parseInt(day));
 
                         jQuery("#UserInfo_DoB").closest(".form-group").toggleClass("form-group-error", !result);
+
+                        // Validation override ensures if one field in a group errors then a specific
+                        // error message shows from one field for all the others without showing all in red.
+                        // Example: 45/02/2019 should show day as error but the label should be for date.
+                        // Validation override "error-all" makes it so that if one field (ie DoB) 
+                        // errors then all are shown in red.
+                        // Example: 29/02/2019 (not leap year) should show all as error and show the same label as above.
+                        jQuery("#UserInfo_DoB").closest(".form-group")
+                            .toggleClass("form-group-validation-override-error-all",  !result);
+
                         return result;
                     });
 
@@ -283,6 +294,7 @@
                             && jQuery("#UserInfo_Year").valid()) {
                             jQuery("#personalDetailForm").validate().element("#UserInfo_DoB");
                         } else {
+                            jQuery("#UserInfo_DoB").closest(".form-group").removeClass("form-group-validation-override-error-all");
                             ShowDoBError()
                         }
                     }

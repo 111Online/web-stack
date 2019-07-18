@@ -94,8 +94,8 @@ select  {
 [aria-invalid="true"][type],
 .input-validation-error[type],
 .field-validation-error + input[type=text],
-.field-validation-error + input[type=number]
-{
+.field-validation-error + input[type=number],
+.form-group-validation-override-error-all .field-validation-error ~ div .form-textbox /* This is so DoB can error all three at once */ {
   border: 4px solid $error-colour;
 }
 
@@ -112,7 +112,8 @@ select  {
   padding: 2px 0;
 }
 
-
+// If validation override is used it should be to make multiple fields
+// use the same error message.
 .form-group-validation-override.form-group-error .field-validation-valid {
   display: inherit;
 }
