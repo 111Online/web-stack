@@ -102,7 +102,8 @@ select  {
 
 // Error messages should be red and bold
 .error-message,
-.field-validation-error {
+.field-validation-error,
+.form-group-validation-override .field-validation-valid {
   font-weight: bold;
   font-size: 19px;
   color: $error-colour;
@@ -111,10 +112,15 @@ select  {
   padding: 2px 0;
 }
 
+
+.form-group-validation-override.form-group-error .field-validation-valid {
+  display: inherit;
+}
+
 .form-label .error-message,
 .form-label-bold .error-message,
 .form-label .field-validation-error,
-.form-label-bold .field-validation-error  {
+.form-label-bold .field-validation-error {
   padding-top: 4px;
   padding-bottom: 0;
 }
