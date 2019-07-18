@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Web.Mvc;
 using FluentValidation.Attributes;
 using NHS111.Models.Models.Web.Validators;
+using RestSharp.Extensions;
+
 
 namespace NHS111.Models.Models.Web
 {
@@ -27,10 +30,20 @@ namespace NHS111.Models.Models.Web
             {
                 var firstPart = String.IsNullOrWhiteSpace(this.HouseNumber) ? "" : this.HouseNumber;
                 var secondPart = String.IsNullOrWhiteSpace(this.Thoroughfare) ? this.Ward : this.Thoroughfare;
-         
+                var thirdPart = String.IsNullOrWhiteSpace(this.City) ? string.Empty : this.City;
+                var fourthPart = String.IsNullOrWhiteSpace(this.County) ? string.Empty : this.County;
+                var fifthPart = String.IsNullOrWhiteSpace(this.Postcode) ? string.Empty : this.Postcode;
+
                 var addressString = (!String.IsNullOrEmpty(firstPart) ? firstPart + " " : "") + secondPart;
                 if (!String.IsNullOrWhiteSpace(AddressLine1) && addressString.ToLower() != AddressLine1.ToLower())
                     addressString = AddressLine1 + ", " + addressString;
+
+                TextInfo textInfo = CultureInfo.CurrentCulture.TextInfo;
+
+                if (!string.IsNullOrEmpty(thirdPart)) addressString += (", " + textInfo.ToTitleCase(thirdPart.ToLower()));
+                if (!string.IsNullOrEmpty(fourthPart)) addressString += (", " + textInfo.ToTitleCase(fourthPart.ToLower()));
+                if (!string.IsNullOrEmpty(fifthPart)) addressString += (", " + fifthPart);
+
                 return addressString;
             }
         }
@@ -67,7 +80,6 @@ namespace NHS111.Models.Models.Web
         public List<SelectListItem> AddressPicker { get; set; }
         public string SelectedAddressFromPicker { get; set; }
         public string PreviouslyEnteredPostcode { get; set; }
-        public string AddressOptions { get; set; }
 
         public PersonalDetailsAddressViewModel()
         {

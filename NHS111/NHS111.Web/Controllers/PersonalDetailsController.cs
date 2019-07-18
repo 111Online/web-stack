@@ -49,8 +49,6 @@ namespace NHS111.Web.Controllers
             ModelState.Clear();
             _auditLogger.LogSelectedService(model);
 
-            model = await PopulateAddressPickerFields(model);
-
             return View("~\\Views\\PersonalDetails\\PersonalDetails.cshtml", model);
         }
 
@@ -64,17 +62,10 @@ namespace NHS111.Web.Controllers
             var postcodes = await GetPostcodeResults(model.AddressInformation.PatientCurrentAddress.PreviouslyEnteredPostcode);
             if (postcodes.ValidatedPostcodeResponse == PostcodeValidatorResponse.PostcodeNotFound) return model;
 
-            var firstSelectItemText = postcodes.Addresses.Count() + " addresses found. Please choose...";
-            var items = new List<SelectListItem>
-            {
-                new SelectListItem {Text = firstSelectItemText, Value = "", Selected = true}
-            };
+            var items = new List<SelectListItem>();
             items.AddRange(postcodes.Addresses.Select(postcode =>
                 new SelectListItem { Text = postcode.FormattedAddress, Value = postcode.UPRN }).ToList());
             model.AddressInformation.PatientCurrentAddress.AddressPicker = items;
-
-            model.AddressInformation.PatientCurrentAddress.AddressOptions =
-                new JavaScriptSerializer().Serialize(Json(postcodes).Data);
 
             return model;
         }
@@ -90,11 +81,13 @@ namespace NHS111.Web.Controllers
         [HttpPost]
         public async Task<ActionResult> CurrentAddress(PersonalDetailViewModel model)
         {
+            model = await PopulateAddressPickerFields(model);
+
             return View(model);
         }
 
         [HttpPost]
-        public async Task<ActionResult> SetCurrentAddress(PersonalDetailViewModel model)
+        public async Task<ActionResult> SetCurrentAddress(PersonalDetailViewModel model, string addressChosen)
         {
             return View(model);
         }
