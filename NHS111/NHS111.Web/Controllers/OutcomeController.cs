@@ -154,6 +154,12 @@ namespace NHS111.Web.Controllers
         }
 
         [HttpPost]
+        public async Task<ActionResult> ServiceListUnprefixed(OutcomeViewModel model, [FromUri] DateTime? overrideDate, [FromUri] bool? overrideFilterServices, DosEndpoint? endpoint) {
+            return await ServiceList(model, overrideDate, overrideFilterServices, endpoint);
+        }
+
+
+        [HttpPost]
         public async Task<ActionResult> ServiceList([Bind(Prefix = "FindService")]OutcomeViewModel model, [FromUri] DateTime? overrideDate, [FromUri] bool? overrideFilterServices, DosEndpoint? endpoint)
         {
             if (!ModelState.IsValidField("FindService.CurrentPostcode"))

@@ -89,6 +89,9 @@ namespace NHS111.Web.Presentation.Builders
 
                 if (itkConfirmationViewModel.OutcomeGroup.IsEDCallback)
                     return new AccidentAndEmergencyReferralConfirmationResultViewModel(itkConfirmationViewModel);
+
+                if (itkConfirmationViewModel.OutcomeGroup.IsPharmacyGroup)
+                    return new EmergencyPrescriptionReferralConfirmationResultsViewModel(itkConfirmationViewModel);
             }
 
             return new ReferralConfirmationResultViewModel(itkConfirmationViewModel);

@@ -79,26 +79,6 @@
     <button class="button button--next" id="submitGender" type="submit" name="Slider">Next</button>
 }
 
-
-<script type="text/javascript">
-
-    $(document).ready(function () {
-        var lastKey = null;
-        $(".js-validate-number").on("keydown", function (event) {
-            var key = event.key || String.fromCharCode(event.keyCode);
-            // When a key is down, it checks that you aren't typing a letter. This allows numbers and tab/delete etc
-            if (lastKey == "Meta" || lastKey == "Control") return lastKey = key;
-            else if (/^[a-zA-Z\D]$/.test(key)) event.preventDefault();
-            return lastKey = key;
-        })
-
-        $(".js-validate-number").on("keyup", function (event) {
-            if (lastKey == "Meta" || lastKey == "Control") return lastKey = null;
-        })
-    });
-
-</script>
-
 @if (FilterPathwaysByAgeFeature.IsEnabled)
 {
     <script type="text/javascript">
