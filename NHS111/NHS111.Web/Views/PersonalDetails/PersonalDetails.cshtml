@@ -97,7 +97,7 @@
 
                         <div>
                             <h3 class="heading-small">Tell us your name</h3>
-                            <p class="form-info">We'll ask you questions about the person needing help.</p>
+                            <p class="form-info">We'll ask you questions about the person who needs help.</p>
                             <div class="form-group @(@ViewData.ModelState.IsValidField("PatientInformantDetails.InformantName.Forename") ? "" : "form-group-error")">
                                 <label for="@Html.IdFor(m => m.PatientInformantDetails.InformantName.Forename)">First name</label>
                                 @Html.ValidationMessageFor(m => m.PatientInformantDetails.InformantName.Forename, "Enter your first name")
