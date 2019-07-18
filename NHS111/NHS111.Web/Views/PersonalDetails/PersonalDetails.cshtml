@@ -125,22 +125,19 @@
                 <p class="form-info">If you're doing this for someone else enter their date of birth.</p>
                 @{ var validDate = @ViewData.ModelState.IsValidField("UserInfo.DoB") && @ViewData.ModelState.IsValidField("UserInfo.Day") &&
                             @ViewData.ModelState.IsValidField("UserInfo.Month") && @ViewData.ModelState.IsValidField("UserInfo.Year"); }
-                <div class="form-group @(validDate ? "" : "form-group-error")">
+                <div class="form-group @(validDate ? "" : "form-group-error") form-group-validation-override">
                     @Html.ValidationMessageFor(m => m.UserInfo.DoB, "Enter a valid date")
-                    @Html.ValidationMessageFor(m => m.UserInfo.Day, "Enter a valid day")
-                    @Html.ValidationMessageFor(m => m.UserInfo.Month, "Enter a valid month")
-                    @Html.ValidationMessageFor(m => m.UserInfo.Year, "Enter a valid year")
                     <div class="form-group--inline">
                         <label for="@Html.IdFor(m => m.UserInfo.Day)">Day</label>
-                        @Html.TextBoxFor(m => m.UserInfo.Day, new { @class = "form-control form-textbox", placeholder = "DD", type = "number", maxlength = "2", min = "1", max = "31" })
+                        @Html.TextBoxFor(m => m.UserInfo.Day, new { @class = "form-control form-textbox js-validate-number", placeholder = "DD", inputmode = "numeric", pattern = "[0-9]+", maxlength = "2" })
                     </div>
                     <div class="form-group--inline">
                         <label for="@Html.IdFor(m => m.UserInfo.Month)">Month</label>
-                        @Html.TextBoxFor(m => m.UserInfo.Month, new { @class = "form-control form-textbox", placeholder = "MM", type = "number", maxlength = "2", min = "1", max = "12" })
+                        @Html.TextBoxFor(m => m.UserInfo.Month, new { @class = "form-control form-textbox js-validate-number", placeholder = "MM", inputmode = "numeric", pattern = "[0-9]+", maxlength = "2" })
                     </div>
                     <div class="form-group--inline">
                         <label for="@Html.IdFor(m => m.UserInfo.Year)">Year</label>
-                        @Html.TextBoxFor(m => m.UserInfo.Year, new { @class = "form-control form-textbox", placeholder = "YYYY", type = "number", maxlength = "4", min = "0" })
+                        @Html.TextBoxFor(m => m.UserInfo.Year, new { @class = "form-control form-textbox js-validate-number", placeholder = "YYYY", inputmode = "numeric", pattern = "[0-9]+", maxlength = "4" })
                     </div>
                     @Html.HiddenFor(m => m.UserInfo.DoB)
                 </div>
@@ -159,7 +156,7 @@
                 <div class="form-group  @(@ViewData.ModelState.IsValidField("UserInfo.TelephoneNumber") ? "" : "form-group-error")">
                     <label for="UserInfo_TelephoneNumber">Enter a mobile, landline or textphone number</label>
                     @Html.ValidationMessageFor(m => m.UserInfo.TelephoneNumber, "Enter a valid phone number")
-                    @Html.TextBoxFor(m => m.UserInfo.TelephoneNumber, new { @class = "form-control form-textbox form-control-16-chars", type = "tel" })
+                    @Html.TextBoxFor(m => m.UserInfo.TelephoneNumber, new { @class = "form-control form-textbox form-control-16-chars", type = "tel", inputmode = "tel" })
                 </div>
             </fieldset>
 
@@ -182,8 +179,6 @@
                     });
 
                     jQuery.validator.addMethod('day', function (value, element, params) {
-                        //don't add any more errors if we've already failed whole date validation
-                        if (DoBErrorShowing()) return true;
 
                         var day = $('#UserInfo_Day').val();
 
@@ -192,16 +187,15 @@
                     });
 
                     jQuery.validator.addMethod('month', function (value, element, params) {
-                        if (DoBErrorShowing()) return true;
 
                         var month = $('#UserInfo_Month').val();
 
                         var result = (parseInt(month) > 0 && parseInt(month) < 13);
+
                         return result;
                     });
 
                     jQuery.validator.addMethod('year', function (value, element, params) {
-                        if (DoBErrorShowing()) return true;
 
                         var year = $('#UserInfo_Year').val();
 
@@ -211,6 +205,10 @@
                     });
 
                     jQuery.validator.addMethod('dateofbirth', function (value, element, params) {
+                        
+                        if (!jQuery("#UserInfo_Day").valid() || !jQuery("#UserInfo_Month").valid() || !jQuery("#UserInfo_Year").valid())
+                            return true;
+
                         var day = $('#UserInfo_Day').val();
                         var month = $('#UserInfo_Month').val();
                         var year = $('#UserInfo_Year').val();
@@ -257,31 +255,24 @@
                     });
 
                     //validate Dob if we change any of the individual fields
-                    jQuery('#UserInfo_Day').change(function () {
+                    jQuery('#UserInfo_Day').on('change, focus, blur', function () {
                         ValidateWholeDateOfBirth();
                     });
-                    jQuery('#UserInfo_Month').change(function () {
+                    jQuery('#UserInfo_Month').on('change, focus, blur', function () {
                         ValidateWholeDateOfBirth();
                     });
-                    jQuery('#UserInfo_Year').change(function () {
+                    jQuery('#UserInfo_Year').on('change, focus, blur', function () {
                         ValidateWholeDateOfBirth();
                     });
 
-                    function DoBErrorShowing() {
-                        if (jQuery("#UserInfo_DoB").hasClass("input-validation-error")) {
-                            return true;
-                        } else {
-                            return false;
-                        }
+                    function ShowDoBError() {
+                        jQuery("#UserInfo_DoB").toggleClass("input-validation-error", true);
+                        jQuery("#UserInfo_DoB").parent(".form-group").toggleClass("form-group-error", true);
+                        jQuery("[data-valmsg-for='UserInfo.DoB']").toggleClass("field-validation-error", true).removeClass("field-validation-valid");
                     }
 
                     function ValidateWholeDateOfBirth() {
-                        if (AllIndividualDatePartsValid()) {
-                            jQuery("#personalDetailForm").validate().element("#UserInfo_DoB");
-                        }
-                    }
-
-                    function AllIndividualDatePartsValid() {
+                        
                         if (jQuery("#UserInfo_Day").val() === ""
                             || jQuery("#UserInfo_Month").val() === ""
                             || jQuery("#UserInfo_Year").val() === "")
@@ -290,9 +281,9 @@
                         if (jQuery("#UserInfo_Day").valid()
                             && jQuery("#UserInfo_Month").valid()
                             && jQuery("#UserInfo_Year").valid()) {
-                            return true;
+                            jQuery("#personalDetailForm").validate().element("#UserInfo_DoB");
                         } else {
-                            return false;
+                            ShowDoBError()
                         }
                     }
                 })

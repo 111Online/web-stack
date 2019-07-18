@@ -39,7 +39,7 @@ jQuery.validator.setDefaults({
         $(`[name="${$(element).attr("name")}"]`).attr("aria-invalid", "true")
     },
     unhighlight: function (element, errorClass, validClass) {
-        $(element).closest(".form-group").removeClass("form-group-error")
+        $(element).closest(".form-group:not(.form-group-validation-override)").removeClass("form-group-error")
         $(element).siblings(".error-message").removeAttr("role")
         $(element).removeAttr("aria-invalid")
         $(`[name="${$(element).attr("name")}"]`).removeAttr("aria-invalid")
@@ -47,6 +47,21 @@ jQuery.validator.setDefaults({
 })
 
 jQuery(document).ready(function () {
+    // Validation for number only fields
+    var lastKey = null
+    $(".js-validate-number").on("keydown", function (event) {
+      var key = event.key || String.fromCharCode(event.keyCode)
+      // When a key is down, it checks that you aren't typing a letter. This allows numbers and tab/delete etc
+      if (lastKey == "Meta" || lastKey == "Control") return lastKey = key
+      else if (/^[a-zA-Z\D]$/.test(key)) event.preventDefault()
+      return lastKey = key
+    })
+
+    $(".js-validate-number").on("keyup", function (event) {
+      if (lastKey == "Meta" || lastKey == "Control") return lastKey = null
+    })
+
+    // Validation for form submit
     $("main form").on("submit", function (e) {
         const container = $(".validation-summary-errors")
         $("[role='alert']").removeAttr("role")
