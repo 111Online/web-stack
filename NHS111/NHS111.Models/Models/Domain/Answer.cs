@@ -32,6 +32,9 @@ namespace NHS111.Models.Models.Domain
         [JsonProperty(PropertyName = "dispoDisplayText")]
         public string DispositionDisplayText { get; set; }
 
+        [JsonProperty(PropertyName = "snoMedCodes")]
+        public List<string> SnomedCodes { get; set; }
+        
         [JsonIgnore]
         public string SupportingInformationHtml {
             get { return StaticTextToHtml.Convert(SupportingInformation); }
