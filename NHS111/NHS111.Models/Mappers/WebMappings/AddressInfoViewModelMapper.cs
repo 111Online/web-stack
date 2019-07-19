@@ -2,9 +2,10 @@
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using AutoMapper;
+using NHS111.Models.Models.Business.Location;
 using NHS111.Models.Models.Web;
 using NHS111.Models.Models.Web.FromExternalServices;
-using NHS111.Models.Models.Web.FromExternalServices.IdealPostcodes;
+using AddressLocationResult = NHS111.Models.Models.Web.FromExternalServices.IdealPostcodes.AddressLocationResult;
 
 
 namespace NHS111.Models.Mappers.WebMappings
@@ -17,7 +18,7 @@ namespace NHS111.Models.Mappers.WebMappings
             Mapper.CreateMap<LocationResult, AddressInfoViewModel>().ConvertUsing<FromLocationResultToAddressInfoConverter>();
             Mapper.CreateMap<AddressLocationResult, AddressInfoViewModel>().ConvertUsing<FromPostcodeLocationResultToAddressInfoConverter>();
             Mapper.CreateMap<Models.Business.Location.LocationServiceResult<AddressLocationResult>, AddressInfoCollectionViewModel>().ConvertUsing<FromLocationServiceResultToAddressInfoCollectionConverter>();
-            
+            Mapper.CreateMap<AddressLocationSingleResult, AddressInfoViewModel>().ConvertUsing<FromPostcodeLocationSingleResultToAddressInfoConverter>();
         }
 
         public class FromPafToAddressInfoConverter : ITypeConverter<List<PAF>, List<AddressInfoViewModel>>
@@ -148,6 +149,28 @@ namespace NHS111.Models.Mappers.WebMappings
                     County = source.County,
                     HouseNumber = String.IsNullOrEmpty(source.BuildingNumber) ? source.BuildingName : source.BuildingNumber,
                     Postcode = source.PostCode
+                };
+            }
+        }
+
+        public class FromPostcodeLocationSingleResultToAddressInfoConverter : ITypeConverter<AddressLocationSingleResult, CurrentAddressViewModel>
+        {
+            public CurrentAddressViewModel Convert(ResolutionContext context)
+            {
+                var source = (AddressLocationSingleResult)context.SourceValue;
+
+                return new CurrentAddressViewModel()
+                {
+                    AddressLine1 = source.Line1,
+                    AddressLine2 = source.Line2,
+                    AddressLine3 = source.Line3,
+                    Thoroughfare = source.Thoroughfare,
+                    Ward = source.Ward,
+                    City = source.PostTown,
+                    UPRN = source.Udprn,
+                    County = source.County,
+                    HouseNumber = String.IsNullOrEmpty(source.BuildingNumber) ? source.BuildingName : source.BuildingNumber,
+                    Postcode = source.Postcode
                 };
             }
         }

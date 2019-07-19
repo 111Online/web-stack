@@ -164,6 +164,14 @@ namespace NHS111.Business.Configuration
 
         }
 
+        public string GetLocationByUDPRNUrl(string udprn)
+        {
+            return
+                ConfigurationManager.AppSettings["LocationByUDPRNUrl"]
+                    .Replace("{apiKey}", GetLocationApiKey())
+                    .Replace("{udprn}", udprn);
+        }
+
         public string GetCCGBaseUrl()
         {
             return
@@ -287,7 +295,8 @@ namespace NHS111.Business.Configuration
         string GetLocationBaseUrl();
         string GetLocationPostcodebyGeoUrl(double longitude, double latitude);
         string GetLocationByPostcodeUrl(string postcode);
-
+        string GetLocationByUDPRNUrl(string udprn);
+        
         /* CCG */
         string GetCCGBaseUrl();
         string CCGBusinessApiGetCCGUrl(string postcode);
