@@ -1,5 +1,5 @@
 ﻿@using NHS111.Models.Models.Web
-@inherits NHS111.Web.Views.Shared.SurveyLinkView<NHS111.Models.Models.Web.PersonalDetailViewModel>
+@inherits NHS111.Web.Views.Shared.SurveyLinkView<PersonalDetailViewModel>
 @{
     Layout = "~/Views/Shared/_LayoutNhsUk.cshtml";
 }
@@ -29,12 +29,25 @@
     @Html.Partial("_FeedbackDetails", new FeedbackViewModel() { UserId = Model.SessionId.ToString(), PageData = new PageDataViewModel(PageDataViewModel.PageType.PersonalDetails, Model) })
 }
 
-@using (Html.BeginForm("SetCurrentAddress", "PersonalDetails", FormMethod.Post, new {id = "personalDetailForm"}))
+@using (Html.BeginForm("SubmitCurrentAddress", "PersonalDetails", FormMethod.Post))
 {
     <div>
         @{
-            var heading = Model.PatientInformantDetails.Informant == InformantType.Self ? "Are you here?" : "Are they here?";
+            var self = Model.PatientInformantDetails.Informant == InformantType.Self;
+            var heading = self ? "Where are you right now?" : "Where are they right now?";
         }
         <h1 id="strap-line">@heading</h1>
+
+        <p>If we know the address we can send help if we need to.</p>
+
+        @foreach (var address in Model.AddressInformation.PatientCurrentAddress.AddressPicker)
+        {
+            <button type="submit" name="currentAddress" id="@address.Value" value="@address.Value" class="button--stacked button--previous button--link">@address.Text</button>
+        }
+        <hr />
+        @{
+            var submitButtonText = self ? "I'm not at any of these places" : "They're not at any of these places";
+        }
+            <button type="submit" name="currentAddress" id="AddressNotListed" value="AddressNotListed" class="button--link">@submitButtonText</button>
     </div>
 }
