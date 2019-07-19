@@ -444,6 +444,7 @@
     <Content Include="Views\Outcome\Confirmation\Repeat_Prescription\ServiceUnavailable.cshtml" />
     <Content Include="Views\Outcome\No_Further_Action.cshtml" />
     <Content Include="Views\Outcome\Repeat_Prescription\ReferralExplanation.cshtml" />
+    <Content Include="Views\Outcome\SP_Mental_health.cshtml" />
     <None Include="Web.Development.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

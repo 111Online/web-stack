@@ -40,6 +40,8 @@ namespace NHS111.Models.Models.Domain {
     
         public static OutcomeGroup Call999Cat4 = new OutcomeGroup { Id = "Call_999_cat_4", Text = "Call_999_cat_4", DefaultTitle = "Phone 999 for an ambulance", AutomaticSelectionOfItkResult = true };
 
+        public static OutcomeGroup MentalHealth = new OutcomeGroup { Id = "SP_Mental_health", DefaultTitle = "Get help from a mental health service", Label = "Mental health services", ITK = false };
+
         public static OutcomeGroup AccidentAndEmergency = new OutcomeGroup { Id = "SP_Accident_and_emergency", DefaultTitle = "Your answers suggest you should go to an Accident and Emergency department", Label = "Urgent healthcare services", ITK = false };
 
         public static OutcomeGroup AccidentAndEmergencySexualAssault = new OutcomeGroup { Id = "SP_Accident_and_emergency_sexual_assault", DefaultTitle = "Your answers suggest you should go to an Accident and Emergency department", Label = "A&amp;E departments", ITK = false };
@@ -64,8 +66,8 @@ namespace NHS111.Models.Models.Domain {
 
         public static OutcomeGroup NoFurtherAction = new OutcomeGroup { Id = "No_Further_Action", Text = "No_Further_Action", DefaultTitle = "No further action required", Label = "No further action", PostcodeFirst = true, ITK = false };
 
-        public static OutcomeGroup[] PrePopulatedDosResultsOutcomeGroups = new OutcomeGroup[] {Dental, ItkPrimaryCare, AccidentAndEmergency, ClinicianCallBack, Call999Cat3, Call999Cat4, RepeatPrescription };
-        public static OutcomeGroup[] DosSearchOutcomesGroups = new OutcomeGroup[] { AccidentAndEmergency, AccidentAndEmergencySexualAssault, Optician, Pharmacy, GumClinic, Dental, EmergencyDental, Midwife, ItkPrimaryCare, ClinicianCallBack };
+        public static OutcomeGroup[] PrePopulatedDosResultsOutcomeGroups = new OutcomeGroup[] {Dental, ItkPrimaryCare, MentalHealth, AccidentAndEmergency, ClinicianCallBack, Call999Cat3, Call999Cat4, RepeatPrescription };
+        public static OutcomeGroup[] DosSearchOutcomesGroups = new OutcomeGroup[] { MentalHealth, AccidentAndEmergency, AccidentAndEmergencySexualAssault, Optician, Pharmacy, GumClinic, Dental, EmergencyDental, Midwife, ItkPrimaryCare, ClinicianCallBack };
         public static OutcomeGroup[] UsingRecommendedServiceJourney = new[] { RepeatPrescription };
         public static OutcomeGroup[] UsingOutcomePreamble = new[] { RepeatPrescription };
 
@@ -77,6 +79,7 @@ namespace NHS111.Models.Models.Domain {
             { Call999Cat3.Id, Call999Cat3 },
             { Call999Cat4.Id, Call999Cat4 },
             { Call999Police.Id, Call999Police },
+            { MentalHealth.Id, MentalHealth },
             { AccidentAndEmergency.Id, AccidentAndEmergency },
             { AccidentAndEmergencySexualAssault.Id, AccidentAndEmergencySexualAssault },
             { HomeCare.Id, HomeCare },
@@ -138,7 +141,7 @@ namespace NHS111.Models.Models.Domain {
         }
 
         public bool IsEDCallback {
-            get { return this.Equals(OutcomeGroup.AccidentAndEmergency); }
+            get { return this.Equals(OutcomeGroup.AccidentAndEmergency) || this.Equals(OutcomeGroup.MentalHealth); }
         }
 
         public bool IsPharmacyGroup
