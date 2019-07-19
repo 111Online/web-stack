@@ -18,7 +18,16 @@ namespace NHS111.Models.Models.Web
         public string AddressLine3 { get; set; }
         public string Thoroughfare { get; set; }
         public string Ward { get; set; }
-        public string City { get; set; }
+        private string _city;
+        public string City
+        {
+            get
+            {
+                TextInfo textInfo = CultureInfo.CurrentCulture.TextInfo;
+                return textInfo.ToTitleCase(_city.ToLower());
+            }
+            set { _city = value; }
+        }
         public string County { get; set; }
         public string UPRN { get; set; }
         public bool IsPostcodeFirst { get; set; }
@@ -30,19 +39,14 @@ namespace NHS111.Models.Models.Web
             {
                 var firstPart = String.IsNullOrWhiteSpace(this.HouseNumber) ? "" : this.HouseNumber;
                 var secondPart = String.IsNullOrWhiteSpace(this.Thoroughfare) ? this.Ward : this.Thoroughfare;
-                var thirdPart = String.IsNullOrWhiteSpace(this.City) ? string.Empty : this.City;
-                var fourthPart = String.IsNullOrWhiteSpace(this.County) ? string.Empty : this.County;
-                var fifthPart = String.IsNullOrWhiteSpace(this.Postcode) ? string.Empty : this.Postcode;
 
                 var addressString = (!String.IsNullOrEmpty(firstPart) ? firstPart + " " : "") + secondPart;
                 if (!String.IsNullOrWhiteSpace(AddressLine1) && addressString.ToLower() != AddressLine1.ToLower())
                     addressString = AddressLine1 + ", " + addressString;
 
-                TextInfo textInfo = CultureInfo.CurrentCulture.TextInfo;
-
-                if (!string.IsNullOrEmpty(thirdPart)) addressString += (", " + textInfo.ToTitleCase(thirdPart.ToLower()));
-                if (!string.IsNullOrEmpty(fourthPart)) addressString += (", " + textInfo.ToTitleCase(fourthPart.ToLower()));
-                if (!string.IsNullOrEmpty(fifthPart)) addressString += (", " + fifthPart);
+                if (!string.IsNullOrEmpty(this.City)) addressString += (", " + this.City);
+                if (!string.IsNullOrEmpty(this.County)) addressString += (", " + this.County);
+                if (!string.IsNullOrEmpty(this.Postcode)) addressString += (", " + this.Postcode);
 
                 return addressString;
             }
@@ -61,7 +65,7 @@ namespace NHS111.Models.Models.Web
     }
 
     public class PersonalInfoAddressViewModel : AddressInfoViewModel
-    {  
+    {
     }
 
     public class FindServicesAddressViewModel : AddressInfoViewModel
@@ -71,7 +75,7 @@ namespace NHS111.Models.Models.Web
     [Validator(typeof(PersonalInfoAddressViewModelValidator))]
     public class CurrentAddressViewModel : PersonalDetailsAddressViewModel
     {
-        
+
     }
 
     [Validator(typeof(HomeAddressModelValidatior))]
