@@ -32,7 +32,7 @@ namespace NHS111.Models.Models.Domain
         [JsonProperty(PropertyName = "dispoDisplayText")]
         public string DispositionDisplayText { get; set; }
 
-        [JsonProperty(PropertyName = "snowmedCodes")]
+        [JsonProperty(PropertyName = "snoMedCodes")]
         public List<string> SnomedCodes { get; set; }
         
         [JsonIgnore]
