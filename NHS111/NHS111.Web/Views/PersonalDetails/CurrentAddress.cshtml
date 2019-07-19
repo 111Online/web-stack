@@ -29,7 +29,7 @@
     @Html.Partial("_FeedbackDetails", new FeedbackViewModel() { UserId = Model.SessionId.ToString(), PageData = new PageDataViewModel(PageDataViewModel.PageType.PersonalDetails, Model) })
 }
 
-@using (Html.BeginForm("SetCurrentAddress", "PersonalDetails", FormMethod.Post, new {id = "personalDetailForm"}))
+@using (Html.BeginForm("SubmitCurrentAddress", "PersonalDetails", FormMethod.Post))
 {
     <div>
         @{
@@ -42,12 +42,12 @@
 
         @foreach (var address in Model.AddressInformation.PatientCurrentAddress.AddressPicker)
         {
-            <button name="addressChosen" type="submit" id="@address.Value" value="@address.Value" class="button--stacked button--previous button--link">@address.Text</button>
+            <button type="submit" name="currentAddress" id="@address.Value" value="@address.Value" class="button--stacked button--previous button--link">@address.Text</button>
         }
         <hr />
         @{
             var submitButtonText = self ? "I'm not at any of these places" : "They're not at any of these places";
         }
-            <button type="submit" id="AddresssNotListed">@submitButtonText</button>
+            <button type="submit" name="currentAddress" id="AddressNotListed" value="AddressNotListed" class="button--link">@submitButtonText</button>
     </div>
 }

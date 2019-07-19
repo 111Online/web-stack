@@ -10,6 +10,7 @@ using AutoMapper;
 using Microsoft.Ajax.Utilities;
 using NHS111.Models.Models.Web;
 using NHS111.Models.Models.Web.Validators;
+using NHS111.Utils.Attributes;
 using NHS111.Web.Presentation.Builders;
 using NHS111.Web.Presentation.Logging;
 
@@ -87,9 +88,21 @@ namespace NHS111.Web.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> SetCurrentAddress(PersonalDetailViewModel model, string addressChosen)
+        public async Task<ActionResult> EnterDifferentCurrentAddress(PersonalDetailViewModel model)
         {
-            return View(model);
+            return View("~\\Views\\PersonalDetails\\CurrentAddress_Change.cshtml", model);
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> SubmitCurrentAddress(PersonalDetailViewModel model, string currentAddress)
+        {
+            if (currentAddress == "AddressNotListed")
+                return await EnterDifferentCurrentAddress(model);
+
+            //populate current address fields from data
+
+
+            return View("~\\Views\\PersonalDetails\\HomeAddressSameAsCurrentAddress.cshtml", model);
         }
     }
 }
