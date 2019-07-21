@@ -161,6 +161,7 @@ namespace NHS111.Domain.Repository
     public interface IPathwayRepository
     {
         Task<Pathway> GetPathway(string id);
+        Task<PathwayServiceDefintion> GetPathwayServiceDefinition(string pathwayNo);
         Task<PathwayMetaData> GetPathwayMetadata(string id);
         Task<Pathway> GetIdentifiedPathway(IEnumerable<string> pathwayNumbers, string gender, int age);
         Task<Pathway> GetIdentifiedPathway(string pathwayTitle, string gender, int age);
