@@ -65,7 +65,7 @@ namespace NHS111.Web.Controllers
 
             var items = new List<SelectListItem>();
             items.AddRange(postcodes.Addresses.Select(postcode =>
-                new SelectListItem { Text = postcode.FormattedAddress, Value = postcode.UPRN }).ToList());
+                new SelectListItem { Text = postcode.FormattedAddress, Value = postcode.UDPRN }).ToList());
             model.AddressInformation.PatientCurrentAddress.AddressPicker = items;
 
             return model;
