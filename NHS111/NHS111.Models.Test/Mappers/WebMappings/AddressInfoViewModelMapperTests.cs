@@ -15,7 +15,7 @@ namespace NHS111.Models.Test.Mappers.WebMappings
         private string TEST_CITY_OUTPUT = "Some Place";
         private string TEST_COUNTY = "Some time";
         private string TEST_POSTCODE = "XX1 2YY";
-        private string TEST_UPRN = "12345";
+        private string TEST_UDPRN = "12345";
 
         [TestFixtureSetUp()]
         public void InitializeAddressInfoViewModelMapper()
@@ -82,7 +82,7 @@ namespace NHS111.Models.Test.Mappers.WebMappings
                 PostTown = TEST_CITY_INPUT,
                 AdministrativeArea = TEST_COUNTY,
                 Postcode = TEST_POSTCODE,
-                UPRN = TEST_UPRN
+                UDPRN = TEST_UDPRN
             };
 
             var result = Mapper.Map<AddressInfoViewModel>(locationResult);
@@ -92,7 +92,7 @@ namespace NHS111.Models.Test.Mappers.WebMappings
             Assert.AreEqual(TEST_CITY_OUTPUT, result.City);
             Assert.AreEqual(TEST_COUNTY, result.County);
             Assert.AreEqual(TEST_POSTCODE, result.Postcode);
-            Assert.AreEqual(TEST_UPRN, result.UPRN);
+            Assert.AreEqual(TEST_UDPRN, result.UDPRN);
         }
 
         [Test()]
@@ -112,7 +112,7 @@ namespace NHS111.Models.Test.Mappers.WebMappings
                 PostTown = TEST_CITY_INPUT,
                 AdministrativeArea = TEST_COUNTY,
                 Postcode = TEST_POSTCODE,
-                UPRN = TEST_UPRN
+                UDPRN = TEST_UDPRN
             };
 
             var result = Mapper.Map<AddressInfoViewModel>(locationResult);
@@ -122,7 +122,7 @@ namespace NHS111.Models.Test.Mappers.WebMappings
             Assert.AreEqual(TEST_CITY_OUTPUT, result.City);
             Assert.AreEqual(TEST_COUNTY, result.County);
             Assert.AreEqual(TEST_POSTCODE, result.Postcode);
-            Assert.AreEqual(TEST_UPRN, result.UPRN);
+            Assert.AreEqual(TEST_UDPRN, result.UDPRN);
         }
 
         [Test()]
@@ -142,7 +142,7 @@ namespace NHS111.Models.Test.Mappers.WebMappings
                 PostTown = TEST_CITY_INPUT,
                 AdministrativeArea = TEST_COUNTY,
                 Postcode = TEST_POSTCODE,
-                UPRN = TEST_UPRN
+                UDPRN = TEST_UDPRN
             };
 
             var result = Mapper.Map<AddressInfoViewModel>(locationResult);
@@ -152,7 +152,7 @@ namespace NHS111.Models.Test.Mappers.WebMappings
             Assert.AreEqual(TEST_CITY_OUTPUT, result.City);
             Assert.AreEqual(TEST_COUNTY, result.County);
             Assert.AreEqual(TEST_POSTCODE, result.Postcode);
-            Assert.AreEqual(TEST_UPRN, result.UPRN);
+            Assert.AreEqual(TEST_UDPRN, result.UDPRN);
         }
 
         [Test()]
@@ -172,7 +172,7 @@ namespace NHS111.Models.Test.Mappers.WebMappings
                 PostTown = TEST_CITY_INPUT,
                 AdministrativeArea = TEST_COUNTY,
                 Postcode = TEST_POSTCODE,
-                UPRN = TEST_UPRN
+                UDPRN = TEST_UDPRN
             };
 
             var result = Mapper.Map<AddressInfoViewModel>(locationResult);
@@ -182,7 +182,7 @@ namespace NHS111.Models.Test.Mappers.WebMappings
             Assert.AreEqual(TEST_CITY_OUTPUT, result.City);
             Assert.AreEqual(TEST_COUNTY, result.County);
             Assert.AreEqual(TEST_POSTCODE, result.Postcode);
-            Assert.AreEqual(TEST_UPRN, result.UPRN);
+            Assert.AreEqual(TEST_UDPRN, result.UDPRN);
         }
 
         [Test()]
@@ -202,7 +202,7 @@ namespace NHS111.Models.Test.Mappers.WebMappings
                 PostTown = TEST_CITY_INPUT,
                 AdministrativeArea = TEST_COUNTY,
                 Postcode = TEST_POSTCODE,
-                UPRN = TEST_UPRN
+                UDPRN = TEST_UDPRN
             };
 
             var result = Mapper.Map<AddressInfoViewModel>(locationResult);
@@ -212,7 +212,7 @@ namespace NHS111.Models.Test.Mappers.WebMappings
             Assert.AreEqual(TEST_CITY_OUTPUT, result.City);
             Assert.AreEqual(TEST_COUNTY, result.County);
             Assert.AreEqual(TEST_POSTCODE, result.Postcode);
-            Assert.AreEqual(TEST_UPRN, result.UPRN);
+            Assert.AreEqual(TEST_UDPRN, result.UDPRN);
         }
 
         [Test()]
@@ -232,7 +232,7 @@ namespace NHS111.Models.Test.Mappers.WebMappings
                 PostTown = TEST_CITY_INPUT,
                 AdministrativeArea = TEST_COUNTY,
                 Postcode = TEST_POSTCODE,
-                UPRN = TEST_UPRN
+                UDPRN = TEST_UDPRN
             };
 
             var result = Mapper.Map<AddressInfoViewModel>(locationResult);
@@ -242,7 +242,7 @@ namespace NHS111.Models.Test.Mappers.WebMappings
             Assert.AreEqual(TEST_CITY_OUTPUT, result.City);
             Assert.AreEqual(TEST_COUNTY, result.County);
             Assert.AreEqual(TEST_POSTCODE, result.Postcode);
-            Assert.AreEqual(TEST_UPRN, result.UPRN);
+            Assert.AreEqual(TEST_UDPRN, result.UDPRN);
         }
 
         [Test()]
@@ -258,7 +258,7 @@ namespace NHS111.Models.Test.Mappers.WebMappings
                 PostTown = postTown,
                 AdministrativeArea = administrativeArea,
                 Postcode = TEST_POSTCODE,
-                UPRN = TEST_UPRN
+                UDPRN = TEST_UDPRN
             };
 
             var result = Mapper.Map<AddressInfoViewModel>(locationResult);
@@ -268,7 +268,7 @@ namespace NHS111.Models.Test.Mappers.WebMappings
             Assert.AreEqual(administrativeArea, result.City);
             Assert.AreEqual(string.Empty, result.County);
             Assert.AreEqual(TEST_POSTCODE, result.Postcode);
-            Assert.AreEqual(TEST_UPRN, result.UPRN);
+            Assert.AreEqual(TEST_UDPRN, result.UDPRN);
         }
 
         [Test()]
@@ -284,7 +284,7 @@ namespace NHS111.Models.Test.Mappers.WebMappings
                 PostTown = postTown,
                 AdministrativeArea = administrativeArea,
                 Postcode = TEST_POSTCODE,
-                UPRN = TEST_UPRN
+                UDPRN = TEST_UDPRN
             };
 
             var result = Mapper.Map<AddressInfoViewModel>(locationResult);
@@ -294,7 +294,7 @@ namespace NHS111.Models.Test.Mappers.WebMappings
             Assert.AreEqual(postTown, result.City);
             Assert.AreEqual(string.Empty, result.County);
             Assert.AreEqual(TEST_POSTCODE, result.Postcode);
-            Assert.AreEqual(TEST_UPRN, result.UPRN);
+            Assert.AreEqual(TEST_UDPRN, result.UDPRN);
         }
 
         [Test()]
@@ -309,7 +309,7 @@ namespace NHS111.Models.Test.Mappers.WebMappings
                 AddressLines = new[] { TEST_ADDRESS_LINE_1, addressLine2 },
                 AdministrativeArea = administrativeArea,
                 Postcode = TEST_POSTCODE,
-                UPRN = TEST_UPRN
+                UDPRN = TEST_UDPRN
             };
 
             var result = Mapper.Map<AddressInfoViewModel>(locationResult);
@@ -319,7 +319,7 @@ namespace NHS111.Models.Test.Mappers.WebMappings
             Assert.AreEqual(administrativeArea, result.City);
             Assert.AreEqual(string.Empty, result.County);
             Assert.AreEqual(TEST_POSTCODE, result.Postcode);
-            Assert.AreEqual(TEST_UPRN, result.UPRN);
+            Assert.AreEqual(TEST_UDPRN, result.UDPRN);
         }
 
     }

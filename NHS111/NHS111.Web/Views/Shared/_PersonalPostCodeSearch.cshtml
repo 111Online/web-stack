@@ -209,8 +209,8 @@
         {
             var options = '<option value="">' + addressResponse.Addresses.length + ' addresses found</option>'
             $.each(addressResponse.Addresses, function (key, value) {
-                foundAddresses[value.UPRN] = value
-                options += '<option value=' + value.UPRN + '>' + value.FormattedAddress + '</option>'
+                foundAddresses[value.UDPRN] = value
+                options += '<option value=' + value.UDPRN + '>' + value.FormattedAddress + '</option>'
             })
             $('.select-address', element).empty().append(options)
             $('.address-choose-postcode', element).hide()

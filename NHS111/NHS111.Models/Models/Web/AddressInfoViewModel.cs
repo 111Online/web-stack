@@ -29,7 +29,7 @@ namespace NHS111.Models.Models.Web
             set { _city = value; }
         }
         public string County { get; set; }
-        public string UPRN { get; set; }
+        public string UDPRN { get; set; }
         public bool IsPostcodeFirst { get; set; }
         public bool IsInPilotArea { get; set; }
 

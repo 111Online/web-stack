@@ -107,7 +107,7 @@ namespace NHS111.Models.Mappers.WebMappings
                     City = city,
                     County = county,
                     Postcode = locationResult.Postcode,
-                    UPRN = locationResult.UPRN
+                    UDPRN = locationResult.UDPRN
                 };
 
                 return addressInfo;
@@ -145,7 +145,7 @@ namespace NHS111.Models.Mappers.WebMappings
                     Thoroughfare = source.Thoroughfare,
                     Ward = source.Ward,
                     City = source.Town,
-                    UPRN = source.Udprn,
+                    UDPRN = source.Udprn,
                     County = source.County,
                     HouseNumber = String.IsNullOrEmpty(source.BuildingNumber) ? source.BuildingName : source.BuildingNumber,
                     Postcode = source.PostCode
@@ -167,7 +167,7 @@ namespace NHS111.Models.Mappers.WebMappings
                     Thoroughfare = source.Thoroughfare,
                     Ward = source.Ward,
                     City = source.PostTown,
-                    UPRN = source.Udprn,
+                    UDPRN = source.Udprn,
                     County = source.County,
                     HouseNumber = String.IsNullOrEmpty(source.BuildingNumber) ? source.BuildingName : source.BuildingNumber,
                     Postcode = source.Postcode
