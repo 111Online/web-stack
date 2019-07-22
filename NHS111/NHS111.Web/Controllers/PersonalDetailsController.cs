@@ -71,6 +71,16 @@ namespace NHS111.Web.Controllers
             return model;
         }
 
+        private async Task<PersonalDetailViewModel> PopulateChosenCurrentAddress(string udprn, PersonalDetailViewModel model)
+        {
+            var result = await _locationResultBuilder.LocationResultByUDPRNBuilder(udprn);
+            var mappedResult = Mapper.Map<CurrentAddressViewModel>(result);
+
+            model.AddressInformation.PatientCurrentAddress = mappedResult;
+
+            return model;
+        }
+
         [HttpPost]
         public async Task<ActionResult> ChangePostcode(OutcomeViewModel model)
         {
@@ -100,7 +110,7 @@ namespace NHS111.Web.Controllers
                 return await EnterDifferentCurrentAddress(model);
 
             //populate current address fields from data
-
+            model = await PopulateChosenCurrentAddress(currentAddress, model);
 
             return View("~\\Views\\PersonalDetails\\HomeAddressSameAsCurrentAddress.cshtml", model);
         }

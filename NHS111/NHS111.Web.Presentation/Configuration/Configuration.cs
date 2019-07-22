@@ -47,6 +47,7 @@ namespace NHS111.Web.Presentation.Configuration
 
         public string BusinessApiLocationSearchGetAddressByGeoUrl { get{ return ConfigurationManager.AppSettings["BusinessApiLocationSearchGetAddressByGeoUrl"];} }
         public string BusinessApiLocationSearchGetAddressByPostcodeUrl { get { return ConfigurationManager.AppSettings["BusinessApiLocationSearchGetAddressByPostcodeUrl"]; } }
+        public string BusinessApiLocationSearchGetAddressByUDPRNUrl { get { return ConfigurationManager.AppSettings["BusinessApiLocationSearchGetAddressByUDPRNUrl"]; } }
         public string BusinessApiLocationSearchGetAddressValidatedByPostcodeUrl { get { return ConfigurationManager.AppSettings["BusinessApiLocationSearchGetAddressValidatedByPostcodeUrl"]; } }
         public string GetBusinessApiGetAddressByGeoUrl(string latlong)
         {
@@ -56,6 +57,11 @@ namespace NHS111.Web.Presentation.Configuration
         public string GetBusinessApiGetAddressByPostcodeUrl(string postcode)
         {
             return string.Format(BusinessApiLocationSearchGetAddressByPostcodeUrl, postcode);
+        }
+
+        public string GetBusinessApiGetAddressByUDPRNUrl(string udprn)
+        {
+            return string.Format(BusinessApiLocationSearchGetAddressByUDPRNUrl, udprn);
         }
 
 
@@ -259,6 +265,8 @@ namespace NHS111.Web.Presentation.Configuration
         string GetBusinessApiVersionUrl(bool pathOnly = false);
         string GetBusinessApiGetAddressByGeoUrl(string latlong);
         string GetBusinessApiGetAddressByPostcodeUrl(string postcode);
+        string GetBusinessApiGetAddressByUDPRNUrl(string udprn);
+
         string GetBusinessApiGetValidatedAddressByPostcodeUrl(string postcode);
         string BusinessDosApiBaseUrl { get; }
         string BusinessDosApiCheckCapacitySummaryUrl { get; }
