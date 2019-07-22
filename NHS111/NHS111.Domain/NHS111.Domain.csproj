@@ -102,6 +102,7 @@
     <Compile Include="IoC\DomainRegistry.cs" />
     <Compile Include="Monitoring\Monitor.cs" />
     <Compile Include="Repository\CategoryRepository.cs" />
+    <Compile Include="Repository\ServiceDefinitionRepository.cs" />
     <Compile Include="Repository\SymptomDiscriminatorRepository.cs" />
     <Compile Include="Repository\OutcomeRespository.cs" />
     <Compile Include="Repository\GraphRepository.cs" />

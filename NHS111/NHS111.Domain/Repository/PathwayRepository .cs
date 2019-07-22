@@ -15,12 +15,10 @@ namespace NHS111.Domain.Repository
     public class PathwayRepository : IPathwayRepository
     {
         private readonly IGraphRepository _graphRepository;
-        private readonly IPathwaysWhiteListFeature _pathwaysWhiteListFeature;
-
-        public PathwayRepository(IGraphRepository graphRepository, IPathwaysWhiteListFeature pathwaysWhiteListFeature )
+        
+        public PathwayRepository(IGraphRepository graphRepository)
         {
             _graphRepository = graphRepository;
-            _pathwaysWhiteListFeature = pathwaysWhiteListFeature;
         }
 
         public async Task<Pathway> GetPathway(string id)
@@ -163,7 +161,6 @@ namespace NHS111.Domain.Repository
     public interface IPathwayRepository
     {
         Task<Pathway> GetPathway(string id);
-        Task<PathwayServiceDefintion> GetPathwayServiceDefinition(string pathwayNo);
         Task<PathwayMetaData> GetPathwayMetadata(string id);
         Task<Pathway> GetIdentifiedPathway(IEnumerable<string> pathwayNumbers, string gender, int age);
         Task<Pathway> GetIdentifiedPathway(string pathwayTitle, string gender, int age);
