@@ -380,9 +380,9 @@
             edOutcome.VerifyOutcome("Where do you want help?");
         }
 
-        private OutcomePage ClickBookCallButton(OutcomePage edOutcome) {
+        private PersonalDetailsPage ClickBookCallButton(OutcomePage edOutcome) {
             Driver.FindElement(By.Name("PersonalDetails")).Click();
-            return new OutcomePage(Driver);
+            return new PersonalDetailsPage(Driver);
         }
 
         private OutcomePage NavigateToRemappedEDOutcome(Postcode postcode) {
