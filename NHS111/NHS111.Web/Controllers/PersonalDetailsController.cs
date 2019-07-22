@@ -92,8 +92,12 @@ namespace NHS111.Web.Controllers
         [HttpPost]
         public async Task<ActionResult> CurrentAddress(PersonalDetailViewModel model)
         {
-            model = await PopulateAddressPickerFields(model);
+            if (!ModelState.IsValid)
+            {
+                return View("~\\Views\\PersonalDetails\\PersonalDetails.cshtml", model);
+            }
 
+            model = await PopulateAddressPickerFields(model);
             return View(model);
         }
 
