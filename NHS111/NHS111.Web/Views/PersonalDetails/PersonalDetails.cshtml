@@ -30,35 +30,25 @@
     @Html.Partial("_FeedbackDetails", new FeedbackViewModel() { UserId = Model.SessionId.ToString(), PageData = new PageDataViewModel(PageDataViewModel.PageType.PersonalDetails, Model) })
 }
 
-@using (Html.BeginForm("CurrentAddress", "PersonalDetails", FormMethod.Post, new { id = "personalDetailForm" }))
-{
-    @Html.Partial("_CommonHiddenFieldsOutcomeViewModel", Model)
-    @Html.Partial("_CommonHiddenFieldsCareAdviceViewModel", Model)
-    @Html.HiddenFor(m => m.SelectedServiceId)
-    <div class="local-header">
-        <h1 class="local-header__title heading--large">
-            Enter details
-        </h1>
-    </div>
-    <section class="measure">
-        <div class="section-item last">
-            <!-- <div class="callout callout--error @(Html.ViewData.ModelState.IsValid ? "validation-summary-valid" : "validation-summary-errors")"
-         data-valmsg-summary="true">
-        <h2>
-            There's a problem with the following
-        </h2>
-        <div class="panel-body">
-            <ul class="js-error-list-original"></ul>
-            <ul class="js-error-list"></ul>
+<div class="nhsuk-core">
+    @using (Html.BeginForm("CurrentAddress", "PersonalDetails", FormMethod.Post, new { id = "personalDetailForm" }))
+    {
+        @Html.Partial("_CommonHiddenFieldsOutcomeViewModel", Model)
+        @Html.Partial("_CommonHiddenFieldsCareAdviceViewModel", Model)
+        @Html.HiddenFor(m => m.SelectedServiceId)
+        <div class="local-header">
+            <h1 class="local-header__title">
+                Enter details
+            </h1>
         </div>
-    </div> -->
+        <section class="measure">
 
             <fieldset class="form-group @(@ViewData.ModelState.IsValidField("PatientInformantDetails.Informant") ? "" : "form-group-error")">
                 <legend>
                     <h2>Who needs help?</h2>
                 </legend>
                 @Html.ValidationMessageFor(m => m.PatientInformantDetails.Informant, "Tell us who needs help")
-                <div>
+                <div class="panel-group">
                     @Html.RadioButtonFor(m => m.PatientInformantDetails.Informant, NHS111.Models.Models.Web.InformantType.Self, new { id = "PatientInformantDetails_Informant_Self", name = "PatientInformantDetails_Informant", @class = "multiple-choice__input" })
                     <label for="PatientInformantDetails_Informant_Self" class="multiple-choice--radio" name="PatientInformantDetails_Informant" data-target="self-data">Me</label>
 
@@ -76,7 +66,7 @@
                     </div>
                 </div>
 
-                <div>
+                <div class="panel-group">
                     @Html.RadioButtonFor(m => m.PatientInformantDetails.Informant, NHS111.Models.Models.Web.InformantType.ThirdParty, new { id = "PatientInformantDetails_Informant_ThirdParty", name = "PatientInformantDetails_Informant", @class = "multiple-choice__input" })
                     <label for="PatientInformantDetails_Informant_ThirdParty" class="multiple-choice--radio" name="PatientInformantDetails_Informant" data-target="other-data">Someone else</label>
 
@@ -124,7 +114,7 @@
                 </legend>
                 <p class="form-info">If you're doing this for someone else enter their date of birth.</p>
                 @{ var validDate = @ViewData.ModelState.IsValidField("UserInfo.DoB") && @ViewData.ModelState.IsValidField("UserInfo.Day") &&
-                            @ViewData.ModelState.IsValidField("UserInfo.Month") && @ViewData.ModelState.IsValidField("UserInfo.Year"); }
+                             @ViewData.ModelState.IsValidField("UserInfo.Month") && @ViewData.ModelState.IsValidField("UserInfo.Year"); }
                 <div class="form-group @(validDate ? "" : "form-group-error") form-group-validation-override">
                     @Html.ValidationMessageFor(m => m.UserInfo.DoB, "Enter a valid date")
                     <div class="form-group--inline">
@@ -205,7 +195,7 @@
                     });
 
                     jQuery.validator.addMethod('dateofbirth', function (value, element, params) {
-                        
+
                         if (!jQuery("#UserInfo_Day").valid() || !jQuery("#UserInfo_Month").valid() || !jQuery("#UserInfo_Year").valid()) {
                             return true;
                         }
@@ -223,11 +213,11 @@
                         // Validation override ensures if one field in a group errors then a specific
                         // error message shows from one field for all the others without showing all in red.
                         // Example: 45/02/2019 should show day as error but the label should be for date.
-                        // Validation override "error-all" makes it so that if one field (ie DoB) 
+                        // Validation override "error-all" makes it so that if one field (ie DoB)
                         // errors then all are shown in red.
                         // Example: 29/02/2019 (not leap year) should show all as error and show the same label as above.
                         jQuery("#UserInfo_DoB").closest(".form-group")
-                            .toggleClass("form-group-validation-override-error-all",  !result);
+                            .toggleClass("form-group-validation-override-error-all", !result);
 
                         return result;
                     });
@@ -283,7 +273,7 @@
                     }
 
                     function ValidateWholeDateOfBirth() {
-                        
+
                         if (jQuery("#UserInfo_Day").val() === ""
                             || jQuery("#UserInfo_Month").val() === ""
                             || jQuery("#UserInfo_Year").val() === "")
@@ -306,40 +296,6 @@
                     <button type="submit" class="button--next" id="submitDetails">Next</button>
                 </div>
             </div>
-        </div>
-    </section>
-}
-
-<style>
-    /* Fixes for vertical rhythm */
-    label + input,
-    label + span + input,
-    label + span + span + input,
-    .form-info,
-    .form-hint {
-        margin-top: 10px !important;
+        </section>
     }
-
-    .inline-details + .inline-details,
-    fieldset + .inline-details,
-    .inline-details + button {
-        margin-top: 20px;
-    }
-
-    h2 {
-        font-size: 28px;
-        max-width: 34rem;
-    }
-    
-    @@media (min-width: 641px) {
-        h2 {
-            font-size: 32px;
-        }
-    }
-
-    @@media(min-width: 925px) {
-        h2 {
-            font-size: 36px;
-        }
-    }
-</style>
+</div>
