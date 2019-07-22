@@ -189,6 +189,7 @@
     <Compile Include="Controllers\PathwayController.cs" />
     <Compile Include="Controllers\CareAdviceController.cs" />
     <Compile Include="Controllers\QuestionController.cs" />
+    <Compile Include="Controllers\ServiceDefinitionController.cs" />
     <Compile Include="Controllers\SymptomDiscriminatorController.cs" />
     <Compile Include="Controllers\VersionController.cs" />
     <Compile Include="ErrorHandler\AiHandleErrorAttribute.cs" />
