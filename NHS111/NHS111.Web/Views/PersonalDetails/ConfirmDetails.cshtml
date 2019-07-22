@@ -4,24 +4,19 @@
     Layout = "~/Views/Shared/_LayoutNhsUk.cshtml";
 }
 
-@{
-    var self = Model.PatientInformantDetails.Informant == InformantType.Self;
-    var heading = self ? "Are you at home?" : "Are they at home?";
-}
-
 @section Title {
-    @heading
+    Book your call
 }
 
 @section HeadTop {
     @* @{ var url = string.Format("/outcome/{0}/{1}/{2}/itk/personaldetails/{3}/{4}", Url.Encode(Model.PathwayNo), Url.Encode(Model.OutcomeGroup.Text), Url.Encode(Model.Id), Url.Encode(Model.SelectedServiceId), Url.Encode(Model.SelectedService.Name));
-       } *@
+        } *@
     <script>
         var pageId = '@Model.Id';
         dataLayer = [
             {
                 'virtualPageUrl': '',
-                'virtualPageTitle': @heading
+                'virtualPageTitle': "Book your call"
             }];
     </script>
 }
@@ -35,23 +30,9 @@
     @Html.Partial("_FeedbackDetails", new FeedbackViewModel() { UserId = Model.SessionId.ToString(), PageData = new PageDataViewModel(PageDataViewModel.PageType.PersonalDetails, Model) })
 }
 
-@using (Html.BeginForm("SubmitAtHome", "PersonalDetails", FormMethod.Post))
-{
-    <div class="nhsuk-core">
-        <div class="form-group @(@ViewData.ModelState.IsValidField(Html.NameFor(m => m.AddressInformation.HomeAddressSameAsCurrent).ToString()) ? "" : "form-group-error")">
-            <legend><h1>@heading</h1></legend>
-            @Html.ValidationMessageFor(m => m.AddressInformation.HomeAddressSameAsCurrent, "Select an answer")
-
-            @Html.RadioButtonFor(m => m.AddressInformation.HomeAddressSameAsCurrent, HomeAddressSameAsCurrent.Yes, new { @class = "multiple-choice__input", name = "at-home", id = "HomeAddressSameAsCurrent_Yes" })
-            <label for="HomeAddressSameAsCurrent_Yes">Yes</label>
-
-            @Html.RadioButtonFor(m => m.AddressInformation.HomeAddressSameAsCurrent, HomeAddressSameAsCurrent.No, new { @class = "multiple-choice__input", name = "at-home", id = "HomeAddressSameAsCurrent_No" })
-            <label for="HomeAddressSameAsCurrent_No">No</label>
-        </div>
-
-        <button type="submit">Next</button>
-    </div>
-}
+<div class="nhsuk-core">
+    <legend><h1>Book your call</h1></legend>
+</div>
 
 <script type="text/javascript">
 
