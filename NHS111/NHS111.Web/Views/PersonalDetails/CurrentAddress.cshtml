@@ -31,23 +31,27 @@
 
 @using (Html.BeginForm("SubmitCurrentAddress", "PersonalDetails", FormMethod.Post))
 {
-    <div>
+    <div class="nhsuk-core">
         @{
             var self = Model.PatientInformantDetails.Informant == InformantType.Self;
             var heading = self ? "Where are you right now?" : "Where are they right now?";
         }
         <h1 id="strap-line">@heading</h1>
 
-        <p>If we know the address we can send help if we need to.</p>
-
-        @foreach (var address in Model.AddressInformation.PatientCurrentAddress.AddressPicker)
-        {
-            <button type="submit" name="currentAddress" id="@address.Value" value="@address.Value" class="button--stacked button--previous button--link">@address.Text</button>
-        }
+        <div class="callout callout--info measure nhsuk-u-margin-bottom-7">
+            <p>If we know the address we can send help if we need to.</p>
+        </div>
+        
+        <ul class="address-picker">
+            @foreach (var address in Model.AddressInformation.PatientCurrentAddress.AddressPicker)
+            {
+                <li class="address-option"><button type="submit" name="currentAddress" id="@address.Value" value="@address.Value" class="button--link">@address.Text</button></li>
+            }
+        </ul>
         <hr />
         @{
             var submitButtonText = self ? "I'm not at any of these places" : "They're not at any of these places";
         }
-            <button type="submit" name="currentAddress" id="AddressNotListed" value="AddressNotListed" class="button--link">@submitButtonText</button>
+            <button type="submit" name="currentAddress" id="AddressNotListed" value="AddressNotListed" class="button--link nhsuk-u-margin-bottom-4">@submitButtonText</button>
     </div>
 }

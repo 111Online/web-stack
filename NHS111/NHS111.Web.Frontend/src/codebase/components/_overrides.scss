@@ -1,0 +1,35 @@
+/*
+  These are required on many of the pages that use nhsuk-core.
+  Once the whole site is using it as default, these should not be required.
+*/
+
+
+.local-header h1 {
+  margin-bottom: 0;
+  @include nhsuk-font(48, 'bold');
+}
+
+.local-header {
+  @include nhsuk-responsive-margin(5, 'bottom', 'true');
+}
+
+.button--link {
+  @include nhsuk-font(19);
+  @include nhsuk-link-style-default;
+  display: inline;
+  position: inherit;
+  width: auto;
+}
+
+/* Some specificity hacks are required so nhsuk doesn't override existing classes */
+.search__button--back {
+  @extend .search__button--back;
+}
+
+.callout {
+  @include top-and-bottom();
+}
+
+.form-hint {
+  @extend .form-hint;
+}
