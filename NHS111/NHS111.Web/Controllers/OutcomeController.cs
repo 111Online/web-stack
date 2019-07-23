@@ -71,18 +71,18 @@ namespace NHS111.Web.Controllers
         [HttpPost]
         public async Task<ActionResult> DispositionWithServices(OutcomeViewModel model, string submitAction, DosEndpoint? endpoint = null, DateTime? dosSearchTime = null)
         {
-            if (submitAction == "manualpostcode") return View("../PersonalDetails/ChangePostcode", model);
+            if (submitAction == "manualpostcode") return View("../Outcome/ChangePostcode", model);
             var postcodeValidatorResponse = _postCodeAllowedValidator.IsAllowedPostcode(model.CurrentPostcode);
 
             if(postcodeValidatorResponse == PostcodeValidatorResponse.InvalidSyntax)
             {
                 ModelState.AddModelError("CurrentPostcode", "Enter a valid postcode.");
-                return View("../PersonalDetails/ChangePostcode", model);
+                return View("../Outcome/ChangePostcode", model);
             }
             if (postcodeValidatorResponse == PostcodeValidatorResponse.PostcodeNotFound)
             {
                 ModelState.AddModelError("CurrentPostcode", "We can't find any services in '" + model.CurrentPostcode +"'. Check the postcode is correct.");
-                return View("../PersonalDetails/ChangePostcode", model);
+                return View("../Outcome/ChangePostcode", model);
             }
 
             model.UserInfo.CurrentAddress.IsInPilotArea = postcodeValidatorResponse.IsInPilotAreaForOutcome(model.OutcomeGroup);

@@ -385,7 +385,7 @@
     <Content Include="Views\Shared\_CompatibilityBanner.cshtml" />
     <Content Include="Views\Shared\_ServiceOpeningTimes.cshtml" />
     <Content Include="Views\Shared\_CommonHiddenFieldsPageDataViewModel.cshtml" />
-    <Content Include="Views\PersonalDetails\ChangePostcode.cshtml" />
+    <Content Include="Views\Outcome\ChangePostcode.cshtml" />
     <Content Include="Views\Outcome\ConfirmLocation.cshtml" />
     <Content Include="Views\Outcome\OutOfArea.cshtml" />
     <Content Include="Views\Shared\Elements\_ChangePostcodeLink.cshtml" />
@@ -452,6 +452,7 @@
     <Content Include="Views\Shared\_CommonHiddenFieldsCurrentAddress.cshtml" />
     <Content Include="Views\Shared\_CommonHiddenFieldsHomeAddress.cshtml" />
     <Content Include="Views\PersonalDetails\ConfirmDetails.cshtml" />
+    <Content Include="Views\PersonalDetails\CurrentAddress_ChangePostcode.cshtml" />
     <None Include="Web.Development.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
