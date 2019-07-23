@@ -23,6 +23,7 @@ namespace NHS111.Models.Models.Web
         {
             get
             {
+                if (_city == null) return string.Empty;
                 TextInfo textInfo = CultureInfo.CurrentCulture.TextInfo;
                 return textInfo.ToTitleCase(_city.ToLower());
             }

@@ -1,0 +1,48 @@
+﻿@using NHS111.Models.Models.Web
+@inherits NHS111.Web.Views.Shared.SurveyLinkView<PersonalDetailViewModel>
+@{
+    Layout = "~/Views/Shared/_LayoutNhsUk.cshtml";
+}
+
+@section Title {
+    Select Current Address
+}
+
+@section HeadTop {
+    @{ var url = string.Format("/outcome/{0}/{1}/{2}/itk/personaldetails/{3}/{4}", Url.Encode(Model.PathwayNo), Url.Encode(Model.OutcomeGroup.Text), Url.Encode(Model.Id), Url.Encode(Model.SelectedServiceId), Url.Encode(Model.SelectedService.Name)); }
+    <script>
+        var pageId = '@Model.Id';
+        dataLayer = [
+            {
+                'virtualPageUrl': '@url',
+                'virtualPageTitle': 'Current Address Change Postcode'
+            }];
+    </script>
+}
+
+@{
+    var dataDictionary = ViewContext.ViewData;
+    dataDictionary.Add(new KeyValuePair<string, object>("LaunchPage", "current-address"));
+}
+
+@section FeedbackSection {
+    @Html.Partial("_FeedbackDetails", new FeedbackViewModel() { UserId = Model.SessionId.ToString(), PageData = new PageDataViewModel(PageDataViewModel.PageType.PersonalDetails, Model) })
+}
+
+@using (Html.BeginForm("ChangeCurrentAddressPostcode", "PersonalDetails", FormMethod.Post))
+{
+    @Html.Partial("_CommonHiddenFieldsPersonalDetails", Model);
+    @Html.Partial("_CommonHiddenFieldsOutcomeViewModel", Model)
+    @Html.Partial("_CommonHiddenFieldsCareAdviceViewModel", Model)
+    @Html.HiddenFor(m => m.SelectedServiceId)
+
+    <div class="nhsuk-core">
+        <h1 id="strap-line">What's the postcode</h1>
+
+        <p>Check the postcode and try again</p>
+
+        @Html.TextBoxFor(m=> m.AddressInformation.PatientCurrentAddress.Postcode)
+        
+        <button type="submit" name="changeCurrentAddressPostcode" id="changeCurrentAddressPostcode">Next</button>
+    </div>
+}

@@ -75,11 +75,21 @@ namespace NHS111.Web.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> ChangePostcode(PersonalDetailViewModel model)
+        public async Task<ActionResult> ChangeCurrentAddressPostcode(PersonalDetailViewModel model)
         {
-            ModelState.Clear();
-            _auditLogger.LogEventData(model, "User elected to change postcode.");
-            return View(model);
+            //populate address picker data
+            model.CurrentPostcode = model.AddressInformation.PatientCurrentAddress.Postcode;
+
+            model = await PopulateAddressPickerFields(model);
+
+            //redirect to current address picker view
+            return View("~\\Views\\PersonalDetails\\CurrentAddress.cshtml", model);
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> EnterHomePostcode(PersonalDetailViewModel model)
+        {
+            return View("~\\Views\\PersonalDetails\\ConfirmDetails.cshtml", model);
         }
 
         [HttpPost]
@@ -117,11 +127,10 @@ namespace NHS111.Web.Controllers
             switch (changeCurrentAddress)
             {
                 case "changeCurrentPostcode" :
-                    ViewData.Add("AddressType",typeof(CurrentAddressViewModel));
-                    return await ChangePostcode(model);
+                    return View("~\\Views\\PersonalDetails\\CurrentAddress_ChangePostcode.cshtml", model);
                 case "enterCurrentAddressManually": return null;
                 case "dontKnowCurrentAddress": return null;
-                default: return await EnterDifferentCurrentAddress(model);
+                default: return View("~\\Views\\PersonalDetails\\CurrentAddress_Change.cshtml", model);
             }
         }
 
