@@ -29,7 +29,7 @@ namespace NHS111.Web.Functional.Tests
         {
             var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Rectal Bleeding", TestScenerioSex.Female, 56);
 
-            questionPage.VerifyQuestion("Have you got pain in your tummy as well as the bleeding from your bottom?");
+            questionPage.VerifyQuestion("Have you also got tummy pain?");
             var outcomePage = questionPage.AnswerAndVerifyNextQuestion(1, "How bad is the pain?")
                 .AnswerAndVerifyNextQuestion(1, "Have you got a sudden, agonising ripping or tearing pain in your chest or back?")
                 .AnswerAndVerifyNextQuestion(3, "Has a doctor told you that you have either of the following?")

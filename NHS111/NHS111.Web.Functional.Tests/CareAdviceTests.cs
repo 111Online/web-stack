@@ -15,11 +15,11 @@ namespace NHS111.Web.Functional.Tests
                 .Answer(1)
                 .Answer(3)
                 .Answer(3)
-                .Answer(1)
                 .Answer(3)
+                .Answer(1)
                 .Answer<OutcomePage>("Yes");
 
-            outcomePage.VerifyCareAdvice(new [] { "Abdominal pain", "Medication, pain and/or fever, abdominal pain", "Fever" });
+            outcomePage.VerifyCareAdvice(new [] { "Abdominal pain", "Medication, pain and/or fever, abdominal/urinary", "Fever" });
         }
     }
 }
