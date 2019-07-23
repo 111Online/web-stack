@@ -27,13 +27,6 @@ namespace NHS111.Web.Controllers
             _locationResultBuilder = locationResultBuilder;
         }
 
-        [HttpPost]
-        public async Task<JsonResult> PostcodeLookup(string postCode)
-        {
-            var locationResults = await GetPostcodeResults(postCode);
-            return Json((locationResults));
-        }
-
         private async Task<AddressInfoCollectionViewModel> GetPostcodeResults(string postCode)
         {
             if (string.IsNullOrWhiteSpace(postCode)) return AddressInfoCollectionViewModel.InvalidSyntaxResponse;
@@ -82,11 +75,11 @@ namespace NHS111.Web.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> ChangePostcode(OutcomeViewModel model)
+        public async Task<ActionResult> ChangePostcode(PersonalDetailViewModel model)
         {
             ModelState.Clear();
             _auditLogger.LogEventData(model, "User elected to change postcode.");
-            return View(model); ;
+            return View(model);
         }
 
         [HttpPost]
@@ -113,10 +106,23 @@ namespace NHS111.Web.Controllers
             if (currentAddress == "AddressNotListed")
                 return await EnterDifferentCurrentAddress(model);
 
-            //populate current address fields from data
             model = await PopulateChosenCurrentAddress(currentAddress, model);
 
             return View("~\\Views\\PersonalDetails\\HomeAddressSameAsCurrentAddress.cshtml", model);
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> SubmitChangeCurrentAddress(PersonalDetailViewModel model, string changeCurrentAddress)
+        {
+            switch (changeCurrentAddress)
+            {
+                case "changeCurrentPostcode" :
+                    ViewData.Add("AddressType",typeof(CurrentAddressViewModel));
+                    return await ChangePostcode(model);
+                case "enterCurrentAddressManually": return null;
+                case "dontKnowCurrentAddress": return null;
+                default: return await EnterDifferentCurrentAddress(model);
+            }
         }
     }
 }
