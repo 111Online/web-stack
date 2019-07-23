@@ -42,114 +42,117 @@
             </h1>
         </div>
         <section class="measure">
+            <div  class="form-group @(@ViewData.ModelState.IsValidField("PatientInformantDetails.Informant") ? "" : "form-group-error")">
+                <fieldset>
+                    <legend>
+                        <h2>Who needs help?</h2>
+                    </legend>
+                    @Html.ValidationMessageFor(m => m.PatientInformantDetails.Informant, "Tell us who needs help")
+                    <div class="panel-group">
+                        @Html.RadioButtonFor(m => m.PatientInformantDetails.Informant, NHS111.Models.Models.Web.InformantType.Self, new { id = "PatientInformantDetails_Informant_Self", name = "PatientInformantDetails_Informant", @class = "multiple-choice__input" })
+                        <label for="PatientInformantDetails_Informant_Self" class="multiple-choice--radio" name="PatientInformantDetails_Informant" data-target="self-data">Me</label>
 
-            <fieldset class="form-group @(@ViewData.ModelState.IsValidField("PatientInformantDetails.Informant") ? "" : "form-group-error")">
-                <legend>
-                    <h2>Who needs help?</h2>
-                </legend>
-                @Html.ValidationMessageFor(m => m.PatientInformantDetails.Informant, "Tell us who needs help")
-                <div class="panel-group">
-                    @Html.RadioButtonFor(m => m.PatientInformantDetails.Informant, NHS111.Models.Models.Web.InformantType.Self, new { id = "PatientInformantDetails_Informant_Self", name = "PatientInformantDetails_Informant", @class = "multiple-choice__input" })
-                    <label for="PatientInformantDetails_Informant_Self" class="multiple-choice--radio" name="PatientInformantDetails_Informant" data-target="self-data">Me</label>
-
-                    <div class="toggle-content panel">
-                        <div class="form-group @(@ViewData.ModelState.IsValidField("PatientInformantDetails.SelfName.Forename") ? "" : "form-group-error")">
-                            <label for="@Html.IdFor(m => m.PatientInformantDetails.SelfName.Forename)">First name</label>
-                            @Html.ValidationMessageFor(m => m.PatientInformantDetails.SelfName.Forename, "Enter your first name")
-                            @Html.TextBoxFor(m => m.PatientInformantDetails.SelfName.Forename, new { @class = "form-control form-control-15-chars" })
-                        </div>
-                        <div class="form-group @(@ViewData.ModelState.IsValidField("PatientInformantDetails.SelfName.Surname") ? "" : "form-group-error")">
-                            <label for="@Html.IdFor(m => m.PatientInformantDetails.SelfName.Surname)">Last name</label>
-                            @Html.ValidationMessageFor(m => m.PatientInformantDetails.SelfName.Surname, "Enter your last name")
-                            @Html.TextBoxFor(m => m.PatientInformantDetails.SelfName.Surname, new { @class = "form-control form-control-15-chars" })
-                        </div>
-                    </div>
-                </div>
-
-                <div class="panel-group">
-                    @Html.RadioButtonFor(m => m.PatientInformantDetails.Informant, NHS111.Models.Models.Web.InformantType.ThirdParty, new { id = "PatientInformantDetails_Informant_ThirdParty", name = "PatientInformantDetails_Informant", @class = "multiple-choice__input" })
-                    <label for="PatientInformantDetails_Informant_ThirdParty" class="multiple-choice--radio" name="PatientInformantDetails_Informant" data-target="other-data">Someone else</label>
-
-                    <div class="toggle-content panel">
-                        <h3>Enter their details</h3>
-                        <div class="form-group @(@ViewData.ModelState.IsValidField("PatientInformantDetails.PatientName.Forename") ? "" : "form-group-error")">
-                            <label for="@Html.IdFor(m => m.PatientInformantDetails.PatientName.Forename)">First name</label>
-                            @Html.ValidationMessageFor(m => m.PatientInformantDetails.PatientName.Forename, "Enter the first name of the person needing care")
-                            @Html.TextBoxFor(m => m.PatientInformantDetails.PatientName.Forename, new { @class = "form-control form-control-15-chars" })
-                        </div>
-                        <div class="form-group @(@ViewData.ModelState.IsValidField("PatientInformantDetails.PatientName.Surname") ? "" : "form-group-error")">
-                            <label for="@Html.IdFor(m => m.PatientInformantDetails.PatientName.Surname)">Last name</label>
-                            @Html.ValidationMessageFor(m => m.PatientInformantDetails.PatientName.Surname, "Enter the last name of the person needing care")
-                            @Html.TextBoxFor(m => m.PatientInformantDetails.PatientName.Surname, new { @class = "form-control form-control-15-chars" })
-                        </div>
-
-                        <hr />
-
-                        <div>
-                            <h3 class="heading-small">Tell us your name</h3>
-                            <p class="form-info">We'll ask you questions about the person who needs help.</p>
-                            <div class="form-group @(@ViewData.ModelState.IsValidField("PatientInformantDetails.InformantName.Forename") ? "" : "form-group-error")">
-                                <label for="@Html.IdFor(m => m.PatientInformantDetails.InformantName.Forename)">First name</label>
-                                @Html.ValidationMessageFor(m => m.PatientInformantDetails.InformantName.Forename, "Enter your first name")
-                                @Html.TextBoxFor(m => m.PatientInformantDetails.InformantName.Forename, new { @class = "form-control form-control-15-chars" })
+                        <div class="toggle-content panel">
+                            <div class="form-group @(@ViewData.ModelState.IsValidField("PatientInformantDetails.SelfName.Forename") ? "" : "form-group-error")">
+                                <label for="@Html.IdFor(m => m.PatientInformantDetails.SelfName.Forename)">First name</label>
+                                @Html.ValidationMessageFor(m => m.PatientInformantDetails.SelfName.Forename, "Enter your first name")
+                                @Html.TextBoxFor(m => m.PatientInformantDetails.SelfName.Forename, new { @class = "form-control form-control-15-chars" })
                             </div>
-                            <div class="form-group @(@ViewData.ModelState.IsValidField("PatientInformantDetails.InformantName.Surname") ? "" : "form-group-error")">
-                                <label for="@Html.IdFor(m => m.PatientInformantDetails.InformantName.Surname)">Last name</label>
-                                @Html.ValidationMessageFor(m => m.PatientInformantDetails.InformantName.Surname, "Enter your last name")
-                                @Html.TextBoxFor(m => m.PatientInformantDetails.InformantName.Surname, new { @class = "form-control form-control-15-chars" })
+                            <div class="form-group @(@ViewData.ModelState.IsValidField("PatientInformantDetails.SelfName.Surname") ? "" : "form-group-error")">
+                                <label for="@Html.IdFor(m => m.PatientInformantDetails.SelfName.Surname)">Last name</label>
+                                @Html.ValidationMessageFor(m => m.PatientInformantDetails.SelfName.Surname, "Enter your last name")
+                                @Html.TextBoxFor(m => m.PatientInformantDetails.SelfName.Surname, new { @class = "form-control form-control-15-chars" })
                             </div>
                         </div>
                     </div>
-                </div>
 
-            </fieldset>
+                    <div class="panel-group">
+                        @Html.RadioButtonFor(m => m.PatientInformantDetails.Informant, NHS111.Models.Models.Web.InformantType.ThirdParty, new { id = "PatientInformantDetails_Informant_ThirdParty", name = "PatientInformantDetails_Informant", @class = "multiple-choice__input" })
+                        <label for="PatientInformantDetails_Informant_ThirdParty" class="multiple-choice--radio" name="PatientInformantDetails_Informant" data-target="other-data">Someone else</label>
+
+                        <div class="toggle-content panel">
+                            <h3>Enter their details</h3>
+                            <div class="form-group @(@ViewData.ModelState.IsValidField("PatientInformantDetails.PatientName.Forename") ? "" : "form-group-error")">
+                                <label for="@Html.IdFor(m => m.PatientInformantDetails.PatientName.Forename)">First name</label>
+                                @Html.ValidationMessageFor(m => m.PatientInformantDetails.PatientName.Forename, "Enter the first name of the person needing care")
+                                @Html.TextBoxFor(m => m.PatientInformantDetails.PatientName.Forename, new { @class = "form-control form-control-15-chars" })
+                            </div>
+                            <div class="form-group @(@ViewData.ModelState.IsValidField("PatientInformantDetails.PatientName.Surname") ? "" : "form-group-error")">
+                                <label for="@Html.IdFor(m => m.PatientInformantDetails.PatientName.Surname)">Last name</label>
+                                @Html.ValidationMessageFor(m => m.PatientInformantDetails.PatientName.Surname, "Enter the last name of the person needing care")
+                                @Html.TextBoxFor(m => m.PatientInformantDetails.PatientName.Surname, new { @class = "form-control form-control-15-chars" })
+                            </div>
+
+                            <hr />
+
+                            <div>
+                                <h3 class="heading-small">Tell us your name</h3>
+                                <p class="form-info">We'll ask you questions about the person who needs help.</p>
+                                <div class="form-group @(@ViewData.ModelState.IsValidField("PatientInformantDetails.InformantName.Forename") ? "" : "form-group-error")">
+                                    <label for="@Html.IdFor(m => m.PatientInformantDetails.InformantName.Forename)">First name</label>
+                                    @Html.ValidationMessageFor(m => m.PatientInformantDetails.InformantName.Forename, "Enter your first name")
+                                    @Html.TextBoxFor(m => m.PatientInformantDetails.InformantName.Forename, new { @class = "form-control form-control-15-chars" })
+                                </div>
+                                <div class="form-group @(@ViewData.ModelState.IsValidField("PatientInformantDetails.InformantName.Surname") ? "" : "form-group-error")">
+                                    <label for="@Html.IdFor(m => m.PatientInformantDetails.InformantName.Surname)">Last name</label>
+                                    @Html.ValidationMessageFor(m => m.PatientInformantDetails.InformantName.Surname, "Enter your last name")
+                                    @Html.TextBoxFor(m => m.PatientInformantDetails.InformantName.Surname, new { @class = "form-control form-control-15-chars" })
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </fieldset>
+            </div>
 
             <hr />
-
-            <fieldset>
-                <legend>
-                    <h2>
-                        Date of birth
-                    </h2>
-                </legend>
-                <p class="form-info">If you're doing this for someone else enter their date of birth.</p>
-                @{ var validDate = @ViewData.ModelState.IsValidField("UserInfo.DoB") && @ViewData.ModelState.IsValidField("UserInfo.Day") &&
-                             @ViewData.ModelState.IsValidField("UserInfo.Month") && @ViewData.ModelState.IsValidField("UserInfo.Year"); }
-                <div class="form-group @(validDate ? "" : "form-group-error") form-group-validation-override">
-                    @Html.ValidationMessageFor(m => m.UserInfo.DoB, "Enter a valid date")
-                    <div class="form-group--inline">
-                        <label for="@Html.IdFor(m => m.UserInfo.Day)">Day</label>
-                        @Html.TextBoxFor(m => m.UserInfo.Day, new { @class = "form-control form-textbox js-validate-number", placeholder = "DD", inputmode = "numeric", pattern = "[0-9]+", maxlength = "2" })
+            
+            @{ var validDate = @ViewData.ModelState.IsValidField("UserInfo.DoB") && @ViewData.ModelState.IsValidField("UserInfo.Day") &&
+                               @ViewData.ModelState.IsValidField("UserInfo.Month") && @ViewData.ModelState.IsValidField("UserInfo.Year"); }
+            <div class="form-group @(validDate ? "" : "form-group-error") form-group-validation-override">
+                <fieldset>
+                    <legend>
+                        <h2>
+                            Date of birth
+                        </h2>
+                    </legend>
+                    <p class="form-info">If you're doing this for someone else enter their date of birth.</p>
+                    <div>
+                        @Html.ValidationMessageFor(m => m.UserInfo.DoB, "Enter a valid date")
+                        <div class="form-group--inline">
+                            <label for="@Html.IdFor(m => m.UserInfo.Day)">Day</label>
+                            @Html.TextBoxFor(m => m.UserInfo.Day, new { @class = "form-control form-textbox js-validate-number", placeholder = "DD", inputmode = "numeric", pattern = "[0-9]+", maxlength = "2" })
+                        </div>
+                        <div class="form-group--inline">
+                            <label for="@Html.IdFor(m => m.UserInfo.Month)">Month</label>
+                            @Html.TextBoxFor(m => m.UserInfo.Month, new { @class = "form-control form-textbox js-validate-number", placeholder = "MM", inputmode = "numeric", pattern = "[0-9]+", maxlength = "2" })
+                        </div>
+                        <div class="form-group--inline">
+                            <label for="@Html.IdFor(m => m.UserInfo.Year)">Year</label>
+                            @Html.TextBoxFor(m => m.UserInfo.Year, new { @class = "form-control form-textbox js-validate-number", placeholder = "YYYY", inputmode = "numeric", pattern = "[0-9]+", maxlength = "4" })
+                        </div>
+                        @Html.HiddenFor(m => m.UserInfo.DoB)
                     </div>
-                    <div class="form-group--inline">
-                        <label for="@Html.IdFor(m => m.UserInfo.Month)">Month</label>
-                        @Html.TextBoxFor(m => m.UserInfo.Month, new { @class = "form-control form-textbox js-validate-number", placeholder = "MM", inputmode = "numeric", pattern = "[0-9]+", maxlength = "2" })
-                    </div>
-                    <div class="form-group--inline">
-                        <label for="@Html.IdFor(m => m.UserInfo.Year)">Year</label>
-                        @Html.TextBoxFor(m => m.UserInfo.Year, new { @class = "form-control form-textbox js-validate-number", placeholder = "YYYY", inputmode = "numeric", pattern = "[0-9]+", maxlength = "4" })
-                    </div>
-                    @Html.HiddenFor(m => m.UserInfo.DoB)
-                </div>
-            </fieldset>
+                </fieldset>
+            </div>
 
             <hr />
+            <div class="form-group  @(@ViewData.ModelState.IsValidField("UserInfo.TelephoneNumber") ? "" : "form-group-error")">
+                <fieldset id="tel-number-fields">
+                    <legend>
+                        <h2>
+                            What number should we call?
+                        </h2>
+                    </legend>
+                    <p class="form-info">Tell us your number if you're doing this for someone else.</p>
 
-            <fieldset id="tel-number-fields">
-                <legend>
-                    <h2>
-                        What number should we call?
-                    </h2>
-                </legend>
-                <p class="form-info">Tell us your number if you're doing this for someone else.</p>
-
-                <div class="form-group  @(@ViewData.ModelState.IsValidField("UserInfo.TelephoneNumber") ? "" : "form-group-error")">
-                    <label for="UserInfo_TelephoneNumber">Enter a mobile, landline or textphone number</label>
-                    @Html.ValidationMessageFor(m => m.UserInfo.TelephoneNumber, "Enter a valid phone number")
-                    @Html.TextBoxFor(m => m.UserInfo.TelephoneNumber, new { @class = "form-control form-textbox form-control-16-chars", type = "tel", inputmode = "tel" })
-                </div>
-            </fieldset>
-
+                    <div>
+                        <label for="UserInfo_TelephoneNumber">Enter a mobile, landline or textphone number</label>
+                        @Html.ValidationMessageFor(m => m.UserInfo.TelephoneNumber, "Enter a valid phone number")
+                        @Html.TextBoxFor(m => m.UserInfo.TelephoneNumber, new { @class = "form-control form-textbox form-control-16-chars", type = "tel", inputmode = "tel" })
+                    </div>
+                </fieldset>
+            </div>
             <hr />
             <script type="text/javascript">
                 jQuery(function () {

@@ -451,6 +451,7 @@
     <Content Include="Views\Shared\_CommonHiddenFieldsPersonalDetails.cshtml" />
     <Content Include="Views\Shared\_CommonHiddenFieldsCurrentAddress.cshtml" />
     <Content Include="Views\Shared\_CommonHiddenFieldsHomeAddress.cshtml" />
+    <Content Include="Views\PersonalDetails\ConfirmDetails.cshtml" />
     <None Include="Web.Development.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

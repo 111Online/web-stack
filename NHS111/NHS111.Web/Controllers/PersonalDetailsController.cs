@@ -124,5 +124,23 @@ namespace NHS111.Web.Controllers
                 default: return await EnterDifferentCurrentAddress(model);
             }
         }
+
+        [HttpPost]
+        public async Task<ActionResult> SubmitAtHome(PersonalDetailViewModel model)
+        {
+            if (!TryValidateModel(model.AddressInformation))
+            {
+                return View("~\\Views\\PersonalDetails\\HomeAddressSameAsCurrentAddress.cshtml", model);
+            }
+
+
+            if (model.AddressInformation.HomeAddressSameAsCurrent.GetValueOrDefault() == HomeAddressSameAsCurrent.Yes)
+            {
+                return View("~\\Views\\PersonalDetails\\ConfirmDetails.cshtml", model);
+            }
+
+            // TODO: Change to get home postcode
+            return View("~\\Views\\PersonalDetails\\ConfirmDetails.cshtml", model);
+        }
     }
 }

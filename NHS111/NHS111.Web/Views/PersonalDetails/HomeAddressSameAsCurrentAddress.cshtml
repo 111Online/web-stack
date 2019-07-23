@@ -1,2 +1,74 @@
-﻿HomeAddressSameAsCurrentAddress
+﻿@using NHS111.Models.Models.Web
+@inherits NHS111.Web.Views.Shared.SurveyLinkView<PersonalDetailViewModel>
+@{
+    Layout = "~/Views/Shared/_LayoutNhsUk.cshtml";
+}
 
+@{
+    var self = Model.PatientInformantDetails.Informant == InformantType.Self;
+    var heading = self ? "Are you at home?" : "Are they at home?";
+}
+
+@section Title {
+    @heading
+}
+
+@section HeadTop {
+    @* @{ var url = string.Format("/outcome/{0}/{1}/{2}/itk/personaldetails/{3}/{4}", Url.Encode(Model.PathwayNo), Url.Encode(Model.OutcomeGroup.Text), Url.Encode(Model.Id), Url.Encode(Model.SelectedServiceId), Url.Encode(Model.SelectedService.Name));
+        } *@
+    <script>
+        var pageId = '@Model.Id';
+        dataLayer = [
+            {
+                'virtualPageUrl': '',
+                'virtualPageTitle': @heading
+            }];
+    </script>
+}
+
+@{
+    var dataDictionary = ViewContext.ViewData;
+    dataDictionary.Add(new KeyValuePair<string, object>("LaunchPage", "at-home"));
+}
+
+@section FeedbackSection {
+    @Html.Partial("_FeedbackDetails", new FeedbackViewModel() { UserId = Model.SessionId.ToString(), PageData = new PageDataViewModel(PageDataViewModel.PageType.PersonalDetails, Model) })
+}
+
+@using (Html.BeginForm("SubmitAtHome", "PersonalDetails", FormMethod.Post))
+{
+
+    @Html.Partial("_CommonHiddenFieldsOutcomeViewModel", Model)
+    @Html.Partial("_CommonHiddenFieldsCareAdviceViewModel", Model)
+    @Html.Partial("_CommonHiddenFieldsPersonalDetails", Model)
+
+    <div class="nhsuk-core">
+        @* IsValidField uses a hardcoded string here because the nested model is flattened in the modelstate so converting name to string won't work here. *@
+        <div class="form-group @(@ViewData.ModelState.IsValidField("HomeAddressSameAsCurrent") ? "" : "form-group-error")">
+            <legend>
+                <h1>@heading</h1></legend>
+            @Html.ValidationMessageFor(m => m.AddressInformation.HomeAddressSameAsCurrent, "Select an answer")
+
+            @Html.RadioButtonFor(m => m.AddressInformation.HomeAddressSameAsCurrent, HomeAddressSameAsCurrent.Yes, new {@class = "multiple-choice__input", name = "at-home", id = "HomeAddressSameAsCurrent_Yes"})
+            <label for="HomeAddressSameAsCurrent_Yes">Yes</label>
+
+            @Html.RadioButtonFor(m => m.AddressInformation.HomeAddressSameAsCurrent, HomeAddressSameAsCurrent.No, new {@class = "multiple-choice__input", name = "at-home", id = "HomeAddressSameAsCurrent_No"})
+            <label for="HomeAddressSameAsCurrent_No">No</label>
+        </div>
+
+        <button type="submit">Next</button>
+    </div>
+}
+
+<script type="text/javascript">
+
+    jQuery(function () {
+        jQuery.validator.unobtrusive.adapters.add('homeaddresssameascurrentspecified', ['prefixelement'], function (options) {
+            options.rules['homeaddresssameascurrentspecified'] = options.params
+        })
+
+        jQuery.validator.addMethod('homeaddresssameascurrentspecified', function (value, element, params) {
+            return value != null
+        })
+    })
+</script>

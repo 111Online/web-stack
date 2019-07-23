@@ -179,6 +179,9 @@
     <Content Include="src\codebase\components\_global-header.scss" />
     <Content Include="src\codebase\components\_index.scss" />
     <Content Include="src\codebase\components\_notification-banner.scss" />
+    <Content Include="src\codebase\components\_overrides.scss">
+      <SubType>Code</SubType>
+    </Content>
     <Content Include="src\codebase\components\_preview.njk" />
     <Content Include="src\codebase\components\_search.scss">
       <SubType>Code</SubType>
