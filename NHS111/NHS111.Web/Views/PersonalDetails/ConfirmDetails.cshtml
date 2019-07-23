@@ -1,0 +1,48 @@
+﻿@using NHS111.Models.Models.Web
+@inherits NHS111.Web.Views.Shared.SurveyLinkView<PersonalDetailViewModel>
+@{
+    Layout = "~/Views/Shared/_LayoutNhsUk.cshtml";
+}
+
+@section Title {
+    Book your call
+}
+
+@section HeadTop {
+    @* @{ var url = string.Format("/outcome/{0}/{1}/{2}/itk/personaldetails/{3}/{4}", Url.Encode(Model.PathwayNo), Url.Encode(Model.OutcomeGroup.Text), Url.Encode(Model.Id), Url.Encode(Model.SelectedServiceId), Url.Encode(Model.SelectedService.Name));
+        } *@
+    <script>
+        var pageId = '@Model.Id';
+        dataLayer = [
+            {
+                'virtualPageUrl': '',
+                'virtualPageTitle': "Book your call"
+            }];
+    </script>
+}
+
+@{
+    var dataDictionary = ViewContext.ViewData;
+    dataDictionary.Add(new KeyValuePair<string, object>("LaunchPage", "at-home"));
+}
+
+@section FeedbackSection {
+    @Html.Partial("_FeedbackDetails", new FeedbackViewModel() { UserId = Model.SessionId.ToString(), PageData = new PageDataViewModel(PageDataViewModel.PageType.PersonalDetails, Model) })
+}
+
+<div class="nhsuk-core">
+    <legend><h1>Book your call</h1></legend>
+</div>
+
+<script type="text/javascript">
+
+    jQuery(function () {
+        jQuery.validator.unobtrusive.adapters.add('homeaddresssameascurrentspecified', ['prefixelement'], function (options) {
+            options.rules['homeaddresssameascurrentspecified'] = options.params
+        })
+
+        jQuery.validator.addMethod('homeaddresssameascurrentspecified', function (value, element, params) {
+            return value != null
+        })
+    })
+</script>

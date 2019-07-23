@@ -31,6 +31,11 @@
 
 @using (Html.BeginForm("SubmitCurrentAddress", "PersonalDetails", FormMethod.Post))
 {
+
+    @Html.Partial("_CommonHiddenFieldsOutcomeViewModel", Model)
+    @Html.Partial("_CommonHiddenFieldsCareAdviceViewModel", Model)
+    @Html.Partial("_CommonHiddenFieldsPersonalDetails", Model)
+
     <div class="nhsuk-core">
         @{
             var self = Model.PatientInformantDetails.Informant == InformantType.Self;
@@ -41,7 +46,7 @@
         <div class="callout callout--info measure nhsuk-u-margin-bottom-7">
             <p>If we know the address we can send help if we need to.</p>
         </div>
-        
+
         <ul class="address-picker">
             @foreach (var address in Model.AddressInformation.PatientCurrentAddress.AddressPicker)
             {
@@ -52,6 +57,6 @@
         @{
             var submitButtonText = self ? "I'm not at any of these places" : "They're not at any of these places";
         }
-            <button type="submit" name="currentAddress" id="AddressNotListed" value="AddressNotListed" class="button--link nhsuk-u-margin-bottom-4">@submitButtonText</button>
+        <button type="submit" name="currentAddress" id="AddressNotListed" value="AddressNotListed" class="button--link nhsuk-u-margin-bottom-4">@submitButtonText</button>
     </div>
 }
