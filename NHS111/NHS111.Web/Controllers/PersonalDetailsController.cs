@@ -79,6 +79,17 @@ namespace NHS111.Web.Controllers
         {
             //populate address picker data
             model.CurrentPostcode = model.AddressInformation.PatientCurrentAddress.Postcode;
+            var checkPostcodeHasBeenInput = ModelState.IsValidField("AddressInformation.PatientCurrentAddress.Postcode");
+            IList<ModelError> allErrors = new List<ModelError>();
+            IList<ModelState> allModelStateErrors = new List<ModelState>();
+            foreach (ModelState modelState in ViewData.ModelState.Values)
+            {
+                foreach (ModelError error in modelState.Errors)
+                {
+                    allErrors.Add(error);
+                    allModelStateErrors.Add(modelState);
+                }
+            }
 
             model = await PopulateAddressPickerFields(model);
 
