@@ -1,0 +1,73 @@
+﻿@using NHS111.Models.Models.Web
+@inherits NHS111.Web.Views.Shared.SurveyLinkView<PersonalDetailViewModel>
+@{
+    Layout = "~/Views/Shared/_LayoutNhsUk.cshtml";
+}
+
+@section Title {
+    Enter Current Address Manually
+}
+
+@section HeadTop {
+    @{ var url = string.Format("/outcome/{0}/{1}/{2}/itk/personaldetails/{3}/{4}", Url.Encode(Model.PathwayNo), Url.Encode(Model.OutcomeGroup.Text), Url.Encode(Model.Id), Url.Encode(Model.SelectedServiceId), Url.Encode(Model.SelectedService.Name)); }
+    <script>
+        var pageId = '@Model.Id';
+        dataLayer = [
+            {
+                'virtualPageUrl': '@url',
+                'virtualPageTitle': 'Enter Current Address Manually'
+            }];
+    </script>
+}
+
+@{
+    var dataDictionary = ViewContext.ViewData;
+    dataDictionary.Add(new KeyValuePair<string, object>("LaunchPage", "manual-address"));
+}
+
+@section FeedbackSection {
+    @Html.Partial("_FeedbackDetails", new FeedbackViewModel() { UserId = Model.SessionId.ToString(), PageData = new PageDataViewModel(PageDataViewModel.PageType.PersonalDetails, Model) })
+}
+
+@using (Html.BeginForm("SubmitManualAddress", "PersonalDetails", FormMethod.Post))
+{
+    @Html.Partial("_CommonHiddenFieldsPersonalDetails", Model);
+    @Html.Partial("_CommonHiddenFieldsOutcomeViewModel", Model)
+    @Html.Partial("_CommonHiddenFieldsCareAdviceViewModel", Model)
+    @Html.HiddenFor(m => m.SelectedServiceId)
+
+    <div class="nhsuk-core">
+        <fieldset>
+            <legend><h1>Address</h1></legend>
+
+            <div class="inline-details form-group @(@ViewData.ModelState.IsValidField(Html.NameFor(m => m.AddressInformation.PatientCurrentAddress.AddressLine1).ToString()) ? "" : "form-group-error")">
+                <label for="@Html.IdFor(m => m.AddressInformation.PatientCurrentAddress.AddressLine1)">Building and street<span class="util-visuallyhidden"> line 1 of 2</span></label>
+                @Html.ValidationMessageFor(m => m.AddressInformation.PatientCurrentAddress.AddressLine1, "Enter the first line of the address")
+                @Html.TextBoxFor(m => m.AddressInformation.PatientCurrentAddress.AddressLine1, new { @class = "form-control address-line-1 address-input" })
+            </div>
+            <div class="inline-details form-group">
+                @Html.LabelFor(m => m.AddressInformation.PatientCurrentAddress.AddressLine2, "Building and street line 2 of 2", new { @class = "util-visuallyhidden" })
+                @Html.TextBoxFor(m => m.AddressInformation.PatientCurrentAddress.AddressLine2, new { @class = "form-control address-line-2 address-input" })
+            </div>
+
+            <div class="inline-details form-group @(@ViewData.ModelState.IsValidField(Html.NameFor(m => m.AddressInformation.PatientCurrentAddress.City).ToString()) ? "" : "form-group-error")">
+                @Html.LabelFor(m => m.AddressInformation.PatientCurrentAddress.City, "Town or city")
+                @Html.ValidationMessageFor(m => m.AddressInformation.PatientCurrentAddress.City, "Enter a city")
+                @Html.TextBoxFor(m => m.AddressInformation.PatientCurrentAddress.City, new { @class = "form-control address-city address-input" })
+            </div>
+
+            <div class="inline-details form-group @(@ViewData.ModelState.IsValidField(Html.NameFor(m => m.AddressInformation.PatientCurrentAddress.County).ToString()) ? "" : "form-group-error")">
+                @Html.LabelFor(m => m.AddressInformation.PatientCurrentAddress.County, "County")
+                @Html.ValidationMessageFor(m => m.AddressInformation.PatientCurrentAddress.County, "Enter a county")
+                @Html.TextBoxFor(m => m.AddressInformation.PatientCurrentAddress.County, new { @class = "form-control address-county address-input" })
+            </div>
+            <div class="inline-details form-group @(@ViewData.ModelState.IsValidField(Html.NameFor(m => m.AddressInformation.PatientCurrentAddress.Postcode).ToString()) ? "" : "form-group-error")">
+                @Html.LabelFor(m => m.AddressInformation.PatientCurrentAddress.Postcode)
+                @Html.ValidationMessageFor(m => m.AddressInformation.PatientCurrentAddress.Postcode, "Enter a valid postcode")
+                @Html.TextBoxFor(m => m.AddressInformation.PatientCurrentAddress.Postcode, new { @class = "form-control address-postcode address-input form-textbox--postcode" })
+            </div>
+            
+            <button>Next</button>
+        </fieldset>
+    </div>
+}
