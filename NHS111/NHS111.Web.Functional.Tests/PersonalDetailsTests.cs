@@ -52,6 +52,10 @@ namespace NHS111.Web.Functional.Tests
             var atHomePage = currentAddressPage.ClickAddress(addressID);
             atHomePage.VerifyHeading("Are you at home?");
             atHomePage.SelectAtHomeYes();
+
+            var confirmDetails = personalDetailsPage.SubmitAtHome();
+            confirmDetails.VerifyHeading("Book your call");
+            confirmDetails.VerifyThirdPartyBannerNotDisplayed();
         }
 
 
@@ -81,6 +85,10 @@ namespace NHS111.Web.Functional.Tests
             var atHomePage = currentAddressPage.ClickAddress(addressID);
             atHomePage.VerifyHeading("Are they at home?");
             atHomePage.SelectAtHomeYes();
+
+            var confirmDetails = personalDetailsPage.SubmitAtHome();
+            confirmDetails.VerifyHeading("Book your call");
+            confirmDetails.VerifyThirdPartyBannerIsDisplayed();
         }
 
 
@@ -109,9 +117,7 @@ namespace NHS111.Web.Functional.Tests
             atHomePage.VerifyHeading("Are you at home?");
             atHomePage.SelectAtHomeNo();
 
-            var confirmDetails = personalDetailsPage.SubmitAtHome();
-            confirmDetails.VerifyHeading("Book your call");
-            confirmDetails.VerifyThirdPartyBannerNotDisplayed();
+            Assert.Fail("Need to add home postcode to test");
         }
 
 
@@ -141,6 +147,8 @@ namespace NHS111.Web.Functional.Tests
             var atHomePage = currentAddressPage.ClickAddress(addressID);
             atHomePage.VerifyHeading("Are they at home?");
             atHomePage.SelectAtHomeNo();
+
+            Assert.Fail("Need to add home postcode to test");
         }
 
         [Test]
