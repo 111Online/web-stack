@@ -129,7 +129,8 @@ namespace NHS111.Web.Controllers
                 case "changeCurrentPostcode" :
                     return View("~\\Views\\PersonalDetails\\CurrentAddress_ChangePostcode.cshtml", model);
                 case "enterCurrentAddressManually": return null;
-                case "dontKnowCurrentAddress": return null;
+                case "dontKnowCurrentAddress": 
+                    return View("~\\Views\\PersonalDetails\\UnknownAddress.cshtml", model);
                 default: return View("~\\Views\\PersonalDetails\\CurrentAddress_Change.cshtml", model);
             }
         }
