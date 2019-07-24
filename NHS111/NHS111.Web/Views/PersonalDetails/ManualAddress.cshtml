@@ -64,7 +64,7 @@
             <div class="inline-details form-group @(@ViewData.ModelState.IsValidField(Html.NameFor(m => m.AddressInformation.PatientCurrentAddress.Postcode).ToString()) ? "" : "form-group-error")">
                 @Html.LabelFor(m => m.AddressInformation.PatientCurrentAddress.Postcode)
                 @Html.ValidationMessageFor(m => m.AddressInformation.PatientCurrentAddress.Postcode, "Enter a valid postcode")
-                @Html.TextBoxFor(m => m.AddressInformation.PatientCurrentAddress.Postcode, new { @class = "form-control address-postcode address-input" })
+                @Html.TextBoxFor(m => m.AddressInformation.PatientCurrentAddress.Postcode, new { @class = "form-control address-postcode address-input form-textbox--postcode" })
             </div>
             
             <button>Next</button>

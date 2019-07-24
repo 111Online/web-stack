@@ -31,7 +31,7 @@
 
 @using (Html.BeginForm("ChangeCurrentAddressPostcode", "PersonalDetails", FormMethod.Post))
 {
-    @Html.Partial("_CommonHiddenFieldsPersonalDetails", Model);
+    @Html.Partial("_CommonHiddenFieldsPersonalDetails", Model)
     @Html.Partial("_CommonHiddenFieldsOutcomeViewModel", Model)
     @Html.Partial("_CommonHiddenFieldsCareAdviceViewModel", Model)
     @Html.HiddenFor(m => m.SelectedServiceId)
@@ -41,7 +41,7 @@
 
         <p>Check the postcode and try again</p>
 
-        @Html.TextBoxFor(m=> m.AddressInformation.PatientCurrentAddress.Postcode)
+        @Html.TextBoxFor(m => m.AddressInformation.PatientCurrentAddress.Postcode, new { @class = "form-textbox--postcode" })
         
         <button type="submit" name="changeCurrentAddressPostcode" id="changeCurrentAddressPostcode">Next</button>
     </div>
