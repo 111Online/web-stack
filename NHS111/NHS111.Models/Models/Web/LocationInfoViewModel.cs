@@ -13,14 +13,14 @@ namespace NHS111.Models.Models.Web
     {
 
         public CurrentAddressViewModel PatientCurrentAddress { get; set; }
-        public PersonalDetailsAddressViewModel PatientHomeAddreess { get; set; }
+        public PersonalDetailsAddressViewModel PatientHomeAddress { get; set; }
         public HomeAddressSameAsCurrent? HomeAddressSameAsCurrent { get; set; }
 
 
         public LocationInfoViewModel()
         {
             PatientCurrentAddress = new CurrentAddressViewModel();
-            PatientHomeAddreess = new PersonalDetailsAddressViewModel();
+            PatientHomeAddress = new PersonalDetailsAddressViewModel();
         }
     }
 
