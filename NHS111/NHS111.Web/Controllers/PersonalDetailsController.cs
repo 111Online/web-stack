@@ -146,7 +146,7 @@ namespace NHS111.Web.Controllers
             //}
 
             // REMOVE THIS.
-            if (!model.AddressInformation.PatientCurrentAddress.AddressLine1.IsNullOrWhiteSpace())
+            if (model.AddressInformation.PatientCurrentAddress.AddressLine1.IsNullOrWhiteSpace())
             {
                 return View("~\\Views\\PersonalDetails\\ManualAddress.cshtml", model);
             }
