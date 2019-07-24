@@ -28,26 +28,141 @@ namespace NHS111.Web.Functional.Tests
 
 
         [Test]
-        public void PersonalDetailsCorrectSections()
+        public void PersonalDetailsFirstPartyAtHome()
         {
-            var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Diabetes Blood Sugar Problem (Declared)", TestScenerioSex.Male, TestScenerioAgeGroups.Adult, "sk10 3de");
-            var outcomePage = questionPage
-                .Answer(1)
-                .Answer(1)
-                .Answer(1)
-                .Answer(2)
-                .Answer(1)
-                .Answer(3)
-                .Answer(1)
-                .Answer(2)
-                .Answer<OutcomePage>(4);
-
-            var personalDetailsPage = outcomePage.ClickBookCallback();
+            var personalDetailsPage = TestScenerios.LaunchPersonalDetailsScenario(Driver, "Diabetes Blood Sugar Problem (Declared)", TestScenerioSex.Male, TestScenerioAgeGroups.Adult, "sk10 3de");
 
             personalDetailsPage.VerifyIsPersonalDetailsPage();
             personalDetailsPage.VerifyNameDisplayed();
             personalDetailsPage.VerifyNumberDisplayed();
             personalDetailsPage.VerifyDateOfBirthDisplayed();
+
+            personalDetailsPage.SelectMe();
+            personalDetailsPage.EnterPatientName("Test1", "Tester1");
+
+            personalDetailsPage.EnterDateOfBirth("31", "07", "1980");
+            personalDetailsPage.EnterPhoneNumber("07793346301");
+
+            var currentAddressPage = personalDetailsPage.SubmitPersonalDetails();
+            currentAddressPage.VerifyHeading("Where are you right now?");
+
+            var addressID = "22180492"; // Belong Macclesfield, Kennedy Avenue, Macclesfield, Cheshire, SK10 3DE
+            currentAddressPage.VerifyAddressDisplays(addressID);
+            
+            var atHomePage = currentAddressPage.ClickAddress(addressID);
+            atHomePage.VerifyHeading("Are you at home?");
+            atHomePage.SelectAtHomeYes();
+        }
+
+
+        [Test]
+        public void PersonalDetailsThirdPartyAtHome()
+        {
+            var personalDetailsPage = TestScenerios.LaunchPersonalDetailsScenario(Driver, "Diabetes Blood Sugar Problem (Declared)", TestScenerioSex.Male, TestScenerioAgeGroups.Adult, "sk10 3de");
+
+            personalDetailsPage.VerifyIsPersonalDetailsPage();
+            personalDetailsPage.VerifyNameDisplayed();
+            personalDetailsPage.VerifyNumberDisplayed();
+            personalDetailsPage.VerifyDateOfBirthDisplayed();
+
+            personalDetailsPage.SelectSomeoneElse();
+            personalDetailsPage.EnterPatientName("Test1", "Tester1");
+            personalDetailsPage.EnterThirdPartyName("Test2", "Tester2");
+            personalDetailsPage.EnterDateOfBirth("31", "07", "1980");
+            personalDetailsPage.EnterPhoneNumber("07793346301");
+
+            var currentAddressPage = personalDetailsPage.SubmitPersonalDetails();
+
+            currentAddressPage.VerifyHeading("Where are they right now?");
+
+            var addressID = "22180498"; // 60 Kennedy Avenue, Macclesfield, Cheshire, SK10 3DE
+            currentAddressPage.VerifyAddressDisplays(addressID);
+            
+            var atHomePage = currentAddressPage.ClickAddress(addressID);
+            atHomePage.VerifyHeading("Are they at home?");
+            atHomePage.SelectAtHomeYes();
+        }
+
+
+        [Test]
+        public void PersonalDetailsFirstPartyNotAtHome()
+        {
+            var personalDetailsPage = TestScenerios.LaunchPersonalDetailsScenario(Driver, "Diabetes Blood Sugar Problem (Declared)", TestScenerioSex.Male, TestScenerioAgeGroups.Adult, "sk10 3de");
+
+            personalDetailsPage.VerifyIsPersonalDetailsPage();
+            personalDetailsPage.VerifyNameDisplayed();
+            personalDetailsPage.VerifyNumberDisplayed();
+            personalDetailsPage.VerifyDateOfBirthDisplayed();
+
+            personalDetailsPage.SelectMe();
+            personalDetailsPage.EnterPatientName("Test1", "Tester1");
+            personalDetailsPage.EnterDateOfBirth("31", "07", "1980");
+            personalDetailsPage.EnterPhoneNumber("07793346301");
+
+            var currentAddressPage = personalDetailsPage.SubmitPersonalDetails();
+            currentAddressPage.VerifyHeading("Where are you right now?");
+
+            var addressID = "22180497"; // 109 Kennedy Avenue, Macclesfield, Cheshire, SK10 3DE
+            currentAddressPage.VerifyAddressDisplays(addressID);
+            
+            var atHomePage = currentAddressPage.ClickAddress(addressID);
+            atHomePage.VerifyHeading("Are you at home?");
+            atHomePage.SelectAtHomeNo();
+
+            var confirmDetails = personalDetailsPage.SubmitAtHome();
+            confirmDetails.VerifyHeading("Book your call");
+            confirmDetails.VerifyThirdPartyBannerNotDisplayed();
+        }
+
+
+        [Test]
+        public void PersonalDetailsThirdPartyNotAtHome()
+        {
+            var personalDetailsPage = TestScenerios.LaunchPersonalDetailsScenario(Driver, "Diabetes Blood Sugar Problem (Declared)", TestScenerioSex.Male, TestScenerioAgeGroups.Adult, "sk10 3de");
+
+
+            personalDetailsPage.VerifyIsPersonalDetailsPage();
+            personalDetailsPage.VerifyNameDisplayed();
+            personalDetailsPage.VerifyNumberDisplayed();
+            personalDetailsPage.VerifyDateOfBirthDisplayed();
+
+            personalDetailsPage.SelectSomeoneElse();
+            personalDetailsPage.EnterPatientName("Test1", "Tester1");
+            personalDetailsPage.EnterThirdPartyName("Test2", "Tester2");
+            personalDetailsPage.EnterDateOfBirth("31", "07", "1980");
+            personalDetailsPage.EnterPhoneNumber("07793346301");
+
+            var currentAddressPage = personalDetailsPage.SubmitPersonalDetails();
+            currentAddressPage.VerifyHeading("Where are they right now?");
+
+            var addressID = "22180496"; // 107 Kennedy Avenue, Macclesfield, Cheshire, SK10 3DE
+            currentAddressPage.VerifyAddressDisplays(addressID);
+            
+            var atHomePage = currentAddressPage.ClickAddress(addressID);
+            atHomePage.VerifyHeading("Are they at home?");
+            atHomePage.SelectAtHomeNo();
+        }
+
+        [Test]
+        public void PersonalDetailsAddressNotListed()
+        {
+            var personalDetailsPage = TestScenerios.LaunchPersonalDetailsScenario(Driver, "Diabetes Blood Sugar Problem (Declared)", TestScenerioSex.Male, TestScenerioAgeGroups.Adult, "sk10 3de");
+
+            personalDetailsPage.VerifyIsPersonalDetailsPage();
+            personalDetailsPage.VerifyNameDisplayed();
+            personalDetailsPage.VerifyNumberDisplayed();
+            personalDetailsPage.VerifyDateOfBirthDisplayed();
+
+            personalDetailsPage.SelectSomeoneElse();
+            personalDetailsPage.EnterPatientName("Test1", "Tester1");
+            personalDetailsPage.EnterThirdPartyName("Test2", "Tester2");
+            personalDetailsPage.EnterDateOfBirth("31", "07", "1980");
+            personalDetailsPage.EnterPhoneNumber("07793346301");
+
+            var currentAddressPage = personalDetailsPage.SubmitPersonalDetails();
+            currentAddressPage.VerifyHeading("Where are they right now?");
+            
+            var checkAddressPage = currentAddressPage.ClickAddressNotListed();
         }
     }
 }
