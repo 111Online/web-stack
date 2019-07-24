@@ -447,12 +447,14 @@
     <Content Include="Views\Outcome\Repeat_Prescription\ReferralExplanation.cshtml" />
     <Content Include="Views\PersonalDetails\CurrentAddress.cshtml" />
     <Content Include="Views\PersonalDetails\CurrentAddress_Change.cshtml" />
-    <Content Include="Views\PersonalDetails\HomeAddressSameAsCurrentAddress.cshtml" />
+    <Content Include="Views\PersonalDetails\CheckAtHome.cshtml" />
     <Content Include="Views\Shared\_CommonHiddenFieldsPersonalDetails.cshtml" />
     <Content Include="Views\Shared\_CommonHiddenFieldsCurrentAddress.cshtml" />
     <Content Include="Views\Shared\_CommonHiddenFieldsHomeAddress.cshtml" />
     <Content Include="Views\PersonalDetails\ConfirmDetails.cshtml" />
     <Content Include="Views\PersonalDetails\CurrentAddress_ChangePostcode.cshtml" />
+    <Content Include="Views\PersonalDetails\UnknownAddress.cshtml" />
+    <Content Include="Views\PersonalDetails\ManualAddress.cshtml" />
     <None Include="Web.Development.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
