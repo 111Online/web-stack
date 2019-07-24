@@ -37,12 +37,13 @@
     @Html.HiddenFor(m => m.SelectedServiceId)
 
     <div class="nhsuk-core">
-        <h1 id="strap-line">What's the postcode</h1>
+        <div class="form-group">
+            <label for="@Html.IdFor(m => m.AddressInformation.PatientCurrentAddress.Postcode)"><h1 id="strap-line">What's the postcode</h1></label>
+            <p>Check the postcode and try again</p>
+            @Html.ValidationMessageFor(m => m.AddressInformation.PatientCurrentAddress.Postcode)
+            @Html.TextBoxFor(m => m.AddressInformation.PatientCurrentAddress.Postcode, new { @class = "form-textbox--postcode" })
+        </div>
 
-        <p>Check the postcode and try again</p>
-
-        @Html.TextBoxFor(m => m.AddressInformation.PatientCurrentAddress.Postcode, new { @class = "form-textbox--postcode" })
-        
         <button type="submit" name="changeCurrentAddressPostcode" id="changeCurrentAddressPostcode">Next</button>
     </div>
 }
