@@ -98,7 +98,7 @@ namespace NHS111.Models.Mappers.WebMappings
                          HomeAddressSameAsCurrent.No)
                 {
                     patientDetails.HomeAddress =
-                        MapAddress(personalDetailViewModel.AddressInformation.PatientHomeAddreess);
+                        MapAddress(personalDetailViewModel.AddressInformation.PatientHomeAddress);
                 }
             }
             if (personalDetailViewModel.UserInfo.Year != null && personalDetailViewModel.UserInfo.Month != null && personalDetailViewModel.UserInfo.Day != null)

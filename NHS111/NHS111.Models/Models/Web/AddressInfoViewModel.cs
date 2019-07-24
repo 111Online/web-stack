@@ -79,7 +79,7 @@ namespace NHS111.Models.Models.Web
 
     }
 
-    [Validator(typeof(HomeAddressModelValidatior))]
+    [Validator(typeof(HomeAddressModelValidator))]
     public class PersonalDetailsAddressViewModel : AddressInfoViewModel
     {
         public List<SelectListItem> AddressPicker { get; set; }

@@ -118,7 +118,7 @@ namespace NHS111.Web.Controllers
 
             model = await PopulateChosenCurrentAddress(currentAddress, model);
 
-            return View("~\\Views\\PersonalDetails\\HomeAddressSameAsCurrentAddress.cshtml", model);
+            return View("~\\Views\\PersonalDetails\\CheckAtHome.cshtml", model);
         }
 
         [HttpPost]
@@ -128,20 +128,43 @@ namespace NHS111.Web.Controllers
             {
                 case "changeCurrentPostcode" :
                     return View("~\\Views\\PersonalDetails\\CurrentAddress_ChangePostcode.cshtml", model);
-                case "enterCurrentAddressManually": return null;
+                case "enterCurrentAddressManually":
+                    return View("~\\Views\\PersonalDetails\\ManualAddress.cshtml", model);
                 case "dontKnowCurrentAddress": 
                     return View("~\\Views\\PersonalDetails\\UnknownAddress.cshtml", model);
                 default: return View("~\\Views\\PersonalDetails\\CurrentAddress_Change.cshtml", model);
             }
         }
 
+
+        [HttpPost]
+        public async Task<ActionResult> SubmitManualAddress(PersonalDetailViewModel model)
+        {
+            //TODO: Validation.
+            //if (!TryValidateModel(model.AddressInformation.PatientCurrentAddress))
+            //{
+            //    return View("~\\Views\\PersonalDetails\\ManualAddress.cshtml", model);
+            //}
+
+            // REMOVE THIS.
+            if (model.AddressInformation.PatientCurrentAddress.AddressLine1.IsNullOrWhiteSpace())
+            {
+                return View("~\\Views\\PersonalDetails\\ManualAddress.cshtml", model);
+            }
+
+            return View("~\\Views\\PersonalDetails\\CheckAtHome.cshtml", model);
+
+        }
+
         [HttpPost]
         public async Task<ActionResult> SubmitAtHome(PersonalDetailViewModel model)
         {
-            if (!TryValidateModel(model.AddressInformation))
-            {
-                return View("~\\Views\\PersonalDetails\\HomeAddressSameAsCurrentAddress.cshtml", model);
-            }
+
+            // TODO: Do validation here properly. Was failing due to nested model and only one field being appropriate
+            //if (!TryValidateModel(model.AddressInformation))
+            //{
+            //    return View("~\\Views\\PersonalDetails\\HomeAddressSameAsCurrentAddress.cshtml", model);
+            //}
 
 
             if (model.AddressInformation.HomeAddressSameAsCurrent.GetValueOrDefault() == HomeAddressSameAsCurrent.Yes)
@@ -149,8 +172,13 @@ namespace NHS111.Web.Controllers
                 return View("~\\Views\\PersonalDetails\\ConfirmDetails.cshtml", model);
             }
 
+            if (model.AddressInformation.HomeAddressSameAsCurrent.GetValueOrDefault() == HomeAddressSameAsCurrent.No)
+            {
+                //return View("~\\Views\\PersonalDetails\\HomePostcode.cshtml", model);
+            }
+
             // TODO: Change to get home postcode
-            return View("~\\Views\\PersonalDetails\\ConfirmDetails.cshtml", model);
+            return View("~\\Views\\PersonalDetails\\CheckAtHome.cshtml", model);
         }
     }
 }
