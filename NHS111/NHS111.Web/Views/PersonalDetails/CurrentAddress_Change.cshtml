@@ -9,12 +9,12 @@
 }
 
 @section HeadTop {
-    @{ var url = string.Format("/outcome/{0}/{1}/{2}/itk/personaldetails/changecurrentaddress/{3}/{4}", Url.Encode(Model.PathwayNo), Url.Encode(Model.OutcomeGroup.Text), Url.Encode(Model.Id), Url.Encode(Model.SelectedService.Id.ToString()), Url.Encode(Model.SelectedService.Name)); }
+    @*{ var url = string.Format("/outcome/{0}/{1}/{2}/itk/personaldetails/changecurrentaddress/{3}/{4}", Url.Encode(Model.PathwayNo), Url.Encode(Model.OutcomeGroup.Text), Url.Encode(Model.Id), Url.Encode(Model.SelectedService.Id.ToString()), Url.Encode(Model.SelectedService.Name)); }*@
     <script>
         var pageId = '@Model.Id';
         dataLayer = [
             {
-                'virtualPageUrl': '@url',
+                'virtualPageUrl': '',
                 'virtualPageTitle': 'Personal Details - Change Current Address'
             }];
     </script>
