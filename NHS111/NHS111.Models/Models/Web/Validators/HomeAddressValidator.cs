@@ -29,7 +29,7 @@ namespace NHS111.Models.Models.Web.Validators
             var ruleYear = new ModelClientValidationRule
             {
                 ErrorMessage = this.ErrorMessageSource.GetString(), // default error message
-                ValidationType = "homeaddress" // name of the validatoin which will be used inside unobtrusive library
+                ValidationType = "homeaddress" // name of the validation which will be used inside unobtrusive library
             };
 
             ruleYear.ValidationParameters["prefixelement"] = _dependencyElement; // html element which includes prefix information
