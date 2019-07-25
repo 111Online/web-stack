@@ -9,13 +9,13 @@
 }
 
 @section HeadTop {
-    @{ var url = string.Format("/outcome/{0}/{1}/{2}/itk/personaldetails/{3}/{4}", Url.Encode(Model.PathwayNo), Url.Encode(Model.OutcomeGroup.Text), Url.Encode(Model.Id), Url.Encode(Model.SelectedServiceId), Url.Encode(Model.SelectedService.Name)); }
+    @{ var url = string.Format("/outcome/{0}/{1}/{2}/itk/personaldetails/manualaddress/{3}/{4}", Url.Encode(Model.PathwayNo), Url.Encode(Model.OutcomeGroup.Text), Url.Encode(Model.Id), Url.Encode(Model.SelectedService.Id.ToString()), Url.Encode(Model.SelectedService.Name)); }
     <script>
         var pageId = '@Model.Id';
         dataLayer = [
             {
                 'virtualPageUrl': '@url',
-                'virtualPageTitle': 'Enter Current Address Manually'
+                'virtualPageTitle': 'Personal Details - Enter Current Address Manually'
             }];
     </script>
 }
@@ -26,7 +26,7 @@
 }
 
 @section FeedbackSection {
-    @Html.Partial("_FeedbackDetails", new FeedbackViewModel() { UserId = Model.SessionId.ToString(), PageData = new PageDataViewModel(PageDataViewModel.PageType.PersonalDetails, Model) })
+    @Html.Partial("_FeedbackDetails", new FeedbackViewModel() { UserId = Model.SessionId.ToString(), PageData = new PageDataViewModel(PageDataViewModel.PageType.PersonalDetailsManualAddress, Model) })
 }
 
 @using (Html.BeginForm("SubmitManualAddress", "PersonalDetails", FormMethod.Post))
@@ -34,7 +34,6 @@
     @Html.Partial("_CommonHiddenFieldsPersonalDetails", Model);
     @Html.Partial("_CommonHiddenFieldsOutcomeViewModel", Model)
     @Html.Partial("_CommonHiddenFieldsCareAdviceViewModel", Model)
-    @Html.HiddenFor(m => m.SelectedServiceId)
 
     <div class="nhsuk-core">
         <fieldset>

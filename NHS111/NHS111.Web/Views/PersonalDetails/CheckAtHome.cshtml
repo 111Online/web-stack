@@ -14,25 +14,24 @@
 }
 
 @section HeadTop {
-    @* @{ var url = string.Format("/outcome/{0}/{1}/{2}/itk/personaldetails/{3}/{4}", Url.Encode(Model.PathwayNo), Url.Encode(Model.OutcomeGroup.Text), Url.Encode(Model.Id), Url.Encode(Model.SelectedServiceId), Url.Encode(Model.SelectedService.Name));
-        } *@
+    @{ var url = string.Format("/outcome/{0}/{1}/{2}/itk/personaldetails/checkathome/{3}/{4}", Url.Encode(Model.PathwayNo), Url.Encode(Model.OutcomeGroup.Text), Url.Encode(Model.Id), Url.Encode(Model.SelectedService.Id.ToString()), Url.Encode(Model.SelectedService.Name)); }
     <script>
         var pageId = '@Model.Id';
         dataLayer = [
             {
-                'virtualPageUrl': '',
-                'virtualPageTitle': '@heading'
+                'virtualPageUrl': '@url',
+                'virtualPageTitle': 'Personal Details - @heading'
             }];
     </script>
 }
 
 @{
     var dataDictionary = ViewContext.ViewData;
-    dataDictionary.Add(new KeyValuePair<string, object>("LaunchPage", "at-home"));
+    dataDictionary.Add(new KeyValuePair<string, object>("LaunchPage", "check-at-home"));
 }
 
 @section FeedbackSection {
-    @Html.Partial("_FeedbackDetails", new FeedbackViewModel() { UserId = Model.SessionId.ToString(), PageData = new PageDataViewModel(PageDataViewModel.PageType.PersonalDetails, Model) })
+    @Html.Partial("_FeedbackDetails", new FeedbackViewModel() { UserId = Model.SessionId.ToString(), PageData = new PageDataViewModel(PageDataViewModel.PageType.PersonalDetailsCheckAtHome, Model) })
 }
 
 @using (Html.BeginForm("SubmitAtHome", "PersonalDetails", FormMethod.Post))
@@ -46,13 +45,14 @@
         @* IsValidField uses a hardcoded string here because the nested model is flattened in the modelstate so converting name to string won't work here. *@
         <div class="form-group @(@ViewData.ModelState.IsValidField("HomeAddressSameAsCurrent") ? "" : "form-group-error")">
             <legend>
-                <h1>@heading</h1></legend>
+                <h1>@heading</h1>
+            </legend>
             @Html.ValidationMessageFor(m => m.AddressInformation.HomeAddressSameAsCurrent, "Select an answer")
 
-            @Html.RadioButtonFor(m => m.AddressInformation.HomeAddressSameAsCurrent, HomeAddressSameAsCurrent.Yes, new {@class = "multiple-choice__input", name = "at-home", id = "HomeAddressSameAsCurrent_Yes"})
+            @Html.RadioButtonFor(m => m.AddressInformation.HomeAddressSameAsCurrent, HomeAddressSameAsCurrent.Yes, new { @class = "multiple-choice__input", name = "at-home", id = "HomeAddressSameAsCurrent_Yes" })
             <label for="HomeAddressSameAsCurrent_Yes">Yes</label>
 
-            @Html.RadioButtonFor(m => m.AddressInformation.HomeAddressSameAsCurrent, HomeAddressSameAsCurrent.No, new {@class = "multiple-choice__input", name = "at-home", id = "HomeAddressSameAsCurrent_No"})
+            @Html.RadioButtonFor(m => m.AddressInformation.HomeAddressSameAsCurrent, HomeAddressSameAsCurrent.No, new { @class = "multiple-choice__input", name = "at-home", id = "HomeAddressSameAsCurrent_No" })
             <label for="HomeAddressSameAsCurrent_No">No</label>
         </div>
 
