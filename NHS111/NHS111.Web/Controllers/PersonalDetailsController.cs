@@ -50,10 +50,10 @@ namespace NHS111.Web.Controllers
         private async Task<PersonalDetailViewModel> PopulateAddressPickerFields(PersonalDetailViewModel model)
         {
             //map postcode to field to submit to ITK (preventing multiple entries of same data)
-            model.AddressInformation.PatientCurrentAddress.PreviouslyEnteredPostcode = model.CurrentPostcode;
+            //model.AddressInformation.PatientCurrentAddress.PreviouslyEnteredPostcode = model.CurrentPostcode;
 
             //pre-populate picker fields from postcode lookup service
-            var postcodes = await GetPostcodeResults(model.AddressInformation.PatientCurrentAddress.PreviouslyEnteredPostcode);
+            var postcodes = await GetPostcodeResults(model.CurrentPostcode);
             if (postcodes.ValidatedPostcodeResponse == PostcodeValidatorResponse.PostcodeNotFound) return model;
 
             var items = new List<SelectListItem>();
@@ -76,10 +76,11 @@ namespace NHS111.Web.Controllers
 
         [HttpPost]
         public async Task<ActionResult> ChangeCurrentAddressPostcode(PersonalDetailViewModel model)
-        {
-            //populate address picker data
-            model.CurrentPostcode = model.AddressInformation.PatientCurrentAddress.Postcode;
+        {          
+            if (!ModelState.IsValid)
+                return View("~\\Views\\PersonalDetails\\CurrentAddress_ChangePostcode.cshtml", model);
 
+            model.CurrentPostcode = model.AddressInformation.ChangePostcode.Postcode;
             model = await PopulateAddressPickerFields(model);
 
             //redirect to current address picker view
@@ -101,6 +102,7 @@ namespace NHS111.Web.Controllers
             }
 
             model = await PopulateAddressPickerFields(model);
+            ModelState.Clear();
             return View(model);
         }
 
@@ -140,14 +142,7 @@ namespace NHS111.Web.Controllers
         [HttpPost]
         public async Task<ActionResult> SubmitManualAddress(PersonalDetailViewModel model)
         {
-            //TODO: Validation.
-            //if (!TryValidateModel(model.AddressInformation.PatientCurrentAddress))
-            //{
-            //    return View("~\\Views\\PersonalDetails\\ManualAddress.cshtml", model);
-            //}
-
-            // REMOVE THIS.
-            if (model.AddressInformation.PatientCurrentAddress.AddressLine1.IsNullOrWhiteSpace())
+            if (!ModelState.IsValid)
             {
                 return View("~\\Views\\PersonalDetails\\ManualAddress.cshtml", model);
             }
@@ -159,20 +154,15 @@ namespace NHS111.Web.Controllers
         [HttpPost]
         public async Task<ActionResult> SubmitAtHome(PersonalDetailViewModel model)
         {
+            if (!ModelState.IsValid)
+                return View("~\\Views\\PersonalDetails\\CheckAtHome.cshtml", model);
 
-            // TODO: Do validation here properly. Was failing due to nested model and only one field being appropriate
-            //if (!TryValidateModel(model.AddressInformation))
-            //{
-            //    return View("~\\Views\\PersonalDetails\\HomeAddressSameAsCurrentAddress.cshtml", model);
-            //}
-
-
-            if (model.AddressInformation.HomeAddressSameAsCurrent.GetValueOrDefault() == HomeAddressSameAsCurrent.Yes)
+            if (model.AddressInformation.HomeAddressSameAsCurrentWrapper.HomeAddressSameAsCurrent == HomeAddressSameAsCurrent.Yes)
             {
                 return View("~\\Views\\PersonalDetails\\ConfirmDetails.cshtml", model);
             }
 
-            if (model.AddressInformation.HomeAddressSameAsCurrent.GetValueOrDefault() == HomeAddressSameAsCurrent.No)
+            if (model.AddressInformation.HomeAddressSameAsCurrentWrapper.HomeAddressSameAsCurrent == HomeAddressSameAsCurrent.No)
             {
                 //return View("~\\Views\\PersonalDetails\\HomePostcode.cshtml", model);
             }
