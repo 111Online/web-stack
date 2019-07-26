@@ -42,19 +42,23 @@
     @Html.Partial("_CommonHiddenFieldsCareAdviceViewModel", Model)
     @Html.Partial("_CommonHiddenFieldsPersonalDetails", Model)
     @Html.Partial("_CommonHiddenFieldsCurrentAddress", Model)
+    @Html.HiddenFor(m => m.SelectedServiceId)
 
     <div class="nhsuk-core">
-        @* IsValidField uses a hardcoded string here because the nested model is flattened in the modelstate so converting name to string won't work here. *@
-        <div class="form-group @(@ViewData.ModelState.IsValidField("HomeAddressSameAsCurrent") ? "" : "form-group-error")">
+        <div class="form-group @(ViewData.ModelState.IsValid ? "" : "form-group-error")">
             <legend>
-                <h1>@heading</h1></legend>
-            @Html.ValidationMessageFor(m => m.AddressInformation.HomeAddressSameAsCurrentWrapper.HomeAddressSameAsCurrent, "Select an answer")
+                <h1>@heading</h1>
+            </legend>
 
-            @Html.RadioButtonFor(m => m.AddressInformation.HomeAddressSameAsCurrentWrapper.HomeAddressSameAsCurrent, HomeAddressSameAsCurrent.Yes, new {@class = "multiple-choice__input", name = "at-home", id = "HomeAddressSameAsCurrent_Yes"})
-            <label for="HomeAddressSameAsCurrent_Yes">Yes</label>
+            @Html.RadioButtonFor(m => m.AddressInformation.HomeAddressSameAsCurrentWrapper.HomeAddressSameAsCurrent, HomeAddressSameAsCurrent.Yes, new { id = "home-address-yes", name = "home-address", @class = "multiple-choice__input" })
+            <label for="home-address-yes" class="multiple-choice--radio">Yes</label>
 
-            @Html.RadioButtonFor(m => m.AddressInformation.HomeAddressSameAsCurrentWrapper.HomeAddressSameAsCurrent, HomeAddressSameAsCurrent.No, new {@class = "multiple-choice__input", name = "at-home", id = "HomeAddressSameAsCurrent_No"})
-            <label for="HomeAddressSameAsCurrent_No">No</label>
+            @Html.RadioButtonFor(m => m.AddressInformation.HomeAddressSameAsCurrentWrapper.HomeAddressSameAsCurrent, HomeAddressSameAsCurrent.No, new { id = "home-address-no", name = "home-address", @class = "multiple-choice__input" })
+            <label for="home-address-yes" class="multiple-choice--radio">No</label>
+
+
+
+
         </div>
 
         <button type="submit">Next</button>

@@ -454,6 +454,7 @@
     <Content Include="Views\PersonalDetails\ConfirmDetails.cshtml" />
     <Content Include="Views\PersonalDetails\CurrentAddress_ChangePostcode.cshtml" />
     <Content Include="Views\PersonalDetails\ManualAddress.cshtml" />
+    <Content Include="Views\PersonalDetails\HomeAddress_Postcode.cshtml" />
     <None Include="Web.Development.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
