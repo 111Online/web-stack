@@ -93,6 +93,7 @@ namespace NHS111.Web.Controllers
             if (!ModelState.IsValid)
                 return View("~\\Views\\PersonalDetails\\HomeAddress_Postcode.cshtml", model);
             else
+                model.AddressInformation.PatientHomeAddress.Postcode = model.AddressInformation.ChangePostcode.Postcode;
                 return View("~\\Views\\PersonalDetails\\ConfirmDetails.cshtml", model);
 
         }
