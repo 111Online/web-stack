@@ -86,15 +86,16 @@ namespace NHS111.Models.Mappers.WebMappings
             patientDetails.ServiceAddressPostcode = personalDetailViewModel.SelectedService.PostCode;
             patientDetails.TelephoneNumber = personalDetailViewModel.UserInfo.TelephoneNumber;
             patientDetails.CurrentAddress = MapAddress(personalDetailViewModel.AddressInformation.PatientCurrentAddress);
-            if (personalDetailViewModel.AddressInformation.HomeAddressSameAsCurrent.HasValue)
+            if (personalDetailViewModel.AddressInformation.HomeAddressSameAsCurrentWrapper != null &&
+                personalDetailViewModel.AddressInformation.HomeAddressSameAsCurrentWrapper.HomeAddressSameAsCurrent.HasValue)
             {
-                if (personalDetailViewModel.AddressInformation.HomeAddressSameAsCurrent.Value ==
+                if (personalDetailViewModel.AddressInformation.HomeAddressSameAsCurrentWrapper.HomeAddressSameAsCurrent.Value ==
                     HomeAddressSameAsCurrent.Yes)
                 {
                     patientDetails.HomeAddress =
                         MapAddress(personalDetailViewModel.AddressInformation.PatientCurrentAddress);
                 }
-                else if (personalDetailViewModel.AddressInformation.HomeAddressSameAsCurrent.Value ==
+                else if (personalDetailViewModel.AddressInformation.HomeAddressSameAsCurrentWrapper.HomeAddressSameAsCurrent.Value ==
                          HomeAddressSameAsCurrent.No)
                 {
                     patientDetails.HomeAddress =

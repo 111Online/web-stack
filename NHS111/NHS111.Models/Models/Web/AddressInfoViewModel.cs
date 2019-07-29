@@ -23,7 +23,7 @@ namespace NHS111.Models.Models.Web
         {
             get
             {
-                if (_city == null) return string.Empty;
+                if (_city == null) return _city;
                 TextInfo textInfo = CultureInfo.CurrentCulture.TextInfo;
                 return textInfo.ToTitleCase(_city.ToLower());
             }
@@ -73,7 +73,7 @@ namespace NHS111.Models.Models.Web
     {
     }
 
-    [Validator(typeof(PersonalInfoAddressViewModelValidator))]
+    [Validator(typeof(PersonalInfoCurrentAddressViewModelValidator))]
     public class CurrentAddressViewModel : PersonalDetailsAddressViewModel
     {
 

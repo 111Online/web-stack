@@ -36,7 +36,7 @@
     
     @{
         var isProxy = Model.PatientInformantDetails.Informant == InformantType.ThirdParty;
-        var isAtHome = Model.AddressInformation.HomeAddressSameAsCurrent == HomeAddressSameAsCurrent.Yes;
+        var isAtHome = Model.AddressInformation.HomeAddressSameAsCurrentWrapper.HomeAddressSameAsCurrent == HomeAddressSameAsCurrent.Yes;
     }
     @if (isProxy)
     {

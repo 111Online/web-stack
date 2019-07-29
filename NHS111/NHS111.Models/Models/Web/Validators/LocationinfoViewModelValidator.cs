@@ -7,19 +7,7 @@ using FluentValidation;
 using System.Web.Mvc;
 
 namespace NHS111.Models.Models.Web.Validators
-{
-    public class LocationInfoViewModelValidator : AbstractValidator<LocationInfoViewModel>
-    {
-        public LocationInfoViewModelValidator()
-        {
-            RuleFor(m => m.HomeAddressSameAsCurrent).SetValidator(new HomeAddressSameAsCurrentValidator<LocationInfoViewModel, HomeAddressSameAsCurrent?>(m => m.HomeAddressSameAsCurrent));
-            RuleFor(m => m.PatientHomeAddress).SetValidator(new PersonalInfoAddressViewModelValidator()).When(m =>
-                m.HomeAddressSameAsCurrent.HasValue &&
-                m.HomeAddressSameAsCurrent.Value == HomeAddressSameAsCurrent.No);
-        }
-    }
-
-
+{   
     public class HomeAddressModelValidator : AbstractValidator<PersonalDetailsAddressViewModel>
     {
         public HomeAddressModelValidator()
