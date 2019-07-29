@@ -90,7 +90,12 @@ namespace NHS111.Web.Controllers
         [HttpPost]
         public async Task<ActionResult> EnterHomePostcode(PersonalDetailViewModel model)
         {
-            return View("~\\Views\\PersonalDetails\\ConfirmDetails.cshtml", model);
+            if (!ModelState.IsValid)
+                return View("~\\Views\\PersonalDetails\\HomeAddress_Postcode.cshtml", model);
+            else
+                model.AddressInformation.PatientHomeAddress.Postcode = model.AddressInformation.ChangePostcode.Postcode;
+                return View("~\\Views\\PersonalDetails\\ConfirmDetails.cshtml", model);
+
         }
 
         [HttpPost]
@@ -155,19 +160,23 @@ namespace NHS111.Web.Controllers
         public async Task<ActionResult> SubmitAtHome(PersonalDetailViewModel model)
         {
             if (!ModelState.IsValid)
+            {
+
                 return View("~\\Views\\PersonalDetails\\CheckAtHome.cshtml", model);
+            }
 
             if (model.AddressInformation.HomeAddressSameAsCurrentWrapper.HomeAddressSameAsCurrent == HomeAddressSameAsCurrent.Yes)
             {
+                model.AddressInformation.PatientHomeAddress = model.AddressInformation.PatientCurrentAddress;
+
                 return View("~\\Views\\PersonalDetails\\ConfirmDetails.cshtml", model);
             }
 
             if (model.AddressInformation.HomeAddressSameAsCurrentWrapper.HomeAddressSameAsCurrent == HomeAddressSameAsCurrent.No)
             {
-                //return View("~\\Views\\PersonalDetails\\HomePostcode.cshtml", model);
+                return View("~\\Views\\PersonalDetails\\HomeAddress_Postcode.cshtml", model);
             }
 
-            // TODO: Change to get home postcode
             return View("~\\Views\\PersonalDetails\\CheckAtHome.cshtml", model);
         }
     }

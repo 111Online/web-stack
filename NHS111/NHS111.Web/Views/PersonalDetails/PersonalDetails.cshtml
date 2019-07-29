@@ -10,12 +10,12 @@
 }
 
 @section HeadTop {
-    @*{ var url = string.Format("/outcome/{0}/{1}/{2}/itk/personaldetails/{3}/{4}", Url.Encode(Model.PathwayNo), Url.Encode(Model.OutcomeGroup.Text), Url.Encode(Model.Id), Url.Encode(Model.SelectedService.Id.ToString()), Url.Encode(Model.SelectedService.PublicName)); }*@
+    @{ var url = string.Format("/outcome/{0}/{1}/{2}/itk/personaldetails/{3}/{4}", Url.Encode(Model.PathwayNo), Url.Encode(Model.OutcomeGroup.Text), Url.Encode(Model.Id), Url.Encode(Model.SelectedServiceId), Url.Encode(Model.SelectedService.Name)); }
     <script>
         var pageId = '@Model.Id';
         dataLayer = [
         {
-            'virtualPageUrl': '',
+            'virtualPageUrl': '@url',
             'virtualPageTitle': 'Personal Details'
         }];
     </script>
@@ -35,13 +35,14 @@
     {
         @Html.Partial("_CommonHiddenFieldsOutcomeViewModel", Model)
         @Html.Partial("_CommonHiddenFieldsCareAdviceViewModel", Model)
+        @Html.HiddenFor(m => m.SelectedServiceId)
         <div class="local-header">
             <h1 class="local-header__title">
                 Enter details
             </h1>
         </div>
         <section class="measure">
-            <div  class="form-group @(@ViewData.ModelState.IsValidField("PatientInformantDetails.Informant") ? "" : "form-group-error")">
+            <div class="form-group @(@ViewData.ModelState.IsValidField("PatientInformantDetails.Informant") ? "" : "form-group-error")">
                 <fieldset>
                     <legend>
                         <h2>Who needs help?</h2>
@@ -105,9 +106,9 @@
             </div>
 
             <hr />
-            
+
             @{ var validDate = @ViewData.ModelState.IsValidField("UserInfo.DoB") && @ViewData.ModelState.IsValidField("UserInfo.Day") &&
-                               @ViewData.ModelState.IsValidField("UserInfo.Month") && @ViewData.ModelState.IsValidField("UserInfo.Year"); }
+                                @ViewData.ModelState.IsValidField("UserInfo.Month") && @ViewData.ModelState.IsValidField("UserInfo.Year"); }
             <div class="form-group @(validDate ? "" : "form-group-error") form-group-validation-override">
                 <fieldset>
                     <legend>

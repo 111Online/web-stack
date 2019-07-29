@@ -62,15 +62,15 @@
     <p>We need a home address to find the right NHS record.</p>
 
 
-    <fieldset class="form-group @(@ViewData.ModelState.IsValidField(Html.NameFor(m => m.HomeAddressSameAsCurrent).ToString()) ? "" : "form-group-error")" style="margin-top: 0">
-        @Html.ValidationMessageFor(m => m.HomeAddressSameAsCurrent, "Home address of the person needing care")
+    <fieldset class="form-group @(@ViewData.ModelState.IsValidField(Html.NameFor(m => m.HomeAddressSameAsCurrentWrapper.HomeAddressSameAsCurrent).ToString()) ? "" : "form-group-error")" style="margin-top: 0">
+        @Html.ValidationMessageFor(m => m.HomeAddressSameAsCurrentWrapper.HomeAddressSameAsCurrent, "Home address of the person needing care")
         <div>
-            @Html.RadioButtonFor(m => m.HomeAddressSameAsCurrent, HomeAddressSameAsCurrent.Yes, new { id = "home-address-same", name = "home-address", @class = "multiple-choice__input" })
+            @Html.RadioButtonFor(m => m.HomeAddressSameAsCurrentWrapper.HomeAddressSameAsCurrent, HomeAddressSameAsCurrent.Yes, new { id = "home-address-same", name = "home-address", @class = "multiple-choice__input" })
             <label for="home-address-same" class="multiple-choice--radio">Yes</label>
         </div>
 
         <div>
-            @Html.RadioButtonFor(m => m.HomeAddressSameAsCurrent, HomeAddressSameAsCurrent.No, new { id = "home-address-different", name = "home-address", @class = "multiple-choice__input" })
+            @Html.RadioButtonFor(m => m.HomeAddressSameAsCurrentWrapper.HomeAddressSameAsCurrent, HomeAddressSameAsCurrent.No, new { id = "home-address-different", name = "home-address", @class = "multiple-choice__input" })
             <label for="home-address-different" class="multiple-choice--radio">No</label>
 
             <div class="toggle-content panel">
@@ -127,7 +127,7 @@
         </div>
         
         <div>
-            @Html.RadioButtonFor(m => m.HomeAddressSameAsCurrent, HomeAddressSameAsCurrent.DontKnow, new { id = "home-address-dont-know", name = "home-address", @class = "multiple-choice__input" })
+            @Html.RadioButtonFor(m => m.HomeAddressSameAsCurrentWrapper.HomeAddressSameAsCurrent, HomeAddressSameAsCurrent.DontKnow, new { id = "home-address-dont-know", name = "home-address", @class = "multiple-choice__input" })
             <label for="home-address-dont-know" class="multiple-choice--radio">I don’t know the home address</label>
         </div>
 
