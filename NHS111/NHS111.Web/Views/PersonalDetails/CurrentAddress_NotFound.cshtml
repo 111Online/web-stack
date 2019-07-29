@@ -39,15 +39,15 @@
     @Html.HiddenFor(m => m.SelectedServiceId)
 
     <div class="nhsuk-core">
-        <h1 id="strap-line">No address found</h1>
+        <h1 id="strap-line" class="nhsuk-heading-l">No address found</h1>
 
         @if (self)
         {
-        <p>You told us you're in @Model.CurrentPostcode</p>
+        <p>You told us you're in @Model.CurrentPostcode.</p>
         }
         else
         {
-            <p>You told us they're in @Model.CurrentPostcode</p>
+            <p>You told us they're in @Model.CurrentPostcode.</p>
         }
         <p>We can't find any addresses for that postcode.</p>
 

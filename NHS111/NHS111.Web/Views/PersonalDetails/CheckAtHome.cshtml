@@ -46,7 +46,7 @@
     <div class="nhsuk-core">
         <div class="form-group @(ViewData.ModelState.IsValid ? "" : "form-group-error")">
             <legend>
-                <h1>@heading</h1>
+                <h1 class="nhsuk-heading-l">@heading</h1>
             </legend>
 
             @Html.RadioButtonFor(m => m.AddressInformation.HomeAddressSameAsCurrentWrapper.HomeAddressSameAsCurrent, HomeAddressSameAsCurrent.Yes, new { id = "home-address-yes", name = "home-address", @class = "multiple-choice__input" })

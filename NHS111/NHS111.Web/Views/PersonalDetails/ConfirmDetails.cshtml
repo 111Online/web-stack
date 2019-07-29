@@ -30,7 +30,7 @@
 }
 
 <div class="nhsuk-core measure">
-    <h1>Book your call</h1>
+    <h1 class="nhsuk-heading-l">Book your call</h1>
 
     @{
         var isProxy = Model.PatientInformantDetails.Informant == InformantType.ThirdParty;
@@ -39,7 +39,7 @@
 
     @if (isProxy)
     {
-        <div class="callout callout--info" id="confirm-details-third-party">
+        <div class="callout callout--info nhsuk-u-margin-bottom-4" id="confirm-details-third-party">
             <p>We'll call your number. @Model.PatientInformantDetails.PatientName.Forename might have to answer some questions during the call.</p>
         </div>
     }
@@ -97,7 +97,7 @@
 
             <div>
                 <dt>Home postcode</dt>
-                <dd>@Model.UserInfo.HomeAddress.FormattedPostcode</dd>
+                <dd>@Model.AddressInformation.PatientHomeAddress.FormattedPostcode</dd>
             </div>
 
             <div>
@@ -126,7 +126,7 @@
             </div>
         </dl>
 
-        <dl class="summary-list">
+        <dl class="summary-list nhsuk-u-margin-top-5">
             <div>
                 <dt>Who needs help</dt>
                 <dd>@Model.PatientInformantDetails.PatientName.Forename @Model.PatientInformantDetails.PatientName.Surname</dd>
@@ -164,7 +164,7 @@
         </dl>
 
 
-        <dl class="summary-list">
+        <dl class="summary-list nhsuk-u-margin-top-5">
             <div>
                 <dt>Who needs help</dt>
                 <dd>@Model.PatientInformantDetails.PatientName.Forename @Model.PatientInformantDetails.PatientName.Surname</dd>
@@ -182,7 +182,7 @@
 
             <div>
                 <dt>Home postcode</dt>
-                <dd>@Model.UserInfo.HomeAddress.FormattedPostcode</dd>
+                <dd>@Model.AddressInformation.PatientHomeAddress.FormattedPostcode</dd>
             </div>
 
             <div>
