@@ -168,9 +168,9 @@ namespace NHS111.Web.Controllers
         [HttpPost]
         public async Task<ActionResult> SubmitAtHome(PersonalDetailViewModel model)
         {
-            if (!ModelState.IsValid)
+            if (!ModelState.IsValid || model.AddressInformation.HomeAddressSameAsCurrentWrapper == null)
             {
-
+                ModelState.AddModelError("AddressInformation.HomeAddressSameAsCurrentWrapper.HomeAddressSameAsCurrent",new Exception());
                 return View("~\\Views\\PersonalDetails\\CheckAtHome.cshtml", model);
             }
 
