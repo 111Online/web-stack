@@ -32,8 +32,8 @@
 
 <div class="nhsuk-core">
     <h1>Book your call</h1>
-    
-    
+
+
     @{
         var isProxy = Model.PatientInformantDetails.Informant == InformantType.ThirdParty;
         var isAtHome = Model.AddressInformation.HomeAddressSameAsCurrentWrapper.HomeAddressSameAsCurrent == HomeAddressSameAsCurrent.Yes;
@@ -44,17 +44,46 @@
             <p>We'll call your number. @Model.PatientInformantDetails.PatientName.Forename might have to answer some questions during the call.</p>
         </div>
     }
+
+    @if (!isProxy && isAtHome)
+    {
+        <div>Name @Model.PatientInformantDetails.SelfName.Forename @Model.PatientInformantDetails.SelfName.Surname</div>
+        <div>Date of birth @Model.UserInfo.DoB.GetValueOrDefault().ToString("d MMMM yyyy")</div>
+        <div>Sex @Model.UserInfo.Demography.Gender</div>
+        <div>Home Address @Html.Raw(string.Join("<br>", Model.AddressInformation.PatientHomeAddress.FormattedAddress.Split(new string[] { ", " }, StringSplitOptions.RemoveEmptyEntries)))</div>
+        <div>Number to call @Model.UserInfo.TelephoneNumber</div>
+    }
+
+    @if (!isProxy && !isAtHome)
+    {
+        <div>Name @Model.PatientInformantDetails.SelfName.Forename @Model.PatientInformantDetails.SelfName.Surname</div>
+        <div>Date of birth @Model.UserInfo.DoB.GetValueOrDefault().ToString("d MMMM yyyy")</div>
+        <div>Sex @Model.UserInfo.Demography.Gender</div>
+        <div>Home postcode @Model.UserInfo.HomeAddress.FormattedPostcode</div>
+        <div>Location Address ?Html.Raw(string.Join("<br>", Model.AddressInformation.PatientCurrentAddress.FormattedAddress.Split(new string[] { ", " }, StringSplitOptions.RemoveEmptyEntries)))</div>
+        <div>Number to call @Model.UserInfo.TelephoneNumber</div>
+    }
+
+    @if (isProxy && isAtHome)
+    {
+        <div>Your name @Model.PatientInformantDetails.InformantName.Forename @Model.PatientInformantDetails.InformantName.Surname</div>
+        <div>Number to call @Model.UserInfo.TelephoneNumber</div>
+
+        <div>Who needs help @Model.PatientInformantDetails.PatientName.Forename @Model.PatientInformantDetails.PatientName.Surname</div>
+        <div>Their date of birth @Model.UserInfo.DoB.GetValueOrDefault().ToString("d MMMM yyyy")</div>
+        <div>Their sex @Model.UserInfo.Demography.Gender</div>
+        <div>Their home address @Html.Raw(string.Join("<br>", Model.AddressInformation.PatientHomeAddress.FormattedAddress.Split(new string[] { ", " }, StringSplitOptions.RemoveEmptyEntries)))</div>
+    }
+
+    @if (isProxy && !isAtHome)
+    {
+        <div>Your name @Model.PatientInformantDetails.InformantName.Forename @Model.PatientInformantDetails.InformantName.Surname</div>
+        <div>Number to call @Model.UserInfo.TelephoneNumber</div>
+
+        <div>Who needs help @Model.PatientInformantDetails.PatientName.Forename @Model.PatientInformantDetails.PatientName.Surname</div>
+        <div>Their date of birth @Model.UserInfo.DoB.GetValueOrDefault().ToString("d MMMM yyyy")</div>
+        <div>Their sex @Model.UserInfo.Demography.Gender</div>
+        <div>Home postcode @Model.UserInfo.HomeAddress.FormattedPostcode</div>
+        <div>Location address @Html.Raw(string.Join("<br>", Model.AddressInformation.PatientCurrentAddress.FormattedAddress.Split(new string[] { ", " }, StringSplitOptions.RemoveEmptyEntries)))</div>
+    }
 </div>
-
-<script type="text/javascript">
-
-    jQuery(function () {
-        jQuery.validator.unobtrusive.adapters.add('homeaddresssameascurrentspecified', ['prefixelement'], function (options) {
-            options.rules['homeaddresssameascurrentspecified'] = options.params
-        })
-
-        jQuery.validator.addMethod('homeaddresssameascurrentspecified', function (value, element, params) {
-            return value != null
-        })
-    })
-</script>
