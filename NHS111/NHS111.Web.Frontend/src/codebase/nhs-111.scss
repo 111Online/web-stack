@@ -23,12 +23,12 @@
   }
 
   @import "components/overrides";
-
   /* nhsuk-frontend components */
   @import "node_modules/nhsuk-frontend/packages/components/action-link/action-link";
   /* Our components that have nhsuk-frontend as a dependency */
   @import "components/service-details";
   @import "components/personal-details";
+  @import "components/summary-list";
 }
 
 @import "objects";

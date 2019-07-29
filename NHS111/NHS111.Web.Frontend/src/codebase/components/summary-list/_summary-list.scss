@@ -1,0 +1,50 @@
+/* This is based on the GDS pattern for Check Answers https://design-system.service.gov.uk/patterns/check-answers/ */
+
+@import "../environment/settings/colours";
+@import "node_modules/nhsuk-frontend/packages/core/tools/_spacing.scss";
+@import "node_modules/nhsuk-frontend/packages/core/tools/_typography.scss";
+
+.summary-list {
+
+  dt, dd {
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+  }
+
+  div {
+    border-bottom: 1px solid $grey-4;
+    @include nhsuk-responsive-padding(2, 'top');
+    @include nhsuk-responsive-padding(2, 'bottom');
+  }
+
+  .summary-list + .summary-list {
+    @include nhsuk-responsive-margin(5, 'top');
+  }
+
+  @include media(tablet) {
+    & {
+      display: table;
+      width: 100%;
+      table-layout: fixed;
+    }
+
+    div {
+      display: table-row;
+    }
+
+    dt, dd {
+      display: table-cell;
+      border-bottom: 1px solid $grey-4;
+      @include nhsuk-responsive-padding(2, 'top');
+      @include nhsuk-responsive-padding(2, 'bottom');
+    }
+
+    dt {
+      width: 30%;
+    }
+
+    dd {
+      width: 70%;
+    }
+  }
+}
