@@ -36,7 +36,15 @@ namespace NHS111.Models.Models.Web
             RepeatPrescriptionNotOffered,
             RepeatPrescriptionOtherServices,
             RepeatPrescriptionPreamble,
-            RepeatPrescriptionReferralExplanation
+            RepeatPrescriptionReferralExplanation,
+            PersonalDetailsCurrentAddress,
+            PersonalDetailsCheckAtHome,
+            PersonalDetailsConfirmDetails,
+            PersonalDetailsUnknownAddress,
+            PersonalDetailsManualAddress,
+            PersonalDetailsChangeCurrentAddress,
+            PersonalDetailsChangeCurrentPostcode,
+            PersonalDetailsChangeHomePostcode
         }
 
         public PageDataViewModel()
