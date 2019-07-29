@@ -39,6 +39,7 @@
     @Html.Partial("_CommonHiddenFieldsCareAdviceViewModel", Model)
     @Html.Partial("_CommonHiddenFieldsCurrentAddress", Model)
     @Html.HiddenFor(m => m.SelectedServiceId)
+    @Html.HiddenFor(m => m.AddressInformation.HomeAddressSameAsCurrentWrapper.HomeAddressSameAsCurrent)
     
     <div class="nhsuk-core">
         <div class="form-group">
