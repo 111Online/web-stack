@@ -29,60 +29,196 @@
     @Html.Partial("_FeedbackDetails", new FeedbackViewModel() { UserId = Model.SessionId.ToString(), PageData = new PageDataViewModel(PageDataViewModel.PageType.PersonalDetailsConfirmDetails, Model) })
 }
 
-<div class="nhsuk-core">
+<div class="nhsuk-core measure">
     <h1>Book your call</h1>
-
 
     @{
         var isProxy = Model.PatientInformantDetails.Informant == InformantType.ThirdParty;
         var isAtHome = Model.AddressInformation.HomeAddressSameAsCurrentWrapper.HomeAddressSameAsCurrent == HomeAddressSameAsCurrent.Yes;
     }
+
     @if (isProxy)
     {
-        <div class="callout callout--info measure" id="confirm-details-third-party">
+        <div class="callout callout--info" id="confirm-details-third-party">
             <p>We'll call your number. @Model.PatientInformantDetails.PatientName.Forename might have to answer some questions during the call.</p>
         </div>
     }
 
+    @* This uses the pattern for Check Answers from GDS https://design-system.service.gov.uk/patterns/check-answers/ *@
+
     @if (!isProxy && isAtHome)
     {
-        <div>Name @Model.PatientInformantDetails.SelfName.Forename @Model.PatientInformantDetails.SelfName.Surname</div>
-        <div>Date of birth @Model.UserInfo.DoB.GetValueOrDefault().ToString("d MMMM yyyy")</div>
-        <div>Sex @Model.UserInfo.Demography.Gender</div>
-        <div>Home Address @Html.Raw(string.Join("<br>", Model.AddressInformation.PatientHomeAddress.FormattedAddress.Split(new string[] { ", " }, StringSplitOptions.RemoveEmptyEntries)))</div>
-        <div>Number to call @Model.UserInfo.TelephoneNumber</div>
+        <dl class="summary-list">
+            <div>
+                <dt>Name</dt>
+                <dd>@Model.PatientInformantDetails.SelfName.Forename @Model.PatientInformantDetails.SelfName.Surname</dd>
+            </div>
+
+            <div>
+                <dt>Date of birth</dt>
+                <dd>@Model.UserInfo.DoB.GetValueOrDefault().ToString("d MMMM yyyy")</dd>
+            </div>
+
+            <div>
+                <dt>Sex</dt>
+                <dd>@Model.UserInfo.Demography.Gender</dd>
+            </div>
+
+            <div>
+                <dt>Home Address</dt>
+                <dd>@Html.Raw(string.Join("<br>", Model.AddressInformation.PatientHomeAddress.FormattedAddress.Split(new string[] { ", " }, StringSplitOptions.RemoveEmptyEntries)))</dd>
+            </div>
+
+            <div>
+                <dt>Number to call</dt>
+                <dd>@Model.UserInfo.TelephoneNumber</dd>
+            </div>
+
+        </dl>
     }
 
     @if (!isProxy && !isAtHome)
     {
-        <div>Name @Model.PatientInformantDetails.SelfName.Forename @Model.PatientInformantDetails.SelfName.Surname</div>
-        <div>Date of birth @Model.UserInfo.DoB.GetValueOrDefault().ToString("d MMMM yyyy")</div>
-        <div>Sex @Model.UserInfo.Demography.Gender</div>
-        <div>Home postcode @Model.UserInfo.HomeAddress.FormattedPostcode</div>
-        <div>Location Address ?Html.Raw(string.Join("<br>", Model.AddressInformation.PatientCurrentAddress.FormattedAddress.Split(new string[] { ", " }, StringSplitOptions.RemoveEmptyEntries)))</div>
-        <div>Number to call @Model.UserInfo.TelephoneNumber</div>
+        <dl class="summary-list">
+            <div>
+                <dt>Name</dt>
+                <dd>@Model.PatientInformantDetails.SelfName.Forename @Model.PatientInformantDetails.SelfName.Surname</dd>
+            </div>
+
+            <div>
+                <dt>Date of birth</dt>
+                <dd>@Model.UserInfo.DoB.GetValueOrDefault().ToString("d MMMM yyyy")</dd>
+            </div>
+
+            <div>
+                <dt>Sex</dt>
+                <dd>@Model.UserInfo.Demography.Gender</dd>
+            </div>
+
+            <div>
+                <dt>Home postcode</dt>
+                <dd>@Model.UserInfo.HomeAddress.FormattedPostcode</dd>
+            </div>
+
+            <div>
+                <dt>Location Address</dt>
+                <dd>@Html.Raw(string.Join("<br>", Model.AddressInformation.PatientCurrentAddress.FormattedAddress.Split(new string[] { ", " }, StringSplitOptions.RemoveEmptyEntries)))</dd>
+            </div>
+
+            <div>
+                <dt>Number to call</dt>
+                <dd>@Model.UserInfo.TelephoneNumber</dd>
+            </div>
+        </dl>
     }
 
     @if (isProxy && isAtHome)
     {
-        <div>Your name @Model.PatientInformantDetails.InformantName.Forename @Model.PatientInformantDetails.InformantName.Surname</div>
-        <div>Number to call @Model.UserInfo.TelephoneNumber</div>
+        <dl class="summary-list">
+            <div>
+                <dt>Your name</dt>
+                <dd>@Model.PatientInformantDetails.InformantName.Forename @Model.PatientInformantDetails.InformantName.Surname</dd>
+            </div>
 
-        <div>Who needs help @Model.PatientInformantDetails.PatientName.Forename @Model.PatientInformantDetails.PatientName.Surname</div>
-        <div>Their date of birth @Model.UserInfo.DoB.GetValueOrDefault().ToString("d MMMM yyyy")</div>
-        <div>Their sex @Model.UserInfo.Demography.Gender</div>
-        <div>Their home address @Html.Raw(string.Join("<br>", Model.AddressInformation.PatientHomeAddress.FormattedAddress.Split(new string[] { ", " }, StringSplitOptions.RemoveEmptyEntries)))</div>
+            <div>
+                <dt>Number to call</dt>
+                <dd>@Model.UserInfo.TelephoneNumber</dd>
+            </div>
+        </dl>
+
+        <dl class="summary-list">
+            <div>
+                <dt>Who needs help</dt>
+                <dd>@Model.PatientInformantDetails.PatientName.Forename @Model.PatientInformantDetails.PatientName.Surname</dd>
+            </div>
+
+            <div>
+                <dt>Their date of birth</dt>
+                <dd>@Model.UserInfo.DoB.GetValueOrDefault().ToString("d MMMM yyyy")</dd>
+            </div>
+
+            <div>
+                <dt>Their sex</dt>
+                <dd>@Model.UserInfo.Demography.Gender</dd>
+            </div>
+
+            <div>
+                <dt>Their home address</dt>
+                <dd>@Html.Raw(string.Join("<br>", Model.AddressInformation.PatientHomeAddress.FormattedAddress.Split(new string[] { ", " }, StringSplitOptions.RemoveEmptyEntries)))</dd>
+            </div>
+        </dl>
     }
 
     @if (isProxy && !isAtHome)
     {
-        <div>Your name @Model.PatientInformantDetails.InformantName.Forename @Model.PatientInformantDetails.InformantName.Surname</div>
-        <div>Number to call @Model.UserInfo.TelephoneNumber</div>
+        <dl class="summary-list">
+            <div>
+                <dt>Your name</dt>
+                <dd>@Model.PatientInformantDetails.InformantName.Forename @Model.PatientInformantDetails.InformantName.Surname</dd>
+            </div>
 
-        <div>Who needs help @Model.PatientInformantDetails.PatientName.Forename @Model.PatientInformantDetails.PatientName.Surname</div>
-        <div>Their date of birth @Model.UserInfo.DoB.GetValueOrDefault().ToString("d MMMM yyyy")</div>
-        <div>Their sex @Model.UserInfo.Demography.Gender</div>
-        <div>Home postcode @Model.UserInfo.HomeAddress.FormattedPostcode</div>
-        <div>Location address @Html.Raw(string.Join("<br>", Model.AddressInformation.PatientCurrentAddress.FormattedAddress.Split(new string[] { ", " }, StringSplitOptions.RemoveEmptyEntries)))</div>
+            <div>
+                <dt>Number to call</dt>
+                <dd>@Model.UserInfo.TelephoneNumber</dd>
+            </div>
+        </dl>
+
+
+        <dl class="summary-list">
+            <div>
+                <dt>Who needs help</dt>
+                <dd>@Model.PatientInformantDetails.PatientName.Forename @Model.PatientInformantDetails.PatientName.Surname</dd>
+            </div>
+
+            <div>
+                <dt>Their date of birth</dt>
+                <dd>@Model.UserInfo.DoB.GetValueOrDefault().ToString("d MMMM yyyy")</dd>
+            </div>
+
+            <div>
+                <dt>Their sex</dt>
+                <dd>@Model.UserInfo.Demography.Gender</dd>
+            </div>
+
+            <div>
+                <dt>Home postcode</dt>
+                <dd>@Model.UserInfo.HomeAddress.FormattedPostcode</dd>
+            </div>
+
+            <div>
+                <dt>Location address</dt>
+                <dd>@Html.Raw(string.Join("<br>", Model.AddressInformation.PatientCurrentAddress.FormattedAddress.Split(new string[] { ", " }, StringSplitOptions.RemoveEmptyEntries)))</dd>
+            </div>
+        </dl>
+    }
+
+
+    @using (Html.BeginForm("PersonalDetails", "PersonalDetails", FormMethod.Post, new { id = "changeDetailsForm" }))
+    {
+        @Html.Partial("_CommonHiddenFieldsOutcomeViewModel", Model)
+        @Html.Partial("_CommonHiddenFieldsCareAdviceViewModel", Model)
+        @Html.Partial("_CommonHiddenFieldsPersonalDetails", Model)
+        @Html.HiddenFor(m => m.SelectedServiceId)
+
+        <button id="change-details" class="button--link nhsuk-u-margin-top-7">Change these details</button>
+    }
+
+
+    @using (Html.BeginForm("Confirmation", "Outcome", FormMethod.Post, new { id = "submitDetailsForm" }))
+    {
+        @Html.Partial("_CommonHiddenFieldsOutcomeViewModel", Model)
+        @Html.Partial("_CommonHiddenFieldsCareAdviceViewModel", Model)
+        @Html.Partial("_CommonHiddenFieldsPersonalDetails", Model)
+        @Html.HiddenFor(m => m.SelectedServiceId)
+
+        <button id="book-call" class="nhsuk-u-margin-top-5">Book call</button>
     }
 </div>
+
+@Html.Partial("_PageLoadingIndicator")
+
+<script>
+$(document).on('submit', '#submitDetailsForm', function () {
+    startPageLoadingIndicator('Contacting your selected service...')
+})
+</script>
