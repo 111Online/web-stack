@@ -125,12 +125,12 @@ namespace NHS111.Web.Functional.Utils {
 
         public void SelectAtHomeYes()
         {
-            Driver.FindElement(By.Id("HomeAddressSameAsCurrent_Yes")).Click();
+            Driver.FindElement(By.Id("home-address-yes")).Click();
         }
 
         public void SelectAtHomeNo()
         {
-            Driver.FindElement(By.Id("HomeAddressSameAsCurrent_No")).Click();
+            Driver.FindElement(By.Id("home-address-no")).Click();
         }
 
         public PersonalDetailsPage SubmitAtHome()
@@ -139,6 +139,26 @@ namespace NHS111.Web.Functional.Utils {
             return new PersonalDetailsPage(Driver);
         }
 
+        public void VerifyThirdPartyBannerIsDisplayed()
+        {
+            Assert.IsTrue(Driver.FindElement(By.Id("confirm-details-third-party")).Displayed);
+        }
+
+        public void VerifyThirdPartyBannerNotDisplayed()
+        {
+            Assert.False(Driver.ElementExists(By.Id("confirm-details-third-party")));
+        }
+
+        public void TypeHomePostcode(string postcode)
+        {
+            Driver.FindElement(By.Id("AddressInformation_ChangePostcode_Postcode")).SendKeys(postcode);
+        }
+
+        public PersonalDetailsPage SubmitHomePostcode()
+        {
+            Driver.FindElement(By.Id("changeHomeAddressPostcode")).Click();
+            return new PersonalDetailsPage(Driver);
+        }
 
         //public OutcomePage SubmitPersonalDetails(string forename, string surname, string telephoneNumber, string dobDay,
         //    string dobMonth, string dobYear)

@@ -117,7 +117,11 @@ namespace NHS111.Web.Functional.Tests
             atHomePage.VerifyHeading("Are you at home?");
             atHomePage.SelectAtHomeNo();
 
-            Assert.Fail("Need to add home postcode to test");
+            var homePostcodePage = atHomePage.SubmitAtHome();
+            homePostcodePage.TypeHomePostcode("LS17 7NZ");
+            var confirmDetails = homePostcodePage.SubmitHomePostcode();
+            confirmDetails.VerifyHeading("Book your call");
+            confirmDetails.VerifyThirdPartyBannerNotDisplayed();
         }
 
 
@@ -147,8 +151,12 @@ namespace NHS111.Web.Functional.Tests
             var atHomePage = currentAddressPage.ClickAddress(addressID);
             atHomePage.VerifyHeading("Are they at home?");
             atHomePage.SelectAtHomeNo();
-
-            Assert.Fail("Need to add home postcode to test");
+            
+            var homePostcodePage = atHomePage.SubmitAtHome();
+            homePostcodePage.TypeHomePostcode("LS17 7NZ");
+            var confirmDetails = homePostcodePage.SubmitHomePostcode();
+            confirmDetails.VerifyHeading("Book your call");
+            confirmDetails.VerifyThirdPartyBannerIsDisplayed();
         }
 
         [Test]
@@ -171,6 +179,7 @@ namespace NHS111.Web.Functional.Tests
             currentAddressPage.VerifyHeading("Where are they right now?");
             
             var checkAddressPage = currentAddressPage.ClickAddressNotListed();
+            checkAddressPage.VerifyHeading("Check address again");
         }
     }
 }
