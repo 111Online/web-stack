@@ -81,10 +81,21 @@ namespace NHS111.Web.Controllers
                 return View("~\\Views\\PersonalDetails\\CurrentAddress_ChangePostcode.cshtml", model);
 
             model.CurrentPostcode = model.AddressInformation.ChangePostcode.Postcode;
+            return await DirectToPopulatedCurrentAddressPicker(model);
+        }
+
+        public async Task<ActionResult> DirectToPopulatedCurrentAddressPicker(PersonalDetailViewModel model)
+        {
             model = await PopulateAddressPickerFields(model);
 
-            //redirect to current address picker view
-            return View("~\\Views\\PersonalDetails\\CurrentAddress.cshtml", model);
+            if (model.AddressInformation.PatientCurrentAddress.AddressPicker.Count > 0)
+                return View("~\\Views\\PersonalDetails\\CurrentAddress.cshtml", model);
+            else
+            {
+                //a location api error, or empty list
+                return View("~\\Views\\PersonalDetails\\CurrentAddress_NotFound.cshtml", model);
+            }
+
         }
 
         [HttpPost]
@@ -106,9 +117,7 @@ namespace NHS111.Web.Controllers
                 return View("~\\Views\\PersonalDetails\\PersonalDetails.cshtml", model);
             }
 
-            model = await PopulateAddressPickerFields(model);
-            ModelState.Clear();
-            return View(model);
+            return await DirectToPopulatedCurrentAddressPicker(model);
         }
 
         [HttpPost]
