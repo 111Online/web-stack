@@ -186,14 +186,16 @@
             callbackPage.VerifyIsCallbackAcceptancePage();
             var personalDetailsPage = callbackPage.AcceptCallback();
             personalDetailsPage.VerifyIsPersonalDetailsPage();
-            var referralConfirmation = personalDetailsPage.SubmitPersonalDetails("Test", "Tester", "02380555555", "01", "01", "1982");
-            referralConfirmation.VerifyIsSuccessfulReferral();
-            referralConfirmation.VerifyNoCareAdvice();
-            referralConfirmation.VerifyNoWorseningAdvice();
-            SaveScreenAsPNG("999-reval-successful-referral");
 
-            var dosVerifyResult = await _testBench.Verify(dosScenario);
-            var esbVerifyResult = await _testBench.Verify(esbScenario);
+            Assert.Fail();
+            //var referralConfirmation = personalDetailsPage.SubmitPersonalDetails("Test", "Tester", "02380555555", "01", "01", "1982");
+            //referralConfirmation.VerifyIsSuccessfulReferral();
+            //referralConfirmation.VerifyNoCareAdvice();
+            //referralConfirmation.VerifyNoWorseningAdvice();
+            //SaveScreenAsPNG("999-reval-successful-referral");
+
+            //var dosVerifyResult = await _testBench.Verify(dosScenario);
+            //var esbVerifyResult = await _testBench.Verify(esbScenario);
         }
 
         [Test]
@@ -265,11 +267,13 @@
             callbackPage.VerifyIsCallbackAcceptancePage();
             var personalDetailsPage = callbackPage.AcceptCallback();
             personalDetailsPage.VerifyIsPersonalDetailsPage();
-            var referralConfirmation = personalDetailsPage.SubmitPersonalDetails("Test", "Tester", "02380555555", "01", "01", "1982");
-            referralConfirmation.VerifyIsUnsuccessfulReferral();
-            referralConfirmation.VerifyNoCareAdvice();
-            referralConfirmation.VerifyNoWorseningAdvice();
-            SaveScreenAsPNG("999-reval-unsuccessful-referral");
+
+            Assert.Fail();
+            //var referralConfirmation = personalDetailsPage.SubmitPersonalDetails("Test", "Tester", "02380555555", "01", "01", "1982");
+            //referralConfirmation.VerifyIsUnsuccessfulReferral();
+            //referralConfirmation.VerifyNoCareAdvice();
+            //referralConfirmation.VerifyNoWorseningAdvice();
+            //SaveScreenAsPNG("999-reval-unsuccessful-referral");
 
             var result = await _testBench.Verify(dosScenario);
             var esbVerifyResult = await _testBench.Verify(esbScenario);
@@ -304,14 +308,17 @@
             callbackPage.VerifyIsCallbackAcceptancePage();
             var personalDetailsPage = callbackPage.AcceptCallback();
             personalDetailsPage.VerifyIsPersonalDetailsPage();
-            var referralConfirmation = personalDetailsPage.SubmitPersonalDetails("Test", "Tester", "02380555555", "01", "01", "1982");
-            referralConfirmation.VerifyIsDuplicateReferral();
-            referralConfirmation.VerifyNoCareAdvice();
-            referralConfirmation.VerifyNoWorseningAdvice();
-            SaveScreenAsPNG("999-reval-duplicate-referral");
 
-            var dosRsult = await _testBench.Verify(dosScenario);
-            var esbResult = await _testBench.Verify(esbScenario);
+            
+            Assert.Fail();
+            //var referralConfirmation = personalDetailsPage.SubmitPersonalDetails("Test", "Tester", "02380555555", "01", "01", "1982");
+            //referralConfirmation.VerifyIsDuplicateReferral();
+            //referralConfirmation.VerifyNoCareAdvice();
+            //referralConfirmation.VerifyNoWorseningAdvice();
+            //SaveScreenAsPNG("999-reval-duplicate-referral");
+
+            //var dosRsult = await _testBench.Verify(dosScenario);
+            //var esbResult = await _testBench.Verify(esbScenario);
         }
 
         [Test]
@@ -341,14 +348,16 @@
             callbackPage.VerifyIsCallbackAcceptancePage();
             var personalDetailsPage = callbackPage.AcceptCallback();
             personalDetailsPage.VerifyIsPersonalDetailsPage();
-            var referralConfirmation = personalDetailsPage.SubmitPersonalDetails("Test", "Tester", "02380555555", "01", "01", "1982");
-            referralConfirmation.VerifyIsServiceUnavailableReferral();
-            referralConfirmation.VerifyNoCareAdvice();
-            referralConfirmation.VerifyNoWorseningAdvice();
-            SaveScreenAsPNG("999-reval-unavailable-referral");
+            
+            Assert.Fail();
+            //var referralConfirmation = personalDetailsPage.SubmitPersonalDetails("Test", "Tester", "02380555555", "01", "01", "1982");
+            //referralConfirmation.VerifyIsServiceUnavailableReferral();
+            //referralConfirmation.VerifyNoCareAdvice();
+            //referralConfirmation.VerifyNoWorseningAdvice();
+            //SaveScreenAsPNG("999-reval-unavailable-referral");
 
-            var result = await _testBench.Verify(dosScenario);
-            var esbVerifyResult = await _testBench.Verify(esbScenario);
+            //var result = await _testBench.Verify(dosScenario);
+            //var esbVerifyResult = await _testBench.Verify(esbScenario);
         }
 
         [Test]

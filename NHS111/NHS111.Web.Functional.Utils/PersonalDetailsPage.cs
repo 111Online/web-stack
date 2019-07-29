@@ -159,32 +159,5 @@ namespace NHS111.Web.Functional.Utils {
             Driver.FindElement(By.Id("changeHomeAddressPostcode")).Click();
             return new PersonalDetailsPage(Driver);
         }
-
-        //public OutcomePage SubmitPersonalDetails(string forename, string surname, string telephoneNumber, string dobDay,
-        //    string dobMonth, string dobYear)
-        //{
-        //    Driver.FindElement(By.Id("PatientInformantDetails_Informant_Self")).Click();
-        //    var wait = new WebDriverWait(Driver, TimeSpan.FromSeconds(5));
-        //    var forenameField =
-        //        wait.Until(ExpectedConditions.ElementIsVisible(By.Id("PatientInformantDetails_SelfName_Forename")));
-        //    forenameField.SendKeys(forename);
-        //    Driver.FindElement(By.Id("PatientInformantDetails_SelfName_Surname")).SendKeys(surname);
-        //    Driver.FindElement(By.Id("UserInfo_TelephoneNumber")).SendKeys(telephoneNumber);
-        //    Driver.FindElement(By.Id("UserInfo_Day")).SendKeys(dobDay);
-        //    Driver.FindElement(By.Id("UserInfo_Month")).SendKeys(dobMonth);
-        //    Driver.FindElement(By.Id("UserInfo_Year")).SendKeys(dobYear);
-        //    Driver.FindElement(By.CssSelector(".button--next.button--secondary.find-address")).Click();
-        //    wait = new WebDriverWait(Driver, TimeSpan.FromSeconds(5));
-        //    var addressPicker =
-        //        wait.Until(ExpectedConditions.ElementIsVisible(
-        //            By.Id("AddressInformation_PatientCurrentAddress_SelectedAddressFromPicker")));
-        //    var selectElement = new SelectElement(addressPicker);
-        //    var address = selectElement.Options[1].Text;
-        //    selectElement.SelectByText(address);
-        //    Driver.FindElement(By.Id("home-address-dont-know")).Click();
-        //    Driver.FindElement(By.Id("submitDetails")).Click();
-
-        //    return new OutcomePage(Driver);
-        //}
     }
 }
