@@ -37,3 +37,7 @@
 .form-hint {
   @extend .form-hint;
 }
+
+.multiple-choice--radio {
+  @include nhsuk-responsive-margin(4, 'bottom', 'true');
+}

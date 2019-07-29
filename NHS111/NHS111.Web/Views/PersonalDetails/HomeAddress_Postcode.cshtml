@@ -25,7 +25,7 @@
     dataDictionary.Add(new KeyValuePair<string, object>("LaunchPage", "current-address"));
     var self = (Model.PatientInformantDetails.Informant == InformantType.Self);
     var heading = self ? "What is your home postcode?" : "What is their home postcode?";
-    var subHeading = self ? "Your postcode helps us find your NHS number." : "Their postcode helps us find their NHS Number.";
+    var subHeading = self ? "Your postcode helps us find your NHS number." : "Their postcode helps us find their NHS number.";
 }
 
 @section FeedbackSection {
@@ -43,9 +43,11 @@
     
     <div class="nhsuk-core">
         <div class="form-group">
-            <label for="@Html.IdFor(m => m.AddressInformation.ChangePostcode.Postcode)"><h1 id="strap-line">@heading</h1></label>
+            <label for="@Html.IdFor(m => m.AddressInformation.ChangePostcode.Postcode)"><h1 id="strap-line" class="nhsuk-heading-l">@heading</h1></label>
             
-            <p>@subHeading</p>
+            <div class="callout callout--info measure nhsuk-u-margin-bottom-4">
+                <p>@subHeading</p>
+            </div>
             
             <p>For example, LS2 7UE</p>
             @Html.ValidationMessageFor(m => m.AddressInformation.ChangePostcode.Postcode)
