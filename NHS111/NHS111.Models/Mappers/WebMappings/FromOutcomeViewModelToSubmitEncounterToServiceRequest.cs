@@ -86,7 +86,8 @@ namespace NHS111.Models.Mappers.WebMappings
             patientDetails.ServiceAddressPostcode = personalDetailViewModel.SelectedService.PostCode;
             patientDetails.TelephoneNumber = personalDetailViewModel.UserInfo.TelephoneNumber;
             patientDetails.CurrentAddress = MapAddress(personalDetailViewModel.AddressInformation.PatientCurrentAddress);
-            if (personalDetailViewModel.AddressInformation.HomeAddressSameAsCurrentWrapper.HomeAddressSameAsCurrent.HasValue)
+            if (personalDetailViewModel.AddressInformation.HomeAddressSameAsCurrentWrapper != null &&
+                personalDetailViewModel.AddressInformation.HomeAddressSameAsCurrentWrapper.HomeAddressSameAsCurrent.HasValue)
             {
                 if (personalDetailViewModel.AddressInformation.HomeAddressSameAsCurrentWrapper.HomeAddressSameAsCurrent.Value ==
                     HomeAddressSameAsCurrent.Yes)

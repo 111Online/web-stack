@@ -1,0 +1,56 @@
+﻿@using NHS111.Models.Models.Web
+@inherits NHS111.Web.Views.Shared.SurveyLinkView<PersonalDetailViewModel>
+@{
+    Layout = "~/Views/Shared/_LayoutNhsUk.cshtml";
+}
+
+@section Title {
+    Enter Home Postcode
+}
+
+@section HeadTop {
+    @{ var url = string.Format("/outcome/{0}/{1}/{2}/itk/personaldetails/{3}/{4}", Url.Encode(Model.PathwayNo), Url.Encode(Model.OutcomeGroup.Text), Url.Encode(Model.Id), Url.Encode(Model.SelectedServiceId), Url.Encode(Model.SelectedService.Name)); }
+    <script>
+        var pageId = '@Model.Id';
+        dataLayer = [
+            {
+                'virtualPageUrl': '@url',
+                'virtualPageTitle': 'Home Address Postcode'
+            }];
+    </script>
+}
+
+@{
+    var dataDictionary = ViewContext.ViewData;
+    dataDictionary.Add(new KeyValuePair<string, object>("LaunchPage", "current-address"));
+    var self = (Model.PatientInformantDetails.Informant == InformantType.Self);
+    var heading = self ? "What is your home postcode?" : "What is their home postcode?";
+    var subHeading = self ? "Your postcode helps us find your NHS number." : "Their postcode helps us find their NHS Number.";
+}
+
+@section FeedbackSection {
+    @Html.Partial("_FeedbackDetails", new FeedbackViewModel() { UserId = Model.SessionId.ToString(), PageData = new PageDataViewModel(PageDataViewModel.PageType.PersonalDetails, Model) })
+}
+
+@using (Html.BeginForm("EnterHomePostcode", "PersonalDetails", FormMethod.Post))
+{
+    @Html.Partial("_CommonHiddenFieldsPersonalDetails", Model)
+    @Html.Partial("_CommonHiddenFieldsOutcomeViewModel", Model)
+    @Html.Partial("_CommonHiddenFieldsCareAdviceViewModel", Model)
+    @Html.Partial("_CommonHiddenFieldsCurrentAddress", Model)
+    @Html.HiddenFor(m => m.SelectedServiceId)
+    
+    <div class="nhsuk-core">
+        <div class="form-group">
+            <label for="@Html.IdFor(m => m.AddressInformation.ChangePostcode.Postcode)"><h1 id="strap-line">@heading</h1></label>
+            
+            <p>@subHeading</p>
+            
+            <p>For example, LS2 7UE</p>
+            @Html.ValidationMessageFor(m => m.AddressInformation.ChangePostcode.Postcode)
+            @Html.TextBoxFor(m => m.AddressInformation.ChangePostcode.Postcode, new { @class = "form-textbox--postcode" })
+        </div>
+
+        <button type="submit" name="changeHomeAddressPostcode" id="changeHomeAddressPostcode">Next</button>
+    </div>
+}
