@@ -6,7 +6,7 @@ namespace NHS111.Models.Models.Web.Validators
     {
         public HomeAddressSameAsCurrentValidator()
         {
-            RuleFor(m => m.HomeAddressSameAsCurrent.HasValue).Equals(true);
+            RuleFor(m => m.HomeAddressSameAsCurrent).NotNull();
         }
     }
 }

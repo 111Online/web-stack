@@ -49,6 +49,7 @@
                 <h1 class="nhsuk-heading-l">@heading</h1>
             </legend>
 
+            @Html.ValidationMessageFor(m => m.AddressInformation.HomeAddressSameAsCurrentWrapper.HomeAddressSameAsCurrent, "Select an answer")
             @Html.RadioButtonFor(m => m.AddressInformation.HomeAddressSameAsCurrentWrapper.HomeAddressSameAsCurrent, HomeAddressSameAsCurrent.Yes, new { id = "home-address-yes", name = "home-address", @class = "multiple-choice__input" })
             <label for="home-address-yes" class="multiple-choice--radio">Yes</label>
 
@@ -59,16 +60,3 @@
         <button type="submit" id="submitAtHome">Next</button>
     </div>
 }
-
-<script type="text/javascript">
-
-    jQuery(function () {
-        jQuery.validator.unobtrusive.adapters.add('homeaddresssameascurrentspecified', ['prefixelement'], function (options) {
-            options.rules['homeaddresssameascurrentspecified'] = options.params
-        })
-
-        jQuery.validator.addMethod('homeaddresssameascurrentspecified', function (value, element, params) {
-            return value != null
-        })
-    })
-</script>

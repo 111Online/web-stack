@@ -50,7 +50,7 @@
             </div>
             
             <p>For example, LS2 7UE</p>
-            @Html.ValidationMessageFor(m => m.AddressInformation.ChangePostcode.Postcode)
+            @Html.ValidationMessageFor(m => m.AddressInformation.ChangePostcode.Postcode, "Enter the home postcode")
             @Html.TextBoxFor(m => m.AddressInformation.ChangePostcode.Postcode, new { @class = "form-textbox--postcode" })
         </div>
 
