@@ -39,7 +39,7 @@
         <div class="form-group">
             <label for="@Html.IdFor(m => m.AddressInformation.ChangePostcode.Postcode)"><h1 id="strap-line" class="nhsuk-heading-l">What's the postcode?</h1></label>
             <p>Check the postcode and try again</p>
-            @Html.ValidationMessageFor(m => m.AddressInformation.ChangePostcode.Postcode)
+            @Html.ValidationMessageFor(m => m.AddressInformation.ChangePostcode.Postcode, "Enter the current postcode")
             @Html.TextBoxFor(m => m.AddressInformation.ChangePostcode.Postcode, new { @class = "form-textbox--postcode" })
         </div>
 
