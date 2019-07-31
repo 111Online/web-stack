@@ -104,10 +104,17 @@ namespace NHS111.Web.Controllers
             if (!ModelState.IsValid)
                 return View("~\\Views\\PersonalDetails\\HomeAddress_Postcode.cshtml", model);
             else
+            {
+                var postcodes = await GetPostcodeResults(model.AddressInformation.ChangePostcode.Postcode);
+                if (postcodes.ValidatedPostcodeResponse == PostcodeValidatorResponse.PostcodeNotFound)
+                {
+                    ModelState.AddModelError("AddressInformation.ChangePostcode.Postcode", new Exception());
+                    return View("~\\Views\\PersonalDetails\\HomeAddress_Postcode.cshtml", model);
+                }
 
                 model.AddressInformation.PatientHomeAddress.Postcode = model.AddressInformation.ChangePostcode.Postcode;
                 return View("~\\Views\\PersonalDetails\\ConfirmDetails.cshtml", model);
-
+            }
         }
 
         [HttpPost]
