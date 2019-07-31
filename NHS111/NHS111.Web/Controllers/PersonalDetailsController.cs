@@ -104,6 +104,7 @@ namespace NHS111.Web.Controllers
             if (!ModelState.IsValid)
                 return View("~\\Views\\PersonalDetails\\HomeAddress_Postcode.cshtml", model);
             else
+
                 model.AddressInformation.PatientHomeAddress.Postcode = model.AddressInformation.ChangePostcode.Postcode;
                 return View("~\\Views\\PersonalDetails\\ConfirmDetails.cshtml", model);
 
@@ -176,8 +177,6 @@ namespace NHS111.Web.Controllers
 
             if (model.AddressInformation.HomeAddressSameAsCurrentWrapper.HomeAddressSameAsCurrent == HomeAddressSameAsCurrent.Yes)
             {
-                model.AddressInformation.PatientHomeAddress = model.AddressInformation.PatientCurrentAddress;
-
                 return View("~\\Views\\PersonalDetails\\ConfirmDetails.cshtml", model);
             }
 

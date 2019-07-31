@@ -1,6 +1,6 @@
 ﻿@model NHS111.Models.Models.Web.PersonalDetailViewModel
 
-@Html.HiddenFor(x => Model.AddressInformation.HomeAddressSameAsCurrent)
+@Html.HiddenFor(x => Model.AddressInformation.HomeAddressSameAsCurrentWrapper.HomeAddressSameAsCurrent)
 @Html.HiddenFor(x => Model.AddressInformation.PatientHomeAddress.AddressLine1)
 @Html.HiddenFor(x => Model.AddressInformation.PatientHomeAddress.AddressLine2)
 @Html.HiddenFor(x => Model.AddressInformation.PatientHomeAddress.AddressLine3)
