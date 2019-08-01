@@ -207,7 +207,7 @@
                         var month = $('#UserInfo_Month').val();
                         var year = $('#UserInfo_Year').val();
 
-                        var date = new Date(day + '/' + month + '/' + year);
+                        var date = new Date(year + '/' + month + '/' + day);
                         var isValid = date.toString() !== 'Invalid Date';
 
                         jQuery("#UserInfo_DoB").closest(".form-group").toggleClass("form-group-error", !isValid);
