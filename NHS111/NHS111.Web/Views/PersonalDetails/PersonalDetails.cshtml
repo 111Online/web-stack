@@ -131,7 +131,7 @@
                             <label for="@Html.IdFor(m => m.UserInfo.Year)">Year</label>
                             @Html.TextBoxFor(m => m.UserInfo.Year, new { @class = "form-control form-textbox js-validate-number", placeholder = "YYYY", inputmode = "numeric", pattern = "[0-9]+", maxlength = "4" })
                         </div>
-                        @Html.HiddenFor(m => m.UserInfo.DoB)
+                        @Html.HiddenFor(m => m.UserInfo.DoB, new { @class = "validate-hidden"})
                     </div>
                 </fieldset>
             </div>
@@ -200,18 +200,17 @@
                     jQuery.validator.addMethod('dateofbirth', function (value, element, params) {
 
                         if (!jQuery("#UserInfo_Day").valid() || !jQuery("#UserInfo_Month").valid() || !jQuery("#UserInfo_Year").valid()) {
-                            return true;
+                            return false;
                         }
 
                         var day = $('#UserInfo_Day').val();
                         var month = $('#UserInfo_Month').val();
                         var year = $('#UserInfo_Year').val();
 
-                        //month is indexed from zero (thanks, Java) - so some adjustments needed
-                        var date = new Date(parseInt(year), parseInt(month) - 1, parseInt(day));
-                        var result = (date.getFullYear() === parseInt(year) && (date.getMonth() + 1) === parseInt(month) && date.getDate() === parseInt(day));
+                        var date = new Date(day + '/' + month + '/' + year);
+                        var isValid = date.toString() !== 'Invalid Date';
 
-                        jQuery("#UserInfo_DoB").closest(".form-group").toggleClass("form-group-error", !result);
+                        jQuery("#UserInfo_DoB").closest(".form-group").toggleClass("form-group-error", !isValid);
 
                         // Validation override ensures if one field in a group errors then a specific
                         // error message shows from one field for all the others without showing all in red.
@@ -220,9 +219,9 @@
                         // errors then all are shown in red.
                         // Example: 29/02/2019 (not leap year) should show all as error and show the same label as above.
                         jQuery("#UserInfo_DoB").closest(".form-group")
-                            .toggleClass("form-group-validation-override-error-all", !result);
+                            .toggleClass("form-group-validation-override-error-all", !isValid);
 
-                        return result;
+                        return isValid;
                     });
 
                     jQuery.validator.unobtrusive.adapters.add('personname', ['prefixelement'], function (options) {
@@ -291,6 +290,8 @@
                             ShowDoBError()
                         }
                     }
+
+
                 })
             </script>
 
