@@ -126,10 +126,7 @@ namespace NHS111.Models.Mappers.WebMappings
             return new Address()
             {
                 PostalCode = addressViewModel.Postcode,
-                StreetAddressLine1 =
-                    !string.IsNullOrEmpty(addressViewModel.HouseNumber)
-                        ? string.Format("{0} {1}", addressViewModel.HouseNumber, addressViewModel.AddressLine1)
-                        : addressViewModel.AddressLine1,
+                StreetAddressLine1 = addressViewModel.AddressLine1,
                 StreetAddressLine2 = addressViewModel.AddressLine2,
                 StreetAddressLine3 = addressViewModel.AddressLine3,
                 StreetAddressLine4 = addressViewModel.City,
