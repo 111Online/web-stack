@@ -1,6 +1,6 @@
 
 jQuery.validator.setDefaults({
-    ignore: "[type='hidden']",
+    ignore: "[type='hidden']:not(.validate-hidden)",
     focusInvalid: false,
     showErrors: function (errorMap, errorList) {
         // This is a modified version of validate.unobtrusive's default error summary
