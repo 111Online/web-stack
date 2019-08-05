@@ -200,7 +200,7 @@
                     jQuery.validator.addMethod('dateofbirth', function (value, element, params) {
 
                         if (!jQuery("#UserInfo_Day").valid() || !jQuery("#UserInfo_Month").valid() || !jQuery("#UserInfo_Year").valid()) {
-                            return false;
+                            return true; // Date of birth validation should be ignored (return valid) so others take priority.
                         }
 
                         var day = $('#UserInfo_Day').val();
