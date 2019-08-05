@@ -99,8 +99,15 @@ namespace NHS111.Web.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> EnterHomePostcode(PersonalDetailViewModel model)
+        public async Task<ActionResult> EnterHomePostcode(PersonalDetailViewModel model, string changeHomeAddressPostcode)
         {
+            if (changeHomeAddressPostcode == "unknownHomeAddress")
+            {
+                model.AddressInformation.PatientHomeAddress = null;
+                model.AddressInformation.HomeAddressSameAsCurrentWrapper.HomeAddressSameAsCurrent = HomeAddressSameAsCurrent.DontKnow;
+                return View("~\\Views\\PersonalDetails\\ConfirmDetails.cshtml", model);
+            }
+
             if (!ModelState.IsValid)
                 return View("~\\Views\\PersonalDetails\\HomeAddress_Postcode.cshtml", model);
             else
@@ -178,7 +185,7 @@ namespace NHS111.Web.Controllers
         {
             if (!ModelState.IsValid || model.AddressInformation.HomeAddressSameAsCurrentWrapper == null)
             {
-                ModelState.AddModelError("AddressInformation.HomeAddressSameAsCurrentWrapper.HomeAddressSameAsCurrent",new Exception());
+                ModelState.AddModelError("AddressInformation.HomeAddressSameAsCurrentWrapper.HomeAddressSameAsCurrent", new Exception());
                 return View("~\\Views\\PersonalDetails\\CheckAtHome.cshtml", model);
             }
 
