@@ -66,7 +66,13 @@ namespace NHS111.Web.Controllers
             return Json((await _surgeryBuilder.SearchSurgeryBuilder(input)));
         }
 
- 
+        [HttpPost]
+        public async Task<ActionResult> ChangePostcode(OutcomeViewModel model)
+        {
+            ModelState.Clear();
+            _auditLogger.LogEventData(model, "User elected to change postcode.");
+            return View(model); ;
+        }
 
         [HttpPost]
         public async Task<ActionResult> DispositionWithServices(OutcomeViewModel model, string submitAction, DosEndpoint? endpoint = null, DateTime? dosSearchTime = null)
