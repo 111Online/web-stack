@@ -182,7 +182,14 @@
 
             <div>
                 <dt>Home postcode</dt>
+                @if (Model.AddressInformation.HomeAddressSameAsCurrentWrapper.HomeAddressSameAsCurrent == HomeAddressSameAsCurrent.DontKnow)
+                {
+                <dd>Not known</dd>
+                }
+                else
+                {
                 <dd>@Model.AddressInformation.PatientHomeAddress.FormattedPostcode</dd>
+                }
             </div>
 
             <div>
@@ -220,7 +227,7 @@
 @Html.Partial("_PageLoadingIndicator")
 
 <script>
-$(document).on('submit', '#submitDetailsForm', function () {
-    startPageLoadingIndicator('Contacting your selected service...')
-})
+    $(document).on('submit', '#submitDetailsForm', function () {
+        startPageLoadingIndicator('Contacting your selected service...')
+    })
 </script>
