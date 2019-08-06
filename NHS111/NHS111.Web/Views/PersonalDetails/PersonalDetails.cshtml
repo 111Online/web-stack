@@ -47,7 +47,7 @@
                     <legend>
                         <h2>Who needs help?</h2>
                     </legend>
-                    @Html.ValidationMessageFor(m => m.PatientInformantDetails.Informant, "Tell us who needs help")
+                    @Html.ValidationMessageFor(m => m.PatientInformantDetails.Informant, "Tell us who needs help", new { @class = "nhsuk-u-margin-bottom-4" })
                     <div class="panel-group">
                         @Html.RadioButtonFor(m => m.PatientInformantDetails.Informant, NHS111.Models.Models.Web.InformantType.Self, new { id = "PatientInformantDetails_Informant_Self", name = "PatientInformantDetails_Informant", @class = "multiple-choice__input" })
                         <label for="PatientInformantDetails_Informant_Self" class="multiple-choice--radio" name="PatientInformantDetails_Informant" data-target="self-data">Me</label>
@@ -157,17 +157,17 @@
             <script type="text/javascript">
                 jQuery(function () {
                     jQuery.validator.addMethod('personname', function (value, element, params) {
-                        var peronelement = $(element);
+                        var personelement = $(element);
                         if ($('input[name="PatientInformantDetails.Informant"]:checked').val() == "Self" &&
-                            peronelement.attr('name').startsWith("PatientInformantDetails.SelfName")) {
+                            personelement.attr('name').startsWith("PatientInformantDetails.SelfName")) {
                             return (value) !== "";
                         }
                         if ($('input[name="PatientInformantDetails.Informant"]:checked').val() == "ThirdParty" &&
-                            (peronelement.attr('name').startsWith("PatientInformantDetails.PatientName")
-                                || (peronelement.attr('name').startsWith("PatientInformantDetails.InformantName")))) {
+                            (personelement.attr('name').startsWith("PatientInformantDetails.PatientName")
+                                || (personelement.attr('name').startsWith("PatientInformantDetails.InformantName")))) {
                             return (value) !== "";
                         }
-                        return true;
+                        return false;
 
                     });
 
@@ -196,21 +196,28 @@
                         var result = (parseInt(year) > 1900 && parseInt(year) < (currentYear + 1));
                         return result;
                     });
+                    
+                    function isValid(id) {
+                        return $("#personalDetailForm").validate().errorList.filter((val) => val.element.id == id).length == 0
+                    }
 
                     jQuery.validator.addMethod('dateofbirth', function (value, element, params) {
-
-                        if (!jQuery("#UserInfo_Day").valid() || !jQuery("#UserInfo_Month").valid() || !jQuery("#UserInfo_Year").valid()) {
-                            return true; // Date of birth validation should be ignored (return valid) so others take priority.
+                        // Split out from if statement so that each validates before checked, or after first invalid do not get checked
+                        var isDayValid = isValid("UserInfo_Day")
+                        var isMonthValid = isValid("UserInfo_Month")
+                        var isYearValid = isValid("UserInfo_Year")
+                        if (!isDayValid || !isMonthValid || !isYearValid) {
+                            return false;
                         }
 
                         var day = $('#UserInfo_Day').val();
                         var month = $('#UserInfo_Month').val();
                         var year = $('#UserInfo_Year').val();
 
-                        var date = new Date(year + '/' + month + '/' + day);
-                        var isValid = date.toString() !== 'Invalid Date' && date < new Date();
+                        var date = new Date(year + '-' + month + '-' + day);
+                        var dateIsValid = date.toString() !== 'Invalid Date' && date < new Date();
 
-                        jQuery("#UserInfo_DoB").closest(".form-group").toggleClass("form-group-error", !isValid);
+                        jQuery("#UserInfo_DoB").closest(".form-group").toggleClass("form-group-error", !dateIsValid);
 
                         // Validation override ensures if one field in a group errors then a specific
                         // error message shows from one field for all the others without showing all in red.
@@ -219,9 +226,9 @@
                         // errors then all are shown in red.
                         // Example: 29/02/2019 (not leap year) should show all as error and show the same label as above.
                         jQuery("#UserInfo_DoB").closest(".form-group")
-                            .toggleClass("form-group-validation-override-error-all", !isValid);
+                            .toggleClass("form-group-validation-override-error-all", !dateIsValid);
 
-                        return isValid;
+                        return dateIsValid;
                     });
 
                     jQuery.validator.unobtrusive.adapters.add('personname', ['prefixelement'], function (options) {
@@ -290,8 +297,7 @@
                             ShowDoBError()
                         }
                     }
-
-
+                    
                 })
             </script>
 
