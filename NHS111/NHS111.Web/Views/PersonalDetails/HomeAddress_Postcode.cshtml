@@ -40,23 +40,20 @@
     @Html.Partial("_CommonHiddenFieldsCurrentAddress", Model)
     @Html.HiddenFor(m => m.SelectedServiceId)
     @Html.HiddenFor(m => m.AddressInformation.HomeAddressSameAsCurrentWrapper.HomeAddressSameAsCurrent)
-    
+
     <div class="nhsuk-core">
         <div class="form-group nhsuk-u-margin-bottom-4">
             <label for="@Html.IdFor(m => m.AddressInformation.ChangePostcode.Postcode)"><h1 id="strap-line" class="nhsuk-heading-l">@heading</h1></label>
-            
+
             <div class="callout callout--info measure nhsuk-u-margin-bottom-4">
                 <p>@subHeading</p>
             </div>
-            
+
             <p>For example, LS2 7UE</p>
             @Html.ValidationMessageFor(m => m.AddressInformation.ChangePostcode.Postcode, "Enter the home postcode")
             @Html.TextBoxFor(m => m.AddressInformation.ChangePostcode.Postcode, new { @class = "form-textbox--postcode" })
         </div>
-        @if (!self)
-        {
-            <div class="nhsuk-u-margin-bottom-5"><button type="submit" name="changeHomeAddressPostcode" id="unknownHomeAddress" value="unknownHomeAddress" class="button--link" formnovalidate="formnovalidate">I don't know the postcode</button></div>
-        }
+        <div class="nhsuk-u-margin-bottom-5"><button type="submit" name="changeHomeAddressPostcode" id="unknownHomeAddress" value="unknownHomeAddress" class="button--link" formnovalidate="formnovalidate">I don't know the postcode</button></div>
         <button type="submit" name="changeHomeAddressPostcode" id="changeHomeAddressPostcode" value="changeHomeAddressPostcode">Next</button>
     </div>
 }
