@@ -97,7 +97,14 @@
 
             <div>
                 <dt>Home postcode</dt>
-                <dd>@Model.AddressInformation.PatientHomeAddress.FormattedPostcode</dd>
+                @if (Model.AddressInformation.HomeAddressSameAsCurrentWrapper.HomeAddressSameAsCurrent == HomeAddressSameAsCurrent.DontKnow)
+                {
+                    <dd>Not known</dd>
+                }
+                else
+                {
+                    <dd>@Model.AddressInformation.PatientHomeAddress.FormattedPostcode</dd>
+                }
             </div>
 
             <div>
