@@ -42,7 +42,7 @@
     @Html.HiddenFor(m => m.AddressInformation.HomeAddressSameAsCurrentWrapper.HomeAddressSameAsCurrent)
     
     <div class="nhsuk-core">
-        <div class="form-group">
+        <div class="form-group nhsuk-u-margin-bottom-4">
             <label for="@Html.IdFor(m => m.AddressInformation.ChangePostcode.Postcode)"><h1 id="strap-line" class="nhsuk-heading-l">@heading</h1></label>
             
             <div class="callout callout--info measure nhsuk-u-margin-bottom-4">
@@ -55,7 +55,7 @@
         </div>
         @if (!self)
         {
-            <button type="submit" name="changeHomeAddressPostcode" id="unknownHomeAddress" value="unknownHomeAddress" class="button--link nhsuk-u-margin-bottom-4" formnovalidate="formnovalidate">I don't know the postcode</button>
+            <div class="nhsuk-u-margin-bottom-5"><button type="submit" name="changeHomeAddressPostcode" id="unknownHomeAddress" value="unknownHomeAddress" class="button--link" formnovalidate="formnovalidate">I don't know the postcode</button></div>
         }
         <button type="submit" name="changeHomeAddressPostcode" id="changeHomeAddressPostcode" value="changeHomeAddressPostcode">Next</button>
     </div>
