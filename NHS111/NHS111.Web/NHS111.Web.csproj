@@ -458,6 +458,7 @@
     <Content Include="Views\PersonalDetails\HomeAddress_Postcode.cshtml" />
     <Content Include="Views\PersonalDetails\_ChangePostcodeLinks.cshtml" />
     <Content Include="Views\PersonalDetails\CurrentAddress_NotFound.cshtml" />
+    <Content Include="Views\Outcome\SP_Mental_health.cshtml" />
     <None Include="Web.Development.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
