@@ -89,7 +89,10 @@ namespace NHS111.Web.Controllers
             model = await PopulateAddressPickerFields(model);
 
             if (model.AddressInformation.PatientCurrentAddress.AddressPicker.Count > 0)
+            {
+                ModelState.Clear();
                 return View("~\\Views\\PersonalDetails\\CurrentAddress.cshtml", model);
+            }
             else
             {
                 //a location api error, or empty list
