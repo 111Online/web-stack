@@ -311,11 +311,6 @@ namespace NHS111.Web.Controllers
         [HttpPost]
         public async Task<ActionResult> Confirmation(PersonalDetailViewModel model, [FromUri] bool? overrideFilterServices)
         {
-            if (!ModelState.IsValid)
-            {
-                //TODO: Change this to go back to last page, which won't be personal details.
-                return View("~\\Views\\PersonalDetails\\PersonalDetails.cshtml", model);
-            }
             var availableServices = await GetServiceAvailability(model, null, overrideFilterServices.HasValue ? overrideFilterServices.Value : model.FilterServices, null);
             _auditLogger.LogDosResponse(model, availableServices);
             if (availableServices.ContainsService(model.SelectedService))
