@@ -123,6 +123,14 @@ namespace NHS111.Models.Mappers.WebMappings
 
         private Address MapAddress(PersonalDetailsAddressViewModel addressViewModel)
         {
+            if (addressViewModel.Postcode == null
+                && addressViewModel.AddressLine1 == null
+                && addressViewModel.AddressLine2 == null
+                && addressViewModel.AddressLine3 == null
+                && addressViewModel.City == null
+                && addressViewModel.County == null)
+                return null;
+
             return new Address()
             {
                 PostalCode = addressViewModel.Postcode,
