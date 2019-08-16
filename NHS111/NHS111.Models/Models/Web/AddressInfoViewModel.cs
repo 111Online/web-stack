@@ -45,6 +45,8 @@ namespace NHS111.Models.Models.Web
                 if (!String.IsNullOrWhiteSpace(AddressLine1) && addressString.ToLower() != AddressLine1.ToLower())
                     addressString = AddressLine1 + ", " + addressString;
 
+                if (!string.IsNullOrEmpty(this.AddressLine2)) addressString += (", " + this.AddressLine2);
+                if (!string.IsNullOrEmpty(this.AddressLine3)) addressString += (", " + this.AddressLine3);
                 if (!string.IsNullOrEmpty(this.City)) addressString += (", " + this.City);
                 if (!string.IsNullOrEmpty(this.County)) addressString += (", " + this.County);
                 if (!string.IsNullOrEmpty(this.Postcode)) addressString += (", " + this.Postcode);
