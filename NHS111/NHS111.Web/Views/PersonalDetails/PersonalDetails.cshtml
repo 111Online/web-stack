@@ -214,7 +214,7 @@
                         var month = $('#UserInfo_Month').val();
                         var year = $('#UserInfo_Year').val();
 
-                        var date = new Date(year + '-' + month + '-' + day);
+                        var date = new Date(year, month - 1, day);
                         // Internet Explorer does not handle isNaN(date) correctly so this checks month hasn't rolled over (eg. feb -> march)
                         var dateIsValid = !isNaN(date) && (date.getMonth() == month - 1) && date < new Date();
 
