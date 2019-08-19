@@ -198,7 +198,7 @@
                     });
                     
                     function isValid(id) {
-                        return $("#personalDetailForm").validate().errorList.filter((val) => val.element.id == id).length == 0
+                        return $("#personalDetailForm").validate().errorList.filter(function (val) { val.element.id == id }).length == 0
                     }
 
                     jQuery.validator.addMethod('dateofbirth', function (value, element, params) {
