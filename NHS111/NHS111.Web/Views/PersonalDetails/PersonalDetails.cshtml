@@ -215,7 +215,8 @@
                         var year = $('#UserInfo_Year').val();
 
                         var date = new Date(year + '-' + month + '-' + day);
-                        var dateIsValid = date.toString() !== 'Invalid Date' && date < new Date();
+                        // Internet Explorer does not handle isNaN(date) correctly so this checks month hasn't rolled over (eg. feb -> march)
+                        var dateIsValid = !isNaN(date) && (date.getMonth() == month - 1) && date < new Date();
 
                         jQuery("#UserInfo_DoB").closest(".form-group").toggleClass("form-group-error", !dateIsValid);
 
