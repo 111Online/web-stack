@@ -135,7 +135,7 @@ namespace NHS111.Web.Functional.Utils {
 
         public PersonalDetailsPage SubmitAtHome()
         {
-            Driver.FindElement(By.Id("submitAtHome")).Click();
+            Driver.FindElement(By.Id("submitHomeAddress")).Click();
             return new PersonalDetailsPage(Driver);
         }
 
