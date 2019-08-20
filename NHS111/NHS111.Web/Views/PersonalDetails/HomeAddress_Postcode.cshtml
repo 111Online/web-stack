@@ -53,6 +53,7 @@
             @Html.ValidationMessageFor(m => m.AddressInformation.ChangePostcode.Postcode, "Enter the home postcode")
             @Html.TextBoxFor(m => m.AddressInformation.ChangePostcode.Postcode, new { @class = "form-textbox--postcode" })
         </div>
+        <input type="submit" name="changeHomeAddressPostcode" id="changeHomeAddressPostcodeHiddenDefault" value="changeHomeAddressPostcode" role="presentation" class="util-visuallyhidden" /> @* Used to set Next as default without changing order, always uses first submit *@
         <div class="nhsuk-u-margin-bottom-5"><button type="submit" name="changeHomeAddressPostcode" id="unknownHomeAddress" value="unknownHomeAddress" class="button--link" formnovalidate="formnovalidate">I don't know the postcode</button></div>
         <button type="submit" name="changeHomeAddressPostcode" id="changeHomeAddressPostcode" value="changeHomeAddressPostcode">Next</button>
     </div>
