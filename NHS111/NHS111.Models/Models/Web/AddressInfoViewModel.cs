@@ -38,37 +38,13 @@ namespace NHS111.Models.Models.Web
         {
             get
             {
-                var firstPart = String.IsNullOrWhiteSpace(HouseNumber) ? "" : HouseNumber;
-                var secondPart = String.IsNullOrWhiteSpace(Thoroughfare) ? Ward : Thoroughfare;
-
                 var addressString = "";
-                var combinedfirstPartSecondPart = (!String.IsNullOrEmpty(firstPart) ? firstPart : "");
 
-                if (!String.IsNullOrEmpty(firstPart) && (!String.IsNullOrEmpty(secondPart)))
-                combinedfirstPartSecondPart += " ";
-
-                if (!String.IsNullOrEmpty(secondPart))
-                    combinedfirstPartSecondPart += (!String.IsNullOrEmpty(secondPart) ? secondPart : "");
-
-                if (!String.IsNullOrWhiteSpace(AddressLine1))
-                    addressString = AddressLine1;
-
-                if (!String.IsNullOrEmpty(combinedfirstPartSecondPart) && !combinedfirstPartSecondPart.ToLower().Equals(addressString.ToLower()))
-                {
-                    if (!String.IsNullOrEmpty(addressString))
-                        addressString += ", ";
-                    
-                    addressString += combinedfirstPartSecondPart;
-                }
-
-                if (!String.IsNullOrWhiteSpace(AddressLine2) && !combinedfirstPartSecondPart.ToLower().Equals(AddressLine2.ToLower()))
-                    addressString += (", " + AddressLine2);
-
-                if (!String.IsNullOrWhiteSpace(AddressLine3) && !combinedfirstPartSecondPart.ToLower().Equals(AddressLine3.ToLower()))
-                    addressString += (", " + AddressLine3);
-
+                if (!String.IsNullOrWhiteSpace(AddressLine1)) addressString = AddressLine1;
+                if (!String.IsNullOrWhiteSpace(AddressLine2)) addressString += (", " + AddressLine2);
+                if (!String.IsNullOrWhiteSpace(AddressLine3)) addressString += (", " + AddressLine3);
                 if (!string.IsNullOrEmpty(City)) addressString += (", " + City);
-                if (!string.IsNullOrEmpty(County)) addressString += (", " + County);
+                if (!string.IsNullOrEmpty(County) && !City.ToLower().Equals(County.ToLower())) addressString += (", " + County);
                 if (!string.IsNullOrEmpty(Postcode)) addressString += (", " + Postcode);
 
                 return addressString;
