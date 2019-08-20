@@ -38,18 +38,38 @@ namespace NHS111.Models.Models.Web
         {
             get
             {
-                var firstPart = String.IsNullOrWhiteSpace(this.HouseNumber) ? "" : this.HouseNumber;
-                var secondPart = String.IsNullOrWhiteSpace(this.Thoroughfare) ? this.Ward : this.Thoroughfare;
+                var firstPart = String.IsNullOrWhiteSpace(HouseNumber) ? "" : HouseNumber;
+                var secondPart = String.IsNullOrWhiteSpace(Thoroughfare) ? Ward : Thoroughfare;
 
-                var addressString = (!String.IsNullOrEmpty(firstPart) ? firstPart + " " : "") + secondPart;
-                if (!String.IsNullOrWhiteSpace(AddressLine1) && addressString.ToLower() != AddressLine1.ToLower())
-                    addressString = AddressLine1 + ", " + addressString;
+                var addressString = "";
+                var combinedfirstPartSecondPart = (!String.IsNullOrEmpty(firstPart) ? firstPart : "");
 
-                if (!string.IsNullOrEmpty(this.AddressLine2)) addressString += (", " + this.AddressLine2);
-                if (!string.IsNullOrEmpty(this.AddressLine3)) addressString += (", " + this.AddressLine3);
-                if (!string.IsNullOrEmpty(this.City)) addressString += (", " + this.City);
-                if (!string.IsNullOrEmpty(this.County)) addressString += (", " + this.County);
-                if (!string.IsNullOrEmpty(this.Postcode)) addressString += (", " + this.Postcode);
+                if (!String.IsNullOrEmpty(firstPart) && (!String.IsNullOrEmpty(secondPart)))
+                combinedfirstPartSecondPart += " ";
+
+                if (!String.IsNullOrEmpty(secondPart))
+                    combinedfirstPartSecondPart += (!String.IsNullOrEmpty(secondPart) ? secondPart : "");
+
+                if (!String.IsNullOrWhiteSpace(AddressLine1))
+                    addressString = AddressLine1;
+
+                if (!String.IsNullOrEmpty(combinedfirstPartSecondPart) && !combinedfirstPartSecondPart.ToLower().Equals(addressString.ToLower()))
+                {
+                    if (!String.IsNullOrEmpty(addressString))
+                        addressString += ", ";
+                    
+                    addressString += combinedfirstPartSecondPart;
+                }
+
+                if (!String.IsNullOrWhiteSpace(AddressLine2) && !combinedfirstPartSecondPart.ToLower().Equals(AddressLine2.ToLower()))
+                    addressString += (", " + AddressLine2);
+
+                if (!String.IsNullOrWhiteSpace(AddressLine3) && !combinedfirstPartSecondPart.ToLower().Equals(AddressLine3.ToLower()))
+                    addressString += (", " + AddressLine3);
+
+                if (!string.IsNullOrEmpty(City)) addressString += (", " + City);
+                if (!string.IsNullOrEmpty(County)) addressString += (", " + County);
+                if (!string.IsNullOrEmpty(Postcode)) addressString += (", " + Postcode);
 
                 return addressString;
             }
