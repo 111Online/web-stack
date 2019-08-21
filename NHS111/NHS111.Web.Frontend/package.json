@@ -41,9 +41,6 @@
     "webpack-stream": "^4.0.3"
   },
   "devDependencies": {
-    "@frctl/fractal": "^1.1.7",
-    "@frctl/mandelbrot": "^1.2.1",
-    "@frctl/nunjucks": "^1.0.3",
     "babel": "^6.23.0",
     "babel-core": "^6.26.3",
     "babel-loader": "^7.1.5",
@@ -53,7 +50,6 @@
     "babel-register": "^6.26.0",
     "chai": "^4.2.0",
     "eslint": "^4.19.1",
-    "gh-pages": "^0.12.0",
     "gulp": "^3.9.1",
     "gulp-mocha": "^4.3.1",
     "gulp-postcss": "^7.0.1",
@@ -63,20 +59,11 @@
     "mocha-jsdom": "^1.2.0",
     "piped-webpack": "^1.4.1",
     "stylelint": "^8.4.0",
-    "stylelint-config-standard": "^17.0.0",
-    "specificity-graph": "^0.1.7",
-    "webpack-visualizer-plugin": "^0.1.11"
+    "stylelint-config-standard": "^17.0.0"
   },
   "scripts": {
     "build": "gulp build",
-    "dev": "fractal start --sync --port 4000 & gulp dev",
-    "dev-fractal": "fractal start --sync --port 4000",
-    "dev-gulp": "gulp dev",
-    "build:docs": "NODE_ENV=production node ./node_modules/.bin/fractal build && node ./fractal/create-redirect.js",
-    "deploy": "npm run build:docs && gh-pages --add -d 'build'",
+    "dev": "gulp dev",
     "postinstall": "gulp build-if-missing"
   },
-  "fractal": {
-    "main": "fractal.config.js"
-  }
 }

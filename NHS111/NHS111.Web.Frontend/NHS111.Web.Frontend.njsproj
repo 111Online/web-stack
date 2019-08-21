@@ -5,7 +5,7 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{517e7106-bc18-4baa-aefa-408f08f0eecf}</ProjectGuid>
     <ProjectHome />
-    <ProjectView>ProjectFiles</ProjectView>
+    <ProjectView>ShowAllFiles</ProjectView>
     <StartupFile>
     </StartupFile>
     <WorkingDirectory>.</WorkingDirectory>
@@ -86,7 +86,6 @@
     <Content Include=".stylelintrc.json" />
     <Content Include="package.json" />
     <Content Include="README.md" />
-    <Compile Include="fractal.config.js" />
     <Compile Include="gulpfile.js" />
     <Compile Include="fractal\create-redirect.js" />
     <Compile Include="fractal\theme\index.js" />
@@ -260,6 +259,11 @@
     <Folder Include="src\codebase\" />
     <Folder Include="src\codebase\components\" />
     <Folder Include="src\codebase\components\app-panel\" />
+    <Folder Include="src\js\" />
+    <Folder Include="src\js\vendor\" />
+    <Folder Include="src\styles\" />
+    <Folder Include="src\styles\components\" />
+    <Folder Include="src\styles\components\app-panel\" />
     <Folder Include="src\codebase\components\button\" />
     <Folder Include="src\codebase\components\callout\" />
     <Folder Include="src\codebase\components\service-details\" />
@@ -285,8 +289,8 @@
     <Folder Include="src\codebase\objects\" />
     <Folder Include="src\codebase\units\" />
     <Folder Include="src\docs\" />
-    <Folder Include="src\js\" />
-    <Folder Include="src\js\vendor\" />
+    <Folder Include="src\scripts\" />
+    <Folder Include="src\scripts\vendor\" />
     <Folder Include="src\templates\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.Common.targets" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />

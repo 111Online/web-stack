@@ -1,23 +1,19 @@
 const path = require('path'),
-    UglifyJSPlugin = require('uglifyjs-webpack-plugin'),
-    Visualizer = require('webpack-visualizer-plugin')
+    UglifyJSPlugin = require('uglifyjs-webpack-plugin')
 
 
 module.exports = {
     entry: {
-        'bundle-head': './src/js/entry-head.js',
-        'bundle': './src/js/entry-main.js',
-        'bundle-polyfills': './src/js/entry-polyfills.js',
-        'bundle-map': './src/js/entry-map.js'
+        'bundle-head': './src/scripts/entry-head.js',
+        'bundle': './src/scripts/entry-main.js',
+        'bundle-polyfills': './src/scripts/entry-polyfills.js',
+        'bundle-map': './src/scripts/entry-map.js'
     },
     output: {
         filename: '[name].js'
     },
     plugins: [
-        new UglifyJSPlugin({ sourceMap: true }),
-        new Visualizer({
-            filename: './src/codebase/components/_jschart/jschart.njk'
-        })
+        new UglifyJSPlugin({ sourceMap: true })
     ],
     module: {
         rules: [
