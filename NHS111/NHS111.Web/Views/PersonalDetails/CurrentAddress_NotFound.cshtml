@@ -24,6 +24,7 @@
     var dataDictionary = ViewContext.ViewData;
     dataDictionary.Add(new KeyValuePair<string, object>("LaunchPage", "postcode-not-found-current-address"));
     var self = Model.PatientInformantDetails.Informant == InformantType.Self;
+    var locationPostcode = (Model.AddressInformation.ChangePostcode != null && !string.IsNullOrEmpty(Model.AddressInformation.ChangePostcode.Postcode)) ? Model.AddressInformation.ChangePostcode.Postcode : Model.CurrentPostcode;
 }
 
 @section FeedbackSection {
@@ -43,11 +44,11 @@
 
         @if (self)
         {
-        <p>You told us you're in @Model.CurrentPostcode.</p>
+        <p>You told us you're in @locationPostcode.</p>
         }
         else
         {
-            <p>You told us they're in @Model.CurrentPostcode.</p>
+            <p>You told us they're in @locationPostcode.</p>
         }
         <p>We can't find any addresses for that postcode.</p>
 

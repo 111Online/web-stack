@@ -49,11 +49,15 @@ namespace NHS111.Web.Controllers
 
         private async Task<PersonalDetailViewModel> PopulateAddressPickerFields(PersonalDetailViewModel model)
         {
-            //map postcode to field to submit to ITK (preventing multiple entries of same data)
-            //model.AddressInformation.PatientCurrentAddress.PreviouslyEnteredPostcode = model.CurrentPostcode;
+            model.AddressInformation.PatientCurrentAddress.PreviouslyEnteredPostcode = model.CurrentPostcode;
+
+            var postcodeToUseForSearch = model.CurrentPostcode;
+
+            if (model.AddressInformation.ChangePostcode != null && !string.IsNullOrEmpty(model.AddressInformation.ChangePostcode.Postcode))
+                postcodeToUseForSearch = model.AddressInformation.ChangePostcode.Postcode;
 
             //pre-populate picker fields from postcode lookup service
-            var postcodes = await GetPostcodeResults(model.CurrentPostcode);
+            var postcodes = await GetPostcodeResults(postcodeToUseForSearch);
             if (postcodes.ValidatedPostcodeResponse == PostcodeValidatorResponse.PostcodeNotFound) return model;
 
             var items = new List<SelectListItem>();
@@ -80,7 +84,6 @@ namespace NHS111.Web.Controllers
             if (!ModelState.IsValid)
                 return View("~\\Views\\PersonalDetails\\CurrentAddress_ChangePostcode.cshtml", model);
 
-            model.CurrentPostcode = model.AddressInformation.ChangePostcode.Postcode;
             return await DirectToPopulatedCurrentAddressPicker(model);
         }
 
