@@ -15,8 +15,6 @@ const path = require('path'),
     mocha = require('gulp-mocha'),
     babel = require('gulp-babel'),
     jsdom = require('mocha-jsdom'),
-    fractal = require('./fractal.config.js'),
-    specificityGraph = require('specificity-graph'),
     fs = require('fs'),
     concat = require('gulp-concat'),
     sourcemaps = require('gulp-sourcemaps'),
@@ -31,12 +29,7 @@ const paths = {
   srcImages: `${__dirname}/src/assets/images`,
   dist: `${__dirname}/../NHS111.Web/Content/`,
   distAssets: `${__dirname}/../NHS111.Web/Content/`,
-  distScss: `${__dirname}/../NHS111.Web/Content/codebase`,
-  distFractal: `${__dirname}/content/`,
-  distFractalAssets: `${__dirname}/content/`,
-  distFractalScss: `${__dirname}/content/codebase`,
-  fractalScss: `${__dirname}/fractal/theme/scss`,
-  fractalAssets: `${__dirname}/fractal/theme/assets`,
+  distScss: `${__dirname}/../NHS111.Web/Content/codebase`
 }
 
 gulp.task('build-if-missing', () => {
