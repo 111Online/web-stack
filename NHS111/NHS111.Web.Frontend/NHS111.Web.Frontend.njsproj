@@ -131,6 +131,9 @@
     <Content Include="src\codebase\components\callout\callout.config.yaml" />
     <Content Include="src\codebase\components\callout\callout.njk" />
     <Content Include="src\codebase\components\callout\_callout.scss" />
+    <Content Include="src\codebase\components\personal-details\_personal-details.scss">
+      <SubType>Code</SubType>
+    </Content>
     <Content Include="src\codebase\components\service-details\service-details.config.yaml" />
     <Content Include="src\codebase\components\service-details\service-details.njk" />
     <Content Include="src\codebase\components\service-details\_service-details.scss" />
@@ -171,11 +174,17 @@
     </Content>
     <Content Include="src\codebase\components\reveal\reveal.config.yaml" />
     <Content Include="src\codebase\components\reveal\reveal.njk" />
+    <Content Include="src\codebase\components\summary-list\_summary-list.scss">
+      <SubType>Code</SubType>
+    </Content>
     <Content Include="src\codebase\components\_cookie-banner.scss" />
     <Content Include="src\codebase\components\_global-footer.scss" />
     <Content Include="src\codebase\components\_global-header.scss" />
     <Content Include="src\codebase\components\_index.scss" />
     <Content Include="src\codebase\components\_notification-banner.scss" />
+    <Content Include="src\codebase\components\_overrides.scss">
+      <SubType>Code</SubType>
+    </Content>
     <Content Include="src\codebase\components\_preview.njk" />
     <Content Include="src\codebase\components\_search.scss">
       <SubType>Code</SubType>
@@ -262,6 +271,8 @@
     <Folder Include="src\codebase\components\app-panel\" />
     <Folder Include="src\codebase\components\button\" />
     <Folder Include="src\codebase\components\callout\" />
+    <Folder Include="src\codebase\components\summary-list\" />
+    <Folder Include="src\codebase\components\personal-details\" />
     <Folder Include="src\codebase\components\service-details\" />
     <Folder Include="src\codebase\components\card\" />
     <Folder Include="src\codebase\components\feedback\" />

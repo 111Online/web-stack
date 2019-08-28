@@ -26,7 +26,7 @@
         @{
             var form = Model.OutcomeGroup.Equals(OutcomeGroup.RepeatPrescription)
                 ? Html.BeginForm("ReferralExplanation", "Outcome", FormMethod.Post)
-                : Html.BeginForm("PersonalDetails", "Outcome", FormMethod.Post);
+                : Html.BeginForm("PersonalDetails", "PersonalDetails", FormMethod.Post);
         }
         @using (form) {
             @Html.Partial("_CommonHiddenFieldsOutcomeViewModel", Model)

@@ -31,6 +31,10 @@ input[type="number"],
 }
 
 .form-textbox[maxlength="4"] {
-  width: 5em;
+  width: 4em;
+}
+
+.form-textbox--postcode {
+  width: 8em !important;
 }
 
