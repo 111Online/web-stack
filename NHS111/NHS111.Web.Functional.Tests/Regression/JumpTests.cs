@@ -27,7 +27,7 @@ namespace NHS111.Web.Functional.Tests.Regression
         {
             var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Tiredness (Fatigue)", TestScenerioSex.Male, TestScenerioAgeGroups.Adult);
 
-            questionPage.VerifyQuestion("Have you got a raised temperature now or have you had one at any time since the tiredness started?");
+            questionPage.VerifyQuestion("Have you got a fever right now or had one since the tiredness started?");
             var outcomePage = questionPage
                 .AnswerSuccessiveByOrder(3, 4)
                 .AnswerSuccessiveByOrder(4, 2)
