@@ -1,6 +1,7 @@
 const path = require('path'),
     UglifyJSPlugin = require('uglifyjs-webpack-plugin'),
-    Visualizer = require('webpack-visualizer-plugin')
+    Visualizer = require('webpack-visualizer-plugin'),
+    webpack = require('webpack')
 
 
 module.exports = {
@@ -15,6 +16,11 @@ module.exports = {
     },
     plugins: [
         new UglifyJSPlugin({ sourceMap: true }),
+        new webpack.optimize.CommonsChunkPlugin({
+          name: "common",
+          filename: "common.js",
+          minChunks: 2
+        }),
         new Visualizer({
             filename: './src/codebase/components/_jschart/jschart.njk'
         })
