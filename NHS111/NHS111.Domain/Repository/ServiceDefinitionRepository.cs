@@ -22,8 +22,6 @@ namespace NHS111.Domain.Repository
 
         public async Task<ServiceDefinition> GetServiceDefinition(string pathwayNo)
         {
-            pathwayNo = pathwayNo.ToUpper();
-
             var version = await _graphRepository.Client.Cypher
                 .Match("(v:Version)")
                 .Return<VersionInfo>("v")
@@ -31,7 +29,7 @@ namespace NHS111.Domain.Repository
                 .FirstOrDefault();
 
             var pathways = await _graphRepository.Client.Cypher
-                .Match(string.Format("(p:Pathway {{ pathwayNo: \"{0}\" }})", pathwayNo))
+                .Match(string.Format("(p:Pathway {{ id: \"{0}\" }})", pathwayNo))
                 .ReturnDistinct<Pathway>("p")
                 .ResultsAsync;
 
