@@ -211,6 +211,7 @@
     <Compile Include="Models\Domain\DispositionCode.cs" />
     <Compile Include="Models\Domain\OutcomeGroup.cs" />
     <Compile Include="Models\Domain\PathwayMetaData.cs" />
+    <Compile Include="Models\Domain\ServiceDefinition.cs" />
     <Compile Include="Models\Domain\PathwayWithDescription.cs" />
     <Compile Include="Models\Domain\SymptomDiscriminator.cs" />
     <Compile Include="Models\Domain\VersionInfo.cs" />
