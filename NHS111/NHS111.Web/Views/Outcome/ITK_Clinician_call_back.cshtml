@@ -118,7 +118,7 @@ else
             </li>
         </ul>
 
-        @using (Html.BeginForm("PersonalDetails", "Outcome", FormMethod.Post))
+        @using (Html.BeginForm("PersonalDetails", "PersonalDetails", FormMethod.Post))
         {
             @Html.Partial("_CommonHiddenFieldsOutcomeViewModel", Model)
             @Html.Partial("_CommonHiddenFieldsCareAdviceViewModel", Model)

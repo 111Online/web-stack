@@ -9,7 +9,7 @@ using RestSharp;
 
 namespace NHS111.Business.Services
 {
-    public class LocationService: ILocationService
+    public class LocationService : ILocationService
     {
         private readonly IRestClient _restIdealPostcodesApi;
         private readonly IConfiguration _configuration;
@@ -25,7 +25,7 @@ namespace NHS111.Business.Services
             var response = await _restIdealPostcodesApi.ExecuteTaskAsync<LocationServiceResult<PostcodeLocationResult>>(
                 new RestRequest(_configuration.GetLocationPostcodebyGeoUrl(longitude, latitude), Method.GET));
 
-            if(response.ResponseStatus == ResponseStatus.Completed)
+            if (response.ResponseStatus == ResponseStatus.Completed)
                 return response.Data.Result.ToList();
             throw response.ErrorException;
         }
@@ -33,9 +33,18 @@ namespace NHS111.Business.Services
         public async Task<List<AddressLocationResult>> FindAddresses(double longitude, double latitude)
         {
             var postcodes = await FindPostcodes(longitude, latitude);
-            if(postcodes.Count > 0)
+            if (postcodes.Count > 0)
                 return await FindAddresses(postcodes.First().PostCode);
             return new List<AddressLocationResult>();
+        }
+
+        public async Task<AddressLocationSingleResult> FindAddressFromUDPRN(string udprn)
+        {
+            var response = await _restIdealPostcodesApi.ExecuteTaskAsync<LocationServiceSingleResult<AddressLocationSingleResult>>(
+                new RestRequest(_configuration.GetLocationByUDPRNUrl(udprn), Method.GET));
+            if (response.ResponseStatus == ResponseStatus.Completed)
+                return response.Data.Result;
+            throw response.ErrorException;
         }
 
         public async Task<LocationServiceResult<AddressLocationResult>> ValidateAndFindAddresses(string postcode)
@@ -54,12 +63,15 @@ namespace NHS111.Business.Services
                 return response.Data.Result.ToList();
             throw response.ErrorException;
         }
+
+
     }
-     public interface ILocationService
+    public interface ILocationService
     {
-         Task<List<PostcodeLocationResult>> FindPostcodes(double longitude, double latitude);
-         Task<List<AddressLocationResult>> FindAddresses(double longitude, double latitude);
-         Task<List<AddressLocationResult>> FindAddresses(string postcode);
+        Task<List<PostcodeLocationResult>> FindPostcodes(double longitude, double latitude);
+        Task<List<AddressLocationResult>> FindAddresses(double longitude, double latitude);
+        Task<List<AddressLocationResult>> FindAddresses(string postcode);
+        Task<AddressLocationSingleResult> FindAddressFromUDPRN(string udprn);
         Task<LocationServiceResult<AddressLocationResult>> ValidateAndFindAddresses(string postcode);
     }
 }

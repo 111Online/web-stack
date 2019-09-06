@@ -86,19 +86,20 @@ namespace NHS111.Models.Mappers.WebMappings
             patientDetails.ServiceAddressPostcode = personalDetailViewModel.SelectedService.PostCode;
             patientDetails.TelephoneNumber = personalDetailViewModel.UserInfo.TelephoneNumber;
             patientDetails.CurrentAddress = MapAddress(personalDetailViewModel.AddressInformation.PatientCurrentAddress);
-            if (personalDetailViewModel.AddressInformation.HomeAddressSameAsCurrent.HasValue)
+            if (personalDetailViewModel.AddressInformation.HomeAddressSameAsCurrentWrapper != null &&
+                personalDetailViewModel.AddressInformation.HomeAddressSameAsCurrentWrapper.HomeAddressSameAsCurrent.HasValue)
             {
-                if (personalDetailViewModel.AddressInformation.HomeAddressSameAsCurrent.Value ==
+                if (personalDetailViewModel.AddressInformation.HomeAddressSameAsCurrentWrapper.HomeAddressSameAsCurrent.Value ==
                     HomeAddressSameAsCurrent.Yes)
                 {
                     patientDetails.HomeAddress =
                         MapAddress(personalDetailViewModel.AddressInformation.PatientCurrentAddress);
                 }
-                else if (personalDetailViewModel.AddressInformation.HomeAddressSameAsCurrent.Value ==
+                else if (personalDetailViewModel.AddressInformation.HomeAddressSameAsCurrentWrapper.HomeAddressSameAsCurrent.Value ==
                          HomeAddressSameAsCurrent.No)
                 {
                     patientDetails.HomeAddress =
-                        MapAddress(personalDetailViewModel.AddressInformation.PatientHomeAddreess);
+                        MapAddress(personalDetailViewModel.AddressInformation.PatientHomeAddress);
                 }
             }
             if (personalDetailViewModel.UserInfo.Year != null && personalDetailViewModel.UserInfo.Month != null && personalDetailViewModel.UserInfo.Day != null)
@@ -122,13 +123,18 @@ namespace NHS111.Models.Mappers.WebMappings
 
         private Address MapAddress(PersonalDetailsAddressViewModel addressViewModel)
         {
+            if (addressViewModel.Postcode == null
+                && addressViewModel.AddressLine1 == null
+                && addressViewModel.AddressLine2 == null
+                && addressViewModel.AddressLine3 == null
+                && addressViewModel.City == null
+                && addressViewModel.County == null)
+                return null;
+
             return new Address()
             {
                 PostalCode = addressViewModel.Postcode,
-                StreetAddressLine1 =
-                    !string.IsNullOrEmpty(addressViewModel.HouseNumber)
-                        ? string.Format("{0} {1}", addressViewModel.HouseNumber, addressViewModel.AddressLine1)
-                        : addressViewModel.AddressLine1,
+                StreetAddressLine1 = addressViewModel.AddressLine1,
                 StreetAddressLine2 = addressViewModel.AddressLine2,
                 StreetAddressLine3 = addressViewModel.AddressLine3,
                 StreetAddressLine4 = addressViewModel.City,

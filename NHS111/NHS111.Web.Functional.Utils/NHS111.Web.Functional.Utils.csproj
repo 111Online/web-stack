@@ -66,6 +66,8 @@
     <Compile Include="AppPage.cs" />
     <Compile Include="BaseTests.cs" />
     <Compile Include="CategoryPage.cs" />
+    <Compile Include="ReferralExplanationPage.cs" />
+    <Compile Include="PersonalDetailsPage.cs" />
     <Compile Include="DeadEndPage.cs" />
     <Compile Include="DispositionPage.cs" />
     <Compile Include="DemographicsPage.cs" />

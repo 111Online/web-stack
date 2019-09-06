@@ -1,41 +1,12 @@
-﻿
-using System;
-using System.Collections.Generic;
-using System.Linq.Expressions;
-using System.Web.Mvc;
-using FluentValidation.Internal;
-using FluentValidation.Validators;
+﻿using FluentValidation;
 
 namespace NHS111.Models.Models.Web.Validators
 {
-    public class HomeAddressSameAsCurrentValidator<TModel, TProperty> : PropertyValidator, IClientValidatable
+    public class HomeAddressSameAsCurrentValidator : AbstractValidator<HomeAddressSameAsCurrentWrapper>
     {
-        private string _dependencyElement;
-        public HomeAddressSameAsCurrentValidator(Expression<Func<TModel, TProperty>> expression)
-            : base("Specify Name")
+        public HomeAddressSameAsCurrentValidator()
         {
-            _dependencyElement = (expression.Body as MemberExpression).Member.Name;
+            RuleFor(m => m.HomeAddressSameAsCurrent).NotNull();
         }
-
-        protected override bool IsValid(PropertyValidatorContext context)
-        {
-            var homeAddressSameAsCurrent = context.PropertyValue as HomeAddressSameAsCurrent?;
-            return homeAddressSameAsCurrent.HasValue;
-        }
-
-        public IEnumerable<ModelClientValidationRule> GetClientValidationRules(ModelMetadata metadata, ControllerContext context)
-        {
-            var ruleYear = new ModelClientValidationRule
-            {
-                ErrorMessage = this.ErrorMessageSource.GetString(), // default error message
-                ValidationType = "homeaddresssameascurrentspecified" // name of the validatoin which will be used inside unobtrusive library
-            };
-
-            ruleYear.ValidationParameters["prefixelement"] = _dependencyElement; // html element which includes prefix information
-
-            yield return ruleYear;
-        }
-
-
     }
 }
