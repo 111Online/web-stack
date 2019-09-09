@@ -19,7 +19,8 @@ module.exports = {
         new webpack.optimize.CommonsChunkPlugin({
           name: "common",
           filename: "common.js",
-          minChunks: 2
+          minChunks: 2,
+          chunks: ["bundle-head", "bundle", "bundle-polyfills"] // Excludes map so that can be imported on its own.
         }),
         new Visualizer({
             filename: './src/codebase/components/_jschart/jschart.njk'

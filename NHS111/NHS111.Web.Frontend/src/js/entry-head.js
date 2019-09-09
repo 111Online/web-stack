@@ -13,6 +13,6 @@
  **/
 
 global.$ = global.jQuery = require('jquery')
-global.Spinner = require('spin.js')
+global.Spinner = require('spin.js').Spinner
 import './vendor/details.min.js'
 import 'jquery.cookie' // [1]
