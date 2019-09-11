@@ -11,10 +11,10 @@ namespace NHS111.Web.Functional.Utils
     public class HomePage : LayoutPage
     {
 
-        [FindsBy(How = How.CssSelector, Using = "nav > ul > li:nth-child(1) > a")]
+        [FindsBy(How = How.CssSelector, Using = "nav > ul > li:nth-child(2) > a")]
         internal IWebElement TermsLink { get; set; }
 
-        [FindsBy(How = How.CssSelector, Using = "nav > ul > li:nth-child(2) > a")]
+        [FindsBy(How = How.CssSelector, Using = "nav > ul > li:nth-child(1) > a")]
         internal IWebElement PrivacyLink { get; set; }
 
         [FindsBy(How = How.Id, Using = "cookie-link")]
