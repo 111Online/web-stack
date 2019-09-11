@@ -70,11 +70,6 @@
 </head>
 <body>
 
-    @if (CookieBannerFeature.IsEnabled)
-    {
-        @Html.Partial("_CookieBanner")
-    }
-
     @Html.Partial("_CompatibilityBanner")
 
     @RenderSection("SurveyBanner", false)
@@ -125,11 +120,12 @@
     @RenderSection("FeedbackSection", false)
     <footer role="contentinfo" class="global-footer">
         <div class="global-footer__inner">
+            <p>This website only stores the cookies that are needed to make it work. Read more about how @Html.ActionLink("we use cookies.", "Cookies", "Help", null, new {id = "cookie-link", target = "_blank"})
+            </p>
             <nav>
                 <ul class="link-list">
-                    <li>@Html.ActionLink("Terms and conditions", "Terms", "Help", null, new { target = "_blank" })</li>
-                    <li>@Html.ActionLink("Privacy statement", "Privacy", "Help", null, new { target = "_blank" })</li>
-                    <li>@Html.ActionLink("Cookies", "Cookies", "Help", null, new { target = "_blank" })</li>
+                    <li>@Html.ActionLink("Privacy statement", "Privacy", "Help", null, new {target = "_blank"})</li>
+                    <li>@Html.ActionLink("Terms and conditions", "Terms", "Help", null, new {target = "_blank"})</li>
                 </ul>
             </nav>
         </div>
