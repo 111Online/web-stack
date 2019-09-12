@@ -76,6 +76,14 @@ namespace NHS111.Web.Controllers
 
         private OutcomeViewModel PopulateCCGAndStp(OutcomeViewModel model)
         {
+            if (_postCodeAllowedValidator.CcgModel == null)
+            {
+                model.Campaign = string.Empty;
+                model.Source = string.Empty;
+
+                return model;
+            }
+            
             model.Campaign = _postCodeAllowedValidator.CcgModel.StpName;
             model.Source = _postCodeAllowedValidator.CcgModel.CCG;
 
