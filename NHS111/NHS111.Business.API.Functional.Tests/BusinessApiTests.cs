@@ -220,25 +220,25 @@ namespace NHS111.Business.API.Functional.Tests
                     new JourneyStep { QuestionId = "PW1719.1300", Answer = new Answer { Order = 2 } }
                 }, 20, 10, 3, 3, "PW1719MaleAdult", "Dx06", "Non Trauma", new Dictionary<string, string> { { "PATIENT_AGE", "18" }, { "PATIENT_GENDER", "\"F\"" }, { "PATIENT_PARTY", "1" }, { "PATIENT_AGEGROUP", "Adult" }, { "SYSTEM_ONLINE", "online" }, { "EndingLifeAsked", "\"present\"" } }).SetName("Starts with question ends with read");
                 //Re-enable once iPAT fixed!
-                //yield return new TestCaseData(new List<JourneyStep>
-                //{
-                //    new JourneyStep { QuestionId = "PW711.100", Answer = new Answer { Order = 1 } },
-                //    new JourneyStep { QuestionId = "PW998.0", Answer = new Answer { Order = 3 } },
-                //    new JourneyStep { QuestionId = "PW998.800", Answer = new Answer { Order = 1 } }
-                //}, 21, 10, 3, 4, "PW711MaleAdult", "Dx0121", "Non Trauma", new Dictionary<string, string> { { "PATIENT_AGE", "11" }, { "PATIENT_GENDER", "\"M\"" }, { "PATIENT_PARTY", "1" }, { "PATIENT_AGEGROUP", "Child" }, { "SYSTEM_ONLINE", "online" }, { "Fever", "\"present\"" }, { "SYSTEM_MERS", "mers" } }).SetName("Starts with set then read");
+                yield return new TestCaseData(new List<JourneyStep>
+                {
+                    new JourneyStep { QuestionId = "PW711.100", Answer = new Answer { Order = 1 } },
+                    new JourneyStep { QuestionId = "PW998.0", Answer = new Answer { Order = 3 } },
+                    new JourneyStep { QuestionId = "PW998.800", Answer = new Answer { Order = 1 } }
+                }, 21, 10, 3, 4, "PW711MaleAdult", "Dx0121", "Non Trauma", new Dictionary<string, string> { { "PATIENT_AGE", "11" }, { "PATIENT_GENDER", "\"M\"" }, { "PATIENT_PARTY", "1" }, { "PATIENT_AGEGROUP", "Child" }, { "SYSTEM_ONLINE", "online" }, { "Fever", "\"present\"" }, { "SYSTEM_MERS", "mers" } }).SetName("Starts with set then read");
                 yield return new TestCaseData(new List<JourneyStep>
                 {
                     new JourneyStep { QuestionId = "PW1543.20", Answer = new Answer { Order = 1 } },
                     new JourneyStep { QuestionId = "PW1543.50", Answer = new Answer { Order = 2 } },
                     new JourneyStep { QuestionId = "PW1543.200", Answer = new Answer { Order = 1 } }
                 }, 20, 10, 3, 3, "PW1543MaleAdult", "Dx012", "Non Trauma", new Dictionary<string, string> { { "PATIENT_AGE", "18" }, { "PATIENT_GENDER", "\"F\"" }, { "PATIENT_PARTY", "1" }, { "PATIENT_AGEGROUP", "Adult" }, { "SYSTEM_ONLINE", "online" }, { "SYSTEM_MERS", "mers" } }).SetName("Starts with read");
-              //Re-enable once iPAT fixed!
-                //yield return new TestCaseData(new List<JourneyStep>
-                //{
-                //    new JourneyStep { QuestionId = "PW711.100", Answer = new Answer { Order = 1 } },
-                //    new JourneyStep { QuestionId = "PW998.0", Answer = new Answer { Order = 3 } },
-                //    new JourneyStep { QuestionId = "PW998.800", Answer = new Answer { Order = 2 } }
-                //}, 21, 10, 3, 4, "PW711MaleAdult", "Dx0121", "Non Trauma", new Dictionary<string, string> { { "PATIENT_AGE", "18" }, { "PATIENT_GENDER", "\"M\"" }, { "PATIENT_PARTY", "1" }, { "PATIENT_AGEGROUP", "Adult" }, { "SYSTEM_ONLINE", "online" }, { "EndingLifeAsked", "\"present\"" }, { "SYSTEM_MERS", "mers" } }).SetName("Starts with set");
+                //Re-enable once iPAT fixed!
+                yield return new TestCaseData(new List<JourneyStep>
+                {
+                    new JourneyStep { QuestionId = "PW711.100", Answer = new Answer { Order = 1 } },
+                    new JourneyStep { QuestionId = "PW998.0", Answer = new Answer { Order = 3 } },
+                    new JourneyStep { QuestionId = "PW998.800", Answer = new Answer { Order = 2 } }
+                }, 21, 10, 3, 4, "PW711MaleAdult", "Dx0121", "Non Trauma", new Dictionary<string, string> { { "PATIENT_AGE", "18" }, { "PATIENT_GENDER", "\"M\"" }, { "PATIENT_PARTY", "1" }, { "PATIENT_AGEGROUP", "Adult" }, { "SYSTEM_ONLINE", "online" }, { "EndingLifeAsked", "\"present\"" }, { "SYSTEM_MERS", "mers" } }).SetName("Starts with set");
                 yield return new TestCaseData(new List<JourneyStep>
                 {
                     new JourneyStep { QuestionId = "PW975.10600", Answer = new Answer { Order = 1 } },
