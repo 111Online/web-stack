@@ -108,5 +108,12 @@ namespace NHS111.Models.Test.Models.Web.Validators
             var sut = new UserInfoValidator();
             Assert.IsFalse(sut.Validate(PopulateUserInfoTelephone(string.Empty)).IsValid);
         }
+
+        [Test]
+        public void UserInfoValidator_TelephoneNumber_WithHyphen_returns_false()
+        {
+            var sut = new UserInfoValidator();
+            Assert.IsFalse(sut.Validate(PopulateUserInfoTelephone("0207-00101")).IsValid);
+        }
     }
 }

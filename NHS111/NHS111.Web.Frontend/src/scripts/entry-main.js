@@ -1,10 +1,7 @@
-import './vendor/jquery.cookie.js'
-import './vendor/jquery.validate.js'
-import './vendor/jquery.validate.unobtrusive.js'
-import './vendor/jquery.unobtrusive-ajax.js'
+import 'jquery-validation' 
+import 'jquery-validation-unobtrusive'
+import 'jquery-ajax-unobtrusive'
 
-//global.validation = require('./validation')
-//global.geolocation = require('./geolocation')
 
 import './jquery-validation.js'
 import './jquery-feedback.js'

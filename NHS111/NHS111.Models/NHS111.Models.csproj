@@ -216,6 +216,7 @@
     <Compile Include="Models\Domain\VersionInfo.cs" />
     <Compile Include="Models\Web\AgeGenderViewModel.cs" />
     <Compile Include="Models\Web\ApplicationMedium.cs" />
+    <Compile Include="Models\Web\ChangePostcodeViewModel.cs" />
     <Compile Include="Models\Web\DetailsViewModel.cs" />
     <Compile Include="Models\Web\Elements\ActionLinkViewModel.cs" />
     <Compile Include="Models\Web\Elements\ButtonViewModel.cs" />
@@ -335,6 +336,7 @@
     <Compile Include="Models\Web\Validators\JourneyViewModelValidator.cs" />
     <Compile Include="Models\Web\Validators\LocationInfoViewModelValidator.cs" />
     <Compile Include="Models\Web\Validators\PatientInformantViewModelValidator.cs" />
+    <Compile Include="Models\Web\Validators\PersonalInfoHomeAddressViewModelValidator.cs" />
     <Compile Include="Models\Web\Validators\PersonNameValidator.cs" />
     <Compile Include="Models\Web\Validators\QuestionViewModelValidator.cs" />
     <Compile Include="Models\Web\Validators\RuleBuilderExtensions\RuleBuilderExtensions.cs" />
@@ -345,7 +347,7 @@
     <Compile Include="Models\Web\Validators\AgeGenderViewModelValidator.cs" />
     <Compile Include="Models\Web\Validators\AgeMinimumValidator.cs" />
     <Compile Include="Models\Web\Validators\DateOfBirthValidator.cs" />
-    <Compile Include="Models\Web\Validators\PersonalInfoAddressViewModelValidator.cs" />
+    <Compile Include="Models\Web\Validators\PersonalInfoCurrentAddressViewModelValidator.cs" />
     <Compile Include="Models\Web\Validators\PostCodeFormatValidator.cs" />
     <Compile Include="Models\Web\Validators\SearchJourneyViewModelValidator.cs" />
     <Compile Include="Models\Web\Validators\UserInfoValidator.cs" />

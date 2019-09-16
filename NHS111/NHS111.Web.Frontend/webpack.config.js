@@ -1,4 +1,5 @@
-const UglifyJSPlugin = require('uglifyjs-webpack-plugin')
+const UglifyJSPlugin = require('uglifyjs-webpack-plugin'),
+    webpack = require('webpack')
 
 
 module.exports = {
@@ -12,7 +13,13 @@ module.exports = {
         filename: '[name].js'
     },
     plugins: [
-        new UglifyJSPlugin({ sourceMap: true })
+        new UglifyJSPlugin({ sourceMap: true }),
+        new webpack.optimize.CommonsChunkPlugin({
+          name: "common",
+          filename: "common.js",
+          minChunks: 2,
+          chunks: ["bundle-head", "bundle", "bundle-polyfills"] // Excludes map so that can be imported on its own.
+        })
     ],
     module: {
         rules: [
