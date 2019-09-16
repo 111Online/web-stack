@@ -1,12 +1,7 @@
 {
   "name": "nhs-111",
-  "version": "0.2.1",
-  "description": "NHS 111 online - forked from nhsuk-frontend 0.2.1",
-  "main": "./src/components/index.js",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/nhsuk/frontend.git"
-  },
+  "version": "4.10.0",
+  "description": "NHS 111 online",
   "author": "NHS.UK developers",
   "license": "MIT",
   "dependencies": {

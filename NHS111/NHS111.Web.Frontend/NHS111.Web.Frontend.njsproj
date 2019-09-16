@@ -19,63 +19,6 @@
   <PropertyGroup Condition="'$(Configuration)' == 'Debug'" />
   <PropertyGroup Condition="'$(Configuration)' == 'Release'" />
   <ItemGroup>
-    <Compile Include="src\assets\images\icons\map-postcode-marker.svg">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="src\js\geolocation.js">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="src\js\entry-head.js">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="src\js\entry-main.js">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="src\js\entry-polyfills.js">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="src\js\jquery-service-details.js" />
-    <Compile Include="src\js\jquery-feedback.js">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="src\js\entry-map.js">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="src\js\jquery-cards.js">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="src\js\jquery-validation.js">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="src\js\test-geolocation.js">
-      <TestFramework>Mocha</TestFramework>
-    </Compile>
-    <Compile Include="src\js\test-validation.js" />
-    <Compile Include="src\js\validation.js" />
-    <Compile Include="src\js\vendor\details.min.js">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="src\js\vendor\jquery.cookie.js">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="src\js\vendor\jquery.unobtrusive-ajax.js">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="src\js\vendor\jquery.validate.js">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="src\js\vendor\jquery.validate.unobtrusive.js">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="src\js\vendor\modernizr-custom.min.js">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="src\js\vendor\ospoint.js">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="src\js\vendor\spin.js">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="webpack.config.js">
       <SubType>Code</SubType>
     </Compile>
@@ -87,23 +30,18 @@
     <Content Include="package.json" />
     <Content Include="README.md" />
     <Compile Include="gulpfile.js" />
-    <Compile Include="fractal\create-redirect.js" />
-    <Compile Include="fractal\theme\index.js" />
-    <Content Include="fractal\theme\assets\theme.css" />
-    <Content Include="fractal\theme\assets\nhs-logotype-blue.svg" />
     <Content Include="src\assets\images\app-panel\app_store_badge_US-UK_135x40.svg" />
     <Content Include="src\assets\images\app-panel\ask_nhs_app_icon.png" />
     <Content Include="src\assets\images\app-panel\google_play_badge.png" />
     <Content Include="src\assets\images\app-panel\nhs_111_app_icon.png" />
     <Content Include="src\assets\images\apple-touch-icon.png" />
-    <Content Include="src\assets\images\favicon.png" />
+    <Content Include="src\assets\images\favicon-228.png" />
+    <Content Include="src\assets\images\favicon-32.png" />
     <Content Include="src\assets\images\icons\arrow--blue.svg" />
     <Content Include="src\assets\images\icons\arrow--white.svg" />
     <Content Include="src\assets\images\icons\icon-button-next.svg" />
     <Content Include="src\assets\images\icons\icon-button-prev.svg" />
-    <Content Include="src\assets\images\icons\icon-close.svg">
-      <SubType>Code</SubType>
-    </Content>
+    <Content Include="src\assets\images\icons\icon-close.svg" />
     <Content Include="src\assets\images\icons\icon_info.png" />
     <Content Include="src\assets\images\icons\map-pointers\fac-map-1.png" />
     <Content Include="src\assets\images\icons\map-pointers\fac-map-10.png" />
@@ -115,6 +53,7 @@
     <Content Include="src\assets\images\icons\map-pointers\fac-map-7.png" />
     <Content Include="src\assets\images\icons\map-pointers\fac-map-8.png" />
     <Content Include="src\assets\images\icons\map-pointers\fac-map-9.png" />
+    <Content Include="src\assets\images\icons\map-postcode-marker.svg" />
     <Content Include="src\assets\images\icons\warning-blue.png" />
     <Content Include="src\assets\images\icons\warning-white.png" />
     <Content Include="src\assets\images\icons\warning.png" />
@@ -122,176 +61,178 @@
     <Content Include="src\assets\images\nhs-logotype-footer.svg" />
     <Content Include="src\assets\images\nhs-rev-logotype.svg" />
     <Content Include="src\assets\images\opengraph-image.png" />
-    <Content Include="src\codebase\components\app-panel\app-panel.njk" />
-    <Content Include="src\codebase\components\app-panel\_app-panel.scss" />
-    <Content Include="src\codebase\components\button\button.config.yaml" />
-    <Content Include="src\codebase\components\button\button.njk" />
-    <Content Include="src\codebase\components\button\_button.scss" />
-    <Content Include="src\codebase\components\callout\callout.config.yaml" />
-    <Content Include="src\codebase\components\callout\callout.njk" />
-    <Content Include="src\codebase\components\callout\_callout.scss" />
-    <Content Include="src\codebase\components\service-details\service-details.config.yaml" />
-    <Content Include="src\codebase\components\service-details\service-details.njk" />
-    <Content Include="src\codebase\components\service-details\_service-details.scss" />
-    <Content Include="src\codebase\components\card\card.config.yaml" />
-    <Content Include="src\codebase\components\card\card.njk" />
-    <Content Include="src\codebase\components\card\_card.scss" />
-    <Content Include="src\codebase\components\feedback\feedback.njk" />
-    <Content Include="src\codebase\components\feedback\_feedback.scss" />
-    <Content Include="src\codebase\components\forms\forms-example.njk" />
-    <Content Include="src\codebase\components\forms\multiple-choice.config.yaml" />
-    <Content Include="src\codebase\components\forms\multiple-choice.njk" />
-    <Content Include="src\codebase\components\forms\multiple-choice.scss" />
-    <Content Include="src\codebase\components\forms\_form-label.scss" />
-    <Content Include="src\codebase\components\forms\_form-textbox.scss" />
-    <Content Include="src\codebase\components\forms\_preview.njk" />
-    <Content Include="src\codebase\components\grid\grid.config.yaml" />
-    <Content Include="src\codebase\components\grid\_grid.njk" />
-    <Content Include="src\codebase\components\grid\_grid.scss" />
-    <Content Include="src\codebase\components\grid\_preview.njk" />
-    <Content Include="src\codebase\components\link-list\link-list.config.yaml" />
-    <Content Include="src\codebase\components\link-list\link-list.njk" />
-    <Content Include="src\codebase\components\link-list\_link-list.scss" />
-    <Content Include="src\codebase\components\loading\loading.njk" />
-    <Content Include="src\codebase\components\loading\_loading.scss" />
-    <Content Include="src\codebase\components\local-header\local-header.config.yaml" />
-    <Content Include="src\codebase\components\local-header\local-header.njk" />
-    <Content Include="src\codebase\components\local-header\_local-header.scss" />
-    <Content Include="src\codebase\components\location\location.config.yaml" />
-    <Content Include="src\codebase\components\location\location.njk" />
-    <Content Include="src\codebase\components\location\_location.scss" />
-    <Content Include="src\codebase\components\map\map.njk" />
-    <Content Include="src\codebase\components\map\_map.scss" />
-    <Content Include="src\codebase\components\phase-banner\phase-banner.njk">
-      <SubType>Code</SubType>
-    </Content>
-    <Content Include="src\codebase\components\phase-banner\phase-banner.scss">
-      <SubType>Code</SubType>
-    </Content>
-    <Content Include="src\codebase\components\reveal\reveal.config.yaml" />
-    <Content Include="src\codebase\components\reveal\reveal.njk" />
-    <Content Include="src\codebase\components\_cookie-banner.scss" />
-    <Content Include="src\codebase\components\_global-footer.scss" />
-    <Content Include="src\codebase\components\_global-header.scss" />
-    <Content Include="src\codebase\components\_index.scss" />
-    <Content Include="src\codebase\components\_notification-banner.scss" />
-    <Content Include="src\codebase\components\_preview.njk" />
-    <Content Include="src\codebase\components\_search.scss">
-      <SubType>Code</SubType>
-    </Content>
-    <Content Include="src\codebase\components\_skiplinks.scss" />
-    <Content Include="src\codebase\environment\generic\_border-box.scss" />
-    <Content Include="src\codebase\environment\generic\_index.scss" />
-    <Content Include="src\codebase\environment\generic\_reset.scss" />
-    <Content Include="src\codebase\environment\generic\_shared.scss" />
-    <Content Include="src\codebase\environment\generic\_utilities.scss" />
-    <Content Include="src\codebase\environment\settings\_colours.scss" />
-    <Content Include="src\codebase\environment\settings\_globals.scss" />
-    <Content Include="src\codebase\environment\settings\_index.scss" />
-    <Content Include="src\codebase\environment\settings\_layout.scss" />
-    <Content Include="src\codebase\environment\settings\_typography.scss" />
-    <Content Include="src\codebase\environment\tools\functions\_colour.scss" />
-    <Content Include="src\codebase\environment\tools\functions\_index.scss" />
-    <Content Include="src\codebase\environment\tools\functions\_typography.scss" />
-    <Content Include="src\codebase\environment\tools\mixins\_addons.scss" />
-    <Content Include="src\codebase\environment\tools\mixins\_button.scss" />
-    <Content Include="src\codebase\environment\tools\mixins\_conditionals.scss" />
-    <Content Include="src\codebase\environment\tools\mixins\_index.scss" />
-    <Content Include="src\codebase\environment\tools\mixins\_layout.scss" />
-    <Content Include="src\codebase\environment\tools\mixins\_typography.scss" />
-    <Content Include="src\codebase\environment\tools\_index.scss" />
-    <Content Include="src\codebase\environment\_index.scss" />
-    <Content Include="src\codebase\layouts\base-template.config.yaml" />
-    <Content Include="src\codebase\layouts\base-template.njk" />
-    <Content Include="src\codebase\layouts\example pages\clinician-callback.njk" />
-    <Content Include="src\codebase\layouts\example pages\dial-999.njk" />
-    <Content Include="src\codebase\layouts\example pages\homepage.njk" />
-    <Content Include="src\codebase\layouts\example pages\initial-question.njk" />
-    <Content Include="src\codebase\layouts\example pages\patient-details.njk" />
-    <Content Include="src\codebase\layouts\example pages\question.njk" />
-    <Content Include="src\codebase\layouts\example pages\search-categories.njk" />
-    <Content Include="src\codebase\layouts\example pages\search-symptom.njk" />
-    <Content Include="src\codebase\layouts\example pages\speak-to-your-gp.njk" />
-    <Content Include="src\codebase\layouts\_preview.njk" />
-    <Content Include="src\codebase\nhs-111-print.scss" />
-    <Content Include="src\codebase\nhs-111.scss" />
-    <Content Include="src\codebase\objects\_grid.scss" />
-    <Content Include="src\codebase\objects\_index.scss" />
-    <Content Include="src\codebase\objects\_page-section.scss" />
-    <Content Include="src\codebase\units\_details.scss" />
-    <Content Include="src\codebase\units\_figure.scss" />
-    <Content Include="src\codebase\units\_form.scss" />
-    <Content Include="src\codebase\units\_heading.scss" />
-    <Content Include="src\codebase\units\_hr.scss" />
-    <Content Include="src\codebase\units\_icons.scss" />
-    <Content Include="src\codebase\units\_image.scss" />
-    <Content Include="src\codebase\units\_index.scss" />
-    <Content Include="src\codebase\units\_inline.scss" />
-    <Content Include="src\codebase\units\_link.scss" />
-    <Content Include="src\codebase\units\_list.scss" />
-    <Content Include="src\codebase\units\_main.scss" />
-    <Content Include="src\codebase\units\_panel.scss" />
-    <Content Include="src\codebase\units\_paragraph.scss" />
-    <Content Include="src\codebase\units\_quote.scss" />
-    <Content Include="src\codebase\units\_table.scss" />
-    <Content Include="src\docs\functions.md" />
-    <Content Include="src\docs\code-quality.md">
-      <SubType>Code</SubType>
-    </Content>
-    <Content Include="src\docs\index.md" />
-    <Content Include="src\docs\integration.md" />
-    <Content Include="src\docs\mixins.md" />
-    <Content Include="src\templates\nhsuk-base.njk" />
+    <Content Include="src\scripts\entry-head.js" />
+    <Content Include="src\scripts\entry-main.js" />
+    <Content Include="src\scripts\entry-map.js" />
+    <Content Include="src\scripts\entry-polyfills.js" />
+    <Content Include="src\scripts\geolocation.js" />
+    <Content Include="src\scripts\jquery-cards.js" />
+    <Content Include="src\scripts\jquery-feedback.js" />
+    <Content Include="src\scripts\jquery-service-details.js" />
+    <Content Include="src\scripts\jquery-validation.js" />
+    <Content Include="src\scripts\test-geolocation.js" />
+    <Content Include="src\scripts\test-validation.js" />
+    <Content Include="src\scripts\validation.js" />
+    <Content Include="src\scripts\vendor\details.min.js" />
+    <Content Include="src\scripts\vendor\jquery.cookie.js" />
+    <Content Include="src\scripts\vendor\jquery.unobtrusive-ajax.js" />
+    <Content Include="src\scripts\vendor\jquery.validate.js" />
+    <Content Include="src\scripts\vendor\jquery.validate.unobtrusive.js" />
+    <Content Include="src\scripts\vendor\modernizr-custom.min.js" />
+    <Content Include="src\scripts\vendor\ospoint.js" />
+    <Content Include="src\scripts\vendor\spin.js" />
+    <Content Include="src\styles\components\app-panel\app-panel.njk" />
+    <Content Include="src\styles\components\app-panel\_app-panel.scss" />
+    <Content Include="src\styles\components\button\button.config.yaml" />
+    <Content Include="src\styles\components\button\button.njk" />
+    <Content Include="src\styles\components\button\_button.scss" />
+    <Content Include="src\styles\components\callout\callout.config.yaml" />
+    <Content Include="src\styles\components\callout\callout.njk" />
+    <Content Include="src\styles\components\callout\_callout.scss" />
+    <Content Include="src\styles\components\card\card.config.yaml" />
+    <Content Include="src\styles\components\card\card.njk" />
+    <Content Include="src\styles\components\card\_card.scss" />
+    <Content Include="src\styles\components\feedback\feedback.njk" />
+    <Content Include="src\styles\components\feedback\_feedback.scss" />
+    <Content Include="src\styles\components\forms\forms-example.njk" />
+    <Content Include="src\styles\components\forms\multiple-choice.config.yaml" />
+    <Content Include="src\styles\components\forms\multiple-choice.njk" />
+    <Content Include="src\styles\components\forms\multiple-choice.scss" />
+    <Content Include="src\styles\components\forms\_form-label.scss" />
+    <Content Include="src\styles\components\forms\_form-textbox.scss" />
+    <Content Include="src\styles\components\forms\_preview.njk" />
+    <Content Include="src\styles\components\grid\grid.config.yaml" />
+    <Content Include="src\styles\components\grid\_grid.njk" />
+    <Content Include="src\styles\components\grid\_grid.scss" />
+    <Content Include="src\styles\components\grid\_preview.njk" />
+    <Content Include="src\styles\components\link-list\link-list.config.yaml" />
+    <Content Include="src\styles\components\link-list\link-list.njk" />
+    <Content Include="src\styles\components\link-list\_link-list.scss" />
+    <Content Include="src\styles\components\loading\loading.njk" />
+    <Content Include="src\styles\components\loading\_loading.scss" />
+    <Content Include="src\styles\components\local-header\local-header.config.yaml" />
+    <Content Include="src\styles\components\local-header\local-header.njk" />
+    <Content Include="src\styles\components\local-header\_local-header.scss" />
+    <Content Include="src\styles\components\location\location.config.yaml" />
+    <Content Include="src\styles\components\location\location.njk" />
+    <Content Include="src\styles\components\location\_location.scss" />
+    <Content Include="src\styles\components\map\map.njk" />
+    <Content Include="src\styles\components\map\_map.scss" />
+    <Content Include="src\styles\components\phase-banner\phase-banner.njk" />
+    <Content Include="src\styles\components\phase-banner\phase-banner.scss" />
+    <Content Include="src\styles\components\reveal\reveal.config.yaml" />
+    <Content Include="src\styles\components\reveal\reveal.njk" />
+    <Content Include="src\styles\components\service-details\service-details.config.yaml" />
+    <Content Include="src\styles\components\service-details\service-details.njk" />
+    <Content Include="src\styles\components\service-details\_service-details.scss" />
+    <Content Include="src\styles\components\_cookie-banner.scss" />
+    <Content Include="src\styles\components\_cssgraph\cssgraph.njk" />
+    <Content Include="src\styles\components\_cssgraph\example.js" />
+    <Content Include="src\styles\components\_cssgraph\index.html" />
+    <Content Include="src\styles\components\_cssgraph\specificity-graph-standalone.js" />
+    <Content Include="src\styles\components\_cssgraph\specificity.js" />
+    <Content Include="src\styles\components\_cssgraph\specificity.json" />
+    <Content Include="src\styles\components\_global-footer.scss" />
+    <Content Include="src\styles\components\_global-header.scss" />
+    <Content Include="src\styles\components\_index.scss" />
+    <Content Include="src\styles\components\_jschart\jschart.njk" />
+    <Content Include="src\styles\components\_notification-banner.scss" />
+    <Content Include="src\styles\components\_preview.njk" />
+    <Content Include="src\styles\components\_search.scss" />
+    <Content Include="src\styles\components\_skiplinks.scss" />
+    <Content Include="src\styles\environment\generic\_border-box.scss" />
+    <Content Include="src\styles\environment\generic\_index.scss" />
+    <Content Include="src\styles\environment\generic\_reset.scss" />
+    <Content Include="src\styles\environment\generic\_shared.scss" />
+    <Content Include="src\styles\environment\generic\_utilities.scss" />
+    <Content Include="src\styles\environment\settings\_colours.scss" />
+    <Content Include="src\styles\environment\settings\_globals.scss" />
+    <Content Include="src\styles\environment\settings\_index.scss" />
+    <Content Include="src\styles\environment\settings\_layout.scss" />
+    <Content Include="src\styles\environment\settings\_typography.scss" />
+    <Content Include="src\styles\environment\tools\functions\_colour.scss" />
+    <Content Include="src\styles\environment\tools\functions\_index.scss" />
+    <Content Include="src\styles\environment\tools\functions\_typography.scss" />
+    <Content Include="src\styles\environment\tools\mixins\_addons.scss" />
+    <Content Include="src\styles\environment\tools\mixins\_button.scss" />
+    <Content Include="src\styles\environment\tools\mixins\_conditionals.scss" />
+    <Content Include="src\styles\environment\tools\mixins\_index.scss" />
+    <Content Include="src\styles\environment\tools\mixins\_layout.scss" />
+    <Content Include="src\styles\environment\tools\mixins\_typography.scss" />
+    <Content Include="src\styles\environment\tools\_index.scss" />
+    <Content Include="src\styles\environment\_index.scss" />
+    <Content Include="src\styles\layouts\base-template.config.yaml" />
+    <Content Include="src\styles\layouts\base-template.njk" />
+    <Content Include="src\styles\layouts\example pages\clinician-callback.njk" />
+    <Content Include="src\styles\layouts\example pages\dial-999.njk" />
+    <Content Include="src\styles\layouts\example pages\homepage.njk" />
+    <Content Include="src\styles\layouts\example pages\initial-question.njk" />
+    <Content Include="src\styles\layouts\example pages\patient-details.njk" />
+    <Content Include="src\styles\layouts\example pages\question.njk" />
+    <Content Include="src\styles\layouts\example pages\search-categories.njk" />
+    <Content Include="src\styles\layouts\example pages\search-symptom.njk" />
+    <Content Include="src\styles\layouts\example pages\speak-to-your-gp.njk" />
+    <Content Include="src\styles\layouts\_preview.njk" />
+    <Content Include="src\styles\nhs-111-print.scss" />
+    <Content Include="src\styles\nhs-111.scss" />
+    <Content Include="src\styles\objects\_grid.scss" />
+    <Content Include="src\styles\objects\_index.scss" />
+    <Content Include="src\styles\objects\_page-section.scss" />
+    <Content Include="src\styles\units\_details.scss" />
+    <Content Include="src\styles\units\_figure.scss" />
+    <Content Include="src\styles\units\_form.scss" />
+    <Content Include="src\styles\units\_heading.scss" />
+    <Content Include="src\styles\units\_hr.scss" />
+    <Content Include="src\styles\units\_icons.scss" />
+    <Content Include="src\styles\units\_image.scss" />
+    <Content Include="src\styles\units\_index.scss" />
+    <Content Include="src\styles\units\_inline.scss" />
+    <Content Include="src\styles\units\_link.scss" />
+    <Content Include="src\styles\units\_list.scss" />
+    <Content Include="src\styles\units\_main.scss" />
+    <Content Include="src\styles\units\_panel.scss" />
+    <Content Include="src\styles\units\_paragraph.scss" />
+    <Content Include="src\styles\units\_quote.scss" />
+    <Content Include="src\styles\units\_table.scss" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="fractal" />
-    <Folder Include="fractal\theme" />
-    <Folder Include="fractal\theme\assets" />
-    <Folder Include="fractal\theme\scss" />
-    <Folder Include="fractal\theme\views" />
-    <Folder Include="fractal\theme\views\partials" />
     <Folder Include="src\" />
     <Folder Include="src\assets\" />
     <Folder Include="src\assets\images\" />
     <Folder Include="src\assets\images\app-panel\" />
     <Folder Include="src\assets\images\icons\" />
     <Folder Include="src\assets\images\icons\map-pointers\" />
-    <Folder Include="src\codebase\" />
-    <Folder Include="src\codebase\components\" />
-    <Folder Include="src\codebase\components\app-panel\" />
-    <Folder Include="src\js\" />
-    <Folder Include="src\js\vendor\" />
+    <Folder Include="src\scripts\" />
+    <Folder Include="src\scripts\vendor\" />
     <Folder Include="src\styles\" />
     <Folder Include="src\styles\components\" />
     <Folder Include="src\styles\components\app-panel\" />
-    <Folder Include="src\codebase\components\button\" />
-    <Folder Include="src\codebase\components\callout\" />
-    <Folder Include="src\codebase\components\service-details\" />
-    <Folder Include="src\codebase\components\card\" />
-    <Folder Include="src\codebase\components\feedback\" />
-    <Folder Include="src\codebase\components\forms\" />
-    <Folder Include="src\codebase\components\grid\" />
-    <Folder Include="src\codebase\components\link-list\" />
-    <Folder Include="src\codebase\components\loading\" />
-    <Folder Include="src\codebase\components\local-header\" />
-    <Folder Include="src\codebase\components\location\" />
-    <Folder Include="src\codebase\components\map\" />
-    <Folder Include="src\codebase\components\phase-banner\" />
-    <Folder Include="src\codebase\components\reveal\" />
-    <Folder Include="src\codebase\environment\" />
-    <Folder Include="src\codebase\environment\generic\" />
-    <Folder Include="src\codebase\environment\settings\" />
-    <Folder Include="src\codebase\environment\tools\" />
-    <Folder Include="src\codebase\environment\tools\functions\" />
-    <Folder Include="src\codebase\environment\tools\mixins\" />
-    <Folder Include="src\codebase\layouts\" />
-    <Folder Include="src\codebase\layouts\example pages\" />
-    <Folder Include="src\codebase\objects\" />
-    <Folder Include="src\codebase\units\" />
-    <Folder Include="src\docs\" />
-    <Folder Include="src\scripts\" />
-    <Folder Include="src\scripts\vendor\" />
-    <Folder Include="src\templates\" />
+    <Folder Include="src\styles\components\button\" />
+    <Folder Include="src\styles\components\callout\" />
+    <Folder Include="src\styles\components\card\" />
+    <Folder Include="src\styles\components\feedback\" />
+    <Folder Include="src\styles\components\forms\" />
+    <Folder Include="src\styles\components\grid\" />
+    <Folder Include="src\styles\components\link-list\" />
+    <Folder Include="src\styles\components\loading\" />
+    <Folder Include="src\styles\components\local-header\" />
+    <Folder Include="src\styles\components\location\" />
+    <Folder Include="src\styles\components\map\" />
+    <Folder Include="src\styles\components\phase-banner\" />
+    <Folder Include="src\styles\components\reveal\" />
+    <Folder Include="src\styles\components\service-details\" />
+    <Folder Include="src\styles\components\_cssgraph\" />
+    <Folder Include="src\styles\components\_jschart\" />
+    <Folder Include="src\styles\environment\" />
+    <Folder Include="src\styles\environment\generic\" />
+    <Folder Include="src\styles\environment\settings\" />
+    <Folder Include="src\styles\environment\tools\" />
+    <Folder Include="src\styles\environment\tools\functions\" />
+    <Folder Include="src\styles\environment\tools\mixins\" />
+    <Folder Include="src\styles\layouts\" />
+    <Folder Include="src\styles\layouts\example pages\" />
+    <Folder Include="src\styles\objects\" />
+    <Folder Include="src\styles\units\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.Common.targets" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <!--Do not delete the following Import Project.  While this appears to do nothing it is a marker for setting TypeScript properties before our import that depends on them.-->
