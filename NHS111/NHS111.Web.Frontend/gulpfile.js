@@ -1,15 +1,14 @@
-const gulp = require('gulp'),
-    runSequence = require('run-sequence'),
-    del = require('del'),
-    sass = require('gulp-sass'),
-    importOnce = require('node-sass-import-once'),
-    postcss = require('gulp-postcss'),
-    autoprefixer = require('autoprefixer'),
-    cssnano = require('cssnano'),
-    mocha = require('gulp-mocha'),
-    fs = require('fs'),
-    pipedWebpack = require('piped-webpack'),
-    eslint = require('gulp-eslint')
+const gulp = require("gulp"),
+  sass = require("gulp-sass"),
+  importOnce = require("node-sass-import-once"),
+  postcss = require("gulp-postcss"),
+  autoprefixer = require("autoprefixer"),
+  cssnano = require("cssnano"),
+  mocha = require("gulp-mocha"),
+  fs = require("fs"),
+  eslint = require("gulp-eslint"),
+  webpack = require("webpack"),
+  webpackConfig = require("./webpack.config.js")
 
 const paths = {
   srcScripts: `${__dirname}/src/scripts`,
@@ -18,103 +17,106 @@ const paths = {
   dist: `${__dirname}/../NHS111.Web/Content/`
 }
 
-gulp.task('build-if-missing', () => {
-    return fs.readdir(paths.dist, function (err, files) {
-        if (err) {
-            // some sort of error
-        } else {
-            if (!files.length) {
-                return runSequence('build:dist')
-            }
-        }
-    })
+gulp.task("build-if-missing", (done) => {
+  fs.readdir(paths.dist, function(err, files) {
+    if (err) {
+      console.error(err)
+      done()
+    }
+    else {
+      if (!files.length) return gulp.series("build")(done) // Ideally this would call build() but currently we are using gulp.task instead of named functions
+      else done()
+    }
+  })
 })
 
-gulp.task('clean', () => {
-  return runSequence('clean:dist')
-})
-
-gulp.task('clean:dist', () => {
-    return del([`${paths.dist}/`], { force: true })
-})
-
-gulp.task('copy:images', () => {
-  return gulp.src(`${paths.srcImages}/**/*`)
+gulp.task("copy:images", () => {
+  return gulp
+    .src(`${paths.srcImages}/**/*`)
     .pipe(gulp.dest(`${paths.dist}/images`))
 })
 
-gulp.task('lint:styles', () => {
-  const gulpStylelint = require('gulp-stylelint');
-  return gulp.src(`${paths.srcScss}/**/*.scss`)
-    .pipe(gulpStylelint({
+gulp.task("lint:styles", () => {
+  const gulpStylelint = require("gulp-stylelint")
+  return gulp.src(`${paths.srcScss}/**/*.scss`).pipe(
+    gulpStylelint({
       failAfterError: true,
-      reporters: [
-        {formatter: 'string', console: true},
-      ]
-    }))
+      reporters: [{ formatter: "string", console: true }]
+    })
+  )
 })
 
-gulp.task('lint:scripts', () => {
-    return gulp.src([`${paths.srcScripts}/**/*.js`, `!${paths.srcScripts}/vendor/*.js`, '!node_modules/**'])
-        .pipe(eslint())
-        .pipe(eslint.format())
-        .pipe(eslint.failAfterError());
+gulp.task("lint:scripts", () => {
+  return gulp
+    .src([
+      `${paths.srcScripts}/**/*.js`,
+      `!${paths.srcScripts}/vendor/*.js`,
+      "!node_modules/**"
+    ])
+    .pipe(eslint())
+    .pipe(eslint.format())
+    .pipe(eslint.failAfterError())
 })
 
-gulp.task('test:scripts', function() {
-  return gulp.src([`${paths.srcScripts}/test-*.js`])
-    .pipe(mocha({
-      compilers: "js:babel-core/register",
-      reporter: "spec",
-      timeout: 20000
-    }))
-    .once('error', () => {
+gulp.task("test:scripts", function() {
+  return gulp
+    .src([`${paths.srcScripts}/test-*.js`])
+    .pipe(
+      mocha({
+        compilers: "js:babel-core/register",
+        reporter: "spec",
+        timeout: 20000
+      })
+    )
+    .once("error", () => {
       process.exit(1)
     })
-    .once('end', () => {
+    .once("end", () => {
       process.exit()
     })
 })
 
-gulp.task('compile:styles:dist', () => {
-  return gulp.src(`${paths.srcScss}/*.scss`)
-    .pipe(sass({
-      importer: importOnce,
-      importOnce: {
-        index: true,
-        css: true
-      }
-    }).on('error', (err) => {
-      sass.logError.call(this, err)
-      process.exit(1)
-    }))
+gulp.task("compile:styles", () => {
+  return gulp
+    .src(`${paths.srcScss}/*.scss`)
+    .pipe(
+      sass({
+        importer: importOnce,
+        importOnce: {
+          index: true,
+          css: true
+        }
+      }).on("error", err => {
+        sass.logError.call(this, err)
+        process.exit(1)
+      })
+    )
     .pipe(postcss([autoprefixer(), cssnano()]))
     .pipe(gulp.dest(`${paths.dist}/css`))
 })
 
-
-gulp.task('compile:scripts', () => {
-    return gulp.src([])
-               .pipe(pipedWebpack(require('./webpack.config.js')))
-               .pipe(gulp.dest(`${paths.dist}/js`))
-});
-
-gulp.task('build', cb => {
-  runSequence(
-    'copy:images', 'compile:styles:dist', 'compile:scripts',
-    cb
-  )
+gulp.task("compile:scripts", () => {
+  return new Promise((resolve, reject) => {
+    webpack(webpackConfig, (err, stats) => {
+      if (err) {
+        return reject(err)
+      }
+      if (stats.hasErrors()) {
+        return reject(new Error(stats.compilation.errors.join("\n")))
+      }
+      resolve()
+    })
+  })
 })
 
-gulp.task('watch', function () {
-  return gulp.watch(
-    [
-      `${paths.srcScss}/**/*.scss`,
-      `${paths.srcScripts}/**/*.js`
-    ],
-    ['build']
-  )
+gulp.task("build", gulp.series("compile:styles", "compile:scripts", "copy:images"))
+
+gulp.task("watch", function() {
+  // These watches use globs that (as per gulp docs) cannot be absolute paths therefore does not use the paths object.
+  gulp.watch(`src/styles/**/*.scss`, gulp.parallel("compile:styles"))
+  gulp.watch(`src/scripts/**/*.js`, gulp.parallel("compile:scripts"))
+  gulp.watch(`src/images/**/*`, gulp.parallel("copy:images"))
 })
 
-gulp.task('default', ['build'])
-gulp.task('dev', ['build','watch'])
+gulp.task("default", gulp.series("build"))
+gulp.task("dev", gulp.series("build", "watch"))

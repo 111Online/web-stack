@@ -1,5 +1,6 @@
 const UglifyJSPlugin = require('uglifyjs-webpack-plugin'),
-    webpack = require('webpack')
+    webpack = require('webpack'),
+    path = require("path")
 
 
 module.exports = {
@@ -10,7 +11,8 @@ module.exports = {
         'bundle-map': './src/scripts/entry-map.js'
     },
     output: {
-        filename: '[name].js'
+        filename: '[name].js',
+        path: path.resolve(__dirname, '../NHS111.Web/Content/js/')
     },
     plugins: [
         new UglifyJSPlugin({ sourceMap: true }),
