@@ -4,7 +4,6 @@
     "ecmaVersion": 7,
     "sourceType": "module"
   },
-  "target": "node",
   "rules": {
     "linebreak-style": [ "error", "unix" ]
   }

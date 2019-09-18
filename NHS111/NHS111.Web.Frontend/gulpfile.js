@@ -37,22 +37,22 @@ if (!isProduction) {
       .pipe(eslint.failAfterError())
   })
 
-  gulp.task("test:scripts", function() {
+  gulp.task("test:scripts", function(done) {
     const mocha = require("gulp-mocha")
     return gulp
       .src([`${paths.srcScripts}/test-*.js`])
       .pipe(
         mocha({
-          compilers: "js:babel-core/register",
+          require: '@babel/register',
           reporter: "spec",
           timeout: 20000
         })
       )
       .once("error", () => {
-        process.exit(1)
+        done()
       })
       .once("end", () => {
-        process.exit()
+        done()
       })
   })
 }
