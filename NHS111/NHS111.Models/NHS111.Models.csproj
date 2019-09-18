@@ -238,7 +238,7 @@
     <Compile Include="Models\Web\FromExternalServices\CheckCapacitySummaryResponse.cs" />
     <Compile Include="Models\Web\FromExternalServices\ContactDetails.cs" />
     <Compile Include="Models\Web\FromExternalServices\ServiceType.cs" />
-    <Compile Include="Models\Web\GoogleAnalyticsDataLayerContainer.cs" />
+    <Compile Include="Models\Web\AnalyticsDataLayerContainer.cs" />
     <Compile Include="Models\Web\ITKConfirmationViewModel.cs" />
     <Compile Include="Models\Web\JourneyResultViewModel.cs" />
     <Compile Include="Models\Web\JourneyViewModelEqualityComparer.cs" />
