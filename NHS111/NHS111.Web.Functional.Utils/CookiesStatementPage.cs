@@ -8,8 +8,8 @@ namespace NHS111.Web.Functional.Utils
 
     public class CookiesStatementPage : LayoutPage
     {
-        private const string _cookiesHeaderText = "Cookies";
-        private const string _cookiesParagraphText = "NHS 111 online puts small files (known as ‘cookies’) onto your computer to collect information about how you browse the site.";
+        private const string _cookiesHeaderText = "Cookies on 111.nhs.uk";
+        private const string _cookiesParagraphText = "Cookies are small files saved on your phone, tablet or computer when you visit a website.";
 
         [FindsBy(How = How.CssSelector, Using = "main[id='content'] > div.cookies > h1")]
         public IWebElement CookiesHeader { get; set; }
