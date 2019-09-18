@@ -4,11 +4,60 @@ const gulp = require("gulp"),
   postcss = require("gulp-postcss"),
   autoprefixer = require("autoprefixer"),
   cssnano = require("cssnano"),
-  mocha = require("gulp-mocha"),
   fs = require("fs"),
-  eslint = require("gulp-eslint"),
   webpack = require("webpack"),
   webpackConfig = require("./webpack.config.js")
+
+const isProduction = process.env.NODE_ENV === 'production'
+
+// Development tasks
+
+if (!isProduction) {
+  
+  gulp.task("lint:styles", () => {
+    const gulpStylelint = require("gulp-stylelint")
+    return gulp.src(`${paths.srcScss}/**/*.scss`).pipe(
+      gulpStylelint({
+        failAfterError: true,
+        reporters: [{ formatter: "string", console: true }]
+      })
+    )
+  })
+
+  gulp.task("lint:scripts", () => {
+    const eslint = require("gulp-eslint")
+    return gulp
+      .src([
+        `${paths.srcScripts}/**/*.js`,
+        `!${paths.srcScripts}/vendor/*.js`,
+        "!node_modules/**"
+      ])
+      .pipe(eslint())
+      .pipe(eslint.format())
+      .pipe(eslint.failAfterError())
+  })
+
+  gulp.task("test:scripts", function() {
+    const mocha = require("gulp-mocha")
+    return gulp
+      .src([`${paths.srcScripts}/test-*.js`])
+      .pipe(
+        mocha({
+          compilers: "js:babel-core/register",
+          reporter: "spec",
+          timeout: 20000
+        })
+      )
+      .once("error", () => {
+        process.exit(1)
+      })
+      .once("end", () => {
+        process.exit()
+      })
+  })
+}
+
+// Production tasks
 
 const paths = {
   srcScripts: `${__dirname}/src/scripts`,
@@ -34,46 +83,6 @@ gulp.task("copy:images", () => {
   return gulp
     .src(`${paths.srcImages}/**/*`)
     .pipe(gulp.dest(`${paths.dist}/images`))
-})
-
-gulp.task("lint:styles", () => {
-  const gulpStylelint = require("gulp-stylelint")
-  return gulp.src(`${paths.srcScss}/**/*.scss`).pipe(
-    gulpStylelint({
-      failAfterError: true,
-      reporters: [{ formatter: "string", console: true }]
-    })
-  )
-})
-
-gulp.task("lint:scripts", () => {
-  return gulp
-    .src([
-      `${paths.srcScripts}/**/*.js`,
-      `!${paths.srcScripts}/vendor/*.js`,
-      "!node_modules/**"
-    ])
-    .pipe(eslint())
-    .pipe(eslint.format())
-    .pipe(eslint.failAfterError())
-})
-
-gulp.task("test:scripts", function() {
-  return gulp
-    .src([`${paths.srcScripts}/test-*.js`])
-    .pipe(
-      mocha({
-        compilers: "js:babel-core/register",
-        reporter: "spec",
-        timeout: 20000
-      })
-    )
-    .once("error", () => {
-      process.exit(1)
-    })
-    .once("end", () => {
-      process.exit()
-    })
 })
 
 gulp.task("compile:styles", () => {
