@@ -66,19 +66,6 @@ const paths = {
   dist: `${__dirname}/../NHS111.Web/Content/`
 }
 
-gulp.task("build-if-missing", (done) => {
-  fs.readdir(paths.dist, function(err, files) {
-    if (err) {
-      console.error(err)
-      done()
-    }
-    else {
-      if (!files.length) return gulp.series("build")(done) // Ideally this would call build() but currently we are using gulp.task instead of named functions
-      else done()
-    }
-  })
-})
-
 gulp.task("copy:images", () => {
   return gulp
     .src(`${paths.srcImages}/**/*`)

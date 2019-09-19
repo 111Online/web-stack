@@ -39,7 +39,6 @@
   },
   "scripts": {
     "build": "gulp build",
-    "dev": "gulp dev",
-    "postinstall": "gulp build-if-missing"
+    "dev": "gulp dev"
   }
 }
