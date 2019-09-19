@@ -107,6 +107,9 @@ namespace NHS111.Business.Services
                 {
                     if(!step.Labels.Contains("Question") || (step.Labels.Contains("Question") && answeredQuestions.Any(q => q.QuestionId == step.Question.Id)))
                         filteredJourney.Add(step);
+
+                    if (step.Labels.Contains("Set") && !state.ContainsKey(step.Question.Title))
+                        state.Add(step.Question.Title, "present");
                 }
                 else
                 {
