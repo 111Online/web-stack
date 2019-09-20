@@ -6,14 +6,14 @@
 @inherits NHS111.Web.Views.Shared.SurveyLinkView<EmergencyPrescriptionDuplicateReferralResultViewModel>
 @{
     Layout = "~/Views/Shared/_LayoutNhsUk.cshtml";
-    var tagPrinter = new GoogleTagManagerPrinter(null); //todo this can eventually be moved back out into the layout view where it will always have the ctor param
+    var tagPrinter = new AnalyticsTagPrinter();
 }
 @section Title {
     @Model.PageTitle
 }
 @section HeadTop {
     <script>
-        @tagPrinter.Print(Model.GoogleAnalyticsDataLayer)
+        @tagPrinter.Print(Model.AnalyticsDataLayer)
     </script>
 }
 @{
@@ -26,29 +26,29 @@
 @section FeedbackSection {
     @if (SurveyLinkFeature.IsEnabled)
     {
-        @Html.Partial("_SurveyLink", Model.ItkConfirmationModel.SurveyLink, dataDictionary)
+    @Html.Partial("_SurveyLink", Model.ItkConfirmationModel.SurveyLink, dataDictionary)
     }
     else
     {
-        @Html.Partial("_FeedbackDetails", new FeedbackViewModel() { UserId = Model.ItkConfirmationModel.SessionId.ToString(), PageData = new PageDataViewModel(PageDataViewModel.PageType.Confirmation, Model.ItkConfirmationModel) })
+    @Html.Partial("_FeedbackDetails", new FeedbackViewModel() { UserId = Model.ItkConfirmationModel.SessionId.ToString(), PageData = new PageDataViewModel(PageDataViewModel.PageType.Confirmation, Model.ItkConfirmationModel) })
     }
 }
 <div class="nhsuk-core">
-    
+
     <div class="callout callout--attention measure nhsuk-u-margin-bottom-4">
         <h1 class="h2">
             Your details have already been sent
         </h1>
         @if (Model.OutcomeModel.SelectedService.OnlineDOSServiceType.Equals(OnlineDOSServiceType.Callback))
         {
-            <p style="margin: 0;">
-                If you haven't had a call within @WebUtility.HtmlDecode(Model.ItkConfirmationModel.WaitTimeText), call 111.
-            </p>
+        <p style="margin: 0;">
+            If you haven't had a call within @WebUtility.HtmlDecode(Model.ItkConfirmationModel.WaitTimeText), call 111.
+        </p>
         }
     </div>
-    
+
     @if (Model.OutcomeModel.SelectedService.OnlineDOSServiceType.Equals(OnlineDOSServiceType.ReferRingAndGo))
     {
-        @Html.Partial("_Refer_And_Go", Model.ItkConfirmationModel)
+    @Html.Partial("_Refer_And_Go", Model.ItkConfirmationModel)
     }
 </div>

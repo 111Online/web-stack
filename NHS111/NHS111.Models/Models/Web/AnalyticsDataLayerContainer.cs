@@ -5,17 +5,17 @@ namespace NHS111.Models.Models.Web {
     using FromExternalServices;
     using Mappers.WebMappings;
 
-    public abstract class GoogleAnalyticsDataLayerContainer
+    public abstract class AnalyticsDataLayerContainer
         : Dictionary<string, string> {
 
         public static string VirtualPageUrlKey = "virtualPageUrl";
         public static string VirtualPageTitleKey = "virtualPageTitle";
     }
 
-    public abstract class ReferralResultGoogleAnalyticsDataLayer
-        : GoogleAnalyticsDataLayerContainer {
+    public abstract class ReferralResultAnalyticsDataLayer
+        : AnalyticsDataLayerContainer {
 
-        protected ReferralResultGoogleAnalyticsDataLayer(ReferralResultViewModel viewModel) {
+        protected ReferralResultAnalyticsDataLayer(ReferralResultViewModel viewModel) {
             this[VirtualPageUrlKey] = FormatUrl(viewModel);
             this[VirtualPageTitleKey] = VirtualPageTitle;
         }
@@ -42,40 +42,40 @@ namespace NHS111.Models.Models.Web {
         }
     }
 
-    public class ReferralConfirmationResultGoogleAnalyticsDataLayer
-        : ReferralResultGoogleAnalyticsDataLayer {
+    public class ReferralConfirmationResultAnalyticsDataLayer
+        : ReferralResultAnalyticsDataLayer {
 
         protected override string VirtualPageTitle { get { return "ITK Confirmation - Success"; } }
 
         protected override string VirtualUrlPageName { get { return "confirmation"; } }
 
-        public ReferralConfirmationResultGoogleAnalyticsDataLayer(ReferralResultViewModel viewModel)
+        public ReferralConfirmationResultAnalyticsDataLayer(ReferralResultViewModel viewModel)
             : base(viewModel) { }
     }
 
-    public class Call999ReferralConfirmationGoogleAnalyticsDataLayer
-        : ReferralConfirmationResultGoogleAnalyticsDataLayer {
+    public class Call999ReferralConfirmationAnalyticsDataLayer
+        : ReferralConfirmationResultAnalyticsDataLayer {
 
         protected override string VirtualPageTitle { get { return "999 ITK Confirmation - Success"; } }
 
-        public Call999ReferralConfirmationGoogleAnalyticsDataLayer(ReferralResultViewModel viewModel)
+        public Call999ReferralConfirmationAnalyticsDataLayer(ReferralResultViewModel viewModel)
             : base(viewModel) { }
     }
 
-    public class AccidentAndEmergencyReferralConfirmationGoogleAnalyticsDataLayer
-        : ReferralConfirmationResultGoogleAnalyticsDataLayer {
+    public class AccidentAndEmergencyReferralConfirmationAnalyticsDataLayer
+        : ReferralConfirmationResultAnalyticsDataLayer {
 
         protected override string VirtualPageTitle { get { return "A&E ITK Confirmation - Success"; } }
 
-        public AccidentAndEmergencyReferralConfirmationGoogleAnalyticsDataLayer(ReferralResultViewModel viewModel)
+        public AccidentAndEmergencyReferralConfirmationAnalyticsDataLayer(ReferralResultViewModel viewModel)
             : base(viewModel) { }
     }
 
-    public class EmergencyPrescriptionReferralConfirmationGoogleAnalyticsDataLayer
-        : ReferralConfirmationResultGoogleAnalyticsDataLayer
+    public class EmergencyPrescriptionReferralConfirmationAnalyticsDataLayer
+        : ReferralConfirmationResultAnalyticsDataLayer
     {
 
-        public EmergencyPrescriptionReferralConfirmationGoogleAnalyticsDataLayer(ReferralResultViewModel viewModel)
+        public EmergencyPrescriptionReferralConfirmationAnalyticsDataLayer(ReferralResultViewModel viewModel)
             : base(viewModel) {
             this[VirtualPageTitleKey] = string.Format("Emergency Prescription {0} ITK Confirmation - Success", viewModel.ItkConfirmationModel.SelectedService.OnlineDOSServiceType.Id);
         }
@@ -83,105 +83,105 @@ namespace NHS111.Models.Models.Web {
         private readonly OnlineDOSServiceType _serviceType;
     }
 
-    public class ReferralFailureResultGoogleAnalyticsDataLayer
-        : ReferralResultGoogleAnalyticsDataLayer {
+    public class ReferralFailureResultAnalyticsDataLayer
+        : ReferralResultAnalyticsDataLayer {
 
         protected override string VirtualPageTitle { get { return "ITK Confirmation - Failure"; } }
 
         protected override string VirtualUrlPageName { get { return "failure"; } }
 
-        public ReferralFailureResultGoogleAnalyticsDataLayer(ReferralResultViewModel viewModel)
+        public ReferralFailureResultAnalyticsDataLayer(ReferralResultViewModel viewModel)
             : base(viewModel) { }
     }
 
-    public class AccidentAndEmergencyReferralFailureGoogleAnalyticsDataLayer
-        : ReferralFailureResultGoogleAnalyticsDataLayer {
+    public class AccidentAndEmergencyReferralFailureAnalyticsDataLayer
+        : ReferralFailureResultAnalyticsDataLayer {
 
         protected override string VirtualPageTitle { get { return "A&E ITK Confirmation - Failure"; } }
 
-        public AccidentAndEmergencyReferralFailureGoogleAnalyticsDataLayer(ReferralResultViewModel viewModel)
+        public AccidentAndEmergencyReferralFailureAnalyticsDataLayer(ReferralResultViewModel viewModel)
             : base(viewModel) { }
     }
 
-    public class Call999ReferralFailureGoogleAnalyticsDataLayer
-        : ReferralFailureResultGoogleAnalyticsDataLayer {
+    public class Call999ReferralFailureAnalyticsDataLayer
+        : ReferralFailureResultAnalyticsDataLayer {
 
         protected override string VirtualPageTitle { get { return "999 ITK Confirmation - Failure"; } }
 
-        public Call999ReferralFailureGoogleAnalyticsDataLayer(ReferralResultViewModel viewModel)
+        public Call999ReferralFailureAnalyticsDataLayer(ReferralResultViewModel viewModel)
             : base(viewModel) { }
     }
 
-    public class DuplicateReferralResultGoogleAnalyticsDataLayer
-        : ReferralResultGoogleAnalyticsDataLayer {
+    public class DuplicateReferralResultAnalyticsDataLayer
+        : ReferralResultAnalyticsDataLayer {
 
         protected override string VirtualPageTitle { get { return "ITK Confirmation - Duplicate Booking"; } }
 
         protected override string VirtualUrlPageName { get { return "failure"; } }
 
-        public DuplicateReferralResultGoogleAnalyticsDataLayer(ReferralResultViewModel viewModel)
+        public DuplicateReferralResultAnalyticsDataLayer(ReferralResultViewModel viewModel)
             : base(viewModel) { }
     }
 
-    public class AccidentAndEmergencyDuplicateReferralGoogleAnalyticsDataLayer
-        : DuplicateReferralResultGoogleAnalyticsDataLayer {
+    public class AccidentAndEmergencyDuplicateReferralAnalyticsDataLayer
+        : DuplicateReferralResultAnalyticsDataLayer {
 
         protected override string VirtualPageTitle { get { return "A&E ITK Confirmation - Duplicate Booking"; } }
 
-        public AccidentAndEmergencyDuplicateReferralGoogleAnalyticsDataLayer(ReferralResultViewModel viewModel)
+        public AccidentAndEmergencyDuplicateReferralAnalyticsDataLayer(ReferralResultViewModel viewModel)
             : base(viewModel) { }
     }
 
-    public class Call999DuplicateReferralGoogleAnalyticsDataLayer
-        : DuplicateReferralResultGoogleAnalyticsDataLayer {
+    public class Call999DuplicateReferralAnalyticsDataLayer
+        : DuplicateReferralResultAnalyticsDataLayer {
 
         protected override string VirtualPageTitle { get { return "999 ITK Confirmation - Duplicate Booking"; } }
 
-        public Call999DuplicateReferralGoogleAnalyticsDataLayer(ReferralResultViewModel viewModel)
+        public Call999DuplicateReferralAnalyticsDataLayer(ReferralResultViewModel viewModel)
             : base(viewModel) { }
     }
 
-    public class EmergencyPrescriptionDuplicateReferralGoogleAnalyticsDataLayer : DuplicateReferralResultGoogleAnalyticsDataLayer
+    public class EmergencyPrescriptionDuplicateReferralAnalyticsDataLayer : DuplicateReferralResultAnalyticsDataLayer
     {
         protected override string VirtualPageTitle { get { return "Emergency prescription ITK Confirmation - Duplicate Booking"; } }
 
-        public EmergencyPrescriptionDuplicateReferralGoogleAnalyticsDataLayer(ReferralResultViewModel viewModel)
+        public EmergencyPrescriptionDuplicateReferralAnalyticsDataLayer(ReferralResultViewModel viewModel)
             : base(viewModel) { }
     }
 
-    public class ServiceUnavailableReferralGoogleAnalyticsDataLayer
-        : ReferralResultGoogleAnalyticsDataLayer {
+    public class ServiceUnavailableReferralAnalyticsDataLayer
+        : ReferralResultAnalyticsDataLayer {
 
         protected override string VirtualPageTitle { get { return "ITK Confirmation - Unavailable"; } }
 
         protected override string VirtualUrlPageName { get { return "serviceUnavailable"; } }
 
-        public ServiceUnavailableReferralGoogleAnalyticsDataLayer(ReferralResultViewModel viewModel)
+        public ServiceUnavailableReferralAnalyticsDataLayer(ReferralResultViewModel viewModel)
             : base(viewModel) { }
     }
 
-    public class AccidentAndEmergencyServiceUnavailableReferralGoogleAnalyticsDataLayer
-        : ServiceUnavailableReferralGoogleAnalyticsDataLayer {
+    public class AccidentAndEmergencyServiceUnavailableReferralAnalyticsDataLayer
+        : ServiceUnavailableReferralAnalyticsDataLayer {
 
         protected override string VirtualPageTitle { get { return "A&E ITK Confirmation - Unavailable"; } }
 
-        public AccidentAndEmergencyServiceUnavailableReferralGoogleAnalyticsDataLayer(ReferralResultViewModel viewModel)
+        public AccidentAndEmergencyServiceUnavailableReferralAnalyticsDataLayer(ReferralResultViewModel viewModel)
             : base(viewModel) { }
     }
 
-    public class Call999ServiceUnavailableReferralGoogleAnalyticsDataLayer
-        : ServiceUnavailableReferralGoogleAnalyticsDataLayer {
+    public class Call999ServiceUnavailableReferralAnalyticsDataLayer
+        : ServiceUnavailableReferralAnalyticsDataLayer {
 
         protected override string VirtualPageTitle { get { return "999 ITK Confirmation - Unavailable"; } }
 
-        public Call999ServiceUnavailableReferralGoogleAnalyticsDataLayer(ReferralResultViewModel viewModel)
+        public Call999ServiceUnavailableReferralAnalyticsDataLayer(ReferralResultViewModel viewModel)
             : base(viewModel) { }
     }
 
-    public class EmergencyPrescriptionServiceUnavailableReferralGoogleAnalyticsDataLayer : ServiceUnavailableReferralGoogleAnalyticsDataLayer
+    public class EmergencyPrescriptionServiceUnavailableReferralAnalyticsDataLayer : ServiceUnavailableReferralAnalyticsDataLayer
     {
         protected override string VirtualPageTitle { get { return "Emergency prescription ITK Confirmation - Unavailable"; } }
 
-        public EmergencyPrescriptionServiceUnavailableReferralGoogleAnalyticsDataLayer(ReferralResultViewModel viewModel) : base(viewModel) { }
+        public EmergencyPrescriptionServiceUnavailableReferralAnalyticsDataLayer(ReferralResultViewModel viewModel) : base(viewModel) { }
     }
 }

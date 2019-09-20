@@ -7,14 +7,14 @@
 @{
     Layout = "~/Views/Shared/_LayoutNhsUk.cshtml";
     Model.ItkConfirmationModel.WorseningCareAdvice.Items.Add(new CareAdviceText { Text = "You don't need to send any further requests for a callback. However, if you feel worse whilst you are waiting, please call 111 now." });
-    var tagPrinter = new GoogleTagManagerPrinter(null); //todo this can eventually be moved back out into the layout view where it will always have the ctor param
+    var tagPrinter = new AnalyticsTagPrinter(); 
 }
 @section Title {
     @Model.PageTitle
 }
 @section HeadTop {
     <script>
-        @tagPrinter.Print(Model.GoogleAnalyticsDataLayer)
+        @tagPrinter.Print(Model.AnalyticsDataLayer)
     </script>
 }
 @{
