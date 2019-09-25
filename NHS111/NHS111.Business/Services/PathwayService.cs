@@ -42,6 +42,12 @@ namespace NHS111.Business.Services
             return pathways.Data;
         }
 
+        public async Task<PathwayMetaData> GetPathwayMetaData(string pathwayId)
+        {
+            var pathways = await _restClient.ExecuteTaskAsync<PathwayMetaData>(new JsonRestRequest(_configuration.GetDomainApiPathwayMetadataUrl(pathwayId), Method.GET));
+            return pathways.Data;
+        }
+
         public async Task<string> GetSymptomGroup(string pathwayNumbers)
         {
             var pathways = await _restClient.ExecuteTaskAsync<string>(new JsonRestRequest(_configuration.GetDomainApiPathwaySymptomGroup(pathwayNumbers), Method.GET));
@@ -73,6 +79,7 @@ namespace NHS111.Business.Services
         Task<IEnumerable<GroupedPathways>> GetGroupedPathways(bool grouped, bool startingOnly);
         Task<IEnumerable<Pathway>> GetPathways(bool grouped, bool startingOnly, string gender, int age);
         Task<Pathway> GetPathway(string pathwayId);
+        Task<PathwayMetaData> GetPathwayMetaData(string pathwayId);
         Task<string> GetSymptomGroup(string pathwayNumbers);
         Task<Pathway> GetIdentifiedPathway(string pathwayNumbers, string gender, int age);
         Task<Pathway> GetIdentifiedPathwayFromTitle(string pathwayTitle, string gender, int age);

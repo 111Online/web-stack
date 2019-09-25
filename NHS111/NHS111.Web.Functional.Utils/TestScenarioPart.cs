@@ -31,9 +31,15 @@ namespace NHS111.Web.Functional.Utils
             return directLink;
         }
       
+        public static LocationPage EPDeeplink(HomePage page)
+        {
+            return page.ClickEPDeeplink();
+        }
+
+      
         public static LocationPage Location(HomePage page)
         {
-            return page.ClickStart() as LocationPage;
+            return page.ClickStart();
         }
 
         public static ModuleZeroPage ModuleZero(LocationPage page, string postcode = "LS177NZ")
@@ -44,6 +50,14 @@ namespace NHS111.Web.Functional.Utils
         public static DemographicsPage Demographics(ModuleZeroPage page)
         {
             return page.ClickNoneApplyButton();
+        }
+        
+        // This should only be used for journeys bypassing search
+        public static QuestionInfoPage QuestionInfo(DemographicsPage page, string gender, int age)
+        {
+            page.SelectSexAndAge(gender, age);
+
+            return page.NextPageDeeplink();
         }
 
         public static SearchPage Search(DemographicsPage page, string gender, int age)

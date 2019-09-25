@@ -10,14 +10,6 @@
 <head>
     @RenderSection("HeadTop", false)
 
-    @{
-        var containerId = ConfigurationManager.AppSettings["GoogleAnalyticsContainerId"];
-
-        var tagPrinter = new GoogleTagManagerPrinter(containerId);
-    }
-
-    @tagPrinter.Print()
-
     <link rel="icon" sizes="32x32" href="/content/images/favicon-32.png">
     <link rel="icon" sizes="228x228" href="/content/images/favicon-228.png">
     <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
@@ -50,6 +42,7 @@
     }
 
 
+    <script src="@NHS111.Web.Helpers.Versioning.GetVersionedUriRef("~/Content/js/common.js")"></script>
     <script>('HTMLDetailsElement' in window) || document.write('<script src="@NHS111.Web.Helpers.Versioning.GetVersionedUriRef("~/Content/js/bundle-polyfills.js")"><\/script>')</script>
     <script src="@NHS111.Web.Helpers.Versioning.GetVersionedUriRef("~/Content/js/bundle-head.js")"></script>
     <!-- Javascript -->
@@ -70,16 +63,9 @@
 </head>
 <body>
 
-    @if (CookieBannerFeature.IsEnabled)
-    {
-        @Html.Partial("_CookieBanner")
-    }
-
     @Html.Partial("_CompatibilityBanner")
 
     @RenderSection("SurveyBanner", false)
-
-    @tagPrinter.PrintNoScript()
 
     <script type="text/javascript">document.body.className = ((document.body.className) ? document.body.className + ' js-enabled' : 'js-enabled');</script>
     <div class="skiplinks" role="banner">
@@ -125,11 +111,12 @@
     @RenderSection("FeedbackSection", false)
     <footer role="contentinfo" class="global-footer">
         <div class="global-footer__inner">
+            <p>This website only stores the cookies that are needed to make it work. Read more about how @Html.ActionLink("we use cookies.", "Cookies", "Help", null, new {id = "cookie-link", target = "_blank"})
+            </p>
             <nav>
                 <ul class="link-list">
-                    <li>@Html.ActionLink("Terms and conditions", "Terms", "Help", null, new { target = "_blank" })</li>
-                    <li>@Html.ActionLink("Privacy statement", "Privacy", "Help", null, new { target = "_blank" })</li>
-                    <li>@Html.ActionLink("Cookies", "Cookies", "Help", null, new { target = "_blank" })</li>
+                    <li>@Html.ActionLink("Privacy statement", "Privacy", "Help", null, new {target = "_blank"})</li>
+                    <li>@Html.ActionLink("Terms and conditions", "Terms", "Help", null, new {target = "_blank"})</li>
                 </ul>
             </nav>
         </div>

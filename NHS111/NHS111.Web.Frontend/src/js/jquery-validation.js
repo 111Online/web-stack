@@ -1,6 +1,6 @@
 
 jQuery.validator.setDefaults({
-    ignore: "[type='hidden']",
+    ignore: "[type='hidden']:not(.validate-hidden)",
     focusInvalid: false,
     showErrors: function (errorMap, errorList) {
         // This is a modified version of validate.unobtrusive's default error summary
@@ -39,7 +39,7 @@ jQuery.validator.setDefaults({
         $(`[name="${$(element).attr("name")}"]`).attr("aria-invalid", "true")
     },
     unhighlight: function (element, errorClass, validClass) {
-        $(element).closest(".form-group").removeClass("form-group-error")
+        $(element).closest(".form-group:not(.form-group-validation-override)").removeClass("form-group-error")
         $(element).siblings(".error-message").removeAttr("role")
         $(element).removeAttr("aria-invalid")
         $(`[name="${$(element).attr("name")}"]`).removeAttr("aria-invalid")
@@ -47,16 +47,40 @@ jQuery.validator.setDefaults({
 })
 
 jQuery(document).ready(function () {
+    // Validation for number only fields
+    var lastKey = null
+    $(".js-validate-number").on("keydown", function (event) {
+      var key = event.key || String.fromCharCode(event.keyCode)
+      // When a key is down, it checks that you aren't typing a letter. This allows numbers and tab/delete etc
+      if (lastKey == "Meta" || lastKey == "Control") return lastKey = key
+      else if (/^[a-zA-Z\D]$/.test(key)) event.preventDefault()
+      return lastKey = key
+    })
+
+    $(".js-validate-number").on("keyup", function (event) {
+      if (lastKey == "Meta" || lastKey == "Control") return lastKey = null
+    })
+
     $("main form").on("submit", function (e) {
+      var firstError = document.querySelector("#personalDetailForm .field-validation-error, #personalDetailForm .form-group-error")
+      if (firstError) {
+        // This is scoped purely to the long personal details page, will work better on some browsers than others
+        firstError.scrollIntoView({
+          "behavior": "smooth",
+          "block": "center"
+        })
+      }
+      else {
         const container = $(".validation-summary-errors")
         $("[role='alert']").removeAttr("role")
         container.show()
         if (container.length) { // if it isn't valid, make sure screenreaders get alerted to the box
-            setTimeout(() => {
-                $(".js-error-list li:first-child a").focus()
-                container.attr("role", "alert").attr("aria-live", "assertive")
-                $("[role='alert']").removeAttr("role").removeAttr("aria-live")
-            }, 100)
+          setTimeout(() => {
+            $(".js-error-list li:first-child a").focus()
+            container.attr("role", "alert").attr("aria-live", "assertive")
+            $("[role='alert']").removeAttr("role").removeAttr("aria-live")
+          }, 100)
         }
+      }
     })
 })

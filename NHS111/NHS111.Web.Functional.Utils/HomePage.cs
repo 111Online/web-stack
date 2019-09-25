@@ -11,13 +11,13 @@ namespace NHS111.Web.Functional.Utils
     public class HomePage : LayoutPage
     {
 
-        [FindsBy(How = How.CssSelector, Using = "nav > ul > li:nth-child(1) > a")]
+        [FindsBy(How = How.CssSelector, Using = "nav > ul > li:nth-child(2) > a")]
         internal IWebElement TermsLink { get; set; }
 
-        [FindsBy(How = How.CssSelector, Using = "nav > ul > li:nth-child(2) > a")]
+        [FindsBy(How = How.CssSelector, Using = "nav > ul > li:nth-child(1) > a")]
         internal IWebElement PrivacyLink { get; set; }
 
-        [FindsBy(How = How.CssSelector, Using = "nav > ul > li:nth-child(3) > a")]
+        [FindsBy(How = How.Id, Using = "cookie-link")]
         internal IWebElement CookiesLink { get; set; }
 
         [FindsBy(How = How.Id, Using = "CurrentPostcode")]
@@ -26,6 +26,9 @@ namespace NHS111.Web.Functional.Utils
         [FindsBy(How = How.ClassName, Using = "button--next")]
         private IWebElement NextButton { get; set; }
         
+        [FindsBy(How = How.CssSelector, Using = "a[href='/emergency-prescription']")]
+        private IWebElement EPDeeplink { get; set; }
+
         public HomePage(IWebDriver driver) : base(driver)
         {
         }
@@ -54,6 +57,12 @@ namespace NHS111.Web.Functional.Utils
                 Driver.Navigate().GoToUrl(uri);
             }
             return this;
+        }
+
+        public LocationPage ClickEPDeeplink()
+        {
+            EPDeeplink.Click();
+            return new LocationPage(Driver);
         }
 
         public LocationPage ClickStart()

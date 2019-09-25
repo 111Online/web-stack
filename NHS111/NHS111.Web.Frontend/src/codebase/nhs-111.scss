@@ -12,40 +12,24 @@
 [class^="nhsuk-"] {
   /* The worst part of current styles is the "lobotomised owl" so for NHS.UK Frontend styles, nuke it. */
   * + * {
-    margin-top: inherit !important;
+    margin-top: inherit !important; /* initial is preferred so it doesn't affect child elements but not available on all browsers */
+    margin-top: initial !important;
   }
-
   /* nhsuk-frontend components */
   @import "node_modules/nhsuk-frontend/packages/core/all";
-
   /* Reinstate border-box everywhere, nhsuk has it set as inherit */
   *, *:after, *:before {
     box-sizing: border-box;
   }
 
-  .button--link {
-    @include nhsuk-font(19);
-    @include nhsuk-link-style-default;
-    display: inline;
-    position: inherit;
-    width: auto;
-  }
-  /* Some specificity hacks are required so nhsuk doesn't override existing classes */
-  .search__button--back {
-    @extend .search__button--back;
-  }
-
-  .callout {
-    @include top-and-bottom();
-  }
-
-  .form-hint {
-    @extend .form-hint;
-  }
+  @import "components/overrides";
   /* nhsuk-frontend components */
   @import "node_modules/nhsuk-frontend/packages/components/action-link/action-link";
+  @import "node_modules/nhsuk-frontend/packages/components/fieldset/fieldset";
   /* Our components that have nhsuk-frontend as a dependency */
   @import "components/service-details";
+  @import "components/personal-details";
+  @import "components/summary-list";
 }
 
 @import "objects";

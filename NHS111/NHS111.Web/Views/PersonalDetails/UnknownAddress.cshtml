@@ -1,0 +1,53 @@
+﻿@using NHS111.Models.Models.Web
+@inherits NHS111.Web.Views.Shared.SurveyLinkView<PersonalDetailViewModel>
+@{
+    Layout = "~/Views/Shared/_LayoutNhsUk.cshtml";
+    var title = (Model.Is999Callback ? "Address Unknown - Call 999" : "Address Unknown - Call 111");
+}
+
+@section Title {
+    @title
+}
+
+@section HeadTop {
+    @{ var url = string.Format("/outcome/{0}/{1}/{2}/itk/personaldetails/unknownaddress/{3}/{4}", Url.Encode(Model.PathwayNo), Url.Encode(Model.OutcomeGroup.Text), Url.Encode(Model.Id), Url.Encode(Model.SelectedServiceId), Url.Encode(Model.SelectedService.Name)); }
+    <script>
+        var pageId = '@Model.Id';
+        dataLayer = [
+            {
+                'virtualPageUrl': '@url',
+                'virtualPageTitle': 'Personal Details - @title'
+            }];
+    </script>
+}
+
+@{
+    var dataDictionary = ViewContext.ViewData;
+    dataDictionary.Add(new KeyValuePair<string, object>("LaunchPage", "unknown-address"));
+}
+
+@section FeedbackSection {
+    @Html.Partial("_FeedbackDetails", new FeedbackViewModel() { UserId = Model.SessionId.ToString(), PageData = new PageDataViewModel(PageDataViewModel.PageType.PersonalDetailsUnknownAddress, Model) })
+}
+
+<div class="nhsuk-core measure">
+    @if (Model.Is999Callback)
+    {
+        <h1 class="heading--alert">Phone 999</h1>
+        <p class="lede">Because you're unable to provide an address, you need to call 999.</p>
+        <p>The 999 operator will ask:</p>
+        <ul>
+            <li>where you are – the area or what's nearby</li>
+            <li>what phone number they can call you back on if you get cut off</li>
+            <li>what's happened</li>
+            <li>more about your symptoms</li>
+        </ul>
+    }
+    else
+    {
+        <h1>Call 111</h1>
+        <p class="lede">Because you're unable to provide an address, you need to call 111.</p>
+        <p>The adviser will ask you some more questions to try and find out your location.</p>
+        <p>You will have to answer questions about your symptoms again.</p>
+    }
+</div>

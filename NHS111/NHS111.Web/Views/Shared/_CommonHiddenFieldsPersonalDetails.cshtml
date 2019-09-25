@@ -1,0 +1,15 @@
+﻿@model NHS111.Models.Models.Web.PersonalDetailViewModel
+
+@Html.HiddenFor(x => Model.PatientInformantDetails.Informant)
+@Html.HiddenFor(x => Model.PatientInformantDetails.SelfName.Forename)
+@Html.HiddenFor(x => Model.PatientInformantDetails.SelfName.Surname)
+@Html.HiddenFor(x => Model.PatientInformantDetails.PatientName.Forename)
+@Html.HiddenFor(x => Model.PatientInformantDetails.PatientName.Surname)
+@Html.HiddenFor(x => Model.PatientInformantDetails.InformantName.Forename)
+@Html.HiddenFor(x => Model.PatientInformantDetails.InformantName.Surname)
+@Html.HiddenFor(x => Model.UserInfo.DoB)
+@Html.HiddenFor(x => Model.UserInfo.Day)
+@Html.HiddenFor(x => Model.UserInfo.Month)
+@Html.HiddenFor(x => Model.UserInfo.Year)
+@Html.HiddenFor(x => Model.UserInfo.TelephoneNumber)
+@Html.HiddenFor(x => Model.SelectedServiceId)

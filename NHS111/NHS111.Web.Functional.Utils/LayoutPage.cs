@@ -57,6 +57,12 @@ namespace NHS111.Web.Functional.Utils
             Assert.IsFalse(Header.Displayed);
         }
 
+        public void VerifyHiddenField(string id, string value)
+        {
+            var field = Driver.FindElement(By.Id(id));
+            Assert.IsTrue(field.GetAttribute("value").Equals(value));
+        }
+
         public string GetUrlWithoutCredentials()
         {
             if (UrlContainsCredentials())

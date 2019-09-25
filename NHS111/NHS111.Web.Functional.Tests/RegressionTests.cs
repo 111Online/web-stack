@@ -25,7 +25,7 @@ namespace NHS111.Web.Functional.Tests
         public void SplitQuestionJourneyThroughEachRoute()
         {
             var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Headache", TestScenerioSex.Male, TestScenerioAgeGroups.Adult);
-            questionPage.VerifyQuestion("Have you hurt your head in the last 7 days?");
+            questionPage.VerifyQuestion("Have you hurt or banged your head in the last 4 weeks?");
             var outcomePage = questionPage
                 .Answer(3)
                 .Answer(3)

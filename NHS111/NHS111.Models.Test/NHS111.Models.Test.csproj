@@ -137,6 +137,7 @@
     <Compile Include="Mappers\WebMappings\FromDosCaseToDosServicesByClinicalTermRequestTests.cs" />
     <Compile Include="Mappers\WebMappings\FromOutcomeViewModelToCaseDetailsConverterTests.cs" />
     <Compile Include="Mappers\WebMappings\FromOutcomeViewModelToDosViewModel.cs" />
+    <Compile Include="Mappers\WebMappings\FromOutcomeViewModelToOtherServicesViewModelTests.cs" />
     <Compile Include="Mappers\WebMappings\FromOutcomeViewModelToSubmitEncounterToServiceRequest.cs" />
     <Compile Include="Mappers\WebMappings\JourneyViewModelMapperTests.cs" />
     <Compile Include="Mappers\WebMappings\StaticTextToHtmlTests.cs" />
@@ -144,6 +145,7 @@
     <Compile Include="Models\Domain\DispositionCodeTests.cs" />
     <Compile Include="Models\Domain\GenderTests.cs" />
     <Compile Include="Models\Configuration\ModZeroJourneysSectionTests.cs" />
+    <Compile Include="Models\Web\AddressInfoViewModelTests.cs" />
     <Compile Include="Models\Web\FromExternalServices\CheckCapacitySummaryResultTests.cs" />
     <Compile Include="Models\Web\FromExternalServices\DosCheckCapacitySummaryResultTests.cs" />
     <Compile Include="Models\Web\FromExternalServices\DosServiceTests.cs" />

@@ -56,6 +56,16 @@ namespace NHS111.Web.Presentation.Builders
                 return JsonConvert.DeserializeObject<List<AddressLocationResult>>(response.Content);
             throw response.ErrorException;
         }
+
+        public async Task<AddressLocationSingleResult> LocationResultByUDPRNBuilder(string udprn)
+        {
+            var response = await _restLocationService.ExecuteTaskAsync<AddressLocationSingleResult>(
+                new RestRequest(_configuration.GetBusinessApiGetAddressByUDPRNUrl(udprn), Method.GET));
+
+            if (response.ResponseStatus == ResponseStatus.Completed)
+                return JsonConvert.DeserializeObject<AddressLocationSingleResult>(response.Content);
+            throw response.ErrorException;
+        }
     }
 
     public interface ILocationResultBuilder
@@ -63,5 +73,6 @@ namespace NHS111.Web.Presentation.Builders
         Task<List<AddressLocationResult>> LocationResultByPostCodeBuilder(string postCode);
         Task<LocationServiceResult<AddressLocationResult>> LocationResultValidatedByPostCodeBuilder(string postCode);
         Task<List<AddressLocationResult>> LocationResultByGeouilder(string longlat);
+        Task<AddressLocationSingleResult> LocationResultByUDPRNBuilder(string udprn);
     }
 }

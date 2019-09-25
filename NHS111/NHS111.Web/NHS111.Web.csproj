@@ -220,6 +220,7 @@
     <Compile Include="Controllers\LocationController.cs" />
     <Compile Include="Controllers\OutcomeController.cs" />
     <Compile Include="Controllers\PathwayController.cs" />
+    <Compile Include="Controllers\PersonalDetailsController.cs" />
     <Compile Include="Controllers\QuestionController.cs" />
     <Compile Include="Controllers\JustToBeSafeController.cs" />
     <Compile Include="Controllers\SearchController.cs" />
@@ -321,7 +322,7 @@
     <Content Include="Views\Shared\_PersonalPostCodeSearch.cshtml" />
     <Content Include="Views\Shared\_FeedbackDetails.cshtml" />
     <Content Include="Views\Shared\_LayoutNhsUK.cshtml" />
-    <Content Include="Views\Outcome\PersonalDetails.cshtml" />
+    <Content Include="Views\PersonalDetails\PersonalDetails.cshtml" />
     <Content Include="Views\Shared\_CommonHiddenFieldsDosViewModel.cshtml" />
     <Content Include="Views\Shared\_CommonHiddenFieldsAddressInfoViewModel.cshtml" />
     <Content Include="Views\Outcome\Confirmation\default\Confirmation.cshtml" />
@@ -443,6 +444,21 @@
     <Content Include="Views\Outcome\Confirmation\Repeat_Prescription\DuplicateReferral.cshtml" />
     <Content Include="Views\Outcome\Confirmation\Repeat_Prescription\ServiceUnavailable.cshtml" />
     <Content Include="Views\Outcome\No_Further_Action.cshtml" />
+    <Content Include="Views\Outcome\Repeat_Prescription\ReferralExplanation.cshtml" />
+    <Content Include="Views\PersonalDetails\CurrentAddress.cshtml" />
+    <Content Include="Views\PersonalDetails\CurrentAddress_Change.cshtml" />
+    <Content Include="Views\PersonalDetails\CheckAtHome.cshtml" />
+    <Content Include="Views\Shared\_CommonHiddenFieldsPersonalDetails.cshtml" />
+    <Content Include="Views\Shared\_CommonHiddenFieldsCurrentAddress.cshtml" />
+    <Content Include="Views\Shared\_CommonHiddenFieldsHomeAddress.cshtml" />
+    <Content Include="Views\PersonalDetails\ConfirmDetails.cshtml" />
+    <Content Include="Views\PersonalDetails\CurrentAddress_ChangePostcode.cshtml" />
+    <Content Include="Views\PersonalDetails\UnknownAddress.cshtml" />
+    <Content Include="Views\PersonalDetails\ManualAddress.cshtml" />
+    <Content Include="Views\PersonalDetails\HomeAddress_Postcode.cshtml" />
+    <Content Include="Views\PersonalDetails\_ChangePostcodeLinks.cshtml" />
+    <Content Include="Views\PersonalDetails\CurrentAddress_NotFound.cshtml" />
+    <Content Include="Views\Outcome\SP_Mental_health.cshtml" />
     <None Include="Web.Development.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

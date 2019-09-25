@@ -82,6 +82,11 @@ namespace NHS111.Web.Functional.Utils
         {
             Assert.AreEqual(referText, ActionLink.Text, string.Format("Possible unexpected service result. Expected '{0}' but was instead '{1}'", referText, ActionLink.Text));
         }
+        public ReferralExplanationPage ClickActionLink()
+        {
+            ActionLink.Click();
+            return new ReferralExplanationPage(Driver);
+        }
 
         public void VerifyNoActionLink()
         {
