@@ -1,7 +1,0 @@
-{%- if href -%}
-<a class="{% for class in class %}{{ class }} {% endfor %}button{% for mod in mods %} button--{{ mod }}{% endfor %}" href="{{ href }}" {%- if id -%}id="{{ id }}"{%- endif -%}>{{ label }}</a>
-{% elseif type %}
-<button type="{{ type }}" class="{% for class in class %}{{ class }} {% endfor %}{% for mod in mods %} button--{{ mod }}{% endfor %}" {%- if id -%}id="{{ id }}"{%- endif -%}>{{ label }}</button>
-{%- else -%}
-<button class="{% for class in class %}{{ class }} {% endfor %}{% for mod in mods %} button--{{ mod }}{% endfor %}"{{ " type=\"submit\"" if submit }}{{ " disabled" if disabled }} {%- if id -%}id="{{ id }}"{%- endif -%}>{{ label }}</button>
-{%- endif -%}

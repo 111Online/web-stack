@@ -1,0 +1,10 @@
+// This file is used only for mocha tests, the babel config for build is in webpack.config.js
+{
+  "presets": [
+      ['@babel/preset-env', {
+        "targets": {
+            "browsers": ["last 2 versions", "ie >= 9"]
+          }
+      }]
+  ]
+}
