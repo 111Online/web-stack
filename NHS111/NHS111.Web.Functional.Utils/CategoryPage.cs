@@ -73,8 +73,7 @@ namespace NHS111.Web.Functional.Utils
         }
 
         public void VerifyTabbingOrder(string topicToSelect) {
-            var feedbackLink = Driver.TabFrom(HeaderLogo);
-            var backLink = Driver.TabFrom(feedbackLink);
+            var backLink = Driver.TabFrom(HeaderLogo);
             var topic = Driver.TabFrom(backLink);
             Assert.IsTrue(topic.Text.Contains(topicToSelect));
             topic.SendKeys(Keys.Enter);
