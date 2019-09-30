@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using System;
+using Newtonsoft.Json;
 using NHS111.Models.Models.Domain;
 using NHS111.Models.Models.Web.Enums;
 
@@ -29,7 +30,12 @@ namespace NHS111.Models.Models.Web.FromExternalServices
 
         public string NodeLabel
         {
-            get { return string.IsNullOrEmpty(QuestionNo) || QuestionNo.StartsWith("TX") ? "Question" : "CareAdvice"; }
+            get
+            {
+                if (QuestionId.StartsWith("PX") && string.IsNullOrEmpty(QuestionNo)) return "Page";
+
+                return string.IsNullOrEmpty(QuestionNo) || QuestionNo.StartsWith("TX") ? "Question" : "CareAdvice";
+            }
         }
 
         public JourneyStep()

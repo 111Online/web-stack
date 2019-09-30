@@ -1,0 +1,40 @@
+input[type="text"],
+input[type="number"],
+.form-textbox {
+  @include core-font(20);
+
+  border: ($baseline-grid-unit / 2) solid $nhs-blue;
+  display: block;
+  max-width: 540px;
+  width: 100%;
+  padding: $baseline-grid-unit;
+
+  &:focus {
+    outline: 3px solid $yellow;
+  }
+}
+
+.form-textbox--small[type] {
+  width: 4em;
+}
+
+.form-textbox[maxlength="1"] {
+  width: 2em;
+}
+
+.form-textbox[maxlength="2"] {
+  width: 3em;
+}
+
+.form-textbox[maxlength="3"] {
+  width: 4em;
+}
+
+.form-textbox[maxlength="4"] {
+  width: 4em;
+}
+
+.form-textbox--postcode {
+  width: 8em !important;
+}
+

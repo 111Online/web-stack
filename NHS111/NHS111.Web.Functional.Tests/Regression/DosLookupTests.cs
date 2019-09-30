@@ -7,7 +7,6 @@ namespace NHS111.Web.Functional.Tests.Regression
     public class DosLookupTests : BaseTests
     {        
         [Test]
-        [Ignore]
         //PT8 via Behaviour Change Tx222027 and Tx222006
         public void Dental_Disposition_Renders_DOSServices()
         {

@@ -1,0 +1,185 @@
+@import "../environment/settings/colours";
+@import "../environment/settings/layout";
+@import "../environment/tools/mixins/typography";
+
+fieldset {
+  border: 0;
+  margin: 0;
+  min-width: 0;
+  padding: 0;
+
+  body:not(:-moz-handler-blocked) & {
+    display: table-cell;
+  }
+}
+
+legend {
+  @include core-font(20);
+
+  color: $black;
+  display: table;
+  padding: 0;
+  width: 100%;
+  // In Webkit, the bottom margin of a legend and the top margin
+  // of the next element don't overlap, which they should. This
+  // addresses that by discarding the top margin of the next element
+  + * {
+    -webkit-margin-top-collapse: separate;
+  }
+
+  + .inline-details  {
+    margin-top: 0;
+  }
+}
+
+textarea {
+  @include core-font(20);
+
+  border: ($baseline-grid-unit / 2) solid $grey-2;
+  display: block; // Remove margin under textarea in Chrome and FF
+  padding: 0 $baseline-grid-unit;
+  width: 100%;
+
+  &:focus {
+    outline: 3px solid $yellow;
+  }
+}
+
+select  {
+  @include core-font(20);
+
+  border: 2px solid RGB(230,230,230);
+  cursor: pointer;
+  display: block;
+  height: 4rem;
+  padding: 0 1rem;
+  max-width: 20em;
+  width: 100%;
+}
+
+
+// Form validation
+// ==========================================================================
+
+.field-validation-valid,
+.validation-summary-valid {
+  display: none;
+}
+
+.field-validation-error,
+.validation-summary-error {
+  display: block;
+}
+
+.form-group--inline {
+  display: inline-block;
+  margin: 0;
+  margin-right: 2em;
+}
+
+// Use .form-group-error to add a red border to the left of a .form-group
+.form-group-error {
+  margin-right: 15px;
+  border-left: 4px solid $error-colour;
+  padding-left: 10px;
+
+  @include media(tablet) {
+    border-left: 5px solid $error-colour;
+    padding-left: $gutter-half;
+  }
+}
+
+// Use .form-control-error to add a red border to .form-control
+.form-control-error,
+[aria-invalid="true"][type],
+.input-validation-error[type],
+.field-validation-error + input[type=text],
+.field-validation-error + input[type=number],
+.form-group-validation-override-error-all .field-validation-error ~ div .form-textbox /* This is so DoB can error all three at once */ {
+  border: 4px solid $error-colour;
+}
+
+
+// Error messages should be red and bold
+.error-message,
+.field-validation-error,
+.form-group-validation-override .field-validation-valid {
+  font-weight: bold;
+  font-size: 19px;
+  color: $error-colour;
+  clear: both;
+  margin: 10px 0;
+  padding: 2px 0;
+}
+
+// If validation override is used it should be to make multiple fields
+// use the same error message.
+.form-group-validation-override.form-group-error .field-validation-valid {
+  display: inherit;
+}
+
+.form-label .error-message,
+.form-label-bold .error-message,
+.form-label .field-validation-error,
+.form-label-bold .field-validation-error {
+  padding-top: 4px;
+  padding-bottom: 0;
+}
+
+// Summary of multiple error messages
+.error-summary {
+
+  // Error summary has a border on all sides
+  border: 4px solid $error-colour;
+  margin-top: $gutter-half;
+  margin-bottom: $gutter-half;
+  padding: $gutter-half 10px;
+
+  @include media(tablet) {
+    border: 5px solid $error-colour;
+    margin-top: $gutter;
+    margin-bottom: $gutter;
+    padding: $gutter-two-thirds $gutter-half $gutter-half;
+  }
+
+  @include ie-lte(6) {
+    zoom: 1;
+  }
+
+  // Use the GOV.UK outline focus style
+  &:focus {
+    outline: 3px solid $focus-colour;
+  }
+
+  .error-summary-heading {
+    margin-top: 0;
+  }
+
+  p {
+    margin-bottom: 10px;
+  }
+
+  .error-summary-list {
+    padding-left: 0;
+
+    li {
+      @include media(tablet) {
+        margin-bottom: 5px;
+      }
+    }
+
+    a {
+      color: $error-colour;
+      font-weight: bold;
+      text-decoration: underline;
+    }
+  }
+}
+
+.form-hint  {
+  @include core-font(20);
+
+  display: block;
+  color: $grey-1;
+  font-weight: normal;
+}

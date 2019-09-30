@@ -1,11 +1,23 @@
 ﻿
+using System.Linq;
+using NHS111.Models.Models.Web;
+
 namespace NHS111.Web.Presentation.Analytics {
     using System.Web;
 
-    public abstract class AnalyticsTagPrinter {
+    public class AnalyticsTagPrinter {
+        public AnalyticsTagPrinter()
+        {
+            DataLayerVariableName = "dataLayer";
+        }
 
-        public abstract HtmlString Print();
+        public HtmlString Print(AnalyticsDataLayerContainer dataLayer)
+        {
+            var values = string.Join(",\n", dataLayer.Select(i => string.Format("'{0}': '{1}'", i.Key, i.Value)));
+            var dataLayerScript = string.Format("{0} = [{{\n{1}\n}}];", DataLayerVariableName, values);
+            return new HtmlString(dataLayerScript);
+        }
 
-        public abstract HtmlString PrintNoScript();
+        public string DataLayerVariableName { get; set; }
     }
 }

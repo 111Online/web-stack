@@ -27,7 +27,7 @@ namespace NHS111.Web.Functional.Tests.Regression
         {
             var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Tiredness (Fatigue)", TestScenerioSex.Male, TestScenerioAgeGroups.Adult);
 
-            questionPage.VerifyQuestion("Have you got a raised temperature now or have you had one at any time since the tiredness started?");
+            questionPage.VerifyQuestion("Have you got a fever right now or had one since the tiredness started?");
             var outcomePage = questionPage
                 .AnswerSuccessiveByOrder(3, 4)
                 .AnswerSuccessiveByOrder(4, 2)
@@ -51,7 +51,7 @@ namespace NHS111.Web.Functional.Tests.Regression
             var outcomePage = questionPage
                 .AnswerSuccessiveNo(3)
                 .Answer(3)
-                .AnswerSuccessiveNo(12)
+                .AnswerSuccessiveNo(13)
                 .Answer<OutcomePage>("Yes");
 
             outcomePage.VerifyOutcome(OutcomePage.BookCallBackText);
@@ -136,8 +136,7 @@ namespace NHS111.Web.Functional.Tests.Regression
             var outcomePage = questionPage
                 .AnswerNo()
                 .Answer(3)
-                .AnswerSuccessiveNo(3)
-                .Answer<OutcomePage>("Yes");
+                .Answer<OutcomePage>("Yes - 1 week or more");
 
             outcomePage.VerifyDispositionCode("Dx06");
 
@@ -153,8 +152,7 @@ namespace NHS111.Web.Functional.Tests.Regression
             var newOutcomePage = newQuestionPage
                 .AnswerNo()
                 .Answer(3)
-                .AnswerSuccessiveNo(3)
-                .Answer<OutcomePage>("Yes");
+                .Answer<OutcomePage>("Yes - 1 week or more");
 
             newOutcomePage.VerifyDispositionCode("Dx35");
         }
@@ -169,7 +167,7 @@ namespace NHS111.Web.Functional.Tests.Regression
                 .AnswerSuccessiveNo(3)
                 .Answer(1)
                 .Answer(3)
-                .AnswerSuccessiveNo(8)
+                .AnswerSuccessiveNo(9)
                 .Answer<OutcomePage>("Yes");
 
             outcomePage.VerifyDispositionCode("Dx11");

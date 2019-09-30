@@ -3,14 +3,14 @@
 @inherits NHS111.Web.Views.Shared.SurveyLinkView<NHS111.Models.Models.Web.ReferralFailureResultViewModel>
 @{
     Layout = "~/Views/Shared/_LayoutNhsUk.cshtml";
-    var tagPrinter = new GoogleTagManagerPrinter(null);
+    var tagPrinter = new AnalyticsTagPrinter();
 }
 @section Title {
     @Model.PageTitle
 }
 @section HeadTop {
     <script>
-        @tagPrinter.Print(Model.GoogleAnalyticsDataLayer)
+        @tagPrinter.Print(Model.AnalyticsDataLayer)
     </script>
 }
 
@@ -24,11 +24,11 @@
 @section FeedbackSection {
     @if (!SurveyLinkFeature.IsEnabled)
     {
-        @Html.Partial("_FeedbackDetails", new FeedbackViewModel() { UserId = Model.OutcomeModel.SessionId.ToString(), PageData = new PageDataViewModel(PageDataViewModel.PageType.BookingFailure, Model.OutcomeModel) })
+    @Html.Partial("_FeedbackDetails", new FeedbackViewModel() { UserId = Model.OutcomeModel.SessionId.ToString(), PageData = new PageDataViewModel(PageDataViewModel.PageType.BookingFailure, Model.OutcomeModel) })
     }
     else
     {
-        @Html.Partial("_SurveyLink", Model.OutcomeModel.SurveyLink, dataDictionary)
+    @Html.Partial("_SurveyLink", Model.OutcomeModel.SurveyLink, dataDictionary)
     }
 }
 
@@ -39,5 +39,5 @@
 </section>
 
 @if (!Model.OutcomeModel.OutcomeGroup.Is999NonUrgent) {
-    @Html.Partial("_CareAdvice", Model.OutcomeModel.CareAdvices, new ViewDataDictionary { { "Title", "What you can do in the meantime" } })
+@Html.Partial("_CareAdvice", Model.OutcomeModel.CareAdvices, new ViewDataDictionary { { "Title", "What you can do in the meantime" } })
 }

@@ -5,6 +5,11 @@
     "sourceType": "module"
   },
   "rules": {
-    "linebreak-style": [ "error", "windows" ]
+    "linebreak-style": [ "error", "unix" ]
+  },
+  "env": {
+    "browser": true,
+    "node": true,
+    "es6": true
   }
 }

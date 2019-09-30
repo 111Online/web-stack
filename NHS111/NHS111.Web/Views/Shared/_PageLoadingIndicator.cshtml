@@ -4,6 +4,40 @@
     </div>
 </div>
 
+<style>
+    @* These keyframes are required by spin.js but the CSS minifier changes their names so this is a workaround that forces the names to be correct for what the JS is looking for. *@
+
+    @@keyframes spinner-line-fade-more {
+        0%, 100% {
+            opacity: 0; /* minimum opacity */
+        }
+
+        1% {
+            opacity: 1;
+        }
+    }
+
+    @@keyframes spinner-line-fade-quick {
+        0%, 39%, 100% {
+            opacity: 0.25; /* minimum opacity */
+        }
+
+        40% {
+            opacity: 1;
+        }
+    }
+
+    @@keyframes spinner-line-fade-default {
+        0%, 100% {
+            opacity: 0.22; /* minimum opacity */
+        }
+
+        1% {
+            opacity: 1;
+        }
+    }
+</style>
+
 <!--Spinner script-->
 <script type="text/javascript">
     var opts = {

@@ -6,7 +6,7 @@ namespace NHS111.Models.Models.Web {
 
     public abstract class BaseViewModel {
         public abstract string PageTitle { get; }
-        public GoogleAnalyticsDataLayerContainer GoogleAnalyticsDataLayer { get; set; }
+        public AnalyticsDataLayerContainer AnalyticsDataLayer { get; set; }
     }
 
 
@@ -29,12 +29,11 @@ namespace NHS111.Models.Models.Web {
         {
             OutcomeModel = outcomeViewModel;
         }
-
         protected string ResolveConfirmationViewByOutcome(OutcomeViewModel outcomeModel)
         {
             //todo:this needs a rethink with a combination of service type / outcome to route to correct page
 
-            if (outcomeModel != null 
+            if (outcomeModel != null
                 && outcomeModel.OutcomeGroup != null
                 && outcomeModel.OutcomeGroup.Equals(Domain.OutcomeGroup.RepeatPrescription))
             {
@@ -45,7 +44,6 @@ namespace NHS111.Models.Models.Web {
         }
     }
 
-
     public class ReferralConfirmationResultViewModel
         : ReferralResultViewModel
     {
@@ -55,10 +53,17 @@ namespace NHS111.Models.Models.Web {
 
         public ReferralConfirmationResultViewModel(ITKConfirmationViewModel itkConfirmationViewModel)
             : base(itkConfirmationViewModel) {
-            GoogleAnalyticsDataLayer = new ReferralConfirmationResultGoogleAnalyticsDataLayer(this);
+            AnalyticsDataLayer = new ReferralConfirmationResultAnalyticsDataLayer(this);
         }
     }
 
+    public class TemporaryReferralDuplicateReferralResultViewModel
+        : ReferralConfirmationResultViewModel {
+        public TemporaryReferralDuplicateReferralResultViewModel(ITKConfirmationViewModel itkConfirmationViewModel) :
+            base(itkConfirmationViewModel) {
+            AnalyticsDataLayer = new DuplicateReferralResultAnalyticsDataLayer(this);
+        }
+    }
 
     public class Call999ReferralConfirmationResultViewModel
         : ReferralConfirmationResultViewModel {
@@ -66,7 +71,7 @@ namespace NHS111.Models.Models.Web {
 
             public Call999ReferralConfirmationResultViewModel(ITKConfirmationViewModel itkConfirmationViewModel)
             : base(itkConfirmationViewModel) {
-            GoogleAnalyticsDataLayer = new Call999ReferralConfirmationGoogleAnalyticsDataLayer(this);
+                AnalyticsDataLayer = new Call999ReferralConfirmationAnalyticsDataLayer(this);
         }
     }
 
@@ -76,7 +81,16 @@ namespace NHS111.Models.Models.Web {
 
         public AccidentAndEmergencyReferralConfirmationResultViewModel(ITKConfirmationViewModel itkConfirmationViewModel)
             : base(itkConfirmationViewModel) {
-            GoogleAnalyticsDataLayer = new AccidentAndEmergencyReferralConfirmationGoogleAnalyticsDataLayer(this);
+            AnalyticsDataLayer = new AccidentAndEmergencyReferralConfirmationAnalyticsDataLayer(this);
+        }
+    }
+
+    public class EmergencyPrescriptionReferralConfirmationResultsViewModel
+        : ReferralConfirmationResultViewModel {
+
+        public EmergencyPrescriptionReferralConfirmationResultsViewModel(ITKConfirmationViewModel itkConfirmationViewModel)
+            : base(itkConfirmationViewModel) {
+            AnalyticsDataLayer = new EmergencyPrescriptionReferralConfirmationAnalyticsDataLayer(this);
         }
     }
 
@@ -89,7 +103,7 @@ namespace NHS111.Models.Models.Web {
 
         public ReferralFailureResultViewModel(ITKConfirmationViewModel itkConfirmationViewModel)
             : base(itkConfirmationViewModel) {
-            GoogleAnalyticsDataLayer = new ReferralFailureResultGoogleAnalyticsDataLayer(this);
+            AnalyticsDataLayer = new ReferralFailureResultAnalyticsDataLayer(this);
         }
     }
 
@@ -99,7 +113,7 @@ namespace NHS111.Models.Models.Web {
 
         public AccidentAndEmergencyReferralFailureResultViewModel(ITKConfirmationViewModel itkConfirmationViewModel)
             : base(itkConfirmationViewModel) {
-            GoogleAnalyticsDataLayer = new AccidentAndEmergencyReferralFailureGoogleAnalyticsDataLayer(this);
+            AnalyticsDataLayer = new AccidentAndEmergencyReferralFailureAnalyticsDataLayer(this);
         }
     }
 
@@ -109,7 +123,7 @@ namespace NHS111.Models.Models.Web {
 
         public Call999ReferralFailureResultViewModel(ITKConfirmationViewModel itkConfirmationViewModel)
             : base(itkConfirmationViewModel) {
-            GoogleAnalyticsDataLayer = new Call999ReferralFailureGoogleAnalyticsDataLayer(this);
+            AnalyticsDataLayer = new Call999ReferralFailureAnalyticsDataLayer(this);
         }
     }
 
@@ -122,7 +136,7 @@ namespace NHS111.Models.Models.Web {
 
         public DuplicateReferralResultViewModel(ITKConfirmationViewModel itkConfirmationViewModel)
             : base(itkConfirmationViewModel) {
-            GoogleAnalyticsDataLayer = new DuplicateReferralResultGoogleAnalyticsDataLayer(this);
+            AnalyticsDataLayer = new DuplicateReferralResultAnalyticsDataLayer(this);
         }
     }
 
@@ -132,7 +146,7 @@ namespace NHS111.Models.Models.Web {
 
         public AccidentAndEmergencyDuplicateReferralResultViewModel(ITKConfirmationViewModel itkConfirmationViewModel)
             : base(itkConfirmationViewModel) {
-            GoogleAnalyticsDataLayer = new AccidentAndEmergencyDuplicateReferralGoogleAnalyticsDataLayer(this);
+            AnalyticsDataLayer = new AccidentAndEmergencyDuplicateReferralAnalyticsDataLayer(this);
         }
     }
 
@@ -142,18 +156,30 @@ namespace NHS111.Models.Models.Web {
 
         public Call999DuplicateReferralResultViewModel(ITKConfirmationViewModel itkConfirmationViewModel)
             : base(itkConfirmationViewModel) {
-            GoogleAnalyticsDataLayer = new Call999DuplicateReferralGoogleAnalyticsDataLayer(this);
+            AnalyticsDataLayer = new Call999DuplicateReferralAnalyticsDataLayer(this);
+        }
+    }
+
+    //Temporarily removed until status of Dupe bug is known https://trello.com/c/5hqJVLDv
+    public class TemporaryEmergencyPrescriptionDuplicateReferralResultViewModel
+        : ReferralConfirmationResultViewModel
+    {
+        public TemporaryEmergencyPrescriptionDuplicateReferralResultViewModel(
+            ITKConfirmationViewModel itkConfirmationViewModel)
+            : base(itkConfirmationViewModel) {
+            AnalyticsDataLayer = new EmergencyPrescriptionDuplicateReferralAnalyticsDataLayer(this);
         }
     }
 
     public class EmergencyPrescriptionDuplicateReferralResultViewModel : DuplicateReferralResultViewModel
     {
+
         public override string PartialViewName { get { return "DuplicateReferral"; } }
-        public override string ViewName { get { return string.Format("Confirmation/{0}/DuplicateReferral", ResolveConfirmationViewByOutcome(this.ItkConfirmationModel)); } }
+        public override string ViewName { get { return string.Format("Confirmation/{0}/DuplicateReferral", this.ItkConfirmationModel.OutcomeGroup.Id); } }
 
         public EmergencyPrescriptionDuplicateReferralResultViewModel(ITKConfirmationViewModel itkConfirmationViewModel): base(itkConfirmationViewModel)
         {
-            GoogleAnalyticsDataLayer = new EmergencyPrescriptionDuplicateReferralGoogleAnalyticsDataLayer(this);
+            AnalyticsDataLayer = new EmergencyPrescriptionDuplicateReferralAnalyticsDataLayer(this);
         }
     }
 
@@ -165,7 +191,7 @@ namespace NHS111.Models.Models.Web {
 
         public ServiceUnavailableReferralResultViewModel(OutcomeViewModel outcomeViewModel)
             : base(outcomeViewModel) {
-            GoogleAnalyticsDataLayer = new ServiceUnavailableReferralGoogleAnalyticsDataLayer(this);
+            AnalyticsDataLayer = new ServiceUnavailableReferralAnalyticsDataLayer(this);
         }
     }
 
@@ -176,7 +202,7 @@ namespace NHS111.Models.Models.Web {
 
         public AccidentAndEmergencyServiceUnavailableReferralResultViewModel(OutcomeViewModel outcomeViewModel)
             : base(outcomeViewModel) {
-            GoogleAnalyticsDataLayer = new AccidentAndEmergencyServiceUnavailableReferralGoogleAnalyticsDataLayer(this);
+            AnalyticsDataLayer = new AccidentAndEmergencyServiceUnavailableReferralAnalyticsDataLayer(this);
         }
     }
 
@@ -187,7 +213,7 @@ namespace NHS111.Models.Models.Web {
 
         public Call999ServiceUnavailableReferralResultViewModel(OutcomeViewModel outcomeViewModel)
             : base(outcomeViewModel) {
-            GoogleAnalyticsDataLayer = new Call999ServiceUnavailableReferralGoogleAnalyticsDataLayer(this);
+            AnalyticsDataLayer = new Call999ServiceUnavailableReferralAnalyticsDataLayer(this);
         }
     }
 
@@ -198,7 +224,7 @@ namespace NHS111.Models.Models.Web {
 
         public EmergencyPrescriptionServiceUnavailableReferralResultViewModel(OutcomeViewModel outcomeViewModel) : base(outcomeViewModel)
         {
-            GoogleAnalyticsDataLayer = new EmergencyPrescriptionServiceUnavailableReferralGoogleAnalyticsDataLayer(this);
+            AnalyticsDataLayer = new EmergencyPrescriptionServiceUnavailableReferralAnalyticsDataLayer(this);
         }
     }
 }

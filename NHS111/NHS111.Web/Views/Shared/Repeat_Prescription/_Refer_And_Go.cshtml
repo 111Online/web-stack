@@ -26,9 +26,9 @@
         </div>
     </div>
     <div class="service-details cards--goto">
-        <div class="service-details__distance">
+        <p class="service-details__distance nhsuk-u-margin-bottom-0">
             @WebUtility.HtmlDecode(recommendedService.Distance) miles away
-        </div>
+        </p>
         <div class="service-details__directions">
             @using (Html.BeginForm("GetDirections", "Outcome", FormMethod.Post))
             {

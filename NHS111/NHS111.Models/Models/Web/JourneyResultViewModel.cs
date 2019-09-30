@@ -47,7 +47,7 @@ namespace NHS111.Models.Models.Web
             if (model.Is999Callback)
                 return "../Outcome/Call_999_Callback";
 
-            if (model.OutcomeGroup.Equals(OutcomeGroup.AccidentAndEmergency))
+            if (model.OutcomeGroup.Equals(OutcomeGroup.AccidentAndEmergency) || model.OutcomeGroup.Equals(OutcomeGroup.MentalHealth))
             {
 
                 if (!model.DosCheckCapacitySummaryResult.IsValidationRequery && model.DosCheckCapacitySummaryResult.HasITKServices && !model.HasAcceptedCallbackOffer.HasValue)
