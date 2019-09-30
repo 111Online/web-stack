@@ -253,7 +253,6 @@
     <Content Include="robots.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="manifest.json" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
