@@ -33,8 +33,7 @@ namespace NHS111.Domain.Repository
         public async Task<IEnumerable<Answer>> GetAnswersForQuestion(string id)
         {
             var res =  await _graphRepository.Client.Cypher.
-                 //Match(string.Format("(:Question {{ id: \"{0}\" }})-[a:Answer]->()", id)).
-                Match(string.Format("({{ id: \"{0}\" }})-[a]->()", id)).
+                Match(string.Format("({{ id: \"{0}\" }})-[a:Answer]->()", id)).
                 Return(a => Return.As<Answer>("a")).
                 ResultsAsync;
             return res;
@@ -45,8 +44,8 @@ namespace NHS111.Domain.Repository
             var query = _graphRepository.Client.Cypher.
                 Match(string.Format("(:{0}{{ id: \"{1}\" }})-[a:Answer]->(next)", nodeLabel, id)).
                 Where(string.Format("lower(a.title) = '{0}'", answer.Replace("'", "\\'").ToLower())).
-                OptionalMatch("next-[nextAnswer]->()").
-                OptionalMatch("next-[typeOf]->(g:OutcomeGroup)").
+                OptionalMatch("next-[nextAnswer:Answer]->()").
+                OptionalMatch("next-[:typeOf]->(g:OutcomeGroup)").
                 Return(next => new QuestionWithAnswers
                 {
                     Question = Return.As<Question>("next"),
@@ -81,12 +80,12 @@ namespace NHS111.Domain.Repository
         }
 
 
-        public async Task<IEnumerable<QuestionWithAnswers>> GetPathwaysJourney(List<JourneyStep> steps, string startingPathwayId, string dispositionCode)
+        public async Task<IEnumerable<QuestionWithAnswers>> GetPathwaysJourney(List<JourneyStep> steps, string startingPathwayId, string dispositionCode, string gender, int age)
         {
             var startingPathwayQuery = AddMatchesForStartingPathway(_graphRepository.Client.Cypher, steps.First(), startingPathwayId);
-            ICypherFluentQuery query = AddMatchesForSteps(startingPathwayQuery, steps, true, dispositionCode);
+            ICypherFluentQuery query = AddMatchesForSteps(startingPathwayQuery, steps, true, dispositionCode,  gender,  age);
             query = query
-                .With("rows.question as question, rows.answer as answer, rows.answers as answers")
+                .With("rows.question as question, rows.answer as answer,rows.pathway as pathway, rows.answers as answers")
                 .OrderBy("rows.step")
                 .Where("answer is not null and  labels(question) is not null");
 
@@ -95,6 +94,7 @@ namespace NHS111.Domain.Repository
                     Answered = Return.As<Answer>("answer"),
                     Question = Return.As<Question>("question"),
                     Answers = Return.As<List<Answer>>("answers"),
+                    AssociatedPathway = Return.As<Pathway>("pathway"),
                 Labels = question.Labels()
                 }
             );
@@ -122,85 +122,89 @@ namespace NHS111.Domain.Repository
             return modifiedQuery;
         }
 
-        public ICypherFluentQuery AddMatchesForSteps(ICypherFluentQuery query, List<JourneyStep> steps, bool containsExistingRows, string dispositionCode)
+        public ICypherFluentQuery AddMatchesForSteps(ICypherFluentQuery query, List<JourneyStep> steps, bool containsExistingRows, string dispositionCode, string gender, int age)
         {
             var modifiedQuery = query;
             for (int index = 0; index < steps.Count; ++index)
             {
                 if (!IsLastStep(steps, index))
-                    modifiedQuery = modifiedQuery.Match(String.Format("(q:Question{{id:'{0}'}})-[a:Answer]->(n)",
-                        steps[index].QuestionId));
+                    modifiedQuery = modifiedQuery.Match(String.Format("(q:{0}{{id:'{1}'}})-[a:Answer]->(n)",
+                        steps[index].NodeLabel, steps[index].QuestionId));
 
                 modifiedQuery = index == 0 && !containsExistingRows
                     ? modifiedQuery
+                        .OptionalMatch("q-[:ofPathway]->(pw:Pathway)").Where(string.Join(" and ", new List<string> { FilterStatements.GenderIs("pw", gender), FilterStatements.AgeIsAboveMinimum("pw", age), FilterStatements.AgeIsBelowMaximum("pw", age) }))
                         .With(String.Format(
-                            "q, COLLECT(distinct a) as answers, filter(x IN COLLECT(distinct a) WHERE x.order= {0})[0]  as answered",
+                            "q,pw, COLLECT(distinct a) as answers, filter(x IN COLLECT(distinct a) WHERE x.order= {0})[0]  as answered",
                             steps[index].Answer.Order))
                         .With(String.Format(
-                            "collect({{question:q, answer:answered, answers:answers, step:{0}}}) as rows", index))
+                            "collect({{question:q, answer:answered, answers:answers,pathway:pw, step:{0}}}) as rows", index))
 
                     : (!IsLastStep(steps, index))
                         ? modifiedQuery
+                            .OptionalMatch("q-[:ofPathway]->(pw:Pathway)").Where(string.Join(" and ", new List<string> { FilterStatements.GenderIs("pw", gender), FilterStatements.AgeIsAboveMinimum("pw", age), FilterStatements.AgeIsBelowMaximum("pw", age) }))
                             .With(String.Format(
-                                "rows,q, COLLECT(distinct a) as answers, filter(x IN COLLECT(distinct a) WHERE x.order= {0})[0]  as answered",
+                                "rows,q,pw, COLLECT(distinct a) as answers, filter(x IN COLLECT(distinct a) WHERE x.order= {0})[0]  as answered",
                                 steps[index].Answer.Order))
                             .With(String.Format(
-                                "rows + collect({{question:q, answer:answered, answers:answers, step:{0}}}) as rows",
+                                "rows + collect({{question:q, answer:answered, answers:answers,pathway:pw, step:{0}}}) as rows",
                                 index))
                         : modifiedQuery
-                            .OptionalMatch(String.Format("(q:Question{{id:'{0}'}})-[a:Answer]->()", steps[index].QuestionId))
+                            .OptionalMatch(String.Format("(q:{0}{{id:'{1}'}})-[a:Answer]->()", steps[index].NodeLabel, steps[index].QuestionId))
+                            .OptionalMatch("q-[:ofPathway]->(pw:Pathway)").Where(string.Join(" and ", new List<string> { FilterStatements.GenderIs("pw", gender), FilterStatements.AgeIsAboveMinimum("pw", age), FilterStatements.AgeIsBelowMaximum("pw", age) }))
                             .With(String.Format(
-                                "rows,q, COLLECT(distinct a) as answers, filter(x IN COLLECT(distinct a) WHERE x.order= {0})[0]  as answered",
+                                "rows,q,pw, COLLECT(distinct a) as answers, filter(x IN COLLECT(distinct a) WHERE x.order= {0})[0]  as answered",
                                 steps[index].Answer.Order))
                             .With(String.Format(
-                                "rows + collect({{question:q, answer:answered, answers:answers, step:{0}}}) as rows", index))
-                            .OptionalMatch(String.Format("(q:Question{{id:'{0}'}})-[a:Answer{{order:{1}}}]->(n{{id:'{2}'}})",
-                                steps[index].QuestionId, steps[index].Answer.Order, dispositionCode))
-                            .With(String.Format("rows + collect({{question:n, answer:{{}}, step:{0}.1}}) as allrows", index))
+                                "rows + collect({{question:q, answer:answered, answers:answers,pathway:pw, step:{0}}}) as rows", index))
+                            .OptionalMatch(String.Format("(q:{0}{{id:'{1}'}})-[a:Answer{{order:{2}}}]->(n{{id:'{3}'}})",
+                                steps[index].NodeLabel, steps[index].QuestionId, steps[index].Answer.Order, dispositionCode))
+                            .OptionalMatch("n-[i:Instruction]->(:OutcomeEnd)")
+                            .With("rows,n, collect(i) as instructions")
+                            .With(String.Format("rows + collect({{question:n, answer:{{}}, answers:instructions, step:{0}.1}}) as allrows", index))
                             .Unwind("allrows", "rows")
 
                             .OptionalMatch(String.Format(
-                                "p = (:Question{{id:'{0}'}})-[a:Answer{{order:{1}}}]->(f)-[:Answer*0..3]->(t)-[:Answer]->(n{{id:'{2}'}})", steps[index].QuestionId, steps[index].Answer.Order, dispositionCode))
+                                "p = (:{0}{{id:'{1}'}})-[a:Answer{{order:{2}}}]->(f)-[:Answer*0..3]->(t)-[:Answer]->(n{{id:'{3}'}})", steps[index].NodeLabel, steps[index].QuestionId, steps[index].Answer.Order, dispositionCode))
                             .Where("(t:Set OR t:Read) and (f:Set OR f:Read)")
-                            .With("nodes(p)AS nds, rels(p) AS rls, rows, n")
+                            .OptionalMatch("n-[i:Instruction]->(:OutcomeEnd)")
+                            .With("nodes(p)AS nds, rels(p) AS rls, rows, n, collect(distinct i) as instructions")
 
-                            //.Match("(n1)-[a:Answer]->()")
-                            //.Where("n1 in nds AND (n1:Set OR n1:Read)")
-                            //.With("nds, rls, rows, n, n1, {leadingnode:n1, nodeanswers:COLLECT(DISTINCT a)} as node")
+                            .Unwind("coalesce(nds, [null])", "n1")
+                            .OptionalMatch("(n1)-[a:Answer]->()")
+                            .OptionalMatch("(n1)-[:ofPathway]->(pw:Pathway)").Where(string.Join(" and ", new List<string> { FilterStatements.GenderIs("pw", gender), FilterStatements.AgeIsAboveMinimum("pw", age), FilterStatements.AgeIsBelowMaximum("pw", age) }))
+                            .With("nds,pw, rls, rows, n, {leadingnode:n1, nodeanswers:COLLECT(DISTINCT a)} as node, instructions")
 
-
-                            .Unwind("case when nds is null then 0 else range(1, length(nds) - 2) end", "i")
-
+                            .Unwind("case when nds is null then 0 else range(1, length(nds) - 2) end", "x")
+                            
                             .With(String.Format(
-                                "rows + collect({{question:nds[i], answer:rls[i], step:{0}.2}}) + collect({{question:n, answer:{{}}, step:{0}.3}}) as newrows",
+                                "rows + collect({{question:nds[x], answer:CASE WHEN nds[x] = node.leadingnode THEN CASE WHEN type(rls[x]) = 'Answer' THEN rls[x] ELSE null END ELSE null END, answers:node.nodeanswers,pathway:pw, step:{0}.2}}) + collect({{question:n, answer:{{}}, answers:instructions, step:{0}.3}}) as newrows",
                                 index));
-                            //.With(String.Format(
-                            //    "rows + collect({{question:nds[i], answer:rls[i], answers:CASE WHEN nds[i] = node.leadingnode THEN node.nodeanswers ELSE null END, leadingAnswer:rls[i-1], step:{0}.2}}) + collect({{question:n, answer:{{}}, step:{0}.3}}) as newrows",
-                            //    index));
 
                 if (!IsLastStep(steps, index))
                 {
                     modifiedQuery = modifiedQuery.OptionalMatch(String.Format(
-                        "p = (:Question{{id:'{0}'}})-[a:Answer{{order:{1}}}]-(f)-[:Answer*0..3]->(t)-[:Answer]->(:Question{{id:'{2}'}})",
+                        "p = (:{0}{{id:'{1}'}})-[a:Answer{{order:{2}}}]-(f)-[:Answer*0..3]->(t)-[:Answer]->(:{3}{{id:'{4}'}})",
+                        steps[index].NodeLabel,
                         steps[index].QuestionId,
                         steps[index].Answer.Order,
-                        steps[index + 1].QuestionId));
+                        steps[index + 1].NodeLabel,
+                        steps[index + 1].QuestionId)).Where("(t:Set OR t:Read) and (f:Set OR f:Read)");
 
-                    modifiedQuery = modifiedQuery.Where("(t:Set OR t:Read) and (f:Set OR f:Read)");
+
+
                     modifiedQuery = modifiedQuery.With("nodes(p)AS nds, rels(p) AS rls, rows")
 
-                        //.Match("(n1)-[a:Answer]->()")
-                        //.Where("n1 in nds AND (n1:Set OR n1:Read)")
-                        //.With("nds, rls, rows, n1, {leadingnode:n1, nodeanswers:COLLECT(DISTINCT a)} as node")
+                        .Unwind("coalesce(nds, [null])", "n1")
+                        .OptionalMatch("(n1)-[a:Answer]->()")
+                        .OptionalMatch("(n1)-[:ofPathway]->(pw:Pathway)").Where(string.Join(" and ", new List<string> { FilterStatements.GenderIs("pw", gender), FilterStatements.AgeIsAboveMinimum("pw", age), FilterStatements.AgeIsBelowMaximum("pw", age) }))
+                        .With("nds,pw, rls, rows, n1, {leadingnode:n1, nodeanswers:COLLECT(DISTINCT a)} as node")
 
                         .Unwind("case when nds is null then 0 else range(1, length(nds) - 2) end", "i")
 
                         .With(String.Format(
-                            "rows + collect({{question:nds[i], answer:rls[i], step:{0}+toFloat(i)/10}}) as newrows",
+                            "rows + collect({{question:nds[i], answer:CASE WHEN nds[i] = node.leadingnode THEN rls[i] ELSE null END, answers:node.nodeanswers,pathway:pw, step:{0}+toFloat(i)/10}}) as newrows",
                             index + 0.1));
-                        //.With(String.Format(
-                        //    "rows + collect({{question:nds[i], answer:rls[i], answers:CASE WHEN nds[i] = node.leadingnode THEN node.nodeanswers ELSE null END, leadingAnswer:rls[i-1], step:{0}}}) as newrows",
-                        //    index + 0.1));
                 }
 
                 modifiedQuery = modifiedQuery.Unwind("newrows", "rows");
@@ -275,7 +279,8 @@ namespace NHS111.Domain.Repository
         Task<IEnumerable<Answer>> GetAnswersForQuestion(string id);
 
         Task<IEnumerable<QuestionWithAnswers>>
-            GetPathwaysJourney(List<JourneyStep> steps, string startingPathwayId, string dispositionCode);
+            GetPathwaysJourney(List<JourneyStep> steps, string startingPathwayId, string dispositionCode, string gender,
+                int age);
         Task<QuestionWithAnswers> GetNextQuestion(string id, string nodeLabel, string answer);
         Task<QuestionWithAnswers> GetFirstQuestion(string pathwayId);
         Task<IEnumerable<QuestionWithAnswers>> GetJustToBeSafeQuestions(string pathwayId, string justToBeSafePart);

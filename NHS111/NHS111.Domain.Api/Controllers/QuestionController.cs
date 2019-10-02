@@ -49,10 +49,10 @@ namespace NHS111.Domain.Api.Controllers
 
 
         [HttpPost]
-        [Route("questions/fullPathwayJourney/{startingPathwayId}/{dispositionCode}")]
-        public async Task<JsonResult<IEnumerable<QuestionWithAnswers>>> GetFullPathwayJourney([FromBody]JourneyStep[] steps, string startingPathwayId, string dispositionCode)
+        [Route("questions/fullPathwayJourney/{startingPathwayId}/{dispositionCode}/{gender}/{age}")]
+        public async Task<JsonResult<IEnumerable<QuestionWithAnswers>>> GetFullPathwayJourney([FromBody]JourneyStep[] steps, string startingPathwayId, string dispositionCode, string gender, int age)
         {
-            var questionsWithAnswers = await _questionRepository.GetPathwaysJourney(steps.ToList(), startingPathwayId, dispositionCode);
+            var questionsWithAnswers = await _questionRepository.GetPathwaysJourney(steps.ToList(), startingPathwayId, dispositionCode, gender, age);
             return Json(questionsWithAnswers);
         }
 

@@ -9,6 +9,7 @@ using Newtonsoft.Json;
 using NHS111.Models.Models.Domain;
 using NHS111.Models.Models.Web;
 using NHS111.Utils.Helpers;
+using NHS111.Utils.Parser;
 using NHS111.Web.Presentation.Builders;
 using NHS111.Web.Presentation.Models;
 using NUnit.Framework;

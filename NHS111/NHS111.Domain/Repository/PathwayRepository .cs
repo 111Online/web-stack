@@ -64,7 +64,7 @@ namespace NHS111.Domain.Repository
 
             var pathway = await _graphRepository.Client.Cypher
                 .Match("(p:Pathway)")
-                .Where(string.Join(" and ", new List<string> { GenderIs(gender), AgeIsAboveMinimum(age), AgeIsBelowMaximum(age), pathwayTitleEquals }))
+                .Where(string.Join(" and ", new List<string> { FilterStatements.GenderIs("p", gender), FilterStatements.AgeIsAboveMinimum("p", age), FilterStatements.AgeIsBelowMaximum("p", age), pathwayTitleEquals }))
                 .Return(p => Return.As<Pathway>("p"))
                 .ResultsAsync
                 .FirstOrDefault();
@@ -81,7 +81,7 @@ namespace NHS111.Domain.Repository
         public async Task<IEnumerable<Pathway>> GetAllPathways(bool startingOnly, string gender, int age)
         {
             return await GetPathwayQuery(startingOnly)
-                .Where(string.Join(" and ", new List<string> { GenderIs(gender), AgeIsAboveMinimum(age), AgeIsBelowMaximum(age) }))
+                .Where(string.Join(" and ", new List<string> { FilterStatements.GenderIs("p", gender), FilterStatements.AgeIsAboveMinimum("p", age), FilterStatements.AgeIsBelowMaximum("p", age) }))
                 .Return(p => Return.As<Pathway>("p"))
                 .ResultsAsync;
         }
@@ -97,7 +97,7 @@ namespace NHS111.Domain.Repository
         public async Task<IEnumerable<GroupedPathways>> GetGroupedPathways(bool startingOnly, string gender, int age)
         {
             var query = GetPathwayQuery(startingOnly)
-                .Where(string.Join(" and ", new List<string> { GenderIs(gender), AgeIsAboveMinimum(age), AgeIsBelowMaximum(age) }))
+                .Where(string.Join(" and ", new List<string> { FilterStatements.GenderIs("p", gender), FilterStatements.AgeIsAboveMinimum("p", age), FilterStatements.AgeIsBelowMaximum("p", age) }))
                 .Return(p => new GroupedPathways { Group = Return.As<string>("distinct(m.digitalDescription)"), PathwayNumbers = Return.As<IEnumerable<string>>("collect(distinct(m.pathwayNo))") });
 
             return await query.ResultsAsync;
@@ -138,25 +138,29 @@ namespace NHS111.Domain.Repository
             return !pathwayNumbers.Any() ? string.Empty : string.Join(",", pathwayNumbers.Distinct());
         }
 
-        private string GenderIs(string gender)
+    }
+
+    public static class FilterStatements
+    {
+        public static string GenderIs(string pathwayVariableIdent, string gender)
         {
-            return String.Format("(p.gender is null or p.gender = \"\" or p.gender = \"{0}\")", gender);
+            return String.Format("({0}.gender is null or {0}.gender = \"\" or {0}.gender = \"{1}\")", pathwayVariableIdent, gender);
         }
 
 
-        private string AgeIsAboveMinimum(int age)
+        public static string AgeIsAboveMinimum(string pathwayVariableIdent, int age)
         {
             return
                 String.Format(
-                    "(p.minimumAgeInclusive is null or p.minimumAgeInclusive = \"\" or p.minimumAgeInclusive <= {0})",
-                    age);
+                    "({0}.minimumAgeInclusive is null or {0}.minimumAgeInclusive = \"\" or {0}.minimumAgeInclusive <= {1})",
+                    pathwayVariableIdent, age);
         }
 
-        private string AgeIsBelowMaximum(int age)
+        public static string AgeIsBelowMaximum(string pathwayVariableIdent, int age)
         {
             return
                 String.Format(
-                    "(p.maximumAgeExclusive is null or p.maximumAgeExclusive = \"\" or {0} < p.maximumAgeExclusive)", age);
+                    "({0}.maximumAgeExclusive is null or {0}.maximumAgeExclusive = \"\" or {1} < {0}.maximumAgeExclusive)", pathwayVariableIdent, age);
         }
     }
 
