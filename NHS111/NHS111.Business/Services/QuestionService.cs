@@ -1,16 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net;
-using System.Net.Http;
-using System.Text;
 using System.Threading.Tasks;
-using System.Web.Http.Results;
 using Newtonsoft.Json;
 using NHS111.Business.Builders;
 using NHS111.Business.Configuration;
+using NHS111.Business.Transformers;
 using NHS111.Models.Models.Domain;
 using NHS111.Models.Models.Web.FromExternalServices;
+using NHS111.Utils.Parser;
 using NHS111.Utils.RestTools;
 using RestSharp;
 
@@ -22,12 +20,18 @@ namespace NHS111.Business.Services
         private readonly IRestClient _restClient;
         private readonly IAnswersForNodeBuilder _answersForNodeBuilder;
         private readonly IModZeroJourneyStepsBuilder _modZeroJourneyStepsBuilder;
-        public QuestionService(IConfiguration configuration, IRestClient restClientDomainApi, IAnswersForNodeBuilder answersForNodeBuilder, IModZeroJourneyStepsBuilder modZeroJourneyStepsBuilder)
+        private readonly IKeywordCollector _keywordCollector;
+        private readonly ICareAdviceService _careAdviceService;
+        private readonly ICareAdviceTransformer _careAdviceTransformer;
+        public QuestionService(IConfiguration configuration, IRestClient restClientDomainApi, IAnswersForNodeBuilder answersForNodeBuilder, IModZeroJourneyStepsBuilder modZeroJourneyStepsBuilder, IKeywordCollector keywordcollector, ICareAdviceService careAdviceService, ICareAdviceTransformer careAdviceTransformer)
         {
             _configuration = configuration;
             _restClient = restClientDomainApi;
             _answersForNodeBuilder = answersForNodeBuilder;
             _modZeroJourneyStepsBuilder = modZeroJourneyStepsBuilder;
+            _keywordCollector = keywordcollector;
+            _careAdviceService = careAdviceService;
+            _careAdviceTransformer = careAdviceTransformer;
         }
 
         public async Task<QuestionWithAnswers> GetQuestion(string id)
@@ -68,10 +72,25 @@ namespace NHS111.Business.Services
             var gender = GetGenderFromState(state);
             var moduleZeroJourney = await GetModuleZeroJourney(gender, age, traumaType);
             
-            var pathwaysJourney = await GetPathwayJourney(steps, startingPathwayId, dispositionCode);
+            var pathwaysJourney = await GetPathwayJourney(steps, startingPathwayId, dispositionCode, gender, age);
             var filteredJourneySteps = NavigateReadNodeLogic(steps, pathwaysJourney.ToList(), state);
 
-            return moduleZeroJourney.Concat(filteredJourneySteps);
+            //keywords from pathways
+            var pathwayKeywords = filteredJourneySteps.Where(q => q.Labels.Contains("Pathway")).Select(q => q.Question.Keywords);
+            var pathwayExcludeKeywords = filteredJourneySteps.Where(q => q.Labels.Contains("Pathway")).Select(q => q.Question.ExcludeKeywords);
+            var keywords = _keywordCollector.CollectKeywords(pathwayKeywords, pathwayExcludeKeywords);
+            
+            // keywords from answers
+            var journeySteps = filteredJourneySteps.Where(q => q.Answered != null).Select(q => new JourneyStep {Answer = q.Answered}).ToList();
+            keywords = _keywordCollector.CollectKeywordsFromPreviousQuestion(keywords, journeySteps);
+            
+            var careAdvice = await _careAdviceService.GetCareAdvice(new AgeCategory(age).Value, gender,
+                _keywordCollector.ConsolidateKeywords(keywords).Aggregate((i, j) => i + '|' + j), dispositionCode);
+
+            var careAdviceAsQuestionWithAnswersListString = _careAdviceTransformer.AsQuestionWithAnswersList(careAdvice);
+            var careAdviceAsQuestionWithAnswers = JsonConvert.DeserializeObject<List<QuestionWithAnswers>>(careAdviceAsQuestionWithAnswersListString);
+
+            return moduleZeroJourney.Concat(filteredJourneySteps).Concat(careAdviceAsQuestionWithAnswers);
         }
 
         private int GetAgeFromState(IDictionary<string, string> state)
@@ -156,7 +175,7 @@ namespace NHS111.Business.Services
             var pathwayJourney = _modZeroJourneyStepsBuilder.GetModZeroJourney(gender, age, traumaType);
             var steps = pathwayJourney.Steps;
 
-            var request = new JsonRestRequest(_configuration.GetDomainApiPathwayJourneyUrl(pathwayJourney.PathwayId, pathwayJourney.DispositionId), Method.POST);
+            var request = new JsonRestRequest(_configuration.GetDomainApiPathwayJourneyUrl(pathwayJourney.PathwayId, pathwayJourney.DispositionId, gender, age), Method.POST);
             request.AddJsonBody(steps);
             var moduleZeroJourney = await _restClient.ExecuteTaskAsync<IEnumerable<QuestionWithAnswers>>(request);
 
@@ -166,9 +185,9 @@ namespace NHS111.Business.Services
             return filteredModZeroJourney;
         }
 
-        public async Task<IEnumerable<QuestionWithAnswers>> GetPathwayJourney(JourneyStep[] steps, string startingPathwayId, string dispositionCode)
+        public async Task<IEnumerable<QuestionWithAnswers>> GetPathwayJourney(JourneyStep[] steps, string startingPathwayId, string dispositionCode, string gender, int age)
         {
-            var request = new JsonRestRequest(_configuration.GetDomainApiPathwayJourneyUrl(startingPathwayId, dispositionCode), Method.POST);
+            var request = new JsonRestRequest(_configuration.GetDomainApiPathwayJourneyUrl(startingPathwayId, dispositionCode, gender, age), Method.POST);
             request.AddJsonBody(steps);
             var pathwayJourney = await _restClient.ExecuteTaskAsync<IEnumerable<QuestionWithAnswers>>(request);
 
@@ -184,6 +203,9 @@ namespace NHS111.Business.Services
 
     public interface IQuestionService
     {
+        Task<IEnumerable<QuestionWithAnswers>> GetPathwayJourney(JourneyStep[] steps, string startingPathwayId,
+            string dispositionCode, string gender, int age);
+
         Task<IEnumerable<QuestionWithAnswers>> GetFullPathwayJourney(string traumaType, JourneyStep[] steps, string startingPathwayId, string dispositionCode, IDictionary<string, string> state);
         Task<QuestionWithAnswers> GetQuestion(string id);
         Task<Answer[]> GetAnswersForQuestion(string id);

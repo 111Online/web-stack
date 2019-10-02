@@ -1,14 +1,11 @@
-﻿using RestSharp;
+﻿using NHS111.Utils.Parser;
+using RestSharp;
 
 namespace NHS111.Web.Presentation.Builders.Tests
 {
     using System;
     using System.Configuration;
-    using System.Net;
-    using System.Net.Http;
     using System.Threading.Tasks;
-    using Newtonsoft.Json;
-    using NHS111.Models.Mappers.WebMappings;
     using NHS111.Models.Models.Web;
     using NHS111.Models.Models.Web.FromExternalServices;
     using System.Collections.Generic;
@@ -16,10 +13,8 @@ namespace NHS111.Web.Presentation.Builders.Tests
     using AutoMapper;
     using Logging;
     using Moq;
-    using NHS111.Features;
     using NHS111.Models.Models.Domain;
     using NHS111.Models.Models.Web.DosRequests;
-    using NHS111.Utils.Helpers;
     using NUnit.Framework;
 
     [TestFixture()]
