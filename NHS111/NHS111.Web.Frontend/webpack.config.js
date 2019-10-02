@@ -1,18 +1,18 @@
-const path = require('path'),
-    UglifyJSPlugin = require('uglifyjs-webpack-plugin'),
-    Visualizer = require('webpack-visualizer-plugin'),
-    webpack = require('webpack')
+const UglifyJSPlugin = require('uglifyjs-webpack-plugin'),
+    webpack = require('webpack'),
+    path = require("path")
 
 
 module.exports = {
     entry: {
-        'bundle-head': './src/js/entry-head.js',
-        'bundle': './src/js/entry-main.js',
-        'bundle-polyfills': './src/js/entry-polyfills.js',
-        'bundle-map': './src/js/entry-map.js'
+        'bundle-head': './src/scripts/entry-head.js',
+        'bundle': './src/scripts/entry-main.js',
+        'bundle-polyfills': './src/scripts/entry-polyfills.js',
+        'bundle-map': './src/scripts/entry-map.js'
     },
     output: {
-        filename: '[name].js'
+        filename: '[name].js',
+        path: path.resolve(__dirname, '../NHS111.Web/Content/js/')
     },
     plugins: [
         new UglifyJSPlugin({ sourceMap: true }),
@@ -21,9 +21,6 @@ module.exports = {
           filename: "common.js",
           minChunks: 2,
           chunks: ["bundle-head", "bundle", "bundle-polyfills"] // Excludes map so that can be imported on its own.
-        }),
-        new Visualizer({
-            filename: './src/codebase/components/_jschart/jschart.njk'
         })
     ],
     module: {
@@ -37,7 +34,7 @@ module.exports = {
                         babelrc: false,
                         cacheDirectory: true,
                         presets: [
-                            ['env', {
+                            ['@babel/preset-env', {
                               "targets": {
                                   "browsers": ["last 2 versions", "ie >= 9"]
                                 }

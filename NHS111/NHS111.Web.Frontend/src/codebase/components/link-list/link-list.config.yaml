@@ -1,8 +1,0 @@
-order: 4
-variants:
-- name: half column
-  context:
-    mod: one-half
-- name: numbered
-  context:
-    mod: numbered

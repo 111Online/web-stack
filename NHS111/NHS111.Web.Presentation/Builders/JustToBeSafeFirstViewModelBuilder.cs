@@ -8,10 +8,9 @@ using NHS111.Models.Models.Domain;
 using NHS111.Models.Models.Web;
 using NHS111.Models.Models.Web.Enums;
 using NHS111.Models.Models.Web.FromExternalServices;
-using NHS111.Utils.Helpers;
+using NHS111.Utils.Parser;
 using NHS111.Utils.RestTools;
 using RestSharp;
-using StructureMap.Query;
 using IConfiguration = NHS111.Web.Presentation.Configuration.IConfiguration;
 
 namespace NHS111.Web.Presentation.Builders

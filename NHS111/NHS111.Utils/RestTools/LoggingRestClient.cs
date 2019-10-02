@@ -29,7 +29,8 @@ namespace NHS111.Utils.RestTools
         {
             _logger.Info(string.Format("Request to: {0}{1} performed", BaseUrl,request.Resource));
             var response = await base.ExecuteTaskAsync<T>(request);
-            if(response.StatusCode !=  HttpStatusCode.OK) _logger.Error(String.Format("Request to: {0} returned with Error Code: {1} and response: {2}", response.ResponseUri.AbsoluteUri, response.StatusCode, response.ErrorMessage));
+            if(response != null && response.StatusCode !=  HttpStatusCode.OK) _logger.Error(String.Format("Request to: {0}{1} returned with Error Code: {2} and response: {3}", BaseUrl, request.Resource, response.StatusCode, response.ErrorMessage));
+            else _logger.Error(String.Format("Request to: {0}{1} failed", BaseUrl, request.Resource));
             return response;
         }
     }

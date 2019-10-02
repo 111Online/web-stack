@@ -45,6 +45,18 @@ namespace NHS111.Models.Models.Domain
         [JsonProperty(PropertyName = "dispositionUrgencyText")]
         public string DispositionUrgencyText { get; set; }
 
+        [JsonProperty(PropertyName = "reportText")]
+        public string ReportText { get; set; }
+
+        [JsonProperty(PropertyName = "careAdviceId")]
+        public string CareAdviceId { get; set; }
+
+        [JsonProperty(PropertyName = "keywords")]
+        public string Keywords { get; set; }
+
+        [JsonProperty(PropertyName = "excludeKeywords")]
+        public string ExcludeKeywords { get; set; }
+
         [JsonProperty(PropertyName = "content")]
         public string Content { get; set; }
         [JsonProperty(PropertyName = "buttonText")]
