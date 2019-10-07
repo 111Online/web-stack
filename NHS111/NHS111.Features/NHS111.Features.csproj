@@ -72,7 +72,6 @@
     <Compile Include="Defaults\FilteredAgesDefaultStrategy.cs" />
     <Compile Include="Defaults\IDefaultSettingStrategy.cs" />
     <Compile Include="Defaults\PostcodeFilePathDefaultSettingStrategy.cs" />
-    <Compile Include="DeleteFeedbackFeature.cs" />
     <Compile Include="DOSSpecifyDispoTimeFeature.cs" />
     <Compile Include="DirectLinkingFeature.cs" />
     <Compile Include="DisclaimerBannerFeature.cs" />
