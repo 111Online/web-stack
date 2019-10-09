@@ -71,7 +71,7 @@ namespace NHS111.Web.Controllers
         {
             ModelState.Clear();
             _auditLogger.LogEventData(model, "User elected to change postcode.");
-            return View(model); ;
+            return View(model);
         }
 
         [HttpPost]
@@ -397,6 +397,13 @@ namespace NHS111.Web.Controllers
 
             return View(viewRouter.ViewName, outcome);
 
+        }
+        
+        [HttpPost]
+        public async Task<ActionResult> MoreInfo(OutcomeViewModel model)
+        {
+            _auditLogger.LogEventData(model, "User chose more ways to get help.");
+            return View("~\\Views\\Outcome\\Landing_Page\\MoreInfo.cshtml", model);
         }
     }
 }
