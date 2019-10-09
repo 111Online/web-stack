@@ -1,11 +1,24 @@
 ﻿@if (Model.DisplayWorseningCareAdvice)
 {
-    <div class="content-seperator content-seperator--equalvertspacing--large"></div>
-    <div class="measure">
-        <div class="callout callout--info">
-            <p>
-                If your symptoms get worse, call 111
-            </p>
+    <details class="measure">
+        <summary><span class="details__arrow" role="presentation"></span>What to do if you start to feel worse</summary>
+        <div>
+            @* When TimeFrameText is empty, TimeFrameMinutes is 0 so this avoids it being included as high acuity *@
+            @if (Model.TimeFrameMinutes > 0 && Model.TimeFrameMinutes <= 360) {
+                <ol>
+                    <li>Call 111</li>
+                    <li>Tell them 111 online said you needed to get help @(!string.IsNullOrEmpty(Model.TimeFrameText) ? "within " + Model.TimeFrameText : "soon").</li>
+                    <li>Tell them your symptoms have got worse and you need to speak to a nurse.</li>
+                </ol>
+                <p>You might have to start the questions again, or answer new questions about any new symptoms.</p>
+            }
+            else
+            {
+                <p><a href="/">Answer questions about your symptoms again.</a></p>
+                <p>If you have new symptoms, choose the one that's worrying you most.</p>
+                <p>If you're not sure how to choose, call 111.</p>
+            }
+
         </div>
-    </div>
+    </details>
 }
