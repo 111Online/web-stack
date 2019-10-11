@@ -154,7 +154,9 @@ namespace NHS111.Models.Mappers.WebMappings
             serviceDetails.Name = outcome.SelectedService.Name;
             serviceDetails.OdsCode = outcome.SelectedService.OdsCode;
             serviceDetails.PostCode = outcome.SelectedService.PostCode;
-
+            serviceDetails.Ccg = outcome.Source;
+            serviceDetails.Stp = outcome.Campaign;
+            
             return serviceDetails;
         }
     }
