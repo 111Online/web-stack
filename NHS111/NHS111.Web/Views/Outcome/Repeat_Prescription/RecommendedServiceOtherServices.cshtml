@@ -54,7 +54,9 @@
 
     <div class="measure nhsuk-u-margin-top-2">
         <h1>Other ways to get help</h1>
+        @Html.Partial("_rs_Timings", Model)
     </div>
+
     <div class="other-services">
         @Html.Partial("_rs_ChangePostcodeLink", dataDictionary)
         @foreach (var service in Model.OtherServices)
