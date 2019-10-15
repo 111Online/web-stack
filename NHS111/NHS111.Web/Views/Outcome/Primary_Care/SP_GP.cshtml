@@ -27,24 +27,22 @@
         <h1 class="nhsuk-heading-l">@Model.OutcomeGroup.Text</h1>
     </div>
 
-    <ul>
-        <li>
-            @using (Html.BeginForm("ServiceList", "Outcome", FormMethod.Post))
-            {
-                @Html.Partial("_CommonHiddenFieldsOutcomeViewModel", Model, new ViewDataDictionary() { TemplateInfo = new TemplateInfo() { HtmlFieldPrefix = "FindService" } })
-                @Html.Partial("_CommonHiddenFieldsCareAdviceViewModel", Model, new ViewDataDictionary() { TemplateInfo = new TemplateInfo() { HtmlFieldPrefix = "FindService" } })
-                <button class="button--link" id="away-from-home" type="submit" value="AwayFromHome" name="AwayFromHome" formnovalidate>I'm away from home</button>
-            }
-        </li>
-        <li>
-            @using (Html.BeginForm("MoreInfo", "Outcome", FormMethod.Post))
-            {
+        <ul>
+            <li>
+            @using (Html.BeginForm("RegisterWithGp", "Outcome", FormMethod.Post)) {
                 @Html.Partial("_CommonHiddenFieldsOutcomeViewModel", Model)
                 @Html.Partial("_CommonHiddenFieldsCareAdviceViewModel", Model)
-                <button class="button--link" id="no-gp" type="submit" value="NoGP" name="NoGP" formnovalidate>I don't have a GP</button>
+                <button class="button--link" id="register-with-gp" type="submit" value="RegisterWithGp" name="RegisterWithGp" formnovalidate>I'm away from home</button>
             }
-        </li>
-    </ul>
+            </li>
+            <li>
+            @using (Html.BeginForm("RegisterWithTempGp", "Outcome", FormMethod.Post)) {
+                @Html.Partial("_CommonHiddenFieldsOutcomeViewModel", Model)
+                @Html.Partial("_CommonHiddenFieldsCareAdviceViewModel", Model)
+                <button class="button--link" id="register-with-temp-gp" type="submit" value="RegisterWithTempGp" name="RegisterWithTempGp" formnovalidate>I don't have a GP</button>
+            }
+            </li>
+        </ul>
 
     <hr role="presentation" class="nhsuk-u-margin-top-6" />
 

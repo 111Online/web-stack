@@ -27,6 +27,7 @@ namespace NHS111.Web.Controllers
     using System.Web;
     using Models.Models.Web.DosRequests;
     using System.Text.RegularExpressions;
+    using System.Web.Routing;
     using Models.Models.Web.Enums;
 
     [LogHandleErrorForMVC]
@@ -400,9 +401,11 @@ namespace NHS111.Web.Controllers
         }
         
         [HttpPost]
-        public async Task<ActionResult> MoreInfo(OutcomeViewModel model)
-        {
+        [Route("Outcome/RegisterWithGp", Name = "RegisterWithGp")]
+        [Route("Outcome/RegisterWithTempGp", Name = "RegisterWithTempGp")]
+        public ActionResult MoreInfo(OutcomeViewModel model) {
             _auditLogger.LogEventData(model, "User chose more ways to get help.");
+            ViewData["Route"] = ((Route)ControllerContext.RouteData.Route).Url;
             return View("~\\Views\\Outcome\\Primary_Care\\MoreInfo.cshtml", model);
         }
     }

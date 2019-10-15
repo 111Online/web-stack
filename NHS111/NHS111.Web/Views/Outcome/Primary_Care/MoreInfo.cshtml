@@ -37,13 +37,19 @@
     <div class="callout callout--attention">
         <h1 class="nhsuk-heading-l">More ways to get help</h1>
 
-        <p>If you don't have a GP, see <a href="#">other things you can do</a>.</p>
+        @if (Model.OutcomeGroup.Equals(OutcomeGroup.ItkPrimaryCare))
+        {
+            <p>If you don't have a GP, see other things you can do.</p>
+        }
+        else if (Model.OutcomeGroup.Equals(OutcomeGroup.GP))
+        {
+            if (ViewData["Route"].ToString() == "Outcome/RegisterWithGp") {
+                <p>Find out <a href="https://www.nhs.uk/using-the-nhs/nhs-services/gps/how-to-register-with-a-gp-practice/">how to register with a GP</a> if you don't already have one.</p>
+            } else if (ViewData["Route"].ToString() == "Outcome/RegisterWithTempGp") {
+                <p>If you're away from home and can't get an appointment with your GP, you can <a href="https://www.nhs.uk/common-health-questions/nhs-services-and-treatments/how-do-i-register-as-a-temporary-resident-with-a-gp/">see any local GP on a temporary basis.</a></p>
+            }
+        }
     </div>
-
-    <details class="measure">
-        <summary><span class="details__arrow" role="presentation"></span>How to register with a GP</summary>
-        <div><p>Find out <a href="https://www.nhs.uk/using-the-nhs/nhs-services/gps/how-to-register-with-a-gp-practice/">how to register with a GP</a> if you don't already have one.</p></div>
-    </details>
 
     <hr role="presentation" class="nhsuk-u-margin-top-6" />
 
