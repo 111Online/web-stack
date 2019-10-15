@@ -3,6 +3,9 @@
 
 @{
     var serviceText = ViewData.ContainsKey("OtherServicesChangePostcode") ? "These services are also available in" : "This service is available in";
+    if (ViewData.ContainsKey("ChangeLocationPrefixText")) {
+        serviceText = ViewData["ChangeLocationPrefixText"].ToString();
+    }
 }
 
 @using (Html.BeginForm("ChangePostcode", "Outcome", FormMethod.Post))

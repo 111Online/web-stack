@@ -403,7 +403,7 @@ namespace NHS111.Web.Controllers
         public async Task<ActionResult> MoreInfo(OutcomeViewModel model)
         {
             _auditLogger.LogEventData(model, "User chose more ways to get help.");
-            return View("~\\Views\\Outcome\\Landing_Page\\MoreInfo.cshtml", model);
+            return View("~\\Views\\Outcome\\Primary_Care\\MoreInfo.cshtml", model);
         }
     }
 }
