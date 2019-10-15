@@ -336,7 +336,7 @@
     <Content Include="Views\Shared\_DisclaimerBanner.cshtml" />
     <Content Include="Views\Help\Privacy.cshtml" />
     <Content Include="Views\Help\Browsers.cshtml" />
-    <Content Include="Views\Outcome\SP_GP.cshtml" />
+    <Content Include="Views\Outcome\Primary_Care\SP_GP.cshtml" />
     <Content Include="Views\Outcome\SP_Other.cshtml" />
     <Content Include="Views\Shared\_FindService.cshtml" />
     <Content Include="Views\Shared\_OutcomeHeader.cshtml" />
@@ -351,7 +351,7 @@
     <Content Include="Views\Outcome\SP_Dental.cshtml" />
     <Content Include="Views\Question\InitialQuestion.cshtml" />
     <Content Include="Views\Outcome\Call_999_police.cshtml" />
-    <Content Include="Views\Outcome\ITK_Primary_care.cshtml" />
+    <Content Include="Views\Outcome\Primary_Care\ITK_Primary_care.cshtml" />
     <Content Include="Views\Outcome\SP_Midwife.cshtml" />
     <Content Include="Views\Question\InlineCareAdvice.cshtml" />
     <Content Include="Views\Shared\_CommonHiddenFieldsNode.cshtml" />
@@ -458,7 +458,8 @@
     <Content Include="Views\PersonalDetails\_ChangePostcodeLinks.cshtml" />
     <Content Include="Views\PersonalDetails\CurrentAddress_NotFound.cshtml" />
     <Content Include="Views\Outcome\SP_Mental_health.cshtml" />
-    <Content Include="Views\Outcome\Landing_Page\MoreInfo.cshtml" />
+    <Content Include="Views\Outcome\Primary_Care\MoreInfo.cshtml" />
+    <Content Include="Views\Outcome\Primary_Care.cshtml" />
     <Content Include="Views\Shared\_rs_Timings.cshtml" />
     <None Include="Web.Development.config">
       <DependentUpon>Web.config</DependentUpon>
