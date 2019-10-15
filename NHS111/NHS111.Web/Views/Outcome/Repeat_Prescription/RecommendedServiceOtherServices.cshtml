@@ -28,6 +28,7 @@
     var dataDictionary = ViewContext.ViewData;
     dataDictionary.Add(new KeyValuePair<string, object>("LaunchPage", "service-list"));
     dataDictionary.Add(new KeyValuePair<string, object>("OtherServicesChangePostcode", "true"));
+    var previousAction = Model.RecommendedService == null ? "DispositionWithServices" : "RecommendedService";
 }
 @section SurveyBanner{
     @Html.Partial("_SurveyLink", Model.SurveyLink, dataDictionary)
@@ -44,7 +45,7 @@
 }
 
 <div class="nhsuk-core">
-    @using (Html.BeginForm("RecommendedService", "Outcome", FormMethod.Post))
+    @using (Html.BeginForm(previousAction, "Outcome", FormMethod.Post))
     {
         @Html.Partial("_CommonHiddenFieldsOutcomeViewModel", Model)
         @Html.Partial("_CommonHiddenFieldsRecommendedServiceViewModel", recommendedService, new ViewDataDictionary() { TemplateInfo = new TemplateInfo() {HtmlFieldPrefix = "RecommendedService" } } )

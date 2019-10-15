@@ -459,7 +459,6 @@
     <Content Include="Views\PersonalDetails\CurrentAddress_NotFound.cshtml" />
     <Content Include="Views\Outcome\SP_Mental_health.cshtml" />
     <Content Include="Views\Outcome\Primary_Care\MoreInfo.cshtml" />
-    <Content Include="Views\Outcome\Primary_Care.cshtml" />
     <Content Include="Views\Shared\_rs_Timings.cshtml" />
     <None Include="Web.Development.config">
       <DependentUpon>Web.config</DependentUpon>
