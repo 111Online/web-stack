@@ -209,7 +209,7 @@ namespace NHS111.Web.Controllers
                     }
                 }
 
-                if(model.OutcomeGroup.IsUsingRecommendedService)
+                if(model.OutcomeGroup.IsUsingRecommendedService || model.OutcomeGroup.IsPrimaryCare)
                 {
                     var otherServices =
                         await _recommendedServiceBuilder.BuildRecommendedServicesList(model.DosCheckCapacitySummaryResult.Success.Services);
@@ -217,10 +217,23 @@ namespace NHS111.Web.Controllers
                     //Very weird mapper issue ignoring this property for some reason
                     //unit test specifically testing this passes fine so can really fathow what is going on
                     //forcing it instead
-                    otherServicesModel.RecommendedService.ReasonText = model.RecommendedService.ReasonText;
-                    otherServicesModel.OtherServices = otherServices.Skip(1);
+                    if (otherServicesModel.RecommendedService != null) {
+                        otherServicesModel.RecommendedService.ReasonText = model.RecommendedService.ReasonText;
+                        otherServicesModel.OtherServices = otherServices.Skip(1);
+                    } else {
+                        otherServicesModel.OtherServices = otherServices;
+                    }
+
                     return View("~\\Views\\Outcome\\Repeat_Prescription\\RecommendedServiceOtherServices.cshtml", otherServicesModel);
                 }
+
+                //if (model.OutcomeGroup.IsPrimaryCare) {
+                //    var otherServicesModel = Mapper.Map<OtherServicesViewModel>(model);
+                //    otherServicesModel.RecommendedService =
+                //        model.DosCheckCapacitySummaryResult.Success.Services.First();
+                //    return View("~\\Views\\Outcome\\Repeat_Prescription\\RecommendedServiceOtherServices.cshtml", otherServicesModel);
+
+                //}
 
                 return View("~\\Views\\Outcome\\ServiceList.cshtml", model);
             }
