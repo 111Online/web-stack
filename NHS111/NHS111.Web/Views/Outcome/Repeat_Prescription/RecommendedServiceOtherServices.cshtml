@@ -62,7 +62,7 @@
         @foreach (var service in Model.OtherServices)
         {
             Model.RecommendedService = service;
-            <details class="service-listing">
+            <details class="service-listing" @(Model.OtherServices.Count() == 1 ? "open" : "")>
                 <summary>
                     <p class="service-listing__name">@WebUtility.HtmlDecode(@service.PublicName)</p>
                     @if (service.OnlineDOSServiceType.Equals(OnlineDOSServiceType.PublicPhone) || service.OnlineDOSServiceType.Equals(OnlineDOSServiceType.Callback))
