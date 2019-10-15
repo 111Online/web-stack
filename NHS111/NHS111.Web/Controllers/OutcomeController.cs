@@ -227,14 +227,6 @@ namespace NHS111.Web.Controllers
                     return View("~\\Views\\Outcome\\Repeat_Prescription\\RecommendedServiceOtherServices.cshtml", otherServicesModel);
                 }
 
-                //if (model.OutcomeGroup.IsPrimaryCare) {
-                //    var otherServicesModel = Mapper.Map<OtherServicesViewModel>(model);
-                //    otherServicesModel.RecommendedService =
-                //        model.DosCheckCapacitySummaryResult.Success.Services.First();
-                //    return View("~\\Views\\Outcome\\Repeat_Prescription\\RecommendedServiceOtherServices.cshtml", otherServicesModel);
-
-                //}
-
                 return View("~\\Views\\Outcome\\ServiceList.cshtml", model);
             }
 
