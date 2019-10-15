@@ -34,7 +34,7 @@
 }
 
 <section class="measure nhsuk-core">
-    <div class="callout callout--attention">
+    <div class="callout callout--attention nhsuk-u-margin-bottom-4">
         <h1 class="nhsuk-heading-l">More ways to get help</h1>
 
         @if (Model.OutcomeGroup.Equals(OutcomeGroup.ItkPrimaryCare)) {
@@ -58,6 +58,13 @@
             }
         }
     </div>
+    
+    @if (Model.OutcomeGroup.Equals(OutcomeGroup.ItkPrimaryCare) && ViewData["Route"].ToString() == "Outcome/RegisterWithGp") {
+        <details class="measure">
+            <summary><span class="details__arrow" role="presentation"></span>How to register with a GP</summary>
+            <div><p>Find out <a href="https://www.nhs.uk/using-the-nhs/nhs-services/gps/how-to-register-with-a-gp-practice/">how to register with a GP</a> if you don't already have one.</p></div>
+        </details>
+    }
 
     <hr role="presentation" class="nhsuk-u-margin-top-6" />
 
