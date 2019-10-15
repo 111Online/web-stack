@@ -37,19 +37,24 @@
     <div class="callout callout--attention nhsuk-u-margin-bottom-4">
         <h1 class="nhsuk-heading-l">More ways to get help</h1>
 
-        @if (Model.OutcomeGroup.Equals(OutcomeGroup.ItkPrimaryCare))
-        {
-            <p>If you don't have a GP, see other things you can do.</p>
+        @if (Model.OutcomeGroup.Equals(OutcomeGroup.ItkPrimaryCare)) {
+            using (Html.BeginForm("ServiceList", "Outcome", FormMethod.Post)) {
+                @Html.Partial("_CommonHiddenFieldsOutcomeViewModel", Model, new ViewDataDictionary() { TemplateInfo = new TemplateInfo() { HtmlFieldPrefix = "FindService" } })
+                @Html.Partial("_CommonHiddenFieldsCareAdviceViewModel", Model, new ViewDataDictionary() { TemplateInfo = new TemplateInfo() { HtmlFieldPrefix = "FindService" } })
+                <p>
+                    If you don't have a GP, see <button class="button--link" id="other-services" type="submit" value="OtherServices" name="OtherServices" formnovalidate>other things you can do</button>.
+                </p>
+            }
         }
         else if (Model.OutcomeGroup.Equals(OutcomeGroup.GP))
         {
             if (ViewData["Route"].ToString() == "Outcome/RegisterWithGp")
             {
-                <p>Find out <a href="https://www.nhs.uk/using-the-nhs/nhs-services/gps/how-to-register-with-a-gp-practice/">how to register with a GP</a> if you don't already have one.</p>
+                <p> Find out <a href="https://www.nhs.uk/using-the-nhs/nhs-services/gps/how-to-register-with-a-gp-practice/">how to register with a GP</a> if you don't already have one.</p>
             }
             else if (ViewData["Route"].ToString() == "Outcome/RegisterWithTempGp")
             {
-                <p>If you're away from home and can't get an appointment with your GP, you can <a href="https://www.nhs.uk/common-health-questions/nhs-services-and-treatments/how-do-i-register-as-a-temporary-resident-with-a-gp/">see any local GP on a temporary basis.</a></p>
+                <p>If you're away from home and can't get an appointment with your GP, you can<a href= "https://www.nhs.uk/common-health-questions/nhs-services-and-treatments/how-do-i-register-as-a-temporary-resident-with-a-gp/">see any local GP on a temporary basis.</a></p>
             }
         }
     </div>
