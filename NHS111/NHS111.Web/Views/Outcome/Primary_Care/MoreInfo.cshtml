@@ -41,7 +41,7 @@
             using (Html.BeginForm("ServiceList", "Outcome", FormMethod.Post)) {
                 @Html.Partial("_CommonHiddenFieldsOutcomeViewModel", Model, new ViewDataDictionary() { TemplateInfo = new TemplateInfo() { HtmlFieldPrefix = "FindService" } })
                 @Html.Partial("_CommonHiddenFieldsCareAdviceViewModel", Model, new ViewDataDictionary() { TemplateInfo = new TemplateInfo() { HtmlFieldPrefix = "FindService" } })
-                <p>
+                <p class="nhsuk-u-margin-bottom-0">
                     If you don't have a GP, see <button class="button--link" id="other-services" type="submit" value="OtherServices" name="OtherServices" formnovalidate>other things you can do</button>.
                 </p>
             }
@@ -54,7 +54,7 @@
             }
             else if (ViewData["Route"].ToString() == "Outcome/RegisterWithTempGp")
             {
-                <p>If you're away from home and can't get an appointment with your GP, you can<a href= "https://www.nhs.uk/common-health-questions/nhs-services-and-treatments/how-do-i-register-as-a-temporary-resident-with-a-gp/">see any local GP on a temporary basis.</a></p>
+                <p>If you're away from home and can't get an appointment with your GP, you can <a href= "https://www.nhs.uk/common-health-questions/nhs-services-and-treatments/how-do-i-register-as-a-temporary-resident-with-a-gp/">see any local GP on a temporary basis.</a></p>
             }
         }
     </div>
