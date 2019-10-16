@@ -408,9 +408,10 @@ namespace NHS111.Web.Controllers
         [HttpPost]
         [Route("Outcome/RegisterWithGp", Name = "RegisterWithGp")]
         [Route("Outcome/RegisterWithTempGp", Name = "RegisterWithTempGp")]
-        public ActionResult MoreInfo(OutcomeViewModel model) {
+        public async Task<ActionResult> MoreInfo(OutcomeViewModel model, string reason) {
             _auditLogger.LogEventData(model, "User chose more ways to get help.");
             ViewData["Route"] = ((Route)ControllerContext.RouteData.Route).Url;
+            model = await _outcomeViewModelBuilder.PrimaryCareBuilder(model, reason);
             return View("~\\Views\\Outcome\\Primary_Care\\MoreInfo.cshtml", model);
         }
     }
