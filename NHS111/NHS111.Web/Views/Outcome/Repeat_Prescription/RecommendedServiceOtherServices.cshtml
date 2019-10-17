@@ -30,9 +30,7 @@
     dataDictionary.Add(new KeyValuePair<string, object>("OtherServicesChangePostcode", "true"));
     var previousAction = Model.RecommendedService == null ? "DispositionWithServices" : "RecommendedService";
 }
-@section SurveyBanner{
-    @Html.Partial("_SurveyLink", Model.SurveyLink, dataDictionary)
-}
+
 @section FeedbackSection {
     @if (!SurveyLinkFeature.IsEnabled)
     {

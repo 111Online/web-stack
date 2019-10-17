@@ -43,3 +43,7 @@ details + details {
 .multiple-choice--radio {
   @include nhsuk-responsive-margin(4, 'bottom', 'true');
 }
+
+details:not(.service-listing) summary {
+  @include nhsuk-font(19);
+}

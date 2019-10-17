@@ -82,6 +82,11 @@
 }
 
 .other-services {
+
+  .service-details-container {
+    padding-top: 0;
+  }
+
   .service-listing__name,
   .service-listing__info {
     @include nhsuk-responsive-margin(3, 'bottom');
