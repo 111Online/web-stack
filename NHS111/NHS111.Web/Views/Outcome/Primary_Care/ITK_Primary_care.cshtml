@@ -34,7 +34,7 @@
                     {
                         @Html.Partial("_CommonHiddenFieldsOutcomeViewModel", Model, new ViewDataDictionary() { TemplateInfo = new TemplateInfo() { HtmlFieldPrefix = "FindService" } })
                         @Html.Partial("_CommonHiddenFieldsCareAdviceViewModel", Model, new ViewDataDictionary() { TemplateInfo = new TemplateInfo() { HtmlFieldPrefix = "FindService" } })
-                        <button class="button--link" id="cant-book-appt" type="submit" value="CantBookAppt" name="CantBookAppt" formnovalidate>I can't get an appointment today</button>
+                        <button class="button--link" id="cant-book-appt" type="submit" value="cannot-get-appt" name="reason" formnovalidate>I can't get an appointment today</button>
                     }
                 </li>
                 <li>
@@ -42,7 +42,7 @@
                     {
                         @Html.Partial("_CommonHiddenFieldsOutcomeViewModel", Model, new ViewDataDictionary() { TemplateInfo = new TemplateInfo() { HtmlFieldPrefix = "FindService" } })
                         @Html.Partial("_CommonHiddenFieldsCareAdviceViewModel", Model, new ViewDataDictionary() { TemplateInfo = new TemplateInfo() { HtmlFieldPrefix = "FindService" } })
-                        <button class="button--link" id="away-from-home" type="submit" value="AwayFromHome" name="AwayFromHome" formnovalidate>I'm away from home</button>
+                        <button class="button--link" id="away-from-home" type="submit" value="away-from-home" name="reason" formnovalidate>I'm away from home</button>
                     }
                 </li>
                 <li>
@@ -50,7 +50,7 @@
                     {
                         @Html.Partial("_CommonHiddenFieldsOutcomeViewModel", Model)
                         @Html.Partial("_CommonHiddenFieldsCareAdviceViewModel", Model)
-                        <button class="button--link" id="no-gp" type="submit" value="NoGP" name="NoGP" formnovalidate>I don't have a GP</button>
+                        <button class="button--link" id="no-gp" type="submit" value="no-gp" name="reason" formnovalidate>I don't have a GP</button>
                     }
                 </li>
             </ul>

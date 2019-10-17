@@ -50,7 +50,7 @@
             {
                 @Html.Partial("_CommonHiddenFieldsOutcomeViewModel", Model)
                 @Html.Partial("_CommonHiddenFieldsCareAdviceViewModel", Model)
-                <button class="button--link" id="register-with-gp" type="submit" value="RegisterWithGp" name="RegisterWithGp" formnovalidate>I'm away from home</button>
+                <button class="button--link" id="register-with-gp" type="submit" value="away-from-home" name="reason" formnovalidate>I'm away from home</button>
             }
         </li>
         <li>
@@ -58,7 +58,7 @@
             {
                 @Html.Partial("_CommonHiddenFieldsOutcomeViewModel", Model)
                 @Html.Partial("_CommonHiddenFieldsCareAdviceViewModel", Model)
-                <button class="button--link" id="register-with-temp-gp" type="submit" value="RegisterWithTempGp" name="RegisterWithTempGp" formnovalidate>I don't have a GP</button>
+                <button class="button--link" id="register-with-temp-gp" type="submit" value="no-gp" name="reason" formnovalidate>I don't have a GP</button>
             }
         </li>
     </ul>
