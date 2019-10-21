@@ -69,10 +69,10 @@ namespace NHS111.Web.Presentation.Configuration.Tests
         [Test()]
         public void GetBusinessApiNextNodeUrl_with_relative_url_configured_Test()
         {
-            ConfigurationManager.AppSettings["BusinessApiNextNodeUrl"] = "nextEndpoint/{0}/{1}/next/{2}/{3}";
-                var result = _testConfiguration.GetBusinessApiNextNodeUrl("PW1234", NodeType.Question,  "xxx-ddd", "{State:'somestate'}");
+            ConfigurationManager.AppSettings["BusinessApiNextNodeUrl"] = "nextEndpoint/{0}/{1}/next/{2}/";
+                var result = _testConfiguration.GetBusinessApiNextNodeUrl("PW1234", NodeType.Question,  "xxx-ddd");
 
-            Assert.AreEqual("nextEndpoint/PW1234/Question/next/xxx-ddd/{State:'somestate'}", result);
+            Assert.AreEqual("nextEndpoint/PW1234/Question/next/xxx-ddd/", result);
         }
 
         [Test()]

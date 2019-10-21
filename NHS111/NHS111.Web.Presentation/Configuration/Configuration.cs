@@ -149,9 +149,9 @@ namespace NHS111.Web.Presentation.Configuration
             return string.Format(GetBusinessApiUrlWithDomain("BusinessApiPathwaySymptomGroupUrl"), symptonGroups);
         }
 
-        public string GetBusinessApiNextNodeUrl(string pathwayId, NodeType currentNodeType, string journeyId, string state, bool pathOnly = false)
+        public string GetBusinessApiNextNodeUrl(string pathwayId, NodeType currentNodeType, string journeyId, bool pathOnly = false)
         {
-            return string.Format(GetBusinessApiUrlWithDomain("BusinessApiNextNodeUrl", pathOnly), pathwayId, currentNodeType, journeyId, state);
+            return string.Format(GetBusinessApiUrlWithDomain("BusinessApiNextNodeUrl", pathOnly), pathwayId, currentNodeType, journeyId);
         }
 
         public string GetBusinessApiQuestionByIdUrl(string pathwayId, string questionId, bool pathOnly = false)
@@ -246,7 +246,7 @@ namespace NHS111.Web.Presentation.Configuration
         string GetBusinessApiGroupedPathwaysUrl(string searchString, string gender, int age, bool pathOnly = false);
         string GetBusinessApiPathwayIdUrl(string pathwayNumber, string gender, int age);
         string GetBusinessApiPathwaySymptomGroupUrl(string symptonGroups);
-        string GetBusinessApiNextNodeUrl(string pathwayId, NodeType currentNodeType, string journeyId, string state, bool pathOnly = false);
+        string GetBusinessApiNextNodeUrl(string pathwayId, NodeType currentNodeType, string journeyId, bool pathOnly = false);
         string GetBusinessApiQuestionByIdUrl(string pathwayId, string questionId, bool pathOnly = false);
         string GetBusinessApiCareAdviceUrl(int age, string gender, string careAdviceMarkers);
         string GetBusinessApiFirstQuestionUrl(string pathwayId, string state);

@@ -1,4 +1,5 @@
 ﻿
+using NHS111.Models.Models.Business;
 using NHS111.Utils.RestTools;
 using NHS111.Web.Presentation.Filters;
 
@@ -359,11 +360,12 @@ namespace NHS111.Web.Controllers {
             return View(viewRouter.ViewName, result);
         }
 
-        private async Task<QuestionWithAnswers> GetNextNode(QuestionViewModel model) {
-            var answer = JsonConvert.DeserializeObject<Answer>(model.SelectedAnswer);
-            var serialisedState = HttpUtility.UrlEncode(model.StateJson);
-            var request = new JsonRestRequest(_configuration.GetBusinessApiNextNodeUrl(model.PathwayId, model.NodeType, model.Id, serialisedState, true), Method.POST);
-            request.AddJsonBody(answer.Title);
+        private async Task<QuestionWithAnswers> GetNextNode(QuestionViewModel model)
+        {
+            var selectedAnswerState = Mapper.Map(model, new SelectedAnswerState());
+            
+            var request = new JsonRestRequest(_configuration.GetBusinessApiNextNodeUrl(model.PathwayId, model.NodeType, model.Id, true), Method.POST);
+            request.AddJsonBody(selectedAnswerState);
             var response = await _restClientBusinessApi.ExecuteTaskAsync<QuestionWithAnswers>(request);
             return response.Data;
         }
