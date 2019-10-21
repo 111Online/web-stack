@@ -75,6 +75,22 @@ namespace NHS111.Web.Controllers
             return View(model);
         }
 
+        private OutcomeViewModel PopulateCCGAndStp(OutcomeViewModel model)
+        {
+            if (_postCodeAllowedValidator.CcgModel == null)
+            {
+                model.Campaign = string.Empty;
+                model.Source = string.Empty;
+
+                return model;
+            }
+            
+            model.Campaign = _postCodeAllowedValidator.CcgModel.StpName;
+            model.Source = _postCodeAllowedValidator.CcgModel.CCG;
+
+            return model;
+        }
+
         [HttpPost]
         public async Task<ActionResult> DispositionWithServices(OutcomeViewModel model, string submitAction, DosEndpoint? endpoint = null, DateTime? dosSearchTime = null)
         {
@@ -93,7 +109,8 @@ namespace NHS111.Web.Controllers
             }
 
             model.UserInfo.CurrentAddress.IsInPilotArea = postcodeValidatorResponse.IsInPilotAreaForOutcome(model.OutcomeGroup);
-            
+            model = PopulateCCGAndStp(model);
+
             if (!model.UserInfo.CurrentAddress.IsInPilotArea)
             {
                 if (model.OutcomeGroup.IsPharmacyGroup)

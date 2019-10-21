@@ -23,8 +23,8 @@ namespace NHS111.Web.Presentation.Validators
 
         public PostcodeValidatorResponse IsAllowedPostcode(string postcode)
         {
-            var postcodeVlaidatorResponse = Task.Run(async () => await IsAllowedPostcodeAsync(postcode));
-            return postcodeVlaidatorResponse.Result;
+            var postcodeValidatorResponse = Task.Run(async () => await IsAllowedPostcodeAsync(postcode));
+            return postcodeValidatorResponse.Result;
         }
 
         public async Task<PostcodeValidatorResponse> IsAllowedPostcodeAsync(string postcode)
