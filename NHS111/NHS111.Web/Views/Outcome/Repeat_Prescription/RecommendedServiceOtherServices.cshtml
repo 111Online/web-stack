@@ -84,7 +84,8 @@
     @if (Model.PathwayNo != "PW1827")
     {
         <hr/>
-
+        
+        @Html.Partial("_rs_CareAdvice", Model.CareAdvices)
         @Html.Partial("_rs_WorseningAdvice", Model)
     }
 </div>
