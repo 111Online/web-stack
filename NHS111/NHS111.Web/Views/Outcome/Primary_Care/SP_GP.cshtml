@@ -17,12 +17,12 @@
             headerText = "Contact your GP if you don't feel better in a few days";
             break;
         case "Dx75":
-            headerText = "Contact your  GP within the next few days";
+            headerText = "Contact your GP within the next few days";
             break;
     }
 }
 
-@section Title { NHS 111 - See your GP }
+@section Title { NHS 111 - @headerText }
 
 @section HeadTop {
     @{ var url = string.Format("/outcome/{0}/{1}/{2}/disposition/", Url.Encode(Model.PathwayNo), Url.Encode(Model.OutcomeGroup.Text), Url.Encode(Model.Id)); }
