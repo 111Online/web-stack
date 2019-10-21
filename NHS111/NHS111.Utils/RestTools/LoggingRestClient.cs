@@ -41,6 +41,8 @@ namespace NHS111.Utils.RestTools
             var response = await base.ExecuteTaskAsync<T>(request);
             if(response != null && response.StatusCode !=  HttpStatusCode.OK) _logger.Error(String.Format("Request to: {0}{1} returned with Error Code: {2} and response: {3}", BaseUrl, request.Resource, response.StatusCode, response.ErrorMessage));
             else _logger.Error(String.Format("Request to: {0}{1} failed", BaseUrl, request.Resource));
+
+            base.BaseUrl = new Uri(_baseUrlDefault); //set base url back to default setting
             return response;
         }
 
