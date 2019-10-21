@@ -136,7 +136,7 @@ namespace NHS111.Web.Functional.Utils
         }
 
         public void VerifyCareAdvice(string[] expectedAdviceItems) {
-            var foundItems = Driver.FindElements(By.CssSelector(".care-advice div h4"));
+            var foundItems = Driver.FindElements(By.CssSelector("h2[id^='Advice_']"));
             Assert.AreEqual(expectedAdviceItems.Count(), foundItems.Count,
                 string.Format("Incorrect number of care advice on disposition '{0}'. Found items were: {1}",
                     Header.Text, foundItems.Select(cx => "'" + cx.Text + "'\n")));
