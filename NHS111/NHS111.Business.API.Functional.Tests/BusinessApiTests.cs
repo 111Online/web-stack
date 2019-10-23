@@ -307,7 +307,19 @@ namespace NHS111.Business.API.Functional.Tests
                     new JourneyStep { QuestionId = "PW564.5500", Answer = new Answer { Order = 3 } },
                     new JourneyStep { QuestionId = "PW564.6600", Answer = new Answer { Order = 2 } },
                     new JourneyStep { QuestionId = "PW564.7000", Answer = new Answer { Order = 3 } }
-                }, 30, 19, 1, 0, 4, 2, "PW564MaleAdult", "Dx330", "Trauma", new Dictionary<string, string> { { "PATIENT_AGE", "42" }, { "PATIENT_GENDER", "\"M\"" }, { "PATIENT_PARTY", "1" }, { "PATIENT_AGEGROUP", "Adult" }, { "SYSTEM_ONLINE", "online" }, { "SYSTEM_MERS", "mers" }, { "CX100037", "" } }).SetName("journey contains inline care advice");
+                }, 30, 19, 1, 0, 4, 2, "PW564MaleAdult", "Dx330", "Trauma", new Dictionary<string, string> { { "PATIENT_AGE", "42" }, { "PATIENT_GENDER", "\"M\"" }, { "PATIENT_PARTY", "1" }, { "PATIENT_AGEGROUP", "Child" }, { "SYSTEM_ONLINE", "online" }, { "SYSTEM_MERS", "mers" }, { "CX100037", "" } }).SetName("journey contains inline care advice");
+                yield return new TestCaseData(new List<JourneyStep>
+                {
+                    new JourneyStep { QuestionId = "PA215.32000", Answer = new Answer { Order = 1 } },
+                    new JourneyStep { QuestionId = "PA215.9000", Answer = new Answer { Order = 1 } },
+                    new JourneyStep { QuestionId = "PA215.9200", Answer = new Answer { Order = 1 } },
+                    new JourneyStep { QuestionId = "PA215.26000", Answer = new Answer { Order = 2 } },
+                    new JourneyStep { QuestionId = "PA215.28100", Answer = new Answer { Order = 1 } },
+                    new JourneyStep { QuestionId = "PA215.36900", Answer = new Answer { Order = 3 } },
+                    new JourneyStep { QuestionId = "PA215.9900", Answer = new Answer { Order = 1 } },
+                    new JourneyStep { QuestionId = "PA215.10000", Answer = new Answer { Order = 2 } },
+                    new JourneyStep { QuestionId = "PA215.10100", Answer = new Answer { Order = 4 } }
+                }, 37, 17, 0, 0, 10, 6, "PW1746FemaleChild", "Dx34", "Non Trauma", new Dictionary<string, string> { { "PATIENT_AGE", "5" }, { "PATIENT_GENDER", "\"F\"" }, { "PATIENT_PARTY", "1" }, { "PATIENT_AGEGROUP", "Child" }, { "SYSTEM_ONLINE", "online" }, { "SYSTEM_MERS", "mers" }, { "NormalSugarReading", "\"present\"" }, { "ConcernHighBloodSugars", "\"present\"" }, { "MMOLperLitre", "\"present\"" } }).SetName("journey does not contain care advice");
             }
         }
     }

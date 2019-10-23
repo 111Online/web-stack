@@ -73,7 +73,7 @@ namespace NHS111.Business.Services
             var moduleZeroJourney = await GetModuleZeroJourney(gender, age, traumaType);
             
             var pathwaysJourney = await GetPathwayJourney(steps, startingPathwayId, dispositionCode, gender, age);
-            var filteredJourneySteps = NavigateReadNodeLogic(steps, pathwaysJourney.ToList(), state);
+            var filteredJourneySteps = NavigateReadNodeLogic(steps, pathwaysJourney.ToList(), state).ToArray();
 
             //keywords from pathways
             var pathwayKeywords = filteredJourneySteps.Where(q => q.Labels.Contains("Pathway")).Select(q => q.Question.Keywords);
@@ -83,9 +83,13 @@ namespace NHS111.Business.Services
             // keywords from answers
             var journeySteps = filteredJourneySteps.Where(q => q.Answered != null).Select(q => new JourneyStep {Answer = q.Answered}).ToList();
             keywords = _keywordCollector.CollectKeywordsFromPreviousQuestion(keywords, journeySteps);
-            
+
+            var consolidatedKeywords = _keywordCollector.ConsolidateKeywords(keywords).ToArray();
+            if (!consolidatedKeywords.Any())
+                return moduleZeroJourney.Concat(filteredJourneySteps);
+
             var careAdvice = await _careAdviceService.GetCareAdvice(new AgeCategory(age).Value, gender,
-                _keywordCollector.ConsolidateKeywords(keywords).Aggregate((i, j) => i + '|' + j), dispositionCode);
+                consolidatedKeywords.Aggregate((i, j) => i + '|' + j), dispositionCode);
 
             var careAdviceAsQuestionWithAnswersListString = _careAdviceTransformer.AsQuestionWithAnswersList(careAdvice);
             var careAdviceAsQuestionWithAnswers = JsonConvert.DeserializeObject<List<QuestionWithAnswers>>(careAdviceAsQuestionWithAnswersListString);
