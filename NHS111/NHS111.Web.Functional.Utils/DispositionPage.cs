@@ -210,9 +210,8 @@ namespace NHS111.Web.Functional.Utils
         // VerifyPageContainsDOSServices is used for recommended service and other services pages.
         public void VerifyPageContainsDOSServices()
         {
-            Assert.IsTrue(DosResults.Displayed);
-            var results = DosResults.FindElements(By.ClassName("service-listing"));
-
+            var results = Driver.FindElements(By.ClassName("service-listing"));
+            Assert.IsTrue(results.All(e => e.Displayed));
             Assert.IsTrue(results.Count > 0, "No DoS results found on page.");
         }
 
