@@ -1,7 +1,7 @@
 ﻿@model  IEnumerable<NHS111.Models.Models.Domain.CareAdvice>
 @if (Model.Any())
 {
-    <details class="measure">
+    <details class="measure care-advice">
         <summary><span class="details__arrow" role="presentation"></span>Things to look out for and self-care</summary>
         <div>
             @foreach (var careAdvice in Model)
