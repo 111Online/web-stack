@@ -61,7 +61,7 @@ namespace NHS111.Web.Functional.Utils
            return base.CompareAndVerify(this, uniqueId);
         }
 
-        public object ClickCantGetAppointment()
+        public OtherServicesPage ClickCantGetAppointment()
         {
             Driver.FindElement(By.Id("cant-book-appt")).Click();
             return new OtherServicesPage(Driver);
