@@ -1,4 +1,5 @@
-﻿using OpenQA.Selenium;
+﻿using System;
+using OpenQA.Selenium;
 using OpenQA.Selenium.Support.PageObjects;
 
 namespace NHS111.Web.Functional.Utils
@@ -58,6 +59,12 @@ namespace NHS111.Web.Functional.Utils
         public OutcomePage CompareAndVerify(string uniqueId)
         {
            return base.CompareAndVerify(this, uniqueId);
+        }
+
+        public object ClickCantGetAppointment()
+        {
+            Driver.FindElement(By.Id("cant-book-appt")).Click();
+            return new OtherServicesPage(Driver);
         }
     }
 }

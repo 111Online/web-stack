@@ -312,8 +312,9 @@ namespace NHS111.Web.Functional.Tests
                 .Answer(3)
                 .Answer<OutcomePage>(1);
 
-            outcomePage.VerifyPageContainsDOSResults();
-            outcomePage.CompareAndVerify("1");
+            var otherServicesPage = outcomePage.ClickCantGetAppointment();
+            otherServicesPage.VerifyPageContainsDOSServices();
+            otherServicesPage.CompareAndVerify("1");
         }
 
         

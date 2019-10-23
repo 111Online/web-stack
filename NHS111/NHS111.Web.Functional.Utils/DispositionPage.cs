@@ -30,7 +30,7 @@ namespace NHS111.Web.Functional.Utils
         [FindsBy(How = How.CssSelector, Using = ".callout--attention h2")]
         private IWebElement WhatIfFeelWorseHeader { get; set; }
 
-        [FindsBy(How = How.CssSelector, Using = ".care-advice .heading-medium")]
+        [FindsBy(How = How.CssSelector, Using = ".care-advice .heading-medium, .care-advice summary")]
         private IWebElement CareAdviceTitleElement { get; set; }
 
         [FindsBy(How = How.ClassName, Using = "findservice-form")]
@@ -196,6 +196,8 @@ namespace NHS111.Web.Functional.Utils
             Driver.FindElement(By.Id("next")).Click();
             return new OutcomePage(Driver);
         }
+
+        // Used for pages with DOS results grouped by type
         public void VerifyPageContainsDOSResults()
         {
             Assert.IsTrue(DOSGroups.Count() > 0, "No DoS result groupings found on page.");
@@ -204,6 +206,16 @@ namespace NHS111.Web.Functional.Utils
 
             Assert.IsTrue(results.Count > 0, "No DoS results found on page.");
         }
+
+        // VerifyPageContainsDOSServices is used for recommended service and other services pages.
+        public void VerifyPageContainsDOSServices()
+        {
+            Assert.IsTrue(DosResults.Displayed);
+            var results = DosResults.FindElements(By.ClassName("service-listing"));
+
+            Assert.IsTrue(results.Count > 0, "No DoS results found on page.");
+        }
+
         public void VerifyDOSResultGroupExists(string groupText)
         {
             Assert.IsTrue(DOSGroups.Any(g => g.Text == groupText));
