@@ -11,6 +11,7 @@ using NHS111.Business.Api.Controllers;
 using NHS111.Business.Builders;
 using NHS111.Business.Services;
 using NHS111.Business.Transformers;
+using NHS111.Models.Models.Business;
 using NHS111.Models.Models.Domain;
 using NHS111.Models.Models.Web.Enums;
 using NHS111.Utils.Cache;
@@ -53,7 +54,7 @@ namespace NHS111.Business.Test.Controller
 
             //_questionTransformer.Setup(x => x.AsQuestionWithDeadEnd(It.IsAny<QuestionWithAnswers>())).Returns(question);
 
-            var result = await _sut.GetNextNode("1", NodeType.Question, "2", "", "yes");
+            var result = await _sut.GetNextNode("1", NodeType.Question, "2", new SelectedAnswerState {SelectedAnswer = new Answer{Title="yes"}, State=""});
 
             _questionService.Verify(x => x.GetNextQuestion(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>()), Times.Once);
             //Assert.IsInstanceOf<QuestionWithDeadEnd>(JsonConvert.DeserializeObject<QuestionWithDeadEnd>(await result.Content.ReadAsStringAsync()));
@@ -76,7 +77,7 @@ namespace NHS111.Business.Test.Controller
 
             _questionTransformer.Setup(x => x.AsQuestionWithAnswers(It.IsAny<QuestionWithAnswers>())).Returns(question);
 
-            var result = await _sut.GetNextNode("1", NodeType.Question, "2", "", "yes");
+            var result = await _sut.GetNextNode("1", NodeType.Question, "2", new SelectedAnswerState { SelectedAnswer = new Answer { Title = "yes" }, State = ""});
 
             _questionService.Verify(x => x.GetNextQuestion(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>()), Times.Once);
             Assert.IsInstanceOf<QuestionWithAnswers>(result.Content);
@@ -127,7 +128,7 @@ namespace NHS111.Business.Test.Controller
                 .Returns(Task.FromResult(node2))
                 .Returns(Task.FromResult(node3));
 
-            var result = await _sut.GetNextNode("1", NodeType.Question, "2", "{}", "yes");
+            var result = await _sut.GetNextNode("1", NodeType.Question, "2", new SelectedAnswerState { SelectedAnswer = new Answer { Title = "yes" }, State = "{}"});
             var deserialisedResult = result.Content;
             Assert.IsTrue(deserialisedResult.Answers.First().Keywords.Contains("kw1"));
         }

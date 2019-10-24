@@ -1,5 +1,7 @@
 ﻿
 using System;
+using AutoMapper;
+using NHS111.Models.Mappers.WebMappings;
 using NHS111.Web.Helpers;
 using RestSharp;
 
@@ -60,6 +62,9 @@ namespace NHS111.Web.Presentation.Test.Controllers {
             _mockRestClient.Setup(r => r.ExecuteTaskAsync<QuestionWithAnswers>(It.IsAny<RestRequest>())).Returns(() => StartedTask((IRestResponse<QuestionWithAnswers>)new RestResponse<QuestionWithAnswers>() { ResponseStatus = ResponseStatus.Completed, Data = new QuestionWithAnswers()}));
            
             _mockConfiguration.Setup(c => c.IsPublic).Returns(false);
+
+            Mapper.Initialize(m => m.AddProfile<FromQuestionViewModelToAnswerState>());
+            Mapper.AssertConfigurationIsValid();
         }
 
         [Test]
@@ -94,7 +99,7 @@ namespace NHS111.Web.Presentation.Test.Controllers {
                     },
                 }
             };
-
+            
             _mockJtbsBuilderMock.Setup(j => j.JustToBeSafeFirstBuilder(It.IsAny<JustToBeSafeViewModel>()))
                 .Returns(StartedTask(new AwfulIdea("", mockQuestion)));
 

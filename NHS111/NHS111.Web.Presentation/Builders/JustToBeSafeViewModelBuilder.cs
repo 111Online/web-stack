@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using System.Xml;
 using AutoMapper;
 using Newtonsoft.Json;
+using NHS111.Models.Models.Business;
 using NHS111.Models.Models.Domain;
 using NHS111.Models.Models.Web;
 using NHS111.Models.Models.Web.FromExternalServices;
@@ -131,12 +132,12 @@ namespace NHS111.Web.Presentation.Builders
         }
 
         private async Task<QuestionWithAnswers> GetNextNode(QuestionViewModel model) {
-            var answer = JsonConvert.DeserializeObject<Answer>(model.SelectedAnswer);
-            var serialisedState = HttpUtility.UrlEncode(JsonConvert.SerializeObject(model.State));
-            var businessApiNextNodeUrl = _configuration.GetBusinessApiNextNodeUrl(model.PathwayId, model.NodeType, model.Id, serialisedState);
+            var selectedAnswerState = Mapper.Map(model, new SelectedAnswerState());
+
+            var businessApiNextNodeUrl = _configuration.GetBusinessApiNextNodeUrl(model.PathwayId, model.NodeType, model.Id);
 
             var request = new JsonRestRequest(businessApiNextNodeUrl, Method.POST);
-            request.AddJsonBody(answer.Title);
+            request.AddJsonBody(selectedAnswerState);
             var response = await _restClient.ExecuteTaskAsync<QuestionWithAnswers>(request);
 
             CheckResponse(response);
