@@ -150,7 +150,10 @@
     
     var prePopulatedDosResultsOutcomeGroups = [@(Html.Raw(String.Join(",",OutcomeGroup.PrePopulatedDosResultsOutcomeGroups.Select(og => "\"" + og.Id + "\"").ToList())))]
 
-    $("[name='SelectedAnswer']").on("input click change", function() {
+    $("[name='SelectedAnswer']").on("change", function() {
+        // Only needs to be checked once so return if already checked
+        if ($(this).is("[data-searches-dos]")) return
+        var selectedAnswer = $(this)
         $.ajax({
             method: "POST",
             url: "/question/NextNodeDetails",
@@ -158,9 +161,11 @@
         }).done(function(data) {
             if (data.NodeType == @((int)NodeType.Outcome) && '@Model.CurrentPostcode' != '' && prePopulatedDosResultsOutcomeGroups.indexOf(data.OutcomeGroup.Id) > -1) {
                 $("main form").attr("data-show-spinner", "true")
+                selectedAnswer.attr("data-searches-dos", "true")
             }
             else {
                 $("main form").attr("data-show-spinner", "false")
+                selectedAnswer.attr("data-searches-dos", "false")
             }
         })
     })
