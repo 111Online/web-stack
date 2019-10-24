@@ -137,38 +137,35 @@
 
 @Html.Partial("_PageLoadingIndicator")
 <script type="text/javascript">
-
-    const formToJSON = elements => [].reduce.call(elements, (data, element) => {
-
+    var formToJSON = elements => [].reduce.call(elements, function (data, element) {
         if (element.type != "radio") data[element.name] = element.value;
         else if (element.checked) data[element.name] = element.value;
         return data;
+    }, {});
 
-        }, {});
+    var form = $('main form')[0];
+    
+    
+    var prePopulatedDosResultsOutcomeGroups = [@(Html.Raw(String.Join(",",OutcomeGroup.PrePopulatedDosResultsOutcomeGroups.Select(og => "\"" + og.Id + "\"").ToList())))]
 
-    const form = $('form')[0];
+    $("[name='SelectedAnswer']").on("input", function() {
+        $.ajax({
+            method: "POST",
+            url: "/question/NextNodeDetails",
+            data: formToJSON(form.elements)
+        }).done(function(data) {
+            if (data.NodeType == @((int)NodeType.Outcome) && '@Model.CurrentPostcode' != '' && prePopulatedDosResultsOutcomeGroups.indexOf(data.OutcomeGroup.Id) > -1) {
+                $("main form").attr("data-show-spinner", "true")
+            }
+            else {
+                $("main form").attr("data-show-spinner", "false")
+            }
+        })
+    })
 
-    $(".button--next").on("click",
-        function () {
-
-            var prePopulatedDosResultsOutcomeGroups = [@(Html.Raw(String.Join(",",OutcomeGroup.PrePopulatedDosResultsOutcomeGroups.Select(og => "\"" + og.Id + "\"").ToList())))];
-            $.ajax({
-                    method: "POST",
-                    url: "/question/NextNodeDetails",
-                    data: formToJSON(form.elements)
-                })
-                .done(function(data) {
-                    if (data.NodeType == @((int)NodeType.Outcome) && '@Model.CurrentPostcode' != '' &&
-                        prePopulatedDosResultsOutcomeGroups.indexOf(data.OutcomeGroup.Id) > -1) {
-                        startPageLoadingIndicator('Searching for services near to  @Model.FormattedCurrentPostcode ...');
-                    }
-                });
-        });
-
-
-
-
-
-
-
+    $("main form").on("submit", function() {
+        if ($(this).attr("data-show-spinner") == "true") {
+            startPageLoadingIndicator("Searching for services near to @Model.FormattedCurrentPostcode ...")
+        }
+    })
 </script>
