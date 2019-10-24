@@ -137,18 +137,20 @@
 
 @Html.Partial("_PageLoadingIndicator")
 <script type="text/javascript">
-    var formToJSON = elements => [].reduce.call(elements, function (data, element) {
-        if (element.type != "radio") data[element.name] = element.value;
-        else if (element.checked) data[element.name] = element.value;
-        return data;
-    }, {});
+    var formToJSON = function (elements) {
+        return [].reduce.call(elements, function (data, element) {
+            if (element.type != "radio") data[element.name] = element.value;
+            else if (element.checked) data[element.name] = element.value;
+            return data;
+        }, {})
+    }
 
     var form = $('main form')[0];
     
     
     var prePopulatedDosResultsOutcomeGroups = [@(Html.Raw(String.Join(",",OutcomeGroup.PrePopulatedDosResultsOutcomeGroups.Select(og => "\"" + og.Id + "\"").ToList())))]
 
-    $("[name='SelectedAnswer']").on("input", function() {
+    $("[name='SelectedAnswer']").on("input click change", function() {
         $.ajax({
             method: "POST",
             url: "/question/NextNodeDetails",
