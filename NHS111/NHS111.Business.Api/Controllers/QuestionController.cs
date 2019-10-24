@@ -70,8 +70,9 @@ namespace NHS111.Business.Api.Controllers
 
         public async Task<JsonResult<QuestionWithAnswers>> GetNextNode(string pathwayId, string nodeLabel, string nodeId, [FromBody]SelectedAnswerState selectedAnswerState, string cacheKey = null)
         {
+
 #if !DEBUG
-                cacheKey = cacheKey ?? string.Format("{0}-{1}-{2}-{3}", pathwayId, nodeId, answer, state);
+            cacheKey = cacheKey ?? string.Format("{0}-{1}-{2}-{3}", pathwayId, nodeId, selectedAnswerState.SelectedAnswer.Title, selectedAnswerState.State);
 
                 var cacheValue = await _cacheManager.Read(cacheKey);
                 if (!string.IsNullOrEmpty(cacheValue))
@@ -81,9 +82,10 @@ namespace NHS111.Business.Api.Controllers
 #endif
 
             var question = await _questionService.GetNextQuestion(nodeId, nodeLabel, selectedAnswerState.SelectedAnswer.Title);
-            var stateDictionary = JsonConvert.DeserializeObject<IDictionary<string, string>>(HttpUtility.UrlDecode(selectedAnswerState.State));
 
             var nextLabel = question.Labels.FirstOrDefault();
+
+            var stateDictionary = JsonConvert.DeserializeObject<IDictionary<string, string>>(HttpUtility.UrlDecode(selectedAnswerState.State));
 
             if (nextLabel == "Question" || nextLabel == "Outcome")
             {
