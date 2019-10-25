@@ -184,7 +184,7 @@ namespace NHS111.Domain.Repository
                 if (!IsLastStep(steps, index))
                 {
                     modifiedQuery = modifiedQuery.OptionalMatch(String.Format(
-                        "p = (:{0}{{id:'{1}'}})-[a:Answer{{order:{2}}}]-(f)-[:Answer*0..3]->(t)-[:Answer]->(:{3}{{id:'{4}'}})",
+                        "p = (:{0}{{id:'{1}'}})-[a:Answer{{order:{2}}}]->(f)-[:Answer*0..3]->(t)-[:Answer]->(:{3}{{id:'{4}'}})",
                         steps[index].NodeLabel,
                         steps[index].QuestionId,
                         steps[index].Answer.Order,
