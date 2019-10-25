@@ -169,6 +169,11 @@ namespace NHS111.Web.Controllers
         [HttpPost]
         public async Task<ActionResult> ServiceList([Bind(Prefix = "FindService")]OutcomeViewModel model, [FromUri] DateTime? overrideDate, [FromUri] bool? overrideFilterServices, DosEndpoint? endpoint)
         {
+            _auditLogger.LogPrimaryCareReason(model, Request.Form["reason"]);
+            if (Request.Form["OtherServices"] != null) {
+                _auditLogger.LogPrimaryCareReason(model, "Patient clicked other things you can do");
+            }
+
             if (!ModelState.IsValidField("FindService.CurrentPostcode"))
                 return View(model.CurrentView, model);
 
@@ -409,7 +414,7 @@ namespace NHS111.Web.Controllers
         [Route("Outcome/RegisterWithGp", Name = "RegisterWithGp")]
         [Route("Outcome/RegisterWithTempGp", Name = "RegisterWithTempGp")]
         public async Task<ActionResult> MoreInfo(OutcomeViewModel model, string reason) {
-            _auditLogger.LogEventData(model, "User chose more ways to get help.");
+            _auditLogger.LogPrimaryCareReason(model, reason);
             ViewData["Route"] = ((Route)ControllerContext.RouteData.Route).Url;
             model = await _outcomeViewModelBuilder.PrimaryCareBuilder(model, reason);
             return View("~\\Views\\Outcome\\Primary_Care\\MoreInfo.cshtml", model);
