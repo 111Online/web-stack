@@ -181,7 +181,8 @@
             }
         });
 
-    window.onpageshow = function(event) {
+    window.onpageshow = function (event) {
+        $("main form").attr("data-show-spinner", "false");
         if ($("[name='SelectedAnswer']").is(':checked'))
             checkNextNodeType();
     };
