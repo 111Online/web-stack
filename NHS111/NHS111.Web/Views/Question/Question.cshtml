@@ -151,7 +151,7 @@
     var prePopulatedDosResultsOutcomeGroups = [@(Html.Raw(String.Join(",",OutcomeGroup.PrePopulatedDosResultsOutcomeGroups.Select(og => "\"" + og.Id + "\"").ToList())))]
 
    
-    $("[name='SelectedAnswer']").on("change", function() {
+    var checkNextNodeType = function() {
         // Only needs to be checked once so return if already checked
         if ($(this).is("[data-searches-dos]")) return
         var selectedAnswer = $(this)
@@ -169,12 +169,22 @@
                 selectedAnswer.attr("data-searches-dos", "false")
             }
         })
-    })
+    };
 
-    $("main form").on("submit", function() {
-        if ($(this).attr("data-show-spinner") == "true") {
-            startPageLoadingIndicator("Searching for services near to @Model.FormattedCurrentPostcode ...")
-        }
-    })
+    $("[name='SelectedAnswer']").on("change", checkNextNodeType); 
+
+    $("main form").on("submit",
+        function() {
+            if ($(this).attr("data-show-spinner") == "true") {
+                startPageLoadingIndicator("Searching for services near to @Model.FormattedCurrentPostcode ...")
+            }
+        });
+
+    window.onpageshow = function (event) {
+        stopPageLoadingIndicator();
+        if ($("[name='SelectedAnswer']").is(':checked'))
+            checkNextNodeType();
+    };
+
 
 </script>
