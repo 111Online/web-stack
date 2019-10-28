@@ -153,7 +153,12 @@
    
     var checkNextNodeType = function() {
         // Only needs to be checked once so return if already checked
-        if ($(this).is("[data-searches-dos]")) return
+        if ($(this).is("[data-searches-dos]")) {
+             $("main form").attr("data-show-spinner", "false")
+            selectedAnswer.attr("data-searches-dos", "false")
+            return
+        }
+
         var selectedAnswer = $(this)
         $.ajax({
             method: "POST",
@@ -180,11 +185,11 @@
             }
         });
 
-    window.onpageshow = function (event) {
+    $(document).ready(function (event) {
         stopPageLoadingIndicator();
         if ($("[name='SelectedAnswer']").is(':checked'))
             checkNextNodeType();
-    };
+    });
 
 
 </script>
