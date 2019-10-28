@@ -137,58 +137,18 @@
 
 @Html.Partial("_PageLoadingIndicator")
 <script type="text/javascript">
-    var formToJSON = function (elements) {
-        return [].reduce.call(elements, function (data, element) {
-            if (element.type != "radio") data[element.name] = element.value;
-            else if (element.checked) data[element.name] = element.value;
-            return data;
-        }, {})
-    }
+    $("main form").on("submit", function() {
+        setTimeout(function () {
+            $(".button--next").attr("disabled", "true")
+        }, 0)
 
-    var form = $('main form')[0];
-    
-    
-    var prePopulatedDosResultsOutcomeGroups = [@(Html.Raw(String.Join(",",OutcomeGroup.PrePopulatedDosResultsOutcomeGroups.Select(og => "\"" + og.Id + "\"").ToList())))]
+        setTimeout(function () {
+            startPageLoadingIndicator("Submitting your answer...")
+        }, 750) 
 
-   
-    var checkNextNodeType = function() {
-        var selectedAnswer = $(this)
-        // Only needs to be checked once so return if already checked
-        if ($(this).is("[data-searches-dos]")) {
-             $("main form").attr("data-show-spinner", $(this).attr("data-searches-dos"))
-            return
-        }
-
-        $.ajax({
-            method: "POST",
-            url: "/question/NextNodeDetails",
-            data: formToJSON(form.elements)
-        }).done(function(data) {
-            if (data.NodeType == @((int)NodeType.Outcome) && '@Model.CurrentPostcode' != '' && prePopulatedDosResultsOutcomeGroups.indexOf(data.OutcomeGroup.Id) > -1) {
-                $("main form").attr("data-show-spinner", "true")
-                selectedAnswer.attr("data-searches-dos", "true")
-            }
-            else {
-                $("main form").attr("data-show-spinner", "false")
-                selectedAnswer.attr("data-searches-dos", "false")
-            }
-        })
-    };
-
-    $("[name='SelectedAnswer']").on("change", checkNextNodeType); 
-
-    $("main form").on("submit",
-        function() {
-            if ($(this).attr("data-show-spinner") == "true") {
-                startPageLoadingIndicator("Searching for services near to @Model.FormattedCurrentPostcode ...")
-            }
-        });
-
-    $(document).ready(function (event) {
-        stopPageLoadingIndicator();
-        if ($("[name='SelectedAnswer']").is(':checked'))
-            checkNextNodeType();
-    });
-
-
+        setTimeout(function () { 
+            stopPageLoadingIndicator()
+            $(".button--next").removeAttr("disabled")
+        }, 5000)
+    })
 </script>
