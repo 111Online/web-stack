@@ -152,6 +152,7 @@
 
    
     var checkNextNodeType = function() {
+        var selectedAnswer = $(this)
         // Only needs to be checked once so return if already checked
         if ($(this).is("[data-searches-dos]")) {
              $("main form").attr("data-show-spinner", "false")
@@ -159,7 +160,6 @@
             return
         }
 
-        var selectedAnswer = $(this)
         $.ajax({
             method: "POST",
             url: "/question/NextNodeDetails",
