@@ -155,8 +155,7 @@
         var selectedAnswer = $(this)
         // Only needs to be checked once so return if already checked
         if ($(this).is("[data-searches-dos]")) {
-             $("main form").attr("data-show-spinner", "false")
-            selectedAnswer.attr("data-searches-dos", "false")
+             $("main form").attr("data-show-spinner", "true")
             return
         }
 
