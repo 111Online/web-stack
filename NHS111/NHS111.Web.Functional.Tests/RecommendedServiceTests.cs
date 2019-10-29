@@ -27,7 +27,7 @@ namespace NHS111.Web.Functional.Tests
         [Test]
         public void ReferRingAndGoService()
         {
-            var questionPage = TestScenerios.LaunchRecommendedServiceScenerio(Driver, "Emergency Prescription 111 online", TestScenerioSex.Male, TestScenerioAgeGroups.Adult, "L12SA");
+            var questionPage = TestScenerios.LaunchRecommendedServiceScenerio(Driver, "Emergency Prescription 111 online", TestScenerioSex.Male, TestScenerioAgeGroups.Adult, "PR67JY");
 
             questionPage.VerifyQuestion("Can you contact your GP or usual pharmacy?");
             var recommendedServicePage = questionPage
