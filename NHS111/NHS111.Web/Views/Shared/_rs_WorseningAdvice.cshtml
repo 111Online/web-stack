@@ -1,19 +1,22 @@
-﻿<details class="measure worsening-advice">
-    <summary><span class="details__arrow" role="presentation"></span>What to do if you start to feel worse</summary>
-    <div>
-        @* When TimeFrameText is empty, TimeFrameMinutes is 0 so this avoids it being included as high acuity *@
-        @if (Model.TimeFrameMinutes > 0 && Model.TimeFrameMinutes <= 360) {
-            <ol>
-                <li>Call 111</li>
-                <li>Tell them 111 online said you needed to get help@(!string.IsNullOrEmpty(Model.TimeFrameText) ? " within " + Model.TimeFrameText : "").</li>
-                <li>Tell them your symptoms have got worse and you need to speak to a nurse.</li>
-            </ol>
-            <p>You might have to start the questions again, or answer new questions about any new symptoms.</p>
-        }
-        else
-        {
-            <p>Choose the symptom that's worrying you most and either use this service again or call 111.</p>
-        }
+﻿﻿@if (Model.DisplayWorseningCareAdvice)
+{
+    <details class="measure worsening-advice">
+        <summary><span class="details__arrow" role="presentation"></span>What to do if you start to feel worse</summary>
+        <div>
+            @* When TimeFrameText is empty, TimeFrameMinutes is 0 so this avoids it being included as high acuity *@
+            @if (Model.TimeFrameMinutes > 0 && Model.TimeFrameMinutes <= 360) {
+                <ol>
+                    <li>Call 111</li>
+                    <li>Tell them 111 online said you needed to get help@(!string.IsNullOrEmpty(Model.TimeFrameText) ? " within " + Model.TimeFrameText : "").</li>
+                    <li>Tell them your symptoms have got worse and you need to speak to a nurse.</li>
+                </ol>
+                <p>You might have to start the questions again, or answer new questions about any new symptoms.</p>
+            }
+            else
+            {
+                <p>Choose the symptom that's worrying you most and either use this service again or call 111.</p>
+            }
 
-    </div>
-</details>
+        </div>
+    </details>
+}
