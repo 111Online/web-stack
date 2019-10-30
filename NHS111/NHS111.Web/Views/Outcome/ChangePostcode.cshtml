@@ -27,7 +27,7 @@
         @using (Html.BeginForm("DispositionWithServices", "Outcome"))
         {
             
-            @Html.Partial("_CommonHiddenFieldsOutcomeViewModel", Model)
+            @Html.Partial("_CommonHiddenFieldsOutcomeViewModel", Model, new ViewDataDictionary { { "ChangeCurrentPostcode", true } })
             @Html.Partial("_CommonHiddenFieldsCareAdviceViewModel", Model)
 
             if (Model.UserInfo.CurrentAddress.IsPostcodeFirst)
