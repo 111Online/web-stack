@@ -206,7 +206,7 @@ namespace NHS111.Web.Functional.Tests
 
             outcomePage.VerifyOutcome("Contact your GP if you don't feel better in a few days");
             outcomePage.VerifyWorseningReveal(WorseningMessages.PrimaryCare);
-            outcomePage.VerifyCareAdviceHeader("What to do if it gets worse and self care");
+            outcomePage.VerifyCareAdviceHeader("Things to look out for and self-care");
             outcomePage.VerifyCareAdvice(new string[] { "Diarrhoea & Vomiting" });
             outcomePage.CompareAndVerify("1");
         }
