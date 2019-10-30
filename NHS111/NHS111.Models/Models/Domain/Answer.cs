@@ -45,5 +45,8 @@ namespace NHS111.Models.Models.Domain
         
         [JsonProperty(PropertyName = "isPositive")]
         public bool IsPositive { get; set; }
+
+        [JsonProperty(PropertyName = "specifyText")]
+        public string SpecifyText { get; set; }
     }
 }

@@ -15,7 +15,7 @@ namespace NHS111.Web.Functional.Tests
         [TestCase("Male", 22, "Headache", new[] {3, 3, 3, 5, 3, 3, 3, 1}, "Dx02", TestName = "Can reach Dx02")]
         [TestCase("Male", 24, "Sexual Concerns", new[] {3, 4, 3, 3, 3, 4, 4, 1, 1, 3}, "Dx03", TestName = "Can reach Dx03")]
         [TestCase("Female", 24, "Sexual or Menstrual Concerns", new[] {3, 4}, "Dx38", TestName = "Can reach Dx38")]
-        [TestCase("Male", 6, "Object, Ingested or Inhaled", new[] {1, 3, 3, 5, 3, 5, 3, 3, 3, 3, 3, 3, 3}, "Dx89", TestName = "Can reach Dx89")]
+        [TestCase("Male", 6, "Object, Ingested or Inhaled", new[] {1, 3, 3, 5, 3, 5, 3, 3, 3, 3, 3, 3}, "Dx89", TestName = "Can reach Dx89")]
         [TestCase("Female", 16, "Mental Health Problems", new[] {1, 5, 3, 5, 3, 1, 4}, "Dx92", TestName = "Can reach Dx92")]
         [TestCase("Female", 22, "Sexual or Menstrual Concerns", new[] {1}, "Dx94", TestName = "Can reach Dx94")]
         public void TestOutcomes(string sex, int age, string pathwayTitle, int[] answers, string expectedDxCode) {
@@ -61,7 +61,7 @@ namespace NHS111.Web.Functional.Tests
                 .AnswerSuccessiveByOrder(3, 6)
                 .Answer<OutcomePage>(1);
  
-            outcomePage.VerifyOutcome("Your answers suggest you should contact a pharmacist within 12 hours");
+            outcomePage.VerifyOutcome("Your answers suggest you should contact a pharmacist within 24 hours");
             outcomePage.VerifyWorseningPanel(WorseningMessages.Call111PostCodeFirst);
             outcomePage.VerifyFindService(FindServiceTypes.Pharmacy);
             outcomePage.VerifyCareAdviceHeader("What you can do in the meantime");
@@ -96,7 +96,7 @@ namespace NHS111.Web.Functional.Tests
         {
             var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Dental Problems", TestScenerioSex.Female, TestScenerioAgeGroups.Adult);
 
-            questionPage.VerifyQuestion("What is the problem that's bothering you most?");
+            questionPage.VerifyQuestion("What is the main problem today?");
             var postcodeFirstPage = questionPage
                 .Answer(2)
                 .Answer(4)
@@ -115,7 +115,7 @@ namespace NHS111.Web.Functional.Tests
         {
             var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Dental Problems", TestScenerioSex.Female, TestScenerioAgeGroups.Adult);
 
-            questionPage.VerifyQuestion("What is the problem that's bothering you most?");
+            questionPage.VerifyQuestion("What is the main problem today?");
             var outcomePage = questionPage
                 .Answer(1)
                 .Answer(3)
@@ -137,9 +137,10 @@ namespace NHS111.Web.Functional.Tests
         {
             var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Headache", TestScenerioSex.Male, TestScenerioAgeGroups.Adult);
 
-            questionPage.VerifyQuestion("Have you hurt your head in the last 7 days?");
+            questionPage.VerifyQuestion("Have you hurt or banged your head in the last 4 weeks?");
             var outcomePage = questionPage
-                .AnswerSuccessiveByOrder(3, 3)
+                .Answer(4)
+                .AnswerSuccessiveByOrder(3, 2)
                 .Answer(5)
                 .Answer(3)
                 .Answer(3)
@@ -199,7 +200,8 @@ namespace NHS111.Web.Functional.Tests
                 .AnswerSuccessiveByOrder(3, 3)
                 .Answer(5)
                 .AnswerSuccessiveByOrder(3, 2)
-                .Answer(5)
+                .Answer(3)
+                .Answer(3)
                 .Answer<OutcomePage>(1);
 
             outcomePage.VerifyOutcome("See a GP if you're not feeling better in a few days");
@@ -214,7 +216,7 @@ namespace NHS111.Web.Functional.Tests
         {
             var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Tiredness (Fatigue)", TestScenerioSex.Male, TestScenerioAgeGroups.Adult);
 
-            questionPage.VerifyQuestion("Have you got a raised temperature now or have you had one at any time since the tiredness started?");
+            questionPage.VerifyQuestion("Have you got a fever right now or had one since the tiredness started?");
             var outcomePage = questionPage
                 .AnswerSuccessiveByOrder(3, 4)
                 .AnswerSuccessiveByOrder(4, 2)
@@ -236,9 +238,10 @@ namespace NHS111.Web.Functional.Tests
         {
             var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Headache", TestScenerioSex.Male, TestScenerioAgeGroups.Adult);
 
-            questionPage.VerifyQuestion("Have you hurt your head in the last 7 days?");
+            questionPage.VerifyQuestion("Have you hurt or banged your head in the last 4 weeks?");
             var outcomePage = questionPage
-                .AnswerSuccessiveByOrder(3, 3)
+                .Answer(4)
+                .AnswerSuccessiveByOrder(3, 2)
                 .Answer(5)
                 .Answer(1)
                 .Answer(3)
@@ -262,7 +265,8 @@ namespace NHS111.Web.Functional.Tests
             var outcomePage = questionPage
                 .Answer(3)
                 .Answer(1)
-                .AnswerSuccessiveByOrder(3, 3)
+                .Answer(4)
+                .AnswerSuccessiveByOrder(3, 2)
                 .Answer(5)
                 .Answer(3)
                 .Answer(3)

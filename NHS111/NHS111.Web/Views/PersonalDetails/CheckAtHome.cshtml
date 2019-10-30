@@ -1,0 +1,62 @@
+﻿@using NHS111.Models.Models.Web
+@inherits NHS111.Web.Views.Shared.SurveyLinkView<PersonalDetailViewModel>
+@{
+    Layout = "~/Views/Shared/_LayoutNhsUk.cshtml";
+}
+
+@{
+    var self = Model.PatientInformantDetails.Informant == InformantType.Self;
+    var heading = self ? "Are you at home?" : "Are they at home?";
+}
+
+@section Title {
+    @heading
+}
+
+@section HeadTop {
+    @{ var url = string.Format("/outcome/{0}/{1}/{2}/itk/personaldetails/checkathome/{3}/{4}", Url.Encode(Model.PathwayNo), Url.Encode(Model.OutcomeGroup.Text), Url.Encode(Model.Id), Url.Encode(Model.SelectedServiceId), Url.Encode(Model.SelectedService.Name)); }
+    <script>
+        var pageId = '@Model.Id';
+        dataLayer = [
+            {
+                'virtualPageUrl': '@url',
+                'virtualPageTitle': 'Personal Details - @heading'
+            }];
+    </script>
+}
+
+@{
+    var dataDictionary = ViewContext.ViewData;
+    dataDictionary.Add(new KeyValuePair<string, object>("LaunchPage", "check-at-home"));
+}
+
+@section FeedbackSection {
+    @Html.Partial("_FeedbackDetails", new FeedbackViewModel() { UserId = Model.SessionId.ToString(), PageData = new PageDataViewModel(PageDataViewModel.PageType.PersonalDetailsCheckAtHome, Model) })
+}
+
+@using (Html.BeginForm("SubmitAtHome", "PersonalDetails", FormMethod.Post))
+{
+
+    @Html.Partial("_CommonHiddenFieldsOutcomeViewModel", Model)
+    @Html.Partial("_CommonHiddenFieldsCareAdviceViewModel", Model)
+    @Html.Partial("_CommonHiddenFieldsPersonalDetails", Model)
+    @Html.Partial("_CommonHiddenFieldsCurrentAddress", Model)
+    @Html.HiddenFor(m => m.SelectedServiceId)
+
+    <div class="nhsuk-core">
+        <div class="form-group @(ViewData.ModelState.IsValid ? "" : "form-group-error")">
+            <legend>
+                <h1 class="nhsuk-heading-l">@heading</h1>
+            </legend>
+
+            @Html.ValidationMessageFor(m => m.AddressInformation.HomeAddressSameAsCurrentWrapper.HomeAddressSameAsCurrent, "Select an answer")
+            @Html.RadioButtonFor(m => m.AddressInformation.HomeAddressSameAsCurrentWrapper.HomeAddressSameAsCurrent, HomeAddressSameAsCurrent.Yes, new { id = "home-address-yes", name = "home-address", @class = "multiple-choice__input" })
+            <label for="home-address-yes" class="multiple-choice--radio">Yes</label>
+
+            @Html.RadioButtonFor(m => m.AddressInformation.HomeAddressSameAsCurrentWrapper.HomeAddressSameAsCurrent, HomeAddressSameAsCurrent.No, new { id = "home-address-no", name = "home-address", @class = "multiple-choice__input" })
+            <label for="home-address-no" class="multiple-choice--radio">No</label>
+        </div>
+
+        <button type="submit" id="submitHomeAddress">Next</button>
+    </div>
+}

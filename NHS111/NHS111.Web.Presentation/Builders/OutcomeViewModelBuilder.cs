@@ -2,21 +2,16 @@
 using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
-using System.Net.Http;
-using System.Text;
 using System.Threading.Tasks;
 using System.Web;
 using AutoMapper;
-using Newtonsoft.Json;
 using NHS111.Models.Models.Domain;
 using NHS111.Models.Models.Web;
 using NHS111.Models.Models.Web.DosRequests;
 using NHS111.Models.Models.Web.FromExternalServices;
 using NHS111.Models.Models.Web.ITK;
-using NHS111.Models.Models.Web.Logging;
-using NHS111.Utils.Filters;
-using NHS111.Utils.Helpers;
 using NHS111.Utils.Logging;
+using NHS111.Utils.Parser;
 using NHS111.Utils.RestTools;
 using NHS111.Web.Presentation.Logging;
 using RestSharp;
@@ -24,7 +19,6 @@ using IConfiguration = NHS111.Web.Presentation.Configuration.IConfiguration;
 
 namespace NHS111.Web.Presentation.Builders
 {
-    using System.Diagnostics;
     using NHS111.Models.Mappers.WebMappings;
 
     public class OutcomeViewModelBuilder : BaseBuilder, IOutcomeViewModelBuilder
@@ -153,7 +147,7 @@ namespace NHS111.Web.Presentation.Builders
         private bool NeedToRequeryDos(OutcomeViewModel model)
         {
             return (!model.HasAcceptedCallbackOffer.HasValue || !model.HasAcceptedCallbackOffer.Value) &&
-                   model.OutcomeGroup.Equals(OutcomeGroup.AccidentAndEmergency) &&
+                   (model.OutcomeGroup.Equals(OutcomeGroup.AccidentAndEmergency) || model.OutcomeGroup.Equals(OutcomeGroup.MentalHealth)) &&
                    FromOutcomeViewModelToDosViewModel.DispositionResolver.IsRemappedToDx334(model.Id) &&
                    !model.DosCheckCapacitySummaryResult.HasITKServices;
         }

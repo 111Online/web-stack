@@ -95,6 +95,7 @@
     <Compile Include="Services\CareAdviceService_Test.cs" />
     <Compile Include="Services\PathwayService_Test.cs" />
     <Compile Include="Services\QuestionService_Test.cs" />
+    <Compile Include="Transformers\CareAdviceTransformer_Test.cs" />
     <Compile Include="Transformers\QuestionTransformer_Test.cs" />
   </ItemGroup>
   <ItemGroup>

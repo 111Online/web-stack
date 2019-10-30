@@ -70,7 +70,7 @@
     @Html.HiddenFor(x => Model.FilterServices)
     @Html.HiddenFor(x => Model.Campaign)
     @Html.HiddenFor(x => Model.Source)
-
+    @Html.Hidden("DisplayLoadingPage")
     @Html.Raw(WriteDirectLink(Model))
 
     for (int i = 0; i < Model.CollectedKeywords.Keywords.Count; i++)
@@ -137,38 +137,54 @@
 
 @Html.Partial("_PageLoadingIndicator")
 <script type="text/javascript">
+    var formToJSON = function (elements) {
+        return [].reduce.call(elements, function (data, element) {
+            if (element.type != "radio") data[element.name] = element.value;
+            else if (element.checked) data[element.name] = element.value;
+            return data;
+        }, {})
+    }
 
-    const formToJSON = elements => [].reduce.call(elements, (data, element) => {
+    var form = $('main form')[0];
+    
+    
+    var prePopulatedDosResultsOutcomeGroups = [@(Html.Raw(String.Join(",",OutcomeGroup.PrePopulatedDosResultsOutcomeGroups.Select(og => "\"" + og.Id + "\"").ToList())))]
 
-        if (element.type != "radio") data[element.name] = element.value;
-        else if (element.checked) data[element.name] = element.value;
-        return data;
+   
+    var checkNextNodeType = function() {
+        // Only needs to be checked once so return if already checked
+        if ($(this).is("[data-searches-dos]")) return
+        var selectedAnswer = $(this)
+        $.ajax({
+            method: "POST",
+            url: "/question/NextNodeDetails",
+            data: formToJSON(form.elements)
+        }).done(function(data) {
+            if (data.NodeType == @((int)NodeType.Outcome) && '@Model.CurrentPostcode' != '' && prePopulatedDosResultsOutcomeGroups.indexOf(data.OutcomeGroup.Id) > -1) {
+                $("main form").attr("data-show-spinner", "true")
+                selectedAnswer.attr("data-searches-dos", "true")
+            }
+            else {
+                $("main form").attr("data-show-spinner", "false")
+                selectedAnswer.attr("data-searches-dos", "false")
+            }
+        })
+    };
 
-        }, {});
+    $("[name='SelectedAnswer']").on("change", checkNextNodeType); 
 
-    const form = $('form')[0];
-
-    $(".button--next").on("click",
-        function () {
-
-            var prePopulatedDosResultsOutcomeGroups = [@(Html.Raw(String.Join(",",OutcomeGroup.PrePopulatedDosResultsOutcomeGroups.Select(og => "\"" + og.Id + "\"").ToList())))];
-            $.ajax({
-                    method: "POST",
-                    url: "/question/NextNodeDetails",
-                    data: formToJSON(form.elements)
-                })
-                .done(function(data) {
-                    if (data.NodeType == @((int)NodeType.Outcome) && '@Model.CurrentPostcode' != '' &&
-                        prePopulatedDosResultsOutcomeGroups.indexOf(data.OutcomeGroup.Id) > -1) {
-                        startPageLoadingIndicator('Searching for services near to  @Model.FormattedCurrentPostcode ...');
-                    }
-                });
+    $("main form").on("submit",
+        function() {
+            if ($(this).attr("data-show-spinner") == "true") {
+                startPageLoadingIndicator("Searching for services near to @Model.FormattedCurrentPostcode ...")
+            }
         });
 
-
-
-
-
+    window.onpageshow = function (event) {
+        stopPageLoadingIndicator();
+        if ($("[name='SelectedAnswer']").is(':checked'))
+            checkNextNodeType();
+    };
 
 
 </script>

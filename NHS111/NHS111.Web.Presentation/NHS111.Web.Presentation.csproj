@@ -155,7 +155,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Analytics\AnalyticsTagPrinter.cs" />
-    <Compile Include="Analytics\GoogleTagManagerPrinter.cs" />
     <Compile Include="Builders\CCGViewModelBuilder.cs" />
     <Compile Include="Builders\JourneyViewModelBuilder.cs" />
     <Compile Include="Builders\LocationResultBuilder.cs" />
@@ -180,7 +179,6 @@
     <Compile Include="Builders\JourneyViewModelStateBuilder.cs" />
     <Compile Include="Builders\JustToBeSafeFirstViewModelBuilder.cs" />
     <Compile Include="Builders\JustToBeSafeViewModelBuilder.cs" />
-    <Compile Include="Builders\KeywordCollector.cs" />
     <Compile Include="Builders\OutcomeViewModelBuilder.cs" />
     <Compile Include="Builders\SurgeryBuilder.cs" />
     <Compile Include="Builders\SymptomDicriminatorCollector.cs" />
