@@ -29,10 +29,6 @@ details > div {
   @include nhsuk-responsive-padding(4, 'top');
 }
 
-details + details {
-  @include nhsuk-responsive-margin(3, 'top', 'true');
-}
-
 
 /* Some specificity hacks are required so nhsuk doesn't override existing classes */
 
