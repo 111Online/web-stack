@@ -1,40 +1,42 @@
 ﻿@model  IEnumerable<NHS111.Models.Models.Domain.CareAdvice>
+@{
+    var worseningIsShown = ViewData["DisplayWorseningCareAdvice"];
+    var text = worseningIsShown == null || (worseningIsShown is bool && (bool)worseningIsShown) ? "Things to look out for and self-care" : "What to do if it gets worse and self care";
+}
 @if (Model.Any())
 {
-    <div class="content-seperator content-seperator--equalvertspacing--large"></div>
-    <div class="measure">
-        <h2>Care advice</h2>
-        <div class="care-advice-output">
+    <details class="measure care-advice">
+        <summary><span class="details__arrow" role="presentation"></span>@text</summary>
+        <div>
             @foreach (var careAdvice in Model)
             {
                 if (careAdvice.Items != null && careAdvice.Items.Any())
                 {
-                    <details>
-                        <summary id="Advice_@careAdvice.Id">@careAdvice.Keyword</summary>
-                        <div>
-                            <ul>
-                                @foreach (var parent in careAdvice.Items)
-                                {
-                                    <li>
-                                        @parent.Text
-                                        @if (parent.Items != null && parent.Items.Any())
-                                        {
-                                            <ul>
-                                                @foreach (var child in parent.Items)
-                                                {
-                                                    <li>@child.Text</li>
-                                                }
-                                            </ul>
-                                        }
-                                    </li>
+                    <div>
+                        <h2 id="Advice_@careAdvice.Id" class="nhsuk-heading-m">@careAdvice.Keyword</h2>
+                        @foreach (var parent in careAdvice.Items)
+                        {
+                            <p>
+                                @parent.Text
+                            </p>
+                            if (parent.Items != null && parent.Items.Any())
+                            {
+                                if (parent.Items.Any())
+                                 {
+                                    <ul>
+                                         @foreach (var child in parent.Items)
+                                          {
+                                              <li>@child.Text</li>
+                                          }
+                                    </ul>
+                                 }
+                            }
 
-                                }
-                            </ul>
-                        </div>
+                        }
                         @Html.Hidden(careAdvice.Id)
-                    </details>
+                    </div>
                 }
             }
         </div>
-    </div>
+    </details>
 }

@@ -71,7 +71,7 @@ namespace NHS111.Web.Functional.Tests
                 .Answer<OutcomePage>("Yes");
 
 
-            outcomePage.VerifyOutcome("Speak to your GP practice urgently");
+            outcomePage.VerifyOutcome("Contact your GP now");
         }
 
 

@@ -204,9 +204,9 @@ namespace NHS111.Web.Functional.Tests
                 .Answer(3)
                 .Answer<OutcomePage>(1);
 
-            outcomePage.VerifyOutcome("See a GP if you're not feeling better in a few days");
-            outcomePage.VerifyWorseningPanel(WorseningMessages.Call111PostCodeFirst);
-            outcomePage.VerifyCareAdviceHeader("What you can do in the meantime");
+            outcomePage.VerifyOutcome("Contact your GP if you don't feel better in a few days");
+            outcomePage.VerifyWorseningReveal(WorseningMessages.PrimaryCare);
+            outcomePage.VerifyCareAdviceHeader("What to do if it gets worse and self care");
             outcomePage.VerifyCareAdvice(new string[] { "Diarrhoea & Vomiting" });
             outcomePage.CompareAndVerify("1");
         }
@@ -249,9 +249,9 @@ namespace NHS111.Web.Functional.Tests
                 .AnswerSuccessiveByOrder(3, 4)
                 .Answer<PostcodeFirstPage>(1);
 
-            outcomePage.VerifyOutcome("Speak to your GP practice urgently");
-            outcomePage.VerifyWorseningPanel(WorseningMessages.Call111PostCodeFirst);
-            outcomePage.VerifyCareAdviceHeader("What you can do in the meantime");
+            outcomePage.VerifyOutcome("Contact your GP now");
+            outcomePage.VerifyWorseningReveal(WorseningMessages.PrimaryCare);
+            outcomePage.VerifyCareAdviceHeader("Things to look out for and self-care");
             outcomePage.VerifyCareAdvice(new string[] { "Medication, pain and/or fever", "Headache" });
             outcomePage.CompareAndVerify(outcomePage, "1");
         }
@@ -312,8 +312,9 @@ namespace NHS111.Web.Functional.Tests
                 .Answer(3)
                 .Answer<OutcomePage>(1);
 
-            outcomePage.VerifyPageContainsDOSResults();
-            outcomePage.CompareAndVerify("1");
+            var otherServicesPage = outcomePage.ClickCantGetAppointment();
+            otherServicesPage.VerifyPageContainsDOSServices();
+            otherServicesPage.CompareAndVerify("1");
         }
 
         
@@ -360,8 +361,8 @@ namespace NHS111.Web.Functional.Tests
                 .Answer(3)
                 .Answer<OutcomePage>(3);
            
-            outcomePage.VerifyOutcome("Speak to your GP practice urgently");
-            outcomePage.VerifyCareAdviceHeader("What you can do in the meantime");
+            outcomePage.VerifyOutcome("Contact your GP now");
+            outcomePage.VerifyWorseningReveal(WorseningMessages.PrimaryCare);
             outcomePage.VerifyCareAdvice(new string[] { "Vomiting blood" });
 
             // Vomiting Blood should show in care advice but Vomiting on its own shouldn't
