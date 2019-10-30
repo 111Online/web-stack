@@ -1,7 +1,7 @@
 ﻿@model  IEnumerable<NHS111.Models.Models.Domain.CareAdvice>
 @{
     var worseningIsShown = ViewData["DisplayWorseningCareAdvice"];
-    var text = worseningIsShown is bool && (bool)worseningIsShown ? "Things to look out for and self-care" : "What to do if it gets worse and self care";
+    var text = worseningIsShown == null || (worseningIsShown is bool && (bool)worseningIsShown) ? "Things to look out for and self-care" : "What to do if it gets worse and self care";
 }
 @if (Model.Any())
 {
