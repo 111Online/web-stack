@@ -57,6 +57,7 @@
         }
         else
         {
+            @Html.HiddenFor(x => Model.Id) @* Field required for testing purposes *@
             <details class="measure">
                 <summary><span class="details__arrow" role="presentation"></span>I don't have a GP</summary>
                 <div><p>Call 111. They will tell you where you can get help if you're not registered with a GP.</p></div>
@@ -66,7 +67,7 @@
 
     <hr role="presentation" class="nhsuk-u-margin-top-6" />
 
-    @Html.Partial("_rs_CareAdvice", Model.CareAdvices, new ViewDataDictionary {{"DisplayWorseningCareAdvice", Model.DisplayWorseningCareAdvice}})
+    @Html.Partial("_rs_CareAdvice", Model.CareAdvices, new ViewDataDictionary { { "DisplayWorseningCareAdvice", Model.DisplayWorseningCareAdvice } })
     @Html.Partial("_rs_WorseningAdvice", Model)
 
 </section>
