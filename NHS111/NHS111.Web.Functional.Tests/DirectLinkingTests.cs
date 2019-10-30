@@ -85,7 +85,7 @@ namespace NHS111.Web.Functional.Tests
             [Test]
             public void NoRecommendedServicesPage()
             {
-                var directLink = TestScenarioPart.DirectLinking(Driver, "/question/direct/PW1827MaleAdult/33/Emergency%20Prescription%20111%20online/MK181EG/?answers=0,1,0");
+                var directLink = TestScenarioPart.DirectLinking(Driver, "/question/direct/PW1827MaleAdult/33/Emergency%20Prescription%20111%20online/LS175DT/?answers=0,1,0");
                 directLink.VerifyNoRecommendedServices();
             }
 
