@@ -1,0 +1,66 @@
+﻿@* Use like so:
+    @Html.Partial("_InlineSpinner")
+*@
+
+<span id="loading"></span>
+
+
+<style>
+    @* These keyframes are required by spin.js but the CSS minifier changes their names so this is a workaround that forces the names to be correct for what the JS is looking for. *@
+
+    @@keyframes spinner-line-fade-more {
+        0%, 100% {
+            opacity: 0; /* minimum opacity */
+        }
+
+        1% {
+            opacity: 1;
+        }
+    }
+
+    @@keyframes spinner-line-fade-quick {
+        0%, 39%, 100% {
+            opacity: 0.25; /* minimum opacity */
+        }
+
+        40% {
+            opacity: 1;
+        }
+    }
+
+    @@keyframes spinner-line-fade-default {
+        0%, 100% {
+            opacity: 0.22; /* minimum opacity */
+        }
+
+        1% {
+            opacity: 1;
+        }
+    }
+</style>
+
+<!--Spinner script-->
+<script type="text/javascript">
+    var opts = {
+        lines: 12, // The number of lines to draw
+        length: 7, // The length of each line
+        width: 4, // The line thickness
+        radius: 10, // The radius of the inner circle
+        color: '#000', // #rgb or #rrggbb
+        speed: 1, // Rounds per second
+        trail: 60, // Afterglow percentage
+        shadow: false, // Whether to render a shadow
+        hwaccel: false // Whether to use hardware acceleration
+    }
+
+    var spinner = new Spinner(opts)
+
+    function startSpinner() {
+        var target = document.getElementById('loading')
+        spinner.spin(target)
+    }
+
+    function stopSpinner() {
+        spinner.stop()
+    }
+</script>

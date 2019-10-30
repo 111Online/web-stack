@@ -25,13 +25,14 @@
 }
 
 @section FeedbackSection {
-@Html.Partial("_FeedbackDetails", new FeedbackViewModel() {
-    UserId = Model.SessionId.ToString(),
-    PageData = new PageDataViewModel(Model.IsFirstStep ? PageDataViewModel.PageType.FirstQuestion : PageDataViewModel.PageType.Question, Model),
-    Heading = "Help us improve this question",
-    Paragraph = "Does it make sense? Do you understand all the words?",
-    ShowOnNhsApp = true
-})
+    @Html.Partial("_FeedbackDetails", new FeedbackViewModel()
+    {
+        UserId = Model.SessionId.ToString(),
+        PageData = new PageDataViewModel(Model.IsFirstStep ? PageDataViewModel.PageType.FirstQuestion : PageDataViewModel.PageType.Question, Model),
+        Heading = "Help us improve this question",
+        Paragraph = "Does it make sense? Do you understand all the words?",
+        ShowOnNhsApp = true
+    })
 }
 
 @functions {
@@ -99,56 +100,64 @@
                 </div>
             }
 
-            @for(var i=0;i < Model.OrderedAnswers().Count; i++)
+            @for (var i = 0; i < Model.OrderedAnswers().Count; i++)
             {
                 var answer = Model.OrderedAnswers()[i];
                 var isTrigger = Model.QuestionNo == Model.TriggerQuestionNo && answer.Title == Model.TriggerQuestionAnswer;
                 <div class="multiple-choice">
                     <input name="SelectedAnswer" data-val="true" data-val-required="'SelectedAnswer' should not be empty." type="radio" class="multiple-choice__input" id="@answer.TitleWithoutSpaces" value="@Newtonsoft.Json.JsonConvert.SerializeObject(answer)" checked="@isTrigger" />
-                    <label for="@answer.TitleWithoutSpaces" class="multiple-choice--radio">@if (isTrigger) {
+                    <label for="@answer.TitleWithoutSpaces" class="multiple-choice--radio">
+                        @if (isTrigger)
+                        {
                             @answer.Title<span class="highlight-term">&mdash; this means we can't rule out a serious condition</span>
-                        } else {
+                        }
+                        else
+                        {
                             @answer.Title
-                        }</label>
-                    @Html.Hidden(string.Format("Answers[{0}].Title", i), answer.Title)
-                    @Html.Hidden(string.Format("Answers[{0}].TitleWithoutSpaces", i), answer.TitleWithoutSpaces)
-                    @Html.Hidden(string.Format("Answers[{0}].SymptomDiscriminator", i), answer.SymptomDiscriminator)
-                    @Html.Hidden(string.Format("Answers[{0}].SupportingInformation", i), answer.SupportingInformation)
-                    @Html.Hidden(string.Format("Answers[{0}].Keywords", i), answer.Keywords)
-                    @Html.Hidden(string.Format("Answers[{0}].ExcludeKeywords", i), answer.ExcludeKeywords)
-                    @Html.Hidden(string.Format("Answers[{0}].ReportText", i), answer.ReportText)
-                    @Html.Hidden(string.Format("Answers[{0}].DispositionDisplayText", i), answer.DispositionDisplayText)
-                    @Html.Hidden(string.Format("Answers[{0}].Order", i), answer.Order)
-                    @Html.Hidden(string.Format("Answers[{0}].IsPositive", i), answer.IsPositive)
-                    @if (!String.IsNullOrWhiteSpace(answer.SupportingInformation))
-                    {
-                        @Html.Partial("_HiddenText", new HiddenTextViewModel() {Summary = "What does this mean?", Details = new[] {Html.Encode(@Html.Raw(answer.SupportingInformationHtml))}})
-                    }
-                </div>
-            }
+                        }
+                </label>
+                @Html.Hidden(string.Format("Answers[{0}].Title", i), answer.Title)
+                @Html.Hidden(string.Format("Answers[{0}].TitleWithoutSpaces", i), answer.TitleWithoutSpaces)
+                @Html.Hidden(string.Format("Answers[{0}].SymptomDiscriminator", i), answer.SymptomDiscriminator)
+                @Html.Hidden(string.Format("Answers[{0}].SupportingInformation", i), answer.SupportingInformation)
+                @Html.Hidden(string.Format("Answers[{0}].Keywords", i), answer.Keywords)
+                @Html.Hidden(string.Format("Answers[{0}].ExcludeKeywords", i), answer.ExcludeKeywords)
+                @Html.Hidden(string.Format("Answers[{0}].ReportText", i), answer.ReportText)
+                @Html.Hidden(string.Format("Answers[{0}].DispositionDisplayText", i), answer.DispositionDisplayText)
+                @Html.Hidden(string.Format("Answers[{0}].Order", i), answer.Order)
+                @Html.Hidden(string.Format("Answers[{0}].IsPositive", i), answer.IsPositive)
+                @if (!String.IsNullOrWhiteSpace(answer.SupportingInformation))
+                {
+                    @Html.Partial("_HiddenText", new HiddenTextViewModel() { Summary = "What does this mean?", Details = new[] { Html.Encode(@Html.Raw(answer.SupportingInformationHtml)) } })
+                }
+            </div>
+        }
         </fieldset>
     </div>
-    <button class="button--next" id="nextScreen" type="submit" name="Question" value="Question">Next question</button>
+    
+    <button class="button--next" id="nextScreen" type="submit" name="Question" value="Question">Next question @Html.Partial("_InlineSpinner")</button>
     if (!Model.IsFirstStep)
     {
         <button class="button--stacked button--previous button--link" id="previousScreen" type="submit" value="PreviousQuestion" name="PreviousQuestion" formnovalidate>Change my previous answer</button>
     }
 }
 
-@Html.Partial("_PageLoadingIndicator")
 <script type="text/javascript">
-    $("main form").on("submit", function() {
+
+    function handleSubmit() {
         setTimeout(function () {
             $(".button--next").attr("disabled", "true")
+            startSpinner()
         }, 0)
+    }
 
-        setTimeout(function () {
-            startPageLoadingIndicator("Submitting your answer...")
-        }, 750) 
+    function reset() {
+        stopSpinner()
+        $(".button--next").removeAttr("disabled")
+    }
 
-        setTimeout(function () { 
-            stopPageLoadingIndicator()
-            $(".button--next").removeAttr("disabled")
-        }, 5000)
-    })
+    $("main form").on("submit", handleSubmit)
+    window.addEventListener("pagehide", reset)
+    window.addEventListener("pageshow", reset)
+
 </script>
