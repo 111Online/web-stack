@@ -135,7 +135,7 @@
         </fieldset>
     </div>
     
-    <button class="button--next" id="nextScreen" type="submit" name="Question" value="Question">Next question @Html.Partial("_InlineSpinner")</button>
+    <button class="button--next button--spinner" id="nextScreen" type="submit" name="Question" value="Question">Next question @Html.Partial("_InlineSpinner")</button>
     if (!Model.IsFirstStep)
     {
         <button class="button--stacked button--previous button--link" id="previousScreen" type="submit" value="PreviousQuestion" name="PreviousQuestion" formnovalidate>Change my previous answer</button>
@@ -146,8 +146,11 @@
 
     function handleSubmit() {
         setTimeout(function () {
-            $(".button--next").attr("disabled", "true")
-            startSpinner()
+            if ($(document.activeElement).val() == "PreviousQuestion") return
+            if ($("main form").valid()) {
+                $(".button--next").attr("disabled", "true")
+                startSpinner()
+            }
         }, 0)
     }
 
