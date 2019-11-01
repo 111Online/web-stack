@@ -186,7 +186,8 @@ namespace NHS111.Web.Controllers
         [HttpPost]
         public async Task<ActionResult> ServiceList([Bind(Prefix = "FindService")]OutcomeViewModel model, [FromUri] DateTime? overrideDate, [FromUri] bool? overrideFilterServices, DosEndpoint? endpoint)
         {
-            _auditLogger.LogPrimaryCareReason(model, Request.Form["reason"]);
+            var reason = Request.Form["reason"];
+            _auditLogger.LogPrimaryCareReason(model, reason);
             if (Request.Form["OtherServices"] != null) {
                 _auditLogger.LogPrimaryCareReason(model, "Patient clicked other things you can do");
             }
@@ -207,6 +208,7 @@ namespace NHS111.Web.Controllers
             _auditLogger.LogDosResponse(model, model.DosCheckCapacitySummaryResult);
 
             model.NodeType = NodeType.Outcome;
+            model = await _outcomeViewModelBuilder.PrimaryCareBuilder(model, reason);
 
             if (model.DosCheckCapacitySummaryResult.Error == null &&
                 !model.DosCheckCapacitySummaryResult.ResultListEmpty)
