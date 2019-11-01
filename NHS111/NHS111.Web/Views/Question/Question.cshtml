@@ -106,16 +106,11 @@
                 var isTrigger = Model.QuestionNo == Model.TriggerQuestionNo && answer.Title == Model.TriggerQuestionAnswer;
                 <div class="multiple-choice">
                     <input name="SelectedAnswer" data-val="true" data-val-required="'SelectedAnswer' should not be empty." type="radio" class="multiple-choice__input" id="@answer.TitleWithoutSpaces" value="@Newtonsoft.Json.JsonConvert.SerializeObject(answer)" checked="@isTrigger" />
-                    <label for="@answer.TitleWithoutSpaces" class="multiple-choice--radio">
-                        @if (isTrigger)
-                        {
-                            @answer.Title<span class="highlight-term">&mdash; this means we can't rule out a serious condition</span>
-                        }
-                        else
-                        {
-                            @answer.Title
-                        }
-                </label>
+                    <label for="@answer.TitleWithoutSpaces" class="multiple-choice--radio">@if (isTrigger) {
+                                                                                               @answer.Title<span class="highlight-term">&mdash; this means we can't rule out a serious condition</span>
+                                                                                           } else {
+                                                                                               @answer.Title
+                                                                                           }</label>
                 @Html.Hidden(string.Format("Answers[{0}].Title", i), answer.Title)
                 @Html.Hidden(string.Format("Answers[{0}].TitleWithoutSpaces", i), answer.TitleWithoutSpaces)
                 @Html.Hidden(string.Format("Answers[{0}].SymptomDiscriminator", i), answer.SymptomDiscriminator)
