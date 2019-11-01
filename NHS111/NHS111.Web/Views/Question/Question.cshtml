@@ -25,13 +25,14 @@
 }
 
 @section FeedbackSection {
-@Html.Partial("_FeedbackDetails", new FeedbackViewModel() {
-    UserId = Model.SessionId.ToString(),
-    PageData = new PageDataViewModel(Model.IsFirstStep ? PageDataViewModel.PageType.FirstQuestion : PageDataViewModel.PageType.Question, Model),
-    Heading = "Help us improve this question",
-    Paragraph = "Does it make sense? Do you understand all the words?",
-    ShowOnNhsApp = true
-})
+    @Html.Partial("_FeedbackDetails", new FeedbackViewModel()
+    {
+        UserId = Model.SessionId.ToString(),
+        PageData = new PageDataViewModel(Model.IsFirstStep ? PageDataViewModel.PageType.FirstQuestion : PageDataViewModel.PageType.Question, Model),
+        Heading = "Help us improve this question",
+        Paragraph = "Does it make sense? Do you understand all the words?",
+        ShowOnNhsApp = true
+    })
 }
 
 @functions {
@@ -99,92 +100,67 @@
                 </div>
             }
 
-            @for(var i=0;i < Model.OrderedAnswers().Count; i++)
+            @for (var i = 0; i < Model.OrderedAnswers().Count; i++)
             {
                 var answer = Model.OrderedAnswers()[i];
                 var isTrigger = Model.QuestionNo == Model.TriggerQuestionNo && answer.Title == Model.TriggerQuestionAnswer;
                 <div class="multiple-choice">
                     <input name="SelectedAnswer" data-val="true" data-val-required="'SelectedAnswer' should not be empty." type="radio" class="multiple-choice__input" id="@answer.TitleWithoutSpaces" value="@Newtonsoft.Json.JsonConvert.SerializeObject(answer)" checked="@isTrigger" />
-                    <label for="@answer.TitleWithoutSpaces" class="multiple-choice--radio">@if (isTrigger) {
+                    <label for="@answer.TitleWithoutSpaces" class="multiple-choice--radio">
+                        @if (isTrigger)
+                        {
                             @answer.Title<span class="highlight-term">&mdash; this means we can't rule out a serious condition</span>
-                        } else {
+                        }
+                        else
+                        {
                             @answer.Title
-                        }</label>
-                    @Html.Hidden(string.Format("Answers[{0}].Title", i), answer.Title)
-                    @Html.Hidden(string.Format("Answers[{0}].TitleWithoutSpaces", i), answer.TitleWithoutSpaces)
-                    @Html.Hidden(string.Format("Answers[{0}].SymptomDiscriminator", i), answer.SymptomDiscriminator)
-                    @Html.Hidden(string.Format("Answers[{0}].SupportingInformation", i), answer.SupportingInformation)
-                    @Html.Hidden(string.Format("Answers[{0}].Keywords", i), answer.Keywords)
-                    @Html.Hidden(string.Format("Answers[{0}].ExcludeKeywords", i), answer.ExcludeKeywords)
-                    @Html.Hidden(string.Format("Answers[{0}].ReportText", i), answer.ReportText)
-                    @Html.Hidden(string.Format("Answers[{0}].DispositionDisplayText", i), answer.DispositionDisplayText)
-                    @Html.Hidden(string.Format("Answers[{0}].Order", i), answer.Order)
-                    @Html.Hidden(string.Format("Answers[{0}].IsPositive", i), answer.IsPositive)
-                    @if (!String.IsNullOrWhiteSpace(answer.SupportingInformation))
-                    {
-                        @Html.Partial("_HiddenText", new HiddenTextViewModel() {Summary = "What does this mean?", Details = new[] {Html.Encode(@Html.Raw(answer.SupportingInformationHtml))}})
-                    }
-                </div>
-            }
+                        }
+                </label>
+                @Html.Hidden(string.Format("Answers[{0}].Title", i), answer.Title)
+                @Html.Hidden(string.Format("Answers[{0}].TitleWithoutSpaces", i), answer.TitleWithoutSpaces)
+                @Html.Hidden(string.Format("Answers[{0}].SymptomDiscriminator", i), answer.SymptomDiscriminator)
+                @Html.Hidden(string.Format("Answers[{0}].SupportingInformation", i), answer.SupportingInformation)
+                @Html.Hidden(string.Format("Answers[{0}].Keywords", i), answer.Keywords)
+                @Html.Hidden(string.Format("Answers[{0}].ExcludeKeywords", i), answer.ExcludeKeywords)
+                @Html.Hidden(string.Format("Answers[{0}].ReportText", i), answer.ReportText)
+                @Html.Hidden(string.Format("Answers[{0}].DispositionDisplayText", i), answer.DispositionDisplayText)
+                @Html.Hidden(string.Format("Answers[{0}].Order", i), answer.Order)
+                @Html.Hidden(string.Format("Answers[{0}].IsPositive", i), answer.IsPositive)
+                @if (!String.IsNullOrWhiteSpace(answer.SupportingInformation))
+                {
+                    @Html.Partial("_HiddenText", new HiddenTextViewModel() { Summary = "What does this mean?", Details = new[] { Html.Encode(@Html.Raw(answer.SupportingInformationHtml)) } })
+                }
+            </div>
+        }
         </fieldset>
     </div>
-    <button class="button--next" id="nextScreen" type="submit" name="Question" value="Question">Next question</button>
+    
+    <button class="button--next button--spinner" id="nextScreen" type="submit" name="Question" value="Question">Next question @Html.Partial("_InlineSpinner")</button>
     if (!Model.IsFirstStep)
     {
         <button class="button--stacked button--previous button--link" id="previousScreen" type="submit" value="PreviousQuestion" name="PreviousQuestion" formnovalidate>Change my previous answer</button>
     }
 }
 
-@Html.Partial("_PageLoadingIndicator")
 <script type="text/javascript">
-    var formToJSON = function (elements) {
-        return [].reduce.call(elements, function (data, element) {
-            if (element.type != "radio") data[element.name] = element.value;
-            else if (element.checked) data[element.name] = element.value;
-            return data;
-        }, {})
+
+    function handleSubmit() {
+        setTimeout(function () {
+            if ($(document.activeElement).val() == "PreviousQuestion") return
+            if ($("main form").valid()) {
+                $(".button--next").attr("disabled", "true")
+                startSpinner()
+            }
+        }, 0)
     }
 
-    var form = $('main form')[0];
-    
-    
-    var prePopulatedDosResultsOutcomeGroups = [@(Html.Raw(String.Join(",",OutcomeGroup.PrePopulatedDosResultsOutcomeGroups.Select(og => "\"" + og.Id + "\"").ToList())))]
+    function reset() {
+        stopSpinner()
+        $(".button--next").removeAttr("disabled")
+    }
 
-   
-    var checkNextNodeType = function() {
-        // Only needs to be checked once so return if already checked
-        if ($(this).is("[data-searches-dos]")) return
-        var selectedAnswer = $(this)
-        $.ajax({
-            method: "POST",
-            url: "/question/NextNodeDetails",
-            data: formToJSON(form.elements)
-        }).done(function(data) {
-            if (data.NodeType == @((int)NodeType.Outcome) && '@Model.CurrentPostcode' != '' && prePopulatedDosResultsOutcomeGroups.indexOf(data.OutcomeGroup.Id) > -1) {
-                $("main form").attr("data-show-spinner", "true")
-                selectedAnswer.attr("data-searches-dos", "true")
-            }
-            else {
-                $("main form").attr("data-show-spinner", "false")
-                selectedAnswer.attr("data-searches-dos", "false")
-            }
-        })
-    };
-
-    $("[name='SelectedAnswer']").on("change", checkNextNodeType); 
-
-    $("main form").on("submit",
-        function() {
-            if ($(this).attr("data-show-spinner") == "true") {
-                startPageLoadingIndicator("Searching for services near to @Model.FormattedCurrentPostcode ...")
-            }
-        });
-
-    window.onpageshow = function (event) {
-        stopPageLoadingIndicator();
-        if ($("[name='SelectedAnswer']").is(':checked'))
-            checkNextNodeType();
-    };
-
+    $("main form").on("submit", handleSubmit)
+    window.addEventListener("pagehide", reset)
+    window.addEventListener("pageshow", reset)
 
 </script>
