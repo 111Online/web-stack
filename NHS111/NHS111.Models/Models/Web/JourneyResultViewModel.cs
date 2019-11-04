@@ -27,7 +27,13 @@ namespace NHS111.Models.Models.Web
         protected string ResolveViewByOutcomeResult(OutcomeResultViewModel outcomeResultViewModel)
         {
             var outcome = outcomeResultViewModel.OutcomeModel.OutcomeGroup;
-            var viewFilePath = string.Format("../Outcome/{0}", outcome.IsPharmacyGroup ? outcome.Id + "/" : string.Empty);
+            var subfolder = "";
+            if (outcome.IsPharmacyGroup)
+                subfolder = outcome.Id + "/";
+            if (outcome.IsPrimaryCare)
+                subfolder = "Primary_Care/";
+            var viewFilePath = "../Outcome/" + subfolder;
+
             var model = outcomeResultViewModel.OutcomeModel;
             if (model.OutcomeGroup.IsUsingRecommendedService)
             {

@@ -1,14 +1,17 @@
 ﻿@model NHS111.Models.Models.Web.OutcomeViewModel
 
-@if (Model.DisplayWorseningCareAdvice)
-            {
-                for (var i = 0; i < Model.WorseningCareAdvice.Items.Count; ++i)
-                {
-                    @Html.HiddenFor(m => m.WorseningCareAdvice.Items[i].Id)
-                    @Html.HiddenFor(m => m.WorseningCareAdvice.Items[i].OrderNo)
-                    @Html.HiddenFor(m => m.WorseningCareAdvice.Items[i].Text)
-                }
-            }
+@{
+    @Html.HiddenFor(m => m.WorseningCareAdvice.Keyword)
+    @Html.HiddenFor(m => m.WorseningCareAdvice.Id)
+    @Html.HiddenFor(m => m.WorseningCareAdvice.Title)
+
+    for (var i = 0; i < Model.WorseningCareAdvice.Items.Count; ++i)
+    {
+        @Html.HiddenFor(m => m.WorseningCareAdvice.Items[i].Id)
+        @Html.HiddenFor(m => m.WorseningCareAdvice.Items[i].OrderNo)
+        @Html.HiddenFor(m => m.WorseningCareAdvice.Items[i].Text)
+    }
+}
 @{
     var careAdvices = Model.CareAdvices.ToList();
     for (var i = 0; i < careAdvices.Count; ++i)

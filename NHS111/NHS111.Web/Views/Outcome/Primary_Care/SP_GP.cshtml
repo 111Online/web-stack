@@ -1,0 +1,75 @@
+﻿@using NHS111.Models.Models.Web
+@inherits NHS111.Web.Views.Shared.SurveyLinkView<OutcomeViewModel>
+@{
+    ViewBag.Title = "See your GP";
+    Layout = "~/Views/Shared/_LayoutNhsUK.cshtml";
+
+    var headerText = "";
+    switch (Model.Id)
+    {
+        case "Dx09":
+            headerText = "Book a GP appointment if you don't feel better in a few days";
+            break;
+        case "Dx10":
+            headerText = "Book a non-urgent GP appointment";
+            break;
+        case "Dx16":
+            headerText = "Contact your GP if you don't feel better in a few days";
+            break;
+        case "Dx75":
+            headerText = "Contact your GP within the next few days";
+            break;
+    }
+}
+
+@section Title { NHS 111 - @headerText }
+
+@section HeadTop {
+    @{ var url = string.Format("/outcome/{0}/{1}/{2}/disposition/", Url.Encode(Model.PathwayNo), Url.Encode(Model.OutcomeGroup.Text), Url.Encode(Model.Id)); }
+    <script>
+        var pageId = '@Model.Id';
+        dataLayer = [
+        {
+            'virtualPageUrl': '@url',
+            'virtualPageTitle': '@Model.TitleWithoutBullets'
+        }];
+    </script>
+}
+@section FeedbackSection {
+    @Html.Partial("_SurveyLink", Model.SurveyLink)
+}
+
+<section class="measure nhsuk-core">
+    <div class="callout callout--attention nhsuk-u-margin-bottom-4 nhsuk-u-margin-top-2">
+        <h1 class="nhsuk-heading-l">@headerText</h1>
+    </div>
+
+    <ul>
+        <li>
+            @using (Html.BeginForm("RegisterWithTempGp", "Outcome", FormMethod.Post))
+            {
+                @Html.Partial("_CommonHiddenFieldsOutcomeViewModel", Model)
+                @Html.Partial("_CommonHiddenFieldsCareAdviceViewModel", Model)
+                <button class="button--link" id="register-with-gp" type="submit" value="away-from-home" name="reason" formnovalidate>I'm away from home</button>
+            }
+        </li>
+        <li>
+            @using (Html.BeginForm("RegisterWithGp", "Outcome", FormMethod.Post))
+            {
+                @Html.Partial("_CommonHiddenFieldsOutcomeViewModel", Model)
+                @Html.Partial("_CommonHiddenFieldsCareAdviceViewModel", Model)
+                <button class="button--link" id="register-with-temp-gp" type="submit" value="no-gp" name="reason" formnovalidate>I don't have a GP</button>
+            }
+        </li>
+    </ul>
+
+    <hr role="presentation" class="nhsuk-u-margin-top-6" />
+
+    @Html.Partial("_rs_CareAdvice", Model.CareAdvices, new ViewDataDictionary { { "DisplayWorseningCareAdvice", Model.DisplayWorseningCareAdvice } })
+    @Html.Partial("_rs_WorseningAdvice", Model)
+
+</section>
+
+
+
+

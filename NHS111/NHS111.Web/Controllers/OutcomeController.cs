@@ -27,6 +27,7 @@ namespace NHS111.Web.Controllers
     using System.Web;
     using Models.Models.Web.DosRequests;
     using System.Text.RegularExpressions;
+    using System.Web.Routing;
     using Models.Models.Web.Enums;
 
     [LogHandleErrorForMVC]
@@ -71,7 +72,7 @@ namespace NHS111.Web.Controllers
         {
             ModelState.Clear();
             _auditLogger.LogEventData(model, "User elected to change postcode.");
-            return View(model); ;
+            return View(model);
         }
 
         private OutcomeViewModel PopulateCCGAndStp(OutcomeViewModel model)
@@ -185,6 +186,11 @@ namespace NHS111.Web.Controllers
         [HttpPost]
         public async Task<ActionResult> ServiceList([Bind(Prefix = "FindService")]OutcomeViewModel model, [FromUri] DateTime? overrideDate, [FromUri] bool? overrideFilterServices, DosEndpoint? endpoint)
         {
+            _auditLogger.LogPrimaryCareReason(model, Request.Form["reason"]);
+            if (Request.Form["OtherServices"] != null) {
+                _auditLogger.LogPrimaryCareReason(model, "Patient clicked other things you can do");
+            }
+
             if (!ModelState.IsValidField("FindService.CurrentPostcode"))
                 return View(model.CurrentView, model);
 
@@ -225,7 +231,7 @@ namespace NHS111.Web.Controllers
                     }
                 }
 
-                if(model.OutcomeGroup.IsUsingRecommendedService)
+                if(model.OutcomeGroup.IsUsingRecommendedService || model.OutcomeGroup.IsPrimaryCare)
                 {
                     var otherServices =
                         await _recommendedServiceBuilder.BuildRecommendedServicesList(model.DosCheckCapacitySummaryResult.Success.Services);
@@ -233,8 +239,13 @@ namespace NHS111.Web.Controllers
                     //Very weird mapper issue ignoring this property for some reason
                     //unit test specifically testing this passes fine so can really fathow what is going on
                     //forcing it instead
-                    otherServicesModel.RecommendedService.ReasonText = model.RecommendedService.ReasonText;
-                    otherServicesModel.OtherServices = otherServices.Skip(1);
+                    if (otherServicesModel.RecommendedService != null) {
+                        otherServicesModel.RecommendedService.ReasonText = model.RecommendedService.ReasonText;
+                        otherServicesModel.OtherServices = otherServices.Skip(1);
+                    } else {
+                        otherServicesModel.OtherServices = otherServices;
+                    }
+
                     return View("~\\Views\\Outcome\\Repeat_Prescription\\RecommendedServiceOtherServices.cshtml", otherServicesModel);
                 }
 
@@ -414,6 +425,16 @@ namespace NHS111.Web.Controllers
 
             return View(viewRouter.ViewName, outcome);
 
+        }
+        
+        [HttpPost]
+        [Route("Outcome/RegisterWithGp", Name = "RegisterWithGp")]
+        [Route("Outcome/RegisterWithTempGp", Name = "RegisterWithTempGp")]
+        public async Task<ActionResult> MoreInfo(OutcomeViewModel model, string reason) {
+            _auditLogger.LogPrimaryCareReason(model, reason);
+            ViewData["Route"] = ((Route)ControllerContext.RouteData.Route).Url;
+            model = await _outcomeViewModelBuilder.PrimaryCareBuilder(model, reason);
+            return View("~\\Views\\Outcome\\Primary_Care\\MoreInfo.cshtml", model);
         }
     }
 }
