@@ -23,7 +23,7 @@ namespace NHS111.Web.IoC {
 
         public WebRegistry(IConfiguration configuration) {
             For<ICacheManager<string, string>>().Use(new RedisManager(configuration.RedisConnectionString));
-            For<IRestClient>().Singleton().Use(new LoggingRestClient(configuration.BusinessApiProtocolandDomain, LogManager.GetLogger("log"))).Named("restClientBusinessApi");
+            For<IRestClient>().ContainerScoped().Use(new LoggingRestClient(configuration.BusinessApiProtocolandDomain, LogManager.GetLogger("log"))).Named("restClientBusinessApi");
             Configure();
         }
 
