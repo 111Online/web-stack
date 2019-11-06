@@ -5,7 +5,7 @@
 }
 
 @section Title {
-    Book your call
+    Check details
 }
 
 @section HeadTop {
@@ -30,7 +30,7 @@
 }
 
 <div class="nhsuk-core measure">
-    <h1 class="nhsuk-heading-l">Book your call</h1>
+    <h1 class="nhsuk-heading-l">Check details</h1>
 
     @{
         var isProxy = Model.PatientInformantDetails.Informant == InformantType.ThirdParty;
@@ -227,7 +227,7 @@
         @Html.Partial("_CommonHiddenFieldsHomeAddress", Model)
         @Html.HiddenFor(m => m.SelectedServiceId)
         <p class="nhsuk-u-margin-top-4 nhsuk-u-margin-bottom-0">By booking this call you agree to share these details with the service.</p>
-        <button id="book-call" class="nhsuk-u-margin-top-5">Book call</button>
+        <button id="book-call" class="nhsuk-u-margin-top-5">Send details</button>
     }
 </div>
 
