@@ -4,6 +4,17 @@
 @{
     ViewBag.Title = "ITK_Primary_care";
     Layout = "~/Views/Shared/_LayoutNhsUK.cshtml";
+    
+    var cannotGetApptText = "I can't get an appointment today";
+    switch (Model.Id)
+    {
+        case "Dx08":
+            cannotGetApptText = "I can't get an appointment today or tomorrow";
+            break;
+        case "Dx15":
+            cannotGetApptText = "I can't get an appointment today or tomorrow";
+            break;
+    }
 }
 @section HeadTop {
     @{ var url = string.Format("/outcome/{0}/{1}/{2}/disposition/", Url.Encode(Model.PathwayNo), Url.Encode(Model.OutcomeGroup.Text), Url.Encode(Model.Id)); }
@@ -34,7 +45,7 @@
                     {
                         @Html.Partial("_CommonHiddenFieldsOutcomeViewModel", Model, new ViewDataDictionary() { TemplateInfo = new TemplateInfo() { HtmlFieldPrefix = "FindService" } })
                         @Html.Partial("_CommonHiddenFieldsCareAdviceViewModel", Model, new ViewDataDictionary() { TemplateInfo = new TemplateInfo() { HtmlFieldPrefix = "FindService" } })
-                        <button class="button--link" id="cant-book-appt" type="submit" value="cannot-get-appt" name="reason" formnovalidate>I can't get an appointment today</button>
+                        <button class="button--link" id="cant-book-appt" type="submit" value="cannot-get-appt" name="reason" formnovalidate>@cannotGetApptText</button>
                     }
                 </li>
                 <li>
