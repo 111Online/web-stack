@@ -71,7 +71,7 @@ namespace NHS111.Web.Helpers
                         _userZoomDataBuilder.SetFieldsForOutcome(journeyViewModel);
                         return result;
                     }
-                    throw new ArgumentOutOfRangeException(string.Format("Outcome group {0} for outcome {1} has no view configured", outcomeViewModel.OutcomeGroup, outcomeViewModel.Id));
+                    throw new ArgumentOutOfRangeException(string.Format("Outcome group {0} for outcome {1} has no view configured", outcomeViewModel.OutcomeGroup.Id, outcomeViewModel.Id));
                 case NodeType.DeadEndJump:
                     _userZoomDataBuilder.SetFieldsForOutcome(journeyViewModel);
                     return new DeadEndJumpResultViewModel(journeyViewModel);

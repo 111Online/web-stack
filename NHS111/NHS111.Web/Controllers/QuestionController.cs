@@ -297,11 +297,12 @@ namespace NHS111.Web.Controllers {
         private async Task<ActionResult> DeterminePrepopulatedResultsRoute(OutcomeController controller, OutcomeViewModel outcomeViewModel, DosEndpoint? endpoint = null, DateTime? dosSearchTime = null)
         {
             var dispoWithServicesResult = await controller.DispositionWithServices(outcomeViewModel, "", endpoint, dosSearchTime);
-            if (!OutcomeGroup.UsingRecommendedServiceJourney.Contains(outcomeViewModel.OutcomeGroup))
+            
+            if (!OutcomeGroup.UsingRecommendedServiceJourney.Contains(outcomeViewModel.OutcomeGroup) && !outcomeViewModel.OutcomeGroup.IsPrimaryCare)
                 return dispoWithServicesResult;
 
             var dispoWithServicesView = dispoWithServicesResult as ViewResult;
-            if (dispoWithServicesView.ViewName != "../Outcome/Repeat_Prescription/Outcome_Preamble")
+            if (dispoWithServicesView.ViewName != "../Outcome/Repeat_Prescription/Outcome_Preamble" && !outcomeViewModel.OutcomeGroup.IsPrimaryCare)
                 return View(dispoWithServicesView.ViewName, dispoWithServicesView.Model);
 
             // need to do the first look up to determine if there are other services
