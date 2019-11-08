@@ -39,5 +39,7 @@ namespace NHS111.Models.Models.Web
         public string RecommendedServiceType { get; set; }
         public int RecommendedServiceId { get; set; }
         public string RecommendedServiceName { get; set; }
+
+        public string DispositionChoiceReasoning { get; set; }
     }
 }

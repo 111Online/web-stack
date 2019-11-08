@@ -42,3 +42,7 @@ button,
 .button--stacked {
   display: block;
 }
+
+button[disabled] {
+  cursor: not-allowed !important;
+}

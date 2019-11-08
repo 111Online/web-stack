@@ -30,7 +30,7 @@ namespace NHS111.Web.Functional.Utils
         [FindsBy(How = How.CssSelector, Using = ".callout--attention h2")]
         private IWebElement WhatIfFeelWorseHeader { get; set; }
 
-        [FindsBy(How = How.CssSelector, Using = ".care-advice .heading-medium")]
+        [FindsBy(How = How.CssSelector, Using = ".care-advice .heading-medium, .care-advice summary")]
         private IWebElement CareAdviceTitleElement { get; set; }
 
         [FindsBy(How = How.ClassName, Using = "findservice-form")]
@@ -76,6 +76,15 @@ namespace NHS111.Web.Functional.Utils
             if (!String.IsNullOrWhiteSpace(messageType.HeaderText))
                 Assert.AreEqual(messageType.HeaderText, WhatIfFeelWorseHeader.Text);
             Assert.AreEqual(messageType.Value, WhatIfFeelWorsePanel.Text);
+        }
+
+        public void VerifyWorseningReveal(WorseningMessageType messageType) {
+            var reveal = Driver.FindElement(By.CssSelector(".worsening-advice summary"));
+            Assert.IsTrue(reveal.Displayed);
+            if (!String.IsNullOrWhiteSpace(messageType.HeaderText))
+                Assert.AreEqual(messageType.HeaderText, reveal.Text);
+            if (!String.IsNullOrWhiteSpace(messageType.Value))
+                Assert.AreEqual(messageType.Value, reveal.Text);
         }
 
         public void VerifyOutcome(string outcomeHeadertext) {
@@ -126,9 +135,9 @@ namespace NHS111.Web.Functional.Utils
             Assert.AreEqual(serviceType.Headertext, FindServicePanel.FindElement(By.TagName("h2")).Text);
         }
 
-        public void VerifyCareAdviceHeader(string careAdciceTitle) {
+        public void VerifyCareAdviceHeader(string careAdviceTitle) {
             Assert.IsTrue(CareAdviceTitleElement.Displayed);
-            Assert.AreEqual(careAdciceTitle, CareAdviceTitleElement.Text);
+            Assert.AreEqual(careAdviceTitle, CareAdviceTitleElement.Text);
         }
 
         public void VerifyNoCareAdvice() {
@@ -136,7 +145,7 @@ namespace NHS111.Web.Functional.Utils
         }
 
         public void VerifyCareAdvice(string[] expectedAdviceItems) {
-            var foundItems = Driver.FindElements(By.CssSelector(".care-advice div h4"));
+            var foundItems = Driver.FindElements(By.CssSelector("[id^='Advice_']"));
             Assert.AreEqual(expectedAdviceItems.Count(), foundItems.Count,
                 string.Format("Incorrect number of care advice on disposition '{0}'. Found items were: {1}",
                     Header.Text, foundItems.Select(cx => "'" + cx.Text + "'\n")));
@@ -187,6 +196,8 @@ namespace NHS111.Web.Functional.Utils
             Driver.FindElement(By.Id("next")).Click();
             return new OutcomePage(Driver);
         }
+
+        // Used for pages with DOS results grouped by type
         public void VerifyPageContainsDOSResults()
         {
             Assert.IsTrue(DOSGroups.Count() > 0, "No DoS result groupings found on page.");
@@ -195,6 +206,15 @@ namespace NHS111.Web.Functional.Utils
 
             Assert.IsTrue(results.Count > 0, "No DoS results found on page.");
         }
+
+        // VerifyPageContainsDOSServices is used for recommended service and other services pages.
+        public void VerifyPageContainsDOSServices()
+        {
+            var results = Driver.FindElements(By.ClassName("service-listing"));
+            Assert.IsTrue(results.All(e => e.Displayed));
+            Assert.IsTrue(results.Count > 0, "No DoS results found on page.");
+        }
+
         public void VerifyDOSResultGroupExists(string groupText)
         {
             Assert.IsTrue(DOSGroups.Any(g => g.Text == groupText));
@@ -207,6 +227,8 @@ namespace NHS111.Web.Functional.Utils
 
         public static WorseningMessageType Call111 = new WorseningMessageType("If there are any new symptoms, or if the condition gets worse, call 111 for advice.");
         public static WorseningMessageType Call111PostCodeFirst = new WorseningMessageType("If there are any new symptoms, or if the condition gets worse, call 111 for advice.", "Call 111 if your symptoms get worse");
+        public static WorseningMessageType PrimaryCare = new WorseningMessageType("What to do if you start to feel worse");
+
     }
 
     public class WorseningMessageType

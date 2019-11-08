@@ -21,6 +21,7 @@ namespace NHS111.Web.Presentation.Logging {
         void LogSelectedService(OutcomeViewModel model);
         void LogItkRequest(OutcomeViewModel model, ITKDispatchRequest itkRequest);
         void LogItkResponse(OutcomeViewModel model, IRestResponse response);
+        void LogPrimaryCareReason(OutcomeViewModel model, string reason);
     }
 
     public class AuditLogger : IAuditLogger {
@@ -82,6 +83,27 @@ namespace NHS111.Web.Presentation.Logging {
             var audit = model.ToAuditEntry();
             var auditedItkResponse = Mapper.Map<AuditedItkResponse>(response);
             audit.ItkResponse = JsonConvert.SerializeObject(auditedItkResponse);
+            Log(audit);
+        }
+
+        public void LogPrimaryCareReason(OutcomeViewModel model, string reason) {
+
+            if (string.IsNullOrEmpty(reason))
+                return;
+
+            var audit = model.ToAuditEntry();
+
+            switch (reason) {
+                case "cannot-get-appt":
+                    audit.EventData = "Patient cannot get a GP appointment";
+                    break;
+                case "away-from-home":
+                    audit.EventData = "Patient is away from home";
+                    break;
+                case "no-gp":
+                    audit.EventData = "Patient has no GP";
+                    break;
+            }
             Log(audit);
         }
 

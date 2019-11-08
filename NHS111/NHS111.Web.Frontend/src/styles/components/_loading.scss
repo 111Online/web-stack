@@ -1,4 +1,4 @@
-/*Spinner styles*/
+/* Full page spinner */
 .loading {
   display: none;
   position: fixed;
@@ -65,4 +65,12 @@
 .fadeIn {
   -webkit-animation-name: fadeIn;
   animation-name: fadeIn;
+}
+
+
+/* Inline Spinner */
+
+.button--spinner[disabled] {
+  color: transparent;
+  opacity: 0.5;
 }

@@ -85,11 +85,16 @@ namespace NHS111.Web.Presentation.Builders
                 var otherServices = model.DosCheckCapacitySummaryResult.Success.Services.Skip(1).ToList();
             }
         }
+
+        public void AddDispositionReason(string reason, SurveyLinkViewModel surveyLinkViewModel) {
+            surveyLinkViewModel.DispositionChoiceReasoning = reason;
+        }
     }
 
     public interface ISurveyLinkViewModelBuilder
     {
         Task<SurveyLinkViewModel> SurveyLinkBuilder(OutcomeViewModel model);
         void AddServiceInformation(OutcomeViewModel model, SurveyLinkViewModel surveyLinkViewModel);
+        void AddDispositionReason(string reason, SurveyLinkViewModel surveyLinkViewModel);
     }
 }
