@@ -47,6 +47,8 @@ namespace NHS111.Models.Models.Web
 
         public NodeType NodeType { get; set; }
 
+        public QuestionType QuestionType  { get; set; }
+
         public string JourneyJson { get; set; }
         public Journey Journey { get; set; }
 

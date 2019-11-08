@@ -62,6 +62,10 @@ namespace NHS111.Models.Models.Domain
         [JsonProperty(PropertyName = "buttonText")]
         public string NextButtonText { get; set; }
 
+        [JsonProperty(PropertyName = "questionType")]
+        public QuestionType QuestionType { get; set; }
+
+
         public bool IsJustToBeSafe()
         {
             return !(string.IsNullOrEmpty(Jtbs) || Jtbs.EndsWith("-"));
@@ -86,5 +90,13 @@ namespace NHS111.Models.Models.Domain
 
             return new Tuple<string, List<string>>(parts.First(), parts.Skip(1).ToList());
         }
+    }
+
+
+    public enum QuestionType
+    {
+        String = 8,
+        Text = 9,
+        Choice = 11,
     }
 }
