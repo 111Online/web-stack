@@ -92,7 +92,7 @@ namespace NHS111.Models.Models.Domain {
             { GP.Id, GP },
             { RepeatPrescription.Id, RepeatPrescription },
             { NoFurtherAction.Id, NoFurtherAction }
-        };
+    };
 
         public override bool Equals(object obj) {
             var outcomeGroup = obj as OutcomeGroup;
@@ -147,6 +147,11 @@ namespace NHS111.Models.Models.Domain {
         public bool IsPharmacyGroup
         {
             get { return this.Equals(OutcomeGroup.RepeatPrescription); }
+        }
+
+        public bool IsPrimaryCare
+        {
+            get { return this.Equals(OutcomeGroup.ItkPrimaryCare) || this.Equals(OutcomeGroup.GP); }
         }
 
         public bool IsUsingRecommendedService

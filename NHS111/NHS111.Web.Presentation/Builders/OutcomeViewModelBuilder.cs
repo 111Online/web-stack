@@ -15,6 +15,7 @@ using NHS111.Utils.Parser;
 using NHS111.Utils.RestTools;
 using NHS111.Web.Presentation.Logging;
 using RestSharp;
+using StructureMap.Query;
 using IConfiguration = NHS111.Web.Presentation.Configuration.IConfiguration;
 
 namespace NHS111.Web.Presentation.Builders
@@ -248,7 +249,14 @@ namespace NHS111.Web.Presentation.Builders
             model.SurveyLink = await _surveyLinkViewModelBuilder.SurveyLinkBuilder(model);
             return model;
         }
-
+        
+        public async Task<OutcomeViewModel> PrimaryCareBuilder(OutcomeViewModel model, string reason = "")
+        {
+            model.SurveyLink = await _surveyLinkViewModelBuilder.SurveyLinkBuilder(model);
+            _surveyLinkViewModelBuilder.AddDispositionReason(reason, model.SurveyLink);
+            return model;
+        }
+        
         private async Task<IRestResponse> SendItkMessage(ITKDispatchRequest itkRequestData)
         {
             var request = new JsonRestRequest(_configuration.ItkDispatcherApiSendItkMessageUrl, Method.POST);
@@ -285,6 +293,7 @@ namespace NHS111.Web.Presentation.Builders
         Task<ITKConfirmationViewModel> ItkResponseBuilder(OutcomeViewModel model);
         Task<OutcomeViewModel> DeadEndJumpBuilder(OutcomeViewModel model);
         Task<OutcomeViewModel> PathwaySelectionJumpBuilder(OutcomeViewModel model);
+        Task<OutcomeViewModel> PrimaryCareBuilder(OutcomeViewModel model, string reason);
         Task<OutcomeViewModel> PopulateGroupedDosResults(OutcomeViewModel model, DateTime? overrideDate, bool? overrideFilterServices, DosEndpoint? endpoint);
     }
 }

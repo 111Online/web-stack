@@ -9,7 +9,7 @@
 @import "environment/settings";
 @import "environment/tools";
 
-[class^="nhsuk-"] {
+[class*="nhsuk-"] {
   /* The worst part of current styles is the "lobotomised owl" so for NHS.UK Frontend styles, nuke it. */
   * + * {
     margin-top: inherit !important; /* initial is preferred so it doesn't affect child elements but not available on all browsers */
