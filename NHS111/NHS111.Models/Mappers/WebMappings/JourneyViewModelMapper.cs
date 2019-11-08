@@ -153,6 +153,7 @@ namespace NHS111.Models.Mappers.WebMappings
             var questionAndBullets = questionWithAnswers.Question.TitleWithBullets();
             journeyViewModel.TitleWithoutBullets = questionAndBullets.Item1;
             journeyViewModel.Bullets = questionAndBullets.Item2;
+            journeyViewModel.QuestionType = questionWithAnswers.Question.QuestionType;
 
             journeyViewModel.Answers = questionWithAnswers.Answers ?? Enumerable.Empty<Answer>().ToList();
             journeyViewModel.NodeType = BuildNodeType(questionWithAnswers);

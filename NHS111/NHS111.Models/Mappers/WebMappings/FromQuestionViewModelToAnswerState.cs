@@ -12,7 +12,8 @@ namespace NHS111.Models.Mappers.WebMappings
         protected override void Configure()
         {
             Mapper.CreateMap<QuestionViewModel, SelectedAnswerState>()
-                .ForMember(dest => dest.SelectedAnswer, opt => opt.MapFrom(src => JsonConvert.DeserializeObject<Answer>(src.SelectedAnswer)))
+                .ForMember(dest => dest.SelectedAnswer, 
+                    opt => opt.MapFrom(src => JsonConvert.DeserializeObject<Answer>(src.SelectedAnswer)))
                 .ForMember(dest => dest.State, opt => opt.MapFrom(src => src.StateJson));
         }
     }

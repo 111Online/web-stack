@@ -145,7 +145,7 @@ namespace NHS111.Web.Controllers {
                 var nextNode = await GetNextNode(model);
                 nodeDetails = _journeyViewModelBuilder.BuildNodeDetails(nextNode);
             }
-            
+            model.SelectedAnswer = String.Empty; // reset answer
             return Json(nodeDetails);
         }
 
@@ -362,6 +362,8 @@ namespace NHS111.Web.Controllers {
 
         private async Task<QuestionWithAnswers> GetNextNode(QuestionViewModel model)
         {
+            if (model.QuestionType != QuestionType.Choice)
+                model.SelectedAnswer = JsonConvert.SerializeObject(new Answer() {Title = model.SelectedAnswer});
             var selectedAnswerState = Mapper.Map(model, new SelectedAnswerState());
             
             var request = new JsonRestRequest(_configuration.GetBusinessApiNextNodeUrl(model.PathwayId, model.NodeType, model.Id, true), Method.POST);

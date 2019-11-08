@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using NHS111.Models.Models.Web.Validators;
 using NHS111.Utils.Parser;
@@ -60,7 +61,7 @@ namespace NHS111.Web.Presentation.Builders
                     var pathwaySelectionJump = _mappingEngine.Mapper.Map<OutcomeViewModel>(journeyViewModel);
                     return await _outcomeViewModelBuilder.PathwaySelectionJumpBuilder(pathwaySelectionJump);
             }
-
+            model.SelectedAnswer = String.Empty; //reset following previous answer
             return model;
         }
 
@@ -89,6 +90,7 @@ namespace NHS111.Web.Presentation.Builders
             var journeyViewModel = _keywordCollector.Collect(answer, model);
 
             journeyViewModel = _mappingEngine.Mapper.Map(nextNode, journeyViewModel);
+             
             return journeyViewModel;
         }
 
