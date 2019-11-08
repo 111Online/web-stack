@@ -7,7 +7,11 @@ jQuery(function () {
 
     // This ensures the map loads properly and that JS is enabled
     var serviceListings = $(".service-listing:not([open])").has(".service-details__map")
-    if (serviceListings.length) serviceListings.one("click", loadMapForService)
+    if (serviceListings.length > 1) serviceListings.one("click", loadMapForService)
+
+    var serviceListingsOpen = $(".service-listing[open] .service-details__map")
+    if (serviceListingsOpen.length == 1) loadMapForService(serviceListingsOpen[0])
+    
 
     var mapsOutsideOfListings = $(".service-details__map:not(.service-listing .service-details__map)")
     mapsOutsideOfListings.toArray().forEach((val) => loadMapForService(val))

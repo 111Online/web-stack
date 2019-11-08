@@ -25,6 +25,11 @@
   width: auto;
 }
 
+details > div {
+  @include nhsuk-responsive-padding(4, 'top');
+}
+
+
 /* Some specificity hacks are required so nhsuk doesn't override existing classes */
 
 .callout {
@@ -33,4 +38,12 @@
 
 .multiple-choice--radio {
   @include nhsuk-responsive-margin(4, 'bottom', 'true');
+}
+
+details:not(.service-listing) summary {
+  @include nhsuk-font(19);
+}
+
+.search__button--back {
+  @extend .search__button--back;
 }

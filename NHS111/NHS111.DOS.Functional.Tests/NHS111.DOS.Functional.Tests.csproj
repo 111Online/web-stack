@@ -69,6 +69,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BaseTests.cs" />
+    <Compile Include="PrimaryCareOutcomeTests.cs" />
     <Compile Include="Call999CallbackTests.cs" />
     <Compile Include="DosRequestMismatchResult.cs" />
     <Compile Include="EDValidationTests.cs" />

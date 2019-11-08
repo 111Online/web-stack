@@ -91,7 +91,7 @@ namespace NHS111.Web.Presentation.Test.Helpers
         {
             var result = _viewDeterminer.Build(new OutcomeViewModel { NodeType = NodeType.Outcome, OutcomeGroup = OutcomeGroup.GP }, new Mock<ControllerContext>().Object);
             Assert.IsInstanceOf<OutcomeResultViewModel>(result);
-            Assert.AreEqual("../Outcome/" + OutcomeGroup.GP.Id, result.ViewName);
+            Assert.AreEqual("../Outcome/Primary_Care/" + OutcomeGroup.GP.Id, result.ViewName);
         }
 
         [Test]

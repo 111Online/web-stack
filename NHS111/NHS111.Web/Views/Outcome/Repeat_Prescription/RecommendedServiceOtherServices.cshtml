@@ -28,10 +28,9 @@
     var dataDictionary = ViewContext.ViewData;
     dataDictionary.Add(new KeyValuePair<string, object>("LaunchPage", "service-list"));
     dataDictionary.Add(new KeyValuePair<string, object>("OtherServicesChangePostcode", "true"));
+    var previousAction = Model.RecommendedService == null ? "DispositionWithServices" : "RecommendedService";
 }
-@section SurveyBanner{
-    @Html.Partial("_SurveyLink", Model.SurveyLink, dataDictionary)
-}
+
 @section FeedbackSection {
     @if (!SurveyLinkFeature.IsEnabled)
     {
@@ -44,7 +43,7 @@
 }
 
 <div class="nhsuk-core">
-    @using (Html.BeginForm("RecommendedService", "Outcome", FormMethod.Post))
+    @using (Html.BeginForm(previousAction, "Outcome", FormMethod.Post))
     {
         @Html.Partial("_CommonHiddenFieldsOutcomeViewModel", Model)
         @Html.Partial("_CommonHiddenFieldsRecommendedServiceViewModel", recommendedService, new ViewDataDictionary() { TemplateInfo = new TemplateInfo() {HtmlFieldPrefix = "RecommendedService" } } )
@@ -54,13 +53,15 @@
 
     <div class="measure nhsuk-u-margin-top-2">
         <h1>Other ways to get help</h1>
+        @Html.Partial("_rs_Timings", Model)
     </div>
+
     <div class="other-services">
         @Html.Partial("_rs_ChangePostcodeLink", dataDictionary)
         @foreach (var service in Model.OtherServices)
         {
             Model.RecommendedService = service;
-            <details class="service-listing">
+            <details class="service-listing" @(Model.OtherServices.Count() == 1 ? "open" : "")>
                 <summary>
                     <p class="service-listing__name">@WebUtility.HtmlDecode(@service.PublicName)</p>
                     @if (service.OnlineDOSServiceType.Equals(OnlineDOSServiceType.PublicPhone) || service.OnlineDOSServiceType.Equals(OnlineDOSServiceType.Callback))
@@ -83,7 +84,8 @@
     @if (Model.PathwayNo != "PW1827")
     {
         <hr/>
-
+        
+        @Html.Partial("_rs_CareAdvice", Model.CareAdvices)
         @Html.Partial("_rs_WorseningAdvice", Model)
     }
 </div>
