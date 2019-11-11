@@ -1,4 +1,5 @@
 ﻿
+using System.Globalization;
 using NHS111.Models.Models.Business;
 using NHS111.Utils.RestTools;
 using NHS111.Web.Presentation.Filters;
@@ -98,8 +99,11 @@ namespace NHS111.Web.Controllers {
         [HttpPost]
         [ActionName("Navigation")]
         [MultiSubmit(ButtonName = "Question")]
-        public async Task<ActionResult> Question(QuestionViewModel model)
+        public async Task<ActionResult> Question(QuestionViewModel model, FormCollection form = null)
         {
+            if (ContainsDateAnswer(form))
+                model.SelectedAnswer = GetDateAnswer(ModelState, form).ToShortDateString();
+            
             if (!ModelState.IsValidField("SelectedAnswer")) return View("Question", model);
 
             ModelState.Clear();
@@ -107,6 +111,25 @@ namespace NHS111.Web.Controllers {
 
             var viewRouter = _viewRouter.Build(nextModel, ControllerContext);
             return View(viewRouter.ViewName, nextModel);
+        }
+
+        private bool ContainsDateAnswer(FormCollection form)
+        {
+            if (form == null) return false;
+            return form.AllKeys.Contains("Date.Day") && form.AllKeys.Contains("Date.Month") && form.AllKeys.Contains("Date.Year");
+        }
+
+        private DateTime GetDateAnswer(ModelStateDictionary modelState, FormCollection form)
+        {
+            DateTime parsedDate;
+            string dateString = String.Format("{0}-{1}-{2}", form["Date.Day"], form["Date.Month"], form["Date.Year"]);
+            modelState["SelectedAnswer"].Errors.Clear();
+            if (!DateTime.TryParseExact(dateString, "dd-MM-yyyy", null, DateTimeStyles.None, out parsedDate))
+            {
+                modelState["SelectedAnswer"].Errors.Add("Enter a valid date");
+            }
+
+            return parsedDate;
         }
 
         private JourneyViewModel GetMatchingTestJourney(OutcomeViewModel model) {

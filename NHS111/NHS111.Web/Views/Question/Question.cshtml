@@ -143,6 +143,26 @@
             {
                 @Html.TextAreaFor(m => m.SelectedAnswer, new { @Value = "", @class = "feedback__input" })
             }
+            @if (Model.QuestionType == QuestionType.Date)
+            {
+
+                <div>
+                    <div class="form-group--inline">
+                        <label for="@Html.IdFor(m => m.UserInfo.Day)">Day</label>
+                        @Html.TextBox("Date.Day", "", new { @class = "form-control form-textbox", placeholder = "DD", inputmode = "numeric", pattern = "[0-9]+", maxlength = "2" })
+                    </div>
+                    <div class="form-group--inline">
+                        <label for="@Html.IdFor(m => m.UserInfo.Month)">Month</label>
+                        @Html.TextBox("Date.Month", "", new { @class = "form-control form-textbox", placeholder = "MM", inputmode = "numeric", pattern = "[0-9]+", maxlength = "2" })
+                    </div>
+                    <div class="form-group--inline">
+                        <label for="@Html.IdFor(m => m.UserInfo.Year)">Year</label>
+                        @Html.TextBox("Date.Year", "", new { @class = "form-control form-textbox", placeholder = "YYYY", inputmode = "numeric", pattern = "[0-9]+", maxlength = "4" })
+
+                    </div>
+                </div>
+            }
+            
         </fieldset>
     </div>
     
