@@ -95,6 +95,8 @@ namespace NHS111.Models.Models.Domain
 
     public enum QuestionType
     {
+        Date = 5,
+
         String = 8,
         Text = 9,
         Choice = 11,
