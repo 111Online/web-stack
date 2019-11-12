@@ -91,12 +91,14 @@ namespace NHS111.Models.Models.Domain
             return new Tuple<string, List<string>>(parts.First(), parts.Skip(1).ToList());
         }
     }
-
-
     public enum QuestionType
     {
+        Group = 0,
+        Boolean = 2,
+        Date = 5,
         String = 8,
         Text = 9,
         Choice = 11,
+        Attachment = 13
     }
 }
