@@ -135,6 +135,10 @@
                     </div>
                 }
             }
+            @if (Model.QuestionType == QuestionType.Group)
+            {
+                @Html.Hidden("SelectedAnswer", "Next");
+            }
             @if (Model.QuestionType == QuestionType.String)
             {
                 @Html.TextBoxFor(m => m.SelectedAnswer, new { });
@@ -142,6 +146,16 @@
             @if (Model.QuestionType == QuestionType.Text)
             {
                 @Html.TextAreaFor(m => m.SelectedAnswer, new { @Value = "", @class = "feedback__input" })
+            }
+            @if (Model.QuestionType == QuestionType.Boolean)
+            {
+                var answer = Model.OrderedAnswers()[0];
+                <div class="multiple-choice">
+                    <input name="SelectedAnswer" data-val="true" data-val-required="'SelectedAnswer' should not be empty." type="checkbox" class="multiple-choice__input" id="@string.Format("{0}_1", Model.Id)" value="@Newtonsoft.Json.JsonConvert.SerializeObject(answer)" />
+                    <label for="@answer.TitleWithoutSpaces" class="multiple-choice--radio">
+                        @answer.Title
+                    </label>
+                </div>
             }
             @if (Model.QuestionType == QuestionType.Date)
             {
@@ -162,7 +176,6 @@
                     </div>
                 </div>
             }
-            
         </fieldset>
     </div>
     
