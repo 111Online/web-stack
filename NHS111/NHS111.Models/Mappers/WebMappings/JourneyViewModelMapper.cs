@@ -167,6 +167,8 @@ namespace NHS111.Models.Mappers.WebMappings
                 journeyViewModel.State = questionWithAnswers.State;
                 journeyViewModel.StateJson = JsonConvert.SerializeObject(questionWithAnswers.State);
             }
+
+            journeyViewModel.CheckServicesUrl = questionWithAnswers.CheckServicesUrl;
             return journeyViewModel;
         }
 

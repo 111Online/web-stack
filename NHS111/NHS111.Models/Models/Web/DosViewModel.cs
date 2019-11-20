@@ -22,6 +22,7 @@ namespace NHS111.Models.Models.Web
         public string SelectedServiceId { get; set; }
         public string JourneyJson { get; set; }
         public string PathwayNo { get; set; }
+        public string CheckServicesUrl { get; set; }
         public ServiceViewModel SelectedService
         {
             get
