@@ -26,11 +26,11 @@
 }
 
 @section SurveyBanner {
-    @Html.Partial("_SurveyLink", Model, surveyDataDictionary)
+    @Html.Partial("_SurveyLink", Model.SurveyLink, surveyDataDictionary)
 }
 
 @section FeedbackSection {
-    @Html.Partial("_SurveyLink", Model, surveyDataDictionary)
+    @Html.Partial("_SurveyLink", Model.SurveyLink, surveyDataDictionary)
 }
 
 <div id="wrapper" class="measure">

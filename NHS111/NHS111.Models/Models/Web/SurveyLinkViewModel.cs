@@ -13,8 +13,6 @@ namespace NHS111.Models.Models.Web
         public string SurveyId { get; set; }
 
         public string JourneyId { get; set; }
-        
-        public string SessionId { get; set; }
 
         public string PathwayNo { get; set; }
 

@@ -17,7 +17,7 @@
 }
 @section Title { NHS 111 - Contact a healthcare service }
 @section SurveyBanner{
-    @Html.Partial("_SurveyLink", Model)
+    @Html.Partial("_SurveyLink", Model.SurveyLink)
 }
 @section FeedbackSection {
     @if (!SurveyLinkFeature.IsEnabled)
@@ -26,7 +26,7 @@
     }
     else
     {
-        @Html.Partial("_SurveyLink", Model)
+        @Html.Partial("_SurveyLink", Model.SurveyLink)
     }
 }
 @Html.Partial("_OutcomeHeaderTwoTitles", Model, new ViewDataDictionary() { { "OutcomeHeader", string.Format("You should go within the next {0}", Model.TimeFrameText) } })

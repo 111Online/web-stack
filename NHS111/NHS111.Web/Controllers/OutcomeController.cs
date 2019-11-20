@@ -440,9 +440,9 @@ namespace NHS111.Web.Controllers
         }
                 
         [HttpPost]
-        public async Task<ActionResult> SurveyInterstitial(OutcomeViewModel model, [FromBody] string surveyUrl) {
-            ViewData["surveyUrl"] = surveyUrl;
-            return View("~\\Views\\Outcome\\SurveyInterstitial.cshtml", model);
+        public async Task<ActionResult> SurveyInterstitial([FromBody] string surveyUrl) {
+            //_auditLogger.LogEventData(model, reason);
+            return View("~\\Views\\Outcome\\SurveyInterstitial.cshtml", new ViewDataDictionary { { "surveyUrl", surveyUrl } });
         }
     }
 }
