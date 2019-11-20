@@ -1,0 +1,66 @@
+﻿@{
+    ViewBag.Title = "See your GP";
+    Layout = "~/Views/Shared/_LayoutNhsUK.cshtml";
+    var surveyUrl = Model["surveyUrl"];
+}
+
+@section Title { NHS 111 - Start Survey }
+
+@section FeedbackSection {
+}
+
+<section class="measure nhsuk-core">
+    <h1>Thanks for agreeing to take our survey</h1>
+
+    <p>
+        Before you start, there are a few things you need to know:
+    </p>
+
+    <details>
+        <summary>
+            <span class="details__arrow"></span>
+            <span class="summary">If you need medical help call 111</span>
+        </summary>
+        <div>
+            <p>
+                We don’t monitor the survey every day, and won’t see comments you leave
+                about your symptoms or if you ask for medical help.
+            </p>
+        </div>
+    </details>
+
+    <details>
+        <summary>
+            <span class="details__arrow"></span>
+            <span class="summary">We won't know who you are from your answers</span>
+        </summary>
+        <div>
+            <p>
+                Our survey asks you questions about using 111 online, and about what
+                happened next. Everything you say is confidential.
+            </p><p>
+                If you agree to do a follow-up survey we’ll ask for your email address.
+                We won’t share your email address with anyone else.
+            </p>
+        </div>
+    </details>
+
+    <details>
+        <summary>
+            <span class="details__arrow"></span>
+            <span class="summary">We are responsible for your data</span>
+        </summary>
+        <div>
+            <p>
+                Our @Html.ActionLink("privacy policy", "Privacy", "Help", null, new {target = "_blank"}) explains how we keep your data safe. Survey data is securely stored by a company called Qualtrics, but we are responsible for what happens to it.
+            </p>
+        </div>
+    </details>
+
+    <a class="button" href="@surveyUrl">Start survey</a>
+
+</section>
+
+
+
+
