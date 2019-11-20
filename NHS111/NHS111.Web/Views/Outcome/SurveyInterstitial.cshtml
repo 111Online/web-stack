@@ -31,7 +31,7 @@
     </details>
 
     <details>
-        <summary>
+        <summary data-event-type="click" data-event-value="know_you">
             <span class="details__arrow"></span>
             <span class="summary">We won't know who you are from your answers</span>
         </summary>
@@ -48,7 +48,7 @@
     </details>
 
     <details>
-        <summary>
+        <summary data-event-type="click" data-event-value="your_data">
             <span class="details__arrow"></span>
             <span class="summary">We are responsible for your data</span>
         </summary>
@@ -59,10 +59,30 @@
         </div>
     </details>
 
-    <a class="button" href="@surveyUrl">Start survey</a>
+    <a class="button" href="@surveyUrl" id="start-survey-button">Start survey</a>
 
 </section>
 
+<script>
+    var surveyOriginalUrl = $("#start-survey-button").attr("href")
+    var surveyClicked = {} // Ensures only added to url once
+    $("[data-event-type='click']").on("click", function (e) {
+        var val = $(this).attr("data-event-value")
+        surveyClicked[val] = true
+        var url = surveyOriginalUrl + "&interstitial_links="
+        var urlSegment = ""
+        var keys = Object.keys(surveyClicked)
+        for (var i = 0; i < keys.length; i++) {
+            if (surveyClicked[keys[i]]) {
+                if (urlSegment !== "") urlSegment += ","
+                urlSegment += keys[i]
+            }
+        }
+        
+        $("#start-survey-button").attr("href", url + urlSegment)
+    })
+
+</script>
 
 
 
