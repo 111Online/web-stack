@@ -64,7 +64,7 @@
     @Html.HiddenFor(x => Model.UserInfo.Demography.Age)
     @Html.HiddenFor(x => Model.UserInfo.Demography.Gender)
     @Html.HiddenFor(x => Model.CurrentPostcode)
-    @Html.HiddenFor(x => Model.Title)
+  //  @Html.HiddenFor(x => Model.Title)
     @Html.HiddenFor(x => Model.SymptomDiscriminatorCode)
     @Html.HiddenFor(x => Model.QuestionNo)
     @Html.HiddenFor(x => Model.StateJson)
@@ -89,8 +89,7 @@
     <div class="form-group measure @(@ViewData.ModelState.IsValidField("SelectedAnswer") ? "" : "form-group-error")">
         <fieldset>
             <legend>
-                <h1>@Model.TitleWithoutBullets</h1>
-                @Html.HiddenFor(m => m.TitleWithoutBullets)
+                <h1>@Html.Raw(Model.TitleWithoutBullets)</h1>
             </legend>
             @Html.ValidationMessageFor(m => m.SelectedAnswer, "Please select an answer", new { @class = "error-message" })
             @if (!String.IsNullOrWhiteSpace(Model.Rationale))
@@ -119,6 +118,7 @@
                             }
                         </label>
                         @Html.Hidden(string.Format("Answers[{0}].Title", i), answer.Title)
+                        @Html.Hidden(string.Format("Answers[{0}].Id", i), answer.Id)
                         @Html.Hidden(string.Format("Answers[{0}].TitleWithoutSpaces", i), answer.TitleWithoutSpaces)
                         @Html.Hidden(string.Format("Answers[{0}].SymptomDiscriminator", i), answer.SymptomDiscriminator)
                         @Html.Hidden(string.Format("Answers[{0}].SupportingInformation", i), answer.SupportingInformation)

@@ -11,8 +11,17 @@ namespace NHS111.Models.Models.Domain
         [JsonProperty(PropertyName = "title")]
         public string Title { get; set; }
 
+
+        [JsonProperty(PropertyName = "id")]
+        public string Id { get; set; }
+
         [JsonProperty(PropertyName = "titleWithoutSpaces")]
-        public string TitleWithoutSpaces { get { return Title != null ? Title.Replace(" ", string.Empty) : string.Empty; } }
+        public string TitleWithoutSpaces {
+            get
+            {
+                if (!String.IsNullOrEmpty(Id)) return Id;
+                return Title != null ? Title.Replace(" ", string.Empty) : string.Empty;
+            } }
 
         [JsonProperty(PropertyName = "symptomDiscriminator")]
         public string SymptomDiscriminator { get; set; }
