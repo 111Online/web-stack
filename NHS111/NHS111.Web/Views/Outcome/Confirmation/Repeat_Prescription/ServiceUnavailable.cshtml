@@ -21,7 +21,7 @@
     dataDictionary.Add(new KeyValuePair<string, object>("LaunchPage", "unavailable"));
 }
 @section SurveyBanner{
-    @Html.Partial("_SurveyLink", Model.OutcomeModel.SurveyLink, dataDictionary)
+    @Html.Partial("_SurveyLink", Model.OutcomeModel, dataDictionary)
 }
 @section FeedbackSection {
     @if (!SurveyLinkFeature.IsEnabled)
@@ -30,7 +30,7 @@
     }
     else
     {
-    @Html.Partial("_SurveyLink", Model.OutcomeModel.SurveyLink, dataDictionary)
+    @Html.Partial("_SurveyLink", Model.OutcomeModel, dataDictionary)
     }
 }
 <div class="nhsuk-core">

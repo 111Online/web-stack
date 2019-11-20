@@ -1,12 +1,10 @@
-﻿@using Microsoft.Ajax.Utilities
-@using NHS111.Models.Models.Web
-@using NHS111.Models.Models.Web.FromExternalServices
-@inherits NHS111.Web.Views.Shared.SurveyLinkView<NHS111.Models.Models.Web.SurveyLinkViewModel>
+﻿@using System.Web.Mvc.Html
+@inherits NHS111.Web.Views.Shared.SurveyLinkView<NHS111.Models.Models.Web.OutcomeViewModel>
 
 @{
     var launchPage = ViewData.ContainsKey("LaunchPage") ? ViewData["LaunchPage"] : "outcome";
-    var serviceOptions = ViewData.ContainsKey("ServiceOptions") ? ViewData["ServiceOptions"] : Model.ServiceOptions;
-    var serviceCount = ViewData.ContainsKey("ServiceCount") ? ViewData["ServiceCount"] : Model.ServiceCount;
+    var serviceOptions = ViewData.ContainsKey("ServiceOptions") ? ViewData["ServiceOptions"] : Model.SurveyLink.ServiceOptions;
+    var serviceCount = ViewData.ContainsKey("ServiceCount") ? ViewData["ServiceCount"] : Model.SurveyLink.ServiceCount;
 
 }
 
@@ -15,34 +13,34 @@
     var baseUrl = SurveyLinkFeature.BaseUrl;
     var url = string.Format(
         baseUrl,
-        Model.SurveyId,
-        Model.JourneyId,
-        Model.PathwayNo,
-        Model.EndPathwayNo,
-        Model.DispositionCode,
-        Model.DispositionDateTime.ToString("dddd"),
-        Model.DigitalTitle.ToLower(),
-        Model.EndPathwayTitle,
-        Model.DispositionDateTime.Date.ToString("yyyy-M-d"),
-        Model.DispositionDateTime.ToString("HH:mm:ss"),
-        Model.Campaign,
-        Model.CampaignSource,
+        Model.SurveyLink.SurveyId,
+        Model.SurveyLink.JourneyId,
+        Model.SurveyLink.PathwayNo,
+        Model.SurveyLink.EndPathwayNo,
+        Model.SurveyLink.DispositionCode,
+        Model.SurveyLink.DispositionDateTime.ToString("dddd"),
+        Model.SurveyLink.DigitalTitle.ToLower(),
+        Model.SurveyLink.EndPathwayTitle,
+        Model.SurveyLink.DispositionDateTime.Date.ToString("yyyy-M-d"),
+        Model.SurveyLink.DispositionDateTime.ToString("HH:mm:ss"),
+        Model.SurveyLink.Campaign,
+        Model.SurveyLink.CampaignSource,
         serviceCount,
         serviceOptions,
         launchPage,
-        Model.ValidationCallbackOffered.ToString().ToLower(),
-        Model.DispositionDateTime.ToString("d MMMM yyyy"),
-        Model.RecommendedServiceType,
-        Model.RecommendedServiceId,
-        Model.RecommendedServiceName,
-        Model.DispositionChoiceReasoning
+        Model.SurveyLink.ValidationCallbackOffered.ToString().ToLower(),
+        Model.SurveyLink.DispositionDateTime.ToString("d MMMM yyyy"),
+        Model.SurveyLink.RecommendedServiceType,
+        Model.SurveyLink.RecommendedServiceId,
+        Model.SurveyLink.RecommendedServiceName,
+        Model.SurveyLink.DispositionChoiceReasoning
         );
 
     <div class="notification-banner survey-banner notification-banner--hiviz">
 
         @using (Html.BeginForm("SurveyInterstitial", "Outcome", FormMethod.Post, new { target = "_blank"}))
         {
-            @Html.HiddenFor(x => Model.JourneyId)
+            @Html.Partial("_CommonHiddenFieldsOutcomeViewModel", Model)
             <input type="hidden" name="surveyUrl" value="@url" />
             <p class="notification-banner--inner">
                 Help us improve by taking <button type="submit" class="button--link">a short survey (opens in a new tab or window)</button>

@@ -20,7 +20,7 @@
     dataDictionary.Add(new KeyValuePair<string, object>("LaunchPage", "duplicate"));
 }
 @section SurveyBanner{
-    @Html.Partial("_SurveyLink", Model.OutcomeModel.SurveyLink, dataDictionary)
+    @Html.Partial("_SurveyLink", Model.OutcomeModel, dataDictionary)
 }
 @section FeedbackSection {
     @if (!SurveyLinkFeature.IsEnabled)
@@ -29,7 +29,7 @@
     }
     else
     {
-    @Html.Partial("_SurveyLink", Model.OutcomeModel.SurveyLink, dataDictionary)
+    @Html.Partial("_SurveyLink", Model.OutcomeModel, dataDictionary)
     }
 }
 

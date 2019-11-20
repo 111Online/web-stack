@@ -70,8 +70,6 @@ namespace NHS111.Web.Functional.Tests
             surveyInterstitialPage.VerifyHeading("Thanks for agreeing to take our survey");
             surveyInterstitialPage.VerifyUrl(surveyUrl);
             surveyInterstitialPage.CompareAndVerify("2"); // Captures screenshot of survey interstitial
-
-
         }
     }
 }

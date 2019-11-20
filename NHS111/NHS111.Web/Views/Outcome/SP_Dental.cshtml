@@ -17,7 +17,7 @@
 }
 @section Title { NHS 111 - @Model.OutcomeGroup.Text }
 @section SurveyBanner{
-    @Html.Partial("_SurveyLink", Model.SurveyLink)
+    @Html.Partial("_SurveyLink", Model)
 }
 @section FeedbackSection {
     @if (!SurveyLinkFeature.IsEnabled)
@@ -26,7 +26,7 @@
     }
     else
     {
-        @Html.Partial("_SurveyLink", Model.SurveyLink)
+        @Html.Partial("_SurveyLink", Model)
     }
 }
 @Html.Partial("_OutcomeHeaderTwoTitles", Model, new ViewDataDictionary() { { "OutcomeHeader", string.Format("You should {0} within the next {1}", Model.OutcomeGroup.Text, Model.TimeFrameText) } })

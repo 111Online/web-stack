@@ -25,14 +25,14 @@
 @section SurveyBanner{
     @if (!Model.RecommendedService.OnlineDOSServiceType.IsReferral)
     {
-        @Html.Partial("_SurveyLink", Model.SurveyLink, dataDictionary)
+        @Html.Partial("_SurveyLink", Model, dataDictionary)
     }
 }
 @section FeedbackSection {
 
     @if (SurveyLinkFeature.IsEnabled && !Model.RecommendedService.OnlineDOSServiceType.IsReferral)
     {
-        @Html.Partial("_SurveyLink", Model.SurveyLink)
+        @Html.Partial("_SurveyLink", Model)
     }
     else
     {

@@ -1,7 +1,8 @@
-﻿@{
+﻿@model NHS111.Models.Models.Web.OutcomeViewModel
+@{
     ViewBag.Title = "See your GP";
     Layout = "~/Views/Shared/_LayoutNhsUK.cshtml";
-    var surveyUrl = Model["surveyUrl"];
+    var surveyUrl = ViewData["surveyUrl"];
 }
 
 @section Title { NHS 111 - Start Survey }
@@ -38,7 +39,8 @@
             <p>
                 Our survey asks you questions about using 111 online, and about what
                 happened next. Everything you say is confidential.
-            </p><p>
+            </p>
+            <p>
                 If you agree to do a follow-up survey we’ll ask for your email address.
                 We won’t share your email address with anyone else.
             </p>

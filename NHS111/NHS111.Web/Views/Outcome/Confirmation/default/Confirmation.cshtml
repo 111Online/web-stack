@@ -21,12 +21,12 @@
     dataDictionary.Add(new KeyValuePair<string, object>("LaunchPage", "confirmation"));
 }
 @section SurveyBanner{
-    @Html.Partial("_SurveyLink", Model.ItkConfirmationModel.SurveyLink, dataDictionary)
+    @Html.Partial("_SurveyLink", Model.ItkConfirmationModel, dataDictionary)
 }
 @section FeedbackSection {
     @if (SurveyLinkFeature.IsEnabled)
     {
-        @Html.Partial("_SurveyLink", Model.ItkConfirmationModel.SurveyLink, dataDictionary)
+        @Html.Partial("_SurveyLink", Model.ItkConfirmationModel, dataDictionary)
     }
     else
     {

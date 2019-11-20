@@ -14,7 +14,7 @@
 }
 @section Title {NHS 111 Online - @Model.TitleWithoutBullets}
 @section SurveyBanner{
-    @Html.Partial("_SurveyLink", Model.SurveyLink)
+    @Html.Partial("_SurveyLink", Model)
 }
 @section FeedbackSection {
     @if (!SurveyLinkFeature.IsEnabled)
@@ -23,7 +23,7 @@
     }
     else
     {
-        @Html.Partial("_SurveyLink", Model.SurveyLink)
+        @Html.Partial("_SurveyLink", Model)
     }
 }
 

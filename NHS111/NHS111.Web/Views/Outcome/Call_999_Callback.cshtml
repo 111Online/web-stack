@@ -30,13 +30,13 @@
 }
 
 @section SurveyBanner {
-    @Html.Partial("_SurveyLink", Model.SurveyLink, surveyDataDictionary)
+    @Html.Partial("_SurveyLink", Model, surveyDataDictionary)
 }
 
 @section FeedbackSection {
     @if (SurveyLinkFeature.IsEnabled)
     {
-        @Html.Partial("_SurveyLink", Model.SurveyLink, surveyDataDictionary)
+        @Html.Partial("_SurveyLink", Model, surveyDataDictionary)
     }
     else
     {

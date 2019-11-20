@@ -23,7 +23,7 @@
     dataDictionary.Add(new KeyValuePair<string, object>("LaunchPage", "recommended-service"));
 }
 @section SurveyBanner{
-    @Html.Partial("_SurveyLink", Model.SurveyLink)
+    @Html.Partial("_SurveyLink", Model)
 }
 @section FeedbackSection {
     @if (!SurveyLinkFeature.IsEnabled)
@@ -32,7 +32,7 @@
     }
     else
     {
-        @Html.Partial("_SurveyLink", Model.SurveyLink)
+        @Html.Partial("_SurveyLink", Model)
     }
 }
 <div class="nhsuk-core">
