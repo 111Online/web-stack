@@ -19,7 +19,7 @@ namespace NHS111.Models.Models.Domain
         public string TitleWithoutSpaces {
             get
             {
-                if (String.IsNullOrEmpty(Id)) return Id;
+                if (!String.IsNullOrEmpty(Id)) return Id;
                 return Title != null ? Title.Replace(" ", string.Empty) : string.Empty;
             } }
 
