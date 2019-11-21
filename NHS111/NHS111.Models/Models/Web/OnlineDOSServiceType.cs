@@ -60,13 +60,19 @@ namespace NHS111.Models.Models.Web.FromExternalServices
         public static OnlineDOSServiceType GoTo = new OnlineDOSServiceType("GoTo","You can go straight to this service. You do not need to telephone beforehand", false);
         public static OnlineDOSServiceType PublicPhone = new OnlineDOSServiceType("PublicPhone","You must telephone this service before attending", false);
         public static OnlineDOSServiceType ReferRingAndGo = new OnlineDOSServiceType("ReferRingAndGo","This service accepts electronic referrals. You should ring before you go there" , true);
+        public static OnlineDOSServiceType Video = new OnlineDOSServiceType("Onlinevideo", string.Empty, true);
+        public static OnlineDOSServiceType Written = new OnlineDOSServiceType("Onlinewritten", string.Empty, true);
+        public static OnlineDOSServiceType Telephone = new OnlineDOSServiceType("Onlinetelephone", string.Empty, true);
 
         public static Dictionary<string, OnlineDOSServiceType> TypeList = new Dictionary<string, OnlineDOSServiceType>
         {
             { Callback.Id, Callback },
             { GoTo.Id, GoTo },
             { PublicPhone.Id, PublicPhone },
-            { ReferRingAndGo.Id, ReferRingAndGo }
+            { ReferRingAndGo.Id, ReferRingAndGo },
+            { Video.Id, Video },
+            { Written.Id, Written },
+            { Telephone.Id, Telephone }
         };
     }
 }

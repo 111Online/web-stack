@@ -27,6 +27,9 @@ namespace NHS111.Models.Models.Web
                 if (_typeGroup == OnlineDOSServiceType.GoTo) return GOTO_VIEW_NAME;
                 if (_typeGroup == OnlineDOSServiceType.PublicPhone) return PUBLICPHONE_VIEW_NAME;
                 if (_typeGroup == OnlineDOSServiceType.ReferRingAndGo) return REFERRINGANDGO_VIEW_NAME;
+                if (_typeGroup == OnlineDOSServiceType.Video) return CALLBACK_VIEW_NAME;
+                if (_typeGroup == OnlineDOSServiceType.Written) return CALLBACK_VIEW_NAME;
+                if (_typeGroup == OnlineDOSServiceType.Telephone) return CALLBACK_VIEW_NAME;
 
                 throw new InvalidOperationException("Unknown servicetype with no mapped renderer specified.");
             }
