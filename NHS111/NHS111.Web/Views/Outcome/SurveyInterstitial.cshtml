@@ -1,7 +1,7 @@
-﻿@{
+﻿@inherits NHS111.Web.Views.Shared.SurveyLinkView<NHS111.Models.Models.Web.SurveyLinkViewModel>
+@{
     ViewBag.Title = "See your GP";
     Layout = "~/Views/Shared/_LayoutNhsUK.cshtml";
-    var surveyUrl = Model["surveyUrl"];
 }
 
 @section Title { NHS 111 - Start Survey }
@@ -52,12 +52,12 @@
         </summary>
         <div>
             <p>
-                Our @Html.ActionLink("privacy policy", "Privacy", "Help", null, new {target = "_blank"}) explains how we keep your data safe. Survey data is securely stored by a company called Qualtrics, but we are responsible for what happens to it.
+                Our @Html.ActionLink("privacy policy", "Privacy", "Help", null, new { target = "_blank" }) explains how we keep your data safe. Survey data is securely stored by a company called Qualtrics, but we are responsible for what happens to it.
             </p>
         </div>
     </details>
 
-    <a class="button" href="@surveyUrl" id="start-survey-button">Start survey</a>
+    <a class="button" href="@Model.SurveyUrl" id="start-survey-button">Start survey</a>
 
 </section>
 
@@ -76,7 +76,7 @@
                 urlSegment += keys[i]
             }
         }
-        
+
         $("#start-survey-button").attr("href", url + urlSegment)
     })
 

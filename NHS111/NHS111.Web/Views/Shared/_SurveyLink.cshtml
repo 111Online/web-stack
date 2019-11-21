@@ -37,13 +37,13 @@
         Model.RecommendedServiceName,
         Model.DispositionChoiceReasoning
         );
+    Model.SurveyUrl = url;
 
     <div class="notification-banner survey-banner notification-banner--hiviz">
 
-        @using (Html.BeginForm("SurveyInterstitial", "Outcome", FormMethod.Post, new { target = "_blank"}))
+        @using (Html.BeginForm("SurveyInterstitial", "Outcome", FormMethod.Post, new { target = "_blank" }))
         {
-            @Html.HiddenFor(x => Model.JourneyId)
-            <input type="hidden" name="surveyUrl" value="@url" />
+            @Html.Partial("_CommonHiddenFieldsSurveyLinkViewModel", Model)
             <p class="notification-banner--inner">
                 Help us improve by taking <button type="submit" class="button--link">a short survey (opens in a new tab or window)</button>
             </p>

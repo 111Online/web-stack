@@ -14,6 +14,8 @@ namespace NHS111.Models.Models.Web
 
         public string JourneyId { get; set; }
 
+        public string SessionId { get; set; }
+
         public string PathwayNo { get; set; }
 
         public string DigitalTitle { get; set; }
@@ -41,5 +43,7 @@ namespace NHS111.Models.Models.Web
         public string RecommendedServiceName { get; set; }
 
         public string DispositionChoiceReasoning { get; set; }
+
+        public string SurveyUrl { get; set; }
     }
 }
