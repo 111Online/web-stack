@@ -17,8 +17,8 @@ namespace NHS111.Web.Presentation.Configuration
 
         public string BusinessDosApiBaseUrl { get { return ConfigurationManager.AppSettings["BusinessDosApiBaseUrl"]; } }
         public string BusinessDosApiCheckCapacitySummaryUrl { get { return ConfigurationManager.AppSettings["BusinessDosApiCheckCapacitySummaryUrl"]; } }
-        public string BusinessDosApiServicesByClinicalTermUrl { get { return ConfigurationManager.AppSettings["BusinessDosApiServicesByClinicalTermUrl"]; } }
-        public string BusinessDosApiServiceDetailsByIdUrl { get { return ConfigurationManager.AppSettings["BusinessDosApiServiceDetailsByIdUrl"]; } }
+        public string BusinessDosApiCheckServicesUrl { get { return ConfigurationManager.AppSettings["BusinessDosApiCheckServicesUrl"]; } }
+
 
         public string FeedbackApiBaseUrl { get { return ConfigurationManager.AppSettings["FeedbackApiBaseUrl"]; } }
         public string FeedbackAddFeedbackUrl { get { return ConfigurationManager.AppSettings["FeedbackAddFeedbackUrl"]; } }
@@ -270,8 +270,7 @@ namespace NHS111.Web.Presentation.Configuration
         string GetBusinessApiGetValidatedAddressByPostcodeUrl(string postcode);
         string BusinessDosApiBaseUrl { get; }
         string BusinessDosApiCheckCapacitySummaryUrl { get; }
-        string BusinessDosApiServicesByClinicalTermUrl { get; }
-        string BusinessDosApiServiceDetailsByIdUrl { get; }
+        string BusinessDosApiCheckServicesUrl { get; }
         string FeedbackApiBaseUrl { get; }
         string FeedbackAddFeedbackUrl { get; }
         string FeedbackDeleteFeedbackUrl { get; }

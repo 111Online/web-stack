@@ -15,6 +15,8 @@ namespace NHS111.Models.Models.Domain
 
         public string NonQuestionKeywords { get; set; }
         public string NonQuestionExcludeKeywords { get; set; }
+
+        public bool HasOwnCheckServices { get; set; }
     }
 
     public class QuestionWithDeadEnd : QuestionWithAnswers { }
