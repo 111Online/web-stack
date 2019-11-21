@@ -156,7 +156,7 @@ namespace NHS111.Models.Models.Web
         public string Content { get; set; }
 
         public string NextButtonText { get; set; }
-        public string CheckServicesUrl { get; set; }
+        public bool HasOwnCheckServices { get; set; }
 
         public JourneyViewModel()
         {

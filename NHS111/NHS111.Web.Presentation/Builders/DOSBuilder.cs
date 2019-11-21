@@ -55,7 +55,7 @@ namespace NHS111.Web.Presentation.Builders
 
         public async Task<DosCheckCapacitySummaryResult> FillCheckCapacitySummaryResult(DosViewModel dosViewModel, bool filterServices, DosEndpoint? endpoint) {
 
-            var checkCapacitySummaryUrl = string.IsNullOrEmpty(dosViewModel.CheckServicesUrl) 
+            var checkCapacitySummaryUrl = !dosViewModel.HasOwnCheckServices
                 ? string.Format("{0}?filterServices={1}&endpoint={2}", _configuration.BusinessDosApiCheckCapacitySummaryUrl, filterServices, endpoint) 
                 : string.Format(_configuration.BusinessDosApiCheckServicesUrl, dosViewModel.PathwayNo);
             var dosFilterdCase = dosViewModel as DosFilteredCase;
