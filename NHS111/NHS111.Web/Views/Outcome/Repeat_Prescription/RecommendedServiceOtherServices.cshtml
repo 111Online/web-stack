@@ -64,14 +64,22 @@
             <details class="service-listing" @(Model.OtherServices.Count() == 1 ? "open" : "")>
                 <summary>
                     <p class="service-listing__name">@WebUtility.HtmlDecode(@service.PublicName)</p>
-                    @if (service.OnlineDOSServiceType.Equals(OnlineDOSServiceType.PublicPhone) || service.OnlineDOSServiceType.Equals(OnlineDOSServiceType.Callback))
+                    @if (service.OnlineDOSServiceType.Equals(OnlineDOSServiceType.PublicPhone)
+                         || service.OnlineDOSServiceType.Equals(OnlineDOSServiceType.Callback)
+                         || service.OnlineDOSServiceType.Equals(OnlineDOSServiceType.Telephone))
+
                     {
                         <p class="service-listing__info">Telephone service</p>
                     }
-                    else
-                    {
-                        <p class="service-listing__info">@WebUtility.HtmlDecode(service.Distance) miles away</p>
-                    }
+                    else if (service.OnlineDOSServiceType.Equals(OnlineDOSServiceType.Written)
+                                     || service.OnlineDOSServiceType.Equals(OnlineDOSServiceType.Video))
+                            {
+                                <p class="service-listing__info">Online consultation service</p>
+                            }
+                            else
+                            {
+                                <p class="service-listing__info">@WebUtility.HtmlDecode(service.Distance) miles away</p>
+                            }
                     <span class="service-listing__toggle--hide">Hide</span>
                     <span class="service-listing__toggle--show">More information</span>
                 </summary>

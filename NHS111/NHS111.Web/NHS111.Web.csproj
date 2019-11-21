@@ -461,6 +461,7 @@
     <Content Include="Views\Shared\Elements\_InlineSpinner.cshtml" />
     <Content Include="Views\Outcome\Primary_Care\MoreInfo.cshtml" />
     <Content Include="Views\Shared\_rs_Timings.cshtml" />
+    <Content Include="Views\Shared\_rs_online_type.cshtml" />
     <None Include="Web.Development.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
