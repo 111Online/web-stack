@@ -282,6 +282,19 @@ namespace NHS111.Web.Presentation.Builders
             model.CareAdvices = await _careAdviceBuilder.FillCareAdviceBuilder(model.UserInfo.Demography.Age, model.UserInfo.Demography.Gender, model.CareAdviceMarkers.ToList());
             return model;
         }
+
+        public async Task<AppointmentViewModel> BuildAppointmentViewModel(OutcomeViewModel model)
+        {
+            var appointmentViewModel = Mapper.Map<AppointmentViewModel>(model);
+            var appointmentSlotsUrl = string.Format(_configuration.BusinessSlotApiGetUrl, model.PathwayNo, model.SelectedService.Id);
+            var request = new JsonRestRequest(appointmentSlotsUrl, Method.GET);
+            var response = await _restClient.ExecuteTaskAsync<IEnumerable<SlotViewModel>>(request);
+
+            if (!response.IsSuccessful) return appointmentViewModel;
+
+            appointmentViewModel.Slots = response.Data;
+            return appointmentViewModel;
+        }
     }
 
     public interface IOutcomeViewModelBuilder
@@ -295,5 +308,6 @@ namespace NHS111.Web.Presentation.Builders
         Task<OutcomeViewModel> PathwaySelectionJumpBuilder(OutcomeViewModel model);
         Task<OutcomeViewModel> PrimaryCareBuilder(OutcomeViewModel model, string reason);
         Task<OutcomeViewModel> PopulateGroupedDosResults(OutcomeViewModel model, DateTime? overrideDate, bool? overrideFilterServices, DosEndpoint? endpoint);
+        Task<AppointmentViewModel> BuildAppointmentViewModel(OutcomeViewModel model);
     }
 }

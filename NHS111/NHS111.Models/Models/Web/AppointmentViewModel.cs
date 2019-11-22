@@ -9,5 +9,10 @@ namespace NHS111.Models.Models.Web
     public class AppointmentViewModel : OutcomeViewModel
     {
         public IEnumerable<SlotViewModel> Slots { get; set; }
+
+        public AppointmentViewModel()
+        {
+            Slots = Enumerable.Empty<SlotViewModel>();
+        }
     }
 }

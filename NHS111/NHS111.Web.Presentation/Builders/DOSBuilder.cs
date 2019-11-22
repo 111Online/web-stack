@@ -169,19 +169,6 @@ namespace NHS111.Web.Presentation.Builders
             return dosViewModel;
         }
 
-        public async Task<AppointmentViewModel> BuildAppointmentViewModel(OutcomeViewModel model)
-        {
-            var appointmentViewModel = Mapper.Map<AppointmentViewModel>(model);
-            var appointmentSlotsUrl = string.Format(_configuration.BusinessSlotApiGetUrl, model.PathwayNo, model.SelectedService.Id);
-            var request = new JsonRestRequest(appointmentSlotsUrl, Method.GET);
-            var response = await _restClient.ExecuteTaskAsync<IEnumerable<SlotViewModel>>(request);
-
-            if (!response.IsSuccessful) return appointmentViewModel;
-
-            appointmentViewModel.Slots = response.Data;
-            return appointmentViewModel;
-        }
-
         private async Task<string> GetPracticeIdFromSurgeryId(string surgeryId)
         {
             var services = await GetMobileDoSResponse<DosServicesByClinicalTermResult>("services/byOdsCode/{0}", surgeryId);
@@ -214,6 +201,5 @@ namespace NHS111.Web.Presentation.Builders
         Task<DosServicesByClinicalTermResult> FillDosServicesByClinicalTermResult(DosViewModel dosViewModel);
         List<GroupedDOSServices> FillGroupedDosServices(List<ServiceViewModel> services);
         DosViewModel BuildDosViewModel(OutcomeViewModel model, DateTime? overrideDate);
-        Task<AppointmentViewModel> BuildAppointmentViewModel(OutcomeViewModel model);
     }
 }

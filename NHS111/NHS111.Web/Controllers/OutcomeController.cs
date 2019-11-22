@@ -145,7 +145,7 @@ namespace NHS111.Web.Controllers
         public async Task<ActionResult> LookupAppointmentSlots(OutcomeViewModel outcomeModel)
         {
             ModelState.Clear();
-            var appointmentsViewModel = await _dosBuilder.BuildAppointmentViewModel(outcomeModel);
+            var appointmentsViewModel = await _outcomeViewModelBuilder.BuildAppointmentViewModel(outcomeModel);
             return View(appointmentsViewModel);
         }
 
