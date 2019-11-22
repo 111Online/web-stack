@@ -9,7 +9,8 @@ namespace NHS111.Models.Mappers.WebMappings
         {
             Mapper.CreateMap<OutcomeViewModel, PersonalDetailViewModel>()
                 .ForMember(p => p.PatientInformantDetails, opt => opt.Ignore())
-                .ForMember(p => p.AppointmentDetails, opt => opt.Ignore());
+                .ForMember(p => p.Slots, opt => opt.Ignore())
+                .ForMember(p => p.SelectedSlotId, opt => opt.Ignore());
         }
     }
 }

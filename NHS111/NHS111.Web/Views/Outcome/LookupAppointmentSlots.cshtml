@@ -1,5 +1,5 @@
 ﻿@using NHS111.Models.Models.Web
-@inherits NHS111.Web.Views.Shared.SurveyLinkView<AppointmentViewModel>
+@inherits NHS111.Web.Views.Shared.SurveyLinkView<PersonalDetailViewModel>
 @{
     Layout = "~/Views/Shared/_LayoutNhsUk.cshtml";
 }
@@ -40,15 +40,16 @@
 
         
         <ul class="address-picker">
-            @foreach (var slot in Model.Slots)
+            @for (int i = 0; i < Model.Slots.Count(); i++)
             {
+                var slot = Model.Slots[i];
                 @Html.Hidden("SelectedServiceId", Model.SelectedServiceId)
-                @Html.Hidden("AppointmentDetails.Id", slot.Id)
-                @Html.Hidden("AppointmentDetails.Start", slot.Start)
-                @Html.Hidden("AppointmentDetails.End", slot.End)
-                @Html.Hidden("AppointmentDetails.ScheduleId", slot.ScheduleId)
-                @Html.Hidden("AppointmentDetails.PractitionerId", slot.PractitionerId)
-                <li class="address-option"><button type="submit" name="currentAddress" id="@slot.Id" value="@slot.Id" class="button--link">Start: @slot.Start<br />End: @slot.End</button></li>
+                @Html.Hidden(string.Format("Slots[{0}].Id", i), slot.Id)
+                @Html.Hidden(string.Format("Slots[{0}].Start", i), slot.Start)
+                @Html.Hidden(string.Format("Slots[{0}].End", i), slot.End)
+                @Html.Hidden(string.Format("Slots[{0}].ScheduleId", i), slot.ScheduleId)
+                @Html.Hidden(string.Format("Slots[{0}].PractitionerId", i), slot.PractitionerId)
+                <li class="address-option"><button type="submit" name="slotId" id="@slot.Id" value="@slot.Id" class="button--link">Start: @slot.Start<br/>End: @slot.End</button></li>
             }
         </ul>
         <hr />

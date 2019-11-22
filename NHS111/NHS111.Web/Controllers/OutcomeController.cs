@@ -145,7 +145,7 @@ namespace NHS111.Web.Controllers
         public async Task<ActionResult> LookupAppointmentSlots(OutcomeViewModel outcomeModel)
         {
             ModelState.Clear();
-            var appointmentsViewModel = await _outcomeViewModelBuilder.BuildAppointmentViewModel(outcomeModel);
+            var appointmentsViewModel = await _outcomeViewModelBuilder.BuildPersonalDetailsViewModel(outcomeModel);
             return View(appointmentsViewModel);
         }
 
@@ -235,7 +235,7 @@ namespace NHS111.Web.Controllers
                         var personalDetailsController = DependencyResolver.Current.GetService<PersonalDetailsController>();
                         personalDetailsController.ControllerContext = new ControllerContext(ControllerContext.RequestContext, personalDetailsController);
 
-                        return await personalDetailsController.PersonalDetails(Mapper.Map<PersonalDetailViewModel>(model));
+                        return await personalDetailsController.PersonalDetails(Mapper.Map<PersonalDetailViewModel>(model), string.Empty);
                     }
                 }
 
@@ -328,7 +328,7 @@ namespace NHS111.Web.Controllers
                         var personalDetailsController = DependencyResolver.Current.GetService<PersonalDetailsController>();
                         personalDetailsController.ControllerContext = new ControllerContext(ControllerContext.RequestContext, personalDetailsController);
 
-                        return await personalDetailsController.PersonalDetails(Mapper.Map<PersonalDetailViewModel>(model));
+                        return await personalDetailsController.PersonalDetails(Mapper.Map<PersonalDetailViewModel>(model), string.Empty);
                     }
                 }
                 return View("~\\Views\\Outcome\\ServiceDetails.cshtml", model);
@@ -421,7 +421,7 @@ namespace NHS111.Web.Controllers
                     var personalDetailsController = DependencyResolver.Current.GetService<PersonalDetailsController>();
                     personalDetailsController.ControllerContext = new ControllerContext(ControllerContext.RequestContext, personalDetailsController);
 
-                    return await personalDetailsController.PersonalDetails(Mapper.Map<PersonalDetailViewModel>(model));
+                    return await personalDetailsController.PersonalDetails(Mapper.Map<PersonalDetailViewModel>(model), string.Empty);
                 }
             }
 

@@ -283,17 +283,17 @@ namespace NHS111.Web.Presentation.Builders
             return model;
         }
 
-        public async Task<AppointmentViewModel> BuildAppointmentViewModel(OutcomeViewModel model)
+        public async Task<PersonalDetailViewModel> BuildPersonalDetailsViewModel(OutcomeViewModel model)
         {
-            var appointmentViewModel = Mapper.Map<AppointmentViewModel>(model);
+            var personalDetailViewModel = Mapper.Map<PersonalDetailViewModel>(model);
             var appointmentSlotsUrl = string.Format(_configuration.BusinessSlotApiGetUrl, model.PathwayNo, model.SelectedService.Id);
             var request = new JsonRestRequest(appointmentSlotsUrl, Method.GET);
             var response = await _restClient.ExecuteTaskAsync<IEnumerable<SlotViewModel>>(request);
 
-            if (!response.IsSuccessful) return appointmentViewModel;
+            if (!response.IsSuccessful) return personalDetailViewModel;
 
-            appointmentViewModel.Slots = response.Data;
-            return appointmentViewModel;
+            personalDetailViewModel.Slots = response.Data.ToList();
+            return personalDetailViewModel;
         }
     }
 
@@ -308,6 +308,6 @@ namespace NHS111.Web.Presentation.Builders
         Task<OutcomeViewModel> PathwaySelectionJumpBuilder(OutcomeViewModel model);
         Task<OutcomeViewModel> PrimaryCareBuilder(OutcomeViewModel model, string reason);
         Task<OutcomeViewModel> PopulateGroupedDosResults(OutcomeViewModel model, DateTime? overrideDate, bool? overrideFilterServices, DosEndpoint? endpoint);
-        Task<AppointmentViewModel> BuildAppointmentViewModel(OutcomeViewModel model);
+        Task<PersonalDetailViewModel> BuildPersonalDetailsViewModel(OutcomeViewModel model);
     }
 }
