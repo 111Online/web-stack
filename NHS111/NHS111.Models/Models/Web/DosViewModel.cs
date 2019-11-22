@@ -11,6 +11,7 @@ namespace NHS111.Models.Models.Web
 
     public class DosViewModel : DosFilteredCase
     {
+        public string Id { get; set; }
         public Guid UserId { get; set; }
         public DosCheckCapacitySummaryResult DosCheckCapacitySummaryResult { get; set; }
         public DosServicesByClinicalTermResult DosServicesByClinicalTermResult { get; set; }

@@ -462,6 +462,7 @@
     <Content Include="Views\Outcome\Primary_Care\MoreInfo.cshtml" />
     <Content Include="Views\Shared\_rs_Timings.cshtml" />
     <Content Include="Views\Shared\_rs_online_type.cshtml" />
+    <Content Include="Views\Outcome\LookupAppointmentSlots.cshtml" />
     <None Include="Web.Development.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

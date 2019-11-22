@@ -141,7 +141,13 @@ namespace NHS111.Web.Controllers
             return View(viewRouter.ViewName, outcomeModel);
         }
 
-
+        [HttpPost]
+        public async Task<ActionResult> LookupAppointmentSlots(OutcomeViewModel outcomeModel)
+        {
+            ModelState.Clear();
+            var appointmentsViewModel = await _dosBuilder.BuildAppointmentViewModel(outcomeModel);
+            return View(appointmentsViewModel);
+        }
 
         [HttpGet]
         [Route("outcome/disposition/{age?}/{gender?}/{dxCode?}/{symptomGroup?}/{symptomDiscriminator?}")]
