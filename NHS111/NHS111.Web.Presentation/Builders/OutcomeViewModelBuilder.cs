@@ -205,7 +205,7 @@ namespace NHS111.Web.Presentation.Builders
         public async Task<ITKConfirmationViewModel> BookAppointmentResponseBuilder(PersonalDetailViewModel model)
         {
             var bookAppointmentRequestData = CreateBookAppointmentRequest(model);
-            var response = await SendBookAppointmentMessage(bookAppointmentRequestData);
+            var response = await SendBookAppointmentMessage(model.PathwayId, bookAppointmentRequestData);
             var itkResponseModel = _mappingEngine.Mapper.Map<OutcomeViewModel, ITKConfirmationViewModel>(model);
 
             itkResponseModel.ItkDuplicate = IsDuplicateResponse(response);
@@ -288,9 +288,10 @@ namespace NHS111.Web.Presentation.Builders
             return response;
         }
 
-        private async Task<IRestResponse> SendBookAppointmentMessage(BookAppointmentRequest bookAppointmentRequest)
+        private async Task<IRestResponse> SendBookAppointmentMessage(string serviceId, BookAppointmentRequest bookAppointmentRequest)
         {
-            var request = new JsonRestRequest(_configuration.BusinessSlotApiBookUrl, Method.POST);
+            var bookappointUrl = string.Format(_configuration.BusinessSlotApiBookUrl, serviceId);
+            var request = new JsonRestRequest(bookappointUrl, Method.POST);
             request.AddJsonBody(bookAppointmentRequest);
             var response = await _restClient.ExecuteTaskAsync(request);
             return response;
