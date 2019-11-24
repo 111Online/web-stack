@@ -13,3 +13,13 @@
 @Html.HiddenFor(x => Model.UserInfo.Year)
 @Html.HiddenFor(x => Model.UserInfo.TelephoneNumber)
 @Html.HiddenFor(x => Model.SelectedServiceId)
+@Html.Hidden("SelectedSlotId", Model.SelectedSlotId)
+@for (int i = 0; i < Model.Slots.Count(); i++)
+{
+    var slot = Model.Slots[i];
+    @Html.Hidden(string.Format("Slots[{0}].Id", i), slot.Id)
+    @Html.Hidden(string.Format("Slots[{0}].Start", i), slot.Start)
+    @Html.Hidden(string.Format("Slots[{0}].End", i), slot.End)
+    @Html.Hidden(string.Format("Slots[{0}].ScheduleId", i), slot.ScheduleId)
+    @Html.Hidden(string.Format("Slots[{0}].PractitionerId", i), slot.PractitionerId)
+}

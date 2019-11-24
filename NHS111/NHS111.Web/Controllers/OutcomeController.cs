@@ -352,7 +352,9 @@ namespace NHS111.Web.Controllers
             if (availableServices.ContainsService(model.SelectedService))
             {
                 var outcomeViewModel = ConvertPatientInformantDateToUserinfo(model.PatientInformantDetails, model);
-                var itkConfirmationViewModel = await _outcomeViewModelBuilder.ItkResponseBuilder(outcomeViewModel);
+                var itkConfirmationViewModel = string.IsNullOrEmpty(model.SelectedSlotId)
+                    ? await _outcomeViewModelBuilder.ItkResponseBuilder(outcomeViewModel) 
+                    : await _outcomeViewModelBuilder.BookAppointmentResponseBuilder(model);
                 var result = _referralResultBuilder.Build(itkConfirmationViewModel);
                 return View(result.ViewName, result);
             }

@@ -7,6 +7,7 @@ using System.Web;
 using AutoMapper;
 using NHS111.Models.Models.Domain;
 using NHS111.Models.Models.Web;
+using NHS111.Models.Models.Web.Book;
 using NHS111.Models.Models.Web.DosRequests;
 using NHS111.Models.Models.Web.FromExternalServices;
 using NHS111.Models.Models.Web.ITK;
@@ -201,6 +202,28 @@ namespace NHS111.Web.Presentation.Builders
             return itkResponseModel;
         }
 
+        public async Task<ITKConfirmationViewModel> BookAppointmentResponseBuilder(PersonalDetailViewModel model)
+        {
+            var bookAppointmentRequestData = CreateBookAppointmentRequest(model);
+            var response = await SendBookAppointmentMessage(bookAppointmentRequestData);
+            var itkResponseModel = _mappingEngine.Mapper.Map<OutcomeViewModel, ITKConfirmationViewModel>(model);
+
+            itkResponseModel.ItkDuplicate = IsDuplicateResponse(response);
+            itkResponseModel.ItkSendSuccess = response.IsSuccessful;
+            if (response.IsSuccessful || IsDuplicateResponse(response))
+            {
+                itkResponseModel.PatientReference = response.Content.Replace("\"", "");
+            }
+
+            else
+            {
+                itkResponseModel.ItkSendSuccess = false;
+                Log4Net.Error("Error sending ITK message : Status Code -" + response.StatusCode +
+                              " Content -" + response.Content);
+            }
+            return itkResponseModel;
+        }
+
         private static bool IsDuplicateResponse(IRestResponse response)
         {
             return response.StatusCode == System.Net.HttpStatusCode.Conflict;
@@ -265,6 +288,14 @@ namespace NHS111.Web.Presentation.Builders
             return response;
         }
 
+        private async Task<IRestResponse> SendBookAppointmentMessage(BookAppointmentRequest bookAppointmentRequest)
+        {
+            var request = new JsonRestRequest(_configuration.BusinessSlotApiBookUrl, Method.POST);
+            request.AddJsonBody(bookAppointmentRequest);
+            var response = await _restClient.ExecuteTaskAsync(request);
+            return response;
+        }
+
         private Authentication getItkAuthentication()
         {
             return new Authentication { UserName = ConfigurationManager.AppSettings["itk_credential_user"], Password = ConfigurationManager.AppSettings["itk_credential_password"] };
@@ -275,6 +306,13 @@ namespace NHS111.Web.Presentation.Builders
             var itkRequestData = _mappingEngine.Mapper.Map<OutcomeViewModel, ITKDispatchRequest>(model);
             itkRequestData.Authentication = getItkAuthentication();
             return itkRequestData;
+        }
+
+        private BookAppointmentRequest CreateBookAppointmentRequest(PersonalDetailViewModel model)
+        {
+            var bookingAppointmentRequest = _mappingEngine.Mapper.Map<PersonalDetailViewModel, BookAppointmentRequest>(model);
+            bookingAppointmentRequest.Patient.Address = _mappingEngine.Mapper.Map<AddressInfoViewModel, Address>(model.AddressInformation.PatientHomeAddress);
+            return bookingAppointmentRequest;
         }
 
         public async Task<OutcomeViewModel> PersonalDetailsBuilder(OutcomeViewModel model)
@@ -304,6 +342,7 @@ namespace NHS111.Web.Presentation.Builders
         Task<OutcomeViewModel> DispositionBuilder(OutcomeViewModel model, DosEndpoint? endpoint);
         Task<OutcomeViewModel> PersonalDetailsBuilder(OutcomeViewModel model);
         Task<ITKConfirmationViewModel> ItkResponseBuilder(OutcomeViewModel model);
+        Task<ITKConfirmationViewModel> BookAppointmentResponseBuilder(PersonalDetailViewModel model);
         Task<OutcomeViewModel> DeadEndJumpBuilder(OutcomeViewModel model);
         Task<OutcomeViewModel> PathwaySelectionJumpBuilder(OutcomeViewModel model);
         Task<OutcomeViewModel> PrimaryCareBuilder(OutcomeViewModel model, string reason);

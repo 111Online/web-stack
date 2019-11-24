@@ -12,6 +12,13 @@ namespace NHS111.Models.Models.Web
         public PatientInformantViewModel PatientInformantDetails { get; set; }
         public List<SlotViewModel> Slots { get; set; }
         public string SelectedSlotId { get; set; }
+        public SlotViewModel SelectedSlot
+        {
+            get
+            {
+                return Slots.Any() ? Slots.FirstOrDefault(s => s.Id == SelectedSlotId) : null;
+            }
+        }
 
         public PersonalDetailViewModel() 
         {

@@ -15,6 +15,7 @@ namespace NHS111.Models.Mappers.WebMappings
                 cfg.AddProfile(new AddressInfoViewModelMapper());
                 cfg.AddProfile(new FromOutcomeViewModelToSubmitEncounterToServiceRequest());
                 cfg.AddProfile(new FromOutcomeVIewModelToITKDispatchRequest());
+                cfg.AddProfile(new FromPersonalDetailViewModelToBookAppointmentRequest());
                 cfg.AddProfile(new FromOutcomeViewModelToPersonalDetailViewModel());
                 cfg.AddProfile(new FromOutcomeViewModelToAppointmentViewModel());
                 cfg.AddProfile(new FromDosCaseToDosServicesByClinicalTermRequest());
