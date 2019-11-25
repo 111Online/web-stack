@@ -38,10 +38,12 @@ namespace NHS111.Web.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> PersonalDetails(PersonalDetailViewModel model)
+        public async Task<ActionResult> PersonalDetails(PersonalDetailViewModel model, string slotId)
         {
             ModelState.Clear();
             _auditLogger.LogSelectedService(model);
+
+            model.SelectedSlotId = slotId;
 
             return View("~\\Views\\PersonalDetails\\PersonalDetails.cshtml", model);
         }

@@ -171,6 +171,8 @@
     <Compile Include="Mappers\StaticTextToHtml.cs" />
     <Compile Include="Mappers\WebMappings\AuditedModelMappers.cs" />
     <Compile Include="Mappers\WebMappings\AutoMapperWebConfiguration.cs" />
+    <Compile Include="Mappers\WebMappings\FromOutcomeViewModelToAppointmentViewModel.cs" />
+    <Compile Include="Mappers\WebMappings\FromPersonalDetailViewModelToBookAppointmentRequest.cs" />
     <Compile Include="Mappers\WebMappings\FromQuestionViewModelToAnswerState.cs" />
     <Compile Include="Mappers\WebMappings\FromDosCaseToDosServicesByClinicalTermRequest.cs" />
     <Compile Include="Mappers\WebMappings\FromOutcomeViewModelToDosViewModel.cs" />
@@ -218,6 +220,9 @@
     <Compile Include="Models\Domain\VersionInfo.cs" />
     <Compile Include="Models\Web\AgeGenderViewModel.cs" />
     <Compile Include="Models\Web\ApplicationMedium.cs" />
+    <Compile Include="Models\Web\AppointmentViewModel.cs" />
+    <Compile Include="Models\Web\Book\BookAppointmentRequest.cs" />
+    <Compile Include="Models\Web\Book\Patient.cs" />
     <Compile Include="Models\Web\ChangePostcodeViewModel.cs" />
     <Compile Include="Models\Web\DetailsViewModel.cs" />
     <Compile Include="Models\Web\Elements\ActionLinkViewModel.cs" />
@@ -323,6 +328,7 @@
     <Compile Include="Models\Web\SearchJourneyViewModel.cs" />
     <Compile Include="Models\Web\SearchResultViewModel.cs" />
     <Compile Include="Models\Web\ServiceTypeMapping.cs" />
+    <Compile Include="Models\Web\SlotViewModel.cs" />
     <Compile Include="Models\Web\SurveyLinkViewModel.cs" />
     <Compile Include="Models\Web\Validators\AgeMaximumValidator.cs" />
     <Compile Include="Models\Web\Validators\DateOfBirthDayValidator.cs" />

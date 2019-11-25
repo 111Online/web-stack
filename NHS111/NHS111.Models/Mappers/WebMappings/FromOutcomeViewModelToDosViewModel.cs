@@ -23,6 +23,7 @@ namespace NHS111.Models.Mappers.WebMappings
                 .ForMember(dest => dest.CaseId, opt => opt.MapFrom(src => src.JourneyId))
                 .ForMember(dest => dest.JourneyJson, opt => opt.MapFrom(src => src.JourneyJson))
                 .ForMember(dest => dest.PathwayNo, opt => opt.MapFrom(src => src.PathwayNo))
+                .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.PathwayNo))
                 .ForMember(dest => dest.SelectedServiceId, opt => opt.MapFrom(src => src.SelectedServiceId))
                 .ForMember(dest => dest.SymptomDiscriminator, opt => opt.MapFrom(src => src.SymptomDiscriminatorCode))
                 .ForMember(dest => dest.SymptomGroup, opt => opt.MapFrom(src => src.SymptomGroup))
