@@ -76,7 +76,7 @@ namespace NHS111.Web.Presentation.Filters
         {
             var audit = new AuditEntry
             {
-                SessionId = GetSessionId(model.Campaign, Guid.Parse(model.SessionId)),
+                SessionId = GetSessionId(model.Campaign, model.SessionId),
                 JourneyId = Guid.Parse(model.JourneyId) != Guid.Empty ? model.JourneyId : null,
                 Campaign = model.Campaign,
                 PathwayId = model.EndPathwayNo,

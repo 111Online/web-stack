@@ -14,7 +14,7 @@ namespace NHS111.Models.Models.Web
 
         public string JourneyId { get; set; }
 
-        public string SessionId { get; set; }
+        public Guid SessionId { get; set; }
 
         public string PathwayNo { get; set; }
 
