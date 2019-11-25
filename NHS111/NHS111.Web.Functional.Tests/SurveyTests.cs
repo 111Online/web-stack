@@ -61,7 +61,34 @@ namespace NHS111.Web.Functional.Tests
 
             var surveyUrlElement = Driver.FindElement(By.CssSelector(".survey-banner [name='surveyUrl']"));
             var surveyUrl = surveyUrlElement.GetAttribute("value");
+            Assert.IsNotEmpty(surveyUrl);
+
+            var surveyButton = Driver.FindElement(By.CssSelector(".survey-banner button"));
+            surveyButton.Click();
             
+            Driver.SwitchTo().Window(Driver.WindowHandles.Last()); // Handle new tab 
+            var surveyInterstitialPage = new SurveyInterstitial(Driver);
+            surveyInterstitialPage.VerifyHeading("Thanks for agreeing to take our survey");
+            surveyInterstitialPage.VerifyUrl(surveyUrl);
+            surveyInterstitialPage.CompareAndVerify("2"); // Captures screenshot of survey interstitial
+
+
+        }
+
+        [Test]
+        public void InterstitialPageHasSurveyUrlViaEP()
+        {
+            var questionPage = TestScenerios.LaunchRecommendedServiceScenerio(Driver, "Emergency Prescription 111 online", TestScenerioSex.Male, TestScenerioAgeGroups.Adult, "PR67JY");
+
+            questionPage.VerifyQuestion("Can you contact your GP or usual pharmacy?");
+            questionPage
+                .Answer(2)
+                .Answer<PreOutcomePage>(1)
+                .ClickShowServices();
+
+            var surveyUrlElement = Driver.FindElement(By.CssSelector(".survey-banner [name='surveyUrl']"));
+            var surveyUrl = surveyUrlElement.GetAttribute("value");
+            Assert.IsNotEmpty(surveyUrl);
             var surveyButton = Driver.FindElement(By.CssSelector(".survey-banner button"));
             surveyButton.Click();
             
