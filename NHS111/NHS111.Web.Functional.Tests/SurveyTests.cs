@@ -59,7 +59,7 @@ namespace NHS111.Web.Functional.Tests
 
             outcomePage.CompareAndVerify("1");  // Captures screenshot of disposition
 
-            var surveyUrlElement = Driver.FindElement(By.CssSelector(".survey-banner [name='surveyUrl']"));
+            var surveyUrlElement = Driver.FindElement(By.CssSelector(".survey-banner [name='SurveyUrl']"));
             var surveyUrl = surveyUrlElement.GetAttribute("value");
             Assert.IsNotEmpty(surveyUrl);
 
@@ -86,7 +86,7 @@ namespace NHS111.Web.Functional.Tests
                 .Answer<PreOutcomePage>(1)
                 .ClickShowServices();
 
-            var surveyUrlElement = Driver.FindElement(By.CssSelector(".survey-banner [name='surveyUrl']"));
+            var surveyUrlElement = Driver.FindElement(By.CssSelector(".survey-banner [name='SurveyUrl']"));
             var surveyUrl = surveyUrlElement.GetAttribute("value");
             Assert.IsNotEmpty(surveyUrl);
             var surveyButton = Driver.FindElement(By.CssSelector(".survey-banner button"));
