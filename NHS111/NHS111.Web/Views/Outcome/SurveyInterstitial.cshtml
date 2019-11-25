@@ -1,0 +1,86 @@
+﻿@inherits NHS111.Web.Views.Shared.SurveyLinkView<NHS111.Models.Models.Web.SurveyLinkViewModel>
+@{
+    ViewBag.Title = "See your GP";
+    Layout = "~/Views/Shared/_LayoutNhsUK.cshtml";
+}
+
+@section Title { NHS 111 - Start Survey }
+
+@section FeedbackSection {
+}
+
+<section class="measure nhsuk-core">
+    <h1>Thanks for agreeing to take our survey</h1>
+
+    <p>
+        Before you start, there are a few things you need to know:
+    </p>
+
+    <details>
+        <summary>
+            <span class="details__arrow"></span>
+            <span class="summary">If you need medical help call 111</span>
+        </summary>
+        <div>
+            <p>
+                We don’t monitor the survey every day, and won’t see comments you leave
+                about your symptoms or if you ask for medical help.
+            </p>
+        </div>
+    </details>
+
+    <details>
+        <summary data-event-type="click" data-event-value="know_you">
+            <span class="details__arrow"></span>
+            <span class="summary">We won't know who you are from your answers</span>
+        </summary>
+        <div>
+            <p>
+                Our survey asks you questions about using 111 online, and about what
+                happened next. Everything you say is confidential.
+            </p><p>
+                If you agree to do a follow-up survey we’ll ask for your email address.
+                We won’t share your email address with anyone else.
+            </p>
+        </div>
+    </details>
+
+    <details>
+        <summary data-event-type="click" data-event-value="your_data">
+            <span class="details__arrow"></span>
+            <span class="summary">We are responsible for your data</span>
+        </summary>
+        <div>
+            <p>
+                Our @Html.ActionLink("privacy policy", "Privacy", "Help", null, new { target = "_blank" }) explains how we keep your data safe. Survey data is securely stored by a company called Qualtrics, but we are responsible for what happens to it.
+            </p>
+        </div>
+    </details>
+
+    <a class="button" href="@Model.SurveyUrl" id="start-survey-button">Start survey</a>
+
+</section>
+
+<script>
+    var surveyOriginalUrl = $("#start-survey-button").attr("href")
+    var surveyClicked = {} // Ensures only added to url once
+    $("[data-event-type='click']").on("click", function (e) {
+        var val = $(this).attr("data-event-value")
+        surveyClicked[val] = true
+        var url = surveyOriginalUrl + "&interstitial_links="
+        var urlSegment = ""
+        var keys = Object.keys(surveyClicked)
+        for (var i = 0; i < keys.length; i++) {
+            if (surveyClicked[keys[i]]) {
+                if (urlSegment !== "") urlSegment += ","
+                urlSegment += keys[i]
+            }
+        }
+
+        $("#start-survey-button").attr("href", url + urlSegment)
+    })
+
+</script>
+
+
+
