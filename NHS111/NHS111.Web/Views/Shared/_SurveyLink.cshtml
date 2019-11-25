@@ -43,7 +43,7 @@
 
         @using (Html.BeginForm("SurveyInterstitial", "Outcome", FormMethod.Post, new { target = "_blank" }))
         {
-            @Html.Partial("_CommonHiddenFieldsSurveyLinkViewModel", Model)
+            @Html.Partial("_CommonHiddenFieldsSurveyLinkViewModel", Model, new ViewDataDictionary() { TemplateInfo = new TemplateInfo() { HtmlFieldPrefix = "" } })
             <p class="notification-banner--inner">
                 Help us improve by taking <button type="submit" class="button--link">a short survey (opens in a new tab or window)</button>
             </p>
