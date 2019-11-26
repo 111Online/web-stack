@@ -133,7 +133,7 @@ namespace NHS111.Models.Mappers.WebMappings
         public class GenderResolver : ValueResolver<string, string>
         {
             protected override string ResolveCore(string source) {
-                switch (source.ToLower()) {
+                 switch (source.ToLower()) {
                     case "female":
                         return "F";
                     case "male":
