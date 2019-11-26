@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Newtonsoft.Json;
 using NHS111.Models.Models.Domain;
@@ -7,12 +8,12 @@ namespace NHS111.Web.Presentation.Builders
 {
     public static class JourneyViewModelStateBuilder
     {
-        public static IDictionary<string, string> BuildState(string gender, int age)
+        public static IDictionary<string, string> BuildState(string journeyId, string gender, int age)
         {
-            return BuildState(gender, age, new Dictionary<string, string>());
+            return BuildState(journeyId, gender, age, new Dictionary<string, string>());
         }
 
-        public static IDictionary<string, string> BuildState(string gender, int age, IDictionary<string, string> state)
+        public static IDictionary<string, string> BuildState(string journeyId, string gender, int age, IDictionary<string, string> state)
         {
             AgeCategory ageCategory = new AgeCategory(age);
 
@@ -22,6 +23,8 @@ namespace NHS111.Web.Presentation.Builders
             state.Add("PATIENT_GENDER", string.Format("\"{0}\"", gender.First().ToString().ToUpper()));
             state.Add("PATIENT_PARTY", "1");
             state.Add("PATIENT_AGEGROUP", ageCategory.Value);
+            if(!Guid.Empty.ToString().Equals(journeyId))
+                state.Add("JOURNEY_ID", journeyId);
 
             return state;
         }
@@ -41,6 +44,8 @@ namespace NHS111.Web.Presentation.Builders
                 state.Remove("PATIENT_PARTY");
             if (state.ContainsKey("PATIENT_AGEGROUP"))
                 state.Remove("PATIENT_AGEGROUP");
+            if (state.ContainsKey("JOURNEY_ID"))
+                state.Remove("JOURNEY_ID");
         }
 
     }
