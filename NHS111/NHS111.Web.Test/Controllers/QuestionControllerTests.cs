@@ -73,7 +73,7 @@ namespace NHS111.Web.Presentation.Test.Controllers {
             var sut = new QuestionController(_mockJourneyViewModelBuilder.Object,
                 _mockConfiguration.Object, _mockJtbsBuilderMock.Object, _mockFeature.Object, _mockAuditLogger.Object, _mockUserZoomDataBuilder.Object, _mockRestClient.Object, _mockViewRouter.Object, _mockDosEndpointFeature.Object, _mockDOSSpecifyDispoTimeFeature.Object, _mockOutcomeViewModelBuilder.Object);
 
-            var result = sut.Direct(_pathwayId, _age, _pathwayTitle, "LS177NZ", null, true);
+            var result = sut.Direct(_pathwayId, _age, _pathwayTitle, "LS177NZ", null, true, null);
 
             Assert.IsInstanceOf<ViewResult>(result.Result);
             var viewResult = result.Result as ViewResult;
@@ -108,7 +108,7 @@ namespace NHS111.Web.Presentation.Test.Controllers {
             var sut = new QuestionController(_mockJourneyViewModelBuilder.Object,
                 _mockConfiguration.Object, _mockJtbsBuilderMock.Object, _mockFeature.Object, _mockAuditLogger.Object, _mockUserZoomDataBuilder.Object, _mockRestClient.Object, _mockViewRouter.Object, _mockDosEndpointFeature.Object, _mockDOSSpecifyDispoTimeFeature.Object, _mockOutcomeViewModelBuilder.Object);
 
-            var result = (ViewResult) await sut.Direct(_pathwayId, _age, _pathwayTitle, "LS177NZ", new[] {0}, true);
+            var result = (ViewResult) await sut.Direct(_pathwayId, _age, _pathwayTitle, "LS177NZ", new[] {0}, true, null);
             var model = (QuestionViewModel) result.Model;
 
             Assert.IsTrue(model.SelectedAnswer.Contains(mockQuestion.Answers[1].Title));
@@ -164,7 +164,7 @@ namespace NHS111.Web.Presentation.Test.Controllers {
             var age = 35;
             var pathwayTitle = "Headache";
 
-            var result = sut.Direct(pathwayId, age, pathwayTitle, "LS177NZ", new[] { 0, 1, 2 }, true);
+            var result = sut.Direct(pathwayId, age, pathwayTitle, "LS177NZ", new[] { 0, 1, 2 }, true, null);
 
             Assert.IsInstanceOf<ViewResult>(result.Result);
             var viewResult = result.Result as ViewResult;
@@ -180,7 +180,7 @@ namespace NHS111.Web.Presentation.Test.Controllers {
             var sut = new QuestionController(_mockJourneyViewModelBuilder.Object,
                 _mockConfiguration.Object, _mockJtbsBuilderMock.Object, _mockFeature.Object, _mockAuditLogger.Object, _mockUserZoomDataBuilder.Object, _mockRestClient.Object, _mockViewRouter.Object, _mockDosEndpointFeature.Object, _mockDOSSpecifyDispoTimeFeature.Object, _mockOutcomeViewModelBuilder.Object);
 
-            var result = sut.Direct(null, 0, null, null, null, null);
+            var result = sut.Direct(null, 0, null, null, null, null, null);
 
             Assert.NotNull(result);
             Assert.IsInstanceOf<HttpNotFoundResult>(result.Result);
