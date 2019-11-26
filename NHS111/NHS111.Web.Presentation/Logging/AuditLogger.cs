@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using NHS111.Models.Models.Web;
+using NHS111.Models.Models.Web.Enums;
 using NHS111.Models.Models.Web.FromExternalServices;
 using NHS111.Models.Models.Web.ITK;
 using NHS111.Utils.RestTools;
@@ -18,6 +19,7 @@ namespace NHS111.Web.Presentation.Logging {
         void LogDosRequest(OutcomeViewModel model, DosViewModel dosViewModel);
         void LogDosResponse(OutcomeViewModel model, DosCheckCapacitySummaryResult result);
         void LogEventData(JourneyViewModel model, string eventData);
+        void LogEvent(JourneyViewModel model, EventType value, string key);
         void LogSelectedService(OutcomeViewModel model);
         void LogItkRequest(OutcomeViewModel model, ITKDispatchRequest itkRequest);
         void LogItkResponse(OutcomeViewModel model, IRestResponse response);
@@ -67,6 +69,14 @@ namespace NHS111.Web.Presentation.Logging {
         {
             var audit = model.ToAuditEntry();
             audit.EventData = eventData;
+            Log(audit);
+        }
+        
+        public void LogEvent(JourneyViewModel model, EventType eventKey, string eventValue)
+        {
+            var audit = model.ToAuditEntry();
+            audit.EventKey = eventKey;
+            audit.EventValue = eventValue;
             Log(audit);
         }
 
