@@ -16,10 +16,13 @@ namespace NHS111.Web.Controllers {
     using System.Collections.Generic;
     using System.Configuration;
     using System.Linq;
+    using System.Net;
     using System.Web;
+    using System.Web.Http.Results;
     using AutoMapper;
     using Models.Models.Domain;
     using Models.Models.Web.DosRequests;
+    using Models.Models.Web.ITK;
     using Newtonsoft.Json;
     using Presentation.Configuration;
     using Presentation.Logging;
@@ -211,7 +214,7 @@ namespace NHS111.Web.Controllers {
                 return View(viewRouter.ViewName, model);
             }
 
-            var result = await DirectInternal(model.PathwayId, model.UserInfo.Demography.Age, model.PathwayTitle, model.CurrentPostcode, answers, filterServices);
+            var result = await DirectInternal(model.PathwayId, model.UserInfo.Demography.Age, model.PathwayTitle, model.CurrentPostcode, answers, filterServices, 0);
 
             var journeyViewModel = (JourneyViewModel) ((ViewResult) result).Model;
             journeyViewModel.TriggerQuestionNo = model.TriggerQuestionNo;
@@ -224,16 +227,16 @@ namespace NHS111.Web.Controllers {
 
         [HttpGet]
         [Route("question/direct/{pathwayId}/{age?}/{pathwayTitle}/{postcode}/{answers?}")]
-        public async Task<ActionResult> Direct(string pathwayId, int? age, string pathwayTitle, string postcode, [ModelBinder(typeof(IntArrayModelBinder))]int[] answers, bool? filterServices) {
+        public async Task<ActionResult> Direct(string pathwayId, int? age, string pathwayTitle, string postcode, [ModelBinder(typeof(IntArrayModelBinder))]int[] answers, bool? filterServices, int? serviceId, DirectLinkPersonalDetails personalDetails = null) {
 
             if (!_directLinkingFeature.IsEnabled) {
                 return HttpNotFound();
             }
 
-            return await DirectInternal(pathwayId, age, pathwayTitle, postcode, answers, filterServices);
+            return await DirectInternal(pathwayId, age, pathwayTitle, postcode, answers, filterServices, serviceId, personalDetails);
         }
 
-        public async Task<ActionResult> DirectInternal(string pathwayId, int? age, string pathwayTitle, string postcode, [ModelBinder(typeof(IntArrayModelBinder))] int[] answers, bool? filterServices) {
+        public async Task<ActionResult> DirectInternal(string pathwayId, int? age, string pathwayTitle, string postcode, [ModelBinder(typeof(IntArrayModelBinder))] int[] answers, bool? filterServices, int? serviceId, DirectLinkPersonalDetails personalDetails = null) {
             var resultingModel = await DeriveJourneyView(pathwayId, age, pathwayTitle, answers);
             resultingModel.CurrentPostcode = postcode;
             resultingModel.TriggerQuestionNo = null;
@@ -253,6 +256,44 @@ namespace NHS111.Web.Controllers {
 
                     var controller = DependencyResolver.Current.GetService<OutcomeController>();
                     controller.ControllerContext = new ControllerContext(ControllerContext.RequestContext, controller);
+
+                    if (personalDetails != null && personalDetails.HasAnyValue && personalDetails.IsValid()) {
+                        var personalDetailsController = DependencyResolver.Current.GetService<PersonalDetailsController>();
+                        personalDetailsController.ControllerContext = new ControllerContext(ControllerContext.RequestContext, personalDetailsController);
+
+                        if (OutcomeGroup.PrePopulatedDosResultsOutcomeGroups.Contains(outcomeModel.OutcomeGroup))
+                            await DeterminePrepopulatedResultsRoute(controller, outcomeModel, endpoint, dosSearchTime);
+
+                        if (OutcomeGroup.DosSearchOutcomesGroups.Contains(outcomeModel.OutcomeGroup))
+                            await controller.ServiceList(outcomeModel, dosSearchTime, null, endpoint);
+
+                        if (!outcomeModel.DosCheckCapacitySummaryResult.HasITKServices)
+                            throw new HttpException(400, "No referral services returned.");
+
+                        if (outcomeModel.DosCheckCapacitySummaryResult.Success.Services.All(s => s.Id != serviceId)) {
+                            throw new HttpException(400, string.Format("No service returned with id {0}. Referral services returned: {1}",
+                                    serviceId, string.Join(", ", outcomeModel.DosCheckCapacitySummaryResult.Success.Services.Where(s => s.OnlineDOSServiceType.IsReferral).Select(s => s.Id))));
+                        }
+
+                        outcomeModel.SelectedServiceId = serviceId.ToString();
+
+                        var personalDetailsViewModel = Mapper.Map<PersonalDetailViewModel>(outcomeModel);
+
+
+                        await personalDetailsController.DirectToPopulatedCurrentAddressPicker(personalDetailsViewModel);
+                        if (!personalDetailsViewModel.AddressInformation.PatientCurrentAddress.AddressPicker.Any()) {
+                            throw new HttpException(400, string.Format("No address found for the postcode '{0}'", personalDetailsViewModel.CurrentPostcode));
+                        }
+
+                        await personalDetailsController.SubmitCurrentAddress(personalDetailsViewModel,
+                            personalDetailsViewModel.AddressInformation.PatientCurrentAddress.AddressPicker.First()
+                                .Value);
+
+                        personalDetails.ApplyTo(personalDetailsViewModel);
+
+                        return View("~\\Views\\PersonalDetails\\ConfirmDetails.cshtml", personalDetailsViewModel);
+                    }
+                    //post to 
 
                     if (OutcomeGroup.PrePopulatedDosResultsOutcomeGroups.Contains(outcomeModel.OutcomeGroup))
                         return await DeterminePrepopulatedResultsRoute(controller, outcomeModel, endpoint, dosSearchTime);

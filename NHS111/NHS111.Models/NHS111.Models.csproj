@@ -240,6 +240,7 @@
     <Compile Include="Models\Web\FromExternalServices\ServiceType.cs" />
     <Compile Include="Models\Web\AnalyticsDataLayerContainer.cs" />
     <Compile Include="Models\Web\ITKConfirmationViewModel.cs" />
+    <Compile Include="Models\Web\ITK\DirectLinkPersonalDetails.cs" />
     <Compile Include="Models\Web\JourneyResultViewModel.cs" />
     <Compile Include="Models\Web\JourneyViewModelEqualityComparer.cs" />
     <Compile Include="Models\Web\ITK\ReportItem.cs" />
