@@ -19,7 +19,7 @@ namespace NHS111.Web.Presentation.Logging {
         void LogDosRequest(OutcomeViewModel model, DosViewModel dosViewModel);
         void LogDosResponse(OutcomeViewModel model, DosCheckCapacitySummaryResult result);
         void LogEventData(JourneyViewModel model, string eventData);
-        void LogEvent(JourneyViewModel model, EventType value, string key);
+        void LogEvent(JourneyViewModel model, EventType value, string key, string page);
         void LogSelectedService(OutcomeViewModel model);
         void LogItkRequest(OutcomeViewModel model, ITKDispatchRequest itkRequest);
         void LogItkResponse(OutcomeViewModel model, IRestResponse response);
@@ -72,11 +72,12 @@ namespace NHS111.Web.Presentation.Logging {
             Log(audit);
         }
         
-        public void LogEvent(JourneyViewModel model, EventType eventKey, string eventValue)
+        public void LogEvent(JourneyViewModel model, EventType eventKey, string eventValue, string page = "")
         {
             var audit = model.ToAuditEntry();
             audit.EventKey = eventKey;
             audit.EventValue = eventValue;
+            audit.Page = page;
             Log(audit);
         }
 

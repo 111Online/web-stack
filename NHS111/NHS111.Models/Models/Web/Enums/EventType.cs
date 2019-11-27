@@ -8,6 +8,7 @@ namespace NHS111.Models.Models.Web.Enums
     {
         None,
         Browser,
-        BrowserVersion
+        BrowserVersion,
+        OperatingSystem
     }
 }

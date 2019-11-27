@@ -9,8 +9,8 @@ using NHS111.Models.Models.Web;
 using NHS111.Models.Models.Web.CCG;
 using NHS111.Models.Models.Web.Enums;
 using NHS111.Models.Models.Web.Validators;
-using NHS111.Utils.Filters;
 using NHS111.Web.Presentation.Builders;
+using NHS111.Web.Presentation.Filters;
 using NHS111.Web.Presentation.Logging;
 using IConfiguration = NHS111.Web.Presentation.Configuration.IConfiguration;
 
@@ -31,10 +31,9 @@ namespace NHS111.Web.Controllers
             _auditLogger = auditLogger;
         }
 
-        [HttpGet, SetSessionIdFilter]
+        [HttpGet]
         public ActionResult Home(JourneyViewModel model)
         {
-            _auditLogger.LogEvent(model, EventType.Browser, "Test");
             return View(model);
         }
         
