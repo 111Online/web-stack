@@ -7,9 +7,11 @@ using AutoMapper;
 using Microsoft.Ajax.Utilities;
 using NHS111.Models.Models.Web;
 using NHS111.Models.Models.Web.CCG;
+using NHS111.Models.Models.Web.Enums;
 using NHS111.Models.Models.Web.Validators;
 using NHS111.Utils.Filters;
 using NHS111.Web.Presentation.Builders;
+using NHS111.Web.Presentation.Logging;
 using IConfiguration = NHS111.Web.Presentation.Configuration.IConfiguration;
 
 namespace NHS111.Web.Controllers
@@ -19,17 +21,20 @@ namespace NHS111.Web.Controllers
         private readonly IPostCodeAllowedValidator _postCodeAllowedValidator;
         private readonly ILocationResultBuilder _locationResultBuilder;
         private readonly IConfiguration _configuration;
+        private readonly IAuditLogger _auditLogger;
 
-        public LocationController(IPostCodeAllowedValidator postCodeAllowedValidator, ILocationResultBuilder locationResultBuilder, IConfiguration configuration)
+        public LocationController(IPostCodeAllowedValidator postCodeAllowedValidator, ILocationResultBuilder locationResultBuilder, IConfiguration configuration, IAuditLogger auditLogger)
         {
             _postCodeAllowedValidator = postCodeAllowedValidator;
             _locationResultBuilder = locationResultBuilder;
             _configuration = configuration;
+            _auditLogger = auditLogger;
         }
 
         [HttpGet, SetSessionIdFilter]
         public ActionResult Home(JourneyViewModel model)
         {
+            _auditLogger.LogEvent(model, EventType.Browser, "Test");
             return View(model);
         }
         
