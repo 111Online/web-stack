@@ -78,7 +78,7 @@ namespace NHS111.Web.Functional.Tests
         [Test]
         public void InterstitialPageHasSurveyUrlViaEP()
         {
-            var questionPage = TestScenerios.LaunchRecommendedServiceScenerio(Driver, "Emergency Prescription 111 online", TestScenerioSex.Male, TestScenerioAgeGroups.Adult, "PR67JY");
+            var questionPage = TestScenerios.LaunchRecommendedServiceScenerio(Driver, "Emergency Prescription 111 online", TestScenerioSex.Male, TestScenerioAgeGroups.Adult, "L1 2SA");
 
             questionPage.VerifyQuestion("Can you contact your GP or usual pharmacy?");
             questionPage
