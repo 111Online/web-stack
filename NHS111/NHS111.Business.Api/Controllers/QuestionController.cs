@@ -242,6 +242,7 @@ namespace NHS111.Business.Api.Controllers
                 var value = stateDictionary.ContainsKey(firstNode.Question.Title) ? stateDictionary[firstNode.Question.Title] : null;
                 var selectedAnswerState = new SelectedAnswerState
                 {
+                    QuestionnaireId = firstNode.Question.QuestionNo,
                     SelectedAnswer = _answersForNodeBuilder.SelectAnswer(answers, value),
                     State = JsonConvert.SerializeObject(stateDictionary)
                 };
@@ -252,7 +253,12 @@ namespace NHS111.Business.Api.Controllers
                 var answers = await _questionService.GetAnswersForQuestion(firstNode.Question.Id);
                 stateDictionary.Add(firstNode.Question.Title, answers.First().Title);
                 var updatedState = JsonConvert.SerializeObject(stateDictionary);
-                var selectedAnswerState = new SelectedAnswerState {SelectedAnswer = answers.First(), State = updatedState};
+                var selectedAnswerState = new SelectedAnswerState
+                {
+                    QuestionnaireId = firstNode.Question.QuestionNo,
+                    SelectedAnswer = answers.First(),
+                    State = updatedState
+                };
                 return await GetNextNode(pathwayId, nextLabel, firstNode.Question.Id, selectedAnswerState);
             }
 
