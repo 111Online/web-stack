@@ -15,6 +15,7 @@ namespace NHS111.Web {
     using System.Web.Routing;
     using Authentication;
     using Models.Models.Web;
+    using Models.Models.Web.ITK;
     using Presentation.ModelBinders;
     using Utils.Logging;
 
@@ -30,6 +31,7 @@ namespace NHS111.Web {
             ModelBinders.Binders[typeof(OutcomeViewModel)] = new JourneyViewModelBinder();
             ModelBinders.Binders[typeof(PersonalDetailViewModel)] = new JourneyViewModelBinder();
             ModelBinders.Binders[typeof(QuestionViewModel)] = new JourneyViewModelBinder();
+            ModelBinders.Binders[typeof(DirectLinkPersonalDetails)] = new DirectLinkPersonalDetailsModelBinder();
 
             var basicAuthFeature = new BasicAuthFeature();
             if (basicAuthFeature.IsEnabled)

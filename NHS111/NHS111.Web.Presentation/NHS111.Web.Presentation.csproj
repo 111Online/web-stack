@@ -168,6 +168,7 @@
     <Compile Include="Configuration\TestJourneysConfigurationSection.cs" />
     <Compile Include="Filters\LogJourneyFilterAttribute.cs" />
     <Compile Include="Logging\AuditLogger.cs" />
+    <Compile Include="ModelBinders\DirectLinkPersonalDetailsModelBinder.cs" />
     <Compile Include="ModelBinders\IntArrayModelBinder.cs" />
     <Compile Include="ModelBinders\JourneyBinder.cs" />
     <Compile Include="Builders\AddressViewModelBuilder.cs" />
