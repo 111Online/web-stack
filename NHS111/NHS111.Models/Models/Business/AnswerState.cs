@@ -7,6 +7,9 @@ namespace NHS111.Models.Models.Business
 {
     public class SelectedAnswerState
     {
+        [JsonProperty(PropertyName = "questionnaireId")]
+        public string QuestionnaireId { get; set; }
+
         [JsonProperty(PropertyName = "answer")]
         public Answer  SelectedAnswer { get; set; }
 
