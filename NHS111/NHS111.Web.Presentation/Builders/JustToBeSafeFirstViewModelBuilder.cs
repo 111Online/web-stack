@@ -32,7 +32,9 @@ namespace NHS111.Web.Presentation.Builders
             _userZoomDataBuilder = userZoomDataBuilder;
         }
 
-        public async Task<Tuple<string, QuestionViewModel>> JustToBeSafeFirstBuilder(JustToBeSafeViewModel model) {
+        public async Task<Tuple<string, QuestionViewModel>> JustToBeSafeFirstBuilder(JustToBeSafeViewModel model)
+        {
+            model.JourneyId = Guid.NewGuid();
 
             if (model.PathwayId != null)
                 model = await DoWorkPreviouslyDoneInQuestionBuilder(model); //todo refactor away
@@ -58,7 +60,7 @@ namespace NHS111.Web.Presentation.Builders
                     CollectedKeywords = identifiedModel.CollectedKeywords,
                     Journey = JsonConvert.DeserializeObject<Journey>(identifiedModel.JourneyJson),
                     SessionId = model.SessionId,
-                    JourneyId = Guid.NewGuid(),
+                    JourneyId = identifiedModel.JourneyId,
                     FilterServices = model.FilterServices,
                     Campaign = model.Campaign,
                     Source = model.Source,
@@ -79,7 +81,6 @@ namespace NHS111.Web.Presentation.Builders
                 return new Tuple<string, QuestionViewModel>("../Question/Question", questionViewModel);
             }
             identifiedModel.Part = 1;
-            identifiedModel.JourneyId = Guid.NewGuid();
             identifiedModel.Questions = questionsWithAnswers.Data.ToList();
             identifiedModel.QuestionsJson = JsonConvert.SerializeObject(questionsWithAnswers.Data);
             identifiedModel.JourneyJson = string.IsNullOrEmpty(identifiedModel.JourneyJson) ? JsonConvert.SerializeObject(new Journey()) : identifiedModel.JourneyJson;
@@ -106,9 +107,10 @@ namespace NHS111.Web.Presentation.Builders
                 PathwayTraumaType = pathway.TraumaType,
                 DigitalTitle = string.IsNullOrEmpty(model.DigitalTitle) ? pathway.Title : model.DigitalTitle,
                 UserInfo = new UserInfo { Demography = new AgeGenderViewModel { Age = derivedAge, Gender = pathway.Gender } },
+                JourneyId = model.JourneyId,
                 JourneyJson = model.JourneyJson,
                 SymptomDiscriminatorCode = model.SymptomDiscriminatorCode,
-                State = JourneyViewModelStateBuilder.BuildState(pathway.Gender, derivedAge),
+                State = JourneyViewModelStateBuilder.BuildState(model.JourneyId.ToString(), pathway.Gender, derivedAge),
                 SessionId = model.SessionId,
                 Campaign = model.Campaign,
                 Source = model.Source,
@@ -133,7 +135,8 @@ namespace NHS111.Web.Presentation.Builders
             model.PathwayTitle = pathway.Title;
             model.PathwayNo = pathway.PathwayNo;
             model.PathwayTraumaType = pathway.TraumaType;
-            model.State = JourneyViewModelStateBuilder.BuildState(model.UserInfo.Demography.Gender,model.UserInfo.Demography.Age, model.State);
+            model.JourneyId = model.JourneyId;
+            model.State = JourneyViewModelStateBuilder.BuildState(model.JourneyId.ToString(), model.UserInfo.Demography.Gender,model.UserInfo.Demography.Age, model.State);
             model.StateJson = JourneyViewModelStateBuilder.BuildStateJson(model.State);
             model.CollectedKeywords = new KeywordBag(_keywordCollector.ParseKeywords(pathway.Keywords, false).ToList(), _keywordCollector.ParseKeywords(pathway.ExcludeKeywords, false).ToList());
             return model;

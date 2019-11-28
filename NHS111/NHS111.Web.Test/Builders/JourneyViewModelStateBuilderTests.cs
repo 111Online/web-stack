@@ -9,7 +9,7 @@ namespace NHS111.Web.Presentation.Test.Builders
         [Test]
         public void BuildStateMaleAdult()
         {
-            var result = JourneyViewModelStateBuilder.BuildState("Male", 30);
+            var result = JourneyViewModelStateBuilder.BuildState("", "Male", 30);
             Assert.AreEqual("30", result["PATIENT_AGE"]);
             Assert.AreEqual("\"M\"", result["PATIENT_GENDER"]);
             Assert.AreEqual("1", result["PATIENT_PARTY"]);

@@ -358,10 +358,10 @@ namespace NHS111.Web.Controllers {
                 UserInfo = new UserInfo() { Demography = new AgeGenderViewModel { Age = derivedAge, Gender = pathway.Gender } },
                 JourneyJson = questionViewModel.JourneyJson,
                 SymptomDiscriminatorCode = questionViewModel.SymptomDiscriminatorCode,
-                State = JourneyViewModelStateBuilder.BuildState(pathway.Gender, derivedAge),
+                //State = JourneyViewModelStateBuilder.BuildState(pathway.Gender, derivedAge),
             };
 
-            newModel.StateJson = JourneyViewModelStateBuilder.BuildStateJson(newModel.State);
+            //newModel.StateJson = JourneyViewModelStateBuilder.BuildStateJson(newModel.State);
             questionViewModel = (await _justToBeSafeFirstViewModelBuilder.JustToBeSafeFirstBuilder(newModel)).Item2; //todo refactor tuple away
 
             var resultingModel = await AnswerQuestions(questionViewModel, answers);
