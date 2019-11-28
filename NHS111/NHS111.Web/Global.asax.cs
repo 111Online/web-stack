@@ -39,9 +39,14 @@ namespace NHS111.Web {
                     ConfigurationManager.AppSettings["login_credential_password"]));
             }
 
-            GlobalFilters.Filters.Add(new LogJourneyFilterAttribute(
-                    new AuditLogger(new LoggingRestClient(ConfigurationManager.AppSettings["LoggingServiceApiBaseUrl"], LogManager.GetLogger("log")), 
-                    new Presentation.Configuration.Configuration())));
+            var auditLogger =  new AuditLogger(new LoggingRestClient(ConfigurationManager.AppSettings["LoggingServiceApiBaseUrl"], LogManager.GetLogger("log")), 
+                new Presentation.Configuration.Configuration());
+
+            GlobalFilters.Filters.Add(new LogJourneyFilterAttribute(auditLogger));
+            
+            // StartSession requires logger so it can capture browser info at start of user's session.
+            // It can be used on globally as it doesn't set a new session ID if one already exists.
+            GlobalFilters.Filters.Add(new StartSessionFilterAttribute(auditLogger));
 
             FluentValidationModelValidatorProvider.Configure();
 

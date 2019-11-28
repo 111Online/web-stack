@@ -8,7 +8,6 @@ using Microsoft.Ajax.Utilities;
 using NHS111.Models.Models.Web;
 using NHS111.Models.Models.Web.CCG;
 using NHS111.Models.Models.Web.Validators;
-using NHS111.Utils.Filters;
 using NHS111.Web.Presentation.Builders;
 using IConfiguration = NHS111.Web.Presentation.Configuration.IConfiguration;
 
@@ -27,7 +26,7 @@ namespace NHS111.Web.Controllers
             _configuration = configuration;
         }
 
-        [HttpGet, SetSessionIdFilter]
+        [HttpGet]
         public ActionResult Home(JourneyViewModel model)
         {
             return View(model);
