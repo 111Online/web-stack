@@ -54,7 +54,7 @@ namespace NHS111.Web.Functional.Tests
             atHomePage.SelectAtHomeYes();
 
             var confirmDetails = personalDetailsPage.SubmitAtHome();
-            confirmDetails.VerifyHeading("Book your call");
+            confirmDetails.VerifyHeading("Check details");
             confirmDetails.VerifyThirdPartyBannerNotDisplayed();
         }
 
@@ -87,7 +87,7 @@ namespace NHS111.Web.Functional.Tests
             atHomePage.SelectAtHomeYes();
 
             var confirmDetails = personalDetailsPage.SubmitAtHome();
-            confirmDetails.VerifyHeading("Book your call");
+            confirmDetails.VerifyHeading("Check details");
             confirmDetails.VerifyThirdPartyBannerIsDisplayed();
         }
 
@@ -120,7 +120,7 @@ namespace NHS111.Web.Functional.Tests
             var homePostcodePage = atHomePage.SubmitAtHome();
             homePostcodePage.TypeHomePostcode("LS17 7NZ");
             var confirmDetails = homePostcodePage.SubmitHomePostcode();
-            confirmDetails.VerifyHeading("Book your call");
+            confirmDetails.VerifyHeading("Check details");
             confirmDetails.VerifyThirdPartyBannerNotDisplayed();
         }
 
@@ -155,7 +155,7 @@ namespace NHS111.Web.Functional.Tests
             var homePostcodePage = atHomePage.SubmitAtHome();
             homePostcodePage.TypeHomePostcode("LS17 7NZ");
             var confirmDetails = homePostcodePage.SubmitHomePostcode();
-            confirmDetails.VerifyHeading("Book your call");
+            confirmDetails.VerifyHeading("Check details");
             confirmDetails.VerifyThirdPartyBannerIsDisplayed();
         }
 
