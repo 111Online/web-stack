@@ -14,5 +14,6 @@ namespace NHS111.Models.Models.Web.Book
         public DateTime End { get; set; }
         public Patient Patient { get; set; }
         public string PractitionerId { get; set; }
+        public string JourneyId { get; set; }
     }
 }
