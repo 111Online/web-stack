@@ -97,6 +97,18 @@ namespace NHS111.Utils.Test.Helpers
             Assert.IsTrue(browserInfo.DeviceType == "Mobile");
         }
 
+        [Test]
+        public void CorrectBrowserInfo_Chrome_Nexus_7()
+        {
+            string userAgent = "Mozilla/5.0 (Linux; Android 4.4; Nexus 7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.62 Safari/537.36";
+            BrowserInfo browserInfo = getBrowserInfo(userAgent);
+
+            Assert.IsTrue(browserInfo.Browser == "Chrome");
+            Assert.IsTrue(browserInfo.MajorVersionString == "78");
+            Assert.IsTrue(browserInfo.Platform == "Android");
+            Assert.IsTrue(browserInfo.DeviceType == "Tablet");
+        }
+
         private BrowserInfo getBrowserInfo(string userAgent ) {
             var browser = new HttpBrowserCapabilities
             {
