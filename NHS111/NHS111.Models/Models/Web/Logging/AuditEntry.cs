@@ -12,8 +12,6 @@ namespace NHS111.Models.Models.Web.Logging
 
         private string _pathwayId = string.Empty;
         private string _pathwayTitle = string.Empty;
-        private string _state = string.Empty;
-        private string _journey = string.Empty;
         private string _answerTitle = string.Empty;
         private string _answerOrder = string.Empty;
         private string _questionTitle = string.Empty;
@@ -50,12 +48,6 @@ namespace NHS111.Models.Models.Web.Logging
 
         [JsonProperty(PropertyName = "pathwayTitle")]
         public string PathwayTitle { get { return _pathwayTitle; } set { _pathwayTitle = value; } }
-
-        [JsonProperty(PropertyName = "state")]
-        public string State { get { return _state; } set { _state = value; } }
-
-        [JsonProperty(PropertyName = "journey")]
-        public string Journey { get { return _journey; } set { _journey = value; } }
 
         [JsonProperty(PropertyName = "answerTitle")]
         public string AnswerTitle { get { return _answerTitle; } set { _answerTitle = value; } }

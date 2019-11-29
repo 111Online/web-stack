@@ -57,8 +57,6 @@ namespace NHS111.Models.Mappers.WebMappings
                 .ForMember(dest => dest.SessionId, opt => opt.MapFrom(src => src.SessionId))
                 .ForMember(dest => dest.PathwayId, opt => opt.MapFrom(src => src.PathwayId))
                 .ForMember(dest => dest.PathwayTitle, opt => opt.MapFrom(src => src.PathwayTitle))
-                .ForMember(dest => dest.Journey, opt => opt.MapFrom(src => src.JourneyJson))
-                .ForMember(dest => dest.State, opt => opt.MapFrom(src => src.StateJson))
                 .ForMember(dest => dest.TIMESTAMP, opt => opt.Ignore())
                 .ForMember(dest => dest.DxCode, opt => opt.Ignore())
                 .ForMember(dest => dest.EventData, opt => opt.Ignore())
