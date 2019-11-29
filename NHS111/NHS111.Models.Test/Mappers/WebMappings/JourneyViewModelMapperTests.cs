@@ -87,8 +87,6 @@ namespace NHS111.Models.Test.Mappers.WebMappings.JourneyViewModelMapper
             Assert.AreEqual(sessionId, result.SessionId);
             Assert.AreEqual("PW123.00", result.PathwayId);
             Assert.AreEqual("Pathway Title", result.PathwayTitle);
-            Assert.AreEqual("{[]}", result.Journey);
-            Assert.AreEqual("{[]}", result.State);
         }
 
         private void AssertValidModel(JourneyViewModel result)
