@@ -49,6 +49,7 @@ namespace NHS111.Web.Presentation.Builders
                 EndPathwayNo = (pathway != null) ? pathway.PathwayNo : string.Empty,
                 EndPathwayTitle = (pathway != null) ? pathway.Title : string.Empty,
                 JourneyId = model.JourneyId.ToString(),
+                SessionId = model.SessionId,
                 PathwayNo = model.PathwayNo,
                 DigitalTitle = model.DigitalTitle,
                 Campaign = model.Campaign,

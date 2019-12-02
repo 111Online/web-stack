@@ -22,6 +22,7 @@ namespace NHS111.Web.Presentation.Logging {
         void LogItkRequest(OutcomeViewModel model, ITKDispatchRequest itkRequest);
         void LogItkResponse(OutcomeViewModel model, IRestResponse response);
         void LogPrimaryCareReason(OutcomeViewModel model, string reason);
+        void LogSurveyInterstitial(SurveyLinkViewModel model);
     }
 
     public class AuditLogger : IAuditLogger {
@@ -104,6 +105,13 @@ namespace NHS111.Web.Presentation.Logging {
                     audit.EventData = "Patient has no GP";
                     break;
             }
+            Log(audit);
+        }
+
+        public void LogSurveyInterstitial(SurveyLinkViewModel model)
+        {
+            var audit = model.ToAuditEntry();
+            audit.Page = "Survey Interstitial";
             Log(audit);
         }
 

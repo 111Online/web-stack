@@ -438,5 +438,12 @@ namespace NHS111.Web.Controllers
             model = await _outcomeViewModelBuilder.PrimaryCareBuilder(model, reason);
             return View("~\\Views\\Outcome\\Primary_Care\\MoreInfo.cshtml", model);
         }
+                
+        [HttpPost]
+        public async Task<ActionResult> SurveyInterstitial(SurveyLinkViewModel model) {
+            
+            _auditLogger.LogSurveyInterstitial(model);
+            return View("~\\Views\\Outcome\\SurveyInterstitial.cshtml", model);
+        }
     }
 }

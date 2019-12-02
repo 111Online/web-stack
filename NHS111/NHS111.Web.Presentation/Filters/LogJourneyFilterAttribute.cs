@@ -72,6 +72,21 @@ namespace NHS111.Web.Presentation.Filters
             return audit;
         }
 
+        public static AuditEntry ToAuditEntry(this SurveyLinkViewModel model)
+        {
+            var audit = new AuditEntry
+            {
+                SessionId = GetSessionId(model.Campaign, model.SessionId),
+                JourneyId = Guid.Parse(model.JourneyId) != Guid.Empty ? model.JourneyId : null,
+                Campaign = model.Campaign,
+                PathwayId = model.EndPathwayNo,
+                PathwayTitle = model.EndPathwayTitle,
+                DxCode = model.DispositionCode
+            };
+
+            return audit;
+        }
+        
         private static void AddLatestJourneyStepToAuditEntry(Journey journey, AuditEntry auditEntry)
         {
             if (journey == null || journey.Steps == null || journey.Steps.Count <= 0) return;
