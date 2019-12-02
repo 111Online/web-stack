@@ -3,16 +3,30 @@ using NHS111.Models.Models.Web.FromExternalServices;
 using NHS111.Models.Models.Web.Logging;
 using NUnit.Framework;
 using System.Collections.Generic;
+using AutoMapper;
 
 namespace NHS111.Models.Test.Models.Web.Logging
 {
+
     [TestFixture]
     public class AuditedDosResponseTest
     {
+        [TestFixtureSetUp]
+        public void InitializeJourneyViewModelMapper()
+        {
+            Mapper.Initialize(m => m.AddProfile<NHS111.Models.Mappers.WebMappings.AuditedModelMappers>());
+        }
+
+        [Test]
+        public void AuditedModelMappers_Configuration_IsValid_Test()
+        {
+            Mapper.AssertConfigurationIsValid();
+        }
+
         [Test]
         public void Dosresult_containing_itk_offerring_return_true()
         {
-            var response = new AuditedDosResponse()
+            var result = new DosCheckCapacitySummaryResult
             {
                 Success = new SuccessObject<ServiceViewModel>
                 {
@@ -25,13 +39,14 @@ namespace NHS111.Models.Test.Models.Web.Logging
                     }
                 }
             };
-            Assert.IsTrue(response.DosResultsContainItkOfferring);
+            var audit = Mapper.Map<DosCheckCapacitySummaryResult, AuditedDosResponse>(result);
+            Assert.IsTrue(audit.DosResultsContainItkOfferring);
         }
 
         [Test]
         public void Dosresult_containing_no_itk_offerring_return_false()
         {
-            var response = new AuditedDosResponse()
+            var result = new DosCheckCapacitySummaryResult
             {
                 Success = new SuccessObject<ServiceViewModel>
                 {
@@ -44,13 +59,14 @@ namespace NHS111.Models.Test.Models.Web.Logging
                     }
                 }
             };
-            Assert.IsFalse(response.DosResultsContainItkOfferring);
+            var audit = Mapper.Map<DosCheckCapacitySummaryResult, AuditedDosResponse>(result);
+            Assert.IsFalse(audit.DosResultsContainItkOfferring);
         }
 
         [Test]
         public void Dosresult_containing_at_least_one_itk_offerring_return_true()
         {
-            var response = new AuditedDosResponse()
+            var result = new DosCheckCapacitySummaryResult
             {
                 Success = new SuccessObject<ServiceViewModel>
                 {
@@ -71,13 +87,14 @@ namespace NHS111.Models.Test.Models.Web.Logging
                     }
                 }
             };
-            Assert.IsTrue(response.DosResultsContainItkOfferring);
+            var audit = Mapper.Map<DosCheckCapacitySummaryResult, AuditedDosResponse>(result);
+            Assert.IsTrue(audit.DosResultsContainItkOfferring);
         }
 
         [Test]
         public void Dosresult_containing_multiple_itk_offerring_return_true()
         {
-            var response = new AuditedDosResponse()
+            var result = new DosCheckCapacitySummaryResult
             {
                 Success = new SuccessObject<ServiceViewModel>
                 {
@@ -98,13 +115,14 @@ namespace NHS111.Models.Test.Models.Web.Logging
                     }
                 }
             };
-            Assert.IsTrue(response.DosResultsContainItkOfferring);
+            var audit = Mapper.Map<DosCheckCapacitySummaryResult, AuditedDosResponse>(result);
+            Assert.IsTrue(audit.DosResultsContainItkOfferring);
         }
 
         [Test]
         public void Dosresult_containing_multiple_not_itk_offerring_return_false()
         {
-            var response = new AuditedDosResponse()
+            var result = new DosCheckCapacitySummaryResult
             {
                 Success = new SuccessObject<ServiceViewModel>
                 {
@@ -125,17 +143,47 @@ namespace NHS111.Models.Test.Models.Web.Logging
                     }
                 }
             };
-            Assert.IsFalse(response.DosResultsContainItkOfferring);
+            var audit = Mapper.Map<DosCheckCapacitySummaryResult, AuditedDosResponse>(result);
+            Assert.IsFalse(audit.DosResultsContainItkOfferring);
         }
 
         [Test]
         public void Dosresult_containing_error_return_false()
         {
-            var response = new AuditedDosResponse()
+            var result = new DosCheckCapacitySummaryResult
             {
                 Error = new ErrorObject()
             };
-            Assert.IsFalse(response.DosResultsContainItkOfferring);
+            var audit = Mapper.Map<DosCheckCapacitySummaryResult, AuditedDosResponse>(result);
+            Assert.IsFalse(audit.DosResultsContainItkOfferring);
+        }
+
+        [Test]
+        public void Dosresult_containing_success_return_success_code()
+        {
+            var result = new DosCheckCapacitySummaryResult
+            {
+                Success = new SuccessObject<ServiceViewModel>
+                {
+                    Code = 200
+                }
+            };
+            var audit = Mapper.Map<DosCheckCapacitySummaryResult, AuditedDosResponse>(result);
+            Assert.AreEqual(200, audit.Success.Code);
+        }
+
+        [Test]
+        public void Dosresult_containing_error_return_error_code()
+        {
+            var result = new DosCheckCapacitySummaryResult
+            {
+                Error = new ErrorObject()
+                {
+                    Code = 404
+                }
+            };
+            var audit = Mapper.Map<DosCheckCapacitySummaryResult, AuditedDosResponse>(result);
+            Assert.AreEqual(404, audit.Error.Code);
         }
     }
 }
