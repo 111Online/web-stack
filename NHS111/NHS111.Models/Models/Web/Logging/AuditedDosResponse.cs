@@ -8,7 +8,9 @@ namespace NHS111.Models.Models.Web.Logging
     public class AuditedDosResponse
     {
         public bool DosResultsContainItkOfferring { get; set; }
+        [JsonProperty(PropertyName = "success")]
         public ResponseObject Success { get; set; }
+        [JsonProperty(PropertyName = "error")]
         public ResponseObject Error { get; set; }
     }
 
