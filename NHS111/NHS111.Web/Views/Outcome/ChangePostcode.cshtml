@@ -52,7 +52,7 @@
     $(document).ready(function () {
         stopPageLoadingIndicator();
         if (navigator.geolocation) $('.js-find-location').css('display', 'inline-block');
-        else logEvent(eventTypes.Error, "Geolocation not supported")
+        else logEvent(EventTypes.Error, "Geolocation not supported")
     });
 
     $('#DosLookup').css('cursor', 'pointer');
@@ -81,7 +81,7 @@
    
 
     function showError() {
-        logEvent(eventTypes.Error, "Geolocation failed")
+        logEvent(EventTypes.Error, "Geolocation failed")
         if ($(".js-location-error").length == 0) $(".js-find-location").after('<p class="error-message js-location-error">We were unable to find your location. Please enter your postcode.</p>');
     }
 

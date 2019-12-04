@@ -1,11 +1,10 @@
+global.$ = global.jQuery = require('jquery')
 
-
-const eventTypes = { Clicked: "Clicked", Error: "Error" }
+window.EventTypes = { Clicked: "Clicked", Error: "Error" }
 
 function initEventHandlers() {
     $(document).on("click", "[data-event-trigger='click']", function () {
-        var auditEntry = createAuditEntry(eventTypes.Clicked, $(this).attr("data-event-value"))
-        logEventEntry(auditEntry)
+       logEvent(EventTypes.Clicked, $(this).attr("data-event-value"))
     })
 }
 
