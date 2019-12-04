@@ -102,7 +102,7 @@ namespace NHS111.Web.Controllers {
         public async Task<ActionResult> Question(QuestionViewModel model, FormCollection form = null)
         {
             if (ContainsDateAnswer(form))
-                model.SelectedAnswer = GetDateAnswer(ModelState, form).ToShortDateString();
+                model.SelectedAnswer = GetDateAnswer(ModelState, form).ToString("yyyy-MM-dd");
             
             if (!ModelState.IsValidField("SelectedAnswer")) return View("Question", model);
 

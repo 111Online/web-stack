@@ -13,6 +13,9 @@ namespace NHS111.Models.Models.Business
         [JsonProperty(PropertyName = "answer")]
         public Answer  SelectedAnswer { get; set; }
 
+        [JsonProperty(PropertyName = "questionType")]
+        public QuestionType QuestionType { get; set; }
+
         [JsonProperty(PropertyName = "state")]
         public string State { get; set; }
     }

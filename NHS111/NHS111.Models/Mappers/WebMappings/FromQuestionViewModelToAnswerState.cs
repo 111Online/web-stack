@@ -14,6 +14,7 @@ namespace NHS111.Models.Mappers.WebMappings
             Mapper.CreateMap<QuestionViewModel, SelectedAnswerState>()
                 .ForMember(dest => dest.QuestionnaireId, opt => opt.MapFrom(src => src.QuestionNo))
                 .ForMember(dest => dest.SelectedAnswer, opt => opt.MapFrom(src => JsonConvert.DeserializeObject<Answer>(src.SelectedAnswer)))
+                .ForMember(dest => dest.QuestionType, opt => opt.MapFrom(src => src.QuestionType))
                 .ForMember(dest => dest.State, opt => opt.MapFrom(src => src.StateJson));
         }
     }
