@@ -207,8 +207,8 @@
     <Compile Include="Attributes\LogHandleErrorForApiAttribute.cs" />
     <Compile Include="Attributes\LogHandleErrorForMVCAttribute.cs" />
     <Compile Include="Attributes\MultiSubmitAttribute.cs" />
+    <Compile Include="Helpers\BrowserInfo.cs" />
     <Compile Include="Parser\KeywordCollector.cs" />
-    <Compile Include="Filters\SetSessionIdFilterAttribute.cs" />
     <Compile Include="Logging\Log4Net.cs" />
     <Compile Include="RestTools\JsonRestRequest.cs" />
     <Compile Include="Storage\AzureStorageService.cs" />

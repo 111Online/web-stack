@@ -8,14 +8,12 @@ namespace NHS111.Web.Controllers {
         : Controller {
 
         [Route("pathway/{pathwayNo}")]
-        [SetSessionIdFilter]
         public ActionResult Get(string pathwayNo, LocationViewModel model) {
             model.PathwayNo = pathwayNo.ToUpper();
             return View("../location/location", model);
         }
 
         [Route("emergency-prescription")]
-        [SetSessionIdFilter]
         public ActionResult GetEP(LocationViewModel model) {
             return Get(_emergencyPrescriptionPathwayNo, model);
         }

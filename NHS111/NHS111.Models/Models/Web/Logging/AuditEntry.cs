@@ -1,5 +1,6 @@
 ﻿using System;
 using Newtonsoft.Json;
+using NHS111.Models.Models.Web.Enums;
 
 namespace NHS111.Models.Models.Web.Logging
 {
@@ -21,6 +22,8 @@ namespace NHS111.Models.Models.Web.Logging
         private string _questionId = string.Empty;
         private string _dxCode = string.Empty;
         private string _eventData = string.Empty;
+        private EventType _eventKey = EventType.None;
+        private string _eventValue = string.Empty;
         private string _page = string.Empty;
         private int? _age;
         private string _gender = string.Empty;
@@ -77,6 +80,12 @@ namespace NHS111.Models.Models.Web.Logging
 
         [JsonProperty(PropertyName = "eventData")]
         public string EventData { get { return _eventData; } set { _eventData = value; } }
+
+        [JsonProperty(PropertyName = "eventKey")]
+        public EventType EventKey { get { return _eventKey; } set { _eventKey = value; } }
+
+        [JsonProperty(PropertyName = "eventValue")]
+        public string EventValue { get { return _eventValue; } set { _eventValue = value; } }
 
         [JsonProperty(PropertyName = "page")]
         public string Page { get { return _page; } set { _page = value; } }

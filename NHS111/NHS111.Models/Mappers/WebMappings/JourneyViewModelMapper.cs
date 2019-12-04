@@ -62,6 +62,8 @@ namespace NHS111.Models.Mappers.WebMappings
                 .ForMember(dest => dest.TIMESTAMP, opt => opt.Ignore())
                 .ForMember(dest => dest.DxCode, opt => opt.Ignore())
                 .ForMember(dest => dest.EventData, opt => opt.Ignore())
+                .ForMember(dest => dest.EventKey, opt => opt.Ignore())
+                .ForMember(dest => dest.EventValue, opt => opt.Ignore())
                 .ForMember(dest => dest.DosRequest, opt => opt.Ignore())
                 .ForMember(dest => dest.DosResponse, opt => opt.Ignore())
                 .ForMember(dest => dest.ItkRequest, opt => opt.Ignore())

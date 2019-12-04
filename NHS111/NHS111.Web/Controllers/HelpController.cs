@@ -2,6 +2,7 @@
 using NHS111.Models.Models.Domain;
 using NHS111.Utils.Attributes;
 using NHS111.Web.Presentation.Configuration;
+using NHS111.Web.Presentation.Filters;
 using RestSharp;
 
 namespace NHS111.Web.Controllers
@@ -13,7 +14,7 @@ namespace NHS111.Web.Controllers
         {
             return View();
         }
-
+        
         public ActionResult Privacy()
         {
             return View();
@@ -23,7 +24,7 @@ namespace NHS111.Web.Controllers
         {
             return View();
         }
-
+        
         public ActionResult Browsers()
         {
             return View();
