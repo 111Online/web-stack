@@ -1,11 +1,11 @@
 
 
-const eventTypes = { Clicked: "Clicked" }
+const eventTypes = { Clicked: "Clicked", Error: "Error" }
 
 function initEventHandlers() {
     $(document).on("click", "[data-event-trigger='click']", function () {
         var auditEntry = createAuditEntry(eventTypes.Clicked, $(this).attr("data-event-value"))
-        logEvent(auditEntry)
+        logEventEntry(auditEntry)
     })
 }
 
@@ -33,8 +33,14 @@ function createAuditEntry(eventKey, eventValue) {
   }
 }
 
-function logEvent(auditEntry) {
+function logEventEntry(auditEntry) {
     $.post("/Auditing/Log", auditEntry)
 }
+
+function logEvent(key, value) {
+  var auditEntry = createAuditEntry(key, value)
+  logEventEntry(auditEntry)
+}
+
 
 initEventHandlers()

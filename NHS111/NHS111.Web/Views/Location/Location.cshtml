@@ -28,7 +28,7 @@
     @Html.ValidationMessageFor(m => m.CurrentPostcode, "Please enter your current postcode")
     @Html.ValidationMessage("invalid-postcode")
     @Html.TextBoxFor(m => m.CurrentPostcode, new { @required = true, style = "width: 8em; display: inline-block; margin-right: 10px;" })
-    <button class="js-find-location button--link" type="button" style="display: none">Use my current location</button>
+    <button class="js-find-location button--link" type="button" style="display: none" data-event-trigger="click" data-event-value="Geolocation">Use my current location</button>
 
     @Html.HiddenFor(m => m.SessionId)
     @Html.HiddenFor(m => m.Campaign)
@@ -43,6 +43,7 @@
 <script type="text/javascript">
     $(document).ready(function () {
         if (navigator.geolocation) $('.js-find-location').css('display', 'inline-block');
+        else logEvent(eventTypes.Error, "Geolocation not supported")
     })
 
     $(".js-find-location").on("click", function () {
@@ -55,6 +56,7 @@
 
     function showError() {
         stopPageLoadingIndicator();
+        logEvent(eventTypes.Error, "Geolocation failed")
         if ($(".js-location-error").length == 0) $(".js-find-location").after('<p class="error-message js-location-error">We were unable to find your location. Please enter your postcode.</p>');
     }
 

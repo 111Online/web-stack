@@ -40,7 +40,7 @@
                     <label for="CurrentPostcode" class="alwayshidden">Postcode</label>
                     @Html.ValidationMessageFor(m => m.CurrentPostcode)
                     @Html.TextBoxFor(m => m.CurrentPostcode, new { Value = "", style = "width: 8em; display: inline-block; margin-right: 10px;" })
-                    <button class="js-find-location button--link" type="button" style="display: none">Use current location</button>
+                    <button class="js-find-location button--link" type="button" style="display: none" data-event-trigger="click" data-event-value="Geolocation">Use current location</button>
                 </div>
                 <button class="button button--next" type="submit" id="postcode" name="Question">Next</button>
             </div>
@@ -52,6 +52,7 @@
     $(document).ready(function () {
         stopPageLoadingIndicator();
         if (navigator.geolocation) $('.js-find-location').css('display', 'inline-block');
+        else logEvent(eventTypes.Error, "Geolocation not supported")
     });
 
     $('#DosLookup').css('cursor', 'pointer');
@@ -80,6 +81,7 @@
    
 
     function showError() {
+        logEvent(eventTypes.Error, "Geolocation failed")
         if ($(".js-location-error").length == 0) $(".js-find-location").after('<p class="error-message js-location-error">We were unable to find your location. Please enter your postcode.</p>');
     }
 
