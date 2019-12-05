@@ -77,18 +77,6 @@ namespace NHS111.Models.Test.Mappers.WebMappings.JourneyViewModelMapper
             AssertValidModel(result);
         }
 
-        [Test()]
-        public void FromJourneyViewModelToAuditEntryConverter_Test()
-        {
-            var sessionId = Guid.NewGuid();
-            var existingJourney = new JourneyViewModel() { SessionId = sessionId, PathwayId = "PW123.00", PathwayTitle = "Pathway Title", JourneyJson = "{[]}", StateJson = "{[]}" };
-            
-            var result = Mapper.Map<AuditEntry>(existingJourney);
-            Assert.AreEqual(sessionId, result.SessionId);
-            Assert.AreEqual("PW123.00", result.PathwayId);
-            Assert.AreEqual("Pathway Title", result.PathwayTitle);
-        }
-
         private void AssertValidModel(JourneyViewModel result)
         {
             Assert.AreEqual(TEST_QUESTION_ID, result.Id);
