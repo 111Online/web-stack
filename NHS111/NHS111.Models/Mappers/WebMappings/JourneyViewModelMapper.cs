@@ -29,7 +29,6 @@ namespace NHS111.Models.Mappers.WebMappings
             Mapper.CreateMap<QuestionWithAnswers, NodeType>()
                 .ConvertUsing<FromQuestionWithAnswersToNodeTypeModelConverter>();
 
-
             Mapper.CreateMap<JourneyViewModel, OutcomeViewModel>()
                 .ForMember(s => s.SelectedServiceId, o => o.Ignore())
                 .ForMember(s => s.DosCheckCapacitySummaryResult, o => o.Ignore())
@@ -47,31 +46,6 @@ namespace NHS111.Models.Mappers.WebMappings
                 .ForMember(s => s.GroupedDosServices, o => o.Ignore())
                 .ForMember(s => s.HasAcceptedCallbackOffer, o => o.Ignore())
                 .ForMember(s => s.RecommendedService, opt => opt.Ignore());
-
-            Mapper.CreateMap<JourneyViewModel, AuditEntry>()
-                .ForMember(dest => dest.AnswerTitle, opt => opt.Ignore())
-                .ForMember(dest => dest.AnswerOrder, opt => opt.Ignore())
-                .ForMember(dest => dest.QuestionTitle, opt => opt.Ignore())
-                .ForMember(dest => dest.QuestionNo, opt => opt.Ignore())
-                .ForMember(dest => dest.QuestionId, opt => opt.Ignore())
-                .ForMember(dest => dest.SessionId, opt => opt.MapFrom(src => src.SessionId))
-                .ForMember(dest => dest.PathwayId, opt => opt.MapFrom(src => src.PathwayId))
-                .ForMember(dest => dest.PathwayTitle, opt => opt.MapFrom(src => src.PathwayTitle))
-                .ForMember(dest => dest.TIMESTAMP, opt => opt.Ignore())
-                .ForMember(dest => dest.DxCode, opt => opt.Ignore())
-                .ForMember(dest => dest.EventData, opt => opt.Ignore())
-                .ForMember(dest => dest.EventKey, opt => opt.Ignore())
-                .ForMember(dest => dest.EventValue, opt => opt.Ignore())
-                .ForMember(dest => dest.DosRequest, opt => opt.Ignore())
-                .ForMember(dest => dest.DosResponse, opt => opt.Ignore())
-                .ForMember(dest => dest.ItkRequest, opt => opt.Ignore())
-                .ForMember(dest => dest.ItkResponse, opt => opt.Ignore())
-                .ForMember(dest => dest.CampaignSource, opt => opt.Ignore())
-                .ForMember(dest => dest.Campaign, opt => opt.Ignore())
-				.ForMember(dest => dest.Page, opt => opt.Ignore())
-                .ForMember(dest => dest.Age, opt => opt.Ignore())
-                .ForMember(dest => dest.Gender, opt => opt.Ignore())
-                .ForMember(dest => dest.Search, opt => opt.Ignore());
         }
 
         public class FromAnswerToJourneyViewModelConverter : ITypeConverter<Answer, JourneyViewModel>
