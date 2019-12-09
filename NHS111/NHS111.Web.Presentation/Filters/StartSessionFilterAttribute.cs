@@ -52,6 +52,7 @@ namespace NHS111.Web.Presentation.Filters
                 _auditLogger.LogEvent(model, EventType.BrowserVersion, browserInfo.MajorVersionString, pageName);
                 _auditLogger.LogEvent(model, EventType.OperatingSystem,browserInfo.Platform, pageName);
                 _auditLogger.LogEvent(model, EventType.DeviceType, browserInfo.DeviceType, pageName);
+                _auditLogger.LogEvent(model, EventType.Referer, browserInfo.Referer, pageName);
             }
             else
             {

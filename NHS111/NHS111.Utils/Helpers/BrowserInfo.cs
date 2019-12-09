@@ -107,5 +107,13 @@ namespace NHS111.Utils.Helpers
                 return platform;
             }
         } 
+
+        public string Referer
+        {
+            get { 
+                var url = _request.UrlReferrer;
+                return url != null ? url.AbsoluteUri : string.Empty;
+            }
+        }
     }
 }

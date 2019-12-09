@@ -340,6 +340,7 @@
     <Compile Include="Models\Web\Validators\PatientInformantViewModelValidator.cs" />
     <Compile Include="Models\Web\Validators\PersonalInfoHomeAddressViewModelValidator.cs" />
     <Compile Include="Models\Web\Validators\PersonNameValidator.cs" />
+    <Compile Include="Models\Web\Validators\PublicAuditViewModelValidator.cs" />
     <Compile Include="Models\Web\Validators\QuestionViewModelValidator.cs" />
     <Compile Include="Models\Web\Validators\RuleBuilderExtensions\RuleBuilderExtensions.cs" />
     <Compile Include="Models\Web\ServiceViewModel.cs" />

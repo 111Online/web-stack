@@ -12,6 +12,7 @@ namespace NHS111.Models.Models.Web.Enums
         BrowserVersion,
         OperatingSystem,
         DeviceType,
+        Referer,
         Clicked,
         Error
     }
