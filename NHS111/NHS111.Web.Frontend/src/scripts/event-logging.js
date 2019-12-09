@@ -9,26 +9,12 @@ function initEventHandlers() {
 }
 
 function createAuditEntry(eventKey, eventValue) {
-    var date = new Date()
     return {
-      "TIMESTAMP": date.toISOString(),
       "sessionId": $.cookie("nhs111-session-id"),
-      "journey": "{\"steps\":[]}",
-      "answerTitle": "",
-      "answerOrder": "",
-      "questionTitle": "",
-      "questionNo": "",
-      "questionId": "",
-      "dxCode": "",
-      "eventData": "",
+      "journeyId": $("#journeyId").value,
       "eventKey": eventKey,
       "eventValue": eventValue,
-      "page": location.pathname,
-      "gender": "",
-      "dosRequest": "",
-      "dosResponse": "",
-      "itkRequest": "",
-      "itkResponse": ""
+      "page": location.pathname
   }
 }
 

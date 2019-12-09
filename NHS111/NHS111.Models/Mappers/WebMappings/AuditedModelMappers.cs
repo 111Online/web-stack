@@ -20,6 +20,8 @@ namespace NHS111.Models.Mappers.WebMappings
                 .ForMember(dest => dest.IsSuccessStatusCode, opt => opt.MapFrom(src => src.IsSuccessful));
 
             Mapper.CreateMap<DosCheckCapacitySummaryResult, AuditedDosResponse>();
+
+            Mapper.CreateMap<PublicAuditViewModel, AuditViewModel>();
         }
     }
 }

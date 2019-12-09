@@ -247,6 +247,7 @@
     <Compile Include="Models\Web\ITK\StepItem.cs" />
     <Compile Include="Models\Web\LocationInfoViewModel.cs" />
     <Compile Include="Models\Web\LocationViewModel.cs" />
+    <Compile Include="Models\Web\Logging\PublicAuditViewModel.cs" />
     <Compile Include="Models\Web\NodeDetailsViewModel.cs" />
     <Compile Include="Models\Web\OtherServicesViewModel.cs" />
     <Compile Include="Models\Web\OutcomeMapViewModel.cs" />
