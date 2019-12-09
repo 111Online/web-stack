@@ -13,6 +13,7 @@ namespace NHS111.Models.Models.Web.ITK {
         public bool? IsAtHome { get; set; }
         public string HomePostcode { get; set; }
         public bool? HomePostcodeIsKnown { get; set; }
+        public bool? HasAcceptedCallbackOffer { get; set; }
 
         public bool HasAnyValue {
             get {
@@ -77,6 +78,10 @@ namespace NHS111.Models.Models.Web.ITK {
 
             if (!HomePostcodeIsKnown.HasValue)
                 HomePostcodeIsKnown = false;
+
+            if (!HasAcceptedCallbackOffer.HasValue)
+                HasAcceptedCallbackOffer = true;
+
         }
 
         private bool ValidateParty() {
@@ -139,6 +144,8 @@ namespace NHS111.Models.Models.Web.ITK {
                     personalDetailsViewModel.AddressInformation.PatientHomeAddress.Postcode = HomePostcode;
                 }
             }
+
+            personalDetailsViewModel.HasAcceptedCallbackOffer = HasAcceptedCallbackOffer;
         }
     }
 }

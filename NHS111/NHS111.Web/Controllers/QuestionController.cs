@@ -20,6 +20,7 @@ namespace NHS111.Web.Controllers {
     using System.Web;
     using System.Web.Http.Results;
     using AutoMapper;
+    using Models.Mappers.WebMappings;
     using Models.Models.Domain;
     using Models.Models.Web.DosRequests;
     using Models.Models.Web.ITK;
@@ -263,8 +264,7 @@ namespace NHS111.Web.Controllers {
 
                         if (OutcomeGroup.PrePopulatedDosResultsOutcomeGroups.Contains(outcomeModel.OutcomeGroup))
                             await DeterminePrepopulatedResultsRoute(controller, outcomeModel, endpoint, dosSearchTime);
-
-                        if (OutcomeGroup.DosSearchOutcomesGroups.Contains(outcomeModel.OutcomeGroup))
+                        else if (OutcomeGroup.DosSearchOutcomesGroups.Contains(outcomeModel.OutcomeGroup))
                             await controller.ServiceList(outcomeModel, dosSearchTime, null, endpoint);
 
                         if (!outcomeModel.DosCheckCapacitySummaryResult.HasITKServices)
@@ -290,6 +290,8 @@ namespace NHS111.Web.Controllers {
                                 .Value);
 
                         personalDetails.ApplyTo(personalDetailsViewModel);
+
+
 
                         return View("~\\Views\\PersonalDetails\\ConfirmDetails.cshtml", personalDetailsViewModel);
                     }

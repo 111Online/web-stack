@@ -253,6 +253,7 @@
     <Content Include="robots.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="Views\Outcome\SurveyInterstitial.cshtml" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -461,6 +462,7 @@
     <Content Include="Views\Shared\Elements\_InlineSpinner.cshtml" />
     <Content Include="Views\Outcome\Primary_Care\MoreInfo.cshtml" />
     <Content Include="Views\Shared\_rs_Timings.cshtml" />
+    <Content Include="Views\Shared\_CommonHiddenFieldsSurveyLinkViewModel.cshtml" />
     <None Include="Web.Development.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
