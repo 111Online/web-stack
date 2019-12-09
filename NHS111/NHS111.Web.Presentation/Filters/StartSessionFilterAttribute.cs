@@ -26,8 +26,13 @@ namespace NHS111.Web.Presentation.Filters
                 return;
 
             var model = filterContext.ActionParameters.Values.OfType<JourneyViewModel>().FirstOrDefault() ?? new JourneyViewModel();
+            var hasCookie = filterContext.HttpContext.Request.Cookies.AllKeys.Contains(SessionCookieName);
+            var hasSessionInModel = model.SessionId != Guid.Empty;
 
-            if (!filterContext.HttpContext.Request.Cookies.AllKeys.Contains(SessionCookieName))
+            if (hasCookie && hasSessionInModel)
+                return;
+
+            if (!hasCookie && !hasSessionInModel)
             {
                 model.SessionId = Guid.NewGuid();
                 var secureCookies = true;
@@ -53,7 +58,7 @@ namespace NHS111.Web.Presentation.Filters
                 _auditLogger.LogEvent(model, EventType.OperatingSystem,browserInfo.Platform, pageName);
                 _auditLogger.LogEvent(model, EventType.DeviceType, browserInfo.DeviceType, pageName);
             }
-            else
+            else if (hasCookie)
             {
                 var sessionId = filterContext.HttpContext.Request.Cookies[SessionCookieName];
                 model.SessionId = Guid.Parse(sessionId.Value);
