@@ -45,7 +45,7 @@ namespace NHS111.Web.Functional.Tests
         [Test]
         public void ReferOnlyService()
         {
-            var questionPage = TestScenerios.LaunchRecommendedServiceScenerio(Driver, "Emergency Prescription 111 online", TestScenerioSex.Male, TestScenerioAgeGroups.Adult, "L12SD");
+            var questionPage = TestScenerios.LaunchRecommendedServiceScenerio(Driver, "Emergency Prescription 111 online", TestScenerioSex.Male, TestScenerioAgeGroups.Adult, "PR56LD");
 
             questionPage.VerifyQuestion("Can you contact your GP or usual pharmacy?");
             var recommendedServicePage = questionPage
@@ -96,7 +96,7 @@ namespace NHS111.Web.Functional.Tests
         [Test]
         public void OtherServicesMoreThanOneService()
         {
-            var questionPage = TestScenerios.LaunchRecommendedServiceScenerio(Driver, "Emergency Prescription 111 online", TestScenerioSex.Male, TestScenerioAgeGroups.Adult, "L12SA");
+            var questionPage = TestScenerios.LaunchRecommendedServiceScenerio(Driver, "Emergency Prescription 111 online", TestScenerioSex.Male, TestScenerioAgeGroups.Adult, "BB17JJ");
 
             questionPage.VerifyQuestion("Can you contact your GP or usual pharmacy?");
             var recommendedServicePage = questionPage
