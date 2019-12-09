@@ -20,6 +20,7 @@ namespace NHS111.Web.Controllers {
     using System.Web;
     using System.Web.Http.Results;
     using AutoMapper;
+    using Models.Mappers.WebMappings;
     using Models.Models.Domain;
     using Models.Models.Web.DosRequests;
     using Models.Models.Web.ITK;
@@ -289,6 +290,8 @@ namespace NHS111.Web.Controllers {
                                 .Value);
 
                         personalDetails.ApplyTo(personalDetailsViewModel);
+
+
 
                         return View("~\\Views\\PersonalDetails\\ConfirmDetails.cshtml", personalDetailsViewModel);
                     }
