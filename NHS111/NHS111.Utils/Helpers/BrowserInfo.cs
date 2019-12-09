@@ -39,6 +39,24 @@ namespace NHS111.Utils.Helpers
             get { 
                 var browserCapabilities = _request.Browser;
 
+                // Without this it returns Chrome for Samsung Internet
+                if (_request.UserAgent.Contains("SamsungBrowser"))
+                {
+                    return "Samsung Internet";
+                }
+
+                // IE11 on Windows Mobile shows as Mozilla by default
+                if (_request.UserAgent.Contains("IEMobile") || browserCapabilities.Browser == "InternetExplorer")
+                {
+                    return "Internet Explorer";
+                }
+                
+                // On iOS Chrome is Crios in user agent string, without that it shows as Safari
+                if (_request.UserAgent.Contains("CriOS"))
+                {
+                    return "Chrome";
+                }
+
                 // This fixes an issue where Edge wrongly shows as Chrome in .Browser by default
                 if (_request.UserAgent.Contains("Edge") && browserCapabilities.Browser != "Edge")
                 {
@@ -54,13 +72,30 @@ namespace NHS111.Utils.Helpers
             get
             {
                 var version = _request.Browser.MajorVersion.ToString();
+                
+                
+                // Without this it returns a Chrome version number for Samsung Internet
+                if (Browser == "Samsung Internet")
+                {
+                    version = getVersion(_request.UserAgent, "SamsungBrowser");
+                }
+                
+                // On iOS Chrome is Crios in user agent string, without that it shows as Safari
+                if (Browser == "Chrome" && Platform == "iOS")
+                {
+                    version = getVersion(_request.UserAgent, "CriOS");
+                }
+
+                // IE11 on Windows Mobile shows as Mozilla by default
+                if (Browser == "Internet Explorer" && Platform == "Windows Phone")
+                {
+                    version = getVersion(_request.UserAgent, "IEMobile");
+                }
 
                 // Edge presents as Chrome so needs adjusting to get the real version number
                 if (Browser == "Edge")
                 {
-                    var str = "Edge/";
-                    var index = _request.UserAgent.IndexOf(str);
-                    version = _request.UserAgent.Substring(index + str.Length, 2);
+                    version = getVersion(_request.UserAgent, "Edge");
                 }
 
                 return version;
@@ -71,13 +106,17 @@ namespace NHS111.Utils.Helpers
         {
             get
             {
-                var platform = _request.Browser.Platform;
-
                 // Windows 10 (and others?) present as WinNT
                 // this changes it to Windows so it makes more sense when reading the data.
                 if (_request.Browser.Platform == "WinNT")
                 {
-                    platform = "Windows";
+                    return "Windows";
+                }
+
+                // IE11 on Windows Mobile shows as Mozilla by default
+                if (_request.UserAgent.Contains("Windows Phone"))
+                {
+                    return "Windows Phone";
                 }
 
                 // iOS has Mac OS X in userAgent so was showing as Mac
@@ -104,7 +143,7 @@ namespace NHS111.Utils.Helpers
                     return "Android";
                 }
 
-                return platform;
+                return  _request.Browser.Platform;
             }
         } 
 
@@ -114,6 +153,15 @@ namespace NHS111.Utils.Helpers
                 var url = _request.UrlReferrer;
                 return url != null ? url.AbsoluteUri : string.Empty;
             }
+        }
+
+        private string getVersion(string userAgentString, string browser)
+        {
+            var str = browser + "/";
+            var index = userAgentString.IndexOf(str);
+            var subStr = userAgentString.Substring(index + str.Length);
+            var endIndex = subStr.IndexOfAny(new []{ '.', ' ' });
+            return subStr.Substring(0, endIndex); 
         }
     }
 }
