@@ -47,8 +47,8 @@
                 @Html.Hidden("SelectedServiceId", recommendedService.Id)
                 @Html.Hidden("SelectedServiceName", recommendedService.Name)
                 @Html.Hidden("SelectedServiceAddress", recommendedService.Address)
-                <button class="button--link card__directions--fallback" type="submit">Get directions</button>
-                <p class="nhsuk-u-margin-bottom-0"><a class="card__directions" style="display: none;" target="_blank" href="@string.Format("https://www.google.com/maps/dir/?api=1&origin={0}&destination={1}", Model.CurrentPostcode, recommendedService.Address)">Get directions <span class="nhsuk-u-font-size-16">(opens a new tab or window)</span></a></p>
+                <button class="button--link card__directions--fallback" type="submit" data-event-trigger="click" data-event-value="Get directions fallback">Get directions</button>
+                <p class="nhsuk-u-margin-bottom-0"><a class="card__directions" style="display: none;" target="_blank" href="@string.Format("https://www.google.com/maps/dir/?api=1&origin={0}&destination={1}", Model.CurrentPostcode, recommendedService.Address)" data-event-trigger="click" data-event-value="Get directions">Get directions <span class="nhsuk-u-font-size-16">(opens a new tab or window)</span></a></p>
             }
         </div>
     </div>

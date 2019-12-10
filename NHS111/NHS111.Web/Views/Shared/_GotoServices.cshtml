@@ -58,8 +58,8 @@
                 @Html.Hidden("SelectedServiceAddress", @service.Address)
                 <hr />
                 <p>This service doesn't require an appointment</p>
-                <button class="button--link card__directions--fallback" type="submit">Get directions</button>
-                <p><a class="card__directions" style="display: none;" target="_blank" href="@string.Format("https://www.google.com/maps/dir/?api=1&origin={0}&destination={1}", Model.CurrentPostcode, service.Address)">Get directions</a></p>
+                <button class="button--link card__directions--fallback" type="submit" data-event-trigger="click" data-event-value="Get directions fallback">Get directions</button>
+                <p><a class="card__directions" style="display: none;" target="_blank" href="@string.Format("https://www.google.com/maps/dir/?api=1&origin={0}&destination={1}", Model.CurrentPostcode, service.Address)"  data-event-trigger="click" data-event-value="Get directions">Get directions</a></p>
             }
         </div>
     }
