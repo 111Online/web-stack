@@ -116,8 +116,11 @@ namespace NHS111.Web.Presentation.Filters
             var stateItems = JsonConvert.DeserializeObject<IDictionary<string, string>>(state);
             if (!stateItems.Any()) return string.Empty;
 
-            var auditedState = stateItems.Where(i => i.Key.Equals("PATIENT_AGE") || i.Key.Equals("PATIENT_GENDER") || i.Key.Equals("PATIENT_AGEGROUP") || i.Key.Equals("PATIENT_PARTY"));
-            return JsonConvert.SerializeObject(auditedState);
+            var auditedState = stateItems
+                .Where(i => i.Key.Equals("PATIENT_AGE") || i.Key.Equals("PATIENT_GENDER") || i.Key.Equals("PATIENT_AGEGROUP") || i.Key.Equals("PATIENT_PARTY"))
+                .ToDictionary(x => x.Key, x => x.Value);
+            var json = JsonConvert.SerializeObject(auditedState);
+            return json;
         }
     }
 }
