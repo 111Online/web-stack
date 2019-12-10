@@ -74,7 +74,7 @@ namespace NHS111.Web.Presentation.Builders
 
                 //retrieve encounter id generated fromfirst  evaluate interaction
                 //and set journey id to it
-                questionViewModel.JourneyId = question.Data.State.ContainsKey("ENCOUNTER_ID")
+                questionViewModel.JourneyId = question.Data.State != null && question.Data.State.ContainsKey("ENCOUNTER_ID")
                     ? Guid.Parse(question.Data.State["ENCOUNTER_ID"])
                     : Guid.NewGuid();
 
