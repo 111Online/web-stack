@@ -6,8 +6,6 @@ namespace NHS111.Models.Models.Web.Logging {
     public class AuditViewModel {
         private string _pathwayId = string.Empty;
         private string _pathwayTitle = string.Empty;
-        private string _state = string.Empty;
-        private string _journey = string.Empty;
         private string _answerTitle = string.Empty;
         private string _answerOrder = string.Empty;
         private string _questionTitle = string.Empty;
@@ -31,18 +29,6 @@ namespace NHS111.Models.Models.Web.Logging {
         public string PathwayTitle {
             get { return _pathwayTitle; }
             set { _pathwayTitle = value; }
-        }
-
-        [JsonProperty(PropertyName = "state")]
-        public string State {
-            get { return _state; }
-            set { _state = value; }
-        }
-
-        [JsonProperty(PropertyName = "journey")]
-        public string Journey {
-            get { return _journey; }
-            set { _journey = value; }
         }
 
         [JsonProperty(PropertyName = "answerTitle")]
@@ -107,8 +93,6 @@ namespace NHS111.Models.Models.Web.Logging {
             return new AuditEntry {
                 PathwayId = operand.PathwayId,
                 PathwayTitle = operand.PathwayTitle,
-                State = operand.State,
-                Journey = operand.Journey,
                 AnswerTitle = operand.AnswerTitle,
                 AnswerOrder = operand.AnswerOrder,
                 QuestionTitle = operand.QuestionTitle,
