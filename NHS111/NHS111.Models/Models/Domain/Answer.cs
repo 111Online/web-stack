@@ -20,7 +20,11 @@ namespace NHS111.Models.Models.Domain
         [JsonProperty(PropertyName = "titleHtmlStripped")]
         public string TitleHtmlStripped
         {
-            get { return Regex.Replace(Title, "<[a-zA-Z/].*?>", String.Empty); }
+            get
+            {
+                if (String.IsNullOrEmpty(Title)) return Title;
+                return Regex.Replace(Title, "<[a-zA-Z/].*?>", String.Empty);
+            }
         }
 
 
