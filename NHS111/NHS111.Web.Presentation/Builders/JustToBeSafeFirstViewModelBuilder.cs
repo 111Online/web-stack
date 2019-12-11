@@ -34,6 +34,8 @@ namespace NHS111.Web.Presentation.Builders
 
         public async Task<Tuple<string, QuestionViewModel>> JustToBeSafeFirstBuilder(JustToBeSafeViewModel model)
         {
+            model.JourneyId = Guid.NewGuid();
+
             if (model.PathwayId != null)
                 model = await DoWorkPreviouslyDoneInQuestionBuilder(model); //todo refactor away
 
@@ -72,11 +74,11 @@ namespace NHS111.Web.Presentation.Builders
 
                 _mappingEngine.Mapper.Map(question.Data, questionViewModel);
 
-                //retrieve encounter id generated fromfirst  evaluate interaction
-                //and set journey id to it
-                questionViewModel.JourneyId = question.Data.State != null && question.Data.State.ContainsKey("ENCOUNTER_ID")
-                    ? Guid.Parse(question.Data.State["ENCOUNTER_ID"])
-                    : Guid.NewGuid();
+                ////retrieve encounter id generated fromfirst  evaluate interaction
+                ////and set journey id to it
+                //questionViewModel.JourneyId = question.Data.State != null && question.Data.State.ContainsKey("ENCOUNTER_ID")
+                //    ? Guid.Parse(question.Data.State["ENCOUNTER_ID"])
+                //    : Guid.NewGuid();
 
                 _userZoomDataBuilder.SetFieldsForQuestion(questionViewModel);
                 if (questionViewModel.NodeType == NodeType.Page)

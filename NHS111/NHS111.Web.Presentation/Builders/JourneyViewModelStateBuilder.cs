@@ -23,6 +23,8 @@ namespace NHS111.Web.Presentation.Builders
             state.Add("PATIENT_GENDER", string.Format("\"{0}\"", gender.First().ToString().ToUpper()));
             state.Add("PATIENT_PARTY", "1");
             state.Add("PATIENT_AGEGROUP", ageCategory.Value);
+            if(!Guid.Empty.ToString().Equals(journeyId))
+                state.Add("JOURNEY_ID", journeyId);
 
             return state;
         }
@@ -42,6 +44,8 @@ namespace NHS111.Web.Presentation.Builders
                 state.Remove("PATIENT_PARTY");
             if (state.ContainsKey("PATIENT_AGEGROUP"))
                 state.Remove("PATIENT_AGEGROUP");
+            if (state.ContainsKey("JOURNEY_ID"))
+                state.Remove("JOURNEY_ID");
         }
 
     }
