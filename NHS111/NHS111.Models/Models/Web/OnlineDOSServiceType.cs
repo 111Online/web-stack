@@ -63,7 +63,7 @@ namespace NHS111.Models.Models.Web.FromExternalServices
         public static OnlineDOSServiceType Video = new OnlineDOSServiceType("Onlinevideo", string.Empty, true);
         public static OnlineDOSServiceType Written = new OnlineDOSServiceType("Onlinewritten", string.Empty, true);
         public static OnlineDOSServiceType Telephone = new OnlineDOSServiceType("Onlinetelephone", string.Empty, true);
-
+        public static OnlineDOSServiceType EConsultReferal = new OnlineDOSServiceType("EConsultReferal", string.Empty, true);
         public static Dictionary<string, OnlineDOSServiceType> TypeList = new Dictionary<string, OnlineDOSServiceType>
         {
             { Callback.Id, Callback },
@@ -72,7 +72,8 @@ namespace NHS111.Models.Models.Web.FromExternalServices
             { ReferRingAndGo.Id, ReferRingAndGo },
             { Video.Id, Video },
             { Written.Id, Written },
-            { Telephone.Id, Telephone }
+            { Telephone.Id, Telephone },
+            {EConsultReferal.Id, EConsultReferal }
         };
     }
 }
