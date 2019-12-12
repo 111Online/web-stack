@@ -7,6 +7,7 @@ namespace NHS111.Models.Models.Web.Logging {
 
     public class AuditViewModel {
         private string _pathwayId = string.Empty;
+        private string _journeyId = string.Empty;
         private string _pathwayTitle = string.Empty;
         private string _answerTitle = string.Empty;
         private string _answerOrder = string.Empty;
@@ -23,6 +24,12 @@ namespace NHS111.Models.Models.Web.Logging {
 
         [JsonProperty(PropertyName = "sessionId")]
         public Guid SessionId { get; set; }
+        
+        [JsonProperty(PropertyName = "journeyId")]
+        public string JourneyId {
+            get { return _journeyId; }
+            set { _journeyId = value; }
+        }
 
         [JsonProperty(PropertyName = "pathwayId")]
         public string PathwayId {
@@ -127,7 +134,8 @@ namespace NHS111.Models.Models.Web.Logging {
                 DosRequest = operand.DosRequest,
                 DosResponse = operand.DosResponse,
                 SessionId = operand.SessionId,
-                Page = operand.Page
+                Page = operand.Page,
+                JourneyId = operand.JourneyId
             };
         }
     }

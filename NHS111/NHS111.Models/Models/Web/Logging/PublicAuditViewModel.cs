@@ -19,7 +19,7 @@ namespace NHS111.Models.Models.Web.Logging
         public Guid SessionId { get; set; }
 
         [JsonProperty(PropertyName = "journeyId")]
-        public Guid JourneyId { get; set; }
+        public string JourneyId { get; set; }
 
         [JsonProperty(PropertyName = "eventKey")]
         public EventType EventKey {
