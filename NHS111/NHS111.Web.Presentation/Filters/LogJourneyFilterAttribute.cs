@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
+using Newtonsoft.Json;
 using NHS111.Models.Models.Web;
 using NHS111.Models.Models.Web.FromExternalServices;
 using NHS111.Models.Models.Web.Logging;
@@ -58,10 +60,9 @@ namespace NHS111.Web.Presentation.Filters
                 JourneyId = model.JourneyId != Guid.Empty ? model.JourneyId.ToString() : null,
                 Campaign = model.Campaign,
                 CampaignSource = model.Source,
-                Journey = model.JourneyJson,
                 PathwayId = model.PathwayId,
                 PathwayTitle = model.PathwayTitle,
-                State = model.StateJson,
+                State = GetAuditedState(model.StateJson),
                 DxCode = model is OutcomeViewModel ? model.Id : "",
                 Age = model.UserInfo.Demography != null ? model.UserInfo.Demography.Age : (int?) null,
                 Gender = model.UserInfo.Demography != null ? model.UserInfo.Demography.Gender : string.Empty,
@@ -106,6 +107,20 @@ namespace NHS111.Web.Presentation.Filters
         private static Guid GetSessionId(string campaign, Guid sessionId)
         {
             return campaign == CampaignTestingId ? CampaignTestingJourneyId : sessionId;
+        }
+
+        private static string GetAuditedState(string state)
+        {
+            if (state == null || string.IsNullOrEmpty(state)) return string.Empty;
+
+            var stateItems = JsonConvert.DeserializeObject<IDictionary<string, string>>(state);
+            if (!stateItems.Any()) return string.Empty;
+
+            var auditedState = stateItems
+                .Where(i => i.Key.Equals("PATIENT_AGE") || i.Key.Equals("PATIENT_GENDER") || i.Key.Equals("PATIENT_AGEGROUP") || i.Key.Equals("PATIENT_PARTY"))
+                .ToDictionary(x => x.Key, x => x.Value);
+            var json = JsonConvert.SerializeObject(auditedState);
+            return json;
         }
     }
 }
