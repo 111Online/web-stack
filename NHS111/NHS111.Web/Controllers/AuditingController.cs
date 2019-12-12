@@ -1,4 +1,8 @@
 ﻿
+using System;
+using AutoMapper;
+using Newtonsoft.Json;
+using NHS111.Models.Models.Web.Enums;
 using NHS111.Utils.Attributes;
 
 namespace NHS111.Web.Controllers {
@@ -16,8 +20,9 @@ namespace NHS111.Web.Controllers {
         }
 
         [HttpPost]
-        public ActionResult Log(AuditViewModel audit) {
-            _auditLogger.Log(audit.ToAuditEntry());
+        public ActionResult Log(PublicAuditViewModel audit) {
+            var model = Mapper.Map<PublicAuditViewModel, AuditViewModel>(audit);
+            _auditLogger.Log(model.ToAuditEntry());
 
             return new HttpStatusCodeResult(HttpStatusCode.OK);
         }

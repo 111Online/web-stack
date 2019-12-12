@@ -41,7 +41,7 @@
 </div>
 
 <details class="measure search-typography">
-    <summary><span class="details__arrow" role="presentation"></span> I can’t find the right topic</summary>
+    <summary data-event-trigger="click" data-event-value="I can't find the right topic"><span class="details__arrow" role="presentation"></span> I can’t find the right topic</summary>
     <div>
         <p>You can <a href="/@Model.UserInfo.Demography.Gender/@Model.UserInfo.Demography.Age/Search?args=@encryptedQueryStringValues">search</a> or <a id="show-categories" href="/@Model.UserInfo.Demography.Gender/@Model.UserInfo.Demography.Age/Pathways?args=@encryptedQueryStringValues">browse the full list of topics.</a></p>
         @Html.Partial("_ExternalInformation")
