@@ -69,12 +69,26 @@ namespace NHS111.Web.Presentation.Builders
             if (!response.IsSuccessful || response.Data.Error != null) return response.Data;
 
             var services = new List<ServiceViewModel>();
+
+          
             if (response.Data.Success != null)
             {
                 var checkCapacitySummaryResults = JsonConvert.SerializeObject(response.Data.Success.Services);
                 var jArray = (JArray) JsonConvert.DeserializeObject(checkCapacitySummaryResults);
                 services = jArray.ToObject<List<ServiceViewModel>>();
             }
+
+            if (dosViewModel.PathwayNo == "PW1159") // add service at start of list for constipation in alpha
+            {
+                services.Insert(0, new ServiceViewModel()
+                {
+                    OnlineDOSServiceType = OnlineDOSServiceType.EConsultReferal,
+                    Name = "Econsult Referral",
+                    PublicName = "Econsult Referral"
+
+                });
+            }
+
 
             var checkCapacitySummaryResult = new DosCheckCapacitySummaryResult()
             {
