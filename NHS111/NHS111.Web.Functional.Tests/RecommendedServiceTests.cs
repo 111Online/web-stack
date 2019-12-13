@@ -62,7 +62,7 @@ namespace NHS111.Web.Functional.Tests
         [Test]
         public void PlaceToVisitService()
         {
-            var questionPage = TestScenerios.LaunchRecommendedServiceScenerio(Driver, "Emergency Prescription 111 online", TestScenerioSex.Male, TestScenerioAgeGroups.Adult, "L18BN");
+            var questionPage = TestScenerios.LaunchRecommendedServiceScenerio(Driver, "Emergency Prescription 111 online", TestScenerioSex.Male, TestScenerioAgeGroups.Adult, "L18BQ");
 
             questionPage.VerifyQuestion("Can you contact your GP or usual pharmacy?");
             var recommendedServicePage = questionPage
@@ -80,7 +80,7 @@ namespace NHS111.Web.Functional.Tests
         [Test]
         public void PlaceToPhoneService()
         {
-            var questionPage = TestScenerios.LaunchRecommendedServiceScenerio(Driver, "Emergency Prescription 111 online", TestScenerioSex.Male, TestScenerioAgeGroups.Adult, "L167QQ");
+            var questionPage = TestScenerios.LaunchRecommendedServiceScenerio(Driver, "Emergency Prescription 111 online", TestScenerioSex.Male, TestScenerioAgeGroups.Adult, "L18BN");
 
             questionPage.VerifyQuestion("Can you contact your GP or usual pharmacy?");
             var recommendedServicePage = questionPage
@@ -108,19 +108,19 @@ namespace NHS111.Web.Functional.Tests
             recommendedServicePage.CompareAndVerify("1");
         }
 
-        [Test]
-        public void OtherServicesNotShown()
-        {
-            var questionPage = TestScenerios.LaunchRecommendedServiceScenerio(Driver, "Emergency Prescription 111 online", TestScenerioSex.Male, TestScenerioAgeGroups.Adult, "MK181EG");
-
-            questionPage.VerifyQuestion("Can you contact your GP or usual pharmacy?");
-            var recommendedServicePage = questionPage
-                .Answer(2)
-                .Answer<PreOutcomePage>(1)
-                .ClickShowServices();
-
-            recommendedServicePage.VerifyNoOtherServices();
-            recommendedServicePage.CompareAndVerify("1");
-        }
+        //[Test]
+        //public void OtherServicesNotShown()
+        //{
+        //    var questionPage = TestScenerios.LaunchRecommendedServiceScenerio(Driver, "Emergency Prescription 111 online", TestScenerioSex.Male, TestScenerioAgeGroups.Adult, "MK181EG");
+        //
+        //    questionPage.VerifyQuestion("Can you contact your GP or usual pharmacy?");
+        //    var recommendedServicePage = questionPage
+        //        .Answer(2)
+        //        .Answer<PreOutcomePage>(1)
+        //        .ClickShowServices();
+        //
+        //    recommendedServicePage.VerifyNoOtherServices();
+        //    recommendedServicePage.CompareAndVerify("1");
+        //}
     }
 }
