@@ -55,9 +55,8 @@ namespace NHS111.Web.Presentation.Builders
 
         public async Task<DosCheckCapacitySummaryResult> FillCheckCapacitySummaryResult(DosViewModel dosViewModel, bool filterServices, DosEndpoint? endpoint) {
 
-            var checkCapacitySummaryUrl = !dosViewModel.HasOwnCheckServices
-                ? string.Format("{0}?filterServices={1}&endpoint={2}", _configuration.BusinessDosApiCheckCapacitySummaryUrl, filterServices, endpoint) 
-                : string.Format(_configuration.BusinessDosApiCheckServicesUrl, dosViewModel.PathwayNo);
+            var checkCapacitySummaryUrl = string.Format("{0}?filterServices={1}&endpoint={2}", _configuration.BusinessDosApiCheckCapacitySummaryUrl, filterServices, endpoint); 
+         
             var dosFilterdCase = dosViewModel as DosFilteredCase;
 
             var request = new JsonRestRequest(checkCapacitySummaryUrl, Method.POST);
@@ -74,6 +73,20 @@ namespace NHS111.Web.Presentation.Builders
                 var checkCapacitySummaryResults = JsonConvert.SerializeObject(response.Data.Success.Services);
                 var jArray = (JArray) JsonConvert.DeserializeObject(checkCapacitySummaryResults);
                 services = jArray.ToObject<List<ServiceViewModel>>();
+            }
+
+            var checkServicesUrl = string.Format(_configuration.BusinessDosApiCheckServicesUrl, dosViewModel.PathwayNo);
+            request = new JsonRestRequest(checkServicesUrl, Method.POST);
+            request.AddJsonBody(dosFilterdCase);
+
+            _logger.Debug(string.Format("DOSBuilder.FillCheckCapacitySummaryResult(): URL: {0} BODY: {1}", checkServicesUrl, JsonConvert.SerializeObject(dosFilterdCase)));
+            response = await _restClient.ExecuteTaskAsync<DosCheckCapacitySummaryResult>(request);
+
+            if (response.Data.Success != null)
+            {
+                var checkCapacitySummaryResults = JsonConvert.SerializeObject(response.Data.Success.Services);
+                var jArray = (JArray)JsonConvert.DeserializeObject(checkCapacitySummaryResults);
+                services.AddRange(jArray.ToObject<List<ServiceViewModel>>());
             }
 
             var checkCapacitySummaryResult = new DosCheckCapacitySummaryResult()
