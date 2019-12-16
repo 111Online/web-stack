@@ -248,7 +248,19 @@ namespace NHS111.Web.Controllers
                         otherServicesModel.OtherServices = otherServices;
                     }
 
+                    if (!otherServicesModel.DosCheckCapacitySummaryResult.ResultListEmpty) {
+                        foreach (var service in otherServicesModel.DosCheckCapacitySummaryResult.Success.Services) {
+                            service.ServiceType = Mapper.Map<ServiceType>(service.ServiceType);
+                        }
+                    }
+
                     return View("~\\Views\\Outcome\\Repeat_Prescription\\RecommendedServiceOtherServices.cshtml", otherServicesModel);
+                }
+
+                if (!model.DosCheckCapacitySummaryResult.ResultListEmpty) {
+                    foreach (var service in model.DosCheckCapacitySummaryResult.Success.Services) {
+                        service.ServiceType = Mapper.Map<ServiceType>(service.ServiceType);
+                    }
                 }
 
                 return View("~\\Views\\Outcome\\ServiceList.cshtml", model);
@@ -325,6 +337,11 @@ namespace NHS111.Web.Controllers
                         return await personalDetailsController.PersonalDetails(Mapper.Map<PersonalDetailViewModel>(model));
                     }
                 }
+
+                foreach (var service in model.DosCheckCapacitySummaryResult.Success.Services) {
+                    service.ServiceType = Mapper.Map<ServiceType>(service.ServiceType);
+                }
+
                 return View("~\\Views\\Outcome\\ServiceDetails.cshtml", model);
                 //explicit path to view because, when direct-linking, the route is no longer /outcome causing convention based view lookup to fail
             }

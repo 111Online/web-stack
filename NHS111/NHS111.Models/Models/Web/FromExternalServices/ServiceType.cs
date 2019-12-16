@@ -14,5 +14,7 @@ namespace NHS111.Models.Models.Web.FromExternalServices
 
         [JsonProperty(PropertyName = "nameField")]
         public string Name { get; set; }
+
+        public string Description { get; set; }
     }
 }

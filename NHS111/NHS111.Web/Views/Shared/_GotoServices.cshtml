@@ -40,6 +40,7 @@
         <div class="card" data-index="@Html.Raw(i)">
             <button class="card__marker-link" role="presentation">@Html.Raw(i + 1)</button>
             <h3>@WebUtility.HtmlDecode(service.PublicName)</h3>
+            <p>@Html.Raw(service.ServiceType.Description)</p>
             <p>
                 @foreach (String address in service.AddressLines)
                 {

@@ -178,6 +178,7 @@
     <Compile Include="Mappers\WebMappings\FromOutcomeVIewModelToITKDispatchRequest.cs" />
     <Compile Include="Mappers\WebMappings\FromOutcomeViewModelToSubmitEncounterToServiceRequest.cs" />
     <Compile Include="Mappers\WebMappings\AddressInfoViewModelMapper.cs" />
+    <Compile Include="Mappers\WebMappings\ServiceTypeDescriptionMapper.cs" />
     <Compile Include="Mappers\WebMappings\FromServiceViewModelToRecommendedServiceViewModelMapper.cs" />
     <Compile Include="Mappers\WebMappings\FromSystemDayOfWeekToDosDayOfWeek.cs" />
     <Compile Include="Models\Business\CheckCapacitySummaryResult.cs" />

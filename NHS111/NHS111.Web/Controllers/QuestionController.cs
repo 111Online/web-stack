@@ -20,6 +20,7 @@ namespace NHS111.Web.Controllers {
     using AutoMapper;
     using Models.Models.Domain;
     using Models.Models.Web.DosRequests;
+    using Models.Models.Web.FromExternalServices;
     using Newtonsoft.Json;
     using Presentation.Configuration;
     using Presentation.Logging;
@@ -297,7 +298,13 @@ namespace NHS111.Web.Controllers {
         private async Task<ActionResult> DeterminePrepopulatedResultsRoute(OutcomeController controller, OutcomeViewModel outcomeViewModel, DosEndpoint? endpoint = null, DateTime? dosSearchTime = null)
         {
             var dispoWithServicesResult = await controller.DispositionWithServices(outcomeViewModel, "", endpoint, dosSearchTime);
-            
+            var model = (dispoWithServicesResult as ViewResult).Model as OutcomeViewModel;
+            if (!model.DosCheckCapacitySummaryResult.ResultListEmpty) {
+                foreach (var service in model.DosCheckCapacitySummaryResult.Success.Services) {
+                    service.ServiceType = Mapper.Map<ServiceType>(service.ServiceType);
+                }
+            }
+
             if (!OutcomeGroup.UsingRecommendedServiceJourney.Contains(outcomeViewModel.OutcomeGroup) && !outcomeViewModel.OutcomeGroup.IsPrimaryCare)
                 return dispoWithServicesResult;
 

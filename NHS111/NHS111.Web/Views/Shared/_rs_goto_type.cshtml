@@ -6,15 +6,22 @@
 }
 <div class="service-details-container nhsuk-u-margin-bottom-4">
     <div class="service-details">
-        <div class="service-details__address">
-            <p>
-                @WebUtility.HtmlDecode(recommendedService.PublicName)<br />
-                @foreach (var address in recommendedService.AddressLines)
-                {
-                    @WebUtility.HtmlDecode(address)<br />
-                }
-            </p>
-        </div>
+        @if (Model.CurrentView != "../Outcome/Repeat_Prescription/RecommendedServiceNotOffered") {
+
+            <div class="service-details__description">
+                <p style="font-size: 16px">@recommendedService.ServiceType.Description</p>
+                </div>
+            <hr />
+        }
+            <div class="service-details__address">
+                <p>
+                    @WebUtility.HtmlDecode(recommendedService.PublicName)<br />
+                    @foreach (var address in recommendedService.AddressLines)
+                    {
+                        @WebUtility.HtmlDecode(address)<br />
+                    }
+                </p>
+            </div>
         <div class="service-details__hours">
             @Html.Partial("_ServiceOpeningTimes", recommendedService, ViewData)
         </div>
@@ -63,3 +70,10 @@
         window.currentPostcode = "@Html.Raw(Model.CurrentPostcode)";
     </script>
 </div>
+
+@if (Model.CurrentView == "../Outcome/Repeat_Prescription/RecommendedServiceNotOffered")
+{
+    <div>
+        <p>@recommendedService.ServiceType.Description</p>
+    </div>
+}

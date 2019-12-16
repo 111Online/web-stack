@@ -64,6 +64,7 @@
             <details class="service-listing" @(Model.OtherServices.Count() == 1 ? "open" : "")>
                 <summary>
                     <p class="service-listing__name">@WebUtility.HtmlDecode(@service.PublicName)</p>
+                    @*<p>@Html.Raw(service.ServiceType.Description)</p>*@
                     @if (service.OnlineDOSServiceType.Equals(OnlineDOSServiceType.PublicPhone) || service.OnlineDOSServiceType.Equals(OnlineDOSServiceType.Callback))
                     {
                         <p class="service-listing__info">Telephone service</p>
