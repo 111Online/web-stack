@@ -13,24 +13,25 @@
 <div class="cards">
     @foreach (var callbackService in services)
     {
-        <div class="card">
-            <h3>@WebUtility.HtmlDecode(callbackService.PublicName)</h3>
+    <div class="card">
+        <h3>@WebUtility.HtmlDecode(callbackService.PublicName)</h3>
+        <p>@Html.Encode(callbackService.ServiceType.Description)</p>
 
-            @if (!callbackService.IsOpen)
-            {
-                @Html.Partial("_ServiceOpeningTimes", callbackService, ViewData) 
-            }
+        @if (!callbackService.IsOpen)
+        {
+            @Html.Partial("_ServiceOpeningTimes", callbackService, ViewData)
+        }
 
-            @using (Html.BeginForm("PersonalDetails", "PersonalDetails", FormMethod.Post))
-            {
-                @Html.Partial("_CommonHiddenFieldsOutcomeViewModel", Model)
-                @Html.Partial("_CommonHiddenFieldsCareAdviceViewModel", Model)
-                @Html.Hidden("SelectedServiceId", @callbackService.Id)
-               
-                <hr />
-                <button type="submit" name="PersonalDetails" value="Book a call">Book a call</button>
-                
-            }
-        </div>
+        @using (Html.BeginForm("PersonalDetails", "PersonalDetails", FormMethod.Post))
+        {
+            @Html.Partial("_CommonHiddenFieldsOutcomeViewModel", Model)
+            @Html.Partial("_CommonHiddenFieldsCareAdviceViewModel", Model)
+            @Html.Hidden("SelectedServiceId", @callbackService.Id)
+
+            <hr />
+            <button type="submit" name="PersonalDetails" value="Book a call">Book a call</button>
+
+        }
+    </div>
     }
 </div>

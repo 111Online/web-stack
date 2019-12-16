@@ -141,7 +141,13 @@ namespace NHS111.Web.Presentation.Builders
             model.WorseningCareAdvice = await worseningTask;
             model.CareAdvices = await careAdvicesTask;
             model.SurveyLink = await surveyTask;
-            
+
+            if (!model.DosCheckCapacitySummaryResult.ResultListEmpty) {
+                foreach (var service in model.DosCheckCapacitySummaryResult.Success.Services) {
+                    service.ServiceType = Mapper.Map<ServiceType>(service.ServiceType);
+                }
+            }
+
             return model;
         }
 
