@@ -10,6 +10,7 @@ namespace NHS111.Models.Models.Web
         private const string PUBLICPHONE_VIEW_NAME = "_rs_phone_type";
         private const string REFERRINGANDGO_VIEW_NAME = "_rs_refer_ring_and_go";
         private const string ONLINE_VIEW_NAME = "_rs_online_type";
+        private const string ECONSULT_REFERAL_VIEW_NAME = "_rs_econsult_refearal";
         public ServiceTypeMapping(OnlineDOSServiceType typeGroup)
         {
             _typeGroup = typeGroup;
@@ -32,6 +33,7 @@ namespace NHS111.Models.Models.Web
                 if (_typeGroup == OnlineDOSServiceType.Written) return ONLINE_VIEW_NAME;
                 if (_typeGroup == OnlineDOSServiceType.Telephone) return ONLINE_VIEW_NAME;
                 if (_typeGroup == OnlineDOSServiceType.EncounterReport) return ONLINE_VIEW_NAME;
+                if (_typeGroup == OnlineDOSServiceType.EConsultReferal) return ECONSULT_REFERAL_VIEW_NAME;
 
                 throw new InvalidOperationException("Unknown servicetype with no mapped renderer specified.");
             }

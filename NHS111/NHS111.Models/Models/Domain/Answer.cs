@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Text.RegularExpressions;
 using Newtonsoft.Json;
 using NHS111.Models.Mappers;
 
@@ -15,12 +16,24 @@ namespace NHS111.Models.Models.Domain
         [JsonProperty(PropertyName = "id")]
         public string Id { get; set; }
 
+
+        [JsonProperty(PropertyName = "titleHtmlStripped")]
+        public string TitleHtmlStripped
+        {
+            get
+            {
+                if (String.IsNullOrEmpty(Title)) return Title;
+                return Regex.Replace(Title, "<[a-zA-Z/].*?>", String.Empty);
+            }
+        }
+
+
         [JsonProperty(PropertyName = "titleWithoutSpaces")]
         public string TitleWithoutSpaces {
             get
             {
                 if (!String.IsNullOrEmpty(Id)) return Id;
-                return Title != null ? Title.Replace(" ", string.Empty) : string.Empty;
+                return TitleHtmlStripped != null ? TitleHtmlStripped.Replace(" ", string.Empty) : string.Empty;
             } }
 
         [JsonProperty(PropertyName = "symptomDiscriminator")]
