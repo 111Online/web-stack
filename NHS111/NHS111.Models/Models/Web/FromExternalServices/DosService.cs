@@ -21,7 +21,7 @@ namespace NHS111.Models.Models.Web.FromExternalServices
         }
 
         [JsonProperty(PropertyName = "idField")]
-        public int Id { get; set; }
+        public string Id { get; set; }
 
         [JsonProperty(PropertyName = "nameField")]
         public string Name { get; set; }

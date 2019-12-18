@@ -47,7 +47,7 @@ namespace NHS111.Models.Test.Mappers.WebMappings
                 {
                     Success = new SuccessObject<ServiceViewModel>()
                     {
-                        Services = new List<ServiceViewModel>() { new ServiceViewModel() { Id = 1, PostCode = "So30 2un" } }
+                        Services = new List<ServiceViewModel>() { new ServiceViewModel() { Id = "1", PostCode = "So30 2un" } }
                     }
                 },
                 SelectedServiceId = "1",
@@ -91,7 +91,7 @@ namespace NHS111.Models.Test.Mappers.WebMappings
                 {
                     Success = new SuccessObject<ServiceViewModel>()
                     {
-                        Services = new List<ServiceViewModel>() { new ServiceViewModel() { Id = 1, PostCode = "So30 2un" } }
+                        Services = new List<ServiceViewModel>() { new ServiceViewModel() { Id = "1", PostCode = "So30 2un" } }
                     }
                 },
                 SelectedServiceId = "1",
@@ -136,7 +136,7 @@ namespace NHS111.Models.Test.Mappers.WebMappings
                 {
                     Success = new SuccessObject<ServiceViewModel>()
                     {
-                        Services = new List<ServiceViewModel>() { new ServiceViewModel() { Id = 1, PostCode = "So30 2un" } }
+                        Services = new List<ServiceViewModel>() { new ServiceViewModel() { Id = "1", PostCode = "So30 2un" } }
                     }
                 },
                 SelectedServiceId = "1",
@@ -235,7 +235,7 @@ namespace NHS111.Models.Test.Mappers.WebMappings
                 {
                     Success = new SuccessObject<ServiceViewModel>()
                     {
-                        Services = new List<ServiceViewModel>() { new ServiceViewModel() { Id = 1, PostCode = "So30 2un" } }
+                        Services = new List<ServiceViewModel>() { new ServiceViewModel() { Id = "1", PostCode = "So30 2un" } }
                     }
                 },
                 SelectedServiceId = "1",
@@ -283,7 +283,7 @@ namespace NHS111.Models.Test.Mappers.WebMappings
                 {
                     Success = new SuccessObject<ServiceViewModel>()
                     {
-                        Services = new List<ServiceViewModel>() { new ServiceViewModel() { Id = 1, PostCode = "So30 2un" } }
+                        Services = new List<ServiceViewModel>() { new ServiceViewModel() { Id = "1", PostCode = "So30 2un" } }
                     }
                 },
                 SelectedServiceId = "1",

@@ -31,7 +31,7 @@ namespace NHS111.Web.Presentation.Test.Controllers {
         private DosCheckCapacitySummaryResult _successfulDosResponse = new DosCheckCapacitySummaryResult
         {
             Success = new SuccessObject<ServiceViewModel>
-                { Services = new List<ServiceViewModel> { new ServiceViewModel { Id = 123 } } }
+                { Services = new List<ServiceViewModel> { new ServiceViewModel { Id = "123" } } }
         };
 
         [SetUp]
@@ -71,7 +71,7 @@ namespace NHS111.Web.Presentation.Test.Controllers {
             model.DosCheckCapacitySummaryResult.Success = new SuccessObject<ServiceViewModel>();
             model.DosCheckCapacitySummaryResult.Success.Services = new List<ServiceViewModel>();
             ServiceViewModel svm = new ServiceViewModel
-                {Id = 123456, OnlineDOSServiceType = OnlineDOSServiceType.PublicPhone};
+                {Id = "123456", OnlineDOSServiceType = OnlineDOSServiceType.PublicPhone};
             model.DosCheckCapacitySummaryResult.Success.Services.Add(svm);
 
             _outcomeController.AutoSelectFirstItkService(model);
@@ -85,11 +85,11 @@ namespace NHS111.Web.Presentation.Test.Controllers {
             model.DosCheckCapacitySummaryResult.Success = new SuccessObject<ServiceViewModel>();
             model.DosCheckCapacitySummaryResult.Success.Services = new List<ServiceViewModel>();
             ServiceViewModel svm = new ServiceViewModel
-                {Id = 123456, OnlineDOSServiceType = OnlineDOSServiceType.Callback};
+                {Id = "123456", OnlineDOSServiceType = OnlineDOSServiceType.Callback};
             model.DosCheckCapacitySummaryResult.Success.Services.Add(svm);
 
             _outcomeController.AutoSelectFirstItkService(model);
-            Assert.AreEqual(123456, model.SelectedService.Id);
+            Assert.AreEqual("123456", model.SelectedService.Id);
         }
 
         [Test]
@@ -99,14 +99,14 @@ namespace NHS111.Web.Presentation.Test.Controllers {
             model.DosCheckCapacitySummaryResult.Success = new SuccessObject<ServiceViewModel>();
             model.DosCheckCapacitySummaryResult.Success.Services = new List<ServiceViewModel>();
             ServiceViewModel svm1 = new ServiceViewModel
-                {Id = 987654, OnlineDOSServiceType = OnlineDOSServiceType.PublicPhone};
+                {Id = "987654", OnlineDOSServiceType = OnlineDOSServiceType.PublicPhone};
             ServiceViewModel svm2 = new ServiceViewModel
-                {Id = 123456, OnlineDOSServiceType = OnlineDOSServiceType.Callback};
+                {Id = "123456", OnlineDOSServiceType = OnlineDOSServiceType.Callback};
             model.DosCheckCapacitySummaryResult.Success.Services.Add(svm1);
             model.DosCheckCapacitySummaryResult.Success.Services.Add(svm2);
 
             _outcomeController.AutoSelectFirstItkService(model);
-            Assert.AreEqual(123456, model.SelectedService.Id);
+            Assert.AreEqual("123456", model.SelectedService.Id);
         }
 
         [Test]
@@ -116,14 +116,14 @@ namespace NHS111.Web.Presentation.Test.Controllers {
             model.DosCheckCapacitySummaryResult.Success = new SuccessObject<ServiceViewModel>();
             model.DosCheckCapacitySummaryResult.Success.Services = new List<ServiceViewModel>();
             ServiceViewModel svm1 = new ServiceViewModel
-                {Id = 987654, OnlineDOSServiceType = OnlineDOSServiceType.Callback};
+                {Id = "987654", OnlineDOSServiceType = OnlineDOSServiceType.Callback};
             ServiceViewModel svm2 = new ServiceViewModel
-                {Id = 123456, OnlineDOSServiceType = OnlineDOSServiceType.Callback};
+                {Id = "123456", OnlineDOSServiceType = OnlineDOSServiceType.Callback};
             model.DosCheckCapacitySummaryResult.Success.Services.Add(svm1);
             model.DosCheckCapacitySummaryResult.Success.Services.Add(svm2);
 
             _outcomeController.AutoSelectFirstItkService(model);
-            Assert.AreEqual(987654, model.SelectedService.Id);
+            Assert.AreEqual("987654", model.SelectedService.Id);
         }
 
         [Test]

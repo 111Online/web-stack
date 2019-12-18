@@ -65,6 +65,7 @@ namespace NHS111.Web.Presentation.Builders.Tests
             _expectedBusinessApiPathwaySymptomGroupUrl = "http://Test.ApiPathwaySymptomGroupUrl.com/" + _mockPathwayURL;
             _mockConfiguration.Setup(c => c.GetBusinessApiPathwaySymptomGroupUrl(_mockPathwayURL)).Returns(_expectedBusinessApiPathwaySymptomGroupUrl);
             _mockConfiguration.Setup(c => c.DOSWhitelist).Returns("Service 1|Service 2");
+            _mockConfiguration.Setup(c => c.BusinessDosApiCheckServicesUrl).Returns("$check-services/{0}");
         }
 
         private void SetupMockFillCareAdviceBuilder()
@@ -122,12 +123,12 @@ namespace NHS111.Web.Presentation.Builders.Tests
         public void FillGroupedDosServices_WithSingleService_ReturnsIteminList()
         {
             var emptyServiceList =
-                new List<ServiceViewModel>() {new ServiceViewModel() { OnlineDOSServiceType = OnlineDOSServiceType.Callback, Id = 1}};
+                new List<ServiceViewModel>() {new ServiceViewModel() { OnlineDOSServiceType = OnlineDOSServiceType.Callback, Id = "1"}};
             var groupedDosServices = _dosBuilder.FillGroupedDosServices(emptyServiceList);
             Assert.IsTrue(groupedDosServices.Count == 1);
             Assert.AreEqual(OnlineDOSServiceType.Callback, groupedDosServices.FirstOrDefault().OnlineDOSServiceType);
             Assert.IsTrue(groupedDosServices.FirstOrDefault().Services.Count() ==1);
-            Assert.AreEqual(1, groupedDosServices.FirstOrDefault().Services.FirstOrDefault().Id);
+            Assert.AreEqual("1", groupedDosServices.FirstOrDefault().Services.FirstOrDefault().Id);
         }
 
         [Test]
@@ -136,10 +137,10 @@ namespace NHS111.Web.Presentation.Builders.Tests
             var emptyServiceList =
                 new List<ServiceViewModel>()
                 {
-                    new ServiceViewModel() { OnlineDOSServiceType = OnlineDOSServiceType.Callback, Id = 1 },
-                    new ServiceViewModel() { OnlineDOSServiceType = OnlineDOSServiceType.Callback, Id = 2 },
-                    new ServiceViewModel() { OnlineDOSServiceType = OnlineDOSServiceType.PublicPhone, Id = 3, ContactDetails = "02380123456"},
-                    new ServiceViewModel() { OnlineDOSServiceType = OnlineDOSServiceType.GoTo, Id = 4, }
+                    new ServiceViewModel() { OnlineDOSServiceType = OnlineDOSServiceType.Callback, Id = "1" },
+                    new ServiceViewModel() { OnlineDOSServiceType = OnlineDOSServiceType.Callback, Id = "2" },
+                    new ServiceViewModel() { OnlineDOSServiceType = OnlineDOSServiceType.PublicPhone, Id = "3", ContactDetails = "02380123456"},
+                    new ServiceViewModel() { OnlineDOSServiceType = OnlineDOSServiceType.GoTo, Id = "4", }
                 };
             var groupedDosServices = _dosBuilder.FillGroupedDosServices(emptyServiceList);
             Assert.IsTrue(groupedDosServices.Count == 3);
@@ -151,9 +152,9 @@ namespace NHS111.Web.Presentation.Builders.Tests
             Assert.AreEqual(1, groupedDosServices[1].Services.Count());
             Assert.AreEqual(1, groupedDosServices[2].Services.Count());
 
-            Assert.IsTrue(groupedDosServices[0].Services.Any(s => s.Id == 2));
-            Assert.IsTrue(groupedDosServices[1].Services.All(s => s.Id == 3));
-            Assert.IsTrue(groupedDosServices[2].Services.All(s => s.Id == 4));
+            Assert.IsTrue(groupedDosServices[0].Services.Any(s => s.Id == "2"));
+            Assert.IsTrue(groupedDosServices[1].Services.All(s => s.Id == "3"));
+            Assert.IsTrue(groupedDosServices[2].Services.All(s => s.Id == "4"));
         }
 
         [Test]
@@ -184,13 +185,13 @@ namespace NHS111.Web.Presentation.Builders.Tests
             var emptyServiceList =
                 new List<ServiceViewModel>()
                 {
-                    new ServiceViewModel() { OnlineDOSServiceType = OnlineDOSServiceType.PublicPhone, Id = 1, ContactDetails = "02380123456"},
-                    new ServiceViewModel() { OnlineDOSServiceType = OnlineDOSServiceType.Callback, Id = 2 },
-                    new ServiceViewModel() { OnlineDOSServiceType = OnlineDOSServiceType.Callback, Id = 3 },
-                    new ServiceViewModel() { OnlineDOSServiceType = OnlineDOSServiceType.PublicPhone, Id = 4, ContactDetails = "02380123456"},
-                    new ServiceViewModel() { OnlineDOSServiceType = OnlineDOSServiceType.GoTo, Id = 5, },
-                    new ServiceViewModel() { OnlineDOSServiceType = OnlineDOSServiceType.Callback, Id = 6 },
-                    new ServiceViewModel() { OnlineDOSServiceType = OnlineDOSServiceType.GoTo, Id = 7, }
+                    new ServiceViewModel() { OnlineDOSServiceType = OnlineDOSServiceType.PublicPhone, Id = "1", ContactDetails = "02380123456"},
+                    new ServiceViewModel() { OnlineDOSServiceType = OnlineDOSServiceType.Callback, Id = "2" },
+                    new ServiceViewModel() { OnlineDOSServiceType = OnlineDOSServiceType.Callback, Id = "3" },
+                    new ServiceViewModel() { OnlineDOSServiceType = OnlineDOSServiceType.PublicPhone, Id = "4", ContactDetails = "02380123456"},
+                    new ServiceViewModel() { OnlineDOSServiceType = OnlineDOSServiceType.GoTo, Id = "5", },
+                    new ServiceViewModel() { OnlineDOSServiceType = OnlineDOSServiceType.Callback, Id = "6" },
+                    new ServiceViewModel() { OnlineDOSServiceType = OnlineDOSServiceType.GoTo, Id = "7", }
                 };
             var groupedDosServices = _dosBuilder.FillGroupedDosServices(emptyServiceList);
             Assert.IsTrue(groupedDosServices.Count == 3);
@@ -202,13 +203,13 @@ namespace NHS111.Web.Presentation.Builders.Tests
             Assert.AreEqual(3, groupedDosServices[1].Services.Count());
             Assert.AreEqual(2, groupedDosServices[2].Services.Count());
 
-            Assert.AreEqual(1, groupedDosServices[0].Services.ToList()[0].Id);
-            Assert.AreEqual(4, groupedDosServices[0].Services.ToList()[1].Id);
-            Assert.AreEqual(2, groupedDosServices[1].Services.ToList()[0].Id);
-            Assert.AreEqual(3, groupedDosServices[1].Services.ToList()[1].Id);
-            Assert.AreEqual(6, groupedDosServices[1].Services.ToList()[2].Id);
-            Assert.AreEqual(5, groupedDosServices[2].Services.ToList()[0].Id);
-            Assert.AreEqual(7, groupedDosServices[2].Services.ToList()[1].Id);
+            Assert.AreEqual("1", groupedDosServices[0].Services.ToList()[0].Id);
+            Assert.AreEqual("4", groupedDosServices[0].Services.ToList()[1].Id);
+            Assert.AreEqual("2", groupedDosServices[1].Services.ToList()[0].Id);
+            Assert.AreEqual("3", groupedDosServices[1].Services.ToList()[1].Id);
+            Assert.AreEqual("6", groupedDosServices[1].Services.ToList()[2].Id);
+            Assert.AreEqual("5", groupedDosServices[2].Services.ToList()[0].Id);
+            Assert.AreEqual("7", groupedDosServices[2].Services.ToList()[1].Id);
         }
 
 

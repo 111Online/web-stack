@@ -127,11 +127,11 @@ namespace NHS111.Models.Test.Models.Web.FromExternalServices {
             var sut = new DosCheckCapacitySummaryResult {
                 Success = new SuccessObject<ServiceViewModel> {
                     Services = new List<ServiceViewModel> {
-                        new ServiceViewModel { Id = 123}
+                        new ServiceViewModel { Id = "123"}
                     }
                 }
             };
-            Assert.True(sut.ContainsService(new ServiceViewModel { Id = 123 }));
+            Assert.True(sut.ContainsService(new ServiceViewModel { Id = "123" }));
         }
 
 
