@@ -45,7 +45,7 @@ namespace NHS111.Models.Models.Web
         {
             get
             {
-                return DosCheckCapacitySummaryResult.Success != null ? DosCheckCapacitySummaryResult.Success.Services.FirstOrDefault(s => s.Id == Convert.ToInt32(SelectedServiceId)) : null;
+                return DosCheckCapacitySummaryResult.Success != null ? DosCheckCapacitySummaryResult.Success.Services.FirstOrDefault(s => s.Id == SelectedServiceId) : null;
             }
         }
 

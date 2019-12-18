@@ -32,6 +32,7 @@ namespace NHS111.Models.Models.Web
                 if (_typeGroup == OnlineDOSServiceType.Video) return ONLINE_VIEW_NAME;
                 if (_typeGroup == OnlineDOSServiceType.Written) return ONLINE_VIEW_NAME;
                 if (_typeGroup == OnlineDOSServiceType.Telephone) return ONLINE_VIEW_NAME;
+                if (_typeGroup == OnlineDOSServiceType.EncounterReport) return ONLINE_VIEW_NAME;
                 if (_typeGroup == OnlineDOSServiceType.EConsultReferal) return ECONSULT_REFERAL_VIEW_NAME;
 
                 throw new InvalidOperationException("Unknown servicetype with no mapped renderer specified.");
