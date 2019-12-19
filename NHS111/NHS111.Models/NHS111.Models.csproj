@@ -240,6 +240,7 @@
     <Compile Include="Models\Web\DosRequests\DosRequest.cs" />
     <Compile Include="Models\Web\DosRequests\DosServiceDetailsByIdRequest.cs" />
     <Compile Include="Models\Web\DosRequests\DosServicesByClinicalTermRequest.cs" />
+    <Compile Include="Models\Web\Encounter\EncounterReport.cs" />
     <Compile Include="Models\Web\FeedbackViewModel.cs" />
     <Compile Include="Models\Web\FromExternalServices\AddressLocationResult.cs" />
     <Compile Include="Models\Web\FromExternalServices\CheckCapacitySummaryResponse.cs" />

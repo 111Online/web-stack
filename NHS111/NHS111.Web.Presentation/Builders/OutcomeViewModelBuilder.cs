@@ -9,6 +9,7 @@ using NHS111.Models.Models.Domain;
 using NHS111.Models.Models.Web;
 using NHS111.Models.Models.Web.Book;
 using NHS111.Models.Models.Web.DosRequests;
+using NHS111.Models.Models.Web.Encounter;
 using NHS111.Models.Models.Web.FromExternalServices;
 using NHS111.Models.Models.Web.ITK;
 using NHS111.Utils.Logging;
@@ -224,6 +225,21 @@ namespace NHS111.Web.Presentation.Builders
             return itkResponseModel;
         }
 
+        public async Task<string> BuildRedirectUrl(OutcomeViewModel model)
+        {
+            var encounterReport = new EncounterReport
+            {
+                Id  = model.PathwayId,
+                EncounterId = model.JourneyId.ToString(),
+                ServiceId = model.SelectedServiceId
+            };
+            var sendReportUrl = _configuration.BusinessEncounterApiSendUrl;
+            var request = new JsonRestRequest(sendReportUrl, Method.POST);
+            request.AddJsonBody(encounterReport);
+            var response = await _restClient.ExecuteTaskAsync(request);
+            return response.Content;
+        }
+
         private static bool IsDuplicateResponse(IRestResponse response)
         {
             return response.StatusCode == System.Net.HttpStatusCode.Conflict;
@@ -349,5 +365,6 @@ namespace NHS111.Web.Presentation.Builders
         Task<OutcomeViewModel> PrimaryCareBuilder(OutcomeViewModel model, string reason);
         Task<OutcomeViewModel> PopulateGroupedDosResults(OutcomeViewModel model, DateTime? overrideDate, bool? overrideFilterServices, DosEndpoint? endpoint);
         Task<PersonalDetailViewModel> BuildPersonalDetailsViewModel(OutcomeViewModel model);
+        Task<string> BuildRedirectUrl(OutcomeViewModel model);
     }
 }

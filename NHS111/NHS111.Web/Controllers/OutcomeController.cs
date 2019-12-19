@@ -149,6 +149,14 @@ namespace NHS111.Web.Controllers
             return View(appointmentsViewModel);
         }
 
+        [HttpPost]
+        public async Task<ActionResult> SendEncounterReport(OutcomeViewModel outcomeModel)
+        {
+            ModelState.Clear();
+            var redirectUri = await _outcomeViewModelBuilder.BuildRedirectUrl(outcomeModel);
+            return Redirect(JsonConvert.DeserializeObject<string>(redirectUri));
+        }
+
         [HttpGet]
         [Route("outcome/disposition/{age?}/{gender?}/{dxCode?}/{symptomGroup?}/{symptomDiscriminator?}")]
         public ActionResult Disposition(int? age, string gender, string dxCode, string symptomGroup,

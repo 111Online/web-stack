@@ -20,6 +20,7 @@ namespace NHS111.Web.Presentation.Configuration
         public string BusinessDosApiCheckServicesUrl { get { return ConfigurationManager.AppSettings["BusinessDosApiCheckServicesUrl"]; } }
         public string BusinessSlotApiGetUrl { get { return ConfigurationManager.AppSettings["BusinessSlotApiGetUrl"]; } }
         public string BusinessSlotApiBookUrl { get { return ConfigurationManager.AppSettings["BusinessSlotApiBookUrl"]; } }
+        public string BusinessEncounterApiSendUrl { get { return ConfigurationManager.AppSettings["BusinessEncounterApiSendUrl"]; } }
 
 
         public string FeedbackApiBaseUrl { get { return ConfigurationManager.AppSettings["FeedbackApiBaseUrl"]; } }
@@ -275,6 +276,7 @@ namespace NHS111.Web.Presentation.Configuration
         string BusinessDosApiCheckServicesUrl { get; }
         string BusinessSlotApiGetUrl { get; }
         string BusinessSlotApiBookUrl { get; }
+        string BusinessEncounterApiSendUrl { get; }
         string FeedbackApiBaseUrl { get; }
         string FeedbackAddFeedbackUrl { get; }
         string FeedbackDeleteFeedbackUrl { get; }
