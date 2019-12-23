@@ -83,6 +83,21 @@ namespace NHS111.Models.Mappers.WebMappings
 
                 return source;
             }
+
+            public static bool IsDOSRetry(string dxCode)
+            {
+                var mappingsForDxDosRetry = ConfigurationManager.AppSettings["ValidationDxRetry"];
+                if (mappingsForDxDosRetry != null)
+                {
+                    var remappedCodes = mappingsForDxDosRetry.Split(',');
+                    if (remappedCodes.Contains(dxCode))
+                        return true;
+                }
+
+                return false;
+            }
+
+
         }
 
         public class PostcodeResolver : ValueResolver<UserInfo, string>
