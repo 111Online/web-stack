@@ -81,7 +81,8 @@ namespace NHS111.Web.Presentation.Builders.Tests
                 .Callback<DosViewModel, bool, DosEndpoint?>((m, f, e) => _sentDispositions.Add(m.Disposition))
                 .Returns(Task.FromResult(new DosCheckCapacitySummaryResult()));
 
-            ConfigurationManager.AppSettings["EDCallbackDxCodes"] = "Dx02";
+            ConfigurationManager.AppSettings["ValidationDxRemap"] = "Dx02:Dx333";
+            ConfigurationManager.AppSettings["ValidationDxRetry"] = "Dx02";
             _model = new OutcomeViewModel {
                 Id = "Dx02",
                 SymptomDiscriminatorCode = "1",
