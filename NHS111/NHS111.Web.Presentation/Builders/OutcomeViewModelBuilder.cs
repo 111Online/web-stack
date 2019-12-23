@@ -149,7 +149,7 @@ namespace NHS111.Web.Presentation.Builders
         {
             return (!model.HasAcceptedCallbackOffer.HasValue || !model.HasAcceptedCallbackOffer.Value) &&
                    (model.OutcomeGroup.Equals(OutcomeGroup.AccidentAndEmergency) || model.OutcomeGroup.Equals(OutcomeGroup.MentalHealth)) &&
-                   FromOutcomeViewModelToDosViewModel.DispositionResolver.IsRemappedToDx334(model.Id) &&
+                   FromOutcomeViewModelToDosViewModel.DispositionResolver.IsDOSRetry(model.Id) &&
                    !model.DosCheckCapacitySummaryResult.HasITKServices;
         }
 
