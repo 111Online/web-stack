@@ -73,39 +73,17 @@ namespace NHS111.Models.Mappers.WebMappings
             }
 
             public static string Remap(string source) {
-                if (IsRemappedToDx333(source))
-                    return "Dx333";
 
-                if (IsRemappedToDx334(source))
-                    return "Dx334";
+                var dictionary = ConfigurationManager.AppSettings["ValidationDxRemap"].Split(',').ToDictionary(k => k.Split(':').First(), v => v.Split(':').Last());
+
+                if (dictionary.ContainsKey(source))
+                {
+                    return dictionary[source];
+                }
 
                 return source;
             }
-
-            public static bool IsRemappedToDx333(string dxCode) {
-                var mappingsForDx333 = ConfigurationManager.AppSettings["Cat3And4DxCodes"];
-                if (mappingsForDx333 != null) {
-                    var remapped333Codes = mappingsForDx333.Split(',');
-                    if (remapped333Codes.Contains(dxCode))
-                        return true;
-                }
-
-                return false;
-            }
-
-            public static bool IsRemappedToDx334(string dxCode) {
-                var mappingsForDx334 = ConfigurationManager.AppSettings["EDCallbackDxCodes"];
-                if (mappingsForDx334 != null) {
-                    var remapped334Codes = mappingsForDx334.Split(',');
-                    if (remapped334Codes.Contains(dxCode))
-                        return true;
-                }
-
-                return false;
-            }
-
         }
-
 
         public class PostcodeResolver : ValueResolver<UserInfo, string>
         {
