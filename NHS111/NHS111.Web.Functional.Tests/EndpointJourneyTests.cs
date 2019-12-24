@@ -201,7 +201,6 @@ namespace NHS111.Web.Functional.Tests
                 .Answer(5)
                 .AnswerSuccessiveByOrder(3, 2)
                 .Answer(3)
-                .Answer(3)
                 .Answer<OutcomePage>(1);
 
             outcomePage.VerifyOutcome("Contact your GP if you don't feel better in a few days");

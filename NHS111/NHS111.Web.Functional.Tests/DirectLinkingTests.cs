@@ -43,7 +43,7 @@ namespace NHS111.Web.Functional.Tests
             public void Correct999Service()
             {
                 // 999 Validation page shows with correct service
-                var directLink = TestScenarioPart.DirectLinking(Driver, "/question/direct/PW755MaleAdult/20/Headache/AL7 4HL/?answers=0,0,0,2,0,0&dos=uat");
+                var directLink = TestScenarioPart.DirectLinking(Driver, "/question/direct/PW755MaleAdult/20/Headache/AL7 4HL/?answers=0,0,0,2,0,0");
                 directLink.VerifyBookACall("2000011053");
             }
 
@@ -85,7 +85,7 @@ namespace NHS111.Web.Functional.Tests
             [Test]
             public void NoRecommendedServicesPage()
             {
-                var directLink = TestScenarioPart.DirectLinking(Driver, "/question/direct/PW1827MaleAdult/33/Emergency%20Prescription%20111%20online/LS175DT/?answers=0,1,0");
+                var directLink = TestScenarioPart.DirectLinking(Driver, "/question/direct/PW1827MaleAdult/33/Emergency%20Prescription%20111%20online/LS175DT/?answers=0,1,0&dossearchdatetime=2020-02-01 23:30");
                 directLink.VerifyNoRecommendedServices();
             }
 
