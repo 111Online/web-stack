@@ -58,7 +58,7 @@ using NUnit.Framework;
         public void FromOutcomeViewModelToDosViewModelConverter_WithCat3DxCode_RemapsToDx333() {
             _minimumViableOutcomeViewModel.Id = "Dx012";
             _minimumViableOutcomeViewModel.HasAcceptedCallbackOffer = true;
-            ConfigurationManager.AppSettings["Cat3And4DxCodes"] = "Dx012";
+            ConfigurationManager.AppSettings["ValidationDxRemap"] = "Dx012:Dx333";
             var result = Mapper.Map<CaseDetails>(_minimumViableOutcomeViewModel);
 
             Assert.AreEqual("Dx333", result.DispositionCode);
@@ -69,7 +69,7 @@ using NUnit.Framework;
             _minimumViableOutcomeViewModel.Id = "Dx02";
             _minimumViableOutcomeViewModel.HasAcceptedCallbackOffer = true;
 
-            ConfigurationManager.AppSettings["EDCallbackDxCodes"] = "Dx02";
+            ConfigurationManager.AppSettings["ValidationDxRemap"] = "Dx02:Dx334";
             var result = Mapper.Map<CaseDetails>(_minimumViableOutcomeViewModel);
 
             Assert.AreEqual("Dx334", result.DispositionCode);
