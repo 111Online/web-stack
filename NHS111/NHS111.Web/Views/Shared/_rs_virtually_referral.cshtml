@@ -1,5 +1,4 @@
-﻿@using Newtonsoft.Json
-@using NHS111.Models.Models.Web
+﻿@using NHS111.Models.Models.Web
 @using NHS111.Models.Models.Web.Elements
 @model  OutcomeViewModel
 @{
@@ -8,18 +7,20 @@
 
 
 <div class="service-details nhsuk-u-margin-bottom-4">
-    @using (Html.BeginForm("SendEncounterReport", "Outcome", FormMethod.Post))
+    @using (Html.BeginForm("PersonalDetails", "PersonalDetails", FormMethod.Post))
     {
         @Html.Partial("_CommonHiddenFieldsOutcomeViewModel", Model)
         @Html.Partial("_CommonHiddenFieldsCareAdviceViewModel", Model)
-        @Html.Hidden("SelectedServiceId", recommendedService.Id)
 
         <p class="service-details__name">
             @WebUtility.HtmlDecode(recommendedService.PublicName)
         </p>
+        <p>
+            @Html.Partial("_ServiceOpeningTimes", recommendedService, ViewData)
+        </p>
         <p class="service-details__hint measure">
             @recommendedService.ReasonText
         </p>
-        @Html.Partial("_ActionButton", new ActionLinkViewModel() { Text = "Use this service" })
+        <button type="submit" name="selectedHealthCareServiceId" id="@recommendedService.Id" value="@recommendedService.Id" class="button--link">Use this service</button>
     }
 </div>
