@@ -26,7 +26,7 @@ namespace NHS111.Models.Models.Web.FromExternalServices
         public bool IsValidationRequery { get; set; }
 
         public bool ContainsService(DosService selectedService) {
-            return !ResultListEmpty && selectedService != null && Success.Services.Exists(s => s.Id == selectedService.Id);
+            return !ResultListEmpty && selectedService != null && (Success.Services.Exists(s => s.Id == selectedService.Id) || Success.Services.Exists(s => s.PublicName == "encounterReportPath"));
         }
     }
 }

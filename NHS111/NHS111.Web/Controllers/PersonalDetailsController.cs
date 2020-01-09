@@ -38,9 +38,13 @@ namespace NHS111.Web.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> PersonalDetails(PersonalDetailViewModel model, string slotId)
+        public async Task<ActionResult> PersonalDetails(PersonalDetailViewModel model, string slotId, string selectedHealthCareServiceId)
         {
             ModelState.Clear();
+
+            if (!string.IsNullOrEmpty(selectedHealthCareServiceId))
+                model.SelectedServiceId = selectedHealthCareServiceId;
+
             _auditLogger.LogSelectedService(model);
 
             model.SelectedSlotId = slotId;

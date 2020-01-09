@@ -243,7 +243,7 @@ namespace NHS111.Web.Controllers
                         var personalDetailsController = DependencyResolver.Current.GetService<PersonalDetailsController>();
                         personalDetailsController.ControllerContext = new ControllerContext(ControllerContext.RequestContext, personalDetailsController);
 
-                        return await personalDetailsController.PersonalDetails(Mapper.Map<PersonalDetailViewModel>(model), string.Empty);
+                        return await personalDetailsController.PersonalDetails(Mapper.Map<PersonalDetailViewModel>(model), string.Empty, string.Empty);
                     }
                 }
 
@@ -261,7 +261,6 @@ namespace NHS111.Web.Controllers
                     } else {
                         otherServicesModel.OtherServices = otherServices;
                     }
-
                     return View("~\\Views\\Outcome\\Repeat_Prescription\\RecommendedServiceOtherServices.cshtml", otherServicesModel);
                 }
 
@@ -336,7 +335,7 @@ namespace NHS111.Web.Controllers
                         var personalDetailsController = DependencyResolver.Current.GetService<PersonalDetailsController>();
                         personalDetailsController.ControllerContext = new ControllerContext(ControllerContext.RequestContext, personalDetailsController);
 
-                        return await personalDetailsController.PersonalDetails(Mapper.Map<PersonalDetailViewModel>(model), string.Empty);
+                        return await personalDetailsController.PersonalDetails(Mapper.Map<PersonalDetailViewModel>(model), string.Empty, string.Empty);
                     }
                 }
                 return View("~\\Views\\Outcome\\ServiceDetails.cshtml", model);
@@ -360,6 +359,10 @@ namespace NHS111.Web.Controllers
             if (availableServices.ContainsService(model.SelectedService))
             {
                 var outcomeViewModel = ConvertPatientInformantDateToUserinfo(model.PatientInformantDetails, model);
+
+                if (model.PathwayNo == "PW854")
+                    return await SendEncounterReport(model);
+
                 var itkConfirmationViewModel = string.IsNullOrEmpty(model.SelectedSlotId)
                     ? await _outcomeViewModelBuilder.ItkResponseBuilder(outcomeViewModel) 
                     : await _outcomeViewModelBuilder.BookAppointmentResponseBuilder(model);
@@ -431,7 +434,7 @@ namespace NHS111.Web.Controllers
                     var personalDetailsController = DependencyResolver.Current.GetService<PersonalDetailsController>();
                     personalDetailsController.ControllerContext = new ControllerContext(ControllerContext.RequestContext, personalDetailsController);
 
-                    return await personalDetailsController.PersonalDetails(Mapper.Map<PersonalDetailViewModel>(model), string.Empty);
+                    return await personalDetailsController.PersonalDetails(Mapper.Map<PersonalDetailViewModel>(model), string.Empty, String.Empty);
                 }
             }
 
