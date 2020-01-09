@@ -48,6 +48,22 @@ namespace NHS111.Web.Functional.Tests
         }
 
         [Test]
+        public void Call999EndpointJourneyCAT1()
+        {
+            var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Skin Problems", TestScenerioSex.Male, TestScenerioAgeGroups.Adult);
+
+            questionPage.VerifyQuestion("What is the main problem?");
+            var outcomePage = questionPage
+                .Answer(1)
+                .Answer(3)
+                .AnswerSuccessiveByOrder(1, 2)
+                .Answer<OutcomePage>(1);
+
+            outcomePage.VerifyOutcome("Phone 999 now for an ambulance");
+            outcomePage.CompareAndVerify(outcomePage, "1");
+        }
+
+        [Test]
         public void PharmacyEndpointJourney()
         {
             var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Eye or Eyelid Problems", TestScenerioSex.Male, TestScenerioAgeGroups.Adult);
