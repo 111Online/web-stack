@@ -15,9 +15,6 @@
         <p class="service-details__name">
             @WebUtility.HtmlDecode(recommendedService.PublicName)
         </p>
-        <p>
-            @Html.Partial("_ServiceOpeningTimes", recommendedService, ViewData)
-        </p>
         <p class="service-details__hint measure">
             @recommendedService.ReasonText
         </p>
