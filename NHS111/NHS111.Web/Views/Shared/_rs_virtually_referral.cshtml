@@ -11,6 +11,7 @@
     {
         @Html.Partial("_CommonHiddenFieldsOutcomeViewModel", Model)
         @Html.Partial("_CommonHiddenFieldsCareAdviceViewModel", Model)
+        @Html.Hidden("selectedHealthCareServiceId", recommendedService.Id)
 
         <p class="service-details__name">
             @WebUtility.HtmlDecode(recommendedService.PublicName)
@@ -18,6 +19,6 @@
         <p class="service-details__hint measure">
             @recommendedService.ReasonText
         </p>
-        <button type="submit" name="selectedHealthCareServiceId" id="@recommendedService.Id" value="@recommendedService.Id" class="button--link">Use this service</button>
+        @Html.Partial("_ActionButton", new ActionLinkViewModel() { Text = "Use this service" })
     }
 </div>
