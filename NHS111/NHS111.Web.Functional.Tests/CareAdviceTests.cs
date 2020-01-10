@@ -31,5 +31,21 @@ namespace NHS111.Web.Functional.Tests
 
             outcomePage.VerifyCareAdvice(new [] { "Medication, pain and/or fever", "Fever" });
         }
+        [Test]
+        //Ensures that Medication, pain and/or fever care advice is not additionally included in results
+        public void CareAdvice_stem_is_no_longer_removed()
+        {
+            var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Vaginal Discharge", TestScenerioSex.Female, 30);
+
+            var outcomePage = questionPage
+                .Answer(3)
+                .Answer(3)
+                .Answer(1)
+                .Answer(3)
+                .Answer(3)
+                .Answer<OutcomePage>("No");
+
+            outcomePage.VerifyCareAdvice(new[] { "Genital discharge/irritation", "Medication, pain and/or fever", "Fever" });
+        }
     }
 }
