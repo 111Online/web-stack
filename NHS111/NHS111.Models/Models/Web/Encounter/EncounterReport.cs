@@ -11,5 +11,6 @@ namespace NHS111.Models.Models.Web.Encounter
         public string Id { get; set; }
         public string EncounterId { get; set; }
         public string ServiceId { get; set; }
+        public bool ConsentGiven { get; set; }
     }
 }

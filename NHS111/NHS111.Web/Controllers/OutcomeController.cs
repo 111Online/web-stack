@@ -150,7 +150,7 @@ namespace NHS111.Web.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> SendEncounterReport(OutcomeViewModel outcomeModel)
+        public async Task<ActionResult> SendEncounterReport(PersonalDetailViewModel outcomeModel)
         {
             ModelState.Clear();
             var redirectUri = await _outcomeViewModelBuilder.BuildRedirectUrl(outcomeModel);

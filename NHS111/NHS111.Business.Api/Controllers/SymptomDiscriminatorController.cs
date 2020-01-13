@@ -29,7 +29,7 @@ namespace NHS111.Business.Api.Controllers
        [System.Web.Http.Route("symptomdiscriminator/{symptomDisciminatorCode}")]
         public async Task<JsonResult<SymptomDiscriminator>> GetSymptomDisciminator(string symptomDisciminatorCode, string cacheKey = null)
         {
-#if !DEBUG
+//#if !DEBUG
                 cacheKey = cacheKey ?? string.Format("SymptomDisciminator-{0}", symptomDisciminatorCode);
 
                 var cacheValue = await _cacheManager.Read(cacheKey);
@@ -37,11 +37,11 @@ namespace NHS111.Business.Api.Controllers
                 {
                 return Json(JsonConvert.DeserializeObject<SymptomDiscriminator>(cacheValue));
             }
-#endif
+//#endif
             var symptomDiscriminators = await _symptomDisciminatorService.GetSymptomDisciminator(symptomDisciminatorCode);
-#if !DEBUG
+//#if !DEBUG
                     _cacheManager.Set(cacheKey, JsonConvert.SerializeObject(symptomDiscriminators));
-#endif
+//#endif
 
             return Json(symptomDiscriminators);
         }

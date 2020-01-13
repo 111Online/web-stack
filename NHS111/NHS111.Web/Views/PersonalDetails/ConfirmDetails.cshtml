@@ -226,7 +226,13 @@
         @Html.Partial("_CommonHiddenFieldsCurrentAddress", Model)
         @Html.Partial("_CommonHiddenFieldsHomeAddress", Model)
         @Html.HiddenFor(m => m.SelectedServiceId)
-        <p class="nhsuk-u-margin-top-4 nhsuk-u-margin-bottom-0">By confirming these details you agree to share them with the service.</p>
+        <br />
+        <div class="multiple-choice">
+            <input name="ConsentGiven" data-val="true" type="checkbox" class="multiple-choice__input" id="ConsentGiven" value="true" />
+            <label for="ConsentGiven" class="multiple-choice--radio">
+                By confirming these details you agree to share them with the service.
+            </label>
+        </div>
         <button id="book-call" class="nhsuk-u-margin-top-5">Send details</button>
     }
 </div>

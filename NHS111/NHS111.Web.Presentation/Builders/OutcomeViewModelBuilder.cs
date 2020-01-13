@@ -225,13 +225,14 @@ namespace NHS111.Web.Presentation.Builders
             return itkResponseModel;
         }
 
-        public async Task<string> BuildRedirectUrl(OutcomeViewModel model)
+        public async Task<string> BuildRedirectUrl(PersonalDetailViewModel model)
         {
             var encounterReport = new EncounterReport
             {
                 Id  = model.PathwayId,
                 EncounterId = model.JourneyId.ToString(),
-                ServiceId = model.SelectedServiceId
+                ServiceId = model.SelectedServiceId,
+                ConsentGiven = model.ConsentGiven
             };
             var sendReportUrl = _configuration.BusinessEncounterApiSendUrl;
             var request = new JsonRestRequest(sendReportUrl, Method.POST);
@@ -365,6 +366,6 @@ namespace NHS111.Web.Presentation.Builders
         Task<OutcomeViewModel> PrimaryCareBuilder(OutcomeViewModel model, string reason);
         Task<OutcomeViewModel> PopulateGroupedDosResults(OutcomeViewModel model, DateTime? overrideDate, bool? overrideFilterServices, DosEndpoint? endpoint);
         Task<PersonalDetailViewModel> BuildPersonalDetailsViewModel(OutcomeViewModel model);
-        Task<string> BuildRedirectUrl(OutcomeViewModel model);
+        Task<string> BuildRedirectUrl(PersonalDetailViewModel model);
     }
 }
