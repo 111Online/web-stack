@@ -160,13 +160,18 @@ namespace NHS111.Web.Functional.Utils
         public void VerifyCareAdviceItems(string[] expectedAdviceItems)
         {
             var foundItems = Driver.FindElements(By.CssSelector("[id^='Advice_'] li"));
-            Assert.AreEqual(expectedAdviceItems.Count(), foundItems.Count,
-                string.Format("Incorrect number of care advice on disposition '{0}'. Found items were: {1}",
-                    Header.Text, foundItems.Select(cx => "'" + cx.Text + "'\n")));
 
-            foreach (var item in foundItems)
-            {
-                Assert.IsTrue(expectedAdviceItems.Contains(item.Text));
+            foreach (var item in foundItems) {
+                Assert.IsTrue(expectedAdviceItems.Any(i => item.Text == i));
+            }
+        }
+
+        public void VerifyCareAdviceParagraph(string[] expectedAdviceParagraph)
+        {
+            var foundItems = Driver.FindElements(By.CssSelector("[id^='Advice_'] p"));
+
+            foreach (var item in foundItems) {
+                Assert.IsTrue(expectedAdviceParagraph.Any(i => item.Text == i));
             }
         }
 
