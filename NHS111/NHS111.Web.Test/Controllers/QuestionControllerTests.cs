@@ -110,6 +110,9 @@ namespace NHS111.Web.Presentation.Test.Controllers {
 
             _mockViewRouter.Setup(v => v.Build(It.IsAny<JourneyViewModel>(), It.IsAny<ControllerContext>())).Returns(() => new QuestionResultViewModel(null));
 
+            _mockRestClient.Setup(r => r.ExecuteTaskAsync<QuestionWithAnswers>(It.IsAny<RestRequest>()))
+                .Returns(() => StartedTask((IRestResponse<QuestionWithAnswers>)new RestResponse<QuestionWithAnswers>() { StatusCode = HttpStatusCode.OK, Data = new QuestionWithAnswers() }));
+
             var sut = new QuestionController(_mockJourneyViewModelBuilder.Object,
                 _mockConfiguration.Object, _mockJtbsBuilderMock.Object, _mockFeature.Object, _mockAuditLogger.Object, _mockUserZoomDataBuilder.Object, _mockRestClient.Object, _mockViewRouter.Object, _mockDosEndpointFeature.Object, _mockDOSSpecifyDispoTimeFeature.Object, _mockOutcomeViewModelBuilder.Object);
 
@@ -161,6 +164,9 @@ namespace NHS111.Web.Presentation.Test.Controllers {
                 .Returns(StartedTask(new AwfulIdea("", mockQuestion)));
 
             _mockViewRouter.Setup(v => v.Build(It.IsAny<JourneyViewModel>(), It.IsAny<ControllerContext>())).Returns(() => new QuestionResultViewModel(null));
+
+            _mockRestClient.Setup(r => r.ExecuteTaskAsync<QuestionWithAnswers>(It.IsAny<RestRequest>()))
+                .Returns(() => StartedTask((IRestResponse<QuestionWithAnswers>)new RestResponse<QuestionWithAnswers>(){StatusCode = HttpStatusCode.OK, Data = new QuestionWithAnswers()}));
 
             var sut = new QuestionController(_mockJourneyViewModelBuilder.Object,
                 _mockConfiguration.Object, _mockJtbsBuilderMock.Object, _mockFeature.Object, _mockAuditLogger.Object, _mockUserZoomDataBuilder.Object, _mockRestClient.Object, _mockViewRouter.Object, _mockDosEndpointFeature.Object, _mockDOSSpecifyDispoTimeFeature.Object, _mockOutcomeViewModelBuilder.Object);
