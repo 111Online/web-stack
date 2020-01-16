@@ -17,7 +17,7 @@
                         @foreach (var parent in careAdvice.Items)
                         {
                             <p>
-                                @parent.Text
+                                @Html.Raw(parent.Text)
                             </p>
                             if (parent.Items != null && parent.Items.Any())
                             {

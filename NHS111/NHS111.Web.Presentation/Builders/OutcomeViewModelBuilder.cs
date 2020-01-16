@@ -126,6 +126,7 @@ namespace NHS111.Web.Presentation.Builders
             {
                 var ageGroup = new AgeCategory(model.UserInfo.Demography.Age).Value;
                 var careAdviceKeywords = _keywordCollector.ConsolidateKeywords(model.CollectedKeywords).ToList();
+ 
                 careAdvicesTask = _careAdviceBuilder.FillCareAdviceBuilder(model.Id, ageGroup, model.UserInfo.Demography.Gender, careAdviceKeywords);
             }
 
@@ -143,7 +144,9 @@ namespace NHS111.Web.Presentation.Builders
             model.WorseningCareAdvice = await worseningTask;
             model.CareAdvices = await careAdvicesTask;
             model.SurveyLink = await surveyTask;
-            
+            if (model.State.ContainsKey("CarePlan")) model.CareAdvices = new List<CareAdvice>() { new CareAdvice() { Id = "eConsultCarePlan", Items = new List<CareAdviceText>() { new CareAdviceText() { Id = "test", OrderNo = 1, Text = model.State["CarePlan"] } } } };
+            else model.CareAdvices = await careAdvicesTask;
+
             return model;
         }
 

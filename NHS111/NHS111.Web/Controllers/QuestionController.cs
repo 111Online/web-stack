@@ -1,5 +1,7 @@
 ﻿
 using System.Globalization;
+using System.Net;
+using System.Web.Http;
 using NHS111.Models.Models.Business;
 using NHS111.Utils.RestTools;
 using NHS111.Web.Presentation.Filters;
@@ -389,10 +391,11 @@ namespace NHS111.Web.Controllers {
             if (model.QuestionType != QuestionType.Choice)
                 model.SelectedAnswer = JsonConvert.SerializeObject(new Answer() {Title = model.SelectedAnswer});
             var selectedAnswerState = Mapper.Map(model, new SelectedAnswerState());
-            
-            var request = new JsonRestRequest(_configuration.GetBusinessApiNextNodeUrl(model.PathwayId, model.NodeType, model.Id, true), Method.POST);
+            var requestUrl = _configuration.GetBusinessApiNextNodeUrl(model.PathwayId, model.NodeType, model.Id, true);
+            var request = new JsonRestRequest(requestUrl, Method.POST);
             request.AddJsonBody(selectedAnswerState);
             var response = await _restClientBusinessApi.ExecuteTaskAsync<QuestionWithAnswers>(request);
+            if(response.StatusCode != HttpStatusCode.OK) throw new Exception(String.Format("Unable to get next question from EMS api {0}", requestUrl));
             return response.Data;
         }
 

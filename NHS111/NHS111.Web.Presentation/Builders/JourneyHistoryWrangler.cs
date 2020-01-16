@@ -20,6 +20,9 @@ namespace NHS111.Web.Presentation.Builders
                                                 .Reverse()
                                                 .ToList();
 
+            //hack for econsult
+            if(pathways.Any(p => p.StartsWith("econsult"))) return new List<string>(){"econsult"};
+
             return pathways;
         }
 

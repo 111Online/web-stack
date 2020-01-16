@@ -17,13 +17,13 @@
                         @foreach (var parent in careAdvice.Items)
                         {
                             <li>
-                                @parent.Text
+                                @Html.Raw(parent.Text)
                                 @if (parent.Items != null && parent.Items.Any())
                                 {
                                     <ul>
                                         @foreach (var child in parent.Items)
                                         {
-                                            <li>@child.Text</li>
+                                            <li>@Html.Raw(child.Text)</li>
                                         }
                                     </ul>
                                 }
