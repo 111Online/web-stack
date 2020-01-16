@@ -66,6 +66,9 @@
     <Content Include="src\scripts\jquery-feedback.js" />
     <Content Include="src\scripts\jquery-service-details.js" />
     <Content Include="src\scripts\jquery-validation.js" />
+    <Content Include="src\scripts\event-logging.js">
+      <SubType>Code</SubType>
+    </Content>
     <Content Include="src\scripts\test-geolocation.js" />
     <Content Include="src\scripts\test-validation.js" />
     <Content Include="src\scripts\validation.js" />

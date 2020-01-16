@@ -21,6 +21,8 @@ namespace NHS111.Models.Mappers.WebMappings
                 .ForMember(dest => dest.StatusCode, opt => opt.MapFrom(src => src.StatusCode))
                 .ForMember(dest => dest.IsSuccessStatusCode, opt => opt.MapFrom(src => src.IsSuccessful));
 
+            Mapper.CreateMap<PublicAuditViewModel, AuditViewModel>(MemberList.Source);
+
             Mapper.CreateMap<DosViewModel, AuditedDosRequest>(MemberList.Destination)
                 .ForMember(dest => dest.PostCode, opt => opt.MapFrom(src => GetPartialPostcode(src.PostCode)));
 
