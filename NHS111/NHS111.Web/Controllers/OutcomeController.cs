@@ -360,7 +360,7 @@ namespace NHS111.Web.Controllers
             {
                 var outcomeViewModel = ConvertPatientInformantDateToUserinfo(model.PatientInformantDetails, model);
 
-                if (model.PathwayNo == "PW854")
+                if (model.PathwayNo == "PW854" || model.PathwayNo == "PW976")
                     return await SendEncounterReport(model);
 
                 var itkConfirmationViewModel = string.IsNullOrEmpty(model.SelectedSlotId)
