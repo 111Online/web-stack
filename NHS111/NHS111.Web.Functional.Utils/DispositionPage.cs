@@ -157,22 +157,14 @@ namespace NHS111.Web.Functional.Utils
             }
         }
 
-        public void VerifyCareAdviceItems(string[] expectedAdviceItems)
+        public bool CareAdviceExists(string[] expectedAdvice)
         {
-            var foundItems = Driver.FindElements(By.CssSelector("[id^='Advice_'] li"));
+            var listItems = Driver.FindElements(By.CssSelector("[id^='Advice_'] li"));
+            var paragraphs = Driver.FindElements(By.CssSelector("[id^='Advice_'] p"));
 
-            foreach (var item in foundItems) {
-                Assert.IsTrue(expectedAdviceItems.Any(i => item.Text == i));
-            }
-        }
+            var elements = listItems.Concat(paragraphs);
 
-        public void VerifyCareAdviceParagraph(string[] expectedAdviceParagraph)
-        {
-            var foundItems = Driver.FindElements(By.CssSelector("[id^='Advice_'] p"));
-
-            foreach (var item in foundItems) {
-                Assert.IsTrue(expectedAdviceParagraph.Any(i => item.Text == i));
-            }
+            return expectedAdvice.All(e => elements.Any(i => i.Text == e));
         }
 
 
