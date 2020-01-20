@@ -159,8 +159,8 @@ namespace NHS111.Web.Functional.Utils
 
         public bool CareAdviceExists(string[] expectedAdvice)
         {
-            var listItems = Driver.FindElements(By.CssSelector("[id^='Advice_'] li"));
-            var paragraphs = Driver.FindElements(By.CssSelector("[id^='Advice_'] p"));
+            var listItems = Driver.FindElements(By.CssSelector(".care-advice li"));
+            var paragraphs = Driver.FindElements(By.CssSelector(".care-advice p"));
 
             var elements = listItems.Concat(paragraphs);
 
