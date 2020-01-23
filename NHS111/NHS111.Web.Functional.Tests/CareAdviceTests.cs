@@ -46,7 +46,7 @@ namespace NHS111.Web.Functional.Tests
                 .Answer<OutcomePage>("No");
 
             outcomePage.VerifyCareAdvice(new[] { "Genital discharge/irritation", "Medication, pain and/or fever", "Fever" });
-            var sexualhealthAdviceExists = outcomePage.CareAdviceExists(new[] { "If you are sexually activ:", "Don't have sex until the problem is sorted out." });
+            var sexualhealthAdviceExists = outcomePage.CareAdviceExists(new[] { "If you are sexually active:", "Don't have sex until the problem is sorted out." });
             var sexualhealth1AdviceDoesNotExists = outcomePage.CareAdviceExists(new[] { "Don't have sex until the problem is sorted out.", "Wear loose-fitting cotton clothes and underwear, as they allow the air to circulate.", "If you need to be seen by a GP or out of hours service, take a wee sample in a clean jar.", "If you're sexually active:", "Don't have sex until the problem has cleared up." });
             var sexualhealth2AdviceDoesNotExists = outcomePage.CareAdviceExists(new[] { "Wear loose-fitting cotton clothes and underwear, as they allow the air to circulate.", "If you need to be seen by a GP or out of hours service, take a wee sample in a clean jar.", "If you're sexually active:", "Don't have sex until the problem has cleared up." });
             var sexualhealth3AdviceDoesNotExists = outcomePage.CareAdviceExists(new[] { "If you need to be seen by a GP or out of hours service, take a wee sample in a clean jar.", "If you're sexually active:", "Don't have sex until the problem has cleared up." });
