@@ -43,7 +43,7 @@
     @Html.Partial("_rs_Recommeded_DOS_Service", Model)
     @if (Model.DosCheckCapacitySummaryResult.Success.Services.Count > 1)
     {
-        dataDictionary.TemplateInfo = new TemplateInfo() { HtmlFieldPrefix = "FindService" };
+        //dataDictionary.TemplateInfo = new TemplateInfo() { HtmlFieldPrefix = "FindService" };
         @Html.Partial("_rs_OtherServices", Model, dataDictionary)
     }
 </div>
