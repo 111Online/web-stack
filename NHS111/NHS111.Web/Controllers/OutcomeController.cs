@@ -208,7 +208,6 @@ namespace NHS111.Web.Controllers
             _auditLogger.LogDosResponse(model, model.DosCheckCapacitySummaryResult);
 
             model.NodeType = NodeType.Outcome;
-            model = await _outcomeViewModelBuilder.PrimaryCareBuilder(model, reason);
 
             if (model.DosCheckCapacitySummaryResult.Error == null &&
                 !model.DosCheckCapacitySummaryResult.ResultListEmpty)
@@ -220,6 +219,8 @@ namespace NHS111.Web.Controllers
 
                 model.GroupedDosServices =
                     _dosBuilder.FillGroupedDosServices(model.DosCheckCapacitySummaryResult.Success.Services);
+
+                model = await _outcomeViewModelBuilder.PrimaryCareBuilder(model, reason);
 
                 if (model.OutcomeGroup.IsAutomaticSelectionOfItkResult())
                 {
