@@ -309,8 +309,10 @@ namespace NHS111.Web.Controllers {
             var outcomeModel = dispoWithServicesView.Model as OutcomeViewModel;
             if (!DirectToOtherServices)
                 return controller.RecommendedService(outcomeModel);
+            else
+                outcomeModel.RecommendedService = null;
 
-            if(outcomeModel.DosCheckCapacitySummaryResult.Success.Services.Count > 1)
+            if (outcomeModel.DosCheckCapacitySummaryResult.Success.Services.Count > 1)
                 return await controller.ServiceList(outcomeViewModel, dosSearchTime, null, endpoint);
 
             return View("../Outcome/Repeat_Prescription/RecommendedServiceNotOffered", outcomeModel);
