@@ -24,8 +24,8 @@
 </ol>
 
 <div class="callout callout--info measure">
+    <p>If you think you know what might be wrong, you can find advice on <a href="https://www.nhs.uk/conditions/" data-event-trigger="click" data-event-value="NHS.UK Conditions">health problems</a> on <a href="https://www.nhs.uk">NHS.UK</a>.</p>
     <p>If you’ve run out of your prescribed medicines, find out how to get an <a href="/emergency-prescription" data-event-trigger="click" data-event-value="Emergency prescription deeplink">emergency prescription</a>.</p>
-    <p>General information about <a href="https://www.nhs.uk/conditions/" data-event-trigger="click" data-event-value="NHS.UK Conditions">health problems</a> and <a href="https://www.nhs.uk/medicines/" data-event-trigger="click" data-event-value="NHS.UK Medicines">medicines</a> is on <a href="https://www.nhs.uk" data-event-trigger="click" data-event-value="NHS.UK">NHS.UK</a>.</p>
 </div>
 
 @using (Html.BeginForm("Location", "Location", FormMethod.Post))
@@ -36,7 +36,11 @@
     <button type="submit" class="button--next">Start</button>
 }
 
-<p class="measure lede--strong">If you've travelled to Wuhan City in China in the last 2 weeks and feel unwell, call NHS 111 for advice. You can <a href="https://www.nhs.uk/conditions/wuhan-novel-coronavirus/" data-event-trigger="click" data-event-value="Novel Coronavirus">read more about coronavirus on NHS.UK</a></p>
+<div class="measure callout callout--warning callout--lite">
+    <p>
+        Call NHS 111 if you’ve been to mainland China and have become unwell within 2 weeks of returning, or if you feel unwell after being in contact with someone with a <strong>confirmed</strong> case of coronavirus. You can <a href="https://www.nhs.uk/conditions/wuhan-novel-coronavirus/" data-event-trigger="click" data-event-value="Novel Coronavirus">read more about coronavirus on NHS.UK</a>
+    </p>
+</div>
 
 <hr />
 
