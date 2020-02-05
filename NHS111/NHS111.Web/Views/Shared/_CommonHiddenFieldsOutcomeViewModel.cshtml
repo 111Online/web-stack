@@ -18,8 +18,11 @@
 @Html.HiddenFor(x => Model.SymptomDiscriminatorCode)
 @Html.HiddenFor(x => Model.Title)
 
-@{var changePostcode = ViewData["ChangeCurrentPostcode"];}
-@if (changePostcode == null || (changePostcode is bool && !(bool)changePostcode))
+@{
+    var changePostcode = ViewData["ChangeCurrentPostcode"];
+    var isChangePostcode = changePostcode is bool && (bool)changePostcode;
+}
+@if (!isChangePostcode)
 {
     @Html.HiddenFor(x => Model.CurrentPostcode)
 }
@@ -55,7 +58,9 @@
 @Html.HiddenFor(x => Model.Source)
 @Html.HiddenFor(x => Model.NodeType)
 @Html.HiddenFor(x => Model.TriggerQuestionNo)
-@Html.HiddenFor(x => Model.HasAcceptedCallbackOffer)
+@if (!isChangePostcode) {
+    @Html.HiddenFor(x => Model.HasAcceptedCallbackOffer)
+}
 
 @if (Model.DosCheckCapacitySummaryResult.Success != null)
 {
@@ -92,7 +97,10 @@
             }
         }
     }
-    @Html.HiddenFor(m => m.DosCheckCapacitySummaryResult.IsValidationRequery)
+    if (!isChangePostcode) {
+        @Html.HiddenFor(m => m.DosCheckCapacitySummaryResult.IsValidationRequery)
+    }
+
 }
 @Html.HiddenFor(m => m.SurgeryViewModel.SelectedSurgery)
 
