@@ -4,6 +4,7 @@
 }
 @inherits NHS111.Web.Views.Shared.DirectLinkingView<JourneyViewModel>
 @section Title {NHS 111 online}
+@section EmergencyAlert {}
 
 @{ ViewBag.Description = "Answer questions about your main symptom on 111.nhs.uk and get NHS medical help near you."; }
 @section HeadTop {
@@ -35,12 +36,6 @@
     @Html.HiddenFor(m => m.FilterServices)
     <button type="submit" class="button--next">Start</button>
 }
-
-<div class="measure callout callout--warning callout--lite">
-    <p>
-        Call NHS 111 if you’ve been to mainland China and have become unwell within 2 weeks of returning, or if you feel unwell after being in contact with someone with a <strong>confirmed</strong> case of coronavirus. You can <a href="https://www.nhs.uk/conditions/wuhan-novel-coronavirus/" data-event-trigger="click" data-event-value="Novel Coronavirus">read more about coronavirus on NHS.UK</a>
-    </p>
-</div>
 
 <hr />
 
