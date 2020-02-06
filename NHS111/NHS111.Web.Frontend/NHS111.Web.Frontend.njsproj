@@ -85,6 +85,9 @@
     <Content Include="src\styles\components\_button.scss" />
     <Content Include="src\styles\components\_callout.scss" />
     <Content Include="src\styles\components\_card.scss" />
+    <Content Include="src\styles\components\_emergency-alert.scss">
+      <SubType>Code</SubType>
+    </Content>
     <Content Include="src\styles\components\_feedback.scss" />
     <Content Include="src\styles\components\_multiple-choice.scss" />
     <Content Include="src\styles\components\_form-label.scss" />
