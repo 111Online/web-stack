@@ -6,6 +6,7 @@
     Layout = "~/Views/Shared/_LayoutNhsUK.cshtml";
 }
 @section Title { NHS 111 Online - Tell us about you }
+@section EmergencyAlert{}
 
 @section FeedbackSection {
     @Html.Partial("_FeedbackDetails", new FeedbackViewModel() { UserId = Model.SessionId.ToString(), PageData = new PageDataViewModel(PageDataViewModel.PageType.Demographics, Model.Campaign, Model.Source) })
