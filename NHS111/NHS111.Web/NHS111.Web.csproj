@@ -463,6 +463,8 @@
     <Content Include="Views\Outcome\Primary_Care\MoreInfo.cshtml" />
     <Content Include="Views\Shared\_rs_Timings.cshtml" />
     <Content Include="Views\Shared\_CommonHiddenFieldsSurveyLinkViewModel.cshtml" />
+    <Content Include="Views\Shared\_EmergencyAlert.cshtml" />
+    <Content Include="Views\Help\LatestAdvice.cshtml" />
     <None Include="Web.Development.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
