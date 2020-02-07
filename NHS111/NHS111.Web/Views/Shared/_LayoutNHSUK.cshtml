@@ -95,6 +95,15 @@
         }
     }
 
+    @if(IsSectionDefined("EmergencyAlert"))
+    {
+        @RenderSection("EmergencyAlert", false)
+        if (EmergencyAlertFeature.IsEnabled)
+        {
+            @Html.Partial("_EmergencyAlert")
+        }
+    }
+
     <main class="page-section clearfix" id="content" role="main">
         @if (DisclaimerBannerFeature.IsEnabled)
         {
