@@ -169,11 +169,11 @@ namespace NHS111.Web.Presentation.Builders.Tests
                 }
             };
 
-            ConfigurationManager.AppSettings["Cat3And4DxCodes"] = "Dx01121";
+            ConfigurationManager.AppSettings["ValidationDxRemap"] = "Dx01121:Dx333";
             var dosModel = _dosBuilder.BuildDosViewModel(model, null);
             Assert.AreEqual(11333, dosModel.Disposition);
-            ConfigurationManager.AppSettings["Cat3And4DxCodes"] = "";
-            ConfigurationManager.AppSettings["EDCallbackDxCodes"] = "Dx01121";
+            //ConfigurationManager.AppSettings["Cat3And4DxCodes"] = "";
+            ConfigurationManager.AppSettings["ValidationDxRemap"] = "Dx01121:Dx334";
             dosModel = _dosBuilder.BuildDosViewModel(model, null);
             Assert.AreEqual(11334, dosModel.Disposition);
         }

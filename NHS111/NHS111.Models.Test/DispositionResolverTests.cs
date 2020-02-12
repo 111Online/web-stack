@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
@@ -23,6 +24,7 @@ namespace NHS111.Models.Test
         [Test]
         public void TextDxCode_Converted_correctly()
         {
+            ConfigurationManager.AppSettings["ValidationDxRemap"] = "";
             var dxCode = "Dx02";
             var result = _dispositionResolver.TestResolveCore(dxCode);
 
@@ -33,6 +35,7 @@ namespace NHS111.Models.Test
         [ExpectedException(typeof (FormatException))]
         public void Invalid_DxCode_thows_FormatException()
         {
+            ConfigurationManager.AppSettings["ValidationDxRemap"] = "";
             var dxCode = "InvalidCode";
              _dispositionResolver.TestResolveCore(dxCode);
         }
