@@ -144,15 +144,27 @@ namespace NHS111.Web.Functional.Utils
             Assert.IsFalse(Driver.ElementExists(By.CssSelector(".care-advice div h4")));
         }
 
-        public void VerifyCareAdvice(string[] expectedAdviceItems) {
+        public void VerifyCareAdvice(string[] expectedAdviceHeaders)
+        {
             var foundItems = Driver.FindElements(By.CssSelector("[id^='Advice_']"));
-            Assert.AreEqual(expectedAdviceItems.Count(), foundItems.Count,
+            Assert.AreEqual(expectedAdviceHeaders.Count(), foundItems.Count,
                 string.Format("Incorrect number of care advice on disposition '{0}'. Found items were: {1}",
                     Header.Text, foundItems.Select(cx => "'" + cx.Text + "'\n")));
 
-            foreach (var item in foundItems) {
-                Assert.IsTrue(expectedAdviceItems.Contains(item.Text));
+            foreach (var item in foundItems)
+            {
+                Assert.IsTrue(expectedAdviceHeaders.Contains(item.Text));
             }
+        }
+
+        public bool CareAdviceExists(string[] expectedAdvice)
+        {
+            var listItems = Driver.FindElements(By.CssSelector(".care-advice li"));
+            var paragraphs = Driver.FindElements(By.CssSelector(".care-advice p"));
+
+            var elements = listItems.Concat(paragraphs);
+
+            return expectedAdvice.All(e => elements.Any(i => i.Text == e));
         }
 
 
