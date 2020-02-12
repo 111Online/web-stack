@@ -8,6 +8,7 @@ namespace NHS111.Models.Models.Web.Logging
         public string PathwayNo { get; set; }
         public DateTime DispositionTime { get; set; }
         public int DispositionTimeFrameMinutes { get; set; }
+        public string CaseRef { get; set; }
         public string CaseId { get; set; }
         public string Surgery { get; set; }
         public string Age { get; set; }

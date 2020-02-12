@@ -1,10 +1,13 @@
 ﻿
+using NHS111.Models.Models.Web.Enums;
+
 namespace NHS111.Models.Models.Web.Logging {
     using System;
     using Newtonsoft.Json;
 
     public class AuditViewModel {
         private string _pathwayId = string.Empty;
+        private string _journeyId = string.Empty;
         private string _pathwayTitle = string.Empty;
         private string _answerTitle = string.Empty;
         private string _answerOrder = string.Empty;
@@ -13,11 +16,20 @@ namespace NHS111.Models.Models.Web.Logging {
         private string _questionId = string.Empty;
         private string _dxCode = string.Empty;
         private string _eventData = string.Empty;
+        private EventType _eventKey = EventType.None;
+        private string _eventValue = string.Empty;
         private string _dosRequest = string.Empty;
         private string _dosResponse = string.Empty;
+        private string _page = string.Empty;
 
         [JsonProperty(PropertyName = "sessionId")]
         public Guid SessionId { get; set; }
+        
+        [JsonProperty(PropertyName = "journeyId")]
+        public string JourneyId {
+            get { return _journeyId; }
+            set { _journeyId = value; }
+        }
 
         [JsonProperty(PropertyName = "pathwayId")]
         public string PathwayId {
@@ -73,6 +85,18 @@ namespace NHS111.Models.Models.Web.Logging {
             set { _eventData = value; }
         }
 
+        [JsonProperty(PropertyName = "eventKey")]
+        public EventType EventKey {
+            get { return _eventKey; }
+            set { _eventKey = value; }
+        }
+
+        [JsonProperty(PropertyName = "eventValue")]
+        public string EventValue {
+            get { return _eventValue; }
+            set { _eventValue = value; }
+        }
+
         [JsonProperty(PropertyName = "dosRequest")]
         public string DosRequest {
             get { return _dosRequest; }
@@ -85,7 +109,12 @@ namespace NHS111.Models.Models.Web.Logging {
             set { _dosResponse = value; }
         }
 
-        
+        [JsonProperty(PropertyName = "page")]
+        public string Page {
+            get { return _page; }
+            set { _page = value; }
+        }
+
     }
 
     public static class AuditViewModelExtensions {
@@ -100,9 +129,13 @@ namespace NHS111.Models.Models.Web.Logging {
                 QuestionId = operand.QuestionId,
                 DxCode = operand.DxCode,
                 EventData = operand.EventData,
+                EventKey = operand.EventKey,
+                EventValue = operand.EventValue,
                 DosRequest = operand.DosRequest,
                 DosResponse = operand.DosResponse,
-                SessionId = operand.SessionId
+                SessionId = operand.SessionId,
+                Page = operand.Page,
+                JourneyId = operand.JourneyId
             };
         }
     }

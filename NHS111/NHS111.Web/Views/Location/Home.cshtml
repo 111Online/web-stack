@@ -4,6 +4,7 @@
 }
 @inherits NHS111.Web.Views.Shared.DirectLinkingView<JourneyViewModel>
 @section Title {NHS 111 online}
+@section EmergencyAlert{}
 
 @{ ViewBag.Description = "Answer questions about your main symptom on 111.nhs.uk and get NHS medical help near you."; }
 @section HeadTop {
@@ -24,8 +25,8 @@
 </ol>
 
 <div class="callout callout--info measure">
-    <p>If you’ve run out of your prescribed medicines, find out how to get an <a href="/emergency-prescription">emergency prescription</a>.</p>
-    <p>General information about <a href="https://www.nhs.uk/conditions/">health problems</a> and <a href="https://www.nhs.uk/medicines/">medicines</a> is on <a href="https://www.nhs.uk">NHS.UK</a>.</p>
+    <p>If you think you know what might be wrong, you can find advice on <a href="https://www.nhs.uk/conditions/" data-event-trigger="click" data-event-value="NHS.UK Conditions">health problems</a> on <a href="https://www.nhs.uk">NHS.UK</a>.</p>
+    <p>If you’ve run out of your prescribed medicines, find out how to get an <a href="/emergency-prescription" data-event-trigger="click" data-event-value="Emergency prescription deeplink">emergency prescription</a>.</p>
 </div>
 
 @using (Html.BeginForm("Location", "Location", FormMethod.Post))

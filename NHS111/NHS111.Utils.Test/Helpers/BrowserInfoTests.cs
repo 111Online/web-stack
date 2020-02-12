@@ -109,6 +109,54 @@ namespace NHS111.Utils.Test.Helpers
             Assert.IsTrue(browserInfo.DeviceType == "Tablet");
         }
 
+        [Test]
+        public void CorrectBrowserInfo_Samsung_Internet()
+        {
+            string userAgent = "Mozilla/5.0 (Linux; Android 9; SAMSUNG SM-G955F Build/PPR1.180610.011) AppleWebKit/537.36 (KHTML, like Gecko) SamsungBrowser/9.0 Chrome/67.0.3396.87 Mobile Safari/537.36";
+            BrowserInfo browserInfo = getBrowserInfo(userAgent);
+
+            Assert.IsTrue(browserInfo.Browser == "Samsung Internet");
+            Assert.IsTrue(browserInfo.MajorVersionString == "9");
+            Assert.IsTrue(browserInfo.Platform == "Android");
+            Assert.IsTrue(browserInfo.DeviceType == "Mobile");
+        }
+
+        [Test]
+        public void CorrectBrowserInfo_Chrome_iOS()
+        {
+            string userAgent = "Mozilla/5.0 (iPhone; CPU iPhone OS 13_2 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) CriOS/78.0.3904.84 Mobile/15E148 Safari/604.1";
+            BrowserInfo browserInfo = getBrowserInfo(userAgent);
+
+            Assert.IsTrue(browserInfo.Browser == "Chrome");
+            Assert.IsTrue(browserInfo.MajorVersionString == "78");
+            Assert.IsTrue(browserInfo.Platform == "iOS");
+            Assert.IsTrue(browserInfo.DeviceType == "Mobile");
+        }
+
+        [Test]
+        public void CorrectBrowserInfo_IE11_Windows_Phone()
+        {
+            string userAgent = "Mozilla/5.0 (Mobile; Windows Phone 8.1; Android 4.0; ARM; Trident/7.0; Touch; rv:11.0; IEMobile/11.0; Microsoft; Virtual) like iPhone OS 7_0_3 Mac OS X AppleWebKit/537 (KHTML, like Gecko) Mobile Safari/537";
+            BrowserInfo browserInfo = getBrowserInfo(userAgent);
+
+            Assert.IsTrue(browserInfo.Browser == "Internet Explorer");
+            Assert.IsTrue(browserInfo.MajorVersionString == "11");
+            Assert.IsTrue(browserInfo.Platform == "Windows Phone");
+            Assert.IsTrue(browserInfo.DeviceType == "Mobile");
+        }
+
+        [Test]
+        public void CorrectBrowserInfo_IE11_Windows()
+        {
+            string userAgent = "Mozilla/5.0 (Windows NT 10.0; WOW64; Trident/7.0; rv:11.0) like Gecko";
+            BrowserInfo browserInfo = getBrowserInfo(userAgent);
+
+            Assert.IsTrue(browserInfo.Browser == "Internet Explorer");
+            Assert.IsTrue(browserInfo.MajorVersionString == "11");
+            Assert.IsTrue(browserInfo.Platform == "Windows");
+            Assert.IsTrue(browserInfo.DeviceType == "Desktop");
+        }
+
         private BrowserInfo getBrowserInfo(string userAgent ) {
             var browser = new HttpBrowserCapabilities
             {

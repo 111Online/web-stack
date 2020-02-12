@@ -84,6 +84,16 @@
 
 
     <section class="outer-section">@RenderSection("OuterSection", false)</section>
+    
+    @*Use '@section EmergencyAlert{}' in views to display alert banner*@
+    @if(IsSectionDefined("EmergencyAlert"))
+    {
+        @RenderSection("EmergencyAlert", false)
+        if (EmergencyAlertFeature.IsEnabled)
+        {
+            @Html.Partial("_EmergencyAlert")
+        }
+    }
 
     <main class="page-section clearfix" id="content" role="main">
         @if (DisclaimerBannerFeature.IsEnabled)
@@ -107,18 +117,18 @@
         </div>
     </footer>
 
-<div id="global-app-error" class="app-error hidden"></div>
+    <div id="global-app-error" class="app-error hidden"></div>
     @{ var journeyModel = Model as JourneyViewModel;}
     @if (UserZoomSurveyFeature.IsEnabled && journeyModel != null && !string.IsNullOrEmpty(journeyModel.UserZoomUrl) && !string.IsNullOrEmpty(journeyModel.UserZoomTitle))
     {
-<script>
+        <script>
             $(document).ready(function () {
                 uztracker('send', 'page', {
                     'url': document.location.href + '/' + '@journeyModel.UserZoomUrl',
                         'title': '@journeyModel.UserZoomTitle'
                     });
             });
-</script>
+        </script>
     }
 
 

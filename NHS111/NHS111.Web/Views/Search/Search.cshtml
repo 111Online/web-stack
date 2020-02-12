@@ -1,5 +1,4 @@
-﻿@using NHS111.Models.Models.Domain
-@using NHS111.Models.Models.Web
+﻿@using NHS111.Models.Models.Web
 @using NHS111.Web.Helpers
 @model SearchJourneyViewModel
 @{
@@ -10,13 +9,13 @@
 
 
 @section FeedbackSection {
-    @Html.Partial("_FeedbackDetails", new FeedbackViewModel() { UserId = Model.SessionId.ToString(), PageData = new PageDataViewModel(PageDataViewModel.PageType.Search, Model) })
+    @Html.Partial("_FeedbackDetails", new FeedbackViewModel { UserId = Model.SessionId.ToString(), PageData = new PageDataViewModel(PageDataViewModel.PageType.Search, Model) })
 }
 
 <div class="measure search-typography">
     <h1 class="heading--large">@Html.LabelFor(m => m.SanitisedSearchTerm, "Find the right topic")</h1>
     <p>If you have more than 1 symptom, choose the one that's bothering you most today.</p>
-    <p>Use keywords like 'rash' or 'feeling sick' or body parts like 'stomach ache' or 'broken tooth'</p>
+    <p>Search for symptoms like 'rash' or 'stomach ache' rather than names of conditions.</p>
     @Html.Partial("_SearchBox", Model, ViewData)
 
     @{

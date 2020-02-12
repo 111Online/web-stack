@@ -247,6 +247,7 @@
     <Compile Include="Models\Web\ITK\StepItem.cs" />
     <Compile Include="Models\Web\LocationInfoViewModel.cs" />
     <Compile Include="Models\Web\LocationViewModel.cs" />
+    <Compile Include="Models\Web\Logging\PublicAuditViewModel.cs" />
     <Compile Include="Models\Web\NodeDetailsViewModel.cs" />
     <Compile Include="Models\Web\OtherServicesViewModel.cs" />
     <Compile Include="Models\Web\OutcomeMapViewModel.cs" />
@@ -339,6 +340,7 @@
     <Compile Include="Models\Web\Validators\PatientInformantViewModelValidator.cs" />
     <Compile Include="Models\Web\Validators\PersonalInfoHomeAddressViewModelValidator.cs" />
     <Compile Include="Models\Web\Validators\PersonNameValidator.cs" />
+    <Compile Include="Models\Web\Validators\PublicAuditViewModelValidator.cs" />
     <Compile Include="Models\Web\Validators\QuestionViewModelValidator.cs" />
     <Compile Include="Models\Web\Validators\RuleBuilderExtensions\RuleBuilderExtensions.cs" />
     <Compile Include="Models\Web\ServiceViewModel.cs" />

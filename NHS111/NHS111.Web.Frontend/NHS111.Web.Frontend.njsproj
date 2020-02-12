@@ -66,6 +66,9 @@
     <Content Include="src\scripts\jquery-feedback.js" />
     <Content Include="src\scripts\jquery-service-details.js" />
     <Content Include="src\scripts\jquery-validation.js" />
+    <Content Include="src\scripts\event-logging.js">
+      <SubType>Code</SubType>
+    </Content>
     <Content Include="src\scripts\test-geolocation.js" />
     <Content Include="src\scripts\test-validation.js" />
     <Content Include="src\scripts\validation.js" />
@@ -82,6 +85,9 @@
     <Content Include="src\styles\components\_button.scss" />
     <Content Include="src\styles\components\_callout.scss" />
     <Content Include="src\styles\components\_card.scss" />
+    <Content Include="src\styles\components\_emergency-alert.scss">
+      <SubType>Code</SubType>
+    </Content>
     <Content Include="src\styles\components\_feedback.scss" />
     <Content Include="src\styles\components\_multiple-choice.scss" />
     <Content Include="src\styles\components\_form-label.scss" />
