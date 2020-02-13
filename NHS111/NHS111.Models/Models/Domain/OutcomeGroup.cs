@@ -68,6 +68,13 @@ namespace NHS111.Models.Models.Domain {
 
         public static OutcomeGroup NoFurtherAction = new OutcomeGroup { Id = "No_Further_Action", Text = "No_Further_Action", DefaultTitle = "No further action required", Label = "No further action", PostcodeFirst = true, ITK = false };
 
+        #region Corona virus specific outcomes
+        public static OutcomeGroup Isolate111 = new OutcomeGroup { Id = "Isolate_111", Text = "Isolate_111", DefaultTitle = "Isolate yourself at home", Label = "No further action", PostcodeFirst = false, ITK = false };
+        public static OutcomeGroup IsolatePHE= new OutcomeGroup { Id = "Isolate_PHE", Text = "Isolate_PHE", DefaultTitle = "Isolate yourself at home", Label = "No further action", PostcodeFirst = false, ITK = false };
+        public static OutcomeGroup Information111 = new OutcomeGroup { Id = "Information_111", Text = "Information_111", DefaultTitle = "Information", Label = "No further action", PostcodeFirst = false, ITK = false };
+        public static OutcomeGroup Information = new OutcomeGroup { Id = "Information", Text = "Information", DefaultTitle = "Information", Label = "No further action", PostcodeFirst = false, ITK = false };
+        #endregion
+
         public static OutcomeGroup[] PrePopulatedDosResultsOutcomeGroups = new OutcomeGroup[] {Dental, ItkPrimaryCare, GP, MentalHealth, AccidentAndEmergency, ClinicianCallBack, Call999Cat3, Call999Cat4, RepeatPrescription };
         public static OutcomeGroup[] DosSearchOutcomesGroups = new OutcomeGroup[] { MentalHealth, AccidentAndEmergency, AccidentAndEmergencySexualAssault, Optician, Pharmacy, GumClinic, Dental, EmergencyDental, Midwife, ItkPrimaryCare, ClinicianCallBack };
         public static OutcomeGroup[] UsingRecommendedServiceJourney = new[] { RepeatPrescription };
@@ -94,7 +101,14 @@ namespace NHS111.Models.Models.Domain {
             { Midwife.Id, Midwife },
             { GP.Id, GP },
             { RepeatPrescription.Id, RepeatPrescription },
-            { NoFurtherAction.Id, NoFurtherAction }
+            { NoFurtherAction.Id, NoFurtherAction },
+
+        #region Corona virus specific outcomes
+            { Isolate111.Id, Isolate111 },
+            { IsolatePHE.Id, IsolatePHE },
+            { Information111.Id, Information111 },
+            { Information.Id, Information }
+        #endregion
     };
 
         public override bool Equals(object obj) {
