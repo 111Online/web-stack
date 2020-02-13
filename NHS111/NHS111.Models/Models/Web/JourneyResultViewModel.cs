@@ -32,6 +32,9 @@ namespace NHS111.Models.Models.Web
                 subfolder = outcome.Id + "/";
             if (outcome.IsPrimaryCare)
                 subfolder = "Primary_Care/";
+            if (outcome.IsCoronaVirus)
+                subfolder = "Corona/";
+
             var viewFilePath = "../Outcome/" + subfolder;
 
             var model = outcomeResultViewModel.OutcomeModel;

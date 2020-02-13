@@ -33,17 +33,40 @@
     }
 }
 
-@Html.Partial("_OutcomeHeader", Model, new ViewDataDictionary() { { "OutcomeHeader", "It's safe to look after yourself" } })
 @Html.HiddenFor(x => Model.Id)
-<section>
-    @if (Model.CareAdvices != null && Model.CareAdvices.Any())
-    {
-        @Html.Partial("_CareAdvice", Model.CareAdvices, new ViewDataDictionary() { { "Title", "Things to look out for" } })
-    }
-    else
-    {
-        <p>If you need more help with your problem, you can find further information on <a href="http://www.nhs.uk">NHS.UK.</a></p>
-    }
-</section>
+<div class="disposition-set">
 
-@Html.Partial("_WorseningAdvice", Model)
+    <div class="disposition-unit">
+        <h1 class="nhsuk-heading-l">You need to isolate yourself and stay indoors</h1>
+        <p>
+            If you’re away from home, find a room where you can close the door and
+            wait by yourself until you have spoken to 111.
+        </p>
+        <p>
+            If you’re already on public transport, go home by the most direct route.
+        </p>
+        <p>
+            Read <a href="https://www.gov.uk/government/publications/wuhan-novel-coronavirus-self-isolation-for-patients-undergoing-testing/advice-sheet-home-isolation" target="_blank">guidance on how to keep yourself and others safe <span class="small">(opens in a new tab or window)</span>,</a> when self-isolating.
+        </p>
+    </div>
+
+    <div class="disposition-unit">
+        <h2 class="nhsuk-heading-l">Call NHS 111. Do not go to your GP or a hospital.</h2>
+        <p>
+            Tell 111 that you are calling about coronavirus (COVID19) symptoms.
+        </p>
+        <p>
+            You must tell them where you have travelled or about any contact you’ve
+            had with someone with symptoms.
+        </p>
+        <p>
+            If you hear a recorded message when you call, make sure you select the
+            option to speak to a clinician.
+        </p>
+        <p>
+            Although the risk to the UK public is low, it’s important to try to stop
+            any possible spread of infection.
+        </p>
+    </div>
+
+</div>

@@ -33,17 +33,16 @@
     }
 }
 
-@Html.Partial("_OutcomeHeader", Model, new ViewDataDictionary() { { "OutcomeHeader", "It's safe to look after yourself" } })
 @Html.HiddenFor(x => Model.Id)
-<section>
-    @if (Model.CareAdvices != null && Model.CareAdvices.Any())
-    {
-        @Html.Partial("_CareAdvice", Model.CareAdvices, new ViewDataDictionary() { { "Title", "Things to look out for" } })
-    }
-    else
-    {
-        <p>If you need more help with your problem, you can find further information on <a href="http://www.nhs.uk">NHS.UK.</a></p>
-    }
-</section>
+<h1 class="nhsuk-heading-l">
+    Answer more questions about your symptoms
+</h1>
+<p>As you:</p>
+<ul>
+    <li>have <strong>not</strong> travelled to a country with a serious outbreak</li>
+    <li>have <strong>not</strong> been in contact with a confirmed case</li>
+</ul>
 
-@Html.Partial("_WorseningAdvice", Model)
+<p>You don’t need to speak to 111 about coronavirus (COVID19).</p>
+
+<p>You can <a href="https://111.nhs.uk">answer more questions about your symptoms</a> and find out what to do next.</p>
