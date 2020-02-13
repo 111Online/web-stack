@@ -1,4 +1,5 @@
-﻿@using NHS111.Models.Models.Domain
+﻿@using Markdig
+@using NHS111.Models.Models.Domain
 @using NHS111.Models.Models.Web
 @using NHS111.Models.Models.Web.Elements
 @using NHS111.Models.Models.Web.Enums
@@ -88,7 +89,14 @@
     <div class="form-group measure @(@ViewData.ModelState.IsValidField("SelectedAnswer") ? "" : "form-group-error")">
         <fieldset>
             <legend>
-                <h1>@Model.TitleWithoutBullets</h1>
+                @if (Model.TitleWithoutBullets.StartsWith("!markdown!"))
+                {
+                    @Html.Raw(Markdown.ToHtml(Model.TitleWithoutBullets.Replace("!markdown!", string.Empty).Replace("/r/n", Environment.NewLine)));
+                }
+                else
+                {
+                    <h1>@Model.TitleWithoutBullets</h1>
+                }
                 @Html.HiddenFor(m => m.TitleWithoutBullets)
             </legend>
             @Html.ValidationMessageFor(m => m.SelectedAnswer, "Please select an answer", new { @class = "error-message" })
@@ -106,27 +114,32 @@
                 var isTrigger = Model.QuestionNo == Model.TriggerQuestionNo && answer.Title == Model.TriggerQuestionAnswer;
                 <div class="multiple-choice">
                     <input name="SelectedAnswer" data-val="true" data-val-required="'SelectedAnswer' should not be empty." type="radio" class="multiple-choice__input" id="@answer.TitleWithoutSpaces" value="@Newtonsoft.Json.JsonConvert.SerializeObject(answer)" checked="@isTrigger" />
-                    <label for="@answer.TitleWithoutSpaces" class="multiple-choice--radio">@if (isTrigger) {
-                                                                                               @answer.Title<span class="highlight-term">&mdash; this means we can't rule out a serious condition</span>
-                                                                                           } else {
-                                                                                               @answer.Title
-                                                                                           }</label>
-                @Html.Hidden(string.Format("Answers[{0}].Title", i), answer.Title)
-                @Html.Hidden(string.Format("Answers[{0}].TitleWithoutSpaces", i), answer.TitleWithoutSpaces)
-                @Html.Hidden(string.Format("Answers[{0}].SymptomDiscriminator", i), answer.SymptomDiscriminator)
-                @Html.Hidden(string.Format("Answers[{0}].SupportingInformation", i), answer.SupportingInformation)
-                @Html.Hidden(string.Format("Answers[{0}].Keywords", i), answer.Keywords)
-                @Html.Hidden(string.Format("Answers[{0}].ExcludeKeywords", i), answer.ExcludeKeywords)
-                @Html.Hidden(string.Format("Answers[{0}].ReportText", i), answer.ReportText)
-                @Html.Hidden(string.Format("Answers[{0}].DispositionDisplayText", i), answer.DispositionDisplayText)
-                @Html.Hidden(string.Format("Answers[{0}].Order", i), answer.Order)
-                @Html.Hidden(string.Format("Answers[{0}].IsPositive", i), answer.IsPositive)
-                @if (!String.IsNullOrWhiteSpace(answer.SupportingInformation))
-                {
-                    @Html.Partial("_HiddenText", new HiddenTextViewModel() { Summary = "What does this mean?", Details = new[] { Html.Encode(@Html.Raw(answer.SupportingInformationHtml)) } })
-                }
-            </div>
-        }
+                    <label for="@answer.TitleWithoutSpaces" class="multiple-choice--radio">
+                        @if (isTrigger)
+                        {
+                            @answer.Title<span class="highlight-term">&mdash; this means we can't rule out a serious condition</span>
+                        }
+                        else
+                        {
+                            @answer.Title
+                        }
+                    </label>
+                    @Html.Hidden(string.Format("Answers[{0}].Title", i), answer.Title)
+                    @Html.Hidden(string.Format("Answers[{0}].TitleWithoutSpaces", i), answer.TitleWithoutSpaces)
+                    @Html.Hidden(string.Format("Answers[{0}].SymptomDiscriminator", i), answer.SymptomDiscriminator)
+                    @Html.Hidden(string.Format("Answers[{0}].SupportingInformation", i), answer.SupportingInformation)
+                    @Html.Hidden(string.Format("Answers[{0}].Keywords", i), answer.Keywords)
+                    @Html.Hidden(string.Format("Answers[{0}].ExcludeKeywords", i), answer.ExcludeKeywords)
+                    @Html.Hidden(string.Format("Answers[{0}].ReportText", i), answer.ReportText)
+                    @Html.Hidden(string.Format("Answers[{0}].DispositionDisplayText", i), answer.DispositionDisplayText)
+                    @Html.Hidden(string.Format("Answers[{0}].Order", i), answer.Order)
+                    @Html.Hidden(string.Format("Answers[{0}].IsPositive", i), answer.IsPositive)
+                    @if (!String.IsNullOrWhiteSpace(answer.SupportingInformation))
+                    {
+                        @Html.Partial("_HiddenText", new HiddenTextViewModel() { Summary = "What does this mean?", Details = new[] { Html.Encode(@Html.Raw(answer.SupportingInformationHtml)) } })
+                    }
+                </div>
+            }
         </fieldset>
     </div>
     
