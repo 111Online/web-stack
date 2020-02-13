@@ -93,7 +93,7 @@ namespace NHS111.Web.Functional.Tests
             [Test] //added time on to find a time when nothing returns, Pharmacies nationwide have had digital referral role added and too many to remove.
             public void NoRecommendedServicesPage()
             {
-                var directLink = TestScenarioPart.DirectLinking(Driver, "/question/direct/PW1827MaleAdult/33/Emergency%20Prescription%20111%20online/LS175DT/?answers=0,1,0&dossearchdatetime=2020-02-01 23:30");
+                var directLink = TestScenarioPart.DirectLinking(Driver, "/question/direct/PW1827MaleAdult/33/Emergency%20Prescription%20111%20online/LS175DT/?answers=0,1,0&dossearchdatetime=2021-02-01 23:30");
                 directLink.VerifyNoRecommendedServices();
             }
 
