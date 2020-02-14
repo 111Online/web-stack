@@ -9,7 +9,7 @@
 @inherits NHS111.Web.Views.Shared.DirectLinkingView<QuestionViewModel>
 
 
-@section Title  {NHS 111 Online - @Model.TitleWithoutBullets}
+@section Title  {NHS 111 Online - @Model.TitleWithoutBullets.MarkdownToPlainText()}
 
 
 @section HeadTop {
@@ -22,7 +22,7 @@
         dataLayer = [
             {
                 'virtualPageUrl': document.location.pathname + '@url',
-                'virtualPageTitle': '@Model.TitleWithoutBullets'
+                'virtualPageTitle': '@Model.TitleWithoutBullets.MarkdownToPlainText()'
             }];
     </script>
 }
@@ -137,7 +137,7 @@
             }
         </fieldset>
     </div>
-    
+
     <button class="button--next button--spinner" id="nextScreen" type="submit" name="Question" value="Question">Next question @Html.Partial("_InlineSpinner")</button>
     if (!Model.IsFirstStep)
     {
