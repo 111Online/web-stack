@@ -5,7 +5,7 @@
 }
 
 @section Title {
-    NHS 111 - Looking after yourself
+    NHS 111 - You don’t need to speak to 111 about coronavirus (COVID-19)
 }
 
 @section HeadTop {
@@ -19,30 +19,26 @@
         }];
     </script>
 }
-@section SurveyBanner{
-    @Html.Partial("_SurveyLink", Model.SurveyLink)
-}
-@section FeedbackSection {
-    @if (!SurveyLinkFeature.IsEnabled)
-    {
-        @Html.Partial("_FeedbackDetails", new FeedbackViewModel() { UserId = Model.SessionId.ToString(), PageData = new PageDataViewModel(PageDataViewModel.PageType.Outcome, Model) })
-    }
-    else
-    {
-        @Html.Partial("_SurveyLink", Model.SurveyLink)
-    }
-}
+
+// removed survey
+// removed feedback
 
 @Html.HiddenFor(x => Model.Id)
-<h1 class="nhsuk-heading-l">
+
+<div class="measure nhsuk-core">
+
+  <h1 class="nhsuk-heading-l">
     Answer more questions about your symptoms
-</h1>
-<p>As you:</p>
-<ul>
+  </h1>
+
+  <p>As you:</p>
+  <ul>
     <li>have <strong>not</strong> travelled to a country with a serious outbreak</li>
     <li>have <strong>not</strong> been in contact with a confirmed case</li>
-</ul>
+  </ul>
 
-<p>You don’t need to speak to 111 about coronavirus (COVID19).</p>
+  <p>You don’t need to speak to 111 about coronavirus (COVID-19).</p>
 
-<p>You can <a href="https://111.nhs.uk">answer more questions about your symptoms</a> and find out what to do next.</p>
+  <p>You can <a href="/">answer more questions about your symptoms</a> and find out what to do next.</p>
+
+</div>
