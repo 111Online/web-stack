@@ -1,8 +1,10 @@
-﻿@using Markdig
+﻿@using System.Web.UI.HtmlControls
+@using Markdig
 @using NHS111.Models.Models.Domain
 @using NHS111.Models.Models.Web
 @using NHS111.Models.Models.Web.Elements
 @using NHS111.Models.Models.Web.Enums
+@using NHS111.Utils.Extensions
 @{ Layout = "~/Views/Shared/_LayoutNhsUk.cshtml"; }
 @inherits NHS111.Web.Views.Shared.DirectLinkingView<QuestionViewModel>
 
@@ -89,14 +91,7 @@
     <div class="form-group measure @(@ViewData.ModelState.IsValidField("SelectedAnswer") ? "" : "form-group-error")">
         <fieldset>
             <legend>
-                @if (Model.TitleWithoutBullets.StartsWith("!markdown!"))
-                {
-                    @Html.Raw(Markdown.ToHtml(Model.TitleWithoutBullets.Replace("!markdown!", string.Empty).Replace("/r/n", Environment.NewLine)));
-                }
-                else
-                {
-                    <h1>@Model.TitleWithoutBullets</h1>
-                }
+                @Html.Raw(Model.TitleWithoutBullets.ParseForMarkdown(new HtmlGenericControl("h1")))
                 @Html.HiddenFor(m => m.TitleWithoutBullets)
             </legend>
             @Html.ValidationMessageFor(m => m.SelectedAnswer, "Please select an answer", new { @class = "error-message" })
@@ -104,7 +99,7 @@
             {
                 var highlight = Model.QuestionNo == Model.TriggerQuestionNo ? "callout--warning" : "callout--info";
                 <div class="callout @highlight">
-                    <p>@Html.Raw(@Model.RationaleHtml)</p>
+                    @Html.Raw(Model.RationaleHtml.ParseForMarkdown(new HtmlGenericControl("p")))
                 </div>
             }
 

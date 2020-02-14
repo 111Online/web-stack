@@ -5,7 +5,7 @@
 }
 
 @section Title {
-    NHS 111 - Looking after yourself
+    NHS 111 - Isolate yourself and stay indoors then call 111
 }
 
 @section HeadTop {
@@ -19,41 +19,130 @@
         }];
     </script>
 }
-@section SurveyBanner{
-    @Html.Partial("_SurveyLink", Model.SurveyLink)
-}
-@section FeedbackSection {
-    @if (!SurveyLinkFeature.IsEnabled)
-    {
-        @Html.Partial("_FeedbackDetails", new FeedbackViewModel() { UserId = Model.SessionId.ToString(), PageData = new PageDataViewModel(PageDataViewModel.PageType.Outcome, Model) })
-    }
-    else
-    {
-        @Html.Partial("_SurveyLink", Model.SurveyLink)
-    }
-}
+
+// removed survey banner
+// removed feedback section
 
 @Html.HiddenFor(x => Model.Id)
-<h1 class="nhsuk-heading-l">
-    Stay indoors and avoid close contact with other people
-</h1>
 
-<div class="disposition-set">
+// short-term insertion of vanilla css
+<style type="text/css" media="screen">
+  .disposition-set {
+    counter-reset: set;
+  }
+
+  .disposition-unit {
+    position: relative;
+    margin: 16px 0 32px 0;
+    padding: 0 32px 0 40px;
+  }
+
+  @media (min-width: 500px) {
+    .disposition-unit {
+      margin: 32px 0;
+      padding: 0 0 0 56px;
+      border-top: 0;
+    }
+  }
+
+  .disposition-unit:first-child {
+    padding-top: 0;
+    border-top: 0;
+  }
+
+  .disposition-unit:before {
+    counter-increment: set;
+    content: counter(set);
+    position: absolute;
+    z-index: 2;
+    top: 0;
+    left: 0;
+    width: 24px;
+    height: 24px;
+    line-height: 24px;
+    border-radius: 100%;
+    border: 2px solid #aeb7bd;
+    background-color: #fff;
+    text-align: center;
+  }
+
+  @media (min-width: 500px) {
+    .disposition-unit:before {
+      width: 32px;
+      height: 32px;
+      line-height: 32px;
+      border-radius: 100%;
+      border: 4px solid #aeb7bd;
+      background-color: #fff;
+      text-align: center;
+    }
+  }
+
+  .disposition-unit:after {
+    content: '';
+    position: absolute;
+    top: 28px;
+    left: 14px;
+    z-index: 1;
+    border-left: solid 2px #aeb7bd;
+    height: 102%;
+  }
+
+  @media (min-width: 500px) {
+    .disposition-unit:after {
+      top: 36px;
+      left: 18px;
+      border-left-width: 4px;
+    }
+  }
+
+  .disposition-unit:last-child:after {
+    border: 0;
+  }
+
+  .disposition-unit .collapse-title :first-child {
+    margin-top: 0;
+  }
+</style>
+
+<div class="measure nhsuk-core">
+
+  <div class="disposition-set">
 
     <div class="disposition-unit">
-        <h2 class="nhsuk-heading-l">Isolate</h2>
-        <p>You do that by:</p>
-        <ul>
-            <li>thing</li>
-            <li>thing</li>
-            <li>thing</li>
-            <li>thing</li>
-        </ul>
+      <h1 class="nhsuk-heading-l">
+        You need to isolate yourself and stay indoors
+      </h1>
+      <p>
+        If you’re away from home, find a room where you can close the door and
+        wait by yourself until you have spoken to 111.
+      </p>
+      <p>
+        If you’re already on public transport, go home by the most direct route.
+      </p>
+      <p>
+        Read <a href="https://www.gov.uk/government/publications/wuhan-novel-coronavirus-self-isolation-for-patients-undergoing-testing/advice-sheet-home-isolation" target="_blank">guidance on how to keep yourself and others safe <span class="small">(opens in a new tab or window)</span>,</a> when self-isolating.
+      </p>
     </div>
 
     <div class="disposition-unit">
-        <h2 class="nhsuk-heading-l">Call 111</h2>
-        <p>When you do this here's some advice</p>
+      <h2 class="nhsuk-heading-l">Call NHS 111. Do not go to your GP or a hospital.</h2>
+      <p>
+        Tell 111 that you are calling about coronavirus (COVID-19) symptoms.
+      </p>
+      <p>
+        You must tell them where you have travelled or about any contact you’ve
+        had with someone with symptoms.
+      </p>
+      <p>
+        If you hear a recorded message, make sure you select the option where
+        you speak to someone.
+      </p>
+      <p>
+        Although the risk to the UK public is low, it’s important to try to stop
+        any possible spread of infection.
+      </p>
     </div>
 
+  </div>
 </div>
