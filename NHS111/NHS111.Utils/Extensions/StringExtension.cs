@@ -34,13 +34,21 @@ namespace NHS111.Utils.Extensions
             return FirstToUpper(s);
         }
 
-        public static string ParseForMarkdown(this string s, HtmlGenericControl enclosingTag)
+        public static string ParseForMarkdown(this string s)
+        {
+            return ParseForMarkdown(s, null);
+        }
+
+        public static string ParseForMarkdown(this string s, HtmlGenericControl tagWrapper)
         {
             if(s.StartsWith("!markdown!"))
                 return Markdown.ToHtml(s.Replace("!markdown!", string.Empty).Replace("/r/n", Environment.NewLine));
 
-            enclosingTag.InnerHtml = s;
-            return GenerateHtml(enclosingTag);
+            if (tagWrapper == null)
+                return s;
+
+            tagWrapper.InnerHtml = s;
+            return GenerateHtml(tagWrapper);
         }
 
         private static string GenerateHtml(HtmlGenericControl tag)
