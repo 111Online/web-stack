@@ -32,7 +32,7 @@
   left: 0;
   width: 24px;
   height: 24px;
-  line-height: 24px;
+  line-height: 21px;
   border-radius: 100%;
   border: 2px solid #aeb7bd;
   background-color: #fff;
@@ -43,7 +43,7 @@
   .disposition-unit:before {
     width: 32px;
     height: 32px;
-    line-height: 32px;
+    line-height: 24px;
     border-radius: 100%;
     border: 4px solid #aeb7bd;
     background-color: #fff;
@@ -54,8 +54,8 @@
 .disposition-unit:after {
   content: '';
   position: absolute;
-  top: 28px;
-  left: 14px;
+  top: 24px;
+  left: 11px;
   z-index: 1;
   border-left: solid 2px #aeb7bd;
   height: 102%;
@@ -63,8 +63,8 @@
 
 @media (min-width: 500px) {
   .disposition-unit:after {
-    top: 36px;
-    left: 18px;
+    top: 32px;
+    left: 14px;
     border-left-width: 4px;
   }
 }
