@@ -1,4 +1,10 @@
-﻿using System.Net.Http;
+﻿using System;
+using System.IO;
+using System.Net.Http;
+using System.Text;
+using System.Web.UI;
+using System.Web.UI.HtmlControls;
+using Markdig;
 
 namespace NHS111.Utils.Extensions
 {
@@ -26,6 +32,28 @@ namespace NHS111.Utils.Extensions
 
             s = s.ToLower();
             return FirstToUpper(s);
+        }
+
+        public static string ParseForMarkdown(this string s, HtmlGenericControl enclosingTag)
+        {
+            if(s.StartsWith("!markdown!"))
+                return Markdown.ToHtml(s.Replace("!markdown!", string.Empty).Replace("/r/n", Environment.NewLine));
+
+            enclosingTag.InnerHtml = s;
+            return GenerateHtml(enclosingTag);
+        }
+
+        private static string GenerateHtml(HtmlGenericControl tag)
+        {
+            var generatedHtml = new StringBuilder();
+            using (var htmlStringWriter = new StringWriter(generatedHtml))
+            {
+                using (var htmlTextWriter = new HtmlTextWriter(htmlStringWriter))
+                {
+                    tag.RenderControl(htmlTextWriter);
+                    return generatedHtml.ToString();
+                }
+            }
         }
     }
 }
