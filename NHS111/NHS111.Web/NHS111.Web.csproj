@@ -474,6 +474,7 @@
     <Content Include="Views\Outcome\Corona\Isolate_PHE.cshtml" />
     <Content Include="Views\Outcome\Corona\Isolate_111.cshtml" />
     <Content Include="Views\Outcome\Corona\High_Level.cshtml" />
+    <Content Include="Views\Outcome\Corona\Information_Travelled.cshtml" />
     <None Include="Web.Development.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
