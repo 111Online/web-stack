@@ -69,7 +69,7 @@ namespace NHS111.Models.Models.Domain {
         public static OutcomeGroup NoFurtherAction = new OutcomeGroup { Id = "No_Further_Action", Text = "No_Further_Action", DefaultTitle = "No further action required", Label = "No further action", PostcodeFirst = true, ITK = false };
 
         #region Corona virus specific outcomes
-        public static OutcomeGroup HighLevel = new OutcomeGroup { Id = "High_Level", Text = "High_Level", DefaultTitle = "High level", Label = "No further action", PostcodeFirst = false, ITK = false };
+        public static OutcomeGroup InformationTravelled = new OutcomeGroup { Id = "Information_Travelled", Text = "Information_Travelled", DefaultTitle = "Travelled information", Label = "No further action", PostcodeFirst = false, ITK = false };
         public static OutcomeGroup Isolate111 = new OutcomeGroup { Id = "Isolate_111", Text = "Isolate_111", DefaultTitle = "Isolate yourself at home", Label = "No further action", PostcodeFirst = false, ITK = false };
         public static OutcomeGroup IsolatePHE= new OutcomeGroup { Id = "Isolate_PHE", Text = "Isolate_PHE", DefaultTitle = "Isolate yourself at home", Label = "No further action", PostcodeFirst = false, ITK = false };
         public static OutcomeGroup Information111 = new OutcomeGroup { Id = "Information_111", Text = "Information_111", DefaultTitle = "Information", Label = "No further action", PostcodeFirst = false, ITK = false };
@@ -105,10 +105,10 @@ namespace NHS111.Models.Models.Domain {
             { NoFurtherAction.Id, NoFurtherAction },
 
         #region Corona virus specific outcomes
-            { HighLevel.Id, HighLevel },
+            { InformationTravelled.Id, InformationTravelled },
             { Isolate111.Id, Isolate111 },
             { IsolatePHE.Id, IsolatePHE },
-            { Information111.Id, Information111 },
+            { Information111.Id, InformationTravelled},
             { Information.Id, Information }
         #endregion
     };
@@ -180,7 +180,7 @@ namespace NHS111.Models.Models.Domain {
 
         public bool IsCoronaVirus {
             get {
-                return this.Equals(OutcomeGroup.HighLevel) ||
+                return this.Equals(OutcomeGroup.InformationTravelled) ||
                        this.Equals(OutcomeGroup.Isolate111) ||
                        this.Equals(OutcomeGroup.IsolatePHE) ||
                        this.Equals(OutcomeGroup.Information111) ||
