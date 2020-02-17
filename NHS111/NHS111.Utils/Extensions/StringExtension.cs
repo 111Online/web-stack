@@ -34,6 +34,10 @@ namespace NHS111.Utils.Extensions
             return FirstToUpper(s);
         }
 
+        public static string MarkdownToPlainText(this string s)
+        {
+            return s.StartsWith("!markdown!") ? Markdown.ToPlainText(s.Replace("!markdown!", string.Empty).Replace("/r/n", " ")) : s;
+        }
         public static string ParseForMarkdown(this string s)
         {
             return ParseForMarkdown(s, null);
