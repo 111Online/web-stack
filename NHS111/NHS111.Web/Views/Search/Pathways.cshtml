@@ -8,6 +8,7 @@
 }
 
 @section Title  {NHS 111 Online - Categories}
+@section EmergencyAlert{}
 
 @section HeadTop {
     <script>
@@ -36,61 +37,66 @@
     <a class="search__button--back" href="/@Model.UserInfo.Demography.Gender/@Model.UserInfo.Demography.Age/Categories?args=@encryptedQueryStringValues">Back to categories</a>
 
     <h1 class="heading--large">@topLevelCategory.Category.Title</h1>
-            @if (topLevelCategory.SubCategories != null && topLevelCategory.SubCategories.Any()) {
-                foreach (var subCategory in topLevelCategory.SubCategories.OrderBy(x => x.Category.OrderNo)) {
-                    if (!subCategory.Pathways.Any()) {
-                        continue;
-                    }
-                    <details class="search__nested-category">
-                        <summary>
-                            <span class="details__arrow"></span><span class="summary" id="@subCategory.Category.Id">@subCategory.Category.Title</span>
-                        </summary>
-                        <div>
-                            <ul class="link-list link-list--results">
-                                @foreach (var pathway in subCategory.Pathways.OrderBy(p => p.PathwayData.DigitalTitle))
-                                {
-                                    var titles = pathway.PathwayData.DigitalTitle.Split('|');
-                                    var additionalTopics = titles.Length > 1 ? titles.Skip(1) : new List<string>();
-                                    var title = titles[0];
-                                    Model.DigitalTitle = title;
-                                    encryptedQueryStringValues = KeyValueEncryptor.EncryptedKeys(Model);
-                                    <li>
-                                        <a class="search__topic" data-title="@title" data-pathway-number="@pathway.Pathway.Id" href="/@pathway.Pathway.PathwayNo/@Model.UserInfo.Demography.Gender/@Model.UserInfo.Demography.Age/start?args=@encryptedQueryStringValues.ToString()">
-                                            <span class="search__topic-title">@Html.Raw(title)</span>
-                                            @if (additionalTopics.Any())
-                                            {
-                                                <p class="search__topic-covers">Checks for things like: @Html.Raw(string.Join(", ", additionalTopics))</p>
-                                            }
-                                            <p class="search__topic-description">@Html.Raw(pathway.PathwayData.DigitalDescription)</p>
-                                        </a>
-                                    </li>
-                                }
-                            </ul>
-                        </div>
-                    </details>
-                }
+    @if (topLevelCategory.SubCategories != null && topLevelCategory.SubCategories.Any())
+    {
+        foreach (var subCategory in topLevelCategory.SubCategories.OrderBy(x => x.Category.OrderNo))
+        {
+            if (!subCategory.Pathways.Any())
+            {
+                continue;
             }
-            @if (topLevelCategory.Pathways != null && topLevelCategory.Pathways.Any()) {
-                <ul class="link-list link-list--results">
-                    @foreach (var pathway in topLevelCategory.Pathways.OrderBy(p => p.PathwayData.DigitalTitle)) {
-                        var titles = pathway.PathwayData.DigitalTitle.Split('|');
-                        var additionalTopics = titles.Length > 1 ? titles.Skip(1) : new List<string>();
-                        var title = titles[0];
-                        Model.DigitalTitle = title;
-                        encryptedQueryStringValues = KeyValueEncryptor.EncryptedKeys(Model);
-                        <li>
-                            <a class="search__topic" data-title="@title" data-pathway-number="@pathway.Pathway.Id" href="/@pathway.Pathway.PathwayNo/@Model.UserInfo.Demography.Gender/@Model.UserInfo.Demography.Age/start?args=@encryptedQueryStringValues.ToString()">
-                                <span class="search__topic-title">@Html.Raw(title)</span>
-                                @if (additionalTopics.Any())
-                                {
-                                    <p class="search__topic-covers">Checks for things like: @Html.Raw(string.Join(", ", additionalTopics))</p>
-                                }
-                                <p class="search__topic-description">@Html.Raw(pathway.PathwayData.DigitalDescription)</p>
-                            </a>
-                        </li>
-                    }
-                </ul>
+            <details class="search__nested-category">
+                <summary>
+                    <span class="details__arrow"></span><span class="summary" id="@subCategory.Category.Id">@subCategory.Category.Title</span>
+                </summary>
+                <div>
+                    <ul class="link-list link-list--results">
+                        @foreach (var pathway in subCategory.Pathways.OrderBy(p => p.PathwayData.DigitalTitle))
+                        {
+                            var titles = pathway.PathwayData.DigitalTitle.Split('|');
+                            var additionalTopics = titles.Length > 1 ? titles.Skip(1) : new List<string>();
+                            var title = titles[0];
+                            Model.DigitalTitle = title;
+                            encryptedQueryStringValues = KeyValueEncryptor.EncryptedKeys(Model);
+                            <li>
+                                <a class="search__topic" data-title="@title" data-pathway-number="@pathway.Pathway.Id" href="/@pathway.Pathway.PathwayNo/@Model.UserInfo.Demography.Gender/@Model.UserInfo.Demography.Age/start?args=@encryptedQueryStringValues.ToString()">
+                                    <span class="search__topic-title">@Html.Raw(title)</span>
+                                    @if (additionalTopics.Any())
+                                    {
+                                        <p class="search__topic-covers">Checks for things like: @Html.Raw(string.Join(", ", additionalTopics))</p>
+                                    }
+                                    <p class="search__topic-description">@Html.Raw(pathway.PathwayData.DigitalDescription)</p>
+                                </a>
+                            </li>
+                        }
+                    </ul>
+                </div>
+            </details>
+        }
+    }
+    @if (topLevelCategory.Pathways != null && topLevelCategory.Pathways.Any())
+    {
+        <ul class="link-list link-list--results">
+            @foreach (var pathway in topLevelCategory.Pathways.OrderBy(p => p.PathwayData.DigitalTitle))
+            {
+                var titles = pathway.PathwayData.DigitalTitle.Split('|');
+                var additionalTopics = titles.Length > 1 ? titles.Skip(1) : new List<string>();
+                var title = titles[0];
+                Model.DigitalTitle = title;
+                encryptedQueryStringValues = KeyValueEncryptor.EncryptedKeys(Model);
+                <li>
+                    <a class="search__topic" data-title="@title" data-pathway-number="@pathway.Pathway.Id" href="/@pathway.Pathway.PathwayNo/@Model.UserInfo.Demography.Gender/@Model.UserInfo.Demography.Age/start?args=@encryptedQueryStringValues.ToString()">
+                        <span class="search__topic-title">@Html.Raw(title)</span>
+                        @if (additionalTopics.Any())
+                        {
+                            <p class="search__topic-covers">Checks for things like: @Html.Raw(string.Join(", ", additionalTopics))</p>
+                        }
+                        <p class="search__topic-description">@Html.Raw(pathway.PathwayData.DigitalDescription)</p>
+                    </a>
+                </li>
             }
+        </ul>
+    }
 </div>
 
 <hr />

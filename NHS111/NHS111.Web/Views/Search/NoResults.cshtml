@@ -8,6 +8,7 @@
 }
 
 @section Title  {NHS 111 Online - Best applies}
+@section EmergencyAlert{}
 
 @section HeadTop {
     <script>
@@ -26,9 +27,9 @@
         PageData = new PageDataViewModel(PageDataViewModel.PageType.SearchResults, Model)
     })
 }
-    <div id="SearchResults" class="measure search-typography">
+<div id="SearchResults" class="measure search-typography">
 
-        @{
+    @{
         var searchTerm = Model.SanitisedSearchTerm;
         if (searchTerm == null)
         {
@@ -36,13 +37,13 @@
         }
 
         var encryptedQueryStringValues = KeyValueEncryptor.EncryptedKeys(Model);
-        }
+    }
 
-        <h1 class="util-wrap heading--body">@string.Format("Sorry, no topics have been found for '{0}'.", searchTerm.Trim())</h1>
-        <p>You can <a href="#" onclick="document.getElementById('SanitisedSearchTerm').focus()">search again</a>, or browse <a id="show-categories" href="/@Model.UserInfo.Demography.Gender/@Model.UserInfo.Demography.Age/Categories?args=@encryptedQueryStringValues">topics by category.</a></p>
-        @Html.Partial("_SearchBox", Model, ViewData)
-        @Html.Partial("_ExternalInformation")
+    <h1 class="util-wrap heading--body">@string.Format("Sorry, no topics have been found for '{0}'.", searchTerm.Trim())</h1>
+    <p>You can <a href="#" onclick="document.getElementById('SanitisedSearchTerm').focus()">search again</a>, or browse <a id="show-categories" href="/@Model.UserInfo.Demography.Gender/@Model.UserInfo.Demography.Age/Categories?args=@encryptedQueryStringValues">topics by category.</a></p>
+    @Html.Partial("_SearchBox", Model, ViewData)
+    @Html.Partial("_ExternalInformation")
 
-        <p>If you don’t know what to look for you can <a data-pathway-number="@Model.GetOtherProblemsPathway(Model.UserInfo).PathwayNo" href="/@Model.GetOtherProblemsPathway(Model.UserInfo).PathwayNo/@Model.UserInfo.Demography.Gender/@Model.UserInfo.Demography.Age/start?args=@encryptedQueryStringValues">rule out serious conditions.</a></p>
-    </div>
+    <p>If you don’t know what to look for you can <a data-pathway-number="@Model.GetOtherProblemsPathway(Model.UserInfo).PathwayNo" href="/@Model.GetOtherProblemsPathway(Model.UserInfo).PathwayNo/@Model.UserInfo.Demography.Gender/@Model.UserInfo.Demography.Age/start?args=@encryptedQueryStringValues">rule out serious conditions.</a></p>
+</div>
 
