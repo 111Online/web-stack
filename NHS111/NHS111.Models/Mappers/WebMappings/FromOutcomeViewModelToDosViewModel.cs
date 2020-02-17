@@ -20,6 +20,7 @@ namespace NHS111.Models.Mappers.WebMappings
                 .ForMember(dest => dest.Title, opt => opt.MapFrom(src => src.Title))
                 .ForMember(dest => dest.CareAdviceMarkers, opt => opt.MapFrom(src => src.CareAdviceMarkers))
                 .ForMember(dest => dest.CareAdvices, opt => opt.MapFrom(src => src.CareAdvices))
+                .ForMember(dest => dest.CaseRef, opt => opt.MapFrom(src => src.JourneyId))
                 .ForMember(dest => dest.CaseId, opt => opt.MapFrom(src => src.JourneyId))
                 .ForMember(dest => dest.JourneyJson, opt => opt.MapFrom(src => src.JourneyJson))
                 .ForMember(dest => dest.PathwayNo, opt => opt.MapFrom(src => src.PathwayNo))
@@ -44,7 +45,6 @@ namespace NHS111.Models.Mappers.WebMappings
                 .ForMember(dest => dest.CheckCapacitySummaryResultListJson, opt => opt.Ignore())
                 .ForMember(dest => dest.SearchDistances, opt => opt.Ignore())
                 .ForMember(dest => dest.Dispositions, opt => opt.Ignore())
-                .ForMember(dest => dest.CaseRef, opt => opt.Ignore())
                 .ForMember(dest => dest.AgeFormat, opt => opt.Ignore())
                 .ForMember(dest => dest.SearchDistance, opt => opt.Ignore())
                 .ForMember(dest => dest.NumberPerType, opt => opt.Ignore())
@@ -73,39 +73,32 @@ namespace NHS111.Models.Mappers.WebMappings
             }
 
             public static string Remap(string source) {
-                if (IsRemappedToDx333(source))
-                    return "Dx333";
 
-                if (IsRemappedToDx334(source))
-                    return "Dx334";
+                var dictionary = ConfigurationManager.AppSettings["ValidationDxRemap"].Split(',').ToDictionary(k => k.Split(':').First(), v => v.Split(':').Last());
+
+                if (dictionary.ContainsKey(source))
+                {
+                    return dictionary[source];
+                }
 
                 return source;
             }
 
-            public static bool IsRemappedToDx333(string dxCode) {
-                var mappingsForDx333 = ConfigurationManager.AppSettings["Cat3And4DxCodes"];
-                if (mappingsForDx333 != null) {
-                    var remapped333Codes = mappingsForDx333.Split(',');
-                    if (remapped333Codes.Contains(dxCode))
+            public static bool IsDOSRetry(string dxCode)
+            {
+                var mappingsForDxDosRetry = ConfigurationManager.AppSettings["ValidationDxRetry"];
+                if (mappingsForDxDosRetry != null)
+                {
+                    var remappedCodes = mappingsForDxDosRetry.Split(',');
+                    if (remappedCodes.Contains(dxCode))
                         return true;
                 }
 
                 return false;
             }
 
-            public static bool IsRemappedToDx334(string dxCode) {
-                var mappingsForDx334 = ConfigurationManager.AppSettings["EDCallbackDxCodes"];
-                if (mappingsForDx334 != null) {
-                    var remapped334Codes = mappingsForDx334.Split(',');
-                    if (remapped334Codes.Contains(dxCode))
-                        return true;
-                }
-
-                return false;
-            }
 
         }
-
 
         public class PostcodeResolver : ValueResolver<UserInfo, string>
         {

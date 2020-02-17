@@ -129,7 +129,7 @@ namespace NHS111.Web.Presentation.Builders
 
             model = await dosTask;
             
-            if (OutcomeGroup.Call999Cat2.Equals(model.OutcomeGroup) || OutcomeGroup.Call999Cat3.Equals(model.OutcomeGroup))
+            if (OutcomeGroup.Call999Cat1.Equals(model.OutcomeGroup) || OutcomeGroup.Call999Cat2.Equals(model.OutcomeGroup) || OutcomeGroup.Call999Cat3.Equals(model.OutcomeGroup))
             {
                 model.CareAdviceMarkers = model.State.Keys.Where(key => key.StartsWith("Cx"));
             }
@@ -149,7 +149,7 @@ namespace NHS111.Web.Presentation.Builders
         {
             return (!model.HasAcceptedCallbackOffer.HasValue || !model.HasAcceptedCallbackOffer.Value) &&
                    (model.OutcomeGroup.Equals(OutcomeGroup.AccidentAndEmergency) || model.OutcomeGroup.Equals(OutcomeGroup.MentalHealth)) &&
-                   FromOutcomeViewModelToDosViewModel.DispositionResolver.IsRemappedToDx334(model.Id) &&
+                   FromOutcomeViewModelToDosViewModel.DispositionResolver.IsDOSRetry(model.Id) &&
                    !model.DosCheckCapacitySummaryResult.HasITKServices;
         }
 

@@ -34,6 +34,8 @@ namespace NHS111.Models.Models.Domain {
 
         public static OutcomeGroup Call999Police = new OutcomeGroup { Id = "Call_999_police", Text = "Call_999_police", DefaultTitle = "Your answers suggest you should dial 999 now for the police" };
 
+        public static OutcomeGroup Call999Cat1 = new OutcomeGroup { Id = "Call_999_cat_1", Text = "Phone 999 now for an ambulance" };
+
         public static OutcomeGroup Call999Cat2 = new OutcomeGroup { Id = "Call_999_cat_2", Text = "Phone 999 now for an ambulance" };
 
         public static OutcomeGroup Call999Cat3 = new OutcomeGroup { Id = "Call_999_cat_3", Text = "Call_999_cat_3", DefaultTitle = "Phone 999 now for an ambulance", AutomaticSelectionOfItkResult = true };
@@ -75,6 +77,7 @@ namespace NHS111.Models.Models.Domain {
         {
             { ClinicianCallBack.Id, ClinicianCallBack},
             { ItkPrimaryCare.Id, ItkPrimaryCare},
+            { Call999Cat1.Id, Call999Cat1 },
             { Call999Cat2.Id, Call999Cat2 },
             { Call999Cat3.Id, Call999Cat3 },
             { Call999Cat4.Id, Call999Cat4 },
