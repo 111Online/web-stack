@@ -36,7 +36,7 @@ namespace NHS111.Web.Controllers
         }
 
         [HttpGet]
-        [Route("{pathwayNumber}/{sessionId}/{digitalTitle}/info")]
+        [Route("{pathwayNumber}/{sessionId}/{digitalTitle}/about")]
         public async Task<ActionResult> StartNonDemographicSpecificQuestion(string pathwayNumber, string sessionId, string digitalTitle)
         {
             var model = BuildModel(pathwayNumber, sessionId, digitalTitle);
