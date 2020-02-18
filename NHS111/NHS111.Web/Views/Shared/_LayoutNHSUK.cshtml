@@ -86,14 +86,7 @@
     <section class="outer-section">@RenderSection("OuterSection", false)</section>
     
     @*Use '@section EmergencyAlert{}' in views to display alert banner*@
-    @if(IsSectionDefined("EmergencyAlert"))
-    {
-        @RenderSection("EmergencyAlert", false)
-        if (EmergencyAlertFeature.IsEnabled)
-        {
-            @Html.Partial("_EmergencyAlert")
-        }
-    }
+    @RenderSection("EmergencyAlert", false)
 
     <main class="page-section clearfix" id="content" role="main">
         @if (DisclaimerBannerFeature.IsEnabled)
