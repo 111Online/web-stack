@@ -7,14 +7,12 @@ using NHS111.Features;
 
 namespace NHS111.Web.Views.Shared
 {
-    public class AgeValidationView<T>: WebViewPage<T>
+    public class SearchView<T> : WebViewPage<T>
     {
-        protected readonly IFilterPathwaysByAgeFeature FilterPathwaysByAgeFeature;
         protected readonly IEmergencyAlertFeature EmergencyAlertFeature;
 
-        public AgeValidationView()
+        public SearchView()
         {
-            FilterPathwaysByAgeFeature = new FilterPathwaysByAgeFeature();
             EmergencyAlertFeature = new EmergencyAlertFeature();
         }
 

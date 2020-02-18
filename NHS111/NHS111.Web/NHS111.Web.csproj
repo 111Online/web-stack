@@ -248,6 +248,7 @@
     <Compile Include="Views\Shared\DisclaimerPopupView.cs" />
     <Compile Include="Views\Shared\LayoutView.cs" />
     <Compile Include="Views\Shared\OutcomeFeaturesView.cs" />
+    <Compile Include="Views\Shared\SearchView.cs" />
     <Compile Include="Views\Shared\SurveyLinkView.cs" />
   </ItemGroup>
   <ItemGroup>

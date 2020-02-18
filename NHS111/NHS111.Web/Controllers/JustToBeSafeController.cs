@@ -35,6 +35,14 @@ namespace NHS111.Web.Controllers
             return View(next.Item1, next.Item2);
         }
 
+        [HttpGet]
+        [Route("{pathwayNumber}/{sessionId}/{digitalTitle}/about")]
+        public async Task<ActionResult> StartNonDemographicSpecificQuestion(string pathwayNumber, string sessionId, string digitalTitle)
+        {
+            var model = BuildModel(pathwayNumber, sessionId, digitalTitle);
+            return await JustToBeSafeFirst(model);
+        }
+    
 
         [HttpGet]
         [Route("{pathwayNumber}/{gender}/{age}/start")]
@@ -48,6 +56,25 @@ namespace NHS111.Web.Controllers
         public async Task<ActionResult> FirstQuestionDeeplink(JustToBeSafeViewModel model) {
             ModelState.Clear();
             return await JustToBeSafeFirst(model);
+        }
+
+        private static QuestionInfoViewModel BuildModel(string pathwayNumber, string sessionId, string digitalTitle)
+        {
+            var model = new QuestionInfoViewModel
+            {
+                SessionId = Guid.Parse(sessionId),
+                PathwayNo = pathwayNumber,
+                DigitalTitle = digitalTitle,
+                UserInfo = new UserInfo
+                {
+                    Demography = new AgeGenderViewModel
+                    {
+                        Age = 111,
+                        Gender = "Female"
+                    }
+                }
+            };
+            return model;
         }
 
         private static QuestionInfoViewModel BuildModel(string pathwayNumber, string gender, int age, string args) {
