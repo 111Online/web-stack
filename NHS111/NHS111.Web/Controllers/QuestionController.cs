@@ -310,7 +310,7 @@ namespace NHS111.Web.Controllers {
             if (!DirectToOtherServices)
                 return controller.RecommendedService(outcomeModel);
 
-            if (outcomeModel.OutcomeGroup.IsUsingRecommendedService)
+            if (!outcomeModel.OutcomeGroup.IsUsingRecommendedService)
                 outcomeModel.RecommendedService = null;
 
             var minimumServicesNeededForServiceList = outcomeModel.OutcomeGroup.IsUsingRecommendedService ? 2 : 1;
