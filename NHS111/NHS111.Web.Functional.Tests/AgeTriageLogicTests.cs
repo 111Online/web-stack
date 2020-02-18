@@ -13,7 +13,7 @@ namespace NHS111.Web.Functional.Tests
 
             var outcomePage = questionPage
                 .AnswerYes()
-                .AnswerAndVerifyNextQuestion(1, "Do you have any of the symptoms of a heart attack?")
+                .AnswerAndVerifyNextQuestion(1, "Have you got pain like this?")
                 .AnswerAndVerifyNextQuestion(5, "Are you so ill that you've stopped doing all of your usual daily activities?")
                 .AnswerAndVerifyNextQuestion(3, "Is there a chance you're pregnant?")
                 .AnswerAndVerifyNextQuestion(3, "Have you vomited up either of the following?")
@@ -31,9 +31,9 @@ namespace NHS111.Web.Functional.Tests
 
             questionPage.VerifyQuestion("Have you also got tummy pain?");
             var outcomePage = questionPage.AnswerAndVerifyNextQuestion(1, "How bad is the pain?")
-                .AnswerAndVerifyNextQuestion(1, "Have you got a sudden, agonising ripping or tearing pain in your chest or back?")
+                .AnswerAndVerifyNextQuestion(1, "Did the pain come on very quickly over a few seconds?")
                 .AnswerAndVerifyNextQuestion(3, "Has a doctor told you that you have either of the following?")
-                .AnswerAndVerifyNextQuestion(4, "Do you have any of the symptoms of a heart attack?")
+                .AnswerAndVerifyNextQuestion(4, "Have you got pain like this?")
                 .AnswerAndVerifyNextQuestion(5, "Are you so ill that you've stopped doing all of your usual daily activities?")
                 .AnswerAndVerifyNextQuestion(3, "Have you vomited up either of the following?")
                 .AnswerAndVerifyNextQuestion(4, "What does your poo look like?")
@@ -50,7 +50,7 @@ namespace NHS111.Web.Functional.Tests
 
             var outcomePage = questionPage
                 .AnswerYes()
-                .AnswerAndVerifyNextQuestion(1, "Do you have any of the symptoms of a heart attack?")
+                .AnswerAndVerifyNextQuestion(1, "Have you got pain like this?")
                 .AnswerAndVerifyNextQuestion(5, "Are you so ill that you've stopped doing all of your usual daily activities?")
                 .AnswerAndVerifyNextQuestion(3, "Have you vomited up either of the following?")
                 .AnswerAndVerifyNextQuestion(4, "What does your poo look like?")
