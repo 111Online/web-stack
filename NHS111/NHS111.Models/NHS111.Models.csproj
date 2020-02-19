@@ -235,6 +235,7 @@
     <Compile Include="Models\Web\DosRequests\DosServicesByClinicalTermRequest.cs" />
     <Compile Include="Models\Web\EmergencyAlertViewModel.cs" />
     <Compile Include="Models\Web\Enums\EventType.cs" />
+    <Compile Include="Models\Web\FeedbackResultViewModel.cs" />
     <Compile Include="Models\Web\FeedbackViewModel.cs" />
     <Compile Include="Models\Web\FromExternalServices\AddressLocationResult.cs" />
     <Compile Include="Models\Web\FromExternalServices\CheckCapacitySummaryResponse.cs" />
@@ -272,7 +273,6 @@
     <Compile Include="Models\Web\DosRequests\DosUserInfo.cs" />
     <Compile Include="Models\Web\DosViewModel.cs" />
     <Compile Include="Models\Web\Enums\Urgency.cs" />
-    <Compile Include="Models\Web\FeedbackConfirmation.cs" />
     <Compile Include="Models\Web\FromExternalServices\ErrorObject.cs" />
     <Compile Include="Models\Web\GroupedDOSServices.cs" />
     <Compile Include="Models\Web\FromExternalServices\LocationCoordinates.cs" />

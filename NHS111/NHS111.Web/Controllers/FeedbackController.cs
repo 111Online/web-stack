@@ -19,7 +19,7 @@ namespace NHS111.Web.Controllers
         [HttpPost]
         public async Task<ActionResult> SubmitFeedback(FeedbackViewModel feedbackData)
         {
-            var model = await _feedbackViewModelBuilder.FeedbackBuilder(feedbackData);
+            var model = await _feedbackViewModelBuilder.FeedbackResultBuilder(feedbackData);
             return Content(model.Message, "text/html");
         }
     }
