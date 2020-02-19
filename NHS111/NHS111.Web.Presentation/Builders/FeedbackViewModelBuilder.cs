@@ -30,7 +30,7 @@ namespace NHS111.Web.Presentation.Builders
             _pageDateViewModelBuilder = pageDataViewModelBuilder;
         }
 
-        public async Task<FeedbackConfirmation> FeedbackBuilder(FeedbackViewModel feedback)
+        public async Task<FeedbackResultViewModel> FeedbackResultBuilder(FeedbackViewModel feedback)
         {
             feedback.DateAdded = DateTime.Now;
             feedback.PageData = await _pageDateViewModelBuilder.PageDataBuilder(feedback.PageData);
@@ -42,17 +42,17 @@ namespace NHS111.Web.Presentation.Builders
                 var response = await _restClient.ExecuteTaskAsync(request);
 
                 if (response.StatusCode == HttpStatusCode.OK || response.StatusCode == HttpStatusCode.Created) {
-                    return FeedbackConfirmation.Success;
+                    return new FeedbackConfirmationResultViewModel(feedback);
                 }
             } catch {
-                return FeedbackConfirmation.Error;
+                return new FeedbackErrorResultViewModel(feedback);
             }
-            return FeedbackConfirmation.Error;
+            return new FeedbackErrorResultViewModel(feedback);
         }
     }
 
     public interface IFeedbackViewModelBuilder
     {
-        Task<FeedbackConfirmation> FeedbackBuilder(FeedbackViewModel feedback);
+        Task<FeedbackResultViewModel> FeedbackResultBuilder(FeedbackViewModel feedback);
     }
 }
