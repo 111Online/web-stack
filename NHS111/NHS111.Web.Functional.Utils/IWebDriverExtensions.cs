@@ -32,6 +32,12 @@ namespace NHS111.Web.Functional.Utils {
             return driver.SwitchTo().ActiveElement();
         }
 
+        public static IWebElement Tab(this IWebElement element, IWebDriver driver)
+        {
+            element.SendKeys(Keys.Tab);
+            return driver.SwitchTo().ActiveElement();
+        }
+
         public static string GetCurrentImageUniqueId(this IWebDriver driver)
         {
             return _currentImageUniqueId;
