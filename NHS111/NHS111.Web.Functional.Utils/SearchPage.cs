@@ -117,13 +117,13 @@ namespace NHS111.Web.Functional.Utils
 
         public void VerifyTabbingOrder(string searchTerm)
         {
-            var searchTxtBox = Driver.TabFrom(HeaderLogo);
+            var searchTxtBox = TabToFirstPageBodyElement();
             searchTxtBox.SendKeys(searchTerm);
-            var nextButtonElement = Driver.TabFrom(searchTxtBox);
+            var nextButtonElement = searchTxtBox.Tab(Driver);
             nextButtonElement.SendKeys(Keys.Enter);
             //Page Loads Results, so the elements have been recreated
             //on the new page, so we must get it again.
-            searchTxtBox = Driver.TabFrom(HeaderLogo);
+            searchTxtBox = TabToFirstPageBodyElement();
             searchTxtBox.SendKeys(searchTerm);
             nextButtonElement = Driver.TabFrom(searchTxtBox);
             var firstSearchResultLink = Driver.TabFrom(nextButtonElement);
