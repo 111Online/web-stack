@@ -40,7 +40,7 @@ namespace NHS111.Web.Controllers
         //Special route for Covid direct link to tidy up..
         public async Task<ActionResult> StartNonDemographicSpecificQuestion()
         {
-            var model = BuildModel("PWCorona", Guid.NewGuid().ToString(), "Coronavirus pathway");
+            var model = BuildModel("PWCorona", Guid.NewGuid().ToString(), "COVID-19");
             model.State.Add("SYSTEM_COVID_NHSUK", "yes");
             return await JustToBeSafeFirst(model);
         }
