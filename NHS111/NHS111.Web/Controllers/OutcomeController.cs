@@ -92,8 +92,8 @@ namespace NHS111.Web.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> DispositionWithServices(OutcomeViewModel model, string submitAction, DosEndpoint? endpoint = null, DateTime? dosSearchTime = null)
-        {
+        public async Task<ActionResult> DispositionWithServices(OutcomeViewModel model, string submitAction, DosEndpoint? endpoint = null, DateTime? dosSearchTime = null) {
+            ModelState.Clear();
             if (submitAction == "manualpostcode") return View("../Outcome/ChangePostcode", model);
             var postcodeValidatorResponse = _postCodeAllowedValidator.IsAllowedPostcode(model.CurrentPostcode);
 
