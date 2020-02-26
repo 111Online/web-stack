@@ -1,12 +1,17 @@
 ﻿@using NHS111.Models.Models.Web
 @using NHS111.Web.Helpers
-@model SearchJourneyViewModel
+@inherits NHS111.Web.Views.Shared.DirectLinkingView<NHS111.Models.Models.Web.SearchJourneyViewModel>
 @{
     Layout = "~/Views/Shared/_LayoutNhsUK.cshtml";
 }
 
 @section Title  {NHS 111 Online - Tell us the symptom}
-
+@section EmergencyAlert{
+    @if (EmergencyAlertFeature.IsEnabled)
+    {
+        @Html.Partial("_EmergencyAlert", new EmergencyAlertViewModel {SessionId = Model.SessionId})
+    }
+}
 
 @section FeedbackSection {
     @Html.Partial("_FeedbackDetails", new FeedbackViewModel { UserId = Model.SessionId.ToString(), PageData = new PageDataViewModel(PageDataViewModel.PageType.Search, Model) })

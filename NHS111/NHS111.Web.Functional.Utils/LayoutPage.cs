@@ -14,7 +14,7 @@ namespace NHS111.Web.Functional.Utils
         public static string _baseUrl = ConfigurationManager.AppSettings["TestWebsiteUrl"];
         public readonly IWebDriver Driver;
         private readonly IVisualRegressionTestingFeature _visualRegressionTestingFeature;
-
+        private readonly EmergencyAlertFeature _emergencyAlertFeature;
         internal const string _headerLogoTitle = "Go to the NHS 111 homepage";
         internal const string _headerText = "1 1 1 online";
 
@@ -27,6 +27,7 @@ namespace NHS111.Web.Functional.Utils
         [FindsBy(How = How.CssSelector, Using = ".global-footer")]
         internal IWebElement Footer { get; set; }
 
+  
         private bool _screenShotsEqual = false;
 
         public LayoutPage(IWebDriver driver) : this(driver, new VisualRegressionTestingFeature()) {}
@@ -36,6 +37,7 @@ namespace NHS111.Web.Functional.Utils
             Driver = driver;
             PageFactory.InitElements(Driver, this);
             _visualRegressionTestingFeature = visualRegressionTestingFeature;
+            _emergencyAlertFeature = new EmergencyAlertFeature();
         }
 
         public void VerifyLayoutPagePresent()
@@ -51,6 +53,13 @@ namespace NHS111.Web.Functional.Utils
             Assert.IsTrue(Header.Displayed);
         }
 
+        public IWebElement TabToFirstPageBodyElement()
+        {
+            var header = HeaderLogo.Tab(Driver);  
+            if (IsElementPresent(By.CssSelector(".nhsuk-global-alert a")))return header.Tab(Driver);
+
+            return header;
+        }
 
         public void VerifyHeaderBannerHidden()
         {
@@ -108,6 +117,11 @@ namespace NHS111.Web.Functional.Utils
         {
             CompareScreenShot(uniqueId);
             return page;
+        }
+
+        public bool IsElementPresent(By by)
+        {
+           return Driver.FindElements(by).Count > 0;
         }
 
         public T CompareAndVerify<T>(T page, string uniqueId) where T : IScreenShotPage

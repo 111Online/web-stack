@@ -4,6 +4,12 @@
 }
 @inherits NHS111.Web.Views.Shared.DirectLinkingView<OutOfAreaViewModel>
 @section Title {NHS 111 Online - Out of area}
+@section EmergencyAlert{
+    @if (EmergencyAlertFeature.IsEnabled)
+    {
+        @Html.Partial("_EmergencyAlert", new EmergencyAlertViewModel { SessionId = Model.SessionId })
+    }
+}
 
 @section HeadTop {
     <script>

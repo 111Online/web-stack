@@ -1,12 +1,15 @@
-﻿@using NHS111.Models.Models.Domain
+﻿@using System.Web.UI.HtmlControls
+@using Markdig
+@using NHS111.Models.Models.Domain
 @using NHS111.Models.Models.Web
 @using NHS111.Models.Models.Web.Elements
 @using NHS111.Models.Models.Web.Enums
+@using NHS111.Utils.Extensions
 @{ Layout = "~/Views/Shared/_LayoutNhsUk.cshtml"; }
 @inherits NHS111.Web.Views.Shared.DirectLinkingView<QuestionViewModel>
 
 
-@section Title  {NHS 111 Online - @Model.TitleWithoutBullets}
+@section Title  {NHS 111 Online - @Model.TitleWithoutBullets.MarkdownToPlainText()}
 
 
 @section HeadTop {
@@ -19,7 +22,7 @@
         dataLayer = [
             {
                 'virtualPageUrl': document.location.pathname + '@url',
-                'virtualPageTitle': '@Model.TitleWithoutBullets'
+                'virtualPageTitle': '@Model.TitleWithoutBullets.MarkdownToPlainText()'
             }];
     </script>
 }
@@ -88,7 +91,7 @@
     <div class="form-group measure @(@ViewData.ModelState.IsValidField("SelectedAnswer") ? "" : "form-group-error")">
         <fieldset>
             <legend>
-                <h1>@Model.TitleWithoutBullets</h1>
+                @Html.Raw(Model.TitleWithoutBullets.ParseForMarkdown(new HtmlGenericControl("h1")))
                 @Html.HiddenFor(m => m.TitleWithoutBullets)
             </legend>
             @Html.ValidationMessageFor(m => m.SelectedAnswer, "Please select an answer", new { @class = "error-message" })
@@ -96,7 +99,7 @@
             {
                 var highlight = Model.QuestionNo == Model.TriggerQuestionNo ? "callout--warning" : "callout--info";
                 <div class="callout @highlight">
-                    <p>@Html.Raw(@Model.RationaleHtml)</p>
+                    @Html.Raw(Model.RationaleHtml.ParseForMarkdown(new HtmlGenericControl("p")))
                 </div>
             }
 
@@ -111,25 +114,25 @@
                                                                                            } else {
                                                                                                @answer.Title
                                                                                            }</label>
-                @Html.Hidden(string.Format("Answers[{0}].Title", i), answer.Title)
-                @Html.Hidden(string.Format("Answers[{0}].TitleWithoutSpaces", i), answer.TitleWithoutSpaces)
-                @Html.Hidden(string.Format("Answers[{0}].SymptomDiscriminator", i), answer.SymptomDiscriminator)
-                @Html.Hidden(string.Format("Answers[{0}].SupportingInformation", i), answer.SupportingInformation)
-                @Html.Hidden(string.Format("Answers[{0}].Keywords", i), answer.Keywords)
-                @Html.Hidden(string.Format("Answers[{0}].ExcludeKeywords", i), answer.ExcludeKeywords)
-                @Html.Hidden(string.Format("Answers[{0}].ReportText", i), answer.ReportText)
-                @Html.Hidden(string.Format("Answers[{0}].DispositionDisplayText", i), answer.DispositionDisplayText)
-                @Html.Hidden(string.Format("Answers[{0}].Order", i), answer.Order)
-                @Html.Hidden(string.Format("Answers[{0}].IsPositive", i), answer.IsPositive)
-                @if (!String.IsNullOrWhiteSpace(answer.SupportingInformation))
-                {
-                    @Html.Partial("_HiddenText", new HiddenTextViewModel() { Summary = "What does this mean?", Details = new[] { Html.Encode(@Html.Raw(answer.SupportingInformationHtml)) } })
-                }
-            </div>
-        }
+                    @Html.Hidden(string.Format("Answers[{0}].Title", i), answer.Title)
+                    @Html.Hidden(string.Format("Answers[{0}].TitleWithoutSpaces", i), answer.TitleWithoutSpaces)
+                    @Html.Hidden(string.Format("Answers[{0}].SymptomDiscriminator", i), answer.SymptomDiscriminator)
+                    @Html.Hidden(string.Format("Answers[{0}].SupportingInformation", i), answer.SupportingInformation)
+                    @Html.Hidden(string.Format("Answers[{0}].Keywords", i), answer.Keywords)
+                    @Html.Hidden(string.Format("Answers[{0}].ExcludeKeywords", i), answer.ExcludeKeywords)
+                    @Html.Hidden(string.Format("Answers[{0}].ReportText", i), answer.ReportText)
+                    @Html.Hidden(string.Format("Answers[{0}].DispositionDisplayText", i), answer.DispositionDisplayText)
+                    @Html.Hidden(string.Format("Answers[{0}].Order", i), answer.Order)
+                    @Html.Hidden(string.Format("Answers[{0}].IsPositive", i), answer.IsPositive)
+                    @if (!String.IsNullOrWhiteSpace(answer.SupportingInformation))
+                    {
+                        @Html.Partial("_HiddenText", new HiddenTextViewModel() { Summary = "What does this mean?", Details = new[] { Html.Encode(@Html.Raw(answer.SupportingInformationHtml)) } })
+                    }
+                </div>
+            }
         </fieldset>
     </div>
-    
+
     <button class="button--next button--spinner" id="nextScreen" type="submit" name="Question" value="Question">Next question @Html.Partial("_InlineSpinner")</button>
     if (!Model.IsFirstStep)
     {

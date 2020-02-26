@@ -123,16 +123,13 @@ namespace NHS111.Web.Functional.Utils
 
         public void VerifyTabbingOrder(int age)
         {
-            HeaderLogo.SendKeys(Keys.Tab);
-            var maleButton = Driver.SwitchTo().ActiveElement();
+            var maleButton = TabToFirstPageBodyElement();
             maleButton.SendKeys(Keys.Space);
-            maleButton.SendKeys(Keys.Tab);
-            var transgenderReveal = Driver.SwitchTo().ActiveElement();
-            transgenderReveal.SendKeys(Keys.Tab);
-            var ageInput = Driver.SwitchTo().ActiveElement();
+            var ageInput = maleButton.Tab(Driver)
+                .Tab(Driver);
             ageInput.SendKeys(age.ToString());
-            ageInput.SendKeys(Keys.Tab);
-            var nextButton = Driver.SwitchTo().ActiveElement();
+            
+            var nextButton = ageInput.Tab(Driver);
             nextButton.SendKeys(Keys.Enter);
 
             var searchPage = new SearchPage(Driver);

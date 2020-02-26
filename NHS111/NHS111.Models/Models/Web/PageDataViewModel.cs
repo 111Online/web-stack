@@ -14,6 +14,7 @@ namespace NHS111.Models.Models.Web
             Search,
             SearchResults,
             Categories,
+            QuestionPrimer,
             FirstQuestion,
             Question,
             InlineCareAdvice,

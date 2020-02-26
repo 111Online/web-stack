@@ -1,0 +1,83 @@
+﻿@using NHS111.Models.Models.Web
+@inherits NHS111.Web.Views.Shared.SurveyLinkView<OutcomeViewModel>
+@{
+    Layout = "~/Views/Shared/_LayoutNhsUk.cshtml";
+}
+
+@section Title {
+    NHS 111 - Isolate yourself and stay indoors then call 111
+}
+
+@section HeadTop {
+    @{ var url = string.Format("/outcome/{0}/{1}/{2}/disposition/", Url.Encode(Model.PathwayNo), Url.Encode(Model.OutcomeGroup.Text), Url.Encode(Model.Id)); }
+    <script>
+        var pageId = '@Model.Id';
+        dataLayer = [
+        {
+            'virtualPageUrl': '@url',
+            'virtualPageTitle': '@Model.TitleWithoutBullets'
+        }];
+    </script>
+}
+
+
+@Html.HiddenFor(x => Model.Id)
+
+
+<div class="measure nhsuk-core">
+  <div class="disposition-set">
+
+    <div class="disposition-unit">
+      <h1 class="nhsuk-heading-l">You need to isolate yourself and stay indoors</h1>
+      <p>
+        If you’re on public transport, go home by the most direct route. Stay at
+        least 2 metres away from people if you can.
+      </p>
+      <p>
+        If you’re away from home:
+      </p>
+      <ul>
+        <li>find a room where you can close the door</li>
+        <li>avoid touching people, surfaces and objects</li>
+      </ul>
+      <p>
+        Wait by yourself until you have spoken to 111.
+      </p>
+    </div>
+
+    <div class="disposition-unit">
+      <h2 class="nhsuk-heading-l">
+        Call NHS 111. Do not go to your GP, a pharmacist or a hospital
+      </h2>
+      <p>
+        Tell 111 that you are calling about coronavirus (COVID-19) symptoms.
+      </p>
+      <p>
+        You must tell them where you have travelled or about any contact you’ve
+        had with someone with symptoms.
+      </p>
+      <p>
+        If you hear a recorded message, make sure you select the option to speak
+        to someone.
+      </p>
+      <h2 class="nhsuk-heading-m">For 14 days you might be asked to:</h2>
+      <ul>
+        <li>stay at home</li>
+        <li>not go to work, school or public areas</li>
+        <li>not use public transport or taxis</li>
+        <li>
+          ask friends, family members or delivery services to carry out errands
+          for you
+        </li>
+        <li>
+          try to avoid visitors to your home - it’s OK for friends, family or
+          delivery drivers to drop off food
+        </li>
+      </ul>
+      <p>
+        Following these steps can help reduce the possible spread of infection.
+      </p>
+    </div>
+
+  </div>
+</div>

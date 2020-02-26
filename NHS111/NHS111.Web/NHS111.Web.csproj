@@ -68,6 +68,9 @@
       <HintPath>..\packages\log4net.2.0.8\lib\net45-full\log4net.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Markdig, Version=0.18.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Markdig.0.18.1\lib\net40\Markdig.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.AI.Agent.Intercept, Version=2.0.6.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.ApplicationInsights.Agent.Intercept.2.0.6\lib\net45\Microsoft.AI.Agent.Intercept.dll</HintPath>
       <Private>True</Private>
@@ -245,6 +248,7 @@
     <Compile Include="Views\Shared\DisclaimerPopupView.cs" />
     <Compile Include="Views\Shared\LayoutView.cs" />
     <Compile Include="Views\Shared\OutcomeFeaturesView.cs" />
+    <Compile Include="Views\Shared\SearchView.cs" />
     <Compile Include="Views\Shared\SurveyLinkView.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -466,6 +470,12 @@
     <Content Include="Views\Outcome\Call_999_cat_1.cshtml" />
     <Content Include="Views\Shared\_EmergencyAlert.cshtml" />
     <Content Include="Views\Help\LatestAdvice.cshtml" />
+    <Content Include="Views\Outcome\Corona\Information.cshtml" />
+    <Content Include="Views\Outcome\Corona\Information_111.cshtml" />
+    <Content Include="Views\Outcome\Corona\Isolate_PHE.cshtml" />
+    <Content Include="Views\Outcome\Corona\Isolate_111.cshtml" />
+    <Content Include="Views\Outcome\Corona\High_Level.cshtml" />
+    <Content Include="Views\Outcome\Corona\Information_Travelled.cshtml" />
     <None Include="Web.Development.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

@@ -57,6 +57,7 @@
     <Content Include="src\images\nhs-logotype-footer.svg" />
     <Content Include="src\images\nhs-rev-logotype.svg" />
     <Content Include="src\images\opengraph-image.png" />
+    <Content Include="src\images\questions\TX1950.png" />
     <Content Include="src\scripts\entry-head.js" />
     <Content Include="src\scripts\entry-main.js" />
     <Content Include="src\scripts\entry-map.js" />
@@ -85,6 +86,9 @@
     <Content Include="src\styles\components\_button.scss" />
     <Content Include="src\styles\components\_callout.scss" />
     <Content Include="src\styles\components\_card.scss" />
+    <Content Include="src\styles\components\_disposition-unit.scss">
+      <SubType>Code</SubType>
+    </Content>
     <Content Include="src\styles\components\_emergency-alert.scss">
       <SubType>Code</SubType>
     </Content>
@@ -157,6 +161,7 @@
     <Folder Include="src\images\" />
     <Folder Include="src\images\icons\" />
     <Folder Include="src\images\icons\map-pointers\" />
+    <Folder Include="src\images\questions\" />
     <Folder Include="src\scripts\" />
     <Folder Include="src\scripts\vendor\" />
     <Folder Include="src\styles\" />

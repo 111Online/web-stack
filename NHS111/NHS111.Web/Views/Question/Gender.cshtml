@@ -6,6 +6,12 @@
     Layout = "~/Views/Shared/_LayoutNhsUK.cshtml";
 }
 @section Title { NHS 111 Online - Tell us about you }
+@section EmergencyAlert{
+    @if (EmergencyAlertFeature.IsEnabled)
+    {
+        @Html.Partial("_EmergencyAlert", new EmergencyAlertViewModel { SessionId = Model.SessionId })
+    }
+}
 
 @section FeedbackSection {
     @Html.Partial("_FeedbackDetails", new FeedbackViewModel() { UserId = Model.SessionId.ToString(), PageData = new PageDataViewModel(PageDataViewModel.PageType.Demographics, Model.Campaign, Model.Source) })
@@ -59,8 +65,8 @@
             </summary>
             <div class="panel panel-border-narrow" id="details-content-0" aria-hidden="true">
                 <p>
-                    Some clinical assessments can be different depending on your sex. 
-                    Not everyone sees themselves as female or male, so if neither option is right for you call 111.<br /><br /> 
+                    Some clinical assessments can be different depending on your sex.
+                    Not everyone sees themselves as female or male, so if neither option is right for you call 111.<br /><br />
                     We want to improve the service in the future so it works for everyone.
                 </p>
             </div>
