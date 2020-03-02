@@ -150,6 +150,11 @@ namespace NHS111.Web.Controllers
                 return View("~\\Views\\PersonalDetails\\PersonalDetails.cshtml", model);
             }
 
+            if (model.OutcomeGroup.IsCoronaVirus)
+            {
+                return View("~\\Views\\Outcome\\Corona\\ManualAddress.cshtml", model);
+            }
+
             return await DirectToPopulatedCurrentAddressPicker(model);
         }
 
