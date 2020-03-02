@@ -342,6 +342,14 @@ namespace NHS111.Web.Controllers
         [HttpPost]
         public async Task<ActionResult> Confirmation(PersonalDetailViewModel model, [FromUri] bool? overrideFilterServices)
         {
+            if (model.OutcomeGroup.IsCoronaVirus)
+            {
+                var outcomeViewModel = ConvertPatientInformantDateToUserinfo(model.PatientInformantDetails, model);
+                var itkConfirmationViewModel = await _outcomeViewModelBuilder.ItkResponseBuilder(outcomeViewModel);
+                var result = _referralResultBuilder.Build(itkConfirmationViewModel);
+                return View(result.ViewName, result);
+            }
+
             var availableServices = await GetServiceAvailability(model, null, overrideFilterServices.HasValue ? overrideFilterServices.Value : model.FilterServices, null);
             _auditLogger.LogDosResponse(model, availableServices);
             if (availableServices.ContainsService(model.SelectedService))
