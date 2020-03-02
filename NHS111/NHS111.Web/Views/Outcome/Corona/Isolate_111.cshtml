@@ -47,7 +47,7 @@
 
     <div class="disposition-unit">
       <h2 class="nhsuk-heading-l">
-        Call NHS 111. Do not go to your GP, a pharmacist or a hospital
+        You should book a test. Do not go to your GP, a pharmacist or a hospital
       </h2>
       <p>
         Tell 111 that you are calling about coronavirus (COVID-19) symptoms.
@@ -56,10 +56,18 @@
         You must tell them where you have travelled or about any contact you’ve
         had with someone with symptoms.
       </p>
-      <p>
-        If you hear a recorded message, make sure you select the option to speak
-        to someone.
-      </p>
+        <p>
+            If you hear a recorded message, make sure you select the option to speak
+            to someone.
+        </p>
+        @using (Html.BeginForm("PersonalDetails", "PersonalDetails", FormMethod.Post))
+        {
+            @Html.Partial("_CommonHiddenFieldsOutcomeViewModel", Model)
+        
+            <hr />
+            <button type="submit" name="PersonalDetails" value="Book a test">Book a test</button>
+            <hr />
+        }
       <div class="callout callout--warning callout--lite nhsuk-u-margin-bottom-7">
         <p>
           The phone service will be very busy but you <strong>must</strong> wait
