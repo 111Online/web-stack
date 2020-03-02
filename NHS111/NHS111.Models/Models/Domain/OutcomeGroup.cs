@@ -74,6 +74,7 @@ namespace NHS111.Models.Models.Domain {
         public static OutcomeGroup IsolatePHE= new OutcomeGroup { Id = "Isolate_PHE", Text = "Isolate_PHE", DefaultTitle = "Isolate yourself at home", Label = "No further action", PostcodeFirst = false, ITK = false };
         public static OutcomeGroup Information111 = new OutcomeGroup { Id = "Information_111", Text = "Information_111", DefaultTitle = "Information", Label = "No further action", PostcodeFirst = false, ITK = false };
         public static OutcomeGroup Information = new OutcomeGroup { Id = "Information", Text = "Information", DefaultTitle = "Information", Label = "No further action", PostcodeFirst = false, ITK = false };
+        public static OutcomeGroup TestKit = new OutcomeGroup { Id = "Test_Kit", Text = "Test_Kit", DefaultTitle = "Request a test kit", Label = "Request a test kit", PostcodeFirst = false, ITK = false };
         #endregion
 
         public static OutcomeGroup[] PrePopulatedDosResultsOutcomeGroups = new OutcomeGroup[] {Dental, ItkPrimaryCare, GP, MentalHealth, AccidentAndEmergency, ClinicianCallBack, Call999Cat3, Call999Cat4, RepeatPrescription };
@@ -109,7 +110,8 @@ namespace NHS111.Models.Models.Domain {
             { Isolate111.Id, Isolate111 },
             { IsolatePHE.Id, IsolatePHE },
             { Information111.Id, InformationTravelled},
-            { Information.Id, Information }
+            { Information.Id, Information },
+            { TestKit.Id, TestKit }
         #endregion
     };
 
@@ -184,7 +186,8 @@ namespace NHS111.Models.Models.Domain {
                        this.Equals(OutcomeGroup.Isolate111) ||
                        this.Equals(OutcomeGroup.IsolatePHE) ||
                        this.Equals(OutcomeGroup.Information111) ||
-                       this.Equals(OutcomeGroup.Information);
+                       this.Equals(OutcomeGroup.Information) ||
+                       this.Equals(OutcomeGroup.TestKit);
             }
         }
 
