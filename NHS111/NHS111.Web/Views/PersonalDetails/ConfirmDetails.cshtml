@@ -35,6 +35,7 @@
     @{
         var isProxy = Model.PatientInformantDetails.Informant == InformantType.ThirdParty;
         var isAtHome = Model.AddressInformation.HomeAddressSameAsCurrentWrapper.HomeAddressSameAsCurrent == HomeAddressSameAsCurrent.Yes;
+        var showSex = Model.UserInfo.Demography.Gender != NHS111.Models.Models.Domain.Gender.Indeterminate.Value;
     }
 
     @if (isProxy)
@@ -59,11 +60,13 @@
                 <dd>@Model.UserInfo.DoB.GetValueOrDefault().ToString("d MMMM yyyy")</dd>
             </div>
 
-            <div>
-                <dt>Sex</dt>
-                <dd>@Model.UserInfo.Demography.Gender</dd>
-            </div>
-
+            @if (showSex)
+            {
+                <div>
+                    <dt>Sex</dt>
+                    <dd>@Model.UserInfo.Demography.Gender</dd>
+                </div>
+            }
             <div>
                 <dt>Home address</dt>
                 <dd>@Html.Raw(string.Join("<br>", Model.AddressInformation.PatientHomeAddress.FormattedAddress.Split(new string[] { ", " }, StringSplitOptions.RemoveEmptyEntries)))</dd>
@@ -89,12 +92,13 @@
                 <dt>Date of birth</dt>
                 <dd>@Model.UserInfo.DoB.GetValueOrDefault().ToString("d MMMM yyyy")</dd>
             </div>
-
-            <div>
-                <dt>Sex</dt>
-                <dd>@Model.UserInfo.Demography.Gender</dd>
-            </div>
-
+            @if (showSex)
+            {
+                <div>
+                    <dt>Sex</dt>
+                    <dd>@Model.UserInfo.Demography.Gender</dd>
+                </div>
+            }
             <div>
                 <dt>Home postcode</dt>
                 @if (Model.AddressInformation.HomeAddressSameAsCurrentWrapper.HomeAddressSameAsCurrent == HomeAddressSameAsCurrent.DontKnow)
@@ -143,12 +147,13 @@
                 <dt>Their date of birth</dt>
                 <dd>@Model.UserInfo.DoB.GetValueOrDefault().ToString("d MMMM yyyy")</dd>
             </div>
-
-            <div>
-                <dt>Their sex</dt>
-                <dd>@Model.UserInfo.Demography.Gender</dd>
-            </div>
-
+            @if (showSex)
+            {
+                <div>
+                    <dt>Their sex</dt>
+                    <dd>@Model.UserInfo.Demography.Gender</dd>
+                </div>
+            }
             <div>
                 <dt>Their home address</dt>
                 <dd>@Html.Raw(string.Join("<br>", Model.AddressInformation.PatientHomeAddress.FormattedAddress.Split(new string[] { ", " }, StringSplitOptions.RemoveEmptyEntries)))</dd>
@@ -182,20 +187,22 @@
                 <dd>@Model.UserInfo.DoB.GetValueOrDefault().ToString("d MMMM yyyy")</dd>
             </div>
 
-            <div>
-                <dt>Their sex</dt>
-                <dd>@Model.UserInfo.Demography.Gender</dd>
-            </div>
-
+            @if (showSex)
+            {
+                <div>
+                    <dt>Their sex</dt>
+                    <dd>@Model.UserInfo.Demography.Gender</dd>
+                </div>
+            }
             <div>
                 <dt>Home postcode</dt>
                 @if (Model.AddressInformation.HomeAddressSameAsCurrentWrapper.HomeAddressSameAsCurrent == HomeAddressSameAsCurrent.DontKnow)
                 {
-                <dd>Not known</dd>
+                    <dd>Not known</dd>
                 }
                 else
                 {
-                <dd>@Model.AddressInformation.PatientHomeAddress.FormattedPostcode</dd>
+                    <dd>@Model.AddressInformation.PatientHomeAddress.FormattedPostcode</dd>
                 }
             </div>
 

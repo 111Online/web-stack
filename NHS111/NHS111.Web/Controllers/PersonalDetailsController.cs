@@ -8,6 +8,7 @@ using System.Web.Mvc;
 using System.Web.Script.Serialization;
 using AutoMapper;
 using Microsoft.Ajax.Utilities;
+using NHS111.Models.Models.Domain;
 using NHS111.Models.Models.Web;
 using NHS111.Models.Models.Web.FromExternalServices;
 using NHS111.Models.Models.Web.Validators;
@@ -152,6 +153,8 @@ namespace NHS111.Web.Controllers
 
             if (model.OutcomeGroup.IsCoronaVirus)
             {
+                ModelState.Clear();
+                model.UserInfo.Demography.Gender = Gender.Indeterminate.Value;
                 return View("~\\Views\\Outcome\\Corona\\ManualAddress.cshtml", model);
             }
 

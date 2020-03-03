@@ -17,6 +17,7 @@ namespace NHS111.Models.Models.Domain {
 
         public static Gender Male = new Gender(GenderEnum.Male);
         public static Gender Female = new Gender(GenderEnum.Female);
+        public static Gender Indeterminate = new Gender(GenderEnum.Indeterminate);
 
         public string Value { get; private set; }
         public GenderEnum Enum { get; private set; }
@@ -27,6 +28,8 @@ namespace NHS111.Models.Models.Domain {
                 Initialise(GenderEnum.Male);
             else if (lower == "female" || lower == "f")
                 Initialise(GenderEnum.Female);
+            else if (lower == "indeterminate")
+                Initialise(GenderEnum.Indeterminate);
             else
                 throw new ArgumentException(BuildMessage(gender));
         }
@@ -62,6 +65,9 @@ namespace NHS111.Models.Models.Domain {
                     break;
                 case GenderEnum.Female:
                     Value = "Female";
+                    break;
+                case GenderEnum.Indeterminate:
+                    Value = "Indeterminate";
                     break;
                 default:
                     throw new ArgumentException(BuildMessage(gender.ToString()));
