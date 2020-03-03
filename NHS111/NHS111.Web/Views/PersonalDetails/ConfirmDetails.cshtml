@@ -35,7 +35,11 @@
     @{
         var isProxy = Model.PatientInformantDetails.Informant == InformantType.ThirdParty;
         var isAtHome = Model.AddressInformation.HomeAddressSameAsCurrentWrapper.HomeAddressSameAsCurrent == HomeAddressSameAsCurrent.Yes;
-        var showSex = Model.UserInfo.Demography.Gender != NHS111.Models.Models.Domain.Gender.Indeterminate.Value;
+        var showSex = false;
+
+        if (Model.UserInfo.Demography.Gender != null) {
+            showSex = !(NHS111.Models.Models.Domain.Gender.Indeterminate.Equals(new NHS111.Models.Models.Domain.Gender(Model.UserInfo.Demography.Gender)));
+        }
     }
 
     @if (isProxy)
