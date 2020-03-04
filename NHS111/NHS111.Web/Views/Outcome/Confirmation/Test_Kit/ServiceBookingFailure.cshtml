@@ -32,12 +32,18 @@
     }
 }
 
-<section>
-    <div class="callout callout--warning">
-        <h1>CORONA FAIL</h1>
-    </div>
-</section>
+<div class="measure nhsuk-core">
+  <div class="callout callout--error">
+    <h1 class="nhsuk-heading-l">
+      There’s been a problem
+    </h1>
+    <p>
+      Your details were not sent.
+    </p>
+    <p>
+      <a href="javascript:window.history.back();">Go back and try again</a>
+    </p>
+  </div>
+</div>
 
-@if (!Model.OutcomeModel.OutcomeGroup.Is999NonUrgent) {
-    @Html.Partial("_CareAdvice", Model.OutcomeModel.CareAdvices, new ViewDataDictionary { { "Title", "What you can do in the meantime" } })
-}
+</div>
