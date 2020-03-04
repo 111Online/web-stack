@@ -5,7 +5,6 @@
 @inherits NHS111.Web.Views.Shared.SurveyLinkView<ReferralConfirmationResultViewModel>
 @{
     Layout = "~/Views/Shared/_LayoutNhsUk.cshtml";
-    Model.ItkConfirmationModel.WorseningCareAdvice.Items.Add(new CareAdviceText { Text = "You don't need to send any further requests for a callback. However, if you feel worse whilst you are waiting, please call 111 now." });
     var tagPrinter = new AnalyticsTagPrinter();
 }
 @section Title {
@@ -40,7 +39,9 @@
     Your details have been sent
   </h1>
   <p>
+    <span style="font-family: monospace; color: red;">[SET EXPECTATIONS FOR USER]</span>
     You’ll be contacted within 24 hours and told what to do next.
+    <span style="font-family: monospace; color: red;">[THIS IS NOT CONFIRMED NEEDS CHANGE]</span>
   </p>
   <div class="callout callout--info callout--lite nhsuk-u-margin-bottom-7">
     <p>
