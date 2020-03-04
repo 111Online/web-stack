@@ -1,19 +1,26 @@
 ﻿@model NHS111.Models.Models.Web.PersonalDetailViewModel
 
 @{
-    var title = ViewData["title"] ?? "Address" ;
+    var title = "Address";
+}
+
+@if (Model.OutcomeGroup.IsCoronaVirus)
+{
+    title = (Model.PatientInformantDetails.Informant == NHS111.Models.Models.Web.InformantType.ThirdParty) ? "Tell us the address where they will self-isolate" : "Tell us the address you plan to self-isolate in";
 }
 
 <div class="nhsuk-core">
     <fieldset>
         <legend class="nhsuk-fieldset__legend nhsuk-fieldset__legend--l nhsuk-u-margin-bottom-4"><h1 class="nhsuk-fieldset__heading">@title</h1></legend>
 
-        @if (Model.OutcomeGroup.IsCoronaVirus) {
+        @if (Model.OutcomeGroup.IsCoronaVirus)
+        {
+
             <div class="measure callout callout--info nhsuk-u-margin-bottom-6">
-              <p>
-                Self-isolating means keeping separate from others in the household
-                until contacted by the testing service.
-              </p>
+                <p>
+                    Self-isolating means keeping separate from others in the household
+                    until contacted by the testing service.
+                </p>
             </div>
         }
 
