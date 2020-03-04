@@ -35,10 +35,12 @@ namespace NHS111.Models.Models.Web {
 
             if (outcomeModel != null
                 && outcomeModel.OutcomeGroup != null
-                && outcomeModel.OutcomeGroup.Equals(Domain.OutcomeGroup.RepeatPrescription))
+                && (outcomeModel.OutcomeGroup.Equals(Domain.OutcomeGroup.RepeatPrescription) ||
+                    outcomeModel.OutcomeGroup.Equals(Domain.OutcomeGroup.TestKit)))
             {
                 return outcomeModel.OutcomeGroup.Id;
             }
+
 
             return "default";
         }
@@ -85,6 +87,15 @@ namespace NHS111.Models.Models.Web {
         }
     }
 
+    public class CoronaReferralConfirmationResultViewModel
+        : ReferralConfirmationResultViewModel
+    {
+        public CoronaReferralConfirmationResultViewModel(ITKConfirmationViewModel itkConfirmationViewModel) : base(itkConfirmationViewModel)
+        {
+            AnalyticsDataLayer = new CoronaReferralFailureAnalyticsDataLayer(this);
+        }
+    }
+
     public class EmergencyPrescriptionReferralConfirmationResultsViewModel
         : ReferralConfirmationResultViewModel {
 
@@ -114,6 +125,15 @@ namespace NHS111.Models.Models.Web {
         public AccidentAndEmergencyReferralFailureResultViewModel(ITKConfirmationViewModel itkConfirmationViewModel)
             : base(itkConfirmationViewModel) {
             AnalyticsDataLayer = new AccidentAndEmergencyReferralFailureAnalyticsDataLayer(this);
+        }
+    }
+
+    public class CoronaReferralFailureResultViewModel
+        : ReferralFailureResultViewModel
+    {
+        public CoronaReferralFailureResultViewModel(ITKConfirmationViewModel itkConfirmationViewModel) : base(itkConfirmationViewModel)
+        {
+            AnalyticsDataLayer = new CoronaReferralFailureAnalyticsDataLayer(this);
         }
     }
 

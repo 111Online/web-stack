@@ -479,6 +479,8 @@
     <Content Include="Views\Shared\_ManualAddressForm.cshtml" />
     <Content Include="Views\Outcome\Corona\ManualAddress.cshtml" />
     <Content Include="Views\Outcome\Corona\Test_Kit.cshtml" />
+    <Content Include="Views\Outcome\Confirmation\Test_Kit\Confirmation.cshtml" />
+    <Content Include="Views\Outcome\Confirmation\Test_Kit\ServiceBookingFailure.cshtml" />
     <None Include="Web.Development.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
