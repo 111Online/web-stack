@@ -40,10 +40,18 @@
     <p>
       Your details were not sent.
     </p>
-    <p>
-      <a href="javascript:window.history.back();">Go back and try again</a>
+    <p id="pe-container">
+      Use the “back” button in your browser to go back to the previous page and try again.
     </p>
   </div>
 </div>
 
-</div>
+<script type="text/javascript">
+  var el = document.getElementById('pe-container');
+  var a = document.createElement('a');
+  var linkText = document.createTextNode("Go back and try again");
+  a.appendChild(linkText);
+  a.setAttribute('href', 'javascript:window.history.back();');
+  el.textContent = '';
+  el.appendChild(a);
+</script>
