@@ -27,10 +27,23 @@ namespace NHS111.Utils.RestTools
 
         public override async Task<IRestResponse<T>> ExecuteTaskAsync<T>(IRestRequest request)
         {
-            _logger.Info(string.Format("Request to: {0}{1} performed", BaseUrl,request.Resource));
+            _logger.Info(string.Format("Request to: {0}{1} performed", BaseUrl, request.Resource));
+
             var response = await base.ExecuteTaskAsync<T>(request);
-            if(response != null && response.StatusCode !=  HttpStatusCode.OK) _logger.Error(String.Format("Request to: {0}{1} returned with Error Code: {2} and response: {3}", BaseUrl, request.Resource, response.StatusCode, response.ErrorMessage));
-            else _logger.Error(String.Format("Request to: {0}{1} failed", BaseUrl, request.Resource));
+
+            if (response == null)
+            {
+                response = new RestResponse<T>
+                {
+                    StatusCode = HttpStatusCode.BadRequest, ErrorMessage = "API response was null"
+                };
+            }
+
+            if (response.StatusCode != HttpStatusCode.OK)
+            {
+                _logger.Error(string.Format("Request to: {0}{1} returned with Error Code: {2} and response: {3}", BaseUrl, request.Resource, response.StatusCode, response.ErrorMessage));
+            }
+
             return response;
         }
     }
