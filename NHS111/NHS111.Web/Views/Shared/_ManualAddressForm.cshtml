@@ -2,11 +2,20 @@
 
 @{
     var title = ViewData["title"] ?? "Address" ;
-} 
+}
 
 <div class="nhsuk-core">
     <fieldset>
         <legend class="nhsuk-fieldset__legend nhsuk-fieldset__legend--l nhsuk-u-margin-bottom-4"><h1 class="nhsuk-fieldset__heading">@title</h1></legend>
+
+        @if (Model.OutcomeGroup.IsCoronaVirus) {
+            <div class="measure callout callout--info nhsuk-u-margin-bottom-6">
+              <p>
+                Self-isolating means keeping separate from others in the household
+                until contacted by the testing service.
+              </p>
+            </div>
+        @}
 
         <div class="inline-details form-group @((ViewData.ModelState.IsValid) ? "" : "form-group-error")">
             <label for="@Html.IdFor(m => m.AddressInformation.PatientCurrentAddress.AddressLine1)">Building and street<span class="util-visuallyhidden"> line 1 of 2</span></label>
