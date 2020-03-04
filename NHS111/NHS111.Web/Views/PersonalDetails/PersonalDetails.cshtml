@@ -144,8 +144,10 @@
                             What number should we call?
                         </h2>
                     </legend>
-                    <p class="form-info">Tell us your number if you're doing this for someone else.</p>
-
+                    @if (Model.OutcomeGroup.IsCoronaVirus)
+                    {
+                        <p class="form-info">Tell us your number if you're doing this for someone else.</p>
+                    }
                     <div>
                         <label for="UserInfo_TelephoneNumber">Enter a mobile, landline or textphone number</label>
                         @Html.ValidationMessageFor(m => m.UserInfo.TelephoneNumber, "Enter a valid phone number")
