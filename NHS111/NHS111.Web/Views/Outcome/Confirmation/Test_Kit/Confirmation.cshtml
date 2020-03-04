@@ -1,0 +1,42 @@
+﻿﻿@using System.Web.Mvc.Html
+@using NHS111.Models.Models.Domain
+@using NHS111.Models.Models.Web
+@using NHS111.Web.Presentation.Analytics
+@inherits NHS111.Web.Views.Shared.SurveyLinkView<ReferralConfirmationResultViewModel>
+@{
+    Layout = "~/Views/Shared/_LayoutNhsUk.cshtml";
+    Model.ItkConfirmationModel.WorseningCareAdvice.Items.Add(new CareAdviceText { Text = "You don't need to send any further requests for a callback. However, if you feel worse whilst you are waiting, please call 111 now." });
+    var tagPrinter = new AnalyticsTagPrinter();
+}
+@section Title {
+    @Model.PageTitle
+}
+@section HeadTop {
+    <script>
+        @tagPrinter.Print(Model.AnalyticsDataLayer)
+    </script>
+}
+@{
+    var dataDictionary = ViewContext.ViewData;
+    dataDictionary.Add(new KeyValuePair<string, object>("LaunchPage", "confirmation"));
+}
+@section SurveyBanner{
+    @Html.Partial("_SurveyLink", Model.ItkConfirmationModel.SurveyLink, dataDictionary)
+}
+@section FeedbackSection {
+    @if (SurveyLinkFeature.IsEnabled)
+    {
+        @Html.Partial("_SurveyLink", Model.ItkConfirmationModel.SurveyLink, dataDictionary)
+    }
+    else
+    {
+        @Html.Partial("_FeedbackDetails", new FeedbackViewModel() { UserId = Model.ItkConfirmationModel.SessionId.ToString(), PageData = new PageDataViewModel(PageDataViewModel.PageType.Confirmation, Model.ItkConfirmationModel) })
+    }
+}
+<section>
+    <div class="local-header">
+        <div class="measure">
+            CORONA SUCCESS
+        </div>
+    </div>
+</section>
