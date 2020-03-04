@@ -144,7 +144,7 @@
                             What number should we call?
                         </h2>
                     </legend>
-                    @if (Model.OutcomeGroup.IsCoronaVirus)
+                    @if (!Model.OutcomeGroup.IsCoronaVirus)
                     {
                         <p class="form-info">Tell us your number if you're doing this for someone else.</p>
                     }
