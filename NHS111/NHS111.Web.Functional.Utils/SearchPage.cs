@@ -119,8 +119,6 @@ namespace NHS111.Web.Functional.Utils
         {
             // COVID-19 link above search box
             var covid19Link = TabToFirstPageBodyElement();
-            covid19Link.Tab(Driver);
-
 
             var searchTxtBox = covid19Link.Tab(Driver);
             searchTxtBox.SendKeys(searchTerm);
