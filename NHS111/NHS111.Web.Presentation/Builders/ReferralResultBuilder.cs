@@ -109,7 +109,8 @@ namespace NHS111.Web.Presentation.Builders
                     result = new AccidentAndEmergencyServiceUnavailableReferralResultViewModel(outcomeViewModel);
                 if (outcomeViewModel.OutcomeGroup.IsPharmacyGroup)
                     result = new EmergencyPrescriptionServiceUnavailableReferralResultViewModel(outcomeViewModel);
-                //return covid specific ServiceUnavailable model
+                if (outcomeViewModel.OutcomeGroup.IsCoronaVirus)
+                    result = new TestKitServiceUnavailableReferralResultViewModel(outcomeViewModel);
             }
 
             result.OutcomeModel = outcomeViewModel;
