@@ -344,7 +344,17 @@ namespace NHS111.Web.Controllers
         {
             if (model.OutcomeGroup.IsCoronaVirus)
             {
-                return await SubmitITKDataToService(model);
+                model.DosCheckCapacitySummaryResult = await GetServiceAvailability(model, null, overrideFilterServices.HasValue ? overrideFilterServices.Value : model.FilterServices, null);
+
+                if (model.DosCheckCapacitySummaryResult.Error == null && !model.DosCheckCapacitySummaryResult.ResultListEmpty)
+                {
+                    AutoSelectFirstItkService(model);
+                    return await SubmitITKDataToService(model);
+                }
+                else
+                {
+                    return ReturnServiceUnavailableView(model, model.DosCheckCapacitySummaryResult);
+                }
             }
 
             var availableServices = await GetServiceAvailability(model, null, overrideFilterServices.HasValue ? overrideFilterServices.Value : model.FilterServices, null);
@@ -353,11 +363,16 @@ namespace NHS111.Web.Controllers
             {
                 return await SubmitITKDataToService(model);
             }
-            
+
+            return ReturnServiceUnavailableView(model, availableServices);
+        }
+        
+        private ActionResult ReturnServiceUnavailableView(PersonalDetailViewModel model, DosCheckCapacitySummaryResult availableServices)
+        {
             var unavailableResult = _referralResultBuilder.BuildServiceUnavailableResult(model, availableServices);
             return View(unavailableResult.ViewName, unavailableResult);
         }
-        
+
         private async Task<ActionResult> SubmitITKDataToService(PersonalDetailViewModel model)
         {
             var outcomeViewModel = ConvertPatientInformantDateToUserinfo(model.PatientInformantDetails, model);
