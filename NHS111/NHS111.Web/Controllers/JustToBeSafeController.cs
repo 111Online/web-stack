@@ -38,20 +38,20 @@ namespace NHS111.Web.Controllers
         [HttpGet]
         [Route("COVID-19")]
         //Special route for Covid direct link from nhs.uk to tidy up..
-        public async Task<ActionResult> StartNonDemographicSpecificQuestion()
+        public async Task<ActionResult> StartNonDemographicSpecificQuestion(JourneyViewModel model)
         {
-            var model = BuildModel("PWCorona", Guid.NewGuid().ToString(), "COVID-19");
+            var questionModel = BuildModel("PWCorona", model.SessionId.ToString(), "COVID-19");
             model.State.Add("SYSTEM_COVID_NHSUK", "yes");
-            return await JustToBeSafeFirst(model);
+            return await JustToBeSafeFirst(questionModel);
         }
 
         [HttpGet]
         [Route("service/COVID-19")]
         //Special route for Covid direct link from other services to tidy up..
-        public async Task<ActionResult> StartServiceNonDemographicSpecificQuestion()
+        public async Task<ActionResult> StartServiceNonDemographicSpecificQuestion(JourneyViewModel model)
         {
-            var model = BuildModel("PWCorona", Guid.NewGuid().ToString(), "COVID-19");
-            return await JustToBeSafeFirst(model);
+            var questionModel = BuildModel("PWCorona", model.SessionId.ToString(), "COVID-19");
+            return await JustToBeSafeFirst(questionModel);
         }
 
         [HttpGet]
