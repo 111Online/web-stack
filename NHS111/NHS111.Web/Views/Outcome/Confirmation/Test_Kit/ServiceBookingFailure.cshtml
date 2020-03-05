@@ -20,25 +20,29 @@
 }
 
 <div class="measure nhsuk-core">
-  <div class="callout callout--error">
-    <h1 class="nhsuk-heading-l">
-      There’s been a problem
-    </h1>
+  <h1 class="nhsuk-heading-xl">
+    No service available
+  </h1>
+  <p>
+    The testing centres are available in England only.
+  </p>
+  <p>
+    You can <a href="[LINK BACK TO CONFIRMATION SCREEN]">check your postcode is entered correctly.</a>
+  </p>
+  <p>
+    If you’re not sure what to do next, call 111.
+  </p>
+
+  <div class="callout callout--attention nhsuk-u-margin-bottom-6 nhsuk-u-margin-top-6">
     <p>
-      Your details were not sent.
+      To protect yourself and others, <b>do not go</b> to a GP, pharmacy or hospital
     </p>
-    <p id="pe-container">
-      Use the “back” button in your browser to go back to the previous page and try again.
+  </div>
+
+  <div class="callout callout--info nhsuk-u-margin-bottom-6">
+    <p>
+      You should keep yourself separate from others in your household (self-isolate)
+      until you have been spoken to 111.
     </p>
   </div>
 </div>
-
-<script type="text/javascript">
-  var el = document.getElementById('pe-container');
-  var a = document.createElement('a');
-  var linkText = document.createTextNode("Try again");
-  a.appendChild(linkText);
-  a.setAttribute('href', 'javascript:window.location.reload();');
-  el.textContent = '';
-  el.appendChild(a);
-</script>
