@@ -36,9 +36,9 @@
 <script type="text/javascript">
   var el = document.getElementById('pe-container');
   var a = document.createElement('a');
-  var linkText = document.createTextNode("Go back and try again");
+  var linkText = document.createTextNode("Try again");
   a.appendChild(linkText);
-  a.setAttribute('href', 'javascript:window.history.back();');
+  a.setAttribute('href', 'javascript:window.location.reload();');
   el.textContent = '';
   el.appendChild(a);
 </script>
