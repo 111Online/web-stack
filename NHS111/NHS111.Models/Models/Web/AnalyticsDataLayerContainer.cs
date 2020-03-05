@@ -208,4 +208,10 @@ namespace NHS111.Models.Models.Web {
 
         public EmergencyPrescriptionServiceUnavailableReferralAnalyticsDataLayer(ReferralResultViewModel viewModel) : base(viewModel) { }
     }
+    public class TestKitServiceUnavailableReferralAnalyticsDataLayer : ServiceUnavailableReferralAnalyticsDataLayer
+    {
+        protected override string VirtualPageTitle { get { return "Test Kit Confirmation - Unavailable"; } }
+
+        public TestKitServiceUnavailableReferralAnalyticsDataLayer(ReferralResultViewModel viewModel) : base(viewModel) { }
+    }
 }

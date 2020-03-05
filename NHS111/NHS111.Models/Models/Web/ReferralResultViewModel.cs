@@ -247,4 +247,15 @@ namespace NHS111.Models.Models.Web {
             AnalyticsDataLayer = new EmergencyPrescriptionServiceUnavailableReferralAnalyticsDataLayer(this);
         }
     }
+
+    public class TestKitServiceUnavailableReferralResultViewModel : ServiceUnavailableReferralResultViewModel
+    {
+        public override string PartialViewName { get { return "ServiceUnavailable"; } }
+        public override string ViewName { get { return string.Format("Confirmation/{0}/ServiceUnavailable", ResolveConfirmationViewByOutcome(this.OutcomeModel)); } }
+
+        public TestKitServiceUnavailableReferralResultViewModel(OutcomeViewModel outcomeViewModel) : base(outcomeViewModel)
+        {
+            AnalyticsDataLayer = new TestKitServiceUnavailableReferralAnalyticsDataLayer(this);
+        }
+    }
 }
