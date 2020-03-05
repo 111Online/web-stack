@@ -117,10 +117,14 @@ namespace NHS111.Web.Functional.Utils
 
         public void VerifyTabbingOrder(string searchTerm)
         {
-            // COVID-19 link above search box
-            var covid19Link = TabToFirstPageBodyElement();
+            var searchTxtBox = TabToFirstPageBodyElement();
 
-            var searchTxtBox = covid19Link.Tab(Driver);
+            // If COVID-19 link exists, then there's an extra tab required before search
+            if (IsElementPresent(By.CssSelector("#covid19-search-link")))
+            {
+                searchTxtBox = searchTxtBox.Tab(Driver);
+            }
+
             searchTxtBox.SendKeys(searchTerm);
             var nextButtonElement = searchTxtBox.Tab(Driver);
             nextButtonElement.SendKeys(Keys.Enter);
