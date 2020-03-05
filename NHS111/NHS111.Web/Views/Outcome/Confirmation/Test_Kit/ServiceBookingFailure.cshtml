@@ -18,19 +18,6 @@
     var dataDictionary = ViewContext.ViewData;
     dataDictionary.Add(new KeyValuePair<string, object>("LaunchPage", "failure"));
 }
-@section SurveyBanner{
-    @Html.Partial("_SurveyLink", Model.OutcomeModel.SurveyLink, dataDictionary)
-}
-@section FeedbackSection {
-    @if (!SurveyLinkFeature.IsEnabled)
-    {
-        @Html.Partial("_FeedbackDetails", new FeedbackViewModel() { UserId = Model.OutcomeModel.SessionId.ToString(), PageData = new PageDataViewModel(PageDataViewModel.PageType.BookingFailure, Model.OutcomeModel) })
-    }
-    else
-    {
-        @Html.Partial("_SurveyLink", Model.OutcomeModel.SurveyLink, dataDictionary)
-    }
-}
 
 <div class="measure nhsuk-core">
   <div class="callout callout--error">
