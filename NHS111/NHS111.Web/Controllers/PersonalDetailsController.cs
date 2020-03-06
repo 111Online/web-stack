@@ -203,6 +203,8 @@ namespace NHS111.Web.Controllers
                 ModelState.AddModelError("AddressInformation.PatientCurrentAddress.Postcode", new Exception());
             }
 
+            if (model.OutcomeGroup.IsCoronaVirus && model.SelectedService == null)
+                CreateDummyService(model);
             if (!ModelState.IsValid)
             {
                 return View("~\\Views\\PersonalDetails\\ManualAddress.cshtml", model);
