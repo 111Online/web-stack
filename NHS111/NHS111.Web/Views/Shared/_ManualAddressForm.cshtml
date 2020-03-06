@@ -24,7 +24,7 @@
             </div>
         }
 
-        <div class="inline-details form-group @((ViewData.ModelState.IsValid) ? "" : "form-group-error")">
+        <div class="inline-details form-group">
             <label for="@Html.IdFor(m => m.AddressInformation.PatientCurrentAddress.AddressLine1)">Building and street<span class="util-visuallyhidden"> line 1 of 2</span></label>
             @Html.ValidationMessageFor(m => m.AddressInformation.PatientCurrentAddress.AddressLine1, "Enter the first line of the address")
             @Html.TextBoxFor(m => m.AddressInformation.PatientCurrentAddress.AddressLine1, new { @class = "form-control address-line-1 address-input" })
