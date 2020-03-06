@@ -197,6 +197,12 @@ namespace NHS111.Web.Controllers
         [HttpPost]
         public async Task<ActionResult> SubmitManualAddress(PersonalDetailViewModel model)
         {
+            var postcodes = await GetPostcodeResults(model.AddressInformation.PatientCurrentAddress.Postcode);
+            if (postcodes.ValidatedPostcodeResponse == PostcodeValidatorResponse.PostcodeNotFound)
+            {
+                ModelState.AddModelError("AddressInformation.PatientCurrentAddress.Postcode", new Exception());
+            }
+
             if (model.OutcomeGroup.IsCoronaVirus && model.SelectedService == null)
                 CreateDummyService(model);
             if (!ModelState.IsValid)
