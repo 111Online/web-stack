@@ -345,14 +345,18 @@ namespace NHS111.Web.Controllers
             if (model.OutcomeGroup.IsCoronaVirus)
             {
                 //Mapping postcode form address for DOS lookup may need a refactor to tidy multiple address models?
-                if(model.AddressInformation != null) model.CurrentPostcode =  model.AddressInformation.PatientCurrentAddress.Postcode; 
-
+                if(model.AddressInformation != null) model.CurrentPostcode =  model.AddressInformation.PatientCurrentAddress.Postcode;
+                model.DosCheckCapacitySummaryResult = new DosCheckCapacitySummaryResult();
+                model.SelectedServiceId = null;
                 model.DosCheckCapacitySummaryResult = await GetServiceAvailability(model, null, overrideFilterServices.HasValue ? overrideFilterServices.Value : model.FilterServices, null);
 
                 if (model.DosCheckCapacitySummaryResult.Error == null && !model.DosCheckCapacitySummaryResult.ResultListEmpty)
                 {
                     AutoSelectFirstItkService(model);
-                    return await SubmitITKDataToService(model);
+                    if(model.SelectedService != null)
+                        return await SubmitITKDataToService(model);
+                    else
+                         return ReturnServiceUnavailableView(model, model.DosCheckCapacitySummaryResult);
                 }
                 else
                 {

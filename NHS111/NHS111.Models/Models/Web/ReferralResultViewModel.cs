@@ -15,7 +15,7 @@ namespace NHS111.Models.Models.Web {
     {
         public abstract string ViewName { get; }
         public ITKConfirmationViewModel ItkConfirmationModel { get; set; }
-        public OutcomeViewModel OutcomeModel;
+        public PersonalDetailViewModel OutcomeModel;
         public abstract string PartialViewName { get; }
 
         protected ReferralResultViewModel(ITKConfirmationViewModel itkConfirmationViewModel)
@@ -25,7 +25,7 @@ namespace NHS111.Models.Models.Web {
         }
 
 
-        protected ReferralResultViewModel(OutcomeViewModel outcomeViewModel)
+        protected ReferralResultViewModel(PersonalDetailViewModel outcomeViewModel)
         {
             OutcomeModel = outcomeViewModel;
         }
@@ -209,7 +209,7 @@ namespace NHS111.Models.Models.Web {
         public override string ViewName { get { return "ServiceBookingUnavailable"; } }
         public override string PartialViewName { get { return "_ServiceUnavailable"; } }
 
-        public ServiceUnavailableReferralResultViewModel(OutcomeViewModel outcomeViewModel)
+        public ServiceUnavailableReferralResultViewModel(PersonalDetailViewModel outcomeViewModel)
             : base(outcomeViewModel) {
             AnalyticsDataLayer = new ServiceUnavailableReferralAnalyticsDataLayer(this);
         }
@@ -220,7 +220,7 @@ namespace NHS111.Models.Models.Web {
     {
         public override string PartialViewName { get { return "_AccidentAndEmergencyServiceUnavailableReferral"; } }
 
-        public AccidentAndEmergencyServiceUnavailableReferralResultViewModel(OutcomeViewModel outcomeViewModel)
+        public AccidentAndEmergencyServiceUnavailableReferralResultViewModel(PersonalDetailViewModel outcomeViewModel)
             : base(outcomeViewModel) {
             AnalyticsDataLayer = new AccidentAndEmergencyServiceUnavailableReferralAnalyticsDataLayer(this);
         }
@@ -231,7 +231,7 @@ namespace NHS111.Models.Models.Web {
     {
         public override string PartialViewName { get { return "_Call999ServiceUnavailableReferral"; } }
 
-        public Call999ServiceUnavailableReferralResultViewModel(OutcomeViewModel outcomeViewModel)
+        public Call999ServiceUnavailableReferralResultViewModel(PersonalDetailViewModel outcomeViewModel)
             : base(outcomeViewModel) {
             AnalyticsDataLayer = new Call999ServiceUnavailableReferralAnalyticsDataLayer(this);
         }
@@ -242,7 +242,7 @@ namespace NHS111.Models.Models.Web {
         public override string PartialViewName { get { return "ServiceUnavailable"; } }
         public override string ViewName { get { return string.Format("Confirmation/{0}/ServiceUnavailable", ResolveConfirmationViewByOutcome(this.OutcomeModel)); } }
 
-        public EmergencyPrescriptionServiceUnavailableReferralResultViewModel(OutcomeViewModel outcomeViewModel) : base(outcomeViewModel)
+        public EmergencyPrescriptionServiceUnavailableReferralResultViewModel(PersonalDetailViewModel outcomeViewModel) : base(outcomeViewModel)
         {
             AnalyticsDataLayer = new EmergencyPrescriptionServiceUnavailableReferralAnalyticsDataLayer(this);
         }
@@ -253,7 +253,7 @@ namespace NHS111.Models.Models.Web {
         public override string PartialViewName { get { return "ServiceUnavailable"; } }
         public override string ViewName { get { return string.Format("Confirmation/{0}/ServiceUnavailable", ResolveConfirmationViewByOutcome(this.OutcomeModel)); } }
 
-        public TestKitServiceUnavailableReferralResultViewModel(OutcomeViewModel outcomeViewModel) : base(outcomeViewModel)
+        public TestKitServiceUnavailableReferralResultViewModel(PersonalDetailViewModel outcomeViewModel) : base(outcomeViewModel)
         {
             AnalyticsDataLayer = new TestKitServiceUnavailableReferralAnalyticsDataLayer(this);
         }

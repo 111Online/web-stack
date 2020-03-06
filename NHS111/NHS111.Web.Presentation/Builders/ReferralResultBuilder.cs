@@ -12,7 +12,7 @@ namespace NHS111.Web.Presentation.Builders
         ReferralResultViewModel BuildFailureResult(ITKConfirmationViewModel itkConfirmationViewModel);
         ReferralResultViewModel BuildDuplicateResult(ITKConfirmationViewModel itkConfirmationViewModel);
         ReferralResultViewModel BuildConfirmationResult(ITKConfirmationViewModel itkConfirmationViewModel);
-        ServiceUnavailableReferralResultViewModel BuildServiceUnavailableResult(OutcomeViewModel outcomeViewModel,
+        ServiceUnavailableReferralResultViewModel BuildServiceUnavailableResult(PersonalDetailViewModel outcomeViewModel,
             DosCheckCapacitySummaryResult dosResult);
     }
 
@@ -97,7 +97,7 @@ namespace NHS111.Web.Presentation.Builders
             return new ReferralConfirmationResultViewModel(itkConfirmationViewModel);
         }
 
-        public ServiceUnavailableReferralResultViewModel BuildServiceUnavailableResult(OutcomeViewModel outcomeViewModel, DosCheckCapacitySummaryResult dosResult) {
+        public ServiceUnavailableReferralResultViewModel BuildServiceUnavailableResult(PersonalDetailViewModel outcomeViewModel, DosCheckCapacitySummaryResult dosResult) {
             if (outcomeViewModel == null)
                 throw new ArgumentNullException("outcomeViewModel");
 

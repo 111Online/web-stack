@@ -197,6 +197,8 @@ namespace NHS111.Web.Controllers
         [HttpPost]
         public async Task<ActionResult> SubmitManualAddress(PersonalDetailViewModel model)
         {
+            if (model.OutcomeGroup.IsCoronaVirus && model.SelectedService == null)
+                CreateDummyService(model);
             if (!ModelState.IsValid)
             {
                 return View("~\\Views\\PersonalDetails\\ManualAddress.cshtml", model);
