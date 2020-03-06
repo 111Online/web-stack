@@ -154,6 +154,8 @@ namespace NHS111.Web.Controllers
             if (model.OutcomeGroup.IsCoronaVirus)
             {
                 ModelState.Clear();
+                if (model.SelectedService == null)
+                    CreateDummyService(model);
                 model.UserInfo.Demography.Gender = Gender.Indeterminate.Value;
                 return View("~\\Views\\Outcome\\Corona\\ManualAddress.cshtml", model);
             }
