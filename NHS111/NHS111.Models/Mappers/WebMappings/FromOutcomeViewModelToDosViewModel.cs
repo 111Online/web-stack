@@ -62,6 +62,7 @@ namespace NHS111.Models.Mappers.WebMappings
             public static int ConvertToDosCode(string source) {
                 if (!source.StartsWith("Dx")) throw new FormatException("Dx code does not have prefix \"Dx\". Cannot convert");
                 var code = source.Replace("Dx", "");
+                code = code.Replace("CV", "");
                 if (code.Length == 3) {
                     if (code.StartsWith("1"))
                         return Convert.ToInt32("1" + code);

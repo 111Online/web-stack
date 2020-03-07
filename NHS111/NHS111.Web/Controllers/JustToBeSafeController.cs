@@ -47,19 +47,12 @@ namespace NHS111.Web.Controllers
 
         [HttpGet]
         [Route("service/COVID-19")]
+        [Route("{pathwayNumber}/{sessionId}/{digitalTitle}/about")] // Old link, kept so it doesn't 404
         //Special route for Covid direct link from other services to tidy up..
         public async Task<ActionResult> StartServiceNonDemographicSpecificQuestion(JourneyViewModel model)
         {
             var questionModel = BuildModel("PWCorona", model.SessionId.ToString(), "COVID-19");
             return await JustToBeSafeFirst(questionModel);
-        }
-
-        [HttpGet]
-        [Route("{pathwayNumber}/{sessionId}/{digitalTitle}/about")]
-        public async Task<ActionResult> StartNonDemographicSpecificQuestion(string pathwayNumber, string sessionId, string digitalTitle)
-        {
-            var model = BuildModel(pathwayNumber, sessionId, digitalTitle);
-            return await JustToBeSafeFirst(model);
         }
     
 

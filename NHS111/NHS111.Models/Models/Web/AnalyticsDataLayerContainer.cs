@@ -71,6 +71,19 @@ namespace NHS111.Models.Models.Web {
             : base(viewModel) { }
     }
 
+
+    public class CoronaReferralConfirmationAnalyticsDataLayer
+        : ReferralConfirmationResultAnalyticsDataLayer
+    {
+
+        public CoronaReferralConfirmationAnalyticsDataLayer(ReferralResultViewModel viewModel)
+            : base(viewModel)
+        {
+            this[VirtualPageTitleKey] = "Corona test kit booking - Success";
+        }
+    }
+
+
     public class EmergencyPrescriptionReferralConfirmationAnalyticsDataLayer
         : ReferralConfirmationResultAnalyticsDataLayer
     {
@@ -100,6 +113,17 @@ namespace NHS111.Models.Models.Web {
         protected override string VirtualPageTitle { get { return "A&E ITK Confirmation - Failure"; } }
 
         public AccidentAndEmergencyReferralFailureAnalyticsDataLayer(ReferralResultViewModel viewModel)
+            : base(viewModel) { }
+    }
+
+
+    public class CoronaReferralFailureAnalyticsDataLayer
+        : ReferralFailureResultAnalyticsDataLayer
+    {
+
+        protected override string VirtualPageTitle { get { return "Corona Test kit - Failure"; } }
+
+        public CoronaReferralFailureAnalyticsDataLayer(ReferralResultViewModel viewModel)
             : base(viewModel) { }
     }
 
@@ -183,5 +207,11 @@ namespace NHS111.Models.Models.Web {
         protected override string VirtualPageTitle { get { return "Emergency prescription ITK Confirmation - Unavailable"; } }
 
         public EmergencyPrescriptionServiceUnavailableReferralAnalyticsDataLayer(ReferralResultViewModel viewModel) : base(viewModel) { }
+    }
+    public class TestKitServiceUnavailableReferralAnalyticsDataLayer : ServiceUnavailableReferralAnalyticsDataLayer
+    {
+        protected override string VirtualPageTitle { get { return "Test Kit Confirmation - Unavailable"; } }
+
+        public TestKitServiceUnavailableReferralAnalyticsDataLayer(ReferralResultViewModel viewModel) : base(viewModel) { }
     }
 }

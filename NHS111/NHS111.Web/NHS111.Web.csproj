@@ -476,6 +476,12 @@
     <Content Include="Views\Outcome\Corona\Isolate_111.cshtml" />
     <Content Include="Views\Outcome\Corona\High_Level.cshtml" />
     <Content Include="Views\Outcome\Corona\Information_Travelled.cshtml" />
+    <Content Include="Views\Shared\_ManualAddressForm.cshtml" />
+    <Content Include="Views\Outcome\Corona\ManualAddress.cshtml" />
+    <Content Include="Views\Outcome\Corona\Test_Kit.cshtml" />
+    <Content Include="Views\Outcome\Confirmation\Test_Kit\Confirmation.cshtml" />
+    <Content Include="Views\Outcome\Confirmation\Test_Kit\ServiceBookingFailure.cshtml" />
+    <Content Include="Views\Outcome\Confirmation\Test_Kit\ServiceUnavailable.cshtml" />
     <None Include="Web.Development.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

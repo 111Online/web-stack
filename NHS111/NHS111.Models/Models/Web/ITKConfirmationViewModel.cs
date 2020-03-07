@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace NHS111.Models.Models.Web
 {
-    public class ITKConfirmationViewModel :OutcomeViewModel
+    public class ITKConfirmationViewModel : PersonalDetailViewModel
     {
         public string PatientReference { get; set; }
         public bool? ItkSendSuccess { get; set; }

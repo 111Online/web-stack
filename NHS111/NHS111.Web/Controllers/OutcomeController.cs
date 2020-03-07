@@ -342,20 +342,52 @@ namespace NHS111.Web.Controllers
         [HttpPost]
         public async Task<ActionResult> Confirmation(PersonalDetailViewModel model, [FromUri] bool? overrideFilterServices)
         {
+            if (model.OutcomeGroup.IsCoronaVirus)
+            {
+                //Mapping postcode form address for DOS lookup may need a refactor to tidy multiple address models?
+                if(model.AddressInformation != null) model.CurrentPostcode =  model.AddressInformation.PatientCurrentAddress.Postcode;
+                model.DosCheckCapacitySummaryResult = new DosCheckCapacitySummaryResult();
+                model.SelectedServiceId = null;
+                model.DosCheckCapacitySummaryResult = await GetServiceAvailability(model, null, overrideFilterServices.HasValue ? overrideFilterServices.Value : model.FilterServices, null);
+
+                if (model.DosCheckCapacitySummaryResult.Error == null && !model.DosCheckCapacitySummaryResult.ResultListEmpty)
+                {
+                    AutoSelectFirstItkService(model);
+                    if(model.SelectedService != null)
+                        return await SubmitITKDataToService(model);
+                    else
+                         return ReturnServiceUnavailableView(model, model.DosCheckCapacitySummaryResult);
+                }
+                else
+                {
+                    return ReturnServiceUnavailableView(model, model.DosCheckCapacitySummaryResult);
+                }
+            }
+
             var availableServices = await GetServiceAvailability(model, null, overrideFilterServices.HasValue ? overrideFilterServices.Value : model.FilterServices, null);
             _auditLogger.LogDosResponse(model, availableServices);
             if (availableServices.ContainsService(model.SelectedService))
             {
-                var outcomeViewModel = ConvertPatientInformantDateToUserinfo(model.PatientInformantDetails, model);
-                var itkConfirmationViewModel = await _outcomeViewModelBuilder.ItkResponseBuilder(outcomeViewModel);
-                var result = _referralResultBuilder.Build(itkConfirmationViewModel);
-                return View(result.ViewName, result);
+                return await SubmitITKDataToService(model);
             }
-            
+
+            return ReturnServiceUnavailableView(model, availableServices);
+        }
+        
+        private ActionResult ReturnServiceUnavailableView(PersonalDetailViewModel model, DosCheckCapacitySummaryResult availableServices)
+        {
             var unavailableResult = _referralResultBuilder.BuildServiceUnavailableResult(model, availableServices);
             return View(unavailableResult.ViewName, unavailableResult);
         }
-        
+
+        private async Task<ActionResult> SubmitITKDataToService(PersonalDetailViewModel model)
+        {
+            var outcomeViewModel = ConvertPatientInformantDateToUserinfo(model.PatientInformantDetails, model);
+            var itkConfirmationViewModel = await _outcomeViewModelBuilder.ItkResponseBuilder(outcomeViewModel);
+            var result = _referralResultBuilder.Build(itkConfirmationViewModel);
+            return View(result.ViewName, result);
+        }
+
         [HttpPost]
         public async Task<ActionResult> ConfirmAddress(string longlat, ConfirmLocationViewModel model)
         {

@@ -1,0 +1,56 @@
+﻿@model NHS111.Models.Models.Web.PersonalDetailViewModel
+
+@{
+    var title = "Address";
+}
+
+@if (Model.OutcomeGroup.IsCoronaVirus)
+{
+    title = (Model.PatientInformantDetails.Informant == NHS111.Models.Models.Web.InformantType.ThirdParty) ? "Tell us the address where they will self-isolate" : "Tell us the address you plan to self-isolate in";
+}
+
+<div class="nhsuk-core">
+    <fieldset>
+        <legend class="nhsuk-fieldset__legend nhsuk-fieldset__legend--l nhsuk-u-margin-bottom-4"><h1 class="nhsuk-fieldset__heading">@title</h1></legend>
+
+        @if (Model.OutcomeGroup.IsCoronaVirus)
+        {
+
+            <div class="measure callout callout--info nhsuk-u-margin-bottom-6">
+                <p>
+                    Self-isolating means keeping separate from others in the household
+                    until contacted by the testing service.
+                </p>
+            </div>
+        }
+
+        <div class="inline-details form-group">
+            <label for="@Html.IdFor(m => m.AddressInformation.PatientCurrentAddress.AddressLine1)">Building and street<span class="util-visuallyhidden"> line 1 of 2</span></label>
+            @Html.ValidationMessageFor(m => m.AddressInformation.PatientCurrentAddress.AddressLine1, "Enter the first line of the address")
+            @Html.TextBoxFor(m => m.AddressInformation.PatientCurrentAddress.AddressLine1, new { @class = "form-control address-line-1 address-input" })
+        </div>
+        <div class="inline-details form-group">
+            @Html.LabelFor(m => m.AddressInformation.PatientCurrentAddress.AddressLine2, "Building and street line 2 of 2", new { @class = "util-visuallyhidden" })
+            @Html.TextBoxFor(m => m.AddressInformation.PatientCurrentAddress.AddressLine2, new { @class = "form-control address-line-2 address-input" })
+        </div>
+
+        <div class="inline-details form-group @(@ViewData.ModelState.IsValidField(Html.NameFor(m => m.AddressInformation.PatientCurrentAddress.City).ToString()) ? "" : "form-group-error")">
+            @Html.LabelFor(m => m.AddressInformation.PatientCurrentAddress.City, "Town or city")
+            @Html.ValidationMessageFor(m => m.AddressInformation.PatientCurrentAddress.City, "Enter a city")
+            @Html.TextBoxFor(m => m.AddressInformation.PatientCurrentAddress.City, new { @class = "form-control address-city address-input" })
+        </div>
+
+        <div class="inline-details form-group @(@ViewData.ModelState.IsValidField(Html.NameFor(m => m.AddressInformation.PatientCurrentAddress.County).ToString()) ? "" : "form-group-error")">
+            @Html.LabelFor(m => m.AddressInformation.PatientCurrentAddress.County, "County")
+            @Html.ValidationMessageFor(m => m.AddressInformation.PatientCurrentAddress.County, "Enter a county")
+            @Html.TextBoxFor(m => m.AddressInformation.PatientCurrentAddress.County, new { @class = "form-control address-county address-input" })
+        </div>
+        <div class="inline-details form-group @(@ViewData.ModelState.IsValidField(Html.NameFor(m => m.AddressInformation.PatientCurrentAddress.Postcode).ToString()) ? "" : "form-group-error")">
+            @Html.LabelFor(m => m.AddressInformation.PatientCurrentAddress.Postcode)
+            @Html.ValidationMessageFor(m => m.AddressInformation.PatientCurrentAddress.Postcode, "Enter a valid postcode")
+            @Html.TextBoxFor(m => m.AddressInformation.PatientCurrentAddress.Postcode, new { @class = "form-control address-postcode address-input form-textbox--postcode" })
+        </div>
+
+        <button>Next</button>
+    </fieldset>
+</div>

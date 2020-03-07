@@ -1,0 +1,44 @@
+﻿@using NHS111.Models.Models.Web
+@using NHS111.Web.Presentation.Analytics
+@inherits NHS111.Web.Views.Shared.SurveyLinkView<NHS111.Models.Models.Web.ReferralFailureResultViewModel>
+@{
+    Layout = "~/Views/Shared/_LayoutNhsUk.cshtml";
+    var tagPrinter = new AnalyticsTagPrinter();
+}
+@section Title {
+    @Model.PageTitle
+}
+@section HeadTop {
+    <script>
+        @tagPrinter.Print(Model.AnalyticsDataLayer)
+    </script>
+}
+
+@{
+    var dataDictionary = ViewContext.ViewData;
+    dataDictionary.Add(new KeyValuePair<string, object>("LaunchPage", "failure"));
+}
+
+<div class="measure nhsuk-core">
+  <h1 class="nhsuk-heading-xl">
+    There’s been a problem
+  </h1>
+  <p>
+    Sending your information failed. Try again later.
+  </p>
+  <p>
+    If you’re not sure what to do next, call 111.
+  </p>
+  <div class="callout callout--attention nhs-u-margin-bottom-6">
+    <p>
+      To protect yourself and others, <b>do not go</b> to a GP, pharmacy or hospital
+    </p>
+  </div>
+  <hr>
+  <h3 class="nhsuk-heading-s">Advice in other parts of the UK</h3>
+  <ul>
+    <li><strong>Scotland:</strong> call your GP surgery or 111 (NHS 24) if it’s closed</li>
+    <li><strong>Wales:</strong> call 111</li>
+    <li><strong>Northern Ireland:</strong> call 111</li>
+  </ul>
+</div>

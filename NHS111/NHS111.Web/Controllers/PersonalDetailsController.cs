@@ -8,7 +8,9 @@ using System.Web.Mvc;
 using System.Web.Script.Serialization;
 using AutoMapper;
 using Microsoft.Ajax.Utilities;
+using NHS111.Models.Models.Domain;
 using NHS111.Models.Models.Web;
+using NHS111.Models.Models.Web.FromExternalServices;
 using NHS111.Models.Models.Web.Validators;
 using NHS111.Utils.Attributes;
 using NHS111.Web.Presentation.Builders;
@@ -41,9 +43,20 @@ namespace NHS111.Web.Controllers
         public async Task<ActionResult> PersonalDetails(PersonalDetailViewModel model)
         {
             ModelState.Clear();
-            _auditLogger.LogSelectedService(model);
+            if (model.OutcomeGroup.IsCoronaVirus)
+                CreateDummyService(model);
 
+            _auditLogger.LogSelectedService(model);
+           
             return View("~\\Views\\PersonalDetails\\PersonalDetails.cshtml", model);
+        }
+
+        private static void CreateDummyService(PersonalDetailViewModel model)
+        {
+            model.DosCheckCapacitySummaryResult.Success = new SuccessObject<ServiceViewModel>();
+            model.DosCheckCapacitySummaryResult.Success.Services = new List<ServiceViewModel>()
+                {new ServiceViewModel() {Id = 1234, Name = "Blank Service"}};
+            model.SelectedServiceId = "1234";
         }
 
 
@@ -138,6 +151,15 @@ namespace NHS111.Web.Controllers
                 return View("~\\Views\\PersonalDetails\\PersonalDetails.cshtml", model);
             }
 
+            if (model.OutcomeGroup.IsCoronaVirus)
+            {
+                ModelState.Clear();
+                if (model.SelectedService == null)
+                    CreateDummyService(model);
+                model.UserInfo.Demography.Gender = Gender.Indeterminate.Value;
+                return View("~\\Views\\Outcome\\Corona\\ManualAddress.cshtml", model);
+            }
+
             return await DirectToPopulatedCurrentAddressPicker(model);
         }
 
@@ -177,6 +199,14 @@ namespace NHS111.Web.Controllers
         [HttpPost]
         public async Task<ActionResult> SubmitManualAddress(PersonalDetailViewModel model)
         {
+            var postcodes = await GetPostcodeResults(model.AddressInformation.PatientCurrentAddress.Postcode);
+            if (postcodes.ValidatedPostcodeResponse == PostcodeValidatorResponse.PostcodeNotFound)
+            {
+                ModelState.AddModelError("AddressInformation.PatientCurrentAddress.Postcode", new Exception());
+            }
+
+            if (model.OutcomeGroup.IsCoronaVirus && model.SelectedService == null)
+                CreateDummyService(model);
             if (!ModelState.IsValid)
             {
                 return View("~\\Views\\PersonalDetails\\ManualAddress.cshtml", model);

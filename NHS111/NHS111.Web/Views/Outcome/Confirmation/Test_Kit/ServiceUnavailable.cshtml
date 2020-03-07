@@ -1,0 +1,69 @@
+﻿@using NHS111.Models.Models.Web
+@using NHS111.Web.Presentation.Analytics
+@inherits NHS111.Web.Views.Shared.SurveyLinkView<NHS111.Models.Models.Web.TestKitServiceUnavailableReferralResultViewModel>
+@{
+    Layout = "~/Views/Shared/_LayoutNhsUk.cshtml";
+    var tagPrinter = new AnalyticsTagPrinter();
+}
+@section Title {
+    @Model.PageTitle
+}
+@section HeadTop {
+    <script>
+        @tagPrinter.Print(Model.AnalyticsDataLayer)
+    </script>
+}
+
+@{
+    var dataDictionary = ViewContext.ViewData;
+    dataDictionary.Add(new KeyValuePair<string, object>("LaunchPage", "failure"));
+}
+
+<div class="measure nhsuk-core">
+    @using (Html.BeginForm("CurrentAddress", "PersonalDetails", FormMethod.Post, new {id = "changeDetailsForm"}))
+    {
+        @Html.Partial("_CommonHiddenFieldsOutcomeViewModel", Model.OutcomeModel)
+        @Html.Partial("_CommonHiddenFieldsPersonalDetails", Model.OutcomeModel)
+
+        <h1 class="nhsuk-heading-xl">
+            No service available
+        </h1>
+        <p>
+            We can’t find a testing centre for @Model.OutcomeModel.CurrentPostcode
+        </p>
+        <p>
+            If this is not the right postcode <button id="change-details" class="button--link">you can change it.</button>
+        </p>
+        <p>
+            The testing centres are only available in England.
+        </p>
+        <p>
+            If you’re not sure what to do next, call 111.
+        </p>
+
+        <div class="callout callout--attention callout--lite nhsuk-u-margin-bottom-6 nhsuk-u-margin-top-6">
+            <p>
+                To protect yourself and others, <b>do not go</b> to a GP, pharmacy or hospital
+            </p>
+        </div>
+
+        <div class="callout callout--info nhsuk-u-margin-bottom-6">
+            <p>
+                You should keep yourself separate from others in your household (self-isolate)
+                until you have spoken to 111.
+                <a href="https://www.nhs.uk/conditions/coronavirus-covid-19/self-isolation-advice/">
+                    Read more details about self-isolation.
+                </a>
+            </p>
+        </div>
+
+        <hr>
+
+        <h3 class="nhsuk-heading-s">Advice in other parts of the UK</h3>
+        <ul>
+            <li><strong>Scotland:</strong> call your GP surgery or 111 (NHS 24) if it’s closed</li>
+            <li><strong>Wales:</strong> call 111</li>
+            <li><strong>Northern Ireland:</strong> call 111</li>
+        </ul>
+    }
+</div>

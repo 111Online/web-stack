@@ -5,17 +5,17 @@
 }
 
 @section Title {
-    Enter Current Address Manually
+    Enter Isolation Address
 }
 
 @section HeadTop {
-    @{ var url = string.Format("/outcome/{0}/{1}/{2}/itk/personaldetails/manualaddress/{3}/{4}", Url.Encode(Model.PathwayNo), Url.Encode(Model.OutcomeGroup.Text), Url.Encode(Model.Id), Url.Encode(Model.SelectedServiceId), Url.Encode(Model.SelectedService.Name)); } 
+    @{ var url = string.Format("/outcome/{0}/{1}/{2}/itk/personaldetails/manualaddress/{3}/{4}", Url.Encode(Model.PathwayNo), Url.Encode(Model.OutcomeGroup.Text), Url.Encode(Model.Id), Url.Encode(Model.SelectedServiceId), Url.Encode(Model.SelectedService.Name)); }
     <script>
         var pageId = '@Model.Id';
         dataLayer = [
             {
                 'virtualPageUrl': '@url',
-                'virtualPageTitle': 'Personal Details - Enter Current Address Manually'
+                'virtualPageTitle': 'Personal Details - Enter Isolation Address'
             }];
     </script>
 }
