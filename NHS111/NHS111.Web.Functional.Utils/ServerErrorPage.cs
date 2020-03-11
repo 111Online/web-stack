@@ -7,7 +7,7 @@ namespace NHS111.Web.Functional.Utils
     public class ServerErrorPage : LayoutPage
     {
         private static string _errorTitleCode = "Error 500";
-        private static string _errorTitle = "Sorry, there is a problem.";
+        private static string _errorTitle = "Sorry, there is a problem with the service";
 
         [FindsBy(How = How.CssSelector, Using = "main[id='content'] > div.page-section > h1.question-header")]
         internal IWebElement PageTitle { get; set; }

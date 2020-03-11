@@ -8,7 +8,7 @@ namespace NHS111.Web.Functional.Utils
     public class PageNotFound : LayoutPage
     {
         private static string _errorTitleCode = "Error 404";
-        private static string _errorTitle = "Sorry, there is a problem.";
+        private static string _errorTitle = "Page not found";
 
         [FindsBy(How = How.CssSelector, Using = "main[id='content'] > div.page-section > h1.question-header")]
         internal IWebElement PageTitle { get; set; }
