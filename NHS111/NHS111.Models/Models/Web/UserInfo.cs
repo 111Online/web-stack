@@ -9,6 +9,7 @@ namespace NHS111.Models.Models.Web
     public class UserInfo
     {
         public AgeGenderViewModel Demography { get; set; }
+        public bool ProvidedDemographics { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public int? Day { get; set; }
