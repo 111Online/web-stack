@@ -38,6 +38,7 @@ namespace NHS111.Web.Controllers
                 return View("~\\Views\\Question\\Gender.cshtml", model);
             }
 
+            model.UserInfo.ProvidedDemographics = true;
 
             if (model.PathwayNo != null)
             {
@@ -71,7 +72,8 @@ namespace NHS111.Web.Controllers
                 UserInfo = new UserInfo
                 {
                     Demography = model.UserInfo.Demography,
-                    CurrentAddress = model.UserInfo.CurrentAddress
+                    CurrentAddress = model.UserInfo.CurrentAddress,
+                    ProvidedDemographics = model.UserInfo.ProvidedDemographics
                 },
                 FilterServices = model.FilterServices,
                 Campaign = model.Campaign,

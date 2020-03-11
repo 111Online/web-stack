@@ -94,6 +94,9 @@ namespace NHS111.Web.Controllers
             var decryptedFilterServices = string.IsNullOrEmpty(decryptedArgs["filterServices"]) ||
                                           bool.Parse(decryptedArgs["filterServices"]);
 
+            bool decryptedProvidedDemographics;
+            bool.TryParse(decryptedArgs["providedDemographics"], out decryptedProvidedDemographics);
+
             var model = new QuestionInfoViewModel {
                 SessionId = Guid.Parse(decryptedArgs["sessionId"]),
                 PathwayNo = pathwayNumber,
@@ -104,7 +107,8 @@ namespace NHS111.Web.Controllers
                     Demography = new AgeGenderViewModel {
                         Age = age,
                         Gender = gender
-                    }
+                    },
+                    ProvidedDemographics = decryptedProvidedDemographics
                 },
                 FilterServices = decryptedFilterServices,
                 Campaign = decryptedArgs["campaign"],
