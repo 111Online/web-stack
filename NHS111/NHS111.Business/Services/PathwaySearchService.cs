@@ -145,7 +145,12 @@ namespace NHS111.Business.Services
                                             
                                     )
                                .MinimumShouldMatch(1)
-                               ))
+                               )).Positive(pos => pos
+                                .Term(t => t
+                                    .Field(f => f.Title).Value("corona")
+                                    .Field(f => f.Description).Value("corona")
+                            
+                                )).Boost(2)
                                .Negative(n => n
                                    
                                    .Term(t => t
@@ -155,7 +160,7 @@ namespace NHS111.Business.Services
                                        )
                                        .NegativeBoost(0.7)
                                )
-                               
+                        
                                )
                     .Highlight(h => 
                         h.Fields(
