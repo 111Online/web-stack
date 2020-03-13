@@ -9,7 +9,7 @@
 @section EmergencyAlert{
     @if (EmergencyAlertFeature.IsEnabled)
     {
-        @Html.Partial("_EmergencyAlert", new EmergencyAlertViewModel { SessionId = Model.SessionId })
+        @Html.Partial("_EmergencyAlert", new EmergencyAlertViewModel { OverrideDisplay = Model.IsCustomJourney })
     }
 }
 
@@ -41,6 +41,7 @@
     @Html.HiddenFor(m => m.SessionId)
     @Html.HiddenFor(m => m.Campaign)
     @Html.HiddenFor(m => m.FilterServices)
+    @Html.HiddenFor(m => m.IsCustomJourney)
     <button type="submit" class="button--next">Start</button>
 }
 

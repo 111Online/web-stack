@@ -7,7 +7,7 @@
 @section EmergencyAlert{
     @if (EmergencyAlertFeature.IsEnabled)
     {
-        @Html.Partial("_EmergencyAlert", new EmergencyAlertViewModel { SessionId = Model.SessionId })
+        @Html.Partial("_EmergencyAlert", new EmergencyAlertViewModel { OverrideDisplay = Model.IsCustomJourney })
     }
 }
 
@@ -29,18 +29,19 @@
 
 @using (Html.BeginForm("Find", "Location", FormMethod.Post))
 {
-    <div class="form-group">
-        @Html.LabelFor(m => m.CurrentPostcode, "Postcode")
-        @Html.ValidationMessageFor(m => m.CurrentPostcode, "Please enter your current postcode")
-        @Html.ValidationMessage("invalid-postcode")
-        @Html.TextBoxFor(m => m.CurrentPostcode, new { @required = true, style = "width: 8em; display: inline-block; margin-right: 10px;" })
-        <button class="js-find-location button--link" type="button" style="display: none" data-event-trigger="click" data-event-value="Geolocation">Use my current location</button>
+<div class="form-group">
+    @Html.LabelFor(m => m.CurrentPostcode, "Postcode")
+    @Html.ValidationMessageFor(m => m.CurrentPostcode, "Please enter your current postcode")
+    @Html.ValidationMessage("invalid-postcode")
+    @Html.TextBoxFor(m => m.CurrentPostcode, new { @required = true, style = "width: 8em; display: inline-block; margin-right: 10px;" })
+    <button class="js-find-location button--link" type="button" style="display: none" data-event-trigger="click" data-event-value="Geolocation">Use my current location</button>
 
-        @Html.HiddenFor(m => m.SessionId)
-        @Html.HiddenFor(m => m.Campaign)
-        @Html.HiddenFor(m => m.FilterServices)
-        @Html.HiddenFor(m => m.PathwayNo)
-    </div>
+    @Html.HiddenFor(m => m.SessionId)
+    @Html.HiddenFor(m => m.Campaign)
+    @Html.HiddenFor(m => m.FilterServices)
+    @Html.HiddenFor(m => m.PathwayNo)
+    @Html.HiddenFor(m => m.IsCustomJourney)
+</div>
 
     <button type="submit" class="button--next">Next</button>
 }
@@ -56,7 +57,7 @@
         startPageLoadingIndicator('Searching for your current location ...');
         navigator.geolocation.getCurrentPosition(function (pos) {
             var coords = pos.coords.longitude + "," + pos.coords.latitude;
-            post('/Location/ConfirmAddress', { "longlat": coords, "SessionId": "@Model.SessionId", "Campaign": "@Model.Campaign", "FilterServices": "@Model.FilterServices", "PathwayNo": "@Model.PathwayNo" });
+            post('/Location/ConfirmAddress', { "longlat": coords, "SessionId": "@Model.SessionId", "Campaign": "@Model.Campaign", "FilterServices": "@Model.FilterServices", "PathwayNo": "@Model.PathwayNo", "IsCustomJourney": "@Model.IsCustomJourney" });
         }, showError);
     });
 

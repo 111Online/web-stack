@@ -1,29 +1,33 @@
 ﻿@model NHS111.Models.Models.Web.EmergencyAlertViewModel
-<style>
-    .global-header {
-        border: 0;
-    }
-</style>
 
-<div class="nhsuk-core">
-    <div class="nhsuk-global-alert" id="nhsuk-global-alert">
-        <div class="nhsuk-width-container">
-            <div class="nhsuk-grid-row">
-                <div class="nhsuk-grid-column-full">
-                    <div class="nhsuk-global-alert__content">
-                        <p>
-                            Worried about the coronavirus (COVID-19) outbreak?
-                        </p>
-                        <p>
-                            <b>Do not go to a GP, pharmacy or a hospital.</b><br>
-                            <a href="/service/COVID-19/" data-event-triger="click" data-event-value="Novel Coronavirus about">
-                                Get information and advice
-                            </a>
-                        </p>
+@if (!Model.OverrideDisplay)
+{
+    <style>
+        .global-header {
+            border: 0;
+        }
+    </style>
+
+    <div class="nhsuk-core">
+        <div class="nhsuk-global-alert" id="nhsuk-global-alert">
+            <div class="nhsuk-width-container">
+                <div class="nhsuk-grid-row">
+                    <div class="nhsuk-grid-column-full">
+                        <div class="nhsuk-global-alert__content">
+                            <p>
+                                Worried about the coronavirus (COVID-19) outbreak?
+                            </p>
+                            <p>
+                                <b>Do not go to a GP, pharmacy or a hospital.</b><br>
+                                <a href="/service/COVID-19/" data-event-triger="click" data-event-value="Novel Coronavirus about">
+                                    Get information and advice
+                                </a>
+                            </p>
+                        </div>
                     </div>
-                </div>
 
+                </div>
             </div>
         </div>
     </div>
-</div>
+}
