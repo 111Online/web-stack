@@ -68,8 +68,7 @@ namespace NHS111.Models.Models.Domain {
         #region Corona virus specific outcomes
         public static OutcomeGroup Isolate111 = new OutcomeGroup { Id = "Isolate_111", Text = "Isolate_111", DefaultTitle = "Isolate yourself at home", Label = "No further action", PostcodeFirst = false, ITK = false };
         public static OutcomeGroup Isolate_SelfCare = new OutcomeGroup { Id = "Isolate_SelfCare", Text = "Isolate_SelfCare", DefaultTitle = "Isolate yourself at home", Label = "No further action", PostcodeFirst = false, ITK = false };
-        public static OutcomeGroup Isolate_999_A = new OutcomeGroup { Id = "Isolate_999_A", Text = "Isolate_999_A", DefaultTitle = "Isolate yourself at home", Label = "Call 999", PostcodeFirst = false, ITK = false };
-        public static OutcomeGroup Isolate_999_B = new OutcomeGroup { Id = "Isolate_999_B", Text = "Isolate_999_B", DefaultTitle = "Isolate yourself at home", Label = "Call 999", PostcodeFirst = false, ITK = false };
+        public static OutcomeGroup Isolate_999 = new OutcomeGroup { Id = "Isolate_999", Text = "Isolate_999", DefaultTitle = "Isolate yourself at home", Label = "Call 999", PostcodeFirst = false, ITK = false };
         #endregion
 
         public static OutcomeGroup[] PrePopulatedDosResultsOutcomeGroups = new OutcomeGroup[] {Dental, ItkPrimaryCare, GP, MentalHealth, AccidentAndEmergency, ClinicianCallBack, Call999Cat3, Call999Cat4, RepeatPrescription };
@@ -103,8 +102,7 @@ namespace NHS111.Models.Models.Domain {
         #region Corona virus specific outcomes
             { Isolate111.Id, Isolate111 },
             { Isolate_SelfCare.Id, Isolate_SelfCare },
-            { Isolate_999_A.Id, Isolate_999_A },
-            { Isolate_999_B.Id, Isolate_999_B }
+            { Isolate_999.Id, Isolate_999 }
         #endregion
     };
 
@@ -176,7 +174,7 @@ namespace NHS111.Models.Models.Domain {
         public bool IsCoronaVirus {
             get
             {
-                return Equals(Isolate111) || Equals(Isolate_SelfCare) || Equals(Isolate_999_A) || Equals(Isolate_999_B);
+                return Equals(Isolate111) || Equals(Isolate_SelfCare) || Equals(Isolate_999);
             }
         }
 
