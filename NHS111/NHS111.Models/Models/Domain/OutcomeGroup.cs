@@ -67,6 +67,8 @@ namespace NHS111.Models.Models.Domain {
         public static OutcomeGroup RepeatPrescription = new OutcomeGroup { Id = "Repeat_Prescription", Text = "Repeat_Prescription", DefaultTitle = "Where to go for help", Label = "Repeat Prescription", PostcodeFirst = true, ITK = true };
 
         public static OutcomeGroup NoFurtherAction = new OutcomeGroup { Id = "No_Further_Action", Text = "No_Further_Action", DefaultTitle = "No further action required", Label = "No further action", PostcodeFirst = true, ITK = false };
+        
+        public static OutcomeGroup JumpToSearch = new OutcomeGroup { Id = "JumpToSearch", Text = "", DefaultTitle = "", Label = "" };
 
         #region Corona virus specific outcomes
         public static OutcomeGroup InformationTravelled = new OutcomeGroup { Id = "Information_Travelled", Text = "Information_Travelled", DefaultTitle = "Travelled information", Label = "No further action", PostcodeFirst = false, ITK = false };
@@ -104,6 +106,7 @@ namespace NHS111.Models.Models.Domain {
             { GP.Id, GP },
             { RepeatPrescription.Id, RepeatPrescription },
             { NoFurtherAction.Id, NoFurtherAction },
+            { JumpToSearch.Id, JumpToSearch },
 
         #region Corona virus specific outcomes
             { InformationTravelled.Id, InformationTravelled },

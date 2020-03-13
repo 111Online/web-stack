@@ -22,7 +22,6 @@ namespace NHS111.Models.Mappers.WebMappings
             Mapper.CreateMap<QuestionWithAnswers, JourneyViewModel>()
                .ConvertUsing<FromQuestionWithAnswersToJourneyViewModelConverter>();
 
-
             Mapper.CreateMap<QuestionWithAnswers, OutcomeGroup>()
                 .ConvertUsing<FromQuestionWithAnswersToOutcomeGroupModelConverter>();
 
@@ -46,6 +45,9 @@ namespace NHS111.Models.Mappers.WebMappings
                 .ForMember(s => s.GroupedDosServices, o => o.Ignore())
                 .ForMember(s => s.HasAcceptedCallbackOffer, o => o.Ignore())
                 .ForMember(s => s.RecommendedService, opt => opt.Ignore());
+
+            
+            Mapper.CreateMap<JourneyViewModel, SearchJourneyViewModel>();
         }
 
         public class FromAnswerToJourneyViewModelConverter : ITypeConverter<Answer, JourneyViewModel>

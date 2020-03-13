@@ -62,6 +62,7 @@ namespace NHS111.Models.Models.Web
                 if (!model.DosCheckCapacitySummaryResult.IsValidationRequery && model.DosCheckCapacitySummaryResult.HasITKServices && !model.HasAcceptedCallbackOffer.HasValue)
                     return "../Outcome/SP_Accident_and_emergency_callback";
             }
+
             return viewFilePath;
         }
     }
@@ -119,6 +120,17 @@ namespace NHS111.Models.Models.Web
         public override string ViewName { get { return "../Outcome/DeadEndJump"; } }
 
         public DeadEndJumpResultViewModel(JourneyViewModel journeyViewModel) : base(journeyViewModel)
+        {
+        }
+    }
+
+    
+
+    public class SearchJumpViewModel : JourneyResultViewModel
+    {
+        public override string ViewName { get { return "../Search/Search"; } }
+
+        public SearchJumpViewModel(JourneyViewModel journeyViewModel) : base(journeyViewModel)
         {
         }
     }
