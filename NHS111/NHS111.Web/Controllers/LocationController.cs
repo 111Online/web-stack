@@ -89,10 +89,15 @@ namespace NHS111.Web.Controllers
                     if (IsRequestingPharmacyPathway(model.PathwayNo))
                             return View("../Pathway/EmergencyPrescriptionsOutOfArea", model);
 
+                    model.PathwayNo = _COVIDPathwayNo;
                     return View(moduleZeroViewName, model);
                 }
-                case PostcodeValidatorResponse.InPathwaysAreaWithPharmacyServices: //postcode with pharmacy services but didn't request pharmacy pathway
+                case PostcodeValidatorResponse.InPathwaysAreaWithPharmacyServices
+                    : //postcode with pharmacy services but didn't request pharmacy pathway
+                {
+                    model.PathwayNo = _COVIDPathwayNo;
                     return View(moduleZeroViewName, model);
+                }
 
                 case PostcodeValidatorResponse.PostcodeNotFound:
                     return View("OutOfArea",
@@ -110,6 +115,7 @@ namespace NHS111.Web.Controllers
         }
 
         private static string EmergencyPrescriptionsPathwayNo = "PW1827";
+        private string _COVIDPathwayNo = "PW1851";
     }
 
 }
