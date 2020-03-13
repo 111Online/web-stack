@@ -7,7 +7,7 @@
 @section EmergencyAlert{
     @if (EmergencyAlertFeature.IsEnabled)
     {
-        @Html.Partial("_EmergencyAlert", new EmergencyAlertViewModel { SessionId = Model.SessionId })
+        @Html.Partial("_EmergencyAlert", new EmergencyAlertViewModel { OverrideDisplay = Model.IsCustomJourney })
     }
 }
 
@@ -34,6 +34,7 @@
     @Html.HiddenFor(x => Model.Campaign)
     @Html.HiddenFor(x => Model.Source)
     @Html.HiddenFor(x => Model.PathwayNo)
+    @Html.HiddenFor(m => m.IsCustomJourney)
 
     @Html.HiddenFor(m => m.CurrentPostcode)
     <h1 class="heading--alert heading--large">Check it’s not an emergency</h1>

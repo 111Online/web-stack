@@ -7,7 +7,7 @@
 @section EmergencyAlert{
     @if (EmergencyAlertFeature.IsEnabled)
     {
-        @Html.Partial("_EmergencyAlert", new EmergencyAlertViewModel { SessionId = Model.SessionId })
+        @Html.Partial("_EmergencyAlert", new EmergencyAlertViewModel { OverrideDisplay = Model.IsCustomJourney })
     }
 }
 
@@ -28,6 +28,7 @@
         @Html.HiddenFor(m => m.Campaign)
         @Html.HiddenFor(m => m.FilterServices)
         @Html.HiddenFor(m => m.PathwayNo)
+        @Html.HiddenFor(m => m.IsCustomJourney)
         <div>
             @{
                 var i = 0;
@@ -53,7 +54,7 @@
                     </div>
 
 
-                    <p><a href="@string.Format("/Location/ChangePostcode/?SessionId={0}&Campaign={1}&FilterServices={2}&PathwayNo={3}", Model.SessionId, Model.Campaign, Model.FilterServices, Model.PathwayNo)" class="js-manual-postcode button--link button--stacked">No, I'll enter my postcode.</a></p>
+                    <p><a href="@string.Format("/Location/ChangePostcode/?SessionId={0}&Campaign={1}&FilterServices={2}&PathwayNo={3}&IsCustomJourney={4}", Model.SessionId, Model.Campaign, Model.FilterServices, Model.PathwayNo, Model.IsCustomJourney)" class="js-manual-postcode button--link button--stacked">No, I'll enter my postcode.</a></p>
                     <button class="button--next" type="submit" name="DosResults" id="DosLookup">Next</button>
                 </div>
 

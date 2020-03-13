@@ -2,7 +2,7 @@
 @{
     Layout = "~/Views/Shared/_LayoutNhsUK.cshtml";
 }
-@inherits NHS111.Web.Views.Shared.DisclaimerPopupView
+@inherits NHS111.Web.Views.Shared.DirectLinkingView<NHS111.Models.Models.Web.JourneyViewModel>
 
 @section Title { NHS 111 Online - About coronavirus (COVID-19)}
 @{ ViewBag.Description = "Check for symptoms of coronavirus (COVID-19). Answer questions and find out what to do if you have coronavirus. Find out where you can get help if you have a cough, shortness of breath or a high temperature. General advice about how coronavirus spreads and how to avoid infection. "; }
@@ -15,7 +15,10 @@
             }];
     </script>
 }
-
+@using (Html.BeginForm("Location", "Location", FormMethod.Post))
+{
+    @Html.HiddenFor(m => m.SessionId)
+    @Html.Hidden("IsCustomJourney", true)
     <div class="measure nhsuk-core">
         <h1 class="nhsuk-heading-l">About coronavirus (COVID-19)</h1>
         <p>Read general advice such as:</p>
@@ -38,11 +41,9 @@
             <p>To protect yourself and others, <b>do not go</b> to a GP, pharmacy or hospital</p>
         </div>
         <p>This service is suitable for all ages.</p>
-        @using (Html.BeginForm("Location", "Location", FormMethod.Post))
-        {
-            @Html.HiddenFor(m => m.SessionId)
+        <div class="nhsuk-u-margin-bottom-4">
             @Html.Partial("_ActionButton", new ActionLinkViewModel() { Text = "Start now" })
-        }
+        </div>
         <hr />
         <h3 class="nhsuk-heading-s">Advice in other parts of the UK</h3>
         <ul>
@@ -57,3 +58,4 @@
             </li>
         </ul>
     </div>
+}
