@@ -1,7 +1,5 @@
-﻿
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace NHS111.Models.Models.Domain {
     using Newtonsoft.Json;
@@ -9,7 +7,6 @@ namespace NHS111.Models.Models.Domain {
 
     public class OutcomeGroup : IEquatable<OutcomeGroup>
     {
-
         [JsonProperty(PropertyName = "id")]
         public string Id { get; set; }
 
@@ -28,9 +25,9 @@ namespace NHS111.Models.Models.Domain {
 
         public bool CanPatientsRegisterWithService { get; set; }
 
-        public static OutcomeGroup ClinicianCallBack = new OutcomeGroup() { Id = "ITK_Clinician_call_back", Text = "ITK_Clinician_call_back", AutomaticSelectionOfItkResult = true, DefaultTitle = "Based on your answers, we recommend that you speak to a clinician", Label = "Healthcare services", ITK = true };
+        public static OutcomeGroup ClinicianCallBack = new OutcomeGroup { Id = "ITK_Clinician_call_back", Text = "ITK_Clinician_call_back", AutomaticSelectionOfItkResult = true, DefaultTitle = "Based on your answers, we recommend that you speak to a clinician", Label = "Healthcare services", ITK = true };
 
-        public static OutcomeGroup ItkPrimaryCare = new OutcomeGroup() { Id = "ITK_Primary_care", Text = "ITK_Primary_care", PostcodeFirst = true, CanPatientsRegisterWithService = true, DefaultTitle = "Based on your answers, we recommend you speak to a healthcare service" };
+        public static OutcomeGroup ItkPrimaryCare = new OutcomeGroup { Id = "ITK_Primary_care", Text = "ITK_Primary_care", PostcodeFirst = true, CanPatientsRegisterWithService = true, DefaultTitle = "Based on your answers, we recommend you speak to a healthcare service" };
 
         public static OutcomeGroup Call999Police = new OutcomeGroup { Id = "Call_999_police", Text = "Call_999_police", DefaultTitle = "Your answers suggest you should dial 999 now for the police" };
 
@@ -69,12 +66,9 @@ namespace NHS111.Models.Models.Domain {
         public static OutcomeGroup NoFurtherAction = new OutcomeGroup { Id = "No_Further_Action", Text = "No_Further_Action", DefaultTitle = "No further action required", Label = "No further action", PostcodeFirst = true, ITK = false };
 
         #region Corona virus specific outcomes
-        public static OutcomeGroup InformationTravelled = new OutcomeGroup { Id = "Information_Travelled", Text = "Information_Travelled", DefaultTitle = "Travelled information", Label = "No further action", PostcodeFirst = false, ITK = false };
         public static OutcomeGroup Isolate111 = new OutcomeGroup { Id = "Isolate_111", Text = "Isolate_111", DefaultTitle = "Isolate yourself at home", Label = "No further action", PostcodeFirst = false, ITK = false };
-        public static OutcomeGroup IsolatePHE= new OutcomeGroup { Id = "Isolate_PHE", Text = "Isolate_PHE", DefaultTitle = "Isolate yourself at home", Label = "No further action", PostcodeFirst = false, ITK = false };
-        public static OutcomeGroup Information111 = new OutcomeGroup { Id = "Information_111", Text = "Information_111", DefaultTitle = "Information", Label = "No further action", PostcodeFirst = false, ITK = false };
-        public static OutcomeGroup Information = new OutcomeGroup { Id = "Information", Text = "Information", DefaultTitle = "Information", Label = "No further action", PostcodeFirst = false, ITK = false };
-        public static OutcomeGroup TestKit = new OutcomeGroup { Id = "Test_Kit", Text = "Test_Kit", DefaultTitle = "Request a test kit", Label = "Request a test kit", PostcodeFirst = false, ITK = true, AutomaticSelectionOfItkResult = true };
+        public static OutcomeGroup Isolate_SelfCare = new OutcomeGroup { Id = "Isolate_SelfCare", Text = "Isolate_SelfCare", DefaultTitle = "Isolate yourself at home", Label = "No further action", PostcodeFirst = false, ITK = false };
+        public static OutcomeGroup Isolate_999 = new OutcomeGroup { Id = "Isolate_999", Text = "Isolate_999", DefaultTitle = "Isolate yourself at home", Label = "Call 999", PostcodeFirst = false, ITK = false };
         #endregion
 
         public static OutcomeGroup[] PrePopulatedDosResultsOutcomeGroups = new OutcomeGroup[] {Dental, ItkPrimaryCare, GP, MentalHealth, AccidentAndEmergency, ClinicianCallBack, Call999Cat3, Call999Cat4, RepeatPrescription };
@@ -106,12 +100,9 @@ namespace NHS111.Models.Models.Domain {
             { NoFurtherAction.Id, NoFurtherAction },
 
         #region Corona virus specific outcomes
-            { InformationTravelled.Id, InformationTravelled },
             { Isolate111.Id, Isolate111 },
-            { IsolatePHE.Id, IsolatePHE },
-            { Information111.Id, InformationTravelled},
-            { Information.Id, Information },
-            { TestKit.Id, TestKit }
+            { Isolate_SelfCare.Id, Isolate_SelfCare },
+            { Isolate_999.Id, Isolate_999 }
         #endregion
     };
 
@@ -181,13 +172,9 @@ namespace NHS111.Models.Models.Domain {
         }
 
         public bool IsCoronaVirus {
-            get {
-                return this.Equals(OutcomeGroup.InformationTravelled) ||
-                       this.Equals(OutcomeGroup.Isolate111) ||
-                       this.Equals(OutcomeGroup.IsolatePHE) ||
-                       this.Equals(OutcomeGroup.Information111) ||
-                       this.Equals(OutcomeGroup.Information) ||
-                       this.Equals(OutcomeGroup.TestKit);
+            get
+            {
+                return Equals(Isolate111) || Equals(Isolate_SelfCare) || Equals(Isolate_999);
             }
         }
 
