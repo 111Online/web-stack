@@ -30,15 +30,35 @@
         @Html.Partial("_CommonHiddenFieldsOutcomeViewModel", Model)
         <button id="PreviousQuestionFromOutcome" class="search__button--back" type="submit" value="PreviousQuestion" name="PreviousQuestion" formnovalidate>Back</button>
     }
+    
+    
+    <div class="content-block measure">
 
-    <h1 class="heading--alert heading--large">@Model.OutcomeGroup.Text</h1>
-    <div class="callout callout--alert">
-        <p class="lede lede--strong">The 999 operator will ask:</p>
+        <h1 class="heading--alert heading--large">@Model.OutcomeGroup.Text</h1>
+
+        <div class="callout callout--alert measure">
+            <p>
+                You <b>must</b> tell the operator that you have coronavirus symptoms.
+            </p>
+        </div>
+
+        <p>The 999 operator will ask:</p>
         <ul>
             <li>where you are</li>
-            <li>for your phone number</li>
-            <li>for more information about your symptoms</li>
+            <li>for your phone number in case you get cut off</li>
         </ul>
+
+        <p>
+            The ambulance crew might arrive wearing protective clothing so that the
+            virus is not spread.
+        </p>
+
+        <p>
+            <b>Do not</b> go to a GP or hospital instead of calling for an ambulance.
+        </p>
+
     </div>
+
+  
 
 </div>
