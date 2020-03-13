@@ -47,7 +47,11 @@ namespace NHS111.Models.Mappers.WebMappings
                 .ForMember(s => s.RecommendedService, opt => opt.Ignore());
 
             
-            Mapper.CreateMap<JourneyViewModel, SearchJourneyViewModel>();
+            Mapper.CreateMap<JourneyViewModel, SearchJourneyViewModel>()
+                .ForMember(s => s.SanitisedSearchTerm, o => o.Ignore())
+                .ForMember(s => s.Results, o => o.Ignore())
+                .ForMember(s => s.Categories, o => o.Ignore())
+                .ForMember(s => s.HasResults, o => o.Ignore());
         }
 
         public class FromAnswerToJourneyViewModelConverter : ITypeConverter<Answer, JourneyViewModel>
