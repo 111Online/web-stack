@@ -15,11 +15,17 @@ namespace NHS111.Web.Controllers
         [HttpGet]
         [Route("COVID-19")]
         [Route("service/COVID-19")]
-        [Route("{pathwayNumber}/{sessionId}/{digitalTitle}/about")] // Old link, kept so it doesn't 404
         //Special route for Covid direct link from other services to tidy up..
-        public ActionResult StartServiceNonDemographicSpecificQuestion()
+        public ActionResult StartCovidJourney()
         {
-            return View("About");
+            return View("AboutCovid");
+        }
+
+        [HttpGet]
+        [Route("{pathwayNumber}/{sessionId}/{digitalTitle}/about")] // Old link, kept so it doesn't 404
+        public ActionResult RedirectSessionCovidJourney()
+        {
+            return RedirectPermanent("/service/COVID-19");
         }
     }
 }

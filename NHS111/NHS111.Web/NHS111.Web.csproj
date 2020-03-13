@@ -483,7 +483,7 @@
     <Content Include="Views\Outcome\Confirmation\Test_Kit\Confirmation.cshtml" />
     <Content Include="Views\Outcome\Confirmation\Test_Kit\ServiceBookingFailure.cshtml" />
     <Content Include="Views\Outcome\Confirmation\Test_Kit\ServiceUnavailable.cshtml" />
-    <Content Include="Views\Home\About.cshtml" />
+    <Content Include="Views\Home\AboutCovid.cshtml" />
     <None Include="Web.Development.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
