@@ -1,15 +1,9 @@
-﻿
-using NHS111.Models.Models.Web;
-using NHS111.Models.Models.Web.FromExternalServices;
-
-namespace NHS111.Models.Models.Web {
+﻿namespace NHS111.Models.Models.Web {
 
     public abstract class BaseViewModel {
         public abstract string PageTitle { get; }
         public AnalyticsDataLayerContainer AnalyticsDataLayer { get; set; }
     }
-
-
 
     public abstract class ReferralResultViewModel : BaseViewModel
     {
@@ -35,8 +29,7 @@ namespace NHS111.Models.Models.Web {
 
             if (outcomeModel != null
                 && outcomeModel.OutcomeGroup != null
-                && (outcomeModel.OutcomeGroup.Equals(Domain.OutcomeGroup.RepeatPrescription) ||
-                    outcomeModel.OutcomeGroup.Equals(Domain.OutcomeGroup.TestKit)))
+                && outcomeModel.OutcomeGroup.Equals(Domain.OutcomeGroup.RepeatPrescription))
             {
                 return outcomeModel.OutcomeGroup.Id;
             }
