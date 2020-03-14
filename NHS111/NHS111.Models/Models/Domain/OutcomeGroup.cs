@@ -65,7 +65,7 @@ namespace NHS111.Models.Models.Domain {
 
         public static OutcomeGroup NoFurtherAction = new OutcomeGroup { Id = "No_Further_Action", Text = "No_Further_Action", DefaultTitle = "No further action required", Label = "No further action", PostcodeFirst = true, ITK = false };
         
-        public static OutcomeGroup JumpToSearch = new OutcomeGroup { Id = "JumpToSearch", Text = "", DefaultTitle = "", Label = "" };
+        public static OutcomeGroup JumpToSearch = new OutcomeGroup { Id = "111_Search_Jump", Text = "", DefaultTitle = "", Label = "" };
 
         #region Corona virus specific outcomes
         public static OutcomeGroup Isolate111 = new OutcomeGroup { Id = "Isolate_111", Text = "Isolate_111", DefaultTitle = "Isolate yourself at home", Label = "No further action", PostcodeFirst = false, ITK = false };
