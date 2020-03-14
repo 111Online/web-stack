@@ -45,7 +45,7 @@ namespace NHS111.Web.Presentation.Builders
             switch (journeyViewModel.NodeType)
             {
                 case NodeType.Outcome:
-                    if (journeyViewModel.OutcomeGroup.Id.Equals("JumpToStart"))
+                    if (journeyViewModel.OutcomeGroup.Id.Equals("111_Search_Jump"))
                     {
                         return _mappingEngine.Mapper.Map<SearchJourneyViewModel>(journeyViewModel);
                     }
