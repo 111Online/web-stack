@@ -4,12 +4,6 @@
 @inherits NHS111.Web.Views.Shared.DirectLinkingView<JourneyViewModel>
 
 @section Title { NHS 111 Online - Is it an emergency? }
-@section EmergencyAlert{
-    @if (EmergencyAlertFeature.IsEnabled)
-    {
-        @Html.Partial("_EmergencyAlert", new EmergencyAlertViewModel { OverrideDisplay = Model.IsCustomJourney })
-    }
-}
 
 @section HeadTop {
     <script>

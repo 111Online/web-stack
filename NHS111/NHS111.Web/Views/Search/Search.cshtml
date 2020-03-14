@@ -6,12 +6,6 @@
 }
 
 @section Title  {NHS 111 Online - Tell us the symptom}
-@section EmergencyAlert{
-    @if (EmergencyAlertFeature.IsEnabled)
-    {
-        @Html.Partial("_EmergencyAlert", new EmergencyAlertViewModel { OverrideDisplay = Model.IsCustomJourney })
-    }
-}
 
 @section FeedbackSection {
     @Html.Partial("_FeedbackDetails", new FeedbackViewModel { UserId = Model.SessionId.ToString(), PageData = new PageDataViewModel(PageDataViewModel.PageType.Search, Model) })
