@@ -22,7 +22,7 @@
                 @Html.HiddenFor(m => m.UserId)
                 @Html.Partial("_CommonHiddenFieldsPageDataViewModel", Model.PageData, new ViewDataDictionary() {TemplateInfo = new TemplateInfo() {HtmlFieldPrefix = "PageData"}})
 
-                if (Model.PageData != null && !string.IsNullOrEmpty(Model.PageData.StartingPathwayNo) && Model.PageData.IsCoronaJourney)
+                if (Model.PageData != null && !string.IsNullOrEmpty(Model.PageData.StartingPathwayNo))
                 {
                     <p>Does it make sense?</p>
                     <p>We only use this feedback to make the service better.</p>
