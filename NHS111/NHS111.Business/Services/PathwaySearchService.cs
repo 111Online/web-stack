@@ -137,7 +137,6 @@ namespace NHS111.Business.Services
                                 .Should
                                 (
                                     AddTitleAndDerscriptionMatchingQuery(query, 10),
-                                    AddCoronaQuery(),
                                     AddShingleMatchQuery(query, 20),
                                     AddPhoneticsMatchQuery(query),
                                     AddPhraseMatchQuery(query, 10),
@@ -258,21 +257,6 @@ namespace NHS111.Business.Services
                     .Boost(boostScore)
                     .Query(query)
                 );
-        }
-
-        private Func<QueryContainerDescriptor<PathwaySearchResult>, QueryContainer> AddCoronaQuery()
-        {
-            return s => s.MultiMatch(m =>
-                m.Fields(f => f
-                        .Field(p => p.Title)
-                        .Field(p => p.Description)
-                    )
-                    .Operator(Operator.Or)
-                    .Slop(50)
-                    .Type(TextQueryType.MostFields)
-                    .Query("Coronavirus COVID")
-                    .Boost(1000)
-            );
         }
 
         private Func<QueryContainerDescriptor<PathwaySearchResult>, QueryContainer> AddBodytags(string query, IReadOnlyCollection<IHit<BodytagResult>> bodytags)
