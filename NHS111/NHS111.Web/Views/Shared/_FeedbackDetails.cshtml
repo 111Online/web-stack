@@ -22,19 +22,12 @@
                 @Html.HiddenFor(m => m.UserId)
                 @Html.Partial("_CommonHiddenFieldsPageDataViewModel", Model.PageData, new ViewDataDictionary() {TemplateInfo = new TemplateInfo() {HtmlFieldPrefix = "PageData"}})
 
-                if (Model.PageData != null && !string.IsNullOrEmpty(Model.PageData.StartingPathwayNo))
-                {
+               
                     <p>Does it make sense?</p>
                     <p>We only use this feedback to make the service better.</p>
                     <p>Do not leave any personal or contact information. <strong>No one will contact you or reply to requests for medical help.</strong></p>
                     <p>Call 111 if you need to speak to someone.</p>
-                }
-                else
-                {
-                    @(String.IsNullOrEmpty(Model.Paragraph) ? null : Html.Raw("<p>" + Model.Paragraph + "</p>"))
-                    <p>We use feedback to make these pages better. We don’t check feedback every day and cannot reply or pass comments on to other NHS services.</p>
-                    <p>Do not include any medical or personal information like your name, email or phone number.</p>
-                }
+               
 
                 @Html.TextAreaFor(m => m.Text, new {@placeholder = "Feedback", @Value = "", @class = "feedback__input", @maxlength = maxFeedbackLength, @aria_labelledby = "feedback__summary"})
                 <div id="textdetailscounter" class="feedback__counter">@(maxFeedbackLength) character limit</div>
