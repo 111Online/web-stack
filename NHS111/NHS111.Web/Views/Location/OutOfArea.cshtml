@@ -21,17 +21,39 @@
     </script>
 }
 
-<div class="measure">
-    <div class="content-block">
-        <h1 class="heading--large">111 online is not in this area</h1>
-        <p>It is only available in England.</p>
-        @using (Html.BeginForm("ChangePostcode", "Location", FormMethod.Get))
-        {
-            @Html.HiddenFor(m => m.SessionId)
-            @Html.HiddenFor(m => m.Campaign)
-            @Html.HiddenFor(m => m.FilterServices)
-            @Html.HiddenFor(m => m.IsCustomJourney)
-            <button type="submit" class="button button--link">Go back</button>
-        }
+    <div class="measure">
+        <div class="content-block">
+            <h1 class="heading--large">No service available</h1>
+            <p>We can't find the postcode @Model.CurrentPostcode</p>
+            @using (Html.BeginForm("ChangePostcode", "Location", FormMethod.Get))
+            {
+                @Html.HiddenFor(m => m.SessionId)
+                @Html.HiddenFor(m => m.Campaign)
+                @Html.HiddenFor(m => m.FilterServices)
+                @Html.HiddenFor(m => m.IsCustomJourney)
+                <p>If this is not the right postcode <button type="submit" class="button button--link">you can change it</button></p>
+            }
+        </div>
+        <p>The NHS 111 online service is only available in England.</p>
+        <div class="callout callout--attention nhsuk-u-margin-bottom-6">
+            <p class="nhsuk-u-margin-bottom-0">To protect others, <b>do not go to</b> a GP, pharmacy or hospital</p>
+        </div>
+        <div class="callout callout--info nhsuk-u-margin-bottom-4">
+            <p class="nhsuk-u-margin-bottom-0">You should keep yourself separate from others in your household. Read more <a data-event-trigger="click" data-event-value="self isolate advice" href="https://www.nhs.uk/conditions/coronavirus-covid-19/self-isolation-advice/">stay at home</a> advice on nhs.uk.</p>
+        </div>
+        <hr />
+        <h3 class="nhsuk-heading-s">Advice in other parts of the UK</h3>
+        <p>Check your symptoms in:</p>
+        <ul>
+            <li>
+                <a data-event-trigger="click" data-event-value="Symptoms in Scotland" href="https://www.nhsinform.scot/illnesses-and-conditions/infections-and-poisoning/coronavirus-covid-19">Scotland</a>
+            </li>
+            <li>
+                <a data-event-trigger="click" data-event-value="Symptoms in Wales" href="https://www.nhsdirect.wales.nhs.uk/SelfAssessments/symptomcheckers/?ScName=CoronaVirusCOVID19&SCTId=175">Wales</a>
+            </li>
+            <li>
+                <a data-event-trigger="click" data-event-value="Symptoms in Northern Ireland" href="https://www.publichealth.hscni.net/news/covid-19-coronavirus">Northern Ireland</a>
+            </li>
+        </ul>
+        <p>You should only call 111 if you cannot get help online.</p>
     </div>
-</div>
