@@ -41,7 +41,7 @@ namespace NHS111.Business.Services
             var res = await _elastic.SearchAsync<PathwaySearchResult>(s =>
                     BuildPathwaysTextQuery(s.Index("pathways"), Uri.UnescapeDataString(query), bodytagsResponse.Hits)
                 );
-
+            
             var highlightedResults = BuildHighlights(res.Hits, highlight);
 
             return BuildScoredResults(highlightedResults, res.Hits, score).ToList();
@@ -127,43 +127,44 @@ namespace NHS111.Business.Services
             // then fuzzy match
             // slop value scores higher where more than one words from the query are found in a document (I THINK!)
             var shouldQuery = searchDescriptor.Query(q => q
-                        .Boosting(qb => qb
-                            .Positive(pos => pos
+                    .Boosting(qb => qb
+                        .Positive(pos => pos
                             .Bool(b => b
                                 .Must
-                                    (
-                                        AddBodytags(query, bodytags)
-                                    )
+                                (
+                                    AddBodytags(query, bodytags)
+                                )
                                 .Should
-                                    (
-                                        AddTitleAndDerscriptionMatchingQuery(query, 10),
-                                        AddShingleMatchQuery(query, 20),
-                                        AddPhoneticsMatchQuery(query),
-                                        AddPhraseMatchQuery(query, 10),
-                                        AddFuzzyTitleAndDescriptionMatchQuery(query, 0.1),
-                                        AddFuzzyPhraseMatchQuery(query, 0.1)
-                                            
-                                    )
-                               .MinimumShouldMatch(1)
-                               ))
-                               .Negative(n => n
-                                   
-                                   .Term(t => t
-                                       .Field(f => f.Title).Value("pain")
-                                       .Field(f => f.Description).Value("pain")
-                                       )
-                                       )
-                                       .NegativeBoost(0.7)
-                               )
-                               
-                               )
-                    .Highlight(h => 
-                        h.Fields(
+                                (
+                                    AddTitleAndDerscriptionMatchingQuery(query, 10),
+                                    AddCoronaQuery(),
+                                    AddShingleMatchQuery(query, 20),
+                                    AddPhoneticsMatchQuery(query),
+                                    AddPhraseMatchQuery(query, 10),
+                                    AddFuzzyTitleAndDescriptionMatchQuery(query, 0.1),
+                                    AddFuzzyPhraseMatchQuery(query, 0.1)
+                                    
+                                )
+                                
+                                .MinimumShouldMatch(1)
+                            ))
+                        .Negative(n => n
+
+                            .Term(t => t
+                                .Field(f => f.Title).Value("pain")
+                                .Field(f => f.Description).Value("pain")
+                            )
+                        )
+                        .NegativeBoost(0.7)
+                    )
+
+                )
+                .Highlight(h =>
+                    h.Fields(
                             f => f.Field(p => p.Title),
                             f => f.Field(p => p.Description).NumberOfFragments(0))
-                .PreTags(PathwaySearchResult.HighlightPreTags)
-                .PostTags(PathwaySearchResult.HighlightPostTags));
-
+                        .PreTags(PathwaySearchResult.HighlightPreTags)
+                        .PostTags(PathwaySearchResult.HighlightPostTags));
             return shouldQuery;
         }
 
@@ -258,7 +259,22 @@ namespace NHS111.Business.Services
                     .Query(query)
                 );
         }
-        
+
+        private Func<QueryContainerDescriptor<PathwaySearchResult>, QueryContainer> AddCoronaQuery()
+        {
+            return s => s.MultiMatch(m =>
+                m.Fields(f => f
+                        .Field(p => p.Title)
+                        .Field(p => p.Description)
+                    )
+                    .Operator(Operator.Or)
+                    .Slop(50)
+                    .Type(TextQueryType.MostFields)
+                    .Query("Coronavirus COVID")
+                    .Boost(1000)
+            );
+        }
+
         private Func<QueryContainerDescriptor<PathwaySearchResult>, QueryContainer> AddBodytags(string query, IReadOnlyCollection<IHit<BodytagResult>> bodytags)
         {
             if (bodytags.Count() > 0)
