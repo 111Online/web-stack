@@ -80,6 +80,7 @@ namespace NHS111.Web.Controllers
         private ActionResult DeriveApplicationView(JourneyViewModel model, PostcodeValidatorResponse postcodeValidationRepsonse, CCGDetailsModel ccg)
         {
             var moduleZeroViewName = "../Question/InitialQuestion";
+            var currentPostcode = model.CurrentPostcode;
             model.CurrentPostcode = ccg.Postcode;
             model.Campaign = string.IsNullOrEmpty(model.Campaign) ? ccg.StpName : model.Campaign;
             model.Source = string.IsNullOrEmpty(model.Source) ? ccg.CCG : model.Source;
@@ -104,7 +105,8 @@ namespace NHS111.Web.Controllers
                     return View("OutOfArea",
                         new OutOfAreaViewModel {
                             SessionId = model.SessionId, Campaign = ccg.StpName, Source = ccg.CCG,
-                            FilterServices = model.FilterServices, IsCustomJourney = model.IsCustomJourney
+                            FilterServices = model.FilterServices, IsCustomJourney = model.IsCustomJourney,
+                            CurrentPostcode = currentPostcode
                         });
             }
 
