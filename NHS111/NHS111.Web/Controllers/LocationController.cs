@@ -93,9 +93,10 @@ namespace NHS111.Web.Controllers
                     return View(moduleZeroViewName, model);
                 }
                 case PostcodeValidatorResponse.InPathwaysAreaWithPharmacyServices
-                    : //postcode with pharmacy services but didn't request pharmacy pathway
+                    : 
                 {
-                    model.PathwayNo = _COVIDPathwayNo;
+                    if (!IsRequestingPharmacyPathway(model.PathwayNo))
+                            model.PathwayNo = _COVIDPathwayNo;
                     return View(moduleZeroViewName, model);
                 }
 
