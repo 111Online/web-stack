@@ -19,7 +19,7 @@ namespace NHS111.Models.Models.Web
         {
             return displayShortenedMessage ?
                 @"<p>Thanks for your help in improving this service.</p><p>We cannot pass your comments to any other part of the NHS.</p><p>Call 111 if you need medical help.</p>" :
-                @"<p>Thank you.</p><p>We cannot reply to any comments or pass them on to other NHS services.</p><p>To get medical help you should carry on answering the questions or call 111.</p> <p>If you'd like to give more feedback about using 111 online, there's a survey at the end of the questions.</p>"; ;
+                @"<p>Thanks for your help in improving this service.</p><p>We cannot pass your comments to any other part of the NHS.</p><p>Call 111 if you need medical help.</p> <p>If you'd like to give more feedback about using 111 online, there's a survey at the end of the questions.</p>"; ;
         }
 
         public abstract string Message { get; }
