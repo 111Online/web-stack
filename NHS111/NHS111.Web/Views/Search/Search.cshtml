@@ -6,6 +6,12 @@
 }
 
 @section Title  {NHS 111 Online - Tell us the symptom}
+@section EmergencyAlert{
+    @if (EmergencyAlertFeature.IsEnabled)
+    {
+        @Html.Partial("_EmergencyAlert", new EmergencyAlertViewModel { OverrideDisplay = Model.IsCoronaPathway })
+    }
+}
 
 @section FeedbackSection {
     @Html.Partial("_FeedbackDetails", new FeedbackViewModel { UserId = Model.SessionId.ToString(), PageData = new PageDataViewModel(PageDataViewModel.PageType.Search, Model) })
@@ -23,4 +29,3 @@
 
     <p>You can also <a id="show-categories" href="/@Model.UserInfo.Demography.Gender/@Model.UserInfo.Demography.Age/Categories?args=@encryptedTopicsQueryStringValues">browse topics by category.</a></p>
 </div>
-

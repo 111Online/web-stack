@@ -8,6 +8,12 @@
 }
 
 @section Title  {NHS 111 Online - Best applies}
+@section EmergencyAlert{
+    @if (EmergencyAlertFeature.IsEnabled)
+    {
+        @Html.Partial("_EmergencyAlert", new EmergencyAlertViewModel { OverrideDisplay = Model.IsCoronaPathway })
+    }
+}
 
 @section HeadTop {
     <script>
@@ -69,4 +75,3 @@
         </details>
     </div>
 </div>
-

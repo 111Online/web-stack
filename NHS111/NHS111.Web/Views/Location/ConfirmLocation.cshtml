@@ -4,6 +4,12 @@
 }
 @inherits NHS111.Web.Views.Shared.DirectLinkingView<ConfirmLocationViewModel>
 @section Title {NHS 111 Online - Confirm Location}
+@section EmergencyAlert{
+    @if (EmergencyAlertFeature.IsEnabled)
+    {
+        @Html.Partial("_EmergencyAlert", new EmergencyAlertViewModel { OverrideDisplay = Model.IsCoronaPathway })
+    }
+}
 
 @section HeadTop {
     <script>
@@ -61,5 +67,3 @@ else
     <h1 id="strap-line">We were unable to find your location</h1>
     <a href="/" class="js-manual-postcode button--link button--stacked">Enter my postcode.</a>
 }
-
-
