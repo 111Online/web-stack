@@ -17,16 +17,21 @@
     @Html.Partial("_FeedbackDetails", new FeedbackViewModel { UserId = Model.SessionId.ToString(), PageData = new PageDataViewModel(PageDataViewModel.PageType.Search, Model) })
 }
 
-<div class="measure search-typography">
-    <h1 class="heading--large">@Html.LabelFor(m => m.SanitisedSearchTerm, "Find the right topic")</h1>
-    <p>If you have more than 1 symptom, choose the one that's bothering you most today.</p>
-    <p>Search for symptoms like 'rash' or 'stomach ache' rather than names of conditions.</p>
-    <p>Or <a href="/service/COVID-19/" id="covid19-search-link" data-event-triger="click" data-event-value="COVID-19 search page link">get help if you're worried about coronavirus</a>.</p>
-    @Html.Partial("_SearchBox", Model, ViewData)
+    <div class="measure search-typography">
+        <h1 class="heading--large">@Html.LabelFor(m => m.SanitisedSearchTerm, "Find the right topic")</h1>
+        <p>If you have more than 1 symptom, choose the one that's bothering you most today.</p>
+        <p>Search for symptoms like 'rash' or 'stomach ache' rather than names of conditions.</p>
+        @{
+            var encryptedQueryStringValuesSearchResult = KeyValueEncryptor.EncryptedKeys(Model);
+            var covidPathwayLink = String.Format("/{0}/{1}/{2}/start?args={3}", "PW1851", Model.UserInfo.Demography.Gender, Model.UserInfo.Demography.Age, encryptedQueryStringValuesSearchResult);
+        }
+        <p>Or <a href=@covidPathwayLink id="covid19-search-link" data-event-triger="click" data-event-value="COVID-19 search page link">get help if you're worried about coronavirus</a>.</p>
 
-    @{
-        var encryptedTopicsQueryStringValues = KeyValueEncryptor.EncryptedKeys(Model);
-    }
+        @Html.Partial("_SearchBox", Model, ViewData)
 
-    <p>You can also <a id="show-categories" href="/@Model.UserInfo.Demography.Gender/@Model.UserInfo.Demography.Age/Categories?args=@encryptedTopicsQueryStringValues">browse topics by category.</a></p>
-</div>
+        @{
+            var encryptedTopicsQueryStringValues = KeyValueEncryptor.EncryptedKeys(Model);
+        }
+
+        <p>You can also <a id="show-categories" href="/@Model.UserInfo.Demography.Gender/@Model.UserInfo.Demography.Age/Categories?args=@encryptedTopicsQueryStringValues">browse topics by category.</a></p>
+    </div>
