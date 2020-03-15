@@ -7,7 +7,7 @@
 @section EmergencyAlert{
     @if (EmergencyAlertFeature.IsEnabled)
     {
-        @Html.Partial("_EmergencyAlert", new EmergencyAlertViewModel { OverrideDisplay = IsCoronaPathway })
+        @Html.Partial("_EmergencyAlert", new EmergencyAlertViewModel { OverrideDisplay = Model.IsCoronaPathway })
     }
 }
 
