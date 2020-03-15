@@ -1,4 +1,6 @@
-﻿@using NHS111.Models.Models.Web
+﻿@using AutoMapper
+@using NHS111.Models.Models.Web
+@using NHS111.Web.Helpers
 @inherits NHS111.Web.Views.Shared.SurveyLinkView<OutcomeViewModel>
 @{
     Layout = "~/Views/Shared/_LayoutNhsUk.cshtml";
@@ -23,6 +25,11 @@
 
 @Html.HiddenFor(x => Model.Id)
 
+@{
+    var searchJourneyViewModel = Mapper.Map<SearchJourneyViewModel>((JourneyViewModel)Model);
+    var encryptedQueryStringValues = KeyValueEncryptor.EncryptedKeys(searchJourneyViewModel);
+}
+
 <div class="measure nhsuk-core">
 
     <h1 class="nhsuk-heading-xl">You need to stay at home</h1>
@@ -33,7 +40,7 @@
       </p>
       <p>
         If you have a high temperature and other symptoms not related to cold or flu,
-        <a href="#">check them using 111 online again.</a>
+          <a href="/@Model.UserInfo.Demography.Gender/@Model.UserInfo.Demography.Age/Search?args=@encryptedQueryStringValues">check them using 111 online again.</a>
       </p>
     </div>
 
