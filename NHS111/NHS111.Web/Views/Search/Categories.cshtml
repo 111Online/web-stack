@@ -8,6 +8,12 @@
 }
 
 @section Title  {NHS 111 Online - Categories}
+@section EmergencyAlert{
+    @if (EmergencyAlertFeature.IsEnabled)
+    {
+        @Html.Partial("_EmergencyAlert", new EmergencyAlertViewModel { OverrideDisplay = IsCoronaPathway })
+    }
+}
 
 @section HeadTop {
     <script>
@@ -48,4 +54,3 @@
         <p>If you don’t know what to look for you can <a data-pathway-number="@Model.GetOtherProblemsPathway(Model.UserInfo).Id" href="/@Model.GetOtherProblemsPathway(Model.UserInfo).PathwayNo/@Model.UserInfo.Demography.Gender/@Model.UserInfo.Demography.Age/start?args=@encryptedQueryStringValues">rule out serious conditions.</a></p>
     </div>
 </details>
-
