@@ -25,20 +25,14 @@
 
 
 <div id="wrapper" class="measure">
-    @using (Html.BeginForm("Navigation", "Question", FormMethod.Post))
-    {
-        @Html.Partial("_CommonHiddenFieldsOutcomeViewModel", Model)
-        <button id="PreviousQuestionFromOutcome" class="search__button--back" type="submit" value="PreviousQuestion" name="PreviousQuestion" formnovalidate>Back</button>
-    }
-    
-    
-    <div class="content-block measure">
 
-        <h1 class="heading--alert heading--large">@Model.OutcomeGroup.Text</h1>
+    <div class="nhsuk-core">
 
-        <div class="callout callout--alert measure">
+        <h1 class="heading--alert nhsuk-heading-xl">@Model.OutcomeGroup.Text</h1>
+
+        <div class="callout callout--alert nhsuk-u-margin-bottom-6">
             <p>
-                You <b>must</b> tell the operator that you have coronavirus symptoms.
+              You <b>must</b> tell the operator that you might have coronavirus symptoms.
             </p>
         </div>
 
@@ -59,6 +53,6 @@
 
     </div>
 
-  
+
 
 </div>
