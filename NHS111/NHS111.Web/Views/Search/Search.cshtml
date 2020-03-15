@@ -6,12 +6,6 @@
 }
 
 @section Title  {NHS 111 Online - Tell us the symptom}
-@section EmergencyAlert{
-    @if (EmergencyAlertFeature.IsEnabled)
-    {
-        @Html.Partial("_EmergencyAlert", new EmergencyAlertViewModel { OverrideDisplay = Model.IsCoronaPathway })
-    }
-}
 
 @section FeedbackSection {
     @Html.Partial("_FeedbackDetails", new FeedbackViewModel { UserId = Model.SessionId.ToString(), PageData = new PageDataViewModel(PageDataViewModel.PageType.Search, Model) })
@@ -25,7 +19,13 @@
             var encryptedQueryStringValuesSearchResult = KeyValueEncryptor.EncryptedKeys(Model);
             var covidPathwayLink = String.Format("/{0}/{1}/{2}/start?args={3}", "PW1851", Model.UserInfo.Demography.Gender, Model.UserInfo.Demography.Age, encryptedQueryStringValuesSearchResult);
         }
-        <p>Or <a href=@covidPathwayLink id="covid19-search-link" data-event-triger="click" data-event-value="COVID-19 search page link">get help if you're worried about coronavirus</a>.</p>
+        <div class="callout callout--lite callout--warning">
+          <p>
+            <a href=@covidPathwayLink id="covid19-search-link" data-event-triger="click" data-event-value="COVID-19 search page link">
+              Get help if you're worried about coronavirus.
+            </a>
+          </p>
+        </div>
 
         @Html.Partial("_SearchBox", Model, ViewData)
 
