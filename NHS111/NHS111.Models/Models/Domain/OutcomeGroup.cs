@@ -77,7 +77,7 @@ namespace NHS111.Models.Models.Domain {
         public static OutcomeGroup TestKit = new OutcomeGroup { Id = "Test_Kit", Text = "Test_Kit", DefaultTitle = "Request a test kit", Label = "Request a test kit", PostcodeFirst = false, ITK = true, AutomaticSelectionOfItkResult = true };
         #endregion
 
-        public static OutcomeGroup[] PrePopulatedDosResultsOutcomeGroups = new OutcomeGroup[] {Dental, ItkPrimaryCare, GP, MentalHealth, AccidentAndEmergency, ClinicianCallBack, Call999Cat3, Call999Cat4, RepeatPrescription };
+        public static OutcomeGroup[] PrePopulatedDosResultsOutcomeGroups = new OutcomeGroup[] {Dental, ItkPrimaryCare, GP, MentalHealth, AccidentAndEmergency, ClinicianCallBack, Call999Cat3, Call999Cat4, RepeatPrescription, Isolate111 };
         public static OutcomeGroup[] DosSearchOutcomesGroups = new OutcomeGroup[] { MentalHealth, AccidentAndEmergency, AccidentAndEmergencySexualAssault, Optician, Pharmacy, GumClinic, Dental, EmergencyDental, Midwife, ItkPrimaryCare, ClinicianCallBack };
         public static OutcomeGroup[] UsingRecommendedServiceJourney = new[] { RepeatPrescription };
         public static OutcomeGroup[] UsingOutcomePreamble = new[] { RepeatPrescription };
