@@ -73,7 +73,7 @@ namespace NHS111.Models.Models.Domain {
         public static OutcomeGroup Isolate_999 = new OutcomeGroup { Id = "Isolate_999", Text = "Isolate_999", DefaultTitle = "Isolate yourself at home", Label = "Call 999", PostcodeFirst = false, ITK = false };
         #endregion
 
-        public static OutcomeGroup[] PrePopulatedDosResultsOutcomeGroups = new OutcomeGroup[] {Dental, ItkPrimaryCare, GP, MentalHealth, AccidentAndEmergency, ClinicianCallBack, Call999Cat3, Call999Cat4, RepeatPrescription };
+        public static OutcomeGroup[] PrePopulatedDosResultsOutcomeGroups = new OutcomeGroup[] {Dental, ItkPrimaryCare, GP, MentalHealth, AccidentAndEmergency, ClinicianCallBack, Call999Cat3, Call999Cat4, RepeatPrescription, Isolate111 };
         public static OutcomeGroup[] DosSearchOutcomesGroups = new OutcomeGroup[] { MentalHealth, AccidentAndEmergency, AccidentAndEmergencySexualAssault, Optician, Pharmacy, GumClinic, Dental, EmergencyDental, Midwife, ItkPrimaryCare, ClinicianCallBack };
         public static OutcomeGroup[] UsingRecommendedServiceJourney = new[] { RepeatPrescription };
         public static OutcomeGroup[] UsingOutcomePreamble = new[] { RepeatPrescription };
