@@ -38,7 +38,7 @@ namespace NHS111.Models.Models.Web
             if (OutcomeGroup.Isolate111.Equals(outcome))
             {
                 if (outcomeResultViewModel.OutcomeModel.DosCheckCapacitySummaryResult.HasITKServices)
-                    return "../Outcome/ITK_Clinician_call_back"; //Can reroute to a custom one once defined
+                    return "../Outcome/Corona/ITK_Clinician_call_back"; 
             }
 
             var viewFilePath = "../Outcome/" + subfolder;
