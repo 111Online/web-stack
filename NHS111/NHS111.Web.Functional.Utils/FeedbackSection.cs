@@ -73,7 +73,7 @@ namespace NHS111.Web.Functional.Utils
             WaitForElement(FeedbackSuccessText, 30);
             // This checks the content is correct because it is possible for VerifySuccessTextDisplayed to be true even though the actual text could be broken. 
             var firstParagraph = FeedbackSuccessText.FindElement(By.CssSelector("p"));
-            Assert.IsTrue(firstParagraph.Text == "Thank you.");
+            Assert.IsTrue(firstParagraph.Text == "Thanks for your help in improving this service.");
         }
     }
 }

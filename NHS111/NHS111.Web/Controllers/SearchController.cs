@@ -54,7 +54,8 @@ namespace NHS111.Web.Controllers
                     UserInfo = model.UserInfo,
                     FilterServices = model.FilterServices,
                     Campaign = model.Campaign,
-                    Source = model.Source
+                    Source = model.Source,
+                    IsCustomJourney = model.IsCustomJourney
                 };
 
                 return RedirectToAction("FirstQuestion", "JustToBeSafe", new RouteValueDictionary {
@@ -75,7 +76,8 @@ namespace NHS111.Web.Controllers
                 },
                 FilterServices = model.FilterServices,
                 Campaign = model.Campaign,
-                Source = model.Source
+                Source = model.Source,
+                IsCustomJourney = model.IsCustomJourney
             };
 
             _userZoomDataBuilder.SetFieldsForSearch(startOfJourney);
@@ -101,7 +103,8 @@ namespace NHS111.Web.Controllers
                 },
                 FilterServices = bool.Parse(decryptedArgs["filterServices"]),
                 Campaign = decryptedArgs["campaign"],
-                Source = decryptedArgs["source"]
+                Source = decryptedArgs["source"],
+                IsCustomJourney = bool.Parse(decryptedArgs["IsCustomJourney"])
             };
 
             _userZoomDataBuilder.SetFieldsForSearch(startOfJourney);
@@ -162,7 +165,8 @@ namespace NHS111.Web.Controllers
                 EntrySearchTerm = decryptedArgs["searchTerm"],
                 Campaign = decryptedArgs["campaign"],
                 Source = decryptedArgs["source"],
-                HasResults = hasResults
+                HasResults = hasResults,
+                IsCustomJourney = bool.Parse(decryptedArgs["IsCustomJourney"])
             };
 
             _userZoomDataBuilder.SetFieldsForSearchResults(model);
@@ -193,7 +197,8 @@ namespace NHS111.Web.Controllers
                 EntrySearchTerm = decryptedArgs["searchTerm"],
                 Campaign = decryptedArgs["campaign"],
                 Source = decryptedArgs["source"],
-                HasResults = hasResults
+                HasResults = hasResults,
+                IsCustomJourney = bool.Parse(decryptedArgs["IsCustomJourney"])
             };
 
             _userZoomDataBuilder.SetFieldsForSearchResults(model);
@@ -227,7 +232,8 @@ namespace NHS111.Web.Controllers
                 EntrySearchTerm = decryptedArgs["searchTerm"],
                 Campaign = decryptedArgs["campaign"],
                 Source = decryptedArgs["source"],
-                HasResults = hasResults
+                HasResults = hasResults,
+                IsCustomJourney = bool.Parse(decryptedArgs["IsCustomJourney"])
             };
 
             _userZoomDataBuilder.SetFieldsForSearchResults(model);

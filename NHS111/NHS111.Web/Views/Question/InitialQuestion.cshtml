@@ -4,12 +4,6 @@
 @inherits NHS111.Web.Views.Shared.DirectLinkingView<JourneyViewModel>
 
 @section Title { NHS 111 Online - Is it an emergency? }
-@section EmergencyAlert{
-    @if (EmergencyAlertFeature.IsEnabled)
-    {
-        @Html.Partial("_EmergencyAlert", new EmergencyAlertViewModel { SessionId = Model.SessionId })
-    }
-}
 
 @section HeadTop {
     <script>
@@ -34,6 +28,7 @@
     @Html.HiddenFor(x => Model.Campaign)
     @Html.HiddenFor(x => Model.Source)
     @Html.HiddenFor(x => Model.PathwayNo)
+    @Html.HiddenFor(m => m.IsCustomJourney)
 
     @Html.HiddenFor(m => m.CurrentPostcode)
     <h1 class="heading--alert heading--large">Check it’s not an emergency</h1>

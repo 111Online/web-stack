@@ -74,6 +74,7 @@ namespace NHS111.Models.Models.Web
             StartingPathwayNo = journey.PathwayNo;
             StartingPathwayTitle = !string.IsNullOrEmpty(journey.DigitalTitle) ? journey.DigitalTitle : journey.PathwayTitle;
             DxCode = !string.IsNullOrEmpty(journey.Id) && journey.Id.ToLower().StartsWith("dx") ? journey.Id : null;
+
         }
 
         public PageType Page { get; set; }
@@ -91,6 +92,11 @@ namespace NHS111.Models.Models.Web
         public string SearchString { get; set; }
         public string Campaign { get; set; }
         public string Source { get; set; }
+
+        public bool IsCoronaJourney
+        {
+            get { return this.StartingPathwayNo == "PW1851"; }
+        }
 
         public override string ToString()
         {

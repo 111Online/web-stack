@@ -6,12 +6,6 @@
     Layout = "~/Views/Shared/_LayoutNhsUK.cshtml";
 }
 @section Title { NHS 111 Online - Tell us about you }
-@section EmergencyAlert{
-    @if (EmergencyAlertFeature.IsEnabled)
-    {
-        @Html.Partial("_EmergencyAlert", new EmergencyAlertViewModel { SessionId = Model.SessionId })
-    }
-}
 
 @section FeedbackSection {
     @Html.Partial("_FeedbackDetails", new FeedbackViewModel() { UserId = Model.SessionId.ToString(), PageData = new PageDataViewModel(PageDataViewModel.PageType.Demographics, Model.Campaign, Model.Source) })
@@ -25,6 +19,7 @@
     @Html.HiddenFor(x => Model.Campaign)
     @Html.HiddenFor(x => Model.Source)
     @Html.HiddenFor(x => Model.PathwayNo)
+    @Html.HiddenFor(m => m.IsCustomJourney)
 
     <div class="callout callout--error @(Html.ViewData.ModelState.IsValid ? "validation-summary-valid" : "validation-summary-errors")"
          data-valmsg-summary="true">
