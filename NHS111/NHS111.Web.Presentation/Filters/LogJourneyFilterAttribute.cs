@@ -68,7 +68,7 @@ namespace NHS111.Web.Presentation.Filters
                 Age = model.UserInfo.Demography != null ? model.UserInfo.Demography.Age : (int?) null,
                 Gender = model.UserInfo.Demography != null ? model.UserInfo.Demography.Gender : string.Empty,
                 Search = model.EntrySearchTerm,
-                PostcodePart = AuditedModelMappers.GetPartialPostcode(model.CurrentPostcode)
+                PostCodePart = AuditedModelMappers.GetPartialPostcode(model.CurrentPostcode)
             };
             AddLatestJourneyStepToAuditEntry(model.Journey, audit);
 
