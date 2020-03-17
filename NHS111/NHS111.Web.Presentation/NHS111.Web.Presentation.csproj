@@ -187,6 +187,7 @@
     <Compile Include="Converters\DosCheckCapacitySummaryRequestTypeConverter.cs" />
     <Compile Include="IoC\WebPresentationRegistry.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Validators\EmailAddressValidator.cs" />
     <Compile Include="Validators\PostCodeAllowedValidator.cs" />
   </ItemGroup>
   <ItemGroup />

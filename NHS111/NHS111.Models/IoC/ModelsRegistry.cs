@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
 using NHS111.Models.Mappers.WebMappings;
 using StructureMap;
-using StructureMap.Configuration.DSL;
 using StructureMap.Graph;
 
 namespace NHS111.Models.IoC

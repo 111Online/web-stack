@@ -3,10 +3,8 @@
 @{
     Layout = "~/Views/Shared/_LayoutNhsUk.cshtml";
 }
-
 @{
-    var self = Model.PatientInformantDetails.Informant == InformantType.Self;
-    var heading = self ? "Are you at home?" : "Are they at home?";
+    var heading = "What is your email?";
 }
 
 @section Title {
@@ -21,7 +19,14 @@
             {
                 'virtualPageUrl': '@url',
                 'virtualPageTitle': 'Personal Details - @heading'
-            }];
+            }
+        ];
+
+        var submitFormSkippedEmail = () => {
+            $("#skipped").val("True");
+            $("#emailAddress").val("");
+            $("#emailAddressForm").submit();
+        }
     </script>
 }
 
@@ -34,30 +39,29 @@
     @Html.Partial("_FeedbackDetails", new FeedbackViewModel() { UserId = Model.SessionId.ToString(), PageData = new PageDataViewModel(PageDataViewModel.PageType.PersonalDetailsCheckAtHome, Model) })
 }
 
-@using (Html.BeginForm("SubmitAtHome", "PersonalDetails", FormMethod.Post))
+@using (Html.BeginForm("CollectEmailAddress", "PersonalDetails", FormMethod.Post, new { id = "emailAddressForm"}))
 {
 
     @Html.Partial("_CommonHiddenFieldsOutcomeViewModel", Model)
     @Html.Partial("_CommonHiddenFieldsCareAdviceViewModel", Model)
     @Html.Partial("_CommonHiddenFieldsPersonalDetails", Model)
     @Html.Partial("_CommonHiddenFieldsCurrentAddress", Model)
-    
+    @Html.Partial("_CommonHiddenFieldsHomeAddress", Model)
     @Html.HiddenFor(m => m.SelectedServiceId)
 
-    <div class="nhsuk-core">
-        <div class="form-group @(ViewData.ModelState.IsValid ? "" : "form-group-error")">
-            <legend>
-                <h1 class="nhsuk-heading-l">@heading</h1>
-            </legend>
+<div class="nhsuk-core">
+    <div class="form-group @(ViewData.ModelState.IsValid ? "" : "form-group-error")">
+        <legend>
+            <h1 class="nhsuk-heading-l">@heading</h1>
+        </legend>
+        <div class="inline-details form-group">
 
-            @Html.ValidationMessageFor(m => m.AddressInformation.HomeAddressSameAsCurrentWrapper.HomeAddressSameAsCurrent, "Select an answer")
-            @Html.RadioButtonFor(m => m.AddressInformation.HomeAddressSameAsCurrentWrapper.HomeAddressSameAsCurrent, HomeAddressSameAsCurrent.Yes, new { id = "home-address-yes", name = "home-address", @class = "multiple-choice__input" })
-            <label for="home-address-yes" class="multiple-choice--radio">Yes</label>
-
-            @Html.RadioButtonFor(m => m.AddressInformation.HomeAddressSameAsCurrentWrapper.HomeAddressSameAsCurrent, HomeAddressSameAsCurrent.No, new { id = "home-address-no", name = "home-address", @class = "multiple-choice__input" })
-            <label for="home-address-no" class="multiple-choice--radio">No</label>
+            @Html.ValidationMessage("EmailAddressValidationError")
+            @Html.TextBoxFor(m => m.EmailAddress.Address, new { id = "emailAddress", @class = "form-control" })
+            @Html.HiddenFor(m => m.EmailAddress.Skipped, new { id = "skipped" })
         </div>
-
-        <button type="submit" id="submitHomeAddress">Next</button>
+        <button type="submit">Next</button>
     </div>
+    <p>or <a onclick="submitFormSkippedEmail()">skip this step</a></p>
+</div>
 }

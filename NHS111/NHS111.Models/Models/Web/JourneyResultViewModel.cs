@@ -35,10 +35,10 @@ namespace NHS111.Models.Models.Web
             if (outcome.IsCoronaVirus)
                 subfolder = "Corona/";
 
-            if (OutcomeGroup.Isolate111.Equals(outcome))
+            if (OutcomeGroup.Isolate111.Equals(outcome) || 1 == 1)
             {
-                if (outcomeResultViewModel.OutcomeModel.DosCheckCapacitySummaryResult.HasITKServices)
-                    return "../Outcome/ITK_Clinician_call_back"; //Can reroute to a custom one once defined
+                if (outcomeResultViewModel.OutcomeModel.DosCheckCapacitySummaryResult.HasITKServices || 1 == 1)
+                    return "../Outcome/Corona/ITK_Clinician_call_back"; //Can reroute to a custom one once defined
             }
 
             var viewFilePath = "../Outcome/" + subfolder;

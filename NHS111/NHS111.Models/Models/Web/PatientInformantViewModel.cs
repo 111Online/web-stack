@@ -34,6 +34,21 @@ namespace NHS111.Models.Models.Web
             set { this._surname = !string.IsNullOrEmpty(value) ? value.Trim() : value; }
         }
     }
+    [Validator(typeof(EmailAddressViewModelValidator))]
+    public class EmailAddressViewModel
+    {
+        public string Address { get; set; }
+        public bool Skipped { get; set; }
+
+        public bool Provided
+        {
+            get { return !string.IsNullOrWhiteSpace(Address); } 
+        }
+
+        public bool ProvidedOrSkipped {
+            get { return Skipped || Provided; }
+        }
+    }
 
     public enum InformantType
     {
