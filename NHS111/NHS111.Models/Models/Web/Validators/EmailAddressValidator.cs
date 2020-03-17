@@ -21,13 +21,24 @@ namespace NHS111.Models.Models.Web.Validators
 
         protected override bool IsValid(PropertyValidatorContext context)
         {
-            if (context.PropertyValue == null)
+            var emailAddressModel = ((EmailAddressViewModel) context.Instance);
+
+            if (EmailSkippedAndEmpty(emailAddressModel))
+            {
+                return true;
+            }
+
+            if (string.IsNullOrWhiteSpace(emailAddressModel.EmailAddress))
             {
                 return false;
             }
-            var email = context.PropertyValue.ToString();
 
-            return GetMatch(email).Success;
+            return GetMatch(emailAddressModel.EmailAddress).Success;
+        }
+
+        private static bool EmailSkippedAndEmpty(EmailAddressViewModel emailAddressModel)
+        {
+            return emailAddressModel.Skipped && string.IsNullOrWhiteSpace(emailAddressModel.EmailAddress);
         }
 
         private Match GetMatch(string email)

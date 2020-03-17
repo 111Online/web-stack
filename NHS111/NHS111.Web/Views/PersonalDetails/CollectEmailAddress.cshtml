@@ -56,7 +56,7 @@
         </legend>
         <div class="inline-details form-group">
 
-            @Html.ValidationMessage("EmailAddressValidationError")
+            @Html.ValidationMessageFor(m => m.EmailAddress)
             @Html.TextBoxFor(m => m.EmailAddress.EmailAddress, new { id = "emailAddress", @class = "form-control" })
             @Html.HiddenFor(m => m.EmailAddress.Skipped, new { id = "skipped" })
         </div>

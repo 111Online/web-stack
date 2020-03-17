@@ -257,20 +257,14 @@ namespace NHS111.Web.Controllers
         public async Task<ActionResult> CollectEmailAddress(PersonalDetailViewModel model)
         {
 
-            //if (model.EmailAddress.Skipped)
-            //{
+            if (ModelState.IsValid)
+            {
                 ModelState.Clear();
                 return await SubmitAtHome(model);
-            //}
+            }
 
-            ModelState.AddModelError("EmailAddressValidationError", "Enter a valid email");
             return View("~\\Views\\PersonalDetails\\CollectEmailAddress.cshtml", model);
         }
-
-        //private bool EmailAddressIsValidOrSkipped(PersonalDetailViewModel model)
-        //{
-        //    return model.EmailAddress.Skipped; //|| _emailAddressValidator.Validate(model.EmailAddress.Address);
-        //}
 
         private async Task<ActionResult> HandleCoronaVirusPersonalDetails(PersonalDetailViewModel model)
         {
