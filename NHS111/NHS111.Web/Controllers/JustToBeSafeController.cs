@@ -36,27 +36,6 @@ namespace NHS111.Web.Controllers
         }
 
         [HttpGet]
-        [Route("COVID-19")]
-        //Special route for Covid direct link from nhs.uk to tidy up..
-        public async Task<ActionResult> StartNonDemographicSpecificQuestion(JourneyViewModel model)
-        {
-            var questionModel = BuildModel("PWCorona", model.SessionId.ToString(), "COVID-19");
-            model.State.Add("SYSTEM_COVID_NHSUK", "yes");
-            return await JustToBeSafeFirst(questionModel);
-        }
-
-        [HttpGet]
-        [Route("service/COVID-19")]
-        [Route("{pathwayNumber}/{sessionId}/{digitalTitle}/about")] // Old link, kept so it doesn't 404
-        //Special route for Covid direct link from other services to tidy up..
-        public async Task<ActionResult> StartServiceNonDemographicSpecificQuestion(JourneyViewModel model)
-        {
-            var questionModel = BuildModel("PWCorona", model.SessionId.ToString(), "COVID-19");
-            return await JustToBeSafeFirst(questionModel);
-        }
-    
-
-        [HttpGet]
         [Route("{pathwayNumber}/{gender}/{age}/start")]
         public async Task<ActionResult> FirstQuestion(string pathwayNumber, string gender, int age, string args) {
             var model = BuildModel(pathwayNumber, gender, age, args);
@@ -68,25 +47,6 @@ namespace NHS111.Web.Controllers
         public async Task<ActionResult> FirstQuestionDeeplink(JustToBeSafeViewModel model) {
             ModelState.Clear();
             return await JustToBeSafeFirst(model);
-        }
-
-        private static QuestionInfoViewModel BuildModel(string pathwayNumber, string sessionId, string digitalTitle)
-        {
-            var model = new QuestionInfoViewModel
-            {
-                SessionId = Guid.Parse(sessionId),
-                PathwayNo = pathwayNumber,
-                DigitalTitle = digitalTitle,
-                UserInfo = new UserInfo
-                {
-                    Demography = new AgeGenderViewModel
-                    {
-                        Age = 111,
-                        Gender = "Female"
-                    }
-                }
-            };
-            return model;
         }
 
         private static QuestionInfoViewModel BuildModel(string pathwayNumber, string gender, int age, string args) {

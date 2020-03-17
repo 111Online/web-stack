@@ -1,0 +1,59 @@
+﻿@using NHS111.Models.Models.Web.Elements
+@{
+    Layout = "~/Views/Shared/_LayoutNhsUK.cshtml";
+}
+@inherits NHS111.Web.Views.Shared.DirectLinkingView<NHS111.Models.Models.Web.JourneyViewModel>
+
+@section Title { NHS 111 Online - About coronavirus (COVID-19)}
+@{ ViewBag.Description = "Check for symptoms of coronavirus (COVID-19). Answer questions and find out what to do if you have coronavirus. Find out where you can get help if you have a cough, shortness of breath or a high temperature. General advice about how coronavirus spreads and how to avoid infection. "; }
+@section HeadTop {
+    <script>
+        dataLayer = [
+            {
+                'virtualPageUrl': 'About coronavirus',
+                'virtualPageTitle': 'About coronavirus'
+            }];
+    </script>
+}
+@using (Html.BeginForm("Location", "Location", FormMethod.Post))
+{
+    @Html.HiddenFor(m => m.SessionId)
+    @Html.Hidden("IsCustomJourney", true)
+    @Html.Hidden("PathwayNo", "PW1851")
+    <div class="measure nhsuk-core">
+        <h1 class="nhsuk-heading-l">About coronavirus (COVID-19)</h1>
+        <p>Read general advice such as:</p>
+        <ul>
+            <li>how to avoid catching or spreading the virus</li>
+            <li>tips for staying at home</li>
+        </ul>
+        <p>
+            <a data-event-trigger="click" data-event-value="Novel Coronavirus" href="https://www.nhs.uk/conditions/coronavirus-covid-19/">Get information about coronavirus (COVID-19).</a>
+        </p>
+        <hr />
+        <h2 class="nhsuk-heading-l">What to do if you think you have symptoms</h2>
+        <p>We'll ask you a few questions and tell you what to do next.</p>
+
+        <div class="callout callout--attention nhsuk-u-margin-bottom-6">
+
+            <p>To protect others, <b>do not go</b> to a GP, pharmacy or hospital</p>
+        </div>
+        <div class="nhsuk-u-margin-bottom-4">
+            @Html.Partial("_ActionButton", new ActionLinkViewModel() { Text = "Start now" })
+        </div>
+        <hr />
+        <h3 class="nhsuk-heading-s">Advice in other parts of the UK</h3>
+        <p>Check your symptoms in:</p>
+        <ul>
+            <li>
+                <a data-event-trigger="click" data-event-value="Symptoms in Scotland" href="https://www.nhsinform.scot/self-help-guides/self-help-guide-coronavirus-covid-19">Scotland</a>
+            </li>
+            <li>
+                <a data-event-trigger="click" data-event-value="Symptoms in Wales" href="https://www.nhsdirect.wales.nhs.uk/SelfAssessments/symptomcheckers/?ScName=CoronaVirusCOVID19&SCTId=175">Wales</a>
+            </li>
+            <li>
+                <a data-event-trigger="click" data-event-value="Symptoms in Northern Ireland" href="https://www.publichealth.hscni.net/news/covid-19-coronavirus">Northern Ireland</a>
+            </li>
+        </ul>
+    </div>
+}

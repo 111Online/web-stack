@@ -17,6 +17,7 @@
 @Html.HiddenFor(x => Model.UserInfo.Demography.Gender)
 @Html.HiddenFor(x => Model.SymptomDiscriminatorCode)
 @Html.HiddenFor(x => Model.Title)
+@Html.HiddenFor(x => Model.IsCustomJourney)
 
 @{
     var changePostcode = ViewData["ChangeCurrentPostcode"];
@@ -58,7 +59,8 @@
 @Html.HiddenFor(x => Model.Source)
 @Html.HiddenFor(x => Model.NodeType)
 @Html.HiddenFor(x => Model.TriggerQuestionNo)
-@if (!isChangePostcode) {
+@if (!isChangePostcode)
+{
     @Html.HiddenFor(x => Model.HasAcceptedCallbackOffer)
 }
 
@@ -97,7 +99,8 @@
             }
         }
     }
-    if (!isChangePostcode) {
+    if (!isChangePostcode)
+    {
         @Html.HiddenFor(m => m.DosCheckCapacitySummaryResult.IsValidationRequery)
     }
 

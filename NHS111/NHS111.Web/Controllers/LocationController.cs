@@ -74,12 +74,13 @@ namespace NHS111.Web.Controllers
         {
             var results = await _locationResultBuilder.LocationResultByGeouilder(longlat);
             var locationResults = Mapper.Map<List<AddressInfoViewModel>>(results.DistinctBy(r => r.Thoroughfare));
-            return View("ConfirmLocation", new ConfirmLocationViewModel { FoundLocations = locationResults, SessionId = model.SessionId, Campaign = model.Campaign, FilterServices = model.FilterServices, PathwayNo = model.PathwayNo});
+            return View("ConfirmLocation", new ConfirmLocationViewModel { FoundLocations = locationResults, SessionId = model.SessionId, Campaign = model.Campaign, FilterServices = model.FilterServices, PathwayNo = model.PathwayNo, IsCustomJourney = model.IsCustomJourney});
         }
 
         private ActionResult DeriveApplicationView(JourneyViewModel model, PostcodeValidatorResponse postcodeValidationRepsonse, CCGDetailsModel ccg)
         {
             var moduleZeroViewName = "../Question/InitialQuestion";
+            var currentPostcode = model.CurrentPostcode;
             model.CurrentPostcode = ccg.Postcode;
             model.Campaign = string.IsNullOrEmpty(model.Campaign) ? ccg.StpName : model.Campaign;
             model.Source = string.IsNullOrEmpty(model.Source) ? ccg.CCG : model.Source;
@@ -91,14 +92,18 @@ namespace NHS111.Web.Controllers
 
                     return View(moduleZeroViewName, model);
                 }
-                case PostcodeValidatorResponse.InPathwaysAreaWithPharmacyServices: //postcode with pharmacy services but didn't request pharmacy pathway
+                case PostcodeValidatorResponse.InPathwaysAreaWithPharmacyServices
+                    : 
+                {
                     return View(moduleZeroViewName, model);
+                }
 
                 case PostcodeValidatorResponse.PostcodeNotFound:
                     return View("OutOfArea",
                         new OutOfAreaViewModel {
                             SessionId = model.SessionId, Campaign = ccg.StpName, Source = ccg.CCG,
-                            FilterServices = model.FilterServices
+                            FilterServices = model.FilterServices, IsCustomJourney = model.IsCustomJourney,
+                            CurrentPostcode = currentPostcode
                         });
             }
 

@@ -4,6 +4,6 @@ namespace NHS111.Models.Models.Web
 {
     public class EmergencyAlertViewModel
     {
-        public Guid SessionId { get; set; }
+        public bool OverrideDisplay { get; set; }
     }
 }

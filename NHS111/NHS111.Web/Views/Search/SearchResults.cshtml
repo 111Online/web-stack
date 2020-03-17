@@ -8,12 +8,6 @@
 }
 
 @section Title  {NHS 111 Online - Best applies}
-@section EmergencyAlert{
-    @if (EmergencyAlertFeature.IsEnabled)
-    {
-        @Html.Partial("_EmergencyAlert", new EmergencyAlertViewModel { SessionId = Model.SessionId })
-    }
-}
 
 @section HeadTop {
     <script>
@@ -75,4 +69,3 @@
         </details>
     </div>
 </div>
-

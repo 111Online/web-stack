@@ -69,6 +69,8 @@ namespace NHS111.Models.Mappers.WebMappings
                     else
                         return Convert.ToInt32("11" + code);
                 }
+                if(code.Length == 4 && code.StartsWith("1"))
+                     return Convert.ToInt32("1" + code);
 
                 return Convert.ToInt32("10" + code);
             }
