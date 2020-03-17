@@ -18,12 +18,10 @@ namespace NHS111.Web.Controllers
     {
         private readonly IAuditLogger _auditLogger;
         private readonly ILocationResultBuilder _locationResultBuilder;
-        private readonly IEmailAddressValidator _emailAddressValidator;
-        public PersonalDetailsController(IAuditLogger auditLogger, ILocationResultBuilder locationResultBuilder, IEmailAddressValidator emailAddressValidator)
+        public PersonalDetailsController(IAuditLogger auditLogger, ILocationResultBuilder locationResultBuilder)
         {
             _auditLogger = auditLogger;
             _locationResultBuilder = locationResultBuilder;
-            _emailAddressValidator = emailAddressValidator;
         }
 
         private async Task<AddressInfoCollectionViewModel> GetPostcodeResults(string postCode)
@@ -122,7 +120,7 @@ namespace NHS111.Web.Controllers
 
                 model.AddressInformation.PatientHomeAddress = null;
                 model.AddressInformation.HomeAddressSameAsCurrentWrapper.HomeAddressSameAsCurrent = HomeAddressSameAsCurrent.DontKnow;
-                if (model.OutcomeGroup.IsCoronaVirus && !model.EmailAddress.ProvidedOrSkipped)
+                if (CoronaVirusAndEmailNotProvidedOrSkipped(model))
                 {
                     ModelState.Clear();
                     return View("~\\Views\\PersonalDetails\\CollectEmailAddress.cshtml", model);
@@ -141,7 +139,7 @@ namespace NHS111.Web.Controllers
                     return View("~\\Views\\PersonalDetails\\HomeAddress_Postcode.cshtml", model);
                 }
 
-                if (model.OutcomeGroup.IsCoronaVirus && !model.EmailAddress.ProvidedOrSkipped)
+                if (CoronaVirusAndEmailNotProvidedOrSkipped(model))
                 {
                     return View("~\\Views\\PersonalDetails\\CollectEmailAddress.cshtml", model);
                 }
@@ -149,6 +147,11 @@ namespace NHS111.Web.Controllers
                 model.AddressInformation.PatientHomeAddress.Postcode = model.AddressInformation.ChangePostcode.Postcode;
                 return View("~\\Views\\PersonalDetails\\ConfirmDetails.cshtml", model);
             }
+        }
+
+        private static bool CoronaVirusAndEmailNotProvidedOrSkipped(PersonalDetailViewModel model)
+        {
+            return model.OutcomeGroup.IsCoronaVirus && !model.EmailAddress.ProvidedOrSkipped;
         }
 
         [HttpPost]

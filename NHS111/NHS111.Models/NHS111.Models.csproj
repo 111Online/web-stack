@@ -334,7 +334,6 @@
     <Compile Include="Models\Web\Validators\FindServicesAddressViewModelValidator.cs" />
     <Compile Include="Models\Web\Validators\HomeAddressSameAsCurrentValidator.cs" />
     <Compile Include="Models\Web\Validators\HomeAddressValidator.cs" />
-    <Compile Include="Models\Web\Validators\IEmailAddressValidator.cs" />
     <Compile Include="Models\Web\Validators\InformantForenameValidator.cs" />
     <Compile Include="Models\Web\Validators\InformantSurnameValidator.cs" />
     <Compile Include="Models\Web\Validators\InformantViewModelValidator.cs" />

@@ -13,15 +13,15 @@ namespace NHS111.Models.Models.Web.Validators
     class EmailAddressValidator<TModel, TProperty> : PropertyValidator, IClientValidatable
     {
         private string _dependencyElement;
-        public EmailAddressValidator(Expression<Func<TModel, TProperty>> expression) 
-        :base("Enter valid email")
+        public EmailAddressValidator(Expression<Func<TModel, TProperty>> expression)
+        : base("Enter valid email")
         {
             _dependencyElement = (expression.Body as MemberExpression).Member.Name;
         }
 
         protected override bool IsValid(PropertyValidatorContext context)
         {
-            var emailAddressModel = ((EmailAddressViewModel) context.Instance);
+            var emailAddressModel = ((EmailAddressViewModel)context.Instance);
 
             if (EmailSkippedAndEmpty(emailAddressModel))
             {
