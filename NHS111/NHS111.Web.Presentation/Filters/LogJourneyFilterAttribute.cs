@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
 using Newtonsoft.Json;
+using NHS111.Models.Mappers.WebMappings;
 using NHS111.Models.Models.Web;
 using NHS111.Models.Models.Web.FromExternalServices;
 using NHS111.Models.Models.Web.Logging;
@@ -66,7 +67,8 @@ namespace NHS111.Web.Presentation.Filters
                 DxCode = model is OutcomeViewModel ? model.Id : "",
                 Age = model.UserInfo.Demography != null ? model.UserInfo.Demography.Age : (int?) null,
                 Gender = model.UserInfo.Demography != null ? model.UserInfo.Demography.Gender : string.Empty,
-                Search = model.EntrySearchTerm
+                Search = model.EntrySearchTerm,
+                PostcodePart = AuditedModelMappers.GetPartialPostcode(model.CurrentPostcode)
             };
             AddLatestJourneyStepToAuditEntry(model.Journey, audit);
 
