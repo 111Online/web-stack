@@ -27,15 +27,20 @@
         {
             //todo:this needs a rethink with a combination of service type / outcome to route to correct page
 
-            if (outcomeModel != null
-                && outcomeModel.OutcomeGroup != null
-                && outcomeModel.OutcomeGroup.Equals(Domain.OutcomeGroup.RepeatPrescription))
+            if (OutcomeGroupIsRepeatPrescriptionOrIsolate111(outcomeModel))
             {
                 return outcomeModel.OutcomeGroup.Id;
             }
 
-
             return "default";
+        }
+
+        private static bool OutcomeGroupIsRepeatPrescriptionOrIsolate111(OutcomeViewModel outcomeModel)
+        {
+            return outcomeModel != null
+                   && outcomeModel.OutcomeGroup != null
+                   && (outcomeModel.OutcomeGroup.Equals(Domain.OutcomeGroup.RepeatPrescription) 
+                       || outcomeModel.OutcomeGroup.Equals(Domain.OutcomeGroup.Isolate111));
         }
     }
 
@@ -98,6 +103,17 @@
         }
     }
 
+    public class Coronavirus111CallbackReferralConfirmationResultsViewModel
+        : ReferralConfirmationResultViewModel
+    {
+
+        public Coronavirus111CallbackReferralConfirmationResultsViewModel(ITKConfirmationViewModel itkConfirmationViewModel)
+            : base(itkConfirmationViewModel)
+        {
+            AnalyticsDataLayer = new Coronavirus111CallbackReferralConfirmationAnalyticsDataLayer(this);
+        }
+    }
+
     public class ReferralFailureResultViewModel
         : ReferralResultViewModel
     {
@@ -118,6 +134,18 @@
         public AccidentAndEmergencyReferralFailureResultViewModel(ITKConfirmationViewModel itkConfirmationViewModel)
             : base(itkConfirmationViewModel) {
             AnalyticsDataLayer = new AccidentAndEmergencyReferralFailureAnalyticsDataLayer(this);
+        }
+    }
+
+    public class Coronavirus111CallbackReferralFailureResultViewModel
+        : ReferralFailureResultViewModel
+    {
+        public override string PartialViewName { get { return "_ReferralConfirmation"; } }
+
+        public Coronavirus111CallbackReferralFailureResultViewModel(ITKConfirmationViewModel itkConfirmationViewModel)
+            : base(itkConfirmationViewModel)
+        {
+            AnalyticsDataLayer = new Coronavirus111CallbackReferralFailureAnalyticsDataLayer(this);
         }
     }
 
@@ -249,6 +277,17 @@
         public TestKitServiceUnavailableReferralResultViewModel(PersonalDetailViewModel outcomeViewModel) : base(outcomeViewModel)
         {
             AnalyticsDataLayer = new TestKitServiceUnavailableReferralAnalyticsDataLayer(this);
+        }
+    }
+
+    public class Coronavirus111CallbackUnavailableReferralResultViewModel : ServiceUnavailableReferralResultViewModel
+    {
+        public override string PartialViewName { get { return "ServiceUnavailable"; } }
+        public override string ViewName { get { return string.Format("Confirmation/{0}/ServiceUnavailable", ResolveConfirmationViewByOutcome(this.OutcomeModel)); } }
+
+        public Coronavirus111CallbackUnavailableReferralResultViewModel(PersonalDetailViewModel outcomeViewModel) : base(outcomeViewModel)
+        {
+            AnalyticsDataLayer = new Coronavirus111CallbackServiceUnavailableReferralAnalyticsDataLayer(this);
         }
     }
 }

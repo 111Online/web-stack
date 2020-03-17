@@ -210,9 +210,7 @@
       <HintPath>..\packages\WebGrease.1.5.2\lib\WebGrease.dll</HintPath>
     </Reference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Views\Outcome\Confirmation\NewFolder1\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Compile Include="App_Start\ApplicationMediumActionFilter.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
@@ -487,9 +485,9 @@
     <Content Include="Views\Outcome\Corona\ITK_Clinician_call_back.cshtml" />
     <Content Include="Views\PersonalDetails\CollectEmailAddress.cshtml" />
     <Content Include="Views\Shared\_CommonHiddenFieldsEmailAddress.cshtml" />
-    <Content Include="Views\Outcome\Confirmation\Corona_Clinical_Callback\Confirmation.cshtml" />
-    <Content Include="Views\Outcome\Confirmation\Corona_Clinical_Callback\ServiceBookingFailure.cshtml" />
-    <Content Include="Views\Outcome\Confirmation\Corona_Clinical_Callback\ServiceUnavailable.cshtml" />
+    <Content Include="Views\Outcome\Confirmation\Isolate_111\Confirmation.cshtml" />
+    <Content Include="Views\Outcome\Confirmation\Isolate_111\ServiceBookingFailure.cshtml" />
+    <Content Include="Views\Outcome\Confirmation\Isolate_111\ServiceUnavailable.cshtml" />
     <None Include="Web.Development.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
