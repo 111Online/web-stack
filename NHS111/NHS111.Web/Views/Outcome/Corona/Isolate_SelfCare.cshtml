@@ -1,11 +1,13 @@
-﻿@using NHS111.Models.Models.Web
+﻿@using AutoMapper
+@using NHS111.Models.Models.Web
+@using NHS111.Web.Helpers
 @inherits NHS111.Web.Views.Shared.SurveyLinkView<OutcomeViewModel>
 @{
     Layout = "~/Views/Shared/_LayoutNhsUk.cshtml";
 }
 
 @section Title {
-    NHS 111 - You and your family need to stay at home
+    NHS 111 - You need to isolate yourself and stay indoors
 }
 
 @section HeadTop {
@@ -23,6 +25,11 @@
 
 @Html.HiddenFor(x => Model.Id)
 
+@{
+    var searchJourneyViewModel = Mapper.Map<SearchJourneyViewModel>((JourneyViewModel)Model);
+    var encryptedQueryStringValues = KeyValueEncryptor.EncryptedKeys(searchJourneyViewModel);
+}
+
 <div class="measure nhsuk-core">
 
   <h1 class="nhsuk-heading-xl">
@@ -32,6 +39,12 @@
   <div class="callout callout--attention nhsuk-u-margin-bottom-6">
     <p>
       To protect others, <b>do not go</b> to a GP, pharmacy or hospital
+    </p>
+    <p>
+      If you have a high temperature and other symptoms not related to cold or flu,
+      <a href="/@Model.UserInfo.Demography.Gender/@Model.UserInfo.Demography.Age/Search?args=@encryptedQueryStringValues" data-event-trigger="click" data-event-value="Use 111 online via COVID-19 self-care page">
+        check them using 111 online again.
+      </a>
     </p>
   </div>
 

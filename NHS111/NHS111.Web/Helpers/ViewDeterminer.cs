@@ -64,6 +64,13 @@ namespace NHS111.Web.Helpers
             switch (journeyViewModel.NodeType)
             {
                 case NodeType.Outcome:
+
+                    if (journeyViewModel.OutcomeGroup.Id == "111_Search_Jump")
+                    {
+                        // This outcome is used to go from mid-pathway into search
+                        return new SearchJumpViewModel(journeyViewModel);
+                    }
+                    
                     var outcomeViewModel = journeyViewModel as OutcomeViewModel;
                     var result = new OutcomeResultViewModel(outcomeViewModel, IsTestJourney(outcomeViewModel));
                     if (ViewExists(result.ViewName, context))
