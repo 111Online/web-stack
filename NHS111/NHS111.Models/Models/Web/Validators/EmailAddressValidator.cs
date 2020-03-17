@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using FluentValidation.Validators;
@@ -11,26 +12,40 @@ namespace NHS111.Models.Models.Web.Validators
 {
     class EmailAddressValidator<TModel, TProperty> : PropertyValidator, IClientValidatable
     {
-        public EmailAddressValidator(string errorMessageResourceName, Type errorMessageResourceType) : base(errorMessageResourceName, errorMessageResourceType)
+        private string _dependencyElement;
+        public EmailAddressValidator(Expression<Func<TModel, TProperty>> expression) 
+        :base("Enter valid email")
         {
-        }
-
-        public EmailAddressValidator(string errorMessage) : base(errorMessage)
-        {
-        }
-
-        public EmailAddressValidator(Expression<Func<string>> errorMessageResourceSelector) : base(errorMessageResourceSelector)
-        {
+            _dependencyElement = (expression.Body as MemberExpression).Member.Name;
         }
 
         protected override bool IsValid(PropertyValidatorContext context)
         {
-            throw new NotImplementedException();
+            if (context.PropertyValue == null)
+            {
+                return false;
+            }
+            var email = context.PropertyValue.ToString();
+
+            return GetMatch(email).Success;
+        }
+
+        private Match GetMatch(string email)
+        {
+            return Regex.Match(email.Trim().ToLower(), @"^[^@\s]+@[^@\s]+\.[^@\s]+$");
         }
 
         public IEnumerable<ModelClientValidationRule> GetClientValidationRules(ModelMetadata metadata, ControllerContext context)
         {
-            throw new NotImplementedException();
+            var ruleEmail = new ModelClientValidationRule()
+            {
+                ErrorMessage = this.ErrorMessageSource.GetString(),
+                ValidationType = "emailaddress"
+            };
+
+            ruleEmail.ValidationParameters["prefixelement"] = _dependencyElement;
+
+            yield return ruleEmail;
         }
     }
 }

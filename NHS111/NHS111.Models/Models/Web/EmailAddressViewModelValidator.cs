@@ -15,8 +15,10 @@ namespace NHS111.Models.Models.Web
     {
         public EmailAddressViewModelValidator()
         {
-            RuleFor(m => m.Address)
-                .SetValidator(new EmailAddressValidator<EmailAddressViewModel, string>(a => a.AddressLine1));
+
+            RuleFor(m => m)
+                .NotEmpty().When(a => !a.Skipped)
+                .SetValidator(new EmailAddressValidator<EmailAddressViewModel, string>(a => a.EmailAddress));
         }
     }
 }

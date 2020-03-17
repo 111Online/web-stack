@@ -37,12 +37,12 @@ namespace NHS111.Models.Models.Web
     [Validator(typeof(EmailAddressViewModelValidator))]
     public class EmailAddressViewModel
     {
-        public string Address { get; set; }
+        public string EmailAddress { get; set; }
         public bool Skipped { get; set; }
 
         public bool Provided
         {
-            get { return !string.IsNullOrWhiteSpace(Address); } 
+            get { return !string.IsNullOrWhiteSpace(EmailAddress); } 
         }
 
         public bool ProvidedOrSkipped {
