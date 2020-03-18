@@ -111,7 +111,7 @@ namespace NHS111.Models.Mappers.WebMappings
             patientDetails.Gender = personalDetailViewModel.UserInfo.Demography.Gender;
             var ageGroup = new AgeCategory(personalDetailViewModel.UserInfo.Demography.Age);
             patientDetails.AgeGroup = ageGroup.Value;
-
+            patientDetails.EmailAddress = personalDetailViewModel.UserInfo.EmailAddress;
             patientDetails.Informant = new InformantDetails()
             {
                 Forename = personalDetailViewModel.Informant.Forename,

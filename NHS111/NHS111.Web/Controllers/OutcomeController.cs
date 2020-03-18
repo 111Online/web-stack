@@ -360,7 +360,7 @@ namespace NHS111.Web.Controllers
 
         private async Task<ActionResult> SubmitITKDataToService(PersonalDetailViewModel model)
         {
-            var outcomeViewModel = ConvertPatientInformantDateToUserinfo(model.PatientInformantDetails, model);
+            var outcomeViewModel = ConvertPatientInformantDateToUserinfo(model.PatientInformantDetails, model.EmailAddress, model);
             var itkConfirmationViewModel = await _outcomeViewModelBuilder.ItkResponseBuilder(outcomeViewModel);
             var result = _referralResultBuilder.Build(itkConfirmationViewModel);
             return View(result.ViewName, result);
@@ -375,7 +375,7 @@ namespace NHS111.Web.Controllers
             return View("ConfirmLocation", model);
         }
 
-        private OutcomeViewModel ConvertPatientInformantDateToUserinfo(PatientInformantViewModel patientInformantModel, OutcomeViewModel model)
+        private OutcomeViewModel ConvertPatientInformantDateToUserinfo(PatientInformantViewModel patientInformantModel, EmailAddressViewModel emailAddressModel, OutcomeViewModel model)
         {
             if (patientInformantModel.Informant == InformantType.Self)
             {
@@ -393,6 +393,8 @@ namespace NHS111.Web.Controllers
                 model.Informant.Surname = patientInformantModel.InformantName.Surname;
                 model.Informant.IsInformantForPatient = true;
             }
+            model.UserInfo.EmailAddress = emailAddressModel.EmailAddress;
+
             return model;
         }
 
