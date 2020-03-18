@@ -342,28 +342,6 @@ namespace NHS111.Web.Controllers
         [HttpPost]
         public async Task<ActionResult> Confirmation(PersonalDetailViewModel model, [FromUri] bool? overrideFilterServices)
         {
-            //if (model.OutcomeGroup.IsCoronaVirus)
-            //{
-            //    //Mapping postcode form address for DOS lookup may need a refactor to tidy multiple address models?
-            //    if(model.AddressInformation != null) model.CurrentPostcode =  model.AddressInformation.PatientCurrentAddress.Postcode;
-            //    model.DosCheckCapacitySummaryResult = new DosCheckCapacitySummaryResult();
-            //    model.SelectedServiceId = null;
-            //    model.DosCheckCapacitySummaryResult = await GetServiceAvailability(model, null, overrideFilterServices.HasValue ? overrideFilterServices.Value : model.FilterServices, null);
-
-            //    if (model.DosCheckCapacitySummaryResult.Error == null && !model.DosCheckCapacitySummaryResult.ResultListEmpty)
-            //    {
-            //        AutoSelectFirstItkService(model);
-            //        if(model.SelectedService != null)
-            //            return await SubmitITKDataToService(model);
-            //        else
-            //             return ReturnServiceUnavailableView(model, model.DosCheckCapacitySummaryResult);
-            //    }
-            //    else
-            //    {
-            //        return ReturnServiceUnavailableView(model, model.DosCheckCapacitySummaryResult);
-            //    }
-            //}
-
             var availableServices = await GetServiceAvailability(model, null, overrideFilterServices.HasValue ? overrideFilterServices.Value : model.FilterServices, null);
             _auditLogger.LogDosResponse(model, availableServices);
             if (availableServices.ContainsService(model.SelectedService))
