@@ -157,6 +157,12 @@ namespace NHS111.Web.Controllers
         [HttpPost]
         public async Task<ActionResult> CurrentAddress(PersonalDetailViewModel model)
         {
+            
+            if (model.OutcomeGroup.IsCoronaVirus)
+            {
+                return await HandleCoronaVirusPersonalDetails(model);
+            }
+
             if (!ModelState.IsValid)
             {
                 return View("~\\Views\\PersonalDetails\\PersonalDetails.cshtml", model);
@@ -221,10 +227,6 @@ namespace NHS111.Web.Controllers
         [HttpPost]
         public async Task<ActionResult> SubmitAtHome(PersonalDetailViewModel model)
         {
-            if (model.OutcomeGroup.IsCoronaVirus)
-            {
-                return await HandleCoronaVirusPersonalDetails(model);
-            }
 
             if (!ModelState.IsValid || model.AddressInformation.HomeAddressSameAsCurrentWrapper == null)
             {
@@ -254,7 +256,7 @@ namespace NHS111.Web.Controllers
             if (ModelState.IsValid)
             {
                 ModelState.Clear();
-                return await SubmitAtHome(model);
+                return await DirectToPopulatedCurrentAddressPicker(model);
             }
 
             return View("~\\Views\\PersonalDetails\\CollectEmailAddress.cshtml", model);
@@ -262,6 +264,11 @@ namespace NHS111.Web.Controllers
 
         private async Task<ActionResult> HandleCoronaVirusPersonalDetails(PersonalDetailViewModel model)
         {
+            if (EmailAddressNotPresent(model))
+            {
+                return View("~\\Views\\PersonalDetails\\CollectEmailAddress.cshtml", model);
+            }
+
             if (ModelStateNotValidOrNoAddress(model))
             {
                 ModelState.AddModelError("AddressInformation.HomeAddressSameAsCurrentWrapper.HomeAddressSameAsCurrent", new Exception());
@@ -271,11 +278,6 @@ namespace NHS111.Web.Controllers
             if (WasHomeAddressRequiredForCoronaVirus(model))
             {
                 return View("~\\Views\\PersonalDetails\\HomeAddress_Postcode.cshtml", model);
-            }
-
-            if (EmailAddressNotPresent(model))
-            {
-                return View("~\\Views\\PersonalDetails\\CollectEmailAddress.cshtml", model);
             }
 
             if (HomeAddressIsSameAsCurrentAddressOrEmailAddressProvidedOrSkipped(model))
