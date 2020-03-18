@@ -120,7 +120,7 @@ namespace NHS111.Web.Controllers
 
                 model.AddressInformation.PatientHomeAddress = null;
                 model.AddressInformation.HomeAddressSameAsCurrentWrapper.HomeAddressSameAsCurrent = HomeAddressSameAsCurrent.DontKnow;
-                if (CoronaVirusAndEmailNotProvidedOrSkipped(model))
+                if (EmailRequired(model))
                 {
                     ModelState.Clear();
                     return View("~\\Views\\PersonalDetails\\CollectEmailAddress.cshtml", model);
@@ -139,7 +139,7 @@ namespace NHS111.Web.Controllers
                     return View("~\\Views\\PersonalDetails\\HomeAddress_Postcode.cshtml", model);
                 }
 
-                if (CoronaVirusAndEmailNotProvidedOrSkipped(model))
+                if (EmailRequired(model))
                 {
                     return View("~\\Views\\PersonalDetails\\CollectEmailAddress.cshtml", model);
                 }
@@ -149,9 +149,9 @@ namespace NHS111.Web.Controllers
             }
         }
 
-        private static bool CoronaVirusAndEmailNotProvidedOrSkipped(PersonalDetailViewModel model)
+        private static bool EmailRequired(PersonalDetailViewModel model)
         {
-            return model.OutcomeGroup.IsCoronaVirus && !model.EmailAddress.ProvidedOrSkipped;
+            return model.OutcomeGroup.RequiresEmail && !model.EmailAddress.ProvidedOrSkipped;
         }
 
         [HttpPost]
@@ -160,15 +160,6 @@ namespace NHS111.Web.Controllers
             if (!ModelState.IsValid)
             {
                 return View("~\\Views\\PersonalDetails\\PersonalDetails.cshtml", model);
-            }
-
-            if (model.OutcomeGroup.IsCoronaVirus)
-            {
-                ModelState.Clear();
-                if (model.SelectedService == null)
-                    CreateDummyService(model);
-                model.UserInfo.Demography.Gender = Gender.Indeterminate.Value;
-                return View("~\\Views\\Outcome\\Corona\\ManualAddress.cshtml", model);
             }
 
             return await DirectToPopulatedCurrentAddressPicker(model);
