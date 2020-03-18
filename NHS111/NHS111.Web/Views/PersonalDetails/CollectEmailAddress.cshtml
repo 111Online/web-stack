@@ -4,7 +4,8 @@
     Layout = "~/Views/Shared/_LayoutNhsUk.cshtml";
 }
 @{
-    var heading = "What is your email?";
+    var self = (Model.PatientInformantDetails.Informant == InformantType.Self);
+    var heading =  self ? "What is your email?" : "What is their email?";
 }
 
 @section Title {
@@ -21,12 +22,6 @@
                 'virtualPageTitle': 'Personal Details - @heading'
             }
         ];
-
-        var submitFormSkippedEmail = () => {
-            $("#skipped").val("True");
-            $("#emailAddress").val("");
-            $("#emailAddressForm").submit();
-        }
     </script>
 }
 
@@ -50,18 +45,17 @@
     @Html.HiddenFor(m => m.SelectedServiceId)
 
 <div class="nhsuk-core">
-    <div class="form-group @(ViewData.ModelState.IsValid ? "" : "form-group-error")">
+    <div class="form-group">
         <legend>
             <h1 class="nhsuk-heading-l">@heading</h1>
         </legend>
-        <div class="inline-details form-group">
+        <div class="inline-details form-group @(ViewData.ModelState.IsValid ? "" : "form-group-error")">
 
             @Html.ValidationMessageFor(m => m.EmailAddress)
             @Html.TextBoxFor(m => m.EmailAddress.EmailAddress, new { id = "emailAddress", @class = "form-control" })
-            @Html.HiddenFor(m => m.EmailAddress.Skipped, new { id = "skipped" })
         </div>
-        <button type="submit">Next</button>
+        <button type="submit" name="skipEmailAddress" id="skipEmailAddress" value="False">Next</button>
     </div>
-    <p>or <a onclick="submitFormSkippedEmail()">skip this step</a></p>
+    <div class="nhsuk-u-margin-bottom-5"><button type="submit" name="EmailAddress.Skipped" id="skipEmailAddress" value="True" class="button--link" formnovalidate="formnovalidate">skip this step</button></div>
 </div>
 }
