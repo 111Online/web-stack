@@ -80,7 +80,11 @@
                 <dt>Number to call</dt>
                 <dd>@Model.UserInfo.TelephoneNumber</dd>
             </div>
-
+            @if (Model.EmailAddress.Provided)
+            {
+                <dt>Email Address</dt>
+                <dd>@Model.EmailAddress.EmailAddress</dd>
+            }
         </dl>
     }
 
@@ -124,6 +128,11 @@
                 <dt>Number to call</dt>
                 <dd>@Model.UserInfo.TelephoneNumber</dd>
             </div>
+            @if (Model.EmailAddress.Provided)
+            {
+                <dt>Email Address</dt>
+                <dd>@Model.EmailAddress.EmailAddress</dd>
+            }
         </dl>
     }
 
@@ -162,6 +171,11 @@
                 <dt>Their home address</dt>
                 <dd>@Html.Raw(string.Join("<br>", Model.AddressInformation.PatientHomeAddress.FormattedAddress.Split(new string[] { ", " }, StringSplitOptions.RemoveEmptyEntries)))</dd>
             </div>
+            @if (Model.EmailAddress.Provided)
+            {
+                <dt>Email Address</dt>
+                <dd>@Model.EmailAddress.EmailAddress</dd>
+            }
         </dl>
     }
 
@@ -214,6 +228,11 @@
                 <dt>Location address</dt>
                 <dd>@Html.Raw(string.Join("<br>", Model.AddressInformation.PatientCurrentAddress.FormattedAddress.Split(new string[] { ", " }, StringSplitOptions.RemoveEmptyEntries)))</dd>
             </div>
+            @if (Model.EmailAddress.Provided)
+            {
+                <dt>Email Address</dt>
+                <dd>@Model.EmailAddress.EmailAddress</dd>
+            }
         </dl>
     }
 
@@ -236,6 +255,7 @@
         @Html.Partial("_CommonHiddenFieldsPersonalDetails", Model)
         @Html.Partial("_CommonHiddenFieldsCurrentAddress", Model)
         @Html.Partial("_CommonHiddenFieldsHomeAddress", Model)
+        @Html.Partial("_CommonHiddenFieldsEmailAddress", Model)
         @Html.HiddenFor(m => m.SelectedServiceId)
         <p class="nhsuk-u-margin-top-4 nhsuk-u-margin-bottom-0">By confirming these details you agree to share them with the service.</p>
         <button id="book-call" class="nhsuk-u-margin-top-5">Send details</button>

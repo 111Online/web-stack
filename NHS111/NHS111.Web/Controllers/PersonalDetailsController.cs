@@ -3,16 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-using System.Web;
 using System.Web.Mvc;
-using System.Web.Script.Serialization;
 using AutoMapper;
-using Microsoft.Ajax.Utilities;
 using NHS111.Models.Models.Domain;
 using NHS111.Models.Models.Web;
 using NHS111.Models.Models.Web.FromExternalServices;
 using NHS111.Models.Models.Web.Validators;
-using NHS111.Utils.Attributes;
 using NHS111.Web.Presentation.Builders;
 using NHS111.Web.Presentation.Logging;
 
@@ -22,7 +18,6 @@ namespace NHS111.Web.Controllers
     {
         private readonly IAuditLogger _auditLogger;
         private readonly ILocationResultBuilder _locationResultBuilder;
-
         public PersonalDetailsController(IAuditLogger auditLogger, ILocationResultBuilder locationResultBuilder)
         {
             _auditLogger = auditLogger;
@@ -122,8 +117,14 @@ namespace NHS111.Web.Controllers
         {
             if (changeHomeAddressPostcode == "unknownHomeAddress")
             {
+
                 model.AddressInformation.PatientHomeAddress = null;
                 model.AddressInformation.HomeAddressSameAsCurrentWrapper.HomeAddressSameAsCurrent = HomeAddressSameAsCurrent.DontKnow;
+                if (CoronaVirusAndEmailNotProvidedOrSkipped(model))
+                {
+                    ModelState.Clear();
+                    return View("~\\Views\\PersonalDetails\\CollectEmailAddress.cshtml", model);
+                }
                 return View("~\\Views\\PersonalDetails\\ConfirmDetails.cshtml", model);
             }
 
@@ -138,9 +139,19 @@ namespace NHS111.Web.Controllers
                     return View("~\\Views\\PersonalDetails\\HomeAddress_Postcode.cshtml", model);
                 }
 
+                if (CoronaVirusAndEmailNotProvidedOrSkipped(model))
+                {
+                    return View("~\\Views\\PersonalDetails\\CollectEmailAddress.cshtml", model);
+                }
+
                 model.AddressInformation.PatientHomeAddress.Postcode = model.AddressInformation.ChangePostcode.Postcode;
                 return View("~\\Views\\PersonalDetails\\ConfirmDetails.cshtml", model);
             }
+        }
+
+        private static bool CoronaVirusAndEmailNotProvidedOrSkipped(PersonalDetailViewModel model)
+        {
+            return model.OutcomeGroup.IsCoronaVirus && !model.EmailAddress.ProvidedOrSkipped;
         }
 
         [HttpPost]
@@ -219,6 +230,11 @@ namespace NHS111.Web.Controllers
         [HttpPost]
         public async Task<ActionResult> SubmitAtHome(PersonalDetailViewModel model)
         {
+            if (model.OutcomeGroup.IsCoronaVirus)
+            {
+                return await HandleCoronaVirusPersonalDetails(model);
+            }
+
             if (!ModelState.IsValid || model.AddressInformation.HomeAddressSameAsCurrentWrapper == null)
             {
                 ModelState.AddModelError("AddressInformation.HomeAddressSameAsCurrentWrapper.HomeAddressSameAsCurrent", new Exception());
@@ -238,6 +254,69 @@ namespace NHS111.Web.Controllers
             }
 
             return View("~\\Views\\PersonalDetails\\CheckAtHome.cshtml", model);
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> CollectEmailAddress(PersonalDetailViewModel model)
+        {
+
+            if (ModelState.IsValid)
+            {
+                ModelState.Clear();
+                return await SubmitAtHome(model);
+            }
+
+            return View("~\\Views\\PersonalDetails\\CollectEmailAddress.cshtml", model);
+        }
+
+        private async Task<ActionResult> HandleCoronaVirusPersonalDetails(PersonalDetailViewModel model)
+        {
+            if (ModelStateNotValidOrNoAddress(model))
+            {
+                ModelState.AddModelError("AddressInformation.HomeAddressSameAsCurrentWrapper.HomeAddressSameAsCurrent", new Exception());
+                return View("~\\Views\\PersonalDetails\\CheckAtHome.cshtml", model);
+            }
+
+            if (WasHomeAddressRequiredForCoronaVirus(model))
+            {
+                return View("~\\Views\\PersonalDetails\\HomeAddress_Postcode.cshtml", model);
+            }
+
+            if (EmailAddressNotPresent(model))
+            {
+                return View("~\\Views\\PersonalDetails\\CollectEmailAddress.cshtml", model);
+            }
+
+            if (HomeAddressIsSameAsCurrentAddressOrEmailAddressProvidedOrSkipped(model))
+            {
+                model.AddressInformation.PatientHomeAddress = model.AddressInformation.PatientCurrentAddress;
+
+                return View("~\\Views\\PersonalDetails\\ConfirmDetails.cshtml", model);
+            }
+
+            return View("~\\Views\\PersonalDetails\\CheckAtHome.cshtml", model);
+        }
+
+        private bool ModelStateNotValidOrNoAddress(PersonalDetailViewModel model)
+        {
+            return !ModelState.IsValid || model.AddressInformation.HomeAddressSameAsCurrentWrapper == null;
+        }
+
+        private static bool HomeAddressIsSameAsCurrentAddressOrEmailAddressProvidedOrSkipped(PersonalDetailViewModel model)
+        {
+            return model.AddressInformation.HomeAddressSameAsCurrentWrapper.HomeAddressSameAsCurrent == HomeAddressSameAsCurrent.Yes
+                || model.EmailAddress.ProvidedOrSkipped;
+        }
+
+        private static bool EmailAddressNotPresent(PersonalDetailViewModel model)
+        {
+            return !model.EmailAddress.ProvidedOrSkipped;
+        }
+
+        private static bool WasHomeAddressRequiredForCoronaVirus(PersonalDetailViewModel model)
+        {
+            return model.AddressInformation.HomeAddressSameAsCurrentWrapper.HomeAddressSameAsCurrent == HomeAddressSameAsCurrent.No
+                   && !model.EmailAddress.ProvidedOrSkipped;
         }
     }
 }

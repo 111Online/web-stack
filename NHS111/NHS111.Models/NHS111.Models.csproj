@@ -233,6 +233,7 @@
     <Compile Include="Models\Web\DosRequests\DosRequest.cs" />
     <Compile Include="Models\Web\DosRequests\DosServiceDetailsByIdRequest.cs" />
     <Compile Include="Models\Web\DosRequests\DosServicesByClinicalTermRequest.cs" />
+    <Compile Include="Models\Web\EmailAddressViewModelValidator.cs" />
     <Compile Include="Models\Web\EmergencyAlertViewModel.cs" />
     <Compile Include="Models\Web\Enums\EventType.cs" />
     <Compile Include="Models\Web\FeedbackResultViewModel.cs" />
@@ -329,6 +330,7 @@
     <Compile Include="Models\Web\Validators\DateOfBirthDayValidator.cs" />
     <Compile Include="Models\Web\Validators\DateOfBirthMonthValidator.cs" />
     <Compile Include="Models\Web\Validators\DateOfBirthYearValidator.cs" />
+    <Compile Include="Models\Web\Validators\EmailAddressValidator.cs" />
     <Compile Include="Models\Web\Validators\FindServicesAddressViewModelValidator.cs" />
     <Compile Include="Models\Web\Validators\HomeAddressSameAsCurrentValidator.cs" />
     <Compile Include="Models\Web\Validators\HomeAddressValidator.cs" />

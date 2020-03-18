@@ -181,6 +181,11 @@ namespace NHS111.Models.Models.Domain {
             }
         }
 
+        public bool IsCoronaVirusCallback
+        {
+            get { return Equals(Isolate111); }
+        }
+
         public bool RequiresOutcomePreamble(bool hasViewed)
         {
             return UsingOutcomePreamble.Contains(this) && !hasViewed;
