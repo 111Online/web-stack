@@ -47,6 +47,9 @@ namespace NHS111.Models.Models.Web.Logging
         [JsonProperty(PropertyName = "campaignSource")]
         public string CampaignSource { get; set; }
 
+        [JsonProperty(PropertyName = "postcodePart")]
+        public string PostCodePart { get; set; }
+
         [JsonProperty(PropertyName = "pathwayId")]
         public string PathwayId { get { return _pathwayId; } set { _pathwayId = value; } }
 
