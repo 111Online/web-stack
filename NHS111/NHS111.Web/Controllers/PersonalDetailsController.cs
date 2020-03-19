@@ -154,7 +154,7 @@ namespace NHS111.Web.Controllers
             
             if (model.OutcomeGroup.IsCoronaVirus)
             {
-                return await HandleCoronaVirusPersonalDetails(model);
+                return View("~\\Views\\PersonalDetails\\CollectEmailAddress.cshtml", model);
             }
 
             return await DirectToPopulatedCurrentAddressPicker(model);
@@ -216,6 +216,10 @@ namespace NHS111.Web.Controllers
         [HttpPost]
         public async Task<ActionResult> SubmitAtHome(PersonalDetailViewModel model)
         {
+            if (model.OutcomeGroup.IsCoronaVirusCallback)
+            {
+                return await HandleCoronaVirusPersonalDetails(model);
+            }
 
             if (!ModelState.IsValid || model.AddressInformation.HomeAddressSameAsCurrentWrapper == null)
             {
@@ -252,10 +256,6 @@ namespace NHS111.Web.Controllers
 
         private async Task<ActionResult> HandleCoronaVirusPersonalDetails(PersonalDetailViewModel model)
         {
-            if (EmailAddressNotPresent(model))
-            {
-                return View("~\\Views\\PersonalDetails\\CollectEmailAddress.cshtml", model);
-            }
 
             if (NoAddressProvided(model))
             {
