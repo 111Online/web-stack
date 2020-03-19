@@ -1,4 +1,5 @@
 ﻿@using NHS111.Models.Models.Web
+@using NHS111.Models.Models.Web.Elements
 @inherits NHS111.Web.Views.Shared.SurveyLinkView<OutcomeViewModel>
 @{
     Layout = "~/Views/Shared/_LayoutNhsUk.cshtml";
@@ -53,9 +54,9 @@
             You need to stay away from other people until you have spoken to 111.
         </p>
         <p>
-          <a href="https://www.nhs.uk/conditions/coronavirus-covid-19/self-isolation-advice/">
-            Read more stay at home advice on NHS.UK.
-          </a>
+            <a href="https://www.nhs.uk/conditions/coronavirus-covid-19/self-isolation-advice/">
+                Read more stay at home advice on NHS.UK.
+            </a>
         </p>
     </div>
 
@@ -64,5 +65,7 @@
             To protect others, <b>do not go</b> to a GP, pharmacy or hospital
         </p>
     </div>
+
+    @Html.Partial("_GetIsolationNote")
 
 </div>
