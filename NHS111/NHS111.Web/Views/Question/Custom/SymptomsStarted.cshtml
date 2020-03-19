@@ -1,0 +1,87 @@
+﻿@using NHS111.Models.Models.Web
+@inherits NHS111.Web.Views.Shared.DirectLinkingView<JourneyViewModel>
+
+@{ Layout = "~/Views/Shared/_LayoutNhsUk.cshtml"; }
+
+@section Title  {NHS 111 Online - @Model.TitleWithoutBullets}
+
+
+@section HeadTop {
+    @{ var url = string.Format("/{0}/{1}/{2}/", Url.Encode(Model.PathwayId), Url.Encode(Model.PathwayTitle), Url.Encode(Model.QuestionNo)); }
+    <script>
+        dataLayer = [{
+            'virtualPageUrl': document.location.pathname + '@url',
+            'virtualPageTitle': '@Model.TitleWithoutBullets'
+        }];
+    </script>
+}
+
+@section FeedbackSection {
+    @{
+        @Html.Partial("_FeedbackDetails", new FeedbackViewModel() { UserId = Model.SessionId.ToString(), PageData = new PageDataViewModel(PageDataViewModel.PageType.InlineCareAdvice, Model) })
+    }
+}
+
+@using (Html.BeginForm("Navigation", "Question", FormMethod.Post, new { @class = "measure" }))
+{
+    @Html.HiddenFor(x => Model.Content)
+    @Html.HiddenFor(x => Model.NextButtonText)
+    for (var i = 0; i < Model.OrderedAnswers().Count; i++)
+    {
+        var answer = Model.OrderedAnswers()[i];
+        @Html.Hidden(string.Format("Answers[{0}].Title", i), answer.Title)
+        @Html.Hidden(string.Format("Answers[{0}].TitleWithoutSpaces", i), answer.TitleWithoutSpaces)
+        @Html.Hidden(string.Format("Answers[{0}].SymptomDiscriminator", i), answer.SymptomDiscriminator)
+        @Html.Hidden(string.Format("Answers[{0}].SupportingInformation", i), answer.SupportingInformation)
+        @Html.Hidden(string.Format("Answers[{0}].Keywords", i), answer.Keywords)
+        @Html.Hidden(string.Format("Answers[{0}].ExcludeKeywords", i), answer.ExcludeKeywords)
+        @Html.Hidden(string.Format("Answers[{0}].ReportText", i), answer.ReportText)
+        @Html.Hidden(string.Format("Answers[{0}].DispositionDisplayText", i), answer.DispositionDisplayText)
+        @Html.Hidden(string.Format("Answers[{0}].Order", i), answer.Order)
+        @Html.Hidden(string.Format("Answers[{0}].IsPositive", i), answer.IsPositive)
+    }
+    @Html.Partial("_CommonHiddenFieldsNode", Model)
+    <input name="SelectedAnswer" type="hidden" id="@Model.Answers.First().TitleWithoutSpaces" value="@Newtonsoft.Json.JsonConvert.SerializeObject(Model.Answers.First())" />
+
+    if (DirectLinkingFeature.IsEnabled)
+    {
+        Html.Raw("<!-- DIRECT LINK: " + Model.StepLink + " -->");
+    }
+
+    <div class="form-group  form-group-validation-override">
+        <fieldset>
+            <legend class="nhsuk-fieldset__legend nhsuk-fieldset__legend--l nhsuk-u-margin-bottom-4">
+                <h2 class="nhsuk-fieldset__heading">
+                    When did the symptoms start
+                </h2>
+            </legend>
+            <p class="form-info">If you're doing this for someone else enter their date of birth.</p>
+            <div>
+                @Html.ValidationMessage("SymptomsStart.Date")
+                <div class="form-group--inline">
+                    <label for="SymptomsStart_Day">Day</label>
+                    <input class="@(ViewData.ModelState.IsValidField("SymptomsStart.Day")?"":"input-validation-error") form-control form-textbox js-validate-number" data-val="true" data-val-day="Incorrect Day" data-val-day-prefixelement="Day" data-val-number="The field Day must be a number." id="SymptomsStart_Day" inputmode="numeric" maxlength="2" name="SymptomsStart.Day" pattern="[0-9]+" placeholder="DD" type="text" value="">
+                </div>
+                <div class="form-group--inline">
+                    <label for="SymptomsStart_Month">Month</label>
+                    <input class="@(ViewData.ModelState.IsValidField("SymptomsStart.Month")?"":"input-validation-error") form-control form-textbox js-validate-number" data-val="true" data-val-month="Incorrect Month" data-val-month-prefixelement="Month" data-val-number="The field Month must be a number." id="SymptomsStart_Month" inputmode="numeric" maxlength="2" name="SymptomsStart.Month" pattern="[0-9]+" placeholder="MM" type="text" value="">
+                </div>
+                <div class="form-group--inline">
+                    <label for="SymptomsStart_Year">Year</label>
+                    <input class="@(ViewData.ModelState.IsValidField("SymptomsStart.Year")?"":"input-validation-error") form-control form-textbox js-validate-number" data-val="true" data-val-number="The field Year must be a number." data-val-year="Incorrect Year" data-val-year-prefixelement="Year" id="SymptomsStart_Year" inputmode="numeric" maxlength="4" name="SymptomsStart.Year" pattern="[0-9]+" placeholder="YYYY" type="text" value="">
+                </div>
+                <input class="validate-hidden" data-val="true" data-val-date="The field DoB must be a date." data-val-dateofbirth="Incorrect Date" data-val-dateofbirth-prefixelement="DoB" id="UserInfo_DoB" name="UserInfo.DoB" type="hidden" value="">
+            </div>
+        </fieldset>
+    </div>
+
+    if (!Model.NextButtonText.Equals("!hidden!"))
+    {
+        <button class="button--next" id="nextScreen" type="submit" name="Question" value="Question">@Model.NextButtonText</button>
+    }
+
+    if (!Model.IsFirstStep)
+    {
+        <button class="button--stacked button--previous button--link" id="previousScreen" type="submit" value="PreviousQuestion" name="PreviousQuestion" formnovalidate>Previous question</button>
+    }
+}

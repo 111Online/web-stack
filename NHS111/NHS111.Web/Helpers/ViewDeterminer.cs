@@ -89,6 +89,9 @@ namespace NHS111.Web.Helpers
                     _userZoomDataBuilder.SetFieldsForCareAdvice(journeyViewModel);
                     return new CareAdviceResultViewModel(journeyViewModel);
                 case NodeType.Page:
+                    if(journeyViewModel.Content.StartsWith("!CustomView!"))
+                        return new PageResultViewModel(journeyViewModel, String.Format("../Question/Custom/{0}", journeyViewModel.Content.Replace("!CustomView!","")));
+
                     return new PageResultViewModel(journeyViewModel);
                 case NodeType.Question:
                 default:

@@ -14,6 +14,7 @@ namespace NHS111.Models.Models.Web.Enums
         DeviceType,
         Referer,
         Clicked,
-        Error
+        Error,
+        SymptomsBeganDate
     }
 }

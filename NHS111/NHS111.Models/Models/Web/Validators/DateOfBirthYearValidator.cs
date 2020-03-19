@@ -20,8 +20,10 @@ namespace NHS111.Models.Models.Web.Validators
         protected override bool IsValid(PropertyValidatorContext context)
         {
             var userInfo = context.Instance as UserInfo;
+            if (userInfo != null) return IsAValidYear(userInfo.Year);
 
-            return IsAValidYear(userInfo.Year);
+            var dateTimeViewModel = context.Instance as DateTimeViewModel;
+            return IsAValidYear(dateTimeViewModel.Year);
         }
 
         private bool IsAValidYear(int? year)
