@@ -233,6 +233,7 @@
     <Compile Include="Models\Web\DosRequests\DosRequest.cs" />
     <Compile Include="Models\Web\DosRequests\DosServiceDetailsByIdRequest.cs" />
     <Compile Include="Models\Web\DosRequests\DosServicesByClinicalTermRequest.cs" />
+    <Compile Include="Models\Web\Elements\LinkSummaryViewModel.cs" />
     <Compile Include="Models\Web\EmailAddressViewModelValidator.cs" />
     <Compile Include="Models\Web\EmergencyAlertViewModel.cs" />
     <Compile Include="Models\Web\Enums\EventType.cs" />
