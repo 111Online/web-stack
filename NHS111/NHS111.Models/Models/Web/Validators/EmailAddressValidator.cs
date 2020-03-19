@@ -22,23 +22,13 @@ namespace NHS111.Models.Models.Web.Validators
         protected override bool IsValid(PropertyValidatorContext context)
         {
             var emailAddressModel = ((EmailAddressViewModel)context.Instance);
-
-            if (EmailSkippedAndEmpty(emailAddressModel))
+            
+            if (string.IsNullOrWhiteSpace(emailAddressModel.EmailAddress))
             {
                 return true;
             }
 
-            if (string.IsNullOrWhiteSpace(emailAddressModel.EmailAddress))
-            {
-                return false;
-            }
-
             return GetMatch(emailAddressModel.EmailAddress).Success;
-        }
-
-        private static bool EmailSkippedAndEmpty(EmailAddressViewModel emailAddressModel)
-        {
-            return emailAddressModel.Skipped && string.IsNullOrWhiteSpace(emailAddressModel.EmailAddress);
         }
 
         private Match GetMatch(string email)
