@@ -5,7 +5,7 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using AutoMapper;
-using NHS111.Models.Models.Domain;
+using NHS111.Features;
 using NHS111.Models.Models.Web;
 using NHS111.Models.Models.Web.FromExternalServices;
 using NHS111.Models.Models.Web.Validators;
@@ -18,10 +18,14 @@ namespace NHS111.Web.Controllers
     {
         private readonly IAuditLogger _auditLogger;
         private readonly ILocationResultBuilder _locationResultBuilder;
-        public PersonalDetailsController(IAuditLogger auditLogger, ILocationResultBuilder locationResultBuilder)
+        private readonly IEmailCollectionFeature _emailCollectionFeature;
+
+        public PersonalDetailsController(IAuditLogger auditLogger, ILocationResultBuilder locationResultBuilder, 
+            IEmailCollectionFeature emailCollectionFeature)
         {
             _auditLogger = auditLogger;
             _locationResultBuilder = locationResultBuilder;
+            _emailCollectionFeature = emailCollectionFeature;
         }
 
         private async Task<AddressInfoCollectionViewModel> GetPostcodeResults(string postCode)
@@ -212,6 +216,10 @@ namespace NHS111.Web.Controllers
         [HttpPost]
         public async Task<ActionResult> SubmitAtHome(PersonalDetailViewModel model)
         {
+            if (model.OutcomeGroup.IsCoronaVirusCallback)
+            {
+                return await HandleCoronaVirusPersonalDetails(model);
+            }
 
             if (!ModelState.IsValid || model.AddressInformation.HomeAddressSameAsCurrentWrapper == null)
             {
@@ -253,9 +261,10 @@ namespace NHS111.Web.Controllers
                 return View("~\\Views\\PersonalDetails\\CollectEmailAddress.cshtml", model);
             }
 
-            if (ModelStateNotValidOrNoAddress(model))
+            if (NoAddressProvided(model))
             {
-                ModelState.AddModelError("AddressInformation.HomeAddressSameAsCurrentWrapper.HomeAddressSameAsCurrent", new Exception());
+                if (!ModelState.IsValid)
+                    ModelState.AddModelError("AddressInformation.HomeAddressSameAsCurrentWrapper.HomeAddressSameAsCurrent", new Exception());
                 return View("~\\Views\\PersonalDetails\\CheckAtHome.cshtml", model);
             }
 
@@ -274,9 +283,9 @@ namespace NHS111.Web.Controllers
             return View("~\\Views\\PersonalDetails\\CheckAtHome.cshtml", model);
         }
 
-        private bool ModelStateNotValidOrNoAddress(PersonalDetailViewModel model)
+        private bool NoAddressProvided(PersonalDetailViewModel model)
         {
-            return !ModelState.IsValid || model.AddressInformation.HomeAddressSameAsCurrentWrapper == null;
+            return model.AddressInformation.HomeAddressSameAsCurrentWrapper == null;
         }
 
         private static bool HomeAddressIsSameAsCurrentAddressOrEmailAddressProvidedOrSkipped(PersonalDetailViewModel model)
@@ -285,9 +294,9 @@ namespace NHS111.Web.Controllers
                 || model.EmailAddress.ProvidedOrSkipped;
         }
 
-        private static bool EmailAddressNotPresent(PersonalDetailViewModel model)
+        private bool EmailAddressNotPresent(PersonalDetailViewModel model)
         {
-            return !model.EmailAddress.ProvidedOrSkipped;
+            return !model.EmailAddress.ProvidedOrSkipped && _emailCollectionFeature.IsEnabled;
         }
 
         private static bool WasHomeAddressRequiredForCoronaVirus(PersonalDetailViewModel model)

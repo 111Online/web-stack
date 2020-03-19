@@ -16,5 +16,6 @@ namespace NHS111.Models.Models.Web.ITK
         public string TelephoneNumber { get; set; }
         public InformantDetails Informant { get; set; }
         public string EmailAddress { get; set; }
+
     }
 }
