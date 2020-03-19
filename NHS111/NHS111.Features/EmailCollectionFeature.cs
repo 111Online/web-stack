@@ -9,7 +9,7 @@ namespace NHS111.Features
 {
     public interface IEmailCollectionFeature : IFeature { }
 
-    class EmailCollectionFeature : BaseFeature, IEmailCollectionFeature
+    public class EmailCollectionFeature : BaseFeature, IEmailCollectionFeature
     {
         public EmailCollectionFeature()
         {
