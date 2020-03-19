@@ -32,112 +32,114 @@
 
 <div class="measure nhsuk-core">
 
-  <h1 class="nhsuk-heading-xl">
-    You and your family need to stay at home
-  </h1>
+    <h1 class="nhsuk-heading-xl">
+        You and your family need to stay at home
+    </h1>
 
-  <div class="callout callout--attention nhsuk-u-margin-bottom-6">
+    <div class="callout callout--attention nhsuk-u-margin-bottom-6">
+        <p>
+            To protect others, <b>do not go</b> to a GP, pharmacy or hospital
+        </p>
+        <p>
+            If you have a high temperature and other symptoms not related to cold or flu,
+            <a href="/@Model.UserInfo.Demography.Gender/@Model.UserInfo.Demography.Age/Search?args=@encryptedQueryStringValues" data-event-trigger="click" data-event-value="Use 111 online via COVID-19 self-care page">
+                check them using 111 online again.
+            </a>
+        </p>
+    </div>
+
+    <div class="callout callout--warning callout--lite nhsuk-u-margin-bottom-6">
+        <p>
+            Testing for coronavirus is not needed if you’re staying at home.
+        </p>
+    </div>
+
+    <h2 class="nhsuk-heading-l">
+        To avoid spreading infection
+    </h2>
+
+    <h3 class="nhsuk-heading-m">
+        If you live alone, do not leave your home for 7 days
+    </h3>
     <p>
-      To protect others, <b>do not go</b> to a GP, pharmacy or hospital
+        Do not leave your home for 7 days from when your symptoms started, however
+        mild they are.
     </p>
     <p>
-      If you have a high temperature and other symptoms not related to cold or flu,
-      <a href="/@Model.UserInfo.Demography.Gender/@Model.UserInfo.Demography.Age/Search?args=@encryptedQueryStringValues" data-event-trigger="click" data-event-value="Use 111 online via COVID-19 self-care page">
-        check them using 111 online again.
-      </a>
+        If your temperature is still high after 7 days, stay at home until it’s back
+        to normal.
     </p>
-  </div>
 
-  <div class="callout callout--warning callout--lite nhsuk-u-margin-bottom-6">
+    <h3 class="nhsuk-heading-m">
+        If you live with other people, keep everyone at home for 14 days
+    </h3>
     <p>
-      Testing for coronavirus is not needed if you’re staying at home.
+        The 14-day period starts from the day when the first person in the house
+        became ill.
     </p>
-  </div>
-
-  <h2 class="nhsuk-heading-l">
-    To avoid spreading infection
-  </h2>
-
-  <h3 class="nhsuk-heading-m">
-    If you live alone, do not leave your home for 7 days
-  </h3>
-  <p>
-    Do not leave your home for 7 days from when your symptoms started, however
-    mild they are.
-  </p>
-  <p>
-    If your temperature is still high after 7 days, stay at home until it’s back
-    to normal.
-  </p>
-
-  <h3 class="nhsuk-heading-m">
-    If you live with other people, keep everyone at home for 14 days
-  </h3>
-  <p>
-    The 14-day period starts from the day when the first person in the house
-    became ill.
-  </p>
-  <p>
-    It is likely that people living within a household will infect
-    each other or be infected already. Staying at home for 14 days will greatly
-    reduce the spread of infection to others in the community.
-  </p>
-
-  <h3 class="nhsuk-heading-s">
-    Vulnerable people
-  </h3>
-  <p>
-    If you can, move any vulnerable people (the elderly and those with underlying
-    health conditions) out of your home, for the whole isolation period.
-  </p>
-  <p>
-    If you cannot do this, stay away from vulnerable people as much as possible.
-  </p>
-
-  <div class="callout callout--info nhsuk-u-margin-bottom-6 nhsuk-u-margin-top-6">
     <p>
-      <a href="https://www.nhs.uk/conditions/coronavirus-covid-19/self-isolation-advice/" data-event-trigger="click" data-event-value="NHS.UK Stay at home advice">
-        You can read more stay at home advice on NHS.UK.
-      </a>
+        It is likely that people living within a household will infect
+        each other or be infected already. Staying at home for 14 days will greatly
+        reduce the spread of infection to others in the community.
     </p>
-  </div>
 
-  <h2 class="nhsuk-heading-l">
-    How to look after your symptoms at home
-  </h2>
+    <h3 class="nhsuk-heading-s">
+        Vulnerable people
+    </h3>
+    <p>
+        If you can, move any vulnerable people (the elderly and those with underlying
+        health conditions) out of your home, for the whole isolation period.
+    </p>
+    <p>
+        If you cannot do this, stay away from vulnerable people as much as possible.
+    </p>
 
-  <ul>
-    <li>
-      rest and drink plenty of fluids
-    </li>
-    <li>
-      take paracetamol
-    </li>
-    <li>
-      cover the mouth with a tissue when coughing or sneezing
-    </li>
-    <li>
-      put used tissues in a bin
-    </li>
-    <li>
-      wash your hands regularly with warm water and soap for at least 20 seconds
-    </li>
-  </ul>
+    <div class="callout callout--info nhsuk-u-margin-bottom-6 nhsuk-u-margin-top-6">
+        <p>
+            <a href="https://www.nhs.uk/conditions/coronavirus-covid-19/self-isolation-advice/" data-event-trigger="click" data-event-value="NHS.UK Stay at home advice">
+                You can read more stay at home advice on NHS.UK.
+            </a>
+        </p>
+    </div>
 
-  <p>
-    If you feel you can’t cope with your symptoms at home, or your condition gets
-    worse, use the 111 online service again.
-  </p>
+    @Html.Partial("_GetIsolationNote")
+    
+    <h2 class="nhsuk-heading-l">
+        How to look after your symptoms at home
+    </h2>
 
-  <h2 class="nhsuk-heading-l">
-    Ending the stay at home period
-  </h2>
+    <ul>
+        <li>
+            rest and drink plenty of fluids
+        </li>
+        <li>
+            take paracetamol
+        </li>
+        <li>
+            cover the mouth with a tissue when coughing or sneezing
+        </li>
+        <li>
+            put used tissues in a bin
+        </li>
+        <li>
+            wash your hands regularly with warm water and soap for at least 20 seconds
+        </li>
+    </ul>
 
-  <p>
-    <a href="https://www.nhs.uk/conditions/coronavirus-covid-19/self-isolation-advice/" data-event-trigger="click" data-event-value="NHS.UK Stay at home advice">
-      You can read information about what to do when the isolation period ends on
-      NHS.UK
-    </a>
-  </p>
+    <p>
+        If you feel you can’t cope with your symptoms at home, or your condition gets
+        worse, use the 111 online service again.
+    </p>
+
+    <h2 class="nhsuk-heading-l">
+        Ending the stay at home period
+    </h2>
+
+    <p>
+        <a href="https://www.nhs.uk/conditions/coronavirus-covid-19/self-isolation-advice/" data-event-trigger="click" data-event-value="NHS.UK Stay at home advice">
+            You can read information about what to do when the isolation period ends on
+            NHS.UK
+        </a>
+    </p>
 
 </div>

@@ -488,6 +488,7 @@
     <Content Include="Views\Outcome\Confirmation\Isolate_111\Confirmation.cshtml" />
     <Content Include="Views\Outcome\Confirmation\Isolate_111\ServiceBookingFailure.cshtml" />
     <Content Include="Views\Outcome\Confirmation\Isolate_111\ServiceUnavailable.cshtml" />
+    <Content Include="Views\Shared\_GetIsolationNote.cshtml" />
     <None Include="Web.Development.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
