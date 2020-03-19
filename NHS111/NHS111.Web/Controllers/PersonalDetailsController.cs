@@ -154,7 +154,7 @@ namespace NHS111.Web.Controllers
             
             if (model.OutcomeGroup.IsCoronaVirus)
             {
-                return await HandleCoronaVirusPersonalDetails(model);
+                return View("~\\Views\\PersonalDetails\\CollectEmailAddress.cshtml", model);
             }
 
             return await DirectToPopulatedCurrentAddressPicker(model);
@@ -256,10 +256,6 @@ namespace NHS111.Web.Controllers
 
         private async Task<ActionResult> HandleCoronaVirusPersonalDetails(PersonalDetailViewModel model)
         {
-            if (EmailAddressNotPresent(model))
-            {
-                return View("~\\Views\\PersonalDetails\\CollectEmailAddress.cshtml", model);
-            }
 
             if (EmailCollectionFeatureDisabledAndNoHomeAddress(model))
             {
