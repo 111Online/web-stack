@@ -216,10 +216,6 @@ namespace NHS111.Web.Controllers
         [HttpPost]
         public async Task<ActionResult> SubmitAtHome(PersonalDetailViewModel model)
         {
-            if (model.OutcomeGroup.IsCoronaVirusCallback)
-            {
-                return await HandleCoronaVirusPersonalDetails(model);
-            }
 
             if (!ModelState.IsValid || model.AddressInformation.HomeAddressSameAsCurrentWrapper == null)
             {
