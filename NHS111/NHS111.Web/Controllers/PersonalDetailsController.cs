@@ -261,6 +261,11 @@ namespace NHS111.Web.Controllers
                 return View("~\\Views\\PersonalDetails\\CollectEmailAddress.cshtml", model);
             }
 
+            if (EmailCollectionFeatureDisabledAndNoHomeAddress(model))
+            {
+                return await DirectToPopulatedCurrentAddressPicker(model);
+            }
+
             if (NoAddressProvided(model))
             {
                 if (!ModelState.IsValid)
@@ -281,6 +286,11 @@ namespace NHS111.Web.Controllers
             }
 
             return View("~\\Views\\PersonalDetails\\CheckAtHome.cshtml", model);
+        }
+
+        private bool EmailCollectionFeatureDisabledAndNoHomeAddress(PersonalDetailViewModel model)
+        {
+            return !_emailCollectionFeature.IsEnabled && model.AddressInformation.HomeAddressSameAsCurrentWrapper == null;
         }
 
         private bool NoAddressProvided(PersonalDetailViewModel model)
