@@ -120,11 +120,6 @@ namespace NHS111.Web.Controllers
 
                 model.AddressInformation.PatientHomeAddress = null;
                 model.AddressInformation.HomeAddressSameAsCurrentWrapper.HomeAddressSameAsCurrent = HomeAddressSameAsCurrent.DontKnow;
-                if (EmailRequired(model))
-                {
-                    ModelState.Clear();
-                    return View("~\\Views\\PersonalDetails\\CollectEmailAddress.cshtml", model);
-                }
                 return View("~\\Views\\PersonalDetails\\ConfirmDetails.cshtml", model);
             }
 
@@ -138,34 +133,24 @@ namespace NHS111.Web.Controllers
                     ModelState.AddModelError("AddressInformation.ChangePostcode.Postcode", new Exception());
                     return View("~\\Views\\PersonalDetails\\HomeAddress_Postcode.cshtml", model);
                 }
-
-                if (EmailRequired(model))
-                {
-                    return View("~\\Views\\PersonalDetails\\CollectEmailAddress.cshtml", model);
-                }
-
+                
                 model.AddressInformation.PatientHomeAddress.Postcode = model.AddressInformation.ChangePostcode.Postcode;
                 return View("~\\Views\\PersonalDetails\\ConfirmDetails.cshtml", model);
             }
         }
 
-        private static bool EmailRequired(PersonalDetailViewModel model)
-        {
-            return model.OutcomeGroup.RequiresEmail && !model.EmailAddress.ProvidedOrSkipped;
-        }
-
         [HttpPost]
         public async Task<ActionResult> CurrentAddress(PersonalDetailViewModel model)
         {
-            
-            if (model.OutcomeGroup.IsCoronaVirus)
-            {
-                return await HandleCoronaVirusPersonalDetails(model);
-            }
 
             if (!ModelState.IsValid)
             {
                 return View("~\\Views\\PersonalDetails\\PersonalDetails.cshtml", model);
+            }
+            
+            if (model.OutcomeGroup.IsCoronaVirus)
+            {
+                return await HandleCoronaVirusPersonalDetails(model);
             }
 
             return await DirectToPopulatedCurrentAddressPicker(model);
@@ -255,7 +240,6 @@ namespace NHS111.Web.Controllers
 
             if (ModelState.IsValid)
             {
-                ModelState.Clear();
                 return await DirectToPopulatedCurrentAddressPicker(model);
             }
 
