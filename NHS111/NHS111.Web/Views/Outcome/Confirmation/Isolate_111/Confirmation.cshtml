@@ -40,7 +40,7 @@
 
     <p>It was booked at @DateTime.Now.ToString("HH:mm").</p>
 
-    <p>The COVID clinical response service will call 07979 654 789. The number may show as 'unknown' on your display.</p>
+    <p>The COVID clinical response service will call @Model.ItkConfirmationModel.UserInfo.TelephoneNumber. The number may show as ‘unknown’ on your display.</p>
 
     <div class="callout callout--info measure">
         <p>You need to stay away from other people.</p>
@@ -59,33 +59,25 @@
         Summary = "<p>The COVID clinical response service is very busy at the moment. The most seriously ill people are called back first. You are in a queue and you will be called as soon as possible.</p>"
     })
 
-    <br />
-
     @Html.Partial("_LinkSummary", new LinkSummaryViewModel
     {
-        Link = "What if i don't get a call back within 2 hours?",
-        Summary = "<p>If you don't hear back in 2 hours, use the service again to book another call.</p>"
+        Link = "What if I don't get a call back within 2 hours?",
+        Summary = "<p>If you don’t hear back in 2 hours, use the service again to book another call.</p>"
     })
-
-    <br />
 
     @Html.Partial("_LinkSummary", new LinkSummaryViewModel
     {
         Link = "What if I miss the call?",
-        Summary = "<p>The COVID clinical response service will try to call up to 3 times. They will leave a message to say they have tried to call you, but you won't be able to return their call. If you miss all of the calls, you need to start again using the online service.</p>"
+        Summary = "<p>The COVID clinical response service will try to call up to 3 times. They will leave a message to say they have tried to call you, but you won’t be able to return their call. If you miss all of the calls, you need to start again using the online service.</p>"
     })
-
-    <br />
 
     @Html.Partial("_LinkSummary", new LinkSummaryViewModel
     {
         Link = "What if I feel worse while I am waiting?",
-        Summary = "<p>If you start to feel worse, use the service again to tell us about your new symptoms.</p><p>If you start to feel worse, use the service again to tell us about your new symptoms.</p>"
+        Summary = "<p>If you don’t get a call within 2 hour and you start to feel worse, call 999 and tell you have coronavirus symptoms.</p>"
     })
 
-    <br />
-    <br />
-    <hr />
+    <hr class="nhsuk-u-margin-top-6 nhsuk-u-margin-bottom-6" />
 
     @Html.Partial("_GetIsolationNote")
 

@@ -1,1 +1,49 @@
-﻿111 Clinical Callback Corona SERVICE BOOKING FAILURE
+﻿﻿@using System.Web.Mvc.Html
+@using NHS111.Models.Models.Domain
+@using NHS111.Models.Models.Web
+@using NHS111.Models.Models.Web.Elements
+@using NHS111.Web.Presentation.Analytics
+@inherits NHS111.Web.Views.Shared.SurveyLinkView<Coronavirus111CallbackReferralFailureResultViewModel>
+@{
+    Layout = "~/Views/Shared/_LayoutNhsUk.cshtml";
+}
+@section Title {
+    @Model.PageTitle
+}
+@{
+    var dataDictionary = ViewContext.ViewData;
+    dataDictionary.Add(new KeyValuePair<string, object>("LaunchPage", "confirmation"));
+}
+
+<div class="measure nhsuk-core">
+    <h1>There's been a problem</h1>
+
+    <p>Sending your information failed. Try again later.</p>
+
+    <div class="callout callout--attention nhsuk-u-margin-bottom-6">
+        <p>To protect yourself and others, <b>do not go</b> to a GP, pharmacy or hospital
+        </p>
+    </div>
+    
+    <hr/>
+    
+    <h2 class="nhsuk-heading-s">Advice in other parts of the UK</h2>
+    <ul>
+        <li>
+            <a href="https://www.nhsinform.scot/illnesses-and-conditions/infections-and-poisoning/coronavirus-covid-19" data-event-trigger="click" data-event-value="Advice in Scotland" >
+                Check your symptoms in Scotland
+            </a>
+        </li>
+        <li>
+            <a href="https://www.nhsdirect.wales.nhs.uk/SelfAssessments/symptomcheckers/?ScName=CoronaVirusCOVID19&amp;SCTId=175" data-event-trigger="click" data-event-value="Advice in Wales">
+                Check your symptoms in Wales
+            </a>
+        </li>
+        <li>
+            <a href="https://www.publichealth.hscni.net/news/covid-19-coronavirus" data-event-trigger="click" data-event-value="Advice in Northern Ireland">
+                Northern Ireland
+            </a>
+        </li>
+    </ul>
+
+</div>

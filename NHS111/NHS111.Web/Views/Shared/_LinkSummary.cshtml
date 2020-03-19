@@ -1,11 +1,11 @@
 ﻿@model NHS111.Models.Models.Web.Elements.LinkSummaryViewModel
-    
+
 <details role="group">
-    <summary role="tabpanel" id="details-summary-0" aria-controls="details-content-0" aria-expanded="false">
+    <summary>
         <span class="details__arrow"></span>
         <span class="summary">@Model.Link</span>
     </summary>
-    <div class="panel panel-border-narrow" id="details-content-0" aria-hidden="true">
+    <div>
         @Html.Raw(Model.Summary)
     </div>
 </details>
