@@ -4,12 +4,6 @@
 }
 @inherits NHS111.Web.Views.Shared.DirectLinkingView<ConfirmLocationViewModel>
 @section Title {NHS 111 Online - Confirm Location}
-@section EmergencyAlert{
-    @if (EmergencyAlertFeature.IsEnabled)
-    {
-        @Html.Partial("_EmergencyAlert", new EmergencyAlertViewModel { SessionId = Model.SessionId })
-    }
-}
 
 @section HeadTop {
     <script>
@@ -28,6 +22,7 @@
         @Html.HiddenFor(m => m.Campaign)
         @Html.HiddenFor(m => m.FilterServices)
         @Html.HiddenFor(m => m.PathwayNo)
+        @Html.HiddenFor(m => m.IsCustomJourney)
         <div>
             @{
                 var i = 0;
@@ -53,7 +48,7 @@
                     </div>
 
 
-                    <p><a href="@string.Format("/Location/ChangePostcode/?SessionId={0}&Campaign={1}&FilterServices={2}&PathwayNo={3}", Model.SessionId, Model.Campaign, Model.FilterServices, Model.PathwayNo)" class="js-manual-postcode button--link button--stacked">No, I'll enter my postcode.</a></p>
+                    <p><a href="@string.Format("/Location/ChangePostcode/?SessionId={0}&Campaign={1}&FilterServices={2}&PathwayNo={3}&IsCustomJourney={4}", Model.SessionId, Model.Campaign, Model.FilterServices, Model.PathwayNo, Model.IsCustomJourney)" class="js-manual-postcode button--link button--stacked">No, I'll enter my postcode.</a></p>
                     <button class="button--next" type="submit" name="DosResults" id="DosLookup">Next</button>
                 </div>
 
@@ -66,5 +61,3 @@ else
     <h1 id="strap-line">We were unable to find your location</h1>
     <a href="/" class="js-manual-postcode button--link button--stacked">Enter my postcode.</a>
 }
-
-

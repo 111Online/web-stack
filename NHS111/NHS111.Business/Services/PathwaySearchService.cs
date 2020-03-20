@@ -137,7 +137,7 @@ namespace NHS111.Business.Services
                                 .Should
                                 (
                                     AddTitleAndDerscriptionMatchingQuery(query, 10),
-                                    AddCoronaQuery(),
+                                    AddCoronaBoostingQuery(),
                                     AddShingleMatchQuery(query, 20),
                                     AddPhoneticsMatchQuery(query),
                                     AddPhraseMatchQuery(query, 10),
@@ -260,21 +260,6 @@ namespace NHS111.Business.Services
                 );
         }
 
-        private Func<QueryContainerDescriptor<PathwaySearchResult>, QueryContainer> AddCoronaQuery()
-        {
-            return s => s.MultiMatch(m =>
-                m.Fields(f => f
-                        .Field(p => p.Title)
-                        .Field(p => p.Description)
-                    )
-                    .Operator(Operator.Or)
-                    .Slop(50)
-                    .Type(TextQueryType.MostFields)
-                    .Query("Coronavirus COVID")
-                    .Boost(1000)
-            );
-        }
-
         private Func<QueryContainerDescriptor<PathwaySearchResult>, QueryContainer> AddBodytags(string query, IReadOnlyCollection<IHit<BodytagResult>> bodytags)
         {
             if (bodytags.Count() > 0)
@@ -291,6 +276,21 @@ namespace NHS111.Business.Services
             }
             return s => null;
 
+        }
+
+        private Func<QueryContainerDescriptor<PathwaySearchResult>, QueryContainer> AddCoronaBoostingQuery()
+        {
+            return s => s.MultiMatch(m =>
+                m.Fields(f => f
+                        .Field(p => p.Title)
+                        .Field(p => p.Description)
+                    )
+                    .Operator(Operator.Or)
+                    .Slop(50)
+                    .Type(TextQueryType.MostFields)
+                    .Query("Coronavirus COVID")
+                    .Boost(10)
+            );
         }
 
         private SearchDescriptor<PathwaySearchResult> AddAgeGenderFilters(

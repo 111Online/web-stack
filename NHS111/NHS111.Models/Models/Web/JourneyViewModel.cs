@@ -22,6 +22,11 @@ namespace NHS111.Models.Models.Web
         {
             get { return !string.IsNullOrEmpty(PathwayTraumaType) && PathwayTraumaType.Equals("Trauma"); }
         }
+
+        public bool IsCoronaPathway
+        {
+            get { return !string.IsNullOrEmpty(this.PathwayNo) && this.PathwayNo.Equals("PW1851"); }
+        }
         public string DigitalTitle { get; set; }
         public string Id { get; set; }
         public string EntrySearchTerm { get; set; }
@@ -138,6 +143,7 @@ namespace NHS111.Models.Models.Web
         public string Source { get; set; }
         public string CurrentPostcode { get; set; }
         public bool HasSeenPreamble { get; set; }
+        public bool IsCustomJourney { get; set; }
 
 
         public string FormattedCurrentPostcode

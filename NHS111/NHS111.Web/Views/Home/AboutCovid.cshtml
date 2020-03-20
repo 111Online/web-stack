@@ -1,0 +1,91 @@
+﻿@using NHS111.Models.Models.Web.Elements
+@{
+    Layout = "~/Views/Shared/_LayoutNhsUK.cshtml";
+}
+@inherits NHS111.Web.Views.Shared.DirectLinkingView<NHS111.Models.Models.Web.JourneyViewModel>
+
+@section Title { NHS 111 Online - About coronavirus (COVID-19)}
+@{ ViewBag.Description = "Check for symptoms of coronavirus (COVID-19). Answer questions and find out what to do if you have coronavirus. Find out where you can get help if you have a cough, shortness of breath or a high temperature. General advice about how coronavirus spreads and how to avoid infection. "; }
+@section HeadTop {
+    <script>
+        dataLayer = [
+            {
+                'virtualPageUrl': 'About coronavirus',
+                'virtualPageTitle': 'About coronavirus'
+            }];
+    </script>
+}
+@using (Html.BeginForm("Location", "Location", FormMethod.Post))
+{
+    @Html.HiddenFor(m => m.SessionId)
+    @Html.Hidden("IsCustomJourney", true)
+    @Html.Hidden("PathwayNo", "PW1851")
+    <div class="measure nhsuk-core">
+
+      <h1 class="nhsuk-heading-xl">
+        Check if you have coronavirus symptoms
+      </h1>
+
+      <p>
+        We will:
+      </p>
+      <ul>
+        <li>
+          ask you a few questions
+        </li>
+        <li>
+          tell you what to do next
+        </li>
+      </ul>
+
+      <div class="callout callout--attention nhsuk-u-margin-bottom-6">
+        <p>
+          To protect others, <b>do not go</b> to a GP, pharmacy or hospital.
+        </p>
+      </div>
+
+      <p>
+        <button type="submit" class="button--next">Start now</button>
+      </p>
+
+      <hr />
+
+      <h2 class="nhsuk-heading-l">
+        <span class="nhsuk-caption-l">
+          On NHS.UK:
+        </span>
+        About coronavirus (COVID-19)
+      </h2>
+      <p>
+        Read general information such as:
+      </p>
+      <ul>
+        <li>
+          <a data-event-trigger="click" data-event-value="Novel Coronavirus" href="https://www.nhs.uk/conditions/coronavirus-covid-19/"">
+            how to avoid catching or spreading the virus
+          </a>
+        </li>
+        <li>
+          <a data-event-trigger="click" data-event-value="Novel Coronavirus stay at home advice" href="https://www.nhs.uk/conditions/coronavirus-covid-19/self-isolation-advice/">
+            stay at home advice
+          </a>
+        </li>
+      </ul>
+
+      <hr />
+
+      <h3 class="nhsuk-heading-s">Advice in other parts of the UK</h3>
+      <ul>
+        <li>
+          <a data-event-trigger="click" data-event-value="Symptoms in Scotland" href="https://www.nhsinform.scot/self-help-guides/self-help-guide-coronavirus-covid-19">Scotland</a>
+        </li>
+        <li>
+          <a data-event-trigger="click" data-event-value="Symptoms in Wales" href="https://www.nhsdirect.wales.nhs.uk/SelfAssessments/symptomcheckers/?ScName=CoronaVirusCOVID19&SCTId=175">Wales</a>
+        </li>
+        <li>
+          <a data-event-trigger="click" data-event-value="Symptoms in Northern Ireland" href="https://www.publichealth.hscni.net/news/covid-19-coronavirus">Northern Ireland</a>
+        </li>
+      </ul>
+
+    </div>
+}
