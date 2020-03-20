@@ -48,10 +48,14 @@
         Html.Raw("<!-- DIRECT LINK: " + Model.StepLink + " -->");
     }
     <h1>@Model.Title</h1>
+
+    <div class="callout callout--info">
+        <p>It doesn't matter if you aren't sure about the exact date, but try to be as accurate as you can.</p>
+    </div>
     <div class="form-group @(ViewData.ModelState.IsValid?"":"form-group-error")   form-group-validation-override">
         <fieldset>
             <legend class="nhsuk-fieldset__legend nhsuk-fieldset__legend--l nhsuk-u-margin-bottom-4">
-                <p class="form-info">If you're doing this for someone else enter their date of birth.</p>
+               
             </legend>
            
             <div>
