@@ -70,7 +70,7 @@ namespace NHS111.Models.Models.Domain {
         public static OutcomeGroup JumpToSearch = new OutcomeGroup { Id = "111_Search_Jump", Text = "", DefaultTitle = "", Label = "" };
 
         #region Corona virus specific outcomes
-        public static OutcomeGroup Isolate111 = new OutcomeGroup { Id = "Isolate_111", Text = "Isolate_111", DefaultTitle = "Isolate yourself at home", Label = "No further action", PostcodeFirst = false, ITK = false, RequiresEmail = true};
+        public static OutcomeGroup Isolate111 = new OutcomeGroup { Id = "Isolate_111", Text = "Isolate_111", DefaultTitle = "Isolate yourself at home", Label = "No further action", PostcodeFirst = false, ITK = false, RequiresEmail = true };
         public static OutcomeGroup Isolate_SelfCare = new OutcomeGroup { Id = "Isolate_SelfCare", Text = "Isolate_SelfCare", DefaultTitle = "Isolate yourself at home", Label = "No further action", PostcodeFirst = false, ITK = false };
         public static OutcomeGroup Isolate_999 = new OutcomeGroup { Id = "Isolate_999", Text = "Isolate_999", DefaultTitle = "Isolate yourself at home", Label = "Call 999", PostcodeFirst = false, ITK = false };
         #endregion
