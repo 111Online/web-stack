@@ -42,22 +42,11 @@ namespace NHS111.Web.Controllers
         public async Task<ActionResult> PersonalDetails(PersonalDetailViewModel model)
         {
             ModelState.Clear();
-            if (model.OutcomeGroup.IsCoronaVirus)
-                CreateDummyService(model);
 
             _auditLogger.LogSelectedService(model);
            
             return View("~\\Views\\PersonalDetails\\PersonalDetails.cshtml", model);
         }
-
-        private static void CreateDummyService(PersonalDetailViewModel model)
-        {
-            model.DosCheckCapacitySummaryResult.Success = new SuccessObject<ServiceViewModel>();
-            model.DosCheckCapacitySummaryResult.Success.Services = new List<ServiceViewModel>()
-                {new ServiceViewModel() {Id = 1234, Name = "Blank Service"}};
-            model.SelectedServiceId = "1234";
-        }
-
 
         private async Task<PersonalDetailViewModel> PopulateAddressPickerFields(PersonalDetailViewModel model)
         {
@@ -152,7 +141,7 @@ namespace NHS111.Web.Controllers
                 return View("~\\Views\\PersonalDetails\\PersonalDetails.cshtml", model);
             }
             
-            if (model.OutcomeGroup.IsCoronaVirus)
+            if (_emailCollectionFeature.IsEnabled && (model.OutcomeGroup.IsCoronaVirus || model.OutcomeGroup.RequiresEmail))
             {
                 return View("~\\Views\\PersonalDetails\\CollectEmailAddress.cshtml", model);
             }
@@ -202,8 +191,6 @@ namespace NHS111.Web.Controllers
                 ModelState.AddModelError("AddressInformation.PatientCurrentAddress.Postcode", new Exception());
             }
 
-            if (model.OutcomeGroup.IsCoronaVirus && model.SelectedService == null)
-                CreateDummyService(model);
             if (!ModelState.IsValid)
             {
                 return View("~\\Views\\PersonalDetails\\ManualAddress.cshtml", model);
@@ -216,11 +203,6 @@ namespace NHS111.Web.Controllers
         [HttpPost]
         public async Task<ActionResult> SubmitAtHome(PersonalDetailViewModel model)
         {
-            if (model.OutcomeGroup.IsCoronaVirusCallback)
-            {
-                return await HandleCoronaVirusPersonalDetails(model);
-            }
-
             if (!ModelState.IsValid || model.AddressInformation.HomeAddressSameAsCurrentWrapper == null)
             {
                 ModelState.AddModelError("AddressInformation.HomeAddressSameAsCurrentWrapper.HomeAddressSameAsCurrent", new Exception());
@@ -253,62 +235,6 @@ namespace NHS111.Web.Controllers
 
             return View("~\\Views\\PersonalDetails\\CollectEmailAddress.cshtml", model);
         }
-
-        private async Task<ActionResult> HandleCoronaVirusPersonalDetails(PersonalDetailViewModel model)
-        {
-
-            if (EmailCollectionFeatureDisabledAndNoHomeAddress(model))
-            {
-                return await DirectToPopulatedCurrentAddressPicker(model);
-            }
-
-            if (NoAddressProvided(model))
-            {
-                if (!ModelState.IsValid)
-                    ModelState.AddModelError("AddressInformation.HomeAddressSameAsCurrentWrapper.HomeAddressSameAsCurrent", new Exception());
-                return View("~\\Views\\PersonalDetails\\CheckAtHome.cshtml", model);
-            }
-
-            if (WasHomeAddressRequiredForCoronaVirus(model))
-            {
-                return View("~\\Views\\PersonalDetails\\HomeAddress_Postcode.cshtml", model);
-            }
-
-            if (HomeAddressIsSameAsCurrentAddressOrEmailAddressProvidedOrSkipped(model))
-            {
-                model.AddressInformation.PatientHomeAddress = model.AddressInformation.PatientCurrentAddress;
-
-                return View("~\\Views\\PersonalDetails\\ConfirmDetails.cshtml", model);
-            }
-
-            return View("~\\Views\\PersonalDetails\\CheckAtHome.cshtml", model);
-        }
-
-        private bool EmailCollectionFeatureDisabledAndNoHomeAddress(PersonalDetailViewModel model)
-        {
-            return !_emailCollectionFeature.IsEnabled && model.AddressInformation.HomeAddressSameAsCurrentWrapper == null;
-        }
-
-        private bool NoAddressProvided(PersonalDetailViewModel model)
-        {
-            return model.AddressInformation.HomeAddressSameAsCurrentWrapper == null;
-        }
-
-        private static bool HomeAddressIsSameAsCurrentAddressOrEmailAddressProvidedOrSkipped(PersonalDetailViewModel model)
-        {
-            return model.AddressInformation.HomeAddressSameAsCurrentWrapper.HomeAddressSameAsCurrent == HomeAddressSameAsCurrent.Yes
-                || model.EmailAddress.ProvidedOrSkipped;
-        }
-
-        private bool EmailAddressNotPresent(PersonalDetailViewModel model)
-        {
-            return !model.EmailAddress.ProvidedOrSkipped && _emailCollectionFeature.IsEnabled;
-        }
-
-        private static bool WasHomeAddressRequiredForCoronaVirus(PersonalDetailViewModel model)
-        {
-            return model.AddressInformation.HomeAddressSameAsCurrentWrapper.HomeAddressSameAsCurrent == HomeAddressSameAsCurrent.No
-                   && !model.EmailAddress.ProvidedOrSkipped;
-        }
+        
     }
 }
