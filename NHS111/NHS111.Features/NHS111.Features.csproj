@@ -76,7 +76,6 @@
     <Compile Include="DirectLinkingFeature.cs" />
     <Compile Include="DisclaimerBannerFeature.cs" />
     <Compile Include="DisclaimerPopupFeature.cs" />
-    <Compile Include="EmailCollectionFeature.cs" />
     <Compile Include="EmergencyAlertFeature.cs" />
     <Compile Include="FilterPathwaysByAgeFeature.cs" />
     <Compile Include="FilterServicesFeature.cs" />
