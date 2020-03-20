@@ -63,7 +63,7 @@ namespace NHS111.Models.Models.Web
             return telephoneNumber;
         }
 
-        public string EmailAddress { get; set; }
+        public string Email { get; set; }
 
         public AddressInfoViewModel HomeAddress { get; set; }
         public FindServicesAddressViewModel CurrentAddress { get; set; }

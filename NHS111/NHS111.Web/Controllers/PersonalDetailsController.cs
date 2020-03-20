@@ -3,12 +3,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using System.Web;
 using System.Web.Mvc;
+using System.Web.Script.Serialization;
 using AutoMapper;
-using NHS111.Features;
+using Microsoft.Ajax.Utilities;
+using NHS111.Models.Models.Domain;
 using NHS111.Models.Models.Web;
 using NHS111.Models.Models.Web.FromExternalServices;
 using NHS111.Models.Models.Web.Validators;
+using NHS111.Utils.Attributes;
 using NHS111.Web.Presentation.Builders;
 using NHS111.Web.Presentation.Logging;
 
@@ -18,14 +22,11 @@ namespace NHS111.Web.Controllers
     {
         private readonly IAuditLogger _auditLogger;
         private readonly ILocationResultBuilder _locationResultBuilder;
-        private readonly IEmailCollectionFeature _emailCollectionFeature;
 
-        public PersonalDetailsController(IAuditLogger auditLogger, ILocationResultBuilder locationResultBuilder, 
-            IEmailCollectionFeature emailCollectionFeature)
+        public PersonalDetailsController(IAuditLogger auditLogger, ILocationResultBuilder locationResultBuilder)
         {
             _auditLogger = auditLogger;
             _locationResultBuilder = locationResultBuilder;
-            _emailCollectionFeature = emailCollectionFeature;
         }
 
         private async Task<AddressInfoCollectionViewModel> GetPostcodeResults(string postCode)
@@ -42,11 +43,22 @@ namespace NHS111.Web.Controllers
         public async Task<ActionResult> PersonalDetails(PersonalDetailViewModel model)
         {
             ModelState.Clear();
+            if (model.OutcomeGroup.IsCoronaVirus)
+                CreateDummyService(model);
 
             _auditLogger.LogSelectedService(model);
            
             return View("~\\Views\\PersonalDetails\\PersonalDetails.cshtml", model);
         }
+
+        private static void CreateDummyService(PersonalDetailViewModel model)
+        {
+            model.DosCheckCapacitySummaryResult.Success = new SuccessObject<ServiceViewModel>();
+            model.DosCheckCapacitySummaryResult.Success.Services = new List<ServiceViewModel>()
+                {new ServiceViewModel() {Id = 1234, Name = "Blank Service"}};
+            model.SelectedServiceId = "1234";
+        }
+
 
         private async Task<PersonalDetailViewModel> PopulateAddressPickerFields(PersonalDetailViewModel model)
         {
@@ -110,7 +122,6 @@ namespace NHS111.Web.Controllers
         {
             if (changeHomeAddressPostcode == "unknownHomeAddress")
             {
-
                 model.AddressInformation.PatientHomeAddress = null;
                 model.AddressInformation.HomeAddressSameAsCurrentWrapper.HomeAddressSameAsCurrent = HomeAddressSameAsCurrent.DontKnow;
                 return View("~\\Views\\PersonalDetails\\ConfirmDetails.cshtml", model);
@@ -126,7 +137,7 @@ namespace NHS111.Web.Controllers
                     ModelState.AddModelError("AddressInformation.ChangePostcode.Postcode", new Exception());
                     return View("~\\Views\\PersonalDetails\\HomeAddress_Postcode.cshtml", model);
                 }
-                
+
                 model.AddressInformation.PatientHomeAddress.Postcode = model.AddressInformation.ChangePostcode.Postcode;
                 return View("~\\Views\\PersonalDetails\\ConfirmDetails.cshtml", model);
             }
@@ -135,15 +146,18 @@ namespace NHS111.Web.Controllers
         [HttpPost]
         public async Task<ActionResult> CurrentAddress(PersonalDetailViewModel model)
         {
-
             if (!ModelState.IsValid)
             {
                 return View("~\\Views\\PersonalDetails\\PersonalDetails.cshtml", model);
             }
-            
-            if (_emailCollectionFeature.IsEnabled && (model.OutcomeGroup.IsCoronaVirus || model.OutcomeGroup.RequiresEmail))
+
+            if (model.OutcomeGroup.IsCoronaVirus)
             {
-                return View("~\\Views\\PersonalDetails\\CollectEmailAddress.cshtml", model);
+                ModelState.Clear();
+                if (model.SelectedService == null)
+                    CreateDummyService(model);
+                model.UserInfo.Demography.Gender = Gender.Indeterminate.Value;
+                return View("~\\Views\\Outcome\\Corona\\ManualAddress.cshtml", model);
             }
 
             return await DirectToPopulatedCurrentAddressPicker(model);
@@ -191,6 +205,8 @@ namespace NHS111.Web.Controllers
                 ModelState.AddModelError("AddressInformation.PatientCurrentAddress.Postcode", new Exception());
             }
 
+            if (model.OutcomeGroup.IsCoronaVirus && model.SelectedService == null)
+                CreateDummyService(model);
             if (!ModelState.IsValid)
             {
                 return View("~\\Views\\PersonalDetails\\ManualAddress.cshtml", model);
@@ -223,18 +239,5 @@ namespace NHS111.Web.Controllers
 
             return View("~\\Views\\PersonalDetails\\CheckAtHome.cshtml", model);
         }
-
-        [HttpPost]
-        public async Task<ActionResult> CollectEmailAddress(PersonalDetailViewModel model)
-        {
-
-            if (ModelState.IsValid)
-            {
-                return await DirectToPopulatedCurrentAddressPicker(model);
-            }
-
-            return View("~\\Views\\PersonalDetails\\CollectEmailAddress.cshtml", model);
-        }
-        
     }
 }
