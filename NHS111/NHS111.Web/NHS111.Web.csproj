@@ -419,7 +419,6 @@
     <Content Include="Views\Location\Location.cshtml" />
     <Content Include="Views\Location\OutOfArea.cshtml" />
     <Content Include="Views\Location\ConfirmLocation.cshtml" />
-    <Content Include="Views\Location\Babylon.cshtml" />
     <Content Include="Views\Outcome\Repeat_Prescription\RecommendedService.cshtml" />
     <Content Include="Views\Shared\_rs_OtherServices.cshtml" />
     <Content Include="Views\Shared\_rs_CareAdvice.cshtml" />
