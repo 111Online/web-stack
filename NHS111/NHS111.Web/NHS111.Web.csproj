@@ -482,6 +482,7 @@
     <Content Include="Views\Home\AboutCovid.cshtml" />
     <Content Include="Views\Outcome\Corona\Isolate_999.cshtml" />
     <Content Include="Views\Shared\_GetIsolationNote.cshtml" />
+    <Content Include="Views\Question\Custom\SymptomsStarted.cshtml" />
     <None Include="Web.Development.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
