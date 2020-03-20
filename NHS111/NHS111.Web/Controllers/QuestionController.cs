@@ -120,8 +120,8 @@ namespace NHS111.Web.Controllers {
                 Request.Params["SymptomsStart.Day"],
                 Request.Params["SymptomsStart.Month"],
                 Request.Params["SymptomsStart.Year"]);
-                var result = new DateTimeValidator().Validate(symptomsBeganDateModel);
-
+                var result = new DateTimeInPastValidator().Validate(symptomsBeganDateModel);
+                
                 if(!result.IsValid)
                 {
                     foreach (var error in result.Errors)
@@ -131,7 +131,7 @@ namespace NHS111.Web.Controllers {
 
                     return View("Custom/SymptomsStarted", model);
                 }
-            _auditLogger.LogEvent(model, EventType.SymptomsBeganDate, "Date", symptomsBeganDateModel.Date.Value.ToString("s"));
+            _auditLogger.LogEvent(model, EventType.SymptomsBeganDate, symptomsBeganDateModel.Date.Value.ToString("s"), "../Question/Custom/SymptomsStarted");
             ModelState.Clear();
             var nextModel = await GetNextJourneyViewModel(model);
             var viewRouter = _viewRouter.Build(nextModel, ControllerContext);

@@ -11,7 +11,7 @@ namespace NHS111.Models.Models.Web.Validators
         public UserInfoValidator()
         {
             //RuleFor(p => p.FirstName).NotEmpty();
-           // RuleFor(p => p.LastName).NotEmpty();
+            // RuleFor(p => p.LastName).NotEmpty();
             RuleFor(p => p.TelephoneNumber)
                 .Cascade(CascadeMode.StopOnFirstFailure)
                 .NotEmpty()
@@ -26,11 +26,21 @@ namespace NHS111.Models.Models.Web.Validators
         }
     }
 
+
+    public class DateTimeInPastValidator : DateTimeValidator
+    {
+        public DateTimeInPastValidator() :base()
+        {
+            RuleFor(p => p.Date.HasValue).Equal(true).WithMessage("Enter a valid date");
+            RuleFor(p => p.Date).LessThan(DateTime.Now).WithMessage("The date must be in the past");
+        }
+    }
+
+
     public class DateTimeValidator : AbstractValidator<DateTimeViewModel>
     {
         public DateTimeValidator()
         {
-          
             RuleFor(p => p.Day).SetValidator(new DateOfBirthDayValidator<DateTimeViewModel, int?>(m => m.Day));
             RuleFor(p => p.Month).SetValidator(new DateOfBirthMonthValidator<DateTimeViewModel, int?>(m => m.Month));
             RuleFor(p => p.Year).SetValidator(new DateOfBirthYearValidator<DateTimeViewModel, int?>(m => m.Year));

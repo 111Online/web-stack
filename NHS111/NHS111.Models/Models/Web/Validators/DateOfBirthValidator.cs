@@ -11,7 +11,7 @@ namespace NHS111.Models.Models.Web.Validators
     {
         private string dependencyElement;
         public DateOfBirthValidator(Expression<Func<TModel, TProperty>> expression)
-            : base("Incorrect Date")
+            : base("Enter a valid date")
         {
             dependencyElement = (expression.Body as MemberExpression).Member.Name;
         }
