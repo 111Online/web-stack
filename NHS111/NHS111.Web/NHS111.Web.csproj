@@ -469,7 +469,6 @@
     <Content Include="Views\Shared\_EmergencyAlert.cshtml" />
     <Content Include="Views\Outcome\Corona\Isolate_SelfCare.cshtml" />
     <Content Include="Views\Outcome\Corona\Isolate_111.cshtml" />
-    <Content Include="Views\Outcome\Corona\High_Level.cshtml" />
     <Content Include="Views\Shared\_ManualAddressForm.cshtml" />
     <Content Include="Views\Outcome\Corona\ManualAddress.cshtml" />
     <Content Include="Views\Outcome\Confirmation\Test_Kit\Confirmation.cshtml" />
