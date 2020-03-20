@@ -31,21 +31,6 @@
     surveyDataDictionary.Add(new KeyValuePair<string, object>("ServiceCount", 0));
 }
 
-@section SurveyBanner{
-    @Html.Partial("_SurveyLink", Model.SurveyLink, surveyDataDictionary)
-}
-@section FeedbackSection {
-    @if (!SurveyLinkFeature.IsEnabled)
-    {
-        @Html.Partial("_FeedbackDetails", new FeedbackViewModel() { UserId = Model.SessionId.ToString(), PageData = new PageDataViewModel(PageDataViewModel.PageType.Outcome, Model) })
-    }
-    else
-    {
-        @Html.Partial("_SurveyLink", Model.SurveyLink, surveyDataDictionary)
-    }
-}
-
-
 @if (noITKServicesAreAvailable && Model.CurrentPostcode != null)
 {
     <section class="nhsuk-core measure">
@@ -98,7 +83,7 @@ else
         </li>
     </ul>
 
-    <p>It's important that you speak to the nurse. You should get a call within @Html.Raw(Model.WaitTimeText) hours. The 111 service is very busy, so it could take longer than usual.</p>
+    <p>It's important that you speak to the nurse. You should get a call within @Html.Raw(Model.TimeFrameText) hours. The 111 service is very busy, so it could take longer than usual.</p>
 
     
     <div class="callout callout--info callout--lite nhsuk-u-margin-bottom-4">
@@ -111,7 +96,7 @@ else
     </div>
     
     <div class="callout callout--attention nhsuk-u-margin-bottom-4">
-        <p>To protect other people, <b>do not go</b> to a GP, pharmacy or hospital</p>
+        <p>To protect others, <b>do not go</b> to a GP, pharmacy or hospital</p>
     </div>
 
     @using (Html.BeginForm("PersonalDetails", "PersonalDetails", FormMethod.Post))
