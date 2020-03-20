@@ -35,6 +35,12 @@ namespace NHS111.Models.Models.Web
             if (outcome.IsCoronaVirus)
                 subfolder = "Corona/";
 
+            if (OutcomeGroup.Isolate111.Equals(outcome))
+            {
+                if (outcomeResultViewModel.OutcomeModel.DosCheckCapacitySummaryResult.HasITKServices)
+                    return "../Outcome/Corona/ITK_Clinician_call_back"; 
+            }
+
             var viewFilePath = "../Outcome/" + subfolder;
 
             var model = outcomeResultViewModel.OutcomeModel;

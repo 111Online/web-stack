@@ -34,9 +34,9 @@ namespace NHS111.Models.Mappers.WebMappings
                 .ForMember(m => m.PatientReference, opt => opt.Ignore())
                 .ForMember(m => m.ItkDuplicate, opt => opt.Ignore())
                 .ForMember(m => m.ItkSendSuccess, opt => opt.Ignore())
+                .ForMember(m => m.EmailAddress, opt => opt.Ignore())
                 .ForMember(dest => dest.AddressInformation, opt => opt.Ignore())
                 .ForMember(dest => dest.PatientInformantDetails, opt => opt.Ignore());
-
         }
     }
 
@@ -111,7 +111,7 @@ namespace NHS111.Models.Mappers.WebMappings
             patientDetails.Gender = personalDetailViewModel.UserInfo.Demography.Gender;
             var ageGroup = new AgeCategory(personalDetailViewModel.UserInfo.Demography.Age);
             patientDetails.AgeGroup = ageGroup.Value;
-
+            patientDetails.EmailAddress = personalDetailViewModel.UserInfo.EmailAddress;
             patientDetails.Informant = new InformantDetails()
             {
                 Forename = personalDetailViewModel.Informant.Forename,
