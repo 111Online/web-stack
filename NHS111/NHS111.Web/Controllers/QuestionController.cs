@@ -131,7 +131,8 @@ namespace NHS111.Web.Controllers {
 
                     return View("Custom/SymptomsStarted", model);
                 }
-            _auditLogger.LogEvent(model, EventType.SymptomsBeganDate, "Date", symptomsBeganDateModel.Date.ToString());
+            _auditLogger.LogEvent(model, EventType.SymptomsBeganDate, "Date", symptomsBeganDateModel.Date.Value.ToString("s"));
+            ModelState.Clear();
             var nextModel = await GetNextJourneyViewModel(model);
             var viewRouter = _viewRouter.Build(nextModel, ControllerContext);
             return View(viewRouter.ViewName, nextModel);
