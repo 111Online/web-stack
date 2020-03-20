@@ -32,7 +32,7 @@ namespace NHS111.Models.Models.Web.Validators
         public DateTimeInPastValidator() :base()
         {
             RuleFor(p => p.Date.HasValue).Equal(true).WithMessage("Enter a valid date");
-            RuleFor(p => p.Date).LessThan(DateTime.Now).WithMessage("The date must be in the past");
+            RuleFor(p => p.Date).LessThanOrEqualTo(DateTime.Now).WithMessage("The date must not be in the future");
         }
     }
 
