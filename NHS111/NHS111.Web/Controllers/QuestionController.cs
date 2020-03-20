@@ -1,4 +1,6 @@
 ﻿
+using FluentValidation.Validators;
+using NHS111.Models.Models.Web.Validators;
 using NHS111.Utils.RestTools;
 using NHS111.Web.Presentation.Filters;
 
@@ -99,13 +101,42 @@ namespace NHS111.Web.Controllers {
         [MultiSubmit(ButtonName = "Question")]
         public async Task<ActionResult> Question(QuestionViewModel model)
         {
+          
+
             if (!ModelState.IsValidField("SelectedAnswer")) return View("Question", model);
 
+            
+            if (model.NodeType == NodeType.Page && model.Content!=null && model.Content.StartsWith("!CustomView!"))
+                return await HandleCustomQuestion(model); //Refactor into custom Handler Class
             ModelState.Clear();
             var nextModel = await GetNextJourneyViewModel(model);
-
             var viewRouter = _viewRouter.Build(nextModel, ControllerContext);
             return View(viewRouter.ViewName, nextModel);
+        }
+
+        private async Task<ActionResult> HandleCustomQuestion(QuestionViewModel model)
+        {
+            var symptomsBeganDateModel = DateTimeViewModel.Build(
+                Request.Params["SymptomsStart.Day"],
+                Request.Params["SymptomsStart.Month"],
+                Request.Params["SymptomsStart.Year"]);
+                var result = new DateTimeInPastValidator().Validate(symptomsBeganDateModel);
+                
+                if(!result.IsValid)
+                {
+                    foreach (var error in result.Errors)
+                    {
+                        ModelState.AddModelError("SymptomsStart." + error.PropertyName, error.ErrorMessage);
+                    }
+
+                    return View("Custom/SymptomsStarted", model);
+                }
+            _auditLogger.LogEvent(model, EventType.SymptomsBeganDate, symptomsBeganDateModel.Date.Value.ToString("s"), "../Question/Custom/SymptomsStarted");
+            ModelState.Clear();
+            var nextModel = await GetNextJourneyViewModel(model);
+            var viewRouter = _viewRouter.Build(nextModel, ControllerContext);
+            return View(viewRouter.ViewName, nextModel);
+
         }
 
         private JourneyViewModel GetMatchingTestJourney(OutcomeViewModel model) {

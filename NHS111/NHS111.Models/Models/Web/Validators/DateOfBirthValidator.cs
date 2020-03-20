@@ -11,7 +11,7 @@ namespace NHS111.Models.Models.Web.Validators
     {
         private string dependencyElement;
         public DateOfBirthValidator(Expression<Func<TModel, TProperty>> expression)
-            : base("Incorrect Date")
+            : base("Enter a valid date")
         {
             dependencyElement = (expression.Body as MemberExpression).Member.Name;
         }
@@ -20,8 +20,10 @@ namespace NHS111.Models.Models.Web.Validators
         protected override bool IsValid(PropertyValidatorContext context)
         {
             var userInfo = context.Instance as UserInfo;
+            if (userInfo != null) return IsAValidDate(userInfo.Day, userInfo.Month, userInfo.Year);
 
-            return IsAValidDate(userInfo.Day, userInfo.Month, userInfo.Year);
+            var dateTimeViewModel = context.Instance as DateTimeViewModel;
+            return IsAValidDate(dateTimeViewModel.Day, dateTimeViewModel.Month, dateTimeViewModel.Year);
         }
 
         private bool IsAValidDate(int? day, int? month, int? year)

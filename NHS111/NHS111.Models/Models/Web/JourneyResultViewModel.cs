@@ -90,10 +90,15 @@ namespace NHS111.Models.Models.Web
 
     public class PageResultViewModel : JourneyResultViewModel
     {
-        public override string ViewName { get { return "../Question/Page"; } }
-
+        private string _viewName;
+        public override string ViewName { get { return _viewName; } }
+        public PageResultViewModel(JourneyViewModel journeyViewModel, string viewName) : base(journeyViewModel)
+        {
+            _viewName = viewName;
+        }
         public PageResultViewModel(JourneyViewModel journeyViewModel) : base(journeyViewModel)
         {
+            _viewName = "../Question/Page";
         }
     }
 
