@@ -17,23 +17,6 @@
         @tagPrinter.Print(Model.AnalyticsDataLayer)
     </script>
 }
-@{
-    var dataDictionary = ViewContext.ViewData;
-    dataDictionary.Add(new KeyValuePair<string, object>("LaunchPage", "confirmation"));
-}
-@section SurveyBanner{
-    @Html.Partial("_SurveyLink", Model.ItkConfirmationModel.SurveyLink, dataDictionary)
-}
-@section FeedbackSection {
-    @if (SurveyLinkFeature.IsEnabled)
-    {
-        @Html.Partial("_SurveyLink", Model.ItkConfirmationModel.SurveyLink, dataDictionary)
-    }
-    else
-    {
-        @Html.Partial("_FeedbackDetails", new FeedbackViewModel() { UserId = Model.ItkConfirmationModel.SessionId.ToString(), PageData = new PageDataViewModel(PageDataViewModel.PageType.Confirmation, Model.ItkConfirmationModel) })
-    }
-}
 
 <div class="measure nhsuk-core">
     <h1>You should get a call within 2 hours</h1>
