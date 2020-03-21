@@ -16,9 +16,9 @@ namespace NHS111.Web.Controllers
         [Route("COVID-19")]
         [Route("service/COVID-19")]
         //Special route for Covid direct link from other services to tidy up..
-        public ActionResult StartCovidJourney()
+        public ActionResult StartCovidJourney(JourneyViewModel model)
         {
-            return View("AboutCovid");
+            return View("AboutCovid", model);
         }
 
         [HttpGet]
