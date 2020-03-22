@@ -1,0 +1,67 @@
+﻿﻿@using System.Web.Mvc.Html
+@using NHS111.Models.Models.Domain
+@using NHS111.Models.Models.Web
+@using NHS111.Models.Models.Web.Elements
+@using NHS111.Web.Presentation.Analytics
+@inherits NHS111.Web.Views.Shared.SurveyLinkView<ReferralConfirmationResultViewModel>
+@{
+    Layout = "~/Views/Shared/_LayoutNhsUk.cshtml";
+    Model.ItkConfirmationModel.WorseningCareAdvice.Items.Add(new CareAdviceText { Text = "You don't need to send any further requests for a callback. However, if you feel worse whilst you are waiting, please call 111 now." });
+    var tagPrinter = new AnalyticsTagPrinter();
+}
+@section Title {
+    @Model.PageTitle
+}
+@section HeadTop {
+    <script>
+        @tagPrinter.Print(Model.AnalyticsDataLayer)
+    </script>
+}
+
+<div class="measure nhsuk-core">
+    <h1>You should get a call within 2 hours</h1>
+
+    <p>It was booked at @DateTime.Now.ToString("HH:mm").</p>
+
+    <p>The COVID clinical response service will call @Model.ItkConfirmationModel.UserInfo.TelephoneNumber. The number may show as ‘unknown’ on your display.</p>
+
+    <div class="callout callout--info measure">
+        <p>You need to stay away from other people.</p>
+        <p>
+            <a href="https://www.nhs.uk/conditions/coronavirus-covid-19/self-isolation-advice/" target="_blank" data-event-trigger="click" data-event-value="NHS.UK Self Isolation Advice Link">
+                Read more stay at home advice on NHS.UK
+            </a>
+        </p>
+    </div>
+
+    <br />
+
+    @Html.Partial("_LinkSummary", new LinkSummaryViewModel
+    {
+        Link = "Why does it take so long?",
+        Summary = "<p>The COVID clinical response service is very busy at the moment. The most seriously ill people are called back first. You are in a queue and you will be called as soon as possible.</p>"
+    })
+
+    @Html.Partial("_LinkSummary", new LinkSummaryViewModel
+    {
+        Link = "What if I don't get a call back within 2 hours?",
+        Summary = "<p>If you don’t hear back in 2 hours, use the service again to book another call.</p>"
+    })
+
+    @Html.Partial("_LinkSummary", new LinkSummaryViewModel
+    {
+        Link = "What if I miss the call?",
+        Summary = "<p>The COVID clinical response service will try to call up to 3 times. They will leave a message to say they have tried to call you, but you won’t be able to return their call. If you miss all of the calls, you need to start again using the online service.</p>"
+    })
+
+    @Html.Partial("_LinkSummary", new LinkSummaryViewModel
+    {
+        Link = "What if I feel worse while I am waiting?",
+        Summary = "<p>If you don’t get a call within 2 hours and you start to feel worse, call 999 and tell them you have coronavirus symptoms.</p>"
+    })
+
+    <hr class="nhsuk-u-margin-top-6 nhsuk-u-margin-bottom-6" />
+
+    @Html.Partial("_GetIsolationNote")
+
+</div>
