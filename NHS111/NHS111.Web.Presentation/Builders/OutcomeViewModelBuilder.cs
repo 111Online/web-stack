@@ -78,7 +78,15 @@ namespace NHS111.Web.Presentation.Builders
 
             Task<SymptomDiscriminator> discriminatorTask = null;
             Task<string> symptomGroupTask = null;
-            if (OutcomeGroup.ClinicianCallBack.Equals(model.OutcomeGroup))
+            if (model.OutcomeGroup.IsCoronaVirusCallback)
+            {
+                //hard code SD and SG codes for covidpathway
+                //TODO: Fix this in Pathways and remove this hack
+
+                model.SymptomDiscriminatorCode = "8001";
+                model.SymptomGroup = "8000";
+            }
+            else if (OutcomeGroup.ClinicianCallBack.Equals(model.OutcomeGroup))
             {
                 //hard code SD and SG codes to fix DOS for Yorkshire region
                 //TODO: Fix this in DOS and remove this hack
