@@ -19,9 +19,12 @@ namespace NHS111.Models.Models.Web.Validators
         protected override bool IsValid(PropertyValidatorContext context)
         {
             var userInfo = context.Instance as UserInfo;
+            if (userInfo != null) return IsAValidDay(userInfo.Day);
 
-            return IsAValidDay(userInfo.Day);
+            var dateTimeViewModel = context.Instance as DateTimeViewModel;
+            return IsAValidDay(dateTimeViewModel.Day);
         }
+  
 
         private bool IsAValidDay(int? day)
         {
