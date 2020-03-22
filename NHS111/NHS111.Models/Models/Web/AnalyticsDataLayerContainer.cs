@@ -96,6 +96,17 @@ namespace NHS111.Models.Models.Web {
         private readonly OnlineDOSServiceType _serviceType;
     }
 
+    public class Coronavirus111CallbackReferralConfirmationAnalyticsDataLayer
+        : ReferralConfirmationResultAnalyticsDataLayer
+    {
+
+        public Coronavirus111CallbackReferralConfirmationAnalyticsDataLayer(ReferralResultViewModel viewModel)
+            : base(viewModel)
+        {
+            this[VirtualPageTitleKey] = string.Format("Coronavirus 111 Callback {0} ITK Confirmation - Success", viewModel.ItkConfirmationModel.SelectedService.OnlineDOSServiceType.Id);
+        }
+    }
+
     public class ReferralFailureResultAnalyticsDataLayer
         : ReferralResultAnalyticsDataLayer {
 
@@ -113,6 +124,15 @@ namespace NHS111.Models.Models.Web {
         protected override string VirtualPageTitle { get { return "A&E ITK Confirmation - Failure"; } }
 
         public AccidentAndEmergencyReferralFailureAnalyticsDataLayer(ReferralResultViewModel viewModel)
+            : base(viewModel) { }
+    }
+
+    public class Coronavirus111CallbackReferralFailureAnalyticsDataLayer
+        : ReferralFailureResultAnalyticsDataLayer {
+
+        protected override string VirtualPageTitle { get { return "Coronavirus 111 Callback - Failure"; } }
+
+        public Coronavirus111CallbackReferralFailureAnalyticsDataLayer(ReferralResultViewModel viewModel)
             : base(viewModel) { }
     }
 
@@ -213,5 +233,12 @@ namespace NHS111.Models.Models.Web {
         protected override string VirtualPageTitle { get { return "Test Kit Confirmation - Unavailable"; } }
 
         public TestKitServiceUnavailableReferralAnalyticsDataLayer(ReferralResultViewModel viewModel) : base(viewModel) { }
+    }
+
+    public class Coronavirus111CallbackServiceUnavailableReferralAnalyticsDataLayer : ServiceUnavailableReferralAnalyticsDataLayer
+    {
+        protected override string VirtualPageTitle { get { return "Coronavirus 111 Callback - Unavailable"; } }
+
+        public Coronavirus111CallbackServiceUnavailableReferralAnalyticsDataLayer(ReferralResultViewModel viewModel) : base(viewModel) { }
     }
 }

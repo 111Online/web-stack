@@ -481,8 +481,16 @@
     <Content Include="Views\Outcome\Confirmation\Test_Kit\ServiceUnavailable.cshtml" />
     <Content Include="Views\Home\AboutCovid.cshtml" />
     <Content Include="Views\Outcome\Corona\Isolate_999.cshtml" />
+    <Content Include="Views\Outcome\Corona\ITK_Clinician_call_back.cshtml" />
+    <Content Include="Views\PersonalDetails\CollectEmailAddress.cshtml" />
+    <Content Include="Views\Shared\_CommonHiddenFieldsEmailAddress.cshtml" />
+    <Content Include="Views\Outcome\Confirmation\Isolate_111\Confirmation.cshtml" />
+    <Content Include="Views\Outcome\Confirmation\Isolate_111\ServiceBookingFailure.cshtml" />
+    <Content Include="Views\Outcome\Confirmation\Isolate_111\ServiceUnavailable.cshtml" />
     <Content Include="Views\Shared\_GetIsolationNote.cshtml" />
     <Content Include="Views\Question\Custom\SymptomsStarted.cshtml" />
+    <Content Include="Views\Shared\_Coronavirus111CallbackReferralConfirmation.cshtml" />
+    <Content Include="Views\Shared\_LinkSummary.cshtml" />
     <None Include="Web.Development.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
