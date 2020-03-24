@@ -142,15 +142,15 @@
             }
             @if (Model.QuestionType == QuestionType.String)
             {
-                @Html.TextBoxFor(m => m.SelectedAnswer, new { });
+                @Html.TextBoxFor(m => m.AnswerInputValue, new { });
             }
             @if (Model.QuestionType == QuestionType.Text)
             {
-                @Html.TextAreaFor(m => m.SelectedAnswer, new { @Value = "", @class = "feedback__input" })
+                @Html.TextAreaFor(m => m.AnswerInputValue, new { @Value = "", @class = "feedback__input" })
             }
             @if (Model.QuestionType == QuestionType.Integer)
             {
-                @Html.TextBoxFor(m => m.SelectedAnswer, new { @Value = "", @class = "feedback__input" })
+                @Html.TextBoxFor(m => m.AnswerInputValue, new { @Value = "", @class = "feedback__input" })
             }
             @if (Model.QuestionType == QuestionType.Boolean)
             {
