@@ -20,12 +20,15 @@ namespace NHS111.Utils.Helpers
         {
             get
             {
+                if (_request.Browser == null)
+                    return "N/A";
+
                 var deviceType = _request.Browser.IsMobileDevice ? "Mobile" : "Desktop";
 
                 // IsMobileDevice doesn't help with Tablet (considered mobile) so this tries to
                 // figure out if its a tablet. Won't be 100% accurate as there is such variety of devices.
-                if ((_request.UserAgent.Contains("Android") && !_request.UserAgent.Contains("Mobile"))
-                    || _request.UserAgent.Contains("iPad"))
+                if (_request.UserAgent != null && ((_request.UserAgent.Contains("Android") && !_request.UserAgent.Contains("Mobile"))
+                    || _request.UserAgent.Contains("iPad")))
                 {
                     deviceType = "Tablet";
                 }
@@ -36,7 +39,10 @@ namespace NHS111.Utils.Helpers
 
         public override string Browser
         {
-            get { 
+            get {
+                if (_request.Browser == null || _request.UserAgent == null)
+                    return "N/A";
+
                 var browserCapabilities = _request.Browser;
 
                 // Without this it returns Chrome for Samsung Internet
@@ -71,6 +77,9 @@ namespace NHS111.Utils.Helpers
         {
             get
             {
+                if (_request.Browser == null || _request.UserAgent == null)
+                    return "N/A";
+
                 var version = _request.Browser.MajorVersion.ToString();
                 
                 
@@ -106,6 +115,9 @@ namespace NHS111.Utils.Helpers
         {
             get
             {
+                if (_request.Browser == null || _request.UserAgent == null)
+                    return "N/A";
+
                 // Windows 10 (and others?) present as WinNT
                 // this changes it to Windows so it makes more sense when reading the data.
                 if (_request.Browser.Platform == "WinNT")
