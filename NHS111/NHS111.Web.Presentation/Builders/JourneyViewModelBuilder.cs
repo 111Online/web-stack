@@ -45,6 +45,11 @@ namespace NHS111.Web.Presentation.Builders
             switch (journeyViewModel.NodeType)
             {
                 case NodeType.Outcome:
+                    if (journeyViewModel.OutcomeGroup.Id.Equals("111_Search_Jump"))
+                    {
+                        return _mappingEngine.Mapper.Map<SearchJourneyViewModel>(journeyViewModel);
+                    }
+
                     var outcome = _mappingEngine.Mapper.Map<OutcomeViewModel>(journeyViewModel);
                     var postcodeValidatorRepsonse = _postCodeAllowedValidator.IsAllowedPostcode(outcome.CurrentPostcode);
                     outcome.UserInfo.CurrentAddress.IsInPilotArea = postcodeValidatorRepsonse.IsInPilotAreaForOutcome(model.OutcomeGroup);

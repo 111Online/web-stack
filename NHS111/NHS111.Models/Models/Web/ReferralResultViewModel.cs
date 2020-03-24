@@ -1,15 +1,9 @@
-﻿
-using NHS111.Models.Models.Web;
-using NHS111.Models.Models.Web.FromExternalServices;
-
-namespace NHS111.Models.Models.Web {
+﻿namespace NHS111.Models.Models.Web {
 
     public abstract class BaseViewModel {
         public abstract string PageTitle { get; }
         public AnalyticsDataLayerContainer AnalyticsDataLayer { get; set; }
     }
-
-
 
     public abstract class ReferralResultViewModel : BaseViewModel
     {
@@ -33,16 +27,20 @@ namespace NHS111.Models.Models.Web {
         {
             //todo:this needs a rethink with a combination of service type / outcome to route to correct page
 
-            if (outcomeModel != null
-                && outcomeModel.OutcomeGroup != null
-                && (outcomeModel.OutcomeGroup.Equals(Domain.OutcomeGroup.RepeatPrescription) ||
-                    outcomeModel.OutcomeGroup.Equals(Domain.OutcomeGroup.TestKit)))
+            if (OutcomeGroupIsRepeatPrescriptionOrIsolate111(outcomeModel))
             {
                 return outcomeModel.OutcomeGroup.Id;
             }
 
-
             return "default";
+        }
+
+        private static bool OutcomeGroupIsRepeatPrescriptionOrIsolate111(OutcomeViewModel outcomeModel)
+        {
+            return outcomeModel != null
+                   && outcomeModel.OutcomeGroup != null
+                   && (outcomeModel.OutcomeGroup.Equals(Domain.OutcomeGroup.RepeatPrescription) 
+                       || outcomeModel.OutcomeGroup.Equals(Domain.OutcomeGroup.Isolate111));
         }
     }
 
@@ -105,6 +103,17 @@ namespace NHS111.Models.Models.Web {
         }
     }
 
+    public class Coronavirus111CallbackReferralConfirmationResultsViewModel
+        : ReferralConfirmationResultViewModel
+    {
+
+        public Coronavirus111CallbackReferralConfirmationResultsViewModel(ITKConfirmationViewModel itkConfirmationViewModel)
+            : base(itkConfirmationViewModel)
+        {
+            AnalyticsDataLayer = new Coronavirus111CallbackReferralConfirmationAnalyticsDataLayer(this);
+        }
+    }
+
     public class ReferralFailureResultViewModel
         : ReferralResultViewModel
     {
@@ -125,6 +134,18 @@ namespace NHS111.Models.Models.Web {
         public AccidentAndEmergencyReferralFailureResultViewModel(ITKConfirmationViewModel itkConfirmationViewModel)
             : base(itkConfirmationViewModel) {
             AnalyticsDataLayer = new AccidentAndEmergencyReferralFailureAnalyticsDataLayer(this);
+        }
+    }
+
+    public class Coronavirus111CallbackReferralFailureResultViewModel
+        : ReferralFailureResultViewModel
+    {
+        public override string PartialViewName { get { return "_ReferralConfirmation"; } }
+
+        public Coronavirus111CallbackReferralFailureResultViewModel(ITKConfirmationViewModel itkConfirmationViewModel)
+            : base(itkConfirmationViewModel)
+        {
+            AnalyticsDataLayer = new Coronavirus111CallbackReferralFailureAnalyticsDataLayer(this);
         }
     }
 
@@ -256,6 +277,17 @@ namespace NHS111.Models.Models.Web {
         public TestKitServiceUnavailableReferralResultViewModel(PersonalDetailViewModel outcomeViewModel) : base(outcomeViewModel)
         {
             AnalyticsDataLayer = new TestKitServiceUnavailableReferralAnalyticsDataLayer(this);
+        }
+    }
+
+    public class Coronavirus111CallbackUnavailableReferralResultViewModel : ServiceUnavailableReferralResultViewModel
+    {
+        public override string PartialViewName { get { return "ServiceUnavailable"; } }
+        public override string ViewName { get { return string.Format("Confirmation/{0}/ServiceUnavailable", ResolveConfirmationViewByOutcome(this.OutcomeModel)); } }
+
+        public Coronavirus111CallbackUnavailableReferralResultViewModel(PersonalDetailViewModel outcomeViewModel) : base(outcomeViewModel)
+        {
+            AnalyticsDataLayer = new Coronavirus111CallbackServiceUnavailableReferralAnalyticsDataLayer(this);
         }
     }
 }

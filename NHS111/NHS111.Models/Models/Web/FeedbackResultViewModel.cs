@@ -15,11 +15,11 @@ namespace NHS111.Models.Models.Web
             Feedback = feedback;
         }
 
-        protected string ResolveMessageByPathway(string pathwayNo)
+        protected string ResolveMessageByPathway(bool displayShortenedMessage)
         {
-            return !string.IsNullOrEmpty(pathwayNo) && pathwayNo.ToLower().Equals("pwcorona") ?
+            return displayShortenedMessage ?
                 @"<p>Thanks for your help in improving this service.</p><p>We cannot pass your comments to any other part of the NHS.</p><p>Call 111 if you need medical help.</p>" :
-                @"<p>Thank you.</p><p>We cannot reply to any comments or pass them on to other NHS services.</p><p>To get medical help you should carry on answering the questions or call 111.</p> <p>If you'd like to give more feedback about using 111 online, there's a survey at the end of the questions.</p>"; ;
+                @"<p>Thanks for your help in improving this service.</p><p>We cannot pass your comments to any other part of the NHS.</p><p>Call 111 if you need medical help.</p> <p>If you'd like to give more feedback about using 111 online, there's a survey at the end of the questions.</p>"; ;
         }
 
         public abstract string Message { get; }
@@ -33,7 +33,7 @@ namespace NHS111.Models.Models.Web
             WasSuccessful = true;
         }
 
-        public override string Message { get { return ResolveMessageByPathway(this.Feedback.PageData.StartingPathwayNo); } }
+        public override string Message { get { return ResolveMessageByPathway(this.Feedback.PageData.IsCoronaJourney); } }
 
     }
 

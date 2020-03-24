@@ -38,17 +38,17 @@ namespace NHS111.Models.Mappers.WebMappings
                 .ForMember(dest => dest.Code, opt => opt.MapFrom(src => src.Code));
         }
 
-        private static string GetPartialPostcode(string postcode)
+        public static string GetPartialPostcode(string postcode)
         {
             if (string.IsNullOrEmpty(postcode)) return postcode;
 
-            postcode = postcode.Replace(" ", "");
-            var lastDigit = postcode.LastIndexOfAny(Digits);
+            var postcodeWithoutWhitespace = postcode.Replace(" ", "");
+            var lastDigit = postcodeWithoutWhitespace.LastIndexOfAny(Digits);
             if (lastDigit == -1)
             {
                 throw new ArgumentException("No digits!");
             }
-            return (lastDigit < postcode.Length - 1) ? postcode.Substring(0, lastDigit) : postcode;
+            return (lastDigit < postcodeWithoutWhitespace.Length - 1) ? postcodeWithoutWhitespace.Substring(0, lastDigit) : postcodeWithoutWhitespace;
         }
     }
 }

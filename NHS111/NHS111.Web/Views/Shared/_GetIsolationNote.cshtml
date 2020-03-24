@@ -1,0 +1,14 @@
+﻿@using NHS111.Models.Models.Web.Elements
+<h2 class="nhsuk-heading-l">
+    Get an isolation note to give to your employer
+</h2>
+<p>
+    You can send an isolation note to your employer as proof you need to stay
+    off work because of coronavirus.
+</p>
+<p>
+    You do not need to get a note from a GP.
+</p>
+<p>
+    @Html.Partial("_ActionLink", new ActionLinkViewModel { Text = "Get an isolation note", Url = "https://111.nhs.uk/isolation-note", EventTrigger = "click", EventValue = "NHS.UK Isolation Note link" })
+</p>

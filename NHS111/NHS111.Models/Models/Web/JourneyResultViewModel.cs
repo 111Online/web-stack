@@ -35,6 +35,12 @@ namespace NHS111.Models.Models.Web
             if (outcome.IsCoronaVirus)
                 subfolder = "Corona/";
 
+            if (OutcomeGroup.Isolate111.Equals(outcome))
+            {
+                if (outcomeResultViewModel.OutcomeModel.DosCheckCapacitySummaryResult.HasITKServices)
+                    return "../Outcome/Corona/ITK_Clinician_call_back"; 
+            }
+
             var viewFilePath = "../Outcome/" + subfolder;
 
             var model = outcomeResultViewModel.OutcomeModel;
@@ -62,6 +68,7 @@ namespace NHS111.Models.Models.Web
                 if (!model.DosCheckCapacitySummaryResult.IsValidationRequery && model.DosCheckCapacitySummaryResult.HasITKServices && !model.HasAcceptedCallbackOffer.HasValue)
                     return "../Outcome/SP_Accident_and_emergency_callback";
             }
+
             return viewFilePath;
         }
     }
@@ -89,10 +96,15 @@ namespace NHS111.Models.Models.Web
 
     public class PageResultViewModel : JourneyResultViewModel
     {
-        public override string ViewName { get { return "../Question/Page"; } }
-
+        private string _viewName;
+        public override string ViewName { get { return _viewName; } }
+        public PageResultViewModel(JourneyViewModel journeyViewModel, string viewName) : base(journeyViewModel)
+        {
+            _viewName = viewName;
+        }
         public PageResultViewModel(JourneyViewModel journeyViewModel) : base(journeyViewModel)
         {
+            _viewName = "../Question/Page";
         }
     }
 
@@ -119,6 +131,17 @@ namespace NHS111.Models.Models.Web
         public override string ViewName { get { return "../Outcome/DeadEndJump"; } }
 
         public DeadEndJumpResultViewModel(JourneyViewModel journeyViewModel) : base(journeyViewModel)
+        {
+        }
+    }
+
+    
+
+    public class SearchJumpViewModel : JourneyResultViewModel
+    {
+        public override string ViewName { get { return "../Search/Search"; } }
+
+        public SearchJumpViewModel(JourneyViewModel journeyViewModel) : base(journeyViewModel)
         {
         }
     }

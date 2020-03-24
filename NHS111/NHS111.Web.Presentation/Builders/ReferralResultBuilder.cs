@@ -53,6 +53,8 @@ namespace NHS111.Web.Presentation.Builders
 
                 if (itkConfirmationViewModel.OutcomeGroup.IsEDCallback)
                     return new AccidentAndEmergencyReferralFailureResultViewModel(itkConfirmationViewModel);
+                if (itkConfirmationViewModel.OutcomeGroup.IsCoronaVirusCallback)
+                    return new Coronavirus111CallbackReferralFailureResultViewModel(itkConfirmationViewModel);
             }
 
             return new ReferralFailureResultViewModel(itkConfirmationViewModel);
@@ -86,12 +88,12 @@ namespace NHS111.Web.Presentation.Builders
             if (itkConfirmationViewModel.OutcomeGroup != null) {
                 if (itkConfirmationViewModel.OutcomeGroup.Is999NonUrgent)
                     return new Call999ReferralConfirmationResultViewModel(itkConfirmationViewModel);
-
                 if (itkConfirmationViewModel.OutcomeGroup.IsEDCallback)
                     return new AccidentAndEmergencyReferralConfirmationResultViewModel(itkConfirmationViewModel);
-
                 if (itkConfirmationViewModel.OutcomeGroup.IsPharmacyGroup)
                     return new EmergencyPrescriptionReferralConfirmationResultsViewModel(itkConfirmationViewModel);
+                if (itkConfirmationViewModel.OutcomeGroup.IsCoronaVirusCallback)
+                    return new Coronavirus111CallbackReferralConfirmationResultsViewModel(itkConfirmationViewModel);
             }
 
             return new ReferralConfirmationResultViewModel(itkConfirmationViewModel);
@@ -109,8 +111,8 @@ namespace NHS111.Web.Presentation.Builders
                     result = new AccidentAndEmergencyServiceUnavailableReferralResultViewModel(outcomeViewModel);
                 if (outcomeViewModel.OutcomeGroup.IsPharmacyGroup)
                     result = new EmergencyPrescriptionServiceUnavailableReferralResultViewModel(outcomeViewModel);
-                if (outcomeViewModel.OutcomeGroup.IsCoronaVirus)
-                    result = new TestKitServiceUnavailableReferralResultViewModel(outcomeViewModel);
+                if (outcomeViewModel.OutcomeGroup.IsCoronaVirusCallback)
+                    result = new Coronavirus111CallbackUnavailableReferralResultViewModel(outcomeViewModel);
             }
 
             result.OutcomeModel = outcomeViewModel;

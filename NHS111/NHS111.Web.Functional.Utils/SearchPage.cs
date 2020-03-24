@@ -16,7 +16,7 @@ namespace NHS111.Web.Functional.Utils
         private const string _categoriesLinkText = "topics by category.";
         public string InvalidSearchText
         {
-            get { return "a"; }
+            get { return string.Empty; }
         }
         public const string _errorSearchText = "<a>";
 
