@@ -75,6 +75,10 @@ namespace NHS111.Models.Models.Domain {
         public static OutcomeGroup Isolate_999 = new OutcomeGroup { Id = "Isolate_999", Text = "Isolate_999", DefaultTitle = "Isolate yourself at home", Label = "Call 999", PostcodeFirst = false, ITK = false };
         #endregion
 
+        #region Send SMS outcomes
+        public static OutcomeGroup Send_SMS = new OutcomeGroup { Id = "Send_SMS", Text = "Send_SMS", DefaultTitle = "Send sms service", Label = "No further action", PostcodeFirst = false, ITK = false, RequiresEmail = false };
+        #endregion
+
         public static OutcomeGroup[] PrePopulatedDosResultsOutcomeGroups = new OutcomeGroup[] {Dental, ItkPrimaryCare, GP, MentalHealth, AccidentAndEmergency, ClinicianCallBack, Call999Cat3, Call999Cat4, RepeatPrescription, Isolate111 };
         public static OutcomeGroup[] DosSearchOutcomesGroups = new OutcomeGroup[] { MentalHealth, AccidentAndEmergency, AccidentAndEmergencySexualAssault, Optician, Pharmacy, GumClinic, Dental, EmergencyDental, Midwife, ItkPrimaryCare, ClinicianCallBack };
         public static OutcomeGroup[] UsingRecommendedServiceJourney = new[] { RepeatPrescription };
@@ -107,9 +111,13 @@ namespace NHS111.Models.Models.Domain {
         #region Corona virus specific outcomes
             { Isolate111.Id, Isolate111 },
             { Isolate_SelfCare.Id, Isolate_SelfCare },
-            { Isolate_999.Id, Isolate_999 }
-        #endregion
-    };
+            { Isolate_999.Id, Isolate_999 },
+            #endregion
+
+            #region Sebd SMS outcomes
+            { Send_SMS.Id, Send_SMS }
+            #endregion
+        };
 
         public override bool Equals(object obj) {
             var outcomeGroup = obj as OutcomeGroup;
@@ -180,6 +188,14 @@ namespace NHS111.Models.Models.Domain {
             get
             {
                 return Equals(Isolate111) || Equals(Isolate_SelfCare) || Equals(Isolate_999);
+            }
+        }
+
+        public bool IsSendSMS
+        {
+            get
+            {
+                return Equals(Send_SMS);
             }
         }
 
