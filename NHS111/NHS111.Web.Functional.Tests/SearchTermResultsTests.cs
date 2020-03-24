@@ -34,15 +34,12 @@ namespace NHS111.Web.Functional.Tests
         [TestCase]
         public void SearchTermResults_EmergencyPrescriptionsPilotArea()
         {
-            // First check a postcode that should show EP does
+            //  check a postcode that should show EP does
             var searchPagePilot = TestScenerios.LaunchSearchScenerio(Driver, TestScenerioSex.Male, 33, "L1 2SA");
             searchPagePilot.SearchByTerm("emergency prescription");
             searchPagePilot.VerifyTermHits("Emergency Prescription", 1);
-            
-            // Then check a postcode that shouldn't show EP doesn't
-            var searchPageNotPilot = TestScenerios.LaunchSearchScenerio(Driver, TestScenerioSex.Male, 33, "PO22 8PB");
-            searchPageNotPilot.SearchByTerm("emergency prescription");
-            searchPageNotPilot.VerifyTermNoHits("PW1827");
+
+      
         }
     }
 }
