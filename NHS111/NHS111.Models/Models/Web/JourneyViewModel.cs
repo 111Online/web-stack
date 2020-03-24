@@ -32,6 +32,7 @@ namespace NHS111.Models.Models.Web
         public string EntrySearchTerm { get; set; }
         public string TriggerQuestionNo { get; set; }
         public string TriggerQuestionAnswer { get; set; }
+        public QuestionType QuestionType { get; set; }
 
         private string _title;
         public string Title

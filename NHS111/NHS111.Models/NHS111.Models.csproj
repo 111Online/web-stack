@@ -212,6 +212,7 @@
     <Compile Include="Models\Domain\OutcomeGroup.cs" />
     <Compile Include="Models\Domain\PathwayMetaData.cs" />
     <Compile Include="Models\Domain\PathwayWithDescription.cs" />
+    <Compile Include="Models\Domain\QuestionType.cs" />
     <Compile Include="Models\Domain\SymptomDiscriminator.cs" />
     <Compile Include="Models\Domain\VersionInfo.cs" />
     <Compile Include="Models\Web\AgeGenderViewModel.cs" />
