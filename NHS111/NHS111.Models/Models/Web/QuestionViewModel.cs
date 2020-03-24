@@ -15,7 +15,6 @@ namespace NHS111.Models.Models.Web
     public class QuestionViewModel : JourneyViewModel
     {
         public string SelectedAnswer { get; set; }
-
         public JourneyStep ToStep()
         {
             var answer = JsonConvert.DeserializeObject<Answer>(SelectedAnswer);
