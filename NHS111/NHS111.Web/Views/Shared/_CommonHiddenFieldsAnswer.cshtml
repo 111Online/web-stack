@@ -1,0 +1,23 @@
+﻿@using NHS111.Models.Models.Domain
+@using NHS111.Models.Models.Web.Elements
+@model List<Answer>
+@for (var i = 0; i < Model.Count; i++)
+{
+    var answer = Model[i];
+               
+    @Html.Hidden(string.Format("Answers[{0}].Title", i), answer.Title)
+    @Html.Hidden(string.Format("Answers[{0}].TitleWithoutSpaces", i), answer.TitleWithoutSpaces)
+    @Html.Hidden(string.Format("Answers[{0}].SymptomDiscriminator", i), answer.SymptomDiscriminator)
+    @Html.Hidden(string.Format("Answers[{0}].SupportingInformation", i), answer.SupportingInformation)
+    @Html.Hidden(string.Format("Answers[{0}].Keywords", i), answer.Keywords)
+    @Html.Hidden(string.Format("Answers[{0}].ExcludeKeywords", i), answer.ExcludeKeywords)
+    @Html.Hidden(string.Format("Answers[{0}].ReportText", i), answer.ReportText)
+    @Html.Hidden(string.Format("Answers[{0}].DispositionDisplayText", i), answer.DispositionDisplayText)
+    @Html.Hidden(string.Format("Answers[{0}].Order", i), answer.Order)
+    @Html.Hidden(string.Format("Answers[{0}].IsPositive", i), answer.IsPositive)
+    if (!String.IsNullOrWhiteSpace(answer.SupportingInformation))
+    {
+        @Html.Partial("_HiddenText", new HiddenTextViewModel() { Summary = "What does this mean?", Details = new[] { Html.Encode(@Html.Raw(answer.SupportingInformationHtml)) } })
+    }
+
+}
