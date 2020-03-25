@@ -104,7 +104,8 @@ namespace NHS111.Web.Controllers {
           
 
             if (!ModelState.IsValidField("SelectedAnswer") || 
-                !ModelState.IsValidField("AnswerInputValue"))
+                !ModelState.IsValidField("AnswerInputValue") ||
+                !ModelState.IsValidField("DateAnswer"))
                     return View("Question", model);
 
             

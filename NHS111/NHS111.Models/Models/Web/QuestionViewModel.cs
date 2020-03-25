@@ -16,6 +16,8 @@ namespace NHS111.Models.Models.Web
     {
         public string AnswerInputValue { get; set; }
         public string SelectedAnswer { get; set; }
+
+        public DateTimeViewModel DateAnswer { get; set; }
         public JourneyStep ToStep()
         {
             var answer = JsonConvert.DeserializeObject<Answer>(SelectedAnswer);
@@ -27,7 +29,7 @@ namespace NHS111.Models.Models.Web
                 QuestionId = Id,
                 State = StateJson,
                 NodeType = NodeType,
-                AnswerInputValue = this.AnswerInputValue
+                AnswerInputValue = (this.QuestionType != QuestionType.Date) ? this.AnswerInputValue : this.DateAnswer.Date.Value.ToString("s")
             };
         }
     }
