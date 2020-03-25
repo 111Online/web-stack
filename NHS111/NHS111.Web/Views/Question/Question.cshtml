@@ -109,27 +109,27 @@
             {
 
                 for (var i = 0; i < Model.OrderedAnswers().Count; i++)
-                 {
-                     var answer = Model.OrderedAnswers()[i];
-                     var isTrigger = Model.QuestionNo == Model.TriggerQuestionNo && answer.Title == Model.TriggerQuestionAnswer;
-                     <div class="multiple-choice">
-                         <input name="SelectedAnswer" data-val="true" data-val-required="'SelectedAnswer' should not be empty." type="radio" class="multiple-choice__input" id="@answer.TitleWithoutSpaces" value="@Newtonsoft.Json.JsonConvert.SerializeObject(answer)" checked="@isTrigger"/>
-                         <label for="@answer.TitleWithoutSpaces" class="multiple-choice--radio">
-                             @if (isTrigger)
-                             {
-                                 @answer.Title<span class="highlight-term">&mdash; this means we can't rule out a serious condition</span>
-                             }
-                             else
-                             {
-                                 @answer.Title
-                             }
-                         </label>
-                         @if (!String.IsNullOrWhiteSpace(answer.SupportingInformation))
-                         {
-                             @Html.Partial("_HiddenText", new HiddenTextViewModel() {Summary = "What does this mean?", Details = new[] {Html.Encode(@Html.Raw(answer.SupportingInformationHtml))}})
-                         }
-                     </div>
-                 }
+                {
+                    var answer = Model.OrderedAnswers()[i];
+                    var isTrigger = Model.QuestionNo == Model.TriggerQuestionNo && answer.Title == Model.TriggerQuestionAnswer;
+                    <div class="multiple-choice">
+                        <input name="SelectedAnswer" data-val="true" data-val-required="'SelectedAnswer' should not be empty." type="radio" class="multiple-choice__input" id="@answer.TitleWithoutSpaces" value="@Newtonsoft.Json.JsonConvert.SerializeObject(answer)" checked="@isTrigger" />
+                        <label for="@answer.TitleWithoutSpaces" class="multiple-choice--radio">
+                            @if (isTrigger)
+                            {
+                                @answer.Title<span class="highlight-term">&mdash; this means we can't rule out a serious condition</span>
+                            }
+                            else
+                            {
+                                @answer.Title
+                            }
+                        </label>
+                        @if (!String.IsNullOrWhiteSpace(answer.SupportingInformation))
+                        {
+                            @Html.Partial("_HiddenText", new HiddenTextViewModel() { Summary = "What does this mean?", Details = new[] { Html.Encode(@Html.Raw(answer.SupportingInformationHtml)) } })
+                        }
+                    </div>
+                }
             }
             @if (Model.QuestionType == QuestionType.String)
             {
@@ -163,19 +163,19 @@
             }
             @if (Model.QuestionType == QuestionType.Date)
             {
-
+                @Html.ValidationMessageFor(m => m.DateAnswer.Date, "Please give a valid date", new { @class = "error-message" })
                 <div>
                     <div class="form-group--inline">
-                        <label for="@Html.IdFor(m => m.UserInfo.Day)">Day</label>
-                        @Html.TextBox("Date.Day", "", new { @class = "form-control form-textbox", placeholder = "DD", inputmode = "numeric", pattern = "[0-9]+", maxlength = "2" })
+                        <label for="@Html.IdFor(m => m.DateAnswer.Day)">Day</label>
+                        @Html.TextBoxFor(m => m.DateAnswer.Day, "", new { @class = "form-control form-textbox", placeholder = "DD", inputmode = "numeric", pattern = "[0-9]+", maxlength = "2" })
                     </div>
                     <div class="form-group--inline">
-                        <label for="@Html.IdFor(m => m.UserInfo.Month)">Month</label>
-                        @Html.TextBox("Date.Month", "", new { @class = "form-control form-textbox", placeholder = "MM", inputmode = "numeric", pattern = "[0-9]+", maxlength = "2" })
+                        <label for="@Html.IdFor(m => m.DateAnswer.Month)">Month</label>
+                        @Html.TextBoxFor(m => m.DateAnswer.Month, "", new { @class = "form-control form-textbox", placeholder = "MM", inputmode = "numeric", pattern = "[0-9]+", maxlength = "2" })
                     </div>
                     <div class="form-group--inline">
-                        <label for="@Html.IdFor(m => m.UserInfo.Year)">Year</label>
-                        @Html.TextBox("Date.Year", "", new { @class = "form-control form-textbox", placeholder = "YYYY", inputmode = "numeric", pattern = "[0-9]+", maxlength = "4" })
+                        <label for="@Html.IdFor(m => m.DateAnswer.Year)">Year</label>
+                        @Html.TextBoxFor(m => m.DateAnswer.Year, "", new { @class = "form-control form-textbox", placeholder = "YYYY", inputmode = "numeric", pattern = "[0-9]+", maxlength = "4" })
                     </div>
                 </div>
             }
