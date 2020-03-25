@@ -13,7 +13,8 @@ namespace NHS111.Models.Models.Domain
         Integer = 4,
         String = 8,
         Text = 9,
-        Choice = 11
+        Choice = 11,
+        Telephone = 17
     }
 
 }
