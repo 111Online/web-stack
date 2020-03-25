@@ -54,6 +54,22 @@ namespace NHS111.Models.Mappers.WebMappings
                 .ForMember(s => s.HasResults, o => o.Ignore());
 
             Mapper.CreateMap<JourneyViewModel, SendSmsOutcomeViewModel>()
+                .ForMember(s => s.SelectedServiceId, o => o.Ignore())
+                .ForMember(s => s.DosCheckCapacitySummaryResult, o => o.Ignore())
+                .ForMember(s => s.SurgeryViewModel, o => o.Ignore())
+                .ForMember(s => s.CareAdviceMarkers, o => o.Ignore())
+                .ForMember(s => s.CareAdvices, o => o.Ignore())
+                .ForMember(s => s.SymptomGroup, o => o.Ignore())
+                .ForMember(s => s.Urgency, o => o.Ignore())
+                .ForMember(s => s.WorseningCareAdvice, o => o.Ignore())
+                .ForMember(s => s.SymptomDiscriminator, o => o.Ignore())
+                .ForMember(s => s.CurrentView, o => o.Ignore())
+                .ForMember(s => s.SurveyLink, o => o.Ignore())
+                .ForMember(s => s.Informant, opt => opt.Ignore())
+                .ForMember(s => s.UnavailableSelectedService, o => o.Ignore())
+                .ForMember(s => s.GroupedDosServices, o => o.Ignore())
+                .ForMember(s => s.HasAcceptedCallbackOffer, o => o.Ignore())
+                .ForMember(s => s.RecommendedService, opt => opt.Ignore())
                 .ForMember(s => s.MobileNumber, o => o.Ignore())
                 .ForMember(s => s.SymptomsStartedDate, o => o.Ignore())
                 .ForMember(s => s.LivesAlone, o => o.Ignore());
