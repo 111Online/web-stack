@@ -90,13 +90,14 @@
         @Html.HiddenFor(model => Model.CollectedKeywords.ExcludeKeywords[i].Value)
         @Html.HiddenFor(model => Model.CollectedKeywords.ExcludeKeywords[i].IsFromAnswer)
     }
-    <div class="form-group measure @(@ViewData.ModelState.IsValidField("SelectedAnswer") ? "" : "form-group-error")">
+    <div class="form-group measure @(!ViewData.ModelState.IsValidField("SelectedAnswer") || !ViewData.ModelState.IsValidField("AnswerInputValue") ? "form-group-error" : "")">
         <fieldset>
             <legend>
                 @Html.Raw(Model.TitleWithoutBullets.ParseForMarkdown(new HtmlGenericControl("h1")))
                 @Html.HiddenFor(m => m.TitleWithoutBullets)
             </legend>
             @Html.ValidationMessageFor(m => m.SelectedAnswer, "Please select an answer", new { @class = "error-message" })
+            @Html.ValidationMessageFor(m => m.AnswerInputValue, "Please give an answer", new { @class = "error-message" })
             @if (!String.IsNullOrWhiteSpace(Model.Rationale))
             {
                 var highlight = Model.QuestionNo == Model.TriggerQuestionNo ? "callout--warning" : "callout--info";
@@ -123,16 +124,6 @@
                                  @answer.Title
                              }
                          </label>
-                         @Html.Hidden(string.Format("Answers[{0}].Title", i), answer.Title)
-                         @Html.Hidden(string.Format("Answers[{0}].TitleWithoutSpaces", i), answer.TitleWithoutSpaces)
-                         @Html.Hidden(string.Format("Answers[{0}].SymptomDiscriminator", i), answer.SymptomDiscriminator)
-                         @Html.Hidden(string.Format("Answers[{0}].SupportingInformation", i), answer.SupportingInformation)
-                         @Html.Hidden(string.Format("Answers[{0}].Keywords", i), answer.Keywords)
-                         @Html.Hidden(string.Format("Answers[{0}].ExcludeKeywords", i), answer.ExcludeKeywords)
-                         @Html.Hidden(string.Format("Answers[{0}].ReportText", i), answer.ReportText)
-                         @Html.Hidden(string.Format("Answers[{0}].DispositionDisplayText", i), answer.DispositionDisplayText)
-                         @Html.Hidden(string.Format("Answers[{0}].Order", i), answer.Order)
-                         @Html.Hidden(string.Format("Answers[{0}].IsPositive", i), answer.IsPositive)
                          @if (!String.IsNullOrWhiteSpace(answer.SupportingInformation))
                          {
                              @Html.Partial("_HiddenText", new HiddenTextViewModel() {Summary = "What does this mean?", Details = new[] {Html.Encode(@Html.Raw(answer.SupportingInformationHtml))}})
@@ -180,7 +171,11 @@
                     </div>
                 </div>
             }
-
+            @if (Model.QuestionType != QuestionType.Choice && Model.Answers.Any())
+            {
+                @Html.Hidden("SelectedAnswer", Newtonsoft.Json.JsonConvert.SerializeObject(Model.Answers.First()));
+            }
+            @Html.Partial("_CommonHiddenFieldsAnswer", Model.Answers)
         </fieldset>
     </div>
 
