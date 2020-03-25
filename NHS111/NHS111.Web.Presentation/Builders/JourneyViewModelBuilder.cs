@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using NHS111.Models.Models.Web.Validators;
 using NHS111.Utils.Parser;
@@ -83,7 +84,7 @@ namespace NHS111.Web.Presentation.Builders
             model.ProgressState();
 
             model.Journey.Steps.Add(model.ToStep());
-
+            model.ResetAnswerInputValue();
             if (!string.IsNullOrEmpty(nextNode.NonQuestionKeywords))
             {
                 model.Journey.Steps.Last().Answer.Keywords += "|" + nextNode.NonQuestionKeywords;

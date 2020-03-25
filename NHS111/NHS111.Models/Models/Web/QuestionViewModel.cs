@@ -17,6 +17,10 @@ namespace NHS111.Models.Models.Web
         public string AnswerInputValue { get; set; }
         public string SelectedAnswer { get; set; }
 
+        public void ResetAnswerInputValue()
+        {
+            this.AnswerInputValue = String.Empty;
+        }
         public DateTimeViewModel DateAnswer { get; set; }
         public JourneyStep ToStep()
         {
