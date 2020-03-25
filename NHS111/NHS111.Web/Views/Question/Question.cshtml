@@ -97,7 +97,7 @@
                 @Html.HiddenFor(m => m.TitleWithoutBullets)
             </legend>
             @Html.ValidationMessageFor(m => m.SelectedAnswer, "Please select an answer", new { @class = "error-message" })
-            @Html.ValidationMessageFor(m => m.AnswerInputValue, "Please give an answer", new { @class = "error-message" })
+
             @if (!String.IsNullOrWhiteSpace(Model.Rationale))
             {
                 var highlight = Model.QuestionNo == Model.TriggerQuestionNo ? "callout--warning" : "callout--info";
@@ -133,18 +133,22 @@
             }
             @if (Model.QuestionType == QuestionType.String)
             {
+                @Html.ValidationMessageFor(m => m.AnswerInputValue, "Please give an answer", new { @class = "error-message" })
                 @Html.TextBoxFor(m => m.AnswerInputValue, new { });
             }
             @if (Model.QuestionType == QuestionType.Telephone)
             {
+                @Html.ValidationMessageFor(m => m.AnswerInputValue, "Please give a valid uk telephone number", new { @class = "error-message" })
                 @Html.TextBoxFor(m => m.AnswerInputValue, new { });
             }
             @if (Model.QuestionType == QuestionType.Text)
             {
+                @Html.ValidationMessageFor(m => m.AnswerInputValue, "Please give an answer", new { @class = "error-message" })
                 @Html.TextAreaFor(m => m.AnswerInputValue, new { @Value = "", @class = "feedback__input" })
             }
             @if (Model.QuestionType == QuestionType.Integer)
             {
+                @Html.ValidationMessageFor(m => m.AnswerInputValue, "Please give a number", new { @class = "error-message" })
                 @Html.TextBoxFor(m => m.AnswerInputValue, new { @class = "form-textbox form-textbox--small js-validate-number", type = "number", size = 3, autocomplete = "off" })
             }
             @if (Model.QuestionType == QuestionType.Boolean)
