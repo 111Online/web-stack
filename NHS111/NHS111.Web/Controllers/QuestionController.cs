@@ -103,7 +103,9 @@ namespace NHS111.Web.Controllers {
         {
           
 
-            if (!ModelState.IsValidField("SelectedAnswer")) return View("Question", model);
+            if (!ModelState.IsValidField("SelectedAnswer") || 
+                !ModelState.IsValidField("AnswerInputValue"))
+                    return View("Question", model);
 
             
             if (model.NodeType == NodeType.Page && model.Content!=null && model.Content.StartsWith("!CustomView!"))
@@ -111,6 +113,7 @@ namespace NHS111.Web.Controllers {
             ModelState.Clear();
             var nextModel = await GetNextJourneyViewModel(model);
             var viewRouter = _viewRouter.Build(nextModel, ControllerContext);
+
             return View(viewRouter.ViewName, nextModel);
         }
 
@@ -397,6 +400,7 @@ namespace NHS111.Web.Controllers {
         }
 
         private async Task<QuestionWithAnswers> GetNextNode(QuestionViewModel model) {
+
             var answer = JsonConvert.DeserializeObject<Answer>(model.SelectedAnswer);
             var serialisedState = HttpUtility.UrlEncode(model.StateJson);
             var request = new JsonRestRequest(_configuration.GetBusinessApiNextNodeUrl(model.PathwayId, model.NodeType, model.Id, serialisedState, true), Method.POST);
