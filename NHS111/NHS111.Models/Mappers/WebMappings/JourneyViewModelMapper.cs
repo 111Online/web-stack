@@ -52,6 +52,11 @@ namespace NHS111.Models.Mappers.WebMappings
                 .ForMember(s => s.Results, o => o.Ignore())
                 .ForMember(s => s.Categories, o => o.Ignore())
                 .ForMember(s => s.HasResults, o => o.Ignore());
+
+            Mapper.CreateMap<JourneyViewModel, SendSmsOutcomeViewModel>()
+                .ForMember(s => s.MobileNumber, o => o.Ignore())
+                .ForMember(s => s.SymptomsStartedDate, o => o.Ignore())
+                .ForMember(s => s.LivesAlone, o => o.Ignore());
         }
 
         public class FromAnswerToJourneyViewModelConverter : ITypeConverter<Answer, JourneyViewModel>
@@ -168,5 +173,4 @@ namespace NHS111.Models.Mappers.WebMappings
             return mappedOutcomeGroup;
         }
     }
-
 }
