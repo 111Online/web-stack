@@ -49,16 +49,18 @@
         @Html.Partial("_CommonHiddenFieldsOutcomeViewModel", Model)
         @Html.Partial("_CommonHiddenFieldsCareAdviceViewModel", Model)
         @Html.HiddenFor(m => m.SelectedServiceId)
-
+      
         <button id="change-details" class="button--link nhsuk-u-margin-top-7">Change these details</button>
     }
 
 
-    @using (Html.BeginForm("Confirmation", "Outcome", FormMethod.Post, new { id = "submitDetailsForm" }))
+    @using (Html.BeginForm("SendSMS", "Outcome", FormMethod.Post, new { id = "submitDetailsForm" }))
     {
         @Html.Partial("_CommonHiddenFieldsOutcomeViewModel", Model)
         @Html.Partial("_CommonHiddenFieldsCareAdviceViewModel", Model)
+        @Html.Partial("_commonHiddenFieldsSendsSMSViewModel", Model)
         @Html.HiddenFor(m => m.SelectedServiceId)
+
         <h1 class="nhsuk-heading-2 nhsuk-u-margin-top-4 nhsuk-u-margin-bottom-0">NHS research into coronavirus</h1>
         <p class="nhsuk-u-margin-top-4 nhsuk-u-margin-bottom-0">By signing up to this service you agree that we can also share the information for NHS research purposes.</p>
         <button id="book-call" class="nhsuk-u-margin-top-5">I agree</button>

@@ -178,6 +178,7 @@
     <Compile Include="Mappers\WebMappings\FromOutcomeVIewModelToITKDispatchRequest.cs" />
     <Compile Include="Mappers\WebMappings\FromOutcomeViewModelToSubmitEncounterToServiceRequest.cs" />
     <Compile Include="Mappers\WebMappings\AddressInfoViewModelMapper.cs" />
+    <Compile Include="Mappers\WebMappings\FromSendSmsOutcomeViewModelToCaseDataCaptureRequest.cs" />
     <Compile Include="Mappers\WebMappings\FromServiceViewModelToRecommendedServiceViewModelMapper.cs" />
     <Compile Include="Mappers\WebMappings\FromSystemDayOfWeekToDosDayOfWeek.cs" />
     <Compile Include="Models\Business\CheckCapacitySummaryResult.cs" />
@@ -217,6 +218,7 @@
     <Compile Include="Models\Domain\VersionInfo.cs" />
     <Compile Include="Models\Web\AgeGenderViewModel.cs" />
     <Compile Include="Models\Web\ApplicationMedium.cs" />
+    <Compile Include="Models\Web\CaseDataCaptureRequest.cs" />
     <Compile Include="Models\Web\ChangePostcodeViewModel.cs" />
     <Compile Include="Models\Web\DetailsViewModel.cs" />
     <Compile Include="Models\Web\Elements\ActionLinkViewModel.cs" />
