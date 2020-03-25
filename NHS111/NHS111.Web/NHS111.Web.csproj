@@ -491,9 +491,9 @@
     <Content Include="Views\Question\Custom\SymptomsStarted.cshtml" />
     <Content Include="Views\Shared\_Coronavirus111CallbackReferralConfirmation.cshtml" />
     <Content Include="Views\Shared\_LinkSummary.cshtml" />
-
-    <Content Include="Views\Shared\_CommonHiddenFieldsAnswer.cshtml" />
     <Content Include="Views\Outcome\SMS\Send_SMS.cshtml" />
+    <Content Include="Views\Shared\_CommonHiddenFieldsAnswer.cshtml" />
+    <Content Include="Views\Outcome\Confirmation\SMS\Confirmation.cshtml" />
     <None Include="Web.Development.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
