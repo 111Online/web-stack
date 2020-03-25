@@ -4,8 +4,7 @@
     Layout = "~/Views/Shared/_LayoutNhsUk.cshtml";
 }
 @{
-    var self = (Model.PatientInformantDetails.Informant == InformantType.Self);
-    var heading =  self ? "What is your email?" : "What is their email?";
+    var heading =  "What is your email?";
 }
 
 @section Title {
