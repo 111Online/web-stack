@@ -21,7 +21,7 @@
 }
 
 <div class="nhsuk-core measure">
-    <h1 class="nhsuk-heading-l">Check details</h1>
+    <h1 class="nhsuk-heading-l">Check your details</h1>
     <dl class="summary-list">
         <div>
             <dt>Mobile number</dt>
@@ -48,7 +48,7 @@
     {
         @Html.Partial("_CommonHiddenFieldsOutcomeViewModel", Model)
         @Html.Partial("_CommonHiddenFieldsCareAdviceViewModel", Model)
-        @Html.Partial("_CommonHiddenFieldsPersonalDetails", Model)
+        @*@Html.Partial("_CommonHiddenFieldsPersonalDetails", Model)*@
         @Html.HiddenFor(m => m.SelectedServiceId)
 
         <button id="change-details" class="button--link nhsuk-u-margin-top-7">Change these details</button>
@@ -59,13 +59,14 @@
     {
         @Html.Partial("_CommonHiddenFieldsOutcomeViewModel", Model)
         @Html.Partial("_CommonHiddenFieldsCareAdviceViewModel", Model)
-        @Html.Partial("_CommonHiddenFieldsPersonalDetails", Model)
+        @*@Html.Partial("_CommonHiddenFieldsPersonalDetails", Model)
         @Html.Partial("_CommonHiddenFieldsCurrentAddress", Model)
         @Html.Partial("_CommonHiddenFieldsHomeAddress", Model)
-        @Html.Partial("_CommonHiddenFieldsEmailAddress", Model)
+        @Html.Partial("_CommonHiddenFieldsEmailAddress", Model)*@
         @Html.HiddenFor(m => m.SelectedServiceId)
-        <p class="nhsuk-u-margin-top-4 nhsuk-u-margin-bottom-0">By confirming these details you agree to share them with the service.</p>
-        <button id="book-call" class="nhsuk-u-margin-top-5">Send details</button>
+        <h1 class="nhsuk-heading-2 nhsuk-u-margin-top-4 nhsuk-u-margin-bottom-0">NHS research into coronavirus</h1>
+        <p class="nhsuk-u-margin-top-4 nhsuk-u-margin-bottom-0">By signing up to this service you agree that we can also share the information for NHS research purposes.</p>
+        <button id="book-call" class="nhsuk-u-margin-top-5">I agree</button>
     }
 </div>
 
