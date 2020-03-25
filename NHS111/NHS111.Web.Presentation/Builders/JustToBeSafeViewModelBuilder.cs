@@ -50,6 +50,7 @@ namespace NHS111.Web.Presentation.Builders
                     Steps = questionsWithAnswers.
                         Select(q => new JourneyStep
                         {
+                            QuestionType = q.Question.QuestionType,
                             QuestionId = q.Question.Id,
                             QuestionNo = q.Question.QuestionNo,
                             QuestionTitle = q.Question.Title,

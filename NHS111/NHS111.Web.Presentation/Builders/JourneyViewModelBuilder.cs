@@ -52,13 +52,7 @@ namespace NHS111.Web.Presentation.Builders
                     }
 
                     if (journeyViewModel.OutcomeGroup.IsSendSMS)
-                    {
-                        var smsSendModel = _mappingEngine.Mapper.Map<SendSmsOutcomeViewModel>(journeyViewModel);
-                        //smsSendModel.LivesAlone =
-                        //    journeyViewModel.Journey.Steps.Where(s => s.Answer.Title.Equals("livealone")).FirstOrDefault().AnswerInputState;
-                        //return _outcomeViewModelBuilder.SendSmsDispositionBuilder()
-                        return smsSendModel;
-                    }
+                        return _outcomeViewModelBuilder.SendSmsDetailsBuilder(journeyViewModel);
 
                     var outcome = _mappingEngine.Mapper.Map<OutcomeViewModel>(journeyViewModel);
                     var postcodeValidatorRepsonse = _postCodeAllowedValidator.IsAllowedPostcode(outcome.CurrentPostcode);

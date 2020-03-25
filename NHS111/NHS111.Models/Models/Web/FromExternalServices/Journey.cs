@@ -31,5 +31,16 @@ namespace NHS111.Models.Models.Web.FromExternalServices {
             if (lastStep != null) return lastStep.State;
             return String.Empty;
         }
+
+        public T GetStepInputValue<T>(QuestionType questionType, string questionNo)
+        {
+            var step = Steps.FirstOrDefault(s => s.QuestionNo != null && s.QuestionNo.Equals(questionNo));
+            if (step == null) return default(T);
+
+            if (questionType == QuestionType.Choice)
+                return (T) Convert.ChangeType(step.Answer.IsPositive, typeof(T));
+
+            return (T) Convert.ChangeType(step.AnswerInputValue, typeof(T));
+        }
     }
 }
