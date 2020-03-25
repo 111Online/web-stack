@@ -1,5 +1,5 @@
 ﻿@using NHS111.Models.Models.Web
-@inherits NHS111.Web.Views.Shared.SurveyLinkView<OutcomeViewModel>
+@inherits NHS111.Web.Views.Shared.SurveyLinkView<SendSmsOutcomeViewModel>
 @{
     Layout = "~/Views/Shared/_LayoutNhsUk.cshtml";
 }
@@ -20,24 +20,55 @@
     </script>
 }
 
+<div class="nhsuk-core measure">
+    <h1 class="nhsuk-heading-l">Check your details</h1>
+    <dl class="summary-list">
+        <div>
+            <dt>Mobile number</dt>
+            <dd>@Model.MobileNumber</dd>
+        </div>
 
-@Html.HiddenFor(x => Model.Id)
+        <div>
+            <dt>Age</dt>
+            <dd>@Model.UserInfo.Demography.Age</dd>
+        </div>
 
-<div class="measure nhsuk-core">
+        <div>
+            <dt>When symptoms started</dt>
+            <dd>@Model.SymptomsStartedDate.ToString("d MMMM yyyy")</dd>
+        </div>
 
-    <h1 class="nhsuk-heading-xl">
-        Thanks for providing your details.
-    </h1>
+        <div>
+            <dt>Do you live alone</dt>
+            <dd>@string.Format("{0}", Model.LivesAlone ? "Yes" : "No")</dd>
+        </div>
+    </dl>
 
-    <div class="callout callout--attention nhsuk-u-margin-bottom-6">
-        <p>
-            Your information will only be shared within the NHS.
-        </p>
-        <p>
-            You can read more details in this
-            <a href="#" data-event-trigger="click" data-event-value="SMS privacy policy" target="_blank">
-                privacy policy (opens in a new tab or window)
-            </a>
-        </p>
-    </div>
+    @using (Html.BeginForm("PersonalDetails", "PersonalDetails", FormMethod.Post, new { id = "changeDetailsForm" }))
+    {
+        @Html.Partial("_CommonHiddenFieldsOutcomeViewModel", Model)
+        @Html.Partial("_CommonHiddenFieldsCareAdviceViewModel", Model)
+        @Html.HiddenFor(m => m.SelectedServiceId)
+
+        <button id="change-details" class="button--link nhsuk-u-margin-top-7">Change these details</button>
+    }
+
+
+    @using (Html.BeginForm("Confirmation", "Outcome", FormMethod.Post, new { id = "submitDetailsForm" }))
+    {
+        @Html.Partial("_CommonHiddenFieldsOutcomeViewModel", Model)
+        @Html.Partial("_CommonHiddenFieldsCareAdviceViewModel", Model)
+        @Html.HiddenFor(m => m.SelectedServiceId)
+        <h1 class="nhsuk-heading-2 nhsuk-u-margin-top-4 nhsuk-u-margin-bottom-0">NHS research into coronavirus</h1>
+        <p class="nhsuk-u-margin-top-4 nhsuk-u-margin-bottom-0">By signing up to this service you agree that we can also share the information for NHS research purposes.</p>
+        <button id="book-call" class="nhsuk-u-margin-top-5">I agree</button>
+    }
 </div>
+
+@Html.Partial("_PageLoadingIndicator")
+
+<script>
+    $(document).on('submit', '#submitDetailsForm', function () {
+        startPageLoadingIndicator('Sending you details...')
+    })
+</script>
