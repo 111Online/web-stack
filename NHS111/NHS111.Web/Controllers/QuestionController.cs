@@ -113,7 +113,7 @@ namespace NHS111.Web.Controllers {
             ModelState.Clear();
             var nextModel = await GetNextJourneyViewModel(model);
             var viewRouter = _viewRouter.Build(nextModel, ControllerContext);
-
+            
             return View(viewRouter.ViewName, nextModel);
         }
 

@@ -28,6 +28,9 @@ namespace NHS111.Models.Models.Web.FromExternalServices
         [JsonProperty(PropertyName = "stepType")]
         public NodeType NodeType { get; set; }
 
+        [JsonProperty(PropertyName = "answerInputValue")]
+        public string AnswerInputValue { get; set; }
+
         public string NodeLabel
         {
             get
