@@ -72,6 +72,7 @@ namespace NHS111.Web.Presentation.Builders
             var result = await DispositionBuilder(model, null);
             return result;
         }
+
         public async Task<OutcomeViewModel> DispositionBuilder(OutcomeViewModel model, DosEndpoint? endpoint)
         {
             model.DispositionTime = DateTime.Now;
@@ -151,6 +152,16 @@ namespace NHS111.Web.Presentation.Builders
             model.SurveyLink = await surveyTask;
             
             return model;
+        }
+
+        public SendSmsOutcomeViewModel SendSmsDetailsBuilder(JourneyViewModel model)
+        {
+            //TODO: how to data drive this better?
+            var smsSendModel = _mappingEngine.Mapper.Map<SendSmsOutcomeViewModel>(model);
+            smsSendModel.MobileNumber = model.Journey.GetStepInputValue<string>(QuestionType.Telephone, "TX1111");
+            smsSendModel.SymptomsStartedDate = model.Journey.GetStepInputValue<DateTime>(QuestionType.Date, "TX1113");
+            smsSendModel.LivesAlone = model.Journey.GetStepInputValue<bool>(QuestionType.Choice, "TX1114");
+            return smsSendModel;
         }
 
         private bool NeedToRequeryDos(OutcomeViewModel model)
@@ -297,6 +308,7 @@ namespace NHS111.Web.Presentation.Builders
         Task<List<AddressInfoViewModel>> SearchPostcodeBuilder(string input);
         Task<OutcomeViewModel> DispositionBuilder(OutcomeViewModel model);
         Task<OutcomeViewModel> DispositionBuilder(OutcomeViewModel model, DosEndpoint? endpoint);
+        SendSmsOutcomeViewModel SendSmsDetailsBuilder(JourneyViewModel model);
         Task<OutcomeViewModel> PersonalDetailsBuilder(OutcomeViewModel model);
         Task<ITKConfirmationViewModel> ItkResponseBuilder(OutcomeViewModel model);
         Task<OutcomeViewModel> DeadEndJumpBuilder(OutcomeViewModel model);

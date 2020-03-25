@@ -27,6 +27,7 @@ namespace NHS111.Models.Models.Web
             var answer = JsonConvert.DeserializeObject<Answer>(SelectedAnswer);
             return new JourneyStep
             {
+                QuestionType = QuestionType,
                 QuestionNo = QuestionNo,
                 QuestionTitle = Title,
                 Answer = answer,
