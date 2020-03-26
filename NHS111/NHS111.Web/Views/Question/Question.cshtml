@@ -91,7 +91,7 @@
         @Html.HiddenFor(model => Model.CollectedKeywords.ExcludeKeywords[i].Value)
         @Html.HiddenFor(model => Model.CollectedKeywords.ExcludeKeywords[i].IsFromAnswer)
     }
-    <div class="form-group measure @(!ViewData.ModelState.IsValidField("SelectedAnswer") || !ViewData.ModelState.IsValidField("AnswerInputValue") ? "form-group-error" : "")">
+    <div class="form-group measure @(!ViewData.ModelState.IsValidField("SelectedAnswer") || !ViewData.ModelState.IsValidField("DateAnswer") || !ViewData.ModelState.IsValidField("AnswerInputValue") ? "form-group-error" : "")">
         <fieldset>
             <legend>
                 @Html.Raw(Model.TitleWithoutBullets.ParseForMarkdown(new HtmlGenericControl("h1")))
@@ -139,7 +139,7 @@
             }
             @if (Model.QuestionType == QuestionType.Telephone)
             {
-                @Html.ValidationMessageFor(m => m.AnswerInputValue, "Please give a valid uk telephone number", new { @class = "error-message" })
+                @Html.ValidationMessageFor(m => m.AnswerInputValue, "Enter a valid mobile number", new { @class = "error-message" })
                 @Html.TextBoxFor(m => m.AnswerInputValue, new { });
             }
             @if (Model.QuestionType == QuestionType.Text)
@@ -149,8 +149,8 @@
             }
             @if (Model.QuestionType == QuestionType.Integer)
             {
-                @Html.ValidationMessageFor(m => m.AnswerInputValue, "Please give a number", new { @class = "error-message" })
-                @Html.TextBoxFor(m => m.AnswerInputValue, new { @class = "form-textbox form-textbox--small js-validate-number", type = "number", size = 3, autocomplete = "off" })
+                @Html.ValidationMessageFor(m => m.AnswerInputValue, "Enter a valid age", new { @class = "error-message" })
+                @Html.TextBoxFor(m => m.AnswerInputValue, new { @class = "form-textbox form-textbox--small js-validate-number", inputmode = "numeric", size = 3,  pattern = "[0-9]+", autocomplete = "off" })
             }
             @if (Model.QuestionType == QuestionType.Boolean)
             {
@@ -160,7 +160,7 @@
                     var answer = Model.OrderedAnswers()[i];
                     <div class="multiple-choice">
                         <input name="SelectedAnswer" data-val="true" data-val-required="'SelectedAnswer' should not be empty." type="checkbox" class="multiple-choice__input" id="@string.Format("{0}_1", Model.Id)" value="@Newtonsoft.Json.JsonConvert.SerializeObject(answer)" />
-                        <label for="@answer.TitleWithoutSpaces" class="multiple-choice--radio">
+                        <label for="@string.Format("{0}_1", Model.Id)" class="multiple-choice--radio">
                             @answer.Title
                         </label>
                     </div>
@@ -168,7 +168,7 @@
             }
             @if (Model.QuestionType == QuestionType.Date)
             {
-                @Html.ValidationMessageFor(m => m.DateAnswer.Date, "Please give a valid date", new { @class = "error-message" })
+                @Html.ValidationMessageFor(m => m.DateAnswer.Date, "Enter a valid date", new { @class = "error-message" })
                 <div>
                     <div class="form-group--inline">
                         <label for="@Html.IdFor(m => m.DateAnswer.Day)">Day</label>
