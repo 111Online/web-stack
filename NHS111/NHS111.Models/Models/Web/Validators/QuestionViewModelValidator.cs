@@ -19,9 +19,8 @@ namespace NHS111.Models.Models.Web.Validators
             RuleFor(q => q.AnswerInputValue).Cascade(CascadeMode.StopOnFirstFailure)
                 .NotEmpty()
                 .Must(s => s.ToCharArray().All(char.IsDigit))
-                .Must(s => s.StartsWith("0") || s.StartsWith("1"))
-                .Matches("^[0-1,\\s, +]{1}[0-9,\\s]{8,20}$")
-                .Length(9, 21).When(q => q.QuestionType == QuestionType.Telephone).WithMessage("Please give a valid uk telephone number");
+                .Matches("^((07[0-9]{9,9})|((\\+|00)[1-9]{1,4})[0-9]{6,11})$")
+                .When(q => q.QuestionType == QuestionType.Telephone).WithMessage("Please give a valid uk telephone number");
             RuleFor(q=> q.DateAnswer).SetValidator(new DateTimeValidator()).When(q => q.QuestionType == QuestionType.Date).WithMessage("Please select a valid date");
         }
     }
