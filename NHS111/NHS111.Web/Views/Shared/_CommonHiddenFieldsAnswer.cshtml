@@ -15,9 +15,5 @@
     @Html.Hidden(string.Format("Answers[{0}].DispositionDisplayText", i), answer.DispositionDisplayText)
     @Html.Hidden(string.Format("Answers[{0}].Order", i), answer.Order)
     @Html.Hidden(string.Format("Answers[{0}].IsPositive", i), answer.IsPositive)
-    if (!String.IsNullOrWhiteSpace(answer.SupportingInformation))
-    {
-        @Html.Partial("_HiddenText", new HiddenTextViewModel() { Summary = "What does this mean?", Details = new[] { Html.Encode(@Html.Raw(answer.SupportingInformationHtml)) } })
-    }
 
 }
