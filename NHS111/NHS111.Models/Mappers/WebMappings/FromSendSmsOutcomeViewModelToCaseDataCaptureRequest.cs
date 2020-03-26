@@ -26,10 +26,9 @@ namespace NHS111.Models.Mappers.WebMappings
             
             caseDataCaptureRequest.JourneyId = sendSmsOutcomeViewModel.JourneyId.ToString();
             caseDataCaptureRequest.PostCode = sendSmsOutcomeViewModel.CurrentPostcode;
-            caseDataCaptureRequest.Gender = sendSmsOutcomeViewModel.UserInfo.Demography.Gender;
             caseDataCaptureRequest.Age = sendSmsOutcomeViewModel.Age;
             caseDataCaptureRequest.Phone = sendSmsOutcomeViewModel.MobileNumber;
-            caseDataCaptureRequest.DaysSinceSymptomsStarted = DateTime.Now.Day - sendSmsOutcomeViewModel.SymptomsStartedDate.Day;
+            caseDataCaptureRequest.SymptomsStarted = sendSmsOutcomeViewModel.SymptomsStartedDate.ToString("yyyy-MM-dd");
             caseDataCaptureRequest.LiveAlone = sendSmsOutcomeViewModel.LivesAlone;
 
             return caseDataCaptureRequest;
