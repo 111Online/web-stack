@@ -1,4 +1,5 @@
-﻿using log4net;
+﻿using System.Net;
+using log4net;
 using NHS111.Utils.IoC;
 using NHS111.Utils.RestTools;
 using NHS111.Web.Presentation.Builders;
@@ -48,6 +49,7 @@ namespace NHS111.Web.Presentation.IoC
                 scan.TheCallingAssembly();
                 scan.WithDefaultConventions();
             });
+            ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
         }
     }
 }
