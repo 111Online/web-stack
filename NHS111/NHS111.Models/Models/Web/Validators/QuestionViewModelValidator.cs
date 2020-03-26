@@ -15,6 +15,7 @@ namespace NHS111.Models.Models.Web.Validators
             RuleFor(q => q.SelectedAnswer).NotEmpty().When(q => q.QuestionType == QuestionType.Choice).WithMessage("Please select an answer");
             RuleFor(q => q.AnswerInputValue).NotEmpty().When(q => q.QuestionType == QuestionType.String || q.QuestionType == QuestionType.Text).WithMessage("Please select an answer");
             RuleFor(q => q.AnswerInputValue).NotEmpty().When(q => q.QuestionType == QuestionType.Integer).WithMessage("Please give a number");
+            RuleFor(q => q.SelectedAnswer).NotEmpty().When(q => q.QuestionType == QuestionType.Boolean).WithMessage("Please select an answer");
             RuleFor(q => q.AnswerInputValue).Cascade(CascadeMode.StopOnFirstFailure)
                 .NotEmpty()
                 .Must(s => s.ToCharArray().All(char.IsDigit))
