@@ -31,6 +31,7 @@ namespace NHS111.Web.Presentation.Builders
         private readonly IRestClient _restClient;
         private readonly IRestClient _restClientPostcodeApi;
         private readonly IRestClient _restClientItkDispatcherApi;
+        private readonly IRestClient _restClientCaseDataCaptureApi;
         private readonly IConfiguration _configuration;
         private readonly IMappingEngine _mappingEngine;
         private readonly IKeywordCollector _keywordCollector;
@@ -41,7 +42,7 @@ namespace NHS111.Web.Presentation.Builders
 
 
 
-        public OutcomeViewModelBuilder(ICareAdviceBuilder careAdviceBuilder, IRestClient restClient, IRestClient restClientPostcodeApi, IRestClient restClientItkDispatcherApi, IConfiguration configuration, IMappingEngine mappingEngine, IKeywordCollector keywordCollector,
+        public OutcomeViewModelBuilder(ICareAdviceBuilder careAdviceBuilder, IRestClient restClient, IRestClient restClientPostcodeApi, IRestClient restClientItkDispatcherApi, IRestClient restClientCaseDataCaptureApi, IConfiguration configuration, IMappingEngine mappingEngine, IKeywordCollector keywordCollector,
             IJourneyHistoryWrangler journeyHistoryWrangler, ISurveyLinkViewModelBuilder surveyLinkViewModelBuilder, IAuditLogger auditLogger, IDOSBuilder dosBuilder, IRecommendedServiceBuilder recommendedServiceBuilder)
         {
             _careAdviceBuilder = careAdviceBuilder;
@@ -55,14 +56,15 @@ namespace NHS111.Web.Presentation.Builders
             _dosBuilder = dosBuilder;
             _restClientPostcodeApi = restClientPostcodeApi;
             _restClientItkDispatcherApi = restClientItkDispatcherApi;
+            _restClientCaseDataCaptureApi = restClientCaseDataCaptureApi;
             _recommendedServiceBuilder = recommendedServiceBuilder;
         }
 
-        public async Task<bool> SendSMSMessage(CaseDataCaptureRequest requestData)
+        public async Task<bool> SendToCaseDataCaptureApi(CaseDataCaptureRequest requestData)
         {
-            var request = new JsonRestRequest(_configuration.GetCaseDataCaptureApiSendSMSRequestUrl(), Method.POST);
+            var request = new JsonRestRequest(_configuration.CaseDataCaptureApiSendSMSMessageUrl, Method.POST);
             request.AddJsonBody(requestData);
-            var response = await _restClientItkDispatcherApi.ExecuteTaskAsync(request);
+            var response = await _restClientCaseDataCaptureApi.ExecuteTaskAsync(request);
             return response.IsSuccessful;
         }
 
@@ -169,6 +171,7 @@ namespace NHS111.Web.Presentation.Builders
             //TODO: how to data drive this better?
             var smsSendModel = _mappingEngine.Mapper.Map<SendSmsOutcomeViewModel>(model);
             smsSendModel.MobileNumber = model.Journey.GetStepInputValue<string>(QuestionType.Telephone, "TX1111");
+            smsSendModel.Age = model.Journey.GetStepInputValue<int>(QuestionType.Integer, "TX1112");
             smsSendModel.SymptomsStartedDate = model.Journey.GetStepInputValue<DateTime>(QuestionType.Date, "TX1113");
             smsSendModel.LivesAlone = model.Journey.GetStepInputValue<bool>(QuestionType.Choice, "TX1114");
             return smsSendModel;
@@ -315,7 +318,7 @@ namespace NHS111.Web.Presentation.Builders
 
     public interface IOutcomeViewModelBuilder
     {
-        Task<bool> SendSMSMessage(CaseDataCaptureRequest requestData);
+        Task<bool> SendToCaseDataCaptureApi(CaseDataCaptureRequest requestData);
         Task<List<AddressInfoViewModel>> SearchPostcodeBuilder(string input);
         Task<OutcomeViewModel> DispositionBuilder(OutcomeViewModel model);
         Task<OutcomeViewModel> DispositionBuilder(OutcomeViewModel model, DosEndpoint? endpoint);

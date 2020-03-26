@@ -27,11 +27,10 @@ namespace NHS111.Models.Mappers.WebMappings
             caseDataCaptureRequest.JourneyId = sendSmsOutcomeViewModel.JourneyId.ToString();
             caseDataCaptureRequest.PostCode = sendSmsOutcomeViewModel.CurrentPostcode;
             caseDataCaptureRequest.Gender = sendSmsOutcomeViewModel.UserInfo.Demography.Gender;
-            caseDataCaptureRequest.Age = sendSmsOutcomeViewModel.UserInfo.Demography.Age;
+            caseDataCaptureRequest.Age = sendSmsOutcomeViewModel.Age;
             caseDataCaptureRequest.Phone = sendSmsOutcomeViewModel.MobileNumber;
             caseDataCaptureRequest.DaysSinceSymptomsStarted = DateTime.Now.Day - sendSmsOutcomeViewModel.SymptomsStartedDate.Day;
             caseDataCaptureRequest.LiveAlone = sendSmsOutcomeViewModel.LivesAlone;
-            //caseDataCaptureRequest.HouseHoldSize = sendSmsOutcomeViewModel.
 
             return caseDataCaptureRequest;
         }
