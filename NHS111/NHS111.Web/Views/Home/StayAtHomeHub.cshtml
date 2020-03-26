@@ -110,8 +110,16 @@
             If you feel you can't cope with your symptoms at home, or your condition gets worse, use the
             111 online service again.
         </p>
+        <div class="disposition-set">
 
-        @Html.Partial("_GetTextMessages")
-        @Html.Partial("_GetIsolationNote")
+            <div class="disposition-unit">
+                @Html.Partial("_GetTextMessages")
+            </div>
+
+            <div class="disposition-unit">
+                @Html.Partial("_GetIsolationNote")
+            </div>
+
+        </div>
 
     </div> 
