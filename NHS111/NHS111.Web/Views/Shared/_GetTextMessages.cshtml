@@ -1,0 +1,12 @@
+﻿@using NHS111.Models.Models.Web.Elements
+<h2 class="nhsuk-heading-l">
+    Get NHS text messages while you are isolating
+</h2>
+<p>
+    Choose to share your mobile number to receive texts and advice while you're at home.
+</p>
+
+<p>
+    @Html.Partial("_ActionLink", new ActionLinkViewModel { Text = "Sign up", Url = "~/covid-19/sms", EventTrigger = "click", EventValue = "SMS text messging link" })
+</p>
+
