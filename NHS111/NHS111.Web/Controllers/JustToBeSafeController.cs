@@ -37,7 +37,7 @@ namespace NHS111.Web.Controllers
 
         [HttpGet]
         [Route("Covid-19/SMS")]
-        public async Task<ActionResult> FirstQuestion(JustToBeSafeViewModel model)
+        public async Task<ActionResult> SmsFirstQuestion(JustToBeSafeViewModel model)
         {
             var firstModel = BuildModel("PC111", model.SessionId);
             return await JustToBeSafeFirst(firstModel);
