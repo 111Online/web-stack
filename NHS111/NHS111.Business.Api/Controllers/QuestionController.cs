@@ -70,7 +70,7 @@ namespace NHS111.Business.Api.Controllers
 
         public async Task<JsonResult<QuestionWithAnswers>> GetNextNode(string pathwayId, string nodeLabel, string nodeId, string state, [FromBody]string answer, string cacheKey = null)
         {
-
+#if !DEBUG
                 cacheKey = cacheKey ?? string.Format("{0}-{1}-{2}-{3}", pathwayId, nodeId, answer, state);
 
                 var cacheValue = await _cacheManager.Read(cacheKey);
@@ -78,7 +78,7 @@ namespace NHS111.Business.Api.Controllers
                 {
                     return Json(JsonConvert.DeserializeObject<QuestionWithAnswers>(cacheValue));
                 }
-
+#endif
 
             var question = await _questionService.GetNextQuestion(nodeId, nodeLabel, answer);
             var stateDictionary = JsonConvert.DeserializeObject<IDictionary<string, string>>(HttpUtility.UrlDecode(state));
@@ -90,9 +90,9 @@ namespace NHS111.Business.Api.Controllers
                 question.State = stateDictionary;
                 var result = _questionTransformer.AsQuestionWithAnswers(question);
 
-
+#if !DEBUG
                     _cacheManager.Set(cacheKey, JsonConvert.SerializeObject(result));
-
+#endif
 
                 return Json(result);
             }
@@ -128,7 +128,7 @@ namespace NHS111.Business.Api.Controllers
                 }
                 var updatedState = JsonConvert.SerializeObject(stateDictionary);
                 var nextQuestion = (await GetNextNode(pathwayId, nextLabel, question.Question.Id, updatedState, computedAnswer.Title, cacheKey)).Content;
-                
+
                 nextQuestion.NonQuestionKeywords = computedAnswer.Keywords;
                 nextQuestion.NonQuestionExcludeKeywords = computedAnswer.ExcludeKeywords;
                 if (nextQuestion.Answers != null)
@@ -144,9 +144,9 @@ namespace NHS111.Business.Api.Controllers
                 // to collect keywords 
                 var result = JsonConvert.SerializeObject(nextQuestion);
 
-
+#if !DEBUG
  	                _cacheManager.Set(cacheKey, result);
-
+#endif
 
                 return Json(nextQuestion);
             }
