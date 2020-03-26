@@ -91,6 +91,19 @@ namespace NHS111.Web.Controllers
             return model;
         }
 
+        public async Task<ActionResult> SendSMS(SendSmsOutcomeViewModel model)
+        {
+            var requestData = Mapper.Map<CaseDataCaptureRequest>(model);
+
+            var success = await _outcomeViewModelBuilder.SendSMSMessage(requestData);
+
+            if (success)
+            {
+                return View("../Outcome/Confirmation/SMS/Confirmation");
+            }
+            return View("../Outcome/Confirmation/SMS/Failure");
+        }
+
         [HttpPost]
         public async Task<ActionResult> DispositionWithServices(OutcomeViewModel model, string submitAction, DosEndpoint? endpoint = null, DateTime? dosSearchTime = null) {
             ModelState.Clear();
