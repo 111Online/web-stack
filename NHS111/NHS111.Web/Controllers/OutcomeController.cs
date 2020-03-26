@@ -95,7 +95,7 @@ namespace NHS111.Web.Controllers
         {
             var requestData = Mapper.Map<CaseDataCaptureRequest>(model);
 
-            var success = await _outcomeViewModelBuilder.SendSMSMessage(requestData);
+            var success = await _outcomeViewModelBuilder.SendToCaseDataCaptureApi(requestData);
 
             if (success)
             {
