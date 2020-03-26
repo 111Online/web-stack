@@ -36,6 +36,14 @@ namespace NHS111.Web.Controllers
         }
 
         [HttpGet]
+        [Route("Covid-19/SMS")]
+        public async Task<ActionResult> FirstQuestion(JustToBeSafeViewModel model)
+        {
+            var firstModel = BuildModel("PC111", model.SessionId);
+            return await JustToBeSafeFirst(firstModel);
+        }
+
+        [HttpGet]
         [Route("{pathwayNumber}/{gender}/{age}/start")]
         public async Task<ActionResult> FirstQuestion(string pathwayNumber, string gender, int age, string args) {
             var model = BuildModel(pathwayNumber, gender, age, args);
@@ -47,6 +55,27 @@ namespace NHS111.Web.Controllers
         public async Task<ActionResult> FirstQuestionDeeplink(JustToBeSafeViewModel model) {
             ModelState.Clear();
             return await JustToBeSafeFirst(model);
+        }
+
+        private static QuestionInfoViewModel BuildModel(string pathwayNumber, Guid sessionId)
+        {
+
+            var model = new QuestionInfoViewModel
+            {
+                SessionId = sessionId,
+                PathwayNo = pathwayNumber,
+                EntrySearchTerm = String.Format("External get to {0}", pathwayNumber),
+
+                UserInfo = new UserInfo
+                {
+                    Demography = new AgeGenderViewModel
+                    {
+                        Age = 111,
+                        Gender = "Male"
+                    }
+                }
+            };
+            return model;
         }
 
         private static QuestionInfoViewModel BuildModel(string pathwayNumber, string gender, int age, string args) {
