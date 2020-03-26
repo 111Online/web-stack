@@ -98,6 +98,11 @@ namespace NHS111.Models.Models.Web
             get { return this.StartingPathwayNo == "PW1851"; }
         }
 
+        public bool IsSmsJourney
+        {
+            get { return this.StartingPathwayNo == "PC111"; }
+        }
+
         public override string ToString()
         {
             return JsonConvert.SerializeObject(this);
