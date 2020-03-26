@@ -25,6 +25,28 @@ namespace NHS111.Utils.RestTools
             this.AddHandler("*+json", NewtonsoftJsonSerializer.Default);
         }
 
+        public override async Task<IRestResponse> ExecuteTaskAsync(IRestRequest request)
+        {
+            _logger.Info(string.Format("Request to: {0}{1} performed", BaseUrl, request.Resource));
+
+            var response = await base.ExecuteTaskAsync(request);
+
+            if (response == null)
+            {
+                response = new RestResponse
+                {
+                    StatusCode = HttpStatusCode.BadRequest,
+                    ErrorMessage = "API response was null"
+                };
+            }
+
+            if (response.StatusCode != HttpStatusCode.OK)
+            {
+                _logger.Error(string.Format("Request to: {0}{1} returned with Error Code: {2} and response: {3}", BaseUrl, request.Resource, response.StatusCode, response.ErrorMessage));
+            }
+
+            return response;
+        }
         public override async Task<IRestResponse<T>> ExecuteTaskAsync<T>(IRestRequest request)
         {
             _logger.Info(string.Format("Request to: {0}{1} performed", BaseUrl, request.Resource));
