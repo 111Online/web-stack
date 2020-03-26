@@ -27,5 +27,12 @@ namespace NHS111.Web.Controllers
         {
             return RedirectPermanent("/service/COVID-19");
         }
+
+        [HttpGet]
+        [Route("COVID-19/stayathome")]
+        public ActionResult StayAtHomeHub(JourneyViewModel model)
+        {
+            return View("StayAtHomeHub", model);
+        }
     }
 }

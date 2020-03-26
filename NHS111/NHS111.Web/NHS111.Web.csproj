@@ -496,6 +496,8 @@
     <Content Include="Views\Outcome\Confirmation\SMS\Confirmation.cshtml" />
     <Content Include="Views\Outcome\Confirmation\SMS\Failure.cshtml" />
     <Content Include="Views\Shared\_commonHiddenFieldsSendsSMSViewModel.cshtml" />
+    <Content Include="Views\Home\StayAtHomeHub.cshtml" />
+    <Content Include="Views\Shared\_GetTextMessages.cshtml" />
     <None Include="Web.Development.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
