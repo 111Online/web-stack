@@ -72,7 +72,8 @@ namespace NHS111.Models.Mappers.WebMappings
                 .ForMember(s => s.RecommendedService, opt => opt.Ignore())
                 .ForMember(s => s.MobileNumber, o => o.Ignore())
                 .ForMember(s => s.SymptomsStartedDate, o => o.Ignore())
-                .ForMember(s => s.LivesAlone, o => o.Ignore());
+                .ForMember(s => s.LivesAlone, o => o.Ignore())
+                .ForMember(d => d.Age, o => o.Ignore());
         }
 
         public class FromAnswerToJourneyViewModelConverter : ITypeConverter<Answer, JourneyViewModel>

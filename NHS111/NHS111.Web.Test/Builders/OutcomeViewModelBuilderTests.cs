@@ -26,6 +26,7 @@ namespace NHS111.Web.Presentation.Builders.Tests
         private Mock<IRestClient> _mockRestClient;
         private Mock<IRestClient> _mockRestPostcodeApiClient;
         private Mock<IRestClient> _mockRestClientItkDispatcherApi;
+        private Mock<IRestClient> _resetClientCaseDataCaptureApi;
         private Mock<Presentation.Configuration.IConfiguration> _mockConfiguration;
         private Mock<IKeywordCollector> _mockKeywordCollector;
         private Mock<IJourneyHistoryWrangler> _mockJourneyHistoryWrangler;
@@ -49,6 +50,7 @@ namespace NHS111.Web.Presentation.Builders.Tests
             _mockRestClient = new Mock<IRestClient>();
             _mockRestPostcodeApiClient = new Mock<IRestClient>();
             _mockRestClientItkDispatcherApi = new Mock<IRestClient>();
+            _resetClientCaseDataCaptureApi = new Mock<IRestClient>();
             _mockConfiguration = new Mock<Presentation.Configuration.IConfiguration>();
             _mockJourneyHistoryWrangler = new Mock<IJourneyHistoryWrangler>();
             _mockKeywordCollector = new Mock<IKeywordCollector>();
@@ -64,6 +66,7 @@ namespace NHS111.Web.Presentation.Builders.Tests
                 _mockRestClient.Object,
                 _mockRestPostcodeApiClient.Object,
                 _mockRestClientItkDispatcherApi.Object,
+                _resetClientCaseDataCaptureApi.Object,
                 _mockConfiguration.Object, 
                 _mappingEngine.Object,
                 _mockKeywordCollector.Object,

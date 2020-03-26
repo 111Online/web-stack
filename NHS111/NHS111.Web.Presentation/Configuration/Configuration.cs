@@ -219,11 +219,6 @@ namespace NHS111.Web.Presentation.Configuration
             return buinessEndpointconfigValue;
         }
 
-        public string GetCaseDataCaptureApiSendSMSRequestUrl()
-        {
-            return string.Format("{0}/{1}", CaseDataCaptureApiBaseUrl, CaseDataCaptureApiSendSMSMessageUrl);
-        }
-
         bool IsAbsoluteUrl(string url)
         {
             Uri result;
@@ -276,7 +271,6 @@ namespace NHS111.Web.Presentation.Configuration
         string GetBusinessApiGetAddressByUDPRNUrl(string udprn);
 
         string GetBusinessApiGetValidatedAddressByPostcodeUrl(string postcode);
-        string GetCaseDataCaptureApiSendSMSRequestUrl();
         string BusinessDosApiBaseUrl { get; }
         string BusinessDosApiCheckCapacitySummaryUrl { get; }
         string BusinessDosApiServicesByClinicalTermUrl { get; }

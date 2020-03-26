@@ -32,7 +32,9 @@ namespace NHS111.Web.Presentation.IoC
                 .Ctor<IRestClient>("restClientPostcodeApi")
                 .Is(new LoggingRestClient(new Configuration.Configuration().PostcodeApiBaseUrl, LogManager.GetLogger("log")))
                 .Ctor<IRestClient>("restClientItkDispatcherApi")
-                .Is(new LoggingRestClient(new Configuration.Configuration().ItkDispatcherApiBaseUrl, LogManager.GetLogger("log")));
+                .Is(new LoggingRestClient(new Configuration.Configuration().ItkDispatcherApiBaseUrl, LogManager.GetLogger("log")))
+                .Ctor<IRestClient>("restClientCaseDataCaptureApi")
+                .Is(new LoggingRestClient(new Configuration.Configuration().CaseDataCaptureApiBaseUrl, LogManager.GetLogger("log")));
             For<ICCGModelBuilder>().Singleton()
                 .Use<CCGViewModelBuilder>()
                 .Ctor<IRestClient>()
