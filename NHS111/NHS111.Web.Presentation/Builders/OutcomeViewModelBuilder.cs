@@ -172,7 +172,7 @@ namespace NHS111.Web.Presentation.Builders
             var smsSendModel = _mappingEngine.Mapper.Map<SendSmsOutcomeViewModel>(model);
             smsSendModel.MobileNumber = model.Journey.GetStepInputValue<string>(QuestionType.Telephone, "TX1111");
             smsSendModel.Age = model.Journey.GetStepInputValue<int>(QuestionType.Integer, "TX1112");
-            smsSendModel.SymptomsStartedDate = model.Journey.GetStepInputValue<DateTime>(QuestionType.Date, "TX1113");
+            smsSendModel.SymptomsStartedDaysAgo = model.Journey.GetStepInputValue<int>(QuestionType.Date, "TX1113");
             smsSendModel.LivesAlone = model.Journey.GetStepInputValue<bool>(QuestionType.Choice, "TX1114");
             return smsSendModel;
         }
