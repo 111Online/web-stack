@@ -10,7 +10,7 @@ namespace NHS111.Models.Models.Web
     {
         public string MobileNumber { get; set; }
         public int Age { get; set; }
-        public DateTime SymptomsStartedDate { get; set; }
+        public int SymptomsStartedDaysAgo { get; set; }
         public bool LivesAlone { get; set; }
     }
 }
