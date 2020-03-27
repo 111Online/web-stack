@@ -14,13 +14,12 @@ namespace NHS111.Models.Models.Web.Validators
         {
             RuleFor(q => q.SelectedAnswer).NotEmpty().When(q => q.QuestionType == QuestionType.Choice).WithMessage("Please select an answer");
             RuleFor(q => q.AnswerInputValue).NotEmpty().When(q => q.QuestionType == QuestionType.String || q.QuestionType == QuestionType.Text).WithMessage("Please select an answer");
+            RuleFor(q => q.AnswerInputValue).NotEmpty().When(q => q.QuestionType == QuestionType.Integer).WithMessage("Please enter a number");
             RuleFor(q => q.AnswerInputValue).Cascade(CascadeMode.StopOnFirstFailure)
-                .NotEmpty()
                 .SetValidator(new IntegerAgeValidator())
                 .When(q => q.QuestionType == QuestionType.Integer && q.Answers.First().Title.ToLower().Equals("age"))
                 .WithMessage("Please enter a valid age");
             RuleFor(q => q.AnswerInputValue).Cascade(CascadeMode.StopOnFirstFailure)
-                .NotEmpty()
                 .SetValidator(new IntegerSymptomsStartedValidator())
                 .When(q => q.QuestionType == QuestionType.Integer && q.Answers.First().Title.ToLower().Equals("symptomsstarted"))
                 .WithMessage("Please enter a valid number");
