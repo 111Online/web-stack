@@ -75,6 +75,8 @@
     @Html.HiddenFor(x => Model.Campaign)
     @Html.HiddenFor(x => Model.Source)
     @Html.HiddenFor(x => Model.IsCustomJourney)
+    @Html.HiddenFor(x => Model.QuestionType)
+    @Html.HiddenFor(x => Model.Rationale)
     @Html.Hidden("DisplayLoadingPage")
     @Html.Raw(WriteDirectLink(Model))
 
@@ -89,13 +91,14 @@
         @Html.HiddenFor(model => Model.CollectedKeywords.ExcludeKeywords[i].Value)
         @Html.HiddenFor(model => Model.CollectedKeywords.ExcludeKeywords[i].IsFromAnswer)
     }
-    <div class="form-group measure @(@ViewData.ModelState.IsValidField("SelectedAnswer") ? "" : "form-group-error")">
+    <div class="form-group measure @(!ViewData.ModelState.IsValidField("SelectedAnswer") || !ViewData.ModelState.IsValidField("DateAnswer") || !ViewData.ModelState.IsValidField("AnswerInputValue") ? "form-group-error" : "")">
         <fieldset>
             <legend>
                 @Html.Raw(Model.TitleWithoutBullets.ParseForMarkdown(new HtmlGenericControl("h1")))
                 @Html.HiddenFor(m => m.TitleWithoutBullets)
             </legend>
             @Html.ValidationMessageFor(m => m.SelectedAnswer, "Please select an answer", new { @class = "error-message" })
+
             @if (!String.IsNullOrWhiteSpace(Model.Rationale))
             {
                 var highlight = Model.QuestionNo == Model.TriggerQuestionNo ? "callout--warning" : "callout--info";
@@ -103,37 +106,89 @@
                     @Html.Raw(Model.RationaleHtml.ParseForMarkdown(new HtmlGenericControl("p")))
                 </div>
             }
-
-            @for (var i = 0; i < Model.OrderedAnswers().Count; i++)
+            @if (Model.QuestionType == QuestionType.Choice)
             {
-                var answer = Model.OrderedAnswers()[i];
-                var isTrigger = Model.QuestionNo == Model.TriggerQuestionNo && answer.Title == Model.TriggerQuestionAnswer;
-                <div class="multiple-choice">
-                    <input name="SelectedAnswer" data-val="true" data-val-required="'SelectedAnswer' should not be empty." type="radio" class="multiple-choice__input" id="@answer.TitleWithoutSpaces" value="@Newtonsoft.Json.JsonConvert.SerializeObject(answer)" checked="@isTrigger" />
-                    <label for="@answer.TitleWithoutSpaces" class="multiple-choice--radio">@if (isTrigger)
-                        {
-                            @answer.Title<span class="highlight-term">&mdash; this means we can't rule out a serious condition</span>
-                        }
-                        else
-                        {
-                            @answer.Title
-                        }</label>
-                @Html.Hidden(string.Format("Answers[{0}].Title", i), answer.Title)
-                @Html.Hidden(string.Format("Answers[{0}].TitleWithoutSpaces", i), answer.TitleWithoutSpaces)
-                @Html.Hidden(string.Format("Answers[{0}].SymptomDiscriminator", i), answer.SymptomDiscriminator)
-                @Html.Hidden(string.Format("Answers[{0}].SupportingInformation", i), answer.SupportingInformation)
-                @Html.Hidden(string.Format("Answers[{0}].Keywords", i), answer.Keywords)
-                @Html.Hidden(string.Format("Answers[{0}].ExcludeKeywords", i), answer.ExcludeKeywords)
-                @Html.Hidden(string.Format("Answers[{0}].ReportText", i), answer.ReportText)
-                @Html.Hidden(string.Format("Answers[{0}].DispositionDisplayText", i), answer.DispositionDisplayText)
-                @Html.Hidden(string.Format("Answers[{0}].Order", i), answer.Order)
-                @Html.Hidden(string.Format("Answers[{0}].IsPositive", i), answer.IsPositive)
-                @if (!String.IsNullOrWhiteSpace(answer.SupportingInformation))
+
+                for (var i = 0; i < Model.OrderedAnswers().Count; i++)
                 {
-                    @Html.Partial("_HiddenText", new HiddenTextViewModel() { Summary = "What does this mean?", Details = new[] { Html.Encode(@Html.Raw(answer.SupportingInformationHtml)) } })
+                    var answer = Model.OrderedAnswers()[i];
+                    var isTrigger = Model.QuestionNo == Model.TriggerQuestionNo && answer.Title == Model.TriggerQuestionAnswer;
+                    <div class="multiple-choice">
+                        <input name="SelectedAnswer" data-val="true" data-val-required="'SelectedAnswer' should not be empty." type="radio" class="multiple-choice__input" id="@answer.TitleWithoutSpaces" value="@Newtonsoft.Json.JsonConvert.SerializeObject(answer)" checked="@isTrigger" />
+                        <label for="@answer.TitleWithoutSpaces" class="multiple-choice--radio">
+                            @if (isTrigger)
+                            {
+                                @answer.Title<span class="highlight-term">&mdash; this means we can't rule out a serious condition</span>
+                            }
+                            else
+                            {
+                                @answer.Title
+                            }
+                        </label>
+                        @if (!String.IsNullOrWhiteSpace(answer.SupportingInformation))
+                        {
+                            @Html.Partial("_HiddenText", new HiddenTextViewModel() { Summary = "What does this mean?", Details = new[] { Html.Encode(@Html.Raw(answer.SupportingInformationHtml)) } })
+                        }
+                    </div>
                 }
-            </div>
-        }
+            }
+            @if (Model.QuestionType == QuestionType.String)
+            {
+                @Html.ValidationMessageFor(m => m.AnswerInputValue, "Please give an answer", new { @class = "error-message" })
+                @Html.TextBoxFor(m => m.AnswerInputValue, new { });
+            }
+            @if (Model.QuestionType == QuestionType.Telephone)
+            {
+                @Html.ValidationMessageFor(m => m.AnswerInputValue, "Enter a valid mobile number", new { @class = "error-message" })
+                @Html.TextBoxFor(m => m.AnswerInputValue, new { });
+            }
+            @if (Model.QuestionType == QuestionType.Text)
+            {
+                @Html.ValidationMessageFor(m => m.AnswerInputValue, "Please give an answer", new { @class = "error-message" })
+                @Html.TextAreaFor(m => m.AnswerInputValue, new { @Value = "", @class = "feedback__input" })
+            }
+            @if (Model.QuestionType == QuestionType.Integer)
+            {
+                @Html.ValidationMessageFor(m => m.AnswerInputValue, "Enter a valid age", new { @class = "error-message" })
+                @Html.TextBoxFor(m => m.AnswerInputValue, new { @class = "form-textbox form-textbox--small js-validate-number", inputmode = "numeric", size = 3,  pattern = "[0-9]+", autocomplete = "off" })
+            }
+            @if (Model.QuestionType == QuestionType.Boolean)
+            {
+
+                for (var i = 0; i < Model.OrderedAnswers().Count; i++)
+                {
+                    var answer = Model.OrderedAnswers()[i];
+                    <div class="multiple-choice">
+                        <input name="SelectedAnswer" data-val="true" data-val-required="'SelectedAnswer' should not be empty." type="checkbox" class="multiple-choice__input" id="@string.Format("{0}_1", Model.Id)" value="@Newtonsoft.Json.JsonConvert.SerializeObject(answer)" />
+                        <label for="@string.Format("{0}_1", Model.Id)" class="multiple-choice--radio">
+                            @answer.Title
+                        </label>
+                    </div>
+                }
+            }
+            @if (Model.QuestionType == QuestionType.Date)
+            {
+                @Html.ValidationMessageFor(m => m.DateAnswer.Date, "Enter a valid date", new { @class = "error-message" })
+                <div>
+                    <div class="form-group--inline">
+                        <label for="@Html.IdFor(m => m.DateAnswer.Day)">Day</label>
+                        @Html.TextBoxFor(m => m.DateAnswer.Day, "", new { @class = "form-control form-textbox", placeholder = "DD", inputmode = "numeric", pattern = "[0-9]+", maxlength = "2" })
+                    </div>
+                    <div class="form-group--inline">
+                        <label for="@Html.IdFor(m => m.DateAnswer.Month)">Month</label>
+                        @Html.TextBoxFor(m => m.DateAnswer.Month, "", new { @class = "form-control form-textbox", placeholder = "MM", inputmode = "numeric", pattern = "[0-9]+", maxlength = "2" })
+                    </div>
+                    <div class="form-group--inline">
+                        <label for="@Html.IdFor(m => m.DateAnswer.Year)">Year</label>
+                        @Html.TextBoxFor(m => m.DateAnswer.Year, "", new { @class = "form-control form-textbox", placeholder = "YYYY", inputmode = "numeric", pattern = "[0-9]+", maxlength = "4" })
+                    </div>
+                </div>
+            }
+            @if (Model.QuestionType != QuestionType.Choice && Model.QuestionType != QuestionType.Boolean && Model.Answers.Any())
+            {
+                @Html.Hidden("SelectedAnswer", Newtonsoft.Json.JsonConvert.SerializeObject(Model.Answers.First()));
+            }
+            @Html.Partial("_CommonHiddenFieldsAnswer", Model.Answers)
         </fieldset>
     </div>
 

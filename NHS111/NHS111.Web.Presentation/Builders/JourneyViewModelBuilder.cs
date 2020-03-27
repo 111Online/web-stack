@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using NHS111.Models.Models.Web.Validators;
 using NHS111.Utils.Parser;
@@ -50,6 +51,9 @@ namespace NHS111.Web.Presentation.Builders
                         return _mappingEngine.Mapper.Map<SearchJourneyViewModel>(journeyViewModel);
                     }
 
+                    if (journeyViewModel.OutcomeGroup.IsSendSMS)
+                        return _outcomeViewModelBuilder.SendSmsDetailsBuilder(journeyViewModel);
+
                     var outcome = _mappingEngine.Mapper.Map<OutcomeViewModel>(journeyViewModel);
                     var postcodeValidatorRepsonse = _postCodeAllowedValidator.IsAllowedPostcode(outcome.CurrentPostcode);
                     outcome.UserInfo.CurrentAddress.IsInPilotArea = postcodeValidatorRepsonse.IsInPilotAreaForOutcome(model.OutcomeGroup);
@@ -74,7 +78,7 @@ namespace NHS111.Web.Presentation.Builders
             model.ProgressState();
 
             model.Journey.Steps.Add(model.ToStep());
-
+            model.ResetAnswerInputValue();
             if (!string.IsNullOrEmpty(nextNode.NonQuestionKeywords))
             {
                 model.Journey.Steps.Last().Answer.Keywords += "|" + nextNode.NonQuestionKeywords;

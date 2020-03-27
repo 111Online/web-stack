@@ -125,7 +125,7 @@ namespace NHS111.Business.Api.Controllers
 
                 var updatedState = JsonConvert.SerializeObject(stateDictionary);
                 var nextQuestion = (await GetNextNode(pathwayId, nextLabel, question.Question.Id, updatedState, computedAnswer.Title, cacheKey)).Content;
-                
+
                 nextQuestion.NonQuestionKeywords = computedAnswer.Keywords;
                 nextQuestion.NonQuestionExcludeKeywords = computedAnswer.ExcludeKeywords;
 
