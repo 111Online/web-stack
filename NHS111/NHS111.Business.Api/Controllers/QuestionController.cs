@@ -73,7 +73,7 @@ namespace NHS111.Business.Api.Controllers
             string cacheValue = string.Empty;
 
 #if !DEBUG
-            cacheKey = cacheKey ?? string.Format("{0}-{1}-{2}", pathwayId, nodeId, answer);
+            cacheKey = string.Format("{0}-{1}-{2}", pathwayId, nodeId, answer);
             cacheValue = await _cacheManager.Read(cacheKey);
 #endif
 
