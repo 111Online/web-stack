@@ -70,19 +70,26 @@ namespace NHS111.Business.Api.Controllers
 
         public async Task<JsonResult<QuestionWithAnswers>> GetNextNode(string pathwayId, string nodeLabel, string nodeId, string state, [FromBody]string answer, string cacheKey = null)
         {
-#if !DEBUG
-                cacheKey = cacheKey ?? string.Format("{0}-{1}-{2}-{3}", pathwayId, nodeId, answer, state);
+            string cacheValue = string.Empty;
 
-                var cacheValue = await _cacheManager.Read(cacheKey);
-                if (!string.IsNullOrEmpty(cacheValue))
-                {
-                    return Json(JsonConvert.DeserializeObject<QuestionWithAnswers>(cacheValue));
-                }
+#if !DEBUG
+            cacheKey = string.Format("{0}-{1}-{2}", pathwayId, nodeId, answer);
+            cacheValue = await _cacheManager.Read(cacheKey);
 #endif
 
-            var question = await _questionService.GetNextQuestion(nodeId, nodeLabel, answer);
-            var stateDictionary = JsonConvert.DeserializeObject<IDictionary<string, string>>(HttpUtility.UrlDecode(state));
+            QuestionWithAnswers question;
 
+            if (String.IsNullOrEmpty(cacheValue))
+            {
+                question = await _questionService.GetNextQuestion(nodeId, nodeLabel, answer);
+#if !DEBUG
+                _cacheManager.Set(cacheKey, JsonConvert.SerializeObject(question));
+#endif
+            }
+            else
+                question = JsonConvert.DeserializeObject<QuestionWithAnswers>(cacheValue);
+
+            var stateDictionary = JsonConvert.DeserializeObject<IDictionary<string, string>>(HttpUtility.UrlDecode(state));
             var nextLabel = question.Labels.FirstOrDefault();
 
             if (nextLabel == "Question" || nextLabel == "Outcome")
@@ -90,30 +97,19 @@ namespace NHS111.Business.Api.Controllers
                 question.State = stateDictionary;
                 var result = _questionTransformer.AsQuestionWithAnswers(question);
 
-#if !DEBUG
-                    _cacheManager.Set(cacheKey, JsonConvert.SerializeObject(result));
-#endif
-
                 return Json(result);
             }
 
-            if (nextLabel == "DeadEndJump" || nextLabel == "Page")
+            if (nextLabel == "DeadEndJump" || nextLabel == "Page" || nextLabel == "PathwaySelectionJump")
             {
                 question.State = stateDictionary;
-                //var result = _questionTransformer.AsQuestionWithDeadEnd(question);
-                return Json(question);
-            }
-
-            if (nextLabel == "PathwaySelectionJump")
-            {
-                question.State = stateDictionary;
-                //var result = _questionTransformer.AsQuestionWithPathwaySelection(question);
                 return Json(question);
             }
 
             if (nextLabel == "Set" || nextLabel == "Read")
             {
                 var computedAnswer = question.Answers.First();
+
                 if (nextLabel == "Read")
                 {
                     var value = stateDictionary.ContainsKey(question.Question.Title)
@@ -126,11 +122,13 @@ namespace NHS111.Business.Api.Controllers
                     if (!stateDictionary.ContainsKey(question.Question.Title))
                         stateDictionary.Add(question.Question.Title, computedAnswer.Title);
                 }
+
                 var updatedState = JsonConvert.SerializeObject(stateDictionary);
                 var nextQuestion = (await GetNextNode(pathwayId, nextLabel, question.Question.Id, updatedState, computedAnswer.Title, cacheKey)).Content;
                 
                 nextQuestion.NonQuestionKeywords = computedAnswer.Keywords;
                 nextQuestion.NonQuestionExcludeKeywords = computedAnswer.ExcludeKeywords;
+
                 if (nextQuestion.Answers != null)
                 {
                     foreach (var nextAnswer in nextQuestion.Answers)
@@ -140,14 +138,6 @@ namespace NHS111.Business.Api.Controllers
                     }
                 }
 
-                // have to add the node to the cache so thats its not missed when going back
-                // to collect keywords 
-                var result = JsonConvert.SerializeObject(nextQuestion);
-
-#if !DEBUG
- 	                _cacheManager.Set(cacheKey, result);
-#endif
-
                 return Json(nextQuestion);
             }
 
@@ -155,10 +145,7 @@ namespace NHS111.Business.Api.Controllers
             {
                 stateDictionary.Add(question.Question.QuestionNo, "");
                 question.State = stateDictionary;
-                //next.Answers.First().Keywords += "|" + answered.Keywords;
-                //nextAnswer.ExcludeKeywords += "|" + answered.ExcludeKeywords;
 
-                //var result = _questionTransformer.AsQuestionWithAnswers(question);
                 return Json(question);
             }
 
@@ -173,7 +160,24 @@ namespace NHS111.Business.Api.Controllers
         [System.Web.Http.Route("node/{pathwayId}/answers/{questionId}")]
         public async Task<JsonResult<IEnumerable<Answer>>> GetAnswers(string pathwayId, string questionId)
         {
-            var answers = await _questionService.GetAnswersForQuestion(questionId);
+#if !DEBUG
+                string cacheKey = string.Format("GetAnswersByQuestionId-{0}", questionId);
+
+                var cacheValue = await _cacheManager.Read(cacheKey);
+                if (!string.IsNullOrEmpty(cacheValue))
+                {
+                    return Json(JsonConvert.DeserializeObject<IEnumerable<Answer>>(cacheValue));
+                }
+#endif
+
+
+            var answers = await GetAnswersForQuestion(questionId); //await _questionService.GetAnswersForQuestion(questionId);
+            var transformedAnswers = _questionTransformer.AsAnswers(answers);
+
+#if !DEBUG
+            _cacheManager.Set(cacheKey, JsonConvert.SerializeObject(transformedAnswers));
+#endif
+
             return Json(_questionTransformer.AsAnswers(answers));
         }
 
@@ -187,7 +191,7 @@ namespace NHS111.Business.Api.Controllers
                 if (!string.IsNullOrEmpty(cacheValue))
                 {
                     return Json(JsonConvert.DeserializeObject<QuestionWithAnswers>(cacheValue));
-                }
+                } 
 #endif
 
             var node = await _questionService.GetQuestion(questionId);
@@ -207,7 +211,9 @@ namespace NHS111.Business.Api.Controllers
 
             if (nextLabel == "DeadEndJump")
             {
-                //var result = _questionTransformer.AsQuestionWithDeadEnd(JsonConvert.SerializeObject(node));
+#if !DEBUG
+                    _cacheManager.Set(cacheKey, JsonConvert.SerializeObject(node));
+#endif
                 return Json(node);
             }
 
@@ -219,8 +225,27 @@ namespace NHS111.Business.Api.Controllers
         [System.Web.Http.Route("node/{pathwayId}/questions/first")]
         public async Task<JsonResult<QuestionWithAnswers>> GetFirstQuestion(string pathwayId, [FromUri]string state)
         {
-            var firstNodeJson = await _questionService.GetFirstQuestion(pathwayId);
-            var firstNode = _questionTransformer.AsQuestionWithAnswers(firstNodeJson);
+            string cachedValue = String.Empty;
+
+#if !DEBUG
+            string cacheKey = String.Format("GetFirstQuestion-{0}", pathwayId);
+            cachedValue = await _cacheManager.Read(cacheKey);
+#endif
+
+            QuestionWithAnswers firstNode;
+
+            if (String.IsNullOrEmpty(cachedValue))
+            {
+                var firstNodeJson = await _questionService.GetFirstQuestion(pathwayId);
+                firstNode = _questionTransformer.AsQuestionWithAnswers(firstNodeJson);
+
+#if !DEBUG
+                _cacheManager.Set(cacheKey, JsonConvert.SerializeObject(firstNode));
+#endif
+            }
+            else
+                firstNode = JsonConvert.DeserializeObject<QuestionWithAnswers>(cachedValue); 
+
 
             var stateDictionary = JsonConvert.DeserializeObject<IDictionary<string, string>>(HttpUtility.UrlDecode(state));
 
@@ -232,14 +257,14 @@ namespace NHS111.Business.Api.Controllers
 
             if (nextLabel == "Read")
             {
-                var answers = await _questionService.GetAnswersForQuestion(firstNode.Question.Id);
+                var answers = await GetAnswersForQuestion(firstNode.Question.Id); // await _questionService.GetAnswersForQuestion(firstNode.Question.Id);
                 var value = stateDictionary.ContainsKey(firstNode.Question.Title) ? stateDictionary[firstNode.Question.Title] : null;
                 var selected = _answersForNodeBuilder.SelectAnswer(answers, value);
                 return await GetNextNode(pathwayId, nextLabel, firstNode.Question.Id, JsonConvert.SerializeObject(stateDictionary), selected.Title);
             }
             if (nextLabel == "Set")
             {
-                var answers = await _questionService.GetAnswersForQuestion(firstNode.Question.Id);
+                var answers = await GetAnswersForQuestion(firstNode.Question.Id); // await _questionService.GetAnswersForQuestion(firstNode.Question.Id);
                 stateDictionary.Add(firstNode.Question.Title, answers.First().Title);
                 var updatedState = JsonConvert.SerializeObject(stateDictionary);
                 return await GetNextNode(pathwayId, nextLabel, firstNode.Question.Id, updatedState, answers.First().Title);
@@ -269,6 +294,23 @@ namespace NHS111.Business.Api.Controllers
         {
             var questionsWithAnswers = await _questionService.GetJustToBeSafeQuestionsNext(pathwayId, answeredQuestionIds.Split(','), multipleChoice, questionId);
             return Json(_questionTransformer.AsQuestionWithAnswersList(questionsWithAnswers));
+        }
+
+        private async Task<Answer[]> GetAnswersForQuestion(string id)
+        {
+            string cacheValue = String.Empty;
+            string cacheKey = String.Format("GetAnswersForQuestion-{0}", id);
+
+            cacheValue = await _cacheManager.Read(cacheKey);
+
+            if (!String.IsNullOrEmpty(cacheValue))
+                return JsonConvert.DeserializeObject<Answer[]>(cacheValue);
+
+            Answer[] answers = await _questionService.GetAnswersForQuestion(id);
+
+            _cacheManager.Set(cacheKey, JsonConvert.SerializeObject(answers));
+
+            return answers;
         }
     }
 }
