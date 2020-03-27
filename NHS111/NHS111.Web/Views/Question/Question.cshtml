@@ -149,8 +149,15 @@
             }
             @if (Model.QuestionType == QuestionType.Integer)
             {
-                @Html.ValidationMessageFor(m => m.AnswerInputValue, "Enter a valid age", new { @class = "error-message" })
-                @Html.TextBoxFor(m => m.AnswerInputValue, new { @class = "form-textbox form-textbox--small js-validate-number", inputmode = "numeric", size = 3,  pattern = "[0-9]+", autocomplete = "off" })
+                var state = ViewContext.ViewData.ModelState["AnswerInputValue"];
+                var error = (state != null) ? state.Errors.Any() ? state.Errors.First().ErrorMessage : string.Empty : string.Empty;
+                
+                @Html.ValidationMessageFor(m => m.AnswerInputValue, error, new { @class = "error-message" })
+                @Html.TextBoxFor(m => m.AnswerInputValue, new { @class = "form-textbox form-textbox--small js-validate-number", style="display: inline-block;", inputmode = "numeric", size = 3,  pattern = "[0-9]+", autocomplete = "off" })
+                if (Model.Answers.First().Title.ToLower().Equals("symptomsstarted"))
+                {
+                    <span class="form-hint" style="display: inline-block; margin-left: 15px;">days ago</span>
+                }
             }
             @if (Model.QuestionType == QuestionType.Boolean)
             {

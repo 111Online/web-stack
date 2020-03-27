@@ -9,6 +9,7 @@
 <p>
     You do not need to get a note from a GP.
 </p>
+<p style="font-size: 16px;">Link opens in a new tab or window</p>
 <p>
-    @Html.Partial("_ActionLink", new ActionLinkViewModel { Text = "Get an isolation note", Url = "https://111.nhs.uk/isolation-note", EventTrigger = "click", EventValue = "NHS.UK Isolation Note link" })
+    @Html.Partial("_ActionLink", new ActionLinkViewModel { Text = "Get an isolation note", Url = "https://111.nhs.uk/isolation-note", EventTrigger = "click", EventValue = "NHS.UK Isolation Note link", Target="_blank" })
 </p>
