@@ -14,19 +14,27 @@ namespace NHS111.Models.Models.Web
     [Validator(typeof(QuestionViewModelValidator))]
     public class QuestionViewModel : JourneyViewModel
     {
+        public string AnswerInputValue { get; set; }
         public string SelectedAnswer { get; set; }
 
+        public void ResetAnswerInputValue()
+        {
+            this.AnswerInputValue = String.Empty;
+        }
+        public DateTimeViewModel DateAnswer { get; set; }
         public JourneyStep ToStep()
         {
             var answer = JsonConvert.DeserializeObject<Answer>(SelectedAnswer);
             return new JourneyStep
             {
+                QuestionType = QuestionType,
                 QuestionNo = QuestionNo,
                 QuestionTitle = Title,
                 Answer = answer,
                 QuestionId = Id,
                 State = StateJson,
-                NodeType = NodeType
+                NodeType = NodeType,
+                AnswerInputValue = (this.QuestionType != QuestionType.Date) ? this.AnswerInputValue : this.DateAnswer.Date.Value.ToString("s")
             };
         }
     }

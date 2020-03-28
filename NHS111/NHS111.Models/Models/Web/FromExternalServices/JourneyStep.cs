@@ -10,9 +10,12 @@ namespace NHS111.Models.Models.Web.FromExternalServices
         [JsonProperty(PropertyName = "answer")]
         public Answer Answer { get; set; }
 
+        [JsonProperty(PropertyName = "questionType")]
+        public QuestionType QuestionType { get; set; }
+
         [JsonProperty(PropertyName = "questionTitle")]
         public string QuestionTitle { get; set; }
-
+        
         [JsonProperty(PropertyName = "questionNo")]
         public string QuestionNo { get; set; }
 
@@ -27,6 +30,9 @@ namespace NHS111.Models.Models.Web.FromExternalServices
 
         [JsonProperty(PropertyName = "stepType")]
         public NodeType NodeType { get; set; }
+
+        [JsonProperty(PropertyName = "answerInputValue")]
+        public string AnswerInputValue { get; set; }
 
         public string NodeLabel
         {

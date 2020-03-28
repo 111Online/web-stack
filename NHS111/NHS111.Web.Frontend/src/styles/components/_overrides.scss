@@ -25,6 +25,16 @@
   width: auto;
 }
 
+a.button,
+a.button:visited {
+  color: #fff;
+}
+
+a.button:focus,
+a.button:hover {
+  color: #212b32;
+}
+
 details > div {
   @include nhsuk-responsive-padding(4, 'top');
 }

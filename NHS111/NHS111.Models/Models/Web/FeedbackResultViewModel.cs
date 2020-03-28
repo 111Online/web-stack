@@ -33,7 +33,7 @@ namespace NHS111.Models.Models.Web
             WasSuccessful = true;
         }
 
-        public override string Message { get { return ResolveMessageByPathway(this.Feedback.PageData.IsCoronaJourney); } }
+        public override string Message { get { return ResolveMessageByPathway(this.Feedback.PageData.IsCoronaJourney || Feedback.PageData.IsSmsJourney); } }
 
     }
 

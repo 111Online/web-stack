@@ -8,6 +8,8 @@ namespace NHS111.Web.Presentation.Configuration
     {
         public string ItkDispatcherApiBaseUrl { get { return ConfigurationManager.AppSettings["ItkDispatcherApiBaseUrl"]; } }
         public string ItkDispatcherApiSendItkMessageUrl { get { return ConfigurationManager.AppSettings["ItkDispatcherApiSendItkMessageUrl"]; } }
+        public string CaseDataCaptureApiBaseUrl { get { return ConfigurationManager.AppSettings["CaseDataCaptureApiBaseUrl"]; } }
+        public string CaseDataCaptureApiSendSMSMessageUrl { get { return ConfigurationManager.AppSettings["CaseDataCaptureApiSendSMSMessageUrl"]; } }
         public string GPSearchUrl { get { return ConfigurationManager.AppSettings["GPSearchUrl"]; } }
         public string GPSearchApiUrl { get { return ConfigurationManager.AppSettings["GPSearchApiUrl"]; } }
         public string GPSearchByIdUrl { get { return ConfigurationManager.AppSettings["GPSearchByIdUrl"]; } }
@@ -217,7 +219,6 @@ namespace NHS111.Web.Presentation.Configuration
             return buinessEndpointconfigValue;
         }
 
-
         bool IsAbsoluteUrl(string url)
         {
             Uri result;
@@ -233,6 +234,8 @@ namespace NHS111.Web.Presentation.Configuration
         string BusinessApiProtocolandDomain { get; }
         string ItkDispatcherApiSendItkMessageUrl { get; }
         string ItkDispatcherApiBaseUrl { get; }
+        string CaseDataCaptureApiBaseUrl { get; }
+        string CaseDataCaptureApiSendSMSMessageUrl { get; }
         string GPSearchUrl { get; }
         string GPSearchApiUrl { get; }
         string GPSearchByIdUrl { get; }
