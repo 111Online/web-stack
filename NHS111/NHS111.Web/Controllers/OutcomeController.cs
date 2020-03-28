@@ -95,13 +95,15 @@ namespace NHS111.Web.Controllers
         {
             var requestData = Mapper.Map<CaseDataCaptureRequest>(model);
 
+            //TODO: refactor result model buider for itk and data cap +
+            // must inheirt from JourneyViewModel to be logged
             var success = await _outcomeViewModelBuilder.SendToCaseDataCaptureApi(requestData);
 
             if (success)
             {
-                return View("../Outcome/Confirmation/SMS/Confirmation");
+                return View("../Outcome/Confirmation/SMS/Confirmation", model);
             }
-            return View("../Outcome/Confirmation/SMS/Failure");
+            return View("../Outcome/Confirmation/SMS/Failure", model);
         }
 
         [HttpPost]
