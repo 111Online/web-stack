@@ -104,7 +104,7 @@
             </p>
             <nav>
                 <ul class="link-list">
-                    @if (journeyModel != null && journeyModel.PathwayNo == "PC111")
+                    @if ((journeyModel != null && journeyModel.PathwayNo == "PC111") || Request.Params["PathwayNo"] == "PC111")
                     {
                         <li><a href="https://digital.nhs.uk/coronavirus/coronavirus-covid-19-response-information-governance-hub" target="_blank">Privacy statement</a></li>
                     }
