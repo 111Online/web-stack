@@ -1,0 +1,12 @@
+﻿@using NHS111.Models.Models.Web.Elements
+<h2 class="nhsuk-heading-l">
+    Tell us about your coronavirus experience
+</h2>
+<p>
+    By taking our survey you will help the NHS understand more about the virus, and how it affects people.
+</p>
+<p style="font-size: 16px;">Link opens in a new tab or window</p>
+<p>
+    @Html.Partial("_ActionLink", new ActionLinkViewModel { Text = "Help the NHS", Url = "https://www.nhs.uk/coronavirus-status-checker", EventTrigger = "click", EventValue = "NHS.UK status checker link", Target = "_blank" })
+</p>
+
