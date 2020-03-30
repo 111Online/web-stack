@@ -1,0 +1,13 @@
+﻿@using NHS111.Models.Models.Web.Elements
+<h2 class="nhsuk-heading-l">
+    Get text messages from the NHS about coronavirus
+</h2>
+<p>
+    Share your mobile number to get advice and links to trusted sources of information and support.
+</p>
+
+<p style="font-size: 16px;">Link opens in a new tab or window</p>
+<p>
+    @Html.Partial("_ActionLink", new ActionLinkViewModel { Text = "Sign up", Url = "/covid-19/sms", EventTrigger = "click", EventValue = "SMS text messging link", Target="_blank" })
+</p>
+

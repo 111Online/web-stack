@@ -83,12 +83,6 @@ namespace NHS111.Web.Functional.Tests
                 directLink.VerifyServiceDetails();
             }
 
-            [Test]
-            public void OutOfAreaPage()
-            {
-                var directLink = TestScenarioPart.DirectLinking(Driver, "/question/direct/PW1827MaleAdult/33/Emergency%20Prescription%20111%20online/so302un/?answers=0,1,1");
-                directLink.VerifyOutOfArea();
-            }
 
             [Test] //added time on to find a time when nothing returns, Pharmacies nationwide have had digital referral role added and too many to remove.
             public void NoRecommendedServicesPage()

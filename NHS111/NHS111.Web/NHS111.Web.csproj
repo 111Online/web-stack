@@ -485,6 +485,14 @@
     <Content Include="Views\Shared\_GetIsolationNote.cshtml" />
     <Content Include="Views\Question\Custom\SymptomsStarted.cshtml" />
     <Content Include="Views\Shared\_LinkSummary.cshtml" />
+    <Content Include="Views\Outcome\SMS\Send_SMS.cshtml" />
+    <Content Include="Views\Shared\_CommonHiddenFieldsAnswer.cshtml" />
+    <Content Include="Views\Outcome\Confirmation\SMS\Confirmation.cshtml" />
+    <Content Include="Views\Outcome\Confirmation\SMS\Failure.cshtml" />
+    <Content Include="Views\Shared\_commonHiddenFieldsSendsSMSViewModel.cshtml" />
+    <Content Include="Views\Home\StayAtHomeHub.cshtml" />
+    <Content Include="Views\Shared\_GetTextMessages.cshtml" />
+    <Content Include="Views\Shared\_GetStatusChecker.cshtml" />
     <None Include="Web.Development.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

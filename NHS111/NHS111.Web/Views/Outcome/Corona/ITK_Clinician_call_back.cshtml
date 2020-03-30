@@ -33,70 +33,78 @@
 
 @if (noITKServicesAreAvailable && Model.CurrentPostcode != null)
 {
-    <section class="nhsuk-core measure">
-        <h1>Call 111 and speak to a nurse</h1>
-        
-        <div class="callout callout--lite callout--warning nhsuk-u-margin-bottom-4">
-            <p>The phone service will be very busy but you <b>must</b> wait to speak to someone. Tell 111 that you are calling about coronavirus symptoms.</p>
-        </div>
-        
-        <p>Your symptoms suggest that you might have a coronavirus infection.</p>
-        <p>The nurse will:</p>
-        <ul>
-            <li>
-                ask you more about your symptoms
-            </li>
-            <li>
-                tell you what to do next
-            </li>
-        </ul>
+  <section class="nhsuk-core measure">
+    <h1 class="nhsuk-heading-xl">Call 111 and speak to a nurse</h1>
 
-        <div class="callout callout--info callout--lite nhsuk-u-margin-bottom-4">
-            <p>You need to stay away from other people until you have spoken to 111.</p>
-            <p>
-                <a href="https://www.nhs.uk/conditions/coronavirus-covid-19/self-isolation-advice/">
-                    Read more stay at home advice on NHS.UK.
-                </a>
-            </p>
-        </div>
-        
-        <div class="callout callout--attention nhsuk-u-margin-bottom-7">
-            <p>To protect others, <b>do not go</b> to a GP, pharmacy or hospital</p>
-        </div>
+    <div class="callout callout--lite callout--warning nhsuk-u-margin-bottom-4">
+      <p>
+        The phone service will be very busy but you <b>must</b> wait to speak to someone.
+        Tell 111 that you are calling about coronavirus symptoms.
+      </p>
+    </div>
 
-        @Html.Partial("_GetIsolationNote")
-    </section>
+    <p>
+      Your symptoms suggest that you might have a coronavirus infection.
+    </p>
+    <p>
+      The nurse will:
+    </p>
+    <ul>
+      <li>ask you more about your symptoms</li>
+      <li>tell you what to do next</li>
+    </ul>
+
+    <div class="callout callout--info callout--lite nhsuk-u-margin-bottom-4">
+      <p>
+        You need to stay away from other people until you have spoken to 111.
+      </p>
+      <p>
+        <a href="https://www.nhs.uk/conditions/coronavirus-covid-19/self-isolation-advice/" data-event-trigger="click" data-event-value="Self isolation advice NHS.UK link">
+          Read more self-isolation advice on NHS.UK
+        </a>
+      </p>
+    </div>
+
+    <div class="callout callout--attention nhsuk-u-margin-bottom-6">
+      <p>To protect others, <b>do not go</b> to a GP, pharmacy or hospital</p>
+    </div>
+
+    @Html.Partial("_GetIsolationNote")
+
+  </section>
 }
 else
 {
-<section class="nhsuk-core measure">
-    <h1>Book a call with a 111 nurse</h1>
-    <p>A nurse from the COVID clinical response service needs to speak to you.</p>
-
-    <p>When you book a call the nurse will:</p>
+  <section class="nhsuk-core measure">
+    <h1 class="nhsuk-heading-xl">Book a call with a 111 nurse</h1>
+    <p>
+      A nurse from the COVID clinical response service needs to speak to you.
+    </p>
+    <p>
+      When you book a call the nurse will:
+    </p>
     <ul>
-        <li>
-            know the answers you have already given
-        </li>
-        <li>
-            ask you some more questions about your symptoms and current health
-        </li>
+      <li>know the answers you have already given</li>
+      <li>ask you some more questions about your symptoms and current health</li>
     </ul>
+    <p>
+      It’s important that you speak to the nurse. You should get a call within 2
+      hours. The 111 service is very busy, so it could take longer than usual.
+    </p>
 
-    <p>It's important that you speak to the nurse. You should get a call within 2 hours. The 111 service is very busy, so it could take longer than usual.</p>
-
-    
     <div class="callout callout--info callout--lite nhsuk-u-margin-bottom-4">
-        <p>You need to stay away from other people.</p>
-        <p>
-            <a href="https://www.nhs.uk/conditions/coronavirus-covid-19/self-isolation-advice/">
-                Read more stay at home advice on NHS.UK.
-            </a>
-        </p>
+      <p>
+        You need to stay away from other people.
+      </p>
+      <p>
+        <a href="https://www.nhs.uk/conditions/coronavirus-covid-19/self-isolation-advice/" data-event-trigger="click" data-event-value="Self isolation advice NHS.UK link">
+          Read more self-isolation advice on NHS.UK
+        </a>
+      </p>
     </div>
-    
-    <div class="callout callout--attention nhsuk-u-margin-bottom-4">
-        <p>To protect others, <b>do not go</b> to a GP, pharmacy or hospital</p>
+
+    <div class="callout callout--attention nhsuk-u-margin-bottom-6">
+      <p>To protect other people, <b>do not go</b> to a GP, pharmacy or hospital</p>
     </div>
 
     @using (Html.BeginForm("PersonalDetails", "PersonalDetails", FormMethod.Post))
@@ -107,5 +115,5 @@ else
         <button type="submit" name="PersonalDetails" value="Book a call">Book a nurse call</button>
     }
 
-</section>
+  </section>
 }

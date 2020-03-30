@@ -1,4 +1,5 @@
-﻿using log4net;
+﻿using System.Net;
+using log4net;
 using NHS111.Utils.IoC;
 using NHS111.Utils.RestTools;
 using NHS111.Web.Presentation.Builders;
@@ -32,7 +33,9 @@ namespace NHS111.Web.Presentation.IoC
                 .Ctor<IRestClient>("restClientPostcodeApi")
                 .Is(new LoggingRestClient(new Configuration.Configuration().PostcodeApiBaseUrl, LogManager.GetLogger("log")))
                 .Ctor<IRestClient>("restClientItkDispatcherApi")
-                .Is(new LoggingRestClient(new Configuration.Configuration().ItkDispatcherApiBaseUrl, LogManager.GetLogger("log")));
+                .Is(new LoggingRestClient(new Configuration.Configuration().ItkDispatcherApiBaseUrl, LogManager.GetLogger("log")))
+                .Ctor<IRestClient>("restClientCaseDataCaptureApi")
+                .Is(new LoggingRestClient(new Configuration.Configuration().CaseDataCaptureApiBaseUrl, LogManager.GetLogger("log")));
             For<ICCGModelBuilder>().Singleton()
                 .Use<CCGViewModelBuilder>()
                 .Ctor<IRestClient>()
@@ -46,6 +49,7 @@ namespace NHS111.Web.Presentation.IoC
                 scan.TheCallingAssembly();
                 scan.WithDefaultConventions();
             });
+            ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
         }
     }
 }
