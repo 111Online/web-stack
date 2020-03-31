@@ -30,15 +30,43 @@ namespace NHS111.Business.Api.Controllers
         [Route("pathway/{id}")]
         public async Task<JsonResult<Pathway>> Get(string id)
         {
+            string cacheKey = String.Format("Pathway-{0}", id);
+
+#if !DEBUG
+            var cacheValue = await _cacheManager.Read(cacheKey);
+
+            if (!String.IsNullOrEmpty(cacheValue))
+                return Json(JsonConvert.DeserializeObject<Pathway>(cacheValue));
+#endif
+
             var pathway = await _pathwayService.GetPathway(id);
+
+#if !DEBUG
+            _cacheManager.Set(cacheKey, JsonConvert.SerializeObject(pathway));
+#endif
+
             return Json(pathway);
         }
 
         [Route("pathway/metadata/{id}")]
         public async Task<JsonResult<PathwayMetaData>> GetMetaData(string id)
         {
-            var pathway = await _pathwayService.GetPathwayMetaData(id);
-            return Json(pathway);
+            string cacheKey = String.Format("PathwayMetaData-{0}", id);
+
+#if !DEBUG
+            var cacheValue = await _cacheManager.Read(cacheKey);
+
+            if (!String.IsNullOrEmpty(cacheValue))
+                return Json(JsonConvert.DeserializeObject<PathwayMetaData>(cacheValue));
+#endif
+
+            var metadata = await _pathwayService.GetPathwayMetaData(id);
+
+#if !DEBUG
+            _cacheManager.Set(cacheKey, JsonConvert.SerializeObject(metadata));
+#endif
+
+            return Json(metadata);
         }
 
         [Route("pathway/{pathwayNumbers}/{gender}/{age}")]
@@ -67,11 +95,11 @@ namespace NHS111.Business.Api.Controllers
         {
             var cacheKey = String.Format("PathwayGetAll-{0}-{1}", gender, age);
 #if !DEBUG
-                var cacheValue = await _cacheManager.Read(cacheKey);
-                if (!string.IsNullOrEmpty(cacheValue))
-                {
-                    return Json(JsonConvert.DeserializeObject<IEnumerable<Pathway>>(cacheValue));
-                }
+            var cacheValue = await _cacheManager.Read(cacheKey);
+            if (!string.IsNullOrEmpty(cacheValue))
+            {
+                return Json(JsonConvert.DeserializeObject<IEnumerable<Pathway>>(cacheValue));
+            }
 #endif
             var pathways = await _pathwayService.GetPathways(false, false, gender, age);
 #if !DEBUG
@@ -83,27 +111,13 @@ namespace NHS111.Business.Api.Controllers
         [Route("pathway_suggest/{name}/{startingOnly}")]
         public async Task<JsonResult<IEnumerable<GroupedPathways>>> GetSuggestedPathway(string name, bool startingOnly)
         {
-            var suggestedPathways = await _searchCorrectionService.GetCorrection(name, startingOnly);
-            return Json(suggestedPathways);
+            return await GetGroupedPathways(name, startingOnly);
         }
 
         [Route("pathway_suggest/{name}/{startingOnly}/{gender}/{age}")]
         public async Task<JsonResult<IEnumerable<GroupedPathways>>> GetSuggestedPathway(string name, bool startingOnly, string gender, int age)
         {
-
-            var cacheKey = String.Format("PathwayGetAllGrouped-{0}-{1}", gender, age);
-#if !DEBUG
-                var cacheValue = await _cacheManager.Read(cacheKey);
-                if (cacheValue != null)
-                {
-                    return Json(_searchCorrectionService.GetCorrection(JsonConvert.DeserializeObject<List<GroupedPathways>>(cacheValue), name));
-                }
-#endif
-            var pathways = await _pathwayService.GetGroupedPathways(true, false);
-#if !DEBUG
-            _cacheManager.Set(cacheKey, JsonConvert.SerializeObject(pathways));
-#endif
-            return Json(_searchCorrectionService.GetCorrection(pathways, name));
+            return await GetGroupedPathways(name, false);
         }
 
         [Route("pathway_direct/{pathwayTitle}")]
@@ -123,8 +137,28 @@ namespace NHS111.Business.Api.Controllers
         [Route("pathway_question/{name}/{gender}/{age}")]
         public async Task<JsonResult<IEnumerable<GroupedPathways>>> GetPathwayQuestion(string name, bool startingOnly)
         {
-            var pathways = await _searchCorrectionService.GetCorrection(name, startingOnly);
-            return Json(pathways);
+            return await GetGroupedPathways(name, startingOnly);
+        }
+
+        private async Task<JsonResult<IEnumerable<GroupedPathways>>> GetGroupedPathways(string name, bool startingOnly)
+        {
+            var cacheKey = String.Format("PathwaysGetGrouped-{0}-{1}", name, startingOnly);
+
+#if !DEBUG
+            var cacheValue = await _cacheManager.Read(cacheKey);
+
+            if (!string.IsNullOrEmpty(cacheValue))
+                return Json(JsonConvert.DeserializeObject<IEnumerable<GroupedPathways>>(cacheValue));
+#endif
+
+            var pathways = await _pathwayService.GetGroupedPathways(true, startingOnly);
+            var corrected = _searchCorrectionService.GetCorrection(pathways, name);
+
+#if !DEBUG
+            _cacheManager.Set(cacheKey, JsonConvert.SerializeObject(corrected));
+#endif
+
+            return Json(corrected);
         }
     }
 }
