@@ -226,7 +226,10 @@ namespace NHS111.Business.Api.Controllers
 
             // set the system variables relevant to online
             foreach (var systemVariable in _systemVariables)
-                stateDictionary.Add(systemVariable.Key, systemVariable.Value);
+            {
+                if(!stateDictionary.ContainsKey(systemVariable.Key))
+                    stateDictionary.Add(systemVariable.Key, systemVariable.Value);
+            }
 
             var nextLabel = firstNode.Labels.FirstOrDefault();
 

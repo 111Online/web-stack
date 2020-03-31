@@ -91,6 +91,7 @@ namespace NHS111.Web.Controllers
             return model;
         }
 
+        [HttpPost]
         public async Task<ActionResult> SendSMS(SendSmsOutcomeViewModel model)
         {
             var requestData = Mapper.Map<CaseDataCaptureRequest>(model);
