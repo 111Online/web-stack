@@ -18,14 +18,6 @@ namespace NHS111.Business.Services
             _pathwayService = pathwayService;
         }
 
-        public async Task<IEnumerable<GroupedPathways>> GetCorrection(string input, bool startingOnly)
-        {
-            input = input.ToLower();
-            var pathways = await _pathwayService.GetGroupedPathways(true, startingOnly);
-
-           return GetCorrection(pathways, input);
-        }
-
         public IEnumerable<GroupedPathways> GetCorrection(IEnumerable<GroupedPathways> pathwaysToFilter, string input)
         {
 
@@ -40,7 +32,6 @@ namespace NHS111.Business.Services
 
     public interface ISearchCorrectionService
     {
-        Task<IEnumerable<GroupedPathways>> GetCorrection(string input, bool startingOnly);
         IEnumerable<GroupedPathways> GetCorrection(IEnumerable<GroupedPathways> pathwaysToFilter, string input);
     }
 }
