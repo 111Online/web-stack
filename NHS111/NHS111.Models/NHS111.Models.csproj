@@ -218,8 +218,9 @@
     <Compile Include="Models\Domain\VersionInfo.cs" />
     <Compile Include="Models\Web\AgeGenderViewModel.cs" />
     <Compile Include="Models\Web\ApplicationMedium.cs" />
-    <Compile Include="Models\Web\CaseDataCaptureRequest.cs" />
+    <Compile Include="Models\Web\DataCapture\CaseDataCaptureRequest.cs" />
     <Compile Include="Models\Web\ChangePostcodeViewModel.cs" />
+    <Compile Include="Models\Web\DataCapture\DataCaptureResponse.cs" />
     <Compile Include="Models\Web\DetailsViewModel.cs" />
     <Compile Include="Models\Web\Elements\ActionLinkViewModel.cs" />
     <Compile Include="Models\Web\Elements\ButtonViewModel.cs" />

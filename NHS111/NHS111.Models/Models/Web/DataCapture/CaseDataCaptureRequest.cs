@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NHS111.Models.Models.Web
+namespace NHS111.Models.Models.Web.DataCapture
 {
     public class CaseDataCaptureRequest
     {
