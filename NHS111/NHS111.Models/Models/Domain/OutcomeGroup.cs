@@ -77,6 +77,7 @@ namespace NHS111.Models.Models.Domain {
 
         #region Send SMS outcomes
         public static OutcomeGroup Send_SMS = new OutcomeGroup { Id = "Send_SMS", Text = "Send_SMS", DefaultTitle = "Send sms service", Label = "No further action", PostcodeFirst = false, ITK = false, RequiresEmail = false };
+        public static OutcomeGroup Verify_SMS = new OutcomeGroup { Id = "Verify_SMS", Text = "Verify_SMS", DefaultTitle = "Verify sms service", Label = "No further action", PostcodeFirst = false, ITK = false, RequiresEmail = false  };
         #endregion
 
         public static OutcomeGroup[] PrePopulatedDosResultsOutcomeGroups = new OutcomeGroup[] {Dental, ItkPrimaryCare, GP, MentalHealth, AccidentAndEmergency, ClinicianCallBack, Call999Cat3, Call999Cat4, RepeatPrescription, Isolate111 };
@@ -115,7 +116,8 @@ namespace NHS111.Models.Models.Domain {
             #endregion
 
             #region Sebd SMS outcomes
-            { Send_SMS.Id, Send_SMS }
+            { Send_SMS.Id, Send_SMS },
+            { Verify_SMS.Id, Verify_SMS }
             #endregion
         };
 
@@ -227,7 +229,16 @@ namespace NHS111.Models.Models.Domain {
         {
             get
             {
-                return Equals(Send_SMS);
+                return Equals(Send_SMS) || Equals(Verify_SMS);
+            }
+        }
+
+        public bool IsVerifySMS
+        {
+            get
+            {
+                return Equals(Verify_SMS); 
+
             }
         }
 

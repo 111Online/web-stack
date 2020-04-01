@@ -16,5 +16,7 @@ namespace NHS111.Models.Models.Web
         public int Age { get; set; }
         public int SymptomsStartedDaysAgo { get; set; }
         public bool LivesAlone { get; set; }
+        public string AnswerInputValue { get; set; }
+        public string SelectedAnswer { get; set; }
     }
 }

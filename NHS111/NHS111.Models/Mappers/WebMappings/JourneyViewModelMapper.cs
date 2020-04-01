@@ -74,6 +74,9 @@ namespace NHS111.Models.Mappers.WebMappings
                 .ForMember(s => s.SymptomsStartedDaysAgo, o => o.Ignore())
                 .ForMember(s => s.LivesAlone, o => o.Ignore())
                 .ForMember(d => d.Age, o => o.Ignore());
+
+            Mapper.CreateMap<SendSmsOutcomeViewModel, QuestionViewModel>();
+
         }
 
         public class FromAnswerToJourneyViewModelConverter : ITypeConverter<Answer, JourneyViewModel>

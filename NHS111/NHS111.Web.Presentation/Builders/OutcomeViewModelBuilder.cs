@@ -167,7 +167,7 @@ namespace NHS111.Web.Presentation.Builders
             return model;
         }
 
-        public SendSmsOutcomeViewModel SendSmsDetailsBuilder(JourneyViewModel model)
+        public SendSmsOutcomeViewModel SendSmsDetailsBuilder(JourneyViewModel journeyViewModel, string SelectedAnswer)
         {
             //TODO: how to data drive this better?
             var smsSendModel = _mappingEngine.Mapper.Map<SendSmsOutcomeViewModel>(model);
@@ -179,6 +179,7 @@ namespace NHS111.Web.Presentation.Builders
 
             smsSendModel.SymptomsStartedDaysAgo = model.Journey.GetStepInputValue<int>(QuestionType.Date, "TX1113");
             smsSendModel.LivesAlone = model.Journey.GetStepInputValue<bool>(QuestionType.Choice, "TX1114");
+            smsSendModel.SelectedAnswer = SelectedAnswer;
             return smsSendModel;
         }
 
@@ -327,7 +328,7 @@ namespace NHS111.Web.Presentation.Builders
         Task<List<AddressInfoViewModel>> SearchPostcodeBuilder(string input);
         Task<OutcomeViewModel> DispositionBuilder(OutcomeViewModel model);
         Task<OutcomeViewModel> DispositionBuilder(OutcomeViewModel model, DosEndpoint? endpoint);
-        SendSmsOutcomeViewModel SendSmsDetailsBuilder(JourneyViewModel model);
+        SendSmsOutcomeViewModel SendSmsDetailsBuilder(JourneyViewModel journeyViewModel, string SelectedAnswer);
         Task<OutcomeViewModel> PersonalDetailsBuilder(OutcomeViewModel model);
         Task<ITKConfirmationViewModel> ItkResponseBuilder(OutcomeViewModel model);
         Task<OutcomeViewModel> DeadEndJumpBuilder(OutcomeViewModel model);

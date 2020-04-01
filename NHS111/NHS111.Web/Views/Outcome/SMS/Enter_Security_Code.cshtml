@@ -1,0 +1,49 @@
+﻿@using NHS111.Models.Models.Web
+@inherits NHS111.Web.Views.Shared.SurveyLinkView<SendSmsOutcomeViewModel>
+@{
+    Layout = "~/Views/Shared/_LayoutNhsUk.cshtml";
+}
+
+@section Title {
+    NHS 111 - Thanks for providing your details
+}
+
+@section HeadTop {
+    @{ var url = string.Format("/outcome/{0}/{1}/{2}/disposition/", Url.Encode(Model.PathwayNo), Url.Encode(Model.OutcomeGroup.Text), Url.Encode(Model.Id)); }
+    <script>
+        var pageId = '@Model.Id';
+        dataLayer = [
+            {
+                'virtualPageUrl': '@url',
+                'virtualPageTitle': '@Model.TitleWithoutBullets'
+            }];
+    </script>
+}
+
+<div class="nhsuk-core measure">
+    <h1 class="nhsuk-heading-l">Enter your security code</h1>
+
+    <p>For example, "XXXXXX"</p>
+
+    @using (Html.BeginForm("SubmitSMSSecurityCode", "Outcome", FormMethod.Post, new { id = "submitDetailsForm" }))
+    {
+        @Html.Partial("_CommonHiddenFieldsOutcomeViewModel", Model)
+        @Html.Partial("_CommonHiddenFieldsCareAdviceViewModel", Model)
+        @Html.Partial("_commonHiddenFieldsSendsSMSViewModel", Model)
+        @Html.HiddenFor(m => m.SelectedServiceId)
+
+        @Html.ValidationMessageFor(m => m.MobileNumber)
+        @Html.TextBoxFor(m => m.MobileNumber, new { id = "smsVerificationCode", @class = "form-control" })
+
+        <button class="button--next" id="nextScreen" type="submit" name="Question" value="Question">Next</button>
+    }
+    <p>Haven't got a code yet? <a href="">Resend code</a></p>
+</div>
+
+@Html.Partial("_PageLoadingIndicator")
+
+<script>
+    $(document).on('submit', '#submitDetailsForm', function () {
+        startPageLoadingIndicator('Sending your details...')
+    })
+</script>

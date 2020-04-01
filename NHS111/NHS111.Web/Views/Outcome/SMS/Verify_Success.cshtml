@@ -1,0 +1,34 @@
+﻿@using NHS111.Models.Models.Web
+@inherits NHS111.Web.Views.Shared.SurveyLinkView<QuestionViewModel>
+@{
+    Layout = "~/Views/Shared/_LayoutNhsUk.cshtml";
+}
+
+@section Title {
+    NHS 111 - Thanks for providing your details
+}
+
+@section HeadTop {
+    @{ var url = string.Format("/{0}/{1}/{2}/", Url.Encode(Model.PathwayId), Url.Encode(Model.PathwayTitle), Url.Encode(Model.QuestionNo)); }
+    <script>
+        var pageId = '@Model.Id';
+        dataLayer = [
+            {
+                'virtualPageUrl': '@url',
+                'virtualPageTitle': '@Model.TitleWithoutBullets'
+            }];
+    </script>
+}
+
+<div class="nhsuk-core measure">
+    <h1 class="nhsuk-heading-l">Successfully Verified</h1>
+
+    @using (Html.BeginForm("Navigation", "Question", FormMethod.Post))
+    {
+        @Html.Partial("_CommonHiddenFieldsNode", (JourneyViewModel)Model)
+        @Html.HiddenFor(m => m.SelectedAnswer)
+        @Html.HiddenFor(m => m.AnswerInputValue)
+        <button class="button--next" id="nextScreen" type="submit" name="Question" value="Question">Next</button>
+    }
+</div>
+
