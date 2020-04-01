@@ -100,7 +100,7 @@
 
             jQuery.validator.addMethod('agemaximum',
                 function (value, element, params) {
-                    return parseInt(value) <= 199;
+                    return parseInt(value) <= 120;
                 });
 
             jQuery.validator.unobtrusive.adapters.add('agemaximum',

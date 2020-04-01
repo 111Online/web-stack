@@ -67,7 +67,7 @@ namespace NHS111.Models.Models.Domain {
                 case AgeCategoryEnum.Adult:
                     Value = "Adult";
                     MinimumAge = 16;
-                    MaximumAge = 199;
+                    MaximumAge = 120;
                     break;
                 case AgeCategoryEnum.Child:
                     Value = "Child";
