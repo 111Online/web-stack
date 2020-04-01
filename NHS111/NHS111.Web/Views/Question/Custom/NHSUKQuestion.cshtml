@@ -58,18 +58,6 @@
 
 @using (Html.BeginForm("Navigation", "Question", FormMethod.Post))
 {
-
-    @* some variable set to use alternative layout/styling *@
-    bool nhsukstyle;
-    if (Model.PathwayNo != "PC111")
-    {
-        nhsukstyle = false;
-    }
-    else
-    {
-        nhsukstyle = true;
-    }
-
     @Html.HiddenFor(x => Model.SessionId)
     @Html.HiddenFor(x => Model.JourneyId)
     @Html.HiddenFor(x => Model.Id)
@@ -107,9 +95,9 @@
         @Html.HiddenFor(model => Model.CollectedKeywords.ExcludeKeywords[i].Value)
         @Html.HiddenFor(model => Model.CollectedKeywords.ExcludeKeywords[i].IsFromAnswer)
     }
-    <div class="form-group measure@(!ViewData.ModelState.IsValidField("SelectedAnswer") || !ViewData.ModelState.IsValidField("DateAnswer") || !ViewData.ModelState.IsValidField("AnswerInputValue") ? " form-group-error" : ""))@(nhsukstyle ? " nhsuk-form-group" : "")">
-        <fieldset class="@(nhsukstyle ? "nhsuk-fieldset" : "")" aria-describedby="form-item-hint">
-            <legend class="@(nhsukstyle ? "nhsuk-fieldset__legend nhsuk-fieldset__legend--l" : "")">
+    <div class="form-group measure@(!ViewData.ModelState.IsValidField("SelectedAnswer") || !ViewData.ModelState.IsValidField("DateAnswer") || !ViewData.ModelState.IsValidField("AnswerInputValue") ? " form-group-error" : "") nhsuk-form-group">
+        <fieldset class="nhsuk-fieldset" aria-describedby="form-item-hint">
+            <legend class="nhsuk-fieldset__legend nhsuk-fieldset__legend--l">
                 @Html.Raw(Model.TitleWithoutBullets.ParseForMarkdown(new HtmlGenericControl("h1")))
                 @Html.HiddenFor(m => m.TitleWithoutBullets)
             </legend>
@@ -118,20 +106,20 @@
             @if (!String.IsNullOrWhiteSpace(Model.Rationale))
             {
                 var highlight = Model.QuestionNo == Model.TriggerQuestionNo ? "callout--warning" : "callout--info";
-                <div class="callout @highlight @(nhsukstyle ? "nhsuk-hint" : "")" id="form-item-hint">
+                <div class="callout @highlight nhsuk-hint" id="form-item-hint">
                     @Html.Raw(Model.RationaleHtml.ParseForMarkdown(new HtmlGenericControl("p")))
                 </div>
             }
             @if (Model.QuestionType == QuestionType.Choice)
             {
-                <div@(nhsukstyle ? "class=\"nhsuk-radios\"" : "")>
+                <div class="nhsuk-radios">
                     @for (var i = 0; i < Model.OrderedAnswers().Count; i++)
                     {
                         var answer = Model.OrderedAnswers()[i];
                         var isTrigger = Model.QuestionNo == Model.TriggerQuestionNo && answer.Title == Model.TriggerQuestionAnswer;
-                        <div class="multiple-choice@(nhsukstyle ? " nhsuk-radios__item" : "")">
-                            <input name="SelectedAnswer" data-val="true" data-val-required="'SelectedAnswer' should not be empty." type="radio" class="multiple-choice__input@(nhsukstyle ? " nhsuk-radios__input" : "")" id="@answer.TitleWithoutSpaces" value="@Newtonsoft.Json.JsonConvert.SerializeObject(answer)" checked="@isTrigger" />
-                            <label for="@answer.TitleWithoutSpaces" class="multiple-choice--radio@(nhsukstyle ? " nhsuk-label nhsuk-radios__label" : "")">
+                        <div class="multiple-choice nhsuk-radios__item">
+                            <input name="SelectedAnswer" data-val="true" data-val-required="'SelectedAnswer' should not be empty." type="radio" class="multiple-choice__input nhsuk-radios__input" id="@answer.TitleWithoutSpaces" value="@Newtonsoft.Json.JsonConvert.SerializeObject(answer)" checked="@isTrigger" />
+                            <label for="@answer.TitleWithoutSpaces" class="multiple-choice--radio nhsuk-label nhsuk-radios__label">
                                 @if (isTrigger)
                                 {@answer.Title<span class="highlight-term">&mdash; this means we can't rule out a serious condition</span>}
                             else
@@ -143,32 +131,17 @@
                             }
                         </div>
                     }
-        </div>
-    }
+                </div>
+            }
             @if (Model.QuestionType == QuestionType.String)
             {
                 @Html.ValidationMessageFor(m => m.AnswerInputValue, "Please give an answer", new { @class = "error-message" })
-
-                if (!nhsukstyle)
-                {
-                    @Html.TextBoxFor(m => m.AnswerInputValue, new { });
-                }
-                else
-                {
-                    @Html.TextBoxFor(m => m.AnswerInputValue, new { @class = "nhsuk-input" });
-                }
+                @Html.TextBoxFor(m => m.AnswerInputValue, new { @class = "nhsuk-input" });
             }
             @if (Model.QuestionType == QuestionType.Telephone)
             {
                 @Html.ValidationMessageFor(m => m.AnswerInputValue, "Enter a valid mobile number", new { @class = "error-message" })
-                if (!nhsukstyle)
-                {
-                    @Html.TextBoxFor(m => m.AnswerInputValue, new { });
-                }
-                else
-                {
-                    @Html.TextBoxFor(m => m.AnswerInputValue, new { @class = "nhsuk-input" });
-                }
+                @Html.TextBoxFor(m => m.AnswerInputValue, new { @class = "nhsuk-input" });
             }
             @if (Model.QuestionType == QuestionType.Text)
             {
@@ -181,15 +154,8 @@
                 var error = (state != null) ? state.Errors.Any() ? state.Errors.First().ErrorMessage : string.Empty : string.Empty;
 
                 @Html.ValidationMessageFor(m => m.AnswerInputValue, error, new { @class = "error-message" })
-
-                if (!nhsukstyle)
-                {
-                    @Html.TextBoxFor(m => m.AnswerInputValue, new { @class = "form-textbox form-textbox--small js-validate-number", style = "display: inline-block;", inputmode = "numeric", size = 3, pattern = "[0-9]+", autocomplete = "off" })
-                }
-                else
-                {
-                    @Html.TextBoxFor(m => m.AnswerInputValue, new { @class = "form-textbox form-textbox--small js-validate-number nhsuk-input", style = "display: inline-block;", inputmode = "numeric", size = 3, pattern = "[0-9]+", autocomplete = "off" })
-                }
+                @Html.TextBoxFor(m => m.AnswerInputValue, new { @class = "form-textbox form-textbox--small js-validate-number nhsuk-input", style = "display: inline-block;", inputmode = "numeric", size = 3, pattern = "[0-9]+", autocomplete = "off" })
+                
                 if (Model.Answers.First().Title.ToLower().Equals("symptomsstarted"))
                 {
                     <span class="form-hint" style="display: inline-block; margin-left: 15px;">days ago</span>
@@ -197,13 +163,13 @@
             }
             @if (Model.QuestionType == QuestionType.Boolean)
             {
-                <div@(nhsukstyle ? "class=\"nhsuk-checkboxes\"" : "")>
+                <div class="nhsuk-checkboxes">
                     @for (var i = 0; i < Model.OrderedAnswers().Count; i++)
                     {
                         var answer = Model.OrderedAnswers()[i];
-                        <div class="multiple-choice@(nhsukstyle ? " nhsuk-checkboxes__item" : "")">
-                            <input name="SelectedAnswer" data-val="true" data-val-required="'SelectedAnswer' should not be empty." type="checkbox" class="multiple-choice__input@(nhsukstyle ? " nhsuk-checkboxes__input" : "")" id="@string.Format("{0}_1", Model.Id)" value="@Newtonsoft.Json.JsonConvert.SerializeObject(answer)" />
-                            <label for="@string.Format("{0}_1", Model.Id)" class="multiple-choice--radio@(nhsukstyle ? " nhsuk-label nhsuk-checkboxes__label" : "")">
+                        <div class="multiple-choice nhsuk-checkboxes__item">
+                            <input name="SelectedAnswer" data-val="true" data-val-required="'SelectedAnswer' should not be empty." type="checkbox" class="multiple-choice__input nhsuk-checkboxes__input" id="@string.Format("{0}_1", Model.Id)" value="@Newtonsoft.Json.JsonConvert.SerializeObject(answer)" />
+                            <label for="@string.Format("{0}_1", Model.Id)" class="multiple-choice--radio nhsuk-label nhsuk-checkboxes__label">
                                 @answer.Title
                             </label>
                         </div>
@@ -235,31 +201,17 @@
             @Html.Partial("_CommonHiddenFieldsAnswer", Model.Answers)
             </fieldset>
             </div>
-
-            if (!nhsukstyle)
-            {
-                <button class="button--next button--spinner" id="nextScreen" type="submit" name="Question" value="Question">Next question @Html.Partial("_InlineSpinner")</button>
-            }
-            else
-            {
-                <button class="button--next button--spinner@(nhsukstyle ? " nhsuk-button" : "")" id="nextScreen" type="submit" name="Question" value="Question">Next @Html.Partial("_InlineSpinner")</button>
-            }
+            <button class="button--next button--spinner nhsuk-button" id="nextScreen" type="submit" name="Question" value="Question">Next @Html.Partial("_InlineSpinner")</button>
+            
 
             if (!Model.IsFirstStep)
             {
-                if (!nhsukstyle)
-                {
-                    <button class="button--stacked button--previous button--link" id="previousScreen" type="submit" value="PreviousQuestion" name="PreviousQuestion" formnovalidate>Change my previous answer</button>
-                }
-                else
-                {
-                    <button class="button--stacked button--previous button--link nhsuk-back-link__link" id="previousScreen" type="submit" value="PreviousQuestion" name="PreviousQuestion" formnovalidate>
+                <button class="button--stacked button--previous button--link nhsuk-back-link__link" id="previousScreen" type="submit" value="PreviousQuestion" name="PreviousQuestion" formnovalidate>
                         <svg class="nhsuk-icon nhsuk-icon__chevron-left" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true">
                             <path d="M8.5 12c0-.3.1-.5.3-.7l5-5c.4-.4 1-.4 1.4 0s.4 1 0 1.4L10.9 12l4.3 4.3c.4.4.4 1 0 1.4s-1 .4-1.4 0l-5-5c-.2-.2-.3-.4-.3-.7z"></path>
                         </svg>
                         Back
                     </button>
-                }
             }
         }
 
