@@ -73,11 +73,21 @@ namespace NHS111.Models.Models.Web
 
             return viewFilePath;
         }
+
+        protected bool isNHSUKStyle ()
+        {
+            return JourneyModel.PathwayNo.Equals("PC111");
+        }
     }
 
     public class QuestionResultViewModel: JourneyResultViewModel
     {
-        public override string ViewName { get { return "../Question/Question"; } }
+        public override string ViewName { get
+            {
+                if (isNHSUKStyle()) return "../Question/Custom/NHSUKQuestion";
+                return "../Question/Question";
+            }
+        }
 
         public QuestionResultViewModel(JourneyViewModel journeyViewModel) : base(journeyViewModel)
         {

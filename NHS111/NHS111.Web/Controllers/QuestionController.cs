@@ -106,7 +106,9 @@ namespace NHS111.Web.Controllers {
             if (!ModelState.IsValidField("SelectedAnswer") || 
                 !ModelState.IsValidField("AnswerInputValue") ||
                 !ModelState.IsValidField("DateAnswer"))
-                    return View("Question", model);
+            {
+                return View(_viewRouter.Build(model, ControllerContext).ViewName, model);
+            }
 
             
             if (model.NodeType == NodeType.Page && model.Content!=null && model.Content.StartsWith("!CustomView!"))
