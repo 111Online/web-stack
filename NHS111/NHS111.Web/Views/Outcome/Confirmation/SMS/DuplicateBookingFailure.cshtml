@@ -1,0 +1,21 @@
+﻿﻿@using System.Web.Mvc.Html
+@using NHS111.Models.Models.Web
+@inherits NHS111.Web.Views.Shared.SurveyLinkView<SendSmsOutcomeViewModel>
+@{
+    Layout = "~/Views/Shared/_LayoutNhsUk.cshtml";
+}
+@section Title {
+    There’s been a problem
+}
+
+<div class="measure nhsuk-core">
+
+    <h1 class="nhsuk-heading-xl">
+        Number already registered
+    </h1>
+
+    <p>You only need to sign up once.</p>
+    
+    <hr />
+    <p>back to <a href="/covid-19/stayathome">what to do during the isolation period.</a></p>
+</div>

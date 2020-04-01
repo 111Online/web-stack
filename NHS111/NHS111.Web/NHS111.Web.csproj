@@ -493,6 +493,7 @@
     <Content Include="Views\Home\StayAtHomeHub.cshtml" />
     <Content Include="Views\Shared\_GetTextMessages.cshtml" />
     <Content Include="Views\Shared\_GetStatusChecker.cshtml" />
+    <Content Include="Views\Outcome\Confirmation\SMS\DuplicateBookingFailure.cshtml" />
     <None Include="Web.Development.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
