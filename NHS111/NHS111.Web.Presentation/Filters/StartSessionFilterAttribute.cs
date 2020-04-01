@@ -32,6 +32,10 @@ namespace NHS111.Web.Presentation.Filters
             if (hasCookie && hasSessionInModel)
                 return;
 
+            // When the user first lands on the site, store browser info. BrowserInfo is a wrapper that lets us increase accuracy manually.
+            var browserInfo = new BrowserInfo(filterContext.HttpContext.Request);
+            var pageName = string.Format("{0}/{1}", filterContext.ActionDescriptor.ControllerDescriptor.ControllerName, filterContext.ActionDescriptor.ActionName);
+            
             if (!hasCookie && !hasSessionInModel)
             {
                 model.SessionId = Guid.NewGuid();
@@ -49,10 +53,6 @@ namespace NHS111.Web.Presentation.Filters
                 };
                 filterContext.HttpContext.Response.Cookies.Add(cookie);
 
-                // When the user first lands on the site, store browser info. BrowserInfo is a wrapper that lets us increase accuracy manually.
-                var browserInfo = new BrowserInfo(filterContext.HttpContext.Request);
-                var pageName = string.Format("{0}/{1}", filterContext.ActionDescriptor.ControllerDescriptor.ControllerName, filterContext.ActionDescriptor.ActionName);
-
                 // Check if the referrer is NHS App, ideally should use the cookie but that is not set till after this. 
                 // That's not an issue as the app will always be using the query string on session start.
                 var isNHSApp = filterContext.HttpContext.Request.QueryString["utm_medium"] == "nhs app";
@@ -69,6 +69,12 @@ namespace NHS111.Web.Presentation.Filters
             {
                 var sessionId = filterContext.HttpContext.Request.Cookies[SessionCookieName];
                 model.SessionId = Guid.Parse(sessionId.Value);
+            }
+
+            if (!string.IsNullOrEmpty(filterContext.HttpContext.Request.QueryString["d"]))
+            {
+                var covidValue = filterContext.HttpContext.Request.QueryString["d"];
+                _auditLogger.LogEvent(model, EventType.Clicked, string.Format("External COVID-19 SMS Text : {0}", covidValue), pageName);
             }
         }
     }
