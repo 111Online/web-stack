@@ -73,7 +73,7 @@
         <fieldset class="age-content" id="container_@Html.IdFor(m => m.UserInfo.Demography.Age)">
             @Html.LabelFor(m => m.UserInfo.Demography.Age, "Age in years", new { @class = "form-label" })
             @Html.ValidationMessageFor(m => m.UserInfo.Demography.Age, null, new { @class = "error-message" })
-            @Html.TextBoxFor(m => m.UserInfo.Demography.Age, new { @class = "form-textbox form-textbox--small js-validate-number", type = "number", size = 3, autocomplete = "off" })
+            @Html.TextBoxFor(m => m.UserInfo.Demography.Age, new { @class = "form-textbox form-textbox--small js-validate-number", inputmode="numeric", maxLength = 3, autocomplete = "off" })
         </fieldset>
     </div>
 
