@@ -56,7 +56,8 @@ namespace NHS111.Web.Presentation.Filters
                 // Check if the referrer is NHS App, ideally should use the cookie but that is not set till after this. 
                 // That's not an issue as the app will always be using the query string on session start.
                 var isNHSApp = filterContext.HttpContext.Request.QueryString["utm_medium"] == "nhs app";
-                var referrer = isNHSApp ? "NHS App" : browserInfo.Referer;
+                var isSMSReferral = string.IsNullOrEmpty(filterContext.HttpContext.Request.QueryString["d"]);
+                var referrer = isNHSApp ? "NHS App" : isSMSReferral ? "SMS Text" : browserInfo.Referer;
 
                 _auditLogger.LogEvent(model, EventType.Browser, browserInfo.Browser, pageName);
                 _auditLogger.LogEvent(model, EventType.BrowserVersion, browserInfo.MajorVersionString, pageName);
