@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using AutoMapper;
 using NHS111.Models.Models.Web;
+using NHS111.Models.Models.Web.DataCapture;
 
 namespace NHS111.Models.Mappers.WebMappings
 {

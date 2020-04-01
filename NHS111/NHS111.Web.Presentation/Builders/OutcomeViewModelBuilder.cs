@@ -9,6 +9,7 @@ using System.Web.UI.WebControls;
 using AutoMapper;
 using NHS111.Models.Models.Domain;
 using NHS111.Models.Models.Web;
+using NHS111.Models.Models.Web.DataCapture;
 using NHS111.Models.Models.Web.DosRequests;
 using NHS111.Models.Models.Web.FromExternalServices;
 using NHS111.Models.Models.Web.ITK;
@@ -60,12 +61,12 @@ namespace NHS111.Web.Presentation.Builders
             _recommendedServiceBuilder = recommendedServiceBuilder;
         }
 
-        public async Task<bool> SendToCaseDataCaptureApi(CaseDataCaptureRequest requestData)
+        public async Task<DataCaptureResponse> SendToCaseDataCaptureApi(CaseDataCaptureRequest requestData)
         {
             var request = new JsonRestRequest(_configuration.CaseDataCaptureApiSendSMSMessageUrl, Method.POST);
             request.AddJsonBody(requestData);
             var response = await _restClientCaseDataCaptureApi.ExecuteTaskAsync(request);
-            return response.IsSuccessful;
+            return new DataCaptureResponse(response);
         }
 
         public async Task<List<AddressInfoViewModel>> SearchPostcodeBuilder(string input)
@@ -321,7 +322,7 @@ namespace NHS111.Web.Presentation.Builders
 
     public interface IOutcomeViewModelBuilder
     {
-        Task<bool> SendToCaseDataCaptureApi(CaseDataCaptureRequest requestData);
+        Task<DataCaptureResponse> SendToCaseDataCaptureApi(CaseDataCaptureRequest requestData);
         Task<List<AddressInfoViewModel>> SearchPostcodeBuilder(string input);
         Task<OutcomeViewModel> DispositionBuilder(OutcomeViewModel model);
         Task<OutcomeViewModel> DispositionBuilder(OutcomeViewModel model, DosEndpoint? endpoint);

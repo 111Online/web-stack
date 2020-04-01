@@ -4,6 +4,7 @@ using System.Web.Http;
 using System.Web.Script.Serialization;
 using Microsoft.Ajax.Utilities;
 using NHS111.Features;
+using NHS111.Models.Models.Web.DataCapture;
 using NHS111.Models.Models.Web.FromExternalServices;
 using NHS111.Models.Models.Web.Logging;
 using NHS111.Models.Models.Web.Validators;
@@ -99,11 +100,13 @@ namespace NHS111.Web.Controllers
             //TODO: refactor result model buider for itk and data cap +
             // must inheirt from JourneyViewModel to be logged
             var success = await _outcomeViewModelBuilder.SendToCaseDataCaptureApi(requestData);
-
-            if (success)
+            if (success.IsSuccessful)
             {
                 return View("../Outcome/Confirmation/SMS/Confirmation", model);
             }
+            if(success.FailState.HasValue && success.FailState == FailStates.TooManyRegistrations)
+                return View("../Outcome/Confirmation/SMS/DuplicateBookingFailure", model);
+
             return View("../Outcome/Confirmation/SMS/Failure", model);
         }
 
