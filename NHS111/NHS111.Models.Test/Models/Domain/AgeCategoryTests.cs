@@ -105,7 +105,7 @@ namespace NHS111.Models.Test.Models.Domain {
         {
             var sut = new AgeCategory(AgeCategoryEnum.Adult);
             Assert.AreEqual(16, sut.MinimumAge);
-            Assert.AreEqual(120, sut.MaximumAge);
+            Assert.AreEqual(119, sut.MaximumAge);
         }
     }
 }

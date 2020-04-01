@@ -39,7 +39,7 @@ namespace NHS111.Models.Models.Web.Validators
                 var i = 0;
                 RuleFor(p => Convert.ToInt32(p))
                     .GreaterThanOrEqualTo(0)
-                    .LessThanOrEqualTo(120)
+                    .LessThanOrEqualTo(119)
                     .WithMessage("Please enter a valid age");
             }
         }
