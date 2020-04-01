@@ -116,7 +116,7 @@
     <h2 class="nhsuk-heading-l">
         What to do next
     </h2>
-    @using (Html.BeginForm("JustToBeSafeFirst", "JustToBeSafe", FormMethod.Post))
+    @using (Html.BeginForm("JustToBeSafeFirst", "JustToBeSafe", FormMethod.Post, new { target="_blank" }))
     {
         var age = new AgeCategory(Model.UserInfo.Demography.Age);
         Model.PathwayNo = "PC111";
