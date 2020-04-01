@@ -456,7 +456,33 @@ namespace NHS111.Web.Controllers
             return View(viewRouter.ViewName, outcome);
 
         }
-        
+
+        [HttpPost]
+        public async Task<ActionResult> SubmitSMSSecurityCode(SendSmsOutcomeViewModel model)
+        {
+            // Call API to verify
+
+            // Was successful
+            var questionViewModel = new QuestionViewModel();
+            questionViewModel.SelectedAnswer = model.SelectedAnswer;
+            questionViewModel.AnswerInputValue = model.MobileNumber;
+            questionViewModel.Id = "PC111.200";
+            questionViewModel.NodeType = NodeType.Page;
+            questionViewModel.PathwayTitle = model.PathwayTitle;
+            questionViewModel.PathwayId = model.PathwayNo;
+            questionViewModel.QuestionNo = model.QuestionNo;
+            return View("~\\Views\\Outcome\\SMS\\Verify_Success.cshtml", questionViewModel);
+;
+            // Failed
+            return View("~\\Views\\Outcome\\SMS\\Verify_Fail.cshtml");
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> GetSMSSecurityCode(SendSmsOutcomeViewModel model)
+        {
+            return View("~\\Views\\Outcome\\SMS\\Enter_Security_Code.cshtml", model);
+        }
+
         [HttpPost]
         [Route("Outcome/RegisterWithGp", Name = "RegisterWithGp")]
         [Route("Outcome/RegisterWithTempGp", Name = "RegisterWithTempGp")]

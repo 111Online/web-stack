@@ -34,7 +34,7 @@ namespace NHS111.Models.Models.Web
                 subfolder = "Primary_Care/";
             if (outcome.IsCoronaVirus)
                 subfolder = "Corona/";
-            if (outcome.IsSendSMS)
+            if (outcome.IsSendSMS || outcome.IsVerifySMS)
                 subfolder = "SMS/";
 
             if (OutcomeGroup.Isolate111.Equals(outcome))
