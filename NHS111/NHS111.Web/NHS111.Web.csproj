@@ -258,6 +258,9 @@
     <Content Include="robots.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="sitemap.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Views\Outcome\SurveyInterstitial.cshtml" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
