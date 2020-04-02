@@ -1,3 +1,7 @@
 ﻿User-agent: *
 Disallow: /Location/
-Disallow: /PWCorona/
+Disallow: /emergency-prescription
+
+Disallow: /service/covid-19
+Disallow: /covid-19/sms
+Disallow: /covid-19/stayathome
