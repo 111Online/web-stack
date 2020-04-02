@@ -22,9 +22,6 @@
     </script>
 }
 
-
-@Html.HiddenFor(x => Model.Id)
-
 @{
     var searchJourneyViewModel = Mapper.Map<SearchJourneyViewModel>((JourneyViewModel)Model);
     var encryptedQueryStringValues = KeyValueEncryptor.EncryptedKeys(searchJourneyViewModel);
@@ -77,7 +74,9 @@
                 Testing for coronavirus is not needed if you’re staying at home.
             </p>
         </div>
-        <p>
-            <a href="~/covid-19/stayathome" data-event-trigger="click" data-event-value="stay at home link" class="button">Next</a>
-        </p>
+        @using (Html.BeginForm("StayAtHome", "Home", FormMethod.Post))
+        {
+            @Html.Partial("_CommonHiddenFieldsOutcomeViewModel", Model)
+            <button type="submit" name="stayathome" value="Next" data-event-trigger="click" data-event-value="stay at home link">Next</button>
+        }
     </div>
