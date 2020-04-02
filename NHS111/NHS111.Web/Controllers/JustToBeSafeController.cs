@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Web.Mvc;
+using Newtonsoft.Json;
 using NHS111.Models.Models.Web;
 using NHS111.Utils.Attributes;
 using NHS111.Web.Helpers;
@@ -23,6 +25,7 @@ namespace NHS111.Web.Controllers
         [HttpPost]
         public async Task<ActionResult> JustToBeSafeFirst(JustToBeSafeViewModel model)
         {
+            ModelState.Clear();
             var viewData = await _justToBeSafeFirstViewModelBuilder.JustToBeSafeFirstBuilder(model);
             return View(viewData.Item1, viewData.Item2);
         }
@@ -39,7 +42,7 @@ namespace NHS111.Web.Controllers
         [Route("Covid-19/SMS")]
         public async Task<ActionResult> SmsFirstQuestion(JustToBeSafeViewModel model)
         {
-            var firstModel = BuildModel("PC111", model.SessionId);
+            var firstModel = BuildModel("PC111", model);
             return await JustToBeSafeFirst(firstModel);
         }
 
@@ -57,23 +60,43 @@ namespace NHS111.Web.Controllers
             return await JustToBeSafeFirst(model);
         }
 
-        private static QuestionInfoViewModel BuildModel(string pathwayNumber, Guid sessionId)
+        private static QuestionInfoViewModel BuildModel(string pathwayNumber, JustToBeSafeViewModel jtbsModel)
         {
+            var userInfo = jtbsModel.UserInfo;
+            var demogs = userInfo != null ? jtbsModel.UserInfo.Demography : null;
+            var age = userInfo != null &&
+                      demogs != null && demogs.Age > 0
+                ? demogs.Age
+                : 111;
+
+            var gender = userInfo != null &&
+                      demogs != null && !string.IsNullOrEmpty(demogs.Gender)
+                ? demogs.Gender
+                : "Male";
+
+            var state = new Dictionary<string, string>();
+            state.Add("PATIENT_GENDER", string.Format("\"{0}\"", gender.Substring(0, 1)));
+            if (demogs != null && demogs.Age > 0)
+                state.Add("PATIENT_AGE", age.ToString());
+            else
+                state.Add("PATIENT_AGE", "-1");
 
             var model = new QuestionInfoViewModel
             {
-                SessionId = sessionId,
+                SessionId = jtbsModel.SessionId,
                 PathwayNo = pathwayNumber,
-                EntrySearchTerm = String.Format("External get to {0}", pathwayNumber),
-
+                EntrySearchTerm = string.Format("External get to {0}", pathwayNumber),
+                State = state,
+                StateJson = JsonConvert.SerializeObject(state),
                 UserInfo = new UserInfo
                 {
                     Demography = new AgeGenderViewModel
                     {
-                        Age = 111,
-                        Gender = "Male"
+                        Age = age,
+                        Gender = gender
                     }
-                }
+                },
+                CurrentPostcode = jtbsModel.CurrentPostcode
             };
             return model;
         }
