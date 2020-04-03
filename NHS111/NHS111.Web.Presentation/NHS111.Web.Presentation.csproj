@@ -161,6 +161,7 @@
     <Compile Include="Builders\PageDataViewModelBuilder.cs" />
     <Compile Include="Builders\RecommendedServiceBuilder.cs" />
     <Compile Include="Builders\ReferralResultBuilder.cs" />
+    <Compile Include="Builders\RegisterForSMSViewModelBuilder.cs" />
     <Compile Include="Builders\SurveyLinkViewModelBuilder.cs" />
     <Compile Include="Builders\SymptomDiscriminatorCollector.cs" />
     <Compile Include="Builders\JourneyHistoryWrangler.cs" />

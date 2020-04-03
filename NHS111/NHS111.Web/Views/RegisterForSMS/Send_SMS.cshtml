@@ -46,7 +46,7 @@
     
     <p class="nhsuk-u-margin-top-4">You can read more about how we use your data in our <a href="https://digital.nhs.uk/coronavirus/coronavirus-covid-19-response-information-governance-hub" target="_blank" data-event-trigger="click" data-event-value="Information governance hub for Coronavirus">privacy policy (link opens in a new tab or window)</a></p>
 
-    @using (Html.BeginForm("SendSMS", "Outcome", FormMethod.Post, new { id = "submitDetailsForm" }))
+    @using (Html.BeginForm("SubmitSMSRegistration", "RegisterForSMS", FormMethod.Post, new { id = "submitDetailsForm" }))
     {
         @Html.Partial("_CommonHiddenFieldsOutcomeViewModel", Model)
         @Html.Partial("_CommonHiddenFieldsCareAdviceViewModel", Model)
