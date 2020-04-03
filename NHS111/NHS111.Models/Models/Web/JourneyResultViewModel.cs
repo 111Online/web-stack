@@ -117,6 +117,7 @@ namespace NHS111.Models.Models.Web
         }
         public PageResultViewModel(JourneyViewModel journeyViewModel) : base(journeyViewModel)
         {
+            if (isNHSUKStyle()) _viewName = "../Question/Custom/NHSUKPage";
             _viewName = "../Question/Page";
         }
     }
