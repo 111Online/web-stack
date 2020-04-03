@@ -167,25 +167,24 @@ namespace NHS111.Web.Presentation.Builders
             return model;
         }
 
-        public SendSmsOutcomeViewModel SendSmsVerifyDetailsBuilder(JourneyViewModel journeyViewModel, string SelectedAnswer)
+        public SendSmsOutcomeViewModel SendSmsVerifyDetailsBuilder(JourneyViewModel model, string SelectedAnswer)
         {
-            var smsSendModel = _mappingEngine.Mapper.Map<SendSmsOutcomeViewModel>(journeyViewModel);
-            smsSendModel.Journey = journeyViewModel.Journey;
-            smsSendModel.MobileNumber = journeyViewModel.Journey.GetStepInputValue<string>(QuestionType.Telephone, "TX1111");
+            var smsSendModel = _mappingEngine.Mapper.Map<SendSmsOutcomeViewModel>(model);
+            smsSendModel.Journey = model.Journey;
+            smsSendModel.MobileNumber = model.Journey.GetStepInputValue<string>(QuestionType.Telephone, "TX1111");
             smsSendModel.SelectedAnswer = SelectedAnswer;
             return smsSendModel;
         }
 
-        public SendSmsOutcomeViewModel SendSmsDetailsBuilder(JourneyViewModel journeyViewModel)
+        public SendSmsOutcomeViewModel SendSmsDetailsBuilder(JourneyViewModel model)
         {
             //TODO: how to data drive this better?
             var smsSendModel = _mappingEngine.Mapper.Map<SendSmsOutcomeViewModel>(model);
             smsSendModel.MobileNumber = model.Journey.GetStepInputValue<string>(QuestionType.Telephone, "TX1111");
 
-            // If it exists in the state, the age comes from the 111 original journey
-            var age = int.Parse(model.State["PATIENT_AGE"]);
-            smsSendModel.Age = age >= 0 ? age : model.Journey.GetStepInputValue<int>(QuestionType.Integer, "TX1112");
-
+            var age = model.Journey.GetStepInputValue<int>(QuestionType.Integer, "TX1112");
+            smsSendModel.Age = age > 0 ? age : int.Parse(model.State["PATIENT_AGE"]);
+            smsSendModel.VerificationCodeInput = journeyViewModel.Journey.GetStepInputValue<string>(QuestionType.String, "DxC112");
             smsSendModel.SymptomsStartedDaysAgo = model.Journey.GetStepInputValue<int>(QuestionType.Date, "TX1113");
             smsSendModel.LivesAlone = model.Journey.GetStepInputValue<bool>(QuestionType.Choice, "TX1114");
             smsSendModel.SelectedAnswer = SelectedAnswer;
