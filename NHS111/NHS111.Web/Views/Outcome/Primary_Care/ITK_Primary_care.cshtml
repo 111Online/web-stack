@@ -37,6 +37,17 @@
         <h1 class="nhsuk-heading-l">@Model.OutcomeGroup.Text @Model.DispositionUrgencyText</h1>
     </div>
 
+    <div class="callout callout--lite callout--warning">
+        <h5>Coronavirus (COVID-19) advice</h5>
+
+        <p>
+            Do not go to your GP surgery, phone them instead.
+            All GP surgeries have updated their website, emailed or texted about how they're now offering appointments.
+        </p>
+    </div>
+
+    <hr role="presentation" class="nhsuk-u-margin-top-6" />
+
     @{ if (!Model.DosCheckCapacitySummaryResult.ResultListEmpty)
         {
             <ul>
