@@ -51,8 +51,12 @@ namespace NHS111.Web.Presentation.Builders
                         return _mappingEngine.Mapper.Map<SearchJourneyViewModel>(journeyViewModel);
                     }
 
+                    if (journeyViewModel.OutcomeGroup.IsSendSMSVerify)
+                        return _outcomeViewModelBuilder.SendSmsVerifyDetailsBuilder(journeyViewModel,
+                            model.SelectedAnswer);
+
                     if (journeyViewModel.OutcomeGroup.IsSendSMS)
-                        return _outcomeViewModelBuilder.SendSmsDetailsBuilder(journeyViewModel, model.SelectedAnswer);
+                        return _outcomeViewModelBuilder.SendSmsDetailsBuilder(journeyViewModel);
 
                     var outcome = _mappingEngine.Mapper.Map<OutcomeViewModel>(journeyViewModel);
                     var postcodeValidatorRepsonse = _postCodeAllowedValidator.IsAllowedPostcode(outcome.CurrentPostcode);

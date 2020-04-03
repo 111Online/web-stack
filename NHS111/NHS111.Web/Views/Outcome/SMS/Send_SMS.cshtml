@@ -51,6 +51,7 @@
         @Html.Partial("_CommonHiddenFieldsOutcomeViewModel", Model)
         @Html.Partial("_CommonHiddenFieldsCareAdviceViewModel", Model)
         @Html.Partial("_commonHiddenFieldsSendsSMSViewModel", Model)
+        @Html.HiddenFor(m => m.VerificationCodeInput)
         @Html.HiddenFor(m => m.SelectedServiceId)
         <button id="book-call" class="nhsuk-u-margin-top-5">Sign up now</button>
     }
