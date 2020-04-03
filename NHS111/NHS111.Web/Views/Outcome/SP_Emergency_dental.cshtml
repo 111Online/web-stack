@@ -6,10 +6,20 @@
 }
 @section Title { NHS 111 - Get emergency dental treatment }
 
-@Html.Partial("_OutcomeHeader", Model, new ViewDataDictionary { { "OutcomeHeader", string.Format("Your answers suggest you need urgent attention for your dental problem within {0}", Model.TimeFrameText)} })
+@Html.Partial("_OutcomeHeader", Model, new ViewDataDictionary { { "OutcomeHeader", string.Format("Your answers suggest you need urgent attention for your dental problem within {0}", Model.TimeFrameText) } })
+
+<div class="callout callout--lite callout--warning">
+    <h4>Coronavirus (COVID-19) advice</h4>
+
+    <p>
+        You may have to wait longer than usual.
+        If you need a lift, ask the person to wait in the car if possible. If you can, go alone.
+    </p>
+</div>
+
 
 @section HeadTop {
-@{ var url = string.Format("/outcome/{0}/{1}/{2}/disposition/", Url.Encode(Model.PathwayNo), Url.Encode(Model.OutcomeGroup.Text), Url.Encode(Model.Id)); }
+    @{ var url = string.Format("/outcome/{0}/{1}/{2}/disposition/", Url.Encode(Model.PathwayNo), Url.Encode(Model.OutcomeGroup.Text), Url.Encode(Model.Id)); }
     <script>
         var pageId = '@Model.Id';
         dataLayer = [
@@ -53,7 +63,7 @@
     </ul>
 </div>
 
-<hr/>
+<hr />
 
 <div class="outcome-additional-info measure">
     <h3 class="outcome-additional-info-header">

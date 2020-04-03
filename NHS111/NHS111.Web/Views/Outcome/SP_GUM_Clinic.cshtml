@@ -9,8 +9,17 @@
 
 @Html.Partial("_OutcomeHeader", Model)
 
+<div class="callout callout--lite callout--warning">
+    <h4>Coronavirus (COVID-19) advice</h4>
+
+    <p>
+        Do not go to the service, phone them instead.
+        All NHS services have updated their website, emailed or texted about how they're now offering appointments.
+    </p>
+</div>
+
 @section HeadTop {
-@{ var url = string.Format("/outcome/{0}/{1}/{2}/disposition/", Url.Encode(Model.PathwayNo), Url.Encode(Model.OutcomeGroup.Text), Url.Encode(Model.Id)); }
+    @{ var url = string.Format("/outcome/{0}/{1}/{2}/disposition/", Url.Encode(Model.PathwayNo), Url.Encode(Model.OutcomeGroup.Text), Url.Encode(Model.Id)); }
     <script>
         var pageId = '@Model.Id';
         dataLayer = [

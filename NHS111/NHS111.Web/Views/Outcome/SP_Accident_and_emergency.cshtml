@@ -31,7 +31,16 @@
 }
 @Html.Partial("_OutcomeHeaderTwoTitles", Model, new ViewDataDictionary() { { "OutcomeHeader", string.Format("You should go within the next {0}", Model.TimeFrameText) } })
 
-@Html.Partial("_AlternativeServices", Model, new ViewDataDictionary { { "ChangePostcode" , true }})
+<div class="callout callout--lite callout--warning">
+    <h4>Coronavirus (COVID-19) advice</h4>
+
+    <p>
+        You may have to wait longer than usual.
+        If you need a lift, ask the person to wait in the car if possible. If you can, go alone.
+    </p>
+</div>
+
+@Html.Partial("_AlternativeServices", Model, new ViewDataDictionary { { "ChangePostcode", true } })
 
 
 
