@@ -8,6 +8,5 @@
 
 <p style="font-size: 16px;">Link opens in a new tab or window</p>
 <p>
-    @Html.Partial("_ActionLink", new ActionLinkViewModel { Text = "Sign up", Url = "/covid-19/sms", EventTrigger = "click", EventValue = "SMS text messging link", Target="_blank" })
+    @Html.Partial("_ActionButton", new ActionLinkViewModel {Text = "Sign up", EventTrigger = "click", EventValue = "SMS text messging link" })
 </p>
-
