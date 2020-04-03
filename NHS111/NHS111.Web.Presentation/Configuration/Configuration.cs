@@ -237,7 +237,6 @@ namespace NHS111.Web.Presentation.Configuration
     }
 
 
-
     public interface IConfiguration
     {
         string BusinessApiProtocolandDomain { get; }
