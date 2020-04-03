@@ -1,0 +1,239 @@
+﻿@using System.Web.UI.HtmlControls
+@using Markdig
+@using NHS111.Models.Models.Domain
+@using NHS111.Models.Models.Web
+@using NHS111.Models.Models.Web.Elements
+@using NHS111.Models.Models.Web.Enums
+@using NHS111.Utils.Extensions
+
+@{
+    Layout = "~/Views/Shared/_LayoutNhsUKSiteStyle.cshtml";
+}
+
+@inherits NHS111.Web.Views.Shared.DirectLinkingView<QuestionViewModel>
+
+
+@section Title  {NHS 111 Online - @Model.TitleWithoutBullets.MarkdownToPlainText()}
+
+
+@section HeadTop {
+    @{
+        var url = string.Format("/{0}/{1}/{2}/", Url.Encode(Model.PathwayId), Url.Encode(Model.PathwayTitle), Url.Encode(Model.QuestionNo));
+    }
+
+    <script>
+        var pageId = '@Model.PathwayId';
+        dataLayer = [
+            {
+                'virtualPageUrl': document.location.pathname + '@url',
+                'virtualPageTitle': '@Model.TitleWithoutBullets.MarkdownToPlainText()'
+            }];
+    </script>
+}
+
+@section FeedbackSection {
+    @Html.Partial("_FeedbackDetails", new FeedbackViewModel()
+    {
+        UserId = Model.SessionId.ToString(),
+        PageData = new PageDataViewModel(Model.IsFirstStep ? PageDataViewModel.PageType.FirstQuestion : PageDataViewModel.PageType.Question, Model),
+        Heading = "Help us improve this question",
+        Paragraph = "Does it make sense? Do you understand all the words?",
+        ShowOnNhsApp = true
+    })
+}
+
+@functions {
+
+    string WriteDirectLink(JourneyViewModel model)
+    {
+        if (DirectLinkingFeature.IsEnabled)
+        {
+            return "<!-- DIRECT LINK: " + model.StepLink + " -->";
+        }
+
+        return "";
+    }
+
+}
+
+@using (Html.BeginForm("Navigation", "Question", FormMethod.Post))
+{
+    @Html.HiddenFor(x => Model.SessionId)
+    @Html.HiddenFor(x => Model.JourneyId)
+    @Html.HiddenFor(x => Model.Id)
+    @Html.HiddenFor(x => Model.JourneyJson)
+    @Html.HiddenFor(x => Model.PathwayId)
+    @Html.HiddenFor(x => Model.PathwayNo)
+    @Html.HiddenFor(x => Model.PathwayTitle)
+    @Html.HiddenFor(x => Model.PathwayTraumaType)
+    @Html.HiddenFor(x => Model.EntrySearchTerm)
+    @Html.HiddenFor(x => Model.DigitalTitle)
+    @Html.HiddenFor(x => Model.UserInfo.Demography.Age)
+    @Html.HiddenFor(x => Model.UserInfo.Demography.Gender)
+    @Html.HiddenFor(x => Model.CurrentPostcode)
+    @Html.HiddenFor(x => Model.Title)
+    @Html.HiddenFor(x => Model.SymptomDiscriminatorCode)
+    @Html.HiddenFor(x => Model.QuestionNo)
+    @Html.HiddenFor(x => Model.StateJson)
+    @Html.HiddenFor(x => Model.FilterServices)
+    @Html.HiddenFor(x => Model.Campaign)
+    @Html.HiddenFor(x => Model.Source)
+    @Html.HiddenFor(x => Model.IsCustomJourney)
+    @Html.HiddenFor(x => Model.QuestionType)
+    @Html.HiddenFor(x => Model.Rationale)
+    @Html.Hidden("DisplayLoadingPage")
+    @Html.Raw(WriteDirectLink(Model))
+
+    for (int i = 0; i < Model.CollectedKeywords.Keywords.Count; i++)
+    {
+        @Html.HiddenFor(model => Model.CollectedKeywords.Keywords[i].Value)
+        @Html.HiddenFor(model => Model.CollectedKeywords.Keywords[i].IsFromAnswer)
+    }
+
+    for (int i = 0; i < Model.CollectedKeywords.ExcludeKeywords.Count; i++)
+    {
+        @Html.HiddenFor(model => Model.CollectedKeywords.ExcludeKeywords[i].Value)
+        @Html.HiddenFor(model => Model.CollectedKeywords.ExcludeKeywords[i].IsFromAnswer)
+    }
+    <div class="form-group measure@(!ViewData.ModelState.IsValidField("SelectedAnswer") || !ViewData.ModelState.IsValidField("DateAnswer") || !ViewData.ModelState.IsValidField("AnswerInputValue") ? " form-group-error" : "") nhsuk-form-group">
+        <fieldset class="nhsuk-fieldset" aria-describedby="form-item-hint">
+            <legend class="nhsuk-fieldset__legend nhsuk-fieldset__legend--l">
+                @Html.Raw(Model.TitleWithoutBullets.ParseForMarkdown(new HtmlGenericControl("h1")))
+                @Html.HiddenFor(m => m.TitleWithoutBullets)
+            </legend>
+            @Html.ValidationMessageFor(m => m.SelectedAnswer, "Please select an answer", new { @class = "error-message" })
+
+            @if (!String.IsNullOrWhiteSpace(Model.Rationale))
+            {
+                var highlight = Model.QuestionNo == Model.TriggerQuestionNo ? "callout--warning" : "callout--info";
+                <div class="callout @highlight nhsuk-hint" id="form-item-hint">
+                    @Html.Raw(Model.RationaleHtml.ParseForMarkdown(new HtmlGenericControl("p")))
+                </div>
+            }
+            @if (Model.QuestionType == QuestionType.Choice)
+            {
+                <div class="nhsuk-radios">
+                    @for (var i = 0; i < Model.OrderedAnswers().Count; i++)
+                    {
+                        var answer = Model.OrderedAnswers()[i];
+                        var isTrigger = Model.QuestionNo == Model.TriggerQuestionNo && answer.Title == Model.TriggerQuestionAnswer;
+                        <div class="multiple-choice nhsuk-radios__item">
+                            <input name="SelectedAnswer" data-val="true" data-val-required="'SelectedAnswer' should not be empty." type="radio" class="multiple-choice__input nhsuk-radios__input" id="@answer.TitleWithoutSpaces" value="@Newtonsoft.Json.JsonConvert.SerializeObject(answer)" checked="@isTrigger" />
+                            <label for="@answer.TitleWithoutSpaces" class="multiple-choice--radio nhsuk-label nhsuk-radios__label">
+                                @if (isTrigger)
+                                {@answer.Title<span class="highlight-term">&mdash; this means we can't rule out a serious condition</span>}
+                            else
+                            {@answer.Title}
+                            </label>
+                            @if (!String.IsNullOrWhiteSpace(answer.SupportingInformation))
+                            {
+                                @Html.Partial("_HiddenText", new HiddenTextViewModel() { Summary = "What does this mean?", Details = new[] { Html.Encode(@Html.Raw(answer.SupportingInformationHtml)) } })
+                            }
+                        </div>
+                    }
+                </div>
+            }
+            @if (Model.QuestionType == QuestionType.String)
+            {
+                @Html.ValidationMessageFor(m => m.AnswerInputValue, "Please give an answer", new { @class = "error-message" })
+                @Html.TextBoxFor(m => m.AnswerInputValue, new { @class = "nhsuk-input" });
+            }
+            @if (Model.QuestionType == QuestionType.Telephone)
+            {
+                @Html.ValidationMessageFor(m => m.AnswerInputValue, "Enter a valid mobile number", new { @class = "error-message" })
+                @Html.TextBoxFor(m => m.AnswerInputValue, new { @class = "nhsuk-input" });
+            }
+            @if (Model.QuestionType == QuestionType.Text)
+            {
+                @Html.ValidationMessageFor(m => m.AnswerInputValue, "Please give an answer", new { @class = "error-message" })
+                @Html.TextAreaFor(m => m.AnswerInputValue, new { @Value = "", @class = "feedback__input" })
+            }
+            @if (Model.QuestionType == QuestionType.Integer)
+            {
+                var state = ViewContext.ViewData.ModelState["AnswerInputValue"];
+                var error = (state != null) ? state.Errors.Any() ? state.Errors.First().ErrorMessage : string.Empty : string.Empty;
+
+                @Html.ValidationMessageFor(m => m.AnswerInputValue, error, new { @class = "error-message" })
+                @Html.TextBoxFor(m => m.AnswerInputValue, new { @class = "form-textbox form-textbox--small js-validate-number nhsuk-input", style = "display: inline-block;", inputmode = "numeric", size = 3, pattern = "[0-9]+", autocomplete = "off" })
+                
+                if (Model.Answers.First().Title.ToLower().Equals("symptomsstarted"))
+                {
+                    <span class="form-hint" style="display: inline-block; margin-left: 15px;">days ago</span>
+                }
+            }
+            @if (Model.QuestionType == QuestionType.Boolean)
+            {
+                <div class="nhsuk-checkboxes">
+                    @for (var i = 0; i < Model.OrderedAnswers().Count; i++)
+                    {
+                        var answer = Model.OrderedAnswers()[i];
+                        <div class="multiple-choice nhsuk-checkboxes__item">
+                            <input name="SelectedAnswer" data-val="true" data-val-required="'SelectedAnswer' should not be empty." type="checkbox" class="multiple-choice__input nhsuk-checkboxes__input" id="@string.Format("{0}_1", Model.Id)" value="@Newtonsoft.Json.JsonConvert.SerializeObject(answer)" />
+                            <label for="@string.Format("{0}_1", Model.Id)" class="multiple-choice--radio nhsuk-label nhsuk-checkboxes__label">
+                                @answer.Title
+                            </label>
+                        </div>
+                    }
+                    </div>
+                }
+            @if (Model.QuestionType == QuestionType.Date)
+            {
+                @Html.ValidationMessageFor(m => m.DateAnswer.Date, "Enter a valid date", new { @class = "error-message" })
+                <div>
+                    <div class="form-group--inline">
+                        <label for="@Html.IdFor(m => m.DateAnswer.Day)">Day</label>
+                        @Html.TextBoxFor(m => m.DateAnswer.Day, "", new { @class = "form-control form-textbox", placeholder = "DD", inputmode = "numeric", pattern = "[0-9]+", maxlength = "2" })
+                    </div>
+                    <div class="form-group--inline">
+                        <label for="@Html.IdFor(m => m.DateAnswer.Month)">Month</label>
+                        @Html.TextBoxFor(m => m.DateAnswer.Month, "", new { @class = "form-control form-textbox", placeholder = "MM", inputmode = "numeric", pattern = "[0-9]+", maxlength = "2" })
+                    </div>
+                    <div class="form-group--inline">
+                        <label for="@Html.IdFor(m => m.DateAnswer.Year)">Year</label>
+                        @Html.TextBoxFor(m => m.DateAnswer.Year, "", new { @class = "form-control form-textbox", placeholder = "YYYY", inputmode = "numeric", pattern = "[0-9]+", maxlength = "4" })
+                    </div>
+                </div>
+            }
+            @if (Model.QuestionType != QuestionType.Choice && Model.QuestionType != QuestionType.Boolean && Model.Answers.Any())
+            {
+                @Html.Hidden("SelectedAnswer", Newtonsoft.Json.JsonConvert.SerializeObject(Model.Answers.First()));
+            }
+            @Html.Partial("_CommonHiddenFieldsAnswer", Model.Answers)
+            </fieldset>
+            </div>
+            <button class="button--next button--spinner nhsuk-button" id="nextScreen" type="submit" name="Question" value="Question">Next @Html.Partial("_InlineSpinner")</button>
+            
+
+            if (!Model.IsFirstStep)
+            {
+                <button class="button--stacked button--previous button--link nhsuk-back-link__link" id="previousScreen" type="submit" value="PreviousQuestion" name="PreviousQuestion" formnovalidate>
+                        <svg class="nhsuk-icon nhsuk-icon__chevron-left" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true">
+                            <path d="M8.5 12c0-.3.1-.5.3-.7l5-5c.4-.4 1-.4 1.4 0s.4 1 0 1.4L10.9 12l4.3 4.3c.4.4.4 1 0 1.4s-1 .4-1.4 0l-5-5c-.2-.2-.3-.4-.3-.7z"></path>
+                        </svg>
+                        Back
+                    </button>
+            }
+        }
+
+<script type="text/javascript">
+
+    function handleSubmit() {
+        setTimeout(function () {
+            if ($(document.activeElement).val() == "PreviousQuestion") return
+            if ($("main form").valid()) {
+                $(".button--next").attr("disabled", "true")
+                startSpinner()
+            }
+        }, 0)
+    }
+
+    function reset() {
+        stopSpinner()
+        $(".button--next").removeAttr("disabled")
+    }
+
+    $("main form").on("submit", handleSubmit)
+    window.addEventListener("pagehide", reset)
+    window.addEventListener("pageshow", reset)
+
+</script>
