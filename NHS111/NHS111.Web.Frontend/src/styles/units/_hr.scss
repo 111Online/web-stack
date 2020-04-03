@@ -1,7 +1,7 @@
 @import "../environment/settings/colours";
 @import "../environment/settings/typography";
 
-hr {
+hr:not(.nhsuk-section-break--visible) {
   background-color: $grey-4;
   border: 0;
   height: $baseline-grid-unit;
