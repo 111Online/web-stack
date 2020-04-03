@@ -98,6 +98,10 @@ namespace NHS111.Web.Presentation.Builders
 
             var pathway = response.Data;
             var derivedAge = model.UserInfo.Demography.Age == -1 ? pathway.MinimumAgeInclusive : model.UserInfo.Demography.Age;
+            var state = !string.IsNullOrEmpty(model.StateJson)
+                ? JsonConvert.DeserializeObject<Dictionary<string, string>>(model.StateJson)
+                : new Dictionary<string, string>();
+
             var newModel = new JustToBeSafeViewModel
             {
                 PathwayId = pathway.Id,
@@ -108,7 +112,7 @@ namespace NHS111.Web.Presentation.Builders
                 UserInfo = new UserInfo { Demography = new AgeGenderViewModel { Age = derivedAge, Gender = pathway.Gender } },
                 JourneyJson = model.JourneyJson,
                 SymptomDiscriminatorCode = model.SymptomDiscriminatorCode,
-                State = JourneyViewModelStateBuilder.BuildState(pathway.Gender, derivedAge),
+                State = JourneyViewModelStateBuilder.BuildState(pathway.Gender, derivedAge, state),
                 SessionId = model.SessionId,
                 Campaign = model.Campaign,
                 Source = model.Source,

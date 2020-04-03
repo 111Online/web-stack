@@ -258,6 +258,9 @@
     <Content Include="robots.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="sitemap.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Views\Outcome\SurveyInterstitial.cshtml" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
@@ -419,15 +422,12 @@
     <Content Include="Views\Location\Location.cshtml" />
     <Content Include="Views\Location\OutOfArea.cshtml" />
     <Content Include="Views\Location\ConfirmLocation.cshtml" />
-    <Content Include="Views\Location\AskNHS.cshtml" />
-    <Content Include="Views\Location\Babylon.cshtml" />
     <Content Include="Views\Outcome\Repeat_Prescription\RecommendedService.cshtml" />
     <Content Include="Views\Shared\_rs_OtherServices.cshtml" />
     <Content Include="Views\Shared\_rs_CareAdvice.cshtml" />
     <Content Include="Views\Shared\_rs_WorseningAdvice.cshtml" />
     <Content Include="Views\Shared\Elements\_ActionLink.cshtml" />
     <Content Include="Views\Shared\Elements\_ActionButton.cshtml" />
-    <Content Include="Views\Shared\_rs_PhysicalLocationAppointment.cshtml" />
     <Content Include="Views\Shared\_rs_ChangePostcodeLink.cshtml" />
     <Content Include="Views\Shared\_rs_Recommeded_DOS_Service.cshtml" />
     <Content Include="Views\Shared\_rs_goto_type.cshtml" />
@@ -470,10 +470,8 @@
     <Content Include="Views\Shared\_CommonHiddenFieldsSurveyLinkViewModel.cshtml" />
     <Content Include="Views\Outcome\Call_999_cat_1.cshtml" />
     <Content Include="Views\Shared\_EmergencyAlert.cshtml" />
-    <Content Include="Views\Help\LatestAdvice.cshtml" />
     <Content Include="Views\Outcome\Corona\Isolate_SelfCare.cshtml" />
     <Content Include="Views\Outcome\Corona\Isolate_111.cshtml" />
-    <Content Include="Views\Outcome\Corona\High_Level.cshtml" />
     <Content Include="Views\Shared\_ManualAddressForm.cshtml" />
     <Content Include="Views\Outcome\Corona\ManualAddress.cshtml" />
     <Content Include="Views\Outcome\Confirmation\Test_Kit\Confirmation.cshtml" />
@@ -489,7 +487,6 @@
     <Content Include="Views\Outcome\Confirmation\Isolate_111\ServiceUnavailable.cshtml" />
     <Content Include="Views\Shared\_GetIsolationNote.cshtml" />
     <Content Include="Views\Question\Custom\SymptomsStarted.cshtml" />
-    <Content Include="Views\Shared\_Coronavirus111CallbackReferralConfirmation.cshtml" />
     <Content Include="Views\Shared\_LinkSummary.cshtml" />
     <Content Include="Views\Outcome\SMS\Send_SMS.cshtml" />
     <Content Include="Views\Shared\_CommonHiddenFieldsAnswer.cshtml" />
