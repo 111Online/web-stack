@@ -229,7 +229,15 @@ namespace NHS111.Models.Models.Domain {
         {
             get
             {
-                return Equals(Send_SMS) || Equals(Verify_SMS);
+                return Equals(Send_SMS);
+            }
+        }
+
+        public bool IsSendSMSVerify
+        {
+            get
+            {
+                return Equals(Verify_SMS);
             }
         }
 

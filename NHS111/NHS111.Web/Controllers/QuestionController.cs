@@ -1,5 +1,6 @@
 ﻿
 using FluentValidation.Validators;
+using NHS111.Models.Models.Web.FromExternalServices;
 using NHS111.Models.Models.Web.Validators;
 using NHS111.Utils.RestTools;
 using NHS111.Web.Presentation.Filters;
@@ -95,14 +96,46 @@ namespace NHS111.Web.Controllers {
                 JsonConvert.SerializeObject(
                     pathways.Select(pathway => new {label = pathway.Group, value = pathway.PathwayNumbers}));
         }
-        
+
+        [HttpPost]
+        public async Task<ActionResult> SubmitSMSSecurityCode(SendSmsOutcomeViewModel model)
+        {
+            var result = true; // Call to DataCaptureApi to verify
+
+            if (!result) // security code expired
+            {
+                // return security code expired view
+            }
+
+            if (!result) // too many times
+            {
+                // return too many times view
+            }
+
+            if (!result)
+            {
+                // return incorrect security code too many times
+            }
+
+            // Jump back into pathway if success
+            ModelState.Clear();
+            var questionViewModel = Mapper.Map<QuestionViewModel>(model);
+            questionViewModel.Journey = JsonConvert.DeserializeObject<Journey>(model.JourneyJson);
+            questionViewModel.Journey.Steps.Add(new JourneyStep(){Answer = new Answer(), AnswerInputValue = model.VerificationCodeInput, QuestionId = "DxC112", QuestionNo = "DxC112", QuestionType = QuestionType.String});
+           // questionViewModel.Journey.Steps.Add(new JourneyStep() { Answer = new Answer() {} });
+            var answer = JsonConvert.DeserializeObject<Answer>(model.SelectedAnswer);
+            answer.Title = "verify";
+            questionViewModel.SelectedAnswer = JsonConvert.SerializeObject(answer);
+            questionViewModel.AnswerInputValue = model.MobileNumber;
+
+            return await Question(questionViewModel);
+        }
+
         [HttpPost]
         [ActionName("Navigation")]
         [MultiSubmit(ButtonName = "Question")]
         public async Task<ActionResult> Question(QuestionViewModel model)
         {
-          
-
             if (!ModelState.IsValidField("SelectedAnswer") || 
                 !ModelState.IsValidField("AnswerInputValue") ||
                 !ModelState.IsValidField("DateAnswer"))
@@ -110,7 +143,7 @@ namespace NHS111.Web.Controllers {
                 return View(_viewRouter.Build(model, ControllerContext).ViewName, model);
             }
 
-            
+
             if (model.NodeType == NodeType.Page && model.Content!=null && model.Content.StartsWith("!CustomView!"))
                 return await HandleCustomQuestion(model); //Refactor into custom Handler Class
             ModelState.Clear();

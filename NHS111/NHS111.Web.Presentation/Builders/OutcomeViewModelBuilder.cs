@@ -167,7 +167,16 @@ namespace NHS111.Web.Presentation.Builders
             return model;
         }
 
-        public SendSmsOutcomeViewModel SendSmsDetailsBuilder(JourneyViewModel journeyViewModel, string SelectedAnswer)
+        public SendSmsOutcomeViewModel SendSmsVerifyDetailsBuilder(JourneyViewModel journeyViewModel, string SelectedAnswer)
+        {
+            var smsSendModel = _mappingEngine.Mapper.Map<SendSmsOutcomeViewModel>(journeyViewModel);
+            smsSendModel.Journey = journeyViewModel.Journey;
+            smsSendModel.MobileNumber = journeyViewModel.Journey.GetStepInputValue<string>(QuestionType.Telephone, "TX1111");
+            smsSendModel.SelectedAnswer = SelectedAnswer;
+            return smsSendModel;
+        }
+
+        public SendSmsOutcomeViewModel SendSmsDetailsBuilder(JourneyViewModel journeyViewModel)
         {
             //TODO: how to data drive this better?
             var smsSendModel = _mappingEngine.Mapper.Map<SendSmsOutcomeViewModel>(model);
@@ -328,7 +337,9 @@ namespace NHS111.Web.Presentation.Builders
         Task<List<AddressInfoViewModel>> SearchPostcodeBuilder(string input);
         Task<OutcomeViewModel> DispositionBuilder(OutcomeViewModel model);
         Task<OutcomeViewModel> DispositionBuilder(OutcomeViewModel model, DosEndpoint? endpoint);
-        SendSmsOutcomeViewModel SendSmsDetailsBuilder(JourneyViewModel journeyViewModel, string SelectedAnswer);
+        SendSmsOutcomeViewModel SendSmsDetailsBuilder(JourneyViewModel journeyViewModel);
+        SendSmsOutcomeViewModel SendSmsVerifyDetailsBuilder(JourneyViewModel journeyViewModel, string SelectedAnswer);
+
         Task<OutcomeViewModel> PersonalDetailsBuilder(OutcomeViewModel model);
         Task<ITKConfirmationViewModel> ItkResponseBuilder(OutcomeViewModel model);
         Task<OutcomeViewModel> DeadEndJumpBuilder(OutcomeViewModel model);
