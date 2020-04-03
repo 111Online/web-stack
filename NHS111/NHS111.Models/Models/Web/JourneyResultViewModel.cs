@@ -76,7 +76,8 @@ namespace NHS111.Models.Models.Web
 
         protected bool isNHSUKStyle ()
         {
-            return JourneyModel.PathwayNo.Equals("PC111");
+            if (JourneyModel != null) return JourneyModel.PathwayNo != null && JourneyModel.PathwayNo.Equals("PC111");
+            return false;
         }
     }
 
