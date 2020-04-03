@@ -460,7 +460,13 @@ namespace NHS111.Web.Controllers
             return View(viewRouter.ViewName, outcome);
 
         }
-        
+
+        [HttpPost]
+        public async Task<ActionResult> GetSMSSecurityCode(SendSmsOutcomeViewModel model)
+        {
+            return View("~\\Views\\Outcome\\SMS\\Enter_Security_Code.cshtml", model);
+        }
+
         [HttpPost]
         [Route("Outcome/RegisterWithGp", Name = "RegisterWithGp")]
         [Route("Outcome/RegisterWithTempGp", Name = "RegisterWithTempGp")]
