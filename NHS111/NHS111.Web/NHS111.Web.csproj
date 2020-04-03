@@ -258,6 +258,9 @@
     <Content Include="robots.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="sitemap.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Views\Outcome\SurveyInterstitial.cshtml" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
@@ -496,6 +499,7 @@
     <Content Include="Views\Outcome\SMS\Verify_SMS.cshtml" />
     <Content Include="Views\Outcome\SMS\Enter_Security_Code.cshtml" />
     <Content Include="Views\Outcome\SMS\Verify_Fail.cshtml" />
+    <Content Include="Views\Outcome\Confirmation\SMS\DuplicateBookingFailure.cshtml" />
     <None Include="Web.Development.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
