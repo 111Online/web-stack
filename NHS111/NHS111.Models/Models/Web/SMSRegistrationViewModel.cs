@@ -10,6 +10,8 @@ namespace NHS111.Models.Models.Web
     {
         public string ViewName { get; set; }
 
+        public bool VerificationCodeIncorrect { get; set; }
+
         public SendSmsOutcomeViewModel SendSmsOutcomeViewModel;
 
         public SMSRegistrationViewModel(SendSmsOutcomeViewModel sendSmsOutcomeViewModelModel)
