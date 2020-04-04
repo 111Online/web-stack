@@ -214,9 +214,33 @@ namespace NHS111.Models.Models.Domain {
             get
             {
                 return Equals(Verify_SMS); 
-
             }
         }
+
+        public bool CoronaVirusServiceDetailsMessageDontGo
+        {
+            get
+            {
+                return Equals(Optician) || Equals(GumClinic);
+            }
+        }
+
+        public bool CoronaVirusServiceDetailsMessageLongWait
+        {
+            get
+            {
+                return Equals(EmergencyDental);
+            }
+        }
+
+        public bool CoronaVirusServiceListMessageBlank
+        {
+            get
+            {
+                return Equals(Midwife);
+            }
+        }
+
 
         public bool IsCoronaVirusCallback
         {

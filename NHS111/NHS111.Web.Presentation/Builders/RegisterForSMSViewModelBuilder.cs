@@ -131,7 +131,11 @@ namespace NHS111.Web.Presentation.Builders
             if (StatusCode == HttpStatusCode.BadRequest)
             {
                 model.ViewName = "Enter_Verification_Code_SMS";
-                model.VerificationCodeIncorrect = true;
+            }
+
+            if (StatusCode == HttpStatusCode.OK)
+            {
+                model.SendSmsOutcomeViewModel.VerificationCodeInput.IsCorrect = true;
             }
         }
     }

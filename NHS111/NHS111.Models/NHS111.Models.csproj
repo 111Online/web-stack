@@ -239,7 +239,7 @@
     <Compile Include="Models\Web\DosRequests\DosServiceDetailsByIdRequest.cs" />
     <Compile Include="Models\Web\DosRequests\DosServicesByClinicalTermRequest.cs" />
     <Compile Include="Models\Web\Elements\LinkSummaryViewModel.cs" />
-    <Compile Include="Models\Web\EmailAddressViewModelValidator.cs" />
+    <Compile Include="Models\Web\Validators\EmailAddressViewModelValidator.cs" />
     <Compile Include="Models\Web\EmergencyAlertViewModel.cs" />
     <Compile Include="Models\Web\Enums\EventType.cs" />
     <Compile Include="Models\Web\FeedbackResultViewModel.cs" />
@@ -353,6 +353,7 @@
     <Compile Include="Models\Web\Validators\PersonNameValidator.cs" />
     <Compile Include="Models\Web\Validators\PublicAuditViewModelValidator.cs" />
     <Compile Include="Models\Web\Validators\QuestionViewModelValidator.cs" />
+    <Compile Include="Models\Web\Validators\VerificationCodeInputViewModelValidator.cs" />
     <Compile Include="Models\Web\Validators\RuleBuilderExtensions\RuleBuilderExtensions.cs" />
     <Compile Include="Models\Web\ServiceViewModel.cs" />
     <Compile Include="Models\Web\SurgeryViewModel.cs" />
@@ -364,7 +365,9 @@
     <Compile Include="Models\Web\Validators\PersonalInfoCurrentAddressViewModelValidator.cs" />
     <Compile Include="Models\Web\Validators\PostCodeFormatValidator.cs" />
     <Compile Include="Models\Web\Validators\SearchJourneyViewModelValidator.cs" />
+    <Compile Include="Models\Web\Validators\SMSVerificationCodeValidator.cs" />
     <Compile Include="Models\Web\Validators\UserInfoValidator.cs" />
+    <Compile Include="Models\Web\VerificationCodeInputViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
