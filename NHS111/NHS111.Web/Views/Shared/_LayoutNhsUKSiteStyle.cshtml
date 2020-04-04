@@ -92,7 +92,7 @@
     @*Use '@section EmergencyAlert{}' in views to display alert banner*@
     @RenderSection("EmergencyAlert", false)
 
-    <main class="page-section clearfix nhsuk-main-wrapper" id="content" role="main">
+    <main class="page-section clearfix nhsuk-main-wrapper nhsuk-u-padding-bottom-0" id="content" role="main">
         @if (DisclaimerBannerFeature.IsEnabled)
         {
             <!-- toggle disclaimer banner-->
@@ -100,7 +100,7 @@
         }
         @RenderBody()
     </main>
-    <!-- @RenderSection("FeedbackSection", false) -->
+    @RenderSection("FeedbackSection", false)
     @{ var journeyModel = ViewData.Model as JourneyViewModel;}
     <footer role="contentinfo">
         <div class="nhsuk-footer" id="nhsuk-footer">
