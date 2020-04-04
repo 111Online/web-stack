@@ -37,7 +37,7 @@ namespace NHS111.Web.Controllers
             var smsRegistrationViewModel = await
                 _registerForSmsViewModelBuilder.CaseDataCaptureApiGenerateVerificationCode(model);
 
-            //ModelState.Clear();
+            ModelState.Clear();
 
             return View(smsRegistrationViewModel.ViewName, smsRegistrationViewModel.SendSmsOutcomeViewModel);
         }
@@ -45,9 +45,8 @@ namespace NHS111.Web.Controllers
         [HttpPost]
         public async Task<ActionResult> SubmitSMSSecurityCode(SendSmsOutcomeViewModel model)
         {
-            if (ModelState["VerificationCodeInput.InputValue"].Errors.Count > 0)
+            if (VerificationCodeInputIsNotValid())
                 return View("Enter_Verification_Code_SMS", model);
-
 
             var result = await _registerForSmsViewModelBuilder.CaseDataCaptureApiVerifyCode(model);
 
@@ -55,11 +54,16 @@ namespace NHS111.Web.Controllers
                 ? await RedirectToNextQuestion(model) : View(result.ViewName, result.SendSmsOutcomeViewModel);
         }
 
+        private bool VerificationCodeInputIsNotValid()
+        {
+            return ModelState["VerificationCodeInput"] != null && ModelState["VerificationCodeInput"].Errors.Count > 0;
+        }
+
         [HttpPost]
         public async Task<ActionResult> SubmitSMSRegistration(SendSmsOutcomeViewModel model)
         {
-            //TODO: refactor result model buider for itk and data cap +
-            // must inheirt from JourneyViewModel to be logged
+            model.VerificationCodeInput = GetVerificationCodeInputFromJourney(model);
+
             var smsRegistrationViewModel = await _registerForSmsViewModelBuilder.CaseDataCaptureApiSubmitSMSRegistration(model);
 
             return View(smsRegistrationViewModel.ViewName, model);
@@ -93,6 +97,13 @@ namespace NHS111.Web.Controllers
             questionViewModel.SelectedAnswer = JsonConvert.SerializeObject(answer);
             questionViewModel.AnswerInputValue = model.MobileNumber;
             return questionViewModel;
+        }
+
+        private VerificationCodeInputViewModel GetVerificationCodeInputFromJourney(SendSmsOutcomeViewModel model)
+        {
+            var verificationCodeInput = JsonConvert.DeserializeObject<Journey>(model.JourneyJson)
+                .GetStepInputValue<string>(QuestionType.String, "DxC112");
+            return new VerificationCodeInputViewModel(){ InputValue = verificationCodeInput };
         }
     }
 }

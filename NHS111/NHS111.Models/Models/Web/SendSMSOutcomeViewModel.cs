@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace NHS111.Models.Models.Web
 {
+
     public class SendSmsOutcomeViewModel : OutcomeViewModel
     {
         public VerificationCodeInputViewModel VerificationCodeInput{ get; set; }
