@@ -223,6 +223,38 @@ namespace NHS111.Models.Models.Domain {
             }
         }
 
+        public bool CoronaVirusServiceDetailsMessageDontGo
+        {
+            get
+            {
+                return this.Equals(GumClinic);
+            }
+        }
+
+        public bool CoronaVirusServiceDetailsMessageDontGoOptician
+        {
+            get
+            {
+                return this.Equals(Optician);
+            }
+        }
+
+        public bool CoronaVirusServiceDetailsMessageLongWait
+        {
+            get
+            {
+                return this.Equals(EmergencyDental) || this.Equals(AccidentAndEmergencySexualAssault);
+            }
+        }
+
+        public bool CoronaVirusServiceListMessageBlank
+        {
+            get
+            {
+                return this.Equals(Midwife);
+            }
+        }
+
         public bool IsSendSMS
         {
             get
