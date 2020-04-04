@@ -195,7 +195,15 @@ namespace NHS111.Models.Models.Domain {
         {
             get
             {
-                return this.Equals(Optician) || this.Equals(GumClinic);
+                return this.Equals(GumClinic);
+            }
+        }
+
+        public bool CoronaVirusServiceDetailsMessageDontGoOptician
+        {
+            get
+            {
+                return this.Equals(Optician);
             }
         }
 
@@ -203,7 +211,7 @@ namespace NHS111.Models.Models.Domain {
         {
             get
             {
-                return this.Equals(EmergencyDental);
+                return this.Equals(EmergencyDental) || this.Equals(AccidentAndEmergencySexualAssault);
             }
         }
 

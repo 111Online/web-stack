@@ -5,7 +5,6 @@
 {
     <div class="callout callout--lite callout--warning measure">
         <h2 class="nhsuk-heading-xs">Coronavirus (COVID-19) advice</h2>
-
         <p>
             You may have to wait longer than usual.
             If you need a lift, ask the person to wait in the car if possible. If you can, go alone.
@@ -16,11 +15,21 @@
 @if (Model.OutcomeGroup.CoronaVirusServiceDetailsMessageDontGo)
 {
     <div class="callout callout--lite callout--warning measure">
-        <h2 class="nhsuk-heading-xs">Coronavirus (COVID-19) advice</h2>
-
+        <h3 class="nhsuk-heading-xs">Coronavirus (COVID-19) advice</h3>
         <p>
             Do not go to the service, phone them instead.
             All NHS services have updated their website, emailed or texted about how they're now offering appointments.
+        </p>
+    </div>
+}
+
+@if (Model.OutcomeGroup.CoronaVirusServiceDetailsMessageDontGoOptician)
+{
+    <div class="callout callout--lite callout--warning measure">
+        <h3 class="nhsuk-heading-xs">Coronavirus (COVID-19) advice</h3>
+        <p>
+            Do not go to your opticians, phone them instead.
+            All opticians have updated their website, emailed or texted about how they're now offering appointments.
         </p>
     </div>
 }
