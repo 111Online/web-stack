@@ -109,10 +109,10 @@
                 <ul class="nhsuk-footer__list">
                     <li class="nhsuk-footer__list-item"><a href="https://digital.nhs.uk/coronavirus/coronavirus-covid-19-response-information-governance-hub" class="nhsuk-footer__list-item-link" target="_blank">Privacy statement</a></li>
                     <li class="nhsuk-footer__list-item">@Html.ActionLink("Terms and conditions", "Terms", "Help", null, new { @class = "nhsuk-footer__list-item-link", target = "_blank" })</li>
-                    <li class="nhsuk-footer__list-item">@Html.ActionLink("Cookie policy", "Cookies", "Help", null, new { @class = "nhsuk-footer__list-item-link", id = "cookie-link", target = "_blank" })</li>
                 </ul>
                 <p class="nhsuk-footer__copyright">&copy; Crown copyright</p>
             </div>
+            <p class="nhsuk-width-container app-cookies-footer--text">This website only stores the cookies that are needed to make it work. Read more about how @Html.ActionLink("we use cookies.", "Cookies", "Help", null, new { @class = "nhsuk-footer__list-item-link", id = "cookie-link", target = "_blank" })</p>
         </div>
     </footer>
 
