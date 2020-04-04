@@ -37,7 +37,7 @@ namespace NHS111.Web.Controllers
             var smsRegistrationViewModel = await
                 _registerForSmsViewModelBuilder.CaseDataCaptureApiGenerateVerificationCode(model);
 
-            ModelState.Clear();
+            //ModelState.Clear();
 
             return View(smsRegistrationViewModel.ViewName, smsRegistrationViewModel.SendSmsOutcomeViewModel);
         }
@@ -45,8 +45,9 @@ namespace NHS111.Web.Controllers
         [HttpPost]
         public async Task<ActionResult> SubmitSMSSecurityCode(SendSmsOutcomeViewModel model)
         {
-            if (!ModelState.IsValid)
-                return View("Enter_Security_Code", model);
+            if (ModelState["VerificationCodeInput.InputValue"].Errors.Count > 0)
+                return View("Enter_Verification_Code_SMS", model);
+
 
             var result = await _registerForSmsViewModelBuilder.CaseDataCaptureApiVerifyCode(model);
 
@@ -82,7 +83,7 @@ namespace NHS111.Web.Controllers
             questionViewModel.Journey.Steps.Add(new JourneyStep()
             {
                 Answer = new Answer(),
-                AnswerInputValue = model.VerificationCodeInput,
+                AnswerInputValue = model.VerificationCodeInput.InputValue,
                 QuestionId = "DxC112",
                 QuestionNo = "DxC112",
                 QuestionType = QuestionType.String

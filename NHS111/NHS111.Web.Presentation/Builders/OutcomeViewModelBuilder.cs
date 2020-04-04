@@ -177,7 +177,7 @@ namespace NHS111.Web.Presentation.Builders
 
             var age = model.Journey.GetStepInputValue<int>(QuestionType.Integer, "TX1112");
             smsSendModel.Age = age > 0 ? age : int.Parse(model.State["PATIENT_AGE"]);
-            smsSendModel.VerificationCodeInput = journeyViewModel.Journey.GetStepInputValue<string>(QuestionType.String, "DxC112");
+            smsSendModel.VerificationCodeInput = new VerificationCodeInputViewModel() { InputValue = model.Journey.GetStepInputValue<string>(QuestionType.String, "DxC112")};
             smsSendModel.SymptomsStartedDaysAgo = model.Journey.GetStepInputValue<int>(QuestionType.Date, "TX1113");
             smsSendModel.LivesAlone = model.Journey.GetStepInputValue<bool>(QuestionType.Choice, "TX1114");
             smsSendModel.SelectedAnswer = SelectedAnswer;

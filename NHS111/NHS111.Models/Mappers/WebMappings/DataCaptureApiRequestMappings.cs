@@ -24,11 +24,11 @@ namespace NHS111.Models.Mappers.WebMappings
     {
         public VerifyCodeRequest Convert(ResolutionContext context)
         {
-            var sendSmsOutcomeViewModel = (SendSmsOutcomeViewModel)context.SourceValue;
+            var Model = (SendSmsOutcomeViewModel)context.SourceValue;
             var verifyCodeRequest = (VerifyCodeRequest)context.DestinationValue ?? new VerifyCodeRequest();
 
-            verifyCodeRequest.MobilePhoneNumber = sendSmsOutcomeViewModel.MobileNumber;
-            verifyCodeRequest.VerificationCodeInput = sendSmsOutcomeViewModel.VerificationCodeInput;
+            verifyCodeRequest.MobilePhoneNumber = Model.MobileNumber;
+            verifyCodeRequest.VerificationCodeInput = Model.VerificationCodeInput.InputValue;
 
             return verifyCodeRequest;
         }
@@ -38,18 +38,18 @@ namespace NHS111.Models.Mappers.WebMappings
     {
         public SubmitSMSRegistrationRequest Convert(ResolutionContext context)
         {
-            var sendSmsOutcomeViewModel = (SendSmsOutcomeViewModel) context.SourceValue;
+            var Model = (SendSmsOutcomeViewModel) context.SourceValue;
             var submitSmsRegistrationRequest = (SubmitSMSRegistrationRequest) context.DestinationValue ?? new SubmitSMSRegistrationRequest();
             
-            submitSmsRegistrationRequest.JourneyId = sendSmsOutcomeViewModel.JourneyId.ToString();
-            submitSmsRegistrationRequest.PostCode = sendSmsOutcomeViewModel.CurrentPostcode;
-            submitSmsRegistrationRequest.Age = sendSmsOutcomeViewModel.Age;
-            submitSmsRegistrationRequest.Phone = sendSmsOutcomeViewModel.MobileNumber;
-            var daysAgo = sendSmsOutcomeViewModel.SymptomsStartedDaysAgo;
+            submitSmsRegistrationRequest.JourneyId = Model.JourneyId.ToString();
+            submitSmsRegistrationRequest.PostCode = Model.CurrentPostcode;
+            submitSmsRegistrationRequest.Age = Model.Age;
+            submitSmsRegistrationRequest.Phone = Model.MobileNumber;
+            var daysAgo = Model.SymptomsStartedDaysAgo;
             var symptomsStartedDate = DateTime.Now.AddDays(daysAgo * -1);
             submitSmsRegistrationRequest.SymptomsStarted = symptomsStartedDate.ToString("yyyy-MM-dd");
-            submitSmsRegistrationRequest.LiveAlone = sendSmsOutcomeViewModel.LivesAlone;
-            submitSmsRegistrationRequest.VerificationCodeInput = sendSmsOutcomeViewModel.VerificationCodeInput;
+            submitSmsRegistrationRequest.LiveAlone = Model.LivesAlone;
+            submitSmsRegistrationRequest.VerificationCodeInput = Model.VerificationCodeInput.InputValue;
 
             return submitSmsRegistrationRequest;
         }

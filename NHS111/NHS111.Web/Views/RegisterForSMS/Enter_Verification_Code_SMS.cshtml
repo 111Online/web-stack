@@ -23,7 +23,7 @@
 <div class="nhsuk-core measure">
     <h1 class="nhsuk-heading-l">Enter your security code</h1>
 
-    <p>For example, "XXXXXX"</p>
+    <p>This will be a 6-digit number.</p>
 
     @using (Html.BeginForm("SubmitSMSSecurityCode", "RegisterForSMS", FormMethod.Post, new { id = "submitDetailsForm" }))
     {
@@ -33,8 +33,8 @@
         @Html.HiddenFor(m => m.SelectedServiceId)
 
         <div class="inline-details form-group @(ViewData.ModelState.IsValid ? "" : "form-group-error")">
-            @Html.ValidationMessageFor(m => m.VerificationCodeInput)
-            @Html.TextBoxFor(m => m.VerificationCodeInput, new { id = "smsVerificationCode", @class = "nhsuk-input" })
+            @Html.ValidationMessageFor(m => m.VerificationCodeInput.InputValue)
+            @Html.TextBoxFor(m => m.VerificationCodeInput.InputValue, new { id = "smsVerificationCode", @class = "nhsuk-input" })
         </div>
         <button class="button--next" id="nextScreen" type="submit" name="Question" value="Question">Next</button>
     }
