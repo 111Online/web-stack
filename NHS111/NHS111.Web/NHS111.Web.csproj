@@ -505,7 +505,7 @@
     <Content Include="Views\Shared\_ServiceListCovidMessage.cshtml" />
     <Content Include="Views\Question\Custom\NHSUKPage.cshtml" />
     <Content Include="Views\RegisterForSMS\Verify_SMS.cshtml" />
-    <Content Include="Views\RegisterForSMS\Enter_Security_Code.cshtml" />
+    <Content Include="Views\RegisterForSMS\Enter_Verification_Code_SMS.cshtml" />
     <Content Include="Views\RegisterForSMS\Verify_Fail.cshtml" />
     <Content Include="Views\RegisterForSMS\DuplicateBookingFailure.cshtml" />
     <Content Include="Views\RegisterForSMS\Too_Many_Requests_SMS.cshtml" />
