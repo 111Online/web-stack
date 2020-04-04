@@ -41,6 +41,12 @@
 @Html.Partial("_OutcomeHeader", Model, new ViewDataDictionary { { "OutcomeHeader", "Services for " + Model.FormattedCurrentPostcode } })
 
 
+<section class="measure nhsuk-core">
+
+    @Html.Partial("_ServiceDetailsCovidMessage", Model)
+
+</section>
+
 <section>
 
  @Html.Partial("_AlternativeServices", Model)
