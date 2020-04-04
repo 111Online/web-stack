@@ -28,19 +28,27 @@
     @Html.Partial("_SurveyLink", Model.SurveyLink, dataDictionary)
 }
 @section FeedbackSection {
-    @if (!SurveyLinkFeature.IsEnabled) {
+    @if (!SurveyLinkFeature.IsEnabled)
+    {
         @Html.Partial("_FeedbackDetails", new FeedbackViewModel() { UserId = Model.SessionId.ToString(), PageData = new PageDataViewModel(PageDataViewModel.PageType.ServiceList, Model) })
-        }
-        else {
-            @Html.Partial("_SurveyLink", Model.SurveyLink)
-        }
     }
+    else
+    {
+        @Html.Partial("_SurveyLink", Model.SurveyLink)
+    }
+}
 
 @Html.Partial("_OutcomeHeader", Model, new ViewDataDictionary { { "OutcomeHeader", "Services for " + Model.FormattedCurrentPostcode } })
 
 
+<section class="measure nhsuk-core">
+
+    @Html.Partial("_ServiceListCovidMessage", Model)
+
+</section>
+
 <section>
-    @Html.Partial("_AlternativeServices", Model, new ViewDataDictionary { { "Title", Html.Raw(Model.OutcomeGroup.Label) + " for " + Model.CurrentPostcode} })
+    @Html.Partial("_AlternativeServices", Model, new ViewDataDictionary { { "Title", Html.Raw(Model.OutcomeGroup.Label) + " for " + Model.CurrentPostcode } })
 </section>
 
 @Html.Partial("_CareAdvice", Model.CareAdvices, new ViewDataDictionary { { "Title", "What you can do in the meantime" } })
