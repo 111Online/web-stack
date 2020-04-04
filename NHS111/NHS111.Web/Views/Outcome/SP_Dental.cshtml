@@ -31,13 +31,13 @@
 }
 @Html.Partial("_OutcomeHeaderTwoTitles", Model, new ViewDataDictionary() { { "OutcomeHeader", string.Format("You should {0} within the next {1}", Model.OutcomeGroup.Text, Model.TimeFrameText) } })
 
-<div class="callout callout--lite callout--warning">
-    <h4>Coronavirus (COVID-19) advice</h4>
+<div class="callout callout--lite callout--warning measure">
+    <h2 class="nhsuk-heading-xs">Coronavirus (COVID-19) advice</h2>
 
     <p>
         All routine dental appointments have been stopped.
         If you have an urgent dental problem, call your usual dentist for advice.
-        If you do not have a usual dentist, you can use <a data-event-trigger="click" data-event-value="Covid contact dentist" href="https://www.england.nhs.uk/contact-us/">NHS England's contact centre</a> or call NHS 111.
+        If you do not have a usual dentist, you can use <a data-event-trigger="click" data-event-value="Covid contact dentist" href="https://www.england.nhs.uk/contact-us/" target="_blank">NHS England's contact centre</a> or call NHS 111.
     </p>
 </div>
 

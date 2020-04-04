@@ -16,6 +16,7 @@
     </script>
 }
 @section Title { NHS 111 - Get help from a mental health service }
+
 @section SurveyBanner{
     @Html.Partial("_SurveyLink", Model.SurveyLink)
 }
@@ -31,7 +32,16 @@
 }
 @Html.Partial("_OutcomeHeader", Model, new ViewDataDictionary() { { "OutcomeHeader", string.Format("Get help from a mental health service within {0}", Model.TimeFrameText) } })
 
-@Html.Partial("_AlternativeServices", Model, new ViewDataDictionary { { "ChangePostcode" , true }})
+<div class="callout callout--lite callout--warning measure">
+    <h2 class="nhsuk-heading-xs">Coronavirus (COVID-19) advice</h2>
+
+    <p>
+        You may have to wait longer than usual.
+        If you need a lift, ask the person to wait in the car if possible.
+        If you can, go alone.
+    </p>
+</div>
+@Html.Partial("_AlternativeServices", Model, new ViewDataDictionary { { "ChangePostcode", true } })
 
 
 

@@ -191,6 +191,30 @@ namespace NHS111.Models.Models.Domain {
             }
         }
 
+        public bool CoronaVirusServiceDetailsMessageDontGo
+        {
+            get
+            {
+                return this.Equals(Optician) || this.Equals(GumClinic);
+            }
+        }
+
+        public bool CoronaVirusServiceDetailsMessageLongWait
+        {
+            get
+            {
+                return this.Equals(EmergencyDental);
+            }
+        }
+
+        public bool CoronaVirusServiceListMessageBlank
+        {
+            get
+            {
+                return this.Equals(Midwife);
+            }
+        }
+
         public bool IsSendSMS
         {
             get
