@@ -1,6 +1,7 @@
 ﻿@using NHS111.Models.Models.Web
 @inherits NHS111.Web.Views.Shared.DirectLinkingView<JourneyViewModel>
-@{ Layout = "~/Views/Shared/_LayoutNhsUk.cshtml"; }
+
+@{ Layout = "~/Views/Shared/_LayoutNhsUKSiteStyle.cshtml"; }
 
 @section Title  {NHS 111 Online - @Model.TitleWithoutBullets}
 
@@ -38,11 +39,6 @@
 
     if (!Model.NextButtonText.Equals("!hidden!"))
     {
-        <button class="button--next" id="nextScreen" type="submit" name="Question" value="Question">@Model.NextButtonText</button>
-    }
-
-    if (!Model.IsFirstStep)
-    {
-        <button class="button--stacked button--previous button--link" id="previousScreen" type="submit" value="PreviousQuestion" name="PreviousQuestion" formnovalidate>Previous question</button>
+        <button class="button--next nhsuk-button" id="nextScreen" type="submit" name="Question" value="Question">@Model.NextButtonText</button>
     }
 }

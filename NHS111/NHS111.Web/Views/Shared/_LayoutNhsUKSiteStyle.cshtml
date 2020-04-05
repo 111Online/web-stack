@@ -1,0 +1,138 @@
+﻿@using System.Configuration
+@using System.Reflection
+@using NHS111.Models.Models.Web
+@using NHS111.Web.Presentation.Analytics
+@using Configuration = NHS111.Web.Presentation.Configuration.Configuration
+@inherits NHS111.Web.Views.Shared.LayoutView
+
+<!DOCTYPE html>
+<html lang="en" class="nhsuk-">
+<head>
+    @RenderSection("HeadTop", false)
+
+    <link rel="icon" sizes="32x32" href="/content/images/favicon-32.png">
+    <link rel="icon" sizes="228x228" href="/content/images/favicon-228.png">
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+    <title>@RenderSection("Title")</title>
+    @if (ViewBag.Description != null)
+    {
+        <meta name="description" content="@Html.Raw(ViewBag.Description)" />
+    }
+
+    <link rel="preload" as="font" type="font/woff2" crossorigin href="https://assets.nhs.uk/fonts/0811514e-6660-4043-92c1-23d0b8caaa2f.woff2" />
+
+    <!-- css -->
+    <link href="@NHS111.Web.Helpers.Versioning.GetVersionedUriRef("~/Content/css/nhs-111.css")" media="screen" rel="stylesheet" type="text/css">
+    <link rel="preload" href="/content/images/nhs-logotype-blue.svg" as="image" />
+
+    @{
+        if (ViewBag.Medium == ApplicationMediums.NhsApp)
+        {
+            <style>
+                .skiplinks, .global-header, .phase-banner, .feedback-hidden, .survey-banner, main > hr:last-child {
+                    display: none;
+                }
+            </style>
+        }
+    }
+
+
+    <script src="@NHS111.Web.Helpers.Versioning.GetVersionedUriRef("~/Content/js/common.js")"></script>
+    <script>('HTMLDetailsElement' in window) || document.write('<script src="@NHS111.Web.Helpers.Versioning.GetVersionedUriRef("~/Content/js/bundle-polyfills.js")"><\/script>')</script>
+    <script src="@NHS111.Web.Helpers.Versioning.GetVersionedUriRef("~/Content/js/bundle-head.js")"></script>
+    <!-- Javascript -->
+    @if (UserZoomSurveyFeature.IsEnabled)
+    {
+        <script>
+            (function (w) { w.uztracker = w.uztracker || function () { console.warn && console.warn('The uztracker() is not available.'); }; })(window);
+        </script>
+    }
+
+    @if (UserZoomSurveyFeature.IsEnabled)
+    {
+        <script type="text/javascript" charset="utf-8" src="https://cdn3.userzoom.com/uz.js?cuid=AE08A9785B32E2119DA70022196C4538"></script>
+    }
+
+    @RenderSection("Scripts", false)
+
+</head>
+<body>
+
+    @Html.Partial("_CompatibilityBanner")
+
+    @RenderSection("SurveyBanner", false)
+
+    <script type="text/javascript">document.body.className = ((document.body.className) ? document.body.className + ' js-enabled' : 'js-enabled');</script>
+    <header class="nhsuk-header nhsuk-header--transactional" role="banner">
+        <div class="nhsuk-width-container nhsuk-header__container">
+            <div class="nhsuk-header__logo nhsuk-header__logo--only">
+                <a class="nhsuk-header__link" href="/covid-19/sms">
+                    <svg class="nhsuk-logo" xmlns="http://www.w3.org/2000/svg" role="presentation" focusable="false" viewBox="0 0 40 16">
+                        <path class="nhsuk-logo__background" d="M0 0h40v16H0z"></path>
+                        <path class="nhsuk-logo__text" d="M3.9 1.5h4.4l2.6 9h.1l1.8-9h3.3l-2.8 13H9l-2.7-9h-.1l-1.8 9H1.1M17.3 1.5h3.6l-1 4.9h4L25 1.5h3.5l-2.7 13h-3.5l1.1-5.6h-4.1l-1.2 5.6h-3.4M37.7 4.4c-.7-.3-1.6-.6-2.9-.6-1.4 0-2.5.2-2.5 1.3 0 1.8 5.1 1.2 5.1 5.1 0 3.6-3.3 4.5-6.4 4.5-1.3 0-2.9-.3-4-.7l.8-2.7c.7.4 2.1.7 3.2.7s2.8-.2 2.8-1.5c0-2.1-5.1-1.3-5.1-5 0-3.4 2.9-4.4 5.8-4.4 1.6 0 3.1.2 4 .6"></path>
+                        <image src="https://assets.nhs.uk/images/nhs-logo.png" xlink:href=""></image>
+                    </svg>
+                </a>
+            </div>
+            @*<!-- dynamic service name here -->*@
+            <div class="nhsuk-header__transactional-service-name">
+                <a class="nhsuk-header__transactional-service-name--link" href="/covid-19/sms">Get coronavirus text messages</a>
+            </div>
+        </div>
+    </header>
+
+    @RenderSection("HeaderContent", false)
+    <!--end header-->
+
+    <section class="outer-section">@RenderSection("OuterSection", false)</section>
+
+    @*Use '@section EmergencyAlert{}' in views to display alert banner*@
+    @RenderSection("EmergencyAlert", false)
+
+    <main class="page-section clearfix nhsuk-main-wrapper nhsuk-u-padding-bottom-0" id="content" role="main">
+        @if (DisclaimerBannerFeature.IsEnabled)
+        {
+            <!-- toggle disclaimer banner-->
+            @Html.Partial("_DisclaimerBanner")
+        }
+        @RenderBody()
+    </main>
+    @RenderSection("FeedbackSection", false)
+    @{ var journeyModel = ViewData.Model as JourneyViewModel;}
+    <footer role="contentinfo">
+        <div class="nhsuk-footer" id="nhsuk-footer">
+            <div class="nhsuk-width-container">
+                <h2 class="nhsuk-u-visually-hidden">Support links</h2>
+                <ul class="nhsuk-footer__list">
+                    <li class="nhsuk-footer__list-item"><a href="https://digital.nhs.uk/coronavirus/coronavirus-covid-19-response-information-governance-hub" class="nhsuk-footer__list-item-link" target="_blank">Privacy statement</a></li>
+                    <li class="nhsuk-footer__list-item">@Html.ActionLink("Terms and conditions", "Terms", "Help", null, new { @class = "nhsuk-footer__list-item-link", target = "_blank" })</li>
+                </ul>
+                <p class="nhsuk-footer__copyright">&copy; Crown copyright</p>
+            </div>
+            <p class="nhsuk-width-container app-cookies-footer--text">This website only stores the cookies that are needed to make it work. Read more about how @Html.ActionLink("we use cookies.", "Cookies", "Help", null, new { @class = "nhsuk-footer__list-item-link", id = "cookie-link", target = "_blank" })</p>
+        </div>
+    </footer>
+
+    <div id="global-app-error" class="app-error hidden"></div>
+
+    @if (UserZoomSurveyFeature.IsEnabled && journeyModel != null && !string.IsNullOrEmpty(journeyModel.UserZoomUrl) && !string.IsNullOrEmpty(journeyModel.UserZoomTitle))
+    {
+        <script>
+            $(document).ready(function () {
+                uztracker('send', 'page', {
+                    'url': document.location.href + '/' + '@journeyModel.UserZoomUrl',
+                        'title': '@journeyModel.UserZoomTitle'
+                    });
+            });
+        </script>
+    }
+
+    @*@{ Html.RenderAction("VersionInfo", "Version"); }*@
+
+    <script src="@NHS111.Web.Helpers.Versioning.GetVersionedUriRef("~/Content/js/bundle.js")"></script>
+    <link rel="stylesheet" href="@NHS111.Web.Helpers.Versioning.GetVersionedUriRef("~/Content/css/nhs-111-print.css")" media="print" type="text/css">
+</body>
+</html>
