@@ -1,0 +1,15 @@
+﻿@using NHS111.Models.Models.Web
+@model  OutcomeViewModel
+
+
+@if (!Model.OutcomeGroup.CoronaVirusServiceListMessageBlank)
+{
+    <div class="callout callout--lite callout--warning measure">
+        <h2 class="nhsuk-heading-xs">Coronavirus (COVID-19) advice</h2>
+
+        <p>
+            Do not go to the service, phone them instead.
+            All NHS services have updated their website, emailed or texted about how they're now offering appointments.
+        </p>
+    </div>
+}
