@@ -116,9 +116,10 @@ namespace NHS111.Web.Controllers {
                 return await HandleCustomQuestion(model); //Refactor into custom Handler Class
             ModelState.Clear();
 
-            var viewRouter = await _questionNavigiationService.NextQuestion(model, ControllerContext);
+            var nextModel = await _questionNavigiationService.GetNextJourneyViewModel(model);
+            var viewRouter = _viewRouter.Build(nextModel, ControllerContext);
 
-            return View(viewRouter.ViewName, viewRouter.JourneyModel);
+            return View(viewRouter.ViewName, nextModel);
         }
 
         private async Task<ActionResult> HandleCustomQuestion(QuestionViewModel model)
