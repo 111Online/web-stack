@@ -141,9 +141,11 @@ namespace NHS111.Web.Controllers {
                 }
             _auditLogger.LogEvent(model, EventType.SymptomsBeganDate, symptomsBeganDateModel.Date.Value.ToString("s"), "../Question/Custom/SymptomsStarted");
             ModelState.Clear();
-            var viewRouter = await _questionNavigiationService.NextQuestion(model, ControllerContext);
 
-            return View(viewRouter.ViewName, viewRouter.JourneyModel);
+            var nextModel = await _questionNavigiationService.GetNextJourneyViewModel(model);
+            var viewRouter = _viewRouter.Build(nextModel, ControllerContext);
+
+            return View(viewRouter.ViewName, nextModel);
 
         }
 
