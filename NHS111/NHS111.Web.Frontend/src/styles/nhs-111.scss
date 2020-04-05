@@ -25,7 +25,19 @@
   @import "components/overrides";
   /* nhsuk-frontend components */
   @import "node_modules/nhsuk-frontend/packages/components/action-link/action-link";
+  @import "node_modules/nhsuk-frontend/packages/components/back-link/back-link";
+  @import "node_modules/nhsuk-frontend/packages/components/button/button";
   @import "node_modules/nhsuk-frontend/packages/components/fieldset/fieldset";
+  @import "node_modules/nhsuk-frontend/packages/components/footer/footer";
+  @import "node_modules/nhsuk-frontend/packages/components/header/header";
+  @import "node_modules/nhsuk-frontend/packages/components/hint/hint";
+  @import "node_modules/nhsuk-frontend/packages/components/input/input";
+  @import "node_modules/nhsuk-frontend/packages/components/inset-text/inset-text";
+  @import "node_modules/nhsuk-frontend/packages/components/label/label";
+  @import "node_modules/nhsuk-frontend/packages/components/panel/panel";
+  @import "node_modules/nhsuk-frontend/packages/components/radios/radios";
+  @import "node_modules/nhsuk-frontend/packages/components/summary-list/summary-list";
+  @import "node_modules/nhsuk-frontend/packages/core/styles/icons";
   /* Our components that have nhsuk-frontend as a dependency */
   @import "components/service-details";
   @import "components/personal-details";
@@ -46,5 +58,33 @@
 
   .form-hint {
     @extend .form-hint;
+  }
+}
+
+[class^="nhsuk-"] {
+  /* Some specificity hacks are required for nhsuk styles to override existing classes - probably should be moved elsewhere */
+  input[type="radio"] + label,
+  input[type="checkbox"] + label {
+    position: static;
+  }
+
+  .multiple-choice--radio {
+    margin-bottom: 0 !important;
+  }
+
+  .callout.nhsuk-hint {
+    background-color: transparent;
+    border: 0;
+    padding: 0;
+  }
+  /* don't know how to get a class name in the H1 */
+  .nhsuk-fieldset__legend h1 {
+    font-size: inherit;
+    font-weight: inherit;
+    margin: 0;
+  }
+
+  .button--stacked {
+    @extend .button--stacked;
   }
 }

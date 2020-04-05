@@ -173,8 +173,9 @@ namespace NHS111.Web.Presentation.Builders
             var smsSendModel = _mappingEngine.Mapper.Map<SendSmsOutcomeViewModel>(model);
             smsSendModel.MobileNumber = model.Journey.GetStepInputValue<string>(QuestionType.Telephone, "TX1111");
 
-            var age = model.Journey.GetStepInputValue<int>(QuestionType.Integer, "TX1112");
-            smsSendModel.Age = age > 0 ? age : int.Parse(model.State["PATIENT_AGE"]);
+            // If it exists in the state, the age comes from the 111 original journey
+            var age = int.Parse(model.State["PATIENT_AGE"]);
+            smsSendModel.Age = age >= 0 ? age : model.Journey.GetStepInputValue<int>(QuestionType.Integer, "TX1112");
 
             smsSendModel.SymptomsStartedDaysAgo = model.Journey.GetStepInputValue<int>(QuestionType.Date, "TX1113");
             smsSendModel.LivesAlone = model.Journey.GetStepInputValue<bool>(QuestionType.Choice, "TX1114");

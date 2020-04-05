@@ -73,11 +73,22 @@ namespace NHS111.Models.Models.Web
 
             return viewFilePath;
         }
+
+        protected bool isNHSUKStyle ()
+        {
+            if (JourneyModel != null) return JourneyModel.PathwayNo != null && JourneyModel.PathwayNo.Equals("PC111");
+            return false;
+        }
     }
 
     public class QuestionResultViewModel: JourneyResultViewModel
     {
-        public override string ViewName { get { return "../Question/Question"; } }
+        public override string ViewName { get
+            {
+                if (isNHSUKStyle()) return "../Question/Custom/NHSUKQuestion";
+                return "../Question/Question";
+            }
+        }
 
         public QuestionResultViewModel(JourneyViewModel journeyViewModel) : base(journeyViewModel)
         {
@@ -106,6 +117,7 @@ namespace NHS111.Models.Models.Web
         }
         public PageResultViewModel(JourneyViewModel journeyViewModel) : base(journeyViewModel)
         {
+            if (isNHSUKStyle()) _viewName = "../Question/Custom/NHSUKPage";
             _viewName = "../Question/Page";
         }
     }
