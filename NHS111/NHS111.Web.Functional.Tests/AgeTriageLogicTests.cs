@@ -19,7 +19,7 @@ namespace NHS111.Web.Functional.Tests
                 .AnswerAndVerifyNextQuestion(3, "Have you vomited up either of the following?")
                 .AnswerAndVerifyNextQuestion(4, "What does your poo look like?")
                 .AnswerAndVerifyNextQuestion(4, "Is the pain so bad you can't move at all?")
-                .Answer<OutcomePage>("Yes");
+                .Answer<OutcomePage>("No");
 
             outcomePage.VerifyOutcome(OutcomePage.ValidationCallbackText, OutcomePage.Cat3999Text);
         }
