@@ -57,3 +57,12 @@ details:not(.service-listing) summary {
 .search__button--back {
   @extend .search__button--back;
 }
+
+
+.app-cookies-footer--text {
+  clear: both;
+  color: #4c6272;
+  font-size: 1rem;
+  line-height: 1.5;
+  padding-top: 32px;
+}

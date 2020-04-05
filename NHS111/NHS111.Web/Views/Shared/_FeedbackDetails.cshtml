@@ -29,7 +29,7 @@
                     <p>Call 111 if you need to speak to someone.</p>
                
 
-                @Html.TextAreaFor(m => m.Text, new {@placeholder = "Feedback", @Value = "", @class = "feedback__input", @maxlength = maxFeedbackLength, @aria_labelledby = "feedback__summary"})
+                @Html.TextAreaFor(m => m.Text, new {@placeholder = "Feedback", @Value = "", @class = "feedback__input nhsuk-u-margin-bottom-3", @maxlength = maxFeedbackLength, @aria_labelledby = "feedback__summary"})
                 <div id="textdetailscounter" class="feedback__counter">@(maxFeedbackLength) character limit</div>
                 <button class="feedback__submit button--next button--secondary" id="btnFeedback" data-event-trigger="click" data-event-value="Send feedback">Send feedback</button>
             }

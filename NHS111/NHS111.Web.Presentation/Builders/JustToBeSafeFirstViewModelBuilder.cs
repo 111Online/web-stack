@@ -74,7 +74,12 @@ namespace NHS111.Web.Presentation.Builders
 
                 _userZoomDataBuilder.SetFieldsForQuestion(questionViewModel);
                 if (questionViewModel.NodeType == NodeType.Page)
-                    return new Tuple<string, QuestionViewModel>("../Question/Page", questionViewModel);
+                {
+                    // This replicates logic in ViewDeterminer so in future should ideally use that instead.
+                    string viewName = "../Question/Page";
+                    if (questionViewModel.PathwayNo.Equals("PC111")) viewName = "../Question/Custom/NHSUKPage";
+                    return new Tuple<string, QuestionViewModel>(viewName, questionViewModel);
+                }
 
                 return new Tuple<string, QuestionViewModel>("../Question/Question", questionViewModel);
             }
