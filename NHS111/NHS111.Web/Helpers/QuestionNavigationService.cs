@@ -46,7 +46,7 @@ namespace NHS111.Web.Helpers
             return response.Data;
         }
 
-        private async Task<JourneyViewModel> GetNextJourneyViewModel(QuestionViewModel model)
+        public async Task<JourneyViewModel> GetNextJourneyViewModel(QuestionViewModel model)
         {
             var nextNode = await GetNextNode(model);
             return await _journeyViewModelBuilder.Build(model, nextNode);
@@ -57,6 +57,7 @@ namespace NHS111.Web.Helpers
     {
         Task<JourneyResultViewModel> NextQuestion(QuestionViewModel model, ControllerContext context);
         Task<QuestionWithAnswers> GetNextNode(QuestionViewModel model);
+        Task<JourneyViewModel> GetNextJourneyViewModel(QuestionViewModel model);
     }
 
 
