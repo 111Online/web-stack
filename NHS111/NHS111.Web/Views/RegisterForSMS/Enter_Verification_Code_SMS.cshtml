@@ -23,9 +23,9 @@
 <div class="nhsuk-core measure">
     <h1 class="nhsuk-heading-l">Enter your security code</h1>
 
-    <p>For example, "XXXXXX"</p>
+    <p>This will be a 6-digit number.</p>
 
-    @using (Html.BeginForm("SubmitSMSSecurityCode", "Question", FormMethod.Post, new { id = "submitDetailsForm" }))
+    @using (Html.BeginForm("SubmitSMSSecurityCode", "RegisterForSMS", FormMethod.Post, new { id = "submitDetailsForm" }))
     {
         @Html.Partial("_CommonHiddenFieldsOutcomeViewModel", Model)
         @Html.Partial("_CommonHiddenFieldsCareAdviceViewModel", Model)
@@ -33,13 +33,20 @@
         @Html.HiddenFor(m => m.SelectedServiceId)
 
         <div class="inline-details form-group @(ViewData.ModelState.IsValid ? "" : "form-group-error")">
-           @* @Html.ValidationMessageFor(m => m.VerificationCodeInput)*@
-            @Html.TextBoxFor(m => m.VerificationCodeInput, new { id = "smsVerificationCode", @class = "nhsuk-input" })
+            @Html.ValidationMessageFor(m => m.VerificationCodeInput)
+            @Html.TextBoxFor(m => m.VerificationCodeInput.InputValue, new { id = "smsVerificationCode", @class = "nhsuk-input" })
         </div>
         <button class="button--next" id="nextScreen" type="submit" name="Question" value="Question">Next</button>
     }
-    <br/>
-    <p>Haven't got a code yet? <a href="">Resend code</a></p>
+    <br />
+    @using (Html.BeginForm("GetSMSSecurityCode", "RegisterForSMS", FormMethod.Post, new { id = "resendCode" }))
+    {
+        @Html.Partial("_CommonHiddenFieldsOutcomeViewModel", Model)
+        @Html.Partial("_CommonHiddenFieldsCareAdviceViewModel", Model)
+        @Html.Partial("_commonHiddenFieldsSendsSMSViewModel", Model)
+        @Html.HiddenFor(m => m.SelectedServiceId)
+        <div class="nhsuk-u-margin-bottom-5"><p>Haven't got a code yet? <button type="submit" name="resendCode" id="resendCode" value="True" class="button--link" formnovalidate="formnovalidate">Resend code</button></p></div>
+    }
 </div>
 
 @Html.Partial("_PageLoadingIndicator")

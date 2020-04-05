@@ -227,6 +227,7 @@
     <Compile Include="Controllers\PersonalDetailsController.cs" />
     <Compile Include="Controllers\QuestionController.cs" />
     <Compile Include="Controllers\JustToBeSafeController.cs" />
+    <Compile Include="Controllers\RegisterForSMSController.cs" />
     <Compile Include="Controllers\SearchController.cs" />
     <Compile Include="Controllers\TopicController.cs" />
     <Compile Include="Controllers\VersionController.cs" />
@@ -236,6 +237,7 @@
     </Compile>
     <Compile Include="Helpers\KeyValueEncryptor.cs" />
     <Compile Include="Helpers\QueryStringEncryptor.cs" />
+    <Compile Include="Helpers\QuestionNavigationService.cs" />
     <Compile Include="Helpers\Versioning.cs" />
     <Compile Include="Helpers\ViewDeterminer.cs" />
     <Compile Include="IoC\WebRegistry.cs" />
@@ -488,18 +490,20 @@
     <Content Include="Views\Shared\_GetIsolationNote.cshtml" />
     <Content Include="Views\Question\Custom\SymptomsStarted.cshtml" />
     <Content Include="Views\Shared\_LinkSummary.cshtml" />
-    <Content Include="Views\Outcome\SMS\Send_SMS.cshtml" />
+    <Content Include="Views\RegisterForSMS\Send_SMS.cshtml" />
     <Content Include="Views\Shared\_CommonHiddenFieldsAnswer.cshtml" />
-    <Content Include="Views\Outcome\Confirmation\SMS\Confirmation.cshtml" />
-    <Content Include="Views\Outcome\Confirmation\SMS\Failure.cshtml" />
+    <Content Include="Views\RegisterForSMS\Confirmation_SMS.cshtml" />
+    <Content Include="Views\RegisterForSMS\Failure.cshtml" />
     <Content Include="Views\Shared\_commonHiddenFieldsSendsSMSViewModel.cshtml" />
     <Content Include="Views\Home\StayAtHomeHub.cshtml" />
     <Content Include="Views\Shared\_GetTextMessages.cshtml" />
     <Content Include="Views\Shared\_GetStatusChecker.cshtml" />
-    <Content Include="Views\Outcome\SMS\Verify_SMS.cshtml" />
-    <Content Include="Views\Outcome\SMS\Enter_Security_Code.cshtml" />
-    <Content Include="Views\Outcome\SMS\Verify_Fail.cshtml" />
-    <Content Include="Views\Outcome\Confirmation\SMS\DuplicateBookingFailure.cshtml" />
+    <Content Include="Views\RegisterForSMS\Verify_SMS.cshtml" />
+    <Content Include="Views\RegisterForSMS\Enter_Verification_Code_SMS.cshtml" />
+    <Content Include="Views\RegisterForSMS\Verify_Fail.cshtml" />
+    <Content Include="Views\RegisterForSMS\DuplicateBookingFailure.cshtml" />
+    <Content Include="Views\RegisterForSMS\Too_Many_Requests_SMS.cshtml" />
+    <Content Include="Views\RegisterForSMS\Failure_SMS.cshtml" />
     <None Include="Web.Development.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

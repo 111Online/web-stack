@@ -19,6 +19,7 @@ using NHS111.Utils.RestTools;
 using NHS111.Web.Presentation.Logging;
 using RestSharp;
 using StructureMap.Query;
+using HttpResponse = RestSharp.HttpResponse;
 using IConfiguration = NHS111.Web.Presentation.Configuration.IConfiguration;
 
 namespace NHS111.Web.Presentation.Builders
@@ -59,14 +60,6 @@ namespace NHS111.Web.Presentation.Builders
             _restClientItkDispatcherApi = restClientItkDispatcherApi;
             _restClientCaseDataCaptureApi = restClientCaseDataCaptureApi;
             _recommendedServiceBuilder = recommendedServiceBuilder;
-        }
-
-        public async Task<DataCaptureResponse> SendToCaseDataCaptureApi(CaseDataCaptureRequest requestData)
-        {
-            var request = new JsonRestRequest(_configuration.CaseDataCaptureApiSendSMSMessageUrl, Method.POST);
-            request.AddJsonBody(requestData);
-            var response = await _restClientCaseDataCaptureApi.ExecuteTaskAsync(request);
-            return new DataCaptureResponse(response);
         }
 
         public async Task<List<AddressInfoViewModel>> SearchPostcodeBuilder(string input)
@@ -184,7 +177,6 @@ namespace NHS111.Web.Presentation.Builders
 
             var age = model.Journey.GetStepInputValue<int>(QuestionType.Integer, "TX1112");
             smsSendModel.Age = age > 0 ? age : int.Parse(model.State["PATIENT_AGE"]);
-            smsSendModel.VerificationCodeInput = model.Journey.GetStepInputValue<string>(QuestionType.String, "DxC112");
             smsSendModel.SymptomsStartedDaysAgo = model.Journey.GetStepInputValue<int>(QuestionType.Date, "TX1113");
             smsSendModel.LivesAlone = model.Journey.GetStepInputValue<bool>(QuestionType.Choice, "TX1114");
             return smsSendModel;
@@ -331,7 +323,6 @@ namespace NHS111.Web.Presentation.Builders
 
     public interface IOutcomeViewModelBuilder
     {
-        Task<DataCaptureResponse> SendToCaseDataCaptureApi(CaseDataCaptureRequest requestData);
         Task<List<AddressInfoViewModel>> SearchPostcodeBuilder(string input);
         Task<OutcomeViewModel> DispositionBuilder(OutcomeViewModel model);
         Task<OutcomeViewModel> DispositionBuilder(OutcomeViewModel model, DosEndpoint? endpoint);

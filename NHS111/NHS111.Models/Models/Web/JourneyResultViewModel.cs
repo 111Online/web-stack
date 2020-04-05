@@ -137,13 +137,29 @@ namespace NHS111.Models.Models.Web
         }
     }
 
-    
-
     public class SearchJumpViewModel : JourneyResultViewModel
     {
         public override string ViewName { get { return "../Search/Search"; } }
 
         public SearchJumpViewModel(JourneyViewModel journeyViewModel) : base(journeyViewModel)
+        {
+        }
+    }
+
+    public class VerifyForSMSViewModel : JourneyResultViewModel
+    {
+        public override string ViewName { get { return "../RegisterForSMS/Verify_SMS"; } }
+
+        public VerifyForSMSViewModel(JourneyViewModel journeyViewModel) : base(journeyViewModel)
+        {
+        }
+    }
+
+    public class RegisterForSMSViewModel : JourneyResultViewModel
+    {
+        public override string ViewName { get { return "../RegisterForSMS/Send_SMS"; } }
+
+        public RegisterForSMSViewModel(JourneyViewModel journeyViewModel) : base(journeyViewModel)
         {
         }
     }

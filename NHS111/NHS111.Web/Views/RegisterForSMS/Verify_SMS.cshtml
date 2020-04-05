@@ -25,7 +25,7 @@
 
     <p>We need to send a security code to your phone to make sure the number is valid</p>
 
-    @using (Html.BeginForm("GetSMSSecurityCode", "Outcome", FormMethod.Post, new { id = "submitDetailsForm" }))
+    @using (Html.BeginForm("GetSMSSecurityCode", "RegisterForSMS", FormMethod.Post, new { id = "submitDetailsForm" }))
     {
         @Html.Partial("_CommonHiddenFieldsOutcomeViewModel", Model)
         @Html.Partial("_CommonHiddenFieldsCareAdviceViewModel", Model)

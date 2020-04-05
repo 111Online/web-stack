@@ -214,7 +214,6 @@ namespace NHS111.Models.Models.Domain {
             get
             {
                 return Equals(Verify_SMS); 
-
             }
         }
 

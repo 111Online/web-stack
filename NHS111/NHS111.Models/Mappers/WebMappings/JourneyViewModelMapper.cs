@@ -73,9 +73,13 @@ namespace NHS111.Models.Mappers.WebMappings
                 .ForMember(s => s.MobileNumber, o => o.Ignore())
                 .ForMember(s => s.SymptomsStartedDaysAgo, o => o.Ignore())
                 .ForMember(s => s.LivesAlone, o => o.Ignore())
-                .ForMember(d => d.Age, o => o.Ignore());
-
-            Mapper.CreateMap<SendSmsOutcomeViewModel, QuestionViewModel>();
+                .ForMember(d => d.Age, o => o.Ignore())
+                .ForMember(d => d.VerificationCodeInput, o => o.Ignore())
+                .ForMember(d => d.AnswerInputValue, o => o.Ignore())
+                .ForMember(d => d.SelectedAnswer, o => o.Ignore());
+                
+            Mapper.CreateMap<SendSmsOutcomeViewModel, QuestionViewModel>()
+                .ForMember(d => d.DateAnswer, o => o.Ignore());
 
         }
 
