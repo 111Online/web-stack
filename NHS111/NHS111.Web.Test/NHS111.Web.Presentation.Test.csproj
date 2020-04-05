@@ -105,6 +105,7 @@
     <Compile Include="Builders\KeywordCollectorTests.cs" />
     <Compile Include="Builders\JourneyViewModelBuilderTests.cs" />
     <Compile Include="Builders\ReferralResultBuilderTests.cs" />
+    <Compile Include="Builders\RegisterForSMSViewModelBuilderTests.cs" />
     <Compile Include="Builders\SymptomDicriminatorCollectorTests.cs" />
     <Compile Include="Builders\JourneyHistoryWranglerTests.cs" />
     <Compile Include="Configuration\ConfigurationTests.cs" />

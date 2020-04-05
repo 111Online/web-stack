@@ -13,19 +13,34 @@ namespace NHS111.Models.Mappers.WebMappings
     {
         protected override void Configure()
         {
-            Mapper.CreateMap<SendSmsOutcomeViewModel, VerifyCodeRequest>()
+            Mapper.CreateMap<SendSmsOutcomeViewModel, GenerateSMSVerifyCodeRequest>()
+                .ConvertUsing<FromSendSmsOutcomeViewModelToGenerateSMSVerifyCodeRequestConverter>();
+            Mapper.CreateMap<SendSmsOutcomeViewModel, VerifySMSCodeRequest>()
                 .ConvertUsing<FromSendSmsOutcomeViewModelToVerifyCodeRequestConverter>();
             Mapper.CreateMap<SendSmsOutcomeViewModel, SubmitSMSRegistrationRequest>()
                 .ConvertUsing<FromSendSmsOutcomeViewModelToSubmitSMSRegistrationRequestConverter>();
         }
     }
 
-    public class FromSendSmsOutcomeViewModelToVerifyCodeRequestConverter : ITypeConverter<SendSmsOutcomeViewModel, VerifyCodeRequest>
+    public class FromSendSmsOutcomeViewModelToGenerateSMSVerifyCodeRequestConverter : ITypeConverter<SendSmsOutcomeViewModel, GenerateSMSVerifyCodeRequest>
     {
-        public VerifyCodeRequest Convert(ResolutionContext context)
+        public GenerateSMSVerifyCodeRequest Convert(ResolutionContext context)
         {
             var Model = (SendSmsOutcomeViewModel)context.SourceValue;
-            var verifyCodeRequest = (VerifyCodeRequest)context.DestinationValue ?? new VerifyCodeRequest();
+            var verifyCodeRequest = (GenerateSMSVerifyCodeRequest)context.DestinationValue ?? new GenerateSMSVerifyCodeRequest();
+
+            verifyCodeRequest.MobilePhoneNumber = Model.MobileNumber;
+
+            return verifyCodeRequest;
+        }
+    }
+
+    public class FromSendSmsOutcomeViewModelToVerifyCodeRequestConverter : ITypeConverter<SendSmsOutcomeViewModel, VerifySMSCodeRequest>
+    {
+        public VerifySMSCodeRequest Convert(ResolutionContext context)
+        {
+            var Model = (SendSmsOutcomeViewModel)context.SourceValue;
+            var verifyCodeRequest = (VerifySMSCodeRequest)context.DestinationValue ?? new VerifySMSCodeRequest();
 
             verifyCodeRequest.MobilePhoneNumber = Model.MobileNumber;
             verifyCodeRequest.VerificationCodeInput = Model.VerificationCodeInput.InputValue;
