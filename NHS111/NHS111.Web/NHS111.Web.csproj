@@ -499,6 +499,8 @@
     <Content Include="Views\Question\Custom\NHSUKQuestion.cshtml" />
     <Content Include="Views\Shared\_GetStatusChecker.cshtml" />
     <Content Include="Views\Outcome\Confirmation\SMS\DuplicateBookingFailure.cshtml" />
+    <Content Include="Views\Shared\_ServiceDetailsCovidMessage.cshtml" />
+    <Content Include="Views\Shared\_ServiceListCovidMessage.cshtml" />
     <Content Include="Views\Question\Custom\NHSUKPage.cshtml" />
     <None Include="Web.Development.config">
       <DependentUpon>Web.config</DependentUpon>
