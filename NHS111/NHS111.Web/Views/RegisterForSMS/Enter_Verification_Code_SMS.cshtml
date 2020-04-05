@@ -45,7 +45,7 @@
         @Html.Partial("_CommonHiddenFieldsCareAdviceViewModel", Model)
         @Html.Partial("_commonHiddenFieldsSendsSMSViewModel", Model)
         @Html.HiddenFor(m => m.SelectedServiceId)
-        <div class="nhsuk-u-margin-bottom-5"><span>Haven't got a code yet? </span><button type="submit" name="resendCode" id="resendCode" value="True" class="button--link" formnovalidate="formnovalidate">Resend code</button></div>
+        <div class="nhsuk-u-margin-bottom-5"><p>Haven't got a code yet? <button type="submit" name="resendCode" id="resendCode" value="True" class="button--link" formnovalidate="formnovalidate">Resend code</button></p></div>
     }
 </div>
 

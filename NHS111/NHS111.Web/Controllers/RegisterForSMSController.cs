@@ -22,11 +22,13 @@ namespace NHS111.Web.Controllers
     {
         private readonly IRegisterForSMSViewModelBuilder _registerForSmsViewModelBuilder;
         private readonly IQuestionNavigiationService _questionNavigiationService;
+        private readonly IConfiguration _configuration;
 
         public RegisterForSMSController(IRegisterForSMSViewModelBuilder registerForSmsViewModelBuilder, 
             IJourneyViewModelBuilder journeyViewModelBuilder, IConfiguration configuration, IRestClient restClientBusinessApi, IViewRouter viewRouter)
         {
             _registerForSmsViewModelBuilder = registerForSmsViewModelBuilder;
+            _configuration = configuration;
             _questionNavigiationService = new QuestionNavigationService(journeyViewModelBuilder, configuration,
                 restClientBusinessApi, viewRouter);
         }
@@ -34,12 +36,12 @@ namespace NHS111.Web.Controllers
         [HttpPost]
         public async Task<ActionResult> GetSMSSecurityCode(SendSmsOutcomeViewModel model)
         {
-            var smsRegistrationViewModel = await
-                _registerForSmsViewModelBuilder.CaseDataCaptureApiGenerateVerificationCode(model);
+            var result = await _registerForSmsViewModelBuilder
+                .MessageCaseDataCaptureApi<GenerateSMSVerifyCodeRequest, SMSGenerateCodeViewDeterminer>(model, _configuration.CaseDataCaptureApiGenerateVerificationCodeUrl);
 
             ModelState.Clear();
 
-            return View(smsRegistrationViewModel.ViewName, smsRegistrationViewModel.SendSmsOutcomeViewModel);
+            return View(result.ViewName, result.SendSmsOutcomeViewModel);
         }
 
         [HttpPost]
@@ -48,7 +50,8 @@ namespace NHS111.Web.Controllers
             if (VerificationCodeInputIsNotValid())
                 return View("Enter_Verification_Code_SMS", model);
 
-            var result = await _registerForSmsViewModelBuilder.CaseDataCaptureApiVerifyCode(model);
+            var result = await _registerForSmsViewModelBuilder
+                .MessageCaseDataCaptureApi<VerifySMSCodeRequest, SMSEnterVerificationCodeViewDeterminer>(model, _configuration.CaseDataCaptureApiVerifyPhoneNumberUrl);
 
             return string.IsNullOrWhiteSpace(result.ViewName)
                 ? await RedirectToNextQuestion(model) : View(result.ViewName, result.SendSmsOutcomeViewModel);
@@ -64,9 +67,10 @@ namespace NHS111.Web.Controllers
         {
             model.VerificationCodeInput = GetVerificationCodeInputFromJourney(model);
 
-            var smsRegistrationViewModel = await _registerForSmsViewModelBuilder.CaseDataCaptureApiSubmitSMSRegistration(model);
+            var result = await _registerForSmsViewModelBuilder
+                .MessageCaseDataCaptureApi<SubmitSMSRegistrationRequest, SMSSubmitRegistrationViewDeterminer>(model, _configuration.CaseDataCaptureApiSubmitSMSRegistrationMessageUrl);
 
-            return View(smsRegistrationViewModel.ViewName, model);
+            return View(result.ViewName, result.SendSmsOutcomeViewModel);
         }
 
         private async Task<ActionResult> RedirectToNextQuestion(SendSmsOutcomeViewModel model)

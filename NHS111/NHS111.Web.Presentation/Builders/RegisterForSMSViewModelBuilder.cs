@@ -25,36 +25,20 @@ namespace NHS111.Web.Presentation.Builders
             _restClientCaseDataCaptureApi = restClientCaseDataCaptureApi;
         }
 
-        public async Task<SMSRegistrationViewModel> CaseDataCaptureApiGenerateVerificationCode(SendSmsOutcomeViewModel model)
+        public async Task<SMSRegistrationViewModel> MessageCaseDataCaptureApi<TRequest, TViewDeterminer>(SendSmsOutcomeViewModel model, string endPoint) 
+            where TViewDeterminer : SMSViewDeterminerBase, new()
         {
-            var response = await SendRequestToDataCaptureApi<string>(_configuration.CaseDataCaptureApiGenerateVerificationCodeUrl, model.MobileNumber);
+            var request = Mapper.Map<TRequest>(model);
 
-            var viewDeterminer = new SMSViewDeterminer(response.StatusCode, "Enter_Verification_Code_SMS");
+            var response = await SendRequestToDataCaptureApi<TRequest>(endPoint, request);
 
-            return BuildAndReturnResult<SMSViewDeterminer>(model, viewDeterminer);
+            var smsRegisrationModel = new SMSRegistrationViewModel(model);
+
+            new TViewDeterminer().Build(smsRegisrationModel, response.StatusCode);
+
+            return smsRegisrationModel;
         }
 
-        public async Task<SMSRegistrationViewModel> CaseDataCaptureApiVerifyCode(SendSmsOutcomeViewModel model)
-        {
-            var requestData = Mapper.Map<VerifyCodeRequest>(model);
-
-            var response = await SendRequestToDataCaptureApi<VerifyCodeRequest>(_configuration.CaseDataCaptureApiVerifyPhoneNumberUrl, requestData);
-
-            var viewDeterminer = new SMSVerifyCodeViewDeterminer(response.StatusCode);
-
-            return BuildAndReturnResult<SMSVerifyCodeViewDeterminer>(model, viewDeterminer);
-        }
-
-        public async Task<SMSRegistrationViewModel> CaseDataCaptureApiSubmitSMSRegistration(SendSmsOutcomeViewModel model)
-        {
-            var requestData = Mapper.Map<SubmitSMSRegistrationRequest>(model);
-
-            var response = await SendRequestToDataCaptureApi<SubmitSMSRegistrationRequest>(_configuration.CaseDataCaptureApiSubmitSMSRegistrationMessageUrl, requestData);
-
-            var viewDeterminer = new SMSViewDeterminer(response.StatusCode, "Confirmation_SMS");
-
-            return BuildAndReturnResult<SMSViewDeterminer>(model, viewDeterminer);
-        }
 
         private async Task<IRestResponse> SendRequestToDataCaptureApi<T>(string endPoint, T body)
         {
@@ -64,79 +48,72 @@ namespace NHS111.Web.Presentation.Builders
 
             return await _restClientCaseDataCaptureApi.ExecuteTaskAsync(request);
         }
-
-        private SMSRegistrationViewModel BuildAndReturnResult<T>(SendSmsOutcomeViewModel model, T viewDeterminer) where T : SMSViewDeterminerBase
-        {
-            var smsRegisrationModel = new SMSRegistrationViewModel(model);
-
-            viewDeterminer.Build(smsRegisrationModel);
-
-            return smsRegisrationModel;
-        }
     }
 
     public interface IRegisterForSMSViewModelBuilder
     {
-        Task<SMSRegistrationViewModel> CaseDataCaptureApiGenerateVerificationCode(SendSmsOutcomeViewModel model);
-        Task<SMSRegistrationViewModel> CaseDataCaptureApiVerifyCode(SendSmsOutcomeViewModel model);
-        Task<SMSRegistrationViewModel> CaseDataCaptureApiSubmitSMSRegistration(SendSmsOutcomeViewModel model);
+        Task<SMSRegistrationViewModel> MessageCaseDataCaptureApi<TRequest, TViewDeterminer>(
+            SendSmsOutcomeViewModel model, string endPoint) where TViewDeterminer : SMSViewDeterminerBase, new();
     }
 
     public abstract class SMSViewDeterminerBase
     {
-        public HttpStatusCode StatusCode { get; set; }
-        public string SuccessView { get; set; }
-
-        public SMSViewDeterminerBase(HttpStatusCode statusCode, string successView = "")
-        {
-            SuccessView = successView;
-            StatusCode = statusCode;
-        }
-
-        public void BaseBuild(SMSRegistrationViewModel model)
+        protected string SuccessView { get; set; }
+        public void BaseBuild(SMSRegistrationViewModel model, HttpStatusCode statusCode)
         {
             model.ViewName = SuccessView;
 
-            if (StatusCode != HttpStatusCode.OK)
+            if (statusCode != HttpStatusCode.OK)
             {
                 model.ViewName = "Failure_SMS";
             }
 
-            if ((int)StatusCode == 429)
+            if ((int)statusCode == 429)
             {
                 model.ViewName = "Too_Many_Requests_SMS";
             }
         }
 
-        public virtual void Build(SMSRegistrationViewModel model)
+        public virtual void Build(SMSRegistrationViewModel model, HttpStatusCode statusCode)
         {
-            BaseBuild(model);
+            BaseBuild(model, statusCode);
         }
     }
 
-    public class SMSViewDeterminer : SMSViewDeterminerBase
+    public class SMSGenerateCodeViewDeterminer : SMSViewDeterminerBase
     {
-        public SMSViewDeterminer(HttpStatusCode statusCode, string successView = "") 
-            : base(statusCode, successView) { }
+        public SMSGenerateCodeViewDeterminer()
+        {
+            SuccessView = "Enter_Verification_Code_SMS";
+        }
     }
 
-    public class SMSVerifyCodeViewDeterminer : SMSViewDeterminerBase
+    public class SMSEnterVerificationCodeViewDeterminer : SMSViewDeterminerBase
     {
-        public SMSVerifyCodeViewDeterminer(HttpStatusCode statusCode, string successView = "") 
-            : base(statusCode, successView) { }
-
-        public override void Build(SMSRegistrationViewModel model)
+        public SMSEnterVerificationCodeViewDeterminer()
         {
-            base.BaseBuild(model);
-            if (StatusCode == HttpStatusCode.BadRequest)
+            SuccessView = "";
+        }
+        public override void Build(SMSRegistrationViewModel model, HttpStatusCode statusCode)
+        {
+            base.BaseBuild(model, statusCode);
+            if (statusCode == HttpStatusCode.BadRequest)
             {
                 model.ViewName = "Enter_Verification_Code_SMS";
             }
 
-            if (StatusCode == HttpStatusCode.OK)
+            if (statusCode == HttpStatusCode.OK)
             {
                 model.SendSmsOutcomeViewModel.VerificationCodeInput.IsCorrect = true;
             }
+        }
+    }
+
+    public class SMSSubmitRegistrationViewDeterminer : SMSViewDeterminerBase
+    {
+        public SMSSubmitRegistrationViewDeterminer()
+        {
+            SuccessView = "Confirmation_SMS";
         }
     }
 }

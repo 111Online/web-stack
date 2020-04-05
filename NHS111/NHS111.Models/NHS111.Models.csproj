@@ -218,10 +218,11 @@
     <Compile Include="Models\Domain\VersionInfo.cs" />
     <Compile Include="Models\Web\AgeGenderViewModel.cs" />
     <Compile Include="Models\Web\ApplicationMedium.cs" />
+    <Compile Include="Models\Web\DataCapture\GenerateSMSVerifyCodeRequest.cs" />
     <Compile Include="Models\Web\DataCapture\SubmitSMSRegistrationRequest.cs" />
     <Compile Include="Models\Web\ChangePostcodeViewModel.cs" />
     <Compile Include="Models\Web\DataCapture\SubmitSMSRegistrationResponse.cs" />
-    <Compile Include="Models\Web\DataCapture\VerifyCodeRequest.cs" />
+    <Compile Include="Models\Web\DataCapture\VerifySMSCodeRequest.cs" />
     <Compile Include="Models\Web\DetailsViewModel.cs" />
     <Compile Include="Models\Web\Elements\ActionLinkViewModel.cs" />
     <Compile Include="Models\Web\Elements\ButtonViewModel.cs" />
