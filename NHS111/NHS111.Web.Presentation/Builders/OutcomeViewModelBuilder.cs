@@ -19,6 +19,7 @@ using NHS111.Utils.RestTools;
 using NHS111.Web.Presentation.Logging;
 using RestSharp;
 using StructureMap.Query;
+using HttpResponse = RestSharp.HttpResponse;
 using IConfiguration = NHS111.Web.Presentation.Configuration.IConfiguration;
 
 namespace NHS111.Web.Presentation.Builders
@@ -59,14 +60,6 @@ namespace NHS111.Web.Presentation.Builders
             _restClientItkDispatcherApi = restClientItkDispatcherApi;
             _restClientCaseDataCaptureApi = restClientCaseDataCaptureApi;
             _recommendedServiceBuilder = recommendedServiceBuilder;
-        }
-
-        public async Task<DataCaptureResponse> SendToCaseDataCaptureApi(CaseDataCaptureRequest requestData)
-        {
-            var request = new JsonRestRequest(_configuration.CaseDataCaptureApiSendSMSMessageUrl, Method.POST);
-            request.AddJsonBody(requestData);
-            var response = await _restClientCaseDataCaptureApi.ExecuteTaskAsync(request);
-            return new DataCaptureResponse(response);
         }
 
         public async Task<List<AddressInfoViewModel>> SearchPostcodeBuilder(string input)
@@ -167,16 +160,23 @@ namespace NHS111.Web.Presentation.Builders
             return model;
         }
 
+        public SendSmsOutcomeViewModel SendSmsVerifyDetailsBuilder(JourneyViewModel model, string SelectedAnswer)
+        {
+            var smsSendModel = _mappingEngine.Mapper.Map<SendSmsOutcomeViewModel>(model);
+            smsSendModel.Journey = model.Journey;
+            smsSendModel.MobileNumber = model.Journey.GetStepInputValue<string>(QuestionType.Telephone, "TX1111");
+            smsSendModel.SelectedAnswer = SelectedAnswer;
+            return smsSendModel;
+        }
+
         public SendSmsOutcomeViewModel SendSmsDetailsBuilder(JourneyViewModel model)
         {
             //TODO: how to data drive this better?
             var smsSendModel = _mappingEngine.Mapper.Map<SendSmsOutcomeViewModel>(model);
             smsSendModel.MobileNumber = model.Journey.GetStepInputValue<string>(QuestionType.Telephone, "TX1111");
 
-            // If it exists in the state, the age comes from the 111 original journey
-            var age = int.Parse(model.State["PATIENT_AGE"]);
-            smsSendModel.Age = age >= 0 ? age : model.Journey.GetStepInputValue<int>(QuestionType.Integer, "TX1112");
-
+            var age = model.Journey.GetStepInputValue<int>(QuestionType.Integer, "TX1112");
+            smsSendModel.Age = age > 0 ? age : int.Parse(model.State["PATIENT_AGE"]);
             smsSendModel.SymptomsStartedDaysAgo = model.Journey.GetStepInputValue<int>(QuestionType.Date, "TX1113");
             smsSendModel.LivesAlone = model.Journey.GetStepInputValue<bool>(QuestionType.Choice, "TX1114");
             return smsSendModel;
@@ -323,11 +323,12 @@ namespace NHS111.Web.Presentation.Builders
 
     public interface IOutcomeViewModelBuilder
     {
-        Task<DataCaptureResponse> SendToCaseDataCaptureApi(CaseDataCaptureRequest requestData);
         Task<List<AddressInfoViewModel>> SearchPostcodeBuilder(string input);
         Task<OutcomeViewModel> DispositionBuilder(OutcomeViewModel model);
         Task<OutcomeViewModel> DispositionBuilder(OutcomeViewModel model, DosEndpoint? endpoint);
-        SendSmsOutcomeViewModel SendSmsDetailsBuilder(JourneyViewModel model);
+        SendSmsOutcomeViewModel SendSmsDetailsBuilder(JourneyViewModel journeyViewModel);
+        SendSmsOutcomeViewModel SendSmsVerifyDetailsBuilder(JourneyViewModel journeyViewModel, string SelectedAnswer);
+
         Task<OutcomeViewModel> PersonalDetailsBuilder(OutcomeViewModel model);
         Task<ITKConfirmationViewModel> ItkResponseBuilder(OutcomeViewModel model);
         Task<OutcomeViewModel> DeadEndJumpBuilder(OutcomeViewModel model);

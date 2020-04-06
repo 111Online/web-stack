@@ -31,9 +31,13 @@ namespace NHS111.Web.Presentation.IoC
             For<IOutcomeViewModelBuilder>().Singleton()
                 .Use<OutcomeViewModelBuilder>()
                 .Ctor<IRestClient>("restClientPostcodeApi")
-                .Is(new LoggingRestClient(new Configuration.Configuration().PostcodeApiBaseUrl, LogManager.GetLogger("log")))
+                .Is(new LoggingRestClient(new Configuration.Configuration().PostcodeApiBaseUrl,
+                    LogManager.GetLogger("log")))
                 .Ctor<IRestClient>("restClientItkDispatcherApi")
-                .Is(new LoggingRestClient(new Configuration.Configuration().ItkDispatcherApiBaseUrl, LogManager.GetLogger("log")))
+                .Is(new LoggingRestClient(new Configuration.Configuration().ItkDispatcherApiBaseUrl,
+                    LogManager.GetLogger("log")));
+            For<IRegisterForSMSViewModelBuilder>().Singleton()
+                .Use<RegisterForSMSViewModelBuilder>()
                 .Ctor<IRestClient>("restClientCaseDataCaptureApi")
                 .Is(new LoggingRestClient(new Configuration.Configuration().CaseDataCaptureApiBaseUrl, LogManager.GetLogger("log")));
             For<ICCGModelBuilder>().Singleton()

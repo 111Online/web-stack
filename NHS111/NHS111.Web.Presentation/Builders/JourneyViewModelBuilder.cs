@@ -51,6 +51,10 @@ namespace NHS111.Web.Presentation.Builders
                         return _mappingEngine.Mapper.Map<SearchJourneyViewModel>(journeyViewModel);
                     }
 
+                    if (journeyViewModel.OutcomeGroup.IsSendSMSVerify)
+                        return _outcomeViewModelBuilder.SendSmsVerifyDetailsBuilder(journeyViewModel,
+                            model.SelectedAnswer);
+
                     if (journeyViewModel.OutcomeGroup.IsSendSMS)
                         return _outcomeViewModelBuilder.SendSmsDetailsBuilder(journeyViewModel);
 
