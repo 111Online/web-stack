@@ -183,5 +183,13 @@ namespace NHS111.Business.DOS.Configuration
                 return ConfigurationManager.AppSettings["TestPublicHolidayDates"];
             }
         }
+
+        public int ServicePointManagerDefaultConnectionLimit
+        {
+            get
+            {
+                return int.TryParse(ConfigurationManager.AppSettings["DefaultConnectionLimit"], out var limit) ? limit : 5;
+            }
+        }
     }
 }

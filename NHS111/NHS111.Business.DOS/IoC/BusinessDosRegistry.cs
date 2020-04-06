@@ -18,20 +18,24 @@ namespace NHS111.Business.DOS.IoC
 {
     public class BusinessDosRegistry : Registry
     {
+        private IConfiguration _configuration;
+
         public BusinessDosRegistry(IConfiguration configuration, ILog logger)
         {
+            _configuration = configuration;
+
             IncludeRegistry<UtilsRegistry>();
             For<IServiceAvailabilityManager>().Use<ServiceAvailablityManager>();
             For<IRestClient>().Singleton()
-                .Use<IRestClient>(new LoggingRestClient(configuration.DomainDosApiBaseUrl, logger));
+                .Use<IRestClient>(GetLoggingRestClientFor(configuration.DomainDosApiBaseUrl));
             For<ISearchDistanceService>().Singleton()
                 .Use<SearchDistanceService>()
                 .Ctor<IRestClient>()
-                .Is(new LoggingRestClient(configuration.CCGApiBaseUrl, logger));
+                .Is(GetLoggingRestClientFor(configuration.CCGApiBaseUrl));
             For<IWhiteListManager>().Singleton()
                 .Use<WhiteListManager>()
                 .Ctor<IRestClient>()
-                .Is(new LoggingRestClient(configuration.CCGApiBaseUrl, logger));
+                .Is(GetLoggingRestClientFor(configuration.CCGApiBaseUrl));
             For<IPublicHolidayService>().Use(new PublicHolidayService(
                 PublicHolidaysDataService.GetPublicHolidays(configuration),
                 new SystemClock()));
@@ -41,6 +45,11 @@ namespace NHS111.Business.DOS.IoC
                 scan.TheCallingAssembly();
                 scan.WithDefaultConventions();
             });
+        }
+
+        private LoggingRestClient GetLoggingRestClientFor(string baseUrl)
+        {
+            return new LoggingRestClient(baseUrl, LogManager.GetLogger("log"), _configuration.ServicePointManagerDefaultConnectionLimit);
         }
     }
 }
