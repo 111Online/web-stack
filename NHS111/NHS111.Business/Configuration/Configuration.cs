@@ -242,6 +242,11 @@ namespace NHS111.Business.Configuration
         {
             return GetDomainApiUrl("PathwayJourneyUrl") + "/" + startingPathwayUrl + "/" + dispositionCode + "/" + gender + "/" + age.ToString();
         }
+
+        public int GetServicePointManagerDefaultConnectionLimit()
+        {
+            return int.TryParse(ConfigurationManager.AppSettings["DefaultConnectionLimit"], out var limit) ? limit : 5;
+        }
     }
 
     public interface IConfiguration
@@ -303,5 +308,7 @@ namespace NHS111.Business.Configuration
 
         /*Version*/
         string GetDomainApiVersionUrl();
+
+        int GetServicePointManagerDefaultConnectionLimit();
     }
 }
