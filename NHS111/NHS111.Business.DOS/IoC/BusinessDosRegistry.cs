@@ -21,10 +21,12 @@ namespace NHS111.Business.DOS.IoC
         private IConfiguration _configuration;
         private ILog _logger;
 
+
         public BusinessDosRegistry(IConfiguration configuration, ILog logger)
         {
             _configuration = configuration;
             _logger = logger;
+
 
             IncludeRegistry<UtilsRegistry>();
             For<IServiceAvailabilityManager>().Use<ServiceAvailablityManager>();
