@@ -179,7 +179,6 @@ namespace NHS111.Web.Presentation.Builders
             smsSendModel.Age = age > 0 ? age : int.Parse(model.State["PATIENT_AGE"]);
             smsSendModel.SymptomsStartedDaysAgo = model.Journey.GetStepInputValue<int>(QuestionType.Date, "TX1113");
             smsSendModel.LivesAlone = model.Journey.GetStepInputValue<bool>(QuestionType.Choice, "TX1114");
-            smsSendModel.SelectedAnswer = SelectedAnswer;
             return smsSendModel;
         }
 
