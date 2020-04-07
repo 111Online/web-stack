@@ -92,15 +92,6 @@ namespace NHS111.Web.Controllers
             return model;
         }
 
-
-        // The SMS Check Details page usually comes through the Question Controller
-        // but when needing to go back to it from the failure pages, this can be used.
-        [HttpPost]
-        public async Task<ActionResult> CheckDetailsSMS(SendSmsOutcomeViewModel model)
-        {
-            return View("../Outcome/SMS/Send_SMS", model);
-        }
-
         [HttpPost]
         public async Task<ActionResult> DispositionWithServices(OutcomeViewModel model, string submitAction, DosEndpoint? endpoint = null, DateTime? dosSearchTime = null) {
             ModelState.Clear();
