@@ -102,6 +102,7 @@ namespace NHS111.Web.Controllers
                     return View("OutOfArea",
                         new OutOfAreaViewModel {
                             SessionId = model.SessionId, Campaign = ccg.StpName, Source = ccg.CCG,
+                            PathwayNo = model.PathwayNo,
                             FilterServices = model.FilterServices, IsCustomJourney = model.IsCustomJourney,
                             CurrentPostcode = currentPostcode
                         });
