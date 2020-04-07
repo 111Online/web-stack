@@ -19,10 +19,12 @@ namespace NHS111.Business.DOS.IoC
     public class BusinessDosRegistry : Registry
     {
         private IConfiguration _configuration;
+        private ILog _logger;
 
         public BusinessDosRegistry(IConfiguration configuration, ILog logger)
         {
             _configuration = configuration;
+            _logger = logger;
 
             IncludeRegistry<UtilsRegistry>();
             For<IServiceAvailabilityManager>().Use<ServiceAvailablityManager>();
@@ -49,7 +51,7 @@ namespace NHS111.Business.DOS.IoC
 
         private LoggingRestClient GetLoggingRestClientFor(string baseUrl)
         {
-            return new LoggingRestClient(baseUrl, LogManager.GetLogger("log"), _configuration.ServicePointManagerDefaultConnectionLimit);
+            return new LoggingRestClient(baseUrl, _logger, _configuration.ServicePointManagerDefaultConnectionLimit);
         }
     }
 }

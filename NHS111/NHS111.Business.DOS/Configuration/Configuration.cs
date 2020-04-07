@@ -188,7 +188,8 @@ namespace NHS111.Business.DOS.Configuration
         {
             get
             {
-                return int.TryParse(ConfigurationManager.AppSettings["DefaultConnectionLimit"], out var limit) ? limit : 5;
+                int limit;
+                return int.TryParse(ConfigurationManager.AppSettings["DefaultConnectionLimit"], out limit) ? limit : 5;
             }
         }
     }
