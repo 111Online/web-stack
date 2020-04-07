@@ -20,13 +20,19 @@ namespace NHS111.Business.DOS.IoC
     {
         private IConfiguration _configuration;
         private ILog _logger;
+<<<<<<< HEAD
 
+=======
+>>>>>>> f43ba18f... [ON-1648] Fix out parameter in NHS111 GetLoggingRestClientFor function
 
         public BusinessDosRegistry(IConfiguration configuration, ILog logger)
         {
             _configuration = configuration;
             _logger = logger;
+<<<<<<< HEAD
 
+=======
+>>>>>>> f43ba18f... [ON-1648] Fix out parameter in NHS111 GetLoggingRestClientFor function
 
             IncludeRegistry<UtilsRegistry>();
             For<IServiceAvailabilityManager>().Use<ServiceAvailablityManager>();
