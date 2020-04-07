@@ -47,7 +47,7 @@ namespace NHS111.Web.Controllers
         [HttpPost]
         public async Task<ActionResult> SubmitSMSSecurityCode(SendSmsOutcomeViewModel model)
         {
-            if (VerificationCodeInputIsNotValid())
+            if (!ModelState.IsValid)
                 return View("Enter_Verification_Code_SMS", model);
 
             var result = await _registerForSmsViewModelBuilder
@@ -66,11 +66,6 @@ namespace NHS111.Web.Controllers
                 .MessageCaseDataCaptureApi<SubmitSMSRegistrationRequest, SMSSubmitRegistrationViewDeterminer>(model, _configuration.CaseDataCaptureApiSubmitSMSRegistrationMessageUrl);
 
             return View(result.ViewName, result.SendSmsOutcomeViewModel);
-        }
-
-        private bool VerificationCodeInputIsNotValid()
-        {
-            return ModelState["VerificationCodeInput"] != null && ModelState["VerificationCodeInput"].Errors.Count > 0;
         }
 
         private async Task<ActionResult> RedirectToNextQuestion(SendSmsOutcomeViewModel model)

@@ -13,6 +13,11 @@ using System.Web.Mvc;
 using NHS111.Web.Presentation.Builders;
 using NHS111.Web.Controllers;
 using NHS111.Web.Presentation.Configuration;
+using System.Collections.Specialized;
+using System.Globalization;
+using System.Threading.Tasks;
+using System.Net;
+using System;
 
 namespace NHS111.Web.Presentation.Test.Controllers
 {
@@ -52,7 +57,7 @@ namespace NHS111.Web.Presentation.Test.Controllers
         }
 
         [Test]
-        public void Calls_the_MessageCaseDataCaptureApi_when_calling_SubmitSMSRegistration()
+        public void Calls_the_MessageCaseDataCaptureApi_with_the_correct_models_when_calling_SubmitSMSRegistration()
         {
             _mockJourneyViewModelBuilder.Setup(r => r.Build(AnyQuestionViewModel(), AnyQuestionWithAnswers())).ReturnsAsync(new JourneyViewModel { Journey = _journeyModel });
             var journeyJson = JsonConvert.SerializeObject(_journeyModel);
@@ -90,6 +95,69 @@ namespace NHS111.Web.Presentation.Test.Controllers
             var model = (SendSmsOutcomeViewModel)((ViewResult)result.Result).Model;
 
             Assert.AreEqual("123456", model.Journey.Steps[0].AnswerInputValue);
+        }
+
+        [Test]
+        public void Calls_the_MessageCaseDataCaptureApi_with_the_correct_models_when_calling_GetSMSSecurityCode()
+        {
+            _mockJourneyViewModelBuilder.Setup(r => r.Build(AnyQuestionViewModel(), AnyQuestionWithAnswers())).ReturnsAsync(new JourneyViewModel { Journey = _journeyModel });
+            var journeyJson = JsonConvert.SerializeObject(_journeyModel);
+
+            var result = _sut.GetSMSSecurityCode(new SendSmsOutcomeViewModel
+            {
+                Journey = _journeyModel,
+                VerificationCodeInput = new VerificationCodeInputViewModel { InputValue = "DxC112" },
+                JourneyJson = journeyJson
+            });
+
+            _mockRegisterForSmsViewModelBuilder.Verify(
+                c => c.MessageCaseDataCaptureApi<GenerateSMSVerifyCodeRequest, SMSGenerateCodeViewDeterminer>(AnySendSmsOutcomeViewModel(), AnyString()), Times.Once
+               );
+        }
+
+        [Test]
+        public void Returns_the_expected_model_when_calling_GetSMSSecurityCode()
+        {
+            _mockJourneyViewModelBuilder.Setup(r => r.Build(AnyQuestionViewModel(), AnyQuestionWithAnswers())).ReturnsAsync(new JourneyViewModel { Journey = _journeyModel });
+            var journeyJson = JsonConvert.SerializeObject(_journeyModel);
+            var smsOutcomeViewModel = new SendSmsOutcomeViewModel
+            {
+                Journey = _journeyModel,
+                VerificationCodeInput = new VerificationCodeInputViewModel { InputValue = "DxC112" },
+                JourneyJson = journeyJson,
+            };
+            var returnedModel = new SMSRegistrationViewModel(smsOutcomeViewModel);
+            _mockRegisterForSmsViewModelBuilder.Setup(
+                    s => s.MessageCaseDataCaptureApi<GenerateSMSVerifyCodeRequest, SMSGenerateCodeViewDeterminer>(AnySendSmsOutcomeViewModel(), AnyString()))
+                .ReturnsAsync(returnedModel);
+
+            var result = _sut.GetSMSSecurityCode(smsOutcomeViewModel);
+
+            var model = (SendSmsOutcomeViewModel)((ViewResult)result.Result).Model;
+
+            Assert.AreEqual("123456", model.Journey.Steps[0].AnswerInputValue);
+        }
+
+        [Test]
+        public void Returns_the_expected_view_when_calling_SubmitSMSSecurityCode_with_invalid_model()
+        {
+            _mockJourneyViewModelBuilder.Setup(r => r.Build(AnyQuestionViewModel(), AnyQuestionWithAnswers())).ReturnsAsync(new JourneyViewModel { Journey = _journeyModel });
+            _sut.ModelState.AddModelError("myError", "myErrroMessage");
+            var journeyJson = JsonConvert.SerializeObject(_journeyModel);
+
+            var smsOutcomeViewModel = new SendSmsOutcomeViewModel
+            {
+                Journey = _journeyModel,
+                VerificationCodeInput = new VerificationCodeInputViewModel { InputValue = "" },
+                JourneyJson = journeyJson,
+            };
+
+            var result = _sut.SubmitSMSSecurityCode(smsOutcomeViewModel);
+
+            var viewResult = ((ViewResult)result.Result);
+
+            Assert.AreEqual("Enter_Verification_Code_SMS", viewResult.ViewName);
+
         }
 
         private static QuestionWithAnswers AnyQuestionWithAnswers()
