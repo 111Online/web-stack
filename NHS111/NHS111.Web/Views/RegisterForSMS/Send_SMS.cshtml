@@ -1,9 +1,8 @@
 ﻿@using NHS111.Models.Models.Web
 @inherits NHS111.Web.Views.Shared.SurveyLinkView<SendSmsOutcomeViewModel>
 @{
-    Layout = "~/Views/Shared/_LayoutNhsUk.cshtml";
+    Layout = "~/Views/Shared/_LayoutNhsUkSiteStyle.cshtml";
 }
-
 @section Title {
     NHS 111 - Thanks for providing your details
 }
@@ -22,28 +21,28 @@
 
 <div class="nhsuk-core measure">
     <h1 class="nhsuk-heading-l">Check your details</h1>
-    <dl class="summary-list">
-        <div>
-            <dt>Mobile number</dt>
-            <dd>@Model.MobileNumber</dd>
+    <dl class="nhsuk-summary-list">
+        <div class="nhsuk-summary-list__row">
+            <dt class="nhsuk-summary-list__key">Mobile number</dt>
+            <dd class="nhsuk-summary-list__value">@Model.MobileNumber</dd>
         </div>
 
-        <div>
-            <dt>Age</dt>
-            <dd>@Model.Age</dd>
+        <div class="nhsuk-summary-list__row">
+            <dt class="nhsuk-summary-list__key">Age</dt>
+            <dd class="nhsuk-summary-list__value">@Model.Age</dd>
         </div>
 
-        <div>
-            <dt>When symptoms started</dt>
-            <dd>@Model.SymptomsStartedDaysAgo days ago</dd>
+        <div class="nhsuk-summary-list__row">
+            <dt class="nhsuk-summary-list__key">When symptoms started</dt>
+            <dd class="nhsuk-summary-list__value">@Model.SymptomsStartedDaysAgo days ago</dd>
         </div>
 
-        <div>
-            <dt>Do you live alone</dt>
-            <dd>@string.Format("{0}", Model.LivesAlone ? "Yes" : "No")</dd>
+        <div class="nhsuk-summary-list__row">
+            <dt class="nhsuk-summary-list__key">Do you live alone</dt>
+            <dd class="nhsuk-summary-list__value">@string.Format("{0}", Model.LivesAlone ? "Yes" : "No")</dd>
         </div>
     </dl>
-    
+
     <p class="nhsuk-u-margin-top-4">You can read more about how we use your data in our <a href="https://digital.nhs.uk/coronavirus/coronavirus-covid-19-response-information-governance-hub" target="_blank" data-event-trigger="click" data-event-value="Information governance hub for Coronavirus">privacy policy (link opens in a new tab or window)</a></p>
 
     @using (Html.BeginForm("SubmitSMSRegistration", "RegisterForSMS", FormMethod.Post, new { id = "submitDetailsForm" }))
@@ -53,7 +52,7 @@
         @Html.Partial("_commonHiddenFieldsSendsSMSViewModel", Model)
         @Html.HiddenFor(m => m.VerificationCodeInput)
         @Html.HiddenFor(m => m.SelectedServiceId)
-        <button id="book-call" class="nhsuk-u-margin-top-5">Sign up now</button>
+        <button id="book-call" class="nhsuk-u-margin-top-5 nhsuk-button">Sign up now</button>
     }
 </div>
 

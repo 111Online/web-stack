@@ -55,6 +55,14 @@ namespace NHS111.Web.Presentation.Test.Helpers
         }
 
         [Test]
+        public void Question_JourneyResult_ReturnsNHSUKQuestionView()
+        {
+            var result = _viewDeterminer.Build(new JourneyViewModel { NodeType = NodeType.Question, PathwayNo = "PC111" }, null);
+            Assert.IsInstanceOf<QuestionResultViewModel>(result);
+            Assert.AreEqual("../Question/Custom/NHSUKQuestion", result.ViewName);
+        }
+
+        [Test]
         public void Page_JourneyResult_ReturnsPageView()
         {
             var result = _viewDeterminer.Build(new JourneyViewModel { NodeType = NodeType.Page }, null);

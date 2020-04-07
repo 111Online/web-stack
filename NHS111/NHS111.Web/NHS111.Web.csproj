@@ -497,7 +497,13 @@
     <Content Include="Views\Shared\_commonHiddenFieldsSendsSMSViewModel.cshtml" />
     <Content Include="Views\Home\StayAtHomeHub.cshtml" />
     <Content Include="Views\Shared\_GetTextMessages.cshtml" />
+    <Content Include="Views\Shared\_LayoutNhsUKSiteStyle.cshtml" />
+    <Content Include="Views\Question\Custom\NHSUKQuestion.cshtml" />
     <Content Include="Views\Shared\_GetStatusChecker.cshtml" />
+    <Content Include="Views\Outcome\Confirmation\SMS\DuplicateBookingFailure.cshtml" />
+    <Content Include="Views\Shared\_ServiceDetailsCovidMessage.cshtml" />
+    <Content Include="Views\Shared\_ServiceListCovidMessage.cshtml" />
+    <Content Include="Views\Question\Custom\NHSUKPage.cshtml" />
     <Content Include="Views\RegisterForSMS\Verify_SMS.cshtml" />
     <Content Include="Views\RegisterForSMS\Enter_Verification_Code_SMS.cshtml" />
     <Content Include="Views\RegisterForSMS\Verify_Fail.cshtml" />
