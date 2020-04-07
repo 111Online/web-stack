@@ -105,7 +105,7 @@ namespace NHS111.Web.Controllers
 
         private VerificationCodeInputViewModel GetVerificationCodeInputFromJourney(SendSmsOutcomeViewModel model)
         {
-            var verificationCodeInput = JsonConvert.DeserializeObject<JourneyViewModel>(model.JourneyJson).Journey
+            var verificationCodeInput = JsonConvert.DeserializeObject<Journey>(model.JourneyJson)
                 .GetStepInputValue<string>(QuestionType.String, "DxC112");
             return new VerificationCodeInputViewModel(){ InputValue = verificationCodeInput };
         }
