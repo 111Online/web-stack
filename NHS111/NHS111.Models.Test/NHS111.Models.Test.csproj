@@ -134,6 +134,7 @@
     <Compile Include="GenderResolverTests.cs" />
     <Compile Include="Mappers\StaticTextToHtmlTests.cs" />
     <Compile Include="Mappers\WebMappings\AddressInfoViewModelMapperTests.cs" />
+    <Compile Include="Mappers\WebMappings\DataCaptureApiRequestMapperTests.cs" />
     <Compile Include="Mappers\WebMappings\FromDosCaseToDosServicesByClinicalTermRequestTests.cs" />
     <Compile Include="Mappers\WebMappings\FromOutcomeViewModelToCaseDetailsConverterTests.cs" />
     <Compile Include="Mappers\WebMappings\FromOutcomeViewModelToDosViewModel.cs" />
