@@ -23,7 +23,7 @@ namespace NHS111.Models.Models.Web.Validators
         {
             var model = ((VerificationCodeInputViewModel)context.Instance);
 
-            if(string.IsNullOrWhiteSpace(model.InputValue))
+            if (string.IsNullOrWhiteSpace(model.InputValue))
             {
                 return false;
             }

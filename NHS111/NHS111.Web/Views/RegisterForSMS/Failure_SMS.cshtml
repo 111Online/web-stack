@@ -2,7 +2,7 @@
 @using NHS111.Models.Models.Web
 @inherits NHS111.Web.Views.Shared.SurveyLinkView<SendSmsOutcomeViewModel>
 @{
-    Layout = "~/Views/Shared/_LayoutNhsUk.cshtml";
+    Layout = "~/Views/Shared/_LayoutNhsUkSiteStyle.cshtml";
 }
 @section Title {
     There’s been a problem
@@ -16,5 +16,5 @@
 
     <p>Sending your information failed.</p>
 
-    <a class="button" href="/Covid-19/SMS">Go back and start again</a>
+    <a class="nhsuk-button" href="/Covid-19/SMS">Go back and start again</a>
 </div>

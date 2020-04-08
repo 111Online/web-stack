@@ -1,7 +1,7 @@
 ﻿@using NHS111.Models.Models.Web
 @inherits NHS111.Web.Views.Shared.SurveyLinkView<SendSmsOutcomeViewModel>
 @{
-    Layout = "~/Views/Shared/_LayoutNhsUk.cshtml";
+    Layout = "~/Views/Shared/_LayoutNhsUkSiteStyle.cshtml";
 }
 
 @section Title {
@@ -32,8 +32,9 @@
         @Html.Partial("_commonHiddenFieldsSendsSMSViewModel", Model)
         @Html.Partial("_CommonHiddenFieldsNode", Model)
         @Html.HiddenFor(m => m.SelectedServiceId)
-        <button id="book-call" class="nhsuk-u-margin-top-5">Send a code to my phone</button>
+        <button id="book-call" class="nhsuk-button">Send a code to my phone</button>
     }
+    <div class="nhsuk-u-margin-bottom-5"></div>
 </div>
 
 @Html.Partial("_PageLoadingIndicator")

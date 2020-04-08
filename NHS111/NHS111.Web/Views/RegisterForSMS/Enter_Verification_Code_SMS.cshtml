@@ -1,7 +1,9 @@
-﻿@using NHS111.Models.Models.Web
+﻿@using System.Security.Policy
+@using NHS111.Models.Models.Web
+@using StructureMap.Query
 @inherits NHS111.Web.Views.Shared.SurveyLinkView<SendSmsOutcomeViewModel>
 @{
-    Layout = "~/Views/Shared/_LayoutNhsUk.cshtml";
+    Layout = "~/Views/Shared/_LayoutNhsUkSiteStyle.cshtml";
 }
 
 @section Title {
@@ -22,8 +24,8 @@
 
 <div class="nhsuk-core measure">
     <h1 class="nhsuk-heading-l">Enter your security code</h1>
-
-    <p>This will be a 6-digit number.</p>
+    
+    <div class="nhsuk-hint"><p>This will be a 6-digit number.</p></div>
 
     @using (Html.BeginForm("SubmitSMSSecurityCode", "RegisterForSMS", FormMethod.Post, new { id = "submitDetailsForm" }))
     {
@@ -32,11 +34,17 @@
         @Html.Partial("_commonHiddenFieldsSendsSMSViewModel", Model)
         @Html.HiddenFor(m => m.SelectedServiceId)
 
-        <div class="inline-details form-group @(ViewData.ModelState.IsValid ? "" : "form-group-error")">
+        <div class="inline-details form-group @(ViewData.ModelState.IsValid || IsVerificationCodeIncorrect(Model) ? "" : "form-group-error")">
+            @if (IsVerificationCodeIncorrect(Model))
+            {
+                <div>
+                    <p class="field-validation-error" style="color:#b10e1e">Verification code provided was incorrect.</p>
+                </div>
+            }
             @Html.ValidationMessageFor(m => m.VerificationCodeInput)
-            @Html.TextBoxFor(m => m.VerificationCodeInput.InputValue, new { id = "smsVerificationCode", @class = "nhsuk-input" })
+            @Html.TextBoxFor(m => m.VerificationCodeInput.InputValue, new {id = "smsVerificationCode", @class = "nhsuk-input"})
         </div>
-        <button class="button--next" id="nextScreen" type="submit" name="Question" value="Question">Next</button>
+        <button class="nhsuk-button" id="nextScreen" type="submit" name="Question" value="Question">Next</button>
     }
     <br />
     @using (Html.BeginForm("GetSMSSecurityCode", "RegisterForSMS", FormMethod.Post, new { id = "resendCode" }))
@@ -50,6 +58,13 @@
 </div>
 
 @Html.Partial("_PageLoadingIndicator")
+
+@functions
+{
+    bool IsVerificationCodeIncorrect(SendSmsOutcomeViewModel model){
+        return model.VerificationCodeInput != null && !model.VerificationCodeInput.IsCorrect;
+    }
+}
 
 <script>
     $(document).on('submit', '#submitDetailsForm', function () {
