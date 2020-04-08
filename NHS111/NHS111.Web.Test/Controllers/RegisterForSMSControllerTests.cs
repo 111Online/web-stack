@@ -138,28 +138,6 @@ namespace NHS111.Web.Presentation.Test.Controllers
             Assert.AreEqual("123456", model.Journey.Steps[0].AnswerInputValue);
         }
 
-        [Test]
-        public void Returns_the_expected_view_when_calling_SubmitSMSSecurityCode_with_invalid_model()
-        {
-            _mockJourneyViewModelBuilder.Setup(r => r.Build(AnyQuestionViewModel(), AnyQuestionWithAnswers())).ReturnsAsync(new JourneyViewModel { Journey = _journeyModel });
-            _sut.ModelState.AddModelError("myError", "myErrroMessage");
-            var journeyJson = JsonConvert.SerializeObject(_journeyModel);
-
-            var smsOutcomeViewModel = new SendSmsOutcomeViewModel
-            {
-                Journey = _journeyModel,
-                VerificationCodeInput = new VerificationCodeInputViewModel { InputValue = "" },
-                JourneyJson = journeyJson,
-            };
-
-            var result = _sut.SubmitSMSSecurityCode(smsOutcomeViewModel);
-
-            var viewResult = ((ViewResult)result.Result);
-
-            Assert.AreEqual("Enter_Verification_Code_SMS", viewResult.ViewName);
-
-        }
-
         private static QuestionWithAnswers AnyQuestionWithAnswers()
         {
             return It.IsAny<QuestionWithAnswers>();
