@@ -97,15 +97,6 @@ namespace NHS111.Web.Presentation.Builders
         public override void Build(SMSRegistrationViewModel model, HttpStatusCode statusCode)
         {
             base.BaseBuild(model, statusCode);
-            if (statusCode == HttpStatusCode.BadRequest)
-            {
-                model.ViewName = "Enter_Verification_Code_SMS";
-            }
-
-            if (statusCode == HttpStatusCode.OK)
-            {
-                model.SendSmsOutcomeViewModel.VerificationCodeInput.IsCorrect = true;
-            }
         }
     }
 
