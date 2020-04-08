@@ -23,48 +23,37 @@
 }
 
 <div class="nhsuk-core measure">
-    <h1 class="nhsuk-heading-l">Enter your security code</h1>
-    
-    <div class="nhsuk-hint"><p>This will be a 6-digit number.</p></div>
-
     @using (Html.BeginForm("SubmitSMSSecurityCode", "RegisterForSMS", FormMethod.Post, new { id = "submitDetailsForm" }))
     {
         @Html.Partial("_CommonHiddenFieldsOutcomeViewModel", Model)
         @Html.Partial("_CommonHiddenFieldsCareAdviceViewModel", Model)
         @Html.Partial("_commonHiddenFieldsSendsSMSViewModel", Model)
         @Html.HiddenFor(m => m.SelectedServiceId)
+        <div class="form-group @(!@ViewData.ModelState.IsValidField("VerificationCodeInput") ? "form-group-error" : "")">
 
-        <div class="inline-details form-group @(ViewData.ModelState.IsValid || IsVerificationCodeIncorrect(Model) ? "" : "form-group-error")">
-            @if (IsVerificationCodeIncorrect(Model))
-            {
-                <div>
-                    <p class="field-validation-error" style="color:#b10e1e">Verification code provided was incorrect.</p>
-                </div>
-            }
+            <h1 class="nhsuk-heading-l">Enter your security code</h1>
+
+            <div class="nhsuk-hint">
+                <p>This will be a 6-digit number.</p>
+            </div>
+
             @Html.ValidationMessageFor(m => m.VerificationCodeInput)
-            @Html.TextBoxFor(m => m.VerificationCodeInput.InputValue, new {id = "smsVerificationCode", @class = "nhsuk-input"})
+            @Html.TextBoxFor(m => m.VerificationCodeInput.InputValue, new { id = "smsVerificationCode", @class = "nhsuk-input" })
         </div>
         <button class="nhsuk-button" id="nextScreen" type="submit" name="Question" value="Question">Next</button>
-    }
-    <br />
-    @using (Html.BeginForm("GetSMSSecurityCode", "RegisterForSMS", FormMethod.Post, new { id = "resendCode" }))
-    {
-        @Html.Partial("_CommonHiddenFieldsOutcomeViewModel", Model)
-        @Html.Partial("_CommonHiddenFieldsCareAdviceViewModel", Model)
-        @Html.Partial("_commonHiddenFieldsSendsSMSViewModel", Model)
-        @Html.HiddenFor(m => m.SelectedServiceId)
-        <div class="nhsuk-u-margin-bottom-5"><p>Haven't got a code yet? <button type="submit" name="resendCode" id="resendCode" value="True" class="button--link" formnovalidate="formnovalidate">Resend code</button></p></div>
-    }
-</div>
+        }
+        <br />
+        @using (Html.BeginForm("GetSMSSecurityCode", "RegisterForSMS", FormMethod.Post, new { id = "resendCode" }))
+        {
+            @Html.Partial("_CommonHiddenFieldsOutcomeViewModel", Model)
+            @Html.Partial("_CommonHiddenFieldsCareAdviceViewModel", Model)
+            @Html.Partial("_commonHiddenFieldsSendsSMSViewModel", Model)
+            @Html.HiddenFor(m => m.SelectedServiceId)
+            <div class="nhsuk-u-margin-bottom-5"><p>Haven't got a code? <button type="submit" name="resendCode" id="resendCode" value="True" class="button--link" formnovalidate="formnovalidate">Resend code</button></p></div>
+        }
+    </div>
 
 @Html.Partial("_PageLoadingIndicator")
-
-@functions
-{
-    bool IsVerificationCodeIncorrect(SendSmsOutcomeViewModel model){
-        return model.VerificationCodeInput != null && !model.VerificationCodeInput.IsCorrect;
-    }
-}
 
 <script>
     $(document).on('submit', '#submitDetailsForm', function () {

@@ -74,7 +74,9 @@ namespace NHS111.Models.Models.Web
             {
                 if (string.IsNullOrEmpty(JourneyJson))
                     return false;
-                return JsonConvert.DeserializeObject<Journey>(JourneyJson).Steps.Last().QuestionTitle == "SMS verify"; ;
+                var steps = JsonConvert.DeserializeObject<Journey>(JourneyJson).Steps;
+                return steps.Count != 0 
+                       && steps.Last().QuestionTitle == "SMS verify"; ;
             }
         }
 
