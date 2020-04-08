@@ -49,6 +49,7 @@ namespace NHS111.Web.Controllers
             var state = new Dictionary<string, string>();
             state.Add("PATIENT_GENDER", "\"M\"");
             state.Add("PATIENT_AGE", "-1");
+            state.Add("SYMPTOMS_STARTED_DAYS_AGO", "-1");
 
             var model = new QuestionInfoViewModel
             {

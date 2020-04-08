@@ -76,11 +76,13 @@ namespace NHS111.Web.Controllers
 
             var state = new Dictionary<string, string>();
             state.Add("PATIENT_GENDER", string.Format("\"{0}\"", gender.Substring(0, 1)));
+            state.Add("SYMPTOMS_STARTED_DAYS_AGO", "-1");
             if (demogs != null && demogs.Age > 0)
                 state.Add("PATIENT_AGE", age.ToString());
             else
                 state.Add("PATIENT_AGE", "-1");
 
+            
             var model = new QuestionInfoViewModel
             {
                 SessionId = jtbsModel.SessionId,
