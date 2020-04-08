@@ -14,7 +14,7 @@ namespace NHS111.Models.Models.Web.Validators
     {
         private string _dependencyElement;
         public SMSVerificationCodeValidator(Expression<Func<TModel, TProperty>> expression)
-            : base("Enter valid verification code")
+            : base("Enter a valid number")
         {
             _dependencyElement = (expression.Body as MemberExpression).Member.Name;
         }
