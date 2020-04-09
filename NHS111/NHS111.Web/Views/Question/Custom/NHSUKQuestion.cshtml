@@ -141,7 +141,7 @@
             @if (Model.QuestionType == QuestionType.Telephone)
             {
                 @Html.ValidationMessageFor(m => m.AnswerInputValue, "Enter a valid mobile number", new { @class = "error-message" })
-                @Html.TextBoxFor(m => m.AnswerInputValue, new { @class = "nhsuk-input", maxLength = 50 });
+                @Html.TextBoxFor(m => m.AnswerInputValue, new { @class = "nhsuk-input nhsuk-input--width-20", maxLength = 20 });
             }
             @if (Model.QuestionType == QuestionType.Text)
             {
