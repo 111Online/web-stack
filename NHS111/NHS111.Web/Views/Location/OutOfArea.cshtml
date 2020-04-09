@@ -22,6 +22,7 @@
             @using (Html.BeginForm("ChangePostcode", "Location", FormMethod.Get))
             {
                 @Html.HiddenFor(m => m.SessionId)
+                @Html.HiddenFor(m => m.PathwayNo)
                 @Html.HiddenFor(m => m.Campaign)
                 @Html.HiddenFor(m => m.FilterServices)
                 @Html.HiddenFor(m => m.IsCustomJourney)
