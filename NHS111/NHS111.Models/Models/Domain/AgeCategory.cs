@@ -1,3 +1,5 @@
+using System.Web.Mvc;
+
 namespace NHS111.Models.Models.Domain {
     using System;
     using System.CodeDom;
@@ -56,10 +58,10 @@ namespace NHS111.Models.Models.Domain {
         }
 
         private void Initialise(int age) {
-            if (age >= 16) Value = Adult.Value;
-            else if (5 <= age && age <= 15) Value = Child.Value;
-            else if (1 <= age && age <= 4) Value = Toddler.Value;
-            else Value = Infant.Value;
+            if (age >= 16) Initialise(AgeCategoryEnum.Adult);
+            else if (5 <= age && age <= 15) Initialise(AgeCategoryEnum.Child); 
+            else if (1 <= age && age <= 4) Initialise(AgeCategoryEnum.Toddler); 
+            else Initialise(AgeCategoryEnum.Infant);
         }
 
         private void Initialise(AgeCategoryEnum ageCategory) {
@@ -85,7 +87,12 @@ namespace NHS111.Models.Models.Domain {
                     MaximumAge = 0;
                     break;
             }
+         
         }
 
+        public override bool Equals(object obj)
+        {
+            return this.Value == ((AgeCategory) obj).Value;
+        }
     }
 }
