@@ -143,7 +143,10 @@ namespace NHS111.Web.Controllers {
             _auditLogger.LogEvent(model, EventType.SymptomsBeganDate, DateTime.Now.AddDays(daysInt * -1).Date.ToString("s"), "../Question/Custom/SymptomsStarted");
             ModelState.Clear();
             var state = JsonConvert.DeserializeObject<IDictionary<string, string>>(model.StateJson);
-            state.Add("SYMPTOMS_STARTED_DAYS_AGO", days);
+            if (!state.ContainsKey("SYMPTOMS_STARTED_DAYS_AGO"))
+                state.Add("SYMPTOMS_STARTED_DAYS_AGO", days);
+            else
+                state["SYMPTOMS_STARTED_DAYS_AGO"] = days;
             model.StateJson = JsonConvert.SerializeObject(state);
             var nextModel = await GetNextJourneyViewModel(model);
             var viewRouter = _viewRouter.Build(nextModel, ControllerContext);
