@@ -23,12 +23,14 @@ namespace NHS111.Web.Controllers
         private readonly IRegisterForSMSViewModelBuilder _registerForSmsViewModelBuilder;
         private readonly IQuestionNavigiationService _questionNavigiationService;
         private readonly IConfiguration _configuration;
+        private readonly IViewRouter _viewRouter;
 
         public RegisterForSMSController(IRegisterForSMSViewModelBuilder registerForSmsViewModelBuilder, 
             IJourneyViewModelBuilder journeyViewModelBuilder, IConfiguration configuration, IRestClient restClientBusinessApi, IViewRouter viewRouter)
         {
             _registerForSmsViewModelBuilder = registerForSmsViewModelBuilder;
             _configuration = configuration;
+            _viewRouter = viewRouter;
             _questionNavigiationService = new QuestionNavigationService(journeyViewModelBuilder, configuration,
                 restClientBusinessApi, viewRouter);
         }
@@ -66,6 +68,14 @@ namespace NHS111.Web.Controllers
                 .MessageCaseDataCaptureApi<SubmitSMSRegistrationRequest, SMSSubmitRegistrationViewDeterminer>(model, _configuration.CaseDataCaptureApiSubmitSMSRegistrationMessageUrl);
 
             return View(result.ViewName, result.SendSmsOutcomeViewModel);
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> GoBackToSMSVerifyStart(SendSmsOutcomeViewModel model)
+        {
+            //var VerifyForSMSViewModel = new VerifyForSMSViewModel(model);
+            var verifyForSMSViewModel = _viewRouter.Build(model, ControllerContext);
+            return View(verifyForSMSViewModel.ViewName, model);
         }
 
         private bool VerificationCodeInputIsNotValid()
