@@ -27,7 +27,7 @@ namespace NHS111.Business.Test.Controller
         private Mock<IAnswersForNodeBuilder> _answersForNodeBuilder;
         private Mock<ICacheManager<string, string>> _cacheManager;
         private QuestionController _sut;
-        private QuestionWithAnswers question = new QuestionWithAnswersMocker("1", "Test").Build();
+      
         private string pathwayId = "PW123MaleAdult";
         private string nodeId = "PW123.1200";
         private string answer = "yes";
@@ -48,6 +48,8 @@ namespace NHS111.Business.Test.Controller
             _sut = new QuestionController(_questionService.Object, _questionTransformer.Object,
                 _answersForNodeBuilder.Object, _cacheManager.Object);
 
+           
+
             _expectedCacheKey = string.Format("{0}-{1}-{2}", pathwayId, nodeId, answer);
 #if !DEBUG
             _isRelease = true;
@@ -59,13 +61,15 @@ namespace NHS111.Business.Test.Controller
         {
 
             if (!_isRelease) Assert.Ignore("This test must be run in release mode");
-            _questionService.Setup(x => x.GetNextQuestion(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>())).Returns(Task.FromResult(question));
-          
-            _questionTransformer.Setup(x => x.AsQuestionWithAnswers(It.IsAny<QuestionWithAnswers>())).Returns(question);
+
+             var questionResult = new QuestionWithAnswersMocker("1", "Test").AddAnswer("yes").Build();
+            _questionService.Setup(x => x.GetNextQuestion(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>())).Returns(Task.FromResult(questionResult));
+              
+            _questionTransformer.Setup(x => x.AsQuestionWithAnswers(It.IsAny<QuestionWithAnswers>())).Returns(questionResult);
 
             var result = await _sut.GetNextNode(pathwayId, NodeType.Question, nodeId, "", answer);
 
-            _cacheManager.Verify(c => c.Set(_expectedCacheKey, JsonConvert.SerializeObject(question)), Times.Once);
+            _cacheManager.Verify(c => c.Set(_expectedCacheKey, JsonConvert.SerializeObject(questionResult)), Times.Once);
             _questionService.Verify(x => x.GetNextQuestion(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>()), Times.Once);
             Assert.IsInstanceOf<QuestionWithAnswers>(result.Content);
         }
@@ -89,6 +93,26 @@ namespace NHS111.Business.Test.Controller
             _cacheManager.Verify(c => c.Set(It.IsAny<string>(), It.IsAny<string>()), Times.Never);
             _questionService.Verify(x => x.GetNextQuestion(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>()), Times.Once);
         }
+        [Test]
+        public async void should_not_set_cache_when_questionService_returns_EmptyResponse()
+        {
+            if (!_isRelease) Assert.Ignore("This test must be run in release mode");
+            var questionResult = new QuestionWithAnswersMocker().Build();
+            _questionService.Setup(x => x.GetNextQuestion(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>()))
+                .ReturnsAsync(questionResult);
+
+            JsonResult<QuestionWithAnswers> result;
+            try
+            {
+                result = await _sut.GetNextNode(pathwayId, NodeType.Question, nodeId, "", answer);
+            }
+            catch (Exception e)
+            {
+
+            }
+            _cacheManager.Verify(c => c.Set(It.IsAny<string>(), It.IsAny<string>()), Times.Never);
+            _questionService.Verify(x => x.GetNextQuestion(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>()), Times.Once);
+        }
 
 
     }
@@ -101,8 +125,14 @@ namespace NHS111.Business.Test.Controller
             _mockQuestionWithAnswers = new QuestionWithAnswers(){Labels = new List<string>(){"Question"},  Question = new Question(){Id = questionId, QuestionNo = "TX" + questionId, Title = questionTitle}};
         }
 
+        public QuestionWithAnswersMocker()
+        {
+            _mockQuestionWithAnswers = new QuestionWithAnswers();
+        }
+
         public QuestionWithAnswersMocker AddAnswer(string answerText)
         {
+            if (_mockQuestionWithAnswers.Answers == null) _mockQuestionWithAnswers.Answers = new List<Answer>();
             _mockQuestionWithAnswers.Answers.Add(new Answer(){Order = _mockQuestionWithAnswers.Answers.Count, Title = answerText});
             return this;
         }
@@ -111,7 +141,5 @@ namespace NHS111.Business.Test.Controller
         {
             return _mockQuestionWithAnswers;
         }
-
-
     }
 }
