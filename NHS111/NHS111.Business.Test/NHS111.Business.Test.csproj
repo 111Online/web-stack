@@ -90,6 +90,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Builders\AnswersForNodeBuilderTests.cs" />
+    <Compile Include="Controller\QuestionController_Caching_Test.cs" />
     <Compile Include="Controller\QuestionController_Test.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\CareAdviceService_Test.cs" />
