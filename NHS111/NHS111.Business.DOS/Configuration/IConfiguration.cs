@@ -44,5 +44,6 @@ namespace NHS111.Business.DOS.Configuration
         string CCGApiGetCCGDetailsByPostcode { get; }
         string CCGApiBaseUrl { get; }
         int DoSSearchDistance { get; }
+        int ServicePointManagerDefaultConnectionLimit { get; }
     }
 }

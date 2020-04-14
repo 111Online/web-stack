@@ -12,13 +12,17 @@ namespace NHS111.Business.IoC
 {
     public class BusinessRegistry : Registry
     {
+        private IConfiguration _configuration;
+
         public BusinessRegistry(IConfiguration configuration)
         {
-            For<IRestClient>().Singleton().Use<IRestClient>(new LoggingRestClient(configuration.GetDomainApiBaseUrl(), LogManager.GetLogger("log")));
+            _configuration = configuration;
+
+            For<IRestClient>().Singleton().Use<IRestClient>(GetLoggingRestClientFor(configuration.GetDomainApiBaseUrl()));
             For<ICCGDetailsService>().Singleton()
                 .Use<CCGDetailsService>()
                 .Ctor<IRestClient>()
-                .Is(new LoggingRestClient(configuration.GetCCGBaseUrl(), LogManager.GetLogger("log")));
+                .Is(GetLoggingRestClientFor(configuration.GetCCGBaseUrl()));
 
             For<ISearchResultFilter>().Use<EmergencyPrescriptionResultFilter>().Ctor<ICCGDetailsService>();
             For<ICategoryFilter>().Use<EmergencyPrescriptionResultFilter>().Ctor<ICCGDetailsService>();
@@ -26,13 +30,18 @@ namespace NHS111.Business.IoC
             For<ILocationService>().Singleton()
                 .Use<LocationService>()
                 .Ctor<IRestClient>()
-                .Is(new LoggingRestClient(configuration.GetLocationBaseUrl(), LogManager.GetLogger("log")));
+                .Is(GetLoggingRestClientFor(configuration.GetLocationBaseUrl()));
             IncludeRegistry<UtilsRegistry>();
             Scan(scan =>
             {
                 scan.TheCallingAssembly();
                 scan.WithDefaultConventions();
             });
+        }
+
+        private LoggingRestClient GetLoggingRestClientFor(string baseUrl)
+        {
+            return new LoggingRestClient(baseUrl, LogManager.GetLogger("log"), _configuration.GetServicePointManagerDefaultConnectionLimit());
         }
     }
 }
