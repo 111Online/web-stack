@@ -63,12 +63,13 @@
 
 [class^="nhsuk-"] {
   /* Some specificity hacks are required for nhsuk styles to override existing classes - probably should be moved elsewhere */
-  input[type="radio"] + label,
-  input[type="checkbox"] + label {
+  /* be sure to check that these styles don't affect anything that uses "nhsuk-core" */
+  input[type="radio"] + label.nhsuk-label,
+  input[type="checkbox"] + label.nhsuk-label {
     position: static;
   }
 
-  .multiple-choice--radio {
+  .multiple-choice--radio.nhsuk-radios__label {
     margin-bottom: 0 !important;
   }
 
