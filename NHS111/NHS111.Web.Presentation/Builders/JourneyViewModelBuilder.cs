@@ -107,8 +107,21 @@ namespace NHS111.Web.Presentation.Builders
 
         public JourneyViewModel BuildPreviousQuestion(QuestionWithAnswers lastStep, QuestionViewModel model)
         {
+            //TODO Check whether this is an appropriate test - should the code apply more broadly than just this pathway
+            if (!string.IsNullOrWhiteSpace(model.DigitalTitle) && model.DigitalTitle.ToLower() == "sms service pathway")
+            {
+                var lastRecordedStep = model.Journey.Steps.LastOrDefault();
+                if (lastRecordedStep.QuestionType == QuestionType.Telephone ||
+                    lastRecordedStep.QuestionType == QuestionType.Integer)
+                {
+                    model.AnswerInputValue = lastRecordedStep.AnswerInputValue;
+                }
+            }
 
             model.RemoveLastStep();
+
+
+            
 
             model.CollectedKeywords = _keywordCollector.CollectKeywordsFromPreviousQuestion(model.CollectedKeywords,
                 model.Journey.Steps);
