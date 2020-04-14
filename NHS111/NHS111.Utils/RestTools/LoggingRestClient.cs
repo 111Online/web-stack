@@ -9,9 +9,13 @@ namespace NHS111.Utils.RestTools
     public class LoggingRestClient : RestClient
     {
         private readonly ILog _logger;
-        public LoggingRestClient(string baseUrl, ILog logger) : base(baseUrl)
+
+        [Obsolete("Pass DefaultConnectionLimit from IConfiguration.ServicePointManagerDefaultConnectionLimit")]
+        public LoggingRestClient(string baseUrl, ILog logger) : this (baseUrl, logger, 5) {}
+        
+        public LoggingRestClient(string baseUrl, ILog logger, int defaultConnectionLimit) : base(baseUrl)
         {
-            ServicePointManager.DefaultConnectionLimit = 5;
+            ServicePointManager.DefaultConnectionLimit = defaultConnectionLimit;
             _logger = logger;
             InitializeSerialisationHandlers();
         }

@@ -7,7 +7,8 @@ using NHS111.Utils.RestTools;
 using NHS111.Web.Presentation.Builders;
 using RestSharp;
 
-namespace NHS111.Web.IoC {
+namespace NHS111.Web.IoC
+{
     using Models.IoC;
     using Utils.Cache;
     using Utils.IoC;
@@ -16,23 +17,32 @@ namespace NHS111.Web.IoC {
     using StructureMap;
     using StructureMap.Graph;
 
-    public class WebRegistry : Registry {
-        public WebRegistry() {
+    public class WebRegistry : Registry
+    {
+        public WebRegistry()
+        {
             Configure();
         }
 
-        public WebRegistry(IConfiguration configuration) {
+        public WebRegistry(IConfiguration configuration)
+        {
             For<ICacheManager<string, string>>().Use(new RedisManager(configuration.RedisConnectionString));
-            For<IRestClient>().Singleton().Use(new LoggingRestClient(configuration.BusinessApiProtocolandDomain, LogManager.GetLogger("log"))).Named("restClientBusinessApi");
+            For<IRestClient>().Singleton().Use(
+                    new LoggingRestClient(
+                        configuration.BusinessApiProtocolandDomain,
+                        LogManager.GetLogger("log"),
+                        configuration.ServicePointManagerDefaultConnectionLimit
+                    )).Named("restClientBusinessApi");
             Configure();
         }
 
-        private void Configure() {
+        private void Configure()
+        {
             IncludeRegistry<FeatureRegistry>();
             IncludeRegistry<UtilsRegistry>();
             IncludeRegistry<ModelsRegistry>();
             IncludeRegistry<WebPresentationRegistry>();
-            
+
             Scan(scan =>
             {
                 scan.TheCallingAssembly();
