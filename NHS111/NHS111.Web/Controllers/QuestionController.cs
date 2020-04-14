@@ -146,7 +146,10 @@ namespace NHS111.Web.Controllers {
             ModelState.Clear();
 
             var state = JsonConvert.DeserializeObject<IDictionary<string, string>>(model.StateJson);
-            state.Add("SYMPTOMS_STARTED_DAYS_AGO", days);
+            if (!state.ContainsKey("SYMPTOMS_STARTED_DAYS_AGO"))
+                state.Add("SYMPTOMS_STARTED_DAYS_AGO", days);
+            else
+                state["SYMPTOMS_STARTED_DAYS_AGO"] = days;
             model.StateJson = JsonConvert.SerializeObject(state);
             var nextModel = await _questionNavigiationService.GetNextJourneyViewModel(model);
             var viewRouter = _viewRouter.Build(nextModel, ControllerContext);
