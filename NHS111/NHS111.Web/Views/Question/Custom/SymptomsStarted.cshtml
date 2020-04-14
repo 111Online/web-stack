@@ -1,4 +1,6 @@
-﻿@using NHS111.Models.Models.Web
+﻿@using System.Web.UI.HtmlControls
+@using NHS111.Models.Models.Web
+@using NHS111.Utils.Extensions
 @inherits NHS111.Web.Views.Shared.DirectLinkingView<JourneyViewModel>
 
 @{ Layout = "~/Views/Shared/_LayoutNhsUk.cshtml"; }
@@ -47,27 +49,25 @@
     {
         Html.Raw("<!-- DIRECT LINK: " + Model.StepLink + " -->");
     }
-    <h1>@Model.Title</h1>
-
-    <div class="callout callout--info">
-        <p>It doesn’t matter if you aren’t sure about the exact date, but try to be as accurate as you can.</p>
-    </div>
+    
     <div>
         <fieldset>
-            <div  class="form-group @(ViewData.ModelState.IsValid?"":"form-group-error")   form-group-validation-override">
-                @Html.ValidationMessage("SymptomsStart.Date")
-                <div class="form-group--inline">
-                    <label for="SymptomsStart_Day">Day</label>
-                    <input class="@(ViewData.ModelState.IsValidField("SymptomsStart.Day")?"":"input-validation-error") form-control form-textbox js-validate-number" data-val="true" data-val-day="Incorrect Day" data-val-day-prefixelement="Day" data-val-number="The field Day must be a number." id="SymptomsStart_Day" inputmode="numeric" maxlength="2" name="SymptomsStart.Day" pattern="[0-9]+" placeholder="DD" type="text" value="@Request.Params["SymptomsStart.Day"]">
-                </div>
-                <div class="form-group--inline">
-                    <label for="SymptomsStart_Month">Month</label>
-                    <input class="@(ViewData.ModelState.IsValidField("SymptomsStart.Month")?"":"input-validation-error") form-control form-textbox js-validate-number" data-val="true" data-val-month="Incorrect Month" data-val-month-prefixelement="Month" data-val-number="The field Month must be a number." id="SymptomsStart_Month" inputmode="numeric" maxlength="2" name="SymptomsStart.Month" pattern="[0-9]+" placeholder="MM" type="text" value="@Request.Params["SymptomsStart.Month"]">
-                </div>
-                <div class="form-group--inline">
-                    <label for="SymptomsStart_Year">Year</label>
-                    <input class="@(ViewData.ModelState.IsValidField("SymptomsStart.Year")?"":"input-validation-error") form-control form-textbox js-validate-number" data-val="true" data-val-number="The field Year must be a number." data-val-year="Incorrect Year" data-val-year-prefixelement="Year" id="SymptomsStart_Year" inputmode="numeric" maxlength="4" name="SymptomsStart.Year" pattern="[0-9]+" placeholder="YYYY" type="text" value="@Request.Params["SymptomsStart.Year"]">
-                </div>
+            <legend>
+                <h1>How many days ago did your symptoms start?</h1>
+            </legend>
+            <div class="callout callout--info">
+                <p>
+                    Try to be as accurate as you can.  We only need to know about the last 10 days.
+                </p>
+                <p>
+                    If your symptoms started today, enter '0'.
+                </p>
+            </div>
+
+            <div class="form-group @(ViewData.ModelState.IsValid ? "" : "form-group-error") form-group-validation-override">
+                @Html.ValidationMessage("SymptomsStart.Day")
+                <input class="@(ViewData.ModelState.IsValidField("SymptomsStart.Day") ? "" : "input-validation-error") form-control form-textbox js-validate-number", style = "display: inline-block;", data-val="true" data-val-number="The field Day must be a number." id="SymptomsStart_Day" inputmode="numeric" maxlength="2" name="SymptomsStart.Day" pattern="[0-9]+", autocomplete = "off", value="@Request.Params["SymptomsStart.Day"]">
+                <span class="form-hint" style="display: inline-block; margin-left: 15px;">days ago</span>
             </div>
         </fieldset>
     </div>

@@ -122,23 +122,32 @@ namespace NHS111.Web.Controllers {
 
         private async Task<ActionResult> HandleCustomQuestion(QuestionViewModel model)
         {
-            var symptomsBeganDateModel = DateTimeViewModel.Build(
-                Request.Params["SymptomsStart.Day"],
-                Request.Params["SymptomsStart.Month"],
-                Request.Params["SymptomsStart.Year"]);
-                var result = new DateTimeInPastValidator().Validate(symptomsBeganDateModel);
-                
-                if(!result.IsValid)
+            var days = Request.Params["SymptomsStart.Day"];
+            int daysInt;
+            if (!int.TryParse(days, out daysInt))
+            {
+                ModelState.AddModelError("SymptomsStart.Day", "Please enter a number");
+                return View("Custom/SymptomsStarted", model);
+            }
+            var result = new QuestionViewModelValidator.IntegerSymptomsStartedValidator().Validate(days);
+            if (!result.IsValid)
+            {
+                foreach (var error in result.Errors)
                 {
-                    foreach (var error in result.Errors)
-                    {
-                        ModelState.AddModelError("SymptomsStart." + error.PropertyName, error.ErrorMessage);
-                    }
-
-                    return View("Custom/SymptomsStarted", model);
+                    ModelState.AddModelError("SymptomsStart.Day", error.ErrorMessage);
                 }
-            _auditLogger.LogEvent(model, EventType.SymptomsBeganDate, symptomsBeganDateModel.Date.Value.ToString("s"), "../Question/Custom/SymptomsStarted");
+
+                return View("Custom/SymptomsStarted", model);
+            }
+
+            _auditLogger.LogEvent(model, EventType.SymptomsBeganDate, DateTime.Now.AddDays(daysInt * -1).Date.ToString("s"), "../Question/Custom/SymptomsStarted");
             ModelState.Clear();
+            var state = JsonConvert.DeserializeObject<IDictionary<string, string>>(model.StateJson);
+            if (!state.ContainsKey("SYMPTOMS_STARTED_DAYS_AGO"))
+                state.Add("SYMPTOMS_STARTED_DAYS_AGO", days);
+            else
+                state["SYMPTOMS_STARTED_DAYS_AGO"] = days;
+            model.StateJson = JsonConvert.SerializeObject(state);
             var nextModel = await GetNextJourneyViewModel(model);
             var viewRouter = _viewRouter.Build(nextModel, ControllerContext);
             return View(viewRouter.ViewName, nextModel);
