@@ -21,7 +21,7 @@
 <div class="measure nhsuk-core">
     <h1 class="nhsuk-heading-xl">You should get a call within <strong>@WebUtility.HtmlDecode(Model.OutcomeModel.WaitTimeText)</strong></h1>
   <p>
-    It was booked at @DateTime.Now.ToString("HH:mm").
+    It was booked at @DateTime.Now.ToString("h:mmtt").ToLower().
   </p>
 
   <p>
@@ -58,12 +58,14 @@
       Summary = "<p>The COVID clinical response service will try to call up to 3 times. They will leave a message to say they have tried to call you, but you won’t be able to return their call. If you miss all of the calls, you need to start again using the online service.</p>"
   })
     
-  @{ var waitText = (Model.OutcomeModel.Id == "Dx1113")? "call 999 and tell them you have coronavirus symptoms." : "use the service again to tell us about your new symptoms."; }
+  @{ var waitText = (Model.OutcomeModel.Id == "Dx1113")?
+          "If you feel a lot worse call 999 and tell them you have coronavirus symptoms." :
+          "If you don’t get a call within " + @WebUtility.HtmlDecode(Model.OutcomeModel.WaitTimeText) + " and you start to feel worse, use the service again to tell us about your new symptoms."; }
 
   @Html.Partial("_LinkSummary", new LinkSummaryViewModel
 {
     Link = "What if I feel worse while I am waiting?",
-    Summary = "<p>If you don’t get a call within " + @WebUtility.HtmlDecode(Model.OutcomeModel.WaitTimeText) + " and you start to feel worse, " + waitText + "</p>"
+    Summary = "<p>" + waitText + "</p>"
 })
 
   <hr class="nhsuk-u-margin-top-6 nhsuk-u-margin-bottom-6" />
