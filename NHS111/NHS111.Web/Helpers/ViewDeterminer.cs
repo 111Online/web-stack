@@ -70,7 +70,17 @@ namespace NHS111.Web.Helpers
                         // This outcome is used to go from mid-pathway into search
                         return new SearchJumpViewModel(journeyViewModel);
                     }
-                    
+
+                    if (journeyViewModel.OutcomeGroup.IsVerifySMS)
+                    {
+                        return new VerifyForSMSViewModel(journeyViewModel);
+                    }
+
+                    if (journeyViewModel.OutcomeGroup.IsSendSMS)
+                    {
+                        return new RegisterForSMSViewModel(journeyViewModel);
+                    }
+
                     var outcomeViewModel = journeyViewModel as OutcomeViewModel;
                     var result = new OutcomeResultViewModel(outcomeViewModel, IsTestJourney(outcomeViewModel));
                     if (ViewExists(result.ViewName, context))

@@ -9,7 +9,9 @@ namespace NHS111.Web.Presentation.Configuration
         public string ItkDispatcherApiBaseUrl { get { return ConfigurationManager.AppSettings["ItkDispatcherApiBaseUrl"]; } }
         public string ItkDispatcherApiSendItkMessageUrl { get { return ConfigurationManager.AppSettings["ItkDispatcherApiSendItkMessageUrl"]; } }
         public string CaseDataCaptureApiBaseUrl { get { return ConfigurationManager.AppSettings["CaseDataCaptureApiBaseUrl"]; } }
-        public string CaseDataCaptureApiSendSMSMessageUrl { get { return ConfigurationManager.AppSettings["CaseDataCaptureApiSendSMSMessageUrl"]; } }
+        public string CaseDataCaptureApiSubmitSMSRegistrationMessageUrl { get { return ConfigurationManager.AppSettings["CaseDataCaptureApiSubmitSMSRegistrationMessageUrl"]; } }
+        public string CaseDataCaptureApiVerifyPhoneNumberUrl { get { return ConfigurationManager.AppSettings["CaseDataCaptureApiVerifyPhoneNumberUrl"]; } }
+        public string CaseDataCaptureApiGenerateVerificationCodeUrl { get { return ConfigurationManager.AppSettings["CaseDataCaptureApiGenerateVerificationCodeUrl"]; } }
         public string GPSearchUrl { get { return ConfigurationManager.AppSettings["GPSearchUrl"]; } }
         public string GPSearchApiUrl { get { return ConfigurationManager.AppSettings["GPSearchApiUrl"]; } }
         public string GPSearchByIdUrl { get { return ConfigurationManager.AppSettings["GPSearchByIdUrl"]; } }
@@ -243,13 +245,13 @@ namespace NHS111.Web.Presentation.Configuration
         string ItkDispatcherApiSendItkMessageUrl { get; }
         string ItkDispatcherApiBaseUrl { get; }
         string CaseDataCaptureApiBaseUrl { get; }
-        string CaseDataCaptureApiSendSMSMessageUrl { get; }
+        string CaseDataCaptureApiSubmitSMSRegistrationMessageUrl { get; }
+        string CaseDataCaptureApiVerifyPhoneNumberUrl { get; }
+        string CaseDataCaptureApiGenerateVerificationCodeUrl { get; }
         string GPSearchUrl { get; }
         string GPSearchApiUrl { get; }
         string GPSearchByIdUrl { get; }
-
         string CCGBusinessApiBaseProtocolandDomain { get; }
-
         string CCGBusinessApiGetCCGUrl(string postcode);
         string CCGApiGetCCGDetailsByPostcode(string postcode);
         string GetBusinessApiPathwayUrl(string pathwayId, bool pathOnly = false);

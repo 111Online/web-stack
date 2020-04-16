@@ -105,11 +105,14 @@
     <Compile Include="Builders\KeywordCollectorTests.cs" />
     <Compile Include="Builders\JourneyViewModelBuilderTests.cs" />
     <Compile Include="Builders\ReferralResultBuilderTests.cs" />
+    <Compile Include="Builders\RegisterForSMSViewModelBuilderTests.cs" />
     <Compile Include="Builders\SymptomDicriminatorCollectorTests.cs" />
     <Compile Include="Builders\JourneyHistoryWranglerTests.cs" />
     <Compile Include="Configuration\ConfigurationTests.cs" />
     <Compile Include="Controllers\OutcomeControllerTests.cs" />
+    <Compile Include="Controllers\RegisterForSMSControllerTests.cs" />
     <Compile Include="Controllers\QuestionControllerTests.cs" />
+    <Compile Include="Helpers\QuestionNavigationServiceTests.cs" />
     <Compile Include="Helpers\VersioningTests.cs" />
     <Compile Include="Helpers\ViewDeterminerTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
