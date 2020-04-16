@@ -15,7 +15,10 @@ namespace NHS111.Models.Models.Business.Caching
             _cachekey = String.Format("GetFirstQuestion-{0}", pathwayId);
         }
 
-        public string CacheKey { get; private set; }
+        public string CacheKey
+        {
+            get { return _cachekey; }
+        }
         public bool ValidToAdd(QuestionWithAnswers value)
         {
             return value != null && value.Labels != null && value.Labels.Any() && value.Question != null;
