@@ -99,6 +99,15 @@ namespace NHS111.Web.Presentation.Configuration
             get { return ConfigurationManager.AppSettings["BusinessApiGetFullPathwayJourneyUrl"]; }
         }
 
+        public int ServicePointManagerDefaultConnectionLimit
+        {
+            get
+            {
+                int limit;
+                return int.TryParse(ConfigurationManager.AppSettings["DefaultConnectionLimit"], out limit) ? limit : 5;
+            }
+        }
+
         public string CCGBusinessApiGetCCGUrl(string postcode)
         {
             return String.Format(ConfigurationManager.AppSettings["CCGApiGetCCGByPostcodeUrl"], postcode);
@@ -230,7 +239,6 @@ namespace NHS111.Web.Presentation.Configuration
     }
 
 
-
     public interface IConfiguration
     {
         string BusinessApiProtocolandDomain { get; }
@@ -286,7 +294,7 @@ namespace NHS111.Web.Presentation.Configuration
         string PostcodeSubscriptionKey { get; }
         string IntegrationApiItkDispatcher { get; }
         string RedisConnectionString { get; }
-       string DOSWhitelist { get; }
+        string DOSWhitelist { get; }
 
         string BusinessApiListOutcomesUrl { get; }
         string BusinessApiGetFullPathwayJourneyUrl { get; }
@@ -299,6 +307,7 @@ namespace NHS111.Web.Presentation.Configuration
         string DosMobileBaseUrl { get; }
         string DosMobileUsername { get; }
         string DosMobilePassword { get; }
+        int ServicePointManagerDefaultConnectionLimit { get; }
 
         string QueryStringEncryptionKey { get; }
         string QueryStringEncryptionBytes { get; }

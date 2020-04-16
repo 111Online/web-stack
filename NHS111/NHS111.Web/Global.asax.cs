@@ -39,8 +39,13 @@ namespace NHS111.Web {
                     ConfigurationManager.AppSettings["login_credential_password"]));
             }
 
-            var auditLogger =  new AuditLogger(new LoggingRestClient(ConfigurationManager.AppSettings["LoggingServiceApiBaseUrl"], LogManager.GetLogger("log")), 
-                new Presentation.Configuration.Configuration());
+            var auditLogger =  new AuditLogger(
+                    new LoggingRestClient(
+                            ConfigurationManager.AppSettings["LoggingServiceApiBaseUrl"],
+                            LogManager.GetLogger("log"),
+                            int.Parse(ConfigurationManager.AppSettings["ServicePointManagerDefaultConnectionLimit"])), 
+                    new Presentation.Configuration.Configuration()
+                );
 
             GlobalFilters.Filters.Add(new LogJourneyFilterAttribute(auditLogger));
             
