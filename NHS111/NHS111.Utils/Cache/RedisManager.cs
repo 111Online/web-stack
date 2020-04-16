@@ -43,25 +43,38 @@ namespace NHS111.Utils.Cache
     {
         private readonly ICacheManager<string, string> _cacheManager;
 
+        private bool _useCache = false;
 
-
-        public RedisCacheStore(ICacheManager<string, string> cacheManager)
+        public RedisCacheStore(ICacheManager<string, string> cacheManager) 
         {
             _cacheManager = cacheManager;
+        #if !DEBUG 
+            _useCache=true;
+        #endif
         }
+
+        public RedisCacheStore(ICacheManager<string, string> cacheManager, bool useCache)
+        {
+            _cacheManager = cacheManager;
+            _useCache = useCache;
+        }
+
 
 
         public void Add<TItem>(TItem item, ICacheKey<TItem> key)
         {
-            if(key.ValidToAdd(item))
+            if(key.ValidToAdd(item) && _useCache)
                 _cacheManager.Set(key.CacheKey, JsonConvert.SerializeObject(item));
         }
 
         public async Task<TItem> Get<TItem>(ICacheKey<TItem> key) where TItem : class
         {
-            var cacheVal = await _cacheManager.Read(key.CacheKey);
-            if(cacheVal != String.Empty)
-                return JsonConvert.DeserializeObject<TItem>(cacheVal);
+            if (_useCache)
+            {
+                var cacheVal = await _cacheManager.Read(key.CacheKey);
+                if (cacheVal != String.Empty)
+                    return JsonConvert.DeserializeObject<TItem>(cacheVal);
+            }
 
             return null;
 

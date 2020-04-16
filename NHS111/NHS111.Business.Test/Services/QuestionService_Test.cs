@@ -49,7 +49,7 @@ namespace NHS111.Business.Test.Services
             _careAdviceTransformer = new Mock<ICareAdviceTransformer>();
             _restClient = new Mock<IRestClient>();
             _cacheManagerMock = new Mock<ICacheManager<string, string>>();
-            _cacheStoreMock = new RedisCacheStore(_cacheManagerMock.Object);
+            _cacheStoreMock = new RedisCacheStore(_cacheManagerMock.Object, true);
             _mockQuestionRestResponse = new RestResponse<QuestionWithAnswers>(){Data = new QuestionWithAnswersBuilder("idQ2", "This is a test question?").Build() };
             _mockAnswersRestResponse = new RestResponse<Answer[]>(){Data = new Answer[]{new Answer(){Title = "no", Order = 0, IsPositive = false}, }};
         }
