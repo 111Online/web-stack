@@ -89,5 +89,11 @@ namespace NHS111.Web.Functional.Utils
 
             return pageNotFound;
         }
+
+        public static GetTextMessagesPage GetTextMessagesPage(IWebDriver driver, string covid19SMSRegistrationUrl)
+        {
+            driver.Navigate().GoToUrl(covid19SMSRegistrationUrl);
+            return new GetTextMessagesPage(driver);
+        }
     }
 }

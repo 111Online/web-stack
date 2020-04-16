@@ -102,6 +102,13 @@ namespace NHS111.Web.Functional.Utils
             return outcomePage.ClickBookCallback();
         }
 
+        public static GetTextMessagesPage LaunchCovid19SmsRegistration(IWebDriver driver, string covid19SMSRegistrationUrl)
+        {
+            var homePage = TestScenarioPart.HomePage(driver);
+            var startRegistrationPage = TestScenarioPart.GetTextMessagesPage(driver, covid19SMSRegistrationUrl);
+            return startRegistrationPage;
+        }
+
         public static QuestionPage LaunchDeeplinkScenerio(IWebDriver driver, string sex, int age, string postcode)
         {
             var homePage = TestScenarioPart.HomePage(driver);

@@ -178,7 +178,7 @@
     <Compile Include="Mappers\WebMappings\FromOutcomeVIewModelToITKDispatchRequest.cs" />
     <Compile Include="Mappers\WebMappings\FromOutcomeViewModelToSubmitEncounterToServiceRequest.cs" />
     <Compile Include="Mappers\WebMappings\AddressInfoViewModelMapper.cs" />
-    <Compile Include="Mappers\WebMappings\FromSendSmsOutcomeViewModelToCaseDataCaptureRequest.cs" />
+    <Compile Include="Mappers\WebMappings\DataCaptureApiRequestMappings.cs" />
     <Compile Include="Mappers\WebMappings\FromServiceViewModelToRecommendedServiceViewModelMapper.cs" />
     <Compile Include="Mappers\WebMappings\FromSystemDayOfWeekToDosDayOfWeek.cs" />
     <Compile Include="Models\Business\CheckCapacitySummaryResult.cs" />
@@ -218,9 +218,11 @@
     <Compile Include="Models\Domain\VersionInfo.cs" />
     <Compile Include="Models\Web\AgeGenderViewModel.cs" />
     <Compile Include="Models\Web\ApplicationMedium.cs" />
-    <Compile Include="Models\Web\DataCapture\CaseDataCaptureRequest.cs" />
+    <Compile Include="Models\Web\DataCapture\GenerateSMSVerifyCodeRequest.cs" />
+    <Compile Include="Models\Web\DataCapture\SubmitSMSRegistrationRequest.cs" />
     <Compile Include="Models\Web\ChangePostcodeViewModel.cs" />
-    <Compile Include="Models\Web\DataCapture\DataCaptureResponse.cs" />
+    <Compile Include="Models\Web\DataCapture\SubmitSMSRegistrationResponse.cs" />
+    <Compile Include="Models\Web\DataCapture\VerifySMSCodeRequest.cs" />
     <Compile Include="Models\Web\DetailsViewModel.cs" />
     <Compile Include="Models\Web\Elements\ActionLinkViewModel.cs" />
     <Compile Include="Models\Web\Elements\ButtonViewModel.cs" />
@@ -238,7 +240,7 @@
     <Compile Include="Models\Web\DosRequests\DosServiceDetailsByIdRequest.cs" />
     <Compile Include="Models\Web\DosRequests\DosServicesByClinicalTermRequest.cs" />
     <Compile Include="Models\Web\Elements\LinkSummaryViewModel.cs" />
-    <Compile Include="Models\Web\EmailAddressViewModelValidator.cs" />
+    <Compile Include="Models\Web\Validators\EmailAddressViewModelValidator.cs" />
     <Compile Include="Models\Web\EmergencyAlertViewModel.cs" />
     <Compile Include="Models\Web\Enums\EventType.cs" />
     <Compile Include="Models\Web\FeedbackResultViewModel.cs" />
@@ -331,6 +333,7 @@
     <Compile Include="Models\Web\SearchResultViewModel.cs" />
     <Compile Include="Models\Web\SendSMSOutcomeViewModel.cs" />
     <Compile Include="Models\Web\ServiceTypeMapping.cs" />
+    <Compile Include="Models\Web\SMSRegistrationViewModel.cs" />
     <Compile Include="Models\Web\SurveyLinkViewModel.cs" />
     <Compile Include="Models\Web\Validators\AgeMaximumValidator.cs" />
     <Compile Include="Models\Web\Validators\DateOfBirthDayValidator.cs" />
@@ -351,6 +354,7 @@
     <Compile Include="Models\Web\Validators\PersonNameValidator.cs" />
     <Compile Include="Models\Web\Validators\PublicAuditViewModelValidator.cs" />
     <Compile Include="Models\Web\Validators\QuestionViewModelValidator.cs" />
+    <Compile Include="Models\Web\Validators\VerificationCodeInputViewModelValidator.cs" />
     <Compile Include="Models\Web\Validators\RuleBuilderExtensions\RuleBuilderExtensions.cs" />
     <Compile Include="Models\Web\ServiceViewModel.cs" />
     <Compile Include="Models\Web\SurgeryViewModel.cs" />
@@ -362,7 +366,9 @@
     <Compile Include="Models\Web\Validators\PersonalInfoCurrentAddressViewModelValidator.cs" />
     <Compile Include="Models\Web\Validators\PostCodeFormatValidator.cs" />
     <Compile Include="Models\Web\Validators\SearchJourneyViewModelValidator.cs" />
+    <Compile Include="Models\Web\Validators\SMSVerificationCodeValidator.cs" />
     <Compile Include="Models\Web\Validators\UserInfoValidator.cs" />
+    <Compile Include="Models\Web\VerificationCodeInputViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

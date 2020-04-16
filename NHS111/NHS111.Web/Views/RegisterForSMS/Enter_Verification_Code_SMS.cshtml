@@ -1,0 +1,78 @@
+﻿@using System.Security.Policy
+@using NHS111.Models.Models.Web
+@using StructureMap.Query
+@inherits NHS111.Web.Views.Shared.SurveyLinkView<SendSmsOutcomeViewModel>
+@{
+    Layout = "~/Views/Shared/_LayoutNhsUkSiteStyle.cshtml";
+}
+
+@section Title {
+    NHS 111 - Thanks for providing your details
+}
+
+@section HeadTop {
+    @{ var url = string.Format("/outcome/{0}/{1}/{2}/disposition/", Url.Encode(Model.PathwayNo), Url.Encode(Model.OutcomeGroup.Text), Url.Encode(Model.Id)); }
+    <script>
+        var pageId = '@Model.Id';
+        dataLayer = [
+            {
+                'virtualPageUrl': '@url',
+                'virtualPageTitle': '@Model.TitleWithoutBullets'
+            }];
+    </script>
+}
+
+<div class="nhsuk-core measure">
+    @using (Html.BeginForm("SubmitSMSSecurityCode", "RegisterForSMS", FormMethod.Post, new { id = "submitDetailsForm" }))
+    {
+        @Html.Partial("_CommonHiddenFieldsOutcomeViewModel", Model)
+        @Html.Partial("_CommonHiddenFieldsCareAdviceViewModel", Model)
+        @Html.Partial("_commonHiddenFieldsSendsSMSViewModel", Model)
+        @Html.HiddenFor(m => m.SelectedServiceId)
+        <div class="form-group @(!@ViewData.ModelState.IsValidField("VerificationCodeInput") ? "form-group-error" : "")">
+
+            <h1 class="nhsuk-heading-l">Enter your security code</h1>
+
+            <div class="nhsuk-hint">
+                <p>This will be a 6-digit number.</p>
+            </div>
+
+            @Html.ValidationMessageFor(m => m.VerificationCodeInput)
+            @Html.TextBoxFor(m => m.VerificationCodeInput.InputValue, new { id = "smsVerificationCode", @class = "nhsuk-input nhsuk-input--width-5", maxLength = 6 })
+        </div>
+        <button class="nhsuk-button" id="nextScreen" type="submit" name="Question" value="Question">Next</button>
+        }
+        <br />
+        @using (Html.BeginForm("GetSMSSecurityCode", "RegisterForSMS", FormMethod.Post, new { id = "resendCode" }))
+        {
+            @Html.Partial("_CommonHiddenFieldsOutcomeViewModel", Model)
+            @Html.Partial("_CommonHiddenFieldsCareAdviceViewModel", Model)
+            @Html.Partial("_commonHiddenFieldsSendsSMSViewModel", Model)
+            @Html.HiddenFor(m => m.SelectedServiceId)
+            <div class="nhsuk-u-margin-bottom-5"><p>Haven't got a code? <button type="submit" name="resendCode" id="resendCode" value="True" class="button--link" formnovalidate="formnovalidate">Resend code</button></p></div>
+        }
+        
+        @using (@Html.BeginForm("GoBackToSMSVerifyStart", "RegisterForSMS", FormMethod.Post, new {id= "back"}))
+        {
+            @Html.Partial("_CommonHiddenFieldsOutcomeViewModel", Model)
+            @Html.Partial("_CommonHiddenFieldsCareAdviceViewModel", Model)
+            @Html.Partial("_commonHiddenFieldsSendsSMSViewModel", Model)
+            @Html.HiddenFor(m => m.SelectedServiceId)
+            
+            <button class="button--stacked button--link nhsuk-back-link__link nhsuk-u-margin-bottom-5" id="previousScreen" type="submit" value="Question" name="Question" formnovalidate>
+                <svg class="nhsuk-icon nhsuk-icon__chevron-left" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true">
+                    <path d="M8.5 12c0-.3.1-.5.3-.7l5-5c.4-.4 1-.4 1.4 0s.4 1 0 1.4L10.9 12l4.3 4.3c.4.4.4 1 0 1.4s-1 .4-1.4 0l-5-5c-.2-.2-.3-.4-.3-.7z"></path>
+                </svg>
+                Back
+            </button>
+        }
+</div>
+
+
+@Html.Partial("_PageLoadingIndicator")
+
+<script>
+    $(document).on('submit', '#submitDetailsForm', function () {
+        startPageLoadingIndicator('Sending your details...')
+    })
+</script>
