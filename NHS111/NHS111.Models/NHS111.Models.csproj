@@ -181,6 +181,7 @@
     <Compile Include="Mappers\WebMappings\FromSendSmsOutcomeViewModelToCaseDataCaptureRequest.cs" />
     <Compile Include="Mappers\WebMappings\FromServiceViewModelToRecommendedServiceViewModelMapper.cs" />
     <Compile Include="Mappers\WebMappings\FromSystemDayOfWeekToDosDayOfWeek.cs" />
+    <Compile Include="Models\Business\Caching\AnswersCacheKey.cs" />
     <Compile Include="Models\Business\Caching\ICachekey.cs" />
     <Compile Include="Models\Business\Caching\QuestionWithAnswersByPathwayCacheKey.cs" />
     <Compile Include="Models\Business\Caching\QuestionWithAnswersCacheKey.cs" />

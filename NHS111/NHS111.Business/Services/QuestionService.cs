@@ -42,7 +42,8 @@ namespace NHS111.Business.Services
 
         public async Task<QuestionWithAnswers> GetQuestion(string id)
         {
-           return await _cacheStore.GetOrAdd(new QuestionWithAnswersCacheKey(id), async () => {
+            return await _cacheStore.GetOrAdd(new QuestionWithAnswersCacheKey(id), async () => 
+            {
                 var questions = await _restClient.ExecuteTaskAsync<QuestionWithAnswers>(new JsonRestRequest(_configuration.GetDomainApiQuestionUrl(id), Method.GET));
                 return questions.Data;
             });
@@ -51,8 +52,13 @@ namespace NHS111.Business.Services
 
         public async Task<Answer[]> GetAnswersForQuestion(string id)
         {
-            var questions = await _restClient.ExecuteTaskAsync<Answer[]>(new JsonRestRequest(_configuration.GetDomainApiAnswersForQuestionUrl(id), Method.GET));
-            return questions.Data;
+            return await _cacheStore.GetOrAdd(new AnswersCacheKey(id), async () =>
+            {
+                var questions = await _restClient.ExecuteTaskAsync<Answer[]>(
+                    new JsonRestRequest(_configuration.GetDomainApiAnswersForQuestionUrl(id), Method.GET));
+                return questions.Data;
+            });
+
         }
 
         public async Task<QuestionWithAnswers> GetNextQuestion(string id, string nodeLabel, string answer)
