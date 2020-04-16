@@ -101,7 +101,7 @@ namespace NHS111.Business.Test.Services
             //Arrange
             var pathwayId = "idPW1";
             ArrageDomainRequestMock( _mockQuestionRestResponse);
-
+            _cacheManagerMock.Setup(x => x.Read(It.IsAny<string>())).ReturnsAsync(string.Empty);
             var sut = new QuestionService(_configuration.Object, _restClient.Object, _answersForNodeBuilder.Object,
                 _modZeroJourneyStepsBuilder.Object, _keywordCollector.Object, _careAdviceService.Object, _careAdviceTransformer.Object, _cacheStoreMock);
             //Act
