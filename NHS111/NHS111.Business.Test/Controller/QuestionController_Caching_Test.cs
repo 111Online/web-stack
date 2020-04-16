@@ -11,6 +11,7 @@ using NUnit.Framework;
 using NHS111.Business.Api.Controllers;
 using NHS111.Business.Builders;
 using NHS111.Business.Services;
+using NHS111.Business.Test.Builders;
 using NHS111.Business.Transformers;
 using NHS111.Models.Models.Domain;
 using NHS111.Models.Models.Web.Enums;
@@ -62,7 +63,7 @@ namespace NHS111.Business.Test.Controller
 
             if (!_isRelease) Assert.Ignore("This test must be run in release mode");
 
-             var questionResult = new QuestionWithAnswersMocker("1", "Test").AddAnswer("yes").Build();
+             var questionResult = new QuestionWithAnswersBuilder("1", "Test").AddAnswer("yes").Build();
             _questionService.Setup(x => x.GetNextQuestion(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>())).Returns(Task.FromResult(questionResult));
               
             _questionTransformer.Setup(x => x.AsQuestionWithAnswers(It.IsAny<QuestionWithAnswers>())).Returns(questionResult);
@@ -97,7 +98,7 @@ namespace NHS111.Business.Test.Controller
         public async void should_not_set_cache_when_questionService_returns_EmptyResponse()
         {
             if (!_isRelease) Assert.Ignore("This test must be run in release mode");
-            var questionResult = new QuestionWithAnswersMocker().Build();
+            var questionResult = new QuestionWithAnswersBuilder().Build();
             _questionService.Setup(x => x.GetNextQuestion(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>()))
                 .ReturnsAsync(questionResult);
 
@@ -117,29 +118,5 @@ namespace NHS111.Business.Test.Controller
 
     }
 
-    public class QuestionWithAnswersMocker
-    {
-        private QuestionWithAnswers _mockQuestionWithAnswers;
-        public QuestionWithAnswersMocker(string questionId, string questionTitle)
-        {
-            _mockQuestionWithAnswers = new QuestionWithAnswers(){Labels = new List<string>(){"Question"},  Question = new Question(){Id = questionId, QuestionNo = "TX" + questionId, Title = questionTitle}};
-        }
-
-        public QuestionWithAnswersMocker()
-        {
-            _mockQuestionWithAnswers = new QuestionWithAnswers();
-        }
-
-        public QuestionWithAnswersMocker AddAnswer(string answerText)
-        {
-            if (_mockQuestionWithAnswers.Answers == null) _mockQuestionWithAnswers.Answers = new List<Answer>();
-            _mockQuestionWithAnswers.Answers.Add(new Answer(){Order = _mockQuestionWithAnswers.Answers.Count, Title = answerText});
-            return this;
-        }
-
-        public QuestionWithAnswers Build()
-        {
-            return _mockQuestionWithAnswers;
-        }
-    }
+   
 }
