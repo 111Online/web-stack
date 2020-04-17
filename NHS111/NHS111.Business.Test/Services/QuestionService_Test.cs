@@ -78,7 +78,7 @@ namespace NHS111.Business.Test.Services
         {
             //Arrange
             var id = "idQ1";
-            var expectedCacheKey = new QuestionWithAnswersCacheKey(id);
+            var expectedCacheKey = QuestionWithAnswersCacheKey.WithNodeId(id);
 
 
             ArrageDomainRequestMock(_mockQuestionRestResponse);
@@ -165,7 +165,7 @@ namespace NHS111.Business.Test.Services
             //Arrange
             var pathwayId = "idPW1";
             ArrageDomainRequestMock(_mockQuestionRestResponse);
-            var expectedCacheKey = new QuestionWithAnswersByPathwayCacheKey(pathwayId);
+            var expectedCacheKey = QuestionWithAnswersCacheKey.WithPathwayId(pathwayId);
 
             _cacheManagerMock.Setup(x => x.Read(It.IsAny<string>())).ReturnsAsync(string.Empty);
 
@@ -317,55 +317,6 @@ namespace NHS111.Business.Test.Services
             _restClient.Setup(x => x.ExecuteTaskAsync<QuestionWithAnswers>(It.IsAny<IRestRequest>())).ReturnsAsync(restClientResponse);
         }
 
-        //[Test]
-        //public async void should_return_first_jtbs_question()
-        //{
-        //    //Arrange
-
-        //    var url = "http://mytest.com/";
-        //    var id = "1";
-        //    var resultString = "is this the first jtbs question?";
-
-        //    _configuration.Setup(x => x.GetDomainApiJustToBeSafeQuestionsFirstUrl(id)).Returns(url);
-        //    _restfulHelper.Setup(x => x.GetAsync(url)).Returns(Task.FromResult(resultString));
-
-        //    var sut = new QuestionService(_configuration.Object, _restfulHelper.Object);
-
-        //    //Act
-        //    var result = await sut.GetJustToBeSafeQuestionsFirst(id);
-
-        //    //Assert 
-        //    _configuration.Verify(x => x.GetDomainApiJustToBeSafeQuestionsFirstUrl(id), Times.Once);
-        //    _restfulHelper.Verify(x => x.GetAsync(url), Times.Once);
-        //    Assert.That(result, Is.EqualTo(resultString));
-        //}
-
-        //[Test]
-        //public async void should_return_next_jtbs_question()
-        //{
-        //    //Arrange
-
-        //    var url = "http://mytest.com/";
-        //    var pathwayId = "qId1";
-        //    var resultString = "is this next jtbs question?";
-
-        //    var answeredQuestionIds = new List<string> { "1", "2", "3" };
-        //    var multipleChoice = true;
-        //    var selectedQuestionId = "qId10";
-
-        //    _configuration.Setup(x => x.GetDomainApiJustToBeSafeQuestionsNextUrl(pathwayId, answeredQuestionIds, multipleChoice, selectedQuestionId)).Returns(url);
-        //    _restfulHelper.Setup(x => x.GetAsync(url)).Returns(Task.FromResult(resultString));
-
-        //    var sut = new QuestionService(_configuration.Object, _restfulHelper.Object);
-
-        //    //Act
-        //    var result = await sut.GetJustToBeSafeQuestionsNext(pathwayId, answeredQuestionIds, multipleChoice, selectedQuestionId);
-
-        //    //Assert 
-        //    _configuration.Verify(x => x.GetDomainApiJustToBeSafeQuestionsNextUrl(pathwayId, answeredQuestionIds, multipleChoice, selectedQuestionId), Times.Once);
-        //    _restfulHelper.Verify(x => x.GetAsync(url), Times.Once);
-        //    Assert.That(result, Is.EqualTo(resultString));
-        //}
     }
 
 }

@@ -183,7 +183,6 @@
     <Compile Include="Mappers\WebMappings\FromSystemDayOfWeekToDosDayOfWeek.cs" />
     <Compile Include="Models\Business\Caching\AnswersCacheKey.cs" />
     <Compile Include="Models\Business\Caching\ICachekey.cs" />
-    <Compile Include="Models\Business\Caching\QuestionWithAnswersByPathwayCacheKey.cs" />
     <Compile Include="Models\Business\Caching\QuestionWithAnswersCacheKey.cs" />
     <Compile Include="Models\Business\CheckCapacitySummaryResult.cs" />
     <Compile Include="Models\Business\Enums\DispositionTimePeriod.cs" />

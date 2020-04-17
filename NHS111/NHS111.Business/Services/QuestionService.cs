@@ -42,7 +42,7 @@ namespace NHS111.Business.Services
 
         public async Task<QuestionWithAnswers> GetQuestion(string id)
         {
-            return await _cacheStore.GetOrAdd(new QuestionWithAnswersCacheKey(id), async () => 
+            return await _cacheStore.GetOrAdd(QuestionWithAnswersCacheKey.WithNodeId(id), async () => 
             {
                 var questions = await _restClient.ExecuteTaskAsync<QuestionWithAnswers>(new JsonRestRequest(_configuration.GetDomainApiQuestionUrl(id), Method.GET));
                 return questions.Data;
@@ -74,7 +74,7 @@ namespace NHS111.Business.Services
 
         public async Task<QuestionWithAnswers> GetFirstQuestion(string pathwayId)
         {
-            return await _cacheStore.GetOrAdd(new QuestionWithAnswersByPathwayCacheKey(pathwayId), async () => 
+            return await _cacheStore.GetOrAdd(QuestionWithAnswersCacheKey.WithPathwayId(pathwayId), async () => 
             {
                 var questions = await _restClient.ExecuteTaskAsync<QuestionWithAnswers>(new JsonRestRequest(_configuration.GetDomainApiFirstQuestionUrl(pathwayId), Method.GET));
                 return questions.Data;
