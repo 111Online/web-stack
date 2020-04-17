@@ -268,7 +268,7 @@ namespace NHS111.Web.Controllers
             var response = await _restClientBusinessApi.ExecuteTaskAsync<List<CategoryWithPathways>>(request);
 
 
-            var allCategories = response.Data;
+                var allCategories = response.Data;
             var categoriesContainingStartingPathways =
                 allCategories.Where(
                     c =>
