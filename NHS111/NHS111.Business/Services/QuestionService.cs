@@ -6,8 +6,10 @@ using Newtonsoft.Json;
 using NHS111.Business.Builders;
 using NHS111.Business.Configuration;
 using NHS111.Business.Transformers;
+using NHS111.Models.Models.Business.Caching;
 using NHS111.Models.Models.Domain;
 using NHS111.Models.Models.Web.FromExternalServices;
+using NHS111.Utils.Cache;
 using NHS111.Utils.Parser;
 using NHS111.Utils.RestTools;
 using RestSharp;
@@ -23,7 +25,10 @@ namespace NHS111.Business.Services
         private readonly IKeywordCollector _keywordCollector;
         private readonly ICareAdviceService _careAdviceService;
         private readonly ICareAdviceTransformer _careAdviceTransformer;
-        public QuestionService(IConfiguration configuration, IRestClient restClientDomainApi, IAnswersForNodeBuilder answersForNodeBuilder, IModZeroJourneyStepsBuilder modZeroJourneyStepsBuilder, IKeywordCollector keywordcollector, ICareAdviceService careAdviceService, ICareAdviceTransformer careAdviceTransformer)
+        private readonly ICacheStore _cacheStore;
+        public QuestionService(IConfiguration configuration, IRestClient restClientDomainApi, IAnswersForNodeBuilder answersForNodeBuilder, 
+            IModZeroJourneyStepsBuilder modZeroJourneyStepsBuilder, IKeywordCollector keywordcollector, ICareAdviceService careAdviceService, 
+            ICareAdviceTransformer careAdviceTransformer, ICacheStore cacheStore)
         {
             _configuration = configuration;
             _restClient = restClientDomainApi;
@@ -32,32 +37,49 @@ namespace NHS111.Business.Services
             _keywordCollector = keywordcollector;
             _careAdviceService = careAdviceService;
             _careAdviceTransformer = careAdviceTransformer;
+            _cacheStore = cacheStore;
         }
 
         public async Task<QuestionWithAnswers> GetQuestion(string id)
         {
-            var questions = await _restClient.ExecuteTaskAsync<QuestionWithAnswers>(new JsonRestRequest(_configuration.GetDomainApiQuestionUrl(id), Method.GET));
-            return questions.Data;
+            return await _cacheStore.GetOrAdd(QuestionWithAnswersCacheKey.WithNodeId(id), async () => 
+            {
+                var questions = await _restClient.ExecuteTaskAsync<QuestionWithAnswers>(new JsonRestRequest(_configuration.GetDomainApiQuestionUrl(id), Method.GET));
+                return questions.Data;
+            });
+           
         }
 
         public async Task<Answer[]> GetAnswersForQuestion(string id)
         {
-            var questions = await _restClient.ExecuteTaskAsync<Answer[]>(new JsonRestRequest(_configuration.GetDomainApiAnswersForQuestionUrl(id), Method.GET));
-            return questions.Data;
+            return await _cacheStore.GetOrAdd(new AnswersCacheKey(id), async () =>
+            {
+                var questions = await _restClient.ExecuteTaskAsync<Answer[]>(
+                    new JsonRestRequest(_configuration.GetDomainApiAnswersForQuestionUrl(id), Method.GET));
+                return questions.Data;
+            });
+
         }
 
         public async Task<QuestionWithAnswers> GetNextQuestion(string id, string nodeLabel, string answer)
         {
-            var request = new JsonRestRequest(_configuration.GetDomainApiNextQuestionUrl(id, nodeLabel), Method.POST);
-            request.AddJsonBody(answer);
-            var questions = await _restClient.ExecuteTaskAsync<QuestionWithAnswers>(request);
-            return questions.Data;
+            return await _cacheStore.GetOrAdd(new QuestionWithAnswersCacheKey(id, nodeLabel, answer), async () =>
+            {
+                var request = new JsonRestRequest(_configuration.GetDomainApiNextQuestionUrl(id, nodeLabel), Method.POST);
+                request.AddJsonBody(answer);
+                var questions = await _restClient.ExecuteTaskAsync<QuestionWithAnswers>(request);
+                return questions.Data;
+            });
         }
 
         public async Task<QuestionWithAnswers> GetFirstQuestion(string pathwayId)
         {
-            var questions = await _restClient.ExecuteTaskAsync<QuestionWithAnswers>(new JsonRestRequest(_configuration.GetDomainApiFirstQuestionUrl(pathwayId), Method.GET));
-            return questions.Data;
+            return await _cacheStore.GetOrAdd(QuestionWithAnswersCacheKey.WithPathwayId(pathwayId), async () => 
+            {
+                var questions = await _restClient.ExecuteTaskAsync<QuestionWithAnswers>(new JsonRestRequest(_configuration.GetDomainApiFirstQuestionUrl(pathwayId), Method.GET));
+                return questions.Data;
+            });
+           
         }
 
         public async Task<IEnumerable<QuestionWithAnswers>> GetJustToBeSafeQuestionsFirst(string pathwayId)
