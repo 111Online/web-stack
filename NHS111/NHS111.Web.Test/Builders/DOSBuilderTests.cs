@@ -215,10 +215,11 @@ namespace NHS111.Web.Presentation.Builders.Tests
         private bool AssertIsMetric(RestRequest request, int original)
         {
             var content = request.Parameters.First(p => p.Type == ParameterType.RequestBody).Value;
-            var payload = JsonConvert.DeserializeObject<DosCase>(content.ToString());
+            var payload = (DosCase) content; //JsonConvert.DeserializeObject<DosCase>(content.ToString());
 
             const float MILES_PER_KM = 1.609344f;
             return payload.SearchDistance == (int)Math.Ceiling(original / MILES_PER_KM);
+            //return content.SearchDistance == (int)Math.Ceiling(original / MILES_PER_KM);
         }    
     }
 }

@@ -48,7 +48,7 @@ namespace NHS111.Web.Presentation.Test.Builders
             _mockRestClient.Verify(m => m.ExecuteTaskAsync(It.Is<RestRequest>(
                 r => r.Method == Method.POST
                      && r.Resource == endPointUrl
-                     && r.Parameters[0].Value.ToString().Contains(mobileNumber))), Times.Once);
+                     && ((VerifySMSCodeRequest)r.Parameters[0].Value).MobilePhoneNumber == mobileNumber)), Times.Once);
         }
     }
 }

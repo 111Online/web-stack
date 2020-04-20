@@ -8,7 +8,7 @@ using AutoMapper.Internal;
 using NHS111.Models.Models.Business;
 using NHS111.Models.Models.Web.Clock;
 using NHS111.Models.Models.Web.FromExternalServices;
-using SimpleJson;
+//using SimpleJson;
 using DayOfWeek = NHS111.Models.Models.Web.FromExternalServices.DayOfWeek;
 
 namespace NHS111.Business.DOS.Service
