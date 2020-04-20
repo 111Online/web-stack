@@ -7,10 +7,10 @@ using FluentValidation.Validators;
 
 namespace NHS111.Models.Models.Web.Validators
 {
-    public class DateOfBirthMonthValidator<TModel, TProperty> : PropertyValidator, IClientValidatable
+    public class DateMonthValidator<TModel, TProperty> : PropertyValidator, IClientValidatable
     {
         private string dependencyElement;
-        public DateOfBirthMonthValidator(Expression<Func<TModel, TProperty>> expression)
+        public DateMonthValidator(Expression<Func<TModel, TProperty>> expression)
             : base("Incorrect Month")
         {
             dependencyElement = (expression.Body as MemberExpression).Member.Name;
@@ -36,7 +36,7 @@ namespace NHS111.Models.Models.Web.Validators
             var ruleMonth = new ModelClientValidationRule
             {
                 ErrorMessage = this.ErrorMessageSource.GetString(), // default error message
-                ValidationType = "month" // name of the validatoin which will be used inside unobtrusive library
+                ValidationType = "month" // name of the validation which will be used inside unobtrusive library
             };
 
             ruleMonth.ValidationParameters["prefixelement"] = dependencyElement; // html element which includes prefix information

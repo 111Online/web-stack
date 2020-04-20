@@ -46,6 +46,17 @@ jQuery.validator.setDefaults({
     }
 })
 
+window.AddAdapter = function (name, param) {
+  jQuery.validator.unobtrusive.adapters.add(name, [param], function (options) {
+    if (!options.rules[name]) options.rules[name] = {}
+    if (param) options.rules[name][param] = options.params[param]
+
+    if (options.message != null) {
+      options.messages[name] = options.message
+    }
+  });
+}
+
 jQuery(document).ready(function () {
     // Validation for number only fields
     var lastKey = null
@@ -83,4 +94,5 @@ jQuery(document).ready(function () {
         }
       }
     })
+
 })
