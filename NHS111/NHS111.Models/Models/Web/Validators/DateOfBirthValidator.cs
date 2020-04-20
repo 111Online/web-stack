@@ -6,6 +6,7 @@ using System.Web.Mvc;
 using NHS111.Features;
 using FluentValidation.Validators;
 using System.Linq;
+using Nest;
 using NHS111.Models.Models.Domain;
 
 namespace NHS111.Models.Models.Web.Validators
@@ -120,7 +121,7 @@ namespace NHS111.Models.Models.Web.Validators
                     ErrorMessage = _ErrorMessage.MinimumAge,
                     ValidationType = "dateagemin"
                 };
-                ruleMinAge.ValidationParameters.Add("minimumage", _excludedAgeCategories.Max(a => a.MaximumAge));
+                ruleMinAge.ValidationParameters.Add("minimumage", _excludedAgeCategories.Any() ? _excludedAgeCategories.Max(a => a.MaximumAge) : 0);
 
                 yield return ruleMinAge;
 
