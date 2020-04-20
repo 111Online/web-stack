@@ -31,7 +31,7 @@ namespace NHS111.Models.Models.Web.Validators
             var ruleForename = new ModelClientValidationRule
             {
                 ErrorMessage = this.ErrorMessageSource.GetString(), // default error message
-                ValidationType = "surname" // name of the validatoin which will be used inside unobtrusive library
+                ValidationType = "surname" // name of the validation which will be used inside unobtrusive library
             };
 
             ruleForename.ValidationParameters["prefixelement"] = dependencyElement; // html element which includes prefix information
