@@ -21,16 +21,13 @@
             var covidPathwayLink = String.Format("/{0}/{1}/{2}/start?args={3}", "PW1851", Model.UserInfo.Demography.Gender, Model.UserInfo.Demography.Age, encryptedQueryStringValuesSearchResult);
         }
         
-        @if (Model.UserInfo.Demography.AgeCategory.Equals(AgeCategory.Adult))
-        {
-            <div class="callout callout--lite callout--warning">
-                <p>
-                    <a href=@covidPathwayLink id="covid19-search-link" data-event-triger="click" data-event-value="COVID-19 search page link">
-                        Get help if you're worried about coronavirus.
-                    </a>
-                </p>
-            </div>
-        }
+        <div class="callout callout--lite callout--warning">
+            <p>
+                <a href=@covidPathwayLink id="covid19-search-link" data-event-triger="click" data-event-value="COVID-19 search page link">
+                    Get help if you're worried about coronavirus.
+                </a>
+            </p>
+        </div>
 
         @Html.Partial("_SearchBox", Model, ViewData)
 
