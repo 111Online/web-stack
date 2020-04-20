@@ -6,13 +6,12 @@ using FluentValidation.Validators;
 
 namespace NHS111.Models.Models.Web.Validators
 {
-    public class DateOfBirthDayValidator<TModel, TProperty> : PropertyValidator, IClientValidatable
+    public class DateDayValidator<TModel, TProperty> : PropertyValidator, IClientValidatable
     {
-        private string dependencyElement;
-        public DateOfBirthDayValidator(Expression<Func<TModel, TProperty>> expression)
+
+        public DateDayValidator(Expression<Func<TModel, TProperty>> expression)
             : base("Incorrect Day")
         {
-            dependencyElement = (expression.Body as MemberExpression).Member.Name;
         }
 
 
@@ -36,10 +35,8 @@ namespace NHS111.Models.Models.Web.Validators
             var ruleDay = new ModelClientValidationRule
             {
                 ErrorMessage = this.ErrorMessageSource.GetString(), // default error message
-                ValidationType = "day" // name of the validatoin which will be used inside unobtrusive library
+                ValidationType = "day" // name of the validation which will be used inside unobtrusive library
             };
-
-            ruleDay.ValidationParameters["prefixelement"] = dependencyElement; // html element which includes prefix information
 
             yield return ruleDay;
         }
