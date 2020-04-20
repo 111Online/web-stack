@@ -83,6 +83,49 @@ namespace NHS111.Web.Functional.Utils
             return SelectAnswerAndSubmit(byAnswerText, requireButtonAwait);
         }
 
+        public VerifySMSPage AnswerSMSPhoneNumberAndSubmit(string answerText)
+        {
+            var by = ByAnswerFreeText();
+            EnterTextAndSubmit(by, answerText);
+            return new VerifySMSPage(Driver);
+        }
+
+        public void EnterTextAndSubmit(By by, string answerText, bool expectQuestionPage = true)
+        {
+            SelectAnswerBy(by);
+            var textBox = Driver.FindElement(by);
+            textBox.SendKeys(answerText);
+            NextButton.Click();
+        }
+
+        public QuestionPage EnterSMSAgeAndSubmit(int age)
+        {
+            var by = ByAnswerFreeText();
+            EnterTextAndSubmit(by, age.ToString());
+            return new QuestionPage(Driver);
+        }
+
+        public QuestionPage EnterDaysSinceSymptomsStartedAndSubmit(int days)
+        {
+            var by = ByAnswerFreeText();
+            EnterTextAndSubmit(by, days.ToString());
+            return new QuestionPage(Driver);
+        }
+
+        public SendSMSRegistrationPage AnswerDoYouLiveAloneAndSubmit(bool liveAlone)
+        {
+            var liveAloneText = liveAlone ? "Yes" : "No";
+            var by = By.CssSelector(string.Format("[for='{0}']", liveAloneText));
+            SelectAnswerBy(by);
+            NextButton.Click();
+            return new SendSMSRegistrationPage(Driver);
+        }
+
+        public By ByAnswerFreeText()
+        {
+            return By.XPath("//*[@id=\"AnswerInputValue\"]");
+        }
+
         public QuestionPage Answer(int answerOrder, bool requireButtonAwait = true) {
             var byOrder = ByOrder(answerOrder);
             return SelectAnswerAndSubmit(byOrder, requireButtonAwait);
@@ -97,7 +140,6 @@ namespace NHS111.Web.Functional.Utils
 
         public T Answer<T>(int answerOrder)
         {
-     
             var byOrder = ByOrder(answerOrder);
             SelectAnswerAndSubmit(byOrder, false);
             return (T)Activator.CreateInstance(typeof(T), Driver);

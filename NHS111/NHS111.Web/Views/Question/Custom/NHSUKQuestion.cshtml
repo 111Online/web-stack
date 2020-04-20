@@ -141,7 +141,7 @@
             @if (Model.QuestionType == QuestionType.Telephone)
             {
                 @Html.ValidationMessageFor(m => m.AnswerInputValue, "Enter a valid mobile number", new { @class = "error-message" })
-                @Html.TextBoxFor(m => m.AnswerInputValue, new { @class = "nhsuk-input", maxLength = 50 });
+                @Html.TextBoxFor(m => m.AnswerInputValue, new { @class = "nhsuk-input nhsuk-input--width-20", maxLength = 20 });
             }
             @if (Model.QuestionType == QuestionType.Text)
             {
@@ -210,7 +210,7 @@
         </fieldset>
     </div>
     <button class="button--next button--spinner nhsuk-button" id="nextScreen" type="submit" name="Question" value="Question">Next @Html.Partial("_InlineSpinner")</button>
-    if (!Model.IsFirstStep)
+    if (!Model.IsFirstStep && !Model.PreviousStepWasSMSPhoneNumberVerification)
     {
         <button class="button--stacked button--link nhsuk-back-link__link" id="previousScreen" type="submit" value="PreviousQuestion" name="PreviousQuestion" formnovalidate>
             <svg class="nhsuk-icon nhsuk-icon__chevron-left" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true">

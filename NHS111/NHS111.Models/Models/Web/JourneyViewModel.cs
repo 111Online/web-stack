@@ -68,6 +68,18 @@ namespace NHS111.Models.Models.Web
             }
         }
 
+        public bool PreviousStepWasSMSPhoneNumberVerification
+        {
+            get
+            {
+                if (string.IsNullOrEmpty(JourneyJson))
+                    return false;
+                var steps = JsonConvert.DeserializeObject<Journey>(JourneyJson).Steps;
+                return steps.Count != 0 
+                       && steps.Last().QuestionTitle == "SMS verify"; ;
+            }
+        }
+
         public IEnumerable<Pathway> CommonTopics { get; set; }
 
         public string QuestionNo { get; set; }
