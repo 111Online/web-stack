@@ -1,7 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using NHS111.Business.Configuration;
+using NHS111.Models.Models.Business.Caching;
 using NHS111.Models.Models.Domain;
+using NHS111.Utils.Cache;
 using NHS111.Utils.RestTools;
 using RestSharp;
 
@@ -11,11 +13,13 @@ namespace NHS111.Business.Services
     {
         private readonly IConfiguration _configuration;
         private readonly IRestClient _restClient;
+        private readonly ICacheStore _cacheStore;
 
-        public PathwayService(IConfiguration configuration, IRestClient restClientDomainApi)
+        public PathwayService(IConfiguration configuration, IRestClient restClientDomainApi, ICacheStore cacheStore)
         {
             _configuration = configuration;
             _restClient = restClientDomainApi;
+            _cacheStore = cacheStore;
         }
 
         public async Task<IEnumerable<Pathway>>GetPathways(bool grouped, bool startingOnly)
@@ -26,26 +30,45 @@ namespace NHS111.Business.Services
 
         public async Task<IEnumerable<GroupedPathways>> GetGroupedPathways(bool grouped, bool startingOnly)
         {
-            var pathways = await _restClient.ExecuteTaskAsync<IEnumerable<GroupedPathways>>(new JsonRestRequest(_configuration.GetDomainApiGroupedPathwaysUrl(grouped, startingOnly), Method.GET));
-            return pathways.Data;
+            return await _cacheStore.GetOrAdd(new GroupedPathwaysCacheKey(grouped, startingOnly), async () => 
+            {
+                var pathways = await _restClient.ExecuteTaskAsync<IEnumerable<GroupedPathways>>(new JsonRestRequest(_configuration.GetDomainApiGroupedPathwaysUrl(grouped, startingOnly), Method.GET));
+                return pathways.Data;
+            });  
         }
 
         public async Task<IEnumerable<Pathway>> GetPathways(bool grouped, bool startingOnly, string gender, int age)
         {
-            var pathways = await _restClient.ExecuteTaskAsync<IEnumerable<Pathway>>(new JsonRestRequest(_configuration.GetDomainApiPathwaysUrl(grouped, startingOnly, gender, age), Method.GET));
-            return pathways.Data;
+            return await _cacheStore.GetOrAdd(new PathwaysCacheKey(grouped, startingOnly, gender, age), async () =>
+            {
+                var pathways = await _restClient.ExecuteTaskAsync<IEnumerable<Pathway>>(
+                    new JsonRestRequest(_configuration.GetDomainApiPathwaysUrl(grouped, startingOnly, gender, age),
+                        Method.GET));
+                return pathways.Data;
+            });
         }
 
         public async Task<Pathway> GetPathway(string pathwayId)
         {
-            var pathways = await _restClient.ExecuteTaskAsync<Pathway>(new JsonRestRequest(_configuration.GetDomainApiPathwayUrl(pathwayId), Method.GET));
-            return pathways.Data;
+           return await _cacheStore.GetOrAdd(new PathwayCacheKey(pathwayId), async () =>
+            {
+                var pathways =
+                    await _restClient.ExecuteTaskAsync<Pathway>(
+                        new JsonRestRequest(_configuration.GetDomainApiPathwayUrl(pathwayId), Method.GET));
+                return pathways.Data;
+            });
+
         }
 
         public async Task<PathwayMetaData> GetPathwayMetaData(string pathwayId)
         {
-            var pathways = await _restClient.ExecuteTaskAsync<PathwayMetaData>(new JsonRestRequest(_configuration.GetDomainApiPathwayMetadataUrl(pathwayId), Method.GET));
-            return pathways.Data;
+            return await _cacheStore.GetOrAdd(new PathwayMetaDataCacheKey(pathwayId), async () =>
+            {
+                var pathways = await _restClient.ExecuteTaskAsync<PathwayMetaData>(
+                    new JsonRestRequest(_configuration.GetDomainApiPathwayMetadataUrl(pathwayId), Method.GET));
+                return pathways.Data;
+            });
+
         }
 
         public async Task<string> GetSymptomGroup(string pathwayNumbers)
