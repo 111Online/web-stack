@@ -118,7 +118,7 @@
                     </legend>
                     <p class="form-info">If you're doing this for someone else enter their date of birth.</p>
                     <div>
-                        @Html.ValidationMessageFor(m => m.UserInfo.DoB, "Enter a valid date")
+                        @Html.ValidationMessageFor(m => m.UserInfo.DoB)
                         <div class="form-group--inline">
                             <label for="@Html.IdFor(m => m.UserInfo.Day)">Day</label>
                             @Html.TextBoxFor(m => m.UserInfo.Day, new { @class = "form-control form-textbox js-validate-number", placeholder = "DD", inputmode = "numeric", pattern = "[0-9]+", maxlength = "2" })
@@ -131,7 +131,7 @@
                             <label for="@Html.IdFor(m => m.UserInfo.Year)">Year</label>
                             @Html.TextBoxFor(m => m.UserInfo.Year, new { @class = "form-control form-textbox js-validate-number", placeholder = "YYYY", inputmode = "numeric", pattern = "[0-9]+", maxlength = "4" })
                         </div>
-                        @Html.HiddenFor(m => m.UserInfo.DoB, new { @class = "validate-hidden"})
+                        @Html.HiddenFor(m => m.UserInfo.DoB, new { @class = "validate-hidden" })
                     </div>
                 </fieldset>
             </div>
@@ -158,6 +158,28 @@
             <hr />
             <script type="text/javascript">
                 jQuery(function () {
+                    var formSubmitted = false;
+                    var dayEl = $('#UserInfo_Day');
+                    var monthEl = $('#UserInfo_Month');
+                    var yearEl = $('#UserInfo_Year');
+
+                    AddAdapter('personname');
+                    AddAdapter('day');
+                    AddAdapter('month');
+                    AddAdapter('year');
+                    AddAdapter('datevalid');
+                    AddAdapter('dateofbirth');
+                    AddAdapter('dateagemin', 'minimumage');
+                    AddAdapter('dateagemax', 'maximumage');
+
+                    // This uses jQuery Validator's internal check method, this is undocumented functionality.
+                    // The reason for using it is that the public .valid() method has bad side effects when trying to
+                    // check validity of a single element.
+                    function isValid(el) {
+                        return $("form").validate().check(el);
+                    }
+
+
                     jQuery.validator.addMethod('personname', function (value, element, params) {
                         var personelement = $(element);
                         if ($('input[name="PatientInformantDetails.Informant"]:checked').val() == "Self" &&
@@ -173,53 +195,135 @@
 
                     });
 
-                    jQuery.validator.addMethod('day', function (value, element, params) {
+                    jQuery.validator.addMethod('day', function (value) {
+                        if (!formSubmitted && value === "") return true;
+                        return (parseInt(value) > 0 && parseInt(value) <= 31)
+                    })
 
-                        var day = $('#UserInfo_Day').val();
+                    jQuery.validator.addMethod('month', function (value) {
+                        if (!formSubmitted && value === "") return true;
+                        return (parseInt(value) > 0 && parseInt(value) <= 12)
+                    })
 
-                        var result = (parseInt(day) > 0 && parseInt(day) < 32);
-                        return result;
-                    });
+                    jQuery.validator.addMethod('year', function (value) {
+                        if (!formSubmitted && value === "") return true;
+                        var currentYear = new Date().getFullYear()
+                        return (parseInt(value) > 1900 && parseInt(value) < (currentYear + 1))
+                    })
 
-                    jQuery.validator.addMethod('month', function (value, element, params) {
+                    // Ignore the default date validation as that does not have the granular error messages
+                    jQuery.validator.addMethod('date', function () { return true; });
 
-                        var month = $('#UserInfo_Month').val();
+                    jQuery.validator.addMethod('datevalid', function (value, element, params) {
+                        var day = dayEl.val();
+                        var month = monthEl.val();
+                        var year = yearEl.val();
 
-                        var result = (parseInt(month) > 0 && parseInt(month) < 13);
+                        var isDayValid = isValid(dayEl);
+                        var isMonthValid = isValid(monthEl);
+                        var isYearValid = isValid(yearEl);
 
-                        return result;
-                    });
+                        // If form not submitted, don't validate entire date until all fields entered
+                        if (!formSubmitted && isDayValid && isMonthValid && isYearValid) {
+                            setDateGroupErrorStyles(true)
+                            return true;
+                        }
 
-                    jQuery.validator.addMethod('year', function (value, element, params) {
-
-                        var year = $('#UserInfo_Year').val();
-
-                        var currentYear = new Date().getFullYear();
-                        var result = (parseInt(year) > 1900 && parseInt(year) < (currentYear + 1));
-                        return result;
-                    });
-                    
-                    function isValid(id) {
-                        return $("#personalDetailForm").validate().errorList.filter(function (val) { return val.element.id == id }).length == 0
-                    }
-
-                    jQuery.validator.addMethod('dateofbirth', function (value, element, params) {
-                        // Split out from if statement so that each validates before checked, or after first invalid do not get checked
-                        var isDayValid = isValid("UserInfo_Day")
-                        var isMonthValid = isValid("UserInfo_Month")
-                        var isYearValid = isValid("UserInfo_Year")
-                        if (!isDayValid || !isMonthValid || !isYearValid) {
+                        // If the day/month are not valid then entire date should always be invalid, 
+                        // and update the styling to show that.
+                        // Note: We are not checking year here so we can show the
+                        // date of birth validation message instead of invalid date
+                        // and ensure the year shows as invalid (in red) without all of them showing invalid.
+                        if (!isDayValid || !isMonthValid) {
+                            setDateGroupErrorStyles(false)
                             return false;
                         }
 
-                        var day = $('#UserInfo_Day').val();
-                        var month = $('#UserInfo_Month').val();
-                        var year = $('#UserInfo_Year').val();
-
                         var date = new Date(year, month - 1, day);
                         // Internet Explorer does not handle isNaN(date) correctly so this checks month hasn't rolled over (eg. feb -> march)
-                        var dateIsValid = !isNaN(date) && (date.getMonth() == month - 1) && date < new Date();
+                        var dateIsValid = !isNaN(date) && (date.getMonth() == month - 1);
 
+                        setDateGroupErrorStyles(dateIsValid)
+                        return dateIsValid;
+                    });
+
+                    // If day/month/year are entered, then work out age from DoB
+                    function getAge() {
+                        var day = dayEl.val();
+                        var month = monthEl.val();
+                        var year = yearEl.val();
+                        if (day === "" || month === "" || year === "") return;
+
+                        var dob = new Date(year, month - 1, day);
+                        var today = new Date();
+                        var age = today.getFullYear() - dob.getFullYear();
+                        if (today.getMonth() - 1 < dob.getMonth() - 1 || (today.getMonth() - 1 == dob.getMonth() - 1 && today.getDay() < dob.getDay()))
+                            age--;
+                        return age;
+                    }
+
+
+                    // Separate method for date of birth so a custom message can be shown when the 
+                    // date is valid but in the future so can't be a DoB.
+                    jQuery.validator.addMethod('dateofbirth', function (value, element, params) {
+                        var age = getAge();
+                        var dateIsValid;
+
+                        // If DoB not yet set, return valid.
+                        if (!Number.isInteger(age)) dateIsValid = true;
+                        else dateIsValid = age >= 0;
+
+                        setDateGroupErrorStyles(dateIsValid)
+                        return dateIsValid;
+                    });
+
+
+                    jQuery.validator.addMethod('dateagemin', function (value, element, params) {
+                        var age = getAge();
+                        var dateIsValid;
+
+                        // If DoB not yet set, or if date is in the future,
+                        // set to valid so other validator can set relevant message
+                        if (!Number.isInteger(age) || age < 0) dateIsValid = true;
+                        else dateIsValid = age > parseInt(params.minimumage);
+
+                        setDateGroupErrorStyles(dateIsValid)
+                        return dateIsValid;
+                    });
+
+
+                    jQuery.validator.addMethod('dateagemax', function (value, element, params) {
+                        var age = getAge();
+                        var dateIsValid;
+
+                        // If DoB not yet set, return valid.
+                        if (!Number.isInteger(age)) dateIsValid = true;
+                        else dateIsValid = getAge() <= parseInt(params.maximumage);
+
+                        setDateGroupErrorStyles(dateIsValid)
+                        return dateIsValid;
+                    });
+
+
+                   jQuery('#UserInfo_Day, #UserInfo_Month, #UserInfo_Year').on('input', function () {
+                       // This ensures the validation triggers once they've reached the maxlength
+                       // this means they can see the validation message without needing to know to leave
+                       // the field while ensuring it doesn't come up the moment they start typing.
+                       if (this.value.length === this.maxLength) {
+                           jQuery("#UserInfo_DoB").valid();
+                       }
+                    });
+
+                    jQuery('#UserInfo_Day, #UserInfo_Month, #UserInfo_Year').on('blur', function () {
+                        jQuery("#UserInfo_DoB").valid();
+                    });
+
+
+                    jQuery("#personalDetailForm").on("submit", function () {
+                        formSubmitted = true;
+                    })
+
+                    function setDateGroupErrorStyles(dateIsValid) {
                         jQuery("#UserInfo_DoB").closest(".form-group").toggleClass("form-group-error", !dateIsValid);
 
                         // Validation override ensures if one field in a group errors then a specific
@@ -228,77 +332,10 @@
                         // Validation override "error-all" makes it so that if one field (ie DoB)
                         // errors then all are shown in red.
                         // Example: 29/02/2019 (not leap year) should show all as error and show the same label as above.
-                        jQuery("#UserInfo_DoB").closest(".form-group")
-                            .toggleClass("form-group-validation-override-error-all", !dateIsValid);
-
-                        return dateIsValid;
-                    });
-
-                    jQuery.validator.unobtrusive.adapters.add('personname', ['prefixelement'], function (options) {
-                        options.rules['personname'] = options.params;
-                        if (options.message != null) {
-                            options.messages['personname'] = options.message;
-                        }
-                    });
-
-                    //attach validators for each field, and whole date
-                    jQuery.validator.unobtrusive.adapters.add('day', ['prefixelement'], function (options) {
-                        options.rules['day'] = options.params;
-                        if (options.message != null) {
-                            options.messages['day'] = options.message;
-                        }
-                    });
-                    jQuery.validator.unobtrusive.adapters.add('month', ['prefixelement'], function (options) {
-                        options.rules['month'] = options.params;
-                        if (options.message != null) {
-                            options.messages['month'] = options.message;
-                        }
-                    });
-                    jQuery.validator.unobtrusive.adapters.add('year', ['prefixelement'], function (options) {
-                        options.rules['year'] = options.params;
-                        if (options.message != null) {
-                            options.messages['year'] = options.message;
-                        }
-                    });
-                    jQuery.validator.unobtrusive.adapters.add('dateofbirth', ['prefixelement'], function (options) {
-                        options.rules['dateofbirth'] = options.params;
-                        if (options.message != null) {
-                            options.messages['dateofbirth'] = options.message;
-                        }
-                    });
-
-                    //validate Dob if we change any of the individual fields
-                    jQuery('#UserInfo_Day').on('change, focus, blur', function () {
-                        ValidateWholeDateOfBirth();
-                    });
-                    jQuery('#UserInfo_Month').on('change, focus, blur', function () {
-                        ValidateWholeDateOfBirth();
-                    });
-                    jQuery('#UserInfo_Year').on('change, focus, blur', function () {
-                        ValidateWholeDateOfBirth();
-                    });
-
-                    function ShowDoBError() {
-                        jQuery("#UserInfo_DoB").toggleClass("input-validation-error", true);
-                        jQuery("#UserInfo_DoB").parent(".form-group").toggleClass("form-group-error", true);
-                        jQuery("[data-valmsg-for='UserInfo.DoB']").toggleClass("field-validation-error", true).removeClass("field-validation-valid");
-                    }
-
-                    function ValidateWholeDateOfBirth() {
-
-                        if (jQuery("#UserInfo_Day").val() === ""
-                            || jQuery("#UserInfo_Month").val() === ""
-                            || jQuery("#UserInfo_Year").val() === "")
-                            return false;
-
-                        if (jQuery("#UserInfo_Day").valid()
-                            && jQuery("#UserInfo_Month").valid()
-                            && jQuery("#UserInfo_Year").valid()) {
-                            jQuery("#personalDetailForm").validate().element("#UserInfo_DoB");
-                        } else {
-                            jQuery("#UserInfo_DoB").closest(".form-group").removeClass("form-group-validation-override-error-all");
-                            ShowDoBError()
-                        }
+                        if (!isValid(dayEl) || !isValid(monthEl) || !isValid(yearEl))
+                            jQuery("#UserInfo_DoB").closest(".form-group").toggleClass("form-group-validation-override-error-all", false);
+                        else
+                            jQuery("#UserInfo_DoB").closest(".form-group").toggleClass("form-group-validation-override-error-all", !dateIsValid);
                     }
                     
                 })
