@@ -78,6 +78,7 @@ namespace NHS111.Web.Presentation.Builders
                     // This replicates logic in ViewDeterminer so in future should ideally use that instead.
                     string viewName = "../Question/Page";
                     if (questionViewModel.PathwayNo.Equals("PC111")) viewName = "../Question/Custom/NHSUKPage";
+                    if (questionViewModel.PathwayNo.Equals("PW1851")) viewName = "../Question/Custom/SymptomsStarted";
                     return new Tuple<string, QuestionViewModel>(viewName, questionViewModel);
                 }
 
