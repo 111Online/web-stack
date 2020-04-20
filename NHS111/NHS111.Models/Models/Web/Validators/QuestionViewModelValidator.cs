@@ -59,7 +59,7 @@ namespace NHS111.Models.Models.Web.Validators
              
                 RuleFor(p => Convert.ToInt32(p))
                     .GreaterThanOrEqualTo(0)
-                    .LessThanOrEqualTo(99).WithMessage("Number of days can't be more than 99");
+                    .LessThanOrEqualTo(10).WithMessage("Number of days can't be more than 10");
             }
         }
 
