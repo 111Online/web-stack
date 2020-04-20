@@ -1,5 +1,6 @@
 ﻿
 using FluentValidation.Validators;
+using NHS111.Models.Models.Web.FromExternalServices;
 using NHS111.Models.Models.Web.Validators;
 using NHS111.Utils.RestTools;
 using NHS111.Web.Presentation.Filters;
@@ -48,6 +49,8 @@ namespace NHS111.Web.Controllers {
             _dosEndpointFeature = dosEndpointFeature;
             _dosSpecifyDispoTimeFeature = dosSpecifyDispoTimeFeature;
             _outcomeViewModelBuilder = outcomeViewModelBuilder;
+            _questionNavigiationService = new QuestionNavigationService(_journeyViewModelBuilder, _configuration,
+                _restClientBusinessApi, _viewRouter); 
         }
 
         [HttpPost]
@@ -95,14 +98,12 @@ namespace NHS111.Web.Controllers {
                 JsonConvert.SerializeObject(
                     pathways.Select(pathway => new {label = pathway.Group, value = pathway.PathwayNumbers}));
         }
-        
+
         [HttpPost]
         [ActionName("Navigation")]
         [MultiSubmit(ButtonName = "Question")]
         public async Task<ActionResult> Question(QuestionViewModel model)
         {
-          
-
             if (!ModelState.IsValidField("SelectedAnswer") || 
                 !ModelState.IsValidField("AnswerInputValue") ||
                 !ModelState.IsValidField("DateAnswer"))
@@ -110,13 +111,14 @@ namespace NHS111.Web.Controllers {
                 return View(_viewRouter.Build(model, ControllerContext).ViewName, model);
             }
 
-            
+
             if (model.NodeType == NodeType.Page && model.Content!=null && model.Content.StartsWith("!CustomView!"))
                 return await HandleCustomQuestion(model); //Refactor into custom Handler Class
             ModelState.Clear();
-            var nextModel = await GetNextJourneyViewModel(model);
+
+            var nextModel = await _questionNavigiationService.GetNextJourneyViewModel(model);
             var viewRouter = _viewRouter.Build(nextModel, ControllerContext);
-            
+
             return View(viewRouter.ViewName, nextModel);
         }
 
@@ -142,14 +144,16 @@ namespace NHS111.Web.Controllers {
 
             _auditLogger.LogEvent(model, EventType.SymptomsBeganDate, DateTime.Now.AddDays(daysInt * -1).Date.ToString("s"), "../Question/Custom/SymptomsStarted");
             ModelState.Clear();
+
             var state = JsonConvert.DeserializeObject<IDictionary<string, string>>(model.StateJson);
             if (!state.ContainsKey("SYMPTOMS_STARTED_DAYS_AGO"))
                 state.Add("SYMPTOMS_STARTED_DAYS_AGO", days);
             else
                 state["SYMPTOMS_STARTED_DAYS_AGO"] = days;
             model.StateJson = JsonConvert.SerializeObject(state);
-            var nextModel = await GetNextJourneyViewModel(model);
+            var nextModel = await _questionNavigiationService.GetNextJourneyViewModel(model);
             var viewRouter = _viewRouter.Build(nextModel, ControllerContext);
+
             return View(viewRouter.ViewName, nextModel);
 
         }
@@ -187,7 +191,7 @@ namespace NHS111.Web.Controllers {
             var nodeDetails = new NodeDetailsViewModel() { NodeType = NodeType.Question };
             if (ModelState.IsValidField("SelectedAnswer"))
             {
-                var nextNode = await GetNextNode(model);
+                var nextNode = await _questionNavigiationService.GetNextNode(model);
                 nodeDetails = _journeyViewModelBuilder.BuildNodeDetails(nextNode);
             }
             
@@ -232,12 +236,6 @@ namespace NHS111.Web.Controllers {
                             Method.GET));
 
             return Json(response.Content);
-        }
-
-
-        private async Task<JourneyViewModel> GetNextJourneyViewModel(QuestionViewModel model) {
-            var nextNode = await GetNextNode(model);
-            return await _journeyViewModelBuilder.Build(model, nextNode);
         }
 
         [HttpPost]
@@ -411,16 +409,6 @@ namespace NHS111.Web.Controllers {
             return View(viewRouter.ViewName, result);
         }
 
-        private async Task<QuestionWithAnswers> GetNextNode(QuestionViewModel model) {
-
-            var answer = JsonConvert.DeserializeObject<Answer>(model.SelectedAnswer);
-            var serialisedState = HttpUtility.UrlEncode(model.StateJson);
-            var request = new JsonRestRequest(_configuration.GetBusinessApiNextNodeUrl(model.PathwayId, model.NodeType, model.Id, serialisedState, true), Method.POST);
-            request.AddJsonBody(answer.Title);
-            var response = await _restClientBusinessApi.ExecuteTaskAsync<QuestionWithAnswers>(request);
-            return response.Data;
-        }
-
         private async Task<List<QuestionWithAnswers>> GetFullJourney(QuestionViewModel model)
         {
             var request = new JsonRestRequest(_configuration.BusinessApiGetFullPathwayJourneyUrl, Method.POST);
@@ -475,5 +463,6 @@ namespace NHS111.Web.Controllers {
         private readonly IDosEndpointFeature _dosEndpointFeature;
         private readonly IDOSSpecifyDispoTimeFeature _dosSpecifyDispoTimeFeature;
         private readonly IOutcomeViewModelBuilder _outcomeViewModelBuilder;
+        private readonly IQuestionNavigiationService _questionNavigiationService;
     }
 }

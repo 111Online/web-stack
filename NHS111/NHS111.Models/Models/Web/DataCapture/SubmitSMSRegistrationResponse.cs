@@ -8,9 +8,9 @@ using RestSharp;
 
 namespace NHS111.Models.Models.Web.DataCapture
 {
-    public class DataCaptureResponse
+    public class SubmitSMSRegistrationResponse
     {
-        public DataCaptureResponse(IRestResponse restResponse)
+        public SubmitSMSRegistrationResponse(IRestResponse restResponse)
         {
             this.IsSuccessful = restResponse.IsSuccessful;
             if (!IsSuccessful)
