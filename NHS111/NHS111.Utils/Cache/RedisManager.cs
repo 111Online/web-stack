@@ -72,7 +72,7 @@ namespace NHS111.Utils.Cache
             if (_useCache)
             {
                 var cacheVal = await _cacheManager.Read(key.CacheKey);
-                if (cacheVal != null && cacheVal != String.Empty)
+                if (!String.IsNullOrEmpty(cacheVal))
                     return JsonConvert.DeserializeObject<TItem>(cacheVal);
             }
 

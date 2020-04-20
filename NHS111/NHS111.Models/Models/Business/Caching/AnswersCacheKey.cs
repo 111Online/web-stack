@@ -7,19 +7,14 @@ using NHS111.Models.Models.Domain;
 
 namespace NHS111.Models.Models.Business.Caching
 {
-    public class AnswersCacheKey : ICacheKey<Answer[]>
+    public class AnswersCacheKey : CacheKeyBase<Answer[]>
     {
-        private readonly string _cachekey;
-        public AnswersCacheKey(string questionId)
-        {
-            _cachekey = String.Format("GetAnswersForQuestion-{0}", questionId);
-        }
 
-        public string CacheKey
-        {
-            get { return _cachekey; }
-        }
-        public bool ValidToAdd(Answer[] value)
+        public AnswersCacheKey(string questionId)
+            : base(String.Format("GetAnswersForQuestion-{0}", questionId))
+        {}
+
+        public override bool ValidToAdd(Answer[] value)
         {
             return value != null && value.Any();
         }
