@@ -34,7 +34,7 @@ namespace NHS111.Business.Test.Controller
             _questionTransformer = new Mock<IQuestionTransformer>();
             _answersForNodeBuilder = new Mock<IAnswersForNodeBuilder>();
             _cacheManager = new Mock<ICacheManager<string, string>>();
-            _sut = new QuestionController(_questionService.Object, _questionTransformer.Object, _answersForNodeBuilder.Object, _cacheManager.Object);
+            _sut = new QuestionController(_questionService.Object, _questionTransformer.Object, _answersForNodeBuilder.Object);
         }
 
         [Test]
@@ -179,7 +179,7 @@ namespace NHS111.Business.Test.Controller
             _questionService.Setup(x => x.GetAnswersForQuestion(It.IsAny<string>())).Returns(Task.FromResult(answers));
             _questionService.Setup(x => x.GetNextQuestion(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>())).Returns(Task.FromResult(question));
 
-            _sut = new QuestionController(_questionService.Object, new QuestionTransformer(), _answersForNodeBuilder.Object, _cacheManager.Object);
+            _sut = new QuestionController(_questionService.Object, new QuestionTransformer(), _answersForNodeBuilder.Object);
             var result = await _sut.GetFirstQuestion(It.IsAny<string>(), "{\"PATIENT_AGE\":\"24\",\"PATIENT_GENDER\":\"M\"}");
             var node = result.Content;
 
@@ -216,7 +216,7 @@ namespace NHS111.Business.Test.Controller
             _questionService.Setup(x => x.GetNextQuestion(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>())).Returns(Task.FromResult(question));
             _answersForNodeBuilder.Setup(x => x.SelectAnswer(It.IsAny<IEnumerable<Answer>>(), It.IsAny<string>())).Returns(new Answer { Title = "readstate" });
 
-            _sut = new QuestionController(_questionService.Object, new QuestionTransformer(), _answersForNodeBuilder.Object, _cacheManager.Object);
+            _sut = new QuestionController(_questionService.Object, new QuestionTransformer(), _answersForNodeBuilder.Object);
             var result = await _sut.GetFirstQuestion(It.IsAny<string>(), "{\"PATIENT_AGE\":\"24\",\"PATIENT_GENDER\":\"M\",\"READ_STATE\":\"readstate\"}");
             var node = result.Content;
 
