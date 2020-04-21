@@ -22,7 +22,7 @@ namespace NHS111.Models.Models.Web.Validators
                 .WithMessage("Please enter a valid age");
             RuleFor(q => q.AnswerInputValue).Cascade(CascadeMode.StopOnFirstFailure)
                 .Must(BeANumber)
-                .SetValidator(new IntegerSymptomsStartedValidator())
+                .SetValidator(new IntegerSymptomsStartedValidator(10))
                 .When(q => q.QuestionType == QuestionType.Integer && q.Answers.First().Title.ToLower().Equals("symptomsstarted"))
                 .WithMessage("Please enter a valid number");
             RuleFor(q => q.SelectedAnswer).NotEmpty().When(q => q.QuestionType == QuestionType.Boolean).WithMessage("Please select an answer");
@@ -59,7 +59,16 @@ namespace NHS111.Models.Models.Web.Validators
              
                 RuleFor(p => Convert.ToInt32(p))
                     .GreaterThanOrEqualTo(0)
-                    .LessThanOrEqualTo(99).WithMessage("Number of days can't be more than 99");
+                    .LessThanOrEqualTo(10).WithMessage("Number of days can't be more than 10");
+            }
+
+            public IntegerSymptomsStartedValidator(int Limit)
+            {
+                var i = 0;
+
+                RuleFor(p => Convert.ToInt32(p))
+                    .GreaterThanOrEqualTo(0)
+                    .LessThanOrEqualTo(Limit).WithMessage("Number of days can't be more than {0}",Limit);
             }
         }
 
