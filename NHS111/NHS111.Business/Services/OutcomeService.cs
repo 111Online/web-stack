@@ -22,7 +22,7 @@ namespace NHS111.Business.Services
 
         public async Task<IEnumerable<Outcome>> List()
         {
-            var outcomes = await _restClient.ExecuteTaskAsync<IEnumerable<Outcome>>(new JsonRestRequest(_configuration.GetDomainApiListOutcomesUrl(), Method.GET));
+            var outcomes = await _restClient.ExecuteAsync<IEnumerable<Outcome>>(new JsonRestRequest(_configuration.GetDomainApiListOutcomesUrl(), Method.GET));
             return outcomes.Data;
         }
 

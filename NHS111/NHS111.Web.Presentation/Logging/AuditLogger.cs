@@ -30,8 +30,10 @@ namespace NHS111.Web.Presentation.Logging
 
     public class AuditLogger : IAuditLogger
     {
+        private readonly ILoggingRestClient _restClient;
+        private readonly IConfiguration _configuration;
 
-        public AuditLogger(IRestClient restClient, IConfiguration configuration)
+        public AuditLogger(ILoggingRestClient restClient, IConfiguration configuration)
         {
             _restClient = restClient;
             _configuration = configuration;
@@ -44,7 +46,7 @@ namespace NHS111.Web.Presentation.Logging
                 var url = _configuration.LoggingServiceApiAuditUrl;
                 var request = new JsonRestRequest(url, Method.POST);
                 request.AddJsonBody(auditEntry);
-                _restClient.ExecuteTaskAsync(request);
+                _restClient.ExecuteAsync(request);
             });
         }
 
@@ -130,8 +132,5 @@ namespace NHS111.Web.Presentation.Logging
             audit.Page = "Survey Interstitial";
             Log(audit);
         }
-
-        private readonly IRestClient _restClient;
-        private readonly IConfiguration _configuration;
     }
 }

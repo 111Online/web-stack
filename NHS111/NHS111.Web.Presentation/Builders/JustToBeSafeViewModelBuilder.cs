@@ -61,7 +61,7 @@ namespace NHS111.Web.Presentation.Builders
                 model.SelectedQuestionId ?? "",
                 String.Join(",", questionsWithAnswers.Select(question => question.Question.Id)),
                 selectedQuestion != null && selectedQuestion.Answers.Count > 3);
-            var response = await _restClient.ExecuteTaskAsync<IEnumerable<QuestionWithAnswers>>(new JsonRestRequest(url, Method.GET));
+            var response = await _restClient.ExecuteAsync<IEnumerable<QuestionWithAnswers>>(new JsonRestRequest(url, Method.GET));
 
             CheckResponse(response);
 
@@ -135,7 +135,7 @@ namespace NHS111.Web.Presentation.Builders
 
             var request = new JsonRestRequest(businessApiNextNodeUrl, Method.POST);
             request.AddJsonBody(answer.Title);
-            var response = await _restClient.ExecuteTaskAsync<QuestionWithAnswers>(request);
+            var response = await _restClient.ExecuteAsync<QuestionWithAnswers>(request);
 
             CheckResponse(response);
 

@@ -29,7 +29,7 @@ namespace NHS111.Web.Presentation.Builders
         {
             var jsonParser = new JourneyJsonParser(model.JourneyJson);
             var businessApiPathwayUrl = _configuration.GetBusinessApiPathwayIdUrl(jsonParser.LastPathwayNo, model.UserInfo.Demography.Gender, model.UserInfo.Demography.Age);
-            var response = await _restClient.ExecuteTaskAsync<Pathway>(new JsonRestRequest(businessApiPathwayUrl, Method.GET));
+            var response = await _restClient.ExecuteAsync<Pathway>(new JsonRestRequest(businessApiPathwayUrl, Method.GET));
 
             CheckResponse(response);
 

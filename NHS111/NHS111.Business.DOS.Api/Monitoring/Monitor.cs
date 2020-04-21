@@ -29,7 +29,7 @@ namespace NHS111.Business.DOS.Api.Monitoring
         {
             try
             {
-                var health = await _restClient.ExecuteTaskAsync<bool>(new JsonRestRequest(_configuration.DomainDosApiMonitorHealthUrl, Method.GET));
+                var health = await _restClient.ExecuteAsync<bool>(new JsonRestRequest(_configuration.DomainDosApiMonitorHealthUrl, Method.GET));
                 return health.Data;
             }
             catch (Exception ex)

@@ -10,11 +10,11 @@ namespace NHS111.Web.Presentation.Builders
 {
     public class FeedbackViewModelBuilder : IFeedbackViewModelBuilder
     {
-        private IRestClient _restClient;
+        private readonly ILoggingRestClient _restClient;
         private readonly IConfiguration _configuration;
         private readonly IPageDataViewModelBuilder _pageDateViewModelBuilder;
 
-        public FeedbackViewModelBuilder(IRestClient restClient, IConfiguration configuration, IPageDataViewModelBuilder pageDataViewModelBuilder)
+        public FeedbackViewModelBuilder(ILoggingRestClient restClient, IConfiguration configuration, IPageDataViewModelBuilder pageDataViewModelBuilder)
         {
             _restClient = restClient;
             _configuration = configuration;
@@ -31,7 +31,7 @@ namespace NHS111.Web.Presentation.Builders
                 var request = new JsonRestRequest(_configuration.FeedbackAddFeedbackUrl, Method.POST);
                 request.AddJsonBody(feedback);
                 request.AddHeader("Authorization", _configuration.FeedbackAuthorization);
-                var response = await _restClient.ExecuteTaskAsync(request);
+                var response = await _restClient.ExecuteAsync(request);
 
                 if (response.StatusCode == HttpStatusCode.OK || response.StatusCode == HttpStatusCode.Created)
                 {

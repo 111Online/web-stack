@@ -197,7 +197,7 @@ namespace NHS111.Web.Presentation.Builders
         private async Task<SymptomDiscriminator> GetSymptomDiscriminator(string symptomDiscriminatorCode)
         {
             var url = string.Format(_configuration.GetBusinessApiSymptomDiscriminatorUrl(symptomDiscriminatorCode));
-            var symptomDiscriminatorResponse = await _restClient.ExecuteTaskAsync<SymptomDiscriminator>(new JsonRestRequest(url, Method.GET));
+            var symptomDiscriminatorResponse = await _restClient.ExecuteAsync<SymptomDiscriminator>(new JsonRestRequest(url, Method.GET));
 
             if (!symptomDiscriminatorResponse.IsSuccessful)
                 throw new Exception(string.Format("A problem occured getting the symptom discriminator at {0}. {1}",
@@ -210,7 +210,7 @@ namespace NHS111.Web.Presentation.Builders
         private async Task<string> GetSymptomGroup(string pathways)
         {
             var url = string.Format(_configuration.GetBusinessApiPathwaySymptomGroupUrl(pathways));
-            var symptomGroupResponse = await _restClient.ExecuteTaskAsync<string>(new JsonRestRequest(url, Method.GET));
+            var symptomGroupResponse = await _restClient.ExecuteAsync<string>(new JsonRestRequest(url, Method.GET));
 
             if (!symptomGroupResponse.IsSuccessful)
                 throw new Exception(string.Format("A problem occured getting the symptom group for {0}.", pathways));

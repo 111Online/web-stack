@@ -20,55 +20,55 @@ namespace NHS111.Business.Services
 
         public async Task<IEnumerable<Pathway>> GetPathways(bool grouped, bool startingOnly)
         {
-            var pathways = await _restClient.ExecuteTaskAsync<IEnumerable<Pathway>>(new JsonRestRequest(_configuration.GetDomainApiPathwaysUrl(grouped, startingOnly), Method.GET));
+            var pathways = await _restClient.ExecuteAsync<IEnumerable<Pathway>>(new JsonRestRequest(_configuration.GetDomainApiPathwaysUrl(grouped, startingOnly), Method.GET));
             return pathways.Data;
         }
 
         public async Task<IEnumerable<GroupedPathways>> GetGroupedPathways(bool grouped, bool startingOnly)
         {
-            var pathways = await _restClient.ExecuteTaskAsync<IEnumerable<GroupedPathways>>(new JsonRestRequest(_configuration.GetDomainApiGroupedPathwaysUrl(grouped, startingOnly), Method.GET));
+            var pathways = await _restClient.ExecuteAsync<IEnumerable<GroupedPathways>>(new JsonRestRequest(_configuration.GetDomainApiGroupedPathwaysUrl(grouped, startingOnly), Method.GET));
             return pathways.Data;
         }
 
         public async Task<IEnumerable<Pathway>> GetPathways(bool grouped, bool startingOnly, string gender, int age)
         {
-            var pathways = await _restClient.ExecuteTaskAsync<IEnumerable<Pathway>>(new JsonRestRequest(_configuration.GetDomainApiPathwaysUrl(grouped, startingOnly, gender, age), Method.GET));
+            var pathways = await _restClient.ExecuteAsync<IEnumerable<Pathway>>(new JsonRestRequest(_configuration.GetDomainApiPathwaysUrl(grouped, startingOnly, gender, age), Method.GET));
             return pathways.Data;
         }
 
         public async Task<Pathway> GetPathway(string pathwayId)
         {
-            var pathways = await _restClient.ExecuteTaskAsync<Pathway>(new JsonRestRequest(_configuration.GetDomainApiPathwayUrl(pathwayId), Method.GET));
+            var pathways = await _restClient.ExecuteAsync<Pathway>(new JsonRestRequest(_configuration.GetDomainApiPathwayUrl(pathwayId), Method.GET));
             return pathways.Data;
         }
 
         public async Task<PathwayMetaData> GetPathwayMetaData(string pathwayId)
         {
-            var pathways = await _restClient.ExecuteTaskAsync<PathwayMetaData>(new JsonRestRequest(_configuration.GetDomainApiPathwayMetadataUrl(pathwayId), Method.GET));
+            var pathways = await _restClient.ExecuteAsync<PathwayMetaData>(new JsonRestRequest(_configuration.GetDomainApiPathwayMetadataUrl(pathwayId), Method.GET));
             return pathways.Data;
         }
 
         public async Task<string> GetSymptomGroup(string pathwayNumbers)
         {
-            var pathways = await _restClient.ExecuteTaskAsync<string>(new JsonRestRequest(_configuration.GetDomainApiPathwaySymptomGroup(pathwayNumbers), Method.GET));
+            var pathways = await _restClient.ExecuteAsync<string>(new JsonRestRequest(_configuration.GetDomainApiPathwaySymptomGroup(pathwayNumbers), Method.GET));
             return pathways.Data;
         }
 
         public async Task<Pathway> GetIdentifiedPathway(string pathwayNumbers, string gender, int age)
         {
-            var pathways = await _restClient.ExecuteTaskAsync<Pathway>(new JsonRestRequest(_configuration.GetDomainApiIdentifiedPathwayUrl(pathwayNumbers, gender, age), Method.GET));
+            var pathways = await _restClient.ExecuteAsync<Pathway>(new JsonRestRequest(_configuration.GetDomainApiIdentifiedPathwayUrl(pathwayNumbers, gender, age), Method.GET));
             return pathways.Data;
         }
 
         public async Task<Pathway> GetIdentifiedPathwayFromTitle(string pathwayTitle, string gender, int age)
         {
-            var pathways = await _restClient.ExecuteTaskAsync<Pathway>(new JsonRestRequest(_configuration.GetDomainApiIdentifiedPathwayFromTitleUrl(pathwayTitle, gender, age), Method.GET));
+            var pathways = await _restClient.ExecuteAsync<Pathway>(new JsonRestRequest(_configuration.GetDomainApiIdentifiedPathwayFromTitleUrl(pathwayTitle, gender, age), Method.GET));
             return pathways.Data;
         }
 
         public async Task<string> GetPathwayNumbers(string pathwayTitle)
         {
-            var pathways = await _restClient.ExecuteTaskAsync<string>(new JsonRestRequest(_configuration.GetDomainApiPathwayNumbersUrl(pathwayTitle), Method.GET));
+            var pathways = await _restClient.ExecuteAsync<string>(new JsonRestRequest(_configuration.GetDomainApiPathwayNumbersUrl(pathwayTitle), Method.GET));
             return pathways.Data;
         }
     }

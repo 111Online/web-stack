@@ -52,7 +52,7 @@ namespace NHS111.Web.Presentation.Builders
             request.AddJsonBody(dosFilterdCase);
 
             _logger.Debug(string.Format("DOSBuilder.FillCheckCapacitySummaryResult(): URL: {0} BODY: {1}", checkCapacitySummaryUrl, JsonConvert.SerializeObject(dosFilterdCase)));
-            var response = await _restClient.ExecuteTaskAsync<DosCheckCapacitySummaryResult>(request);
+            var response = await _restClient.ExecuteAsync<DosCheckCapacitySummaryResult>(request);
 
             if (!response.IsSuccessful || response.Data.Error != null) return response.Data;
 

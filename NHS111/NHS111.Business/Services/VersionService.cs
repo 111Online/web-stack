@@ -20,7 +20,7 @@ namespace NHS111.Business.Services
 
         public async Task<VersionInfo> GetVersionInfo()
         {
-            var version = await _restClient.ExecuteTaskAsync<VersionInfo>(new JsonRestRequest(_configuration.GetDomainApiVersionUrl(), Method.GET));
+            var version = await _restClient.ExecuteAsync<VersionInfo>(new JsonRestRequest(_configuration.GetDomainApiVersionUrl(), Method.GET));
             return version.Data;
         }
     }

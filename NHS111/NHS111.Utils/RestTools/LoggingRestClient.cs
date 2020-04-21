@@ -2,38 +2,45 @@
 using RestSharp;
 using System;
 using System.Net;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace NHS111.Utils.RestTools
 {
-    public class LoggingRestClient : RestClient
+    public interface ILoggingRestClient
+    {
+        Task<IRestResponse> ExecuteAsync(IRestRequest request);
+        Task<IRestResponse<T>> ExecuteAsync<T>(IRestRequest request);
+    }
+
+    public class LoggingRestClient : ILoggingRestClient
     {
         private readonly ILog _logger;
+        private readonly IRestClient _restClient;
 
-        [Obsolete("Pass DefaultConnectionLimit from IConfiguration.ServicePointManagerDefaultConnectionLimit")]
-        public LoggingRestClient(string baseUrl, ILog logger) : this(baseUrl, logger, 5) { }
-
-        public LoggingRestClient(string baseUrl, ILog logger, int defaultConnectionLimit) : base(baseUrl)
+        public LoggingRestClient(string baseUrl, ILog logger, int defaultConnectionLimit = 5)
         {
             ServicePointManager.DefaultConnectionLimit = defaultConnectionLimit;
             _logger = logger;
-            InitializeSerialisationHandlers();
+            
+            _restClient = new RestClient(baseUrl);
+            InitializeSerializationHandlers(_restClient);
         }
 
-        private void InitializeSerialisationHandlers()
+        private void InitializeSerializationHandlers(IRestClient client)
         {
-            this.AddHandler("application/json", NewtonsoftJsonSerializer.Default);
-            this.AddHandler("text/json", NewtonsoftJsonSerializer.Default);
-            this.AddHandler("text/x-json", NewtonsoftJsonSerializer.Default);
-            this.AddHandler("text/javascript", NewtonsoftJsonSerializer.Default);
-            this.AddHandler("*+json", NewtonsoftJsonSerializer.Default);
+            client.AddHandler("application/json", () => NewtonsoftJsonSerializer.Default);
+            client.AddHandler("text/json", () => NewtonsoftJsonSerializer.Default);
+            client.AddHandler("text/x-json", () => NewtonsoftJsonSerializer.Default);
+            client.AddHandler("text/javascript", () => NewtonsoftJsonSerializer.Default);
+            client.AddHandler("*+json", () => NewtonsoftJsonSerializer.Default);
         }
 
-        public override async Task<IRestResponse> ExecuteTaskAsync(IRestRequest request)
+        public async Task<IRestResponse> ExecuteAsync(IRestRequest request)
         {
-            _logger.Info(string.Format("Request to: {0}{1} performed", BaseUrl, request.Resource));
+            _logger.Info(string.Format("Request to: {0} performed", _restClient.BuildUri(request)));
 
-            var response = await base.ExecuteTaskAsync(request);
+            IRestResponse response = await _restClient.ExecuteAsync(request, request.Method, CancellationToken.None);
 
             if (response == null)
             {
@@ -46,16 +53,16 @@ namespace NHS111.Utils.RestTools
 
             if (response.StatusCode != HttpStatusCode.OK)
             {
-                _logger.Error(string.Format("Request to: {0}{1} returned with Error Code: {2} and response: {3}", BaseUrl, request.Resource, response.StatusCode, response.ErrorMessage));
+                _logger.Error(string.Format("Request to: {0} returned with Error Code: {1} and response: {2}", _restClient.BuildUri(request), response.StatusCode, response.ErrorMessage));
             }
 
             return response;
         }
-        public override async Task<IRestResponse<T>> ExecuteTaskAsync<T>(IRestRequest request)
+        public async Task<IRestResponse<T>> ExecuteAsync<T>(IRestRequest request)
         {
-            _logger.Info(string.Format("Request to: {0}{1} performed", BaseUrl, request.Resource));
+            _logger.Info(string.Format("Request to: {0} performed", _restClient.BuildUri(request)));
 
-            var response = await base.ExecuteTaskAsync<T>(request);
+            var response = await _restClient.ExecuteAsync<T>(request);
 
             if (response == null)
             {
@@ -68,7 +75,7 @@ namespace NHS111.Utils.RestTools
 
             if (response.StatusCode != HttpStatusCode.OK)
             {
-                _logger.Error(string.Format("Request to: {0}{1} returned with Error Code: {2} and response: {3}", BaseUrl, request.Resource, response.StatusCode, response.ErrorMessage));
+                _logger.Error(string.Format("Request to: {0} returned with Error Code: {1} and response: {2}", _restClient.BuildUri(request), response.StatusCode, response.ErrorMessage));
             }
 
             return response;

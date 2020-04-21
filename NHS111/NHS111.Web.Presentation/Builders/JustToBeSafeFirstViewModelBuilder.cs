@@ -39,7 +39,7 @@ namespace NHS111.Web.Presentation.Builders
                 model = await DoWorkPreviouslyDoneInQuestionBuilder(model); //todo refactor away
 
             var identifiedModel = await BuildIdentifiedModel(model);
-            var questionsWithAnswers = await _restClient.ExecuteTaskAsync<IEnumerable<QuestionWithAnswers>>(new JsonRestRequest(_configuration.GetBusinessApiJustToBeSafePartOneUrl(identifiedModel.PathwayId), Method.GET));
+            var questionsWithAnswers = await _restClient.ExecuteAsync<IEnumerable<QuestionWithAnswers>>(new JsonRestRequest(_configuration.GetBusinessApiJustToBeSafePartOneUrl(identifiedModel.PathwayId), Method.GET));
 
             CheckResponse(questionsWithAnswers);
 
@@ -67,7 +67,7 @@ namespace NHS111.Web.Presentation.Builders
                     EntrySearchTerm = model.EntrySearchTerm
                 };
 
-                var question = await _restClient.ExecuteTaskAsync<QuestionWithAnswers>(new JsonRestRequest(_configuration.GetBusinessApiFirstQuestionUrl(identifiedModel.PathwayId, identifiedModel.StateJson), Method.GET));
+                var question = await _restClient.ExecuteAsync<QuestionWithAnswers>(new JsonRestRequest(_configuration.GetBusinessApiFirstQuestionUrl(identifiedModel.PathwayId, identifiedModel.StateJson), Method.GET));
 
                 CheckResponse(question);
 
@@ -97,7 +97,7 @@ namespace NHS111.Web.Presentation.Builders
         private async Task<JustToBeSafeViewModel> DoWorkPreviouslyDoneInQuestionBuilder(JustToBeSafeViewModel model)
         {
             var businessApiPathwayUrl = _configuration.GetBusinessApiPathwayUrl(model.PathwayId);
-            var response = await _restClient.ExecuteTaskAsync<Pathway>(new JsonRestRequest(businessApiPathwayUrl, Method.GET));
+            var response = await _restClient.ExecuteAsync<Pathway>(new JsonRestRequest(businessApiPathwayUrl, Method.GET));
 
             CheckResponse(response);
 
@@ -133,7 +133,7 @@ namespace NHS111.Web.Presentation.Builders
 
         private async Task<JustToBeSafeViewModel> BuildIdentifiedModel(JustToBeSafeViewModel model)
         {
-            var response = await _restClient.ExecuteTaskAsync<Pathway>(new JsonRestRequest(_configuration.GetBusinessApiPathwayIdUrl(model.PathwayNo, model.UserInfo.Demography.Gender, model.UserInfo.Demography.Age), Method.GET));
+            var response = await _restClient.ExecuteAsync<Pathway>(new JsonRestRequest(_configuration.GetBusinessApiPathwayIdUrl(model.PathwayNo, model.UserInfo.Demography.Gender, model.UserInfo.Demography.Age), Method.GET));
 
             CheckResponse(response);
 

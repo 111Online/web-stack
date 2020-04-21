@@ -21,7 +21,7 @@ namespace NHS111.Business.Services
 
         public async Task<SymptomDiscriminator> GetSymptomDisciminator(string id)
         {
-            var symptomDiscriminators = await _restClient.ExecuteTaskAsync<SymptomDiscriminator>(new JsonRestRequest(_configuration.GetDomainApiSymptomDisciminatorUrl(id), Method.GET));
+            var symptomDiscriminators = await _restClient.ExecuteAsync<SymptomDiscriminator>(new JsonRestRequest(_configuration.GetDomainApiSymptomDisciminatorUrl(id), Method.GET));
             if (!symptomDiscriminators.IsSuccessful)
                 throw new Exception(string.Format("A problem occured requesting {0}. {1}", _configuration.GetDomainApiSymptomDisciminatorUrl(id), symptomDiscriminators.ErrorMessage));
             return symptomDiscriminators.Data;

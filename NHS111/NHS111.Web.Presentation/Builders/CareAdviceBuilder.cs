@@ -31,7 +31,7 @@ namespace NHS111.Web.Presentation.Builders
                 return Enumerable.Empty<CareAdvice>();
 
             var businessApiCareAdviceUrl = _configuration.GetBusinessApiCareAdviceUrl(age, gender, string.Join(",", careAdviceMarkers));
-            var careAdvices = await _restClient.ExecuteTaskAsync<IEnumerable<CareAdvice>>(new JsonRestRequest(businessApiCareAdviceUrl, Method.GET));
+            var careAdvices = await _restClient.ExecuteAsync<IEnumerable<CareAdvice>>(new JsonRestRequest(businessApiCareAdviceUrl, Method.GET));
 
             CheckResponse(careAdvices);
 
@@ -42,7 +42,7 @@ namespace NHS111.Web.Presentation.Builders
         {
 
             var businessApiCareAdviceUrl = _configuration.GetBusinessApiCareAdviceUrl(age, gender, WORSENING_CAREADVICE_ID);
-            var careAdvices = await _restClient.ExecuteTaskAsync<IEnumerable<CareAdvice>>(new JsonRestRequest(businessApiCareAdviceUrl, Method.GET));
+            var careAdvices = await _restClient.ExecuteAsync<IEnumerable<CareAdvice>>(new JsonRestRequest(businessApiCareAdviceUrl, Method.GET));
 
             CheckResponse(careAdvices);
 
@@ -57,7 +57,7 @@ namespace NHS111.Web.Presentation.Builders
             var businessApiInterimCareAdviceUrl = _configuration.GetBusinessApiInterimCareAdviceUrl(dxCode, ageGroup, gender);
             var request = new JsonRestRequest(businessApiInterimCareAdviceUrl, Method.POST);
             request.AddJsonBody(GenerateKeywordsList(careAdviceKeywords));
-            var careAdvices = await _restClient.ExecuteTaskAsync<IEnumerable<CareAdvice>>(request);
+            var careAdvices = await _restClient.ExecuteAsync<IEnumerable<CareAdvice>>(request);
 
             CheckResponse(careAdvices);
 

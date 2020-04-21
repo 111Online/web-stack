@@ -24,7 +24,7 @@ namespace NHS111.Business.Services
 
         public async Task<IEnumerable<CareAdvice>> GetCareAdvice(int age, string gender, IEnumerable<string> markers)
         {
-            var careAdvice = await _restClient.ExecuteTaskAsync<IEnumerable<CareAdvice>>(new JsonRestRequest(_configuration.GetDomainApiCareAdviceUrl(age, gender, markers), Method.GET));
+            var careAdvice = await _restClient.ExecuteAsync<IEnumerable<CareAdvice>>(new JsonRestRequest(_configuration.GetDomainApiCareAdviceUrl(age, gender, markers), Method.GET));
             return careAdvice.Data;
         }
 
@@ -34,7 +34,7 @@ namespace NHS111.Business.Services
             var request = new JsonRestRequest(domainApiCareAdviceUrl, Method.POST);
             request.AddJsonBody(keywords);
 
-            var response = await _restClient.ExecuteTaskAsync<IEnumerable<CareAdvice>>(request);
+            var response = await _restClient.ExecuteAsync<IEnumerable<CareAdvice>>(request);
             if (!response.IsSuccessful)
                 throw new Exception(string.Format("A problem occured requesting {0}. {1}", domainApiCareAdviceUrl, response.ErrorMessage));
 

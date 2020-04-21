@@ -31,7 +31,7 @@ namespace NHS111.Web.Presentation.Builders
                 if (!currentPathwayNo.Equals(model.StartingPathwayNo))
                 {
                     var businessApiPathwayUrl = _configuration.GetBusinessApiPathwayIdUrl(currentPathwayNo, model.Gender, new AgeCategory(model.Age).MinimumAge);
-                    var response = await _restClient.ExecuteTaskAsync<Pathway>(new JsonRestRequest(businessApiPathwayUrl, Method.GET));
+                    var response = await _restClient.ExecuteAsync<Pathway>(new JsonRestRequest(businessApiPathwayUrl, Method.GET));
 
                     CheckResponse(response);
 

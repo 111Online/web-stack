@@ -23,13 +23,13 @@ namespace NHS111.Business.Services
 
         public async Task<IEnumerable<CategoryWithPathways>> GetCategoriesWithPathways()
         {
-            var categories = await _restClient.ExecuteTaskAsync<IEnumerable<CategoryWithPathways>>(new JsonRestRequest(_configuration.GetCategoriesWithPathwaysUrl(), Method.GET));
+            var categories = await _restClient.ExecuteAsync<IEnumerable<CategoryWithPathways>>(new JsonRestRequest(_configuration.GetCategoriesWithPathwaysUrl(), Method.GET));
             return categories.Data;
         }
 
         public async Task<IEnumerable<CategoryWithPathways>> GetCategoriesWithPathways(string gender, int age)
         {
-            var categories = await _restClient.ExecuteTaskAsync<IEnumerable<CategoryWithPathways>>(new JsonRestRequest(_configuration.GetCategoriesWithPathwaysUrl(gender, age), Method.GET));
+            var categories = await _restClient.ExecuteAsync<IEnumerable<CategoryWithPathways>>(new JsonRestRequest(_configuration.GetCategoriesWithPathwaysUrl(gender, age), Method.GET));
             return categories.Data;
         }
 

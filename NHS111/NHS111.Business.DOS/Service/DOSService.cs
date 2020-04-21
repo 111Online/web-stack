@@ -29,7 +29,7 @@ namespace NHS111.Business.DOS.Service
             var request = new JsonRestRequest(url, Method.POST);
             request.AddJsonBody(dosRequest);
 
-            var response = await _restClient.ExecuteTaskAsync<CheckCapacitySummaryResponse>(request);
+            var response = await _restClient.ExecuteAsync<CheckCapacitySummaryResponse>(request);
 
             if (response.ResponseStatus != ResponseStatus.Completed)
                 return new DosCheckCapacitySummaryResult { Error = new ErrorObject { Code = (int)response.StatusCode, Message = response.ErrorMessage } };
@@ -42,7 +42,7 @@ namespace NHS111.Business.DOS.Service
             var request = new JsonRestRequest(_configuration.DomainDosApiServiceDetailsByIdUrl, Method.POST);
             request.AddJsonBody(serviceDetailsByIdRequest);
 
-            var response = await _restClient.ExecuteTaskAsync<ServiceDetailsByIdResponse>(request);
+            var response = await _restClient.ExecuteAsync<ServiceDetailsByIdResponse>(request);
             if (response.ResponseStatus == ResponseStatus.Completed)
                 return response.Data;
             throw response.ErrorException;
