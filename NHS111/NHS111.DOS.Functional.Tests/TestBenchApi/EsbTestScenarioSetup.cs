@@ -1,4 +1,7 @@
-﻿namespace NHS111.DOS.Functional.Tests.TestBenchApi
+﻿using log4net;
+using NHS111.Utils.RestTools;
+
+namespace NHS111.DOS.Functional.Tests.TestBenchApi
 {
     using Models.Models.Web.ITK;
     using RestSharp;
@@ -24,10 +27,12 @@
     public class EsbTestScenarioSetup
         : IEsbTestScenarioSetup, IEsbRequestSetup
     {
+        private IEsbTestScenario _scenario;
+        private readonly ILoggingRestClient _client;
 
         public EsbTestScenarioSetup()
         {
-            _client = new RestClient("http://localhost:55954/");
+            _client = new LoggingRestClient("http://localhost:55954/", LogManager.GetLogger("log"));
         }
 
         public IEsbRequestSetup ExpectingRequestTo(IEsbEndpoint endpoint)
@@ -70,11 +75,9 @@
         public async Task<IEsbTestScenario> BeginAsync()
         {
             var request = new PostEsbTestScenarioRequest(_scenario);
-            await _client.ExecutePostTaskAsync(request);
+            await _client.ExecuteAsync(request);
             return _scenario;
         }
 
-        private IEsbTestScenario _scenario;
-        private readonly IRestClient _client;
     }
 }

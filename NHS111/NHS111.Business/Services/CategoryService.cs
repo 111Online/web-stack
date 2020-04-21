@@ -12,10 +12,10 @@ namespace NHS111.Business.Services
     public class CategoryService
         : ICategoryService
     {
-        private readonly IRestClient _restClient;
+        private readonly ILoggingRestClient _restClient;
         private readonly IConfiguration _configuration;
 
-        public CategoryService(IRestClient restClientDomainApi, IConfiguration configuration)
+        public CategoryService(ILoggingRestClient restClientDomainApi, IConfiguration configuration)
         {
             _restClient = restClientDomainApi;
             _configuration = configuration;

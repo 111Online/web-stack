@@ -6,13 +6,14 @@ using NUnit.Framework;
 using RestSharp;
 using System.Collections.Generic;
 using System.Linq;
+using NHS111.Utils.RestTools;
 
 namespace NHS111.Web.Presentation.Builders.Tests
 {
     [TestFixture()]
     public class CareAdviceBuilderTests
     {
-        Mock<IRestClient> _restClient;
+        Mock<ILoggingRestClient> _restClient;
         Mock<IConfiguration> _configuration;
 
         private string MOCK_GetBusinessApiCareAdviceUrl = "http://GetBusinessApiCareAdviceUrl.com";
@@ -30,7 +31,7 @@ namespace NHS111.Web.Presentation.Builders.Tests
         public void SetUp()
         {
             _configuration = new Mock<IConfiguration>();
-            _restClient = new Mock<IRestClient>();
+            _restClient = new Mock<ILoggingRestClient>();
 
             _configuration.Setup(c => c.GetBusinessApiCareAdviceUrl(It.IsAny<int>(), It.IsAny<string>(), It.IsAny<string>()))
                 .Returns(MOCK_GetBusinessApiCareAdviceUrl);
@@ -43,9 +44,9 @@ namespace NHS111.Web.Presentation.Builders.Tests
             response.Setup(_ => _.Data).Returns(JsonConvert.DeserializeObject<IEnumerable<CareAdvice>>(TEST_CONTENT));
             response.Setup(_ => _.Content).Returns(TEST_CONTENT);
 
-            _restClient.Setup(r => r.ExecuteTaskAsync<IEnumerable<CareAdvice>>(It.IsAny<RestRequest>())).ReturnsAsync(response.Object);
+            _restClient.Setup(r => r.ExecuteAsync<IEnumerable<CareAdvice>>(It.IsAny<RestRequest>())).ReturnsAsync(response.Object);
 
-            _restClient.Setup(r => r.ExecuteTaskAsync<IEnumerable<CareAdvice>>(It.IsAny<RestRequest>())).ReturnsAsync(response.Object);
+            _restClient.Setup(r => r.ExecuteAsync<IEnumerable<CareAdvice>>(It.IsAny<RestRequest>())).ReturnsAsync(response.Object);
         }
 
         [Test()]

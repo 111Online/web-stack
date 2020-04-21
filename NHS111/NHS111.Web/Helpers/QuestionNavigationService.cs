@@ -15,10 +15,10 @@ namespace NHS111.Web.Helpers
     {
         private readonly IJourneyViewModelBuilder _journeyViewModelBuilder;
         private readonly IConfiguration _configuration;
-        private readonly IRestClient _restClientBusinessApi;
+        private readonly ILoggingRestClient _restClientBusinessApi;
         private readonly IViewRouter _viewRouter;
 
-        public QuestionNavigationService(IJourneyViewModelBuilder journeyViewModelBuilder, IConfiguration configuration, IRestClient restClientBusinessApi, IViewRouter viewRouter)
+        public QuestionNavigationService(IJourneyViewModelBuilder journeyViewModelBuilder, IConfiguration configuration, ILoggingRestClient restClientBusinessApi, IViewRouter viewRouter)
         {
             _journeyViewModelBuilder = journeyViewModelBuilder;
             _configuration = configuration;
@@ -39,7 +39,7 @@ namespace NHS111.Web.Helpers
             var serialisedState = HttpUtility.UrlEncode(model.StateJson);
             var request = new JsonRestRequest(_configuration.GetBusinessApiNextNodeUrl(model.PathwayId, model.NodeType, model.Id, serialisedState, true), Method.POST);
             request.AddJsonBody(answer.Title);
-            var response = await _restClientBusinessApi.ExecuteTaskAsync<QuestionWithAnswers>(request);
+            var response = await _restClientBusinessApi.ExecuteAsync<QuestionWithAnswers>(request);
             return response.Data;
         }
 

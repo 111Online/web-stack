@@ -1,4 +1,7 @@
-﻿namespace NHS111.DOS.Functional.Tests.TestBenchApi
+﻿using log4net;
+using NHS111.Utils.RestTools;
+
+namespace NHS111.DOS.Functional.Tests.TestBenchApi
 {
     using Models.Models.Web.DosRequests;
     using NUnit.Framework;
@@ -23,10 +26,14 @@
     public class DosTestScenarioSetup
         : IDosTestScenarioSetup, IDosRequestSetup
     {
+        private readonly DosTestScenario _scenario = new DosTestScenario();
+        private readonly ILoggingRestClient _client;
+
+        private DosTestScenarioRequest _currentRequest = null;
 
         public DosTestScenarioSetup()
         {
-            _client = new RestClient("http://localhost:55954/");
+            _client = new LoggingRestClient("http://localhost:55954/", LogManager.GetLogger("log"));
         }
 
         public IDosRequestSetup ExpectingNoRequestsTo(IDosEndpoint endpoint)
@@ -76,15 +83,11 @@
         {
             FinaliseCurrentRequest();
             var request = new PostDosTestScenarioRequest(_scenario);
-            var response = await _client.ExecutePostTaskAsync<string>(request);
+            var response = await _client.ExecuteAsync<string>(request);
             Assert.True(response.IsSuccessful, response.ErrorMessage);
             _scenario.Postcode = response.Data;
             return _scenario;
         }
 
-        private readonly DosTestScenario _scenario = new DosTestScenario();
-        private readonly IRestClient _client;
-
-        private DosTestScenarioRequest _currentRequest = null;
     }
 }

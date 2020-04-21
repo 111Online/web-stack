@@ -19,11 +19,11 @@ namespace NHS111.Web.Presentation.Builders
     {
         private readonly IConfiguration _configuration;
         private readonly IMappingEngine _mappingEngine;
-        private readonly IRestClient _restClient;
+        private readonly ILoggingRestClient _restClient;
         private readonly IKeywordCollector _keywordCollector;
         private readonly IUserZoomDataBuilder _userZoomDataBuilder;
 
-        public JustToBeSafeFirstViewModelBuilder(IRestClient restClient, IConfiguration configuration, IMappingEngine mappingEngine, IKeywordCollector keywordCollector, IUserZoomDataBuilder userZoomDataBuilder)
+        public JustToBeSafeFirstViewModelBuilder(ILoggingRestClient restClient, IConfiguration configuration, IMappingEngine mappingEngine, IKeywordCollector keywordCollector, IUserZoomDataBuilder userZoomDataBuilder)
         {
             _restClient = restClient;
             _configuration = configuration;

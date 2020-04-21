@@ -13,8 +13,10 @@ namespace NHS111.Business.Services
     public class OutcomeService
         : IOutcomeService
     {
+        private readonly IConfiguration _configuration;
+        private readonly ILoggingRestClient _restClient;
 
-        public OutcomeService(IConfiguration configuration, IRestClient restClientDomainApi)
+        public OutcomeService(IConfiguration configuration, ILoggingRestClient restClientDomainApi)
         {
             _configuration = configuration;
             _restClient = restClientDomainApi;
@@ -25,9 +27,6 @@ namespace NHS111.Business.Services
             var outcomes = await _restClient.ExecuteAsync<IEnumerable<Outcome>>(new JsonRestRequest(_configuration.GetDomainApiListOutcomesUrl(), Method.GET));
             return outcomes.Data;
         }
-
-        private readonly IConfiguration _configuration;
-        private readonly IRestClient _restClient;
     }
 
     public interface IOutcomeService

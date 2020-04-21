@@ -31,7 +31,7 @@ namespace NHS111.Web.Controllers
 
         public QuestionController(IJourneyViewModelBuilder journeyViewModelBuilder,
             IConfiguration configuration, IJustToBeSafeFirstViewModelBuilder justToBeSafeFirstViewModelBuilder, IDirectLinkingFeature directLinkingFeature,
-            IAuditLogger auditLogger, IUserZoomDataBuilder userZoomDataBuilder, IRestClient restClientBusinessApi, IViewRouter viewRouter,
+            IAuditLogger auditLogger, IUserZoomDataBuilder userZoomDataBuilder, ILoggingRestClient restClientBusinessApi, IViewRouter viewRouter,
             IDosEndpointFeature dosEndpointFeature, IDOSSpecifyDispoTimeFeature dosSpecifyDispoTimeFeature, IOutcomeViewModelBuilder outcomeViewModelBuilder)
         {
 
@@ -82,7 +82,7 @@ namespace NHS111.Web.Controllers
         public async Task<JsonResult> AutosuggestPathways(string input, string gender, int age)
         {
 
-            var response = await _restClientBusinessApi.ExecuteTaskAsync<List<GroupedPathways>>(
+            var response = await _restClientBusinessApi.ExecuteAsync<List<GroupedPathways>>(
                      new RestRequest(_configuration.GetBusinessApiGroupedPathwaysUrl(input, gender, age, true), Method.GET));
 
             return Json(await Search(response.Data));
@@ -233,7 +233,7 @@ namespace NHS111.Web.Controllers
             var ageGroup = new AgeCategory(age);
             var response =
                 await
-                    _restClientBusinessApi.ExecuteTaskAsync(
+                    _restClientBusinessApi.ExecuteAsync(
                         new RestRequest(_configuration.GetBusinessApiPathwaySearchUrl(gender, ageGroup.Value, true),
                             Method.GET));
 
@@ -380,7 +380,7 @@ namespace NHS111.Web.Controllers
         {
             var questionViewModel = BuildQuestionViewModel(pathwayId, age, pathwayTitle);
             var response = await
-                _restClientBusinessApi.ExecuteTaskAsync<Pathway>(new JsonRestRequest(_configuration.GetBusinessApiPathwayUrl(pathwayId, true), Method.GET));
+                _restClientBusinessApi.ExecuteAsync<Pathway>(new JsonRestRequest(_configuration.GetBusinessApiPathwayUrl(pathwayId, true), Method.GET));
             var pathway = response.Data;
             if (pathway == null) return null;
 
@@ -412,7 +412,7 @@ namespace NHS111.Web.Controllers
             ModelState.Clear();
 
             var url = _configuration.GetBusinessApiQuestionByIdUrl(model.PathwayId, model.Journey.Steps.Last().QuestionId, true);
-            var response = await _restClientBusinessApi.ExecuteTaskAsync<QuestionWithAnswers>(new JsonRestRequest(url, Method.GET));
+            var response = await _restClientBusinessApi.ExecuteAsync<QuestionWithAnswers>(new JsonRestRequest(url, Method.GET));
             var questionWithAnswers = response.Data;
 
             var result = _journeyViewModelBuilder.BuildPreviousQuestion(questionWithAnswers, model);
@@ -425,7 +425,7 @@ namespace NHS111.Web.Controllers
         {
             var request = new JsonRestRequest(_configuration.BusinessApiGetFullPathwayJourneyUrl, Method.POST);
             request.AddJsonBody(model.Journey.Steps.ToArray());
-            var response = await _restClientBusinessApi.ExecuteTaskAsync<List<QuestionWithAnswers>>(request);
+            var response = await _restClientBusinessApi.ExecuteAsync<List<QuestionWithAnswers>>(request);
             return response.Data;
         }
 
@@ -474,7 +474,7 @@ namespace NHS111.Web.Controllers
         private readonly IDirectLinkingFeature _directLinkingFeature;
         private readonly IAuditLogger _auditLogger;
         private readonly IUserZoomDataBuilder _userZoomDataBuilder;
-        private readonly IRestClient _restClientBusinessApi;
+        private readonly ILoggingRestClient _restClientBusinessApi;
         private readonly IViewRouter _viewRouter;
         private readonly IDosEndpointFeature _dosEndpointFeature;
         private readonly IDOSSpecifyDispoTimeFeature _dosSpecifyDispoTimeFeature;

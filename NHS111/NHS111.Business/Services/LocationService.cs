@@ -4,15 +4,16 @@ using RestSharp;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using NHS111.Utils.RestTools;
 
 namespace NHS111.Business.Services
 {
     public class LocationService : ILocationService
     {
-        private readonly IRestClient _restIdealPostcodesApi;
+        private readonly ILoggingRestClient _restIdealPostcodesApi;
         private readonly IConfiguration _configuration;
 
-        public LocationService(IRestClient restIdealPostcodesApi, IConfiguration configuration)
+        public LocationService(ILoggingRestClient restIdealPostcodesApi, IConfiguration configuration)
         {
             _restIdealPostcodesApi = restIdealPostcodesApi;
             _configuration = configuration;
@@ -20,7 +21,7 @@ namespace NHS111.Business.Services
 
         public async Task<List<PostcodeLocationResult>> FindPostcodes(double longitude, double latitude)
         {
-            var response = await _restIdealPostcodesApi.ExecuteTaskAsync<LocationServiceResult<PostcodeLocationResult>>(
+            var response = await _restIdealPostcodesApi.ExecuteAsync<LocationServiceResult<PostcodeLocationResult>>(
                 new RestRequest(_configuration.GetLocationPostcodebyGeoUrl(longitude, latitude), Method.GET));
 
             if (response.ResponseStatus == ResponseStatus.Completed)
@@ -38,7 +39,7 @@ namespace NHS111.Business.Services
 
         public async Task<AddressLocationSingleResult> FindAddressFromUDPRN(string udprn)
         {
-            var response = await _restIdealPostcodesApi.ExecuteTaskAsync<LocationServiceSingleResult<AddressLocationSingleResult>>(
+            var response = await _restIdealPostcodesApi.ExecuteAsync<LocationServiceSingleResult<AddressLocationSingleResult>>(
                 new RestRequest(_configuration.GetLocationByUDPRNUrl(udprn), Method.GET));
             if (response.ResponseStatus == ResponseStatus.Completed)
                 return response.Data.Result;
@@ -47,7 +48,7 @@ namespace NHS111.Business.Services
 
         public async Task<LocationServiceResult<AddressLocationResult>> ValidateAndFindAddresses(string postcode)
         {
-            var response = await _restIdealPostcodesApi.ExecuteTaskAsync<LocationServiceResult<AddressLocationResult>>(
+            var response = await _restIdealPostcodesApi.ExecuteAsync<LocationServiceResult<AddressLocationResult>>(
                 new RestRequest(_configuration.GetLocationByPostcodeUrl(postcode), Method.GET));
             if (response.ResponseStatus == ResponseStatus.Completed)
                 return response.Data;
@@ -55,7 +56,7 @@ namespace NHS111.Business.Services
         }
         public async Task<List<AddressLocationResult>> FindAddresses(string postcode)
         {
-            var response = await _restIdealPostcodesApi.ExecuteTaskAsync<LocationServiceResult<AddressLocationResult>>(
+            var response = await _restIdealPostcodesApi.ExecuteAsync<LocationServiceResult<AddressLocationResult>>(
                 new RestRequest(_configuration.GetLocationByPostcodeUrl(postcode), Method.GET));
             if (response.ResponseStatus == ResponseStatus.Completed)
                 return response.Data.Result.ToList();

@@ -14,9 +14,9 @@ namespace NHS111.Business.Services
         : ICareAdviceService
     {
         private readonly IConfiguration _configuration;
-        private readonly IRestClient _restClient;
+        private readonly ILoggingRestClient _restClient;
 
-        public CareAdviceService(IConfiguration configuration, IRestClient restClientDomainApi)
+        public CareAdviceService(IConfiguration configuration, ILoggingRestClient restClientDomainApi)
         {
             _configuration = configuration;
             _restClient = restClientDomainApi;

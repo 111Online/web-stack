@@ -15,7 +15,6 @@ namespace NHS111.Business.DOS.Test.ServiceType
     public class OnlineServiceTypeMapperTest
     {
         private Mock<Configuration.IConfiguration> _mockConfiguration;
-        private Mock<IRestClient> _restClient;
         private Mock<IWhiteListPopulator> _mockWhiteListPopulator;
 
         private readonly string _localServiceIdWhiteListUrl = "http://localhost/api/ccg/details/{0}";
@@ -195,7 +194,6 @@ namespace NHS111.Business.DOS.Test.ServiceType
         public void SetUp()
         {
             _mockConfiguration = new Mock<Configuration.IConfiguration>();
-            _restClient = new Mock<IRestClient>();
             _mockWhiteListPopulator = new Mock<IWhiteListPopulator>();
 
             _mockConfiguration.Setup(c => c.CCGApiGetCCGDetailsByPostcode).Returns(_localServiceIdWhiteListUrl);

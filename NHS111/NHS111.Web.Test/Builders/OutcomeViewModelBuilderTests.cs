@@ -1,4 +1,5 @@
 ﻿using NHS111.Utils.Parser;
+using NHS111.Utils.RestTools;
 using RestSharp;
 
 namespace NHS111.Web.Presentation.Builders.Tests
@@ -23,10 +24,10 @@ namespace NHS111.Web.Presentation.Builders.Tests
 
         private Mock<IMappingEngine> _mappingEngine;
         private Mock<ICareAdviceBuilder> _mockCareAdviceBuilder;
-        private Mock<IRestClient> _mockRestClient;
-        private Mock<IRestClient> _mockRestPostcodeApiClient;
-        private Mock<IRestClient> _mockRestClientItkDispatcherApi;
-        private Mock<IRestClient> _resetClientCaseDataCaptureApi;
+        private Mock<ILoggingRestClient> _mockRestClient;
+        private Mock<ILoggingRestClient> _mockRestPostcodeApiClient;
+        private Mock<ILoggingRestClient> _mockRestClientItkDispatcherApi;
+        private Mock<ILoggingRestClient> _resetClientCaseDataCaptureApi;
         private Mock<Presentation.Configuration.IConfiguration> _mockConfiguration;
         private Mock<IKeywordCollector> _mockKeywordCollector;
         private Mock<IJourneyHistoryWrangler> _mockJourneyHistoryWrangler;
@@ -47,10 +48,10 @@ namespace NHS111.Web.Presentation.Builders.Tests
         {
             _mappingEngine = new Mock<IMappingEngine>();
             _mockCareAdviceBuilder = new Mock<ICareAdviceBuilder>();
-            _mockRestClient = new Mock<IRestClient>();
-            _mockRestPostcodeApiClient = new Mock<IRestClient>();
-            _mockRestClientItkDispatcherApi = new Mock<IRestClient>();
-            _resetClientCaseDataCaptureApi = new Mock<IRestClient>();
+            _mockRestClient = new Mock<ILoggingRestClient>();
+            _mockRestPostcodeApiClient = new Mock<ILoggingRestClient>();
+            _mockRestClientItkDispatcherApi = new Mock<ILoggingRestClient>();
+            _resetClientCaseDataCaptureApi = new Mock<ILoggingRestClient>();
             _mockConfiguration = new Mock<Presentation.Configuration.IConfiguration>();
             _mockJourneyHistoryWrangler = new Mock<IJourneyHistoryWrangler>();
             _mockKeywordCollector = new Mock<IKeywordCollector>();

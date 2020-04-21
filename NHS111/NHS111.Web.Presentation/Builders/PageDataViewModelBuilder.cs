@@ -10,10 +10,10 @@ namespace NHS111.Web.Presentation.Builders
 {
     public class PageDataViewModelBuilder : BaseBuilder, IPageDataViewModelBuilder
     {
-        private readonly IRestClient _restClient;
+        private readonly ILoggingRestClient _restClient;
         private readonly IConfiguration _configuration;
 
-        public PageDataViewModelBuilder(IRestClient restClient, IConfiguration configuration)
+        public PageDataViewModelBuilder(ILoggingRestClient restClient, IConfiguration configuration)
         {
             _restClient = restClient;
             _configuration = configuration;

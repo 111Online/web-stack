@@ -11,9 +11,9 @@ namespace NHS111.Business.Services
     public class SymptomDisciminatorService : ISymptomDisciminatorService
     {
         private readonly IConfiguration _configuration;
-        private readonly IRestClient _restClient;
+        private readonly ILoggingRestClient _restClient;
 
-        public SymptomDisciminatorService(IConfiguration configuration, IRestClient restClientDomainApi)
+        public SymptomDisciminatorService(IConfiguration configuration, ILoggingRestClient restClientDomainApi)
         {
             _configuration = configuration;
             _restClient = restClientDomainApi;

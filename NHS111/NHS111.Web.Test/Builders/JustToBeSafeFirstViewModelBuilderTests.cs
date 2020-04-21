@@ -8,6 +8,7 @@ using NUnit.Framework;
 using RestSharp;
 using System.Collections.Generic;
 using System.Linq;
+using NHS111.Utils.RestTools;
 using IConfiguration = NHS111.Web.Presentation.Configuration.IConfiguration;
 
 namespace NHS111.Web.Presentation.Builders.Tests
@@ -16,7 +17,7 @@ namespace NHS111.Web.Presentation.Builders.Tests
     public class JustToBeSafeFirstViewModelBuilderTests
     {
 
-        Mock<IRestClient> _restClient;
+        Mock<ILoggingRestClient> _restClient;
         Mock<IConfiguration> _configuration;
         Mock<IMappingEngine> _mappingEngine;
         Mock<IKeywordCollector> _keywordCollector;
@@ -43,7 +44,7 @@ namespace NHS111.Web.Presentation.Builders.Tests
         public void SetUp()
         {
 
-            _restClient = new Mock<IRestClient>();
+            _restClient = new Mock<ILoggingRestClient>();
             _configuration = new Mock<IConfiguration>();
             _mappingEngine = new Mock<IMappingEngine>();
             _keywordCollector = new Mock<IKeywordCollector>();
@@ -68,7 +69,7 @@ namespace NHS111.Web.Presentation.Builders.Tests
             pathwayResponse.Setup(_ => _.IsSuccessful).Returns(true);
             pathwayResponse.Setup(_ => _.Data).Returns(pathway);
             pathwayResponse.Setup(_ => _.Content).Returns(pathwayJson);
-            _restClient.Setup(r => r.ExecuteTaskAsync<Pathway>(It.Is<IRestRequest>(rq => rq.Resource == MOCK_BusinessApiPathwayIdUrl)))
+            _restClient.Setup(r => r.ExecuteAsync<Pathway>(It.Is<IRestRequest>(rq => rq.Resource == MOCK_BusinessApiPathwayIdUrl)))
                 .ReturnsAsync(pathwayResponse.Object);
 
 
@@ -77,7 +78,7 @@ namespace NHS111.Web.Presentation.Builders.Tests
             emptyQuestionListResponse.Setup(_ => _.IsSuccessful).Returns(true);
             emptyQuestionListResponse.Setup(_ => _.Data).Returns(emptyQuestionList);
             emptyQuestionListResponse.Setup(_ => _.Content).Returns("[]");
-            _restClient.Setup(r => r.ExecuteTaskAsync<IEnumerable<QuestionWithAnswers>>(It.Is<IRestRequest>(rq => rq.Resource == MOCK_GetBusinessApiJustToBeSafePartOneUrl)))
+            _restClient.Setup(r => r.ExecuteAsync<IEnumerable<QuestionWithAnswers>>(It.Is<IRestRequest>(rq => rq.Resource == MOCK_GetBusinessApiJustToBeSafePartOneUrl)))
                 .ReturnsAsync(emptyQuestionListResponse.Object);
 
 
@@ -93,7 +94,7 @@ namespace NHS111.Web.Presentation.Builders.Tests
             emptyQuestionWithAnswersResponse.Setup(_ => _.IsSuccessful).Returns(true);
             emptyQuestionWithAnswersResponse.Setup(_ => _.Data).Returns(questionWithAnswers);
             emptyQuestionWithAnswersResponse.Setup(_ => _.Content).Returns(questionWithAnswersJson);
-            _restClient.Setup(r => r.ExecuteTaskAsync<QuestionWithAnswers>(It.Is<IRestRequest>(rq => rq.Resource == MOCK_GetBusinessApiFirstQuestionUrl)))
+            _restClient.Setup(r => r.ExecuteAsync<QuestionWithAnswers>(It.Is<IRestRequest>(rq => rq.Resource == MOCK_GetBusinessApiFirstQuestionUrl)))
                 .ReturnsAsync(emptyQuestionWithAnswersResponse.Object);
 
             _mappingEngine.Setup(m => m.Mapper).Returns(_mapper.Object);

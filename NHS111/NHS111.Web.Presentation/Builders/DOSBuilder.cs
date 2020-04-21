@@ -24,13 +24,13 @@ namespace NHS111.Web.Presentation.Builders
     public class DOSBuilder : IDOSBuilder
     {
         private readonly ICareAdviceBuilder _careAdviceBuilder;
-        private readonly IRestClient _restClient;
+        private readonly ILoggingRestClient _restClient;
         private readonly IConfiguration _configuration;
         private readonly IMappingEngine _mappingEngine;
         private readonly IITKMessagingFeature _itkMessagingFeature;
         private static readonly ILog _logger = LogManager.GetLogger(typeof(DOSBuilder));
 
-        public DOSBuilder(ICareAdviceBuilder careAdviceBuilder, IRestClient restClient, IConfiguration configuration, IMappingEngine mappingEngine, IITKMessagingFeature itkMessagingFeature)
+        public DOSBuilder(ICareAdviceBuilder careAdviceBuilder, ILoggingRestClient restClient, IConfiguration configuration, IMappingEngine mappingEngine, IITKMessagingFeature itkMessagingFeature)
         {
             _careAdviceBuilder = careAdviceBuilder;
             _restClient = restClient;

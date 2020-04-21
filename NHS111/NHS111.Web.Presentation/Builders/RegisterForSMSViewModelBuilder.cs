@@ -11,9 +11,9 @@ namespace NHS111.Web.Presentation.Builders
     public class RegisterForSMSViewModelBuilder : IRegisterForSMSViewModelBuilder
     {
         private readonly IConfiguration _configuration;
-        private readonly IRestClient _restClientCaseDataCaptureApi;
+        private readonly ILoggingRestClient _restClientCaseDataCaptureApi;
 
-        public RegisterForSMSViewModelBuilder(IConfiguration configuration, IRestClient restClientCaseDataCaptureApi)
+        public RegisterForSMSViewModelBuilder(IConfiguration configuration, ILoggingRestClient restClientCaseDataCaptureApi)
         {
             _configuration = configuration;
             _restClientCaseDataCaptureApi = restClientCaseDataCaptureApi;
@@ -40,7 +40,7 @@ namespace NHS111.Web.Presentation.Builders
 
             request.AddJsonBody(body);
 
-            return await _restClientCaseDataCaptureApi.ExecuteTaskAsync(request);
+            return await _restClientCaseDataCaptureApi.ExecuteAsync(request);
         }
     }
 

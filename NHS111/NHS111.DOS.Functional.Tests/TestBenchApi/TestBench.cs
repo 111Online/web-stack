@@ -1,4 +1,7 @@
 ﻿
+using log4net;
+using NHS111.Utils.RestTools;
+
 namespace NHS111.DOS.Functional.Tests.TestBenchApi
 {
     using Models.Models.Web.DosRequests;
@@ -12,10 +15,11 @@ namespace NHS111.DOS.Functional.Tests.TestBenchApi
 
     public class TestBench
     {
+        private readonly ILoggingRestClient _client;
 
         public TestBench()
         {
-            _client = new RestClient("http://localhost:55954/");
+            _client = new LoggingRestClient("http://localhost:55954/", LogManager.GetLogger("log"));
         }
 
         public IDosTestScenarioSetup SetupDosScenario()
@@ -31,7 +35,7 @@ namespace NHS111.DOS.Functional.Tests.TestBenchApi
         public async Task<VerificationResult> Verify(IDosTestScenario scenario)
         {
             var request = new VerifyDosTestScenarioPostRequest(scenario.Postcode);
-            var response = await _client.ExecutePostTaskAsync(request);
+            var response = await _client.ExecuteAsync(request);
             VerificationResult result;
             switch (response.StatusCode)
             {
@@ -57,7 +61,7 @@ namespace NHS111.DOS.Functional.Tests.TestBenchApi
         public async Task<VerificationResult> Verify(IEsbTestScenario scenario)
         {
             var request = new VerifyEsbTestScenarioPostRequest(scenario);
-            var response = await _client.ExecutePostTaskAsync(request);
+            var response = await _client.ExecuteAsync(request);
             VerificationResult result;
             switch (response.StatusCode)
             {
@@ -79,7 +83,5 @@ namespace NHS111.DOS.Functional.Tests.TestBenchApi
             Assert.Fail("Esb scenario failed: " + result.FailureReason);
             return result;
         }
-
-        private readonly IRestClient _client;
     }
 }

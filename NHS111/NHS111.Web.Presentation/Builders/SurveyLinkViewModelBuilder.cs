@@ -16,10 +16,10 @@ namespace NHS111.Web.Presentation.Builders
 
     public class SurveyLinkViewModelBuilder : BaseBuilder, ISurveyLinkViewModelBuilder
     {
-        private readonly IRestClient _restClient;
+        private readonly ILoggingRestClient _restClient;
         private readonly IConfiguration _configuration;
 
-        public SurveyLinkViewModelBuilder(IRestClient restClient, IConfiguration configuration)
+        public SurveyLinkViewModelBuilder(ILoggingRestClient restClient, IConfiguration configuration)
         {
             _restClient = restClient;
             _configuration = configuration;

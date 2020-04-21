@@ -15,11 +15,11 @@ namespace NHS111.Web.Presentation.Builders
         : BaseBuilder, ICareAdviceBuilder
     {
 
-        private readonly IRestClient _restClient;
+        private readonly ILoggingRestClient _restClient;
         private readonly IConfiguration _configuration;
         private const string WORSENING_CAREADVICE_ID = "CX1910";
 
-        public CareAdviceBuilder(IRestClient restClient, IConfiguration configuration)
+        public CareAdviceBuilder(ILoggingRestClient restClient, IConfiguration configuration)
         {
             _restClient = restClient;
             _configuration = configuration;

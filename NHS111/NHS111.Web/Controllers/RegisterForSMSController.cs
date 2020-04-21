@@ -9,6 +9,7 @@ using NHS111.Web.Presentation.Builders;
 using RestSharp;
 using System.Threading.Tasks;
 using System.Web.Mvc;
+using NHS111.Utils.RestTools;
 using IConfiguration = NHS111.Web.Presentation.Configuration.IConfiguration;
 
 namespace NHS111.Web.Controllers
@@ -21,7 +22,7 @@ namespace NHS111.Web.Controllers
         private readonly IViewRouter _viewRouter;
 
         public RegisterForSMSController(IRegisterForSMSViewModelBuilder registerForSmsViewModelBuilder,
-            IJourneyViewModelBuilder journeyViewModelBuilder, IConfiguration configuration, IRestClient restClientBusinessApi, IViewRouter viewRouter)
+            IJourneyViewModelBuilder journeyViewModelBuilder, IConfiguration configuration, ILoggingRestClient restClientBusinessApi, IViewRouter viewRouter)
         {
             _registerForSmsViewModelBuilder = registerForSmsViewModelBuilder;
             _configuration = configuration;

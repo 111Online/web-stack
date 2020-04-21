@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
 using System.Web;
+using log4net;
 
 namespace NHS111.Business.API.Functional.Tests
 {
@@ -24,7 +25,7 @@ namespace NHS111.Business.API.Functional.Tests
         private string _testQuestionId2 = "PW628.9800";
 
 
-        private ILoggingRestClient _restClient = new RestClient(ConfigurationManager.AppSettings["BusinessApiProtocolandDomain"]);
+        private ILoggingRestClient _restClient = new LoggingRestClient(ConfigurationManager.AppSettings["BusinessApiProtocolandDomain"], LogManager.GetLogger("log"));
 
         private static string BusinessApiPathwayUrl
         {

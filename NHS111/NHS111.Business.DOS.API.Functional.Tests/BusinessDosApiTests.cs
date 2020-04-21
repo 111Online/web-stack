@@ -6,6 +6,7 @@ using RestSharp;
 
 namespace NHS111.Business.DOS.API.Functional.Tests
 {
+    using log4net;
     using NHS111.Functional.Tests.Tools;
     using NUnit.Framework;
     using System.Configuration;
@@ -13,7 +14,7 @@ namespace NHS111.Business.DOS.API.Functional.Tests
     [TestFixture]
     public class BusinessDosApiTests
     {
-        private IRestClient _restClient = new RestClient(ConfigurationManager.AppSettings["BusinessDosApiBaseUrl"]);
+        private ILoggingRestClient _restClient = new LoggingRestClient(ConfigurationManager.AppSettings["BusinessDosApiBaseUrl"], LogManager.GetLogger("log"));
 
         private static string BusinessDosCheckCapacitySummaryUrl
         {
@@ -38,7 +39,7 @@ namespace NHS111.Business.DOS.API.Functional.Tests
         [TestFixtureSetUp]
         public void SetUp()
         {
-            _restClient.AddHandler("application/json", NewtonsoftJsonSerializer.Default);
+           // _restClient.AddHandler("application/json", NewtonsoftJsonSerializer.Default);
         }
 
         /// <summary>

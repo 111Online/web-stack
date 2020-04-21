@@ -2,6 +2,7 @@
 using NUnit.Framework;
 using RestSharp;
 using System.Configuration;
+using log4net;
 
 namespace NHS111.Domain.Functional.Tests
 {
@@ -23,7 +24,7 @@ namespace NHS111.Domain.Functional.Tests
         private string _testPathwayNo = "PW1708";
         private string _expectedNextId = "PW756.300";
 
-        private IRestClient _restClient = new RestClient(DomainApiBaseUrl);
+        private ILoggingRestClient _restClient = new LoggingRestClient(DomainApiBaseUrl, LogManager.GetLogger("log"));
         private string DxCode = "Dx12";
 
         /// <summary>

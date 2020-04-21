@@ -25,10 +25,10 @@ namespace NHS111.Web.Presentation.Builders
     {
         private readonly IDOSBuilder _dosBuilder;
         private readonly ICareAdviceBuilder _careAdviceBuilder;
-        private readonly IRestClient _restClient;
-        private readonly IRestClient _restClientPostcodeApi;
-        private readonly IRestClient _restClientItkDispatcherApi;
-        private readonly IRestClient _restClientCaseDataCaptureApi;
+        private readonly ILoggingRestClient _restClient;
+        private readonly ILoggingRestClient _restClientPostcodeApi;
+        private readonly ILoggingRestClient _restClientItkDispatcherApi;
+        private readonly ILoggingRestClient _restClientCaseDataCaptureApi;
         private readonly IConfiguration _configuration;
         private readonly IMappingEngine _mappingEngine;
         private readonly IKeywordCollector _keywordCollector;
@@ -39,7 +39,7 @@ namespace NHS111.Web.Presentation.Builders
 
 
 
-        public OutcomeViewModelBuilder(ICareAdviceBuilder careAdviceBuilder, IRestClient restClient, IRestClient restClientPostcodeApi, IRestClient restClientItkDispatcherApi, IRestClient restClientCaseDataCaptureApi, IConfiguration configuration, IMappingEngine mappingEngine, IKeywordCollector keywordCollector,
+        public OutcomeViewModelBuilder(ICareAdviceBuilder careAdviceBuilder, ILoggingRestClient restClient, ILoggingRestClient restClientPostcodeApi, ILoggingRestClient restClientItkDispatcherApi, ILoggingRestClient restClientCaseDataCaptureApi, IConfiguration configuration, IMappingEngine mappingEngine, IKeywordCollector keywordCollector,
             IJourneyHistoryWrangler journeyHistoryWrangler, ISurveyLinkViewModelBuilder surveyLinkViewModelBuilder, IAuditLogger auditLogger, IDOSBuilder dosBuilder, IRecommendedServiceBuilder recommendedServiceBuilder)
         {
             _careAdviceBuilder = careAdviceBuilder;
@@ -61,7 +61,7 @@ namespace NHS111.Web.Presentation.Builders
         {
             input = HttpUtility.UrlDecode(input);
             var url = string.Format(_configuration.PostcodeSearchByIdUrl, input);
-            var listPaf = await _restClientPostcodeApi.ExecuteTaskAsync<List<PAF>>(new JsonRestRequest(url, Method.GET));
+            var listPaf = await _restClientPostcodeApi.ExecuteAsync<List<PAF>>(new JsonRestRequest(url, Method.GET));
 
             CheckResponse(listPaf);
 
@@ -302,7 +302,7 @@ namespace NHS111.Web.Presentation.Builders
         {
             var request = new JsonRestRequest(_configuration.ItkDispatcherApiSendItkMessageUrl, Method.POST);
             request.AddJsonBody(itkRequestData);
-            var response = await _restClientItkDispatcherApi.ExecuteTaskAsync(request);
+            var response = await _restClientItkDispatcherApi.ExecuteAsync(request);
             return response;
         }
 

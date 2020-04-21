@@ -3,15 +3,16 @@ using NHS111.Web.Presentation.Configuration;
 using RestSharp;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using NHS111.Utils.RestTools;
 
 namespace NHS111.Web.Presentation.Builders
 {
     public class SurgeryBuilder : ISurgeryBuilder
     {
-        private readonly IRestClient _restClient;
+        private readonly ILoggingRestClient _restClient;
         private readonly IConfiguration _configuration;
 
-        public SurgeryBuilder(IRestClient restClient, IConfiguration configuration)
+        public SurgeryBuilder(ILoggingRestClient restClient, IConfiguration configuration)
         {
             _restClient = restClient;
             _configuration = configuration;

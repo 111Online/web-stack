@@ -1,4 +1,5 @@
-﻿using NHS111.Web.Helpers;
+﻿using NHS111.Utils.RestTools;
+using NHS111.Web.Helpers;
 using RestSharp;
 
 namespace NHS111.Web.Presentation.Test.Controllers
@@ -29,7 +30,7 @@ namespace NHS111.Web.Presentation.Test.Controllers
         private Mock<IJustToBeSafeFirstViewModelBuilder> _mockJtbsBuilderMock;
         private Mock<IAuditLogger> _mockAuditLogger;
         private Mock<IUserZoomDataBuilder> _mockUserZoomDataBuilder;
-        private Mock<IRestClient> _mockRestClient;
+        private Mock<ILoggingRestClient> _mockRestClient;
         private Mock<IViewRouter> _mockViewRouter;
         private Mock<IDosEndpointFeature> _mockDosEndpointFeature;
         private Mock<IDOSSpecifyDispoTimeFeature> _mockDOSSpecifyDispoTimeFeature;
@@ -45,16 +46,16 @@ namespace NHS111.Web.Presentation.Test.Controllers
             _mockJtbsBuilderMock = new Mock<IJustToBeSafeFirstViewModelBuilder>();
             _mockAuditLogger = new Mock<IAuditLogger>();
             _mockUserZoomDataBuilder = new Mock<IUserZoomDataBuilder>();
-            _mockRestClient = new Mock<IRestClient>();
+            _mockRestClient = new Mock<ILoggingRestClient>();
             _mockViewRouter = new Mock<IViewRouter>();
             _mockDosEndpointFeature = new Mock<IDosEndpointFeature>();
             _mockDOSSpecifyDispoTimeFeature = new Mock<IDOSSpecifyDispoTimeFeature>();
             _mockOutcomeViewModelBuilder = new Mock<IOutcomeViewModelBuilder>();
 
             _mockFeature.Setup(m => m.IsEnabled).Returns(true);
-            _mockRestClient.Setup(r => r.ExecuteTaskAsync<Pathway>(It.IsAny<RestRequest>())).Returns(() => StartedTask((IRestResponse<Pathway>)new RestResponse<Pathway>() { ResponseStatus = ResponseStatus.Completed, Data = new Pathway { Gender = "Male" } }));
+            _mockRestClient.Setup(r => r.ExecuteAsync<Pathway>(It.IsAny<RestRequest>())).Returns(() => StartedTask((IRestResponse<Pathway>)new RestResponse<Pathway>() { ResponseStatus = ResponseStatus.Completed, Data = new Pathway { Gender = "Male" } }));
 
-            _mockRestClient.Setup(r => r.ExecuteTaskAsync<QuestionWithAnswers>(It.IsAny<RestRequest>())).Returns(() => StartedTask((IRestResponse<QuestionWithAnswers>)new RestResponse<QuestionWithAnswers>() { ResponseStatus = ResponseStatus.Completed, Data = new QuestionWithAnswers() }));
+            _mockRestClient.Setup(r => r.ExecuteAsync<QuestionWithAnswers>(It.IsAny<RestRequest>())).Returns(() => StartedTask((IRestResponse<QuestionWithAnswers>)new RestResponse<QuestionWithAnswers>() { ResponseStatus = ResponseStatus.Completed, Data = new QuestionWithAnswers() }));
 
             _mockConfiguration.Setup(c => c.IsPublic).Returns(false);
         }
@@ -98,7 +99,7 @@ namespace NHS111.Web.Presentation.Test.Controllers
             _mockJtbsBuilderMock.Setup(j => j.JustToBeSafeFirstBuilder(It.IsAny<JustToBeSafeViewModel>()))
                 .Returns(StartedTask(new AwfulIdea("", mockQuestion)));
 
-            _mockRestClient.Setup(r => r.ExecuteTaskAsync<QuestionWithAnswers>(It.IsAny<RestRequest>())).Returns(() => StartedTask((IRestResponse<QuestionWithAnswers>)new RestResponse<QuestionWithAnswers>() { ResponseStatus = ResponseStatus.Completed, Data = new QuestionWithAnswers() { Answers = mockQuestion.Answers } }));
+            _mockRestClient.Setup(r => r.ExecuteAsync<QuestionWithAnswers>(It.IsAny<RestRequest>())).Returns(() => StartedTask((IRestResponse<QuestionWithAnswers>)new RestResponse<QuestionWithAnswers>() { ResponseStatus = ResponseStatus.Completed, Data = new QuestionWithAnswers() { Answers = mockQuestion.Answers } }));
 
             _mockJourneyViewModelBuilder.Setup(j => j.Build(It.IsAny<QuestionViewModel>(), It.IsAny<QuestionWithAnswers>()))
                 .Returns(() => StartedTask((JourneyViewModel)mockQuestion));

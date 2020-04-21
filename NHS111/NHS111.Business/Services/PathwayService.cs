@@ -10,9 +10,9 @@ namespace NHS111.Business.Services
     public class PathwayService : IPathwayService
     {
         private readonly IConfiguration _configuration;
-        private readonly IRestClient _restClient;
+        private readonly ILoggingRestClient _restClient;
 
-        public PathwayService(IConfiguration configuration, IRestClient restClientDomainApi)
+        public PathwayService(IConfiguration configuration, ILoggingRestClient restClientDomainApi)
         {
             _configuration = configuration;
             _restClient = restClientDomainApi;

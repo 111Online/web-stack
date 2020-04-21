@@ -17,13 +17,13 @@ namespace NHS111.Business.Services
     public class QuestionService : IQuestionService
     {
         private readonly IConfiguration _configuration;
-        private readonly IRestClient _restClient;
+        private readonly ILoggingRestClient _restClient;
         private readonly IAnswersForNodeBuilder _answersForNodeBuilder;
         private readonly IModZeroJourneyStepsBuilder _modZeroJourneyStepsBuilder;
         private readonly IKeywordCollector _keywordCollector;
         private readonly ICareAdviceService _careAdviceService;
         private readonly ICareAdviceTransformer _careAdviceTransformer;
-        public QuestionService(IConfiguration configuration, IRestClient restClientDomainApi, IAnswersForNodeBuilder answersForNodeBuilder, IModZeroJourneyStepsBuilder modZeroJourneyStepsBuilder, IKeywordCollector keywordcollector, ICareAdviceService careAdviceService, ICareAdviceTransformer careAdviceTransformer)
+        public QuestionService(IConfiguration configuration, ILoggingRestClient restClientDomainApi, IAnswersForNodeBuilder answersForNodeBuilder, IModZeroJourneyStepsBuilder modZeroJourneyStepsBuilder, IKeywordCollector keywordcollector, ICareAdviceService careAdviceService, ICareAdviceTransformer careAdviceTransformer)
         {
             _configuration = configuration;
             _restClient = restClientDomainApi;

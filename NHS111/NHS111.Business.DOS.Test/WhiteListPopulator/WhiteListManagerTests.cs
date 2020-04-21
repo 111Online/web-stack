@@ -2,6 +2,7 @@
 using NHS111.Business.DOS.Configuration;
 using NHS111.Business.DOS.DispositionMapper;
 using NHS111.Business.DOS.WhiteListPopulator;
+using NHS111.Utils.RestTools;
 using NUnit.Framework;
 using RestSharp;
 
@@ -11,7 +12,7 @@ namespace NHS111.Business.DOS.Test.WhiteListPopulator
     public class WhiteListManagerTests
     {
         private Mock<IDispositionMapper> _mockDispositionMapper;
-        private Mock<IRestClient> _mockRestClient;
+        private Mock<ILoggingRestClient> _mockRestClient;
         private Mock<IConfiguration> _mockConfiguration;
 
         [SetUp]
@@ -19,7 +20,7 @@ namespace NHS111.Business.DOS.Test.WhiteListPopulator
         {
             _mockDispositionMapper = new Mock<IDispositionMapper>();
             _mockConfiguration = new Mock<IConfiguration>();
-            _mockRestClient = new Mock<IRestClient>();
+            _mockRestClient = new Mock<ILoggingRestClient>();
         }
 
         [Test]

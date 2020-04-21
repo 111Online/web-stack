@@ -1,5 +1,7 @@
 ﻿
 
+using NHS111.Utils.RestTools;
+
 namespace NHS111.Web.Presentation.Builders
 {
     using Configuration;
@@ -12,9 +14,9 @@ namespace NHS111.Web.Presentation.Builders
 
     public class CCGViewModelBuilder : ICCGModelBuilder
     {
-        private IRestClient _ccgServiceRestClient;
+        private ILoggingRestClient _ccgServiceRestClient;
         private IConfiguration _configuration;
-        public CCGViewModelBuilder(IRestClient ccgServiceRestClient, IConfiguration configuration)
+        public CCGViewModelBuilder(ILoggingRestClient ccgServiceRestClient, IConfiguration configuration)
         {
             _ccgServiceRestClient = ccgServiceRestClient;
             _configuration = configuration;
@@ -23,7 +25,7 @@ namespace NHS111.Web.Presentation.Builders
 
         public async Task<CCGModel> FillCCGModel(string postcode)
         {
-            var response = await _ccgServiceRestClient.ExecuteTaskAsync<CCGModel>(
+            var response = await _ccgServiceRestClient.ExecuteAsync<CCGModel>(
                 new RestRequest(_configuration.CCGBusinessApiGetCCGUrl(postcode), Method.GET));
 
             if (response.Data != null)
@@ -34,7 +36,7 @@ namespace NHS111.Web.Presentation.Builders
 
         public async Task<CCGDetailsModel> FillCCGDetailsModelAsync(string postCode)
         {
-            var response = await _ccgServiceRestClient.ExecuteTaskAsync<CCGDetailsModel>(
+            var response = await _ccgServiceRestClient.ExecuteAsync<CCGDetailsModel>(
                 new RestRequest(_configuration.CCGApiGetCCGDetailsByPostcode(postCode), Method.GET));
 
             switch (response.StatusCode)
@@ -56,11 +58,4 @@ namespace NHS111.Web.Presentation.Builders
         Task<CCGModel> FillCCGModel(string postcode);
         Task<CCGDetailsModel> FillCCGDetailsModelAsync(string postCode);
     }
-
-    //public interface ICCGApiRestClient : IRestClient { }
-
-    //public class LoggingCCGApiRestClient : LoggingRestClient, ICCGApiRestClient
-    //{
-    //    public LoggingCCGApiRestClient(string baseUrl, ILog logger) : base(baseUrl, logger) { }
-    //}
 }

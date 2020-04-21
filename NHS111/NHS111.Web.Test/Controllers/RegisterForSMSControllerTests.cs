@@ -13,6 +13,7 @@ using NUnit.Framework;
 using RestSharp;
 using System.Collections.Generic;
 using System.Web.Mvc;
+using NHS111.Utils.RestTools;
 
 namespace NHS111.Web.Presentation.Test.Controllers
 {
@@ -22,7 +23,7 @@ namespace NHS111.Web.Presentation.Test.Controllers
     {
         private Mock<IJourneyViewModelBuilder> _mockJourneyViewModelBuilder;
         private Mock<IConfiguration> _mockConfiguration;
-        private Mock<IRestClient> _mockRestClient;
+        private Mock<ILoggingRestClient> _mockRestClient;
         private Mock<IViewRouter> _mockViewRouter;
         private Mock<IRegisterForSMSViewModelBuilder> _mockRegisterForSmsViewModelBuilder;
 
@@ -33,7 +34,7 @@ namespace NHS111.Web.Presentation.Test.Controllers
         public void Setup()
         {
             _mockConfiguration = new Mock<IConfiguration>();
-            _mockRestClient = new Mock<IRestClient>();
+            _mockRestClient = new Mock<ILoggingRestClient>();
             _mockViewRouter = new Mock<IViewRouter>();
 
             _mockJourneyViewModelBuilder = new Mock<IJourneyViewModelBuilder>();

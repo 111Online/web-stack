@@ -19,10 +19,10 @@ namespace NHS111.Web.Presentation.Builders
     {
         private readonly IConfiguration _configuration;
         private readonly IMappingEngine _mappingEngine;
-        private readonly IRestClient _restClient;
+        private readonly ILoggingRestClient _restClient;
         private readonly IJourneyViewModelBuilder _journeyViewModelBuilder;
 
-        public JustToBeSafeViewModelBuilder(IJourneyViewModelBuilder journeyViewModelBuilder, IRestClient restClient, IConfiguration configuration, IMappingEngine mappingEngine)
+        public JustToBeSafeViewModelBuilder(IJourneyViewModelBuilder journeyViewModelBuilder, ILoggingRestClient restClient, IConfiguration configuration, IMappingEngine mappingEngine)
         {
             _journeyViewModelBuilder = journeyViewModelBuilder;
             _restClient = restClient;

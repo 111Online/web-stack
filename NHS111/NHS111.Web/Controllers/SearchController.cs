@@ -20,7 +20,7 @@ namespace NHS111.Web.Controllers
     {
         public const int MAX_SEARCH_RESULTS = 10;
 
-        public SearchController(IConfiguration configuration, IUserZoomDataBuilder userZoomDataBuilder, IRestClient restClientBusinessApi, IJustToBeSafeFirstViewModelBuilder jtbsViewModelBuilder)
+        public SearchController(IConfiguration configuration, IUserZoomDataBuilder userZoomDataBuilder, ILoggingRestClient restClientBusinessApi, IJustToBeSafeFirstViewModelBuilder jtbsViewModelBuilder)
         {
             _configuration = configuration;
             _userZoomDataBuilder = userZoomDataBuilder;
@@ -40,7 +40,7 @@ namespace NHS111.Web.Controllers
 
             if (model.PathwayNo != null)
             {
-                var pathwayMetadata = await _restClientBusinessApi.ExecuteTaskAsync<PathwayMetaData>(
+                var pathwayMetadata = await _restClientBusinessApi.ExecuteAsync<PathwayMetaData>(
                             new RestRequest(_configuration.GetBusinessApiPathwayMetadataUrl(model.PathwayNo),
                                 Method.GET));
                 var digitalTitle = pathwayMetadata.Data.DigitalTitle;
@@ -131,7 +131,7 @@ namespace NHS111.Web.Controllers
 
             request.AddJsonBody(new { query = Uri.EscapeDataString(model.SanitisedSearchTerm.Trim()), postcode = Uri.EscapeDataString(model.CurrentPostcode) });
 
-            var response = await _restClientBusinessApi.ExecuteTaskAsync<List<SearchResultViewModel>>(request);
+            var response = await _restClientBusinessApi.ExecuteAsync<List<SearchResultViewModel>>(request);
 
             model.Results = response.Data
                 .Take(MAX_SEARCH_RESULTS)
@@ -269,7 +269,7 @@ namespace NHS111.Web.Controllers
             var request = new RestRequest(requestPath, Method.POST);
             request.AddJsonBody(postcode);
 
-            var response = await _restClientBusinessApi.ExecuteTaskAsync<List<CategoryWithPathways>>(request);
+            var response = await _restClientBusinessApi.ExecuteAsync<List<CategoryWithPathways>>(request);
 
 
             var allCategories = response.Data;
@@ -285,7 +285,7 @@ namespace NHS111.Web.Controllers
         private async Task<IEnumerable<Pathway>> GetAllPathways(AgeGenderViewModel model)
         {
             var url = _configuration.GetBusinessApiGetPathwaysGenderAge(model.Gender, model.Age);
-            var response = await _restClientBusinessApi.ExecuteTaskAsync<List<Pathway>>(new JsonRestRequest(url, Method.GET));
+            var response = await _restClientBusinessApi.ExecuteAsync<List<Pathway>>(new JsonRestRequest(url, Method.GET));
 
             return response.Data;
         }
@@ -317,7 +317,7 @@ namespace NHS111.Web.Controllers
 
         private readonly IConfiguration _configuration;
         private readonly IUserZoomDataBuilder _userZoomDataBuilder;
-        private readonly IRestClient _restClientBusinessApi;
+        private readonly ILoggingRestClient _restClientBusinessApi;
         private readonly IJustToBeSafeFirstViewModelBuilder _jtbsViewModelBuilder;
     }
 }

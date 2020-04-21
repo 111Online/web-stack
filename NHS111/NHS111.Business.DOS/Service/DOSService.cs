@@ -15,9 +15,9 @@ namespace NHS111.Business.DOS.Service
     public class DosService : IDosService
     {
         private readonly IConfiguration _configuration;
-        private readonly IRestClient _restClient;
+        private readonly ILoggingRestClient _restClient;
 
-        public DosService(IConfiguration configuration, IRestClient restClientDosDomainApi)
+        public DosService(IConfiguration configuration, ILoggingRestClient restClientDosDomainApi)
         {
             _configuration = configuration;
             _restClient = restClientDosDomainApi;

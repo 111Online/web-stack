@@ -11,10 +11,10 @@ namespace NHS111.Business.Monitoring
 
     public class Monitor : BaseMonitor
     {
-        private readonly IRestClient _restClient;
+        private readonly ILoggingRestClient _restClient;
         private readonly IConfiguration _configuration;
 
-        public Monitor(IRestClient restClientDomainApi, IConfiguration configuration)
+        public Monitor(ILoggingRestClient restClientDomainApi, IConfiguration configuration)
         {
             _restClient = restClientDomainApi;
             _configuration = configuration;

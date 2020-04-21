@@ -7,6 +7,7 @@ using NUnit.Framework;
 using RestSharp;
 using System.Collections.Generic;
 using System.Linq;
+using NHS111.Utils.RestTools;
 
 namespace NHS111.Web.Presentation.Builders.Tests
 {
@@ -24,7 +25,7 @@ namespace NHS111.Web.Presentation.Builders.Tests
 
         private Mock<IMappingEngine> _mappingEngine;
         private Mock<ICareAdviceBuilder> _mockCareAdviceBuilder;
-        private Mock<IRestClient> _mockRestClient;
+        private Mock<ILoggingRestClient> _mockRestClient;
         private Mock<Presentation.Configuration.IConfiguration> _mockConfiguration;
         private DOSBuilder _dosBuilder;
         private Mock<ISurgeryBuilder> _mockSurgeryBuilder;
@@ -39,7 +40,7 @@ namespace NHS111.Web.Presentation.Builders.Tests
         {
             _mappingEngine = new Mock<IMappingEngine>();
             _mockCareAdviceBuilder = new Mock<ICareAdviceBuilder>();
-            _mockRestClient = new Mock<IRestClient>();
+            _mockRestClient = new Mock<ILoggingRestClient>();
             _mockConfiguration = new Mock<Presentation.Configuration.IConfiguration>();
             _mockItkMessagingFeature = new Mock<IITKMessagingFeature>();
 
@@ -86,7 +87,7 @@ namespace NHS111.Web.Presentation.Builders.Tests
             response.Setup(_ => _.Data).Returns(JsonConvert.DeserializeObject<DosCheckCapacitySummaryResult>(fakeContent));
             response.Setup(_ => _.Content).Returns(fakeContent);
 
-            _mockRestClient.Setup(r => r.ExecuteTaskAsync<DosCheckCapacitySummaryResult>(It.Is<IRestRequest>(rq => rq.Method == Method.POST)))
+            _mockRestClient.Setup(r => r.ExecuteAsync<DosCheckCapacitySummaryResult>(It.Is<IRestRequest>(rq => rq.Method == Method.POST)))
                 .ReturnsAsync(response.Object);
 
             var model = new DosViewModel
@@ -102,7 +103,7 @@ namespace NHS111.Web.Presentation.Builders.Tests
             };
             await _dosBuilder.FillCheckCapacitySummaryResult(model, true, null);
 
-            _mockRestClient.Verify(r => r.ExecuteTaskAsync<DosCheckCapacitySummaryResult>(It.Is<RestRequest>(h => AssertIsMetric(h, model.SearchDistance))));
+            _mockRestClient.Verify(r => r.ExecuteAsync<DosCheckCapacitySummaryResult>(It.Is<RestRequest>(h => AssertIsMetric(h, model.SearchDistance))));
         }
 
         [Test]

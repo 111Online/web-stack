@@ -24,15 +24,15 @@ namespace NHS111.Business.DOS.IoC
 
             IncludeRegistry<UtilsRegistry>();
             For<IServiceAvailabilityManager>().Use<ServiceAvailablityManager>();
-            For<IRestClient>().Singleton()
-                .Use<IRestClient>(GetLoggingRestClientFor(configuration.DomainDosApiBaseUrl));
+            For<ILoggingRestClient>().Singleton()
+                .Use<ILoggingRestClient>(GetLoggingRestClientFor(configuration.DomainDosApiBaseUrl));
             For<ISearchDistanceService>().Singleton()
                 .Use<SearchDistanceService>()
-                .Ctor<IRestClient>()
+                .Ctor<ILoggingRestClient>()
                 .Is(GetLoggingRestClientFor(configuration.CCGApiBaseUrl));
             For<IWhiteListManager>().Singleton()
                 .Use<WhiteListManager>()
-                .Ctor<IRestClient>()
+                .Ctor<ILoggingRestClient>()
                 .Is(GetLoggingRestClientFor(configuration.CCGApiBaseUrl));
             For<IPublicHolidayService>().Use(new PublicHolidayService(
                 PublicHolidaysDataService.GetPublicHolidays(configuration),

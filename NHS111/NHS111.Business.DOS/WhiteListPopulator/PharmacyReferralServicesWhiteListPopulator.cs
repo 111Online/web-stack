@@ -4,15 +4,16 @@ using RestSharp;
 using System.Net;
 using System.Threading.Tasks;
 using System.Web;
+using NHS111.Utils.RestTools;
 
 namespace NHS111.Business.DOS.WhiteListPopulator
 {
     public class PharmacyReferralServicesWhiteListPopulator : IWhiteListPopulator
     {
-        private readonly IRestClient _restCCGApi;
+        private readonly ILoggingRestClient _restCCGApi;
         private readonly IConfiguration _configuration;
 
-        public PharmacyReferralServicesWhiteListPopulator(IRestClient restCCGApi, IConfiguration configuration)
+        public PharmacyReferralServicesWhiteListPopulator(ILoggingRestClient restCCGApi, IConfiguration configuration)
         {
             _restCCGApi = restCCGApi;
             _configuration = configuration;
@@ -20,7 +21,7 @@ namespace NHS111.Business.DOS.WhiteListPopulator
 
         public async Task<ServiceListModel> PopulateCCGWhitelist(string postCode)
         {
-            var response = await _restCCGApi.ExecuteTaskAsync<CCGDetailsModel>(
+            var response = await _restCCGApi.ExecuteAsync<CCGDetailsModel>(
                 new RestRequest(string.Format(_configuration.CCGApiGetCCGDetailsByPostcode, postCode), Method.GET));
 
             if (response.StatusCode != HttpStatusCode.OK)

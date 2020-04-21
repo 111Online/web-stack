@@ -24,7 +24,7 @@ namespace NHS111.Web.IoC
         public WebRegistry(IConfiguration configuration)
         {
             For<ICacheManager<string, string>>().Use(new RedisManager(configuration.RedisConnectionString));
-            For<IRestClient>().Singleton().Use(
+            For<ILoggingRestClient>().Singleton().Use(
                     new LoggingRestClient(
                         configuration.BusinessApiProtocolandDomain,
                         LogManager.GetLogger("log"),
