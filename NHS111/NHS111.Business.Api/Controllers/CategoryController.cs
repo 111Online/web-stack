@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Http.Results;
+using Newtonsoft.Json;
 
 namespace NHS111.Business.Api.Controllers
 {
