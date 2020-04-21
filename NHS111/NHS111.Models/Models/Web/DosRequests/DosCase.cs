@@ -24,7 +24,7 @@ namespace NHS111.Models.Models.Web.DosRequests
         public bool SearchDistanceSpecified { get { return SearchDistance > 0; } }
         public string Gender { get; set; }
         public int NumberPerType { get; set; }
-        public string SearchDateTime { get;  set; }
+        public string SearchDateTime { get; set; }
 
         public void SpecifySpecificSearchDate(DateTime searchDateTime)
         {

@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using NHS111.Business.Configuration;
+﻿using NHS111.Business.Configuration;
 using NHS111.Models.Models.Web.CCG;
 using RestSharp;
+using System.Threading.Tasks;
 
 namespace NHS111.Business.Services
 {

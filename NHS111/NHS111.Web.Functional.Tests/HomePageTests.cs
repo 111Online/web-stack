@@ -1,5 +1,4 @@
-﻿using System.Net;
-using NHS111.Web.Functional.Utils;
+﻿using NHS111.Web.Functional.Utils;
 using NUnit.Framework;
 
 namespace NHS111.Web.Functional.Tests
@@ -54,6 +53,6 @@ namespace NHS111.Web.Functional.Tests
             var locationPage = homePage.ClickStart() as LocationPage;
             locationPage.VerifyHeaderBannerHidden();
         }
-        
+
     }
 }

@@ -1,29 +1,25 @@
-﻿
-using System;
-using NHS111.Web.Helpers;
+﻿using NHS111.Web.Helpers;
 using RestSharp;
 
-namespace NHS111.Web.Presentation.Test.Controllers {
-    using System.Collections.Generic;
-    using System.Net;
-    using System.Net.Http;
-    using System.Threading.Tasks;
-    using System.Web.Mvc;
+namespace NHS111.Web.Presentation.Test.Controllers
+{
     using Features;
     using Logging;
     using Moq;
-    using Newtonsoft.Json;
     using NHS111.Models.Models.Domain;
     using NHS111.Models.Models.Web;
     using NUnit.Framework;
     using Presentation.Builders;
-    using Utils.Helpers;
+    using System.Collections.Generic;
+    using System.Threading.Tasks;
+    using System.Web.Mvc;
     using Web.Controllers;
-    using IConfiguration = Configuration.IConfiguration;
     using AwfulIdea = System.Tuple<string, NHS111.Models.Models.Web.QuestionViewModel>;
+    using IConfiguration = Configuration.IConfiguration;
 
     [TestFixture]
-    public class QuestionControllerTests {
+    public class QuestionControllerTests
+    {
         private string _pathwayId = "PW755MaleAdult";
         private int _age = 35;
         private string _pathwayTitle = "Headache";
@@ -40,7 +36,8 @@ namespace NHS111.Web.Presentation.Test.Controllers {
         private Mock<IOutcomeViewModelBuilder> _mockOutcomeViewModelBuilder;
 
         [SetUp]
-        public void Setup() {
+        public void Setup()
+        {
             _mockJourneyViewModelBuilder = new Mock<IJourneyViewModelBuilder>();
             _mockConfiguration = new Mock<IConfiguration>();
             _mockFeature = new Mock<IDirectLinkingFeature>();
@@ -57,13 +54,14 @@ namespace NHS111.Web.Presentation.Test.Controllers {
             _mockFeature.Setup(m => m.IsEnabled).Returns(true);
             _mockRestClient.Setup(r => r.ExecuteTaskAsync<Pathway>(It.IsAny<RestRequest>())).Returns(() => StartedTask((IRestResponse<Pathway>)new RestResponse<Pathway>() { ResponseStatus = ResponseStatus.Completed, Data = new Pathway { Gender = "Male" } }));
 
-            _mockRestClient.Setup(r => r.ExecuteTaskAsync<QuestionWithAnswers>(It.IsAny<RestRequest>())).Returns(() => StartedTask((IRestResponse<QuestionWithAnswers>)new RestResponse<QuestionWithAnswers>() { ResponseStatus = ResponseStatus.Completed, Data = new QuestionWithAnswers()}));
-           
+            _mockRestClient.Setup(r => r.ExecuteTaskAsync<QuestionWithAnswers>(It.IsAny<RestRequest>())).Returns(() => StartedTask((IRestResponse<QuestionWithAnswers>)new RestResponse<QuestionWithAnswers>() { ResponseStatus = ResponseStatus.Completed, Data = new QuestionWithAnswers() }));
+
             _mockConfiguration.Setup(c => c.IsPublic).Returns(false);
         }
 
         [Test]
-        public void Direct_WithNoAnswers_ReturnsFirstQuestionOfPathway() {
+        public void Direct_WithNoAnswers_ReturnsFirstQuestionOfPathway()
+        {
 
             _mockJtbsBuilderMock.Setup(j => j.JustToBeSafeFirstBuilder(It.IsAny<JustToBeSafeViewModel>()))
                 .Returns(StartedTask(new AwfulIdea("", new QuestionViewModel())));
@@ -81,8 +79,10 @@ namespace NHS111.Web.Presentation.Test.Controllers {
         }
 
         [Test]
-        public async void Direct_WithAnswer_BuildsModelWithCorrectAnswer() {
-            var mockQuestion = new QuestionViewModel {
+        public async void Direct_WithAnswer_BuildsModelWithCorrectAnswer()
+        {
+            var mockQuestion = new QuestionViewModel
+            {
                 Answers = new List<Answer> {
                     new Answer {
                         Order = 2,
@@ -98,8 +98,8 @@ namespace NHS111.Web.Presentation.Test.Controllers {
             _mockJtbsBuilderMock.Setup(j => j.JustToBeSafeFirstBuilder(It.IsAny<JustToBeSafeViewModel>()))
                 .Returns(StartedTask(new AwfulIdea("", mockQuestion)));
 
-            _mockRestClient.Setup(r => r.ExecuteTaskAsync<QuestionWithAnswers>(It.IsAny<RestRequest>())).Returns(() => StartedTask((IRestResponse<QuestionWithAnswers>)new RestResponse<QuestionWithAnswers>() {ResponseStatus  = ResponseStatus.Completed , Data = new QuestionWithAnswers() { Answers = mockQuestion.Answers } }));
-           
+            _mockRestClient.Setup(r => r.ExecuteTaskAsync<QuestionWithAnswers>(It.IsAny<RestRequest>())).Returns(() => StartedTask((IRestResponse<QuestionWithAnswers>)new RestResponse<QuestionWithAnswers>() { ResponseStatus = ResponseStatus.Completed, Data = new QuestionWithAnswers() { Answers = mockQuestion.Answers } }));
+
             _mockJourneyViewModelBuilder.Setup(j => j.Build(It.IsAny<QuestionViewModel>(), It.IsAny<QuestionWithAnswers>()))
                 .Returns(() => StartedTask((JourneyViewModel)mockQuestion));
 
@@ -108,14 +108,15 @@ namespace NHS111.Web.Presentation.Test.Controllers {
             var sut = new QuestionController(_mockJourneyViewModelBuilder.Object,
                 _mockConfiguration.Object, _mockJtbsBuilderMock.Object, _mockFeature.Object, _mockAuditLogger.Object, _mockUserZoomDataBuilder.Object, _mockRestClient.Object, _mockViewRouter.Object, _mockDosEndpointFeature.Object, _mockDOSSpecifyDispoTimeFeature.Object, _mockOutcomeViewModelBuilder.Object);
 
-            var result = (ViewResult) await sut.Direct(_pathwayId, _age, _pathwayTitle, "LS177NZ", new[] {0}, true);
-            var model = (QuestionViewModel) result.Model;
+            var result = (ViewResult)await sut.Direct(_pathwayId, _age, _pathwayTitle, "LS177NZ", new[] { 0 }, true);
+            var model = (QuestionViewModel)result.Model;
 
             Assert.IsTrue(model.SelectedAnswer.Contains(mockQuestion.Answers[1].Title));
 
         }
 
-        private static Task<T> StartedTask<T>(T taskResult) {
+        private static Task<T> StartedTask<T>(T taskResult)
+        {
             return Task<T>.Factory.StartNew(() => taskResult);
         }
 
@@ -123,7 +124,8 @@ namespace NHS111.Web.Presentation.Test.Controllers {
         public void Direct_WithAnswers_ProvidesAnswersToBuilder()
         {
             //var mockQuestionViewModelBuilder = new Mock<IQuestionViewModelBuilder>();
-            var mockQuestion = new QuestionViewModel {
+            var mockQuestion = new QuestionViewModel
+            {
                 Answers = new List<Answer> {
                     new Answer {
                         Order = 1,
@@ -174,7 +176,8 @@ namespace NHS111.Web.Presentation.Test.Controllers {
         }
 
         [Test]
-        public void Direct_WithDirectLinkingDisabled_ReturnsNotFoundResult() {
+        public void Direct_WithDirectLinkingDisabled_ReturnsNotFoundResult()
+        {
             _mockFeature.Setup(c => c.IsEnabled).Returns(false);
 
             var sut = new QuestionController(_mockJourneyViewModelBuilder.Object,

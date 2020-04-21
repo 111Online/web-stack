@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using FluentValidation;
+﻿using FluentValidation;
 using NHS111.Models.Models.Domain;
+using System;
+using System.Linq;
 
 namespace NHS111.Models.Models.Web.Validators
 {
@@ -31,7 +28,7 @@ namespace NHS111.Models.Models.Web.Validators
                 .Must(s => s.ToCharArray().All(char.IsDigit))
                 .Matches("^((07[0-9]{9,9})|((\\+|00)[1-9]{1,4})[0-9]{6,11})$")
                 .When(q => q.QuestionType == QuestionType.Telephone).WithMessage("Please give a valid uk telephone number");
-            RuleFor(q=> q.DateAnswer).SetValidator(new DateTimeInPastValidator()).When(q => q.QuestionType == QuestionType.Date).WithMessage("Please enter a valid date");
+            RuleFor(q => q.DateAnswer).SetValidator(new DateTimeInPastValidator()).When(q => q.QuestionType == QuestionType.Date).WithMessage("Please enter a valid date");
         }
 
         public class IntegerAgeValidator : AbstractValidator<string>
@@ -56,7 +53,7 @@ namespace NHS111.Models.Models.Web.Validators
             public IntegerSymptomsStartedValidator()
             {
                 var i = 0;
-             
+
                 RuleFor(p => Convert.ToInt32(p))
                     .GreaterThanOrEqualTo(0)
                     .LessThanOrEqualTo(10).WithMessage("Number of days can't be more than 10");

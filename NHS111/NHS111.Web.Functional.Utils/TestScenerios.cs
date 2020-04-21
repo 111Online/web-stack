@@ -1,5 +1,4 @@
-﻿using System.Linq;
-using OpenQA.Selenium;
+﻿using OpenQA.Selenium;
 
 namespace NHS111.Web.Functional.Utils
 {
@@ -27,7 +26,7 @@ namespace NHS111.Web.Functional.Utils
             var demographicsPage = TestScenarioPart.Demographics(moduleZeroPage);
             return TestScenarioPart.Search(demographicsPage, sex, age);
         }
-        
+
         public static SearchPage LaunchSearchScenerio(IWebDriver driver, string sex, int age, string postcode)
         {
             var homePage = TestScenarioPart.HomePage(driver);
@@ -46,7 +45,7 @@ namespace NHS111.Web.Functional.Utils
             var searchPage = TestScenarioPart.Search(demographicsPage, sex, age);
             return TestScenarioPart.Category(searchPage);
         }
-        
+
         public static CategoryPage LaunchCategoryScenerio(IWebDriver driver, string sex, int age, string postcode)
         {
             var homePage = TestScenarioPart.HomePage(driver);
@@ -87,7 +86,7 @@ namespace NHS111.Web.Functional.Utils
             var demographicsPage = TestScenarioPart.Demographics(moduleZeroPage);
             var searchPage = TestScenarioPart.Search(demographicsPage, sex, age);
             var questionInfoPage = TestScenarioPart.QuestionInfo(searchPage, pathwayTopic);
-            var questionPage =  TestScenarioPart.Question(questionInfoPage);
+            var questionPage = TestScenarioPart.Question(questionInfoPage);
             var outcomePage = questionPage
                 .Answer(1)
                 .Answer(1)

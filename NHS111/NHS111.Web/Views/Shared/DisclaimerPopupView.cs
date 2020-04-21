@@ -1,9 +1,10 @@
 ﻿
-using System.Web.Mvc;
 using NHS111.Features;
 using NHS111.Models.Models.Web;
+using System.Web.Mvc;
 
-namespace NHS111.Web.Views.Shared {
+namespace NHS111.Web.Views.Shared
+{
 
     public class DisclaimerPopupView
         : WebViewPage<JourneyViewModel>

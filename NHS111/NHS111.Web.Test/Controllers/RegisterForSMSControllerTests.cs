@@ -1,23 +1,18 @@
-﻿using NHS111.Web.Helpers;
-using RestSharp;
-using Moq;
+﻿using Moq;
 using Newtonsoft.Json;
 using NHS111.Models.Models.Domain;
 using NHS111.Models.Models.Web;
 using NHS111.Models.Models.Web.DataCapture;
 using NHS111.Models.Models.Web.Enums;
 using NHS111.Models.Models.Web.FromExternalServices;
+using NHS111.Web.Controllers;
+using NHS111.Web.Helpers;
+using NHS111.Web.Presentation.Builders;
+using NHS111.Web.Presentation.Configuration;
 using NUnit.Framework;
+using RestSharp;
 using System.Collections.Generic;
 using System.Web.Mvc;
-using NHS111.Web.Presentation.Builders;
-using NHS111.Web.Controllers;
-using NHS111.Web.Presentation.Configuration;
-using System.Collections.Specialized;
-using System.Globalization;
-using System.Threading.Tasks;
-using System.Net;
-using System;
 
 namespace NHS111.Web.Presentation.Test.Controllers
 {
@@ -61,7 +56,7 @@ namespace NHS111.Web.Presentation.Test.Controllers
         {
             _mockJourneyViewModelBuilder.Setup(r => r.Build(AnyQuestionViewModel(), AnyQuestionWithAnswers())).ReturnsAsync(new JourneyViewModel { Journey = _journeyModel });
             var journeyJson = JsonConvert.SerializeObject(_journeyModel);
-            
+
             var result = _sut.SubmitSMSRegistration(new SendSmsOutcomeViewModel
             {
                 Journey = _journeyModel,

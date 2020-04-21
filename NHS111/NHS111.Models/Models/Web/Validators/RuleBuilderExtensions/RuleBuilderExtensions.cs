@@ -1,6 +1,6 @@
-﻿using System;
+﻿using FluentValidation;
+using System;
 using System.Linq.Expressions;
-using FluentValidation;
 
 namespace NHS111.Models.Models.Web.Validators.RuleBuilderExtensions
 {

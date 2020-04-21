@@ -1,13 +1,16 @@
 ﻿
-namespace NHS111.Web.Presentation.ModelBinders {
-    using System.ComponentModel;
-    using System.Web.Mvc;
+namespace NHS111.Web.Presentation.ModelBinders
+{
     using Newtonsoft.Json;
     using NHS111.Models.Models.Web;
     using NHS111.Models.Models.Web.FromExternalServices;
+    using System.ComponentModel;
+    using System.Web.Mvc;
 
-    public class JourneyViewModelBinder : DefaultModelBinder {
-        protected override void BindProperty(ControllerContext controllerContext, ModelBindingContext bindingContext, PropertyDescriptor propertyDescriptor) {
+    public class JourneyViewModelBinder : DefaultModelBinder
+    {
+        protected override void BindProperty(ControllerContext controllerContext, ModelBindingContext bindingContext, PropertyDescriptor propertyDescriptor)
+        {
 
             base.BindProperty(controllerContext, bindingContext, propertyDescriptor);
 

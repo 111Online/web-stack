@@ -3,30 +3,30 @@
 using NHS111.Utils.RestTools;
 using RestSharp;
 
-namespace NHS111.Web.Presentation.Builders {
+namespace NHS111.Web.Presentation.Builders
+{
+    using Configuration;
+    using NHS111.Models.Models.Domain;
     using System.Collections.Generic;
     using System.Linq;
-    using System.Net.Http;
-    using System.Text;
     using System.Threading.Tasks;
-    using Newtonsoft.Json;
-    using NHS111.Models.Models.Domain;
-    using Utils.Helpers;
-    using Configuration;
 
     public class CareAdviceBuilder
-        : BaseBuilder, ICareAdviceBuilder {
+        : BaseBuilder, ICareAdviceBuilder
+    {
 
         private readonly IRestClient _restClient;
         private readonly IConfiguration _configuration;
         private const string WORSENING_CAREADVICE_ID = "CX1910";
 
-        public CareAdviceBuilder(IRestClient restClient, IConfiguration configuration) {
+        public CareAdviceBuilder(IRestClient restClient, IConfiguration configuration)
+        {
             _restClient = restClient;
             _configuration = configuration;
         }
 
-        public async Task<IEnumerable<CareAdvice>> FillCareAdviceBuilder(int age, string gender, IList<string> careAdviceMarkers) {
+        public async Task<IEnumerable<CareAdvice>> FillCareAdviceBuilder(int age, string gender, IList<string> careAdviceMarkers)
+        {
             if (!careAdviceMarkers.Any())
                 return Enumerable.Empty<CareAdvice>();
 
@@ -38,7 +38,8 @@ namespace NHS111.Web.Presentation.Builders {
             return careAdvices.Data;
         }
 
-        public async Task<CareAdvice> FillWorseningCareAdvice(int age, string gender) {
+        public async Task<CareAdvice> FillWorseningCareAdvice(int age, string gender)
+        {
 
             var businessApiCareAdviceUrl = _configuration.GetBusinessApiCareAdviceUrl(age, gender, WORSENING_CAREADVICE_ID);
             var careAdvices = await _restClient.ExecuteTaskAsync<IEnumerable<CareAdvice>>(new JsonRestRequest(businessApiCareAdviceUrl, Method.GET));
@@ -48,7 +49,8 @@ namespace NHS111.Web.Presentation.Builders {
             return careAdvices.Data.FirstOrDefault();
         }
 
-        public async Task<IEnumerable<CareAdvice>> FillCareAdviceBuilder(string dxCode, string ageGroup, string gender, IList<string> careAdviceKeywords) {
+        public async Task<IEnumerable<CareAdvice>> FillCareAdviceBuilder(string dxCode, string ageGroup, string gender, IList<string> careAdviceKeywords)
+        {
             if (!careAdviceKeywords.Any())
                 return Enumerable.Empty<CareAdvice>();
 
@@ -62,12 +64,14 @@ namespace NHS111.Web.Presentation.Builders {
             return careAdvices.Data;
         }
 
-        private string GenerateKeywordsList(IList<string> careAdviceKeywords) {
+        private string GenerateKeywordsList(IList<string> careAdviceKeywords)
+        {
             return careAdviceKeywords.Aggregate((i, j) => i + '|' + j);
         }
     }
 
-    public interface ICareAdviceBuilder {
+    public interface ICareAdviceBuilder
+    {
         Task<IEnumerable<CareAdvice>> FillCareAdviceBuilder(int age, string gender, IList<string> careAdviceMarkers);
 
         Task<IEnumerable<CareAdvice>> FillCareAdviceBuilder(string dxCode, string ageGroup, string gender,

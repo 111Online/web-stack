@@ -1,12 +1,10 @@
-﻿using System.Collections.Generic;
-using System.Net.Http;
+﻿using NHS111.Domain.Repository;
+using NHS111.Models.Models.Domain;
+using NHS111.Utils.Attributes;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Results;
-using NHS111.Domain.Repository;
-using NHS111.Models.Models.Domain;
-using NHS111.Utils.Attributes;
-using NHS111.Utils.Extensions;
 
 namespace NHS111.Domain.Api.Controllers
 {
@@ -63,7 +61,7 @@ namespace NHS111.Domain.Api.Controllers
 
         [HttpGet]
         [Route("category/{category}/pathways/{gender}/{age}")]
-        public async Task<JsonResult<CategoryWithPathways>> GetCategoryWithPathways(string category,string gender, int age)
+        public async Task<JsonResult<CategoryWithPathways>> GetCategoryWithPathways(string category, string gender, int age)
         {
             var categoryWithPathways = await _categoryRepository.GetCategoryWithPathways(category, gender, age);
             return Json(categoryWithPathways);

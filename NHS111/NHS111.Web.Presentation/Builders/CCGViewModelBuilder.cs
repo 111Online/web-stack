@@ -2,13 +2,13 @@
 
 namespace NHS111.Web.Presentation.Builders
 {
+    using Configuration;
+    using NHS111.Models.Models.Web.CCG;
+    using RestSharp;
     using System;
     using System.Net;
-    using System.Web;
     using System.Threading.Tasks;
-    using NHS111.Models.Models.Web.CCG;
-    using Configuration;
-    using RestSharp;
+    using System.Web;
 
     public class CCGViewModelBuilder : ICCGModelBuilder
     {

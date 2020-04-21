@@ -1,15 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Web;
-using System.Web.Mvc;
-using System.Web.UI.WebControls;
-using AutoMapper;
+﻿using AutoMapper;
 using NHS111.Models.Models.Domain;
 using NHS111.Models.Models.Web;
-using NHS111.Models.Models.Web.DataCapture;
 using NHS111.Models.Models.Web.DosRequests;
 using NHS111.Models.Models.Web.FromExternalServices;
 using NHS111.Models.Models.Web.ITK;
@@ -18,8 +9,12 @@ using NHS111.Utils.Parser;
 using NHS111.Utils.RestTools;
 using NHS111.Web.Presentation.Logging;
 using RestSharp;
-using StructureMap.Query;
-using HttpResponse = RestSharp.HttpResponse;
+using System;
+using System.Collections.Generic;
+using System.Configuration;
+using System.Linq;
+using System.Threading.Tasks;
+using System.Web;
 using IConfiguration = NHS111.Web.Presentation.Configuration.IConfiguration;
 
 namespace NHS111.Web.Presentation.Builders
@@ -143,7 +138,7 @@ namespace NHS111.Web.Presentation.Builders
             }
 
             model = await dosTask;
-            
+
             if (OutcomeGroup.Call999Cat1.Equals(model.OutcomeGroup) || OutcomeGroup.Call999Cat2.Equals(model.OutcomeGroup) || OutcomeGroup.Call999Cat3.Equals(model.OutcomeGroup))
             {
                 model.CareAdviceMarkers = model.State.Keys.Where(key => key.StartsWith("Cx"));
@@ -156,7 +151,7 @@ namespace NHS111.Web.Presentation.Builders
             model.WorseningCareAdvice = await worseningTask;
             model.CareAdvices = await careAdvicesTask;
             model.SurveyLink = await surveyTask;
-            
+
             return model;
         }
 
@@ -203,7 +198,7 @@ namespace NHS111.Web.Presentation.Builders
         {
             var url = string.Format(_configuration.GetBusinessApiSymptomDiscriminatorUrl(symptomDiscriminatorCode));
             var symptomDiscriminatorResponse = await _restClient.ExecuteTaskAsync<SymptomDiscriminator>(new JsonRestRequest(url, Method.GET));
-            
+
             if (!symptomDiscriminatorResponse.IsSuccessful)
                 throw new Exception(string.Format("A problem occured getting the symptom discriminator at {0}. {1}",
                     _configuration.GetBusinessApiSymptomDiscriminatorUrl(symptomDiscriminatorCode),
@@ -235,9 +230,9 @@ namespace NHS111.Web.Presentation.Builders
             itkResponseModel.ItkSendSuccess = response.IsSuccessful;
             if (response.IsSuccessful || IsDuplicateResponse(response))
             {
-                itkResponseModel.PatientReference =  response.Content.Replace("\"","");
+                itkResponseModel.PatientReference = response.Content.Replace("\"", "");
             }
-          
+
             else
             {
                 itkResponseModel.ItkSendSuccess = false;
@@ -295,14 +290,14 @@ namespace NHS111.Web.Presentation.Builders
             model.SurveyLink = await _surveyLinkViewModelBuilder.SurveyLinkBuilder(model);
             return model;
         }
-        
+
         public async Task<OutcomeViewModel> PrimaryCareBuilder(OutcomeViewModel model, string reason = "")
         {
             model.SurveyLink = await _surveyLinkViewModelBuilder.SurveyLinkBuilder(model);
             _surveyLinkViewModelBuilder.AddDispositionReason(reason, model.SurveyLink);
             return model;
         }
-        
+
         private async Task<IRestResponse> SendItkMessage(ITKDispatchRequest itkRequestData)
         {
             var request = new JsonRestRequest(_configuration.ItkDispatcherApiSendItkMessageUrl, Method.POST);

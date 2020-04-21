@@ -27,7 +27,7 @@ namespace NHS111.Business.DOS.Test.WhiteListPopulator
         {
             int dxCode = 1085;
             _mockDispositionMapper.Setup(d => d.IsRepeatPrescriptionDisposition(dxCode)).Returns(true);
-            var sut = new WhiteListManager(_mockDispositionMapper.Object, _mockRestClient.Object,_mockConfiguration.Object);
+            var sut = new WhiteListManager(_mockDispositionMapper.Object, _mockRestClient.Object, _mockConfiguration.Object);
             var result = sut.GetWhiteListPopulator(dxCode);
             Assert.IsInstanceOf<PharmacyReferralServicesWhiteListPopulator>(result);
         }

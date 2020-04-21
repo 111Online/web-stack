@@ -1,5 +1,5 @@
-﻿using System.Web.Http.Filters;
-using NHS111.Utils.Logging;
+﻿using NHS111.Utils.Logging;
+using System.Web.Http.Filters;
 
 namespace NHS111.Utils.Attributes
 {

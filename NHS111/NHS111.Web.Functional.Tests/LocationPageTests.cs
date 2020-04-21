@@ -1,5 +1,4 @@
-﻿using System.Net;
-using NHS111.Web.Functional.Utils;
+﻿using NHS111.Web.Functional.Utils;
 using NUnit.Framework;
 
 namespace NHS111.Web.Functional.Tests
@@ -7,7 +6,7 @@ namespace NHS111.Web.Functional.Tests
     [TestFixture]
     public class LocationPageTests : BaseTests
     {
-       
+
         [Test]
         public void LocationPage_Displays()
         {
@@ -15,7 +14,7 @@ namespace NHS111.Web.Functional.Tests
             locationPage.CompareAndVerify("1");
             Assert.True(locationPage.PostcodeFieldVisible());
         }
-        
+
         [Test]
         public void ClickingNext_WithoutPostcode_ShowsValidation()
         {

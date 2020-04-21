@@ -1,7 +1,6 @@
-﻿using System;
+﻿using NHS111.Models.Models.Web;
 using System.Web;
 using System.Web.Mvc;
-using NHS111.Models.Models.Web;
 
 namespace NHS111.Web.Presentation.Builders
 {

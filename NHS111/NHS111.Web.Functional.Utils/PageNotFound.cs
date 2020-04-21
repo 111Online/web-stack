@@ -1,5 +1,4 @@
-﻿using System;
-using NUnit.Framework;
+﻿using NUnit.Framework;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.PageObjects;
 
@@ -26,7 +25,7 @@ namespace NHS111.Web.Functional.Utils
         public void Verify()
         {
             Assert.IsTrue(PageTitle.Displayed);
-            Assert.AreEqual(_errorTitle,PageTitle.Text);
+            Assert.AreEqual(_errorTitle, PageTitle.Text);
             Assert.IsTrue(Driver.Title.Contains(_errorTitleCode));
         }
     }

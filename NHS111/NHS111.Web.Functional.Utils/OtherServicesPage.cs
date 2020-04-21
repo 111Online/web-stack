@@ -1,7 +1,5 @@
-﻿using System;
-using NUnit.Framework;
-using OpenQA.Selenium;
-using OpenQA.Selenium.Support.PageObjects;
+﻿using OpenQA.Selenium;
+using System;
 
 namespace NHS111.Web.Functional.Utils
 {

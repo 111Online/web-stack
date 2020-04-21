@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using Nest;
+﻿using Nest;
 
 namespace NHS111.Models.Models.Business.PathwaySearch
 {

@@ -1,33 +1,40 @@
 ﻿
-namespace NHS111.DOS.Functional.Tests.TestBenchApi {
+namespace NHS111.DOS.Functional.Tests.TestBenchApi
+{
+    using Models.Models.Web.DosRequests;
+    using Models.Models.Web.ITK;
+    using Newtonsoft.Json;
+    using NUnit.Framework;
+    using RestSharp;
     using System;
     using System.Net;
     using System.Threading.Tasks;
-    using Models.Models.Web.DosRequests;
-    using Models.Models.Web.ITK;
-    using RestSharp;
-    using Newtonsoft.Json;
-    using NUnit.Framework;
 
-    public class TestBench {
+    public class TestBench
+    {
 
-        public TestBench() {
+        public TestBench()
+        {
             _client = new RestClient("http://localhost:55954/");
         }
 
-        public IDosTestScenarioSetup SetupDosScenario() {
+        public IDosTestScenarioSetup SetupDosScenario()
+        {
             return new DosTestScenarioSetup();
         }
 
-        public IEsbTestScenarioSetup SetupEsbScenario() {
+        public IEsbTestScenarioSetup SetupEsbScenario()
+        {
             return new EsbTestScenarioSetup();
         }
 
-        public async Task<VerificationResult> Verify(IDosTestScenario scenario) {
+        public async Task<VerificationResult> Verify(IDosTestScenario scenario)
+        {
             var request = new VerifyDosTestScenarioPostRequest(scenario.Postcode);
             var response = await _client.ExecutePostTaskAsync(request);
             VerificationResult result;
-            switch (response.StatusCode) {
+            switch (response.StatusCode)
+            {
                 case HttpStatusCode.OK:
                     return JsonConvert.DeserializeObject<SuccessfulVerificationResult>(response.Content);
                 case HttpStatusCode.NotFound:
@@ -47,7 +54,8 @@ namespace NHS111.DOS.Functional.Tests.TestBenchApi {
             return result;
         }
 
-        public async Task<VerificationResult> Verify(IEsbTestScenario scenario) {
+        public async Task<VerificationResult> Verify(IEsbTestScenario scenario)
+        {
             var request = new VerifyEsbTestScenarioPostRequest(scenario);
             var response = await _client.ExecutePostTaskAsync(request);
             VerificationResult result;

@@ -1,6 +1,6 @@
-﻿using System;
+﻿using NHS111.Models.Models.Web;
+using System;
 using System.Web.Mvc;
-using NHS111.Models.Models.Web;
 
 namespace NHS111.Utils.Filters
 {
@@ -19,7 +19,7 @@ namespace NHS111.Utils.Filters
 
             var campaign = filterContext.RequestContext.HttpContext.Request.Params["utm_campaign"];
             if (string.IsNullOrEmpty(campaign)) return;
-            
+
             model.Campaign = campaign;
             model.Source = filterContext.RequestContext.HttpContext.Request.Params["utm_source"];
         }

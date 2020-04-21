@@ -1,9 +1,9 @@
-﻿using System;
-using System.Threading.Tasks;
-using NHS111.Business.Configuration;
+﻿using NHS111.Business.Configuration;
 using NHS111.Models.Models.Domain;
 using NHS111.Utils.RestTools;
 using RestSharp;
+using System;
+using System.Threading.Tasks;
 
 namespace NHS111.Business.Services
 {

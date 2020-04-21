@@ -1,16 +1,15 @@
-﻿using System;
+﻿using AutoMapper;
+using NHS111.Features;
+using NHS111.Models.Models.Web;
+using NHS111.Models.Models.Web.Validators;
+using NHS111.Web.Presentation.Builders;
+using NHS111.Web.Presentation.Logging;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Web.Mvc;
-using AutoMapper;
-using NHS111.Features;
-using NHS111.Models.Models.Web;
-using NHS111.Models.Models.Web.FromExternalServices;
-using NHS111.Models.Models.Web.Validators;
-using NHS111.Web.Presentation.Builders;
-using NHS111.Web.Presentation.Logging;
 
 namespace NHS111.Web.Controllers
 {
@@ -20,7 +19,7 @@ namespace NHS111.Web.Controllers
         private readonly ILocationResultBuilder _locationResultBuilder;
         private readonly IEmailCollectionFeature _emailCollectionFeature;
 
-        public PersonalDetailsController(IAuditLogger auditLogger, ILocationResultBuilder locationResultBuilder, 
+        public PersonalDetailsController(IAuditLogger auditLogger, ILocationResultBuilder locationResultBuilder,
             IEmailCollectionFeature emailCollectionFeature)
         {
             _auditLogger = auditLogger;
@@ -44,7 +43,7 @@ namespace NHS111.Web.Controllers
             ModelState.Clear();
 
             _auditLogger.LogSelectedService(model);
-           
+
             return View("~\\Views\\PersonalDetails\\PersonalDetails.cshtml", model);
         }
 
@@ -81,7 +80,7 @@ namespace NHS111.Web.Controllers
 
         [HttpPost]
         public async Task<ActionResult> ChangeCurrentAddressPostcode(PersonalDetailViewModel model)
-        {          
+        {
             if (!ModelState.IsValid)
                 return View("~\\Views\\PersonalDetails\\CurrentAddress_ChangePostcode.cshtml", model);
 
@@ -126,7 +125,7 @@ namespace NHS111.Web.Controllers
                     ModelState.AddModelError("AddressInformation.ChangePostcode.Postcode", new Exception());
                     return View("~\\Views\\PersonalDetails\\HomeAddress_Postcode.cshtml", model);
                 }
-                
+
                 model.AddressInformation.PatientHomeAddress.Postcode = model.AddressInformation.ChangePostcode.Postcode;
                 return View("~\\Views\\PersonalDetails\\ConfirmDetails.cshtml", model);
             }
@@ -140,7 +139,7 @@ namespace NHS111.Web.Controllers
             {
                 return View("~\\Views\\PersonalDetails\\PersonalDetails.cshtml", model);
             }
-            
+
             if (_emailCollectionFeature.IsEnabled && (model.OutcomeGroup.IsCoronaVirus || model.OutcomeGroup.RequiresEmail))
             {
                 return View("~\\Views\\PersonalDetails\\CollectEmailAddress.cshtml", model);
@@ -171,11 +170,11 @@ namespace NHS111.Web.Controllers
         {
             switch (changeCurrentAddress)
             {
-                case "changeCurrentPostcode" :
+                case "changeCurrentPostcode":
                     return View("~\\Views\\PersonalDetails\\CurrentAddress_ChangePostcode.cshtml", model);
                 case "enterCurrentAddressManually":
                     return View("~\\Views\\PersonalDetails\\ManualAddress.cshtml", model);
-                case "dontKnowCurrentAddress": 
+                case "dontKnowCurrentAddress":
                     return View("~\\Views\\PersonalDetails\\UnknownAddress.cshtml", model);
                 default: return View("~\\Views\\PersonalDetails\\CurrentAddress_Change.cshtml", model);
             }
@@ -235,6 +234,6 @@ namespace NHS111.Web.Controllers
 
             return View("~\\Views\\PersonalDetails\\CollectEmailAddress.cshtml", model);
         }
-        
+
     }
 }

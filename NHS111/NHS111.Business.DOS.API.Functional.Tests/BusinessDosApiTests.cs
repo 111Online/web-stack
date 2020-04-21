@@ -7,10 +7,8 @@ using RestSharp;
 namespace NHS111.Business.DOS.API.Functional.Tests
 {
     using NHS111.Functional.Tests.Tools;
-    using System.Configuration;
-    using Utils.Helpers;
     using NUnit.Framework;
-    using Newtonsoft.Json.Linq;
+    using System.Configuration;
 
     [TestFixture]
     public class BusinessDosApiTests
@@ -26,7 +24,7 @@ namespace NHS111.Business.DOS.API.Functional.Tests
         {
             get { return ConfigurationManager.AppSettings["BusinessDosServiceDetailsByIdUrl"]; }
         }
-        
+
         private static string DOSApiUsername
         {
             get { return ConfigurationManager.AppSettings["dos_credential_user"]; }
@@ -49,7 +47,7 @@ namespace NHS111.Business.DOS.API.Functional.Tests
         [Test]
         public async void TestCheckDoSBusinessCapacitySumary()
         {
-            var dosFilteredCase = new DosFilteredCase {PostCode = "HP21 8AL", Age = "32", Gender = "M", Disposition = 1005, SymptomDiscriminatorList = new []{4460}, SymptomGroup = 1064 };
+            var dosFilteredCase = new DosFilteredCase { PostCode = "HP21 8AL", Age = "32", Gender = "M", Disposition = 1005, SymptomDiscriminatorList = new[] { 4460 }, SymptomGroup = 1064 };
             var request = new JsonRestRequest(BusinessDosCheckCapacitySummaryUrl, Method.POST);
             request.AddJsonBody(dosFilteredCase);
             var result = await _restClient.ExecuteTaskAsync<DosCheckCapacitySummaryResult>(request);
@@ -90,7 +88,7 @@ namespace NHS111.Business.DOS.API.Functional.Tests
             var request = new JsonRestRequest(BusinessDosServiceDetailsByIdUrl, Method.POST);
             request.AddJsonBody(dosServiceRequest);
             var result = await _restClient.ExecuteTaskAsync<ServiceDetailsByIdResponse>(request);
-            
+
             Assert.IsTrue(result.IsSuccessful);
             SchemaValidation.AssertValidResponseSchema(result.Content, SchemaValidation.ResponseSchemaType.CheckServiceDetailsById);
         }

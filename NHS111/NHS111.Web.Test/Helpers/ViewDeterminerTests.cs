@@ -1,6 +1,4 @@
-﻿using System.Linq;
-using System.Web.Mvc;
-using Moq;
+﻿using Moq;
 using NHS111.Models.Models.Domain;
 using NHS111.Models.Models.Web;
 using NHS111.Models.Models.Web.Enums;
@@ -9,6 +7,8 @@ using NHS111.Web.Helpers;
 using NHS111.Web.Presentation.Builders;
 using NHS111.Web.Presentation.Logging;
 using NUnit.Framework;
+using System.Linq;
+using System.Web.Mvc;
 
 namespace NHS111.Web.Presentation.Test.Helpers
 {
@@ -113,7 +113,7 @@ namespace NHS111.Web.Presentation.Test.Helpers
                 {
                     Success = new SuccessObject<ServiceViewModel>
                     {
-                        Services = new[] {new ServiceViewModel {OnlineDOSServiceType = OnlineDOSServiceType.Callback}}
+                        Services = new[] { new ServiceViewModel { OnlineDOSServiceType = OnlineDOSServiceType.Callback } }
                             .ToList()
                     }
                 }

@@ -1,8 +1,7 @@
-﻿using System;
-using System.Linq;
-using Neo4jClient;
+﻿using Neo4jClient;
 using Neo4jClient.Cypher;
 using NUnit.Framework;
+using System;
 
 namespace NHS111.Utils.Test.Extensions
 {

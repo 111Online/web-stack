@@ -1,28 +1,22 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using AutoMapper;
+﻿using AutoMapper;
 using Moq;
 using NHS111.Features;
 using NHS111.Models.Models.Domain;
 using NHS111.Models.Models.Web.DosRequests;
-using NHS111.Utils.Cache;
-using NHS111.Utils.Helpers;
 using NUnit.Framework;
 using RestSharp;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace NHS111.Web.Presentation.Builders.Tests
 {
-    using System;
-    using System.Configuration;
-    using System.Net;
-    using System.Net.Http;
-    using System.Threading.Tasks;
-    using Converters;
-    using Models;
     using Newtonsoft.Json;
     using NHS111.Models.Mappers.WebMappings;
     using NHS111.Models.Models.Web;
     using NHS111.Models.Models.Web.FromExternalServices;
+    using System;
+    using System.Configuration;
+    using System.Net;
 
     [TestFixture()]
     public class DOSBuilderTests
@@ -54,8 +48,8 @@ namespace NHS111.Web.Presentation.Builders.Tests
             SetupMockConfiguration();
 
             _dosBuilder = new DOSBuilder(_mockCareAdviceBuilder.Object,
-                _mockRestClient.Object, 
-                _mockConfiguration.Object, 
+                _mockRestClient.Object,
+                _mockConfiguration.Object,
                 _mappingEngine.Object,
                 _mockItkMessagingFeature.Object);
         }
@@ -85,7 +79,7 @@ namespace NHS111.Web.Presentation.Builders.Tests
         public async void FillCheckCapacitySummaryResult_WithDistanceInMetric_ConvertsToMiles()
         {
             var fakeContent = "{DosCheckCapacitySummaryResult: [{}]}";
-            
+
             var response = new Mock<IRestResponse<DosCheckCapacitySummaryResult>>();
             response.Setup(_ => _.IsSuccessful).Returns(true);
             response.Setup(_ => _.StatusCode).Returns(HttpStatusCode.OK);
@@ -94,8 +88,9 @@ namespace NHS111.Web.Presentation.Builders.Tests
 
             _mockRestClient.Setup(r => r.ExecuteTaskAsync<DosCheckCapacitySummaryResult>(It.Is<IRestRequest>(rq => rq.Method == Method.POST)))
                 .ReturnsAsync(response.Object);
-            
-            var model = new DosViewModel {
+
+            var model = new DosViewModel
+            {
                 SearchDistance = 1,
                 DosCheckCapacitySummaryResult = new DosCheckCapacitySummaryResult()
                 {
@@ -103,7 +98,7 @@ namespace NHS111.Web.Presentation.Builders.Tests
                     {
                         Services = new List<ServiceViewModel>()
                     }
-                } 
+                }
             };
             await _dosBuilder.FillCheckCapacitySummaryResult(model, true, null);
 
@@ -122,11 +117,11 @@ namespace NHS111.Web.Presentation.Builders.Tests
         public void FillGroupedDosServices_WithSingleService_ReturnsIteminList()
         {
             var emptyServiceList =
-                new List<ServiceViewModel>() {new ServiceViewModel() { OnlineDOSServiceType = OnlineDOSServiceType.Callback, Id = 1}};
+                new List<ServiceViewModel>() { new ServiceViewModel() { OnlineDOSServiceType = OnlineDOSServiceType.Callback, Id = 1 } };
             var groupedDosServices = _dosBuilder.FillGroupedDosServices(emptyServiceList);
             Assert.IsTrue(groupedDosServices.Count == 1);
             Assert.AreEqual(OnlineDOSServiceType.Callback, groupedDosServices.FirstOrDefault().OnlineDOSServiceType);
-            Assert.IsTrue(groupedDosServices.FirstOrDefault().Services.Count() ==1);
+            Assert.IsTrue(groupedDosServices.FirstOrDefault().Services.Count() == 1);
             Assert.AreEqual(1, groupedDosServices.FirstOrDefault().Services.FirstOrDefault().Id);
         }
 
@@ -157,13 +152,17 @@ namespace NHS111.Web.Presentation.Builders.Tests
         }
 
         [Test]
-        public void BuildDosViewModel_WithConfiguredDx_RemapsDxCode() {
+        public void BuildDosViewModel_WithConfiguredDx_RemapsDxCode()
+        {
             Mapper.Initialize(m => m.AddProfile<FromOutcomeViewModelToDosViewModel>());
-            var model = new OutcomeViewModel {
+            var model = new OutcomeViewModel
+            {
                 Id = "Dx01121",
                 SymptomDiscriminatorCode = "1",
-                UserInfo = new UserInfo {
-                    Demography = new AgeGenderViewModel {
+                UserInfo = new UserInfo
+                {
+                    Demography = new AgeGenderViewModel
+                    {
                         Gender = "Male"
                     }
                 }
@@ -215,11 +214,11 @@ namespace NHS111.Web.Presentation.Builders.Tests
         private bool AssertIsMetric(RestRequest request, int original)
         {
             var content = request.Parameters.First(p => p.Type == ParameterType.RequestBody).Value;
-            var payload = (DosCase) content; //JsonConvert.DeserializeObject<DosCase>(content.ToString());
+            var payload = (DosCase)content; //JsonConvert.DeserializeObject<DosCase>(content.ToString());
 
             const float MILES_PER_KM = 1.609344f;
             return payload.SearchDistance == (int)Math.Ceiling(original / MILES_PER_KM);
             //return content.SearchDistance == (int)Math.Ceiling(original / MILES_PER_KM);
-        }    
+        }
     }
 }

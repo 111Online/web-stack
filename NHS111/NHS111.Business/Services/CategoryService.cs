@@ -1,24 +1,28 @@
 ﻿
-using System.Collections.Generic;
 using NHS111.Models.Models.Domain;
 using NHS111.Utils.RestTools;
 using RestSharp;
+using System.Collections.Generic;
 
-namespace NHS111.Business.Services {
-    using System.Threading.Tasks;
+namespace NHS111.Business.Services
+{
     using Configuration;
+    using System.Threading.Tasks;
 
     public class CategoryService
-        : ICategoryService {
+        : ICategoryService
+    {
         private readonly IRestClient _restClient;
         private readonly IConfiguration _configuration;
 
-        public CategoryService(IRestClient restClientDomainApi, IConfiguration configuration) {
+        public CategoryService(IRestClient restClientDomainApi, IConfiguration configuration)
+        {
             _restClient = restClientDomainApi;
             _configuration = configuration;
         }
 
-        public async Task<IEnumerable<CategoryWithPathways>> GetCategoriesWithPathways() {
+        public async Task<IEnumerable<CategoryWithPathways>> GetCategoriesWithPathways()
+        {
             var categories = await _restClient.ExecuteTaskAsync<IEnumerable<CategoryWithPathways>>(new JsonRestRequest(_configuration.GetCategoriesWithPathwaysUrl(), Method.GET));
             return categories.Data;
         }
@@ -31,7 +35,8 @@ namespace NHS111.Business.Services {
 
     }
 
-    public interface ICategoryService {
+    public interface ICategoryService
+    {
         Task<IEnumerable<CategoryWithPathways>> GetCategoriesWithPathways();
         Task<IEnumerable<CategoryWithPathways>> GetCategoriesWithPathways(string gender, int age);
     }

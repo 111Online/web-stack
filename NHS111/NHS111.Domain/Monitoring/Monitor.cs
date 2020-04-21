@@ -1,7 +1,7 @@
-﻿using System;
-using System.Threading.Tasks;
-using NHS111.Domain.Repository;
+﻿using NHS111.Domain.Repository;
 using NHS111.Utils.Monitoring;
+using System;
+using System.Threading.Tasks;
 
 namespace NHS111.Domain.Monitoring
 {
@@ -31,10 +31,11 @@ namespace NHS111.Domain.Monitoring
             {
                 return false;
             }
-            
+
         }
 
-        public override string Version() {
+        public override string Version()
+        {
             return Assembly.GetCallingAssembly().GetName().Version.ToString();
         }
     }

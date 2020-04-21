@@ -1,11 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using NHS111.Business.Configuration;
+﻿using NHS111.Business.Configuration;
 using NHS111.Models.Models.Business.Location;
 using RestSharp;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace NHS111.Business.Services
 {

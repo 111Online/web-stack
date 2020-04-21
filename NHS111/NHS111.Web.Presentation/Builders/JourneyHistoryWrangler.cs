@@ -1,6 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using NHS111.Models.Models.Web.FromExternalServices;
+using System.Collections.Generic;
 using System.Linq;
-using NHS111.Models.Models.Web.FromExternalServices;
 
 namespace NHS111.Web.Presentation.Builders
 {
@@ -27,7 +27,7 @@ namespace NHS111.Web.Presentation.Builders
         {
             if (string.IsNullOrEmpty(questionId))
                 return string.Empty;
-            
+
             var array = questionId.Split('.');
             return array.Length > 0 ? array[0] : string.Empty;
         }

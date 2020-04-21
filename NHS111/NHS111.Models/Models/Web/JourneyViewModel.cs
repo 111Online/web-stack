@@ -1,11 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using NHS111.Models.Mappers;
 using NHS111.Models.Models.Domain;
 using NHS111.Models.Models.Web.Enums;
 using NHS111.Models.Models.Web.FromExternalServices;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace NHS111.Models.Models.Web
 {
@@ -64,7 +64,7 @@ namespace NHS111.Models.Models.Web
             {
                 if (string.IsNullOrEmpty(JourneyJson))
                     return false;
-                return  !(JsonConvert.DeserializeObject<Journey>(JourneyJson).Steps.Any(s => s.NodeType != NodeType.Page));
+                return !(JsonConvert.DeserializeObject<Journey>(JourneyJson).Steps.Any(s => s.NodeType != NodeType.Page));
             }
         }
 
@@ -75,7 +75,7 @@ namespace NHS111.Models.Models.Web
                 if (string.IsNullOrEmpty(JourneyJson))
                     return false;
                 var steps = JsonConvert.DeserializeObject<Journey>(JourneyJson).Steps;
-                return steps.Count != 0 
+                return steps.Count != 0
                        && steps.Last().QuestionTitle == "SMS verify"; ;
             }
         }

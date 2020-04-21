@@ -1,5 +1,5 @@
-﻿using System;
-using AutoMapper;
+﻿using AutoMapper;
+using System;
 using DayOfWeek = NHS111.Models.Models.Web.FromExternalServices.DayOfWeek;
 
 namespace NHS111.Models.Mappers.WebMappings

@@ -1,5 +1,5 @@
-﻿using System.Collections.Generic;
-using Nest;
+﻿using Nest;
+using System.Collections.Generic;
 
 namespace NHS111.Models.Models.Business.PathwaySearch
 {
@@ -14,14 +14,14 @@ namespace NHS111.Models.Models.Business.PathwaySearch
 
         [String(Name = "DigitalDescriptions", Index = FieldIndexOption.Analyzed)]
         public List<string> Title { get; set; }
-        
+
         public List<string> DisplayTitle { get; set; }
 
         [String(Name = "DigitalDescriptions.phonetic", Index = FieldIndexOption.Analyzed)]
-        public List<string> TitlePhonetic{ get; set; }
+        public List<string> TitlePhonetic { get; set; }
 
         [String(Name = "DigitalDescriptions.shingles", Index = FieldIndexOption.Analyzed)]
-        public List<string> TitleShingles{ get; set; }
+        public List<string> TitleShingles { get; set; }
 
         [String(Name = "KP_Use", Index = FieldIndexOption.Analyzed)]
         public string Description { get; set; }
@@ -44,7 +44,8 @@ namespace NHS111.Models.Models.Business.PathwaySearch
         [Text(Ignore = true)]
         public double? Score { get; set; }
 
-        public static string StripHighlightMarkup(string highlightedTitle) {
+        public static string StripHighlightMarkup(string highlightedTitle)
+        {
             return highlightedTitle.Replace(HighlightPreTags, "").Replace(HighlightPostTags, "");
         }
     }

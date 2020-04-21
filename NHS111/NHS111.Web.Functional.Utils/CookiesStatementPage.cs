@@ -14,7 +14,7 @@ namespace NHS111.Web.Functional.Utils
         [FindsBy(How = How.CssSelector, Using = "main[id='content'] > div.cookies > h1")]
         public IWebElement CookiesHeader { get; set; }
 
-        [FindsBy(How=How.CssSelector, Using = "main[id='content'] > div > p:nth-of-type(1)")]
+        [FindsBy(How = How.CssSelector, Using = "main[id='content'] > div > p:nth-of-type(1)")]
         public IWebElement CookiesParagraph { get; set; }
 
         public CookiesStatementPage(IWebDriver driver) : base(driver)

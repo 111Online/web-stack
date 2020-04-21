@@ -7,7 +7,7 @@ namespace NHS111.Web.Functional.Utils
     public class ModuleZeroPage : LayoutPage, ISubmitPostcodeResult
     {
         private const string _headerText = "Check it’s not an emergency";
-        
+
         [FindsBy(How = How.ClassName, Using = "button--next")]
         private IWebElement NoneApplyButton { get; set; }
 

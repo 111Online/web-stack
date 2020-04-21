@@ -1,9 +1,9 @@
-﻿using System;
-using System.Collections.Specialized;
-using System.Web;
-using Moq;
+﻿using Moq;
 using NHS111.Features.Clock;
 using NUnit.Framework;
+using System;
+using System.Collections.Specialized;
+using System.Web;
 
 namespace NHS111.Features.Test
 {
@@ -42,7 +42,7 @@ namespace NHS111.Features.Test
         public void Empty_datetime_returns_false()
         {
             _mockRequest.SetupGet(r => r.QueryString)
-                .Returns(new NameValueCollection() { { _dosSearchDateTimeKeyname, string.Empty} });
+                .Returns(new NameValueCollection() { { _dosSearchDateTimeKeyname, string.Empty } });
             var sut = new DOSSpecifyDispoTimeFeature();
             Assert.IsFalse(sut.HasDate(_mockRequest.Object));
         }

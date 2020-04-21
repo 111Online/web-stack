@@ -1,13 +1,10 @@
-﻿using System;
+﻿using Moq;
+using NHS111.Business.Services;
+using NHS111.Models.Models.Domain;
+using NUnit.Framework;
+using RestSharp;
 using System.Collections.Generic;
 using System.Linq;
-using NHS111.Business.Services;
-using NHS111.Utils.Helpers;
-using NUnit.Framework;
-using Moq;
-using System.Threading.Tasks;
-using NHS111.Models.Models.Domain;
-using RestSharp;
 
 namespace NHS111.Business.Test.Services
 {
@@ -31,7 +28,7 @@ namespace NHS111.Business.Test.Services
             //Arrange
             var url = "http://mytest.com/";
             var unique = true;
-            var pathways = new[] {new Pathway {Title = "pathway1"}, new Pathway {Title = "pathway2"},};
+            var pathways = new[] { new Pathway { Title = "pathway1" }, new Pathway { Title = "pathway2" }, };
 
             var response = new Mock<IRestResponse<IEnumerable<Pathway>>>();
             response.Setup(_ => _.Data).Returns(pathways);
@@ -79,7 +76,7 @@ namespace NHS111.Business.Test.Services
             Assert.AreEqual(result.Title, "pathway1");
         }
 
-        
+
 
         [Test]
         public async void should_return_a_single_pathway_metadata_by_id()

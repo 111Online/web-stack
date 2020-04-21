@@ -1,13 +1,12 @@
-﻿using System;
+﻿using NHS111.Models.Models.Web.Clock;
+using NHS111.Models.Models.Web.FromExternalServices;
+using NHS111.Models.Models.Web.Validators;
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Net;
 using System.Text.RegularExpressions;
-using Nest;
-using NHS111.Models.Models.Web.Clock;
-using NHS111.Models.Models.Web.FromExternalServices;
-using NHS111.Models.Models.Web.Validators;
 using DayOfWeek = System.DayOfWeek;
 using TimeOfDay = NHS111.Models.Models.Web.FromExternalServices.TimeOfDay;
 
@@ -31,7 +30,7 @@ namespace NHS111.Models.Models.Web
             _clock = clock;
         }
 
-     
+
 
 
         public List<string> AddressLines

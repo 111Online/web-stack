@@ -1,10 +1,8 @@
-﻿using System;
-using System.Configuration;
-using System.Linq;
-using System.Web;
-using NUnit.Framework;
+﻿using NUnit.Framework;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.PageObjects;
+using System.Linq;
+using System.Web;
 
 namespace NHS111.Web.Functional.Utils
 {
@@ -13,7 +11,7 @@ namespace NHS111.Web.Functional.Utils
 
         [FindsBy(How = How.Id, Using = "CurrentPostcode")]
         private IWebElement PostcodeField { get; set; }
-        
+
         [FindsBy(How = How.ClassName, Using = "button--next")]
         private IWebElement NextButton { get; set; }
 

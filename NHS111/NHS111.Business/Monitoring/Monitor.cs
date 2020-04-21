@@ -1,9 +1,9 @@
-﻿using System;
-using System.Threading.Tasks;
-using NHS111.Business.Configuration;
+﻿using NHS111.Business.Configuration;
 using NHS111.Utils.Monitoring;
 using NHS111.Utils.RestTools;
 using RestSharp;
+using System;
+using System.Threading.Tasks;
 
 namespace NHS111.Business.Monitoring
 {
@@ -38,7 +38,8 @@ namespace NHS111.Business.Monitoring
             }
         }
 
-        public override string Version() {
+        public override string Version()
+        {
             return Assembly.GetCallingAssembly().GetName().Version.ToString();
         }
     }

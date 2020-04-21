@@ -1,8 +1,8 @@
-﻿using System;
+﻿using NHS111.Features.Clock;
+using NHS111.Features.Defaults;
+using System;
 using System.Globalization;
 using System.Web;
-using NHS111.Features.Clock;
-using NHS111.Features.Defaults;
 
 namespace NHS111.Features
 {
@@ -10,10 +10,10 @@ namespace NHS111.Features
     {
         private readonly IClock _clock;
 
-        public DOSSpecifyDispoTimeFeature(): this(new SystemClock())
+        public DOSSpecifyDispoTimeFeature() : this(new SystemClock())
         {
         }
-        
+
         public DOSSpecifyDispoTimeFeature(IClock clock)
         {
             DefaultIsEnabledSettingStrategy = new DisabledByDefaultSettingStrategy();

@@ -1,9 +1,9 @@
-﻿using System;
-using System.Threading.Tasks;
-using Moq;
+﻿using Moq;
 using NHS111.Domain.Api.Controllers;
 using NHS111.Utils.Monitoring;
 using NUnit.Framework;
+using System;
+using System.Threading.Tasks;
 
 namespace NHS111.Domain.Test.API_Project.Controller
 {
@@ -28,10 +28,10 @@ namespace NHS111.Domain.Test.API_Project.Controller
             var expectedResult = "pong";
 
             _monitor.Setup(x => x.Ping()).Returns(expectedResult);
-                
+
             //Act
             var result = await _sut.MonitorPing(service);
-        
+
             //Assert
             _monitor.Verify(x => x.Ping(), Times.Once);
             Assert.That(result, Is.EqualTo(expectedResult));
@@ -137,7 +137,7 @@ namespace NHS111.Domain.Test.API_Project.Controller
 
             //Arrange
             var service = "thiscasedoesnotexist";
-    
+
             //Act
             var result = await _sut.MonitorPing(service);
 

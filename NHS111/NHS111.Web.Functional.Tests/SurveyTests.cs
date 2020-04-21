@@ -1,8 +1,7 @@
-﻿using System.Linq;
-using NHS111.Web.Functional.Utils;
-using NHS111.Web.Functional.Utils.ScreenShot;
+﻿using NHS111.Web.Functional.Utils;
 using NUnit.Framework;
 using OpenQA.Selenium;
+using System.Linq;
 
 namespace NHS111.Web.Functional.Tests
 {
@@ -46,14 +45,14 @@ namespace NHS111.Web.Functional.Tests
             questionPage.VerifyHiddenField("DigitalTitle", "Emergency prescription");
         }
 
-        
+
 
         [Test]
         public void InterstitialPageHasSurveyUrl()
         {
             // Run dead end journey as short/quick to get to the survey link
             var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Trauma Blisters", TestScenerioSex.Male, TestScenerioAgeGroups.Adult);
-            
+
             var outcomePage = questionPage
                 .Answer<DeadEndPage>(1);
 
@@ -65,7 +64,7 @@ namespace NHS111.Web.Functional.Tests
 
             var surveyButton = Driver.FindElement(By.CssSelector(".survey-banner button"));
             surveyButton.Click();
-            
+
             Driver.SwitchTo().Window(Driver.WindowHandles.Last()); // Handle new tab 
             var surveyInterstitialPage = new SurveyInterstitial(Driver);
             surveyInterstitialPage.VerifyHeading("Thanks for agreeing to take our survey");
@@ -91,7 +90,7 @@ namespace NHS111.Web.Functional.Tests
             Assert.IsNotEmpty(surveyUrl);
             var surveyButton = Driver.FindElement(By.CssSelector(".survey-banner button"));
             surveyButton.Click();
-            
+
             Driver.SwitchTo().Window(Driver.WindowHandles.Last()); // Handle new tab 
             var surveyInterstitialPage = new SurveyInterstitial(Driver);
             surveyInterstitialPage.VerifyHeading("Thanks for agreeing to take our survey");

@@ -1,14 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using NHS111.Models.Models.Domain;
+﻿using NHS111.Models.Models.Domain;
 using NHS111.Models.Models.Web.DosRequests;
 using NHS111.Models.Models.Web.FromExternalServices;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace NHS111.Models.Models.Web
 {
-    using System.Threading.Tasks;
-
     public class DosViewModel : DosFilteredCase
     {
         public Guid UserId { get; set; }

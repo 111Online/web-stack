@@ -1,5 +1,5 @@
-﻿using System;
-using NHS111.Models.Models.Business;
+﻿using NHS111.Models.Models.Business;
+using System;
 
 namespace NHS111.Business.DOS.EndpointFilter
 {

@@ -1,6 +1,6 @@
-﻿using System;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using NHS111.Models.Models.Web.Enums;
+using System;
 
 namespace NHS111.Models.Models.Web.Logging
 {

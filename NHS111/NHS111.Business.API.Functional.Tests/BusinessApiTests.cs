@@ -1,19 +1,14 @@
-﻿
-
-using System;
+﻿using NHS111.Functional.Tests.Tools;
+using NHS111.Models.Models.Business.Question;
+using NHS111.Models.Models.Domain;
+using NHS111.Models.Models.Web.FromExternalServices;
+using NHS111.Utils.RestTools;
+using NUnit.Framework;
+using RestSharp;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
 using System.Web;
-using Newtonsoft.Json;
-using NHS111.Functional.Tests.Tools;
-using NHS111.Models.Models.Business.Question;
-using NHS111.Models.Models.Domain;
-using NHS111.Models.Models.Web.FromExternalServices;
-using NHS111.Utils.Helpers;
-using NHS111.Utils.RestTools;
-using NUnit.Framework;
-using RestSharp;
 
 namespace NHS111.Business.API.Functional.Tests
 {
@@ -25,9 +20,9 @@ namespace NHS111.Business.API.Functional.Tests
         private string _testPathwayNo3 = "PW628";
         private string _testPathwayNo = "PW1708";
         private string _expectedNodeId = "PW752.200";
-        private  string DxCode1 = "Dx12";
+        private string DxCode1 = "Dx12";
         private string _testQuestionId2 = "PW628.9800";
-  
+
 
         private IRestClient _restClient = new RestClient(ConfigurationManager.AppSettings["BusinessApiProtocolandDomain"]);
 
@@ -155,13 +150,13 @@ namespace NHS111.Business.API.Functional.Tests
         {
             var expectedNexQuestionId = "PW628.13100";
             var NodeId = "PW628.10700";
-            var state="{\"PATIENT_AGE\":\"50\",\"PATIENT_GENDER\":\"\\\"F\\\"\",\"PATIENT_PARTY\":\"1\",\"PATIENT_AGEGROUP\":\"Adult\"}";
-            var requestUrl = string.Format(BusinessApiNextNodeUrl, _testPathwayNo3, "Question", NodeId,  HttpUtility.UrlEncode(state));
+            var state = "{\"PATIENT_AGE\":\"50\",\"PATIENT_GENDER\":\"\\\"F\\\"\",\"PATIENT_PARTY\":\"1\",\"PATIENT_AGEGROUP\":\"Adult\"}";
+            var requestUrl = string.Format(BusinessApiNextNodeUrl, _testPathwayNo3, "Question", NodeId, HttpUtility.UrlEncode(state));
 
             var request = new JsonRestRequest(requestUrl, Method.POST);
             request.AddJsonBody("No");
             var response = await _restClient.ExecuteTaskAsync(request);
-            
+
             //this checks a responce is returned
             Assert.IsNotNull(response);
 
@@ -169,7 +164,7 @@ namespace NHS111.Business.API.Functional.Tests
 
             //these check the right fields are returned
             Assert.IsTrue(content.Contains("\"id\":\"" + expectedNexQuestionId + "\""));
-           SchemaValidation.AssertValidResponseSchema(content, SchemaValidation.ResponseSchemaType.Question);
+            SchemaValidation.AssertValidResponseSchema(content, SchemaValidation.ResponseSchemaType.Question);
 
             //this next one checks the right question has returned
             Assert.IsTrue(content.Contains("\"questionNo\":\"TX220118"));

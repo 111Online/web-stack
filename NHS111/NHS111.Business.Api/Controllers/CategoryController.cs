@@ -1,19 +1,19 @@
 ﻿
+using NHS111.Models.Models.Domain;
+using NHS111.Utils.Cache;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Http.Results;
-using Newtonsoft.Json;
-using NHS111.Models.Models.Domain;
-using NHS111.Models.Models.Web.FromExternalServices;
-using NHS111.Utils.Cache;
 
-namespace NHS111.Business.Api.Controllers {
+namespace NHS111.Business.Api.Controllers
+{
+    using Services;
     using System.Threading.Tasks;
     using System.Web.Http;
-    using Services;
 
-    public class CategoryController : ApiController {
+    public class CategoryController : ApiController
+    {
         private readonly ICategoryService _categoryService;
         private readonly ICacheManager<string, string> _cacheManager;
         private readonly ICategoryFilter _categoryFilter;
@@ -59,7 +59,7 @@ namespace NHS111.Business.Api.Controllers {
         [HttpPost]
         public async Task<JsonResult<IEnumerable<CategoryWithPathways>>> GetCategoriesWithPathways(string gender, int age, [FromBody] string postcode)
         {
-            
+
             var cacheKey = String.Format("GetCategoriesWithPathways-{0}-{1}", gender, age);
             IEnumerable<CategoryWithPathways> categoriesWithPathways = new List<CategoryWithPathways>();
 
@@ -86,9 +86,9 @@ namespace NHS111.Business.Api.Controllers {
 
             if (!string.IsNullOrEmpty(postcode))
             {
-                categoriesWithPathways = await _categoryFilter.Filter(categoriesWithPathways, new Dictionary<string, string>(){{"postcode", postcode}});
+                categoriesWithPathways = await _categoryFilter.Filter(categoriesWithPathways, new Dictionary<string, string>() { { "postcode", postcode } });
             }
-            
+
             return Json(categoriesWithPathways);
         }
     }

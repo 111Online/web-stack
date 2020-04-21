@@ -4,7 +4,7 @@ using RestSharp;
 
 namespace NHS111.Business.DOS.WhiteListPopulator
 {
-    public class WhiteListManager: IWhiteListManager
+    public class WhiteListManager : IWhiteListManager
     {
         private readonly IDispositionMapper _dispositionMapper;
         private readonly IRestClient _restCCGApi;

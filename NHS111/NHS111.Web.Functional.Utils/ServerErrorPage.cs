@@ -21,7 +21,7 @@ namespace NHS111.Web.Functional.Utils
         public void Verify()
         {
             Assert.IsTrue(PageTitle.Displayed);
-            Assert.AreEqual(_errorTitle,PageTitle.Text);
+            Assert.AreEqual(_errorTitle, PageTitle.Text);
             Assert.IsTrue(Driver.Title.Contains(_errorTitleCode));
         }
     }

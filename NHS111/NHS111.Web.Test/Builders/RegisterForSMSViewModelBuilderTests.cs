@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using AutoMapper;
+﻿using AutoMapper;
 using Moq;
 using NHS111.Models.Mappers.WebMappings;
 using NHS111.Models.Models.Web;
@@ -12,6 +7,7 @@ using NHS111.Utils.RestTools;
 using NHS111.Web.Presentation.Builders;
 using NUnit.Framework;
 using RestSharp;
+using System.Threading.Tasks;
 using IConfiguration = NHS111.Web.Presentation.Configuration.IConfiguration;
 
 namespace NHS111.Web.Presentation.Test.Builders
@@ -37,7 +33,7 @@ namespace NHS111.Web.Presentation.Test.Builders
             var builder = new RegisterForSMSViewModelBuilder(_mockConfiguration.Object, _mockRestClient.Object);
             var mobileNumber = "1234567891";
             var endPointUrl = "api/test-endpoint";
-            var model = new SendSmsOutcomeViewModel() { MobileNumber = mobileNumber, VerificationCodeInput = new VerificationCodeInputViewModel() {InputValue = "654321"}};
+            var model = new SendSmsOutcomeViewModel() { MobileNumber = mobileNumber, VerificationCodeInput = new VerificationCodeInputViewModel() { InputValue = "654321" } };
             var expectedRequest = new JsonRestRequest(endPointUrl, Method.POST).AddJsonBody(mobileNumber);
             _mockRestClient.Setup(s => s.ExecuteTaskAsync(It.IsAny<IRestRequest>())).ReturnsAsync(new RestResponse());
 

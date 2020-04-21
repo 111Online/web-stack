@@ -1,8 +1,6 @@
-﻿using System;
-using System.Diagnostics;
-using AutoMapper;
-using NHS111.Models.Models.Domain;
+﻿using AutoMapper;
 using NHS111.Models.Models.Web;
+using System;
 
 namespace NHS111.Models.Mappers.WebMappings
 {
@@ -48,34 +46,38 @@ namespace NHS111.Models.Mappers.WebMappings
                 .ForMember(dest => dest.AgeFormat, opt => opt.Ignore())
                 .ForMember(dest => dest.SearchDistance, opt => opt.Ignore())
                 .ForMember(dest => dest.NumberPerType, opt => opt.Ignore())
-                .ForMember(dest => dest.SearchDateTime, opt => opt.Ignore() );
+                .ForMember(dest => dest.SearchDateTime, opt => opt.Ignore());
         }
 
         public class DispositionResolver : ValueResolver<string, int>
         {
-            protected override int ResolveCore(string source) {
+            protected override int ResolveCore(string source)
+            {
                 source = Remap(source);
 
                 return ConvertToDosCode(source);
             }
 
-            public static int ConvertToDosCode(string source) {
+            public static int ConvertToDosCode(string source)
+            {
                 if (!source.StartsWith("Dx")) throw new FormatException("Dx code does not have prefix \"Dx\". Cannot convert");
                 var code = source.Replace("Dx", "");
                 code = code.Replace("CV", "");
-                if (code.Length == 3) {
+                if (code.Length == 3)
+                {
                     if (code.StartsWith("1"))
                         return Convert.ToInt32("1" + code);
                     else
                         return Convert.ToInt32("11" + code);
                 }
-                if(code.Length == 4 && code.StartsWith("1"))
-                     return Convert.ToInt32("1" + code);
+                if (code.Length == 4 && code.StartsWith("1"))
+                    return Convert.ToInt32("1" + code);
 
                 return Convert.ToInt32("10" + code);
             }
 
-            public static string Remap(string source) {
+            public static string Remap(string source)
+            {
 
                 var dictionary = ConfigurationManager.AppSettings["ValidationDxRemap"].Split(',').ToDictionary(k => k.Split(':').First(), v => v.Split(':').Last());
 
@@ -128,8 +130,10 @@ namespace NHS111.Models.Mappers.WebMappings
 
         public class GenderResolver : ValueResolver<string, string>
         {
-            protected override string ResolveCore(string source) {
-                switch (source.ToLower()) {
+            protected override string ResolveCore(string source)
+            {
+                switch (source.ToLower())
+                {
                     case "female":
                         return "F";
                     case "male":

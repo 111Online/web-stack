@@ -1,16 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Web;
-using System.Web.Mvc;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using NHS111.Models.Models.Domain;
 using NHS111.Models.Models.Web;
 using NHS111.Utils.RestTools;
 using NHS111.Web.Presentation.Builders;
 using NHS111.Web.Presentation.Configuration;
 using RestSharp;
+using System.Threading.Tasks;
+using System.Web;
+using System.Web.Mvc;
 
 namespace NHS111.Web.Helpers
 {

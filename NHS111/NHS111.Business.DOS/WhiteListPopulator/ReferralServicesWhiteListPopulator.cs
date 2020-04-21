@@ -1,9 +1,9 @@
-﻿using System.Net;
-using System.Threading.Tasks;
-using System.Web;
-using NHS111.Business.DOS.Configuration;
+﻿using NHS111.Business.DOS.Configuration;
 using NHS111.Models.Models.Web.CCG;
 using RestSharp;
+using System.Net;
+using System.Threading.Tasks;
+using System.Web;
 
 namespace NHS111.Business.DOS.WhiteListPopulator
 {

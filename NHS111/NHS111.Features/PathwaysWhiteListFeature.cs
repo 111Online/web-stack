@@ -12,7 +12,8 @@ namespace NHS111.Features
     }
 
     public interface IPathwaysWhiteListFeature
-        : IFeature { }
-    
+        : IFeature
+    { }
+
 }
 

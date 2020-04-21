@@ -1,9 +1,9 @@
-﻿using NUnit.Framework;
-using OpenQA.Selenium;
+﻿using OpenQA.Selenium;
 using OpenQA.Selenium.Support.PageObjects;
 
-namespace NHS111.Web.Functional.Utils {
-    public class ReferralExplanationPage: LayoutPage
+namespace NHS111.Web.Functional.Utils
+{
+    public class ReferralExplanationPage : LayoutPage
     {
 
         [FindsBy(How = How.CssSelector, Using = "button[value='Enter my details']")]

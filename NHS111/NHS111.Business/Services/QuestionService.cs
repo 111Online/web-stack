@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using NHS111.Business.Builders;
 using NHS111.Business.Configuration;
 using NHS111.Business.Transformers;
@@ -11,6 +7,10 @@ using NHS111.Models.Models.Web.FromExternalServices;
 using NHS111.Utils.Parser;
 using NHS111.Utils.RestTools;
 using RestSharp;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace NHS111.Business.Services
 {
@@ -71,7 +71,7 @@ namespace NHS111.Business.Services
             var age = GetAgeFromState(state);
             var gender = GetGenderFromState(state);
             var moduleZeroJourney = await GetModuleZeroJourney(gender, age, traumaType);
-            
+
             var pathwaysJourney = await GetPathwayJourney(steps, startingPathwayId, dispositionCode, gender, age);
             var filteredJourneySteps = NavigateReadNodeLogic(steps, pathwaysJourney.ToList(), state).ToArray();
 
@@ -79,9 +79,9 @@ namespace NHS111.Business.Services
             var pathwayKeywords = filteredJourneySteps.Where(q => q.Labels.Contains("Pathway")).Select(q => q.Question.Keywords);
             var pathwayExcludeKeywords = filteredJourneySteps.Where(q => q.Labels.Contains("Pathway")).Select(q => q.Question.ExcludeKeywords);
             var keywords = _keywordCollector.CollectKeywords(pathwayKeywords, pathwayExcludeKeywords);
-            
+
             // keywords from answers
-            var journeySteps = filteredJourneySteps.Where(q => q.Answered != null).Select(q => new JourneyStep {Answer = q.Answered}).ToList();
+            var journeySteps = filteredJourneySteps.Where(q => q.Answered != null).Select(q => new JourneyStep { Answer = q.Answered }).ToList();
             keywords = _keywordCollector.CollectKeywordsFromPreviousQuestion(keywords, journeySteps);
 
             var consolidatedKeywords = _keywordCollector.ConsolidateKeywords(keywords).ToArray();
@@ -128,7 +128,7 @@ namespace NHS111.Business.Services
             {
                 if (!step.Labels.Contains("Read"))
                 {
-                    if(!step.Labels.Contains("Question") || (step.Labels.Contains("Question") && answeredQuestions.Any(q => q.QuestionId == step.Question.Id)))
+                    if (!step.Labels.Contains("Question") || (step.Labels.Contains("Question") && answeredQuestions.Any(q => q.QuestionId == step.Question.Id)))
                         filteredJourney.Add(step);
 
                     if (step.Labels.Contains("Set") && !state.ContainsKey(step.Question.Title))
@@ -213,7 +213,7 @@ namespace NHS111.Business.Services
         Task<IEnumerable<QuestionWithAnswers>> GetFullPathwayJourney(string traumaType, JourneyStep[] steps, string startingPathwayId, string dispositionCode, IDictionary<string, string> state);
         Task<QuestionWithAnswers> GetQuestion(string id);
         Task<Answer[]> GetAnswersForQuestion(string id);
-        Task<QuestionWithAnswers> GetNextQuestion(string id, string nodeLabel,  string answer);
+        Task<QuestionWithAnswers> GetNextQuestion(string id, string nodeLabel, string answer);
         Task<QuestionWithAnswers> GetFirstQuestion(string pathwayId);
         Task<IEnumerable<QuestionWithAnswers>> GetJustToBeSafeQuestionsFirst(string pathwayId);
         Task<IEnumerable<QuestionWithAnswers>> GetJustToBeSafeQuestionsNext(string pathwayId, IEnumerable<string> answeredQuestionIds, bool multipleChoice, string selectedQuestionId);

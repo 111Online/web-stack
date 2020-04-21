@@ -2,20 +2,17 @@
 
 using log4net;
 using NHS111.Features.IoC;
-using NHS111.Utils.Helpers;
 using NHS111.Utils.RestTools;
-using NHS111.Web.Presentation.Builders;
 using RestSharp;
 
 namespace NHS111.Web.IoC
 {
     using Models.IoC;
-    using Utils.Cache;
-    using Utils.IoC;
     using Presentation.Configuration;
     using Presentation.IoC;
     using StructureMap;
-    using StructureMap.Graph;
+    using Utils.Cache;
+    using Utils.IoC;
 
     public class WebRegistry : Registry
     {

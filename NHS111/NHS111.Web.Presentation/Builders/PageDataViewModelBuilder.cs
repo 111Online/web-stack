@@ -1,16 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Newtonsoft.Json;
-using NHS111.Models.Models.Domain;
+﻿using NHS111.Models.Models.Domain;
 using NHS111.Models.Models.Web;
-using NHS111.Utils.Helpers;
-using NHS111.Utils.Parser;
 using NHS111.Utils.RestTools;
 using NHS111.Web.Presentation.Configuration;
 using RestSharp;
+using System;
+using System.Threading.Tasks;
 
 namespace NHS111.Web.Presentation.Builders
 {
@@ -29,7 +23,7 @@ namespace NHS111.Web.Presentation.Builders
         {
             model.Date = DateTime.Now.Date.ToShortDateString();
             model.Time = DateTime.Now.ToString("HH:mm:ss");
-            
+
             Pathway currentPathway = null;
             if (!string.IsNullOrEmpty(model.QuestionId) && model.QuestionId.Contains("."))
             {

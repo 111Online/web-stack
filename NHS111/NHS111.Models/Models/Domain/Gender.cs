@@ -1,10 +1,12 @@
-namespace NHS111.Models.Models.Domain {
+namespace NHS111.Models.Models.Domain
+{
     using System;
 
     /// <summary>
     /// The ETL output currently only contains Male and Female
     /// </summary>
-    public enum GenderEnum {
+    public enum GenderEnum
+    {
         //Unknown,
         Indeterminate,
         Male,
@@ -13,7 +15,8 @@ namespace NHS111.Models.Models.Domain {
     }
 
     public class Gender
-        :IEquatable<Gender> {
+        : IEquatable<Gender>
+    {
 
         public static Gender Male = new Gender(GenderEnum.Male);
         public static Gender Female = new Gender(GenderEnum.Female);
@@ -22,7 +25,8 @@ namespace NHS111.Models.Models.Domain {
         public string Value { get; private set; }
         public GenderEnum Enum { get; private set; }
 
-        public Gender(string gender) {
+        public Gender(string gender)
+        {
             var lower = gender.ToLower();
             if (lower == "male" || lower == "m")
                 Initialise(GenderEnum.Male);
@@ -34,17 +38,20 @@ namespace NHS111.Models.Models.Domain {
                 throw new ArgumentException(BuildMessage(gender));
         }
 
-        public Gender(GenderEnum gender) {
+        public Gender(GenderEnum gender)
+        {
             Initialise(gender);
         }
 
-        public bool Equals(Gender other) {
+        public bool Equals(Gender other)
+        {
             if (other == null)
                 return false;
             return this.Enum == other.Enum;
         }
 
-        public override bool Equals(object obj) {
+        public override bool Equals(object obj)
+        {
             if (obj == null || GetType() != obj.GetType())
                 return false;
 
@@ -57,9 +64,11 @@ namespace NHS111.Models.Models.Domain {
             return Value.GetHashCode();
         }
 
-        private void Initialise(GenderEnum gender) {
+        private void Initialise(GenderEnum gender)
+        {
             Enum = gender;
-            switch (gender) {
+            switch (gender)
+            {
                 case GenderEnum.Male:
                     Value = "Male";
                     break;
@@ -74,7 +83,8 @@ namespace NHS111.Models.Models.Domain {
             }
         }
 
-        private static string BuildMessage(string gender) {
+        private static string BuildMessage(string gender)
+        {
             return string.Format("The gender supplied ({0}) currently isn't supported. Please refer to {1}.", gender, typeof(GenderEnum).FullName);
         }
     }

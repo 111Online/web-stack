@@ -1,12 +1,10 @@
-﻿using System.Configuration;
-using log4net;
+﻿using log4net;
 using NHS111.Business.Configuration;
 using NHS111.Business.Services;
 using NHS111.Utils.IoC;
 using NHS111.Utils.RestTools;
 using RestSharp;
 using StructureMap;
-using StructureMap.Graph;
 
 namespace NHS111.Business.IoC
 {

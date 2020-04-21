@@ -1,5 +1,5 @@
-﻿using System;
-using NHS111.Models.Models.Web.FromExternalServices;
+﻿using NHS111.Models.Models.Web.FromExternalServices;
+using System;
 
 namespace NHS111.Models.Models.Web
 {

@@ -1,27 +1,29 @@
 ﻿using NHS111.Web.Functional.Utils;
 using NHS111.Web.Functional.Utils.ScreenShot;
-using NUnit.Framework;
 
 namespace NHS111.Web.Functional.Tests
 {
-    using System.Linq;
     using NUnit.Framework;
     using OpenQA.Selenium;
-    
+    using System.Linq;
+
     [TestFixture]
     [ScreenShotComparison]
-    public class EndpointJourneyTests : BaseTests {
+    public class EndpointJourneyTests : BaseTests
+    {
 
-        [TestCase("Male", 22, "Headache", new[] {3, 3, 3, 5, 3, 3, 3, 1}, "Dx02", TestName = "Can reach Dx02")]
-        [TestCase("Male", 24, "Sexual Concerns", new[] {3, 4, 3, 3, 3, 4, 4, 1, 1, 3}, "Dx03", TestName = "Can reach Dx03")]
-        [TestCase("Female", 24, "Sexual or Menstrual Concerns", new[] {3, 4}, "Dx38", TestName = "Can reach Dx38")]
-        [TestCase("Male", 6, "Object, Ingested or Inhaled", new[] {1, 3, 3, 5, 3, 5, 3, 3, 3, 3, 3, 3}, "Dx89", TestName = "Can reach Dx89")]
-        [TestCase("Female", 16, "Mental Health Problems", new[] {1, 5, 3, 5, 3, 1, 4}, "Dx92", TestName = "Can reach Dx92")]
-        [TestCase("Female", 22, "Sexual or Menstrual Concerns", new[] {1}, "Dx94", TestName = "Can reach Dx94")]
-        public void TestOutcomes(string sex, int age, string pathwayTitle, int[] answers, string expectedDxCode) {
+        [TestCase("Male", 22, "Headache", new[] { 3, 3, 3, 5, 3, 3, 3, 1 }, "Dx02", TestName = "Can reach Dx02")]
+        [TestCase("Male", 24, "Sexual Concerns", new[] { 3, 4, 3, 3, 3, 4, 4, 1, 1, 3 }, "Dx03", TestName = "Can reach Dx03")]
+        [TestCase("Female", 24, "Sexual or Menstrual Concerns", new[] { 3, 4 }, "Dx38", TestName = "Can reach Dx38")]
+        [TestCase("Male", 6, "Object, Ingested or Inhaled", new[] { 1, 3, 3, 5, 3, 5, 3, 3, 3, 3, 3, 3 }, "Dx89", TestName = "Can reach Dx89")]
+        [TestCase("Female", 16, "Mental Health Problems", new[] { 1, 5, 3, 5, 3, 1, 4 }, "Dx92", TestName = "Can reach Dx92")]
+        [TestCase("Female", 22, "Sexual or Menstrual Concerns", new[] { 1 }, "Dx94", TestName = "Can reach Dx94")]
+        public void TestOutcomes(string sex, int age, string pathwayTitle, int[] answers, string expectedDxCode)
+        {
             var questionPage = TestScenerios.LaunchTriageScenerio(Driver, pathwayTitle, sex, age);
 
-            for (var i = 0; i < answers.Length - 1; i++) {
+            for (var i = 0; i < answers.Length - 1; i++)
+            {
                 questionPage.Answer(answers[i]);
             }
 
@@ -89,7 +91,7 @@ namespace NHS111.Web.Functional.Tests
                 .AnswerSuccessiveByOrder(1, 1)
                 .AnswerSuccessiveByOrder(3, 6)
                 .Answer<OutcomePage>(1);
- 
+
             outcomePage.VerifyOutcome("Your answers suggest you should contact a pharmacist within 24 hours");
             outcomePage.VerifyWorseningPanel(WorseningMessages.Call111PostCodeFirst);
             outcomePage.VerifyFindService(FindServiceTypes.Pharmacy);
@@ -210,7 +212,7 @@ namespace NHS111.Web.Functional.Tests
             outcomePage.VerifyWorseningPanel(WorseningMessages.Call111PostCodeFirst);
             outcomePage.VerifyFindService(FindServiceTypes.Optician);
             outcomePage.VerifyCareAdviceHeader("What you can do in the meantime");
-            outcomePage.VerifyCareAdvice(new string[] {"Eye discharge", "Medication, pain and/or fever" });
+            outcomePage.VerifyCareAdvice(new string[] { "Eye discharge", "Medication, pain and/or fever" });
             outcomePage.CompareAndVerify("1");
         }
 
@@ -313,7 +315,7 @@ namespace NHS111.Web.Functional.Tests
         public void DeadEndJourney()
         {
             var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Trauma Blisters", TestScenerioSex.Male, TestScenerioAgeGroups.Adult);
-            
+
             var outcomePage = questionPage
                 .Answer<DeadEndPage>(1);
 
@@ -327,7 +329,7 @@ namespace NHS111.Web.Functional.Tests
             // This test checks that going to a disposition via a dead end jump
             // doesn't break the POST data. That has been a regression found in the past.
             var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Trauma Blisters", TestScenerioSex.Female, TestScenerioAgeGroups.Adult);
-            
+
             var deadEndPage = questionPage
                 .Answer<DeadEndPage>(1);
 
@@ -345,17 +347,17 @@ namespace NHS111.Web.Functional.Tests
             otherServicesPage.CompareAndVerify("1");
         }
 
-        
+
         [Test]
         public void EDEndpointJourneyViaPathwayNotFound()
         {
             // This test checks that going to a disposition via a pathway not found
             // doesn't break the POST data. That has been a regression found in the past.
             var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Wound Problems, Plaster Casts, Tubes and Metal Appliances", TestScenerioSex.Female, TestScenerioAgeGroups.Adult);
-            
+
             var pathwayNotFound = questionPage
                 .Answer<OutcomePage>(2);
-            
+
             // Got to pathway not found
             pathwayNotFound.VerifyPathwayNotFound();
 
@@ -370,7 +372,7 @@ namespace NHS111.Web.Functional.Tests
             outcomePage.VerifyPageContainsDOSResults();
             outcomePage.CompareAndVerify("1");
         }
-        
+
         [Test]
         public void ExcludedCareAdviceJourney()
         {
@@ -388,7 +390,7 @@ namespace NHS111.Web.Functional.Tests
                 .Answer(3)
                 .Answer(3)
                 .Answer<OutcomePage>(3);
-           
+
             outcomePage.VerifyOutcome("Contact your GP now");
             outcomePage.VerifyWorseningReveal(WorseningMessages.PrimaryCare);
             outcomePage.VerifyCareAdvice(new string[] { "Vomiting blood" });

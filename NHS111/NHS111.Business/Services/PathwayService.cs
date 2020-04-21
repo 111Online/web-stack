@@ -1,9 +1,9 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
-using NHS111.Business.Configuration;
+﻿using NHS111.Business.Configuration;
 using NHS111.Models.Models.Domain;
 using NHS111.Utils.RestTools;
 using RestSharp;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace NHS111.Business.Services
 {
@@ -18,7 +18,7 @@ namespace NHS111.Business.Services
             _restClient = restClientDomainApi;
         }
 
-        public async Task<IEnumerable<Pathway>>GetPathways(bool grouped, bool startingOnly)
+        public async Task<IEnumerable<Pathway>> GetPathways(bool grouped, bool startingOnly)
         {
             var pathways = await _restClient.ExecuteTaskAsync<IEnumerable<Pathway>>(new JsonRestRequest(_configuration.GetDomainApiPathwaysUrl(grouped, startingOnly), Method.GET));
             return pathways.Data;

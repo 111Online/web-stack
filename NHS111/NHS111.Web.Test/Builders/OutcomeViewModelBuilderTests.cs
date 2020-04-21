@@ -3,19 +3,19 @@ using RestSharp;
 
 namespace NHS111.Web.Presentation.Builders.Tests
 {
-    using System;
-    using System.Configuration;
-    using System.Threading.Tasks;
-    using NHS111.Models.Models.Web;
-    using NHS111.Models.Models.Web.FromExternalServices;
-    using System.Collections.Generic;
-    using System.Linq;
     using AutoMapper;
     using Logging;
     using Moq;
     using NHS111.Models.Models.Domain;
+    using NHS111.Models.Models.Web;
     using NHS111.Models.Models.Web.DosRequests;
+    using NHS111.Models.Models.Web.FromExternalServices;
     using NUnit.Framework;
+    using System;
+    using System.Collections.Generic;
+    using System.Configuration;
+    using System.Linq;
+    using System.Threading.Tasks;
 
     [TestFixture()]
     public class OutcomeViewModelBuilderTests
@@ -67,7 +67,7 @@ namespace NHS111.Web.Presentation.Builders.Tests
                 _mockRestPostcodeApiClient.Object,
                 _mockRestClientItkDispatcherApi.Object,
                 _resetClientCaseDataCaptureApi.Object,
-                _mockConfiguration.Object, 
+                _mockConfiguration.Object,
                 _mappingEngine.Object,
                 _mockKeywordCollector.Object,
                 _mockJourneyHistoryWrangler.Object,
@@ -86,11 +86,14 @@ namespace NHS111.Web.Presentation.Builders.Tests
 
             ConfigurationManager.AppSettings["ValidationDxRemap"] = "Dx02:Dx333";
             ConfigurationManager.AppSettings["ValidationDxRetry"] = "Dx02";
-            _model = new OutcomeViewModel {
+            _model = new OutcomeViewModel
+            {
                 Id = "Dx02",
                 SymptomDiscriminatorCode = "1",
-                UserInfo = new UserInfo {
-                    Demography = new AgeGenderViewModel {
+                UserInfo = new UserInfo
+                {
+                    Demography = new AgeGenderViewModel
+                    {
                         Gender = "Male"
                     }
                 },
@@ -121,7 +124,8 @@ namespace NHS111.Web.Presentation.Builders.Tests
         }
 
         [Test]
-        public async Task PopulateGroupedDosResults_WithNoCallbacks_RequeriesWithOriginalDxCode() {
+        public async Task PopulateGroupedDosResults_WithNoCallbacks_RequeriesWithOriginalDxCode()
+        {
             var result = await _outcomeViewModelBuilder.PopulateGroupedDosResults(_model, null, null, null);
 
             _mockDosBuilder.Verify(d =>
@@ -132,13 +136,16 @@ namespace NHS111.Web.Presentation.Builders.Tests
         }
 
         [Test]
-        public async Task PopulateGroupedDosResults_WithWithCallbacks_DoesntRequeryDos() {
+        public async Task PopulateGroupedDosResults_WithWithCallbacks_DoesntRequeryDos()
+        {
 
             _mockDosBuilder.Setup(d =>
                     d.FillCheckCapacitySummaryResult(It.IsAny<DosViewModel>(), It.IsAny<bool>(),
                         It.IsAny<DosEndpoint?>()))
-                .Returns(Task.FromResult(new DosCheckCapacitySummaryResult {
-                    Success = new SuccessObject<ServiceViewModel> {
+                .Returns(Task.FromResult(new DosCheckCapacitySummaryResult
+                {
+                    Success = new SuccessObject<ServiceViewModel>
+                    {
                         Services = new List<ServiceViewModel>
                             {new ServiceViewModel {OnlineDOSServiceType = OnlineDOSServiceType.Callback}}
                     }
@@ -151,7 +158,8 @@ namespace NHS111.Web.Presentation.Builders.Tests
         }
 
         [Test]
-        public async Task PopulateGroupedDosResults_WithCallbackRejected_DoesntRequery() {
+        public async Task PopulateGroupedDosResults_WithCallbackRejected_DoesntRequery()
+        {
             _mockDosBuilder.Setup(d =>
                     d.FillCheckCapacitySummaryResult(It.IsAny<DosViewModel>(), It.IsAny<bool>(),
                         It.IsAny<DosEndpoint?>()))

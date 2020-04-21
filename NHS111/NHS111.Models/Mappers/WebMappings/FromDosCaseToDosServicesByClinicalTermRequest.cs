@@ -1,13 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using AutoMapper;
+﻿using AutoMapper;
 using NHS111.Models.Models.Domain;
 using NHS111.Models.Models.Web.DosRequests;
-using NHS111.Models.Models.Web.ITK;
-using NHS111.Web.Presentation.Models;
+using System;
+using System.Linq;
 
 namespace NHS111.Models.Mappers.WebMappings
 {
@@ -21,7 +16,7 @@ namespace NHS111.Models.Mappers.WebMappings
                 .ForMember(dest => dest.SearchDistance, opt => opt.MapFrom(src => src.SearchDistance))
                 .ForMember(dest => dest.Age,
                     opt => opt.ResolveUsing<AgeResolver>().FromMember(src => src.Age))
-                .ForMember(dest => dest.Disposition, 
+                .ForMember(dest => dest.Disposition,
                     opt => opt.ResolveUsing<DispositionResolver>().FromMember(src => src.Disposition))
                 .ForMember(dest => dest.SymptomGroupDiscriminatorCombos, opt => opt.MapFrom(src => string.Format("{0}={1}", src.SymptomGroup, src.SymptomDiscriminator)))
                 .ForMember(dest => dest.NumberPerType, opt => opt.MapFrom(src => src.NumberPerType))
@@ -56,8 +51,8 @@ namespace NHS111.Models.Mappers.WebMappings
         {
             protected override string ResolveCore(int source)
             {
-                if(source.ToString().Length < 2) throw new FormatException("Number must be greater than 100");
-                if(!source.ToString().StartsWith("10")) throw new FormatException("Number must begin with 10");
+                if (source.ToString().Length < 2) throw new FormatException("Number must be greater than 100");
+                if (!source.ToString().StartsWith("10")) throw new FormatException("Number must begin with 10");
                 return string.Format("Dx{0}", source.ToString().Substring(2));
             }
         }

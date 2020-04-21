@@ -1,10 +1,9 @@
-﻿using System.Threading.Tasks;
-using NHS111.Models.Models.Web.Validators;
+﻿using NHS111.Features;
 using NHS111.Models.Models.Web.CCG;
+using NHS111.Models.Models.Web.Validators;
 using NHS111.Web.Presentation.Builders;
 using System.Text.RegularExpressions;
-using NHS111.Features;
-using NHS111.Models.Models.Domain;
+using System.Threading.Tasks;
 
 namespace NHS111.Web.Presentation.Validators
 {
@@ -14,11 +13,11 @@ namespace NHS111.Web.Presentation.Validators
     {
         private readonly ICCGModelBuilder _ccgModelBuilder;
         private readonly IAllowedPostcodeFeature _allowedPostcodeFeature;
-        
+
         public PostCodeAllowedValidator(IAllowedPostcodeFeature allowedPostcodeFeature, ICCGModelBuilder ccgModelBuilder)
         {
             _allowedPostcodeFeature = allowedPostcodeFeature;
-            _ccgModelBuilder= ccgModelBuilder;
+            _ccgModelBuilder = ccgModelBuilder;
         }
 
         public PostcodeValidatorResponse IsAllowedPostcode(string postcode)
@@ -35,9 +34,12 @@ namespace NHS111.Web.Presentation.Validators
                 return PostcodeValidatorResponse.InvalidSyntax;
             if (!_allowedPostcodeFeature.IsEnabled)
                 return PostcodeValidatorResponse.InPathwaysAreaWithPharmacyServices;
-            try {
+            try
+            {
                 CcgModel = await _ccgModelBuilder.FillCCGDetailsModelAsync(postcode);
-            } catch (ArgumentException) {
+            }
+            catch (ArgumentException)
+            {
                 return PostcodeValidatorResponse.InvalidSyntax;
             }
             if (CcgModel.Postcode == null)
@@ -48,7 +50,7 @@ namespace NHS111.Web.Presentation.Validators
         }
 
         public CCGDetailsModel CcgModel { get; private set; }
-            
+
         private readonly Regex _alphanumericRegex = new Regex(@"^[a-zA-Z0-9]+$");
     }
 }

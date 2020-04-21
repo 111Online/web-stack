@@ -1,5 +1,5 @@
-using System.Threading.Tasks;
 using StackExchange.Redis;
+using System.Threading.Tasks;
 
 namespace NHS111.Utils.Cache
 {
@@ -16,13 +16,13 @@ namespace NHS111.Utils.Cache
 
         public void Set(string key, string value)
         {
-            if(_redis.IsConnected)
+            if (_redis.IsConnected)
                 _database.StringSetAsync(key, value);
         }
 
         public async Task<string> Read(string key)
         {
-            return _redis.IsConnected ? (string) await _database.StringGetAsync(key) : string.Empty;
+            return _redis.IsConnected ? (string)await _database.StringGetAsync(key) : string.Empty;
         }
     }
 }

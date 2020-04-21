@@ -1,17 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net.Http;
-using System.Text;
-using System.Threading.Tasks;
-using Moq;
+﻿using Moq;
 using Newtonsoft.Json;
 using NHS111.Models.Models.Domain;
-using NHS111.Utils.Helpers;
-using NHS111.Web.Presentation.Builders;
 using NHS111.Web.Presentation.Configuration;
 using NUnit.Framework;
 using RestSharp;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace NHS111.Web.Presentation.Builders.Tests
 {
@@ -60,7 +54,7 @@ namespace NHS111.Web.Presentation.Builders.Tests
             var careAdviceBuilerToTest = new CareAdviceBuilder(_restClient.Object, _configuration.Object);
 
             await careAdviceBuilerToTest.FillCareAdviceBuilder("Dx11", "Adult", "Male",
-                new List<string>() {TEST_CAREADVICE_ITEM_FIRST, TEST_CAREADVICE_ITEM_SECOND});
+                new List<string>() { TEST_CAREADVICE_ITEM_FIRST, TEST_CAREADVICE_ITEM_SECOND });
 
             var expectedKeywordsString = TEST_CAREADVICE_ITEM_FIRST + "|" + TEST_CAREADVICE_ITEM_SECOND;
 

@@ -1,4 +1,5 @@
-namespace NHS111.DOS.Functional.Tests.TestBenchApi {
+namespace NHS111.DOS.Functional.Tests.TestBenchApi
+{
     public interface IDosEndpoint { }
 
     public class DosEndpoint

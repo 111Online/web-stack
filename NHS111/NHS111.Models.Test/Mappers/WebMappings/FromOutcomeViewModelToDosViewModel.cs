@@ -7,14 +7,14 @@ namespace NHS111.Models.Test.Mappers.WebMappings
 {
     [TestFixture]
     public class FromOutcomeViewModelToDosViewModel
-    {   
+    {
         private OutcomeViewModel _minimumViableOutcomeViewModel;
 
         [TestFixtureSetUp]
         public void InitializeJourneyViewModelMapper()
         {
             Mapper.Initialize(m => m.AddProfile<NHS111.Models.Mappers.WebMappings.FromOutcomeViewModelToDosViewModel>());
-            
+
             _minimumViableOutcomeViewModel = GenerateMinimumObject();
         }
 
@@ -55,11 +55,11 @@ namespace NHS111.Models.Test.Mappers.WebMappings
         public void FromOutcomeViewModelToDosViewModelConverter_DXCodeTwoDigits()
         {
             _minimumViableOutcomeViewModel.Id = "Dx20";
-            
+
             var result = Mapper.Map<OutcomeViewModel, DosViewModel>(_minimumViableOutcomeViewModel);
             Assert.AreEqual(1020, result.Disposition);
         }
-        
+
         [Test]
         public void FromOutcomeViewModelToDosViewModelConverter_DXCodeThreeDigits()
         {
@@ -68,7 +68,7 @@ namespace NHS111.Models.Test.Mappers.WebMappings
             var result = Mapper.Map<OutcomeViewModel, DosViewModel>(_minimumViableOutcomeViewModel);
             Assert.AreEqual(11329, result.Disposition);
         }
-        
+
         [Test]
         public void FromOutcomeViewModelToDosViewModelConverter_DXCodeThreeDigitsStartingWithOne()
         {

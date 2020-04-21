@@ -1,19 +1,22 @@
 ﻿
+using NHS111.Models.Models.Domain;
 using System.Collections.Generic;
 using System.Web.Http.Results;
-using NHS111.Models.Models.Domain;
 
-namespace NHS111.Domain.Api.Controllers {
+namespace NHS111.Domain.Api.Controllers
+{
+    using Repository;
     using System.Threading.Tasks;
     using System.Web.Http;
-    using Repository;
     using Utils.Attributes;
 
     [LogHandleErrorForApi]
-    public class OutcomeController 
-        : ApiController {
+    public class OutcomeController
+        : ApiController
+    {
 
-        public OutcomeController(IOutcomeRepository careAdviceRepository) {
+        public OutcomeController(IOutcomeRepository careAdviceRepository)
+        {
             _outcomeRepository = careAdviceRepository;
         }
 

@@ -1,9 +1,7 @@
-﻿using System;
+﻿using NHS111.Models.Models.Web;
+using NHS111.Web.Presentation.Builders;
 using System.Threading.Tasks;
 using System.Web.Mvc;
-using Newtonsoft.Json;
-using NHS111.Models.Models.Web;
-using NHS111.Web.Presentation.Builders;
 
 namespace NHS111.Web.Controllers
 {

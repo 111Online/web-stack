@@ -1,14 +1,12 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using Moq;
+﻿using Moq;
 using Newtonsoft.Json;
-using NHS111.Models.Models.Web.FromExternalServices;
 using NHS111.Models.Models.Web.FromExternalServices.IdealPostcodes;
-using NHS111.Utils.Helpers;
 using NHS111.Web.Presentation.Builders;
 using NHS111.Web.Presentation.Configuration;
 using NUnit.Framework;
 using RestSharp;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace NHS111.Web.Presentation.Test.Builders
 {
@@ -22,7 +20,7 @@ namespace NHS111.Web.Presentation.Test.Builders
         [SetUp()]
         public void Setup()
         {
-            _mockRestClient= new Mock<IRestClient>();
+            _mockRestClient = new Mock<IRestClient>();
             _mockConfiguration = new Mock<IConfiguration>();
 
             _mockConfiguration.Setup(c => c.PostcodeSearchByIdUrl).Returns("/location/postcode/api");
@@ -40,9 +38,9 @@ namespace NHS111.Web.Presentation.Test.Builders
                 new AddressLocationResult() {PostCode = "SO31"},
             };
 
-            _mockRestClient.Setup(r => r.ExecuteTaskAsync<List<AddressLocationResult>>(It.IsAny<RestRequest>())).ReturnsAsync(new RestResponse<List<AddressLocationResult>>(){Content = JsonConvert.SerializeObject(results), Data = results.ToList(), ResponseStatus = ResponseStatus.Completed});
+            _mockRestClient.Setup(r => r.ExecuteTaskAsync<List<AddressLocationResult>>(It.IsAny<RestRequest>())).ReturnsAsync(new RestResponse<List<AddressLocationResult>>() { Content = JsonConvert.SerializeObject(results), Data = results.ToList(), ResponseStatus = ResponseStatus.Completed });
 
-           // _mockRestfulHelper.Setup(r => r.GetAsync(It.IsAny<string>(), It.IsAny<Dictionary<string, string>>())).ReturnsAsync(JsonConvert.SerializeObject(results));
+            // _mockRestfulHelper.Setup(r => r.GetAsync(It.IsAny<string>(), It.IsAny<Dictionary<string, string>>())).ReturnsAsync(JsonConvert.SerializeObject(results));
 
             var locationResults = await _locationResultBuilder.LocationResultByPostCodeBuilder("x");
 

@@ -1,18 +1,21 @@
 ﻿
-using System.Collections.Generic;
 using NHS111.Models.Models.Domain;
 using NHS111.Utils.RestTools;
 using RestSharp;
+using System.Collections.Generic;
 
-namespace NHS111.Business.Services {
+namespace NHS111.Business.Services
+{
 
-    using System.Threading.Tasks;
     using Configuration;
+    using System.Threading.Tasks;
 
     public class OutcomeService
-        : IOutcomeService {
-        
-        public OutcomeService(IConfiguration configuration, IRestClient restClientDomainApi) {
+        : IOutcomeService
+    {
+
+        public OutcomeService(IConfiguration configuration, IRestClient restClientDomainApi)
+        {
             _configuration = configuration;
             _restClient = restClientDomainApi;
         }
@@ -27,7 +30,8 @@ namespace NHS111.Business.Services {
         private readonly IRestClient _restClient;
     }
 
-    public interface IOutcomeService {
+    public interface IOutcomeService
+    {
         Task<IEnumerable<Outcome>> List();
     }
 }

@@ -1,8 +1,8 @@
-﻿using System;
-using System.Linq;
-using NHS111.Business.DOS.Configuration;
+﻿using NHS111.Business.DOS.Configuration;
 using NHS111.Models.Models.Business;
 using NodaTime;
+using System;
+using System.Linq;
 
 namespace NHS111.Business.DOS.EndpointFilter
 {
@@ -25,14 +25,14 @@ namespace NHS111.Business.DOS.EndpointFilter
         {
             if (date.Hour == _workingDayInHoursStartTime.Hour)
             {
-                if(date.Minute > _workingDayInHoursStartTime.Minute) return ProfileServiceTimes.InHours;
+                if (date.Minute > _workingDayInHoursStartTime.Minute) return ProfileServiceTimes.InHours;
             }
             if (date.Hour == _workingDayInHoursEndTime.Hour)
             {
                 if (date.Minute < _workingDayInHoursEndTime.Minute) return ProfileServiceTimes.InHours;
             }
 
-            if((date.Hour > _workingDayInHoursStartTime.Hour) &&
+            if ((date.Hour > _workingDayInHoursStartTime.Hour) &&
             (date.Hour < _workingDayInHoursEndTime.Hour)) return ProfileServiceTimes.InHours;
 
             return ProfileServiceTimes.OutOfHours;

@@ -1,4 +1,5 @@
-﻿namespace NHS111.Models.Models.Web.FromExternalServices {
+﻿namespace NHS111.Models.Models.Web.FromExternalServices
+{
     using Newtonsoft.Json;
 
     public class ServiceDetails
@@ -8,7 +9,7 @@
 
         [JsonProperty(PropertyName = "odsCodeField")]
         public string OdsCode { get; set; }
-        
+
         [JsonProperty(PropertyName = "contactDetailsField")]
         public ContactDetails[] ContactDetails { get; set; }
     }

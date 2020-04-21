@@ -1,12 +1,11 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
-using System.Web.Http;
-using System.Web.Http.Results;
-using Newtonsoft.Json;
-using NHS111.Business.Services;
+﻿using NHS111.Business.Services;
 using NHS111.Models.Models.Domain;
 using NHS111.Utils.Attributes;
 using NHS111.Utils.Cache;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using System.Web.Http;
+using System.Web.Http.Results;
 
 namespace NHS111.Business.Api.Controllers
 {
@@ -37,10 +36,10 @@ namespace NHS111.Business.Api.Controllers
 
             markers = markers ?? string.Empty;
             var careAdvice = await _careAdviceService.GetCareAdvice(age, gender, markers.Split(','));
-            
-           #if !DEBUG  
+
+#if !DEBUG
                 _cacheManager.Set(cacheKey, JsonConvert.SerializeObject(careAdvice));
-            #endif
+#endif
             return Json(careAdvice);
         }
 
@@ -66,6 +65,6 @@ namespace NHS111.Business.Api.Controllers
             return Json(careAdvice);
         }
 
-       
+
     }
 }

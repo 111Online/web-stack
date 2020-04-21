@@ -1,42 +1,39 @@
-﻿
-using FluentValidation.Validators;
-using NHS111.Models.Models.Web.FromExternalServices;
-using NHS111.Models.Models.Web.Validators;
+﻿using NHS111.Models.Models.Web.Validators;
 using NHS111.Utils.RestTools;
 using NHS111.Web.Presentation.Filters;
 
-namespace NHS111.Web.Controllers {
+namespace NHS111.Web.Controllers
+{
     using Features;
     using Helpers;
-    using RestSharp;
-    using System;
-    using System.Threading.Tasks;
-    using System.Web.Mvc;
-    using Models.Models.Web;
-    using Models.Models.Web.Enums;
-    using Utils.Attributes;
-    using Presentation.Builders;
-    using System.Collections.Generic;
-    using System.Configuration;
-    using System.Linq;
-    using System.Web;
-    using AutoMapper;
     using Models.Models.Domain;
+    using Models.Models.Web;
     using Models.Models.Web.DosRequests;
+    using Models.Models.Web.Enums;
     using Newtonsoft.Json;
+    using Presentation.Builders;
     using Presentation.Configuration;
     using Presentation.Logging;
     using Presentation.ModelBinders;
-    using Utils.Filters;
+    using RestSharp;
+    using System;
+    using System.Collections.Generic;
+    using System.Configuration;
+    using System.Linq;
+    using System.Threading.Tasks;
+    using System.Web.Mvc;
+    using Utils.Attributes;
     using IConfiguration = Presentation.Configuration.IConfiguration;
 
     [LogHandleErrorForMVC]
-    public class QuestionController : Controller {
+    public class QuestionController : Controller
+    {
 
         public QuestionController(IJourneyViewModelBuilder journeyViewModelBuilder,
             IConfiguration configuration, IJustToBeSafeFirstViewModelBuilder justToBeSafeFirstViewModelBuilder, IDirectLinkingFeature directLinkingFeature,
             IAuditLogger auditLogger, IUserZoomDataBuilder userZoomDataBuilder, IRestClient restClientBusinessApi, IViewRouter viewRouter,
-            IDosEndpointFeature dosEndpointFeature, IDOSSpecifyDispoTimeFeature dosSpecifyDispoTimeFeature, IOutcomeViewModelBuilder outcomeViewModelBuilder) {
+            IDosEndpointFeature dosEndpointFeature, IDOSSpecifyDispoTimeFeature dosSpecifyDispoTimeFeature, IOutcomeViewModelBuilder outcomeViewModelBuilder)
+        {
 
             _journeyViewModelBuilder = journeyViewModelBuilder;
             _configuration = configuration;
@@ -50,7 +47,7 @@ namespace NHS111.Web.Controllers {
             _dosSpecifyDispoTimeFeature = dosSpecifyDispoTimeFeature;
             _outcomeViewModelBuilder = outcomeViewModelBuilder;
             _questionNavigiationService = new QuestionNavigationService(_journeyViewModelBuilder, _configuration,
-                _restClientBusinessApi, _viewRouter); 
+                _restClientBusinessApi, _viewRouter);
         }
 
         [HttpPost]
@@ -84,7 +81,7 @@ namespace NHS111.Web.Controllers {
         [HttpPost]
         public async Task<JsonResult> AutosuggestPathways(string input, string gender, int age)
         {
- 
+
             var response = await _restClientBusinessApi.ExecuteTaskAsync<List<GroupedPathways>>(
                      new RestRequest(_configuration.GetBusinessApiGroupedPathwaysUrl(input, gender, age, true), Method.GET));
 
@@ -93,10 +90,10 @@ namespace NHS111.Web.Controllers {
 
         private async Task<string> Search(List<GroupedPathways> pathways)
         {
-            
+
             return
                 JsonConvert.SerializeObject(
-                    pathways.Select(pathway => new {label = pathway.Group, value = pathway.PathwayNumbers}));
+                    pathways.Select(pathway => new { label = pathway.Group, value = pathway.PathwayNumbers }));
         }
 
         [HttpPost]
@@ -104,7 +101,7 @@ namespace NHS111.Web.Controllers {
         [MultiSubmit(ButtonName = "Question")]
         public async Task<ActionResult> Question(QuestionViewModel model)
         {
-            if (!ModelState.IsValidField("SelectedAnswer") || 
+            if (!ModelState.IsValidField("SelectedAnswer") ||
                 !ModelState.IsValidField("AnswerInputValue") ||
                 !ModelState.IsValidField("DateAnswer"))
             {
@@ -112,7 +109,7 @@ namespace NHS111.Web.Controllers {
             }
 
 
-            if (model.NodeType == NodeType.Page && model.Content!=null && model.Content.StartsWith("!CustomView!"))
+            if (model.NodeType == NodeType.Page && model.Content != null && model.Content.StartsWith("!CustomView!"))
                 return await HandleCustomQuestion(model); //Refactor into custom Handler Class
             ModelState.Clear();
 
@@ -158,13 +155,16 @@ namespace NHS111.Web.Controllers {
 
         }
 
-        private JourneyViewModel GetMatchingTestJourney(OutcomeViewModel model) {
+        private JourneyViewModel GetMatchingTestJourney(OutcomeViewModel model)
+        {
             var testJourneys = ReadTestJourneys();
 
             var comparer = new JourneyViewModelEqualityComparer();
-            foreach (var testJourney in testJourneys) {
+            foreach (var testJourney in testJourneys)
+            {
                 var result = JsonConvert.DeserializeObject<JourneyViewModel>(testJourney.Json);
-                if (comparer.Equals(model, result)) {
+                if (comparer.Equals(model, result))
+                {
                     model.TriggerQuestionNo = testJourney.TriggerQuestionNo;
                     return result;
                 }
@@ -173,7 +173,8 @@ namespace NHS111.Web.Controllers {
             return null;
         }
 
-        private static IEnumerable<TestJourneyElement> ReadTestJourneys() {
+        private static IEnumerable<TestJourneyElement> ReadTestJourneys()
+        {
             var section = ConfigurationManager.GetSection("testJourneySection");
             if (!(section is TestJourneysConfigurationSection))
                 return new List<TestJourneyElement>();
@@ -194,7 +195,7 @@ namespace NHS111.Web.Controllers {
                 var nextNode = await _questionNavigiationService.GetNextNode(model);
                 nodeDetails = _journeyViewModelBuilder.BuildNodeDetails(nextNode);
             }
-            
+
             return Json(nodeDetails);
         }
 
@@ -221,13 +222,14 @@ namespace NHS111.Web.Controllers {
 
             ModelState.Clear();
             model.UserInfo = new UserInfo() { CurrentAddress = new FindServicesAddressViewModel() { Postcode = model.UserInfo.CurrentAddress.Postcode } };
-            
+
             _userZoomDataBuilder.SetFieldsForDemographics(model);
             return View("Gender", model);
         }
 
         [HttpPost]
-        public async Task<JsonResult> PathwaySearch(string gender, int age, string searchTerm) {
+        public async Task<JsonResult> PathwaySearch(string gender, int age, string searchTerm)
+        {
             var ageGroup = new AgeCategory(age);
             var response =
                 await
@@ -242,13 +244,16 @@ namespace NHS111.Web.Controllers {
         [ActionName("Navigation")]
         [MultiSubmit(ButtonName = "CheckAnswer")]
         //[Route("question/revisit/{questionNo}/")]
-        public async Task<ActionResult> Revisit(OutcomeViewModel model, 
+        public async Task<ActionResult> Revisit(OutcomeViewModel model,
             [ModelBinder(typeof(IntArrayModelBinder))] int[] answers,
-            bool? filterServices, string selectedAnswer) {
+            bool? filterServices, string selectedAnswer)
+        {
 
-            if (selectedAnswer.ToLower() == "no") {
+            if (selectedAnswer.ToLower() == "no")
+            {
                 model = await _outcomeViewModelBuilder.DispositionBuilder(model);
-                if (model.DosCheckCapacitySummaryResult.HasITKServices) {
+                if (model.DosCheckCapacitySummaryResult.HasITKServices)
+                {
                     throw new NotImplementedException(); //no trigger question journeys currently offer callback
                 }
                 var viewRouter = _viewRouter.Build(model, ControllerContext);
@@ -257,7 +262,7 @@ namespace NHS111.Web.Controllers {
 
             var result = await DirectInternal(model.PathwayId, model.UserInfo.Demography.Age, model.PathwayTitle, model.CurrentPostcode, answers, filterServices);
 
-            var journeyViewModel = (JourneyViewModel) ((ViewResult) result).Model;
+            var journeyViewModel = (JourneyViewModel)((ViewResult)result).Model;
             journeyViewModel.TriggerQuestionNo = model.TriggerQuestionNo;
             journeyViewModel.TriggerQuestionAnswer = model.TriggerQuestionAnswer;
             journeyViewModel.JourneyId = model.JourneyId;
@@ -268,20 +273,24 @@ namespace NHS111.Web.Controllers {
 
         [HttpGet]
         [Route("question/direct/{pathwayId}/{age?}/{pathwayTitle}/{postcode}/{answers?}")]
-        public async Task<ActionResult> Direct(string pathwayId, int? age, string pathwayTitle, string postcode, [ModelBinder(typeof(IntArrayModelBinder))]int[] answers, bool? filterServices) {
+        public async Task<ActionResult> Direct(string pathwayId, int? age, string pathwayTitle, string postcode, [ModelBinder(typeof(IntArrayModelBinder))]int[] answers, bool? filterServices)
+        {
 
-            if (!_directLinkingFeature.IsEnabled) {
+            if (!_directLinkingFeature.IsEnabled)
+            {
                 return HttpNotFound();
             }
 
             return await DirectInternal(pathwayId, age, pathwayTitle, postcode, answers, filterServices);
         }
 
-        public async Task<ActionResult> DirectInternal(string pathwayId, int? age, string pathwayTitle, string postcode, [ModelBinder(typeof(IntArrayModelBinder))] int[] answers, bool? filterServices) {
+        public async Task<ActionResult> DirectInternal(string pathwayId, int? age, string pathwayTitle, string postcode, [ModelBinder(typeof(IntArrayModelBinder))] int[] answers, bool? filterServices)
+        {
             var resultingModel = await DeriveJourneyView(pathwayId, age, pathwayTitle, answers);
             resultingModel.CurrentPostcode = postcode;
             resultingModel.TriggerQuestionNo = null;
-            if (resultingModel != null) {
+            if (resultingModel != null)
+            {
                 resultingModel.FilterServices = filterServices.HasValue ? filterServices.Value : true;
 
                 if (resultingModel.NodeType == NodeType.Outcome)
@@ -310,11 +319,13 @@ namespace NHS111.Web.Controllers {
             return View(viewRouter.ViewName, resultingModel);
         }
 
-        private DosEndpoint? SetEndpoint() {
+        private DosEndpoint? SetEndpoint()
+        {
             if (!_dosEndpointFeature.IsEnabled)
                 return null;
 
-            switch (_dosEndpointFeature.GetEndpoint(Request)) {
+            switch (_dosEndpointFeature.GetEndpoint(Request))
+            {
                 case "uat":
                     return DosEndpoint.UAT;
                 case "live":
@@ -341,7 +352,7 @@ namespace NHS111.Web.Controllers {
         private async Task<ActionResult> DeterminePrepopulatedResultsRoute(OutcomeController controller, OutcomeViewModel outcomeViewModel, DosEndpoint? endpoint = null, DateTime? dosSearchTime = null)
         {
             var dispoWithServicesResult = await controller.DispositionWithServices(outcomeViewModel, "", endpoint, dosSearchTime);
-            
+
             if (!OutcomeGroup.UsingRecommendedServiceJourney.Contains(outcomeViewModel.OutcomeGroup) && !outcomeViewModel.OutcomeGroup.IsPrimaryCare)
                 return dispoWithServicesResult;
 
@@ -368,7 +379,7 @@ namespace NHS111.Web.Controllers {
         private async Task<JourneyViewModel> DeriveJourneyView(string pathwayId, int? age, string pathwayTitle, int[] answers)
         {
             var questionViewModel = BuildQuestionViewModel(pathwayId, age, pathwayTitle);
-            var response = await 
+            var response = await
                 _restClientBusinessApi.ExecuteTaskAsync<Pathway>(new JsonRestRequest(_configuration.GetBusinessApiPathwayUrl(pathwayId, true), Method.GET));
             var pathway = response.Data;
             if (pathway == null) return null;
@@ -396,7 +407,8 @@ namespace NHS111.Web.Controllers {
         [HttpPost]
         [ActionName("Navigation")]
         [MultiSubmit(ButtonName = "PreviousQuestion")]
-        public async Task<ActionResult> PreviousQuestion(QuestionViewModel model) {
+        public async Task<ActionResult> PreviousQuestion(QuestionViewModel model)
+        {
             ModelState.Clear();
 
             var url = _configuration.GetBusinessApiQuestionByIdUrl(model.PathwayId, model.Journey.Steps.Last().QuestionId, true);
@@ -417,38 +429,42 @@ namespace NHS111.Web.Controllers {
             return response.Data;
         }
 
-        private async Task<JourneyViewModel> AnswerQuestions(QuestionViewModel model, int[] answers) {
+        private async Task<JourneyViewModel> AnswerQuestions(QuestionViewModel model, int[] answers)
+        {
             if (answers == null)
                 return model;
 
             var queue = new Queue<int>(answers);
             var journeyViewModel = new JourneyViewModel();
-            while (queue.Any()) {
+            while (queue.Any())
+            {
                 var answer = queue.Dequeue();
                 journeyViewModel = await AnswerQuestion(model, answer);
             }
             return journeyViewModel;
         }
 
-        private async Task<JourneyViewModel> AnswerQuestion(QuestionViewModel model, int answer) {
+        private async Task<JourneyViewModel> AnswerQuestion(QuestionViewModel model, int answer)
+        {
             if (answer < 0 || answer >= model.Answers.Count)
                 throw new ArgumentOutOfRangeException(
                     string.Format("The answer index '{0}' was not found within the range of answers: {1}", answer,
                         string.Join(", ", model.Answers.Select(a => a.Title))));
 
             model.SelectedAnswer = JsonConvert.SerializeObject(model.Answers.First(a => a.Order == answer + 1));
-            var result = (ViewResult) await Question(model);
+            var result = (ViewResult)await Question(model);
 
             return result.Model is OutcomeViewModel ? (OutcomeViewModel)result.Model : (JourneyViewModel)result.Model;
         }
 
-        private static QuestionViewModel BuildQuestionViewModel(string pathwayId, int? age, string pathwayTitle) {
+        private static QuestionViewModel BuildQuestionViewModel(string pathwayId, int? age, string pathwayTitle)
+        {
             return new QuestionViewModel
             {
                 NodeType = NodeType.Pathway,
                 PathwayId = pathwayId,
                 PathwayTitle = pathwayTitle,
-                UserInfo = new UserInfo { Demography = new AgeGenderViewModel { Age = age ?? -1 }}
+                UserInfo = new UserInfo { Demography = new AgeGenderViewModel { Age = age ?? -1 } }
             };
         }
 

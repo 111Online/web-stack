@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+﻿using NHS111.Features;
 using System.Web.Mvc;
-using NHS111.Features;
 
 namespace NHS111.Web.Views.Shared
 {

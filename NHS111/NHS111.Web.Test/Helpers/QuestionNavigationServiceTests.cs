@@ -21,11 +21,14 @@ namespace NHS111.Web.Presentation.Test.Helpers
         private QuestionNavigationService _sut;
 
         private static Answer _answer = new Answer { Title = "Answer1" };
-        private QuestionViewModel _questionViewModel = new QuestionViewModel { 
-                PathwayId = "pathwayId", NodeType = NodeType.PathwaySelectionJump, StateJson = "", 
-                SelectedAnswer = "{  \"title\": \"Answer1\",  \"titleWithoutSpaces\": \"\",  \"symptomDiscriminator\": null,  \"supportingInformation\": null,  \"keywords\": null,  \"excludeKeywords\": null,  \"reportText\": null,  \"dispositionDisplayText\": null,  \"order\": 0,  \"isPositive\": false,  \"specifyText\": null}",
-                Answers = new List<Answer> { _answer}
-                };
+        private QuestionViewModel _questionViewModel = new QuestionViewModel
+        {
+            PathwayId = "pathwayId",
+            NodeType = NodeType.PathwaySelectionJump,
+            StateJson = "",
+            SelectedAnswer = "{  \"title\": \"Answer1\",  \"titleWithoutSpaces\": \"\",  \"symptomDiscriminator\": null,  \"supportingInformation\": null,  \"keywords\": null,  \"excludeKeywords\": null,  \"reportText\": null,  \"dispositionDisplayText\": null,  \"order\": 0,  \"isPositive\": false,  \"specifyText\": null}",
+            Answers = new List<Answer> { _answer }
+        };
 
         [SetUp]
         public void SetUp()

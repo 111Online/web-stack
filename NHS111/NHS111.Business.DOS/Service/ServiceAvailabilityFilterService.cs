@@ -1,22 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Net.Http;
-using System.Text;
-using System.Threading.Tasks;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using NHS111.Business.DOS.Configuration;
-using NHS111.Business.DOS.DispositionMapper;
 using NHS111.Business.DOS.EndpointFilter;
 using NHS111.Business.DOS.WhiteListPopulator;
-using NHS111.Models.Models.Web.DosRequests;
 using NHS111.Features;
-using NHS111.Models.Models.Web;
 using NHS111.Models.Models.Web.Clock;
+using NHS111.Models.Models.Web.DosRequests;
 using NHS111.Models.Models.Web.FromExternalServices;
 using NHS111.Utils.Converters;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using CheckCapacitySummaryResult = NHS111.Models.Models.Business.CheckCapacitySummaryResult;
 
 namespace NHS111.Business.DOS.Service
@@ -72,7 +67,7 @@ namespace NHS111.Business.DOS.Service
 
             IWhiteListPopulator whiteListPopulator = _whiteListManager.GetWhiteListPopulator(dosFilteredCase.Disposition);
             IOnlineServiceTypeMapper serviceTypeMapper = new OnlineServiceTypeMapper(whiteListPopulator);
-            
+
             var mappedByServiceTypeResults = await serviceTypeMapper.Map(publicHolidayAjustedResults.ToList(), originalPostcode);
             var filteredByUnknownTypeResults = _serviceTypeFilter.FilterUnknownTypes(mappedByServiceTypeResults);
 

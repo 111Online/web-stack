@@ -1,14 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using AutoMapper;
+﻿using AutoMapper;
 using NHS111.Models.Models.Domain;
 using NHS111.Models.Models.Web;
 using NHS111.Models.Models.Web.FromExternalServices;
 using NHS111.Models.Models.Web.ITK;
 using NUnit.Framework;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace NHS111.Models.Test.Mappers.WebMappings
 {
@@ -95,16 +92,18 @@ namespace NHS111.Models.Test.Mappers.WebMappings
                     }
                 },
                 SelectedServiceId = "1",
-                AddressInformation = new LocationInfoViewModel() { 
-                    PatientCurrentAddress = new CurrentAddressViewModel()
+                AddressInformation = new LocationInfoViewModel()
                 {
-                    AddressLine1 = "address 1",
-                    AddressLine2 = "address 2",
-                    City = "Testity",
-                    County = "Tesux",
-                    HouseNumber = "1",
-                    Postcode = "111 111",
-                }},
+                    PatientCurrentAddress = new CurrentAddressViewModel()
+                    {
+                        AddressLine1 = "address 1",
+                        AddressLine2 = "address 2",
+                        City = "Testity",
+                        County = "Tesux",
+                        HouseNumber = "1",
+                        Postcode = "111 111",
+                    }
+                },
                 Informant = new InformantViewModel()
                 {
                     IsInformantForPatient = false
@@ -144,13 +143,14 @@ namespace NHS111.Models.Test.Mappers.WebMappings
                 {
                     PatientCurrentAddress = new CurrentAddressViewModel()
                     {
-                    AddressLine1 = "address 1",
-                    AddressLine2 = "address 2",
-                    City = "Testity",
-                    County = "Tesux",
-                    HouseNumber = "1",
-                    Postcode = "111 111",
-                }},
+                        AddressLine1 = "address 1",
+                        AddressLine2 = "address 2",
+                        City = "Testity",
+                        County = "Tesux",
+                        HouseNumber = "1",
+                        Postcode = "111 111",
+                    }
+                },
                 Informant = new InformantViewModel()
                 {
                     Forename = "Informer",

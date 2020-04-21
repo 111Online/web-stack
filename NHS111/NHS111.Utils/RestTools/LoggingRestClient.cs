@@ -1,8 +1,8 @@
-﻿using System;
+﻿using log4net;
+using RestSharp;
+using System;
 using System.Net;
 using System.Threading.Tasks;
-using log4net;
-using RestSharp;
 
 namespace NHS111.Utils.RestTools
 {
@@ -11,8 +11,8 @@ namespace NHS111.Utils.RestTools
         private readonly ILog _logger;
 
         [Obsolete("Pass DefaultConnectionLimit from IConfiguration.ServicePointManagerDefaultConnectionLimit")]
-        public LoggingRestClient(string baseUrl, ILog logger) : this (baseUrl, logger, 5) {}
-        
+        public LoggingRestClient(string baseUrl, ILog logger) : this(baseUrl, logger, 5) { }
+
         public LoggingRestClient(string baseUrl, ILog logger, int defaultConnectionLimit) : base(baseUrl)
         {
             ServicePointManager.DefaultConnectionLimit = defaultConnectionLimit;
@@ -61,7 +61,8 @@ namespace NHS111.Utils.RestTools
             {
                 response = new RestResponse<T>
                 {
-                    StatusCode = HttpStatusCode.BadRequest, ErrorMessage = "API response was null"
+                    StatusCode = HttpStatusCode.BadRequest,
+                    ErrorMessage = "API response was null"
                 };
             }
 

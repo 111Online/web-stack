@@ -1,20 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net.Http;
-using System.Text;
-using System.Threading.Tasks;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using NHS111.Business.DOS.Configuration;
 using NHS111.Models.Models.Web;
 using NHS111.Models.Models.Web.FromExternalServices;
-using NHS111.Utils.Helpers;
 using NHS111.Utils.RestTools;
 using RestSharp;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace NHS111.Business.DOS.Service
 {
-    using System.Web;
     using Models.Models.Web.DosRequests;
 
     public class DosService : IDosService
@@ -27,7 +22,8 @@ namespace NHS111.Business.DOS.Service
             _configuration = configuration;
             _restClient = restClientDosDomainApi;
         }
-        public async Task<DosCheckCapacitySummaryResult> GetServices(DosCheckCapacitySummaryRequest dosRequest, DosEndpoint? endpoint) {
+        public async Task<DosCheckCapacitySummaryResult> GetServices(DosCheckCapacitySummaryRequest dosRequest, DosEndpoint? endpoint)
+        {
 
             var url = string.Format("{0}?endpoint={1}", _configuration.DomainDosApiCheckCapacitySummaryUrl, !endpoint.HasValue ? DosEndpoint.Unspecified : endpoint.Value);
             var request = new JsonRestRequest(url, Method.POST);

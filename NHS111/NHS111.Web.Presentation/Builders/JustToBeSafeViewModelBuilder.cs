@@ -1,22 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Xml;
-using AutoMapper;
+﻿using AutoMapper;
 using Newtonsoft.Json;
 using NHS111.Models.Models.Domain;
 using NHS111.Models.Models.Web;
 using NHS111.Models.Models.Web.FromExternalServices;
-using NHS111.Utils.Helpers;
 using NHS111.Utils.RestTools;
 using RestSharp;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using IConfiguration = NHS111.Web.Presentation.Configuration.IConfiguration;
 
 namespace NHS111.Web.Presentation.Builders
 {
-    using System.Net.Http;
-    using System.Text;
     using System.Web;
 
     public class JustToBeSafeViewModelBuilder : BaseBuilder, IJustToBeSafeViewModelBuilder
@@ -94,7 +90,7 @@ namespace NHS111.Web.Presentation.Builders
                 _mappingEngine.Mapper.Map(selectedQuestion, questionViewModel);
                 questionViewModel = _mappingEngine.Mapper.Map(selectedAnswer, questionViewModel);
                 var nextNode = await GetNextNode(questionViewModel);
-                return  new Tuple<string, JourneyViewModel>("TODO NOT USED?", await _journeyViewModelBuilder.Build(questionViewModel, nextNode));
+                return new Tuple<string, JourneyViewModel>("TODO NOT USED?", await _journeyViewModelBuilder.Build(questionViewModel, nextNode));
             }
 
             if (questions.Count() == 1)
@@ -131,7 +127,8 @@ namespace NHS111.Web.Presentation.Builders
 
         }
 
-        private async Task<QuestionWithAnswers> GetNextNode(QuestionViewModel model) {
+        private async Task<QuestionWithAnswers> GetNextNode(QuestionViewModel model)
+        {
             var answer = JsonConvert.DeserializeObject<Answer>(model.SelectedAnswer);
             var serialisedState = HttpUtility.UrlEncode(JsonConvert.SerializeObject(model.State));
             var businessApiNextNodeUrl = _configuration.GetBusinessApiNextNodeUrl(model.PathwayId, model.NodeType, model.Id, serialisedState);

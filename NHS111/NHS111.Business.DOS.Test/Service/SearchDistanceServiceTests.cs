@@ -1,16 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Text;
-using System.Threading.Tasks;
-using Moq;
+﻿using Moq;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 using NHS111.Business.DOS.Service;
 using NHS111.Models.Models.Web.CCG;
 using NUnit.Framework;
 using RestSharp;
+using System.Net;
+using System.Threading.Tasks;
 
 namespace NHS111.Business.DOS.Test.Service
 {

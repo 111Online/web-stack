@@ -1,12 +1,9 @@
-﻿using System;
-using System.Threading.Tasks;
-using System.Web.Http.Results;
-using Newtonsoft.Json;
-using NHS111.Business.DOS.Configuration;
-using NHS111.Utils.Helpers;
+﻿using NHS111.Business.DOS.Configuration;
 using NHS111.Utils.Monitoring;
 using NHS111.Utils.RestTools;
 using RestSharp;
+using System;
+using System.Threading.Tasks;
 
 namespace NHS111.Business.DOS.Api.Monitoring
 {
@@ -42,7 +39,8 @@ namespace NHS111.Business.DOS.Api.Monitoring
 
         }
 
-        public override string Version() {
+        public override string Version()
+        {
             return Assembly.GetCallingAssembly().GetName().Version.ToString();
         }
     }

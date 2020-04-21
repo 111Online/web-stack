@@ -3,19 +3,21 @@ using NHS111.Models.Models.Domain;
 using NHS111.Utils.RestTools;
 using RestSharp;
 
-namespace NHS111.Business.Services {
+namespace NHS111.Business.Services
+{
+    using Configuration;
     using System;
     using System.Collections.Generic;
     using System.Threading.Tasks;
-    using Configuration;
-    using Newtonsoft.Json;
 
     public class CareAdviceService
-        : ICareAdviceService {
+        : ICareAdviceService
+    {
         private readonly IConfiguration _configuration;
         private readonly IRestClient _restClient;
 
-        public CareAdviceService(IConfiguration configuration, IRestClient restClientDomainApi) {
+        public CareAdviceService(IConfiguration configuration, IRestClient restClientDomainApi)
+        {
             _configuration = configuration;
             _restClient = restClientDomainApi;
         }
@@ -40,7 +42,8 @@ namespace NHS111.Business.Services {
         }
     }
 
-    public interface ICareAdviceService {
+    public interface ICareAdviceService
+    {
         Task<IEnumerable<CareAdvice>> GetCareAdvice(int age, string gender, IEnumerable<string> markers);
         Task<IEnumerable<CareAdvice>> GetCareAdvice(string ageCategory, string gender, string keywords, string dxCode);
     }

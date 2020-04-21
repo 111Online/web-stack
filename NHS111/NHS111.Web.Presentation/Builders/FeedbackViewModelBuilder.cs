@@ -1,18 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Net.Http;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.Azure;
-using Microsoft.WindowsAzure.Storage;
-using Microsoft.WindowsAzure.Storage.Table;
-using Newtonsoft.Json;
-using NHS111.Models.Models.Web;
-using NHS111.Utils.Helpers;
+﻿using NHS111.Models.Models.Web;
 using NHS111.Utils.RestTools;
 using RestSharp;
+using System;
+using System.Net;
+using System.Threading.Tasks;
 using IConfiguration = NHS111.Web.Presentation.Configuration.IConfiguration;
 
 namespace NHS111.Web.Presentation.Builders
@@ -35,16 +26,20 @@ namespace NHS111.Web.Presentation.Builders
             feedback.DateAdded = DateTime.Now;
             feedback.PageData = await _pageDateViewModelBuilder.PageDataBuilder(feedback.PageData);
             feedback.PageId = feedback.PageData.ToString();
-            try {
+            try
+            {
                 var request = new JsonRestRequest(_configuration.FeedbackAddFeedbackUrl, Method.POST);
                 request.AddJsonBody(feedback);
                 request.AddHeader("Authorization", _configuration.FeedbackAuthorization);
                 var response = await _restClient.ExecuteTaskAsync(request);
 
-                if (response.StatusCode == HttpStatusCode.OK || response.StatusCode == HttpStatusCode.Created) {
+                if (response.StatusCode == HttpStatusCode.OK || response.StatusCode == HttpStatusCode.Created)
+                {
                     return new FeedbackConfirmationResultViewModel(feedback);
                 }
-            } catch {
+            }
+            catch
+            {
                 return new FeedbackErrorResultViewModel(feedback);
             }
             return new FeedbackErrorResultViewModel(feedback);

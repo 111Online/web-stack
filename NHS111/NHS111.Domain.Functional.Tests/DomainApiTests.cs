@@ -1,9 +1,7 @@
-﻿using System;
-using System.Configuration;
-using NHS111.Utils.Helpers;
-using NHS111.Utils.RestTools;
+﻿using NHS111.Utils.RestTools;
 using NUnit.Framework;
 using RestSharp;
+using System.Configuration;
 
 namespace NHS111.Domain.Functional.Tests
 {
@@ -16,7 +14,7 @@ namespace NHS111.Domain.Functional.Tests
         {
             get
             {
-                return ConfigurationManager.AppSettings["DomainApiBaseUrl"]; 
+                return ConfigurationManager.AppSettings["DomainApiBaseUrl"];
             }
         }
 
@@ -212,7 +210,7 @@ namespace NHS111.Domain.Functional.Tests
             var expectedNextId = "PW756.300";
             var url = string.Format(getNextQuestionEndpoint, _testQuestionId);
 
-           var request = new JsonRestRequest(url, Method.POST);
+            var request = new JsonRestRequest(url, Method.POST);
             request.AddJsonBody("Yes");
             var result = await _restClient.ExecuteTaskAsync(request);
 

@@ -1,19 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using AutoMapper;
+﻿using AutoMapper;
 using Moq;
 using Newtonsoft.Json;
 using NHS111.Models.Models.Domain;
 using NHS111.Models.Models.Web;
-using NHS111.Utils.Helpers;
 using NHS111.Utils.Parser;
-using NHS111.Web.Presentation.Builders;
-using NHS111.Web.Presentation.Models;
 using NUnit.Framework;
 using RestSharp;
+using System.Collections.Generic;
+using System.Linq;
 using IConfiguration = NHS111.Web.Presentation.Configuration.IConfiguration;
 
 namespace NHS111.Web.Presentation.Builders.Tests
@@ -58,10 +52,10 @@ namespace NHS111.Web.Presentation.Builders.Tests
 
             _configuration.Setup(c => c.GetBusinessApiPathwayIdUrl(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<int>())).Returns(MOCK_BusinessApiPathwayIdUrl);
             _configuration.Setup(c => c.GetBusinessApiJustToBeSafePartOneUrl(It.IsAny<string>())).Returns(MOCK_GetBusinessApiJustToBeSafePartOneUrl);
-            _configuration.Setup(c => c.GetBusinessApiFirstQuestionUrl(It.IsAny<string>(),It.IsAny<string>())).Returns(MOCK_GetBusinessApiFirstQuestionUrl);
+            _configuration.Setup(c => c.GetBusinessApiFirstQuestionUrl(It.IsAny<string>(), It.IsAny<string>())).Returns(MOCK_GetBusinessApiFirstQuestionUrl);
 
 
-            var pathwayJson = 
+            var pathwayJson =
                     "{'id':'" + testPathwayId + "'," +
                     "'title':'" + testPathwayTitle + "'," +
                     "'pathwayNo':'" + testPathwayNo + "'," +
@@ -109,17 +103,17 @@ namespace NHS111.Web.Presentation.Builders.Tests
                 .Returns(testKeywordsCollection);
 
             _testJustToBeSafeFirstViewModelBuilder = new JustToBeSafeFirstViewModelBuilder(_restClient.Object, _configuration.Object, _mappingEngine.Object, _keywordCollector.Object, _userZoomDataBuilder.Object);
-            
+
 
         }
 
         [Test()]
         public async void JustToBeSafeFirstBuilder_Builds_Pathways_Data_Test()
         {
-            var result = await _testJustToBeSafeFirstViewModelBuilder.JustToBeSafeFirstBuilder(new JustToBeSafeViewModel(){UserInfo = new UserInfo { Demography = new AgeGenderViewModel { Age = 22, Gender = testGender } }, PathwayNo = testPathwayNo});
+            var result = await _testJustToBeSafeFirstViewModelBuilder.JustToBeSafeFirstBuilder(new JustToBeSafeViewModel() { UserInfo = new UserInfo { Demography = new AgeGenderViewModel { Age = 22, Gender = testGender } }, PathwayNo = testPathwayNo });
             Assert.IsNotNull(result);
 
-            Assert.AreEqual(testPathwayTitle,result.Item2.PathwayTitle);
+            Assert.AreEqual(testPathwayTitle, result.Item2.PathwayTitle);
             Assert.AreEqual(testPathwayId, result.Item2.PathwayId);
             Assert.AreEqual(testPathwayNo, result.Item2.PathwayNo);
 

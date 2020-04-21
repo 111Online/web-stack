@@ -1,15 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Text;
-using System.Threading.Tasks;
-using AutoMapper;
+﻿using AutoMapper;
 using NHS111.Models.Models.Web;
-using NHS111.Models.Models.Web.DataCapture;
-using NHS111.Models.Models.Web.ITK;
 using NHS111.Utils.RestTools;
 using RestSharp;
+using System.Net;
+using System.Threading.Tasks;
 using IConfiguration = NHS111.Web.Presentation.Configuration.IConfiguration;
 
 namespace NHS111.Web.Presentation.Builders
@@ -25,7 +19,7 @@ namespace NHS111.Web.Presentation.Builders
             _restClientCaseDataCaptureApi = restClientCaseDataCaptureApi;
         }
 
-        public async Task<SMSRegistrationViewModel> MessageCaseDataCaptureApi<TRequest, TViewDeterminer>(SendSmsOutcomeViewModel model, string endPoint) 
+        public async Task<SMSRegistrationViewModel> MessageCaseDataCaptureApi<TRequest, TViewDeterminer>(SendSmsOutcomeViewModel model, string endPoint)
             where TViewDeterminer : SMSViewDeterminerBase, new()
         {
             var request = Mapper.Map<TRequest>(model);

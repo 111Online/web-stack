@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Web;
-using System.Web.Mvc;
-using AutoMapper;
+﻿using AutoMapper;
 using Newtonsoft.Json;
 using NHS111.Models.Models.Domain;
 using NHS111.Models.Models.Web;
@@ -13,7 +7,8 @@ using NHS111.Models.Models.Web.FromExternalServices;
 using NHS111.Web.Helpers;
 using NHS111.Web.Presentation.Builders;
 using RestSharp;
-using StructureMap.Query;
+using System.Threading.Tasks;
+using System.Web.Mvc;
 using IConfiguration = NHS111.Web.Presentation.Configuration.IConfiguration;
 
 namespace NHS111.Web.Controllers
@@ -25,7 +20,7 @@ namespace NHS111.Web.Controllers
         private readonly IConfiguration _configuration;
         private readonly IViewRouter _viewRouter;
 
-        public RegisterForSMSController(IRegisterForSMSViewModelBuilder registerForSmsViewModelBuilder, 
+        public RegisterForSMSController(IRegisterForSMSViewModelBuilder registerForSmsViewModelBuilder,
             IJourneyViewModelBuilder journeyViewModelBuilder, IConfiguration configuration, IRestClient restClientBusinessApi, IViewRouter viewRouter)
         {
             _registerForSmsViewModelBuilder = registerForSmsViewModelBuilder;
@@ -117,7 +112,7 @@ namespace NHS111.Web.Controllers
         {
             var verificationCodeInput = JsonConvert.DeserializeObject<Journey>(model.JourneyJson)
                 .GetStepInputValue<string>(QuestionType.String, "DxC112");
-            return new VerificationCodeInputViewModel(){ InputValue = verificationCodeInput };
+            return new VerificationCodeInputViewModel() { InputValue = verificationCodeInput };
         }
     }
 }

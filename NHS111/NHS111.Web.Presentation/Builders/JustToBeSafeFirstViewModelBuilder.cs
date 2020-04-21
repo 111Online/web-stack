@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using AutoMapper;
+﻿using AutoMapper;
 using Newtonsoft.Json;
 using NHS111.Models.Models.Domain;
 using NHS111.Models.Models.Web;
@@ -11,6 +7,10 @@ using NHS111.Models.Models.Web.FromExternalServices;
 using NHS111.Utils.Parser;
 using NHS111.Utils.RestTools;
 using RestSharp;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using IConfiguration = NHS111.Web.Presentation.Configuration.IConfiguration;
 
 namespace NHS111.Web.Presentation.Builders
@@ -32,7 +32,8 @@ namespace NHS111.Web.Presentation.Builders
             _userZoomDataBuilder = userZoomDataBuilder;
         }
 
-        public async Task<Tuple<string, QuestionViewModel>> JustToBeSafeFirstBuilder(JustToBeSafeViewModel model) {
+        public async Task<Tuple<string, QuestionViewModel>> JustToBeSafeFirstBuilder(JustToBeSafeViewModel model)
+        {
 
             if (model.PathwayId != null)
                 model = await DoWorkPreviouslyDoneInQuestionBuilder(model); //todo refactor away
@@ -93,7 +94,8 @@ namespace NHS111.Web.Presentation.Builders
 
         }
 
-        private async Task<JustToBeSafeViewModel> DoWorkPreviouslyDoneInQuestionBuilder(JustToBeSafeViewModel model) {
+        private async Task<JustToBeSafeViewModel> DoWorkPreviouslyDoneInQuestionBuilder(JustToBeSafeViewModel model)
+        {
             var businessApiPathwayUrl = _configuration.GetBusinessApiPathwayUrl(model.PathwayId);
             var response = await _restClient.ExecuteTaskAsync<Pathway>(new JsonRestRequest(businessApiPathwayUrl, Method.GET));
 
@@ -142,7 +144,7 @@ namespace NHS111.Web.Presentation.Builders
             model.PathwayTitle = pathway.Title;
             model.PathwayNo = pathway.PathwayNo;
             model.PathwayTraumaType = pathway.TraumaType;
-            model.State = JourneyViewModelStateBuilder.BuildState(model.UserInfo.Demography.Gender,model.UserInfo.Demography.Age, model.State);
+            model.State = JourneyViewModelStateBuilder.BuildState(model.UserInfo.Demography.Gender, model.UserInfo.Demography.Age, model.State);
             model.StateJson = JourneyViewModelStateBuilder.BuildStateJson(model.State);
             model.CollectedKeywords = new KeywordBag(_keywordCollector.ParseKeywords(pathway.Keywords, false).ToList(), _keywordCollector.ParseKeywords(pathway.ExcludeKeywords, false).ToList());
             return model;
