@@ -33,6 +33,7 @@ namespace NHS111.Web.Controllers
 
         [Route("Location")]
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult Location(LocationViewModel model)
         {
             return View(model);
@@ -46,6 +47,7 @@ namespace NHS111.Web.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<ActionResult> Find(LocationViewModel model)
         {
             ModelState.Clear();
@@ -60,6 +62,7 @@ namespace NHS111.Web.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult FindByAddress(ConfirmLocationViewModel model)
         {
             ModelState.Clear();
@@ -69,6 +72,7 @@ namespace NHS111.Web.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<ActionResult> ConfirmAddress(string longlat, ConfirmLocationViewModel model)
         {
             var results = await _locationResultBuilder.LocationResultByGeouilder(longlat);

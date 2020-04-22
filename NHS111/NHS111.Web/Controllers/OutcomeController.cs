@@ -53,12 +53,14 @@ namespace NHS111.Web.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<JsonResult> SearchSurgery(string input)
         {
             return Json((await _surgeryBuilder.SearchSurgeryBuilder(input)));
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<ActionResult> ChangePostcode(OutcomeViewModel model)
         {
             ModelState.Clear();
@@ -83,6 +85,7 @@ namespace NHS111.Web.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<ActionResult> DispositionWithServices(OutcomeViewModel model, string submitAction, DosEndpoint? endpoint = null, DateTime? dosSearchTime = null)
         {
             ModelState.Clear();
@@ -118,6 +121,7 @@ namespace NHS111.Web.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult OutcomeWithoutResults(OutcomeViewModel outcomeModel)
         {
             var viewRouter = _viewRouter.Build(outcomeModel, ControllerContext);
@@ -125,6 +129,7 @@ namespace NHS111.Web.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult RecommendedService(OutcomeViewModel outcomeModel)
         {
             ModelState.Clear();
@@ -170,6 +175,7 @@ namespace NHS111.Web.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<ActionResult> ServiceListUnprefixed(OutcomeViewModel model, [FromUri] DateTime? overrideDate, [FromUri] bool? overrideFilterServices, DosEndpoint? endpoint)
         {
             return await ServiceList(model, overrideDate, overrideFilterServices, endpoint);
@@ -177,6 +183,7 @@ namespace NHS111.Web.Controllers
 
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<ActionResult> ServiceList([Bind(Prefix = "FindService")]OutcomeViewModel model, [FromUri] DateTime? overrideDate, [FromUri] bool? overrideFilterServices, DosEndpoint? endpoint)
         {
             var reason = Request.Form["reason"];
@@ -281,6 +288,7 @@ namespace NHS111.Web.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<ActionResult> ServiceDetails([Bind(Prefix = "FindService")]OutcomeViewModel model, [FromUri] bool? overrideFilterServices, DosEndpoint? endpoint)
         {
 
@@ -333,12 +341,14 @@ namespace NHS111.Web.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<ActionResult> ReferralExplanation(PersonalDetailViewModel model)
         {
             return View("~\\Views\\Outcome\\Repeat_Prescription\\ReferralExplanation.cshtml", model);
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<ActionResult> Confirmation(PersonalDetailViewModel model, [FromUri] bool? overrideFilterServices)
         {
             var availableServices = await GetServiceAvailability(model, null, overrideFilterServices.HasValue ? overrideFilterServices.Value : model.FilterServices, null);
@@ -366,6 +376,7 @@ namespace NHS111.Web.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<ActionResult> ConfirmAddress(string longlat, ConfirmLocationViewModel model)
         {
             var results = await _locationResultBuilder.LocationResultByGeouilder(longlat);
@@ -398,6 +409,7 @@ namespace NHS111.Web.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult GetDirections(OutcomeViewModel model, int selectedServiceId, string selectedServiceName, string selectedServiceAddress)
         {
             _auditLogger.LogEventData(model, string.Format("User selected service '{0}' ({1})", selectedServiceName, selectedServiceId));
@@ -405,18 +417,21 @@ namespace NHS111.Web.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public void LogSelectedService(OutcomeViewModel model, int selectedServiceId, string selectedServiceName, string selectedServiceAddress)
         {
             _auditLogger.LogEventData(model, string.Format("User selected service '{0}' ({1})", selectedServiceName, selectedServiceId));
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult Emergency()
         {
             return View();
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<ActionResult> EdCallbackAcceptance(PersonalDetailViewModel model, string selectedAnswer)
         {
             model.HasAcceptedCallbackOffer = selectedAnswer.ToLower() == "yes";
@@ -446,6 +461,7 @@ namespace NHS111.Web.Controllers
         [HttpPost]
         [Route("Outcome/RegisterWithGp", Name = "RegisterWithGp")]
         [Route("Outcome/RegisterWithTempGp", Name = "RegisterWithTempGp")]
+        [ValidateAntiForgeryToken]
         public async Task<ActionResult> MoreInfo(OutcomeViewModel model, string reason)
         {
             _auditLogger.LogPrimaryCareReason(model, reason);
@@ -455,6 +471,7 @@ namespace NHS111.Web.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<ActionResult> SurveyInterstitial(SurveyLinkViewModel model)
         {
 

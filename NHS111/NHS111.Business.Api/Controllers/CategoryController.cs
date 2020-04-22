@@ -1,11 +1,10 @@
 ﻿
 using NHS111.Models.Models.Domain;
-using NHS111.Utils.Cache;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Http.Results;
-using Newtonsoft.Json;
+using System.Web.Mvc;
 
 namespace NHS111.Business.Api.Controllers
 {
@@ -16,13 +15,11 @@ namespace NHS111.Business.Api.Controllers
     public class CategoryController : ApiController
     {
         private readonly ICategoryService _categoryService;
-        private readonly ICacheManager<string, string> _cacheManager;
         private readonly ICategoryFilter _categoryFilter;
 
-        public CategoryController(ICategoryService categoryService, ICacheManager<string, string> cacheManager, ICategoryFilter categoryFilter)
+        public CategoryController(ICategoryService categoryService, ICategoryFilter categoryFilter)
         {
             _categoryService = categoryService;
-            _cacheManager = cacheManager;
             _categoryFilter = categoryFilter;
         }
 
@@ -58,6 +55,7 @@ namespace NHS111.Business.Api.Controllers
 
         [Route("categories/pathways/{gender}/{age}")]
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<JsonResult<IEnumerable<CategoryWithPathways>>> GetCategoriesWithPathways(string gender, int age, [FromBody] string postcode)
         {
 

@@ -35,6 +35,7 @@ namespace NHS111.Web.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult StayAtHome(OutcomeViewModel model)
         {
             ModelState.Clear();

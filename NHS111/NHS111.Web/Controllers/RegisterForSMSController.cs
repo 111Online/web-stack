@@ -6,7 +6,6 @@ using NHS111.Models.Models.Web.DataCapture;
 using NHS111.Models.Models.Web.FromExternalServices;
 using NHS111.Web.Helpers;
 using NHS111.Web.Presentation.Builders;
-using RestSharp;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using NHS111.Utils.RestTools;
@@ -32,6 +31,7 @@ namespace NHS111.Web.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<ActionResult> GetSMSSecurityCode(SendSmsOutcomeViewModel model)
         {
             var result = await _registerForSmsViewModelBuilder
@@ -43,6 +43,7 @@ namespace NHS111.Web.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<ActionResult> SubmitSMSSecurityCode(SendSmsOutcomeViewModel model)
         {
             if (VerificationCodeInputIsNotValid())
@@ -56,6 +57,7 @@ namespace NHS111.Web.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<ActionResult> SubmitSMSRegistration(SendSmsOutcomeViewModel model)
         {
             model.VerificationCodeInput = GetVerificationCodeInputFromJourney(model);
@@ -67,6 +69,7 @@ namespace NHS111.Web.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<ActionResult> GoBackToSMSVerifyStart(SendSmsOutcomeViewModel model)
         {
             //var VerifyForSMSViewModel = new VerifyForSMSViewModel(model);
