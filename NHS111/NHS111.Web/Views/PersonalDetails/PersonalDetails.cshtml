@@ -301,7 +301,7 @@
                         // If DoB not yet set, return valid.
                         if (!Number.isInteger(age)) dateIsValid = true;
                         else dateIsValid = getAge() <= parseInt(params.maximumage);
-                        console.log("date age max", dateIsValid, age, params.maximumage)
+
                         setDateGroupErrorStyles(dateIsValid)
                         return dateIsValid;
                     });
