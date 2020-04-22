@@ -27,7 +27,7 @@ namespace NHS111.Domain.Monitoring
             {
                 return await _monitorRepository.CheckHealth();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return false;
             }

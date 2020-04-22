@@ -4,7 +4,7 @@ using System.Web.Mvc;
 namespace NHS111.Web.App_Start
 {
 
-    public class ApplicationMediumActionFilter : ActionFilterAttribute
+    public class ApplicationMediumActionFilterAttribute : ActionFilterAttribute
     {
 
         public override void OnResultExecuting(ResultExecutingContext filterContext)

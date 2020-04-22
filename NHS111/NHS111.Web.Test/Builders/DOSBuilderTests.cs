@@ -28,7 +28,6 @@ namespace NHS111.Web.Presentation.Builders.Tests
         private Mock<ILoggingRestClient> _mockRestClient;
         private Mock<Presentation.Configuration.IConfiguration> _mockConfiguration;
         private DOSBuilder _dosBuilder;
-        private Mock<ISurgeryBuilder> _mockSurgeryBuilder;
         private Mock<IITKMessagingFeature> _mockItkMessagingFeature;
 
         private string _mockPathwayURL = "PW755";

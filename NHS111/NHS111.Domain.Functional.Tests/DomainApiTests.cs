@@ -25,7 +25,6 @@ namespace NHS111.Domain.Functional.Tests
         private string _expectedNextId = "PW756.300";
 
         private ILoggingRestClient _restClient = new LoggingRestClient(DomainApiBaseUrl, LogManager.GetLogger("log"));
-        private string DxCode = "Dx12";
 
         /// <summary>
         /// Example test method for a HTTP GET.

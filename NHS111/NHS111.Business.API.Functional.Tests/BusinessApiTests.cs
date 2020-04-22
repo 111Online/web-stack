@@ -16,13 +16,9 @@ namespace NHS111.Business.API.Functional.Tests
     [TestFixture]
     public class BusinessApiTests
     {
-        private string _testQuestionId = "PW1346.1000";
         private string _testPathwayNo2 = "PW752";
         private string _testPathwayNo3 = "PW628";
         private string _testPathwayNo = "PW1708";
-        private string _expectedNodeId = "PW752.200";
-        private string DxCode1 = "Dx12";
-        private string _testQuestionId2 = "PW628.9800";
 
 
         private ILoggingRestClient _restClient = new LoggingRestClient(ConfigurationManager.AppSettings["BusinessApiProtocolandDomain"], LogManager.GetLogger("log"));

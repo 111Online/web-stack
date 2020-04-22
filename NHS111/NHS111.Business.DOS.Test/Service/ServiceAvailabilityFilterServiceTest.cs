@@ -40,7 +40,6 @@ namespace NHS111.Business.DOS.Test.Service
         private const string FILTERED_CLINICIAN_DISPOSITION_CODES = "11329|11106|1034|11327|11325|1035|1032";
         private const string FILTERED_CLINICIAN_DOS_SERVICE_IDS = "40";
 
-        private ServiceAvailabilityProfile _mockServiceAvailabliityProfileResponse;
         private static readonly string CheckCapacitySummaryResults = @"{
             ""CheckCapacitySummaryResult"": [{
                     ""idField"": 1419419101,
@@ -124,7 +123,7 @@ namespace NHS111.Business.DOS.Test.Service
             _mockDosService.Setup(x => x.GetServices(It.IsAny<DosCheckCapacitySummaryRequest>(), null)).Returns(Task<DosCheckCapacitySummaryResult>.Factory.StartNew(() => fakeResponse));
 
             _mockServiceAvailabilityProfileManager.Setup(c => c.FindServiceAvailability(fakeDoSFilteredCase))
-                .Returns(new ServiceAvailability(_mockServiceAvailabliityProfileResponse, fakeDoSFilteredCase.DispositionTime, fakeDoSFilteredCase.DispositionTimeFrameMinutes));
+                .Returns(new ServiceAvailability(null, fakeDoSFilteredCase.DispositionTime, fakeDoSFilteredCase.DispositionTimeFrameMinutes));
 
             _mockFilterServicesFeature.Setup(c => c.IsEnabled).Returns(true);
 
@@ -139,7 +138,7 @@ namespace NHS111.Business.DOS.Test.Service
         }
 
         [Test]
-        public async void non_filtered_disposition_should_return_unfiltered_CheckCapacitySummaryResult()
+        public void non_filtered_disposition_should_return_unfiltered_CheckCapacitySummaryResult()
         {
             var dispoCode = 1010;
 
@@ -174,7 +173,7 @@ namespace NHS111.Business.DOS.Test.Service
         }
 
         [Test]
-        public async void out_of_hours_should_return_unfiltered_CheckCapacitySummaryResult()
+        public void out_of_hours_should_return_unfiltered_CheckCapacitySummaryResult()
         {
             var dispoCode = 1008;
 
@@ -195,7 +194,7 @@ namespace NHS111.Business.DOS.Test.Service
         }
 
         [Test]
-        public async void in_hours_shoulder_should_return_filtered_CheckCapacitySummaryResult()
+        public void in_hours_shoulder_should_return_filtered_CheckCapacitySummaryResult()
         {
             var dispoCode = 1008;
 
@@ -215,7 +214,7 @@ namespace NHS111.Business.DOS.Test.Service
         }
 
         [Test]
-        public async void in_hours_shoulder_on_the_button_should_return_filtered_CheckCapacitySummaryResult()
+        public void in_hours_shoulder_on_the_button_should_return_filtered_CheckCapacitySummaryResult()
         {
             var dispoCode = 1008;
 
@@ -237,7 +236,7 @@ namespace NHS111.Business.DOS.Test.Service
         }
 
         [Test]
-        public async void out_of_hours_traversing_in_hours_should_return_filtered_CheckCapacitySummaryResult()
+        public void out_of_hours_traversing_in_hours_should_return_filtered_CheckCapacitySummaryResult()
         {
             var dispoCode = 1008;
 
@@ -258,7 +257,7 @@ namespace NHS111.Business.DOS.Test.Service
         }
 
         [Test]
-        public async void Dental_out_of_hours_traversing_in_hours_should_return_filtered_CheckCapacitySummaryResult()
+        public void Dental_out_of_hours_traversing_in_hours_should_return_filtered_CheckCapacitySummaryResult()
         {
             var dispoCode = 1017;
 
@@ -279,7 +278,7 @@ namespace NHS111.Business.DOS.Test.Service
         }
 
         [Test]
-        public async void Dental_in_hours_shoulder_should_return_filtered_CheckCapacitySummaryResult()
+        public void Dental_in_hours_shoulder_should_return_filtered_CheckCapacitySummaryResult()
         {
             var dispoCode = 1017;
 
@@ -299,7 +298,7 @@ namespace NHS111.Business.DOS.Test.Service
         }
 
         [Test]
-        public async void Dental_No_Blacklited_Services_Returns_All_CheckCapacitySummaryResults()
+        public void Dental_No_Blacklited_Services_Returns_All_CheckCapacitySummaryResults()
         {
             _mockConfiguration.Setup(c => c.FilteredDentalDispositionCodes).Returns("");
 
@@ -321,7 +320,7 @@ namespace NHS111.Business.DOS.Test.Service
         }
 
         [Test]
-        public async void Dental_out_of_hours_should_return_filtered_CheckCapacitySummaryResult()
+        public void Dental_out_of_hours_should_return_filtered_CheckCapacitySummaryResult()
         {
             var dispoCode = 1017;
 

@@ -3,7 +3,7 @@ using System.Web.Routing;
 
 namespace NHS111.Web
 {
-    public class RouteConfig
+    public static class RouteConfig
     {
         public static void RegisterRoutes(RouteCollection routes)
         {

@@ -32,7 +32,7 @@ namespace NHS111.Business.Monitoring
                 var health = await _restClient.ExecuteAsync<bool>(new JsonRestRequest(_configuration.GetDomainApiMonitorHealthUrl(), Method.GET));
                 return health.Data;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return false;
             }

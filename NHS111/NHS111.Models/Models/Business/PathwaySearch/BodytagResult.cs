@@ -6,7 +6,7 @@ namespace NHS111.Models.Models.Business.PathwaySearch
     public class BodytagResult
     {
 
-        [String(Name = "tag", Index = FieldIndexOption.Analyzed)]
+        [Text(Name = "tag")]
         public string Tag { get; set; }
     }
 }

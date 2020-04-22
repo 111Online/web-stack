@@ -133,7 +133,6 @@ namespace NHS111.Web.Presentation.Builders
         private readonly ISymptomDiscriminatorCollector _symptomDiscriminatorCollector;
         private readonly IKeywordCollector _keywordCollector;
         private readonly IJustToBeSafeFirstViewModelBuilder _justToBeSafeFirstViewModelBuilder;
-        private readonly IConfiguration _configuration;
         private readonly IPostCodeAllowedValidator _postCodeAllowedValidator;
     }
 

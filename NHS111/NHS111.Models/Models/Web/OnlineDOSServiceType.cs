@@ -36,6 +36,11 @@ namespace NHS111.Models.Models.Web.FromExternalServices
             IsReferral = isReferral;
         }
 
+        public override int GetHashCode()
+        {
+            return Id.GetHashCode();
+        }
+
         public override bool Equals(object obj)
         {
             if (!(obj is OnlineDOSServiceType))

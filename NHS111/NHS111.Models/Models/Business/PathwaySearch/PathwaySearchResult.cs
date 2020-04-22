@@ -9,36 +9,36 @@ namespace NHS111.Models.Models.Business.PathwaySearch
         public const string HighlightPreTags = "<em class='highlight-term'>";
         public const string HighlightPostTags = "</em>";
 
-        [String(Name = "PathwayTitle", Index = FieldIndexOption.NotAnalyzed)]
+        [Keyword(Name = "PathwayTitle")]
         public string PathwayTitle { get; set; }
 
-        [String(Name = "DigitalDescriptions", Index = FieldIndexOption.Analyzed)]
+        [Text(Name = "DigitalDescriptions")]
         public List<string> Title { get; set; }
 
         public List<string> DisplayTitle { get; set; }
 
-        [String(Name = "DigitalDescriptions.phonetic", Index = FieldIndexOption.Analyzed)]
+        [Text(Name = "DigitalDescriptions.phonetic")]
         public List<string> TitlePhonetic { get; set; }
 
-        [String(Name = "DigitalDescriptions.shingles", Index = FieldIndexOption.Analyzed)]
+        [Text(Name = "DigitalDescriptions.shingles")]
         public List<string> TitleShingles { get; set; }
 
-        [String(Name = "KP_Use", Index = FieldIndexOption.Analyzed)]
+        [Text(Name = "KP_Use")]
         public string Description { get; set; }
 
-        [String(Name = "KP_Use.phonetic", Index = FieldIndexOption.Analyzed)]
+        [Text(Name = "KP_Use.phonetic")]
         public List<string> DescriptionPhonetic { get; set; }
 
-        [String(Name = "KP_Use.shingles", Index = FieldIndexOption.Analyzed)]
+        [Text(Name = "KP_Use.shingles")]
         public List<string> DescriptionShingles { get; set; }
 
-        [String(Name = "PW_ID", Index = FieldIndexOption.NotAnalyzed)]
+        [Keyword(Name = "PW_ID")]
         public string PathwayNo { get; set; }
 
-        [String(Name = "PW_Gender", Index = FieldIndexOption.NotAnalyzed)]
+        [Keyword(Name = "PW_Gender")]
         public List<string> Gender { get; set; }
 
-        [String(Name = "PW_Age", Index = FieldIndexOption.NotAnalyzed)]
+        [Keyword(Name = "PW_Age")]
         public List<string> AgeGroup { get; set; }
 
         [Text(Ignore = true)]

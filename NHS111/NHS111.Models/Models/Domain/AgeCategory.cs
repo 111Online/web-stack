@@ -101,9 +101,18 @@ namespace NHS111.Models.Models.Domain
 
         }
 
+        public override int GetHashCode()
+        {
+            return Value.GetHashCode();
+        }
+
         public override bool Equals(object obj)
         {
-            return this.Value == ((AgeCategory)obj).Value;
+            if (!(obj is AgeCategory))
+            {
+                return false;
+            }
+            return Value == ((AgeCategory) obj).Value;
         }
     }
 }

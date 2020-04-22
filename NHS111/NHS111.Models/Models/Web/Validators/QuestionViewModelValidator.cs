@@ -52,8 +52,6 @@ namespace NHS111.Models.Models.Web.Validators
         {
             public IntegerSymptomsStartedValidator()
             {
-                var i = 0;
-
                 RuleFor(p => Convert.ToInt32(p))
                     .GreaterThanOrEqualTo(0)
                     .LessThanOrEqualTo(10).WithMessage("Number of days can't be more than 10");

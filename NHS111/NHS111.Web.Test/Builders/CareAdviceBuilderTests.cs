@@ -57,8 +57,6 @@ namespace NHS111.Web.Presentation.Builders.Tests
             await careAdviceBuilerToTest.FillCareAdviceBuilder("Dx11", "Adult", "Male",
                 new List<string>() { TEST_CAREADVICE_ITEM_FIRST, TEST_CAREADVICE_ITEM_SECOND });
 
-            var expectedKeywordsString = TEST_CAREADVICE_ITEM_FIRST + "|" + TEST_CAREADVICE_ITEM_SECOND;
-
             _configuration.Verify(c => c.GetBusinessApiInterimCareAdviceUrl(
                 It.Is<string>(s => s == "Dx11"),
                 It.Is<string>(s => s == "Adult"),

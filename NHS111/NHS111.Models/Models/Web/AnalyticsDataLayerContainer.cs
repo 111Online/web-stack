@@ -101,8 +101,6 @@ namespace NHS111.Models.Models.Web
         {
             this[VirtualPageTitleKey] = string.Format("Emergency Prescription {0} ITK Confirmation - Success", viewModel.ItkConfirmationModel.SelectedService.OnlineDOSServiceType.Id);
         }
-
-        private readonly OnlineDOSServiceType _serviceType;
     }
 
     public class Coronavirus111CallbackReferralConfirmationAnalyticsDataLayer
