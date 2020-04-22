@@ -229,12 +229,9 @@
                             return true;
                         }
 
-                        // If the day/month are not valid then entire date should always be invalid, 
+                        // If the day/month/year are not valid then entire date should always be invalid, 
                         // and update the styling to show that.
-                        // Note: We are not checking year here so we can show the
-                        // date of birth validation message instead of invalid date
-                        // and ensure the year shows as invalid (in red) without all of them showing invalid.
-                        if (!isDayValid || !isMonthValid) {
+                        if (!isDayValid || !isMonthValid || !isYearValid) {
                             setDateGroupErrorStyles(false)
                             return false;
                         }
@@ -255,6 +252,11 @@
                         if (day === "" || month === "" || year === "") return;
 
                         var dob = new Date(year, month - 1, day);
+
+                        // If you enter 39 it will think it is 1939 so doesn't
+                        // give the correct age. This ensures it uses the 4 digit year.
+                        dob.setFullYear(year);
+
                         var today = new Date();
                         var age = today.getFullYear() - dob.getFullYear();
                         if (today.getMonth() - 1 < dob.getMonth() - 1 || (today.getMonth() - 1 == dob.getMonth() - 1 && today.getDay() < dob.getDay()))
@@ -299,7 +301,7 @@
                         // If DoB not yet set, return valid.
                         if (!Number.isInteger(age)) dateIsValid = true;
                         else dateIsValid = getAge() <= parseInt(params.maximumage);
-
+                        console.log("date age max", dateIsValid, age, params.maximumage)
                         setDateGroupErrorStyles(dateIsValid)
                         return dateIsValid;
                     });
