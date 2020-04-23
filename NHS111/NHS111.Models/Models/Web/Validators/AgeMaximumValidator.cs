@@ -40,7 +40,7 @@ namespace NHS111.Models.Models.Web.Validators
             var rule = new ModelClientValidationRule
             {
                 ErrorMessage = this.ErrorMessageSource.GetString(), // default error message
-                ValidationType = "agemaximum" // name of the validatoin which will be used inside unobtrusive library
+                ValidationType = "agemaximum" // name of the validation which will be used inside unobtrusive library
             };
 
             rule.ValidationParameters["prefixelement"] = _dependencyElement;

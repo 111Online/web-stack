@@ -19,9 +19,9 @@ namespace NHS111.Models.Models.Web.Validators
                 .Must(s => s.StartsWith("0") || s.StartsWith("1"))
                 .Matches("^[0-1,\\s, +]{1}[0-9,\\s]{8,20}$")
                 .Length(9, 21);
-            RuleFor(p => p.Day).SetValidator(new DateOfBirthDayValidator<UserInfo, int?>(m => m.Day));
-            RuleFor(p => p.Month).SetValidator(new DateOfBirthMonthValidator<UserInfo, int?>(m => m.Month));
-            RuleFor(p => p.Year).SetValidator(new DateOfBirthYearValidator<UserInfo, int?>(m => m.Year));
+            RuleFor(p => p.Day).SetValidator(new DateDayValidator<UserInfo, int?>(m => m.Day));
+            RuleFor(p => p.Month).SetValidator(new DateMonthValidator<UserInfo, int?>(m => m.Month));
+            RuleFor(p => p.Year).SetValidator(new DateYearValidator<UserInfo, int?>(m => m.Year));
             RuleFor(p => p.DoB).SetValidator(new DateOfBirthValidator<UserInfo, DateTime?>(m => m.DoB));
         }
     }
@@ -41,10 +41,10 @@ namespace NHS111.Models.Models.Web.Validators
     {
         public DateTimeValidator()
         {
-            RuleFor(p => p.Day).SetValidator(new DateOfBirthDayValidator<DateTimeViewModel, int?>(m => m.Day));
-            RuleFor(p => p.Month).SetValidator(new DateOfBirthMonthValidator<DateTimeViewModel, int?>(m => m.Month));
-            RuleFor(p => p.Year).SetValidator(new DateOfBirthYearValidator<DateTimeViewModel, int?>(m => m.Year));
-            RuleFor(p => p.Date).SetValidator(new DateOfBirthValidator<DateTimeViewModel, DateTime?>(m => m.Date));
+            RuleFor(p => p.Day).SetValidator(new DateDayValidator<DateTimeViewModel, int?>(m => m.Day));
+            RuleFor(p => p.Month).SetValidator(new DateMonthValidator<DateTimeViewModel, int?>(m => m.Month));
+            RuleFor(p => p.Year).SetValidator(new DateYearValidator<DateTimeViewModel, int?>(m => m.Year));
+            RuleFor(p => p.Date).SetValidator(new DateValidator<DateTimeViewModel, DateTime?>(m => m.Date));
         }
     }
 

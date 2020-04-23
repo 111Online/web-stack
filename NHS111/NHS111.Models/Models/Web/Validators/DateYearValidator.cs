@@ -7,10 +7,10 @@ using FluentValidation.Validators;
 
 namespace NHS111.Models.Models.Web.Validators
 {
-    public class DateOfBirthYearValidator<TModel, TProperty> : PropertyValidator, IClientValidatable
+    public class DateYearValidator<TModel, TProperty> : PropertyValidator, IClientValidatable
     {
         private string dependencyElement;
-        public DateOfBirthYearValidator(Expression<Func<TModel, TProperty>> expression)
+        public DateYearValidator(Expression<Func<TModel, TProperty>> expression)
             : base("Incorrect Year")
         {
             dependencyElement = (expression.Body as MemberExpression).Member.Name;
@@ -36,7 +36,7 @@ namespace NHS111.Models.Models.Web.Validators
             var ruleYear = new ModelClientValidationRule
             {
                 ErrorMessage = this.ErrorMessageSource.GetString(), // default error message
-                ValidationType = "year" // name of the validatoin which will be used inside unobtrusive library
+                ValidationType = "year" // name of the validation which will be used inside unobtrusive library
             };
 
             ruleYear.ValidationParameters["prefixelement"] = dependencyElement; // html element which includes prefix information

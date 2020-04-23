@@ -11,12 +11,10 @@ namespace NHS111.Models.Models.Web.Validators
 {
     public class PersonNameValidator<TModel, TProperty> : PropertyValidator, IClientValidatable
     {
-        private string _dependencyElement;
 
         public PersonNameValidator(Expression<Func<TModel, TProperty>> expression)
             : base("Specify Name")
         {
-            _dependencyElement = (expression.Body as MemberExpression).Member.Name;
         }
 
         protected override bool IsValid(PropertyValidatorContext context)
@@ -29,10 +27,8 @@ namespace NHS111.Models.Models.Web.Validators
             var ruleYear = new ModelClientValidationRule
             {
                 ErrorMessage = this.ErrorMessageSource.GetString(), // default error message
-                ValidationType = "personname" // name of the validatoin which will be used inside unobtrusive library
+                ValidationType = "personname" // name of the validation which will be used inside unobtrusive library
             };
-
-            ruleYear.ValidationParameters["prefixelement"] = _dependencyElement; // html element which includes prefix information
 
             yield return ruleYear;
         }
