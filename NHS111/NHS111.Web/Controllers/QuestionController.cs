@@ -132,7 +132,7 @@ namespace NHS111.Web.Controllers
                 ModelState.AddModelError("SymptomsStart.Day", "Please enter a number");
                 return View("Custom/SymptomsStarted", model);
             }
-            var result = new QuestionViewModelValidator.IntegerSymptomsStartedValidator().Validate(days);
+            var result = new QuestionViewModelValidator.IntegerSymptomsStartedValidator(99).Validate(days);
             if (!result.IsValid)
             {
                 foreach (var error in result.Errors)

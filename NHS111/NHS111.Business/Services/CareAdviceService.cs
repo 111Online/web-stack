@@ -1,5 +1,7 @@
 ﻿
+using NHS111.Models.Models.Business.Caching;
 using NHS111.Models.Models.Domain;
+using NHS111.Utils.Cache;
 using NHS111.Utils.RestTools;
 using RestSharp;
 
@@ -15,11 +17,12 @@ namespace NHS111.Business.Services
     {
         private readonly IConfiguration _configuration;
         private readonly ILoggingRestClient _restClient;
+        private readonly ICacheStore _cacheStore;
 
-        public CareAdviceService(IConfiguration configuration, ILoggingRestClient restClientDomainApi)
-        {
+        public CareAdviceService(IConfiguration configuration, ILoggingRestClient restClientDomainApi, ICacheStore cacheStore) {
             _configuration = configuration;
             _restClient = restClientDomainApi;
+            _cacheStore = cacheStore;
         }
 
         public async Task<IEnumerable<CareAdvice>> GetCareAdvice(int age, string gender, IEnumerable<string> markers)
@@ -30,15 +33,18 @@ namespace NHS111.Business.Services
 
         public async Task<IEnumerable<CareAdvice>> GetCareAdvice(string ageCategory, string gender, string keywords, string dxCode)
         {
-            var domainApiCareAdviceUrl = _configuration.GetDomainApiCareAdviceUrl(dxCode, ageCategory, gender);
-            var request = new JsonRestRequest(domainApiCareAdviceUrl, Method.POST);
-            request.AddJsonBody(keywords);
+            return await _cacheStore.GetOrAdd(new CareAdviceCacheKey(ageCategory, gender, keywords, dxCode), async () =>
+            {
+                var domainApiCareAdviceUrl = _configuration.GetDomainApiCareAdviceUrl(dxCode, ageCategory, gender);
+                var request = new JsonRestRequest(domainApiCareAdviceUrl, Method.POST);
+                request.AddJsonBody(keywords);
 
-            var response = await _restClient.ExecuteAsync<IEnumerable<CareAdvice>>(request);
-            if (!response.IsSuccessful)
-                throw new Exception(string.Format("A problem occured requesting {0}. {1}", domainApiCareAdviceUrl, response.ErrorMessage));
+                var response = await _restClient.ExecuteAsync<IEnumerable<CareAdvice>>(request);
+                if (!response.IsSuccessful)
+                    throw new Exception(string.Format("A problem occured requesting {0}. {1}", domainApiCareAdviceUrl, response.ErrorMessage));
 
-            return response.Data;
+                return response.Data;
+            });
         }
     }
 

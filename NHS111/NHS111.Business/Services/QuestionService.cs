@@ -4,6 +4,7 @@ using NHS111.Business.Configuration;
 using NHS111.Business.Transformers;
 using NHS111.Models.Models.Domain;
 using NHS111.Models.Models.Web.FromExternalServices;
+using NHS111.Utils.Cache;
 using NHS111.Utils.Parser;
 using NHS111.Utils.RestTools;
 using RestSharp;
@@ -23,7 +24,10 @@ namespace NHS111.Business.Services
         private readonly IKeywordCollector _keywordCollector;
         private readonly ICareAdviceService _careAdviceService;
         private readonly ICareAdviceTransformer _careAdviceTransformer;
-        public QuestionService(IConfiguration configuration, ILoggingRestClient restClientDomainApi, IAnswersForNodeBuilder answersForNodeBuilder, IModZeroJourneyStepsBuilder modZeroJourneyStepsBuilder, IKeywordCollector keywordcollector, ICareAdviceService careAdviceService, ICareAdviceTransformer careAdviceTransformer)
+        private readonly ICacheStore _cacheStore;
+        public QuestionService(IConfiguration configuration, ILoggingRestClient restClientDomainApi, IAnswersForNodeBuilder answersForNodeBuilder, 
+            IModZeroJourneyStepsBuilder modZeroJourneyStepsBuilder, IKeywordCollector keywordcollector, ICareAdviceService careAdviceService, 
+            ICareAdviceTransformer careAdviceTransformer, ICacheStore cacheStore)
         {
             _configuration = configuration;
             _restClient = restClientDomainApi;
@@ -32,6 +36,7 @@ namespace NHS111.Business.Services
             _keywordCollector = keywordcollector;
             _careAdviceService = careAdviceService;
             _careAdviceTransformer = careAdviceTransformer;
+            _cacheStore = cacheStore;
         }
 
         public async Task<QuestionWithAnswers> GetQuestion(string id)

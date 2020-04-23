@@ -1,5 +1,8 @@
-﻿using NHS111.Business.Configuration;
-using NHS111.Models.Models.Domain;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
+using NHS111.Business.Configuration;
+ using NHS111.Models.Models.Domain;
+using NHS111.Utils.Cache;
 using NHS111.Utils.RestTools;
 using RestSharp;
 using System.Collections.Generic;
@@ -12,10 +15,13 @@ namespace NHS111.Business.Services
         private readonly IConfiguration _configuration;
         private readonly ILoggingRestClient _restClient;
 
-        public PathwayService(IConfiguration configuration, ILoggingRestClient restClientDomainApi)
+        private readonly ICacheStore _cacheStore;
+
+        public PathwayService(IConfiguration configuration, ILoggingRestClient restClientDomainApi, ICacheStore cacheStore)
         {
             _configuration = configuration;
             _restClient = restClientDomainApi;
+            _cacheStore = cacheStore;
         }
 
         public async Task<IEnumerable<Pathway>> GetPathways(bool grouped, bool startingOnly)
