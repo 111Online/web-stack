@@ -5,6 +5,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web.Http.Results;
 using System.Web.Mvc;
+//used in release build
+using Newtonsoft.Json;
+using NHS111.Utils.Cache;
 
 namespace NHS111.Business.Api.Controllers
 {
@@ -15,11 +18,13 @@ namespace NHS111.Business.Api.Controllers
     public class CategoryController : ApiController
     {
         private readonly ICategoryService _categoryService;
+        private readonly ICacheManager<string, string> _cacheManager;
         private readonly ICategoryFilter _categoryFilter;
 
-        public CategoryController(ICategoryService categoryService, ICategoryFilter categoryFilter)
+        public CategoryController(ICategoryService categoryService, ICacheManager<string, string> cacheManager, ICategoryFilter categoryFilter)
         {
             _categoryService = categoryService;
+            _cacheManager = cacheManager;
             _categoryFilter = categoryFilter;
         }
 
