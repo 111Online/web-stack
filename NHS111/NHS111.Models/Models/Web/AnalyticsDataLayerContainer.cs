@@ -1,21 +1,25 @@
 ﻿
-namespace NHS111.Models.Models.Web {
-    using System.Collections.Generic;
-    using System.Web;
+namespace NHS111.Models.Models.Web
+{
     using FromExternalServices;
     using Mappers.WebMappings;
+    using System.Collections.Generic;
+    using System.Web;
 
     public abstract class AnalyticsDataLayerContainer
-        : Dictionary<string, string> {
+        : Dictionary<string, string>
+    {
 
         public static string VirtualPageUrlKey = "virtualPageUrl";
         public static string VirtualPageTitleKey = "virtualPageTitle";
     }
 
     public abstract class ReferralResultAnalyticsDataLayer
-        : AnalyticsDataLayerContainer {
+        : AnalyticsDataLayerContainer
+    {
 
-        protected ReferralResultAnalyticsDataLayer(ReferralResultViewModel viewModel) {
+        protected ReferralResultAnalyticsDataLayer(ReferralResultViewModel viewModel)
+        {
             this[VirtualPageUrlKey] = FormatUrl(viewModel);
             this[VirtualPageTitleKey] = VirtualPageTitle;
         }
@@ -23,7 +27,8 @@ namespace NHS111.Models.Models.Web {
         protected abstract string VirtualPageTitle { get; }
         protected abstract string VirtualUrlPageName { get; }
 
-        private string FormatUrl(ReferralResultViewModel viewModel) {
+        private string FormatUrl(ReferralResultViewModel viewModel)
+        {
             if (viewModel == null || viewModel.OutcomeModel == null ||
                 viewModel.OutcomeModel.OutcomeGroup == null || viewModel.OutcomeModel.SelectedService == null)
                 return "";
@@ -33,7 +38,7 @@ namespace NHS111.Models.Models.Web {
             var dxCode = HttpUtility.UrlEncode(viewModel.OutcomeModel.Id);
             var selectedServiceId = HttpUtility.UrlEncode(viewModel.OutcomeModel.SelectedServiceId);
             var selectedServiceName = HttpUtility.UrlEncode(viewModel.OutcomeModel.SelectedService.Name);
-            
+
             var url = string.Format("/outcome/{0}/{1}/{2}/itk/{3}/{4}/{5}/", pathwayNo, outcomeGroup, dxCode,
                 VirtualUrlPageName, selectedServiceId, selectedServiceName);
             if (viewModel.OutcomeModel.HasAcceptedCallbackOffer.HasValue && viewModel.OutcomeModel.HasAcceptedCallbackOffer.Value)
@@ -43,7 +48,8 @@ namespace NHS111.Models.Models.Web {
     }
 
     public class ReferralConfirmationResultAnalyticsDataLayer
-        : ReferralResultAnalyticsDataLayer {
+        : ReferralResultAnalyticsDataLayer
+    {
 
         protected override string VirtualPageTitle { get { return "ITK Confirmation - Success"; } }
 
@@ -54,7 +60,8 @@ namespace NHS111.Models.Models.Web {
     }
 
     public class Call999ReferralConfirmationAnalyticsDataLayer
-        : ReferralConfirmationResultAnalyticsDataLayer {
+        : ReferralConfirmationResultAnalyticsDataLayer
+    {
 
         protected override string VirtualPageTitle { get { return "999 ITK Confirmation - Success"; } }
 
@@ -63,7 +70,8 @@ namespace NHS111.Models.Models.Web {
     }
 
     public class AccidentAndEmergencyReferralConfirmationAnalyticsDataLayer
-        : ReferralConfirmationResultAnalyticsDataLayer {
+        : ReferralConfirmationResultAnalyticsDataLayer
+    {
 
         protected override string VirtualPageTitle { get { return "A&E ITK Confirmation - Success"; } }
 
@@ -89,7 +97,8 @@ namespace NHS111.Models.Models.Web {
     {
 
         public EmergencyPrescriptionReferralConfirmationAnalyticsDataLayer(ReferralResultViewModel viewModel)
-            : base(viewModel) {
+            : base(viewModel)
+        {
             this[VirtualPageTitleKey] = string.Format("Emergency Prescription {0} ITK Confirmation - Success", viewModel.ItkConfirmationModel.SelectedService.OnlineDOSServiceType.Id);
         }
 
@@ -108,7 +117,8 @@ namespace NHS111.Models.Models.Web {
     }
 
     public class ReferralFailureResultAnalyticsDataLayer
-        : ReferralResultAnalyticsDataLayer {
+        : ReferralResultAnalyticsDataLayer
+    {
 
         protected override string VirtualPageTitle { get { return "ITK Confirmation - Failure"; } }
 
@@ -119,7 +129,8 @@ namespace NHS111.Models.Models.Web {
     }
 
     public class AccidentAndEmergencyReferralFailureAnalyticsDataLayer
-        : ReferralFailureResultAnalyticsDataLayer {
+        : ReferralFailureResultAnalyticsDataLayer
+    {
 
         protected override string VirtualPageTitle { get { return "A&E ITK Confirmation - Failure"; } }
 
@@ -128,7 +139,8 @@ namespace NHS111.Models.Models.Web {
     }
 
     public class Coronavirus111CallbackReferralFailureAnalyticsDataLayer
-        : ReferralFailureResultAnalyticsDataLayer {
+        : ReferralFailureResultAnalyticsDataLayer
+    {
 
         protected override string VirtualPageTitle { get { return "Coronavirus 111 Callback - Failure"; } }
 
@@ -148,7 +160,8 @@ namespace NHS111.Models.Models.Web {
     }
 
     public class Call999ReferralFailureAnalyticsDataLayer
-        : ReferralFailureResultAnalyticsDataLayer {
+        : ReferralFailureResultAnalyticsDataLayer
+    {
 
         protected override string VirtualPageTitle { get { return "999 ITK Confirmation - Failure"; } }
 
@@ -157,7 +170,8 @@ namespace NHS111.Models.Models.Web {
     }
 
     public class DuplicateReferralResultAnalyticsDataLayer
-        : ReferralResultAnalyticsDataLayer {
+        : ReferralResultAnalyticsDataLayer
+    {
 
         protected override string VirtualPageTitle { get { return "ITK Confirmation - Duplicate Booking"; } }
 
@@ -168,7 +182,8 @@ namespace NHS111.Models.Models.Web {
     }
 
     public class AccidentAndEmergencyDuplicateReferralAnalyticsDataLayer
-        : DuplicateReferralResultAnalyticsDataLayer {
+        : DuplicateReferralResultAnalyticsDataLayer
+    {
 
         protected override string VirtualPageTitle { get { return "A&E ITK Confirmation - Duplicate Booking"; } }
 
@@ -177,7 +192,8 @@ namespace NHS111.Models.Models.Web {
     }
 
     public class Call999DuplicateReferralAnalyticsDataLayer
-        : DuplicateReferralResultAnalyticsDataLayer {
+        : DuplicateReferralResultAnalyticsDataLayer
+    {
 
         protected override string VirtualPageTitle { get { return "999 ITK Confirmation - Duplicate Booking"; } }
 
@@ -194,7 +210,8 @@ namespace NHS111.Models.Models.Web {
     }
 
     public class ServiceUnavailableReferralAnalyticsDataLayer
-        : ReferralResultAnalyticsDataLayer {
+        : ReferralResultAnalyticsDataLayer
+    {
 
         protected override string VirtualPageTitle { get { return "ITK Confirmation - Unavailable"; } }
 
@@ -205,7 +222,8 @@ namespace NHS111.Models.Models.Web {
     }
 
     public class AccidentAndEmergencyServiceUnavailableReferralAnalyticsDataLayer
-        : ServiceUnavailableReferralAnalyticsDataLayer {
+        : ServiceUnavailableReferralAnalyticsDataLayer
+    {
 
         protected override string VirtualPageTitle { get { return "A&E ITK Confirmation - Unavailable"; } }
 
@@ -214,7 +232,8 @@ namespace NHS111.Models.Models.Web {
     }
 
     public class Call999ServiceUnavailableReferralAnalyticsDataLayer
-        : ServiceUnavailableReferralAnalyticsDataLayer {
+        : ServiceUnavailableReferralAnalyticsDataLayer
+    {
 
         protected override string VirtualPageTitle { get { return "999 ITK Confirmation - Unavailable"; } }
 

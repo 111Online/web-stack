@@ -1,10 +1,8 @@
-﻿using System;
-using System.Configuration;
-using System.Linq;
-using System.Web;
-using NUnit.Framework;
+﻿using NUnit.Framework;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.PageObjects;
+using System;
+using System.Web;
 
 namespace NHS111.Web.Functional.Utils
 {
@@ -22,10 +20,10 @@ namespace NHS111.Web.Functional.Utils
 
         [FindsBy(How = How.Id, Using = "CurrentPostcode")]
         private IWebElement PostcodeField { get; set; }
-        
+
         [FindsBy(How = How.ClassName, Using = "button--next")]
         private IWebElement NextButton { get; set; }
-        
+
         [FindsBy(How = How.CssSelector, Using = "a[href='/emergency-prescription']")]
         private IWebElement EPDeeplink { get; set; }
 
@@ -120,15 +118,17 @@ namespace NHS111.Web.Functional.Utils
             Assert.AreEqual(_headerText, Header.Text);
         }
 
-        
+
         public HomePage CompareAndVerify(string uniqueId)
         {
             return base.CompareAndVerify(this, uniqueId);
         }
     }
 
-    public static class UriExtensions {
-        public static Uri AddOrReplaceQuery(this Uri operand, string key, string value) {
+    public static class UriExtensions
+    {
+        public static Uri AddOrReplaceQuery(this Uri operand, string key, string value)
+        {
             var uriBuilder = new UriBuilder(operand);
             var query = HttpUtility.ParseQueryString(uriBuilder.Query);
             query[key] = value;

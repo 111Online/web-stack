@@ -1,7 +1,7 @@
-﻿using System.Collections.Generic;
-using NHS111.Models.Models.Web.FromExternalServices;
+﻿using NHS111.Models.Models.Web.FromExternalServices;
 using NHS111.Web.Presentation.Builders;
 using NUnit.Framework;
+using System.Collections.Generic;
 
 namespace NHS111.Web.Presentation.Test.Builders
 {

@@ -1,9 +1,5 @@
 ﻿using Nest;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace NHS111.Models.Models.Business.PathwaySearch
 {
@@ -17,6 +13,6 @@ namespace NHS111.Models.Models.Business.PathwaySearch
         public string DescriptionPhonetic { get; set; }
 
         [String(Name = "CommonPhrase.shingles", Index = FieldIndexOption.Analyzed)]
-        public string DescriptionShingles{ get; set; }
+        public string DescriptionShingles { get; set; }
     }
 }

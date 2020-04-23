@@ -1,8 +1,8 @@
-﻿using System.Collections.Generic;
-using NHS111.Features.Defaults;
+﻿using NHS111.Features.Defaults;
 using NHS111.Features.Values;
 
-namespace NHS111.Features {
+namespace NHS111.Features
+{
     public interface IFeature
     {
         bool IsEnabled { get; }

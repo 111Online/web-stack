@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using FluentValidation.Attributes;
+﻿using FluentValidation.Attributes;
 using NHS111.Models.Models.Web.Validators;
 
 namespace NHS111.Models.Models.Web
@@ -21,7 +16,8 @@ namespace NHS111.Models.Models.Web
     public class PersonViewModel
     {
         private string _forename;
-        public string Forename { 
+        public string Forename
+        {
             get { return this._forename; }
             set { this._forename = !string.IsNullOrEmpty(value) ? value.Trim() : value; }
         }
@@ -40,19 +36,21 @@ namespace NHS111.Models.Models.Web
         private string _emailAddress = "";
 
         // If the skip link is used, this ensures email is set to empty string.
-        public string EmailAddress { 
+        public string EmailAddress
+        {
             get { return !Skipped ? _emailAddress : ""; }
-            set { _emailAddress = !string.IsNullOrEmpty(value) ? value.Trim() : value; } 
+            set { _emailAddress = !string.IsNullOrEmpty(value) ? value.Trim() : value; }
         }
 
         public bool Skipped { get; set; }
 
         public bool Provided
         {
-            get { return !string.IsNullOrWhiteSpace(EmailAddress); } 
+            get { return !string.IsNullOrWhiteSpace(EmailAddress); }
         }
 
-        public bool ProvidedOrSkipped {
+        public bool ProvidedOrSkipped
+        {
             get { return Skipped || Provided; }
         }
     }

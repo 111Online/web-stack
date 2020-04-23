@@ -1,9 +1,6 @@
-﻿using System;
+﻿using NHS111.Models.Models.Business.PathwaySearch;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-using NHS111.Models.Models.Business.PathwaySearch;
 
 namespace NHS111.Business.Services
 {

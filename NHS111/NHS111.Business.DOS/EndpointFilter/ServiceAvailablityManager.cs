@@ -1,11 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using NHS111.Business.DOS.Configuration;
+﻿using NHS111.Business.DOS.Configuration;
 using NHS111.Business.DOS.DispositionMapper;
+using NHS111.Models.Models.Business;
 using NHS111.Models.Models.Web.DosRequests;
 using NodaTime;
-using NHS111.Models.Models.Business;
+using System;
+using System.Collections.Generic;
 
 namespace NHS111.Business.DOS.EndpointFilter
 {
@@ -34,7 +33,7 @@ namespace NHS111.Business.DOS.EndpointFilter
             if (_dispositionMapper.IsPrimaryCareDisposition(dxCode))
             {
                 var primaryCareServiceTypeIdBlackList = _dispositionMapper.ConvertDispositionString(_configuration.FilteredPrimaryCareDosServiceIds);
-                
+
                 return new ServiceAvailabilityProfile(
                     new PrimaryCareProfileHoursOfOperation(_configuration.WorkingDayPrimaryCareInHoursStartTime,
                         _configuration.WorkingDayPrimaryCareInHoursShoulderEndTime,

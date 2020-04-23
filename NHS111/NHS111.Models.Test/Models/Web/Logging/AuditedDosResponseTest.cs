@@ -1,9 +1,9 @@
-﻿using NHS111.Models.Models.Web;
+﻿using AutoMapper;
+using NHS111.Models.Models.Web;
 using NHS111.Models.Models.Web.FromExternalServices;
 using NHS111.Models.Models.Web.Logging;
 using NUnit.Framework;
 using System.Collections.Generic;
-using AutoMapper;
 
 namespace NHS111.Models.Test.Models.Web.Logging
 {

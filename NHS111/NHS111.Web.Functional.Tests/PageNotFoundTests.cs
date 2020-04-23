@@ -11,7 +11,7 @@ namespace NHS111.Web.Functional.Tests
         public void PageNotFound_Displays()
         {
             var pageNotFound = TestScenarioPart.PageNotFound(Driver);
-            
+
             pageNotFound.Verify();
         }
     }

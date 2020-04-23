@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Linq;
-using System.Web.Mvc;
-using Newtonsoft.Json;
-using NHS111.Models.Models.Domain;
+﻿using NHS111.Models.Models.Domain;
 
 namespace NHS111.Models.Models.Web
 {
@@ -40,7 +34,7 @@ namespace NHS111.Models.Models.Web
             if (OutcomeGroup.Isolate111.Equals(outcome))
             {
                 if (outcomeResultViewModel.OutcomeModel.DosCheckCapacitySummaryResult.HasITKServices)
-                    return "../Outcome/Corona/ITK_Clinician_call_back"; 
+                    return "../Outcome/Corona/ITK_Clinician_call_back";
             }
 
             var viewFilePath = "../Outcome/" + subfolder;
@@ -74,16 +68,18 @@ namespace NHS111.Models.Models.Web
             return viewFilePath;
         }
 
-        protected bool isNHSUKStyle ()
+        protected bool isNHSUKStyle()
         {
             if (JourneyModel != null) return JourneyModel.PathwayNo != null && JourneyModel.PathwayNo.Equals("PC111");
             return false;
         }
     }
 
-    public class QuestionResultViewModel: JourneyResultViewModel
+    public class QuestionResultViewModel : JourneyResultViewModel
     {
-        public override string ViewName { get
+        public override string ViewName
+        {
+            get
             {
                 if (isNHSUKStyle()) return "../Question/Custom/NHSUKQuestion";
                 return "../Question/Question";

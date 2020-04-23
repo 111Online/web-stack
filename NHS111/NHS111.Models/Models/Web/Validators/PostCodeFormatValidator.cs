@@ -1,10 +1,9 @@
-﻿using System;
+﻿using FluentValidation.Validators;
+using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Text.RegularExpressions;
 using System.Web.Mvc;
-using FluentValidation.Validators;
-using NHS111.Features;
 
 namespace NHS111.Models.Models.Web.Validators
 {

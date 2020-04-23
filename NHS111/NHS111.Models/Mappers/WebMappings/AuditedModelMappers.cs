@@ -1,18 +1,18 @@
-﻿using System;
-using System.Linq;
-using AutoMapper;
+﻿using AutoMapper;
 using NHS111.Models.Models.Web;
 using NHS111.Models.Models.Web.FromExternalServices;
 using NHS111.Models.Models.Web.ITK;
 using NHS111.Models.Models.Web.Logging;
 using RestSharp;
+using System;
+using System.Linq;
 
 namespace NHS111.Models.Mappers.WebMappings
 {
     public class AuditedModelMappers : Profile
     {
         private static readonly char[] Digits = "0123456789".ToCharArray();
-        
+
         protected override void Configure()
         {
             Mapper.CreateMap<ITKDispatchRequest, AuditedItkRequest>();

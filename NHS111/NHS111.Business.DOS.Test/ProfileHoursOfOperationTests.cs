@@ -1,15 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Moq;
-using NHS111.Business.DOS;
+﻿using Moq;
 using NHS111.Business.DOS.Configuration;
 using NHS111.Business.DOS.EndpointFilter;
 using NHS111.Models.Models.Business;
 using NodaTime;
 using NUnit.Framework;
+using System;
 namespace NHS111.Business.DOS.Tests
 {
     [TestFixture()]

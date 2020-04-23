@@ -1,12 +1,13 @@
 ﻿
 namespace NHS111.Web.Presentation.Configuration
 {
-using System;
+    using System;
     using System.Configuration;
-using System.Xml;
+    using System.Xml;
 
     public class TestJourneysConfigurationSection
-        : ConfigurationSection {
+        : ConfigurationSection
+    {
         [ConfigurationProperty("testJourneys")]
         public TestJourneyElementCollection TestJourneys
         {
@@ -17,40 +18,49 @@ using System.Xml;
 
     [ConfigurationCollection(typeof(TestJourneyElement))]
     public class TestJourneyElementCollection
-        : ConfigurationElementCollection {
+        : ConfigurationElementCollection
+    {
         internal const string PropertyName = "testJourney";
 
-        public override ConfigurationElementCollectionType CollectionType {
+        public override ConfigurationElementCollectionType CollectionType
+        {
             get { return ConfigurationElementCollectionType.BasicMapAlternate; }
         }
 
-        protected override string ElementName {
+        protected override string ElementName
+        {
             get { return PropertyName; }
         }
 
-        protected override bool IsElementName(string elementName) {
+        protected override bool IsElementName(string elementName)
+        {
             return elementName.Equals(PropertyName,
                 StringComparison.InvariantCultureIgnoreCase);
         }
 
-        public override bool IsReadOnly() {
+        public override bool IsReadOnly()
+        {
             return false;
         }
 
-        protected override ConfigurationElement CreateNewElement() {
+        protected override ConfigurationElement CreateNewElement()
+        {
             return new TestJourneyElement();
         }
 
-        protected override object GetElementKey(ConfigurationElement element) {
-            return ((TestJourneyElement) (element)).Json;
+        protected override object GetElementKey(ConfigurationElement element)
+        {
+            return ((TestJourneyElement)(element)).Json;
         }
 
-        public TestJourneyElement this[int idx] {
-            get { return (TestJourneyElement) BaseGet(idx); }
+        public TestJourneyElement this[int idx]
+        {
+            get { return (TestJourneyElement)BaseGet(idx); }
         }
     }
 
-    public class TestJourneyElement : ConfigurationElement {
+    public class TestJourneyElement : ConfigurationElement
+    {
 
         [ConfigurationProperty("triggerQuestionNo", IsRequired = false)]
         public string TriggerQuestionNo
@@ -67,7 +77,8 @@ using System.Xml;
         }
 
         protected override void DeserializeElement(XmlReader reader,
-            bool serializeCollectionKey) {
+            bool serializeCollectionKey)
+        {
             TriggerQuestionNo = reader["triggerQuestionNo"];
             Json = reader.ReadElementContentAsString();
         }

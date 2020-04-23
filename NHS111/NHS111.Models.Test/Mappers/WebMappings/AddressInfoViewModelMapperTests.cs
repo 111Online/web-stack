@@ -78,7 +78,7 @@ namespace NHS111.Models.Test.Mappers.WebMappings
             var locationResult = new LocationResult()
             {
                 HouseNumber = TEST_HOUSE_NUMBER,
-                AddressLines = new [] { TEST_ADDRESS_LINE_1, TEST_ADDRESS_LINE_2 },
+                AddressLines = new[] { TEST_ADDRESS_LINE_1, TEST_ADDRESS_LINE_2 },
                 PostTown = TEST_CITY_INPUT,
                 AdministrativeArea = TEST_COUNTY,
                 Postcode = TEST_POSTCODE,

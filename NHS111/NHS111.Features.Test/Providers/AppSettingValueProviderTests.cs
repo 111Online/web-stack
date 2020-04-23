@@ -1,16 +1,19 @@
-using System.Configuration;
+using Moq;
 using NHS111.Features.Defaults;
 using NHS111.Features.Providers;
-using Moq;
 using NUnit.Framework;
+using System.Configuration;
 
-namespace NHS111.Features.Test.Providers {
+namespace NHS111.Features.Test.Providers
+{
     [TestFixture]
-    public class AppSettingValueProviderTests {
+    public class AppSettingValueProviderTests
+    {
 
         [Test]
         [Ignore("Can't isolate configuration manager.")]
-        public void GetSetting_WithValue_ReturnsValue() {
+        public void GetSetting_WithValue_ReturnsValue()
+        {
 
             var sut = new AppSettingValueProvider();
             var feature = new Mock<IFeature>().Object;
@@ -27,15 +30,17 @@ namespace NHS111.Features.Test.Providers {
         }
 
         [Test]
-        [ExpectedException(typeof (MissingSettingException))]
-        public void GetSetting_WithNullDefaultBoolStrategy_ThrowsException() {
+        [ExpectedException(typeof(MissingSettingException))]
+        public void GetSetting_WithNullDefaultBoolStrategy_ThrowsException()
+        {
 
             var sut = new AppSettingValueProvider();
             sut.GetSetting(new Mock<IFeature>().Object, null, It.IsAny<string>());
         }
 
         [Test]
-        public void IsEnabled_WithDefaultBoolStrategy_QueriesDefaultStrategy() {
+        public void IsEnabled_WithDefaultBoolStrategy_QueriesDefaultStrategy()
+        {
             var sut = new AppSettingValueProvider();
             var defaultSettingStrategy = new Mock<IDefaultSettingStrategy>();
             sut.GetSetting(new Mock<IFeature>().Object, defaultSettingStrategy.Object, It.IsAny<string>());

@@ -1,10 +1,13 @@
-﻿namespace NHS111.DOS.Functional.Tests.TestBenchApi {
+﻿namespace NHS111.DOS.Functional.Tests.TestBenchApi
+{
     using RestSharp;
 
     public class PostEsbTestScenarioRequest
-        : RestRequest {
+        : RestRequest
+    {
         public PostEsbTestScenarioRequest(IEsbTestScenario scenario)
-            : base("esbtestscenario", Method.POST, DataFormat.Json) {
+            : base("esbtestscenario", Method.POST, DataFormat.Json)
+        {
             AddJsonBody(scenario);
         }
     }

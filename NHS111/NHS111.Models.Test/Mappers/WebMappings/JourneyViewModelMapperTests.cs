@@ -1,16 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using NHS111.Models.Mappers.WebMappings;
-using NUnit.Framework;
-using AutoMapper;
-using Newtonsoft.Json;
+﻿using AutoMapper;
 using NHS111.Models.Models.Domain;
 using NHS111.Models.Models.Web;
 using NHS111.Models.Models.Web.Enums;
-using NHS111.Models.Models.Web.Logging;
+using NUnit.Framework;
+using System.Collections.Generic;
 
 namespace NHS111.Models.Test.Mappers.WebMappings.JourneyViewModelMapper
 {
@@ -51,7 +44,7 @@ namespace NHS111.Models.Test.Mappers.WebMappings.JourneyViewModelMapper
         public void FromQuestionToJourneyViewModelConverter_FromQuestionToJourneyViewModelConverter_Not_nullJourney_Test()
         {
 
-            var existingJourney = new JourneyViewModel() {Id = TEST_QUESTION_ID, Title = TEST_QUESTION_TITLE};
+            var existingJourney = new JourneyViewModel() { Id = TEST_QUESTION_ID, Title = TEST_QUESTION_TITLE };
             var questionJson = BuildQuestionJson();
 
             var result = Mapper.Map(questionJson, existingJourney);
@@ -63,11 +56,11 @@ namespace NHS111.Models.Test.Mappers.WebMappings.JourneyViewModelMapper
         {
             var questionsWithAnswers = new QuestionWithAnswers()
             {
-                Answered = new Answer() { Title = "No", Order = 3},
+                Answered = new Answer() { Title = "No", Order = 3 },
                 Answers = new List<Answer>() { new Answer() { Title = "test answer1", Order = 1 }
                     ,new Answer() { Title = "test answer2", Order = 2 }
                     ,new Answer() { Title = "test answer3", Order = 3 }},
-                Question = new Question() { Title = TEST_QUESTION_TITLE, Id = TEST_QUESTION_ID, Rationale = TEST_QUESTION_RATIONALE, QuestionNo = TEST_QUESTION_NO},
+                Question = new Question() { Title = TEST_QUESTION_TITLE, Id = TEST_QUESTION_ID, Rationale = TEST_QUESTION_RATIONALE, QuestionNo = TEST_QUESTION_NO },
                 Labels = new List<string>() { "Question" }
             };
 

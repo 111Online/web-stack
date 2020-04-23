@@ -1,18 +1,18 @@
-﻿using System;
+﻿using NHS111.Web.Presentation.Configuration;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
 using System.Web;
-using NHS111.Web.Presentation.Configuration;
 
 namespace NHS111.Web.Helpers
 {
     public class QueryStringEncryptor : Dictionary<string, string>
     {
         private readonly IConfiguration _configuration;
-        
+
         // Change the following keys to ensure uniqueness
         // Must be 8 bytes
         protected byte[] _keyBytes = { 0x0f, 0xfc, 0x71, 0x38, 0x24, 0x09, 0x62, 0xb1 };

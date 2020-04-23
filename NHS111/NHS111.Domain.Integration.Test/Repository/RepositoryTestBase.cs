@@ -8,7 +8,7 @@ namespace NHS111.Domain.Integration.Test.Repository
     public class RepositoryTestBase
     {
         protected readonly IGraphRepository GraphRepository;
-        
+
         protected readonly Mock<IPathwaysWhiteListFeature> MockPathwaysWhiteListFeature = new Mock<IPathwaysWhiteListFeature>();
 
         protected readonly Pathway[] Pathways =
@@ -40,7 +40,7 @@ namespace NHS111.Domain.Integration.Test.Repository
 
         public void CreateTestNeo4jData()
         {
-            foreach(var pathway in Pathways)
+            foreach (var pathway in Pathways)
                 CreatePathwayNode(pathway);
         }
 

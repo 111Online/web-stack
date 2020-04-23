@@ -1,6 +1,6 @@
-﻿using System;
+﻿using NHS111.Models.Models.Web.Enums;
+using System;
 using System.Configuration;
-using NHS111.Models.Models.Web.Enums;
 
 namespace NHS111.Web.Presentation.Configuration
 {
@@ -35,10 +35,10 @@ namespace NHS111.Web.Presentation.Configuration
         public string IntegrationApiItkDispatcher { get { return ConfigurationManager.AppSettings["IntegrationApiItkDispatcher"]; } }
         public string RedisConnectionString { get { return ConfigurationManager.AppSettings["RedisConnectionString"]; } }
         public string DOSWhitelist { get { return ConfigurationManager.AppSettings["DOSWhitelist"]; } }
-        
+
         public string BusinessApiListOutcomesUrl { get { return ConfigurationManager.AppSettings["BusinessApiListOutcomesUrl"]; } }
 
-        public string GoogleAnalyticsContainerId { get {return ConfigurationManager.AppSettings["GoogleAnalyticsContainerId "]; } }
+        public string GoogleAnalyticsContainerId { get { return ConfigurationManager.AppSettings["GoogleAnalyticsContainerId "]; } }
         public string MapsApiUrl { get { return ConfigurationManager.AppSettings["MapsApiUrl"]; } }
         public string MapsApiKey { get { return ConfigurationManager.AppSettings["MapsApiKey"]; } }
         public string DosMobileBaseUrl { get { return ConfigurationManager.AppSettings["DOSMobileBaseUrl"]; } }
@@ -49,7 +49,7 @@ namespace NHS111.Web.Presentation.Configuration
         public string QueryStringEncryptionBytes { get { return ConfigurationManager.AppSettings["QueryStringEncryptionBytes"]; } }
         public string Expert24Url { get { return ConfigurationManager.AppSettings["Expert24Url"]; } }
 
-        public string BusinessApiLocationSearchGetAddressByGeoUrl { get{ return ConfigurationManager.AppSettings["BusinessApiLocationSearchGetAddressByGeoUrl"];} }
+        public string BusinessApiLocationSearchGetAddressByGeoUrl { get { return ConfigurationManager.AppSettings["BusinessApiLocationSearchGetAddressByGeoUrl"]; } }
         public string BusinessApiLocationSearchGetAddressByPostcodeUrl { get { return ConfigurationManager.AppSettings["BusinessApiLocationSearchGetAddressByPostcodeUrl"]; } }
         public string BusinessApiLocationSearchGetAddressByUDPRNUrl { get { return ConfigurationManager.AppSettings["BusinessApiLocationSearchGetAddressByUDPRNUrl"]; } }
         public string BusinessApiLocationSearchGetAddressValidatedByPostcodeUrl { get { return ConfigurationManager.AppSettings["BusinessApiLocationSearchGetAddressValidatedByPostcodeUrl"]; } }
@@ -73,8 +73,10 @@ namespace NHS111.Web.Presentation.Configuration
         {
             return string.Format(BusinessApiLocationSearchGetAddressValidatedByPostcodeUrl, postcode);
         }
-        public bool IsPublic {
-            get {
+        public bool IsPublic
+        {
+            get
+            {
                 if (ConfigurationManager.AppSettings["IsPublic"] == null)
                     return true; //default to public if the setting isn't defined
                 return ConfigurationManager.AppSettings["IsPublic"].ToLower() == "true";
@@ -133,7 +135,8 @@ namespace NHS111.Web.Presentation.Configuration
             return string.Format(GetBusinessApiUrlWithDomain("BusinessApiGetCategoriesWithPathwaysGenderAge", pathOnly), gender, age);
         }
 
-        public string GetBusinessApiGetPathwaysGenderAge(string gender, int age) {
+        public string GetBusinessApiGetPathwaysGenderAge(string gender, int age)
+        {
             return string.Format(GetBusinessApiUrlWithDomain("BusinessApiGetPathwaysGenderAge"), gender, age);
         }
 
@@ -197,10 +200,10 @@ namespace NHS111.Web.Presentation.Configuration
             return string.Format(GetBusinessApiUrlWithDomain("BusinessApiJustToBeSafePartOneUrl"), pathwayId);
         }
 
-       
+
         public string GetBusinessApiJustToBeSafePartTwoUrl(string pathwayId, string questionId, string jtbsQuestionIds, bool hasAnswwers)
         {
-            return string.Format(GetBusinessApiUrlWithDomain("BusinessApiJustToBeSafePartTwoUrl"), pathwayId, questionId, jtbsQuestionIds,hasAnswwers);
+            return string.Format(GetBusinessApiUrlWithDomain("BusinessApiJustToBeSafePartTwoUrl"), pathwayId, questionId, jtbsQuestionIds, hasAnswwers);
         }
 
         public string GetBusinessApiInterimCareAdviceUrl(string dxCode, string ageGroup, string gender)
@@ -223,7 +226,7 @@ namespace NHS111.Web.Presentation.Configuration
             return GetBusinessApiUrlWithDomain("BusinessApiVersionUrl", pathOnly);
         }
 
-        private string GetBusinessApiUrlWithDomain(string endpointUrlkey, bool pathOnly=false)
+        private string GetBusinessApiUrlWithDomain(string endpointUrlkey, bool pathOnly = false)
         {
             var buinessEndpointconfigValue = ConfigurationManager.AppSettings[endpointUrlkey];
             if (pathOnly) return "/" + buinessEndpointconfigValue;
@@ -266,7 +269,7 @@ namespace NHS111.Web.Presentation.Configuration
         string GetBusinessApiPathwayNumbersUrl(string pathwayTitle, bool pathOnly = false);
         string GetBusinessApiPathwayIdFromTitleUrl(string pathwayTitle, string gender, int age);
         string GetBusinessApiJustToBeSafePartOneUrl(string pathwayId);
-        string GetBusinessApiJustToBeSafePartTwoUrl(string pathwayId, string questionId, string jtbsQuestionIds,bool hasAnswwers);
+        string GetBusinessApiJustToBeSafePartTwoUrl(string pathwayId, string questionId, string jtbsQuestionIds, bool hasAnswwers);
         string GetBusinessApiInterimCareAdviceUrl(string dxCode, string ageGroup, string gender);
         string GetBusinessApiListOutcomesUrl();
         string GetBusinessApiSymptomDiscriminatorUrl(string symptomDiscriminatorCode);
@@ -274,7 +277,7 @@ namespace NHS111.Web.Presentation.Configuration
         string GetBusinessApiGetCategoriesWithPathwaysGenderAge(string gender, int age, bool pathOnly = false);
         string GetBusinessApiGetPathwaysGenderAge(string gender, int age);
         string GetBusinessApiPathwayMetadataUrl(string pathwayNo);
-        string GetBusinessApiPathwaySearchUrl(string gender, string age, bool pathOnly=false);
+        string GetBusinessApiPathwaySearchUrl(string gender, string age, bool pathOnly = false);
         string GetBusinessApiVersionUrl(bool pathOnly = false);
         string GetBusinessApiGetAddressByGeoUrl(string latlong);
         string GetBusinessApiGetAddressByPostcodeUrl(string postcode);

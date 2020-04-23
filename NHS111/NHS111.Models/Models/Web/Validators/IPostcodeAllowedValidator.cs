@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Threading.Tasks;
-using NHS111.Models.Models.Domain;
+﻿using NHS111.Models.Models.Domain;
 using NHS111.Models.Models.Web.CCG;
+using System.Threading.Tasks;
 
 
 namespace NHS111.Models.Models.Web.Validators
@@ -17,7 +12,7 @@ namespace NHS111.Models.Models.Web.Validators
         CCGDetailsModel CcgModel { get; }
     }
 
-    
+
     public enum PostcodeValidatorResponse
     {
         ValidPostcodePathwaysAreaUndefined,

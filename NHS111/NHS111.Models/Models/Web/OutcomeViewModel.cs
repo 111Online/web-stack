@@ -1,9 +1,9 @@
-﻿using System;
+﻿using NHS111.Models.Models.Domain;
+using NHS111.Models.Models.Web.FromExternalServices;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
-using NHS111.Models.Models.Domain;
-using NHS111.Models.Models.Web.FromExternalServices;
 
 namespace NHS111.Models.Models.Web
 {
@@ -16,14 +16,14 @@ namespace NHS111.Models.Models.Web
         public IEnumerable<string> CareAdviceMarkers { get; set; }
         public Enums.Urgency Urgency { get; set; }
         public string SymptomGroup { get; set; }
-      
+
         public CareAdvice WorseningCareAdvice { get; set; }
         public SymptomDiscriminator SymptomDiscriminator { get; set; }
         public DosService UnavailableSelectedService { get; set; }
-        public List<GroupedDOSServices> GroupedDosServices { get; set; } 
+        public List<GroupedDOSServices> GroupedDosServices { get; set; }
         public string CurrentView { get; set; }
 
-        public  SurveyLinkViewModel SurveyLink { get; set; }
+        public SurveyLinkViewModel SurveyLink { get; set; }
 
         public InformantViewModel Informant { get; set; }
 
@@ -31,7 +31,7 @@ namespace NHS111.Models.Models.Web
         {
             get { return DosCheckCapacitySummaryResult.Success != null || DosCheckCapacitySummaryResult.Error != null; }
         }
-        
+
         public bool HasEndpointReasoning
         {
             get
@@ -74,7 +74,7 @@ namespace NHS111.Models.Models.Web
             var service = this.DosCheckCapacitySummaryResult.Success.Services.FirstOrDefault();
             if (GroupedDosServices.Any())
             {
-                if(GroupedDosServices[0].Services.Count > 1)
+                if (GroupedDosServices[0].Services.Count > 1)
                     GroupedDosServices.First().Services.RemoveAt(0);
                 else
                     GroupedDosServices.RemoveAt(0);

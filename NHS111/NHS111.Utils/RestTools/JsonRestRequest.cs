@@ -1,5 +1,5 @@
-﻿using System;
-using RestSharp;
+﻿using RestSharp;
+using System;
 
 namespace NHS111.Utils.RestTools
 {

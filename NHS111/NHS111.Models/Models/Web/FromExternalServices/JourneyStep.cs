@@ -1,5 +1,4 @@
-﻿using System;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using NHS111.Models.Models.Domain;
 using NHS111.Models.Models.Web.Enums;
 
@@ -15,7 +14,7 @@ namespace NHS111.Models.Models.Web.FromExternalServices
 
         [JsonProperty(PropertyName = "questionTitle")]
         public string QuestionTitle { get; set; }
-        
+
         [JsonProperty(PropertyName = "questionNo")]
         public string QuestionNo { get; set; }
 

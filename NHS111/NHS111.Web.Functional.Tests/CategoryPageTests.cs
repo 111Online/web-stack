@@ -37,7 +37,7 @@ namespace NHS111.Web.Functional.Tests
             // First check a postcode that should show EP does
             var categoryPilot = TestScenerios.LaunchCategoryScenerio(Driver, TestScenerioSex.Female, 40, "LS17 7NZ");
             categoryPilot.VerifyCategoryNotExists("Emergency prescriptions");
-            
+
             // Then check a postcode that shouldn't show EP doesn't
             var categoryNotPilot = TestScenerios.LaunchCategoryScenerio(Driver, TestScenerioSex.Female, 40, "PO22 8PB");
             categoryNotPilot.VerifyCategoryNotExists("Emergency prescriptions");

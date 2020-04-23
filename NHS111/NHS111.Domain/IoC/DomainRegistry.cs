@@ -2,8 +2,6 @@
 using NHS111.Features.IoC;
 using NHS111.Utils.IoC;
 using StructureMap;
-using StructureMap.Configuration.DSL;
-using StructureMap.Graph;
 
 namespace NHS111.Domain.IoC
 {

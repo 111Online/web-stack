@@ -1,39 +1,35 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net.Http;
-using System.Text;
-using System.Threading.Tasks;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using NHS111.Business.DOS.Configuration;
 using NHS111.Models.Models.Web;
 using NHS111.Models.Models.Web.FromExternalServices;
-using NHS111.Utils.Helpers;
 using NHS111.Utils.RestTools;
 using RestSharp;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace NHS111.Business.DOS.Service
 {
-    using System.Web;
     using Models.Models.Web.DosRequests;
 
     public class DosService : IDosService
     {
         private readonly IConfiguration _configuration;
-        private readonly IRestClient _restClient;
+        private readonly ILoggingRestClient _restClient;
 
-        public DosService(IConfiguration configuration, IRestClient restClientDosDomainApi)
+        public DosService(IConfiguration configuration, ILoggingRestClient restClientDosDomainApi)
         {
             _configuration = configuration;
             _restClient = restClientDosDomainApi;
         }
-        public async Task<DosCheckCapacitySummaryResult> GetServices(DosCheckCapacitySummaryRequest dosRequest, DosEndpoint? endpoint) {
+        public async Task<DosCheckCapacitySummaryResult> GetServices(DosCheckCapacitySummaryRequest dosRequest, DosEndpoint? endpoint)
+        {
 
             var url = string.Format("{0}?endpoint={1}", _configuration.DomainDosApiCheckCapacitySummaryUrl, !endpoint.HasValue ? DosEndpoint.Unspecified : endpoint.Value);
             var request = new JsonRestRequest(url, Method.POST);
             request.AddJsonBody(dosRequest);
 
-            var response = await _restClient.ExecuteTaskAsync<CheckCapacitySummaryResponse>(request);
+            var response = await _restClient.ExecuteAsync<CheckCapacitySummaryResponse>(request);
 
             if (response.ResponseStatus != ResponseStatus.Completed)
                 return new DosCheckCapacitySummaryResult { Error = new ErrorObject { Code = (int)response.StatusCode, Message = response.ErrorMessage } };
@@ -46,7 +42,7 @@ namespace NHS111.Business.DOS.Service
             var request = new JsonRestRequest(_configuration.DomainDosApiServiceDetailsByIdUrl, Method.POST);
             request.AddJsonBody(serviceDetailsByIdRequest);
 
-            var response = await _restClient.ExecuteTaskAsync<ServiceDetailsByIdResponse>(request);
+            var response = await _restClient.ExecuteAsync<ServiceDetailsByIdResponse>(request);
             if (response.ResponseStatus == ResponseStatus.Completed)
                 return response.Data;
             throw response.ErrorException;

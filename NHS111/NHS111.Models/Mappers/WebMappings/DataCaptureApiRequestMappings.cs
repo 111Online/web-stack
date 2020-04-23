@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using AutoMapper;
+﻿using AutoMapper;
 using NHS111.Models.Models.Web;
 using NHS111.Models.Models.Web.DataCapture;
+using System;
 
 namespace NHS111.Models.Mappers.WebMappings
 {
@@ -53,9 +49,9 @@ namespace NHS111.Models.Mappers.WebMappings
     {
         public SubmitSMSRegistrationRequest Convert(ResolutionContext context)
         {
-            var Model = (SendSmsOutcomeViewModel) context.SourceValue;
-            var submitSmsRegistrationRequest = (SubmitSMSRegistrationRequest) context.DestinationValue ?? new SubmitSMSRegistrationRequest();
-            
+            var Model = (SendSmsOutcomeViewModel)context.SourceValue;
+            var submitSmsRegistrationRequest = (SubmitSMSRegistrationRequest)context.DestinationValue ?? new SubmitSMSRegistrationRequest();
+
             submitSmsRegistrationRequest.JourneyId = Model.JourneyId.ToString();
             submitSmsRegistrationRequest.PostCode = Model.CurrentPostcode;
             submitSmsRegistrationRequest.Age = Model.Age;

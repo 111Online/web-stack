@@ -1,7 +1,7 @@
-﻿using System.Linq;
-using NHS111.Models.Models.Web;
+﻿using NHS111.Models.Models.Web;
 using NHS111.Models.Models.Web.Validators;
 using NUnit.Framework;
+using System.Linq;
 
 namespace NHS111.Models.Test.Models.Web.Validators
 {
@@ -90,7 +90,7 @@ namespace NHS111.Models.Test.Models.Web.Validators
         public void Is_valid_all_return_true()
         {
             //postcodes used in testing
-            var postcodes = new[] {"SO30 2UN", "LS17 7NZ", "SO30 9UH", "OX99 2ZA", "m1 3ed", "W1p 0aa" };
+            var postcodes = new[] { "SO30 2UN", "LS17 7NZ", "SO30 9UH", "OX99 2ZA", "m1 3ed", "W1p 0aa" };
             var sut = postcodes.Select(PostCodeFormatValidator<PersonalInfoAddressViewModel, string>.IsAValidPostcode);
             Assert.IsTrue(sut.All(p => p));
         }

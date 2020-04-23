@@ -1,12 +1,11 @@
-﻿using System.Net;
-using log4net;
+﻿using log4net;
 using NHS111.Utils.IoC;
 using NHS111.Utils.RestTools;
 using NHS111.Web.Presentation.Builders;
 using NHS111.Web.Presentation.Logging;
 using RestSharp;
 using StructureMap;
-using StructureMap.Graph;
+using System.Net;
 
 namespace NHS111.Web.Presentation.IoC
 {
@@ -18,34 +17,34 @@ namespace NHS111.Web.Presentation.IoC
         {
             IncludeRegistry<UtilsRegistry>();
 
-            For<IRestClient>().Singleton()
+            For<ILoggingRestClient>().Singleton()
                 .Use(GetLoggingRestClientFor(_configuration.BusinessApiProtocolandDomain)).Named("restClientBusinessApi");
             For<IDOSBuilder>().Singleton()
                 .Use<DOSBuilder>()
-                .Ctor<IRestClient>()
+                .Ctor<ILoggingRestClient>()
                 .Is(GetLoggingRestClientFor(_configuration.BusinessDosApiBaseUrl));
             For<IFeedbackViewModelBuilder>().Singleton()
                 .Use<FeedbackViewModelBuilder>()
-                .Ctor<IRestClient>()
+                .Ctor<ILoggingRestClient>()
                 .Is(GetLoggingRestClientFor(_configuration.FeedbackApiBaseUrl));
             For<IOutcomeViewModelBuilder>().Singleton()
                 .Use<OutcomeViewModelBuilder>()
-                .Ctor<IRestClient>("restClientPostcodeApi")
+                .Ctor<ILoggingRestClient>("restClientPostcodeApi")
                 .Is(GetLoggingRestClientFor(_configuration.PostcodeApiBaseUrl))
-                .Ctor<IRestClient>("restClientItkDispatcherApi")
+                .Ctor<ILoggingRestClient>("restClientItkDispatcherApi")
                 .Is(new LoggingRestClient(new Configuration.Configuration().ItkDispatcherApiBaseUrl,
                     LogManager.GetLogger("log")));
             For<IRegisterForSMSViewModelBuilder>().Singleton()
                 .Use<RegisterForSMSViewModelBuilder>()
-                .Ctor<IRestClient>("restClientCaseDataCaptureApi")
+                .Ctor<ILoggingRestClient>("restClientCaseDataCaptureApi")
                 .Is(GetLoggingRestClientFor(_configuration.CaseDataCaptureApiBaseUrl));
             For<ICCGModelBuilder>().Singleton()
                 .Use<CCGViewModelBuilder>()
-                .Ctor<IRestClient>()
+                .Ctor<ILoggingRestClient>()
                 .Is(GetLoggingRestClientFor(_configuration.CCGBusinessApiBaseProtocolandDomain));
             For<IAuditLogger>().Singleton()
                 .Use<AuditLogger>()
-                .Ctor<IRestClient>()
+                .Ctor<ILoggingRestClient>()
                 .Is(GetLoggingRestClientFor(_configuration.LoggingServiceApiBaseUrl));
             Scan(scan =>
             {

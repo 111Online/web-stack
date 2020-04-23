@@ -1,14 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Moq;
+﻿using Moq;
 using NHS111.Features.Defaults;
 using NHS111.Features.Providers;
 using NHS111.Features.Values;
 using NUnit.Framework;
+using System.IO;
 
 namespace NHS111.Features.Test
 {

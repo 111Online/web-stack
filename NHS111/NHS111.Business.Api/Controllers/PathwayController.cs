@@ -1,15 +1,13 @@
-﻿using System;
+﻿using NHS111.Business.Services;
+using NHS111.Models.Models.Domain;
+using NHS111.Utils.Attributes;
+using NHS111.Utils.Cache;
+using System;
 using System.Collections.Generic;
-using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Results;
 using Newtonsoft.Json;
-using NHS111.Business.Services;
-using NHS111.Models.Models.Domain;
-using NHS111.Utils.Attributes;
-using NHS111.Utils.Cache;
-using NHS111.Utils.Extensions;
 
 namespace NHS111.Business.Api.Controllers
 {

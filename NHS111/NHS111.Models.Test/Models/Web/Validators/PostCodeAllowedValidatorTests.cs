@@ -1,18 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Moq;
+﻿using Moq;
 using NHS111.Features;
 using NHS111.Models.Models.Domain;
-using NHS111.Models.Models.Web;
+using NHS111.Models.Models.Web.CCG;
+using NHS111.Models.Models.Web.Validators;
 using NHS111.Web.Presentation.Builders;
 using NHS111.Web.Presentation.Validators;
 using NUnit.Framework;
-using NHS111.Models.Models.Web.CCG;
-using NHS111.Models.Models.Web.Validators;
+using System;
+using System.IO;
 
 namespace NHS111.Models.Test.Models.Web.Validators
 {
@@ -21,7 +16,7 @@ namespace NHS111.Models.Test.Models.Web.Validators
     public class PostCodeAllowedValidatorTests
     {
         Mock<ICCGModelBuilder> mockCCGBuilder = new Mock<ICCGModelBuilder>();
-      
+
         public void SetupMockCCGResultWithApp()
         {
             mockCCGBuilder.Setup(f => f.FillCCGDetailsModelAsync(It.IsAny<string>())).ReturnsAsync(new CCGDetailsModel() { App = "Pathways", Postcode = "TS19 7TG", PharmacyReferralServiceIdWhitelist = new ServiceListModel() });

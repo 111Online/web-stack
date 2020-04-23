@@ -1,7 +1,6 @@
-﻿using System.Linq;
-using Moq;
-using NHS111.Domain.Repository;
+﻿using NHS111.Domain.Repository;
 using NUnit.Framework;
+using System.Linq;
 
 namespace NHS111.Domain.Integration.Test.Repository
 {
@@ -10,7 +9,7 @@ namespace NHS111.Domain.Integration.Test.Repository
     public class PathwayRepositoryTest : RepositoryTestBase
     {
         private PathwayRepository _pathwayRepository;
-        
+
         [TestFixtureSetUp]
         public void SetupTests()
         {
@@ -32,7 +31,7 @@ namespace NHS111.Domain.Integration.Test.Repository
         public async void GetPathway_with_valid_id_returns_pathway()
         {
             _pathwayRepository = new PathwayRepository(GraphRepository, MockPathwaysWhiteListFeature.Object);
-            
+
             var res = await _pathwayRepository.GetPathway("P2");
             Assert.IsNotNull(res);
             Assert.AreEqual(res.PathwayNo, "PW101");
@@ -61,14 +60,14 @@ namespace NHS111.Domain.Integration.Test.Repository
         public async void GetIdentifiedPathway_with_valid_params_returns_pathway()
         {
             _pathwayRepository = new PathwayRepository(GraphRepository, MockPathwaysWhiteListFeature.Object);
-            var res = await _pathwayRepository.GetIdentifiedPathway(new[] {"PW102"}, "Male", 25);
+            var res = await _pathwayRepository.GetIdentifiedPathway(new[] { "PW102" }, "Male", 25);
             Assert.AreEqual(res.PathwayNo, "PW102");
         }
 
         [Test]
         public async void GetIdentifiedPathway_with_invalid_gender_returns_null()
         {
-            _pathwayRepository = new PathwayRepository(GraphRepository,MockPathwaysWhiteListFeature.Object);
+            _pathwayRepository = new PathwayRepository(GraphRepository, MockPathwaysWhiteListFeature.Object);
 
             var res = await _pathwayRepository.GetIdentifiedPathway(new[] { "PW103" }, "Male", 25);
             Assert.IsNull(res);
@@ -113,7 +112,7 @@ namespace NHS111.Domain.Integration.Test.Repository
         [Test]
         public async void GetGroupedPathways_returns_grouped_pathways()
         {
-           _pathwayRepository = new PathwayRepository(GraphRepository, MockPathwaysWhiteListFeature.Object);
+            _pathwayRepository = new PathwayRepository(GraphRepository, MockPathwaysWhiteListFeature.Object);
 
             var allDistinctPathways = Pathways.Where(p => p.Module == "1").Select(p => p.Title).Distinct();
 

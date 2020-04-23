@@ -1,7 +1,7 @@
-﻿using System.Collections.Generic;
-using NHS111.Business.DOS.Service;
+﻿using NHS111.Business.DOS.Service;
 using NHS111.Models.Models.Web.FromExternalServices;
 using NUnit.Framework;
+using System.Collections.Generic;
 
 namespace NHS111.Business.DOS.Test.ServiceType
 {
@@ -24,8 +24,8 @@ namespace NHS111.Business.DOS.Test.ServiceType
                 OnlineDOSServiceType = OnlineDOSServiceType.Callback
             };
 
-            var dosResultsList = new List<Models.Models.Business.DosService> {dosResult1, dosResult2, dosResult3};
-            
+            var dosResultsList = new List<Models.Models.Business.DosService> { dosResult1, dosResult2, dosResult3 };
+
             //Act
             var sut = new OnlineServiceTypeFilter();
             var result = sut.FilterUnknownTypes(dosResultsList);

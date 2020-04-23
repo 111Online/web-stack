@@ -1,11 +1,10 @@
-﻿using NHS111.Utils.Extensions;
+﻿using Newtonsoft.Json;
+using NHS111.Utils.Extensions;
 using NUnit.Framework;
-using Moq;
 using System.Collections.Generic;
-using System.Threading.Tasks;
-using Newtonsoft.Json;
 using System.Net;
 using System.Net.Http;
+using System.Threading.Tasks;
 
 namespace NHS111.Utils.Test.Extensions
 {
@@ -31,7 +30,7 @@ namespace NHS111.Utils.Test.Extensions
         [Test]
         public async void should_return_json_using_task_list_string()
         {
-            
+
             //Arrange
             IEnumerable<string> list = new List<string>() { "test", "test2" };
             Task<IEnumerable<string>> task = Task.FromResult(list);
@@ -56,12 +55,12 @@ namespace NHS111.Utils.Test.Extensions
 
             //Act
             Task<string> jsonTask = task.AsJson();
-           
+
             var result = JsonConvert.DeserializeObject<List<string>>(await jsonTask);
-       
+
             //Assert
             Assert.That(result, Is.Null);
-         
+
         }
 
         [Test]
@@ -70,11 +69,11 @@ namespace NHS111.Utils.Test.Extensions
 
             //Arrange
             Task<string> mytask = Task.FromResult("test");
-           
+
             //Act
             Task<HttpResponseMessage> task = mytask.AsHttpResponse();
             var result = await task;
-            
+
             //Assert
             Assert.That(result.StatusCode, Is.EqualTo(HttpStatusCode.OK));
             HttpContent myHttpContent = result.Content;
@@ -87,7 +86,7 @@ namespace NHS111.Utils.Test.Extensions
         [Test]
         public async void should_return_FirstOrDefault()
         {
-           
+
             //Arrange
             IEnumerable<string> list = new List<string>() { "test", "test2" };
             Task<IEnumerable<string>> taskList = Task.FromResult(list);
@@ -95,7 +94,7 @@ namespace NHS111.Utils.Test.Extensions
             //Act
             Task<string> task = taskList.FirstOrDefault();
             var result = await task;
-            
+
             //Assert
             Assert.That(result, Is.EqualTo("test"));
         }
@@ -116,5 +115,5 @@ namespace NHS111.Utils.Test.Extensions
         }
     }
 
-   
+
 }

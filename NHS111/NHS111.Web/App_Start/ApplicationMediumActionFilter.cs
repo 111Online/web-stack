@@ -1,7 +1,5 @@
-﻿using System;
-using System.Web;
+﻿using NHS111.Models.Models.Web;
 using System.Web.Mvc;
-using NHS111.Models.Models.Web;
 
 namespace NHS111.Web.App_Start
 {
@@ -13,7 +11,7 @@ namespace NHS111.Web.App_Start
         {
             ApplicationMediums.SetFromRequest(filterContext);
             filterContext.Controller.ViewBag.Medium = ApplicationMediums.GetFromRequest(filterContext.RequestContext.HttpContext.Request);
-        
+
         }
     }
 

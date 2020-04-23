@@ -1,6 +1,5 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
-using NHS111.Models.Models.Domain;
 
 namespace NHS111.Models.Models.Web
 {
@@ -64,7 +63,8 @@ namespace NHS111.Models.Models.Web
             Page = page;
             Campaign = journey.Campaign;
             Source = journey.Source;
-            if (journey.UserInfo != null && journey.UserInfo.Demography != null) {
+            if (journey.UserInfo != null && journey.UserInfo.Demography != null)
+            {
                 Gender = journey.UserInfo.Demography.Gender;
                 Age = journey.UserInfo.Demography.Age.ToString();
             }

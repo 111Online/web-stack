@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace NHS111.Models.Models.Domain {
+namespace NHS111.Models.Models.Domain
+{
     using Newtonsoft.Json;
     using System.Linq;
 
@@ -17,7 +18,8 @@ namespace NHS111.Models.Models.Domain {
 
         public string DefaultTitle { get; set; }
 
-        public string SearchDestination {
+        public string SearchDestination
+        {
             get { return ITK ? "ServiceList" : "ServiceDetails"; }
         }
 
@@ -38,7 +40,7 @@ namespace NHS111.Models.Models.Domain {
         public static OutcomeGroup Call999Cat2 = new OutcomeGroup { Id = "Call_999_cat_2", Text = "Phone 999 now for an ambulance" };
 
         public static OutcomeGroup Call999Cat3 = new OutcomeGroup { Id = "Call_999_cat_3", Text = "Call_999_cat_3", DefaultTitle = "Phone 999 now for an ambulance", AutomaticSelectionOfItkResult = true };
-    
+
         public static OutcomeGroup Call999Cat4 = new OutcomeGroup { Id = "Call_999_cat_4", Text = "Call_999_cat_4", DefaultTitle = "Phone 999 for an ambulance", AutomaticSelectionOfItkResult = true };
 
         public static OutcomeGroup MentalHealth = new OutcomeGroup { Id = "SP_Mental_health", DefaultTitle = "Get help from a mental health service", Label = "Mental health services", ITK = false };
@@ -47,7 +49,7 @@ namespace NHS111.Models.Models.Domain {
 
         public static OutcomeGroup AccidentAndEmergencySexualAssault = new OutcomeGroup { Id = "SP_Accident_and_emergency_sexual_assault", DefaultTitle = "Your answers suggest you should go to an Accident and Emergency department", Label = "A&amp;E departments", ITK = false };
 
-        public static OutcomeGroup HomeCare = new OutcomeGroup { Id = "Home_Care", Text = "Home Care"};
+        public static OutcomeGroup HomeCare = new OutcomeGroup { Id = "Home_Care", Text = "Home Care" };
 
         public static OutcomeGroup Pharmacy = new OutcomeGroup { Id = "SP_Pharmacy", Text = "Pharmacy", DefaultTitle = "Your answers suggest you should see a pharmacist", Label = "Pharmacies", ITK = false };
 
@@ -66,7 +68,7 @@ namespace NHS111.Models.Models.Domain {
         public static OutcomeGroup RepeatPrescription = new OutcomeGroup { Id = "Repeat_Prescription", Text = "Repeat_Prescription", DefaultTitle = "Where to go for help", Label = "Repeat Prescription", PostcodeFirst = true, ITK = true };
 
         public static OutcomeGroup NoFurtherAction = new OutcomeGroup { Id = "No_Further_Action", Text = "No_Further_Action", DefaultTitle = "No further action required", Label = "No further action", PostcodeFirst = true, ITK = false };
-        
+
         public static OutcomeGroup JumpToSearch = new OutcomeGroup { Id = "111_Search_Jump", Text = "", DefaultTitle = "", Label = "" };
 
         #region Corona virus specific outcomes
@@ -77,10 +79,10 @@ namespace NHS111.Models.Models.Domain {
 
         #region Send SMS outcomes
         public static OutcomeGroup Send_SMS = new OutcomeGroup { Id = "Send_SMS", Text = "Send_SMS", DefaultTitle = "Send sms service", Label = "No further action", PostcodeFirst = false, ITK = false, RequiresEmail = false };
-        public static OutcomeGroup Verify_SMS = new OutcomeGroup { Id = "Verify_SMS", Text = "Verify_SMS", DefaultTitle = "Verify sms service", Label = "No further action", PostcodeFirst = false, ITK = false, RequiresEmail = false  };
+        public static OutcomeGroup Verify_SMS = new OutcomeGroup { Id = "Verify_SMS", Text = "Verify_SMS", DefaultTitle = "Verify sms service", Label = "No further action", PostcodeFirst = false, ITK = false, RequiresEmail = false };
         #endregion
 
-        public static OutcomeGroup[] PrePopulatedDosResultsOutcomeGroups = new OutcomeGroup[] {Dental, ItkPrimaryCare, GP, MentalHealth, AccidentAndEmergency, ClinicianCallBack, Call999Cat3, Call999Cat4, RepeatPrescription, Isolate111 };
+        public static OutcomeGroup[] PrePopulatedDosResultsOutcomeGroups = new OutcomeGroup[] { Dental, ItkPrimaryCare, GP, MentalHealth, AccidentAndEmergency, ClinicianCallBack, Call999Cat3, Call999Cat4, RepeatPrescription, Isolate111 };
         public static OutcomeGroup[] DosSearchOutcomesGroups = new OutcomeGroup[] { MentalHealth, AccidentAndEmergency, AccidentAndEmergencySexualAssault, Optician, Pharmacy, GumClinic, Dental, EmergencyDental, Midwife, ItkPrimaryCare, ClinicianCallBack };
         public static OutcomeGroup[] UsingRecommendedServiceJourney = new[] { RepeatPrescription };
         public static OutcomeGroup[] UsingOutcomePreamble = new[] { RepeatPrescription };
@@ -121,7 +123,8 @@ namespace NHS111.Models.Models.Domain {
             #endregion
         };
 
-        public override bool Equals(object obj) {
+        public override bool Equals(object obj)
+        {
             var outcomeGroup = obj as OutcomeGroup;
             if (outcomeGroup == null)
                 return false;
@@ -129,14 +132,16 @@ namespace NHS111.Models.Models.Domain {
             return this.Equals(outcomeGroup);
         }
 
-        public bool Equals(OutcomeGroup group) {
+        public bool Equals(OutcomeGroup group)
+        {
             if (group == null)
                 return false;
 
             return Id == group.Id;
         }
 
-        public override int GetHashCode() {
+        public override int GetHashCode()
+        {
             return Id == null ? 0 : Id.GetHashCode();
         }
 
@@ -160,14 +165,17 @@ namespace NHS111.Models.Models.Domain {
         private bool PostcodeFirst { get; set; }
         private bool AutomaticSelectionOfItkResult { get; set; }
 
-        public bool Is999NonUrgent {
-            get {
+        public bool Is999NonUrgent
+        {
+            get
+            {
                 return this.Equals(OutcomeGroup.Call999Cat3) ||
                        this.Equals(OutcomeGroup.Call999Cat4);
             }
         }
 
-        public bool IsEDCallback {
+        public bool IsEDCallback
+        {
             get { return this.Equals(OutcomeGroup.AccidentAndEmergency) || this.Equals(OutcomeGroup.MentalHealth); }
         }
 
@@ -186,7 +194,8 @@ namespace NHS111.Models.Models.Domain {
             get { return UsingRecommendedServiceJourney.Contains(this); }
         }
 
-        public bool IsCoronaVirus {
+        public bool IsCoronaVirus
+        {
             get
             {
                 return Equals(Isolate111) || Equals(Isolate_SelfCare) || Equals(Isolate_999);
@@ -245,7 +254,7 @@ namespace NHS111.Models.Models.Domain {
         {
             get
             {
-                return Equals(Verify_SMS); 
+                return Equals(Verify_SMS);
             }
         }
 

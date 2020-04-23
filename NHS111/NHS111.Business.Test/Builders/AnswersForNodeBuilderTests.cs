@@ -1,7 +1,7 @@
-﻿using System.Collections.Generic;
-using NHS111.Business.Builders;
+﻿using NHS111.Business.Builders;
 using NHS111.Models.Models.Domain;
 using NUnit.Framework;
+using System.Collections.Generic;
 
 namespace NHS111.Business.Test.Builders
 {

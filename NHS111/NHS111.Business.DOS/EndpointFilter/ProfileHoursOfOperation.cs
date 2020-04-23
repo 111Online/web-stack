@@ -1,23 +1,23 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using NHS111.Business.DOS.Configuration;
+﻿using NHS111.Business.DOS.Configuration;
 using NHS111.Business.DOS.Service;
 using NHS111.Models.Models.Business;
 using NHS111.Utils.Dates;
 using NodaTime;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace NHS111.Business.DOS.EndpointFilter
 {
     public class ProfileHoursOfOperation : IProfileHoursOfOperation
     {
-       
+
         private LocalTime _workingDayInHoursStartTime;
         private LocalTime _workingDayInHoursShoulderEndTime;
         private LocalTime _workingDayInHoursEndTime;
         private IConfiguration _configuration;
         private List<DateTime> _testHolidayDates;
-   
+
         public ProfileHoursOfOperation(LocalTime workingDayInHoursStartTime, LocalTime workingDayInHoursShoulderEndTime,
             LocalTime workingDayInHoursEndTime, IConfiguration configuration)
         {
@@ -29,7 +29,7 @@ namespace NHS111.Business.DOS.EndpointFilter
 
         public virtual ProfileServiceTimes GetServiceTime(DateTime date)
         {
-            if(IsNonWorkingDay(date)) return ProfileServiceTimes.OutOfHours;
+            if (IsNonWorkingDay(date)) return ProfileServiceTimes.OutOfHours;
 
             if (date.Hour < _workingDayInHoursStartTime.Hour) return ProfileServiceTimes.OutOfHours;
 
@@ -67,7 +67,7 @@ namespace NHS111.Business.DOS.EndpointFilter
             return days;
         }
 
-        protected  bool IsNonWorkingDay(DateTime date)
+        protected bool IsNonWorkingDay(DateTime date)
         {
             var dt = date.Date;
             if (_testHolidayDates == null)

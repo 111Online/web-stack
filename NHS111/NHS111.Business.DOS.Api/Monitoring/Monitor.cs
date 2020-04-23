@@ -1,12 +1,9 @@
-﻿using System;
-using System.Threading.Tasks;
-using System.Web.Http.Results;
-using Newtonsoft.Json;
-using NHS111.Business.DOS.Configuration;
-using NHS111.Utils.Helpers;
+﻿using NHS111.Business.DOS.Configuration;
 using NHS111.Utils.Monitoring;
 using NHS111.Utils.RestTools;
 using RestSharp;
+using System;
+using System.Threading.Tasks;
 
 namespace NHS111.Business.DOS.Api.Monitoring
 {
@@ -14,10 +11,10 @@ namespace NHS111.Business.DOS.Api.Monitoring
 
     public class Monitor : BaseMonitor
     {
-        private readonly IRestClient _restClient;
+        private readonly ILoggingRestClient _restClient;
         private readonly IConfiguration _configuration;
 
-        public Monitor(IRestClient restClient, IConfiguration configuration)
+        public Monitor(ILoggingRestClient restClient, IConfiguration configuration)
         {
             _restClient = restClient;
             _configuration = configuration;
@@ -32,7 +29,7 @@ namespace NHS111.Business.DOS.Api.Monitoring
         {
             try
             {
-                var health = await _restClient.ExecuteTaskAsync<bool>(new JsonRestRequest(_configuration.DomainDosApiMonitorHealthUrl, Method.GET));
+                var health = await _restClient.ExecuteAsync<bool>(new JsonRestRequest(_configuration.DomainDosApiMonitorHealthUrl, Method.GET));
                 return health.Data;
             }
             catch (Exception ex)
@@ -42,7 +39,8 @@ namespace NHS111.Business.DOS.Api.Monitoring
 
         }
 
-        public override string Version() {
+        public override string Version()
+        {
             return Assembly.GetCallingAssembly().GetName().Version.ToString();
         }
     }

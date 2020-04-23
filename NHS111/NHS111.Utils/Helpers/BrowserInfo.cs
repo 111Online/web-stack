@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using NHS111.Web.Presentation;
-using NHS111.Models.Models.Web;
+﻿using System.Web;
 
 namespace NHS111.Utils.Helpers
 {
@@ -39,7 +34,8 @@ namespace NHS111.Utils.Helpers
 
         public override string Browser
         {
-            get {
+            get
+            {
                 if (_request.Browser == null || _request.UserAgent == null)
                     return "N/A";
 
@@ -56,7 +52,7 @@ namespace NHS111.Utils.Helpers
                 {
                     return "Internet Explorer";
                 }
-                
+
                 // On iOS Chrome is Crios in user agent string, without that it shows as Safari
                 if (_request.UserAgent.Contains("CriOS"))
                 {
@@ -81,14 +77,14 @@ namespace NHS111.Utils.Helpers
                     return "N/A";
 
                 var version = _request.Browser.MajorVersion.ToString();
-                
-                
+
+
                 // Without this it returns a Chrome version number for Samsung Internet
                 if (Browser == "Samsung Internet")
                 {
                     version = getVersion(_request.UserAgent, "SamsungBrowser");
                 }
-                
+
                 // On iOS Chrome is Crios in user agent string, without that it shows as Safari
                 if (Browser == "Chrome" && Platform == "iOS")
                 {
@@ -109,7 +105,7 @@ namespace NHS111.Utils.Helpers
 
                 return version;
             }
-        } 
+        }
 
         public override string Platform
         {
@@ -142,7 +138,7 @@ namespace NHS111.Utils.Helpers
                 {
                     return "Mac";
                 }
-                
+
                 // Linux was showing as UNIX, which is not ideal
                 if (_request.UserAgent.Contains("Linux") && _request.Browser.Platform == "UNIX")
                 {
@@ -155,13 +151,14 @@ namespace NHS111.Utils.Helpers
                     return "Android";
                 }
 
-                return  _request.Browser.Platform;
+                return _request.Browser.Platform;
             }
-        } 
+        }
 
         public string Referer
         {
-            get { 
+            get
+            {
                 var url = _request.UrlReferrer;
                 return url != null ? url.AbsoluteUri : string.Empty;
             }
@@ -172,8 +169,8 @@ namespace NHS111.Utils.Helpers
             var str = browser + "/";
             var index = userAgentString.IndexOf(str);
             var subStr = userAgentString.Substring(index + str.Length);
-            var endIndex = subStr.IndexOfAny(new []{ '.', ' ' });
-            return subStr.Substring(0, endIndex); 
+            var endIndex = subStr.IndexOfAny(new[] { '.', ' ' });
+            return subStr.Substring(0, endIndex);
         }
     }
 }

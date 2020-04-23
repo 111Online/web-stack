@@ -1,26 +1,21 @@
-using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Linq;
-using System.Net;
-using System.Net.Http;
-using System.Threading.Tasks;
-using System.Web;
-using System.Web.Helpers;
-using System.Web.Http;
-using System.Web.Http.Results;
-using System.Web.Mvc;
 using Newtonsoft.Json;
 using NHS111.Business.Builders;
 using NHS111.Business.Services;
 using NHS111.Business.Transformers;
 using NHS111.Models.Models.Business.Question;
-using NHS111.Utils.Attributes;
 using NHS111.Models.Models.Domain;
 using NHS111.Models.Models.Web.Enums;
-using NHS111.Models.Models.Web.FromExternalServices;
+using NHS111.Utils.Attributes;
 using NHS111.Utils.Cache;
 using NHS111.Utils.Extensions;
+using System;
+using System.Collections.Generic;
+using System.Configuration;
+using System.Linq;
+using System.Threading.Tasks;
+using System.Web;
+using System.Web.Http;
+using System.Web.Http.Results;
 
 namespace NHS111.Business.Api.Controllers
 {
@@ -244,7 +239,7 @@ namespace NHS111.Business.Api.Controllers
 #endif
             }
             else
-                firstNode = JsonConvert.DeserializeObject<QuestionWithAnswers>(cachedValue); 
+                firstNode = JsonConvert.DeserializeObject<QuestionWithAnswers>(cachedValue);
 
 
             var stateDictionary = JsonConvert.DeserializeObject<IDictionary<string, string>>(HttpUtility.UrlDecode(state));
@@ -252,7 +247,7 @@ namespace NHS111.Business.Api.Controllers
             // set the system variables relevant to online
             foreach (var systemVariable in _systemVariables)
             {
-                if(!stateDictionary.ContainsKey(systemVariable.Key))
+                if (!stateDictionary.ContainsKey(systemVariable.Key))
                     stateDictionary.Add(systemVariable.Key, systemVariable.Value);
             }
 

@@ -1,17 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using AutoMapper;
+﻿using AutoMapper;
 using NHS111.Models.Mappers.WebMappings;
 using NHS111.Models.Models.Domain;
-using NHS111.Models.Models.Web;
 using NHS111.Models.Models.Web.DosRequests;
-using NHS111.Models.Models.Web.Enums;
-using NHS111.Web.Presentation.Models;
 using NUnit.Framework;
+using System;
 
 namespace NHS111.Models.Test.Mappers.WebMappings
 {
@@ -102,7 +94,7 @@ namespace NHS111.Models.Test.Mappers.WebMappings
         public void TestInvalidAge_Converted_correctly()
         {
             var resolvedInvalidAge = _ageResolver.TestResolveCore("xyz");
-            
+
             Assert.AreEqual(1, resolvedInvalidAge);
         }
 

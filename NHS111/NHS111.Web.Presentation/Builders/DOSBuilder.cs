@@ -1,33 +1,22 @@
-﻿using System;
+﻿using AutoMapper;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using NHS111.Features;
+using NHS111.Models.Models.Web;
+using NHS111.Models.Models.Web.DosRequests;
+using NHS111.Models.Models.Web.FromExternalServices;
+using NHS111.Utils.RestTools;
+using RestSharp;
+using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
-using System.Text;
 using System.Threading.Tasks;
-using System.Web;
-using System.Web.Caching;
-using System.Xml.Linq;
-using AutoMapper;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
-using NHS111.Models.Models.Web;
-using NHS111.Models.Models.Web.DosRequests;
-using NHS111.Models.Models.Business;
-using NHS111.Models.Models.Web.FromExternalServices;
-using NHS111.Utils.Cache;
-using NHS111.Utils.Helpers;
-using NHS111.Web.Presentation.Models;
 using IConfiguration = NHS111.Web.Presentation.Configuration.IConfiguration;
-using NHS111.Features;
-using NHS111.Utils.RestTools;
-using RestSharp;
-using DosService = NHS111.Models.Models.Business.DosService;
 
 namespace NHS111.Web.Presentation.Builders
 {
-    using Converters;
     using log4net;
     using log4net.Config;
     using NHS111.Models.Mappers.WebMappings;
@@ -35,13 +24,13 @@ namespace NHS111.Web.Presentation.Builders
     public class DOSBuilder : IDOSBuilder
     {
         private readonly ICareAdviceBuilder _careAdviceBuilder;
-        private readonly IRestClient _restClient;
+        private readonly ILoggingRestClient _restClient;
         private readonly IConfiguration _configuration;
         private readonly IMappingEngine _mappingEngine;
         private readonly IITKMessagingFeature _itkMessagingFeature;
-        private static readonly ILog _logger = LogManager.GetLogger(typeof (DOSBuilder));
+        private static readonly ILog _logger = LogManager.GetLogger(typeof(DOSBuilder));
 
-        public DOSBuilder(ICareAdviceBuilder careAdviceBuilder, IRestClient restClient, IConfiguration configuration, IMappingEngine mappingEngine, IITKMessagingFeature itkMessagingFeature)
+        public DOSBuilder(ICareAdviceBuilder careAdviceBuilder, ILoggingRestClient restClient, IConfiguration configuration, IMappingEngine mappingEngine, IITKMessagingFeature itkMessagingFeature)
         {
             _careAdviceBuilder = careAdviceBuilder;
             _restClient = restClient;
@@ -53,7 +42,8 @@ namespace NHS111.Web.Presentation.Builders
 
         }
 
-        public async Task<DosCheckCapacitySummaryResult> FillCheckCapacitySummaryResult(DosViewModel dosViewModel, bool filterServices, DosEndpoint? endpoint) {
+        public async Task<DosCheckCapacitySummaryResult> FillCheckCapacitySummaryResult(DosViewModel dosViewModel, bool filterServices, DosEndpoint? endpoint)
+        {
 
             var checkCapacitySummaryUrl = string.Format("{0}?filterServices={1}&endpoint={2}", _configuration.BusinessDosApiCheckCapacitySummaryUrl, filterServices, endpoint);
             var dosFilterdCase = dosViewModel as DosFilteredCase;
@@ -62,7 +52,7 @@ namespace NHS111.Web.Presentation.Builders
             request.AddJsonBody(dosFilterdCase);
 
             _logger.Debug(string.Format("DOSBuilder.FillCheckCapacitySummaryResult(): URL: {0} BODY: {1}", checkCapacitySummaryUrl, JsonConvert.SerializeObject(dosFilterdCase)));
-            var response = await _restClient.ExecuteTaskAsync<DosCheckCapacitySummaryResult>(request);
+            var response = await _restClient.ExecuteAsync<DosCheckCapacitySummaryResult>(request);
 
             if (!response.IsSuccessful || response.Data.Error != null) return response.Data;
 
@@ -70,7 +60,7 @@ namespace NHS111.Web.Presentation.Builders
             if (response.Data.Success != null)
             {
                 var checkCapacitySummaryResults = JsonConvert.SerializeObject(response.Data.Success.Services);
-                var jArray = (JArray) JsonConvert.DeserializeObject(checkCapacitySummaryResults);
+                var jArray = (JArray)JsonConvert.DeserializeObject(checkCapacitySummaryResults);
                 services = jArray.ToObject<List<ServiceViewModel>>();
             }
 
@@ -82,7 +72,7 @@ namespace NHS111.Web.Presentation.Builders
                     Services = FilterCallbackEnabled(services)
                 }
             };
-     
+
             return checkCapacitySummaryResult;
         }
 
@@ -102,14 +92,14 @@ namespace NHS111.Web.Presentation.Builders
                     ungroupedServices.RemoveAll(s => s.OnlineDOSServiceType == topServiceType);
                 }
             }
-        return groupedServices;
+            return groupedServices;
         }
-        
+
         public List<ServiceViewModel> FilterCallbackEnabled(List<ServiceViewModel> services)
         {
             if (_itkMessagingFeature.IsEnabled)
                 return services;
-            
+
             //remove callback services from list, as these are disabled
             services.RemoveAll(s => s.OnlineDOSServiceType.IsReferral);
             return services.ToList();
@@ -149,7 +139,8 @@ namespace NHS111.Web.Presentation.Builders
             //################################END################
         }
 
-        public DosViewModel BuildDosViewModel(OutcomeViewModel model, DateTime? overrideDate) {
+        public DosViewModel BuildDosViewModel(OutcomeViewModel model, DateTime? overrideDate)
+        {
             var dosViewModel = Mapper.Map<DosViewModel>(model);
 
             if (model.DosCheckCapacitySummaryResult.IsValidationRequery || (model.HasAcceptedCallbackOffer.HasValue && !model.HasAcceptedCallbackOffer.Value))
@@ -180,7 +171,7 @@ namespace NHS111.Web.Presentation.Builders
             var urlWithRequest = CreateMobileDoSUrl(endPoint, args);
             _logger.Debug("DOSBuilder.FillDosServicesByClinicalTermResult(): URL: " + urlWithRequest);
 
-            var http = new HttpClient(new HttpClientHandler {Credentials = new NetworkCredential(_configuration.DosMobileUsername, _configuration.DosMobilePassword) });
+            var http = new HttpClient(new HttpClientHandler { Credentials = new NetworkCredential(_configuration.DosMobileUsername, _configuration.DosMobilePassword) });
             var response = await http.GetAsync(urlWithRequest);
 
             var dosResult = await response.Content.ReadAsStringAsync();

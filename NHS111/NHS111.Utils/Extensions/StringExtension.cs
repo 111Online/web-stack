@@ -1,10 +1,10 @@
-﻿using System;
+﻿using Markdig;
+using System;
 using System.IO;
 using System.Net.Http;
 using System.Text;
 using System.Web.UI;
 using System.Web.UI.HtmlControls;
-using Markdig;
 
 namespace NHS111.Utils.Extensions
 {
@@ -17,16 +17,17 @@ namespace NHS111.Utils.Extensions
 
         public static string FirstToUpper(this string s)
         {
-            if (s == null) 
+            if (s == null)
                 return null;
-            
-            if (s.Length > 1) 
+
+            if (s.Length > 1)
                 return char.ToUpper(s[0]) + s.Substring(1);
-            
+
             return s.ToUpper();
         }
 
-        public static string ToTitleCase(this string s) {
+        public static string ToTitleCase(this string s)
+        {
             if (string.IsNullOrEmpty(s))
                 return s;
 
@@ -45,7 +46,7 @@ namespace NHS111.Utils.Extensions
 
         public static string ParseForMarkdown(this string s, HtmlGenericControl tagWrapper)
         {
-            if(s.StartsWith("!markdown!"))
+            if (s.StartsWith("!markdown!"))
                 return Markdown.ToHtml(s.Replace("!markdown!", string.Empty).Replace("/r/n", Environment.NewLine));
 
             if (tagWrapper == null)

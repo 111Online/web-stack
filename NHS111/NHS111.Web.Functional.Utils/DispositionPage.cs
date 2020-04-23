@@ -1,15 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using NUnit.Framework;
+﻿using NUnit.Framework;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.PageObjects;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace NHS111.Web.Functional.Utils
 {
-    using OpenQA.Selenium.Support.UI;
-
-    public abstract class DispositionPage<T> : LayoutPage {
+    public abstract class DispositionPage<T> : LayoutPage
+    {
         private const string PATHWAY_NOT_FOUND__EXPECTED_TEXT = "Call 111 to speak to an adviser now";
 
         [FindsBy(How = How.CssSelector, Using = "h1")]
@@ -49,36 +48,43 @@ namespace NHS111.Web.Functional.Utils
 
         public abstract T EnterPostCodeAndSubmit(string postcode);
 
-        public QuestionPage NavigateBack() {
+        public QuestionPage NavigateBack()
+        {
             Driver.Navigate().Back();
             return new QuestionPage(Driver);
         }
 
-        public DemographicsPage NavigateBackToGenderPage() {
-            while (Driver.Title != "NHS 111 Online - Tell us about you") {
+        public DemographicsPage NavigateBackToGenderPage()
+        {
+            while (Driver.Title != "NHS 111 Online - Tell us about you")
+            {
                 Driver.Navigate().Back();
             }
 
             return new DemographicsPage(Driver);
         }
 
-        public void VerifySubHeader(string subHeadertext) {
+        public void VerifySubHeader(string subHeadertext)
+        {
             Assert.IsTrue(Header.Displayed);
             Assert.AreEqual(subHeadertext, SubHeader.Text);
         }
 
-        public void VerifyNoWorseningAdvice() {
+        public void VerifyNoWorseningAdvice()
+        {
             Assert.IsFalse(Driver.ElementExists(By.CssSelector(".callout--attention p")));
         }
 
-        public void VerifyWorseningPanel(WorseningMessageType messageType) {
+        public void VerifyWorseningPanel(WorseningMessageType messageType)
+        {
             Assert.IsTrue(WhatIfFeelWorsePanel.Displayed);
             if (!String.IsNullOrWhiteSpace(messageType.HeaderText))
                 Assert.AreEqual(messageType.HeaderText, WhatIfFeelWorseHeader.Text);
             Assert.AreEqual(messageType.Value, WhatIfFeelWorsePanel.Text);
         }
 
-        public void VerifyWorseningReveal(WorseningMessageType messageType) {
+        public void VerifyWorseningReveal(WorseningMessageType messageType)
+        {
             var reveal = Driver.FindElement(By.CssSelector(".worsening-advice summary"));
             Assert.IsTrue(reveal.Displayed);
             if (!String.IsNullOrWhiteSpace(messageType.HeaderText))
@@ -87,7 +93,8 @@ namespace NHS111.Web.Functional.Utils
                 Assert.AreEqual(messageType.Value, reveal.Text);
         }
 
-        public void VerifyOutcome(string outcomeHeadertext) {
+        public void VerifyOutcome(string outcomeHeadertext)
+        {
             Assert.IsTrue(Driver.ElementExists(By.CssSelector("h1")),
                 "Possible unexpected triage outcome. Expected header to exist but it doesn't.");
             Assert.AreEqual(outcomeHeadertext, Header.Text,
@@ -95,7 +102,8 @@ namespace NHS111.Web.Functional.Utils
                     outcomeHeadertext, Header.Text));
         }
 
-        public void VerifyOutcome(string outcomeHeadertext1, string outcomeHeadertext2) {
+        public void VerifyOutcome(string outcomeHeadertext1, string outcomeHeadertext2)
+        {
             Assert.IsTrue(Driver.ElementExists(By.CssSelector("h1")),
                 "Possible unexpected triage outcome. Expected header to exist but it doesn't.");
             Assert.IsTrue(Header.Text == outcomeHeadertext1 || Header.Text == outcomeHeadertext2,
@@ -104,13 +112,16 @@ namespace NHS111.Web.Functional.Utils
                     outcomeHeadertext1, outcomeHeadertext2, Header.Text));
         }
 
-        public void VerifyDispositionCode(string dispositionCode) {
+        public void VerifyDispositionCode(string dispositionCode)
+        {
             var xpath = "//input[@id='Id']";
             IWebElement dispostionCodeField = null;
-            try {
+            try
+            {
                 dispostionCodeField = Driver.FindElement(By.XPath(xpath));
             }
-            catch (NoSuchElementException) {
+            catch (NoSuchElementException)
+            {
                 Assert.Fail(string.Format("No dxcode element found on page. Looking for {0} using xpath {1}",
                     dispostionCodeField, xpath));
             }
@@ -120,27 +131,32 @@ namespace NHS111.Web.Functional.Utils
                 string.Format("Expected DxCode {0} but was {1}", dispositionCode, actualDispoCode));
         }
 
-        public void VerifyPathwayNotFound() {
+        public void VerifyPathwayNotFound()
+        {
             Assert.IsTrue(PathwayNotFoundHeader.Displayed);
             Assert.AreEqual(PATHWAY_NOT_FOUND__EXPECTED_TEXT, PathwayNotFoundHeader.Text);
         }
 
-        public void VerifyHeaderOtherInfo(string otherInfoHeadertext) {
+        public void VerifyHeaderOtherInfo(string otherInfoHeadertext)
+        {
             Assert.IsTrue(HeaderOtherInfo.Displayed);
             Assert.AreEqual(otherInfoHeadertext, HeaderOtherInfo.Text);
         }
 
-        public void VerifyFindService(FindServiceType serviceType) {
+        public void VerifyFindService(FindServiceType serviceType)
+        {
             Assert.IsTrue(FindServicePanel.Displayed);
             Assert.AreEqual(serviceType.Headertext, FindServicePanel.FindElement(By.TagName("h2")).Text);
         }
 
-        public void VerifyCareAdviceHeader(string careAdviceTitle) {
+        public void VerifyCareAdviceHeader(string careAdviceTitle)
+        {
             Assert.IsTrue(CareAdviceTitleElement.Displayed);
             Assert.AreEqual(careAdviceTitle, CareAdviceTitleElement.Text);
         }
 
-        public void VerifyNoCareAdvice() {
+        public void VerifyNoCareAdvice()
+        {
             Assert.IsFalse(Driver.ElementExists(By.CssSelector(".care-advice div h4")));
         }
 
@@ -168,7 +184,8 @@ namespace NHS111.Web.Functional.Utils
         }
 
 
-        public void VerifyIsSuccessfulReferral() {
+        public void VerifyIsSuccessfulReferral()
+        {
             Assert.IsTrue(Driver.ElementExists(By.CssSelector("h1")),
                 "Possible unexpected triage outcome. Expected header to exist but it doesn't.");
             var header = Driver.FindElement(By.CssSelector("h1"));
@@ -178,15 +195,18 @@ namespace NHS111.Web.Functional.Utils
                     header.Text));
         }
 
-        public void VerifyIsUnsuccessfulReferral() {
+        public void VerifyIsUnsuccessfulReferral()
+        {
             VerifyOutcome("Sorry, there is a problem with the service");
         }
 
-        public void VerifyIsServiceUnavailableReferral() {
+        public void VerifyIsServiceUnavailableReferral()
+        {
             VerifyOutcome("Sorry, there is a problem with the service");
         }
 
-        public void VerifyIsDuplicateReferral() {
+        public void VerifyIsDuplicateReferral()
+        {
             VerifyOutcome("Your call has already been booked");
         }
 
@@ -245,18 +265,18 @@ namespace NHS111.Web.Functional.Utils
 
     public class WorseningMessageType
     {
-        public WorseningMessageType(string worseningText, string headerText="")
+        public WorseningMessageType(string worseningText, string headerText = "")
         {
             _worseningText = worseningText;
             _headerText = headerText;
         }
         private string _worseningText;
         private string _headerText;
-        public string Value{ get { return _worseningText; }}
+        public string Value { get { return _worseningText; } }
         public string HeaderText { get { return _headerText; } }
     }
 
- 
+
 
 
     public static class FindServiceTypes

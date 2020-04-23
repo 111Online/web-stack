@@ -1,21 +1,18 @@
-﻿using System;
-using System.Runtime.Remoting.Messaging;
-using System.Web.Mvc;
-using NHS111.Models.Models.Web;
+﻿using NHS111.Models.Models.Web;
 using NHS111.Models.Models.Web.Enums;
 using NHS111.Web.Presentation.Builders;
 using NHS111.Web.Presentation.Logging;
+using System;
+using System.Web.Mvc;
 
 namespace NHS111.Web.Helpers
 {
-    using System.Collections.Generic;
-    using System.Configuration;
-    using System.Linq;
-    using Controllers;
-    using Features;
     using Models.Models.Domain;
     using Newtonsoft.Json;
     using Presentation.Configuration;
+    using System.Collections.Generic;
+    using System.Configuration;
+    using System.Linq;
 
     public class ViewRouter : IViewRouter
     {
@@ -41,18 +38,22 @@ namespace NHS111.Web.Helpers
             throw new ArgumentOutOfRangeException(string.Format("Outcome group {0} for outcome {1} has no view configured", model.OutcomeGroup.ToString(), model.Id));
         }
 
-        public string GetCallbackConfirmationViewName(OutcomeGroup outcomeGroup) {
+        public string GetCallbackConfirmationViewName(OutcomeGroup outcomeGroup)
+        {
             return outcomeGroup.Is999NonUrgent ? "Call_999_Callback_Confirmation" : "Confirmation";
         }
 
-        public string GetCallbackFailureViewName(OutcomeGroup outcomeGroup) {
+        public string GetCallbackFailureViewName(OutcomeGroup outcomeGroup)
+        {
             return outcomeGroup.Is999NonUrgent ? "Call999_ServiceBookingFailure" : "ServiceBookingFailure";
         }
-        public string GetServiceUnavailableViewName(OutcomeGroup outcomeGroup) {
+        public string GetServiceUnavailableViewName(OutcomeGroup outcomeGroup)
+        {
             return outcomeGroup.Is999NonUrgent ? "Call999_ServiceBookingUnavailable" : "ServiceBookingUnavailable";
         }
 
-        public string GetCallbackDuplicateViewName(OutcomeGroup outcomeGroup) {
+        public string GetCallbackDuplicateViewName(OutcomeGroup outcomeGroup)
+        {
             return outcomeGroup.Is999NonUrgent ? "Call999_DuplicateBookingFailure" : "DuplicateBookingFailure";
         }
 
@@ -99,8 +100,8 @@ namespace NHS111.Web.Helpers
                     _userZoomDataBuilder.SetFieldsForCareAdvice(journeyViewModel);
                     return new CareAdviceResultViewModel(journeyViewModel);
                 case NodeType.Page:
-                    if(journeyViewModel.Content != null && journeyViewModel.Content.StartsWith("!CustomView!"))
-                        return new PageResultViewModel(journeyViewModel, String.Format("../Question/Custom/{0}", journeyViewModel.Content.Replace("!CustomView!","")));
+                    if (journeyViewModel.Content != null && journeyViewModel.Content.StartsWith("!CustomView!"))
+                        return new PageResultViewModel(journeyViewModel, String.Format("../Question/Custom/{0}", journeyViewModel.Content.Replace("!CustomView!", "")));
 
                     return new PageResultViewModel(journeyViewModel);
                 case NodeType.Question:
@@ -110,14 +111,17 @@ namespace NHS111.Web.Helpers
             }
         }
 
-        private bool IsTestJourney(OutcomeViewModel model) {
+        private bool IsTestJourney(OutcomeViewModel model)
+        {
             if (!string.IsNullOrEmpty(model.TriggerQuestionNo)) //have we already seen the trigger question screen?
                 return false;
             var testJourneys = ReadTestJourneys();
 
-            foreach (var testJourney in testJourneys) {
+            foreach (var testJourney in testJourneys)
+            {
                 var result = JsonConvert.DeserializeObject<OutcomeViewModel>(testJourney.Json);
-                if (_journeyViewModelComparer.Equals(model, result)) {
+                if (_journeyViewModelComparer.Equals(model, result))
+                {
                     model.TriggerQuestionNo = testJourney.TriggerQuestionNo;
                     model.TriggerQuestionAnswer = model.Journey.Steps
                         .First(a => a.QuestionNo == model.TriggerQuestionNo).Answer.Title;
@@ -128,7 +132,8 @@ namespace NHS111.Web.Helpers
             return false;
         }
 
-        private static IEnumerable<TestJourneyElement> ReadTestJourneys() {
+        private static IEnumerable<TestJourneyElement> ReadTestJourneys()
+        {
             var section = ConfigurationManager.GetSection("testJourneySection");
             if (!(section is TestJourneysConfigurationSection))
                 return new List<TestJourneyElement>();

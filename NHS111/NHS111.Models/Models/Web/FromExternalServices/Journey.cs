@@ -1,27 +1,31 @@
 ﻿
 using System;
 using System.Linq;
-using System.Security.Policy;
 
-namespace NHS111.Models.Models.Web.FromExternalServices {
+namespace NHS111.Models.Models.Web.FromExternalServices
+{
     using Domain;
-    using System.Collections.Generic;
     using Newtonsoft.Json;
+    using System.Collections.Generic;
 
-    public class Journey {
+    public class Journey
+    {
         [JsonProperty(PropertyName = "steps")]
         public List<JourneyStep> Steps { get; set; }
 
-        public Journey() {
+        public Journey()
+        {
             Steps = new List<JourneyStep>();
         }
 
-        public Journey Add(Journey otherJourney) {
+        public Journey Add(Journey otherJourney)
+        {
             otherJourney.Steps.ForEach(step => Steps.Add(step));
             return this;
         }
 
-        public void RemoveLastStep() {
+        public void RemoveLastStep()
+        {
             Steps.RemoveAt(Steps.Count - 1);
         }
 
@@ -38,9 +42,9 @@ namespace NHS111.Models.Models.Web.FromExternalServices {
             if (step == null) return default(T);
 
             if (questionType == QuestionType.Choice)
-                return (T) Convert.ChangeType(step.Answer.IsPositive, typeof(T));
+                return (T)Convert.ChangeType(step.Answer.IsPositive, typeof(T));
 
-            return (T) Convert.ChangeType(step.AnswerInputValue, typeof(T));
+            return (T)Convert.ChangeType(step.AnswerInputValue, typeof(T));
         }
     }
 }

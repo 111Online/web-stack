@@ -1,15 +1,19 @@
 ﻿using NHS111.Features.Defaults;
 
-namespace NHS111.Features {
+namespace NHS111.Features
+{
     public interface ICookieBannerFeature
-    : IFeature {
+    : IFeature
+    {
 
     }
 
     public class CookieBannerFeature
-        : BaseFeature, ICookieBannerFeature {
+        : BaseFeature, ICookieBannerFeature
+    {
 
-        public CookieBannerFeature() {
+        public CookieBannerFeature()
+        {
             DefaultIsEnabledSettingStrategy = new EnabledByDefaultSettingStrategy();
         }
     }

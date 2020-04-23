@@ -1,7 +1,9 @@
-namespace NHS111.Models.Models.Domain {
+namespace NHS111.Models.Models.Domain
+{
     using System;
 
-    public class DispositionCode {
+    public class DispositionCode
+    {
         public const string Prefix = "Dx";
 
         public string Value { get; private set; }
@@ -9,7 +11,8 @@ namespace NHS111.Models.Models.Domain {
         public DispositionCode(int dxCode)
             : this("Dx" + dxCode) { }
 
-        public DispositionCode(string dxCode) {
+        public DispositionCode(string dxCode)
+        {
             var lower = dxCode.ToLower();
 
             if (!IsParsable(dxCode))
@@ -20,7 +23,8 @@ namespace NHS111.Models.Models.Domain {
             Value = lower.Replace("dx", "").Insert(0, Prefix);
         }
 
-        public static bool IsParsable(string dxCode) {
+        public static bool IsParsable(string dxCode)
+        {
             var lower = dxCode.ToLower();
 
             var number = lower.Replace("dx", "");
@@ -28,10 +32,13 @@ namespace NHS111.Models.Models.Domain {
             return int.TryParse(number, out result);
         }
 
-        public int DosCode {
-            get {
+        public int DosCode
+        {
+            get
+            {
                 var code = Value.Replace("Dx", "");
-                if (code.Length == 3) {
+                if (code.Length == 3)
+                {
                     if (code.StartsWith("1"))
                         return Convert.ToInt32("1" + code);
                     else

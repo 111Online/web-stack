@@ -1,10 +1,7 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using NHS111.Models.Models.Web.FromExternalServices;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Newtonsoft.Json;
-using NHS111.Models.Models.Web.FromExternalServices;
 
 namespace NHS111.Utils.Parser
 {
