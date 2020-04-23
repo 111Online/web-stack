@@ -346,9 +346,10 @@
     <Compile Include="Models\Web\SMSRegistrationViewModel.cs" />
     <Compile Include="Models\Web\SurveyLinkViewModel.cs" />
     <Compile Include="Models\Web\Validators\AgeMaximumValidator.cs" />
-    <Compile Include="Models\Web\Validators\DateOfBirthDayValidator.cs" />
-    <Compile Include="Models\Web\Validators\DateOfBirthMonthValidator.cs" />
-    <Compile Include="Models\Web\Validators\DateOfBirthYearValidator.cs" />
+    <Compile Include="Models\Web\Validators\DateDayValidator.cs" />
+    <Compile Include="Models\Web\Validators\DateMonthValidator.cs" />
+    <Compile Include="Models\Web\Validators\DateOfBirthValidator.cs" />
+    <Compile Include="Models\Web\Validators\DateYearValidator.cs" />
     <Compile Include="Models\Web\Validators\EmailAddressValidator.cs" />
     <Compile Include="Models\Web\Validators\FindServicesAddressViewModelValidator.cs" />
     <Compile Include="Models\Web\Validators\HomeAddressSameAsCurrentValidator.cs" />
@@ -372,7 +373,7 @@
     <Compile Include="Models\Web\Users.cs" />
     <Compile Include="Models\Web\Validators\AgeGenderViewModelValidator.cs" />
     <Compile Include="Models\Web\Validators\AgeMinimumValidator.cs" />
-    <Compile Include="Models\Web\Validators\DateOfBirthValidator.cs" />
+    <Compile Include="Models\Web\Validators\DateValidator.cs" />
     <Compile Include="Models\Web\Validators\PersonalInfoCurrentAddressViewModelValidator.cs" />
     <Compile Include="Models\Web\Validators\PostCodeFormatValidator.cs" />
     <Compile Include="Models\Web\Validators\SearchJourneyViewModelValidator.cs" />
