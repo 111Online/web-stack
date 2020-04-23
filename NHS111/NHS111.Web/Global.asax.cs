@@ -2,7 +2,6 @@
 using log4net;
 using NHS111.Features;
 using NHS111.Utils.RestTools;
-using NHS111.Web.IoC;
 using NHS111.Web.Presentation.Filters;
 using NHS111.Web.Presentation.Logging;
 
@@ -17,6 +16,7 @@ namespace NHS111.Web {
     using System.Web.Routing;
     using Authentication;
     using Models.Models.Web;
+    using NHS111.Web.IoC;
     using Presentation.ModelBinders;
     using Utils.Logging;
 

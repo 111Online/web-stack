@@ -51,7 +51,7 @@ namespace NHS111.Web.Presentation.IoC
             else
             {
                 For<IAuditLogger>().Singleton()
-                    .Use<EventHubAuditLogger>()
+                    .Use<AuditLogger>()
                     .Ctor<IRestClient>()
                     .Is(new LoggingRestClient(new Configuration.Configuration().LoggingServiceApiBaseUrl, LogManager.GetLogger("log")));
             };
