@@ -43,7 +43,7 @@ namespace NHS111.Web.Controllers
             {
                 var pathwayMetadata = await _restClientBusinessApi.ExecuteAsync<PathwayMetaData>(
                             new RestRequest(_configuration.GetBusinessApiPathwayMetadataUrl(model.PathwayNo),
-                                Method.GET));
+                                Method.GET)).ConfigureAwait(false);
                 var digitalTitle = pathwayMetadata.Data.DigitalTitle;
 
                 var searchJourneyViewModel = new SearchJourneyViewModel()
@@ -133,7 +133,7 @@ namespace NHS111.Web.Controllers
 
             request.AddJsonBody(new { query = Uri.EscapeDataString(model.SanitisedSearchTerm.Trim()), postcode = Uri.EscapeDataString(model.CurrentPostcode) });
 
-            var response = await _restClientBusinessApi.ExecuteAsync<List<SearchResultViewModel>>(request);
+            var response = await _restClientBusinessApi.ExecuteAsync<List<SearchResultViewModel>>(request).ConfigureAwait(false);
 
             model.Results = response.Data
                 .Take(MAX_SEARCH_RESULTS)
@@ -152,7 +152,7 @@ namespace NHS111.Web.Controllers
             var decryptedArgs = new QueryStringEncryptor(args);
 
             var ageGenderViewModel = new AgeGenderViewModel { Gender = gender, Age = age };
-            var categoriesContainingStartingPathways = await GetAllCategories(ageGenderViewModel, decryptedArgs["postcode"]);
+            var categoriesContainingStartingPathways = await GetAllCategories(ageGenderViewModel, decryptedArgs["postcode"]).ConfigureAwait(false);
             var model = new SearchJourneyViewModel
             {
                 SessionId = Guid.Parse(decryptedArgs["sessionId"]),
@@ -185,7 +185,7 @@ namespace NHS111.Web.Controllers
             var decryptedArgs = new QueryStringEncryptor(args);
 
             var ageGenderViewModel = new AgeGenderViewModel { Gender = gender, Age = age };
-            var categoriesContainingStartingPathways = await GetAllCategories(ageGenderViewModel, decryptedArgs["postcode"]);
+            var categoriesContainingStartingPathways = await GetAllCategories(ageGenderViewModel, decryptedArgs["postcode"]).ConfigureAwait(false);
             var model = new SearchJourneyViewModel
             {
                 SessionId = Guid.Parse(decryptedArgs["sessionId"]),
@@ -216,7 +216,7 @@ namespace NHS111.Web.Controllers
             var decryptedArgs = new QueryStringEncryptor(args);
 
             var ageGenderViewModel = new AgeGenderViewModel { Gender = gender, Age = age };
-            var categoriesContainingStartingPathways = await GetAllCategories(ageGenderViewModel, decryptedArgs["postcode"]);
+            var categoriesContainingStartingPathways = await GetAllCategories(ageGenderViewModel, decryptedArgs["postcode"]).ConfigureAwait(false);
             var rootCategory = new CategoryWithPathways
             {
                 Category = new Category { Title = "All topics" },
@@ -271,7 +271,7 @@ namespace NHS111.Web.Controllers
             var request = new RestRequest(requestPath, Method.POST);
             request.AddJsonBody(postcode);
 
-            var response = await _restClientBusinessApi.ExecuteAsync<List<CategoryWithPathways>>(request);
+            var response = await _restClientBusinessApi.ExecuteAsync<List<CategoryWithPathways>>(request).ConfigureAwait(false);
 
 
             var allCategories = response.Data;
@@ -287,7 +287,7 @@ namespace NHS111.Web.Controllers
         private async Task<IEnumerable<Pathway>> GetAllPathways(AgeGenderViewModel model)
         {
             var url = _configuration.GetBusinessApiGetPathwaysGenderAge(model.Gender, model.Age);
-            var response = await _restClientBusinessApi.ExecuteAsync<List<Pathway>>(new JsonRestRequest(url, Method.GET));
+            var response = await _restClientBusinessApi.ExecuteAsync<List<Pathway>>(new JsonRestRequest(url, Method.GET)).ConfigureAwait(false);
 
             return response.Data;
         }

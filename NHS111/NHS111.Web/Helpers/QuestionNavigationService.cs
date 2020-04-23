@@ -28,7 +28,7 @@ namespace NHS111.Web.Helpers
 
         public async Task<JourneyResultViewModel> NextQuestion(QuestionViewModel model, ControllerContext context)
         {
-            var nextModel = await GetNextJourneyViewModel(model);
+            var nextModel = await GetNextJourneyViewModel(model).ConfigureAwait(false);
             var viewRouter = _viewRouter.Build(nextModel, context);
             return viewRouter;
         }
@@ -39,14 +39,14 @@ namespace NHS111.Web.Helpers
             var serialisedState = HttpUtility.UrlEncode(model.StateJson);
             var request = new JsonRestRequest(_configuration.GetBusinessApiNextNodeUrl(model.PathwayId, model.NodeType, model.Id, serialisedState, true), Method.POST);
             request.AddJsonBody(answer.Title);
-            var response = await _restClientBusinessApi.ExecuteAsync<QuestionWithAnswers>(request);
+            var response = await _restClientBusinessApi.ExecuteAsync<QuestionWithAnswers>(request).ConfigureAwait(false);
             return response.Data;
         }
 
         public async Task<JourneyViewModel> GetNextJourneyViewModel(QuestionViewModel model)
         {
-            var nextNode = await GetNextNode(model);
-            return await _journeyViewModelBuilder.Build(model, nextNode);
+            var nextNode = await GetNextNode(model).ConfigureAwait(false);
+            return await _journeyViewModelBuilder.Build(model, nextNode).ConfigureAwait(false);
         }
     }
 

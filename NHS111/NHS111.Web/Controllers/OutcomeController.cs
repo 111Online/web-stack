@@ -56,7 +56,7 @@ namespace NHS111.Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<JsonResult> SearchSurgery(string input)
         {
-            return Json((await _surgeryBuilder.SearchSurgeryBuilder(input)));
+            return Json((await _surgeryBuilder.SearchSurgeryBuilder(input).ConfigureAwait(false)));
         }
 
         [HttpPost]
@@ -114,7 +114,7 @@ namespace NHS111.Web.Controllers
                 return View("../Outcome/OutOfArea", model);
             }
 
-            var outcomeModel = await _outcomeViewModelBuilder.PopulateGroupedDosResults(model, dosSearchTime, null, endpoint);
+            var outcomeModel = await _outcomeViewModelBuilder.PopulateGroupedDosResults(model, dosSearchTime, null, endpoint).ConfigureAwait(false);
             var viewRouter = _viewRouter.Build(outcomeModel, ControllerContext);
 
             return View(viewRouter.ViewName, outcomeModel);
@@ -178,7 +178,7 @@ namespace NHS111.Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> ServiceListUnprefixed(OutcomeViewModel model, [FromUri] DateTime? overrideDate, [FromUri] bool? overrideFilterServices, DosEndpoint? endpoint)
         {
-            return await ServiceList(model, overrideDate, overrideFilterServices, endpoint);
+            return await ServiceList(model, overrideDate, overrideFilterServices, endpoint).ConfigureAwait(false);
         }
 
 
@@ -205,7 +205,8 @@ namespace NHS111.Web.Controllers
                 return View(model.CurrentView, model);
             }
 
-            model.DosCheckCapacitySummaryResult = await GetServiceAvailability(model, overrideDate, overrideFilterServices.HasValue ? overrideFilterServices.Value : model.FilterServices, endpoint);
+            var modelFilterServices = overrideFilterServices.HasValue ? overrideFilterServices.Value : model.FilterServices;
+            model.DosCheckCapacitySummaryResult = await GetServiceAvailability(model, overrideDate, modelFilterServices, endpoint).ConfigureAwait(false);
             _auditLogger.LogDosResponse(model, model.DosCheckCapacitySummaryResult);
 
             model.NodeType = NodeType.Outcome;
@@ -222,7 +223,7 @@ namespace NHS111.Web.Controllers
                 model.GroupedDosServices =
                     _dosBuilder.FillGroupedDosServices(model.DosCheckCapacitySummaryResult.Success.Services);
 
-                model = await _outcomeViewModelBuilder.PrimaryCareBuilder(model, reason);
+                model = await _outcomeViewModelBuilder.PrimaryCareBuilder(model, reason).ConfigureAwait(false);
 
                 if (model.OutcomeGroup.IsAutomaticSelectionOfItkResult())
                 {
@@ -232,14 +233,14 @@ namespace NHS111.Web.Controllers
                         var personalDetailsController = DependencyResolver.Current.GetService<PersonalDetailsController>();
                         personalDetailsController.ControllerContext = new ControllerContext(ControllerContext.RequestContext, personalDetailsController);
 
-                        return await personalDetailsController.PersonalDetails(Mapper.Map<PersonalDetailViewModel>(model));
+                        return await personalDetailsController.PersonalDetails(Mapper.Map<PersonalDetailViewModel>(model)).ConfigureAwait(false);
                     }
                 }
 
                 if (model.OutcomeGroup.IsUsingRecommendedService || model.OutcomeGroup.IsPrimaryCare)
                 {
                     var otherServices =
-                        await _recommendedServiceBuilder.BuildRecommendedServicesList(model.DosCheckCapacitySummaryResult.Success.Services);
+                        await _recommendedServiceBuilder.BuildRecommendedServicesList(model.DosCheckCapacitySummaryResult.Success.Services).ConfigureAwait(false);
                     var otherServicesModel = Mapper.Map<OtherServicesViewModel>(model);
                     //Very weird mapper issue ignoring this property for some reason
                     //unit test specifically testing this passes fine so can really fathow what is going on
@@ -272,7 +273,7 @@ namespace NHS111.Web.Controllers
         {
             var dosViewModel = _dosBuilder.BuildDosViewModel(model, overrideDate);
             _auditLogger.LogDosRequest(model, dosViewModel);
-            return await _dosBuilder.FillCheckCapacitySummaryResult(dosViewModel, filterServices, endpoint);
+            return await _dosBuilder.FillCheckCapacitySummaryResult(dosViewModel, filterServices, endpoint).ConfigureAwait(false);
         }
 
 
@@ -313,7 +314,8 @@ namespace NHS111.Web.Controllers
 
             var dosCase = Mapper.Map<DosViewModel>(model);
             _auditLogger.LogDosRequest(model, dosCase);
-            model.DosCheckCapacitySummaryResult = await _dosBuilder.FillCheckCapacitySummaryResult(dosCase, overrideFilterServices.HasValue ? overrideFilterServices.Value : model.FilterServices, endpoint);
+            var modelFilterServices = overrideFilterServices.HasValue ? overrideFilterServices.Value : model.FilterServices;
+            model.DosCheckCapacitySummaryResult = await _dosBuilder.FillCheckCapacitySummaryResult(dosCase, modelFilterServices, endpoint).ConfigureAwait(false);
             _auditLogger.LogDosResponse(model, model.DosCheckCapacitySummaryResult);
 
             if (model.DosCheckCapacitySummaryResult.Error == null &&
@@ -330,7 +332,8 @@ namespace NHS111.Web.Controllers
                         var personalDetailsController = DependencyResolver.Current.GetService<PersonalDetailsController>();
                         personalDetailsController.ControllerContext = new ControllerContext(ControllerContext.RequestContext, personalDetailsController);
 
-                        return await personalDetailsController.PersonalDetails(Mapper.Map<PersonalDetailViewModel>(model));
+                        return await personalDetailsController.PersonalDetails(Mapper.Map<PersonalDetailViewModel>(model))
+                            .ConfigureAwait(false);
                     }
                 }
                 return View("~\\Views\\Outcome\\ServiceDetails.cshtml", model);
@@ -351,11 +354,12 @@ namespace NHS111.Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Confirmation(PersonalDetailViewModel model, [FromUri] bool? overrideFilterServices)
         {
-            var availableServices = await GetServiceAvailability(model, null, overrideFilterServices.HasValue ? overrideFilterServices.Value : model.FilterServices, null);
+            var modelFilterServices = overrideFilterServices.HasValue ? overrideFilterServices.Value : model.FilterServices;
+            var availableServices = await GetServiceAvailability(model, null, modelFilterServices, null).ConfigureAwait(false);
             _auditLogger.LogDosResponse(model, availableServices);
             if (availableServices.ContainsService(model.SelectedService))
             {
-                return await SubmitITKDataToService(model);
+                return await SubmitITKDataToService(model).ConfigureAwait(false);
             }
 
             return ReturnServiceUnavailableView(model, availableServices);
@@ -370,7 +374,7 @@ namespace NHS111.Web.Controllers
         private async Task<ActionResult> SubmitITKDataToService(PersonalDetailViewModel model)
         {
             var outcomeViewModel = ConvertPatientInformantDateToUserinfo(model.PatientInformantDetails, model.EmailAddress, model);
-            var itkConfirmationViewModel = await _outcomeViewModelBuilder.ItkResponseBuilder(outcomeViewModel);
+            var itkConfirmationViewModel = await _outcomeViewModelBuilder.ItkResponseBuilder(outcomeViewModel).ConfigureAwait(false);
             var result = _referralResultBuilder.Build(itkConfirmationViewModel);
             return View(result.ViewName, result);
         }
@@ -379,7 +383,7 @@ namespace NHS111.Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> ConfirmAddress(string longlat, ConfirmLocationViewModel model)
         {
-            var results = await _locationResultBuilder.LocationResultByGeouilder(longlat);
+            var results = await _locationResultBuilder.LocationResultByGeouilder(longlat).ConfigureAwait(false);
             var locationResults = Mapper.Map<List<AddressInfoViewModel>>(results.DistinctBy(r => r.Thoroughfare));
             model.FoundLocations = locationResults;
             return View("ConfirmLocation", model);
@@ -444,11 +448,12 @@ namespace NHS111.Web.Controllers
                     var personalDetailsController = DependencyResolver.Current.GetService<PersonalDetailsController>();
                     personalDetailsController.ControllerContext = new ControllerContext(ControllerContext.RequestContext, personalDetailsController);
 
-                    return await personalDetailsController.PersonalDetails(Mapper.Map<PersonalDetailViewModel>(model));
+                    return await personalDetailsController.PersonalDetails(Mapper.Map<PersonalDetailViewModel>(model))
+                        .ConfigureAwait(false);
                 }
             }
 
-            var outcome = await _outcomeViewModelBuilder.DispositionBuilder(model);
+            var outcome = await _outcomeViewModelBuilder.DispositionBuilder(model).ConfigureAwait(false);
             var viewRouter = _viewRouter.Build(outcome, ControllerContext);
 
             var postcodeValidatorResponse = _postCodeAllowedValidator.IsAllowedPostcode(model.CurrentPostcode);
@@ -466,7 +471,7 @@ namespace NHS111.Web.Controllers
         {
             _auditLogger.LogPrimaryCareReason(model, reason);
             ViewData["Route"] = ((Route)ControllerContext.RouteData.Route).Url;
-            model = await _outcomeViewModelBuilder.PrimaryCareBuilder(model, reason);
+            model = await _outcomeViewModelBuilder.PrimaryCareBuilder(model, reason).ConfigureAwait(false);
             return View("~\\Views\\Outcome\\Primary_Care\\MoreInfo.cshtml", model);
         }
 

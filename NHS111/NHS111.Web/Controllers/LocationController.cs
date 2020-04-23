@@ -51,7 +51,8 @@ namespace NHS111.Web.Controllers
         public async Task<ActionResult> Find(LocationViewModel model)
         {
             ModelState.Clear();
-            var postcodeValidationRepsonse = await _postCodeAllowedValidator.IsAllowedPostcodeAsync(model.CurrentPostcode);
+            var postcodeValidationRepsonse = await _postCodeAllowedValidator.IsAllowedPostcodeAsync(model.CurrentPostcode)
+                .ConfigureAwait(false);
             if (postcodeValidationRepsonse == PostcodeValidatorResponse.InvalidSyntax)
             {
                 ModelState.AddModelError("invalid-postcode", "Please enter a valid postcode");
@@ -75,7 +76,8 @@ namespace NHS111.Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> ConfirmAddress(string longlat, ConfirmLocationViewModel model)
         {
-            var results = await _locationResultBuilder.LocationResultByGeouilder(longlat);
+            var results = await _locationResultBuilder.LocationResultByGeouilder(longlat)
+                .ConfigureAwait(false);
             var locationResults = Mapper.Map<List<AddressInfoViewModel>>(results.DistinctBy(r => r.Thoroughfare));
             return View("ConfirmLocation", new ConfirmLocationViewModel { FoundLocations = locationResults, SessionId = model.SessionId, Campaign = model.Campaign, FilterServices = model.FilterServices, PathwayNo = model.PathwayNo, IsCustomJourney = model.IsCustomJourney });
         }

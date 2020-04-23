@@ -23,7 +23,7 @@ namespace NHS111.Web.Controllers
             var request = new RestRequest(url, Method.GET);
             request.OnBeforeDeserialization = resp => { resp.ContentType = "application/json"; };
 
-            var response = await _restClientBusinessApi.ExecuteAsync<VersionInfo>(request);
+            var response = await _restClientBusinessApi.ExecuteAsync<VersionInfo>(request).ConfigureAwait(false);
 
             return PartialView("_VersionInfo", response.Data);
         }

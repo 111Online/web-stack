@@ -85,9 +85,10 @@ namespace NHS111.Web.Controllers
         {
 
             var response = await _restClientBusinessApi.ExecuteAsync<List<GroupedPathways>>(
-                     new RestRequest(_configuration.GetBusinessApiGroupedPathwaysUrl(input, gender, age, true), Method.GET));
+                     new RestRequest(_configuration.GetBusinessApiGroupedPathwaysUrl(input, gender, age, true), Method.GET))
+                .ConfigureAwait(false);
 
-            return Json(await Search(response.Data));
+            return Json(await Search(response.Data).ConfigureAwait(false));
         }
 
         private async Task<string> Search(List<GroupedPathways> pathways)
@@ -113,10 +114,10 @@ namespace NHS111.Web.Controllers
 
 
             if (model.NodeType == NodeType.Page && model.Content != null && model.Content.StartsWith("!CustomView!"))
-                return await HandleCustomQuestion(model); //Refactor into custom Handler Class
+                return await HandleCustomQuestion(model).ConfigureAwait(false); //Refactor into custom Handler Class
             ModelState.Clear();
 
-            var nextModel = await _questionNavigiationService.GetNextJourneyViewModel(model);
+            var nextModel = await _questionNavigiationService.GetNextJourneyViewModel(model).ConfigureAwait(false);
             var viewRouter = _viewRouter.Build(nextModel, ControllerContext);
 
             return View(viewRouter.ViewName, nextModel);
@@ -151,7 +152,7 @@ namespace NHS111.Web.Controllers
             else
                 state["SYMPTOMS_STARTED_DAYS_AGO"] = days;
             model.StateJson = JsonConvert.SerializeObject(state);
-            var nextModel = await _questionNavigiationService.GetNextJourneyViewModel(model);
+            var nextModel = await _questionNavigiationService.GetNextJourneyViewModel(model).ConfigureAwait(false);
             var viewRouter = _viewRouter.Build(nextModel, ControllerContext);
 
             return View(viewRouter.ViewName, nextModel);
@@ -196,7 +197,7 @@ namespace NHS111.Web.Controllers
             var nodeDetails = new NodeDetailsViewModel() { NodeType = NodeType.Question };
             if (ModelState.IsValidField("SelectedAnswer"))
             {
-                var nextNode = await _questionNavigiationService.GetNextNode(model);
+                var nextNode = await _questionNavigiationService.GetNextNode(model).ConfigureAwait(false);
                 nodeDetails = _journeyViewModelBuilder.BuildNodeDetails(nextNode);
             }
 
@@ -241,7 +242,8 @@ namespace NHS111.Web.Controllers
                 await
                     _restClientBusinessApi.ExecuteAsync(
                         new RestRequest(_configuration.GetBusinessApiPathwaySearchUrl(gender, ageGroup.Value, true),
-                            Method.GET));
+                            Method.GET))
+                        .ConfigureAwait(false);
 
             return Json(response.Content);
         }
@@ -257,7 +259,7 @@ namespace NHS111.Web.Controllers
 
             if (selectedAnswer.ToLower() == "no")
             {
-                model = await _outcomeViewModelBuilder.DispositionBuilder(model);
+                model = await _outcomeViewModelBuilder.DispositionBuilder(model).ConfigureAwait(false);
                 if (model.DosCheckCapacitySummaryResult.HasITKServices)
                 {
                     throw new NotImplementedException(); //no trigger question journeys currently offer callback
@@ -266,7 +268,8 @@ namespace NHS111.Web.Controllers
                 return View(viewRouter.ViewName, model);
             }
 
-            var result = await DirectInternal(model.PathwayId, model.UserInfo.Demography.Age, model.PathwayTitle, model.CurrentPostcode, answers, filterServices);
+            var result = await DirectInternal(model.PathwayId, model.UserInfo.Demography.Age, model.PathwayTitle, model.CurrentPostcode, answers, filterServices)
+                .ConfigureAwait(false);
 
             var journeyViewModel = (JourneyViewModel)((ViewResult)result).Model;
             journeyViewModel.TriggerQuestionNo = model.TriggerQuestionNo;
@@ -287,12 +290,14 @@ namespace NHS111.Web.Controllers
                 return HttpNotFound();
             }
 
-            return await DirectInternal(pathwayId, age, pathwayTitle, postcode, answers, filterServices);
+            return await DirectInternal(pathwayId, age, pathwayTitle, postcode, answers, filterServices)
+                .ConfigureAwait(false);
         }
 
         public async Task<ActionResult> DirectInternal(string pathwayId, int? age, string pathwayTitle, string postcode, [ModelBinder(typeof(IntArrayModelBinder))] int[] answers, bool? filterServices)
         {
-            var resultingModel = await DeriveJourneyView(pathwayId, age, pathwayTitle, answers);
+            var resultingModel = await DeriveJourneyView(pathwayId, age, pathwayTitle, answers)
+                .ConfigureAwait(false);
             resultingModel.CurrentPostcode = postcode;
             resultingModel.TriggerQuestionNo = null;
             if (resultingModel != null)
@@ -314,10 +319,12 @@ namespace NHS111.Web.Controllers
                     controller.ControllerContext = new ControllerContext(ControllerContext.RequestContext, controller);
 
                     if (OutcomeGroup.PrePopulatedDosResultsOutcomeGroups.Contains(outcomeModel.OutcomeGroup))
-                        return await DeterminePrepopulatedResultsRoute(controller, outcomeModel, endpoint, dosSearchTime);
+                        return await DeterminePrepopulatedResultsRoute(controller, outcomeModel, endpoint, dosSearchTime)
+                            .ConfigureAwait(false);
 
                     if (OutcomeGroup.DosSearchOutcomesGroups.Contains(outcomeModel.OutcomeGroup))
-                        return await controller.ServiceList(outcomeModel, dosSearchTime, null, endpoint);
+                        return await controller.ServiceList(outcomeModel, dosSearchTime, null, endpoint)
+                            .ConfigureAwait(false);
                 }
             }
 
@@ -357,7 +364,8 @@ namespace NHS111.Web.Controllers
 
         private async Task<ActionResult> DeterminePrepopulatedResultsRoute(OutcomeController controller, OutcomeViewModel outcomeViewModel, DosEndpoint? endpoint = null, DateTime? dosSearchTime = null)
         {
-            var dispoWithServicesResult = await controller.DispositionWithServices(outcomeViewModel, "", endpoint, dosSearchTime);
+            var dispoWithServicesResult = await controller.DispositionWithServices(outcomeViewModel, "", endpoint, dosSearchTime)
+                .ConfigureAwait(false);
 
             if (!OutcomeGroup.UsingRecommendedServiceJourney.Contains(outcomeViewModel.OutcomeGroup) && !outcomeViewModel.OutcomeGroup.IsPrimaryCare)
                 return dispoWithServicesResult;
@@ -377,7 +385,8 @@ namespace NHS111.Web.Controllers
             var minimumServicesNeededForServiceList = outcomeModel.OutcomeGroup.IsUsingRecommendedService ? 2 : 1;
 
             if (outcomeModel.DosCheckCapacitySummaryResult.Success.Services.Count >= minimumServicesNeededForServiceList)
-                return await controller.ServiceList(outcomeModel, dosSearchTime, null, endpoint);
+                return await controller.ServiceList(outcomeModel, dosSearchTime, null, endpoint)
+                    .ConfigureAwait(false);
 
             return View("../Outcome/Repeat_Prescription/RecommendedServiceNotOffered", outcomeModel);
         }
@@ -386,7 +395,8 @@ namespace NHS111.Web.Controllers
         {
             var questionViewModel = BuildQuestionViewModel(pathwayId, age, pathwayTitle);
             var response = await
-                _restClientBusinessApi.ExecuteAsync<Pathway>(new JsonRestRequest(_configuration.GetBusinessApiPathwayUrl(pathwayId, true), Method.GET));
+                _restClientBusinessApi.ExecuteAsync<Pathway>(new JsonRestRequest(_configuration.GetBusinessApiPathwayUrl(pathwayId, true), Method.GET))
+                    .ConfigureAwait(false);
             var pathway = response.Data;
             if (pathway == null) return null;
 
@@ -404,9 +414,10 @@ namespace NHS111.Web.Controllers
             };
 
             newModel.StateJson = JourneyViewModelStateBuilder.BuildStateJson(newModel.State);
-            questionViewModel = (await _justToBeSafeFirstViewModelBuilder.JustToBeSafeFirstBuilder(newModel)).Item2; //todo refactor tuple away
+            questionViewModel = (await _justToBeSafeFirstViewModelBuilder.JustToBeSafeFirstBuilder(newModel).ConfigureAwait(false)).Item2; //todo refactor tuple away
 
-            var resultingModel = await AnswerQuestions(questionViewModel, answers);
+            var resultingModel = await AnswerQuestions(questionViewModel, answers)
+                .ConfigureAwait(false);
             return resultingModel;
         }
 
@@ -419,7 +430,8 @@ namespace NHS111.Web.Controllers
             ModelState.Clear();
 
             var url = _configuration.GetBusinessApiQuestionByIdUrl(model.PathwayId, model.Journey.Steps.Last().QuestionId, true);
-            var response = await _restClientBusinessApi.ExecuteAsync<QuestionWithAnswers>(new JsonRestRequest(url, Method.GET));
+            var response = await _restClientBusinessApi.ExecuteAsync<QuestionWithAnswers>(new JsonRestRequest(url, Method.GET))
+                .ConfigureAwait(false);
             var questionWithAnswers = response.Data;
 
             var result = _journeyViewModelBuilder.BuildPreviousQuestion(questionWithAnswers, model);
@@ -432,7 +444,8 @@ namespace NHS111.Web.Controllers
         {
             var request = new JsonRestRequest(_configuration.BusinessApiGetFullPathwayJourneyUrl, Method.POST);
             request.AddJsonBody(model.Journey.Steps.ToArray());
-            var response = await _restClientBusinessApi.ExecuteAsync<List<QuestionWithAnswers>>(request);
+            var response = await _restClientBusinessApi.ExecuteAsync<List<QuestionWithAnswers>>(request)
+                .ConfigureAwait(false);
             return response.Data;
         }
 
@@ -446,7 +459,8 @@ namespace NHS111.Web.Controllers
             while (queue.Any())
             {
                 var answer = queue.Dequeue();
-                journeyViewModel = await AnswerQuestion(model, answer);
+                journeyViewModel = await AnswerQuestion(model, answer)
+                    .ConfigureAwait(false);
             }
             return journeyViewModel;
         }
@@ -459,7 +473,7 @@ namespace NHS111.Web.Controllers
                         string.Join(", ", model.Answers.Select(a => a.Title))));
 
             model.SelectedAnswer = JsonConvert.SerializeObject(model.Answers.First(a => a.Order == answer + 1));
-            var result = (ViewResult)await Question(model);
+            var result = (ViewResult)await Question(model).ConfigureAwait(false);
 
             return result.Model is OutcomeViewModel ? (OutcomeViewModel)result.Model : (JourneyViewModel)result.Model;
         }

@@ -18,7 +18,7 @@ namespace NHS111.Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> SubmitFeedback(FeedbackViewModel feedbackData)
         {
-            var model = await _feedbackViewModelBuilder.FeedbackResultBuilder(feedbackData);
+            var model = await _feedbackViewModelBuilder.FeedbackResultBuilder(feedbackData).ConfigureAwait(false);
             return Content(model.Message, "text/html");
         }
     }

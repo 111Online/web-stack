@@ -24,7 +24,7 @@ namespace NHS111.Web.Controllers
         {
             var ageGroup = new AgeCategory(age);
             var url = _configuration.GetBusinessApiPathwaySearchUrl(gender, ageGroup.Value);
-            var response = await _restClientBusinessApi.ExecuteAsync<List<SearchResultViewModel>>(new RestRequest(url, Method.GET));
+            var response = await _restClientBusinessApi.ExecuteAsync<List<SearchResultViewModel>>(new RestRequest(url, Method.GET)).ConfigureAwait(false);
 
             return View(new SearchJourneyViewModel { Results = response.Data });
         }

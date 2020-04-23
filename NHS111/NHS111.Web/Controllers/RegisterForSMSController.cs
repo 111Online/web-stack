@@ -35,7 +35,8 @@ namespace NHS111.Web.Controllers
         public async Task<ActionResult> GetSMSSecurityCode(SendSmsOutcomeViewModel model)
         {
             var result = await _registerForSmsViewModelBuilder
-                .MessageCaseDataCaptureApi<GenerateSMSVerifyCodeRequest, SMSGenerateCodeViewDeterminer>(model, _configuration.CaseDataCaptureApiGenerateVerificationCodeUrl);
+                .MessageCaseDataCaptureApi<GenerateSMSVerifyCodeRequest, SMSGenerateCodeViewDeterminer>(model, _configuration.CaseDataCaptureApiGenerateVerificationCodeUrl)
+                .ConfigureAwait(false);
 
             ModelState.Clear();
 
@@ -50,10 +51,11 @@ namespace NHS111.Web.Controllers
                 return View("Enter_Verification_Code_SMS", model);
 
             var result = await _registerForSmsViewModelBuilder
-                .MessageCaseDataCaptureApi<VerifySMSCodeRequest, SMSEnterVerificationCodeViewDeterminer>(model, _configuration.CaseDataCaptureApiVerifyPhoneNumberUrl);
+                .MessageCaseDataCaptureApi<VerifySMSCodeRequest, SMSEnterVerificationCodeViewDeterminer>(model, _configuration.CaseDataCaptureApiVerifyPhoneNumberUrl)
+                .ConfigureAwait(false);
 
             return string.IsNullOrWhiteSpace(result.ViewName)
-                ? await RedirectToNextQuestion(model) : View(result.ViewName, result.SendSmsOutcomeViewModel);
+                ? await RedirectToNextQuestion(model).ConfigureAwait(false) : View(result.ViewName, result.SendSmsOutcomeViewModel);
         }
 
         [HttpPost]
@@ -63,7 +65,8 @@ namespace NHS111.Web.Controllers
             model.VerificationCodeInput = GetVerificationCodeInputFromJourney(model);
 
             var result = await _registerForSmsViewModelBuilder
-                .MessageCaseDataCaptureApi<SubmitSMSRegistrationRequest, SMSSubmitRegistrationViewDeterminer>(model, _configuration.CaseDataCaptureApiSubmitSMSRegistrationMessageUrl);
+                .MessageCaseDataCaptureApi<SubmitSMSRegistrationRequest, SMSSubmitRegistrationViewDeterminer>(model, _configuration.CaseDataCaptureApiSubmitSMSRegistrationMessageUrl)
+                .ConfigureAwait(false);
 
             return View(result.ViewName, result.SendSmsOutcomeViewModel);
         }
@@ -88,7 +91,7 @@ namespace NHS111.Web.Controllers
 
             var questionViewModel = CovertSendSmsOutcomeViewModelToQuestionViewModel(model);
 
-            var viewRouter = await _questionNavigiationService.NextQuestion(questionViewModel, ControllerContext);
+            var viewRouter = await _questionNavigiationService.NextQuestion(questionViewModel, ControllerContext).ConfigureAwait(false);
 
             return View(viewRouter.ViewName, viewRouter.JourneyModel);
         }

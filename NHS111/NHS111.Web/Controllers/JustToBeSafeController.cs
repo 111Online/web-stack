@@ -27,7 +27,7 @@ namespace NHS111.Web.Controllers
         public async Task<ActionResult> JustToBeSafeFirst(JustToBeSafeViewModel model)
         {
             ModelState.Clear();
-            var viewData = await _justToBeSafeFirstViewModelBuilder.JustToBeSafeFirstBuilder(model);
+            var viewData = await _justToBeSafeFirstViewModelBuilder.JustToBeSafeFirstBuilder(model).ConfigureAwait(false);
             return View(viewData.Item1, viewData.Item2);
         }
 
@@ -36,7 +36,7 @@ namespace NHS111.Web.Controllers
         public async Task<ActionResult> JustToBeSafeNext(JustToBeSafeViewModel model)
         {
             ModelState.Clear();
-            var next = await _justToBeSafeViewModelBuilder.JustToBeSafeNextBuilder(model);
+            var next = await _justToBeSafeViewModelBuilder.JustToBeSafeNextBuilder(model).ConfigureAwait(false);
             return View(next.Item1, next.Item2);
         }
 
@@ -45,7 +45,7 @@ namespace NHS111.Web.Controllers
         public async Task<ActionResult> SmsFirstQuestion(JustToBeSafeViewModel model)
         {
             var firstModel = BuildModel("PC111", model);
-            return await JustToBeSafeFirst(firstModel);
+            return await JustToBeSafeFirst(firstModel).ConfigureAwait(false);
         }
 
         [HttpGet]
@@ -53,7 +53,7 @@ namespace NHS111.Web.Controllers
         public async Task<ActionResult> FirstQuestion(string pathwayNumber, string gender, int age, string args)
         {
             var model = BuildModel(pathwayNumber, gender, age, args);
-            return await JustToBeSafeFirst(model);
+            return await JustToBeSafeFirst(model).ConfigureAwait(false);
         }
 
         [HttpPost]
@@ -62,7 +62,7 @@ namespace NHS111.Web.Controllers
         public async Task<ActionResult> FirstQuestionDeeplink(JustToBeSafeViewModel model)
         {
             ModelState.Clear();
-            return await JustToBeSafeFirst(model);
+            return await JustToBeSafeFirst(model).ConfigureAwait(false);
         }
 
         private static QuestionInfoViewModel BuildModel(string pathwayNumber, JustToBeSafeViewModel jtbsModel)
