@@ -236,6 +236,17 @@ namespace NHS111.Web.Presentation.Configuration
             return Uri.TryCreate(url, UriKind.Absolute, out result);
         }
 
+        public string AuditEventHubConnectionString { get { return ConfigurationManager.AppSettings["AuditEventHubConnectionString"]; } }
+
+        public bool AuditEventHubEnabled
+        {
+            get
+            {
+                bool res;
+                return bool.TryParse(ConfigurationManager.AppSettings["AuditEventHubEnabled"], out res) ? res : true;
+            }
+        }
+
     }
 
 
@@ -312,5 +323,7 @@ namespace NHS111.Web.Presentation.Configuration
         string QueryStringEncryptionKey { get; }
         string QueryStringEncryptionBytes { get; }
         string Expert24Url { get; }
+        string AuditEventHubConnectionString { get; }
+        bool AuditEventHubEnabled { get; }
     }
 }
