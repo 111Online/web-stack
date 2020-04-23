@@ -2,6 +2,7 @@
 using log4net;
 using NHS111.Features;
 using NHS111.Utils.RestTools;
+using NHS111.Web.IoC;
 using NHS111.Web.Presentation.Filters;
 using NHS111.Web.Presentation.Logging;
 
@@ -43,13 +44,9 @@ namespace NHS111.Web {
                     ConfigurationManager.AppSettings["login_credential_password"]));
             }
 
-            var auditLogger =  new AuditLogger(
-                    new LoggingRestClient(
-                            ConfigurationManager.AppSettings["LoggingServiceApiBaseUrl"],
-                            LogManager.GetLogger("log"),
-                            int.Parse(ConfigurationManager.AppSettings["ServicePointManagerDefaultConnectionLimit"])), 
-                    new Presentation.Configuration.Configuration()
-                );
+            // Get AuditLogger using dependency resolution via IoC
+            DependencyResolver.SetResolver(StructuremapMvc.StructureMapDependencyScope);
+            var auditLogger = DependencyResolver.Current.GetService<IAuditLogger>();
 
             GlobalFilters.Filters.Add(new LogJourneyFilterAttribute(auditLogger));
             

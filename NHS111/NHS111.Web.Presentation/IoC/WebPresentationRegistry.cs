@@ -55,6 +55,7 @@ namespace NHS111.Web.Presentation.IoC
                     .Ctor<IRestClient>()
                     .Is(new LoggingRestClient(new Configuration.Configuration().LoggingServiceApiBaseUrl, LogManager.GetLogger("log")));
             };
+
             Scan(scan =>
             {
                 scan.TheCallingAssembly();
