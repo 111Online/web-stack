@@ -69,12 +69,7 @@
       @Html.Partial("_ActionLink", new ActionLinkViewModel { Text = "Check if you can get tested", Url = "NOTKNOWNYET", EventTrigger = "click", EventValue = "NHS.UK coronavirus testing page", Target="_blank" })
 
     </div>
-@using (Html.BeginForm("JustToBeSafeFirst", "JustToBeSafe", FormMethod.Post, new { target="_blank" }))
-{
-    
-    var age = new AgeCategory(Model.UserInfo.Demography.Age);
-    Model.PathwayNo = "PC111";
-    Model.PathwayId = string.Format("{0}{1}{2}", Model.PathwayNo, Model.UserInfo.Demography.Gender, age.Value);
+
     <h2 class="nhsuk-heading-l">
       Other things you can do on NHS.UK
     </h2>
@@ -88,14 +83,6 @@
       <li>
         help the NHS plan its response to coronavirus by <a href="https://www.nhs.uk/coronavirus-status-checker" data-event-trigger="click" data-event-value="NHS.UK status checker link" target="_blank">telling us about your current experience of the virus</a>
       </li>
-
-      <li>
-
-          @Html.Partial("_CommonHiddenFieldsJourneyViewModel", Model)
-          <button class="button--link">Share your mobile number</button> to get advice and links to trusted sources of information and support
-     
-      </li>
-
     </ul>
 
     <p>
@@ -103,5 +90,4 @@
         Go to NHS.UK for more coronavirus information
       </a>
     </p>
-}
 </div>
