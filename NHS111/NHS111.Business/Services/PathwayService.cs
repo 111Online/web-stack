@@ -7,6 +7,7 @@ using NHS111.Utils.RestTools;
 using RestSharp;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using NHS111.Models.Models.Business.Caching;
 
 namespace NHS111.Business.Services
 {
