@@ -27,8 +27,13 @@ namespace NHS111.Business.Services
 
         public async Task<IEnumerable<CareAdvice>> GetCareAdvice(int age, string gender, IEnumerable<string> markers)
         {
-            var careAdvice = await _restClient.ExecuteAsync<IEnumerable<CareAdvice>>(new JsonRestRequest(_configuration.GetDomainApiCareAdviceUrl(age, gender, markers), Method.GET));
-            return careAdvice.Data;
+            return await _cacheStore.GetOrAdd(new CareAdviceCacheKey(age, gender, markers), async () =>
+            {
+                var careAdvice = await _restClient.ExecuteAsync<IEnumerable<CareAdvice>>(
+                    new JsonRestRequest(_configuration.GetDomainApiCareAdviceUrl(age, gender, markers), Method.GET));
+
+                return careAdvice.Data;
+            });
         }
 
         public async Task<IEnumerable<CareAdvice>> GetCareAdvice(string ageCategory, string gender, string keywords, string dxCode)

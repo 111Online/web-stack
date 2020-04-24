@@ -2,6 +2,7 @@
 using NHS111.Business.Builders;
 using NHS111.Business.Configuration;
 using NHS111.Business.Transformers;
+using NHS111.Models.Models.Business.Caching;
 using NHS111.Models.Models.Domain;
 using NHS111.Models.Models.Web.FromExternalServices;
 using NHS111.Utils.Cache;
@@ -41,28 +42,44 @@ namespace NHS111.Business.Services
 
         public async Task<QuestionWithAnswers> GetQuestion(string id)
         {
-            var questions = await _restClient.ExecuteAsync<QuestionWithAnswers>(new JsonRestRequest(_configuration.GetDomainApiQuestionUrl(id), Method.GET));
-            return questions.Data;
+            return await _cacheStore.GetOrAdd(QuestionWithAnswersCacheKey.WithNodeId(id), async () => 
+            {
+                var questions = await _restClient.ExecuteAsync<QuestionWithAnswers>(new JsonRestRequest(_configuration.GetDomainApiQuestionUrl(id), Method.GET));
+                return questions.Data;
+            });
+           
         }
 
         public async Task<Answer[]> GetAnswersForQuestion(string id)
         {
-            var questions = await _restClient.ExecuteAsync<Answer[]>(new JsonRestRequest(_configuration.GetDomainApiAnswersForQuestionUrl(id), Method.GET));
-            return questions.Data;
+            return await _cacheStore.GetOrAdd(new AnswersCacheKey(id), async () =>
+            {
+                var questions = await _restClient.ExecuteAsync<Answer[]>(
+                    new JsonRestRequest(_configuration.GetDomainApiAnswersForQuestionUrl(id), Method.GET));
+                return questions.Data;
+            });
+
         }
 
         public async Task<QuestionWithAnswers> GetNextQuestion(string id, string nodeLabel, string answer)
         {
-            var request = new JsonRestRequest(_configuration.GetDomainApiNextQuestionUrl(id, nodeLabel), Method.POST);
-            request.AddJsonBody(answer);
-            var questions = await _restClient.ExecuteAsync<QuestionWithAnswers>(request);
-            return questions.Data;
+            return await _cacheStore.GetOrAdd(new QuestionWithAnswersCacheKey(id, nodeLabel, answer), async () =>
+            {
+                var request = new JsonRestRequest(_configuration.GetDomainApiNextQuestionUrl(id, nodeLabel), Method.POST);
+                request.AddJsonBody(answer);
+                var questions = await _restClient.ExecuteAsync<QuestionWithAnswers>(request);
+                return questions.Data;
+            });
         }
 
         public async Task<QuestionWithAnswers> GetFirstQuestion(string pathwayId)
         {
-            var questions = await _restClient.ExecuteAsync<QuestionWithAnswers>(new JsonRestRequest(_configuration.GetDomainApiFirstQuestionUrl(pathwayId), Method.GET));
-            return questions.Data;
+            return await _cacheStore.GetOrAdd(QuestionWithAnswersCacheKey.WithPathwayId(pathwayId), async () => 
+            {
+                var questions = await _restClient.ExecuteAsync<QuestionWithAnswers>(new JsonRestRequest(_configuration.GetDomainApiFirstQuestionUrl(pathwayId), Method.GET));
+                return questions.Data;
+            });
+           
         }
 
         public async Task<IEnumerable<QuestionWithAnswers>> GetJustToBeSafeQuestionsFirst(string pathwayId)
@@ -76,7 +93,7 @@ namespace NHS111.Business.Services
             var age = GetAgeFromState(state);
             var gender = GetGenderFromState(state);
             var moduleZeroJourney = await GetModuleZeroJourney(gender, age, traumaType);
-
+            
             var pathwaysJourney = await GetPathwayJourney(steps, startingPathwayId, dispositionCode, gender, age);
             var filteredJourneySteps = NavigateReadNodeLogic(steps, pathwaysJourney.ToList(), state).ToArray();
 
@@ -84,9 +101,9 @@ namespace NHS111.Business.Services
             var pathwayKeywords = filteredJourneySteps.Where(q => q.Labels.Contains("Pathway")).Select(q => q.Question.Keywords);
             var pathwayExcludeKeywords = filteredJourneySteps.Where(q => q.Labels.Contains("Pathway")).Select(q => q.Question.ExcludeKeywords);
             var keywords = _keywordCollector.CollectKeywords(pathwayKeywords, pathwayExcludeKeywords);
-
+            
             // keywords from answers
-            var journeySteps = filteredJourneySteps.Where(q => q.Answered != null).Select(q => new JourneyStep { Answer = q.Answered }).ToList();
+            var journeySteps = filteredJourneySteps.Where(q => q.Answered != null).Select(q => new JourneyStep {Answer = q.Answered}).ToList();
             keywords = _keywordCollector.CollectKeywordsFromPreviousQuestion(keywords, journeySteps);
 
             var consolidatedKeywords = _keywordCollector.ConsolidateKeywords(keywords).ToArray();
@@ -133,7 +150,7 @@ namespace NHS111.Business.Services
             {
                 if (!step.Labels.Contains("Read"))
                 {
-                    if (!step.Labels.Contains("Question") || (step.Labels.Contains("Question") && answeredQuestions.Any(q => q.QuestionId == step.Question.Id)))
+                    if(!step.Labels.Contains("Question") || (step.Labels.Contains("Question") && answeredQuestions.Any(q => q.QuestionId == step.Question.Id)))
                         filteredJourney.Add(step);
 
                     if (step.Labels.Contains("Set") && !state.ContainsKey(step.Question.Title))
