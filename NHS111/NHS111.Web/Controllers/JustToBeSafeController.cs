@@ -23,7 +23,6 @@ namespace NHS111.Web.Controllers
         }
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public async Task<ActionResult> JustToBeSafeFirst(JustToBeSafeViewModel model)
         {
             ModelState.Clear();
@@ -32,7 +31,6 @@ namespace NHS111.Web.Controllers
         }
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public async Task<ActionResult> JustToBeSafeNext(JustToBeSafeViewModel model)
         {
             ModelState.Clear();
@@ -58,7 +56,6 @@ namespace NHS111.Web.Controllers
 
         [HttpPost]
         [Route("Question/First")]
-        [ValidateAntiForgeryToken]
         public async Task<ActionResult> FirstQuestionDeeplink(JustToBeSafeViewModel model)
         {
             ModelState.Clear();

@@ -4,7 +4,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Http.Results;
-using System.Web.Mvc;
 //used in release build
 using Newtonsoft.Json;
 using NHS111.Utils.Cache;
@@ -60,7 +59,6 @@ namespace NHS111.Business.Api.Controllers
 
         [Route("categories/pathways/{gender}/{age}")]
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public async Task<JsonResult<IEnumerable<CategoryWithPathways>>> GetCategoriesWithPathways(string gender, int age, [FromBody] string postcode)
         {
 

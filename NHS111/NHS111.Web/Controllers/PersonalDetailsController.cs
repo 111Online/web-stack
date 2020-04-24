@@ -38,7 +38,6 @@ namespace NHS111.Web.Controllers
         }
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public async Task<ActionResult> PersonalDetails(PersonalDetailViewModel model)
         {
             ModelState.Clear();
@@ -80,7 +79,6 @@ namespace NHS111.Web.Controllers
         }
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public async Task<ActionResult> ChangeCurrentAddressPostcode(PersonalDetailViewModel model)
         {
             if (!ModelState.IsValid)
@@ -107,7 +105,6 @@ namespace NHS111.Web.Controllers
         }
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public async Task<ActionResult> EnterHomePostcode(PersonalDetailViewModel model, string changeHomeAddressPostcode)
         {
             if (changeHomeAddressPostcode == "unknownHomeAddress")
@@ -135,7 +132,6 @@ namespace NHS111.Web.Controllers
         }
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public async Task<ActionResult> CurrentAddress(PersonalDetailViewModel model)
         {
 
@@ -153,14 +149,12 @@ namespace NHS111.Web.Controllers
         }
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public async Task<ActionResult> EnterDifferentCurrentAddress(PersonalDetailViewModel model)
         {
             return View("~\\Views\\PersonalDetails\\CurrentAddress_Change.cshtml", model);
         }
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public async Task<ActionResult> SubmitCurrentAddress(PersonalDetailViewModel model, string currentAddress)
         {
             if (currentAddress == "AddressNotListed")
@@ -172,7 +166,6 @@ namespace NHS111.Web.Controllers
         }
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public async Task<ActionResult> SubmitChangeCurrentAddress(PersonalDetailViewModel model, string changeCurrentAddress)
         {
             switch (changeCurrentAddress)
@@ -189,7 +182,6 @@ namespace NHS111.Web.Controllers
 
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public async Task<ActionResult> SubmitManualAddress(PersonalDetailViewModel model)
         {
             var postcodes = await GetPostcodeResults(model.AddressInformation.PatientCurrentAddress.Postcode).ConfigureAwait(false);
@@ -208,7 +200,6 @@ namespace NHS111.Web.Controllers
         }
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public async Task<ActionResult> SubmitAtHome(PersonalDetailViewModel model)
         {
             if (!ModelState.IsValid || model.AddressInformation.HomeAddressSameAsCurrentWrapper == null)
@@ -233,7 +224,6 @@ namespace NHS111.Web.Controllers
         }
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public async Task<ActionResult> CollectEmailAddress(PersonalDetailViewModel model)
         {
 

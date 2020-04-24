@@ -51,7 +51,6 @@ namespace NHS111.Web.Controllers
         }
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public ActionResult ModuleZero(JourneyViewModel model)
         {
             _userZoomDataBuilder.SetFieldsForInitialQuestion(model);
@@ -80,7 +79,6 @@ namespace NHS111.Web.Controllers
         }
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public async Task<JsonResult> AutosuggestPathways(string input, string gender, int age)
         {
 
@@ -102,7 +100,6 @@ namespace NHS111.Web.Controllers
         [HttpPost]
         [ActionName("Navigation")]
         [MultiSubmit(ButtonName = "Question")]
-        [ValidateAntiForgeryToken]
         public async Task<ActionResult> Question(QuestionViewModel model)
         {
             if (!ModelState.IsValidField("SelectedAnswer") ||
@@ -191,7 +188,6 @@ namespace NHS111.Web.Controllers
 
         [HttpPost]
         [ActionName("NextNodeDetails")]
-        [ValidateAntiForgeryToken]
         public async Task<JsonResult> GetNextNodeDetails(QuestionViewModel model)
         {
             var nodeDetails = new NodeDetailsViewModel() { NodeType = NodeType.Question };
@@ -219,7 +215,6 @@ namespace NHS111.Web.Controllers
         }
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public ActionResult InitialQuestion(JourneyViewModel model)
         {
             var audit = model.ToAuditEntry();
@@ -234,7 +229,6 @@ namespace NHS111.Web.Controllers
         }
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public async Task<JsonResult> PathwaySearch(string gender, int age, string searchTerm)
         {
             var ageGroup = new AgeCategory(age);
@@ -251,7 +245,7 @@ namespace NHS111.Web.Controllers
         [HttpPost]
         [ActionName("Navigation")]
         [MultiSubmit(ButtonName = "CheckAnswer")]
-        [ValidateAntiForgeryToken]
+        //[Route("question/revisit/{questionNo}/")]
         public async Task<ActionResult> Revisit(OutcomeViewModel model,
             [ModelBinder(typeof(IntArrayModelBinder))] int[] answers,
             bool? filterServices, string selectedAnswer)
@@ -424,7 +418,6 @@ namespace NHS111.Web.Controllers
         [HttpPost]
         [ActionName("Navigation")]
         [MultiSubmit(ButtonName = "PreviousQuestion")]
-        [ValidateAntiForgeryToken]
         public async Task<ActionResult> PreviousQuestion(QuestionViewModel model)
         {
             ModelState.Clear();

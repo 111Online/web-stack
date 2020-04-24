@@ -19,7 +19,6 @@ namespace NHS111.Web.Controllers
         }
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public ActionResult Log(PublicAuditViewModel audit)
         {
             var model = Mapper.Map<PublicAuditViewModel, AuditViewModel>(audit);

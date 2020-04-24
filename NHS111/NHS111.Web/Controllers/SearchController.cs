@@ -29,7 +29,6 @@ namespace NHS111.Web.Controllers
         }
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public async Task<ActionResult> Search(JourneyViewModel model)
         {
             if (!ModelState.IsValidField("UserInfo.Demography.Gender") || !ModelState.IsValidField("UserInfo.Demography.Age"))
@@ -115,7 +114,6 @@ namespace NHS111.Web.Controllers
         }
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public async Task<ActionResult> SearchResults(SearchJourneyViewModel model)
         {
             if (!ModelState.IsValidField("SanitisedSearchTerm")) return View("~\\Views\\Search\\NoResults.cshtml", model);

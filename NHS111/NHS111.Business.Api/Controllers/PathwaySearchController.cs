@@ -30,7 +30,6 @@ namespace NHS111.Business.Api.Controllers
 
         [Route("pathwaysearch/{gender}/{ageGroup}")]
         [HttpPost]
-        [System.Web.Mvc.ValidateAntiForgeryToken]
         public async Task<List<PathwaySearchResult>> Get(string gender, string ageGroup, [FromBody] SearchRequest request, [FromUri] bool highlight = false, [FromUri] bool score = false)
         {
             var results = await _pathwaySearchService.FindResults(request.Query, gender, ageGroup, highlight, score);
