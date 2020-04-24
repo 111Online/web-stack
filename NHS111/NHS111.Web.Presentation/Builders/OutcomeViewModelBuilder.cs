@@ -238,14 +238,14 @@ namespace NHS111.Web.Presentation.Builders
             itkResponseModel.ItkSendSuccess = response.IsSuccessful;
             if (response.IsSuccessful || IsDuplicateResponse(response))
             {
-                itkResponseModel.PatientReference =  response.Content.Replace("\"","");
+                itkResponseModel.PatientReference = itkRequestData.CaseDetails.ExternalReference;
             }
           
             else
             {
                 itkResponseModel.ItkSendSuccess = false;
                 Log4Net.Error("Error sending ITK message : Status Code -" + response.StatusCode +
-                              " Content -" + response.Content);
+                              " Content -" + itkRequestData.CaseDetails.ExternalReference);
             }
             return itkResponseModel;
         }
@@ -322,6 +322,7 @@ namespace NHS111.Web.Presentation.Builders
         private ITKDispatchRequest CreateItkDispatchRequest(OutcomeViewModel model)
         {
             var itkRequestData = _mappingEngine.Mapper.Map<OutcomeViewModel, ITKDispatchRequest>(model);
+            itkRequestData.CaseDetails.ExternalReference = "111-ONLINE-" + itkRequestData.CaseDetails.JourneyId.Substring(0, 5).ToUpper();
             itkRequestData.Authentication = getItkAuthentication();
             return itkRequestData;
         }
