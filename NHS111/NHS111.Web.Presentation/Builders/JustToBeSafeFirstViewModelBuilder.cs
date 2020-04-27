@@ -11,6 +11,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Web;
 using IConfiguration = NHS111.Web.Presentation.Configuration.IConfiguration;
 
 namespace NHS111.Web.Presentation.Builders
@@ -73,7 +74,7 @@ namespace NHS111.Web.Presentation.Builders
 
                 _mappingEngine.Mapper.Map(question.Data, questionViewModel);
 
-                _userZoomDataBuilder.SetFieldsForQuestion(questionViewModel);
+                _userZoomDataBuilder.SetFieldsForQuestion(questionViewModel, HttpContext.Current.Request.RequestContext);
                 if (questionViewModel.NodeType == NodeType.Page)
                 {
                     // This replicates logic in ViewDeterminer so in future should ideally use that instead.
