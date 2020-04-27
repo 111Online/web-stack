@@ -4,7 +4,8 @@
 @{
     ViewBag.Title = "ITK_Primary_care";
     Layout = "~/Views/Shared/_LayoutNhsUK.cshtml";
-    
+
+    var headerText = string.Format("{0} {1}", @Model.OutcomeGroup.Text, @Model.DispositionUrgencyText);
     var cannotGetApptText = "I can't get an appointment today";
     switch (Model.Id)
     {
@@ -12,6 +13,22 @@
             cannotGetApptText = "I can't get an appointment today or tomorrow";
             break;
         case "Dx15":
+            cannotGetApptText = "I can't get an appointment today or tomorrow";
+            break;
+        case "Dx09":
+            headerText = "PLACEHOLDER Book a GP appointment if you don't feel better in a few days";
+            cannotGetApptText = "I can't get an appointment today or tomorrow";
+            break;
+        case "Dx10":
+            headerText = "PLACEHOLDER Book a non-urgent GP appointment";
+            cannotGetApptText = "I can't get an appointment today or tomorrow";
+            break;
+        case "Dx16":
+            headerText = "PLACEHOLDER Contact your GP if you don't feel better in a few days";
+            cannotGetApptText = "I can't get an appointment today or tomorrow";
+            break;
+        case "Dx75":
+            headerText = "PLACEHOLDER Contact your GP within the next few days";
             cannotGetApptText = "I can't get an appointment today or tomorrow";
             break;
     }
@@ -27,14 +44,14 @@
         }];
     </script>
 }
-@section Title { NHS 111 - @Model.OutcomeGroup.Text @Model.DispositionUrgencyText }
+@section Title { NHS 111 - @headerText}
 @section FeedbackSection {
     @Html.Partial("_SurveyLink", Model.SurveyLink)
 }
 
 <section class="measure nhsuk-core">
     <div class="callout callout--attention nhsuk-u-margin-bottom-4 nhsuk-u-margin-top-2">
-        <h1 class="nhsuk-heading-l">@Model.OutcomeGroup.Text @Model.DispositionUrgencyText</h1>
+        <h1 class="nhsuk-heading-l">@headerText</h1>
     </div>
 
     <div class="callout callout--lite callout--warning measure">
