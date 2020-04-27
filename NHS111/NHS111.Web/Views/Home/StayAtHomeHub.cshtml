@@ -21,73 +21,66 @@
 <div class="measure nhsuk-core">
     @Html.HiddenFor(m => m.SessionId)
     <h1 class="nhsuk-heading-xl">
-      Getting tested and managing symptoms at home
+        Getting tested and managing symptoms at home
     </h1>
 
     <p>
-      NHS.UK has information to help if you have symptoms. You can find out:
+        NHS.UK has information to help if you have symptoms. You can find out:
     </p>
     <ul>
-      <li>
-        <a href="https://www.nhs.uk/conditions/coronavirus-covid-19/what-to-do-if-you-or-someone-you-live-with-has-coronavirus-symptoms/staying-at-home-if-you-or-someone-you-live-with-has-coronavirus-symptoms/" data-event-trigger="click" data-event-value="NHS.UK coronavirus staying at home link">how long to isolate for</a> if you or someone you live with has symptoms
-      </li>
-      <li>
-        <a href="https://www.nhs.uk/conditions/coronavirus-covid-19/what-to-do-if-you-or-someone-you-live-with-has-coronavirus-symptoms/how-to-treat-coronavirus-symptoms-at-home/" data-event-trigger="click" data-event-value="NHS.UK coronavirus managing symptoms at home link">how to manage your symptoms at home</a> and what to do if you feel worse
-      </li>
+        <li>
+            <a href="https://www.nhs.uk/conditions/coronavirus-covid-19/what-to-do-if-you-or-someone-you-live-with-has-coronavirus-symptoms/staying-at-home-if-you-or-someone-you-live-with-has-coronavirus-symptoms/" data-event-trigger="click" data-event-value="NHS.UK coronavirus staying at home link">how long to isolate for</a> if you or someone you live with has symptoms
+        </li>
+        <li>
+            <a href="https://www.nhs.uk/conditions/coronavirus-covid-19/what-to-do-if-you-or-someone-you-live-with-has-coronavirus-symptoms/how-to-treat-coronavirus-symptoms-at-home/" data-event-trigger="click" data-event-value="NHS.UK coronavirus managing symptoms at home link">how to manage your symptoms at home</a> and what to do if you feel worse
+        </li>
     </ul>
     <p>
-      To protect others, <b>do not go</b> to a GP, pharmacy or hospital
+        To protect others, <b>do not go</b> to a GP, pharmacy or hospital
     </p>
 
     <div class="callout callout--attention nhsuk-u-margin-top-6 nhsuk-u-margin-bottom-6">
-      <h2 class="nhsuk-heading-l">
-        Ask for a test to check if you have coronavirus
-      </h2>
-      <p>
-        The test will show if you have the virus now.
-      </p>
-      <p>
-        People in hospital, NHS staff and key workers are getting priority, but
-        anyone with symptoms can apply.
-      </p>
-      <p>
-        If you can’t get a test straightaway you should try again later.
-      </p>
-      <p>
-        You can get the test by either:
-      </p>
-      <ul>
-        <li>
-          going to a drive-through testing centre if you have a car (you can’t get a
-          taxi)
-        </li>
-        <li>
-          getting a home test kit sent to you
-        </li>
-      </ul>
+        <h2 class="nhsuk-heading-l">
+            Ask for a coronavirus test
+        </h2>
 
-      @Html.Partial("_ActionLink", new ActionLinkViewModel { Text = "Ask for a coronavirus test", Url = "NOTKNOWNYET", EventTrigger = "click", EventValue = "NHS.UK coronavirus testing page", Target="_blank" })
+        <p>The test will show if you have the virus now.</p>
 
+        <p>More tests are being made available all the time, so if you can’t get one try again later.</p>
+
+        <p>To apply for a test follow these instructions (you might want to note them down so you don’t forget):</p>
+
+        <ol>
+            <li>Go to gov.uk/coronavirus</li>
+            <li>Choose 'Testing for coronavirus (COVID-19)' from the 'Guidance and support' section.</li>
+            <li>Select 'Apply for a coronavirus (COVID-19) test if you have a clinical referral'.</li>
+            <li>Choose how you want to take the test.</li>
+            <li>When asked 'What is your profession?' choose 'Clinical referral from NHS 111 online' from the drop down menu.</li>
+        </ol>
+
+        <p>You will then be asked for your name and mobile number and given more details about what happens next.</p>
+
+
+        @Html.Partial("_ActionLink", new ActionLinkViewModel { Text = "Go to gov.uk/coronavirus", Url = "https://www.gov.uk/coronavirus", EventTrigger = "click", EventValue = "gov.uk coronavirus testing page", Target = "_blank" })
+        </div>
+        <h2 class="nhsuk-heading-l">
+            Other things you can do on NHS.UK
+        </h2>
+        <p>
+            You can also:
+        </p>
+        <ul>
+            <li>
+                <a href="https://111.nhs.uk/isolation-note" data-event-trigger="click" data-event-value="NHS.UK Isolation Note link" target="_blank">get an isolation note</a> (like a sick note) to give to your employer if you need time off work
+            </li>
+            <li>
+                help the NHS plan its response to coronavirus by <a href="https://www.nhs.uk/coronavirus-status-checker" data-event-trigger="click" data-event-value="NHS.UK status checker link" target="_blank">telling us about your current experience of the virus</a>
+            </li>
+        </ul>
+
+        <p>
+            <a href="https://www.nhs.uk/conditions/coronavirus-covid-19/" data-event-trigger="click" data-event-value="NHS.UK coronavirus hub link">
+                Go to NHS.UK for more coronavirus information
+            </a>
+        </p>
     </div>
-
-    <h2 class="nhsuk-heading-l">
-      Other things you can do on NHS.UK
-    </h2>
-    <p>
-      You can also:
-    </p>
-    <ul>
-      <li>
-        <a href="https://111.nhs.uk/isolation-note" data-event-trigger="click" data-event-value="NHS.UK Isolation Note link" target="_blank">get an isolation note</a> (like a sick note) to give to your employer if you need time off work
-      </li>
-      <li>
-        help the NHS plan its response to coronavirus by <a href="https://www.nhs.uk/coronavirus-status-checker" data-event-trigger="click" data-event-value="NHS.UK status checker link" target="_blank">telling us about your current experience of the virus</a>
-      </li>
-    </ul>
-
-    <p>
-      <a href="https://www.nhs.uk/conditions/coronavirus-covid-19/" data-event-trigger="click" data-event-value="NHS.UK coronavirus hub link">
-        Go to NHS.UK for more coronavirus information
-      </a>
-    </p>
-</div>
