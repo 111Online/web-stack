@@ -1,4 +1,5 @@
 ﻿using System.Configuration;
+using System.Net;
 using log4net;
 using NHS111.Business.Configuration;
 using NHS111.Business.Services;
@@ -37,6 +38,7 @@ namespace NHS111.Business.IoC
                 scan.TheCallingAssembly();
                 scan.WithDefaultConventions();
             });
+            ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
         }
 
         private LoggingRestClient GetLoggingRestClientFor(string baseUrl)
