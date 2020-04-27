@@ -33,7 +33,7 @@ namespace NHS111.Web.Helpers
             var viewFilePath = string.Format("../PostcodeFirst/{0}/{1}", model.OutcomeGroup.Id, nextView);
             if (ViewExists(viewFilePath, context))
             {
-                _userZoomDataBuilder.SetFieldsForOutcome(model, context.RequestContext);
+                _userZoomDataBuilder.SetFieldsForOutcome(model);
                 return viewFilePath;
             }
             throw new ArgumentOutOfRangeException(string.Format("Outcome group {0} for outcome {1} has no view configured", model.OutcomeGroup.ToString(), model.Id));
@@ -87,18 +87,18 @@ namespace NHS111.Web.Helpers
                     var result = new OutcomeResultViewModel(outcomeViewModel, IsTestJourney(outcomeViewModel));
                     if (ViewExists(result.ViewName, context))
                     {
-                        _userZoomDataBuilder.SetFieldsForOutcome(journeyViewModel, context.RequestContext);
+                        _userZoomDataBuilder.SetFieldsForOutcome(journeyViewModel);
                         return result;
                     }
                     throw new ArgumentOutOfRangeException(string.Format("Outcome group {0} for outcome {1} has no view configured", outcomeViewModel.OutcomeGroup.Id, outcomeViewModel.Id));
                 case NodeType.DeadEndJump:
-                    _userZoomDataBuilder.SetFieldsForOutcome(journeyViewModel, context.RequestContext);
+                    _userZoomDataBuilder.SetFieldsForOutcome(journeyViewModel);
                     return new DeadEndJumpResultViewModel(journeyViewModel);
                 case NodeType.PathwaySelectionJump:
-                    _userZoomDataBuilder.SetFieldsForOutcome(journeyViewModel, context.RequestContext);
+                    _userZoomDataBuilder.SetFieldsForOutcome(journeyViewModel);
                     return new PathwaySelectionJumpResultViewModel(journeyViewModel);
                 case NodeType.CareAdvice:
-                    _userZoomDataBuilder.SetFieldsForCareAdvice(journeyViewModel, context.RequestContext);
+                    _userZoomDataBuilder.SetFieldsForCareAdvice(journeyViewModel);
                     return new CareAdviceResultViewModel(journeyViewModel);
                 case NodeType.Page:
                     if (journeyViewModel.Content != null && journeyViewModel.Content.StartsWith("!CustomView!"))
@@ -107,7 +107,7 @@ namespace NHS111.Web.Helpers
                     return new PageResultViewModel(journeyViewModel);
                 case NodeType.Question:
                 default:
-                    _userZoomDataBuilder.SetFieldsForQuestion(journeyViewModel, context.RequestContext);
+                    _userZoomDataBuilder.SetFieldsForQuestion(journeyViewModel);
                     return new QuestionResultViewModel(journeyViewModel);
             }
         }

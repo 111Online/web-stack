@@ -7,16 +7,16 @@ namespace NHS111.Web.Presentation.Builders
 {
     public class UserZoomDataBuilder : IUserZoomDataBuilder
     {
-        public void SetFieldsForQuestion(JourneyViewModel model, RequestContext context)
+        public void SetFieldsForQuestion(JourneyViewModel model)
         {
             var title = model.TitleWithoutBullets;
 
-            SetUserZoomFields(title, GetQuestionUrl(model, context), model);
+            SetUserZoomFields(title, GetQuestionUrl(model), model);
         }
 
-        public void SetFieldsForOutcome(JourneyViewModel model, RequestContext context)
+        public void SetFieldsForOutcome(JourneyViewModel model)
         {
-            UrlHelper urlHelper = new UrlHelper(context);
+            UrlHelper urlHelper = new UrlHelper();
 
             var outcomeGroup = model.OutcomeGroup == null ? "NoGroup" : urlHelper.Encode(model.OutcomeGroup.Text);
             var url = string.Format("outcome/{0}/{1}/{2}/disposition/", urlHelper.Encode(model.PathwayNo), outcomeGroup, urlHelper.Encode(model.Id));
@@ -34,9 +34,9 @@ namespace NHS111.Web.Presentation.Builders
             SetUserZoomFields("Search Results for " + model.SanitisedSearchTerm, "SearchResults", model);
         }
 
-        public void SetFieldsForCareAdvice(JourneyViewModel model, RequestContext context)
+        public void SetFieldsForCareAdvice(JourneyViewModel model)
         {
-            SetUserZoomFields(model.QuestionNo, GetQuestionUrl(model, context), model);
+            SetUserZoomFields(model.QuestionNo, GetQuestionUrl(model), model);
         }
 
         public void SetFieldsForInitialQuestion(JourneyViewModel model)
@@ -54,9 +54,9 @@ namespace NHS111.Web.Presentation.Builders
             SetUserZoomFields("Home", "Home", model);
         }
 
-        private static string GetQuestionUrl(JourneyViewModel model, RequestContext context)
+        private static string GetQuestionUrl(JourneyViewModel model)
         {
-            UrlHelper urlHelper = new UrlHelper(context);
+            UrlHelper urlHelper = new UrlHelper();
 
             return string.Format("{0}/{1}/{2}/", urlHelper.Encode(model.PathwayId), urlHelper.Encode(model.PathwayTitle), urlHelper.Encode(model.QuestionNo));
         }
@@ -70,11 +70,11 @@ namespace NHS111.Web.Presentation.Builders
 
     public interface IUserZoomDataBuilder
     {
-        void SetFieldsForQuestion(JourneyViewModel model, RequestContext context);
-        void SetFieldsForOutcome(JourneyViewModel model, RequestContext context);
+        void SetFieldsForQuestion(JourneyViewModel model);
+        void SetFieldsForOutcome(JourneyViewModel model);
         void SetFieldsForSearch(SearchJourneyViewModel model);
         void SetFieldsForSearchResults(SearchJourneyViewModel model);
-        void SetFieldsForCareAdvice(JourneyViewModel model, RequestContext context);
+        void SetFieldsForCareAdvice(JourneyViewModel model);
         void SetFieldsForInitialQuestion(JourneyViewModel model);
         void SetFieldsForDemographics(JourneyViewModel model);
         void SetFieldsForHome(JourneyViewModel model);
