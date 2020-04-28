@@ -509,6 +509,7 @@
     <Content Include="Views\RegisterForSMS\DuplicateBookingFailure.cshtml" />
     <Content Include="Views\RegisterForSMS\Too_Many_Requests_SMS.cshtml" />
     <Content Include="Views\RegisterForSMS\Failure_SMS.cshtml" />
+    <Content Include="Views\Help\Language.cshtml" />
     <None Include="Web.Development.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

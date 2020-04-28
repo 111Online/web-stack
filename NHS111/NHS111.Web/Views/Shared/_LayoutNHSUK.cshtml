@@ -100,6 +100,11 @@
     @{ var journeyModel = ViewData.Model as JourneyViewModel;}
     <footer role="contentinfo" class="global-footer">
         <div class="global-footer__inner">
+            <p class="small measure">
+                @Html.ActionLink("Get help in other languages, including British Sign Language (BSL)", "Language", "Help", null, new { id = "language-link", target = "_blank" })
+             
+            </p>
+            <hr/>
             <p>This website only stores the cookies that are needed to make it work. Read more about how @Html.ActionLink("we use cookies.", "Cookies", "Help", null, new {id = "cookie-link", target = "_blank"})
             </p>
             <nav>

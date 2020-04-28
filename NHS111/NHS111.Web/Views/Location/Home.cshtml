@@ -44,7 +44,9 @@
     @Html.HiddenFor(m => m.IsCustomJourney)
     <button type="submit" class="button--next">Start</button>
 }
-
+<p>
+    @Html.ActionLink("Get help in other languages", "Language", "Help", null, new { id = "language-link", target = "_blank" }) including British Sign Language (BSL).
+</p>
 <hr />
 
 <p class="measure">Always follow any medical advice you’ve already been given by your doctor. See our @(Html.ActionLink("terms", "Terms", "Help", null, new { target = "_blank" })).</p>
