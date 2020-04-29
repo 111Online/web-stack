@@ -232,13 +232,14 @@ namespace NHS111.Web.Functional.Tests
                 .Answer(5)
                 .AnswerSuccessiveByOrder(3, 2)
                 .Answer(3)
-                .Answer<OutcomePage>(1);
+                .Answer<OutcomePage>(1)
+                .OpenCareAdvice();
 
             outcomePage.VerifyOutcome("Contact your GP if you don't feel better in a few days");
             outcomePage.VerifyWorseningReveal(WorseningMessages.PrimaryCare);
             outcomePage.VerifyCareAdviceHeader("Things to look out for and self-care");
             outcomePage.VerifyCareAdvice(new string[] { "Diarrhoea & Vomiting" });
-            outcomePage.CompareAndVerify("1");
+            outcomePage.CompareAndVerify(outcomePage,"1");
         }
 
         [Test]
@@ -277,7 +278,8 @@ namespace NHS111.Web.Functional.Tests
                 .Answer(3)
                 .Answer(1)
                 .AnswerSuccessiveByOrder(3, 4)
-                .Answer<PostcodeFirstPage>(1);
+                .Answer<PostcodeFirstPage>(1)
+                .OpenCareAdvice();
 
             outcomePage.VerifyOutcome("Contact your GP now");
             outcomePage.VerifyWorseningReveal(WorseningMessages.PrimaryCare);
@@ -389,8 +391,9 @@ namespace NHS111.Web.Functional.Tests
                 .Answer(4)
                 .Answer(3)
                 .Answer(3)
-                .Answer<OutcomePage>(3);
-
+                .Answer<OutcomePage>(3)
+                .OpenCareAdvice();
+            
             outcomePage.VerifyOutcome("Contact your GP now");
             outcomePage.VerifyWorseningReveal(WorseningMessages.PrimaryCare);
             outcomePage.VerifyCareAdvice(new string[] { "Vomiting blood" });
@@ -398,7 +401,7 @@ namespace NHS111.Web.Functional.Tests
             // Vomiting Blood should show in care advice but Vomiting on its own shouldn't
             Assert.IsFalse(Driver.ElementExists(By.Id("Advice_CX221222-Adult-Male")));
 
-            outcomePage.CompareAndVerify("1");
+            outcomePage.CompareAndVerify(outcomePage,"1");
         }
     }
 }

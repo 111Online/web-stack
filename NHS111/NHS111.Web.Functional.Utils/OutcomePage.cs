@@ -25,6 +25,7 @@ namespace NHS111.Web.Functional.Utils
 
         [FindsBy(How = How.CssSelector, Using = "div.survey-banner > p > a")]
         public IWebElement SurveyLink { get; set; }
+        
 
         public OutcomePage(IWebDriver driver) : base(driver)
         {
