@@ -27,7 +27,8 @@ namespace NHS111.Web.Functional.Tests
                 .Answer(1)
                 .Answer(3)
                 .Answer(4)
-                .Answer<OutcomePage>("I've had it for 3 days or more");
+                .Answer<OutcomePage>("I've had it for 3 days or more")
+                .OpenCareAdvice();
 
             outcomePage.VerifyCareAdvice(new [] { "Medication, pain and/or fever", "Fever" });
         }
@@ -43,7 +44,8 @@ namespace NHS111.Web.Functional.Tests
                 .Answer(1)
                 .Answer(3)
                 .Answer(3)
-                .Answer<OutcomePage>("No");
+                .Answer<OutcomePage>("No")
+                .OpenCareAdvice();
 
             outcomePage.VerifyCareAdvice(new[] { "Genital discharge/irritation", "Medication, pain and/or fever", "Fever" });
             var sexualhealthAdviceExists = outcomePage.CareAdviceExists(new[] { "If you are sexually active:", "Don't have sex until the problem is sorted out." });
