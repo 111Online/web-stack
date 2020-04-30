@@ -23,8 +23,7 @@ namespace NHS111.Models.Models.Web
                     string.Format("{0} {1}", outcomeViewModel.OutcomeGroup.Text, outcomeViewModel.DispositionUrgencyText);
         }
 
-
-        public static bool HasPharmacistReferral(OutcomeViewModel outcomeViewModel)
+        public static bool ShouldDisplayPharmacistReferral(OutcomeViewModel outcomeViewModel)
         {
             var hasEmergencyNationalResponseDosServiceType =
                 outcomeViewModel.DosCheckCapacitySummaryResult.ContainsServiceTypeById(138);
@@ -35,6 +34,15 @@ namespace NHS111.Models.Models.Web
             };
 
             return hasEmergencyNationalResponseDosServiceType && dispositionIdsWithPharmacistReferral.Contains(outcomeViewModel.Id);
+        }
+
+        public static bool ShouldDisplayCannotGetAppointmentLink(string dispositionId)
+        {
+            var dispositionIdsShouldNotDisplayAppointmentLink = new List<string>()
+            {
+                "Dx09", "Dx10", "Dx16", "Dx75"
+            };
+            return !dispositionIdsShouldNotDisplayAppointmentLink.Contains(dispositionId);
         }
 
         public static string GetCannotGetAppointmentText(string dispositionId)
