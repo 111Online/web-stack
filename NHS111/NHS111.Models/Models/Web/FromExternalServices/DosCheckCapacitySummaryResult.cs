@@ -28,5 +28,11 @@ namespace NHS111.Models.Models.Web.FromExternalServices
         public bool ContainsService(DosService selectedService) {
             return !ResultListEmpty && selectedService != null && Success.Services.Exists(s => s.Id == selectedService.Id);
         }
+
+        public bool ContainsServiceTypeById(int id)
+        {
+            return !ResultListEmpty && Success.Services
+                .Exists(s => s.ServiceType != null && s.ServiceType.Id == id);
+        }
     }
 }

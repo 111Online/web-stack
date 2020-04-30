@@ -1,9 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.Remoting.Messaging;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace NHS111.Models.Models.Web
 {
@@ -20,20 +16,25 @@ namespace NHS111.Models.Models.Web
                 { "Dx75" ,"Contact your GP within the next few days"},
             };
            
-            return dispositionsWithCustomHeading.ContainsKey(outcomeViewModel.Id) ?
-                dispositionsWithCustomHeading[outcomeViewModel.Id] 
+            return dispositionsWithCustomHeading.ContainsKey(outcomeViewModel.Id) 
+                ?
+                    dispositionsWithCustomHeading[outcomeViewModel.Id] 
                 : 
-                string.Format("{0} {1}", outcomeViewModel.OutcomeGroup.Text, outcomeViewModel.DispositionUrgencyText);
+                    string.Format("{0} {1}", outcomeViewModel.OutcomeGroup.Text, outcomeViewModel.DispositionUrgencyText);
         }
 
 
-        public static bool HasPharmacistReferral(string dispositionId)
+        public static bool HasPharmacistReferral(OutcomeViewModel outcomeViewModel)
         {
+            var hasEmergencyNationalResponseDosServiceType =
+                outcomeViewModel.DosCheckCapacitySummaryResult.ContainsServiceTypeById(138);
+
             var dispositionIdsWithPharmacistReferral = new List<string>()
             {
                 "Dx09", "Dx10", "Dx16", "Dx75"
             };
-            return dispositionIdsWithPharmacistReferral.Contains(dispositionId);
+
+            return hasEmergencyNationalResponseDosServiceType && dispositionIdsWithPharmacistReferral.Contains(outcomeViewModel.Id);
         }
 
         public static string GetCannotGetAppointmentText(string dispositionId)
@@ -41,11 +42,13 @@ namespace NHS111.Models.Models.Web
             var dispositionWithCustomCannotGetAppointmentText = new Dictionary<string, string>()
             {
                 { "Dx08" ,"I can't get an appointment today or tomorrow"},
-                { "Dx16" ,"I can't get an appointment today or tomorrow"},
+                { "Dx15" ,"I can't get an appointment today or tomorrow"},
             };
             return dispositionWithCustomCannotGetAppointmentText.ContainsKey(dispositionId)
-                ? dispositionWithCustomCannotGetAppointmentText[dispositionId]
-                : "I can't get an appointment today";
+                ? 
+                    dispositionWithCustomCannotGetAppointmentText[dispositionId]
+                : 
+                    "I can't get an appointment today";
         }
     }
 }
