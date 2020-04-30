@@ -35,33 +35,24 @@
             <a href="https://www.nhs.uk/conditions/coronavirus-covid-19/what-to-do-if-you-or-someone-you-live-with-has-coronavirus-symptoms/how-to-treat-coronavirus-symptoms-at-home/" data-event-trigger="click" data-event-value="NHS.UK coronavirus managing symptoms at home link">how to manage your symptoms at home</a> and what to do if you feel worse
         </li>
     </ul>
-    <p>
-        To protect others, <b>do not go</b> to a GP, pharmacy or hospital
-    </p>
 
     <div class="callout callout--attention nhsuk-u-margin-top-6 nhsuk-u-margin-bottom-6">
         <h2 class="nhsuk-heading-l">
-            Ask for a coronavirus test
+            Apply for a coronavirus test
         </h2>
 
         <p>The test will show if you have the virus now.</p>
 
-        <p>More tests are being made available all the time, so if you can’t get one try again later.</p>
+        <p>You can get the test by either:</p>
 
-        <p>To apply for a test follow these instructions (you might want to note them down so you don’t forget):</p>
-
-        <ol>
-            <li>Go to gov.uk/coronavirus</li>
-            <li>Choose 'Testing for coronavirus (COVID-19)' from the 'Guidance and support' section.</li>
-            <li>Choose 'Apply for a coronavirus (COVID-19) test if you have a clinical referral, are aged 65 or over, or must currently travel to work'.</li>
-            <li>Choose how you want to take the test.</li>
-            <li>When asked 'What is your profession?' choose 'Clinical referral from NHS 111 online' from the drop down menu.</li>
-        </ol>
-
-        <p>You will then be asked for your name and mobile number and given more details about what happens next.</p>
+        <ul>
+            <li>going to a drive-through testing centre if you have a car</li>
+            <li>getting a home test kit sent to you</li>
+        </ul>
 
 
-        @Html.Partial("_ActionLink", new ActionLinkViewModel { Text = "Go to gov.uk/coronavirus", Url = "https://www.gov.uk/coronavirus", EventTrigger = "click", EventValue = "gov.uk coronavirus testing page", Target = "_blank" })
+
+        @Html.Partial("_ActionLink", new ActionLinkViewModel { Text = "Apply for a test on GOV.UK", Url = "https://www.gov.uk/coronavirus", EventTrigger = "click", EventValue = "gov.uk coronavirus testing page", Target = "_blank" })
         </div>
         <h2 class="nhsuk-heading-l">
             Other things you can do on NHS.UK
