@@ -45,6 +45,9 @@ namespace NHS111.Web.Functional.Utils
         [FindsBy(How = How.ClassName, Using = "cards")]
         private IWebElement DosResults { get; set; }
 
+        [FindsBy(How = How.CssSelector, Using = "details.care-advice > summary")]
+        public IWebElement CareAdviceLink { get; set; }
+
         protected DispositionPage(IWebDriver driver) : base(driver) { }
 
         public abstract T EnterPostCodeAndSubmit(string postcode);
@@ -60,6 +63,13 @@ namespace NHS111.Web.Functional.Utils
             }
 
             return new DemographicsPage(Driver);
+        }
+
+
+        public DispositionPage<T> OpenCareAdvice()
+        {
+            CareAdviceLink.Click();
+            return this;
         }
 
         public void VerifySubHeader(string subHeadertext) {

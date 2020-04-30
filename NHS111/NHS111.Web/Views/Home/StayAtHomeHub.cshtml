@@ -7,7 +7,7 @@
 @inherits NHS111.Web.Views.Shared.DirectLinkingView<NHS111.Models.Models.Web.JourneyViewModel>
 
 @section Title { NHS 111 Online - Stay at home hub}
-@{ ViewBag.Description = "Find out what to do during the isolation period. Find out what to do if you have symptoms of coronavirus and what to do next."; }
+@{ ViewBag.Description = "Getting tested and managing symptoms at home. Find out what to do if you have symptoms of coronavirus and what to do next."; }
 @section HeadTop {
     <script>
         dataLayer = [
@@ -21,120 +21,57 @@
 <div class="measure nhsuk-core">
     @Html.HiddenFor(m => m.SessionId)
     <h1 class="nhsuk-heading-xl">
-        What to do during the isolation period
+        Getting tested and managing symptoms at home
     </h1>
 
-    <h2 class="nhsuk-heading-l">
-        How long to isolate
-    </h2>
-
-    <h3 class="nhsuk-heading-m">
-        If you have symptoms
-    </h3>
-
     <p>
-        If you have symptoms of coronavirus, you'll need to self-isolate for 7 days.
-    </p>
-    <p>
-        After 7 days:
+        NHS.UK has information to help if you have symptoms. You can find out:
     </p>
     <ul>
         <li>
-            if you do not have a high temperature, you do not need to self-isolate
+            <a href="https://www.nhs.uk/conditions/coronavirus-covid-19/what-to-do-if-you-or-someone-you-live-with-has-coronavirus-symptoms/staying-at-home-if-you-or-someone-you-live-with-has-coronavirus-symptoms/" data-event-trigger="click" data-event-value="NHS.UK coronavirus staying at home link">how long to isolate for</a> if you or someone you live with has symptoms
         </li>
         <li>
-            if you still have a high temperature, keep self-isolating until your temperature returns to normal
+            <a href="https://www.nhs.uk/conditions/coronavirus-covid-19/what-to-do-if-you-or-someone-you-live-with-has-coronavirus-symptoms/how-to-treat-coronavirus-symptoms-at-home/" data-event-trigger="click" data-event-value="NHS.UK coronavirus managing symptoms at home link">how to manage your symptoms at home</a> and what to do if you feel worse
         </li>
     </ul>
 
-    <p>
-        You do not need to self-isolate if you just have a cough after 7 days.  A cough can last for several weeks after the infection has gone.
-    </p>
+    <div class="callout callout--attention nhsuk-u-margin-top-6 nhsuk-u-margin-bottom-6">
+        <h2 class="nhsuk-heading-l">
+            Apply for a coronavirus test
+        </h2>
 
-    <h3 class="nhsuk-heading-m">
-        If you live with someone who has symptoms
-    </h3>
+        <p>The test will show if you have the virus now.</p>
 
-    <p>
-        If you live with someone who has symptoms, you'll need to self isolate for 14 days from the day their symptoms started.  This is because it can take 
-        14 days for symptoms to appear.
-    </p>
-    <p>
-        If more than 1 person at home has symptoms, self-isolate for 14 days from the day the first person started having symptoms.
-    </p>
-    <p>
-        If you get symptoms, self-isolate for 7 days from when your symptoms start, even if it means you're self-isolating for longer than 14 days.
-    </p>
-    <p>
-        If you do not get symptoms, you can stop self-isolating after 14 days.
-    </p>
-    <p>
-        <a href="https://www.nhs.uk/conditions/coronavirus-covid-19/self-isolation-advice/">
-            Read more self-isolation advice on NHS.UK.
-        </a>
-    </p>
+        <p>You can get the test by either:</p>
 
-    <h3 class="nhsuk-heading-m">
-        Vulnerable people
-    </h3>
+        <ul>
+            <li>going to a drive-through testing centre if you have a car</li>
+            <li>getting a home test kit sent to you</li>
+        </ul>
 
-    <p>
-        If you live with someone who is 70 or over, has a long-term condition, is pregnant or has a weakened immune system, try to arrange for them to stay
-        with friends or family for 14 days.
-    </p>
-    <p>
-        If you have to stay at home together, try to keep away from each other as much as possible.
-    </p>
 
-    <h2 class="nhsuk-heading-l">
-        How to look after your symptoms at home
-    </h2>
 
-    <ul>
-        <li>
-            rest and drink plenty of fluids
-        </li>
-        <li>
-            take paracetamol
-        </li>
-        <li>
-            cover your mouth with a tissue when coughing or sneezing
-        </li>
-        <li>
-            put used tissues in a bin
-        </li>
-        <li>
-            wash your hands regularly with soap and warm water for at least 20 seconds
-        </li>
-    </ul>
-
-    <p>
-        If you feel you can't cope with your symptoms at home, or your condition gets worse, use the
-        111 online service again.
-    </p>
-        
-    <h2 class="nhsuk-heading-l">
-        What to do next
-    </h2>
-    @using (Html.BeginForm("JustToBeSafeFirst", "JustToBeSafe", FormMethod.Post, new { target="_blank" }))
-    {
-        var age = new AgeCategory(Model.UserInfo.Demography.Age);
-        Model.PathwayNo = "PC111";
-        Model.PathwayId = string.Format("{0}{1}{2}", Model.PathwayNo, Model.UserInfo.Demography.Gender, age.Value);
-        @Html.Partial("_CommonHiddenFieldsJourneyViewModel", Model)
-        <div class="disposition-set">
-
-            <div class="disposition-unit">
-                @Html.Partial("_GetIsolationNote")
-            </div>
-            
-            <div class="disposition-unit">
-                @Html.Partial("_GetTextMessages")
-            </div>
-            
-            <div class="disposition-unit">
-                @Html.Partial("_GetStatusChecker")
-            </div>
+        @Html.Partial("_ActionLink", new ActionLinkViewModel { Text = "Apply for a test on GOV.UK", Url = "https://www.gov.uk/apply-coronavirus-test", EventTrigger = "click", EventValue = "gov.uk coronavirus testing page", Target = "_blank" })
         </div>
-    }
-</div>
+        <h2 class="nhsuk-heading-l">
+            Other things you can do on NHS.UK
+        </h2>
+        <p>
+            You can also:
+        </p>
+        <ul>
+            <li>
+                <a href="https://111.nhs.uk/isolation-note" data-event-trigger="click" data-event-value="NHS.UK Isolation Note link" target="_blank">get an isolation note</a> (like a sick note) to give to your employer if you need time off work
+            </li>
+            <li>
+                help the NHS plan its response to coronavirus by <a href="https://www.nhs.uk/coronavirus-status-checker" data-event-trigger="click" data-event-value="NHS.UK status checker link" target="_blank">telling us about your current experience of the virus</a>
+            </li>
+        </ul>
+
+        <p>
+            <a href="https://www.nhs.uk/conditions/coronavirus-covid-19/" data-event-trigger="click" data-event-value="NHS.UK coronavirus hub link">
+                Go to NHS.UK for more coronavirus information and services
+            </a>
+        </p>
+    </div>
