@@ -34,5 +34,11 @@ namespace NHS111.Models.Models.Web.FromExternalServices
             return !ResultListEmpty && Success.Services
                 .Exists(s => s.ServiceType != null && s.ServiceType.Id == id);
         }
+
+
+        public ServiceViewModel GetFirstServiceByServiceTypeId(int id)
+        {
+            return Success.Services.First(s => s.ServiceType.Id == 138);
+        }
     }
 }

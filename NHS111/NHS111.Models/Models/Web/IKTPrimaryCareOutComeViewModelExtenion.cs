@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace NHS111.Models.Models.Web
 {
@@ -36,14 +37,22 @@ namespace NHS111.Models.Models.Web
             return hasEmergencyNationalResponseDosServiceType && dispositionIdsWithPharmacistReferral.Contains(outcomeViewModel.Id);
         }
 
-        public static bool ShouldDisplayCannotGetAppointmentLink(string dispositionId)
+        public static ServiceViewModel SelectedServiceForPharmacistReferral(OutcomeViewModel outcomeViewModel)
         {
-            var dispositionIdsShouldNotDisplayAppointmentLink = new List<string>()
+            return outcomeViewModel.DosCheckCapacitySummaryResult.GetFirstServiceByServiceTypeId(138);
+        }
+
+
+        public static bool ShouldDisplayForNonUrgentDispositions(string dispositionId)
+        {
+            var NonUrgentDispositions = new List<string>()
             {
                 "Dx09", "Dx10", "Dx16", "Dx75"
             };
-            return !dispositionIdsShouldNotDisplayAppointmentLink.Contains(dispositionId);
+            return NonUrgentDispositions.Contains(dispositionId);
         }
+
+
 
         public static string GetCannotGetAppointmentText(string dispositionId)
         {
