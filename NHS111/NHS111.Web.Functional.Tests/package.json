@@ -1,0 +1,16 @@
+{
+  "name": "nhs111.web.functional.tests",
+  "version": "1.0.0",
+  "description": "",
+  "main": "Covid.test.js",
+  "scripts": {
+    "test": "cypress run --reporter mocha-junit-reporter",
+    "open": "cypress open"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "cypress": "^4.5.0",
+    "mocha-junit-reporter": "^1.23.3"
+  }
+}

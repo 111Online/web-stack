@@ -35,6 +35,9 @@ namespace NHS111.Web.Functional.Utils
         [FindsBy(How = How.Id, Using = "show-categories")]
         private IWebElement CategoriesLink { get; set; }
 
+        [FindsBy(How = How.Id, Using = "covid19-search-link")]
+        private IWebElement BannerDirectLink { get; set; }
+
         public SearchPage(IWebDriver driver) : base(driver)
         {
         }
@@ -71,6 +74,12 @@ namespace NHS111.Web.Functional.Utils
         {
             SearchByTerm(_errorSearchText);
             return new ServerErrorPage(Driver);
+        }
+
+        public QuestionPage ClickBannerDirectLink()
+        {
+            BannerDirectLink.Click();
+            return new QuestionPage(this.Driver);
         }
 
         public IEnumerable<IWebElement> GetHits()
