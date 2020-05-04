@@ -20,82 +20,80 @@
     @Html.HiddenFor(m => m.SessionId)
     @Html.Hidden("IsCustomJourney", true)
     @Html.Hidden("PathwayNo", "PW1851")
-    <div class="measure nhsuk-core">
+<div class="measure nhsuk-core">
 
-      <h1 class="nhsuk-heading-xl">
-        Check if you have coronavirus symptoms
-      </h1>
+    <h1 class="nhsuk-heading-xl">
+        Check your symptoms
+    </h1>
 
-      <p>
-        We will:
-      </p>
-      <ul>
-        <li>
-          ask you a few questions and tell you what to do next
-        </li>
-        <li>
-          tell you how to get an isolation note if you need time off work
-        </li>
-      </ul>
+    <p>
+        We will ask you some question to check if it might be coronavirus, and tell you what to do next.
+    </p>
 
-      <div class="callout callout--attention nhsuk-u-margin-bottom-6">
-        <p>
-          To protect others, <b>do not go</b> to a GP, pharmacy or hospital.
-        </p>
-      </div>
-
-      <p>
+    <p>
         <button type="submit" class="button--next">Start now</button>
-      </p>
+    </p>
 
-      <hr class="nhsuk-u-margin-top-7" />
+    <hr class="nhsuk-u-margin-top-9" />
 
-      <h2 class="nhsuk-heading-l">
+    <h2 class="nhsuk-heading-l">
         <span class="nhsuk-caption-l">
-          On NHS.UK:
+            On NHS.UK:
         </span>
-        About coronavirus (COVID-19)
-      </h2>
-      <p>
-        Read general information such as:
-      </p>
-      <ul>
-          <li>
-              <a data-event-trigger="click" data-event-value="Novel Coronavirus" href="https://www.nhs.uk/conditions/coronavirus-covid-19/">
-                  advice for everyone
-              </a>
-          </li>
-          <li>
-              <a data-event-trigger="click" data-event-value="Novel Coronavirus high risk advice" href="https://www.nhs.uk/conditions/coronavirus-covid-19/advice-for-people-at-high-risk/">
-                  advice for people at high risk
-              </a>
-          </li>
-          <li>
-              <a data-event-trigger="click" data-event-value="Novel Coronavirus symptoms" href="https://www.nhs.uk/conditions/coronavirus-covid-19/symptoms-and-what-to-do/">
-                  symptoms and what to do
-              </a>
-          </li>
-          <li>
-              <a data-event-trigger="click" data-event-value="Novel Coronavirus self-isolation" href="https://www.nhs.uk/conditions/coronavirus-covid-19/self-isolation-advice/">
-                  self-isolation if you or someone you live with has symptoms
-              </a>
-          </li>
-      </ul>
+        Advice about coronavirus (COVID-19)
+    </h2>
+    <p>
+        NHS.UK has the latest advice and general information about coronavirus.
+    </p>
 
-      <hr class="nhsuk-u-margin-top-7" />
+    <p>
+        <a href="https://www.nhs.uk/conditions/coronavirus-covid-19">
+            Go to NHS.UK for more coronavirus information and services
+        </a>
+    </p>
 
-      <h3 class="nhsuk-heading-s">Advice in other parts of the UK</h3>
-      <ul>
+    <hr class="nhsuk-u-margin-top-7" />
+
+    <h2 class="nhsuk-heading-l">
+        Get an isolation note
+    </h2>
+    <h3 class="nhsuk-heading-s">
+        If you have symptoms
+    </h3>
+    <p>
+        If you need time off work <a href="#">check your symptoms first</a> and we'll tell you how to get a note to give to your employer.
+    </p>
+    <h3 class="nhsuk-heading-s">
+        If you live with someone with symptoms
+    </h3>
+
+    <p>
+        You can also <a href="#">get an isolation note</a> if you have to stay at home because someone you live with has symptoms.
+    </p>
+
+    <hr class="nhsuk-u-margin-top-7" />
+
+    <h3 class="nhsuk-heading-s">Advice in other parts of the UK</h3>
+    <!-- NOTE updated links -->
+    <ul>
         <li>
-          <a data-event-trigger="click" data-event-value="Symptoms in Scotland" href="https://www.nhsinform.scot/self-help-guides/self-help-guide-coronavirus-covid-19">Scotland</a>
+            <a href="https://www.nhsinform.scot/illnesses-and-conditions/infections-and-poisoning/coronavirus-covid-19">
+                Check your symptoms in Scotland
+            </a>
         </li>
         <li>
-          <a data-event-trigger="click" data-event-value="Symptoms in Wales" href="https://www.nhsdirect.wales.nhs.uk/SelfAssessments/symptomcheckers/?ScName=CoronaVirusCOVID19&SCTId=175">Wales</a>
+            <a href="https://www.nhsdirect.wales.nhs.uk/SelfAssessments/symptomcheckers/?ScName=CoronaVirusCOVID19&SCTId=175">
+                Check your symptoms in Wales
+            </a>
         </li>
         <li>
-          <a data-event-trigger="click" data-event-value="Symptoms in Northern Ireland" href="https://www.publichealth.hscni.net/news/covid-19-coronavirus">Northern Ireland</a>
+            <a href="https://www.publichealth.hscni.net/news/covid-19-coronavirus">
+                Northern Ireland
+            </a>
         </li>
-      </ul>
+    </ul>
 
-    </div>
+    <hr class="nhsuk-u-margin-top-6" />
+
+</div>
 }
