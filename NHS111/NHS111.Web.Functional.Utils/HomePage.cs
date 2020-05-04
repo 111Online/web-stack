@@ -25,9 +25,14 @@ namespace NHS111.Web.Functional.Utils
         
         [FindsBy(How = How.ClassName, Using = "button--next")]
         private IWebElement NextButton { get; set; }
-        
+
         [FindsBy(How = How.CssSelector, Using = "a[href='/emergency-prescription']")]
         private IWebElement EPDeeplink { get; set; }
+
+        [FindsBy(How = How.CssSelector, Using = "a[data-event-value='Novel Coronavirus about']")]
+        private IWebElement CovidLink { get; set; }
+
+
 
         public HomePage(IWebDriver driver) : base(driver)
         {
@@ -63,6 +68,12 @@ namespace NHS111.Web.Functional.Utils
         {
             EPDeeplink.Click();
             return new LocationPage(Driver);
+        }
+
+        public CovidHomePage ClickCovidLink()
+        {
+            CovidLink.Click();
+            return new CovidHomePage(Driver);
         }
 
         public LocationPage ClickStart()

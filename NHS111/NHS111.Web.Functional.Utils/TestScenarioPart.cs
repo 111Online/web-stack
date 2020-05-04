@@ -78,6 +78,13 @@ namespace NHS111.Web.Functional.Utils
             return page.ClickIUnderstand();
         }
 
+        public static QuestionPage Question(DemographicsPage page, string gender, int age)
+        {
+            page.SelectSexAndAge(gender, age);
+            page.ClickNext();
+            return new QuestionPage(page.Driver);
+        }
+
         public static QuestionInfoPage QuestionInfo(SearchPage page, string pathwayTopic)
         {
             return page.TypeSearchTextAndSelect(pathwayTopic);
