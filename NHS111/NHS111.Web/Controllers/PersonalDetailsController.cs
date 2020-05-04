@@ -133,6 +133,18 @@ namespace NHS111.Web.Controllers
         }
 
         [HttpPost]
+        public ActionResult PhoneNumber(PersonalDetailViewModel model)
+        {
+
+            if (!ModelState.IsValid)
+            {
+                return View("~\\Views\\PersonalDetails\\PersonalDetails.cshtml", model);
+            }
+
+            return View("~\\Views\\PersonalDetails\\PhoneNumber.cshtml", model);
+        }
+
+        [HttpPost]
         public async Task<ActionResult> CurrentAddress(PersonalDetailViewModel model)
         {
 
