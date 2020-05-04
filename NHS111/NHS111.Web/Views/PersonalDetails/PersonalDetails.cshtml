@@ -31,7 +31,7 @@
 }
 
 <div class="nhsuk-core">
-    @using (Html.BeginForm("CurrentAddress", "PersonalDetails", FormMethod.Post, new { id = "personalDetailForm" }))
+    @using (Html.BeginForm("PhoneNumber", "PersonalDetails", FormMethod.Post, new { id = "personalDetailForm" }))
     {
         @Html.Partial("_CommonHiddenFieldsOutcomeViewModel", Model)
         @Html.Partial("_CommonHiddenFieldsCareAdviceViewModel", Model)
