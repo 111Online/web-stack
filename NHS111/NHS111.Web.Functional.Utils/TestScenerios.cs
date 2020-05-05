@@ -4,16 +4,16 @@ namespace NHS111.Web.Functional.Utils
 {
     public static class TestScenerioSex
     {
-        public static string Male = "Male";
-        public static string Female = "Female";
+        public const string Male = "Male";
+        public const string Female = "Female";
     }
 
     public static class TestScenerioAgeGroups
     {
-        public static int Adult = 22;
-        public static int Child = 8;
-        public static int Toddler = 2;
-        public static int Infant = 0;
+        public const int Adult = 22;
+        public const int Child = 8;
+        public const int Toddler = 2;
+        public const int Infant = 0;
     }
 
     public static class TestScenerios

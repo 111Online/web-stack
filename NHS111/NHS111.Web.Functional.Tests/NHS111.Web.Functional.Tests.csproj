@@ -68,6 +68,8 @@
     <Compile Include="BasicAuthTests.cs" />
     <Compile Include="CareAdviceTests.cs" />
     <Compile Include="CookiesStatementTests.cs" />
+    <Compile Include="Covid\Dx391.cs" />
+    <Compile Include="Covid\CovidTests.cs" />
     <Compile Include="DirectLinkingTests.cs" />
     <Compile Include="LocationPageTests.cs" />
     <Compile Include="InlineCareAdvicePageTests.cs" />
@@ -105,6 +107,7 @@
     <Content Include="chromedriver.exe">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <None Include="README.md" />
     <None Include="Screenshots.nuspec" />
   </ItemGroup>
   <ItemGroup>

@@ -26,6 +26,8 @@ namespace NHS111.Web.Functional.Utils
         [FindsBy(How = How.CssSelector, Using = "div.survey-banner > p > a")]
         public IWebElement SurveyLink { get; set; }
         
+        [FindsBy(How = How.CssSelector, Using = "button[name='stayathome']")]
+        public IWebElement StayHomeButton { get; set; }
 
         public OutcomePage(IWebDriver driver) : base(driver)
         {
@@ -67,6 +69,18 @@ namespace NHS111.Web.Functional.Utils
         {
             Driver.FindElement(By.Id("cant-book-appt")).Click();
             return new OtherServicesPage(Driver);
+        }
+
+        public QuestionPage ClickNext()
+        {
+            Driver.FindElement(By.Id("nextScreen")).Click();
+            return new QuestionPage(Driver);
+        }
+
+        public CovidStayAtHomePage ClickStayAtHome()
+        {
+            StayHomeButton.Click();
+            return new CovidStayAtHomePage(Driver);
         }
     }
 }

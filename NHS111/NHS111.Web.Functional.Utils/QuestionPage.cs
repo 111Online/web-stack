@@ -86,6 +86,14 @@ namespace NHS111.Web.Functional.Utils
             return SelectAnswerAndSubmit(byAnswerText, requireButtonAwait);
         }
 
+        public QuestionPage AnswerText(string elementId, string answerText)
+        {
+            var textBox = Driver.FindElement(By.Id(elementId));
+            textBox.SendKeys(answerText);
+            NextButton.Click();
+            return new QuestionPage(Driver);
+        }
+
         public VerifySMSPage AnswerSMSPhoneNumberAndSubmit(string answerText)
         {
             var by = ByAnswerFreeText();
