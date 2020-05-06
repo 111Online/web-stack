@@ -47,7 +47,8 @@
                         What is your phone number?
                     </h2>
                 </legend>
-                @if (!Model.PersonalDetailsViewModel.OutcomeGroup.IsCoronaVirus)
+                @if (!Model.PersonalDetailsViewModel.OutcomeGroup.IsCoronaVirus 
+                    && Model.PersonalDetailsViewModel.PatientInformantDetails.Informant != NHS111.Models.Models.Web.InformantType.Self)
                 {
                     <p class="form-info">Tell us your number if you're doing this for someone else.</p>
                 }
