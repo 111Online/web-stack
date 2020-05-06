@@ -134,7 +134,7 @@ namespace NHS111.Web.Controllers
         }
 
         [HttpPost]
-        public ActionResult PhoneNumber(PersonalDetailViewModel model)
+        public ActionResult TelephoneNumber(PersonalDetailViewModel model)
         {
 
             if (!ModelState.IsValid)
@@ -142,7 +142,7 @@ namespace NHS111.Web.Controllers
                 return View("~\\Views\\PersonalDetails\\PersonalDetails.cshtml", model);
             }
 
-            return View("~\\Views\\PersonalDetails\\PhoneNumber.cshtml", new TelephoneNumberViewModel(model));
+            return View("~\\Views\\PersonalDetails\\TelephoneNumber.cshtml", new TelephoneNumberViewModel(model));
         }
 
         [HttpPost]
