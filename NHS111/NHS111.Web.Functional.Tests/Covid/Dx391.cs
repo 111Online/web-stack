@@ -50,6 +50,7 @@ namespace NHS111.Web.Functional.Tests.Covid
                 .Answer(3) // No - I feel well enough to do most of my usual daily activities 
                 .Answer<OutcomePage>(1); // Yes
             outcomePage.VerifyHiddenField("Id", "Dx1113");
+            outcomePage.VerifyHasButton(buttonName: "PersonalDetails", buttonValue: "Book a call");
         }
 
        
