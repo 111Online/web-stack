@@ -7,6 +7,7 @@ namespace NHS111.Models.Models.Web
 
     public class ITKPrimaryCareOutComeViewModelExtension
     {
+        private static readonly int _emergencyNationalResponse_ServiceTypeId = 138;
 
         public static string GetHeaderText(OutcomeViewModel outcomeViewModel)
         {
@@ -28,7 +29,7 @@ namespace NHS111.Models.Models.Web
         public static bool ShouldDisplayPharmacistReferral(OutcomeViewModel outcomeViewModel)
         {
             var hasEmergencyNationalResponseDosServiceType =
-                outcomeViewModel.DosCheckCapacitySummaryResult.ContainsServiceTypeById(138);
+                outcomeViewModel.DosCheckCapacitySummaryResult.ContainsServiceTypeById(_emergencyNationalResponse_ServiceTypeId);
 
             var dispositionIdsWithPharmacistReferral = new List<string>()
             {
@@ -42,7 +43,7 @@ namespace NHS111.Models.Models.Web
         {
             return outcomeViewModel.DosCheckCapacitySummaryResult
                 .Success.Services
-                .FilterByServiceTypeId(38)
+                .FilterByServiceTypeId(_emergencyNationalResponse_ServiceTypeId)
                 .FilterByOnlineDOSServiceType(OnlineDOSServiceType.Callback)
                 .FirstOrDefault();
         }
