@@ -38,6 +38,6 @@ namespace NHS111.Models.Models.Web.PersonalDetails
             return telephoneNumber;
         }
 
-        public PersonalDetailViewModel PersonalDetailsViewModel { get; private set; }
+        public PersonalDetailViewModel PersonalDetailsViewModel { get;  set; }
     }
 }

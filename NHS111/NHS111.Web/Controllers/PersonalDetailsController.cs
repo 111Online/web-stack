@@ -146,8 +146,10 @@ namespace NHS111.Web.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> CurrentAddress(TelephoneNumberViewModel model)
+       
+        public async Task<ActionResult> CurrentAddress(TelephoneNumberViewModel model,PersonalDetailViewModel personalDetailViewModel)
         {
+            model.PersonalDetailsViewModel = personalDetailViewModel; // fix for this could include custom binder or TelephoneNumberViewModel inherits from PersonalDetailViewModel
             if (!ModelState.IsValid)
             {
                 return View("~\\Views\\PersonalDetails\\PersonalDetails.cshtml", model.PersonalDetailsViewModel);
