@@ -23,6 +23,7 @@ namespace NHS111.Models.Models.Web
             ServiceDetails,
             ServiceList,
             PersonalDetails,
+            TelphoneNumber,
             Confirmation,
             DuplicateBooking,
             BookingFailure,

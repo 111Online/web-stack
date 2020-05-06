@@ -8,6 +8,7 @@ using AutoMapper;
 using NHS111.Features;
 using NHS111.Models.Models.Web;
 using NHS111.Models.Models.Web.FromExternalServices;
+using NHS111.Models.Models.Web.PersonalDetails;
 using NHS111.Models.Models.Web.Validators;
 using NHS111.Web.Presentation.Builders;
 using NHS111.Web.Presentation.Logging;
@@ -141,24 +142,25 @@ namespace NHS111.Web.Controllers
                 return View("~\\Views\\PersonalDetails\\PersonalDetails.cshtml", model);
             }
 
-            return View("~\\Views\\PersonalDetails\\PhoneNumber.cshtml", model);
+            return View("~\\Views\\PersonalDetails\\PhoneNumber.cshtml", new TelephoneNumberViewModel(model));
         }
 
         [HttpPost]
-        public async Task<ActionResult> CurrentAddress(PersonalDetailViewModel model)
+       
+        public async Task<ActionResult> CurrentAddress(TelephoneNumberViewModel model,PersonalDetailViewModel personalDetailViewModel)
         {
-
+            model.PersonalDetailsViewModel = personalDetailViewModel; // fix for this could include custom binder or TelephoneNumberViewModel inherits from PersonalDetailViewModel
             if (!ModelState.IsValid)
             {
-                return View("~\\Views\\PersonalDetails\\PersonalDetails.cshtml", model);
+                return View("~\\Views\\PersonalDetails\\PersonalDetails.cshtml", model.PersonalDetailsViewModel);
             }
             
-            if (_emailCollectionFeature.IsEnabled && (model.OutcomeGroup.IsCoronaVirus || model.OutcomeGroup.RequiresEmail))
+            if (_emailCollectionFeature.IsEnabled && (model.PersonalDetailsViewModel.OutcomeGroup.IsCoronaVirus || model.PersonalDetailsViewModel.OutcomeGroup.RequiresEmail))
             {
-                return View("~\\Views\\PersonalDetails\\CollectEmailAddress.cshtml", model);
+                return View("~\\Views\\PersonalDetails\\CollectEmailAddress.cshtml", Mapper.Map<TelephoneNumberViewModel, PersonalDetailViewModel>(model));
             }
 
-            return await DirectToPopulatedCurrentAddressPicker(model);
+            return await DirectToPopulatedCurrentAddressPicker(Mapper.Map<TelephoneNumberViewModel, PersonalDetailViewModel>(model));
         }
 
         [HttpPost]
