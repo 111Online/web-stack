@@ -38,7 +38,7 @@
 
     <div class="callout callout--lite callout--warning nhsuk-u-margin-bottom-4">
       <p>
-        The phone service will be very busy but you <b>must</b> wait to speak to someone.
+        The phone service will be busy but you <b>must</b> wait to speak to someone.
         Tell 111 that you are calling about coronavirus symptoms.
       </p>
     </div>
@@ -64,13 +64,6 @@
         </a>
       </p>
     </div>
-
-    <div class="callout callout--attention nhsuk-u-margin-bottom-6">
-      <p>To protect others, <b>do not go</b> to a GP, pharmacy or hospital</p>
-    </div>
-
-    @Html.Partial("_GetIsolationNote")
-
   </section>
 }
 else
@@ -87,24 +80,9 @@ else
       <li>know the answers you have already given</li>
       <li>ask you some more questions about your symptoms and current health</li>
     </ul>
-    <p>
-        It’s important that you speak to the nurse. You should get a call within  @WebUtility.HtmlDecode(Model.WaitTimeText). The 111 service is very busy, so it could take longer than usual.
+    <p class="nhsuk-u-margin-bottom-6">
+        It’s important that you speak to the nurse. You should get a call within  @WebUtility.HtmlDecode(Model.WaitTimeText). The 111 phone service is busy, so it could take longer than usual.
     </p>
-
-    <div class="callout callout--info callout--lite nhsuk-u-margin-bottom-4">
-      <p>
-        You need to stay away from other people.
-      </p>
-      <p>
-        <a href="https://www.nhs.uk/conditions/coronavirus-covid-19/self-isolation-advice/" data-event-trigger="click" data-event-value="Self isolation advice NHS.UK link">
-          Read more self-isolation advice on NHS.UK
-        </a>
-      </p>
-    </div>
-
-    <div class="callout callout--attention nhsuk-u-margin-bottom-6">
-      <p>To protect other people, <b>do not go</b> to a GP, pharmacy or hospital</p>
-    </div>
 
     @using (Html.BeginForm("PersonalDetails", "PersonalDetails", FormMethod.Post))
     {
