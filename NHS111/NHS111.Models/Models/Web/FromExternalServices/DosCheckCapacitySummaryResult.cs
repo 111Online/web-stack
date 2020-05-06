@@ -1,4 +1,4 @@
-﻿using System;
+﻿using System.Collections.Generic;
 using Newtonsoft.Json;
 
 namespace NHS111.Models.Models.Web.FromExternalServices
@@ -34,11 +34,19 @@ namespace NHS111.Models.Models.Web.FromExternalServices
             return !ResultListEmpty && Success.Services
                 .Exists(s => s.ServiceType != null && s.ServiceType.Id == id);
         }
+    }
 
-
-        public ServiceViewModel GetFirstServiceByServiceTypeId(int id)
+    public static class ServiceViewModelExtensions
+    {
+        public static List<ServiceViewModel> FilterByServiceTypeId(this List<ServiceViewModel> serviceViewModels, int id)
         {
-            return Success.Services.First(s => s.ServiceType.Id == 138);
+            return serviceViewModels.FindAll(s => s.ServiceType.Id == id);
+        }
+
+
+        public static List<ServiceViewModel> FilterByOnlineDOSServiceType(this List<ServiceViewModel> serviceViewModels, OnlineDOSServiceType onlineDosServiceType)
+        {
+            return serviceViewModels.FindAll(s => s.OnlineDOSServiceType == onlineDosServiceType);
         }
     }
 }

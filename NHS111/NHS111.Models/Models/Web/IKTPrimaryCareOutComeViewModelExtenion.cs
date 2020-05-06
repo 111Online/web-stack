@@ -1,9 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
+using NHS111.Models.Models.Web.FromExternalServices;
 
 namespace NHS111.Models.Models.Web
 {
+
     public class ITKPrimaryCareOutComeViewModelExtension
     {
 
@@ -39,7 +40,11 @@ namespace NHS111.Models.Models.Web
 
         public static ServiceViewModel SelectedServiceForPharmacistReferral(OutcomeViewModel outcomeViewModel)
         {
-            return outcomeViewModel.DosCheckCapacitySummaryResult.GetFirstServiceByServiceTypeId(138);
+            return outcomeViewModel.DosCheckCapacitySummaryResult
+                .Success.Services
+                .FilterByServiceTypeId(38)
+                .FilterByOnlineDOSServiceType(OnlineDOSServiceType.Callback)
+                .FirstOrDefault();
         }
 
 
