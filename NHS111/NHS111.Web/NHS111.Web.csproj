@@ -510,7 +510,7 @@
     <Content Include="Views\RegisterForSMS\Too_Many_Requests_SMS.cshtml" />
     <Content Include="Views\RegisterForSMS\Failure_SMS.cshtml" />
     <Content Include="Views\Help\Language.cshtml" />
-    <Content Include="Views\PersonalDetails\PhoneNumber.cshtml" />
+    <Content Include="Views\PersonalDetails\TelephoneNumber.cshtml" />
     <None Include="Web.Development.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
