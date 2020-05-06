@@ -4,10 +4,6 @@ window.EventTypes = { Clicked: "Clicked", Error: "Error" }
 
 function initEventHandlers() {
 
-  // For all links we need to insert the click event before the new page begins loading
-  // If we don't do this, there will be a race condition where the event silently gets
-  // aborted and does not show in the dev tools network panel at all.
-
   // Add click event handler on links that don't want to open in a new window. This hijacks
   // the click event, do the logging and then continue with the click by redirecting
   $(document).on("click", "[data-event-trigger='click']a:not([target=_blank])", function (e) {
