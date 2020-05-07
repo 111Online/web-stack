@@ -8,6 +8,8 @@
     Layout = "~/Views/Shared/_LayoutNhsUk.cshtml";
     Model.ItkConfirmationModel.WorseningCareAdvice.Items.Add(new CareAdviceText { Text = "You don't need to send any further requests for a callback. However, if you feel worse whilst you are waiting, please call 111 now." });
     var tagPrinter = new AnalyticsTagPrinter();
+
+    var isPaediatricPathway = Model.ItkConfirmationModel.PathwayNo.Equals("PW1852");
 }
 @section Title {
     @Model.PageTitle
@@ -20,56 +22,72 @@
 
 <div class="measure nhsuk-core">
     <h1 class="nhsuk-heading-xl">You should get a call within <strong>@WebUtility.HtmlDecode(Model.OutcomeModel.WaitTimeText)</strong></h1>
-  <p>
-    It was booked at @DateTime.Now.ToString("h:mmtt").ToLower().
-  </p>
-
-  <p>
-    The COVID clinical response service will call @Model.ItkConfirmationModel.UserInfo.TelephoneNumber.
-    The number may show as ‘unknown’ on your display.
-  </p>
-
-  <div class="callout callout--info callout--lite nhsuk-u-margin-bottom-6">
     <p>
-      You need to stay away from other people.
+        It was booked at @DateTime.Now.ToString("h:mmtt").ToLower().
+    </p>
+
+    <p>
+        The COVID clinical response service will call @Model.ItkConfirmationModel.UserInfo.TelephoneNumber.
+        The number may show as ‘unknown’ on your display.
+    </p>
+
+    <div class="callout callout--info callout--lite nhsuk-u-margin-bottom-6">
+        <p>
+            You need to stay away from other people.
+        </p>
+        <p>
+            <a href="https://www.nhs.uk/conditions/coronavirus-covid-19/self-isolation-advice/" data-event-trigger="click" data-event-value="Self isolation advice NHS.UK link">
+                Read more self-isolation advice on NHS.UK
+            </a>
+        </p>
+    </div>
+
+    @Html.Partial("_LinkSummary", new LinkSummaryViewModel
+    {
+        Link = "Why does it take so long?",
+        Summary = "<p>The COVID clinical response service is very busy at the moment. The most seriously ill people are called back first. You are in a queue and you will be called as soon as possible.</p>"
+    })
+
+
+    @{ 
+        var dontGetCallbackText = "If you don’t hear back in " + @WebUtility.HtmlDecode(Model.OutcomeModel.WaitTimeText) + ", use the service again to book another call.";
+        if (isPaediatricPathway) dontGetCallbackText = "It's safe to wait a bit longer. But if you're worried call 111, tell them your name and that you've been waiting for a call back that was booked online.";
+    }
+
+    @Html.Partial("_LinkSummary", new LinkSummaryViewModel
+    {
+        Link = "What if I don't get a call back within " + @WebUtility.HtmlDecode(Model.OutcomeModel.WaitTimeText) + "?",
+        Summary = "<p>" + dontGetCallbackText + "</p>"
+    })
+
+    @Html.Partial("_LinkSummary", new LinkSummaryViewModel
+    {
+        Link = "What if I miss the call?",
+        Summary = "<p>The COVID clinical response service will try to call up to 3 times. They will leave a message to say they have tried to call you, but you won’t be able to return their call. If you miss all of the calls, you need to start again using the online service.</p>"
+    })
+
+    @{ var waitText = (Model.OutcomeModel.Id == "Dx1113" || Model.OutcomeModel.Id == "Dx1112") ?
+             "If you feel a lot worse call 999 and tell them you have coronavirus symptoms." :
+             "If you don’t get a call within " + @WebUtility.HtmlDecode(Model.OutcomeModel.WaitTimeText) + " and you start to feel worse, use the service again to tell us about your new symptoms."; }
+
+    @Html.Partial("_LinkSummary", new LinkSummaryViewModel
+    {
+        Link = "What if I feel worse while I am waiting?",
+        Summary = "<p>" + waitText + "</p>"
+    })
+
+    <hr class="nhsuk-u-margin-top-6 nhsuk-u-margin-bottom-6" />
+
+    <h3>
+        Advice about coronavirus on NHS.UK
+    </h3>
+    <p>
+        NHS.UK has the latest advice and general information about coronavirus.
     </p>
     <p>
-      <a href="https://www.nhs.uk/conditions/coronavirus-covid-19/self-isolation-advice/" data-event-trigger="click" data-event-value="Self isolation advice NHS.UK link">
-        Read more self-isolation advice on NHS.UK
-      </a>
+        <a href="https://www.nhs.uk/conditions/coronavirus-covid-19/" data-event-trigger="click" data-event-value="NHS.UK more coronavirus information and services">
+            Go to NHS.UK for more coronavirus information and services
+        </a>
     </p>
-  </div>
-
-  @Html.Partial("_LinkSummary", new LinkSummaryViewModel
-  {
-      Link = "Why does it take so long?",
-      Summary = "<p>The COVID clinical response service is very busy at the moment. The most seriously ill people are called back first. You are in a queue and you will be called as soon as possible.</p>"
-  })
-
-  @Html.Partial("_LinkSummary", new LinkSummaryViewModel
-{
-    Link = "What if I don't get a call back within " + @WebUtility.HtmlDecode(Model.OutcomeModel.WaitTimeText) + "?",
-    Summary = "<p>If you don’t hear back in " + @WebUtility.HtmlDecode(Model.OutcomeModel.WaitTimeText) + ", use the service again to book another call.</p>"
-})
-
-  @Html.Partial("_LinkSummary", new LinkSummaryViewModel
-  {
-      Link = "What if I miss the call?",
-      Summary = "<p>The COVID clinical response service will try to call up to 3 times. They will leave a message to say they have tried to call you, but you won’t be able to return their call. If you miss all of the calls, you need to start again using the online service.</p>"
-  })
-    
-  @{ var waitText = (Model.OutcomeModel.Id == "Dx1113" || Model.OutcomeModel.Id == "Dx1112")?
-          "If you feel a lot worse call 999 and tell them you have coronavirus symptoms." :
-          "If you don’t get a call within " + @WebUtility.HtmlDecode(Model.OutcomeModel.WaitTimeText) + " and you start to feel worse, use the service again to tell us about your new symptoms."; }
-
-  @Html.Partial("_LinkSummary", new LinkSummaryViewModel
-{
-    Link = "What if I feel worse while I am waiting?",
-    Summary = "<p>" + waitText + "</p>"
-})
-
-  <hr class="nhsuk-u-margin-top-6 nhsuk-u-margin-bottom-6" />
-
-  @Html.Partial("_GetIsolationNote")
 
 </div>
