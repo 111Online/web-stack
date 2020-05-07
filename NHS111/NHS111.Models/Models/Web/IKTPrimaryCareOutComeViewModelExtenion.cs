@@ -37,7 +37,9 @@ namespace NHS111.Models.Models.Web
                 "Dx09", "Dx10", "Dx16", "Dx75"
             };
 
-            return hasEmergencyNationalResponseDosServiceType && dispositionIdsWithPharmacistReferral.Contains(outcomeViewModel.Id);
+            var hasSelectedServiceForPharmacistReferral = SelectedServiceForPharmacistReferral(outcomeViewModel) != null;
+
+            return hasEmergencyNationalResponseDosServiceType && dispositionIdsWithPharmacistReferral.Contains(outcomeViewModel.Id) && hasSelectedServiceForPharmacistReferral;
         }
 
         public static ServiceViewModel SelectedServiceForPharmacistReferral(OutcomeViewModel outcomeViewModel)
