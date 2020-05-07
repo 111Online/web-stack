@@ -11,6 +11,9 @@ namespace NHS111.Models.Models.Web.PersonalDetails
         public TelephoneNumberViewModel(PersonalDetailViewModel personalDetailViewModel)
         {
             PersonalDetailsViewModel = personalDetailViewModel;
+            if (personalDetailViewModel.UserInfo != null &&
+                !string.IsNullOrEmpty(personalDetailViewModel.UserInfo.TelephoneNumber))
+                _telephoneNumber = personalDetailViewModel.UserInfo.TelephoneNumber;
         }
 
         private string _telephoneNumber;
