@@ -10,7 +10,7 @@
 }
 
 @section HeadTop {
-    @{ var url = string.Format("/outcome/{0}/{1}/{2}/itk/personaldetails/{3}/{4}", Url.Encode(Model.PathwayNo), Url.Encode(Model.OutcomeGroup.Text), Url.Encode(Model.Id), Url.Encode(Model.SelectedServiceId), Model.OutcomeGroup.IsCoronaVirus ? "Covid-Test-kit": Url.Encode(Model.SelectedService.Name)); }
+    @{ var url = string.Format("/outcome/{0}/{1}/{2}/itk/personaldetails/{3}/{4}", Url.Encode(Model.PathwayNo), Url.Encode(Model.OutcomeGroup.Text), Url.Encode(Model.Id), Url.Encode(Model.SelectedServiceId), Model.OutcomeGroup.IsCoronaVirus ? "Covid-Test-kit" : Url.Encode(Model.SelectedService.Name)); }
     <script>
         var pageId = '@Model.Id';
         dataLayer = [
@@ -42,7 +42,7 @@
         <section class="measure">
 
             @{ var validDate = @ViewData.ModelState.IsValidField("UserInfo.DoB") && @ViewData.ModelState.IsValidField("UserInfo.Day") &&
-                            @ViewData.ModelState.IsValidField("UserInfo.Month") && @ViewData.ModelState.IsValidField("UserInfo.Year"); }
+                             @ViewData.ModelState.IsValidField("UserInfo.Month") && @ViewData.ModelState.IsValidField("UserInfo.Year"); }
             <div class="form-group @(validDate ? "" : "form-group-error") form-group-validation-override">
                 <fieldset>
                     <legend class="nhsuk-fieldset__legend nhsuk-fieldset__legend--l nhsuk-u-margin-bottom-4">
@@ -50,7 +50,10 @@
                             Date of birth
                         </h2>
                     </legend>
-                    <p class="form-info">If you're doing this for someone else enter their date of birth.</p>
+                    @if (Model.PatientInformantDetails.Informant != NHS111.Models.Models.Web.InformantType.Self)
+                    {
+                        <p class="form-info">If you're doing this for someone else enter their date of birth.</p>
+                    }
                     <div>
                         @Html.ValidationMessageFor(m => m.UserInfo.DoB)
                         <div class="form-group--inline">
