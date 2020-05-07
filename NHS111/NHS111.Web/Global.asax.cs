@@ -11,6 +11,7 @@ namespace NHS111.Web {
     using System.Configuration;
     using System.Linq;
     using System.Web;
+    using System.Web.Http;
     using System.Web.Mvc;
     using System.Web.Routing;
     using Authentication;
@@ -24,6 +25,9 @@ namespace NHS111.Web {
         protected void Application_Start() {
             AreaRegistration.RegisterAllAreas();
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
+            // Register Web APIs
+            GlobalConfiguration.Configure(WebApiConfig.Register);
+            // Register MVC Routes
             RouteConfig.RegisterRoutes(RouteTable.Routes);
 
             ModelBinders.Binders[typeof (JourneyViewModel)] = new JourneyViewModelBinder();
