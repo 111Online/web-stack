@@ -1,5 +1,7 @@
 ﻿@using NHS111.Models.Models.Web
 @using NHS111.Models.Models.Web.ITK
+@using NHS111.Utils.Extensions;
+
 @inherits NHS111.Web.Views.Shared.SurveyLinkView<NHS111.Models.Models.Web.PersonalDetails.TelephoneNumberViewModel>
 @{
     Layout = "~/Views/Shared/_LayoutNhsUk.cshtml";
@@ -33,38 +35,42 @@
 <div class="nhsuk-core">
     @using (Html.BeginForm("CurrentAddress", "PersonalDetails", FormMethod.Post, new { id = "phoneNumberForm" }))
     {
-        @Html.Partial("_CommonHiddenFieldsOutcomeViewModel", Model.PersonalDetailsViewModel)
+    
+
+        @Html.Partial("_CommonHiddenFieldsOutcomeViewModel", Model.PersonalDetailsViewModel, new ViewDataDictionary { TemplateInfo = new System.Web.Mvc.TemplateInfo { HtmlFieldPrefix = "PersonalDetailsViewModel" } })
+
+      
         @Html.Partial("_CommonHiddenFieldsCareAdviceViewModel", Model.PersonalDetailsViewModel)
 
         @Html.HiddenFor(m => m.PersonalDetailsViewModel.SelectedServiceId)
 
-    <section class="measure">
+        <section class="measure">
 
-        <div class="form-group  @(@ViewData.ModelState.IsValidField("UserInfo.TelephoneNumber") ? "" : "form-group-error")">
-            <fieldset id="tel-number-fields">
-                <legend class="nhsuk-fieldset__legend nhsuk-fieldset__legend--l nhsuk-u-margin-bottom-4">
-                    <h2 class="nhsuk-fieldset__heading">
-                        What is your phone number?
-                    </h2>
-                </legend>
-                @if (!Model.PersonalDetailsViewModel.OutcomeGroup.IsCoronaVirus)
-                {
-                    <p class="form-info">Tell us your number if you're doing this for someone else.</p>
-                }
-                <div>
-                    <label for="TelephoneNumber">Enter a mobile, landline or textphone number</label>
-                    @Html.ValidationMessageFor(m => m.TelephoneNumber, "Enter a valid phone number")
-                    @Html.TextBoxFor(m => m.TelephoneNumber, new { @class = "form-control form-textbox form-control-16-chars", type = "tel", inputmode = "tel" })
-                </div>
-            </fieldset>
-        </div>
-        @Html.Partial("_CommonHiddenFieldsPersonalDetails", Model.PersonalDetailsViewModel)
-
-        <div class="personal-details-content">
-            <div class="inline-details">
-                <button type="submit" class="button--next" id="submitDetails">Next</button>
+            <div class="form-group  @(@ViewData.ModelState.IsValidField("UserInfo.TelephoneNumber") ? "" : "form-group-error")">
+                <fieldset id="tel-number-fields">
+                    <legend class="nhsuk-fieldset__legend nhsuk-fieldset__legend--l nhsuk-u-margin-bottom-4">
+                        <h2 class="nhsuk-fieldset__heading">
+                            What is your phone number?
+                        </h2>
+                    </legend>
+                    @if (!Model.PersonalDetailsViewModel.OutcomeGroup.IsCoronaVirus)
+                    {
+                        <p class="form-info">Tell us your number if you're doing this for someone else.</p>
+                    }
+                    <div>
+                        <label for="TelephoneNumber">Enter a mobile, landline or textphone number</label>
+                        @Html.ValidationMessageFor(m => m.TelephoneNumber, "Enter a valid phone number")
+                        @Html.TextBoxFor(m => m.TelephoneNumber, new { @class = "form-control form-textbox form-control-16-chars", type = "tel", inputmode = "tel" })
+                    </div>
+                </fieldset>
             </div>
-        </div>
-    </section>
+            @Html.Partial("_CommonHiddenFieldsPersonalDetails", Model.PersonalDetailsViewModel)
+
+            <div class="personal-details-content">
+                <div class="inline-details">
+                    <button type="submit" class="button--next" id="submitDetails">Next</button>
+                </div>
+            </div>
+        </section>
     }
 </div>
