@@ -1,4 +1,6 @@
-﻿namespace NHS111.Models.Models.Web {
+﻿using NHS111.Models.Models.Domain;
+
+namespace NHS111.Models.Models.Web {
 
     public abstract class BaseViewModel {
         public abstract string PageTitle { get; }
@@ -27,7 +29,7 @@
         {
             //todo:this needs a rethink with a combination of service type / outcome to route to correct page
 
-            if (OutcomeGroupIsRepeatPrescriptionOrIsolate111(outcomeModel))
+            if (ShouldOverrideDefault(outcomeModel))
             {
                 return outcomeModel.OutcomeGroup.Id;
             }
@@ -35,12 +37,13 @@
             return "default";
         }
 
-        private static bool OutcomeGroupIsRepeatPrescriptionOrIsolate111(OutcomeViewModel outcomeModel)
+        private static bool ShouldOverrideDefault(OutcomeViewModel outcomeModel)
         {
             return outcomeModel != null
                    && outcomeModel.OutcomeGroup != null
                    && (outcomeModel.OutcomeGroup.Equals(Domain.OutcomeGroup.RepeatPrescription) 
-                       || outcomeModel.OutcomeGroup.Equals(Domain.OutcomeGroup.Isolate111));
+                       || outcomeModel.OutcomeGroup.Equals(Domain.OutcomeGroup.Isolate111)
+                       || outcomeModel.OutcomeGroup.Equals(OutcomeGroup.ItkPrimaryCareNer));
         }
     }
 

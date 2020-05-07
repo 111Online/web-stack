@@ -512,6 +512,7 @@
     <Content Include="Views\RegisterForSMS\Failure_SMS.cshtml" />
     <Content Include="Views\Help\Language.cshtml" />
     <Content Include="Views\Outcome\Primary_Care\ITK_Primary_care_NER.cshtml" />
+    <Content Include="Views\Outcome\Confirmation\ITK_Primary_care_NER\Confirmation.cshtml" />
     <None Include="Web.Development.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
