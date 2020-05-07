@@ -1,0 +1,71 @@
+﻿@using NHS111.Models.Models.Web
+@using NHS111.Models.Models.Web.ITK
+@inherits NHS111.Web.Views.Shared.SurveyLinkView<NHS111.Models.Models.Web.PersonalDetails.TelephoneNumberViewModel>
+@{
+    Layout = "~/Views/Shared/_LayoutNhsUk.cshtml";
+}
+
+@section Title {
+    Enter Personal Details
+}
+
+@section HeadTop {
+    @{ var url = string.Format("/outcome/{0}/{1}/{2}/itk/personaldetails/{3}/{4}", Url.Encode(Model.PersonalDetailsViewModel.PathwayNo), Url.Encode(Model.PersonalDetailsViewModel.OutcomeGroup.Text), Url.Encode(Model.PersonalDetailsViewModel.Id), Url.Encode(Model.PersonalDetailsViewModel.SelectedServiceId), Model.PersonalDetailsViewModel.OutcomeGroup.IsCoronaVirus ? "Covid-Test-kit": Url.Encode(Model.PersonalDetailsViewModel.SelectedService.Name)); }
+    <script>
+        var pageId = '@Model.PersonalDetailsViewModel.Id';
+        dataLayer = [
+        {
+            'virtualPageUrl': '@url',
+            'virtualPageTitle': 'Personal Details - Enter phone number'
+        }];
+    </script>
+}
+
+@{
+    var dataDictionary = ViewContext.ViewData;
+    dataDictionary.Add(new KeyValuePair<string, object>("LaunchPage", "personal-details"));
+}
+
+@section FeedbackSection {
+    @Html.Partial("_FeedbackDetails", new FeedbackViewModel() { UserId = Model.PersonalDetailsViewModel.SessionId.ToString(), PageData = new PageDataViewModel(PageDataViewModel.PageType.PersonalDetails, Model.PersonalDetailsViewModel) })
+}
+
+<div class="nhsuk-core">
+    @using (Html.BeginForm("CurrentAddress", "PersonalDetails", FormMethod.Post, new { id = "phoneNumberForm" }))
+    {
+        @Html.Partial("_CommonHiddenFieldsOutcomeViewModel", Model.PersonalDetailsViewModel)
+        @Html.Partial("_CommonHiddenFieldsCareAdviceViewModel", Model.PersonalDetailsViewModel)
+
+        @Html.HiddenFor(m => m.PersonalDetailsViewModel.SelectedServiceId)
+
+    <section class="measure">
+
+        <div class="form-group  @(@ViewData.ModelState.IsValidField("UserInfo.TelephoneNumber") ? "" : "form-group-error")">
+            <fieldset id="tel-number-fields">
+                <legend class="nhsuk-fieldset__legend nhsuk-fieldset__legend--l nhsuk-u-margin-bottom-4">
+                    <h2 class="nhsuk-fieldset__heading">
+                        What is your phone number?
+                    </h2>
+                </legend>
+                @if (!Model.PersonalDetailsViewModel.OutcomeGroup.IsCoronaVirus 
+                    && Model.PersonalDetailsViewModel.PatientInformantDetails.Informant != NHS111.Models.Models.Web.InformantType.Self)
+                {
+                    <p class="form-info">Tell us your number if you're doing this for someone else.</p>
+                }
+                <div>
+                    <label for="TelephoneNumber">Enter a mobile, landline or textphone number</label>
+                    @Html.ValidationMessageFor(m => m.TelephoneNumber, "Enter a valid phone number")
+                    @Html.TextBoxFor(m => m.TelephoneNumber, new { @class = "form-control form-textbox form-control-16-chars", type = "tel", inputmode = "tel" })
+                </div>
+            </fieldset>
+        </div>
+        @Html.Partial("_CommonHiddenFieldsPersonalDetails", Model.PersonalDetailsViewModel)
+
+        <div class="personal-details-content">
+            <div class="inline-details">
+                <button type="submit" class="button--next" id="submitDetails">Next</button>
+            </div>
+        </div>
+    </section>
+    }
+</div>
