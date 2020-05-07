@@ -1,0 +1,251 @@
+﻿@using NHS111.Models.Models.Web
+@using NHS111.Models.Models.Web.ITK
+@inherits NHS111.Web.Views.Shared.SurveyLinkView<PersonalDetailViewModel>
+@{
+    Layout = "~/Views/Shared/_LayoutNhsUk.cshtml";
+}
+
+@section Title {
+    Enter Personal Details
+}
+
+@section HeadTop {
+    @{ var url = string.Format("/outcome/{0}/{1}/{2}/itk/personaldetails/{3}/{4}", Url.Encode(Model.PathwayNo), Url.Encode(Model.OutcomeGroup.Text), Url.Encode(Model.Id), Url.Encode(Model.SelectedServiceId), Model.OutcomeGroup.IsCoronaVirus ? "Covid-Test-kit": Url.Encode(Model.SelectedService.Name)); }
+    <script>
+        var pageId = '@Model.Id';
+        dataLayer = [
+        {
+            'virtualPageUrl': '@url',
+            'virtualPageTitle': 'Personal Details - Enter phone number'
+        }];
+    </script>
+}
+
+@{
+    var dataDictionary = ViewContext.ViewData;
+    dataDictionary.Add(new KeyValuePair<string, object>("LaunchPage", "personal-details"));
+}
+
+@section FeedbackSection {
+    @Html.Partial("_FeedbackDetails", new FeedbackViewModel() { UserId = Model.SessionId.ToString(), PageData = new PageDataViewModel(PageDataViewModel.PageType.PersonalDetails, Model) })
+}
+
+<div class="nhsuk-core">
+    @using (Html.BeginForm("TelephoneNumber", "PersonalDetails", FormMethod.Post, new { id = "phoneNumberForm" }))
+    {
+        @Html.Partial("_CommonHiddenFieldsOutcomeViewModel", Model)
+        @Html.Partial("_CommonHiddenFieldsCareAdviceViewModel", Model)
+        @Html.Partial("_CommonHiddenFieldsPersonalDetails", Model);
+        @Html.HiddenFor(m => m.SelectedServiceId)
+        @Html.HiddenFor(m => m.UserInfo.TelephoneNumber)
+
+        <section class="measure">
+
+            @{ var validDate = @ViewData.ModelState.IsValidField("UserInfo.DoB") && @ViewData.ModelState.IsValidField("UserInfo.Day") &&
+                            @ViewData.ModelState.IsValidField("UserInfo.Month") && @ViewData.ModelState.IsValidField("UserInfo.Year"); }
+            <div class="form-group @(validDate ? "" : "form-group-error") form-group-validation-override">
+                <fieldset>
+                    <legend class="nhsuk-fieldset__legend nhsuk-fieldset__legend--l nhsuk-u-margin-bottom-4">
+                        <h2 class="nhsuk-fieldset__heading">
+                            Date of birth
+                        </h2>
+                    </legend>
+                    <p class="form-info">If you're doing this for someone else enter their date of birth.</p>
+                    <div>
+                        @Html.ValidationMessageFor(m => m.UserInfo.DoB)
+                        <div class="form-group--inline">
+                            <label for="@Html.IdFor(m => m.UserInfo.Day)">Day</label>
+                            @Html.TextBoxFor(m => m.UserInfo.Day, new { @class = "form-control form-textbox js-validate-number", placeholder = "DD", inputmode = "numeric", pattern = "[0-9]+", maxlength = "2" })
+                        </div>
+                        <div class="form-group--inline">
+                            <label for="@Html.IdFor(m => m.UserInfo.Month)">Month</label>
+                            @Html.TextBoxFor(m => m.UserInfo.Month, new { @class = "form-control form-textbox js-validate-number", placeholder = "MM", inputmode = "numeric", pattern = "[0-9]+", maxlength = "2" })
+                        </div>
+                        <div class="form-group--inline">
+                            <label for="@Html.IdFor(m => m.UserInfo.Year)">Year</label>
+                            @Html.TextBoxFor(m => m.UserInfo.Year, new { @class = "form-control form-textbox js-validate-number", placeholder = "YYYY", inputmode = "numeric", pattern = "[0-9]+", maxlength = "4" })
+                        </div>
+                        @Html.HiddenFor(m => m.UserInfo.DoB, new { @class = "validate-hidden" })
+                    </div>
+                </fieldset>
+            </div>
+            @Html.Partial("_CommonHiddenFieldsPersonalDetails", Model)
+
+            <script type="text/javascript">
+                jQuery(function () {
+                    var formSubmitted = false;
+                    var dayEl = $('#UserInfo_Day');
+                    var monthEl = $('#UserInfo_Month');
+                    var yearEl = $('#UserInfo_Year');
+
+                    AddAdapter('day');
+                    AddAdapter('month');
+                    AddAdapter('year');
+                    AddAdapter('dateagemin', 'minimumage');
+                    AddAdapter('dateagemax', 'maximumage');
+                    AddAdapter('datevalid');
+                    AddAdapter('dateofbirth');
+
+                    // This uses jQuery Validator's internal check method, this is undocumented functionality.
+                    // The reason for using it is that the public .valid() method has bad side effects when trying to
+                    // check validity of a single element.
+                    function isValid(el) {
+                        return $("form").validate().check(el);
+                    }
+
+                    jQuery.validator.addMethod('day', function (value) {
+                        if (!formSubmitted && value === "") return true;
+                        return (parseInt(value) > 0 && parseInt(value) <= 31)
+                    })
+
+                    jQuery.validator.addMethod('month', function (value) {
+                        if (!formSubmitted && value === "") return true;
+                        return (parseInt(value) > 0 && parseInt(value) <= 12)
+                    })
+
+                    jQuery.validator.addMethod('year', function (value) {
+                        if (!formSubmitted && value === "") return true;
+                        var currentYear = new Date().getFullYear()
+                        return (parseInt(value) > 1900 && parseInt(value) < (currentYear + 1))
+                    })
+
+                    // Ignore the default date validation as that does not have the granular error messages
+                    jQuery.validator.addMethod('date', function () { return true; });
+
+                    jQuery.validator.addMethod('datevalid', function (value, element, params) {
+                        var day = dayEl.val();
+                        var month = monthEl.val();
+                        var year = yearEl.val();
+
+                        var isDayValid = isValid(dayEl);
+                        var isMonthValid = isValid(monthEl);
+                        var isYearValid = isValid(yearEl);
+
+                        // If form not submitted, don't validate entire date until all fields entered
+                        if (!formSubmitted && isDayValid && isMonthValid && isYearValid) {
+                            setDateGroupErrorStyles(true)
+                            return true;
+                        }
+
+                        // If the day/month/year are not valid then entire date should always be invalid,
+                        // and update the styling to show that.
+                        if (!isDayValid || !isMonthValid || !isYearValid) {
+                            setDateGroupErrorStyles(false)
+                            return false;
+                        }
+
+                        var date = new Date(year, month - 1, day);
+                        // Internet Explorer does not handle isNaN(date) correctly so this checks month hasn't rolled over (eg. feb -> march)
+                        var dateIsValid = !isNaN(date) && (date.getMonth() == month - 1);
+
+                        setDateGroupErrorStyles(dateIsValid)
+                        return dateIsValid;
+                    });
+
+                    // If day/month/year are entered, then work out age from DoB
+                    function getAge() {
+                        var day = dayEl.val();
+                        var month = monthEl.val();
+                        var year = yearEl.val();
+                        if (day === "" || month === "" || year === "") return;
+
+                        var dob = new Date(year, month - 1, day);
+
+                        // If you enter 39 it will think it is 1939 so doesn't
+                        // give the correct age. This ensures it uses the 4 digit year.
+                        dob.setFullYear(year);
+
+                        var today = new Date();
+                        var age = today.getFullYear() - dob.getFullYear();
+                        if (today.getMonth() - 1 < dob.getMonth() - 1 || (today.getMonth() - 1 == dob.getMonth() - 1 && today.getDay() < dob.getDay()))
+                            age--;
+                        return age;
+                    }
+
+
+                    // Separate method for date of birth so a custom message can be shown when the
+                    // date is valid but in the future so can't be a DoB.
+                    jQuery.validator.addMethod('dateofbirth', function (value, element, params) {
+                        var age = getAge();
+                        var dateIsValid;
+
+                        // If DoB not yet set, return valid.
+                        if (!Number.isInteger(age)) dateIsValid = true;
+                        else dateIsValid = age >= 0;
+
+                        setDateGroupErrorStyles(dateIsValid)
+                        return dateIsValid;
+                    });
+
+
+                    jQuery.validator.addMethod('dateagemin', function (value, element, params) {
+                        var age = getAge();
+                        var dateIsValid;
+
+                        // If DoB not yet set, or if date is in the future,
+                        // set to valid so other validator can set relevant message
+                        if (!Number.isInteger(age) || age < 0) dateIsValid = true;
+                        else dateIsValid = age > parseInt(params.minimumage);
+
+                        setDateGroupErrorStyles(dateIsValid)
+                        return dateIsValid;
+                    });
+
+
+                    jQuery.validator.addMethod('dateagemax', function (value, element, params) {
+                        var age = getAge();
+                        var dateIsValid;
+
+                        // If DoB not yet set, return valid.
+                        if (!Number.isInteger(age)) dateIsValid = true;
+                        else dateIsValid = getAge() <= parseInt(params.maximumage);
+
+                        setDateGroupErrorStyles(dateIsValid)
+                        return dateIsValid;
+                    });
+
+
+                    jQuery('#UserInfo_Day, #UserInfo_Month, #UserInfo_Year').on('input', function () {
+                        // This ensures the validation triggers once they've reached the maxlength
+                        // this means they can see the validation message without needing to know to leave
+                        // the field while ensuring it doesn't come up the moment they start typing.
+                        if (this.value.length === this.maxLength) {
+                            jQuery("#UserInfo_DoB").valid();
+                        }
+                    });
+
+                    jQuery('#UserInfo_Day, #UserInfo_Month, #UserInfo_Year').on('blur', function () {
+                        jQuery("#UserInfo_DoB").valid();
+                    });
+
+
+                    jQuery("#personalDetailForm").on("submit", function () {
+                        formSubmitted = true;
+                    })
+
+                    function setDateGroupErrorStyles(dateIsValid) {
+                        jQuery("#UserInfo_DoB").closest(".form-group").toggleClass("form-group-error", !dateIsValid);
+
+                        // Validation override ensures if one field in a group errors then a specific
+                        // error message shows from one field for all the others without showing all in red.
+                        // Example: 45/02/2019 should show day as error but the label should be for date.
+                        // Validation override "error-all" makes it so that if one field (ie DoB)
+                        // errors then all are shown in red.
+                        // Example: 29/02/2019 (not leap year) should show all as error and show the same label as above.
+                        if (!isValid(dayEl) || !isValid(monthEl) || !isValid(yearEl))
+                            jQuery("#UserInfo_DoB").closest(".form-group").toggleClass("form-group-validation-override-error-all", false);
+                        else
+                            jQuery("#UserInfo_DoB").closest(".form-group").toggleClass("form-group-validation-override-error-all", !dateIsValid);
+                    }
+
+                })
+            </script>
+
+            <div class="personal-details-content">
+                <div class="inline-details">
+                    <button type="submit" class="button--next" id="submitDetails">Next</button>
+                </div>
+            </div>
+        </section>
+    }
+</div>
