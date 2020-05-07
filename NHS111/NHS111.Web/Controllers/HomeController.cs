@@ -31,10 +31,9 @@ namespace NHS111.Web.Controllers
 
         [HttpGet]
         [Route("COVID-19/stayathome")]
-        public ActionResult StayAtHomeHub(JourneyViewModel model)
+        public ActionResult StayAtHomeHub()
         {
-            var firstModel = BuildModel("PC111", model.SessionId);
-            return View("StayAtHomeHub", firstModel);
+            return RedirectPermanent("https://www.nhs.uk/conditions/coronavirus-covid-19/what-to-do-if-you-or-someone-you-live-with-has-coronavirus-symptoms/");
         }
 
         [HttpPost]
