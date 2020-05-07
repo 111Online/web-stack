@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using NHS111.Models.Models.Domain;
 using NHS111.Models.Models.Web.FromExternalServices;
 
 namespace NHS111.Models.Models.Web
@@ -72,6 +73,14 @@ namespace NHS111.Models.Models.Web
                     dispositionWithCustomCannotGetAppointmentText[dispositionId]
                 : 
                     "I can't get an appointment today";
+        }
+
+        public static bool ShouldHide_CalloutHeading_MoreInfoPage(OutcomeGroup outcomeGroup)
+        {
+            return (
+                outcomeGroup.Equals(OutcomeGroup.GP) ||
+                outcomeGroup.Equals(OutcomeGroup.ItkPrimaryCareNer)
+            );
         }
     }
 }
