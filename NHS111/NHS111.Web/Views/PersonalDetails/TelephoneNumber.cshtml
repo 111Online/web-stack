@@ -47,14 +47,10 @@
             <fieldset id="tel-number-fields">
                 <legend class="nhsuk-fieldset__legend nhsuk-fieldset__legend--l nhsuk-u-margin-bottom-4">
                     <h2 class="nhsuk-fieldset__heading">
-                        What is your phone number?
+                        What number should we call?
                     </h2>
                 </legend>
-                @if (!Model.PersonalDetailsViewModel.OutcomeGroup.IsCoronaVirus 
-                    && Model.PersonalDetailsViewModel.PatientInformantDetails.Informant != NHS111.Models.Models.Web.InformantType.Self)
-                {
-                    <p class="form-info">Tell us your number if you're doing this for someone else.</p>
-                }
+  
                 <div>
                     <label for="TelephoneNumber">Enter a mobile, landline or textphone number</label>
                     @Html.ValidationMessageFor(m => m.TelephoneNumber, "Enter a valid phone number")
