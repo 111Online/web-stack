@@ -75,7 +75,7 @@ namespace NHS111.Models.Models.Web
                     "I can't get an appointment today";
         }
 
-        public static bool ShouldHide_CalloutHeading_MoreInfoPage(OutcomeGroup outcomeGroup)
+        public static bool ShouldHide_CalloutHeading_And_RegisterWithGp_MoreInfoPage(OutcomeGroup outcomeGroup)
         {
             return (
                 outcomeGroup.Equals(OutcomeGroup.GP) ||

@@ -41,7 +41,7 @@
     }
 
     <div class="callout callout--attention nhsuk-u-margin-bottom-4">
-        <h1 class="nhsuk-heading-l @(ITKPrimaryCareOutComeViewModelExtension.ShouldHide_CalloutHeading_MoreInfoPage(Model.OutcomeGroup) ? "nhsuk-u-visually-hidden" : "")">More ways to get help</h1>
+        <h1 class="nhsuk-heading-l @(ITKPrimaryCareOutComeViewModelExtension.ShouldHide_CalloutHeading_And_RegisterWithGp_MoreInfoPage(Model.OutcomeGroup) ? "nhsuk-u-visually-hidden" : "")">More ways to get help</h1>
 
         @if (Model.OutcomeGroup.Equals(OutcomeGroup.ItkPrimaryCare))
         {
@@ -67,7 +67,7 @@
         }
     </div>
 
-    @if ((Model.OutcomeGroup.Equals(OutcomeGroup.ItkPrimaryCare) || Model.OutcomeGroup.Equals(OutcomeGroup.ItkPrimaryCareNer)) && ViewData["Route"].ToString() == "Outcome/RegisterWithGp")
+    @if (!ITKPrimaryCareOutComeViewModelExtension.ShouldHide_CalloutHeading_And_RegisterWithGp_MoreInfoPage(Model.OutcomeGroup) && ViewData["Route"].ToString() == "Outcome/RegisterWithGp")
     {
         <details class="measure">
             <summary><span class="details__arrow" role="presentation"></span>How to register with a GP</summary>
