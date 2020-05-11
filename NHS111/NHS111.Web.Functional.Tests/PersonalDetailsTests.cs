@@ -34,13 +34,15 @@ namespace NHS111.Web.Functional.Tests
 
             personalDetailsPage.VerifyIsPersonalDetailsPage();
             personalDetailsPage.VerifyNameDisplayed();
-            personalDetailsPage.VerifyDateOfBirthDisplayed();
 
             personalDetailsPage.SelectMe();
             personalDetailsPage.EnterPatientName("Test1", "Tester1");
 
-            personalDetailsPage.EnterDateOfBirth("31", "07", "1980"); 
-            var telephoneNumberPage = personalDetailsPage.SubmitNameAndDoBDetails();
+            var dateofBirthPage = personalDetailsPage.SubmitNameDetails();
+            dateofBirthPage.VerifyDateOfBirthDisplayed();
+            dateofBirthPage.EnterDateOfBirth("31", "07", "1980");
+
+            var telephoneNumberPage = dateofBirthPage.SubmitDateOfBirth();
             telephoneNumberPage.EnterPhoneNumber("07793346301");
 
             var currentAddressPage = telephoneNumberPage.SubmitTelephoneNumber();
@@ -66,14 +68,16 @@ namespace NHS111.Web.Functional.Tests
 
             personalDetailsPage.VerifyIsPersonalDetailsPage();
             personalDetailsPage.VerifyNameDisplayed();
-            personalDetailsPage.VerifyDateOfBirthDisplayed();
 
             personalDetailsPage.SelectSomeoneElse();
             personalDetailsPage.EnterPatientName("Test1", "Tester1");
             personalDetailsPage.EnterThirdPartyName("Test2", "Tester2");
-            personalDetailsPage.EnterDateOfBirth("31", "07", "1980"); 
-            
-            var telephoneNumberPage = personalDetailsPage.SubmitNameAndDoBDetails();
+
+            var dateofBirthPage = personalDetailsPage.SubmitNameDetails();
+            dateofBirthPage.VerifyDateOfBirthDisplayed();
+            dateofBirthPage.EnterDateOfBirth("31", "07", "1980");
+
+            var telephoneNumberPage = dateofBirthPage.SubmitDateOfBirth();
             telephoneNumberPage.EnterPhoneNumber("07793346301");
 
             var currentAddressPage = telephoneNumberPage.SubmitTelephoneNumber();
@@ -100,13 +104,15 @@ namespace NHS111.Web.Functional.Tests
 
             personalDetailsPage.VerifyIsPersonalDetailsPage();
             personalDetailsPage.VerifyNameDisplayed();
-            personalDetailsPage.VerifyDateOfBirthDisplayed();
-
+            
             personalDetailsPage.SelectMe();
             personalDetailsPage.EnterPatientName("Test1", "Tester1");
-            personalDetailsPage.EnterDateOfBirth("31", "07", "1980");
 
-            var telephoneNumberPage = personalDetailsPage.SubmitNameAndDoBDetails();
+            var dateofBirthPage = personalDetailsPage.SubmitNameDetails();
+            dateofBirthPage.VerifyDateOfBirthDisplayed();
+            dateofBirthPage.EnterDateOfBirth("31", "07", "1980");
+
+            var telephoneNumberPage = dateofBirthPage.SubmitDateOfBirth();
             telephoneNumberPage.EnterPhoneNumber("07793346301");
 
             var currentAddressPage = telephoneNumberPage.SubmitTelephoneNumber();
@@ -132,16 +138,18 @@ namespace NHS111.Web.Functional.Tests
         {
             var personalDetailsPage = TestScenerios.LaunchPersonalDetailsScenario(Driver, "Diabetes Blood Sugar Problem (Declared)", TestScenerioSex.Male, TestScenerioAgeGroups.Adult, "sk10 3de");
 
-
             personalDetailsPage.VerifyIsPersonalDetailsPage();
             personalDetailsPage.VerifyNameDisplayed();
-            personalDetailsPage.VerifyDateOfBirthDisplayed();
 
             personalDetailsPage.SelectSomeoneElse();
             personalDetailsPage.EnterPatientName("Test1", "Tester1");
             personalDetailsPage.EnterThirdPartyName("Test2", "Tester2");
-            personalDetailsPage.EnterDateOfBirth("31", "07", "1980");
-            var telephoneNumberPage = personalDetailsPage.SubmitNameAndDoBDetails();
+
+            var dateofBirthPage = personalDetailsPage.SubmitNameDetails();
+            dateofBirthPage.VerifyDateOfBirthDisplayed();
+            dateofBirthPage.EnterDateOfBirth("31", "07", "1980");
+
+            var telephoneNumberPage = dateofBirthPage.SubmitDateOfBirth();
             telephoneNumberPage.EnterPhoneNumber("07793346301");
 
             var currentAddressPage = telephoneNumberPage.SubmitTelephoneNumber();
@@ -168,14 +176,19 @@ namespace NHS111.Web.Functional.Tests
 
             personalDetailsPage.VerifyIsPersonalDetailsPage();
             personalDetailsPage.VerifyNameDisplayed();
-            personalDetailsPage.VerifyDateOfBirthDisplayed();
 
             personalDetailsPage.SelectSomeoneElse();
             personalDetailsPage.EnterPatientName("Test1", "Tester1");
             personalDetailsPage.EnterThirdPartyName("Test2", "Tester2");
-            personalDetailsPage.EnterDateOfBirth("31", "07", "1980");
-            var telephoneNumberPage = personalDetailsPage.SubmitNameAndDoBDetails();
+
+            var dateofBirthPage = personalDetailsPage.SubmitNameDetails();
+            dateofBirthPage.VerifyDateOfBirthDisplayed();
+            dateofBirthPage.EnterDateOfBirth("31", "07", "1980");
+
+
+            var telephoneNumberPage = dateofBirthPage.SubmitDateOfBirth();
             telephoneNumberPage.EnterPhoneNumber("07793346301");
+
             var currentAddressPage = telephoneNumberPage.SubmitTelephoneNumber();
             currentAddressPage.VerifyHeading("Where are they right now?");
             
