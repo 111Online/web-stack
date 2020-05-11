@@ -12,10 +12,10 @@ namespace NHS111.Models.Models.Web.Validators
     {
         public DateOfBirthViewModelValidator()
         {
-            RuleFor(p => p.Day).SetValidator(new DateDayValidator<UserInfo, int?>(m => m.Day));
-            RuleFor(p => p.Month).SetValidator(new DateMonthValidator<UserInfo, int?>(m => m.Month));
-            RuleFor(p => p.Year).SetValidator(new DateYearValidator<UserInfo, int?>(m => m.Year));
-            RuleFor(p => p.DoB).SetValidator(new DateOfBirthValidator<UserInfo, DateTime?>(m => m.DoB));
+            RuleFor(p => p.Day).SetValidator(new DateDayValidator<DateOfBirthViewModel, int?>(m => m.Day));
+            RuleFor(p => p.Month).SetValidator(new DateMonthValidator<DateOfBirthViewModel, int?>(m => m.Month));
+            RuleFor(p => p.Year).SetValidator(new DateYearValidator<DateOfBirthViewModel, int?>(m => m.Year));
+            RuleFor(p => p.DoB).SetValidator(new DateOfBirthValidator<DateOfBirthViewModel, DateTime?>(m => m.DoB));
         }
     }
 }
