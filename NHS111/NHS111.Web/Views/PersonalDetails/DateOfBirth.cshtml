@@ -16,7 +16,7 @@
         dataLayer = [
         {
             'virtualPageUrl': '@url',
-            'virtualPageTitle': 'Personal Details - Enter phone number'
+            'virtualPageTitle': 'Personal Details - Enter date of birth'
         }];
     </script>
 }
@@ -46,9 +46,18 @@
             <div class="form-group @(validDate ? "" : "form-group-error") form-group-validation-override">
                 <fieldset>
                     <legend class="nhsuk-fieldset__legend nhsuk-fieldset__legend--l nhsuk-u-margin-bottom-4">
-                        <h2 class="nhsuk-fieldset__heading">
-                            Date of birth
-                        </h2>
+                        @if (Model.PatientInformantDetails.Informant == NHS111.Models.Models.Web.InformantType.Self)
+                        {
+                            <h2 class="nhsuk-fieldset__heading">
+                                What is your date of birth?
+                            </h2>
+                        }
+                        else
+                        {
+                            <h2 class="nhsuk-fieldset__heading">
+                                What is their date of birth?
+                            </h2>
+                        }
                     </legend>
                     @if (Model.PatientInformantDetails.Informant != NHS111.Models.Models.Web.InformantType.Self)
                     {
