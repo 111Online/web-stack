@@ -96,6 +96,7 @@
     <Compile Include="ScreenShot\ScreenShotMaker.cs" />
     <Compile Include="ServerErrorPage.cs" />
     <Compile Include="PageNotFound.cs" />
+    <Compile Include="TelephoneNumberPage.cs" />
     <Compile Include="TermsAndConditionsPage.cs" />
     <Compile Include="PrivacyStatementPage.cs" />
     <Compile Include="HomePage.cs" />
