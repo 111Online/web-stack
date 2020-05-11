@@ -73,6 +73,7 @@
     <Compile Include="Covid\Dx391.cs" />
     <Compile Include="Covid\CovidTests.cs" />
     <Compile Include="DirectLinkingTests.cs" />
+    <Compile Include="ConfirmationScreenTests.cs" />
     <Compile Include="LocationPageTests.cs" />
     <Compile Include="InlineCareAdvicePageTests.cs" />
     <Compile Include="PageNotFoundTests.cs" />
