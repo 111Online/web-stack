@@ -146,6 +146,18 @@ namespace NHS111.Web.Controllers
         }
 
         [HttpPost]
+        public ActionResult DateOfBirth(PersonalDetailViewModel model)
+        {
+
+            if (!ModelState.IsValid)
+            {
+                return View("~\\Views\\PersonalDetails\\PersonalDetails.cshtml", model);
+            }
+
+            return View("~\\Views\\PersonalDetails\\DateOfBirth.cshtml", model);
+        }
+
+        [HttpPost]
        
         public async Task<ActionResult> CurrentAddress(TelephoneNumberViewModel model)
         {

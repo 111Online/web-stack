@@ -511,6 +511,7 @@
     <Content Include="Views\RegisterForSMS\Failure_SMS.cshtml" />
     <Content Include="Views\Help\Language.cshtml" />
     <Content Include="Views\PersonalDetails\TelephoneNumber.cshtml" />
+    <Content Include="Views\PersonalDetails\DateOfBirth.cshtml" />
     <None Include="Web.Development.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
