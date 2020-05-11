@@ -251,7 +251,9 @@
     <Compile Include="Models\Web\DosRequests\DosServiceDetailsByIdRequest.cs" />
     <Compile Include="Models\Web\DosRequests\DosServicesByClinicalTermRequest.cs" />
     <Compile Include="Models\Web\Elements\LinkSummaryViewModel.cs" />
+    <Compile Include="Models\Web\PersonalDetails\DateOfBirthViewModel.cs" />
     <Compile Include="Models\Web\PersonalDetails\TelephoneNumberViewModel.cs" />
+    <Compile Include="Models\Web\Validators\DateOfBirthViewModelValidator.cs" />
     <Compile Include="Models\Web\Validators\EmailAddressViewModelValidator.cs" />
     <Compile Include="Models\Web\EmergencyAlertViewModel.cs" />
     <Compile Include="Models\Web\Enums\EventType.cs" />
