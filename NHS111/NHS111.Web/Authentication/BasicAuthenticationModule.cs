@@ -2,6 +2,7 @@
 
 namespace NHS111.Web.Authentication {
     using System;
+    using System.Linq;
     using System.Net;
     using System.Text;
     using System.Web;
@@ -19,6 +20,13 @@ namespace NHS111.Web.Authentication {
         }
 
         public override void OnActionExecuting(ActionExecutingContext filterContext) {
+
+            // Allow requests even when not authenticated to actions with the AllowAnonymousAccess attribute present. see below.
+            if (filterContext.ActionDescriptor.GetCustomAttributes(typeof(AllowAnonymousAccess), false).Any())
+            {
+                return;
+            }
+
             var credentials = filterContext.HttpContext.Request.DecodeBasicAuthCredentials();
 
             if (!credentials.Validate(_username, _password))
@@ -65,5 +73,13 @@ namespace NHS111.Web.Authentication {
                 throw new FormatException("The provided basic auth header was not in the expected format", e);
             }
         }
+    }
+
+    /// <summary>
+    // Attribute to mark a controller as accessible regarding of authentication requirement
+    // Source: https://stackoverflow.com/a/9963113/1537195
+    /// </summary>
+    public class AllowAnonymousAccess : Attribute
+    {
     }
 }
