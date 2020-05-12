@@ -11,6 +11,12 @@ namespace NHS111.Web.Functional.Utils
             return homepage;
         }
 
+        public static CovidHomePage CovidHomePage(IWebDriver driver)
+        {
+            var covidhomepage = new CovidHomePage(driver);
+            covidhomepage.Visit();
+            return covidhomepage;
+        }
 
         public static HomePage HomePage(IWebDriver driver, string medium)
         {
@@ -76,6 +82,13 @@ namespace NHS111.Web.Functional.Utils
         public static QuestionPage Question(QuestionInfoPage page)
         {
             return page.ClickIUnderstand();
+        }
+
+        public static QuestionPage Question(DemographicsPage page, string gender, int age)
+        {
+            page.SelectSexAndAge(gender, age);
+            page.ClickNext();
+            return new QuestionPage(page.Driver);
         }
 
         public static QuestionInfoPage QuestionInfo(SearchPage page, string pathwayTopic)

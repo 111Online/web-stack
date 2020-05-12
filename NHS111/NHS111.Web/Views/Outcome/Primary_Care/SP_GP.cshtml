@@ -4,22 +4,7 @@
     ViewBag.Title = "See your GP";
     Layout = "~/Views/Shared/_LayoutNhsUK.cshtml";
 
-    var headerText = "";
-    switch (Model.Id)
-    {
-        case "Dx09":
-            headerText = "Book a GP appointment if you don't feel better in a few days";
-            break;
-        case "Dx10":
-            headerText = "Book a non-urgent GP appointment";
-            break;
-        case "Dx16":
-            headerText = "Contact your GP if you don't feel better in a few days";
-            break;
-        case "Dx75":
-            headerText = "Contact your GP within the next few days";
-            break;
-    }
+    var headerText = string.Format("{0} {1}", @Model.OutcomeGroup.Text, @Model.DispositionUrgencyText);
 }
 
 @section Title { NHS 111 - @headerText }

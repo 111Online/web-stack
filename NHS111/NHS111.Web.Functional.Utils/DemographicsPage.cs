@@ -62,15 +62,20 @@ namespace NHS111.Web.Functional.Utils
             Assert.AreEqual(_headerText, Header.Text);
         }
 
-        public SearchPage NextPage()
+        public void ClickNext()
         {
             NextButton.Submit();
+        }
+
+        public SearchPage NextPage()
+        {
+            ClickNext();
             return new SearchPage(Driver);
         }
 
         public QuestionInfoPage NextPageDeeplink()
         {
-            NextButton.Submit();
+            ClickNext();
             return new QuestionInfoPage(Driver);
         }
         public void VerifyAgeInputBox(string sex, string age)
