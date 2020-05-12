@@ -265,6 +265,7 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Views\Outcome\SurveyInterstitial.cshtml" />
+    <Content Include="Views\PersonalDetails\PersonalDetails.cshtml" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -333,7 +334,6 @@
     <Content Include="Views\Shared\_PersonalPostCodeSearch.cshtml" />
     <Content Include="Views\Shared\_FeedbackDetails.cshtml" />
     <Content Include="Views\Shared\_LayoutNhsUK.cshtml" />
-    <Content Include="Views\PersonalDetails\PersonalDetails.cshtml" />
     <Content Include="Views\Shared\_CommonHiddenFieldsDosViewModel.cshtml" />
     <Content Include="Views\Shared\_CommonHiddenFieldsAddressInfoViewModel.cshtml" />
     <Content Include="Views\Outcome\Confirmation\default\Confirmation.cshtml" />
@@ -511,9 +511,9 @@
     <Content Include="Views\RegisterForSMS\Too_Many_Requests_SMS.cshtml" />
     <Content Include="Views\RegisterForSMS\Failure_SMS.cshtml" />
     <Content Include="Views\Help\Language.cshtml" />
-    <Content Include="Views\PersonalDetails\PhoneNumber.cshtml" />
     <Content Include="Views\Outcome\Primary_Care\ITK_Primary_care_NER.cshtml" />
     <Content Include="Views\Outcome\Confirmation\ITK_Primary_care_NER\Confirmation.cshtml" />
+    <Content Include="Views\PersonalDetails\TelephoneNumber.cshtml" />
     <None Include="Web.Development.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
