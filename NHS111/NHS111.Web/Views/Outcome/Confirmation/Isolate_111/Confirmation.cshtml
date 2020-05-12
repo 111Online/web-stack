@@ -9,7 +9,7 @@
     Model.ItkConfirmationModel.WorseningCareAdvice.Items.Add(new CareAdviceText { Text = "You don't need to send any further requests for a callback. However, if you feel worse whilst you are waiting, please call 111 now." });
     var tagPrinter = new AnalyticsTagPrinter();
 
-    var isPaediatricPathway = Model.ItkConfirmationModel.PathwayNo.Equals("PW1852");
+    var isPaediatricPathway = Model.ItkConfirmationModel.PathwayId.ToLower().Contains("child");
 }
 @section Title {
     @Model.PageTitle
