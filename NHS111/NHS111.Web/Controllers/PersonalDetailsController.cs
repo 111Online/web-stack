@@ -8,6 +8,7 @@ using AutoMapper;
 using NHS111.Features;
 using NHS111.Models.Models.Web;
 using NHS111.Models.Models.Web.FromExternalServices;
+using NHS111.Models.Models.Web.PersonalDetails;
 using NHS111.Models.Models.Web.Validators;
 using NHS111.Web.Presentation.Builders;
 using NHS111.Web.Presentation.Logging;
@@ -133,20 +134,32 @@ namespace NHS111.Web.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> CurrentAddress(PersonalDetailViewModel model)
+        public ActionResult TelephoneNumber(PersonalDetailViewModel model)
         {
 
             if (!ModelState.IsValid)
             {
                 return View("~\\Views\\PersonalDetails\\PersonalDetails.cshtml", model);
             }
-            
-            if (_emailCollectionFeature.IsEnabled && (model.OutcomeGroup.IsCoronaVirus || model.OutcomeGroup.RequiresEmail))
+
+            return View("~\\Views\\PersonalDetails\\TelephoneNumber.cshtml", new TelephoneNumberViewModel(model));
+        }
+
+        [HttpPost]
+       
+        public async Task<ActionResult> CurrentAddress(TelephoneNumberViewModel model)
+        {
+            if (!ModelState.IsValid)
             {
-                return View("~\\Views\\PersonalDetails\\CollectEmailAddress.cshtml", model);
+                return View("~\\Views\\PersonalDetails\\PersonalDetails.cshtml", model.PersonalDetailsViewModel);
+            }
+            
+            if (_emailCollectionFeature.IsEnabled && (model.PersonalDetailsViewModel.OutcomeGroup.IsCoronaVirus || model.PersonalDetailsViewModel.OutcomeGroup.RequiresEmail))
+            {
+                return View("~\\Views\\PersonalDetails\\CollectEmailAddress.cshtml", Mapper.Map<TelephoneNumberViewModel, PersonalDetailViewModel>(model));
             }
 
-            return await DirectToPopulatedCurrentAddressPicker(model);
+            return await DirectToPopulatedCurrentAddressPicker(Mapper.Map<TelephoneNumberViewModel, PersonalDetailViewModel>(model));
         }
 
         [HttpPost]

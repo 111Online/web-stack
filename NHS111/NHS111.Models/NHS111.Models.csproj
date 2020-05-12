@@ -181,6 +181,7 @@
     <Compile Include="Mappers\WebMappings\DataCaptureApiRequestMappings.cs" />
     <Compile Include="Mappers\WebMappings\FromServiceViewModelToRecommendedServiceViewModelMapper.cs" />
     <Compile Include="Mappers\WebMappings\FromSystemDayOfWeekToDosDayOfWeek.cs" />
+    <Compile Include="Mappers\WebMappings\FromTelephoneNumberViewModelToPersonalDetailsViewModel.cs" />
     <Compile Include="Models\Business\Caching\AnswersCacheKey.cs" />
     <Compile Include="Models\Business\Caching\CacheKeyBase.cs" />
     <Compile Include="Models\Business\Caching\CareAdviceCacheKey.cs" />
@@ -251,6 +252,7 @@
     <Compile Include="Models\Web\DosRequests\DosServicesByClinicalTermRequest.cs" />
     <Compile Include="Models\Web\Elements\LinkSummaryViewModel.cs" />
     <Compile Include="Models\Web\IKTPrimaryCareOutComeViewModelExtenion.cs" />
+    <Compile Include="Models\Web\PersonalDetails\TelephoneNumberViewModel.cs" />
     <Compile Include="Models\Web\Validators\EmailAddressViewModelValidator.cs" />
     <Compile Include="Models\Web\EmergencyAlertViewModel.cs" />
     <Compile Include="Models\Web\Enums\EventType.cs" />
@@ -366,6 +368,7 @@
     <Compile Include="Models\Web\Validators\PersonNameValidator.cs" />
     <Compile Include="Models\Web\Validators\PublicAuditViewModelValidator.cs" />
     <Compile Include="Models\Web\Validators\QuestionViewModelValidator.cs" />
+    <Compile Include="Models\Web\Validators\TelephoneNumberValidator.cs" />
     <Compile Include="Models\Web\Validators\VerificationCodeInputViewModelValidator.cs" />
     <Compile Include="Models\Web\Validators\RuleBuilderExtensions\RuleBuilderExtensions.cs" />
     <Compile Include="Models\Web\ServiceViewModel.cs" />
