@@ -4,6 +4,7 @@ using System.Globalization;
 using System.Linq.Expressions;
 using System.Web.Mvc;
 using FluentValidation.Validators;
+using NHS111.Models.Models.Web.PersonalDetails;
 
 namespace NHS111.Models.Models.Web.Validators
 {
@@ -17,7 +18,7 @@ namespace NHS111.Models.Models.Web.Validators
 
         protected override bool IsValid(PropertyValidatorContext context)
         {
-            var userInfo = context.Instance as UserInfo;
+            var userInfo = context.Instance as DateOfBirthViewModel;
             if (userInfo != null) return IsAValidDate(userInfo.Day, userInfo.Month, userInfo.Year);
 
             var dateTimeViewModel = context.Instance as DateTimeViewModel;

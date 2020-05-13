@@ -1,6 +1,6 @@
 ﻿@using NHS111.Models.Models.Web
 @using NHS111.Models.Models.Web.ITK
-@inherits NHS111.Web.Views.Shared.SurveyLinkView<PersonalDetailViewModel>
+@inherits NHS111.Web.Views.Shared.SurveyLinkView<NHS111.Models.Models.Web.PersonalDetails.DateOfBirthViewModel>
 @{
     Layout = "~/Views/Shared/_LayoutNhsUk.cshtml";
 }
@@ -10,9 +10,9 @@
 }
 
 @section HeadTop {
-    @{ var url = string.Format("/outcome/{0}/{1}/{2}/itk/personaldetails/{3}/{4}", Url.Encode(Model.PathwayNo), Url.Encode(Model.OutcomeGroup.Text), Url.Encode(Model.Id), Url.Encode(Model.SelectedServiceId), Model.OutcomeGroup.IsCoronaVirus ? "Covid-Test-kit" : Url.Encode(Model.SelectedService.Name)); }
+    @{ var url = string.Format("/outcome/{0}/{1}/{2}/itk/personaldetails/{3}/{4}", Url.Encode(Model.PersonalDetailsViewModel.PathwayNo), Url.Encode(Model.PersonalDetailsViewModel.OutcomeGroup.Text), Url.Encode(Model.PersonalDetailsViewModel.Id), Url.Encode(Model.PersonalDetailsViewModel.SelectedServiceId), Model.PersonalDetailsViewModel.OutcomeGroup.IsCoronaVirus ? "Covid-Test-kit" : Url.Encode(Model.PersonalDetailsViewModel.SelectedService.Name)); }
     <script>
-        var pageId = '@Model.Id';
+        var pageId = '@Model.PersonalDetailsViewModel.Id';
         dataLayer = [
         {
             'virtualPageUrl': '@url',
@@ -27,17 +27,18 @@
 }
 
 @section FeedbackSection {
-    @Html.Partial("_FeedbackDetails", new FeedbackViewModel() { UserId = Model.SessionId.ToString(), PageData = new PageDataViewModel(PageDataViewModel.PageType.PersonalDetails, Model) })
+    @Html.Partial("_FeedbackDetails", new FeedbackViewModel() { UserId = Model.PersonalDetailsViewModel.SessionId.ToString(), PageData = new PageDataViewModel(PageDataViewModel.PageType.PersonalDetails, Model.PersonalDetailsViewModel) })
 }
 
 <div class="nhsuk-core">
     @using (Html.BeginForm("TelephoneNumber", "PersonalDetails", FormMethod.Post, new { id = "phoneNumberForm" }))
     {
-        @Html.Partial("_CommonHiddenFieldsOutcomeViewModel", Model)
-        @Html.Partial("_CommonHiddenFieldsCareAdviceViewModel", Model)
-        @Html.Partial("_CommonHiddenFieldsPersonalDetails", Model);
-        @Html.HiddenFor(m => m.SelectedServiceId)
-        @Html.HiddenFor(m => m.UserInfo.TelephoneNumber)
+        @Html.Partial("_CommonHiddenFieldsOutcomeViewModel", Model.PersonalDetailsViewModel, new ViewDataDictionary { TemplateInfo = new System.Web.Mvc.TemplateInfo { HtmlFieldPrefix = "PersonalDetailsViewModel" } })
+        @Html.Partial("_CommonHiddenFieldsCareAdviceViewModel", Model.PersonalDetailsViewModel, new ViewDataDictionary { TemplateInfo = new System.Web.Mvc.TemplateInfo { HtmlFieldPrefix = "PersonalDetailsViewModel" } })
+        @Html.Partial("_CommonHiddenFieldsPersonalDetails", Model.PersonalDetailsViewModel, new ViewDataDictionary { TemplateInfo = new System.Web.Mvc.TemplateInfo { HtmlFieldPrefix = "PersonalDetailsViewModel" } })
+        @Html.HiddenFor(m => m.PersonalDetailsViewModel.SelectedServiceId)
+        @Html.HiddenFor(m => m.PersonalDetailsViewModel.UserInfo.TelephoneNumber)
+      
 
         <section class="measure">
 
@@ -50,36 +51,36 @@
                             Date of birth
                         </h2>
                     </legend>
-                    @if (Model.PatientInformantDetails.Informant != NHS111.Models.Models.Web.InformantType.Self)
+                    @if (Model.PersonalDetailsViewModel.PatientInformantDetails.Informant != NHS111.Models.Models.Web.InformantType.Self)
                     {
                         <p class="form-info">If you're doing this for someone else enter their date of birth.</p>
                     }
                     <div>
-                        @Html.ValidationMessageFor(m => m.UserInfo.DoB)
+                        @Html.ValidationMessageFor(m => m.DoB)
                         <div class="form-group--inline">
-                            <label for="@Html.IdFor(m => m.UserInfo.Day)">Day</label>
-                            @Html.TextBoxFor(m => m.UserInfo.Day, new { @class = "form-control form-textbox js-validate-number", placeholder = "DD", inputmode = "numeric", pattern = "[0-9]+", maxlength = "2" })
+                            <label for="@Html.IdFor(m => m.Day)">Day</label>
+                            @Html.TextBoxFor(m => m.Day, new { @class = "form-control form-textbox js-validate-number", placeholder = "DD", inputmode = "numeric", pattern = "[0-9]+", maxlength = "2" })
                         </div>
                         <div class="form-group--inline">
-                            <label for="@Html.IdFor(m => m.UserInfo.Month)">Month</label>
-                            @Html.TextBoxFor(m => m.UserInfo.Month, new { @class = "form-control form-textbox js-validate-number", placeholder = "MM", inputmode = "numeric", pattern = "[0-9]+", maxlength = "2" })
+                            <label for="@Html.IdFor(m => m.Month)">Month</label>
+                            @Html.TextBoxFor(m => m.Month, new { @class = "form-control form-textbox js-validate-number", placeholder = "MM", inputmode = "numeric", pattern = "[0-9]+", maxlength = "2" })
                         </div>
                         <div class="form-group--inline">
-                            <label for="@Html.IdFor(m => m.UserInfo.Year)">Year</label>
-                            @Html.TextBoxFor(m => m.UserInfo.Year, new { @class = "form-control form-textbox js-validate-number", placeholder = "YYYY", inputmode = "numeric", pattern = "[0-9]+", maxlength = "4" })
+                            <label for="@Html.IdFor(m => m.Year)">Year</label>
+                            @Html.TextBoxFor(m => m.Year, new { @class = "form-control form-textbox js-validate-number", placeholder = "YYYY", inputmode = "numeric", pattern = "[0-9]+", maxlength = "4" })
                         </div>
-                        @Html.HiddenFor(m => m.UserInfo.DoB, new { @class = "validate-hidden" })
+                        @Html.HiddenFor(m => m.DoB, new { @class = "validate-hidden" })
                     </div>
                 </fieldset>
             </div>
-            @Html.Partial("_CommonHiddenFieldsPersonalDetails", Model)
+            @Html.Partial("_CommonHiddenFieldsPersonalDetails", Model.PersonalDetailsViewModel)
 
             <script type="text/javascript">
                 jQuery(function () {
                     var formSubmitted = false;
-                    var dayEl = $('#UserInfo_Day');
-                    var monthEl = $('#UserInfo_Month');
-                    var yearEl = $('#UserInfo_Year');
+                    var dayEl = $('#Day');
+                    var monthEl = $('#Month');
+                    var yearEl = $('#Year');
 
                     AddAdapter('day');
                     AddAdapter('month');
@@ -208,17 +209,17 @@
                     });
 
 
-                    jQuery('#UserInfo_Day, #UserInfo_Month, #UserInfo_Year').on('input', function () {
+                    jQuery('#Day, #Month, #Year').on('input', function () {
                         // This ensures the validation triggers once they've reached the maxlength
                         // this means they can see the validation message without needing to know to leave
                         // the field while ensuring it doesn't come up the moment they start typing.
                         if (this.value.length === this.maxLength) {
-                            jQuery("#UserInfo_DoB").valid();
+                            jQuery("#DoB").valid();
                         }
                     });
 
-                    jQuery('#UserInfo_Day, #UserInfo_Month, #UserInfo_Year').on('blur', function () {
-                        jQuery("#UserInfo_DoB").valid();
+                    jQuery('#Day, #Month, #Year').on('blur', function () {
+                        jQuery("#DoB").valid();
                     });
 
 
@@ -227,7 +228,7 @@
                     })
 
                     function setDateGroupErrorStyles(dateIsValid) {
-                        jQuery("#UserInfo_DoB").closest(".form-group").toggleClass("form-group-error", !dateIsValid);
+                        jQuery("#DoB").closest(".form-group").toggleClass("form-group-error", !dateIsValid);
 
                         // Validation override ensures if one field in a group errors then a specific
                         // error message shows from one field for all the others without showing all in red.
@@ -236,9 +237,9 @@
                         // errors then all are shown in red.
                         // Example: 29/02/2019 (not leap year) should show all as error and show the same label as above.
                         if (!isValid(dayEl) || !isValid(monthEl) || !isValid(yearEl))
-                            jQuery("#UserInfo_DoB").closest(".form-group").toggleClass("form-group-validation-override-error-all", false);
+                            jQuery("#DoB").closest(".form-group").toggleClass("form-group-validation-override-error-all", false);
                         else
-                            jQuery("#UserInfo_DoB").closest(".form-group").toggleClass("form-group-validation-override-error-all", !dateIsValid);
+                            jQuery("#DoB").closest(".form-group").toggleClass("form-group-validation-override-error-all", !dateIsValid);
                     }
 
                 })
