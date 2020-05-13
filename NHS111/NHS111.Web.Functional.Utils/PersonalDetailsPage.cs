@@ -98,6 +98,11 @@ namespace NHS111.Web.Functional.Utils
             Driver.FindElement(By.Id("TelephoneNumber")).SendKeys(phone);
         }
 
+        public void EnterPhoneNumberOnSeparatePage(string phone)
+        {
+            Driver.FindElement(By.Id("TelephoneNumber")).SendKeys(phone);
+        }
+
         public PersonalDetailsPage SubmitPersonalDetails()
         {
             Driver.FindElement(By.Id("submitDetails")).Click();
