@@ -38,11 +38,6 @@
         @Html.HiddenFor(m => m.SelectedServiceId)
         @Html.HiddenFor(m=> m.UserInfo.TelephoneNumber)
         @Html.HiddenFor(m=> m.UserInfo.DoB)
-        <div class="local-header">
-            <h1 class="local-header__title">
-                Enter details
-            </h1>
-        </div>
         <section class="measure">
             <div class="form-group @(@ViewData.ModelState.IsValidField("PatientInformantDetails.Informant") ? "" : "form-group-error")">
                 <fieldset>
