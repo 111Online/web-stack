@@ -83,7 +83,6 @@
             var callbackPage = NavigateTo999Cat4(dosScenario.Postcode);
             callbackPage.VerifyIsCallbackAcceptancePage();
             var personalDetailsPage = callbackPage.AcceptCallback();
-            personalDetailsPage.VerifyIsPersonalDetailsPage();
 
             var result = await _testBench.Verify(dosScenario);
         }
