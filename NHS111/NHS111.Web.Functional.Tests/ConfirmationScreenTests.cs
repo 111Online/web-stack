@@ -27,42 +27,54 @@ namespace NHS111.Web.Functional.Tests
                 .Answer(1)
                 .Answer<OutcomePage>(3);
 
+            Driver.FindElement(By.XPath("//input[@value = 'Dx05']"));
             outcomePage.VerifyOutcome("Contact your GP now");
 
             //need to click 'I can't get an appointment today link
             //need to select DoS ID 2000006999
+            outcomePage.ClickCantGetAppointment();
+            Driver.FindElement(By.XPath("//input[@value = '2000006999']"));
+
 
             //var personalDetailsPage = //??
+            var personalDetailsPage = outcomePage.UseThisService();
 
-                    
-            //personalDetailsPage.VerifyIsPersonalDetailsPage();
-            //personalDetailsPage.VerifyNameDisplayed();
-            //personalDetailsPage.VerifyNumberDisplayed();
-            //personalDetailsPage.VerifyDateOfBirthDisplayed();
+            personalDetailsPage.VerifyIsPersonalDetailsPage();
+            personalDetailsPage.SelectMe();
+            personalDetailsPage.EnterPatientName("Test1", "Tester1");
+            personalDetailsPage.EnterDateOfBirth("31", "07", "1980");
 
-            //personalDetailsPage.SelectMe();
-            //personalDetailsPage.EnterPatientName("Test1", "Tester1");
+            personalDetailsPage.VerifyNameDisplayed();
+            personalDetailsPage.VerifyDateOfBirthDisplayed();
 
-            //personalDetailsPage.EnterDateOfBirth("31", "07", "1980");
-            //personalDetailsPage.EnterPhoneNumber("07793346301");
+            var personalDetailsPhoneNumberPage = personalDetailsPage.SubmitPersonalDetails();
 
-            //var currentAddressPage = personalDetailsPage.SubmitPersonalDetails();
-            //currentAddressPage.VerifyHeading("Where are you right now?");
+            personalDetailsPhoneNumberPage.EnterPhoneNumberOnSeparatePage("07793346301");
+            personalDetailsPhoneNumberPage.VerifyNumberDisplayedOnSeparatePage();
 
-            //var addressID = "55629068"; 
-            //currentAddressPage.VerifyAddressDisplays(addressID);
+            var currentAddressPage = personalDetailsPhoneNumberPage.SubmitPersonalDetails();
 
-            //var atHomePage = currentAddressPage.ClickAddress(addressID);
-            //atHomePage.VerifyHeading("Are you at home?");
-            //atHomePage.SelectAtHomeYes();
+            currentAddressPage.VerifyHeading("Where are you right now?");
 
-            //var confirmDetails = personalDetailsPage.SubmitAtHome();
-            //confirmDetails.VerifyHeading("Check details");
+            var addressID = "55629068";
+            currentAddressPage.VerifyAddressDisplays(addressID);
+
+            var atHomePage = currentAddressPage.ClickAddress(addressID);
+            atHomePage.VerifyHeading("Are you at home?");
+            atHomePage.SelectAtHomeYes();
+
+            var confirmDetails = personalDetailsPage.SubmitAtHome();
+            confirmDetails.VerifyHeading("Check details");
             //need to submit call
+            var callConfirmationPage = confirmDetails.SubmitCall();
             //Verify text 
-            //resubmit
-            //Verify text 
+            callConfirmationPage.VerifyCallConfirmation();
 
+            //resubmit
+            callConfirmationPage.Driver.Navigate().Back();
+            var resubmitCallConfirmationPage = confirmDetails.SubmitCall();
+            //Verify text 
+            resubmitCallConfirmationPage.VerifyCallConfirmation();
         }
 
 

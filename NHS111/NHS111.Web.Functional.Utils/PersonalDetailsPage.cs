@@ -41,16 +41,23 @@ namespace NHS111.Web.Functional.Utils {
             Assert.IsTrue(nameHeading.Text == "Who needs help?");
         }
 
-        public void VerifyNumberDisplayed()
+        public void VerifyDateOfBirthDisplayed()
         {
             var nameHeading = SectionHeadings[1];
             Assert.IsTrue(nameHeading.Displayed);
             Assert.IsTrue(nameHeading.Text == "Date of birth");
         }
 
-        public void VerifyDateOfBirthDisplayed()
+        public void VerifyNumberDisplayed()
         {
             var nameHeading = SectionHeadings[2];
+            Assert.IsTrue(nameHeading.Displayed);
+            Assert.IsTrue(nameHeading.Text == "What number should we call?");
+        }
+
+        public void VerifyNumberDisplayedOnSeparatePage()
+        {
+            var nameHeading = SectionHeadings[0];
             Assert.IsTrue(nameHeading.Displayed);
             Assert.IsTrue(nameHeading.Text == "What number should we call?");
         }
@@ -98,6 +105,11 @@ namespace NHS111.Web.Functional.Utils {
         public void EnterPhoneNumber(string phone)
         {
             Driver.FindElement(By.Id("UserInfo_TelephoneNumber")).SendKeys(phone);
+        }
+
+        public void EnterPhoneNumberOnSeparatePage(string phone)
+        {
+            Driver.FindElement(By.Id("TelephoneNumber")).SendKeys(phone);
         }
 
         public PersonalDetailsPage SubmitPersonalDetails()
@@ -158,6 +170,21 @@ namespace NHS111.Web.Functional.Utils {
         {
             Driver.FindElement(By.Id("changeHomeAddressPostcode")).Click();
             return new PersonalDetailsPage(Driver);
+        }
+
+        public PersonalDetailsPage SubmitCall()
+        {
+            Driver.FindElement(By.Id("book-call")).Click();
+            return new PersonalDetailsPage(Driver);
+        }
+
+        public void VerifyCallConfirmation()
+        {
+            VerifyHeading("Your call is confirmed");
+            var firstSectionHeading = Driver.FindElement(By.ClassName("local-header__intro"));
+            Assert.IsTrue(firstSectionHeading.Text == "If you haven't had a call within 2 hours, please call 111");
+            var secondSectionHeading = Driver.FindElement(By.ClassName("care-advice"));
+            Assert.IsTrue(secondSectionHeading.Text.Contains("What you can do in the meantime"));
         }
     }
 }
