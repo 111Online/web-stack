@@ -16,7 +16,7 @@
         dataLayer = [
         {
             'virtualPageUrl': '@url',
-            'virtualPageTitle': 'Personal Details - Enter phone number'
+            'virtualPageTitle': 'Personal Details - Enter date of birth'
         }];
     </script>
 }
@@ -31,7 +31,7 @@
 }
 
 <div class="nhsuk-core">
-    @using (Html.BeginForm("TelephoneNumber", "PersonalDetails", FormMethod.Post, new { id = "phoneNumberForm" }))
+    @using (Html.BeginForm("TelephoneNumber", "PersonalDetails", FormMethod.Post, new { id = "dateOfBirthForm" }))
     {
         @Html.Partial("_CommonHiddenFieldsOutcomeViewModel", Model.PersonalDetailsViewModel, new ViewDataDictionary { TemplateInfo = new System.Web.Mvc.TemplateInfo { HtmlFieldPrefix = "PersonalDetailsViewModel" } })
         @Html.Partial("_CommonHiddenFieldsCareAdviceViewModel", Model.PersonalDetailsViewModel, new ViewDataDictionary { TemplateInfo = new System.Web.Mvc.TemplateInfo { HtmlFieldPrefix = "PersonalDetailsViewModel" } })
@@ -47,9 +47,18 @@
             <div class="form-group @(validDate ? "" : "form-group-error") form-group-validation-override">
                 <fieldset>
                     <legend class="nhsuk-fieldset__legend nhsuk-fieldset__legend--l nhsuk-u-margin-bottom-4">
-                        <h2 class="nhsuk-fieldset__heading">
-                            Date of birth
-                        </h2>
+                        @if (Model.PersonalDetailsViewModel.PatientInformantDetails.Informant == NHS111.Models.Models.Web.InformantType.Self)
+                        {
+                            <h2 class="nhsuk-fieldset__heading">
+                                What is your date of birth?
+                            </h2>
+                        }
+                        else
+                        {
+                            <h2 class="nhsuk-fieldset__heading">
+                                What is their date of birth?
+                            </h2>
+                        }
                     </legend>
                     @if (Model.PersonalDetailsViewModel.PatientInformantDetails.Informant != NHS111.Models.Models.Web.InformantType.Self)
                     {
@@ -223,7 +232,7 @@
                     });
 
 
-                    jQuery("#personalDetailForm").on("submit", function () {
+                    jQuery("#dateOfBirthForm").on("submit", function () {
                         formSubmitted = true;
                     })
 

@@ -27,12 +27,6 @@ namespace NHS111.Web.Functional.Utils {
             Assert.AreEqual(headertext, Header.Text);
         }
 
-        public void VerifyIsPersonalDetailsPage()
-        {
-            VerifyHeading("Enter details");
-        }
-
-
 
         public void VerifyNameDisplayed()
         {
@@ -40,14 +34,6 @@ namespace NHS111.Web.Functional.Utils {
             Assert.IsTrue(nameHeading.Displayed);
             Assert.IsTrue(nameHeading.Text == "Who needs help?");
         }
-
-        public void VerifyDateOfBirthDisplayed()
-        {
-            var nameHeading = SectionHeadings[1];
-            Assert.IsTrue(nameHeading.Displayed);
-            Assert.IsTrue(nameHeading.Text == "Date of birth");
-        }
-
 
         public void SelectMe()
         {
@@ -82,13 +68,6 @@ namespace NHS111.Web.Functional.Utils {
             Driver.FindElement(By.Id("PatientInformantDetails_InformantName_Surname")).SendKeys(surname);
         }
 
-        public void EnterDateOfBirth(string date, string month, string year)
-        {
-            Driver.FindElement(By.Id("UserInfo_Day")).SendKeys(date);
-            Driver.FindElement(By.Id("UserInfo_Month")).SendKeys(month);
-            Driver.FindElement(By.Id("UserInfo_Year")).SendKeys(year);
-        }
-
         public void EnterPhoneNumber(string phone)
         {
             Driver.FindElement(By.Id("UserInfo_TelephoneNumber")).SendKeys(phone);
@@ -99,10 +78,10 @@ namespace NHS111.Web.Functional.Utils {
             Driver.FindElement(By.Id("submitDetails")).Click();
             return new PersonalDetailsPage(Driver);
         }
-        public TelephoneNumberPage SubmitNameAndDoBDetails()
+        public DateOfBirthPage SubmitNameDetails()
         {
             Driver.FindElement(By.Id("submitDetails")).Click();
-            return new TelephoneNumberPage(Driver);
+            return new DateOfBirthPage(Driver);
         }
 
         public void VerifyAddressDisplays(string id)
