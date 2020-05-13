@@ -27,8 +27,7 @@ namespace NHS111.Web.Functional.Utils {
         {
             var nameHeading = SectionHeadings[0];
             Assert.IsTrue(nameHeading.Displayed);
-
-            if (Driver.FindElement(By.Id("PatientInformantDetails_Informant")).Text == "Self")
+            if (Driver.FindElement(By.Id("PersonalDetailsViewModel_PatientInformantDetails_Informant")).GetAttribute("value") == "Self")
             {
                 Assert.AreEqual(nameHeading.Text, "What is your date of birth?");
             } else
@@ -39,10 +38,9 @@ namespace NHS111.Web.Functional.Utils {
 
         public void EnterDateOfBirth(string date, string month, string year)
         {
-            var thing = By.Id("UserInfo_Day");
-            Driver.FindElement(By.Id("UserInfo_Day")).SendKeys(date);
-            Driver.FindElement(By.Id("UserInfo_Month")).SendKeys(month);
-            Driver.FindElement(By.Id("UserInfo_Year")).SendKeys(year);
+            Driver.FindElement(By.Id("Day")).SendKeys(date);
+            Driver.FindElement(By.Id("Month")).SendKeys(month);
+            Driver.FindElement(By.Id("Year")).SendKeys(year);
         }
 
         public TelephoneNumberPage SubmitDateOfBirth()

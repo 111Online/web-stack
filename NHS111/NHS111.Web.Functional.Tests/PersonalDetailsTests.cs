@@ -23,7 +23,6 @@ namespace NHS111.Web.Functional.Tests
             var referralExplanationPage = recommendedServicePage.ClickActionLink();
             var personalDetailsPage = referralExplanationPage.ClickButton();
 
-            personalDetailsPage.VerifyIsPersonalDetailsPage();
         }
 
 
@@ -32,7 +31,6 @@ namespace NHS111.Web.Functional.Tests
         {
             var personalDetailsPage = TestScenerios.LaunchPersonalDetailsScenario(Driver, "Diabetes Blood Sugar Problem (Declared)", TestScenerioSex.Male, TestScenerioAgeGroups.Adult, "sk10 3de");
 
-            personalDetailsPage.VerifyIsPersonalDetailsPage();
             personalDetailsPage.VerifyNameDisplayed();
 
             personalDetailsPage.SelectMe();
@@ -66,7 +64,6 @@ namespace NHS111.Web.Functional.Tests
         {
             var personalDetailsPage = TestScenerios.LaunchPersonalDetailsScenario(Driver, "Diabetes Blood Sugar Problem (Declared)", TestScenerioSex.Male, TestScenerioAgeGroups.Adult, "sk10 3de");
 
-            personalDetailsPage.VerifyIsPersonalDetailsPage();
             personalDetailsPage.VerifyNameDisplayed();
 
             personalDetailsPage.SelectSomeoneElse();
@@ -102,7 +99,6 @@ namespace NHS111.Web.Functional.Tests
         {
             var personalDetailsPage = TestScenerios.LaunchPersonalDetailsScenario(Driver, "Diabetes Blood Sugar Problem (Declared)", TestScenerioSex.Male, TestScenerioAgeGroups.Adult, "sk10 3de");
 
-            personalDetailsPage.VerifyIsPersonalDetailsPage();
             personalDetailsPage.VerifyNameDisplayed();
             
             personalDetailsPage.SelectMe();
@@ -138,7 +134,6 @@ namespace NHS111.Web.Functional.Tests
         {
             var personalDetailsPage = TestScenerios.LaunchPersonalDetailsScenario(Driver, "Diabetes Blood Sugar Problem (Declared)", TestScenerioSex.Male, TestScenerioAgeGroups.Adult, "sk10 3de");
 
-            personalDetailsPage.VerifyIsPersonalDetailsPage();
             personalDetailsPage.VerifyNameDisplayed();
 
             personalDetailsPage.SelectSomeoneElse();
@@ -174,7 +169,6 @@ namespace NHS111.Web.Functional.Tests
         {
             var personalDetailsPage = TestScenerios.LaunchPersonalDetailsScenario(Driver, "Diabetes Blood Sugar Problem (Declared)", TestScenerioSex.Male, TestScenerioAgeGroups.Adult, "sk10 3de");
 
-            personalDetailsPage.VerifyIsPersonalDetailsPage();
             personalDetailsPage.VerifyNameDisplayed();
 
             personalDetailsPage.SelectSomeoneElse();

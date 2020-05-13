@@ -27,10 +27,6 @@ namespace NHS111.Web.Functional.Utils {
             Assert.AreEqual(headertext, Header.Text);
         }
 
-        public void VerifyIsPersonalDetailsPage()
-        {
-            VerifyHeading("Enter details");
-        }
 
         public void VerifyNameDisplayed()
         {
