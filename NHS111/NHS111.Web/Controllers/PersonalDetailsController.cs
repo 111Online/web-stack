@@ -146,15 +146,17 @@ namespace NHS111.Web.Controllers
         }
 
         [HttpPost]
-        public ActionResult DateOfBirth(DateOfBirthViewModel model)
+        public ActionResult DateOfBirth(PersonalDetailViewModel model)
         {
+
             if (!ModelState.IsValid)
             {
-                return View("~\\Views\\PersonalDetails\\PersonalDetails.cshtml", model.PersonalDetailsViewModel);
+                return View("~\\Views\\PersonalDetails\\PersonalDetails.cshtml", model);
             }
 
-            return View("~\\Views\\PersonalDetails\\DateOfBirth.cshtml", new DateOfBirthViewModel(Mapper.Map<DateOfBirthViewModel, PersonalDetailViewModel>(model)));
+            return View("~\\Views\\PersonalDetails\\DateOfBirth.cshtml", new DateOfBirthViewModel(model));
         }
+
 
         [HttpPost]
        

@@ -47,7 +47,7 @@
             <div class="form-group @(validDate ? "" : "form-group-error") form-group-validation-override">
                 <fieldset>
                     <legend class="nhsuk-fieldset__legend nhsuk-fieldset__legend--l nhsuk-u-margin-bottom-4">
-                        @if (Model.PatientInformantDetails.Informant == NHS111.Models.Models.Web.InformantType.Self)
+                        @if (Model.PersonalDetailsViewModel.PatientInformantDetails.Informant == NHS111.Models.Models.Web.InformantType.Self)
                         {
                             <h2 class="nhsuk-fieldset__heading">
                                 What is your date of birth?
