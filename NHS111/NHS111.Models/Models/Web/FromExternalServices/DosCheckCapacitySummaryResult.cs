@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using System.Collections.Generic;
+using Newtonsoft.Json;
 
 namespace NHS111.Models.Models.Web.FromExternalServices
 {
@@ -29,6 +30,26 @@ namespace NHS111.Models.Models.Web.FromExternalServices
         public bool ContainsService(DosService selectedService)
         {
             return !ResultListEmpty && selectedService != null && Success.Services.Exists(s => s.Id == selectedService.Id);
+        }
+
+        public bool ContainsServiceTypeById(int id)
+        {
+            return !ResultListEmpty && Success.Services
+                .Exists(s => s.ServiceType != null && s.ServiceType.Id == id);
+        }
+    }
+
+    public static class ServiceViewModelExtensions
+    {
+        public static List<ServiceViewModel> FilterByServiceTypeId(this List<ServiceViewModel> serviceViewModels, int id)
+        {
+            return serviceViewModels.FindAll(s => s.ServiceType.Id == id);
+        }
+
+
+        public static List<ServiceViewModel> FilterByOnlineDOSServiceType(this List<ServiceViewModel> serviceViewModels, OnlineDOSServiceType onlineDosServiceType)
+        {
+            return serviceViewModels.FindAll(s => s.OnlineDOSServiceType == onlineDosServiceType);
         }
     }
 }

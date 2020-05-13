@@ -40,19 +40,13 @@ namespace NHS111.Web.Functional.Utils
             Assert.IsTrue(nameHeading.Text == "Who needs help?");
         }
 
-        public void VerifyNumberDisplayed()
+        public void VerifyDateOfBirthDisplayed()
         {
             var nameHeading = SectionHeadings[1];
             Assert.IsTrue(nameHeading.Displayed);
             Assert.IsTrue(nameHeading.Text == "Date of birth");
         }
 
-        public void VerifyDateOfBirthDisplayed()
-        {
-            var nameHeading = SectionHeadings[2];
-            Assert.IsTrue(nameHeading.Displayed);
-            Assert.IsTrue(nameHeading.Text == "What number should we call?");
-        }
 
         public void SelectMe()
         {
@@ -103,6 +97,11 @@ namespace NHS111.Web.Functional.Utils
         {
             Driver.FindElement(By.Id("submitDetails")).Click();
             return new PersonalDetailsPage(Driver);
+        }
+        public TelephoneNumberPage SubmitNameAndDoBDetails()
+        {
+            Driver.FindElement(By.Id("submitDetails")).Click();
+            return new TelephoneNumberPage(Driver);
         }
 
         public void VerifyAddressDisplays(string id)

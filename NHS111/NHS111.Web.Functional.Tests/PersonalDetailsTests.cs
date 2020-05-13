@@ -31,16 +31,16 @@ namespace NHS111.Web.Functional.Tests
 
             personalDetailsPage.VerifyIsPersonalDetailsPage();
             personalDetailsPage.VerifyNameDisplayed();
-            personalDetailsPage.VerifyNumberDisplayed();
             personalDetailsPage.VerifyDateOfBirthDisplayed();
 
             personalDetailsPage.SelectMe();
             personalDetailsPage.EnterPatientName("Test1", "Tester1");
 
-            personalDetailsPage.EnterDateOfBirth("31", "07", "1980");
-            personalDetailsPage.EnterPhoneNumber("07793346301");
+            personalDetailsPage.EnterDateOfBirth("31", "07", "1980"); 
+            var telephoneNumberPage = personalDetailsPage.SubmitNameAndDoBDetails();
+            telephoneNumberPage.EnterPhoneNumber("07793346301");
 
-            var currentAddressPage = personalDetailsPage.SubmitPersonalDetails();
+            var currentAddressPage = telephoneNumberPage.SubmitTelephoneNumber();
             currentAddressPage.VerifyHeading("Where are you right now?");
 
             var addressID = "22180492"; // Belong Macclesfield, Kennedy Avenue, Macclesfield, Cheshire, SK10 3DE
@@ -63,16 +63,17 @@ namespace NHS111.Web.Functional.Tests
 
             personalDetailsPage.VerifyIsPersonalDetailsPage();
             personalDetailsPage.VerifyNameDisplayed();
-            personalDetailsPage.VerifyNumberDisplayed();
             personalDetailsPage.VerifyDateOfBirthDisplayed();
 
             personalDetailsPage.SelectSomeoneElse();
             personalDetailsPage.EnterPatientName("Test1", "Tester1");
             personalDetailsPage.EnterThirdPartyName("Test2", "Tester2");
-            personalDetailsPage.EnterDateOfBirth("31", "07", "1980");
-            personalDetailsPage.EnterPhoneNumber("07793346301");
+            personalDetailsPage.EnterDateOfBirth("31", "07", "1980"); 
+            
+            var telephoneNumberPage = personalDetailsPage.SubmitNameAndDoBDetails();
+            telephoneNumberPage.EnterPhoneNumber("07793346301");
 
-            var currentAddressPage = personalDetailsPage.SubmitPersonalDetails();
+            var currentAddressPage = telephoneNumberPage.SubmitTelephoneNumber();
 
             currentAddressPage.VerifyHeading("Where are they right now?");
 
@@ -96,15 +97,16 @@ namespace NHS111.Web.Functional.Tests
 
             personalDetailsPage.VerifyIsPersonalDetailsPage();
             personalDetailsPage.VerifyNameDisplayed();
-            personalDetailsPage.VerifyNumberDisplayed();
             personalDetailsPage.VerifyDateOfBirthDisplayed();
 
             personalDetailsPage.SelectMe();
             personalDetailsPage.EnterPatientName("Test1", "Tester1");
             personalDetailsPage.EnterDateOfBirth("31", "07", "1980");
-            personalDetailsPage.EnterPhoneNumber("07793346301");
 
-            var currentAddressPage = personalDetailsPage.SubmitPersonalDetails();
+            var telephoneNumberPage = personalDetailsPage.SubmitNameAndDoBDetails();
+            telephoneNumberPage.EnterPhoneNumber("07793346301");
+
+            var currentAddressPage = telephoneNumberPage.SubmitTelephoneNumber();
             currentAddressPage.VerifyHeading("Where are you right now?");
 
             var addressID = "22180497"; // 109 Kennedy Avenue, Macclesfield, Cheshire, SK10 3DE
@@ -130,16 +132,16 @@ namespace NHS111.Web.Functional.Tests
 
             personalDetailsPage.VerifyIsPersonalDetailsPage();
             personalDetailsPage.VerifyNameDisplayed();
-            personalDetailsPage.VerifyNumberDisplayed();
             personalDetailsPage.VerifyDateOfBirthDisplayed();
 
             personalDetailsPage.SelectSomeoneElse();
             personalDetailsPage.EnterPatientName("Test1", "Tester1");
             personalDetailsPage.EnterThirdPartyName("Test2", "Tester2");
             personalDetailsPage.EnterDateOfBirth("31", "07", "1980");
-            personalDetailsPage.EnterPhoneNumber("07793346301");
+            var telephoneNumberPage = personalDetailsPage.SubmitNameAndDoBDetails();
+            telephoneNumberPage.EnterPhoneNumber("07793346301");
 
-            var currentAddressPage = personalDetailsPage.SubmitPersonalDetails();
+            var currentAddressPage = telephoneNumberPage.SubmitTelephoneNumber();
             currentAddressPage.VerifyHeading("Where are they right now?");
 
             var addressID = "22180496"; // 107 Kennedy Avenue, Macclesfield, Cheshire, SK10 3DE
@@ -163,16 +165,15 @@ namespace NHS111.Web.Functional.Tests
 
             personalDetailsPage.VerifyIsPersonalDetailsPage();
             personalDetailsPage.VerifyNameDisplayed();
-            personalDetailsPage.VerifyNumberDisplayed();
             personalDetailsPage.VerifyDateOfBirthDisplayed();
 
             personalDetailsPage.SelectSomeoneElse();
             personalDetailsPage.EnterPatientName("Test1", "Tester1");
             personalDetailsPage.EnterThirdPartyName("Test2", "Tester2");
             personalDetailsPage.EnterDateOfBirth("31", "07", "1980");
-            personalDetailsPage.EnterPhoneNumber("07793346301");
-
-            var currentAddressPage = personalDetailsPage.SubmitPersonalDetails();
+            var telephoneNumberPage = personalDetailsPage.SubmitNameAndDoBDetails();
+            telephoneNumberPage.EnterPhoneNumber("07793346301");
+            var currentAddressPage = telephoneNumberPage.SubmitTelephoneNumber();
             currentAddressPage.VerifyHeading("Where are they right now?");
 
             var checkAddressPage = currentAddressPage.ClickAddressNotListed();

@@ -11,6 +11,12 @@ namespace NHS111.Web.Functional.Utils
             return homepage;
         }
 
+        public static CovidHomePage CovidHomePage(IWebDriver driver)
+        {
+            var covidhomepage = new CovidHomePage(driver);
+            covidhomepage.Visit();
+            return covidhomepage;
+        }
 
         public static HomePage HomePage(IWebDriver driver, string medium)
         {

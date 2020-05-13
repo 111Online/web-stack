@@ -36,20 +36,10 @@ namespace NHS111.Models.Models.Web
             }
         }
 
-        private string _telephoneNumber;
         public string TelephoneNumber
         {
-            get
-            {
-                if (string.IsNullOrEmpty(_telephoneNumber)) return string.Empty;
-
-                _telephoneNumber = _telephoneNumber.Replace(" ", "");
-
-                _telephoneNumber = RemoveValidInternationalPrefix(_telephoneNumber);
-
-                return _telephoneNumber;
-            }
-            set { _telephoneNumber = value; }
+            get;
+            set;
         }
 
         private String RemoveValidInternationalPrefix(string telephoneNumber)

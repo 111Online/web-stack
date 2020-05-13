@@ -28,6 +28,7 @@ namespace NHS111.Web.Functional.Utils
             chromeOptions.AddArgument("--disable-browser-side-navigation"); //https://stackoverflow.com/a/49123152/1689770
             chromeOptions.AddArgument("--disable-gpu"); //https://stackoverflow.com/questions/51959986/how-to-solve-selenium-chromedriver-timed-out-receiving-message-from-renderer-exc
             Driver = new ChromeDriver(chromeOptions);
+            Driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(2);
         }
 
         [TestFixtureTearDown]

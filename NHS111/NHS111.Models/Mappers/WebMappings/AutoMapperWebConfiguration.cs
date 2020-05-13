@@ -20,6 +20,7 @@ namespace NHS111.Models.Mappers.WebMappings
                 cfg.AddProfile(new FromServiceViewModelToRecommendedServiceViewModelMapper());
                 cfg.AddProfile(new FromOutcomeViewModelToOtherServicesViewModel());
                 cfg.AddProfile(new DataCaptureApiRequestMappings());
+                cfg.AddProfile(new FromTelephoneNumberViewModelToPersonalDetailsViewModel());
             });
         }
     }

@@ -205,6 +205,7 @@
     <Compile Include="Attributes\LogHandleErrorForApiAttribute.cs" />
     <Compile Include="Attributes\LogHandleErrorForMVCAttribute.cs" />
     <Compile Include="Attributes\MultiSubmitAttribute.cs" />
+    <Compile Include="Extensions\HtmlHelperExtenstions.cs" />
     <Compile Include="Helpers\BrowserInfo.cs" />
     <Compile Include="Parser\KeywordCollector.cs" />
     <Compile Include="Logging\Log4Net.cs" />

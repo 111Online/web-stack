@@ -7,6 +7,7 @@ namespace NHS111.Web.Functional.Tests
     public class SMSRegistrationTests : BaseTests
     {
         [Test]
+        [Category("PreLive")]
         public void SMSRegistrationRegressionTest()
         {
             var covid19SMSRegistrationUrl = BaseUrl + "covid-19/sms";

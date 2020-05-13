@@ -1,0 +1,69 @@
+﻿﻿@using System.Web.Mvc.Html
+@using NHS111.Models.Models.Domain
+@using NHS111.Models.Models.Web
+@using NHS111.Web.Presentation.Analytics
+@inherits NHS111.Web.Views.Shared.SurveyLinkView<ReferralConfirmationResultViewModel>
+@{
+    Layout = "~/Views/Shared/_LayoutNhsUk.cshtml";
+    Model.ItkConfirmationModel.WorseningCareAdvice.Items.Add(new CareAdviceText { Text = "You don't need to send any further requests for a callback. However, if you feel worse whilst you are waiting, please call 111 now." });
+    var tagPrinter = new AnalyticsTagPrinter();
+}
+@section Title {
+    @Model.PageTitle
+}
+@section HeadTop {
+    <script>
+        @tagPrinter.Print(Model.AnalyticsDataLayer)
+    </script>
+}
+@{
+    var dataDictionary = ViewContext.ViewData;
+    dataDictionary.Add(new KeyValuePair<string, object>("LaunchPage", "confirmation"));
+}
+@section SurveyBanner{
+    @Html.Partial("_SurveyLink", Model.ItkConfirmationModel.SurveyLink, dataDictionary)
+}
+@section FeedbackSection {
+    @if (SurveyLinkFeature.IsEnabled)
+    {
+        @Html.Partial("_SurveyLink", Model.ItkConfirmationModel.SurveyLink, dataDictionary)
+    }
+    else
+    {
+        @Html.Partial("_FeedbackDetails", new FeedbackViewModel() { UserId = Model.ItkConfirmationModel.SessionId.ToString(), PageData = new PageDataViewModel(PageDataViewModel.PageType.Confirmation, Model.ItkConfirmationModel) })
+    }
+}
+<section class="nhsuk-core">
+        <h1 class="nhsuk-heading-xl">You’ll get a call today</h1>
+
+        <p>
+            The pharmacist will call @Model.OutcomeModel.UserInfo.TelephoneNumber. The number might show as ‘unknown’ on your display.
+        </p>
+
+        <h2 class="nhsuk-heading-l">
+            What happens next
+        </h2>
+
+        <p>
+            You’re in the call back queue, and will be spoken to during the working
+            day, or early evening.
+        </p>
+
+        <p>
+            The pharmacist will try 3 times to get in touch with you. They’ll cancel
+            the request if they can’t get through.
+        </p>
+
+        <p class="nhsuk-u-margin-bottom-10">
+            They’ll know the reason why you booked the call, but might ask you some more
+            questions so they can give you the right help.
+        </p>
+        
+    <hr class="nhsuk-u-margin-top-6" />
+
+    @Html.Partial("_rs_CareAdvice", Model.ItkConfirmationModel.CareAdvices)
+
+</section>
+
+   
+

@@ -32,6 +32,8 @@ namespace NHS111.Models.Models.Domain
         public static OutcomeGroup ClinicianCallBack = new OutcomeGroup { Id = "ITK_Clinician_call_back", Text = "ITK_Clinician_call_back", AutomaticSelectionOfItkResult = true, DefaultTitle = "Based on your answers, we recommend that you speak to a clinician", Label = "Healthcare services", ITK = true };
 
         public static OutcomeGroup ItkPrimaryCare = new OutcomeGroup { Id = "ITK_Primary_care", Text = "ITK_Primary_care", PostcodeFirst = true, CanPatientsRegisterWithService = true, DefaultTitle = "Based on your answers, we recommend you speak to a healthcare service" };
+        
+        public static OutcomeGroup ItkPrimaryCareNer = new OutcomeGroup { Id = "ITK_Primary_care_NER", Text = "ITK_Primary_care_NER", PostcodeFirst = true, CanPatientsRegisterWithService = true, DefaultTitle = "Based on your answers, we recommend you speak to a healthcare service" };
 
         public static OutcomeGroup Call999Police = new OutcomeGroup { Id = "Call_999_police", Text = "Call_999_police", DefaultTitle = "Your answers suggest you should dial 999 now for the police" };
 
@@ -82,8 +84,8 @@ namespace NHS111.Models.Models.Domain
         public static OutcomeGroup Verify_SMS = new OutcomeGroup { Id = "Verify_SMS", Text = "Verify_SMS", DefaultTitle = "Verify sms service", Label = "No further action", PostcodeFirst = false, ITK = false, RequiresEmail = false };
         #endregion
 
-        public static OutcomeGroup[] PrePopulatedDosResultsOutcomeGroups = new OutcomeGroup[] { Dental, ItkPrimaryCare, GP, MentalHealth, AccidentAndEmergency, ClinicianCallBack, Call999Cat3, Call999Cat4, RepeatPrescription, Isolate111 };
-        public static OutcomeGroup[] DosSearchOutcomesGroups = new OutcomeGroup[] { MentalHealth, AccidentAndEmergency, AccidentAndEmergencySexualAssault, Optician, Pharmacy, GumClinic, Dental, EmergencyDental, Midwife, ItkPrimaryCare, ClinicianCallBack };
+        public static OutcomeGroup[] PrePopulatedDosResultsOutcomeGroups = new OutcomeGroup[] {Dental, ItkPrimaryCare, ItkPrimaryCareNer, GP, MentalHealth, AccidentAndEmergency, ClinicianCallBack, Call999Cat3, Call999Cat4, RepeatPrescription, Isolate111 };
+        public static OutcomeGroup[] DosSearchOutcomesGroups = new OutcomeGroup[] { MentalHealth, AccidentAndEmergency, AccidentAndEmergencySexualAssault, Optician, Pharmacy, GumClinic, Dental, EmergencyDental, Midwife, ItkPrimaryCare, ItkPrimaryCareNer, ClinicianCallBack };
         public static OutcomeGroup[] UsingRecommendedServiceJourney = new[] { RepeatPrescription };
         public static OutcomeGroup[] UsingOutcomePreamble = new[] { RepeatPrescription };
 
@@ -91,6 +93,7 @@ namespace NHS111.Models.Models.Domain
         {
             { ClinicianCallBack.Id, ClinicianCallBack},
             { ItkPrimaryCare.Id, ItkPrimaryCare},
+            { ItkPrimaryCareNer.Id, ItkPrimaryCareNer},
             { Call999Cat1.Id, Call999Cat1 },
             { Call999Cat2.Id, Call999Cat2 },
             { Call999Cat3.Id, Call999Cat3 },
@@ -186,7 +189,7 @@ namespace NHS111.Models.Models.Domain
 
         public bool IsPrimaryCare
         {
-            get { return this.Equals(OutcomeGroup.ItkPrimaryCare) || this.Equals(OutcomeGroup.GP); }
+            get { return this.Equals(OutcomeGroup.ItkPrimaryCare) || this.Equals(OutcomeGroup.ItkPrimaryCareNer) || this.Equals(OutcomeGroup.GP); }
         }
 
         public bool IsUsingRecommendedService
