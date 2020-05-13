@@ -104,9 +104,8 @@ namespace NHS111.Models.Mappers.WebMappings
                         MapAddress(personalDetailViewModel.AddressInformation.PatientHomeAddress);
                 }
             }
-            if (personalDetailViewModel.UserInfo.Year != null && personalDetailViewModel.UserInfo.Month != null && personalDetailViewModel.UserInfo.Day != null)
-                patientDetails.DateOfBirth =
-                    new DateTime(personalDetailViewModel.UserInfo.Year.Value, personalDetailViewModel.UserInfo.Month.Value, personalDetailViewModel.UserInfo.Day.Value);
+            if (personalDetailViewModel.UserInfo.DoB.HasValue)
+                patientDetails.DateOfBirth = personalDetailViewModel.UserInfo.DoB.Value;
 
             patientDetails.Gender = personalDetailViewModel.UserInfo.Demography.Gender;
             var ageGroup = new AgeCategory(personalDetailViewModel.UserInfo.Demography.Age);
