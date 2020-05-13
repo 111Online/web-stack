@@ -24,29 +24,31 @@
     </script>
 }
 
-<h1 class="heading--large">Get medical help near you</h1>
-<ol>
-    <li>Answer questions about your main symptom.</li>
-    <li>Find out when and where to get help.</li>
-    <li>Be contacted by a nurse, if needed.</li>
-</ol>
+<div class="nhsuk-core">
+    <h1 class="nhsuk-heading-xl">Get medical help near you</h1>
+    <ol>
+        <li>Answer questions about your main symptom.</li>
+        <li>Find out when and where to get help.</li>
+        <li>Be contacted by a nurse, if needed.</li>
+    </ol>
 
-<div class="callout callout--info measure">
-    <p>If you think you know what might be wrong, you can find advice on <a href="https://www.nhs.uk/conditions/" data-event-trigger="click" data-event-value="NHS.UK Conditions">health problems</a> on <a href="https://www.nhs.uk" data-event-trigger="click" data-event-value="NHS.UK">NHS.UK</a>.</p>
-    <p>If you’ve run out of your prescribed medicines, find out how to get an <a href="/emergency-prescription" data-event-trigger="click" data-event-value="Emergency prescription deeplink">emergency prescription</a>.</p>
+    <div class="callout callout--info measure nhsuk-u-margin-bottom-6">
+        <p>If you think you know what might be wrong, you can find advice on <a href="https://www.nhs.uk/conditions/" data-event-trigger="click" data-event-value="NHS.UK Conditions">health problems</a> on <a href="https://www.nhs.uk" data-event-trigger="click" data-event-value="NHS.UK">NHS.UK</a>.</p>
+        <p>If you’ve run out of your prescribed medicines, find out how to get an <a href="/emergency-prescription" data-event-trigger="click" data-event-value="Emergency prescription deeplink">emergency prescription</a>.</p>
+    </div>
+
+    @using (Html.BeginForm("Location", "Location", FormMethod.Post))
+    {
+        @Html.HiddenFor(m => m.SessionId)
+        @Html.HiddenFor(m => m.Campaign)
+        @Html.HiddenFor(m => m.FilterServices)
+        @Html.HiddenFor(m => m.IsCustomJourney)
+        <button type="submit" class="button--next">Start</button>
+    }
+    <p class="nhsuk-u-margin-top-6 nhsuk-u-margin-bottom-6">
+        @Html.ActionLink("Get help in other languages,", "Language", "Help", null, new { id = "language-link", target = "_blank" }) including British Sign Language (BSL).
+    </p>
+    <hr />
+
+    <p class="measure">Always follow any medical advice you’ve already been given by your doctor. See our @(Html.ActionLink("terms", "Terms", "Help", null, new { target = "_blank" })).</p>
 </div>
-
-@using (Html.BeginForm("Location", "Location", FormMethod.Post))
-{
-    @Html.HiddenFor(m => m.SessionId)
-    @Html.HiddenFor(m => m.Campaign)
-    @Html.HiddenFor(m => m.FilterServices)
-    @Html.HiddenFor(m => m.IsCustomJourney)
-    <button type="submit" class="button--next">Start</button>
-}
-<p>
-    @Html.ActionLink("Get help in other languages,", "Language", "Help", null, new { id = "language-link", target = "_blank" }) including British Sign Language (BSL).
-</p>
-<hr />
-
-<p class="measure">Always follow any medical advice you’ve already been given by your doctor. See our @(Html.ActionLink("terms", "Terms", "Help", null, new { target = "_blank" })).</p>
