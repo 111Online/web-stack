@@ -19,8 +19,6 @@ namespace NHS111.Models.Models.Web.Validators
             RuleFor(p => p.PatientName.Surname).NotEmpty().When(p => p.Informant == InformantType.ThirdParty);
             RuleFor(p => p.InformantName.Forename).NotEmpty().When(p => p.Informant == InformantType.ThirdParty);
             RuleFor(p => p.InformantName.Surname).NotEmpty().When(p => p.Informant == InformantType.ThirdParty);
-
-            RuleFor(p => p.Informant).NotEqual(InformantType.NotSpecified);
         }
 
     }

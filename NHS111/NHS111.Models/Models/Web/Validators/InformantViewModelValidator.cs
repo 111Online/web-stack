@@ -7,6 +7,7 @@ using FluentValidation;
 
 namespace NHS111.Models.Models.Web.Validators
 {
+    //To remove
     public class InformantViewModelValidator : AbstractValidator<InformantViewModel>
     {
         public InformantViewModelValidator()
