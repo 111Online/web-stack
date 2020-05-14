@@ -83,7 +83,6 @@
             var callbackPage = NavigateTo999Cat4(dosScenario.Postcode);
             callbackPage.VerifyIsCallbackAcceptancePage();
             var personalDetailsPage = callbackPage.AcceptCallback();
-            personalDetailsPage.VerifyIsPersonalDetailsPage();
 
             var result = await _testBench.Verify(dosScenario);
         }
@@ -131,8 +130,7 @@
             Assert.True(Driver.ElementExists(By.Id("FindService_CurrentPostcode")),
                 "Expected postcode field when no gate.");
             var personalDetailsPage = postcodePage.EnterPostCodeAndSubmit(dosScenario.Postcode);
-            //personalDetailsPage.VerifyIsPersonalDetailsPage
-            // Fail due to splitting out PersonalDetailsPage from OutcomePage
+
             Assert.Fail();
 
             var result = await _testBench.Verify(dosScenario);
@@ -185,7 +183,6 @@
             var callbackPage = NavigateTo999Cat3(dosScenario.Postcode);
             callbackPage.VerifyIsCallbackAcceptancePage();
             var personalDetailsPage = callbackPage.AcceptCallback();
-            personalDetailsPage.VerifyIsPersonalDetailsPage();
 
             Assert.Fail();
             //var referralConfirmation = personalDetailsPage.SubmitPersonalDetails("Test", "Tester", "02380555555", "01", "01", "1982");
@@ -227,8 +224,6 @@
             var callbackPage = NavigateTo999Cat3(null);
             callbackPage.VerifyIsCallbackAcceptancePage();
             var personalDetailsPage = EnterPostCodeAndSubmit(dosScenario.Postcode);
-            //personalDetailsPage.VerifyIsPersonalDetailsPage();
-            // Fail due to splitting out PersonalDetailsPage from OutcomePage
             Assert.Fail();
             //var referralConfirmation = personalDetailsPage.SubmitPersonalDetails("Test", "Tester", "02380555555", "01", "01", "1982");
             //referralConfirmation.VerifyIsSuccessfulReferral();
@@ -266,7 +261,6 @@
             var callbackPage = NavigateTo999Cat3(dosScenario.Postcode);
             callbackPage.VerifyIsCallbackAcceptancePage();
             var personalDetailsPage = callbackPage.AcceptCallback();
-            personalDetailsPage.VerifyIsPersonalDetailsPage();
 
             Assert.Fail();
             //var referralConfirmation = personalDetailsPage.SubmitPersonalDetails("Test", "Tester", "02380555555", "01", "01", "1982");
@@ -307,7 +301,6 @@
             var callbackPage = NavigateTo999Cat3(dosScenario.Postcode);
             callbackPage.VerifyIsCallbackAcceptancePage();
             var personalDetailsPage = callbackPage.AcceptCallback();
-            personalDetailsPage.VerifyIsPersonalDetailsPage();
 
             
             Assert.Fail();
@@ -347,8 +340,7 @@
             var callbackPage = NavigateTo999Cat3(dosScenario.Postcode);
             callbackPage.VerifyIsCallbackAcceptancePage();
             var personalDetailsPage = callbackPage.AcceptCallback();
-            personalDetailsPage.VerifyIsPersonalDetailsPage();
-            
+
             Assert.Fail();
             //var referralConfirmation = personalDetailsPage.SubmitPersonalDetails("Test", "Tester", "02380555555", "01", "01", "1982");
             //referralConfirmation.VerifyIsServiceUnavailableReferral();

@@ -96,6 +96,9 @@ _ReSharper*/
 # TeamCity is a build add-in
 _TeamCity*
 
+# IntelliJ IDEA
+.idea
+
 # DotCover is a Code Coverage Tool
 *.dotCover
 
@@ -199,12 +202,15 @@ FakesAssemblies/
 
 #logfiles
 log.*.txt
+
+#maybe unneccesary files for frontend project
 /NHS111/NHS111.Web/Content
 /NHS111/NHS111.Web.Frontend/content
 /NHS111/NHS111.Web.Frontend/fractal/theme/assets/theme.css
 /NHS111/NHS111.Web.Frontend/src/codebase/components/_cssgraph
 /NHS111/NHS111.Web.Frontend/src/codebase/components/_jschart
 /NHS111/NHS111.Web.Frontend/stats.json
-/NHS111/NHS111.Web.Frontend/package-lock.json
-/NHS111/NHS111.Web.Frontend/package.json
-/NHS111/NHS111.Web/Views/PersonalDetails/PersonalDetails - Copy.cshtml
+
+# should not commit to non node projects
+/NHS111/package.json
+/NHS111/package-lock.json
