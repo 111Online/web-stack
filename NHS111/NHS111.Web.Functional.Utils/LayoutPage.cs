@@ -72,6 +72,12 @@ namespace NHS111.Web.Functional.Utils
             Assert.AreEqual(value, field.GetAttribute("value"));
         }
 
+        public void VerifyHasButton(string buttonName, string buttonValue)
+        {
+            var field = Driver.FindElement(By.Name(buttonName));
+            Assert.AreEqual(buttonValue, field.GetAttribute("value"));
+        }
+
         public string GetUrlWithoutCredentials()
         {
             if (UrlContainsCredentials())

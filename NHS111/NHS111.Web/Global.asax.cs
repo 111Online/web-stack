@@ -18,6 +18,10 @@ namespace NHS111.Web
     using System.Web.Http;
     using System.Web.Mvc;
     using System.Web.Routing;
+    using Authentication;
+    using Models.Models.Web;
+    using NHS111.Web.IoC;
+    using Presentation.ModelBinders;
     using Utils.Logging;
 
     public class MvcApplication
@@ -46,13 +50,9 @@ namespace NHS111.Web
                     ConfigurationManager.AppSettings["login_credential_password"]));
             }
 
-            var auditLogger = new AuditLogger(
-                    new LoggingRestClient(
-                            ConfigurationManager.AppSettings["LoggingServiceApiBaseUrl"],
-                            LogManager.GetLogger("log"),
-                            int.Parse(ConfigurationManager.AppSettings["ServicePointManagerDefaultConnectionLimit"])),
-                    new Presentation.Configuration.Configuration()
-                );
+            // Get AuditLogger using dependency resolution via IoC
+            DependencyResolver.SetResolver(StructuremapMvc.StructureMapDependencyScope);
+            var auditLogger = DependencyResolver.Current.GetService<IAuditLogger>();
 
             GlobalFilters.Filters.Add(new LogJourneyFilterAttribute(auditLogger));
 

@@ -3,6 +3,7 @@
   Once the whole site is using it as default, these should not be required.
 */
 
+@import "../environment/tools/mixins/typography";
 
 .local-header h1 {
   margin-bottom: 0;
@@ -65,4 +66,13 @@ details:not(.service-listing) summary {
   font-size: 1rem;
   line-height: 1.5;
   padding-top: 32px;
+}
+
+
+.callout {
+  padding: 24px;
+
+  @include media(desktop) {
+    padding: 32px;
+  }
 }

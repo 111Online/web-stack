@@ -110,6 +110,17 @@ namespace NHS111.Web.Presentation.Configuration
             }
         }
 
+        public string AuditEventHubConnectionString { get { return ConfigurationManager.AppSettings["AuditEventHubConnectionString"]; } }
+
+        public bool AuditEventHubEnabled
+        {
+            get
+            {
+                bool res;
+                return bool.TryParse(ConfigurationManager.AppSettings["AuditEventHubEnabled"], out res) ? res : true;
+            }
+        }
+
         public string CCGBusinessApiGetCCGUrl(string postcode)
         {
             return String.Format(ConfigurationManager.AppSettings["CCGApiGetCCGByPostcodeUrl"], postcode);
@@ -315,5 +326,7 @@ namespace NHS111.Web.Presentation.Configuration
         string QueryStringEncryptionKey { get; }
         string QueryStringEncryptionBytes { get; }
         string Expert24Url { get; }
+        string AuditEventHubConnectionString { get; }
+        bool AuditEventHubEnabled { get; }
     }
 }

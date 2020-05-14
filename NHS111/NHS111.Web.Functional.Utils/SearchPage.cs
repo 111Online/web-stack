@@ -14,6 +14,7 @@ namespace NHS111.Web.Functional.Utils
         private const string _headerText = "Find the right topic";
         private const string _noInputValidationText = "Please enter the symptom you're concerned about";
         private const string _categoriesLinkText = "topics by category.";
+        private PageLoadAwaiter _testAwaiter;
         public string InvalidSearchText
         {
             get { return string.Empty; }
@@ -40,6 +41,7 @@ namespace NHS111.Web.Functional.Utils
 
         public SearchPage(IWebDriver driver) : base(driver)
         {
+            _testAwaiter = new PageLoadAwaiter(driver);
         }
 
         public void TypeSearchTextAndClickGo()
@@ -79,6 +81,7 @@ namespace NHS111.Web.Functional.Utils
         public QuestionPage ClickBannerDirectLink()
         {
             BannerDirectLink.Click();
+            _testAwaiter.AwaitNextPage(Header, By.Id("nextScreen"));
             return new QuestionPage(this.Driver);
         }
 
