@@ -11,30 +11,9 @@ namespace NHS111.Models.Models.Web
         public AgeGenderViewModel Demography { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
-        public int? Day { get; set; }
-        public int? Month { get; set; }
-        public int? Year { get; set; }
 
-        private DateTime? _dob;
-        public DateTime? DoB
-        {
-            get
-            {
-                if (Year != null && Month != null && Day != null)
-                {
-                    try
-                    {
-                        _dob = new DateTime(Year.Value, Month.Value, Day.Value);
-                        return _dob;
-                    }
-                    catch (ArgumentOutOfRangeException)
-                    {
-                        return null;
-                    }
-                }
-                return null;
-            }
-        }
+    
+        public DateTime? DoB { get; set; }
 
         public string TelephoneNumber
         {

@@ -166,6 +166,7 @@
     <Compile Include="Mappers\StaticTextToHtml.cs" />
     <Compile Include="Mappers\WebMappings\AuditedModelMappers.cs" />
     <Compile Include="Mappers\WebMappings\AutoMapperWebConfiguration.cs" />
+    <Compile Include="Mappers\WebMappings\FromDateOfBirthViewModelToPersonalDetailsViewModel.cs" />
     <Compile Include="Mappers\WebMappings\FromDosCaseToDosServicesByClinicalTermRequest.cs" />
     <Compile Include="Mappers\WebMappings\FromOutcomeViewModelToDosViewModel.cs" />
     <Compile Include="Mappers\WebMappings\FromOutcomeViewModelToOtherServicesViewModel.cs" />
@@ -247,7 +248,9 @@
     <Compile Include="Models\Web\DosRequests\DosServicesByClinicalTermRequest.cs" />
     <Compile Include="Models\Web\Elements\LinkSummaryViewModel.cs" />
     <Compile Include="Models\Web\IKTPrimaryCareOutComeViewModelExtenion.cs" />
+    <Compile Include="Models\Web\PersonalDetails\DateOfBirthViewModel.cs" />
     <Compile Include="Models\Web\PersonalDetails\TelephoneNumberViewModel.cs" />
+    <Compile Include="Models\Web\Validators\DateOfBirthViewModelValidator.cs" />
     <Compile Include="Models\Web\Validators\EmailAddressViewModelValidator.cs" />
     <Compile Include="Models\Web\EmergencyAlertViewModel.cs" />
     <Compile Include="Models\Web\Enums\EventType.cs" />

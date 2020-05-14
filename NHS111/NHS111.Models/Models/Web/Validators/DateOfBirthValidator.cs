@@ -9,6 +9,7 @@ using FluentValidation.Validators;
 using System.Linq;
 using Nest;
 using NHS111.Models.Models.Domain;
+using NHS111.Models.Models.Web.PersonalDetails;
 
 namespace NHS111.Models.Models.Web.Validators
 {
@@ -40,7 +41,7 @@ namespace NHS111.Models.Models.Web.Validators
         {
             _context = context;
 
-            var userInfo = context.Instance as UserInfo;
+            var userInfo = context.Instance as DateOfBirthViewModel;
             if (userInfo != null) return IsValidAge(userInfo.DoB);
 
             var dateTimeViewModel = context.Instance as DateTimeViewModel;

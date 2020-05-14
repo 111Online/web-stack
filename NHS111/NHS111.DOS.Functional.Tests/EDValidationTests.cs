@@ -94,8 +94,7 @@
             var edOutcome = NavigateToRemappedEDOutcome(dosScenario.Postcode);
             AssertIsOriginalOutcome(edOutcome);
             var personalDetailsPage = ClickBookCallButton(edOutcome);
-            personalDetailsPage.VerifyIsPersonalDetailsPage();
-
+            
             Assert.Fail();
 
             //var referralConfirmation =
@@ -137,7 +136,6 @@
             var callbackAcceptancePage = NavigateToRemappedEDOutcome(dosScenario.Postcode);
             callbackAcceptancePage.VerifyIsCallbackAcceptancePage();
             var personalDetailsPage = callbackAcceptancePage.AcceptCallback();
-            personalDetailsPage.VerifyIsPersonalDetailsPage();
 
 
             Assert.Fail();
@@ -166,7 +164,6 @@
             var callbackAcceptancePage = EnterPostCodeAndSubmit(dosScenario.Postcode);
             callbackAcceptancePage.VerifyIsCallbackAcceptancePage();
             var personalDetailsPage = callbackAcceptancePage.AcceptCallback();
-            personalDetailsPage.VerifyIsPersonalDetailsPage();
 
             var result = await _testBench.Verify(dosScenario);
         }
@@ -303,7 +300,6 @@
             var callbackAcceptancePage = NavigateToRemappedEDOutcome(dosScenario.Postcode);
             callbackAcceptancePage.VerifyIsCallbackAcceptancePage();
             var personalDetailsPage = callbackAcceptancePage.AcceptCallback();
-            personalDetailsPage.VerifyIsPersonalDetailsPage();
 
             Assert.Fail();
             //var referralConfirmation =
@@ -385,8 +381,7 @@
             var callbackAcceptancePage = NavigateToRemappedEDOutcome(dosScenario.Postcode);
             callbackAcceptancePage.VerifyIsCallbackAcceptancePage();
             var personalDetailsPage = callbackAcceptancePage.AcceptCallback();
-            personalDetailsPage.VerifyIsPersonalDetailsPage();
-
+            
             Assert.Fail();
             //var referralConfirmation =
             //    personalDetailsPage.SubmitPersonalDetails("Test", "Tester", "02380555555", "01", "01", "1982");
