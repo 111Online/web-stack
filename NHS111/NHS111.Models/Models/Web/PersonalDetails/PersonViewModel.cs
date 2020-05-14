@@ -8,6 +8,14 @@ namespace NHS111.Models.Models.Web.PersonalDetails
     [Validator(typeof(PersonViewModelValidatior))]
     public class PersonViewModel
     {
+        public PersonViewModel()
+        {
+        }
+
+        public PersonViewModel(PersonalDetailViewModel personalDetailViewModel)
+        {
+            PersonalDetailViewModel = personalDetailViewModel;
+        }
         private string _forename;
         public string Forename
         {
@@ -22,5 +30,7 @@ namespace NHS111.Models.Models.Web.PersonalDetails
             get { return this._surname; }
             set { this._surname = !string.IsNullOrEmpty(value) ? value.Trim() : value; }
         }
+
+        public PersonalDetailViewModel PersonalDetailViewModel { get; set; }
     }
 }
