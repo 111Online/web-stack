@@ -145,6 +145,7 @@ namespace NHS111.Web.Controllers
             return View("~\\Views\\PersonalDetails\\TelephoneNumber.cshtml", new TelephoneNumberViewModel(Mapper.Map<DateOfBirthViewModel, PersonalDetailViewModel>(model)));
         }
 
+
         [HttpPost]
         public ActionResult DateOfBirth(PersonalDetailViewModel model)
         {
@@ -155,6 +156,28 @@ namespace NHS111.Web.Controllers
             }
 
             return View("~\\Views\\PersonalDetails\\DateOfBirth.cshtml", new DateOfBirthViewModel(model));
+        }
+
+        [HttpPost]
+        public ActionResult YourName(PersonalDetailViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View("~\\Views\\PersonalDetails\\PersonalDetails.cshtml", model);
+            }
+
+            return View("~\\Views\\PersonalDetails\\YourName.cshtml", model);
+        }
+
+        [HttpPost]
+        public ActionResult TheirName(PersonalDetailViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View("~\\Views\\PersonalDetails\\PersonalDetails.cshtml", model);
+            }
+
+            return View("~\\Views\\PersonalDetails\\TheirName.cshtml", model);
         }
 
 
