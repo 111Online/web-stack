@@ -75,11 +75,5 @@ namespace NHS111.Web.Functional.Utils
             Driver.FindElement(By.Id("nextScreen")).Click();
             return new QuestionPage(Driver);
         }
-
-        public CovidStayAtHomePage ClickStayAtHome()
-        {
-            StayHomeButton.Click();
-            return new CovidStayAtHomePage(Driver);
-        }
     }
 }

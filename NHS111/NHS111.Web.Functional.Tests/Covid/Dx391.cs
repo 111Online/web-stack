@@ -50,6 +50,7 @@ namespace NHS111.Web.Functional.Tests.Covid
                 .Answer(3) // No - I feel well enough to do most of my usual daily activities 
                 .Answer<OutcomePage>(1); // Yes
             outcomePage.VerifyHiddenField("Id", "Dx1113");
+            outcomePage.VerifyHasButton(buttonName: "PersonalDetails", buttonValue: "Book a call");
         }
 
        
@@ -70,23 +71,5 @@ namespace NHS111.Web.Functional.Tests.Covid
                 .Answer<OutcomePage>(2); // I'm notsure
             outcomePage.VerifyHiddenField("Id", "Dx391");
         }
-        
-        [Test]
-        public void NavigateToStayAtHomeAdvice()
-        {
-            var questionPage = LaunchCovidWithLink(TestScenerioSex.Female, TestScenerioAgeGroups.Adult);
-
-            var outcomePage = questionPage.AnswerText("SymptomsStart_Day", "6")
-                .Answer(2) // no
-                .Answer(1) // yes
-                .Answer(3) // no
-                .Answer(1) // Normal,warmorhot
-                .Answer(3) // No - I feel well enough to do most of my usual daily activities 
-                .Answer(2) // I'm not sure
-                .Answer(2) // I'm not sure
-                .Answer<OutcomePage>(2); // I'm not sure
-            outcomePage.ClickStayAtHome()
-                .VerifyGetTestedLink();
-        }
-    }
+            }
 }
