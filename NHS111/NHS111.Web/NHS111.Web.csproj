@@ -516,6 +516,7 @@
     <Content Include="Views\Outcome\Primary_Care\ITK_Primary_care_NER.cshtml" />
     <Content Include="Views\Outcome\Confirmation\ITK_Primary_care_NER\Confirmation.cshtml" />
     <Content Include="Views\PersonalDetails\TelephoneNumber.cshtml" />
+    <Content Include="Views\PersonalDetails\DateOfBirth.cshtml" />
     <None Include="Web.Development.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
