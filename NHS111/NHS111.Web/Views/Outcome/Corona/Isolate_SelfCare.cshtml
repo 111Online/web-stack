@@ -28,6 +28,8 @@
     var encryptedQueryStringValues = KeyValueEncryptor.EncryptedKeys(searchJourneyViewModel);
 }
 
+@Html.HiddenFor(x => Model.Id)
+
 <div class="measure nhsuk-core">
     @Html.HiddenFor(m => m.SessionId)
 
