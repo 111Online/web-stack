@@ -134,7 +134,19 @@ namespace NHS111.Web.Controllers
         }
 
         [HttpPost]
-        public ActionResult TelephoneNumber(PersonalDetailViewModel model)
+        public ActionResult TelephoneNumber(DateOfBirthViewModel model)
+        {
+
+            if (!ModelState.IsValid)
+            {
+                return View("~\\Views\\PersonalDetails\\DateOfBirth.cshtml", model);
+            }
+
+            return View("~\\Views\\PersonalDetails\\TelephoneNumber.cshtml", new TelephoneNumberViewModel(Mapper.Map<DateOfBirthViewModel, PersonalDetailViewModel>(model)));
+        }
+
+        [HttpPost]
+        public ActionResult DateOfBirth(PersonalDetailViewModel model)
         {
 
             if (!ModelState.IsValid)
@@ -142,8 +154,9 @@ namespace NHS111.Web.Controllers
                 return View("~\\Views\\PersonalDetails\\PersonalDetails.cshtml", model);
             }
 
-            return View("~\\Views\\PersonalDetails\\TelephoneNumber.cshtml", new TelephoneNumberViewModel(model));
+            return View("~\\Views\\PersonalDetails\\DateOfBirth.cshtml", new DateOfBirthViewModel(model));
         }
+
 
         [HttpPost]
        
