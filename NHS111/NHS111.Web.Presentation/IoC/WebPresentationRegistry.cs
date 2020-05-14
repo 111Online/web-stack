@@ -43,10 +43,19 @@ namespace NHS111.Web.Presentation.IoC
                 .Use<CCGViewModelBuilder>()
                 .Ctor<IRestClient>()
                 .Is(GetLoggingRestClientFor(_configuration.CCGBusinessApiBaseProtocolandDomain));
-            For<IAuditLogger>().Singleton()
-                .Use<AuditLogger>()
-                .Ctor<IRestClient>()
-                .Is(GetLoggingRestClientFor(_configuration.LoggingServiceApiBaseUrl));
+            if (_configuration.AuditEventHubEnabled)
+            {
+                For<IAuditLogger>().Singleton()
+                    .Use<EventHubAuditLogger>();
+            }
+            else
+            {
+                For<IAuditLogger>().Singleton()
+                    .Use<AuditLogger>()
+                    .Ctor<IRestClient>()
+                    .Is(new LoggingRestClient(new Configuration.Configuration().LoggingServiceApiBaseUrl, LogManager.GetLogger("log")));
+            };
+
             Scan(scan =>
             {
                 scan.TheCallingAssembly();
