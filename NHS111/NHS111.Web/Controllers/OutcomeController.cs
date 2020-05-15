@@ -361,7 +361,7 @@ namespace NHS111.Web.Controllers
 
         private async Task<ActionResult> SubmitITKDataToService(PersonalDetailViewModel model)
         {
-            var outcomeViewModel = ConvertPatientInformantDateToUserinfo(model.PatientInformantDetails, model.EmailAddress, model);
+            var outcomeViewModel = ConvertPatientInformantDateToUserinfo(model.EmailAddress, model);
             var itkConfirmationViewModel = await _outcomeViewModelBuilder.ItkResponseBuilder(outcomeViewModel);
             var result = _referralResultBuilder.Build(itkConfirmationViewModel);
             return View(result.ViewName, result);
@@ -376,26 +376,9 @@ namespace NHS111.Web.Controllers
             return View("ConfirmLocation", model);
         }
 
-        private OutcomeViewModel ConvertPatientInformantDateToUserinfo(PatientInformantViewModel patientInformantModel, EmailAddressViewModel emailAddressModel, OutcomeViewModel model)
+        private OutcomeViewModel ConvertPatientInformantDateToUserinfo(EmailAddressViewModel emailAddressModel, OutcomeViewModel model)
         {
-            //if (patientInformantModel.Informant == InformantType.Self)
-            //{
-            //    model.UserInfo.FirstName = patientInformantModel.SelfName.Forename;
-            //    model.UserInfo.LastName = patientInformantModel.SelfName.Surname;
-
-            //}
-
-            //if (patientInformantModel.Informant == InformantType.ThirdParty)
-            //{
-            //    model.UserInfo.FirstName = patientInformantModel.PatientName.Forename;
-            //    model.UserInfo.LastName = patientInformantModel.PatientName.Surname;
-
-            //    model.Informant.Forename = patientInformantModel.InformantName.Forename;
-            //    model.Informant.Surname = patientInformantModel.InformantName.Surname;
-            //    model.Informant.InformantType = InformantType.ThirdParty;
-            //}
             model.UserInfo.EmailAddress = emailAddressModel.EmailAddress;
-
             return model;
         }
 

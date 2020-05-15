@@ -269,7 +269,6 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Views\Outcome\SurveyInterstitial.cshtml" />
-    <Content Include="Views\PersonalDetails\PersonalDetails.cshtml" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
