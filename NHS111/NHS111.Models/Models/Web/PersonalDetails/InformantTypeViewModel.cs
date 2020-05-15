@@ -12,9 +12,10 @@ namespace NHS111.Models.Models.Web.PersonalDetails
 
         public InformantTypeViewModel(PersonalDetailViewModel personalDetailViewModel)
         {
-            PersonalDetailViewModel = personalDetailViewModel;
+            PersonalDetailsViewModel = personalDetailViewModel;
+            Informant = personalDetailViewModel.Informant.InformantType;
         }
         public InformantType Informant { get; set; }
-        public PersonalDetailViewModel PersonalDetailViewModel { get; set; }
+        public PersonalDetailViewModel PersonalDetailsViewModel { get; set; }
     }
 }

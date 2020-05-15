@@ -1,6 +1,6 @@
 ﻿@using NHS111.Models.Models.Web
 @using NHS111.Models.Models.Web.ITK
-@inherits NHS111.Web.Views.Shared.SurveyLinkView<PersonalDetailViewModel>
+@inherits NHS111.Web.Views.Shared.SurveyLinkView<NHS111.Models.Models.Web.PersonalDetails.PersonViewModel>
 @{
     Layout = "~/Views/Shared/_LayoutNhsUk.cshtml";
 }
@@ -10,9 +10,9 @@
 }
 
 @section HeadTop {
-    @{ var url = string.Format("/outcome/{0}/{1}/{2}/itk/personaldetails/{3}/{4}", Url.Encode(Model.PathwayNo), Url.Encode(Model.OutcomeGroup.Text), Url.Encode(Model.Id), Url.Encode(Model.SelectedServiceId), Model.OutcomeGroup.IsCoronaVirus ? "Covid-Test-kit": Url.Encode(Model.SelectedService.Name)); }
+    @{ var url = string.Format("/outcome/{0}/{1}/{2}/itk/personaldetails/{3}/{4}", Url.Encode(Model.PersonalDetailsViewModel.PathwayNo), Url.Encode(Model.PersonalDetailsViewModel.OutcomeGroup.Text), Url.Encode(Model.PersonalDetailsViewModel.Id), Url.Encode(Model.PersonalDetailsViewModel.SelectedServiceId), Model.PersonalDetailsViewModel.OutcomeGroup.IsCoronaVirus ? "Covid-Test-kit": Url.Encode(Model.PersonalDetailsViewModel.SelectedService.Name)); }
     <script>
-        var pageId = '@Model.Id';
+        var pageId = '@Model.PersonalDetailsViewModel.Id';
         dataLayer = [
         {
             'virtualPageUrl': '@url',
@@ -27,26 +27,24 @@
 }
 
 @section FeedbackSection {
-    @Html.Partial("_FeedbackDetails", new FeedbackViewModel() { UserId = Model.SessionId.ToString(), PageData = new PageDataViewModel(PageDataViewModel.PageType.PersonalDetails, Model) })
+    @Html.Partial("_FeedbackDetails", new FeedbackViewModel() { UserId = Model.PersonalDetailsViewModel.SessionId.ToString(), PageData = new PageDataViewModel(PageDataViewModel.PageType.PersonalDetails, Model.PersonalDetailsViewModel) })
 }
 
 <div class="nhsuk-core">
     @{
-        string postTo = Model.PatientInformantDetails.Informant == NHS111.Models.Models.Web.InformantType.Self ? "DateOfBirth" : "TheirName";
+        string postTo = Model.PersonalDetailsViewModel.Informant.IsInformantForPatient ? "TheirName" : "DateOfBirth";
     }
 
     @using (Html.BeginForm(postTo, "PersonalDetails", FormMethod.Post, new { id = "yourNameForm" }))
     {
-        @Html.Partial("_CommonHiddenFieldsOutcomeViewModel", Model)
-        @Html.Partial("_CommonHiddenFieldsCareAdviceViewModel", Model)
-        @Html.HiddenFor(m => m.SelectedServiceId)
-        @Html.HiddenFor(m => m.UserInfo.TelephoneNumber)
-        @Html.HiddenFor(m => m.UserInfo.DoB)
-        @Html.HiddenFor(m => m.PatientInformantDetails.Informant)
-        @Html.HiddenFor(m => m.PatientInformantDetails.InformantName.Forename)
-        @Html.HiddenFor(m => m.PatientInformantDetails.InformantName.Surname)
-        @Html.HiddenFor(m => m.PatientInformantDetails.PatientName.Forename)
-        @Html.HiddenFor(m => m.PatientInformantDetails.PatientName.Surname)
+        @Html.Partial("_CommonHiddenFieldsOutcomeViewModel", Model.PersonalDetailsViewModel, new ViewDataDictionary { TemplateInfo = new System.Web.Mvc.TemplateInfo { HtmlFieldPrefix = "PersonalDetailsViewModel" } })
+        @Html.Partial("_CommonHiddenFieldsCareAdviceViewModel", Model.PersonalDetailsViewModel, new ViewDataDictionary { TemplateInfo = new System.Web.Mvc.TemplateInfo { HtmlFieldPrefix = "PersonalDetailsViewModel" } })
+        @Html.Partial("_CommonHiddenFieldsPersonalDetails", Model.PersonalDetailsViewModel, new ViewDataDictionary { TemplateInfo = new System.Web.Mvc.TemplateInfo { HtmlFieldPrefix = "PersonalDetailsViewModel" } })
+
+        @Html.HiddenFor(m => m.PersonalDetailsViewModel.SelectedServiceId)
+        @Html.HiddenFor(m => m.PersonalDetailsViewModel.UserInfo.TelephoneNumber)
+        @Html.HiddenFor(m => m.PersonalDetailsViewModel.UserInfo.DoB)
+
         <section class="measure">
             <div class="form-group @(@ViewData.ModelState.IsValidField("PatientInformantDetails.Informant") ? "" : "form-group-error")">
                 <fieldset>
@@ -54,32 +52,16 @@
                         <h2 class="nhsuk-fieldset__heading">What is your name?</h2>
                     </legend>
                     <div>
-                        @if (Model.PatientInformantDetails.Informant == NHS111.Models.Models.Web.InformantType.Self)
-                        {
                             <div class="form-group @(@ViewData.ModelState.IsValidField("PatientInformantDetails.SelfName.Forename") ? "" : "form-group-error")">
-                                <label for="@Html.IdFor(m => m.PatientInformantDetails.SelfName.Forename)">First name</label>
-                                @Html.ValidationMessageFor(m => m.PatientInformantDetails.SelfName.Forename, "Enter your first name")
-                                @Html.TextBoxFor(m => m.PatientInformantDetails.SelfName.Forename, new { @class = "form-control form-control-15-chars" })
+                                <label for="@Html.IdFor(m => m.Forename)">First name</label>
+                                @Html.ValidationMessageFor(m => m.Forename, "Enter your first name")
+                                @Html.TextBoxFor(m => m.Forename, new { @class = "form-control form-control-15-chars" })
                             </div>
                             <div class="form-group @(@ViewData.ModelState.IsValidField("PatientInformantDetails.SelfName.Surname") ? "" : "form-group-error")">
-                                <label for="@Html.IdFor(m => m.PatientInformantDetails.SelfName.Surname)">Last name</label>
-                                @Html.ValidationMessageFor(m => m.PatientInformantDetails.SelfName.Surname, "Enter your last name")
-                                @Html.TextBoxFor(m => m.PatientInformantDetails.SelfName.Surname, new { @class = "form-control form-control-15-chars" })
+                                <label for="@Html.IdFor(m => m.Surname)">Last name</label>
+                                @Html.ValidationMessageFor(m => m.Surname, "Enter your last name")
+                                @Html.TextBoxFor(m => m.Surname, new { @class = "form-control form-control-15-chars" })
                             </div>
-                        }
-                        else
-                        {
-                            <div class="form-group @(@ViewData.ModelState.IsValidField("PatientInformantDetails.InformantName.Forename") ? "" : "form-group-error")">
-                                <label for="@Html.IdFor(m => m.PatientInformantDetails.InformantName.Forename)">First name</label>
-                                @Html.ValidationMessageFor(m => m.PatientInformantDetails.InformantName.Forename, "Enter your first name")
-                                @Html.TextBoxFor(m => m.PatientInformantDetails.InformantName.Forename, new { @class = "form-control form-control-15-chars" })
-                            </div>
-                            <div class="form-group @(@ViewData.ModelState.IsValidField("PatientInformantDetails.InformantName.Surname") ? "" : "form-group-error")">
-                                <label for="@Html.IdFor(m => m.PatientInformantDetails.InformantName.Surname)">Last name</label>
-                                @Html.ValidationMessageFor(m => m.PatientInformantDetails.InformantName.Surname, "Enter your last name")
-                                @Html.TextBoxFor(m => m.PatientInformantDetails.InformantName.Surname, new { @class = "form-control form-control-15-chars" })
-                            </div>
-                        }
                     </div>
                 </fieldset>
             </div>
@@ -97,21 +79,6 @@
                     function isValid(el) {
                         return $("form").validate().check(el);
                     }
-
-                    jQuery.validator.addMethod('personname', function (value, element, params) {
-                        var personelement = $(element);
-                        if ($('input[name="PatientInformantDetails.Informant"]:checked').val() == "Self" &&
-                            personelement.attr('name').startsWith("PatientInformantDetails.SelfName")) {
-                            return (value) !== "";
-                        }
-                        if ($('input[name="PatientInformantDetails.Informant"]:checked').val() == "ThirdParty" &&
-                            (personelement.attr('name').startsWith("PatientInformantDetails.PatientName")
-                                || (personelement.attr('name').startsWith("PatientInformantDetails.InformantName")))) {
-                            return (value) !== "";
-                        }
-                        return true;
-
-                    });
 
                     jQuery("#yourNameForm").on("submit", function () {
                         formSubmitted = true;

@@ -519,6 +519,7 @@
     <Content Include="Views\PersonalDetails\DateOfBirth.cshtml" />
     <Content Include="Views\PersonalDetails\YourName.cshtml" />
     <Content Include="Views\PersonalDetails\TheirName.cshtml" />
+    <Content Include="Views\PersonalDetails\InformantType.cshtml" />
     <None Include="Web.Development.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

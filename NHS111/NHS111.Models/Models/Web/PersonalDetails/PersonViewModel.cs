@@ -14,7 +14,14 @@ namespace NHS111.Models.Models.Web.PersonalDetails
 
         public PersonViewModel(PersonalDetailViewModel personalDetailViewModel)
         {
-            PersonalDetailViewModel = personalDetailViewModel;
+            PersonalDetailsViewModel = personalDetailViewModel;
+        }
+
+        public PersonViewModel(PersonalDetailViewModel personalDetailViewModel, string foreName, string lastName)
+        {
+            PersonalDetailsViewModel = personalDetailViewModel;
+            _forename = foreName;
+            _surname = lastName;
         }
         private string _forename;
         public string Forename
@@ -31,6 +38,6 @@ namespace NHS111.Models.Models.Web.PersonalDetails
             set { this._surname = !string.IsNullOrEmpty(value) ? value.Trim() : value; }
         }
 
-        public PersonalDetailViewModel PersonalDetailViewModel { get; set; }
+        public PersonalDetailViewModel PersonalDetailsViewModel { get; set; }
     }
 }
