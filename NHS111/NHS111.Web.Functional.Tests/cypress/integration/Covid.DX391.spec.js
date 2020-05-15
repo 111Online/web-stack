@@ -1,7 +1,7 @@
 ﻿/// <reference types="cypress" />
 
 describe('Covid', () => {
-  const staging = 'https://111live:ATeam@staging.111.nhs.uk';
+  const staging = 'https://111live:ATeam@staging.111.nhs.uk/';
   const url = Cypress.env('Test_Website_url') || staging;
 
   const navigateToDispositionDx391 = () => {
@@ -43,11 +43,7 @@ describe('Covid', () => {
     cy.get(`input[id="I'mnotsure"]`).click();
     cy.get('#nextScreen').click();
 
-    
-
   };
-
-
 
   it(`- DX391`, () => {
     navigateToDispositionDx391();
@@ -57,17 +53,7 @@ describe('Covid', () => {
 
   it(`- Dx391 to stay at home`, () => {
     navigateToDispositionDx391();
-
-    cy.get('button[name="stayathome"]').click();
-
     cy.get('a[data-event-value="gov.uk coronavirus testing page"]').should('exist');
 
-    
-    
-
-
-
   });
-
-
 });
