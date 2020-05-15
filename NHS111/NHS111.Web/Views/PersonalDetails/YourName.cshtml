@@ -55,12 +55,12 @@
                             <div class="form-group @(@ViewData.ModelState.IsValidField("PatientInformantDetails.SelfName.Forename") ? "" : "form-group-error")">
                                 <label for="@Html.IdFor(m => m.Forename)">First name</label>
                                 @Html.ValidationMessageFor(m => m.Forename, "Enter your first name")
-                                @Html.TextBoxFor(m => m.Forename, new { @class = "form-control form-control-15-chars" })
+                                @Html.TextBoxFor(m => m.Forename, new { @class = "form-control form-control-15-chars", @maxlength = "255" })
                             </div>
                             <div class="form-group @(@ViewData.ModelState.IsValidField("PatientInformantDetails.SelfName.Surname") ? "" : "form-group-error")">
                                 <label for="@Html.IdFor(m => m.Surname)">Last name</label>
                                 @Html.ValidationMessageFor(m => m.Surname, "Enter your last name")
-                                @Html.TextBoxFor(m => m.Surname, new { @class = "form-control form-control-15-chars" })
+                                @Html.TextBoxFor(m => m.Surname, new { @class = "form-control form-control-15-chars", @maxlength = "255" })
                             </div>
                     </div>
                 </fieldset>
