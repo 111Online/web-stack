@@ -1,13 +1,13 @@
 ﻿/// <reference types="cypress" />
 
+
 describe('Covid', () => {
-  const staging = 'https://111live:ATeam@staging.111.nhs.uk';
-  const url = Cypress.env('Test_Website_url') || staging;
+  const url = Cypress.env('Test_Website_url');
 
   const startup = () => {
     cy.visit(url);
     cy.get("a[data-event-value='Novel Coronavirus about']").click();
-    cy.get('.button--next').click();
+    cy.get('#start-symptom-checker').click();
     cy.get('#CurrentPostcode').type('LS17 7NZ');
     cy.get('.button--next').click();
     cy.get('.button.button--next').click();
