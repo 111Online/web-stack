@@ -13,6 +13,11 @@ namespace NHS111.Models.Models.Web
     {
         public string Forename { get; set; }
         public string Surname { get; set; }
-        public bool IsInformantForPatient { get; set; }
+        public bool IsInformantForPatient
+        {
+            get { return InformantType.Equals(InformantType.ThirdParty); }
+        }
+
+        public InformantType InformantType { get; set; }
     }
 }

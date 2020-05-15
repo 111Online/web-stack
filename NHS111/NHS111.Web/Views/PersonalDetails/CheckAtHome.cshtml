@@ -5,7 +5,7 @@
 }
 
 @{
-    var self = Model.PatientInformantDetails.Informant == InformantType.Self;
+    var self = Model.Informant.InformantType == InformantType.Self;
     var heading = self ? "Are you at home?" : "Are they at home?";
 }
 

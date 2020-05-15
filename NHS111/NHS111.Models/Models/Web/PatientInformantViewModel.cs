@@ -8,7 +8,7 @@ using NHS111.Models.Models.Web.Validators;
 
 namespace NHS111.Models.Models.Web
 {    //To remove
-    [Validator(typeof(PatientInformantViewModelValidator))]
+   
     public class PatientInformantViewModel
     {
         public InformantType Informant { get; set; }
@@ -17,7 +17,7 @@ namespace NHS111.Models.Models.Web
         public PersonViewModel SelfName { get; set; }
     }
 
-    [Validator(typeof(PersonViewModelValidatior))]
+
     public class PersonViewModel
     {
         private string _forename;

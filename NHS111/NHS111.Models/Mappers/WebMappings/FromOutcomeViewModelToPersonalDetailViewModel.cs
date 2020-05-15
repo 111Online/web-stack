@@ -7,7 +7,7 @@ namespace NHS111.Models.Mappers.WebMappings
     {
         protected override void Configure()
         {
-            Mapper.CreateMap<OutcomeViewModel, PersonalDetailViewModel>().ForMember(p => p.PatientInformantDetails, opt => opt.Ignore()); ;
+            Mapper.CreateMap<OutcomeViewModel, PersonalDetailViewModel>(); 
         }
     }
 }
