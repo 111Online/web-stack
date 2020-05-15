@@ -78,6 +78,12 @@ namespace NHS111.Web.Functional.Utils {
             Driver.FindElement(By.Id("submitDetails")).Click();
             return new PersonalDetailsPage(Driver);
         }
+
+        public YourNamePage SubmitInformantDetails()
+        {
+            Driver.FindElement(By.Id("submitDetails")).Click();
+            return new YourNamePage(Driver);
+        }
         public DateOfBirthPage SubmitNameDetails()
         {
             Driver.FindElement(By.Id("submitDetails")).Click();
