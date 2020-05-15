@@ -60,7 +60,7 @@
 
     <div class="callout callout--attention nhsuk-u-margin-top-6 nhsuk-u-margin-bottom-6">
         <h2 class="nhsuk-heading-l">
-            Apply for a coronavirus test
+            Ask for a coronavirus test
         </h2>
 
         <p>The test will show if you have the virus now.</p>
@@ -71,10 +71,8 @@
             <li>going to a drive-through testing centre if you have a car</li>
             <li>getting a home test kit sent to you</li>
         </ul>
-
-
-
-        @Html.Partial("_ActionLink", new ActionLinkViewModel { Text = "Apply for a test on GOV.UK", Url = "https://www.gov.uk/apply-coronavirus-test", EventTrigger = "click", EventValue = "gov.uk coronavirus testing page", Target = "_blank" })
+        
+        @Html.Partial("_ActionLink", new ActionLinkViewModel { Text = "Ask for a test on NHS.UK", Url = "https://www.nhs.uk/conditions/coronavirus-covid-19/ask-for-a-test-to-check-if-you-have-coronavirus/", EventTrigger = "click", EventValue = "ask for a test", Target = "_blank" })
     </div>
 
     <h2 class="nhsuk-heading-m">
