@@ -1,7 +1,7 @@
 ﻿/// <reference types="cypress" />
 
 describe('Covid', () => {
-  const staging = 'https://111live:ATeam@111-ukw-i-web-int1.azurewebsites.net/';
+  const staging = 'https://111live:ATeam@staging.111.nhs.uk';
   const url = Cypress.env('Test_Website_url') || staging;
 
   const navigateToDispositionDx391 = () => {
