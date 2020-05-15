@@ -214,3 +214,6 @@ log.*.txt
 # should not commit to non node projects
 /NHS111/package.json
 /NHS111/package-lock.json
+
+# cypress local environment variables
+**/cypress.env.json
