@@ -169,12 +169,11 @@ namespace NHS111.Web.Functional.Utils
             return new PersonalDetailsPage(Driver);
         }
 
-        public void VerifyCallConfirmation(int noOfHours, Boolean isPlural, string adviceId, string expectedId)
+        public void VerifyCallConfirmation(int duration, string unitOfTime, string adviceId, string expectedId)
         {
-            string pluralHour = isPlural ? "hours" : "hour"; 
             VerifyHeading("Your call is confirmed");
             var firstSectionHeading = Driver.FindElement(By.ClassName("local-header__intro")).Text;
-            string expectedConfirmationMessage = $"If you haven't had a call within {noOfHours} {pluralHour}, please call 111";
+            string expectedConfirmationMessage = $"If you haven't had a call within {duration} {unitOfTime}, please call 111";
 
             Assert.AreEqual(expectedConfirmationMessage, firstSectionHeading,
                 string.Format("Possible unexpected header. Expected header text of '{0}' but was '{1}'.",
