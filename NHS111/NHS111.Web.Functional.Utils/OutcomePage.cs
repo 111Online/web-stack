@@ -83,11 +83,24 @@ namespace NHS111.Web.Functional.Utils
             return new CovidStayAtHomePage(Driver);
         }
 
-        public PersonalDetailsPage UseThisService()
+        public PersonalDetailsPage UseThisService(string id)
         {
-            Driver.FindElement(By.Id("details-summary-0")).Click();
-            Driver.FindElement(By.ClassName("nhsuk-action-link__link")).Click();
+            string elementId = $"details-summary-{id}";
+            Driver.FindElement(By.Id(elementId)).Click();
+            Driver.FindElement(By.Name("PersonalDetails")).Click();
             return new PersonalDetailsPage(Driver);
+        }
+        public PersonalDetailsPage UseThisGPService(string id)
+        {
+            string elementId = $"details-summary-{id}";
+            Driver.FindElement(By.Id(elementId)).Click();
+            Driver.FindElement(By.ClassName("nhsuk-action-link__text")).Click();
+            return new PersonalDetailsPage(Driver);
+        }
+
+        public void FindAService()
+        {
+            Driver.FindElement(By.Id("DosLookup")).Click();
         }
     }
 }
