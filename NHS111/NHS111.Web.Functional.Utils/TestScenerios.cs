@@ -12,6 +12,7 @@ namespace NHS111.Web.Functional.Utils
     public static class TestScenerioAgeGroups
     {
         public const int Adult = 22;
+        public const int Adolescent = 16;
         public const int Child = 8;
         public const int Toddler = 2;
         public const int Infant = 0;

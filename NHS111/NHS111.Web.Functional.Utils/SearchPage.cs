@@ -59,8 +59,17 @@ namespace NHS111.Web.Functional.Utils
             SearchTxtBox.Clear();
             SearchTxtBox.SendKeys(pathway);
             this.ClickNextButton();
-            new WebDriverWait(Driver, TimeSpan.FromSeconds(5)).Until(ExpectedConditions.ElementIsVisible(By.XPath("//ul[contains(@class, 'link-list') and contains(@class, 'link-list--results')]/li")));
-            Driver.FindElement(By.XPath("//ul[contains(@class, 'link-list') and contains(@class, 'link-list--results')]/li/a[@data-title='" + pathway + "']")).Click();
+            var xpathFilter = "//ul[contains(@class, 'link-list') and contains(@class, 'link-list--results')]/li";
+            var xpathFilter2 = "//ul[contains(@class, 'link-list') and contains(@class, 'link-list--results')]/li/a[@data-title='" + pathway + "']";
+            var xpathFilter3 = "//ul[contains(@class, 'link-list') and contains(@class, 'link-list--results')]/li";
+
+            //*[@id="SearchResults"]/div/ul
+            //*[@id="SearchResults"]/div/ul/li[1]/a
+
+
+            new WebDriverWait(Driver, TimeSpan.FromSeconds(5)).Until(ExpectedConditions.ElementIsVisible(By.XPath(xpathFilter)));
+            var xpath = Driver.PageSource;
+            Driver.FindElement(By.XPath(xpathFilter2)).Click();
             return new QuestionInfoPage(Driver);
         }
 

@@ -7,14 +7,17 @@ namespace NHS111.Web.Functional.Tests
     using System.Linq;
     using NUnit.Framework;
     using OpenQA.Selenium;
- 
-    [TestFixture]
-    public class ConfirmationScreenTests : BaseTests {
 
-      [Test]
+    [TestFixture]
+    public class ConfirmationScreenTests : BaseTests
+    {
+        //Scenario 1
+        [Test]
         public void ConfirmationscreensGP()
         {
-            var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Headache", TestScenerioSex.Male, TestScenerioAgeGroups.Adult, "E173AX");
+            //Scenario 1
+            var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Headache", TestScenerioSex.Male,
+                TestScenerioAgeGroups.Adult, "E173AX");
 
             questionPage.VerifyQuestion("Have you hurt or banged your head in the last 4 weeks?");
             var outcomePage = questionPage
@@ -35,9 +38,8 @@ namespace NHS111.Web.Functional.Tests
             outcomePage.ClickCantGetAppointment();
             Driver.FindElement(By.XPath("//input[@value = '2000006999']"));
 
-
             //var personalDetailsPage = //??
-            var personalDetailsPage = outcomePage.UseThisService();
+            var personalDetailsPage = outcomePage.UseThisGPService("0");
 
             personalDetailsPage.VerifyIsPersonalDetailsPage();
             personalDetailsPage.SelectMe();
@@ -68,20 +70,21 @@ namespace NHS111.Web.Functional.Tests
             //need to submit call
             var callConfirmationPage = confirmDetails.SubmitCall();
             //Verify text 
-            callConfirmationPage.VerifyCallConfirmation();
+            callConfirmationPage.VerifyCallConfirmation(2, true, "Advice_CX221185-Adult-Male", "Worsening, head injury");
 
             //resubmit
             callConfirmationPage.Driver.Navigate().Back();
             var resubmitCallConfirmationPage = confirmDetails.SubmitCall();
             //Verify text 
-            resubmitCallConfirmationPage.VerifyCallConfirmation();
+            resubmitCallConfirmationPage.VerifyCallConfirmation(2, true, "Advice_CX221185-Adult-Male", "Worsening, head injury");
         }
 
-
+        //Scenario 2
         [Test]
         public void ConfirmationscreensPharmacy()
         {
-            var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Eye problems", TestScenerioSex.Male, TestScenerioAgeGroups.Adult, "CO12HU");
+            var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Eye or eyelid problems",
+                TestScenerioSex.Male, TestScenerioAgeGroups.Adult, "CO12HU");
 
             questionPage.VerifyQuestion("What is the main problem?");
             var outcomePage = questionPage
@@ -91,9 +94,10 @@ namespace NHS111.Web.Functional.Tests
                 .Answer(4)
                 .Answer<OutcomePage>(1);
 
-            outcomePage.VerifyOutcome("Your answers suggest you should contact a pharmacist within 24 hours");
+            // outcomePage.VerifyOutcome("Your answers suggest you should contact a pharmacist within 24 hours");
 
             //need to insert clicking 'Find a pharmacy link'
+
             //need to select DoS ID 2000014051
 
 
@@ -127,10 +131,13 @@ namespace NHS111.Web.Functional.Tests
 
 
         }
+
+        //Scenario 3
         [Test]
         public void ConfirmationscreensMidwifery()
         {
-            var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Headache", TestScenerioSex.Female, TestScenerioAgeGroups.Adult, "E173AX");
+            var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Headache", TestScenerioSex.Female,
+                TestScenerioAgeGroups.Adolescent, "E173AX");
 
             questionPage.VerifyQuestion("Is there a chance you're pregnant?");
             var outcomePage = questionPage
@@ -141,43 +148,50 @@ namespace NHS111.Web.Functional.Tests
                 .AnswerSuccessiveByOrder(3, 6)
                 .Answer<OutcomePage>(3);
 
+            outcomePage.VerifyFindService(FindServiceTypes.Midwife);
             outcomePage.VerifyOutcome("Your answers suggest you should speak to your midwife within 1 hour");
-
             //need to insert clicking 'Find a service link'
+            outcomePage.FindAService();
             //need to select DoS ID 2000006999
+            Driver.FindElement(By.XPath("//input[@value = '2000006999']"));
 
+            var personalDetailsPage = outcomePage.UseThisService("1");
+            personalDetailsPage.VerifyIsPersonalDetailsPage();
+            personalDetailsPage.SelectMe();
+            personalDetailsPage.EnterPatientName("Dx30 first", "Dx30 last");
+            personalDetailsPage.EnterDateOfBirth("31", "07", "1980");
+            personalDetailsPage.VerifyNameDisplayed();
+            personalDetailsPage.VerifyDateOfBirthDisplayed();
 
-            //personalDetailsPage.VerifyIsPersonalDetailsPage();
-            //personalDetailsPage.VerifyNameDisplayed();
-            //personalDetailsPage.VerifyNumberDisplayed();
-            //personalDetailsPage.VerifyDateOfBirthDisplayed();
+            var personalDetailsPhoneNumberPage = personalDetailsPage.SubmitPersonalDetails();
+            personalDetailsPhoneNumberPage.EnterPhoneNumberOnSeparatePage("07793346301");
+            personalDetailsPhoneNumberPage.VerifyNumberDisplayedOnSeparatePage();
 
-            //personalDetailsPage.SelectMe();
-            //personalDetailsPage.EnterPatientName("Test1", "Tester1");
+            var currentAddressPage = personalDetailsPhoneNumberPage.SubmitPersonalDetails();
+            currentAddressPage.VerifyHeading("Where are you right now?");
 
-            //personalDetailsPage.EnterDateOfBirth("31", "07", "1980");
-            //personalDetailsPage.EnterPhoneNumber("07793346301");
+            var addressID = "55629068";
+            currentAddressPage.VerifyAddressDisplays(addressID);
 
-            //var currentAddressPage = personalDetailsPage.SubmitPersonalDetails();
-            //currentAddressPage.VerifyHeading("Where are you right now?");
+            var atHomePage = currentAddressPage.ClickAddress(addressID);
+            atHomePage.VerifyHeading("Are you at home?");
+            atHomePage.SelectAtHomeYes();
 
-            //var addressID = "55629068";
-            //currentAddressPage.VerifyAddressDisplays(addressID);
-
-            //var atHomePage = currentAddressPage.ClickAddress(addressID);
-            //atHomePage.VerifyHeading("Are you at home?");
-            //atHomePage.SelectAtHomeYes();
-
-            //var confirmDetails = personalDetailsPage.SubmitAtHome();
-            //confirmDetails.VerifyHeading("Check details");
-
+            var confirmDetails = personalDetailsPage.SubmitAtHome();
+            confirmDetails.VerifyHeading("Check details");
             //need to submit call
+            var callConfirmationPage = confirmDetails.SubmitCall();
             //Verify text 
+            callConfirmationPage.VerifyCallConfirmation(1, false, "Advice_CX221056-Adult-Female", "Head injury");
+
             //resubmit
-            //Verify text
+            callConfirmationPage.Driver.Navigate().Back();
+            var resubmitCallConfirmationPage = confirmDetails.SubmitCall();
+            //Verify text 
+            resubmitCallConfirmationPage.VerifyCallConfirmation(1, false, "Advice_CX221056-Adult-Female", "Head injury");
         }
 
 
     }
 
- }
+}
