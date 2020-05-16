@@ -182,6 +182,7 @@ namespace NHS111.Web.Functional.Utils
 
         public void VerifyCallConfirmation(int duration, string unitOfTime, string adviceId, string expectedId)
         {
+            string pluralHour = isPlural ? "hours" : "hour"; 
             VerifyHeading("Your call is confirmed");
             var firstSectionHeading = Driver.FindElement(By.ClassName("local-header__intro")).Text;
             string expectedConfirmationMessage = $"If you haven't had a call within {duration} {unitOfTime}, please call 111";
