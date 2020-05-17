@@ -433,7 +433,8 @@ namespace NHS111.Web.Functional.Tests
         [Test]
         public void ConfirmationScreenGynaecology()
         {
-            var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Something in the vagina", TestScenerioSex.Female,
+            var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Something in the vagina",
+                TestScenerioSex.Female,
                 TestScenerioAgeGroups.Adult, "BB12FD", "Foreign Body, Vaginal");
 
             questionPage.VerifyQuestion("Is the problem that you can't remove a tampon, condom or cap?");
@@ -478,6 +479,61 @@ namespace NHS111.Web.Functional.Tests
             var resubmitCallConfirmationPage = confirmDetails.SubmitCall();
             //Verify text 
             callConfirmationPage.VerifyCallConfirmation(20, "minutes");
+        }
+
+        //Scenario 9
+        [Test]
+        public void ConfirmationScreenDermetology()
+        {
+            var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Sunburn", TestScenerioSex.Male,
+                TestScenerioAgeGroups.Adult, "AL74HL", "Burn, Sun");
+
+            questionPage.VerifyQuestion("Do you feel generally unwell, apart from the sunburn?");
+            var outcomePage = questionPage
+                .Answer(1)
+                .Answer(3)
+                .Answer(4)
+                .AnswerSuccessiveByOrder(3, 5)
+                .Answer<OutcomePage>(2);
+
+            Driver.FindElement(By.XPath("//input[@value = 'Dx02']"));
+            outcomePage.VerifyOutcome("Get a phone call from a nurse");
+            Driver.FindElement(By.XPath("//input[@value = '2000005832']"));
+            outcomePage.VerifyIsCallbackAcceptancePage();
+
+            var personalDetailsPage = outcomePage.AcceptCallback();
+            personalDetailsPage.VerifyIsPersonalDetailsPage();
+            personalDetailsPage.SelectMe();
+            personalDetailsPage.EnterPatientName("Dx334 first", "Dx334 last");
+            personalDetailsPage.EnterDateOfBirth("01", "01", "1971");
+            personalDetailsPage.VerifyNameDisplayed();
+            personalDetailsPage.VerifyDateOfBirthDisplayed();
+
+            var personalDetailsPhoneNumberPage = personalDetailsPage.SubmitPersonalDetails();
+            personalDetailsPhoneNumberPage.EnterPhoneNumberOnSeparatePage("07770728207");
+            personalDetailsPhoneNumberPage.VerifyNumberDisplayedOnSeparatePage();
+
+            var currentAddressPage = personalDetailsPhoneNumberPage.SubmitPersonalDetails();
+            currentAddressPage.VerifyHeading("Where are you right now?");
+
+            var addressID = "51719871";
+            currentAddressPage.VerifyAddressDisplays(addressID);
+
+            var atHomePage = currentAddressPage.ClickAddress(addressID);
+            atHomePage.VerifyHeading("Are you at home?");
+            atHomePage.SelectAtHomeYes();
+
+            var confirmDetails = personalDetailsPage.SubmitAtHome();
+            confirmDetails.VerifyHeading("Check details");
+            //need to submit call
+            var callConfirmationPage = confirmDetails.SubmitCall();
+            //Verify text 
+            callConfirmationPage.VerifyCallConfirmation(30, "Advice_CX221041-Adult-Male", "Sunburn", false);
+            //resubmit
+            callConfirmationPage.Driver.Navigate().Back();
+            var resubmitCallConfirmationPage = confirmDetails.SubmitCall();
+            //Verify text 
+            callConfirmationPage.VerifyCallConfirmation(30, "Advice_CX221041-Adult-Male", "Sunburn", true);
         }
     }
 }
