@@ -101,5 +101,10 @@ namespace NHS111.Web.Functional.Utils
         {
             Driver.FindElement(By.Id("DosLookup")).Click();
         }
+
+        public void FindADentalService()
+        {
+            Driver.FindElement(By.Id("availableServices")).Click();
+        }
     }
 }
