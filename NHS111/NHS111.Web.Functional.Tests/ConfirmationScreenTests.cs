@@ -656,7 +656,7 @@ namespace NHS111.Web.Functional.Tests
 
         //Scenario 6
         [Test]
-        public void ConfirmationScreenDentist()
+        public void ConfirmationScreenDentistForAdultMale()
         {
             var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Dental Problems", TestScenerioSex.Male,
                 TestScenerioAgeGroups.Adult, "LS72BQ");
@@ -707,6 +707,59 @@ namespace NHS111.Web.Functional.Tests
             var resubmitCallConfirmationPage = confirmDetails.SubmitCall();
             //Verify text 
             callConfirmationPage.VerifyCallConfirmation(2, "hours", "Advice_CX221021-Adult-Male", "Toothache");
+        }
+
+        //Scenario 7
+        [Test]
+        public void ConfirmationScreenDentistForAdultFemale()
+        {
+            var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Dental Problems", TestScenerioSex.Female,
+                TestScenerioAgeGroups.Adult, "LS72BQ");
+
+            questionPage.VerifyQuestion("What is the main problem today?");
+            var outcomePage = questionPage
+                .Answer(1)
+                .Answer(3)
+                .AnswerSuccessiveByOrder(1, 2)
+                .Answer(4)
+                .Answer<OutcomePage>(2);
+
+            outcomePage.VerifyOutcome("Your answers suggest you need urgent attention for your dental problem within 4 hours");
+            outcomePage.FindAService();
+            Driver.FindElement(By.XPath("//input[@value = '2000014914']"));
+            var personalDetailsPage = outcomePage.UseThisService("0");
+            personalDetailsPage.VerifyIsPersonalDetailsPage();
+            personalDetailsPage.SelectMe();
+            personalDetailsPage.EnterPatientName("Dx18 first", "Dx18 last");
+            personalDetailsPage.EnterDateOfBirth("01", "01", "1971");
+            personalDetailsPage.VerifyNameDisplayed();
+            personalDetailsPage.VerifyDateOfBirthDisplayed();
+
+            var personalDetailsPhoneNumberPage = personalDetailsPage.SubmitPersonalDetails();
+            personalDetailsPhoneNumberPage.EnterPhoneNumberOnSeparatePage("07770728206");
+            personalDetailsPhoneNumberPage.VerifyNumberDisplayedOnSeparatePage();
+
+            var currentAddressPage = personalDetailsPhoneNumberPage.SubmitPersonalDetails();
+            currentAddressPage.VerifyHeading("Where are you right now?");
+
+            var addressID = "13865540";
+            currentAddressPage.VerifyAddressDisplays(addressID);
+
+            var atHomePage = currentAddressPage.ClickAddress(addressID);
+            atHomePage.VerifyHeading("Are you at home?");
+            atHomePage.SelectAtHomeYes();
+
+            var confirmDetails = personalDetailsPage.SubmitAtHome();
+            confirmDetails.VerifyHeading("Check details");
+            //need to submit call
+            var callConfirmationPage = confirmDetails.SubmitCall();
+            //Verify text 
+            callConfirmationPage.VerifyCallConfirmation(4, "hours", "Advice_CX220593-Adult-Female", "Tooth extraction");
+            //resubmit
+            callConfirmationPage.Driver.Navigate().Back();
+            var resubmitCallConfirmationPage = confirmDetails.SubmitCall();
+            //Verify text 
+            callConfirmationPage.VerifyCallConfirmation(4, "hours", "Advice_CX220593-Adult-Female", "Tooth extraction");
         }
     }
 }
