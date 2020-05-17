@@ -247,19 +247,22 @@ namespace NHS111.Web.Functional.Tests
             //need to submit call
             var callConfirmationPage = confirmDetails.SubmitCall();
             //Verify text 
-            callConfirmationPage.VerifyCallConfirmation(20, "minutes", "Advice_CX221093-Adult-Female", "Pregnancy, labour");
+            callConfirmationPage.VerifyCallConfirmation(20, "minutes", "Advice_CX221093-Adult-Female",
+                "Pregnancy, labour");
             //resubmit
             callConfirmationPage.Driver.Navigate().Back();
             var resubmitCallConfirmationPage = confirmDetails.SubmitCall();
             //Verify text 
-            callConfirmationPage.VerifyCallConfirmation(20, "minutes", "Advice_CX221093-Adult-Female", "Pregnancy, labour");
+            callConfirmationPage.VerifyCallConfirmation(20, "minutes", "Advice_CX221093-Adult-Female",
+                "Pregnancy, labour");
         }
 
         //Scenario 5
         [Test]
         public void ConfirmationScreenSexualHealth()
         {
-            var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Sexual or Menstrual Concerns", TestScenerioSex.Female,
+            var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Sexual or Menstrual Concerns",
+                TestScenerioSex.Female,
                 TestScenerioAgeGroups.Adult, "E173AX");
 
             questionPage.VerifyQuestion("Have you been sexually assaulted recently?");
@@ -307,12 +310,14 @@ namespace NHS111.Web.Functional.Tests
             //need to submit call
             var callConfirmationPage = confirmDetails.SubmitCall();
             //Verify text 
-            callConfirmationPage.VerifyCallConfirmation(24, "hours", "Advice_CX221005-Adult-Female", "Genital discharge/irritation");
+            callConfirmationPage.VerifyCallConfirmation(24, "hours", "Advice_CX221005-Adult-Female",
+                "Genital discharge/irritation");
             //resubmit
             callConfirmationPage.Driver.Navigate().Back();
             var resubmitCallConfirmationPage = confirmDetails.SubmitCall();
             //Verify text 
-            callConfirmationPage.VerifyCallConfirmation(24, "hours", "Advice_CX221005-Adult-Female", "Genital discharge/irritation");
+            callConfirmationPage.VerifyCallConfirmation(24, "hours", "Advice_CX221005-Adult-Female",
+                "Genital discharge/irritation");
         }
 
         //Scenario 6
@@ -385,7 +390,8 @@ namespace NHS111.Web.Functional.Tests
                 .Answer(4)
                 .Answer<OutcomePage>(2);
 
-            outcomePage.VerifyOutcome("Your answers suggest you need urgent attention for your dental problem within 4 hours");
+            outcomePage.VerifyOutcome(
+                "Your answers suggest you need urgent attention for your dental problem within 4 hours");
             outcomePage.FindAService();
             Driver.FindElement(By.XPath("//input[@value = '2000014914']"));
             var personalDetailsPage = outcomePage.UseThisService("0");
@@ -421,6 +427,57 @@ namespace NHS111.Web.Functional.Tests
             var resubmitCallConfirmationPage = confirmDetails.SubmitCall();
             //Verify text 
             callConfirmationPage.VerifyCallConfirmation(4, "hours", "Advice_CX220593-Adult-Female", "Tooth extraction");
+        }
+
+        //Scenario 8
+        [Test]
+        public void ConfirmationScreenGynaecology()
+        {
+            var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Something in the vagina", TestScenerioSex.Female,
+                TestScenerioAgeGroups.Adult, "BB12FD", "Foreign Body, Vaginal");
+
+            questionPage.VerifyQuestion("Is the problem that you can't remove a tampon, condom or cap?");
+            var outcomePage = questionPage
+                .Answer(1)
+                .Answer(3)
+                .Answer<OutcomePage>(3);
+
+            outcomePage.VerifyOutcome("Book a call with a 111 nurse now");
+            Driver.FindElement(By.XPath("//input[@value = '2000004969']"));
+
+            var personalDetailsPage = outcomePage.ClickBookCallback();
+            personalDetailsPage.VerifyIsPersonalDetailsPage();
+            personalDetailsPage.SelectMe();
+            personalDetailsPage.EnterPatientName("Dx32 first", "Dx32 last");
+            personalDetailsPage.EnterDateOfBirth("01", "01", "1971");
+            personalDetailsPage.VerifyNameDisplayed();
+            personalDetailsPage.VerifyDateOfBirthDisplayed();
+
+            var personalDetailsPhoneNumberPage = personalDetailsPage.SubmitPersonalDetails();
+            personalDetailsPhoneNumberPage.EnterPhoneNumberOnSeparatePage("07770728206");
+            personalDetailsPhoneNumberPage.VerifyNumberDisplayedOnSeparatePage();
+
+            var currentAddressPage = personalDetailsPhoneNumberPage.SubmitPersonalDetails();
+            currentAddressPage.VerifyHeading("Where are you right now?");
+
+            var addressID = "50939367";
+            currentAddressPage.VerifyAddressDisplays(addressID);
+
+            var atHomePage = currentAddressPage.ClickAddress(addressID);
+            atHomePage.VerifyHeading("Are you at home?");
+            atHomePage.SelectAtHomeYes();
+
+            var confirmDetails = personalDetailsPage.SubmitAtHome();
+            confirmDetails.VerifyHeading("Check details");
+            //need to submit call
+            var callConfirmationPage = confirmDetails.SubmitCall();
+            //Verify text 
+            callConfirmationPage.VerifyCallConfirmation(20, "minutes");
+            //resubmit
+            callConfirmationPage.Driver.Navigate().Back();
+            var resubmitCallConfirmationPage = confirmDetails.SubmitCall();
+            //Verify text 
+            callConfirmationPage.VerifyCallConfirmation(20, "minutes");
         }
     }
 }

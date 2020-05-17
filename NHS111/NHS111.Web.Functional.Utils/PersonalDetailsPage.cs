@@ -196,5 +196,16 @@ namespace NHS111.Web.Functional.Utils {
                 string.Format("Possible unexpected Id. Expected Id text of '{0}' but was '{1}'.",
                     expectedId, secondSectionId));
         }
+
+        public void VerifyCallConfirmation(int duration, string unitOfTime)
+        {
+            VerifyHeading("Your call is confirmed");
+            var firstSectionHeading = Driver.FindElement(By.ClassName("local-header__intro")).Text;
+            string expectedConfirmationMessage = $"If you haven't had a call within {duration} {unitOfTime}, please call 111";
+
+            Assert.AreEqual(expectedConfirmationMessage, firstSectionHeading,
+                string.Format("Possible unexpected header. Expected header text of '{0}' but was '{1}'.",
+                    expectedConfirmationMessage, firstSectionHeading));
+        }
     }
 }

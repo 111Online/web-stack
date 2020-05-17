@@ -96,6 +96,11 @@ namespace NHS111.Web.Functional.Utils
             return page.TypeSearchTextAndSelect(pathwayTopic);
         }
 
+        public static QuestionInfoPage QuestionInfo(SearchPage page, string pathwayTopic, string pathwayTitle)
+        {
+            return page.TypeSearchTextAndSelect(pathwayTopic, pathwayTitle);
+        }
+
         public static PageNotFound PageNotFound(IWebDriver driver)
         {
             var pageNotFound = new PageNotFound(driver);
