@@ -198,5 +198,28 @@ namespace NHS111.Web.Functional.Utils
                 string.Format("Possible unexpected header. Expected header text of '{0}' but was '{1}'.",
                     expectedConfirmationMessage, firstSectionHeading));
         }
+
+        public void VerifyCallConfirmation(int duration, string adviceId, string expectedId, Boolean hasBeenResubmitted)
+        { 
+            string heading = hasBeenResubmitted ? "Your call has already been booked" : $"You should get a call within {duration} minutes.";
+            VerifyHeading(heading);
+            var firstSectionHeading = hasBeenResubmitted ? Driver.FindElement(By.CssSelector("div.callout.callout--warning > p")).Text : 
+                Driver.FindElement(By.ClassName("local-header__intro")).Text;
+            string expectedConfirmationMessage = hasBeenResubmitted ? 
+                $"If you did not get a call within {duration} minutes, or you've got worse, go to the nearest A&E (accident and emergency department)." : 
+                "If your symptoms get worse go to the nearest A&E (accident and emergency department).";
+
+            Assert.AreEqual(expectedConfirmationMessage, firstSectionHeading,
+                string.Format("Possible unexpected header. Expected header text of '{0}' but was '{1}'.",
+                    expectedConfirmationMessage, firstSectionHeading));
+
+            var secondSectionHeading = Driver.FindElement(By.ClassName("care-advice"));
+            Assert.IsTrue(secondSectionHeading.Text.Contains("What you can do in the meantime"));
+
+            var secondSectionId = secondSectionHeading.FindElement(By.Id(adviceId)).Text;
+            Assert.AreEqual(expectedId, secondSectionId,
+                string.Format("Possible unexpected Id. Expected Id text of '{0}' but was '{1}'.",
+                    expectedId, secondSectionId));
+        }
     }
 }
