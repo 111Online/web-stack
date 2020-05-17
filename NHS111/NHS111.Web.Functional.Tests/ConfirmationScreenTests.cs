@@ -593,5 +593,120 @@ namespace NHS111.Web.Functional.Tests
             string suffix = generator.Next(0, 999999).ToString("D6");
             return $"{prefix}{suffix}";
         }
+
+        //Scenario 5
+        [Test]
+        public void ConfirmationScreenSexualHealth()
+        {
+            var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Sexual or Menstrual Concerns", TestScenerioSex.Female,
+                TestScenerioAgeGroups.Adult, "E173AX");
+
+            questionPage.VerifyQuestion("Have you been sexually assaulted recently?");
+            var outcomePage = questionPage
+                .Answer(3)
+                .Answer(6)
+                .Answer(3)
+                .Answer(4)
+                .Answer(2)
+                .Answer(3)
+                .Answer(4)
+                .AnswerSuccessiveByOrder(3, 5)
+                .Answer(1)
+                .Answer<OutcomePage>(2);
+
+            outcomePage.VerifyFindService(FindServiceTypes.SexualHealthClinic);
+            outcomePage.VerifyOutcome("Your answers suggest you should visit a sexual health clinic");
+            outcomePage.FindAService();
+            Driver.FindElement(By.XPath("//input[@value = '2000006999']"));
+
+            var personalDetailsPage = outcomePage.UseThisService("1");
+            personalDetailsPage.VerifyIsPersonalDetailsPage();
+            personalDetailsPage.SelectMe();
+            personalDetailsPage.EnterPatientName("Dx31 first", "Dx31 last");
+            personalDetailsPage.EnterDateOfBirth("31", "07", "1971");
+            personalDetailsPage.VerifyNameDisplayed();
+            personalDetailsPage.VerifyDateOfBirthDisplayed();
+
+            var personalDetailsPhoneNumberPage = personalDetailsPage.SubmitPersonalDetails();
+            personalDetailsPhoneNumberPage.EnterPhoneNumberOnSeparatePage("07793346301");
+            personalDetailsPhoneNumberPage.VerifyNumberDisplayedOnSeparatePage();
+
+            var currentAddressPage = personalDetailsPhoneNumberPage.SubmitPersonalDetails();
+            currentAddressPage.VerifyHeading("Where are you right now?");
+
+            var addressID = "55629068";
+            currentAddressPage.VerifyAddressDisplays(addressID);
+
+            var atHomePage = currentAddressPage.ClickAddress(addressID);
+            atHomePage.VerifyHeading("Are you at home?");
+            atHomePage.SelectAtHomeYes();
+
+            var confirmDetails = personalDetailsPage.SubmitAtHome();
+            confirmDetails.VerifyHeading("Check details");
+            //need to submit call
+            var callConfirmationPage = confirmDetails.SubmitCall();
+            //Verify text 
+            callConfirmationPage.VerifyCallConfirmation(24, "hours", "Advice_CX221005-Adult-Female", "Genital discharge/irritation");
+            //resubmit
+            callConfirmationPage.Driver.Navigate().Back();
+            var resubmitCallConfirmationPage = confirmDetails.SubmitCall();
+            //Verify text 
+            callConfirmationPage.VerifyCallConfirmation(24, "hours", "Advice_CX221005-Adult-Female", "Genital discharge/irritation");
+        }
+
+        //Scenario 6
+        [Test]
+        public void ConfirmationScreenDentist()
+        {
+            var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Dental Problems", TestScenerioSex.Male,
+                TestScenerioAgeGroups.Adult, "LS72BQ");
+
+            questionPage.VerifyQuestion("What is the main problem today?");
+            var outcomePage = questionPage
+                .Answer(2)
+                .Answer(4)
+                .AnswerSuccessiveByOrder(1, 2)
+                .Answer(3)
+                .Answer<OutcomePage>(3);
+
+            // outcomePage.VerifyFindService(FindServiceTypes.UrgentDental);
+            outcomePage.VerifyOutcome("See your dentist urgently");
+            outcomePage.FindADentalService();
+            Driver.FindElement(By.XPath("//input[@value = '2000014914']"));
+            var personalDetailsPage = outcomePage.UseThisService("0");
+            personalDetailsPage.VerifyIsPersonalDetailsPage();
+            personalDetailsPage.SelectSomeoneElse();
+            personalDetailsPage.EnterPatientName("Dx18 first", "Dx18 last");
+            personalDetailsPage.EnterThirdPartyName("Test Carer", "Test Carer");
+            personalDetailsPage.EnterDateOfBirth("01", "01", "1971");
+            personalDetailsPage.VerifyNameDisplayed();
+            personalDetailsPage.VerifyDateOfBirthDisplayed();
+
+            var personalDetailsPhoneNumberPage = personalDetailsPage.SubmitPersonalDetails();
+            personalDetailsPhoneNumberPage.EnterPhoneNumberOnSeparatePage("07770728206");
+            personalDetailsPhoneNumberPage.VerifyNumberDisplayedOnSeparatePage();
+
+            var currentAddressPage = personalDetailsPhoneNumberPage.SubmitPersonalDetails();
+            currentAddressPage.VerifyHeading("Where are they right now?");
+
+            var addressID = "13865540";
+            currentAddressPage.VerifyAddressDisplays(addressID);
+
+            var atHomePage = currentAddressPage.ClickAddress(addressID);
+            atHomePage.VerifyHeading("Are they at home?");
+            atHomePage.SelectAtHomeYes();
+
+            var confirmDetails = personalDetailsPage.SubmitAtHome();
+            confirmDetails.VerifyHeading("Check details");
+            //need to submit call
+            var callConfirmationPage = confirmDetails.SubmitCall();
+            //Verify text 
+            callConfirmationPage.VerifyCallConfirmation(2, "hours", "Advice_CX221021-Adult-Male", "Toothache");
+            //resubmit
+            callConfirmationPage.Driver.Navigate().Back();
+            var resubmitCallConfirmationPage = confirmDetails.SubmitCall();
+            //Verify text 
+            callConfirmationPage.VerifyCallConfirmation(2, "hours", "Advice_CX221021-Adult-Male", "Toothache");
+        }
     }
 }
