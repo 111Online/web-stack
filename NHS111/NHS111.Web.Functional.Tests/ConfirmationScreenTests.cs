@@ -1,10 +1,8 @@
-﻿using NHS111.Web.Functional.Utils;
-using NHS111.Web.Functional.Utils.ScreenShot;
-using NUnit.Framework;
+﻿using System;
+using NHS111.Web.Functional.Utils;
 
 namespace NHS111.Web.Functional.Tests
 {
-    using System.Linq;
     using NUnit.Framework;
     using OpenQA.Selenium;
 
@@ -15,7 +13,8 @@ namespace NHS111.Web.Functional.Tests
         [Test]
         public void ConfirmationScreenGP()
         {
-            //Scenario 1
+            string telNumber = GenerateTelephoneNumber();
+
             var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Headache", TestScenerioSex.Male,
                 TestScenerioAgeGroups.Adult, "E173AX");
 
@@ -51,7 +50,7 @@ namespace NHS111.Web.Functional.Tests
 
             var personalDetailsPhoneNumberPage = personalDetailsPage.SubmitPersonalDetails();
 
-            personalDetailsPhoneNumberPage.EnterPhoneNumberOnSeparatePage("07793346301");
+            personalDetailsPhoneNumberPage.EnterPhoneNumberOnSeparatePage(telNumber);
             personalDetailsPhoneNumberPage.VerifyNumberDisplayedOnSeparatePage();
 
             var currentAddressPage = personalDetailsPhoneNumberPage.SubmitPersonalDetails();
@@ -85,6 +84,8 @@ namespace NHS111.Web.Functional.Tests
         [Test]
         public void ConfirmationScreenPharmacy()
         {
+            // string telNumber = GenerateTelephoneNumber();
+
             // var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Eye or eyelid problems",
             //     TestScenerioSex.Male, TestScenerioAgeGroups.Adult, "CO12HU");
 
@@ -112,7 +113,7 @@ namespace NHS111.Web.Functional.Tests
             //personalDetailsPage.EnterPatientName("Test1", "Tester1");
 
             //personalDetailsPage.EnterDateOfBirth("31", "07", "1980");
-            //personalDetailsPage.EnterPhoneNumber("07793346301");
+            //personalDetailsPage.EnterPhoneNumber(telNumber);
 
             //var currentAddressPage = personalDetailsPage.SubmitPersonalDetails();
             //currentAddressPage.VerifyHeading("Where are you right now?");
@@ -138,6 +139,8 @@ namespace NHS111.Web.Functional.Tests
         [Test]
         public void ConfirmationScreenMidwifery()
         {
+            string telNumber = GenerateTelephoneNumber();
+
             var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Headache", TestScenerioSex.Female,
                 TestScenerioAgeGroups.Adolescent, "E173AX");
 
@@ -166,7 +169,7 @@ namespace NHS111.Web.Functional.Tests
             personalDetailsPage.VerifyDateOfBirthDisplayed();
 
             var personalDetailsPhoneNumberPage = personalDetailsPage.SubmitPersonalDetails();
-            personalDetailsPhoneNumberPage.EnterPhoneNumberOnSeparatePage("07793346301");
+            personalDetailsPhoneNumberPage.EnterPhoneNumberOnSeparatePage(telNumber);
             personalDetailsPhoneNumberPage.VerifyNumberDisplayedOnSeparatePage();
 
             var currentAddressPage = personalDetailsPhoneNumberPage.SubmitPersonalDetails();
@@ -198,6 +201,8 @@ namespace NHS111.Web.Functional.Tests
         [Test]
         public void ConfirmationScreenMidwiferyLabour()
         {
+            string telNumber = GenerateTelephoneNumber();
+
             var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Abdominal Pain", TestScenerioSex.Female,
                 TestScenerioAgeGroups.Adult, "E173AX");
 
@@ -229,7 +234,7 @@ namespace NHS111.Web.Functional.Tests
             personalDetailsPage.VerifyDateOfBirthDisplayed();
 
             var personalDetailsPhoneNumberPage = personalDetailsPage.SubmitPersonalDetails();
-            personalDetailsPhoneNumberPage.EnterPhoneNumberOnSeparatePage("07793346301");
+            personalDetailsPhoneNumberPage.EnterPhoneNumberOnSeparatePage(telNumber);
             personalDetailsPhoneNumberPage.VerifyNumberDisplayedOnSeparatePage();
 
             var currentAddressPage = personalDetailsPhoneNumberPage.SubmitPersonalDetails();
@@ -259,8 +264,10 @@ namespace NHS111.Web.Functional.Tests
 
         //Scenario 5
         [Test]
-        public void ConfirmationScreenSexualHealth()
+        public void ConfirmationScreenSexualHealthAdultFemale()
         {
+            string telNumber = GenerateTelephoneNumber();
+
             var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Sexual or Menstrual Concerns",
                 TestScenerioSex.Female,
                 TestScenerioAgeGroups.Adult, "E173AX");
@@ -292,7 +299,7 @@ namespace NHS111.Web.Functional.Tests
             personalDetailsPage.VerifyDateOfBirthDisplayed();
 
             var personalDetailsPhoneNumberPage = personalDetailsPage.SubmitPersonalDetails();
-            personalDetailsPhoneNumberPage.EnterPhoneNumberOnSeparatePage("07793346301");
+            personalDetailsPhoneNumberPage.EnterPhoneNumberOnSeparatePage(telNumber);
             personalDetailsPhoneNumberPage.VerifyNumberDisplayedOnSeparatePage();
 
             var currentAddressPage = personalDetailsPhoneNumberPage.SubmitPersonalDetails();
@@ -324,6 +331,8 @@ namespace NHS111.Web.Functional.Tests
         [Test]
         public void ConfirmationScreenDentistForAdultMale()
         {
+            string telNumber = GenerateTelephoneNumber();
+
             var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Dental Problems", TestScenerioSex.Male,
                 TestScenerioAgeGroups.Adult, "LS72BQ");
 
@@ -349,7 +358,7 @@ namespace NHS111.Web.Functional.Tests
             personalDetailsPage.VerifyDateOfBirthDisplayed();
 
             var personalDetailsPhoneNumberPage = personalDetailsPage.SubmitPersonalDetails();
-            personalDetailsPhoneNumberPage.EnterPhoneNumberOnSeparatePage("07770728206");
+            personalDetailsPhoneNumberPage.EnterPhoneNumberOnSeparatePage(telNumber);
             personalDetailsPhoneNumberPage.VerifyNumberDisplayedOnSeparatePage();
 
             var currentAddressPage = personalDetailsPhoneNumberPage.SubmitPersonalDetails();
@@ -379,6 +388,8 @@ namespace NHS111.Web.Functional.Tests
         [Test]
         public void ConfirmationScreenDentistForAdultFemale()
         {
+            string telNumber = GenerateTelephoneNumber();
+
             var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Dental Problems", TestScenerioSex.Female,
                 TestScenerioAgeGroups.Adult, "LS72BQ");
 
@@ -403,7 +414,7 @@ namespace NHS111.Web.Functional.Tests
             personalDetailsPage.VerifyDateOfBirthDisplayed();
 
             var personalDetailsPhoneNumberPage = personalDetailsPage.SubmitPersonalDetails();
-            personalDetailsPhoneNumberPage.EnterPhoneNumberOnSeparatePage("07770728206");
+            personalDetailsPhoneNumberPage.EnterPhoneNumberOnSeparatePage(telNumber);
             personalDetailsPhoneNumberPage.VerifyNumberDisplayedOnSeparatePage();
 
             var currentAddressPage = personalDetailsPhoneNumberPage.SubmitPersonalDetails();
@@ -433,6 +444,8 @@ namespace NHS111.Web.Functional.Tests
         [Test]
         public void ConfirmationScreenGynaecology()
         {
+            string telNumber = GenerateTelephoneNumber();
+
             var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Something in the vagina",
                 TestScenerioSex.Female,
                 TestScenerioAgeGroups.Adult, "BB12FD", "Foreign Body, Vaginal");
@@ -455,7 +468,7 @@ namespace NHS111.Web.Functional.Tests
             personalDetailsPage.VerifyDateOfBirthDisplayed();
 
             var personalDetailsPhoneNumberPage = personalDetailsPage.SubmitPersonalDetails();
-            personalDetailsPhoneNumberPage.EnterPhoneNumberOnSeparatePage("07770728206");
+            personalDetailsPhoneNumberPage.EnterPhoneNumberOnSeparatePage(telNumber);
             personalDetailsPhoneNumberPage.VerifyNumberDisplayedOnSeparatePage();
 
             var currentAddressPage = personalDetailsPhoneNumberPage.SubmitPersonalDetails();
@@ -483,8 +496,10 @@ namespace NHS111.Web.Functional.Tests
 
         //Scenario 9
         [Test]
-        public void ConfirmationScreenDermetology()
+        public void ConfirmationScreenDermatology()
         {
+            string telNumber = GenerateTelephoneNumber();
+
             var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Sunburn", TestScenerioSex.Male,
                 TestScenerioAgeGroups.Adult, "AL74HL", "Burn, Sun");
 
@@ -510,7 +525,7 @@ namespace NHS111.Web.Functional.Tests
             personalDetailsPage.VerifyDateOfBirthDisplayed();
 
             var personalDetailsPhoneNumberPage = personalDetailsPage.SubmitPersonalDetails();
-            personalDetailsPhoneNumberPage.EnterPhoneNumberOnSeparatePage("07770728207");
+            personalDetailsPhoneNumberPage.EnterPhoneNumberOnSeparatePage(telNumber);
             personalDetailsPhoneNumberPage.VerifyNumberDisplayedOnSeparatePage();
 
             var currentAddressPage = personalDetailsPhoneNumberPage.SubmitPersonalDetails();
@@ -534,6 +549,70 @@ namespace NHS111.Web.Functional.Tests
             var resubmitCallConfirmationPage = confirmDetails.SubmitCall();
             //Verify text 
             callConfirmationPage.VerifyCallConfirmation(30, "Advice_CX221041-Adult-Male", "Sunburn", true);
+        }
+
+        //Scenario 10
+        [Test]
+        public void ConfirmationScreenSexualHealthAdultMale()
+        {
+            string telNumber = GenerateTelephoneNumber();
+            var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Sexual Concerns",
+                TestScenerioSex.Male,
+                TestScenerioAgeGroups.Adult, "Al74HL");
+
+            var outcomePage = questionPage
+                .Answer(3)
+                .Answer(4)
+                .AnswerSuccessiveByOrder(3, 3)
+                .AnswerSuccessiveByOrder(4, 2)
+                .AnswerSuccessiveByOrder(1, 2)
+                .Answer<OutcomePage>(3);
+
+            outcomePage.VerifyOutcome("Get a phone call from a nurse");
+            Driver.FindElement(By.XPath("//input[@value = '2000005832']"));
+
+            var outcomeRejectionPage = outcomePage.RejectCallback();
+            outcomeRejectionPage.VerifyHeader("Go to an emergency treatment centre urgently");
+
+            var personalDetailsPage = outcomeRejectionPage.ClickBookCallback();
+            personalDetailsPage.VerifyIsPersonalDetailsPage();
+            personalDetailsPage.SelectSomeoneElse();
+            personalDetailsPage.EnterPatientName("Dx32 first", "Dx32 last");
+            personalDetailsPage.EnterThirdPartyName("Test Carer", "Test Carer");
+            personalDetailsPage.EnterDateOfBirth("01", "01", "1971");
+            personalDetailsPage.VerifyNameDisplayed();
+            personalDetailsPage.VerifyDateOfBirthDisplayed();
+
+            var personalDetailsPhoneNumberPage = personalDetailsPage.SubmitPersonalDetails();
+            personalDetailsPhoneNumberPage.EnterPhoneNumberOnSeparatePage(telNumber);
+            personalDetailsPhoneNumberPage.VerifyNumberDisplayedOnSeparatePage();
+
+            var currentAddressPage = personalDetailsPhoneNumberPage.SubmitPersonalDetails();
+            var addressID = "51719871";
+            currentAddressPage.VerifyAddressDisplays(addressID);
+            currentAddressPage.ClickAddress(addressID);
+            currentAddressPage.VerifyHeading("Are they at home?");
+            personalDetailsPage.SelectAtHomeYes();
+            //need to submit call
+            var confirmDetails = personalDetailsPage.SubmitAtHome();
+            confirmDetails.VerifyHeading("Check details");
+            //need to submit call
+            var callConfirmationPage = confirmDetails.SubmitCall();
+            //Verify text 
+            callConfirmationPage.VerifySexualConcernsCallConfirmation(4, "hours", false);
+            //resubmit
+            callConfirmationPage.Driver.Navigate().Back();
+            var resubmitCallConfirmationPage = personalDetailsPage.SubmitCall();
+            //Verify text 
+            callConfirmationPage.VerifySexualConcernsCallConfirmation(4, "hours", true);
+        }
+
+        private string GenerateTelephoneNumber()
+        {
+            Random generator = new Random();
+            string prefix = "0777";
+            string suffix = generator.Next(0, 999999).ToString("D6");
+            return $"{prefix}{suffix}";
         }
     }
 }
