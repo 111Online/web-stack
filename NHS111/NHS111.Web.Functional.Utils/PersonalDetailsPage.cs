@@ -37,12 +37,12 @@ namespace NHS111.Web.Functional.Utils {
 
         public void SelectMe()
         {
-            Driver.FindElement(By.Id("PatientInformantDetails_Informant_Self")).Click();
+            Driver.FindElement(By.Id("Informant_Self")).Click();
         }
 
         public void SelectSomeoneElse()
         {
-            Driver.FindElement(By.Id("PatientInformantDetails_Informant_ThirdParty")).Click();
+            Driver.FindElement(By.Id("Informant_ThirdParty")).Click();
         }
 
         public void EnterPatientName(string forename, string surname)
@@ -77,6 +77,12 @@ namespace NHS111.Web.Functional.Utils {
         {
             Driver.FindElement(By.Id("submitDetails")).Click();
             return new PersonalDetailsPage(Driver);
+        }
+
+        public YourNamePage SubmitInformantDetails()
+        {
+            Driver.FindElement(By.Id("submitDetails")).Click();
+            return new YourNamePage(Driver);
         }
         public DateOfBirthPage SubmitNameDetails()
         {
