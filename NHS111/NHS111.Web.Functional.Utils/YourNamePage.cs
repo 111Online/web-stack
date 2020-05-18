@@ -37,13 +37,6 @@ namespace NHS111.Web.Functional.Utils {
         {
             Driver.FindElement(By.Id("Forename")).SendKeys(forename);
             Driver.FindElement(By.Id("Surname")).SendKeys(surname);
-
-            // For third party
-            //if (Driver.FindElement(By.Id("PatientInformantDetails_PatientName_Forename")).Displayed)
-            //{
-            //    Driver.FindElement(By.Id("PatientInformantDetails_PatientName_Forename")).SendKeys(forename);
-            //    Driver.FindElement(By.Id("PatientInformantDetails_PatientName_Surname")).SendKeys(surname);
-            //}
         }
 
         public DateOfBirthPage SubmitYourNameDetails()
