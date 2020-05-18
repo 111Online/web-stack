@@ -1,5 +1,6 @@
 ﻿
-namespace NHS111.Web.Presentation.Test.Builders {
+namespace NHS111.Web.Presentation.Test.Builders
+{
     using Moq;
     using NHS111.Models.Models.Domain;
     using NHS111.Models.Models.Web;
@@ -8,19 +9,23 @@ namespace NHS111.Web.Presentation.Test.Builders {
     using Presentation.Builders;
 
     [TestFixture]
-    public class ReferralResultBuilderTests {
+    public class ReferralResultBuilderTests
+    {
         private readonly Mock<IPostCodeAllowedValidator> _mockPostcodeValidator = new Mock<IPostCodeAllowedValidator>();
         private ITKConfirmationViewModel _referralRequestResult;
 
         [SetUp]
-        public void Setup() {
-            _referralRequestResult = new ITKConfirmationViewModel() {
+        public void Setup()
+        {
+            _referralRequestResult = new ITKConfirmationViewModel()
+            {
                 OutcomeGroup = new OutcomeGroup()
             };
         }
 
         [Test]
-        public void Build_WithSuccessfulReferral_ReturnsReferralConfirmationModel() {
+        public void Build_WithSuccessfulReferral_ReturnsReferralConfirmationModel()
+        {
             var builder = new ReferralResultBuilder(_mockPostcodeValidator.Object);
             _referralRequestResult.ItkSendSuccess = true;
             var result = builder.Build(_referralRequestResult);
@@ -28,7 +33,8 @@ namespace NHS111.Web.Presentation.Test.Builders {
         }
 
         [Test]
-        public void Build_WithSuccessful999Referral_ReturnsReferralConfirmationModel() {
+        public void Build_WithSuccessful999Referral_ReturnsReferralConfirmationModel()
+        {
             var builder = new ReferralResultBuilder(_mockPostcodeValidator.Object);
             _referralRequestResult.ItkSendSuccess = true;
             _referralRequestResult.OutcomeGroup = OutcomeGroup.Call999Cat3;
@@ -37,7 +43,8 @@ namespace NHS111.Web.Presentation.Test.Builders {
         }
 
         [Test]
-        public void Build_WithSuccessfulEDReferral_ReturnsReferralConfirmationModel() {
+        public void Build_WithSuccessfulEDReferral_ReturnsReferralConfirmationModel()
+        {
             var builder = new ReferralResultBuilder(_mockPostcodeValidator.Object);
             _referralRequestResult.ItkSendSuccess = true;
             _referralRequestResult.OutcomeGroup = OutcomeGroup.AccidentAndEmergency;
@@ -46,7 +53,8 @@ namespace NHS111.Web.Presentation.Test.Builders {
         }
 
         [Test]
-        public void Build_WithUnsuccessfulReferral_ReturnsReferralFailureModel() {
+        public void Build_WithUnsuccessfulReferral_ReturnsReferralFailureModel()
+        {
             var builder = new ReferralResultBuilder(_mockPostcodeValidator.Object);
             _referralRequestResult.ItkSendSuccess = false;
             var result = builder.Build(_referralRequestResult);
@@ -54,7 +62,8 @@ namespace NHS111.Web.Presentation.Test.Builders {
         }
 
         [Test]
-        public void Build_WithUnsuccessful999Referral_ReturnsReferralFailureModel() {
+        public void Build_WithUnsuccessful999Referral_ReturnsReferralFailureModel()
+        {
             var builder = new ReferralResultBuilder(_mockPostcodeValidator.Object);
             _referralRequestResult.ItkSendSuccess = false;
             _referralRequestResult.OutcomeGroup = OutcomeGroup.Call999Cat3;
@@ -63,7 +72,8 @@ namespace NHS111.Web.Presentation.Test.Builders {
         }
 
         [Test]
-        public void Build_WithUnsuccessfulEDReferral_ReturnsReferralFailureModel() {
+        public void Build_WithUnsuccessfulEDReferral_ReturnsReferralFailureModel()
+        {
             var builder = new ReferralResultBuilder(_mockPostcodeValidator.Object);
             _referralRequestResult.ItkSendSuccess = false;
             _referralRequestResult.OutcomeGroup = OutcomeGroup.AccidentAndEmergency;

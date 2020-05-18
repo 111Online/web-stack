@@ -1,8 +1,8 @@
-﻿using System.Collections.Generic;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using NHS111.Models.Models.Web.FromExternalServices;
 using NUnit.Framework;
+using System.Collections.Generic;
 
 namespace NHS111.Models.Test.Models.Web.FromExternalServices
 {

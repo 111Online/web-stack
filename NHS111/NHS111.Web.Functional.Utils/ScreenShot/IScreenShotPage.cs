@@ -2,7 +2,7 @@
 {
     public interface IScreenShotPage
     {
-        
+
         void CompareScreenShot(string uniqueId);
         bool GetScreenShotsEqual();
         T CompareAndVerify<T>(T page, string uniqueId) where T : IScreenShotPage;

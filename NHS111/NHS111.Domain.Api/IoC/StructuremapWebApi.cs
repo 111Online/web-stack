@@ -15,16 +15,19 @@
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
 
-using System.Web.Http;
 using NHS111.Domain.Api.IoC;
 using NHS111.IoC.DependencyResolution;
+using System.Web.Http;
 
 [assembly: WebActivatorEx.PostApplicationStartMethod(typeof(StructuremapWebApi), "Start")]
 
-namespace NHS111.Domain.Api.IoC {
-    public static class StructuremapWebApi {
-        public static void Start() {
-			var container = StructuremapMvc.StructureMapDependencyScope.Container;
+namespace NHS111.Domain.Api.IoC
+{
+    public static class StructuremapWebApi
+    {
+        public static void Start()
+        {
+            var container = StructuremapMvc.StructureMapDependencyScope.Container;
             GlobalConfiguration.Configuration.DependencyResolver = new StructureMapWebApiDependencyResolver(container);
         }
     }

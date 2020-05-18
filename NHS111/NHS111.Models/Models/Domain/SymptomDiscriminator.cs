@@ -1,8 +1,10 @@
 ﻿
-namespace NHS111.Models.Models.Domain {
+namespace NHS111.Models.Models.Domain
+{
     using Newtonsoft.Json;
 
-    public class SymptomDiscriminator {
+    public class SymptomDiscriminator
+    {
 
         [JsonProperty(PropertyName = "id")]
         public int Id { get; set; }

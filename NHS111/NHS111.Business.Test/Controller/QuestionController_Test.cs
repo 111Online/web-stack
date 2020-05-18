@@ -1,12 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Text;
-using System.Threading.Tasks;
-using Moq;
-using Newtonsoft.Json;
-using NUnit.Framework;
+﻿using Moq;
 using NHS111.Business.Api.Controllers;
 using NHS111.Business.Builders;
 using NHS111.Business.Services;
@@ -14,7 +6,10 @@ using NHS111.Business.Transformers;
 using NHS111.Models.Models.Domain;
 using NHS111.Models.Models.Web.Enums;
 using NHS111.Utils.Cache;
-using NHS111.Utils.Extensions;
+using NUnit.Framework;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace NHS111.Business.Test.Controller
 {
@@ -118,7 +113,7 @@ namespace NHS111.Business.Test.Controller
                 },
                 State = new Dictionary<string, string>()
             };
-            
+
             _questionTransformer.Setup(x => x.AsQuestionWithAnswers(It.IsAny<QuestionWithAnswers>())).Returns(node3);
             _answersForNodeBuilder.Setup(x => x.SelectAnswer(It.IsAny<IEnumerable<Answer>>(), It.IsAny<string>()))
                 .Returns(new Answer { Keywords = "kw1", ExcludeKeywords = "exclude1" });
@@ -173,7 +168,7 @@ namespace NHS111.Business.Test.Controller
                     "Question"
                 },
             };
-            var answers = new [] { new Answer { Title = "setstate" }  };
+            var answers = new[] { new Answer { Title = "setstate" } };
 
             _questionService.Setup(x => x.GetFirstQuestion(It.IsAny<string>())).Returns(Task.FromResult(set));
             _questionService.Setup(x => x.GetAnswersForQuestion(It.IsAny<string>())).Returns(Task.FromResult(answers));
@@ -209,8 +204,8 @@ namespace NHS111.Business.Test.Controller
                     "Question"
                 },
             };
-            var answers = new [] { new Answer { Title = "readstate" }, };
-            
+            var answers = new[] { new Answer { Title = "readstate" }, };
+
             _questionService.Setup(x => x.GetFirstQuestion(It.IsAny<string>())).Returns(Task.FromResult(set));
             _questionService.Setup(x => x.GetAnswersForQuestion(It.IsAny<string>())).Returns(Task.FromResult(answers));
             _questionService.Setup(x => x.GetNextQuestion(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>())).Returns(Task.FromResult(question));

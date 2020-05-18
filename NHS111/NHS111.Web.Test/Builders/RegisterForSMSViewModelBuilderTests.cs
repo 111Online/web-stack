@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using AutoMapper;
+﻿using AutoMapper;
 using Moq;
 using NHS111.Models.Mappers.WebMappings;
 using NHS111.Models.Models.Web;
@@ -12,6 +7,7 @@ using NHS111.Utils.RestTools;
 using NHS111.Web.Presentation.Builders;
 using NUnit.Framework;
 using RestSharp;
+using System.Threading.Tasks;
 using IConfiguration = NHS111.Web.Presentation.Configuration.IConfiguration;
 
 namespace NHS111.Web.Presentation.Test.Builders
@@ -19,13 +15,13 @@ namespace NHS111.Web.Presentation.Test.Builders
     [TestFixture()]
     public class RegisterForSMSViewModelBuilderTests
     {
-        private Mock<IRestClient> _mockRestClient;
+        private Mock<ILoggingRestClient> _mockRestClient;
         private Mock<IConfiguration> _mockConfiguration;
 
         [SetUp()]
         public void Setup()
         {
-            _mockRestClient = new Mock<IRestClient>();
+            _mockRestClient = new Mock<ILoggingRestClient>();
             _mockConfiguration = new Mock<IConfiguration>();
             Mapper.Initialize(cfg => cfg.AddProfile(new DataCaptureApiRequestMappings()));
         }
@@ -37,18 +33,18 @@ namespace NHS111.Web.Presentation.Test.Builders
             var builder = new RegisterForSMSViewModelBuilder(_mockConfiguration.Object, _mockRestClient.Object);
             var mobileNumber = "1234567891";
             var endPointUrl = "api/test-endpoint";
-            var model = new SendSmsOutcomeViewModel() { MobileNumber = mobileNumber, VerificationCodeInput = new VerificationCodeInputViewModel() {InputValue = "654321"}};
+            var model = new SendSmsOutcomeViewModel() { MobileNumber = mobileNumber, VerificationCodeInput = new VerificationCodeInputViewModel() { InputValue = "654321" } };
             var expectedRequest = new JsonRestRequest(endPointUrl, Method.POST).AddJsonBody(mobileNumber);
-            _mockRestClient.Setup(s => s.ExecuteTaskAsync(It.IsAny<IRestRequest>())).ReturnsAsync(new RestResponse());
+            _mockRestClient.Setup(s => s.ExecuteAsync(It.IsAny<IRestRequest>())).ReturnsAsync(new RestResponse());
 
             // Act
             var result = await builder.MessageCaseDataCaptureApi<VerifySMSCodeRequest, SMSEnterVerificationCodeViewDeterminer>(model, endPointUrl);
 
             // Assert
-            _mockRestClient.Verify(m => m.ExecuteTaskAsync(It.Is<RestRequest>(
+            _mockRestClient.Verify(m => m.ExecuteAsync(It.Is<RestRequest>(
                 r => r.Method == Method.POST
                      && r.Resource == endPointUrl
-                     && r.Parameters[0].Value.ToString().Contains(mobileNumber))), Times.Once);
+                     && ((VerifySMSCodeRequest)r.Parameters[0].Value).MobilePhoneNumber == mobileNumber)), Times.Once);
         }
     }
 }

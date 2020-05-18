@@ -30,7 +30,7 @@ namespace NHS111.Web.Functional.Tests
                 .Answer<OutcomePage>("I've had it for 3 days or more")
                 .OpenCareAdvice();
 
-            outcomePage.VerifyCareAdvice(new [] { "Medication, pain and/or fever", "Fever" });
+            outcomePage.VerifyCareAdvice(new[] { "Medication, pain and/or fever", "Fever" });
         }
         [Test]
         //Ensures that Care advice stem removal is no longer in place. CX221005. Text no longer appearing needs to have individual asertions.
@@ -53,7 +53,7 @@ namespace NHS111.Web.Functional.Tests
             var sexualhealth2AdviceDoesNotExists = outcomePage.CareAdviceExists(new[] { "Wear loose-fitting cotton clothes and underwear, as they allow the air to circulate.", "If you need to be seen by a GP or out of hours service, take a wee sample in a clean jar.", "If you're sexually active:", "Don't have sex until the problem has cleared up." });
             var sexualhealth3AdviceDoesNotExists = outcomePage.CareAdviceExists(new[] { "If you need to be seen by a GP or out of hours service, take a wee sample in a clean jar.", "If you're sexually active:", "Don't have sex until the problem has cleared up." });
             var sexualhealth4AdviceDoesNotExists = outcomePage.CareAdviceExists(new[] { "If you're sexually active:", "Don't have sex until the problem has cleared up." });
-       
+
             Assert.IsTrue(sexualhealthAdviceExists);
             Assert.IsFalse(sexualhealth1AdviceDoesNotExists);
             Assert.IsFalse(sexualhealth2AdviceDoesNotExists);

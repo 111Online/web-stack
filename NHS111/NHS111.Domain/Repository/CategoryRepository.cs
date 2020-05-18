@@ -1,14 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Linq.Expressions;
-using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
-using System.Web.UI;
-using Neo4jClient.Cypher;
+﻿using Neo4jClient.Cypher;
 using NHS111.Models.Models.Domain;
 using NHS111.Utils.Extensions;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace NHS111.Domain.Repository
 {
@@ -36,7 +32,7 @@ namespace NHS111.Domain.Repository
                 .Where(string.Join(" and ", new List<string> { GenderIs(gender, "categorypathway"), AgeIsAboveMinimum(age, "categorypathway"), AgeIsBelowMaximum(age, "categorypathway") }))
                 .OptionalMatch("(subcategory)-[:hasPathway]->(md:PathwayMetaData)<-[:isDescribedAs]-(subcategorypathway:Pathway)")
                 .Where(string.Join(" and ", new List<string> { GenderIs(gender, "subcategorypathway"), AgeIsAboveMinimum(age, "subcategorypathway"), AgeIsBelowMaximum(age, "subcategorypathway") }))
-                .ReturnDistinct((category, subcategory) => new{ category = category.As<Category>(), subcategory = subcategory.As<Category>() })
+                .ReturnDistinct((category, subcategory) => new { category = category.As<Category>(), subcategory = subcategory.As<Category>() })
                 .ResultsAsync;
 
             var categories = query.Select(c => c.category);
@@ -116,7 +112,7 @@ namespace NHS111.Domain.Repository
             return CategoryPathways(results.FirstOrDefault());
         }
 
-        public async Task<CategoryWithPathways> GetCategoryWithPathways(string id,string gender, int age)
+        public async Task<CategoryWithPathways> GetCategoryWithPathways(string id, string gender, int age)
         {
             var query = CategoryMatch(id)
                 .Where(string.Join(" and ", new List<string> { GenderIs(gender, "p"), AgeIsAboveMinimum(age, "p"), AgeIsBelowMaximum(age, "p") }))
@@ -173,19 +169,19 @@ namespace NHS111.Domain.Repository
         private static List<CategoryWithPathways> CategorisePathways(IEnumerable<CategoryPathwaysFlattened> flattenedDataList)
         {
             return (from flattenedData in flattenedDataList
-                let parent = flattenedData.Category
-                select new CategoryWithPathways()
-                {
-                    Category = parent,
-                    Pathways = flattenedData.PathwaysMetaData
-                        .Distinct(new PathwayMetaDataComparer())
-                        .Select(md => new PathwayWithDescription()
-                        {
-                            PathwayData = md,
-                            Pathway = flattenedData.Pathways.FirstOrDefault(p => md.PathwayNo == p.PathwayNo)
-                        }),
-                    SubCategories = flattenedDataList.Where(f => f.SubCategory != null && f.SubCategory.ParentId == parent.Id).Select(SubCategoryPathways)
-                })
+                    let parent = flattenedData.Category
+                    select new CategoryWithPathways()
+                    {
+                        Category = parent,
+                        Pathways = flattenedData.PathwaysMetaData
+                            .Distinct(new PathwayMetaDataComparer())
+                            .Select(md => new PathwayWithDescription()
+                            {
+                                PathwayData = md,
+                                Pathway = flattenedData.Pathways.FirstOrDefault(p => md.PathwayNo == p.PathwayNo)
+                            }),
+                        SubCategories = flattenedDataList.Where(f => f.SubCategory != null && f.SubCategory.ParentId == parent.Id).Select(SubCategoryPathways)
+                    })
                 .Distinct(new CategoryWithPathwaysComparer())
                 .ToList();
         }

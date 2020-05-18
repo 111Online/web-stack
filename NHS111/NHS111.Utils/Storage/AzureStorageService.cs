@@ -1,10 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using Microsoft.Azure;
+﻿using Microsoft.Azure;
 using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Table;
-using NHS111.Models.Models.Azure;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace NHS111.Utils.Storage
 {

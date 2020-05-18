@@ -1,10 +1,5 @@
-﻿using System.Threading.Tasks;
-using AutoMapper;
-using NHS111.Models.Mappers.WebMappings;
-using NHS111.Web.Presentation.Models;
+﻿using NHS111.Models.Mappers.WebMappings;
 using NUnit.Framework;
-using NHS111.Models.Models.Domain;
-using System;
 
 namespace NHS111.Models.Test
 {

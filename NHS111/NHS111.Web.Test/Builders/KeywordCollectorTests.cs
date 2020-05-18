@@ -1,14 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using NHS111.Models.Models.Domain;
+﻿using NHS111.Models.Models.Domain;
 using NHS111.Models.Models.Web;
 using NHS111.Models.Models.Web.FromExternalServices;
 using NHS111.Utils.Parser;
-using NHS111.Web.Presentation.Builders;
 using NUnit.Framework;
+using System.Collections.Generic;
+using System.Linq;
 namespace NHS111.Web.Presentation.Builders.Tests
 {
     [TestFixture()]
@@ -23,7 +19,7 @@ namespace NHS111.Web.Presentation.Builders.Tests
             var keywordsString = "Test keyword|AnotherTest keyword";
             var excludedKeywordsString = "Test excluded keyword|AnotherTest excluded keyword";
 
-            var testAnswer = new Answer(){ Keywords = keywordsString, Title = "test", ExcludeKeywords = excludedKeywordsString };
+            var testAnswer = new Answer() { Keywords = keywordsString, Title = "test", ExcludeKeywords = excludedKeywordsString };
 
             var result = _testKeywordCollector.Collect(testAnswer, testJourneyModel);
             Assert.IsNotNull(result);
@@ -59,7 +55,7 @@ namespace NHS111.Web.Presentation.Builders.Tests
         [Test()]
         public void Collect_duplicate_keyword_Test()
         {
-            var testJourneyModel = new JourneyViewModel() { CollectedKeywords = new KeywordBag(new List<Keyword>() { new Keyword() { Value = "Test keyword" } }, new List<Keyword>() { new Keyword() { Value = "Test Excluded keyword" } })};
+            var testJourneyModel = new JourneyViewModel() { CollectedKeywords = new KeywordBag(new List<Keyword>() { new Keyword() { Value = "Test keyword" } }, new List<Keyword>() { new Keyword() { Value = "Test Excluded keyword" } }) };
             var keywordsString = "Test keyword|AnotherTest keyword";
             var excludeKeywordsString = "Test Excluded keyword|AnotherTest exclude keyword";
             var testAnswer = new Answer() { Keywords = keywordsString, Title = "test", ExcludeKeywords = excludeKeywordsString };
@@ -77,10 +73,10 @@ namespace NHS111.Web.Presentation.Builders.Tests
         [Test()]
         public void Collect_keywords_ToExistingCollected_Test()
         {
-            var testJourneyModel = new JourneyViewModel() { CollectedKeywords = new KeywordBag(new List<Keyword>() { new Keyword() { Value = "Existing keyword" } }, new List<Keyword>() { new Keyword() { Value = "Existing Excluded keyword" } })};
+            var testJourneyModel = new JourneyViewModel() { CollectedKeywords = new KeywordBag(new List<Keyword>() { new Keyword() { Value = "Existing keyword" } }, new List<Keyword>() { new Keyword() { Value = "Existing Excluded keyword" } }) };
             var keywordsString = "Test keyword|AnotherTest keyword";
             var excludeKeywordsString = "Test Excluded keyword|AnotherTest exclude keyword";
-            var testAnswer = new Answer() { Keywords = keywordsString, Title = "test", ExcludeKeywords = excludeKeywordsString};
+            var testAnswer = new Answer() { Keywords = keywordsString, Title = "test", ExcludeKeywords = excludeKeywordsString };
 
             var result = _testKeywordCollector.Collect(testAnswer, testJourneyModel);
             Assert.IsNotNull(result);
@@ -100,7 +96,7 @@ namespace NHS111.Web.Presentation.Builders.Tests
         {
             var keywordsString = "Test keyword|AnotherTest keyword";
             var excludeKeywordsString = "Test Excluded keyword|AnotherTest exclude keyword";
-            var testJourneySteps = new List<JourneyStep>(){new JourneyStep(){Answer = new Answer(){Keywords = keywordsString, ExcludeKeywords = excludeKeywordsString}}, new JourneyStep(){Answer = new Answer(){Keywords = "Keywords2", ExcludeKeywords = "excludeKeywords2"}}};
+            var testJourneySteps = new List<JourneyStep>() { new JourneyStep() { Answer = new Answer() { Keywords = keywordsString, ExcludeKeywords = excludeKeywordsString } }, new JourneyStep() { Answer = new Answer() { Keywords = "Keywords2", ExcludeKeywords = "excludeKeywords2" } } };
 
             var result = _testKeywordCollector.CollectKeywordsFromPreviousQuestion(null, testJourneySteps);
             Assert.IsNotNull(result);
@@ -120,9 +116,9 @@ namespace NHS111.Web.Presentation.Builders.Tests
         {
             var keywordsString = "Test keyword|AnotherTest keyword";
             var excludeKeywordsString = "Test Exclude keyword|AnotherTest Exclude keyword";
-            var testJourneySteps = new List<JourneyStep>() { 
+            var testJourneySteps = new List<JourneyStep>() {
                  new JourneyStep() { Answer = new Answer() { Keywords = keywordsString, ExcludeKeywords = excludeKeywordsString} }
-                ,new JourneyStep() { Answer = new Answer() { Keywords = "Keywords2", ExcludeKeywords = "ExcludeKeywords2"} } 
+                ,new JourneyStep() { Answer = new Answer() { Keywords = "Keywords2", ExcludeKeywords = "ExcludeKeywords2"} }
                 ,new JourneyStep() { Answer = new Answer() { Keywords = "Test keyword", ExcludeKeywords = "Test Exclude keyword"} }};
 
             var result = _testKeywordCollector.CollectKeywordsFromPreviousQuestion(null, testJourneySteps);
@@ -212,7 +208,7 @@ namespace NHS111.Web.Presentation.Builders.Tests
         public void ConsolidateKeywords_WithKeywords_AndNoExcludes_ReturnsCorrectCollection()
         {
             var sut = new KeywordCollector();
-            var keywords = new List<Keyword>(){ new Keyword() { Value = "Test keyword" }, new Keyword() { Value = "Another test keyword" } };
+            var keywords = new List<Keyword>() { new Keyword() { Value = "Test keyword" }, new Keyword() { Value = "Another test keyword" } };
             var result = sut.ConsolidateKeywords(new KeywordBag(keywords, new List<Keyword>()));
             Assert.AreEqual(2, result.Count());
         }
@@ -241,7 +237,8 @@ namespace NHS111.Web.Presentation.Builders.Tests
         }
 
         [Test]
-        public void ParseKeywords_WithNullOrEmpty_ReturnsEmptyCollection() {
+        public void ParseKeywords_WithNullOrEmpty_ReturnsEmptyCollection()
+        {
             var sut = new KeywordCollector();
             var result = sut.ParseKeywords(null);
 

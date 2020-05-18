@@ -1,13 +1,10 @@
-﻿using System.Collections.Generic;
-using System.Configuration;
-using AutoMapper;
-using Newtonsoft.Json;
+﻿using AutoMapper;
 using NHS111.Models.Mappers.WebMappings;
 using NHS111.Models.Models.Domain;
 using NHS111.Models.Models.Web;
 using NHS111.Models.Models.Web.FromExternalServices;
-using NHS111.Models.Models.Web.ITK;
 using NUnit.Framework;
+using System.Collections.Generic;
 
 namespace NHS111.Models.Test.Mappers.WebMappings
 {

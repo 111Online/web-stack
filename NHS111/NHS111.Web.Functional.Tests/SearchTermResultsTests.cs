@@ -39,7 +39,7 @@ namespace NHS111.Web.Functional.Tests
             searchPagePilot.SearchByTerm("emergency prescription");
             searchPagePilot.VerifyTermHits("Emergency Prescription", 1);
 
-      
+
         }
     }
 }

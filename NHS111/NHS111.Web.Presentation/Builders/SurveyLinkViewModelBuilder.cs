@@ -1,32 +1,25 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Newtonsoft.Json;
-using NHS111.Models.Mappers.WebMappings;
+﻿using NHS111.Models.Mappers.WebMappings;
 using NHS111.Models.Models.Domain;
 using NHS111.Models.Models.Web;
-using NHS111.Utils.Helpers;
 using NHS111.Utils.Parser;
 using NHS111.Utils.RestTools;
 using NHS111.Web.Presentation.Configuration;
 using RestSharp;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace NHS111.Web.Presentation.Builders
 {
-    using System.Configuration;
-    using System.Web;
     using Features;
-    using NHS111.Models.Models.Web.FromExternalServices;
-    using StructureMap.Query;
+    using System.Web;
 
     public class SurveyLinkViewModelBuilder : BaseBuilder, ISurveyLinkViewModelBuilder
     {
-        private readonly IRestClient _restClient;
+        private readonly ILoggingRestClient _restClient;
         private readonly IConfiguration _configuration;
 
-        public SurveyLinkViewModelBuilder(IRestClient restClient, IConfiguration configuration)
+        public SurveyLinkViewModelBuilder(ILoggingRestClient restClient, IConfiguration configuration)
         {
             _restClient = restClient;
             _configuration = configuration;
@@ -36,7 +29,7 @@ namespace NHS111.Web.Presentation.Builders
         {
             var jsonParser = new JourneyJsonParser(model.JourneyJson);
             var businessApiPathwayUrl = _configuration.GetBusinessApiPathwayIdUrl(jsonParser.LastPathwayNo, model.UserInfo.Demography.Gender, model.UserInfo.Demography.Age);
-            var response = await _restClient.ExecuteTaskAsync<Pathway>(new JsonRestRequest(businessApiPathwayUrl, Method.GET));
+            var response = await _restClient.ExecuteAsync<Pathway>(new JsonRestRequest(businessApiPathwayUrl, Method.GET));
 
             CheckResponse(response);
 
@@ -65,7 +58,8 @@ namespace NHS111.Web.Presentation.Builders
             return result;
         }
 
-        public void AddServiceInformation(OutcomeViewModel model, SurveyLinkViewModel surveyLinkViewModel) {
+        public void AddServiceInformation(OutcomeViewModel model, SurveyLinkViewModel surveyLinkViewModel)
+        {
             var serviceOptions = new List<string>();
             var services = new List<ServiceViewModel>();
             if (model.GroupedDosServices != null)
@@ -77,7 +71,8 @@ namespace NHS111.Web.Presentation.Builders
             surveyLinkViewModel.ServiceCount = services.Count;
             surveyLinkViewModel.ServiceOptions = string.Join(",", serviceOptions);
 
-            if (!model.DosCheckCapacitySummaryResult.ResultListEmpty) {
+            if (!model.DosCheckCapacitySummaryResult.ResultListEmpty)
+            {
                 var recommendedService = model.DosCheckCapacitySummaryResult.Success.Services.First();
                 surveyLinkViewModel.RecommendedServiceId = recommendedService.Id;
                 surveyLinkViewModel.RecommendedServiceType = recommendedService.OnlineDOSServiceType.Id;
@@ -87,7 +82,8 @@ namespace NHS111.Web.Presentation.Builders
             }
         }
 
-        public void AddDispositionReason(string reason, SurveyLinkViewModel surveyLinkViewModel) {
+        public void AddDispositionReason(string reason, SurveyLinkViewModel surveyLinkViewModel)
+        {
             surveyLinkViewModel.DispositionChoiceReasoning = reason;
         }
     }

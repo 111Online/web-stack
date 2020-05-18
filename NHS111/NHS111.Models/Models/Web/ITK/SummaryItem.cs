@@ -6,6 +6,6 @@ namespace NHS111.Models.Models.Web.ITK
     {
         public string Name { get; set; }
         public string Caption { get; set; }
-        public List<Value> Values { get; set; } 
+        public List<Value> Values { get; set; }
     }
 }

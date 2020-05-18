@@ -1,7 +1,7 @@
-﻿using System.Configuration;
-using System.Linq;
-using NHS111.Models.Models.Configuration;
+﻿using NHS111.Models.Models.Configuration;
 using NUnit.Framework;
+using System.Configuration;
+using System.Linq;
 
 namespace NHS111.Models.Test.Models.Configuration
 {

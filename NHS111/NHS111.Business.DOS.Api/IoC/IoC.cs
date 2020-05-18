@@ -24,7 +24,7 @@ namespace NHS111.Business.DOS.Api.IoC
     {
         public static IContainer Initialize()
         {
-            return new Container(c => c.AddRegistry(new BusinessDosApiRegistry (new Configuration.Configuration())));
+            return new Container(c => c.AddRegistry(new BusinessDosApiRegistry(new Configuration.Configuration())));
         }
     }
 }

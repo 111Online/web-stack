@@ -1,14 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics.Eventing.Reader;
-using System.Linq;
-using System.Threading.Tasks;
-using Neo4jClient.Cypher;
+﻿using Neo4jClient.Cypher;
 using Newtonsoft.Json;
 using NHS111.Features;
 using NHS111.Models.Models.Domain;
 using NHS111.Utils.Extensions;
 using NHS111.Utils.Parser;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace NHS111.Domain.Repository
 {
@@ -17,7 +16,7 @@ namespace NHS111.Domain.Repository
         private readonly IGraphRepository _graphRepository;
         private readonly IPathwaysWhiteListFeature _pathwaysWhiteListFeature;
 
-        public PathwayRepository(IGraphRepository graphRepository, IPathwaysWhiteListFeature pathwaysWhiteListFeature )
+        public PathwayRepository(IGraphRepository graphRepository, IPathwaysWhiteListFeature pathwaysWhiteListFeature)
         {
             _graphRepository = graphRepository;
             _pathwaysWhiteListFeature = pathwaysWhiteListFeature;
@@ -116,7 +115,7 @@ namespace NHS111.Domain.Repository
             var symptomGroups = await _graphRepository.Client.Cypher
                 .Match("(p:Pathway)")
                 .Where(string.Format("p.pathwayNo in [{0}]", string.Join(", ", pathwayNos.Select(p => "\"" + p + "\""))))
-                .Return(p => new SymptomGroup { PathwayNo = Return.As<string>("p.pathwayNo"), Code = Return.As<string>("collect(distinct(p.symptomGroup))[0]")})
+                .Return(p => new SymptomGroup { PathwayNo = Return.As<string>("p.pathwayNo"), Code = Return.As<string>("collect(distinct(p.symptomGroup))[0]") })
                 .ResultsAsync;
 
             var symptomGroup = symptomGroups
@@ -178,5 +177,5 @@ namespace NHS111.Domain.Repository
         Task<string> GetPathwaysNumbers(string pathwayTitle);
     }
 
-    
+
 }

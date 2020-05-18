@@ -1,10 +1,7 @@
-﻿using System.Threading;
-using NHS111.Web.Functional.Utils;
-using NUnit.Framework;
+﻿using NHS111.Web.Functional.Utils;
 
 namespace NHS111.Web.Functional.Tests
 {
-    using System.Linq;
     using NUnit.Framework;
     using OpenQA.Selenium;
 
@@ -12,10 +9,10 @@ namespace NHS111.Web.Functional.Tests
     [Category("NightlyOnly")]
     public class DirectLinkingTests : BaseTests
     {
-        
-        [TestCase("/question/direct/PW755MaleAdult/24/Headache/ls177nz/?answers=0,2,2,2,4,0,1,0,2,2,2,0,2", "Dx05",  TestName = "Can reach Dx05")]
-        [TestCase("/question/direct/PW1134MaleAdult/20/Eye,RedorIrritable/ls14br/?answers=0,2,2,1,2,2,2,2,2,2,3,0", "Dx28",  TestName = "Can reach Dx28")]
-        [TestCase("/question/direct/PW1610MaleAdult/25/Dentalproblems/ls177nz/?answers=0,1,2,0,0,0,0,2,2&dossearchdatetime=2020-02-01 22:30", "Dx19",  TestName = "DoS SearchTimeDate doesn't break direct link")]
+
+        [TestCase("/question/direct/PW755MaleAdult/24/Headache/ls177nz/?answers=0,2,2,2,4,0,1,0,2,2,2,0,2", "Dx05", TestName = "Can reach Dx05")]
+        [TestCase("/question/direct/PW1134MaleAdult/20/Eye,RedorIrritable/ls14br/?answers=0,2,2,1,2,2,2,2,2,2,3,0", "Dx28", TestName = "Can reach Dx28")]
+        [TestCase("/question/direct/PW1610MaleAdult/25/Dentalproblems/ls177nz/?answers=0,1,2,0,0,0,0,2,2&dossearchdatetime=2020-02-01 22:30", "Dx19", TestName = "DoS SearchTimeDate doesn't break direct link")]
         public void CorrectPage(string path, string id)
         {
             var directLink = TestScenarioPart.DirectLinking(Driver, path);
@@ -29,12 +26,12 @@ namespace NHS111.Web.Functional.Tests
             var firstTime = TestScenarioPart.DirectLinking(Driver, "/question/direct/PW620FemaleAdult/19/Dentalinjury/LS177NZ/?answers=0,2,4,0,0,0,2,0,0,2,0&dossearchdatetime=2021-02-02 20:30");
             firstTime.VerifyBookACall("2000015238");
 
-            
+
             // After 22:30 NHS111 Dental Callback - Leeds should show
             var secondTime = TestScenarioPart.DirectLinking(Driver, "/question/direct/PW620FemaleAdult/19/Dentalinjury/LS177NZ/?answers=0,2,4,0,0,0,2,0,0,2,0&dossearchdatetime=2021-02-02 00:00");
             secondTime.VerifyBookACall("2000015239");
         }
-        
+
         [TestFixture]
         [Category("NightlyOnly")]
         public class Validation : BaseTests

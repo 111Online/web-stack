@@ -1,8 +1,10 @@
-﻿namespace NHS111.DOS.Functional.Tests.TestBenchApi {
-    using System.Collections.Generic;
+﻿namespace NHS111.DOS.Functional.Tests.TestBenchApi
+{
     using Models.Models.Web.DosRequests;
+    using System.Collections.Generic;
 
-    public class DosTestScenarioRequest {
+    public class DosTestScenarioRequest
+    {
         public DosFilteredCase InboundDosFilteredCase { get; set; }
         public DosFilteredCase OutboundDosFilteredCase { get; set; }
         public List<DosTestScenarioTransformer> MatchSequence { get; set; }
@@ -12,7 +14,8 @@
         /// </summary>
         public List<DosTestScenarioTransformer> MismatchSequence { get; set; }
 
-        public DosTestScenarioRequest() {
+        public DosTestScenarioRequest()
+        {
             MatchSequence = new List<DosTestScenarioTransformer>();
             MismatchSequence = new List<DosTestScenarioTransformer>();
         }

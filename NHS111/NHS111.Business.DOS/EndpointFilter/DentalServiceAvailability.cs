@@ -1,7 +1,7 @@
-﻿using System;
+﻿using NHS111.Models.Models.Business;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using NHS111.Models.Models.Business;
 
 namespace NHS111.Business.DOS.EndpointFilter
 {
@@ -19,7 +19,7 @@ namespace NHS111.Business.DOS.EndpointFilter
         {
             var itkservicestoRetain = GetSpecifiedOpenITKServices(resultsToFilter);
             var filteredResults = resultsToFilter.Where(
-                s => !_serviceAvailabilityProfile.ServiceTypeIdBlacklist.Contains((int) s.ServiceType.Id)).ToList();
+                s => !_serviceAvailabilityProfile.ServiceTypeIdBlacklist.Contains((int)s.ServiceType.Id)).ToList();
             filteredResults.AddRange(itkservicestoRetain.Where(NotDuplicateMessage(filteredResults)));
             return filteredResults;
         }

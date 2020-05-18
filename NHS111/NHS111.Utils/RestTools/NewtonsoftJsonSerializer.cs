@@ -1,12 +1,9 @@
-﻿using System.Data.Services.Client;
-using System.IO;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using RestSharp.Serializers;
+using System.IO;
 
 namespace NHS111.Utils.RestTools
 {
-    using System;
-
     public class NewtonsoftJsonSerializer : IJsonSerializer
     {
         private Newtonsoft.Json.JsonSerializer serializer;
@@ -18,7 +15,7 @@ namespace NHS111.Utils.RestTools
 
         public string ContentType
         {
-            get { return "application/json"; } 
+            get { return "application/json"; }
         }
 
         public string DateFormat { get; set; }
@@ -48,9 +45,12 @@ namespace NHS111.Utils.RestTools
             {
                 using (var jsonTextReader = new JsonTextReader(stringReader))
                 {
-                    try {
+                    try
+                    {
                         return serializer.Deserialize<T>(jsonTextReader);
-                    } catch (JsonReaderException e) {
+                    }
+                    catch (JsonReaderException e)
+                    {
                         throw new JsonReaderException(string.Format("Problem deserialising the following {0} response from {1}, (see inner exception for further details): {2}", response.StatusCode, response.ResponseUri.OriginalString, content), e);
                     }
                 }

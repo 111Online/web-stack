@@ -8,7 +8,7 @@ namespace NHS111.Utils.Test.Extensions
     [TestFixture]
     public class ListExtension_Test
     {
-        class MyClass {}
+        class MyClass { }
 
         [Test]
         public void InList_should_return_list_with_item()
@@ -64,5 +64,5 @@ namespace NHS111.Utils.Test.Extensions
             Assert.That(list.Count, Is.EqualTo(1));
             Assert.That(list.FirstOrDefault(), Is.EqualTo(myItem));
         }
-    }   
+    }
 }

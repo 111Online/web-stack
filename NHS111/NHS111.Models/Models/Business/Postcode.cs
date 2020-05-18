@@ -1,25 +1,31 @@
 ﻿
-namespace NHS111.Models.Models.Business {
+namespace NHS111.Models.Models.Business
+{
     using System;
     using System.Diagnostics;
 
     [DebuggerDisplay("{NormalisedValue}")]
     public class Postcode
-        : IEquatable<Postcode> {
+        : IEquatable<Postcode>
+    {
 
-        public static implicit operator Postcode(string postcode) {
+        public static implicit operator Postcode(string postcode)
+        {
             return new Postcode(postcode);
         }
 
-        public Postcode(string postcode) {
+        public Postcode(string postcode)
+        {
             Value = postcode;
         }
 
-        public string NormalisedValue {
+        public string NormalisedValue
+        {
             get { return Normalise(Value); }
         }
 
-        public static string Normalise(string postcode) {
+        public static string Normalise(string postcode)
+        {
             if (string.IsNullOrEmpty(postcode))
                 return postcode;
 
@@ -28,7 +34,8 @@ namespace NHS111.Models.Models.Business {
 
         public string Value { get; private set; }
 
-        public bool Equals(Postcode other) {
+        public bool Equals(Postcode other)
+        {
             if (other == null)
                 return false;
 
@@ -38,7 +45,8 @@ namespace NHS111.Models.Models.Business {
             return string.Equals(NormalisedValue, other.NormalisedValue);
         }
 
-        public override bool Equals(object obj) {
+        public override bool Equals(object obj)
+        {
             if (obj == null)
                 return false;
 
@@ -48,10 +56,11 @@ namespace NHS111.Models.Models.Business {
             if (obj.GetType() != this.GetType())
                 return false;
 
-            return Equals((Postcode) obj);
+            return Equals((Postcode)obj);
         }
 
-        public override int GetHashCode() {
+        public override int GetHashCode()
+        {
             return (Value != null ? Value.GetHashCode() : 0);
         }
     }

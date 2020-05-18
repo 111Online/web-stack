@@ -1,17 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net.Http;
-using System.Threading.Tasks;
-using System.Web;
-using System.Web.Http;
-using System.Web.Http.Results;
-using System.Web.UI.WebControls;
-using Newtonsoft.Json;
-using NHS111.Business.Services;
+﻿using NHS111.Business.Services;
 using NHS111.Models.Models.Business.Location;
 using NHS111.Utils.Attributes;
-using NHS111.Utils.Extensions;
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using System.Web.Http;
+using System.Web.Http.Results;
 
 namespace NHS111.Business.Api.Controllers
 {
@@ -38,7 +32,7 @@ namespace NHS111.Business.Api.Controllers
         [HttpGet]
         public async Task<JsonResult<List<AddressLocationResult>>> GetLocation(string postcode)
         {
-         
+
             var results = await _locationService.FindAddresses(postcode);
             return Json(results);
         }
@@ -57,7 +51,7 @@ namespace NHS111.Business.Api.Controllers
         public async Task<JsonResult<List<AddressLocationResult>>> GetLocationByGeo(string longlat)
         {
             var geolocation = GetGeoLocationParams(longlat);
-            var results = await _locationService.FindAddresses(geolocation.Item1,geolocation.Item2);
+            var results = await _locationService.FindAddresses(geolocation.Item1, geolocation.Item2);
             return Json(results);
         }
 
@@ -86,9 +80,9 @@ namespace NHS111.Business.Api.Controllers
             double latparam = Double.NaN; ;
             try
             {
-                 longparam = Convert.ToDouble(longlatParams[0]);
-                 latparam = Convert.ToDouble(longlatParams[1]);
-              
+                longparam = Convert.ToDouble(longlatParams[0]);
+                latparam = Convert.ToDouble(longlatParams[1]);
+
             }
             catch (Exception ex)
             {
@@ -96,7 +90,7 @@ namespace NHS111.Business.Api.Controllers
                     "both lat and long params must be a decimal number. Format should be {long},{lat}", ex);
             }
             return new Tuple<double, double>(longparam, latparam);
-          
+
         }
 
         private string[] ParselonglatParam(string longlat)

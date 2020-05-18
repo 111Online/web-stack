@@ -1,25 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Newtonsoft.Json;
-using NHS111.Models.Models.Domain;
+﻿using NHS111.Models.Models.Domain;
 using NHS111.Models.Models.Web;
-using NHS111.Utils.Helpers;
-using NHS111.Utils.Parser;
 using NHS111.Utils.RestTools;
 using NHS111.Web.Presentation.Configuration;
 using RestSharp;
+using System;
+using System.Threading.Tasks;
 
 namespace NHS111.Web.Presentation.Builders
 {
     public class PageDataViewModelBuilder : BaseBuilder, IPageDataViewModelBuilder
     {
-        private readonly IRestClient _restClient;
+        private readonly ILoggingRestClient _restClient;
         private readonly IConfiguration _configuration;
 
-        public PageDataViewModelBuilder(IRestClient restClient, IConfiguration configuration)
+        public PageDataViewModelBuilder(ILoggingRestClient restClient, IConfiguration configuration)
         {
             _restClient = restClient;
             _configuration = configuration;
@@ -29,7 +23,7 @@ namespace NHS111.Web.Presentation.Builders
         {
             model.Date = DateTime.Now.Date.ToShortDateString();
             model.Time = DateTime.Now.ToString("HH:mm:ss");
-            
+
             Pathway currentPathway = null;
             if (!string.IsNullOrEmpty(model.QuestionId) && model.QuestionId.Contains("."))
             {
@@ -37,7 +31,7 @@ namespace NHS111.Web.Presentation.Builders
                 if (!currentPathwayNo.Equals(model.StartingPathwayNo))
                 {
                     var businessApiPathwayUrl = _configuration.GetBusinessApiPathwayIdUrl(currentPathwayNo, model.Gender, new AgeCategory(model.Age).MinimumAge);
-                    var response = await _restClient.ExecuteTaskAsync<Pathway>(new JsonRestRequest(businessApiPathwayUrl, Method.GET));
+                    var response = await _restClient.ExecuteAsync<Pathway>(new JsonRestRequest(businessApiPathwayUrl, Method.GET));
 
                     CheckResponse(response);
 

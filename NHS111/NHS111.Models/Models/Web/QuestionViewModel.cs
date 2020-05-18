@@ -1,13 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using FluentValidation.Attributes;
+﻿using FluentValidation.Attributes;
 using Newtonsoft.Json;
 using NHS111.Models.Models.Domain;
 using NHS111.Models.Models.Web.FromExternalServices;
 using NHS111.Models.Models.Web.Validators;
+using System;
 
 namespace NHS111.Models.Models.Web
 {
@@ -15,12 +11,14 @@ namespace NHS111.Models.Models.Web
     public class QuestionViewModel : JourneyViewModel
     {
         private string _answerInputValue;
-        public string AnswerInputValue {
-            get {
+        public string AnswerInputValue
+        {
+            get
+            {
                 if (_answerInputValue == null) return _answerInputValue;
 
                 // This ensures phone numbers with spaces are allowed to be entered but the spaces are stripped
-                if (QuestionType == QuestionType.Telephone) return _answerInputValue.Replace(" ", ""); 
+                if (QuestionType == QuestionType.Telephone) return _answerInputValue.Replace(" ", "");
                 return _answerInputValue;
             }
             set { _answerInputValue = value; }

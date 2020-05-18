@@ -8,6 +8,7 @@ using NHS111.Business.Services;
 using NHS111.Models.Models.Business.Caching;
 using NHS111.Models.Models.Domain;
 using NHS111.Utils.Cache;
+using NHS111.Utils.RestTools;
 using NUnit.Framework;
 using RestSharp;
 
@@ -16,7 +17,7 @@ namespace NHS111.Business.Test.Services
     public class SymptomDiscriminator_Test
     {
         private Mock<Configuration.IConfiguration> _configuration;
-        private Mock<IRestClient> _restClient;
+        private Mock<ILoggingRestClient> _restClient;
         private Mock<ICacheManager<string, string>> _cacheManagerMock;
         private ICacheStore _cacheStoreMock;
 
@@ -24,7 +25,7 @@ namespace NHS111.Business.Test.Services
         public void SetUp()
         {
             _configuration = new Mock<Configuration.IConfiguration>();
-            _restClient = new Mock<IRestClient>();
+            _restClient = new Mock<ILoggingRestClient>();
             _cacheManagerMock = new Mock<ICacheManager<string, string>>();
             _cacheStoreMock = new RedisCacheStore(_cacheManagerMock.Object, true);
 
@@ -42,7 +43,7 @@ namespace NHS111.Business.Test.Services
             response.Setup(x => x.Data).Returns(symptomDiscriminator);
 
             _configuration.Setup(x => x.GetDomainApiSymptomDisciminatorUrl(id.ToString())).Returns(url);
-            _restClient.Setup(x => x.ExecuteTaskAsync<SymptomDiscriminator>(It.IsAny<IRestRequest>()))
+            _restClient.Setup(x => x.ExecuteAsync<SymptomDiscriminator>(It.IsAny<IRestRequest>()))
                 .ReturnsAsync(response.Object);
 
             var sut = new SymptomDisciminatorService(_configuration.Object, _restClient.Object, _cacheStoreMock);
@@ -52,7 +53,7 @@ namespace NHS111.Business.Test.Services
 
             //Assert 
             _configuration.Verify(x => x.GetDomainApiSymptomDisciminatorUrl(id.ToString()), Times.Once);
-            _restClient.Verify(x => x.ExecuteTaskAsync<SymptomDiscriminator>(It.IsAny<IRestRequest>()), Times.Once);
+            _restClient.Verify(x => x.ExecuteAsync<SymptomDiscriminator>(It.IsAny<IRestRequest>()), Times.Once);
 
             Assert.AreEqual(result.Id, id);
         }
@@ -69,7 +70,7 @@ namespace NHS111.Business.Test.Services
             var expectedCacheKey = new SymptomDiscriminatorCacheKey(id.ToString());
 
             _cacheManagerMock.Setup(x => x.Read(It.IsAny<string>())).ReturnsAsync(string.Empty);
-            _restClient.Setup(x => x.ExecuteTaskAsync<SymptomDiscriminator>(It.IsAny<IRestRequest>()))
+            _restClient.Setup(x => x.ExecuteAsync<SymptomDiscriminator>(It.IsAny<IRestRequest>()))
                 .ReturnsAsync(response.Object);
 
             var sut = new SymptomDisciminatorService(_configuration.Object, _restClient.Object, _cacheStoreMock);
@@ -80,7 +81,7 @@ namespace NHS111.Business.Test.Services
             //Assert 
             _cacheManagerMock.Verify(x => x.Set(expectedCacheKey.CacheKey, It.IsAny<string>()), Times.Once);
             _configuration.Verify(x => x.GetDomainApiSymptomDisciminatorUrl(id.ToString()), Times.Once);
-            _restClient.Verify(x => x.ExecuteTaskAsync<SymptomDiscriminator>(It.IsAny<IRestRequest>()), Times.Once);
+            _restClient.Verify(x => x.ExecuteAsync<SymptomDiscriminator>(It.IsAny<IRestRequest>()), Times.Once);
 
             Assert.AreEqual(result.Id, id);
         }

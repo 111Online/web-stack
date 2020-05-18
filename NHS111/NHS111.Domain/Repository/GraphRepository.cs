@@ -1,6 +1,6 @@
-﻿using System;
-using Neo4jClient;
+﻿using Neo4jClient;
 using NHS111.Domain.Configuration;
+using System;
 
 namespace NHS111.Domain.Repository
 {

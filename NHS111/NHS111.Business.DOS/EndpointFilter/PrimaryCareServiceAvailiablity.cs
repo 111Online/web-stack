@@ -8,7 +8,7 @@ namespace NHS111.Business.DOS.EndpointFilter
             DateTime dispositionDateTime, int dispostionTimeframe)
             : base(serviceAvailabilityProfile, dispositionDateTime, dispostionTimeframe)
         {
-            
+
         }
     }
 }

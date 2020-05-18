@@ -1,18 +1,15 @@
-﻿using System;
-using NUnit.Framework;
+﻿using NUnit.Framework;
 using OpenQA.Selenium;
-using OpenQA.Selenium.Support.Extensions;
 using OpenQA.Selenium.Support.PageObjects;
-using OpenQA.Selenium.Support.UI;
 
 namespace NHS111.Web.Functional.Utils
 {
     public class FeedbackSection : LayoutPage
     {
-        
+
         [FindsBy(How = How.ClassName, Using = "feedback")]
         internal IWebElement Feedback { get; set; }
-        
+
         [FindsBy(How = How.ClassName, Using = "feedback__submit")]
         private IWebElement FeedbackSubmitButton { get; set; }
 
@@ -22,7 +19,7 @@ namespace NHS111.Web.Functional.Utils
         [FindsBy(How = How.CssSelector, Using = ".feedback summary")]
         private IWebElement FeedbackSummary { get; set; }
 
-        
+
         [FindsBy(How = How.CssSelector, Using = ".feedback #feedback-details")]
         private IWebElement FeedbackSuccessText { get; set; }
 
@@ -35,7 +32,7 @@ namespace NHS111.Web.Functional.Utils
         {
             FeedbackSubmitButton.Submit();
         }
-        
+
         public void VerifyFeedbackDisplayed()
         {
             Assert.IsTrue(Feedback.Displayed);
@@ -59,7 +56,7 @@ namespace NHS111.Web.Functional.Utils
         public void TypeInTextarea(string text)
         {
             IJavaScriptExecutor js = (IJavaScriptExecutor)Driver;
-            js.ExecuteScript("var feedback = document.getElementsByClassName('feedback__input')[0]; feedback.innerHTML='"+ text +"'; feedback.dispatchEvent(new Event('input', { bubbles: true }))");
+            js.ExecuteScript("var feedback = document.getElementsByClassName('feedback__input')[0]; feedback.innerHTML='" + text + "'; feedback.dispatchEvent(new Event('input', { bubbles: true }))");
         }
 
         public void VerifySuccessTextDisplayed()

@@ -1,5 +1,4 @@
-﻿using System;
-namespace NHS111.Models.Models.Web
+﻿namespace NHS111.Models.Models.Web
 {
     public class OutcomeMapViewModel
     {

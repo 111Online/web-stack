@@ -1,9 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using AutoMapper;
+﻿using AutoMapper;
 using Newtonsoft.Json;
 using NHS111.Models.Models.Web.Clock;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace NHS111.Models.Models.Web.FromExternalServices
 {
@@ -31,7 +31,7 @@ namespace NHS111.Models.Models.Web.FromExternalServices
         [JsonProperty(PropertyName = "publicNameField")]
         public string PublicName
         {
-            get { return string.IsNullOrEmpty(_publicName) ? Name: _publicName; }
+            get { return string.IsNullOrEmpty(_publicName) ? Name : _publicName; }
             set { _publicName = !string.IsNullOrEmpty(value) ? value : Name; }
         }
 
@@ -80,9 +80,10 @@ namespace NHS111.Models.Models.Web.FromExternalServices
         public bool OpenAllHours { get; set; }
 
         private ServiceCareItemRotaSession[] _rotaSessions;// = new ServiceCareItemRotaSession[0];
-        
+
         [JsonProperty(PropertyName = "rotaSessionsField")]
-        public ServiceCareItemRotaSession[] RotaSessions {
+        public ServiceCareItemRotaSession[] RotaSessions
+        {
             get
             {
                 return _rotaSessions;
@@ -224,11 +225,11 @@ namespace NHS111.Models.Models.Web.FromExternalServices
                     continue;
 
                 var date = ConvertOpenTimeSpecifiedSessionToDate(session);
-;                if (!IsDateInList(date, nextWeeksDates))
+                ; if (!IsDateInList(date, nextWeeksDates))
                     continue;
-                
+
                 var dayOfWeek = Mapper.Map<DayOfWeek>(date.DayOfWeek);
-                
+
                 short startTimeHours;
                 short startTimeMinutes;
 
@@ -247,7 +248,7 @@ namespace NHS111.Models.Models.Web.FromExternalServices
                 {
                     continue;
                 }
-                
+
                 ServiceCareItemRotaSession rotaSession =
                     new ServiceCareItemRotaSession
                     {
@@ -289,7 +290,7 @@ namespace NHS111.Models.Models.Web.FromExternalServices
                 if (session.Length != 22)
                     continue;
                 var date = ConvertOpenTimeSpecifiedSessionToDate(session);
-                if(dateToFind.Date != date.Date)
+                if (dateToFind.Date != date.Date)
                     continue;
 
                 int startTimeHours;
@@ -319,8 +320,8 @@ namespace NHS111.Models.Models.Web.FromExternalServices
         }
     }
 
-   
-    
+
+
 
     public enum DosCapacity
     {

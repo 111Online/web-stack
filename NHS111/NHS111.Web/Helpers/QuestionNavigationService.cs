@@ -1,16 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Web;
-using System.Web.Mvc;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using NHS111.Models.Models.Domain;
 using NHS111.Models.Models.Web;
 using NHS111.Utils.RestTools;
 using NHS111.Web.Presentation.Builders;
 using NHS111.Web.Presentation.Configuration;
 using RestSharp;
+using System.Threading.Tasks;
+using System.Web;
+using System.Web.Mvc;
 
 namespace NHS111.Web.Helpers
 {
@@ -18,10 +15,10 @@ namespace NHS111.Web.Helpers
     {
         private readonly IJourneyViewModelBuilder _journeyViewModelBuilder;
         private readonly IConfiguration _configuration;
-        private readonly IRestClient _restClientBusinessApi;
+        private readonly ILoggingRestClient _restClientBusinessApi;
         private readonly IViewRouter _viewRouter;
 
-        public QuestionNavigationService(IJourneyViewModelBuilder journeyViewModelBuilder, IConfiguration configuration, IRestClient restClientBusinessApi, IViewRouter viewRouter)
+        public QuestionNavigationService(IJourneyViewModelBuilder journeyViewModelBuilder, IConfiguration configuration, ILoggingRestClient restClientBusinessApi, IViewRouter viewRouter)
         {
             _journeyViewModelBuilder = journeyViewModelBuilder;
             _configuration = configuration;
@@ -31,7 +28,7 @@ namespace NHS111.Web.Helpers
 
         public async Task<JourneyResultViewModel> NextQuestion(QuestionViewModel model, ControllerContext context)
         {
-            var nextModel = await GetNextJourneyViewModel(model);
+            var nextModel = await GetNextJourneyViewModel(model).ConfigureAwait(false);
             var viewRouter = _viewRouter.Build(nextModel, context);
             return viewRouter;
         }
@@ -42,14 +39,14 @@ namespace NHS111.Web.Helpers
             var serialisedState = HttpUtility.UrlEncode(model.StateJson);
             var request = new JsonRestRequest(_configuration.GetBusinessApiNextNodeUrl(model.PathwayId, model.NodeType, model.Id, serialisedState, true), Method.POST);
             request.AddJsonBody(answer.Title);
-            var response = await _restClientBusinessApi.ExecuteTaskAsync<QuestionWithAnswers>(request);
+            var response = await _restClientBusinessApi.ExecuteAsync<QuestionWithAnswers>(request).ConfigureAwait(false);
             return response.Data;
         }
 
         public async Task<JourneyViewModel> GetNextJourneyViewModel(QuestionViewModel model)
         {
-            var nextNode = await GetNextNode(model);
-            return await _journeyViewModelBuilder.Build(model, nextNode);
+            var nextNode = await GetNextNode(model).ConfigureAwait(false);
+            return await _journeyViewModelBuilder.Build(model, nextNode).ConfigureAwait(false);
         }
     }
 

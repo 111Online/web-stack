@@ -1,27 +1,29 @@
-﻿namespace NHS111.DOS.Functional.Tests {
-    using System;
-    using System.Collections.Generic;
-    using System.Threading.Tasks;
+﻿namespace NHS111.DOS.Functional.Tests
+{
     using Models.Models.Business;
     using Models.Models.Domain;
     using Models.Models.Web.ITK;
     using NUnit.Framework;
     using OpenQA.Selenium;
+    using System.Threading.Tasks;
     using TestBenchApi;
     using Web.Functional.Utils;
 
     /// Tests the callback/validation flow for Emergency Department outcomes.
     [Category("Local")]
     public class EDValidationTests
-        : BaseTests {
+        : BaseTests
+    {
 
         [SetUp]
-        public void Setup() {
+        public void Setup()
+        {
             _testBench = new TestBench();
         }
 
         [Test]
-        public async Task SubmitReferralForNonValidationED_Always_SendsCorrectSurveyData() {
+        public async Task SubmitReferralForNonValidationED_Always_SendsCorrectSurveyData()
+        {
             var dosScenario = await _testBench.SetupDosScenario()
                 .ExpectingRequestTo(DosEndpoint.CheckCapacitySummary)
                 .Matching(BlankDosCase.WithDxCode(DispositionCode.Dx334))
@@ -41,7 +43,8 @@
         }
 
         [Test]
-        public async Task SubmitReferralForValidationED_Always_SendsCorrectSurveyData() {
+        public async Task SubmitReferralForValidationED_Always_SendsCorrectSurveyData()
+        {
             var dosScenario = await _testBench.SetupDosScenario()
                 .ExpectingRequestTo(DosEndpoint.CheckCapacitySummary)
                 .Matching(BlankDosCase.WithDxCode(DispositionCode.Dx334))
@@ -57,7 +60,8 @@
 
 
         [Test]
-        public async Task SubmitReferralForDx02_AfterNoResultsFor334_SendsDx02ToESB() {
+        public async Task SubmitReferralForDx02_AfterNoResultsFor334_SendsDx02ToESB()
+        {
             var dosScenario = await _testBench.SetupDosScenario()
                 .ExpectingRequestTo(DosEndpoint.CheckCapacitySummary)
                 .Matching(BlankDosCase.WithDxCode(DispositionCode.Dx334))
@@ -77,10 +81,11 @@
 
             var esbScenario = await _testBench.SetupEsbScenario()
                 .ExpectingRequestTo(EsbEndpoint.SendItkMessage)
-                .Matching(new ITKDispatchRequest {
-                    CaseDetails = new CaseDetails {DispositionCode = DispositionCode.Dx02.Value},
+                .Matching(new ITKDispatchRequest
+                {
+                    CaseDetails = new CaseDetails { DispositionCode = DispositionCode.Dx02.Value },
                     PatientDetails = new PatientDetails
-                        {CurrentAddress = new Address {PostalCode = dosScenario.Postcode}}
+                    { CurrentAddress = new Address { PostalCode = dosScenario.Postcode } }
                 })
                 .Returns(EsbStatusCode.Success200)
                 .OtherwiseReturns(EsbStatusCode.Error500)
@@ -102,7 +107,8 @@
         }
 
         [Test]
-        public async Task SubmitReferralForDx334_Always_SendsDx334ToESB() {
+        public async Task SubmitReferralForDx334_Always_SendsDx334ToESB()
+        {
             var dosScenario = await _testBench.SetupDosScenario()
                 .ExpectingRequestTo(DosEndpoint.CheckCapacitySummary)
                 .Matching(BlankDosCase.WithDxCode(DispositionCode.Dx334))
@@ -117,10 +123,11 @@
 
             var esbScenario = await _testBench.SetupEsbScenario()
                 .ExpectingRequestTo(EsbEndpoint.SendItkMessage)
-                .Matching(new ITKDispatchRequest {
-                    CaseDetails = new CaseDetails {DispositionCode = DispositionCode.Dx334.Value},
+                .Matching(new ITKDispatchRequest
+                {
+                    CaseDetails = new CaseDetails { DispositionCode = DispositionCode.Dx334.Value },
                     PatientDetails = new PatientDetails
-                        {CurrentAddress = new Address {PostalCode = dosScenario.Postcode}}
+                    { CurrentAddress = new Address { PostalCode = dosScenario.Postcode } }
                 })
                 .Returns(EsbStatusCode.Success200)
                 .OtherwiseReturns(EsbStatusCode.Error500)
@@ -130,7 +137,7 @@
             callbackAcceptancePage.VerifyIsCallbackAcceptancePage();
             var personalDetailsPage = callbackAcceptancePage.AcceptCallback();
 
-            
+
             Assert.Fail();
             //var referralConfirmation =
             //    personalDetailsPage.SubmitPersonalDetails("Test", "Tester", "02380555555", "01", "01", "1982");
@@ -143,7 +150,8 @@
         }
 
         [Test] //no postcode present
-        public async Task EDOutcome_ThenEnteringPostcodeReturningCallback_ShowsCallbackThenPersonalDetailsPage() {
+        public async Task EDOutcome_ThenEnteringPostcodeReturningCallback_ShowsCallbackThenPersonalDetailsPage()
+        {
             var dosScenario = await _testBench.SetupDosScenario()
                 .ExpectingRequestTo(DosEndpoint.CheckCapacitySummary)
                 .Matching(BlankDosCase.WithDxCode(DispositionCode.Dx334))
@@ -161,7 +169,8 @@
         }
 
         [Test]
-        public async Task Dx94_WithNoCallbackServices_ShowOriginalOutcome() {
+        public async Task Dx94_WithNoCallbackServices_ShowOriginalOutcome()
+        {
             var dosScenario = await _testBench.SetupDosScenario()
                 .ExpectingNoRequestsTo(DosEndpoint.CheckCapacitySummary)
                 .BeginAsync();
@@ -173,7 +182,8 @@
         }
 
         [Test]
-        public async Task SubmittingReferralRequest_AfterRejectingDx334Callback_SubmitsReferralWithCorrectDxCode() {
+        public async Task SubmittingReferralRequest_AfterRejectingDx334Callback_SubmitsReferralWithCorrectDxCode()
+        {
             var dosScenario = await _testBench.SetupDosScenario()
                 .ExpectingRequestTo(DosEndpoint.CheckCapacitySummary)
                 .Matching(BlankDosCase.WithDxCode(DispositionCode.Dx334))
@@ -193,10 +203,11 @@
 
             var esbScenario = await _testBench.SetupEsbScenario()
                 .ExpectingRequestTo(EsbEndpoint.SendItkMessage)
-                .Matching(new ITKDispatchRequest {
-                    CaseDetails = new CaseDetails {DispositionCode = DispositionCode.Dx02.Value},
+                .Matching(new ITKDispatchRequest
+                {
+                    CaseDetails = new CaseDetails { DispositionCode = DispositionCode.Dx02.Value },
                     PatientDetails = new PatientDetails
-                        {CurrentAddress = new Address {PostalCode = dosScenario.Postcode}}
+                    { CurrentAddress = new Address { PostalCode = dosScenario.Postcode } }
                 })
                 .Returns(EsbStatusCode.Success200)
                 .OtherwiseReturns(EsbStatusCode.Error500)
@@ -206,7 +217,7 @@
             callbackAcceptancePage.VerifyIsCallbackAcceptancePage();
             var edOutcome = callbackAcceptancePage.RejectCallback();
             AssertIsOriginalOutcome(edOutcome);
-            
+
             Assert.Fail();
             //var personalDetailsPage = ClickBookCallButton(edOutcome);
             //personalDetailsPage.VerifyIsPersonalDetailsPage();
@@ -219,7 +230,8 @@
         }
 
         [Test]
-        public async Task EDOutcome_WhenDosIsUnavailable_ShowsCorrectScreen() {
+        public async Task EDOutcome_WhenDosIsUnavailable_ShowsCorrectScreen()
+        {
             var dosScenario = await _testBench.SetupDosScenario()
                 .ExpectingRequestTo(DosEndpoint.CheckCapacitySummary)
                 .Matching(BlankDosCase.WithDxCode(DispositionCode.Dx334))
@@ -234,7 +246,8 @@
         }
 
         [Test]
-        public async Task EDOutcome_WithDosErrorForFirstQuery_ReturnsResultsForSecondQuery() {
+        public async Task EDOutcome_WithDosErrorForFirstQuery_ReturnsResultsForSecondQuery()
+        {
             var dosScenario = await _testBench.SetupDosScenario()
                 .ExpectingRequestTo(DosEndpoint.CheckCapacitySummary)
                 .Matching(BlankDosCase.WithDxCode(DispositionCode.Dx334))
@@ -255,7 +268,8 @@
         }
 
         [Test]
-        public async Task SubmittingReferralRequest_WithUnsuccessfulReferral_ShowUnsuccessfulPage() {
+        public async Task SubmittingReferralRequest_WithUnsuccessfulReferral_ShowUnsuccessfulPage()
+        {
             var dosScenario = await _testBench.SetupDosScenario()
                 .ExpectingRequestTo(DosEndpoint.CheckCapacitySummary)
                 .Matching(BlankDosCase.WithDxCode(DispositionCode.Dx334))
@@ -270,10 +284,11 @@
 
             var esbScenario = await _testBench.SetupEsbScenario()
                 .ExpectingRequestTo(EsbEndpoint.SendItkMessage)
-                .Matching(new ITKDispatchRequest {
-                    CaseDetails = new CaseDetails {DispositionCode = DispositionCode.Dx334.Value},
+                .Matching(new ITKDispatchRequest
+                {
+                    CaseDetails = new CaseDetails { DispositionCode = DispositionCode.Dx334.Value },
                     PatientDetails = new PatientDetails
-                        {CurrentAddress = new Address {PostalCode = dosScenario.Postcode}}
+                    { CurrentAddress = new Address { PostalCode = dosScenario.Postcode } }
                 })
                 .Returns(EsbStatusCode.Error500)
                 .OtherwiseReturns(EsbStatusCode.Success200)
@@ -297,7 +312,8 @@
         }
 
         [Test]
-        public async Task SubmittingReferralRequest_WithDuplicateReferral_ShowDuplicatePage() {
+        public async Task SubmittingReferralRequest_WithDuplicateReferral_ShowDuplicatePage()
+        {
             var dosScenario = await _testBench.SetupDosScenario()
                 .ExpectingRequestTo(DosEndpoint.CheckCapacitySummary)
                 .Matching(BlankDosCase.WithDxCode(DispositionCode.Dx334))
@@ -312,10 +328,11 @@
 
             var esbScenario = await _testBench.SetupEsbScenario()
                 .ExpectingRequestTo(EsbEndpoint.SendItkMessage)
-                .Matching(new ITKDispatchRequest {
-                    CaseDetails = new CaseDetails {DispositionCode = DispositionCode.Dx334.Value},
+                .Matching(new ITKDispatchRequest
+                {
+                    CaseDetails = new CaseDetails { DispositionCode = DispositionCode.Dx334.Value },
                     PatientDetails = new PatientDetails
-                        {CurrentAddress = new Address {PostalCode = dosScenario.Postcode}}
+                    { CurrentAddress = new Address { PostalCode = dosScenario.Postcode } }
                 })
                 .Returns(EsbStatusCode.Duplicate409)
                 .OtherwiseReturns(EsbStatusCode.Success200)
@@ -337,7 +354,8 @@
         }
 
         [Test]
-        public async Task SubmittingReferralRequest_WithUnavailableService_ShowServiceUnavailablePage() {
+        public async Task SubmittingReferralRequest_WithUnavailableService_ShowServiceUnavailablePage()
+        {
             var dosScenario = await _testBench.SetupDosScenario()
                 .ExpectingRequestTo(DosEndpoint.CheckCapacitySummary)
                 .Matching(BlankDosCase.WithDxCode(DispositionCode.Dx334))
@@ -352,10 +370,11 @@
 
             var esbScenario = await _testBench.SetupEsbScenario()
                 .ExpectingNoRequestTo(EsbEndpoint.SendItkMessage)
-                .Matching(new ITKDispatchRequest {
-                    CaseDetails = new CaseDetails {DispositionCode = DispositionCode.Dx334.Value},
+                .Matching(new ITKDispatchRequest
+                {
+                    CaseDetails = new CaseDetails { DispositionCode = DispositionCode.Dx334.Value },
                     PatientDetails = new PatientDetails
-                        {CurrentAddress = new Address {PostalCode = dosScenario.Postcode}}
+                    { CurrentAddress = new Address { PostalCode = dosScenario.Postcode } }
                 })
                 .BeginAsync();
 
@@ -375,26 +394,31 @@
 
         private TestBench _testBench;
 
-        private void AssertReturnedServiceExists(string serviceName) {
+        private void AssertReturnedServiceExists(string serviceName)
+        {
             Assert.IsTrue(Driver.ElementExists(By.XPath(string.Format("//H3[text()='{0}']", serviceName))));
         }
 
         private void AssertIsOriginalOutcome(OutcomePage edOutcome, string expectedDispositionCode = "Dx02",
-            string dispositionText = "Go to an emergency treatment centre urgently") {
+            string dispositionText = "Go to an emergency treatment centre urgently")
+        {
             edOutcome.VerifyOutcome(dispositionText);
             edOutcome.VerifyDispositionCode(expectedDispositionCode);
         }
 
-        private void AssertIsPostcodePage(OutcomePage edOutcome) {
+        private void AssertIsPostcodePage(OutcomePage edOutcome)
+        {
             edOutcome.VerifyOutcome("Where do you want help?");
         }
 
-        private PersonalDetailsPage ClickBookCallButton(OutcomePage edOutcome) {
+        private PersonalDetailsPage ClickBookCallButton(OutcomePage edOutcome)
+        {
             Driver.FindElement(By.Name("PersonalDetails")).Click();
             return new PersonalDetailsPage(Driver);
         }
 
-        private OutcomePage NavigateToRemappedEDOutcome(Postcode postcode) {
+        private OutcomePage NavigateToRemappedEDOutcome(Postcode postcode)
+        {
             var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Headache", TestScenerioSex.Male,
                 TestScenerioAgeGroups.Adult, postcode.Value);
 
@@ -405,7 +429,8 @@
                 .Answer<OutcomePage>("Yes");
         }
 
-        private OutcomePage NavigateToDx94Outcome() {
+        private OutcomePage NavigateToDx94Outcome()
+        {
             var questionPage = TestScenerios.LaunchTriageScenerio(Driver, "Sexual or Menstrual Concerns",
                 TestScenerioSex.Female,
                 TestScenerioAgeGroups.Adult);
@@ -413,7 +438,8 @@
             return questionPage.Answer<OutcomePage>(1);
         }
 
-        private OutcomePage EnterPostCodeAndSubmit(string postcode) {
+        private OutcomePage EnterPostCodeAndSubmit(string postcode)
+        {
             var postcodeField = Driver.FindElement(By.Id("CurrentPostcode"));
             postcodeField.Clear();
             postcodeField.SendKeys(postcode);

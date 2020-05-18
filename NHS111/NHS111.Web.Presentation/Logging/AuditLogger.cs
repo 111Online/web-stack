@@ -7,11 +7,12 @@ using NHS111.Utils.RestTools;
 using NHS111.Web.Presentation.Filters;
 using RestSharp;
 
-namespace NHS111.Web.Presentation.Logging {
-    using System.Threading.Tasks;
+namespace NHS111.Web.Presentation.Logging
+{
     using Configuration;
     using Newtonsoft.Json;
     using NHS111.Models.Models.Web.Logging;
+    using System.Threading.Tasks;
 
     public interface IAuditLogger
     {
@@ -27,9 +28,13 @@ namespace NHS111.Web.Presentation.Logging {
         void LogSurveyInterstitial(SurveyLinkViewModel model);
     }
 
-    public class AuditLogger : IAuditLogger {
-        
-        public AuditLogger(IRestClient restClient, IConfiguration configuration) {
+    public class AuditLogger : IAuditLogger
+    {
+        private readonly ILoggingRestClient _restClient;
+        private readonly IConfiguration _configuration;
+
+        public AuditLogger(ILoggingRestClient restClient, IConfiguration configuration)
+        {
             _restClient = restClient;
             _configuration = configuration;
         }
@@ -41,7 +46,7 @@ namespace NHS111.Web.Presentation.Logging {
                 var url = _configuration.LoggingServiceApiAuditUrl;
                 var request = new JsonRestRequest(url, Method.POST);
                 request.AddJsonBody(auditEntry);
-                _restClient.ExecuteTaskAsync(request);
+                _restClient.ExecuteAsync(request);
             });
         }
 
@@ -72,7 +77,7 @@ namespace NHS111.Web.Presentation.Logging {
             audit.EventData = eventData;
             Log(audit);
         }
-        
+
         public void LogEvent(JourneyViewModel model, EventType eventKey, string eventValue, string page = "")
         {
             var audit = model.ToAuditEntry();
@@ -98,14 +103,16 @@ namespace NHS111.Web.Presentation.Logging {
             Log(audit);
         }
 
-        public void LogPrimaryCareReason(OutcomeViewModel model, string reason) {
+        public void LogPrimaryCareReason(OutcomeViewModel model, string reason)
+        {
 
             if (string.IsNullOrEmpty(reason))
                 return;
 
             var audit = model.ToAuditEntry();
 
-            switch (reason) {
+            switch (reason)
+            {
                 case "cannot-get-appt":
                     audit.EventData = "Patient cannot get a GP appointment";
                     break;
@@ -125,8 +132,5 @@ namespace NHS111.Web.Presentation.Logging {
             audit.Page = "Survey Interstitial";
             Log(audit);
         }
-
-        private readonly IRestClient _restClient;
-        private readonly IConfiguration _configuration;
     }
 }

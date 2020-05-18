@@ -1,6 +1,4 @@
 ﻿using AutoMapper;
-using NHS111.Models.Models.Web;
-using NHS111.Models.Models.Web.Logging;
 
 namespace NHS111.Models.Mappers.WebMappings
 {

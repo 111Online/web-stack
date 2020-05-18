@@ -1,15 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Web;
-using System.Web.Mvc;
-using System.Web.UI.WebControls;
-using AutoMapper;
+﻿using AutoMapper;
 using NHS111.Models.Models.Domain;
 using NHS111.Models.Models.Web;
-using NHS111.Models.Models.Web.DataCapture;
 using NHS111.Models.Models.Web.DosRequests;
 using NHS111.Models.Models.Web.FromExternalServices;
 using NHS111.Models.Models.Web.ITK;
@@ -18,8 +9,12 @@ using NHS111.Utils.Parser;
 using NHS111.Utils.RestTools;
 using NHS111.Web.Presentation.Logging;
 using RestSharp;
-using StructureMap.Query;
-using HttpResponse = RestSharp.HttpResponse;
+using System;
+using System.Collections.Generic;
+using System.Configuration;
+using System.Linq;
+using System.Threading.Tasks;
+using System.Web;
 using IConfiguration = NHS111.Web.Presentation.Configuration.IConfiguration;
 
 namespace NHS111.Web.Presentation.Builders
@@ -30,10 +25,10 @@ namespace NHS111.Web.Presentation.Builders
     {
         private readonly IDOSBuilder _dosBuilder;
         private readonly ICareAdviceBuilder _careAdviceBuilder;
-        private readonly IRestClient _restClient;
-        private readonly IRestClient _restClientPostcodeApi;
-        private readonly IRestClient _restClientItkDispatcherApi;
-        private readonly IRestClient _restClientCaseDataCaptureApi;
+        private readonly ILoggingRestClient _restClient;
+        private readonly ILoggingRestClient _restClientPostcodeApi;
+        private readonly ILoggingRestClient _restClientItkDispatcherApi;
+        private readonly ILoggingRestClient _restClientCaseDataCaptureApi;
         private readonly IConfiguration _configuration;
         private readonly IMappingEngine _mappingEngine;
         private readonly IKeywordCollector _keywordCollector;
@@ -44,7 +39,7 @@ namespace NHS111.Web.Presentation.Builders
 
 
 
-        public OutcomeViewModelBuilder(ICareAdviceBuilder careAdviceBuilder, IRestClient restClient, IRestClient restClientPostcodeApi, IRestClient restClientItkDispatcherApi, IRestClient restClientCaseDataCaptureApi, IConfiguration configuration, IMappingEngine mappingEngine, IKeywordCollector keywordCollector,
+        public OutcomeViewModelBuilder(ICareAdviceBuilder careAdviceBuilder, ILoggingRestClient restClient, ILoggingRestClient restClientPostcodeApi, ILoggingRestClient restClientItkDispatcherApi, ILoggingRestClient restClientCaseDataCaptureApi, IConfiguration configuration, IMappingEngine mappingEngine, IKeywordCollector keywordCollector,
             IJourneyHistoryWrangler journeyHistoryWrangler, ISurveyLinkViewModelBuilder surveyLinkViewModelBuilder, IAuditLogger auditLogger, IDOSBuilder dosBuilder, IRecommendedServiceBuilder recommendedServiceBuilder)
         {
             _careAdviceBuilder = careAdviceBuilder;
@@ -66,7 +61,7 @@ namespace NHS111.Web.Presentation.Builders
         {
             input = HttpUtility.UrlDecode(input);
             var url = string.Format(_configuration.PostcodeSearchByIdUrl, input);
-            var listPaf = await _restClientPostcodeApi.ExecuteTaskAsync<List<PAF>>(new JsonRestRequest(url, Method.GET));
+            var listPaf = await _restClientPostcodeApi.ExecuteAsync<List<PAF>>(new JsonRestRequest(url, Method.GET));
 
             CheckResponse(listPaf);
 
@@ -143,7 +138,7 @@ namespace NHS111.Web.Presentation.Builders
             }
 
             model = await dosTask;
-            
+
             if (OutcomeGroup.Call999Cat1.Equals(model.OutcomeGroup) || OutcomeGroup.Call999Cat2.Equals(model.OutcomeGroup) || OutcomeGroup.Call999Cat3.Equals(model.OutcomeGroup))
             {
                 model.CareAdviceMarkers = model.State.Keys.Where(key => key.StartsWith("Cx"));
@@ -156,7 +151,7 @@ namespace NHS111.Web.Presentation.Builders
             model.WorseningCareAdvice = await worseningTask;
             model.CareAdvices = await careAdvicesTask;
             model.SurveyLink = await surveyTask;
-            
+
             return model;
         }
 
@@ -205,8 +200,8 @@ namespace NHS111.Web.Presentation.Builders
         private async Task<SymptomDiscriminator> GetSymptomDiscriminator(string symptomDiscriminatorCode)
         {
             var url = string.Format(_configuration.GetBusinessApiSymptomDiscriminatorUrl(symptomDiscriminatorCode));
-            var symptomDiscriminatorResponse = await _restClient.ExecuteTaskAsync<SymptomDiscriminator>(new JsonRestRequest(url, Method.GET));
-            
+            var symptomDiscriminatorResponse = await _restClient.ExecuteAsync<SymptomDiscriminator>(new JsonRestRequest(url, Method.GET));
+
             if (!symptomDiscriminatorResponse.IsSuccessful)
                 throw new Exception(string.Format("A problem occured getting the symptom discriminator at {0}. {1}",
                     _configuration.GetBusinessApiSymptomDiscriminatorUrl(symptomDiscriminatorCode),
@@ -218,7 +213,7 @@ namespace NHS111.Web.Presentation.Builders
         private async Task<string> GetSymptomGroup(string pathways)
         {
             var url = string.Format(_configuration.GetBusinessApiPathwaySymptomGroupUrl(pathways));
-            var symptomGroupResponse = await _restClient.ExecuteTaskAsync<string>(new JsonRestRequest(url, Method.GET));
+            var symptomGroupResponse = await _restClient.ExecuteAsync<string>(new JsonRestRequest(url, Method.GET));
 
             if (!symptomGroupResponse.IsSuccessful)
                 throw new Exception(string.Format("A problem occured getting the symptom group for {0}.", pathways));
@@ -240,7 +235,7 @@ namespace NHS111.Web.Presentation.Builders
             {
                 itkResponseModel.PatientReference = itkRequestData.CaseDetails.ExternalReference;
             }
-          
+
             else
             {
                 itkResponseModel.ItkSendSuccess = false;
@@ -298,19 +293,19 @@ namespace NHS111.Web.Presentation.Builders
             model.SurveyLink = await _surveyLinkViewModelBuilder.SurveyLinkBuilder(model);
             return model;
         }
-        
+
         public async Task<OutcomeViewModel> PrimaryCareBuilder(OutcomeViewModel model, string reason = "")
         {
             model.SurveyLink = await _surveyLinkViewModelBuilder.SurveyLinkBuilder(model);
             _surveyLinkViewModelBuilder.AddDispositionReason(reason, model.SurveyLink);
             return model;
         }
-        
+
         private async Task<IRestResponse> SendItkMessage(ITKDispatchRequest itkRequestData)
         {
             var request = new JsonRestRequest(_configuration.ItkDispatcherApiSendItkMessageUrl, Method.POST);
             request.AddJsonBody(itkRequestData);
-            var response = await _restClientItkDispatcherApi.ExecuteTaskAsync(request);
+            var response = await _restClientItkDispatcherApi.ExecuteAsync(request);
             return response;
         }
 

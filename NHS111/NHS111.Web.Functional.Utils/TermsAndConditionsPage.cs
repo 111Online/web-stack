@@ -14,7 +14,7 @@ namespace NHS111.Web.Functional.Utils
         [FindsBy(How = How.CssSelector, Using = "main[id='content'] > div.terms > h1")]
         public IWebElement TermsHeader { get; set; }
 
-        [FindsBy(How=How.CssSelector, Using = "main[id='content'] > div > ul:nth-of-type(1) > li:nth-of-type(1)")]
+        [FindsBy(How = How.CssSelector, Using = "main[id='content'] > div > ul:nth-of-type(1) > li:nth-of-type(1)")]
         public IWebElement TermsParagraph { get; set; }
 
         public TermsAndConditionsPage(IWebDriver driver) : base(driver)

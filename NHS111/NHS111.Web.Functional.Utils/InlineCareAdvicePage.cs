@@ -1,7 +1,7 @@
-﻿using System;
-using NUnit.Framework;
+﻿using NUnit.Framework;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.PageObjects;
+using System;
 
 namespace NHS111.Web.Functional.Utils
 {
@@ -40,7 +40,7 @@ namespace NHS111.Web.Functional.Utils
         {
             NextButton.Click();
             _pageLoadAwaiter.AwaitNextPage(InlineCareAdviceTitle, typeof(T) == typeof(QuestionPage));
-            
+
             return (T)Activator.CreateInstance(typeof(T), Driver);
         }
 

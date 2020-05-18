@@ -1,11 +1,10 @@
-﻿using System.Collections.Generic;
-using System.Net;
-using System.Threading.Tasks;
-using Moq;
+﻿using Moq;
 using NHS111.Domain.Api.Controllers;
 using NHS111.Domain.Repository;
 using NHS111.Models.Models.Domain;
 using NUnit.Framework;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace NHS111.Domain.Test.API_Project.Controller
 {

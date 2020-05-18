@@ -1,7 +1,6 @@
-﻿using System;
-using System.Configuration;
-using NodaTime;
+﻿using NodaTime;
 using NodaTime.Text;
+using System.Configuration;
 
 namespace NHS111.Business.DOS.Configuration
 {
@@ -39,8 +38,8 @@ namespace NHS111.Business.DOS.Configuration
 
         private LocalTime Get(string configText)
         {
-           var parser =  LocalTimePattern.CreateWithCurrentCulture("HH:mm").Parse(configText);
-           return parser.GetValueOrThrow();
+            var parser = LocalTimePattern.CreateWithCurrentCulture("HH:mm").Parse(configText);
+            return parser.GetValueOrThrow();
         }
         public string DomainDosApiBaseUrl { get { return ConfigurationManager.AppSettings["DomainDOSApiBaseUrl"]; } }
         public string DomainDosApiCheckCapacitySummaryUrl
@@ -115,7 +114,7 @@ namespace NHS111.Business.DOS.Configuration
         {
             get { return ConfigurationManager.AppSettings["FilteredClinicianCallbackDispositionCodes"]; }
         }
-        
+
         public string FilteredClinicianCallbackDosServiceIds
         {
             get { return ConfigurationManager.AppSettings["FilteredClinicianCallbackServiceIds"]; }

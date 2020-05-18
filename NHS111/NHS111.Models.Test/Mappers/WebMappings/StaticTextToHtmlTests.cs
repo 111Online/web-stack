@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using NHS111.Models.Mappers;
+﻿using NHS111.Models.Mappers;
 using NUnit.Framework;
+using System;
 
 namespace NHS111.Models.Test.Mappers.WebMappings
 {

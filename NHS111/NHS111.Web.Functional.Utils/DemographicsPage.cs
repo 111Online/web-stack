@@ -133,7 +133,7 @@ namespace NHS111.Web.Functional.Utils
             var ageInput = maleButton.Tab(Driver)
                 .Tab(Driver);
             ageInput.SendKeys(age.ToString());
-            
+
             var nextButton = ageInput.Tab(Driver);
             nextButton.SendKeys(Keys.Enter);
 

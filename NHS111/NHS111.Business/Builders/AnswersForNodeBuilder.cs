@@ -1,7 +1,7 @@
-﻿using System;
+﻿using NHS111.Models.Models.Domain;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using NHS111.Models.Models.Domain;
 
 namespace NHS111.Business.Builders
 {

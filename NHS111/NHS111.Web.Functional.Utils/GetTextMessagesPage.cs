@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using NUnit.Framework;
+﻿using NUnit.Framework;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.PageObjects;
 
@@ -11,7 +6,7 @@ namespace NHS111.Web.Functional.Utils
 {
     public class GetTextMessagesPage : LayoutPage
     {
-        public GetTextMessagesPage(IWebDriver driver) 
+        public GetTextMessagesPage(IWebDriver driver)
             : base(driver) { }
 
         [FindsBy(How = How.Id, Using = "nextScreen")]

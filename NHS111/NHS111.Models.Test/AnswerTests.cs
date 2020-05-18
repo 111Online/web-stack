@@ -1,5 +1,5 @@
-﻿using NUnit.Framework;
-using NHS111.Models.Models.Domain;
+﻿using NHS111.Models.Models.Domain;
+using NUnit.Framework;
 
 namespace NHS111.Models.Test
 {
@@ -31,6 +31,6 @@ Common symptoms of the menopause include night sweats, hot flushes, vaginal dryn
             string result = answer.SupportingInformationHtml;
 
             Assert.AreEqual(expectedOutput, result);
-        } 
+        }
     }
 }

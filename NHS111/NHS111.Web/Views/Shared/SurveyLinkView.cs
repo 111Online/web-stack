@@ -1,5 +1,5 @@
-﻿using System.Web.Mvc;
-using NHS111.Features;
+﻿using NHS111.Features;
+using System.Web.Mvc;
 
 namespace NHS111.Web.Views.Shared
 {

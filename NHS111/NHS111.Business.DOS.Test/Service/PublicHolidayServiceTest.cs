@@ -1,18 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Moq;
+﻿using Moq;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using NHS111.Business.DOS.EndpointFilter;
 using NHS111.Business.DOS.Service;
 using NHS111.Models.Models.Business;
 using NHS111.Models.Models.Web.Clock;
-using NHS111.Models.Models.Web.DosRequests;
-using NHS111.Models.Models.Web.FromExternalServices;
 using NUnit.Framework;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using DayOfWeek = NHS111.Models.Models.Web.FromExternalServices.DayOfWeek;
 
 namespace NHS111.Business.DOS.Test.Service
@@ -153,7 +148,7 @@ namespace NHS111.Business.DOS.Test.Service
         [Test]
         public void BankHoliday_rotasessions_update_rotaSessions()
         {
-            var jObj = (JObject) JsonConvert.DeserializeObject(CheckCapacitySummaryResults);
+            var jObj = (JObject)JsonConvert.DeserializeObject(CheckCapacitySummaryResults);
             var results = jObj["CheckCapacitySummaryResult"].ToObject<List<Models.Models.Business.DosService>>();
 
 

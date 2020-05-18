@@ -1,11 +1,7 @@
-﻿using System.Collections.Generic;
-using System.Diagnostics.Eventing.Reader;
+﻿using NHS111.Models.Models.Domain;
+using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-using Neo4jClient.Cypher;
-using Newtonsoft.Json;
-using NHS111.Models.Models.Domain;
 
 namespace NHS111.Domain.Repository
 {
@@ -37,13 +33,14 @@ namespace NHS111.Domain.Repository
             return adviceWithAllItems.Select(advice => advice.Sort()).ToList();
         }
 
-        public async Task<IEnumerable<CareAdvice>> GetCareAdvice(AgeCategory ageCategory, Gender gender, IEnumerable<string> keywords, DispositionCode dxCode) {
+        public async Task<IEnumerable<CareAdvice>> GetCareAdvice(AgeCategory ageCategory, Gender gender, IEnumerable<string> keywords, DispositionCode dxCode)
+        {
 
             var interimCaNodeName = "InterimCareAdvice";
             var presentsForRelationshipName = "presentsFor";
             var outcomeNodeName = "Outcome";
 
-            var adviceWithAllItemsQuery =   _graphRepository.Client.Cypher.
+            var adviceWithAllItemsQuery = _graphRepository.Client.Cypher.
                 Match(string.Format("(t:CareAdviceText)-[:hasText*]-(i:{0})-[:{1}]->(o:{2})", interimCaNodeName, presentsForRelationshipName,
                     outcomeNodeName)).
                 Where(string.Format("i.keyword in [{0}]", JoinAndEncloseKeywords(keywords))).
@@ -56,7 +53,8 @@ namespace NHS111.Domain.Repository
         }
 
 
-        private string JoinAndEncloseKeywords(IEnumerable<string> keywords) {
+        private string JoinAndEncloseKeywords(IEnumerable<string> keywords)
+        {
             return string.Join(",", keywords.Select(k => k.DoubleQuoted()));
         }
 
@@ -104,7 +102,7 @@ namespace NHS111.Domain.Repository
                                 Text = i.Text,
                                 Items =
                                     CareAdvcieTextDecendants.Where(adviceItems => adviceItems.ParentId == i.Id)
-                                        .Select(childItem => (CareAdviceText) childItem)
+                                        .Select(childItem => (CareAdviceText)childItem)
                                         .OrderBy(ci => ci.OrderNo)
                                         .ToList()
                             });
@@ -114,13 +112,16 @@ namespace NHS111.Domain.Repository
     }
 
 
-    public static class StringExtensions {
-        public static string DoubleQuoted(this string s) {
+    public static class StringExtensions
+    {
+        public static string DoubleQuoted(this string s)
+        {
             return "\"" + s + "\"";
         }
     }
 
-    public interface ICareAdviceRepository {
+    public interface ICareAdviceRepository
+    {
         Task<IEnumerable<CareAdvice>> GetCareAdvice(int age, string gender, IEnumerable<string> markers);
 
         Task<IEnumerable<CareAdvice>> GetCareAdvice(AgeCategory ageCategory, Gender gender, IEnumerable<string> keywords,

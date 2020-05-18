@@ -1,5 +1,5 @@
-﻿using System;
-using NUnit.Framework;
+﻿using NUnit.Framework;
+using System;
 
 namespace NHS111.Models.Test.Models.Web.ServiceViewModelTests
 {
@@ -7,7 +7,7 @@ namespace NHS111.Models.Test.Models.Web.ServiceViewModelTests
     class OpeningTimesMessageTests
     {
         private readonly ServiceViewModelTestHelper _serviceViewModelTestHelper = new ServiceViewModelTestHelper();
-        
+
         [Test]
         public void ServiceOpeningTimesMessage_Returns_Tomorrow_Closed_Today()
         {
@@ -20,7 +20,7 @@ namespace NHS111.Models.Test.Models.Web.ServiceViewModelTests
                     _serviceViewModelTestHelper.MONDAY_SESSION,
                     _serviceViewModelTestHelper.TUESDAY_SESSION,
                     _serviceViewModelTestHelper.THURSDAY_SESSION,
-                    _serviceViewModelTestHelper.FRIDAY_SESSION,            
+                    _serviceViewModelTestHelper.FRIDAY_SESSION,
                     _serviceViewModelTestHelper.SATURDAY_SESSION,
                     _serviceViewModelTestHelper.SUNDAY_SESSION
                 }

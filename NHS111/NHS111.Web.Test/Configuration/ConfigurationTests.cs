@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using NHS111.Models.Models.Web.Enums;
-using NHS111.Web.Presentation.Configuration;
+﻿using NHS111.Models.Models.Web.Enums;
 using NUnit.Framework;
+using System.Configuration;
 namespace NHS111.Web.Presentation.Configuration.Tests
 {
     [TestFixture()]
@@ -70,7 +64,7 @@ namespace NHS111.Web.Presentation.Configuration.Tests
         public void GetBusinessApiNextNodeUrl_with_relative_url_configured_Test()
         {
             ConfigurationManager.AppSettings["BusinessApiNextNodeUrl"] = "nextEndpoint/{0}/{1}/next/{2}/{3}";
-                var result = _testConfiguration.GetBusinessApiNextNodeUrl("PW1234", NodeType.Question,  "xxx-ddd", "{State:'somestate'}");
+            var result = _testConfiguration.GetBusinessApiNextNodeUrl("PW1234", NodeType.Question, "xxx-ddd", "{State:'somestate'}");
 
             Assert.AreEqual("nextEndpoint/PW1234/Question/next/xxx-ddd/{State:'somestate'}", result);
         }
@@ -145,12 +139,13 @@ namespace NHS111.Web.Presentation.Configuration.Tests
             var result = _testConfiguration.GetBusinessApiInterimCareAdviceUrl("Dx9999", "Toddler", "Male");
 
             Assert.AreEqual("pathways/care-adviceEndpointTest/Dx9999/Toddler/Male", result);
-       
+
         }
-      
+
         [Test]
-        public void IsPublic_WhenNotDefined_DefaultsToTrue() {
+        public void IsPublic_WhenNotDefined_DefaultsToTrue()
+        {
             Assert.IsTrue(_testConfiguration.IsPublic);
-        }      
+        }
     }
 }

@@ -1,6 +1,7 @@
-﻿namespace NHS111.Features.Defaults {
+﻿namespace NHS111.Features.Defaults
+{
 
-    public class DisabledByDefaultSettingStrategy: IDefaultSettingStrategy
+    public class DisabledByDefaultSettingStrategy : IDefaultSettingStrategy
     {
         public string Value
         {
